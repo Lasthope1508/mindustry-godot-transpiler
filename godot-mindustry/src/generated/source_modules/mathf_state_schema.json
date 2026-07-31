@@ -13,7 +13,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_absin"
+            "port_game.source_absin"
           ]
         },
         "scl": {
@@ -25,7 +25,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_absin"
+            "port_game.source_absin"
           ]
         },
         "value": {
@@ -37,7 +37,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_absin"
+            "port_game.source_absin"
           ]
         }
       },
@@ -55,7 +55,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_approach_delta"
+            "port_game.source_approach_delta"
           ]
         },
         "sourceDelta": {
@@ -67,7 +67,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_approach_delta"
+            "port_game.source_approach_delta"
           ]
         },
         "speed": {
@@ -79,7 +79,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_approach_delta"
+            "port_game.source_approach_delta"
           ]
         },
         "to": {
@@ -91,7 +91,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_approach_delta"
+            "port_game.source_approach_delta"
           ]
         }
       },
@@ -109,7 +109,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_approach"
+            "port_game.source_approach"
           ]
         },
         "speed": {
@@ -121,7 +121,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_approach"
+            "port_game.source_approach"
           ]
         },
         "to": {
@@ -133,7 +133,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_approach"
+            "port_game.source_approach"
           ]
         }
       },
@@ -151,7 +151,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_arc_chance_delta_threshold"
+            "port_game.source_arc_chance_delta_threshold"
           ]
         },
         "sourceDelta": {
@@ -163,7 +163,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_arc_chance_delta_threshold"
+            "port_game.source_arc_chance_delta_threshold"
           ]
         }
       },
@@ -181,7 +181,7 @@
           "status": "explicit-input",
           "type": "int",
           "used_by": [
-            "PortGame.source_arc_is_power_of_two"
+            "port_game.source_arc_is_power_of_two"
           ]
         }
       },
@@ -199,7 +199,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_arc_lerp_delta"
+            "port_game.source_arc_lerp_delta"
           ]
         },
         "progress": {
@@ -211,7 +211,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_arc_lerp_delta"
+            "port_game.source_arc_lerp_delta"
           ]
         },
         "sourceDelta": {
@@ -223,7 +223,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_arc_lerp_delta"
+            "port_game.source_arc_lerp_delta"
           ]
         },
         "toValue": {
@@ -235,7 +235,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_arc_lerp_delta"
+            "port_game.source_arc_lerp_delta"
           ]
         }
       },
@@ -253,7 +253,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_arc_mathf_cos_lookup"
+            "port_game.source_arc_mathf_cos_lookup"
           ]
         }
       },
@@ -271,7 +271,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_arc_mathf_cos_scaled"
+            "port_game.source_arc_mathf_cos_scaled"
           ]
         },
         "radians": {
@@ -283,7 +283,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_arc_mathf_cos_scaled"
+            "port_game.source_arc_mathf_cos_scaled"
           ]
         },
         "scl": {
@@ -295,7 +295,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_arc_mathf_cos_scaled"
+            "port_game.source_arc_mathf_cos_scaled"
           ]
         }
       },
@@ -313,7 +313,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_arc_mathf_mod_float"
+            "port_game.source_arc_mathf_mod_float"
           ]
         },
         "value": {
@@ -325,7 +325,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_arc_mathf_mod_float"
+            "port_game.source_arc_mathf_mod_float"
           ]
         }
       },
@@ -343,7 +343,7 @@
           "status": "explicit-input",
           "type": "bool",
           "used_by": [
-            "PortGame.source_arc_mathf_num"
+            "port_game.source_arc_mathf_num"
           ]
         }
       },
@@ -361,7 +361,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_arc_mathf_sin_lookup"
+            "port_game.source_arc_mathf_sin_lookup"
           ]
         }
       },
@@ -379,7 +379,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_arc_mathf_sin_scaled"
+            "port_game.source_arc_mathf_sin_scaled"
           ]
         },
         "radians": {
@@ -391,7 +391,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_arc_mathf_sin_scaled"
+            "port_game.source_arc_mathf_sin_scaled"
           ]
         },
         "scl": {
@@ -403,7 +403,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_arc_mathf_sin_scaled"
+            "port_game.source_arc_mathf_sin_scaled"
           ]
         }
       },
@@ -421,7 +421,7 @@
           "status": "explicit-input",
           "type": "int",
           "used_by": [
-            "PortGame.source_arc_mathf_sin_table_value"
+            "port_game.source_arc_mathf_sin_table_value"
           ]
         }
       },
@@ -439,7 +439,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_arc_random_seed_float_max"
+            "port_game.source_arc_random_seed_float_max"
           ]
         },
         "seed": {
@@ -451,7 +451,7 @@
           "status": "explicit-input",
           "type": "int",
           "used_by": [
-            "PortGame.source_arc_random_seed_float_max"
+            "port_game.source_arc_random_seed_float_max"
           ]
         }
       },
@@ -469,7 +469,7 @@
           "status": "explicit-input",
           "type": "int",
           "used_by": [
-            "PortGame.source_arc_random_seed_int"
+            "port_game.source_arc_random_seed_int"
           ]
         },
         "min": {
@@ -481,7 +481,7 @@
           "status": "explicit-input",
           "type": "int",
           "used_by": [
-            "PortGame.source_arc_random_seed_int"
+            "port_game.source_arc_random_seed_int"
           ]
         },
         "seed": {
@@ -493,7 +493,7 @@
           "status": "explicit-input",
           "type": "int",
           "used_by": [
-            "PortGame.source_arc_random_seed_int"
+            "port_game.source_arc_random_seed_int"
           ]
         }
       },
@@ -511,7 +511,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_lerp_delta"
+            "port_game.source_lerp_delta"
           ]
         },
         "progress": {
@@ -523,7 +523,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_lerp_delta"
+            "port_game.source_lerp_delta"
           ]
         },
         "sourceDelta": {
@@ -535,7 +535,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_lerp_delta"
+            "port_game.source_lerp_delta"
           ]
         },
         "toValue": {
@@ -547,7 +547,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_lerp_delta"
+            "port_game.source_lerp_delta"
           ]
         }
       },
@@ -565,7 +565,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_mathf_approach_delta"
+            "port_game.source_mathf_approach_delta"
           ]
         },
         "sourceDelta": {
@@ -577,7 +577,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_mathf_approach_delta"
+            "port_game.source_mathf_approach_delta"
           ]
         },
         "speed": {
@@ -589,7 +589,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_mathf_approach_delta"
+            "port_game.source_mathf_approach_delta"
           ]
         },
         "to": {
@@ -601,7 +601,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_mathf_approach_delta"
+            "port_game.source_mathf_approach_delta"
           ]
         }
       },
@@ -619,7 +619,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_mathf_dst"
+            "port_game.source_mathf_dst"
           ]
         },
         "x2": {
@@ -631,7 +631,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_mathf_dst"
+            "port_game.source_mathf_dst"
           ]
         },
         "y1": {
@@ -643,7 +643,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_mathf_dst"
+            "port_game.source_mathf_dst"
           ]
         },
         "y2": {
@@ -655,7 +655,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_mathf_dst"
+            "port_game.source_mathf_dst"
           ]
         }
       },
@@ -673,7 +673,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_mathf_lerp_delta"
+            "port_game.source_mathf_lerp_delta"
           ]
         },
         "progress": {
@@ -685,7 +685,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_mathf_lerp_delta"
+            "port_game.source_mathf_lerp_delta"
           ]
         },
         "sourceDelta": {
@@ -697,7 +697,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_mathf_lerp_delta"
+            "port_game.source_mathf_lerp_delta"
           ]
         },
         "toValue": {
@@ -709,7 +709,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_mathf_lerp_delta"
+            "port_game.source_mathf_lerp_delta"
           ]
         }
       },

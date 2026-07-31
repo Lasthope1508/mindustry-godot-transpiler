@@ -1,8 +1,8 @@
 extends Node
 
 const PortGameScript := preload("res://src/game/PortGame.gd")
-const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")
-const SourceLiquidTurretBuildState := preload("res://src/game/SourceLiquidTurretBuildState.gd")
+const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const source_liquid_turret_build_state := preload("res://src/game/SourceLiquidTurretBuildState.gd")
 
 func _ready() -> void:
 	var game := PortGameScript.new()
@@ -38,7 +38,7 @@ func _ready() -> void:
 	var has_ammo_bridge := game.generated_liquid_turret_build_has_ammo_bridge_state(current_liquid_for_has_ammo, ammo_type, current_amount_for_has_ammo, ammo_multiplier)
 	var accept_item_bridge := game.generated_liquid_turret_build_accept_item_bridge_state(source_building, item)
 	var accept_liquid_bridge := game.generated_liquid_turret_build_accept_liquid_bridge_state(source_building, current_liquid, ammo_type, current_liquid, current_liquid_ammo_type_present, current_liquid_amount, current_ammo_multiplier)
-	var registry_state := SourceSsotCatalog.canonical_headquarter_registry_state()
+	var registry_state := source_ssot_catalog.canonical_headquarter_registry_state()
 	var proof := {
 		"module": "LIQUID_TURRET_BUILD_MODULE_PROOF",
 		"active_sound_bridge": active_sound_bridge,
@@ -51,24 +51,26 @@ func _ready() -> void:
 		"has_ammo_bridge": has_ammo_bridge,
 		"accept_item_bridge": accept_item_bridge,
 		"accept_liquid_bridge": accept_liquid_bridge,
-		"active_sound_bridge_matches": active_sound_bridge == SourceLiquidTurretBuildState.generated_should_active_sound_bridge_state(was_shooting, enabled),
-		"ammo_content_bridge_matches": ammo_content_bridge == SourceLiquidTurretBuildState.generated_get_ammo_content_bridge_state(liquids_null, current_amount, current_liquid),
-		"ammo_fraction_bridge_matches": ammo_fraction_bridge == SourceLiquidTurretBuildState.generated_get_ammo_fraction_bridge_state(current_amount, liquid_capacity),
-		"sense_object_bridge_matches": sense_object_bridge == SourceLiquidTurretBuildState.generated_sense_object_bridge_state(sensor, current_liquid, super_sense_object_value),
-		"find_target_bridge_matches": find_target_bridge == SourceLiquidTurretBuildState.generated_find_target_extinguish_bridge_state(extinguish, current_liquid_can_extinguish, fire_result),
-		"use_ammo_bridge_matches": use_ammo_bridge == SourceLiquidTurretBuildState.generated_use_ammo_bridge_state(cheating, current_liquid_for_peek, ammo_type, ammo_multiplier),
-		"peek_ammo_bridge_matches": peek_ammo_bridge == SourceLiquidTurretBuildState.generated_peek_ammo_bridge_state(current_liquid_for_peek, ammo_type),
-		"has_ammo_bridge_matches": has_ammo_bridge == SourceLiquidTurretBuildState.generated_has_ammo_bridge_state(current_liquid_for_has_ammo, ammo_type, current_amount_for_has_ammo, ammo_multiplier),
-		"accept_item_bridge_matches": accept_item_bridge == SourceLiquidTurretBuildState.generated_accept_item_bridge_state(source_building, item),
-		"accept_liquid_bridge_matches": accept_liquid_bridge == SourceLiquidTurretBuildState.generated_accept_liquid_bridge_state(source_building, current_liquid, ammo_type, current_liquid, current_liquid_ammo_type_present, current_liquid_amount, current_ammo_multiplier),
+		"active_sound_bridge_matches": active_sound_bridge == source_liquid_turret_build_state.generated_should_active_sound_bridge_state(was_shooting, enabled),
+		"ammo_content_bridge_matches": ammo_content_bridge == source_liquid_turret_build_state.generated_get_ammo_content_bridge_state(liquids_null, current_amount, current_liquid),
+		"ammo_fraction_bridge_matches": ammo_fraction_bridge == source_liquid_turret_build_state.generated_get_ammo_fraction_bridge_state(current_amount, liquid_capacity),
+		"sense_object_bridge_matches": sense_object_bridge == source_liquid_turret_build_state.generated_sense_object_bridge_state(sensor, current_liquid, super_sense_object_value),
+		"find_target_bridge_matches": find_target_bridge == source_liquid_turret_build_state.generated_find_target_extinguish_bridge_state(extinguish, current_liquid_can_extinguish, fire_result),
+		"use_ammo_bridge_matches": use_ammo_bridge == source_liquid_turret_build_state.generated_use_ammo_bridge_state(cheating, current_liquid_for_peek, ammo_type, ammo_multiplier),
+		"peek_ammo_bridge_matches": peek_ammo_bridge == source_liquid_turret_build_state.generated_peek_ammo_bridge_state(current_liquid_for_peek, ammo_type),
+		"has_ammo_bridge_matches": has_ammo_bridge == source_liquid_turret_build_state.generated_has_ammo_bridge_state(current_liquid_for_has_ammo, ammo_type, current_amount_for_has_ammo, ammo_multiplier),
+		"accept_item_bridge_matches": accept_item_bridge == source_liquid_turret_build_state.generated_accept_item_bridge_state(source_building, item),
+		"accept_liquid_bridge_matches": accept_liquid_bridge == source_liquid_turret_build_state.generated_accept_liquid_bridge_state(source_building, current_liquid, ammo_type, current_liquid, current_liquid_ammo_type_present, current_liquid_amount, current_ammo_multiplier),
 		"one_headquarter_per_ssot": bool(registry_state.get("one_headquarter_per_ssot", false)),
+		"registry_valid": bool(registry_state.get("errors", []).is_empty()),
 	}
-	proof["matches"] = bool(active_sound_bridge.get("matches", false)) and bool(ammo_content_bridge.get("matches", false)) and bool(ammo_fraction_bridge.get("matches", false)) and bool(sense_object_bridge.get("matches", false)) and bool(find_target_bridge.get("matches", false)) and bool(use_ammo_bridge.get("matches", false)) and bool(peek_ammo_bridge.get("matches", false)) and bool(has_ammo_bridge.get("matches", false)) and bool(accept_item_bridge.get("matches", false)) and bool(accept_liquid_bridge.get("matches", false)) and proof["active_sound_bridge_matches"] and proof["ammo_content_bridge_matches"] and proof["ammo_fraction_bridge_matches"] and proof["sense_object_bridge_matches"] and proof["find_target_bridge_matches"] and proof["use_ammo_bridge_matches"] and proof["peek_ammo_bridge_matches"] and proof["has_ammo_bridge_matches"] and proof["accept_item_bridge_matches"] and proof["accept_liquid_bridge_matches"] and proof["one_headquarter_per_ssot"]
+	proof["matches"] = bool(active_sound_bridge.get("matches", false)) and bool(ammo_content_bridge.get("matches", false)) and bool(ammo_fraction_bridge.get("matches", false)) and bool(sense_object_bridge.get("matches", false)) and bool(find_target_bridge.get("matches", false)) and bool(use_ammo_bridge.get("matches", false)) and bool(peek_ammo_bridge.get("matches", false)) and bool(has_ammo_bridge.get("matches", false)) and bool(accept_item_bridge.get("matches", false)) and bool(accept_liquid_bridge.get("matches", false)) and proof["active_sound_bridge_matches"] and proof["ammo_content_bridge_matches"] and proof["ammo_fraction_bridge_matches"] and proof["sense_object_bridge_matches"] and proof["find_target_bridge_matches"] and proof["use_ammo_bridge_matches"] and proof["peek_ammo_bridge_matches"] and proof["has_ammo_bridge_matches"] and proof["accept_item_bridge_matches"] and proof["accept_liquid_bridge_matches"] and proof["one_headquarter_per_ssot"] and proof["registry_valid"]
 	var proof_json := JSON.stringify(proof)
 	print("LIQUID_TURRET_BUILD_MODULE_PROOF " + proof_json)
-	var proof_file := FileAccess.open("C:/Users/Admin/Documents/Game/mindustry-godot-transpiler-copy-20260714-073528/godot-mindustry/tools/runtime_proofs/LiquidTurretBuildModuleProof.json", FileAccess.WRITE)
+	var proof_path := ProjectSettings.globalize_path("res://tools/runtime_proofs/LiquidTurretBuildModuleProof.json")
+	var proof_file := FileAccess.open(proof_path, FileAccess.WRITE)
 	if proof_file != null:
 		proof_file.store_string(proof_json)
 	game.free()
-	await get_tree().create_timer(6.0).timeout
+	await get_tree().create_timer(60.0).timeout
 	get_tree().quit(0)

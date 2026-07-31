@@ -3,19 +3,19 @@
   "root_key": "gameplay",
   "gameplay": {
     "unit": {
-      "warp_dst": 8.0,
-      "final_world_bounds": 250.0
+      "warp_dst": 8,
+      "final_world_bounds": 250
     },
     "builder": {
-      "building_range": 220.0
+      "building_range": 220
     },
     "liquid": {
-      "transfer_source_amount": 8.0,
-      "transfer_destination_amount": 1.0,
-      "capacity": 10.0,
-      "pressure": 1.0,
-      "leak_amount": 6.0,
-      "dump_scaling": 2.0,
+      "transfer_source_amount": 8,
+      "transfer_destination_amount": 1,
+      "capacity": 10,
+      "pressure": 1,
+      "leak_amount": 6,
+      "dump_scaling": 2,
       "leak_divisor": 1.5
     },
     "source": {

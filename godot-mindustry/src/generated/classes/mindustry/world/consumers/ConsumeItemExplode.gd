@@ -20,7 +20,7 @@ func java_method_build_1(_args: Array = []) -> Variant:
 	var build_arg: Variant = _args[0] if _args.size() > 0 else null
 	var table_arg: Variant = _args[1] if _args.size() > 1 else null
 	var empty_body: bool = true
-	return {"source_owner": "PortGame.source_consume_item_explode_build_state", "source": "core/src/mindustry/world/consumers/ConsumeItemExplode.java", "comment": "//as this consumer doesn't actually consume anything, all methods below are empty", "method": "public void build(Building build, Table table){}", "empty_body": empty_body, "build": build_arg, "table": table_arg}
+	return {"source_owner": "port_game.source_consume_item_explode_build_state", "source": "core/src/mindustry/world/consumers/ConsumeItemExplode.java", "comment": "//as this consumer doesn't actually consume anything, all methods below are empty", "method": "public void build(Building build, Table table){}", "empty_body": empty_body, "build": build_arg, "table": table_arg}
 
 func java_method_trigger_2(_args: Array = []) -> Variant:
 	return null

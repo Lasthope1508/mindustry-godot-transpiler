@@ -1,7 +1,8 @@
 extends Node
 
-const SourcePlacedPowerDistributionRuntimeState := preload("res://src/game/SourcePlacedPowerDistributionRuntimeState.gd")
-const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const source_placed_power_distribution_runtime_state := preload("res://src/game/SourcePlacedPowerDistributionRuntimeState.gd")
+const source_placed_block_state := preload("res://src/game/SourcePlacedBlockState.gd")
+const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
 
 class FakeBlock:
 	extends RefCounted
@@ -13,14 +14,38 @@ class FakeBlock:
 		role = next_role
 		properties = next_properties
 
+class FakeSprite:
+	extends RefCounted
+
+	func _init(block_id: String) -> void:
+		set_meta(source_placed_block_state.SOURCE_BLOCK_ID_META_KEY, block_id)
+
+class FakeCatalog:
+	extends RefCounted
+
+	var blocks: Dictionary = {}
+
+	func _init(next_blocks: Dictionary) -> void:
+		blocks = next_blocks
+
+	func get_by_id(block_id: String):
+		return blocks.get(block_id, null)
+
 var fake_blocks := {
 	"consumer": FakeBlock.new("consumer", {"powerUsage": 4.0, "powerCapacity": 20.0, "powerBuffered": false}),
 	"producer": FakeBlock.new("producer", {"powerProduction": 6.0}),
 	"battery": FakeBlock.new("battery", {"powerCapacity": 30.0}),
 }
+var content_catalog = null
+var placed_block_origins := {}
 
-func _block_from_sprite(sprite_key) -> Variant:
-	return fake_blocks.get(str(sprite_key), null)
+func _block_from_sprite(sprite) -> Variant:
+	if not is_instance_valid(sprite):
+		return null
+	return fake_blocks.get(str(sprite.get_meta(source_placed_block_state.SOURCE_BLOCK_ID_META_KEY, "")), null)
+
+func block_from_sprite(sprite_key) -> Variant:
+	return _block_from_sprite(sprite_key)
 
 func _role_for_block(block) -> Dictionary:
 	return {
@@ -29,8 +54,14 @@ func _role_for_block(block) -> Dictionary:
 		"add_battery": block.role == "battery",
 	}
 
+func power_graph_role_for_block(block) -> Dictionary:
+	return _role_for_block(block)
+
 func _requested_power(_buffered: bool, usage: float, _capacity: float, _power_status: float, should_consume: bool) -> Dictionary:
 	return {"requested_power": usage if should_consume else 0.0}
+
+func proof_consume_power_requested_power_state(buffered: bool, usage: float, capacity: float, power_status: float, should_consume: bool) -> Dictionary:
+	return _requested_power(buffered, usage, capacity, power_status, should_consume)
 
 func _balance(consumers: Array, producers: Array, batteries: Array, _last: float, tick_rate: float) -> Dictionary:
 	var power_needed := 0.0
@@ -48,6 +79,9 @@ func _balance(consumers: Array, producers: Array, batteries: Array, _last: float
 		"last_power_stored": float(batteries.size()),
 	}
 
+func proof_power_graph_update_balance_state(consumers: Array, producers: Array, batteries: Array, last_power_produced: float, tick_rate: float) -> Dictionary:
+	return _balance(consumers, producers, batteries, last_power_produced, tick_rate)
+
 func _distribute(consumers: Array, _producers: Array, _batteries: Array, _needed: float, _produced: float, _last_produced: float, _last_stored: float) -> Dictionary:
 	var distributed_consumers := []
 	for consumer in consumers:
@@ -61,13 +95,18 @@ func _distribute(consumers: Array, _producers: Array, _batteries: Array, _needed
 		"power_battery_charged": 2.0,
 	}
 
+func proof_power_graph_update_battery_distribute_state(consumers: Array, producers: Array, batteries: Array, power_needed: float, power_produced: float, last_power_produced: float, last_power_stored: float) -> Dictionary:
+	return _distribute(consumers, producers, batteries, power_needed, power_produced, last_power_produced, last_power_stored)
+
 func _ready() -> void:
+	content_catalog = FakeCatalog.new(fake_blocks)
+	placed_block_origins = {"c": FakeSprite.new("consumer"), "p": FakeSprite.new("producer"), "b": FakeSprite.new("battery")}
 	var callbacks := {
-		"block_from_sprite": Callable(self, "_block_from_sprite"),
-		"role_for_block": Callable(self, "_role_for_block"),
-		"requested_power": Callable(self, "_requested_power"),
-		"balance": Callable(self, "_balance"),
-		"distribute": Callable(self, "_distribute"),
+		source_placed_power_distribution_runtime_state.SOURCE_PLACED_POWER_DISTRIBUTION_BLOCK_FROM_SPRITE_KEY: Callable(self, "_block_from_sprite"),
+		source_placed_power_distribution_runtime_state.SOURCE_PLACED_POWER_DISTRIBUTION_ROLE_FOR_BLOCK_KEY: Callable(self, "_role_for_block"),
+		source_placed_power_distribution_runtime_state.SOURCE_PLACED_POWER_DISTRIBUTION_REQUESTED_POWER_KEY: Callable(self, "_requested_power"),
+		source_placed_power_distribution_runtime_state.SOURCE_PLACED_POWER_DISTRIBUTION_BALANCE_KEY: Callable(self, "_balance"),
+		source_placed_power_distribution_runtime_state.SOURCE_PLACED_POWER_DISTRIBUTION_DISTRIBUTE_KEY: Callable(self, "_distribute"),
 	}
 	var defaults := {
 		"power_buffered": false,
@@ -75,9 +114,13 @@ func _ready() -> void:
 		"power_capacity": 0.0,
 		"power_production": 0.0,
 	}
-	var placed_block_origins := {"c": "consumer", "p": "producer", "b": "battery"}
-	var summary := SourcePlacedPowerDistributionRuntimeState.summary_state(placed_block_origins, callbacks, defaults, 2.0)
-	var registry := SourceSsotCatalog.canonical_headquarter_registry_state()
+	var summary := source_placed_power_distribution_runtime_state.summary_state(placed_block_origins, callbacks, defaults, 2.0)
+	var game_summary := source_placed_power_distribution_runtime_state.game_summary_state(self, 2.0)
+	var override_callbacks := source_placed_power_distribution_runtime_state.default_callbacks_state(self)
+	var override_callbacks_match: bool = override_callbacks.get(source_placed_power_distribution_runtime_state.SOURCE_PLACED_POWER_DISTRIBUTION_REQUESTED_POWER_KEY, Callable()) == Callable(self, "proof_consume_power_requested_power_state") \
+		and override_callbacks.get(source_placed_power_distribution_runtime_state.SOURCE_PLACED_POWER_DISTRIBUTION_BALANCE_KEY, Callable()) == Callable(self, "proof_power_graph_update_balance_state") \
+		and override_callbacks.get(source_placed_power_distribution_runtime_state.SOURCE_PLACED_POWER_DISTRIBUTION_DISTRIBUTE_KEY, Callable()) == Callable(self, "proof_power_graph_update_battery_distribute_state")
+	var registry := source_ssot_catalog.canonical_headquarter_registry_state()
 	var summary_matches: bool = int(summary.get("consumer_count", 0)) == 1 \
 		and int(summary.get("producer_count", 0)) == 1 \
 		and int(summary.get("battery_count", 0)) == 1 \
@@ -90,6 +133,8 @@ func _ready() -> void:
 	var proof := {
 		"module": "SourcePlacedPowerDistributionRuntimeState",
 		"summary_matches": summary_matches,
+		"game_summary_matches": game_summary == summary,
+		"override_callbacks_match": override_callbacks_match,
 		"consumer_count": int(summary.get("consumer_count", 0)),
 		"producer_count": int(summary.get("producer_count", 0)),
 		"battery_count": int(summary.get("battery_count", 0)),
@@ -100,5 +145,12 @@ func _ready() -> void:
 		"registry_valid": bool(registry.get("errors", []).is_empty()),
 	}
 	print("PLACED_POWER_DISTRIBUTION_RUNTIME_MODULE_PROOF " + JSON.stringify(proof))
-	await get_tree().create_timer(10.0).timeout
+	await get_tree().create_timer(60.0).timeout
 	get_tree().quit(0)
+
+func _placed_power_distribution_method_names() -> Dictionary:
+	return {
+		source_placed_power_distribution_runtime_state.SOURCE_PLACED_POWER_DISTRIBUTION_REQUESTED_POWER_KEY: "proof_consume_power_requested_power_state",
+		source_placed_power_distribution_runtime_state.SOURCE_PLACED_POWER_DISTRIBUTION_BALANCE_KEY: "proof_power_graph_update_balance_state",
+		source_placed_power_distribution_runtime_state.SOURCE_PLACED_POWER_DISTRIBUTION_DISTRIBUTE_KEY: "proof_power_graph_update_battery_distribute_state",
+	}

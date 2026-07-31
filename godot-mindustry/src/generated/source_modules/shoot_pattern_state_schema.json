@@ -13,7 +13,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_shoot_pattern_default_events"
+            "port_game.source_shoot_pattern_default_events"
           ]
         },
         "shotDelay": {
@@ -25,7 +25,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_shoot_pattern_default_events"
+            "port_game.source_shoot_pattern_default_events"
           ]
         },
         "shots": {
@@ -37,7 +37,7 @@
           "status": "explicit-input",
           "type": "int",
           "used_by": [
-            "PortGame.source_shoot_pattern_default_events"
+            "port_game.source_shoot_pattern_default_events"
           ]
         }
       }

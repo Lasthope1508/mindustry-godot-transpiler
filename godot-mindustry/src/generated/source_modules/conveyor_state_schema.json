@@ -13,7 +13,7 @@
           "status": "explicit-input",
           "type": "String",
           "used_by": [
-            "PortGame.source_conveyor_path_progress_delta"
+            "port_game.source_conveyor_path_progress_delta"
           ]
         },
         "efficiency": {
@@ -25,7 +25,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_conveyor_path_progress_delta"
+            "port_game.source_conveyor_path_progress_delta"
           ]
         },
         "seconds": {
@@ -37,7 +37,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_conveyor_path_progress_delta"
+            "port_game.source_conveyor_path_progress_delta"
           ]
         },
         "time_scale": {
@@ -49,7 +49,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_conveyor_path_progress_delta"
+            "port_game.source_conveyor_path_progress_delta"
           ]
         }
       },
@@ -67,7 +67,7 @@
           "status": "explicit-input",
           "type": "String",
           "used_by": [
-            "PortGame.source_conveyor_path_progress_rate"
+            "port_game.source_conveyor_path_progress_rate"
           ]
         }
       },
@@ -85,7 +85,7 @@
           "status": "explicit-input",
           "type": "String",
           "used_by": [
-            "PortGame.source_conveyor_world_speed"
+            "port_game.source_conveyor_world_speed"
           ]
         }
       },

@@ -13,7 +13,7 @@
           "status": "explicit-input",
           "type": "String",
           "used_by": [
-            "PortGame.source_core_accept_item"
+            "port_game.source_core_accept_item"
           ]
         }
       }
@@ -30,7 +30,7 @@
           "status": "explicit-input",
           "type": "String",
           "used_by": [
-            "PortGame.source_core_handle_item"
+            "port_game.source_core_handle_item"
           ]
         }
       }

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://tools/runtime_proofs/TurretPropertyModuleProof.gd" id="1_turretpropertymoduleproof"]
+
+[node name="TurretPropertyModuleProof" type="Node"]
+script = ExtResource("1_turretpropertymoduleproof")

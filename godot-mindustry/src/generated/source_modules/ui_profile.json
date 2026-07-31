@@ -2,11 +2,35 @@
   "version": 1,
   "root_key": "ui",
   "ui": {
-    "icon_med": 32.0,
-    "pad_right": 8.0,
+    "icon_med": 32,
+    "pad_right": 8,
+    "round_amount_billion_threshold": 1000000000,
+    "round_amount_billion_step": 100000000,
+    "round_amount_million_threshold": 1000000,
+    "round_amount_million_step": 100000,
+    "round_amount_ten_thousand_threshold": 10000,
+    "round_amount_ten_thousand_step": 1000,
+    "round_amount_thousand_threshold": 1000,
+    "round_amount_thousand_step": 100,
+    "round_amount_hundred_threshold": 100,
+    "round_amount_hundred_step": 100,
+    "round_amount_ten_threshold": 10,
+    "round_amount_ten_step": 10,
     "source": {
       "icon_med_expr": "iconMed = 8*4f",
-      "pad_right_expr": "padRight(8)"
+      "pad_right_expr": "padRight(8)",
+      "round_amount_billion_guard_expr": "if(number >= 1_000_000_000){",
+      "round_amount_billion_step_expr": "Mathf.round(number, 100_000_000)",
+      "round_amount_million_guard_expr": "}else if(number >= 1_000_000){",
+      "round_amount_million_step_expr": "Mathf.round(number, 100_000)",
+      "round_amount_ten_thousand_guard_expr": "}else if(number >= 10_000){",
+      "round_amount_ten_thousand_step_expr": "Mathf.round(number, 1000)",
+      "round_amount_thousand_guard_expr": "}else if(number >= 1000){",
+      "round_amount_thousand_step_expr": "Mathf.round(number, 100)",
+      "round_amount_hundred_guard_expr": "}else if(number >= 100){",
+      "round_amount_hundred_step_expr": "Mathf.round(number, 100)",
+      "round_amount_ten_guard_expr": "}else if(number >= 10){",
+      "round_amount_ten_step_expr": "Mathf.round(number, 10)"
     }
   }
 }

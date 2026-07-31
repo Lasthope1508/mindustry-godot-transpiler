@@ -23,7 +23,25 @@ STATE_SCHEMA_RELATIVE_PATH = STATE_SCHEMA_MODULE.relative_path
 ALLOWED_STATUSES = {"source-backed", "explicit-input", "deferred", "generated"}
 REQUIRED_ENTRY_FIELDS = {"status", "godot_symbol", "godot_owner", "rule", "tests", "runtime_proof"}
 SOURCE_REQUIRED_STATUSES = {"source-backed", "explicit-input"}
-DEFAULT_EXEMPT_SOURCE_OWNERS = ["PortGame.source_symbol_registry_state", "PortGame.source_symbol_audit_state"]
+DEFAULT_EXEMPT_SOURCE_OWNERS = ["port_game.source_symbol_registry_state", "port_game.source_symbol_audit_state"]
+
+def _canonical_godot_owner(owner: str) -> str:
+    if owner.startswith("PortGame."):
+        return "port_game." + owner[len("PortGame."):]
+    return owner
+
+def _normalize_registry_owner_entries(registry: dict[str, Any]) -> dict[str, Any]:
+    normalized = dict(registry)
+    symbols = normalized.get("symbols", {})
+    if isinstance(symbols, dict):
+        normalized["symbols"] = {
+            symbol: {
+                **entry,
+                "godot_owner": _canonical_godot_owner(str(entry.get("godot_owner", ""))),
+            } if isinstance(entry, dict) else entry
+            for symbol, entry in symbols.items()
+        }
+    return normalized
 
 
 def load_source_symbol_registry(godot_root: Path) -> dict[str, Any]:
@@ -31,7 +49,21 @@ def load_source_symbol_registry(godot_root: Path) -> dict[str, Any]:
 
 
 def load_source_symbol_audit_report(godot_root: Path) -> dict[str, Any]:
-    return source_ssot.load_json(godot_root, "audit_report")
+    return _normalize_audit_report_entries(source_ssot.load_json(godot_root, "audit_report"))
+
+def _normalize_audit_report_entries(audit: dict[str, Any]) -> dict[str, Any]:
+    normalized = dict(audit)
+    normalized["registeredSourceOwners"] = [_canonical_godot_owner(str(owner)) for owner in audit.get("registeredSourceOwners", [])]
+    normalized["exemptSourceOwners"] = [_canonical_godot_owner(str(owner)) for owner in audit.get("exemptSourceOwners", [])]
+    normalized["legacyUnregisteredOwners"] = [_canonical_godot_owner(str(owner)) for owner in audit.get("legacyUnregisteredOwners", [])]
+    normalized["sourceFunctions"] = [
+        {
+            **entry,
+            "owner": _canonical_godot_owner(str(entry.get("owner", ""))),
+        } if isinstance(entry, dict) else entry
+        for entry in audit.get("sourceFunctions", [])
+    ]
+    return normalized
 
 
 def load_source_slice_ledger(godot_root: Path) -> dict[str, Any]:
@@ -94,7 +126,7 @@ def discover_godot_source_functions(godot_root: Path) -> list[dict[str, Any]]:
         for match in re.finditer(r"^func\s+(source_[A-Za-z0-9_]+)\s*\(", text, re.MULTILINE):
             function_name = match.group(1)
             discovered.append({
-                "owner": f"{class_name}.{function_name}",
+                "owner": _canonical_godot_owner(f"{class_name}.{function_name}"),
                 "function": function_name,
                 "gdscript_path": str(path.relative_to(godot_root)).replace("\\", "/"),
             })
@@ -103,6 +135,7 @@ def discover_godot_source_functions(godot_root: Path) -> list[dict[str, Any]]:
 
 def audit_godot_source_symbol_coverage(godot_root: Path, registry: dict[str, Any]) -> dict[str, Any]:
     discovered = discover_godot_source_functions(godot_root)
+    registry = _normalize_registry_owner_entries(registry)
     discovered_owners = {entry["owner"] for entry in discovered}
     registered_owners = {
         entry.get("godot_owner", "")
@@ -110,7 +143,10 @@ def audit_godot_source_symbol_coverage(godot_root: Path, registry: dict[str, Any
         if entry.get("godot_owner", "") in discovered_owners
     }
     policy = registry.get("policy", {})
-    exempt_owners = set(policy.get("exemptSourceOwners", DEFAULT_EXEMPT_SOURCE_OWNERS))
+    exempt_owners = {
+        _canonical_godot_owner(str(owner))
+        for owner in policy.get("exemptSourceOwners", DEFAULT_EXEMPT_SOURCE_OWNERS)
+    }
     exempt_discovered = sorted(discovered_owners & exempt_owners)
     legacy_unregistered = sorted(discovered_owners - registered_owners - set(exempt_discovered))
     return {

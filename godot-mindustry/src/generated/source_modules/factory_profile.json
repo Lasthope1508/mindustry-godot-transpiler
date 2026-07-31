@@ -3,17 +3,17 @@
   "root_key": "factory",
   "factory": {
     "drill": {
-      "hardness_drill_multiplier": 50.0,
-      "drill_time_default": 300.0,
+      "hardness_drill_multiplier": 50,
+      "drill_time_default": 300,
       "item_hardness_default": 0,
       "warmup_speed": 0.015
     },
     "block": {
-      "dump_time": 5.0,
+      "dump_time": 5,
       "item_capacity": 10
     },
     "conveyor": {
-      "tile_speed_scale": 55.0
+      "tile_speed_scale": 55
     },
     "source": {
       "hardness_drill_multiplier_expr": "public float hardnessDrillMultiplier = 50f;",

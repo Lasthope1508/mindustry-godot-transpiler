@@ -3,139 +3,476 @@
   "root_key": "actions",
   "hud_hint": "WASD/arrows move camera, Q/E zoom, 1-6 select build, click/tap place",
   "camera": {
-    "pan_speed_pixels_per_second": 420.0,
-    "keyboard_zoom_in_rate_per_second": 1.0,
-    "keyboard_zoom_out_rate_per_second": 1.0,
-    "keyboard_zoom_out_max_delta": 0.5
+    "pan_speed_pixels_per_second": 420,
+    "pan_boost_speed_pixels_per_second": 900,
+    "keyboard_zoom_in_rate_per_second": 1,
+    "keyboard_zoom_out_rate_per_second": 1,
+    "keyboard_zoom_out_max_delta": 0.5,
+    "mouse_wheel_zoom_step": 0.25
+  },
+  "virtual_axis": {
+    "touch_pixels_per_axis": 72.0,
+    "deadzone": 0.1
   },
   "actions": {
     "camera.pan.left": {
       "godot_action": "camera.pan.left",
-      "desktop": {"keys": ["A", "Left"]},
-      "web": {"keys": ["A", "ArrowLeft"]},
-      "android": {"touch_region": "camera.drag"},
-      "ios": {"touch_region": "camera.drag"},
-      "roblox": {"action": "CameraPanLeft", "inputs": ["A", "Left", "Thumbstick1Left"]}
+      "desktop": {
+        "keys": [
+          "A",
+          "Left"
+        ]
+      },
+      "web": {
+        "keys": [
+          "A",
+          "ArrowLeft"
+        ]
+      },
+      "android": {
+        "touch_region": "camera.drag"
+      },
+      "ios": {
+        "touch_region": "camera.drag"
+      },
+      "roblox": {
+        "action": "CameraPanLeft",
+        "inputs": [
+          "A",
+          "Left",
+          "Thumbstick1Left"
+        ]
+      }
     },
     "camera.pan.right": {
       "godot_action": "camera.pan.right",
-      "desktop": {"keys": ["D", "Right"]},
-      "web": {"keys": ["D", "ArrowRight"]},
-      "android": {"touch_region": "camera.drag"},
-      "ios": {"touch_region": "camera.drag"},
-      "roblox": {"action": "CameraPanRight", "inputs": ["D", "Right", "Thumbstick1Right"]}
+      "desktop": {
+        "keys": [
+          "D",
+          "Right"
+        ]
+      },
+      "web": {
+        "keys": [
+          "D",
+          "ArrowRight"
+        ]
+      },
+      "android": {
+        "touch_region": "camera.drag"
+      },
+      "ios": {
+        "touch_region": "camera.drag"
+      },
+      "roblox": {
+        "action": "CameraPanRight",
+        "inputs": [
+          "D",
+          "Right",
+          "Thumbstick1Right"
+        ]
+      }
     },
     "camera.pan.up": {
       "godot_action": "camera.pan.up",
-      "desktop": {"keys": ["W", "Up"]},
-      "web": {"keys": ["W", "ArrowUp"]},
-      "android": {"touch_region": "camera.drag"},
-      "ios": {"touch_region": "camera.drag"},
-      "roblox": {"action": "CameraPanUp", "inputs": ["W", "Up", "Thumbstick1Up"]}
+      "desktop": {
+        "keys": [
+          "W",
+          "Up"
+        ]
+      },
+      "web": {
+        "keys": [
+          "W",
+          "ArrowUp"
+        ]
+      },
+      "android": {
+        "touch_region": "camera.drag"
+      },
+      "ios": {
+        "touch_region": "camera.drag"
+      },
+      "roblox": {
+        "action": "CameraPanUp",
+        "inputs": [
+          "W",
+          "Up",
+          "Thumbstick1Up"
+        ]
+      }
     },
     "camera.pan.down": {
       "godot_action": "camera.pan.down",
-      "desktop": {"keys": ["S", "Down"]},
-      "web": {"keys": ["S", "ArrowDown"]},
-      "android": {"touch_region": "camera.drag"},
-      "ios": {"touch_region": "camera.drag"},
-      "roblox": {"action": "CameraPanDown", "inputs": ["S", "Down", "Thumbstick1Down"]}
+      "desktop": {
+        "keys": [
+          "S",
+          "Down"
+        ]
+      },
+      "web": {
+        "keys": [
+          "S",
+          "ArrowDown"
+        ]
+      },
+      "android": {
+        "touch_region": "camera.drag"
+      },
+      "ios": {
+        "touch_region": "camera.drag"
+      },
+      "roblox": {
+        "action": "CameraPanDown",
+        "inputs": [
+          "S",
+          "Down",
+          "Thumbstick1Down"
+        ]
+      }
+    },
+    "camera.pan.boost": {
+      "godot_action": "camera.pan.boost",
+      "desktop": {
+        "keys": [
+          "Shift"
+        ]
+      },
+      "web": {
+        "keys": [
+          "Shift"
+        ]
+      },
+      "android": {
+        "touch_region": "camera.boost"
+      },
+      "ios": {
+        "touch_region": "camera.boost"
+      },
+      "roblox": {
+        "action": "CameraPanBoost",
+        "inputs": [
+          "ButtonL3"
+        ]
+      }
     },
     "camera.pan.touch_drag": {
       "godot_action": "camera.pan.touch_drag",
       "desktop": {},
-      "web": {"pointer": "drag"},
-      "android": {"touch_region": "camera.drag"},
-      "ios": {"touch_region": "camera.drag"},
-      "roblox": {"action": "CameraDrag", "inputs": ["TouchPan"]}
+      "web": {
+        "pointer": "drag"
+      },
+      "android": {
+        "touch_region": "camera.drag"
+      },
+      "ios": {
+        "touch_region": "camera.drag"
+      },
+      "roblox": {
+        "action": "CameraDrag",
+        "inputs": [
+          "TouchPan"
+        ]
+      }
     },
     "camera.zoom.in": {
       "godot_action": "camera.zoom.in",
-      "desktop": {"keys": ["Q"]},
-      "web": {"keys": ["Q"]},
-      "android": {"gesture": "pinch_out"},
-      "ios": {"gesture": "pinch_out"},
-      "roblox": {"action": "CameraZoomIn", "inputs": ["I", "MouseWheelForward"]}
+      "desktop": {
+        "keys": [
+          "Q"
+        ],
+        "mouse_buttons": [
+          "wheel_up"
+        ]
+      },
+      "web": {
+        "keys": [
+          "Q"
+        ],
+        "mouse_buttons": [
+          "wheel_up"
+        ]
+      },
+      "android": {
+        "gesture": "pinch_out"
+      },
+      "ios": {
+        "gesture": "pinch_out"
+      },
+      "roblox": {
+        "action": "CameraZoomIn",
+        "inputs": [
+          "I",
+          "MouseWheelForward"
+        ]
+      }
     },
     "camera.zoom.out": {
       "godot_action": "camera.zoom.out",
-      "desktop": {"keys": ["E"]},
-      "web": {"keys": ["E"]},
-      "android": {"gesture": "pinch_in"},
-      "ios": {"gesture": "pinch_in"},
-      "roblox": {"action": "CameraZoomOut", "inputs": ["O", "MouseWheelBackward"]}
+      "desktop": {
+        "keys": [
+          "E"
+        ],
+        "mouse_buttons": [
+          "wheel_down"
+        ]
+      },
+      "web": {
+        "keys": [
+          "E"
+        ],
+        "mouse_buttons": [
+          "wheel_down"
+        ]
+      },
+      "android": {
+        "gesture": "pinch_in"
+      },
+      "ios": {
+        "gesture": "pinch_in"
+      },
+      "roblox": {
+        "action": "CameraZoomOut",
+        "inputs": [
+          "O",
+          "MouseWheelBackward"
+        ]
+      }
     },
     "build.slot.next": {
       "godot_action": "build.slot.next",
-      "desktop": {"keys": [{"key": "Tab"}]},
-      "web": {"keys": [{"key": "Tab"}]},
-      "android": {"touch_region": "build.next"},
-      "ios": {"touch_region": "build.next"},
-      "roblox": {"action": "BuildSlotNext", "inputs": ["ButtonR1"]}
+      "desktop": {
+        "keys": [
+          {
+            "key": "Tab"
+          }
+        ]
+      },
+      "web": {
+        "keys": [
+          {
+            "key": "Tab"
+          }
+        ]
+      },
+      "android": {
+        "touch_region": "build.next"
+      },
+      "ios": {
+        "touch_region": "build.next"
+      },
+      "roblox": {
+        "action": "BuildSlotNext",
+        "inputs": [
+          "ButtonR1"
+        ]
+      }
     },
     "build.slot.previous": {
       "godot_action": "build.slot.previous",
-      "desktop": {"keys": [{"key": "Tab", "shift": true}]},
-      "web": {"keys": [{"key": "Tab", "shift": true}]},
-      "android": {"touch_region": "build.previous"},
-      "ios": {"touch_region": "build.previous"},
-      "roblox": {"action": "BuildSlotPrevious", "inputs": ["ButtonL1"]}
+      "desktop": {
+        "keys": [
+          {
+            "key": "Tab",
+            "shift": true
+          }
+        ]
+      },
+      "web": {
+        "keys": [
+          {
+            "key": "Tab",
+            "shift": true
+          }
+        ]
+      },
+      "android": {
+        "touch_region": "build.previous"
+      },
+      "ios": {
+        "touch_region": "build.previous"
+      },
+      "roblox": {
+        "action": "BuildSlotPrevious",
+        "inputs": [
+          "ButtonL1"
+        ]
+      }
     },
     "build.slot.1": {
       "godot_action": "build.slot.1",
-      "desktop": {"keys": ["1"]},
-      "web": {"keys": ["1"]},
-      "android": {"touch_region": "build.palette.1"},
-      "ios": {"touch_region": "build.palette.1"},
-      "roblox": {"action": "BuildSlot1", "inputs": ["One"]}
+      "desktop": {
+        "keys": [
+          "1"
+        ]
+      },
+      "web": {
+        "keys": [
+          "1"
+        ]
+      },
+      "android": {
+        "touch_region": "build.palette.1"
+      },
+      "ios": {
+        "touch_region": "build.palette.1"
+      },
+      "roblox": {
+        "action": "BuildSlot1",
+        "inputs": [
+          "One"
+        ]
+      }
     },
     "build.slot.2": {
       "godot_action": "build.slot.2",
-      "desktop": {"keys": ["2"]},
-      "web": {"keys": ["2"]},
-      "android": {"touch_region": "build.palette.2"},
-      "ios": {"touch_region": "build.palette.2"},
-      "roblox": {"action": "BuildSlot2", "inputs": ["Two"]}
+      "desktop": {
+        "keys": [
+          "2"
+        ]
+      },
+      "web": {
+        "keys": [
+          "2"
+        ]
+      },
+      "android": {
+        "touch_region": "build.palette.2"
+      },
+      "ios": {
+        "touch_region": "build.palette.2"
+      },
+      "roblox": {
+        "action": "BuildSlot2",
+        "inputs": [
+          "Two"
+        ]
+      }
     },
     "build.slot.3": {
       "godot_action": "build.slot.3",
-      "desktop": {"keys": ["3"]},
-      "web": {"keys": ["3"]},
-      "android": {"touch_region": "build.palette.3"},
-      "ios": {"touch_region": "build.palette.3"},
-      "roblox": {"action": "BuildSlot3", "inputs": ["Three"]}
+      "desktop": {
+        "keys": [
+          "3"
+        ]
+      },
+      "web": {
+        "keys": [
+          "3"
+        ]
+      },
+      "android": {
+        "touch_region": "build.palette.3"
+      },
+      "ios": {
+        "touch_region": "build.palette.3"
+      },
+      "roblox": {
+        "action": "BuildSlot3",
+        "inputs": [
+          "Three"
+        ]
+      }
     },
     "build.slot.4": {
       "godot_action": "build.slot.4",
-      "desktop": {"keys": ["4"]},
-      "web": {"keys": ["4"]},
-      "android": {"touch_region": "build.palette.4"},
-      "ios": {"touch_region": "build.palette.4"},
-      "roblox": {"action": "BuildSlot4", "inputs": ["Four"]}
+      "desktop": {
+        "keys": [
+          "4"
+        ]
+      },
+      "web": {
+        "keys": [
+          "4"
+        ]
+      },
+      "android": {
+        "touch_region": "build.palette.4"
+      },
+      "ios": {
+        "touch_region": "build.palette.4"
+      },
+      "roblox": {
+        "action": "BuildSlot4",
+        "inputs": [
+          "Four"
+        ]
+      }
     },
     "build.slot.5": {
       "godot_action": "build.slot.5",
-      "desktop": {"keys": ["5"]},
-      "web": {"keys": ["5"]},
-      "android": {"touch_region": "build.palette.5"},
-      "ios": {"touch_region": "build.palette.5"},
-      "roblox": {"action": "BuildSlot5", "inputs": ["Five"]}
+      "desktop": {
+        "keys": [
+          "5"
+        ]
+      },
+      "web": {
+        "keys": [
+          "5"
+        ]
+      },
+      "android": {
+        "touch_region": "build.palette.5"
+      },
+      "ios": {
+        "touch_region": "build.palette.5"
+      },
+      "roblox": {
+        "action": "BuildSlot5",
+        "inputs": [
+          "Five"
+        ]
+      }
     },
     "build.slot.6": {
       "godot_action": "build.slot.6",
-      "desktop": {"keys": ["6"]},
-      "web": {"keys": ["6"]},
-      "android": {"touch_region": "build.palette.6"},
-      "ios": {"touch_region": "build.palette.6"},
-      "roblox": {"action": "BuildSlot6", "inputs": ["Six"]}
+      "desktop": {
+        "keys": [
+          "6"
+        ]
+      },
+      "web": {
+        "keys": [
+          "6"
+        ]
+      },
+      "android": {
+        "touch_region": "build.palette.6"
+      },
+      "ios": {
+        "touch_region": "build.palette.6"
+      },
+      "roblox": {
+        "action": "BuildSlot6",
+        "inputs": [
+          "Six"
+        ]
+      }
     },
     "build.place.primary": {
       "godot_action": "build.place.primary",
-      "desktop": {"mouse_buttons": ["left"]},
-      "web": {"pointer": "primary"},
-      "android": {"touch_region": "world.primary"},
-      "ios": {"touch_region": "world.primary"},
-      "roblox": {"action": "BuildPlacePrimary", "inputs": ["MouseButton1", "TouchTap", "ButtonR2"]}
+      "desktop": {
+        "mouse_buttons": [
+          "left"
+        ]
+      },
+      "web": {
+        "pointer": "primary"
+      },
+      "android": {
+        "touch_region": "world.primary"
+      },
+      "ios": {
+        "touch_region": "world.primary"
+      },
+      "roblox": {
+        "action": "BuildPlacePrimary",
+        "inputs": [
+          "MouseButton1",
+          "TouchTap",
+          "ButtonR2"
+        ]
+      }
     }
   },
   "platforms": {
@@ -152,31 +489,91 @@
     "android": {
       "canonical_adapter": "GodotTouchInput",
       "touch_regions": {
-        "camera.drag": {"type": "drag_surface", "region": "world"},
-        "build.previous": {"type": "button", "region": "palette_left"},
-        "build.next": {"type": "button", "region": "palette_right"},
-        "build.palette.1": {"type": "palette_slot", "slot": 1},
-        "build.palette.2": {"type": "palette_slot", "slot": 2},
-        "build.palette.3": {"type": "palette_slot", "slot": 3},
-        "build.palette.4": {"type": "palette_slot", "slot": 4},
-        "build.palette.5": {"type": "palette_slot", "slot": 5},
-        "build.palette.6": {"type": "palette_slot", "slot": 6},
-        "world.primary": {"type": "tap_surface", "region": "world"}
+        "camera.drag": {
+          "type": "drag_surface",
+          "region": "world"
+        },
+        "build.previous": {
+          "type": "button",
+          "region": "palette_left"
+        },
+        "build.next": {
+          "type": "button",
+          "region": "palette_right"
+        },
+        "build.palette.1": {
+          "type": "palette_slot",
+          "slot": 1
+        },
+        "build.palette.2": {
+          "type": "palette_slot",
+          "slot": 2
+        },
+        "build.palette.3": {
+          "type": "palette_slot",
+          "slot": 3
+        },
+        "build.palette.4": {
+          "type": "palette_slot",
+          "slot": 4
+        },
+        "build.palette.5": {
+          "type": "palette_slot",
+          "slot": 5
+        },
+        "build.palette.6": {
+          "type": "palette_slot",
+          "slot": 6
+        },
+        "world.primary": {
+          "type": "tap_surface",
+          "region": "world"
+        }
       }
     },
     "ios": {
       "canonical_adapter": "GodotTouchInput",
       "touch_regions": {
-        "camera.drag": {"type": "drag_surface", "region": "world"},
-        "build.previous": {"type": "button", "region": "palette_left"},
-        "build.next": {"type": "button", "region": "palette_right"},
-        "build.palette.1": {"type": "palette_slot", "slot": 1},
-        "build.palette.2": {"type": "palette_slot", "slot": 2},
-        "build.palette.3": {"type": "palette_slot", "slot": 3},
-        "build.palette.4": {"type": "palette_slot", "slot": 4},
-        "build.palette.5": {"type": "palette_slot", "slot": 5},
-        "build.palette.6": {"type": "palette_slot", "slot": 6},
-        "world.primary": {"type": "tap_surface", "region": "world"}
+        "camera.drag": {
+          "type": "drag_surface",
+          "region": "world"
+        },
+        "build.previous": {
+          "type": "button",
+          "region": "palette_left"
+        },
+        "build.next": {
+          "type": "button",
+          "region": "palette_right"
+        },
+        "build.palette.1": {
+          "type": "palette_slot",
+          "slot": 1
+        },
+        "build.palette.2": {
+          "type": "palette_slot",
+          "slot": 2
+        },
+        "build.palette.3": {
+          "type": "palette_slot",
+          "slot": 3
+        },
+        "build.palette.4": {
+          "type": "palette_slot",
+          "slot": 4
+        },
+        "build.palette.5": {
+          "type": "palette_slot",
+          "slot": 5
+        },
+        "build.palette.6": {
+          "type": "palette_slot",
+          "slot": 6
+        },
+        "world.primary": {
+          "type": "tap_surface",
+          "region": "world"
+        }
       }
     },
     "roblox": {

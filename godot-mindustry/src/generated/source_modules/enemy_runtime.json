@@ -1,0 +1,14 @@
+{
+  "enemy_runtime": {
+    "rule": "Canonical registry shard for enemy unit runtime state; runtime code must route enemy movement, impact, wave spawn timing, unit spawn assembly, wave orchestration, and runtime summary assembly through SourceEnemyUnitRuntimeState instead of duplicating them in port_game.",
+    "source_owner": "port_game.simulate_enemy_units,port_game.spawn_enemy_unit,port_game.spawn_enemy_wave,port_game.enemy_runtime_state",
+    "status": "active",
+    "runtime_proof": "tools/runtime_proofs/EnemyUnitRuntimeModuleProof.gd",
+    "runtime_scene": "tools/runtime_proofs/EnemyUnitRuntimeModuleProof.tscn",
+    "runtime_state": "simulate_units",
+    "spawn_state": "spawn_unit_state",
+    "wave_state": "spawn_wave_state",
+    "summary_state": "runtime_summary_state"
+  },
+  "version": 1
+}

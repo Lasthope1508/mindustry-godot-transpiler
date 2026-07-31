@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://tools/runtime_proofs/ConsumeLiquidFlammableModuleProof.gd" id="1_consume_liquid_flammable_proof"]
+
+[node name="ConsumeLiquidFlammableModuleProof" type="Node"]
+script = ExtResource("1_consume_liquid_flammable_proof")

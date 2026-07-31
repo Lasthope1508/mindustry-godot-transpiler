@@ -16,7 +16,7 @@ const JAVA_ENUM_CONSTANTS := []
 func java_method_set_0(_args: Array = []) -> Variant:
 	var x_value: float = float(_args[0] if _args.size() > 0 else 0.0)
 	var y_value: float = float(_args[1] if _args.size() > 1 else 0.0)
-	return {"source_owner": "PortGame.source_pos_set_state", "method": "void set(float x, float y){", "x_assign_expr": "this.x = x;", "y_assign_expr": "this.y = y;", "x": x_value, "y": y_value}
+	return {"source_owner": "port_game.source_pos_set_state", "method": "void set(float x, float y){", "x_assign_expr": "this.x = x;", "y_assign_expr": "this.y = y;", "x": x_value, "y": y_value}
 
 func java_method_set_1(_args: Array = []) -> Variant:
 	return null

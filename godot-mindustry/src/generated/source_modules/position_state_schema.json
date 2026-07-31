@@ -13,7 +13,7 @@
           "status": "explicit-input",
           "type": "Vector2",
           "used_by": [
-            "PortGame.source_angle_to_target"
+            "port_game.source_angle_to_target"
           ]
         },
         "originX": {
@@ -25,7 +25,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_angle_to_target"
+            "port_game.source_angle_to_target"
           ]
         },
         "originY": {
@@ -37,7 +37,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_angle_to_target"
+            "port_game.source_angle_to_target"
           ]
         },
         "target": {
@@ -49,7 +49,7 @@
           "status": "explicit-input",
           "type": "Variant",
           "used_by": [
-            "PortGame.source_angle_to_target"
+            "port_game.source_angle_to_target"
           ]
         },
         "targetX": {
@@ -61,7 +61,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_angle_to_target"
+            "port_game.source_angle_to_target"
           ]
         },
         "targetY": {
@@ -73,7 +73,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_angle_to_target"
+            "port_game.source_angle_to_target"
           ]
         }
       }

@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "placed_power_graph": {
+    "source_owner": "port_game.placed_power_runtime_state",
+    "headquarter": "SourcePlacedPowerGraphState",
+    "summary_fields": [
+      "roles",
+      "needed",
+      "produced",
+      "battery"
+    ]
+  }
+}

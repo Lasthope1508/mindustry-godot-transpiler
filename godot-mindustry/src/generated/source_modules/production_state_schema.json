@@ -18,7 +18,7 @@
           "status": "explicit-input",
           "type": "String",
           "used_by": [
-            "PortGame.source_drill_delay"
+            "port_game.source_drill_delay"
           ]
         },
         "item_id": {
@@ -30,7 +30,7 @@
           "status": "explicit-input",
           "type": "String",
           "used_by": [
-            "PortGame.source_drill_delay"
+            "port_game.source_drill_delay"
           ]
         }
       }
@@ -47,7 +47,7 @@
           "status": "explicit-input",
           "type": "String",
           "used_by": [
-            "PortGame.source_drill_dump_interval"
+            "port_game.source_drill_dump_interval"
           ]
         },
         "time_scale": {
@@ -59,7 +59,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_drill_dump_interval"
+            "port_game.source_drill_dump_interval"
           ]
         }
       }
@@ -76,7 +76,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_drill_inactive_warmup_state"
+            "port_game.source_drill_inactive_warmup_state"
           ]
         },
         "source_delta": {
@@ -88,7 +88,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_drill_inactive_warmup_state"
+            "port_game.source_drill_inactive_warmup_state"
           ]
         },
         "warmup_speed": {
@@ -100,7 +100,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_drill_inactive_warmup_state"
+            "port_game.source_drill_inactive_warmup_state"
           ]
         }
       }
@@ -123,7 +123,7 @@
           "status": "source-backed",
           "type": "float",
           "used_by": [
-            "PortGame.source_drill_inactive_warmup_state"
+            "port_game.source_drill_inactive_warmup_state"
           ]
         },
         "source_delta": {
@@ -141,7 +141,7 @@
           "status": "source-backed",
           "type": "float",
           "used_by": [
-            "PortGame.source_drill_inactive_warmup_state"
+            "port_game.source_drill_inactive_warmup_state"
           ]
         },
         "warmupSpeed": {
@@ -153,7 +153,7 @@
           "status": "source-backed",
           "type": "float",
           "used_by": [
-            "PortGame.source_drill_inactive_warmup_state"
+            "port_game.source_drill_inactive_warmup_state"
           ]
         },
         "warmupSpeedField": {
@@ -165,7 +165,7 @@
           "status": "source-backed",
           "type": "String",
           "used_by": [
-            "PortGame.source_drill_inactive_warmup_state"
+            "port_game.source_drill_inactive_warmup_state"
           ]
         },
         "warmup_speed": {
@@ -188,7 +188,7 @@
           "status": "explicit-input",
           "type": "String",
           "used_by": [
-            "PortGame.source_drill_last_speed"
+            "port_game.source_drill_last_speed"
           ]
         },
         "dominant_items": {
@@ -200,7 +200,7 @@
           "status": "explicit-input",
           "type": "int",
           "used_by": [
-            "PortGame.source_drill_last_speed"
+            "port_game.source_drill_last_speed"
           ]
         },
         "item_id": {
@@ -212,7 +212,7 @@
           "status": "explicit-input",
           "type": "String",
           "used_by": [
-            "PortGame.source_drill_last_speed"
+            "port_game.source_drill_last_speed"
           ]
         },
         "speed": {
@@ -224,7 +224,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_drill_last_speed"
+            "port_game.source_drill_last_speed"
           ]
         },
         "warmup": {
@@ -236,7 +236,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_drill_last_speed"
+            "port_game.source_drill_last_speed"
           ]
         }
       }
@@ -253,7 +253,7 @@
           "status": "explicit-input",
           "type": "String",
           "used_by": [
-            "PortGame.source_drill_ore_count"
+            "port_game.source_drill_ore_count"
           ]
         },
         "cell": {
@@ -265,7 +265,7 @@
           "status": "explicit-input",
           "type": "Vector2i",
           "used_by": [
-            "PortGame.source_drill_ore_count"
+            "port_game.source_drill_ore_count"
           ]
         },
         "item_id": {
@@ -277,7 +277,7 @@
           "status": "explicit-input",
           "type": "String",
           "used_by": [
-            "PortGame.source_drill_ore_count"
+            "port_game.source_drill_ore_count"
           ]
         }
       }
@@ -294,7 +294,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_drill_output_batch"
+            "port_game.source_drill_output_batch"
           ]
         },
         "dominant_items": {
@@ -306,7 +306,7 @@
           "status": "explicit-input",
           "type": "int",
           "used_by": [
-            "PortGame.source_drill_output_batch"
+            "port_game.source_drill_output_batch"
           ]
         },
         "item_capacity": {
@@ -318,7 +318,7 @@
           "status": "explicit-input",
           "type": "int",
           "used_by": [
-            "PortGame.source_drill_output_batch"
+            "port_game.source_drill_output_batch"
           ]
         },
         "items_total": {
@@ -330,7 +330,7 @@
           "status": "explicit-input",
           "type": "int",
           "used_by": [
-            "PortGame.source_drill_output_batch"
+            "port_game.source_drill_output_batch"
           ]
         },
         "progress": {
@@ -342,7 +342,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_drill_output_batch"
+            "port_game.source_drill_output_batch"
           ]
         }
       }
@@ -359,7 +359,7 @@
           "status": "explicit-input",
           "type": "int",
           "used_by": [
-            "PortGame.source_drill_output_delta"
+            "port_game.source_drill_output_delta"
           ]
         },
         "source_delta": {
@@ -371,7 +371,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_drill_output_delta"
+            "port_game.source_drill_output_delta"
           ]
         },
         "speed": {
@@ -383,7 +383,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_drill_output_delta"
+            "port_game.source_drill_output_delta"
           ]
         },
         "time_scale": {
@@ -395,7 +395,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_drill_output_delta"
+            "port_game.source_drill_output_delta"
           ]
         },
         "warmup": {
@@ -407,7 +407,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_drill_output_delta"
+            "port_game.source_drill_output_delta"
           ]
         }
       }
@@ -424,7 +424,7 @@
           "status": "explicit-input",
           "type": "String",
           "used_by": [
-            "PortGame.source_drill_output_rate"
+            "port_game.source_drill_output_rate"
           ]
         },
         "item_id": {
@@ -436,7 +436,7 @@
           "status": "explicit-input",
           "type": "String",
           "used_by": [
-            "PortGame.source_drill_output_rate"
+            "port_game.source_drill_output_rate"
           ]
         },
         "return_count": {
@@ -448,7 +448,7 @@
           "status": "explicit-input",
           "type": "int",
           "used_by": [
-            "PortGame.source_drill_output_rate"
+            "port_game.source_drill_output_rate"
           ]
         }
       }
@@ -465,7 +465,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_drill_progress_fraction"
+            "port_game.source_drill_progress_fraction"
           ]
         },
         "has_dominant_item": {
@@ -477,7 +477,7 @@
           "status": "explicit-input",
           "type": "bool",
           "used_by": [
-            "PortGame.source_drill_progress_fraction"
+            "port_game.source_drill_progress_fraction"
           ]
         },
         "progress": {
@@ -489,7 +489,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_drill_progress_fraction"
+            "port_game.source_drill_progress_fraction"
           ]
         }
       }
@@ -506,7 +506,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_drill_time_drilled_delta"
+            "port_game.source_drill_time_drilled_delta"
           ]
         },
         "time_scale": {
@@ -518,7 +518,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_drill_time_drilled_delta"
+            "port_game.source_drill_time_drilled_delta"
           ]
         },
         "warmup": {
@@ -530,7 +530,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_drill_time_drilled_delta"
+            "port_game.source_drill_time_drilled_delta"
           ]
         }
       }
@@ -547,7 +547,7 @@
           "status": "explicit-input",
           "type": "String",
           "used_by": [
-            "PortGame.source_drill_warmup_speed"
+            "port_game.source_drill_warmup_speed"
           ]
         }
       }
@@ -564,7 +564,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_drill_warmup_state"
+            "port_game.source_drill_warmup_state"
           ]
         },
         "source_delta": {
@@ -576,7 +576,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_drill_warmup_state"
+            "port_game.source_drill_warmup_state"
           ]
         },
         "speed": {
@@ -588,7 +588,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_drill_warmup_state"
+            "port_game.source_drill_warmup_state"
           ]
         },
         "warmup_speed": {
@@ -600,7 +600,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_drill_warmup_state"
+            "port_game.source_drill_warmup_state"
           ]
         }
       }

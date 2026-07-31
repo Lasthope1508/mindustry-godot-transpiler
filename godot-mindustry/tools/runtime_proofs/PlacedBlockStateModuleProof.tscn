@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://placedblockstateproof"]
+
+[ext_resource type="Script" path="res://tools/runtime_proofs/PlacedBlockStateModuleProof.gd" id="1"]
+
+[node name="PlacedBlockStateModuleProof" type="Node"]
+script = ExtResource("1")

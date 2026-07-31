@@ -4862,7 +4862,7 @@
     },
     "PortGame.source_block_producer_build_accept_item_state": {
       "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
-      "owner": "PortGame.source_block_producer_build_accept_item_state",
+      "owner": "port_game.source_block_producer_build_accept_item_state",
       "params": [
         {
           "java_expr": "Building source",
@@ -4904,7 +4904,7 @@
         "maximum_accepted",
         "accept_item"
       ],
-      "rule": "PortGame.source_block_producer_build_accept_item_state pins BlockProducerBuild.acceptItem() inventory capacity predicate.",
+      "rule": "port_game.source_block_producer_build_accept_item_state pins BlockProducerBuild.acceptItem() inventory capacity predicate.",
       "runtime_proof": "/root/Main.source_block_producer_build_accept_item_state",
       "source_method": "BlockProducerBuild.acceptItem(Building source, Item item)",
       "source_slice": "N1413",
@@ -4944,7 +4944,7 @@
         "payload",
         "accept_payload"
       ],
-      "rule": "PortGame.source_block_producer_build_accept_payload_state pins BlockProducerBuild.acceptPayload() false payload gate.",
+      "rule": "port_game.source_block_producer_build_accept_payload_state pins BlockProducerBuild.acceptPayload() false payload gate.",
       "runtime_proof": "/root/Main.source_block_producer_build_accept_payload_state",
       "source_method": "BlockProducerBuild.acceptPayload(Building source, Payload payload)",
       "source_slice": "N1415",
@@ -4997,7 +4997,7 @@
         "matched_requirement",
         "maximum_accepted"
       ],
-      "rule": "PortGame.source_block_producer_build_get_maximum_accepted_state pins BlockProducerBuild.getMaximumAccepted() recipe requirement lookup.",
+      "rule": "port_game.source_block_producer_build_get_maximum_accepted_state pins BlockProducerBuild.getMaximumAccepted() recipe requirement lookup.",
       "runtime_proof": "/root/Main.source_block_producer_build_get_maximum_accepted_state",
       "source_method": "BlockProducerBuild.getMaximumAccepted(Item item)",
       "source_slice": "N1414",
@@ -5039,7 +5039,7 @@
         "recipe_null",
         "should_consume"
       ],
-      "rule": "PortGame.source_block_producer_build_should_consume_state pins BlockProducerBuild.shouldConsume() conjunction.",
+      "rule": "port_game.source_block_producer_build_should_consume_state pins BlockProducerBuild.shouldConsume() conjunction.",
       "runtime_proof": "/root/Main.source_block_producer_build_should_consume_state",
       "source_method": "BlockProducerBuild.shouldConsume()",
       "source_slice": "N1416",
@@ -5083,7 +5083,7 @@
         "completion_guard",
         "consume_called"
       ],
-      "rule": "PortGame.source_block_producer_build_update_tile_completion_guard_state pins if(progress >= recipe.buildTime){ consume(); }.",
+      "rule": "port_game.source_block_producer_build_update_tile_completion_guard_state pins if(progress >= recipe.buildTime){ consume(); }.",
       "runtime_proof": "/root/Main.source_block_producer_build_update_tile_completion_guard_state",
       "source_method": "BlockProducerBuild.updateTile() completion guard",
       "source_slice": "N1419",
@@ -5150,7 +5150,7 @@
         "heat_after",
         "time_after"
       ],
-      "rule": "PortGame.source_block_producer_build_update_tile_heat_time_state pins heat = Mathf.lerpDelta(heat, Mathf.num(produce), 0.15f); and time += heat * delta();.",
+      "rule": "port_game.source_block_producer_build_update_tile_heat_time_state pins heat = Mathf.lerpDelta(heat, Mathf.num(produce), 0.15f); and time += heat * delta();.",
       "runtime_proof": "/root/Main.source_block_producer_build_update_tile_heat_time_state",
       "source_method": "BlockProducerBuild.updateTile() heat/time",
       "source_slice": "N1422",
@@ -5326,7 +5326,7 @@
         "dump_payload_called",
         "payload_after_present"
       ],
-      "rule": "PortGame.source_block_producer_build_update_tile_move_out_payload_state pins moveOutPayload() and PayloadBlockBuild.moveOutPayload() movement gates from source.",
+      "rule": "port_game.source_block_producer_build_update_tile_move_out_payload_state pins moveOutPayload() and PayloadBlockBuild.moveOutPayload() movement gates from source.",
       "runtime_proof": "/root/Main.source_block_producer_build_update_tile_move_out_payload_state",
       "source_method": "BlockProducerBuild.updateTile() moveOutPayload",
       "source_slice": "N1423",
@@ -5390,7 +5390,7 @@
         "pay_vector_after",
         "progress_after"
       ],
-      "rule": "PortGame.source_block_producer_build_update_tile_pay_vector_progress_reset_state pins payVector.setZero(); and progress %= 1f;.",
+      "rule": "port_game.source_block_producer_build_update_tile_pay_vector_progress_reset_state pins payVector.setZero(); and progress %= 1f;.",
       "runtime_proof": "/root/Main.source_block_producer_build_update_tile_pay_vector_progress_reset_state",
       "source_method": "BlockProducerBuild.updateTile() payVector/progress reset",
       "source_slice": "N1421",
@@ -5475,7 +5475,7 @@
         "place_effect_called",
         "effect_radius"
       ],
-      "rule": "PortGame.source_block_producer_build_update_tile_payload_creation_state pins new BuildPayload(recipe, team) and placeEffect.at(x, y, payload.size() / tilesize).",
+      "rule": "port_game.source_block_producer_build_update_tile_payload_creation_state pins new BuildPayload(recipe, team) and placeEffect.at(x, y, payload.size() / tilesize).",
       "runtime_proof": "/root/Main.source_block_producer_build_update_tile_payload_creation_state",
       "source_method": "BlockProducerBuild.updateTile() payload creation",
       "source_slice": "N1420",
@@ -5527,7 +5527,7 @@
         "payload_null",
         "produce"
       ],
-      "rule": "PortGame.source_block_producer_build_update_tile_produce_gate_state pins BlockProducerBuild.updateTile() produce gate.",
+      "rule": "port_game.source_block_producer_build_update_tile_produce_gate_state pins BlockProducerBuild.updateTile() produce gate.",
       "runtime_proof": "/root/Main.source_block_producer_build_update_tile_produce_gate_state",
       "source_method": "BlockProducerBuild.updateTile()",
       "source_slice": "N1417",
@@ -5587,7 +5587,7 @@
         "progress_delta",
         "progress_after"
       ],
-      "rule": "PortGame.source_block_producer_build_update_tile_progress_accumulation_state pins progress += buildSpeed * edelta() behind produce guard.",
+      "rule": "port_game.source_block_producer_build_update_tile_progress_accumulation_state pins progress += buildSpeed * edelta() behind produce guard.",
       "runtime_proof": "/root/Main.source_block_producer_build_update_tile_progress_accumulation_state",
       "source_method": "BlockProducerBuild.updateTile() progress accumulation",
       "source_slice": "N1418",
@@ -5664,7 +5664,7 @@
         "out_region_rotation",
         "draw_calls"
       ],
-      "rule": "PortGame.source_block_producer_draw_plan_region_state pins BlockProducer.drawPlanRegion() draw call contract.",
+      "rule": "port_game.source_block_producer_draw_plan_region_state pins BlockProducer.drawPlanRegion() draw call contract.",
       "runtime_proof": "/root/Main.source_block_producer_draw_plan_region_state",
       "source_method": "BlockProducer.drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list)",
       "source_slice": "N1411",
@@ -5714,7 +5714,7 @@
         "top_region",
         "icons"
       ],
-      "rule": "PortGame.source_block_producer_icons_state pins BlockProducer.icons() return array contract.",
+      "rule": "port_game.source_block_producer_icons_state pins BlockProducer.icons() return array contract.",
       "runtime_proof": "/root/Main.source_block_producer_icons_state",
       "source_method": "BlockProducer.icons()",
       "source_slice": "N1410",
@@ -5771,7 +5771,7 @@
         "progress_bar_fraction",
         "progress_bar_call"
       ],
-      "rule": "PortGame.source_block_producer_set_bars_state pins BlockProducer.setBars() progress bar contract.",
+      "rule": "port_game.source_block_producer_set_bars_state pins BlockProducer.setBars() progress bar contract.",
       "runtime_proof": "/root/Main.source_block_producer_set_bars_state",
       "source_method": "BlockProducer.setBars()",
       "source_slice": "N1412",
@@ -6604,7 +6604,7 @@
         "sense_value",
         "sense_value_is_nan"
       ],
-      "rule": "PortGame.source_block_sense_content_state pins Block.sense(Content content) item requirements sensing contract.",
+      "rule": "port_game.source_block_sense_content_state pins Block.sense(Content content) item requirements sensing contract.",
       "runtime_proof": "/root/Main.source_block_sense_content_state",
       "source_method": "Block.sense(Content content)",
       "source_slice": "N1364",
@@ -6763,7 +6763,7 @@
         "no_sensed",
         "sense_object_value"
       ],
-      "rule": "PortGame.source_block_sense_object_state pins Block.senseObject(LAccess sensor) object sensing contract.",
+      "rule": "port_game.source_block_sense_object_state pins Block.senseObject(LAccess sensor) object sensing contract.",
       "runtime_proof": "/root/Main.source_block_sense_object_state",
       "source_method": "Block.senseObject(LAccess sensor)",
       "source_slice": "N1365",
@@ -7375,7 +7375,7 @@
         "return_expr",
         "build_block"
       ],
-      "rule": "PortGame.source_build_payload_block_state pins BuildPayload.block() return contract.",
+      "rule": "port_game.source_build_payload_block_state pins BuildPayload.block() return contract.",
       "runtime_proof": "/root/Main.source_build_payload_block_state",
       "source_method": "BuildPayload.block()",
       "source_slice": "N1366",
@@ -7408,7 +7408,7 @@
         "return_expr",
         "buildTime"
       ],
-      "rule": "PortGame.source_build_payload_build_time_state pins BuildPayload.buildTime() return contract.",
+      "rule": "port_game.source_build_payload_build_time_state pins BuildPayload.buildTime() return contract.",
       "runtime_proof": "/root/Main.source_build_payload_build_time_state",
       "source_method": "BuildPayload.buildTime()",
       "source_slice": "N1369",
@@ -7453,7 +7453,7 @@
         "create_call",
         "tile_after"
       ],
-      "rule": "PortGame.source_build_payload_constructor_block_team_state pins BuildPayload(Block, Team) build creation and emptyTile assignment contract.",
+      "rule": "port_game.source_build_payload_constructor_block_team_state pins BuildPayload(Block, Team) build creation and emptyTile assignment contract.",
       "runtime_proof": "/root/Main.source_build_payload_constructor_block_team_state",
       "source_method": "BuildPayload(Block block, Team team)",
       "source_slice": "N1384",
@@ -7487,7 +7487,7 @@
         "build",
         "build_after"
       ],
-      "rule": "PortGame.source_build_payload_constructor_build_state pins BuildPayload(Building) direct build assignment contract.",
+      "rule": "port_game.source_build_payload_constructor_build_state pins BuildPayload(Building) direct build assignment contract.",
       "runtime_proof": "/root/Main.source_build_payload_constructor_build_state",
       "source_method": "BuildPayload(Building build)",
       "source_slice": "N1384",
@@ -7538,7 +7538,7 @@
         "build_block",
         "content_equals"
       ],
-      "rule": "PortGame.source_build_payload_content_equals_state pins BuildPayload.contentEquals(Payload other) return contract.",
+      "rule": "port_game.source_build_payload_content_equals_state pins BuildPayload.contentEquals(Payload other) return contract.",
       "runtime_proof": "/root/Main.source_build_payload_content_equals_state",
       "source_method": "BuildPayload.contentEquals(Payload other)",
       "source_slice": "N1380",
@@ -7571,7 +7571,7 @@
         "return_expr",
         "content"
       ],
-      "rule": "PortGame.source_build_payload_content_state pins BuildPayload.content() return contract.",
+      "rule": "port_game.source_build_payload_content_state pins BuildPayload.content() return contract.",
       "runtime_proof": "/root/Main.source_build_payload_content_state",
       "source_method": "BuildPayload.content()",
       "source_slice": "N1368",
@@ -7599,7 +7599,7 @@
         "dead_after",
         "on_destroyed_called"
       ],
-      "rule": "PortGame.source_build_payload_destroyed_state pins BuildPayload.destroyed dead assignment and onDestroyed delegate contract.",
+      "rule": "port_game.source_build_payload_destroyed_state pins BuildPayload.destroyed dead assignment and onDestroyed delegate contract.",
       "runtime_proof": "/root/Main.source_build_payload_destroyed_state",
       "source_method": "BuildPayload.destroyed()",
       "source_slice": "N1383",
@@ -7668,7 +7668,7 @@
         "shadow_size",
         "shadow_call"
       ],
-      "rule": "PortGame.source_build_payload_draw_shadow_state pins BuildPayload.drawShadow(float alpha) square-shadow call contract.",
+      "rule": "port_game.source_build_payload_draw_shadow_state pins BuildPayload.drawShadow(float alpha) square-shadow call contract.",
       "runtime_proof": "/root/Main.source_build_payload_draw_shadow_state",
       "source_method": "BuildPayload.drawShadow(float alpha)",
       "source_slice": "N1377",
@@ -7733,7 +7733,7 @@
         "payload_draw_called",
         "draw_calls"
       ],
-      "rule": "PortGame.source_build_payload_draw_state pins BuildPayload.draw() ordered draw operation contract.",
+      "rule": "port_game.source_build_payload_draw_state pins BuildPayload.draw() ordered draw operation contract.",
       "runtime_proof": "/root/Main.source_build_payload_draw_state",
       "source_method": "BuildPayload.draw()",
       "source_slice": "N1378",
@@ -7768,7 +7768,7 @@
         "full_icon",
         "icon"
       ],
-      "rule": "PortGame.source_build_payload_icon_state pins BuildPayload.icon() return contract.",
+      "rule": "port_game.source_build_payload_icon_state pins BuildPayload.icon() return contract.",
       "runtime_proof": "/root/Main.source_build_payload_icon_state",
       "source_method": "BuildPayload.icon()",
       "source_slice": "N1379",
@@ -7818,7 +7818,7 @@
         "build_team",
         "delegated_rotation"
       ],
-      "rule": "PortGame.source_build_payload_place_default_state pins BuildPayload.place(Tile) delegate contract.",
+      "rule": "port_game.source_build_payload_place_default_state pins BuildPayload.place(Tile) delegate contract.",
       "runtime_proof": "/root/Main.source_build_payload_place_default_state",
       "source_method": "BuildPayload.place(Tile tile)",
       "source_slice": "N1381",
@@ -7878,7 +7878,7 @@
         "set_block_call",
         "dropped_called"
       ],
-      "rule": "PortGame.source_build_payload_place_state pins BuildPayload.place(Tile,int) setBlock and dropped side-effect contract.",
+      "rule": "port_game.source_build_payload_place_state pins BuildPayload.place(Tile,int) setBlock and dropped side-effect contract.",
       "runtime_proof": "/root/Main.source_build_payload_place_state",
       "source_method": "BuildPayload.place(Tile tile, int rotation)",
       "source_slice": "N1381",
@@ -7904,7 +7904,7 @@
         "remove_expr",
         "remove_called"
       ],
-      "rule": "PortGame.source_build_payload_remove_state pins BuildPayload.remove() side-effect contract.",
+      "rule": "port_game.source_build_payload_remove_state pins BuildPayload.remove() side-effect contract.",
       "runtime_proof": "/root/Main.source_build_payload_remove_state",
       "source_method": "BuildPayload.remove()",
       "source_slice": "N1374",
@@ -7937,7 +7937,7 @@
         "return_expr",
         "requirements"
       ],
-      "rule": "PortGame.source_build_payload_requirements_state pins BuildPayload.requirements() return contract.",
+      "rule": "port_game.source_build_payload_requirements_state pins BuildPayload.requirements() return contract.",
       "runtime_proof": "/root/Main.source_build_payload_requirements_state",
       "source_method": "BuildPayload.requirements()",
       "source_slice": "N1370",
@@ -7989,7 +7989,7 @@
         "set_called",
         "set_call"
       ],
-      "rule": "PortGame.source_build_payload_set_state pins BuildPayload.set(float x, float y, float rotation) set-call contract.",
+      "rule": "port_game.source_build_payload_set_state pins BuildPayload.set(float x, float y, float rotation) set-call contract.",
       "runtime_proof": "/root/Main.source_build_payload_set_state",
       "source_method": "BuildPayload.set(float x, float y, float rotation)",
       "source_slice": "N1376",
@@ -8031,7 +8031,7 @@
         "source_tilesize",
         "size"
       ],
-      "rule": "PortGame.source_build_payload_size_state pins BuildPayload.size() return contract.",
+      "rule": "port_game.source_build_payload_size_state pins BuildPayload.size() return contract.",
       "runtime_proof": "/root/Main.source_build_payload_size_state",
       "source_method": "BuildPayload.size()",
       "source_slice": "N1373",
@@ -8112,7 +8112,7 @@
         "update_payload_called",
         "update_payload_call"
       ],
-      "rule": "PortGame.source_build_payload_update_state pins BuildPayload.update guard and delegate contract.",
+      "rule": "port_game.source_build_payload_update_state pins BuildPayload.update guard and delegate contract.",
       "runtime_proof": "/root/Main.source_build_payload_update_state",
       "source_method": "BuildPayload.update(@Nullable Unit unitHolder, @Nullable Building buildingHolder)",
       "source_slice": "N1382",
@@ -8167,7 +8167,7 @@
         "write_all_called",
         "write_calls"
       ],
-      "rule": "PortGame.source_build_payload_write_state pins BuildPayload.write(Writes write) write-call order contract.",
+      "rule": "port_game.source_build_payload_write_state pins BuildPayload.write(Writes write) write-call order contract.",
       "runtime_proof": "/root/Main.source_build_payload_write_state",
       "source_method": "BuildPayload.write(Writes write)",
       "source_slice": "N1375",
@@ -8200,7 +8200,7 @@
         "return_expr",
         "x"
       ],
-      "rule": "PortGame.source_build_payload_x_state pins BuildPayload.x() return contract.",
+      "rule": "port_game.source_build_payload_x_state pins BuildPayload.x() return contract.",
       "runtime_proof": "/root/Main.source_build_payload_x_state",
       "source_method": "BuildPayload.x()",
       "source_slice": "N1371",
@@ -8233,7 +8233,7 @@
         "return_expr",
         "y"
       ],
-      "rule": "PortGame.source_build_payload_y_state pins BuildPayload.y() return contract.",
+      "rule": "port_game.source_build_payload_y_state pins BuildPayload.y() return contract.",
       "runtime_proof": "/root/Main.source_build_payload_y_state",
       "source_method": "BuildPayload.y()",
       "source_slice": "N1372",
@@ -29155,7 +29155,7 @@
       "rule": "Public runtime contract for TractorBeamBuild.updateTile any reset assignment.",
       "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_any_reset_state",
       "source_method": "TractorBeamBuild.updateTile() any reset",
-      "source_owner": "PortGame.source_tractor_beam_turret_build_update_tile_any_reset_state",
+      "source_owner": "port_game.source_tractor_beam_turret_build_update_tile_any_reset_state",
       "source_slice": "N1248",
       "status": "source-backed",
       "tests": [
@@ -33434,7 +33434,7 @@
         "buildTime",
         "get_build_time_call"
       ],
-      "rule": "PortGame.source_unit_payload_build_time_state pins UnitPayload.buildTime() return contract.",
+      "rule": "port_game.source_unit_payload_build_time_state pins UnitPayload.buildTime() return contract.",
       "runtime_proof": "/root/Main.source_unit_payload_build_time_state",
       "source_method": "UnitPayload.buildTime()",
       "source_slice": "N1392",
@@ -33468,7 +33468,7 @@
         "unit",
         "unit_after"
       ],
-      "rule": "PortGame.source_unit_payload_constructor_state pins UnitPayload(Unit) direct unit assignment contract.",
+      "rule": "port_game.source_unit_payload_constructor_state pins UnitPayload(Unit) direct unit assignment contract.",
       "runtime_proof": "/root/Main.source_unit_payload_constructor_state",
       "source_method": "UnitPayload(Unit unit)",
       "source_slice": "N1385",
@@ -33519,7 +33519,7 @@
         "unit_type",
         "content_equals"
       ],
-      "rule": "PortGame.source_unit_payload_content_equals_state pins UnitPayload.contentEquals(Payload other) return contract.",
+      "rule": "port_game.source_unit_payload_content_equals_state pins UnitPayload.contentEquals(Payload other) return contract.",
       "runtime_proof": "/root/Main.source_unit_payload_content_equals_state",
       "source_method": "UnitPayload.contentEquals(Payload other)",
       "source_slice": "N1388",
@@ -33554,7 +33554,7 @@
         "unit_type",
         "content"
       ],
-      "rule": "PortGame.source_unit_payload_content_state pins UnitPayload.content() return contract.",
+      "rule": "port_game.source_unit_payload_content_state pins UnitPayload.content() return contract.",
       "runtime_proof": "/root/Main.source_unit_payload_content_state",
       "source_method": "UnitPayload.content()",
       "source_slice": "N1390",
@@ -33617,7 +33617,7 @@
         "elevation_after_restore",
         "deferred_remaining_draw"
       ],
-      "rule": "Dictionary returned by PortGame.source_unit_payload_draw_elevation_setup_state mirrors UnitPayload.draw() elevation setup after the type-null guard.",
+      "rule": "Dictionary returned by port_game.source_unit_payload_draw_elevation_setup_state mirrors UnitPayload.draw() elevation setup after the type-null guard.",
       "runtime_proof": "/root/Main.source_unit_payload_draw_elevation_setup_state",
       "source_method": "UnitPayload.draw()",
       "source_slice": "N1407",
@@ -33740,7 +33740,7 @@
         "draw_z_restore_call",
         "deferred_remaining_draw"
       ],
-      "rule": "Dictionary returned by PortGame.source_unit_payload_draw_overlay_warning_state mirrors UnitPayload.draw() overlay warning branch after elevation setup.",
+      "rule": "Dictionary returned by port_game.source_unit_payload_draw_overlay_warning_state mirrors UnitPayload.draw() overlay warning branch after elevation setup.",
       "runtime_proof": "/root/Main.source_unit_payload_draw_overlay_warning_state",
       "source_method": "UnitPayload.draw()",
       "source_slice": "N1408",
@@ -33792,7 +33792,7 @@
         "draw_soft_shadow_called",
         "draw_soft_shadow_call"
       ],
-      "rule": "Dictionary returned by PortGame.source_unit_payload_draw_shadow_type_null_state mirrors UnitPayload.drawShadow(float alpha) guard and drawSoftShadow call record.",
+      "rule": "Dictionary returned by port_game.source_unit_payload_draw_shadow_type_null_state mirrors UnitPayload.drawShadow(float alpha) guard and drawSoftShadow call record.",
       "runtime_proof": "/root/Main.source_unit_payload_draw_shadow_type_null_state",
       "source_method": "UnitPayload.drawShadow(float alpha)",
       "source_slice": "N1405",
@@ -33829,7 +33829,7 @@
         "returned_early",
         "deferred_remaining_draw"
       ],
-      "rule": "Dictionary returned by PortGame.source_unit_payload_draw_type_null_state mirrors UnitPayload.draw() type-null guard and defers the remaining draw body.",
+      "rule": "Dictionary returned by port_game.source_unit_payload_draw_type_null_state mirrors UnitPayload.draw() type-null guard and defers the remaining draw body.",
       "runtime_proof": "/root/Main.source_unit_payload_draw_type_null_state",
       "source_method": "UnitPayload.draw()",
       "source_slice": "N1406",
@@ -33883,7 +33883,7 @@
         "overlayRegion_after",
         "deferred_remaining_dump"
       ],
-      "rule": "Dictionary returned by PortGame.source_unit_payload_dump_can_create_guard_state mirrors UnitPayload.dump() type-null and canCreate guard order, deferring remaining dump branches.",
+      "rule": "Dictionary returned by port_game.source_unit_payload_dump_can_create_guard_state mirrors UnitPayload.dump() type-null and canCreate guard order, deferring remaining dump branches.",
       "runtime_proof": "/root/Main.source_unit_payload_dump_can_create_guard_state",
       "source_method": "UnitPayload.dump()",
       "source_slice": "N1400",
@@ -34046,7 +34046,7 @@
         "net_client_evaluated",
         "client_guard"
       ],
-      "rule": "Dictionary returned by PortGame.source_unit_payload_dump_no_client_guard_state mirrors UnitPayload.dump() no-client guard order, deferring stacking/spawn side effects.",
+      "rule": "Dictionary returned by port_game.source_unit_payload_dump_no_client_guard_state mirrors UnitPayload.dump() no-client guard order, deferring stacking/spawn side effects.",
       "runtime_proof": "/root/Main.source_unit_payload_dump_no_client_guard_state",
       "source_method": "UnitPayload.dump()",
       "source_slice": "N1403",
@@ -34195,7 +34195,7 @@
         "overlap_radius",
         "overlap_guard"
       ],
-      "rule": "Dictionary returned by PortGame.source_unit_payload_dump_overlap_guard_state mirrors UnitPayload.dump() overlap guard order and Units.count short-circuit, deferring remaining dump branches.",
+      "rule": "Dictionary returned by port_game.source_unit_payload_dump_overlap_guard_state mirrors UnitPayload.dump() overlap guard order and Units.count short-circuit, deferring remaining dump branches.",
       "runtime_proof": "/root/Main.source_unit_payload_dump_overlap_guard_state",
       "source_method": "UnitPayload.dump()",
       "source_slice": "N1402",
@@ -34308,7 +34308,7 @@
         "overlayRegion_after",
         "deferred_remaining_dump"
       ],
-      "rule": "Dictionary returned by PortGame.source_unit_payload_dump_solidity_guard_state mirrors UnitPayload.dump() solidity guard order and tile probe, deferring remaining dump branches.",
+      "rule": "Dictionary returned by port_game.source_unit_payload_dump_solidity_guard_state mirrors UnitPayload.dump() solidity guard order and tile probe, deferring remaining dump branches.",
       "runtime_proof": "/root/Main.source_unit_payload_dump_solidity_guard_state",
       "source_method": "UnitPayload.dump()",
       "source_slice": "N1401",
@@ -34515,7 +34515,7 @@
         "event_fire_call",
         "notify_unit_spawn_call"
       ],
-      "rule": "Dictionary returned by PortGame.source_unit_payload_dump_spawn_side_effects_state mirrors UnitPayload.dump() spawn side effects after all guards pass.",
+      "rule": "Dictionary returned by port_game.source_unit_payload_dump_spawn_side_effects_state mirrors UnitPayload.dump() spawn side effects after all guards pass.",
       "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
       "source_method": "UnitPayload.dump()",
       "source_slice": "N1404",
@@ -34553,7 +34553,7 @@
         "dump",
         "deferred_remaining_dump"
       ],
-      "rule": "Dictionary returned by PortGame.source_unit_payload_dump_type_null_guard_state mirrors UnitPayload.dump() unit.type null guard and defers remaining branches.",
+      "rule": "Dictionary returned by port_game.source_unit_payload_dump_type_null_guard_state mirrors UnitPayload.dump() unit.type null guard and defers remaining branches.",
       "runtime_proof": "/root/Main.source_unit_payload_dump_type_null_guard_state",
       "source_method": "UnitPayload.dump()",
       "source_slice": "N1399",
@@ -34587,7 +34587,7 @@
         "unit_type_full_icon",
         "icon"
       ],
-      "rule": "Dictionary returned by PortGame.source_unit_payload_icon_state mirrors UnitPayload.icon().",
+      "rule": "Dictionary returned by port_game.source_unit_payload_icon_state mirrors UnitPayload.icon().",
       "runtime_proof": "/root/Main.source_unit_payload_icon_state",
       "source_method": "UnitPayload.icon()",
       "source_slice": "N1409",
@@ -34630,7 +34630,7 @@
         "requirements",
         "get_total_requirements_call"
       ],
-      "rule": "PortGame.source_unit_payload_requirements_state pins UnitPayload.requirements() return contract.",
+      "rule": "port_game.source_unit_payload_requirements_state pins UnitPayload.requirements() return contract.",
       "runtime_proof": "/root/Main.source_unit_payload_requirements_state",
       "source_method": "UnitPayload.requirements()",
       "source_slice": "N1391",
@@ -34664,7 +34664,7 @@
         "unit_rotation",
         "rotation"
       ],
-      "rule": "Dictionary returned by PortGame.source_unit_payload_rotation_state mirrors UnitPayload.rotation().",
+      "rule": "Dictionary returned by port_game.source_unit_payload_rotation_state mirrors UnitPayload.rotation().",
       "runtime_proof": "/root/Main.source_unit_payload_rotation_state",
       "source_method": "UnitPayload.rotation()",
       "source_slice": "N1397",
@@ -34717,7 +34717,7 @@
         "set_called",
         "set_call"
       ],
-      "rule": "PortGame.source_unit_payload_set_state pins UnitPayload.set(float x, float y, float rotation) state contract.",
+      "rule": "port_game.source_unit_payload_set_state pins UnitPayload.set(float x, float y, float rotation) state contract.",
       "runtime_proof": "/root/Main.source_unit_payload_set_state",
       "source_method": "UnitPayload.set(float x, float y, float rotation)",
       "source_slice": "N1394",
@@ -34773,7 +34773,7 @@
         "overlayRegion_after",
         "overlayTime_after"
       ],
-      "rule": "PortGame.source_unit_payload_show_overlay_drawable_state pins UnitPayload.showOverlay(TextureRegionDrawable) guard and delegate contract.",
+      "rule": "port_game.source_unit_payload_show_overlay_drawable_state pins UnitPayload.showOverlay(TextureRegionDrawable) guard and delegate contract.",
       "runtime_proof": "/root/Main.source_unit_payload_show_overlay_drawable_state",
       "source_method": "UnitPayload.showOverlay(TextureRegionDrawable icon)",
       "source_slice": "N1387",
@@ -34810,7 +34810,7 @@
         "overlayRegion_after",
         "overlayTime_after"
       ],
-      "rule": "PortGame.source_unit_payload_show_overlay_texture_region_state pins UnitPayload.showOverlay(TextureRegion) overlay assignment contract.",
+      "rule": "port_game.source_unit_payload_show_overlay_texture_region_state pins UnitPayload.showOverlay(TextureRegion) overlay assignment contract.",
       "runtime_proof": "/root/Main.source_unit_payload_show_overlay_texture_region_state",
       "source_method": "UnitPayload.showOverlay(TextureRegion icon)",
       "source_slice": "N1386",
@@ -34844,7 +34844,7 @@
         "unit_hit_size",
         "size"
       ],
-      "rule": "Dictionary returned by PortGame.source_unit_payload_size_state mirrors UnitPayload.size().",
+      "rule": "Dictionary returned by port_game.source_unit_payload_size_state mirrors UnitPayload.size().",
       "runtime_proof": "/root/Main.source_unit_payload_size_state",
       "source_method": "UnitPayload.size()",
       "source_slice": "N1398",
@@ -34904,7 +34904,7 @@
         "update_payload_called",
         "update_payload_call"
       ],
-      "rule": "PortGame.source_unit_payload_update_state pins UnitPayload.update(@Nullable Unit unitHolder, @Nullable Building buildingHolder) delegate contract.",
+      "rule": "port_game.source_unit_payload_update_state pins UnitPayload.update(@Nullable Unit unitHolder, @Nullable Building buildingHolder) delegate contract.",
       "runtime_proof": "/root/Main.source_unit_payload_update_state",
       "source_method": "UnitPayload.update(@Nullable Unit unitHolder, @Nullable Building buildingHolder)",
       "source_slice": "N1389",
@@ -34950,7 +34950,7 @@
         "unit_write_called",
         "write_calls"
       ],
-      "rule": "PortGame.source_unit_payload_write_state pins UnitPayload.write(Writes write) write-call order contract.",
+      "rule": "port_game.source_unit_payload_write_state pins UnitPayload.write(Writes write) write-call order contract.",
       "runtime_proof": "/root/Main.source_unit_payload_write_state",
       "source_method": "UnitPayload.write(Writes write)",
       "source_slice": "N1393",
@@ -34984,7 +34984,7 @@
         "unit_x",
         "x"
       ],
-      "rule": "Dictionary returned by PortGame.source_unit_payload_x_state mirrors UnitPayload.x().",
+      "rule": "Dictionary returned by port_game.source_unit_payload_x_state mirrors UnitPayload.x().",
       "runtime_proof": "/root/Main.source_unit_payload_x_state",
       "source_method": "UnitPayload.x()",
       "source_slice": "N1395",
@@ -35018,7 +35018,7 @@
         "unit_y",
         "y"
       ],
-      "rule": "Dictionary returned by PortGame.source_unit_payload_y_state mirrors UnitPayload.y().",
+      "rule": "Dictionary returned by port_game.source_unit_payload_y_state mirrors UnitPayload.y().",
       "runtime_proof": "/root/Main.source_unit_payload_y_state",
       "source_method": "UnitPayload.y()",
       "source_slice": "N1396",

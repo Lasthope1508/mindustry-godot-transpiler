@@ -13,7 +13,7 @@
           "status": "explicit-input",
           "type": "float",
           "used_by": [
-            "PortGame.source_arc_strings_fixed_one_decimal"
+            "port_game.source_arc_strings_fixed_one_decimal"
           ]
         }
       }

@@ -1,8 +1,8 @@
 extends Node
 
 const PortGameScript := preload("res://src/game/PortGame.gd")
-const SourcePowerGraphState := preload("res://src/game/SourcePowerGraphState.gd")
-const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const source_power_graph_state := preload("res://src/game/SourcePowerGraphState.gd")
+const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
 
 func _ready() -> void:
 	var game := PortGameScript.new()
@@ -56,13 +56,13 @@ func _ready() -> void:
 		"connections": [],
 	}
 
-	var module_add := SourcePowerGraphState.add_graph_state(false, 1, 3, true, graph_tiles)
+	var module_add := source_power_graph_state.add_graph_state(false, 1, 3, true, graph_tiles)
 	var source_add := game.source_power_graph_add_graph_state(false, 1, 3, true, graph_tiles)
-	var module_reflow := SourcePowerGraphState.reflow_state(reflow_tile)
+	var module_reflow := source_power_graph_state.reflow_state(reflow_tile)
 	var source_reflow := game.source_power_graph_reflow_state(reflow_tile)
-	var module_remove := SourcePowerGraphState.remove_empty_entity_state(remove_tile, true)
+	var module_remove := source_power_graph_state.remove_empty_entity_state(remove_tile, true)
 	var source_remove := game.source_power_graph_remove_empty_entity_state(remove_tile, true)
-	var registry := SourceSsotCatalog.canonical_headquarter_registry_state()
+	var registry := source_ssot_catalog.canonical_headquarter_registry_state()
 
 	var proof := {
 		"module": "SourcePowerGraphState",
@@ -77,5 +77,5 @@ func _ready() -> void:
 	}
 	print("POWER_GRAPH_DEFAULT_ROLE_CALLBACK_PROOF " + JSON.stringify(proof))
 	game.free()
-	await get_tree().create_timer(10.0).timeout
+	await get_tree().create_timer(60.0).timeout
 	get_tree().quit(0)

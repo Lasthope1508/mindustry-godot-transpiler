@@ -194,7 +194,7 @@
         "consumesPower": true,
         "emitLight": true,
         "hasPower": true,
-        "lightRadius": 25.0,
+        "lightRadius": 25,
         "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/pooled-cryofluid.png"
@@ -210,7 +210,7 @@
         "consumesPower": true,
         "emitLight": true,
         "hasPower": true,
-        "lightRadius": 40.0,
+        "lightRadius": 40,
         "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/molten-slag.png"
@@ -310,7 +310,7 @@
         "consumesPower": true,
         "emitLight": true,
         "hasPower": true,
-        "lightRadius": 30.0,
+        "lightRadius": 30,
         "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/hotrock1.png"
@@ -326,7 +326,7 @@
         "consumesPower": true,
         "emitLight": true,
         "hasPower": true,
-        "lightRadius": 50.0,
+        "lightRadius": 50,
         "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/magmarock1.png"
@@ -1868,7 +1868,7 @@
         "consumesPower": true,
         "emitLight": true,
         "hasPower": true,
-        "lightRadius": 30.0,
+        "lightRadius": 30,
         "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/metal-tiles-6-autotile.png"
@@ -1954,7 +1954,7 @@
         "consumesPower": true,
         "emitLight": true,
         "hasPower": true,
-        "lightRadius": 30.0,
+        "lightRadius": 30,
         "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/metal-tiles-12.png"
@@ -2255,7 +2255,7 @@
         "itemCapacity": 20,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
+        "powerCapacity": 0,
         "powerUsage": 1.8,
         "requirements": [
           {
@@ -2295,7 +2295,7 @@
         "itemCapacity": 10,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
+        "powerCapacity": 0,
         "powerUsage": 0.5,
         "requirements": [
           {
@@ -2320,14 +2320,14 @@
         "canOverdrive": true,
         "category": "crafting",
         "connectedPower": true,
-        "consumePower": 4.0,
+        "consumePower": 4,
         "consumesPower": true,
         "hasPower": true,
         "itemCapacity": 30,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
-        "powerUsage": 4.0,
+        "powerCapacity": 0,
+        "powerUsage": 4,
         "requirements": [
           {
             "amount": 120,
@@ -2366,7 +2366,7 @@
         "itemCapacity": 10,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
+        "powerCapacity": 0,
         "powerUsage": 0.6,
         "requirements": [
           {
@@ -2395,7 +2395,7 @@
         "canOverdrive": true,
         "category": "crafting",
         "connectedPower": true,
-        "consumePower": 3.0,
+        "consumePower": 3,
         "consumesPower": true,
         "hasItems": true,
         "hasPower": true,
@@ -2403,8 +2403,8 @@
         "itemCapacity": 10,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
-        "powerUsage": 3.0,
+        "powerCapacity": 0,
+        "powerUsage": 3,
         "requirements": [
           {
             "amount": 80,
@@ -2436,15 +2436,15 @@
         "canOverdrive": true,
         "category": "crafting",
         "connectedPower": true,
-        "consumePower": 5.0,
+        "consumePower": 5,
         "consumesPower": true,
         "hasItems": true,
         "hasPower": true,
         "itemCapacity": 30,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
-        "powerUsage": 5.0,
+        "powerCapacity": 0,
+        "powerUsage": 5,
         "requirements": [
           {
             "amount": 130,
@@ -2472,15 +2472,15 @@
         "canOverdrive": true,
         "category": "crafting",
         "connectedPower": true,
-        "consumePower": 4.0,
+        "consumePower": 4,
         "consumesPower": true,
         "hasItems": true,
         "hasPower": true,
         "itemCapacity": 20,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
-        "powerUsage": 4.0,
+        "powerCapacity": 0,
+        "powerUsage": 4,
         "requirements": [
           {
             "amount": 80,
@@ -2508,15 +2508,15 @@
         "canOverdrive": true,
         "category": "crafting",
         "connectedPower": true,
-        "consumePower": 1.0,
+        "consumePower": 1,
         "consumesPower": true,
         "hasItems": true,
         "hasPower": true,
         "itemCapacity": 10,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
-        "powerUsage": 1.0,
+        "powerCapacity": 0,
+        "powerUsage": 1,
         "requirements": [
           {
             "amount": 65,
@@ -2551,7 +2551,7 @@
         "itemCapacity": 10,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
+        "powerCapacity": 0,
         "powerUsage": 0.2,
         "requirements": [
           {
@@ -2583,7 +2583,7 @@
         "itemCapacity": 10,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
+        "powerCapacity": 0,
         "powerUsage": 0.4,
         "requirements": [
           {
@@ -2608,7 +2608,7 @@
         "canOverdrive": true,
         "category": "crafting",
         "connectedPower": true,
-        "consumePower": 1.0,
+        "consumePower": 1,
         "consumesPower": true,
         "hasItems": true,
         "hasPower": true,
@@ -2616,8 +2616,8 @@
         "itemCapacity": 10,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
-        "powerUsage": 1.0,
+        "powerCapacity": 0,
+        "powerUsage": 1,
         "requirements": [
           {
             "amount": 30,
@@ -2651,7 +2651,7 @@
         "itemCapacity": 10,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
+        "powerCapacity": 0,
         "powerUsage": 1.1,
         "requirements": [
           {
@@ -2676,15 +2676,15 @@
         "canOverdrive": true,
         "category": "crafting",
         "connectedPower": true,
-        "consumePower": 4.0,
+        "consumePower": 4,
         "consumesPower": true,
         "hasItems": true,
         "hasPower": true,
         "itemCapacity": 20,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
-        "powerUsage": 4.0,
+        "powerCapacity": 0,
+        "powerUsage": 4,
         "requirements": [
           {
             "amount": 40,
@@ -2724,7 +2724,7 @@
         "itemCapacity": 10,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
+        "powerCapacity": 0,
         "powerUsage": 0.7,
         "requirements": [
           {
@@ -2756,7 +2756,7 @@
         "itemCapacity": 10,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
+        "powerCapacity": 0,
         "powerUsage": 0.5,
         "requirements": [
           {
@@ -2768,7 +2768,7 @@
             "item": "lead"
           }
         ],
-        "rotateSpeed": 2.0
+        "rotateSpeed": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/pulverizer.png"
     },
@@ -2788,7 +2788,7 @@
         "itemCapacity": 10,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
+        "powerCapacity": 0,
         "powerUsage": 0.7,
         "requirements": [
           {
@@ -2823,7 +2823,7 @@
         "health": 90,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
+        "powerCapacity": 0,
         "powerUsage": 0.5,
         "requirements": [
           {
@@ -2847,15 +2847,15 @@
         "canOverdrive": true,
         "category": "crafting",
         "connectedPower": true,
-        "consumePower": 5.0,
+        "consumePower": 5,
         "consumesPower": true,
         "hasItems": true,
         "hasPower": true,
         "itemCapacity": 30,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
-        "powerUsage": 5.0,
+        "powerCapacity": 0,
+        "powerUsage": 5,
         "requirements": [
           {
             "amount": 70,
@@ -2879,15 +2879,15 @@
         "canOverdrive": true,
         "category": "crafting",
         "connectedPower": true,
-        "consumePower": 1.0,
+        "consumePower": 1,
         "consumesPower": true,
         "hasItems": true,
         "hasPower": true,
         "itemCapacity": 0,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
-        "powerUsage": 1.0,
+        "powerCapacity": 0,
+        "powerUsage": 1,
         "requirements": [
           {
             "amount": 50,
@@ -2919,14 +2919,14 @@
         "canOverdrive": true,
         "category": "crafting",
         "connectedPower": true,
-        "consumePower": 2.0,
+        "consumePower": 2,
         "consumesPower": true,
         "hasPower": true,
         "itemCapacity": 0,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
-        "powerUsage": 2.0,
+        "powerCapacity": 0,
+        "powerUsage": 2,
         "requirements": [
           {
             "amount": 60,
@@ -2959,7 +2959,7 @@
         "hasPower": true,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
+        "powerCapacity": 0,
         "powerUsage": 0.5,
         "requirements": [
           {
@@ -2998,7 +2998,7 @@
         "itemCapacity": 0,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
+        "powerCapacity": 0,
         "powerUsage": 1.6666666666666667,
         "requirements": [
           {
@@ -3188,15 +3188,15 @@
         "canOverdrive": true,
         "category": "crafting",
         "connectedPower": true,
-        "consumePower": 2.0,
+        "consumePower": 2,
         "consumesPower": true,
         "hasItems": true,
         "hasPower": true,
         "itemCapacity": 20,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
-        "powerUsage": 2.0,
+        "powerCapacity": 0,
+        "powerUsage": 2,
         "requirements": [
           {
             "amount": 110,
@@ -3231,7 +3231,7 @@
         "itemCapacity": 10,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
+        "powerCapacity": 0,
         "powerUsage": 0.03333333333333333,
         "requirements": [
           {
@@ -3270,7 +3270,7 @@
         "itemCapacity": 20,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
+        "powerCapacity": 0,
         "powerUsage": 1.5,
         "requirements": [
           {
@@ -3303,13 +3303,13 @@
         "canOverdrive": true,
         "category": "crafting",
         "connectedPower": true,
-        "consumePower": 2.0,
+        "consumePower": 2,
         "consumesPower": true,
         "hasPower": true,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
-        "powerUsage": 2.0,
+        "powerCapacity": 0,
+        "powerUsage": 2,
         "requirements": [
           {
             "amount": 80,
@@ -3341,14 +3341,14 @@
         "canOverdrive": true,
         "category": "crafting",
         "connectedPower": true,
-        "consumePower": 8.0,
+        "consumePower": 8,
         "consumesPower": true,
         "hasPower": true,
         "itemCapacity": 40,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
-        "powerUsage": 8.0,
+        "powerCapacity": 0,
+        "powerUsage": 8,
         "requirements": [
           {
             "amount": 90,
@@ -3961,7 +3961,7 @@
         "hasPower": true,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
+        "powerCapacity": 0,
         "powerUsage": 0.05,
         "requirements": [
           {
@@ -3989,7 +3989,7 @@
       "properties": {
         "baseColor": "84f491",
         "boosterItem": "silicon",
-        "boosterUseTime": 400.0,
+        "boosterUseTime": 400,
         "canOverdrive": true,
         "category": "effect",
         "connectedPower": true,
@@ -3998,18 +3998,18 @@
         "emitLight": true,
         "hasItems": true,
         "hasPower": true,
-        "healPercent": 4.0,
+        "healPercent": 4,
         "health": 80,
         "itemCapacity": 10,
-        "lightRadius": 50.0,
+        "lightRadius": 50,
         "outputsPower": false,
-        "phaseBoost": 4.0,
-        "phaseRangeBoost": 20.0,
+        "phaseBoost": 4,
+        "phaseRangeBoost": 20,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
+        "powerCapacity": 0,
         "powerUsage": 0.3,
-        "range": 40.0,
-        "reload": 200.0,
+        "range": 40,
+        "reload": 200,
         "requirements": [
           {
             "amount": 30,
@@ -4032,7 +4032,7 @@
       "properties": {
         "baseColor": "84f491",
         "boosterItem": "phase-fabric",
-        "boosterUseTime": 400.0,
+        "boosterUseTime": 400,
         "canOverdrive": true,
         "category": "effect",
         "connectedPower": true,
@@ -4041,18 +4041,18 @@
         "emitLight": true,
         "hasItems": true,
         "hasPower": true,
-        "healPercent": 11.0,
+        "healPercent": 11,
         "health": 320,
         "itemCapacity": 10,
-        "lightRadius": 50.0,
+        "lightRadius": 50,
         "outputsPower": false,
-        "phaseBoost": 15.0,
-        "phaseRangeBoost": 50.0,
+        "phaseBoost": 15,
+        "phaseRangeBoost": 50,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
+        "powerCapacity": 0,
         "powerUsage": 1.5,
-        "range": 85.0,
-        "reload": 250.0,
+        "range": 85,
+        "reload": 250,
         "requirements": [
           {
             "amount": 100,
@@ -4084,7 +4084,7 @@
       "properties": {
         "baseColor": "feb380",
         "boosterItem": "phase-fabric",
-        "boosterUseTime": 400.0,
+        "boosterUseTime": 400,
         "canOverdrive": false,
         "category": "effect",
         "connectedPower": true,
@@ -4095,15 +4095,15 @@
         "hasItems": true,
         "hasPower": true,
         "itemCapacity": 10,
-        "lightRadius": 50.0,
+        "lightRadius": 50,
         "outputsPower": false,
         "phaseColor": "ffd59e",
-        "phaseRangeBoost": 20.0,
+        "phaseRangeBoost": 20,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
+        "powerCapacity": 0,
         "powerUsage": 3.5,
-        "range": 80.0,
-        "reload": 60.0,
+        "range": 80,
+        "reload": 60,
         "requirements": [
           {
             "amount": 100,
@@ -4125,7 +4125,7 @@
         "size": 2,
         "speedBoost": 1.5,
         "speedBoostPhase": 0.75,
-        "useTime": 400.0
+        "useTime": 400
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/defense/overdrive-projector.png"
     },
@@ -4139,22 +4139,22 @@
         "canOverdrive": false,
         "category": "effect",
         "connectedPower": true,
-        "consumePower": 10.0,
+        "consumePower": 10,
         "consumesPower": true,
         "emitLight": true,
         "hasBoost": false,
         "hasItems": true,
         "hasPower": true,
         "itemCapacity": 10,
-        "lightRadius": 50.0,
+        "lightRadius": 50,
         "outputsPower": false,
         "phaseColor": "ffd59e",
-        "phaseRangeBoost": 20.0,
+        "phaseRangeBoost": 20,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
-        "powerUsage": 10.0,
-        "range": 200.0,
-        "reload": 60.0,
+        "powerCapacity": 0,
+        "powerUsage": 10,
+        "range": 200,
+        "reload": 60,
         "requirements": [
           {
             "amount": 200,
@@ -4180,7 +4180,7 @@
         "size": 3,
         "speedBoost": 2.5,
         "speedBoostPhase": 0.75,
-        "useTime": 300.0
+        "useTime": 300
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/defense/overdrive-dome.png"
     },
@@ -4194,15 +4194,15 @@
         "canOverdrive": true,
         "category": "effect",
         "connectedPower": true,
-        "consumePower": 4.0,
+        "consumePower": 4,
         "consumesPower": true,
         "hasItems": true,
         "hasPower": true,
         "itemCapacity": 10,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
-        "powerUsage": 4.0,
+        "powerCapacity": 0,
+        "powerUsage": 4,
         "requirements": [
           {
             "amount": 100,
@@ -4261,7 +4261,7 @@
         "hasPower": true,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
+        "powerCapacity": 0,
         "powerUsage": 0.6,
         "requirements": [
           {
@@ -4289,14 +4289,14 @@
         "canOverdrive": true,
         "category": "effect",
         "connectedPower": true,
-        "consumePower": 3.0,
+        "consumePower": 3,
         "consumesPower": true,
         "hasPower": true,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
-        "powerUsage": 3.0,
-        "range": 200.0,
+        "powerCapacity": 0,
+        "powerUsage": 3,
+        "range": 200,
         "requirements": [
           {
             "amount": 150,
@@ -4325,15 +4325,15 @@
         "canOverdrive": true,
         "category": "effect",
         "connectedPower": true,
-        "consumePower": 1.0,
+        "consumePower": 1,
         "consumesPower": true,
         "hasItems": true,
         "hasPower": true,
         "itemCapacity": 10,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
-        "powerUsage": 1.0,
+        "powerCapacity": 0,
+        "powerUsage": 1,
         "range": 28,
         "requirements": [
           {
@@ -4371,10 +4371,10 @@
         "hasPower": true,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
+        "powerCapacity": 0,
         "powerUsage": 1.6666666666666667,
-        "range": 170.0,
-        "reload": 80.0,
+        "range": 170,
+        "reload": 80,
         "requirements": [
           {
             "amount": 50,
@@ -4406,13 +4406,13 @@
         "canOverdrive": true,
         "category": "effect",
         "connectedPower": true,
-        "consumePower": 5.0,
+        "consumePower": 5,
         "consumesPower": true,
         "hasPower": true,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
-        "powerUsage": 5.0,
+        "powerCapacity": 0,
+        "powerUsage": 5,
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/defense/shield-projector.png"
@@ -4426,13 +4426,13 @@
         "canOverdrive": true,
         "category": "effect",
         "connectedPower": true,
-        "consumePower": 5.0,
+        "consumePower": 5,
         "consumesPower": true,
         "hasPower": true,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
-        "powerUsage": 5.0,
+        "powerCapacity": 0,
+        "powerUsage": 5,
         "size": 4
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/defense/large-shield-projector.png"
@@ -4473,7 +4473,7 @@
         "category": "distribution",
         "connectedPower": true,
         "consumesPower": true,
-        "displayedSpeed": 10.0,
+        "displayedSpeed": 10,
         "hasItems": true,
         "hasPower": true,
         "health": 65,
@@ -4539,7 +4539,7 @@
         "category": "distribution",
         "connectedPower": true,
         "consumesPower": true,
-        "displayedSpeed": 11.0,
+        "displayedSpeed": 11,
         "hasPower": true,
         "health": 280,
         "outputsPower": false,
@@ -4609,7 +4609,7 @@
             "item": "copper"
           }
         ],
-        "speed": 74.0
+        "speed": 74
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/bridge-conveyor.png"
     },
@@ -4629,7 +4629,7 @@
         "itemCapacity": 10,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
+        "powerCapacity": 0,
         "powerUsage": 0.3,
         "range": 12,
         "requirements": [
@@ -4851,10 +4851,10 @@
         "itemCapacity": 120,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
+        "powerCapacity": 0,
         "powerUsage": 1.75,
-        "range": 440.0,
-        "reload": 200.0,
+        "range": 440,
+        "reload": 200,
         "requirements": [
           {
             "amount": 125,
@@ -4898,7 +4898,7 @@
             "item": "beryllium"
           }
         ],
-        "speed": 4.0
+        "speed": 4
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/ducts/duct-bottom-0.png"
     },
@@ -4927,7 +4927,7 @@
             "item": "tungsten"
           }
         ],
-        "speed": 4.0
+        "speed": 4
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/ducts/armored-duct-top-0.png"
     },
@@ -4952,7 +4952,7 @@
             "item": "beryllium"
           }
         ],
-        "speed": 4.0
+        "speed": 4
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/ducts/duct-router.png"
     },
@@ -4981,7 +4981,7 @@
             "item": "beryllium"
           }
         ],
-        "speed": 4.0
+        "speed": 4
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/ducts/overflow-duct.png"
     },
@@ -5010,7 +5010,7 @@
             "item": "beryllium"
           }
         ],
-        "speed": 4.0
+        "speed": 4
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/ducts/underflow-duct.png"
     },
@@ -5035,7 +5035,7 @@
             "item": "beryllium"
           }
         ],
-        "speed": 4.0
+        "speed": 4
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/ducts/duct-bridge.png"
     },
@@ -5068,7 +5068,7 @@
             "item": "tungsten"
           }
         ],
-        "speed": 4.0
+        "speed": 4
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/ducts/duct-unloader.png"
     },
@@ -5089,7 +5089,7 @@
         "itemCapacity": 10,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
+        "powerCapacity": 0,
         "powerUsage": 0.016666666666666666,
         "requirements": [
           {
@@ -5119,7 +5119,7 @@
         "health": 130,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
+        "powerCapacity": 0,
         "powerUsage": 0.05,
         "requirements": [
           {
@@ -5131,7 +5131,7 @@
             "item": "tungsten"
           }
         ],
-        "speed": 6.0
+        "speed": 6
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/ducts/surge-router.png"
     },
@@ -5151,7 +5151,7 @@
         "itemCapacity": 200,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
+        "powerCapacity": 0,
         "powerUsage": 0.13333333333333333,
         "requirements": [
           {
@@ -5238,7 +5238,7 @@
         "hasPower": true,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
+        "powerCapacity": 0,
         "powerUsage": 0.3,
         "requirements": [
           {
@@ -5276,7 +5276,7 @@
         "hasPower": true,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
+        "powerCapacity": 0,
         "powerUsage": 1.3,
         "requirements": [
           {
@@ -5527,7 +5527,7 @@
         "hasPower": true,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
+        "powerCapacity": 0,
         "powerUsage": 0.3,
         "range": 12,
         "requirements": [
@@ -5774,7 +5774,7 @@
         "connectedPower": true,
         "consumesPower": false,
         "hasPower": true,
-        "laserRange": 15.0,
+        "laserRange": 15,
         "maxNodes": 15,
         "outputsPower": false,
         "requirements": [
@@ -5806,7 +5806,7 @@
         "connectedPower": true,
         "consumesPower": false,
         "hasPower": true,
-        "laserRange": 40.0,
+        "laserRange": 40,
         "maxNodes": 2,
         "outputsPower": false,
         "requirements": [
@@ -5869,12 +5869,12 @@
         "canOverdrive": false,
         "category": "power",
         "connectedPower": true,
-        "consumePowerBuffered": 4000.0,
+        "consumePowerBuffered": 4000,
         "consumesPower": true,
         "hasPower": true,
         "outputsPower": true,
         "powerBuffered": true,
-        "powerCapacity": 4000.0,
+        "powerCapacity": 4000,
         "requirements": [
           {
             "amount": 5,
@@ -5897,12 +5897,12 @@
         "canOverdrive": false,
         "category": "power",
         "connectedPower": true,
-        "consumePowerBuffered": 50000.0,
+        "consumePowerBuffered": 50000,
         "consumesPower": true,
         "hasPower": true,
         "outputsPower": true,
         "powerBuffered": true,
-        "powerCapacity": 50000.0,
+        "powerCapacity": 50000,
         "requirements": [
           {
             "amount": 20,
@@ -5932,9 +5932,9 @@
         "connectedPower": true,
         "consumesPower": false,
         "hasPower": true,
-        "itemDuration": 120.0,
+        "itemDuration": 120,
         "outputsPower": true,
-        "powerProduction": 1.0,
+        "powerProduction": 1,
         "requirements": [
           {
             "amount": 25,
@@ -5998,7 +5998,7 @@
         "connectedPower": true,
         "consumesPower": false,
         "hasPower": true,
-        "itemDuration": 90.0,
+        "itemDuration": 90,
         "outputsPower": true,
         "powerProduction": 5.5,
         "requirements": [
@@ -6019,7 +6019,7 @@
             "item": "silicon"
           }
         ],
-        "rotateSpeed": 2.0,
+        "rotateSpeed": 2,
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/power/steam-generator.png"
@@ -6037,9 +6037,9 @@
         "hasItems": true,
         "hasPower": true,
         "itemCapacity": 10,
-        "itemDuration": 220.0,
+        "itemDuration": 220,
         "outputsPower": true,
-        "powerProduction": 18.0,
+        "powerProduction": 18,
         "requirements": [
           {
             "amount": 70,
@@ -6176,9 +6176,9 @@
         "hasPower": true,
         "health": 700,
         "itemCapacity": 10,
-        "itemDuration": 360.0,
+        "itemDuration": 360,
         "outputsPower": true,
-        "powerProduction": 15.0,
+        "powerProduction": 15,
         "requirements": [
           {
             "amount": 300,
@@ -6214,18 +6214,18 @@
         "canOverdrive": true,
         "category": "power",
         "connectedPower": true,
-        "consumePower": 25.0,
+        "consumePower": 25,
         "consumesPower": true,
         "hasItems": true,
         "hasPower": true,
         "health": 900,
         "itemCapacity": 10,
-        "itemDuration": 140.0,
+        "itemDuration": 140,
         "outputsPower": true,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
-        "powerProduction": 130.0,
-        "powerUsage": 25.0,
+        "powerCapacity": 0,
+        "powerProduction": 130,
+        "powerUsage": 25,
         "requirements": [
           {
             "amount": 500,
@@ -6265,13 +6265,13 @@
         "canOverdrive": true,
         "category": "power",
         "connectedPower": true,
-        "consumePowerBuffered": 1000.0,
+        "consumePowerBuffered": 1000,
         "consumesPower": true,
         "hasPower": true,
         "health": 90,
         "outputsPower": false,
         "powerBuffered": true,
-        "powerCapacity": 1000.0,
+        "powerCapacity": 1000,
         "range": 10,
         "requirements": [
           {
@@ -6291,13 +6291,13 @@
         "canOverdrive": true,
         "category": "power",
         "connectedPower": true,
-        "consumePowerBuffered": 40000.0,
+        "consumePowerBuffered": 40000,
         "consumesPower": true,
         "hasPower": true,
         "health": 810,
         "outputsPower": false,
         "powerBuffered": true,
-        "powerCapacity": 40000.0,
+        "powerCapacity": 40000,
         "range": 23,
         "requirements": [
           {
@@ -6330,7 +6330,7 @@
         "consumesPower": false,
         "hasPower": true,
         "health": 1170,
-        "laserRange": 500.0,
+        "laserRange": 500,
         "maxNodes": 1,
         "outputsPower": false,
         "requirements": [
@@ -6505,8 +6505,8 @@
         "hasPower": true,
         "itemCapacity": 10,
         "outputsPower": true,
-        "powerProduction": 140.0,
-        "range": 4.0,
+        "powerProduction": 140,
+        "range": 4,
         "requirements": [
           {
             "amount": 750,
@@ -6610,7 +6610,7 @@
         "itemCapacity": 10,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
+        "powerCapacity": 0,
         "powerUsage": 1.1,
         "requirements": [
           {
@@ -6644,7 +6644,7 @@
         "canOverdrive": true,
         "category": "production",
         "connectedPower": true,
-        "consumePower": 3.0,
+        "consumePower": 3,
         "consumesPower": true,
         "drillTime": 280,
         "hasItems": true,
@@ -6652,8 +6652,8 @@
         "itemCapacity": 20,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
-        "powerUsage": 3.0,
+        "powerCapacity": 0,
+        "powerUsage": 3,
         "requirements": [
           {
             "amount": 65,
@@ -6672,7 +6672,7 @@
             "item": "thorium"
           }
         ],
-        "rotateSpeed": 6.0,
+        "rotateSpeed": 6,
         "size": 4,
         "tier": 5
       },
@@ -6692,7 +6692,7 @@
         "hasPower": true,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
+        "powerCapacity": 0,
         "powerUsage": 1.5,
         "requirements": [
           {
@@ -6733,7 +6733,7 @@
         "itemCapacity": 10,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
+        "powerCapacity": 0,
         "powerUsage": 1.3333333333333333,
         "requirements": [
           {
@@ -6762,15 +6762,15 @@
         "canOverdrive": true,
         "category": "production",
         "connectedPower": true,
-        "consumePower": 3.0,
+        "consumePower": 3,
         "consumesPower": true,
         "hasItems": true,
         "hasPower": true,
         "itemCapacity": 10,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
-        "powerUsage": 3.0,
+        "powerCapacity": 0,
+        "powerUsage": 3,
         "requirements": [
           {
             "amount": 150,
@@ -6812,7 +6812,7 @@
         "itemCapacity": 0,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
+        "powerCapacity": 0,
         "powerUsage": 0.5,
         "requirements": [
           {
@@ -6839,13 +6839,13 @@
         "connectedPower": true,
         "consumePower": 0.18333333333333332,
         "consumesPower": true,
-        "drillTime": 110.0,
+        "drillTime": 110,
         "hasItems": true,
         "hasPower": true,
         "itemCapacity": 10,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
+        "powerCapacity": 0,
         "powerUsage": 0.18333333333333332,
         "requirements": [
           {
@@ -6871,16 +6871,16 @@
         "canOverdrive": true,
         "category": "production",
         "connectedPower": true,
-        "consumePower": 1.0,
+        "consumePower": 1,
         "consumesPower": true,
-        "drillTime": 48.0,
+        "drillTime": 48,
         "hasItems": true,
         "hasPower": true,
         "itemCapacity": 20,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
-        "powerUsage": 1.0,
+        "powerCapacity": 0,
+        "powerUsage": 1,
         "requirements": [
           {
             "amount": 80,
@@ -6914,13 +6914,13 @@
         "connectedPower": true,
         "consumePower": 0.15,
         "consumesPower": true,
-        "drillTime": 160.0,
+        "drillTime": 160,
         "hasItems": true,
         "hasPower": true,
         "itemCapacity": 10,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
+        "powerCapacity": 0,
         "powerUsage": 0.15,
         "range": 5,
         "requirements": [
@@ -6945,13 +6945,13 @@
         "connectedPower": true,
         "consumePower": 0.8,
         "consumesPower": true,
-        "drillTime": 100.0,
+        "drillTime": 100,
         "hasItems": true,
         "hasPower": true,
         "itemCapacity": 20,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
+        "powerCapacity": 0,
         "powerUsage": 0.8,
         "range": 6,
         "requirements": [
@@ -6992,7 +6992,7 @@
         "itemCapacity": 40,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
+        "powerCapacity": 0,
         "powerUsage": 2.6666666666666665,
         "requirements": [
           {
@@ -7022,15 +7022,15 @@
         "canOverdrive": true,
         "category": "production",
         "connectedPower": true,
-        "consumePower": 6.0,
+        "consumePower": 6,
         "consumesPower": true,
         "drillTime": 281.25,
         "hasPower": true,
         "itemCapacity": 60,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
-        "powerUsage": 6.0,
+        "powerCapacity": 0,
+        "powerUsage": 6,
         "requirements": [
           {
             "amount": 300,
@@ -7394,35 +7394,35 @@
           {
             "ammoMultiplier": 2,
             "damage": 9,
-            "height": 9.0,
+            "height": 9,
             "item": "copper",
-            "lifetime": 70.0,
+            "lifetime": 70,
             "speed": 2.5,
             "sprite": "bullet",
-            "width": 7.0
+            "width": 7
           },
           {
             "ammoMultiplier": 4,
             "damage": 18,
-            "height": 12.0,
+            "height": 12,
             "item": "graphite",
             "lifetime": 54.57142857142857,
-            "rangeChange": 16.0,
+            "rangeChange": 16,
             "reloadMultiplier": 0.8,
             "speed": 3.5,
             "sprite": "bullet",
-            "width": 9.0
+            "width": 9
           },
           {
             "ammoMultiplier": 5,
             "damage": 12,
-            "height": 9.0,
+            "height": 9,
             "item": "silicon",
             "lifetime": 58.333333333333336,
             "reloadMultiplier": 1.5,
-            "speed": 3.0,
+            "speed": 3,
             "sprite": "bullet",
-            "width": 7.0
+            "width": 7
           }
         ],
         "ammoPerShot": 1,
@@ -7434,28 +7434,28 @@
         "hasItems": true,
         "hasPower": true,
         "health": 250,
-        "inaccuracy": 2.0,
+        "inaccuracy": 2,
         "itemCapacity": 10,
-        "limitRangeMargin": 5.0,
+        "limitRangeMargin": 5,
         "maxAmmo": 30,
         "outputsPower": false,
         "range": 160,
         "recoil": 0.5,
         "recoils": 2,
-        "reload": 20.0,
+        "reload": 20,
         "requirements": [
           {
             "amount": 35,
             "item": "copper"
           }
         ],
-        "rotateSpeed": 10.0,
-        "shootCone": 15.0,
+        "rotateSpeed": 10,
+        "shootCone": 15,
         "shootPattern": {
           "spread": 3.5,
           "type": "ShootAlternate"
         },
-        "shootY": 3.0
+        "shootY": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/duo/duo.png"
     },
@@ -7474,13 +7474,13 @@
         "hasItems": true,
         "hasPower": true,
         "health": 800,
-        "inaccuracy": 17.0,
+        "inaccuracy": 17,
         "itemCapacity": 10,
         "maxAmmo": 30,
         "outputsPower": false,
-        "range": 220.0,
-        "recoil": 1.0,
-        "reload": 18.0,
+        "range": 220,
+        "recoil": 1,
+        "reload": 18,
         "requirements": [
           {
             "amount": 85,
@@ -7491,9 +7491,9 @@
             "item": "lead"
           }
         ],
-        "rotateSpeed": 15.0,
+        "rotateSpeed": 15,
         "scaledHealth": 200,
-        "shootCone": 35.0,
+        "shootCone": 35,
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/scatter/scatter.png"
@@ -7516,9 +7516,9 @@
         "itemCapacity": 10,
         "maxAmmo": 30,
         "outputsPower": false,
-        "range": 60.0,
-        "recoil": 0.0,
-        "reload": 6.0,
+        "range": 60,
+        "recoil": 0,
+        "reload": 6,
         "requirements": [
           {
             "amount": 25,
@@ -7529,7 +7529,7 @@
             "item": "graphite"
           }
         ],
-        "shootCone": 50.0,
+        "shootCone": 50,
         "shootY": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/scorch.png"
@@ -7549,13 +7549,13 @@
         "hasItems": true,
         "hasPower": true,
         "health": 260,
-        "inaccuracy": 1.0,
+        "inaccuracy": 1,
         "itemCapacity": 10,
         "maxAmmo": 30,
         "outputsPower": false,
-        "range": 235.0,
-        "recoil": 2.0,
-        "reload": 60.0,
+        "range": 235,
+        "recoil": 2,
+        "reload": 60,
         "requirements": [
           {
             "amount": 40,
@@ -7566,7 +7566,7 @@
             "item": "graphite"
           }
         ],
-        "shootCone": 10.0
+        "shootCone": 10
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/hail.png"
     },
@@ -7582,11 +7582,11 @@
         "consumesPower": true,
         "hasPower": true,
         "health": 1000,
-        "inaccuracy": 5.0,
+        "inaccuracy": 5,
         "outputsPower": false,
-        "range": 110.0,
-        "recoil": 0.0,
-        "reload": 3.0,
+        "range": 110,
+        "recoil": 0,
+        "reload": 3,
         "requirements": [
           {
             "amount": 45,
@@ -7602,7 +7602,7 @@
           }
         ],
         "scaledHealth": 250,
-        "shootCone": 50.0,
+        "shootCone": 50,
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/wave.png"
@@ -7616,17 +7616,17 @@
         "canOverdrive": true,
         "category": "turret",
         "connectedPower": true,
-        "consumePower": 6.0,
+        "consumePower": 6,
         "consumesPower": true,
         "hasPower": true,
         "health": 1120,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
-        "powerUsage": 6.0,
-        "range": 165.0,
-        "recoil": 2.0,
-        "reload": 80.0,
+        "powerCapacity": 0,
+        "powerUsage": 6,
+        "range": 165,
+        "recoil": 2,
+        "reload": 80,
         "requirements": [
           {
             "amount": 60,
@@ -7665,11 +7665,11 @@
         "health": 260,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
+        "powerCapacity": 0,
         "powerUsage": 3.3,
-        "range": 90.0,
-        "recoil": 1.0,
-        "reload": 35.0,
+        "range": 90,
+        "recoil": 1,
+        "reload": 35,
         "requirements": [
           {
             "amount": 50,
@@ -7680,8 +7680,8 @@
             "item": "lead"
           }
         ],
-        "rotateSpeed": 8.0,
-        "shootCone": 40.0,
+        "rotateSpeed": 8,
+        "shootCone": 40,
         "size": 1
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/arc.png"
@@ -7701,9 +7701,9 @@
         "health": 640,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
+        "powerCapacity": 0,
         "powerUsage": 3.3,
-        "range": 300.0,
+        "range": 300,
         "requirements": [
           {
             "amount": 160,
@@ -7739,11 +7739,11 @@
         "hasItems": true,
         "hasPower": true,
         "health": 1200,
-        "inaccuracy": 10.0,
+        "inaccuracy": 10,
         "itemCapacity": 10,
         "maxAmmo": 30,
         "outputsPower": false,
-        "range": 240.0,
+        "range": 240,
         "requirements": [
           {
             "amount": 35,
@@ -7778,54 +7778,54 @@
           {
             "ammoMultiplier": 5,
             "damage": 15,
-            "height": 9.0,
+            "height": 9,
             "item": "copper",
             "lifetime": 83.6,
             "speed": 2.5,
             "sprite": "bullet",
-            "width": 7.0
+            "width": 7
           },
           {
             "ammoMultiplier": 4,
             "damage": 31,
-            "height": 12.0,
+            "height": 12,
             "item": "graphite",
             "lifetime": 59.714285714285715,
             "reloadMultiplier": 0.8,
             "speed": 3.5,
             "sprite": "bullet",
-            "width": 9.0
+            "width": 9
           },
           {
             "ammoMultiplier": 5,
             "damage": 25,
-            "height": 12.0,
+            "height": 12,
             "item": "pyratite",
             "lifetime": 65.3125,
             "speed": 3.2,
             "sprite": "bullet",
-            "width": 10.0
+            "width": 10
           },
           {
             "ammoMultiplier": 5,
             "damage": 23,
-            "height": 10.0,
+            "height": 10,
             "item": "silicon",
             "lifetime": 69.66666666666667,
             "reloadMultiplier": 1.5,
-            "speed": 3.0,
+            "speed": 3,
             "sprite": "bullet",
-            "width": 8.0
+            "width": 8
           },
           {
             "ammoMultiplier": 4,
             "damage": 28,
-            "height": 13.0,
+            "height": 13,
             "item": "thorium",
             "lifetime": 52.25,
-            "speed": 4.0,
+            "speed": 4,
             "sprite": "bullet",
-            "width": 8.0
+            "width": 8
           }
         ],
         "ammoPerShot": 1,
@@ -7838,12 +7838,12 @@
         "hasPower": true,
         "health": 960,
         "itemCapacity": 10,
-        "limitRangeMargin": 9.0,
+        "limitRangeMargin": 9,
         "maxAmmo": 30,
         "outputsPower": false,
-        "range": 190.0,
-        "recoil": 0.0,
-        "reload": 29.0,
+        "range": 190,
+        "recoil": 0,
+        "reload": 29,
         "requirements": [
           {
             "amount": 100,
@@ -7872,16 +7872,16 @@
         "canOverdrive": true,
         "category": "turret",
         "connectedPower": true,
-        "consumePower": 8.0,
+        "consumePower": 8,
         "consumesPower": true,
         "hasPower": true,
         "health": 1000,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
-        "powerUsage": 8.0,
-        "range": 180.0,
-        "reload": 8.0,
+        "powerCapacity": 0,
+        "powerUsage": 8,
+        "range": 180,
+        "reload": 8,
         "requirements": [
           {
             "amount": 130,
@@ -7917,11 +7917,11 @@
         "consumesPower": true,
         "hasPower": true,
         "health": 2250,
-        "inaccuracy": 3.0,
+        "inaccuracy": 3,
         "outputsPower": false,
-        "range": 190.0,
-        "recoil": 1.0,
-        "reload": 3.0,
+        "range": 190,
+        "recoil": 1,
+        "reload": 3,
         "requirements": [
           {
             "amount": 100,
@@ -7941,13 +7941,13 @@
           }
         ],
         "scaledHealth": 250,
-        "shootCone": 45.0,
+        "shootCone": 45,
         "shootPattern": {
-          "spread": 4.0,
+          "spread": 4,
           "type": "ShootAlternate"
         },
         "size": 3,
-        "speed": 4.0
+        "speed": 4
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/tsunami.png"
     },
@@ -7969,9 +7969,9 @@
         "itemCapacity": 10,
         "maxAmmo": 30,
         "outputsPower": false,
-        "range": 90.0,
-        "recoil": 5.0,
-        "reload": 35.0,
+        "range": 90,
+        "recoil": 5,
+        "reload": 35,
         "requirements": [
           {
             "amount": 225,
@@ -8007,13 +8007,13 @@
         "hasItems": true,
         "hasPower": true,
         "health": 1170,
-        "inaccuracy": 11.0,
+        "inaccuracy": 11,
         "itemCapacity": 10,
         "maxAmmo": 30,
         "outputsPower": false,
-        "range": 290.0,
-        "recoil": 6.0,
-        "reload": 120.0,
+        "range": 290,
+        "recoil": 6,
+        "reload": 120,
         "requirements": [
           {
             "amount": 150,
@@ -8048,14 +8048,14 @@
         "hasItems": true,
         "hasPower": true,
         "health": 1305,
-        "inaccuracy": 10.0,
+        "inaccuracy": 10,
         "itemCapacity": 10,
         "maxAmmo": 30,
         "outputsPower": false,
-        "range": 200.0,
+        "range": 200,
         "recoil": 1.5,
         "recoils": 3,
-        "reload": 10.0,
+        "reload": 10,
         "requirements": [
           {
             "amount": 200,
@@ -8070,10 +8070,10 @@
             "item": "plastanium"
           }
         ],
-        "rotateSpeed": 10.0,
+        "rotateSpeed": 10,
         "scaledHealth": 145,
-        "shootCone": 30.0,
-        "shootY": 10.0,
+        "shootCone": 30,
+        "shootY": 10,
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/cyclone/cyclone.png"
@@ -8089,7 +8089,7 @@
         "category": "turret",
         "connectedPower": true,
         "consumeAmmoOnce": true,
-        "consumePower": 10.0,
+        "consumePower": 10,
         "consumesPower": true,
         "hasItems": true,
         "hasPower": true,
@@ -8098,11 +8098,11 @@
         "maxAmmo": 40,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
-        "powerUsage": 10.0,
-        "range": 500.0,
-        "recoil": 5.0,
-        "reload": 200.0,
+        "powerCapacity": 0,
+        "powerUsage": 10,
+        "range": 500,
+        "recoil": 5,
+        "reload": 200,
         "requirements": [
           {
             "amount": 1000,
@@ -8125,9 +8125,9 @@
             "item": "silicon"
           }
         ],
-        "rotateSpeed": 2.0,
+        "rotateSpeed": 2,
         "scaledHealth": 150,
-        "shootCone": 2.0,
+        "shootCone": 2,
         "size": 4
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/foreshadow.png"
@@ -8142,35 +8142,35 @@
           {
             "ammoMultiplier": 4,
             "damage": 50,
-            "height": 21.0,
+            "height": 21,
             "hitSize": 4.8,
             "item": "graphite",
             "lifetime": 37.2,
             "reloadMultiplier": 1.7,
             "speed": 7.5,
             "sprite": "bullet",
-            "width": 15.0
+            "width": 15
           },
           {
             "damage": 80,
-            "height": 23.0,
+            "height": 23,
             "hitSize": 5,
             "item": "thorium",
             "lifetime": 34.875,
-            "speed": 8.0,
+            "speed": 8,
             "sprite": "bullet",
-            "width": 16.0
+            "width": 16
           },
           {
             "ammoMultiplier": 3,
             "damage": 70,
-            "height": 21.0,
+            "height": 21,
             "hitSize": 5,
             "item": "pyratite",
             "lifetime": 39.857142857142854,
-            "speed": 7.0,
+            "speed": 7,
             "sprite": "bullet",
-            "width": 16.0
+            "width": 16
           }
         ],
         "ammoPerShot": 1,
@@ -8182,14 +8182,14 @@
         "hasItems": true,
         "hasPower": true,
         "health": 2560,
-        "inaccuracy": 3.0,
+        "inaccuracy": 3,
         "itemCapacity": 10,
-        "limitRangeMargin": 9.0,
+        "limitRangeMargin": 9,
         "maxAmmo": 30,
         "outputsPower": false,
-        "range": 260.0,
-        "recoil": 3.0,
-        "reload": 7.0,
+        "range": 260,
+        "recoil": 3,
+        "reload": 7,
         "requirements": [
           {
             "amount": 900,
@@ -8213,9 +8213,9 @@
           }
         ],
         "scaledHealth": 160,
-        "shootCone": 24.0,
+        "shootCone": 24,
         "shootPattern": {
-          "spread": 8.0,
+          "spread": 8,
           "type": "ShootAlternate"
         },
         "size": 4
@@ -8231,17 +8231,17 @@
         "canOverdrive": true,
         "category": "turret",
         "connectedPower": true,
-        "consumePower": 17.0,
+        "consumePower": 17,
         "consumesPower": true,
         "hasPower": true,
         "health": 3200,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
-        "powerUsage": 17.0,
-        "range": 195.0,
-        "recoil": 4.0,
-        "reload": 90.0,
+        "powerCapacity": 0,
+        "powerUsage": 17,
+        "range": 195,
+        "recoil": 4,
+        "reload": 90,
         "requirements": [
           {
             "amount": 1200,
@@ -8265,7 +8265,7 @@
           }
         ],
         "scaledHealth": 200,
-        "shootCone": 40.0,
+        "shootCone": 40,
         "size": 4
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/meltdown.png"
@@ -8280,38 +8280,38 @@
           {
             "ammoMultiplier": 1,
             "damage": 85,
-            "height": 20.0,
-            "hitSize": 7.0,
+            "height": 20,
+            "hitSize": 7,
             "item": "beryllium",
             "lifetime": 28.266666666666666,
             "speed": 7.5,
             "sprite": "bullet",
-            "width": 12.0
+            "width": 12
           },
           {
             "ammoMultiplier": 2,
             "damage": 95,
-            "height": 19.0,
-            "hitSize": 7.0,
+            "height": 19,
+            "hitSize": 7,
             "item": "tungsten",
             "lifetime": 31.5,
-            "rangeChange": 40.0,
-            "reloadMultiplier": 1.0,
-            "speed": 8.0,
+            "rangeChange": 40,
+            "reloadMultiplier": 1,
+            "speed": 8,
             "sprite": "bullet",
-            "width": 13.0
+            "width": 13
           },
           {
             "ammoMultiplier": 2,
-            "damage": 325.0,
-            "height": 21.0,
-            "hitSize": 7.0,
+            "damage": 325,
+            "height": 21,
+            "hitSize": 7,
             "item": "carbide",
             "lifetime": 17.666666666666668,
             "reloadMultiplier": 0.2,
-            "speed": 12.0,
+            "speed": 12,
             "sprite": "bullet",
-            "width": 15.0
+            "width": 15
           }
         ],
         "ammoPerShot": 2,
@@ -8324,12 +8324,12 @@
         "hasPower": true,
         "health": 1620,
         "itemCapacity": 10,
-        "limitRangeMargin": 12.0,
+        "limitRangeMargin": 12,
         "maxAmmo": 30,
         "outputsPower": false,
         "range": 190,
-        "recoil": 2.0,
-        "reload": 40.0,
+        "recoil": 2,
+        "reload": 40,
         "requirements": [
           {
             "amount": 150,
@@ -8346,7 +8346,7 @@
         ],
         "rotateSpeed": 1.5,
         "scaledHealth": 180,
-        "shootCone": 3.0,
+        "shootCone": 3,
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/breach.png"
@@ -8361,35 +8361,35 @@
           {
             "ammoMultiplier": 1,
             "damage": 41,
-            "height": 20.0,
-            "hitSize": 7.0,
+            "height": 20,
+            "hitSize": 7,
             "item": "graphite",
-            "lifetime": 20.0,
-            "speed": 8.0,
+            "lifetime": 20,
+            "speed": 8,
             "sprite": "bullet",
-            "width": 25.0
+            "width": 25
           },
           {
             "ammoMultiplier": 2,
             "damage": 90,
-            "height": 20.0,
-            "hitSize": 7.0,
+            "height": 20,
+            "hitSize": 7,
             "item": "oxide",
-            "lifetime": 20.0,
-            "speed": 8.0,
+            "lifetime": 20,
+            "speed": 8,
             "sprite": "bullet",
-            "width": 25.0
+            "width": 25
           },
           {
             "ammoMultiplier": 1,
             "damage": 35,
-            "height": 20.0,
-            "hitSize": 7.0,
+            "height": 20,
+            "hitSize": 7,
             "item": "silicon",
-            "lifetime": 20.0,
-            "speed": 8.0,
+            "lifetime": 20,
+            "speed": 8,
             "sprite": "bullet",
-            "width": 25.0
+            "width": 25
           }
         ],
         "ammoPerShot": 3,
@@ -8403,12 +8403,12 @@
         "health": 1890,
         "inaccuracy": 0.2,
         "itemCapacity": 10,
-        "limitRangeMargin": 25.0,
+        "limitRangeMargin": 25,
         "maxAmmo": 30,
         "outputsPower": false,
         "range": 125,
-        "recoil": 2.0,
-        "reload": 30.0,
+        "recoil": 2,
+        "reload": 30,
         "requirements": [
           {
             "amount": 150,
@@ -8427,10 +8427,10 @@
             "item": "tungsten"
           }
         ],
-        "rotateSpeed": 3.0,
+        "rotateSpeed": 3,
         "scaledHealth": 210,
-        "shootCone": 40.0,
-        "shootY": 5.0,
+        "shootCone": 40,
+        "shootY": 5,
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/diffuse/diffuse.png"
@@ -8448,7 +8448,7 @@
         "hasPower": true,
         "health": 1890,
         "outputsPower": false,
-        "range": 130.0,
+        "range": 130,
         "requirements": [
           {
             "amount": 150,
@@ -8468,7 +8468,7 @@
           }
         ],
         "scaledHealth": 210,
-        "shootY": 8.0,
+        "shootY": 8,
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/sublimate/sublimate.png"
@@ -8490,8 +8490,8 @@
         "health": 4000,
         "itemCapacity": 10,
         "outputsPower": false,
-        "range": 390.0,
-        "recoil": 1.0,
+        "range": 390,
+        "recoil": 1,
         "requirements": [
           {
             "amount": 250,
@@ -8508,7 +8508,7 @@
         ],
         "rotateSpeed": 1.4,
         "scaledHealth": 250,
-        "shootY": 7.0,
+        "shootY": 7,
         "size": 4
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/titan/titan.png"
@@ -8528,12 +8528,12 @@
         "hasItems": true,
         "hasPower": true,
         "health": 4480,
-        "inaccuracy": 8.0,
+        "inaccuracy": 8,
         "itemCapacity": 10,
         "maxAmmo": 30,
         "outputsPower": false,
-        "range": 310.0,
-        "reload": 9.0,
+        "range": 310,
+        "reload": 9,
         "requirements": [
           {
             "amount": 50,
@@ -8552,10 +8552,10 @@
             "item": "beryllium"
           }
         ],
-        "rotateSpeed": 5.0,
+        "rotateSpeed": 5,
         "scaledHealth": 280,
-        "shootCone": 30.0,
-        "shootY": 15.0,
+        "shootCone": 30,
+        "shootY": 15,
         "size": 4,
         "speed": 8.5
       },
@@ -8570,18 +8570,18 @@
         "canOverdrive": true,
         "category": "turret",
         "connectedPower": true,
-        "consumePower": 5.0,
+        "consumePower": 5,
         "consumesPower": true,
         "hasPower": true,
         "health": 3520,
-        "inaccuracy": 1.0,
+        "inaccuracy": 1,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
-        "powerUsage": 5.0,
+        "powerCapacity": 0,
+        "powerUsage": 5,
         "range": 368,
-        "recoil": 3.0,
-        "reload": 50.0,
+        "recoil": 3,
+        "reload": 50,
         "requirements": [
           {
             "amount": 100,
@@ -8602,10 +8602,10 @@
         ],
         "rotateSpeed": 1.5,
         "scaledHealth": 220,
-        "shootCone": 20.0,
+        "shootCone": 20,
         "shootY": 4,
         "size": 4,
-        "speed": 5.0
+        "speed": 5
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/afflict/afflict.png"
     },
@@ -8624,9 +8624,9 @@
         "health": 3360,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
+        "powerCapacity": 0,
         "powerUsage": 3.3333333333333335,
-        "range": 250.0,
+        "range": 250,
         "requirements": [
           {
             "amount": 250,
@@ -8647,7 +8647,7 @@
         ],
         "rotateSpeed": 0.9,
         "scaledHealth": 210,
-        "shootCone": 360.0,
+        "shootCone": 360,
         "shootY": 0.5,
         "size": 4
       },
@@ -8669,12 +8669,12 @@
         "hasPower": true,
         "health": 240,
         "itemCapacity": 10,
-        "lightRadius": 30.0,
+        "lightRadius": 30,
         "maxAmmo": 45,
         "outputsPower": false,
         "range": 1350,
         "recoil": 0.5,
-        "reload": 1.0,
+        "reload": 1,
         "requirements": [
           {
             "amount": 450,
@@ -8699,7 +8699,7 @@
         ],
         "rotateSpeed": 0.25,
         "scaledHealth": 220,
-        "shootCone": 360.0,
+        "shootCone": 360,
         "size": 4,
         "speed": 4.6
       },
@@ -8715,13 +8715,13 @@
           {
             "ammoMultiplier": 1,
             "damage": 250,
-            "height": 21.0,
-            "hitSize": 8.0,
+            "height": 21,
+            "hitSize": 8,
             "item": "surge-alloy",
             "lifetime": 45.57142857142857,
-            "speed": 7.0,
+            "speed": 7,
             "sprite": "bullet",
-            "width": 17.0
+            "width": 17
           }
         ],
         "ammoPerShot": 2,
@@ -8734,12 +8734,12 @@
         "hasPower": true,
         "health": 8750,
         "itemCapacity": 10,
-        "limitRangeMargin": 9.0,
+        "limitRangeMargin": 9,
         "maxAmmo": 30,
         "outputsPower": false,
         "range": 300,
-        "recoil": 2.0,
-        "reload": 100.0,
+        "recoil": 2,
+        "reload": 100,
         "requirements": [
           {
             "amount": 200,
@@ -8764,8 +8764,8 @@
         ],
         "rotateSpeed": 1.5,
         "scaledHealth": 350,
-        "shootCone": 30.0,
-        "shootY": 15.0,
+        "shootCone": 30,
+        "shootY": 15,
         "size": 5
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/smite/smite-preview.png"
@@ -8779,14 +8779,14 @@
         "canOverdrive": true,
         "category": "turret",
         "connectedPower": true,
-        "consumePower": 40.0,
+        "consumePower": 40,
         "consumesPower": true,
         "hasPower": true,
         "health": 9250,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
-        "powerUsage": 40.0,
+        "powerCapacity": 0,
+        "powerUsage": 40,
         "range": 410,
         "recoil": 0.5,
         "reload": 3.5,
@@ -8814,7 +8814,7 @@
         ],
         "rotateSpeed": 2.6,
         "scaledHealth": 370,
-        "shootCone": 100.0,
+        "shootCone": 100,
         "size": 5
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/malign/malign-preview.png"
@@ -8835,7 +8835,7 @@
         "itemCapacity": 10,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
+        "powerCapacity": 0,
         "powerUsage": 1.2,
         "requirements": [
           {
@@ -8871,7 +8871,7 @@
         "itemCapacity": 10,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
+        "powerCapacity": 0,
         "powerUsage": 1.2,
         "requirements": [
           {
@@ -8907,7 +8907,7 @@
         "itemCapacity": 10,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
+        "powerCapacity": 0,
         "powerUsage": 1.2,
         "requirements": [
           {
@@ -8936,13 +8936,13 @@
         "canOverdrive": true,
         "category": "units",
         "connectedPower": true,
-        "consumePower": 3.0,
+        "consumePower": 3,
         "consumesPower": true,
         "hasPower": true,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
-        "powerUsage": 3.0,
+        "powerCapacity": 0,
+        "powerUsage": 3,
         "requirements": [
           {
             "amount": 200,
@@ -8970,13 +8970,13 @@
         "canOverdrive": true,
         "category": "units",
         "connectedPower": true,
-        "consumePower": 6.0,
+        "consumePower": 6,
         "consumesPower": true,
         "hasPower": true,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
-        "powerUsage": 6.0,
+        "powerCapacity": 0,
+        "powerUsage": 6,
         "requirements": [
           {
             "amount": 650,
@@ -9008,13 +9008,13 @@
         "canOverdrive": true,
         "category": "units",
         "connectedPower": true,
-        "consumePower": 13.0,
+        "consumePower": 13,
         "consumesPower": true,
         "hasPower": true,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
-        "powerUsage": 13.0,
+        "powerCapacity": 0,
+        "powerUsage": 13,
         "requirements": [
           {
             "amount": 2000,
@@ -9054,13 +9054,13 @@
         "canOverdrive": true,
         "category": "units",
         "connectedPower": true,
-        "consumePower": 25.0,
+        "consumePower": 25,
         "consumesPower": true,
         "hasPower": true,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
-        "powerUsage": 25.0,
+        "powerCapacity": 0,
+        "powerUsage": 25,
         "requirements": [
           {
             "amount": 4000,
@@ -9166,7 +9166,7 @@
         "itemCapacity": 10,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
+        "powerCapacity": 0,
         "powerUsage": 1.5,
         "requirements": [
           {
@@ -9198,7 +9198,7 @@
         "itemCapacity": 10,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
+        "powerCapacity": 0,
         "powerUsage": 1.5,
         "requirements": [
           {
@@ -9230,7 +9230,7 @@
         "itemCapacity": 10,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
+        "powerCapacity": 0,
         "powerUsage": 1.5,
         "requirements": [
           {
@@ -9259,13 +9259,13 @@
         "canOverdrive": true,
         "category": "units",
         "connectedPower": true,
-        "consumePower": 3.0,
+        "consumePower": 3,
         "consumesPower": true,
         "hasPower": true,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
-        "powerUsage": 3.0,
+        "powerCapacity": 0,
+        "powerUsage": 3,
         "requirements": [
           {
             "amount": 200,
@@ -9298,7 +9298,7 @@
         "hasPower": true,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
+        "powerCapacity": 0,
         "powerUsage": 2.5,
         "requirements": [
           {
@@ -9336,7 +9336,7 @@
         "hasPower": true,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
+        "powerCapacity": 0,
         "powerUsage": 2.5,
         "requirements": [
           {
@@ -9370,7 +9370,7 @@
         "hasPower": true,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
+        "powerCapacity": 0,
         "powerUsage": 4.5,
         "requirements": [
           {
@@ -9410,7 +9410,7 @@
         "itemCapacity": 10,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
+        "powerCapacity": 0,
         "powerUsage": 2.5,
         "requirements": [
           {
@@ -9450,7 +9450,7 @@
         "itemCapacity": 10,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
+        "powerCapacity": 0,
         "powerUsage": 2.5,
         "requirements": [
           {
@@ -9487,15 +9487,15 @@
         "canOverdrive": true,
         "category": "units",
         "connectedPower": true,
-        "consumePower": 3.0,
+        "consumePower": 3,
         "consumesPower": true,
         "hasItems": true,
         "hasPower": true,
         "itemCapacity": 10,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
-        "powerUsage": 3.0,
+        "powerCapacity": 0,
+        "powerUsage": 3,
         "requirements": [
           {
             "amount": 200,
@@ -9536,7 +9536,7 @@
         "hasPower": true,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
+        "powerCapacity": 0,
         "powerUsage": 3.5,
         "requirements": [
           {
@@ -9569,14 +9569,14 @@
         "canOverdrive": true,
         "category": "units",
         "connectedPower": true,
-        "consumePower": 1.0,
+        "consumePower": 1,
         "consumesPower": true,
         "hasPower": true,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
-        "powerUsage": 1.0,
-        "range": 100.0,
+        "powerCapacity": 0,
+        "powerUsage": 1,
+        "range": 100,
         "requirements": [
           {
             "amount": 90,
@@ -9703,10 +9703,10 @@
         "hasPower": true,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
+        "powerCapacity": 0,
         "powerUsage": 0.5,
-        "range": 700.0,
-        "reload": 130.0,
+        "range": 700,
+        "reload": 130,
         "requirements": [
           {
             "amount": 40,
@@ -9734,15 +9734,15 @@
         "canOverdrive": true,
         "category": "units",
         "connectedPower": true,
-        "consumePower": 3.0,
+        "consumePower": 3,
         "consumesPower": true,
         "hasPower": true,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
-        "powerUsage": 3.0,
-        "range": 2100.0,
-        "reload": 130.0,
+        "powerCapacity": 0,
+        "powerUsage": 3,
+        "range": 2100,
+        "reload": 130,
         "requirements": [
           {
             "amount": 20,
@@ -9778,15 +9778,15 @@
         "canOverdrive": true,
         "category": "units",
         "connectedPower": true,
-        "consumePower": 1.0,
+        "consumePower": 1,
         "consumesPower": true,
         "hasItems": true,
         "hasPower": true,
         "itemCapacity": 100,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
-        "powerUsage": 1.0,
+        "powerCapacity": 0,
+        "powerUsage": 1,
         "requirements": [
           {
             "amount": 100,
@@ -9818,15 +9818,15 @@
         "canOverdrive": true,
         "category": "units",
         "connectedPower": true,
-        "consumePower": 3.0,
+        "consumePower": 3,
         "consumesPower": true,
         "hasItems": true,
         "hasPower": true,
         "itemCapacity": 250,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
-        "powerUsage": 3.0,
+        "powerCapacity": 0,
+        "powerUsage": 3,
         "requirements": [
           {
             "amount": 250,
@@ -9863,7 +9863,7 @@
         "hasPower": true,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
+        "powerCapacity": 0,
         "powerUsage": 2.5,
         "requirements": [
           {
@@ -9892,13 +9892,13 @@
         "canOverdrive": true,
         "category": "units",
         "connectedPower": true,
-        "consumePower": 3.0,
+        "consumePower": 3,
         "consumesPower": true,
         "hasPower": true,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
-        "powerUsage": 3.0,
+        "powerCapacity": 0,
+        "powerUsage": 3,
         "requirements": [
           {
             "amount": 150,
@@ -9930,15 +9930,15 @@
         "canOverdrive": false,
         "category": "units",
         "connectedPower": true,
-        "consumePower": 2.0,
+        "consumePower": 2,
         "consumesPower": true,
         "hasItems": true,
         "hasPower": true,
         "itemCapacity": 10,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
-        "powerUsage": 2.0,
+        "powerCapacity": 0,
+        "powerUsage": 2,
         "requirements": [
           {
             "amount": 80,
@@ -9966,13 +9966,13 @@
         "canOverdrive": false,
         "category": "units",
         "connectedPower": true,
-        "consumePower": 2.0,
+        "consumePower": 2,
         "consumesPower": true,
         "hasPower": true,
         "outputsPower": true,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
-        "powerUsage": 2.0,
+        "powerCapacity": 0,
+        "powerUsage": 2,
         "requirements": [
           {
             "amount": 140,
@@ -10146,7 +10146,7 @@
         "hasPower": true,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
+        "powerCapacity": 0,
         "powerUsage": 0.05,
         "requirements": [
           {
@@ -10174,15 +10174,15 @@
         "canOverdrive": true,
         "category": "effect",
         "connectedPower": true,
-        "consumePower": 4.0,
+        "consumePower": 4,
         "consumesPower": true,
         "hasItems": true,
         "hasPower": true,
         "itemCapacity": 100,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
-        "powerUsage": 4.0,
+        "powerCapacity": 0,
+        "powerUsage": 4,
         "requirements": [
           {
             "amount": 350,
@@ -10214,15 +10214,15 @@
         "canOverdrive": true,
         "category": "effect",
         "connectedPower": true,
-        "consumePower": 8.0,
+        "consumePower": 8,
         "consumesPower": true,
         "hasItems": true,
         "hasPower": true,
         "itemCapacity": 100,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
-        "powerUsage": 8.0,
+        "powerCapacity": 0,
+        "powerUsage": 8,
         "requirements": [
           {
             "amount": 350,
@@ -10286,7 +10286,7 @@
         "canOverdrive": true,
         "category": "effect",
         "connectedPower": true,
-        "consumePower": 10.0,
+        "consumePower": 10,
         "consumesPower": true,
         "hasItems": true,
         "hasPower": true,
@@ -10294,8 +10294,8 @@
         "itemCapacity": 10,
         "outputsPower": false,
         "powerBuffered": false,
-        "powerCapacity": 0.0,
-        "powerUsage": 10.0,
+        "powerCapacity": 0,
+        "powerUsage": 10,
         "requirements": [
           {
             "amount": 16000,

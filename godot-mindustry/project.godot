@@ -17,6 +17,14 @@ run/main_scene="res://scenes/Main.tscn"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://assets/core/assets/icons/icon_64.png"
 
+[autoload]
+
+MCPRuntime="*res://addons/godot_mcp_runtime/mcp_runtime_autoload.gd"
+
+[debug]
+
+runtime_proof/capture_start_screenshot="false"
+
 [display]
 
 window/size/viewport_width=1280
@@ -25,10 +33,6 @@ window/size/viewport_height=720
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/godot_mcp_editor/plugin.cfg", "res://addons/godot_mcp_runtime/plugin.cfg")
-
-[autoload]
-
-MCPRuntime="*res://addons/godot_mcp_runtime/mcp_runtime_autoload.gd"
 
 [rendering]
 

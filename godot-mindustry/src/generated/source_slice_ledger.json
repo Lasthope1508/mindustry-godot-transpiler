@@ -1540,7 +1540,7 @@
     },
     "N1069": {
       "deferred_exprs": [
-        "healthChanged() side effects stay owned by PortGame.source_building_health_changed_state; this generated bridge records only the delegated heal call."
+        "healthChanged() side effects stay owned by port_game.source_building_health_changed_state; this generated bridge records only the delegated heal call."
       ],
       "exact_exprs": [
         "@MethodPriority(100)",
@@ -15810,7 +15810,7 @@
       "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
       "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
       "reused_source_slices": [
-        "N409: PortGame.source_bullet_type_handle_pierce_state"
+        "N409: port_game.source_bullet_type_handle_pierce_state"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_hit_entity_handle_pierce_state",
       "source_symbols": [
@@ -16269,8 +16269,8 @@
       "java_method": "createFrags(Bullet b, float x, float y)",
       "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
       "reused_source_slices": [
-        "N428: PortGame.source_bullet_type_create_frags_initial_state",
-        "N430: PortGame.source_bullet_type_create_frags_create_call_state"
+        "N428: port_game.source_bullet_type_create_frags_initial_state",
+        "N430: port_game.source_bullet_type_create_frags_create_call_state"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_create_frags_increment_state",
       "source_symbols": [
@@ -16348,8 +16348,8 @@
       "java_method": "createPuddles(Bullet b, float x, float y)",
       "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
       "reused_source_slices": [
-        "N432: PortGame.source_bullet_type_create_puddles_initial_state",
-        "N433: PortGame.source_bullet_type_create_puddles_tile_world_state"
+        "N432: port_game.source_bullet_type_create_puddles_initial_state",
+        "N433: port_game.source_bullet_type_create_puddles_tile_world_state"
       ],
       "runtime_proof": "/root/Main.source_bullet_type_create_puddles_deposit_state",
       "source_symbols": [
@@ -21274,7 +21274,7 @@
     },
     "N588": {
       "deferred_exprs": [
-        "healthChanged() side effects stay owned by PortGame.source_building_health_changed_state; both heal overloads delegate to it."
+        "healthChanged() side effects stay owned by port_game.source_building_health_changed_state; both heal overloads delegate to it."
       ],
       "exact_exprs": [
         "@MethodPriority(100)",
@@ -26571,7 +26571,7 @@
     "N746": {
       "bridge_exprs": [
         "bullet_reload_multiplier.result",
-        "PortGame.source_turret_reload_seconds"
+        "port_game.source_turret_reload_seconds"
       ],
       "deferred_exprs": [],
       "exact_exprs": [
@@ -26738,8 +26738,8 @@
     },
     "N751": {
       "bridge_exprs": [
-        "PortGame.source_turret_inaccuracy",
-        "PortGame.source_bullet_inaccuracy"
+        "port_game.source_turret_inaccuracy",
+        "port_game.source_bullet_inaccuracy"
       ],
       "deferred_exprs": [
         "Mathf.range(inaccuracy + type.inaccuracy)",
@@ -28511,7 +28511,7 @@
       ],
       "deferred_exprs": [
         "UnitComp.moveAt(Vec2 vector) default acceleration wrapper remains registered separately in N793",
-        "Arc Vec2 limit helper remains canonical owner PortGame.source_arc_vec2_limit"
+        "Arc Vec2 limit helper remains canonical owner port_game.source_arc_vec2_limit"
       ],
       "exact_exprs": [
         "public void moveAt(Vec2 vector, float acceleration){",
@@ -28681,7 +28681,7 @@
       "deferred_exprs": [
         "if(!vec.isZero()){",
         "rotation = Angles.moveToward(rotation, vec.angle(), type.rotateSpeed * Time.delta * speedMultiplier);",
-        "Rotation branch remains PortGame.source_unit_rotate_move_rotation_state.",
+        "Rotation branch remains port_game.source_unit_rotate_move_rotation_state.",
         "UnitComp.moveAt(Vec2 vector) and UnitComp.moveAt(Vec2 vector, float acceleration) remain their own owners."
       ],
       "exact_exprs": [
@@ -28718,7 +28718,7 @@
         "return ((f % n) + n) % n;"
       ],
       "deferred_exprs": [
-        "moveAt(Tmp.v2.trns(rotation, vec.len())); is owned by N798 PortGame.source_unit_rotate_move_motion_state.",
+        "moveAt(Tmp.v2.trns(rotation, vec.len())); is owned by N798 port_game.source_unit_rotate_move_motion_state.",
         "Unit type rotateSpeed, Time.delta, and speedMultiplier are represented as explicit runtime inputs until full Unit runtime state is ported."
       ],
       "exact_exprs": [
@@ -28753,7 +28753,7 @@
         "public UnitController createController(Unit unit){"
       ],
       "deferred_exprs": [
-        "setupWeapons(type) mount construction is owned by PortGame.source_weapons_setup_mounts_state.",
+        "setupWeapons(type) mount construction is owned by port_game.source_weapons_setup_mounts_state.",
         "Ability.copy() and ability data object internals stay deferred until ability runtime state is ported.",
         "UnitController object creation stays deferred; this slice only preserves the controller null guard."
       ],
@@ -30579,7 +30579,7 @@
     "N837": {
       "bridge_exprs": [],
       "deferred_exprs": [
-        "PortGame.source_arc_vec2_limit remains the canonical typed Vector2 helper; this owner registers the dictionary wrapper used by bullet update slices."
+        "port_game.source_arc_vec2_limit remains the canonical typed Vector2 helper; this owner registers the dictionary wrapper used by bullet update slices."
       ],
       "exact_exprs": [
         "public Vec2 limit(float limit){\n        return limit2(limit * limit);\n    }",
@@ -32656,7 +32656,7 @@
       "deferred_exprs": [
         "void controlWeapons(boolean rotateShoot){",
         "controlWeapons(rotateShoot, rotateShoot);",
-        "Single-argument overload remains owned by PortGame.source_weapons_control_rotate_shoot_state."
+        "Single-argument overload remains owned by port_game.source_weapons_control_rotate_shoot_state."
       ],
       "exact_exprs": [
         "@SyncLocal WeaponMount[] mounts = {};",
@@ -32709,7 +32709,7 @@
       "deferred_exprs": [
         "if(mount.sound != null){",
         "mount.sound.stop();",
-        "Sound stop cleanup remains owned by PortGame.source_weapons_remove_sound_stop_state."
+        "Sound stop cleanup remains owned by port_game.source_weapons_remove_sound_stop_state."
       ],
       "exact_exprs": [
         "public void remove(){",
@@ -32758,7 +32758,7 @@
         "if(mount.weapon.continuous && mount.bullet != null && mount.bullet.owner == self()){",
         "mount.bullet.time = mount.bullet.lifetime - 10f;",
         "mount.bullet = null;",
-        "Continuous bullet cleanup remains owned by PortGame.source_weapons_remove_continuous_bullet_cleanup_state."
+        "Continuous bullet cleanup remains owned by port_game.source_weapons_remove_continuous_bullet_cleanup_state."
       ],
       "exact_exprs": [
         "for(WeaponMount mount : mounts){",
@@ -32793,8 +32793,8 @@
         "public float rotation;"
       ],
       "deferred_exprs": [
-        "Weapon mount construction remains owned by PortGame.source_weapons_setup_mounts_state.",
-        "Weapon update dispatch remains owned by PortGame.source_weapons_update_dispatch_state."
+        "Weapon mount construction remains owned by port_game.source_weapons_setup_mounts_state.",
+        "Weapon update dispatch remains owned by port_game.source_weapons_update_dispatch_state."
       ],
       "exact_exprs": [
         "@SyncLocal WeaponMount[] mounts = {};",
@@ -32833,7 +32833,7 @@
         "this.rotation = weapon.baseRotation;"
       ],
       "deferred_exprs": [
-        "Weapon update dispatch remains owned by PortGame.source_weapons_update_dispatch_state."
+        "Weapon update dispatch remains owned by port_game.source_weapons_update_dispatch_state."
       ],
       "exact_exprs": [
         "@SyncLocal WeaponMount[] mounts = {};",

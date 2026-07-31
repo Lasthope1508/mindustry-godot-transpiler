@@ -1,21 +1,33 @@
 extends Node
 
 const PortGameScript := preload("res://src/game/PortGame.gd")
-const SourceBaseTurretDrawState := preload("res://src/game/SourceBaseTurretDrawState.gd")
+const source_base_turret_draw_state := preload("res://src/game/SourceBaseTurretDrawState.gd")
+const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
 
 func _ready() -> void:
 	var game := PortGameScript.new()
-	var source_state := game.source_base_turret_draw_place_state(4, 5, 1, true, 8.0, 4.0, 80.0, 0.5, true)
-	var module_state := SourceBaseTurretDrawState.draw_place_state(4, 5, 1, true, 8.0, 4.0, 80.0, 0.5, true)
-	var bridge_state := game.generated_base_turret_draw_place_bridge_state(4, 5, 1, true, 8.0, 4.0, 80.0, 0.5, true)
+	game.load_content_registry()
+	var registry_state := source_ssot_catalog.canonical_headquarter_registry_state()
+	var source := game.source_base_turret_draw_place_state(4, 7, 1, true, 8.0, 0.0, 80.0, 1.0, false)
+	var generated := game.generated_base_turret_draw_place_bridge_state(4, 7, 1, true, 8.0, 0.0, 80.0, 1.0, false)
+	var defaulted := game.generated_base_turret_draw_place_source_tilesize_default_bridge_state(4, 7, 1, true)
 	var proof := {
 		"module": "SourceBaseTurretDrawState",
-		"source_matches_module": source_state == module_state,
-		"bridge_matches": bool(bridge_state.get("matches", false)),
-		"dash_circle_call": module_state.get("dash_circle_call", {}),
-		"fog_dash_circle_called": bool(module_state.get("fog_dash_circle_called", false)),
+		"source": source,
+		"generated": generated,
+		"defaulted": defaulted,
+		"module_generated": source_base_turret_draw_state.generated_base_turret_draw_place_bridge_state(4, 7, 1, true, 8.0, 0.0, 80.0, 1.0, false),
+		"module_defaulted": source_base_turret_draw_state.generated_base_turret_draw_place_source_tilesize_default_bridge_state(4, 7, 1, true),
+		"registry_valid": bool(registry_state.get("errors", []).is_empty()),
+		"one_headquarter_per_ssot": bool(registry_state.get("one_headquarter_per_ssot", false)),
 	}
-	print("BASE_TURRET_DRAW_MODULE_PROOF " + JSON.stringify(proof))
+	proof["matches"] = proof["generated"] == proof["module_generated"] and proof["defaulted"] == proof["module_defaulted"] and proof["one_headquarter_per_ssot"] and proof["registry_valid"]
+	var proof_json := JSON.stringify(proof)
+	print("BASE_TURRET_DRAW_MODULE_PROOF " + proof_json)
+	var proof_path := ProjectSettings.globalize_path("res://tools/runtime_proofs/BaseTurretDrawModuleProof.json")
+	var proof_file := FileAccess.open(proof_path, FileAccess.WRITE)
+	if proof_file != null:
+		proof_file.store_string(proof_json)
 	game.free()
-	await get_tree().create_timer(10.0).timeout
+	await get_tree().create_timer(60.0).timeout
 	get_tree().quit(0)

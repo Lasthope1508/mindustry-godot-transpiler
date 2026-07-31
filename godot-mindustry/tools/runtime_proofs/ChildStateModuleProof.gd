@@ -1,8 +1,8 @@
 extends Node
 
 const PortGameScript := preload("res://src/game/PortGame.gd")
-const SourceChildState := preload("res://src/game/SourceChildState.gd")
-const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const source_child_state := preload("res://src/game/SourceChildState.gd")
+const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
 
 func _ready() -> void:
 	var game := PortGameScript.new()
@@ -23,22 +23,29 @@ func _ready() -> void:
 		"parent_is_rotblock": false,
 		"parent_rotblock_build_rotation": 60.0,
 	}
-	var callbacks := SourceChildState.default_callbacks_state(game)
+	var callbacks := source_child_state.default_callbacks_state(game)
 	var expected_callbacks := {
-		"trns_vec": Callable(game, "source_arc_angles_trns_vec"),
+		source_child_state.SOURCE_CHILD_TRNS_VEC_KEY: Callable(game, source_child_state.SOURCE_CHILD_TRNS_VEC_FALLBACK),
 	}
+	var override_callbacks := source_child_state.default_callbacks_state(self)
+	var override_callbacks_match: bool = override_callbacks.get(source_child_state.SOURCE_CHILD_TRNS_VEC_KEY, Callable()) == Callable(self, "proof_trns_vec")
 	var add_wrapper := game.generated_child_comp_add_bridge_state(child_state)
-	var add_module := SourceChildState.generated_child_add_bridge_state(child_state)
+	var add_module := source_child_state.generated_child_add_bridge_state(child_state)
 	var update_wrapper := game.generated_child_comp_update_bridge_state(child_state)
-	var update_module := SourceChildState.generated_child_update_bridge_state(child_state)
-	var add_state := SourceChildState.add_state(child_state)
-	var update_state := SourceChildState.update_state(child_state, callbacks.get("trns_vec", Callable()))
-	var registry_state := SourceSsotCatalog.canonical_headquarter_registry_state()
+	var update_module := source_child_state.generated_child_update_bridge_state(child_state)
+	var add_state := source_child_state.add_state(child_state)
+	var update_state := source_child_state.game_update_state(game, child_state)
+	var override_update_state := source_child_state.game_update_state(self, child_state)
+	var generated_update_state := source_child_state.game_generated_child_update_bridge_state(game, child_state)
+	var registry_state := source_ssot_catalog.canonical_headquarter_registry_state()
 	var proof := {
 		"module": "SourceChildState",
 		"add_matches": add_wrapper == add_module,
 		"update_matches": update_wrapper == update_module,
+		"generated_update_matches": generated_update_state == update_module,
 		"default_callbacks_match": callbacks == expected_callbacks,
+		"override_callbacks_match": override_callbacks_match,
+		"override_trns_vec_matches": is_equal_approx(float(override_update_state.get("x", 0.0)), 22.0) and is_equal_approx(float(override_update_state.get("y", 0.0)), 33.0),
 		"add_state_matches": add_module.get("canonical", {}) == add_state,
 		"update_state_matches": update_module.get("canonical", {}) == update_state,
 		"module_matches": add_wrapper == add_module and update_wrapper == update_module,
@@ -46,12 +53,21 @@ func _ready() -> void:
 		"registry_valid": bool(registry_state.get("errors", []).is_empty()),
 		"registry_headquarter_count": int(registry_state.get("headquarter_count", 0)),
 	}
-	proof["matches"] = proof["add_matches"] and proof["update_matches"] and proof["add_state_matches"] and proof["update_state_matches"] and proof["one_headquarter_per_ssot"]
+	proof["matches"] = proof["add_matches"] and proof["update_matches"] and proof["add_state_matches"] and proof["update_state_matches"] and proof["default_callbacks_match"] and proof["override_callbacks_match"] and proof["override_trns_vec_matches"] and proof["one_headquarter_per_ssot"] and proof["registry_valid"]
 	var proof_json := JSON.stringify(proof)
 	print("CHILD_STATE_MODULE_PROOF " + proof_json)
-	var proof_file := FileAccess.open("C:/Users/Admin/Documents/Game/mindustry-godot-transpiler-copy-20260714-073528/godot-mindustry/tools/runtime_proofs/ChildStateModuleProof.json", FileAccess.WRITE)
+	var proof_path := ProjectSettings.globalize_path("res://tools/runtime_proofs/ChildStateModuleProof.json")
+	var proof_file := FileAccess.open(proof_path, FileAccess.WRITE)
 	if proof_file != null:
 		proof_file.store_string(proof_json)
 	game.free()
-	await get_tree().create_timer(6.0).timeout
+	await get_tree().create_timer(60.0).timeout
 	get_tree().quit(0)
+
+func proof_trns_vec(_angle_degrees: float, _x_value: float, _y_value: float) -> Dictionary:
+	return {"x": 12.0, "y": 13.0}
+
+func _child_method_names() -> Dictionary:
+	return {
+		source_child_state.SOURCE_CHILD_TRNS_VEC_KEY: "proof_trns_vec",
+	}

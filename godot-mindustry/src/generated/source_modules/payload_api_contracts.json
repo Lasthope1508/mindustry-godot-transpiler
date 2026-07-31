@@ -37,7 +37,7 @@
         "test_generated_build_payload_block_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_build_payload_block_state",
-      "rule": "PortGame.source_build_payload_block_state pins BuildPayload.block() return contract."
+      "rule": "port_game.source_build_payload_block_state pins BuildPayload.block() return contract."
     },
     "PortGame.source_build_payload_content_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_build_payload_content_state",
@@ -71,7 +71,7 @@
         "test_generated_build_payload_content_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_build_payload_content_state",
-      "rule": "PortGame.source_build_payload_content_state pins BuildPayload.content() return contract."
+      "rule": "port_game.source_build_payload_content_state pins BuildPayload.content() return contract."
     },
     "PortGame.source_build_payload_build_time_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_build_payload_build_time_state",
@@ -105,7 +105,7 @@
         "test_generated_build_payload_build_time_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_build_payload_build_time_state",
-      "rule": "PortGame.source_build_payload_build_time_state pins BuildPayload.buildTime() return contract."
+      "rule": "port_game.source_build_payload_build_time_state pins BuildPayload.buildTime() return contract."
     },
     "PortGame.source_build_payload_requirements_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_build_payload_requirements_state",
@@ -139,7 +139,7 @@
         "test_generated_build_payload_requirements_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_build_payload_requirements_state",
-      "rule": "PortGame.source_build_payload_requirements_state pins BuildPayload.requirements() return contract."
+      "rule": "port_game.source_build_payload_requirements_state pins BuildPayload.requirements() return contract."
     },
     "PortGame.source_build_payload_x_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_build_payload_x_state",
@@ -173,7 +173,7 @@
         "test_generated_build_payload_x_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_build_payload_x_state",
-      "rule": "PortGame.source_build_payload_x_state pins BuildPayload.x() return contract."
+      "rule": "port_game.source_build_payload_x_state pins BuildPayload.x() return contract."
     },
     "PortGame.source_build_payload_y_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_build_payload_y_state",
@@ -207,7 +207,7 @@
         "test_generated_build_payload_y_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_build_payload_y_state",
-      "rule": "PortGame.source_build_payload_y_state pins BuildPayload.y() return contract."
+      "rule": "port_game.source_build_payload_y_state pins BuildPayload.y() return contract."
     },
     "PortGame.source_build_payload_size_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_build_payload_size_state",
@@ -250,7 +250,7 @@
         "test_generated_build_payload_size_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_build_payload_size_state",
-      "rule": "PortGame.source_build_payload_size_state pins BuildPayload.size() return contract."
+      "rule": "port_game.source_build_payload_size_state pins BuildPayload.size() return contract."
     },
     "PortGame.source_build_payload_remove_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_build_payload_remove_state",
@@ -277,7 +277,7 @@
         "test_generated_build_payload_remove_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_build_payload_remove_state",
-      "rule": "PortGame.source_build_payload_remove_state pins BuildPayload.remove() side-effect contract."
+      "rule": "port_game.source_build_payload_remove_state pins BuildPayload.remove() side-effect contract."
     },
     "PortGame.source_build_payload_write_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_build_payload_write_state",
@@ -333,7 +333,7 @@
         "test_generated_build_payload_write_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_build_payload_write_state",
-      "rule": "PortGame.source_build_payload_write_state pins BuildPayload.write(Writes write) write-call order contract."
+      "rule": "port_game.source_build_payload_write_state pins BuildPayload.write(Writes write) write-call order contract."
     },
     "PortGame.source_build_payload_set_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_build_payload_set_state",
@@ -386,7 +386,7 @@
         "test_generated_build_payload_set_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_build_payload_set_state",
-      "rule": "PortGame.source_build_payload_set_state pins BuildPayload.set(float x, float y, float rotation) set-call contract."
+      "rule": "port_game.source_build_payload_set_state pins BuildPayload.set(float x, float y, float rotation) set-call contract."
     },
     "PortGame.source_build_payload_draw_shadow_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_build_payload_draw_shadow_state",
@@ -456,7 +456,7 @@
         "test_generated_build_payload_draw_shadow_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_build_payload_draw_shadow_state",
-      "rule": "PortGame.source_build_payload_draw_shadow_state pins BuildPayload.drawShadow(float alpha) square-shadow call contract."
+      "rule": "port_game.source_build_payload_draw_shadow_state pins BuildPayload.drawShadow(float alpha) square-shadow call contract."
     },
     "PortGame.source_build_payload_draw_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_build_payload_draw_state",
@@ -522,7 +522,7 @@
         "test_generated_build_payload_draw_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_build_payload_draw_state",
-      "rule": "PortGame.source_build_payload_draw_state pins BuildPayload.draw() ordered draw operation contract."
+      "rule": "port_game.source_build_payload_draw_state pins BuildPayload.draw() ordered draw operation contract."
     },
     "PortGame.source_build_payload_icon_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_build_payload_icon_state",
@@ -558,7 +558,7 @@
         "test_generated_build_payload_icon_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_build_payload_icon_state",
-      "rule": "PortGame.source_build_payload_icon_state pins BuildPayload.icon() return contract."
+      "rule": "port_game.source_build_payload_icon_state pins BuildPayload.icon() return contract."
     },
     "PortGame.source_build_payload_content_equals_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_build_payload_content_equals_state",
@@ -610,7 +610,7 @@
         "test_generated_build_payload_content_equals_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_build_payload_content_equals_state",
-      "rule": "PortGame.source_build_payload_content_equals_state pins BuildPayload.contentEquals(Payload other) return contract."
+      "rule": "port_game.source_build_payload_content_equals_state pins BuildPayload.contentEquals(Payload other) return contract."
     },
     "PortGame.source_build_payload_place_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_build_payload_place_state",
@@ -671,7 +671,7 @@
         "test_generated_build_payload_place_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_build_payload_place_state",
-      "rule": "PortGame.source_build_payload_place_state pins BuildPayload.place(Tile,int) setBlock and dropped side-effect contract."
+      "rule": "port_game.source_build_payload_place_state pins BuildPayload.place(Tile,int) setBlock and dropped side-effect contract."
     },
     "PortGame.source_build_payload_update_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_build_payload_update_state",
@@ -753,7 +753,7 @@
         "test_generated_build_payload_update_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_build_payload_update_state",
-      "rule": "PortGame.source_build_payload_update_state pins BuildPayload.update guard and delegate contract."
+      "rule": "port_game.source_build_payload_update_state pins BuildPayload.update guard and delegate contract."
     },
     "PortGame.source_build_payload_destroyed_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_build_payload_destroyed_state",
@@ -782,7 +782,7 @@
         "test_generated_build_payload_destroyed_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_build_payload_destroyed_state",
-      "rule": "PortGame.source_build_payload_destroyed_state pins BuildPayload.destroyed dead assignment and onDestroyed delegate contract."
+      "rule": "port_game.source_build_payload_destroyed_state pins BuildPayload.destroyed dead assignment and onDestroyed delegate contract."
     },
     "PortGame.source_build_payload_constructor_block_team_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_build_payload_constructor_block_team_state",
@@ -828,7 +828,7 @@
         "test_generated_build_payload_constructor_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_build_payload_constructor_block_team_state",
-      "rule": "PortGame.source_build_payload_constructor_block_team_state pins BuildPayload(Block, Team) build creation and emptyTile assignment contract."
+      "rule": "port_game.source_build_payload_constructor_block_team_state pins BuildPayload(Block, Team) build creation and emptyTile assignment contract."
     },
     "PortGame.source_unit_payload_constructor_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_unit_payload_constructor_state",
@@ -863,7 +863,7 @@
         "test_generated_unit_payload_constructor_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_unit_payload_constructor_state",
-      "rule": "PortGame.source_unit_payload_constructor_state pins UnitPayload(Unit) direct unit assignment contract."
+      "rule": "port_game.source_unit_payload_constructor_state pins UnitPayload(Unit) direct unit assignment contract."
     },
     "PortGame.source_unit_payload_show_overlay_texture_region_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_unit_payload_show_overlay_texture_region_state",
@@ -901,7 +901,7 @@
         "test_generated_unit_payload_show_overlay_texture_region_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_unit_payload_show_overlay_texture_region_state",
-      "rule": "PortGame.source_unit_payload_show_overlay_texture_region_state pins UnitPayload.showOverlay(TextureRegion) overlay assignment contract."
+      "rule": "port_game.source_unit_payload_show_overlay_texture_region_state pins UnitPayload.showOverlay(TextureRegion) overlay assignment contract."
     },
     "PortGame.source_unit_payload_show_overlay_drawable_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_unit_payload_show_overlay_drawable_state",
@@ -958,7 +958,7 @@
         "test_generated_unit_payload_show_overlay_drawable_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_unit_payload_show_overlay_drawable_state",
-      "rule": "PortGame.source_unit_payload_show_overlay_drawable_state pins UnitPayload.showOverlay(TextureRegionDrawable) guard and delegate contract."
+      "rule": "port_game.source_unit_payload_show_overlay_drawable_state pins UnitPayload.showOverlay(TextureRegionDrawable) guard and delegate contract."
     },
     "PortGame.source_unit_payload_content_equals_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_unit_payload_content_equals_state",
@@ -1010,7 +1010,7 @@
         "test_generated_unit_payload_content_equals_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_unit_payload_content_equals_state",
-      "rule": "PortGame.source_unit_payload_content_equals_state pins UnitPayload.contentEquals(Payload other) return contract."
+      "rule": "port_game.source_unit_payload_content_equals_state pins UnitPayload.contentEquals(Payload other) return contract."
     },
     "PortGame.source_unit_payload_update_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_unit_payload_update_state",
@@ -1071,7 +1071,7 @@
         "test_generated_unit_payload_update_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_unit_payload_update_state",
-      "rule": "PortGame.source_unit_payload_update_state pins UnitPayload.update(@Nullable Unit unitHolder, @Nullable Building buildingHolder) delegate contract."
+      "rule": "port_game.source_unit_payload_update_state pins UnitPayload.update(@Nullable Unit unitHolder, @Nullable Building buildingHolder) delegate contract."
     },
     "PortGame.source_unit_payload_content_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_unit_payload_content_state",
@@ -1107,7 +1107,7 @@
         "test_generated_unit_payload_content_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_unit_payload_content_state",
-      "rule": "PortGame.source_unit_payload_content_state pins UnitPayload.content() return contract."
+      "rule": "port_game.source_unit_payload_content_state pins UnitPayload.content() return contract."
     },
     "PortGame.source_unit_payload_requirements_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_unit_payload_requirements_state",
@@ -1151,7 +1151,7 @@
         "test_generated_unit_payload_requirements_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_unit_payload_requirements_state",
-      "rule": "PortGame.source_unit_payload_requirements_state pins UnitPayload.requirements() return contract."
+      "rule": "port_game.source_unit_payload_requirements_state pins UnitPayload.requirements() return contract."
     },
     "PortGame.source_unit_payload_build_time_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_unit_payload_build_time_state",
@@ -1195,7 +1195,7 @@
         "test_generated_unit_payload_build_time_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_unit_payload_build_time_state",
-      "rule": "PortGame.source_unit_payload_build_time_state pins UnitPayload.buildTime() return contract."
+      "rule": "port_game.source_unit_payload_build_time_state pins UnitPayload.buildTime() return contract."
     },
     "PortGame.source_unit_payload_write_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_unit_payload_write_state",
@@ -1242,7 +1242,7 @@
         "test_generated_unit_payload_write_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_unit_payload_write_state",
-      "rule": "PortGame.source_unit_payload_write_state pins UnitPayload.write(Writes write) write-call order contract."
+      "rule": "port_game.source_unit_payload_write_state pins UnitPayload.write(Writes write) write-call order contract."
     },
     "PortGame.source_unit_payload_set_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_unit_payload_set_state",
@@ -1296,7 +1296,7 @@
         "test_generated_unit_payload_set_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_unit_payload_set_state",
-      "rule": "PortGame.source_unit_payload_set_state pins UnitPayload.set(float x, float y, float rotation) state contract."
+      "rule": "port_game.source_unit_payload_set_state pins UnitPayload.set(float x, float y, float rotation) state contract."
     },
     "PortGame.source_unit_payload_x_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_unit_payload_x_state",
@@ -1331,7 +1331,7 @@
         "test_generated_unit_payload_x_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_unit_payload_x_state",
-      "rule": "Dictionary returned by PortGame.source_unit_payload_x_state mirrors UnitPayload.x()."
+      "rule": "Dictionary returned by port_game.source_unit_payload_x_state mirrors UnitPayload.x()."
     },
     "PortGame.source_unit_payload_y_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_unit_payload_y_state",
@@ -1366,7 +1366,7 @@
         "test_generated_unit_payload_y_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_unit_payload_y_state",
-      "rule": "Dictionary returned by PortGame.source_unit_payload_y_state mirrors UnitPayload.y()."
+      "rule": "Dictionary returned by port_game.source_unit_payload_y_state mirrors UnitPayload.y()."
     },
     "PortGame.source_unit_payload_rotation_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_unit_payload_rotation_state",
@@ -1401,7 +1401,7 @@
         "test_generated_unit_payload_rotation_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_unit_payload_rotation_state",
-      "rule": "Dictionary returned by PortGame.source_unit_payload_rotation_state mirrors UnitPayload.rotation()."
+      "rule": "Dictionary returned by port_game.source_unit_payload_rotation_state mirrors UnitPayload.rotation()."
     },
     "PortGame.source_unit_payload_size_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_unit_payload_size_state",
@@ -1436,7 +1436,7 @@
         "test_generated_unit_payload_size_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_unit_payload_size_state",
-      "rule": "Dictionary returned by PortGame.source_unit_payload_size_state mirrors UnitPayload.size()."
+      "rule": "Dictionary returned by port_game.source_unit_payload_size_state mirrors UnitPayload.size()."
     },
     "PortGame.source_unit_payload_dump_type_null_guard_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_unit_payload_dump_type_null_guard_state",
@@ -1475,7 +1475,7 @@
         "test_generated_unit_payload_dump_type_null_guard_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_unit_payload_dump_type_null_guard_state",
-      "rule": "Dictionary returned by PortGame.source_unit_payload_dump_type_null_guard_state mirrors UnitPayload.dump() unit.type null guard and defers remaining branches."
+      "rule": "Dictionary returned by port_game.source_unit_payload_dump_type_null_guard_state mirrors UnitPayload.dump() unit.type null guard and defers remaining branches."
     },
     "PortGame.source_unit_payload_dump_can_create_guard_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_unit_payload_dump_can_create_guard_state",
@@ -1530,7 +1530,7 @@
         "test_generated_unit_payload_dump_can_create_guard_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_unit_payload_dump_can_create_guard_state",
-      "rule": "Dictionary returned by PortGame.source_unit_payload_dump_can_create_guard_state mirrors UnitPayload.dump() type-null and canCreate guard order, deferring remaining dump branches."
+      "rule": "Dictionary returned by port_game.source_unit_payload_dump_can_create_guard_state mirrors UnitPayload.dump() type-null and canCreate guard order, deferring remaining dump branches."
     },
     "PortGame.source_unit_payload_dump_solidity_guard_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_unit_payload_dump_solidity_guard_state",
@@ -1644,7 +1644,7 @@
         "test_generated_unit_payload_dump_solidity_guard_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_unit_payload_dump_solidity_guard_state",
-      "rule": "Dictionary returned by PortGame.source_unit_payload_dump_solidity_guard_state mirrors UnitPayload.dump() solidity guard order and tile probe, deferring remaining dump branches."
+      "rule": "Dictionary returned by port_game.source_unit_payload_dump_solidity_guard_state mirrors UnitPayload.dump() solidity guard order and tile probe, deferring remaining dump branches."
     },
     "PortGame.source_unit_payload_dump_overlap_guard_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_unit_payload_dump_overlap_guard_state",
@@ -1794,7 +1794,7 @@
         "test_generated_unit_payload_dump_overlap_guard_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_unit_payload_dump_overlap_guard_state",
-      "rule": "Dictionary returned by PortGame.source_unit_payload_dump_overlap_guard_state mirrors UnitPayload.dump() overlap guard order and Units.count short-circuit, deferring remaining dump branches."
+      "rule": "Dictionary returned by port_game.source_unit_payload_dump_overlap_guard_state mirrors UnitPayload.dump() overlap guard order and Units.count short-circuit, deferring remaining dump branches."
     },
     "PortGame.source_unit_payload_dump_no_client_guard_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_unit_payload_dump_no_client_guard_state",
@@ -1958,7 +1958,7 @@
         "test_generated_unit_payload_dump_no_client_guard_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_unit_payload_dump_no_client_guard_state",
-      "rule": "Dictionary returned by PortGame.source_unit_payload_dump_no_client_guard_state mirrors UnitPayload.dump() no-client guard order, deferring stacking/spawn side effects."
+      "rule": "Dictionary returned by port_game.source_unit_payload_dump_no_client_guard_state mirrors UnitPayload.dump() no-client guard order, deferring stacking/spawn side effects."
     },
     "PortGame.source_unit_payload_dump_spawn_side_effects_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_unit_payload_dump_spawn_side_effects_state",
@@ -2166,7 +2166,7 @@
         "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
-      "rule": "Dictionary returned by PortGame.source_unit_payload_dump_spawn_side_effects_state mirrors UnitPayload.dump() spawn side effects after all guards pass."
+      "rule": "Dictionary returned by port_game.source_unit_payload_dump_spawn_side_effects_state mirrors UnitPayload.dump() spawn side effects after all guards pass."
     },
     "PortGame.source_unit_payload_draw_shadow_type_null_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_unit_payload_draw_shadow_type_null_state",
@@ -2219,7 +2219,7 @@
         "test_generated_unit_payload_draw_shadow_type_null_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_unit_payload_draw_shadow_type_null_state",
-      "rule": "Dictionary returned by PortGame.source_unit_payload_draw_shadow_type_null_state mirrors UnitPayload.drawShadow(float alpha) guard and drawSoftShadow call record."
+      "rule": "Dictionary returned by port_game.source_unit_payload_draw_shadow_type_null_state mirrors UnitPayload.drawShadow(float alpha) guard and drawSoftShadow call record."
     },
     "PortGame.source_unit_payload_draw_type_null_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_unit_payload_draw_type_null_state",
@@ -2257,7 +2257,7 @@
         "test_generated_unit_payload_draw_type_null_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_unit_payload_draw_type_null_state",
-      "rule": "Dictionary returned by PortGame.source_unit_payload_draw_type_null_state mirrors UnitPayload.draw() type-null guard and defers the remaining draw body."
+      "rule": "Dictionary returned by port_game.source_unit_payload_draw_type_null_state mirrors UnitPayload.draw() type-null guard and defers the remaining draw body."
     },
     "PortGame.source_unit_payload_draw_elevation_setup_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_unit_payload_draw_elevation_setup_state",
@@ -2321,7 +2321,7 @@
         "test_generated_unit_payload_draw_elevation_setup_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_unit_payload_draw_elevation_setup_state",
-      "rule": "Dictionary returned by PortGame.source_unit_payload_draw_elevation_setup_state mirrors UnitPayload.draw() elevation setup after the type-null guard."
+      "rule": "Dictionary returned by port_game.source_unit_payload_draw_elevation_setup_state mirrors UnitPayload.draw() elevation setup after the type-null guard."
     },
     "PortGame.source_unit_payload_draw_overlay_warning_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_unit_payload_draw_overlay_warning_state",
@@ -2445,7 +2445,7 @@
         "test_generated_unit_payload_draw_overlay_warning_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_unit_payload_draw_overlay_warning_state",
-      "rule": "Dictionary returned by PortGame.source_unit_payload_draw_overlay_warning_state mirrors UnitPayload.draw() overlay warning branch after elevation setup."
+      "rule": "Dictionary returned by port_game.source_unit_payload_draw_overlay_warning_state mirrors UnitPayload.draw() overlay warning branch after elevation setup."
     },
     "PortGame.source_unit_payload_icon_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_unit_payload_icon_state",
@@ -2480,7 +2480,7 @@
         "test_generated_unit_payload_icon_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_unit_payload_icon_state",
-      "rule": "Dictionary returned by PortGame.source_unit_payload_icon_state mirrors UnitPayload.icon()."
+      "rule": "Dictionary returned by port_game.source_unit_payload_icon_state mirrors UnitPayload.icon()."
     },
     "PortGame.source_block_producer_icons_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_block_producer_icons_state",
@@ -2531,7 +2531,7 @@
         "test_generated_block_producer_icons_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_block_producer_icons_state",
-      "rule": "PortGame.source_block_producer_icons_state pins BlockProducer.icons() return array contract."
+      "rule": "port_game.source_block_producer_icons_state pins BlockProducer.icons() return array contract."
     },
     "PortGame.source_block_producer_draw_plan_region_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_block_producer_draw_plan_region_state",
@@ -2609,7 +2609,7 @@
         "test_generated_block_producer_draw_plan_region_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_block_producer_draw_plan_region_state",
-      "rule": "PortGame.source_block_producer_draw_plan_region_state pins BlockProducer.drawPlanRegion() draw call contract."
+      "rule": "port_game.source_block_producer_draw_plan_region_state pins BlockProducer.drawPlanRegion() draw call contract."
     },
     "PortGame.source_block_producer_set_bars_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_block_producer_set_bars_state",
@@ -2667,7 +2667,7 @@
         "test_generated_block_producer_set_bars_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_block_producer_set_bars_state",
-      "rule": "PortGame.source_block_producer_set_bars_state pins BlockProducer.setBars() progress bar contract."
+      "rule": "port_game.source_block_producer_set_bars_state pins BlockProducer.setBars() progress bar contract."
     },
     "PortGame.source_block_producer_build_accept_item_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_block_producer_build_accept_item_state",
@@ -2724,7 +2724,7 @@
         "test_generated_block_producer_build_accept_item_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_block_producer_build_accept_item_state",
-      "rule": "PortGame.source_block_producer_build_accept_item_state pins BlockProducerBuild.acceptItem() inventory capacity predicate."
+      "rule": "port_game.source_block_producer_build_accept_item_state pins BlockProducerBuild.acceptItem() inventory capacity predicate."
     },
     "PortGame.source_block_producer_build_get_maximum_accepted_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_block_producer_build_get_maximum_accepted_state",
@@ -2778,7 +2778,7 @@
         "test_generated_block_producer_build_get_maximum_accepted_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_block_producer_build_get_maximum_accepted_state",
-      "rule": "PortGame.source_block_producer_build_get_maximum_accepted_state pins BlockProducerBuild.getMaximumAccepted() recipe requirement lookup."
+      "rule": "port_game.source_block_producer_build_get_maximum_accepted_state pins BlockProducerBuild.getMaximumAccepted() recipe requirement lookup."
     },
     "PortGame.source_block_producer_build_accept_payload_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_block_producer_build_accept_payload_state",
@@ -2819,7 +2819,7 @@
         "test_generated_block_producer_build_accept_payload_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_block_producer_build_accept_payload_state",
-      "rule": "PortGame.source_block_producer_build_accept_payload_state pins BlockProducerBuild.acceptPayload() false payload gate."
+      "rule": "port_game.source_block_producer_build_accept_payload_state pins BlockProducerBuild.acceptPayload() false payload gate."
     },
     "PortGame.source_block_producer_build_should_consume_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_block_producer_build_should_consume_state",
@@ -2862,7 +2862,7 @@
         "test_generated_block_producer_build_should_consume_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_block_producer_build_should_consume_state",
-      "rule": "PortGame.source_block_producer_build_should_consume_state pins BlockProducerBuild.shouldConsume() conjunction."
+      "rule": "port_game.source_block_producer_build_should_consume_state pins BlockProducerBuild.shouldConsume() conjunction."
     },
     "PortGame.source_block_producer_build_update_tile_produce_gate_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_block_producer_build_update_tile_produce_gate_state",
@@ -2915,7 +2915,7 @@
         "test_generated_block_producer_build_update_tile_produce_gate_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_block_producer_build_update_tile_produce_gate_state",
-      "rule": "PortGame.source_block_producer_build_update_tile_produce_gate_state pins BlockProducerBuild.updateTile() produce gate."
+      "rule": "port_game.source_block_producer_build_update_tile_produce_gate_state pins BlockProducerBuild.updateTile() produce gate."
     },
     "PortGame.source_block_producer_build_update_tile_progress_accumulation_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_block_producer_build_update_tile_progress_accumulation_state",
@@ -2976,7 +2976,7 @@
         "test_generated_block_producer_build_update_tile_progress_accumulation_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_block_producer_build_update_tile_progress_accumulation_state",
-      "rule": "PortGame.source_block_producer_build_update_tile_progress_accumulation_state pins progress += buildSpeed * edelta() behind produce guard."
+      "rule": "port_game.source_block_producer_build_update_tile_progress_accumulation_state pins progress += buildSpeed * edelta() behind produce guard."
     },
     "PortGame.source_block_producer_build_update_tile_completion_guard_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_block_producer_build_update_tile_completion_guard_state",
@@ -3021,7 +3021,7 @@
         "test_generated_block_producer_build_update_tile_completion_guard_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_block_producer_build_update_tile_completion_guard_state",
-      "rule": "PortGame.source_block_producer_build_update_tile_completion_guard_state pins if(progress >= recipe.buildTime){ consume(); }."
+      "rule": "port_game.source_block_producer_build_update_tile_completion_guard_state pins if(progress >= recipe.buildTime){ consume(); }."
     },
     "PortGame.source_block_producer_build_update_tile_payload_creation_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_block_producer_build_update_tile_payload_creation_state",
@@ -3107,7 +3107,7 @@
         "test_generated_block_producer_build_update_tile_payload_creation_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_block_producer_build_update_tile_payload_creation_state",
-      "rule": "PortGame.source_block_producer_build_update_tile_payload_creation_state pins new BuildPayload(recipe, team) and placeEffect.at(x, y, payload.size() / tilesize)."
+      "rule": "port_game.source_block_producer_build_update_tile_payload_creation_state pins new BuildPayload(recipe, team) and placeEffect.at(x, y, payload.size() / tilesize)."
     },
     "PortGame.source_block_producer_build_update_tile_pay_vector_progress_reset_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_block_producer_build_update_tile_pay_vector_progress_reset_state",
@@ -3172,7 +3172,7 @@
         "test_generated_block_producer_build_update_tile_pay_vector_progress_reset_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_block_producer_build_update_tile_pay_vector_progress_reset_state",
-      "rule": "PortGame.source_block_producer_build_update_tile_pay_vector_progress_reset_state pins payVector.setZero(); and progress %= 1f;."
+      "rule": "port_game.source_block_producer_build_update_tile_pay_vector_progress_reset_state pins payVector.setZero(); and progress %= 1f;."
     },
     "PortGame.source_block_producer_build_update_tile_heat_time_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_block_producer_build_update_tile_heat_time_state",
@@ -3240,7 +3240,7 @@
         "test_generated_block_producer_build_update_tile_heat_time_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_block_producer_build_update_tile_heat_time_state",
-      "rule": "PortGame.source_block_producer_build_update_tile_heat_time_state pins heat = Mathf.lerpDelta(heat, Mathf.num(produce), 0.15f); and time += heat * delta();."
+      "rule": "port_game.source_block_producer_build_update_tile_heat_time_state pins heat = Mathf.lerpDelta(heat, Mathf.num(produce), 0.15f); and time += heat * delta();."
     },
     "PortGame.source_block_producer_build_update_tile_move_out_payload_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_block_producer_build_update_tile_move_out_payload_state",
@@ -3417,7 +3417,7 @@
         "test_generated_block_producer_build_update_tile_move_out_payload_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_block_producer_build_update_tile_move_out_payload_state",
-      "rule": "PortGame.source_block_producer_build_update_tile_move_out_payload_state pins moveOutPayload() and PayloadBlockBuild.moveOutPayload() movement gates from source."
+      "rule": "port_game.source_block_producer_build_update_tile_move_out_payload_state pins moveOutPayload() and PayloadBlockBuild.moveOutPayload() movement gates from source."
     },
     "PortGame.source_build_payload_constructor_build_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_build_payload_constructor_build_state",
@@ -3452,7 +3452,7 @@
         "test_generated_build_payload_constructor_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_build_payload_constructor_build_state",
-      "rule": "PortGame.source_build_payload_constructor_build_state pins BuildPayload(Building) direct build assignment contract."
+      "rule": "port_game.source_build_payload_constructor_build_state pins BuildPayload(Building) direct build assignment contract."
     },
     "PortGame.source_build_payload_place_default_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_build_payload_place_default_state",
@@ -3503,7 +3503,7 @@
         "test_generated_build_payload_place_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_build_payload_place_default_state",
-      "rule": "PortGame.source_build_payload_place_default_state pins BuildPayload.place(Tile) delegate contract."
+      "rule": "port_game.source_build_payload_place_default_state pins BuildPayload.place(Tile) delegate contract."
     }
   }
 }

@@ -1,8 +1,8 @@
 extends Node
 
 const PortGameScript := preload("res://src/game/PortGame.gd")
-const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")
-const SourceUnitPayloadDrawState := preload("res://src/game/SourceUnitPayloadDrawState.gd")
+const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const source_unit_payload_draw_state := preload("res://src/game/SourceUnitPayloadDrawState.gd")
 
 func _ready() -> void:
 	var game := PortGameScript.new()
@@ -23,7 +23,7 @@ func _ready() -> void:
 	var elevation_bridge := game.generated_unit_payload_draw_elevation_setup_bridge_state(unit_type_null, unit_elevation, unit_id)
 	var overlay_bridge := game.generated_unit_payload_draw_overlay_warning_bridge_state(unit_type_null, unit_elevation, unit_id, overlay_time, overlay_region, unit_x, unit_y, time_delta, draw_z_before, interp_exp5_out_overlay_time)
 	var icon_bridge := game.generated_unit_payload_icon_bridge_state(unit_type_full_icon)
-	var registry_state := SourceSsotCatalog.canonical_headquarter_registry_state()
+	var registry_state := source_ssot_catalog.canonical_headquarter_registry_state()
 	var proof := {
 		"module": "UNIT_PAYLOAD_DRAW_MODULE_PROOF",
 		"shadow_bridge": shadow_bridge,
@@ -31,19 +31,21 @@ func _ready() -> void:
 		"elevation_bridge": elevation_bridge,
 		"overlay_bridge": overlay_bridge,
 		"icon_bridge": icon_bridge,
-		"shadow_bridge_matches": shadow_bridge == SourceUnitPayloadDrawState.generated_shadow_type_null_bridge_state(unit_type_null, alpha, unit_id),
-		"type_null_bridge_matches": type_null_bridge == SourceUnitPayloadDrawState.generated_type_null_bridge_state(unit_type_null),
-		"elevation_bridge_matches": elevation_bridge == SourceUnitPayloadDrawState.generated_elevation_setup_bridge_state(unit_type_null, unit_elevation, unit_id),
-		"overlay_bridge_matches": overlay_bridge == SourceUnitPayloadDrawState.generated_overlay_warning_bridge_state(unit_type_null, unit_elevation, unit_id, overlay_time, overlay_region, unit_x, unit_y, time_delta, draw_z_before, interp_exp5_out_overlay_time),
-		"icon_bridge_matches": icon_bridge == SourceUnitPayloadDrawState.generated_icon_bridge_state(unit_type_full_icon),
+		"shadow_bridge_matches": shadow_bridge == source_unit_payload_draw_state.generated_shadow_type_null_bridge_state(unit_type_null, alpha, unit_id),
+		"type_null_bridge_matches": type_null_bridge == source_unit_payload_draw_state.generated_type_null_bridge_state(unit_type_null),
+		"elevation_bridge_matches": elevation_bridge == source_unit_payload_draw_state.generated_elevation_setup_bridge_state(unit_type_null, unit_elevation, unit_id),
+		"overlay_bridge_matches": overlay_bridge == source_unit_payload_draw_state.generated_overlay_warning_bridge_state(unit_type_null, unit_elevation, unit_id, overlay_time, overlay_region, unit_x, unit_y, time_delta, draw_z_before, interp_exp5_out_overlay_time),
+		"icon_bridge_matches": icon_bridge == source_unit_payload_draw_state.generated_icon_bridge_state(unit_type_full_icon),
+		"registry_valid": bool(registry_state.get("errors", []).is_empty()),
 		"one_headquarter_per_ssot": bool(registry_state.get("one_headquarter_per_ssot", false)),
 	}
-	proof["matches"] = bool(shadow_bridge.get("matches", false)) and bool(type_null_bridge.get("matches", false)) and bool(elevation_bridge.get("matches", false)) and bool(overlay_bridge.get("matches", false)) and bool(icon_bridge.get("matches", false)) and proof["shadow_bridge_matches"] and proof["type_null_bridge_matches"] and proof["elevation_bridge_matches"] and proof["overlay_bridge_matches"] and proof["icon_bridge_matches"] and proof["one_headquarter_per_ssot"]
+	proof["matches"] = bool(shadow_bridge.get("matches", false)) and bool(type_null_bridge.get("matches", false)) and bool(elevation_bridge.get("matches", false)) and bool(overlay_bridge.get("matches", false)) and bool(icon_bridge.get("matches", false)) and proof["shadow_bridge_matches"] and proof["type_null_bridge_matches"] and proof["elevation_bridge_matches"] and proof["overlay_bridge_matches"] and proof["icon_bridge_matches"] and proof["one_headquarter_per_ssot"] and proof["registry_valid"]
 	var proof_json := JSON.stringify(proof)
 	print("UNIT_PAYLOAD_DRAW_MODULE_PROOF " + proof_json)
-	var proof_file := FileAccess.open("C:/Users/Admin/Documents/Game/mindustry-godot-transpiler-copy-20260714-073528/godot-mindustry/tools/runtime_proofs/UnitPayloadDrawModuleProof.json", FileAccess.WRITE)
+	var proof_path := ProjectSettings.globalize_path("res://tools/runtime_proofs/UnitPayloadDrawModuleProof.json")
+	var proof_file := FileAccess.open(proof_path, FileAccess.WRITE)
 	if proof_file != null:
 		proof_file.store_string(proof_json)
 	game.free()
-	await get_tree().create_timer(6.0).timeout
+	await get_tree().create_timer(60.0).timeout
 	get_tree().quit(0)

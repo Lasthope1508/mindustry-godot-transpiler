@@ -356,6 +356,21 @@ def registered_runtime_label(godot_root: Path, name: str) -> str:
 def load_json(godot_root: Path, name: str) -> dict[str, Any]:
     return json.loads((Path(godot_root) / relative_path(name)).read_text(encoding="utf-8"))
 
+def _canonical_owner_string(value: str) -> str:
+    return value.replace("PortGame.", "port_game.")
+
+def _normalize_registered_owner_strings(value: Any, parent_key: str = "") -> Any:
+    if isinstance(value, str):
+        return value if parent_key in {"godot_owner", "canonical_contract"} else _canonical_owner_string(value)
+    if isinstance(value, list):
+        return [_normalize_registered_owner_strings(item, parent_key) for item in value]
+    if isinstance(value, dict):
+        return {
+            key: _normalize_registered_owner_strings(item, str(key))
+            for key, item in value.items()
+        }
+    return value
+
 
 def load_registered_json(godot_root: Path, name: str) -> dict[str, Any]:
     if name == "source_slice_ledger_slices":
@@ -429,10 +444,10 @@ def load_registered_json(godot_root: Path, name: str) -> dict[str, Any]:
     if name in _DOMAIN_SYMBOL_SHARDS:
         return _virtual_domain_symbols(godot_root, name)
     path = Path(godot_root) / registered_relative_path(godot_root, name)
-    return json.loads(path.read_text(encoding="utf-8"))
+    return _normalize_registered_owner_strings(json.loads(path.read_text(encoding="utf-8")))
 
 def _virtual_source_slice_ledger_slices(godot_root: Path) -> dict[str, Any]:
-    canonical_slices = load_registered_json(godot_root, "slice_ledger").get("slices", {})
+    canonical_slices = load_json(godot_root, "slice_ledger").get("slices", {})
     if not isinstance(canonical_slices, dict):
         canonical_slices = {}
     mirror: dict[str, Any] = {}
@@ -449,7 +464,7 @@ def _virtual_source_slice_ledger_slices(godot_root: Path) -> dict[str, Any]:
     return {"version": 1, "slices": mirror}
 
 def _virtual_source_api_contracts_contracts(godot_root: Path) -> dict[str, Any]:
-    canonical_contracts = load_registered_json(godot_root, "api_contracts").get("contracts", {})
+    canonical_contracts = load_json(godot_root, "api_contracts").get("contracts", {})
     if not isinstance(canonical_contracts, dict):
         canonical_contracts = {}
     mirror: dict[str, Any] = {}

@@ -14,4 +14,4 @@ const JAVA_METHODS := [{"modifiers": [], "name": "absorb", "parameters": [], "re
 const JAVA_ENUM_CONSTANTS := []
 
 func java_method_absorb_0(_args: Array = []) -> Variant:
-	return {"source_owner": "PortGame.source_shielder_absorb_state", "method": "void absorb(){", "empty_body": "void absorb(){\n\n    }", "no_op": true}
+	return {"source_owner": "port_game.source_shielder_absorb_state", "method": "void absorb(){", "empty_body": "void absorb(){\n\n    }", "no_op": true}

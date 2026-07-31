@@ -5,7 +5,7 @@ from math import ceil
 from pathlib import Path
 from typing import Any
 
-DEFAULT_PROJECT_SETTINGS_PATH = Path("godot-mindustry/project.godot")
+DEFAULT_PROJECT_SETTINGS_PATH = Path(__file__).resolve().parents[3] / "godot-mindustry" / "project.godot"
 CAMERA_PROFILE = {
     "zoom": 0.5,
     "min_zoom": 0.5,

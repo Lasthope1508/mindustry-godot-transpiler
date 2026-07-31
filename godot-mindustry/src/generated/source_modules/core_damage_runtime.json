@@ -1,0 +1,11 @@
+{
+  "core_damage_runtime": {
+    "rule": "Canonical registry shard for core damage runtime state; runtime code must route core-health clamp and game-over winner updates through SourceCoreDamageRuntimeState instead of duplicating them in port_game.",
+    "source_owner": "port_game.apply_core_damage",
+    "status": "active",
+    "runtime_proof": "tools/runtime_proofs/CoreDamageRuntimeModuleProof.gd",
+    "runtime_scene": "tools/runtime_proofs/CoreDamageRuntimeModuleProof.tscn",
+    "runtime_state": "apply_state"
+  },
+  "version": 1
+}

@@ -85,7 +85,7 @@
       "canonical_ledger": "source_slice_ledger.N837",
       "bridge_exprs": [],
       "deferred_exprs": [
-        "PortGame.source_arc_vec2_limit remains the canonical typed Vector2 helper; this owner registers the dictionary wrapper used by bullet update slices."
+        "port_game.source_arc_vec2_limit remains the canonical typed Vector2 helper; this owner registers the dictionary wrapper used by bullet update slices."
       ],
       "exact_exprs": [
         "public Vec2 limit(float limit){\n        return limit2(limit * limit);\n    }",

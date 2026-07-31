@@ -1,7 +1,7 @@
 extends Node
 
-const SourcePowerGraphState := preload("res://src/game/SourcePowerGraphState.gd")
-const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const source_power_graph_state := preload("res://src/game/SourcePowerGraphState.gd")
+const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
 
 func _ready() -> void:
 	var consumers: Array = [
@@ -35,9 +35,9 @@ func _ready() -> void:
 	]
 	var producers: Array = [{"power_production": 10.0, "delta": 1.0}]
 	var batteries: Array = [{"enabled": true, "power_status": 0.5, "capacity": 40.0}]
-	var needed: Dictionary = SourcePowerGraphState.power_needed_state(consumers)
-	var balance: Dictionary = SourcePowerGraphState.update_balance_state(consumers, producers, batteries, 3.0, 1.0, [])
-	var registry: Dictionary = SourceSsotCatalog.canonical_headquarter_registry_state()
+	var needed: Dictionary = source_power_graph_state.power_needed_state(consumers)
+	var balance: Dictionary = source_power_graph_state.update_balance_state(consumers, producers, batteries, 3.0, 1.0, [])
+	var registry: Dictionary = source_ssot_catalog.canonical_headquarter_registry_state()
 	var proof: Dictionary = {
 		"module": "SourcePowerGraphState",
 		"default_power_needed": float(needed.get("power_needed", 0.0)),
@@ -51,5 +51,5 @@ func _ready() -> void:
 		"registry_valid": bool(registry.get("errors", []).is_empty()),
 	}
 	print("POWER_GRAPH_DEFAULT_REQUESTED_POWER_PROOF " + JSON.stringify(proof))
-	await get_tree().create_timer(10.0).timeout
+	await get_tree().create_timer(60.0).timeout
 	get_tree().quit(0)

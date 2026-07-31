@@ -23,4 +23,4 @@ func java_method_update_0(_args: Array = []) -> Variant:
 	var despawn_call: Variant = null
 	if guard:
 		despawn_call = {"call": "Call.unitDespawn(self())", "unit": unit_id}
-	return {"source_owner": "PortGame.source_building_tether_update_state", "method": "public void update(){", "guard_expr": "if(building == null || !building.isValid() || building.team != team){", "building_exists": building_exists, "building_is_valid": building_is_valid, "building_team_value": building_team_value, "team_value": team_value, "guard": guard, "despawn": despawn_call}
+	return {"source_owner": "port_game.source_building_tether_update_state", "method": "public void update(){", "guard_expr": "if(building == null || !building.isValid() || building.team != team){", "building_exists": building_exists, "building_is_valid": building_is_valid, "building_team_value": building_team_value, "team_value": team_value, "guard": guard, "despawn": despawn_call}

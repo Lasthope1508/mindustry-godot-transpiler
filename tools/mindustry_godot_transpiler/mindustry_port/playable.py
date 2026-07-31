@@ -38,6 +38,16 @@ BOOTSTRAP_TRANSPORT = {
     "item_sprite_count": 3,
 }
 
+def _resolve_project_settings_path(
+    project_settings_path: Path | str,
+    godot_root: Path | str | None,
+) -> Path:
+    if godot_root is not None:
+        candidate = Path(godot_root) / "project.godot"
+        if candidate.exists():
+            return candidate
+    return Path(project_settings_path)
+
 
 def _asset_entry(asset_root: Path, relative_path: str, asset_id: str) -> dict:
     path = asset_root / relative_path
@@ -82,14 +92,24 @@ def _bootstrap_terrain(layout: dict) -> dict:
         ],
     }
 
-def build_playable_manifest(asset_root: Path, project_settings_path: Path | str = DEFAULT_PROJECT_SETTINGS_PATH) -> dict:
+def build_playable_manifest(
+    asset_root: Path,
+    project_settings_path: Path | str = DEFAULT_PROJECT_SETTINGS_PATH,
+    godot_root: Path | str | None = None,
+) -> dict:
     asset_root = Path(asset_root)
+    godot_root_path = Path(godot_root) if godot_root is not None else Path(project_settings_path).parent
+    resolved_project_settings_path = _resolve_project_settings_path(project_settings_path, godot_root)
     item_id, item_path = REQUIRED_ASSETS["item"]
     blocks = {}
     for block_id, rel in REQUIRED_ASSETS["blocks"].items():
         blocks[block_id] = _asset_entry(asset_root, rel, block_id)
-    display_profile = build_display_profile(project_settings_path)["playfield"]
-    tile_size = int(display_profile["tile_size"])
+    display_profile = build_display_profile(resolved_project_settings_path)["playfield"]
+    playable_content_path = godot_root_path / "src" / "generated" / "playable_content.json"
+    if playable_content_path.exists():
+        tile_size = int(json.loads(playable_content_path.read_text(encoding="utf-8"))["tile_size"])
+    else:
+        tile_size = int(display_profile["tile_size"])
     bootstrap_layout = _bootstrap_layout(display_profile)
     return {
         "tile_size": tile_size,
@@ -106,8 +126,13 @@ def build_playable_manifest(asset_root: Path, project_settings_path: Path | str 
     }
 
 
-def write_playable_manifest(asset_root: Path, output_path: Path, project_settings_path: Path | str = DEFAULT_PROJECT_SETTINGS_PATH) -> dict:
-    manifest = build_playable_manifest(asset_root, project_settings_path)
+def write_playable_manifest(
+    asset_root: Path,
+    output_path: Path,
+    project_settings_path: Path | str = DEFAULT_PROJECT_SETTINGS_PATH,
+    godot_root: Path | str | None = None,
+) -> dict:
+    manifest = build_playable_manifest(asset_root, project_settings_path, godot_root=godot_root)
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(json.dumps(manifest, indent=2, sort_keys=True), encoding="utf-8")
     return manifest

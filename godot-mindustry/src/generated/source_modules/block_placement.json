@@ -1,0 +1,17 @@
+{
+  "block_placement": {
+    "headquarter": "SourceBlockPlacement",
+    "rule": "Canonical registry shard for block placement state; runtime code must route selected-block placement state through SourceBlockPlacement instead of duplicating placement guards in port_game.",
+    "source_owner": "source_block_placement.selected_block_placement_state",
+    "status": "active",
+    "runtime_proof": "tools/runtime_proofs/BlockPlacementModuleProof.gd",
+    "runtime_scene": "tools/runtime_proofs/BlockPlacementModuleProof.tscn",
+    "runtime_state": "selected_block_placement_state"
+  },
+  "policy": {
+    "canonicalHeadquarter": {
+      "block_placement": "SourceBlockPlacement"
+    }
+  },
+  "version": 1
+}

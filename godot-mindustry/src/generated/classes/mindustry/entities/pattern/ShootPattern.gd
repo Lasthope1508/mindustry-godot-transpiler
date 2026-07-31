@@ -12,14 +12,10 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "shots", "type": "int"},
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "shoot", "parameters": [{"name": "totalShots", "type": "int", "varargs": false}, {"name": "handler", "type": "BulletHandler", "varargs": false}, {"name": "barrelIncrementer", "type": "Runnable", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "shoot", "parameters": [{"name": "totalShots", "type": "int", "varargs": false}, {"name": "handler", "type": "BulletHandler", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "flip", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "copy", "parameters": [], "return_type": "ShootPattern"}]
 const JAVA_ENUM_CONSTANTS := []
-const SourceShootPatternDefaults := preload("res://src/game/SourceShootPatternDefaults.gd")
-const SOURCE_SHOOT_PATTERN_SHOTS_DEFAULT := SourceShootPatternDefaults.SHOTS_DEFAULT
-const SOURCE_SHOOT_PATTERN_FIRST_SHOT_DELAY_DEFAULT := SourceShootPatternDefaults.FIRST_SHOT_DELAY_DEFAULT
-const SOURCE_SHOOT_PATTERN_SHOT_DELAY_DEFAULT := SourceShootPatternDefaults.SHOT_DELAY_DEFAULT
-const SOURCE_SHOOT_PATTERN_X_OFFSET_DEFAULT := SourceShootPatternDefaults.X_OFFSET_DEFAULT
-const SOURCE_SHOOT_PATTERN_Y_OFFSET_DEFAULT := SourceShootPatternDefaults.Y_OFFSET_DEFAULT
-const SOURCE_SHOOT_PATTERN_ANGLE_OFFSET_DEFAULT := SourceShootPatternDefaults.ANGLE_OFFSET_DEFAULT
-const SOURCE_SHOOT_PATTERN_MOVER_DEFAULT := SourceShootPatternDefaults.MOVER_DEFAULT
+const source_shoot_pattern_defaults := preload("res://src/game/SourceShootPatternDefaults.gd")
+const SOURCE_SHOOT_PATTERN_SHOTS_DEFAULT := source_shoot_pattern_defaults.SHOTS_DEFAULT
+const SOURCE_SHOOT_PATTERN_FIRST_SHOT_DELAY_DEFAULT := source_shoot_pattern_defaults.FIRST_SHOT_DELAY_DEFAULT
+const SOURCE_SHOOT_PATTERN_SHOT_DELAY_DEFAULT := source_shoot_pattern_defaults.SHOT_DELAY_DEFAULT
 
 func java_method_shoot_0(_args: Array = []) -> Variant:
 	var total_shots: int = int(_args[0] if _args.size() > 0 else 0)
@@ -29,8 +25,8 @@ func java_method_shoot_0(_args: Array = []) -> Variant:
 	var barrel_incrementer_present: bool = bool(_args[4] if _args.size() > 4 else false)
 	var compat_result = java_method_shoot_1([shots, first_shot_delay, shot_delay])
 	return {
-		"source_owner": "PortGame.source_shoot_pattern_default_events",
-		"generated_owner": "ShootPattern.java_method_shoot_0",
+		"source_owner": "port_game.source_shoot_pattern_default_events",
+		"generated_owner": "shoot_pattern.java_method_shoot_0",
 		"source": "core/src/mindustry/entities/pattern/ShootPattern.java",
 		"method": "public void shoot(int totalShots, BulletHandler handler, @Nullable Runnable barrelIncrementer){",
 		"compatibility_call": "shoot(totalShots, handler);",
@@ -53,14 +49,14 @@ func java_method_shoot_1(_args: Array = []) -> Variant:
 	var events: Array = []
 	for i in shots:
 		events.append({
-			"xOffset": SOURCE_SHOOT_PATTERN_X_OFFSET_DEFAULT,
-			"yOffset": SOURCE_SHOOT_PATTERN_Y_OFFSET_DEFAULT,
-			"angleOffset": SOURCE_SHOOT_PATTERN_ANGLE_OFFSET_DEFAULT,
+			"xOffset": 0.0,
+			"yOffset": 0.0,
+			"angleOffset": 0.0,
 			"delay": first_shot_delay + shot_delay * float(i),
-			"mover": SOURCE_SHOOT_PATTERN_MOVER_DEFAULT,
+			"mover": null,
 		})
 	return {
-		"source_owner": "PortGame.source_shoot_pattern_default_events",
+		"source_owner": "port_game.source_shoot_pattern_default_events",
 		"source": "core/src/mindustry/entities/pattern/ShootPattern.java",
 		"method": "public void shoot(int totalShots, BulletHandler handler){",
 		"loop": "for(int i = 0; i < shots; i++){",
@@ -74,8 +70,8 @@ func java_method_shoot_1(_args: Array = []) -> Variant:
 
 func java_method_flip_2(_args: Array = []) -> Variant:
 	return {
-		"source_owner": "ShootPattern.flip",
-		"generated_owner": "ShootPattern.java_method_flip_2",
+		"source_owner": "shoot_pattern.flip",
+		"generated_owner": "shoot_pattern.java_method_flip_2",
 		"source": "core/src/mindustry/entities/pattern/ShootPattern.java",
 		"method": "public void flip(){",
 		"comment": "/** Subclasses should override this to flip its sides. */",
@@ -93,8 +89,8 @@ func java_method_copy_3(_args: Array = []) -> Variant:
 		"shotDelay": shot_delay,
 	}
 	return {
-		"source_owner": "ShootPattern.copy",
-		"generated_owner": "ShootPattern.java_method_copy_3",
+		"source_owner": "shoot_pattern.copy",
+		"generated_owner": "shoot_pattern.java_method_copy_3",
 		"source": "core/src/mindustry/entities/pattern/ShootPattern.java",
 		"method": "public ShootPattern copy(){",
 		"try_source": "try{",

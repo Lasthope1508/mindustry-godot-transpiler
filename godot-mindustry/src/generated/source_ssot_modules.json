@@ -132,91 +132,6 @@
       "canonical_reference_prefix": "",
       "mirror_fields": []
     },
-    "source_symbol_registry_symbols": {
-      "path": "src/generated/source_symbol_registry.json",
-      "root_key": "symbols",
-      "label": "symbol",
-      "status": "active",
-      "rule": "Canonical source symbol registry; gameplay and transpiler code must read symbol metadata from this shard instead of inventing parallel symbol owners or registry keys.",
-      "canonical_module": "registry",
-      "canonical_reference_key": "canonical_symbol",
-      "canonical_reference_prefix": "source_symbol_registry.",
-      "mirror_fields": [
-        "status",
-        "java_expr",
-        "godot_symbol",
-        "godot_owner",
-        "rule",
-        "tests",
-        "runtime_proof"
-      ]
-    },
-    "source_api_contracts_contracts": {
-      "path": "src/generated/source_api_contracts.json",
-      "root_key": "contracts",
-      "label": "owner",
-      "status": "active",
-      "rule": "Canonical source API contract ledger; gameplay and transpiler code must read contract metadata from this shard instead of inventing parallel contract ownership.",
-      "canonical_module": "api_contracts",
-      "canonical_reference_key": "canonical_contract",
-      "canonical_reference_prefix": "source_api_contracts.",
-      "mirror_fields": [
-        "status",
-        "source_slice",
-        "java_source",
-        "source_method",
-        "params",
-        "return_keys",
-        "tests",
-        "runtime_proof",
-        "rule"
-      ]
-    },
-    "source_state_schema_schemas": {
-      "path": "src/generated/source_state_schema.json",
-      "root_key": "schemas",
-      "label": "schemaName",
-      "status": "active",
-      "rule": "Canonical source state schema ledger; gameplay and transpiler code must read dictionary schema metadata from this shard instead of inventing parallel state schema ownership.",
-      "canonical_module": "state_schema",
-      "canonical_reference_key": "canonical_schema",
-      "canonical_reference_prefix": "source_state_schema.",
-      "mirror_fields": [
-        "keys"
-      ]
-    },
-    "source_slice_ledger_slices": {
-      "path": "src/generated/source_slice_ledger.json",
-      "root_key": "slices",
-      "label": "sliceId",
-      "status": "active",
-      "rule": "Canonical source slice ledger; gameplay and transpiler code must read slice metadata from this shard instead of inventing parallel slice IDs or owners.",
-      "canonical_module": "slice_ledger",
-      "canonical_reference_key": "canonical_ledger",
-      "canonical_reference_prefix": "source_slice_ledger.",
-      "mirror_fields": [
-        "status",
-        "java_source",
-        "java_method",
-        "godot_owner",
-        "source_symbols",
-        "tests",
-        "runtime_proof"
-      ]
-    },
-    "source_audit_registered_owners": {
-      "path": "src/generated/source_symbol_audit_report.json",
-      "root_key": "registeredSourceOwners",
-      "label": "owner",
-      "status": "active",
-      "rule": "Canonical source audit owner register; runtime and transpiler code must read registered owner coverage from this shard instead of inventing parallel ownership tracking.",
-      "canonical_module": "audit",
-      "canonical_reference_key": "canonical_owner",
-      "canonical_reference_prefix": "source_audit.",
-      "mirror_fields": [
-        "owner"
-      ]
-    },
     "consumer_slices": {
       "canonical_module": "slice_ledger",
       "canonical_reference_key": "canonical_ledger",
@@ -1484,9 +1399,79 @@
       "mirror_fields": [
         "value"
       ]
+    },
+    "block_placement": {
+      "path": "src/generated/source_modules/block_placement.json",
+      "root_key": "block_placement",
+      "label": "blockPlacement",
+      "status": "active",
+      "rule": "Canonical registry shard for block placement state; runtime code must route selected-block placement state through SourceBlockPlacement instead of duplicating placement guards in port_game.",
+      "canonical_module": "",
+      "canonical_collection_key": "",
+      "canonical_key_field": "",
+      "canonical_value_field": "",
+      "canonical_reference_key": "",
+      "canonical_reference_prefix": "",
+      "mirror_fields": []
+    },
+    "core_damage_runtime": {
+      "path": "src/generated/source_modules/core_damage_runtime.json",
+      "root_key": "core_damage_runtime",
+      "label": "coreDamageRuntime",
+      "status": "active",
+      "rule": "Canonical registry shard for core damage runtime state; runtime code must route core-health clamp and game-over winner updates through SourceCoreDamageRuntimeState instead of duplicating them in PortGame.",
+      "canonical_module": "",
+      "canonical_collection_key": "",
+      "canonical_key_field": "",
+      "canonical_value_field": "",
+      "canonical_reference_key": "",
+      "canonical_reference_prefix": "",
+      "mirror_fields": []
+    },
+    "enemy_runtime": {
+      "path": "src/generated/source_modules/enemy_runtime.json",
+      "root_key": "enemy_runtime",
+      "label": "enemyRuntime",
+      "status": "active",
+      "rule": "Canonical registry shard for enemy unit runtime state; runtime code must route enemy movement, impact, wave spawn timing, unit spawn assembly, wave orchestration, and runtime summary assembly through SourceEnemyUnitRuntimeState instead of duplicating them in PortGame.",
+      "canonical_module": "",
+      "canonical_collection_key": "",
+      "canonical_key_field": "",
+      "canonical_value_field": "",
+      "canonical_reference_key": "",
+      "canonical_reference_prefix": "",
+      "mirror_fields": []
+    },
+    "placed_power_graph": {
+      "path": "src/generated/source_modules/placed_power_graph.json",
+      "root_key": "placed_power_graph",
+      "label": "placedPowerGraph",
+      "status": "active",
+      "rule": "Canonical registry shard for placed power graph aggregation; runtime code must route placed power graph ownership through SourcePlacedPowerGraphState instead of duplicating the counting and summary loops in PortGame.",
+      "canonical_module": "",
+      "canonical_collection_key": "",
+      "canonical_key_field": "",
+      "canonical_value_field": "",
+      "canonical_reference_key": "",
+      "canonical_reference_prefix": "",
+      "mirror_fields": []
     }
   },
   "policy": {
+    "canonicalAliases": {
+      "content_registry.blocks": [
+        "block content registry",
+        "content registry blocks"
+      ],
+      "registry": [
+        "source symbols",
+        "source symbol registry",
+        "source.symbol.registry"
+      ]
+    },
+    "canonicalHeadquarters": {
+      "registry": "source_symbol_registry"
+    },
     "extensionModuleRequiresRootKey": true,
     "extensionModuleRoot": "src/generated/source_modules",
     "newJsonShardRequiresManifestEntry": true

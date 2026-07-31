@@ -2,7 +2,7 @@
   "version": 1,
   "root_key": "time",
   "time": {
-    "tick_rate": 60.0,
+    "tick_rate": 60,
     "source": {
       "to_seconds_expr": "public static final float toSeconds = 60f",
       "java_sources": [

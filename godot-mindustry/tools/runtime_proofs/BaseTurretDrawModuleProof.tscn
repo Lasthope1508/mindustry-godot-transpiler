@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3]
 
-[ext_resource type="Script" path="res://tools/runtime_proofs/BaseTurretDrawModuleProof.gd" id="1_baseturretdrawproof"]
+[ext_resource type="Script" path="res://tools/runtime_proofs/BaseTurretDrawModuleProof.gd" id="1_base_turret_draw_module_proof"]
 
 [node name="BaseTurretDrawModuleProof" type="Node"]
-script = ExtResource("1_baseturretdrawproof")
+script = ExtResource("1_base_turret_draw_module_proof")

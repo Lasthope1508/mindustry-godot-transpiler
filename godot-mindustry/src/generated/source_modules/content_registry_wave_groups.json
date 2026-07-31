@@ -13,7 +13,7 @@
         "end": 10,
         "max": 30,
         "unit": "dagger",
-        "unitScaling": 2.0
+        "unitScaling": 2
       }
     },
     "1": {
@@ -34,7 +34,7 @@
         "begin": 12,
         "end": 16,
         "unit": "flare",
-        "unitScaling": 1.0
+        "unitScaling": 1
       }
     },
     "3": {
@@ -43,7 +43,7 @@
       "group": {
         "begin": 11,
         "max": 4,
-        "shieldScaling": 25.0,
+        "shieldScaling": 25,
         "spacing": 2,
         "unit": "dagger",
         "unitScaling": 1.7
@@ -77,7 +77,7 @@
       "group": {
         "begin": 12,
         "max": 14,
-        "shieldScaling": 20.0,
+        "shieldScaling": 20,
         "spacing": 2,
         "unit": "dagger",
         "unitAmount": 4,
@@ -90,7 +90,7 @@
       "group": {
         "begin": 28,
         "end": 40,
-        "shieldScaling": 20.0,
+        "shieldScaling": 20,
         "spacing": 3,
         "unit": "mace",
         "unitScaling": 1
@@ -102,7 +102,7 @@
       "group": {
         "begin": 45,
         "max": 10,
-        "shieldScaling": 30.0,
+        "shieldScaling": 30,
         "shields": 100,
         "spacing": 3,
         "unit": "spiroct",
@@ -126,7 +126,7 @@
       "group": {
         "begin": 16,
         "max": 20,
-        "shieldScaling": 20.0,
+        "shieldScaling": 20,
         "spacing": 2,
         "unit": "flare",
         "unitScaling": 1
@@ -137,7 +137,7 @@
       "index": 11,
       "group": {
         "begin": 82,
-        "shieldScaling": 30.0,
+        "shieldScaling": 30,
         "spacing": 3,
         "unit": "quasar",
         "unitAmount": 4,
@@ -150,7 +150,7 @@
       "group": {
         "begin": 41,
         "max": 25,
-        "shields": 640.0,
+        "shields": 640,
         "spacing": 5,
         "unit": "pulsar",
         "unitAmount": 1,
@@ -211,8 +211,8 @@
       "group": {
         "begin": 50,
         "max": 20,
-        "shieldScaling": 10.0,
-        "shields": 100.0,
+        "shieldScaling": 10,
+        "shields": 100,
         "spacing": 5,
         "unit": "flare",
         "unitAmount": 4,
@@ -249,7 +249,7 @@
       "index": 20,
       "group": {
         "begin": 31,
-        "shieldScaling": 10.0,
+        "shieldScaling": 10,
         "spacing": 3,
         "unit": "atrax",
         "unitAmount": 4,
@@ -261,7 +261,7 @@
       "index": 21,
       "group": {
         "begin": 41,
-        "shieldScaling": 30.0,
+        "shieldScaling": 30,
         "spacing": 30,
         "unit": "scepter",
         "unitAmount": 1,
@@ -273,7 +273,7 @@
       "index": 22,
       "group": {
         "begin": 81,
-        "shieldScaling": 30.0,
+        "shieldScaling": 30,
         "spacing": 40,
         "unit": "reign",
         "unitAmount": 1,
@@ -285,7 +285,7 @@
       "index": 23,
       "group": {
         "begin": 120,
-        "shieldScaling": 30.0,
+        "shieldScaling": 30,
         "spacing": 40,
         "unit": "antumbra",
         "unitAmount": 1,
@@ -297,7 +297,7 @@
       "index": 24,
       "group": {
         "begin": 100,
-        "shieldScaling": 30.0,
+        "shieldScaling": 30,
         "spacing": 30,
         "unit": "vela",
         "unitAmount": 1,
@@ -309,7 +309,7 @@
       "index": 25,
       "group": {
         "begin": 145,
-        "shieldScaling": 30.0,
+        "shieldScaling": 30,
         "shields": 100,
         "spacing": 35,
         "unit": "corvus",
@@ -322,8 +322,8 @@
       "index": 26,
       "group": {
         "begin": 90,
-        "shieldScaling": 30.0,
-        "shields": 40.0,
+        "shieldScaling": 30,
+        "shields": 40,
         "spacing": 4,
         "unit": "horizon",
         "unitAmount": 2,
@@ -335,7 +335,7 @@
       "index": 27,
       "group": {
         "begin": 210,
-        "shieldScaling": 35.0,
+        "shieldScaling": 35,
         "shields": 1000,
         "spacing": 35,
         "unit": "toxopid",

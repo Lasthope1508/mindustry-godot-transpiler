@@ -1,13 +1,13 @@
 extends Node
 
 const PortGameScript := preload("res://src/game/PortGame.gd")
-const SourceConsumePowerState := preload("res://src/game/SourceConsumePowerState.gd")
-const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")
-const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")
+const source_consume_power_state := preload("res://src/game/SourceConsumePowerState.gd")
+const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const source_time_defaults := preload("res://src/game/SourceTimeDefaults.gd")
 
 func _ready() -> void:
 	var game := PortGameScript.new()
-	var registry_state := SourceSsotCatalog.canonical_headquarter_registry_state()
+	var registry_state := source_ssot_catalog.canonical_headquarter_registry_state()
 	var buffered := false
 	var usage := 4.0
 	var capacity := 20.0
@@ -26,17 +26,18 @@ func _ready() -> void:
 	var dynamic_display_bridge := game.generated_consume_power_dynamic_display_bridge_state(11.0)
 	var proof := {
 		"module": "SourceConsumePowerState",
-		"requested_bridge_matches": requested_bridge == SourceConsumePowerState.generated_requested_power_bridge_state(buffered, usage, capacity, power_status, should_consume),
-		"apply_bridge_matches": apply_bridge == SourceConsumePowerState.generated_apply_bridge_state(block_has_power_before, block_cons_power_before, consume_power_state),
-		"ignore_bridge_matches": ignore_bridge == SourceConsumePowerState.generated_ignore_bridge_state(true),
-		"efficiency_bridge_matches": efficiency_bridge == SourceConsumePowerState.generated_efficiency_bridge_state(power_status),
-		"display_bridge_matches": display_bridge == SourceConsumePowerState.generated_display_bridge_state(buffered, usage, capacity, SourceTimeDefaults.TICK_RATE),
-		"condition_bridge_matches": condition_bridge == SourceConsumePowerState.generated_condition_requested_power_bridge_state(9.0, true),
-		"dynamic_requested_bridge_matches": dynamic_requested_bridge == SourceConsumePowerState.generated_dynamic_requested_power_bridge_state(13.0),
-		"dynamic_display_bridge_matches": dynamic_display_bridge == SourceConsumePowerState.generated_dynamic_display_bridge_state(11.0, SourceTimeDefaults.TICK_RATE),
+		"requested_bridge_matches": requested_bridge == source_consume_power_state.generated_requested_power_bridge_state(buffered, usage, capacity, power_status, should_consume),
+		"apply_bridge_matches": apply_bridge == source_consume_power_state.generated_apply_bridge_state(block_has_power_before, block_cons_power_before, consume_power_state),
+		"ignore_bridge_matches": ignore_bridge == source_consume_power_state.generated_ignore_bridge_state(true),
+		"efficiency_bridge_matches": efficiency_bridge == source_consume_power_state.generated_efficiency_bridge_state(power_status),
+		"display_bridge_matches": display_bridge == source_consume_power_state.generated_display_bridge_state(buffered, usage, capacity, source_time_defaults.TICK_RATE),
+		"condition_bridge_matches": condition_bridge == source_consume_power_state.generated_condition_requested_power_bridge_state(9.0, true),
+		"dynamic_requested_bridge_matches": dynamic_requested_bridge == source_consume_power_state.generated_dynamic_requested_power_bridge_state(13.0),
+		"dynamic_display_bridge_matches": dynamic_display_bridge == source_consume_power_state.generated_dynamic_display_bridge_state(11.0, source_time_defaults.TICK_RATE),
+		"registry_valid": bool(registry_state.get("errors", []).is_empty()),
 		"one_headquarter_per_ssot": bool(registry_state.get("one_headquarter_per_ssot", false)),
 	}
-	proof["matches"] = proof["requested_bridge_matches"] and proof["apply_bridge_matches"] and proof["ignore_bridge_matches"] and proof["efficiency_bridge_matches"] and proof["display_bridge_matches"] and proof["condition_bridge_matches"] and proof["dynamic_requested_bridge_matches"] and proof["dynamic_display_bridge_matches"] and proof["one_headquarter_per_ssot"]
+	proof["matches"] = proof["requested_bridge_matches"] and proof["apply_bridge_matches"] and proof["ignore_bridge_matches"] and proof["efficiency_bridge_matches"] and proof["display_bridge_matches"] and proof["condition_bridge_matches"] and proof["dynamic_requested_bridge_matches"] and proof["dynamic_display_bridge_matches"] and proof["one_headquarter_per_ssot"] and proof["registry_valid"]
 	var proof_json := JSON.stringify(proof)
 	print("CONSUME_POWER_MODULE_PROOF " + proof_json)
 	var proof_path := ProjectSettings.globalize_path("res://tools/runtime_proofs/ConsumePowerModuleProof.json")
@@ -44,5 +45,5 @@ func _ready() -> void:
 	if proof_file != null:
 		proof_file.store_string(proof_json)
 	game.free()
-	await get_tree().create_timer(6.0).timeout
+	await get_tree().create_timer(60.0).timeout
 	get_tree().quit(0)

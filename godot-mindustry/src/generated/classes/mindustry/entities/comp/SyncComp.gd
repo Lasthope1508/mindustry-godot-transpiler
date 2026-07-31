@@ -14,35 +14,35 @@ const JAVA_METHODS := [{"modifiers": [], "name": "snapSync", "parameters": [], "
 const JAVA_ENUM_CONSTANTS := []
 
 func java_method_snapSync_0(_args: Array = []) -> Variant:
-	return {"source_owner": "PortGame.source_sync_snap_sync_state", "method": "void snapSync(){}", "empty_body": "void snapSync(){}", "no_op": true}
+	return {"source_owner": "port_game.source_sync_snap_sync_state", "method": "void snapSync(){}", "empty_body": "void snapSync(){}", "no_op": true}
 
 func java_method_snapInterpolation_1(_args: Array = []) -> Variant:
-	return {"source_owner": "PortGame.source_sync_snap_interpolation_state", "method": "void snapInterpolation(){}", "empty_body": "void snapInterpolation(){}", "no_op": true}
+	return {"source_owner": "port_game.source_sync_snap_interpolation_state", "method": "void snapInterpolation(){}", "empty_body": "void snapInterpolation(){}", "no_op": true}
 
 func java_method_readSync_2(_args: Array = []) -> Variant:
-	return {"source_owner": "PortGame.source_sync_read_sync_state", "method": "void readSync(Reads read){}", "empty_body": "void readSync(Reads read){}", "no_op": true}
+	return {"source_owner": "port_game.source_sync_read_sync_state", "method": "void readSync(Reads read){}", "empty_body": "void readSync(Reads read){}", "no_op": true}
 
 func java_method_writeSync_3(_args: Array = []) -> Variant:
-	return {"source_owner": "PortGame.source_sync_write_sync_state", "method": "void writeSync(Writes write){}", "empty_body": "void writeSync(Writes write){}", "no_op": true}
+	return {"source_owner": "port_game.source_sync_write_sync_state", "method": "void writeSync(Writes write){}", "empty_body": "void writeSync(Writes write){}", "no_op": true}
 
 func java_method_readSyncManual_4(_args: Array = []) -> Variant:
-	return {"source_owner": "PortGame.source_sync_read_sync_manual_state", "method": "void readSyncManual(FloatBuffer buffer){}", "empty_body": "void readSyncManual(FloatBuffer buffer){}", "no_op": true}
+	return {"source_owner": "port_game.source_sync_read_sync_manual_state", "method": "void readSyncManual(FloatBuffer buffer){}", "empty_body": "void readSyncManual(FloatBuffer buffer){}", "no_op": true}
 
 func java_method_writeSyncManual_5(_args: Array = []) -> Variant:
-	return {"source_owner": "PortGame.source_sync_write_sync_manual_state", "method": "void writeSyncManual(FloatBuffer buffer){}", "empty_body": "void writeSyncManual(FloatBuffer buffer){}", "no_op": true}
+	return {"source_owner": "port_game.source_sync_write_sync_manual_state", "method": "void writeSyncManual(FloatBuffer buffer){}", "empty_body": "void writeSyncManual(FloatBuffer buffer){}", "no_op": true}
 
 func java_method_afterSync_6(_args: Array = []) -> Variant:
-	return {"source_owner": "PortGame.source_sync_after_sync_state", "method": "void afterSync(){}", "empty_body": "void afterSync(){}", "no_op": true}
+	return {"source_owner": "port_game.source_sync_after_sync_state", "method": "void afterSync(){}", "empty_body": "void afterSync(){}", "no_op": true}
 
 func java_method_interpolate_7(_args: Array = []) -> Variant:
-	return {"source_owner": "PortGame.source_sync_interpolate_state", "method": "void interpolate(){}", "empty_body": "void interpolate(){}", "no_op": true}
+	return {"source_owner": "port_game.source_sync_interpolate_state", "method": "void interpolate(){}", "empty_body": "void interpolate(){}", "no_op": true}
 
 func java_method_isSyncHidden_8(_args: Array = []) -> Variant:
 	var player: Variant = _args[0] if _args.size() > 0 else null
-	return {"source_owner": "PortGame.source_sync_is_sync_hidden_state", "method": "boolean isSyncHidden(Player player){", "player": player, "return_expr": "return false;", "is_sync_hidden": false}
+	return {"source_owner": "port_game.source_sync_is_sync_hidden_state", "method": "boolean isSyncHidden(Player player){", "player": player, "return_expr": "return false;", "is_sync_hidden": false}
 
 func java_method_handleSyncHidden_9(_args: Array = []) -> Variant:
-	return {"source_owner": "PortGame.source_sync_handle_sync_hidden_state", "method": "void handleSyncHidden(){", "empty_body": "void handleSyncHidden(){\n\n}", "no_op": true}
+	return {"source_owner": "port_game.source_sync_handle_sync_hidden_state", "method": "void handleSyncHidden(){", "empty_body": "void handleSyncHidden(){\n\n}", "no_op": true}
 
 func java_method_update_10(_args: Array = []) -> Variant:
 	var net_client: bool = bool(_args[0] if _args.size() > 0 else false)
@@ -52,7 +52,7 @@ func java_method_update_10(_args: Array = []) -> Variant:
 	var interpolate_result: Variant = null
 	if interpolate_called:
 		interpolate_result = java_method_interpolate_7([])
-	return {"source_owner": "PortGame.source_sync_update_interpolate_state", "method": "public void update(){", "condition": "if((Vars.net.client() && !isLocal()) || isRemote()){", "interpolate_call": "interpolate();", "net_client": net_client, "is_local": is_local, "is_remote": is_remote, "interpolate_called": interpolate_called, "interpolate": interpolate_result}
+	return {"source_owner": "port_game.source_sync_update_interpolate_state", "method": "public void update(){", "condition": "if((Vars.net.client() && !isLocal()) || isRemote()){", "interpolate_call": "interpolate();", "net_client": net_client, "is_local": is_local, "is_remote": is_remote, "interpolate_called": interpolate_called, "interpolate": interpolate_result}
 
 func java_method_remove_11(_args: Array = []) -> Variant:
 	var net_client: bool = bool(_args[0] if _args.size() > 0 else false)
@@ -60,4 +60,4 @@ func java_method_remove_11(_args: Array = []) -> Variant:
 	var add_removed_entity_call: Variant = null
 	if net_client:
 		add_removed_entity_call = {"call": "Vars.netClient.addRemovedEntity(id());", "entity_id": entity_id}
-	return {"source_owner": "PortGame.source_sync_remove_client_removed_entity_state", "method": "public void remove(){", "condition": "if(Vars.net.client()){", "add_removed_entity_call": add_removed_entity_call, "id_call": "id()", "net_client": net_client, "entity_id": entity_id}
+	return {"source_owner": "port_game.source_sync_remove_client_removed_entity_state", "method": "public void remove(){", "condition": "if(Vars.net.client()){", "add_removed_entity_call": add_removed_entity_call, "id_call": "id()", "net_client": net_client, "entity_id": entity_id}

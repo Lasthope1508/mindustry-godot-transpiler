@@ -13,16 +13,16 @@ const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "ConsumeLiquidBase
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "apply", "parameters": [{"name": "block", "type": "Block", "varargs": false}], "return_type": ""}, {"modifiers": ["abstract", "public"], "name": "consumes", "parameters": [{"name": "liquid", "type": "Liquid", "varargs": false}], "return_type": "boolean"}]
 const JAVA_ENUM_CONSTANTS := []
 
-func java_constructor_ConsumeLiquidBase_0(_args: Array = []) -> Variant:
-	var amount: float = float(_args[0] if _args.size() > 0 else 0.0)
-	var amount_after: float = amount
-	return {"source_owner": "PortGame.source_consume_liquid_base_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java", "constructor": "public ConsumeLiquidBase(float amount){", "amount_field": "public float amount;", "assignment_expr": "this.amount = amount;", "amount": amount, "amount_after": amount_after}
-
 func java_method_apply_0(_args: Array = []) -> Variant:
 	var block_has_liquids_before: bool = bool(_args[0] if _args.size() > 0 else false)
 	var block_has_liquids_after: bool = true
-	return {"source_owner": "PortGame.source_consume_liquid_base_apply_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java", "method": "public void apply(Block block){", "block_has_liquids_before": block_has_liquids_before, "block_has_liquids_after": block_has_liquids_after, "assignment_expr": "block.hasLiquids = true;"}
+	return {"source_owner": "port_game.source_consume_liquid_base_apply_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java", "method": "public void apply(Block block){", "block_has_liquids_before": block_has_liquids_before, "block_has_liquids_after": block_has_liquids_after, "assignment_expr": "block.hasLiquids = true;"}
 
 func java_method_consumes_1(_args: Array = []) -> Variant:
 	var liquid: Variant = _args[0] if _args.size() > 0 else null
-	return {"source_owner": "PortGame.source_consume_liquid_base_abstract_consumes_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java", "class_expr": "public abstract class ConsumeLiquidBase extends Consume{", "method": "public abstract boolean consumes(Liquid liquid);", "abstract_method": true, "implemented_in_subclass": false, "liquid": liquid}
+	return {"source_owner": "port_game.source_consume_liquid_base_abstract_consumes_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java", "class_expr": "public abstract class ConsumeLiquidBase extends Consume{", "method": "public abstract boolean consumes(Liquid liquid);", "abstract_method": true, "implemented_in_subclass": false, "liquid": liquid}
+
+func java_constructor_ConsumeLiquidBase_0(_args: Array = []) -> Variant:
+	var amount: float = float(_args[0] if _args.size() > 0 else 0.0)
+	var amount_after: float = amount
+	return {"source_owner": "port_game.source_consume_liquid_base_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java", "constructor": "public ConsumeLiquidBase(float amount){", "amount_field": "public float amount;", "assignment_expr": "this.amount = amount;", "amount": amount, "amount_after": amount_after}

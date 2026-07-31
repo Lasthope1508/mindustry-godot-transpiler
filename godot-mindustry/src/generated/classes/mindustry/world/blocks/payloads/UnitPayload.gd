@@ -12,10 +12,41 @@ const JAVA_FIELDS := [{"modifiers": ["final", "public", "static"], "name": "over
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "UnitPayload", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "showOverlay", "parameters": [{"name": "icon", "type": "TextureRegion", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "showOverlay", "parameters": [{"name": "icon", "type": "TextureRegionDrawable", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "contentEquals", "parameters": [{"name": "other", "type": "Payload", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "update", "parameters": [{"name": "unitHolder", "type": "Unit", "varargs": false}, {"name": "buildingHolder", "type": "Building", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "content", "parameters": [], "return_type": "UnlockableContent"}, {"modifiers": ["public"], "name": "requirements", "parameters": [], "return_type": "ItemStack"}, {"modifiers": ["public"], "name": "buildTime", "parameters": [], "return_type": "float"}, {"modifiers": ["public"], "name": "write", "parameters": [{"name": "write", "type": "Writes", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "set", "parameters": [{"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "rotation", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "x", "parameters": [], "return_type": "float"}, {"modifiers": ["public"], "name": "y", "parameters": [], "return_type": "float"}, {"modifiers": ["public"], "name": "rotation", "parameters": [], "return_type": "float"}, {"modifiers": ["public"], "name": "size", "parameters": [], "return_type": "float"}, {"modifiers": ["public"], "name": "dump", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "drawShadow", "parameters": [{"name": "alpha", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "draw", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "icon", "parameters": [], "return_type": "TextureRegion"}]
 const JAVA_ENUM_CONSTANTS := []
+const source_unit_defaults := preload("res://src/game/SourceUnitDefaults.gd")
+const source_unit_payload_basic_state := preload("res://src/game/SourceUnitPayloadBasicState.gd")
+const source_unit_payload_content_state := preload("res://src/game/SourceUnitPayloadContentState.gd")
+const source_unit_payload_requirements_state := preload("res://src/game/SourceUnitPayloadRequirementsState.gd")
+const source_unit_payload_io_state := preload("res://src/game/SourceUnitPayloadIoState.gd")
+const source_unit_payload_draw_state := preload("res://src/game/SourceUnitPayloadDrawState.gd")
+const source_unit_payload_dump_state := preload("res://src/game/SourceUnitPayloadDumpState.gd")
+const source_world_defaults := preload("res://src/game/SourceWorldDefaults.gd")
+const SOURCE_UNIT_PAYLOAD_OVERLAY_DURATION := source_unit_defaults.PAYLOAD_OVERLAY_DURATION
+const SOURCE_UNIT_PAYLOAD_OVERLAY_ALPHA := source_unit_defaults.PAYLOAD_OVERLAY_ALPHA
+const SOURCE_UNIT_PAYLOAD_WARNING_SIZE := source_unit_defaults.PAYLOAD_WARNING_SIZE
+const SOURCE_TILESIZE := source_world_defaults.TILESIZE
+const SOURCE_UNIT_PAYLOAD_OVERLAP_RADIUS_MULTIPLIER := source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_OVERLAP_RADIUS_MULTIPLIER
+const SOURCE_UNIT_PAYLOAD_DUMP_SPAWN_VELOCITY_RANGE := source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_DUMP_SPAWN_VELOCITY_RANGE
+const SOURCE_UNIT_PAYLOAD_DUMP_SOLID_LOOKAHEAD := source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_DUMP_SOLID_LOOKAHEAD
+const SOURCE_UNIT_PAYLOAD_DUMP_SOLID_SOLID_CALL_EXPR := source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_DUMP_SOLID_SOLID_CALL_EXPR
+const SOURCE_UNIT_PAYLOAD_DUMP_UNITS_COUNT_EXPR := source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_DUMP_UNITS_COUNT_EXPR
+const SOURCE_UNIT_PAYLOAD_DUMP_VELOCITY_ADD_EXPR := source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_DUMP_VELOCITY_ADD_EXPR
+const SOURCE_UNIT_PAYLOAD_DUMP_MATHF_RANGE_FLOAT_METHOD := source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_DUMP_MATHF_RANGE_FLOAT_METHOD
+const SOURCE_UNIT_PAYLOAD_DUMP_MATHF_RANGE_FLOAT_RETURN := source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_DUMP_MATHF_RANGE_FLOAT_RETURN
+const SOURCE_UNIT_PAYLOAD_DUMP_UNIT_ADD_EXPR := source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_DUMP_UNIT_ADD_EXPR
+const SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOADED_EXPR := source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOADED_EXPR
+const SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOAD_EVENT_EXPR := source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOAD_EVENT_EXPR
+const SOURCE_UNIT_PAYLOAD_DUMP_EVENT_FIRE_EXPR := source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_DUMP_EVENT_FIRE_EXPR
+const SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOAD_EVENT_COMMENT := source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOAD_EVENT_COMMENT
+const SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOAD_EVENT_CLASS := source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOAD_EVENT_CLASS
+const SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOAD_EVENT_CONSTRUCTOR := source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOAD_EVENT_CONSTRUCTOR
+const SOURCE_UNIT_PAYLOAD_DUMP_NOTIFY_UNIT_SPAWN_EXPR := source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_DUMP_NOTIFY_UNIT_SPAWN_EXPR
+const SOURCE_UNIT_PAYLOAD_DUMP_NOTIFY_UNIT_SPAWN_METHOD := source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_DUMP_NOTIFY_UNIT_SPAWN_METHOD
+const SOURCE_UNIT_PAYLOAD_DUMP_NOTIFY_UNIT_SPAWN_GUARD := source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_DUMP_NOTIFY_UNIT_SPAWN_GUARD
+const SOURCE_UNIT_PAYLOAD_DUMP_RETURN_TRUE_STATEMENT_EXPR := source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_DUMP_RETURN_TRUE_STATEMENT_EXPR
 
 func java_method_showOverlay_0(_args: Array = []) -> Variant:
 	var icon: Variant = _args[0] if _args.size() > 0 else null
-	return {"source_owner": "PortGame.source_unit_payload_show_overlay_texture_region_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "overlay_time_field_expr": "public float overlayTime = 0f;", "overlay_region_field_expr": "public @Nullable TextureRegion overlayRegion;", "method": "public void showOverlay(TextureRegion icon){", "overlay_region_assign_expr": "overlayRegion = icon;", "overlay_time_assign_expr": "overlayTime = 1f;", "icon": icon, "overlayRegion_after": icon, "overlayTime_after": 1.0}
+	return {"source_owner": "port_game.source_unit_payload_show_overlay_texture_region_state", "source": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_SOURCE, "class_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_CLASS_EXPR, "overlay_time_field_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_OVERLAY_TIME_FIELD_EXPR, "overlay_region_field_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_OVERLAY_REGION_FIELD_EXPR, "method": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_SHOW_OVERLAY_TEXTURE_REGION_METHOD, "overlay_region_assign_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_SHOW_OVERLAY_REGION_ASSIGN_EXPR, "overlay_time_assign_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_SHOW_OVERLAY_TIME_ASSIGN_EXPR, "icon": icon, "overlayRegion_after": icon, "overlayTime_after": 1.0}
 
 func java_method_showOverlay_1(_args: Array = []) -> Variant:
 	var icon_null: bool = bool(_args[0] if _args.size() > 0 else false)
@@ -28,15 +59,15 @@ func java_method_showOverlay_1(_args: Array = []) -> Variant:
 	if not returned:
 		overlay_region_after = region
 		overlay_time_after = 1.0
-		delegate_call = {"call": "showOverlay(icon.getRegion());", "region": region}
-	return {"source_owner": "PortGame.source_unit_payload_show_overlay_drawable_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "import_expr": "import static mindustry.Vars.*;", "method": "public void showOverlay(TextureRegionDrawable icon){", "guard_expr": "if(icon == null || headless) return;", "delegate_expr": "showOverlay(icon.getRegion());", "icon_null": icon_null, "headless": headless, "region": region, "returned": returned, "get_region_called": not returned, "show_overlay_called": not returned, "delegate_call": delegate_call, "overlayRegion_after": overlay_region_after, "overlayTime_after": overlay_time_after}
+		delegate_call = {"call": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_SHOW_OVERLAY_DRAWABLE_DELEGATE_EXPR, "region": region}
+	return {"source_owner": "port_game.source_unit_payload_show_overlay_drawable_state", "source": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_SOURCE, "class_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_CLASS_EXPR, "import_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_IMPORT_STATIC_VARS_EXPR, "method": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_SHOW_OVERLAY_DRAWABLE_METHOD, "guard_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_SHOW_OVERLAY_DRAWABLE_GUARD_EXPR, "delegate_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_SHOW_OVERLAY_DRAWABLE_DELEGATE_EXPR, "icon_null": icon_null, "headless": headless, "region": region, "returned": returned, "get_region_called": not returned, "show_overlay_called": not returned, "delegate_call": delegate_call, "overlayRegion_after": overlay_region_after, "overlayTime_after": overlay_time_after}
 
 func java_method_contentEquals_2(_args: Array = []) -> Variant:
 	var other_is_unit_payload: bool = bool(_args[0] if _args.size() > 0 else false)
 	var other_unit_type: Variant = _args[1] if _args.size() > 1 else null
 	var unit_type: Variant = _args[2] if _args.size() > 2 else null
 	var content_equals: bool = other_is_unit_payload and other_unit_type == unit_type
-	return {"source_owner": "PortGame.source_unit_payload_content_equals_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public boolean contentEquals(Payload other){", "return_expr": "return other instanceof UnitPayload up && up.unit.type == unit.type;", "other_is_unit_payload": other_is_unit_payload, "other_unit_type": other_unit_type, "unit_type": unit_type, "content_equals": content_equals}
+	return {"source_owner": "port_game.source_unit_payload_content_equals_state", "source": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_SOURCE, "class_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_CLASS_EXPR, "field_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR, "override_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR, "method": source_unit_payload_content_state.SOURCE_UNIT_PAYLOAD_CONTENT_EQUALS_METHOD, "return_expr": source_unit_payload_content_state.SOURCE_UNIT_PAYLOAD_CONTENT_EQUALS_RETURN_EXPR, "other_is_unit_payload": other_is_unit_payload, "other_unit_type": other_unit_type, "unit_type": unit_type, "content_equals": content_equals}
 
 func java_method_update_3(_args: Array = []) -> Variant:
 	var unit_type: Variant = _args[0] if _args.size() > 0 else null
@@ -44,53 +75,53 @@ func java_method_update_3(_args: Array = []) -> Variant:
 	var unit_holder: Variant = _args[2] if _args.size() > 2 else null
 	var building_holder: Variant = _args[3] if _args.size() > 3 else null
 	var update_payload_called: bool = true
-	var update_payload_call: Dictionary = {"call": "unit.type.updatePayload(unit, unitHolder, buildingHolder);", "unit_type": unit_type, "unit": unit, "unitHolder": unit_holder, "buildingHolder": building_holder}
-	return {"source_owner": "PortGame.source_unit_payload_update_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public void update(@Nullable Unit unitHolder, @Nullable Building buildingHolder){", "update_payload_expr": "unit.type.updatePayload(unit, unitHolder, buildingHolder);", "unit_type": unit_type, "unit": unit, "unitHolder": unit_holder, "buildingHolder": building_holder, "update_payload_called": update_payload_called, "update_payload_call": update_payload_call}
+	var update_payload_call: Dictionary = {"call": source_unit_payload_content_state.SOURCE_UNIT_PAYLOAD_UPDATE_PAYLOAD_EXPR, "unit_type": unit_type, "unit": unit, "unitHolder": unit_holder, "buildingHolder": building_holder}
+	return {"source_owner": "port_game.source_unit_payload_update_state", "source": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_SOURCE, "class_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_CLASS_EXPR, "field_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR, "override_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR, "method": source_unit_payload_content_state.SOURCE_UNIT_PAYLOAD_UPDATE_METHOD, "update_payload_expr": source_unit_payload_content_state.SOURCE_UNIT_PAYLOAD_UPDATE_PAYLOAD_EXPR, "unit_type": unit_type, "unit": unit, "unitHolder": unit_holder, "buildingHolder": building_holder, "update_payload_called": update_payload_called, "update_payload_call": update_payload_call}
 
 func java_method_content_4(_args: Array = []) -> Variant:
 	var unit_type: Variant = _args[0] if _args.size() > 0 else null
-	return {"source_owner": "PortGame.source_unit_payload_content_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public UnlockableContent content(){", "return_expr": "return unit.type;", "unit_type": unit_type, "content": unit_type}
+	return {"source_owner": "port_game.source_unit_payload_content_state", "source": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_SOURCE, "class_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_CLASS_EXPR, "field_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR, "override_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR, "method": source_unit_payload_content_state.SOURCE_UNIT_PAYLOAD_CONTENT_METHOD, "return_expr": source_unit_payload_content_state.SOURCE_UNIT_PAYLOAD_CONTENT_RETURN_EXPR, "unit_type": unit_type, "content": unit_type}
 
 func java_method_requirements_5(_args: Array = []) -> Variant:
 	var unit_type: Variant = _args[0] if _args.size() > 0 else null
 	var total_requirements: Variant = _args[1] if _args.size() > 1 else []
-	var get_total_requirements_call: Dictionary = {"call": "unit.type.getTotalRequirements();", "unit_type": unit_type, "requirements": total_requirements}
-	return {"source_owner": "PortGame.source_unit_payload_requirements_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public ItemStack[] requirements(){", "return_expr": "return unit.type.getTotalRequirements();", "unit_type": unit_type, "requirements": total_requirements, "get_total_requirements_call": get_total_requirements_call}
+	var get_total_requirements_call: Dictionary = {"call": source_unit_payload_requirements_state.SOURCE_UNIT_PAYLOAD_REQUIREMENTS_CALL_EXPR, "unit_type": unit_type, "requirements": total_requirements}
+	return {"source_owner": "port_game.source_unit_payload_requirements_state", "source": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_SOURCE, "class_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_CLASS_EXPR, "field_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR, "override_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR, "method": source_unit_payload_requirements_state.SOURCE_UNIT_PAYLOAD_REQUIREMENTS_METHOD, "return_expr": source_unit_payload_requirements_state.SOURCE_UNIT_PAYLOAD_REQUIREMENTS_RETURN_EXPR, "unit_type": unit_type, "requirements": total_requirements, "get_total_requirements_call": get_total_requirements_call}
 
 func java_method_buildTime_6(_args: Array = []) -> Variant:
 	var unit_type: Variant = _args[0] if _args.size() > 0 else null
 	var build_time: float = float(_args[1] if _args.size() > 1 else 0.0)
-	var get_build_time_call: Dictionary = {"call": "unit.type.getBuildTime();", "unit_type": unit_type, "buildTime": build_time}
-	return {"source_owner": "PortGame.source_unit_payload_build_time_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public float buildTime(){", "return_expr": "return unit.type.getBuildTime();", "unit_type": unit_type, "buildTime": build_time, "get_build_time_call": get_build_time_call}
+	var get_build_time_call: Dictionary = {"call": source_unit_payload_requirements_state.SOURCE_UNIT_PAYLOAD_BUILD_TIME_CALL_EXPR, "unit_type": unit_type, "buildTime": build_time}
+	return {"source_owner": "port_game.source_unit_payload_build_time_state", "source": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_SOURCE, "class_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_CLASS_EXPR, "field_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR, "override_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR, "method": source_unit_payload_requirements_state.SOURCE_UNIT_PAYLOAD_BUILD_TIME_METHOD, "return_expr": source_unit_payload_requirements_state.SOURCE_UNIT_PAYLOAD_BUILD_TIME_RETURN_EXPR, "unit_type": unit_type, "buildTime": build_time, "get_build_time_call": get_build_time_call}
 
 func java_method_write_7(_args: Array = []) -> Variant:
 	var payload_unit: int = int(_args[0] if _args.size() > 0 else 0)
 	var unit_class_id: int = int(_args[1] if _args.size() > 1 else 0)
-	var write_calls: Array = [{"call": "write.b(payloadUnit);", "method": "write.b", "value": payload_unit}, {"call": "write.b(unit.classId());", "method": "write.b", "value": unit_class_id}, {"call": "unit.write(write);", "method": "unit.write", "called": true}]
-	return {"source_owner": "PortGame.source_unit_payload_write_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public void write(Writes write){", "payload_unit_write_expr": "write.b(payloadUnit);", "unit_class_id_write_expr": "write.b(unit.classId());", "unit_write_expr": "unit.write(write);", "payload_unit": payload_unit, "unit_class_id": unit_class_id, "unit_write_called": true, "write_calls": write_calls}
+	var write_calls: Array = [{"call": source_unit_payload_io_state.SOURCE_UNIT_PAYLOAD_WRITE_PAYLOAD_UNIT_EXPR, "method": "write.b", "value": payload_unit}, {"call": source_unit_payload_io_state.SOURCE_UNIT_PAYLOAD_WRITE_CLASS_ID_EXPR, "method": "write.b", "value": unit_class_id}, {"call": source_unit_payload_io_state.SOURCE_UNIT_PAYLOAD_WRITE_UNIT_EXPR, "method": "unit.write", "called": true}]
+	return {"source_owner": "port_game.source_unit_payload_write_state", "source": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_SOURCE, "class_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_CLASS_EXPR, "field_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR, "override_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR, "method": source_unit_payload_io_state.SOURCE_UNIT_PAYLOAD_WRITE_METHOD, "payload_unit_write_expr": source_unit_payload_io_state.SOURCE_UNIT_PAYLOAD_WRITE_PAYLOAD_UNIT_EXPR, "unit_class_id_write_expr": source_unit_payload_io_state.SOURCE_UNIT_PAYLOAD_WRITE_CLASS_ID_EXPR, "unit_write_expr": source_unit_payload_io_state.SOURCE_UNIT_PAYLOAD_WRITE_UNIT_EXPR, "payload_unit": payload_unit, "unit_class_id": unit_class_id, "unit_write_called": true, "write_calls": write_calls}
 
 func java_method_set_8(_args: Array = []) -> Variant:
 	var x: float = float(_args[0] if _args.size() > 0 else 0.0)
 	var y: float = float(_args[1] if _args.size() > 1 else 0.0)
 	var rotation_value: float = float(_args[2] if _args.size() > 2 else 0.0)
-	var set_call: Dictionary = {"call": "unit.set(x, y);", "x": x, "y": y}
-	return {"source_owner": "PortGame.source_unit_payload_set_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public void set(float x, float y, float rotation){", "set_expr": "unit.set(x, y);", "rotation_assign_expr": "unit.rotation = rotation;", "x": x, "y": y, "rotation": rotation_value, "set_called": true, "set_call": set_call}
+	var set_call: Dictionary = {"call": source_unit_payload_io_state.SOURCE_UNIT_PAYLOAD_SET_EXPR, "x": x, "y": y}
+	return {"source_owner": "port_game.source_unit_payload_set_state", "source": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_SOURCE, "class_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_CLASS_EXPR, "field_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR, "override_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR, "method": source_unit_payload_io_state.SOURCE_UNIT_PAYLOAD_SET_METHOD, "set_expr": source_unit_payload_io_state.SOURCE_UNIT_PAYLOAD_SET_EXPR, "rotation_assign_expr": source_unit_payload_io_state.SOURCE_UNIT_PAYLOAD_SET_ROTATION_ASSIGN_EXPR, "x": x, "y": y, "rotation": rotation_value, "set_called": true, "set_call": set_call}
 
 func java_method_x_9(_args: Array = []) -> Variant:
 	var unit_x: float = float(_args[0] if _args.size() > 0 else 0.0)
-	return {"source_owner": "PortGame.source_unit_payload_x_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public float x(){", "return_expr": "return unit.x;", "unit_x": unit_x, "x": unit_x}
+	return {"source_owner": "port_game.source_unit_payload_x_state", "source": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_SOURCE, "class_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_CLASS_EXPR, "field_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR, "override_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR, "method": source_unit_payload_io_state.SOURCE_UNIT_PAYLOAD_X_METHOD, "return_expr": source_unit_payload_io_state.SOURCE_UNIT_PAYLOAD_X_RETURN_EXPR, "unit_x": unit_x, "x": unit_x}
 
 func java_method_y_10(_args: Array = []) -> Variant:
 	var unit_y: float = float(_args[0] if _args.size() > 0 else 0.0)
-	return {"source_owner": "PortGame.source_unit_payload_y_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public float y(){", "return_expr": "return unit.y;", "unit_y": unit_y, "y": unit_y}
+	return {"source_owner": "port_game.source_unit_payload_y_state", "source": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_SOURCE, "class_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_CLASS_EXPR, "field_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR, "override_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR, "method": source_unit_payload_io_state.SOURCE_UNIT_PAYLOAD_Y_METHOD, "return_expr": source_unit_payload_io_state.SOURCE_UNIT_PAYLOAD_Y_RETURN_EXPR, "unit_y": unit_y, "y": unit_y}
 
 func java_method_rotation_11(_args: Array = []) -> Variant:
 	var unit_rotation: float = float(_args[0] if _args.size() > 0 else 0.0)
-	return {"source_owner": "PortGame.source_unit_payload_rotation_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public float rotation(){", "return_expr": "return unit.rotation;", "unit_rotation": unit_rotation, "rotation": unit_rotation}
+	return {"source_owner": "port_game.source_unit_payload_rotation_state", "source": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_SOURCE, "class_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_CLASS_EXPR, "field_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR, "override_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR, "method": source_unit_payload_io_state.SOURCE_UNIT_PAYLOAD_ROTATION_METHOD, "return_expr": source_unit_payload_io_state.SOURCE_UNIT_PAYLOAD_ROTATION_RETURN_EXPR, "unit_rotation": unit_rotation, "rotation": unit_rotation}
 
 func java_method_size_12(_args: Array = []) -> Variant:
 	var unit_hit_size: float = float(_args[0] if _args.size() > 0 else 0.0)
-	return {"source_owner": "PortGame.source_unit_payload_size_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public float size(){", "return_expr": "return unit.hitSize;", "unit_hit_size": unit_hit_size, "size": unit_hit_size}
+	return {"source_owner": "port_game.source_unit_payload_size_state", "source": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_SOURCE, "class_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_CLASS_EXPR, "field_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR, "override_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR, "method": source_unit_payload_io_state.SOURCE_UNIT_PAYLOAD_SIZE_METHOD, "return_expr": source_unit_payload_io_state.SOURCE_UNIT_PAYLOAD_SIZE_RETURN_EXPR, "unit_hit_size": unit_hit_size, "size": unit_hit_size}
 
 func java_method_dump_13(_args: Array = []) -> Variant:
 	var unit_type_null: bool = bool(_args[0] if _args.size() > 0 else false)
@@ -116,9 +147,10 @@ func java_method_dump_13(_args: Array = []) -> Variant:
 		var radians := deg_to_rad(angle_degrees)
 		var cos_value := cos(radians)
 		var sin_value := sin(radians)
-		return {"x": x_value * cos_value - y_value * sin_value, "y": x_value * sin_value + y_value * cos_value, "angle": angle_degrees, "source": "rv.set(x, y).rotate(angle)", "vec2RotateSource": "newX = this.x * cos - this.y * sin; newY = this.x * sin + this.y * cos"}
-	var source_tilesize: float = 8.0
-	var trns_vec: Dictionary = _source_arc_angles_trns_vec.call(unit_rotation, 1.0, 0.0) if solid_present_guard else {"x": 0.0, "y": 0.0}
+		return {"x": x_value * cos_value - y_value * sin_value, "y": x_value * sin_value + y_value * cos_value, "angle": angle_degrees, "source": source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_DUMP_VEC2_TRNS_AMOUNT_RETURN_EXPR, "vec2RotateSource": source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_DUMP_VEC2_ROTATE_RAD_EXPR}
+	var source_tilesize: float = SOURCE_TILESIZE
+	var solid_lookahead: float = SOURCE_UNIT_PAYLOAD_DUMP_SOLID_LOOKAHEAD
+	var trns_vec: Dictionary = _source_arc_angles_trns_vec.call(unit_rotation, solid_lookahead, 0.0) if solid_present_guard else {"x": 0.0, "y": 0.0}
 	var tx: int = int(round((unit_x + float(trns_vec.get("x", 0.0))) / source_tilesize)) if solid_present_guard else 0
 	var ty: int = int(round((unit_y + float(trns_vec.get("y", 0.0))) / source_tilesize)) if solid_present_guard else 0
 	var solid_solid_evaluated: bool = solid_present_guard
@@ -126,7 +158,7 @@ func java_method_dump_13(_args: Array = []) -> Variant:
 	var before_overlap_returned: bool = before_solid_returned or solid_guard
 	var overlap_evaluated: bool = not before_overlap_returned
 	var units_count_evaluated: bool = overlap_evaluated and not unit_type_flying
-	var overlap_radius: float = unit_physic_size * 1.05 if units_count_evaluated else 0.0
+	var overlap_radius: float = unit_physic_size * SOURCE_UNIT_PAYLOAD_OVERLAP_RADIUS_MULTIPLIER if units_count_evaluated else 0.0
 	var overlap_guard: bool = units_count_evaluated and units_count > 0
 	var before_client_returned: bool = before_overlap_returned or overlap_guard
 	var net_client_evaluated: bool = not before_client_returned
@@ -151,36 +183,130 @@ func java_method_dump_13(_args: Array = []) -> Variant:
 	var overlayRegion_after: Variant = null
 	var solid_call: Dictionary = {}
 	if solid_solid_evaluated:
-		solid_call = {"call": "solid.solid(tx, ty)", "tx": tx, "ty": ty, "result": solid_solid}
+		solid_call = {"call": SOURCE_UNIT_PAYLOAD_DUMP_SOLID_SOLID_CALL_EXPR, "tx": tx, "ty": ty, "result": solid_solid}
 	var units_count_call: Dictionary = {}
 	if units_count_evaluated:
-		units_count_call = {"call": "Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep))", "x": unit_x, "y": unit_y, "radius": overlap_radius, "result": units_count}
+		units_count_call = {"call": SOURCE_UNIT_PAYLOAD_DUMP_UNITS_COUNT_EXPR, "x": unit_x, "y": unit_y, "radius": overlap_radius, "result": units_count}
 	var velocity_add_call: Dictionary = {}
 	var unit_add_called: bool = false
 	var unit_unloaded_called: bool = false
 	var event_fire_call: Dictionary = {}
 	var notify_unit_spawn_call: Dictionary = {}
+	var velocity_range: float = SOURCE_UNIT_PAYLOAD_DUMP_SPAWN_VELOCITY_RANGE
 	if spawn_evaluated:
-		velocity_add_call = {"call": "unit.vel.add(Mathf.range(0.5f), Mathf.range(0.5f));", "x": range_x, "y": range_y, "unit": unit_id}
+		velocity_add_call = {"call": SOURCE_UNIT_PAYLOAD_DUMP_VELOCITY_ADD_EXPR, "range": velocity_range, "x": range_x, "y": range_y, "unit": unit_id}
 		unit_add_called = true
 		unit_unloaded_called = true
-		event_fire_call = {"call": "Events.fire(new UnitUnloadEvent(unit));", "event": "new UnitUnloadEvent(unit)", "unit": unit_id}
-		notify_unit_spawn_call = {"call": "Units.notifyUnitSpawn(unit);", "unit": unit_id}
+		event_fire_call = {"call": SOURCE_UNIT_PAYLOAD_DUMP_EVENT_FIRE_EXPR, "event": SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOAD_EVENT_EXPR, "unit": unit_id}
+		notify_unit_spawn_call = {"call": SOURCE_UNIT_PAYLOAD_DUMP_NOTIFY_UNIT_SPAWN_EXPR, "unit": unit_id}
 	var deferred_remaining_dump: bool = false
-	var state: Dictionary = {"source_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "arc_vec2_source": "arc-core/src/arc/math/geom/Vec2.java", "arc_mathf_source": "arc-core/src/arc/math/Mathf.java", "world_source": "core/src/mindustry/core/World.java", "vars_source": "core/src/mindustry/Vars.java", "units_source": "core/src/mindustry/entities/Units.java", "event_type_source": "core/src/mindustry/game/EventType.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "field_overlay_time_expr": "public float overlayTime = 0f;", "field_overlay_region_expr": "public @Nullable TextureRegion overlayRegion;", "override_expr": "@Override", "method": "public boolean dump(){", "todo_comment_expr": "//TODO should not happen", "type_null_guard_expr": "if(unit.type == null) return true;", "can_create_guard_expr": "if(!Units.canCreate(unit.team, unit.type)){", "overlay_time_assign_expr": "overlayTime = 1f;", "overlay_region_assign_expr": "overlayRegion = null;", "solidity_comment_expr": "//check if unit can be dumped here", "solid_assign_expr": "SolidPred solid = unit.solidity();", "solid_guard_expr": "if(solid != null){", "trns_expr": "Tmp.v1.trns(unit.rotation, 1f);", "vec2_trns_amount_expr": "public Vec2 trns(float angle, float amount){", "vec2_trns_amount_return_expr": "return set(amount, 0).rotate(angle);", "tile_assign_expr": "int tx = World.toTile(unit.x + Tmp.v1.x), ty = World.toTile(unit.y + Tmp.v1.y);", "world_to_tile_method": "public static int toTile(float coord){", "world_to_tile_return": "return Math.round(coord / tilesize);", "vars_tilesize_field": "public static final int tilesize = 8;", "solid_block_comment_expr": "//cannot dump on solid blocks", "solid_solid_guard_expr": "if(solid.solid(tx, ty)) return false;", "overlap_comment_expr": "//cannot dump when there's a lot of overlap going on", "overlap_guard_expr": "if(!unit.type.flying && Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep)) > 0){", "unit_type_flying_expr": "unit.type.flying", "units_count_expr": "Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep))", "physic_size_expr": "unit.physicSize()", "radius_multiplier_expr": "1.05f", "predicate_is_grounded_expr": "o.isGrounded()", "predicate_allow_leg_step_expr": "o.type.allowLegStep == unit.type.allowLegStep", "return_false_expr": "return false;", "client_dumping_comment_expr": "//no client dumping", "net_client_guard_expr": "if(Vars.net.client()) return true;", "vars_net_field": "public static Net net;", "return_true_expr": "return true;", "prevents_stacking_comment_expr": "//prevents stacking", "unit_type_null": unit_type_null, "units_can_create": units_can_create, "solid_present": solid_present, "unit_rotation": unit_rotation, "unit_x": unit_x, "unit_y": unit_y, "solid_solid": solid_solid, "unit_type_flying": unit_type_flying, "unit_physic_size": unit_physic_size, "units_count": units_count, "net_client": net_client, "range_x": range_x, "range_y": range_y, "unit_id": unit_id, "can_create_evaluated": can_create_evaluated, "can_create_guard": can_create_guard, "before_solid_returned": before_solid_returned, "solid_evaluated": solid_evaluated, "solid_present_guard": solid_present_guard, "trns_vec": trns_vec, "tx": tx, "ty": ty, "solid_solid_evaluated": solid_solid_evaluated, "solid_call": solid_call, "solid_guard": solid_guard, "before_overlap_returned": before_overlap_returned, "overlap_evaluated": overlap_evaluated, "units_count_evaluated": units_count_evaluated, "units_count_call": units_count_call, "overlap_radius": overlap_radius, "overlap_guard": overlap_guard, "before_client_returned": before_client_returned, "net_client_evaluated": net_client_evaluated, "client_guard": client_guard, "before_spawn_returned": before_spawn_returned, "spawn_evaluated": spawn_evaluated, "velocity_add_call": velocity_add_call, "unit_add_called": unit_add_called, "unit_unloaded_called": unit_unloaded_called, "event_fire_call": event_fire_call, "notify_unit_spawn_call": notify_unit_spawn_call, "returned": returned, "dump": dump_result, "overlayTime_after": overlayTime_after, "overlayRegion_after": overlayRegion_after, "deferred_remaining_dump": deferred_remaining_dump}
-	state["velocity_add_expr"] = "unit.vel.add(Mathf.range(0.5f), Mathf.range(0.5f));"
-	state["mathf_range_float_method"] = "public static float range(float range){"
-	state["mathf_range_float_return"] = "return random(-range, range);"
-	state["unit_add_expr"] = "unit.add();"
-	state["unit_unloaded_expr"] = "unit.unloaded();"
-	state["event_fire_expr"] = "Events.fire(new UnitUnloadEvent(unit));"
-	state["unit_unload_event_comment"] = "/** Called when a unit is dumped from any payload block. */"
-	state["unit_unload_event_class"] = "public static class UnitUnloadEvent{"
-	state["unit_unload_event_constructor"] = "public UnitUnloadEvent(Unit unit){"
-	state["notify_unit_spawn_expr"] = "Units.notifyUnitSpawn(unit);"
-	state["notify_unit_spawn_method"] = "public static void notifyUnitSpawn(Unit unit){"
-	state["notify_unit_spawn_guard"] = "if(net.server()){"
-	state["final_return_true_expr"] = "return true;"
+	var state: Dictionary = {
+		"source_owner": "port_game.source_unit_payload_dump_spawn_side_effects_state",
+		"source": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_SOURCE,
+		"arc_vec2_source": source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_DUMP_ARC_VEC2_SOURCE,
+		"arc_mathf_source": source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_DUMP_ARC_MATHF_SOURCE,
+		"world_source": source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_DUMP_WORLD_SOURCE,
+		"vars_source": source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_DUMP_VARS_SOURCE,
+		"units_source": source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_DUMP_UNITS_SOURCE,
+		"event_type_source": source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_DUMP_EVENT_TYPE_SOURCE,
+		"class_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_CLASS_EXPR,
+		"field_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR,
+		"field_overlay_time_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_OVERLAY_TIME_FIELD_EXPR,
+		"field_overlay_region_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_OVERLAY_REGION_FIELD_EXPR,
+		"override_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR,
+		"method": source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_DUMP_METHOD,
+		"todo_comment_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_TODO_COMMENT_EXPR,
+		"type_null_guard_expr": source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_DUMP_TYPE_NULL_GUARD_EXPR,
+		"can_create_guard_expr": source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_DUMP_CAN_CREATE_GUARD_EXPR,
+		"overlay_time_assign_expr": source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_DUMP_OVERLAY_TIME_ASSIGN_EXPR,
+		"overlay_region_assign_expr": source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_DUMP_OVERLAY_REGION_ASSIGN_EXPR,
+		"solidity_comment_expr": source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_DUMP_SOLIDITY_COMMENT_EXPR,
+		"solid_assign_expr": source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_DUMP_SOLID_ASSIGN_EXPR,
+		"solid_guard_expr": source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_DUMP_SOLID_GUARD_EXPR,
+		"trns_expr": source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_DUMP_TRNS_EXPR,
+		"vec2_trns_amount_expr": source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_DUMP_VEC2_TRNS_AMOUNT_EXPR,
+		"vec2_trns_amount_return_expr": source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_DUMP_VEC2_TRNS_AMOUNT_RETURN_EXPR,
+		"tile_assign_expr": source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_DUMP_TILE_ASSIGN_EXPR,
+		"world_to_tile_method": source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_DUMP_WORLD_TO_TILE_METHOD,
+		"world_to_tile_return": source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_DUMP_WORLD_TO_TILE_RETURN,
+		"vars_tilesize_field": source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_DUMP_VARS_TILESIZE_FIELD,
+		"solid_block_comment_expr": source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_DUMP_SOLID_BLOCK_COMMENT_EXPR,
+		"solid_solid_guard_expr": source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_DUMP_SOLID_SOLID_GUARD_EXPR,
+		"overlap_comment_expr": source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_DUMP_OVERLAP_COMMENT_EXPR,
+		"overlap_guard_expr": source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_DUMP_OVERLAP_GUARD_EXPR,
+		"unit_type_flying_expr": source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_DUMP_UNIT_TYPE_FLYING_EXPR,
+		"units_count_expr": source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_DUMP_UNITS_COUNT_EXPR,
+		"physic_size_expr": source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_DUMP_PHYSIC_SIZE_EXPR,
+		"radius_multiplier_expr": source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_DUMP_RADIUS_MULTIPLIER_EXPR,
+		"predicate_is_grounded_expr": source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_DUMP_PREDICATE_IS_GROUNDED_EXPR,
+		"predicate_allow_leg_step_expr": source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_DUMP_PREDICATE_ALLOW_LEG_STEP_EXPR,
+		"return_false_expr": source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_DUMP_RETURN_FALSE_EXPR,
+		"client_dumping_comment_expr": source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_DUMP_CLIENT_DUMPING_COMMENT_EXPR,
+		"net_client_guard_expr": source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_DUMP_NET_CLIENT_GUARD_EXPR,
+		"vars_net_field": source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_DUMP_VARS_NET_FIELD,
+		"return_true_expr": source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_DUMP_RETURN_TRUE_STATEMENT_EXPR,
+		"prevents_stacking_comment_expr": source_unit_payload_dump_state.SOURCE_UNIT_PAYLOAD_DUMP_PREVENTS_STACKING_COMMENT_EXPR,
+		"unit_type_null": unit_type_null,
+		"units_can_create": units_can_create,
+		"solid_present": solid_present,
+		"unit_rotation": unit_rotation,
+		"unit_x": unit_x,
+		"unit_y": unit_y,
+		"solid_solid": solid_solid,
+		"unit_type_flying": unit_type_flying,
+		"unit_physic_size": unit_physic_size,
+		"units_count": units_count,
+		"net_client": net_client,
+		"range_x": range_x,
+		"range_y": range_y,
+		"unit_id": unit_id,
+		"can_create_evaluated": can_create_evaluated,
+		"can_create_guard": can_create_guard,
+		"before_solid_returned": before_solid_returned,
+		"solid_evaluated": solid_evaluated,
+		"solid_present_guard": solid_present_guard,
+		"trns_vec": trns_vec,
+		"tx": tx,
+		"ty": ty,
+		"solid_solid_evaluated": solid_solid_evaluated,
+		"solid_call": solid_call,
+		"solid_guard": solid_guard,
+		"before_overlap_returned": before_overlap_returned,
+		"overlap_evaluated": overlap_evaluated,
+		"units_count_evaluated": units_count_evaluated,
+		"units_count_call": units_count_call,
+		"overlap_radius": overlap_radius,
+		"overlap_guard": overlap_guard,
+		"before_client_returned": before_client_returned,
+		"net_client_evaluated": net_client_evaluated,
+		"client_guard": client_guard,
+		"before_spawn_returned": before_spawn_returned,
+		"spawn_evaluated": spawn_evaluated,
+		"velocity_add_call": velocity_add_call,
+		"unit_add_called": unit_add_called,
+		"unit_unloaded_called": unit_unloaded_called,
+		"event_fire_call": event_fire_call,
+		"notify_unit_spawn_call": notify_unit_spawn_call,
+		"returned": returned,
+		"dump": dump_result,
+		"overlayTime_after": overlayTime_after,
+		"overlayRegion_after": overlayRegion_after,
+		"deferred_remaining_dump": deferred_remaining_dump
+	}
+	state["velocity_range"] = velocity_range
+	state["velocity_add_expr"] = SOURCE_UNIT_PAYLOAD_DUMP_VELOCITY_ADD_EXPR
+	state["mathf_range_float_method"] = SOURCE_UNIT_PAYLOAD_DUMP_MATHF_RANGE_FLOAT_METHOD
+	state["mathf_range_float_return"] = SOURCE_UNIT_PAYLOAD_DUMP_MATHF_RANGE_FLOAT_RETURN
+	state["unit_add_expr"] = SOURCE_UNIT_PAYLOAD_DUMP_UNIT_ADD_EXPR
+	state["unit_unloaded_expr"] = SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOADED_EXPR
+	state["event_fire_expr"] = SOURCE_UNIT_PAYLOAD_DUMP_EVENT_FIRE_EXPR
+	state["unit_unload_event_comment"] = SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOAD_EVENT_COMMENT
+	state["unit_unload_event_class"] = SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOAD_EVENT_CLASS
+	state["unit_unload_event_constructor"] = SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOAD_EVENT_CONSTRUCTOR
+	state["notify_unit_spawn_expr"] = SOURCE_UNIT_PAYLOAD_DUMP_NOTIFY_UNIT_SPAWN_EXPR
+	state["notify_unit_spawn_method"] = SOURCE_UNIT_PAYLOAD_DUMP_NOTIFY_UNIT_SPAWN_METHOD
+	state["notify_unit_spawn_guard"] = SOURCE_UNIT_PAYLOAD_DUMP_NOTIFY_UNIT_SPAWN_GUARD
+	state["final_return_true_expr"] = SOURCE_UNIT_PAYLOAD_DUMP_RETURN_TRUE_STATEMENT_EXPR
 	return state
 
 func java_method_drawShadow_14(_args: Array = []) -> Variant:
@@ -191,8 +317,8 @@ func java_method_drawShadow_14(_args: Array = []) -> Variant:
 	var draw_soft_shadow_called: bool = not returned_early
 	var draw_soft_shadow_call: Dictionary = {}
 	if draw_soft_shadow_called:
-		draw_soft_shadow_call = {"call": "unit.type.drawSoftShadow(unit, alpha);", "unit": unit_id, "alpha": alpha}
-	return {"source_owner": "PortGame.source_unit_payload_draw_shadow_type_null_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public void drawShadow(float alpha){", "todo_comment_expr": "//TODO should not happen", "type_null_guard_expr": "if(unit.type == null) return;", "draw_soft_shadow_expr": "unit.type.drawSoftShadow(unit, alpha);", "unit_type_null": unit_type_null, "alpha": alpha, "unit_id": unit_id, "returned_early": returned_early, "draw_soft_shadow_called": draw_soft_shadow_called, "draw_soft_shadow_call": draw_soft_shadow_call}
+		draw_soft_shadow_call = {"call": source_unit_payload_draw_state.SOURCE_UNIT_PAYLOAD_DRAW_SOFT_SHADOW_EXPR, "unit": unit_id, "alpha": alpha}
+	return {"source_owner": "port_game.source_unit_payload_draw_shadow_type_null_state", "source": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_SOURCE, "class_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_CLASS_EXPR, "field_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR, "override_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR, "method": source_unit_payload_draw_state.SOURCE_UNIT_PAYLOAD_DRAW_SHADOW_METHOD, "todo_comment_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_TODO_COMMENT_EXPR, "type_null_guard_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_TYPE_NULL_GUARD_EXPR, "draw_soft_shadow_expr": source_unit_payload_draw_state.SOURCE_UNIT_PAYLOAD_DRAW_SOFT_SHADOW_EXPR, "unit_type_null": unit_type_null, "alpha": alpha, "unit_id": unit_id, "returned_early": returned_early, "draw_soft_shadow_called": draw_soft_shadow_called, "draw_soft_shadow_call": draw_soft_shadow_call}
 
 func java_method_draw_15(_args: Array = []) -> Variant:
 	var unit_type_null: bool = bool(_args[0] if _args.size() > 0 else false)
@@ -218,28 +344,28 @@ func java_method_draw_15(_args: Array = []) -> Variant:
 	var elevation_after_restore: float = elevation_snapshot if not returned_early else unit_elevation
 	var deferred_remaining_draw: bool = not returned_early
 	if _args.size() <= 1:
-		return {"source_owner": "PortGame.source_unit_payload_draw_type_null_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public void draw(){", "todo_comment_expr": "//TODO should not happen", "type_null_guard_expr": "if(unit.type == null) return;", "next_expr": "float e = unit.elevation;", "unit_type_null": unit_type_null, "returned_early": returned_early, "deferred_remaining_draw": deferred_remaining_draw}
+		return {"source_owner": "port_game.source_unit_payload_draw_type_null_state", "source": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_SOURCE, "class_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_CLASS_EXPR, "field_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR, "override_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR, "method": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_DRAW_METHOD, "todo_comment_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_TODO_COMMENT_EXPR, "type_null_guard_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_TYPE_NULL_GUARD_EXPR, "next_expr": source_unit_payload_draw_state.SOURCE_UNIT_PAYLOAD_DRAW_ELEVATION_SNAPSHOT_EXPR, "unit_type_null": unit_type_null, "returned_early": returned_early, "deferred_remaining_draw": deferred_remaining_draw}
 	if _args.size() <= 3:
-		return {"source_owner": "PortGame.source_unit_payload_draw_elevation_setup_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public void draw(){", "todo_comment_expr": "//TODO should not happen", "type_null_guard_expr": "if(unit.type == null) return;", "elevation_snapshot_expr": "float e = unit.elevation;", "elevation_zero_expr": "unit.elevation = 0f;", "draw_scl_expr": "Draw.scl(1f, 1f);", "unit_type_draw_expr": "unit.type.draw(unit);", "elevation_restore_expr": "unit.elevation = e;", "next_expr": "//draw warning", "unit_type_null": unit_type_null, "unit_elevation": unit_elevation, "unit_id": unit_id, "returned_early": returned_early, "elevation_snapshot": elevation_snapshot, "elevation_after_zero": elevation_after_zero, "draw_scl_called": draw_scl_called, "draw_scl_call": draw_scl_call, "unit_type_draw_called": unit_type_draw_called, "unit_type_draw_call": unit_type_draw_call, "elevation_after_restore": elevation_after_restore, "deferred_remaining_draw": deferred_remaining_draw}
-	var overlay_duration: float = 40.0
+		return {"source_owner": "port_game.source_unit_payload_draw_elevation_setup_state", "source": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_SOURCE, "class_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_CLASS_EXPR, "field_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR, "override_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR, "method": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_DRAW_METHOD, "todo_comment_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_TODO_COMMENT_EXPR, "type_null_guard_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_TYPE_NULL_GUARD_EXPR, "elevation_snapshot_expr": source_unit_payload_draw_state.SOURCE_UNIT_PAYLOAD_DRAW_ELEVATION_SNAPSHOT_EXPR, "elevation_zero_expr": source_unit_payload_draw_state.SOURCE_UNIT_PAYLOAD_DRAW_ELEVATION_ZERO_EXPR, "draw_scl_expr": source_unit_payload_draw_state.SOURCE_UNIT_PAYLOAD_DRAW_SCL_EXPR, "unit_type_draw_expr": source_unit_payload_draw_state.SOURCE_UNIT_PAYLOAD_DRAW_UNIT_TYPE_EXPR, "elevation_restore_expr": source_unit_payload_draw_state.SOURCE_UNIT_PAYLOAD_DRAW_ELEVATION_RESTORE_EXPR, "next_expr": source_unit_payload_draw_state.SOURCE_UNIT_PAYLOAD_DRAW_WARNING_COMMENT_EXPR, "unit_type_null": unit_type_null, "unit_elevation": unit_elevation, "unit_id": unit_id, "returned_early": returned_early, "elevation_snapshot": elevation_snapshot, "elevation_after_zero": elevation_after_zero, "draw_scl_called": draw_scl_called, "draw_scl_call": draw_scl_call, "unit_type_draw_called": unit_type_draw_called, "unit_type_draw_call": unit_type_draw_call, "elevation_after_restore": elevation_after_restore, "deferred_remaining_draw": deferred_remaining_draw}
+	var overlay_duration: float = SOURCE_UNIT_PAYLOAD_OVERLAY_DURATION
 	var overlay_guard: bool = (not returned_early) and overlay_time > 0.0
 	var draw_z_snapshot: float = draw_z_before
 	var draw_z_warning_call: Dictionary = {"z": "Layer.groundUnit + 1f"} if overlay_guard else {}
 	var overlay_region_resolved: Variant = overlay_region if overlay_region != null else "Icon.warning.getRegion()"
 	var draw_color_call: Dictionary = {"color": "Color.scarlet"} if overlay_guard else {}
-	var draw_alpha_value: float = 0.8 * interp_exp5_out_overlay_time if overlay_guard else 0.0
+	var draw_alpha_value: float = SOURCE_UNIT_PAYLOAD_OVERLAY_ALPHA * interp_exp5_out_overlay_time if overlay_guard else 0.0
 	var draw_alpha_call: Dictionary = {"alpha": draw_alpha_value} if overlay_guard else {}
-	var warning_size: float = 8.0
+	var warning_size: float = SOURCE_UNIT_PAYLOAD_WARNING_SIZE
 	var draw_rect_call: Dictionary = {"region": overlay_region_resolved, "x": unit_x, "y": unit_y, "width": warning_size, "height": warning_size} if overlay_guard else {}
 	var draw_reset_called: bool = overlay_guard
 	var overlay_time_after: float = maxf(overlay_time - time_delta / overlay_duration, 0.0) if overlay_guard else overlay_time
 	var draw_z_restore_call: Dictionary = {"z": draw_z_snapshot} if overlay_guard else {}
-	return {"source_owner": "PortGame.source_unit_payload_draw_overlay_warning_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "overlay_duration_field_expr": "public static final float overlayDuration = 40f;", "overlay_time_field_expr": "public float overlayTime = 0f;", "overlay_region_field_expr": "public @Nullable TextureRegion overlayRegion;", "method": "public void draw(){", "draw_warning_comment_expr": "//draw warning", "overlay_guard_expr": "if(overlayTime > 0){", "draw_z_snapshot_expr": "float z = Draw.z();", "draw_z_warning_expr": "Draw.z(Layer.groundUnit + 1f);", "region_expr": "var region = overlayRegion == null ? Icon.warning.getRegion() : overlayRegion;", "draw_color_expr": "Draw.color(Color.scarlet);", "draw_alpha_expr": "Draw.alpha(0.8f * Interp.exp5Out.apply(overlayTime));", "size_expr": "float size = 8f;", "draw_rect_expr": "Draw.rect(region, unit.x, unit.y, size, size);", "draw_reset_expr": "Draw.reset();", "overlay_time_update_expr": "overlayTime = Math.max(overlayTime - Time.delta/overlayDuration, 0f);", "draw_z_restore_expr": "Draw.z(z);", "unit_type_null": unit_type_null, "unit_elevation": unit_elevation, "unit_id": unit_id, "overlay_time": overlay_time, "overlay_region": overlay_region, "unit_x": unit_x, "unit_y": unit_y, "time_delta": time_delta, "draw_z_before": draw_z_before, "interp_exp5_out_overlay_time": interp_exp5_out_overlay_time, "returned_early": returned_early, "overlay_duration": overlay_duration, "overlay_guard": overlay_guard, "draw_z_snapshot": draw_z_snapshot, "draw_z_warning_call": draw_z_warning_call, "overlay_region_resolved": overlay_region_resolved, "draw_color_call": draw_color_call, "draw_alpha_value": draw_alpha_value, "draw_alpha_call": draw_alpha_call, "warning_size": warning_size, "draw_rect_call": draw_rect_call, "draw_reset_called": draw_reset_called, "overlay_time_after": overlay_time_after, "draw_z_restore_call": draw_z_restore_call, "deferred_remaining_draw": false}
+	return {"source_owner": "port_game.source_unit_payload_draw_overlay_warning_state", "source": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_SOURCE, "class_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_CLASS_EXPR, "overlay_duration_field_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_OVERLAY_DURATION_FIELD_EXPR, "overlay_time_field_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_OVERLAY_TIME_FIELD_EXPR, "overlay_region_field_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_OVERLAY_REGION_FIELD_EXPR, "method": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_DRAW_METHOD, "draw_warning_comment_expr": source_unit_payload_draw_state.SOURCE_UNIT_PAYLOAD_DRAW_WARNING_COMMENT_EXPR, "overlay_guard_expr": source_unit_payload_draw_state.SOURCE_UNIT_PAYLOAD_DRAW_OVERLAY_GUARD_EXPR, "draw_z_snapshot_expr": source_unit_payload_draw_state.SOURCE_UNIT_PAYLOAD_DRAW_Z_SNAPSHOT_EXPR, "draw_z_warning_expr": source_unit_payload_draw_state.SOURCE_UNIT_PAYLOAD_DRAW_Z_WARNING_EXPR, "region_expr": source_unit_payload_draw_state.SOURCE_UNIT_PAYLOAD_DRAW_REGION_EXPR, "draw_color_expr": source_unit_payload_draw_state.SOURCE_UNIT_PAYLOAD_DRAW_COLOR_EXPR, "draw_alpha_expr": source_unit_payload_draw_state.SOURCE_UNIT_PAYLOAD_DRAW_ALPHA_EXPR, "size_expr": source_unit_payload_draw_state.SOURCE_UNIT_PAYLOAD_DRAW_SIZE_EXPR, "draw_rect_expr": source_unit_payload_draw_state.SOURCE_UNIT_PAYLOAD_DRAW_RECT_EXPR, "draw_reset_expr": source_unit_payload_draw_state.SOURCE_UNIT_PAYLOAD_DRAW_RESET_EXPR, "overlay_time_update_expr": source_unit_payload_draw_state.SOURCE_UNIT_PAYLOAD_DRAW_OVERLAY_TIME_UPDATE_EXPR, "draw_z_restore_expr": source_unit_payload_draw_state.SOURCE_UNIT_PAYLOAD_DRAW_Z_RESTORE_EXPR, "unit_type_null": unit_type_null, "unit_elevation": unit_elevation, "unit_id": unit_id, "overlay_time": overlay_time, "overlay_region": overlay_region, "unit_x": unit_x, "unit_y": unit_y, "time_delta": time_delta, "draw_z_before": draw_z_before, "interp_exp5_out_overlay_time": interp_exp5_out_overlay_time, "returned_early": returned_early, "overlay_duration": overlay_duration, "overlay_guard": overlay_guard, "draw_z_snapshot": draw_z_snapshot, "draw_z_warning_call": draw_z_warning_call, "overlay_region_resolved": overlay_region_resolved, "draw_color_call": draw_color_call, "draw_alpha_value": draw_alpha_value, "draw_alpha_call": draw_alpha_call, "warning_size": warning_size, "draw_rect_call": draw_rect_call, "draw_reset_called": draw_reset_called, "overlay_time_after": overlay_time_after, "draw_z_restore_call": draw_z_restore_call, "deferred_remaining_draw": false}
 
 func java_method_icon_16(_args: Array = []) -> Variant:
 	var unit_type_full_icon: Variant = _args[0] if _args.size() > 0 else null
-	return {"source_owner": "PortGame.source_unit_payload_icon_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public TextureRegion icon(){", "return_expr": "return unit.type.fullIcon;", "unit_type_full_icon": unit_type_full_icon, "icon": unit_type_full_icon}
+	return {"source_owner": "port_game.source_unit_payload_icon_state", "source": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_SOURCE, "class_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_CLASS_EXPR, "field_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR, "override_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR, "method": source_unit_payload_draw_state.SOURCE_UNIT_PAYLOAD_ICON_METHOD, "return_expr": source_unit_payload_draw_state.SOURCE_UNIT_PAYLOAD_ICON_RETURN_EXPR, "unit_type_full_icon": unit_type_full_icon, "icon": unit_type_full_icon}
 
 func java_constructor_UnitPayload_0(_args: Array = []) -> Variant:
 	var unit: Variant = _args[0] if _args.size() > 0 else null
-	return {"source_owner": "PortGame.source_unit_payload_constructor_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "constructor": "public UnitPayload(Unit unit){", "unit_assign_expr": "this.unit = unit;", "unit": unit, "unit_after": unit}
+	return {"source_owner": "port_game.source_unit_payload_constructor_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "constructor": "public UnitPayload(Unit unit){", "unit_assign_expr": "this.unit = unit;", "unit": unit, "unit_after": unit}
