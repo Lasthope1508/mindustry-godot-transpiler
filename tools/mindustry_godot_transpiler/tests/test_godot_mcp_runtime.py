@@ -25,6 +25,15 @@ class GodotMcpRuntimeTests(unittest.TestCase):
         self.assertIn('return NAN', source)
         self.assertIn('return float(float_value)', source)
 
+    def test_input_and_display_runtime_proofs_emit_aggregate_matches_json(self):
+        for proof_name in ["ControlInputModuleProof", "DisplayProfileRuntimeModuleProof"]:
+            proof_source = (PROJECT / "tools" / "runtime_proofs" / f"{proof_name}.gd").read_text(encoding="utf-8")
+
+            self.assertIn('proof["matches"] =', proof_source)
+            self.assertIn(f'res://tools/runtime_proofs/{proof_name}.json', proof_source)
+            self.assertIn("proof_file.store_string(proof_json)", proof_source)
+            self.assertIn("proof_file.flush()", proof_source)
+
 
 if __name__ == "__main__":
     unittest.main()
