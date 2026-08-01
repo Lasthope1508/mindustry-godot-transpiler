@@ -1,4 +1,4 @@
-extends "res://src/game/SourceBuildingTimePortBridge.gd"
+extends "res://src/game/SourcePowerGraphPortBridge.gd"
 class_name PortGame
 
 const ContentRegistry := preload("res://src/generated/MindustryContentRegistry.gd")
@@ -134,7 +134,6 @@ const source_overdrive_boost_state := preload("res://src/game/SourceOverdriveBoo
 const source_mend_projector_state := preload("res://src/game/SourceMendProjectorState.gd")
 const source_projector_boost_state := preload("res://src/game/SourceProjectorBoostState.gd")
 const source_power_generator_state := preload("res://src/game/SourcePowerGeneratorState.gd")
-const source_power_graph_state := preload("res://src/game/SourcePowerGraphState.gd")
 const source_consume_module_registry := preload("res://src/game/SourceConsumeModuleRegistry.gd")
 const source_thermal_generator_state := preload("res://src/game/SourceThermalGeneratorState.gd")
 const source_unit_payload_dump_state := preload("res://src/game/SourceUnitPayloadDumpState.gd")
@@ -507,45 +506,6 @@ func source_mend_projector_place_state(mend_projector) -> Dictionary:
 
 func source_mend_projector_draw_state(mend_projector, heat: float, phase_heat: float, source_time_ticks := 0.0, lod_l2 := true, lod_alpha2 := 1.0) -> Dictionary:
 	return source_mend_projector_state.draw_state(mend_projector, heat, phase_heat, float(source_world_defaults.TILESIZE), source_time_ticks, lod_l2, lod_alpha2)
-
-func source_power_graph_add_role_state(build_present: bool, power_present: bool, graph_matches: bool, power_init: bool, old_graph_present: bool, old_graph_is_self: bool, old_graph_has_entity: bool, outputs_power: bool, consumes_power: bool, has_cons_power: bool, cons_power_buffered: bool) -> Dictionary:
-	return source_power_graph_state.add_role_state(build_present, power_present, graph_matches, power_init, old_graph_present, old_graph_is_self, old_graph_has_entity, outputs_power, consumes_power, has_cons_power, cons_power_buffered)
-
-func source_power_graph_add_graph_state(graph_is_self: bool, graph_all_size: int, all_size: int, graph_has_entity: bool, graph_tiles: Array) -> Dictionary:
-	return source_power_graph_state.add_graph_state(graph_is_self, graph_all_size, all_size, graph_has_entity, graph_tiles)
-
-func source_power_graph_check_add_state(entity_present: bool) -> Dictionary:
-	return source_power_graph_state.check_add_state(entity_present)
-
-func source_power_graph_clear_state(all: Array, producers: Array, consumers: Array, batteries: Array, entity_present: bool) -> Dictionary:
-	return source_power_graph_state.clear_state(all, producers, consumers, batteries, entity_present)
-
-func source_power_graph_reflow_state(tile: Dictionary) -> Dictionary:
-	return source_power_graph_state.reflow_state(tile)
-
-func source_power_graph_remove_list_state(all: Array, producers: Array, consumers: Array, batteries: Array, build) -> Dictionary:
-	return source_power_graph_state.remove_list_state(all, producers, consumers, batteries, build)
-
-func source_power_graph_remove_branch_seed_state(tile: Dictionary) -> Dictionary:
-	return source_power_graph_state.remove_branch_seed_state(tile)
-
-func source_power_graph_remove_branch_bfs_state(tile: Dictionary) -> Dictionary:
-	return source_power_graph_state.remove_branch_bfs_state(tile)
-
-func source_power_graph_remove_branch_update_state(tile: Dictionary) -> Dictionary:
-	return source_power_graph_state.remove_branch_update_state(tile)
-
-func source_power_graph_remove_empty_entity_state(tile: Dictionary, entity_present: bool) -> Dictionary:
-	return source_power_graph_state.remove_empty_entity_state(tile, entity_present)
-
-func source_power_graph_get_id_state(graph_id: int) -> Dictionary:
-	return source_power_graph_state.get_id_state(graph_id)
-
-func generated_power_graph_get_id_bridge_state(graph_id: int) -> Dictionary:
-	return source_power_graph_state.generated_get_id_bridge_state(graph_id)
-
-func source_power_graph_to_string_state(producers: String, consumers: String, batteries: String, all: String, graph_id: int) -> String:
-	return source_power_graph_state.to_string_state(producers, consumers, batteries, all, graph_id)
 
 func source_consume_power_ignore_state(buffered: bool) -> Dictionary:
 	return source_consume_module_registry.source_consume_power_state.ignore_state(buffered)
@@ -1152,33 +1112,6 @@ func source_consume_power_requested_power_state(buffered: bool, usage: float, ca
 
 func generated_consume_power_requested_power_bridge_state(buffered: bool, usage: float, capacity: float, power_status: float, should_consume: bool) -> Dictionary:
 	return source_consume_module_registry.source_consume_power_state.generated_requested_power_bridge_state(buffered, usage, capacity, power_status, should_consume)
-
-func source_power_graph_power_needed_state(consumers: Array) -> Dictionary:
-	return source_power_graph_state.power_needed_state(consumers)
-
-func source_power_graph_power_produced_state(producers: Array) -> Dictionary:
-	return source_power_graph_state.power_produced_state(producers)
-
-func source_power_graph_battery_state(batteries: Array) -> Dictionary:
-	return source_power_graph_state.battery_state(batteries)
-
-func source_power_graph_use_batteries_state(batteries: Array, needed: float) -> Dictionary:
-	return source_power_graph_state.use_batteries_state(batteries, needed)
-
-func source_power_graph_charge_batteries_state(batteries: Array, excess: float) -> Dictionary:
-	return source_power_graph_state.charge_batteries_state(batteries, excess)
-
-func source_power_graph_distribute_power_state(consumers: Array, needed: float, produced: float, charged: bool, last_power_stored: float) -> Dictionary:
-	return source_power_graph_state.distribute_power_state(consumers, needed, produced, charged, last_power_stored)
-
-func source_power_graph_update_cheat_state(consumers: Array) -> Dictionary:
-	return source_power_graph_state.update_cheat_state(consumers)
-
-func source_power_graph_update_balance_state(consumers: Array, producers: Array, batteries: Array, energy_delta: float, source_delta: float, power_balance_samples: Array = []) -> Dictionary:
-	return source_power_graph_state.update_balance_state(consumers, producers, batteries, energy_delta, source_delta, power_balance_samples)
-
-func source_power_graph_update_battery_distribute_state(consumers: Array, producers: Array, batteries: Array, power_needed: float, power_produced: float, last_power_produced: float, last_power_stored: float) -> Dictionary:
-	return source_power_graph_state.update_battery_distribute_state(consumers, producers, batteries, power_needed, power_produced, last_power_produced, last_power_stored)
 
 func power_graph_role_for_block(block) -> Dictionary:
 	return source_building_power_state.block_power_role_state(block)

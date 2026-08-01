@@ -5,32 +5,17 @@
   "java_file_count": 801,
   "parsed_file_count": 8,
   "port_game_bridge_surface": {
-    "delegate_module_count": 154,
-    "delegating_function_count": 965,
+    "delegate_module_count": 153,
+    "delegating_function_count": 943,
     "exists": true,
-    "generated_bridge_delegating_function_count": 283,
+    "generated_bridge_delegating_function_count": 282,
     "largest_delegate_module": {
-      "function_count": 22,
-      "module": "source_power_graph_state"
+      "function_count": 21,
+      "module": "source_mend_projector_state"
     },
     "path": "src/game/PortGame.gd",
-    "source_delegating_function_count": 563,
+    "source_delegating_function_count": 542,
     "top_delegate_modules": [
-      {
-        "canonical_owner_target": "SourcePowerGraphState",
-        "class_name": "SourcePowerGraphState",
-        "compatibility_surface": "PortGame",
-        "function_count": 22,
-        "module": "source_power_graph_state",
-        "module_path": "res://src/game/SourcePowerGraphState.gd",
-        "sample_functions": [
-          "source_power_graph_add_role_state",
-          "source_power_graph_add_graph_state",
-          "source_power_graph_check_add_state",
-          "source_power_graph_clear_state",
-          "source_power_graph_reflow_state"
-        ]
-      },
       {
         "canonical_owner_target": "SourceMendProjectorState",
         "class_name": "SourceMendProjectorState",
@@ -315,19 +300,34 @@
           "generated_turret_init_size_default_bridge_state",
           "generated_turret_init_disable_overlap_check_default_bridge_state"
         ]
+      },
+      {
+        "canonical_owner_target": "SourceUnitDestroyState",
+        "class_name": "SourceUnitDestroyState",
+        "compatibility_surface": "PortGame",
+        "function_count": 13,
+        "module": "source_unit_destroy_state",
+        "module_path": "res://src/game/SourceUnitDestroyState.gd",
+        "sample_functions": [
+          "source_unit_remove_state",
+          "source_unit_destroy_initial_payload_state",
+          "source_unit_destroy_explosion_dispatch_state",
+          "source_unit_destroy_visual_effects_state",
+          "source_unit_destroy_sound_and_event_state"
+        ]
       }
     ]
   },
   "port_game_footprint": {
-    "byte_count": 341220,
+    "byte_count": 336566,
     "exists": true,
-    "function_count": 1189,
-    "generated_bridge_function_count": 384,
-    "line_count": 3859,
+    "function_count": 1167,
+    "generated_bridge_function_count": 383,
+    "line_count": 3792,
     "max_function_lines": 5,
     "path": "src/game/PortGame.gd",
-    "preload_count": 181,
-    "source_function_count": 670
+    "preload_count": 180,
+    "source_function_count": 649
   },
   "unsupported": [
     "Generated gameplay classes not implemented yet",

@@ -1,4 +1,4 @@
-import json
+﻿import json
 import sys
 import tempfile
 import unittest
@@ -797,6 +797,14 @@ class PlayableManifestTests(unittest.TestCase):
         bridge = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingTimePortBridge.gd"
         return bridge.read_text(encoding="utf-8") if bridge.exists() else ""
 
+    def _source_power_graph_port_bridge_source(self):
+        bridge = ROOT / "godot-mindustry" / "src" / "game" / "SourcePowerGraphPortBridge.gd"
+        return bridge.read_text(encoding="utf-8") if bridge.exists() else ""
+
+    def _port_game_power_graph_source(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        return port_game.read_text(encoding="utf-8") + "\n" + self._source_power_graph_port_bridge_source()
+
     def _port_game_lifecycle_source(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         return port_game.read_text(encoding="utf-8") + "\n" + self._source_building_lifecycle_port_bridge_source()
@@ -807,6 +815,7 @@ class PlayableManifestTests(unittest.TestCase):
 
     def _port_game_port_bridge_chain_source(self):
         bridge_names = [
+            "SourcePowerGraphPortBridge.gd",
             "SourceBuildingTimePortBridge.gd",
             "SourceOverdriveProjectorPortBridge.gd",
             "SourceBlockUnitPortBridge.gd",
@@ -4814,7 +4823,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_power_graph_power_produced_state_for_mcp(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourcePowerGraphState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_power_graph_source()
         helper_source = helper.read_text(encoding="utf-8")
         summary_source = self._runtime_summary_source()
 
@@ -4830,7 +4839,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_power_graph_battery_state_for_mcp(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourcePowerGraphState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_power_graph_source()
         helper_source = helper.read_text(encoding="utf-8")
         summary_source = self._runtime_summary_source()
 
@@ -4850,7 +4859,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_power_graph_use_batteries_state_for_mcp(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourcePowerGraphState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_power_graph_source()
         helper_source = helper.read_text(encoding="utf-8")
 
         self.assertIn("func source_power_graph_use_batteries_state(batteries: Array, needed: float) -> Dictionary:", source)
@@ -4869,7 +4878,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_power_graph_charge_batteries_state_for_mcp(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourcePowerGraphState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_power_graph_source()
         helper_source = helper.read_text(encoding="utf-8")
 
         self.assertIn("func source_power_graph_charge_batteries_state(batteries: Array, excess: float) -> Dictionary:", source)
@@ -4887,7 +4896,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_power_graph_distribute_power_state_for_mcp(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourcePowerGraphState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_power_graph_source()
         helper_source = helper.read_text(encoding="utf-8")
 
         self.assertIn("func source_power_graph_distribute_power_state(consumers: Array, needed: float, produced: float, charged: bool, last_power_stored: float) -> Dictionary:", source)
@@ -4905,7 +4914,7 @@ class PlayableManifestTests(unittest.TestCase):
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourcePowerGraphState.gd"
         helper_source = helper.read_text(encoding="utf-8")
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_power_graph_source()
 
         self.assertIn("static func update_cheat_state(consumers: Array) -> Dictionary:", helper_source)
         self.assertIn('"method": "public void update(){"', helper_source)
@@ -4922,7 +4931,7 @@ class PlayableManifestTests(unittest.TestCase):
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourcePowerGraphState.gd"
         helper_source = helper.read_text(encoding="utf-8")
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_power_graph_source()
 
         self.assertIn("static func update_balance_state(consumers: Array, producers: Array, batteries: Array, energy_delta: float, source_delta: float, power_balance_samples: Array = [], requested_power_state: Callable = Callable(source_consume_power_state, \"requested_power_state\")) -> Dictionary:", helper_source)
         self.assertIn('"power_needed_expr": "float powerNeeded = getPowerNeeded();"', helper_source)
@@ -4941,7 +4950,7 @@ class PlayableManifestTests(unittest.TestCase):
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourcePowerGraphState.gd"
         helper_source = helper.read_text(encoding="utf-8")
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_power_graph_source()
 
         self.assertIn("static func update_battery_distribute_state(consumers: Array, producers: Array, batteries: Array, power_needed: float, power_produced: float, last_power_produced: float, last_power_stored: float) -> Dictionary:", helper_source)
         self.assertIn('"nonempty_guard": "if(!(consumers.size == 0 && producers.size == 0 && batteries.size == 0)){"', helper_source)
@@ -4960,7 +4969,7 @@ class PlayableManifestTests(unittest.TestCase):
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourcePowerGraphState.gd"
         helper_source = helper.read_text(encoding="utf-8")
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_power_graph_source()
 
         self.assertIn("static func add_graph_state(graph_is_self: bool, graph_all_size: int, all_size: int, graph_has_entity: bool, graph_tiles: Array, role_state_callable: Callable = Callable(SourcePowerGraphState, \"add_role_state\")) -> Dictionary:", helper_source)
         self.assertIn('"self_guard": "if(graph == this) return;"', helper_source)
@@ -4978,7 +4987,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_power_graph_check_add_state_for_mcp(self):
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourcePowerGraphState.gd"
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_power_graph_source()
         helper_source = helper.read_text(encoding="utf-8")
 
         self.assertIn("class_name SourcePowerGraphState", helper_source)
@@ -4992,7 +5001,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_power_graph_clear_state_for_mcp(self):
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourcePowerGraphState.gd"
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_power_graph_source()
         helper_source = helper.read_text(encoding="utf-8")
 
         self.assertIn("class_name SourcePowerGraphState", helper_source)
@@ -5011,7 +5020,7 @@ class PlayableManifestTests(unittest.TestCase):
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourcePowerGraphState.gd"
         helper_source = helper.read_text(encoding="utf-8")
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_power_graph_source()
 
         self.assertIn("static func reflow_state(tile: Dictionary, role_state_callable: Callable = Callable(SourcePowerGraphState, \"add_role_state\")) -> Dictionary:", helper_source)
         self.assertIn('"method": "public void reflow(Building tile){"', helper_source)
@@ -5033,7 +5042,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_power_graph_remove_list_state_for_mcp(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourcePowerGraphState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_power_graph_source()
         helper_source = helper.read_text(encoding="utf-8")
 
         self.assertIn("class_name SourcePowerGraphState", helper_source)
@@ -5050,7 +5059,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_power_graph_remove_branch_seed_state_for_mcp(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourcePowerGraphState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_power_graph_source()
         helper_source = helper.read_text(encoding="utf-8")
 
         self.assertIn("static func remove_branch_seed_state(tile: Dictionary, role_state_callable: Callable = Callable(SourcePowerGraphState, \"add_role_state\")) -> Dictionary:", helper_source)
@@ -5069,7 +5078,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_power_graph_remove_branch_bfs_helper_for_mcp(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourcePowerGraphState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_power_graph_source()
         helper_source = helper.read_text(encoding="utf-8")
 
         self.assertIn("static func remove_branch_bfs_state(tile: Dictionary, role_state_callable: Callable = Callable(SourcePowerGraphState, \"add_role_state\")) -> Dictionary:", helper_source)
@@ -5087,7 +5096,7 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_source_power_graph_remove_branch_bfs_state_for_mcp(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_power_graph_source()
 
         self.assertIn("func source_power_graph_remove_branch_bfs_state(tile: Dictionary) -> Dictionary:", source)
         self.assertIn('return source_power_graph_state.remove_branch_bfs_state(tile)', source)
@@ -5095,7 +5104,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_power_graph_remove_branch_update_helper_for_mcp(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourcePowerGraphState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_power_graph_source()
         helper_source = helper.read_text(encoding="utf-8")
 
         self.assertIn("static func remove_branch_update_state(tile: Dictionary, role_state_callable: Callable = Callable(SourcePowerGraphState, \"add_role_state\")) -> Dictionary:", helper_source)
@@ -5109,7 +5118,7 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_source_power_graph_remove_branch_update_state_for_mcp(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_power_graph_source()
 
         self.assertIn("func source_power_graph_remove_branch_update_state(tile: Dictionary) -> Dictionary:", source)
         self.assertIn('return source_power_graph_state.remove_branch_update_state(tile)', source)
@@ -5117,7 +5126,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_power_graph_remove_empty_entity_helper_for_mcp(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourcePowerGraphState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_power_graph_source()
         helper_source = helper.read_text(encoding="utf-8")
 
         self.assertIn("static func remove_empty_entity_state(tile: Dictionary, entity_present: bool, role_state_callable: Callable = Callable(SourcePowerGraphState, \"add_role_state\")) -> Dictionary:", helper_source)
@@ -5133,7 +5142,7 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_source_power_graph_remove_empty_entity_state_for_mcp(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_power_graph_source()
 
         self.assertIn("func source_power_graph_remove_empty_entity_state(tile: Dictionary, entity_present: bool) -> Dictionary:", source)
         self.assertIn('return source_power_graph_state.remove_empty_entity_state(tile, entity_present)', source)
@@ -5141,7 +5150,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_power_graph_get_id_state_for_mcp(self):
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourcePowerGraphState.gd"
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_power_graph_source()
         helper_source = helper.read_text(encoding="utf-8") if helper.exists() else ""
 
         self.assertTrue(helper.exists(), "source_power_graph_state.gd helper must own PowerGraph state")
@@ -5157,7 +5166,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_power_graph_get_id_bridge_state(self):
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourcePowerGraphState.gd"
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_power_graph_source()
         helper_source = helper.read_text(encoding="utf-8") if helper.exists() else ""
         bridge_body = self._method_body(source, "func generated_power_graph_get_id_bridge_state(graph_id: int) -> Dictionary:")
 
@@ -5179,7 +5188,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_power_graph_to_string_state_for_mcp(self):
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourcePowerGraphState.gd"
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_power_graph_source()
         helper_source = helper.read_text(encoding="utf-8") if helper.exists() else ""
 
         self.assertTrue(helper.exists(), "source_power_graph_state.gd helper must own PowerGraph state")
@@ -7084,7 +7093,8 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = bridge.read_text(encoding="utf-8")
         chain_source = self._port_game_port_bridge_chain_source()
 
-        self.assertIn('extends "res://src/game/SourceBuildingTimePortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourcePowerGraphPortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceBuildingTimePortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceOverdriveProjectorPortBridge.gd"', bridge_source)
         self.assertIn('extends "res://src/game/SourceBlockUnitPortBridge.gd"', chain_source)
         self.assertIn('const source_building_time_state := preload("res://src/game/SourceBuildingTimeState.gd")', bridge_source)
@@ -7095,6 +7105,22 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("return source_building_time_state.apply_boost_state(current_time_scale, current_duration, intensity, duration, can_overdrive, source_building_time_port_bridge_block_defaults.TIME_SCALE_BOOST_EPSILON)", bridge_source)
         self.assertIn("func generated_building_comp_update_ambient_sound_gate_bridge_state(headless_mode: bool, ambient_sound_value: Variant, sounds_none_value: Variant, should_ambient_sound_result: bool, block_ambient_sound_volume: float, ambient_volume_value: float) -> Dictionary:", bridge_source)
         self.assertIn("return source_building_time_state.generated_update_ambient_sound_gate_bridge_state(headless_mode, ambient_sound_value, sounds_none_value, should_ambient_sound_result, block_ambient_sound_volume, ambient_volume_value)", bridge_source)
+
+    def test_port_game_routes_power_graph_through_port_bridge(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bridge = ROOT / "godot-mindustry" / "src" / "game" / "SourcePowerGraphPortBridge.gd"
+
+        self.assertTrue(bridge.exists(), "Power graph compatibility wrappers must live in SourcePowerGraphPortBridge.gd")
+        port_source = port_game.read_text(encoding="utf-8")
+        bridge_source = bridge.read_text(encoding="utf-8")
+        chain_source = self._port_game_port_bridge_chain_source()
+
+        self.assertIn('extends "res://src/game/SourcePowerGraphPortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceBuildingTimePortBridge.gd"', bridge_source)
+        self.assertIn('extends "res://src/game/SourceBuildingTimePortBridge.gd"', chain_source)
+        self.assertIn('const source_power_graph_state := preload("res://src/game/SourcePowerGraphState.gd")', bridge_source)
+        self.assertNotIn('const source_power_graph_state := preload("res://src/game/SourcePowerGraphState.gd")', port_source)
+        self.assertNotIn("class_name SourcePowerGraphPortBridge", bridge_source)
 
     def test_port_game_exposes_overdrive_projector_range_state_like_source(self):
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceOverdriveProjectorState.gd"
