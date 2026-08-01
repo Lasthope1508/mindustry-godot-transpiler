@@ -801,6 +801,7 @@ class PlayableManifestTests(unittest.TestCase):
 
     def _port_game_port_bridge_chain_source(self):
         bridge_names = [
+            "SourceOverdriveProjectorPortBridge.gd",
             "SourceBlockUnitPortBridge.gd",
             "SourceSyncPortBridge.gd",
             "SourceBuilderRuntimePortBridge.gd",
@@ -7048,6 +7049,25 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"selected_build_overdrive_real_boost": game.call("selected_build_overdrive_real_boost")', summary_source)
         self.assertIn('"selected_build_overdrive_phase_real_boost": game.call("selected_build_overdrive_phase_real_boost")', summary_source)
 
+    def test_port_game_routes_overdrive_projector_through_port_bridge(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bridge = ROOT / "godot-mindustry" / "src" / "game" / "SourceOverdriveProjectorPortBridge.gd"
+
+        self.assertTrue(bridge.exists(), "Overdrive projector compatibility wrappers must live in SourceOverdriveProjectorPortBridge.gd")
+        port_source = port_game.read_text(encoding="utf-8")
+        bridge_source = bridge.read_text(encoding="utf-8")
+        chain_source = self._port_game_port_bridge_chain_source()
+
+        self.assertIn('extends "res://src/game/SourceOverdriveProjectorPortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceBlockUnitPortBridge.gd"', bridge_source)
+        self.assertIn('extends "res://src/game/SourceSyncPortBridge.gd"', chain_source)
+        self.assertIn('const source_overdrive_projector_state := preload("res://src/game/SourceOverdriveProjectorState.gd")', bridge_source)
+        self.assertIn('const source_overdrive_projector_port_bridge_world_defaults := preload("res://src/game/SourceWorldDefaults.gd")', bridge_source)
+        self.assertIn('const source_selected_build_state := preload("res://src/game/SourceSelectedBuildState.gd")', bridge_source)
+        self.assertNotIn('const source_overdrive_projector_state := preload("res://src/game/SourceOverdriveProjectorState.gd")', port_source)
+        self.assertNotIn("class_name SourceOverdriveProjectorPortBridge", bridge_source)
+        self.assertIn('const source_overdrive_projector_state := preload("res://src/game/SourceOverdriveProjectorState.gd")', chain_source)
+
     def test_port_game_exposes_overdrive_projector_range_state_like_source(self):
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceOverdriveProjectorState.gd"
         selected_helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceSelectedBuildState.gd"
@@ -7140,11 +7160,11 @@ class PlayableManifestTests(unittest.TestCase):
         heat_body = self._method_body(port_source, "func overdrive_projector_heat_at_cell(x: int, y: int) -> float:")
         charge_body = self._method_body(port_source, "func overdrive_projector_charge_at_cell(x: int, y: int) -> float:")
         use_progress_body = self._method_body(port_source, "func overdrive_projector_use_progress_at_cell(x: int, y: int) -> float:")
-        self.assertIn("return source_overdrive_projector_state.game_state_value_at_cell(self, x, y, overdrive_projector_phase_heat, 0.0)", phase_heat_body)
-        self.assertIn("return source_overdrive_projector_state.game_state_value_at_cell(self, x, y, overdrive_projector_smooth_efficiency, 0.0)", smooth_efficiency_body)
-        self.assertIn("return source_overdrive_projector_state.game_state_value_at_cell(self, x, y, overdrive_projector_heat, 0.0)", heat_body)
-        self.assertIn("return source_overdrive_projector_state.game_state_value_at_cell(self, x, y, overdrive_projector_charges, 0.0)", charge_body)
-        self.assertIn("return source_overdrive_projector_state.game_state_value_at_cell(self, x, y, overdrive_projector_use_progress, 0.0)", use_progress_body)
+        self.assertIn('return source_overdrive_projector_state.game_state_value_at_cell(self, x, y, get("overdrive_projector_phase_heat"), 0.0)', phase_heat_body)
+        self.assertIn('return source_overdrive_projector_state.game_state_value_at_cell(self, x, y, get("overdrive_projector_smooth_efficiency"), 0.0)', smooth_efficiency_body)
+        self.assertIn('return source_overdrive_projector_state.game_state_value_at_cell(self, x, y, get("overdrive_projector_heat"), 0.0)', heat_body)
+        self.assertIn('return source_overdrive_projector_state.game_state_value_at_cell(self, x, y, get("overdrive_projector_charges"), 0.0)', charge_body)
+        self.assertIn('return source_overdrive_projector_state.game_state_value_at_cell(self, x, y, get("overdrive_projector_use_progress"), 0.0)', use_progress_body)
         self.assertNotIn("block_sprite_at_cell(Vector2i(x, y))", phase_heat_body)
         self.assertNotIn("block_sprite_at_cell(Vector2i(x, y))", smooth_efficiency_body)
         self.assertNotIn("block_sprite_at_cell(Vector2i(x, y))", heat_body)
@@ -7193,7 +7213,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var line_w: float = clamp(0.5 - f, 0.0, 1.0) * float(projector_block_size(overdrive_projector)) * float(tile_size)", source)
         self.assertIn('"top_alpha": heat * source_math_state.source_absin(source_time_ticks, 50.0 / source_math_defaults.PI2, 1.0) * 0.5 * lod_alpha2', source)
         self.assertIn('"stroke": (2.0 * f + 0.1) * heat', source)
-        self.assertIn("return source_overdrive_projector_state.draw_state(overdrive_projector, heat, phase_heat, source_world_defaults.TILESIZE, source_time_ticks, lod_l2, lod_alpha2)", port_source)
+        self.assertIn("return source_overdrive_projector_state.draw_state(overdrive_projector, heat, phase_heat, source_overdrive_projector_port_bridge_world_defaults.TILESIZE, source_time_ticks, lod_l2, lod_alpha2)", port_source)
         self.assertIn("return source_build_selection_runtime_state.selected_build_overdrive_draw_state_for_inputs(self, heat, phase_heat, source_time_ticks, source_build_selection_runtime_port_bridge_world_defaults.TILESIZE)", port_source)
         self.assertIn("static func overdrive_draw_state_for_inputs(block, heat: float, phase_heat: float, tile_size: float, source_time_ticks := 0.0) -> Dictionary:", selected_source)
         self.assertIn("return source_overdrive_projector_state.draw_state(block, heat, phase_heat, tile_size, source_time_ticks, true, 1.0)", selected_source)
@@ -7202,7 +7222,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('return game.call("source_overdrive_projector_draw_state", block, game.call("overdrive_projector_heat_at_cell", x, y), game.call("overdrive_projector_phase_heat_at_cell", x, y), source_time_ticks)', source)
         self.assertIn("static func game_capture_state_at_cell(game: Object, x: int, y: int, heat: Dictionary, smooth_efficiency: Dictionary, phase_heat: Dictionary, charge: Dictionary, use_progress: Dictionary) -> Dictionary:", source)
         state_body = self._method_body(port_source, "func overdrive_projector_state_at_cell(x: int, y: int) -> Dictionary:")
-        self.assertIn("return source_overdrive_projector_state.game_capture_state_at_cell(self, x, y, overdrive_projector_heat, overdrive_projector_smooth_efficiency, overdrive_projector_phase_heat, overdrive_projector_charges, overdrive_projector_use_progress)", state_body)
+        self.assertIn('return source_overdrive_projector_state.game_capture_state_at_cell(self, x, y, get("overdrive_projector_heat"), get("overdrive_projector_smooth_efficiency"), get("overdrive_projector_phase_heat"), get("overdrive_projector_charges"), get("overdrive_projector_use_progress"))', state_body)
         self.assertNotIn("block_sprite_at_cell(Vector2i(x, y))", state_body)
         self.assertNotIn("source_overdrive_projector_state.capture_state(sprite", state_body)
         draw_cell_body = self._method_body(port_source, "func overdrive_projector_draw_state_at_cell(x: int, y: int, source_time_ticks := 0.0) -> Dictionary:")
@@ -7216,7 +7236,7 @@ class PlayableManifestTests(unittest.TestCase):
         boost_helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceProjectorBoostState.gd"
         texture_helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceTextureRuntimeState.gd"
         projector_defaults = ROOT / "godot-mindustry" / "src" / "game" / "SourceProjectorDefaults.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_build_selection_source()
         helper_source = helper.read_text(encoding="utf-8") if helper.exists() else ""
         boost_helper_source = boost_helper.read_text(encoding="utf-8") if boost_helper.exists() else ""
         texture_source = texture_helper.read_text(encoding="utf-8") if texture_helper.exists() else ""
@@ -7403,7 +7423,7 @@ class PlayableManifestTests(unittest.TestCase):
         selected_helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceSelectedBuildState.gd"
         placed_block_state = ROOT / "godot-mindustry" / "src" / "game" / "SourcePlacedBlockState.gd"
         overdrive_state = ROOT / "godot-mindustry" / "src" / "game" / "SourceOverdriveProjectorState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_build_selection_source()
         selected_source = selected_helper.read_text(encoding="utf-8")
         helper_source = placed_block_state.read_text(encoding="utf-8")
         placed_block_source = helper_source
@@ -7447,7 +7467,7 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceOverdriveProjectorState.gd"
         summary_source = self._runtime_summary_source()
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_build_selection_source()
         helper_source = helper.read_text(encoding="utf-8")
         step_body = source.split("func step_overdrive_projectors(seconds: float) -> Dictionary:", 1)[1].split("func selected_enemy_unit():", 1)[0]
         summary_body = summary_source
@@ -7718,10 +7738,12 @@ class PlayableManifestTests(unittest.TestCase):
         overdrive_state = ROOT / "godot-mindustry" / "src" / "game" / "SourceOverdriveProjectorState.gd"
         mend_state = ROOT / "godot-mindustry" / "src" / "game" / "SourceMendProjectorState.gd"
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        overdrive_bridge = ROOT / "godot-mindustry" / "src" / "game" / "SourceOverdriveProjectorPortBridge.gd"
         projector_defaults = ROOT / "godot-mindustry" / "src" / "game" / "SourceProjectorDefaults.gd"
         helper_source = overdrive_state.read_text(encoding="utf-8")
         mend_helper_source = mend_state.read_text(encoding="utf-8")
         source = port_game.read_text(encoding="utf-8")
+        overdrive_bridge_source = overdrive_bridge.read_text(encoding="utf-8")
         projector_source = projector_defaults.read_text(encoding="utf-8") if projector_defaults.exists() else ""
 
         self.assertIn('const source_projector_defaults := preload("res://src/game/SourceProjectorDefaults.gd")', source)
@@ -7766,14 +7788,14 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("return source_mend_projector_state.projector_reload(mend_projector)", source)
         self.assertIn("func source_mend_projector_use_time(mend_projector) -> float:", source)
         self.assertIn("return source_mend_projector_state.use_time(mend_projector)", source)
-        self.assertIn("func source_overdrive_projector_reload(overdrive_projector) -> float:", source)
-        self.assertIn("return source_overdrive_projector_state.projector_reload(overdrive_projector)", source)
+        self.assertIn("func source_overdrive_projector_reload(overdrive_projector) -> float:", overdrive_bridge_source)
+        self.assertIn("return source_overdrive_projector_state.projector_reload(overdrive_projector)", overdrive_bridge_source)
         self.assertIn('return float(properties.get("reload", source_projector_defaults.OVERDRIVE_RELOAD_DEFAULT))', helper_source)
-        self.assertIn("func source_overdrive_projector_use_time(overdrive_projector) -> float:", source)
-        self.assertIn("return source_overdrive_projector_state.use_time(overdrive_projector)", source)
+        self.assertIn("func source_overdrive_projector_use_time(overdrive_projector) -> float:", overdrive_bridge_source)
+        self.assertIn("return source_overdrive_projector_state.use_time(overdrive_projector)", overdrive_bridge_source)
         self.assertIn('return float(properties.get("useTime", source_projector_defaults.OVERDRIVE_USE_TIME_DEFAULT))', helper_source)
-        self.assertIn("func source_overdrive_projector_has_boost(overdrive_projector) -> bool:", source)
-        self.assertIn("return source_overdrive_projector_state.has_boost(overdrive_projector)", source)
+        self.assertIn("func source_overdrive_projector_has_boost(overdrive_projector) -> bool:", overdrive_bridge_source)
+        self.assertIn("return source_overdrive_projector_state.has_boost(overdrive_projector)", overdrive_bridge_source)
         self.assertIn('return bool(properties.get("hasBoost", source_projector_defaults.OVERDRIVE_HAS_BOOST_DEFAULT))', helper_source)
         self.assertIn('game.call("source_mend_projector_use_time", block)', mend_helper_source)
         self.assertIn('game.call("source_mend_projector_reload", block)', mend_helper_source)
@@ -8178,7 +8200,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_uses_selected_build_implementation_predicates(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         selected_helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceSelectedBuildState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_build_selection_source()
         selected_source = selected_helper.read_text(encoding="utf-8")
 
         self.assertIn("static func is_mend_projector(block) -> bool:", selected_source)
@@ -28312,7 +28334,7 @@ class PlayableManifestTests(unittest.TestCase):
         source = helper.read_text(encoding="utf-8")
         projector_source = projector_helper.read_text(encoding="utf-8")
         metadata_source = metadata.read_text(encoding="utf-8")
-        port_source = port_game.read_text(encoding="utf-8")
+        port_source = self._port_game_build_selection_source()
 
         self.assertIn("class_name SourceOverdriveBoostState", source)
         self.assertIn('const source_placed_block_state := preload("res://src/game/SourcePlacedBlockState.gd")', source)
@@ -28341,7 +28363,7 @@ class PlayableManifestTests(unittest.TestCase):
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceOverdriveProjectorState.gd"
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = helper.read_text(encoding="utf-8")
-        port_source = port_game.read_text(encoding="utf-8")
+        port_source = self._port_game_build_selection_source()
 
         self.assertIn("class_name SourceOverdriveProjectorState", source)
         self.assertIn("static func state_value(sprite, state: Dictionary, default_value: float) -> float:", source)
@@ -28351,19 +28373,19 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("static func boost_application_state(boost_range: float, boost: float, boost_duration: float, boosted_state: Dictionary, applied := true) -> Dictionary:", source)
         self.assertIn("static func boost_application_context(game, sprite, block, runtime_step: Dictionary) -> Dictionary:", source)
         self.assertIn('const source_overdrive_projector_state := preload("res://src/game/SourceOverdriveProjectorState.gd")', port_source)
-        self.assertIn("return source_overdrive_projector_state.game_state_value_at_cell(self, x, y, overdrive_projector_phase_heat, 0.0)", port_source)
-        self.assertIn("return source_overdrive_projector_state.game_state_value_at_cell(self, x, y, overdrive_projector_smooth_efficiency, 0.0)", port_source)
-        self.assertIn("return source_overdrive_projector_state.game_state_value_at_cell(self, x, y, overdrive_projector_heat, 0.0)", port_source)
-        self.assertIn("return source_overdrive_projector_state.game_state_value_at_cell(self, x, y, overdrive_projector_charges, 0.0)", port_source)
-        self.assertIn("return source_overdrive_projector_state.game_state_value_at_cell(self, x, y, overdrive_projector_use_progress, 0.0)", port_source)
-        self.assertIn("return source_overdrive_projector_state.game_capture_state_at_cell(self, x, y, overdrive_projector_heat, overdrive_projector_smooth_efficiency, overdrive_projector_phase_heat, overdrive_projector_charges, overdrive_projector_use_progress)", port_source)
+        self.assertIn('return source_overdrive_projector_state.game_state_value_at_cell(self, x, y, get("overdrive_projector_phase_heat"), 0.0)', port_source)
+        self.assertIn('return source_overdrive_projector_state.game_state_value_at_cell(self, x, y, get("overdrive_projector_smooth_efficiency"), 0.0)', port_source)
+        self.assertIn('return source_overdrive_projector_state.game_state_value_at_cell(self, x, y, get("overdrive_projector_heat"), 0.0)', port_source)
+        self.assertIn('return source_overdrive_projector_state.game_state_value_at_cell(self, x, y, get("overdrive_projector_charges"), 0.0)', port_source)
+        self.assertIn('return source_overdrive_projector_state.game_state_value_at_cell(self, x, y, get("overdrive_projector_use_progress"), 0.0)', port_source)
+        self.assertIn('return source_overdrive_projector_state.game_capture_state_at_cell(self, x, y, get("overdrive_projector_heat"), get("overdrive_projector_smooth_efficiency"), get("overdrive_projector_phase_heat"), get("overdrive_projector_charges"), get("overdrive_projector_use_progress"))', port_source)
         self.assertIn("var boost_application := boost_application_context(game, sprite, block, runtime_step)", source)
 
     def test_port_game_uses_overdrive_projector_presentation_state_helper_module(self):
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceOverdriveProjectorState.gd"
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = helper.read_text(encoding="utf-8")
-        port_source = port_game.read_text(encoding="utf-8")
+        port_source = self._port_game_build_selection_source()
 
         self.assertIn("class_name SourceOverdriveProjectorState", source)
         self.assertIn("static func projector_range(overdrive_projector, phase_heat := 0.0) -> float:", source)
@@ -28382,7 +28404,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("return source_overdrive_projector_state.place_state(overdrive_projector)", port_source)
         self.assertIn("return source_overdrive_projector_state.target_filter_state(overdrive_projector, target_block, distance, phase_heat)", port_source)
         self.assertIn("return source_overdrive_projector_state.light_state(overdrive_projector, smooth_efficiency)", port_source)
-        self.assertIn("return source_overdrive_projector_state.draw_state(overdrive_projector, heat, phase_heat, source_world_defaults.TILESIZE, source_time_ticks, lod_l2, lod_alpha2)", port_source)
+        self.assertIn("return source_overdrive_projector_state.draw_state(overdrive_projector, heat, phase_heat, source_overdrive_projector_port_bridge_world_defaults.TILESIZE, source_time_ticks, lod_l2, lod_alpha2)", port_source)
         self.assertIn("return source_overdrive_projector_state.real_boost(overdrive_projector, phase_heat, efficiency)", port_source)
         self.assertIn("return source_overdrive_projector_state.boost_bar_fraction(overdrive_projector, phase_heat, efficiency)", port_source)
         self.assertIn("return source_overdrive_projector_state.projector_reload(overdrive_projector)", port_source)
@@ -29806,7 +29828,7 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = bridge.read_text(encoding="utf-8")
         chain_source = self._port_game_port_bridge_chain_source()
 
-        self.assertIn('extends "res://src/game/SourceBlockUnitPortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceOverdriveProjectorPortBridge.gd"', port_source)
         self.assertIn('extends "res://src/game/SourceBuilderRuntimePortBridge.gd"', bridge_source)
         self.assertIn('const source_sync_state := preload("res://src/game/SourceSyncState.gd")', bridge_source)
         self.assertNotIn('const source_sync_state := preload("res://src/game/SourceSyncState.gd")', port_source)
@@ -30194,7 +30216,7 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = bridge.read_text(encoding="utf-8")
         chain_source = self._port_game_port_bridge_chain_source()
 
-        self.assertIn('extends "res://src/game/SourceBlockUnitPortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceOverdriveProjectorPortBridge.gd"', port_source)
         self.assertIn('extends "res://src/game/SourceSyncPortBridge.gd"', bridge_source)
         self.assertIn('const source_block_unit_state := preload("res://src/game/SourceBlockUnitState.gd")', bridge_source)
         self.assertNotIn('const source_block_unit_state := preload("res://src/game/SourceBlockUnitState.gd")', port_source)
@@ -30747,7 +30769,7 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = bridge.read_text(encoding="utf-8")
         chain_source = self._port_game_port_bridge_chain_source()
 
-        self.assertIn('extends "res://src/game/SourceBlockUnitPortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceOverdriveProjectorPortBridge.gd"', port_source)
         self.assertIn('extends "res://src/game/SourceAbilityPortBridge.gd"', bridge_source)
         self.assertIn('extends "res://src/game/SourceBuilderRuntimePortBridge.gd"', chain_source)
         self.assertIn('const source_builder_runtime_state := preload("res://src/game/SourceBuilderRuntimeState.gd")', bridge_source)
@@ -35143,7 +35165,7 @@ class PlayableManifestTests(unittest.TestCase):
         chain_source = self._port_game_port_bridge_chain_source()
 
         self.assertTrue(bridge.exists(), "SourceItemTurretBuildPortBridge.gd must own PortGame ItemTurretBuild compatibility wrappers")
-        self.assertIn('extends "res://src/game/SourceBlockUnitPortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceOverdriveProjectorPortBridge.gd"', port_source)
         self.assertIn('extends "res://src/game/SourceBuildPayloadPortBridge.gd"', bridge_source)
         self.assertIn('extends "res://src/game/SourceBuilderRuntimePortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceAbilityPortBridge.gd"', chain_source)
@@ -37022,7 +37044,7 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = bridge.read_text(encoding="utf-8")
         chain_source = self._port_game_port_bridge_chain_source()
 
-        self.assertIn('extends "res://src/game/SourceBlockUnitPortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceOverdriveProjectorPortBridge.gd"', port_source)
         self.assertIn('extends "res://src/game/SourceItemTurretBuildPortBridge.gd"', bridge_source)
         self.assertIn('extends "res://src/game/SourceBuilderRuntimePortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceAbilityPortBridge.gd"', chain_source)

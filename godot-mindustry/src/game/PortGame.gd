@@ -1,4 +1,4 @@
-extends "res://src/game/SourceBlockUnitPortBridge.gd"
+extends "res://src/game/SourceOverdriveProjectorPortBridge.gd"
 class_name PortGame
 
 const ContentRegistry := preload("res://src/generated/MindustryContentRegistry.gd")
@@ -112,7 +112,6 @@ const source_block_geometry := preload("res://src/game/SourceBlockGeometry.gd")
 const source_block_footprint := preload("res://src/game/SourceBlockFootprint.gd")
 const source_block_placement := preload("res://src/game/SourceBlockPlacement.gd")
 const source_placed_block_state := preload("res://src/game/SourcePlacedBlockState.gd")
-const source_selected_build_state := preload("res://src/game/SourceSelectedBuildState.gd")
 const source_building_time_state := preload("res://src/game/SourceBuildingTimeState.gd")
 const source_building_meta_state := preload("res://src/game/SourceBuildingMetaState.gd")
 const source_building_control_state := preload("res://src/game/SourceBuildingControlState.gd")
@@ -133,7 +132,6 @@ const source_building_display_state := preload("res://src/game/SourceBuildingDis
 const source_building_configure_state := preload("res://src/game/SourceBuildingConfigureState.gd")
 const source_building_interaction_state := preload("res://src/game/SourceBuildingInteractionState.gd")
 const source_overdrive_boost_state := preload("res://src/game/SourceOverdriveBoostState.gd")
-const source_overdrive_projector_state := preload("res://src/game/SourceOverdriveProjectorState.gd")
 const source_mend_projector_state := preload("res://src/game/SourceMendProjectorState.gd")
 const source_projector_boost_state := preload("res://src/game/SourceProjectorBoostState.gd")
 const source_power_generator_state := preload("res://src/game/SourcePowerGeneratorState.gd")
@@ -484,18 +482,6 @@ func source_power_generator_create_explosion_shake_state(should_explode_value: b
 func source_power_generator_on_destroyed_reactor_explosion_state(reactor_explosions: bool = source_power_generator_state.SOURCE_RULES_REACTOR_EXPLOSIONS_DEFAULT, create_explosion_state: Dictionary = {}) -> Dictionary:
 	return source_power_generator_state.on_destroyed_reactor_explosion_state(reactor_explosions, create_explosion_state)
 
-func source_overdrive_projector_range(overdrive_projector, phase_heat := 0.0) -> float:
-	return source_overdrive_projector_state.projector_range(overdrive_projector, phase_heat)
-
-func source_overdrive_projector_select_state(overdrive_projector, phase_heat := 0.0) -> Dictionary:
-	return source_overdrive_projector_state.select_state(overdrive_projector, phase_heat)
-
-func source_overdrive_projector_place_state(overdrive_projector) -> Dictionary:
-	return source_overdrive_projector_state.place_state(overdrive_projector)
-
-func source_overdrive_projector_target_filter_state(overdrive_projector, target_block, distance: float, phase_heat := 0.0) -> Dictionary:
-	return source_overdrive_projector_state.target_filter_state(overdrive_projector, target_block, distance, phase_heat)
-
 func source_building_apply_boost_state(current_time_scale: float, current_duration: float, intensity: float, duration: float, can_overdrive := true) -> Dictionary:
 	return source_building_time_state.apply_boost_state(current_time_scale, current_duration, intensity, duration, can_overdrive, source_block_defaults.TIME_SCALE_BOOST_EPSILON)
 
@@ -507,18 +493,6 @@ func source_building_delta(source_delta: float, time_scale: float) -> float:
 
 func source_building_edelta(source_delta: float, time_scale: float, efficiency: float) -> float:
 	return source_building_time_state.edelta(source_delta, time_scale, efficiency)
-
-func source_overdrive_projector_light_state(overdrive_projector, smooth_efficiency: float) -> Dictionary:
-	return source_overdrive_projector_state.light_state(overdrive_projector, smooth_efficiency)
-
-func source_overdrive_projector_draw_state(overdrive_projector, heat: float, phase_heat: float, source_time_ticks := 0.0, lod_l2 := true, lod_alpha2 := 1.0) -> Dictionary:
-	return source_overdrive_projector_state.draw_state(overdrive_projector, heat, phase_heat, source_world_defaults.TILESIZE, source_time_ticks, lod_l2, lod_alpha2)
-
-func source_overdrive_projector_real_boost(overdrive_projector, phase_heat := 0.0, efficiency := 1.0) -> float:
-	return source_overdrive_projector_state.real_boost(overdrive_projector, phase_heat, efficiency)
-
-func source_overdrive_projector_boost_bar_fraction(overdrive_projector, phase_heat := 0.0, efficiency := 1.0) -> float:
-	return source_overdrive_projector_state.boost_bar_fraction(overdrive_projector, phase_heat, efficiency)
 
 func source_mend_projector_repair_amount(mend_projector, target_block, phase_heat := 0.0, efficiency := 1.0) -> float:
 	return source_mend_projector_state.repair_amount(mend_projector, target_block, phase_heat, efficiency)
@@ -534,18 +508,6 @@ func source_mend_projector_use_time(mend_projector) -> float:
 
 func source_mend_projector_is_projector(block) -> bool:
 	return source_selected_build_state.is_mend_projector(block)
-
-func source_overdrive_projector_reload(overdrive_projector) -> float:
-	return source_overdrive_projector_state.projector_reload(overdrive_projector)
-
-func source_overdrive_projector_use_time(overdrive_projector) -> float:
-	return source_overdrive_projector_state.use_time(overdrive_projector)
-
-func source_overdrive_projector_has_boost(overdrive_projector) -> bool:
-	return source_overdrive_projector_state.has_boost(overdrive_projector)
-
-func source_overdrive_projector_is_projector(block) -> bool:
-	return source_selected_build_state.is_overdrive_projector(block)
 
 func source_mend_projector_progress(mend_projector, charge: float) -> float:
 	return source_mend_projector_state.progress(mend_projector, charge)
@@ -1340,30 +1302,6 @@ func mend_projector_state_at_cell(x: int, y: int) -> Dictionary:
 
 func boost_overdrive_projector_at_cell(x: int, y: int) -> bool:
 	return source_projector_boost_state.apply_projector_boost_at_cell(self, x, y, source_projector_boost_state.PROJECTOR_KIND_OVERDRIVE, overdrive_projector_booster_items, overdrive_projector_optional_efficiency)
-
-func overdrive_projector_phase_heat_at_cell(x: int, y: int) -> float:
-	return source_overdrive_projector_state.game_state_value_at_cell(self, x, y, overdrive_projector_phase_heat, 0.0)
-
-func overdrive_projector_smooth_efficiency_at_cell(x: int, y: int) -> float:
-	return source_overdrive_projector_state.game_state_value_at_cell(self, x, y, overdrive_projector_smooth_efficiency, 0.0)
-
-func overdrive_projector_heat_at_cell(x: int, y: int) -> float:
-	return source_overdrive_projector_state.game_state_value_at_cell(self, x, y, overdrive_projector_heat, 0.0)
-
-func overdrive_projector_charge_at_cell(x: int, y: int) -> float:
-	return source_overdrive_projector_state.game_state_value_at_cell(self, x, y, overdrive_projector_charges, 0.0)
-
-func overdrive_projector_use_progress_at_cell(x: int, y: int) -> float:
-	return source_overdrive_projector_state.game_state_value_at_cell(self, x, y, overdrive_projector_use_progress, 0.0)
-
-func overdrive_projector_light_state_at_cell(x: int, y: int) -> Dictionary:
-	return source_overdrive_projector_state.game_light_state_at_cell(self, x, y)
-
-func overdrive_projector_draw_state_at_cell(x: int, y: int, source_time_ticks := 0.0) -> Dictionary:
-	return source_overdrive_projector_state.game_draw_state_at_cell(self, x, y, source_time_ticks)
-
-func overdrive_projector_state_at_cell(x: int, y: int) -> Dictionary:
-	return source_overdrive_projector_state.game_capture_state_at_cell(self, x, y, overdrive_projector_heat, overdrive_projector_smooth_efficiency, overdrive_projector_phase_heat, overdrive_projector_charges, overdrive_projector_use_progress)
 
 func block_size(block) -> int:
 	return source_block_metadata_state.block_size(block)
@@ -2311,18 +2249,6 @@ func simulate_mend_projectors(delta: float) -> void:
 
 func step_mend_projectors(seconds: float) -> Dictionary:
 	return source_mend_projector_state.step_projectors(self, seconds)
-
-func find_overdrive_boost_target(overdrive_cell: Vector2i, overdrive_projector, phase_heat := 0.0):
-	return source_overdrive_projector_state.find_overdrive_boost_target(self, overdrive_cell, overdrive_projector, phase_heat)
-
-func apply_overdrive_boost_to_sprite(target, intensity: float, duration: float) -> Dictionary:
-	return source_overdrive_projector_state.apply_overdrive_boost_to_sprite(self, target, intensity, duration)
-
-func simulate_overdrive_projectors(delta: float) -> void:
-	source_overdrive_projector_state.simulate_projectors(self, delta)
-
-func step_overdrive_projectors(seconds: float) -> Dictionary:
-	return source_overdrive_projector_state.step_projectors(self, seconds)
 
 func selected_enemy_unit():
 	return source_enemy_unit_runtime_state.selected_enemy_unit(self)
