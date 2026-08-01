@@ -1,4 +1,4 @@
-extends "res://src/game/SourceBuildingDamagePortBridge.gd"
+extends "res://src/game/SourceBuildingInteractionPortBridge.gd"
 class_name PortGame
 
 const ContentRegistry := preload("res://src/generated/MindustryContentRegistry.gd")
@@ -127,7 +127,6 @@ const source_construct_block_state := preload("res://src/game/SourceConstructBlo
 const source_construct_build_state := preload("res://src/game/SourceConstructBuildState.gd")
 const source_building_display_state := preload("res://src/game/SourceBuildingDisplayState.gd")
 const source_building_configure_state := preload("res://src/game/SourceBuildingConfigureState.gd")
-const source_building_interaction_state := preload("res://src/game/SourceBuildingInteractionState.gd")
 const source_overdrive_boost_state := preload("res://src/game/SourceOverdriveBoostState.gd")
 const source_projector_boost_state := preload("res://src/game/SourceProjectorBoostState.gd")
 const source_power_generator_state := preload("res://src/game/SourcePowerGeneratorState.gd")
@@ -1371,38 +1370,11 @@ func source_building_consume_trigger_valid_state() -> bool:
 func source_building_power_production_state() -> Dictionary:
 	return source_building_core_state.power_production_state()
 
-func generated_building_comp_is_commandable_bridge_state(block_commandable: bool) -> Dictionary:
-	return source_building_interaction_state.generated_is_commandable_bridge_state(block_commandable)
-
-func generated_building_comp_is_payload_bridge_state(tile_is_empty_tile: bool) -> Dictionary:
-	return source_building_interaction_state.generated_is_payload_bridge_state(tile_is_empty_tile)
-
-func generated_building_comp_overwrote_bridge_state(previous_state: Variant) -> Dictionary:
-	return source_building_interaction_state.generated_overwrote_bridge_state(previous_state)
-
-func generated_building_comp_on_removed_bridge_state(current_state: Variant) -> Dictionary:
-	return source_building_interaction_state.generated_on_removed_bridge_state(current_state)
-
-func generated_building_comp_unit_on_bridge_state(unit_state: Variant) -> Dictionary:
-	return source_building_interaction_state.generated_unit_on_bridge_state(unit_state)
-
-func generated_building_comp_unit_on_any_bridge_state(unit_state: Variant) -> Dictionary:
-	return source_building_interaction_state.generated_unit_on_any_bridge_state(unit_state)
-
-func generated_building_comp_unit_removed_bridge_state(unit_state: Variant) -> Dictionary:
-	return source_building_interaction_state.generated_unit_removed_bridge_state(unit_state)
-
-func generated_building_comp_puddle_on_bridge_state(puddle_state: Variant) -> Dictionary:
-	return source_building_interaction_state.generated_puddle_on_bridge_state(puddle_state)
-
 func generated_building_comp_configured_type_bridge_state(value_state: Dictionary) -> Dictionary:
 	return source_building_configure_state.generated_configured_type_bridge_state(value_state)
 
 func generated_building_comp_update_last_access_bridge_state(builder_state: Dictionary, current_last_accessed: String) -> Dictionary:
 	return source_building_configure_state.generated_update_last_access_bridge_state(builder_state, current_last_accessed)
-
-func generated_building_comp_tapped_bridge_state(current_state: Variant) -> Dictionary:
-	return source_building_interaction_state.generated_tapped_bridge_state(current_state)
 
 func generated_building_comp_get_display_name_bridge_state(localized_name: String, team_is_derelict: bool, team_is_player: bool, team_emoji: String, derelict_label: String) -> Dictionary:
 	return source_building_display_state.generated_building_comp_get_display_name_bridge_state(localized_name, team_is_derelict, team_is_player, team_emoji, derelict_label)
@@ -1476,30 +1448,6 @@ func generated_building_comp_sense_object_bridge_state(sensor: String, block_val
 func generated_building_comp_display_bridge_state(block_ui_icon: Variant, localized_name: String, team_is_derelict: bool, team_is_player: bool, team_emoji: String, derelict_label: String, block_category: String, block_display_flow: bool, net_active: bool, has_last_accessed: bool) -> Dictionary:
 	return source_building_display_state.generated_building_comp_display_bridge_state(block_ui_icon, localized_name, team_is_derelict, team_is_player, team_emoji, derelict_label, block_category, block_display_flow, net_active, has_last_accessed)
 
-func source_building_is_commandable_state(block_commandable: bool) -> bool:
-	return source_building_interaction_state.is_commandable_state(block_commandable)
-
-func source_building_is_payload_state(tile_is_empty_tile: bool) -> bool:
-	return source_building_interaction_state.is_payload_state(tile_is_empty_tile)
-
-func source_building_overwrote_state(previous_state: Variant) -> Dictionary:
-	return source_building_interaction_state.overwrote_state(previous_state)
-
-func source_building_on_removed_state(current_state: Variant) -> Dictionary:
-	return source_building_interaction_state.on_removed_state(current_state)
-
-func source_building_unit_on_state(unit_state: Variant) -> Variant:
-	return source_building_interaction_state.unit_on_state(unit_state)
-
-func source_building_unit_on_any_state(unit_state: Variant) -> Variant:
-	return source_building_interaction_state.unit_on_any_state(unit_state)
-
-func source_building_unit_removed_state(unit_state: Variant) -> Variant:
-	return source_building_interaction_state.unit_removed_state(unit_state)
-
-func source_building_puddle_on_state(puddle_state: Variant) -> Dictionary:
-	return source_building_interaction_state.puddle_on_state(puddle_state)
-
 func source_building_configured_type_state(value_state: Dictionary) -> String:
 	return source_building_configure_state.configured_type_state(value_state)
 
@@ -1511,9 +1459,6 @@ func source_building_configured_direct_handler_state(has_configuration: bool, co
 
 func source_building_configured_copy_config_state(value_is_building: bool, copied_config: Variant, copied_config_is_building: bool) -> Dictionary:
 	return source_building_configure_state.configured_copy_config_state(value_is_building, copied_config, copied_config_is_building)
-
-func source_building_tapped_state(current_state: Variant) -> Dictionary:
-	return source_building_interaction_state.tapped_state(current_state)
 
 func generated_construct_block_static_helpers_bridge_state(size: int, max_block_size: int, time_since_last_played_ms: int, current_millis: int, up: bool, time_since_last_time_ms: int, pitch_seq_before: int, random_pitch: float, headless: bool, visible_tile: bool) -> Dictionary:
 	return source_construct_block_state.generated_construct_block_static_helpers_bridge_state(size, max_block_size, time_since_last_played_ms, current_millis, up, time_since_last_time_ms, pitch_seq_before, random_pitch, headless, visible_tile)

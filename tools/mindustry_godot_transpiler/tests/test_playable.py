@@ -363,6 +363,7 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingInteractionState.gd"
         source = self._port_game_drill_inventory_runtime_source()
+        source += "\n" + self._port_game_port_bridge_chain_source()
         if module.exists():
             source += "\n" + module.read_text(encoding="utf-8")
         return source
@@ -827,6 +828,7 @@ class PlayableManifestTests(unittest.TestCase):
 
     def _port_game_port_bridge_chain_source(self):
         bridge_names = [
+            "SourceBuildingInteractionPortBridge.gd",
             "SourceBuildingDamagePortBridge.gd",
             "SourceLiquidTurretBuildPortBridge.gd",
             "SourceMendProjectorPortBridge.gd",
@@ -7108,7 +7110,8 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = bridge.read_text(encoding="utf-8")
         chain_source = self._port_game_port_bridge_chain_source()
 
-        self.assertIn('extends "res://src/game/SourceBuildingDamagePortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceBuildingInteractionPortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceBuildingDamagePortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceLiquidTurretBuildPortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceMendProjectorPortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourcePowerGraphPortBridge.gd"', chain_source)
@@ -7133,7 +7136,8 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = bridge.read_text(encoding="utf-8")
         chain_source = self._port_game_port_bridge_chain_source()
 
-        self.assertIn('extends "res://src/game/SourceBuildingDamagePortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceBuildingInteractionPortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceBuildingDamagePortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceLiquidTurretBuildPortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceMendProjectorPortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourcePowerGraphPortBridge.gd"', chain_source)
@@ -7152,7 +7156,8 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = bridge.read_text(encoding="utf-8")
         chain_source = self._port_game_port_bridge_chain_source()
 
-        self.assertIn('extends "res://src/game/SourceBuildingDamagePortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceBuildingInteractionPortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceBuildingDamagePortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceLiquidTurretBuildPortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceMendProjectorPortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourcePowerGraphPortBridge.gd"', bridge_source)
@@ -7160,6 +7165,22 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('const source_mend_projector_state := preload("res://src/game/SourceMendProjectorState.gd")', bridge_source)
         self.assertNotIn('const source_mend_projector_state := preload("res://src/game/SourceMendProjectorState.gd")', port_source)
         self.assertNotIn("class_name SourceMendProjectorPortBridge", bridge_source)
+
+    def test_port_game_routes_building_interaction_through_port_bridge(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bridge = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingInteractionPortBridge.gd"
+
+        self.assertTrue(bridge.exists(), "Building interaction compatibility wrappers must live in SourceBuildingInteractionPortBridge.gd")
+        port_source = port_game.read_text(encoding="utf-8")
+        bridge_source = bridge.read_text(encoding="utf-8")
+        chain_source = self._port_game_port_bridge_chain_source()
+
+        self.assertIn('extends "res://src/game/SourceBuildingInteractionPortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceBuildingDamagePortBridge.gd"', bridge_source)
+        self.assertIn('extends "res://src/game/SourceBuildingDamagePortBridge.gd"', chain_source)
+        self.assertIn('const source_building_interaction_state := preload("res://src/game/SourceBuildingInteractionState.gd")', bridge_source)
+        self.assertNotIn('const source_building_interaction_state := preload("res://src/game/SourceBuildingInteractionState.gd")', port_source)
+        self.assertNotIn("class_name SourceBuildingInteractionPortBridge", bridge_source)
 
     def test_port_game_routes_building_damage_through_port_bridge(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -7170,7 +7191,8 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = bridge.read_text(encoding="utf-8")
         chain_source = self._port_game_port_bridge_chain_source()
 
-        self.assertIn('extends "res://src/game/SourceBuildingDamagePortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceBuildingInteractionPortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceBuildingDamagePortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceLiquidTurretBuildPortBridge.gd"', bridge_source)
         self.assertIn('extends "res://src/game/SourceLiquidTurretBuildPortBridge.gd"', chain_source)
         self.assertIn('const source_building_damage_state := preload("res://src/game/SourceBuildingDamageState.gd")', bridge_source)
@@ -7186,7 +7208,8 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = bridge.read_text(encoding="utf-8")
         chain_source = self._port_game_port_bridge_chain_source()
 
-        self.assertIn('extends "res://src/game/SourceBuildingDamagePortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceBuildingInteractionPortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceBuildingDamagePortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceLiquidTurretBuildPortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceMendProjectorPortBridge.gd"', bridge_source)
         self.assertIn('extends "res://src/game/SourceMendProjectorPortBridge.gd"', chain_source)
@@ -13263,7 +13286,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_building_comp_is_commandable_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingInteractionState.gd"
-        port_source = port_game.read_text(encoding="utf-8")
+        port_source = self._port_game_building_interaction_source()
         helper_source = helper.read_text(encoding="utf-8")
         bridge_body = self._method_body(port_source, "func generated_building_comp_is_commandable_bridge_state(block_commandable: bool) -> Dictionary:")
 
@@ -13288,7 +13311,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_building_comp_is_payload_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingInteractionState.gd"
-        port_source = port_game.read_text(encoding="utf-8")
+        port_source = self._port_game_building_interaction_source()
         helper_source = helper.read_text(encoding="utf-8")
         bridge_body = self._method_body(port_source, "func generated_building_comp_is_payload_bridge_state(tile_is_empty_tile: bool) -> Dictionary:")
 
@@ -13313,7 +13336,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_building_comp_overwrote_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingInteractionState.gd"
-        port_source = port_game.read_text(encoding="utf-8")
+        port_source = self._port_game_building_interaction_source()
         helper_source = helper.read_text(encoding="utf-8")
         bridge_body = self._method_body(port_source, "func generated_building_comp_overwrote_bridge_state(previous_state: Variant) -> Dictionary:")
 
@@ -13337,7 +13360,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_building_comp_on_removed_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingInteractionState.gd"
-        port_source = port_game.read_text(encoding="utf-8")
+        port_source = self._port_game_building_interaction_source()
         helper_source = helper.read_text(encoding="utf-8")
         bridge_body = self._method_body(port_source, "func generated_building_comp_on_removed_bridge_state(current_state: Variant) -> Dictionary:")
 
@@ -13362,7 +13385,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_building_comp_unit_on_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingInteractionState.gd"
-        port_source = port_game.read_text(encoding="utf-8")
+        port_source = self._port_game_building_interaction_source()
         helper_source = helper.read_text(encoding="utf-8")
         bridge_body = self._method_body(port_source, "func generated_building_comp_unit_on_bridge_state(unit_state: Variant) -> Dictionary:")
 
@@ -13387,7 +13410,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_building_comp_unit_on_any_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingInteractionState.gd"
-        port_source = port_game.read_text(encoding="utf-8")
+        port_source = self._port_game_building_interaction_source()
         helper_source = helper.read_text(encoding="utf-8")
         bridge_body = self._method_body(port_source, "func generated_building_comp_unit_on_any_bridge_state(unit_state: Variant) -> Dictionary:")
 
@@ -13412,7 +13435,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_building_comp_unit_removed_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingInteractionState.gd"
-        port_source = port_game.read_text(encoding="utf-8")
+        port_source = self._port_game_building_interaction_source()
         helper_source = helper.read_text(encoding="utf-8")
         bridge_body = self._method_body(port_source, "func generated_building_comp_unit_removed_bridge_state(unit_state: Variant) -> Dictionary:")
 
@@ -13437,7 +13460,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_building_comp_puddle_on_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingInteractionState.gd"
-        port_source = port_game.read_text(encoding="utf-8")
+        port_source = self._port_game_building_interaction_source()
         helper_source = helper.read_text(encoding="utf-8")
         bridge_body = self._method_body(port_source, "func generated_building_comp_puddle_on_bridge_state(puddle_state: Variant) -> Dictionary:")
 
@@ -13531,7 +13554,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_building_comp_tapped_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingInteractionState.gd"
-        port_source = port_game.read_text(encoding="utf-8")
+        port_source = self._port_game_building_interaction_source()
         helper_source = helper.read_text(encoding="utf-8")
         bridge_body = self._method_body(port_source, "func generated_building_comp_tapped_bridge_state(current_state: Variant) -> Dictionary:")
 
@@ -18464,14 +18487,18 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_delegates_building_interaction_source_state_to_module(self):
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingInteractionState.gd"
+        bridge = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingInteractionPortBridge.gd"
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
 
         self.assertTrue(helper.exists(), "source_building_interaction_state.gd helper must own Building default callback source state block")
+        self.assertTrue(bridge.exists(), "SourceBuildingInteractionPortBridge.gd must own compact building interaction compatibility wrappers")
         helper_source = helper.read_text(encoding="utf-8") if helper.exists() else ""
+        bridge_source = bridge.read_text(encoding="utf-8") if bridge.exists() else ""
         port_source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("class_name SourceBuildingInteractionState", helper_source)
-        self.assertIn('const source_building_interaction_state := preload("res://src/game/SourceBuildingInteractionState.gd")', port_source)
+        self.assertIn('const source_building_interaction_state := preload("res://src/game/SourceBuildingInteractionState.gd")', bridge_source)
+        self.assertNotIn('const source_building_interaction_state := preload("res://src/game/SourceBuildingInteractionState.gd")', port_source)
         for method_name in (
             "is_commandable_state",
             "is_payload_state",
@@ -18497,7 +18524,8 @@ class PlayableManifestTests(unittest.TestCase):
             "func source_building_tapped_state(current_state: Variant) -> Dictionary:": "\treturn source_building_interaction_state.tapped_state(current_state)",
         }
         for signature, delegation in delegations.items():
-            method_body = self._method_body(port_source, signature)
+            self.assertNotIn(signature, port_source)
+            method_body = self._method_body(bridge_source, signature)
             self.assertIn(delegation, method_body)
 
     def test_source_building_interaction_state_uses_shared_canonical_runtime_helper(self):
@@ -20514,6 +20542,32 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('[node name="ProofLabel" type="Label" parent="ProofCanvas"]', scene_source)
         self.assertIn('get_node_or_null("ProofCanvas/ProofLabel")', proof_source)
         self.assertIn('proof_label.text = "BUILDING_DAMAGE_MODULE_PROOF matches=%s registry_valid=%s"', proof_source)
+
+    def test_building_interaction_module_proof_scene_exists(self):
+        proof_script = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "BuildingInteractionModuleProof.gd"
+        proof_scene = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "BuildingInteractionModuleProof.tscn"
+
+        self.assertTrue(proof_script.exists(), "BuildingInteraction module runtime proof script must exist")
+        self.assertTrue(proof_scene.exists(), "BuildingInteraction module runtime proof scene must exist")
+        scene_source = proof_scene.read_text(encoding="utf-8")
+        proof_source = proof_script.read_text(encoding="utf-8")
+        self.assertIn('path="res://tools/runtime_proofs/BuildingInteractionModuleProof.gd"', scene_source)
+        self.assertIn("BUILDING_INTERACTION_MODULE_PROOF", proof_source)
+        self.assertIn("source_ssot_catalog.canonical_headquarter_registry_state()", proof_source)
+        self.assertIn('"one_headquarter_per_ssot"', proof_source)
+        self.assertIn('"registry_valid"', proof_source)
+        self.assertIn("proof_file.close()", proof_source)
+
+    def test_building_interaction_module_proof_scene_has_visible_status_label(self):
+        proof_script = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "BuildingInteractionModuleProof.gd"
+        proof_scene = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "BuildingInteractionModuleProof.tscn"
+
+        scene_source = proof_scene.read_text(encoding="utf-8")
+        proof_source = proof_script.read_text(encoding="utf-8")
+        self.assertIn('[node name="ProofCanvas" type="CanvasLayer" parent="."]', scene_source)
+        self.assertIn('[node name="ProofLabel" type="Label" parent="ProofCanvas"]', scene_source)
+        self.assertIn('get_node_or_null("ProofCanvas/ProofLabel")', proof_source)
+        self.assertIn('proof_label.text = "BUILDING_INTERACTION_MODULE_PROOF matches=%s registry_valid=%s"', proof_source)
 
     def test_port_game_exposes_source_building_health_changed_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
