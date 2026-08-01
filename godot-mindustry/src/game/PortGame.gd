@@ -1,4 +1,4 @@
-extends "res://src/game/SourceOverdriveProjectorPortBridge.gd"
+extends "res://src/game/SourceBuildingTimePortBridge.gd"
 class_name PortGame
 
 const ContentRegistry := preload("res://src/generated/MindustryContentRegistry.gd")
@@ -112,7 +112,6 @@ const source_block_geometry := preload("res://src/game/SourceBlockGeometry.gd")
 const source_block_footprint := preload("res://src/game/SourceBlockFootprint.gd")
 const source_block_placement := preload("res://src/game/SourceBlockPlacement.gd")
 const source_placed_block_state := preload("res://src/game/SourcePlacedBlockState.gd")
-const source_building_time_state := preload("res://src/game/SourceBuildingTimeState.gd")
 const source_building_meta_state := preload("res://src/game/SourceBuildingMetaState.gd")
 const source_building_control_state := preload("res://src/game/SourceBuildingControlState.gd")
 const source_builder_draw_state := preload("res://src/game/SourceBuilderDrawState.gd")
@@ -481,18 +480,6 @@ func source_power_generator_create_explosion_shake_state(should_explode_value: b
 
 func source_power_generator_on_destroyed_reactor_explosion_state(reactor_explosions: bool = source_power_generator_state.SOURCE_RULES_REACTOR_EXPLOSIONS_DEFAULT, create_explosion_state: Dictionary = {}) -> Dictionary:
 	return source_power_generator_state.on_destroyed_reactor_explosion_state(reactor_explosions, create_explosion_state)
-
-func source_building_apply_boost_state(current_time_scale: float, current_duration: float, intensity: float, duration: float, can_overdrive := true) -> Dictionary:
-	return source_building_time_state.apply_boost_state(current_time_scale, current_duration, intensity, duration, can_overdrive, source_block_defaults.TIME_SCALE_BOOST_EPSILON)
-
-func source_building_time_scale_decay_state(current_time_scale: float, current_duration: float, source_delta: float) -> Dictionary:
-	return source_building_time_state.time_scale_decay_state(current_time_scale, current_duration, source_delta, source_block_defaults.TIME_SCALE_DEFAULT)
-
-func source_building_delta(source_delta: float, time_scale: float) -> float:
-	return source_building_time_state.delta(source_delta, time_scale)
-
-func source_building_edelta(source_delta: float, time_scale: float, efficiency: float) -> float:
-	return source_building_time_state.edelta(source_delta, time_scale, efficiency)
 
 func source_mend_projector_repair_amount(mend_projector, target_block, phase_heat := 0.0, efficiency := 1.0) -> float:
 	return source_mend_projector_state.repair_amount(mend_projector, target_block, phase_heat, efficiency)
@@ -1507,21 +1494,6 @@ func source_building_consume_trigger_valid_state() -> bool:
 func source_building_power_production_state() -> Dictionary:
 	return source_building_core_state.power_production_state()
 
-func source_building_progress_increase(base_time: float, edelta_value: float) -> float:
-	return source_building_time_state.progress_increase(base_time, edelta_value)
-
-func source_building_display_efficiency(edelta_value: float) -> float:
-	return source_building_time_state.display_efficiency(edelta_value)
-
-func generated_building_comp_get_progress_increase_bridge_state(base_time: float, edelta_value: float) -> Dictionary:
-	return source_building_time_state.generated_get_progress_increase_bridge_state(base_time, edelta_value)
-
-func generated_building_comp_get_display_efficiency_bridge_state(edelta_value: float) -> Dictionary:
-	return source_building_time_state.generated_get_display_efficiency_bridge_state(edelta_value)
-
-func generated_building_comp_should_ambient_sound_bridge_state(should_consume_state: bool) -> Dictionary:
-	return source_building_time_state.generated_should_ambient_sound_bridge_state(should_consume_state)
-
 func generated_building_comp_is_commandable_bridge_state(block_commandable: bool) -> Dictionary:
 	return source_building_interaction_state.generated_is_commandable_bridge_state(block_commandable)
 
@@ -1606,12 +1578,6 @@ func generated_building_comp_damage_delegate_bridge_state(source_team: Variant, 
 func generated_building_comp_bullet_damage_bridge_state(bullet: Variant, source_team: Variant, damage_amount: float) -> Dictionary:
 	return source_building_damage_state.generated_bullet_damage_bridge_state(bullet, source_team, damage_amount)
 
-func generated_building_comp_delta_bridge_state(source_delta: float, time_scale: float) -> Dictionary:
-	return source_building_time_state.generated_delta_bridge_state(source_delta, time_scale)
-
-func generated_building_comp_edelta_bridge_state(source_delta: float, time_scale: float, efficiency: float) -> Dictionary:
-	return source_building_time_state.generated_edelta_bridge_state(source_delta, time_scale, efficiency)
-
 func generated_building_comp_hit_size_bridge_state(block_size_value: int, source_tilesize: float) -> Dictionary:
 	return source_block_geometry.generated_building_hit_size_bridge_state(block_size_value, source_tilesize)
 
@@ -1659,9 +1625,6 @@ func generated_building_comp_sense_object_bridge_state(sensor: String, block_val
 
 func generated_building_comp_display_bridge_state(block_ui_icon: Variant, localized_name: String, team_is_derelict: bool, team_is_player: bool, team_emoji: String, derelict_label: String, block_category: String, block_display_flow: bool, net_active: bool, has_last_accessed: bool) -> Dictionary:
 	return source_building_display_state.generated_building_comp_display_bridge_state(block_ui_icon, localized_name, team_is_derelict, team_is_player, team_emoji, derelict_label, block_category, block_display_flow, net_active, has_last_accessed)
-
-func source_building_should_ambient_sound(should_consume_state: bool) -> Dictionary:
-	return source_building_time_state.should_ambient_sound(should_consume_state)
 
 func source_building_is_commandable_state(block_commandable: bool) -> bool:
 	return source_building_interaction_state.is_commandable_state(block_commandable)
@@ -1923,36 +1886,6 @@ func source_building_in_fog_discovery_gate_state(block_size_value: int, block_si
 
 func source_building_in_fog_visibility_loop_state(block_size_value: int, block_size_offset: int, tile_x: int, tile_y: int, visible_tiles: Array) -> Dictionary:
 	return source_building_visibility_state.in_fog_visibility_loop_state(block_size_value, block_size_offset, tile_x, tile_y, visible_tiles)
-
-func source_building_write_base_timescale_state(current_time_scale: float, current_time_scale_duration: float) -> Dictionary:
-	return source_building_time_state.write_base_timescale_state(current_time_scale, current_time_scale_duration, source_block_defaults.TIME_SCALE_DEFAULT)
-
-func generated_building_comp_write_base_timescale_bridge_state(current_time_scale: float, current_time_scale_duration: float) -> Dictionary:
-	return source_building_time_state.generated_write_base_timescale_bridge_state(current_time_scale, current_time_scale_duration)
-
-func source_building_read_base_timescale_state(current_module_bits: int, read_time_scale: float, read_time_scale_duration: float) -> Dictionary:
-	return source_building_time_state.read_base_timescale_state(current_module_bits, read_time_scale, read_time_scale_duration, source_block_defaults.TIME_SCALE_DEFAULT)
-
-func generated_building_comp_read_base_timescale_bridge_state(current_module_bits: int, read_time_scale: float, read_time_scale_duration: float) -> Dictionary:
-	return source_building_time_state.generated_read_base_timescale_bridge_state(current_module_bits, read_time_scale, read_time_scale_duration)
-
-func source_building_module_bitmask_state(has_items_module: bool, has_power_module: bool, has_liquids_module: bool, current_time_scale: float, has_valid_last_disabler: bool) -> Dictionary:
-	return source_building_time_state.module_bitmask_state(has_items_module, has_power_module, has_liquids_module, current_time_scale, has_valid_last_disabler, source_block_defaults.TIME_SCALE_DEFAULT)
-
-func generated_building_comp_module_bitmask_bridge_state(has_items_module: bool, has_power_module: bool, has_liquids_module: bool, current_time_scale: float, has_valid_last_disabler: bool) -> Dictionary:
-	return source_building_time_state.generated_module_bitmask_bridge_state(has_items_module, has_power_module, has_liquids_module, current_time_scale, has_valid_last_disabler)
-
-func generated_building_comp_update_timescale_decay_bridge_state(current_time_scale: float, current_time_scale_duration: float, time_delta: float) -> Dictionary:
-	return source_building_time_state.generated_update_timescale_decay_bridge_state(current_time_scale, current_time_scale_duration, time_delta)
-
-func source_building_update_timescale_decay_state(current_time_scale: float, current_time_scale_duration: float, time_delta: float) -> Dictionary:
-	return source_building_time_state.update_timescale_decay_state(current_time_scale, current_time_scale_duration, time_delta, source_block_defaults.TIME_SCALE_DEFAULT)
-
-func generated_building_comp_update_ambient_sound_gate_bridge_state(headless_mode: bool, ambient_sound_value: Variant, sounds_none_value: Variant, should_ambient_sound_result: bool, block_ambient_sound_volume: float, ambient_volume_value: float) -> Dictionary:
-	return source_building_time_state.generated_update_ambient_sound_gate_bridge_state(headless_mode, ambient_sound_value, sounds_none_value, should_ambient_sound_result, block_ambient_sound_volume, ambient_volume_value)
-
-func source_building_update_ambient_sound_gate_state(headless_mode: bool, ambient_sound_value: Variant, sounds_none_value: Variant, should_ambient_sound_result: bool, block_ambient_sound_volume: float, ambient_volume_value: float) -> Dictionary:
-	return source_building_time_state.update_ambient_sound_gate_state(headless_mode, ambient_sound_value, sounds_none_value, should_ambient_sound_result, block_ambient_sound_volume, ambient_volume_value)
 
 func source_building_update_fog_visibility_state(was_visible: bool, in_fog_to_player_team: bool, visible_flags: int, player_team_id: int, self_state := {}, tile_state := {}) -> Dictionary:
 	return source_building_visibility_state.update_fog_visibility_state(was_visible, in_fog_to_player_team, visible_flags, player_team_id, self_state, tile_state)

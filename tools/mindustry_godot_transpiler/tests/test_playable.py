@@ -12,6 +12,8 @@ from mindustry_port.playable import build_playable_manifest
 
 class PlayableManifestTests(unittest.TestCase):
     def _method_body(self, source: str, signature: str) -> str:
+        if signature not in source and "class_name PortGame" in source:
+            source = self._port_compatibility_surface_source(source, signature)
         body = source.split(signature, 1)[1]
         for boundary in ("\nfunc ", "\nstatic func ", "\nextends "):
             body = body.split(boundary, 1)[0]
@@ -791,6 +793,10 @@ class PlayableManifestTests(unittest.TestCase):
         bridge = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingLifecyclePortBridge.gd"
         return bridge.read_text(encoding="utf-8") if bridge.exists() else ""
 
+    def _source_building_time_port_bridge_source(self):
+        bridge = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingTimePortBridge.gd"
+        return bridge.read_text(encoding="utf-8") if bridge.exists() else ""
+
     def _port_game_lifecycle_source(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         return port_game.read_text(encoding="utf-8") + "\n" + self._source_building_lifecycle_port_bridge_source()
@@ -801,6 +807,7 @@ class PlayableManifestTests(unittest.TestCase):
 
     def _port_game_port_bridge_chain_source(self):
         bridge_names = [
+            "SourceBuildingTimePortBridge.gd",
             "SourceOverdriveProjectorPortBridge.gd",
             "SourceBlockUnitPortBridge.gd",
             "SourceSyncPortBridge.gd",
@@ -7058,7 +7065,7 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = bridge.read_text(encoding="utf-8")
         chain_source = self._port_game_port_bridge_chain_source()
 
-        self.assertIn('extends "res://src/game/SourceOverdriveProjectorPortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceOverdriveProjectorPortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceBlockUnitPortBridge.gd"', bridge_source)
         self.assertIn('extends "res://src/game/SourceSyncPortBridge.gd"', chain_source)
         self.assertIn('const source_overdrive_projector_state := preload("res://src/game/SourceOverdriveProjectorState.gd")', bridge_source)
@@ -7067,6 +7074,27 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertNotIn('const source_overdrive_projector_state := preload("res://src/game/SourceOverdriveProjectorState.gd")', port_source)
         self.assertNotIn("class_name SourceOverdriveProjectorPortBridge", bridge_source)
         self.assertIn('const source_overdrive_projector_state := preload("res://src/game/SourceOverdriveProjectorState.gd")', chain_source)
+
+    def test_port_game_routes_building_time_through_port_bridge(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bridge = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingTimePortBridge.gd"
+
+        self.assertTrue(bridge.exists(), "Building time compatibility wrappers must live in SourceBuildingTimePortBridge.gd")
+        port_source = port_game.read_text(encoding="utf-8")
+        bridge_source = bridge.read_text(encoding="utf-8")
+        chain_source = self._port_game_port_bridge_chain_source()
+
+        self.assertIn('extends "res://src/game/SourceBuildingTimePortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceOverdriveProjectorPortBridge.gd"', bridge_source)
+        self.assertIn('extends "res://src/game/SourceBlockUnitPortBridge.gd"', chain_source)
+        self.assertIn('const source_building_time_state := preload("res://src/game/SourceBuildingTimeState.gd")', bridge_source)
+        self.assertIn('const source_building_time_port_bridge_block_defaults := preload("res://src/game/SourceBlockDefaults.gd")', bridge_source)
+        self.assertNotIn('const source_building_time_state := preload("res://src/game/SourceBuildingTimeState.gd")', port_source)
+        self.assertNotIn("class_name SourceBuildingTimePortBridge", bridge_source)
+        self.assertIn("func source_building_apply_boost_state(current_time_scale: float, current_duration: float, intensity: float, duration: float, can_overdrive := true) -> Dictionary:", bridge_source)
+        self.assertIn("return source_building_time_state.apply_boost_state(current_time_scale, current_duration, intensity, duration, can_overdrive, source_building_time_port_bridge_block_defaults.TIME_SCALE_BOOST_EPSILON)", bridge_source)
+        self.assertIn("func generated_building_comp_update_ambient_sound_gate_bridge_state(headless_mode: bool, ambient_sound_value: Variant, sounds_none_value: Variant, should_ambient_sound_result: bool, block_ambient_sound_volume: float, ambient_volume_value: float) -> Dictionary:", bridge_source)
+        self.assertIn("return source_building_time_state.generated_update_ambient_sound_gate_bridge_state(headless_mode, ambient_sound_value, sounds_none_value, should_ambient_sound_result, block_ambient_sound_volume, ambient_volume_value)", bridge_source)
 
     def test_port_game_exposes_overdrive_projector_range_state_like_source(self):
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceOverdriveProjectorState.gd"
@@ -7308,15 +7336,17 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         block_defaults = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockDefaults.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingTimeState.gd"
+        bridge = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingTimePortBridge.gd"
         source = port_game.read_text(encoding="utf-8")
         block_source = block_defaults.read_text(encoding="utf-8") if block_defaults.exists() else ""
         helper_source = helper.read_text(encoding="utf-8") if helper.exists() else ""
+        bridge_source = bridge.read_text(encoding="utf-8") if bridge.exists() else ""
 
         self.assertTrue(helper.exists(), "source_building_time_state.gd helper must own Building time/boost state")
-        self.assertIn('const source_building_time_state := preload("res://src/game/SourceBuildingTimeState.gd")', source)
+        self.assertIn('const source_building_time_state := preload("res://src/game/SourceBuildingTimeState.gd")', bridge_source)
         self.assertIn("class_name SourceBuildingTimeState", helper_source)
-        self.assertIn("func source_building_apply_boost_state(current_time_scale: float, current_duration: float, intensity: float, duration: float, can_overdrive := true) -> Dictionary:", source)
-        self.assertIn("return source_building_time_state.apply_boost_state(current_time_scale, current_duration, intensity, duration, can_overdrive, source_block_defaults.TIME_SCALE_BOOST_EPSILON)", source)
+        self.assertIn("func source_building_apply_boost_state(current_time_scale: float, current_duration: float, intensity: float, duration: float, can_overdrive := true) -> Dictionary:", bridge_source)
+        self.assertIn("return source_building_time_state.apply_boost_state(current_time_scale, current_duration, intensity, duration, can_overdrive, source_building_time_port_bridge_block_defaults.TIME_SCALE_BOOST_EPSILON)", bridge_source)
         self.assertIn("static func apply_boost_state(current_time_scale: float, current_duration: float, intensity: float, duration: float, can_overdrive: bool, time_scale_boost_epsilon: float) -> Dictionary:", helper_source)
         self.assertIn("if not can_overdrive:", helper_source)
         self.assertIn("const TIME_SCALE_BOOST_EPSILON := 0.001", block_source)
@@ -7678,16 +7708,18 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_decays_building_time_scale_like_source(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bridge = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingTimePortBridge.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingTimeState.gd"
         placed_block_state = ROOT / "godot-mindustry" / "src" / "game" / "SourcePlacedBlockState.gd"
         game_loop = ROOT / "godot-mindustry" / "src" / "game" / "SourceGameLoopRuntimeState.gd"
         source = port_game.read_text(encoding="utf-8")
+        bridge_source = bridge.read_text(encoding="utf-8") if bridge.exists() else ""
         helper_source = helper.read_text(encoding="utf-8") if helper.exists() else ""
         placed_block_source = placed_block_state.read_text(encoding="utf-8") if placed_block_state.exists() else ""
         game_loop_source = game_loop.read_text(encoding="utf-8") if game_loop.exists() else ""
 
-        self.assertIn("func source_building_time_scale_decay_state(current_time_scale: float, current_duration: float, source_delta: float) -> Dictionary:", source)
-        self.assertIn("return source_building_time_state.time_scale_decay_state(current_time_scale, current_duration, source_delta, source_block_defaults.TIME_SCALE_DEFAULT)", source)
+        self.assertIn("func source_building_time_scale_decay_state(current_time_scale: float, current_duration: float, source_delta: float) -> Dictionary:", bridge_source)
+        self.assertIn("return source_building_time_state.time_scale_decay_state(current_time_scale, current_duration, source_delta, source_building_time_port_bridge_block_defaults.TIME_SCALE_DEFAULT)", bridge_source)
         self.assertIn("static func time_scale_decay_state(current_time_scale: float, current_duration: float, source_delta: float, default_time_scale: float) -> Dictionary:", helper_source)
         self.assertIn('const SOURCE_BUILDING_UPDATE_TIMESCALE_DECAY_FIELD := "private transient float timeScale = 1f, timeScaleDuration;"', helper_source)
         self.assertIn('const SOURCE_BUILDING_UPDATE_TIMESCALE_DECAY_METHOD := "public void update(){"', helper_source)
@@ -7721,16 +7753,18 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_building_delta_edelta_helpers_like_source(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bridge = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingTimePortBridge.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingTimeState.gd"
         source = port_game.read_text(encoding="utf-8")
+        bridge_source = bridge.read_text(encoding="utf-8") if bridge.exists() else ""
         helper_source = helper.read_text(encoding="utf-8") if helper.exists() else ""
 
-        self.assertIn("func source_building_delta(source_delta: float, time_scale: float) -> float:", source)
-        self.assertIn("return source_building_time_state.delta(source_delta, time_scale)", source)
+        self.assertIn("func source_building_delta(source_delta: float, time_scale: float) -> float:", bridge_source)
+        self.assertIn("return source_building_time_state.delta(source_delta, time_scale)", bridge_source)
         self.assertIn("static func delta(source_delta: float, time_scale: float) -> float:", helper_source)
         self.assertIn("return source_delta * time_scale", helper_source)
-        self.assertIn("func source_building_edelta(source_delta: float, time_scale: float, efficiency: float) -> float:", source)
-        self.assertIn("return source_building_time_state.edelta(source_delta, time_scale, efficiency)", source)
+        self.assertIn("func source_building_edelta(source_delta: float, time_scale: float, efficiency: float) -> float:", bridge_source)
+        self.assertIn("return source_building_time_state.edelta(source_delta, time_scale, efficiency)", bridge_source)
         self.assertIn("static func edelta(source_delta: float, time_scale: float, efficiency: float) -> float:", helper_source)
         self.assertIn("return efficiency * delta(source_delta, time_scale)", helper_source)
 
@@ -12424,22 +12458,24 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_source_building_progress_display_ambient_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bridge = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingTimePortBridge.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingTimeState.gd"
         source = port_game.read_text(encoding="utf-8")
+        bridge_source = bridge.read_text(encoding="utf-8") if bridge.exists() else ""
         helper_source = helper.read_text(encoding="utf-8") if helper.exists() else ""
 
         self.assertTrue(helper.exists(), "source_building_time_state.gd helper must own Building progress/display/ambient state")
-        self.assertIn('const source_building_time_state := preload("res://src/game/SourceBuildingTimeState.gd")', source)
-        self.assertIn("func source_building_progress_increase(base_time: float, edelta_value: float) -> float:", source)
-        self.assertIn("return source_building_time_state.progress_increase(base_time, edelta_value)", source)
+        self.assertIn('const source_building_time_state := preload("res://src/game/SourceBuildingTimeState.gd")', bridge_source)
+        self.assertIn("func source_building_progress_increase(base_time: float, edelta_value: float) -> float:", bridge_source)
+        self.assertIn("return source_building_time_state.progress_increase(base_time, edelta_value)", bridge_source)
         self.assertIn("static func progress_increase(base_time: float, edelta_value: float) -> float:", helper_source)
         self.assertIn("return 1.0 / base_time * edelta_value", helper_source)
-        self.assertIn("func source_building_display_efficiency(edelta_value: float) -> float:", source)
-        self.assertIn("return source_building_time_state.display_efficiency(edelta_value)", source)
+        self.assertIn("func source_building_display_efficiency(edelta_value: float) -> float:", bridge_source)
+        self.assertIn("return source_building_time_state.display_efficiency(edelta_value)", bridge_source)
         self.assertIn("static func display_efficiency(edelta_value: float) -> float:", helper_source)
         self.assertIn("return progress_increase(1.0, edelta_value) / edelta_value", helper_source)
-        self.assertIn("func source_building_should_ambient_sound(should_consume_state: bool) -> Dictionary:", source)
-        self.assertIn("return source_building_time_state.should_ambient_sound(should_consume_state)", source)
+        self.assertIn("func source_building_should_ambient_sound(should_consume_state: bool) -> Dictionary:", bridge_source)
+        self.assertIn("return source_building_time_state.should_ambient_sound(should_consume_state)", bridge_source)
         self.assertIn("static func should_ambient_sound(should_consume_state: bool) -> Dictionary:", helper_source)
         self.assertIn('"method": "public boolean shouldAmbientSound(){",', helper_source)
         self.assertIn('"return_should_consume": "return shouldConsume();",', helper_source)
@@ -16470,10 +16506,12 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_update_timescale_decay_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bridge = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingTimePortBridge.gd"
         source = port_game.read_text(encoding="utf-8")
+        bridge_source = bridge.read_text(encoding="utf-8") if bridge.exists() else ""
         body = self._method_body(source, "func generated_building_comp_update_timescale_decay_bridge_state(current_time_scale: float, current_time_scale_duration: float, time_delta: float) -> Dictionary:")
 
-        self.assertIn("func generated_building_comp_update_timescale_decay_bridge_state(current_time_scale: float, current_time_scale_duration: float, time_delta: float) -> Dictionary:", source)
+        self.assertIn("func generated_building_comp_update_timescale_decay_bridge_state(current_time_scale: float, current_time_scale_duration: float, time_delta: float) -> Dictionary:", bridge_source)
         self.assertIn("return source_building_time_state.generated_update_timescale_decay_bridge_state(current_time_scale, current_time_scale_duration, time_delta)", body)
         self.assertNotIn("source_generated_class_runtime.call_java_method", body)
 
@@ -16495,16 +16533,18 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_building_comp_write_base_timescale_bridge_state(self):
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingTimeState.gd"
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bridge = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingTimePortBridge.gd"
         source = port_game.read_text(encoding="utf-8")
+        bridge_source = bridge.read_text(encoding="utf-8") if bridge.exists() else ""
         helper_source = helper.read_text(encoding="utf-8") if helper.exists() else ""
 
         self.assertTrue(helper.exists(), "source_building_time_state.gd helper must own Building writeBase timescale state")
-        self.assertIn("func source_building_write_base_timescale_state(current_time_scale: float, current_time_scale_duration: float) -> Dictionary:", source)
-        self.assertIn("return source_building_time_state.write_base_timescale_state(current_time_scale, current_time_scale_duration, source_block_defaults.TIME_SCALE_DEFAULT)", source)
+        self.assertIn("func source_building_write_base_timescale_state(current_time_scale: float, current_time_scale_duration: float) -> Dictionary:", bridge_source)
+        self.assertIn("return source_building_time_state.write_base_timescale_state(current_time_scale, current_time_scale_duration, source_building_time_port_bridge_block_defaults.TIME_SCALE_DEFAULT)", bridge_source)
         self.assertIn("static func write_base_timescale_state(current_time_scale: float, current_time_scale_duration: float, default_time_scale: float) -> Dictionary:", helper_source)
         self.assertIn("var write_timescale := current_time_scale != default_time_scale", helper_source)
         self.assertIn('"gate": "if(timeScale != 1f){"', helper_source)
-        self.assertIn("func generated_building_comp_write_base_timescale_bridge_state(current_time_scale: float, current_time_scale_duration: float) -> Dictionary:", source)
+        self.assertIn("func generated_building_comp_write_base_timescale_bridge_state(current_time_scale: float, current_time_scale_duration: float) -> Dictionary:", bridge_source)
         body = self._method_body(source, "func generated_building_comp_write_base_timescale_bridge_state(current_time_scale: float, current_time_scale_duration: float) -> Dictionary:")
         self.assertIn("return source_building_time_state.generated_write_base_timescale_bridge_state(current_time_scale, current_time_scale_duration)", body)
         self.assertNotIn("source_generated_class_runtime.call_java_method", body)
@@ -16528,16 +16568,18 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_building_comp_module_bitmask_bridge_state(self):
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingTimeState.gd"
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bridge = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingTimePortBridge.gd"
         source = port_game.read_text(encoding="utf-8")
+        bridge_source = bridge.read_text(encoding="utf-8") if bridge.exists() else ""
         helper_source = helper.read_text(encoding="utf-8") if helper.exists() else ""
 
         self.assertTrue(helper.exists(), "source_building_time_state.gd helper must own Building moduleBitmask time state")
-        self.assertIn("func source_building_module_bitmask_state(has_items_module: bool, has_power_module: bool, has_liquids_module: bool, current_time_scale: float, has_valid_last_disabler: bool) -> Dictionary:", source)
-        self.assertIn("return source_building_time_state.module_bitmask_state(has_items_module, has_power_module, has_liquids_module, current_time_scale, has_valid_last_disabler, source_block_defaults.TIME_SCALE_DEFAULT)", source)
+        self.assertIn("func source_building_module_bitmask_state(has_items_module: bool, has_power_module: bool, has_liquids_module: bool, current_time_scale: float, has_valid_last_disabler: bool) -> Dictionary:", bridge_source)
+        self.assertIn("return source_building_time_state.module_bitmask_state(has_items_module, has_power_module, has_liquids_module, current_time_scale, has_valid_last_disabler, source_building_time_port_bridge_block_defaults.TIME_SCALE_DEFAULT)", bridge_source)
         self.assertIn("static func module_bitmask_state(has_items_module: bool, has_power_module: bool, has_liquids_module: bool, current_time_scale: float, has_valid_last_disabler: bool, default_time_scale: float) -> Dictionary:", helper_source)
         self.assertIn("var time_scale_changed := current_time_scale != default_time_scale", helper_source)
         self.assertIn("var module_bits := (1 if has_items_module else 0) | (1 << 1 if has_power_module else 0) | (1 << 2 if has_liquids_module else 0) | (1 << 3) | (1 << 4 if time_scale_changed else 0) | (1 << 5 if has_valid_last_disabler else 0)", helper_source)
-        self.assertIn("func generated_building_comp_module_bitmask_bridge_state(has_items_module: bool, has_power_module: bool, has_liquids_module: bool, current_time_scale: float, has_valid_last_disabler: bool) -> Dictionary:", source)
+        self.assertIn("func generated_building_comp_module_bitmask_bridge_state(has_items_module: bool, has_power_module: bool, has_liquids_module: bool, current_time_scale: float, has_valid_last_disabler: bool) -> Dictionary:", bridge_source)
         body = self._method_body(source, "func generated_building_comp_module_bitmask_bridge_state(has_items_module: bool, has_power_module: bool, has_liquids_module: bool, current_time_scale: float, has_valid_last_disabler: bool) -> Dictionary:")
         self.assertIn("return source_building_time_state.generated_module_bitmask_bridge_state(has_items_module, has_power_module, has_liquids_module, current_time_scale, has_valid_last_disabler)", body)
         self.assertNotIn("source_generated_class_runtime.call_java_method", body)
@@ -16560,17 +16602,19 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_building_comp_read_base_timescale_bridge_state(self):
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingTimeState.gd"
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bridge = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingTimePortBridge.gd"
         source = port_game.read_text(encoding="utf-8")
+        bridge_source = bridge.read_text(encoding="utf-8") if bridge.exists() else ""
         helper_source = helper.read_text(encoding="utf-8") if helper.exists() else ""
 
         self.assertTrue(helper.exists(), "source_building_time_state.gd helper must own Building readBase timescale state")
-        self.assertIn("func source_building_read_base_timescale_state(current_module_bits: int, read_time_scale: float, read_time_scale_duration: float) -> Dictionary:", source)
-        self.assertIn("return source_building_time_state.read_base_timescale_state(current_module_bits, read_time_scale, read_time_scale_duration, source_block_defaults.TIME_SCALE_DEFAULT)", source)
+        self.assertIn("func source_building_read_base_timescale_state(current_module_bits: int, read_time_scale: float, read_time_scale_duration: float) -> Dictionary:", bridge_source)
+        self.assertIn("return source_building_time_state.read_base_timescale_state(current_module_bits, read_time_scale, read_time_scale_duration, source_building_time_port_bridge_block_defaults.TIME_SCALE_DEFAULT)", bridge_source)
         self.assertIn("static func read_base_timescale_state(current_module_bits: int, read_time_scale: float, read_time_scale_duration: float, default_time_scale: float) -> Dictionary:", helper_source)
         self.assertIn("var has_time_scale_module := (current_module_bits & (1 << 4)) != 0", helper_source)
         self.assertIn('return {"time_scale": default_time_scale, "time_scale_duration": 0.0, "read_called": false}', helper_source)
         self.assertIn('return {"time_scale": read_time_scale, "time_scale_duration": read_time_scale_duration, "read_called": true}', helper_source)
-        self.assertIn("func generated_building_comp_read_base_timescale_bridge_state(current_module_bits: int, read_time_scale: float, read_time_scale_duration: float) -> Dictionary:", source)
+        self.assertIn("func generated_building_comp_read_base_timescale_bridge_state(current_module_bits: int, read_time_scale: float, read_time_scale_duration: float) -> Dictionary:", bridge_source)
         body = self._method_body(source, "func generated_building_comp_read_base_timescale_bridge_state(current_module_bits: int, read_time_scale: float, read_time_scale_duration: float) -> Dictionary:")
         self.assertIn("return source_building_time_state.generated_read_base_timescale_bridge_state(current_module_bits, read_time_scale, read_time_scale_duration)", body)
         self.assertNotIn("source_generated_class_runtime.call_java_method", body)
@@ -16595,19 +16639,23 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_update_ambient_sound_gate_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bridge = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingTimePortBridge.gd"
         source = port_game.read_text(encoding="utf-8")
+        bridge_source = bridge.read_text(encoding="utf-8") if bridge.exists() else ""
         body = self._method_body(source, "func generated_building_comp_update_ambient_sound_gate_bridge_state(headless_mode: bool, ambient_sound_value: Variant, sounds_none_value: Variant, should_ambient_sound_result: bool, block_ambient_sound_volume: float, ambient_volume_value: float) -> Dictionary:")
 
-        self.assertIn("func generated_building_comp_update_ambient_sound_gate_bridge_state(headless_mode: bool, ambient_sound_value: Variant, sounds_none_value: Variant, should_ambient_sound_result: bool, block_ambient_sound_volume: float, ambient_volume_value: float) -> Dictionary:", source)
+        self.assertIn("func generated_building_comp_update_ambient_sound_gate_bridge_state(headless_mode: bool, ambient_sound_value: Variant, sounds_none_value: Variant, should_ambient_sound_result: bool, block_ambient_sound_volume: float, ambient_volume_value: float) -> Dictionary:", bridge_source)
         self.assertIn("return source_building_time_state.generated_update_ambient_sound_gate_bridge_state(headless_mode, ambient_sound_value, sounds_none_value, should_ambient_sound_result, block_ambient_sound_volume, ambient_volume_value)", body)
         self.assertNotIn("source_generated_class_runtime.call_java_method", body)
 
     def test_port_game_exposes_generated_building_comp_update_timescale_decay_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bridge = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingTimePortBridge.gd"
         source = port_game.read_text(encoding="utf-8")
+        bridge_source = bridge.read_text(encoding="utf-8") if bridge.exists() else ""
         body = self._method_body(source, "func generated_building_comp_update_timescale_decay_bridge_state(current_time_scale: float, current_time_scale_duration: float, time_delta: float) -> Dictionary:")
 
-        self.assertIn("func generated_building_comp_update_timescale_decay_bridge_state(current_time_scale: float, current_time_scale_duration: float, time_delta: float) -> Dictionary:", source)
+        self.assertIn("func generated_building_comp_update_timescale_decay_bridge_state(current_time_scale: float, current_time_scale_duration: float, time_delta: float) -> Dictionary:", bridge_source)
         self.assertIn("return source_building_time_state.generated_update_timescale_decay_bridge_state(current_time_scale, current_time_scale_duration, time_delta)", body)
         self.assertNotIn("source_generated_class_runtime.call_java_method", body)
 
@@ -21080,7 +21128,9 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_building_update_timescale_decay_state(self):
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingTimeState.gd"
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bridge = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingTimePortBridge.gd"
         source = port_game.read_text(encoding="utf-8")
+        bridge_source = bridge.read_text(encoding="utf-8") if bridge.exists() else ""
         helper_source = helper.read_text(encoding="utf-8") if helper.exists() else ""
 
         self.assertTrue(helper.exists(), "source_building_time_state.gd helper must own Building update timeScaleDuration decay state")
@@ -21091,13 +21141,13 @@ class PlayableManifestTests(unittest.TestCase):
             'const SOURCE_BUILDING_UPDATE_TIMESCALE_DECAY_RESET := "timeScale = 1f;"',
         ])
         self.assertNotIn("const SOURCE_BLOCK_TIME_SCALE_DEFAULT := source_block_defaults.TIME_SCALE_DEFAULT", source)
-        self.assertIn("func source_building_update_timescale_decay_state(current_time_scale: float, current_time_scale_duration: float, time_delta: float) -> Dictionary:", source)
-        self.assertIn("return source_building_time_state.update_timescale_decay_state(current_time_scale, current_time_scale_duration, time_delta, source_block_defaults.TIME_SCALE_DEFAULT)", source)
+        self.assertIn("func source_building_update_timescale_decay_state(current_time_scale: float, current_time_scale_duration: float, time_delta: float) -> Dictionary:", bridge_source)
+        self.assertIn("return source_building_time_state.update_timescale_decay_state(current_time_scale, current_time_scale_duration, time_delta, source_building_time_port_bridge_block_defaults.TIME_SCALE_DEFAULT)", bridge_source)
         self.assertIn("static func update_timescale_decay_state(current_time_scale: float, current_time_scale_duration: float, time_delta: float, default_time_scale: float) -> Dictionary:", helper_source)
         self.assertIn("var next_duration := current_time_scale_duration - time_delta", helper_source)
         self.assertIn('if float(result["time_scale_duration"]) <= 0.0:', helper_source)
         self.assertIn('result["time_scale"] = default_time_scale', helper_source)
-        function_body = source.split("func source_building_update_timescale_decay_state", 1)[1].split("\nfunc ", 1)[0]
+        function_body = bridge_source.split("func source_building_update_timescale_decay_state", 1)[1].split("\nfunc ", 1)[0]
         self.assertNotIn("var next_duration := current_time_scale_duration - time_delta", function_body)
         self.assertNotIn('return {"time_scale": SOURCE_BLOCK_TIME_SCALE_DEFAULT, "time_scale_duration": next_duration}', function_body)
         self.assertNotIn('return {"time_scale": current_time_scale, "time_scale_duration": next_duration}', function_body)
@@ -21126,7 +21176,9 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_building_update_ambient_sound_gate_state(self):
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingTimeState.gd"
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bridge = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingTimePortBridge.gd"
         source = port_game.read_text(encoding="utf-8")
+        bridge_source = bridge.read_text(encoding="utf-8") if bridge.exists() else ""
         helper_source = helper.read_text(encoding="utf-8") if helper.exists() else ""
 
         self.assertTrue(helper.exists(), "source_building_time_state.gd helper must own Building update ambient sound gate state")
@@ -21136,8 +21188,8 @@ class PlayableManifestTests(unittest.TestCase):
             'const SOURCE_BUILDING_UPDATE_AMBIENT_SOUND_LOOP := "control.sound.loop(block.ambientSound, self(), block.ambientSoundVolume * ambientVolume());"',
             'const SOURCE_BUILDING_UPDATE_AMBIENT_SOUND_VOLUME_EXPR := "block.ambientSoundVolume * ambientVolume()"',
         ])
-        self.assertIn("func source_building_update_ambient_sound_gate_state(headless_mode: bool, ambient_sound_value: Variant, sounds_none_value: Variant, should_ambient_sound_result: bool, block_ambient_sound_volume: float, ambient_volume_value: float) -> Dictionary:", source)
-        self.assertIn("return source_building_time_state.update_ambient_sound_gate_state(headless_mode, ambient_sound_value, sounds_none_value, should_ambient_sound_result, block_ambient_sound_volume, ambient_volume_value)", source)
+        self.assertIn("func source_building_update_ambient_sound_gate_state(headless_mode: bool, ambient_sound_value: Variant, sounds_none_value: Variant, should_ambient_sound_result: bool, block_ambient_sound_volume: float, ambient_volume_value: float) -> Dictionary:", bridge_source)
+        self.assertIn("return source_building_time_state.update_ambient_sound_gate_state(headless_mode, ambient_sound_value, sounds_none_value, should_ambient_sound_result, block_ambient_sound_volume, ambient_volume_value)", bridge_source)
         self.assertIn("static func update_ambient_sound_gate_state(headless_mode: bool, ambient_sound_value: Variant, sounds_none_value: Variant, should_ambient_sound_result: bool, block_ambient_sound_volume: float, ambient_volume_value: float) -> Dictionary:", helper_source)
         self.assertIn("var should_loop: bool = not headless_mode and ambient_sound_value != sounds_none_value and should_ambient_sound_result", helper_source)
         self.assertIn('return {"loop_called": false, "sound": ambient_sound_value, "volume": 0.0}', helper_source)
@@ -29828,7 +29880,7 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = bridge.read_text(encoding="utf-8")
         chain_source = self._port_game_port_bridge_chain_source()
 
-        self.assertIn('extends "res://src/game/SourceOverdriveProjectorPortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceOverdriveProjectorPortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceBuilderRuntimePortBridge.gd"', bridge_source)
         self.assertIn('const source_sync_state := preload("res://src/game/SourceSyncState.gd")', bridge_source)
         self.assertNotIn('const source_sync_state := preload("res://src/game/SourceSyncState.gd")', port_source)
@@ -30216,7 +30268,7 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = bridge.read_text(encoding="utf-8")
         chain_source = self._port_game_port_bridge_chain_source()
 
-        self.assertIn('extends "res://src/game/SourceOverdriveProjectorPortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceOverdriveProjectorPortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceSyncPortBridge.gd"', bridge_source)
         self.assertIn('const source_block_unit_state := preload("res://src/game/SourceBlockUnitState.gd")', bridge_source)
         self.assertNotIn('const source_block_unit_state := preload("res://src/game/SourceBlockUnitState.gd")', port_source)
@@ -30769,7 +30821,7 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = bridge.read_text(encoding="utf-8")
         chain_source = self._port_game_port_bridge_chain_source()
 
-        self.assertIn('extends "res://src/game/SourceOverdriveProjectorPortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceOverdriveProjectorPortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceAbilityPortBridge.gd"', bridge_source)
         self.assertIn('extends "res://src/game/SourceBuilderRuntimePortBridge.gd"', chain_source)
         self.assertIn('const source_builder_runtime_state := preload("res://src/game/SourceBuilderRuntimeState.gd")', bridge_source)
@@ -35165,7 +35217,7 @@ class PlayableManifestTests(unittest.TestCase):
         chain_source = self._port_game_port_bridge_chain_source()
 
         self.assertTrue(bridge.exists(), "SourceItemTurretBuildPortBridge.gd must own PortGame ItemTurretBuild compatibility wrappers")
-        self.assertIn('extends "res://src/game/SourceOverdriveProjectorPortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceOverdriveProjectorPortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceBuildPayloadPortBridge.gd"', bridge_source)
         self.assertIn('extends "res://src/game/SourceBuilderRuntimePortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceAbilityPortBridge.gd"', chain_source)
@@ -37044,7 +37096,7 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = bridge.read_text(encoding="utf-8")
         chain_source = self._port_game_port_bridge_chain_source()
 
-        self.assertIn('extends "res://src/game/SourceOverdriveProjectorPortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceOverdriveProjectorPortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceItemTurretBuildPortBridge.gd"', bridge_source)
         self.assertIn('extends "res://src/game/SourceBuilderRuntimePortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceAbilityPortBridge.gd"', chain_source)
