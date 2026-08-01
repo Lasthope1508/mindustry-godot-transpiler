@@ -616,6 +616,17 @@ class PlayableManifestTests(unittest.TestCase):
             source += "\n" + module.read_text(encoding="utf-8")
         return source
 
+    def _port_game_sync_source(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bridge = ROOT / "godot-mindustry" / "src" / "game" / "SourceSyncPortBridge.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceSyncState.gd"
+        source = port_game.read_text(encoding="utf-8")
+        if bridge.exists():
+            source += "\n" + bridge.read_text(encoding="utf-8")
+        if module.exists():
+            source += "\n" + module.read_text(encoding="utf-8")
+        return source
+
     def _assert_ability_generated_bridge_moved_to_module(
         self,
         port_signature: str,
@@ -779,6 +790,7 @@ class PlayableManifestTests(unittest.TestCase):
 
     def _port_game_port_bridge_chain_source(self):
         bridge_names = [
+            "SourceSyncPortBridge.gd",
             "SourceBuilderRuntimePortBridge.gd",
             "SourceAbilityPortBridge.gd",
             "SourceItemTurretBuildPortBridge.gd",
@@ -29773,10 +29785,58 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"tile_is_valid": tile_is_valid', source)
         self.assertIn('"is_added": is_added', source)
 
+    def test_port_game_routes_sync_through_port_bridge(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bridge = ROOT / "godot-mindustry" / "src" / "game" / "SourceSyncPortBridge.gd"
+
+        self.assertTrue(bridge.exists(), "Sync compatibility wrappers must live in SourceSyncPortBridge.gd")
+        port_source = port_game.read_text(encoding="utf-8")
+        bridge_source = bridge.read_text(encoding="utf-8")
+        chain_source = self._port_game_port_bridge_chain_source()
+
+        self.assertIn('extends "res://src/game/SourceSyncPortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceBuilderRuntimePortBridge.gd"', bridge_source)
+        self.assertIn('const source_sync_state := preload("res://src/game/SourceSyncState.gd")', bridge_source)
+        self.assertNotIn('const source_sync_state := preload("res://src/game/SourceSyncState.gd")', port_source)
+        self.assertNotIn("class_name SourceSyncPortBridge", bridge_source)
+        self.assertIn('const source_sync_state := preload("res://src/game/SourceSyncState.gd")', chain_source)
+
+        delegates = {
+            "func source_sync_snap_sync_state() -> Dictionary:": "return source_sync_state.snap_sync_state()",
+            "func generated_sync_comp_snap_sync_bridge_state() -> Dictionary:": "return source_sync_state.generated_snap_sync_bridge_state()",
+            "func source_sync_snap_interpolation_state() -> Dictionary:": "return source_sync_state.snap_interpolation_state()",
+            "func generated_sync_comp_snap_interpolation_bridge_state() -> Dictionary:": "return source_sync_state.generated_snap_interpolation_bridge_state()",
+            "func source_sync_read_sync_state() -> Dictionary:": "return source_sync_state.read_sync_state()",
+            "func generated_sync_comp_read_sync_bridge_state() -> Dictionary:": "return source_sync_state.generated_read_sync_bridge_state()",
+            "func source_sync_write_sync_state() -> Dictionary:": "return source_sync_state.write_sync_state()",
+            "func generated_sync_comp_write_sync_bridge_state() -> Dictionary:": "return source_sync_state.generated_write_sync_bridge_state()",
+            "func source_sync_read_sync_manual_state() -> Dictionary:": "return source_sync_state.read_sync_manual_state()",
+            "func generated_sync_comp_read_sync_manual_bridge_state() -> Dictionary:": "return source_sync_state.generated_read_sync_manual_bridge_state()",
+            "func source_sync_write_sync_manual_state() -> Dictionary:": "return source_sync_state.write_sync_manual_state()",
+            "func generated_sync_comp_write_sync_manual_bridge_state() -> Dictionary:": "return source_sync_state.generated_write_sync_manual_bridge_state()",
+            "func source_sync_after_sync_state() -> Dictionary:": "return source_sync_state.after_sync_state()",
+            "func generated_sync_comp_after_sync_bridge_state() -> Dictionary:": "return source_sync_state.generated_after_sync_bridge_state()",
+            "func source_sync_interpolate_state() -> Dictionary:": "return source_sync_state.interpolate_state()",
+            "func generated_sync_comp_interpolate_bridge_state() -> Dictionary:": "return source_sync_state.generated_interpolate_bridge_state()",
+            "func source_sync_is_sync_hidden_state(player: Variant = null) -> Dictionary:": "return source_sync_state.is_sync_hidden_state(player)",
+            "func generated_sync_comp_is_sync_hidden_bridge_state(player: Variant = null) -> Dictionary:": "return source_sync_state.generated_is_sync_hidden_bridge_state(player)",
+            "func source_sync_handle_sync_hidden_state() -> Dictionary:": "return source_sync_state.handle_sync_hidden_state()",
+            "func generated_sync_comp_handle_sync_hidden_bridge_state() -> Dictionary:": "return source_sync_state.generated_handle_sync_hidden_bridge_state()",
+            "func source_sync_update_interpolate_state(net_client: bool, is_local: bool, is_remote: bool) -> Dictionary:": "return source_sync_state.update_interpolate_state(net_client, is_local, is_remote)",
+            "func generated_sync_comp_update_interpolate_bridge_state(net_client: bool, is_local: bool, is_remote: bool) -> Dictionary:": "return source_sync_state.generated_update_interpolate_bridge_state(net_client, is_local, is_remote)",
+            "func source_sync_remove_client_removed_entity_state(net_client: bool, entity_id: int) -> Dictionary:": "return source_sync_state.remove_client_removed_entity_state(net_client, entity_id)",
+            "func generated_sync_comp_remove_client_removed_entity_bridge_state(net_client: bool, entity_id: int) -> Dictionary:": "return source_sync_state.generated_remove_client_removed_entity_bridge_state(net_client, entity_id)",
+        }
+        for signature, expected_delegate in delegates.items():
+            with self.subTest(signature=signature):
+                self.assertNotIn(signature, port_source)
+                body = self._method_body(bridge_source, signature)
+                self.assertIn(expected_delegate, body)
+
     def test_port_game_exposes_source_sync_snap_sync_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceSyncState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_sync_source()
         module_source = module.read_text(encoding="utf-8")
         method_body = self._method_body(source, "func source_sync_snap_sync_state() -> Dictionary:")
 
@@ -29792,7 +29852,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_sync_snap_interpolation_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceSyncState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_sync_source()
         module_source = module.read_text(encoding="utf-8")
         method_body = self._method_body(source, "func source_sync_snap_interpolation_state() -> Dictionary:")
 
@@ -29807,7 +29867,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_sync_read_sync_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceSyncState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_sync_source()
         module_source = module.read_text(encoding="utf-8")
         method_body = self._method_body(source, "func source_sync_read_sync_state() -> Dictionary:")
 
@@ -29822,7 +29882,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_sync_write_sync_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceSyncState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_sync_source()
         module_source = module.read_text(encoding="utf-8")
         method_body = self._method_body(source, "func source_sync_write_sync_state() -> Dictionary:")
 
@@ -29837,7 +29897,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_sync_read_sync_manual_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceSyncState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_sync_source()
         module_source = module.read_text(encoding="utf-8")
         method_body = self._method_body(source, "func source_sync_read_sync_manual_state() -> Dictionary:")
 
@@ -29852,7 +29912,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_sync_write_sync_manual_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceSyncState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_sync_source()
         module_source = module.read_text(encoding="utf-8")
         method_body = self._method_body(source, "func source_sync_write_sync_manual_state() -> Dictionary:")
 
@@ -29867,7 +29927,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_sync_after_sync_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceSyncState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_sync_source()
         module_source = module.read_text(encoding="utf-8")
         method_body = self._method_body(source, "func source_sync_after_sync_state() -> Dictionary:")
 
@@ -29882,7 +29942,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_sync_interpolate_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceSyncState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_sync_source()
         module_source = module.read_text(encoding="utf-8")
         method_body = self._method_body(source, "func source_sync_interpolate_state() -> Dictionary:")
 
@@ -29897,7 +29957,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_sync_is_sync_hidden_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceSyncState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_sync_source()
         module_source = module.read_text(encoding="utf-8")
         method_body = self._method_body(source, "func source_sync_is_sync_hidden_state(player: Variant = null) -> Dictionary:")
 
@@ -29913,7 +29973,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_sync_handle_sync_hidden_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceSyncState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_sync_source()
         module_source = module.read_text(encoding="utf-8")
         method_body = self._method_body(source, "func source_sync_handle_sync_hidden_state() -> Dictionary:")
 
@@ -29928,7 +29988,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_sync_update_interpolate_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceSyncState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_sync_source()
         module_source = module.read_text(encoding="utf-8")
         method_body = self._method_body(source, "func source_sync_update_interpolate_state(net_client: bool, is_local: bool, is_remote: bool) -> Dictionary:")
 
@@ -29949,7 +30009,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_sync_remove_client_removed_entity_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceSyncState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_sync_source()
         module_source = module.read_text(encoding="utf-8")
         method_body = self._method_body(source, "func source_sync_remove_client_removed_entity_state(net_client: bool, entity_id: int) -> Dictionary:")
 
@@ -29985,7 +30045,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_sync_comp_bridges_from_module(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceSyncState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_sync_source()
         module_source = module.read_text(encoding="utf-8") if module.exists() else ""
 
         cases = [
@@ -30628,8 +30688,9 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = bridge.read_text(encoding="utf-8")
         chain_source = self._port_game_port_bridge_chain_source()
 
-        self.assertIn('extends "res://src/game/SourceBuilderRuntimePortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceSyncPortBridge.gd"', port_source)
         self.assertIn('extends "res://src/game/SourceAbilityPortBridge.gd"', bridge_source)
+        self.assertIn('extends "res://src/game/SourceBuilderRuntimePortBridge.gd"', chain_source)
         self.assertIn('const source_builder_runtime_state := preload("res://src/game/SourceBuilderRuntimeState.gd")', bridge_source)
         self.assertNotIn('const source_builder_runtime_state := preload("res://src/game/SourceBuilderRuntimeState.gd")', port_source)
         self.assertNotIn("class_name SourceBuilderRuntimePortBridge", bridge_source)
@@ -35023,8 +35084,9 @@ class PlayableManifestTests(unittest.TestCase):
         chain_source = self._port_game_port_bridge_chain_source()
 
         self.assertTrue(bridge.exists(), "SourceItemTurretBuildPortBridge.gd must own PortGame ItemTurretBuild compatibility wrappers")
-        self.assertIn('extends "res://src/game/SourceBuilderRuntimePortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceSyncPortBridge.gd"', port_source)
         self.assertIn('extends "res://src/game/SourceBuildPayloadPortBridge.gd"', bridge_source)
+        self.assertIn('extends "res://src/game/SourceBuilderRuntimePortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceAbilityPortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceItemTurretBuildPortBridge.gd"', chain_source)
         self.assertNotIn("class_name SourceItemTurretBuildPortBridge", bridge_source)
@@ -36901,8 +36963,9 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = bridge.read_text(encoding="utf-8")
         chain_source = self._port_game_port_bridge_chain_source()
 
-        self.assertIn('extends "res://src/game/SourceBuilderRuntimePortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceSyncPortBridge.gd"', port_source)
         self.assertIn('extends "res://src/game/SourceItemTurretBuildPortBridge.gd"', bridge_source)
+        self.assertIn('extends "res://src/game/SourceBuilderRuntimePortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceAbilityPortBridge.gd"', chain_source)
         self.assertIn('const source_ability_state := preload("res://src/game/SourceAbilityState.gd")', chain_source)
         self.assertNotIn("class_name SourceAbilityPortBridge", bridge_source)

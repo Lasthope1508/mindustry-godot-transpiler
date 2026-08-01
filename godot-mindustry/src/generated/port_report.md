@@ -5,12 +5,12 @@ Assets copied: 2970
 Asset bytes copied: 63299978
 Java files parsed: 8
 Java parse failures: 12
-PortGame lines: 4143
-PortGame functions: 1282
-PortGame preloads: 186
-PortGame generated bridge functions: 418
-PortGame delegating functions: 1058
-PortGame largest delegate module: source_sync_state
+PortGame lines: 4070
+PortGame functions: 1258
+PortGame preloads: 185
+PortGame generated bridge functions: 406
+PortGame delegating functions: 1034
+PortGame largest delegate module: source_block_unit_state
 
 ## Unsupported Features
 - Generated gameplay classes not implemented yet
