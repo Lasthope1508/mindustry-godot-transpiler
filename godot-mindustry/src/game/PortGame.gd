@@ -1,4 +1,4 @@
-extends "res://src/game/SourceLiquidTurretBuildPortBridge.gd"
+extends "res://src/game/SourceBuildingDamagePortBridge.gd"
 class_name PortGame
 
 const ContentRegistry := preload("res://src/generated/MindustryContentRegistry.gd")
@@ -114,7 +114,6 @@ const source_placed_block_state := preload("res://src/game/SourcePlacedBlockStat
 const source_building_meta_state := preload("res://src/game/SourceBuildingMetaState.gd")
 const source_building_control_state := preload("res://src/game/SourceBuildingControlState.gd")
 const source_builder_draw_state := preload("res://src/game/SourceBuilderDrawState.gd")
-const source_building_damage_state := preload("res://src/game/SourceBuildingDamageState.gd")
 const source_building_sense_state := preload("res://src/game/SourceBuildingSenseState.gd")
 const source_building_set_prop_state := preload("res://src/game/SourceBuildingSetPropState.gd")
 const source_building_visibility_state := preload("res://src/game/SourceBuildingVisibilityState.gd")
@@ -1435,9 +1434,6 @@ func generated_building_comp_should_hide_configure_bridge_state(player: Variant)
 func generated_building_comp_check_solid_bridge_state() -> Dictionary:
 	return source_building_core_state.generated_check_solid_bridge_state()
 
-func generated_building_comp_handle_damage_bridge_state(amount: float) -> Dictionary:
-	return source_building_damage_state.generated_handle_damage_bridge_state(amount)
-
 func generated_building_comp_absorb_lasers_bridge_state(block_absorb_lasers: bool) -> Dictionary:
 	return source_building_core_state.generated_absorb_lasers_bridge_state(block_absorb_lasers)
 
@@ -1447,32 +1443,8 @@ func generated_building_comp_is_insulated_bridge_state(block_insulated: bool) ->
 func generated_building_comp_collide_bridge_state(other: Variant) -> Dictionary:
 	return source_building_core_state.generated_collide_bridge_state(other)
 
-func generated_building_comp_collision_bridge_state(current_health: float, bullet_building_damage: float, block_armor: float, bullet_pierce_armor: bool, bullet_armor_multiplier: float, bullet_block_armor_multiplier: float) -> Dictionary:
-	return source_building_damage_state.generated_collision_bridge_state(current_health, bullet_building_damage, block_armor, bullet_pierce_armor, bullet_armor_multiplier, bullet_block_armor_multiplier)
-
-func generated_building_comp_damage_delegate_bridge_state(source_team: Variant, damage_amount: float) -> Dictionary:
-	return source_building_damage_state.generated_damage_delegate_bridge_state(source_team, damage_amount)
-
-func generated_building_comp_bullet_damage_bridge_state(bullet: Variant, source_team: Variant, damage_amount: float) -> Dictionary:
-	return source_building_damage_state.generated_bullet_damage_bridge_state(bullet, source_team, damage_amount)
-
 func generated_building_comp_hit_size_bridge_state(block_size_value: int, source_tilesize: float) -> Dictionary:
 	return source_block_geometry.generated_building_hit_size_bridge_state(block_size_value, source_tilesize)
-
-func generated_building_comp_damage_dead_guard_bridge_state(damage_amount: float, dead_state: bool) -> Dictionary:
-	return source_building_damage_state.generated_damage_dead_guard_bridge_state(damage_amount, dead_state)
-
-func generated_building_comp_damage_block_health_scale_bridge_state(damage_amount: float, health: float, block_health_multiplier: float, source_time: float) -> Dictionary:
-	return source_building_damage_state.generated_damage_block_health_scale_bridge_state(damage_amount, health, block_health_multiplier, source_time)
-
-func generated_building_comp_damage_handle_damage_gate_bridge_state(damage_amount: float, health: float, block_health_multiplier: float, source_time: float, net_client: bool, handled_damage: float) -> Dictionary:
-	return source_building_damage_state.generated_damage_handle_damage_gate_bridge_state(damage_amount, health, block_health_multiplier, source_time, net_client, handled_damage)
-
-func generated_building_comp_damage_health_changed_call_bridge_state(damage_amount: float, health: float, block_health_multiplier: float, source_time: float, net_client: bool, handled_damage: float) -> Dictionary:
-	return source_building_damage_state.generated_damage_health_changed_call_bridge_state(damage_amount, health, block_health_multiplier, source_time, net_client, handled_damage)
-
-func generated_building_comp_damage_destroy_gate_bridge_state(damage_amount: float, health: float, block_health_multiplier: float, source_time: float, net_client: bool, handled_damage: float, self_state := {}) -> Dictionary:
-	return source_building_damage_state.generated_damage_destroy_gate_bridge_state(damage_amount, health, block_health_multiplier, source_time, net_client, handled_damage, self_state)
 
 func generated_building_comp_health_changed_bridge_state(net_server: bool, self_state := {}) -> Dictionary:
 	return source_building_meta_state.generated_health_changed_bridge_state(net_server, self_state)
@@ -1627,9 +1599,6 @@ func source_building_should_hide_configure_state(_player: Variant) -> Dictionary
 func source_building_check_solid_state() -> bool:
 	return source_building_core_state.check_solid_state()
 
-func source_building_handle_damage_state(amount: float) -> float:
-	return source_building_damage_state.handle_damage_state(amount)
-
 func source_building_absorb_lasers_state(block_absorb_lasers: bool) -> bool:
 	return source_building_core_state.absorb_lasers_state(block_absorb_lasers)
 
@@ -1639,32 +1608,8 @@ func source_building_is_insulated_state(block_insulated: bool) -> bool:
 func source_building_collide_state(_other: Variant) -> bool:
 	return source_building_core_state.collide_state(_other)
 
-func source_building_collision_damage_state(current_health: float, bullet_building_damage: float, block_armor: float, bullet_pierce_armor: bool, bullet_armor_multiplier: float, bullet_block_armor_multiplier: float) -> Dictionary:
-	return source_building_damage_state.collision_damage_state(current_health, bullet_building_damage, block_armor, bullet_pierce_armor, bullet_armor_multiplier, bullet_block_armor_multiplier)
-
-func source_building_damage_delegate_state(source_team: Variant, damage_amount: float) -> Dictionary:
-	return source_building_damage_state.damage_delegate_state(source_team, damage_amount)
-
-func source_building_bullet_damage_state(bullet: Variant, source_team: Variant, damage_amount: float) -> Dictionary:
-	return source_building_damage_state.bullet_damage_state(bullet, source_team, damage_amount)
-
 func source_building_hit_size(block_size_value: int, source_tilesize: float) -> float:
 	return source_block_geometry.building_hit_size(block_size_value, source_tilesize)
-
-func source_building_damage_dead_guard_state(dead_state: bool) -> Dictionary:
-	return source_building_damage_state.dead_guard_state(dead_state)
-
-func source_building_damage_block_health_scale_state(damage_amount: float, health: float, block_health_multiplier: float, source_time: float) -> Dictionary:
-	return source_building_damage_state.block_health_scale_state(damage_amount, health, block_health_multiplier, source_time)
-
-func source_building_damage_handle_damage_gate_state(net_client: bool, health: float, damage_amount: float, handled_damage: float) -> Dictionary:
-	return source_building_damage_state.handle_damage_gate_state(net_client, health, damage_amount, handled_damage)
-
-func source_building_damage_health_changed_call_state() -> Dictionary:
-	return source_building_damage_state.health_changed_call_state()
-
-func source_building_damage_destroy_gate_state(health: float, self_state := {}) -> Dictionary:
-	return source_building_damage_state.destroy_gate_state(health, self_state)
 
 func source_building_health_changed_state(net_server: bool, self_state := {}) -> Dictionary:
 	return source_building_meta_state.health_changed_state(net_server, self_state)
