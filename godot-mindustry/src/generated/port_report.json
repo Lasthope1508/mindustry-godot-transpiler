@@ -5,32 +5,17 @@
   "java_file_count": 801,
   "parsed_file_count": 8,
   "port_game_bridge_surface": {
-    "delegate_module_count": 161,
-    "delegating_function_count": 1131,
+    "delegate_module_count": 160,
+    "delegating_function_count": 1106,
     "exists": true,
-    "generated_bridge_delegating_function_count": 356,
+    "generated_bridge_delegating_function_count": 341,
     "largest_delegate_module": {
-      "function_count": 25,
-      "module": "source_item_turret_build_state"
+      "function_count": 24,
+      "module": "source_ability_state"
     },
     "path": "src/game/PortGame.gd",
-    "source_delegating_function_count": 644,
+    "source_delegating_function_count": 634,
     "top_delegate_modules": [
-      {
-        "canonical_owner_target": "SourceItemTurretBuildState",
-        "class_name": "SourceItemTurretBuildState",
-        "compatibility_surface": "PortGame",
-        "function_count": 25,
-        "module": "source_item_turret_build_state",
-        "module_path": "res://src/game/SourceItemTurretBuildState.gd",
-        "sample_functions": [
-          "source_item_turret_build_on_proximity_added_state",
-          "generated_item_turret_build_on_proximity_added_bridge_state",
-          "source_item_turret_build_sense_object_state",
-          "generated_item_turret_build_sense_object_bridge_state",
-          "source_item_turret_build_get_ammo_content_state"
-        ]
-      },
       {
         "canonical_owner_target": "SourceAbilityState",
         "class_name": "SourceAbilityState",
@@ -315,19 +300,34 @@
           "generated_liquid_turret_ammo_bridge_state",
           "source_item_turret_ammo_state"
         ]
+      },
+      {
+        "canonical_owner_target": "SourceBlockProducerState",
+        "class_name": "SourceBlockProducerState",
+        "compatibility_surface": "PortGame",
+        "function_count": 14,
+        "module": "source_block_producer_state",
+        "module_path": "res://src/game/SourceBlockProducerState.gd",
+        "sample_functions": [
+          "source_block_producer_icons_state",
+          "generated_block_producer_icons_bridge_state",
+          "source_block_producer_draw_plan_region_state",
+          "generated_block_producer_draw_plan_region_bridge_state",
+          "source_block_producer_set_bars_state"
+        ]
       }
     ]
   },
   "port_game_footprint": {
-    "byte_count": 376547,
+    "byte_count": 370710,
     "exists": true,
-    "function_count": 1355,
-    "generated_bridge_function_count": 457,
-    "line_count": 4365,
+    "function_count": 1330,
+    "generated_bridge_function_count": 442,
+    "line_count": 4289,
     "max_function_lines": 5,
     "path": "src/game/PortGame.gd",
-    "preload_count": 189,
-    "source_function_count": 751
+    "preload_count": 188,
+    "source_function_count": 741
   },
   "unsupported": [
     "Generated gameplay classes not implemented yet",

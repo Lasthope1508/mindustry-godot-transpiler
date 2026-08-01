@@ -585,8 +585,11 @@ class PlayableManifestTests(unittest.TestCase):
 
     def _port_game_item_turret_build_source(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bridge = ROOT / "godot-mindustry" / "src" / "game" / "SourceItemTurretBuildPortBridge.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceItemTurretBuildState.gd"
         source = port_game.read_text(encoding="utf-8")
+        if bridge.exists():
+            source += "\n" + bridge.read_text(encoding="utf-8")
         if module.exists():
             source += "\n" + module.read_text(encoding="utf-8")
         return source
@@ -762,6 +765,7 @@ class PlayableManifestTests(unittest.TestCase):
 
     def _port_game_port_bridge_chain_source(self):
         bridge_names = [
+            "SourceItemTurretBuildPortBridge.gd",
             "SourceBuildPayloadPortBridge.gd",
             "SourceContinuousLiquidTurretBuildPortBridge.gd",
             "SourceBuildingEfficiencyPortBridge.gd",
@@ -34971,6 +34975,51 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"place_overlap_margin": result.get("place_overlap_margin", null)', module_body)
         self.assertIn('"matches": result.get("place_overlap_range_after", null) == canonical.get("place_overlap_range_after", null)', module_body)
 
+    def test_port_game_routes_item_turret_build_through_port_bridge(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bridge = ROOT / "godot-mindustry" / "src" / "game" / "SourceItemTurretBuildPortBridge.gd"
+        port_source = port_game.read_text(encoding="utf-8")
+        bridge_source = bridge.read_text(encoding="utf-8") if bridge.exists() else ""
+
+        self.assertTrue(bridge.exists(), "SourceItemTurretBuildPortBridge.gd must own PortGame ItemTurretBuild compatibility wrappers")
+        self.assertIn('extends "res://src/game/SourceItemTurretBuildPortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceBuildPayloadPortBridge.gd"', bridge_source)
+        self.assertNotIn("class_name SourceItemTurretBuildPortBridge", bridge_source)
+        self.assertIn('const source_item_turret_build_state := preload("res://src/game/SourceItemTurretBuildState.gd")', bridge_source)
+        self.assertNotIn('const source_item_turret_build_state := preload("res://src/game/SourceItemTurretBuildState.gd")', port_source)
+        expected_delegates = {
+            "func source_item_turret_build_on_proximity_added_state(has_ammo: bool, cheating: bool, ammo_types_size: int, first_ammo_item: Variant) -> Dictionary:": "return source_item_turret_build_state.on_proximity_added_state(has_ammo, cheating, ammo_types_size, first_ammo_item)",
+            "func generated_item_turret_build_on_proximity_added_bridge_state(has_ammo: bool, cheating: bool, ammo_types_size: int, first_ammo_item: Variant) -> Dictionary:": "return source_item_turret_build_state.generated_item_turret_build_on_proximity_added_bridge_state(has_ammo, cheating, ammo_types_size, first_ammo_item)",
+            "func source_item_turret_build_sense_object_state(sensor: String, ammo_size: int, peek_item: Variant, super_sense_object_value: Variant) -> Dictionary:": "return source_item_turret_build_state.sense_object_state(sensor, ammo_size, peek_item, super_sense_object_value)",
+            "func generated_item_turret_build_sense_object_bridge_state(sensor: String, ammo_size: int, peek_item: Variant, super_sense_object_value: Variant) -> Dictionary:": "return source_item_turret_build_state.generated_item_turret_build_sense_object_bridge_state(sensor, ammo_size, peek_item, super_sense_object_value)",
+            "func source_item_turret_build_get_ammo_content_state(ammo_size: int, peek_item: Variant) -> Dictionary:": "return source_item_turret_build_state.get_ammo_content_state(ammo_size, peek_item)",
+            "func generated_item_turret_build_get_ammo_content_bridge_state(ammo_size: int, peek_item: Variant) -> Dictionary:": "return source_item_turret_build_state.generated_item_turret_build_get_ammo_content_bridge_state(ammo_size, peek_item)",
+            "func source_item_turret_build_get_ammo_fraction_state(total_ammo: float, max_ammo: float) -> Dictionary:": "return source_item_turret_build_state.get_ammo_fraction_state(total_ammo, max_ammo)",
+            "func generated_item_turret_build_get_ammo_fraction_bridge_state(total_ammo: float, max_ammo: float) -> Dictionary:": "return source_item_turret_build_state.generated_item_turret_build_get_ammo_fraction_bridge_state(total_ammo, max_ammo)",
+            "func generated_item_turret_build_get_ammo_fraction_default_bridge_state(total_ammo: float) -> Dictionary:": "return source_item_turret_build_state.generated_item_turret_build_get_ammo_fraction_default_bridge_state(total_ammo)",
+            "func source_item_turret_build_accept_stack_state(item: Variant, amount: int, max_ammo: float, total_ammo: float, ammo_multiplier: float, ammo_type_null: bool) -> Dictionary:": "return source_item_turret_build_state.accept_stack_state(item, amount, max_ammo, total_ammo, ammo_multiplier, ammo_type_null)",
+            "func generated_item_turret_build_accept_stack_bridge_state(item: Variant, amount: int, max_ammo: float, total_ammo: float, ammo_multiplier: float, ammo_type_null: bool) -> Dictionary:": "return source_item_turret_build_state.generated_item_turret_build_accept_stack_bridge_state(item, amount, max_ammo, total_ammo, ammo_multiplier, ammo_type_null)",
+            "func generated_item_turret_build_accept_stack_default_bridge_state(item: Variant, amount: int) -> Dictionary:": "return source_item_turret_build_state.generated_item_turret_build_accept_stack_default_bridge_state(item, amount)",
+            "func source_item_turret_build_handle_stack_state(item: Variant, amount: int) -> Dictionary:": "return source_item_turret_build_state.handle_stack_state(item, amount)",
+            "func generated_item_turret_build_handle_stack_bridge_state(item: Variant, amount: int) -> Dictionary:": "return source_item_turret_build_state.generated_item_turret_build_handle_stack_bridge_state(item, amount)",
+            "func source_item_turret_build_remove_stack_state(item: Variant, amount: int) -> Dictionary:": "return source_item_turret_build_state.remove_stack_state(item, amount)",
+            "func generated_item_turret_build_remove_stack_bridge_state(item: Variant, amount: int) -> Dictionary:": "return source_item_turret_build_state.generated_item_turret_build_remove_stack_bridge_state(item, amount)",
+            "func generated_item_turret_build_handle_item_bridge_state(item: Variant, item_is_pyratite: bool, total_ammo: int, ammo_multiplier: float, ammo_type_null: bool, ammo_entries: Array) -> Dictionary:": "return source_item_turret_build_state.generated_item_turret_build_handle_item_bridge_state(item, item_is_pyratite, total_ammo, ammo_multiplier, ammo_type_null, ammo_entries)",
+            "func generated_item_turret_build_accept_item_bridge_state(item: Variant, total_ammo: int, max_ammo: float, ammo_multiplier: float, ammo_type_null: bool) -> Dictionary:": "return source_item_turret_build_state.generated_item_turret_build_accept_item_bridge_state(item, total_ammo, max_ammo, ammo_multiplier, ammo_type_null)",
+            "func generated_item_turret_build_accept_item_default_bridge_state(item: Variant) -> Dictionary:": "return source_item_turret_build_state.generated_item_turret_build_accept_item_default_bridge_state(item)",
+            "func source_item_turret_build_version_state() -> Dictionary:": "return source_item_turret_build_state.version_state()",
+            "func generated_item_turret_build_version_bridge_state() -> Dictionary:": "return source_item_turret_build_state.generated_version_bridge_state()",
+            "func source_item_turret_build_write_state(ammo_entries: Array) -> Dictionary:": "return source_item_turret_build_state.write_state(ammo_entries)",
+            "func generated_item_turret_build_write_bridge_state(ammo_entries: Array) -> Dictionary:": "return source_item_turret_build_state.generated_write_bridge_state(ammo_entries)",
+            "func source_item_turret_build_read_state(revision: int, max_ammo: int, read_entries: Array) -> Dictionary:": "return source_item_turret_build_state.read_state(revision, max_ammo, read_entries)",
+            "func generated_item_turret_build_read_bridge_state(revision: int, max_ammo: int, read_entries: Array) -> Dictionary:": "return source_item_turret_build_state.generated_read_bridge_state(revision, max_ammo, read_entries)",
+        }
+        for signature, delegate in expected_delegates.items():
+            with self.subTest(signature=signature):
+                self.assertNotIn(signature, port_source)
+                method_body = self._method_body(bridge_source, signature)
+                self.assertIn(delegate, method_body)
+
     def test_port_game_exposes_source_item_turret_build_on_proximity_added_state(self):
         source = self._port_game_item_turret_build_source()
 
@@ -35379,9 +35428,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var version_value: int = 2", source)
 
     def test_port_game_exposes_generated_item_turret_build_version_bridge_state(self):
-        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceItemTurretBuildState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_item_turret_build_source()
         module_source = module.read_text(encoding="utf-8")
 
         self.assertIn("func generated_item_turret_build_version_bridge_state() -> Dictionary:", source)
@@ -35407,9 +35455,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('write_calls.append({"call": "write.b(ammo.size);", "value": ammo_entries.size()})', source)
 
     def test_port_game_exposes_generated_item_turret_build_write_bridge_state(self):
-        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceItemTurretBuildState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_item_turret_build_source()
         module_source = module.read_text(encoding="utf-8")
 
         self.assertIn("func generated_item_turret_build_write_bridge_state(ammo_entries: Array) -> Dictionary:", source)
@@ -35485,9 +35532,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('game.source_item_turret_build_read_state(2, 40, [{"item": "copper", "amount": 6, "ammo_type_valid": true}])', proof_source)
 
     def test_port_game_exposes_generated_item_turret_build_read_bridge_state(self):
-        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceItemTurretBuildState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_item_turret_build_source()
         module_source = module.read_text(encoding="utf-8")
 
         self.assertIn("func generated_item_turret_build_read_bridge_state(revision: int, max_ammo: int, read_entries: Array) -> Dictionary:", source)
@@ -41711,15 +41757,16 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_routes_build_payload_through_port_bridge(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         bridge = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildPayloadPortBridge.gd"
-        port_source = port_game.read_text(encoding="utf-8")
+        port_source = self._port_game_build_payload_source()
+        port_game_source = port_game.read_text(encoding="utf-8")
         bridge_source = bridge.read_text(encoding="utf-8") if bridge.exists() else ""
 
         self.assertTrue(bridge.exists(), "SourceBuildPayloadPortBridge.gd must own PortGame BuildPayload compatibility wrappers")
-        self.assertIn('extends "res://src/game/SourceBuildPayloadPortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceBuildPayloadPortBridge.gd"', self._port_game_port_bridge_chain_source())
         self.assertIn('extends "res://src/game/SourceContinuousLiquidTurretBuildPortBridge.gd"', bridge_source)
         self.assertNotIn("class_name SourceBuildPayloadPortBridge", bridge_source)
         self.assertIn('const source_build_payload_state := preload("res://src/game/SourceBuildPayloadState.gd")', bridge_source)
-        self.assertNotIn('const source_build_payload_state := preload("res://src/game/SourceBuildPayloadState.gd")', port_source)
+        self.assertNotIn('const source_build_payload_state := preload("res://src/game/SourceBuildPayloadState.gd")', port_game_source)
         self.assertIn("func source_build_payload_block_state(build_block: Variant) -> Dictionary:", bridge_source)
         self.assertIn("return source_build_payload_state.block_state(build_block)", bridge_source)
         self.assertIn("func generated_build_payload_set_bridge_state(x: float, y: float, rotation_value: float) -> Dictionary:", bridge_source)
