@@ -5,32 +5,17 @@
   "java_file_count": 801,
   "parsed_file_count": 8,
   "port_game_bridge_surface": {
-    "delegate_module_count": 152,
-    "delegating_function_count": 921,
+    "delegate_module_count": 151,
+    "delegating_function_count": 901,
     "exists": true,
-    "generated_bridge_delegating_function_count": 282,
+    "generated_bridge_delegating_function_count": 272,
     "largest_delegate_module": {
-      "function_count": 20,
-      "module": "source_liquid_turret_build_state"
+      "function_count": 18,
+      "module": "source_building_damage_state"
     },
     "path": "src/game/PortGame.gd",
-    "source_delegating_function_count": 532,
+    "source_delegating_function_count": 522,
     "top_delegate_modules": [
-      {
-        "canonical_owner_target": "SourceLiquidTurretBuildState",
-        "class_name": "SourceLiquidTurretBuildState",
-        "compatibility_surface": "PortGame",
-        "function_count": 20,
-        "module": "source_liquid_turret_build_state",
-        "module_path": "res://src/game/SourceLiquidTurretBuildState.gd",
-        "sample_functions": [
-          "source_liquid_turret_build_should_active_sound_state",
-          "generated_liquid_turret_build_should_active_sound_bridge_state",
-          "source_liquid_turret_build_get_ammo_content_state",
-          "generated_liquid_turret_build_get_ammo_content_bridge_state",
-          "source_liquid_turret_build_get_ammo_fraction_state"
-        ]
-      },
       {
         "canonical_owner_target": "SourceBuildingDamageState",
         "class_name": "SourceBuildingDamageState",
@@ -315,19 +300,34 @@
           "generated_block_producer_build_update_tile_progress_accumulation_bridge_state",
           "source_block_producer_build_update_tile_completion_guard_state"
         ]
+      },
+      {
+        "canonical_owner_target": "SourceBlockResearchRequirementsState",
+        "class_name": "SourceBlockResearchRequirementsState",
+        "compatibility_surface": "PortGame",
+        "function_count": 12,
+        "module": "source_block_research_requirements_state",
+        "module_path": "res://src/game/SourceBlockResearchRequirementsState.gd",
+        "sample_functions": [
+          "source_block_research_requirements_research_cost_state",
+          "generated_block_research_requirements_research_cost_bridge_state",
+          "source_block_research_requirements_empty_state",
+          "generated_block_research_requirements_empty_bridge_state",
+          "source_block_research_requirements_loop_shape_state"
+        ]
       }
     ]
   },
   "port_game_footprint": {
-    "byte_count": 333046,
+    "byte_count": 327556,
     "exists": true,
-    "function_count": 1145,
-    "generated_bridge_function_count": 383,
-    "line_count": 3726,
+    "function_count": 1125,
+    "generated_bridge_function_count": 373,
+    "line_count": 3665,
     "max_function_lines": 5,
     "path": "src/game/PortGame.gd",
-    "preload_count": 179,
-    "source_function_count": 639
+    "preload_count": 178,
+    "source_function_count": 629
   },
   "unsupported": [
     "Generated gameplay classes not implemented yet",

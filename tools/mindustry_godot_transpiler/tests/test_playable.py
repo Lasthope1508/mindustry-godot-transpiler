@@ -395,7 +395,7 @@ class PlayableManifestTests(unittest.TestCase):
     def _port_game_liquid_turret_build_source(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceLiquidTurretBuildState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = port_game.read_text(encoding="utf-8") + "\n" + self._port_game_port_bridge_chain_source()
         if module.exists():
             source += "\n" + module.read_text(encoding="utf-8")
         return source
@@ -823,6 +823,7 @@ class PlayableManifestTests(unittest.TestCase):
 
     def _port_game_port_bridge_chain_source(self):
         bridge_names = [
+            "SourceLiquidTurretBuildPortBridge.gd",
             "SourceMendProjectorPortBridge.gd",
             "SourcePowerGraphPortBridge.gd",
             "SourceBuildingTimePortBridge.gd",
@@ -7102,7 +7103,8 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = bridge.read_text(encoding="utf-8")
         chain_source = self._port_game_port_bridge_chain_source()
 
-        self.assertIn('extends "res://src/game/SourceMendProjectorPortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceLiquidTurretBuildPortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceMendProjectorPortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourcePowerGraphPortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceBuildingTimePortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceOverdriveProjectorPortBridge.gd"', bridge_source)
@@ -7125,7 +7127,8 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = bridge.read_text(encoding="utf-8")
         chain_source = self._port_game_port_bridge_chain_source()
 
-        self.assertIn('extends "res://src/game/SourceMendProjectorPortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceLiquidTurretBuildPortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceMendProjectorPortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourcePowerGraphPortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceBuildingTimePortBridge.gd"', bridge_source)
         self.assertIn('extends "res://src/game/SourceBuildingTimePortBridge.gd"', chain_source)
@@ -7142,12 +7145,29 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = bridge.read_text(encoding="utf-8")
         chain_source = self._port_game_port_bridge_chain_source()
 
-        self.assertIn('extends "res://src/game/SourceMendProjectorPortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceLiquidTurretBuildPortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceMendProjectorPortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourcePowerGraphPortBridge.gd"', bridge_source)
         self.assertIn('extends "res://src/game/SourcePowerGraphPortBridge.gd"', chain_source)
         self.assertIn('const source_mend_projector_state := preload("res://src/game/SourceMendProjectorState.gd")', bridge_source)
         self.assertNotIn('const source_mend_projector_state := preload("res://src/game/SourceMendProjectorState.gd")', port_source)
         self.assertNotIn("class_name SourceMendProjectorPortBridge", bridge_source)
+
+    def test_port_game_routes_liquid_turret_build_through_port_bridge(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bridge = ROOT / "godot-mindustry" / "src" / "game" / "SourceLiquidTurretBuildPortBridge.gd"
+
+        self.assertTrue(bridge.exists(), "Liquid turret build compatibility wrappers must live in SourceLiquidTurretBuildPortBridge.gd")
+        port_source = port_game.read_text(encoding="utf-8")
+        bridge_source = bridge.read_text(encoding="utf-8")
+        chain_source = self._port_game_port_bridge_chain_source()
+
+        self.assertIn('extends "res://src/game/SourceLiquidTurretBuildPortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceMendProjectorPortBridge.gd"', bridge_source)
+        self.assertIn('extends "res://src/game/SourceMendProjectorPortBridge.gd"', chain_source)
+        self.assertIn('const source_liquid_turret_build_state := preload("res://src/game/SourceLiquidTurretBuildState.gd")', bridge_source)
+        self.assertNotIn('const source_liquid_turret_build_state := preload("res://src/game/SourceLiquidTurretBuildState.gd")', port_source)
+        self.assertNotIn("class_name SourceLiquidTurretBuildPortBridge", bridge_source)
 
     def test_port_game_exposes_overdrive_projector_range_state_like_source(self):
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceOverdriveProjectorState.gd"
@@ -36858,10 +36878,12 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_delegates_source_liquid_turret_build_state_to_module(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceLiquidTurretBuildState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        port_source = port_game.read_text(encoding="utf-8")
+        source = port_source + "\n" + self._port_game_port_bridge_chain_source()
         helper_source = helper.read_text(encoding="utf-8") if helper.exists() else ""
 
         self.assertIn('const source_liquid_turret_build_state := preload("res://src/game/SourceLiquidTurretBuildState.gd")', source)
+        self.assertNotIn('const source_liquid_turret_build_state := preload("res://src/game/SourceLiquidTurretBuildState.gd")', port_source)
         self.assertIn("class_name SourceLiquidTurretBuildState", helper_source)
         self.assertIn("return source_liquid_turret_build_state.should_active_sound_state(was_shooting, enabled)", source)
         self.assertIn("return source_liquid_turret_build_state.get_ammo_content_state(liquids_null, current_amount, current_liquid)", source)
