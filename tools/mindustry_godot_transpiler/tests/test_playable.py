@@ -605,6 +605,17 @@ class PlayableManifestTests(unittest.TestCase):
             source += "\n" + module.read_text(encoding="utf-8")
         return source
 
+    def _port_game_builder_runtime_source(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bridge = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuilderRuntimePortBridge.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuilderRuntimeState.gd"
+        source = port_game.read_text(encoding="utf-8")
+        if bridge.exists():
+            source += "\n" + bridge.read_text(encoding="utf-8")
+        if module.exists():
+            source += "\n" + module.read_text(encoding="utf-8")
+        return source
+
     def _assert_ability_generated_bridge_moved_to_module(
         self,
         port_signature: str,
@@ -768,6 +779,7 @@ class PlayableManifestTests(unittest.TestCase):
 
     def _port_game_port_bridge_chain_source(self):
         bridge_names = [
+            "SourceBuilderRuntimePortBridge.gd",
             "SourceAbilityPortBridge.gd",
             "SourceItemTurretBuildPortBridge.gd",
             "SourceBuildPayloadPortBridge.gd",
@@ -30607,9 +30619,56 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("source_ssot_catalog.canonical_headquarter_registry_state", proof_source)
         self.assertIn('"one_headquarter_per_ssot"', proof_source)
 
-    def test_port_game_exposes_source_builder_can_build_state(self):
+    def test_port_game_routes_builder_runtime_through_port_bridge(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
-        source = port_game.read_text(encoding="utf-8")
+        bridge = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuilderRuntimePortBridge.gd"
+
+        self.assertTrue(bridge.exists(), "Builder runtime compatibility wrappers must live in SourceBuilderRuntimePortBridge.gd")
+        port_source = port_game.read_text(encoding="utf-8")
+        bridge_source = bridge.read_text(encoding="utf-8")
+        chain_source = self._port_game_port_bridge_chain_source()
+
+        self.assertIn('extends "res://src/game/SourceBuilderRuntimePortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceAbilityPortBridge.gd"', bridge_source)
+        self.assertIn('const source_builder_runtime_state := preload("res://src/game/SourceBuilderRuntimeState.gd")', bridge_source)
+        self.assertNotIn('const source_builder_runtime_state := preload("res://src/game/SourceBuilderRuntimeState.gd")', port_source)
+        self.assertNotIn("class_name SourceBuilderRuntimePortBridge", bridge_source)
+        self.assertIn('const source_builder_runtime_state := preload("res://src/game/SourceBuilderRuntimeState.gd")', chain_source)
+
+        delegates = {
+            "func source_builder_can_build_state(type_build_speed: float, build_speed_multiplier: float) -> Dictionary:": "return source_builder_runtime_state.can_build_state(type_build_speed, build_speed_multiplier)",
+            "func generated_builder_comp_can_build_bridge_state(type_build_speed: float, build_speed_multiplier: float) -> Dictionary:": "return source_builder_runtime_state.generated_builder_comp_can_build_bridge_state(type_build_speed, build_speed_multiplier)",
+            "func source_builder_update_state() -> Dictionary:": "return source_builder_runtime_state.update_state()",
+            "func generated_builder_comp_update_bridge_state() -> Dictionary:": "return source_builder_runtime_state.generated_builder_comp_update_bridge_state()",
+            "func source_builder_after_read_state(plans_null: bool) -> Dictionary:": "return source_builder_runtime_state.after_read_state(plans_null)",
+            "func generated_builder_comp_after_read_bridge_state(plans_null: bool) -> Dictionary:": "return source_builder_runtime_state.generated_builder_comp_after_read_bridge_state(plans_null)",
+            "func source_builder_is_building_state(plans_size: int) -> Dictionary:": "return source_builder_runtime_state.is_building_state(plans_size)",
+            "func generated_builder_comp_is_building_bridge_state(plans_size: int) -> Dictionary:": "return source_builder_runtime_state.generated_builder_comp_is_building_bridge_state(plans_size)",
+            "func source_builder_clear_building_state() -> Dictionary:": "return source_builder_runtime_state.clear_building_state()",
+            "func generated_builder_comp_clear_building_bridge_state() -> Dictionary:": "return source_builder_runtime_state.generated_builder_comp_clear_building_bridge_state()",
+            "func source_builder_should_skip_state(state_rules_infinite_resources: bool, team_rules_infinite_resources: bool, plan_breaking: bool, core_null: bool, plan_is_rotation: bool, plan_is_derelict_repair: bool, plan_stuck: bool, core_items_has_plan_block_requirements: bool, structs_contains_missing_requirement: bool) -> Dictionary:": "return source_builder_runtime_state.should_skip_state(state_rules_infinite_resources, team_rules_infinite_resources, plan_breaking, core_null, plan_is_rotation, plan_is_derelict_repair, plan_stuck, core_items_has_plan_block_requirements, structs_contains_missing_requirement)",
+            "func generated_builder_comp_should_skip_bridge_state(state_rules_infinite_resources: bool, team_rules_infinite_resources: bool, plan_breaking: bool, core_null: bool, plan_is_rotation: bool, plan_is_derelict_repair: bool, plan_stuck: bool, core_items_has_plan_block_requirements: bool, structs_contains_missing_requirement: bool) -> Dictionary:": "return source_builder_runtime_state.generated_builder_comp_should_skip_bridge_state(state_rules_infinite_resources, team_rules_infinite_resources, plan_breaking, core_null, plan_is_rotation, plan_is_derelict_repair, plan_stuck, core_items_has_plan_block_requirements, structs_contains_missing_requirement)",
+            "func source_builder_remove_build_state(plans: Array, x: int, y: int, breaking: bool) -> Dictionary:": "return source_builder_runtime_state.remove_build_state(plans, x, y, breaking)",
+            "func generated_builder_comp_remove_build_bridge_state(plans: Array, x: int, y: int, breaking: bool) -> Dictionary:": "return source_builder_runtime_state.generated_builder_comp_remove_build_bridge_state(plans, x, y, breaking)",
+            "func source_builder_add_build_tail_state(place: Variant) -> Dictionary:": "return source_builder_runtime_state.add_build_tail_state(place)",
+            "func generated_builder_comp_add_build_tail_bridge_state(place: Variant) -> Dictionary:": "return source_builder_runtime_state.generated_builder_comp_add_build_tail_bridge_state(place)",
+            "func source_builder_add_build_state(plans: Array, place: Variant, tail: bool, can_build: bool, world_tile_exists: bool, tile_build_is_construct_build: bool, construct_progress: float) -> Dictionary:": "return source_builder_runtime_state.add_build_state(plans, place, tail, can_build, world_tile_exists, tile_build_is_construct_build, construct_progress)",
+            "func generated_builder_comp_add_build_bridge_state(plans: Array, place: Variant, tail: bool, can_build: bool, world_tile_exists: bool, tile_build_is_construct_build: bool, construct_progress: float) -> Dictionary:": "return source_builder_runtime_state.generated_builder_comp_add_build_bridge_state(plans, place, tail, can_build, world_tile_exists, tile_build_is_construct_build, construct_progress)",
+            "func source_builder_build_plan_state(plans_size: int, plans_first: Variant) -> Dictionary:": "return source_builder_runtime_state.build_plan_state(plans_size, plans_first)",
+            "func generated_builder_comp_build_plan_bridge_state(plans_size: int, plans_first: Variant) -> Dictionary:": "return source_builder_runtime_state.generated_builder_comp_build_plan_bridge_state(plans_size, plans_first)",
+            "func source_builder_actively_building_state(plans_size: int, plans_first: Variant, state_is_editor: bool, state_rules_infinite_resources: bool, type_build_range: float, within_plan: bool, update_building: bool) -> Dictionary:": "return source_builder_runtime_state.actively_building_state(plans_size, plans_first, state_is_editor, state_rules_infinite_resources, type_build_range, within_plan, update_building)",
+            "func source_builder_build_step_state(entity_build_cost: float, type_build_speed: float, build_speed_multiplier: float, team_build_speed: float, current_breaking: bool, allow_build_current: bool) -> Dictionary:": "return source_builder_runtime_state.build_step_state(entity_build_cost, type_build_speed, build_speed_multiplier, team_build_speed, current_breaking, allow_build_current)",
+            "func generated_builder_comp_update_build_logic_bridge_state(entity_build_cost: float, type_build_speed: float, build_speed_multiplier: float, team_build_speed: float, current_breaking: bool, allow_build_current: bool) -> Dictionary:": "return source_builder_runtime_state.generated_builder_comp_update_build_logic_bridge_state(entity_build_cost, type_build_speed, build_speed_multiplier, team_build_speed, current_breaking, allow_build_current)",
+            "func generated_builder_comp_actively_building_bridge_state(plans_size: int, plans_first: Variant, state_is_editor: bool, state_rules_infinite_resources: bool, type_build_range: float, within_plan: bool, update_building: bool) -> Dictionary:": "return source_builder_runtime_state.generated_builder_comp_actively_building_bridge_state(plans_size, plans_first, state_is_editor, state_rules_infinite_resources, type_build_range, within_plan, update_building)",
+        }
+        for signature, expected_delegate in delegates.items():
+            with self.subTest(signature=signature):
+                self.assertNotIn(signature, port_source)
+                body = self._method_body(bridge_source, signature)
+                self.assertIn(expected_delegate, body)
+
+    def test_port_game_exposes_source_builder_can_build_state(self):
+        source = self._port_game_builder_runtime_source()
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuilderRuntimeState.gd"
         module_source = module.read_text(encoding="utf-8")
 
@@ -30619,9 +30678,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("\treturn source_builder_runtime_state.can_build_state(type_build_speed, build_speed_multiplier)", source)
 
     def test_port_game_exposes_generated_builder_comp_can_build_bridge_state(self):
-        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuilderRuntimeState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_builder_runtime_source()
         module_source = module.read_text(encoding="utf-8")
 
         self._assert_runtime_bridge_moved_to_module(
@@ -30640,8 +30698,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"matches": result.get("can_build", null) == canonical.get("can_build", null) and result.get("return_expr", null) == canonical.get("return_expr", null)', module_source)
 
     def test_port_game_exposes_source_builder_update_state(self):
-        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_builder_runtime_source()
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuilderRuntimeState.gd"
         module_source = module.read_text(encoding="utf-8")
 
@@ -30651,9 +30708,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("\treturn source_builder_runtime_state.update_state()", source)
 
     def test_port_game_exposes_generated_builder_comp_update_bridge_state(self):
-        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuilderRuntimeState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_builder_runtime_source()
         module_source = module.read_text(encoding="utf-8")
 
         self._assert_runtime_bridge_moved_to_module(
@@ -30672,8 +30728,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"matches": result.get("update_build_logic_call", null) == canonical.get("update_build_logic_call", null) and result.get("update_build_logic_called", null) == canonical.get("update_build_logic_called", null)', module_source)
 
     def test_port_game_exposes_source_builder_is_building_state(self):
-        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_builder_runtime_source()
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuilderRuntimeState.gd"
         module_source = module.read_text(encoding="utf-8")
 
@@ -30683,9 +30738,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("\treturn source_builder_runtime_state.is_building_state(plans_size)", source)
 
     def test_port_game_exposes_generated_builder_comp_is_building_bridge_state(self):
-        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuilderRuntimeState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_builder_runtime_source()
         module_source = module.read_text(encoding="utf-8")
 
         self._assert_runtime_bridge_moved_to_module(
@@ -30704,8 +30758,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"matches": result.get("is_building", null) == canonical.get("is_building", null) and result.get("return_expr", null) == canonical.get("return_expr", null)', module_source)
 
     def test_port_game_exposes_source_builder_clear_building_state(self):
-        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_builder_runtime_source()
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuilderRuntimeState.gd"
         module_source = module.read_text(encoding="utf-8")
 
@@ -30715,9 +30768,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("\treturn source_builder_runtime_state.clear_building_state()", source)
 
     def test_port_game_exposes_generated_builder_comp_clear_building_bridge_state(self):
-        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuilderRuntimeState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_builder_runtime_source()
         module_source = module.read_text(encoding="utf-8")
 
         self._assert_runtime_bridge_moved_to_module(
@@ -30736,8 +30788,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"matches": result.get("plans_clear_call", null) == canonical.get("plans_clear_call", null) and result.get("plans_clear_called", null) == canonical.get("plans_clear_called", null)', module_source)
 
     def test_port_game_exposes_source_builder_add_build_tail_state(self):
-        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_builder_runtime_source()
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuilderRuntimeState.gd"
         module_source = module.read_text(encoding="utf-8")
 
@@ -30747,9 +30798,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("\treturn source_builder_runtime_state.add_build_tail_state(place)", source)
 
     def test_port_game_exposes_generated_builder_comp_add_build_tail_bridge_state(self):
-        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuilderRuntimeState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_builder_runtime_source()
         module_source = module.read_text(encoding="utf-8")
 
         self._assert_runtime_bridge_moved_to_module(
@@ -30768,8 +30818,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"matches": result.get("add_build_call", null) == canonical.get("add_build_call", null) and result.get("add_build_called", null) == canonical.get("add_build_called", null)', module_source)
 
     def test_port_game_exposes_source_builder_add_build_state(self):
-        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_builder_runtime_source()
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuilderRuntimeState.gd"
         module_source = module.read_text(encoding="utf-8")
 
@@ -30780,9 +30829,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("\treturn source_builder_runtime_state.add_build_state(plans, place, tail, can_build, world_tile_exists, tile_build_is_construct_build, construct_progress)", source)
 
     def test_port_game_exposes_generated_builder_comp_add_build_bridge_state(self):
-        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuilderRuntimeState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_builder_runtime_source()
         module_source = module.read_text(encoding="utf-8")
 
         self._assert_runtime_bridge_moved_to_module(
@@ -30801,8 +30849,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"matches": result.get("plans_after", null) == canonical.get("plans_after", null) and result.get("place_after", null) == canonical.get("place_after", null) and result.get("returned_early", null) == canonical.get("returned_early", null)', module_source)
 
     def test_port_game_exposes_source_builder_build_plan_state(self):
-        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_builder_runtime_source()
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuilderRuntimeState.gd"
         module_source = module.read_text(encoding="utf-8")
 
@@ -30812,9 +30859,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("\treturn source_builder_runtime_state.build_plan_state(plans_size, plans_first)", source)
 
     def test_port_game_exposes_generated_builder_comp_build_plan_bridge_state(self):
-        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuilderRuntimeState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_builder_runtime_source()
         module_source = module.read_text(encoding="utf-8")
 
         self._assert_runtime_bridge_moved_to_module(
@@ -30833,8 +30879,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"matches": result.get("build_plan", null) == canonical.get("build_plan", null) and result.get("return_expr", null) == canonical.get("return_expr", null)', module_source)
 
     def test_port_game_exposes_source_builder_after_read_state(self):
-        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_builder_runtime_source()
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuilderRuntimeState.gd"
         module_source = module.read_text(encoding="utf-8")
 
@@ -30844,9 +30889,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("\treturn source_builder_runtime_state.after_read_state(plans_null)", source)
 
     def test_port_game_exposes_generated_builder_comp_after_read_bridge_state(self):
-        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuilderRuntimeState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_builder_runtime_source()
         module_source = module.read_text(encoding="utf-8")
 
         self._assert_runtime_bridge_moved_to_module(
@@ -30865,8 +30909,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"matches": result.get("queue_reset", null) == canonical.get("queue_reset", null) and result.get("plans_capacity", null) == canonical.get("plans_capacity", null)', module_source)
 
     def test_port_game_exposes_source_builder_actively_building_state(self):
-        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_builder_runtime_source()
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuilderRuntimeState.gd"
         module_source = module.read_text(encoding="utf-8")
 
@@ -30876,9 +30919,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("\treturn source_builder_runtime_state.actively_building_state(plans_size, plans_first, state_is_editor, state_rules_infinite_resources, type_build_range, within_plan, update_building)", source)
 
     def test_port_game_exposes_generated_builder_comp_actively_building_bridge_state(self):
-        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuilderRuntimeState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_builder_runtime_source()
         module_source = module.read_text(encoding="utf-8")
 
         self._assert_runtime_bridge_moved_to_module(
@@ -30897,8 +30939,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"matches": result.get("actively_building", null) == canonical.get("actively_building", null) and result.get("outside_range_blocked", null) == canonical.get("outside_range_blocked", null)', module_source)
 
     def test_port_game_exposes_source_builder_remove_build_state(self):
-        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_builder_runtime_source()
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuilderRuntimeState.gd"
         module_source = module.read_text(encoding="utf-8")
 
@@ -30908,9 +30949,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("\treturn source_builder_runtime_state.remove_build_state(plans, x, y, breaking)", source)
 
     def test_port_game_exposes_generated_builder_comp_remove_build_bridge_state(self):
-        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuilderRuntimeState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_builder_runtime_source()
         module_source = module.read_text(encoding="utf-8")
 
         self._assert_runtime_bridge_moved_to_module(
@@ -30929,8 +30969,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"matches": result.get("idx", null) == canonical.get("idx", null) and result.get("plans_after", null) == canonical.get("plans_after", null)', module_source)
 
     def test_port_game_exposes_source_builder_should_skip_state(self):
-        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_builder_runtime_source()
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuilderRuntimeState.gd"
         module_source = module.read_text(encoding="utf-8")
 
@@ -30940,9 +30979,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("\treturn source_builder_runtime_state.should_skip_state(state_rules_infinite_resources, team_rules_infinite_resources, plan_breaking, core_null, plan_is_rotation, plan_is_derelict_repair, plan_stuck, core_items_has_plan_block_requirements, structs_contains_missing_requirement)", source)
 
     def test_port_game_exposes_generated_builder_comp_should_skip_bridge_state(self):
-        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuilderRuntimeState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_builder_runtime_source()
         module_source = module.read_text(encoding="utf-8")
 
         self._assert_runtime_bridge_moved_to_module(
@@ -30979,10 +31017,9 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"deconstruct_call_expr": "entity.deconstruct(self(), core, bs);"', source)
 
     def test_generated_builder_comp_update_build_logic_bridge_state_matches_source_builder_step(self):
-        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuilderRuntimeState.gd"
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuilderComp.gd"
-        port_source = port_game.read_text(encoding="utf-8")
+        port_source = self._port_game_builder_runtime_source()
         module_source = module.read_text(encoding="utf-8")
         generated_source = generated.read_text(encoding="utf-8")
 
@@ -31020,8 +31057,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"one_headquarter_per_ssot"', proof_source)
 
     def test_port_game_delegates_builder_runtime_state_to_source_module(self):
-        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_builder_runtime_source()
 
         self.assertIn('const source_builder_runtime_state := preload("res://src/game/SourceBuilderRuntimeState.gd")', source)
         self.assertIn("func source_builder_add_build_state(plans: Array, place: Variant, tail: bool, can_build: bool, world_tile_exists: bool, tile_build_is_construct_build: bool, construct_progress: float) -> Dictionary:", source)
@@ -34987,8 +35023,9 @@ class PlayableManifestTests(unittest.TestCase):
         chain_source = self._port_game_port_bridge_chain_source()
 
         self.assertTrue(bridge.exists(), "SourceItemTurretBuildPortBridge.gd must own PortGame ItemTurretBuild compatibility wrappers")
-        self.assertIn('extends "res://src/game/SourceAbilityPortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceBuilderRuntimePortBridge.gd"', port_source)
         self.assertIn('extends "res://src/game/SourceBuildPayloadPortBridge.gd"', bridge_source)
+        self.assertIn('extends "res://src/game/SourceAbilityPortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceItemTurretBuildPortBridge.gd"', chain_source)
         self.assertNotIn("class_name SourceItemTurretBuildPortBridge", bridge_source)
         self.assertIn('const source_item_turret_build_state := preload("res://src/game/SourceItemTurretBuildState.gd")', bridge_source)
@@ -36864,8 +36901,9 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = bridge.read_text(encoding="utf-8")
         chain_source = self._port_game_port_bridge_chain_source()
 
-        self.assertIn('extends "res://src/game/SourceAbilityPortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceBuilderRuntimePortBridge.gd"', port_source)
         self.assertIn('extends "res://src/game/SourceItemTurretBuildPortBridge.gd"', bridge_source)
+        self.assertIn('extends "res://src/game/SourceAbilityPortBridge.gd"', chain_source)
         self.assertIn('const source_ability_state := preload("res://src/game/SourceAbilityState.gd")', chain_source)
         self.assertNotIn("class_name SourceAbilityPortBridge", bridge_source)
         self.assertNotIn('const source_ability_state := preload("res://src/game/SourceAbilityState.gd")', port_source)

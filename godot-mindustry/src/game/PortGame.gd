@@ -1,4 +1,4 @@
-extends "res://src/game/SourceAbilityPortBridge.gd"
+extends "res://src/game/SourceBuilderRuntimePortBridge.gd"
 class_name PortGame
 
 const ContentRegistry := preload("res://src/generated/MindustryContentRegistry.gd")
@@ -116,7 +116,6 @@ const source_selected_build_state := preload("res://src/game/SourceSelectedBuild
 const source_building_time_state := preload("res://src/game/SourceBuildingTimeState.gd")
 const source_building_meta_state := preload("res://src/game/SourceBuildingMetaState.gd")
 const source_building_control_state := preload("res://src/game/SourceBuildingControlState.gd")
-const source_builder_runtime_state := preload("res://src/game/SourceBuilderRuntimeState.gd")
 const source_builder_draw_state := preload("res://src/game/SourceBuilderDrawState.gd")
 const source_building_damage_state := preload("res://src/game/SourceBuildingDamageState.gd")
 const source_building_sense_state := preload("res://src/game/SourceBuildingSenseState.gd")
@@ -2208,36 +2207,6 @@ func source_block_unit_is_added_state(tile_exists: bool, tile_is_valid: bool) ->
 func generated_block_unit_comp_is_added_bridge_state(tile_exists: bool, tile_is_valid: bool) -> Dictionary:
 	return source_block_unit_state.generated_block_unit_comp_is_added_bridge_state(tile_exists, tile_is_valid)
 
-func source_builder_can_build_state(type_build_speed: float, build_speed_multiplier: float) -> Dictionary:
-	return source_builder_runtime_state.can_build_state(type_build_speed, build_speed_multiplier)
-
-func generated_builder_comp_can_build_bridge_state(type_build_speed: float, build_speed_multiplier: float) -> Dictionary:
-	return source_builder_runtime_state.generated_builder_comp_can_build_bridge_state(type_build_speed, build_speed_multiplier)
-
-func source_builder_update_state() -> Dictionary:
-	return source_builder_runtime_state.update_state()
-
-func generated_builder_comp_update_bridge_state() -> Dictionary:
-	return source_builder_runtime_state.generated_builder_comp_update_bridge_state()
-
-func source_builder_after_read_state(plans_null: bool) -> Dictionary:
-	return source_builder_runtime_state.after_read_state(plans_null)
-
-func generated_builder_comp_after_read_bridge_state(plans_null: bool) -> Dictionary:
-	return source_builder_runtime_state.generated_builder_comp_after_read_bridge_state(plans_null)
-
-func source_builder_is_building_state(plans_size: int) -> Dictionary:
-	return source_builder_runtime_state.is_building_state(plans_size)
-
-func generated_builder_comp_is_building_bridge_state(plans_size: int) -> Dictionary:
-	return source_builder_runtime_state.generated_builder_comp_is_building_bridge_state(plans_size)
-
-func source_builder_clear_building_state() -> Dictionary:
-	return source_builder_runtime_state.clear_building_state()
-
-func generated_builder_comp_clear_building_bridge_state() -> Dictionary:
-	return source_builder_runtime_state.generated_builder_comp_clear_building_bridge_state()
-
 func source_builder_draw_plan_state(plan: Variant, all_plans: Array, plan_breaking: bool, alpha: float, build_valid_place: bool, control_input_plan_matches: bool) -> Dictionary:
 	return source_builder_draw_state.draw_plan_state(plan, all_plans, plan_breaking, alpha, build_valid_place, control_input_plan_matches)
 
@@ -2264,48 +2233,6 @@ func source_builder_draw_plan_top_state(plan: Variant, plans: Array, plan_breaki
 
 func generated_builder_comp_draw_plan_top_bridge_state(plan: Variant, plans: Array, plan_breaking: bool, alpha: float, mathf_absin_time_global_6_0_28: float) -> Dictionary:
 	return source_builder_draw_state.generated_builder_comp_draw_plan_top_bridge_state(plan, plans, plan_breaking, alpha, mathf_absin_time_global_6_0_28)
-
-func source_builder_should_skip_state(state_rules_infinite_resources: bool, team_rules_infinite_resources: bool, plan_breaking: bool, core_null: bool, plan_is_rotation: bool, plan_is_derelict_repair: bool, plan_stuck: bool, core_items_has_plan_block_requirements: bool, structs_contains_missing_requirement: bool) -> Dictionary:
-	return source_builder_runtime_state.should_skip_state(state_rules_infinite_resources, team_rules_infinite_resources, plan_breaking, core_null, plan_is_rotation, plan_is_derelict_repair, plan_stuck, core_items_has_plan_block_requirements, structs_contains_missing_requirement)
-
-func generated_builder_comp_should_skip_bridge_state(state_rules_infinite_resources: bool, team_rules_infinite_resources: bool, plan_breaking: bool, core_null: bool, plan_is_rotation: bool, plan_is_derelict_repair: bool, plan_stuck: bool, core_items_has_plan_block_requirements: bool, structs_contains_missing_requirement: bool) -> Dictionary:
-	return source_builder_runtime_state.generated_builder_comp_should_skip_bridge_state(state_rules_infinite_resources, team_rules_infinite_resources, plan_breaking, core_null, plan_is_rotation, plan_is_derelict_repair, plan_stuck, core_items_has_plan_block_requirements, structs_contains_missing_requirement)
-
-func source_builder_remove_build_state(plans: Array, x: int, y: int, breaking: bool) -> Dictionary:
-	return source_builder_runtime_state.remove_build_state(plans, x, y, breaking)
-
-func generated_builder_comp_remove_build_bridge_state(plans: Array, x: int, y: int, breaking: bool) -> Dictionary:
-	return source_builder_runtime_state.generated_builder_comp_remove_build_bridge_state(plans, x, y, breaking)
-
-func source_builder_add_build_tail_state(place: Variant) -> Dictionary:
-	return source_builder_runtime_state.add_build_tail_state(place)
-
-func generated_builder_comp_add_build_tail_bridge_state(place: Variant) -> Dictionary:
-	return source_builder_runtime_state.generated_builder_comp_add_build_tail_bridge_state(place)
-
-func source_builder_add_build_state(plans: Array, place: Variant, tail: bool, can_build: bool, world_tile_exists: bool, tile_build_is_construct_build: bool, construct_progress: float) -> Dictionary:
-	return source_builder_runtime_state.add_build_state(plans, place, tail, can_build, world_tile_exists, tile_build_is_construct_build, construct_progress)
-
-func generated_builder_comp_add_build_bridge_state(plans: Array, place: Variant, tail: bool, can_build: bool, world_tile_exists: bool, tile_build_is_construct_build: bool, construct_progress: float) -> Dictionary:
-	return source_builder_runtime_state.generated_builder_comp_add_build_bridge_state(plans, place, tail, can_build, world_tile_exists, tile_build_is_construct_build, construct_progress)
-
-func source_builder_build_plan_state(plans_size: int, plans_first: Variant) -> Dictionary:
-	return source_builder_runtime_state.build_plan_state(plans_size, plans_first)
-
-func generated_builder_comp_build_plan_bridge_state(plans_size: int, plans_first: Variant) -> Dictionary:
-	return source_builder_runtime_state.generated_builder_comp_build_plan_bridge_state(plans_size, plans_first)
-
-func source_builder_actively_building_state(plans_size: int, plans_first: Variant, state_is_editor: bool, state_rules_infinite_resources: bool, type_build_range: float, within_plan: bool, update_building: bool) -> Dictionary:
-	return source_builder_runtime_state.actively_building_state(plans_size, plans_first, state_is_editor, state_rules_infinite_resources, type_build_range, within_plan, update_building)
-
-func source_builder_build_step_state(entity_build_cost: float, type_build_speed: float, build_speed_multiplier: float, team_build_speed: float, current_breaking: bool, allow_build_current: bool) -> Dictionary:
-	return source_builder_runtime_state.build_step_state(entity_build_cost, type_build_speed, build_speed_multiplier, team_build_speed, current_breaking, allow_build_current)
-
-func generated_builder_comp_update_build_logic_bridge_state(entity_build_cost: float, type_build_speed: float, build_speed_multiplier: float, team_build_speed: float, current_breaking: bool, allow_build_current: bool) -> Dictionary:
-	return source_builder_runtime_state.generated_builder_comp_update_build_logic_bridge_state(entity_build_cost, type_build_speed, build_speed_multiplier, team_build_speed, current_breaking, allow_build_current)
-
-func generated_builder_comp_actively_building_bridge_state(plans_size: int, plans_first: Variant, state_is_editor: bool, state_rules_infinite_resources: bool, type_build_range: float, within_plan: bool, update_building: bool) -> Dictionary:
-	return source_builder_runtime_state.generated_builder_comp_actively_building_bridge_state(plans_size, plans_first, state_is_editor, state_rules_infinite_resources, type_build_range, within_plan, update_building)
 
 func source_unit_tether_after_read_state(spawner_unit_id: int, groups_unit_get_by_id_result: Variant) -> Dictionary:
 	return source_unit_tether_state.after_read_state(spawner_unit_id, groups_unit_get_by_id_result)
