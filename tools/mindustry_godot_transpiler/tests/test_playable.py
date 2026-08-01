@@ -368,6 +368,15 @@ class PlayableManifestTests(unittest.TestCase):
             source += "\n" + module.read_text(encoding="utf-8")
         return source
 
+    def _port_game_building_sense_source(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingSenseState.gd"
+        source = self._port_game_drill_inventory_runtime_source()
+        source += "\n" + self._port_game_port_bridge_chain_source()
+        if module.exists():
+            source += "\n" + module.read_text(encoding="utf-8")
+        return source
+
     def _port_game_building_lifecycle_source(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingLifecycleState.gd"
@@ -828,6 +837,7 @@ class PlayableManifestTests(unittest.TestCase):
 
     def _port_game_port_bridge_chain_source(self):
         bridge_names = [
+            "SourceBuildingSensePortBridge.gd",
             "SourceBuildingInteractionPortBridge.gd",
             "SourceBuildingDamagePortBridge.gd",
             "SourceLiquidTurretBuildPortBridge.gd",
@@ -7110,7 +7120,8 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = bridge.read_text(encoding="utf-8")
         chain_source = self._port_game_port_bridge_chain_source()
 
-        self.assertIn('extends "res://src/game/SourceBuildingInteractionPortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceBuildingSensePortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceBuildingInteractionPortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceBuildingDamagePortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceLiquidTurretBuildPortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceMendProjectorPortBridge.gd"', chain_source)
@@ -7136,7 +7147,8 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = bridge.read_text(encoding="utf-8")
         chain_source = self._port_game_port_bridge_chain_source()
 
-        self.assertIn('extends "res://src/game/SourceBuildingInteractionPortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceBuildingSensePortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceBuildingInteractionPortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceBuildingDamagePortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceLiquidTurretBuildPortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceMendProjectorPortBridge.gd"', chain_source)
@@ -7156,7 +7168,8 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = bridge.read_text(encoding="utf-8")
         chain_source = self._port_game_port_bridge_chain_source()
 
-        self.assertIn('extends "res://src/game/SourceBuildingInteractionPortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceBuildingSensePortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceBuildingInteractionPortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceBuildingDamagePortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceLiquidTurretBuildPortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceMendProjectorPortBridge.gd"', chain_source)
@@ -7175,12 +7188,29 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = bridge.read_text(encoding="utf-8")
         chain_source = self._port_game_port_bridge_chain_source()
 
-        self.assertIn('extends "res://src/game/SourceBuildingInteractionPortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceBuildingSensePortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceBuildingInteractionPortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceBuildingDamagePortBridge.gd"', bridge_source)
         self.assertIn('extends "res://src/game/SourceBuildingDamagePortBridge.gd"', chain_source)
         self.assertIn('const source_building_interaction_state := preload("res://src/game/SourceBuildingInteractionState.gd")', bridge_source)
         self.assertNotIn('const source_building_interaction_state := preload("res://src/game/SourceBuildingInteractionState.gd")', port_source)
         self.assertNotIn("class_name SourceBuildingInteractionPortBridge", bridge_source)
+
+    def test_port_game_routes_building_sense_through_port_bridge(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bridge = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingSensePortBridge.gd"
+
+        self.assertTrue(bridge.exists(), "Building sense compatibility wrappers must live in SourceBuildingSensePortBridge.gd")
+        port_source = port_game.read_text(encoding="utf-8")
+        bridge_source = bridge.read_text(encoding="utf-8")
+        chain_source = self._port_game_port_bridge_chain_source()
+
+        self.assertIn('extends "res://src/game/SourceBuildingSensePortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceBuildingInteractionPortBridge.gd"', bridge_source)
+        self.assertIn('extends "res://src/game/SourceBuildingInteractionPortBridge.gd"', chain_source)
+        self.assertIn('const source_building_sense_state := preload("res://src/game/SourceBuildingSenseState.gd")', bridge_source)
+        self.assertNotIn('const source_building_sense_state := preload("res://src/game/SourceBuildingSenseState.gd")', port_source)
+        self.assertNotIn("class_name SourceBuildingSensePortBridge", bridge_source)
 
     def test_port_game_routes_building_damage_through_port_bridge(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -7191,7 +7221,8 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = bridge.read_text(encoding="utf-8")
         chain_source = self._port_game_port_bridge_chain_source()
 
-        self.assertIn('extends "res://src/game/SourceBuildingInteractionPortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceBuildingSensePortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceBuildingInteractionPortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceBuildingDamagePortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceLiquidTurretBuildPortBridge.gd"', bridge_source)
         self.assertIn('extends "res://src/game/SourceLiquidTurretBuildPortBridge.gd"', chain_source)
@@ -7208,7 +7239,8 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = bridge.read_text(encoding="utf-8")
         chain_source = self._port_game_port_bridge_chain_source()
 
-        self.assertIn('extends "res://src/game/SourceBuildingInteractionPortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceBuildingSensePortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceBuildingInteractionPortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceBuildingDamagePortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceLiquidTurretBuildPortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceMendProjectorPortBridge.gd"', bridge_source)
@@ -15777,7 +15809,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_building_comp_sense_position_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingSenseState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_building_sense_source()
         helper_source = helper.read_text(encoding="utf-8")
         body = self._method_body(source, "func generated_building_comp_sense_position_bridge_state(world_x: float, world_y: float, source_tilesize: float) -> Dictionary:")
 
@@ -15815,7 +15847,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_building_comp_sense_health_process_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingSenseState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_building_sense_source()
         helper_source = helper.read_text(encoding="utf-8")
         body = self._method_body(source, "func generated_building_comp_sense_health_process_bridge_state(world_x: float, world_y: float, health: float, max_health: float, efficiency: float, time_scale: float, ranged_range: float, source_tilesize: float, has_range: bool, rotation_value: float) -> Dictionary:")
 
@@ -15848,7 +15880,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_building_comp_sense_totals_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingSenseState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_building_sense_source()
         helper_source = helper.read_text(encoding="utf-8")
         body = self._method_body(source, "func generated_building_comp_sense_totals_bridge_state(world_x: float, world_y: float, total_items: float, total_liquids: float, total_power: float, source_tilesize: float) -> Dictionary:")
 
@@ -15891,7 +15923,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_building_comp_sense_capacity_power_net_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingSenseState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_building_sense_source()
         helper_source = helper.read_text(encoding="utf-8")
         body = self._method_body(source, "func generated_building_comp_sense_capacity_power_net_bridge_state(world_x: float, world_y: float, block_has_items: bool, block_item_capacity: float, block_has_liquids: bool, block_liquid_capacity: float, has_cons_power: bool, cons_power_capacity: float, has_power_module: bool, last_scaled_power_in: float, last_scaled_power_out: float, last_power_stored: float, last_power_capacity: float, source_tilesize: float) -> Dictionary:")
 
@@ -15923,7 +15955,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_building_comp_sense_enabled_controlled_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingSenseState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_building_sense_source()
         helper_source = helper.read_text(encoding="utf-8")
         body = self._method_body(source, "func generated_building_comp_sense_enabled_controlled_bridge_state(world_x: float, world_y: float, enabled_state: bool, is_control_block: bool, is_controlled: bool, ctrl_player_value: float, source_tilesize: float) -> Dictionary:")
 
@@ -15957,7 +15989,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_building_comp_sense_payload_size_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingSenseState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_building_sense_source()
         helper_source = helper.read_text(encoding="utf-8")
         body = self._method_body(source, "func generated_building_comp_sense_payload_size_bridge_state(world_x: float, world_y: float, has_payload_seq: bool, payload_seq_total: float, has_single_payload: bool, block_size_value: float, source_tilesize: float) -> Dictionary:")
 
@@ -15993,7 +16025,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_building_comp_sense_camera_default_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingSenseState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_building_sense_source()
         helper_source = helper.read_text(encoding="utf-8")
         body = self._method_body(source, "func generated_building_comp_sense_camera_default_bridge_state(world_x: float, world_y: float, is_control_block: bool, unit_camera_x: float, unit_camera_y: float, unit_camera_width: float, unit_camera_height: float, source_tilesize: float) -> Dictionary:")
 
@@ -16035,7 +16067,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_building_comp_sense_object_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingSenseState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_building_sense_source()
         helper_source = helper.read_text(encoding="utf-8")
         body = self._method_body(source, "func generated_building_comp_sense_object_bridge_state(sensor: String, block_value: Variant, has_items_module: bool, first_item_value: Variant, config_senseable: bool, config_value: Variant, single_payload_kind: String, single_payload_content: Variant) -> Dictionary:")
 
@@ -16077,7 +16109,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_building_comp_sense_content_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingSenseState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_building_sense_source()
         helper_source = helper.read_text(encoding="utf-8")
         body = self._method_body(source, "func generated_building_comp_sense_content_bridge_state(content_type: String, has_items_module: bool, item_amount: float, has_liquids_module: bool, liquid_amount: float, has_payloads: bool, payload_amount: float) -> Dictionary:")
 
@@ -20569,10 +20601,36 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('get_node_or_null("ProofCanvas/ProofLabel")', proof_source)
         self.assertIn('proof_label.text = "BUILDING_INTERACTION_MODULE_PROOF matches=%s registry_valid=%s"', proof_source)
 
+    def test_building_sense_module_proof_scene_exists(self):
+        proof_script = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "BuildingSenseModuleProof.gd"
+        proof_scene = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "BuildingSenseModuleProof.tscn"
+
+        self.assertTrue(proof_script.exists(), "BuildingSense module runtime proof script must exist")
+        self.assertTrue(proof_scene.exists(), "BuildingSense module runtime proof scene must exist")
+        scene_source = proof_scene.read_text(encoding="utf-8")
+        proof_source = proof_script.read_text(encoding="utf-8")
+        self.assertIn('path="res://tools/runtime_proofs/BuildingSenseModuleProof.gd"', scene_source)
+        self.assertIn("BUILDING_SENSE_MODULE_PROOF", proof_source)
+        self.assertIn("source_ssot_catalog.canonical_headquarter_registry_state()", proof_source)
+        self.assertIn('"one_headquarter_per_ssot"', proof_source)
+        self.assertIn('"registry_valid"', proof_source)
+        self.assertIn("proof_file.close()", proof_source)
+
+    def test_building_sense_module_proof_scene_has_visible_status_label(self):
+        proof_script = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "BuildingSenseModuleProof.gd"
+        proof_scene = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "BuildingSenseModuleProof.tscn"
+
+        scene_source = proof_scene.read_text(encoding="utf-8")
+        proof_source = proof_script.read_text(encoding="utf-8")
+        self.assertIn('[node name="ProofCanvas" type="CanvasLayer" parent="."]', scene_source)
+        self.assertIn('[node name="ProofLabel" type="Label" parent="ProofCanvas"]', scene_source)
+        self.assertIn('get_node_or_null("ProofCanvas/ProofLabel")', proof_source)
+        self.assertIn('proof_label.text = "BUILDING_SENSE_MODULE_PROOF matches=%s registry_valid=%s"', proof_source)
+
     def test_port_game_exposes_source_building_health_changed_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingMetaState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_building_sense_source()
         helper_source = helper.read_text(encoding="utf-8") if helper.exists() else ""
 
         self.assertTrue(helper.exists(), "source_building_meta_state.gd helper must own Building healthChanged state")
@@ -20589,7 +20647,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_building_sense_position_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingSenseState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_building_sense_source()
         helper_source = helper.read_text(encoding="utf-8") if helper.exists() else ""
 
         self.assertTrue(helper.exists(), "source_building_sense_state.gd helper must own Building sense position state")
@@ -20612,7 +20670,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_building_sense_health_process_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingSenseState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_building_sense_source()
         helper_source = helper.read_text(encoding="utf-8") if helper.exists() else ""
 
         self.assertTrue(helper.exists(), "source_building_sense_state.gd helper must own Building sense health process state")
@@ -20637,7 +20695,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_building_sense_totals_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingSenseState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_building_sense_source()
         helper_source = helper.read_text(encoding="utf-8") if helper.exists() else ""
 
         self.assertTrue(helper.exists(), "source_building_sense_state.gd helper must own Building sense totals state")
@@ -20656,12 +20714,12 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_building_sense_capacity_power_net_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingSenseState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_building_sense_source()
         helper_source = helper.read_text(encoding="utf-8") if helper.exists() else ""
 
         self.assertTrue(helper.exists(), "source_building_sense_state.gd helper must own Building sense capacity/power net state")
         self.assertIn("func source_building_sense_capacity_power_net_state(block_has_items: bool, block_item_capacity: float, block_has_liquids: bool, block_liquid_capacity: float, has_cons_power: bool, cons_power_capacity: float, has_power_module: bool, last_scaled_power_in: float, last_scaled_power_out: float, last_power_stored: float, last_power_capacity: float) -> Dictionary:", source)
-        self.assertIn("return source_building_sense_state.sense_capacity_power_net_state(block_has_items, block_item_capacity, block_has_liquids, block_liquid_capacity, has_cons_power, cons_power_capacity, has_power_module, last_scaled_power_in, last_scaled_power_out, last_power_stored, last_power_capacity, source_time_defaults.TICK_RATE)", source)
+        self.assertIn("return source_building_sense_state.sense_capacity_power_net_state(block_has_items, block_item_capacity, block_has_liquids, block_liquid_capacity, has_cons_power, cons_power_capacity, has_power_module, last_scaled_power_in, last_scaled_power_out, last_power_stored, last_power_capacity, source_building_sense_port_bridge_time_defaults.TICK_RATE)", source)
         self.assertIn("static func sense_capacity_power_net_state(block_has_items: bool, block_item_capacity: float, block_has_liquids: bool, block_liquid_capacity: float, has_cons_power: bool, cons_power_capacity: float, has_power_module: bool, last_scaled_power_in: float, last_scaled_power_out: float, last_power_stored: float, last_power_capacity: float, source_tick_rate: float) -> Dictionary:", helper_source)
         self.assertIn('"method": "public double sense(LAccess sensor){",', helper_source)
         self.assertIn('"item_capacity_case": "case itemCapacity -> block.hasItems ? block.itemCapacity : 0;",', helper_source)
@@ -20684,7 +20742,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_building_sense_enabled_controlled_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingSenseState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_building_sense_source()
         helper_source = helper.read_text(encoding="utf-8") if helper.exists() else ""
 
         self.assertTrue(helper.exists(), "source_building_sense_state.gd helper must own Building sense enabled/controlled state")
@@ -20700,7 +20758,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_building_sense_payload_size_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingSenseState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_building_sense_source()
         helper_source = helper.read_text(encoding="utf-8") if helper.exists() else ""
 
         self.assertTrue(helper.exists(), "source_building_sense_state.gd helper must own Building sense payload size state")
@@ -20717,7 +20775,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_building_sense_camera_default_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingSenseState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_building_sense_source()
         helper_source = helper.read_text(encoding="utf-8") if helper.exists() else ""
 
         self.assertTrue(helper.exists(), "source_building_sense_state.gd helper must own Building sense camera default state")
@@ -20732,7 +20790,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_building_sense_object_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingSenseState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_building_sense_source()
         helper_source = helper.read_text(encoding="utf-8") if helper.exists() else ""
 
         self.assertTrue(helper.exists(), "source_building_sense_state.gd helper must own Building senseObject state")
@@ -20756,7 +20814,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_building_sense_content_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingSenseState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_building_sense_source()
         helper_source = helper.read_text(encoding="utf-8") if helper.exists() else ""
 
         self.assertTrue(helper.exists(), "source_building_sense_state.gd helper must own Building sense(Content) state")
@@ -20784,7 +20842,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_building_control_enabled_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingControlState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_building_sense_source()
         helper_source = helper.read_text(encoding="utf-8") if helper.exists() else ""
 
         self.assertTrue(helper.exists(), "source_building_control_state.gd helper must own Building control enabled state")
@@ -20801,7 +20859,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_building_control_config_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingControlState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_building_sense_source()
         helper_source = helper.read_text(encoding="utf-8") if helper.exists() else ""
 
         self.assertTrue(helper.exists(), "source_building_control_state.gd helper must own Building control config state")

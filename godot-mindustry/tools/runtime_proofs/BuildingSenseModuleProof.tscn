@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://tools/runtime_proofs/BuildingSenseModuleProof.gd" id="1_buildingsensemoduleproof"]
+
+[node name="BuildingSenseModuleProof" type="Node"]
+script = ExtResource("1_buildingsensemoduleproof")
+
+[node name="ProofCanvas" type="CanvasLayer" parent="."]
+
+[node name="ProofLabel" type="Label" parent="ProofCanvas"]
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 980.0
+offset_bottom = 64.0
+text = "BUILDING_SENSE_MODULE_PROOF starting"

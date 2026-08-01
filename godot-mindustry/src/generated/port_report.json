@@ -5,32 +5,17 @@
   "java_file_count": 801,
   "parsed_file_count": 8,
   "port_game_bridge_surface": {
-    "delegate_module_count": 149,
-    "delegating_function_count": 865,
+    "delegate_module_count": 148,
+    "delegating_function_count": 847,
     "exists": true,
-    "generated_bridge_delegating_function_count": 254,
+    "generated_bridge_delegating_function_count": 245,
     "largest_delegate_module": {
       "function_count": 18,
-      "module": "source_building_sense_state"
+      "module": "source_tractor_beam_turret_build_update_tile_flow_state"
     },
     "path": "src/game/PortGame.gd",
-    "source_delegating_function_count": 504,
+    "source_delegating_function_count": 495,
     "top_delegate_modules": [
-      {
-        "canonical_owner_target": "SourceBuildingSenseState",
-        "class_name": "SourceBuildingSenseState",
-        "compatibility_surface": "PortGame",
-        "function_count": 18,
-        "module": "source_building_sense_state",
-        "module_path": "res://src/game/SourceBuildingSenseState.gd",
-        "sample_functions": [
-          "generated_building_comp_sense_position_bridge_state",
-          "generated_building_comp_sense_health_process_bridge_state",
-          "generated_building_comp_sense_totals_bridge_state",
-          "generated_building_comp_sense_capacity_power_net_bridge_state",
-          "generated_building_comp_sense_enabled_controlled_bridge_state"
-        ]
-      },
       {
         "canonical_owner_target": "SourceTractorBeamTurretBuildUpdateTileFlowState",
         "class_name": "SourceTractorBeamTurretBuildUpdateTileFlowState",
@@ -315,19 +300,34 @@
           "generated_building_comp_set_prop_team_double_bridge_state",
           "source_building_set_prop_total_power_state"
         ]
+      },
+      {
+        "canonical_owner_target": "SourceBulletTypeUpdateState",
+        "class_name": "SourceBulletTypeUpdateState",
+        "compatibility_surface": "PortGame",
+        "function_count": 12,
+        "module": "source_bullet_type_update_state",
+        "module_path": "res://src/game/SourceBulletTypeUpdateState.gd",
+        "sample_functions": [
+          "source_bullet_type_update_dispatch_state",
+          "source_bullet_type_update_bullet_interval_state",
+          "source_bullet_type_update_trail_state",
+          "source_bullet_type_update_homing_initial_state",
+          "source_bullet_type_update_homing_target_velocity_state"
+        ]
       }
     ]
   },
   "port_game_footprint": {
-    "byte_count": 319629,
+    "byte_count": 312175,
     "exists": true,
-    "function_count": 1089,
-    "generated_bridge_function_count": 355,
-    "line_count": 3555,
+    "function_count": 1071,
+    "generated_bridge_function_count": 346,
+    "line_count": 3500,
     "max_function_lines": 5,
     "path": "src/game/PortGame.gd",
-    "preload_count": 176,
-    "source_function_count": 611
+    "preload_count": 175,
+    "source_function_count": 602
   },
   "unsupported": [
     "Generated gameplay classes not implemented yet",
