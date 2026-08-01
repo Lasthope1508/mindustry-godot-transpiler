@@ -1,13 +1,10 @@
-extends Node2D
+extends "res://src/game/SourceContinuousLiquidTurretBuildPortBridge.gd"
 class_name PortGame
 
 const ContentRegistry := preload("res://src/generated/MindustryContentRegistry.gd")
 const generated_class_registry := preload("res://src/generated/GeneratedClassRegistry.gd")
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
-const source_ssot_accessor_runtime_state := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
 const source_math_defaults := preload("res://src/game/SourceMathDefaults.gd")
-const source_math_state := preload("res://src/game/SourceMathState.gd")
-const source_time_defaults := preload("res://src/game/SourceTimeDefaults.gd")
 const mindustry_time_script := preload("res://src/runtime/Time.gd")
 const source_rules_defaults := preload("res://src/game/SourceRulesDefaults.gd")
 const source_world_defaults := preload("res://src/game/SourceWorldDefaults.gd")
@@ -71,8 +68,6 @@ const source_bullet_type_hit_tile_state := preload("res://src/game/SourceBulletT
 const source_bullet_type_init_range_state := preload("res://src/game/SourceBulletTypeInitRangeState.gd")
 const source_bullet_type_init_state := preload("res://src/game/SourceBulletTypeInitState.gd")
 const source_bullet_type_update_state := preload("res://src/game/SourceBulletTypeUpdateState.gd")
-const source_turret_defaults := preload("res://src/game/SourceTurretDefaults.gd")
-const source_turret_runtime_state := preload("res://src/game/SourceTurretRuntimeState.gd")
 const source_turret_cell_registry_state := preload("res://src/game/SourceTurretCellRegistryState.gd")
 const source_turret_property_state := preload("res://src/game/SourceTurretPropertyState.gd")
 const source_turret_simulation_state := preload("res://src/game/SourceTurretSimulationState.gd")
@@ -81,11 +76,9 @@ const source_turret_init_state_script := preload("res://src/game/SourceTurretIni
 const source_turret_presentation_state := preload("res://src/game/SourceTurretPresentationState.gd")
 const source_turret_placement_state := preload("res://src/game/SourceTurretPlacementState.gd")
 const source_turret_range_state := preload("res://src/game/SourceTurretRangeState.gd")
-const source_turret_stats_bars_state := preload("res://src/game/SourceTurretStatsBarsState.gd")
 const source_liquid_turret_init_state_script := preload("res://src/game/SourceLiquidTurretInitState.gd")
 const source_liquid_turret_build_state := preload("res://src/game/SourceLiquidTurretBuildState.gd")
 const source_continuous_liquid_turret_init_state_script := preload("res://src/game/SourceContinuousLiquidTurretInitState.gd")
-const source_continuous_liquid_turret_build_state := preload("res://src/game/SourceContinuousLiquidTurretBuildState.gd")
 const source_power_turret_build_state := preload("res://src/game/SourcePowerTurretBuildState.gd")
 const source_item_turret_build_state := preload("res://src/game/SourceItemTurretBuildState.gd")
 const source_item_turret_init_state := preload("res://src/game/SourceItemTurretInitState.gd")
@@ -108,9 +101,7 @@ const source_tractor_beam_turret_build_update_tile_status_apply_state_script := 
 const source_tractor_beam_turret_build_update_tile_any_true_state_script := preload("res://src/game/SourceTractorBeamTurretBuildUpdateTileAnyTrueState.gd")
 const source_tractor_beam_turret_build_update_tile_impulse_net_state_script := preload("res://src/game/SourceTractorBeamTurretBuildUpdateTileImpulseNetState.gd")
 const source_tractor_beam_turret_build_draw_state_script := preload("res://src/game/SourceTractorBeamTurretBuildDrawState.gd")
-const source_point_defense_turret_defaults := preload("res://src/game/SourcePointDefenseTurretDefaults.gd")
 const source_weapon_defaults := preload("res://src/game/SourceWeaponDefaults.gd")
-const source_weapons_state := preload("res://src/game/SourceWeaponsState.gd")
 const source_status_apply_state := preload("res://src/game/SourceStatusApplyState.gd")
 const source_shoot_pattern_defaults := preload("res://src/game/SourceShootPatternDefaults.gd")
 const source_child_state := preload("res://src/game/SourceChildState.gd")
@@ -122,16 +113,13 @@ const source_item_metadata_state := preload("res://src/game/SourceItemMetadataSt
 const source_block_geometry := preload("res://src/game/SourceBlockGeometry.gd")
 const source_block_footprint := preload("res://src/game/SourceBlockFootprint.gd")
 const source_block_placement := preload("res://src/game/SourceBlockPlacement.gd")
-const source_build_selection_runtime_state := preload("res://src/game/SourceBuildSelectionRuntimeState.gd")
 const source_placed_block_state := preload("res://src/game/SourcePlacedBlockState.gd")
 const source_selected_build_state := preload("res://src/game/SourceSelectedBuildState.gd")
 const source_building_time_state := preload("res://src/game/SourceBuildingTimeState.gd")
-const source_building_efficiency_state := preload("res://src/game/SourceBuildingEfficiencyState.gd")
 const source_building_meta_state := preload("res://src/game/SourceBuildingMetaState.gd")
 const source_building_control_state := preload("res://src/game/SourceBuildingControlState.gd")
 const source_builder_runtime_state := preload("res://src/game/SourceBuilderRuntimeState.gd")
 const source_builder_draw_state := preload("res://src/game/SourceBuilderDrawState.gd")
-const source_building_lifecycle_state := preload("res://src/game/SourceBuildingLifecycleState.gd")
 const source_building_damage_state := preload("res://src/game/SourceBuildingDamageState.gd")
 const source_building_sense_state := preload("res://src/game/SourceBuildingSenseState.gd")
 const source_building_set_prop_state := preload("res://src/game/SourceBuildingSetPropState.gd")
@@ -142,8 +130,6 @@ const source_building_item_dump_state := preload("res://src/game/SourceBuildingI
 const source_building_liquid_state := preload("res://src/game/SourceBuildingLiquidState.gd")
 const source_building_payload_state := preload("res://src/game/SourceBuildingPayloadState.gd")
 const source_building_power_state := preload("res://src/game/SourceBuildingPowerState.gd")
-const source_building_draw_state_script := preload("res://src/game/SourceBuildingDrawState.gd")
-const source_building_destruction_state := preload("res://src/game/SourceBuildingDestructionState.gd")
 const source_construct_block_state := preload("res://src/game/SourceConstructBlockState.gd")
 const source_construct_build_state := preload("res://src/game/SourceConstructBuildState.gd")
 const source_building_display_state := preload("res://src/game/SourceBuildingDisplayState.gd")
@@ -159,7 +145,6 @@ const source_consume_module_registry := preload("res://src/game/SourceConsumeMod
 const source_thermal_generator_state := preload("res://src/game/SourceThermalGeneratorState.gd")
 const source_unit_payload_dump_state := preload("res://src/game/SourceUnitPayloadDumpState.gd")
 const source_unit_destroy_state := preload("res://src/game/SourceUnitDestroyState.gd")
-const source_unit_update_state := preload("res://src/game/SourceUnitUpdateState.gd")
 const source_unit_tether_state := preload("res://src/game/SourceUnitTetherState.gd")
 const source_block_unit_state := preload("res://src/game/SourceBlockUnitState.gd")
 const source_block_query_state := preload("res://src/game/SourceBlockQueryState.gd")
@@ -168,7 +153,6 @@ const source_block_query_consumer_state_script := preload("res://src/game/Source
 const source_block_query_placement_state_script := preload("res://src/game/SourceBlockQueryPlacementState.gd")
 const source_block_query_darkness_state_script := preload("res://src/game/SourceBlockQueryDarknessState.gd")
 const source_block_query_filter_state_script := preload("res://src/game/SourceBlockQueryFilterState.gd")
-const source_block_consume_state := preload("res://src/game/SourceBlockConsumeState.gd")
 const source_block_requirements_state := preload("res://src/game/SourceBlockRequirementsState.gd")
 const source_block_research_requirements_state := preload("res://src/game/SourceBlockResearchRequirementsState.gd")
 const source_block_get_dependencies_state := preload("res://src/game/SourceBlockGetDependenciesState.gd")
@@ -338,129 +322,6 @@ func _ready() -> void:
 func load_config() -> void:
 	source_game_config_runtime_state.load_config(self)
 
-func playable_content_block_state(block_id: String = "") -> Dictionary:
-	return source_ssot_accessor_runtime_state.playable_content_block_state(block_id)
-
-func playable_content_item_state(item_id: String = "") -> Dictionary:
-	return source_ssot_accessor_runtime_state.playable_content_item_state(item_id)
-
-func playable_content_skin_override_state(skin_id: String = "") -> Dictionary:
-	return source_ssot_accessor_runtime_state.playable_content_skin_override_state(skin_id)
-
-func source_symbol_registry_state(symbol: String = "") -> Dictionary:
-	return source_ssot_accessor_runtime_state.source_symbol_registry_state(symbol)
-
-func ssot_symbol_registry_symbol_state(symbol: String = "") -> Dictionary:
-	return source_ssot_accessor_runtime_state.ssot_symbol_registry_symbol_state(symbol)
-
-func source_symbol_audit_state() -> Dictionary:
-	return source_ssot_accessor_runtime_state.audit_summary_state()
-
-func ssot_audit_registered_owner_state(owner_index: String = "") -> Dictionary:
-	return source_ssot_accessor_runtime_state.ssot_audit_registered_owner_state(owner_index)
-
-func ssot_audit_function_state(function_index: String = "") -> Dictionary:
-	return source_ssot_accessor_runtime_state.ssot_audit_function_state(function_index)
-
-func ssot_audit_exempt_owner_state(owner_index: String = "") -> Dictionary:
-	return source_ssot_accessor_runtime_state.ssot_audit_exempt_owner_state(owner_index)
-
-func ssot_audit_legacy_unregistered_owner_state(owner_index: String = "") -> Dictionary:
-	return source_ssot_accessor_runtime_state.ssot_audit_legacy_unregistered_owner_state(owner_index)
-
-func source_slice_ledger_state(slice_id: String = "") -> Dictionary:
-	return source_ssot_accessor_runtime_state.source_slice_ledger_state(slice_id)
-
-func ssot_slice_ledger_state(slice_id: String = "") -> Dictionary:
-	return source_ssot_accessor_runtime_state.ssot_slice_ledger_state(slice_id)
-
-func source_api_contract_state(contract_owner: String = "") -> Dictionary:
-	return source_ssot_accessor_runtime_state.source_api_contract_state(contract_owner)
-
-func ssot_api_contract_state(contract_owner: String = "") -> Dictionary:
-	return source_ssot_accessor_runtime_state.ssot_api_contract_state(contract_owner)
-
-func source_state_schema_state(schema_name: String = "") -> Dictionary:
-	return source_ssot_accessor_runtime_state.source_state_schema_state(schema_name)
-
-func ssot_state_schema_state(schema_name: String = "") -> Dictionary:
-	return source_ssot_accessor_runtime_state.ssot_state_schema_state(schema_name)
-
-func helper_state_schema_state(schema_name: String = "") -> Dictionary:
-	return source_ssot_accessor_runtime_state.helper_state_schema_state(schema_name)
-
-func ssot_modules_state(module_name: String = "") -> Dictionary:
-	return source_ssot_accessor_runtime_state.ssot_modules_state(module_name)
-
-func ssot_headquarter_registry_state(module_name: String = "") -> Dictionary:
-	return source_ssot_accessor_runtime_state.canonical_headquarter_registry_state(module_name)
-
-func ssot_headquarter_lookup_state(alias_name: String = "") -> Dictionary:
-	return source_ssot_accessor_runtime_state.canonical_headquarter_lookup_state(alias_name)
-
-func ssot_module_entry_state(module_name: String = "") -> Dictionary:
-	return source_ssot_accessor_runtime_state.ssot_module_entry_state(module_name)
-
-func asset_manifest_state() -> Dictionary:
-	return source_ssot_accessor_runtime_state.asset_manifest_state()
-
-func asset_manifest_asset_state(target_path: String = "") -> Dictionary:
-	return source_ssot_accessor_runtime_state.asset_manifest_asset_state(target_path)
-
-func source_manifest_state() -> Dictionary:
-	return source_ssot_accessor_runtime_state.source_manifest_state()
-
-func source_manifest_file_state(file_path: String = "") -> Dictionary:
-	return source_ssot_accessor_runtime_state.source_manifest_file_state(file_path)
-
-func ast_manifest_state() -> Dictionary:
-	return source_ssot_accessor_runtime_state.ast_manifest_state()
-
-func ast_manifest_file_state(file_path: String = "") -> Dictionary:
-	return source_ssot_accessor_runtime_state.ast_manifest_file_state(file_path)
-
-func ast_manifest_failure_state(file_path: String = "") -> Dictionary:
-	return source_ssot_accessor_runtime_state.ast_manifest_failure_state(file_path)
-
-func content_registry_state() -> Dictionary:
-	return source_ssot_accessor_runtime_state.content_registry_state()
-
-func content_registry_item_state(item_id: String = "") -> Dictionary:
-	return source_ssot_accessor_runtime_state.content_registry_item_state(item_id)
-
-func content_registry_liquid_state(liquid_id: String = "") -> Dictionary:
-	return source_ssot_accessor_runtime_state.content_registry_liquid_state(liquid_id)
-
-func content_registry_unit_state(unit_id: String = "") -> Dictionary:
-	return source_ssot_accessor_runtime_state.content_registry_unit_state(unit_id)
-
-func content_registry_block_state(block_id: String = "") -> Dictionary:
-	return source_ssot_accessor_runtime_state.content_registry_block_state(block_id)
-
-func content_registry_count_state(count_name: String = "") -> Dictionary:
-	return source_ssot_accessor_runtime_state.content_registry_count_state(count_name)
-
-func content_registry_wave_group_state(group_index: String = "") -> Dictionary:
-	return source_ssot_accessor_runtime_state.content_registry_wave_group_state(group_index)
-
-func emitted_classes_state() -> Dictionary:
-	return source_ssot_accessor_runtime_state.emitted_classes_state()
-
-func emitted_class_file_state(file_path: String = "") -> Dictionary:
-	return source_ssot_accessor_runtime_state.emitted_class_file_state(file_path)
-
-func emitted_class_failure_state(failure_index: String = "") -> Dictionary:
-	return source_ssot_accessor_runtime_state.emitted_class_failure_state(failure_index)
-
-func port_report_state() -> Dictionary:
-	return source_ssot_accessor_runtime_state.port_report_state()
-
-func port_report_unsupported_state(unsupported_index: String = "") -> Dictionary:
-	return source_ssot_accessor_runtime_state.port_report_unsupported_state(unsupported_index)
-
-func port_report_unsupported_feature_state(feature_index: String = "") -> Dictionary:
-	return source_ssot_accessor_runtime_state.port_report_unsupported_feature_state(feature_index)
-
 func load_content_registry() -> void:
 	source_content_registry_runtime_state.load_content_registry(self)
 
@@ -472,10 +333,6 @@ func load_selected_generated_scripts() -> void:
 
 func load_textures() -> void:
 	source_texture_runtime_state.load_textures(self)
-
-func build_block_palette() -> void:
-	source_build_selection_runtime_state.build_block_palette(self)
-
 
 func load_png_texture(path: String) -> Texture2D:
 	return source_texture_runtime_state.load_png_texture(path)
@@ -540,59 +397,8 @@ func apply_world_viewport_fit() -> void:
 func world_viewport_fit_runtime_state() -> Dictionary:
 	return source_input_viewport_runtime_state.world_viewport_fit_runtime_state(self)
 
-func select_build_slot_action(canonical_action: String) -> void:
-	source_build_selection_runtime_state.select_build_slot_action(self, canonical_action)
-
-func select_next_build_slot() -> void:
-	source_build_selection_runtime_state.select_next_build_slot(self)
-
-func select_previous_build_slot() -> void:
-	source_build_selection_runtime_state.select_previous_build_slot(self)
-
-func select_build_block_by_id(block_id: String) -> bool:
-	return source_build_selection_runtime_state.select_build_block_by_id(self, block_id)
-
 func selected_build_properties(selected) -> Dictionary:
 	return source_selected_build_state.properties(selected)
-
-func selected_build_health() -> float:
-	return source_build_selection_runtime_state.selected_build_health(self)
-
-func selected_build_scaled_health() -> float:
-	return source_build_selection_runtime_state.selected_build_scaled_health(self)
-
-func selected_build_heal_percent() -> float:
-	return source_build_selection_runtime_state.selected_build_heal_percent(self)
-
-func selected_build_phase_boost() -> float:
-	return source_build_selection_runtime_state.selected_build_phase_boost(self)
-
-func selected_build_phase_range_boost() -> float:
-	return source_build_selection_runtime_state.selected_build_phase_range_boost(self)
-
-func selected_build_can_overdrive() -> bool:
-	return source_build_selection_runtime_state.selected_build_can_overdrive(self)
-
-func selected_build_has_power() -> bool:
-	return source_build_selection_runtime_state.selected_build_has_power(self)
-
-func selected_build_consumes_power() -> bool:
-	return source_build_selection_runtime_state.selected_build_consumes_power(self)
-
-func selected_build_outputs_power() -> bool:
-	return source_build_selection_runtime_state.selected_build_outputs_power(self)
-
-func selected_build_power_usage() -> float:
-	return source_build_selection_runtime_state.selected_build_power_usage(self)
-
-func selected_build_power_capacity() -> float:
-	return source_build_selection_runtime_state.selected_build_power_capacity(self)
-
-func selected_build_power_buffered() -> bool:
-	return source_build_selection_runtime_state.selected_build_power_buffered(self)
-
-func selected_build_power_production() -> float:
-	return source_build_selection_runtime_state.selected_build_power_production(self)
 
 func source_power_generator_get_power_production_state(enabled: bool, power_production: float, production_efficiency: float) -> Dictionary:
 	return source_power_generator_state.get_power_production_state(enabled, power_production, production_efficiency)
@@ -684,15 +490,6 @@ func source_power_generator_create_explosion_shake_state(should_explode_value: b
 func source_power_generator_on_destroyed_reactor_explosion_state(reactor_explosions: bool = source_power_generator_state.SOURCE_RULES_REACTOR_EXPLOSIONS_DEFAULT, create_explosion_state: Dictionary = {}) -> Dictionary:
 	return source_power_generator_state.on_destroyed_reactor_explosion_state(reactor_explosions, create_explosion_state)
 
-func selected_build_item_duration() -> float:
-	return source_build_selection_runtime_state.selected_build_item_duration(self)
-
-func selected_build_max_nodes() -> int:
-	return source_build_selection_runtime_state.selected_build_max_nodes(self)
-
-func selected_build_laser_range() -> float:
-	return source_build_selection_runtime_state.selected_build_laser_range(self)
-
 func source_overdrive_projector_range(overdrive_projector, phase_heat := 0.0) -> float:
 	return source_overdrive_projector_state.projector_range(overdrive_projector, phase_heat)
 
@@ -704,9 +501,6 @@ func source_overdrive_projector_place_state(overdrive_projector) -> Dictionary:
 
 func source_overdrive_projector_target_filter_state(overdrive_projector, target_block, distance: float, phase_heat := 0.0) -> Dictionary:
 	return source_overdrive_projector_state.target_filter_state(overdrive_projector, target_block, distance, phase_heat)
-
-func selected_build_overdrive_target_filter_state_for_block_id(target_block_id: String, distance: float, phase_heat := 0.0) -> Dictionary:
-	return source_build_selection_runtime_state.selected_build_overdrive_target_filter_state_for_block_id(self, target_block_id, distance, phase_heat)
 
 func source_building_apply_boost_state(current_time_scale: float, current_duration: float, intensity: float, duration: float, can_overdrive := true) -> Dictionary:
 	return source_building_time_state.apply_boost_state(current_time_scale, current_duration, intensity, duration, can_overdrive, source_block_defaults.TIME_SCALE_BOOST_EPSILON)
@@ -731,39 +525,6 @@ func source_overdrive_projector_real_boost(overdrive_projector, phase_heat := 0.
 
 func source_overdrive_projector_boost_bar_fraction(overdrive_projector, phase_heat := 0.0, efficiency := 1.0) -> float:
 	return source_overdrive_projector_state.boost_bar_fraction(overdrive_projector, phase_heat, efficiency)
-
-func selected_build_overdrive_real_boost() -> float:
-	return source_build_selection_runtime_state.selected_build_overdrive_real_boost(self)
-
-func selected_build_overdrive_phase_real_boost() -> float:
-	return source_build_selection_runtime_state.selected_build_overdrive_phase_real_boost(self)
-
-func selected_build_overdrive_boost_bar_fraction() -> float:
-	return source_build_selection_runtime_state.selected_build_overdrive_boost_bar_fraction(self)
-
-func selected_build_overdrive_phase_boost_bar_fraction() -> float:
-	return source_build_selection_runtime_state.selected_build_overdrive_phase_boost_bar_fraction(self)
-
-func selected_build_overdrive_place_state() -> Dictionary:
-	return source_build_selection_runtime_state.selected_build_overdrive_place_state(self)
-
-func selected_build_overdrive_phase_select_state() -> Dictionary:
-	return source_build_selection_runtime_state.selected_build_overdrive_phase_select_state(self)
-
-func selected_build_overdrive_light_state_for_smooth_efficiency(smooth_efficiency: float) -> Dictionary:
-	return source_build_selection_runtime_state.selected_build_overdrive_light_state_for_smooth_efficiency(self, smooth_efficiency)
-
-func selected_build_overdrive_draw_state_for_inputs(heat: float, phase_heat: float, source_time_ticks := 0.0) -> Dictionary:
-	return source_build_selection_runtime_state.selected_build_overdrive_draw_state_for_inputs(self, heat, phase_heat, source_time_ticks, source_world_defaults.TILESIZE)
-
-func selected_build_booster_item() -> String:
-	return source_build_selection_runtime_state.selected_build_booster_item(self)
-
-func selected_build_booster_use_time() -> float:
-	return source_build_selection_runtime_state.selected_build_booster_use_time(self)
-
-func selected_build_place_state() -> Dictionary:
-	return source_build_selection_runtime_state.selected_build_place_state(self)
 
 func source_mend_projector_repair_amount(mend_projector, target_block, phase_heat := 0.0, efficiency := 1.0) -> float:
 	return source_mend_projector_state.repair_amount(mend_projector, target_block, phase_heat, efficiency)
@@ -803,21 +564,6 @@ func source_mend_projector_place_state(mend_projector) -> Dictionary:
 
 func source_mend_projector_draw_state(mend_projector, heat: float, phase_heat: float, source_time_ticks := 0.0, lod_l2 := true, lod_alpha2 := 1.0) -> Dictionary:
 	return source_mend_projector_state.draw_state(mend_projector, heat, phase_heat, float(source_world_defaults.TILESIZE), source_time_ticks, lod_l2, lod_alpha2)
-
-func source_absin(value: float, scl: float, mag: float) -> float:
-	return source_math_state.source_absin(value, scl, mag)
-
-func source_approach(from_value: float, to_value: float, speed: float) -> float:
-	return source_math_state.source_approach(from_value, to_value, speed)
-
-func source_approach_delta(from_value: float, to_value: float, speed: float, source_delta: float) -> float:
-	return source_math_state.source_approach_delta(from_value, to_value, speed, source_delta)
-
-func source_lerp_delta(from_value: float, to_value: float, progress: float, source_delta: float) -> float:
-	return source_math_state.source_lerp_delta(from_value, to_value, progress, source_delta)
-
-func selected_build_repair_amount() -> float:
-	return source_build_selection_runtime_state.selected_build_repair_amount(self, content_catalog)
 
 func source_power_graph_add_role_state(build_present: bool, power_present: bool, graph_matches: bool, power_init: bool, old_graph_present: bool, old_graph_is_self: bool, old_graph_has_entity: bool, outputs_power: bool, consumes_power: bool, has_cons_power: bool, cons_power_buffered: bool) -> Dictionary:
 	return source_power_graph_state.add_role_state(build_present, power_present, graph_matches, power_init, old_graph_present, old_graph_is_self, old_graph_has_entity, outputs_power, consumes_power, has_cons_power, cons_power_buffered)
@@ -1844,57 +1590,6 @@ func generated_building_comp_get_display_efficiency_bridge_state(edelta_value: f
 func generated_building_comp_should_ambient_sound_bridge_state(should_consume_state: bool) -> Dictionary:
 	return source_building_time_state.generated_should_ambient_sound_bridge_state(should_consume_state)
 
-func generated_building_comp_draw_status_bridge_state(enable_draw_status: bool, consumers_length: int, block_size_value: int, source_x: float, source_y: float, source_tilesize: float) -> Dictionary:
-	return source_building_draw_state_script.generated_draw_status_bridge_state(enable_draw_status, consumers_length, block_size_value, source_x, source_y, source_tilesize)
-
-func generated_building_comp_draw_cracks_bridge_state(draw_cracks: bool, damaged_state: bool, block_size_value: int, max_crack_size: int, health_fraction: float, crack_regions: int, position_id: int) -> Dictionary:
-	return source_building_draw_state_script.generated_draw_cracks_bridge_state(draw_cracks, damaged_state, block_size_value, max_crack_size, health_fraction, crack_regions, position_id)
-
-func generated_building_comp_draw_select_bridge_state(block_status: String, source_x: float, source_y: float, source_rotation: float, tile_x: int, tile_y: int, unit_activation_delay: float, state_tick: float) -> Dictionary:
-	return source_building_draw_state_script.generated_draw_select_bridge_state(block_status, source_x, source_y, source_rotation, tile_x, tile_y, unit_activation_delay, state_tick)
-
-func generated_building_comp_draw_item_selection_bridge_state(has_selection: bool, source_x: float, source_y: float, block_size_value: int, source_tilesize: float, icon_small: float, selection_icon_ratio: float) -> Dictionary:
-	return source_building_draw_state_script.generated_draw_item_selection_bridge_state(has_selection, source_x, source_y, block_size_value, source_tilesize, icon_small, selection_icon_ratio)
-
-func generated_building_comp_draw_disabled_bridge_state(source_x: float, source_y: float) -> Dictionary:
-	return source_building_draw_state_script.generated_draw_disabled_bridge_state(source_x, source_y)
-
-func generated_building_comp_draw_bridge_state(variants: int, has_variant_regions: bool, variant_region_count: int, tile_pos: int, source_x: float, source_y: float, block_rotate: bool, block_rotate_draw: bool, rotation_quadrants: int) -> Dictionary:
-	return source_building_draw_state_script.generated_draw_bridge_state(variants, has_variant_regions, variant_region_count, tile_pos, source_x, source_y, block_rotate, block_rotate_draw, rotation_quadrants)
-
-func generated_building_comp_draw_cached_bridge_state(variants: int, has_variant_regions: bool, variant_region_count: int, tile_pos: int, source_x: float, source_y: float, block_rotate: bool, block_rotate_draw: bool, rotation_quadrants: int) -> Dictionary:
-	return source_building_draw_state_script.generated_draw_cached_bridge_state(variants, has_variant_regions, variant_region_count, tile_pos, source_x, source_y, block_rotate, block_rotate_draw, rotation_quadrants)
-
-func generated_building_comp_recache_bridge_state(headless: bool, building_cache_layer: Variant, tile_state: Variant) -> Dictionary:
-	return source_building_draw_state_script.generated_recache_bridge_state(headless, building_cache_layer, tile_state)
-
-func generated_building_comp_payload_draw_bridge_state(draw_cached: bool, draw_dynamic: bool, current_z: float, building_cache_layer_z: float, variants: int, has_variant_regions: bool, variant_region_count: int, tile_pos: int, source_x: float, source_y: float, block_rotate: bool, block_rotate_draw: bool, rotation_quadrants: int) -> Dictionary:
-	return source_building_draw_state_script.generated_payload_draw_bridge_state(draw_cached, draw_dynamic, current_z, building_cache_layer_z, variants, has_variant_regions, variant_region_count, tile_pos, source_x, source_y, block_rotate, block_rotate_draw, rotation_quadrants)
-
-func generated_building_comp_draw_team_top_bridge_state(team_region_found: bool, team_region_matches_team: bool, team_color: String, source_x: float, source_y: float) -> Dictionary:
-	return source_building_draw_state_script.generated_draw_team_top_bridge_state(team_region_found, team_region_matches_team, team_color, source_x, source_y)
-
-func generated_building_comp_draw_light_bridge_state(has_liquids: bool, draw_liquid_light: bool, light_liquid_is_null: bool, current_liquid_color: String, current_liquid_alpha: float, light_liquid_color: String, light_liquid_alpha: float, selected_liquid_amount: float, visual_liquid: float, source_delta: float, source_x: float, source_y: float, block_size_value: int) -> Dictionary:
-	return source_building_draw_state_script.generated_draw_light_bridge_state(has_liquids, draw_liquid_light, light_liquid_is_null, current_liquid_color, current_liquid_alpha, light_liquid_color, light_liquid_alpha, selected_liquid_amount, visual_liquid, source_delta, source_x, source_y, block_size_value)
-
-func generated_building_comp_draw_liquid_light_bridge_state(source_x: float, source_y: float, block_size_value: int, light_color: String, light_alpha: float, amount: float) -> Dictionary:
-	return source_building_draw_state_script.generated_draw_liquid_light_bridge_state(source_x, source_y, block_size_value, light_color, light_alpha, amount)
-
-func generated_building_comp_draw_team_bridge_state(team_color: String, source_x: float, source_y: float, block_size_value: int, source_tilesize: float) -> Dictionary:
-	return source_building_draw_state_script.generated_draw_team_bridge_state(team_color, source_x, source_y, block_size_value, source_tilesize)
-
-func generated_building_comp_check_suppression_bridge_state(block_suppressable: bool, source_time: float, heal_suppression_time: float, source_delta: float, source_x: float, source_y: float, block_size_value: int, source_tilesize: float, suppress_color: String) -> Dictionary:
-	return source_building_lifecycle_state.generated_check_suppression_bridge_state(block_suppressable, source_time, heal_suppression_time, source_delta, source_x, source_y, block_size_value, source_tilesize, suppress_color)
-
-func generated_building_comp_player_placed_bridge_state(config_state: Variant) -> Dictionary:
-	return source_building_lifecycle_state.generated_player_placed_bridge_state(config_state)
-
-func generated_building_comp_placed_bridge_state(net_client: bool, consumes_power: bool, outputs_power: bool, has_power: bool, connected_power: bool, linked_to_self: bool, source_pos: int) -> Dictionary:
-	return source_building_lifecycle_state.generated_placed_bridge_state(net_client, consumes_power, outputs_power, has_power, connected_power, linked_to_self, source_pos)
-
-func generated_building_comp_on_repaired_bridge_state(has_fog_radius: bool) -> Dictionary:
-	return source_building_lifecycle_state.generated_on_repaired_bridge_state(has_fog_radius)
-
 func generated_building_comp_is_commandable_bridge_state(block_commandable: bool) -> Dictionary:
 	return source_building_interaction_state.generated_is_commandable_bridge_state(block_commandable)
 
@@ -1928,63 +1623,6 @@ func generated_building_comp_update_last_access_bridge_state(builder_state: Dict
 func generated_building_comp_tapped_bridge_state(current_state: Variant) -> Dictionary:
 	return source_building_interaction_state.generated_tapped_bridge_state(current_state)
 
-func generated_building_comp_after_destroyed_bridge_state(has_destroy_bullet: bool, destroy_bullet_same_team: bool, team_id: String, source_x: float, source_y: float, building_id: int) -> Dictionary:
-	return source_building_destruction_state.generated_after_destroyed_bridge_state(has_destroy_bullet, destroy_bullet_same_team, team_id, source_x, source_y, building_id)
-
-func generated_building_comp_explosion_item_cap_bridge_state(item_capacity: int) -> Dictionary:
-	return source_building_destruction_state.generated_explosion_item_cap_bridge_state(item_capacity)
-
-func generated_building_comp_splash_liquid_bridge_state(liquid: Variant, amount: float, source_block_size: int, source_tilesize: float) -> Dictionary:
-	return source_building_destruction_state.generated_splash_liquid_bridge_state(liquid, amount, source_block_size, source_tilesize)
-
-func generated_building_comp_splash_liquid_source_tilesize_default_bridge_state(liquid: Variant, amount: float, source_block_size: int) -> Dictionary:
-	return source_building_destruction_state.generated_splash_liquid_source_tilesize_default_bridge_state(liquid, amount, source_block_size)
-
-func generated_building_comp_splash_liquid_source_block_size_default_bridge_state(liquid: Variant, amount: float) -> Dictionary:
-	return source_building_destruction_state.generated_splash_liquid_source_block_size_default_bridge_state(liquid, amount)
-
-func generated_building_comp_on_deconstructed_bridge_state(has_liquids_module: bool, current_amount: float, current_incinerable: bool, deconstruct_drop_all_liquid: bool, source_block_size: int) -> Dictionary:
-	return source_building_destruction_state.generated_on_deconstructed_bridge_state(has_liquids_module, current_amount, current_incinerable, deconstruct_drop_all_liquid, source_block_size)
-
-func generated_building_comp_on_deconstructed_source_block_size_default_bridge_state(has_liquids_module: bool, current_amount: float, current_incinerable: bool, deconstruct_drop_all_liquid: bool) -> Dictionary:
-	return source_building_destruction_state.generated_on_deconstructed_source_block_size_default_bridge_state(has_liquids_module, current_amount, current_incinerable, deconstruct_drop_all_liquid)
-
-func generated_building_comp_on_destroyed_item_explosion_bridge_state(base_explosiveness: float, has_items: bool, item_states: Array, item_cap: int) -> Dictionary:
-	return source_building_destruction_state.generated_on_destroyed_item_explosion_bridge_state(base_explosiveness, has_items, item_states, item_cap)
-
-func generated_building_comp_on_destroyed_liquid_explosion_bridge_state(base_explosiveness: float, has_items: bool, item_states: Array, item_cap: int, has_liquids: bool, liquid_states: Array) -> Dictionary:
-	return source_building_destruction_state.generated_on_destroyed_liquid_explosion_bridge_state(base_explosiveness, has_items, item_states, item_cap, has_liquids, liquid_states)
-
-func generated_building_comp_on_destroyed_buffered_power_bridge_state(base_explosiveness: float, has_items: bool, item_states: Array, item_cap: int, has_liquids: bool, liquid_states: Array, has_cons_power: bool, cons_power_buffered: bool, power_status: float, cons_power_capacity: float) -> Dictionary:
-	return source_building_destruction_state.generated_on_destroyed_buffered_power_bridge_state(base_explosiveness, has_items, item_states, item_cap, has_liquids, liquid_states, has_cons_power, cons_power_buffered, power_status, cons_power_capacity)
-
-func generated_building_comp_on_destroyed_splash_liquid_bridge_state(base_explosiveness: float, has_items: bool, item_states: Array, item_cap: int, has_liquids: bool, liquid_states: Array, has_cons_power: bool, cons_power_buffered: bool, power_status: float, cons_power_capacity: float, damage_explosions: bool) -> Dictionary:
-	return source_building_destruction_state.generated_on_destroyed_splash_liquid_bridge_state(base_explosiveness, has_items, item_states, item_cap, has_liquids, liquid_states, has_cons_power, cons_power_buffered, power_status, cons_power_capacity, damage_explosions)
-
-func generated_building_comp_on_destroyed_dynamic_explosion_bridge_state(base_explosiveness: float, has_items: bool, item_states: Array, item_cap: int, has_liquids: bool, liquid_states: Array, has_cons_power: bool, cons_power_buffered: bool, power_status: float, cons_power_capacity: float, damage_explosions: bool, source_x: float, source_y: float, flammability_scale: float, explosiveness_scale: float, source_tilesize: float, source_block_size: int, destroy_effect: String, base_shake: float) -> Dictionary:
-	return source_building_destruction_state.generated_on_destroyed_dynamic_explosion_bridge_state(base_explosiveness, has_items, item_states, item_cap, has_liquids, liquid_states, has_cons_power, cons_power_buffered, power_status, cons_power_capacity, damage_explosions, source_x, source_y, flammability_scale, explosiveness_scale, source_tilesize, source_block_size, destroy_effect, base_shake)
-
-func generated_building_comp_on_destroyed_dynamic_explosion_source_tilesize_default_bridge_state(base_explosiveness: float, has_items: bool, item_states: Array, item_cap: int, has_liquids: bool, liquid_states: Array, has_cons_power: bool, cons_power_buffered: bool, power_status: float, cons_power_capacity: float, damage_explosions: bool, source_x: float, source_y: float, flammability_scale: float, explosiveness_scale: float) -> Dictionary:
-	return source_building_destruction_state.generated_on_destroyed_dynamic_explosion_source_tilesize_default_bridge_state(base_explosiveness, has_items, item_states, item_cap, has_liquids, liquid_states, has_cons_power, cons_power_buffered, power_status, cons_power_capacity, damage_explosions, source_x, source_y, flammability_scale, explosiveness_scale)
-
-func generated_building_comp_on_destroyed_source_block_size_default_bridge_state(base_explosiveness: float, has_items: bool, item_states: Array, item_cap: int, has_liquids: bool, liquid_states: Array, has_cons_power: bool, cons_power_buffered: bool, power_status: float, cons_power_capacity: float, damage_explosions: bool, source_x: float, source_y: float, flammability_scale: float, explosiveness_scale: float, source_tilesize: float) -> Dictionary:
-	return source_building_destruction_state.generated_on_destroyed_source_block_size_default_bridge_state(base_explosiveness, has_items, item_states, item_cap, has_liquids, liquid_states, has_cons_power, cons_power_buffered, power_status, cons_power_capacity, damage_explosions, source_x, source_y, flammability_scale, explosiveness_scale, source_tilesize)
-
-func generated_building_comp_on_destroyed_rubble_bridge_state(base_explosiveness: float, has_items: bool, item_states: Array, item_cap: int, has_liquids: bool, liquid_states: Array, has_cons_power: bool, cons_power_buffered: bool, power_status: float, cons_power_capacity: float, damage_explosions: bool, source_x: float, source_y: float, flammability_scale: float, explosiveness_scale: float, source_tilesize: float, source_block_size: int, destroy_effect: String, base_shake: float, create_rubble: bool, floor_solid: bool, floor_is_liquid: bool) -> Dictionary:
-	return source_building_destruction_state.generated_on_destroyed_rubble_bridge_state(base_explosiveness, has_items, item_states, item_cap, has_liquids, liquid_states, has_cons_power, cons_power_buffered, power_status, cons_power_capacity, damage_explosions, source_x, source_y, flammability_scale, explosiveness_scale, source_tilesize, source_block_size, destroy_effect, base_shake, create_rubble, floor_solid, floor_is_liquid)
-
-func generated_building_comp_on_destroyed_base_sound_bridge_state(base_explosiveness: float, has_items: bool, item_states: Array, item_cap: int, has_liquids: bool, liquid_states: Array, has_cons_power: bool, cons_power_buffered: bool, power_status: float, cons_power_capacity: float, damage_explosions: bool, source_x: float, source_y: float, flammability_scale: float, explosiveness_scale: float, source_tilesize: float, source_block_size: int, destroy_effect: String, base_shake: float, create_rubble: bool, floor_solid: bool, floor_is_liquid: bool, headless: bool, destroy_sound: String, destroy_pitch_min: float, destroy_pitch_max: float, destroy_sound_volume: float) -> Dictionary:
-	return source_building_destruction_state.generated_on_destroyed_base_sound_bridge_state(base_explosiveness, has_items, item_states, item_cap, has_liquids, liquid_states, has_cons_power, cons_power_buffered, power_status, cons_power_capacity, damage_explosions, source_x, source_y, flammability_scale, explosiveness_scale, source_tilesize, source_block_size, destroy_effect, base_shake, create_rubble, floor_solid, floor_is_liquid, headless, destroy_sound, destroy_pitch_min, destroy_pitch_max, destroy_sound_volume)
-
-func generated_building_comp_on_destroyed_reactive_sound_bridge_state(base_explosiveness: float, has_items: bool, item_states: Array, item_cap: int, has_liquids: bool, liquid_states: Array, has_cons_power: bool, cons_power_buffered: bool, power_status: float, cons_power_capacity: float, damage_explosions: bool, source_x: float, source_y: float, flammability_scale: float, explosiveness_scale: float, source_tilesize: float, source_block_size: int, destroy_effect: String, base_shake: float, create_rubble: bool, floor_solid: bool, floor_is_liquid: bool, headless: bool, destroy_sound: String, destroy_pitch_min: float, destroy_pitch_max: float, destroy_sound_volume: float) -> Dictionary:
-	return source_building_destruction_state.generated_on_destroyed_reactive_sound_bridge_state(base_explosiveness, has_items, item_states, item_cap, has_liquids, liquid_states, has_cons_power, cons_power_buffered, power_status, cons_power_capacity, damage_explosions, source_x, source_y, flammability_scale, explosiveness_scale, source_tilesize, source_block_size, destroy_effect, base_shake, create_rubble, floor_solid, floor_is_liquid, headless, destroy_sound, destroy_pitch_min, destroy_pitch_max, destroy_sound_volume)
-
-func generated_building_comp_on_destroyed_power_sound_bridge_state(base_explosiveness: float, has_items: bool, item_states: Array, item_cap: int, has_liquids: bool, liquid_states: Array, has_cons_power: bool, cons_power_buffered: bool, power_status: float, cons_power_capacity: float, damage_explosions: bool, source_x: float, source_y: float, flammability_scale: float, explosiveness_scale: float, source_tilesize: float, source_block_size: int, destroy_effect: String, base_shake: float, create_rubble: bool, floor_solid: bool, floor_is_liquid: bool, headless: bool, destroy_sound: String, destroy_pitch_min: float, destroy_pitch_max: float, destroy_sound_volume: float) -> Dictionary:
-	return source_building_destruction_state.generated_on_destroyed_power_sound_bridge_state(base_explosiveness, has_items, item_states, item_cap, has_liquids, liquid_states, has_cons_power, cons_power_buffered, power_status, cons_power_capacity, damage_explosions, source_x, source_y, flammability_scale, explosiveness_scale, source_tilesize, source_block_size, destroy_effect, base_shake, create_rubble, floor_solid, floor_is_liquid, headless, destroy_sound, destroy_pitch_min, destroy_pitch_max, destroy_sound_volume)
-
-func generated_building_comp_play_destroy_sound_bridge_state(destroy_sound: String, destroy_pitch_min: float, destroy_pitch_max: float, destroy_sound_volume: float) -> Dictionary:
-	return source_building_destruction_state.generated_play_destroy_sound_bridge_state(destroy_sound, destroy_pitch_min, destroy_pitch_max, destroy_sound_volume)
-
 func generated_building_comp_get_display_name_bridge_state(localized_name: String, team_is_derelict: bool, team_is_player: bool, team_emoji: String, derelict_label: String) -> Dictionary:
 	return source_building_display_state.generated_building_comp_get_display_name_bridge_state(localized_name, team_is_derelict, team_is_player, team_emoji, derelict_label)
 
@@ -2012,12 +1650,6 @@ func generated_building_comp_should_show_configure_bridge_state(player: Variant)
 func generated_building_comp_should_hide_configure_bridge_state(player: Variant) -> Dictionary:
 	return source_building_configure_state.generated_should_hide_configure_bridge_state(player)
 
-func generated_building_comp_draw_configure_bridge_state(source_x: float, source_y: float, block_size_value: int, source_tilesize: float) -> Dictionary:
-	return source_building_draw_state_script.generated_draw_configure_bridge_state(source_x, source_y, block_size_value, source_tilesize)
-
-func generated_building_comp_draw_configure_source_tilesize_default_bridge_state(source_x: float, source_y: float, block_size_value: int) -> Dictionary:
-	return source_building_draw_state_script.generated_draw_configure_source_tilesize_default_bridge_state(source_x, source_y, block_size_value)
-
 func generated_building_comp_check_solid_bridge_state() -> Dictionary:
 	return source_building_core_state.generated_check_solid_bridge_state()
 
@@ -2042,95 +1674,14 @@ func generated_building_comp_damage_delegate_bridge_state(source_team: Variant, 
 func generated_building_comp_bullet_damage_bridge_state(bullet: Variant, source_team: Variant, damage_amount: float) -> Dictionary:
 	return source_building_damage_state.generated_bullet_damage_bridge_state(bullet, source_team, damage_amount)
 
-func generated_building_comp_change_team_delegate_bridge_state(next_team: Variant) -> Dictionary:
-	return source_building_lifecycle_state.generated_change_team_delegate_bridge_state(next_team)
-
-func generated_building_comp_change_team_initial_bridge_state(current_team: Variant, next_team: Variant, force_team: Variant, was_valid: bool) -> Dictionary:
-	return source_building_lifecycle_state.generated_change_team_initial_bridge_state(current_team, next_team, force_team, was_valid)
-
-func generated_building_comp_change_team_power_proximity_bridge_state(current_team: Variant, next_team: Variant, force_team: Variant, was_valid: bool, power_present: bool, update_power: bool, old_graph: Variant) -> Dictionary:
-	return source_building_lifecycle_state.generated_change_team_power_proximity_bridge_state(current_team, next_team, force_team, was_valid, power_present, update_power, old_graph)
-
-func generated_building_comp_change_team_power_links_bridge_state(current_team: Variant, next_team: Variant, force_team: Variant, was_valid: bool, power_present: bool, update_power: bool, old_graph: Variant, link_count: int) -> Dictionary:
-	return source_building_lifecycle_state.generated_change_team_power_links_bridge_state(current_team, next_team, force_team, was_valid, power_present, update_power, old_graph, link_count)
-
-func generated_building_comp_change_team_final_bridge_state(current_team: Variant, next_team: Variant, force_team: Variant, was_valid: bool, power_present: bool, update_power: bool, old_graph: Variant, link_count: int) -> Dictionary:
-	return source_building_lifecycle_state.generated_change_team_final_bridge_state(current_team, next_team, force_team, was_valid, power_present, update_power, old_graph, link_count)
-
-func generated_building_comp_can_pickup_bridge_state(block_can_pickup: bool) -> Dictionary:
-	return source_building_lifecycle_state.generated_can_pickup_bridge_state(block_can_pickup)
-
-func generated_building_comp_picked_up_bridge_state(previous_state: Variant) -> Dictionary:
-	return source_building_lifecycle_state.generated_picked_up_bridge_state(previous_state)
-
-func generated_building_comp_after_picked_up_bridge_state(power_present: bool, has_cons_power: bool, cons_power_buffered: bool, current_status: float) -> Dictionary:
-	return source_building_lifecycle_state.generated_after_picked_up_bridge_state(power_present, has_cons_power, cons_power_buffered, current_status)
-
-func generated_building_comp_remove_from_proximity_bridge_state(nearby_count: int, removable_count: int) -> Dictionary:
-	return source_building_lifecycle_state.generated_remove_from_proximity_bridge_state(nearby_count, removable_count)
-
-func generated_building_comp_update_proximity_bridge_state(nearby_count: int, same_team_count: int, headless: bool, draw_cached: bool) -> Dictionary:
-	return source_building_lifecycle_state.generated_update_proximity_bridge_state(nearby_count, same_team_count, headless, draw_cached)
-
-func generated_building_comp_on_nearby_build_added_bridge_state(other_state: Variant) -> Dictionary:
-	return source_building_lifecycle_state.generated_on_nearby_build_added_bridge_state(other_state)
-
-func generated_building_comp_consume_bridge_state(consumers: Array, self_state: Variant) -> Dictionary:
-	return source_building_efficiency_state.generated_consume_bridge_state(consumers, self_state)
-
-func generated_building_comp_can_consume_bridge_state(potential_efficiency: float) -> Dictionary:
-	return source_building_efficiency_state.generated_can_consume_bridge_state(potential_efficiency)
-
 func generated_building_comp_delta_bridge_state(source_delta: float, time_scale: float) -> Dictionary:
 	return source_building_time_state.generated_delta_bridge_state(source_delta, time_scale)
 
 func generated_building_comp_edelta_bridge_state(source_delta: float, time_scale: float, efficiency: float) -> Dictionary:
 	return source_building_time_state.generated_edelta_bridge_state(source_delta, time_scale, efficiency)
 
-func generated_building_comp_update_efficiency_multiplier_bridge_state(efficiency: float, optional_efficiency: float, efficiency_scale := 1.0) -> Dictionary:
-	return source_building_efficiency_state.generated_update_efficiency_multiplier_bridge_state(efficiency, optional_efficiency, efficiency_scale)
-
-func generated_building_comp_efficiency_scale_bridge_state() -> Dictionary:
-	return source_building_efficiency_state.generated_efficiency_scale_bridge_state()
-
-func generated_building_comp_update_consumption_initial_bridge_state(has_consumers: bool, cheating: bool, enabled_state: bool, production_valid: bool, should_consume_state: bool, efficiency_scale := 1.0) -> Dictionary:
-	return source_building_efficiency_state.generated_update_consumption_initial_bridge_state(has_consumers, cheating, enabled_state, production_valid, should_consume_state, efficiency_scale)
-
-func generated_building_comp_update_consumption_disabled_bridge_state(enabled_state: bool) -> Dictionary:
-	return source_building_efficiency_state.generated_update_consumption_disabled_bridge_state(enabled_state)
-
-func generated_building_comp_update_consumption_setup_bridge_state(should_consume_state: bool, production_valid: bool) -> Dictionary:
-	return source_building_efficiency_state.generated_update_consumption_setup_bridge_state(should_consume_state, production_valid)
-
-func generated_building_comp_update_consumption_non_optional_bridge_state(non_optional_consumer_results: Array) -> Dictionary:
-	return source_building_efficiency_state.generated_update_consumption_non_optional_bridge_state(non_optional_consumer_results)
-
-func generated_building_comp_update_consumption_optional_bridge_state(optional_consumer_results: Array) -> Dictionary:
-	return source_building_efficiency_state.generated_update_consumption_optional_bridge_state(optional_consumer_results)
-
-func generated_building_comp_update_consumption_efficiency_bridge_state(min_efficiency: float, optional_efficiency: float, update: bool) -> Dictionary:
-	return source_building_efficiency_state.generated_update_consumption_efficiency_bridge_state(min_efficiency, optional_efficiency, update)
-
-func generated_building_comp_update_consumption_second_pass_bridge_state(update: bool, efficiency: float, update_consumers: Array, self_state := {}) -> Dictionary:
-	return source_building_efficiency_state.generated_update_consumption_second_pass_bridge_state(update, efficiency, update_consumers, self_state)
-
-func generated_building_comp_ambient_volume_bridge_state(efficiency: float) -> Dictionary:
-	return source_building_efficiency_state.generated_ambient_volume_bridge_state(efficiency)
-
-func generated_building_comp_config_default_bridge_state() -> Dictionary:
-	return source_building_lifecycle_state.generated_config_default_bridge_state()
-
-func generated_building_comp_is_valid_bridge_state(tile_build_matches_self: bool, dead_state: bool) -> Dictionary:
-	return source_building_lifecycle_state.generated_is_valid_bridge_state(tile_build_matches_self, dead_state)
-
-func generated_building_comp_heal_bridge_state(amount: Variant = null) -> Dictionary:
-	return source_building_lifecycle_state.generated_heal_bridge_state(amount)
-
 func generated_building_comp_hit_size_bridge_state(block_size_value: int, source_tilesize: float) -> Dictionary:
 	return source_block_geometry.generated_building_hit_size_bridge_state(block_size_value, source_tilesize)
-
-func generated_building_comp_kill_bridge_state(self_state := {}) -> Dictionary:
-	return source_building_lifecycle_state.generated_kill_bridge_state(self_state)
 
 func generated_building_comp_damage_dead_guard_bridge_state(damage_amount: float, dead_state: bool) -> Dictionary:
 	return source_building_damage_state.generated_damage_dead_guard_bridge_state(damage_amount, dead_state)
@@ -2180,96 +1731,6 @@ func generated_building_comp_display_bridge_state(block_ui_icon: Variant, locali
 func source_building_should_ambient_sound(should_consume_state: bool) -> Dictionary:
 	return source_building_time_state.should_ambient_sound(should_consume_state)
 
-func source_building_draw_status_state(enable_draw_status: bool, consumers_length: int, block_size_value: int, source_x: float, source_y: float, source_tilesize: float) -> Dictionary:
-	return source_building_draw_state_script.draw_status_state(enable_draw_status, consumers_length, block_size_value, source_x, source_y, source_tilesize)
-
-func source_building_draw_cracks_state(draw_cracks: bool, damaged_state: bool, block_size_value: int, max_crack_size: int, health_fraction: float, crack_regions: int, position_id: int) -> Dictionary:
-	return source_building_draw_state_script.draw_cracks_state(draw_cracks, damaged_state, block_size_value, max_crack_size, health_fraction, crack_regions, position_id)
-
-func source_building_draw_select_state(block_status: String, source_x: float, source_y: float, source_rotation: float, tile_x: int, tile_y: int, unit_activation_delay: float, state_tick: float) -> Dictionary:
-	return source_building_draw_state_script.draw_select_state(block_status, source_x, source_y, source_rotation, tile_x, tile_y, unit_activation_delay, state_tick)
-
-func source_building_draw_item_selection_state(has_selection: bool, source_x: float, source_y: float, block_size_value: int, source_tilesize: float, icon_small: float, selection_icon_ratio: float) -> Dictionary:
-	return source_building_draw_state_script.draw_item_selection_state(has_selection, source_x, source_y, block_size_value, source_tilesize, icon_small, selection_icon_ratio)
-
-func source_building_draw_disabled_state(source_x: float, source_y: float) -> Dictionary:
-	return source_building_draw_state_script.draw_disabled_state(source_x, source_y)
-
-func source_building_drawrot_state(block_rotate: bool, block_rotate_draw: bool, rotation_quadrants: int) -> float:
-	return source_building_draw_state_script.drawrot_state(block_rotate, block_rotate_draw, rotation_quadrants)
-
-func source_arc_is_power_of_two(value: int) -> bool:
-	return source_math_state.is_power_of_two(value)
-
-func source_arc_random_seed_int(source_seed: int, min_value: int, max_value: int) -> int:
-	return source_math_state.random_seed_int(source_seed, min_value, max_value)
-
-func source_arc_random_seed_float_max(source_seed: int, max_value: float) -> float:
-	return source_math_state.random_seed_float_max(source_seed, max_value)
-
-func source_arc_lerp_delta(from_value: float, to_value: float, progress: float, source_delta: float) -> float:
-	return source_math_state.source_arc_lerp_delta(from_value, to_value, progress, source_delta)
-
-func source_arc_chance_delta_threshold(chance: float, source_delta: float) -> float:
-	return source_math_state.source_arc_chance_delta_threshold(chance, source_delta)
-
-func source_arc_mathf_sin_table_value(index: int) -> float:
-	return source_math_state.source_arc_mathf_sin_table_value(index)
-
-func source_arc_mathf_sin_lookup(radians: float) -> float:
-	return source_math_state.source_arc_mathf_sin_lookup(radians)
-
-func source_arc_mathf_cos_lookup(radians: float) -> float:
-	return source_math_state.source_arc_mathf_cos_lookup(radians)
-
-func source_arc_mathf_sin_scaled(radians: float, scl: float, mag: float) -> float:
-	return source_math_state.source_arc_mathf_sin_scaled(radians, scl, mag)
-
-func source_arc_mathf_cos_scaled(radians: float, scl: float, mag: float) -> float:
-	return source_math_state.source_arc_mathf_cos_scaled(radians, scl, mag)
-
-func source_arc_vec2_limit(vec: Vector2, limit: float) -> Vector2:
-	return source_math_state.source_arc_vec2_limit(vec, limit)
-
-func source_building_draw_state(variants: int, has_variant_regions: bool, variant_region_count: int, tile_pos: int, source_x: float, source_y: float, block_rotate: bool, block_rotate_draw: bool, rotation_quadrants: int) -> Dictionary:
-	return source_building_draw_state_script.game_draw_state(self, variants, has_variant_regions, variant_region_count, tile_pos, source_x, source_y, block_rotate, block_rotate_draw, rotation_quadrants)
-
-func source_building_draw_cached_state(variants: int, has_variant_regions: bool, variant_region_count: int, tile_pos: int, source_x: float, source_y: float, block_rotate: bool, block_rotate_draw: bool, rotation_quadrants: int) -> Dictionary:
-	return source_building_draw_state_script.game_draw_cached_state(self, variants, has_variant_regions, variant_region_count, tile_pos, source_x, source_y, block_rotate, block_rotate_draw, rotation_quadrants)
-
-func source_building_recache_state(headless: bool, building_cache_layer: Variant, tile_state: Variant) -> Dictionary:
-	return source_building_draw_state_script.recache_state(headless, building_cache_layer, tile_state)
-
-func source_building_payload_draw_state(draw_cached: bool, draw_dynamic: bool, current_z: float, building_cache_layer_z: float, variants: int, has_variant_regions: bool, variant_region_count: int, tile_pos: int, source_x: float, source_y: float, block_rotate: bool, block_rotate_draw: bool, rotation_quadrants: int) -> Dictionary:
-	return source_building_draw_state_script.game_payload_draw_state(self, draw_cached, draw_dynamic, current_z, building_cache_layer_z, variants, has_variant_regions, variant_region_count, tile_pos, source_x, source_y, block_rotate, block_rotate_draw, rotation_quadrants)
-
-func source_building_draw_team_top_state(team_region_found: bool, team_region_matches_team: bool, team_color: String, source_x: float, source_y: float) -> Dictionary:
-	return source_building_draw_state_script.draw_team_top_state(team_region_found, team_region_matches_team, team_color, source_x, source_y)
-
-func source_building_draw_liquid_light_state(source_x: float, source_y: float, block_size_value: int, light_color: String, light_alpha: float, amount: float) -> Dictionary:
-	return source_building_draw_state_script.draw_liquid_light_state(source_x, source_y, block_size_value, light_color, light_alpha, amount)
-
-func source_building_draw_light_state(has_liquids: bool, draw_liquid_light: bool, light_liquid_is_null: bool, current_liquid_color: String, current_liquid_alpha: float, light_liquid_color: String, light_liquid_alpha: float, selected_liquid_amount: float, visual_liquid: float, source_delta: float, source_x: float, source_y: float, block_size_value: int) -> Dictionary:
-	return source_building_draw_state_script.game_draw_light_state(self, has_liquids, draw_liquid_light, light_liquid_is_null, current_liquid_color, current_liquid_alpha, light_liquid_color, light_liquid_alpha, selected_liquid_amount, visual_liquid, source_delta, source_x, source_y, block_size_value)
-
-func source_building_draw_team_state(team_color: String, source_x: float, source_y: float, block_size_value: int, source_tilesize: float) -> Dictionary:
-	return source_building_draw_state_script.draw_team_state(team_color, source_x, source_y, block_size_value, source_tilesize)
-
-func source_building_is_heal_suppressed_state(block_suppressable: bool, source_time: float, heal_suppression_time: float) -> bool:
-	return source_building_lifecycle_state.is_heal_suppressed_state(block_suppressable, source_time, heal_suppression_time)
-
-func source_building_check_suppression_state(block_suppressable: bool, source_time: float, heal_suppression_time: float, source_delta: float, source_x: float, source_y: float, block_size_value: int, source_tilesize: float, suppress_color: String) -> Dictionary:
-	return source_building_lifecycle_state.game_check_suppression_state(self, block_suppressable, source_time, heal_suppression_time, source_delta, source_x, source_y, block_size_value, source_tilesize, suppress_color)
-
-func source_building_player_placed_state(config_state: Variant) -> Dictionary:
-	return source_building_lifecycle_state.player_placed_state(config_state)
-
-func source_building_placed_state(net_client: bool, consumes_power: bool, outputs_power: bool, has_power: bool, connected_power: bool, linked_to_self: bool, source_pos: int) -> Dictionary:
-	return source_building_lifecycle_state.placed_state(net_client, consumes_power, outputs_power, has_power, connected_power, linked_to_self, source_pos)
-
-func source_building_on_repaired_state(has_fog_radius: bool) -> Dictionary:
-	return source_building_lifecycle_state.on_repaired_state(has_fog_radius)
-
 func source_building_is_commandable_state(block_commandable: bool) -> bool:
 	return source_building_interaction_state.is_commandable_state(block_commandable)
 
@@ -2309,39 +1770,6 @@ func source_building_configured_copy_config_state(value_is_building: bool, copie
 func source_building_tapped_state(current_state: Variant) -> Dictionary:
 	return source_building_interaction_state.tapped_state(current_state)
 
-func source_building_after_destroyed_state(has_destroy_bullet: bool, destroy_bullet_same_team: bool, team_id: String, source_x: float, source_y: float, building_id: int) -> Dictionary:
-	return source_building_destruction_state.game_after_destroyed_state(self, has_destroy_bullet, destroy_bullet_same_team, team_id, source_x, source_y, building_id)
-
-func source_building_explosion_item_cap_state(item_capacity: int) -> int:
-	return source_building_destruction_state.explosion_item_cap_state(item_capacity)
-
-func source_building_splash_liquid_state(liquid: Variant, amount: float, source_block_size: int, source_tilesize: float) -> Dictionary:
-	return source_building_destruction_state.splash_liquid_state(liquid, amount, source_block_size, source_tilesize)
-
-func build_begin_break_state(valid_break: bool, tile_has_building: bool, prev_healthf: float, previous_rotation: int, previous_instant_deconstruct: bool, previous_size: int, unit_has_controller_name: bool, controller_name: String) -> Dictionary:
-	return source_building_destruction_state.begin_break_state(valid_break, tile_has_building, prev_healthf, previous_rotation, previous_instant_deconstruct, previous_size, unit_has_controller_name, controller_name)
-
-func generated_build_begin_break_bridge_state(valid_break: bool, tile_has_building: bool, prev_healthf: float, previous_rotation: int, previous_instant_deconstruct: bool, previous_size: int, unit_has_controller_name: bool, controller_name: String) -> Dictionary:
-	return source_building_destruction_state.generated_build_begin_break_bridge_state(valid_break, tile_has_building, prev_healthf, previous_rotation, previous_instant_deconstruct, previous_size, unit_has_controller_name, controller_name)
-
-func construct_block_deconstruct_finish_state(tile_present: bool, headless: bool, visible_tile: bool, should_play: bool, break_pitch_change: bool, calc_pitch_down: float, construct_block_size: int, block_map_color: Variant) -> Dictionary:
-	return source_building_destruction_state.construct_block_deconstruct_finish_state(tile_present, headless, visible_tile, should_play, break_pitch_change, calc_pitch_down, construct_block_size, block_map_color)
-
-func generated_construct_block_deconstruct_finish_bridge_state(tile_present: bool, headless: bool, visible_tile: bool, should_play: bool, break_pitch_change: bool, calc_pitch_down: float, construct_block_size: int, block_map_color: Variant) -> Dictionary:
-	return source_building_destruction_state.generated_construct_block_deconstruct_finish_bridge_state(tile_present, headless, visible_tile, should_play, break_pitch_change, calc_pitch_down, construct_block_size, block_map_color)
-
-func construct_block_construct_finish_state(tile_present: bool, block_kind: String, tile_has_building: bool, tile_build_matches_block: bool, healthf: float, prev_build_count: int, floor_supports_overlay: bool, current_overlay_is_overlay_floor: bool, config_present: bool, builder_has_controller_name: bool, controller_name: String, headless: bool, builder_is_player_unit: bool, visible_tile: bool, should_play: bool, place_pitch_change: bool, calc_pitch_up: float, construct_block_size: int, block_health: float, rotation_value: int, config_state: Variant) -> Dictionary:
-	return source_building_destruction_state.construct_block_construct_finish_state(tile_present, block_kind, tile_has_building, tile_build_matches_block, healthf, prev_build_count, floor_supports_overlay, current_overlay_is_overlay_floor, config_present, builder_has_controller_name, controller_name, headless, builder_is_player_unit, visible_tile, should_play, place_pitch_change, calc_pitch_up, construct_block_size, block_health, rotation_value, config_state)
-
-func generated_construct_block_construct_finish_bridge_state(tile_present: bool, block_kind: String, tile_has_building: bool, tile_build_matches_block: bool, healthf: float, prev_build_count: int, floor_supports_overlay: bool, current_overlay_is_overlay_floor: bool, config_present: bool, builder_has_controller_name: bool, controller_name: String, headless: bool, builder_is_player_unit: bool, visible_tile: bool, should_play: bool, place_pitch_change: bool, calc_pitch_up: float, construct_block_size: int, block_health: float, rotation_value: int, config_state: Variant) -> Dictionary:
-	return source_building_destruction_state.generated_construct_block_construct_finish_bridge_state(tile_present, block_kind, tile_has_building, tile_build_matches_block, healthf, prev_build_count, floor_supports_overlay, current_overlay_is_overlay_floor, config_present, builder_has_controller_name, controller_name, headless, builder_is_player_unit, visible_tile, should_play, place_pitch_change, calc_pitch_up, construct_block_size, block_health, rotation_value, config_state)
-
-func construct_block_constructed_state(tile_present: bool, block_kind: String, tile_has_building: bool, tile_build_matches_block: bool, healthf: float, prev_build_count: int, floor_supports_overlay: bool, current_overlay_is_overlay_floor: bool, config_present: bool, builder_has_controller_name: bool, controller_name: String, headless: bool, builder_is_player_unit: bool, visible_tile: bool, should_play: bool, place_pitch_change: bool, calc_pitch_up: float, construct_block_size: int, block_health: float, rotation_value: int, config_state: Variant, tile_has_building_after_construct_finish: bool) -> Dictionary:
-	return source_building_destruction_state.construct_block_constructed_state(tile_present, block_kind, tile_has_building, tile_build_matches_block, healthf, prev_build_count, floor_supports_overlay, current_overlay_is_overlay_floor, config_present, builder_has_controller_name, controller_name, headless, builder_is_player_unit, visible_tile, should_play, place_pitch_change, calc_pitch_up, construct_block_size, block_health, rotation_value, config_state, tile_has_building_after_construct_finish)
-
-func generated_construct_block_constructed_bridge_state(tile_present: bool, block_kind: String, tile_has_building: bool, tile_build_matches_block: bool, healthf: float, prev_build_count: int, floor_supports_overlay: bool, current_overlay_is_overlay_floor: bool, config_present: bool, builder_has_controller_name: bool, controller_name: String, headless: bool, builder_is_player_unit: bool, visible_tile: bool, should_play: bool, place_pitch_change: bool, calc_pitch_up: float, construct_block_size: int, block_health: float, rotation_value: int, config_state: Variant, tile_has_building_after_construct_finish: bool) -> Dictionary:
-	return source_building_destruction_state.generated_construct_block_constructed_bridge_state(tile_present, block_kind, tile_has_building, tile_build_matches_block, healthf, prev_build_count, floor_supports_overlay, current_overlay_is_overlay_floor, config_present, builder_has_controller_name, controller_name, headless, builder_is_player_unit, visible_tile, should_play, place_pitch_change, calc_pitch_up, construct_block_size, block_health, rotation_value, config_state, tile_has_building_after_construct_finish)
-
 func generated_construct_block_static_helpers_bridge_state(size: int, max_block_size: int, time_since_last_played_ms: int, current_millis: int, up: bool, time_since_last_time_ms: int, pitch_seq_before: int, random_pitch: float, headless: bool, visible_tile: bool) -> Dictionary:
 	return source_construct_block_state.generated_construct_block_static_helpers_bridge_state(size, max_block_size, time_since_last_played_ms, current_millis, up, time_since_last_time_ms, pitch_seq_before, random_pitch, headless, visible_tile)
 
@@ -2377,36 +1805,6 @@ func construct_build_read_state(read_progress_value: float, read_previous_block_
 
 func construct_build_draw_state(current_block: Variant, previous_block: Variant, draw_air_block: Variant, source_x: float, source_y: float, draw_rotation_degrees: float, draw_progress_value: float, draw_construct_color: float, source_time: float) -> Dictionary:
 	return source_construct_build_state.draw_state(current_block, previous_block, draw_air_block, source_x, source_y, draw_rotation_degrees, draw_progress_value, draw_construct_color, source_time)
-
-func source_building_on_deconstructed_liquid_state(has_liquids_module: bool, current_amount: float, current_incinerable: bool, deconstruct_drop_all_liquid: bool, source_block_size: int) -> Dictionary:
-	return source_building_destruction_state.on_deconstructed_liquid_state(has_liquids_module, current_amount, current_incinerable, deconstruct_drop_all_liquid, source_block_size)
-
-func source_building_on_destroyed_item_explosion_state(base_explosiveness: float, has_items: bool, item_states: Array, item_cap: int) -> Dictionary:
-	return source_building_destruction_state.on_destroyed_item_explosion_state(base_explosiveness, has_items, item_states, item_cap)
-
-func source_building_on_destroyed_liquid_explosion_state(current_explosiveness: float, current_flammability: float, has_liquids: bool, liquid_states: Array) -> Dictionary:
-	return source_building_destruction_state.on_destroyed_liquid_explosion_state(current_explosiveness, current_flammability, has_liquids, liquid_states)
-
-func source_building_on_destroyed_buffered_power_state(current_power: float, has_cons_power: bool, cons_power_buffered: bool, power_status: float, cons_power_capacity: float) -> Dictionary:
-	return source_building_destruction_state.on_destroyed_buffered_power_state(current_power, has_cons_power, cons_power_buffered, power_status, cons_power_capacity)
-
-func source_building_on_destroyed_splash_liquid_state(has_liquids: bool, damage_explosions: bool, liquid_states: Array) -> Dictionary:
-	return source_building_destruction_state.on_destroyed_splash_liquid_state(has_liquids, damage_explosions, liquid_states)
-
-func source_building_on_destroyed_dynamic_explosion_call_state(source_x: float, source_y: float, flammability: float, explosiveness: float, power: float, flammability_scale: float, explosiveness_scale: float, source_tilesize: float, source_block_size: int, damage_explosions: bool, destroy_effect: String, base_shake: float) -> Dictionary:
-	return source_building_destruction_state.on_destroyed_dynamic_explosion_call_state(source_x, source_y, flammability, explosiveness, power, flammability_scale, explosiveness_scale, source_tilesize, source_block_size, damage_explosions, destroy_effect, base_shake)
-
-func source_building_on_destroyed_rubble_state(source_x: float, source_y: float, create_rubble: bool, floor_solid: bool, floor_is_liquid: bool, source_block_size: int) -> Dictionary:
-	return source_building_destruction_state.on_destroyed_rubble_state(source_x, source_y, create_rubble, floor_solid, floor_is_liquid, source_block_size)
-
-func source_building_on_destroyed_base_sound_state(headless: bool, destroy_sound: String, destroy_pitch_min: float, destroy_pitch_max: float, destroy_sound_volume: float) -> Dictionary:
-	return source_building_destruction_state.on_destroyed_base_sound_state(headless, destroy_sound, destroy_pitch_min, destroy_pitch_max, destroy_sound_volume)
-
-func source_building_on_destroyed_reactive_sound_state(headless: bool, explosiveness: float, flammability: float, destroy_pitch_min: float, destroy_pitch_max: float, destroy_sound_volume: float) -> Dictionary:
-	return source_building_destruction_state.on_destroyed_reactive_sound_state(headless, explosiveness, flammability, destroy_pitch_min, destroy_pitch_max, destroy_sound_volume)
-
-func source_building_on_destroyed_power_sound_state(headless: bool, power: float, destroy_pitch_min: float, destroy_pitch_max: float, destroy_sound_volume: float) -> Dictionary:
-	return source_building_destruction_state.on_destroyed_power_sound_state(headless, power, destroy_pitch_min, destroy_pitch_max, destroy_sound_volume)
 
 func source_building_display_name_state(localized_name: String, team_is_derelict: bool, team_is_player: bool, team_emoji: String, derelict_label: String) -> String:
 	return source_building_display_state.display_name_state(localized_name, team_is_derelict, team_is_player, team_emoji, derelict_label)
@@ -2453,11 +1851,6 @@ func source_building_should_show_configure_state(_player: Variant) -> Dictionary
 func source_building_should_hide_configure_state(_player: Variant) -> Dictionary:
 	return source_building_configure_state.should_hide_configure_state(_player)
 
-func source_building_block_half_extent(block_size_value: int, source_tilesize: float) -> float:
-	return source_building_draw_state_script.block_half_extent(block_size_value, source_tilesize)
-
-func source_building_draw_configure_state(source_x: float, source_y: float, block_size_value: int, source_tilesize: float) -> Dictionary:
-	return source_building_draw_state_script.draw_configure_state(source_x, source_y, block_size_value, source_tilesize)
 func source_building_check_solid_state() -> bool:
 	return source_building_core_state.check_solid_state()
 
@@ -2482,89 +1875,8 @@ func source_building_damage_delegate_state(source_team: Variant, damage_amount: 
 func source_building_bullet_damage_state(bullet: Variant, source_team: Variant, damage_amount: float) -> Dictionary:
 	return source_building_damage_state.bullet_damage_state(bullet, source_team, damage_amount)
 
-func source_building_change_team_delegate_state(next_team: Variant) -> Dictionary:
-	return source_building_lifecycle_state.change_team_delegate_state(next_team)
-
-func source_building_change_team_initial_state(current_team: Variant, next_team: Variant, force_team: Variant, was_valid: bool) -> Dictionary:
-	return source_building_lifecycle_state.change_team_initial_state(current_team, next_team, force_team, was_valid)
-
-func source_building_change_team_power_proximity_state(power_present: bool, update_power: bool, old_graph: Variant, team: Variant) -> Dictionary:
-	return source_building_lifecycle_state.change_team_power_proximity_state(power_present, update_power, old_graph, team)
-
-func source_building_change_team_power_links_state(link_count: int, team: Variant, old_graph: Variant) -> Dictionary:
-	return source_building_lifecycle_state.change_team_power_links_state(link_count, team, old_graph)
-
-func source_building_change_team_final_state(was: bool, last_team: Variant) -> Dictionary:
-	return source_building_lifecycle_state.change_team_final_state(was, last_team)
-
-func source_building_can_pickup_state(block_can_pickup: bool) -> bool:
-	return source_building_lifecycle_state.can_pickup_state(block_can_pickup)
-
-func source_building_picked_up_state(previous_state: Variant) -> Dictionary:
-	return source_building_lifecycle_state.picked_up_state(previous_state)
-
-func source_building_after_picked_up_state(power_present: bool, has_cons_power: bool, cons_power_buffered: bool, current_status: float) -> Dictionary:
-	return source_building_lifecycle_state.after_picked_up_state(power_present, has_cons_power, cons_power_buffered, current_status)
-
-func source_building_remove_from_proximity_state(nearby_count: int, removable_count: int) -> Dictionary:
-	return source_building_lifecycle_state.remove_from_proximity_state(nearby_count, removable_count)
-
-func source_building_update_proximity_state(nearby_count: int, same_team_count: int, headless: bool, draw_cached: bool) -> Dictionary:
-	return source_building_lifecycle_state.update_proximity_state(nearby_count, same_team_count, headless, draw_cached)
-
-func source_building_on_nearby_build_added_state(other_state: Variant) -> Dictionary:
-	return source_building_lifecycle_state.on_nearby_build_added_state(other_state)
-
-func source_building_consume_state(consumers: Array, self_state: Variant) -> Dictionary:
-	return source_building_efficiency_state.consume_state(consumers, self_state)
-
-func source_building_can_consume_state(potential_efficiency: float) -> bool:
-	return source_building_efficiency_state.can_consume_state(potential_efficiency)
-
-func source_building_efficiency_scale_state() -> float:
-	return source_building_efficiency_state.efficiency_scale_state()
-
-func source_building_update_efficiency_multiplier_state(efficiency: float, optional_efficiency: float, efficiency_scale := 1.0) -> Dictionary:
-	return source_building_efficiency_state.update_efficiency_multiplier_state(efficiency, optional_efficiency, efficiency_scale)
-
-func source_building_update_consumption_initial_state(has_consumers: bool, cheating: bool, enabled_state: bool, production_valid: bool, should_consume_state: bool, efficiency_scale := 1.0) -> Dictionary:
-	return source_building_efficiency_state.update_consumption_initial_state(has_consumers, cheating, enabled_state, production_valid, should_consume_state, efficiency_scale)
-
-func source_building_update_consumption_disabled_state(enabled_state: bool) -> Dictionary:
-	return source_building_efficiency_state.update_consumption_disabled_state(enabled_state)
-
-func source_building_update_consumption_setup_state(should_consume_state: bool, production_valid: bool) -> Dictionary:
-	return source_building_efficiency_state.update_consumption_setup_state(should_consume_state, production_valid)
-
-func source_building_update_consumption_non_optional_pass_state(non_optional_consumer_results: Array) -> Dictionary:
-	return source_building_efficiency_state.update_consumption_non_optional_pass_state(non_optional_consumer_results)
-
-func source_building_update_consumption_optional_pass_state(optional_consumer_results: Array) -> Dictionary:
-	return source_building_efficiency_state.update_consumption_optional_pass_state(optional_consumer_results)
-
-func source_building_update_consumption_efficiency_state(min_efficiency: float, optional_efficiency: float, update: bool) -> Dictionary:
-	return source_building_efficiency_state.update_consumption_efficiency_state(min_efficiency, optional_efficiency, update)
-
-func source_building_update_consumption_second_pass_state(update: bool, efficiency: float, update_consumers: Array, self_state := {}) -> Dictionary:
-	return source_building_efficiency_state.update_consumption_second_pass_state(update, efficiency, update_consumers, self_state)
-
-func source_building_ambient_volume(efficiency: float) -> float:
-	return source_building_efficiency_state.ambient_volume(efficiency)
-
-func source_building_config_default() -> Variant:
-	return source_building_lifecycle_state.config_default()
-
-func source_building_is_valid(tile_build_matches_self: bool, dead_state: bool) -> bool:
-	return source_building_lifecycle_state.is_valid(tile_build_matches_self, dead_state)
-
-func source_building_heal_state(_amount: Variant = null) -> Dictionary:
-	return source_building_lifecycle_state.heal_state(_amount)
-
 func source_building_hit_size(block_size_value: int, source_tilesize: float) -> float:
 	return source_block_geometry.building_hit_size(block_size_value, source_tilesize)
-
-func source_building_kill_state(self_state := {}) -> Dictionary:
-	return source_building_lifecycle_state.kill_state(self_state)
 
 func source_building_damage_dead_guard_state(dead_state: bool) -> Dictionary:
 	return source_building_damage_state.dead_guard_state(dead_state)
@@ -2680,24 +1992,6 @@ func source_building_in_fog_discovery_gate_state(block_size_value: int, block_si
 func source_building_in_fog_visibility_loop_state(block_size_value: int, block_size_offset: int, tile_x: int, tile_y: int, visible_tiles: Array) -> Dictionary:
 	return source_building_visibility_state.in_fog_visibility_loop_state(block_size_value, block_size_offset, tile_x, tile_y, visible_tiles)
 
-func generated_building_comp_killed_initial_side_effects_bridge_state(tile_value: Variant) -> Dictionary:
-	return source_building_lifecycle_state.generated_killed_initial_side_effects_bridge_state(tile_value)
-
-func generated_building_comp_killed_removal_side_effects_bridge_state(tile_value: Variant, tile_not_empty_tile: bool) -> Dictionary:
-	return source_building_lifecycle_state.generated_killed_removal_side_effects_bridge_state(tile_value, tile_not_empty_tile)
-
-func source_building_killed_initial_side_effects_state(tile_value: Variant) -> Dictionary:
-	return source_building_lifecycle_state.killed_initial_side_effects_state(tile_value)
-
-func source_building_killed_removal_side_effects_state(tile_not_empty_tile: bool) -> Dictionary:
-	return source_building_lifecycle_state.killed_removal_side_effects_state(tile_not_empty_tile)
-
-func generated_building_comp_check_allow_update_bridge_state(current_enabled: bool, allow_update_result: bool) -> Dictionary:
-	return source_building_lifecycle_state.generated_check_allow_update_bridge_state(current_enabled, allow_update_result)
-
-func source_building_check_allow_update_state(current_enabled: bool, allow_update_result: bool) -> Dictionary:
-	return source_building_lifecycle_state.check_allow_update_state(current_enabled, allow_update_result)
-
 func source_building_write_base_timescale_state(current_time_scale: float, current_time_scale_duration: float) -> Dictionary:
 	return source_building_time_state.write_base_timescale_state(current_time_scale, current_time_scale_duration, source_block_defaults.TIME_SCALE_DEFAULT)
 
@@ -2727,18 +2021,6 @@ func generated_building_comp_update_ambient_sound_gate_bridge_state(headless_mod
 
 func source_building_update_ambient_sound_gate_state(headless_mode: bool, ambient_sound_value: Variant, sounds_none_value: Variant, should_ambient_sound_result: bool, block_ambient_sound_volume: float, ambient_volume_value: float) -> Dictionary:
 	return source_building_time_state.update_ambient_sound_gate_state(headless_mode, ambient_sound_value, sounds_none_value, should_ambient_sound_result, block_ambient_sound_volume, ambient_volume_value)
-
-func source_building_update_consumption_call_state() -> Dictionary:
-	return source_building_efficiency_state.update_consumption_call_state()
-
-func generated_building_comp_update_consumption_call_bridge_state() -> Dictionary:
-	return source_building_efficiency_state.generated_update_consumption_call_bridge_state()
-
-func source_building_update_tile_gate_state(enabled_state: bool, block_no_update_disabled: bool) -> Dictionary:
-	return source_building_lifecycle_state.update_tile_gate_state(enabled_state, block_no_update_disabled)
-
-func generated_building_comp_update_tile_gate_bridge_state(enabled_state: bool, block_no_update_disabled: bool) -> Dictionary:
-	return source_building_lifecycle_state.generated_update_tile_gate_bridge_state(enabled_state, block_no_update_disabled)
 
 func source_building_update_fog_visibility_state(was_visible: bool, in_fog_to_player_team: bool, visible_flags: int, player_team_id: int, self_state := {}, tile_state := {}) -> Dictionary:
 	return source_building_visibility_state.update_fog_visibility_state(was_visible, in_fog_to_player_team, visible_flags, player_team_id, self_state, tile_state)
@@ -3306,275 +2588,11 @@ func source_unit_hit_size(unit_type) -> float:
 func source_unit_health(unit_type) -> float:
 	return source_unit_metadata_state.unit_health(unit_type)
 
-func source_unit_is_grounded(elevation_value: float) -> bool:
-	return source_unit_update_state.is_grounded(elevation_value)
-
-func source_unit_is_flying(elevation_value: float) -> bool:
-	return source_unit_update_state.is_flying(elevation_value)
-
-func source_unit_check_target_state(elevation_value: float, target_air: bool, target_ground: bool) -> Dictionary:
-	return source_unit_update_state.check_target_state(elevation_value, target_air, target_ground)
-
-func source_unit_can_drown_state(elevation_value: float, type_can_drown: bool) -> Dictionary:
-	return source_unit_update_state.can_drown_state(elevation_value, type_can_drown)
-
-func source_unit_drown_floor_state(floor_on_value: Variant) -> Variant:
-	return source_unit_update_state.drown_floor_state(floor_on_value)
-
-func source_unit_wobble_state(current_x: float, current_y: float, source_time: float, source_delta: float, elevation_value: float, unit_id: int) -> Dictionary:
-	return source_unit_update_state.game_wobble_state(self, current_x, current_y, source_time, source_delta, elevation_value, unit_id)
-
-func source_unit_move_at_state(vel_x: float, vel_y: float, vector_x: float, vector_y: float, acceleration: float, source_delta: float) -> Dictionary:
-	return source_unit_update_state.game_move_at_state(self, vel_x, vel_y, vector_x, vector_y, acceleration, source_delta)
-
-func source_unit_move_at_default_accel_state(vector_x: float, vector_y: float, type_accel: float) -> Dictionary:
-	return source_unit_update_state.move_at_default_accel_state(vector_x, vector_y, type_accel)
-
-func source_unit_approach_state(vel_x: float, vel_y: float, vector_x: float, vector_y: float, type_accel: float, speed_value: float, source_delta: float) -> Dictionary:
-	return source_unit_update_state.approach_state(vel_x, vel_y, vector_x, vector_y, type_accel, speed_value, source_delta)
-
-func source_unit_rotate_move_motion_state(unit_rotation_degrees: float, vec_x: float, vec_y: float) -> Dictionary:
-	return source_unit_update_state.game_rotate_move_motion_state(self, unit_rotation_degrees, vec_x, vec_y)
-
-func source_arc_mathf_mod_float(value: float, divisor: float) -> float:
-	return source_math_state.source_mod_float(value, divisor)
-
-func source_arc_angles_forward_distance(angle1: float, angle2: float) -> float:
-	return source_math_state.source_angles_forward_distance(angle1, angle2)
-
-func source_arc_angles_backward_distance(angle1: float, angle2: float) -> float:
-	return source_math_state.source_angles_backward_distance(angle1, angle2)
-
-func source_arc_angles_angle_dist(angle_a: float, angle_b: float) -> float:
-	return source_math_state.source_angles_angle_dist(angle_a, angle_b)
-
-func source_arc_angles_move_toward(angle: float, to: float, speed: float) -> float:
-	return source_math_state.source_angles_move_toward(angle, to, speed)
-
-func source_unit_vec2_angle(vec_x: float, vec_y: float) -> float:
-	return source_math_state.source_vec2_angle(vec_x, vec_y)
-
-func source_unit_rotate_move_rotation_state(current_rotation: float, vec_x: float, vec_y: float, type_rotate_speed: float, speed_multiplier_value: float, source_delta: float) -> Dictionary:
-	return source_unit_update_state.game_rotate_move_rotation_state(self, current_rotation, vec_x, vec_y, type_rotate_speed, speed_multiplier_value, source_delta)
-
-func source_unit_aim_look_position_state(pos_x: float, pos_y: float) -> Dictionary:
-	return source_unit_update_state.aim_look_position_state(pos_x, pos_y)
-
-func source_unit_aim_look_xy_state(target_x: float, target_y: float) -> Dictionary:
-	return source_unit_update_state.aim_look_xy_state(target_x, target_y)
-
-func source_unit_look_at_angle_state(current_rotation: float, target_angle: float, type_rotate_speed: float, speed_multiplier_value: float, source_delta: float) -> Dictionary:
-	return source_unit_update_state.game_look_at_angle_state(self, current_rotation, target_angle, type_rotate_speed, speed_multiplier_value, source_delta)
-
-func source_arc_angles_angle(from_x: float, from_y: float, to_x: float, to_y: float) -> float:
-	return source_math_state.source_angles_angle(from_x, from_y, to_x, to_y)
-
-func source_unit_look_at_position_state(current_rotation: float, unit_x: float, unit_y: float, target_x: float, target_y: float, type_rotate_speed: float, speed_multiplier_value: float, source_delta: float) -> Dictionary:
-	return source_unit_update_state.game_look_at_position_state(self, current_rotation, unit_x, unit_y, target_x, target_y, type_rotate_speed, speed_multiplier_value, source_delta)
-
-func source_unit_look_at_xy_state(current_rotation: float, unit_x: float, unit_y: float, target_x: float, target_y: float, type_rotate_speed: float, speed_multiplier_value: float, source_delta: float) -> Dictionary:
-	return source_unit_update_state.game_look_at_xy_state(self, current_rotation, unit_x, unit_y, target_x, target_y, type_rotate_speed, speed_multiplier_value, source_delta)
-
-func source_unit_controller_predicates_state(controller_is_ai_controller: bool, controller_is_command_ai: bool) -> Dictionary:
-	return source_unit_update_state.controller_predicates_state(controller_is_ai_controller, controller_is_command_ai)
-
-func source_unit_can_target_state(other_exists: bool, other_is_unit: bool, other_unit_check_target_result: bool, other_is_building: bool, type_target_air: bool, type_target_ground: bool) -> Dictionary:
-	return source_unit_update_state.can_target_state(other_exists, other_is_unit, other_unit_check_target_result, other_is_building, type_target_air, type_target_ground)
-
-func source_unit_command_state(controller_is_command_ai: bool) -> Dictionary:
-	return source_unit_update_state.command_state(controller_is_command_ai)
-
-func source_unit_is_missile_state(unit_is_timed_killc: bool) -> Dictionary:
-	return source_unit_update_state.is_missile_state(unit_is_timed_killc)
-
-func source_unit_count_state(team_data_count_type_result: int, type_id: int) -> Dictionary:
-	return source_unit_update_state.count_state(team_data_count_type_result, type_id)
-
-func source_unit_cap_state(team_is_wave_team: bool, rules_pvp: bool, state_is_campaign: bool, rules_disable_unit_cap: bool, team_ignore_unit_cap: bool, rules_unit_cap_variable: bool, rules_unit_cap: int, team_data_unit_cap: int) -> Dictionary:
-	return source_unit_update_state.cap_state(team_is_wave_team, rules_pvp, state_is_campaign, rules_disable_unit_cap, team_ignore_unit_cap, rules_unit_cap_variable, rules_unit_cap, team_data_unit_cap)
-
-func source_unit_set_type_state(type_id: int, type_health: float, type_drag: float, type_armor: float, type_hit_size: float, mounts_length: int, type_weapons_size: int, abilities_length: int, type_abilities_size: int, first_ability_is_empty_data_ability: bool, controller_is_null: bool) -> Dictionary:
-	return source_unit_update_state.set_type_state(type_id, type_health, type_drag, type_armor, type_hit_size, mounts_length, type_weapons_size, abilities_length, type_abilities_size, first_ability_is_empty_data_ability, controller_is_null)
-
-func source_weapons_setup_mounts_state(weapon_states: Array) -> Dictionary:
-	return source_weapons_state.setup_mounts_state(weapon_states)
-
-func source_weapons_set_rotation_state(mount_states: Array, source_rotation: float) -> Dictionary:
-	return source_weapons_state.set_rotation_state(mount_states, source_rotation)
-
-func source_weapons_control_state(mount_states: Array, rotate_value: bool, shoot_value: bool) -> Dictionary:
-	return source_weapons_state.control_state(mount_states, rotate_value, shoot_value)
-
-func source_weapons_control_rotate_shoot_state(mount_states: Array, rotate_shoot: bool) -> Dictionary:
-	return source_weapons_state.control_rotate_shoot_state(mount_states, rotate_shoot)
-
-func source_weapons_aim_state(mount_states: Array, unit_x: float, unit_y: float, target_x: float, target_y: float, aim_dst: float) -> Dictionary:
-	return source_weapons_state.aim_state(mount_states, unit_x, unit_y, target_x, target_y, aim_dst)
-
-func source_weapons_aim_position_state(mount_states: Array, unit_x: float, unit_y: float, position_x: float, position_y: float, aim_dst: float) -> Dictionary:
-	return source_weapons_state.aim_position_state(mount_states, unit_x, unit_y, position_x, position_y, aim_dst)
-
-func source_weapons_can_shoot_state(disarmed_value: bool) -> Dictionary:
-	return source_weapons_state.can_shoot_state(disarmed_value)
-
-func source_weapons_remove_continuous_bullet_cleanup_state(mount_states: Array, unit_id: int) -> Dictionary:
-	return source_weapons_state.remove_continuous_bullet_cleanup_state(mount_states, unit_id)
-
-func source_weapons_remove_sound_stop_state(mount_states: Array) -> Dictionary:
-	return source_weapons_state.remove_sound_stop_state(mount_states)
-
-func source_weapons_update_dispatch_state(mount_states: Array, unit_id: int) -> Dictionary:
-	return source_weapons_state.update_dispatch_state(mount_states, unit_id)
-
-func source_mathf_approach_delta(from_value: float, to_value: float, speed: float, source_delta: float) -> float:
-	return source_math_state.source_approach_delta(from_value, to_value, speed, source_delta)
-
-func source_mathf_dst(x1: float, y1: float, x2: float, y2: float) -> float:
-	return source_math_state.source_dst(x1, y1, x2, y2)
-
-func source_mathf_lerp_delta(from_value: float, to_value: float, progress: float, source_delta: float) -> float:
-	return source_math_state.source_lerp_delta(from_value, to_value, progress, source_delta)
-
-func source_weapon_update_passive_timers_state(mount_state: Dictionary, weapon_state: Dictionary, unit_state: Dictionary, source_delta: float) -> Dictionary:
-	return source_weapons_state.game_update_passive_timers_state(self, mount_state, weapon_state, unit_state, source_delta)
-
-func source_arc_angles_trns_vec(angle_degrees: float, x_value: float, y_value: float) -> Dictionary:
-	return source_math_state.source_angles_trns_vec(angle_degrees, x_value, y_value)
-
-func source_weapon_update_mount_origin_state(unit_state: Dictionary, weapon_state: Dictionary) -> Dictionary:
-	return source_weapons_state.game_update_mount_origin_state(self, unit_state, weapon_state)
-
-func source_weapon_update_auto_target_retarget_state(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, source_delta: float, mount_x: float, mount_y: float, find_target_result_exists: bool) -> Dictionary:
-	return source_weapons_state.update_auto_target_retarget_state(mount_state, weapon_state, bullet_state, source_delta, mount_x, mount_y, find_target_result_exists)
-
-func source_weapon_update_auto_target_invalidation_state(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, mount_x: float, mount_y: float, check_target_result: bool) -> Dictionary:
-	return source_weapons_state.update_auto_target_invalidation_state(mount_state, weapon_state, bullet_state, mount_x, mount_y, check_target_result)
-
-func source_weapon_update_auto_target_shoot_aim_state(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, can_shoot: bool, mount_x: float, mount_y: float, target_within_result: bool, predicted_aim: Dictionary) -> Dictionary:
-	return source_weapons_state.update_auto_target_shoot_aim_state(mount_state, weapon_state, bullet_state, can_shoot, mount_x, mount_y, target_within_result, predicted_aim)
-
-func source_weapon_update_rotate_toward_state(mount_state: Dictionary, weapon_state: Dictionary, unit_state: Dictionary, can_shoot: bool, source_delta: float) -> Dictionary:
-	return source_weapons_state.game_update_rotate_toward_state(self, mount_state, weapon_state, unit_state, can_shoot, source_delta)
-
-func source_weapon_update_bullet_origin_state(mount_state: Dictionary, weapon_state: Dictionary, unit_state: Dictionary, mount_x: float, mount_y: float) -> Dictionary:
-	return source_weapons_state.game_update_bullet_origin_state(self, mount_state, weapon_state, unit_state, mount_x, mount_y)
-
-func source_weapon_update_always_shooting_state(mount_state: Dictionary, weapon_state: Dictionary) -> Dictionary:
-	return source_weapons_state.update_always_shooting_state(mount_state, weapon_state)
-
-func source_weapon_update_continuous_invalidation_state(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary) -> Dictionary:
-	return source_weapons_state.update_continuous_invalidation_state(mount_state, weapon_state, bullet_state)
-
-func source_weapon_update_continuous_live_state(mount_state: Dictionary, weapon_state: Dictionary, unit_state: Dictionary, bullet_state: Dictionary, source_delta: float, bullet_x: float, bullet_y: float, weapon_rotation: float) -> Dictionary:
-	return source_weapons_state.game_update_continuous_live_state(self, mount_state, weapon_state, unit_state, bullet_state, source_delta, bullet_x, bullet_y, weapon_rotation)
-
-func source_weapon_update_continuous_sound_state(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, runtime_state: Dictionary, bullet_x: float, bullet_y: float) -> Dictionary:
-	return source_weapons_state.update_continuous_sound_state(mount_state, weapon_state, bullet_state, runtime_state, bullet_x, bullet_y)
-
-func source_weapon_update_continuous_laser_aim_state(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, source_delta: float, bullet_x: float, bullet_y: float, shoot_angle: float) -> Dictionary:
-	return source_weapons_state.game_update_continuous_laser_aim_state(self, mount_state, weapon_state, bullet_state, source_delta, bullet_x, bullet_y, shoot_angle)
-
 func source_status_apply_result(status_effect: String, duration: float, status_immune: bool) -> Dictionary:
 	return source_status_apply_state.apply_result_state(status_effect, duration, status_immune)
 
-func source_weapon_update_always_continuous_keepalive_state(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, unit_state: Dictionary) -> Dictionary:
-	return source_weapons_state.game_update_always_continuous_keepalive_state(self, mount_state, weapon_state, bullet_state, unit_state)
-
-func source_weapon_update_continuous_idle_heat_sound_state(mount_state: Dictionary, weapon_state: Dictionary, unit_state: Dictionary, source_delta: float, bullet_x: float, bullet_y: float) -> Dictionary:
-	return source_weapons_state.update_continuous_idle_heat_sound_state(mount_state, weapon_state, unit_state, source_delta, bullet_x, bullet_y)
-
-func source_weapon_update_alternating_side_flip_state(mount_state: Dictionary, weapon_state: Dictionary, unit_mount_states: Array) -> Dictionary:
-	return source_weapons_state.update_alternating_side_flip_state(mount_state, weapon_state, unit_mount_states)
-
-func source_weapon_update_active_sound_loop_state(mount_state: Dictionary, weapon_state: Dictionary, runtime_state: Dictionary, can_shoot: bool, unit_id: int) -> Dictionary:
-	return source_weapons_state.update_active_sound_loop_state(mount_state, weapon_state, runtime_state, can_shoot, unit_id)
-
-func source_weapon_update_velocity_length_state(unit_state: Dictionary, source_delta: float) -> Dictionary:
-	return source_weapons_state.update_velocity_length_state(unit_state, source_delta)
-
-func source_weapon_update_shoot_gate_prefix_state(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, can_shoot: bool, was_flipped: bool, vel_len: float) -> Dictionary:
-	return source_weapons_state.update_shoot_gate_prefix_state(mount_state, weapon_state, bullet_state, can_shoot, was_flipped, vel_len)
-
-func source_weapon_update_reload_gate_state(mount_state: Dictionary, weapon_state: Dictionary) -> Dictionary:
-	return source_weapons_state.update_reload_gate_state(mount_state, weapon_state)
-
 func source_angles_angle_dist(a: float, b: float) -> float:
 	return source_arc_angles_angle_dist(a, b)
-
-func source_weapon_update_cone_gate_state(mount_state: Dictionary, weapon_state: Dictionary, unit_state: Dictionary) -> Dictionary:
-	return source_weapons_state.game_update_cone_gate_state(self, mount_state, weapon_state, unit_state)
-
-func source_weapon_update_shoot_call_reload_state(mount_state: Dictionary, weapon_state: Dictionary, unit_id: int, bullet_x: float, bullet_y: float, shoot_angle: float, shoot_gate: bool) -> Dictionary:
-	return source_weapons_state.update_shoot_call_reload_state(mount_state, weapon_state, unit_id, bullet_x, bullet_y, shoot_angle, shoot_gate)
-
-func source_weapon_shoot_charge_start_state(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, unit_state: Dictionary, shoot_x: float, shoot_y: float, charge_rotation: float) -> Dictionary:
-	return source_weapons_state.game_shoot_charge_start_state(self, mount_state, weapon_state, bullet_state, unit_state, shoot_x, shoot_y, charge_rotation)
-
-func source_shoot_pattern_default_events(shoot_state: Dictionary) -> Array:
-	return source_weapons_state.shoot_pattern_default_events(shoot_state)
-
-func generated_shoot_pattern_default_events_bridge_state(shots: int, first_shot_delay: float, shot_delay: float) -> Dictionary:
-	return source_weapons_state.generated_shoot_pattern_default_events_bridge_state(shots, first_shot_delay, shot_delay)
-
-func generated_shoot_pattern_default_events_default_bridge_state() -> Dictionary:
-	return source_weapons_state.generated_shoot_pattern_default_events_default_bridge_state()
-
-func generated_shoot_pattern_compat_dispatch_bridge_state(total_shots: int, shots: int, first_shot_delay: float, shot_delay: float, barrel_incrementer_present: bool) -> Dictionary:
-	return source_weapons_state.generated_shoot_pattern_compat_dispatch_bridge_state(total_shots, shots, first_shot_delay, shot_delay, barrel_incrementer_present)
-
-func generated_shoot_pattern_flip_bridge_state() -> Dictionary:
-	return source_weapons_state.generated_shoot_pattern_flip_bridge_state()
-
-func generated_shoot_pattern_copy_bridge_state(shots: int, first_shot_delay: float, shot_delay: float) -> Dictionary:
-	return source_weapons_state.generated_shoot_pattern_copy_bridge_state(shots, first_shot_delay, shot_delay)
-
-func source_weapon_shoot_default_pattern_dispatch_state(mount_state: Dictionary, shoot_state: Dictionary) -> Dictionary:
-	return source_weapons_state.shoot_default_pattern_dispatch_state(mount_state, shoot_state)
-
-func source_weapon_bullet_initial_guard_state(unit_state: Dictionary, mount_state: Dictionary) -> Dictionary:
-	return source_weapons_state.bullet_initial_guard_state(unit_state, mount_state)
-
-func source_weapon_bullet_geometry_state(unit_state: Dictionary, mount_state: Dictionary, weapon_state: Dictionary, x_offset: float, y_offset: float, x_spread: float, y_spread: float) -> Dictionary:
-	return source_weapons_state.game_bullet_geometry_state(self, unit_state, mount_state, weapon_state, x_offset, y_offset, x_spread, y_spread)
-
-func source_weapon_bullet_angle_life_state(unit_state: Dictionary, mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, x_offset: float, y_offset: float, x_spread: float, y_spread: float, angle_offset: float, angle_spread: float) -> Dictionary:
-	return source_weapons_state.game_bullet_angle_life_state(self, unit_state, mount_state, weapon_state, bullet_state, x_offset, y_offset, x_spread, y_spread, angle_offset, angle_spread)
-
-func source_weapon_bullet_shooter_state(unit_state: Dictionary, controller_state: Dictionary) -> Dictionary:
-	return source_weapons_state.bullet_shooter_state(unit_state, controller_state)
-
-func source_weapon_bullet_create_call_state(unit_state: Dictionary, mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, controller_state: Dictionary, x_offset: float, y_offset: float, x_spread: float, y_spread: float, angle_offset: float, angle_spread: float, velocity_random: float, mover: Variant) -> Dictionary:
-	return source_weapons_state.game_bullet_create_call_state(self, unit_state, mount_state, weapon_state, bullet_state, controller_state, x_offset, y_offset, x_spread, y_spread, angle_offset, angle_spread, velocity_random, mover)
-
-func source_weapon_bullet_handle_call_state(unit_state: Dictionary, mount_state: Dictionary, create_call_state: Dictionary, created_bullet: Variant) -> Dictionary:
-	return source_weapons_state.bullet_handle_call_state(unit_state, mount_state, create_call_state, created_bullet)
-
-func source_weapon_handle_bullet_continuous_geometry_state(unit_state: Dictionary, mount_state: Dictionary, weapon_state: Dictionary) -> Dictionary:
-	return source_weapons_state.game_handle_bullet_continuous_geometry_state(self, unit_state, mount_state, weapon_state)
-
-func source_weapon_handle_bullet_aim_update_state(unit_state: Dictionary, mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary) -> Dictionary:
-	return source_weapons_state.game_handle_bullet_aim_update_state(self, unit_state, mount_state, weapon_state, bullet_state)
-
-func source_weapon_bullet_sound_state(create_call_state: Dictionary, weapon_state: Dictionary, sound_pitch: float) -> Dictionary:
-	return source_weapons_state.bullet_sound_state(create_call_state, weapon_state, sound_pitch)
-
-func source_weapon_bullet_effects_state(create_call_state: Dictionary, mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, unit_state: Dictionary) -> Dictionary:
-	return source_weapons_state.bullet_effects_state(create_call_state, mount_state, weapon_state, bullet_state, unit_state)
-
-func source_weapon_bullet_recoil_velocity_state(create_call_state: Dictionary, unit_state: Dictionary, bullet_state: Dictionary) -> Dictionary:
-	return source_weapons_state.game_bullet_recoil_velocity_state(self, create_call_state, unit_state, bullet_state)
-
-func source_weapon_bullet_shake_state(create_call_state: Dictionary, weapon_state: Dictionary) -> Dictionary:
-	return source_weapons_state.bullet_shake_state(create_call_state, weapon_state)
-
-func source_weapon_bullet_mount_recoil_state(create_call_state: Dictionary, mount_state: Dictionary) -> Dictionary:
-	return source_weapons_state.bullet_mount_recoil_state(create_call_state, mount_state)
-
-func source_weapon_bullet_recoil_slots_state(create_call_state: Dictionary, mount_state: Dictionary, weapon_state: Dictionary) -> Dictionary:
-	return source_weapons_state.bullet_recoil_slots_state(create_call_state, mount_state, weapon_state)
-
-func source_weapon_bullet_heat_state(create_call_state: Dictionary, mount_state: Dictionary) -> Dictionary:
-	return source_weapons_state.bullet_heat_state(create_call_state, mount_state)
 
 func source_bullet_type_create_initial_gate_state(create_call_state: Dictionary, bullet_type_state: Dictionary, random_angle_offset: float, create_chance_roll: float) -> Dictionary:
 	return source_bullet_type_create_state.initial_gate_state(create_call_state, bullet_type_state, random_angle_offset, create_chance_roll)
@@ -3632,9 +2650,6 @@ func source_bullet_type_update_weaving_state(bullet_state: Dictionary, bullet_ty
 
 func source_bullet_type_update_weaving_rotate_speed_state(weaving_state: Dictionary, bullet_type_state: Dictionary, source_delta: float) -> Dictionary:
 	return source_bullet_type_update_state.game_update_weaving_rotate_speed_state(self, weaving_state, bullet_type_state, source_delta)
-
-func source_vec2_limit(vector_state: Dictionary, limit: float) -> Dictionary:
-	return source_math_state.source_vec2_limit(vector_state, limit)
 
 func source_bullet_type_update_weaving_circle_shooter_state(rotate_speed_state: Dictionary, bullet_type_state: Dictionary, owner_health_state: Dictionary, source_delta: float) -> Dictionary:
 	return source_bullet_type_update_state.game_update_weaving_circle_shooter_state(self, rotate_speed_state, bullet_type_state, owner_health_state, source_delta)
@@ -3825,53 +2840,8 @@ func source_bullet_type_draw_parts_state(bullet_type_state: Dictionary, bullet_s
 func source_bullet_type_draw_light_state(bullet_type_state: Dictionary, bullet_state: Dictionary) -> Dictionary:
 	return source_bullet_type_draw_state_script.draw_light_state(bullet_type_state, bullet_state)
 
-func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
-	return source_unit_update_state.player_controllable_state(type_player_controllable, controller_is_logic_ai, logic_controller_exists, logic_controller_block_privileged)
-
-func source_unit_targetable_state(type_targetable: bool, type_vulnerable_with_payloads: bool, unit_is_payloadc: bool, unit_has_payload: bool, targeter_id: int) -> Dictionary:
-	return source_unit_update_state.targetable_state(type_targetable, type_vulnerable_with_payloads, unit_is_payloadc, unit_has_payload, targeter_id)
-
-func source_unit_killable_state(type_killable: bool) -> Dictionary:
-	return source_unit_update_state.killable_state(type_killable)
-
-func source_unit_hittable_state(type_hittable: bool, type_vulnerable_with_payloads: bool, unit_is_payloadc: bool, unit_has_payload: bool) -> Dictionary:
-	return source_unit_update_state.hittable_state(type_hittable, type_vulnerable_with_payloads, unit_is_payloadc, unit_has_payload)
-
-func source_unit_after_sync_state(type_id: int, controller_exists: bool) -> Dictionary:
-	return source_unit_update_state.after_sync_state(type_id, controller_exists)
-
-func source_unit_after_read_state(type_id: int, controller_is_ai_controller: bool, ai_keep_state: bool, controller_exists: bool) -> Dictionary:
-	return source_unit_update_state.after_read_state(type_id, controller_is_ai_controller, ai_keep_state, controller_exists)
-
-func source_unit_after_read_all_state(controller_exists: bool) -> Dictionary:
-	return source_unit_update_state.after_read_all_state(controller_exists)
-
-func source_unit_add_state(type_use_unit_cap: bool, count_after_add: int, cap_value: int, spawned_by_core: bool, dead: bool, rules_editor: bool) -> Dictionary:
-	return source_unit_update_state.add_state(type_use_unit_cap, count_after_add, cap_value, spawned_by_core, dead, rules_editor)
-
 func source_unit_remove_state(trail_exists: bool, trail_size: int, trail_width: float, type_trail_color_exists: bool, team_color: String, type_trail_color: String) -> Dictionary:
 	return source_unit_destroy_state.remove_state(trail_exists, trail_size, trail_width, type_trail_color_exists, team_color, type_trail_color)
-
-func source_unit_landed_state(type_mech_land_shake: float) -> Dictionary:
-	return source_unit_update_state.landed_state(type_mech_land_shake)
-
-func source_unit_heal_state(current_health: float, max_health: float, amount: float, current_was_healed: bool) -> Dictionary:
-	return source_unit_update_state.heal_state(current_health, max_health, amount, current_was_healed)
-
-func source_unit_update_heal_time_state(was_healed_value: bool, current_heal_time: float, source_delta: float) -> Dictionary:
-	return source_unit_update_state.heal_time_state(was_healed_value, current_heal_time, source_delta)
-
-func source_unit_update_captured_sector_death_state(team_is_only_ai: bool, state_is_campaign: bool, sector_is_captured: bool) -> Dictionary:
-	return source_unit_update_state.captured_sector_death_state(team_is_only_ai, state_is_campaign, sector_is_captured)
-
-func source_unit_update_sound_loop_state(headless_value: bool, type_loop_sound: String, type_loop_sound_volume: float, type_move_sound: String, type_move_sound_volume: float, type_move_sound_pitch_min: float, type_move_sound_pitch_max: float, velocity_x: float, velocity_y: float, type_speed: float) -> Dictionary:
-	return source_unit_update_state.sound_loop_state(headless_value, type_loop_sound, type_loop_sound_volume, type_move_sound, type_move_sound_volume, type_move_sound_pitch_min, type_move_sound_pitch_max, velocity_x, velocity_y, type_speed)
-
-func source_unit_update_unsupported_env_state(type_supports_env: bool, dead_value: bool) -> Dictionary:
-	return source_unit_update_state.unsupported_env_state(type_supports_env, dead_value)
-
-func source_unit_update_abilities_loop_state(ability_ids: Array) -> Dictionary:
-	return source_unit_update_state.abilities_loop_state(ability_ids)
 
 func source_ability_update_state(unit: Variant) -> Dictionary:
 	return source_ability_state.update_state(unit)
@@ -3945,48 +2915,6 @@ func source_ability_get_bundle_state(class_simple_name: String, is_anonymous_cla
 func generated_ability_get_bundle_bridge_state(class_simple_name: String, is_anonymous_class: bool, superclass_simple_name: String) -> Dictionary:
 	return source_ability_state.generated_get_bundle_bridge_state(class_simple_name, is_anonymous_class, superclass_simple_name)
 
-func source_unit_update_trail_position_state(trail_exists: bool, type_trail_length: int, type_use_engine_elevation: bool, elevation_value: float, type_engine_offset: float, x_value: float, y_value: float, source_rotation_degrees: float) -> Dictionary:
-	return source_unit_update_state.trail_position_state(trail_exists, type_trail_length, type_use_engine_elevation, elevation_value, type_engine_offset, x_value, y_value, source_rotation_degrees)
-
-func source_unit_update_drag_formula_state(type_drag: float, grounded_value: bool, floor_drag_multiplier: float, unit_drag_multiplier: float, rules_drag_multiplier: float) -> Dictionary:
-	return source_unit_update_state.drag_formula_state(type_drag, grounded_value, floor_drag_multiplier, unit_drag_multiplier, rules_drag_multiplier)
-
-func source_unit_update_spawn_knockback_state(team_is_wave_team: bool, state_has_spawns_value: bool, net_client_value: bool, is_local_value: bool, hittable_value: bool, drop_zone_radius: float, hit_size: float, unit_x: float, unit_y: float, spawns: Array, source_delta: float) -> Dictionary:
-	return source_unit_update_state.spawn_knockback_state(team_is_wave_team, state_has_spawns_value, net_client_value, is_local_value, hittable_value, drop_zone_radius, hit_size, unit_x, unit_y, spawns, source_delta)
-
-func source_unit_update_falling_drag_state(dead_value: bool, health_value: float, current_drag: float) -> Dictionary:
-	return source_unit_update_state.falling_drag_state(dead_value, health_value, current_drag)
-
-func source_unit_update_falling_smoke_state(dead_value: bool, health_value: float, chance_delta_result: bool, unit_x: float, unit_y: float, hit_size: float, tmp_v1_x: float, tmp_v1_y: float) -> Dictionary:
-	return source_unit_update_state.falling_smoke_state(dead_value, health_value, chance_delta_result, unit_x, unit_y, hit_size, tmp_v1_x, tmp_v1_y)
-
-func source_unit_update_falling_engine_trail_state(dead_value: bool, health_value: float, chance_delta_result: bool, unit_x: float, unit_y: float, source_rotation_degrees: float, elevation_value: float, type_engine_offset: float, type_engine_size: float, engine_range_value: float, x_range_value: float, y_range_value: float, random_rotation_value: float) -> Dictionary:
-	return source_unit_update_state.falling_engine_trail_state(dead_value, health_value, chance_delta_result, unit_x, unit_y, source_rotation_degrees, elevation_value, type_engine_offset, type_engine_size, engine_range_value, x_range_value, y_range_value, random_rotation_value)
-
-func source_unit_update_falling_descent_state(dead_value: bool, health_value: float, elevation_value: float, type_fall_speed: float, source_delta: float, is_grounded_value: bool, max_health: float, type_wreck_health_multiplier: float, unit_id: int) -> Dictionary:
-	return source_unit_update_state.falling_descent_state(dead_value, health_value, elevation_value, type_fall_speed, source_delta, is_grounded_value, max_health, type_wreck_health_multiplier, unit_id)
-
-func source_unit_update_tile_unit_on_any_state(tile_exists: bool, tile_build_exists: bool, unit_id: int) -> Dictionary:
-	return source_unit_update_state.tile_unit_on_any_state(tile_exists, tile_build_exists, unit_id)
-
-func source_unit_update_tile_unit_on_state(tile_exists: bool, is_grounded_value: bool, type_hovering: bool, tile_build_exists: bool, unit_id: int) -> Dictionary:
-	return source_unit_update_state.tile_unit_on_state(tile_exists, is_grounded_value, type_hovering, tile_build_exists, unit_id)
-
-func source_unit_update_floor_damage_state(tile_exists: bool, is_grounded_value: bool, type_hovering: bool, floor_damage_taken: float, source_delta: float, hit_time: float, hit_duration: float) -> Dictionary:
-	return source_unit_update_state.floor_damage_state(tile_exists, is_grounded_value, type_hovering, floor_damage_taken, source_delta, hit_time, hit_duration)
-
-func source_unit_update_solid_tile_response_state(tile_exists: bool, can_pass_on_value: bool, type_can_boost: bool, current_elevation: float, net_client_value: bool, headless_value: bool, is_remote_value: bool, unit_id: int) -> Dictionary:
-	return source_unit_update_state.solid_tile_response_state(tile_exists, can_pass_on_value, type_can_boost, current_elevation, net_client_value, headless_value, is_remote_value, unit_id)
-
-func source_unit_update_ai_controller_server_gate_state(net_client_value: bool, dead_value: bool, should_update_controller_value: bool, unit_id: int) -> Dictionary:
-	return source_unit_update_state.ai_controller_server_gate_state(net_client_value, dead_value, should_update_controller_value, unit_id)
-
-func source_unit_update_invalid_controller_reset_state(controller_is_valid_value: bool, unit_id: int) -> Dictionary:
-	return source_unit_update_state.invalid_controller_reset_state(controller_is_valid_value, unit_id)
-
-func source_unit_update_spawned_core_despawn_state(spawned_by_core_value: bool, is_player_value: bool, dead_value: bool, unit_id: int) -> Dictionary:
-	return source_unit_update_state.spawned_core_despawn_state(spawned_by_core_value, is_player_value, dead_value, unit_id)
-
 func source_unit_icon_state(type_ui_icon: String) -> Dictionary:
 	return source_unit_metadata_state.unit_icon_state(type_ui_icon)
 
@@ -4026,53 +2954,8 @@ func source_unit_killed_state(is_local_value: bool, current_health: float, type_
 func source_unit_kill_sync_state(dead_value: bool, net_client: bool, killable_value: bool, unit_id: int) -> Dictionary:
 	return source_unit_destroy_state.kill_sync_state(dead_value, net_client, killable_value, unit_id)
 
-func source_unit_update_drowning_state(floor_exists: bool, floor_is_liquid: bool, floor_drown_time: float, can_drown_value: bool, current_drown_time: float, source_delta: float, hit_size: float, type_drown_time_multiplier: float, chance_delta_result: bool, net_client: bool) -> Dictionary:
-	return source_unit_update_state.drowning_state(floor_exists, floor_is_liquid, floor_drown_time, can_drown_value, current_drown_time, source_delta, hit_size, type_drown_time_multiplier, chance_delta_result, net_client)
-
-func source_unit_update_type_hook_state() -> Dictionary:
-	return source_unit_update_state.type_hook_state()
-
-func source_unit_update_bounds_state(type_bounded: bool, world_unit_height: float, world_unit_width: float, rules_limit_map_area: bool, team_is_ai: bool, rules_limit_x: int, rules_limit_y: int, rules_limit_width: int, rules_limit_height: int, current_x: float, current_y: float, elevation_value: float, net_client: bool, is_local: bool, source_delta: float) -> Dictionary:
-	return source_unit_update_state.bounds_state(type_bounded, world_unit_height, world_unit_width, rules_limit_map_area, team_is_ai, rules_limit_x, rules_limit_y, rules_limit_width, rules_limit_height, current_x, current_y, elevation_value, net_client, is_local, source_delta)
-
-func source_unit_update_nan_health_state(current_health: float) -> Dictionary:
-	return source_unit_update_state.nan_health_state(current_health)
-
-func source_unit_update_flying_transition_state(is_flying_value: bool, was_flying_value: bool, tile_exists: bool, floor_is_liquid: bool, tile_floor_color: String) -> Dictionary:
-	return source_unit_update_state.flying_transition_state(is_flying_value, was_flying_value, tile_exists, floor_is_liquid, tile_floor_color)
-
-func source_unit_update_walk_effect_state(type_hovering: bool, elevation_value: float, type_emit_walk_effect: bool, type_emit_walk_sound: bool, current_splash_timer: float, delta_x: float, delta_y: float, hit_size_value: float, tile_exists: bool, tile_floor_color: String, floor_map_color: String, floor_walk_sound_pitch_min: float, floor_walk_sound_pitch_max: float, floor_walk_sound_volume: float, random_pitch_value: float) -> Dictionary:
-	return source_unit_update_state.walk_effect_state(type_hovering, elevation_value, type_emit_walk_effect, type_emit_walk_sound, current_splash_timer, delta_x, delta_y, hit_size_value, tile_exists, tile_floor_color, floor_map_color, floor_walk_sound_pitch_min, floor_walk_sound_pitch_max, floor_walk_sound_volume, random_pitch_value)
-
-func source_unit_move_pref_state(type_omni_movement: bool, movement_x: float, movement_y: float) -> Dictionary:
-	return source_unit_update_state.move_pref_state(type_omni_movement, movement_x, movement_y)
-
-func source_unit_floor_speed_multiplier_state(elevation_value: float, type_hovering: bool, floor_on_speed_multiplier: float, type_floor_multiplier: float, speed_multiplier_value: float) -> Dictionary:
-	return source_unit_update_state.floor_speed_multiplier_state(elevation_value, type_hovering, floor_on_speed_multiplier, type_floor_multiplier, speed_multiplier_value)
-
-func source_unit_unloaded_state(unit_state: Variant) -> Variant:
-	return source_unit_update_state.unloaded_state(unit_state)
-
-func source_unit_update_boosting_default_event_state(boost: bool) -> Dictionary:
-	return source_unit_update_state.boosting_default_event_state(boost)
-
-func source_unit_update_boosting_guard_state(type_can_boost: bool, dead_state: bool, elevation_value: float) -> Dictionary:
-	return source_unit_update_state.boosting_guard_state(type_can_boost, dead_state, elevation_value)
-
-func source_unit_update_boosting_should_boost_state(boost: bool, on_solid_result: bool, elevation_value: float, can_land_result: bool) -> Dictionary:
-	return source_unit_update_state.boosting_should_boost_state(boost, on_solid_result, elevation_value, can_land_result)
-
 func source_arc_mathf_num(value: bool) -> int:
 	return 1 if value else 0
-
-func source_unit_update_boosting_elevation_state(current_elevation: float, type_can_boost: bool, should_boost: bool, type_rise_speed: float, type_descent_speed: float, source_delta: float) -> Dictionary:
-	return source_unit_update_state.boosting_elevation_state(current_elevation, type_can_boost, should_boost, type_rise_speed, type_descent_speed, source_delta)
-
-func source_unit_update_boosting_event_state(event: bool) -> Dictionary:
-	return source_unit_update_state.boosting_event_state(event)
-
-func selected_playable_turret():
-	return source_turret_runtime_state.selected_playable_turret(content_catalog, source_playable_scenario_defaults.BLOCK_DUO)
 
 func turret_simulation_callbacks() -> Dictionary:
 	return source_turret_simulation_state.simulation_callbacks(self)
@@ -4082,66 +2965,6 @@ func turret_random_inaccuracy_offset(inaccuracy_range: float) -> float:
 
 func simulate_turrets(delta: float) -> void:
 	source_turret_simulation_state.simulate_turrets(self, delta)
-
-func selected_turret_ammo_sprite() -> String:
-	return source_turret_runtime_state.selected_ammo_sprite(selected_playable_turret(), source_bullet_runtime_state.SOURCE_BULLET_TEXTURE_DEFAULT)
-
-func selected_turret_ammo_lifetime_seconds() -> float:
-	return source_turret_runtime_state.selected_ammo_lifetime_seconds_for_game(self)
-
-func selected_turret_limit_range_margin() -> float:
-	return source_turret_runtime_state.selected_limit_range_margin(selected_playable_turret(), source_turret_runtime_state.SOURCE_TURRET_LIMIT_RANGE_MARGIN_DEFAULT)
-
-func selected_turret_ammo_world_speed() -> float:
-	return source_turret_runtime_state.selected_ammo_world_speed_for_game(self)
-
-func selected_turret_ammo_dimensions() -> Dictionary:
-	return source_turret_runtime_state.selected_ammo_dimensions_for_game(self)
-
-func selected_turret_ammo_hit_size() -> float:
-	return source_turret_runtime_state.selected_ammo_hit_size_for_game(self)
-
-func selected_turret_ammo_damage() -> float:
-	return source_turret_runtime_state.selected_ammo_damage_for_game(self)
-
-func selected_turret_ammo_multiplier() -> float:
-	return source_turret_runtime_state.selected_ammo_multiplier_for_game(self)
-
-func selected_turret_ammo_reload_multiplier() -> float:
-	return source_turret_runtime_state.selected_ammo_reload_multiplier_for_game(self)
-
-func selected_turret_ammo_range_change() -> float:
-	return source_turret_runtime_state.selected_ammo_range_change_for_game(self)
-
-func selected_turret_ammo_count() -> int:
-	return source_turret_runtime_state.selected_ammo_count(selected_playable_turret())
-
-func selected_turret_max_ammo() -> int:
-	return source_turret_runtime_state.selected_max_ammo(selected_playable_turret(), source_turret_defaults.MAX_AMMO_DEFAULT)
-
-func selected_turret_ammo_per_shot() -> int:
-	return source_turret_runtime_state.selected_ammo_per_shot(selected_playable_turret(), source_turret_defaults.AMMO_PER_SHOT_DEFAULT)
-
-func selected_turret_consume_ammo_once() -> bool:
-	return source_turret_runtime_state.selected_consume_ammo_once(selected_playable_turret(), source_turret_runtime_state.SOURCE_TURRET_CONSUME_AMMO_ONCE_DEFAULT)
-
-func selected_turret_total_ammo() -> int:
-	return source_turret_runtime_state.selected_total_ammo_for_game(self)
-
-func selected_turret_cooldown_seconds() -> float:
-	return source_turret_runtime_state.selected_cooldown_seconds_for_game(self)
-
-func selected_turret_ammo_stack_count() -> int:
-	return source_turret_runtime_state.selected_ammo_stack_count_for_game(self)
-
-func selected_turret_loaded_ammo_item() -> String:
-	return source_turret_runtime_state.selected_loaded_ammo_item_for_game(self)
-
-func source_turret_outputs_items_state() -> Dictionary:
-	return source_turret_runtime_state.outputs_items_state()
-
-func generated_turret_outputs_items_bridge_state() -> Dictionary:
-	return source_turret_runtime_state.generated_outputs_items_bridge_state()
 
 func source_block_outputs_items_state(has_items: bool) -> Dictionary:
 	return source_block_query_state.outputs_items_state(has_items)
@@ -4250,84 +3073,6 @@ func source_block_remove_consumers_state(consume_builder_contains_power_after_re
 
 func generated_block_remove_consumers_bridge_state(consume_builder_contains_power_after_remove: bool, b: Variant) -> Dictionary:
 	return source_block_query_consumer_state_script.generated_block_remove_consumers_bridge_state(consume_builder_contains_power_after_remove, b)
-
-func source_block_consume_liquid_state(liquid: Variant, amount: float) -> Dictionary:
-	return source_block_consume_state.consume_liquid_state(liquid, amount)
-
-func generated_block_consume_liquid_bridge_state(liquid: Variant, amount: float) -> Dictionary:
-	return source_block_consume_state.generated_block_consume_liquid_bridge_state(liquid, amount)
-
-func source_block_consume_liquids_state(stacks: Variant) -> Dictionary:
-	return source_block_consume_state.consume_liquids_state(stacks)
-
-func generated_block_consume_liquids_bridge_state(stacks: Variant) -> Dictionary:
-	return source_block_consume_state.generated_block_consume_liquids_bridge_state(stacks)
-
-func source_block_consume_power_state(power_per_tick: float) -> Dictionary:
-	return source_block_consume_state.consume_power_state(power_per_tick)
-
-func generated_block_consume_power_bridge_state(power_per_tick: float) -> Dictionary:
-	return source_block_consume_state.generated_block_consume_power_bridge_state(power_per_tick)
-
-func source_block_consume_power_cond_state(usage: float, cons: Variant) -> Dictionary:
-	return source_block_consume_state.consume_power_cond_state(usage, cons)
-
-func generated_block_consume_power_cond_bridge_state(usage: float, cons: Variant) -> Dictionary:
-	return source_block_consume_state.generated_block_consume_power_cond_bridge_state(usage, cons)
-
-func source_block_consume_power_dynamic_state(usage: Variant) -> Dictionary:
-	return source_block_consume_state.consume_power_dynamic_state(usage)
-
-func generated_block_consume_power_dynamic_bridge_state(usage: Variant) -> Dictionary:
-	return source_block_consume_state.generated_block_consume_power_dynamic_bridge_state(usage)
-
-func source_block_consume_power_dynamic_displayed_state(displayed: float, usage: Variant) -> Dictionary:
-	return source_block_consume_state.consume_power_dynamic_displayed_state(displayed, usage)
-
-func generated_block_consume_power_dynamic_displayed_bridge_state(displayed: float, usage: Variant) -> Dictionary:
-	return source_block_consume_state.generated_block_consume_power_dynamic_displayed_bridge_state(displayed, usage)
-
-func source_block_consume_power_buffered_state(power_capacity: float) -> Dictionary:
-	return source_block_consume_state.consume_power_buffered_state(power_capacity)
-
-func generated_block_consume_power_buffered_bridge_state(power_capacity: float) -> Dictionary:
-	return source_block_consume_state.generated_block_consume_power_buffered_bridge_state(power_capacity)
-
-func source_block_consume_item_single_state(item: Variant) -> Dictionary:
-	return source_block_consume_state.consume_item_single_state(item)
-
-func generated_block_consume_item_single_bridge_state(item: Variant) -> Dictionary:
-	return source_block_consume_state.generated_block_consume_item_single_bridge_state(item)
-
-func source_block_consume_item_amount_state(item: Variant, amount: int) -> Dictionary:
-	return source_block_consume_state.consume_item_amount_state(item, amount)
-
-func generated_block_consume_item_amount_bridge_state(item: Variant, amount: int) -> Dictionary:
-	return source_block_consume_state.generated_block_consume_item_amount_bridge_state(item, amount)
-
-func source_block_consume_items_varargs_state(items: Array) -> Dictionary:
-	return source_block_consume_state.consume_items_varargs_state(items)
-
-func generated_block_consume_items_varargs_bridge_state(items: Array) -> Dictionary:
-	return source_block_consume_state.generated_block_consume_items_varargs_bridge_state(items)
-
-func source_block_consume_coolant_single_state(amount: float) -> Dictionary:
-	return source_block_consume_state.consume_coolant_single_state(amount)
-
-func generated_block_consume_coolant_single_bridge_state(amount: float) -> Dictionary:
-	return source_block_consume_state.generated_block_consume_coolant_single_bridge_state(amount)
-
-func source_block_consume_coolant_filtered_state(amount: float, allow_liquid: bool, allow_gas: bool) -> Dictionary:
-	return source_block_consume_state.consume_coolant_filtered_state(amount, allow_liquid, allow_gas)
-
-func generated_block_consume_coolant_filtered_bridge_state(amount: float, allow_liquid: bool, allow_gas: bool) -> Dictionary:
-	return source_block_consume_state.generated_block_consume_coolant_filtered_bridge_state(amount, allow_liquid, allow_gas)
-
-func source_block_consume_generic_state(consume: Variant, consume_is_power: bool, consume_builder_before: Array, consume_builder_without_power: Array, cons_power_before: Variant) -> Dictionary:
-	return source_block_consume_state.consume_generic_state(consume, consume_is_power, consume_builder_before, consume_builder_without_power, cons_power_before)
-
-func generated_block_consume_generic_bridge_state(consume: Variant, consume_is_power: bool, consume_builder_before: Array, consume_builder_without_power: Array, cons_power_before: Variant) -> Dictionary:
-	return source_block_consume_state.generated_block_consume_generic_bridge_state(consume, consume_is_power, consume_builder_before, consume_builder_without_power, cons_power_before)
 
 func source_block_setup_requirements_simple_state(cat: Variant, stacks: Variant) -> Dictionary:
 	return source_block_requirements_state.setup_requirements_simple_state(cat, stacks)
@@ -5112,36 +3857,6 @@ func generated_base_turret_draw_place_bridge_state(tile_x: int, tile_y: int, rot
 func generated_base_turret_draw_place_source_tilesize_default_bridge_state(tile_x: int, tile_y: int, rotation_value: int, valid: bool) -> Dictionary:
 	return source_base_turret_draw_state.generated_base_turret_draw_place_source_tilesize_default_bridge_state(tile_x, tile_y, rotation_value, valid)
 
-func source_base_turret_set_stats_state(range_value: float, source_tilesize: float, activation_time: float) -> Dictionary:
-	return source_turret_stats_bars_state.base_turret_set_stats_state(range_value, source_tilesize, activation_time, source_time_defaults.TICK_RATE)
-
-func generated_base_turret_set_stats_bridge_state(range_value: float, source_tilesize: float, activation_time: float) -> Dictionary:
-	return source_turret_stats_bars_state.generated_base_turret_set_stats_bridge_state(range_value, source_tilesize, activation_time, source_time_defaults.TICK_RATE)
-
-func source_base_turret_set_bars_state(activation_time: float, entity_activation_timer: float) -> Dictionary:
-	return source_turret_stats_bars_state.base_turret_set_bars_state(activation_time, entity_activation_timer, source_time_defaults.TICK_RATE)
-
-func generated_base_turret_set_bars_bridge_state(activation_time: float, entity_activation_timer: float) -> Dictionary:
-	return source_turret_stats_bars_state.generated_base_turret_set_bars_bridge_state(activation_time, entity_activation_timer, source_time_defaults.TICK_RATE)
-
-func source_turret_set_stats_state(inaccuracy_value: float, reload_value: float, reload_while_charging: bool, shoot_first_shot_delay: float, shoot_shots: float, target_air: bool, target_ground: bool, ammo_per_shot: int, heat_requirement: float, max_heat_efficiency: float) -> Dictionary:
-	return source_turret_stats_bars_state.set_stats_state(inaccuracy_value, reload_value, reload_while_charging, shoot_first_shot_delay, shoot_shots, target_air, target_ground, ammo_per_shot, heat_requirement, max_heat_efficiency, source_time_defaults.TICK_RATE)
-
-func generated_turret_set_stats_bridge_state(inaccuracy_value: float, reload_value: float, reload_while_charging: bool, shoot_first_shot_delay: float, shoot_shots: float, target_air: bool, target_ground: bool, ammo_per_shot: int, heat_requirement: float, max_heat_efficiency: float) -> Dictionary:
-	return source_turret_stats_bars_state.generated_turret_set_stats_bridge_state(inaccuracy_value, reload_value, reload_while_charging, shoot_first_shot_delay, shoot_shots, target_air, target_ground, ammo_per_shot, heat_requirement, max_heat_efficiency)
-
-func source_point_defense_turret_set_stats_state(bullet_damage: float, reload_value: float) -> Dictionary:
-	return source_turret_stats_bars_state.point_defense_set_stats_state(bullet_damage, reload_value, source_time_defaults.TICK_RATE)
-
-func generated_point_defense_turret_set_stats_default_bridge_state() -> Dictionary:
-	return source_turret_stats_bars_state.generated_point_defense_turret_set_stats_default_bridge_state(source_point_defense_turret_defaults.BULLET_DAMAGE_DEFAULT, source_turret_defaults.RELOAD_DEFAULT)
-
-func source_turret_set_bars_state(heat_requirement: float, entity_heat_req: float, max_heat_efficiency: float) -> Dictionary:
-	return source_turret_stats_bars_state.set_bars_state(heat_requirement, entity_heat_req, max_heat_efficiency)
-
-func generated_turret_set_bars_bridge_state(heat_requirement: float, entity_heat_req: float, max_heat_efficiency: float) -> Dictionary:
-	return source_turret_stats_bars_state.generated_turret_set_bars_bridge_state(heat_requirement, entity_heat_req, max_heat_efficiency)
-
 func source_turret_load_state() -> Dictionary:
 	return source_turret_presentation_state.load_state()
 
@@ -5165,12 +3880,6 @@ func source_tractor_beam_turret_icons_state(base_region: Variant, region: Varian
 
 func generated_tractor_beam_turret_icons_bridge_state(base_region: Variant, region: Variant) -> Dictionary:
 	return source_tractor_beam_turret_lifecycle_state.generated_icons_bridge_state(base_region, region)
-
-func source_tractor_beam_turret_set_stats_state(target_air: bool, target_ground: bool, damage: float) -> Dictionary:
-	return source_turret_stats_bars_state.tractor_beam_turret_set_stats_state(target_air, target_ground, damage, source_time_defaults.TICK_RATE)
-
-func generated_tractor_beam_turret_set_stats_bridge_state(target_air: bool, target_ground: bool, damage: float) -> Dictionary:
-	return source_turret_stats_bars_state.generated_tractor_beam_turret_set_stats_bridge_state(target_air, target_ground, damage, source_time_defaults.TICK_RATE)
 
 func source_tractor_beam_turret_init_state(range_value: float, source_tilesize: float) -> Dictionary:
 	return source_tractor_beam_turret_lifecycle_state.init_state(range_value, source_tilesize)
@@ -5374,24 +4083,6 @@ func source_turret_place_ended_state(tile: Variant, builder: Variant, rotation: 
 func generated_turret_place_ended_bridge_state(tile: Variant, builder: Variant, rotation: int, config: Variant, rotate: bool, tile_build_is_turret_build: bool, turret_rotation: float, tile_build_rotdeg: float) -> Dictionary:
 	return source_turret_placement_state.generated_place_ended_bridge_state(tile, builder, rotation, config, rotate, tile_build_is_turret_build, turret_rotation, tile_build_rotdeg)
 
-func source_reload_turret_set_stats_state(coolant_present: bool, reload_value: float, coolant_amount: float, coolant_multiplier: float) -> Dictionary:
-	return source_turret_stats_bars_state.reload_turret_set_stats_state(coolant_present, reload_value, coolant_amount, coolant_multiplier)
-
-func generated_reload_turret_set_stats_bridge_state(coolant_present: bool, reload_value: float, coolant_amount: float, coolant_multiplier: float) -> Dictionary:
-	return source_turret_stats_bars_state.generated_reload_turret_set_stats_bridge_state(coolant_present, reload_value, coolant_amount, coolant_multiplier)
-
-func source_power_turret_set_stats_state(shoot_type: Variant) -> Dictionary:
-	return source_turret_stats_bars_state.power_turret_set_stats_state(shoot_type)
-
-func generated_power_turret_set_stats_bridge_state(shoot_type: Variant) -> Dictionary:
-	return source_turret_stats_bars_state.generated_power_turret_set_stats_bridge_state(shoot_type)
-
-func source_continuous_turret_set_stats_state(shoot_type: Variant) -> Dictionary:
-	return source_turret_stats_bars_state.continuous_turret_set_stats_state(shoot_type)
-
-func generated_continuous_turret_set_stats_bridge_state(shoot_type: Variant) -> Dictionary:
-	return source_turret_stats_bars_state.generated_continuous_turret_set_stats_bridge_state(shoot_type)
-
 func source_power_turret_limit_range_state(shoot_type: Variant, margin: float) -> Dictionary:
 	return source_turret_range_state.power_turret_limit_range_state(shoot_type, margin)
 
@@ -5439,24 +4130,6 @@ func source_item_turret_limit_range_entries_state(margin: float, ammo_entries: A
 
 func generated_item_turret_limit_range_entries_bridge_state(margin: float, ammo_entries: Array) -> Dictionary:
 	return source_turret_range_state.generated_item_turret_limit_range_entries_bridge_state(margin, ammo_entries)
-
-func source_item_turret_set_stats_state(ammo_types: Variant, name_value: String, max_ammo: float, ammo_per_shot: float) -> Dictionary:
-	return source_turret_stats_bars_state.item_turret_set_stats_state(ammo_types, name_value, max_ammo, ammo_per_shot)
-
-func generated_item_turret_set_stats_bridge_state(ammo_types: Variant, name_value: String, max_ammo: float, ammo_per_shot: float) -> Dictionary:
-	return source_turret_stats_bars_state.generated_item_turret_set_stats_bridge_state(ammo_types, name_value, max_ammo, ammo_per_shot)
-
-func generated_item_turret_set_stats_default_bridge_state() -> Dictionary:
-	return source_turret_stats_bars_state.generated_item_turret_set_stats_default_bridge_state(source_turret_defaults.MAX_AMMO_DEFAULT, source_turret_defaults.AMMO_PER_SHOT_DEFAULT)
-
-func source_item_turret_set_bars_state(total_ammo: float, max_ammo: float) -> Dictionary:
-	return source_turret_stats_bars_state.item_turret_set_bars_state(total_ammo, max_ammo)
-
-func generated_item_turret_set_bars_bridge_state(total_ammo: float, max_ammo: float) -> Dictionary:
-	return source_turret_stats_bars_state.generated_item_turret_set_bars_bridge_state(total_ammo, max_ammo)
-
-func generated_item_turret_set_bars_default_bridge_state(total_ammo: float) -> Dictionary:
-	return source_turret_stats_bars_state.generated_item_turret_set_bars_default_bridge_state(total_ammo, source_turret_defaults.MAX_AMMO_DEFAULT)
 
 func source_item_turret_init_ground_overlap_state(target_ground: bool, place_overlap_range: float, range_value: float, place_overlap_margin: float, ammo_entries: Array) -> Dictionary:
 	return source_item_turret_init_state.ground_overlap_state(target_ground, place_overlap_range, range_value, place_overlap_margin, ammo_entries)
@@ -5584,18 +4257,6 @@ func source_continuous_liquid_turret_ammo_state(objects: Array) -> Dictionary:
 func generated_continuous_liquid_turret_ammo_bridge_state(objects: Array) -> Dictionary:
 	return source_turret_ammo_state.generated_continuous_liquid_turret_ammo_bridge_state(objects)
 
-func source_continuous_liquid_turret_set_stats_state(ammo_types: Array, liquid_consumed: float) -> Dictionary:
-	return source_turret_stats_bars_state.continuous_liquid_turret_set_stats_state(ammo_types, liquid_consumed)
-
-func generated_continuous_liquid_turret_set_stats_bridge_state(ammo_types: Array, liquid_consumed: float) -> Dictionary:
-	return source_turret_stats_bars_state.generated_continuous_liquid_turret_set_stats_bridge_state(ammo_types, liquid_consumed)
-
-func source_liquid_turret_set_stats_state(ammo_types: Variant, name_value: String) -> Dictionary:
-	return source_turret_stats_bars_state.liquid_turret_set_stats_state(ammo_types, name_value)
-
-func generated_liquid_turret_set_stats_bridge_state(ammo_types: Variant, name_value: String) -> Dictionary:
-	return source_turret_stats_bars_state.generated_liquid_turret_set_stats_bridge_state(ammo_types, name_value)
-
 func source_liquid_turret_init_state(ammo_entries: Array, target_ground: bool, place_overlap_range: float, range_value: float, place_overlap_margin: float) -> Dictionary:
 	return source_liquid_turret_init_state_script.init_state(ammo_entries, target_ground, place_overlap_range, range_value, place_overlap_margin)
 
@@ -5613,84 +4274,6 @@ func generated_continuous_liquid_turret_init_bridge_state(ammo_entries: Array, t
 
 func generated_continuous_liquid_turret_init_range_margin_default_bridge_state(ammo_entries: Array, target_ground: bool, place_overlap_range: float) -> Dictionary:
 	return source_continuous_liquid_turret_init_state_script.generated_init_range_margin_default_bridge_state(ammo_entries, target_ground, place_overlap_range)
-
-func source_continuous_liquid_turret_build_should_active_sound_state(was_shooting: bool, enabled: bool) -> Dictionary:
-	return source_continuous_liquid_turret_build_state.should_active_sound_state(was_shooting, enabled)
-
-func generated_continuous_liquid_turret_build_should_active_sound_bridge_state(was_shooting: bool, enabled: bool) -> Dictionary:
-	return source_continuous_liquid_turret_build_state.generated_should_active_sound_bridge_state(was_shooting, enabled)
-
-func source_continuous_liquid_turret_build_get_ammo_content_state(liquids_null: bool, current_amount: float, current_liquid: Variant) -> Dictionary:
-	return source_continuous_liquid_turret_build_state.get_ammo_content_state(liquids_null, current_amount, current_liquid)
-
-func generated_continuous_liquid_turret_build_get_ammo_content_bridge_state(liquids_null: bool, current_amount: float, current_liquid: Variant) -> Dictionary:
-	return source_continuous_liquid_turret_build_state.generated_get_ammo_content_bridge_state(liquids_null, current_amount, current_liquid)
-
-func source_continuous_liquid_turret_build_get_ammo_fraction_state(current_amount: float, liquid_capacity: float) -> Dictionary:
-	return source_continuous_liquid_turret_build_state.get_ammo_fraction_state(current_amount, liquid_capacity)
-
-func generated_continuous_liquid_turret_build_get_ammo_fraction_bridge_state(current_amount: float, liquid_capacity: float) -> Dictionary:
-	return source_continuous_liquid_turret_build_state.generated_get_ammo_fraction_bridge_state(current_amount, liquid_capacity)
-
-func source_continuous_liquid_turret_build_update_tile_state(current_amount: float, liquid_consumed: float, activated_before: bool) -> Dictionary:
-	return source_continuous_liquid_turret_build_state.update_tile_state(current_amount, liquid_consumed, activated_before)
-
-func generated_continuous_liquid_turret_build_update_tile_bridge_state(current_amount: float, liquid_consumed: float, activated_before: bool) -> Dictionary:
-	return source_continuous_liquid_turret_build_state.generated_update_tile_bridge_state(current_amount, liquid_consumed, activated_before)
-
-func source_continuous_liquid_turret_build_sense_object_state(sensor: String, current_liquid: Variant, super_sense_object_value: Variant) -> Dictionary:
-	return source_continuous_liquid_turret_build_state.sense_object_state(sensor, current_liquid, super_sense_object_value)
-
-func generated_continuous_liquid_turret_build_sense_object_bridge_state(sensor: String, current_liquid: Variant, super_sense_object_value: Variant) -> Dictionary:
-	return source_continuous_liquid_turret_build_state.generated_sense_object_bridge_state(sensor, current_liquid, super_sense_object_value)
-
-func source_continuous_liquid_turret_build_can_consume_state(has_correct_ammo: bool, super_can_consume: bool) -> Dictionary:
-	return source_continuous_liquid_turret_build_state.can_consume_state(has_correct_ammo, super_can_consume)
-
-func generated_continuous_liquid_turret_build_can_consume_bridge_state(has_correct_ammo: bool, super_can_consume: bool) -> Dictionary:
-	return source_continuous_liquid_turret_build_state.generated_can_consume_bridge_state(has_correct_ammo, super_can_consume)
-
-func source_continuous_liquid_turret_build_should_consume_state(super_should_consume: bool, activated: bool) -> Dictionary:
-	return source_continuous_liquid_turret_build_state.should_consume_state(super_should_consume, activated)
-
-func generated_continuous_liquid_turret_build_should_consume_bridge_state(super_should_consume: bool, activated: bool) -> Dictionary:
-	return source_continuous_liquid_turret_build_state.generated_should_consume_bridge_state(super_should_consume, activated)
-
-func source_continuous_liquid_turret_build_use_ammo_state(peek_ammo: Variant) -> Dictionary:
-	return source_continuous_liquid_turret_build_state.use_ammo_state(peek_ammo)
-
-func generated_continuous_liquid_turret_build_use_ammo_bridge_state(peek_ammo: Variant) -> Dictionary:
-	return source_continuous_liquid_turret_build_state.generated_use_ammo_bridge_state(peek_ammo)
-
-func source_continuous_liquid_turret_build_peek_ammo_state(current_liquid: Variant, ammo_type: Variant) -> Dictionary:
-	return source_continuous_liquid_turret_build_state.peek_ammo_state(current_liquid, ammo_type)
-
-func generated_continuous_liquid_turret_build_peek_ammo_bridge_state(current_liquid: Variant, ammo_type: Variant) -> Dictionary:
-	return source_continuous_liquid_turret_build_state.generated_peek_ammo_bridge_state(current_liquid, ammo_type)
-
-func source_continuous_liquid_turret_build_has_ammo_state(has_correct_ammo: bool, current_liquid: Variant, ammo_type: Variant, current_amount: float, activated: bool) -> Dictionary:
-	return source_continuous_liquid_turret_build_state.has_ammo_state(has_correct_ammo, current_liquid, ammo_type, current_amount, activated)
-
-func generated_continuous_liquid_turret_build_has_ammo_bridge_state(has_correct_ammo: bool, current_liquid: Variant, ammo_type: Variant, current_amount: float, activated: bool) -> Dictionary:
-	return source_continuous_liquid_turret_build_state.generated_has_ammo_bridge_state(has_correct_ammo, current_liquid, ammo_type, current_amount, activated)
-
-func source_continuous_liquid_turret_build_has_correct_ammo_state(bullets_any: bool, first_bullet_type: Variant, peek_ammo: Variant) -> Dictionary:
-	return source_continuous_liquid_turret_build_state.has_correct_ammo_state(bullets_any, first_bullet_type, peek_ammo)
-
-func generated_continuous_liquid_turret_build_has_correct_ammo_bridge_state(bullets_any: bool, first_bullet_type: Variant, peek_ammo: Variant) -> Dictionary:
-	return source_continuous_liquid_turret_build_state.generated_has_correct_ammo_bridge_state(bullets_any, first_bullet_type, peek_ammo)
-
-func source_continuous_liquid_turret_build_accept_item_state(source_building: Variant, item: Variant) -> Dictionary:
-	return source_continuous_liquid_turret_build_state.accept_item_state(source_building, item)
-
-func generated_continuous_liquid_turret_build_accept_item_bridge_state(source_building: Variant, item: Variant) -> Dictionary:
-	return source_continuous_liquid_turret_build_state.generated_accept_item_bridge_state(source_building, item)
-
-func source_continuous_liquid_turret_build_accept_liquid_state(source_building: Variant, liquid: Variant, ammo_type: Variant, current_liquid: Variant, current_liquid_ammo_type_present: bool, current_liquid_amount: float, current_ammo_multiplier: float) -> Dictionary:
-	return source_continuous_liquid_turret_build_state.accept_liquid_state(source_building, liquid, ammo_type, current_liquid, current_liquid_ammo_type_present, current_liquid_amount, current_ammo_multiplier)
-
-func generated_continuous_liquid_turret_build_accept_liquid_bridge_state(source_building: Variant, liquid: Variant, ammo_type: Variant, current_liquid: Variant, current_liquid_ammo_type_present: bool, current_liquid_amount: float, current_ammo_multiplier: float) -> Dictionary:
-	return source_continuous_liquid_turret_build_state.generated_accept_liquid_bridge_state(source_building, liquid, ammo_type, current_liquid, current_liquid_ammo_type_present, current_liquid_amount, current_ammo_multiplier)
 
 func source_liquid_turret_build_should_active_sound_state(was_shooting: bool, enabled: bool) -> Dictionary:
 	return source_liquid_turret_build_state.should_active_sound_state(was_shooting, enabled)
@@ -5773,63 +4356,6 @@ func load_selected_turret_ammo(item_id: String, amount: int) -> int:
 func use_selected_turret_ammo_once() -> Dictionary:
 	return source_turret_ammo_state.use_selected_turret_ammo_once(self)
 
-func selected_turret_reload_seconds() -> float:
-	return source_turret_runtime_state.selected_turret_float_stat(self, source_turret_runtime_state.SOURCE_TURRET_SELECTED_RELOAD_SECONDS_METHOD)
-
-func selected_turret_range() -> float:
-	return source_turret_runtime_state.selected_turret_float_stat(self, source_turret_runtime_state.SOURCE_TURRET_SELECTED_RANGE_METHOD)
-
-func selected_turret_shoot_y() -> float:
-	return source_turret_runtime_state.selected_turret_float_stat(self, source_turret_runtime_state.SOURCE_TURRET_SELECTED_SHOOT_Y_METHOD)
-
-func selected_turret_shoot_pattern() -> Dictionary:
-	return source_turret_runtime_state.selected_turret_dict_stat(self, source_turret_runtime_state.SOURCE_TURRET_SELECTED_SHOOT_PATTERN_METHOD)
-
-func selected_turret_inaccuracy() -> float:
-	return source_turret_runtime_state.selected_turret_float_stat(self, source_turret_runtime_state.SOURCE_TURRET_SELECTED_INACCURACY_METHOD)
-
-func selected_turret_rotate_speed() -> float:
-	return source_turret_runtime_state.selected_turret_float_stat(self, source_turret_runtime_state.SOURCE_TURRET_SELECTED_ROTATE_SPEED_METHOD)
-
-func selected_turret_shoot_cone() -> float:
-	return source_turret_runtime_state.selected_turret_float_stat(self, source_turret_runtime_state.SOURCE_TURRET_SELECTED_SHOOT_CONE_METHOD)
-
-func selected_turret_recoil() -> float:
-	return source_turret_runtime_state.selected_turret_float_stat(self, source_turret_runtime_state.SOURCE_TURRET_SELECTED_RECOIL_METHOD)
-
-func selected_turret_recoils() -> int:
-	return source_turret_runtime_state.selected_turret_int_stat(self, source_turret_runtime_state.SOURCE_TURRET_SELECTED_RECOILS_METHOD)
-
-func source_turret_reload_seconds(turret) -> float:
-	return source_turret_runtime_state.turret_reload_seconds(turret, source_turret_property_state.SOURCE_TURRET_RELOAD_KEY, source_turret_defaults.RELOAD_DEFAULT, source_time_defaults.TICK_RATE)
-
-func source_turret_reload_seconds_for_ammo(turret, data: Dictionary) -> float:
-	return source_turret_runtime_state.turret_reload_seconds_for_ammo(source_turret_reload_seconds(turret), data, source_bullet_reload_multiplier(data))
-
-func source_turret_range(turret) -> float:
-	return source_turret_runtime_state.turret_range(turret, source_turret_property_state.SOURCE_TURRET_RANGE_KEY, source_turret_defaults.RANGE_DEFAULT)
-
-func source_turret_shoot_y(turret) -> float:
-	return source_turret_runtime_state.turret_shoot_y(turret, source_turret_property_state.SOURCE_TURRET_SHOOT_Y_KEY, source_turret_defaults.SHOOT_Y_DEFAULT)
-
-func source_turret_inaccuracy(turret) -> float:
-	return source_turret_runtime_state.turret_inaccuracy(turret, source_turret_property_state.SOURCE_TURRET_INACCURACY_KEY, source_turret_defaults.INACCURACY_DEFAULT)
-
-func source_turret_rotate_speed(turret) -> float:
-	return source_turret_runtime_state.turret_rotate_speed(turret, source_turret_property_state.SOURCE_TURRET_ROTATE_SPEED_KEY, source_turret_defaults.ROTATE_SPEED_DEFAULT)
-
-func source_turret_shoot_cone(turret) -> float:
-	return source_turret_runtime_state.turret_shoot_cone(turret, source_turret_property_state.SOURCE_TURRET_SHOOT_CONE_KEY, source_turret_defaults.SHOOT_CONE_DEFAULT)
-
-func source_turret_recoil(turret) -> float:
-	return source_turret_runtime_state.turret_recoil(turret, source_turret_property_state.SOURCE_TURRET_RECOIL_KEY, source_turret_defaults.RECOIL_DEFAULT)
-
-func source_turret_recoils(turret) -> int:
-	return source_turret_runtime_state.turret_recoils(turret, source_turret_property_state.SOURCE_TURRET_RECOILS_KEY, source_turret_defaults.RECOILS_DEFAULT)
-
-func source_turret_recoil_time(turret) -> float:
-	return source_turret_runtime_state.turret_recoil_time(turret, source_turret_property_state.SOURCE_TURRET_RECOIL_TIME_KEY, source_turret_defaults.RECOIL_TIME_DEFAULT, source_turret_property_state.SOURCE_TURRET_RELOAD_KEY, source_turret_defaults.RELOAD_DEFAULT, source_time_defaults.TICK_RATE)
-
 func source_turret_recoil_offset(turret, recoil_rotation_degrees: float, cur_recoil: float) -> Vector2:
 	return source_turret_combat_state.recoil_offset(recoil_rotation_degrees, cur_recoil, source_turret_combat_state.SOURCE_TURRET_RECOIL_OFFSET_RECOIL_POW_DEFAULT, source_turret_recoil(turret))
 
@@ -5839,9 +4365,6 @@ func update_turret_recoil(cell: Vector2i, turret, delta: float, recoil_rotation_
 func apply_turret_recoil_offset(cell: Vector2i, turret, offset: Vector2) -> void:
 	source_turret_combat_state.apply_turret_recoil_offset(self, cell, turret, offset)
 
-func source_turret_shoot_pattern(turret) -> Dictionary:
-	return source_turret_runtime_state.turret_shoot_pattern(turret, source_turret_property_state.SOURCE_TURRET_SHOOT_PATTERN_KEY)
-
 func use_turret_shoot_x_offset(cell: Vector2i, turret) -> float:
 	return source_turret_combat_state.use_turret_shoot_x_offset(self, cell, turret)
 
@@ -5850,12 +4373,6 @@ func source_turret_bullet_origin(origin_x: float, origin_y: float, turret_rotati
 
 func source_angle_to_target(origin, target) -> float:
 	return source_turret_combat_state.game_angle_to_target(self, origin, target)
-
-func source_angle_distance(current_degrees: float, target_degrees: float) -> float:
-	return source_math_state.source_angles_angle_dist(current_degrees, target_degrees)
-
-func source_move_angle_toward(current_degrees: float, target_degrees: float, max_delta: float) -> float:
-	return source_math_state.source_angles_move_toward(current_degrees, target_degrees, max_delta)
 
 func source_bullet_range_change(data: Dictionary) -> float:
 	return source_bullet_runtime_state.range_change(data)
@@ -5868,9 +4385,6 @@ func source_bullet_inaccuracy(data: Dictionary) -> float:
 
 func source_turret_total_inaccuracy(turret, data: Dictionary) -> float:
 	return source_turret_combat_state.total_inaccuracy(source_turret_inaccuracy(turret), source_bullet_inaccuracy(data))
-
-func source_turret_range_for_ammo(turret, data: Dictionary) -> float:
-	return source_turret_runtime_state.turret_range_for_ammo(source_turret_range(turret), data, source_bullet_range_change(data))
 
 func source_bullet_lifetime_seconds(data: Dictionary) -> float:
 	return source_bullet_runtime_state.lifetime_seconds(data)

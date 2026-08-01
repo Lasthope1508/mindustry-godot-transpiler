@@ -17,7 +17,7 @@ func _ready() -> void:
 	var camera = game.get("camera")
 	var camera_before: Vector2 = camera.position if camera is Camera2D else Vector2.ZERO
 	var camera_zoom: Vector2 = camera.zoom if camera is Camera2D else Vector2.ZERO
-	await RenderingServer.frame_post_draw
+	await _wait_for_render_frame()
 	var screenshot_absolute_path := ProjectSettings.globalize_path(SCREENSHOT_PATH)
 	var screenshot_image := get_viewport().get_texture().get_image()
 	var screenshot_save_error := ERR_CANT_CREATE
@@ -67,3 +67,9 @@ func _ready() -> void:
 func _wait_frames(frame_count: int) -> void:
 	for _i in range(frame_count):
 		await get_tree().process_frame
+
+func _wait_for_render_frame() -> void:
+	if DisplayServer.get_name() == "headless":
+		await get_tree().process_frame
+		return
+	await RenderingServer.frame_post_draw

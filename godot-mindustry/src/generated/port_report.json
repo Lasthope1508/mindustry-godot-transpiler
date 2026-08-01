@@ -5,212 +5,17 @@
   "java_file_count": 801,
   "parsed_file_count": 8,
   "port_game_bridge_surface": {
-    "delegate_module_count": 175,
-    "delegating_function_count": 1646,
+    "delegate_module_count": 162,
+    "delegating_function_count": 1156,
     "exists": true,
-    "generated_bridge_delegating_function_count": 490,
+    "generated_bridge_delegating_function_count": 369,
     "largest_delegate_module": {
-      "function_count": 66,
-      "module": "source_unit_update_state"
+      "function_count": 25,
+      "module": "source_build_payload_state"
     },
     "path": "src/game/PortGame.gd",
-    "source_delegating_function_count": 925,
+    "source_delegating_function_count": 656,
     "top_delegate_modules": [
-      {
-        "canonical_owner_target": "SourceUnitUpdateState",
-        "class_name": "SourceUnitUpdateState",
-        "compatibility_surface": "PortGame",
-        "function_count": 66,
-        "module": "source_unit_update_state",
-        "module_path": "res://src/game/SourceUnitUpdateState.gd",
-        "sample_functions": [
-          "source_unit_is_grounded",
-          "source_unit_is_flying",
-          "source_unit_check_target_state",
-          "source_unit_can_drown_state",
-          "source_unit_drown_floor_state"
-        ]
-      },
-      {
-        "canonical_owner_target": "SourceWeaponsState",
-        "class_name": "SourceWeaponsState",
-        "compatibility_surface": "PortGame",
-        "function_count": 54,
-        "module": "source_weapons_state",
-        "module_path": "res://src/game/SourceWeaponsState.gd",
-        "sample_functions": [
-          "source_weapons_setup_mounts_state",
-          "source_weapons_set_rotation_state",
-          "source_weapons_control_state",
-          "source_weapons_control_rotate_shoot_state",
-          "source_weapons_aim_state"
-        ]
-      },
-      {
-        "canonical_owner_target": "SourceBuildingLifecycleState",
-        "class_name": "SourceBuildingLifecycleState",
-        "compatibility_surface": "PortGame",
-        "function_count": 47,
-        "module": "source_building_lifecycle_state",
-        "module_path": "res://src/game/SourceBuildingLifecycleState.gd",
-        "sample_functions": [
-          "generated_building_comp_check_suppression_bridge_state",
-          "generated_building_comp_player_placed_bridge_state",
-          "generated_building_comp_placed_bridge_state",
-          "generated_building_comp_on_repaired_bridge_state",
-          "generated_building_comp_change_team_delegate_bridge_state"
-        ]
-      },
-      {
-        "canonical_owner_target": "SourceTurretRuntimeState",
-        "class_name": "SourceTurretRuntimeState",
-        "compatibility_surface": "PortGame",
-        "function_count": 42,
-        "module": "source_turret_runtime_state",
-        "module_path": "res://src/game/SourceTurretRuntimeState.gd",
-        "sample_functions": [
-          "selected_playable_turret",
-          "selected_turret_ammo_sprite",
-          "selected_turret_ammo_lifetime_seconds",
-          "selected_turret_limit_range_margin",
-          "selected_turret_ammo_world_speed"
-        ]
-      },
-      {
-        "canonical_owner_target": "SourceSsotAccessorRuntimeState",
-        "class_name": "SourceSsotAccessorRuntimeState",
-        "compatibility_surface": "PortGame",
-        "function_count": 41,
-        "module": "source_ssot_accessor_runtime_state",
-        "module_path": "res://src/game/SourceSsotAccessorRuntimeState.gd",
-        "sample_functions": [
-          "playable_content_block_state",
-          "playable_content_item_state",
-          "playable_content_skin_override_state",
-          "source_symbol_registry_state",
-          "ssot_symbol_registry_symbol_state"
-        ]
-      },
-      {
-        "canonical_owner_target": "SourceBuildingDestructionState",
-        "class_name": "SourceBuildingDestructionState",
-        "compatibility_surface": "PortGame",
-        "function_count": 40,
-        "module": "source_building_destruction_state",
-        "module_path": "res://src/game/SourceBuildingDestructionState.gd",
-        "sample_functions": [
-          "generated_building_comp_after_destroyed_bridge_state",
-          "generated_building_comp_explosion_item_cap_bridge_state",
-          "generated_building_comp_splash_liquid_bridge_state",
-          "generated_building_comp_splash_liquid_source_tilesize_default_bridge_state",
-          "generated_building_comp_splash_liquid_source_block_size_default_bridge_state"
-        ]
-      },
-      {
-        "canonical_owner_target": "SourceBuildSelectionRuntimeState",
-        "class_name": "SourceBuildSelectionRuntimeState",
-        "compatibility_surface": "PortGame",
-        "function_count": 34,
-        "module": "source_build_selection_runtime_state",
-        "module_path": "res://src/game/SourceBuildSelectionRuntimeState.gd",
-        "sample_functions": [
-          "build_block_palette",
-          "select_build_slot_action",
-          "select_next_build_slot",
-          "select_previous_build_slot",
-          "select_build_block_by_id"
-        ]
-      },
-      {
-        "canonical_owner_target": "SourceBuildingDrawState",
-        "class_name": "SourceBuildingDrawState",
-        "compatibility_surface": "PortGame",
-        "function_count": 31,
-        "module": "source_building_draw_state_script",
-        "module_path": "res://src/game/SourceBuildingDrawState.gd",
-        "sample_functions": [
-          "generated_building_comp_draw_status_bridge_state",
-          "generated_building_comp_draw_cracks_bridge_state",
-          "generated_building_comp_draw_select_bridge_state",
-          "generated_building_comp_draw_item_selection_bridge_state",
-          "generated_building_comp_draw_disabled_bridge_state"
-        ]
-      },
-      {
-        "canonical_owner_target": "SourceMathState",
-        "class_name": "SourceMathState",
-        "compatibility_surface": "PortGame",
-        "function_count": 29,
-        "module": "source_math_state",
-        "module_path": "res://src/game/SourceMathState.gd",
-        "sample_functions": [
-          "source_absin",
-          "source_approach",
-          "source_approach_delta",
-          "source_lerp_delta",
-          "source_arc_is_power_of_two"
-        ]
-      },
-      {
-        "canonical_owner_target": "SourceTurretStatsBarsState",
-        "class_name": "SourceTurretStatsBarsState",
-        "compatibility_surface": "PortGame",
-        "function_count": 28,
-        "module": "source_turret_stats_bars_state",
-        "module_path": "res://src/game/SourceTurretStatsBarsState.gd",
-        "sample_functions": [
-          "source_base_turret_set_stats_state",
-          "generated_base_turret_set_stats_bridge_state",
-          "source_base_turret_set_bars_state",
-          "generated_base_turret_set_bars_bridge_state",
-          "source_turret_set_stats_state"
-        ]
-      },
-      {
-        "canonical_owner_target": "SourceBlockConsumeState",
-        "class_name": "SourceBlockConsumeState",
-        "compatibility_surface": "PortGame",
-        "function_count": 26,
-        "module": "source_block_consume_state",
-        "module_path": "res://src/game/SourceBlockConsumeState.gd",
-        "sample_functions": [
-          "source_block_consume_liquid_state",
-          "generated_block_consume_liquid_bridge_state",
-          "source_block_consume_liquids_state",
-          "generated_block_consume_liquids_bridge_state",
-          "source_block_consume_power_state"
-        ]
-      },
-      {
-        "canonical_owner_target": "SourceBuildingEfficiencyState",
-        "class_name": "SourceBuildingEfficiencyState",
-        "compatibility_surface": "PortGame",
-        "function_count": 26,
-        "module": "source_building_efficiency_state",
-        "module_path": "res://src/game/SourceBuildingEfficiencyState.gd",
-        "sample_functions": [
-          "generated_building_comp_consume_bridge_state",
-          "generated_building_comp_can_consume_bridge_state",
-          "generated_building_comp_update_efficiency_multiplier_bridge_state",
-          "generated_building_comp_efficiency_scale_bridge_state",
-          "generated_building_comp_update_consumption_initial_bridge_state"
-        ]
-      },
-      {
-        "canonical_owner_target": "SourceContinuousLiquidTurretBuildState",
-        "class_name": "SourceContinuousLiquidTurretBuildState",
-        "compatibility_surface": "PortGame",
-        "function_count": 26,
-        "module": "source_continuous_liquid_turret_build_state",
-        "module_path": "res://src/game/SourceContinuousLiquidTurretBuildState.gd",
-        "sample_functions": [
-          "source_continuous_liquid_turret_build_should_active_sound_state",
-          "generated_continuous_liquid_turret_build_should_active_sound_bridge_state",
-          "source_continuous_liquid_turret_build_get_ammo_content_state",
-          "generated_continuous_liquid_turret_build_get_ammo_content_bridge_state",
-          "source_continuous_liquid_turret_build_get_ammo_fraction_state"
-        ]
-      },
       {
         "canonical_owner_target": "SourceBuildPayloadState",
         "class_name": "SourceBuildPayloadState",
@@ -315,19 +120,214 @@
           "source_overdrive_projector_target_filter_state",
           "source_overdrive_projector_light_state"
         ]
+      },
+      {
+        "canonical_owner_target": "SourceBuildingTimeState",
+        "class_name": "SourceBuildingTimeState",
+        "compatibility_surface": "PortGame",
+        "function_count": 22,
+        "module": "source_building_time_state",
+        "module_path": "res://src/game/SourceBuildingTimeState.gd",
+        "sample_functions": [
+          "source_building_apply_boost_state",
+          "source_building_time_scale_decay_state",
+          "source_building_delta",
+          "source_building_edelta",
+          "source_building_progress_increase"
+        ]
+      },
+      {
+        "canonical_owner_target": "SourcePowerGraphState",
+        "class_name": "SourcePowerGraphState",
+        "compatibility_surface": "PortGame",
+        "function_count": 22,
+        "module": "source_power_graph_state",
+        "module_path": "res://src/game/SourcePowerGraphState.gd",
+        "sample_functions": [
+          "source_power_graph_add_role_state",
+          "source_power_graph_add_graph_state",
+          "source_power_graph_check_add_state",
+          "source_power_graph_clear_state",
+          "source_power_graph_reflow_state"
+        ]
+      },
+      {
+        "canonical_owner_target": "SourceMendProjectorState",
+        "class_name": "SourceMendProjectorState",
+        "compatibility_surface": "PortGame",
+        "function_count": 21,
+        "module": "source_mend_projector_state",
+        "module_path": "res://src/game/SourceMendProjectorState.gd",
+        "sample_functions": [
+          "source_mend_projector_repair_amount",
+          "source_mend_projector_light_state",
+          "source_mend_projector_reload",
+          "source_mend_projector_use_time",
+          "source_mend_projector_progress"
+        ]
+      },
+      {
+        "canonical_owner_target": "SourceLiquidTurretBuildState",
+        "class_name": "SourceLiquidTurretBuildState",
+        "compatibility_surface": "PortGame",
+        "function_count": 20,
+        "module": "source_liquid_turret_build_state",
+        "module_path": "res://src/game/SourceLiquidTurretBuildState.gd",
+        "sample_functions": [
+          "source_liquid_turret_build_should_active_sound_state",
+          "generated_liquid_turret_build_should_active_sound_bridge_state",
+          "source_liquid_turret_build_get_ammo_content_state",
+          "generated_liquid_turret_build_get_ammo_content_bridge_state",
+          "source_liquid_turret_build_get_ammo_fraction_state"
+        ]
+      },
+      {
+        "canonical_owner_target": "SourceBuildingDamageState",
+        "class_name": "SourceBuildingDamageState",
+        "compatibility_surface": "PortGame",
+        "function_count": 18,
+        "module": "source_building_damage_state",
+        "module_path": "res://src/game/SourceBuildingDamageState.gd",
+        "sample_functions": [
+          "generated_building_comp_handle_damage_bridge_state",
+          "generated_building_comp_collision_bridge_state",
+          "generated_building_comp_damage_delegate_bridge_state",
+          "generated_building_comp_bullet_damage_bridge_state",
+          "generated_building_comp_damage_dead_guard_bridge_state"
+        ]
+      },
+      {
+        "canonical_owner_target": "SourceBuildingInteractionState",
+        "class_name": "SourceBuildingInteractionState",
+        "compatibility_surface": "PortGame",
+        "function_count": 18,
+        "module": "source_building_interaction_state",
+        "module_path": "res://src/game/SourceBuildingInteractionState.gd",
+        "sample_functions": [
+          "generated_building_comp_is_commandable_bridge_state",
+          "generated_building_comp_is_payload_bridge_state",
+          "generated_building_comp_overwrote_bridge_state",
+          "generated_building_comp_on_removed_bridge_state",
+          "generated_building_comp_unit_on_bridge_state"
+        ]
+      },
+      {
+        "canonical_owner_target": "SourceBuildingSenseState",
+        "class_name": "SourceBuildingSenseState",
+        "compatibility_surface": "PortGame",
+        "function_count": 18,
+        "module": "source_building_sense_state",
+        "module_path": "res://src/game/SourceBuildingSenseState.gd",
+        "sample_functions": [
+          "generated_building_comp_sense_position_bridge_state",
+          "generated_building_comp_sense_health_process_bridge_state",
+          "generated_building_comp_sense_totals_bridge_state",
+          "generated_building_comp_sense_capacity_power_net_bridge_state",
+          "generated_building_comp_sense_enabled_controlled_bridge_state"
+        ]
+      },
+      {
+        "canonical_owner_target": "SourceTractorBeamTurretBuildUpdateTileFlowState",
+        "class_name": "SourceTractorBeamTurretBuildUpdateTileFlowState",
+        "compatibility_surface": "PortGame",
+        "function_count": 18,
+        "module": "source_tractor_beam_turret_build_update_tile_flow_state",
+        "module_path": "res://src/game/SourceTractorBeamTurretBuildUpdateTileFlowState.gd",
+        "sample_functions": [
+          "source_tractor_beam_turret_build_update_tile_activation_state",
+          "generated_tractor_beam_turret_build_update_tile_activation_bridge_state",
+          "source_tractor_beam_turret_build_update_tile_eff_state",
+          "generated_tractor_beam_turret_build_update_tile_eff_bridge_state",
+          "source_tractor_beam_turret_build_update_tile_retarget_state"
+        ]
+      },
+      {
+        "canonical_owner_target": "SourcePowerGeneratorState",
+        "class_name": "SourcePowerGeneratorState",
+        "compatibility_surface": "PortGame",
+        "function_count": 17,
+        "module": "source_power_generator_state",
+        "module_path": "res://src/game/SourcePowerGeneratorState.gd",
+        "sample_functions": [
+          "source_power_generator_get_power_production_state",
+          "source_power_generator_displayed_power_production_state",
+          "generated_power_generator_displayed_power_production_bridge_state",
+          "source_power_generator_build_serialization_state",
+          "source_solar_generator_update_tile_state"
+        ]
+      },
+      {
+        "canonical_owner_target": "SourceBuildingConfigureState",
+        "class_name": "SourceBuildingConfigureState",
+        "compatibility_surface": "PortGame",
+        "function_count": 16,
+        "module": "source_building_configure_state",
+        "module_path": "res://src/game/SourceBuildingConfigureState.gd",
+        "sample_functions": [
+          "generated_building_comp_configured_type_bridge_state",
+          "generated_building_comp_update_last_access_bridge_state",
+          "generated_building_comp_on_configure_tapped_bridge_state",
+          "generated_building_comp_on_configure_closed_bridge_state",
+          "generated_building_comp_should_show_configure_bridge_state"
+        ]
+      },
+      {
+        "canonical_owner_target": "SourceBuildingItemDumpState",
+        "class_name": "SourceBuildingItemDumpState",
+        "compatibility_surface": "PortGame",
+        "function_count": 16,
+        "module": "source_building_item_dump_state",
+        "module_path": "res://src/game/SourceBuildingItemDumpState.gd",
+        "sample_functions": [
+          "source_building_can_dump_item_default_state",
+          "source_building_put_item_state",
+          "source_building_produced_item_default_state",
+          "source_building_produced_item_amount_state",
+          "source_increment_dump_cursor"
+        ]
+      },
+      {
+        "canonical_owner_target": "SourceBuildingLiquidState",
+        "class_name": "SourceBuildingLiquidState",
+        "compatibility_surface": "PortGame",
+        "function_count": 15,
+        "module": "source_building_liquid_state",
+        "module_path": "res://src/game/SourceBuildingLiquidState.gd",
+        "sample_functions": [
+          "source_building_handle_liquid_amount",
+          "source_building_accept_liquid_state",
+          "source_building_dump_liquid_default_scaling_state",
+          "source_building_dump_liquid_campaign_unlock_state",
+          "source_building_dump_liquid_routing_gate_state"
+        ]
+      },
+      {
+        "canonical_owner_target": "SourceBulletRuntimeState",
+        "class_name": "SourceBulletRuntimeState",
+        "compatibility_surface": "PortGame",
+        "function_count": 15,
+        "module": "source_bullet_runtime_state",
+        "module_path": "res://src/game/SourceBulletRuntimeState.gd",
+        "sample_functions": [
+          "source_bullet_range_change",
+          "source_bullet_extra_range_margin",
+          "source_bullet_inaccuracy",
+          "source_bullet_lifetime_seconds",
+          "source_bullet_world_speed_per_tick"
+        ]
       }
     ]
   },
   "port_game_footprint": {
-    "byte_count": 509106,
+    "byte_count": 381232,
     "exists": true,
-    "function_count": 1870,
-    "generated_bridge_function_count": 591,
-    "line_count": 5927,
+    "function_count": 1380,
+    "generated_bridge_function_count": 470,
+    "line_count": 4441,
     "max_function_lines": 5,
     "path": "src/game/PortGame.gd",
-    "preload_count": 206,
-    "source_function_count": 1032
+    "preload_count": 190,
+    "source_function_count": 763
   },
   "unsupported": [
     "Generated gameplay classes not implemented yet",
