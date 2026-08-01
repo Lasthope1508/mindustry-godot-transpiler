@@ -4,3 +4,12 @@
 
 [node name="TractorBeamUpdateTileFlowModuleProof" type="Node"]
 script = ExtResource("1_tractorbeamupdateflowproof")
+
+[node name="ProofCanvas" type="CanvasLayer" parent="."]
+
+[node name="ProofLabel" type="Label" parent="ProofCanvas"]
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 920.0
+offset_bottom = 48.0
+text = "TRACTOR_BEAM_UPDATE_TILE_FLOW_MODULE_PROOF pending"

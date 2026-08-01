@@ -5,32 +5,17 @@
   "java_file_count": 801,
   "parsed_file_count": 8,
   "port_game_bridge_surface": {
-    "delegate_module_count": 148,
-    "delegating_function_count": 847,
+    "delegate_module_count": 147,
+    "delegating_function_count": 829,
     "exists": true,
-    "generated_bridge_delegating_function_count": 245,
+    "generated_bridge_delegating_function_count": 236,
     "largest_delegate_module": {
-      "function_count": 18,
-      "module": "source_tractor_beam_turret_build_update_tile_flow_state"
+      "function_count": 17,
+      "module": "source_power_generator_state"
     },
     "path": "src/game/PortGame.gd",
-    "source_delegating_function_count": 495,
+    "source_delegating_function_count": 486,
     "top_delegate_modules": [
-      {
-        "canonical_owner_target": "SourceTractorBeamTurretBuildUpdateTileFlowState",
-        "class_name": "SourceTractorBeamTurretBuildUpdateTileFlowState",
-        "compatibility_surface": "PortGame",
-        "function_count": 18,
-        "module": "source_tractor_beam_turret_build_update_tile_flow_state",
-        "module_path": "res://src/game/SourceTractorBeamTurretBuildUpdateTileFlowState.gd",
-        "sample_functions": [
-          "source_tractor_beam_turret_build_update_tile_activation_state",
-          "generated_tractor_beam_turret_build_update_tile_activation_bridge_state",
-          "source_tractor_beam_turret_build_update_tile_eff_state",
-          "generated_tractor_beam_turret_build_update_tile_eff_bridge_state",
-          "source_tractor_beam_turret_build_update_tile_retarget_state"
-        ]
-      },
       {
         "canonical_owner_target": "SourcePowerGeneratorState",
         "class_name": "SourcePowerGeneratorState",
@@ -315,19 +300,34 @@
           "source_bullet_type_update_homing_initial_state",
           "source_bullet_type_update_homing_target_velocity_state"
         ]
+      },
+      {
+        "canonical_owner_target": "SourceTractorBeamTurretLifecycleState",
+        "class_name": "SourceTractorBeamTurretLifecycleState",
+        "compatibility_surface": "PortGame",
+        "function_count": 12,
+        "module": "source_tractor_beam_turret_lifecycle_state",
+        "module_path": "res://src/game/SourceTractorBeamTurretLifecycleState.gd",
+        "sample_functions": [
+          "source_tractor_beam_turret_icons_state",
+          "generated_tractor_beam_turret_icons_bridge_state",
+          "source_tractor_beam_turret_init_state",
+          "generated_tractor_beam_turret_init_bridge_state",
+          "source_tractor_beam_turret_build_should_consume_state"
+        ]
       }
     ]
   },
   "port_game_footprint": {
-    "byte_count": 312175,
+    "byte_count": 302030,
     "exists": true,
-    "function_count": 1071,
-    "generated_bridge_function_count": 346,
-    "line_count": 3500,
+    "function_count": 1053,
+    "generated_bridge_function_count": 337,
+    "line_count": 3445,
     "max_function_lines": 5,
     "path": "src/game/PortGame.gd",
-    "preload_count": 175,
-    "source_function_count": 602
+    "preload_count": 174,
+    "source_function_count": 593
   },
   "unsupported": [
     "Generated gameplay classes not implemented yet",

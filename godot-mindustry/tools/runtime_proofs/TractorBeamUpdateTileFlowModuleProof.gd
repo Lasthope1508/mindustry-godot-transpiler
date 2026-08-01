@@ -58,12 +58,17 @@ func _ready() -> void:
 	}
 	proof["module_matches"] = proof["activation_bridge_matches"] and proof["eff_bridge_matches"] and proof["retarget_bridge_matches"] and proof["coolant_guard_bridge_matches"] and proof["coolant_used_bridge_matches"] and proof["coolant_remove_bridge_matches"] and proof["coolant_effect_bridge_matches"] and proof["coolant_multiplier_bridge_matches"] and proof["any_reset_bridge_matches"]
 	proof["matches"] = proof["module_matches"] and proof["one_headquarter_per_ssot"] and proof["registry_valid"]
+	var proof_label := get_node_or_null("ProofCanvas/ProofLabel") as Label
+	if proof_label != null:
+		proof_label.text = "TRACTOR_BEAM_UPDATE_TILE_FLOW_MODULE_PROOF matches=%s registry_valid=%s" % [str(proof["matches"]), str(proof["registry_valid"])]
 	var proof_json := JSON.stringify(proof)
 	print("TRACTOR_BEAM_UPDATE_TILE_FLOW_MODULE_PROOF " + proof_json)
 	var proof_path := ProjectSettings.globalize_path("res://tools/runtime_proofs/TractorBeamUpdateTileFlowModuleProof.json")
 	var proof_file := FileAccess.open(proof_path, FileAccess.WRITE)
 	if proof_file != null:
 		proof_file.store_string(proof_json)
+		proof_file.flush()
+		proof_file.close()
 	game.free()
 	await get_tree().create_timer(60.0).timeout
 	get_tree().quit(0)

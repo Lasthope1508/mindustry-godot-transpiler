@@ -1,4 +1,4 @@
-﻿import json
+import json
 import sys
 import tempfile
 import unittest
@@ -371,6 +371,15 @@ class PlayableManifestTests(unittest.TestCase):
     def _port_game_building_sense_source(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingSenseState.gd"
+        source = self._port_game_drill_inventory_runtime_source()
+        source += "\n" + self._port_game_port_bridge_chain_source()
+        if module.exists():
+            source += "\n" + module.read_text(encoding="utf-8")
+        return source
+
+    def _port_game_tractor_beam_update_tile_flow_source(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceTractorBeamTurretBuildUpdateTileFlowState.gd"
         source = self._port_game_drill_inventory_runtime_source()
         source += "\n" + self._port_game_port_bridge_chain_source()
         if module.exists():
@@ -837,6 +846,7 @@ class PlayableManifestTests(unittest.TestCase):
 
     def _port_game_port_bridge_chain_source(self):
         bridge_names = [
+            "SourceTractorBeamTurretBuildUpdateTileFlowPortBridge.gd",
             "SourceBuildingSensePortBridge.gd",
             "SourceBuildingInteractionPortBridge.gd",
             "SourceBuildingDamagePortBridge.gd",
@@ -7120,7 +7130,7 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = bridge.read_text(encoding="utf-8")
         chain_source = self._port_game_port_bridge_chain_source()
 
-        self.assertIn('extends "res://src/game/SourceBuildingSensePortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceTractorBeamTurretBuildUpdateTileFlowPortBridge.gd"', port_source)
         self.assertIn('extends "res://src/game/SourceBuildingInteractionPortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceBuildingDamagePortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceLiquidTurretBuildPortBridge.gd"', chain_source)
@@ -7147,7 +7157,7 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = bridge.read_text(encoding="utf-8")
         chain_source = self._port_game_port_bridge_chain_source()
 
-        self.assertIn('extends "res://src/game/SourceBuildingSensePortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceTractorBeamTurretBuildUpdateTileFlowPortBridge.gd"', port_source)
         self.assertIn('extends "res://src/game/SourceBuildingInteractionPortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceBuildingDamagePortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceLiquidTurretBuildPortBridge.gd"', chain_source)
@@ -7168,7 +7178,9 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = bridge.read_text(encoding="utf-8")
         chain_source = self._port_game_port_bridge_chain_source()
 
-        self.assertIn('extends "res://src/game/SourceBuildingSensePortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceTractorBeamTurretBuildUpdateTileFlowPortBridge.gd"', port_source)
+        self.assertIn('const source_tractor_beam_turret_build_update_tile_flow_state := preload("res://src/game/SourceTractorBeamTurretBuildUpdateTileFlowState.gd")', chain_source)
+        self.assertIn('extends "res://src/game/SourceBuildingSensePortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceBuildingInteractionPortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceBuildingDamagePortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceLiquidTurretBuildPortBridge.gd"', chain_source)
@@ -7188,7 +7200,9 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = bridge.read_text(encoding="utf-8")
         chain_source = self._port_game_port_bridge_chain_source()
 
-        self.assertIn('extends "res://src/game/SourceBuildingSensePortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceTractorBeamTurretBuildUpdateTileFlowPortBridge.gd"', port_source)
+        self.assertIn('const source_tractor_beam_turret_build_update_tile_flow_state := preload("res://src/game/SourceTractorBeamTurretBuildUpdateTileFlowState.gd")', chain_source)
+        self.assertIn('extends "res://src/game/SourceBuildingSensePortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceBuildingInteractionPortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceBuildingDamagePortBridge.gd"', bridge_source)
         self.assertIn('extends "res://src/game/SourceBuildingDamagePortBridge.gd"', chain_source)
@@ -7205,7 +7219,9 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = bridge.read_text(encoding="utf-8")
         chain_source = self._port_game_port_bridge_chain_source()
 
-        self.assertIn('extends "res://src/game/SourceBuildingSensePortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceTractorBeamTurretBuildUpdateTileFlowPortBridge.gd"', port_source)
+        self.assertIn('const source_tractor_beam_turret_build_update_tile_flow_state := preload("res://src/game/SourceTractorBeamTurretBuildUpdateTileFlowState.gd")', chain_source)
+        self.assertIn('extends "res://src/game/SourceBuildingSensePortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceBuildingInteractionPortBridge.gd"', bridge_source)
         self.assertIn('extends "res://src/game/SourceBuildingInteractionPortBridge.gd"', chain_source)
         self.assertIn('const source_building_sense_state := preload("res://src/game/SourceBuildingSenseState.gd")', bridge_source)
@@ -7221,7 +7237,9 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = bridge.read_text(encoding="utf-8")
         chain_source = self._port_game_port_bridge_chain_source()
 
-        self.assertIn('extends "res://src/game/SourceBuildingSensePortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceTractorBeamTurretBuildUpdateTileFlowPortBridge.gd"', port_source)
+        self.assertIn('const source_tractor_beam_turret_build_update_tile_flow_state := preload("res://src/game/SourceTractorBeamTurretBuildUpdateTileFlowState.gd")', chain_source)
+        self.assertIn('extends "res://src/game/SourceBuildingSensePortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceBuildingInteractionPortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceBuildingDamagePortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceLiquidTurretBuildPortBridge.gd"', bridge_source)
@@ -7239,7 +7257,9 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = bridge.read_text(encoding="utf-8")
         chain_source = self._port_game_port_bridge_chain_source()
 
-        self.assertIn('extends "res://src/game/SourceBuildingSensePortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceTractorBeamTurretBuildUpdateTileFlowPortBridge.gd"', port_source)
+        self.assertIn('const source_tractor_beam_turret_build_update_tile_flow_state := preload("res://src/game/SourceTractorBeamTurretBuildUpdateTileFlowState.gd")', chain_source)
+        self.assertIn('extends "res://src/game/SourceBuildingSensePortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceBuildingInteractionPortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceBuildingDamagePortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceLiquidTurretBuildPortBridge.gd"', chain_source)
@@ -32807,7 +32827,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_tractor_beam_turret_build_update_tile_activation_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceTractorBeamTurretBuildUpdateTileFlowState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_tractor_beam_update_tile_flow_source()
         module_source = module.read_text(encoding="utf-8") if module.exists() else ""
         method_body = self._method_body(source, "func source_tractor_beam_turret_build_update_tile_activation_state(activation_timer: float, time_delta: float) -> Dictionary:")
 
@@ -32829,7 +32849,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_activation_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceTractorBeamTurretBuildUpdateTileFlowState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_tractor_beam_update_tile_flow_source()
         module_source = module.read_text(encoding="utf-8") if module.exists() else ""
         bridge_body = self._method_body(source, "func generated_tractor_beam_turret_build_update_tile_activation_bridge_state(activation_timer: float, time_delta: float) -> Dictionary:")
 
@@ -32848,7 +32868,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_tractor_beam_turret_build_update_tile_eff_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceTractorBeamTurretBuildUpdateTileFlowState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_tractor_beam_update_tile_flow_source()
         module_source = module.read_text(encoding="utf-8") if module.exists() else ""
         method_body = self._method_body(source, "func source_tractor_beam_turret_build_update_tile_eff_state(activation_returned_early: bool, efficiency: float, coolant_multiplier: float, delta_value: float) -> Dictionary:")
 
@@ -32868,7 +32888,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_eff_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceTractorBeamTurretBuildUpdateTileFlowState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_tractor_beam_update_tile_flow_source()
         module_source = module.read_text(encoding="utf-8") if module.exists() else ""
         bridge_body = self._method_body(source, "func generated_tractor_beam_turret_build_update_tile_eff_bridge_state(activation_timer: float, time_delta: float, efficiency: float, coolant_multiplier: float, delta_value: float) -> Dictionary:")
 
@@ -32900,7 +32920,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_tractor_beam_turret_build_update_tile_retarget_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceTractorBeamTurretBuildUpdateTileFlowState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_tractor_beam_update_tile_flow_source()
         module_source = module.read_text(encoding="utf-8") if module.exists() else ""
         method_body = self._method_body(source, "func source_tractor_beam_turret_build_update_tile_retarget_state(activation_returned_early: bool, timer_target_ready: bool, existing_target: Variant, closest_enemy_result: Variant, team: Variant, x: float, y: float, range_value: float, target_air: bool, target_ground: bool) -> Dictionary:")
         turret_defaults = ROOT / "godot-mindustry" / "src" / "game" / "SourceTurretDefaults.gd"
@@ -32925,7 +32945,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_retarget_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceTractorBeamTurretBuildUpdateTileFlowState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_tractor_beam_update_tile_flow_source()
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "TractorBeamTurret.gd"
         generated_source = generated.read_text(encoding="utf-8")
         module_source = module.read_text(encoding="utf-8") if module.exists() else ""
@@ -32964,7 +32984,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_tractor_beam_turret_build_update_tile_coolant_guard_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceTractorBeamTurretBuildUpdateTileFlowState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_tractor_beam_update_tile_flow_source()
         module_source = module.read_text(encoding="utf-8") if module.exists() else ""
         method_body = self._method_body(source, "func source_tractor_beam_turret_build_update_tile_coolant_guard_state(activation_returned_early: bool, target_after: Variant, coolant_present: bool, coolant_amount: float, current_liquid: Variant) -> Dictionary:")
 
@@ -32987,7 +33007,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_coolant_guard_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceTractorBeamTurretBuildUpdateTileFlowState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_tractor_beam_update_tile_flow_source()
         module_source = module.read_text(encoding="utf-8") if module.exists() else ""
         bridge_body = self._method_body(source, "func generated_tractor_beam_turret_build_update_tile_coolant_guard_bridge_state(activation_timer: float, time_delta: float, efficiency: float, coolant_multiplier: float, delta_value: float, timer_target_ready: bool, existing_target: Variant, closest_enemy_result: Variant, team: Variant, x: float, y: float, range_value: float, target_air: bool, target_ground: bool, coolant_present: bool, coolant_amount: float, current_liquid: Variant) -> Dictionary:")
 
@@ -33006,7 +33026,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_tractor_beam_turret_build_update_tile_coolant_used_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceTractorBeamTurretBuildUpdateTileFlowState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_tractor_beam_update_tile_flow_source()
         module_source = module.read_text(encoding="utf-8") if module.exists() else ""
         method_body = self._method_body(source, "func source_tractor_beam_turret_build_update_tile_coolant_used_state(coolant_guard: bool, liquid_amount: float, max_used: float, time_delta: float, coolant_multiplier: float, liquid_heat_capacity: float) -> Dictionary:")
 
@@ -33026,7 +33046,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_coolant_used_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceTractorBeamTurretBuildUpdateTileFlowState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_tractor_beam_update_tile_flow_source()
         module_source = module.read_text(encoding="utf-8")
 
         self.assertIn("func generated_tractor_beam_turret_build_update_tile_coolant_used_bridge_state(activation_timer: float, time_delta: float, efficiency: float, coolant_multiplier: float, delta_value: float, timer_target_ready: bool, existing_target: Variant, closest_enemy_result: Variant, team: Variant, x: float, y: float, range_value: float, target_air: bool, target_ground: bool, coolant_present: bool, coolant_amount: float, current_liquid: Variant, liquid_amount: float, liquid_heat_capacity: float) -> Dictionary:", source)
@@ -33041,7 +33061,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_tractor_beam_turret_build_update_tile_coolant_remove_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceTractorBeamTurretBuildUpdateTileFlowState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_tractor_beam_update_tile_flow_source()
         module_source = module.read_text(encoding="utf-8") if module.exists() else ""
         method_body = self._method_body(source, "func source_tractor_beam_turret_build_update_tile_coolant_remove_state(coolant_guard: bool, liquid: Variant, used: float) -> Dictionary:")
 
@@ -33060,7 +33080,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_coolant_remove_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceTractorBeamTurretBuildUpdateTileFlowState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_tractor_beam_update_tile_flow_source()
         module_source = module.read_text(encoding="utf-8")
 
         self.assertIn("func generated_tractor_beam_turret_build_update_tile_coolant_remove_bridge_state(activation_timer: float, time_delta: float, efficiency: float, coolant_multiplier: float, delta_value: float, timer_target_ready: bool, existing_target: Variant, closest_enemy_result: Variant, team: Variant, x: float, y: float, range_value: float, target_air: bool, target_ground: bool, coolant_present: bool, coolant_amount: float, current_liquid: Variant, liquid_amount: float, liquid_heat_capacity: float) -> Dictionary:", source)
@@ -33079,7 +33099,7 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceTractorBeamTurretBuildUpdateTileFlowState.gd"
         source_turret_defaults = ROOT / "godot-mindustry" / "src" / "game" / "SourceTurretDefaults.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_tractor_beam_update_tile_flow_source()
         module_source = module.read_text(encoding="utf-8") if module.exists() else ""
         method_body = self._method_body(source, "func source_tractor_beam_turret_build_update_tile_coolant_effect_state(coolant_guard: bool, used: float, chance_result: bool, x: float, y: float, size: float, source_tilesize: float, range_x: float, range_y: float) -> Dictionary:")
         turret_defaults = source_turret_defaults.read_text(encoding="utf-8")
@@ -33104,7 +33124,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_coolant_effect_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceTractorBeamTurretBuildUpdateTileFlowState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_tractor_beam_update_tile_flow_source()
         module_source = module.read_text(encoding="utf-8")
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "TractorBeamTurret.gd"
         generated_source = generated.read_text(encoding="utf-8")
@@ -33128,7 +33148,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_tractor_beam_turret_build_update_tile_coolant_multiplier_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceTractorBeamTurretBuildUpdateTileFlowState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_tractor_beam_update_tile_flow_source()
         module_source = module.read_text(encoding="utf-8") if module.exists() else ""
         method_body = self._method_body(source, "func source_tractor_beam_turret_build_update_tile_coolant_multiplier_state(coolant_guard: bool, used: float, liquid_heat_capacity: float, coolant_multiplier: float) -> Dictionary:")
 
@@ -33145,7 +33165,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_coolant_multiplier_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceTractorBeamTurretBuildUpdateTileFlowState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_tractor_beam_update_tile_flow_source()
         module_source = module.read_text(encoding="utf-8")
 
         self.assertIn("func generated_tractor_beam_turret_build_update_tile_coolant_multiplier_bridge_state(activation_timer: float, time_delta: float, efficiency: float, coolant_multiplier: float, delta_value: float, timer_target_ready: bool, existing_target: Variant, closest_enemy_result: Variant, team: Variant, x: float, y: float, range_value: float, target_air: bool, target_ground: bool, coolant_present: bool, coolant_amount: float, current_liquid: Variant, liquid_amount: float, liquid_heat_capacity: float, chance_result: bool, size: float, source_tilesize: float, range_x: float, range_y: float) -> Dictionary:", source)
@@ -33163,7 +33183,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_tractor_beam_turret_build_update_tile_any_reset_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceTractorBeamTurretBuildUpdateTileFlowState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_tractor_beam_update_tile_flow_source()
         module_source = module.read_text(encoding="utf-8") if module.exists() else ""
         method_body = self._method_body(source, "func source_tractor_beam_turret_build_update_tile_any_reset_state(activation_returned_early: bool, any_before: bool) -> Dictionary:")
 
@@ -33181,7 +33201,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_any_reset_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceTractorBeamTurretBuildUpdateTileFlowState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_tractor_beam_update_tile_flow_source()
         module_source = module.read_text(encoding="utf-8")
 
         self.assertIn("func generated_tractor_beam_turret_build_update_tile_any_reset_bridge_state(activation_timer: float, time_delta: float, efficiency: float, coolant_multiplier: float, delta_value: float, timer_target_ready: bool, existing_target: Variant, closest_enemy_result: Variant, team: Variant, x: float, y: float, range_value: float, target_air: bool, target_ground: bool, coolant_present: bool, coolant_amount: float, current_liquid: Variant, liquid_amount: float, liquid_heat_capacity: float, chance_result: bool, size: float, source_tilesize: float, range_x: float, range_y: float, any_before: bool) -> Dictionary:", source)
@@ -33195,6 +33215,48 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_TRACTOR_BEAM_TURRET_BUILD_UPDATE_TILE_ANY_RESET_STATE', module_source)
         self.assertIn('"generated_owner": "tractor_beam_turret.TractorBeamBuild.updateTile.any_reset"', module_source)
         self.assertIn('"matches": any_reset_result.get("any_after", null) == canonical.get("any_after", null) and any_reset_result.get("any_reset_call", null) == canonical.get("any_reset_call", null)', module_source)
+
+    def test_port_game_routes_tractor_beam_turret_update_tile_flow_through_port_bridge(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bridge = ROOT / "godot-mindustry" / "src" / "game" / "SourceTractorBeamTurretBuildUpdateTileFlowPortBridge.gd"
+
+        self.assertTrue(bridge.exists(), "Tractor beam update tile flow compatibility wrappers must live in SourceTractorBeamTurretBuildUpdateTileFlowPortBridge.gd")
+        port_source = port_game.read_text(encoding="utf-8")
+        bridge_source = bridge.read_text(encoding="utf-8")
+        chain_source = self._port_game_port_bridge_chain_source()
+
+        self.assertIn('extends "res://src/game/SourceTractorBeamTurretBuildUpdateTileFlowPortBridge.gd"', port_source)
+        self.assertIn('const source_tractor_beam_turret_build_update_tile_flow_state := preload("res://src/game/SourceTractorBeamTurretBuildUpdateTileFlowState.gd")', chain_source)
+        self.assertIn('extends "res://src/game/SourceBuildingSensePortBridge.gd"', bridge_source)
+        self.assertIn('const source_tractor_beam_turret_build_update_tile_flow_state := preload("res://src/game/SourceTractorBeamTurretBuildUpdateTileFlowState.gd")', bridge_source)
+        self.assertNotIn('const source_tractor_beam_turret_build_update_tile_flow_state := preload("res://src/game/SourceTractorBeamTurretBuildUpdateTileFlowState.gd")', port_source)
+        self.assertNotIn("class_name SourceTractorBeamTurretBuildUpdateTileFlowPortBridge", bridge_source)
+
+    def test_tractor_beam_update_tile_flow_module_proof_scene_exists(self):
+        proof_script = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "TractorBeamUpdateTileFlowModuleProof.gd"
+        proof_scene = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "TractorBeamUpdateTileFlowModuleProof.tscn"
+
+        self.assertTrue(proof_script.exists(), "Tractor beam update tile flow module runtime proof script must exist")
+        self.assertTrue(proof_scene.exists(), "Tractor beam update tile flow module runtime proof scene must exist")
+        scene_source = proof_scene.read_text(encoding="utf-8")
+        proof_source = proof_script.read_text(encoding="utf-8")
+        self.assertIn('path="res://tools/runtime_proofs/TractorBeamUpdateTileFlowModuleProof.gd"', scene_source)
+        self.assertIn("TRACTOR_BEAM_UPDATE_TILE_FLOW_MODULE_PROOF", proof_source)
+        self.assertIn("source_ssot_catalog.canonical_headquarter_registry_state()", proof_source)
+        self.assertIn('"one_headquarter_per_ssot"', proof_source)
+        self.assertIn('"registry_valid"', proof_source)
+        self.assertIn("proof_file.close()", proof_source)
+
+    def test_tractor_beam_update_tile_flow_module_proof_scene_has_visible_status_label(self):
+        proof_script = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "TractorBeamUpdateTileFlowModuleProof.gd"
+        proof_scene = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "TractorBeamUpdateTileFlowModuleProof.tscn"
+
+        scene_source = proof_scene.read_text(encoding="utf-8")
+        proof_source = proof_script.read_text(encoding="utf-8")
+        self.assertIn('[node name="ProofCanvas" type="CanvasLayer" parent="."]', scene_source)
+        self.assertIn('[node name="ProofLabel" type="Label" parent="ProofCanvas"]', scene_source)
+        self.assertIn('get_node_or_null("ProofCanvas/ProofLabel")', proof_source)
+        self.assertIn('proof_label.text = "TRACTOR_BEAM_UPDATE_TILE_FLOW_MODULE_PROOF matches=%s registry_valid=%s"', proof_source)
 
     def test_port_game_exposes_source_tractor_beam_turret_build_update_tile_look_target_guard_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
