@@ -805,6 +805,14 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         return port_game.read_text(encoding="utf-8") + "\n" + self._source_power_graph_port_bridge_source()
 
+    def _source_mend_projector_port_bridge_source(self):
+        bridge = ROOT / "godot-mindustry" / "src" / "game" / "SourceMendProjectorPortBridge.gd"
+        return bridge.read_text(encoding="utf-8") if bridge.exists() else ""
+
+    def _port_game_mend_projector_source(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        return port_game.read_text(encoding="utf-8") + "\n" + self._port_game_port_bridge_chain_source()
+
     def _port_game_lifecycle_source(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         return port_game.read_text(encoding="utf-8") + "\n" + self._source_building_lifecycle_port_bridge_source()
@@ -815,6 +823,7 @@ class PlayableManifestTests(unittest.TestCase):
 
     def _port_game_port_bridge_chain_source(self):
         bridge_names = [
+            "SourceMendProjectorPortBridge.gd",
             "SourcePowerGraphPortBridge.gd",
             "SourceBuildingTimePortBridge.gd",
             "SourceOverdriveProjectorPortBridge.gd",
@@ -6881,7 +6890,7 @@ class PlayableManifestTests(unittest.TestCase):
         proof_script = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "MendProjectorRuntimeModuleProof.gd"
         proof_scene = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "MendProjectorRuntimeModuleProof.tscn"
         summary_source = self._runtime_summary_source()
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_mend_projector_source()
         helper_source = (ROOT / "godot-mindustry" / "src" / "game" / "SourceMendProjectorState.gd").read_text(encoding="utf-8")
         mend_body = source.split("func simulate_mend_projectors(delta: float) -> void:", 1)[1].split("func step_mend_projectors(seconds: float) -> Dictionary:", 1)[0]
         step_body = source.split("func step_mend_projectors(seconds: float) -> Dictionary:", 1)[1].split("func find_overdrive_boost_target", 1)[0]
@@ -7093,7 +7102,8 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = bridge.read_text(encoding="utf-8")
         chain_source = self._port_game_port_bridge_chain_source()
 
-        self.assertIn('extends "res://src/game/SourcePowerGraphPortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceMendProjectorPortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourcePowerGraphPortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceBuildingTimePortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceOverdriveProjectorPortBridge.gd"', bridge_source)
         self.assertIn('extends "res://src/game/SourceBlockUnitPortBridge.gd"', chain_source)
@@ -7115,12 +7125,29 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = bridge.read_text(encoding="utf-8")
         chain_source = self._port_game_port_bridge_chain_source()
 
-        self.assertIn('extends "res://src/game/SourcePowerGraphPortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceMendProjectorPortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourcePowerGraphPortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceBuildingTimePortBridge.gd"', bridge_source)
         self.assertIn('extends "res://src/game/SourceBuildingTimePortBridge.gd"', chain_source)
         self.assertIn('const source_power_graph_state := preload("res://src/game/SourcePowerGraphState.gd")', bridge_source)
         self.assertNotIn('const source_power_graph_state := preload("res://src/game/SourcePowerGraphState.gd")', port_source)
         self.assertNotIn("class_name SourcePowerGraphPortBridge", bridge_source)
+
+    def test_port_game_routes_mend_projector_through_port_bridge(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bridge = ROOT / "godot-mindustry" / "src" / "game" / "SourceMendProjectorPortBridge.gd"
+
+        self.assertTrue(bridge.exists(), "Mend projector compatibility wrappers must live in SourceMendProjectorPortBridge.gd")
+        port_source = port_game.read_text(encoding="utf-8")
+        bridge_source = bridge.read_text(encoding="utf-8")
+        chain_source = self._port_game_port_bridge_chain_source()
+
+        self.assertIn('extends "res://src/game/SourceMendProjectorPortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourcePowerGraphPortBridge.gd"', bridge_source)
+        self.assertIn('extends "res://src/game/SourcePowerGraphPortBridge.gd"', chain_source)
+        self.assertIn('const source_mend_projector_state := preload("res://src/game/SourceMendProjectorState.gd")', bridge_source)
+        self.assertNotIn('const source_mend_projector_state := preload("res://src/game/SourceMendProjectorState.gd")', port_source)
+        self.assertNotIn("class_name SourceMendProjectorPortBridge", bridge_source)
 
     def test_port_game_exposes_overdrive_projector_range_state_like_source(self):
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceOverdriveProjectorState.gd"
@@ -7363,7 +7390,7 @@ class PlayableManifestTests(unittest.TestCase):
         block_defaults = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockDefaults.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingTimeState.gd"
         bridge = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingTimePortBridge.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_mend_projector_source()
         block_source = block_defaults.read_text(encoding="utf-8") if block_defaults.exists() else ""
         helper_source = helper.read_text(encoding="utf-8") if helper.exists() else ""
         bridge_source = bridge.read_text(encoding="utf-8") if bridge.exists() else ""
@@ -7738,7 +7765,7 @@ class PlayableManifestTests(unittest.TestCase):
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingTimeState.gd"
         placed_block_state = ROOT / "godot-mindustry" / "src" / "game" / "SourcePlacedBlockState.gd"
         game_loop = ROOT / "godot-mindustry" / "src" / "game" / "SourceGameLoopRuntimeState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_mend_projector_source()
         bridge_source = bridge.read_text(encoding="utf-8") if bridge.exists() else ""
         helper_source = helper.read_text(encoding="utf-8") if helper.exists() else ""
         placed_block_source = placed_block_state.read_text(encoding="utf-8") if placed_block_state.exists() else ""
@@ -7781,7 +7808,7 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         bridge = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingTimePortBridge.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingTimeState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_mend_projector_source()
         bridge_source = bridge.read_text(encoding="utf-8") if bridge.exists() else ""
         helper_source = helper.read_text(encoding="utf-8") if helper.exists() else ""
 
@@ -7802,7 +7829,7 @@ class PlayableManifestTests(unittest.TestCase):
         projector_defaults = ROOT / "godot-mindustry" / "src" / "game" / "SourceProjectorDefaults.gd"
         helper_source = overdrive_state.read_text(encoding="utf-8")
         mend_helper_source = mend_state.read_text(encoding="utf-8")
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_mend_projector_source()
         overdrive_bridge_source = overdrive_bridge.read_text(encoding="utf-8")
         projector_source = projector_defaults.read_text(encoding="utf-8") if projector_defaults.exists() else ""
 
@@ -7967,7 +7994,7 @@ class PlayableManifestTests(unittest.TestCase):
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceMendProjectorState.gd"
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = helper.read_text(encoding="utf-8")
-        port_source = port_game.read_text(encoding="utf-8")
+        port_source = self._port_game_mend_projector_source()
 
         self.assertIn("class_name SourceMendProjectorState", source)
         self.assertIn('const source_world_grid := preload("res://src/game/SourceWorldGrid.gd")', source)
@@ -7996,7 +8023,7 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         metadata = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockMetadataState.gd"
         source = helper.read_text(encoding="utf-8")
-        port_source = port_game.read_text(encoding="utf-8")
+        port_source = self._port_game_mend_projector_source()
         metadata_source = metadata.read_text(encoding="utf-8")
 
         self.assertIn("class_name SourceMendProjectorState", source)
@@ -8027,7 +8054,7 @@ class PlayableManifestTests(unittest.TestCase):
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceMendProjectorState.gd"
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = helper.read_text(encoding="utf-8")
-        port_source = port_game.read_text(encoding="utf-8")
+        port_source = self._port_game_mend_projector_source()
 
         self.assertIn("class_name SourceMendProjectorState", source)
         self.assertIn("static func projector_range(mend_projector, phase_heat := 0.0) -> float:", source)
@@ -8043,7 +8070,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("return source_mend_projector_state.select_state(mend_projector, phase_heat)", port_source)
         self.assertIn("return source_mend_projector_state.place_state(mend_projector)", port_source)
         self.assertIn("return source_mend_projector_state.light_state(mend_projector, smooth_efficiency)", port_source)
-        self.assertIn("return source_mend_projector_state.draw_state(mend_projector, heat, phase_heat, float(source_world_defaults.TILESIZE), source_time_ticks, lod_l2, lod_alpha2)", port_source)
+        self.assertIn("return source_mend_projector_state.draw_state(mend_projector, heat, phase_heat, float(source_mend_projector_port_bridge_world_defaults.TILESIZE), source_time_ticks, lod_l2, lod_alpha2)", port_source)
 
     def test_port_game_uses_projector_boost_state_helper_module(self):
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceProjectorBoostState.gd"
@@ -8104,7 +8131,7 @@ class PlayableManifestTests(unittest.TestCase):
         selected_helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceSelectedBuildState.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceMendProjectorState.gd"
         game_loop = ROOT / "godot-mindustry" / "src" / "game" / "SourceGameLoopRuntimeState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_mend_projector_source()
         selected_source = selected_helper.read_text(encoding="utf-8")
         helper_source = helper.read_text(encoding="utf-8")
         game_loop_source = game_loop.read_text(encoding="utf-8")
@@ -8124,7 +8151,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("static func is_mend_projector(block) -> bool:", selected_source)
         self.assertIn('return implementation_name(block) == "MendProjector"', selected_source)
         self.assertIn("func source_mend_projector_is_projector(block) -> bool:", source)
-        self.assertIn("return source_selected_build_state.is_mend_projector(block)", source)
+        self.assertIn("return source_mend_projector_port_bridge_selected_build_state.is_mend_projector(block)", source)
         self.assertIn("static func simulate_projectors(game, delta: float) -> void:", helper_source)
         self.assertIn("static func step_projectors(game, seconds: float) -> Dictionary:", helper_source)
         self.assertIn("if not bool(game.call(\"source_mend_projector_is_projector\", block)):", helper_source)
@@ -8167,7 +8194,7 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_step_mend_projectors_returns_mend_projector_state_helper_values(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_mend_projector_source()
         step_body = source.split("func step_mend_projectors(seconds: float) -> Dictionary:", 1)[1].split("func find_overdrive_boost_target", 1)[0]
 
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceMendProjectorState.gd"
@@ -8267,7 +8294,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("static func is_overdrive_projector(block) -> bool:", selected_source)
         self.assertIn('return implementation_name(block) == "MendProjector"', selected_source)
         self.assertIn('return implementation_name(block) == "OverdriveProjector"', selected_source)
-        self.assertIn("source_selected_build_state.is_mend_projector(block)", source)
+        self.assertIn("source_mend_projector_port_bridge_selected_build_state.is_mend_projector(block)", source)
         self.assertIn("source_selected_build_state.is_overdrive_projector(block)", source)
         self.assertNotIn("block.implementation", source)
         self.assertNotIn("selected.implementation", source)
@@ -8292,7 +8319,7 @@ class PlayableManifestTests(unittest.TestCase):
         math_helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceMathState.gd"
         boost_helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceProjectorBoostState.gd"
         projector_defaults = ROOT / "godot-mindustry" / "src" / "game" / "SourceProjectorDefaults.gd"
-        source = self._port_game_math_source()
+        source = self._port_game_mend_projector_source()
         helper_source = helper.read_text(encoding="utf-8")
         math_helper_source = math_helper.read_text(encoding="utf-8")
         boost_helper_source = boost_helper.read_text(encoding="utf-8") if boost_helper.exists() else ""
@@ -8340,7 +8367,7 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_advances_mend_projector_charge_with_source_heat(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_mend_projector_source()
 
         self.assertIn("var mend_projector_heat: Dictionary = {}", source)
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceMendProjectorState.gd"
@@ -8357,7 +8384,7 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_lerps_mend_projector_smooth_efficiency_like_source(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_mend_projector_source()
 
         self.assertIn("var mend_projector_smooth_efficiency: Dictionary = {}", source)
         self.assertIn("func mend_projector_smooth_efficiency_at_cell(x: int, y: int) -> float:", source)
@@ -8373,7 +8400,7 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceMendProjectorState.gd"
         projector_defaults = ROOT / "godot-mindustry" / "src" / "game" / "SourceProjectorDefaults.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_mend_projector_source()
         helper_source = helper.read_text(encoding="utf-8")
         projector_source = projector_defaults.read_text(encoding="utf-8")
 
@@ -8395,7 +8422,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_mend_projector_progress_like_source_sense(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceMendProjectorState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_mend_projector_source()
         helper_source = helper.read_text(encoding="utf-8")
         summary_source = self._runtime_summary_source()
 
@@ -8417,7 +8444,7 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceMendProjectorState.gd"
         texture_helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceTextureRuntimeState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_mend_projector_source()
         helper_source = helper.read_text(encoding="utf-8")
         texture_source = texture_helper.read_text(encoding="utf-8")
         simulate_body = self._method_body(helper_source, "static func simulate_projectors(game, delta: float) -> void:")
@@ -8442,7 +8469,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("return source_mend_projector_state.progress_at_cell(self, x, y)", source)
         self.assertIn("return source_mend_projector_state.light_state_at_cell(self, x, y)", source)
         self.assertIn("return source_mend_projector_state.select_state_at_cell(self, x, y)", source)
-        self.assertIn("return source_mend_projector_state.draw_state_at_cell(self, x, y, source_time_ticks, source_world_defaults.TILESIZE)", source)
+        self.assertIn("return source_mend_projector_state.draw_state_at_cell(self, x, y, source_time_ticks, source_mend_projector_port_bridge_world_defaults.TILESIZE)", source)
         self.assertIn("return source_mend_projector_state.state_at_cell(self, x, y)", source)
         self.assertIn("var cell := _cell_from_key(key)", simulate_body)
         self.assertIn("var sprite = _sprite_at_cell(game, cell.x, cell.y)", simulate_body)
@@ -8499,7 +8526,7 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceMendProjectorState.gd"
         math_state = ROOT / "godot-mindustry" / "src" / "game" / "SourceMathState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_mend_projector_source()
         helper_source = helper.read_text(encoding="utf-8")
         math_state_source = math_state.read_text(encoding="utf-8")
 
@@ -8514,7 +8541,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertNotIn('const SOURCE_MEND_PROJECTOR_DRAW_METHOD := "public void draw(){\\n            float f = 1f - (Time.time / 100f) % 1f;', source)
         self.assertIn('const source_math_state := preload("res://src/game/SourceMathState.gd")', helper_source)
         self.assertIn("func source_mend_projector_draw_state(mend_projector, heat: float, phase_heat: float, source_time_ticks := 0.0, lod_l2 := true, lod_alpha2 := 1.0) -> Dictionary:", source)
-        self.assertIn("return source_mend_projector_state.draw_state_at_cell(self, x, y, source_time_ticks, source_world_defaults.TILESIZE)", source)
+        self.assertIn("return source_mend_projector_state.draw_state_at_cell(self, x, y, source_time_ticks, source_mend_projector_port_bridge_world_defaults.TILESIZE)", source)
         self.assertIn("var f := 1.0 - fmod(source_time_ticks / source_projector_defaults.PROJECTOR_TIME_LOOP_PERIOD, 1.0)", helper_source)
         self.assertIn("if mend_projector == null or not lod_l2:", helper_source)
         self.assertIn('"visible": false', helper_source)
@@ -8528,7 +8555,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"square_stroke": (2.0 * f + 0.2) * heat', helper_source)
         self.assertIn('"square_radius": min(1.0 + (1.0 - f) * float(projector_block_size(mend_projector)) * float(tile_size) / 2.0, float(projector_block_size(mend_projector)) * float(tile_size) / 2.0)', helper_source)
         self.assertIn("func mend_projector_draw_state_at_cell(x: int, y: int, source_time_ticks := 0.0) -> Dictionary:", source)
-        self.assertIn("return source_mend_projector_state.draw_state_at_cell(self, x, y, source_time_ticks, source_world_defaults.TILESIZE)", source)
+        self.assertIn("return source_mend_projector_state.draw_state_at_cell(self, x, y, source_time_ticks, source_mend_projector_port_bridge_world_defaults.TILESIZE)", source)
 
     def test_port_game_uses_source_math_state_helper_module(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -12486,7 +12513,7 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         bridge = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingTimePortBridge.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingTimeState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_mend_projector_source()
         bridge_source = bridge.read_text(encoding="utf-8") if bridge.exists() else ""
         helper_source = helper.read_text(encoding="utf-8") if helper.exists() else ""
 
@@ -16533,7 +16560,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_building_comp_update_timescale_decay_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         bridge = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingTimePortBridge.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_mend_projector_source()
         bridge_source = bridge.read_text(encoding="utf-8") if bridge.exists() else ""
         body = self._method_body(source, "func generated_building_comp_update_timescale_decay_bridge_state(current_time_scale: float, current_time_scale_duration: float, time_delta: float) -> Dictionary:")
 
@@ -16560,7 +16587,7 @@ class PlayableManifestTests(unittest.TestCase):
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingTimeState.gd"
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         bridge = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingTimePortBridge.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_mend_projector_source()
         bridge_source = bridge.read_text(encoding="utf-8") if bridge.exists() else ""
         helper_source = helper.read_text(encoding="utf-8") if helper.exists() else ""
 
@@ -16595,7 +16622,7 @@ class PlayableManifestTests(unittest.TestCase):
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingTimeState.gd"
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         bridge = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingTimePortBridge.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_mend_projector_source()
         bridge_source = bridge.read_text(encoding="utf-8") if bridge.exists() else ""
         helper_source = helper.read_text(encoding="utf-8") if helper.exists() else ""
 
@@ -16629,7 +16656,7 @@ class PlayableManifestTests(unittest.TestCase):
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingTimeState.gd"
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         bridge = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingTimePortBridge.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_mend_projector_source()
         bridge_source = bridge.read_text(encoding="utf-8") if bridge.exists() else ""
         helper_source = helper.read_text(encoding="utf-8") if helper.exists() else ""
 

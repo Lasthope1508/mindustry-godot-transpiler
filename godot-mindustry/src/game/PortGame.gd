@@ -1,4 +1,4 @@
-extends "res://src/game/SourcePowerGraphPortBridge.gd"
+extends "res://src/game/SourceMendProjectorPortBridge.gd"
 class_name PortGame
 
 const ContentRegistry := preload("res://src/generated/MindustryContentRegistry.gd")
@@ -131,7 +131,6 @@ const source_building_display_state := preload("res://src/game/SourceBuildingDis
 const source_building_configure_state := preload("res://src/game/SourceBuildingConfigureState.gd")
 const source_building_interaction_state := preload("res://src/game/SourceBuildingInteractionState.gd")
 const source_overdrive_boost_state := preload("res://src/game/SourceOverdriveBoostState.gd")
-const source_mend_projector_state := preload("res://src/game/SourceMendProjectorState.gd")
 const source_projector_boost_state := preload("res://src/game/SourceProjectorBoostState.gd")
 const source_power_generator_state := preload("res://src/game/SourcePowerGeneratorState.gd")
 const source_consume_module_registry := preload("res://src/game/SourceConsumeModuleRegistry.gd")
@@ -479,33 +478,6 @@ func source_power_generator_create_explosion_shake_state(should_explode_value: b
 
 func source_power_generator_on_destroyed_reactor_explosion_state(reactor_explosions: bool = source_power_generator_state.SOURCE_RULES_REACTOR_EXPLOSIONS_DEFAULT, create_explosion_state: Dictionary = {}) -> Dictionary:
 	return source_power_generator_state.on_destroyed_reactor_explosion_state(reactor_explosions, create_explosion_state)
-
-func source_mend_projector_repair_amount(mend_projector, target_block, phase_heat := 0.0, efficiency := 1.0) -> float:
-	return source_mend_projector_state.repair_amount(mend_projector, target_block, phase_heat, efficiency)
-
-func source_mend_projector_light_state(mend_projector, smooth_efficiency: float) -> Dictionary:
-	return source_mend_projector_state.light_state(mend_projector, smooth_efficiency)
-
-func source_mend_projector_reload(mend_projector) -> float:
-	return source_mend_projector_state.projector_reload(mend_projector)
-
-func source_mend_projector_use_time(mend_projector) -> float:
-	return source_mend_projector_state.use_time(mend_projector)
-
-func source_mend_projector_is_projector(block) -> bool:
-	return source_selected_build_state.is_mend_projector(block)
-
-func source_mend_projector_progress(mend_projector, charge: float) -> float:
-	return source_mend_projector_state.progress(mend_projector, charge)
-
-func source_mend_projector_select_state(mend_projector, phase_heat := 0.0) -> Dictionary:
-	return source_mend_projector_state.select_state(mend_projector, phase_heat)
-
-func source_mend_projector_place_state(mend_projector) -> Dictionary:
-	return source_mend_projector_state.place_state(mend_projector)
-
-func source_mend_projector_draw_state(mend_projector, heat: float, phase_heat: float, source_time_ticks := 0.0, lod_l2 := true, lod_alpha2 := 1.0) -> Dictionary:
-	return source_mend_projector_state.draw_state(mend_projector, heat, phase_heat, float(source_world_defaults.TILESIZE), source_time_ticks, lod_l2, lod_alpha2)
 
 func source_consume_power_ignore_state(buffered: bool) -> Dictionary:
 	return source_consume_module_registry.source_consume_power_state.ignore_state(buffered)
@@ -1193,32 +1165,6 @@ func repair_block_sprite(sprite, amount: float) -> float:
 
 func boost_mend_projector_at_cell(x: int, y: int) -> bool:
 	return source_projector_boost_state.apply_projector_boost_at_cell(self, x, y, source_projector_boost_state.PROJECTOR_KIND_MEND, mend_projector_booster_items, mend_projector_optional_efficiency)
-
-func mend_projector_phase_heat_at_cell(x: int, y: int) -> float:
-	return source_mend_projector_state.phase_heat_at_cell(self, x, y)
-
-func mend_projector_smooth_efficiency_at_cell(x: int, y: int) -> float:
-	return source_mend_projector_state.smooth_efficiency_at_cell(self, x, y)
-
-func mend_projector_light_state_at_cell(x: int, y: int) -> Dictionary:
-	return source_mend_projector_state.light_state_at_cell(self, x, y)
-
-func mend_projector_heat_at_cell(x: int, y: int) -> float:
-	return source_mend_projector_state.heat_at_cell(self, x, y)
-
-func mend_projector_charge_at_cell(x: int, y: int) -> float:
-	return source_mend_projector_state.charge_at_cell(self, x, y)
-
-func mend_projector_progress_at_cell(x: int, y: int) -> float:
-	return source_mend_projector_state.progress_at_cell(self, x, y)
-
-func mend_projector_select_state_at_cell(x: int, y: int) -> Dictionary:
-	return source_mend_projector_state.select_state_at_cell(self, x, y)
-func mend_projector_draw_state_at_cell(x: int, y: int, source_time_ticks := 0.0) -> Dictionary:
-	return source_mend_projector_state.draw_state_at_cell(self, x, y, source_time_ticks, source_world_defaults.TILESIZE)
-
-func mend_projector_state_at_cell(x: int, y: int) -> Dictionary:
-	return source_mend_projector_state.state_at_cell(self, x, y)
 
 func boost_overdrive_projector_at_cell(x: int, y: int) -> bool:
 	return source_projector_boost_state.apply_projector_boost_at_cell(self, x, y, source_projector_boost_state.PROJECTOR_KIND_OVERDRIVE, overdrive_projector_booster_items, overdrive_projector_optional_efficiency)
@@ -2103,18 +2049,6 @@ func factory_runtime_state() -> Dictionary:
 
 func source_block_is_damaged(sprite) -> bool:
 	return source_placed_block_state.damaged(sprite, source_block_defaults.HEALTH_DAMAGED_EPSILON)
-
-func source_mend_projector_range(mend_projector, phase_heat := 0.0) -> float:
-	return source_mend_projector_state.projector_range(mend_projector, phase_heat)
-
-func find_damaged_block_in_mend_range(mend_cell: Vector2i, mend_projector, phase_heat := 0.0):
-	return source_mend_projector_state.find_damaged_block_in_range(self, mend_cell, mend_projector, phase_heat)
-
-func simulate_mend_projectors(delta: float) -> void:
-	source_mend_projector_state.simulate_projectors(self, delta)
-
-func step_mend_projectors(seconds: float) -> Dictionary:
-	return source_mend_projector_state.step_projectors(self, seconds)
 
 func selected_enemy_unit():
 	return source_enemy_unit_runtime_state.selected_enemy_unit(self)
