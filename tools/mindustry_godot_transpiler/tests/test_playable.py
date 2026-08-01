@@ -627,6 +627,17 @@ class PlayableManifestTests(unittest.TestCase):
             source += "\n" + module.read_text(encoding="utf-8")
         return source
 
+    def _port_game_block_unit_source(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bridge = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockUnitPortBridge.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockUnitState.gd"
+        source = port_game.read_text(encoding="utf-8")
+        if bridge.exists():
+            source += "\n" + bridge.read_text(encoding="utf-8")
+        if module.exists():
+            source += "\n" + module.read_text(encoding="utf-8")
+        return source
+
     def _assert_ability_generated_bridge_moved_to_module(
         self,
         port_signature: str,
@@ -790,6 +801,7 @@ class PlayableManifestTests(unittest.TestCase):
 
     def _port_game_port_bridge_chain_source(self):
         bridge_names = [
+            "SourceBlockUnitPortBridge.gd",
             "SourceSyncPortBridge.gd",
             "SourceBuilderRuntimePortBridge.gd",
             "SourceAbilityPortBridge.gd",
@@ -29794,7 +29806,7 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = bridge.read_text(encoding="utf-8")
         chain_source = self._port_game_port_bridge_chain_source()
 
-        self.assertIn('extends "res://src/game/SourceSyncPortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceBlockUnitPortBridge.gd"', port_source)
         self.assertIn('extends "res://src/game/SourceBuilderRuntimePortBridge.gd"', bridge_source)
         self.assertIn('const source_sync_state := preload("res://src/game/SourceSyncState.gd")', bridge_source)
         self.assertNotIn('const source_sync_state := preload("res://src/game/SourceSyncState.gd")', port_source)
@@ -30173,10 +30185,57 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("source_ssot_catalog.canonical_headquarter_registry_state", proof_source)
         self.assertIn('"one_headquarter_per_ssot"', proof_source)
 
+    def test_port_game_routes_block_unit_through_port_bridge(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bridge = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockUnitPortBridge.gd"
+
+        self.assertTrue(bridge.exists(), "BlockUnit compatibility wrappers must live in SourceBlockUnitPortBridge.gd")
+        port_source = port_game.read_text(encoding="utf-8")
+        bridge_source = bridge.read_text(encoding="utf-8")
+        chain_source = self._port_game_port_bridge_chain_source()
+
+        self.assertIn('extends "res://src/game/SourceBlockUnitPortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceSyncPortBridge.gd"', bridge_source)
+        self.assertIn('const source_block_unit_state := preload("res://src/game/SourceBlockUnitState.gd")', bridge_source)
+        self.assertNotIn('const source_block_unit_state := preload("res://src/game/SourceBlockUnitState.gd")', port_source)
+        self.assertNotIn("class_name SourceBlockUnitPortBridge", bridge_source)
+        self.assertIn('const source_block_unit_state := preload("res://src/game/SourceBlockUnitState.gd")', chain_source)
+
+        delegates = {
+            "func source_block_unit_ammof_state(ammo: float) -> Dictionary:": "return source_block_unit_state.ammof_state(ammo)",
+            "func generated_block_unit_comp_ammof_bridge_state(ammo: float) -> Dictionary:": "return source_block_unit_state.generated_block_unit_comp_ammof_bridge_state(ammo)",
+            "func source_block_unit_icon_state(tile_block_ui_icon: Variant) -> Dictionary:": "return source_block_unit_state.icon_state(tile_block_ui_icon)",
+            "func generated_block_unit_comp_icon_bridge_state(tile_block_ui_icon: Variant) -> Dictionary:": "return source_block_unit_state.generated_block_unit_comp_icon_bridge_state(tile_block_ui_icon)",
+            "func source_block_unit_tile_state(tile: Variant, tile_block_health: float, tile_health: float, tile_block_size: float, tilesize: float) -> Dictionary:": "return source_block_unit_state.tile_state(tile, tile_block_health, tile_health, tile_block_size, tilesize)",
+            "func generated_block_unit_comp_tile_bridge_state(tile: Variant, tile_block_health: float, tile_health: float, tile_block_size: float, tilesize: float) -> Dictionary:": "return source_block_unit_state.generated_block_unit_comp_tile_bridge_state(tile, tile_block_health, tile_health, tile_block_size, tilesize)",
+            "func generated_block_unit_comp_tile_source_tilesize_default_bridge_state(tile: Variant, tile_block_health: float, tile_health: float, tile_block_size: float) -> Dictionary:": "return source_block_unit_state.generated_block_unit_comp_tile_source_tilesize_default_bridge_state(tile, tile_block_health, tile_health, tile_block_size)",
+            "func source_block_unit_add_state(tile_null: bool) -> Dictionary:": "return source_block_unit_state.add_state(tile_null)",
+            "func generated_block_unit_comp_add_bridge_state(tile_null: bool) -> Dictionary:": "return source_block_unit_state.generated_block_unit_comp_add_bridge_state(tile_null)",
+            "func source_block_unit_update_state(tile_exists: bool, team: Variant, tile_team: Variant) -> Dictionary:": "return source_block_unit_state.update_state(tile_exists, team, tile_team)",
+            "func generated_block_unit_comp_update_bridge_state(tile_exists: bool, team: Variant, tile_team: Variant) -> Dictionary:": "return source_block_unit_state.generated_block_unit_comp_update_bridge_state(tile_exists, team, tile_team)",
+            "func source_block_unit_killed_state() -> Dictionary:": "return source_block_unit_state.killed_state()",
+            "func generated_block_unit_comp_killed_bridge_state() -> Dictionary:": "return source_block_unit_state.generated_block_unit_comp_killed_bridge_state()",
+            "func source_block_unit_damage_state(v: float, b: bool) -> Dictionary:": "return source_block_unit_state.damage_state(v, b)",
+            "func generated_block_unit_comp_damage_bridge_state(v: float, b: bool) -> Dictionary:": "return source_block_unit_state.generated_block_unit_comp_damage_bridge_state(v, b)",
+            "func source_block_unit_team_state(tile_exists: bool, this_team: Variant, team: Variant, tile_team: Variant) -> Dictionary:": "return source_block_unit_state.team_state(tile_exists, this_team, team, tile_team)",
+            "func generated_block_unit_comp_team_bridge_state(tile_exists: bool, this_team: Variant, team: Variant, tile_team: Variant) -> Dictionary:": "return source_block_unit_state.generated_block_unit_comp_team_bridge_state(tile_exists, this_team, team, tile_team)",
+            "func source_block_unit_dead_state(tile_null: bool, tile_dead: bool) -> Dictionary:": "return source_block_unit_state.dead_state(tile_null, tile_dead)",
+            "func generated_block_unit_comp_dead_bridge_state(tile_null: bool, tile_dead: bool) -> Dictionary:": "return source_block_unit_state.generated_block_unit_comp_dead_bridge_state(tile_null, tile_dead)",
+            "func source_block_unit_is_valid_state(tile_exists: bool, tile_is_valid: bool) -> Dictionary:": "return source_block_unit_state.is_valid_state(tile_exists, tile_is_valid)",
+            "func generated_block_unit_comp_is_valid_bridge_state(tile_exists: bool, tile_is_valid: bool) -> Dictionary:": "return source_block_unit_state.generated_block_unit_comp_is_valid_bridge_state(tile_exists, tile_is_valid)",
+            "func source_block_unit_is_added_state(tile_exists: bool, tile_is_valid: bool) -> Dictionary:": "return source_block_unit_state.is_added_state(tile_exists, tile_is_valid)",
+            "func generated_block_unit_comp_is_added_bridge_state(tile_exists: bool, tile_is_valid: bool) -> Dictionary:": "return source_block_unit_state.generated_block_unit_comp_is_added_bridge_state(tile_exists, tile_is_valid)",
+        }
+        for signature, expected_delegate in delegates.items():
+            with self.subTest(signature=signature):
+                self.assertNotIn(signature, port_source)
+                body = self._method_body(bridge_source, signature)
+                self.assertIn(expected_delegate, body)
+
     def test_port_game_exposes_source_block_unit_ammof_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockUnitState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_block_unit_source()
         module_source = module.read_text(encoding="utf-8")
         method_body = source.split("func source_block_unit_ammof_state(ammo: float) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0]
 
@@ -30212,7 +30271,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_block_unit_icon_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockUnitState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_block_unit_source()
         module_source = module.read_text(encoding="utf-8")
         method_body = source.split("func source_block_unit_icon_state(tile_block_ui_icon: Variant) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0]
 
@@ -30248,7 +30307,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_block_unit_killed_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockUnitState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_block_unit_source()
         self.assertTrue(module.exists(), "source_block_unit_state.gd helper must own BlockUnitComp source state")
         module_source = module.read_text(encoding="utf-8")
         method_body = source.split("func source_block_unit_killed_state() -> Dictionary:", 1)[1].split("\nfunc ", 1)[0]
@@ -30288,7 +30347,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_block_unit_damage_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockUnitState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_block_unit_source()
         self.assertTrue(module.exists(), "source_block_unit_state.gd helper must own BlockUnitComp source state")
         module_source = module.read_text(encoding="utf-8")
         method_body = source.split("func source_block_unit_damage_state(v: float, b: bool) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0]
@@ -30329,7 +30388,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_block_unit_dead_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockUnitState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_block_unit_source()
         self.assertTrue(module.exists(), "source_block_unit_state.gd helper must own BlockUnitComp source state")
         module_source = module.read_text(encoding="utf-8")
         method_body = source.split("func source_block_unit_dead_state(tile_null: bool, tile_dead: bool) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0]
@@ -30369,7 +30428,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_block_unit_is_valid_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockUnitState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_block_unit_source()
         self.assertTrue(module.exists(), "source_block_unit_state.gd helper must own BlockUnitComp source state")
         module_source = module.read_text(encoding="utf-8")
         method_body = source.split("func source_block_unit_is_valid_state(tile_exists: bool, tile_is_valid: bool) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0]
@@ -30409,7 +30468,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_block_unit_is_added_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockUnitState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_block_unit_source()
         self.assertTrue(module.exists(), "source_block_unit_state.gd helper must own BlockUnitComp source state")
         module_source = module.read_text(encoding="utf-8")
         method_body = source.split("func source_block_unit_is_added_state(tile_exists: bool, tile_is_valid: bool) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0]
@@ -30449,7 +30508,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_block_unit_team_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockUnitState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_block_unit_source()
         self.assertTrue(module.exists(), "source_block_unit_state.gd helper must own BlockUnitComp source state")
         module_source = module.read_text(encoding="utf-8")
         method_body = source.split("func source_block_unit_team_state(tile_exists: bool, this_team: Variant, team: Variant, tile_team: Variant) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0]
@@ -30497,7 +30556,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_block_unit_tile_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockUnitState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_block_unit_source()
         module_source = module.read_text(encoding="utf-8")
         method_body = source.split("func source_block_unit_tile_state(tile: Variant, tile_block_health: float, tile_health: float, tile_block_size: float, tilesize: float) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0]
 
@@ -30567,7 +30626,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_block_unit_update_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockUnitState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_block_unit_source()
         self.assertTrue(module.exists(), "source_block_unit_state.gd helper must own BlockUnitComp source state")
         module_source = module.read_text(encoding="utf-8")
         method_body = source.split("func source_block_unit_update_state(tile_exists: bool, team: Variant, tile_team: Variant) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0]
@@ -30610,7 +30669,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_block_unit_add_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockUnitState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_block_unit_source()
         self.assertTrue(module.exists(), "source_block_unit_state.gd helper must own BlockUnitComp source state")
         module_source = module.read_text(encoding="utf-8")
         method_body = source.split("func source_block_unit_add_state(tile_null: bool) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0]
@@ -30688,7 +30747,7 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = bridge.read_text(encoding="utf-8")
         chain_source = self._port_game_port_bridge_chain_source()
 
-        self.assertIn('extends "res://src/game/SourceSyncPortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceBlockUnitPortBridge.gd"', port_source)
         self.assertIn('extends "res://src/game/SourceAbilityPortBridge.gd"', bridge_source)
         self.assertIn('extends "res://src/game/SourceBuilderRuntimePortBridge.gd"', chain_source)
         self.assertIn('const source_builder_runtime_state := preload("res://src/game/SourceBuilderRuntimeState.gd")', bridge_source)
@@ -35084,7 +35143,7 @@ class PlayableManifestTests(unittest.TestCase):
         chain_source = self._port_game_port_bridge_chain_source()
 
         self.assertTrue(bridge.exists(), "SourceItemTurretBuildPortBridge.gd must own PortGame ItemTurretBuild compatibility wrappers")
-        self.assertIn('extends "res://src/game/SourceSyncPortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceBlockUnitPortBridge.gd"', port_source)
         self.assertIn('extends "res://src/game/SourceBuildPayloadPortBridge.gd"', bridge_source)
         self.assertIn('extends "res://src/game/SourceBuilderRuntimePortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceAbilityPortBridge.gd"', chain_source)
@@ -35142,7 +35201,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_item_turret_build_on_proximity_added_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceItemTurretBuildState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_item_turret_build_source()
         module_source = module.read_text(encoding="utf-8") if module.exists() else ""
 
         self._assert_runtime_bridge_moved_to_module(
@@ -35178,7 +35237,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_item_turret_build_sense_object_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceItemTurretBuildState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_item_turret_build_source()
         module_source = module.read_text(encoding="utf-8") if module.exists() else ""
 
         self._assert_runtime_bridge_moved_to_module(
@@ -35211,7 +35270,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_item_turret_build_get_ammo_content_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceItemTurretBuildState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_item_turret_build_source()
         module_source = module.read_text(encoding="utf-8") if module.exists() else ""
 
         self._assert_runtime_bridge_moved_to_module(
@@ -35245,7 +35304,7 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceItemTurretBuildState.gd"
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "ItemTurret.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_item_turret_build_source()
         module_source = module.read_text(encoding="utf-8")
         generated_source = generated.read_text(encoding="utf-8")
         generated_get_ammo_fraction_body = generated_source.split("func java_inner_class_ItemTurretBuild_method_getAmmoFraction_3(", 1)[1].split("\nfunc ", 1)[0]
@@ -35270,7 +35329,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_item_turret_build_get_ammo_fraction_default_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceItemTurretBuildState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_item_turret_build_source()
         module_source = module.read_text(encoding="utf-8")
 
         self._assert_runtime_bridge_moved_to_module(
@@ -36963,7 +37022,7 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = bridge.read_text(encoding="utf-8")
         chain_source = self._port_game_port_bridge_chain_source()
 
-        self.assertIn('extends "res://src/game/SourceSyncPortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceBlockUnitPortBridge.gd"', port_source)
         self.assertIn('extends "res://src/game/SourceItemTurretBuildPortBridge.gd"', bridge_source)
         self.assertIn('extends "res://src/game/SourceBuilderRuntimePortBridge.gd"', chain_source)
         self.assertIn('extends "res://src/game/SourceAbilityPortBridge.gd"', chain_source)

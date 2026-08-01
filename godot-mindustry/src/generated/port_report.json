@@ -5,32 +5,17 @@
   "java_file_count": 801,
   "parsed_file_count": 8,
   "port_game_bridge_surface": {
-    "delegate_module_count": 157,
-    "delegating_function_count": 1034,
+    "delegate_module_count": 156,
+    "delegating_function_count": 1011,
     "exists": true,
-    "generated_bridge_delegating_function_count": 305,
+    "generated_bridge_delegating_function_count": 293,
     "largest_delegate_module": {
       "function_count": 23,
-      "module": "source_block_unit_state"
+      "module": "source_overdrive_projector_state"
     },
     "path": "src/game/PortGame.gd",
-    "source_delegating_function_count": 598,
+    "source_delegating_function_count": 587,
     "top_delegate_modules": [
-      {
-        "canonical_owner_target": "SourceBlockUnitState",
-        "class_name": "SourceBlockUnitState",
-        "compatibility_surface": "PortGame",
-        "function_count": 23,
-        "module": "source_block_unit_state",
-        "module_path": "res://src/game/SourceBlockUnitState.gd",
-        "sample_functions": [
-          "source_block_unit_ammof_state",
-          "generated_block_unit_comp_ammof_bridge_state",
-          "source_block_unit_icon_state",
-          "generated_block_unit_comp_icon_bridge_state",
-          "source_block_unit_tile_state"
-        ]
-      },
       {
         "canonical_owner_target": "SourceOverdriveProjectorState",
         "class_name": "SourceOverdriveProjectorState",
@@ -315,19 +300,34 @@
           "source_block_setup_requirements_simple_state",
           "generated_block_setup_requirements_simple_bridge_state"
         ]
+      },
+      {
+        "canonical_owner_target": "SourceBuildingDisplayState",
+        "class_name": "SourceBuildingDisplayState",
+        "compatibility_surface": "PortGame",
+        "function_count": 13,
+        "module": "source_building_display_state",
+        "module_path": "res://src/game/SourceBuildingDisplayState.gd",
+        "sample_functions": [
+          "generated_building_comp_get_display_name_bridge_state",
+          "generated_building_comp_flow_items_bridge_state",
+          "generated_building_comp_display_consumption_bridge_state",
+          "generated_building_comp_display_bars_bridge_state",
+          "generated_building_comp_display_bridge_state"
+        ]
       }
     ]
   },
   "port_game_footprint": {
-    "byte_count": 356452,
+    "byte_count": 352049,
     "exists": true,
-    "function_count": 1258,
-    "generated_bridge_function_count": 406,
-    "line_count": 4070,
+    "function_count": 1235,
+    "generated_bridge_function_count": 394,
+    "line_count": 4000,
     "max_function_lines": 5,
     "path": "src/game/PortGame.gd",
-    "preload_count": 185,
-    "source_function_count": 705
+    "preload_count": 184,
+    "source_function_count": 694
   },
   "unsupported": [
     "Generated gameplay classes not implemented yet",
