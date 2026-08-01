@@ -596,8 +596,11 @@ class PlayableManifestTests(unittest.TestCase):
 
     def _port_game_ability_source(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bridge = ROOT / "godot-mindustry" / "src" / "game" / "SourceAbilityPortBridge.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceAbilityState.gd"
         source = port_game.read_text(encoding="utf-8")
+        if bridge.exists():
+            source += "\n" + bridge.read_text(encoding="utf-8")
         if module.exists():
             source += "\n" + module.read_text(encoding="utf-8")
         return source
@@ -615,7 +618,7 @@ class PlayableManifestTests(unittest.TestCase):
     ) -> None:
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceAbilityState.gd"
-        port_source = port_game.read_text(encoding="utf-8")
+        port_source = self._port_game_ability_source()
         module_source = module.read_text(encoding="utf-8")
         generated_method = generated_call.split("instance.", 1)[1].split("(", 1)[0]
         generated_args = generated_call.split("[", 1)[1].rsplit("]", 1)[0]
@@ -765,6 +768,7 @@ class PlayableManifestTests(unittest.TestCase):
 
     def _port_game_port_bridge_chain_source(self):
         bridge_names = [
+            "SourceAbilityPortBridge.gd",
             "SourceItemTurretBuildPortBridge.gd",
             "SourceBuildPayloadPortBridge.gd",
             "SourceContinuousLiquidTurretBuildPortBridge.gd",
@@ -34980,10 +34984,12 @@ class PlayableManifestTests(unittest.TestCase):
         bridge = ROOT / "godot-mindustry" / "src" / "game" / "SourceItemTurretBuildPortBridge.gd"
         port_source = port_game.read_text(encoding="utf-8")
         bridge_source = bridge.read_text(encoding="utf-8") if bridge.exists() else ""
+        chain_source = self._port_game_port_bridge_chain_source()
 
         self.assertTrue(bridge.exists(), "SourceItemTurretBuildPortBridge.gd must own PortGame ItemTurretBuild compatibility wrappers")
-        self.assertIn('extends "res://src/game/SourceItemTurretBuildPortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceAbilityPortBridge.gd"', port_source)
         self.assertIn('extends "res://src/game/SourceBuildPayloadPortBridge.gd"', bridge_source)
+        self.assertIn('extends "res://src/game/SourceItemTurretBuildPortBridge.gd"', chain_source)
         self.assertNotIn("class_name SourceItemTurretBuildPortBridge", bridge_source)
         self.assertIn('const source_item_turret_build_state := preload("res://src/game/SourceItemTurretBuildState.gd")', bridge_source)
         self.assertNotIn('const source_item_turret_build_state := preload("res://src/game/SourceItemTurretBuildState.gd")', port_source)
@@ -36849,11 +36855,59 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("source_ssot_catalog.canonical_headquarter_registry_state()", proof_source)
         self.assertIn('"one_headquarter_per_ssot"', proof_source)
 
+    def test_port_game_routes_ability_through_port_bridge(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bridge = ROOT / "godot-mindustry" / "src" / "game" / "SourceAbilityPortBridge.gd"
+
+        self.assertTrue(bridge.exists(), "Ability compatibility wrappers must live in SourceAbilityPortBridge.gd")
+        port_source = port_game.read_text(encoding="utf-8")
+        bridge_source = bridge.read_text(encoding="utf-8")
+        chain_source = self._port_game_port_bridge_chain_source()
+
+        self.assertIn('extends "res://src/game/SourceAbilityPortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceItemTurretBuildPortBridge.gd"', bridge_source)
+        self.assertIn('const source_ability_state := preload("res://src/game/SourceAbilityState.gd")', chain_source)
+        self.assertNotIn("class_name SourceAbilityPortBridge", bridge_source)
+        self.assertNotIn('const source_ability_state := preload("res://src/game/SourceAbilityState.gd")', port_source)
+        self.assertIn('const source_ability_state := preload("res://src/game/SourceAbilityState.gd")', bridge_source)
+
+        delegates = {
+            "func source_ability_update_state(unit: Variant) -> Dictionary:": "return source_ability_state.update_state(unit)",
+            "func generated_ability_update_bridge_state(unit: Variant) -> Dictionary:": "return source_ability_state.generated_update_bridge_state(unit)",
+            "func source_ability_draw_state(unit: Variant) -> Dictionary:": "return source_ability_state.draw_state(unit)",
+            "func generated_ability_draw_bridge_state(unit: Variant) -> Dictionary:": "return source_ability_state.generated_draw_bridge_state(unit)",
+            "func source_ability_death_state(unit: Variant) -> Dictionary:": "return source_ability_state.death_state(unit)",
+            "func generated_ability_death_bridge_state(unit: Variant) -> Dictionary:": "return source_ability_state.generated_death_bridge_state(unit)",
+            "func source_ability_created_state(unit: Variant) -> Dictionary:": "return source_ability_state.created_state(unit)",
+            "func generated_ability_created_bridge_state(unit: Variant) -> Dictionary:": "return source_ability_state.generated_created_bridge_state(unit)",
+            "func source_ability_init_state(type_value: Variant) -> Dictionary:": "return source_ability_state.init_state(type_value)",
+            "func generated_ability_init_bridge_state(type_value: Variant) -> Dictionary:": "return source_ability_state.generated_init_bridge_state(type_value)",
+            "func source_ability_display_bars_state(unit: Variant, bars: Variant) -> Dictionary:": "return source_ability_state.display_bars_state(unit, bars)",
+            "func generated_ability_display_bars_bridge_state(unit: Variant, bars: Variant) -> Dictionary:": "return source_ability_state.generated_display_bars_bridge_state(unit, bars)",
+            "func source_ability_display_state(table_state: Variant, localized_value: String) -> Dictionary:": "return source_ability_state.display_state(table_state, localized_value)",
+            "func generated_ability_display_bridge_state(table_state: Variant, localized_value: String) -> Dictionary:": "return source_ability_state.generated_display_bridge_state(table_state, localized_value)",
+            "func source_ability_add_stats_state(table_state: Variant, get_bundle_value: String, bundle_has_description: bool, bundle_description: String) -> Dictionary:": "return source_ability_state.add_stats_state(table_state, get_bundle_value, bundle_has_description, bundle_description)",
+            "func generated_ability_add_stats_bridge_state(table_state: Variant, get_bundle_value: String, bundle_has_description: bool, bundle_description: String) -> Dictionary:": "return source_ability_state.generated_add_stats_bridge_state(table_state, get_bundle_value, bundle_has_description, bundle_description)",
+            "func source_ability_ability_stat_state(stat_value: String, values: Array, formatted_value: String) -> Dictionary:": "return source_ability_state.ability_stat_state(stat_value, values, formatted_value)",
+            "func generated_ability_ability_stat_bridge_state(stat_value: String, values: Array, formatted_value: String) -> Dictionary:": "return source_ability_state.generated_ability_stat_bridge_state(stat_value, values, formatted_value)",
+            "func source_ability_copy_state(clone_supported: bool, clone_value: Variant, exception_value: Variant) -> Dictionary:": "return source_ability_state.copy_state(clone_supported, clone_value, exception_value)",
+            "func generated_ability_copy_bridge_state(clone_supported: bool, clone_value: Variant, exception_value: Variant) -> Dictionary:": "return source_ability_state.generated_copy_bridge_state(clone_supported, clone_value, exception_value)",
+            "func source_ability_localized_state(get_bundle_value: String, bundle_value: String) -> Dictionary:": "return source_ability_state.localized_state(get_bundle_value, bundle_value)",
+            "func generated_ability_localized_bridge_state(get_bundle_value: String, bundle_value: String) -> Dictionary:": "return source_ability_state.generated_localized_bridge_state(get_bundle_value, bundle_value)",
+            "func source_ability_get_bundle_state(class_simple_name: String, is_anonymous_class: bool, superclass_simple_name: String) -> Dictionary:": "return source_ability_state.get_bundle_state(class_simple_name, is_anonymous_class, superclass_simple_name)",
+            "func generated_ability_get_bundle_bridge_state(class_simple_name: String, is_anonymous_class: bool, superclass_simple_name: String) -> Dictionary:": "return source_ability_state.generated_get_bundle_bridge_state(class_simple_name, is_anonymous_class, superclass_simple_name)",
+        }
+        for signature, expected_delegate in delegates.items():
+            with self.subTest(signature=signature):
+                self.assertNotIn(signature, port_source)
+                bridge_body = self._method_body(bridge_source, signature)
+                self.assertIn(expected_delegate, bridge_body)
+
     def test_port_game_delegates_source_ability_state_to_module(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceAbilityState.gd"
         registry = ROOT / "godot-mindustry" / "src" / "game" / "SourceRuntimeOwnerRegistry.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_ability_source()
         module_source = module.read_text(encoding="utf-8")
         registry_source = registry.read_text(encoding="utf-8")
 

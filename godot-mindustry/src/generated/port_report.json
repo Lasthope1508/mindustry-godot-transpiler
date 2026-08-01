@@ -5,32 +5,17 @@
   "java_file_count": 801,
   "parsed_file_count": 8,
   "port_game_bridge_surface": {
-    "delegate_module_count": 160,
-    "delegating_function_count": 1106,
+    "delegate_module_count": 159,
+    "delegating_function_count": 1082,
     "exists": true,
-    "generated_bridge_delegating_function_count": 341,
+    "generated_bridge_delegating_function_count": 329,
     "largest_delegate_module": {
       "function_count": 24,
-      "module": "source_ability_state"
+      "module": "source_builder_runtime_state"
     },
     "path": "src/game/PortGame.gd",
-    "source_delegating_function_count": 634,
+    "source_delegating_function_count": 622,
     "top_delegate_modules": [
-      {
-        "canonical_owner_target": "SourceAbilityState",
-        "class_name": "SourceAbilityState",
-        "compatibility_surface": "PortGame",
-        "function_count": 24,
-        "module": "source_ability_state",
-        "module_path": "res://src/game/SourceAbilityState.gd",
-        "sample_functions": [
-          "source_ability_update_state",
-          "generated_ability_update_bridge_state",
-          "source_ability_draw_state",
-          "generated_ability_draw_bridge_state",
-          "source_ability_death_state"
-        ]
-      },
       {
         "canonical_owner_target": "SourceBuilderRuntimeState",
         "class_name": "SourceBuilderRuntimeState",
@@ -315,19 +300,34 @@
           "generated_block_producer_draw_plan_region_bridge_state",
           "source_block_producer_set_bars_state"
         ]
+      },
+      {
+        "canonical_owner_target": "SourceBuildingCoreState",
+        "class_name": "SourceBuildingCoreState",
+        "compatibility_surface": "PortGame",
+        "function_count": 14,
+        "module": "source_building_core_state",
+        "module_path": "res://src/game/SourceBuildingCoreState.gd",
+        "sample_functions": [
+          "source_block_can_replace_state",
+          "source_building_can_be_replaced_state",
+          "source_building_should_consume_state",
+          "source_building_production_valid_state",
+          "source_building_consume_trigger_valid_state"
+        ]
       }
     ]
   },
   "port_game_footprint": {
-    "byte_count": 370710,
+    "byte_count": 366328,
     "exists": true,
-    "function_count": 1330,
-    "generated_bridge_function_count": 442,
-    "line_count": 4289,
+    "function_count": 1306,
+    "generated_bridge_function_count": 430,
+    "line_count": 4216,
     "max_function_lines": 5,
     "path": "src/game/PortGame.gd",
-    "preload_count": 188,
-    "source_function_count": 741
+    "preload_count": 187,
+    "source_function_count": 729
   },
   "unsupported": [
     "Generated gameplay classes not implemented yet",
