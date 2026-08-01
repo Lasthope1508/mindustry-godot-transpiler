@@ -679,8 +679,9 @@ class PlayableManifestTests(unittest.TestCase):
 
     def _port_game_build_payload_source(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bridge = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildPayloadPortBridge.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildPayloadState.gd"
-        return port_game.read_text(encoding="utf-8") + "\n" + module.read_text(encoding="utf-8")
+        return port_game.read_text(encoding="utf-8") + "\n" + (bridge.read_text(encoding="utf-8") if bridge.exists() else "") + "\n" + module.read_text(encoding="utf-8")
 
     def _port_game_build_payload_draw_source(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -761,6 +762,7 @@ class PlayableManifestTests(unittest.TestCase):
 
     def _port_game_port_bridge_chain_source(self):
         bridge_names = [
+            "SourceBuildPayloadPortBridge.gd",
             "SourceContinuousLiquidTurretBuildPortBridge.gd",
             "SourceBuildingEfficiencyPortBridge.gd",
             "SourceBlockConsumePortBridge.gd",
@@ -14853,7 +14855,7 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertTrue(continuous_bridge.exists(), "SourceContinuousLiquidTurretBuildPortBridge.gd must chain PortGame to lower compatibility wrappers")
         self.assertTrue(bridge.exists(), "SourceBuildingEfficiencyPortBridge.gd must own PortGame building efficiency compatibility wrappers")
-        self.assertIn('extends "res://src/game/SourceContinuousLiquidTurretBuildPortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceContinuousLiquidTurretBuildPortBridge.gd"', self._port_game_port_bridge_chain_source())
         self.assertIn('extends "res://src/game/SourceBuildingEfficiencyPortBridge.gd"', continuous_bridge_source)
         self.assertIn('extends "res://src/game/SourceBlockConsumePortBridge.gd"', bridge_source)
         self.assertNotIn("class_name SourceBuildingEfficiencyPortBridge", bridge_source)
@@ -36461,7 +36463,7 @@ class PlayableManifestTests(unittest.TestCase):
         helper_source = helper.read_text(encoding="utf-8") if helper.exists() else ""
 
         self.assertTrue(bridge.exists(), "SourceContinuousLiquidTurretBuildPortBridge.gd must own PortGame ContinuousLiquidTurretBuild compatibility wrappers")
-        self.assertIn('extends "res://src/game/SourceContinuousLiquidTurretBuildPortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceContinuousLiquidTurretBuildPortBridge.gd"', self._port_game_port_bridge_chain_source())
         self.assertIn('extends "res://src/game/SourceBuildingEfficiencyPortBridge.gd"', bridge_source)
         self.assertNotIn("class_name SourceContinuousLiquidTurretBuildPortBridge", bridge_source)
         self.assertIn('const source_continuous_liquid_turret_build_state := preload("res://src/game/SourceContinuousLiquidTurretBuildState.gd")', bridge_source)
@@ -38206,7 +38208,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertTrue(continuous_bridge.exists(), "SourceContinuousLiquidTurretBuildPortBridge.gd must chain PortGame to lower compatibility wrappers")
         self.assertTrue(building_bridge.exists(), "SourceBuildingEfficiencyPortBridge.gd must chain PortGame to lower compatibility wrappers")
         self.assertTrue(bridge.exists(), "SourceBlockConsumePortBridge.gd must own PortGame block consume compatibility wrappers")
-        self.assertIn('extends "res://src/game/SourceContinuousLiquidTurretBuildPortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceContinuousLiquidTurretBuildPortBridge.gd"', self._port_game_port_bridge_chain_source())
         self.assertIn('extends "res://src/game/SourceBuildingEfficiencyPortBridge.gd"', continuous_bridge_source)
         self.assertIn('extends "res://src/game/SourceBlockConsumePortBridge.gd"', building_bridge_source)
         self.assertIn('extends "res://src/game/SourceTurretStatsBarsPortBridge.gd"', bridge_source)
@@ -41085,9 +41087,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"sense_object_value": sense_object_value', source)
 
     def test_port_game_delegates_build_payload_basic_source_state_to_module(self):
-        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildPayloadState.gd"
-        source = port_game.read_text(encoding="utf-8")
+        source = self._port_game_build_payload_source()
 
         self.assertTrue(module.exists(), "source_build_payload_state.gd must own BuildPayload basic source state")
         module_source = module.read_text(encoding="utf-8")
@@ -41155,9 +41156,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertNotIn("static func generated_state_matches_generated_subset(result: Variant, canonical: Variant) -> bool:", module_source)
 
     def test_port_game_delegates_build_payload_basic_generated_bridge_state_to_module(self):
-        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildPayloadState.gd"
-        port_source = port_game.read_text(encoding="utf-8")
+        port_source = self._port_game_build_payload_source()
         module_source = module.read_text(encoding="utf-8")
 
         bridges = {
@@ -41707,6 +41707,23 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertNotIn('"field_expr": "public Building build;"', body)
         self.assertNotIn('"method": "public Block block(){"', body)
         self.assertNotIn('"return_expr": "return build.block;"', body)
+
+    def test_port_game_routes_build_payload_through_port_bridge(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bridge = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildPayloadPortBridge.gd"
+        port_source = port_game.read_text(encoding="utf-8")
+        bridge_source = bridge.read_text(encoding="utf-8") if bridge.exists() else ""
+
+        self.assertTrue(bridge.exists(), "SourceBuildPayloadPortBridge.gd must own PortGame BuildPayload compatibility wrappers")
+        self.assertIn('extends "res://src/game/SourceBuildPayloadPortBridge.gd"', port_source)
+        self.assertIn('extends "res://src/game/SourceContinuousLiquidTurretBuildPortBridge.gd"', bridge_source)
+        self.assertNotIn("class_name SourceBuildPayloadPortBridge", bridge_source)
+        self.assertIn('const source_build_payload_state := preload("res://src/game/SourceBuildPayloadState.gd")', bridge_source)
+        self.assertNotIn('const source_build_payload_state := preload("res://src/game/SourceBuildPayloadState.gd")', port_source)
+        self.assertIn("func source_build_payload_block_state(build_block: Variant) -> Dictionary:", bridge_source)
+        self.assertIn("return source_build_payload_state.block_state(build_block)", bridge_source)
+        self.assertIn("func generated_build_payload_set_bridge_state(x: float, y: float, rotation_value: float) -> Dictionary:", bridge_source)
+        self.assertIn("return source_build_payload_state.generated_build_payload_set_bridge_state(x, y, rotation_value)", bridge_source)
 
     def test_port_game_exposes_source_build_payload_constructor_state(self):
         source = self._port_game_build_payload_source()

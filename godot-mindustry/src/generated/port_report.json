@@ -5,32 +5,17 @@
   "java_file_count": 801,
   "parsed_file_count": 8,
   "port_game_bridge_surface": {
-    "delegate_module_count": 162,
-    "delegating_function_count": 1156,
+    "delegate_module_count": 161,
+    "delegating_function_count": 1131,
     "exists": true,
-    "generated_bridge_delegating_function_count": 369,
+    "generated_bridge_delegating_function_count": 356,
     "largest_delegate_module": {
       "function_count": 25,
-      "module": "source_build_payload_state"
+      "module": "source_item_turret_build_state"
     },
     "path": "src/game/PortGame.gd",
-    "source_delegating_function_count": 656,
+    "source_delegating_function_count": 644,
     "top_delegate_modules": [
-      {
-        "canonical_owner_target": "SourceBuildPayloadState",
-        "class_name": "SourceBuildPayloadState",
-        "compatibility_surface": "PortGame",
-        "function_count": 25,
-        "module": "source_build_payload_state",
-        "module_path": "res://src/game/SourceBuildPayloadState.gd",
-        "sample_functions": [
-          "source_build_payload_block_state",
-          "generated_build_payload_block_bridge_state",
-          "source_build_payload_constructor_block_team_state",
-          "generated_build_payload_constructor_block_team_bridge_state",
-          "source_build_payload_constructor_build_state"
-        ]
-      },
       {
         "canonical_owner_target": "SourceItemTurretBuildState",
         "class_name": "SourceItemTurretBuildState",
@@ -315,19 +300,34 @@
           "source_bullet_lifetime_seconds",
           "source_bullet_world_speed_per_tick"
         ]
+      },
+      {
+        "canonical_owner_target": "SourceTurretAmmoState",
+        "class_name": "SourceTurretAmmoState",
+        "compatibility_surface": "PortGame",
+        "function_count": 15,
+        "module": "source_turret_ammo_state",
+        "module_path": "res://src/game/SourceTurretAmmoState.gd",
+        "sample_functions": [
+          "source_item_turret_build_handle_item_state",
+          "source_item_turret_build_accept_item_state",
+          "source_liquid_turret_ammo_state",
+          "generated_liquid_turret_ammo_bridge_state",
+          "source_item_turret_ammo_state"
+        ]
       }
     ]
   },
   "port_game_footprint": {
-    "byte_count": 381232,
+    "byte_count": 376547,
     "exists": true,
-    "function_count": 1380,
-    "generated_bridge_function_count": 470,
-    "line_count": 4441,
+    "function_count": 1355,
+    "generated_bridge_function_count": 457,
+    "line_count": 4365,
     "max_function_lines": 5,
     "path": "src/game/PortGame.gd",
-    "preload_count": 190,
-    "source_function_count": 763
+    "preload_count": 189,
+    "source_function_count": 751
   },
   "unsupported": [
     "Generated gameplay classes not implemented yet",

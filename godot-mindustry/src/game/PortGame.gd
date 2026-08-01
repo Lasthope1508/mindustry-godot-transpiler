@@ -1,4 +1,4 @@
-extends "res://src/game/SourceContinuousLiquidTurretBuildPortBridge.gd"
+extends "res://src/game/SourceBuildPayloadPortBridge.gd"
 class_name PortGame
 
 const ContentRegistry := preload("res://src/generated/MindustryContentRegistry.gd")
@@ -177,7 +177,6 @@ const source_block_reinitialize_consumers_state := preload("res://src/game/Sourc
 const source_block_load_state := preload("res://src/game/SourceBlockLoadState.gd")
 const source_block_plan_state := preload("res://src/game/SourceBlockPlanState.gd")
 const source_block_sense_state := preload("res://src/game/SourceBlockSenseState.gd")
-const source_build_payload_state := preload("res://src/game/SourceBuildPayloadState.gd")
 const source_build_payload_draw_state_script := preload("res://src/game/SourceBuildPayloadDrawState.gd")
 const source_build_payload_lifecycle_state := preload("res://src/game/SourceBuildPayloadLifecycleState.gd")
 const source_block_producer_state := preload("res://src/game/SourceBlockProducerState.gd")
@@ -3404,24 +3403,6 @@ func source_block_sense_object_state(sensor: String, block_name: Variant, no_sen
 func generated_block_sense_object_bridge_state(sensor: String, block_name: Variant, no_sensed: Variant) -> Dictionary:
 	return source_block_sense_state.generated_block_sense_object_bridge_state(sensor, block_name, no_sensed)
 
-func source_build_payload_block_state(build_block: Variant) -> Dictionary:
-	return source_build_payload_state.block_state(build_block)
-
-func generated_build_payload_block_bridge_state(build_block: Variant) -> Dictionary:
-	return source_build_payload_state.generated_build_payload_block_bridge_state(build_block)
-
-func source_build_payload_constructor_block_team_state(block: Variant, team: Variant) -> Dictionary:
-	return source_build_payload_state.constructor_block_team_state(block, team)
-
-func generated_build_payload_constructor_block_team_bridge_state(block: Variant, team: Variant) -> Dictionary:
-	return source_build_payload_state.generated_build_payload_constructor_block_team_bridge_state(block, team)
-
-func source_build_payload_constructor_build_state(build: Variant) -> Dictionary:
-	return source_build_payload_state.constructor_build_state(build)
-
-func generated_build_payload_constructor_build_bridge_state(build: Variant) -> Dictionary:
-	return source_build_payload_state.generated_build_payload_constructor_build_bridge_state(build)
-
 func source_unit_payload_constructor_state(unit: Variant) -> Dictionary:
 	return source_unit_payload_basic_state.constructor_state(unit)
 
@@ -3602,68 +3583,11 @@ func source_build_payload_destroyed_state() -> Dictionary:
 func generated_build_payload_destroyed_bridge_state() -> Dictionary:
 	return source_build_payload_lifecycle_state.generated_build_payload_destroyed_bridge_state()
 
-func source_build_payload_content_equals_state(other_is_build_payload: bool, other_block: Variant, build_block: Variant) -> Dictionary:
-	return source_build_payload_state.content_equals_state(other_is_build_payload, other_block, build_block)
-
-func generated_build_payload_content_equals_bridge_state(other_is_build_payload: bool, other_block: Variant, build_block: Variant) -> Dictionary:
-	return source_build_payload_state.generated_build_payload_content_equals_bridge_state(other_is_build_payload, other_block, build_block)
-
-func source_build_payload_content_state(build_block: Variant) -> Dictionary:
-	return source_build_payload_state.content_state(build_block)
-
-func generated_build_payload_content_bridge_state(build_block: Variant) -> Dictionary:
-	return source_build_payload_state.generated_build_payload_content_bridge_state(build_block)
-
-func source_build_payload_build_time_state(build_time: float) -> Dictionary:
-	return source_build_payload_state.build_time_state(build_time)
-
-func generated_build_payload_build_time_bridge_state(build_time: float) -> Dictionary:
-	return source_build_payload_state.generated_build_payload_build_time_bridge_state(build_time)
-
-func source_build_payload_requirements_state(requirements: Variant) -> Dictionary:
-	return source_build_payload_state.requirements_state(requirements)
-
-func generated_build_payload_requirements_bridge_state(requirements: Variant) -> Dictionary:
-	return source_build_payload_state.generated_build_payload_requirements_bridge_state(requirements)
-
-func source_build_payload_x_state(build_x: float) -> Dictionary:
-	return source_build_payload_state.x_state(build_x)
-
-func generated_build_payload_x_bridge_state(build_x: float) -> Dictionary:
-	return source_build_payload_state.generated_build_payload_x_bridge_state(build_x)
-
-func source_build_payload_y_state(build_y: float) -> Dictionary:
-	return source_build_payload_state.y_state(build_y)
-
-func generated_build_payload_y_bridge_state(build_y: float) -> Dictionary:
-	return source_build_payload_state.generated_build_payload_y_bridge_state(build_y)
-
-func source_build_payload_size_state(build_block_size: float, source_tilesize: float) -> Dictionary:
-	return source_build_payload_state.size_state(build_block_size, source_tilesize)
-
-func generated_build_payload_size_bridge_state(build_block_size: float, source_tilesize: float) -> Dictionary:
-	return source_build_payload_state.generated_build_payload_size_bridge_state(build_block_size, source_tilesize)
-
-func generated_build_payload_size_source_tilesize_default_bridge_state(build_block_size: float) -> Dictionary:
-	return source_build_payload_state.generated_build_payload_size_source_tilesize_default_bridge_state(build_block_size)
-
 func source_build_payload_remove_state() -> Dictionary:
 	return source_build_payload_lifecycle_state.remove_state()
 
 func generated_build_payload_remove_bridge_state() -> Dictionary:
 	return source_build_payload_lifecycle_state.generated_build_payload_remove_bridge_state()
-
-func source_build_payload_write_state(payload_block: int, build_block_id: int, build_version: int) -> Dictionary:
-	return source_build_payload_state.write_state(payload_block, build_block_id, build_version)
-
-func generated_build_payload_write_bridge_state(payload_block: int, build_block_id: int, build_version: int) -> Dictionary:
-	return source_build_payload_state.generated_build_payload_write_bridge_state(payload_block, build_block_id, build_version)
-
-func source_build_payload_set_state(x: float, y: float, rotation_value: float) -> Dictionary:
-	return source_build_payload_state.set_state(x, y, rotation_value)
-
-func generated_build_payload_set_bridge_state(x: float, y: float, rotation_value: float) -> Dictionary:
-	return source_build_payload_state.generated_build_payload_set_bridge_state(x, y, rotation_value)
 
 func source_build_payload_draw_shadow_state(build_x: float, build_y: float, build_block_size: float, source_tilesize: float, alpha: float) -> Dictionary:
 	return source_build_payload_draw_state_script.draw_shadow_state(build_x, build_y, build_block_size, source_tilesize, alpha)
