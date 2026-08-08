@@ -3,11 +3,16 @@ class_name SourceUnitPayloadBasicState
 
 const source_generated_class_runtime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
+const source_payload_source_text_state := preload("res://src/game/SourcePayloadSourceTextState.gd")
+const SOURCE_UNIT_PAYLOAD_GENERATED_CLASS := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_GENERATED_CLASS
 
-const SOURCE_UNIT_PAYLOAD_SOURCE := "core/src/mindustry/world/blocks/payloads/UnitPayload.java"
-const SOURCE_UNIT_PAYLOAD_CLASS_EXPR := "public class UnitPayload implements Payload{"
-const SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR := "public Unit unit;"
-const SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR := "@Override"
+static func _unit_payload_call(generated_method: String, generated_args: Array) -> Variant:
+	return source_generated_class_runtime.call_java_method(SOURCE_UNIT_PAYLOAD_GENERATED_CLASS, generated_method, generated_args, null)
+
+const SOURCE_UNIT_PAYLOAD_SOURCE := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_SOURCE
+const SOURCE_UNIT_PAYLOAD_CLASS_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_CLASS_EXPR
+const SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR
+const SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR
 const SOURCE_UNIT_PAYLOAD_TODO_COMMENT_EXPR := "//TODO should not happen"
 const SOURCE_UNIT_PAYLOAD_TYPE_NULL_GUARD_EXPR := "if(unit.type == null) return;"
 const SOURCE_UNIT_PAYLOAD_OVERLAY_DURATION_FIELD_EXPR := "public static final float overlayDuration = 40f;"
@@ -38,7 +43,7 @@ static func constructor_state(unit: Variant) -> Dictionary:
 	}
 
 static func generated_constructor_bridge_state(unit: Variant) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_constructor_UnitPayload_0", [unit], null)
+	var result = _unit_payload_call("java_constructor_UnitPayload_0", [unit])
 	var canonical = constructor_state(unit)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -65,7 +70,7 @@ static func show_overlay_texture_region_state(icon: Variant) -> Dictionary:
 	}
 
 static func generated_show_overlay_texture_region_bridge_state(icon: Variant) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_showOverlay_0", [icon], null)
+	var result = _unit_payload_call("java_method_showOverlay_0", [icon])
 	var canonical = show_overlay_texture_region_state(icon)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -105,7 +110,7 @@ static func show_overlay_drawable_state(icon_null: bool, headless: bool, region:
 	}
 
 static func generated_show_overlay_drawable_bridge_state(icon_null: bool, headless: bool, region: Variant) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_showOverlay_1", [icon_null, headless, region], null)
+	var result = _unit_payload_call("java_method_showOverlay_1", [icon_null, headless, region])
 	var canonical = show_overlay_drawable_state(icon_null, headless, region)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
 	return {
