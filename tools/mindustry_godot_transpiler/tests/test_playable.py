@@ -54189,12 +54189,13 @@ class PlayableManifestTests(unittest.TestCase):
         for expected in (
             'const source_unit_payload_basic_state := preload("res://src/game/SourceUnitPayloadBasicState.gd")',
             'const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")',
-            'const SOURCE_UNIT_PAYLOAD_CONTENT_EQUALS_METHOD := "public boolean contentEquals(Payload other){"',
-            'const SOURCE_UNIT_PAYLOAD_CONTENT_EQUALS_RETURN_EXPR := "return other instanceof UnitPayload up && up.unit.type == unit.type;"',
-            'const SOURCE_UNIT_PAYLOAD_UPDATE_METHOD := "public void update(@Nullable Unit unitHolder, @Nullable Building buildingHolder){"',
-            'const SOURCE_UNIT_PAYLOAD_UPDATE_PAYLOAD_EXPR := "unit.type.updatePayload(unit, unitHolder, buildingHolder);"',
-            'const SOURCE_UNIT_PAYLOAD_CONTENT_METHOD := "public UnlockableContent content(){"',
-            'const SOURCE_UNIT_PAYLOAD_CONTENT_RETURN_EXPR := "return unit.type;"',
+            'const source_payload_source_text_state := preload("res://src/game/SourcePayloadSourceTextState.gd")',
+            'const SOURCE_UNIT_PAYLOAD_CONTENT_EQUALS_METHOD := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_CONTENT_EQUALS_METHOD',
+            'const SOURCE_UNIT_PAYLOAD_CONTENT_EQUALS_RETURN_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_CONTENT_EQUALS_RETURN_EXPR',
+            'const SOURCE_UNIT_PAYLOAD_UPDATE_METHOD := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_UPDATE_METHOD',
+            'const SOURCE_UNIT_PAYLOAD_UPDATE_PAYLOAD_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_UPDATE_PAYLOAD_EXPR',
+            'const SOURCE_UNIT_PAYLOAD_CONTENT_METHOD := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_CONTENT_METHOD',
+            'const SOURCE_UNIT_PAYLOAD_CONTENT_RETURN_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_CONTENT_RETURN_EXPR',
         ):
             self.assertIn(expected, module_source)
 
@@ -54248,6 +54249,33 @@ class PlayableManifestTests(unittest.TestCase):
                 self.assertIn(expected, method_body)
             for duplicate_literal in duplicate_literals:
                 self.assertNotIn(duplicate_literal, method_body)
+
+    def test_unit_payload_content_source_text_literals_live_in_payload_source_text_owner(self):
+        source_text = ROOT / "godot-mindustry" / "src" / "game" / "SourcePayloadSourceTextState.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceUnitPayloadContentState.gd"
+        source_text_source = source_text.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
+
+        for expected in (
+            'const SOURCE_UNIT_PAYLOAD_CONTENT_EQUALS_METHOD := "public boolean contentEquals(Payload other){"',
+            'const SOURCE_UNIT_PAYLOAD_CONTENT_EQUALS_RETURN_EXPR := "return other instanceof UnitPayload up && up.unit.type == unit.type;"',
+            'const SOURCE_UNIT_PAYLOAD_UPDATE_METHOD := "public void update(@Nullable Unit unitHolder, @Nullable Building buildingHolder){"',
+            'const SOURCE_UNIT_PAYLOAD_UPDATE_PAYLOAD_EXPR := "unit.type.updatePayload(unit, unitHolder, buildingHolder);"',
+            'const SOURCE_UNIT_PAYLOAD_CONTENT_METHOD := "public UnlockableContent content(){"',
+            'const SOURCE_UNIT_PAYLOAD_CONTENT_RETURN_EXPR := "return unit.type;"',
+        ):
+            self.assertIn(expected, source_text_source)
+            self.assertNotIn(expected, module_source)
+
+        for expected in (
+            "const SOURCE_UNIT_PAYLOAD_CONTENT_EQUALS_METHOD := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_CONTENT_EQUALS_METHOD",
+            "const SOURCE_UNIT_PAYLOAD_CONTENT_EQUALS_RETURN_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_CONTENT_EQUALS_RETURN_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_UPDATE_METHOD := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_UPDATE_METHOD",
+            "const SOURCE_UNIT_PAYLOAD_UPDATE_PAYLOAD_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_UPDATE_PAYLOAD_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_CONTENT_METHOD := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_CONTENT_METHOD",
+            "const SOURCE_UNIT_PAYLOAD_CONTENT_RETURN_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_CONTENT_RETURN_EXPR",
+        ):
+            self.assertIn(expected, module_source)
 
     def test_port_game_exposes_source_unit_payload_content_equals_state(self):
         source = self._port_game_unit_payload_content_source()
