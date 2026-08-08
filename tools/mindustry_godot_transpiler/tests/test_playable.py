@@ -54277,6 +54277,33 @@ class PlayableManifestTests(unittest.TestCase):
         ):
             self.assertIn(expected, module_source)
 
+    def test_unit_payload_requirements_source_text_literals_live_in_payload_source_text_owner(self):
+        source_text = ROOT / "godot-mindustry" / "src" / "game" / "SourcePayloadSourceTextState.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceUnitPayloadRequirementsState.gd"
+        source_text_source = source_text.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
+
+        for expected in (
+            'const SOURCE_UNIT_PAYLOAD_REQUIREMENTS_METHOD := "public ItemStack[] requirements(){"',
+            'const SOURCE_UNIT_PAYLOAD_REQUIREMENTS_RETURN_EXPR := "return unit.type.getTotalRequirements();"',
+            'const SOURCE_UNIT_PAYLOAD_REQUIREMENTS_CALL_EXPR := "unit.type.getTotalRequirements();"',
+            'const SOURCE_UNIT_PAYLOAD_BUILD_TIME_METHOD := "public float buildTime(){"',
+            'const SOURCE_UNIT_PAYLOAD_BUILD_TIME_RETURN_EXPR := "return unit.type.getBuildTime();"',
+            'const SOURCE_UNIT_PAYLOAD_BUILD_TIME_CALL_EXPR := "unit.type.getBuildTime();"',
+        ):
+            self.assertIn(expected, source_text_source)
+            self.assertNotIn(expected, module_source)
+
+        for expected in (
+            "const SOURCE_UNIT_PAYLOAD_REQUIREMENTS_METHOD := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_REQUIREMENTS_METHOD",
+            "const SOURCE_UNIT_PAYLOAD_REQUIREMENTS_RETURN_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_REQUIREMENTS_RETURN_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_REQUIREMENTS_CALL_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_REQUIREMENTS_CALL_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_BUILD_TIME_METHOD := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_BUILD_TIME_METHOD",
+            "const SOURCE_UNIT_PAYLOAD_BUILD_TIME_RETURN_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_BUILD_TIME_RETURN_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_BUILD_TIME_CALL_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_BUILD_TIME_CALL_EXPR",
+        ):
+            self.assertIn(expected, module_source)
+
     def test_port_game_exposes_source_unit_payload_content_equals_state(self):
         source = self._port_game_unit_payload_content_source()
         body = source.split("static func content_equals_state", 1)[1].split("\nstatic func ", 1)[0]
@@ -54477,12 +54504,12 @@ class PlayableManifestTests(unittest.TestCase):
             'const source_unit_payload_basic_state := preload("res://src/game/SourceUnitPayloadBasicState.gd")',
             'const source_payload_source_text_state := preload("res://src/game/SourcePayloadSourceTextState.gd")',
             'const SOURCE_UNIT_PAYLOAD_GENERATED_CLASS := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_GENERATED_CLASS',
-            'const SOURCE_UNIT_PAYLOAD_REQUIREMENTS_METHOD := "public ItemStack[] requirements(){"',
-            'const SOURCE_UNIT_PAYLOAD_REQUIREMENTS_RETURN_EXPR := "return unit.type.getTotalRequirements();"',
-            'const SOURCE_UNIT_PAYLOAD_REQUIREMENTS_CALL_EXPR := "unit.type.getTotalRequirements();"',
-            'const SOURCE_UNIT_PAYLOAD_BUILD_TIME_METHOD := "public float buildTime(){"',
-            'const SOURCE_UNIT_PAYLOAD_BUILD_TIME_RETURN_EXPR := "return unit.type.getBuildTime();"',
-            'const SOURCE_UNIT_PAYLOAD_BUILD_TIME_CALL_EXPR := "unit.type.getBuildTime();"',
+            'const SOURCE_UNIT_PAYLOAD_REQUIREMENTS_METHOD := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_REQUIREMENTS_METHOD',
+            'const SOURCE_UNIT_PAYLOAD_REQUIREMENTS_RETURN_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_REQUIREMENTS_RETURN_EXPR',
+            'const SOURCE_UNIT_PAYLOAD_REQUIREMENTS_CALL_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_REQUIREMENTS_CALL_EXPR',
+            'const SOURCE_UNIT_PAYLOAD_BUILD_TIME_METHOD := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_BUILD_TIME_METHOD',
+            'const SOURCE_UNIT_PAYLOAD_BUILD_TIME_RETURN_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_BUILD_TIME_RETURN_EXPR',
+            'const SOURCE_UNIT_PAYLOAD_BUILD_TIME_CALL_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_BUILD_TIME_CALL_EXPR',
         ):
             self.assertIn(expected, module_source)
         self.assertIn("static func _unit_payload_call(generated_method: String, generated_args: Array) -> Variant:", module_source)
