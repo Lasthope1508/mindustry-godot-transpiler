@@ -54105,6 +54105,51 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertNotIn('const SOURCE_UNIT_PAYLOAD_CLASS_EXPR := "public class UnitPayload implements Payload{"', basic_source)
         self.assertNotIn('const SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR := "public Unit unit;"', basic_source)
 
+    def test_unit_payload_basic_remaining_source_text_literals_live_in_payload_source_text_owner(self):
+        source_text = ROOT / "godot-mindustry" / "src" / "game" / "SourcePayloadSourceTextState.gd"
+        basic = ROOT / "godot-mindustry" / "src" / "game" / "SourceUnitPayloadBasicState.gd"
+        source_text_source = source_text.read_text(encoding="utf-8")
+        basic_source = basic.read_text(encoding="utf-8")
+
+        for expected in (
+            'const SOURCE_UNIT_PAYLOAD_TODO_COMMENT_EXPR := "//TODO should not happen"',
+            'const SOURCE_UNIT_PAYLOAD_TYPE_NULL_GUARD_EXPR := "if(unit.type == null) return;"',
+            'const SOURCE_UNIT_PAYLOAD_OVERLAY_DURATION_FIELD_EXPR := "public static final float overlayDuration = 40f;"',
+            'const SOURCE_UNIT_PAYLOAD_OVERLAY_TIME_FIELD_EXPR := "public float overlayTime = 0f;"',
+            'const SOURCE_UNIT_PAYLOAD_OVERLAY_REGION_FIELD_EXPR := "public @Nullable TextureRegion overlayRegion;"',
+            'const SOURCE_UNIT_PAYLOAD_DRAW_METHOD := "public void draw(){"',
+            'const SOURCE_UNIT_PAYLOAD_IMPORT_STATIC_VARS_EXPR := "import static mindustry.Vars.*;"',
+            'const SOURCE_UNIT_PAYLOAD_CONSTRUCTOR := "public UnitPayload(Unit unit){"',
+            'const SOURCE_UNIT_PAYLOAD_UNIT_ASSIGN_EXPR := "this.unit = unit;"',
+            'const SOURCE_UNIT_PAYLOAD_SHOW_OVERLAY_TEXTURE_REGION_METHOD := "public void showOverlay(TextureRegion icon){"',
+            'const SOURCE_UNIT_PAYLOAD_SHOW_OVERLAY_REGION_ASSIGN_EXPR := "overlayRegion = icon;"',
+            'const SOURCE_UNIT_PAYLOAD_SHOW_OVERLAY_TIME_ASSIGN_EXPR := "overlayTime = 1f;"',
+            'const SOURCE_UNIT_PAYLOAD_SHOW_OVERLAY_DRAWABLE_METHOD := "public void showOverlay(TextureRegionDrawable icon){"',
+            'const SOURCE_UNIT_PAYLOAD_SHOW_OVERLAY_DRAWABLE_GUARD_EXPR := "if(icon == null || headless) return;"',
+            'const SOURCE_UNIT_PAYLOAD_SHOW_OVERLAY_DRAWABLE_DELEGATE_EXPR := "showOverlay(icon.getRegion());"',
+        ):
+            self.assertIn(expected, source_text_source)
+            self.assertNotIn(expected, basic_source)
+
+        for expected in (
+            "const SOURCE_UNIT_PAYLOAD_TODO_COMMENT_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_TODO_COMMENT_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_TYPE_NULL_GUARD_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_TYPE_NULL_GUARD_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_OVERLAY_DURATION_FIELD_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_OVERLAY_DURATION_FIELD_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_OVERLAY_TIME_FIELD_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_OVERLAY_TIME_FIELD_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_OVERLAY_REGION_FIELD_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_OVERLAY_REGION_FIELD_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_DRAW_METHOD := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_DRAW_METHOD",
+            "const SOURCE_UNIT_PAYLOAD_IMPORT_STATIC_VARS_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_IMPORT_STATIC_VARS_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_CONSTRUCTOR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_CONSTRUCTOR",
+            "const SOURCE_UNIT_PAYLOAD_UNIT_ASSIGN_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_UNIT_ASSIGN_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_SHOW_OVERLAY_TEXTURE_REGION_METHOD := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_SHOW_OVERLAY_TEXTURE_REGION_METHOD",
+            "const SOURCE_UNIT_PAYLOAD_SHOW_OVERLAY_REGION_ASSIGN_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_SHOW_OVERLAY_REGION_ASSIGN_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_SHOW_OVERLAY_TIME_ASSIGN_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_SHOW_OVERLAY_TIME_ASSIGN_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_SHOW_OVERLAY_DRAWABLE_METHOD := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_SHOW_OVERLAY_DRAWABLE_METHOD",
+            "const SOURCE_UNIT_PAYLOAD_SHOW_OVERLAY_DRAWABLE_GUARD_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_SHOW_OVERLAY_DRAWABLE_GUARD_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_SHOW_OVERLAY_DRAWABLE_DELEGATE_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_SHOW_OVERLAY_DRAWABLE_DELEGATE_EXPR",
+        ):
+            self.assertIn(expected, basic_source)
+
     def test_unit_payload_content_generated_bridges_use_payload_source_text_owner(self):
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceUnitPayloadContentState.gd"
         module_source = module.read_text(encoding="utf-8") if module.exists() else ""
@@ -55321,9 +55366,9 @@ class PlayableManifestTests(unittest.TestCase):
             "const SOURCE_UNIT_PAYLOAD_CLASS_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_CLASS_EXPR",
             "const SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR",
             'const SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR',
-            'const SOURCE_UNIT_PAYLOAD_TODO_COMMENT_EXPR := "//TODO should not happen"',
-            'const SOURCE_UNIT_PAYLOAD_OVERLAY_TIME_FIELD_EXPR := "public float overlayTime = 0f;"',
-            'const SOURCE_UNIT_PAYLOAD_OVERLAY_REGION_FIELD_EXPR := "public @Nullable TextureRegion overlayRegion;"',
+            "const SOURCE_UNIT_PAYLOAD_TODO_COMMENT_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_TODO_COMMENT_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_OVERLAY_TIME_FIELD_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_OVERLAY_TIME_FIELD_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_OVERLAY_REGION_FIELD_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_OVERLAY_REGION_FIELD_EXPR",
         ):
             self.assertIn(expected, basic_source)
 
@@ -56108,11 +56153,11 @@ class PlayableManifestTests(unittest.TestCase):
             'const SOURCE_UNIT_PAYLOAD_CLASS_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_CLASS_EXPR',
             'const SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR',
             'const SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR',
-            'const SOURCE_UNIT_PAYLOAD_TODO_COMMENT_EXPR := "//TODO should not happen"',
-            'const SOURCE_UNIT_PAYLOAD_TYPE_NULL_GUARD_EXPR := "if(unit.type == null) return;"',
-            'const SOURCE_UNIT_PAYLOAD_OVERLAY_TIME_FIELD_EXPR := "public float overlayTime = 0f;"',
-            'const SOURCE_UNIT_PAYLOAD_OVERLAY_REGION_FIELD_EXPR := "public @Nullable TextureRegion overlayRegion;"',
-            'const SOURCE_UNIT_PAYLOAD_DRAW_METHOD := "public void draw(){"',
+            'const SOURCE_UNIT_PAYLOAD_TODO_COMMENT_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_TODO_COMMENT_EXPR',
+            'const SOURCE_UNIT_PAYLOAD_TYPE_NULL_GUARD_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_TYPE_NULL_GUARD_EXPR',
+            'const SOURCE_UNIT_PAYLOAD_OVERLAY_TIME_FIELD_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_OVERLAY_TIME_FIELD_EXPR',
+            'const SOURCE_UNIT_PAYLOAD_OVERLAY_REGION_FIELD_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_OVERLAY_REGION_FIELD_EXPR',
+            'const SOURCE_UNIT_PAYLOAD_DRAW_METHOD := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_DRAW_METHOD',
         ]
         for expected in core_constants:
             self.assertIn(expected, core_source)
