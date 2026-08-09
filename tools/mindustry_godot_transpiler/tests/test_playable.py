@@ -55551,8 +55551,31 @@ class PlayableManifestTests(unittest.TestCase):
             'const SOURCE_UNIT_PAYLOAD_DUMP_NOTIFY_UNIT_SPAWN_METHOD := "public static void notifyUnitSpawn(Unit unit){"',
             'const SOURCE_UNIT_PAYLOAD_DUMP_NOTIFY_UNIT_SPAWN_GUARD := "if(net.server()){"',
         ):
-            self.assertIn(expected, spawn_helper_source)
+            self.assertIn(expected, owner_source)
+            self.assertNotIn(expected, spawn_helper_source)
             self.assertNotIn(expected, helper_source)
+
+        for expected in (
+            'const source_unit_payload_dump_source_text_state := preload("res://src/game/SourceUnitPayloadDumpSourceTextState.gd")',
+            'const SOURCE_UNIT_PAYLOAD_DUMP_PREVENTS_STACKING_COMMENT_EXPR := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_PREVENTS_STACKING_COMMENT_EXPR',
+            'const SOURCE_UNIT_PAYLOAD_DUMP_ARC_MATHF_SOURCE := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_ARC_MATHF_SOURCE',
+            'const SOURCE_UNIT_PAYLOAD_DUMP_UNITS_SOURCE := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_UNITS_SOURCE',
+            'const SOURCE_UNIT_PAYLOAD_DUMP_EVENT_TYPE_SOURCE := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_EVENT_TYPE_SOURCE',
+            'const SOURCE_UNIT_PAYLOAD_DUMP_VELOCITY_ADD_EXPR := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_VELOCITY_ADD_EXPR',
+            'const SOURCE_UNIT_PAYLOAD_DUMP_MATHF_RANGE_FLOAT_METHOD := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_MATHF_RANGE_FLOAT_METHOD',
+            'const SOURCE_UNIT_PAYLOAD_DUMP_MATHF_RANGE_FLOAT_RETURN := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_MATHF_RANGE_FLOAT_RETURN',
+            'const SOURCE_UNIT_PAYLOAD_DUMP_UNIT_ADD_EXPR := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_UNIT_ADD_EXPR',
+            'const SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOADED_EXPR := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOADED_EXPR',
+            'const SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOAD_EVENT_EXPR := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOAD_EVENT_EXPR',
+            'const SOURCE_UNIT_PAYLOAD_DUMP_EVENT_FIRE_EXPR := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_EVENT_FIRE_EXPR',
+            'const SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOAD_EVENT_COMMENT := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOAD_EVENT_COMMENT',
+            'const SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOAD_EVENT_CLASS := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOAD_EVENT_CLASS',
+            'const SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOAD_EVENT_CONSTRUCTOR := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOAD_EVENT_CONSTRUCTOR',
+            'const SOURCE_UNIT_PAYLOAD_DUMP_NOTIFY_UNIT_SPAWN_EXPR := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_NOTIFY_UNIT_SPAWN_EXPR',
+            'const SOURCE_UNIT_PAYLOAD_DUMP_NOTIFY_UNIT_SPAWN_METHOD := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_NOTIFY_UNIT_SPAWN_METHOD',
+            'const SOURCE_UNIT_PAYLOAD_DUMP_NOTIFY_UNIT_SPAWN_GUARD := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_NOTIFY_UNIT_SPAWN_GUARD',
+        ):
+            self.assertIn(expected, spawn_helper_source)
 
         body_expectations = {
             "type_null_guard_state": (
@@ -56424,6 +56447,55 @@ class PlayableManifestTests(unittest.TestCase):
             "const SOURCE_UNIT_PAYLOAD_DRAW_Z_RESTORE_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_DRAW_Z_RESTORE_EXPR",
             "const SOURCE_UNIT_PAYLOAD_ICON_METHOD := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_ICON_METHOD",
             "const SOURCE_UNIT_PAYLOAD_ICON_RETURN_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_ICON_RETURN_EXPR",
+        ):
+            self.assertIn(expected, module_source)
+
+    def test_unit_payload_dump_spawn_source_text_literals_live_in_payload_source_text_owner(self):
+        source_text = ROOT / "godot-mindustry" / "src" / "game" / "SourceUnitPayloadDumpSourceTextState.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceUnitPayloadDumpSpawnState.gd"
+        source_text_source = source_text.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
+
+        for expected in (
+            'const SOURCE_UNIT_PAYLOAD_DUMP_PREVENTS_STACKING_COMMENT_EXPR := "//prevents stacking"',
+            'const SOURCE_UNIT_PAYLOAD_DUMP_ARC_MATHF_SOURCE := "arc-core/src/arc/math/Mathf.java"',
+            'const SOURCE_UNIT_PAYLOAD_DUMP_UNITS_SOURCE := "core/src/mindustry/entities/Units.java"',
+            'const SOURCE_UNIT_PAYLOAD_DUMP_EVENT_TYPE_SOURCE := "core/src/mindustry/game/EventType.java"',
+            'const SOURCE_UNIT_PAYLOAD_DUMP_VELOCITY_ADD_EXPR := "unit.vel.add(Mathf.range(0.5f), Mathf.range(0.5f));"',
+            'const SOURCE_UNIT_PAYLOAD_DUMP_MATHF_RANGE_FLOAT_METHOD := "public static float range(float range){"',
+            'const SOURCE_UNIT_PAYLOAD_DUMP_MATHF_RANGE_FLOAT_RETURN := "return random(-range, range);"',
+            'const SOURCE_UNIT_PAYLOAD_DUMP_UNIT_ADD_EXPR := "unit.add();"',
+            'const SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOADED_EXPR := "unit.unloaded();"',
+            'const SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOAD_EVENT_EXPR := "new UnitUnloadEvent(unit)"',
+            'const SOURCE_UNIT_PAYLOAD_DUMP_EVENT_FIRE_EXPR := "Events.fire(new UnitUnloadEvent(unit));"',
+            'const SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOAD_EVENT_COMMENT := "/** Called when a unit is dumped from any payload block. */"',
+            'const SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOAD_EVENT_CLASS := "public static class UnitUnloadEvent{"',
+            'const SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOAD_EVENT_CONSTRUCTOR := "public UnitUnloadEvent(Unit unit){"',
+            'const SOURCE_UNIT_PAYLOAD_DUMP_NOTIFY_UNIT_SPAWN_EXPR := "Units.notifyUnitSpawn(unit);"',
+            'const SOURCE_UNIT_PAYLOAD_DUMP_NOTIFY_UNIT_SPAWN_METHOD := "public static void notifyUnitSpawn(Unit unit){"',
+            'const SOURCE_UNIT_PAYLOAD_DUMP_NOTIFY_UNIT_SPAWN_GUARD := "if(net.server()){"',
+        ):
+            self.assertIn(expected, source_text_source)
+            self.assertNotIn(expected, module_source)
+
+        for expected in (
+            "const SOURCE_UNIT_PAYLOAD_DUMP_PREVENTS_STACKING_COMMENT_EXPR := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_PREVENTS_STACKING_COMMENT_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_DUMP_ARC_MATHF_SOURCE := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_ARC_MATHF_SOURCE",
+            "const SOURCE_UNIT_PAYLOAD_DUMP_UNITS_SOURCE := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_UNITS_SOURCE",
+            "const SOURCE_UNIT_PAYLOAD_DUMP_EVENT_TYPE_SOURCE := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_EVENT_TYPE_SOURCE",
+            "const SOURCE_UNIT_PAYLOAD_DUMP_VELOCITY_ADD_EXPR := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_VELOCITY_ADD_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_DUMP_MATHF_RANGE_FLOAT_METHOD := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_MATHF_RANGE_FLOAT_METHOD",
+            "const SOURCE_UNIT_PAYLOAD_DUMP_MATHF_RANGE_FLOAT_RETURN := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_MATHF_RANGE_FLOAT_RETURN",
+            "const SOURCE_UNIT_PAYLOAD_DUMP_UNIT_ADD_EXPR := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_UNIT_ADD_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOADED_EXPR := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOADED_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOAD_EVENT_EXPR := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOAD_EVENT_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_DUMP_EVENT_FIRE_EXPR := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_EVENT_FIRE_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOAD_EVENT_COMMENT := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOAD_EVENT_COMMENT",
+            "const SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOAD_EVENT_CLASS := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOAD_EVENT_CLASS",
+            "const SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOAD_EVENT_CONSTRUCTOR := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOAD_EVENT_CONSTRUCTOR",
+            "const SOURCE_UNIT_PAYLOAD_DUMP_NOTIFY_UNIT_SPAWN_EXPR := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_NOTIFY_UNIT_SPAWN_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_DUMP_NOTIFY_UNIT_SPAWN_METHOD := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_NOTIFY_UNIT_SPAWN_METHOD",
+            "const SOURCE_UNIT_PAYLOAD_DUMP_NOTIFY_UNIT_SPAWN_GUARD := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_NOTIFY_UNIT_SPAWN_GUARD",
         ):
             self.assertIn(expected, module_source)
 
