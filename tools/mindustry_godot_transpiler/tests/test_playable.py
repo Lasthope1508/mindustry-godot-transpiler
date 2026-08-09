@@ -400,6 +400,7 @@ class PlayableManifestTests(unittest.TestCase):
         generated_owner: str,
         metadata_arg: str = "",
         source_owner_is_expression: bool = False,
+        generated_owner_expression: str = "",
     ) -> None:
         port_surface_source = self._port_compatibility_surface_source(port_source, port_signature)
         bridge_body = self._method_body(port_surface_source, port_signature)
@@ -418,12 +419,15 @@ class PlayableManifestTests(unittest.TestCase):
         else:
             expected_source_owner = f'"{source_owner}"'
         self.assertIn(f'"source_owner": {expected_source_owner}', module_body)
-        generated_owner_literal = f'"generated_owner": "{generated_owner}"'
-        if generated_owner_literal not in module_body:
-            self.assertIn('"generated_owner":', module_body)
-            self.assertIn(generated_owner, module_source)
+        if generated_owner_expression:
+            self.assertIn(f'"generated_owner": {generated_owner_expression}', module_body)
         else:
-            self.assertIn(generated_owner_literal, module_body)
+            generated_owner_literal = f'"generated_owner": "{generated_owner}"'
+            if generated_owner_literal not in module_body:
+                self.assertIn('"generated_owner":', module_body)
+                self.assertIn(generated_owner, module_source)
+            else:
+                self.assertIn(generated_owner_literal, module_body)
         self.assertIn('"canonical": canonical', module_body)
 
     def _assert_source_consts_in_helper_not_port(self, port_source: str, helper_source: str, const_lines: list[str]) -> None:
@@ -757,6 +761,8 @@ class PlayableManifestTests(unittest.TestCase):
             "PORT_GAME_SOURCE_UNIT_PAYLOAD_DUMP_CAN_CREATE_GUARD_STATE",
             "PORT_GAME_SOURCE_UNIT_PAYLOAD_CONTENT_STATE",
             "PORT_GAME_SOURCE_UNIT_PAYLOAD_BUILD_TIME_STATE",
+            "SOURCE_UNIT_PAYLOAD_DUMP_GENERATED_METHOD",
+            "SOURCE_UNIT_PAYLOAD_DUMP_GENERATED_OWNER",
         ]
         for const_name in unit_payload_owner_consts:
             with self.subTest(const_name=const_name):
@@ -765,6 +771,19 @@ class PlayableManifestTests(unittest.TestCase):
                 self.assertNotIn(f"const {const_name} :=", registry_headquarter_source)
 
         self._assert_runtime_owner_registry_values_unique()
+
+    def test_unit_payload_dump_generated_bridge_uses_unit_payload_registry_metadata(self):
+        unit_payload_registry = ROOT / "godot-mindustry" / "src" / "game" / "SourceRuntimeOwnerUnitPayloadRegistry.gd"
+        generated_bridge = ROOT / "godot-mindustry" / "src" / "game" / "SourceUnitPayloadDumpGeneratedBridgeState.gd"
+        unit_payload_registry_source = unit_payload_registry.read_text(encoding="utf-8") if unit_payload_registry.exists() else ""
+        generated_bridge_source = generated_bridge.read_text(encoding="utf-8")
+
+        self.assertIn('const SOURCE_UNIT_PAYLOAD_DUMP_GENERATED_METHOD := "java_method_dump_13"', unit_payload_registry_source)
+        self.assertIn('const SOURCE_UNIT_PAYLOAD_DUMP_GENERATED_OWNER := "unit_payload.java_method_dump_13"', unit_payload_registry_source)
+        self.assertNotIn('const SOURCE_UNIT_PAYLOAD_DUMP_GENERATED_METHOD := "java_method_dump_13"', generated_bridge_source)
+        self.assertNotIn('const SOURCE_UNIT_PAYLOAD_DUMP_GENERATED_OWNER := "unit_payload.java_method_dump_13"', generated_bridge_source)
+        self.assertIn("const SOURCE_UNIT_PAYLOAD_DUMP_GENERATED_METHOD := source_runtime_owner_registry.SOURCE_UNIT_PAYLOAD_DUMP_GENERATED_METHOD", generated_bridge_source)
+        self.assertIn("const SOURCE_UNIT_PAYLOAD_DUMP_GENERATED_OWNER := source_runtime_owner_registry.SOURCE_UNIT_PAYLOAD_DUMP_GENERATED_OWNER", generated_bridge_source)
 
     def test_runtime_owner_registry_routes_construct_domain_through_canonical_registry(self):
         registry = ROOT / "godot-mindustry" / "src" / "game" / "SourceRuntimeOwnerRegistry.gd"
@@ -55211,6 +55230,7 @@ class PlayableManifestTests(unittest.TestCase):
             "source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_PAYLOAD_DUMP_TYPE_NULL_GUARD_STATE",
             "unit_payload.java_method_dump_13",
             source_owner_is_expression=True,
+            generated_owner_expression="SOURCE_UNIT_PAYLOAD_DUMP_GENERATED_OWNER",
         )
         self.assertIn("class_name SourceUnitPayloadDumpGeneratedBridgeState", generated_bridge_source)
         self.assertIn('const source_unit_payload_dump_generated_bridge_state := preload("res://src/game/SourceUnitPayloadDumpGeneratedBridgeState.gd")', helper_source)
@@ -55291,6 +55311,7 @@ class PlayableManifestTests(unittest.TestCase):
             "source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_PAYLOAD_DUMP_CAN_CREATE_GUARD_STATE",
             "unit_payload.java_method_dump_13",
             source_owner_is_expression=True,
+            generated_owner_expression="SOURCE_UNIT_PAYLOAD_DUMP_GENERATED_OWNER",
         )
         self.assertIn('\treturn source_unit_payload_dump_generated_bridge_state.generated_can_create_guard_bridge_state(unit_type_null, units_can_create, Callable(source_unit_payload_dump_guard_state, "can_create_guard_state"))', helper_body)
         self.assertNotIn("source_generated_class_runtime.call_java_method", helper_body)
@@ -55918,6 +55939,7 @@ class PlayableManifestTests(unittest.TestCase):
             "source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_PAYLOAD_DUMP_SOLIDITY_GUARD_STATE",
             "unit_payload.java_method_dump_13",
             source_owner_is_expression=True,
+            generated_owner_expression="SOURCE_UNIT_PAYLOAD_DUMP_GENERATED_OWNER",
         )
         self.assertIn('\treturn source_unit_payload_dump_generated_bridge_state.generated_solidity_guard_bridge_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, Callable(source_unit_payload_dump_guard_state, "solidity_guard_state"))', helper_body)
         self.assertNotIn("source_generated_class_runtime.call_java_method", helper_body)
@@ -56007,6 +56029,7 @@ class PlayableManifestTests(unittest.TestCase):
             "source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_PAYLOAD_DUMP_OVERLAP_GUARD_STATE",
             "unit_payload.java_method_dump_13",
             source_owner_is_expression=True,
+            generated_owner_expression="SOURCE_UNIT_PAYLOAD_DUMP_GENERATED_OWNER",
         )
         self.assertIn('\treturn source_unit_payload_dump_generated_bridge_state.generated_overlap_guard_bridge_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count, Callable(source_unit_payload_dump_guard_state, "overlap_guard_state"))', helper_body)
         self.assertNotIn("source_generated_class_runtime.call_java_method", helper_body)
@@ -56074,6 +56097,7 @@ class PlayableManifestTests(unittest.TestCase):
             "source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_PAYLOAD_DUMP_NO_CLIENT_GUARD_STATE",
             "unit_payload.java_method_dump_13",
             source_owner_is_expression=True,
+            generated_owner_expression="SOURCE_UNIT_PAYLOAD_DUMP_GENERATED_OWNER",
         )
         self.assertIn('\treturn source_unit_payload_dump_generated_bridge_state.generated_no_client_guard_bridge_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count, net_client, Callable(source_unit_payload_dump_guard_state, "no_client_guard_state"))', helper_body)
         self.assertNotIn("source_generated_class_runtime.call_java_method", helper_body)
@@ -56181,6 +56205,7 @@ class PlayableManifestTests(unittest.TestCase):
             "source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_PAYLOAD_DUMP_SPAWN_SIDE_EFFECTS_STATE",
             "unit_payload.java_method_dump_13",
             source_owner_is_expression=True,
+            generated_owner_expression="SOURCE_UNIT_PAYLOAD_DUMP_GENERATED_OWNER",
         )
         self.assertIn('\treturn source_unit_payload_dump_generated_bridge_state.generated_spawn_side_effects_bridge_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count, net_client, range_x, range_y, unit_id, Callable(source_unit_payload_dump_guard_state, "no_client_guard_state"), Callable(SourceUnitPayloadDumpState, "spawn_side_effects_state"))', helper_body)
         self.assertNotIn("source_generated_class_runtime.call_java_method", helper_body)
