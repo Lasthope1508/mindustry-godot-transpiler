@@ -4,22 +4,28 @@ class_name SourceUnitPayloadIoState
 const source_generated_class_runtime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
 const source_unit_payload_basic_state := preload("res://src/game/SourceUnitPayloadBasicState.gd")
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
+const source_payload_source_text_state := preload("res://src/game/SourcePayloadSourceTextState.gd")
 
-const SOURCE_UNIT_PAYLOAD_WRITE_METHOD := "public void write(Writes write){"
-const SOURCE_UNIT_PAYLOAD_WRITE_PAYLOAD_UNIT_EXPR := "write.b(payloadUnit);"
-const SOURCE_UNIT_PAYLOAD_WRITE_CLASS_ID_EXPR := "write.b(unit.classId());"
-const SOURCE_UNIT_PAYLOAD_WRITE_UNIT_EXPR := "unit.write(write);"
-const SOURCE_UNIT_PAYLOAD_SET_METHOD := "public void set(float x, float y, float rotation){"
-const SOURCE_UNIT_PAYLOAD_SET_EXPR := "unit.set(x, y);"
-const SOURCE_UNIT_PAYLOAD_SET_ROTATION_ASSIGN_EXPR := "unit.rotation = rotation;"
-const SOURCE_UNIT_PAYLOAD_X_METHOD := "public float x(){"
-const SOURCE_UNIT_PAYLOAD_X_RETURN_EXPR := "return unit.x;"
-const SOURCE_UNIT_PAYLOAD_Y_METHOD := "public float y(){"
-const SOURCE_UNIT_PAYLOAD_Y_RETURN_EXPR := "return unit.y;"
-const SOURCE_UNIT_PAYLOAD_ROTATION_METHOD := "public float rotation(){"
-const SOURCE_UNIT_PAYLOAD_ROTATION_RETURN_EXPR := "return unit.rotation;"
-const SOURCE_UNIT_PAYLOAD_SIZE_METHOD := "public float size(){"
-const SOURCE_UNIT_PAYLOAD_SIZE_RETURN_EXPR := "return unit.hitSize;"
+const SOURCE_UNIT_PAYLOAD_GENERATED_CLASS := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_GENERATED_CLASS
+
+const SOURCE_UNIT_PAYLOAD_WRITE_METHOD := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_WRITE_METHOD
+const SOURCE_UNIT_PAYLOAD_WRITE_PAYLOAD_UNIT_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_WRITE_PAYLOAD_UNIT_EXPR
+const SOURCE_UNIT_PAYLOAD_WRITE_CLASS_ID_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_WRITE_CLASS_ID_EXPR
+const SOURCE_UNIT_PAYLOAD_WRITE_UNIT_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_WRITE_UNIT_EXPR
+const SOURCE_UNIT_PAYLOAD_SET_METHOD := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_SET_METHOD
+const SOURCE_UNIT_PAYLOAD_SET_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_SET_EXPR
+const SOURCE_UNIT_PAYLOAD_SET_ROTATION_ASSIGN_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_SET_ROTATION_ASSIGN_EXPR
+const SOURCE_UNIT_PAYLOAD_X_METHOD := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_X_METHOD
+const SOURCE_UNIT_PAYLOAD_X_RETURN_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_X_RETURN_EXPR
+const SOURCE_UNIT_PAYLOAD_Y_METHOD := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_Y_METHOD
+const SOURCE_UNIT_PAYLOAD_Y_RETURN_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_Y_RETURN_EXPR
+const SOURCE_UNIT_PAYLOAD_ROTATION_METHOD := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_ROTATION_METHOD
+const SOURCE_UNIT_PAYLOAD_ROTATION_RETURN_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_ROTATION_RETURN_EXPR
+const SOURCE_UNIT_PAYLOAD_SIZE_METHOD := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_SIZE_METHOD
+const SOURCE_UNIT_PAYLOAD_SIZE_RETURN_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_SIZE_RETURN_EXPR
+
+static func _unit_payload_call(generated_method: String, generated_args: Array) -> Variant:
+	return source_generated_class_runtime.call_java_method(SOURCE_UNIT_PAYLOAD_GENERATED_CLASS, generated_method, generated_args, null)
 
 static func write_state(payload_unit: int, unit_class_id: int) -> Dictionary:
 	var write_calls: Array = [
@@ -44,7 +50,7 @@ static func write_state(payload_unit: int, unit_class_id: int) -> Dictionary:
 	}
 
 static func generated_write_bridge_state(payload_unit: int, unit_class_id: int) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_write_7", [payload_unit, unit_class_id], null)
+	var result = _unit_payload_call("java_method_write_7", [payload_unit, unit_class_id])
 	var canonical = write_state(payload_unit, unit_class_id)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -74,7 +80,7 @@ static func set_state(x: float, y: float, rotation_value: float) -> Dictionary:
 	}
 
 static func generated_set_bridge_state(x: float, y: float, rotation_value: float) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_set_8", [x, y, rotation_value], null)
+	var result = _unit_payload_call("java_method_set_8", [x, y, rotation_value])
 	var canonical = set_state(x, y, rotation_value)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -99,7 +105,7 @@ static func x_state(unit_x: float) -> Dictionary:
 	}
 
 static func generated_x_bridge_state(unit_x: float) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_x_9", [unit_x], null)
+	var result = _unit_payload_call("java_method_x_9", [unit_x])
 	var canonical = x_state(unit_x)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -124,7 +130,7 @@ static func y_state(unit_y: float) -> Dictionary:
 	}
 
 static func generated_y_bridge_state(unit_y: float) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_y_10", [unit_y], null)
+	var result = _unit_payload_call("java_method_y_10", [unit_y])
 	var canonical = y_state(unit_y)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -149,7 +155,7 @@ static func rotation_state(unit_rotation: float) -> Dictionary:
 	}
 
 static func generated_rotation_bridge_state(unit_rotation: float) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_rotation_11", [unit_rotation], null)
+	var result = _unit_payload_call("java_method_rotation_11", [unit_rotation])
 	var canonical = rotation_state(unit_rotation)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -174,7 +180,7 @@ static func size_state(unit_hit_size: float) -> Dictionary:
 	}
 
 static func generated_size_bridge_state(unit_hit_size: float) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_size_12", [unit_hit_size], null)
+	var result = _unit_payload_call("java_method_size_12", [unit_hit_size])
 	var canonical = size_state(unit_hit_size)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
 	return {

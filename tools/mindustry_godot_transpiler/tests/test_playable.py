@@ -54734,21 +54734,21 @@ class PlayableManifestTests(unittest.TestCase):
             'const source_payload_source_text_state := preload("res://src/game/SourcePayloadSourceTextState.gd")',
             'const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")',
             'const SOURCE_UNIT_PAYLOAD_GENERATED_CLASS := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_GENERATED_CLASS',
-            'const SOURCE_UNIT_PAYLOAD_WRITE_METHOD := "public void write(Writes write){"',
-            'const SOURCE_UNIT_PAYLOAD_WRITE_PAYLOAD_UNIT_EXPR := "write.b(payloadUnit);"',
-            'const SOURCE_UNIT_PAYLOAD_WRITE_CLASS_ID_EXPR := "write.b(unit.classId());"',
-            'const SOURCE_UNIT_PAYLOAD_WRITE_UNIT_EXPR := "unit.write(write);"',
-            'const SOURCE_UNIT_PAYLOAD_SET_METHOD := "public void set(float x, float y, float rotation){"',
-            'const SOURCE_UNIT_PAYLOAD_SET_EXPR := "unit.set(x, y);"',
-            'const SOURCE_UNIT_PAYLOAD_SET_ROTATION_ASSIGN_EXPR := "unit.rotation = rotation;"',
-            'const SOURCE_UNIT_PAYLOAD_X_METHOD := "public float x(){"',
-            'const SOURCE_UNIT_PAYLOAD_X_RETURN_EXPR := "return unit.x;"',
-            'const SOURCE_UNIT_PAYLOAD_Y_METHOD := "public float y(){"',
-            'const SOURCE_UNIT_PAYLOAD_Y_RETURN_EXPR := "return unit.y;"',
-            'const SOURCE_UNIT_PAYLOAD_ROTATION_METHOD := "public float rotation(){"',
-            'const SOURCE_UNIT_PAYLOAD_ROTATION_RETURN_EXPR := "return unit.rotation;"',
-            'const SOURCE_UNIT_PAYLOAD_SIZE_METHOD := "public float size(){"',
-            'const SOURCE_UNIT_PAYLOAD_SIZE_RETURN_EXPR := "return unit.hitSize;"',
+            'const SOURCE_UNIT_PAYLOAD_WRITE_METHOD := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_WRITE_METHOD',
+            'const SOURCE_UNIT_PAYLOAD_WRITE_PAYLOAD_UNIT_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_WRITE_PAYLOAD_UNIT_EXPR',
+            'const SOURCE_UNIT_PAYLOAD_WRITE_CLASS_ID_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_WRITE_CLASS_ID_EXPR',
+            'const SOURCE_UNIT_PAYLOAD_WRITE_UNIT_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_WRITE_UNIT_EXPR',
+            'const SOURCE_UNIT_PAYLOAD_SET_METHOD := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_SET_METHOD',
+            'const SOURCE_UNIT_PAYLOAD_SET_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_SET_EXPR',
+            'const SOURCE_UNIT_PAYLOAD_SET_ROTATION_ASSIGN_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_SET_ROTATION_ASSIGN_EXPR',
+            'const SOURCE_UNIT_PAYLOAD_X_METHOD := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_X_METHOD',
+            'const SOURCE_UNIT_PAYLOAD_X_RETURN_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_X_RETURN_EXPR',
+            'const SOURCE_UNIT_PAYLOAD_Y_METHOD := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_Y_METHOD',
+            'const SOURCE_UNIT_PAYLOAD_Y_RETURN_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_Y_RETURN_EXPR',
+            'const SOURCE_UNIT_PAYLOAD_ROTATION_METHOD := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_ROTATION_METHOD',
+            'const SOURCE_UNIT_PAYLOAD_ROTATION_RETURN_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_ROTATION_RETURN_EXPR',
+            'const SOURCE_UNIT_PAYLOAD_SIZE_METHOD := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_SIZE_METHOD',
+            'const SOURCE_UNIT_PAYLOAD_SIZE_RETURN_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_SIZE_RETURN_EXPR',
         ):
             self.assertIn(expected, module_source)
 
@@ -54844,6 +54844,51 @@ class PlayableManifestTests(unittest.TestCase):
                 self.assertIn(expected, method_body)
             for duplicate_literal in duplicate_literals:
                 self.assertNotIn(duplicate_literal, method_body)
+
+    def test_unit_payload_io_source_text_literals_live_in_payload_source_text_owner(self):
+        source_text = ROOT / "godot-mindustry" / "src" / "game" / "SourcePayloadSourceTextState.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceUnitPayloadIoState.gd"
+        source_text_source = source_text.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
+
+        for expected in (
+            'const SOURCE_UNIT_PAYLOAD_WRITE_METHOD := "public void write(Writes write){"',
+            'const SOURCE_UNIT_PAYLOAD_WRITE_PAYLOAD_UNIT_EXPR := "write.b(payloadUnit);"',
+            'const SOURCE_UNIT_PAYLOAD_WRITE_CLASS_ID_EXPR := "write.b(unit.classId());"',
+            'const SOURCE_UNIT_PAYLOAD_WRITE_UNIT_EXPR := "unit.write(write);"',
+            'const SOURCE_UNIT_PAYLOAD_SET_METHOD := "public void set(float x, float y, float rotation){"',
+            'const SOURCE_UNIT_PAYLOAD_SET_EXPR := "unit.set(x, y);"',
+            'const SOURCE_UNIT_PAYLOAD_SET_ROTATION_ASSIGN_EXPR := "unit.rotation = rotation;"',
+            'const SOURCE_UNIT_PAYLOAD_X_METHOD := "public float x(){"',
+            'const SOURCE_UNIT_PAYLOAD_X_RETURN_EXPR := "return unit.x;"',
+            'const SOURCE_UNIT_PAYLOAD_Y_METHOD := "public float y(){"',
+            'const SOURCE_UNIT_PAYLOAD_Y_RETURN_EXPR := "return unit.y;"',
+            'const SOURCE_UNIT_PAYLOAD_ROTATION_METHOD := "public float rotation(){"',
+            'const SOURCE_UNIT_PAYLOAD_ROTATION_RETURN_EXPR := "return unit.rotation;"',
+            'const SOURCE_UNIT_PAYLOAD_SIZE_METHOD := "public float size(){"',
+            'const SOURCE_UNIT_PAYLOAD_SIZE_RETURN_EXPR := "return unit.hitSize;"',
+        ):
+            self.assertIn(expected, source_text_source)
+            self.assertNotIn(expected, module_source)
+
+        for expected in (
+            "const SOURCE_UNIT_PAYLOAD_WRITE_METHOD := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_WRITE_METHOD",
+            "const SOURCE_UNIT_PAYLOAD_WRITE_PAYLOAD_UNIT_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_WRITE_PAYLOAD_UNIT_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_WRITE_CLASS_ID_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_WRITE_CLASS_ID_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_WRITE_UNIT_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_WRITE_UNIT_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_SET_METHOD := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_SET_METHOD",
+            "const SOURCE_UNIT_PAYLOAD_SET_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_SET_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_SET_ROTATION_ASSIGN_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_SET_ROTATION_ASSIGN_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_X_METHOD := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_X_METHOD",
+            "const SOURCE_UNIT_PAYLOAD_X_RETURN_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_X_RETURN_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_Y_METHOD := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_Y_METHOD",
+            "const SOURCE_UNIT_PAYLOAD_Y_RETURN_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_Y_RETURN_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_ROTATION_METHOD := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_ROTATION_METHOD",
+            "const SOURCE_UNIT_PAYLOAD_ROTATION_RETURN_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_ROTATION_RETURN_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_SIZE_METHOD := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_SIZE_METHOD",
+            "const SOURCE_UNIT_PAYLOAD_SIZE_RETURN_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_SIZE_RETURN_EXPR",
+        ):
+            self.assertIn(expected, module_source)
 
     def test_unit_payload_io_generated_bridges_use_payload_source_text_owner(self):
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceUnitPayloadIoState.gd"
