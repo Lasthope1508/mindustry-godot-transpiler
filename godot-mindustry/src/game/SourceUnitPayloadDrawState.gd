@@ -5,31 +5,37 @@ const source_generated_class_runtime := preload("res://src/game/SourceGeneratedC
 const source_unit_payload_basic_state := preload("res://src/game/SourceUnitPayloadBasicState.gd")
 const source_unit_defaults := preload("res://src/game/SourceUnitDefaults.gd")
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
+const source_payload_source_text_state := preload("res://src/game/SourcePayloadSourceTextState.gd")
+
+const SOURCE_UNIT_PAYLOAD_GENERATED_CLASS := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_GENERATED_CLASS
+
+static func _unit_payload_call(generated_method: String, generated_args: Array) -> Variant:
+	return source_generated_class_runtime.call_java_method(SOURCE_UNIT_PAYLOAD_GENERATED_CLASS, generated_method, generated_args, null)
 
 const SOURCE_UNIT_PAYLOAD_OVERLAY_DURATION := source_unit_defaults.PAYLOAD_OVERLAY_DURATION
 const SOURCE_UNIT_PAYLOAD_OVERLAY_ALPHA := source_unit_defaults.PAYLOAD_OVERLAY_ALPHA
 const SOURCE_UNIT_PAYLOAD_WARNING_SIZE := source_unit_defaults.PAYLOAD_WARNING_SIZE
-const SOURCE_UNIT_PAYLOAD_DRAW_SHADOW_METHOD := "public void drawShadow(float alpha){"
-const SOURCE_UNIT_PAYLOAD_DRAW_SOFT_SHADOW_EXPR := "unit.type.drawSoftShadow(unit, alpha);"
-const SOURCE_UNIT_PAYLOAD_DRAW_ELEVATION_SNAPSHOT_EXPR := "float e = unit.elevation;"
-const SOURCE_UNIT_PAYLOAD_DRAW_ELEVATION_ZERO_EXPR := "unit.elevation = 0f;"
-const SOURCE_UNIT_PAYLOAD_DRAW_SCL_EXPR := "Draw.scl(1f, 1f);"
-const SOURCE_UNIT_PAYLOAD_DRAW_UNIT_TYPE_EXPR := "unit.type.draw(unit);"
-const SOURCE_UNIT_PAYLOAD_DRAW_ELEVATION_RESTORE_EXPR := "unit.elevation = e;"
-const SOURCE_UNIT_PAYLOAD_DRAW_WARNING_COMMENT_EXPR := "//draw warning"
-const SOURCE_UNIT_PAYLOAD_DRAW_OVERLAY_GUARD_EXPR := "if(overlayTime > 0){"
-const SOURCE_UNIT_PAYLOAD_DRAW_Z_SNAPSHOT_EXPR := "float z = Draw.z();"
-const SOURCE_UNIT_PAYLOAD_DRAW_Z_WARNING_EXPR := "Draw.z(Layer.groundUnit + 1f);"
-const SOURCE_UNIT_PAYLOAD_DRAW_REGION_EXPR := "var region = overlayRegion == null ? Icon.warning.getRegion() : overlayRegion;"
-const SOURCE_UNIT_PAYLOAD_DRAW_COLOR_EXPR := "Draw.color(Color.scarlet);"
-const SOURCE_UNIT_PAYLOAD_DRAW_ALPHA_EXPR := "Draw.alpha(0.8f * Interp.exp5Out.apply(overlayTime));"
-const SOURCE_UNIT_PAYLOAD_DRAW_SIZE_EXPR := "float size = 8f;"
-const SOURCE_UNIT_PAYLOAD_DRAW_RECT_EXPR := "Draw.rect(region, unit.x, unit.y, size, size);"
-const SOURCE_UNIT_PAYLOAD_DRAW_RESET_EXPR := "Draw.reset();"
-const SOURCE_UNIT_PAYLOAD_DRAW_OVERLAY_TIME_UPDATE_EXPR := "overlayTime = Math.max(overlayTime - Time.delta/overlayDuration, 0f);"
-const SOURCE_UNIT_PAYLOAD_DRAW_Z_RESTORE_EXPR := "Draw.z(z);"
-const SOURCE_UNIT_PAYLOAD_ICON_METHOD := "public TextureRegion icon(){"
-const SOURCE_UNIT_PAYLOAD_ICON_RETURN_EXPR := "return unit.type.fullIcon;"
+const SOURCE_UNIT_PAYLOAD_DRAW_SHADOW_METHOD := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_DRAW_SHADOW_METHOD
+const SOURCE_UNIT_PAYLOAD_DRAW_SOFT_SHADOW_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_DRAW_SOFT_SHADOW_EXPR
+const SOURCE_UNIT_PAYLOAD_DRAW_ELEVATION_SNAPSHOT_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_DRAW_ELEVATION_SNAPSHOT_EXPR
+const SOURCE_UNIT_PAYLOAD_DRAW_ELEVATION_ZERO_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_DRAW_ELEVATION_ZERO_EXPR
+const SOURCE_UNIT_PAYLOAD_DRAW_SCL_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_DRAW_SCL_EXPR
+const SOURCE_UNIT_PAYLOAD_DRAW_UNIT_TYPE_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_DRAW_UNIT_TYPE_EXPR
+const SOURCE_UNIT_PAYLOAD_DRAW_ELEVATION_RESTORE_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_DRAW_ELEVATION_RESTORE_EXPR
+const SOURCE_UNIT_PAYLOAD_DRAW_WARNING_COMMENT_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_DRAW_WARNING_COMMENT_EXPR
+const SOURCE_UNIT_PAYLOAD_DRAW_OVERLAY_GUARD_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_DRAW_OVERLAY_GUARD_EXPR
+const SOURCE_UNIT_PAYLOAD_DRAW_Z_SNAPSHOT_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_DRAW_Z_SNAPSHOT_EXPR
+const SOURCE_UNIT_PAYLOAD_DRAW_Z_WARNING_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_DRAW_Z_WARNING_EXPR
+const SOURCE_UNIT_PAYLOAD_DRAW_REGION_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_DRAW_REGION_EXPR
+const SOURCE_UNIT_PAYLOAD_DRAW_COLOR_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_DRAW_COLOR_EXPR
+const SOURCE_UNIT_PAYLOAD_DRAW_ALPHA_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_DRAW_ALPHA_EXPR
+const SOURCE_UNIT_PAYLOAD_DRAW_SIZE_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_DRAW_SIZE_EXPR
+const SOURCE_UNIT_PAYLOAD_DRAW_RECT_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_DRAW_RECT_EXPR
+const SOURCE_UNIT_PAYLOAD_DRAW_RESET_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_DRAW_RESET_EXPR
+const SOURCE_UNIT_PAYLOAD_DRAW_OVERLAY_TIME_UPDATE_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_DRAW_OVERLAY_TIME_UPDATE_EXPR
+const SOURCE_UNIT_PAYLOAD_DRAW_Z_RESTORE_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_DRAW_Z_RESTORE_EXPR
+const SOURCE_UNIT_PAYLOAD_ICON_METHOD := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_ICON_METHOD
+const SOURCE_UNIT_PAYLOAD_ICON_RETURN_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_ICON_RETURN_EXPR
 
 static func draw_shadow_type_null_state(unit_type_null: bool, alpha: float, unit_id: Variant) -> Dictionary:
 	var returned_early: bool = unit_type_null
@@ -190,7 +196,7 @@ static func icon_state(unit_type_full_icon: Variant) -> Dictionary:
 	}
 
 static func generated_shadow_type_null_bridge_state(unit_type_null: bool, alpha: float, unit_id: Variant) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_drawShadow_14", [unit_type_null, alpha, unit_id], null)
+	var result = _unit_payload_call("java_method_drawShadow_14", [unit_type_null, alpha, unit_id])
 	var canonical = draw_shadow_type_null_state(unit_type_null, alpha, unit_id)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -202,7 +208,7 @@ static func generated_shadow_type_null_bridge_state(unit_type_null: bool, alpha:
 	}
 
 static func generated_type_null_bridge_state(unit_type_null: bool) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_draw_15", [unit_type_null], null)
+	var result = _unit_payload_call("java_method_draw_15", [unit_type_null])
 	var canonical = draw_type_null_state(unit_type_null)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -214,7 +220,7 @@ static func generated_type_null_bridge_state(unit_type_null: bool) -> Dictionary
 	}
 
 static func generated_elevation_setup_bridge_state(unit_type_null: bool, unit_elevation: float, unit_id: Variant) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_draw_15", [unit_type_null, unit_elevation, unit_id], null)
+	var result = _unit_payload_call("java_method_draw_15", [unit_type_null, unit_elevation, unit_id])
 	var canonical = draw_elevation_setup_state(unit_type_null, unit_elevation, unit_id)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -226,7 +232,7 @@ static func generated_elevation_setup_bridge_state(unit_type_null: bool, unit_el
 	}
 
 static func generated_overlay_warning_bridge_state(unit_type_null: bool, unit_elevation: float, unit_id: Variant, overlay_time: float, overlay_region: Variant, unit_x: float, unit_y: float, time_delta: float, draw_z_before: float, interp_exp5_out_overlay_time: float) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_draw_15", [unit_type_null, unit_elevation, unit_id, overlay_time, overlay_region, unit_x, unit_y, time_delta, draw_z_before, interp_exp5_out_overlay_time], null)
+	var result = _unit_payload_call("java_method_draw_15", [unit_type_null, unit_elevation, unit_id, overlay_time, overlay_region, unit_x, unit_y, time_delta, draw_z_before, interp_exp5_out_overlay_time])
 	var canonical = draw_overlay_warning_state(unit_type_null, unit_elevation, unit_id, overlay_time, overlay_region, unit_x, unit_y, time_delta, draw_z_before, interp_exp5_out_overlay_time)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -238,7 +244,7 @@ static func generated_overlay_warning_bridge_state(unit_type_null: bool, unit_el
 	}
 
 static func generated_icon_bridge_state(unit_type_full_icon: Variant) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_icon_16", [unit_type_full_icon], null)
+	var result = _unit_payload_call("java_method_icon_16", [unit_type_full_icon])
 	var canonical = icon_state(unit_type_full_icon)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
 	return {

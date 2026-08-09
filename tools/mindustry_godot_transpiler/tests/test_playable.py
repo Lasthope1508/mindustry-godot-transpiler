@@ -56265,17 +56265,17 @@ class PlayableManifestTests(unittest.TestCase):
         expected_constants = [
             'const source_unit_payload_basic_state := preload("res://src/game/SourceUnitPayloadBasicState.gd")',
             'const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")',
-            'const SOURCE_UNIT_PAYLOAD_DRAW_SHADOW_METHOD := "public void drawShadow(float alpha){"',
-            'const SOURCE_UNIT_PAYLOAD_DRAW_SOFT_SHADOW_EXPR := "unit.type.drawSoftShadow(unit, alpha);"',
-            'const SOURCE_UNIT_PAYLOAD_DRAW_ELEVATION_SNAPSHOT_EXPR := "float e = unit.elevation;"',
-            'const SOURCE_UNIT_PAYLOAD_DRAW_ELEVATION_ZERO_EXPR := "unit.elevation = 0f;"',
-            'const SOURCE_UNIT_PAYLOAD_DRAW_SCL_EXPR := "Draw.scl(1f, 1f);"',
-            'const SOURCE_UNIT_PAYLOAD_DRAW_UNIT_TYPE_EXPR := "unit.type.draw(unit);"',
-            'const SOURCE_UNIT_PAYLOAD_DRAW_ELEVATION_RESTORE_EXPR := "unit.elevation = e;"',
-            'const SOURCE_UNIT_PAYLOAD_DRAW_WARNING_COMMENT_EXPR := "//draw warning"',
-            'const SOURCE_UNIT_PAYLOAD_DRAW_OVERLAY_GUARD_EXPR := "if(overlayTime > 0){"',
-            'const SOURCE_UNIT_PAYLOAD_ICON_METHOD := "public TextureRegion icon(){"',
-            'const SOURCE_UNIT_PAYLOAD_ICON_RETURN_EXPR := "return unit.type.fullIcon;"',
+            'const SOURCE_UNIT_PAYLOAD_DRAW_SHADOW_METHOD := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_DRAW_SHADOW_METHOD',
+            'const SOURCE_UNIT_PAYLOAD_DRAW_SOFT_SHADOW_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_DRAW_SOFT_SHADOW_EXPR',
+            'const SOURCE_UNIT_PAYLOAD_DRAW_ELEVATION_SNAPSHOT_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_DRAW_ELEVATION_SNAPSHOT_EXPR',
+            'const SOURCE_UNIT_PAYLOAD_DRAW_ELEVATION_ZERO_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_DRAW_ELEVATION_ZERO_EXPR',
+            'const SOURCE_UNIT_PAYLOAD_DRAW_SCL_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_DRAW_SCL_EXPR',
+            'const SOURCE_UNIT_PAYLOAD_DRAW_UNIT_TYPE_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_DRAW_UNIT_TYPE_EXPR',
+            'const SOURCE_UNIT_PAYLOAD_DRAW_ELEVATION_RESTORE_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_DRAW_ELEVATION_RESTORE_EXPR',
+            'const SOURCE_UNIT_PAYLOAD_DRAW_WARNING_COMMENT_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_DRAW_WARNING_COMMENT_EXPR',
+            'const SOURCE_UNIT_PAYLOAD_DRAW_OVERLAY_GUARD_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_DRAW_OVERLAY_GUARD_EXPR',
+            'const SOURCE_UNIT_PAYLOAD_ICON_METHOD := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_ICON_METHOD',
+            'const SOURCE_UNIT_PAYLOAD_ICON_RETURN_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_ICON_RETURN_EXPR',
         ]
         for expected in expected_constants:
             self.assertIn(expected, module_source)
@@ -56369,6 +56369,63 @@ class PlayableManifestTests(unittest.TestCase):
                 self.assertIn(expected, body)
             for forbidden in forbidden_literals:
                 self.assertNotIn(forbidden, body)
+
+    def test_unit_payload_draw_source_text_literals_live_in_payload_source_text_owner(self):
+        source_text = ROOT / "godot-mindustry" / "src" / "game" / "SourcePayloadSourceTextState.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceUnitPayloadDrawState.gd"
+        source_text_source = source_text.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
+
+        for expected in (
+            'const SOURCE_UNIT_PAYLOAD_DRAW_SHADOW_METHOD := "public void drawShadow(float alpha){"',
+            'const SOURCE_UNIT_PAYLOAD_DRAW_SOFT_SHADOW_EXPR := "unit.type.drawSoftShadow(unit, alpha);"',
+            'const SOURCE_UNIT_PAYLOAD_DRAW_ELEVATION_SNAPSHOT_EXPR := "float e = unit.elevation;"',
+            'const SOURCE_UNIT_PAYLOAD_DRAW_ELEVATION_ZERO_EXPR := "unit.elevation = 0f;"',
+            'const SOURCE_UNIT_PAYLOAD_DRAW_SCL_EXPR := "Draw.scl(1f, 1f);"',
+            'const SOURCE_UNIT_PAYLOAD_DRAW_UNIT_TYPE_EXPR := "unit.type.draw(unit);"',
+            'const SOURCE_UNIT_PAYLOAD_DRAW_ELEVATION_RESTORE_EXPR := "unit.elevation = e;"',
+            'const SOURCE_UNIT_PAYLOAD_DRAW_WARNING_COMMENT_EXPR := "//draw warning"',
+            'const SOURCE_UNIT_PAYLOAD_DRAW_OVERLAY_GUARD_EXPR := "if(overlayTime > 0){"',
+            'const SOURCE_UNIT_PAYLOAD_DRAW_Z_SNAPSHOT_EXPR := "float z = Draw.z();"',
+            'const SOURCE_UNIT_PAYLOAD_DRAW_Z_WARNING_EXPR := "Draw.z(Layer.groundUnit + 1f);"',
+            'const SOURCE_UNIT_PAYLOAD_DRAW_REGION_EXPR := "var region = overlayRegion == null ? Icon.warning.getRegion() : overlayRegion;"',
+            'const SOURCE_UNIT_PAYLOAD_DRAW_COLOR_EXPR := "Draw.color(Color.scarlet);"',
+            'const SOURCE_UNIT_PAYLOAD_DRAW_ALPHA_EXPR := "Draw.alpha(0.8f * Interp.exp5Out.apply(overlayTime));"',
+            'const SOURCE_UNIT_PAYLOAD_DRAW_SIZE_EXPR := "float size = 8f;"',
+            'const SOURCE_UNIT_PAYLOAD_DRAW_RECT_EXPR := "Draw.rect(region, unit.x, unit.y, size, size);"',
+            'const SOURCE_UNIT_PAYLOAD_DRAW_RESET_EXPR := "Draw.reset();"',
+            'const SOURCE_UNIT_PAYLOAD_DRAW_OVERLAY_TIME_UPDATE_EXPR := "overlayTime = Math.max(overlayTime - Time.delta/overlayDuration, 0f);"',
+            'const SOURCE_UNIT_PAYLOAD_DRAW_Z_RESTORE_EXPR := "Draw.z(z);"',
+            'const SOURCE_UNIT_PAYLOAD_ICON_METHOD := "public TextureRegion icon(){"',
+            'const SOURCE_UNIT_PAYLOAD_ICON_RETURN_EXPR := "return unit.type.fullIcon;"',
+        ):
+            self.assertIn(expected, source_text_source)
+            self.assertNotIn(expected, module_source)
+
+        for expected in (
+            "const SOURCE_UNIT_PAYLOAD_DRAW_SHADOW_METHOD := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_DRAW_SHADOW_METHOD",
+            "const SOURCE_UNIT_PAYLOAD_DRAW_SOFT_SHADOW_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_DRAW_SOFT_SHADOW_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_DRAW_ELEVATION_SNAPSHOT_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_DRAW_ELEVATION_SNAPSHOT_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_DRAW_ELEVATION_ZERO_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_DRAW_ELEVATION_ZERO_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_DRAW_SCL_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_DRAW_SCL_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_DRAW_UNIT_TYPE_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_DRAW_UNIT_TYPE_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_DRAW_ELEVATION_RESTORE_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_DRAW_ELEVATION_RESTORE_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_DRAW_WARNING_COMMENT_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_DRAW_WARNING_COMMENT_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_DRAW_OVERLAY_GUARD_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_DRAW_OVERLAY_GUARD_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_DRAW_Z_SNAPSHOT_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_DRAW_Z_SNAPSHOT_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_DRAW_Z_WARNING_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_DRAW_Z_WARNING_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_DRAW_REGION_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_DRAW_REGION_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_DRAW_COLOR_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_DRAW_COLOR_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_DRAW_ALPHA_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_DRAW_ALPHA_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_DRAW_SIZE_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_DRAW_SIZE_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_DRAW_RECT_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_DRAW_RECT_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_DRAW_RESET_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_DRAW_RESET_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_DRAW_OVERLAY_TIME_UPDATE_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_DRAW_OVERLAY_TIME_UPDATE_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_DRAW_Z_RESTORE_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_DRAW_Z_RESTORE_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_ICON_METHOD := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_ICON_METHOD",
+            "const SOURCE_UNIT_PAYLOAD_ICON_RETURN_EXPR := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_ICON_RETURN_EXPR",
+        ):
+            self.assertIn(expected, module_source)
 
     def test_unit_payload_draw_generated_bridges_use_payload_source_text_owner(self):
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceUnitPayloadDrawState.gd"
