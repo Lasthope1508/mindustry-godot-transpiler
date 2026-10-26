@@ -19,6 +19,373 @@ def gdscript_function_body(source_text: str, signature: str) -> str:
 
 
 class EmitterTests(unittest.TestCase):
+    def test_emit_bridges_unit_type_core_methods_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "type" / "UnitType.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.type;
+public class UnitType{
+    public UnitController createController(Unit unit){
+        return controller.get(unit);
+    }
+    public boolean hasWeapons(){
+        return weapons.size > 0;
+    }
+    public boolean targetable(Unit unit, Team targeter){
+        return targetable || (vulnerableWithPayloads && unit instanceof Payloadc p && p.hasPayload());
+    }
+    public boolean killable(Unit unit){
+        return killable;
+    }
+    public boolean hittable(Unit unit){
+        return hittable || (vulnerableWithPayloads && unit instanceof Payloadc p && p.hasPayload());
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "type" / "UnitType.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            expected = {
+                "createController_0": "source_unit_type_state.create_controller_state",
+                "hasWeapons_1": "source_unit_type_state.has_weapons_state",
+                "targetable_2": "source_unit_type_state.targetable_state",
+                "killable_3": "source_unit_type_state.killable_state",
+                "hittable_4": "source_unit_type_state.hittable_state",
+            }
+            for method, delegate in expected.items():
+                with self.subTest(method=method):
+                    signature = f"func java_method_{method}(_args: Array = []) -> Variant:"
+                    body = gdscript_function_body(source_text, signature)
+                    self.assertIn(signature, source_text)
+                    self.assertIn(delegate, body)
+                    self.assertNotIn("\n\treturn null", body)
+            self.assertIn('const source_unit_type_state := preload("res://src/game/SourceUnitTypeState.gd")', source_text)
+
+    def test_emit_bridges_unit_comp_sync_hidden_block_to_canonical_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "UnitComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public abstract class UnitComp{
+    public boolean isSyncHidden(Player player){
+        return !isShooting() && inFogTo(player.team());
+    }
+    public void handleSyncHidden(){
+        remove();
+        netClient.clearRemovedEntity(id);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "UnitComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_isSyncHidden_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var result := source_unit_update_state.is_sync_hidden_state(is_shooting_value, in_fog_to_value)", source_text)
+            self.assertIn("func java_method_handleSyncHidden_1(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var result := source_unit_update_state.handle_sync_hidden_state(unit_id)", source_text)
+            self.assertNotIn("func java_method_isSyncHidden_0(_args: Array = []) -> Variant:\n\treturn null", source_text)
+            self.assertNotIn("func java_method_handleSyncHidden_1(_args: Array = []) -> Variant:\n\treturn null", source_text)
+
+    def test_emit_bridges_unit_comp_in_fog_to_canonical_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "UnitComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public abstract class UnitComp{
+    public boolean inFogTo(Team viewer){
+        if(this.team == viewer || !state.rules.fog) return false;
+        if(hitSize <= 16f){
+            return !fogControl.isVisible(viewer, x, y);
+        }else{
+            float trns = hitSize / 2f;
+            for(var p : Geometry.d8){
+                if(fogControl.isVisible(viewer, x + p.x * trns, y + p.y * trns)){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "UnitComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_inFogTo_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var d8_visible: Array = _args[6] if _args.size() > 6 and _args[6] is Array else []", source_text)
+            self.assertIn("var result := source_unit_update_state.in_fog_to_state(same_team, rules_fog, hit_size, unit_x, unit_y, center_visible, d8_visible)", source_text)
+            self.assertNotIn("func java_method_inFogTo_0(_args: Array = []) -> Variant:\n\treturn null", source_text)
+
+    def test_emit_bridges_unit_comp_motion_predicates_to_canonical_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "UnitComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public abstract class UnitComp{
+    public boolean checkTarget(boolean targetAir, boolean targetGround){
+        return (isGrounded() && targetGround) || (isFlying() && targetAir);
+    }
+    public boolean isGrounded(){ return elevation < 0.001f; }
+    public boolean isFlying(){ return elevation >= 0.09f; }
+    public boolean canDrown(){ return isGrounded() && type.canDrown; }
+    public @Nullable Floor drownFloor(){ return floorOn(); }
+    public void wobble(){ x += 1f; }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "UnitComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn('const source_unit_update_state := preload("res://src/game/SourceUnitUpdateState.gd")', source_text)
+            self.assertIn('const source_unit_update_source_text_state := preload("res://src/game/SourceUnitUpdateSourceTextState.gd")', source_text)
+            self.assertIn("var result := source_unit_update_state.check_target_state(elevation_value, target_air, target_ground)", source_text)
+            self.assertIn("var grounded := source_unit_update_state.is_grounded(elevation_value)", source_text)
+            self.assertIn("var flying := source_unit_update_state.is_flying(elevation_value)", source_text)
+            self.assertIn("var result := source_unit_update_state.can_drown_state(elevation_value, type_can_drown)", source_text)
+            self.assertIn("var floor_value: Variant = source_unit_update_state.drown_floor_state(floor_on_value)", source_text)
+            self.assertIn("var result := source_unit_update_state.game_wobble_state(game, current_x, current_y, source_time, source_delta, elevation_value, unit_id)", source_text)
+            first_block = source_text.split("func java_method_moveAt_6", 1)[0]
+            self.assertNotIn("return null", first_block)
+
+    def test_emit_bridges_unit_comp_movement_block_to_canonical_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "UnitComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public abstract class UnitComp{
+    public void moveAt(Vec2 vector, float acceleration){}
+    public float floorSpeedMultiplier(){ return 1f; }
+    public void movePref(Vec2 movement){}
+    public void moveAt(Vec2 vector){}
+    public void approach(Vec2 vector){}
+    public void rotateMove(Vec2 vec){}
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "UnitComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("var game: Object = _args[6] if _args.size() > 6 else self", source_text)
+            self.assertIn("var result := source_unit_update_state.game_move_at_state(game, vel_x, vel_y, vector_x, vector_y, acceleration, source_delta)", source_text)
+            self.assertIn("var result := source_unit_update_state.floor_speed_multiplier_state(elevation_value, type_hovering, floor_on_speed_multiplier, type_floor_multiplier, speed_multiplier_value)", source_text)
+            self.assertIn("var result := source_unit_update_state.move_pref_state(type_omni_movement, movement_x, movement_y)", source_text)
+            self.assertIn("var result := source_unit_update_state.move_at_default_accel_state(vector_x, vector_y, type_accel)", source_text)
+            self.assertIn("var result := source_unit_update_state.approach_state(vel_x, vel_y, vector_x, vector_y, type_accel, speed_value, source_delta)", source_text)
+            self.assertIn("var rotation_result := source_unit_update_state.game_rotate_move_rotation_state(game, current_rotation, vec_x, vec_y, type_rotate_speed, speed_multiplier_value, source_delta)", source_text)
+            self.assertNotIn("return null", source_text)
+
+    def test_emit_bridges_unit_comp_metrics_block_to_canonical_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "UnitComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public abstract class UnitComp{
+    public float physicSize(){ return hitSize * 0.7f; }
+    public boolean inRange(Position other){ return within(other, type.range); }
+    public boolean hasWeapons(){ return type.hasWeapons(); }
+    public float speed(){ return type.speed; }
+    public float range(){ return type.maxRange; }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            source_text = (output_root / "mindustry" / "entities" / "comp" / "UnitComp.gd").read_text(encoding="utf-8")
+            self.assertIn("var size := source_unit_update_state.physic_size(hit_size)", source_text)
+            self.assertIn("var in_range := source_unit_update_state.in_range(unit_x, unit_y, other_x, other_y, type_range)", source_text)
+            self.assertIn("var has_weapons := source_unit_update_state.has_weapons(weapons)", source_text)
+            self.assertIn("var speed_value := source_unit_update_state.speed(elevation_value, grounded_value, player_value, velocity_angle, rotation_value, strafe_penalty_value, can_boost_value, boost_multiplier_value, type_speed_value, floor_speed_multiplier_value)", source_text)
+            self.assertIn("var type_max_range := float(_args[0] if _args.size() > 0 else 0.0)", source_text)
+            self.assertIn("var result := source_unit_update_state.range_state(type_max_range)", source_text)
+            self.assertIn("source_unit_update_source_text_state.SOURCE_UNIT_RANGE_GENERATED_OWNER", source_text)
+            self.assertNotIn("return null", source_text)
+
+    def test_emit_bridges_unit_comp_clip_size_to_canonical_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "UnitComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public abstract class UnitComp{
+    public float clipSize(){
+        if(isBuilding()){
+            return state.rules.infiniteResources ? Float.MAX_VALUE : Math.max(type.clipSize, type.region.width) + type.buildRange + tilesize*4f;
+        }
+        if(mining()){
+            return type.clipSize + type.mineRange;
+        }
+        return type.clipSize;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            source_text = (output_root / "mindustry" / "entities" / "comp" / "UnitComp.gd").read_text(encoding="utf-8")
+            self.assertIn("const SOURCE_TILESIZE := source_world_defaults.TILESIZE", source_text)
+            self.assertIn("var source_tilesize := float(_args[5] if _args.size() > 5 else SOURCE_TILESIZE)", source_text)
+            self.assertIn("var result := source_unit_update_state.clip_size_state(is_building, infinite_resources, type_clip_size, type_region_width, type_build_range, source_tilesize, is_mining, type_mine_range)", source_text)
+            self.assertIn("source_unit_update_source_text_state.SOURCE_UNIT_CLIP_SIZE_GENERATED_OWNER", source_text)
+            self.assertNotIn("return null", source_text)
+
+    def test_emit_bridges_unit_comp_navigation_block_to_canonical_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "UnitComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public abstract class UnitComp{
+    public boolean isPathImpassable(int tileX, int tileY){ return !type.flying && world.tiles.in(tileX, tileY) && type.pathCost.getCost(team.id, pathfinder.get(tileX, tileY)) == -1; }
+    public boolean canLand(){ return !onSolid() && Units.count(x, y, physicSize(), f -> f != self() && f.isGrounded()) == 0; }
+    public float prefRotation(){ if(activelyBuilding() && type.rotateToBuilding) return angleTo(buildPlan()); else if(mineTile != null) return angleTo(mineTile); else if(moving() && type.omniMovement) return vel().angle(); return rotation; }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            source_text = (output_root / "mindustry" / "entities" / "comp" / "UnitComp.gd").read_text(encoding="utf-8")
+            self.assertIn("var result := source_unit_update_state.is_path_impassable_state", source_text)
+            self.assertIn("var result := source_unit_update_state.can_land_state", source_text)
+            self.assertIn("var result := source_unit_update_state.pref_rotation_state", source_text)
+            self.assertNotIn("return null", source_text)
+
+    def test_emit_bridges_unit_comp_metadata_block_to_canonical_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "UnitComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public abstract class UnitComp{
+    public float ammof(){ return 1f; }
+    public boolean displayable(){ return type.hoverable; }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            source_text = (output_root / "mindustry" / "entities" / "comp" / "UnitComp.gd").read_text(encoding="utf-8")
+            self.assertIn("var result := source_unit_update_state.ammof_state()", source_text)
+            self.assertIn("var result := source_unit_update_state.displayable_state(type_hoverable)", source_text)
+            self.assertNotIn("return null", source_text)
+
+    def test_emit_bridges_unit_comp_unloaded_and_boosting_block_to_canonical_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "UnitComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public abstract class UnitComp{
+    public void unloaded(){}
+    public void updateBoosting(boolean boost){}
+    public void updateBoosting(boolean boost, boolean event){}
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "UnitComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("var result: Variant = source_unit_update_state.unloaded_state(unit_state)", source_text)
+            self.assertIn("var result := source_unit_update_state.boosting_default_event_state(boost)", source_text)
+            self.assertIn("var guard_result := source_unit_update_state.boosting_guard_state(type_can_boost, dead_state, elevation_value)", source_text)
+            self.assertIn('if bool(guard_result.get("returned", false)):', source_text)
+            self.assertIn("var should_result := source_unit_update_state.boosting_should_boost_state(boost, on_solid_result, elevation_value, can_land_result)", source_text)
+            self.assertIn("var elevation_result := source_unit_update_state.boosting_elevation_state(elevation_value, type_can_boost, bool(should_result.get(\"should_boost\", false)), type_rise_speed, type_descent_speed, source_delta)", source_text)
+            self.assertIn("var event_result := source_unit_update_state.boosting_event_state(event)", source_text)
+            self.assertNotIn("return null", source_text)
+
+    def test_emit_bridges_unit_comp_aim_look_overloads_to_canonical_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "UnitComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text("""
+package mindustry.entities.comp;
+public abstract class UnitComp{
+    public void aimLook(Position pos){}
+    public void aimLook(float x, float y){}
+}
+""", encoding="utf-8")
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            source_text = (output_root / "mindustry" / "entities" / "comp" / "UnitComp.gd").read_text(encoding="utf-8")
+            self.assertIn("var result := source_unit_update_state.aim_look_position_state(pos_x, pos_y)", source_text)
+            self.assertIn("var result := source_unit_update_state.aim_look_xy_state(target_x, target_y)", source_text)
+            self.assertNotIn("return null", source_text)
+
     def test_emit_gdscript_class_skeleton_from_java_ast(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -412,6 +779,227 @@ public class BuildingComp{
             self.assertIn("var variant_index: int = source_math_state.random_seed_int(tile_pos, 0, max_variant_index)", source_text)
             self.assertIn('"region_kind": "variant_region"', source_text)
             self.assertIn('"draw_team_top": true', source_text)
+
+    def test_emit_bridges_building_comp_drawrot_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    public float drawrot(){
+        return block.rotate && block.rotateDraw ? rotation * 90 : 0f;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_drawrot_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var block_rotate := bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var block_rotate_draw := bool(_args[1] if _args.size() > 1 else false)", source_text)
+            self.assertIn("var rotation_quadrants := int(_args[2] if _args.size() > 2 else 0)", source_text)
+            self.assertIn("return float(rotation_quadrants * SOURCE_BUILDING_DRAW_ROTATION_STEP_DEGREES) if block_rotate and block_rotate_draw else SOURCE_BUILDING_DRAW_ROTATION_DISABLED", source_text)
+
+    def test_emit_bridges_building_comp_rotdeg_and_fog_radius_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    public float rotdeg(){
+        return rotation * 90;
+    }
+    public float fogRadius(){
+        return block.fogRadius;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_rotdeg_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("func java_method_fogRadius_1(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var rotation_quadrants := int(_args[0] if _args.size() > 0 else 0)", source_text)
+            self.assertIn("var fog_radius_value := float(_args[0] if _args.size() > 0 else 0.0)", source_text)
+
+    def test_emit_bridges_building_comp_tile_accessors_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    public int tileX(){
+        return tile.x;
+    }
+    public int tileY(){
+        return tile.y;
+    }
+    public int pos(){
+        return tile.pos();
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_tileX_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("func java_method_tileY_1(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("func java_method_pos_2(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var tile_x := int(_args[0] if _args.size() > 0 else 0)", source_text)
+            self.assertIn("var tile_y := int(_args[0] if _args.size() > 0 else 0)", source_text)
+            self.assertIn("var tile_pos := int(_args[0] if _args.size() > 0 else 0)", source_text)
+
+    def test_emit_bridges_building_comp_time_defaults_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    public float timeScale(){
+        return timeScale;
+    }
+    public float warmup(){
+        return 0f;
+    }
+    public float totalProgress(){
+        return Time.time;
+    }
+    public float progress(){
+        return 0f;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_timeScale_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("func java_method_warmup_1(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("func java_method_totalProgress_2(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("func java_method_progress_3(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var current_time_scale := float(_args[0] if _args.size() > 0 else SOURCE_BLOCK_TIME_SCALE_DEFAULT)", source_text)
+            self.assertIn("var source_time := float(_args[0] if _args.size() > 0 else 0.0)", source_text)
+            self.assertIn("return 0.0", source_text)
+
+    def test_emit_bridges_building_comp_control_command_defaults_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    public boolean canControlSelect(Unit player){
+        return false;
+    }
+    public void onControlSelect(Unit player){
+
+    }
+    public void onCommand(Vec2 target){
+
+    }
+    public Vec2 getCommandPosition(){
+        return null;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_canControlSelect_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("func java_method_onControlSelect_1(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("func java_method_onCommand_2(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("func java_method_getCommandPosition_3(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('return {"source_owner": "port_game.source_building_can_control_select_state", "can_control_select": false}', source_text)
+            can_control_select_body = source_text.split("func java_method_canControlSelect_0", 1)[1].split("func java_method_onControlSelect_1", 1)[0]
+            self.assertNotIn("player_state", can_control_select_body)
+            self.assertIn('return {"source_owner": "port_game.source_building_on_control_select_state", "player": player_state, "handled": false}', source_text)
+            self.assertIn('return {"source_owner": "port_game.source_building_on_command_state", "target": target_state, "handled": false}', source_text)
+            self.assertIn('return {"source_owner": "port_game.source_building_get_command_position_state", "command_position": null}', source_text)
+
+    def test_emit_bridges_unit_build_command_position_overrides_from_inner_class_metadata(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            for class_name, build_name in [
+                ("UnitFactory", "UnitFactoryBuild"),
+                ("UnitAssembler", "UnitAssemblerBuild"),
+                ("Reconstructor", "ReconstructorBuild"),
+            ]:
+                source = source_root / "mindustry" / "world" / "blocks" / "units" / f"{class_name}.java"
+                source.parent.mkdir(parents=True, exist_ok=True)
+                source.write_text(
+                    f"""
+package mindustry.world.blocks.units;
+public class {class_name}{{
+    public class {build_name} extends UnitBuild{{
+        public Vec2 commandPos;
+        public Vec2 getCommandPosition(){{ return commandPos; }}
+        public void onCommand(Vec2 target){{ commandPos = target; }}
+    }}
+}}
+""",
+                    encoding="utf-8",
+                )
+
+            emit_gdscript_classes(source_root, output_root)
+
+            for class_name, build_name in [
+                ("UnitFactory", "UnitFactoryBuild"),
+                ("UnitAssembler", "UnitAssemblerBuild"),
+                ("Reconstructor", "ReconstructorBuild"),
+            ]:
+                with self.subTest(class_name=class_name):
+                    source_text = (output_root / "mindustry" / "world" / "blocks" / "units" / f"{class_name}.gd").read_text(encoding="utf-8")
+                    self.assertIn(f"func java_inner_class_{build_name}_method_getCommandPosition_0(_args: Array = []) -> Variant:", source_text)
+                    self.assertIn(f"func java_inner_class_{build_name}_method_onCommand_1(_args: Array = []) -> Variant:", source_text)
+                    self.assertIn('"source_owner": "port_game.source_unit_building_get_command_position_state"', source_text)
+                    self.assertIn('"source_owner": "port_game.source_unit_building_on_command_state"', source_text)
+                    self.assertIn('"return_expr": "return commandPos;"', source_text)
+                    self.assertIn('"assignment_expr": "commandPos = target;"', source_text)
 
     def test_emit_bridges_building_comp_draw_cached_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -1933,14 +2521,7 @@ public class BuildingComp{
             self.assertIn("func java_method_getCursor_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var block_configurable := bool(_args[0] if _args.size() > 0 else false)", source_text)
             self.assertIn("var interactable_player_team := bool(_args[1] if _args.size() > 1 else false)", source_text)
-            self.assertIn('var cursor := "hand" if block_configurable and interactable_player_team else "arrow"', source_text)
-            self.assertIn('"source_owner": "port_game.source_building_cursor_state"', source_text)
-            self.assertIn('"comment": "/** Returns whether a hand cursor should be shown over this block. */"', source_text)
-            self.assertIn('"method": "public Cursor getCursor(){"', source_text)
-            self.assertIn('"return_expr": "return block.configurable && interactable(player.team()) ? SystemCursor.hand : SystemCursor.arrow;"', source_text)
-            self.assertIn('"block_configurable": block_configurable', source_text)
-            self.assertIn('"interactable_player_team": interactable_player_team', source_text)
-            self.assertIn('"cursor": cursor', source_text)
+            self.assertIn('return source_building_meta_state.cursor_state(block_configurable, interactable_player_team)', source_text)
 
     def test_emit_bridges_building_comp_on_configure_tapped_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -1968,12 +2549,7 @@ public class BuildingComp{
             self.assertIn("func java_method_onConfigureTapped_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var x := float(_args[0] if _args.size() > 0 else 0.0)", source_text)
             self.assertIn("var y := float(_args[1] if _args.size() > 1 else 0.0)", source_text)
-            self.assertIn('"source_owner": "port_game.source_building_on_configure_tapped_state"', source_text)
-            self.assertIn('"method": "public boolean onConfigureTapped(float x, float y){"', source_text)
-            self.assertIn('"return_false": "return false;"', source_text)
-            self.assertIn('"x": x', source_text)
-            self.assertIn('"y": y', source_text)
-            self.assertIn('"consumed": false', source_text)
+            self.assertIn("return source_building_configure_state.on_configure_tapped_state(x, y)", source_text)
 
     def test_emit_bridges_building_comp_on_configure_closed_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -2000,9 +2576,7 @@ public class BuildingComp{
             emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
             source_text = emitted.read_text(encoding="utf-8")
             self.assertIn("func java_method_onConfigureClosed_0(_args: Array = []) -> Variant:", source_text)
-            self.assertIn('"source_owner": "port_game.source_building_on_configure_closed_state"', source_text)
-            self.assertIn('"method": "public void onConfigureClosed(){}"', source_text)
-            self.assertIn('"no_op": true', source_text)
+            self.assertIn("return source_building_configure_state.on_configure_closed_state()", source_text)
 
     def test_emit_bridges_building_comp_should_show_configure_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -2030,12 +2604,7 @@ public class BuildingComp{
             source_text = emitted.read_text(encoding="utf-8")
             self.assertIn("func java_method_shouldShowConfigure_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var player: Variant = _args[0] if _args.size() > 0 else null", source_text)
-            self.assertIn('"source_owner": "port_game.source_building_should_show_configure_state"', source_text)
-            self.assertIn('"comment": "/** Returns whether this config menu should show when the specified player taps it. */"', source_text)
-            self.assertIn('"method": "public boolean shouldShowConfigure(Player player){"', source_text)
-            self.assertIn('"return_true": "return true;"', source_text)
-            self.assertIn('"player": player', source_text)
-            self.assertIn('"should_show": true', source_text)
+            self.assertIn("return source_building_configure_state.should_show_configure_state(player)", source_text)
 
     def test_emit_bridges_building_comp_should_hide_configure_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -2063,12 +2632,7 @@ public class BuildingComp{
             source_text = emitted.read_text(encoding="utf-8")
             self.assertIn("func java_method_shouldHideConfigure_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var player: Variant = _args[0] if _args.size() > 0 else null", source_text)
-            self.assertIn('"source_owner": "port_game.source_building_should_hide_configure_state"', source_text)
-            self.assertIn('"comment": "/** Whether this configuration should be hidden now. Called every frame the config is open. */"', source_text)
-            self.assertIn('"method": "public boolean shouldHideConfigure(Player player){"', source_text)
-            self.assertIn('"return_false": "return false;"', source_text)
-            self.assertIn('"player": player', source_text)
-            self.assertIn('"should_hide": false', source_text)
+            self.assertIn("return source_building_configure_state.should_hide_configure_state(player)", source_text)
 
     def test_emit_bridges_building_comp_draw_configure_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -2108,20 +2672,8 @@ public class BuildingComp{
             self.assertIn("var block_size_value := int(_args[2] if _args.size() > 2 else 0)", source_text)
             self.assertIn("var source_tilesize := float(_args[3] if _args.size() > 3 else SOURCE_TILESIZE)", source_text)
             self.assertNotIn("var source_tilesize := float(_args[3] if _args.size() > 3 else 0.0)", source_text)
-            self.assertIn("var half_extent := float(block_size_value) * source_tilesize / 2.0", source_text)
-            self.assertIn("var radius_offset := SOURCE_BUILDING_DRAW_CONFIGURE_RADIUS_OFFSET_DEFAULT", source_text)
-            self.assertIn('"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_DRAW_CONFIGURE_STATE', source_text)
-            self.assertIn('"method": "public void drawConfigure(){"', source_text)
-            self.assertIn('"color": SOURCE_BUILDING_DRAW_CONFIGURE_COLOR', source_text)
-            self.assertIn('"stroke": SOURCE_BUILDING_DRAW_CONFIGURE_STROKE_DEFAULT', source_text)
-            self.assertIn('"shape": SOURCE_BUILDING_DRAW_CONFIGURE_SHAPE', source_text)
-            self.assertIn('"square": SOURCE_BUILDING_DRAW_CONFIGURE_SQUARE_EXPR', source_text)
-            self.assertIn('"x": source_x', source_text)
-            self.assertIn('"y": source_y', source_text)
-            self.assertIn('"halfExtent": half_extent', source_text)
-            self.assertIn('"radiusOffset": radius_offset', source_text)
-            self.assertIn('"radius": half_extent + radius_offset', source_text)
-            self.assertIn('"reset": true', source_text)
+            self.assertIn('const source_building_draw_state := preload("res://src/game/SourceBuildingDrawState.gd")', source_text)
+            self.assertIn("return source_building_draw_state.draw_configure_state(source_x, source_y, block_size_value, source_tilesize)", source_text)
 
     def test_emit_bridges_building_comp_check_solid_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -2147,9 +2699,9 @@ public class BuildingComp{
             emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
             source_text = emitted.read_text(encoding="utf-8")
             self.assertIn("func java_method_checkSolid_0(_args: Array = []) -> Variant:", source_text)
-            self.assertIn('"source_owner": "port_game.source_building_check_solid_state"', source_text)
-            self.assertIn('"method": "public boolean checkSolid(){"', source_text)
-            self.assertIn('"checkSolid": false', source_text)
+            self.assertIn('const source_building_core_state := preload("res://src/game/SourceBuildingCoreState.gd")', source_text)
+            self.assertIn("return source_building_core_state.check_solid_state()", source_text)
+            self.assertNotIn('return {"source_owner": "port_game.source_building_check_solid_state"', source_text)
 
     def test_emit_bridges_building_comp_handle_damage_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -4684,6 +5236,39 @@ class BuildingComp{
             self.assertIn('"amount": liquid_amount', source_text)
             self.assertIn('"set_prop_liquid_content": set_prop_liquid_content', source_text)
 
+    def test_emit_bridges_building_comp_is_discovered_to_visibility_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuildingComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuildingComp{
+    public boolean isDiscovered(Team viewer){
+        if(state.rules.limitMapArea && world.getDarkness(tile.x, tile.y) >= 3){
+            return false;
+        }
+        return true;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn('const source_building_visibility_state := preload("res://src/game/SourceBuildingVisibilityState.gd")', source_text)
+            self.assertIn("func java_method_isDiscovered_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var limit_map_area := bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var fog_discovered_lookup: Callable = _args[8] if _args.size() > 8 and _args[8] is Callable else Callable()", source_text)
+            self.assertIn("return source_building_visibility_state.is_discovered_state(limit_map_area, darkness, viewer_present, static_fog, rules_fog, block_size_value, tile_x, tile_y, fog_discovered_lookup)", source_text)
+
     def test_emit_bridges_building_comp_in_fog_initial_gate_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)
@@ -5164,6 +5749,45 @@ class BuildingComp{
             self.assertIn('var update_tile_gate := {"method": "public void update(){", "gate": "if(enabled || !block.noUpdateDisabled){", "update_tile_call": "updateTile();", "enabled_state": enabled_state, "block_no_update_disabled": block_no_update_disabled, "update_tile_called": update_tile_called}', source_text)
             self.assertIn('"update_tile_gate_source_owner": "port_game.source_building_update_tile_gate_state"', source_text)
             self.assertIn('"update_tile_gate": update_tile_gate', source_text)
+
+    def test_emit_bridges_building_comp_update_payload_and_source_noop_update_tile(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuildingComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuildingComp{
+    public void update(){
+    }
+
+    public void updatePayload(@Nullable Unit unitHolder, @Nullable Building buildingHolder){
+        update();
+    }
+
+    public void updateTile(){
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn('const source_building_lifecycle_state := preload("res://src/game/SourceBuildingLifecycleState.gd")', source_text)
+            self.assertIn("func java_method_updatePayload_1(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var unit_holder: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn("var building_holder: Variant = _args[1] if _args.size() > 1 else null", source_text)
+            self.assertIn("var update_state = java_method_update_0([])", source_text)
+            self.assertIn("return source_building_lifecycle_state.update_payload_state(update_state, unit_holder, building_holder)", source_text)
+            self.assertIn("func java_method_updateTile_2(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("return source_building_lifecycle_state.update_tile_noop_state()", source_text)
 
     def test_emit_bridges_building_comp_update_fog_visibility_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmpdir:
@@ -7557,14 +8181,507 @@ public class Block{
 
             emitted = output_root / "mindustry" / "world" / "Block.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn(
+                'const source_block_query_state := preload("res://src/game/SourceBlockQueryState.gd")',
+                source_text,
+            )
             self.assertIn("func java_method_outputsItems_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("\tvar has_items: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_outputs_items_state"', source_text)
-            self.assertIn('"source": "core/src/mindustry/world/Block.java"', source_text)
-            self.assertIn('"field_expr": "public @NoPatch boolean hasItems;"', source_text)
-            self.assertIn('"method": "public boolean outputsItems(){"', source_text)
-            self.assertIn('"return_expr": "return hasItems;"', source_text)
-            self.assertIn('"outputs_items": has_items', source_text)
+            self.assertIn(
+                "\treturn source_block_query_state.generated_outputs_items_result_state(has_items)",
+                source_text,
+            )
+            self.assertNotIn('return {"source_owner": "port_game.source_block_outputs_items_state"', source_text)
+
+    def test_emit_bridges_block_display_query_methods_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    public float percentSolid(int x, int y){
+        Tile tile = world.tile(x, y);
+        if(tile == null) return 0;
+        return tile.getLinkedTilesAs(this, tempTiles)
+            .sumf(other -> !other.floor().isLiquid ? 1f : 0f) / size / size;
+    }
+
+    public TextureRegion getDisplayIcon(Tile tile){
+        return tile.build == null ? uiIcon : tile.build.getDisplayIcon();
+    }
+
+    public String getDisplayName(Tile tile){
+        return tile.build == null ? localizedName : tile.build.getDisplayName();
+    }
+
+    /** @return a custom minimap color for this or 0 to use default colors. */
+    public int minimapColor(Tile tile){
+        return 0;
+    }
+
+    public Color getColor(Tile tile){
+        int mc = minimapColor(tile);
+        return mc == 0 ? mapColor : Tmp.c3.set(mc);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_percentSolid_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar tile_exists: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("\tvar linked_non_liquid_count: float = float(_args[3] if _args.size() > 3 else 0.0)", source_text)
+            self.assertIn("\treturn source_block_display_query_state.generated_block_percent_solid_result_state(tile_exists, x_value, y_value, linked_non_liquid_count, size_value)", source_text)
+            self.assertNotIn("var percent_solid_value:", source_text)
+
+            self.assertIn("func java_method_getDisplayIcon_1(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar tile_build_present: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("\treturn source_block_display_query_state.generated_block_get_display_icon_result_state(tile_build_present, ui_icon, build_display_icon)", source_text)
+            self.assertNotIn("var display_icon:", source_text)
+
+            self.assertIn("func java_method_getDisplayName_2(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\treturn source_block_display_query_state.generated_block_get_display_name_result_state(tile_build_present, localized_name, build_display_name)", source_text)
+            self.assertNotIn("var display_name:", source_text)
+
+            self.assertIn("func java_method_minimapColor_3(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\treturn source_block_display_query_state.generated_block_minimap_color_result_state(tile)", source_text)
+            self.assertNotIn('"minimap_color": 0', source_text)
+
+            self.assertIn("func java_method_getColor_4(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar minimap_color: int = int(_args[0] if _args.size() > 0 else 0)", source_text)
+            self.assertIn("\treturn source_block_display_query_state.generated_block_get_color_result_state(minimap_color, map_color, tmp_c3_set_color)", source_text)
+            self.assertNotIn("var color_value:", source_text)
+
+    def test_emit_bridges_block_can_replace_to_existing_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    public boolean canReplace(Block other){
+        if(other.alwaysReplace) return true;
+        if(other.privileged) return false;
+        return other.replaceable && (other != this || (rotate && quickRotate)) && ((this.group != BlockGroup.none && other.group == this.group) || other == this) &&
+            (size == other.size || (size >= other.size && ((subclass != null && subclass == other.subclass) || group.anyReplace)));
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_canReplace_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar existing_always_replace: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("\tvar existing_privileged: bool = bool(_args[1] if _args.size() > 1 else false)", source_text)
+            self.assertIn("\tvar replacement_gate: bool = existing_replaceable and ((not same_block) or (new_rotate and new_quick_rotate)) and (((not new_group_is_none) and same_group) or same_block)", source_text)
+            self.assertIn("\tvar size_gate: bool = new_size == existing_size or (new_size >= existing_size and (same_subclass or group_any_replace))", source_text)
+            self.assertIn("\tvar can_replace: bool = true if existing_always_replace else (false if existing_privileged else replacement_gate and size_gate)", source_text)
+            self.assertIn('return {"source_owner": "port_game.source_block_can_replace_state"', source_text)
+            self.assertIn('"method": "public boolean canReplace(Block other){"', source_text)
+            self.assertIn('"otherAlwaysReplace": existing_always_replace', source_text)
+            self.assertIn('"otherPrivileged": existing_privileged', source_text)
+            self.assertIn('"replacementGate": replacement_gate', source_text)
+            self.assertIn('"sizeGate": size_gate', source_text)
+            self.assertIn('"canReplace": can_replace', source_text)
+
+    def test_emit_bridges_block_placement_config_cluster_to_source_plan_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    /** @return a possible replacement for this block when placed in a line by the player. */
+    public Block getReplacement(BuildPlan req, Seq<BuildPlan> plans){
+        return this;
+    }
+
+    /** Mutates the given list of points used during line placement. */
+    public void changePlacementPath(Seq<Point2> points, int rotation, boolean diagonalOn){
+        changePlacementPath(points, rotation);
+    }
+
+    /** Mutates the given list of points used during line placement. */
+    public void changePlacementPath(Seq<Point2> points, int rotation){
+
+    }
+
+    /** Mutates the given list of plans used during line placement. */
+    public void handlePlacementLine(Seq<BuildPlan> plans){
+
+    }
+
+    public boolean configSenseable(){
+        return configurations.containsKey(Item.class) || configurations.containsKey(Liquid.class) || configurations.containsKey(UnlockableContent.class) ||
+               configurations.containsKey(Block.class) || configurations.containsKey(UnitType.class);
+    }
+
+    public Object nextConfig(){
+        if(saveConfig && lastConfig != null){
+            return lastConfig;
+        }
+        return null;
+    }
+
+    /** Called when a new build plan is created in the player's queue. Blocks can maintain a reference to this plan and add configs to it later. */
+    public void onNewPlan(BuildPlan plan){
+
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_getReplacement_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar req: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn("\tvar plans: Variant = _args[1] if _args.size() > 1 else []", source_text)
+            self.assertIn("\tvar self_block: Variant = _args[2] if _args.size() > 2 else \"this\"", source_text)
+            self.assertIn('return {"source_owner": "port_game.source_block_get_replacement_state"', source_text)
+            self.assertIn('"method": "public Block getReplacement(BuildPlan req, Seq<BuildPlan> plans){"', source_text)
+            self.assertIn('"return_expr": "return this;"', source_text)
+            self.assertIn('"replacement": self_block', source_text)
+
+            self.assertIn("func java_method_changePlacementPath_1(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar diagonal_on: bool = bool(_args[2] if _args.size() > 2 else false)", source_text)
+            self.assertIn('return {"source_owner": "port_game.source_block_change_placement_path_diagonal_state"', source_text)
+            self.assertIn('"delegate_call": "changePlacementPath(points, rotation)"', source_text)
+            self.assertIn('"diagonalOn": diagonal_on', source_text)
+
+            self.assertIn("func java_method_changePlacementPath_2(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('return {"source_owner": "port_game.source_block_change_placement_path_state"', source_text)
+            self.assertIn('"method": "public void changePlacementPath(Seq<Point2> points, int rotation){"', source_text)
+            self.assertIn('"noop": true', source_text)
+
+            self.assertIn("func java_method_handlePlacementLine_3(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('return {"source_owner": "port_game.source_block_handle_placement_line_state"', source_text)
+            self.assertIn('"method": "public void handlePlacementLine(Seq<BuildPlan> plans){"', source_text)
+            self.assertIn('"plans": plans', source_text)
+
+            self.assertIn("func java_method_configSenseable_4(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar item_configured: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("\tvar unit_type_configured: bool = bool(_args[4] if _args.size() > 4 else false)", source_text)
+            self.assertIn("\tvar config_senseable: bool = item_configured or liquid_configured or unlockable_content_configured or block_configured or unit_type_configured", source_text)
+            self.assertIn('return {"source_owner": "port_game.source_block_config_senseable_state"', source_text)
+            self.assertIn('"return_expr": "return configurations.containsKey(Item.class) || configurations.containsKey(Liquid.class) || configurations.containsKey(UnlockableContent.class) || configurations.containsKey(Block.class) || configurations.containsKey(UnitType.class);"', source_text)
+            self.assertIn('"config_senseable": config_senseable', source_text)
+
+            self.assertIn("func java_method_nextConfig_5(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar save_config: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("\tvar last_config: Variant = _args[1] if _args.size() > 1 else null", source_text)
+            self.assertIn("\tvar next_config: Variant = last_config if (save_config and last_config != null) else null", source_text)
+            self.assertIn('return {"source_owner": "port_game.source_block_next_config_state"', source_text)
+            self.assertIn('"guard_expr": "if(saveConfig && lastConfig != null){"', source_text)
+            self.assertIn('"next_config": next_config', source_text)
+
+            self.assertIn("func java_method_onNewPlan_6(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('return {"source_owner": "port_game.source_block_on_new_plan_state"', source_text)
+            self.assertIn('"method": "public void onNewPlan(BuildPlan plan){"', source_text)
+            self.assertIn('"plan": plan', source_text)
+
+    def test_emit_bridges_block_plan_draw_cluster_to_source_plan_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    public void drawPlan(BuildPlan plan, Eachable<BuildPlan> list, boolean valid){
+        drawPlan(plan, list, valid, 1f);
+    }
+
+    public void drawPlan(BuildPlan plan, Eachable<BuildPlan> list, boolean valid, float alpha){
+        Draw.reset();
+        Draw.mixcol(!valid ? Pal.breakInvalid : Color.white, (!valid ? 0.4f : 0.24f) + Mathf.absin(Time.globalTime, 6f, 0.28f));
+        Draw.alpha(alpha);
+        float prevScale = Draw.scl;
+        Draw.scl *= plan.animScale;
+        drawPlanRegion(plan, list);
+        Draw.scl = prevScale;
+        Draw.reset();
+    }
+
+    public void drawOtherPlayerPlan(BuildPlan plan, Eachable<BuildPlan> list, float alpha){
+        Draw.mixcol(Color.white, Mathf.absin(Time.globalTime, 6f, 0.15f));
+        Draw.alpha(alpha);
+        float prevScale = Draw.scl;
+        Draw.scl *= plan.animScale;
+        drawPlanRegion(plan, list);
+        Draw.scl = prevScale;
+        Draw.reset();
+    }
+
+    public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){
+        drawDefaultPlanRegion(plan, list);
+    }
+
+    /** this is a different method so subclasses can call it even after overriding the base */
+    public void drawDefaultPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){
+        TextureRegion reg = getPlanRegion(plan, list);
+        float a = Draw.getColorAlpha();
+        Draw.rect(reg, plan.drawx(), plan.drawy(), !rotate || !rotateDraw ? 0 : plan.rotation * 90);
+        drawPlanConfig(plan, list);
+    }
+
+    public static BuildPlan findPlan(Eachable<BuildPlan> list, int x, int y, Boolf<BuildPlan> predicate){
+        return findPlan(list, x, y, 1, predicate);
+    }
+
+    public static BuildPlan findPlan(Eachable<BuildPlan> list, int x, int y, int size, Boolf<BuildPlan> predicate){
+        if(list instanceof QueryEachable q){
+            return q.find(x, y, size, predicate);
+        }
+        return null;
+    }
+
+    public TextureRegion getPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){
+        return fullIcon;
+    }
+
+    public void drawPlanConfig(BuildPlan plan, Eachable<BuildPlan> list){
+
+    }
+
+    public void drawPlanConfigCenter(BuildPlan plan, Object content, String region, boolean cross){
+        if(content == null){
+            if(cross){
+                Draw.rect("cross", plan.drawx(), plan.drawy());
+            }
+            return;
+        }
+        Color color = content instanceof Item i ? i.color : content instanceof Liquid l ? l.color : null;
+        if(color == null) return;
+        Draw.color(color, Draw.getColorAlpha());
+        Draw.rect(region, plan.drawx(), plan.drawy());
+        Draw.color();
+    }
+
+    public void drawPlanConfigCenter(BuildPlan plan, Object content, String region){
+        drawPlanConfigCenter(plan, content, region, false);
+    }
+
+    public void drawPlanConfigTop(BuildPlan plan, Eachable<BuildPlan> list){
+
+    }
+
+    public float planConfigClipSize(){
+        return clipSize;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_drawPlan_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('return {"source_owner": "port_game.source_block_draw_plan_default_alpha_state"', source_text)
+            self.assertIn('"delegate_call": "drawPlan(plan, list, valid, 1f)"', source_text)
+
+            self.assertIn("func java_method_drawPlan_1(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar valid: bool = bool(_args[2] if _args.size() > 2 else false)", source_text)
+            self.assertIn("\tvar alpha: float = float(_args[3] if _args.size() > 3 else 1.0)", source_text)
+            self.assertIn("\tvar mix_alpha: float = (0.4 if not valid else 0.24) + time_absin", source_text)
+            self.assertIn('return {"source_owner": "port_game.source_block_draw_plan_state"', source_text)
+            self.assertIn('"draw_plan_region_call": "drawPlanRegion(plan, list)"', source_text)
+
+            self.assertIn("func java_method_drawOtherPlayerPlan_2(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('return {"source_owner": "port_game.source_block_draw_other_player_plan_state"', source_text)
+            self.assertIn('"mixcol_expr": "Draw.mixcol(Color.white, Mathf.absin(Time.globalTime, 6f, 0.15f));"', source_text)
+
+            self.assertIn("func java_method_drawPlanRegion_3(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('return {"source_owner": "port_game.source_block_draw_plan_region_state"', source_text)
+            self.assertIn('"delegate_call": "drawDefaultPlanRegion(plan, list)"', source_text)
+
+            self.assertIn("func java_method_drawDefaultPlanRegion_4(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar draw_rotation: float = 0.0 if ((not rotate_value) or (not rotate_draw)) else plan_rotation * 90.0", source_text)
+            self.assertIn('return {"source_owner": "port_game.source_block_draw_default_plan_region_state"', source_text)
+            self.assertIn('"draw_plan_config_call": "drawPlanConfig(plan, list)"', source_text)
+
+            self.assertIn("func java_method_findPlan_5(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('return {"source_owner": "port_game.source_block_find_plan_default_size_state"', source_text)
+            self.assertIn('"delegate_call": "findPlan(list, x, y, 1, predicate)"', source_text)
+
+            self.assertIn("func java_method_findPlan_6(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar found_plan: Variant = query_find_result if list_is_query_eachable else null", source_text)
+            self.assertIn('return {"source_owner": "port_game.source_block_find_plan_state"', source_text)
+
+            self.assertIn("func java_method_getPlanRegion_7(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('return {"source_owner": "port_game.source_block_get_plan_region_state"', source_text)
+            self.assertIn('"plan_region": full_icon', source_text)
+
+            self.assertIn("func java_method_drawPlanConfig_8(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('return {"source_owner": "port_game.source_block_draw_plan_config_state"', source_text)
+            self.assertIn('"noop": true', source_text)
+
+            self.assertIn("func java_method_drawPlanConfigCenter_9(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar should_draw_cross: bool = (not content_present) and cross", source_text)
+            self.assertIn("\tvar should_draw_region: bool = content_present and content_color != null", source_text)
+            self.assertIn('return {"source_owner": "port_game.source_block_draw_plan_config_center_state"', source_text)
+
+            self.assertIn("func java_method_drawPlanConfigCenter_10(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('return {"source_owner": "port_game.source_block_draw_plan_config_center_default_cross_state"', source_text)
+            self.assertIn('"delegate_call": "drawPlanConfigCenter(plan, content, region, false)"', source_text)
+
+            self.assertIn("func java_method_drawPlanConfigTop_11(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('return {"source_owner": "port_game.source_block_draw_plan_config_top_state"', source_text)
+
+            self.assertIn("func java_method_planConfigClipSize_12(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('return {"source_owner": "port_game.source_block_plan_config_clip_size_state"', source_text)
+            self.assertIn('"plan_config_clip_size": clip_size', source_text)
+
+    def test_emit_bridges_block_config_access_geometry_cluster_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    /** Transforms the internal position of this config using the specified function, and return the result. */
+    public Object pointConfig(Object config, Cons<Point2> transformer){
+        return config;
+    }
+
+    /** Configure when a null value is passed.*/
+    public <E extends Building> void configClear(Cons<E> cons){
+        configurations.put(void.class, (tile, value) -> cons.get((E)tile));
+    }
+
+    /** Listen for a config by class type. */
+    public <T, E extends Building> void config(Class<T> type, Cons2<E, T> config){
+        configurations.put(type, config);
+    }
+
+    public boolean isAccessible(){
+        return (hasItems && itemCapacity > 0);
+    }
+
+    /** sets {@param out} to the index-th side outside of this block, using the given rotation. */
+    public void nearbySide(int x, int y, int rotation, int index, Point2 out){
+        int cornerX = x - (size-1)/2, cornerY = y - (size-1)/2, s = size;
+        switch(rotation){
+            case 0 -> out.set(cornerX + s, cornerY + index);
+            case 1 -> out.set(cornerX + index, cornerY + s);
+            case 2 -> out.set(cornerX - 1, cornerY + index);
+            case 3 -> out.set(cornerX + index, cornerY - 1);
+        }
+    }
+
+    public Point2[] getEdges(){
+        return Edges.getEdges(size);
+    }
+
+    public Point2[] getInsideEdges(){
+        return Edges.getInsideEdges(size);
+    }
+
+    /** Iterate through ever grid position taken up by this block. */
+    public void iterateTaken(int x, int y, Intc2 placer){
+        if(isMultiblock()){
+            int offsetx = -(size - 1) / 2;
+            int offsety = -(size - 1) / 2;
+
+            for(int dx = 0; dx < size; dx++){
+                for(int dy = 0; dy < size; dy++){
+                    placer.get(dx + offsetx + x, dy + offsety + y);
+                }
+            }
+
+        }else{
+            placer.get(x, y);
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_pointConfig_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('return {"source_owner": "port_game.source_block_point_config_state"', source_text)
+            self.assertIn('"return_expr": "return config;"', source_text)
+            self.assertIn('"point_config": config', source_text)
+
+            self.assertIn("func java_method_configClear_1(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('return {"source_owner": "port_game.source_block_config_clear_state"', source_text)
+            self.assertIn('"configurations_put_expr": "configurations.put(void.class, (tile, value) -> cons.get((E)tile));"', source_text)
+            self.assertIn('"configuration_type": "void.class"', source_text)
+
+            self.assertIn("func java_method_config_2(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('return {"source_owner": "port_game.source_block_config_handler_state"', source_text)
+            self.assertIn('"configurations_put_expr": "configurations.put(type, config);"', source_text)
+            self.assertIn('"configuration_type": type_value', source_text)
+
+            self.assertIn("func java_method_isAccessible_3(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar is_accessible: bool = has_items and item_capacity > 0", source_text)
+            self.assertIn('return {"source_owner": "port_game.source_block_is_accessible_state"', source_text)
+            self.assertIn('"return_expr": "return (hasItems && itemCapacity > 0);"', source_text)
+
+            self.assertIn("func java_method_nearbySide_4(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar corner_x: int = x_value - int(float(size_value - 1) / 2.0)", source_text)
+            self.assertIn("\tvar nearby_side: Dictionary = {\"x\": corner_x + size_value, \"y\": corner_y + index_value}", source_text)
+            self.assertIn('return {"source_owner": "port_game.source_block_nearby_side_state"', source_text)
+            self.assertIn('"switch_expr": "switch(rotation){"', source_text)
+
+            self.assertIn("func java_method_getEdges_5(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('return {"source_owner": "port_game.source_block_get_edges_state"', source_text)
+            self.assertIn('"return_expr": "return Edges.getEdges(size);"', source_text)
+
+            self.assertIn("func java_method_getInsideEdges_6(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('return {"source_owner": "port_game.source_block_get_inside_edges_state"', source_text)
+            self.assertIn('"return_expr": "return Edges.getInsideEdges(size);"', source_text)
+
+            self.assertIn("func java_method_iterateTaken_7(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar is_multiblock_value: bool = size_value > 1", source_text)
+            self.assertIn('return {"source_owner": "port_game.source_block_iterate_taken_state"', source_text)
+            self.assertIn('"placer_calls": placer_calls', source_text)
 
     def test_emit_bridges_block_can_place_on_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -7595,12 +8712,9 @@ public class Block{
             self.assertIn("\tvar tile: Variant = _args[0] if _args.size() > 0 else null", source_text)
             self.assertIn("\tvar team: Variant = _args[1] if _args.size() > 1 else null", source_text)
             self.assertIn("\tvar rotation: int = int(_args[2] if _args.size() > 2 else 0)", source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_can_place_on_state"', source_text)
-            self.assertIn('"source": "core/src/mindustry/world/Block.java"', source_text)
-            self.assertIn('"comment": "/** @return whether this block can be placed on the specified tile. */"', source_text)
-            self.assertIn('"method": "public boolean canPlaceOn(Tile tile, Team team, int rotation){"', source_text)
-            self.assertIn('"return_expr": "return true;"', source_text)
-            self.assertIn('"can_place": true', source_text)
+            self.assertIn('const source_block_query_placement_state := preload("res://src/game/SourceBlockQueryPlacementState.gd")', source_text)
+            self.assertIn("return source_block_query_placement_state.generated_can_place_on_result_state(tile, team, rotation)", source_text)
+            self.assertNotIn('"source_owner": "port_game.source_block_can_place_on_state"', source_text)
 
     def test_emit_bridges_block_can_break_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -7629,12 +8743,9 @@ public class Block{
             source_text = emitted.read_text(encoding="utf-8")
             self.assertIn("func java_method_canBreak_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("\tvar tile: Variant = _args[0] if _args.size() > 0 else null", source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_can_break_state"', source_text)
-            self.assertIn('"source": "core/src/mindustry/world/Block.java"', source_text)
-            self.assertIn('"comment": "/** @return whether this block can be broken on the specified tile. */"', source_text)
-            self.assertIn('"method": "public boolean canBreak(Tile tile){"', source_text)
-            self.assertIn('"return_expr": "return true;"', source_text)
-            self.assertIn('"can_break": true', source_text)
+            self.assertIn('const source_block_query_placement_state := preload("res://src/game/SourceBlockQueryPlacementState.gd")', source_text)
+            self.assertIn("return source_block_query_placement_state.generated_can_break_result_state(tile)", source_text)
+            self.assertNotIn('"source_owner": "port_game.source_block_can_break_state"', source_text)
 
     def test_emit_bridges_block_rotated_output_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -7667,12 +8778,9 @@ public class Block{
             self.assertIn("\tvar rotate_value: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
             self.assertIn("\tvar x_value: int = int(_args[1] if _args.size() > 1 else 0)", source_text)
             self.assertIn("\tvar y_value: int = int(_args[2] if _args.size() > 2 else 0)", source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_rotated_output_state"', source_text)
-            self.assertIn('"field_comment": "/** whether this is rotatable */"', source_text)
-            self.assertIn('"field_expr": "public boolean rotate;"', source_text)
-            self.assertIn('"method": "public boolean rotatedOutput(int x, int y){"', source_text)
-            self.assertIn('"return_expr": "return rotate;"', source_text)
-            self.assertIn('"rotated_output": rotate_value', source_text)
+            self.assertIn('const source_block_query_placement_state := preload("res://src/game/SourceBlockQueryPlacementState.gd")', source_text)
+            self.assertIn("return source_block_query_placement_state.generated_rotated_output_result_state(rotate_value, x_value, y_value)", source_text)
+            self.assertNotIn('"source_owner": "port_game.source_block_rotated_output_state"', source_text)
 
     def test_emit_bridges_block_rotated_output_tile_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -7707,12 +8815,9 @@ public class Block{
             self.assertIn("\tvar from_x: int = int(_args[1] if _args.size() > 1 else 0)", source_text)
             self.assertIn("\tvar from_y: int = int(_args[2] if _args.size() > 2 else 0)", source_text)
             self.assertIn("\tvar destination: Variant = _args[3] if _args.size() > 3 else null", source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_rotated_output_tile_state"', source_text)
-            self.assertIn('"method": "public boolean rotatedOutput(int fromX, int fromY, Tile destination){"', source_text)
-            self.assertIn('"delegate_call": "rotatedOutput(fromX, fromY)"', source_text)
-            self.assertIn('"return_expr": "return rotatedOutput(fromX, fromY);"', source_text)
-            self.assertIn('"base_state": base_state', source_text)
-            self.assertIn('"rotated_output": base_state["rotated_output"]', source_text)
+            self.assertIn('const source_block_query_placement_state := preload("res://src/game/SourceBlockQueryPlacementState.gd")', source_text)
+            self.assertIn("return source_block_query_placement_state.generated_rotated_output_tile_result_state(rotate_value, from_x, from_y, destination)", source_text)
+            self.assertNotIn('"source_owner": "port_game.source_block_rotated_output_tile_state"', source_text)
 
     def test_emit_bridges_block_synthetic_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -7738,14 +8843,12 @@ public class Block{
             block_script = output_root / "mindustry" / "world" / "Block.gd"
             source_text = block_script.read_text(encoding="utf-8")
 
+            self.assertIn('const source_block_query_darkness_state := preload("res://src/game/SourceBlockQueryDarknessState.gd")', source_text)
             self.assertIn("func java_method_synthetic_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("\tvar update_value: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
             self.assertIn("\tvar destructible_value: bool = bool(_args[1] if _args.size() > 1 else false)", source_text)
-            self.assertIn("\tvar synthetic_value: bool = update_value or destructible_value", source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_synthetic_state"', source_text)
-            self.assertIn('"method": "public boolean synthetic(){"', source_text)
-            self.assertIn('"return_expr": "return update || destructible;"', source_text)
-            self.assertIn('"synthetic": synthetic_value', source_text)
+            self.assertIn("\treturn source_block_query_darkness_state.generated_synthetic_result_state(update_value, destructible_value)", source_text)
+            self.assertNotIn('return {"source_owner": "port_game.source_block_synthetic_state"', source_text)
 
     def test_emit_bridges_block_check_force_dark_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -7771,14 +8874,12 @@ public class Block{
             block_script = output_root / "mindustry" / "world" / "Block.gd"
             source_text = block_script.read_text(encoding="utf-8")
 
+            self.assertIn('const source_block_query_darkness_state := preload("res://src/game/SourceBlockQueryDarknessState.gd")', source_text)
             self.assertIn("func java_method_checkForceDark_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("\tvar force_dark_value: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
             self.assertIn("\tvar tile: Variant = _args[1] if _args.size() > 1 else null", source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_check_force_dark_state"', source_text)
-            self.assertIn('"method": "public boolean checkForceDark(Tile tile){"', source_text)
-            self.assertIn('"return_expr": "return forceDark;"', source_text)
-            self.assertIn('"force_dark": force_dark_value', source_text)
-            self.assertIn('"tile": tile', source_text)
+            self.assertIn("\treturn source_block_query_darkness_state.generated_check_force_dark_result_state(force_dark_value, tile)", source_text)
+            self.assertNotIn('return {"source_owner": "port_game.source_block_check_force_dark_state"', source_text)
 
     def test_emit_bridges_block_is_darkened_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -7812,13 +8913,10 @@ public class Block{
             self.assertIn("\tvar fills_tile_value: bool = bool(_args[3] if _args.size() > 3 else false)", source_text)
             self.assertIn("\tvar force_dark_value: bool = bool(_args[4] if _args.size() > 4 else false)", source_text)
             self.assertIn("\tvar tile: Variant = _args[5] if _args.size() > 5 else null", source_text)
-            self.assertIn("\tvar synthetic_state := {", source_text)
-            self.assertIn("\tvar check_force_dark_state := {", source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_is_darkened_state"', source_text)
-            self.assertIn('"comment": "/** If true, the \'map edge\' darkness will be applied to this block. */"', source_text)
-            self.assertIn('"method": "public boolean isDarkened(Tile tile){"', source_text)
-            self.assertIn('"return_expr": "return solid && ((!synthetic() && fillsTile) || checkForceDark(tile));"', source_text)
-            self.assertIn('"is_darkened": is_darkened_value', source_text)
+            self.assertIn('const source_block_query_darkness_state := preload("res://src/game/SourceBlockQueryDarknessState.gd")', source_text)
+            self.assertIn("\treturn source_block_query_darkness_state.generated_is_darkened_result_state(solid_value, update_value, destructible_value, fills_tile_value, force_dark_value, tile)", source_text)
+            self.assertNotIn("\tvar synthetic_state := {", source_text)
+            self.assertNotIn('return {"source_owner": "port_game.source_block_is_darkened_state"', source_text)
 
     def test_emit_bridges_block_consumes_item_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -7848,14 +8946,9 @@ public class Block{
             self.assertIn("\tvar item_filter: Array = _args[0] if _args.size() > 0 else []", source_text)
             self.assertIn("\tvar item_id: int = int(_args[1] if _args.size() > 1 else 0)", source_text)
             self.assertIn("\tvar item: Variant = _args[2] if _args.size() > 2 else null", source_text)
-            self.assertIn("\tvar consumes_item_value: bool = bool(item_filter[item_id])", source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_consumes_item_state"', source_text)
-            self.assertIn('"method": "public boolean consumesItem(Item item){"', source_text)
-            self.assertIn('"return_expr": "return itemFilter[item.id];"', source_text)
-            self.assertIn('"itemFilter": item_filter', source_text)
-            self.assertIn('"item_id": item_id', source_text)
-            self.assertIn('"item": item', source_text)
-            self.assertIn('"consumes_item": consumes_item_value', source_text)
+            self.assertIn('const source_block_query_filter_state := preload("res://src/game/SourceBlockQueryFilterState.gd")', source_text)
+            self.assertIn("return source_block_query_filter_state.consumes_item_state(item_filter, item_id, item)", source_text)
+            self.assertNotIn('"source_owner": "port_game.source_block_consumes_item_state"', source_text)
 
     def test_emit_bridges_block_consumes_liquid_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -7885,14 +8978,9 @@ public class Block{
             self.assertIn("\tvar liquid_filter: Array = _args[0] if _args.size() > 0 else []", source_text)
             self.assertIn("\tvar liquid_id: int = int(_args[1] if _args.size() > 1 else 0)", source_text)
             self.assertIn("\tvar liq: Variant = _args[2] if _args.size() > 2 else null", source_text)
-            self.assertIn("\tvar consumes_liquid_value: bool = bool(liquid_filter[liquid_id])", source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_consumes_liquid_state"', source_text)
-            self.assertIn('"method": "public boolean consumesLiquid(Liquid liq){"', source_text)
-            self.assertIn('"return_expr": "return liquidFilter[liq.id];"', source_text)
-            self.assertIn('"liquidFilter": liquid_filter', source_text)
-            self.assertIn('"liq_id": liquid_id', source_text)
-            self.assertIn('"liq": liq', source_text)
-            self.assertIn('"consumes_liquid": consumes_liquid_value', source_text)
+            self.assertIn('const source_block_query_filter_state := preload("res://src/game/SourceBlockQueryFilterState.gd")', source_text)
+            self.assertIn("return source_block_query_filter_state.consumes_liquid_state(liquid_filter, liquid_id, liq)", source_text)
+            self.assertNotIn('"source_owner": "port_game.source_block_consumes_liquid_state"', source_text)
 
     def test_emit_bridges_block_has_building_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -7921,13 +9009,9 @@ public class Block{
             self.assertIn("func java_method_hasBuilding_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("\tvar destructible_value: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
             self.assertIn("\tvar update_value: bool = bool(_args[1] if _args.size() > 1 else false)", source_text)
-            self.assertIn("\tvar has_building_value: bool = destructible_value or update_value", source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_has_building_state"', source_text)
-            self.assertIn('"method": "public boolean hasBuilding(){"', source_text)
-            self.assertIn('"return_expr": "return destructible || update;"', source_text)
-            self.assertIn('"destructible": destructible_value', source_text)
-            self.assertIn('"update": update_value', source_text)
-            self.assertIn('"has_building": has_building_value', source_text)
+            self.assertIn('const source_block_query_basic_state := preload("res://src/game/SourceBlockQueryBasicState.gd")', source_text)
+            self.assertIn("return source_block_query_basic_state.generated_has_building_result_state(destructible_value, update_value)", source_text)
+            self.assertNotIn('"source_owner": "port_game.source_block_has_building_state"', source_text)
 
     def test_emit_bridges_block_is_multiblock_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -7955,12 +9039,333 @@ public class Block{
 
             self.assertIn("func java_method_isMultiblock_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("\tvar size_value: int = int(_args[0] if _args.size() > 0 else 0)", source_text)
-            self.assertIn("\tvar is_multiblock_value: bool = size_value > 1", source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_is_multiblock_state"', source_text)
-            self.assertIn('"method": "public boolean isMultiblock(){"', source_text)
-            self.assertIn('"return_expr": "return size > 1;"', source_text)
-            self.assertIn('"size": size_value', source_text)
-            self.assertIn('"is_multiblock": is_multiblock_value', source_text)
+            self.assertIn('const source_block_query_basic_state := preload("res://src/game/SourceBlockQueryBasicState.gd")', source_text)
+            self.assertIn("return source_block_query_basic_state.generated_is_multiblock_result_state(size_value)", source_text)
+            self.assertNotIn('"source_owner": "port_game.source_block_is_multiblock_state"', source_text)
+
+    def test_emit_bridges_block_runtime_geometry_cluster_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    public final Building newBuilding(){
+        return buildType.get();
+    }
+
+    public void updateClipRadius(float radiusInWorldUnits){
+        clipSize = Math.max(clipSize, this.size * tilesize + radiusInWorldUnits * 2f);
+    }
+
+    public Rect bounds(int x, int y, Rect rect){
+        return rect.setSize(size * tilesize).setCenter(x * tilesize + offset, y * tilesize + offset);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            block_script = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = block_script.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_newBuilding_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar build_type_value: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn("\tvar building_value: Variant = build_type_value", source_text)
+            self.assertIn('return {"source_owner": "port_game.source_block_new_building_state"', source_text)
+            self.assertIn('"method": "public final Building newBuilding(){"', source_text)
+            self.assertIn('"return_expr": "return buildType.get();"', source_text)
+            self.assertIn('"buildType": build_type_value', source_text)
+            self.assertIn('"building": building_value', source_text)
+
+            self.assertIn("func java_method_updateClipRadius_1(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar clip_size_before: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
+            self.assertIn("\tvar size_value: int = int(_args[1] if _args.size() > 1 else 1)", source_text)
+            self.assertIn("\tvar tilesize_value: float = float(_args[2] if _args.size() > 2 else 8.0)", source_text)
+            self.assertIn("\tvar radius_in_world_units: float = float(_args[3] if _args.size() > 3 else 0.0)", source_text)
+            self.assertIn("\tvar clip_size_candidate: float = size_value * tilesize_value + radius_in_world_units * 2.0", source_text)
+            self.assertIn("\tvar clip_size_after: float = max(clip_size_before, clip_size_candidate)", source_text)
+            self.assertIn('return {"source_owner": "port_game.source_block_update_clip_radius_state"', source_text)
+            self.assertIn('"assignment_expr": "clipSize = Math.max(clipSize, this.size * tilesize + radiusInWorldUnits * 2f);"', source_text)
+            self.assertIn('"clipSize": clip_size_after', source_text)
+
+            self.assertIn("func java_method_bounds_2(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar x_value: int = int(_args[0] if _args.size() > 0 else 0)", source_text)
+            self.assertIn("\tvar y_value: int = int(_args[1] if _args.size() > 1 else 0)", source_text)
+            self.assertIn("\tvar size_value: int = int(_args[2] if _args.size() > 2 else 1)", source_text)
+            self.assertIn("\tvar tilesize_value: float = float(_args[3] if _args.size() > 3 else 8.0)", source_text)
+            self.assertIn("\tvar offset_value: float = float(_args[4] if _args.size() > 4 else 0.0)", source_text)
+            self.assertIn("\tvar rect_size: float = size_value * tilesize_value", source_text)
+            self.assertIn("\tvar center_x: float = x_value * tilesize_value + offset_value", source_text)
+            self.assertIn("\tvar center_y: float = y_value * tilesize_value + offset_value", source_text)
+            self.assertIn('return {"source_owner": "port_game.source_block_bounds_state"', source_text)
+            self.assertIn('"return_expr": "return rect.setSize(size * tilesize).setCenter(x * tilesize + offset, y * tilesize + offset);"', source_text)
+            self.assertIn('"rect": rect_value', source_text)
+            self.assertIn('"rect_size": rect_size', source_text)
+            self.assertIn('"center": {"x": center_x, "y": center_y}', source_text)
+
+    def test_emit_bridges_block_lifecycle_hooks_cluster_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    /** Called to set up configuration UI in the editor. {@link #editorConfigurable} must be true.
+     * Config value should be assigned to lastConfig.*/
+    public void buildEditorConfig(Table table){}
+
+    /** Called when the block is picked (middle click). Clientside only! */
+    public void onPicked(Tile tile){}
+
+    /** @return the config value returned when this block is picked on a certain tile. This is only called for non-buildings. */
+    public Object getConfig(Tile tile){
+        return null;
+    }
+
+    /** Called when this block is set on the specified tile. */
+    public void blockChanged(Tile tile){}
+
+    /** Called when building of this block begins. */
+    public void placeBegan(Tile tile, Block previous){
+
+    }
+
+    /** Called when building of this block begins. */
+    public void placeBegan(Tile tile, Block previous, @Nullable Unit builder){
+        placeBegan(tile, previous);
+    }
+
+    /** Called when building of this block ends. */
+    public void placeEnded(Tile tile, @Nullable Unit builder, int rotation, @Nullable Object config){
+
+    }
+
+    /** Called right before building of this block begins. */
+    public void beforePlaceBegan(Tile tile, Block previous){
+
+    }
+
+    /** Called when pick blocked in the editor. */
+    public void editorPicked(Tile tile){
+
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            block_script = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = block_script.read_text(encoding="utf-8")
+
+            self.assertIn(
+                'const source_block_lifecycle_hook_state := preload("res://src/game/SourceBlockLifecycleHookState.gd")',
+                source_text,
+            )
+            expected_methods = {
+                "buildEditorConfig_0": "return source_block_lifecycle_hook_state.build_editor_config_state(table)",
+                "onPicked_1": "return source_block_lifecycle_hook_state.on_picked_state(tile)",
+                "getConfig_2": "return source_block_lifecycle_hook_state.get_config_state(tile)",
+                "blockChanged_3": "return source_block_lifecycle_hook_state.block_changed_state(tile)",
+                "placeBegan_4": "return source_block_lifecycle_hook_state.place_began_state(tile, previous)",
+                "placeBegan_5": "return source_block_lifecycle_hook_state.place_began_builder_state(tile, previous, builder)",
+                "placeEnded_6": "return source_block_lifecycle_hook_state.place_ended_state(tile, builder, rotation_value, config)",
+                "beforePlaceBegan_7": "return source_block_lifecycle_hook_state.before_place_began_state(tile, previous)",
+                "editorPicked_8": "return source_block_lifecycle_hook_state.editor_picked_state(tile)",
+            }
+            for generated_suffix, delegate in expected_methods.items():
+                with self.subTest(method=generated_suffix):
+                    java_name = generated_suffix.rsplit("_", 1)[0]
+                    self.assertIn(f"func java_method_{generated_suffix}(_args: Array = []) -> Variant:", source_text)
+                    self.assertIn(delegate, source_text)
+
+            for inline_owner in (
+                "port_game.source_block_build_editor_config_state",
+                "port_game.source_block_on_picked_state",
+                "port_game.source_block_get_config_state",
+                "port_game.source_block_changed_state",
+                "port_game.source_block_place_began_state",
+                "port_game.source_block_place_began_builder_state",
+                "port_game.source_block_place_ended_state",
+                "port_game.source_block_before_place_began_state",
+                "port_game.source_block_editor_picked_state",
+            ):
+                self.assertNotIn(f'"source_owner": "{inline_owner}"', source_text)
+
+            self.assertIn("\tvar table: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn("\tvar tile: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn("\tvar previous: Variant = _args[1] if _args.size() > 1 else null", source_text)
+            self.assertIn("\tvar builder: Variant = _args[2] if _args.size() > 2 else null", source_text)
+            self.assertIn("\tvar rotation_value: int = int(_args[2] if _args.size() > 2 else 0)", source_text)
+            self.assertIn("\tvar config: Variant = _args[3] if _args.size() > 3 else null", source_text)
+
+    def test_emit_bridges_block_floor_type_query_cluster_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    public boolean isFloor(){
+        return this instanceof Floor;
+    }
+
+    public boolean isOverlay(){
+        return this instanceof OverlayFloor;
+    }
+
+    public Floor asFloor(){
+        return (Floor)this;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            block_script = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = block_script.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_isFloor_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar is_floor_instance: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn('const source_block_query_basic_state := preload("res://src/game/SourceBlockQueryBasicState.gd")', source_text)
+            self.assertIn("return source_block_query_basic_state.generated_is_floor_result_state(is_floor_instance)", source_text)
+            self.assertNotIn('"source_owner": "port_game.source_block_is_floor_state"', source_text)
+
+            self.assertIn("func java_method_isOverlay_1(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar is_overlay_floor_instance: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("return source_block_query_basic_state.generated_is_overlay_result_state(is_overlay_floor_instance)", source_text)
+            self.assertNotIn('"source_owner": "port_game.source_block_is_overlay_state"', source_text)
+
+            self.assertIn("func java_method_asFloor_2(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar self_block: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn("return source_block_query_basic_state.generated_as_floor_result_state(self_block)", source_text)
+            self.assertNotIn('"source_owner": "port_game.source_block_as_floor_state"', source_text)
+
+    def test_emit_bridges_block_draw_default_visual_cluster_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    public void drawBase(Tile tile){
+        if(tile.build != null){
+            tile.build.draw();
+        }else{
+            Draw.rect(variants == 0 ? region : variantRegions[Mathf.randomSeed(tile.pos(), 0, Math.max(0, variantRegions.length - 1))], tile.drawx(), tile.drawy());
+        }
+    }
+
+    public void drawBaseCached(Tile tile){
+        if(tile.build != null){
+            tile.build.drawCached();
+        }else{
+            Draw.rect(variants == 0 ? region : variantRegions[Mathf.randomSeed(tile.pos(), 0, Math.max(0, variantRegions.length - 1))], tile.drawx(), tile.drawy());
+        }
+    }
+
+    public void drawShadow(Tile tile){
+        Draw.color(0f, 0f, 0f, BlockRenderer.shadowColor.a);
+        Draw.rect(variants == 0 ? customShadowRegion : variantShadowRegions[Mathf.randomSeed(tile.pos(), 0, Math.max(0, variantShadowRegions.length - 1))], tile.drawx(), tile.drawy());
+        Draw.color();
+    }
+
+    public void drawEnvironmentLight(Tile tile){
+        Drawf.light(tile.worldx(), tile.worldy(), lightRadius, lightColor, lightColor.a);
+    }
+
+    public void drawPlace(int x, int y, int rotation, boolean valid){
+        drawPotentialLinks(x, y);
+        drawOverlay(x * tilesize + offset, y * tilesize + offset, rotation);
+    }
+
+    public void drawSideRegion(TextureRegion region, float x, float y, int rotation){
+    }
+
+    public void drawPotentialLinks(int x, int y){
+    }
+
+    public float drawPlaceText(String text, int x, int y, boolean valid){
+        return drawPlaceText(text, x, y, valid ? Pal.accent : Pal.remove, true);
+    }
+
+    public float drawPlaceText(String text, int x, int y, Color color, boolean drawLine){
+        return 0f;
+    }
+
+    public void drawOverlay(float x, float y, int rotation){
+    }
+
+    public boolean displayShadow(Tile tile){
+        return hasShadow;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            block_script = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = block_script.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_drawBase_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar tile_build_present: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn('const source_block_draw_state := preload("res://src/game/SourceBlockDrawState.gd")', source_text)
+            self.assertIn("return source_block_draw_state.generated_draw_base_result_state(tile_build_present, variants, region_value, variant_region, tile_drawx, tile_drawy)", source_text)
+            self.assertNotIn('return {"source_owner": "port_game.source_block_draw_base_state"', source_text)
+
+            self.assertIn("func java_method_drawBaseCached_1(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("return source_block_draw_state.generated_draw_base_cached_result_state(tile_build_present, variants, region_value, variant_region, tile_drawx, tile_drawy)", source_text)
+            self.assertNotIn('return {"source_owner": "port_game.source_block_draw_base_cached_state"', source_text)
+
+            self.assertIn("func java_method_drawShadow_2(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar variants: int = int(_args[1] if _args.size() > 1 else 0)", source_text)
+            self.assertIn("return source_block_draw_state.generated_draw_shadow_result_state(tile, variants, custom_shadow_region, variant_shadow_region, tile_drawx, tile_drawy, shadow_alpha)", source_text)
+            self.assertNotIn('return {"source_owner": "port_game.source_block_draw_shadow_state"', source_text)
+
+            self.assertIn("func java_method_drawEnvironmentLight_3(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("return source_block_draw_state.generated_draw_environment_light_result_state(tile_worldx, tile_worldy, light_radius, light_color, light_alpha)", source_text)
+
+            self.assertIn("func java_method_drawPlace_4(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("return source_block_draw_state.generated_draw_place_result_state(x_value, y_value, rotation, valid, source_tilesize, offset_value)", source_text)
+
+            self.assertIn("func java_method_drawSideRegion_5(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("return source_block_draw_state.generated_draw_side_region_result_state(region_width, region_scale, x_value, y_value, block_size, source_tilesize, rotation)", source_text)
+            self.assertIn("func java_method_drawPotentialLinks_6(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("return source_block_draw_state.generated_draw_potential_links_result_state(consumes_power, outputs_power, has_power, connected_power, tile_present, x_value, y_value, source_tilesize, offset_value, block_size, power_links, beam_links)", source_text)
+            self.assertIn("func java_method_drawPlaceText_7(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("return source_block_draw_state.generated_draw_place_text_simple_result_state(pixelate, text_value, x_value, y_value, valid, source_tilesize, offset_value, block_size, layout_width, layout_height)", source_text)
+            self.assertIn("func java_method_drawPlaceText_8(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("return source_block_draw_state.generated_draw_place_text_result_state(pixelate, text_value, x_value, y_value, color_value, draw_line, source_tilesize, offset_value, block_size, layout_width, layout_height)", source_text)
+
+            self.assertIn("func java_method_drawOverlay_9(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("return source_block_draw_state.generated_draw_overlay_result_state(x_value, y_value, rotation)", source_text)
+
+            self.assertIn("func java_method_displayShadow_10(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("return source_block_draw_state.generated_display_shadow_result_state(has_shadow, tile)", source_text)
 
     def test_emit_bridges_block_is_air_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -7988,12 +9393,9 @@ public class Block{
 
             self.assertIn("func java_method_isAir_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("\tvar id_value: int = int(_args[0] if _args.size() > 0 else 0)", source_text)
-            self.assertIn("\tvar is_air_value: bool = id_value == 0", source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_is_air_state"', source_text)
-            self.assertIn('"method": "public boolean isAir(){"', source_text)
-            self.assertIn('"return_expr": "return id == 0;"', source_text)
-            self.assertIn('"id": id_value', source_text)
-            self.assertIn('"is_air": is_air_value', source_text)
+            self.assertIn('const source_block_query_basic_state := preload("res://src/game/SourceBlockQueryBasicState.gd")', source_text)
+            self.assertIn("return source_block_query_basic_state.generated_is_air_result_state(id_value)", source_text)
+            self.assertNotIn('"source_owner": "port_game.source_block_is_air_state"', source_text)
 
     def test_emit_bridges_block_can_be_built_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -8021,14 +9423,39 @@ public class Block{
 
             self.assertIn("func java_method_canBeBuilt_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn('\tvar build_visibility_value: String = str(_args[0] if _args.size() > 0 else "shown")', source_text)
-            self.assertIn('\tvar can_be_built_value: bool = build_visibility_value != "hidden" and build_visibility_value != "debugOnly"', source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_can_be_built_state"', source_text)
-            self.assertIn('"method": "public boolean canBeBuilt(){"', source_text)
-            self.assertIn('"return_expr": "return buildVisibility != BuildVisibility.hidden && buildVisibility != BuildVisibility.debugOnly;"', source_text)
-            self.assertIn('"buildVisibility": build_visibility_value', source_text)
-            self.assertIn('"hidden_constant": "BuildVisibility.hidden"', source_text)
-            self.assertIn('"debug_only_constant": "BuildVisibility.debugOnly"', source_text)
-            self.assertIn('"can_be_built": can_be_built_value', source_text)
+            self.assertIn('const source_block_query_basic_state := preload("res://src/game/SourceBlockQueryBasicState.gd")', source_text)
+            self.assertIn("return source_block_query_basic_state.generated_can_be_built_result_state(build_visibility_value)", source_text)
+            self.assertNotIn('"source_owner": "port_game.source_block_can_be_built_state"', source_text)
+
+    def test_emit_bridges_block_environment_buildable_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    public boolean environmentBuildable(){
+        return isOnPlanet(state.getPlanet());
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            block_script = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = block_script.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_environmentBuildable_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar is_on_planet_value: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn('const source_block_query_basic_state := preload("res://src/game/SourceBlockQueryBasicState.gd")', source_text)
+            self.assertIn("return source_block_query_basic_state.generated_environment_buildable_result_state(is_on_planet_value)", source_text)
+            self.assertNotIn('"source_owner": "port_game.source_block_environment_buildable_state"', source_text)
 
     def test_emit_bridges_block_is_static_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -8056,13 +9483,54 @@ public class Block{
 
             self.assertIn("func java_method_isStatic_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn('\tvar cache_layer_value: String = str(_args[0] if _args.size() > 0 else "normal")', source_text)
-            self.assertIn('\tvar is_static_value: bool = cache_layer_value == "walls"', source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_is_static_state"', source_text)
-            self.assertIn('"method": "public boolean isStatic(){"', source_text)
-            self.assertIn('"return_expr": "return cacheLayer == CacheLayer.walls;"', source_text)
-            self.assertIn('"cacheLayer": cache_layer_value', source_text)
-            self.assertIn('"walls_constant": "CacheLayer.walls"', source_text)
-            self.assertIn('"is_static": is_static_value', source_text)
+            self.assertIn('const source_block_query_basic_state := preload("res://src/game/SourceBlockQueryBasicState.gd")', source_text)
+            self.assertIn("return source_block_query_basic_state.generated_is_static_result_state(cache_layer_value)", source_text)
+            self.assertNotIn('"source_owner": "port_game.source_block_is_static_state"', source_text)
+
+    def test_emit_bridges_block_is_banned_and_supports_env_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    @Override
+    public boolean isBanned(){
+        return state.rules.isBanned(this);
+    }
+
+    /** @return whether this block supports a specific environment. */
+    public boolean supportsEnv(int env){
+        return (envEnabled & env) != 0 && (envDisabled & env) == 0 && (envRequired == 0 || (envRequired & env) == envRequired);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            block_script = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = block_script.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_isBanned_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar rules_is_banned_value: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn('const source_block_query_basic_state := preload("res://src/game/SourceBlockQueryBasicState.gd")', source_text)
+            self.assertIn("return source_block_query_basic_state.generated_is_banned_result_state(rules_is_banned_value)", source_text)
+            self.assertNotIn('"source_owner": "port_game.source_block_is_banned_state"', source_text)
+
+            self.assertIn("func java_method_supportsEnv_1(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar env_enabled: int = int(_args[0] if _args.size() > 0 else 0)", source_text)
+            self.assertIn("\tvar env_disabled: int = int(_args[1] if _args.size() > 1 else 0)", source_text)
+            self.assertIn("\tvar env_required: int = int(_args[2] if _args.size() > 2 else 0)", source_text)
+            self.assertIn("\tvar env_value: int = int(_args[3] if _args.size() > 3 else 0)", source_text)
+            self.assertIn('const source_block_query_basic_state := preload("res://src/game/SourceBlockQueryBasicState.gd")', source_text)
+            self.assertIn("return source_block_query_basic_state.generated_supports_env_result_state(env_enabled, env_disabled, env_required, env_value)", source_text)
+            self.assertNotIn('"source_owner": "port_game.source_block_supports_env_state"', source_text)
 
     def test_emit_bridges_block_has_consumer_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -8089,14 +9557,43 @@ public class Block{
             source_text = block_script.read_text(encoding="utf-8")
 
             self.assertIn("func java_method_hasConsumer_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('const source_block_query_consumer_state := preload("res://src/game/SourceBlockQueryConsumerState.gd")', source_text)
             self.assertIn("\tvar consume_builder_contains: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
             self.assertIn("\tvar cons: Variant = _args[1] if _args.size() > 1 else null", source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_has_consumer_state"', source_text)
-            self.assertIn('"method": "public boolean hasConsumer(Consume cons){"', source_text)
-            self.assertIn('"return_expr": "return consumeBuilder.contains(cons);"', source_text)
-            self.assertIn('"consumeBuilder_contains": consume_builder_contains', source_text)
-            self.assertIn('"cons": cons', source_text)
-            self.assertIn('"has_consumer": consume_builder_contains', source_text)
+            self.assertIn("return source_block_query_consumer_state.has_consumer_state(consume_builder_contains, cons)", source_text)
+            self.assertNotIn('"source_owner": "port_game.source_block_has_consumer_state"', source_text)
+
+    def test_emit_bridges_block_find_consumer_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    public <T extends Consume> T findConsumer(Boolf<Consume> filter){
+        return consumers.length == 0 ? (T)consumeBuilder.find(filter) : (T)Structs.find(consumers, filter);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            block_script = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = block_script.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_findConsumer_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar consumers_length: int = int(_args[0] if _args.size() > 0 else 0)", source_text)
+            self.assertIn("\tvar consume_builder_match: Variant = _args[1] if _args.size() > 1 else null", source_text)
+            self.assertIn("\tvar consumers_match: Variant = _args[2] if _args.size() > 2 else null", source_text)
+            self.assertIn("\tvar filter: Variant = _args[3] if _args.size() > 3 else null", source_text)
+            self.assertIn("return source_block_query_consumer_state.find_consumer_state(consumers_length, consume_builder_match, consumers_match, filter)", source_text)
+            self.assertNotIn('"source_owner": "port_game.source_block_find_consumer_state"', source_text)
 
     def test_emit_bridges_block_remove_consumer_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -8128,14 +9625,8 @@ public class Block{
             self.assertIn("func java_method_removeConsumer_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("\tvar consumers_length: int = int(_args[0] if _args.size() > 0 else 0)", source_text)
             self.assertIn("\tvar cons: Variant = _args[1] if _args.size() > 1 else null", source_text)
-            self.assertIn("\tvar illegal_state_exception_thrown: bool = consumers_length > 0", source_text)
-            self.assertIn("\tvar consume_builder_remove_called: bool = not illegal_state_exception_thrown", source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_remove_consumer_state"', source_text)
-            self.assertIn('"method": "public void removeConsumer(Consume cons){"', source_text)
-            self.assertIn('"guard_expr": "if(consumers.length > 0){"', source_text)
-            self.assertIn('"remove_expr": "consumeBuilder.remove(cons);"', source_text)
-            self.assertIn('"illegal_state_exception_thrown": illegal_state_exception_thrown', source_text)
-            self.assertIn('"consume_builder_remove_called": consume_builder_remove_called', source_text)
+            self.assertIn("return source_block_query_consumer_state.remove_consumer_state(consumers_length, cons)", source_text)
+            self.assertNotIn('"source_owner": "port_game.source_block_remove_consumer_state"', source_text)
 
     def test_emit_bridges_block_remove_consumers_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -8168,15 +9659,8 @@ public class Block{
             self.assertIn("func java_method_removeConsumers_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("\tvar consume_builder_contains_power_after_remove: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
             self.assertIn("\tvar b: Variant = _args[1] if _args.size() > 1 else null", source_text)
-            self.assertIn("\tvar cons_power_cleared: bool = not consume_builder_contains_power_after_remove", source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_remove_consumers_state"', source_text)
-            self.assertIn('"method": "public void removeConsumers(Boolf<Consume> b){"', source_text)
-            self.assertIn('"remove_all_expr": "consumeBuilder.removeAll(b);"', source_text)
-            self.assertIn('"comment": "//the power was removed, unassign it"', source_text)
-            self.assertIn('"power_guard_expr": "if(!consumeBuilder.contains(c -> c instanceof ConsumePower)){"', source_text)
-            self.assertIn('"cons_power_expr": "consPower = null;"', source_text)
-            self.assertIn('"consume_builder_remove_all_called": true', source_text)
-            self.assertIn('"cons_power_cleared": cons_power_cleared', source_text)
+            self.assertIn("return source_block_query_consumer_state.remove_consumers_state(consume_builder_contains_power_after_remove, b)", source_text)
+            self.assertNotIn('"source_owner": "port_game.source_block_remove_consumers_state"', source_text)
 
     def test_emit_bridges_block_consume_liquid_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -8201,19 +9685,9 @@ public class Block{
             emit_gdscript_classes(source_root, output_root)
             block_script = output_root / "mindustry" / "world" / "Block.gd"
             source_text = block_script.read_text(encoding="utf-8")
-
-            self.assertIn("func java_method_consumeLiquid_0(_args: Array = []) -> Variant:", source_text)
-            self.assertIn("\tvar liquid: Variant = _args[0] if _args.size() > 0 else null", source_text)
-            self.assertIn("\tvar amount: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
-            self.assertIn('\tvar constructed_consume: Dictionary = {"type": "ConsumeLiquid", "liquid": liquid, "amount": amount}', source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_consume_liquid_state"', source_text)
-            self.assertIn('"method": "public ConsumeLiquid consumeLiquid(Liquid liquid, float amount){"', source_text)
-            self.assertIn('"return_expr": "return consume(new ConsumeLiquid(liquid, amount));"', source_text)
-            self.assertIn('"constructor_expr": "new ConsumeLiquid(liquid, amount)"', source_text)
-            self.assertIn('"consume_call_expr": "consume(new ConsumeLiquid(liquid, amount))"', source_text)
-            self.assertIn('"constructed_consume": constructed_consume', source_text)
-            self.assertIn('"consume_called": true', source_text)
-
+            self.assertIn('const source_block_consume_state := preload("res://src/game/SourceBlockConsumeState.gd")', source_text)
+            self.assertIn("return source_block_consume_state.generated_consume_liquid_result_state(liquid, amount)", source_text)
+            self.assertNotIn('\tvar constructed_consume: Dictionary = {"type": "ConsumeLiquid", "liquid": liquid, "amount": amount}', source_text)
     def test_emit_bridges_block_consume_liquids_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -8237,19 +9711,9 @@ public class Block{
             emit_gdscript_classes(source_root, output_root)
             block_script = output_root / "mindustry" / "world" / "Block.gd"
             source_text = block_script.read_text(encoding="utf-8")
-
-            self.assertIn("func java_method_consumeLiquids_0(_args: Array = []) -> Variant:", source_text)
-            self.assertIn("\tvar stacks: Variant = _args[0] if _args.size() > 0 else []", source_text)
-            self.assertIn('\tvar constructed_consume: Dictionary = {"type": "ConsumeLiquids", "stacks": stacks}', source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_consume_liquids_state"', source_text)
-            self.assertIn('"method": "public ConsumeLiquids consumeLiquids(LiquidStack... stacks){"', source_text)
-            self.assertIn('"return_expr": "return consume(new ConsumeLiquids(stacks));"', source_text)
-            self.assertIn('"constructor_expr": "new ConsumeLiquids(stacks)"', source_text)
-            self.assertIn('"consume_call_expr": "consume(new ConsumeLiquids(stacks))"', source_text)
-            self.assertIn('"stacks": stacks', source_text)
-            self.assertIn('"constructed_consume": constructed_consume', source_text)
-            self.assertIn('"consume_called": true', source_text)
-
+            self.assertIn('const source_block_consume_state := preload("res://src/game/SourceBlockConsumeState.gd")', source_text)
+            self.assertIn("return source_block_consume_state.generated_consume_liquids_result_state(stacks)", source_text)
+            self.assertNotIn('\tvar constructed_consume: Dictionary = {"type": "ConsumeLiquids", "stacks": stacks}', source_text)
     def test_emit_bridges_block_consume_power_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -8273,21 +9737,9 @@ public class Block{
             emit_gdscript_classes(source_root, output_root)
             block_script = output_root / "mindustry" / "world" / "Block.gd"
             source_text = block_script.read_text(encoding="utf-8")
-
-            self.assertIn("func java_method_consumePower_0(_args: Array = []) -> Variant:", source_text)
-            self.assertIn("\tvar power_per_tick: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
-            self.assertIn('\tvar constructed_consume: Dictionary = {"type": "ConsumePower", "powerPerTick": power_per_tick, "capacity": 0.0, "buffered": false}', source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_consume_power_state"', source_text)
-            self.assertIn('"method": "public ConsumePower consumePower(float powerPerTick){"', source_text)
-            self.assertIn('"return_expr": "return consume(new ConsumePower(powerPerTick, 0.0f, false));"', source_text)
-            self.assertIn('"constructor_expr": "new ConsumePower(powerPerTick, 0.0f, false)"', source_text)
-            self.assertIn('"consume_call_expr": "consume(new ConsumePower(powerPerTick, 0.0f, false))"', source_text)
-            self.assertIn('"powerPerTick": power_per_tick', source_text)
-            self.assertIn('"capacity": 0.0', source_text)
-            self.assertIn('"buffered": false', source_text)
-            self.assertIn('"constructed_consume": constructed_consume', source_text)
-            self.assertIn('"consume_called": true', source_text)
-
+            self.assertIn('const source_block_consume_state := preload("res://src/game/SourceBlockConsumeState.gd")', source_text)
+            self.assertIn("return source_block_consume_state.generated_consume_power_result_state(power_per_tick)", source_text)
+            self.assertNotIn('\tvar constructed_consume: Dictionary = {"type": "ConsumePower", "powerPerTick": power_per_tick, "capacity": 0.0, "buffered": false}', source_text)
     def test_emit_bridges_block_consume_power_cond_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -8311,23 +9763,9 @@ public class Block{
             emit_gdscript_classes(source_root, output_root)
             block_script = output_root / "mindustry" / "world" / "Block.gd"
             source_text = block_script.read_text(encoding="utf-8")
-
-            self.assertIn("func java_method_consumePowerCond_0(_args: Array = []) -> Variant:", source_text)
-            self.assertIn("\tvar usage: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
-            self.assertIn("\tvar cons: Variant = _args[1] if _args.size() > 1 else null", source_text)
-            self.assertIn('\tvar constructed_consume: Dictionary = {"type": "ConsumePowerCondition", "usage": usage, "condition": cons}', source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_consume_power_cond_state"', source_text)
-            self.assertIn('"comment": "Creates a consumer which only consumes power when the condition is met."', source_text)
-            self.assertIn('"method": "public <T extends Building> ConsumePower consumePowerCond(float usage, Boolf<T> cons){"', source_text)
-            self.assertIn('"return_expr": "return consume(new ConsumePowerCondition(usage, (Boolf<Building>)cons));"', source_text)
-            self.assertIn('"constructor_expr": "new ConsumePowerCondition(usage, (Boolf<Building>)cons)"', source_text)
-            self.assertIn('"condition_cast_expr": "(Boolf<Building>)cons"', source_text)
-            self.assertIn('"consume_call_expr": "consume(new ConsumePowerCondition(usage, (Boolf<Building>)cons))"', source_text)
-            self.assertIn('"usage": usage', source_text)
-            self.assertIn('"condition": cons', source_text)
-            self.assertIn('"constructed_consume": constructed_consume', source_text)
-            self.assertIn('"consume_called": true', source_text)
-
+            self.assertIn('const source_block_consume_state := preload("res://src/game/SourceBlockConsumeState.gd")', source_text)
+            self.assertIn("return source_block_consume_state.generated_consume_power_cond_result_state(usage, cons)", source_text)
+            self.assertNotIn('\tvar constructed_consume: Dictionary = {"type": "ConsumePowerCondition", "usage": usage, "condition": cons}', source_text)
     def test_emit_bridges_block_consume_power_dynamic_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -8351,21 +9789,9 @@ public class Block{
             emit_gdscript_classes(source_root, output_root)
             block_script = output_root / "mindustry" / "world" / "Block.gd"
             source_text = block_script.read_text(encoding="utf-8")
-
-            self.assertIn("func java_method_consumePowerDynamic_0(_args: Array = []) -> Variant:", source_text)
-            self.assertIn("\tvar usage: Variant = _args[0] if _args.size() > 0 else null", source_text)
-            self.assertIn('\tvar constructed_consume: Dictionary = {"type": "ConsumePowerDynamic", "usage": usage}', source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_consume_power_dynamic_state"', source_text)
-            self.assertIn('"comment": "Creates a consumer that consumes a dynamic amount of power."', source_text)
-            self.assertIn('"method": "public <T extends Building> ConsumePower consumePowerDynamic(Floatf<T> usage){"', source_text)
-            self.assertIn('"return_expr": "return consume(new ConsumePowerDynamic((Floatf<Building>)usage));"', source_text)
-            self.assertIn('"constructor_expr": "new ConsumePowerDynamic((Floatf<Building>)usage)"', source_text)
-            self.assertIn('"usage_cast_expr": "(Floatf<Building>)usage"', source_text)
-            self.assertIn('"consume_call_expr": "consume(new ConsumePowerDynamic((Floatf<Building>)usage))"', source_text)
-            self.assertIn('"usage": usage', source_text)
-            self.assertIn('"constructed_consume": constructed_consume', source_text)
-            self.assertIn('"consume_called": true', source_text)
-
+            self.assertIn('const source_block_consume_state := preload("res://src/game/SourceBlockConsumeState.gd")', source_text)
+            self.assertIn("return source_block_consume_state.generated_consume_power_dynamic_result_state(usage)", source_text)
+            self.assertNotIn('\tvar constructed_consume: Dictionary = {"type": "ConsumePowerDynamic", "usage": usage}', source_text)
     def test_emit_bridges_block_consume_power_dynamic_displayed_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -8389,23 +9815,9 @@ public class Block{
             emit_gdscript_classes(source_root, output_root)
             block_script = output_root / "mindustry" / "world" / "Block.gd"
             source_text = block_script.read_text(encoding="utf-8")
-
-            self.assertIn("func java_method_consumePowerDynamic_0(_args: Array = []) -> Variant:", source_text)
-            self.assertIn("\tvar displayed: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
-            self.assertIn("\tvar usage: Variant = _args[1] if _args.size() > 1 else null", source_text)
-            self.assertIn('\tvar constructed_consume: Dictionary = {"type": "ConsumePowerDynamic", "displayed": displayed, "usage": usage}', source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_consume_power_dynamic_displayed_state"', source_text)
-            self.assertIn('"comment": "Creates a consumer that consumes a dynamic amount of power."', source_text)
-            self.assertIn('"method": "public <T extends Building> ConsumePower consumePowerDynamic(float displayed, Floatf<T> usage){"', source_text)
-            self.assertIn('"return_expr": "return consume(new ConsumePowerDynamic(displayed, (Floatf<Building>)usage));"', source_text)
-            self.assertIn('"constructor_expr": "new ConsumePowerDynamic(displayed, (Floatf<Building>)usage)"', source_text)
-            self.assertIn('"usage_cast_expr": "(Floatf<Building>)usage"', source_text)
-            self.assertIn('"consume_call_expr": "consume(new ConsumePowerDynamic(displayed, (Floatf<Building>)usage))"', source_text)
-            self.assertIn('"displayed": displayed', source_text)
-            self.assertIn('"usage": usage', source_text)
-            self.assertIn('"constructed_consume": constructed_consume', source_text)
-            self.assertIn('"consume_called": true', source_text)
-
+            self.assertIn('const source_block_consume_state := preload("res://src/game/SourceBlockConsumeState.gd")', source_text)
+            self.assertIn("return source_block_consume_state.generated_consume_power_dynamic_displayed_result_state(displayed, usage)", source_text)
+            self.assertNotIn('\tvar constructed_consume: Dictionary = {"type": "ConsumePowerDynamic", "displayed": displayed, "usage": usage}', source_text)
     def test_emit_bridges_block_consume_power_buffered_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -8429,23 +9841,9 @@ public class Block{
             emit_gdscript_classes(source_root, output_root)
             block_script = output_root / "mindustry" / "world" / "Block.gd"
             source_text = block_script.read_text(encoding="utf-8")
-
-            self.assertIn("func java_method_consumePowerBuffered_0(_args: Array = []) -> Variant:", source_text)
-            self.assertIn("\tvar power_capacity: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
-            self.assertIn('\tvar constructed_consume: Dictionary = {"type": "ConsumePower", "powerPerTick": 0.0, "capacity": power_capacity, "buffered": true}', source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_consume_power_buffered_state"', source_text)
-            self.assertIn('"comment": "Creates a consumer which stores power."', source_text)
-            self.assertIn('"param": "@param powerCapacity The maximum capacity in power units."', source_text)
-            self.assertIn('"method": "public ConsumePower consumePowerBuffered(float powerCapacity){"', source_text)
-            self.assertIn('"return_expr": "return consume(new ConsumePower(0f, powerCapacity, true));"', source_text)
-            self.assertIn('"constructor_expr": "new ConsumePower(0f, powerCapacity, true)"', source_text)
-            self.assertIn('"consume_call_expr": "consume(new ConsumePower(0f, powerCapacity, true))"', source_text)
-            self.assertIn('"powerCapacity": power_capacity', source_text)
-            self.assertIn('"powerPerTick": 0.0', source_text)
-            self.assertIn('"buffered": true', source_text)
-            self.assertIn('"constructed_consume": constructed_consume', source_text)
-            self.assertIn('"consume_called": true', source_text)
-
+            self.assertIn('const source_block_consume_state := preload("res://src/game/SourceBlockConsumeState.gd")', source_text)
+            self.assertIn("return source_block_consume_state.generated_consume_power_buffered_result_state(power_capacity)", source_text)
+            self.assertNotIn('\tvar constructed_consume: Dictionary = {"type": "ConsumePower", "powerPerTick": 0.0, "capacity": power_capacity, "buffered": true}', source_text)
     def test_emit_bridges_block_consume_item_single_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -8469,17 +9867,9 @@ public class Block{
             emit_gdscript_classes(source_root, output_root)
             block_script = output_root / "mindustry" / "world" / "Block.gd"
             source_text = block_script.read_text(encoding="utf-8")
-
-            self.assertIn("func java_method_consumeItem_0(_args: Array = []) -> Variant:", source_text)
-            self.assertIn("\tvar item: Variant = _args[0] if _args.size() > 0 else null", source_text)
-            self.assertIn('\treturn {"source_owner": "port_game.source_block_consume_item_single_state"', source_text)
-            self.assertIn('"method": "public ConsumeItems consumeItem(Item item){"', source_text)
-            self.assertIn('"return_expr": "return consumeItem(item, 1);"', source_text)
-            self.assertIn('"delegate_call_expr": "consumeItem(item, 1)"', source_text)
-            self.assertIn('"item": item', source_text)
-            self.assertIn('"amount": 1', source_text)
-            self.assertIn('"delegate_called": true', source_text)
-
+            self.assertIn('const source_block_consume_state := preload("res://src/game/SourceBlockConsumeState.gd")', source_text)
+            self.assertIn("return source_block_consume_state.generated_consume_item_single_result_state(item)", source_text)
+            self.assertNotIn('return {"source_owner": "port_game.source_block_consume_item_single_state"', source_text)
     def test_emit_bridges_block_consume_item_amount_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -8503,25 +9893,9 @@ public class Block{
             emit_gdscript_classes(source_root, output_root)
             block_script = output_root / "mindustry" / "world" / "Block.gd"
             source_text = block_script.read_text(encoding="utf-8")
-
-            self.assertIn("func java_method_consumeItem_0(_args: Array = []) -> Variant:", source_text)
-            self.assertIn("\tvar item: Variant = _args[0] if _args.size() > 0 else null", source_text)
-            self.assertIn("\tvar amount: int = int(_args[1] if _args.size() > 1 else 0)", source_text)
-            self.assertIn('\tvar item_stack: Dictionary = {"type": "ItemStack", "item": item, "amount": amount}', source_text)
-            self.assertIn('\tvar constructed_consume: Dictionary = {"type": "ConsumeItems", "items": [item_stack]}', source_text)
-            self.assertIn('\treturn {"source_owner": "port_game.source_block_consume_item_amount_state"', source_text)
-            self.assertIn('"method": "public ConsumeItems consumeItem(Item item, int amount){"', source_text)
-            self.assertIn('"return_expr": "return consume(new ConsumeItems(new ItemStack[]{new ItemStack(item, amount)}));"', source_text)
-            self.assertIn('"item_stack_expr": "new ItemStack(item, amount)"', source_text)
-            self.assertIn('"item_stack_array_expr": "new ItemStack[]{new ItemStack(item, amount)}"', source_text)
-            self.assertIn('"constructor_expr": "new ConsumeItems(new ItemStack[]{new ItemStack(item, amount)})"', source_text)
-            self.assertIn('"consume_call_expr": "consume(new ConsumeItems(new ItemStack[]{new ItemStack(item, amount)}))"', source_text)
-            self.assertIn('"item": item', source_text)
-            self.assertIn('"amount": amount', source_text)
-            self.assertIn('"item_stack": item_stack', source_text)
-            self.assertIn('"constructed_consume": constructed_consume', source_text)
-            self.assertIn('"consume_called": true', source_text)
-
+            self.assertIn('const source_block_consume_state := preload("res://src/game/SourceBlockConsumeState.gd")', source_text)
+            self.assertIn("return source_block_consume_state.generated_consume_item_amount_result_state(item, amount)", source_text)
+            self.assertNotIn('\tvar item_stack: Dictionary = {"type": "ItemStack", "item": item, "amount": amount}', source_text)
     def test_emit_bridges_block_consume_items_varargs_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -8545,19 +9919,9 @@ public class Block{
             emit_gdscript_classes(source_root, output_root)
             block_script = output_root / "mindustry" / "world" / "Block.gd"
             source_text = block_script.read_text(encoding="utf-8")
-
-            self.assertIn("func java_method_consumeItems_0(_args: Array = []) -> Variant:", source_text)
-            self.assertIn("\tvar items: Array = _args", source_text)
-            self.assertIn('\tvar constructed_consume: Dictionary = {"type": "ConsumeItems", "items": items}', source_text)
-            self.assertIn('\treturn {"source_owner": "port_game.source_block_consume_items_varargs_state"', source_text)
-            self.assertIn('"method": "public ConsumeItems consumeItems(ItemStack... items){"', source_text)
-            self.assertIn('"return_expr": "return consume(new ConsumeItems(items));"', source_text)
-            self.assertIn('"constructor_expr": "new ConsumeItems(items)"', source_text)
-            self.assertIn('"consume_call_expr": "consume(new ConsumeItems(items))"', source_text)
-            self.assertIn('"items": items', source_text)
-            self.assertIn('"constructed_consume": constructed_consume', source_text)
-            self.assertIn('"consume_called": true', source_text)
-
+            self.assertIn('const source_block_consume_state := preload("res://src/game/SourceBlockConsumeState.gd")', source_text)
+            self.assertIn("return source_block_consume_state.generated_consume_items_varargs_result_state(items)", source_text)
+            self.assertNotIn('\tvar constructed_consume: Dictionary = {"type": "ConsumeItems", "items": items}', source_text)
     def test_emit_bridges_block_consume_coolant_single_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -8581,19 +9945,9 @@ public class Block{
             emit_gdscript_classes(source_root, output_root)
             block_script = output_root / "mindustry" / "world" / "Block.gd"
             source_text = block_script.read_text(encoding="utf-8")
-
-            self.assertIn("func java_method_consumeCoolant_0(_args: Array = []) -> Variant:", source_text)
-            self.assertIn("\tvar amount: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
-            self.assertIn('\tvar constructed_consume: Dictionary = {"type": "ConsumeCoolant", "amount": amount}', source_text)
-            self.assertIn('\treturn {"source_owner": "port_game.source_block_consume_coolant_single_state"', source_text)
-            self.assertIn('"method": "public ConsumeCoolant consumeCoolant(float amount){"', source_text)
-            self.assertIn('"return_expr": "return consume(new ConsumeCoolant(amount));"', source_text)
-            self.assertIn('"constructor_expr": "new ConsumeCoolant(amount)"', source_text)
-            self.assertIn('"consume_call_expr": "consume(new ConsumeCoolant(amount))"', source_text)
-            self.assertIn('"amount": amount', source_text)
-            self.assertIn('"constructed_consume": constructed_consume', source_text)
-            self.assertIn('"consume_called": true', source_text)
-
+            self.assertIn('const source_block_consume_state := preload("res://src/game/SourceBlockConsumeState.gd")', source_text)
+            self.assertIn("return source_block_consume_state.generated_consume_coolant_single_result_state(amount)", source_text)
+            self.assertNotIn('\tvar constructed_consume: Dictionary = {"type": "ConsumeCoolant", "amount": amount}', source_text)
     def test_emit_bridges_block_consume_coolant_filtered_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -8617,23 +9971,9 @@ public class Block{
             emit_gdscript_classes(source_root, output_root)
             block_script = output_root / "mindustry" / "world" / "Block.gd"
             source_text = block_script.read_text(encoding="utf-8")
-
-            self.assertIn("func java_method_consumeCoolant_0(_args: Array = []) -> Variant:", source_text)
-            self.assertIn("\tvar amount: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
-            self.assertIn("\tvar allow_liquid: bool = bool(_args[1] if _args.size() > 1 else false)", source_text)
-            self.assertIn("\tvar allow_gas: bool = bool(_args[2] if _args.size() > 2 else false)", source_text)
-            self.assertIn('\tvar constructed_consume: Dictionary = {"type": "ConsumeCoolant", "amount": amount, "allowLiquid": allow_liquid, "allowGas": allow_gas}', source_text)
-            self.assertIn('\treturn {"source_owner": "port_game.source_block_consume_coolant_filtered_state"', source_text)
-            self.assertIn('"method": "public ConsumeCoolant consumeCoolant(float amount, boolean allowLiquid, boolean allowGas){"', source_text)
-            self.assertIn('"return_expr": "return consume(new ConsumeCoolant(amount, allowLiquid, allowGas));"', source_text)
-            self.assertIn('"constructor_expr": "new ConsumeCoolant(amount, allowLiquid, allowGas)"', source_text)
-            self.assertIn('"consume_call_expr": "consume(new ConsumeCoolant(amount, allowLiquid, allowGas))"', source_text)
-            self.assertIn('"amount": amount', source_text)
-            self.assertIn('"allowLiquid": allow_liquid', source_text)
-            self.assertIn('"allowGas": allow_gas', source_text)
-            self.assertIn('"constructed_consume": constructed_consume', source_text)
-            self.assertIn('"consume_called": true', source_text)
-
+            self.assertIn('const source_block_consume_state := preload("res://src/game/SourceBlockConsumeState.gd")', source_text)
+            self.assertIn("return source_block_consume_state.generated_consume_coolant_filtered_result_state(amount, allow_liquid, allow_gas)", source_text)
+            self.assertNotIn('\tvar constructed_consume: Dictionary = {"type": "ConsumeCoolant", "amount": amount, "allowLiquid": allow_liquid, "allowGas": allow_gas}', source_text)
     def test_emit_bridges_block_consume_generic_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -8670,17 +10010,9 @@ public class Block{
             self.assertIn("\tvar consume_builder_before: Array = (_args[2] if _args.size() > 2 else []) as Array", source_text)
             self.assertIn("\tvar consume_builder_without_power: Array = (_args[3] if _args.size() > 3 else []) as Array", source_text)
             self.assertIn("\tvar cons_power_before: Variant = _args[4] if _args.size() > 4 else null", source_text)
-            self.assertIn("\tvar consume_builder_after: Array = consume_builder_without_power.duplicate() if consume_is_power else consume_builder_before.duplicate()", source_text)
-            self.assertIn("\tvar remove_power_called: bool = consume_is_power", source_text)
-            self.assertIn("\tvar cons_power_after: Variant = consume if consume_is_power else cons_power_before", source_text)
-            self.assertIn('"source_owner": "port_game.source_block_consume_generic_state"', source_text)
-            self.assertIn('"method": "public <T extends Consume> T consume(T consume){"', source_text)
-            self.assertIn('"power_guard_expr": "if(consume instanceof ConsumePower){"', source_text)
-            self.assertIn('"remove_power_expr": "consumeBuilder.removeAll(b -> b instanceof ConsumePower);"', source_text)
-            self.assertIn('"cons_power_expr": "consPower = (ConsumePower)consume;"', source_text)
-            self.assertIn('"add_expr": "consumeBuilder.add(consume);"', source_text)
-            self.assertIn('"return_expr": "return consume;"', source_text)
-            self.assertIn('"returned_consume": consume', source_text)
+            self.assertIn('const source_block_consume_state := preload("res://src/game/SourceBlockConsumeState.gd")', source_text)
+            self.assertIn("return source_block_consume_state.generated_consume_generic_result_state(consume, consume_is_power, consume_builder_before, consume_builder_without_power, cons_power_before)", source_text)
+            self.assertNotIn("\tvar consume_builder_after: Array = consume_builder_without_power.duplicate() if consume_is_power else consume_builder_before.duplicate()", source_text)
 
     def test_emit_bridges_block_setup_requirements_simple_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -8709,12 +10041,9 @@ public class Block{
             self.assertIn("func java_method_setupRequirements_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("\tvar cat: Variant = _args[0] if _args.size() > 0 else null", source_text)
             self.assertIn("\tvar stacks: Variant = _args[1] if _args.size() > 1 else null", source_text)
-            self.assertIn('\treturn {"source_owner": "port_game.source_block_setup_requirements_simple_state"', source_text)
-            self.assertIn('"method": "public void setupRequirements(Category cat, ItemStack[] stacks){"', source_text)
-            self.assertIn('"delegate_call_expr": "requirements(cat, stacks)"', source_text)
-            self.assertIn('"cat": cat', source_text)
-            self.assertIn('"stacks": stacks', source_text)
-            self.assertIn('"delegate_called": true', source_text)
+            self.assertIn('const source_block_requirements_state := preload("res://src/game/SourceBlockRequirementsState.gd")', source_text)
+            self.assertIn("return source_block_requirements_state.generated_setup_requirements_simple_result_state(cat, stacks)", source_text)
+            self.assertNotIn('\treturn {"source_owner": "port_game.source_block_setup_requirements_simple_state"', source_text)
 
     def test_emit_bridges_block_setup_requirements_visible_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -8744,13 +10073,9 @@ public class Block{
             self.assertIn("\tvar cat: Variant = _args[0] if _args.size() > 0 else null", source_text)
             self.assertIn("\tvar build_visibility: Variant = _args[1] if _args.size() > 1 else null", source_text)
             self.assertIn("\tvar stacks: Variant = _args[2] if _args.size() > 2 else null", source_text)
-            self.assertIn('\treturn {"source_owner": "port_game.source_block_setup_requirements_visible_state"', source_text)
-            self.assertIn('"method": "public void setupRequirements(Category cat, BuildVisibility visible, ItemStack[] stacks){"', source_text)
-            self.assertIn('"delegate_call_expr": "requirements(cat, visible, stacks)"', source_text)
-            self.assertIn('"cat": cat', source_text)
-            self.assertIn('"visible": build_visibility', source_text)
-            self.assertIn('"stacks": stacks', source_text)
-            self.assertIn('"delegate_called": true', source_text)
+            self.assertIn('const source_block_requirements_state := preload("res://src/game/SourceBlockRequirementsState.gd")', source_text)
+            self.assertIn("return source_block_requirements_state.generated_setup_requirements_visible_result_state(cat, build_visibility, stacks)", source_text)
+            self.assertNotIn('\treturn {"source_owner": "port_game.source_block_setup_requirements_visible_state"', source_text)
 
     def test_emit_bridges_block_requirements_unlocked_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -8781,17 +10106,9 @@ public class Block{
             self.assertIn("\tvar cat: Variant = _args[0] if _args.size() > 0 else null", source_text)
             self.assertIn("\tvar stacks: Variant = _args[1] if _args.size() > 1 else null", source_text)
             self.assertIn("\tvar unlocked: bool = bool(_args[2] if _args.size() > 2 else false)", source_text)
-            self.assertIn('\treturn {"source_owner": "port_game.source_block_requirements_unlocked_state"', source_text)
-            self.assertIn('"method": "public void requirements(Category cat, ItemStack[] stacks, boolean unlocked){"', source_text)
-            self.assertIn('"delegate_call_expr": "requirements(cat, BuildVisibility.shown, stacks)"', source_text)
-            self.assertIn('"always_unlocked_assignment_expr": "this.alwaysUnlocked = unlocked;"', source_text)
-            self.assertIn('"cat": cat', source_text)
-            self.assertIn('"build_visibility": "BuildVisibility.shown"', source_text)
-            self.assertIn('"stacks": stacks', source_text)
-            self.assertIn('"unlocked": unlocked', source_text)
-            self.assertIn('"delegate_called": true', source_text)
-            self.assertIn('"always_unlocked_assigned": true', source_text)
-            self.assertIn('"always_unlocked_after": unlocked', source_text)
+            self.assertIn('const source_block_requirements_state := preload("res://src/game/SourceBlockRequirementsState.gd")', source_text)
+            self.assertIn("return source_block_requirements_state.generated_requirements_unlocked_result_state(cat, stacks, unlocked)", source_text)
+            self.assertNotIn('\treturn {"source_owner": "port_game.source_block_requirements_unlocked_state"', source_text)
 
     def test_emit_bridges_block_requirements_simple_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -8820,13 +10137,9 @@ public class Block{
             self.assertIn("func java_method_requirements_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("\tvar cat: Variant = _args[0] if _args.size() > 0 else null", source_text)
             self.assertIn("\tvar stacks: Variant = _args[1] if _args.size() > 1 else null", source_text)
-            self.assertIn('\treturn {"source_owner": "port_game.source_block_requirements_simple_state"', source_text)
-            self.assertIn('"method": "public void requirements(Category cat, ItemStack[] stacks){"', source_text)
-            self.assertIn('"delegate_call_expr": "requirements(cat, BuildVisibility.shown, stacks)"', source_text)
-            self.assertIn('"cat": cat', source_text)
-            self.assertIn('"build_visibility": "BuildVisibility.shown"', source_text)
-            self.assertIn('"stacks": stacks', source_text)
-            self.assertIn('"delegate_called": true', source_text)
+            self.assertIn('const source_block_requirements_state := preload("res://src/game/SourceBlockRequirementsState.gd")', source_text)
+            self.assertIn("return source_block_requirements_state.generated_requirements_simple_result_state(cat, stacks)", source_text)
+            self.assertNotIn('\treturn {"source_owner": "port_game.source_block_requirements_simple_state"', source_text)
 
     def test_emit_bridges_block_requirements_visible_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -8861,20 +10174,9 @@ public class Block{
             self.assertIn("\tvar cat: Variant = _args[0] if _args.size() > 0 else null", source_text)
             self.assertIn("\tvar build_visibility: Variant = _args[1] if _args.size() > 1 else null", source_text)
             self.assertIn("\tvar stacks: Variant = _args[2] if _args.size() > 2 else null", source_text)
-            self.assertIn("\tvar requirements_after: Variant = stacks", source_text)
-            self.assertIn("\trequirements_after.sort_custom(func(left, right):", source_text)
-            self.assertIn("\t\treturn int(left[\"item\"][\"id\"]) < int(right[\"item\"][\"id\"])", source_text)
-            self.assertIn('\treturn {"source_owner": "port_game.source_block_requirements_visible_state"', source_text)
-            self.assertIn('"method": "public void requirements(Category cat, BuildVisibility visible, ItemStack[] stacks){"', source_text)
-            self.assertIn('"comment": "/** Sets up requirements. Use only this method to set up requirements. */"', source_text)
-            self.assertIn('"category_assignment_expr": "this.category = cat;"', source_text)
-            self.assertIn('"requirements_assignment_expr": "this.requirements = stacks;"', source_text)
-            self.assertIn('"build_visibility_assignment_expr": "this.buildVisibility = visible;"', source_text)
-            self.assertIn('"sort_expr": "Arrays.sort(requirements, Structs.comparingInt(i -> i.item.id));"', source_text)
-            self.assertIn('"category_after": cat', source_text)
-            self.assertIn('"requirements_after": requirements_after', source_text)
-            self.assertIn('"build_visibility_after": build_visibility', source_text)
-            self.assertIn('"sort_called": true', source_text)
+            self.assertIn('const source_block_requirements_state := preload("res://src/game/SourceBlockRequirementsState.gd")', source_text)
+            self.assertIn("return source_block_requirements_state.generated_requirements_visible_result_state(cat, build_visibility, stacks)", source_text)
+            self.assertNotIn("\tvar requirements_after: Variant = stacks", source_text)
 
     def test_emit_bridges_block_init_building_default_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -8909,16 +10211,15 @@ public class Block{
 
             self.assertIn("func java_method_initBuilding_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("\tvar build_type_before: Variant = _args[0] if _args.size() > 0 else null", source_text)
-            self.assertIn('\tvar default_assigned: bool = build_type_before == null', source_text)
-            self.assertIn('\tvar build_type_after: Variant = "Building::create" if default_assigned else build_type_before', source_text)
-            self.assertIn('\treturn {"source_owner": "port_game.source_block_init_building_default_state"', source_text)
-            self.assertIn('"method": "protected void initBuilding(){"', source_text)
-            self.assertIn('"default_guard_expr": "if(buildType == null){"', source_text)
-            self.assertIn('"default_comment": "//assign default value"', source_text)
-            self.assertIn('"default_assignment_expr": "buildType = Building::create;"', source_text)
-            self.assertIn('"build_type_before": build_type_before', source_text)
-            self.assertIn('"build_type_after": build_type_after', source_text)
-            self.assertIn('"default_assigned": default_assigned', source_text)
+            self.assertIn(
+                'const source_block_init_building_default_state := preload("res://src/game/SourceBlockInitBuildingDefaultState.gd")',
+                source_text,
+            )
+            self.assertIn(
+                "return source_block_init_building_default_state.generated_building_default_result_state(build_type_before)",
+                source_text,
+            )
+            self.assertNotIn('\tvar default_assigned: bool = build_type_before == null', source_text)
 
     def test_emit_bridges_block_research_requirements_research_cost_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -8949,16 +10250,9 @@ public class Block{
 
             self.assertIn("func java_method_researchRequirements_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("\tvar research_cost: Variant = _args[0] if _args.size() > 0 else null", source_text)
-            self.assertIn("\tvar returned_early: bool = research_cost != null", source_text)
-            self.assertIn("\tvar returned_requirements: Variant = research_cost if returned_early else null", source_text)
-            self.assertIn('\treturn {"source_owner": "port_game.source_block_research_requirements_research_cost_state"', source_text)
-            self.assertIn('"method": "public ItemStack[] researchRequirements(){"', source_text)
-            self.assertIn('"override_expr": "@Override"', source_text)
-            self.assertIn('"research_cost_guard_expr": "if(researchCost != null) return researchCost;"', source_text)
-            self.assertIn('"return_expr": "return researchCost;"', source_text)
-            self.assertIn('"research_cost": research_cost', source_text)
-            self.assertIn('"returned_requirements": returned_requirements', source_text)
-            self.assertIn('"returned_early": returned_early', source_text)
+            self.assertIn('const source_block_research_requirements_state := preload("res://src/game/SourceBlockResearchRequirementsState.gd")', source_text)
+            self.assertIn("\t\treturn source_block_research_requirements_state.research_cost_state(research_cost)", source_text)
+            self.assertNotIn('"source_owner": "port_game.source_block_research_requirements_research_cost_state"', source_text)
 
     def test_emit_bridges_block_research_requirements_empty_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -8991,16 +10285,9 @@ public class Block{
             self.assertIn("\tvar research_cost: Variant = _args[0] if _args.size() > 0 else null", source_text)
             self.assertIn("\tvar research_cost_multiplier: float = float(_args[1] if _args.size() > 1 else 1.0)", source_text)
             self.assertIn("\tif _args.size() <= 1:", source_text)
-            self.assertIn("\t\treturn {\"source_owner\": \"port_game.source_block_research_requirements_research_cost_state\"", source_text)
-            self.assertIn("\tvar returned_empty: bool = research_cost == null and research_cost_multiplier <= 0.0", source_text)
-            self.assertIn('\tvar returned_requirements_after_multiplier: Variant = "ItemStack.empty" if returned_empty else returned_requirements', source_text)
-            self.assertIn('\treturn {"source_owner": "port_game.source_block_research_requirements_empty_state"', source_text)
-            self.assertIn('"method": "public ItemStack[] researchRequirements(){"', source_text)
-            self.assertIn('"empty_guard_expr": "if(researchCostMultiplier <= 0f) return ItemStack.empty;"', source_text)
-            self.assertIn('"empty_return_expr": "return ItemStack.empty;"', source_text)
-            self.assertIn('"research_cost_multiplier": research_cost_multiplier', source_text)
-            self.assertIn('"returned_requirements": returned_requirements_after_multiplier', source_text)
-            self.assertIn('"returned_empty": returned_empty', source_text)
+            self.assertIn("\t\treturn source_block_research_requirements_state.research_cost_state(research_cost)", source_text)
+            self.assertIn("\t\treturn source_block_research_requirements_state.empty_state(research_cost, research_cost_multiplier)", source_text)
+            self.assertNotIn('"source_owner": "port_game.source_block_research_requirements_empty_state"', source_text)
 
     def test_emit_bridges_block_research_requirements_loop_shape_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -9036,19 +10323,9 @@ public class Block{
             self.assertIn("func java_method_researchRequirements_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("\tvar requirements: Array = _args[2] if _args.size() > 2 else []", source_text)
             self.assertIn("\tif _args.size() <= 2:", source_text)
-            self.assertIn('\t\treturn {"source_owner": "port_game.source_block_research_requirements_empty_state"', source_text)
-            self.assertIn("\tvar allocation_reached: bool = research_cost == null and research_cost_multiplier > 0.0", source_text)
-            self.assertIn("\tvar allocated_out_length: int = requirements.size() if allocation_reached else 0", source_text)
-            self.assertIn("\tvar loop_indices: Array = []", source_text)
-            self.assertIn("\tfor i in range(allocated_out_length):", source_text)
-            self.assertIn("\t\tloop_indices.append(i)", source_text)
-            self.assertIn('\treturn {"source_owner": "port_game.source_block_research_requirements_loop_shape_state"', source_text)
-            self.assertIn('"out_alloc_expr": "ItemStack[] out = new ItemStack[requirements.length];"', source_text)
-            self.assertIn('"loop_expr": "for(int i = 0; i < out.length; i++){"', source_text)
-            self.assertIn('"return_out_expr": "return out;"', source_text)
-            self.assertIn('"requirements": requirements', source_text)
-            self.assertIn('"allocated_out_length": allocated_out_length', source_text)
-            self.assertIn('"loop_indices": loop_indices', source_text)
+            self.assertIn("\t\treturn source_block_research_requirements_state.empty_state(research_cost, research_cost_multiplier)", source_text)
+            self.assertIn("\t\treturn source_block_research_requirements_state.loop_shape_state(research_cost, research_cost_multiplier, requirements)", source_text)
+            self.assertNotIn('"source_owner": "port_game.source_block_research_requirements_loop_shape_state"', source_text)
 
     def test_emit_bridges_block_research_requirements_quantity_formula_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -9085,23 +10362,9 @@ public class Block{
             self.assertIn("func java_method_researchRequirements_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("\tvar research_cost_multipliers: Dictionary = _args[3] if _args.size() > 3 else {}", source_text)
             self.assertIn("\tif _args.size() <= 3:", source_text)
-            self.assertIn('\t\treturn {"source_owner": "port_game.source_block_research_requirements_loop_shape_state"', source_text)
-            self.assertIn("\tvar quantity_values: Array = []", source_text)
-            self.assertIn("\tvar multiplier_values: Array = []", source_text)
-            self.assertIn("\tvar amount_power_values: Array = []", source_text)
-            self.assertIn("\tfor requirement in requirements:", source_text)
-            self.assertIn("\t\tvar item_key: String = str(requirement.get(\"item\", \"\"))", source_text)
-            self.assertIn("\t\tvar cost_multiplier: float = float(research_cost_multipliers.get(item_key, 1.0))", source_text)
-            self.assertIn("\t\tvar amount_power: float = pow(float(requirement.get(\"amount\", 0.0)), 1.11)", source_text)
-            self.assertIn("\t\tvar quantity_float: float = 60.0 * research_cost_multiplier + amount_power * 20.0 * research_cost_multiplier * cost_multiplier", source_text)
-            self.assertIn("\t\tvar quantity: int = int(quantity_float / 10.0) * 10", source_text)
-            self.assertIn('\treturn {"source_owner": "port_game.source_block_research_requirements_quantity_formula_state"', source_text)
-            self.assertIn('"quantity_expr": "int quantity = Mathf.round(60 * researchCostMultiplier + Mathf.pow(requirements[i].amount, 1.11f) * 20 * researchCostMultiplier * researchCostMultipliers.get(requirements[i].item, 1f), 10);"', source_text)
-            self.assertIn('"mathf_round_expr": "Mathf.round(value, 10)"', source_text)
-            self.assertIn('"mathf_round_step_expr": "return (int)(value / step) * step;"', source_text)
-            self.assertIn('"quantity_values": quantity_values', source_text)
-            self.assertIn('"multiplier_values": multiplier_values', source_text)
-            self.assertIn('"amount_power_values": amount_power_values', source_text)
+            self.assertIn("\t\treturn source_block_research_requirements_state.loop_shape_state(research_cost, research_cost_multiplier, requirements)", source_text)
+            self.assertIn("\t\treturn source_block_research_requirements_state.quantity_formula_state(research_cost, research_cost_multiplier, requirements, research_cost_multipliers)", source_text)
+            self.assertNotIn('"source_owner": "port_game.source_block_research_requirements_quantity_formula_state"', source_text)
 
     def test_emit_bridges_block_research_requirements_round_amount_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -9137,22 +10400,9 @@ public class Block{
 
             self.assertIn("func java_method_researchRequirements_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("\tif _args.size() <= 4:", source_text)
-            self.assertIn('\t\treturn {"source_owner": "port_game.source_block_research_requirements_quantity_formula_state"', source_text)
-            self.assertIn("\tvar rounded_amount_values: Array = []", source_text)
-            self.assertIn("\tfor quantity in quantity_values:", source_text)
-            self.assertIn("\t\tvar rounded_amount: int = int(quantity)", source_text)
-            self.assertIn("\t\tif rounded_amount >= 1000000000:", source_text)
-            self.assertIn("\t\telif rounded_amount >= 1000000:", source_text)
-            self.assertIn("\t\telif rounded_amount >= 10000:", source_text)
-            self.assertIn("\t\telif rounded_amount >= 1000:", source_text)
-            self.assertIn("\t\telif rounded_amount >= 100:", source_text)
-            self.assertIn("\t\telif rounded_amount >= 10:", source_text)
-            self.assertIn('\treturn {"source_owner": "port_game.source_block_research_requirements_round_amount_state"', source_text)
-            self.assertIn('"round_amount_expr": "UI.roundAmount(quantity)"', source_text)
-            self.assertIn('"ui_round_amount_method": "public static int roundAmount(int number){"', source_text)
-            self.assertIn('"mathf_round_int_step_expr": "return (value / step) * step;"', source_text)
-            self.assertIn('"quantity_values": quantity_values', source_text)
-            self.assertIn('"rounded_amount_values": rounded_amount_values', source_text)
+            self.assertIn("\t\treturn source_block_research_requirements_state.quantity_formula_state(research_cost, research_cost_multiplier, requirements, research_cost_multipliers)", source_text)
+            self.assertIn("\t\treturn source_block_research_requirements_state.round_amount_state(research_cost, research_cost_multiplier, requirements, research_cost_multipliers)", source_text)
+            self.assertNotIn('"source_owner": "port_game.source_block_research_requirements_round_amount_state"', source_text)
 
     def test_emit_bridges_block_research_requirements_output_fill_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -9188,16 +10438,9 @@ public class Block{
 
             self.assertIn("func java_method_researchRequirements_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("\tif _args.size() <= 5:", source_text)
-            self.assertIn('\t\treturn {"source_owner": "port_game.source_block_research_requirements_round_amount_state"', source_text)
-            self.assertIn("\tvar output_requirements: Array = []", source_text)
-            self.assertIn("\tfor i in range(rounded_amount_values.size()):", source_text)
-            self.assertIn("\t\tvar requirement: Dictionary = requirements[i] if i < requirements.size() else {}", source_text)
-            self.assertIn('\t\toutput_requirements.append({"item": requirement.get("item"), "amount": rounded_amount_values[i]})', source_text)
-            self.assertIn('\treturn {"source_owner": "port_game.source_block_research_requirements_output_fill_state"', source_text)
-            self.assertIn('"itemstack_fill_expr": "out[i] = new ItemStack(requirements[i].item, UI.roundAmount(quantity));"', source_text)
-            self.assertIn('"return_out_expr": "return out;"', source_text)
-            self.assertIn('"output_requirements": output_requirements', source_text)
-            self.assertIn('"returned_requirements": output_requirements', source_text)
+            self.assertIn("\t\treturn source_block_research_requirements_state.round_amount_state(research_cost, research_cost_multiplier, requirements, research_cost_multipliers)", source_text)
+            self.assertIn("\treturn source_block_research_requirements_state.output_fill_state(research_cost, research_cost_multiplier, requirements, research_cost_multipliers)", source_text)
+            self.assertNotIn('"source_owner": "port_game.source_block_research_requirements_output_fill_state"', source_text)
 
     def test_emit_bridges_block_get_dependencies_requirements_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -9228,16 +10471,10 @@ public class Block{
             source_text = block_script.read_text(encoding="utf-8")
 
             self.assertIn("func java_method_getDependencies_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('const source_block_get_dependencies_state := preload("res://src/game/SourceBlockGetDependenciesState.gd")', source_text)
             self.assertIn("\tvar requirements: Array = _args[0] if _args.size() > 0 else []", source_text)
-            self.assertIn("\tvar dependency_items: Array = []", source_text)
-            self.assertIn("\tfor requirement in requirements:", source_text)
-            self.assertIn('\t\tdependency_items.append(requirement.get("item"))', source_text)
-            self.assertIn('\treturn {"source_owner": "port_game.source_block_get_dependencies_requirements_state"', source_text)
-            self.assertIn('"method": "public void getDependencies(Cons<UnlockableContent> cons){"', source_text)
-            self.assertIn('"requirements_comment": "//just requires items"', source_text)
-            self.assertIn('"requirements_loop_expr": "for(ItemStack stack : requirements){"', source_text)
-            self.assertIn('"cons_get_item_expr": "cons.get(stack.item);"', source_text)
-            self.assertIn('"dependency_items": dependency_items', source_text)
+            self.assertIn("return source_block_get_dependencies_state.requirements_state(requirements)", source_text)
+            self.assertNotIn('"source_owner": "port_game.source_block_get_dependencies_requirements_state"', source_text)
 
     def test_emit_bridges_block_get_dependencies_consume_builder_optional_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -9274,22 +10511,10 @@ public class Block{
 
             self.assertIn("func java_method_getDependencies_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("\tif _args.size() <= 1:", source_text)
-            self.assertIn('\t\treturn {"source_owner": "port_game.source_block_get_dependencies_requirements_state"', source_text)
+            self.assertIn("\t\treturn source_block_get_dependencies_state.requirements_state(requirements)", source_text)
             self.assertIn("\tvar consume_builder: Array = _args[1] if _args.size() > 1 else []", source_text)
-            self.assertIn("\tvar consume_loop_indices: Array = []", source_text)
-            self.assertIn("\tvar skipped_optional_indices: Array = []", source_text)
-            self.assertIn("\tvar non_optional_indices: Array = []", source_text)
-            self.assertIn("\tfor i in range(consume_builder.size()):", source_text)
-            self.assertIn("\t\tvar consume: Dictionary = consume_builder[i]", source_text)
-            self.assertIn('\t\tif bool(consume.get("optional", false)):', source_text)
-            self.assertIn("\t\t\tskipped_optional_indices.append(i)", source_text)
-            self.assertIn("\t\t\tcontinue", source_text)
-            self.assertIn("\t\tnon_optional_indices.append(i)", source_text)
-            self.assertIn('\treturn {"source_owner": "port_game.source_block_get_dependencies_consume_builder_optional_state"', source_text)
-            self.assertIn('"inputs_comment": "//also requires inputs"', source_text)
-            self.assertIn('"consume_builder_loop_expr": "for(var c : consumeBuilder){"', source_text)
-            self.assertIn('"optional_guard_expr": "if(c.optional) continue;"', source_text)
-            self.assertIn('"consume_loop_indices": consume_loop_indices', source_text)
+            self.assertIn("\t\treturn source_block_get_dependencies_state.consume_builder_optional_state(requirements, consume_builder)", source_text)
+            self.assertNotIn('"source_owner": "port_game.source_block_get_dependencies_consume_builder_optional_state"', source_text)
 
     def test_emit_bridges_block_get_dependencies_consume_items_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -9327,19 +10552,9 @@ public class Block{
 
             self.assertIn("func java_method_getDependencies_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("\tif _args.size() <= 2:", source_text)
-            self.assertIn('\t\treturn {"source_owner": "port_game.source_block_get_dependencies_consume_builder_optional_state"', source_text)
-            self.assertIn("\tvar consume_items_indices: Array = []", source_text)
-            self.assertIn("\tvar consume_item_dependency_items: Array = []", source_text)
-            self.assertIn('\t\tif str(consume.get("type", "")) != "ConsumeItems":', source_text)
-            self.assertIn("\t\tconsume_items_indices.append(i)", source_text)
-            self.assertIn('\t\tfor stack in consume.get("items", []):', source_text)
-            self.assertIn('\t\t\tconsume_item_dependency_items.append(stack.get("item"))', source_text)
-            self.assertIn('\t\t\tdependency_items.append(stack.get("item"))', source_text)
-            self.assertIn('\treturn {"source_owner": "port_game.source_block_get_dependencies_consume_items_state"', source_text)
-            self.assertIn('"consume_items_guard_expr": "if(c instanceof ConsumeItems i){"', source_text)
-            self.assertIn('"consume_items_loop_expr": "for(ItemStack stack : i.items){"', source_text)
-            self.assertIn('"consume_items_cons_get_item_expr": "cons.get(stack.item);"', source_text)
-            self.assertIn('"consume_item_dependency_items": consume_item_dependency_items', source_text)
+            self.assertIn("\t\treturn source_block_get_dependencies_state.consume_builder_optional_state(requirements, consume_builder)", source_text)
+            self.assertIn("\treturn source_block_get_dependencies_state.consume_items_state(requirements, consume_builder)", source_text)
+            self.assertNotIn('"source_owner": "port_game.source_block_get_dependencies_consume_items_state"', source_text)
 
     def test_emit_bridges_block_get_content_type_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -9367,10 +10582,9 @@ public class Block{
             source_text = block_script.read_text(encoding="utf-8")
 
             self.assertIn("func java_method_getContentType_0(_args: Array = []) -> Variant:", source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_get_content_type_state"', source_text)
-            self.assertIn('"method": "public ContentType getContentType(){"', source_text)
-            self.assertIn('"content_type_return_expr": "return ContentType.block;"', source_text)
-            self.assertIn('"content_type": "ContentType.block"', source_text)
+            self.assertIn('const source_block_metadata_state := preload("res://src/game/SourceBlockMetadataState.gd")', source_text)
+            self.assertIn("return source_block_metadata_state.content_type_state()", source_text)
+            self.assertNotIn('"source_owner": "port_game.source_block_get_content_type_state"', source_text)
 
     def test_emit_bridges_block_logic_visible_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -9399,12 +10613,8 @@ public class Block{
 
             self.assertIn("func java_method_logicVisible_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn('\tvar build_visibility_value: String = str(_args[0] if _args.size() > 0 else "")', source_text)
-            self.assertIn('\tvar logic_visible: bool = build_visibility_value != "BuildVisibility.hidden"', source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_logic_visible_state"', source_text)
-            self.assertIn('"method": "public boolean logicVisible(){"', source_text)
-            self.assertIn('"logic_visible_return_expr": "return buildVisibility != BuildVisibility.hidden;"', source_text)
-            self.assertIn('"build_visibility": build_visibility_value', source_text)
-            self.assertIn('"logic_visible": logic_visible', source_text)
+            self.assertIn("return source_block_metadata_state.logic_visible_state(build_visibility_value)", source_text)
+            self.assertNotIn('"source_owner": "port_game.source_block_logic_visible_state"', source_text)
 
     def test_emit_bridges_block_post_init_database_tag_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -9550,25 +10760,9 @@ public class Block{
             self.assertIn("func java_method_init_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn('\tvar destroy_sound_before: Variant = _args[0] if _args.size() > 0 else "Sounds.unset"', source_text)
             self.assertIn("\tvar size_value: int = int(_args[1] if _args.size() > 1 else 1)", source_text)
-            self.assertIn("\tvar destroy_sound_after: Variant = destroy_sound_before", source_text)
-            self.assertIn('\tvar destroy_sound_assigned: bool = destroy_sound_before == "Sounds.unset"', source_text)
-            self.assertIn("\tif destroy_sound_assigned:", source_text)
-            self.assertIn("\t\tif size_value >= 3:", source_text)
-            self.assertIn('\t\t\tdestroy_sound_after = "Sounds.blockExplode3"', source_text)
-            self.assertIn("\t\telif size_value >= 2:", source_text)
-            self.assertIn('\t\t\tdestroy_sound_after = {"type": "RandomSound", "sounds": ["Sounds.blockExplode2", "Sounds.blockExplode2Alt"]}', source_text)
-            self.assertIn('\t\t\tdestroy_sound_after = {"type": "RandomSound", "sounds": ["Sounds.blockExplode1", "Sounds.blockExplode1Alt"]}', source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_init_destroy_sound_state"', source_text)
-            self.assertIn('"method": "public void init(){"', source_text)
-            self.assertIn('"super_init_expr": "super.init();"', source_text)
-            self.assertIn('"destroy_sound_guard_expr": "if(destroySound == Sounds.unset){"', source_text)
-            self.assertIn('"destroy_sound_assign_expr": "destroySound ="', source_text)
-            self.assertIn('"destroy_sound_size_3_expr": "size >= 3 ? Sounds.blockExplode3 :"', source_text)
-            self.assertIn('"destroy_sound_size_2_expr": "size >= 2 ? new RandomSound(Sounds.blockExplode2, Sounds.blockExplode2Alt) :"', source_text)
-            self.assertIn('"destroy_sound_size_1_expr": "new RandomSound(Sounds.blockExplode1, Sounds.blockExplode1Alt);"', source_text)
-            self.assertIn('"destroy_sound_before": destroy_sound_before', source_text)
-            self.assertIn('"destroy_sound_after": destroy_sound_after', source_text)
-            self.assertIn('"destroy_sound_assigned": destroy_sound_assigned', source_text)
+            self.assertIn('const source_block_init_sound_state := preload("res://src/game/SourceBlockInitSoundState.gd")', source_text)
+            self.assertIn("return source_block_init_sound_state.generated_destroy_sound_result_state(destroy_sound_before, size_value)", source_text)
+            self.assertNotIn("\tvar destroy_sound_after: Variant = destroy_sound_before", source_text)
 
     def test_emit_bridges_block_init_place_sound_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -9608,25 +10802,9 @@ public class Block{
             self.assertIn('\tif init_bridge_mode == "place_sound":', source_text)
             self.assertIn('\t\tvar place_sound_before: Variant = _args[0] if _args.size() > 0 else "Sounds.unset"', source_text)
             self.assertIn("\t\tvar place_size_value: int = int(_args[1] if _args.size() > 1 else 1)", source_text)
-            self.assertIn("\t\tvar place_sound_after: Variant = place_sound_before", source_text)
-            self.assertIn('\t\tvar place_sound_assigned: bool = place_sound_before == "Sounds.unset"', source_text)
-            self.assertIn("\t\tif place_sound_assigned:", source_text)
-            self.assertIn("\t\t\tif place_size_value >= 3:", source_text)
-            self.assertIn('\t\t\t\tplace_sound_after = "Sounds.blockPlace3"', source_text)
-            self.assertIn("\t\t\telif place_size_value >= 2:", source_text)
-            self.assertIn('\t\t\t\tplace_sound_after = "Sounds.blockPlace2"', source_text)
-            self.assertIn('\t\t\t\tplace_sound_after = "Sounds.blockPlace1"', source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_init_place_sound_state"', source_text)
-            self.assertIn('"method": "public void init(){"', source_text)
-            self.assertIn('"super_init_expr": "super.init();"', source_text)
-            self.assertIn('"place_sound_guard_expr": "if(placeSound == Sounds.unset){"', source_text)
-            self.assertIn('"place_sound_assign_expr": "placeSound ="', source_text)
-            self.assertIn('"place_sound_size_3_expr": "size >= 3 ? Sounds.blockPlace3 :"', source_text)
-            self.assertIn('"place_sound_size_2_expr": "size >= 2 ? Sounds.blockPlace2 :"', source_text)
-            self.assertIn('"place_sound_size_1_expr": "Sounds.blockPlace1;"', source_text)
-            self.assertIn('"place_sound_before": place_sound_before', source_text)
-            self.assertIn('"place_sound_after": place_sound_after', source_text)
-            self.assertIn('"place_sound_assigned": place_sound_assigned', source_text)
+            self.assertIn('const source_block_init_sound_state := preload("res://src/game/SourceBlockInitSoundState.gd")', source_text)
+            self.assertIn("return source_block_init_sound_state.generated_place_sound_result_state(place_sound_before, place_size_value)", source_text)
+            self.assertNotIn("\t\tvar place_sound_after: Variant = place_sound_before", source_text)
 
     def test_emit_bridges_block_init_break_sound_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -9665,25 +10843,9 @@ public class Block{
             self.assertIn('\tif init_bridge_mode == "break_sound":', source_text)
             self.assertIn('\t\tvar break_sound_before: Variant = _args[0] if _args.size() > 0 else "Sounds.unset"', source_text)
             self.assertIn("\t\tvar break_size_value: int = int(_args[1] if _args.size() > 1 else 1)", source_text)
-            self.assertIn("\t\tvar break_sound_after: Variant = break_sound_before", source_text)
-            self.assertIn('\t\tvar break_sound_assigned: bool = break_sound_before == "Sounds.unset"', source_text)
-            self.assertIn("\t\tif break_sound_assigned:", source_text)
-            self.assertIn("\t\t\tif break_size_value >= 3:", source_text)
-            self.assertIn('\t\t\t\tbreak_sound_after = "Sounds.blockBreak3"', source_text)
-            self.assertIn("\t\t\telif break_size_value >= 2:", source_text)
-            self.assertIn('\t\t\t\tbreak_sound_after = "Sounds.blockBreak2"', source_text)
-            self.assertIn('\t\t\t\tbreak_sound_after = "Sounds.blockBreak1"', source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_init_break_sound_state"', source_text)
-            self.assertIn('"method": "public void init(){"', source_text)
-            self.assertIn('"super_init_expr": "super.init();"', source_text)
-            self.assertIn('"break_sound_guard_expr": "if(breakSound == Sounds.unset){"', source_text)
-            self.assertIn('"break_sound_assign_expr": "breakSound ="', source_text)
-            self.assertIn('"break_sound_size_3_expr": "size >= 3 ? Sounds.blockBreak3 :"', source_text)
-            self.assertIn('"break_sound_size_2_expr": "size >= 2 ? Sounds.blockBreak2 :"', source_text)
-            self.assertIn('"break_sound_size_1_expr": "Sounds.blockBreak1;"', source_text)
-            self.assertIn('"break_sound_before": break_sound_before', source_text)
-            self.assertIn('"break_sound_after": break_sound_after', source_text)
-            self.assertIn('"break_sound_assigned": break_sound_assigned', source_text)
+            self.assertIn('const source_block_init_sound_state := preload("res://src/game/SourceBlockInitSoundState.gd")', source_text)
+            self.assertIn("return source_block_init_sound_state.generated_break_sound_result_state(break_sound_before, break_size_value)", source_text)
+            self.assertNotIn("\t\tvar break_sound_after: Variant = break_sound_before", source_text)
 
     def test_emit_bridges_block_init_custom_shadow_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -9720,20 +10882,9 @@ public class Block{
             self.assertIn('\tif init_bridge_mode == "custom_shadow":', source_text)
             self.assertIn("\t\tvar custom_shadow: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
             self.assertIn("\t\tvar has_shadow_before: bool = bool(_args[1] if _args.size() > 1 else true)", source_text)
-            self.assertIn("\t\tvar has_shadow_after: bool = has_shadow_before", source_text)
-            self.assertIn("\t\tvar has_shadow_assigned: bool = custom_shadow", source_text)
-            self.assertIn("\t\tif has_shadow_assigned:", source_text)
-            self.assertIn("\t\t\thas_shadow_after = false", source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_init_custom_shadow_state"', source_text)
-            self.assertIn('"method": "public void init(){"', source_text)
-            self.assertIn('"super_init_expr": "super.init();"', source_text)
-            self.assertIn('"custom_shadow_comment": "//disable standard shadow"', source_text)
-            self.assertIn('"custom_shadow_guard_expr": "if(customShadow){"', source_text)
-            self.assertIn('"has_shadow_assign_expr": "hasShadow = false;"', source_text)
-            self.assertIn('"custom_shadow": custom_shadow', source_text)
-            self.assertIn('"has_shadow_before": has_shadow_before', source_text)
-            self.assertIn('"has_shadow_after": has_shadow_after', source_text)
-            self.assertIn('"has_shadow_assigned": has_shadow_assigned', source_text)
+            self.assertIn('const source_block_init_flags_state := preload("res://src/game/SourceBlockInitFlagsState.gd")', source_text)
+            self.assertIn("return source_block_init_flags_state.generated_custom_shadow_result_state(custom_shadow, has_shadow_before)", source_text)
+            self.assertNotIn("\t\tvar has_shadow_after: bool = has_shadow_before", source_text)
 
     def test_emit_bridges_block_init_under_bullets_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -9769,20 +10920,8 @@ public class Block{
             self.assertIn('\tif init_bridge_mode == "under_bullets":', source_text)
             self.assertIn("\t\tvar under_bullets: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
             self.assertIn("\t\tvar priority_before: Variant = _args[1] if _args.size() > 1 else null", source_text)
-            self.assertIn("\t\tvar priority_after: Variant = priority_before", source_text)
-            self.assertIn("\t\tvar priority_assigned: bool = under_bullets", source_text)
-            self.assertIn("\t\tif priority_assigned:", source_text)
-            self.assertIn('\t\t\tpriority_after = "TargetPriority.under"', source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_init_under_bullets_state"', source_text)
-            self.assertIn('"method": "public void init(){"', source_text)
-            self.assertIn('"super_init_expr": "super.init();"', source_text)
-            self.assertIn('"under_bullets_guard_expr": "if(underBullets){"', source_text)
-            self.assertIn('"priority_assign_expr": "priority = TargetPriority.under;"', source_text)
-            self.assertIn('"target_priority_under_expr": "TargetPriority.under"', source_text)
-            self.assertIn('"under_bullets": under_bullets', source_text)
-            self.assertIn('"priority_before": priority_before', source_text)
-            self.assertIn('"priority_after": priority_after', source_text)
-            self.assertIn('"priority_assigned": priority_assigned', source_text)
+            self.assertIn("return source_block_init_flags_state.generated_under_bullets_result_state(under_bullets, priority_before)", source_text)
+            self.assertNotIn("\t\tvar priority_after: Variant = priority_before", source_text)
 
     def test_emit_bridges_block_init_fog_radius_flag_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -9818,20 +10957,8 @@ public class Block{
             self.assertIn('\tif init_bridge_mode == "fog_radius_flag":', source_text)
             self.assertIn("\t\tvar fog_radius: int = int(_args[0] if _args.size() > 0 else -1)", source_text)
             self.assertIn("\t\tvar flags_before: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []", source_text)
-            self.assertIn("\t\tvar flags_after: Array = flags_before.duplicate()", source_text)
-            self.assertIn("\t\tvar has_fog_radius_flag_added: bool = fog_radius > 0", source_text)
-            self.assertIn("\t\tif has_fog_radius_flag_added and not flags_after.has(\"BlockFlag.hasFogRadius\"):", source_text)
-            self.assertIn('\t\t\tflags_after.append("BlockFlag.hasFogRadius")', source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_init_fog_radius_flag_state"', source_text)
-            self.assertIn('"method": "public void init(){"', source_text)
-            self.assertIn('"super_init_expr": "super.init();"', source_text)
-            self.assertIn('"fog_radius_guard_expr": "if(fogRadius > 0){"', source_text)
-            self.assertIn('"flags_assign_expr": "flags = flags.with(BlockFlag.hasFogRadius);"', source_text)
-            self.assertIn('"block_flag_has_fog_radius_expr": "BlockFlag.hasFogRadius"', source_text)
-            self.assertIn('"fog_radius": fog_radius', source_text)
-            self.assertIn('"flags_before": flags_before', source_text)
-            self.assertIn('"flags_after": flags_after', source_text)
-            self.assertIn('"has_fog_radius_flag_added": has_fog_radius_flag_added', source_text)
+            self.assertIn("return source_block_init_flags_state.generated_fog_radius_flag_result_state(fog_radius, flags_before)", source_text)
+            self.assertNotIn("\t\tvar has_fog_radius_flag_added: bool = fog_radius > 0", source_text)
 
     def test_emit_bridges_block_init_sync_flag_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -9867,20 +10994,8 @@ public class Block{
             self.assertIn('\tif init_bridge_mode == "sync_flag":', source_text)
             self.assertIn("\t\tvar sync_value: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
             self.assertIn("\t\tvar flags_before: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []", source_text)
-            self.assertIn("\t\tvar flags_after: Array = flags_before.duplicate()", source_text)
-            self.assertIn("\t\tvar synced_flag_added: bool = sync_value", source_text)
-            self.assertIn("\t\tif synced_flag_added and not flags_after.has(\"BlockFlag.synced\"):", source_text)
-            self.assertIn('\t\t\tflags_after.append("BlockFlag.synced")', source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_init_sync_flag_state"', source_text)
-            self.assertIn('"method": "public void init(){"', source_text)
-            self.assertIn('"super_init_expr": "super.init();"', source_text)
-            self.assertIn('"sync_guard_expr": "if(sync){"', source_text)
-            self.assertIn('"flags_assign_expr": "flags = flags.with(BlockFlag.synced);"', source_text)
-            self.assertIn('"block_flag_synced_expr": "BlockFlag.synced"', source_text)
-            self.assertIn('"sync": sync_value', source_text)
-            self.assertIn('"flags_before": flags_before', source_text)
-            self.assertIn('"flags_after": flags_after', source_text)
-            self.assertIn('"synced_flag_added": synced_flag_added', source_text)
+            self.assertIn("return source_block_init_flags_state.generated_sync_flag_result_state(sync_value, flags_before)", source_text)
+            self.assertNotIn("\t\tvar synced_flag_added: bool = sync_value", source_text)
 
     def test_emit_bridges_block_init_health_scaled_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -9924,24 +11039,11 @@ public class Block{
             self.assertIn("func java_method_init_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn('\tif init_bridge_mode == "health_scaled":', source_text)
             self.assertIn("\t\tvar health_before: int = int(_args[0] if _args.size() > 0 else -1)", source_text)
-            self.assertIn("\t\tvar requirements_health_size_value: int = int(_args[1] if _args.size() > 1 else 1)", source_text)
+            self.assertIn("\t\tvar health_size_value: int = int(_args[1] if _args.size() > 1 else 1)", source_text)
             self.assertIn("\t\tvar scaled_health: float = float(_args[2] if _args.size() > 2 else 0.0)", source_text)
-            self.assertIn("\t\tvar health_after: int = health_before", source_text)
-            self.assertIn("\t\tvar health_assigned: bool = health_before == -1 and scaled_health >= 0.0", source_text)
-            self.assertIn("\t\tif health_assigned:", source_text)
-            self.assertIn("\t\t\thealth_after = int(health_size_value * health_size_value * scaled_health)", source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_init_health_scaled_state"', source_text)
-            self.assertIn('"health_guard_expr": "if(health == -1){"', source_text)
-            self.assertIn('"round_init_expr": "boolean round = false;"', source_text)
-            self.assertIn('"scaled_health_negative_guard_expr": "if(scaledHealth < 0){"', source_text)
-            self.assertIn('"health_assign_expr": "health = round ? Mathf.round(size * size * scaledHealth, 5) : (int)(size * size * scaledHealth);"', source_text)
-            self.assertIn('"int_cast_expr": "(int)(size * size * scaledHealth)"', source_text)
-            self.assertIn('"health_before": health_before', source_text)
-            self.assertIn('"size": health_size_value', source_text)
-            self.assertIn('"scaled_health": scaled_health', source_text)
-            self.assertIn('"round": false', source_text)
-            self.assertIn('"health_after": health_after', source_text)
-            self.assertIn('"health_assigned": health_assigned', source_text)
+            self.assertIn('const source_block_init_health_state := preload("res://src/game/SourceBlockInitHealthState.gd")', source_text)
+            self.assertIn("return source_block_init_health_state.generated_health_scaled_result_state(health_before, health_size_value, scaled_health)", source_text)
+            self.assertNotIn("\t\tvar health_after: int = health_before", source_text)
 
     def test_emit_bridges_block_init_health_requirements_scaling_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -9992,28 +11094,11 @@ public class Block{
             self.assertIn("func java_method_init_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn('\tif init_bridge_mode == "health_requirements_scaling":', source_text)
             self.assertIn("\t\tvar health_before: int = int(_args[0] if _args.size() > 0 else -1)", source_text)
-            self.assertIn("\t\tvar health_size_value: int = int(_args[1] if _args.size() > 1 else 1)", source_text)
+            self.assertIn("\t\tvar requirements_health_size_value: int = int(_args[1] if _args.size() > 1 else 1)", source_text)
             self.assertIn("\t\tvar scaled_health_before: float = float(_args[2] if _args.size() > 2 else -1.0)", source_text)
             self.assertIn("\t\tvar requirement_health_scalings: Array = (_args[3] as Array).duplicate() if _args.size() > 3 and _args[3] is Array else []", source_text)
-            self.assertIn("\t\tvar scaling: float = 1.0", source_text)
-            self.assertIn("\t\tfor health_scaling in requirement_health_scalings:", source_text)
-            self.assertIn("\t\t\tscaling += float(health_scaling)", source_text)
-            self.assertIn("\t\tvar scaled_health_after: float = 40.0 * scaling if health_assigned else scaled_health_before", source_text)
-            self.assertIn("\t\t\thealth_after = int(float(requirements_health_size_value * requirements_health_size_value) * scaled_health_after / 5.0) * 5", source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_init_health_requirements_scaling_state"', source_text)
-            self.assertIn('"scaled_health_default_expr": "scaledHealth = 40;"', source_text)
-            self.assertIn('"scaling_init_expr": "float scaling = 1f;"', source_text)
-            self.assertIn('"requirements_loop_expr": "for(var stack : requirements){"', source_text)
-            self.assertIn('"health_scaling_add_expr": "scaling += stack.item.healthScaling;"', source_text)
-            self.assertIn('"item_health_scaling_field_expr": "public float healthScaling = 0f;"', source_text)
-            self.assertIn('"scaled_health_multiply_expr": "scaledHealth *= scaling;"', source_text)
-            self.assertIn('"round_true_expr": "round = true;"', source_text)
-            self.assertIn('"mathf_round_expr": "Mathf.round(size * size * scaledHealth, 5)"', source_text)
-            self.assertIn('"mathf_round_step_expr": "return (int)(value / step) * step;"', source_text)
-            self.assertIn('"requirement_health_scalings": requirement_health_scalings', source_text)
-            self.assertIn('"scaling": scaling', source_text)
-            self.assertIn('"scaled_health_after": scaled_health_after', source_text)
-            self.assertIn('"round": health_assigned', source_text)
+            self.assertIn("return source_block_init_health_state.generated_health_requirements_scaling_result_state(health_before, requirements_health_size_value, scaled_health_before, requirement_health_scalings)", source_text)
+            self.assertNotIn("\t\tvar scaling: float = 1.0", source_text)
 
     def test_emit_bridges_block_init_clip_size_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -10051,17 +11136,9 @@ public class Block{
             self.assertIn("\t\tvar clip_size_size_value: int = int(_args[1] if _args.size() > 1 else 1)", source_text)
             self.assertIn("\t\tvar source_tilesize: float = float(_args[2] if _args.size() > 2 else SOURCE_TILESIZE)", source_text)
             self.assertNotIn("\t\tvar source_tilesize: float = float(_args[2] if _args.size() > 2 else 8.0)", source_text)
-            self.assertIn("\t\tvar size_tilesize: float = float(clip_size_size_value) * source_tilesize", source_text)
-            self.assertIn("\t\tvar clip_size_after: float = max(clip_size_before, size_tilesize)", source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_init_clip_size_state"', source_text)
-            self.assertIn('"clip_size_expr": "clipSize = Math.max(clipSize, size * tilesize);"', source_text)
-            self.assertIn('"tilesize_comment": "/** size of tiles in units */"', source_text)
-            self.assertIn('"tilesize_field_expr": "public static final int tilesize = 8;"', source_text)
-            self.assertIn('"clip_size_before": clip_size_before', source_text)
-            self.assertIn('"size": clip_size_size_value', source_text)
-            self.assertIn('"source_tilesize": source_tilesize', source_text)
-            self.assertIn('"size_tilesize": size_tilesize', source_text)
-            self.assertIn('"clip_size_after": clip_size_after', source_text)
+            self.assertIn('const source_block_init_clip_state := preload("res://src/game/SourceBlockInitClipState.gd")', source_text)
+            self.assertIn("return source_block_init_clip_state.generated_clip_size_result_state(clip_size_before, clip_size_size_value, source_tilesize)", source_text)
+            self.assertNotIn("\t\tvar size_tilesize: float = float(clip_size_size_value) * source_tilesize", source_text)
 
     def test_emit_bridges_block_init_light_clip_size_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -10095,12 +11172,8 @@ public class Block{
             self.assertIn('\tif init_bridge_mode == "light_clip_size":', source_text)
             self.assertIn("\t\tvar light_clip_size_before: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
             self.assertIn("\t\tvar clip_size: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
-            self.assertIn("\t\tvar light_clip_size_after: float = max(light_clip_size_before, clip_size)", source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_init_light_clip_size_state"', source_text)
-            self.assertIn('"light_clip_size_expr": "lightClipSize = Math.max(lightClipSize, clipSize);"', source_text)
-            self.assertIn('"light_clip_size_before": light_clip_size_before', source_text)
-            self.assertIn('"clip_size": clip_size', source_text)
-            self.assertIn('"light_clip_size_after": light_clip_size_after', source_text)
+            self.assertIn("return source_block_init_clip_state.generated_light_clip_size_result_state(light_clip_size_before, clip_size)", source_text)
+            self.assertNotIn("\t\tvar light_clip_size_after: float = max(light_clip_size_before, clip_size)", source_text)
 
     def test_emit_bridges_block_init_liquid_light_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -10140,17 +11213,8 @@ public class Block{
             self.assertIn("\t\tvar emit_light_before: bool = bool(_args[2] if _args.size() > 2 else false)", source_text)
             self.assertIn("\t\tvar light_clip_size_before: float = float(_args[3] if _args.size() > 3 else 0.0)", source_text)
             self.assertIn("\t\tvar liquid_light_size_value: int = int(_args[4] if _args.size() > 4 else 1)", source_text)
-            self.assertIn("\t\tvar liquid_light_gate: bool = has_liquids and draw_liquid_light", source_text)
-            self.assertIn("\t\tvar liquid_light_clip_size: float = float(liquid_light_size_value) * 30.0 * 2.0", source_text)
-            self.assertIn("\t\tvar emit_light_after: bool = true if liquid_light_gate else emit_light_before", source_text)
-            self.assertIn("\t\tvar light_clip_size_after: float = max(light_clip_size_before, liquid_light_clip_size) if liquid_light_gate else light_clip_size_before", source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_init_liquid_light_state"', source_text)
-            self.assertIn('"liquid_light_guard_expr": "if(hasLiquids && drawLiquidLight){"', source_text)
-            self.assertIn('"emit_light_assign_expr": "emitLight = true;"', source_text)
-            self.assertIn('"light_clip_size_expr": "lightClipSize = Math.max(lightClipSize, size * 30f * 2f);"', source_text)
-            self.assertIn('"liquid_light_clip_size": liquid_light_clip_size', source_text)
-            self.assertIn('"emit_light_after": emit_light_after', source_text)
-            self.assertIn('"light_clip_size_after": light_clip_size_after', source_text)
+            self.assertIn("return source_block_init_clip_state.generated_liquid_light_result_state(has_liquids, draw_liquid_light, emit_light_before, light_clip_size_before, liquid_light_size_value)", source_text)
+            self.assertNotIn("\t\tvar liquid_light_gate: bool = has_liquids and draw_liquid_light", source_text)
 
     def test_emit_bridges_block_init_liquid_capacity_default_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -10189,17 +11253,8 @@ public class Block{
             self.assertIn("func java_method_init_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn('\tif init_bridge_mode == "liquid_capacity_default":', source_text)
             self.assertIn("\t\tvar liquid_capacity_before: float = float(_args[0] if _args.size() > 0 else -1.0)", source_text)
-            self.assertIn("\t\tvar liquid_capacity_assigned: bool = liquid_capacity_before < 0.0", source_text)
-            self.assertIn("\t\tvar consume_amount: float = 1.0", source_text)
-            self.assertIn("\t\tvar liquid_capacity_after: float = float(int(10.0 * consume_amount + 16384.5) - 16384) if liquid_capacity_assigned else liquid_capacity_before", source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_init_liquid_capacity_default_state"', source_text)
-            self.assertIn('"liquid_capacity_comment": "//some blocks don\'t have hasLiquids, but have liquid consumers/liquid capacity"', source_text)
-            self.assertIn('"liquid_capacity_guard_expr": "if(liquidCapacity < 0){"', source_text)
-            self.assertIn('"consume_amount_default_expr": "float consumeAmount = 1f;"', source_text)
-            self.assertIn('"consume_builder_loop_expr": "for(var cons : consumeBuilder){"', source_text)
-            self.assertIn('"liquid_capacity_assign_expr": "liquidCapacity = Mathf.round(10f * consumeAmount);"', source_text)
-            self.assertIn('"mathf_round_expr": "return (int)(value + BIG_ENOUGH_ROUND) - BIG_ENOUGH_INT;"', source_text)
-            self.assertIn('"liquid_capacity_after": liquid_capacity_after', source_text)
+            self.assertIn("return source_block_init_clip_state.generated_liquid_capacity_default_result_state(liquid_capacity_before)", source_text)
+            self.assertNotIn("\t\tvar liquid_capacity_assigned: bool = liquid_capacity_before < 0.0", source_text)
 
     def test_emit_bridges_block_init_emit_light_radius_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -10236,13 +11291,8 @@ public class Block{
             self.assertIn("\t\tvar emit_light: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
             self.assertIn("\t\tvar light_clip_size_before: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
             self.assertIn("\t\tvar light_radius: float = float(_args[2] if _args.size() > 2 else 0.0)", source_text)
-            self.assertIn("\t\tvar light_radius_clip_size: float = light_radius * 2.0", source_text)
-            self.assertIn("\t\tvar light_clip_size_after: float = max(light_clip_size_before, light_radius_clip_size) if emit_light else light_clip_size_before", source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_init_emit_light_radius_state"', source_text)
-            self.assertIn('"emit_light_guard_expr": "if(emitLight){"', source_text)
-            self.assertIn('"light_clip_size_expr": "lightClipSize = Math.max(lightClipSize, lightRadius * 2f);"', source_text)
-            self.assertIn('"light_radius_clip_size": light_radius_clip_size', source_text)
-            self.assertIn('"light_clip_size_after": light_clip_size_after', source_text)
+            self.assertIn("return source_block_init_clip_state.generated_emit_light_radius_result_state(emit_light, light_clip_size_before, light_radius)", source_text)
+            self.assertNotIn("\t\tvar light_radius_clip_size: float = light_radius * 2.0", source_text)
 
     def test_emit_bridges_block_init_accepts_items_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -10279,13 +11329,18 @@ public class Block{
             self.assertIn('\t\tvar block_group: Variant = _args[0] if _args.size() > 0 else ""', source_text)
             self.assertIn('\t\tvar category_value: Variant = _args[1] if _args.size() > 1 else ""', source_text)
             self.assertIn("\t\tvar accepts_items_before: bool = bool(_args[2] if _args.size() > 2 else false)", source_text)
-            self.assertIn('\t\tvar accepts_items_gate: bool = block_group == "BlockGroup.transportation" or category_value == "Category.distribution"', source_text)
-            self.assertIn("\t\tvar accepts_items_after: bool = true if accepts_items_gate else accepts_items_before", source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_init_accepts_items_state"', source_text)
-            self.assertIn('"accepts_items_guard_expr": "if(group == BlockGroup.transportation || category == Category.distribution){"', source_text)
-            self.assertIn('"accepts_items_assign_expr": "acceptsItems = true;"', source_text)
-            self.assertIn('"accepts_items_gate": accepts_items_gate', source_text)
-            self.assertIn('"accepts_items_after": accepts_items_after', source_text)
+            self.assertIn(
+                'const source_block_init_placement_state := preload("res://src/game/SourceBlockInitPlacementState.gd")',
+                source_text,
+            )
+            self.assertIn(
+                "return source_block_init_placement_state.generated_accepts_items_result_state(block_group, category_value, accepts_items_before)",
+                source_text,
+            )
+            self.assertNotIn(
+                '\t\tvar accepts_items_gate: bool = block_group == "BlockGroup.transportation" or category_value == "Category.distribution"',
+                source_text,
+            )
 
     def test_emit_bridges_block_init_offset_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -10323,14 +11378,18 @@ public class Block{
             self.assertIn("const SOURCE_TILESIZE := source_world_defaults.TILESIZE", source_text)
             self.assertIn("\t\tvar source_tilesize: float = float(_args[1] if _args.size() > 1 else SOURCE_TILESIZE)", source_text)
             self.assertNotIn("\t\tvar source_tilesize: float = float(_args[1] if _args.size() > 1 else 8.0)", source_text)
-            self.assertIn("\t\tvar offset_after: float = float((offset_size_value + 1) % 2) * source_tilesize / 2.0", source_text)
-            self.assertIn("\t\tvar size_offset_after: int = -int(float(offset_size_value - 1) / 2.0)", source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_init_offset_state"', source_text)
-            self.assertIn('"offset_expr": "offset = ((size + 1) % 2) * tilesize / 2f;"', source_text)
-            self.assertIn('"size_offset_expr": "sizeOffset = -((size - 1) / 2);"', source_text)
-            self.assertIn('"tilesize_field_expr": "public static final int tilesize = 8;"', source_text)
-            self.assertIn('"offset_after": offset_after', source_text)
-            self.assertIn('"size_offset_after": size_offset_after', source_text)
+            self.assertIn(
+                'const source_block_init_placement_state := preload("res://src/game/SourceBlockInitPlacementState.gd")',
+                source_text,
+            )
+            self.assertIn(
+                "return source_block_init_placement_state.generated_offset_result_state(offset_size_value, source_tilesize)",
+                source_text,
+            )
+            self.assertNotIn(
+                "\t\tvar offset_after: float = float((offset_size_value + 1) % 2) * source_tilesize / 2.0",
+                source_text,
+            )
 
     def test_emit_bridges_block_init_build_time_requirements_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -10369,17 +11428,9 @@ public class Block{
             self.assertIn('\tif init_bridge_mode == "build_time_requirements":', source_text)
             self.assertIn("\t\tvar build_time_before: float = float(_args[0] if _args.size() > 0 else -1.0)", source_text)
             self.assertIn("\t\tvar requirement_stacks: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []", source_text)
-            self.assertIn("\t\tvar build_time_assigned: bool = requirement_stacks.size() > 0 and build_time_before < 0.0", source_text)
-            self.assertIn("\t\tvar build_time_after: float = 0.0 if build_time_assigned else build_time_before", source_text)
-            self.assertIn("\t\t\tbuild_time_after += float(stack.get(\"amount\", 0)) * float(stack.get(\"cost\", 1.0))", source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_init_build_time_requirements_state"', source_text)
-            self.assertIn('"build_time_guard_expr": "if(requirements.length > 0 && buildTime < 0){"', source_text)
-            self.assertIn('"build_time_zero_expr": "buildTime = 0f;"', source_text)
-            self.assertIn('"requirements_loop_expr": "for(ItemStack stack : requirements){"', source_text)
-            self.assertIn('"build_time_add_expr": "buildTime += stack.amount * stack.item.cost;"', source_text)
-            self.assertIn('"item_cost_field_expr": "public float cost = 1f;"', source_text)
-            self.assertIn('"itemstack_amount_field_expr": "public int amount = 0;"', source_text)
-            self.assertIn('"build_time_after": build_time_after', source_text)
+            self.assertIn('const source_block_init_build_time_state := preload("res://src/game/SourceBlockInitBuildTimeState.gd")', source_text)
+            self.assertIn("return source_block_init_build_time_state.generated_requirements_result_state(build_time_before, requirement_stacks)", source_text)
+            self.assertNotIn("\t\tvar build_time_assigned: bool = requirement_stacks.size() > 0 and build_time_before < 0.0", source_text)
 
     def test_emit_bridges_block_init_build_time_default_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -10414,12 +11465,8 @@ public class Block{
             self.assertIn("func java_method_init_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn('\tif init_bridge_mode == "build_time_default":', source_text)
             self.assertIn("\t\tvar default_build_time_before: float = float(_args[0] if _args.size() > 0 else -1.0)", source_text)
-            self.assertIn("\t\tvar build_time_assigned: bool = default_build_time_before < 0.0", source_text)
-            self.assertIn("\t\tvar build_time_after: float = 20.0 if build_time_assigned else default_build_time_before", source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_init_build_time_default_state"', source_text)
-            self.assertIn('"build_time_guard_expr": "if(buildTime < 0){"', source_text)
-            self.assertIn('"build_time_default_expr": "buildTime = 20f;"', source_text)
-            self.assertIn('"build_time_after": build_time_after', source_text)
+            self.assertIn("return source_block_init_build_time_state.generated_default_result_state(default_build_time_before)", source_text)
+            self.assertNotIn("\t\tvar build_time_assigned: bool = default_build_time_before < 0.0", source_text)
 
     def test_emit_bridges_block_init_build_time_multiplier_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -10456,11 +11503,8 @@ public class Block{
             self.assertIn('\tif init_bridge_mode == "build_time_multiplier":', source_text)
             self.assertIn("\t\tvar multiplier_build_time_before: float = float(_args[0] if _args.size() > 0 else 20.0)", source_text)
             self.assertIn("\t\tvar build_cost_multiplier: float = float(_args[1] if _args.size() > 1 else 1.0)", source_text)
-            self.assertIn("\t\tvar build_time_after: float = multiplier_build_time_before * build_cost_multiplier", source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_init_build_time_multiplier_state"', source_text)
-            self.assertIn('"build_cost_multiplier_field_expr": "public float buildCostMultiplier = 1f;"', source_text)
-            self.assertIn('"build_time_multiplier_expr": "buildTime *= buildCostMultiplier;"', source_text)
-            self.assertIn('"build_time_after": build_time_after', source_text)
+            self.assertIn("return source_block_init_build_time_state.generated_multiplier_result_state(multiplier_build_time_before, build_cost_multiplier)", source_text)
+            self.assertNotIn("\t\tvar build_time_after: float = multiplier_build_time_before * build_cost_multiplier", source_text)
 
     def test_emit_bridges_block_init_consumer_arrays_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -10497,21 +11541,9 @@ public class Block{
             self.assertIn("func java_method_init_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn('\tif init_bridge_mode == "consumer_arrays":', source_text)
             self.assertIn("\t\tvar consumer_builder_entries: Array = (_args[0] as Array).duplicate() if _args.size() > 0 and _args[0] is Array else []", source_text)
-            self.assertIn("\t\tvar consumers: Array = consumer_builder_entries.duplicate()", source_text)
-            self.assertIn("\t\tvar optional_consumers: Array = []", source_text)
-            self.assertIn("\t\tvar non_optional_consumers: Array = []", source_text)
-            self.assertIn("\t\tvar update_consumers: Array = []", source_text)
-            self.assertIn('\t\t\tvar ignored: bool = bool(consumer.get("ignored", false))', source_text)
-            self.assertIn('\t\t\tif bool(consumer.get("optional", false)) and not ignored:', source_text)
-            self.assertIn('\t\t\tif not bool(consumer.get("optional", false)) and not ignored:', source_text)
-            self.assertIn('\t\t\tif bool(consumer.get("update", true)) and not ignored:', source_text)
-            self.assertIn("\t\tvar has_consumers: bool = consumers.size() > 0", source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_init_consumer_arrays_state"', source_text)
-            self.assertIn('"consumers_expr": "consumers = consumeBuilder.toArray(Consume.class);"', source_text)
-            self.assertIn('"optional_consumers_expr": "optionalConsumers = consumeBuilder.select(consume -> consume.optional && !consume.ignore()).toArray(Consume.class);"', source_text)
-            self.assertIn('"non_optional_consumers_expr": "nonOptionalConsumers = consumeBuilder.select(consume -> !consume.optional && !consume.ignore()).toArray(Consume.class);"', source_text)
-            self.assertIn('"update_consumers_expr": "updateConsumers = consumeBuilder.select(consume -> consume.update && !consume.ignore()).toArray(Consume.class);"', source_text)
-            self.assertIn('"has_consumers_expr": "hasConsumers = consumers.length > 0;"', source_text)
+            self.assertIn('const source_block_init_consumer_state := preload("res://src/game/SourceBlockInitConsumerState.gd")', source_text)
+            self.assertIn("\t\treturn source_block_init_consumer_state.generated_consumer_arrays_result_state(consumer_builder_entries)", source_text)
+            self.assertNotIn("\t\tvar optional_consumers: Array = []", source_text)
 
     def test_emit_bridges_block_reinitialize_consumers_arrays_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -10543,15 +11575,9 @@ public class Block{
             source_text = block_script.read_text(encoding="utf-8")
 
             self.assertIn("func java_method_reinitializeConsumers_0(_args: Array = []) -> Variant:", source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_reinitialize_consumers_arrays_state"', source_text)
-            self.assertIn('"method": "public void reinitializeConsumers(){"', source_text)
-            self.assertIn('"consumers_expr": "consumers = consumeBuilder.toArray(Consume.class);"', source_text)
-            self.assertIn('"cons_power_expr": "consPower = (ConsumePower)Structs.find(consumers, c -> c instanceof ConsumePower);"', source_text)
-            self.assertIn('"optional_consumers_expr": "optionalConsumers = consumeBuilder.select(consume -> consume.optional && !consume.ignore()).toArray(Consume.class);"', source_text)
-            self.assertIn('"non_optional_consumers_expr": "nonOptionalConsumers = consumeBuilder.select(consume -> !consume.optional && !consume.ignore()).toArray(Consume.class);"', source_text)
-            self.assertIn('"update_consumers_expr": "updateConsumers = consumeBuilder.select(consume -> consume.update && !consume.ignore()).toArray(Consume.class);"', source_text)
-            self.assertIn('"has_consumers_expr": "hasConsumers = consumers.length > 0;"', source_text)
-            self.assertIn('"cons_power": cons_power', source_text)
+            self.assertIn('const source_block_reinitialize_consumers_state := preload("res://src/game/SourceBlockReinitializeConsumersState.gd")', source_text)
+            self.assertIn("\treturn source_block_reinitialize_consumers_state.generated_arrays_result_state(consumer_builder_entries)", source_text)
+            self.assertNotIn("\tvar cons_power: Variant = null", source_text)
 
     def test_emit_bridges_block_reinitialize_consumers_item_liquid_filters_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -10583,10 +11609,8 @@ public class Block{
             self.assertIn('\tif reinitialize_bridge_mode == "item_liquid_filters":', source_text)
             self.assertIn("\t\tvar content_items_size: int = int(_args[0] if _args.size() > 0 else 0)", source_text)
             self.assertIn("\t\tvar content_liquids_size: int = int(_args[1] if _args.size() > 1 else 0)", source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_reinitialize_consumers_item_liquid_filters_state"', source_text)
-            self.assertIn('"method": "public void reinitializeConsumers(){"', source_text)
-            self.assertIn('"item_filter_expr": "itemFilter = new boolean[content.items().size];"', source_text)
-            self.assertIn('"liquid_filter_expr": "liquidFilter = new boolean[content.liquids().size];"', source_text)
+            self.assertIn("\t\treturn source_block_reinitialize_consumers_state.generated_item_liquid_filters_result_state(content_items_size, content_liquids_size)", source_text)
+            self.assertNotIn("\t\tvar item_filter: Array = []", source_text)
 
     def test_emit_bridges_block_reinitialize_consumers_outputs_power_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -10616,10 +11640,8 @@ public class Block{
             self.assertIn('\tif reinitialize_bridge_mode == "outputs_power":', source_text)
             self.assertIn("\t\tvar outputs_power: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
             self.assertIn("\t\tvar has_power_before: bool = bool(_args[1] if _args.size() > 1 else false)", source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_reinitialize_consumers_outputs_power_state"', source_text)
-            self.assertIn('"method": "public void reinitializeConsumers(){"', source_text)
-            self.assertIn('"outputs_power_expr": "if(outputsPower) hasPower = true;"', source_text)
-            self.assertIn('"has_power_after": has_power_after', source_text)
+            self.assertIn("\t\treturn source_block_reinitialize_consumers_state.generated_outputs_power_result_state(outputs_power, has_power_before)", source_text)
+            self.assertNotIn("\t\tvar has_power_after: bool = true if outputs_power else has_power_before", source_text)
 
     def test_emit_bridges_block_reinitialize_consumers_apply_loop_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -10650,16 +11672,8 @@ public class Block{
             self.assertIn("func java_method_reinitializeConsumers_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn('\tif reinitialize_bridge_mode == "consumer_apply_loop":', source_text)
             self.assertIn("\t\tvar consumer_entries: Array = (_args[0] as Array).duplicate() if _args.size() > 0 and _args[0] is Array else []", source_text)
-            self.assertIn("\t\tvar apply_calls: Array = []", source_text)
-            self.assertIn("\t\tfor consumer in consumer_entries:", source_text)
-            self.assertIn('\t\t\tapply_calls.append({"call": "cons.apply(this);", "consumer": consumer, "block_arg": "this"})', source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_reinitialize_consumers_apply_loop_state"', source_text)
-            self.assertIn('"consumers_loop_expr": "for(Consume cons : consumers){"', source_text)
-            self.assertIn('"consume_apply_expr": "cons.apply(this);"', source_text)
-            self.assertIn('"consume_apply_method_expr": "public void apply(Block block){"', source_text)
-            self.assertIn('"consumers": consumer_entries', source_text)
-            self.assertIn('"apply_calls": apply_calls', source_text)
-            self.assertIn('"apply_call_count": apply_calls.size()', source_text)
+            self.assertIn("\t\treturn source_block_reinitialize_consumers_state.generated_apply_loop_result_state(consumer_entries)", source_text)
+            self.assertNotIn("\t\tvar apply_calls: Array = []", source_text)
 
     def test_emit_bridges_block_check_content_array_capacity_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -10691,12 +11705,9 @@ public class Block{
             self.assertIn("\tvar liquid_filter: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []", source_text)
             self.assertIn("\tvar items: int = int(_args[2] if _args.size() > 2 else item_filter.size())", source_text)
             self.assertIn("\tvar liquids: int = int(_args[3] if _args.size() > 3 else liquid_filter.size())", source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_check_content_array_capacity_state"', source_text)
-            self.assertIn('"method": "public void checkContentArrayCapacity(int items, int liquids){"', source_text)
-            self.assertIn('"liquid_resize_expr": "if(liquidFilter.length != liquids) liquidFilter = Arrays.copyOf(liquidFilter, liquids);"', source_text)
-            self.assertIn('"item_resize_expr": "if(itemFilter.length != items) itemFilter = Arrays.copyOf(itemFilter, items);"', source_text)
-            self.assertIn('"item_filter_after": item_filter_after', source_text)
-            self.assertIn('"liquid_filter_after": liquid_filter_after', source_text)
+            self.assertIn('const source_block_check_content_array_capacity_state := preload("res://src/game/SourceBlockCheckContentArrayCapacityState.gd")', source_text)
+            self.assertIn("return source_block_check_content_array_capacity_state.generated_check_content_array_capacity_result_state(item_filter, liquid_filter, items, liquids)", source_text)
+            self.assertNotIn("\tvar item_filter_after: Array = []", source_text)
 
     def test_emit_bridges_block_load_base_regions_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -10729,13 +11740,9 @@ public class Block{
 
             self.assertIn("func java_method_load_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("\tvar name_value: String = str(_args[0] if _args.size() > 0 else \"\")", source_text)
-            self.assertIn('\tvar region_value: String = "Core.atlas.find(%s)" % name_value', source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_load_base_regions_state"', source_text)
-            self.assertIn('"method": "public void load(){"', source_text)
-            self.assertIn('"super_load_expr": "super.load();"', source_text)
-            self.assertIn('"region_expr": "region = Core.atlas.find(name);"', source_text)
-            self.assertIn('"content_regions_expr": "ContentRegions.loadRegions(this);"', source_text)
-            self.assertIn('"region": region_value', source_text)
+            self.assertIn('const source_block_load_state := preload("res://src/game/SourceBlockLoadState.gd")', source_text)
+            self.assertIn("return source_block_load_state.generated_base_regions_result_state(name_value)", source_text)
+            self.assertNotIn('\tvar region_value: String = "Core.atlas.find(%s)" % name_value', source_text)
 
     def test_emit_bridges_block_load_team_regions_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -10772,12 +11779,9 @@ public class Block{
             self.assertNotIn('\t\tvar name_value: String = str(_args[0] if _args.size() > 0 else "")', source_text)
             self.assertIn("\t\tvar team_region_found: bool = bool(_args[1] if _args.size() > 1 else false)", source_text)
             self.assertIn("\t\tvar teams: Array = (_args[3] as Array).duplicate() if _args.size() > 3 and _args[3] is Array else []", source_text)
-            self.assertIn('"source_owner": "port_game.source_block_load_team_regions_state"', source_text)
-            self.assertIn('"team_regions_expr": "teamRegions = new TextureRegion[Team.all.length];"', source_text)
-            self.assertIn('"team_loop_expr": "for(Team team : Team.all){"', source_text)
-            self.assertIn('"team_assignment_expr": "teamRegions[team.id] = teamRegion.found() && team.hasPalette ? Core.atlas.find(name + \\"-team-\\" + team.name, teamRegion) : teamRegion;"', source_text)
-            self.assertIn('"team_regions": team_regions', source_text)
-            self.assertIn('"assignments": assignments', source_text)
+            self.assertIn('const source_block_load_state := preload("res://src/game/SourceBlockLoadState.gd")', source_text)
+            self.assertIn("return source_block_load_state.generated_team_regions_result_state(team_load_name_value, team_region_found, team_region, teams)", source_text)
+            self.assertNotIn("\t\tvar team_regions: Array = []", source_text)
 
     def test_emit_bridges_block_load_variant_regions_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -10815,15 +11819,9 @@ public class Block{
             self.assertIn('if str(get_meta("mindustry_load_bridge_mode", "")) == "variant_regions":', source_text)
             self.assertIn("\t\tvar variants: int = int(_args[1] if _args.size() > 1 else 0)", source_text)
             self.assertNotIn("\t\tvar region_value: Variant = null", source_text)
-            self.assertIn("\t\tvar variant_region_value: Variant = null", source_text)
-            self.assertIn('"source_owner": "port_game.source_block_load_variant_regions_state"', source_text)
-            self.assertIn('"variants_guard_expr": "if(variants != 0){"', source_text)
-            self.assertIn('"variant_regions_expr": "variantRegions = new TextureRegion[variants];"', source_text)
-            self.assertIn('"variant_loop_expr": "for(int i = 0; i < variants; i++){"', source_text)
-            self.assertIn('"variant_assignment_expr": "variantRegions[i] = Core.atlas.find(name + (i + 1));"', source_text)
-            self.assertIn('"region_assignment_expr": "region = variantRegions[0];"', source_text)
-            self.assertIn('"variant_regions": variant_regions', source_text)
-            self.assertIn('"region": variant_region_value', source_text)
+            self.assertIn('const source_block_load_state := preload("res://src/game/SourceBlockLoadState.gd")', source_text)
+            self.assertIn("return source_block_load_state.generated_variant_regions_result_state(variant_load_name_value, variants)", source_text)
+            self.assertNotIn("\t\tvar variant_region_value: Variant = null", source_text)
 
     def test_emit_bridges_block_load_variant_shadow_regions_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -10862,14 +11860,69 @@ public class Block{
             self.assertIn('\t\tvar shadow_load_name_value: String = str(_args[0] if _args.size() > 0 else "")', source_text)
             self.assertIn("\t\tvar shadow_variants: int = int(_args[1] if _args.size() > 1 else 0)", source_text)
             self.assertIn("\t\tvar shadow_custom_shadow: bool = bool(_args[2] if _args.size() > 2 else false)", source_text)
-            self.assertIn('"source_owner": "port_game.source_block_load_variant_shadow_regions_state"', source_text)
-            self.assertIn('"variants_guard_expr": "if(variants != 0){"', source_text)
-            self.assertIn('"custom_shadow_guard_expr": "if(customShadow){"', source_text)
-            self.assertIn('"variant_shadow_regions_expr": "variantShadowRegions = new TextureRegion[variants];"', source_text)
-            self.assertIn('"variant_shadow_loop_expr": "for(int i = 0; i < variants; i++){"', source_text)
-            self.assertIn('"variant_shadow_assignment_expr": "variantShadowRegions[i] = Core.atlas.find(name + \\"-shadow\\" + (i + 1));"', source_text)
-            self.assertIn('"variant_shadow_regions": variant_shadow_regions', source_text)
+            self.assertIn('const source_block_load_state := preload("res://src/game/SourceBlockLoadState.gd")', source_text)
+            self.assertIn("return source_block_load_state.generated_variant_shadow_regions_result_state(shadow_load_name_value, shadow_variants, shadow_custom_shadow)", source_text)
+            self.assertNotIn("\t\tvar variant_shadow_regions: Array = []", source_text)
 
+    def test_emit_bridges_block_icon_regions_cluster_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    /** @return special icons to outline and save with an -outline variant. Vanilla only. */
+    public TextureRegion[] makeIconRegions(){
+        return new TextureRegion[0];
+    }
+
+    public void createIcons(MultiPacker packer){
+    }
+
+    protected TextureRegion[] icons(){
+        //use team region in vanilla team blocks
+        TextureRegion r = variants > 0 ? Core.atlas.find(name + "1") : region;
+        return teamRegion.found() && minfo.mod == null ? new TextureRegion[]{r, teamRegions[Team.sharded.id]} : new TextureRegion[]{r};
+    }
+
+    public void getRegionsToOutline(Seq<TextureRegion> out){
+
+    }
+
+    public TextureRegion[] getGeneratedIcons(){
+        return generatedIcons == null ? (generatedIcons = icons()) : generatedIcons;
+    }
+
+    public void resetGeneratedIcons(){
+        generatedIcons = null;
+    }
+
+    public TextureRegion[] variantRegions(){
+        return variantRegions == null ? (variantRegions = new TextureRegion[]{fullIcon}) : variantRegions;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            block_script = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = block_script.read_text(encoding="utf-8")
+            self.assertIn('const source_block_icon_state := preload("res://src/game/SourceBlockIconState.gd")', source_text)
+            self.assertIn("return source_block_icon_state.generated_make_icon_regions_result_state()", source_text)
+            self.assertIn("return source_block_icon_state.generated_create_icons_result_state(super_state, synthetic, full_icon_width, full_icon_height, full_icon_center_color, map_color_before, name_value, team_region_found, teams, team_region, team_regions_before, atlas_team_overrides, outline_icon, outlined_icon, outline_radius, generated_icons, custom_regions_to_outline)", source_text)
+            self.assertIn("return source_block_icon_state.generated_icons_result_state(name_value, variants, region_value, team_region_found, minfo_mod, team_regions, team_sharded_id)", source_text)
+            self.assertIn("return source_block_icon_state.generated_get_regions_to_outline_result_state(out_before)", source_text)
+            self.assertIn("return source_block_icon_state.generated_get_generated_icons_result_state(generated_icons_before, icons_value)", source_text)
+            self.assertIn("return source_block_icon_state.generated_reset_generated_icons_result_state(generated_icons_before)", source_text)
+            self.assertIn("return source_block_icon_state.generated_variant_regions_result_state(variant_regions_before, full_icon)", source_text)
+            self.assertNotIn("\tvar icon_regions: Array = []", source_text)
+            self.assertNotIn("\tvar out_after: Array = out_before.duplicate()", source_text)
     def test_emit_bridges_block_is_hidden_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -10895,17 +11948,57 @@ public class Block{
             block_script = output_root / "mindustry" / "world" / "Block.gd"
             source_text = block_script.read_text(encoding="utf-8")
 
+            self.assertIn('const source_block_plan_visibility_state := preload("res://src/game/SourceBlockPlanVisibilityState.gd")', source_text)
             self.assertIn("func java_method_isHidden_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("\tvar build_visibility_visible: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
             self.assertIn("\tvar revealed_blocks_contains_self: bool = bool(_args[1] if _args.size() > 1 else false)", source_text)
-            self.assertIn("\tvar is_hidden_value: bool = (not build_visibility_visible) and (not revealed_blocks_contains_self)", source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_is_hidden_state"', source_text)
-            self.assertIn('"override_expr": "@Override"', source_text)
-            self.assertIn('"method": "public boolean isHidden(){"', source_text)
-            self.assertIn('"return_expr": "return !buildVisibility.visible() && !state.rules.revealedBlocks.contains(this);"', source_text)
-            self.assertIn('"build_visibility_visible": build_visibility_visible', source_text)
-            self.assertIn('"revealed_blocks_contains_self": revealed_blocks_contains_self', source_text)
-            self.assertIn('"is_hidden": is_hidden_value', source_text)
+            self.assertIn("\treturn source_block_plan_visibility_state.generated_is_hidden_result_state(build_visibility_visible, revealed_blocks_contains_self)", source_text)
+            self.assertNotIn('return {"source_owner": "port_game.source_block_is_hidden_state"', source_text)
+
+    def test_emit_bridges_block_is_visible_and_placeable_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    public boolean isVisible(){
+        return !isHidden() && (state.rules.editor || (!state.rules.hideBannedBlocks || !isBanned()));
+    }
+
+    public boolean isPlaceable(){
+        return isVisible() && (!isBanned() || state.rules.editor) && supportsEnv(state.rules.env);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            block_script = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = block_script.read_text(encoding="utf-8")
+
+            self.assertIn('const source_block_plan_visibility_state := preload("res://src/game/SourceBlockPlanVisibilityState.gd")', source_text)
+            self.assertIn("func java_method_isVisible_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar is_hidden_value: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("\tvar state_rules_editor: bool = bool(_args[1] if _args.size() > 1 else false)", source_text)
+            self.assertIn("\tvar state_rules_hide_banned_blocks: bool = bool(_args[2] if _args.size() > 2 else false)", source_text)
+            self.assertIn("\tvar is_banned_value: bool = bool(_args[3] if _args.size() > 3 else false)", source_text)
+            self.assertIn("\treturn source_block_plan_visibility_state.generated_is_visible_result_state(is_hidden_value, state_rules_editor, state_rules_hide_banned_blocks, is_banned_value)", source_text)
+            self.assertNotIn('return {"source_owner": "port_game.source_block_is_visible_state"', source_text)
+
+            self.assertIn("func java_method_isPlaceable_1(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar placeable_is_visible_value: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("\tvar placeable_is_banned_value: bool = bool(_args[1] if _args.size() > 1 else false)", source_text)
+            self.assertIn("\tvar placeable_state_rules_editor: bool = bool(_args[2] if _args.size() > 2 else false)", source_text)
+            self.assertIn("\tvar supports_env_value: bool = bool(_args[3] if _args.size() > 3 else false)", source_text)
+            self.assertIn("\treturn source_block_plan_visibility_state.generated_is_placeable_result_state(placeable_is_visible_value, placeable_is_banned_value, placeable_state_rules_editor, supports_env_value)", source_text)
+            self.assertNotIn('return {"source_owner": "port_game.source_block_is_placeable_state"', source_text)
 
     def test_emit_bridges_block_plan_rotation_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -10931,18 +12024,13 @@ public class Block{
             block_script = output_root / "mindustry" / "world" / "Block.gd"
             source_text = block_script.read_text(encoding="utf-8")
 
+            self.assertIn('const source_block_plan_placement_state := preload("res://src/game/SourceBlockPlanPlacementState.gd")', source_text)
             self.assertIn("func java_method_planRotation_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("\tvar rotate_value: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
             self.assertIn("\tvar lock_rotation: bool = bool(_args[1] if _args.size() > 1 else false)", source_text)
             self.assertIn("\tvar rot: int = int(_args[2] if _args.size() > 2 else 0)", source_text)
-            self.assertIn("\tvar plan_rotation_value: int = 0 if ((not rotate_value) and lock_rotation) else rot", source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_plan_rotation_state"', source_text)
-            self.assertIn('"method": "public int planRotation(int rot){"', source_text)
-            self.assertIn('"return_expr": "return !rotate && lockRotation ? 0 : rot;"', source_text)
-            self.assertIn('"rotate": rotate_value', source_text)
-            self.assertIn('"lockRotation": lock_rotation', source_text)
-            self.assertIn('"rot": rot', source_text)
-            self.assertIn('"plan_rotation": plan_rotation_value', source_text)
+            self.assertIn("\treturn source_block_plan_placement_state.generated_plan_rotation_result_state(rotate_value, lock_rotation, rot)", source_text)
+            self.assertNotIn('return {"source_owner": "port_game.source_block_plan_rotation_state"', source_text)
 
     def test_emit_bridges_block_flip_rotation_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -10976,15 +12064,10 @@ public class Block{
             self.assertIn("\tvar invert_flip: bool = bool(_args[2] if _args.size() > 2 else false)", source_text)
             self.assertIn("\tvar rotate_value: bool = bool(_args[3] if _args.size() > 3 else false)", source_text)
             self.assertIn("\tvar lock_rotation: bool = bool(_args[4] if _args.size() > 4 else false)", source_text)
-            self.assertIn("\tvar rotation_even: bool = rotation_before % 2 == 0", source_text)
-            self.assertIn("\tvar flip_guard: bool = (x_value == rotation_even) != invert_flip", source_text)
-            self.assertIn("\tvar mod_value: int = int(fmod(fmod(float(rotation_before + 2), 4.0) + 4.0, 4.0))", source_text)
-            self.assertIn("\tvar plan_rotation_state := {", source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_flip_rotation_state"', source_text)
-            self.assertIn('"method": "public void flipRotation(BuildPlan req, boolean x){"', source_text)
-            self.assertIn('"guard_expr": "if((x == (req.rotation % 2 == 0)) != invertFlip){"', source_text)
-            self.assertIn('"assignment_expr": "req.rotation = planRotation(Mathf.mod(req.rotation + 2, 4));"', source_text)
-            self.assertIn('"rotation_after": rotation_after', source_text)
+            self.assertIn('const source_block_plan_placement_state := preload("res://src/game/SourceBlockPlanPlacementState.gd")', source_text)
+            self.assertIn("\treturn source_block_plan_placement_state.generated_flip_rotation_result_state(rotation_before, x_value, invert_flip, rotate_value, lock_rotation)", source_text)
+            self.assertNotIn("\tvar rotation_even: bool = rotation_before % 2 == 0", source_text)
+            self.assertNotIn('return {"source_owner": "port_game.source_block_flip_rotation_state"', source_text)
 
     def test_emit_bridges_block_get_plan_configs_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -11016,22 +12099,16 @@ public class Block{
             block_script = output_root / "mindustry" / "world" / "Block.gd"
             source_text = block_script.read_text(encoding="utf-8")
 
+            self.assertIn('const source_block_plan_config_state := preload("res://src/game/SourceBlockPlanConfigState.gd")', source_text)
             self.assertIn("func java_method_getPlanConfigs_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("\tvar options_before: Array = _args[0] if _args.size() > 0 else []", source_text)
             self.assertIn("\tvar item_configured: bool = bool(_args[1] if _args.size() > 1 else false)", source_text)
             self.assertIn("\tvar liquid_configured: bool = bool(_args[2] if _args.size() > 2 else false)", source_text)
             self.assertIn("\tvar content_items: Array = _args[3] if _args.size() > 3 else []", source_text)
             self.assertIn("\tvar content_liquids: Array = _args[4] if _args.size() > 4 else []", source_text)
-            self.assertIn("\tvar options_after: Array = options_before.duplicate()", source_text)
-            self.assertIn("\tif item_configured:", source_text)
-            self.assertIn("\t\toptions_after.append_array(content_items)", source_text)
-            self.assertIn("\tif liquid_configured:", source_text)
-            self.assertIn("\t\toptions_after.append_array(content_liquids)", source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_get_plan_configs_state"', source_text)
-            self.assertIn('"method": "public void getPlanConfigs(Seq<UnlockableContent> options){"', source_text)
-            self.assertIn('"item_add_expr": "options.add(content.items());"', source_text)
-            self.assertIn('"liquid_add_expr": "options.add(content.liquids());"', source_text)
-            self.assertIn('"options_after": options_after', source_text)
+            self.assertIn("\treturn source_block_plan_config_state.generated_get_plan_configs_result_state(options_before, item_configured, liquid_configured, content_items, content_liquids)", source_text)
+            self.assertNotIn("\tvar options_after: Array = options_before.duplicate()", source_text)
+            self.assertNotIn('return {"source_owner": "port_game.source_block_get_plan_configs_state"', source_text)
 
     def test_emit_bridges_block_sense_laccess_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -11080,20 +12157,10 @@ public class Block{
             self.assertIn("\tvar cons_power_buffered: bool = bool(_args[8] if _args.size() > 8 else false)", source_text)
             self.assertIn("\tvar cons_power_capacity: float = float(_args[9] if _args.size() > 9 else 0.0)", source_text)
             self.assertIn("\tvar logic_id: int = int(_args[10] if _args.size() > 10 else 0)", source_text)
-            self.assertIn("\tvar sense_value: float = NAN", source_text)
-            self.assertIn("\tmatch sensor:", source_text)
-            self.assertIn("\t\t\"color\":", source_text)
-            self.assertIn("\t\t\"powerCapacity\":", source_text)
-            self.assertIn("\t\t\tsense_value = cons_power_capacity if has_cons_power and cons_power_buffered else 0.0", source_text)
-            self.assertIn("\tvar sense_value_wire: Variant = sense_value", source_text)
-            self.assertIn("\tif is_nan(sense_value):", source_text)
-            self.assertIn("\t\tsense_value_wire = null", source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_sense_laccess_state"', source_text)
-            self.assertIn('"method": "public double sense(LAccess sensor){"', source_text)
-            self.assertIn('"power_capacity_case": "case powerCapacity -> consPower != null && consPower.buffered ? consPower.capacity : 0f;"', source_text)
-            self.assertIn('"default_expr": "default -> Double.NaN;"', source_text)
-            self.assertIn('"sense_value": sense_value_wire', source_text)
-            self.assertIn('"sense_value_is_nan": is_nan(sense_value)', source_text)
+            self.assertIn('const source_block_sense_state := preload("res://src/game/SourceBlockSenseState.gd")', source_text)
+            self.assertIn("return source_block_sense_state.generated_laccess_result_state(sensor, map_color_double_bits, health_value, solid_value, size_value, item_capacity, liquid_capacity, has_cons_power, cons_power_buffered, cons_power_capacity, logic_id)", source_text)
+            self.assertNotIn("\tmatch sensor:", source_text)
+            self.assertNotIn('return {"source_owner": "port_game.source_block_sense_laccess_state"', source_text)
 
     def test_emit_bridges_block_sense_content_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -11136,22 +12203,10 @@ public class Block{
             self.assertIn("\tvar state_rules_infinite_resources: bool = bool(_args[2] if _args.size() > 2 else false)", source_text)
             self.assertIn("\tvar requirements: Array = _args[3] if _args.size() > 3 else []", source_text)
             self.assertIn("\tvar build_cost_multiplier: float = float(_args[4] if _args.size() > 4 else 1.0)", source_text)
-            self.assertIn("\tvar sense_value: float = NAN", source_text)
-            self.assertIn('\tif content_type == "Item":', source_text)
-            self.assertIn("\t\tif state_rules_infinite_resources:", source_text)
-            self.assertIn("\t\t\tfor index in range(requirements.size()):", source_text)
-            self.assertIn('\t\t\t\tif requirement.get("item") == content_item:', source_text)
-            self.assertIn("\t\t\t\t\tmatched_amount = int(floor(float(requirement.get(\"amount\", 0.0)) * build_cost_multiplier + 0.5))", source_text)
-            self.assertIn("\tvar sense_value_wire: Variant = sense_value", source_text)
-            self.assertIn("\tif is_nan(sense_value):", source_text)
-            self.assertIn("\t\tsense_value_wire = null", source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_sense_content_state"', source_text)
-            self.assertIn('"method": "public double sense(Content content){"', source_text)
-            self.assertIn('"item_instanceof_expr": "if(content instanceof Item item){"', source_text)
-            self.assertIn('"amount_return_expr": "return Math.round(r.amount * state.rules.buildCostMultiplier);"', source_text)
-            self.assertIn('"invalid_return_expr": "return Double.NaN;"', source_text)
-            self.assertIn('"sense_value": sense_value_wire', source_text)
-            self.assertIn('"sense_value_is_nan": is_nan(sense_value)', source_text)
+            self.assertIn('const source_block_sense_state := preload("res://src/game/SourceBlockSenseState.gd")', source_text)
+            self.assertIn("return source_block_sense_state.generated_content_result_state(content_type, content_item, state_rules_infinite_resources, requirements, build_cost_multiplier)", source_text)
+            self.assertNotIn('\tif content_type == "Item":', source_text)
+            self.assertNotIn('return {"source_owner": "port_game.source_block_sense_content_state"', source_text)
 
     def test_emit_bridges_block_sense_object_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -11183,14 +12238,10 @@ public class Block{
             self.assertIn("\tvar sensor: String = str(_args[0] if _args.size() > 0 else \"\")", source_text)
             self.assertIn("\tvar block_name: Variant = _args[1] if _args.size() > 1 else null", source_text)
             self.assertIn("\tvar no_sensed: Variant = _args[2] if _args.size() > 2 else null", source_text)
-            self.assertIn("\tvar sense_object_value: Variant = no_sensed", source_text)
-            self.assertIn('\tif sensor == "name":', source_text)
-            self.assertIn("\t\tsense_object_value = block_name", source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_sense_object_state"', source_text)
-            self.assertIn('"method": "public Object senseObject(LAccess sensor){"', source_text)
-            self.assertIn('"name_guard_expr": "if(sensor == LAccess.name) return name;"', source_text)
-            self.assertIn('"default_return_expr": "return noSensed;"', source_text)
-            self.assertIn('"sense_object_value": sense_object_value', source_text)
+            self.assertIn('const source_block_sense_state := preload("res://src/game/SourceBlockSenseState.gd")', source_text)
+            self.assertIn("return source_block_sense_state.generated_object_result_state(sensor, block_name, no_sensed)", source_text)
+            self.assertNotIn("\tvar sense_object_value: Variant = no_sensed", source_text)
+            self.assertNotIn('return {"source_owner": "port_game.source_block_sense_object_state"', source_text)
 
     def test_emit_bridges_block_init_item_liquid_filters_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -11225,17 +12276,16 @@ public class Block{
             self.assertIn('\tif init_bridge_mode == "item_liquid_filters":', source_text)
             self.assertIn("\t\tvar content_items_size: int = int(_args[0] if _args.size() > 0 else 0)", source_text)
             self.assertIn("\t\tvar content_liquids_size: int = int(_args[1] if _args.size() > 1 else 0)", source_text)
-            self.assertIn("\t\tvar item_filter: Array = []", source_text)
-            self.assertIn("\t\tfor _i in range(max(content_items_size, 0)):", source_text)
-            self.assertIn("\t\t\titem_filter.append(false)", source_text)
-            self.assertIn("\t\tvar liquid_filter: Array = []", source_text)
-            self.assertIn("\t\tfor _i in range(max(content_liquids_size, 0)):", source_text)
-            self.assertIn("\t\t\tliquid_filter.append(false)", source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_init_item_liquid_filters_state"', source_text)
-            self.assertIn('"item_filter_expr": "itemFilter = new boolean[content.items().size];"', source_text)
-            self.assertIn('"liquid_filter_expr": "liquidFilter = new boolean[content.liquids().size];"', source_text)
-            self.assertIn('"item_filter": item_filter', source_text)
-            self.assertIn('"liquid_filter": liquid_filter', source_text)
+            self.assertIn(
+                'const source_block_init_item_liquid_filters_state := preload("res://src/game/SourceBlockInitItemLiquidFiltersState.gd")',
+                source_text,
+            )
+            self.assertIn(
+                "return source_block_init_item_liquid_filters_state.generated_item_liquid_filters_result_state(content_items_size, content_liquids_size)",
+                source_text,
+            )
+            self.assertNotIn("\t\tvar item_filter: Array = []", source_text)
+            self.assertNotIn("\t\tvar liquid_filter: Array = []", source_text)
 
     def test_emit_bridges_block_init_consumer_apply_loop_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -11270,16 +12320,9 @@ public class Block{
             self.assertIn("func java_method_init_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn('\tif init_bridge_mode == "consumer_apply_loop":', source_text)
             self.assertIn("\t\tvar consumer_entries: Array = (_args[0] as Array).duplicate() if _args.size() > 0 and _args[0] is Array else []", source_text)
-            self.assertIn("\t\tvar apply_calls: Array = []", source_text)
-            self.assertIn("\t\tfor consumer in consumer_entries:", source_text)
-            self.assertIn('\t\t\tapply_calls.append({"call": "cons.apply(this);", "consumer": consumer, "block_arg": "this"})', source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_init_consumer_apply_loop_state"', source_text)
-            self.assertIn('"consumers_loop_expr": "for(Consume cons : consumers){"', source_text)
-            self.assertIn('"consume_apply_expr": "cons.apply(this);"', source_text)
-            self.assertIn('"consume_apply_method_expr": "public void apply(Block block){"', source_text)
-            self.assertIn('"consumers": consumer_entries', source_text)
-            self.assertIn('"apply_calls": apply_calls', source_text)
-            self.assertIn('"apply_call_count": apply_calls.size()', source_text)
+            self.assertIn('const source_block_init_consumer_state := preload("res://src/game/SourceBlockInitConsumerState.gd")', source_text)
+            self.assertIn("\t\treturn source_block_init_consumer_state.generated_consumer_apply_loop_result_state(consumer_entries)", source_text)
+            self.assertNotIn("\t\tvar apply_calls: Array = []", source_text)
 
     def test_emit_bridges_block_init_set_bars_call_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -11315,13 +12358,8 @@ public class Block{
 
             self.assertIn("func java_method_init_1(_args: Array = []) -> Variant:", source_text)
             self.assertIn('\tif init_bridge_mode == "set_bars_call":', source_text)
-            self.assertIn('\t\tvar set_bars_call: Dictionary = {"call": "setBars();", "method": "public void setBars(){"}', source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_init_set_bars_call_state"', source_text)
-            self.assertIn('"set_bars_expr": "setBars();"', source_text)
-            self.assertIn('"set_bars_method_expr": "public void setBars(){"', source_text)
-            self.assertIn('"health_bar_expr": "addBar(\\"health\\", entity -> new Bar(\\"stat.health\\", Pal.health, entity::healthf).blink(Color.white));"', source_text)
-            self.assertIn('"set_bars_call": set_bars_call', source_text)
-            self.assertIn('"set_bars_called": true', source_text)
+            self.assertIn('const source_block_init_set_bars_call_state := preload("res://src/game/SourceBlockInitSetBarsCallState.gd")', source_text)
+            self.assertIn("return source_block_init_set_bars_call_state.generated_set_bars_call_result_state()", source_text)
 
     def test_emit_bridges_block_init_stats_categories_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -11354,12 +12392,231 @@ public class Block{
             self.assertIn("func java_method_init_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn('\tif init_bridge_mode == "stats_categories":', source_text)
             self.assertIn("\t\tvar stats_use_categories_before: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
-            self.assertIn("\t\tvar stats_use_categories_after: bool = true", source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_init_stats_categories_state"', source_text)
-            self.assertIn('"stats_use_categories_expr": "stats.useCategories = true;"', source_text)
-            self.assertIn('"stats_use_categories_field_expr": "public boolean useCategories = false;"', source_text)
-            self.assertIn('"stats_use_categories_before": stats_use_categories_before', source_text)
-            self.assertIn('"stats_use_categories_after": stats_use_categories_after', source_text)
+            self.assertIn('const source_block_init_stats_categories_state := preload("res://src/game/SourceBlockInitStatsCategoriesState.gd")', source_text)
+            self.assertIn("return source_block_init_stats_categories_state.generated_stats_categories_result_state(stats_use_categories_before)", source_text)
+            self.assertNotIn("\t\tvar stats_use_categories_after: bool = true", source_text)
+
+    def test_emit_bridges_block_stats_bars_cluster_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    public void setStats(){
+        super.setStats();
+        stats.add(Stat.size, "@x@", size, size);
+        if(synthetic()){
+            stats.add(Stat.health, health, StatUnit.none);
+            if(armor > 0){
+                stats.add(Stat.armor, armor, StatUnit.none);
+            }
+        }
+        if(canBeBuilt() && requirements.length > 0){
+            stats.add(Stat.buildTime, buildTime / 60, StatUnit.seconds);
+            stats.add(Stat.buildCost, StatValues.items(false, requirements));
+        }
+        if(instantTransfer){
+            stats.add(Stat.maxConsecutive, 2, StatUnit.none);
+        }
+        for(var c : consumers){
+            c.display(stats);
+        }
+        if(hasLiquids) stats.add(Stat.liquidCapacity, liquidCapacity, StatUnit.liquidUnits);
+        if(hasItems && itemCapacity > 0) stats.add(Stat.itemCapacity, itemCapacity, StatUnit.items);
+    }
+
+    public <T extends Building> void addBar(String name, Func<T, Bar> sup){
+        barMap.put(name, (Func<Building, Bar>)sup);
+    }
+
+    public void removeBar(String name){
+        barMap.remove(name);
+    }
+
+    public Iterable<Func<Building, Bar>> listBars(){
+        return barMap.values();
+    }
+
+    public void addLiquidBar(Liquid liq){
+        addBar("liquid-" + liq.name, entity -> !liq.unlockedNow() ? null : new Bar(() -> liq.localizedName, liq::barColor, () -> entity.liquids.get(liq) / liquidCapacity));
+    }
+
+    public <T extends Building> void addLiquidBar(Func<T, Liquid> current){
+        addBar("liquid", entity -> new Bar(() -> current.get((T)entity) == null || entity.liquids.get(current.get((T)entity)) <= 0.001f ? Core.bundle.get("bar.liquid") : current.get((T)entity).localizedName, () -> current.get((T)entity) == null ? Color.clear : current.get((T)entity).barColor(), () -> current.get((T)entity) == null ? 0f : entity.liquids.get(current.get((T)entity)) / liquidCapacity));
+    }
+
+    public void setBars(){
+        addBar("health", entity -> new Bar("stat.health", Pal.health, entity::healthf).blink(Color.white));
+        if(consPower != null){
+            addBar("power", entity -> new Bar(() -> Core.bundle.get("bar.power"), () -> Pal.powerBar, () -> entity.power.status));
+        }
+        if(hasItems && configurable){
+            addBar("items", entity -> new Bar(() -> Core.bundle.format("bar.items", entity.items.total()), () -> Pal.items, () -> (float)entity.items.total() / itemCapacity));
+        }
+        if(unitCapModifier != 0){
+            stats.add(Stat.maxUnits, (unitCapModifier < 0 ? "-" : "+") + Math.abs(unitCapModifier));
+        }
+        if(hasLiquids){
+            boolean added = false;
+            if(!added){
+                addLiquidBar(build -> build.liquids.current());
+            }
+        }
+    }
+
+    public void afterPatch(){
+        super.afterPatch();
+        barMap.clear();
+        setBars();
+        offset = ((size + 1) % 2) * tilesize / 2f;
+        sizeOffset = -((size - 1) / 2);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            source_text = (output_root / "mindustry" / "world" / "Block.gd").read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_setStats_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('const source_block_stats_bars_state := preload("res://src/game/SourceBlockStatsBarsState.gd")', source_text)
+            self.assertIn("return source_block_stats_bars_state.generated_set_stats_result_state(size_value, synthetic_value, health, armor, buildable_value, requirements_length, build_time, instant_transfer, consumers, has_liquids, liquid_capacity, has_items, item_capacity)", source_text)
+            self.assertNotIn("\tvar consumer_display_calls: Array = []", source_text)
+
+            self.assertIn("func java_method_addBar_1(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("return source_block_stats_bars_state.generated_add_bar_result_state(bar_name, bar_supplier, bar_map_before)", source_text)
+
+            self.assertIn("func java_method_removeBar_2(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("return source_block_stats_bars_state.generated_remove_bar_result_state(bar_name, bar_map_before)", source_text)
+
+            self.assertIn("func java_method_listBars_3(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("return source_block_stats_bars_state.generated_list_bars_result_state(bar_map)", source_text)
+
+            self.assertIn("func java_method_addLiquidBar_4(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("return source_block_stats_bars_state.generated_add_liquid_bar_static_result_state(liquid_name, liquid_unlocked, liquid_amount, liquid_capacity, localized_name, bar_color)", source_text)
+
+            self.assertIn("func java_method_addLiquidBar_5(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("return source_block_stats_bars_state.generated_add_liquid_bar_dynamic_result_state(current_liquid, current_amount, liquid_capacity, localized_name, bar_color, empty_threshold)", source_text)
+            self.assertNotIn('var bar_name: String = "liquid-" + liquid_name', source_text)
+
+            self.assertIn("func java_method_setBars_6(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("return source_block_stats_bars_state.generated_set_bars_result_state(cons_power_present, has_items, configurable, item_total, item_capacity, unit_cap_modifier, has_liquids, static_liquid_bar_added)", source_text)
+            self.assertNotIn("var item_fraction: float = 0.0 if item_capacity == 0", source_text)
+
+            self.assertIn("func java_method_afterPatch_7(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("return source_block_stats_bars_state.generated_after_patch_result_state(size_value, source_tilesize, content_items_size, content_liquids_size, consume_builder)", source_text)
+            self.assertNotIn("var offset_after: float = float((size_value + 1) % 2)", source_text)
+
+    def test_emit_bridges_block_stats_bars_cluster_to_source_state_via_source_module(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    public void setStats(){
+        super.setStats();
+        stats.add(Stat.size, "@x@", size, size);
+        if(synthetic()){
+            stats.add(Stat.health, health, StatUnit.none);
+            if(armor > 0){
+                stats.add(Stat.armor, armor, StatUnit.none);
+            }
+        }
+        if(canBeBuilt() && requirements.length > 0){
+            stats.add(Stat.buildTime, buildTime / 60, StatUnit.seconds);
+            stats.add(Stat.buildCost, StatValues.items(false, requirements));
+        }
+        if(instantTransfer){
+            stats.add(Stat.maxConsecutive, 2, StatUnit.none);
+        }
+        for(var c : consumers){
+            c.display(stats);
+        }
+        if(hasLiquids) stats.add(Stat.liquidCapacity, liquidCapacity, StatUnit.liquidUnits);
+        if(hasItems && itemCapacity > 0) stats.add(Stat.itemCapacity, itemCapacity, StatUnit.items);
+    }
+
+    public <T extends Building> void addBar(String name, Func<T, Bar> sup){
+        barMap.put(name, (Func<Building, Bar>)sup);
+    }
+
+    public void removeBar(String name){
+        barMap.remove(name);
+    }
+
+    public Iterable<Func<Building, Bar>> listBars(){
+        return barMap.values();
+    }
+
+    public void addLiquidBar(Liquid liq){
+        addBar("liquid-" + liq.name, entity -> !liq.unlockedNow() ? null : new Bar(() -> liq.localizedName, liq::barColor, () -> entity.liquids.get(liq) / liquidCapacity));
+    }
+
+    public <T extends Building> void addLiquidBar(Func<T, Liquid> current){
+        addBar("liquid", entity -> new Bar(() -> current.get((T)entity) == null || entity.liquids.get(current.get((T)entity)) <= 0.001f ? Core.bundle.get("bar.liquid") : current.get((T)entity).localizedName, () -> current.get((T)entity) == null ? Color.clear : current.get((T)entity).barColor(), () -> current.get((T)entity) == null ? 0f : entity.liquids.get(current.get((T)entity)) / liquidCapacity));
+    }
+
+    public void setBars(){
+        addBar("health", entity -> new Bar("stat.health", Pal.health, entity::healthf).blink(Color.white));
+        if(consPower != null){
+            addBar("power", entity -> new Bar(() -> Core.bundle.get("bar.power"), () -> Pal.powerBar, () -> entity.power.status));
+        }
+        if(hasItems && configurable){
+            addBar("items", entity -> new Bar(() -> Core.bundle.format("bar.items", entity.items.total()), () -> Pal.items, () -> (float)entity.items.total() / itemCapacity));
+        }
+        if(unitCapModifier != 0){
+            stats.add(Stat.maxUnits, (unitCapModifier < 0 ? "-" : "+") + Math.abs(unitCapModifier));
+        }
+        if(hasLiquids){
+            boolean added = false;
+            if(!added){
+                addLiquidBar(build -> build.liquids.current());
+            }
+        }
+    }
+
+    public void afterPatch(){
+        super.afterPatch();
+        barMap.clear();
+        setBars();
+        offset = ((size + 1) % 2) * tilesize / 2f;
+        sizeOffset = -((size - 1) / 2);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            source_text = (output_root / "mindustry" / "world" / "Block.gd").read_text(encoding="utf-8")
+
+            self.assertIn('const source_block_stats_bars_state := preload("res://src/game/SourceBlockStatsBarsState.gd")', source_text)
+            for delegate in (
+                "generated_set_stats_result_state",
+                "generated_add_bar_result_state",
+                "generated_remove_bar_result_state",
+                "generated_list_bars_result_state",
+                "generated_add_liquid_bar_static_result_state",
+                "generated_add_liquid_bar_dynamic_result_state",
+                "generated_set_bars_result_state",
+                "generated_after_patch_result_state",
+            ):
+                self.assertIn("return source_block_stats_bars_state." + delegate, source_text)
+            self.assertNotIn("var consumer_display_calls: Array = []", source_text)
+            self.assertNotIn("var item_fraction: float = 0.0 if item_capacity == 0", source_text)
 
     def test_emit_bridges_block_init_logic_configurable_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -11401,16 +12658,9 @@ public class Block{
             self.assertIn('\tif init_bridge_mode == "logic_configurable":', source_text)
             self.assertIn("\t\tvar logic_configurable_before: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
             self.assertIn("\t\tvar config_key_assignable_to_unlockable_content: bool = bool(_args[1] if _args.size() > 1 else false)", source_text)
-            self.assertIn("\t\tvar logic_configurable_after: bool = logic_configurable_before or config_key_assignable_to_unlockable_content", source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_init_logic_configurable_state"', source_text)
-            self.assertIn('"logic_configurable_field_expr": "public boolean logicConfigurable = false;"', source_text)
-            self.assertIn('"logic_configurable_guard_expr": "if(!logicConfigurable){"', source_text)
-            self.assertIn('"configurations_each_expr": "configurations.each((key, val) -> {"', source_text)
-            self.assertIn('"unlockable_assignable_expr": "if(UnlockableContent.class.isAssignableFrom(key)){"', source_text)
-            self.assertIn('"logic_configurable_assignment_expr": "logicConfigurable = true;"', source_text)
-            self.assertIn('"logic_configurable_before": logic_configurable_before', source_text)
-            self.assertIn('"config_key_assignable_to_unlockable_content": config_key_assignable_to_unlockable_content', source_text)
-            self.assertIn('"logic_configurable_after": logic_configurable_after', source_text)
+            self.assertIn('const source_block_init_logic_configurable_state := preload("res://src/game/SourceBlockInitLogicConfigurableState.gd")', source_text)
+            self.assertIn("return source_block_init_logic_configurable_state.generated_logic_configurable_result_state(logic_configurable_before, config_key_assignable_to_unlockable_content)", source_text)
+            self.assertNotIn("\t\tvar logic_configurable_after: bool = logic_configurable_before or config_key_assignable_to_unlockable_content", source_text)
 
     def test_emit_bridges_block_init_buffered_power_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -11451,16 +12701,9 @@ public class Block{
             self.assertIn("\t\tvar outputs_power: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
             self.assertIn("\t\tvar has_cons_power: bool = bool(_args[1] if _args.size() > 1 else false)", source_text)
             self.assertIn("\t\tvar cons_power_buffered_before: bool = bool(_args[2] if _args.size() > 2 else false)", source_text)
-            self.assertIn("\t\tvar buffered_power_disabled: bool = (not outputs_power) and has_cons_power and cons_power_buffered_before", source_text)
-            self.assertIn("\t\tvar cons_power_buffered_after: bool = false if buffered_power_disabled else cons_power_buffered_before", source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_init_buffered_power_state"', source_text)
-            self.assertIn('"outputs_power_field_expr": "public boolean outputsPower = false;"', source_text)
-            self.assertIn('"cons_power_field_expr": "public @Nullable ConsumePower consPower;"', source_text)
-            self.assertIn('"consume_power_buffered_field_expr": "public boolean buffered;"', source_text)
-            self.assertIn('"buffered_power_guard_expr": "if(!outputsPower && consPower != null && consPower.buffered){"', source_text)
-            self.assertIn('"buffered_power_warn_expr": "Log.warn(\\"Consumer using buffered power: @. Disabling buffered power.\\", name);"', source_text)
-            self.assertIn('"buffered_power_disable_expr": "consPower.buffered = false;"', source_text)
-            self.assertIn('"cons_power_buffered_after": cons_power_buffered_after', source_text)
+            self.assertIn('const source_block_init_buffered_power_state := preload("res://src/game/SourceBlockInitBufferedPowerState.gd")', source_text)
+            self.assertIn("return source_block_init_buffered_power_state.generated_buffered_power_result_state(outputs_power, has_cons_power, cons_power_buffered_before)", source_text)
+            self.assertNotIn("\t\tvar buffered_power_disabled: bool = (not outputs_power) and has_cons_power and cons_power_buffered_before", source_text)
 
     def test_emit_bridges_block_init_sandbox_visibility_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -11498,16 +12741,9 @@ public class Block{
             self.assertIn('\tif init_bridge_mode == "sandbox_visibility":', source_text)
             self.assertIn('\t\tvar build_visibility: String = str(_args[0] if _args.size() > 0 else "BuildVisibility.hidden")', source_text)
             self.assertIn("\t\tvar hide_details_before: bool = bool(_args[1] if _args.size() > 1 else true)", source_text)
-            self.assertIn('\t\tvar sandbox_visibility_applied: bool = build_visibility == "BuildVisibility.sandboxOnly"', source_text)
-            self.assertIn("\t\tvar hide_details_after: bool = false if sandbox_visibility_applied else hide_details_before", source_text)
-            self.assertIn('return {"source_owner": "port_game.source_block_init_sandbox_visibility_state"', source_text)
-            self.assertIn('"build_visibility_field_expr": "public BuildVisibility buildVisibility = BuildVisibility.hidden;"', source_text)
-            self.assertIn('"hide_details_field_expr": "public boolean hideDetails = true;"', source_text)
-            self.assertIn('"sandbox_visibility_guard_expr": "if(buildVisibility == BuildVisibility.sandboxOnly){"', source_text)
-            self.assertIn('"sandbox_only_expr": "sandboxOnly = new BuildVisibility(() -> Vars.state == null || Vars.state.rules.infiniteResources),"', source_text)
-            self.assertIn('"hide_details_assign_expr": "hideDetails = false;"', source_text)
-            self.assertIn('"sandbox_visibility_applied": sandbox_visibility_applied', source_text)
-            self.assertIn('"hide_details_after": hide_details_after', source_text)
+            self.assertIn('const source_block_init_sandbox_visibility_state := preload("res://src/game/SourceBlockInitSandboxVisibilityState.gd")', source_text)
+            self.assertIn("return source_block_init_sandbox_visibility_state.generated_sandbox_visibility_result_state(build_visibility, hide_details_before)", source_text)
+            self.assertNotIn('\t\tvar sandbox_visibility_applied: bool = build_visibility == "BuildVisibility.sandboxOnly"', source_text)
 
     def test_emit_bridges_turret_init_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -17940,6 +19176,7 @@ public class ConsumeItemFlammable extends ConsumeItemEfficiency{
             self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItemFlammable.java"', source_text)
             self.assertIn('"method": "public float itemEfficiencyMultiplier(Item item){"', source_text)
             self.assertIn('"return_expr": "return item.flammability;"', source_text)
+            self.assertIn('"item_flammability_field": "public float flammability = 0f;"', source_text)
             self.assertIn('"item_flammability": item_flammability', source_text)
             self.assertIn('"efficiency_multiplier": efficiency_multiplier', source_text)
 
@@ -18059,6 +19296,7 @@ public class ConsumeItemExplosive extends ConsumeItemEfficiency{
             self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItemExplosive.java"', source_text)
             self.assertIn('"method": "public float itemEfficiencyMultiplier(Item item){"', source_text)
             self.assertIn('"return_expr": "return item.explosiveness;"', source_text)
+            self.assertIn('"item_explosiveness_field": "public float explosiveness = 0f;"', source_text)
             self.assertIn('"item_explosiveness": item_explosiveness', source_text)
             self.assertIn('"efficiency_multiplier": efficiency_multiplier', source_text)
 
@@ -18180,6 +19418,7 @@ public class ConsumeItemRadioactive extends ConsumeItemEfficiency{
             self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java"', source_text)
             self.assertIn('"method": "public float itemEfficiencyMultiplier(Item item){"', source_text)
             self.assertIn('"return_expr": "return item.radioactivity;"', source_text)
+            self.assertIn('"item_radioactivity_field": "public float radioactivity;"', source_text)
             self.assertIn('"item_radioactivity": item_radioactivity', source_text)
             self.assertIn('"efficiency_multiplier": efficiency_multiplier', source_text)
 
@@ -18301,6 +19540,7 @@ public class ConsumeItemCharged extends ConsumeItemEfficiency{
             self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItemCharged.java"', source_text)
             self.assertIn('"method": "public float itemEfficiencyMultiplier(Item item){"', source_text)
             self.assertIn('"return_expr": "return item.charge;"', source_text)
+            self.assertIn('"item_charge_field": "public float charge = 0f;"', source_text)
             self.assertIn('"item_charge": item_charge', source_text)
             self.assertIn('"efficiency_multiplier": efficiency_multiplier', source_text)
 
@@ -20418,14 +21658,9 @@ public class PowerGenerator extends PowerDistributor{
             source_text = emitted.read_text(encoding="utf-8")
             self.assertIn("func java_method_getDisplayedPowerProduction_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var power_production: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
-            self.assertIn("var displayed_power_production: float = power_production", source_text)
-            self.assertIn('return {"source_owner": "port_game.source_power_generator_displayed_power_production_state"', source_text)
-            self.assertIn('"source": "core/src/mindustry/world/blocks/power/PowerGenerator.java"', source_text)
-            self.assertIn('"field": "public float powerProduction;"', source_text)
-            self.assertIn('"method": "public float getDisplayedPowerProduction(){"', source_text)
-            self.assertIn('"return_power_production": "return powerProduction;"', source_text)
-            self.assertIn('"power_production": power_production', source_text)
-            self.assertIn('"displayed_power_production": displayed_power_production', source_text)
+            self.assertIn('const source_power_generator_state := preload("res://src/game/SourcePowerGeneratorState.gd")', source_text)
+            self.assertIn("return source_power_generator_state.displayed_power_production_state(power_production)", source_text)
+            self.assertNotIn('"source": "core/src/mindustry/world/blocks/power/PowerGenerator.java"', source_text)
 
     def test_emit_bridges_power_graph_get_id_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -20460,6 +21695,930 @@ public class PowerGraph{
             self.assertIn('"method": "public int getId(){"', source_text)
             self.assertIn('"return_graph_id": "return graphID;"', source_text)
             self.assertIn('"graph_id": graph_id', source_text)
+
+    def test_emit_bridges_power_graph_getID_to_canonical_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            power_path = source_root / "mindustry" / "world" / "blocks" / "power" / "PowerGraph.java"
+            power_path.parent.mkdir(parents=True, exist_ok=True)
+            power_path.write_text(
+                """
+package mindustry.world.blocks.power;
+
+public class PowerGraph{
+    private final int graphID;
+
+    public int getID(){
+        return graphID;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "power" / "PowerGraph.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_getID_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var graph_id: int = int(_args[0] if _args.size() > 0 else 0)", source_text)
+            self.assertIn('return {"source_owner": "port_game.source_power_graph_get_id_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/blocks/power/PowerGraph.java"', source_text)
+            self.assertIn('"method": "public int getID(){"', source_text)
+            self.assertIn('"return_graph_id": "return graphID;"', source_text)
+            self.assertIn('"graph_id": graph_id', source_text)
+
+    def test_emit_bridges_power_graph_get_last_scaled_power_in_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            power_path = source_root / "mindustry" / "world" / "blocks" / "power" / "PowerGraph.java"
+            power_path.parent.mkdir(parents=True, exist_ok=True)
+            power_path.write_text(
+                """
+package mindustry.world.blocks.power;
+
+public class PowerGraph{
+    private float lastScaledPowerIn;
+
+    public float getLastScaledPowerIn(){
+        return lastScaledPowerIn;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "power" / "PowerGraph.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_getLastScaledPowerIn_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var last_scaled_power_in: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
+            self.assertIn('return {"source_owner": "port_game.source_power_graph_get_last_scaled_power_in_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/blocks/power/PowerGraph.java"', source_text)
+            self.assertIn('"field": "private float lastScaledPowerIn, lastScaledPowerOut, lastCapacity;"', source_text)
+            self.assertIn('"method": "public float getLastScaledPowerIn(){"', source_text)
+            self.assertIn('"return_last_scaled_power_in": "return lastScaledPowerIn;"', source_text)
+            self.assertIn('"last_scaled_power_in": last_scaled_power_in', source_text)
+
+    def test_emit_bridges_power_graph_get_last_scaled_power_out_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            power_path = source_root / "mindustry" / "world" / "blocks" / "power" / "PowerGraph.java"
+            power_path.parent.mkdir(parents=True, exist_ok=True)
+            power_path.write_text(
+                """
+package mindustry.world.blocks.power;
+
+public class PowerGraph{
+    private float lastScaledPowerOut;
+
+    public float getLastScaledPowerOut(){
+        return lastScaledPowerOut;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "power" / "PowerGraph.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_getLastScaledPowerOut_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var last_scaled_power_out: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
+            self.assertIn('return {"source_owner": "port_game.source_power_graph_get_last_scaled_power_out_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/blocks/power/PowerGraph.java"', source_text)
+            self.assertIn('"field": "private float lastScaledPowerIn, lastScaledPowerOut, lastCapacity;"', source_text)
+            self.assertIn('"method": "public float getLastScaledPowerOut(){"', source_text)
+            self.assertIn('"return_last_scaled_power_out": "return lastScaledPowerOut;"', source_text)
+            self.assertIn('"last_scaled_power_out": last_scaled_power_out', source_text)
+
+    def test_emit_bridges_power_graph_get_last_capacity_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            power_path = source_root / "mindustry" / "world" / "blocks" / "power" / "PowerGraph.java"
+            power_path.parent.mkdir(parents=True, exist_ok=True)
+            power_path.write_text(
+                """
+package mindustry.world.blocks.power;
+
+public class PowerGraph{
+    private float lastCapacity;
+
+    public float getLastCapacity(){
+        return lastCapacity;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "power" / "PowerGraph.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_getLastCapacity_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var last_capacity: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
+            self.assertIn('return {"source_owner": "port_game.source_power_graph_get_last_capacity_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/blocks/power/PowerGraph.java"', source_text)
+            self.assertIn('"field": "private float lastScaledPowerIn, lastScaledPowerOut, lastCapacity;"', source_text)
+            self.assertIn('"method": "public float getLastCapacity(){"', source_text)
+            self.assertIn('"return_last_capacity": "return lastCapacity;"', source_text)
+            self.assertIn('"last_capacity": last_capacity', source_text)
+
+    def test_emit_bridges_power_graph_get_power_balance_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            power_path = source_root / "mindustry" / "world" / "blocks" / "power" / "PowerGraph.java"
+            power_path.parent.mkdir(parents=True, exist_ok=True)
+            power_path.write_text(
+                """
+package mindustry.world.blocks.power;
+
+public class PowerGraph{
+    private final WindowedMean powerBalance = new WindowedMean(60);
+
+    public float getPowerBalance(){
+        return powerBalance.rawMean();
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "power" / "PowerGraph.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_getPowerBalance_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var power_balance_raw_mean: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
+            self.assertIn('return {"source_owner": "port_game.source_power_graph_get_power_balance_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/blocks/power/PowerGraph.java"', source_text)
+            self.assertIn('"field": "private final WindowedMean powerBalance = new WindowedMean(60);"', source_text)
+            self.assertIn('"method": "public float getPowerBalance(){"', source_text)
+            self.assertIn('"return_power_balance_raw_mean": "return powerBalance.rawMean();"', source_text)
+            self.assertIn('"power_balance_raw_mean": power_balance_raw_mean', source_text)
+
+    def test_emit_bridges_power_graph_has_power_balance_samples_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            power_path = source_root / "mindustry" / "world" / "blocks" / "power" / "PowerGraph.java"
+            power_path.parent.mkdir(parents=True, exist_ok=True)
+            power_path.write_text(
+                """
+package mindustry.world.blocks.power;
+
+public class PowerGraph{
+    private final WindowedMean powerBalance = new WindowedMean(60);
+
+    public boolean hasPowerBalanceSamples(){
+        return powerBalance.hasEnoughData();
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "power" / "PowerGraph.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_hasPowerBalanceSamples_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var has_power_balance_samples: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn('return {"source_owner": "port_game.source_power_graph_has_power_balance_samples_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/blocks/power/PowerGraph.java"', source_text)
+            self.assertIn('"field": "private final WindowedMean powerBalance = new WindowedMean(60);"', source_text)
+            self.assertIn('"method": "public boolean hasPowerBalanceSamples(){"', source_text)
+            self.assertIn('"return_has_power_balance_samples": "return powerBalance.hasEnoughData();"', source_text)
+            self.assertIn('"has_power_balance_samples": has_power_balance_samples', source_text)
+
+    def test_emit_bridges_power_graph_get_last_power_needed_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            power_path = source_root / "mindustry" / "world" / "blocks" / "power" / "PowerGraph.java"
+            power_path.parent.mkdir(parents=True, exist_ok=True)
+            power_path.write_text(
+                """
+package mindustry.world.blocks.power;
+
+public class PowerGraph{
+    private float lastPowerProduced, lastPowerNeeded, lastPowerStored;
+
+    public float getLastPowerNeeded(){
+        return lastPowerNeeded;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "power" / "PowerGraph.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_getLastPowerNeeded_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var last_power_needed: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
+            self.assertIn('return {"source_owner": "port_game.source_power_graph_get_last_power_needed_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/blocks/power/PowerGraph.java"', source_text)
+            self.assertIn('"field": "private float lastPowerProduced, lastPowerNeeded, lastPowerStored;"', source_text)
+            self.assertIn('"method": "public float getLastPowerNeeded(){"', source_text)
+            self.assertIn('"return_last_power_needed": "return lastPowerNeeded;"', source_text)
+            self.assertIn('"last_power_needed": last_power_needed', source_text)
+
+    def test_emit_bridges_power_graph_get_last_power_produced_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            power_path = source_root / "mindustry" / "world" / "blocks" / "power" / "PowerGraph.java"
+            power_path.parent.mkdir(parents=True, exist_ok=True)
+            power_path.write_text(
+                """
+package mindustry.world.blocks.power;
+
+public class PowerGraph{
+    private float lastPowerProduced, lastPowerNeeded, lastPowerStored;
+
+    public float getLastPowerProduced(){
+        return lastPowerProduced;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "power" / "PowerGraph.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_getLastPowerProduced_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var last_power_produced: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
+            self.assertIn('return {"source_owner": "port_game.source_power_graph_get_last_power_produced_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/blocks/power/PowerGraph.java"', source_text)
+            self.assertIn('"field": "private float lastPowerProduced, lastPowerNeeded, lastPowerStored;"', source_text)
+            self.assertIn('"method": "public float getLastPowerProduced(){"', source_text)
+            self.assertIn('"return_last_power_produced": "return lastPowerProduced;"', source_text)
+            self.assertIn('"last_power_produced": last_power_produced', source_text)
+
+    def test_emit_bridges_power_graph_get_power_produced_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            power_path = source_root / "mindustry" / "world" / "blocks" / "power" / "PowerGraph.java"
+            power_path.parent.mkdir(parents=True, exist_ok=True)
+            power_path.write_text(
+                """
+package mindustry.world.blocks.power;
+
+public class PowerGraph{
+    public final Seq<Building> producers = new Seq<>(false, 16, Building.class);
+
+    public float getPowerProduced(){
+        float powerProduced = 0f;
+        var items = producers.items;
+        for(int i = 0; i < producers.size; i++){
+            var producer = items[i];
+            powerProduced += producer.getPowerProduction() * producer.delta();
+        }
+        return powerProduced;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "power" / "PowerGraph.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_getPowerProduced_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var producers: Array = _args[0] if _args.size() > 0 else []", source_text)
+            self.assertIn("var _producer_count := 0", source_text)
+            self.assertIn('power_produced += float(producer.get("power_production", 0.0)) * float(producer.get("delta", 0.0))', source_text)
+            self.assertIn('return {"source_owner": "port_game.source_power_graph_power_produced_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/blocks/power/PowerGraph.java"', source_text)
+            self.assertIn('"method": "public float getPowerProduced(){"', source_text)
+            self.assertIn('"return_expr": "return powerProduced;"', source_text)
+            self.assertIn('"power_produced": power_produced', source_text)
+            self.assertIn('"producer_count": _producer_count', source_text)
+
+    def test_emit_bridges_power_graph_get_power_needed_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            power_path = source_root / "mindustry" / "world" / "blocks" / "power" / "PowerGraph.java"
+            power_path.parent.mkdir(parents=True, exist_ok=True)
+            power_path.write_text(
+                """
+package mindustry.world.blocks.power;
+
+public class PowerGraph{
+    public final Seq<Building> consumers = new Seq<>(false, 16, Building.class);
+
+    public float getPowerNeeded(){
+        float powerNeeded = 0f;
+        var items = consumers.items;
+        for(int i = 0; i < consumers.size; i++){
+            var consumer = items[i];
+            var consumePower = consumer.block.consPower;
+            if(consumer.shouldConsumePower){
+                powerNeeded += consumePower.requestedPower(consumer) * consumer.delta();
+            }
+        }
+        return powerNeeded;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "power" / "PowerGraph.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_getPowerNeeded_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var consumers: Array = _args[0] if _args.size() > 0 else []", source_text)
+            self.assertIn('var requested_power: float = (1.0 - power_status) * capacity if buffered else usage * (1.0 if should_consume else 0.0)', source_text)
+            self.assertIn('return {"source_owner": "port_game.source_power_graph_power_needed_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/blocks/power/PowerGraph.java"', source_text)
+            self.assertIn('"method": "public float getPowerNeeded(){"', source_text)
+            self.assertIn('"add_expr": "powerNeeded += consumePower.requestedPower(consumer) * consumer.delta();"', source_text)
+            self.assertIn('"return_expr": "return powerNeeded;"', source_text)
+            self.assertIn('"power_needed": power_needed', source_text)
+
+    def test_emit_bridges_power_graph_battery_getters_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            power_path = source_root / "mindustry" / "world" / "blocks" / "power" / "PowerGraph.java"
+            power_path.parent.mkdir(parents=True, exist_ok=True)
+            power_path.write_text(
+                """
+package mindustry.world.blocks.power;
+
+public class PowerGraph{
+    public final Seq<Building> batteries = new Seq<>(false, 16, Building.class);
+
+    public float getBatteryStored(){
+        float totalAccumulator = 0f;
+        var items = batteries.items;
+        for(int i = 0; i < batteries.size; i++){
+            var battery = items[i];
+            if(battery.enabled){
+                totalAccumulator += battery.power.status * battery.block.consPower.capacity;
+            }
+        }
+        return totalAccumulator;
+    }
+
+    public float getBatteryCapacity(){
+        float totalCapacity = 0f;
+        var items = batteries.items;
+        for(int i = 0; i < batteries.size; i++){
+            var battery = items[i];
+            if(battery.enabled){
+                totalCapacity += (1f - battery.power.status) * battery.block.consPower.capacity;
+            }
+        }
+        return totalCapacity;
+    }
+
+    public float getTotalBatteryCapacity(){
+        float totalCapacity = 0f;
+        var items = batteries.items;
+        for(int i = 0; i < batteries.size; i++){
+            var battery = items[i];
+            if(battery.enabled){
+                totalCapacity += battery.block.consPower.capacity;
+            }
+        }
+        return totalCapacity;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "power" / "PowerGraph.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            for method_name, state_key, return_expr in [
+                ("getBatteryStored", "stored", "return totalAccumulator;"),
+                ("getBatteryCapacity", "capacity", "return totalCapacity;"),
+                ("getTotalBatteryCapacity", "total_capacity", "return totalCapacity;"),
+            ]:
+                with self.subTest(method=method_name):
+                    self.assertIn(f"func java_method_{method_name}_", source_text)
+                    self.assertIn("var batteries: Array = _args[0] if _args.size() > 0 else []", source_text)
+                    self.assertIn('if bool(battery.get("enabled", false)):', source_text)
+                    self.assertIn('stored += power_status * source_capacity', source_text)
+                    self.assertIn('capacity += (1.0 - power_status) * source_capacity', source_text)
+                    self.assertIn('total_capacity += source_capacity', source_text)
+                    self.assertIn('return {"source_owner": "port_game.source_power_graph_battery_state"', source_text)
+                    self.assertIn(f'"{state_key}": {state_key}', source_text)
+                    self.assertIn(f'"return_expr": "{return_expr}"', source_text)
+
+    def test_emit_bridges_power_graph_battery_distribution_methods_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            power_path = source_root / "mindustry" / "world" / "blocks" / "power" / "PowerGraph.java"
+            power_path.parent.mkdir(parents=True, exist_ok=True)
+            power_path.write_text(
+                """
+package mindustry.world.blocks.power;
+
+public class PowerGraph{
+    public final Seq<Building> batteries = new Seq<>(false, 16, Building.class);
+    public final Seq<Building> consumers = new Seq<>(false, 16, Building.class);
+    private float lastPowerStored;
+
+    public float useBatteries(float needed){
+        float stored = getBatteryStored();
+        if(Mathf.equal(stored, 0f)) return 0f;
+        float used = Math.min(stored, needed);
+        float consumedPowerPercentage = Math.min(1.0f, needed / stored);
+        var items = batteries.items;
+        for(int i = 0; i < batteries.size; i++){
+            var battery = items[i];
+            if(battery.enabled){
+                battery.power.status *= (1f-consumedPowerPercentage);
+            }
+        }
+        return used;
+    }
+
+    public float chargeBatteries(float excess){
+        float capacity = getBatteryCapacity();
+        if(Mathf.equal(capacity, 0f)) return 0f;
+        //how much of the missing in each battery % is charged
+        float chargedPercent = Math.min(excess/capacity, 1f);
+        var items = batteries.items;
+        for(int i = 0; i < batteries.size; i++){
+            var battery = items[i];
+            //TODO why would it be 0
+            if(battery.enabled && battery.block.consPower.capacity > 0f){
+                battery.power.status += (1f - battery.power.status) * chargedPercent;
+            }
+        }
+        return Math.min(excess, capacity);
+    }
+
+    public void distributePower(float needed, float produced, boolean charged){
+        float coverage = Mathf.zero(needed) && Mathf.zero(produced) && !charged && Mathf.zero(lastPowerStored) ? 0f : Mathf.zero(needed) ? 1f : Math.min(1, produced / needed);
+        var items = consumers.items;
+        for(int i = 0; i < consumers.size; i++){
+            var consumer = items[i];
+            var cons = consumer.block.consPower;
+            if(cons.buffered){
+                if(!Mathf.zero(cons.capacity)){
+                    float maximumRate = cons.requestedPower(consumer) * coverage * consumer.delta();
+                    consumer.power.status = Mathf.clamp(consumer.power.status + maximumRate / cons.capacity);
+                }
+            }else{
+                if(consumer.shouldConsumePower){
+                    consumer.power.status = coverage;
+                }else{
+                    consumer.power.status = Math.min(1, produced / (needed + cons.usage * consumer.delta()));
+                    if(Float.isNaN(consumer.power.status)){
+                        consumer.power.status = 0f;
+                    }
+                }
+            }
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "power" / "PowerGraph.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_useBatteries_", source_text)
+            self.assertIn("func java_method_chargeBatteries_", source_text)
+            self.assertIn("func java_method_distributePower_", source_text)
+            self.assertIn("var batteries: Array = _args[0] if _args.size() > 0 else []", source_text)
+            self.assertIn("var needed: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
+            self.assertIn("var excess: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
+            self.assertIn("var consumers: Array = _args[0] if _args.size() > 0 else []", source_text)
+            self.assertIn("var produced: float = float(_args[2] if _args.size() > 2 else 0.0)", source_text)
+            self.assertIn("var charged: bool = bool(_args[3] if _args.size() > 3 else false)", source_text)
+            self.assertIn("var last_power_stored: float = float(_args[4] if _args.size() > 4 else 0.0)", source_text)
+            self.assertIn("source_batteries.append(battery.duplicate(true))", source_text)
+            self.assertIn('source_battery_state["power_status"] = power_status * (1.0 - consumed_power_percentage)', source_text)
+            self.assertIn('source_battery_state["power_status"] = power_status + (1.0 - power_status) * charged_percent', source_text)
+            self.assertIn('consumer_state["maximum_rate"] = maximum_rate', source_text)
+            self.assertIn('consumer_state["power_status"] = coverage', source_text)
+            self.assertIn('return {"source_owner": "port_game.source_power_graph_use_batteries_state"', source_text)
+            self.assertIn('return {"source_owner": "port_game.source_power_graph_charge_batteries_state"', source_text)
+            self.assertIn('return {"source_owner": "port_game.source_power_graph_distribute_power_state"', source_text)
+            self.assertIn('"used": used', source_text)
+            self.assertIn('"charged": charged', source_text)
+            self.assertIn('"coverage": coverage', source_text)
+
+    def test_emit_bridges_power_graph_topology_methods_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            power_path = source_root / "mindustry" / "world" / "blocks" / "power" / "PowerGraph.java"
+            power_path.parent.mkdir(parents=True, exist_ok=True)
+            power_path.write_text(
+                """
+package mindustry.world.blocks.power;
+
+public class PowerGraph{
+    public int graphID;
+    public void addGraph(PowerGraph graph){
+        if(graph == this) return;
+        if(graph.all.size > all.size){
+            graph.addGraph(this);
+            return;
+        }
+        if(graph.entity != null) graph.entity.remove();
+        for(Building tile : graph.all){
+            add(tile);
+        }
+        checkAdd();
+    }
+
+    public void add(Building build){
+        if(build == null || build.power == null) return;
+        if(build.power.graph != this || !build.power.init){
+            build.power.graph = this;
+            build.power.init = true;
+            all.add(build);
+        }
+    }
+
+    public void checkAdd(){
+        if(entity != null) entity.add();
+    }
+
+    public void clear(){
+        all.clear();
+        producers.clear();
+        consumers.clear();
+        batteries.clear();
+        if(entity != null) entity.remove();
+    }
+
+    public void removeList(Building build){
+        all.remove(build);
+        producers.remove(build);
+        consumers.remove(build);
+        batteries.remove(build);
+    }
+
+    public String toString(){
+        return "PowerGraph{producers=" + producers + ", consumers=" + consumers + ", batteries=" + batteries + ", all=" + all + ", graphID=" + graphID + "}";
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "power" / "PowerGraph.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_addGraph_", source_text)
+            self.assertIn("func java_method_add_", source_text)
+            self.assertIn("func java_method_checkAdd_", source_text)
+            self.assertIn("func java_method_clear_", source_text)
+            self.assertIn("func java_method_removeList_", source_text)
+            self.assertIn("func java_method_toString_", source_text)
+            self.assertIn('"source_owner": "port_game.source_power_graph_add_graph_state"', source_text)
+            self.assertIn('"source_owner": "port_game.source_power_graph_add_role_state"', source_text)
+            self.assertIn('"source_owner": "port_game.source_power_graph_check_add_state"', source_text)
+            self.assertIn('"source_owner": "port_game.source_power_graph_clear_state"', source_text)
+            self.assertIn('"source_owner": "port_game.source_power_graph_remove_list_state"', source_text)
+            self.assertIn('return "PowerGraph{producers=" + producers + ", consumers=" + consumers + ", batteries=" + batteries + ", all=" + all + ", graphID=" + str(graph_id) + "}"', source_text)
+
+    def test_emit_bridges_power_graph_reflow_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            power_path = source_root / "mindustry" / "world" / "blocks" / "power" / "PowerGraph.java"
+            power_path.parent.mkdir(parents=True, exist_ok=True)
+            power_path.write_text(
+                """
+package mindustry.world.blocks.power;
+
+public class PowerGraph{
+    public void reflow(Building tile){
+        queue.clear();
+        queue.addLast(tile);
+        closedSet.clear();
+
+        while(queue.size > 0){
+            Building child = queue.removeFirst();
+            add(child);
+            checkAdd();
+
+            for(Building next : child.getPowerConnections(outArray2)){
+                if(closedSet.add(next.pos())){
+                    queue.addLast(next);
+                }
+            }
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "power" / "PowerGraph.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_reflow_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var tile: Dictionary = (_args[0] as Dictionary).duplicate(true) if _args.size() > 0 and _args[0] is Dictionary else {}", source_text)
+            self.assertIn("var queue: Array = []", source_text)
+            self.assertIn("queue.append(tile.duplicate(true))", source_text)
+            self.assertIn("var child: Dictionary = child_variant", source_text)
+            self.assertIn("visited_positions.append(child.get(\"pos\", null))", source_text)
+            self.assertIn("var add_state: Dictionary = java_method_add_21([child])", source_text)
+            self.assertIn("tile_add_states.append(add_state)", source_text)
+            self.assertIn("for next in connections:", source_text)
+            self.assertIn("queue.append(next.duplicate(true))", source_text)
+            self.assertIn('return {"source_owner": "port_game.source_power_graph_reflow_state"', source_text)
+            self.assertIn('"method": "public void reflow(Building tile){"', source_text)
+            self.assertIn('"tile_add_states": tile_add_states', source_text)
+            self.assertIn('"check_add_count": check_add_count', source_text)
+
+    def test_emit_bridges_power_graph_update_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            power_path = source_root / "mindustry" / "world" / "blocks" / "power" / "PowerGraph.java"
+            power_path.parent.mkdir(parents=True, exist_ok=True)
+            power_path.write_text(
+                """
+package mindustry.world.blocks.power;
+
+public class PowerGraph{
+    public void update(){
+        if(!consumers.isEmpty() && consumers.first().cheating()){
+            for(Building tile : consumers){
+                tile.power.status = 1f;
+            }
+            lastPowerNeeded = lastPowerProduced = 1f;
+            return;
+        }
+
+        float powerNeeded = getPowerNeeded();
+        float powerProduced = getPowerProduced();
+        lastPowerNeeded = powerNeeded;
+        lastPowerProduced = powerProduced;
+        lastScaledPowerIn = (powerProduced + energyDelta) / Time.delta;
+        lastScaledPowerOut = powerNeeded / Time.delta;
+        lastCapacity = getTotalBatteryCapacity();
+        lastPowerStored = getBatteryStored();
+        powerBalance.add((lastPowerProduced - lastPowerNeeded + energyDelta) / Time.delta);
+        energyDelta = 0f;
+
+        if(!(consumers.size == 0 && producers.size == 0 && batteries.size == 0)){
+            boolean charged = false;
+            if(!Mathf.equal(powerNeeded, powerProduced)){
+                if(powerNeeded > powerProduced){
+                    float powerBatteryUsed = useBatteries(powerNeeded - powerProduced);
+                    powerProduced += powerBatteryUsed;
+                    lastPowerProduced += powerBatteryUsed;
+                }else if(powerProduced > powerNeeded){
+                    charged = true;
+                    powerProduced -= chargeBatteries(powerProduced - powerNeeded);
+                }
+            }
+            distributePower(powerNeeded, powerProduced, charged);
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "power" / "PowerGraph.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_update_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var consumers: Array = _args[0] if _args.size() > 0 else []", source_text)
+            self.assertIn("var cheat_state: Dictionary = SourcePowerGraphState.update_cheat_state(consumers)", source_text)
+            self.assertIn("var balance_state: Dictionary = SourcePowerGraphState.update_balance_state(consumers, producers, batteries, energy_delta, source_delta, power_balance_samples)", source_text)
+            self.assertIn("var battery_distribute_state: Dictionary = SourcePowerGraphState.update_battery_distribute_state(consumers, producers, batteries, power_needed, power_produced, last_power_produced, last_power_stored)", source_text)
+            self.assertIn('return {"source_owner": "port_game.source_power_graph_update_state"', source_text)
+            self.assertIn('"cheat_state": cheat_state', source_text)
+            self.assertIn('"balance_state": balance_state', source_text)
+            self.assertIn('"battery_distribute_state": battery_distribute_state', source_text)
+
+    def test_emit_bridges_power_graph_remove_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            power_path = source_root / "mindustry" / "world" / "blocks" / "power" / "PowerGraph.java"
+            power_path.parent.mkdir(parents=True, exist_ok=True)
+            power_path.write_text(
+                """
+package mindustry.world.blocks.power;
+
+public class PowerGraph{
+    public void remove(Building tile){
+        for(Building other : tile.getPowerConnections(outArray1)){
+            if(other.power.graph != this) continue;
+            PowerGraph graph = new PowerGraph();
+            graph.checkAdd();
+            graph.add(other);
+            queue.clear();
+            queue.addLast(other);
+            while(queue.size > 0){
+                Building child = queue.removeFirst();
+                graph.add(child);
+                for(Building next : child.getPowerConnections(outArray2)){
+                    if(next != tile && next.power.graph != graph){
+                        graph.add(next);
+                        queue.addLast(next);
+                    }
+                }
+            }
+            graph.update();
+        }
+        if(entity != null) entity.remove();
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "power" / "PowerGraph.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_remove_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var seed_state: Dictionary = SourcePowerGraphState.remove_branch_seed_state(tile)", source_text)
+            self.assertIn("var bfs_state: Dictionary = SourcePowerGraphState.remove_branch_bfs_state(tile)", source_text)
+            self.assertIn("var update_state: Dictionary = SourcePowerGraphState.remove_branch_update_state(tile)", source_text)
+            self.assertIn("var empty_entity_state: Dictionary = SourcePowerGraphState.remove_empty_entity_state(tile, entity_present)", source_text)
+            self.assertIn('return {"source_owner": "port_game.source_power_graph_remove_state"', source_text)
+            self.assertIn('"seed_state": seed_state', source_text)
+            self.assertIn('"bfs_state": bfs_state', source_text)
+            self.assertIn('"update_state": update_state', source_text)
+            self.assertIn('"empty_entity_state": empty_entity_state', source_text)
+
+    def test_emit_bridges_power_graph_get_last_power_stored_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            power_path = source_root / "mindustry" / "world" / "blocks" / "power" / "PowerGraph.java"
+            power_path.parent.mkdir(parents=True, exist_ok=True)
+            power_path.write_text(
+                """
+package mindustry.world.blocks.power;
+
+public class PowerGraph{
+    private float lastPowerProduced, lastPowerNeeded, lastPowerStored;
+
+    public float getLastPowerStored(){
+        return lastPowerStored;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "power" / "PowerGraph.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_getLastPowerStored_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var last_power_stored: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
+            self.assertIn('return {"source_owner": "port_game.source_power_graph_get_last_power_stored_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/blocks/power/PowerGraph.java"', source_text)
+            self.assertIn('"field": "private float lastPowerProduced, lastPowerNeeded, lastPowerStored;"', source_text)
+            self.assertIn('"method": "public float getLastPowerStored(){"', source_text)
+            self.assertIn('"return_last_power_stored": "return lastPowerStored;"', source_text)
+            self.assertIn('"last_power_stored": last_power_stored', source_text)
+
+    def test_emit_bridges_power_graph_transfer_power_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            power_path = source_root / "mindustry" / "world" / "blocks" / "power" / "PowerGraph.java"
+            power_path.parent.mkdir(parents=True, exist_ok=True)
+            power_path.write_text(
+                """
+package mindustry.world.blocks.power;
+
+public class PowerGraph{
+    private float energyDelta = 0f;
+
+    public void transferPower(float amount){
+        if(amount > 0){
+            chargeBatteries(amount);
+        }else{
+            useBatteries(-amount);
+        }
+        energyDelta += amount;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "power" / "PowerGraph.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_transferPower_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var amount: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
+            self.assertIn("var energy_delta: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
+            self.assertIn("var energy_delta_after: float = energy_delta + amount", source_text)
+            self.assertIn('return {"source_owner": "port_game.source_power_graph_transfer_power_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/blocks/power/PowerGraph.java"', source_text)
+            self.assertIn('"field": "private float energyDelta = 0f;"', source_text)
+            self.assertIn('"method": "public void transferPower(float amount){"', source_text)
+            self.assertIn('"positive_guard": "if(amount > 0){"', source_text)
+            self.assertIn('"charge_call": "chargeBatteries(amount);"', source_text)
+            self.assertIn('"else_branch": "}else{"', source_text)
+            self.assertIn('"use_call": "useBatteries(-amount);"', source_text)
+            self.assertIn('"energy_delta_add": "energyDelta += amount;"', source_text)
+            self.assertIn('"amount": amount', source_text)
+            self.assertIn('"energy_delta": energy_delta', source_text)
+            self.assertIn('"energy_delta_after": energy_delta_after', source_text)
+
+    def test_emit_bridges_power_graph_get_satisfaction_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            power_path = source_root / "mindustry" / "world" / "blocks" / "power" / "PowerGraph.java"
+            power_path.parent.mkdir(parents=True, exist_ok=True)
+            power_path.write_text(
+                """
+package mindustry.world.blocks.power;
+
+public class PowerGraph{
+    private float lastPowerProduced, lastPowerNeeded, lastPowerStored;
+
+    public float getSatisfaction(){
+        if(Mathf.zero(lastPowerProduced)){
+            return 0f;
+        }else if(Mathf.zero(lastPowerNeeded)){
+            return 1f;
+        }
+        return Mathf.clamp(lastPowerProduced / lastPowerNeeded);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "power" / "PowerGraph.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_getSatisfaction_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var last_power_produced: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
+            self.assertIn("var last_power_needed: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
+            self.assertIn("var satisfaction: float = 0.0", source_text)
+            self.assertIn("elif absf(last_power_needed) <= 0.000001:", source_text)
+            self.assertIn("satisfaction = clamp(last_power_produced / last_power_needed, 0.0, 1.0)", source_text)
+            self.assertIn('return {"source_owner": "port_game.source_power_graph_get_satisfaction_state"', source_text)
+            self.assertIn('"field": "private float lastPowerProduced, lastPowerNeeded, lastPowerStored;"', source_text)
+            self.assertIn('"method": "public float getSatisfaction(){"', source_text)
+            self.assertIn('"produced_zero_guard": "if(Mathf.zero(lastPowerProduced)){"', source_text)
+            self.assertIn('"return_zero": "return 0f;"', source_text)
+            self.assertIn('"needed_zero_guard": "}else if(Mathf.zero(lastPowerNeeded)){"', source_text)
+            self.assertIn('"return_one": "return 1f;"', source_text)
+            self.assertIn('"return_clamp": "return Mathf.clamp(lastPowerProduced / lastPowerNeeded);"', source_text)
+            self.assertIn('"satisfaction": satisfaction', source_text)
 
     def test_emit_bridges_consume_trigger_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:

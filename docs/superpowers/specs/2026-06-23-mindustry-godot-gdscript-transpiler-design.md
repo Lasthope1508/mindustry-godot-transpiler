@@ -44,6 +44,9 @@
 - [x] N164: Source BuildingComp onConfigureClosed no-op state.
 - [x] N165: Source BuildingComp shouldShowConfigure default state.
 - [x] N166: Source BuildingComp shouldHideConfigure canonical visibility state.
+- [x] N1958: Generated BuildingComp configure callbacks delegate to existing canonical configure state.
+- [x] N1959: Generated BuildingComp drawConfigure delegates to existing canonical draw state.
+- [x] N1960: Generated BuildingComp checkSolid delegates directly to existing canonical checkSolid state; parity bridge preserves the existing result envelope.
 - [x] N167: Source BuildingComp drawConfigure canonical square state.
 - [x] N168: Source BuildingComp checkSolid default state.
 - [x] N169: Source BuildingComp handleDamage passthrough state.
@@ -3286,3 +3289,4 @@ When Godot CLI is not on `PATH`, use the configured MCP Godot path from `C:\User
 | 2026-07-25 | M128 placed power battery runtime callback ownership: `SourcePlacedPowerBatteryRuntimeState.default_callbacks_state(game)` now owns PortGame callback map for battery runtime summary, while proof keeps private local callbacks and registry audit stays at `totalSourceFunctions=1032`, `registeredSourceOwnerCount=1025`, `exemptSourceOwnerCount=7`, `legacyUnregisteredOwnerCount=0`; focused Playable/Parity/SourceSymbols/SSOT gates and Godot proof all pass. |
 | 2026-07-25 | M129 placed power distribution runtime callback ownership: `SourcePlacedPowerDistributionRuntimeState.default_callbacks_state(game)` now owns the PortGame callback map for source requested-power, PowerGraph balance, and battery distribution wiring, cutting five more `Callable(self, ...)` entries from `PortGame.gd`; focused RED/GREEN, full Playable/Parity/SourceSymbols/SSOT gates, and Godot distribution runtime proof all pass. |
 | 2026-07-25 | M130 building item dump callback ownership: `SourceBuildingItemDumpState.default_callbacks_state(game)` now owns the PortGame increment-dump callback used by `put_item_state` and `dump_null_proximity_scan_state`, trimming two more `Callable(self, ...)` entries from `PortGame.gd`; focused RED/GREEN, full Playable/Parity/SourceSymbols/SSOT gates, and `BUILDING_ITEM_DUMP_STATE_MODULE_PROOF` all pass. |
+| 2026-09-09 | N1840-N1841 UnitComp metadata SSOT: `SourceUnitMetadataState` now owns source-backed `ammof() -> 1f` and `displayable() -> type.hoverable`; generated `UnitComp.java_method_ammof_24` and `java_method_displayable_25` delegate through the canonical owner, with registry/ledger/contracts/schema entries, focused Python tests (`598 passed`), SSOT JSON validation (`0 errors`), and headless Godot runtime proof (`matches=true`, registry valid, one headquarter per SSOT). |

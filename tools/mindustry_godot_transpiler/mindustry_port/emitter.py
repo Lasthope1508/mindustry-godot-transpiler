@@ -51,7 +51,2083 @@ def _canonicalize_generated_preload_aliases(lines: list[str]) -> list[str]:
     return canonicalized
 
 
-def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[str]:
+def _method_body_lines(java_file: dict, type_entry: dict, method: dict, method_index: int) -> list[str]:
+    method_name = method.get("name")
+    parameters = method.get("parameters", [])
+    parameter_types = [parameter.get("type") for parameter in parameters]
+    if (
+        java_file.get("path") == "mindustry/input/InputHandler.java"
+        and type_entry.get("name") == "InputHandler"
+    ):
+        if method_name == "getMouseX" and not parameters:
+            return [
+                "\tvar mouse_x := float(_args[0] if _args.size() > 0 else 0.0)",
+                "\tvar result := SourceInputHandlerState.get_mouse_x_state(mouse_x)",
+                "\tresult[\"generated_owner\"] = SourceInputHandlerSourceTextState.SOURCE_INPUT_HANDLER_GET_MOUSE_X_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceInputHandlerSourceTextState.SOURCE_INPUT_HANDLER_GET_MOUSE_X_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "getMouseY" and not parameters:
+            return [
+                "\tvar mouse_y := float(_args[0] if _args.size() > 0 else 0.0)",
+                "\tvar result := SourceInputHandlerState.get_mouse_y_state(mouse_y)",
+                "\tresult[\"generated_owner\"] = SourceInputHandlerSourceTextState.SOURCE_INPUT_HANDLER_GET_MOUSE_Y_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceInputHandlerSourceTextState.SOURCE_INPUT_HANDLER_GET_MOUSE_Y_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "panCamera" and parameter_types == ["Vec2"]:
+            return [
+                "\tvar position: Vector2 = _args[0] if _args.size() > 0 and _args[0] is Vector2 else Vector2.ZERO",
+                "\tvar locked := bool(_args[1] if _args.size() > 1 else false)",
+                "\tvar camera_position_before: Vector2 = _args[2] if _args.size() > 2 and _args[2] is Vector2 else Vector2.ZERO",
+                "\tvar result := SourceInputHandlerState.pan_camera_state(position, locked, camera_position_before)",
+                "\tresult[\"generated_owner\"] = SourceInputHandlerSourceTextState.SOURCE_INPUT_HANDLER_PAN_CAMERA_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceInputHandlerSourceTextState.SOURCE_INPUT_HANDLER_PAN_CAMERA_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "selectedBlock" and not parameters:
+            return [
+                "\tvar block_present := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar result := SourceInputHandlerState.selected_block_state(block_present)",
+                "\tresult[\"generated_owner\"] = SourceInputHandlerSourceTextState.SOURCE_INPUT_HANDLER_SELECTED_BLOCK_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceInputHandlerSourceTextState.SOURCE_INPUT_HANDLER_SELECTED_BLOCK_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "isPlacing" and not parameters:
+            return [
+                "\tvar block_present := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar result := SourceInputHandlerState.is_placing_state(block_present)",
+                "\tresult[\"generated_owner\"] = SourceInputHandlerSourceTextState.SOURCE_INPUT_HANDLER_IS_PLACING_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceInputHandlerSourceTextState.SOURCE_INPUT_HANDLER_IS_PLACING_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "isBreaking" and not parameters:
+            return [
+                "\tvar result := SourceInputHandlerState.is_breaking_state()",
+                "\tresult[\"generated_owner\"] = SourceInputHandlerSourceTextState.SOURCE_INPUT_HANDLER_IS_BREAKING_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceInputHandlerSourceTextState.SOURCE_INPUT_HANDLER_IS_BREAKING_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "mouseAngle" and parameter_types == ["float", "float"]:
+            return [
+                "\tvar x_value := float(_args[0] if _args.size() > 0 else 0.0)",
+                "\tvar y_value := float(_args[1] if _args.size() > 1 else 0.0)",
+                "\tvar mouse_world: Vector2 = _args[2] if _args.size() > 2 and _args[2] is Vector2 else Vector2.ZERO",
+                "\tvar result := SourceInputHandlerState.mouse_angle_state(x_value, y_value, mouse_world)",
+                "\tresult[\"generated_owner\"] = SourceInputHandlerSourceTextState.SOURCE_INPUT_HANDLER_MOUSE_ANGLE_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceInputHandlerSourceTextState.SOURCE_INPUT_HANDLER_MOUSE_ANGLE_GENERATED_METHOD",
+                "\treturn result",
+            ]
+    if java_file.get("path") == "mindustry/world/Block.java" and type_entry.get("name") == "Block":
+        if method_name == "drawSideRegion":
+            return [
+                "\tvar region_width := float(_args[0] if _args.size() > 0 else 0.0)",
+                "\tvar region_scale := float(_args[1] if _args.size() > 1 else 1.0)",
+                "\tvar x_value := float(_args[2] if _args.size() > 2 else 0.0)",
+                "\tvar y_value := float(_args[3] if _args.size() > 3 else 0.0)",
+                "\tvar block_size := float(_args[4] if _args.size() > 4 else 1.0)",
+                "\tvar source_tilesize := float(_args[5] if _args.size() > 5 else 8.0)",
+                "\tvar rotation := int(_args[6] if _args.size() > 6 else 0)",
+                "\treturn source_block_draw_state.generated_draw_side_region_result_state(region_width, region_scale, x_value, y_value, block_size, source_tilesize, rotation)",
+            ]
+        if method_name == "drawPotentialLinks":
+            return [
+                "\tvar consumes_power := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar outputs_power := bool(_args[1] if _args.size() > 1 else false)",
+                "\tvar has_power := bool(_args[2] if _args.size() > 2 else false)",
+                "\tvar connected_power := bool(_args[3] if _args.size() > 3 else false)",
+                "\tvar tile_present := bool(_args[4] if _args.size() > 4 else false)",
+                "\tvar x_value := int(_args[5] if _args.size() > 5 else 0)",
+                "\tvar y_value := int(_args[6] if _args.size() > 6 else 0)",
+                "\tvar source_tilesize := float(_args[7] if _args.size() > 7 else 8.0)",
+                "\tvar offset_value := float(_args[8] if _args.size() > 8 else 0.0)",
+                "\tvar block_size := float(_args[9] if _args.size() > 9 else 1.0)",
+                "\tvar power_links: Array = _args[10] if _args.size() > 10 and _args[10] is Array else []",
+                "\tvar beam_links: Array = _args[11] if _args.size() > 11 and _args[11] is Array else []",
+                "\treturn source_block_draw_state.generated_draw_potential_links_result_state(consumes_power, outputs_power, has_power, connected_power, tile_present, x_value, y_value, source_tilesize, offset_value, block_size, power_links, beam_links)",
+            ]
+        if method_name == "drawPlaceText" and len(parameters) == 4:
+            return [
+                "\tvar pixelate := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar text_value := str(_args[1] if _args.size() > 1 else \"\")",
+                "\tvar x_value := int(_args[2] if _args.size() > 2 else 0)",
+                "\tvar y_value := int(_args[3] if _args.size() > 3 else 0)",
+                "\tvar valid := bool(_args[4] if _args.size() > 4 else false)",
+                "\tvar source_tilesize := float(_args[5] if _args.size() > 5 else 8.0)",
+                "\tvar offset_value := float(_args[6] if _args.size() > 6 else 0.0)",
+                "\tvar block_size := float(_args[7] if _args.size() > 7 else 1.0)",
+                "\tvar layout_width := float(_args[8] if _args.size() > 8 else 0.0)",
+                "\tvar layout_height := float(_args[9] if _args.size() > 9 else 0.0)",
+                "\treturn source_block_draw_state.generated_draw_place_text_simple_result_state(pixelate, text_value, x_value, y_value, valid, source_tilesize, offset_value, block_size, layout_width, layout_height)",
+            ]
+        if method_name == "drawPlaceText" and len(parameters) == 5:
+            return [
+                "\tvar pixelate := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar text_value := str(_args[1] if _args.size() > 1 else \"\")",
+                "\tvar x_value := int(_args[2] if _args.size() > 2 else 0)",
+                "\tvar y_value := int(_args[3] if _args.size() > 3 else 0)",
+                "\tvar color_value: Variant = _args[4] if _args.size() > 4 else \"Pal.accent\"",
+                "\tvar draw_line := bool(_args[5] if _args.size() > 5 else true)",
+                "\tvar source_tilesize := float(_args[6] if _args.size() > 6 else 8.0)",
+                "\tvar offset_value := float(_args[7] if _args.size() > 7 else 0.0)",
+                "\tvar block_size := float(_args[8] if _args.size() > 8 else 1.0)",
+                "\tvar layout_width := float(_args[9] if _args.size() > 9 else 0.0)",
+                "\tvar layout_height := float(_args[10] if _args.size() > 10 else 0.0)",
+                "\treturn source_block_draw_state.generated_draw_place_text_result_state(pixelate, text_value, x_value, y_value, color_value, draw_line, source_tilesize, offset_value, block_size, layout_width, layout_height)",
+            ]
+    if (
+        java_file.get("path") == "mindustry/type/UnitType.java"
+        and type_entry.get("name") == "UnitType"
+    ):
+        method_name = method.get("name")
+        parameters = method.get("parameters", [])
+        parameter_types = [parameter.get("type") for parameter in parameters]
+        if method_name == "createController" and parameter_types == ["Unit"]:
+            return [
+                "\tvar controller_get: Callable = _args[0] if _args.size() > 0 and _args[0] is Callable else Callable()",
+                "\tvar unit: Variant = _args[1] if _args.size() > 1 else null",
+                "\tvar result := SourceUnitTypeState.create_controller_state(controller_get, unit)",
+                "\tresult[\"generated_owner\"] = SourceUnitTypeSourceTextState.SOURCE_UNIT_TYPE_CREATE_CONTROLLER_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitTypeSourceTextState.SOURCE_UNIT_TYPE_CREATE_CONTROLLER_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "hasWeapons" and not parameters:
+            return [
+                "\tvar weapons: Array = _args[0] if _args.size() > 0 and _args[0] is Array else []",
+                "\tvar result := SourceUnitTypeState.has_weapons_state(weapons)",
+                "\tresult[\"generated_owner\"] = SourceUnitTypeSourceTextState.SOURCE_UNIT_TYPE_HAS_WEAPONS_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitTypeSourceTextState.SOURCE_UNIT_TYPE_HAS_WEAPONS_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "targetable" and parameter_types == ["Unit", "Team"]:
+            return [
+                "\tvar type_targetable: bool = bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar vulnerable_with_payloads: bool = bool(_args[1] if _args.size() > 1 else false)",
+                "\tvar unit_is_payloadc: bool = bool(_args[2] if _args.size() > 2 else false)",
+                "\tvar unit_has_payload: bool = bool(_args[3] if _args.size() > 3 else false)",
+                "\tvar unit: Variant = _args[4] if _args.size() > 4 else null",
+                "\tvar targeter: Variant = _args[5] if _args.size() > 5 else null",
+                "\tvar result := SourceUnitTypeState.targetable_state(type_targetable, vulnerable_with_payloads, unit_is_payloadc, unit_has_payload, unit, targeter)",
+                "\tresult[\"generated_owner\"] = SourceUnitTypeSourceTextState.SOURCE_UNIT_TYPE_TARGETABLE_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitTypeSourceTextState.SOURCE_UNIT_TYPE_TARGETABLE_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "killable" and parameter_types == ["Unit"]:
+            return [
+                "\tvar type_killable: bool = bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar unit: Variant = _args[1] if _args.size() > 1 else null",
+                "\tvar result := SourceUnitTypeState.killable_state(type_killable, unit)",
+                "\tresult[\"generated_owner\"] = SourceUnitTypeSourceTextState.SOURCE_UNIT_TYPE_KILLABLE_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitTypeSourceTextState.SOURCE_UNIT_TYPE_KILLABLE_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "hittable" and parameter_types == ["Unit"]:
+            return [
+                "\tvar type_hittable: bool = bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar vulnerable_with_payloads: bool = bool(_args[1] if _args.size() > 1 else false)",
+                "\tvar unit_is_payloadc: bool = bool(_args[2] if _args.size() > 2 else false)",
+                "\tvar unit_has_payload: bool = bool(_args[3] if _args.size() > 3 else false)",
+                "\tvar unit: Variant = _args[4] if _args.size() > 4 else null",
+                "\tvar result := SourceUnitTypeState.hittable_state(type_hittable, vulnerable_with_payloads, unit_is_payloadc, unit_has_payload, unit)",
+                "\tresult[\"generated_owner\"] = SourceUnitTypeSourceTextState.SOURCE_UNIT_TYPE_HITTABLE_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitTypeSourceTextState.SOURCE_UNIT_TYPE_HITTABLE_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "getUnitStances" and parameter_types == ["Unit", "Seq"]:
+            return [
+                "\tvar controller_is_command_ai: bool = bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar command_is_mine: bool = bool(_args[1] if _args.size() > 1 else false)",
+                "\tvar mine_floor: bool = bool(_args[2] if _args.size() > 2 else false)",
+                "\tvar mine_walls: bool = bool(_args[3] if _args.size() > 3 else false)",
+                "\tvar present_ores: Array = _args[4] if _args.size() > 4 and _args[4] is Array else []",
+                "\tvar stances: Array = _args[5] if _args.size() > 5 and _args[5] is Array else []",
+                "\tvar extra_stances: Array = _args[6] if _args.size() > 6 and _args[6] is Array else []",
+                "\tvar out: Array = _args[7] if _args.size() > 7 and _args[7] is Array else []",
+                "\tvar result := SourceUnitTypeState.get_unit_stances_state(controller_is_command_ai, command_is_mine, mine_floor, mine_walls, present_ores, stances, extra_stances, out)",
+                "\tresult[\"generated_owner\"] = SourceUnitTypeSourceTextState.SOURCE_UNIT_TYPE_GET_UNIT_STANCES_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitTypeSourceTextState.SOURCE_UNIT_TYPE_GET_UNIT_STANCES_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "allowStance" and parameter_types == ["Unit", "UnitStance"]:
+            return [
+                "\tvar stance: Variant = _args[0] if _args.size() > 0 else null",
+                "\tvar controller_is_command_ai: bool = bool(_args[1] if _args.size() > 1 else false)",
+                "\tvar command_is_mine: bool = bool(_args[2] if _args.size() > 2 else false)",
+                "\tvar mine_floor: bool = bool(_args[3] if _args.size() > 3 else false)",
+                "\tvar mine_walls: bool = bool(_args[4] if _args.size() > 4 else false)",
+                "\tvar present_ores: Array = _args[5] if _args.size() > 5 and _args[5] is Array else []",
+                "\tvar stances: Array = _args[6] if _args.size() > 6 and _args[6] is Array else []",
+                "\tvar extra_stances: Array = _args[7] if _args.size() > 7 and _args[7] is Array else []",
+                "\tvar out: Array = _args[8] if _args.size() > 8 and _args[8] is Array else []",
+                "\tvar result := SourceUnitTypeState.allow_stance_state(stance, controller_is_command_ai, command_is_mine, mine_floor, mine_walls, present_ores, stances, extra_stances, out)",
+                "\tresult[\"generated_owner\"] = SourceUnitTypeSourceTextState.SOURCE_UNIT_TYPE_ALLOW_STANCE_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitTypeSourceTextState.SOURCE_UNIT_TYPE_ALLOW_STANCE_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "allowCommand" and parameter_types == ["Unit", "UnitCommand"]:
+            return [
+                "\tvar commands: Array = _args[0] if _args.size() > 0 and _args[0] is Array else []",
+                "\tvar command: Variant = _args[1] if _args.size() > 1 else null",
+                "\tvar result := SourceUnitTypeState.allow_command_state(commands, command)",
+                "\tresult[\"generated_owner\"] = SourceUnitTypeSourceTextState.SOURCE_UNIT_TYPE_ALLOW_COMMAND_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitTypeSourceTextState.SOURCE_UNIT_TYPE_ALLOW_COMMAND_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "update" and parameter_types == ["Unit"]:
+            return [
+                "\tvar unit: Variant = _args[0] if _args.size() > 0 else null",
+                "\tvar result := SourceUnitTypeState.update_state(unit)",
+                "\tresult[\"generated_owner\"] = SourceUnitTypeSourceTextState.SOURCE_UNIT_TYPE_UPDATE_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitTypeSourceTextState.SOURCE_UNIT_TYPE_UPDATE_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "updatePayload" and parameter_types == ["Unit", "Unit", "Building"]:
+            return [
+                "\tvar unit: Variant = _args[0] if _args.size() > 0 else null",
+                "\tvar unit_holder: Variant = _args[1] if _args.size() > 1 else null",
+                "\tvar building_holder: Variant = _args[2] if _args.size() > 2 else null",
+                "\tvar result := SourceUnitTypeState.update_payload_state(unit, unit_holder, building_holder)",
+                "\tresult[\"generated_owner\"] = SourceUnitTypeSourceTextState.SOURCE_UNIT_TYPE_UPDATE_PAYLOAD_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitTypeSourceTextState.SOURCE_UNIT_TYPE_UPDATE_PAYLOAD_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "killed" and parameter_types == ["Unit"]:
+            return [
+                "\tvar unit: Variant = _args[0] if _args.size() > 0 else null",
+                "\tvar result := SourceUnitTypeState.killed_state(unit)",
+                "\tresult[\"generated_owner\"] = SourceUnitTypeSourceTextState.SOURCE_UNIT_TYPE_KILLED_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitTypeSourceTextState.SOURCE_UNIT_TYPE_KILLED_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "landed" and parameter_types == ["Unit"]:
+            return [
+                "\tvar unit: Variant = _args[0] if _args.size() > 0 else null",
+                "\tvar result := SourceUnitTypeState.landed_state(unit)",
+                "\tresult[\"generated_owner\"] = SourceUnitTypeSourceTextState.SOURCE_UNIT_TYPE_LANDED_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitTypeSourceTextState.SOURCE_UNIT_TYPE_LANDED_GENERATED_METHOD",
+                "\treturn result",
+            ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/UnitComp.java"
+        and type_entry.get("name") == "UnitComp"
+    ):
+        method_name = method.get("name")
+        parameters = method.get("parameters", [])
+        parameter_types = [parameter.get("type") for parameter in parameters]
+        if method_name == "checkTarget" and parameter_types == ["boolean", "boolean"]:
+            return [
+                "\tvar elevation_value := float(_args[0] if _args.size() > 0 else 0.0)",
+                "\tvar target_air := bool(_args[1] if _args.size() > 1 else false)",
+                "\tvar target_ground := bool(_args[2] if _args.size() > 2 else false)",
+                "\tvar result := SourceUnitUpdateState.check_target_state(elevation_value, target_air, target_ground)",
+                "\tresult[\"source_owner\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_CHECK_TARGET_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_CHECK_TARGET_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "isGrounded" and not parameters:
+            return [
+                "\tvar elevation_value := float(_args[0] if _args.size() > 0 else 0.0)",
+                "\tvar grounded := SourceUnitUpdateState.is_grounded(elevation_value)",
+                "\treturn {\"source_owner\": SourceUnitUpdateSourceTextState.SOURCE_UNIT_IS_GROUNDED_GENERATED_OWNER, \"generated_method\": SourceUnitUpdateSourceTextState.SOURCE_UNIT_IS_GROUNDED_GENERATED_METHOD, \"grounded\": grounded}",
+            ]
+        if method_name == "isFlying" and not parameters:
+            return [
+                "\tvar elevation_value := float(_args[0] if _args.size() > 0 else 0.0)",
+                "\tvar flying := SourceUnitUpdateState.is_flying(elevation_value)",
+                "\treturn {\"source_owner\": SourceUnitUpdateSourceTextState.SOURCE_UNIT_IS_FLYING_GENERATED_OWNER, \"generated_method\": SourceUnitUpdateSourceTextState.SOURCE_UNIT_IS_FLYING_GENERATED_METHOD, \"flying\": flying}",
+            ]
+        if method_name == "canDrown" and not parameters:
+            return [
+                "\tvar elevation_value := float(_args[0] if _args.size() > 0 else 0.0)",
+                "\tvar type_can_drown := bool(_args[1] if _args.size() > 1 else false)",
+                "\tvar result := SourceUnitUpdateState.can_drown_state(elevation_value, type_can_drown)",
+                "\tresult[\"source_owner\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_CAN_DROWN_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_CAN_DROWN_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "drownFloor" and not parameters:
+            return [
+                "\tvar floor_on_value: Variant = _args[0] if _args.size() > 0 else null",
+                "\tvar floor_value: Variant = SourceUnitUpdateState.drown_floor_state(floor_on_value)",
+                "\treturn {\"source_owner\": SourceUnitUpdateSourceTextState.SOURCE_UNIT_DROWN_FLOOR_GENERATED_OWNER, \"generated_method\": SourceUnitUpdateSourceTextState.SOURCE_UNIT_DROWN_FLOOR_GENERATED_METHOD, \"floor\": floor_value}",
+            ]
+        if method_name == "wobble" and not parameters:
+            return [
+                "\tvar current_x := float(_args[0] if _args.size() > 0 else 0.0)",
+                "\tvar current_y := float(_args[1] if _args.size() > 1 else 0.0)",
+                "\tvar source_time := float(_args[2] if _args.size() > 2 else 0.0)",
+                "\tvar source_delta := float(_args[3] if _args.size() > 3 else 0.0)",
+                "\tvar elevation_value := float(_args[4] if _args.size() > 4 else 0.0)",
+                "\tvar unit_id := int(_args[5] if _args.size() > 5 else 0)",
+                "\tvar game: Object = _args[6] if _args.size() > 6 else null",
+                "\tvar result := SourceUnitUpdateState.game_wobble_state(game, current_x, current_y, source_time, source_delta, elevation_value, unit_id)",
+                "\tresult[\"source_owner\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_WOBBLE_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_WOBBLE_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "moveAt" and parameter_types == ["Vec2", "float"]:
+            return [
+                "\tvar vel_x := float(_args[0] if _args.size() > 0 else 0.0)",
+                "\tvar vel_y := float(_args[1] if _args.size() > 1 else 0.0)",
+                "\tvar vector_x := float(_args[2] if _args.size() > 2 else 0.0)",
+                "\tvar vector_y := float(_args[3] if _args.size() > 3 else 0.0)",
+                "\tvar acceleration := float(_args[4] if _args.size() > 4 else 0.0)",
+                "\tvar source_delta := float(_args[5] if _args.size() > 5 else 0.0)",
+                "\tvar game: Object = _args[6] if _args.size() > 6 else self",
+                "\tvar result := SourceUnitUpdateState.game_move_at_state(game, vel_x, vel_y, vector_x, vector_y, acceleration, source_delta)",
+                "\tresult[\"source_owner\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_MOVE_AT_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_MOVE_AT_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "floorSpeedMultiplier" and not parameters:
+            return [
+                "\tvar elevation_value := float(_args[0] if _args.size() > 0 else 0.0)",
+                "\tvar type_hovering := bool(_args[1] if _args.size() > 1 else false)",
+                "\tvar floor_on_speed_multiplier := float(_args[2] if _args.size() > 2 else 1.0)",
+                "\tvar type_floor_multiplier := float(_args[3] if _args.size() > 3 else 1.0)",
+                "\tvar speed_multiplier_value := float(_args[4] if _args.size() > 4 else 1.0)",
+                "\tvar result := SourceUnitUpdateState.floor_speed_multiplier_state(elevation_value, type_hovering, floor_on_speed_multiplier, type_floor_multiplier, speed_multiplier_value)",
+                "\tresult[\"source_owner\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_FLOOR_SPEED_MULTIPLIER_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_FLOOR_SPEED_MULTIPLIER_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "unloaded" and not parameters:
+            return [
+                "\tvar unit_state: Variant = _args[0] if _args.size() > 0 else null",
+                "\tvar result: Variant = SourceUnitUpdateState.unloaded_state(unit_state)",
+                "\treturn {\"source_owner\": SourceUnitUpdateSourceTextState.SOURCE_UNIT_UNLOADED_GENERATED_OWNER, \"generated_method\": SourceUnitUpdateSourceTextState.SOURCE_UNIT_UNLOADED_GENERATED_METHOD, \"result\": result}",
+            ]
+        if method_name == "updateBoosting" and parameter_types == ["boolean"]:
+            return [
+                "\tvar boost := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar result := SourceUnitUpdateState.boosting_default_event_state(boost)",
+                "\tresult[\"source_owner\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_UPDATE_BOOSTING_DEFAULT_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_UPDATE_BOOSTING_DEFAULT_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "updateBoosting" and parameter_types == ["boolean", "boolean"]:
+            return [
+                "\tvar boost := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar event := bool(_args[1] if _args.size() > 1 else false)",
+                "\tvar type_can_boost := bool(_args[2] if _args.size() > 2 else false)",
+                "\tvar dead_state := bool(_args[3] if _args.size() > 3 else false)",
+                "\tvar elevation_value := float(_args[4] if _args.size() > 4 else 0.0)",
+                "\tvar on_solid_result := bool(_args[5] if _args.size() > 5 else false)",
+                "\tvar can_land_result := bool(_args[6] if _args.size() > 6 else false)",
+                "\tvar type_rise_speed := float(_args[7] if _args.size() > 7 else 0.0)",
+                "\tvar type_descent_speed := float(_args[8] if _args.size() > 8 else 0.0)",
+                "\tvar source_delta := float(_args[9] if _args.size() > 9 else 0.0)",
+                "\tvar guard_result := SourceUnitUpdateState.boosting_guard_state(type_can_boost, dead_state, elevation_value)",
+                "\tif bool(guard_result.get(\"returned\", false)):",
+                "\t\tguard_result[\"source_owner\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_UPDATE_BOOSTING_GENERATED_OWNER",
+                "\t\tguard_result[\"generated_method\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_UPDATE_BOOSTING_GENERATED_METHOD",
+                "\t\treturn guard_result",
+                "\tvar should_result := SourceUnitUpdateState.boosting_should_boost_state(boost, on_solid_result, elevation_value, can_land_result)",
+                "\tvar elevation_result := SourceUnitUpdateState.boosting_elevation_state(elevation_value, type_can_boost, bool(should_result.get(\"should_boost\", false)), type_rise_speed, type_descent_speed, source_delta)",
+                "\tvar event_result := SourceUnitUpdateState.boosting_event_state(event)",
+                "\tguard_result.merge(should_result)",
+                "\tguard_result.merge(elevation_result)",
+                "\tguard_result.merge(event_result)",
+                "\tguard_result[\"source_owner\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_UPDATE_BOOSTING_GENERATED_OWNER",
+                "\tguard_result[\"generated_method\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_UPDATE_BOOSTING_GENERATED_METHOD",
+                "\treturn guard_result",
+            ]
+        if method_name == "movePref" and parameter_types == ["Vec2"]:
+            return [
+                "\tvar type_omni_movement := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar movement_x := float(_args[1] if _args.size() > 1 else 0.0)",
+                "\tvar movement_y := float(_args[2] if _args.size() > 2 else 0.0)",
+                "\tvar result := SourceUnitUpdateState.move_pref_state(type_omni_movement, movement_x, movement_y)",
+                "\tresult[\"source_owner\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_MOVE_PREF_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_MOVE_PREF_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "moveAt" and parameter_types == ["Vec2"]:
+            return [
+                "\tvar vector_x := float(_args[0] if _args.size() > 0 else 0.0)",
+                "\tvar vector_y := float(_args[1] if _args.size() > 1 else 0.0)",
+                "\tvar type_accel := float(_args[2] if _args.size() > 2 else 0.0)",
+                "\tvar result := SourceUnitUpdateState.move_at_default_accel_state(vector_x, vector_y, type_accel)",
+                "\tresult[\"source_owner\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_MOVE_AT_DEFAULT_ACCEL_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_MOVE_AT_DEFAULT_ACCEL_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "approach" and parameter_types == ["Vec2"]:
+            return [
+                "\tvar vel_x := float(_args[0] if _args.size() > 0 else 0.0)",
+                "\tvar vel_y := float(_args[1] if _args.size() > 1 else 0.0)",
+                "\tvar vector_x := float(_args[2] if _args.size() > 2 else 0.0)",
+                "\tvar vector_y := float(_args[3] if _args.size() > 3 else 0.0)",
+                "\tvar type_accel := float(_args[4] if _args.size() > 4 else 0.0)",
+                "\tvar speed_value := float(_args[5] if _args.size() > 5 else 0.0)",
+                "\tvar source_delta := float(_args[6] if _args.size() > 6 else 0.0)",
+                "\tvar result := SourceUnitUpdateState.approach_state(vel_x, vel_y, vector_x, vector_y, type_accel, speed_value, source_delta)",
+                "\tresult[\"source_owner\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_APPROACH_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_APPROACH_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "rotateMove" and parameter_types == ["Vec2"]:
+            return [
+                "\tvar current_rotation := float(_args[0] if _args.size() > 0 else 0.0)",
+                "\tvar vec_x := float(_args[1] if _args.size() > 1 else 0.0)",
+                "\tvar vec_y := float(_args[2] if _args.size() > 2 else 0.0)",
+                "\tvar type_rotate_speed := float(_args[3] if _args.size() > 3 else 0.0)",
+                "\tvar speed_multiplier_value := float(_args[4] if _args.size() > 4 else 1.0)",
+                "\tvar source_delta := float(_args[5] if _args.size() > 5 else 0.0)",
+                "\tvar game: Object = _args[6] if _args.size() > 6 else self",
+                "\tvar result := SourceUnitUpdateState.rotate_move_motion_state(current_rotation, vec_x, vec_y)",
+                "\tvar rotation_result := SourceUnitUpdateState.game_rotate_move_rotation_state(game, current_rotation, vec_x, vec_y, type_rotate_speed, speed_multiplier_value, source_delta)",
+                "\tresult.merge(rotation_result)",
+                "\tresult[\"source_owner\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_ROTATE_MOVE_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_ROTATE_MOVE_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "physicSize" and not parameters:
+            return [
+                "\tvar hit_size := float(_args[0] if _args.size() > 0 else 0.0)",
+                "\tvar size := SourceUnitUpdateState.physic_size(hit_size)",
+                "\treturn {\"source_owner\": SourceUnitUpdateSourceTextState.SOURCE_UNIT_PHYSIC_SIZE_GENERATED_OWNER, \"generated_method\": SourceUnitUpdateSourceTextState.SOURCE_UNIT_PHYSIC_SIZE_GENERATED_METHOD, \"size\": size}",
+            ]
+        if method_name == "inRange" and parameter_types == ["Position"]:
+            return [
+                "\tvar unit_x := float(_args[0] if _args.size() > 0 else 0.0)",
+                "\tvar unit_y := float(_args[1] if _args.size() > 1 else 0.0)",
+                "\tvar other_x := float(_args[2] if _args.size() > 2 else 0.0)",
+                "\tvar other_y := float(_args[3] if _args.size() > 3 else 0.0)",
+                "\tvar type_range := float(_args[4] if _args.size() > 4 else 0.0)",
+                "\tvar in_range := SourceUnitUpdateState.in_range(unit_x, unit_y, other_x, other_y, type_range)",
+                "\treturn {\"source_owner\": SourceUnitUpdateSourceTextState.SOURCE_UNIT_IN_RANGE_GENERATED_OWNER, \"generated_method\": SourceUnitUpdateSourceTextState.SOURCE_UNIT_IN_RANGE_GENERATED_METHOD, \"in_range\": in_range}",
+            ]
+        if method_name == "range" and not parameters:
+            return [
+                "\tvar type_max_range := float(_args[0] if _args.size() > 0 else 0.0)",
+                "\tvar result := SourceUnitUpdateState.range_state(type_max_range)",
+                "\tresult[\"source_owner\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_RANGE_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_RANGE_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "clipSize" and not parameters:
+            return [
+                "\tvar is_building := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar infinite_resources := bool(_args[1] if _args.size() > 1 else false)",
+                "\tvar type_clip_size := float(_args[2] if _args.size() > 2 else 0.0)",
+                "\tvar type_region_width := float(_args[3] if _args.size() > 3 else 0.0)",
+                "\tvar type_build_range := float(_args[4] if _args.size() > 4 else 0.0)",
+                "\tvar source_tilesize := float(_args[5] if _args.size() > 5 else SOURCE_TILESIZE)",
+                "\tvar is_mining := bool(_args[6] if _args.size() > 6 else false)",
+                "\tvar type_mine_range := float(_args[7] if _args.size() > 7 else 0.0)",
+                "\tvar result := SourceUnitUpdateState.clip_size_state(is_building, infinite_resources, type_clip_size, type_region_width, type_build_range, source_tilesize, is_mining, type_mine_range)",
+                "\tresult[\"source_owner\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_CLIP_SIZE_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_CLIP_SIZE_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "sense" and parameter_types == ["LAccess"]:
+            return [
+                "\tvar sensor := str(_args[0] if _args.size() > 0 else \"\")",
+                "\tvar unit_state: Dictionary = _args[1] if _args.size() > 1 and _args[1] is Dictionary else {}",
+                "\tvar source_tilesize := float(_args[2] if _args.size() > 2 else SOURCE_TILESIZE)",
+                "\tvar result := SourceUnitUpdateState.laccess_state(sensor, unit_state, source_tilesize)",
+                "\tresult[\"source_owner\"] = SourceUnitSensorSourceTextState.SOURCE_UNIT_SENSE_LACCESS_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitSensorSourceTextState.SOURCE_UNIT_SENSE_LACCESS_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "senseObject" and parameter_types == ["LAccess"]:
+            return [
+                "\tvar sensor := str(_args[0] if _args.size() > 0 else \"\")",
+                "\tvar unit_state: Dictionary = _args[1] if _args.size() > 1 and _args[1] is Dictionary else {}",
+                "\tvar no_sensed: Variant = _args[2] if _args.size() > 2 else null",
+                "\tvar result := SourceUnitUpdateState.sense_object_state(sensor, unit_state, no_sensed)",
+                "\tresult[\"source_owner\"] = SourceUnitSensorSourceTextState.SOURCE_UNIT_SENSE_OBJECT_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitSensorSourceTextState.SOURCE_UNIT_SENSE_OBJECT_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "sense" and parameter_types == ["Content"]:
+            return [
+                "\tvar content: Dictionary = _args[0] if _args.size() > 0 and _args[0] is Dictionary else {}",
+                "\tvar unit_state: Dictionary = _args[1] if _args.size() > 1 and _args[1] is Dictionary else {}",
+                "\tvar source_tilesize := float(_args[2] if _args.size() > 2 else SOURCE_TILESIZE)",
+                "\tvar result := SourceUnitUpdateState.sense_content_state(content, unit_state, source_tilesize)",
+                "\tresult[\"source_owner\"] = SourceUnitSensorSourceTextState.SOURCE_UNIT_SENSE_CONTENT_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitSensorSourceTextState.SOURCE_UNIT_SENSE_CONTENT_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "setProp" and parameter_types == ["LAccess", "double"]:
+            return [
+                "\tvar prop := str(_args[0] if _args.size() > 0 else \"\")",
+                "\tvar value := float(_args[1] if _args.size() > 1 else 0.0)",
+                "\tvar unit_state: Dictionary = _args[2] if _args.size() > 2 and _args[2] is Dictionary else {}",
+                "\tvar source_tilesize := float(_args[3] if _args.size() > 3 else SOURCE_TILESIZE)",
+                "\tvar result := SourceUnitUpdateState.set_prop_laccess_double_state(prop, value, unit_state, source_tilesize)",
+                "\tresult[\"source_owner\"] = SourceUnitSetPropSourceTextState.SOURCE_UNIT_SET_PROP_LACCESS_DOUBLE_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitSetPropSourceTextState.SOURCE_UNIT_SET_PROP_LACCESS_DOUBLE_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "setProp" and parameter_types == ["LAccess", "Object"]:
+            return [
+                "\tvar prop := str(_args[0] if _args.size() > 0 else \"\")",
+                "\tvar value: Variant = _args[1] if _args.size() > 1 else null",
+                "\tvar unit_state: Dictionary = _args[2] if _args.size() > 2 and _args[2] is Dictionary else {}",
+                "\tvar result := SourceUnitUpdateState.set_prop_laccess_object_state(prop, value, unit_state)",
+                "\tresult[\"source_owner\"] = SourceUnitSetPropSourceTextState.SOURCE_UNIT_SET_PROP_LACCESS_OBJECT_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitSetPropSourceTextState.SOURCE_UNIT_SET_PROP_LACCESS_OBJECT_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "setProp" and parameter_types == ["UnlockableContent", "double"]:
+            return [
+                "\tvar content: Dictionary = _args[0] if _args.size() > 0 and _args[0] is Dictionary else {}",
+                "\tvar value := float(_args[1] if _args.size() > 1 else 0.0)",
+                "\tvar unit_state: Dictionary = _args[2] if _args.size() > 2 and _args[2] is Dictionary else {}",
+                "\tvar result := SourceUnitUpdateState.set_prop_content_state(content, value, unit_state)",
+                "\tresult[\"source_owner\"] = SourceUnitSetPropSourceTextState.SOURCE_UNIT_SET_PROP_CONTENT_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitSetPropSourceTextState.SOURCE_UNIT_SET_PROP_CONTENT_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "canShoot" and not parameters:
+            return [
+                "\tvar unit_state: Dictionary = _args[0] if _args.size() > 0 and _args[0] is Dictionary else {}",
+                "\tvar result := SourceUnitUpdateState.can_shoot_state(unit_state)",
+                "\tresult[\"source_owner\"] = SourceUnitCombatMetadataSourceTextState.SOURCE_UNIT_CAN_SHOOT_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitCombatMetadataSourceTextState.SOURCE_UNIT_CAN_SHOOT_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "isEnemy" and not parameters:
+            return [
+                "\tvar unit_is_enemy := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar result := SourceUnitUpdateState.is_enemy_state(unit_is_enemy)",
+                "\tresult[\"source_owner\"] = SourceUnitCombatMetadataSourceTextState.SOURCE_UNIT_IS_ENEMY_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitCombatMetadataSourceTextState.SOURCE_UNIT_IS_ENEMY_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "collides" and parameter_types == ["Hitboxc"]:
+            return [
+                "\tvar hittable := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar result := SourceUnitUpdateState.collides_state(hittable)",
+                "\tresult[\"source_owner\"] = SourceUnitCombatMetadataSourceTextState.SOURCE_UNIT_COLLIDES_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitCombatMetadataSourceTextState.SOURCE_UNIT_COLLIDES_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "itemCapacity" and not parameters:
+            return [
+                "\tvar type_item_capacity := int(_args[0] if _args.size() > 0 else 0)",
+                "\tvar result := SourceUnitUpdateState.item_capacity_state(type_item_capacity)",
+                "\tresult[\"source_owner\"] = SourceUnitCombatMetadataSourceTextState.SOURCE_UNIT_ITEM_CAPACITY_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitCombatMetadataSourceTextState.SOURCE_UNIT_ITEM_CAPACITY_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "bounds" and not parameters:
+            return [
+                "\tvar hit_size := float(_args[0] if _args.size() > 0 else 0.0)",
+                "\tvar result := SourceUnitUpdateState.unit_bounds_metric_state(hit_size)",
+                "\tresult[\"source_owner\"] = SourceUnitCombatMetadataSourceTextState.SOURCE_UNIT_BOUNDS_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitCombatMetadataSourceTextState.SOURCE_UNIT_BOUNDS_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "collision" and parameter_types == ["Hitboxc", "float", "float"]:
+            return [
+                "\tvar other_is_bullet := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar bullet: Variant = _args[1] if _args.size() > 1 else null",
+                "\tvar result := SourceUnitUpdateState.collision_state(other_is_bullet, bullet)",
+                "\tresult[\"source_owner\"] = SourceUnitControllerSourceTextState.SOURCE_UNIT_COLLISION_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitControllerSourceTextState.SOURCE_UNIT_COLLISION_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "controller" and parameter_types == ["UnitController"]:
+            return [
+                "\tvar next_controller: Variant = _args[0] if _args.size() > 0 else null",
+                "\tvar controller_unit: Variant = _args[1] if _args.size() > 1 else null",
+                "\tvar self_unit: Variant = _args[2] if _args.size() > 2 else null",
+                "\tvar result := SourceUnitUpdateState.controller_set_state(next_controller, controller_unit, self_unit)",
+                "\tresult[\"source_owner\"] = SourceUnitControllerSourceTextState.SOURCE_UNIT_CONTROLLER_SET_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitControllerSourceTextState.SOURCE_UNIT_CONTROLLER_SET_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "controller" and not parameters:
+            return [
+                "\tvar controller: Variant = _args[0] if _args.size() > 0 else null",
+                "\tvar result := SourceUnitUpdateState.controller_get_state(controller)",
+                "\tresult[\"source_owner\"] = SourceUnitControllerSourceTextState.SOURCE_UNIT_CONTROLLER_GET_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitControllerSourceTextState.SOURCE_UNIT_CONTROLLER_GET_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "resetController" and not parameters:
+            return [
+                "\tvar created_controller: Variant = _args[0] if _args.size() > 0 else null",
+                "\tvar result := SourceUnitUpdateState.reset_controller_state(created_controller)",
+                "\tresult[\"source_owner\"] = SourceUnitControllerSourceTextState.SOURCE_UNIT_RESET_CONTROLLER_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitControllerSourceTextState.SOURCE_UNIT_RESET_CONTROLLER_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "set" and parameter_types == ["UnitType", "UnitController"]:
+            return [
+                "\tvar current_type: Variant = _args[0] if _args.size() > 0 else null",
+                "\tvar definition: Variant = _args[1] if _args.size() > 1 else null",
+                "\tvar controller: Variant = _args[2] if _args.size() > 2 else null",
+                "\tvar controller_unit: Variant = _args[3] if _args.size() > 3 else null",
+                "\tvar self_unit: Variant = _args[4] if _args.size() > 4 else null",
+                "\tvar result := SourceUnitUpdateState.set_controller_state(current_type, definition, controller, controller_unit, self_unit)",
+                "\tresult[\"source_owner\"] = SourceUnitControllerSourceTextState.SOURCE_UNIT_SET_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitControllerSourceTextState.SOURCE_UNIT_SET_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "collisionLayer" and not parameters:
+            return [
+                "\tvar type_allow_leg_step := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar type_leg_physics_layer := bool(_args[1] if _args.size() > 1 else false)",
+                "\tvar is_grounded := bool(_args[2] if _args.size() > 2 else false)",
+                "\tvar layer_legs := int(_args[3] if _args.size() > 3 else SourceUnitControllerSourceTextState.SOURCE_UNIT_COLLISION_LAYER_LEGS_VALUE)",
+                "\tvar layer_ground := int(_args[4] if _args.size() > 4 else SourceUnitControllerSourceTextState.SOURCE_UNIT_COLLISION_LAYER_GROUND_VALUE)",
+                "\tvar layer_flying := int(_args[5] if _args.size() > 5 else SourceUnitControllerSourceTextState.SOURCE_UNIT_COLLISION_LAYER_FLYING_VALUE)",
+                "\tvar result := SourceUnitUpdateState.collision_layer_state(type_allow_leg_step, type_leg_physics_layer, is_grounded, layer_legs, layer_ground, layer_flying)",
+                "\tresult[\"source_owner\"] = SourceUnitControllerSourceTextState.SOURCE_UNIT_COLLISION_LAYER_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitControllerSourceTextState.SOURCE_UNIT_COLLISION_LAYER_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "lookAt" and parameter_types == ["float"]:
+            return [
+                "\tvar current_rotation := float(_args[0] if _args.size() > 0 else 0.0)",
+                "\tvar target_angle := float(_args[1] if _args.size() > 1 else 0.0)",
+                "\tvar type_rotate_speed := float(_args[2] if _args.size() > 2 else 0.0)",
+                "\tvar speed_multiplier_value := float(_args[3] if _args.size() > 3 else 1.0)",
+                "\tvar source_delta := float(_args[4] if _args.size() > 4 else 0.0)",
+                "\tvar game: Object = _args[5] if _args.size() > 5 else self",
+                "\tvar result := SourceUnitUpdateState.game_look_at_angle_state(game, current_rotation, target_angle, type_rotate_speed, speed_multiplier_value, source_delta)",
+                "\tresult[\"source_owner\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_LOOK_AT_ANGLE_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_LOOK_AT_ANGLE_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "lookAt" and parameter_types == ["Position"]:
+            return [
+                "\tvar current_rotation := float(_args[0] if _args.size() > 0 else 0.0)",
+                "\tvar unit_x := float(_args[1] if _args.size() > 1 else 0.0)",
+                "\tvar unit_y := float(_args[2] if _args.size() > 2 else 0.0)",
+                "\tvar target_x := float(_args[3] if _args.size() > 3 else 0.0)",
+                "\tvar target_y := float(_args[4] if _args.size() > 4 else 0.0)",
+                "\tvar type_rotate_speed := float(_args[5] if _args.size() > 5 else 0.0)",
+                "\tvar speed_multiplier_value := float(_args[6] if _args.size() > 6 else 1.0)",
+                "\tvar source_delta := float(_args[7] if _args.size() > 7 else 0.0)",
+                "\tvar game: Object = _args[8] if _args.size() > 8 else self",
+                "\tvar result := SourceUnitUpdateState.game_look_at_position_state(game, current_rotation, unit_x, unit_y, target_x, target_y, type_rotate_speed, speed_multiplier_value, source_delta)",
+                "\tresult[\"source_owner\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_LOOK_AT_POSITION_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_LOOK_AT_POSITION_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "lookAt" and parameter_types == ["float", "float"]:
+            return [
+                "\tvar current_rotation := float(_args[0] if _args.size() > 0 else 0.0)",
+                "\tvar unit_x := float(_args[1] if _args.size() > 1 else 0.0)",
+                "\tvar unit_y := float(_args[2] if _args.size() > 2 else 0.0)",
+                "\tvar target_x := float(_args[3] if _args.size() > 3 else 0.0)",
+                "\tvar target_y := float(_args[4] if _args.size() > 4 else 0.0)",
+                "\tvar type_rotate_speed := float(_args[5] if _args.size() > 5 else 0.0)",
+                "\tvar speed_multiplier_value := float(_args[6] if _args.size() > 6 else 1.0)",
+                "\tvar source_delta := float(_args[7] if _args.size() > 7 else 0.0)",
+                "\tvar game: Object = _args[8] if _args.size() > 8 else self",
+                "\tvar result := SourceUnitUpdateState.game_look_at_xy_state(game, current_rotation, unit_x, unit_y, target_x, target_y, type_rotate_speed, speed_multiplier_value, source_delta)",
+                "\tresult[\"source_owner\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_LOOK_AT_XY_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_LOOK_AT_XY_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "isAI" and not parameters:
+            return [
+                "\tvar controller_is_ai_controller := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar result := SourceUnitUpdateState.controller_predicates_state(controller_is_ai_controller, false)",
+                "\tresult[\"source_owner\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_IS_AI_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_IS_AI_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "allowCommand" and not parameters:
+            return [
+                "\tvar controller_is_command_ai := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar result := SourceUnitUpdateState.controller_predicates_state(false, controller_is_command_ai)",
+                "\tresult[\"source_owner\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_ALLOW_COMMAND_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_ALLOW_COMMAND_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "isCommandable" and not parameters:
+            return [
+                "\tvar controller_is_command_ai := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar result := SourceUnitUpdateState.controller_predicates_state(controller_is_command_ai, controller_is_command_ai)",
+                "\tresult[\"source_owner\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_IS_COMMANDABLE_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_IS_COMMANDABLE_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "canTarget" and parameter_types == ["Teamc"]:
+            return [
+                "\tvar other_exists := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar other_is_unit := bool(_args[1] if _args.size() > 1 else false)",
+                "\tvar other_unit_check_target_result := bool(_args[2] if _args.size() > 2 else false)",
+                "\tvar other_is_building := bool(_args[3] if _args.size() > 3 else false)",
+                "\tvar type_target_air := bool(_args[4] if _args.size() > 4 else false)",
+                "\tvar type_target_ground := bool(_args[5] if _args.size() > 5 else false)",
+                "\tvar result := SourceUnitUpdateState.can_target_state(other_exists, other_is_unit, other_unit_check_target_result, other_is_building, type_target_air, type_target_ground)",
+                "\tresult[\"source_owner\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_CAN_TARGET_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_CAN_TARGET_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "command" and not parameters:
+            return [
+                "\tvar controller_is_command_ai := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar result := SourceUnitUpdateState.command_state(controller_is_command_ai)",
+                "\tresult[\"source_owner\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_COMMAND_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_COMMAND_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "isMissile" and not parameters:
+            return [
+                "\tvar unit_is_timed_killc := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar result := SourceUnitUpdateState.is_missile_state(unit_is_timed_killc)",
+                "\tresult[\"source_owner\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_IS_MISSILE_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_IS_MISSILE_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "count" and not parameters:
+            return [
+                "\tvar team_data_count_type_result := int(_args[0] if _args.size() > 0 else 0)",
+                "\tvar type_id := int(_args[1] if _args.size() > 1 else 0)",
+                "\tvar result := SourceUnitUpdateState.count_state(team_data_count_type_result, type_id)",
+                "\tresult[\"source_owner\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_COUNT_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_COUNT_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "cap" and not parameters:
+            return [
+                "\tvar team_is_wave_team := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar rules_pvp := bool(_args[1] if _args.size() > 1 else false)",
+                "\tvar state_is_campaign := bool(_args[2] if _args.size() > 2 else false)",
+                "\tvar rules_disable_unit_cap := bool(_args[3] if _args.size() > 3 else false)",
+                "\tvar team_ignore_unit_cap := bool(_args[4] if _args.size() > 4 else false)",
+                "\tvar rules_unit_cap_variable := bool(_args[5] if _args.size() > 5 else false)",
+                "\tvar rules_unit_cap := int(_args[6] if _args.size() > 6 else 0)",
+                "\tvar team_data_unit_cap := int(_args[7] if _args.size() > 7 else 0)",
+                "\tvar result := SourceUnitUpdateState.cap_state(team_is_wave_team, rules_pvp, state_is_campaign, rules_disable_unit_cap, team_ignore_unit_cap, rules_unit_cap_variable, rules_unit_cap, team_data_unit_cap)",
+                "\tresult[\"source_owner\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_CAP_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_CAP_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "setType" and parameter_types == ["UnitType"]:
+            return [
+                "\tvar type_id := int(_args[0] if _args.size() > 0 else 0)",
+                "\tvar type_health := float(_args[1] if _args.size() > 1 else 0.0)",
+                "\tvar type_drag := float(_args[2] if _args.size() > 2 else 0.0)",
+                "\tvar type_armor := float(_args[3] if _args.size() > 3 else 0.0)",
+                "\tvar type_hit_size := float(_args[4] if _args.size() > 4 else 0.0)",
+                "\tvar mounts_length := int(_args[5] if _args.size() > 5 else 0)",
+                "\tvar type_weapons_size := int(_args[6] if _args.size() > 6 else 0)",
+                "\tvar abilities_length := int(_args[7] if _args.size() > 7 else 0)",
+                "\tvar type_abilities_size := int(_args[8] if _args.size() > 8 else 0)",
+                "\tvar first_ability_is_empty_data_ability := bool(_args[9] if _args.size() > 9 else false)",
+                "\tvar controller_is_null := bool(_args[10] if _args.size() > 10 else false)",
+                "\tvar result := SourceUnitUpdateState.set_type_state(type_id, type_health, type_drag, type_armor, type_hit_size, mounts_length, type_weapons_size, abilities_length, type_abilities_size, first_ability_is_empty_data_ability, controller_is_null)",
+                "\tresult[\"source_owner\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_SET_TYPE_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_SET_TYPE_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "playerControllable" and not parameters:
+            return [
+                "\tvar type_player_controllable := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar controller_is_logic_ai := bool(_args[1] if _args.size() > 1 else false)",
+                "\tvar logic_controller_exists := bool(_args[2] if _args.size() > 2 else false)",
+                "\tvar logic_controller_block_privileged := bool(_args[3] if _args.size() > 3 else false)",
+                "\tvar result := SourceUnitUpdateState.player_controllable_state(type_player_controllable, controller_is_logic_ai, logic_controller_exists, logic_controller_block_privileged)",
+                "\tresult[\"source_owner\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_PLAYER_CONTROLLABLE_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_PLAYER_CONTROLLABLE_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "targetable" and parameter_types == ["Team"]:
+            return [
+                "\tvar type_targetable := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar type_vulnerable_with_payloads := bool(_args[1] if _args.size() > 1 else false)",
+                "\tvar unit_is_payloadc := bool(_args[2] if _args.size() > 2 else false)",
+                "\tvar unit_has_payload := bool(_args[3] if _args.size() > 3 else false)",
+                "\tvar targeter_id := int(_args[4] if _args.size() > 4 else 0)",
+                "\tvar result := SourceUnitUpdateState.targetable_state(type_targetable, type_vulnerable_with_payloads, unit_is_payloadc, unit_has_payload, targeter_id)",
+                "\tresult[\"source_owner\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_TARGETABLE_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_TARGETABLE_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "killable" and not parameters:
+            return [
+                "\tvar type_killable := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar result := SourceUnitUpdateState.killable_state(type_killable)",
+                "\tresult[\"source_owner\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_KILLABLE_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_KILLABLE_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "hittable" and not parameters:
+            return [
+                "\tvar type_hittable := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar type_vulnerable_with_payloads := bool(_args[1] if _args.size() > 1 else false)",
+                "\tvar unit_is_payloadc := bool(_args[2] if _args.size() > 2 else false)",
+                "\tvar unit_has_payload := bool(_args[3] if _args.size() > 3 else false)",
+                "\tvar result := SourceUnitUpdateState.hittable_state(type_hittable, type_vulnerable_with_payloads, unit_is_payloadc, unit_has_payload)",
+                "\tresult[\"source_owner\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_HITTABLE_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_HITTABLE_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "afterSync" and not parameters:
+            return [
+                "\tvar type_id := int(_args[0] if _args.size() > 0 else 0)",
+                "\tvar controller_exists := bool(_args[1] if _args.size() > 1 else false)",
+                "\tvar result := SourceUnitUpdateState.after_sync_state(type_id, controller_exists)",
+                "\tresult[\"source_owner\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_AFTER_SYNC_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_AFTER_SYNC_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "afterRead" and not parameters:
+            return [
+                "\tvar type_id := int(_args[0] if _args.size() > 0 else 0)",
+                "\tvar controller_is_ai_controller := bool(_args[1] if _args.size() > 1 else false)",
+                "\tvar ai_keep_state := bool(_args[2] if _args.size() > 2 else false)",
+                "\tvar controller_exists := bool(_args[3] if _args.size() > 3 else false)",
+                "\tvar result := SourceUnitUpdateState.after_read_state(type_id, controller_is_ai_controller, ai_keep_state, controller_exists)",
+                "\tresult[\"source_owner\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_AFTER_READ_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_AFTER_READ_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "afterReadAll" and not parameters:
+            return [
+                "\tvar controller_exists := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar result := SourceUnitUpdateState.after_read_all_state(controller_exists)",
+                "\tresult[\"source_owner\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_AFTER_READ_ALL_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_AFTER_READ_ALL_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "add" and not parameters:
+            return [
+                "\tvar type_use_unit_cap := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar count_after_add := int(_args[1] if _args.size() > 1 else 0)",
+                "\tvar cap_value := int(_args[2] if _args.size() > 2 else 0)",
+                "\tvar spawned_by_core := bool(_args[3] if _args.size() > 3 else false)",
+                "\tvar dead := bool(_args[4] if _args.size() > 4 else false)",
+                "\tvar rules_editor := bool(_args[5] if _args.size() > 5 else false)",
+                "\tvar result := SourceUnitUpdateState.add_state(type_use_unit_cap, count_after_add, cap_value, spawned_by_core, dead, rules_editor)",
+                "\tresult[\"source_owner\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_ADD_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_ADD_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "remove" and not parameters:
+            return [
+                "\tvar trail_exists := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar trail_size := int(_args[1] if _args.size() > 1 else 0)",
+                "\tvar trail_width := float(_args[2] if _args.size() > 2 else 0.0)",
+                "\tvar type_trail_color_exists := bool(_args[3] if _args.size() > 3 else false)",
+                "\tvar team_color := str(_args[4] if _args.size() > 4 else \"\")",
+                "\tvar type_trail_color := str(_args[5] if _args.size() > 5 else \"\")",
+                "\tvar result := SourceUnitDestroyState.remove_state(trail_exists, trail_size, trail_width, type_trail_color_exists, team_color, type_trail_color)",
+                "\tresult[\"source_owner\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_REMOVE_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_REMOVE_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "landed" and not parameters:
+            return [
+                "\tvar type_mech_land_shake := float(_args[0] if _args.size() > 0 else 0.0)",
+                "\tvar result := SourceUnitUpdateState.landed_state(type_mech_land_shake)",
+                "\tresult[\"source_owner\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_LANDED_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_LANDED_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "heal" and [parameter.get("name") for parameter in parameters] == ["amount"]:
+            return [
+                "\tvar current_health := float(_args[0] if _args.size() > 0 else 0.0)",
+                "\tvar max_health := float(_args[1] if _args.size() > 1 else 0.0)",
+                "\tvar amount := float(_args[2] if _args.size() > 2 else 0.0)",
+                "\tvar current_was_healed := bool(_args[3] if _args.size() > 3 else false)",
+                "\tvar result := SourceUnitUpdateState.heal_state(current_health, max_health, amount, current_was_healed)",
+                "\tresult[\"source_owner\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_HEAL_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_HEAL_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "updateDrowning" and not parameters:
+            return [
+                "\tvar floor_exists := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar floor_is_liquid := bool(_args[1] if _args.size() > 1 else false)",
+                "\tvar floor_drown_time := float(_args[2] if _args.size() > 2 else 0.0)",
+                "\tvar can_drown_value := bool(_args[3] if _args.size() > 3 else false)",
+                "\tvar current_drown_time := float(_args[4] if _args.size() > 4 else 0.0)",
+                "\tvar source_delta := float(_args[5] if _args.size() > 5 else 0.0)",
+                "\tvar hit_size := float(_args[6] if _args.size() > 6 else 0.0)",
+                "\tvar type_drown_time_multiplier := float(_args[7] if _args.size() > 7 else 1.0)",
+                "\tvar chance_delta_result := bool(_args[8] if _args.size() > 8 else false)",
+                "\tvar net_client := bool(_args[9] if _args.size() > 9 else false)",
+                "\tvar result := SourceUnitUpdateState.drowning_state(floor_exists, floor_is_liquid, floor_drown_time, can_drown_value, current_drown_time, source_delta, hit_size, type_drown_time_multiplier, chance_delta_result, net_client)",
+                "\tresult[\"source_owner\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_UPDATE_DROWNING_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_UPDATE_DROWNING_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "update" and not parameters:
+            return [
+                "\tvar context: Dictionary = _args[0] if _args.size() > 0 and _args[0] is Dictionary else {}",
+                "\tvar result := SourceUnitUpdateState.update_state(context)",
+                "\tresult[\"source_owner\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_UPDATE_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_UPDATE_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "shouldUpdateController" and not parameters:
+            return [
+                "\tvar result := SourceUnitUpdateState.ai_controller_server_gate_state(false, false, true, 0)",
+                "\tresult[\"source_owner\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_SHOULD_UPDATE_CONTROLLER_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_SHOULD_UPDATE_CONTROLLER_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "icon" and not parameters:
+            return [
+                "\tvar type_ui_icon: String = str(_args[0] if _args.size() > 0 else \"\")",
+                "\tvar result := SourceUnitMetadataState.unit_icon_state(type_ui_icon)",
+                "\tresult[\"source_owner\"] = SourceUnitMetadataState.SOURCE_UNIT_ICON_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitMetadataState.SOURCE_UNIT_ICON_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "destroy" and not parameters:
+            return [
+                "\tvar input_state: Dictionary = _args[0] if _args.size() > 0 and _args[0] is Dictionary else {}",
+                "\treturn SourceUnitDestroyState.destroy_state(input_state)",
+            ]
+        if method_name == "getControllerName" and not parameters:
+            return [
+                "\tvar is_player := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar player_colored_name := str(_args[1] if _args.size() > 1 else \"\")",
+                "\tvar controller_is_logic_ai := bool(_args[2] if _args.size() > 2 else false)",
+                "\tvar logic_controller_exists := bool(_args[3] if _args.size() > 3 else false)",
+                "\tvar logic_controller_last_accessed := str(_args[4] if _args.size() > 4 else \"\")",
+                "\tvar result := SourceUnitUpdateState.get_controller_name_state(is_player, player_colored_name, controller_is_logic_ai, logic_controller_exists, logic_controller_last_accessed)",
+                "\tresult[\"source_owner\"] = SourceUnitControllerSourceTextState.SOURCE_UNIT_GET_CONTROLLER_NAME_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitControllerSourceTextState.SOURCE_UNIT_GET_CONTROLLER_NAME_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "display" and parameter_types == ["Table"]:
+            return [
+                "\tvar table: Variant = _args[0] if _args.size() > 0 else null",
+                "\tvar result := SourceUnitUpdateState.display_state(table)",
+                "\tresult[\"source_owner\"] = SourceUnitControllerSourceTextState.SOURCE_UNIT_DISPLAY_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitControllerSourceTextState.SOURCE_UNIT_DISPLAY_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "draw" and not parameters:
+            return [
+                "\tvar result := SourceUnitUpdateState.draw_state()",
+                "\tresult[\"source_owner\"] = SourceUnitControllerSourceTextState.SOURCE_UNIT_DRAW_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitControllerSourceTextState.SOURCE_UNIT_DRAW_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "isPlayer" and not parameters:
+            return [
+                "\tvar controller_is_player := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar result := SourceUnitUpdateState.is_player_state(controller_is_player)",
+                "\tresult[\"source_owner\"] = SourceUnitControllerSourceTextState.SOURCE_UNIT_IS_PLAYER_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitControllerSourceTextState.SOURCE_UNIT_IS_PLAYER_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "getPlayer" and not parameters:
+            return [
+                "\tvar controller_is_player := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar controller: Variant = _args[1] if _args.size() > 1 else null",
+                "\tvar result := SourceUnitUpdateState.get_player_state(controller_is_player, controller)",
+                "\tresult[\"source_owner\"] = SourceUnitControllerSourceTextState.SOURCE_UNIT_GET_PLAYER_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitControllerSourceTextState.SOURCE_UNIT_GET_PLAYER_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "killed" and not parameters:
+            return [
+                "\tvar is_local_value := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar current_health := float(_args[1] if _args.size() > 1 else 0.0)",
+                "\tvar type_flying := bool(_args[2] if _args.size() > 2 else false)",
+                "\tvar type_create_wreck := bool(_args[3] if _args.size() > 3 else false)",
+                "\tvar wreck_sound := str(_args[4] if _args.size() > 4 else \"\")",
+                "\tvar wreck_sound_volume := float(_args[5] if _args.size() > 5 else 1.0)",
+                "\tvar unit_id := int(_args[6] if _args.size() > 6 else 0)",
+                "\tvar result := SourceUnitDestroyState.killed_state(is_local_value, current_health, type_flying, type_create_wreck, wreck_sound, wreck_sound_volume, unit_id)",
+                "\tresult[\"source_owner\"] = SourceUnitDestroySourceTextState.SOURCE_UNIT_KILLED_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitDestroySourceTextState.SOURCE_UNIT_KILLED_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "kill" and not parameters:
+            return [
+                "\tvar dead_value := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar net_client := bool(_args[1] if _args.size() > 1 else false)",
+                "\tvar killable_value := bool(_args[2] if _args.size() > 2 else false)",
+                "\tvar unit_id := int(_args[3] if _args.size() > 3 else 0)",
+                "\tvar result := SourceUnitDestroyState.kill_sync_state(dead_value, net_client, killable_value, unit_id)",
+                "\tresult[\"source_owner\"] = SourceUnitDestroySourceTextState.SOURCE_UNIT_KILL_SYNC_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitDestroySourceTextState.SOURCE_UNIT_KILL_SYNC_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "toString" and not parameters:
+            return [
+                "\tvar unit_id := int(_args[0] if _args.size() > 0 else 0)",
+                "\tvar unit_type: Variant = _args[1] if _args.size() > 1 else null",
+                "\tvar unit_x := float(_args[2] if _args.size() > 2 else 0.0)",
+                "\tvar unit_y := float(_args[3] if _args.size() > 3 else 0.0)",
+                "\tvar result := SourceUnitUpdateState.to_string_state(unit_id, unit_type, unit_x, unit_y)",
+                "\tresult[\"source_owner\"] = SourceUnitControllerSourceTextState.SOURCE_UNIT_TO_STRING_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitControllerSourceTextState.SOURCE_UNIT_TO_STRING_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "hasWeapons" and not parameters:
+            return [
+                "\tvar weapons: Array = _args[0] if _args.size() > 0 and _args[0] is Array else []",
+                "\tvar has_weapons := SourceUnitUpdateState.has_weapons(weapons)",
+                "\treturn {\"source_owner\": SourceUnitUpdateSourceTextState.SOURCE_UNIT_HAS_WEAPONS_GENERATED_OWNER, \"generated_method\": SourceUnitUpdateSourceTextState.SOURCE_UNIT_HAS_WEAPONS_GENERATED_METHOD, \"has_weapons\": has_weapons}",
+            ]
+        if method_name == "speed" and not parameters:
+            return [
+                "\tvar elevation_value := float(_args[0] if _args.size() > 0 else 0.0)",
+                "\tvar grounded_value := bool(_args[1] if _args.size() > 1 else false)",
+                "\tvar player_value := bool(_args[2] if _args.size() > 2 else false)",
+                "\tvar velocity_angle := float(_args[3] if _args.size() > 3 else 0.0)",
+                "\tvar rotation_value := float(_args[4] if _args.size() > 4 else 0.0)",
+                "\tvar strafe_penalty_value := float(_args[5] if _args.size() > 5 else 1.0)",
+                "\tvar can_boost_value := bool(_args[6] if _args.size() > 6 else false)",
+                "\tvar boost_multiplier_value := float(_args[7] if _args.size() > 7 else 1.0)",
+                "\tvar type_speed_value := float(_args[8] if _args.size() > 8 else 0.0)",
+                "\tvar floor_speed_multiplier_value := float(_args[9] if _args.size() > 9 else 1.0)",
+                "\tvar speed_value := SourceUnitUpdateState.speed(elevation_value, grounded_value, player_value, velocity_angle, rotation_value, strafe_penalty_value, can_boost_value, boost_multiplier_value, type_speed_value, floor_speed_multiplier_value)",
+                "\treturn {\"source_owner\": SourceUnitUpdateSourceTextState.SOURCE_UNIT_SPEED_GENERATED_OWNER, \"generated_method\": SourceUnitUpdateSourceTextState.SOURCE_UNIT_SPEED_GENERATED_METHOD, \"speed\": speed_value}",
+            ]
+        if method_name == "ammof" and not parameters:
+            return [
+                "\tvar result := SourceUnitUpdateState.ammof_state()",
+                "\tresult[\"source_owner\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_AMMOF_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_AMMOF_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "displayable" and not parameters:
+            return [
+                "\tvar type_hoverable := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar result := SourceUnitUpdateState.displayable_state(type_hoverable)",
+                "\tresult[\"source_owner\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_DISPLAYABLE_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_DISPLAYABLE_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "isSyncHidden" and parameter_types == ["Player"]:
+            return [
+                "\tvar is_shooting_value := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar in_fog_to_value := bool(_args[1] if _args.size() > 1 else false)",
+                "\tvar result := SourceUnitUpdateState.is_sync_hidden_state(is_shooting_value, in_fog_to_value)",
+                "\tresult[\"source_owner\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_IS_SYNC_HIDDEN_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_IS_SYNC_HIDDEN_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "handleSyncHidden" and not parameters:
+            return [
+                "\tvar unit_id := int(_args[0] if _args.size() > 0 else 0)",
+                "\tvar result := SourceUnitUpdateState.handle_sync_hidden_state(unit_id)",
+                "\tresult[\"source_owner\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_HANDLE_SYNC_HIDDEN_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_HANDLE_SYNC_HIDDEN_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "inFogTo" and parameter_types == ["Team"]:
+            return [
+                "\tvar same_team := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar rules_fog := bool(_args[1] if _args.size() > 1 else false)",
+                "\tvar hit_size := float(_args[2] if _args.size() > 2 else 0.0)",
+                "\tvar unit_x := float(_args[3] if _args.size() > 3 else 0.0)",
+                "\tvar unit_y := float(_args[4] if _args.size() > 4 else 0.0)",
+                "\tvar center_visible := bool(_args[5] if _args.size() > 5 else false)",
+                "\tvar d8_visible: Array = _args[6] if _args.size() > 6 and _args[6] is Array else []",
+                "\tvar result := SourceUnitUpdateState.in_fog_to_state(same_team, rules_fog, hit_size, unit_x, unit_y, center_visible, d8_visible)",
+                "\tresult[\"source_owner\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_IN_FOG_TO_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_IN_FOG_TO_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "isPathImpassable" and parameter_types == ["int", "int"]:
+            return [
+                "\tvar type_flying := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar tile_x := int(_args[1] if _args.size() > 1 else 0)",
+                "\tvar tile_y := int(_args[2] if _args.size() > 2 else 0)",
+                "\tvar tile_in_bounds := bool(_args[3] if _args.size() > 3 else false)",
+                "\tvar path_cost := int(_args[4] if _args.size() > 4 else 0)",
+                "\tvar result := SourceUnitUpdateState.is_path_impassable_state(type_flying, tile_x, tile_y, tile_in_bounds, path_cost)",
+                "\tresult[\"source_owner\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_IS_PATH_IMPASSABLE_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_IS_PATH_IMPASSABLE_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "canLand" and not parameters:
+            return [
+                "\tvar unit_x := float(_args[0] if _args.size() > 0 else 0.0)",
+                "\tvar unit_y := float(_args[1] if _args.size() > 1 else 0.0)",
+                "\tvar physic_size := float(_args[2] if _args.size() > 2 else 0.0)",
+                "\tvar on_solid_result := bool(_args[3] if _args.size() > 3 else false)",
+                "\tvar nearby_grounded_units_count := int(_args[4] if _args.size() > 4 else 0)",
+                "\tvar result := SourceUnitUpdateState.can_land_state(unit_x, unit_y, physic_size, on_solid_result, nearby_grounded_units_count)",
+                "\tresult[\"source_owner\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_CAN_LAND_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_CAN_LAND_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "prefRotation" and not parameters:
+            return [
+                "\tvar actively_building := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar rotate_to_building := bool(_args[1] if _args.size() > 1 else false)",
+                "\tvar build_plan_angle := float(_args[2] if _args.size() > 2 else 0.0)",
+                "\tvar mine_tile_exists := bool(_args[3] if _args.size() > 3 else false)",
+                "\tvar mine_tile_angle := float(_args[4] if _args.size() > 4 else 0.0)",
+                "\tvar moving := bool(_args[5] if _args.size() > 5 else false)",
+                "\tvar omni_movement := bool(_args[6] if _args.size() > 6 else false)",
+                "\tvar velocity_angle := float(_args[7] if _args.size() > 7 else 0.0)",
+                "\tvar current_rotation := float(_args[8] if _args.size() > 8 else 0.0)",
+                "\tvar result := SourceUnitUpdateState.pref_rotation_state(actively_building, rotate_to_building, build_plan_angle, mine_tile_exists, mine_tile_angle, moving, omni_movement, velocity_angle, current_rotation)",
+                "\tresult[\"source_owner\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_PREF_ROTATION_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_PREF_ROTATION_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "aimLook" and parameter_types == ["Position"]:
+            return [
+                "\tvar pos_x := float(_args[0] if _args.size() > 0 else 0.0)",
+                "\tvar pos_y := float(_args[1] if _args.size() > 1 else 0.0)",
+                "\tvar result := SourceUnitUpdateState.aim_look_position_state(pos_x, pos_y)",
+                "\tresult[\"source_owner\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_AIM_LOOK_POSITION_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_AIM_LOOK_POSITION_GENERATED_METHOD",
+                "\treturn result",
+            ]
+        if method_name == "aimLook" and parameter_types == ["float", "float"]:
+            return [
+                "\tvar target_x := float(_args[0] if _args.size() > 0 else 0.0)",
+                "\tvar target_y := float(_args[1] if _args.size() > 1 else 0.0)",
+                "\tvar result := SourceUnitUpdateState.aim_look_xy_state(target_x, target_y)",
+                "\tresult[\"source_owner\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_AIM_LOOK_XY_GENERATED_OWNER",
+                "\tresult[\"generated_method\"] = SourceUnitUpdateSourceTextState.SOURCE_UNIT_AIM_LOOK_XY_GENERATED_METHOD",
+                "\treturn result",
+            ]
+    if (
+        java_file.get("path") == "mindustry/world/Tile.java"
+        and type_entry.get("name") == "Tile"
+    ):
+        method_name = method.get("name")
+        parameters = method.get("parameters", [])
+        parameter_types = [parameter.get("type") for parameter in parameters]
+        if method_name == "pos" and not parameters:
+            return [
+                "\tvar x := int(_args[0] if _args.size() > 0 else 0)",
+                "\tvar y := int(_args[1] if _args.size() > 1 else 0)",
+                "\treturn SourceBlockGeometry.tile_pos_state(x, y)",
+            ]
+        if method_name == "array" and not parameters:
+            return [
+                "\tvar x := int(_args[0] if _args.size() > 0 else 0)",
+                "\tvar y := int(_args[1] if _args.size() > 1 else 0)",
+                "\tvar world_width := int(_args[2] if _args.size() > 2 else 0)",
+                "\treturn SourceBlockGeometry.tile_array_state(x, y, world_width)",
+            ]
+        if method_name == "relativeTo" and parameter_types == ["Tile"]:
+            return [
+                "\tvar x := int(_args[0] if _args.size() > 0 else 0)",
+                "\tvar y := int(_args[1] if _args.size() > 1 else 0)",
+                "\tvar cx := int(_args[2] if _args.size() > 2 else 0)",
+                "\tvar cy := int(_args[3] if _args.size() > 3 else 0)",
+                "\treturn SourceBlockGeometry.tile_relative_cardinal_state(x, y, cx, cy)",
+            ]
+        if method_name == "relativeTo" and parameter_types == ["int", "int"]:
+            return [
+                "\tvar x := int(_args[0] if _args.size() > 0 else 0)",
+                "\tvar y := int(_args[1] if _args.size() > 1 else 0)",
+                "\tvar cx := int(_args[2] if _args.size() > 2 else 0)",
+                "\tvar cy := int(_args[3] if _args.size() > 3 else 0)",
+                "\treturn SourceBlockGeometry.tile_relative_cardinal_state(x, y, cx, cy)",
+            ]
+        if method_name == "relativeTo" and parameter_types == ["int", "int", "int", "int"]:
+            return [
+                "\tvar x := int(_args[0] if _args.size() > 0 else 0)",
+                "\tvar y := int(_args[1] if _args.size() > 1 else 0)",
+                "\tvar cx := int(_args[2] if _args.size() > 2 else 0)",
+                "\tvar cy := int(_args[3] if _args.size() > 3 else 0)",
+                "\treturn SourceBlockGeometry.tile_relative_cardinal_state(x, y, cx, cy)",
+            ]
+        if method_name == "relativeTo" and parameter_types == ["float", "float", "float", "float"]:
+            return [
+                "\tvar x := float(_args[0] if _args.size() > 0 else 0.0)",
+                "\tvar y := float(_args[1] if _args.size() > 1 else 0.0)",
+                "\tvar cx := float(_args[2] if _args.size() > 2 else 0.0)",
+                "\tvar cy := float(_args[3] if _args.size() > 3 else 0.0)",
+                "\treturn SourceBlockGeometry.tile_relative_float_state(x, y, cx, cy)",
+            ]
+        if method_name == "absoluteRelativeTo" and parameter_types == ["int", "int"]:
+            return [
+                "\tvar x := int(_args[0] if _args.size() > 0 else 0)",
+                "\tvar y := int(_args[1] if _args.size() > 1 else 0)",
+                "\tvar cx := int(_args[2] if _args.size() > 2 else 0)",
+                "\tvar cy := int(_args[3] if _args.size() > 3 else 0)",
+                "\tvar block_size := int(_args[4] if _args.size() > 4 else 1)",
+                "\treturn SourceBlockGeometry.tile_absolute_relative_state(x, y, cx, cy, block_size)",
+            ]
+        if method_name == "getFlammability" and not parameters:
+            return [
+                "\tvar block_is_air := bool(_args[0] if _args.size() > 0 else true)",
+                "\tvar floor_liquid_drop_present := bool(_args[1] if _args.size() > 1 else false)",
+                "\tvar floor_liquid_flammability := float(_args[2] if _args.size() > 2 else 0.0)",
+                "\tvar build_present := bool(_args[3] if _args.size() > 3 else false)",
+                "\tvar block_has_items := bool(_args[4] if _args.size() > 4 else false)",
+                "\tvar build_items_total := float(_args[5] if _args.size() > 5 else 0.0)",
+                "\tvar item_flammability_sum := float(_args[6] if _args.size() > 6 else 0.0)",
+                "\tvar block_item_capacity := float(_args[7] if _args.size() > 7 else 0.0)",
+                "\tvar block_has_liquids := bool(_args[8] if _args.size() > 8 else false)",
+                "\tvar liquid_flammability_sum := float(_args[9] if _args.size() > 9 else 0.0)",
+                "\tvar block_liquid_capacity := float(_args[10] if _args.size() > 10 else 0.0)",
+                "\treturn SourceBlockGeometry.tile_flammability_state(block_is_air, floor_liquid_drop_present, floor_liquid_flammability, build_present, block_has_items, build_items_total, item_flammability_sum, block_item_capacity, block_has_liquids, liquid_flammability_sum, block_liquid_capacity)",
+            ]
+        if method_name == "inMapArea" and not parameters:
+            return [
+                "\tvar x := int(_args[0] if _args.size() > 0 else 0)",
+                "\tvar y := int(_args[1] if _args.size() > 1 else 0)",
+                "\tvar limit_map_area := bool(_args[2] if _args.size() > 2 else false)",
+                "\tvar limit_x := int(_args[3] if _args.size() > 3 else 0)",
+                "\tvar limit_y := int(_args[4] if _args.size() > 4 else 0)",
+                "\tvar limit_width := int(_args[5] if _args.size() > 5 else 1)",
+                "\tvar limit_height := int(_args[6] if _args.size() > 6 else 1)",
+                "\treturn SourceBlockGeometry.tile_in_map_area_state(x, y, limit_map_area, limit_x, limit_y, limit_width, limit_height)",
+            ]
+        if method_name == "isCenter" and not parameters:
+            return [
+                "\tvar build_present := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar build_tile_is_self := bool(_args[1] if _args.size() > 1 else false)",
+                "\treturn SourceBlockGeometry.tile_is_center_state(build_present, build_tile_is_self)",
+            ]
+        if method_name == "centerX" and not parameters:
+            return [
+                "\tvar x := int(_args[0] if _args.size() > 0 else 0)",
+                "\tvar build_present := bool(_args[1] if _args.size() > 1 else false)",
+                "\tvar build_tile_x := int(_args[2] if _args.size() > 2 else x)",
+                "\treturn SourceBlockGeometry.tile_center_x_state(x, build_present, build_tile_x)",
+            ]
+        if method_name == "centerY" and not parameters:
+            return [
+                "\tvar y := int(_args[0] if _args.size() > 0 else 0)",
+                "\tvar build_present := bool(_args[1] if _args.size() > 1 else false)",
+                "\tvar build_tile_y := int(_args[2] if _args.size() > 2 else y)",
+                "\treturn SourceBlockGeometry.tile_center_y_state(y, build_present, build_tile_y)",
+            ]
+        if method_name == "getTeamID" and not parameters:
+            return [
+                "\tvar build_present := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar build_team_id := int(_args[1] if _args.size() > 1 else 0)",
+                "\tvar derelict_team_id := int(_args[2] if _args.size() > 2 else 0)",
+                "\treturn SourceBlockGeometry.tile_team_id_state(build_present, build_team_id, derelict_team_id)",
+            ]
+        if method_name == "setBlock" and parameter_types == ["Block", "Team", "int"]:
+            return [
+                "\tvar type_value: Variant = _args[0] if _args.size() > 0 else null",
+                "\tvar team_value: Variant = _args[1] if _args.size() > 1 else null",
+                "\tvar rotation_value := int(_args[2] if _args.size() > 2 else 0)",
+                "\treturn SourceBlockGeometry.tile_set_block_delegate_state(\"type_team_rotation\", type_value, team_value, rotation_value)",
+            ]
+        if method_name == "setBlock" and parameter_types == ["Block", "Team", "int", "Prov"]:
+            return [
+                "\tvar world_generating := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar type_value: Variant = _args[1] if _args.size() > 1 else null",
+                "\tvar team_value: Variant = _args[2] if _args.size() > 2 else null",
+                "\tvar rotation_value := int(_args[3] if _args.size() > 3 else 0)",
+                "\tvar entityprov_value: Variant = _args[4] if _args.size() > 4 else null",
+                "\tvar type_static := bool(_args[5] if _args.size() > 5 else false)",
+                "\tvar previous_block_static := bool(_args[6] if _args.size() > 6 else false)",
+                "\tvar force_team_present := _args.size() > 7 and _args[7] != null",
+                "\tvar force_team_value: Variant = _args[7] if force_team_present else null",
+                "\tvar build_present := bool(_args[8] if _args.size() > 8 else false)",
+                "\tvar previous_build_multiblock := bool(_args[9] if _args.size() > 9 else false)",
+                "\tvar previous_multiblock_tiles: Array = _args[10] if _args.size() > 10 and _args[10] is Array else []",
+                "\tvar self_tile: Variant = _args[11] if _args.size() > 11 else null",
+                "\tvar new_build_present := bool(_args[12] if _args.size() > 12 else false)",
+                "\tvar block_update := bool(_args[13] if _args.size() > 13 else false)",
+                "\tvar editor_state := bool(_args[14] if _args.size() > 14 else false)",
+                "\tvar entity_init_result: Variant = _args[15] if _args.size() > 15 else null",
+                "\tvar new_block_multiblock := bool(_args[16] if _args.size() > 16 else false)",
+                "\tvar new_block_size := int(_args[17] if _args.size() > 17 else 1)",
+                "\tvar new_multiblock_tiles: Array = _args[18] if _args.size() > 18 and _args[18] is Array else []",
+                "\tvar block_changed_call: Variant = _args[19] if _args.size() > 19 else null",
+                "\treturn SourceBlockGeometry.tile_set_block_state(world_generating, type_value, team_value, rotation_value, entityprov_value, type_static, previous_block_static, force_team_present, force_team_value, build_present, previous_build_multiblock, previous_multiblock_tiles, self_tile, new_build_present, block_update, editor_state, entity_init_result, new_block_multiblock, new_block_size, new_multiblock_tiles, block_changed_call)",
+            ]
+        if method_name == "setBlock" and parameter_types == ["Block", "Team"]:
+            return [
+                "\tvar type_value: Variant = _args[0] if _args.size() > 0 else null",
+                "\tvar team_value: Variant = _args[1] if _args.size() > 1 else null",
+                "\treturn SourceBlockGeometry.tile_set_block_delegate_state(\"type_team\", type_value, team_value, 0)",
+            ]
+        if method_name == "setBlock" and parameter_types == ["Block"]:
+            return [
+                "\tvar type_value: Variant = _args[0] if _args.size() > 0 else null",
+                "\treturn SourceBlockGeometry.tile_set_block_delegate_state(\"type\", type_value, \"Team.derelict\", 0)",
+            ]
+        if method_name == "setFloor" and parameter_types == ["Floor"]:
+            return [
+                "\tvar type_value: Variant = _args[0] if _args.size() > 0 else null",
+                "\tvar previous_floor: Variant = _args[1] if _args.size() > 1 else null",
+                "\tvar headless := bool(_args[2] if _args.size() > 2 else false)",
+                "\tvar world_generating := bool(_args[3] if _args.size() > 3 else false)",
+                "\tvar editor_tile := bool(_args[4] if _args.size() > 4 else false)",
+                "\tvar build_present := bool(_args[5] if _args.size() > 5 else false)",
+                "\tvar pathfinder_present := bool(_args[6] if _args.size() > 6 else false)",
+                "\tvar state_editor := bool(_args[7] if _args.size() > 7 else false)",
+                "\tvar tile_value: Variant = _args[8] if _args.size() > 8 else null",
+                "\tvar floor_change_event: Variant = _args[9] if _args.size() > 9 else null",
+                "\tvar floor_changed_call: Variant = _args[10] if _args.size() > 10 else null",
+                "\treturn SourceBlockGeometry.tile_set_floor_state(type_value, previous_floor, headless, world_generating, editor_tile, build_present, pathfinder_present, state_editor, tile_value, floor_change_event, floor_changed_call)",
+            ]
+        if method_name == "setAir" and not parameters:
+            return [
+                "\tvar air_block: Variant = _args[0] if _args.size() > 0 else \"Blocks.air\"",
+                "\treturn SourceBlockGeometry.tile_set_air_state(air_block)",
+            ]
+        if method_name == "remove" and not parameters:
+            return [
+                "\tvar air_block: Variant = _args[0] if _args.size() > 0 else \"Blocks.air\"",
+                "\treturn SourceBlockGeometry.tile_remove_state(air_block)",
+            ]
+        if method_name == "removeNet" and not parameters:
+            return [
+                "\tvar tile_value: Variant = _args[0] if _args.size() > 0 else null",
+                "\treturn SourceBlockGeometry.tile_network_mutation_state(\"remove_net\", tile_value)",
+            ]
+        if method_name == "setNet" and parameter_types == ["Block"]:
+            return [
+                "\tvar tile_value: Variant = _args[0] if _args.size() > 0 else null",
+                "\tvar block_value: Variant = _args[1] if _args.size() > 1 else null",
+                "\treturn SourceBlockGeometry.tile_network_mutation_state(\"set_net_default\", tile_value, block_value, \"Team.derelict\", 0)",
+            ]
+        if method_name == "setNet" and parameter_types == ["Block", "Team", "int"]:
+            return [
+                "\tvar tile_value: Variant = _args[0] if _args.size() > 0 else null",
+                "\tvar block_value: Variant = _args[1] if _args.size() > 1 else null",
+                "\tvar team_value: Variant = _args[2] if _args.size() > 2 else null",
+                "\tvar rotation_value := int(_args[3] if _args.size() > 3 else 0)",
+                "\treturn SourceBlockGeometry.tile_network_mutation_state(\"set_net\", tile_value, block_value, team_value, rotation_value)",
+            ]
+        if method_name == "setFloorNet" and parameter_types == ["Block", "Block"]:
+            return [
+                "\tvar tile_value: Variant = _args[0] if _args.size() > 0 else null",
+                "\tvar floor_value: Variant = _args[1] if _args.size() > 1 else null",
+                "\tvar overlay_value: Variant = _args[2] if _args.size() > 2 else null",
+                "\treturn SourceBlockGeometry.tile_network_mutation_state(\"set_floor_net\", tile_value, null, null, 0, floor_value, overlay_value)",
+            ]
+        if method_name == "setFloorNet" and parameter_types == ["Block"]:
+            return [
+                "\tvar tile_value: Variant = _args[0] if _args.size() > 0 else null",
+                "\tvar floor_value: Variant = _args[1] if _args.size() > 1 else null",
+                "\treturn SourceBlockGeometry.tile_network_mutation_state(\"set_floor_net_default\", tile_value, null, null, 0, floor_value, \"Blocks.air\")",
+            ]
+        if method_name == "setOverlayNet" and parameter_types == ["Block"]:
+            return [
+                "\tvar tile_value: Variant = _args[0] if _args.size() > 0 else null",
+                "\tvar overlay_value: Variant = _args[1] if _args.size() > 1 else null",
+                "\treturn SourceBlockGeometry.tile_network_mutation_state(\"set_overlay_net\", tile_value, null, null, 0, null, overlay_value)",
+            ]
+        if method_name == "setOverlay" and parameter_types == ["Block"]:
+            return [
+                "\tvar block_value: Variant = _args[0] if _args.size() > 0 else null",
+                "\tvar previous_overlay: Variant = _args[1] if _args.size() > 1 else null",
+                "\tvar world_generating := bool(_args[2] if _args.size() > 2 else false)",
+                "\tvar build_present := bool(_args[3] if _args.size() > 3 else false)",
+                "\tvar overlay_change_event: Variant = _args[4] if _args.size() > 4 else null",
+                "\treturn SourceBlockGeometry.tile_overlay_mutation_state(\"set_overlay\", block_value, previous_overlay, false, world_generating, build_present, overlay_change_event)",
+            ]
+        if method_name == "circle" and parameter_types == ["int", "Intc2"]:
+            return [
+                "\tvar radius := int(_args[0] if _args.size() > 0 else 0)",
+                "\tvar x := int(_args[1] if _args.size() > 1 else 0)",
+                "\tvar y := int(_args[2] if _args.size() > 2 else 0)",
+                "\tvar width := int(_args[3] if _args.size() > 3 else 0)",
+                "\tvar height := int(_args[4] if _args.size() > 4 else 0)",
+                "\tvar consumer: Variant = _args[5] if _args.size() > 5 else null",
+                "\treturn SourceBlockGeometry.tile_circle_state(\"int\", x, y, radius, width, height, null, consumer)",
+            ]
+        if method_name == "circle" and parameter_types == ["int", "Cons"]:
+            return [
+                "\tvar radius := int(_args[0] if _args.size() > 0 else 0)",
+                "\tvar x := int(_args[1] if _args.size() > 1 else 0)",
+                "\tvar y := int(_args[2] if _args.size() > 2 else 0)",
+                "\tvar width := int(_args[3] if _args.size() > 3 else 0)",
+                "\tvar height := int(_args[4] if _args.size() > 4 else 0)",
+                "\tvar world_tile_lookup: Variant = _args[5] if _args.size() > 5 else null",
+                "\tvar consumer: Variant = _args[6] if _args.size() > 6 else null",
+                "\treturn SourceBlockGeometry.tile_circle_state(\"tile\", x, y, radius, width, height, world_tile_lookup, consumer)",
+            ]
+        if method_name == "setOverlayQuiet" and parameter_types == ["Block"]:
+            return [
+                "\tvar block_value: Variant = _args[0] if _args.size() > 0 else null",
+                "\treturn SourceBlockGeometry.tile_overlay_mutation_state(\"set_overlay_quiet\", block_value)",
+            ]
+        if method_name == "clearOverlay" and not parameters:
+            return [
+                "\tvar air_block: Variant = _args[0] if _args.size() > 0 else \"Blocks.air\"",
+                "\treturn SourceBlockGeometry.tile_overlay_mutation_state(\"clear_overlay\", null, null, false, false, false, null, air_block)",
+            ]
+        if method_name == "isEditorTile" and not parameters:
+            return [
+                "\treturn SourceBlockGeometry.tile_editor_state()",
+            ]
+        if method_name == "getFloorColor" and not parameters:
+            return [
+                "\tvar floor_color: Variant = _args[0] if _args.size() > 0 else null",
+                "\tvar tile_value: Variant = _args[1] if _args.size() > 1 else null",
+                "\treturn SourceBlockGeometry.tile_floor_color_state(floor_color, tile_value)",
+            ]
+        if method_name == "recacheWall" and not parameters:
+            return [
+                "\tvar headless := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar world_generating := bool(_args[1] if _args.size() > 1 else false)",
+                "\tvar tile_value: Variant = _args[2] if _args.size() > 2 else null",
+                "\treturn SourceBlockGeometry.tile_recache_wall_state(headless, world_generating, tile_value)",
+            ]
+        if method_name == "recache" and not parameters:
+            return [
+                "\tvar headless := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar world_generating := bool(_args[1] if _args.size() > 1 else false)",
+                "\tvar tile_value: Variant = _args[2] if _args.size() > 2 else null",
+                "\tvar neighbor_tiles: Array = _args[3] if _args.size() > 3 and _args[3] is Array else []",
+                "\treturn SourceBlockGeometry.tile_recache_state(headless, world_generating, tile_value, neighbor_tiles)",
+            ]
+        if method_name in {"floor", "block", "overlay", "cblock"} and not parameters:
+            return [
+                "\tvar value: Variant = _args[0] if _args.size() > 0 else null",
+                "\treturn SourceBlockGeometry.tile_reference_state(value)",
+            ]
+        if method_name == "team" and not parameters:
+            return [
+                "\tvar build_present := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar build_team: Variant = _args[1] if _args.size() > 1 else null",
+                "\tvar derelict_team: Variant = _args[2] if _args.size() > 2 else null",
+                "\treturn SourceBlockGeometry.tile_team_state(build_present, build_team, derelict_team)",
+            ]
+        if method_name == "isDarkened" and not parameters:
+            return [
+                "\tvar block_is_darkened := bool(_args[0] if _args.size() > 0 else false)",
+                "\treturn SourceBlockGeometry.tile_is_darkened_state(block_is_darkened)",
+            ]
+        if method_name == "setTeam" and parameter_types == ["Team"]:
+            return [
+                "\tvar build_present := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar team: Variant = _args[1] if _args.size() > 1 else null",
+                "\treturn SourceBlockGeometry.tile_set_team_state(build_present, team)",
+            ]
+        if method_name in {"overlayID", "blockID", "floorID"} and not parameters:
+            value_key = {"overlayID": "overlay", "blockID": "block", "floorID": "floor"}[method_name]
+            return [
+                f"\tvar {value_key}: Variant = _args[0] if _args.size() > 0 else null",
+                f'\treturn SourceBlockGeometry.tile_id_state("{value_key}", {value_key})',
+            ]
+        if method_name == "passable" and not parameters:
+            return [
+                "\tvar floor_solid := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar block_is_air := bool(_args[1] if _args.size() > 1 else true)",
+                "\tvar block_solidifies := bool(_args[2] if _args.size() > 2 else false)",
+                "\tvar block_solid := bool(_args[3] if _args.size() > 3 else false)",
+                "\tvar block_destructible := bool(_args[4] if _args.size() > 4 else false)",
+                "\tvar block_update := bool(_args[5] if _args.size() > 5 else false)",
+                "\treturn SourceBlockGeometry.tile_passable_state(floor_solid, block_is_air, block_solidifies, block_solid, block_destructible, block_update)",
+            ]
+        if method_name == "synthetic" and not parameters:
+            return [
+                "\tvar block_update := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar block_destructible := bool(_args[1] if _args.size() > 1 else false)",
+                "\treturn SourceBlockGeometry.tile_synthetic_state(block_update, block_destructible)",
+            ]
+        if method_name == "solid" and not parameters:
+            return [
+                "\tvar block_solid := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar floor_solid := bool(_args[1] if _args.size() > 1 else false)",
+                "\tvar build_present := bool(_args[2] if _args.size() > 2 else false)",
+                "\tvar build_check_solid := bool(_args[3] if _args.size() > 3 else false)",
+                "\treturn SourceBlockGeometry.tile_solid_state(block_solid, floor_solid, build_present, build_check_solid)",
+            ]
+        if method_name == "breakable" and not parameters:
+            return [
+                "\tvar block_destructible := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar block_breakable := bool(_args[1] if _args.size() > 1 else false)",
+                "\tvar block_update := bool(_args[2] if _args.size() > 2 else false)",
+                "\treturn SourceBlockGeometry.tile_breakable_state(block_destructible, block_breakable, block_update)",
+            ]
+        if method_name == "dangerous" and not parameters:
+            return [
+                "\tvar block_solid := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar floor_is_deep := bool(_args[1] if _args.size() > 1 else false)",
+                "\tvar floor_damages := bool(_args[2] if _args.size() > 2 else false)",
+                "\treturn SourceBlockGeometry.tile_dangerous_state(block_solid, floor_is_deep, floor_damages)",
+            ]
+        if method_name == "getLinkedTiles" and parameter_types == ["Cons"]:
+            return [
+                "\tvar block_is_multiblock := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar block_size := int(_args[1] if _args.size() > 1 else 1)",
+                "\tvar size_offset := int(_args[2] if _args.size() > 2 else 0)",
+                "\tvar x := int(_args[3] if _args.size() > 3 else 0)",
+                "\tvar y := int(_args[4] if _args.size() > 4 else 0)",
+                "\tvar world_tile_lookup: Variant = _args[5] if _args.size() > 5 else null",
+                "\tvar self_tile: Variant = _args[6] if _args.size() > 6 else null",
+                "\tvar consumer: Variant = _args[7] if _args.size() > 7 else null",
+                "\treturn SourceBlockGeometry.tile_get_linked_tiles_state(block_is_multiblock, block_size, size_offset, x, y, world_tile_lookup, self_tile, consumer)",
+            ]
+        if method_name == "getLinkedTiles" and parameter_types == ["Seq"]:
+            return [
+                "\tvar block_is_multiblock := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar block_size := int(_args[1] if _args.size() > 1 else 1)",
+                "\tvar size_offset := int(_args[2] if _args.size() > 2 else 0)",
+                "\tvar x := int(_args[3] if _args.size() > 3 else 0)",
+                "\tvar y := int(_args[4] if _args.size() > 4 else 0)",
+                "\tvar world_tile_lookup: Variant = _args[5] if _args.size() > 5 else null",
+                "\tvar self_tile: Variant = _args[6] if _args.size() > 6 else null",
+                "\tvar tmp_array: Array = _args[7] if _args.size() > 7 and _args[7] is Array else []",
+                "\treturn SourceBlockGeometry.tile_get_linked_tiles_array_state(block_is_multiblock, block_size, size_offset, x, y, world_tile_lookup, self_tile, tmp_array)",
+            ]
+        if method_name == "getLinkedTilesAs" and parameter_types == ["Block", "Seq"]:
+            return [
+                "\tvar block_is_multiblock := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar block_size := int(_args[1] if _args.size() > 1 else 1)",
+                "\tvar size_offset := int(_args[2] if _args.size() > 2 else 0)",
+                "\tvar x := int(_args[3] if _args.size() > 3 else 0)",
+                "\tvar y := int(_args[4] if _args.size() > 4 else 0)",
+                "\tvar world_tile_lookup: Variant = _args[5] if _args.size() > 5 else null",
+                "\tvar self_tile: Variant = _args[6] if _args.size() > 6 else null",
+                "\tvar tmp_array: Array = _args[7] if _args.size() > 7 and _args[7] is Array else []",
+                "\treturn SourceBlockGeometry.tile_get_linked_tiles_as_array_state(block_is_multiblock, block_size, size_offset, x, y, world_tile_lookup, self_tile, tmp_array)",
+            ]
+        if method_name == "getLinkedTilesAs" and parameter_types == ["Block", "Cons"]:
+            return [
+                "\tvar block_is_multiblock := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar block_size := int(_args[1] if _args.size() > 1 else 1)",
+                "\tvar size_offset := int(_args[2] if _args.size() > 2 else 0)",
+                "\tvar x := int(_args[3] if _args.size() > 3 else 0)",
+                "\tvar y := int(_args[4] if _args.size() > 4 else 0)",
+                "\tvar world_tile_lookup: Variant = _args[5] if _args.size() > 5 else null",
+                "\tvar self_tile: Variant = _args[6] if _args.size() > 6 else null",
+                "\tvar consumer: Variant = _args[7] if _args.size() > 7 else null",
+                "\treturn SourceBlockGeometry.tile_get_linked_tiles_as_state(block_is_multiblock, block_size, size_offset, x, y, world_tile_lookup, self_tile, consumer)",
+            ]
+        if method_name == "getHitbox" and parameter_types == ["Rect"]:
+            return [
+                "\tvar x := int(_args[0] if _args.size() > 0 else 0)",
+                "\tvar y := int(_args[1] if _args.size() > 1 else 0)",
+                "\tvar block_size := int(_args[2] if _args.size() > 2 else 1)",
+                "\tvar source_tilesize := float(_args[3] if _args.size() > 3 else SOURCE_TILESIZE)",
+                "\tvar block_offset := float(_args[4] if _args.size() > 4 else 0.0)",
+                "\tvar rect_value: Variant = _args[5] if _args.size() > 5 else null",
+                "\treturn SourceBlockGeometry.tile_get_hitbox_state(x, y, block_size, source_tilesize, block_offset, rect_value)",
+            ]
+        if method_name == "getBounds" and parameter_types == ["Rect"]:
+            return [
+                "\tvar x := int(_args[0] if _args.size() > 0 else 0)",
+                "\tvar y := int(_args[1] if _args.size() > 1 else 0)",
+                "\tvar source_tilesize := float(_args[2] if _args.size() > 2 else SOURCE_TILESIZE)",
+                "\tvar rect_value: Variant = _args[3] if _args.size() > 3 else null",
+                "\treturn SourceBlockGeometry.tile_get_bounds_state(x, y, source_tilesize, rect_value)",
+            ]
+        if method_name == "hitbox" and parameter_types == ["Rect"]:
+            return [
+                "\tvar x := int(_args[0] if _args.size() > 0 else 0)",
+                "\tvar y := int(_args[1] if _args.size() > 1 else 0)",
+                "\tvar block_size := int(_args[2] if _args.size() > 2 else 1)",
+                "\tvar source_tilesize := float(_args[3] if _args.size() > 3 else SOURCE_TILESIZE)",
+                "\tvar block_offset := float(_args[4] if _args.size() > 4 else 0.0)",
+                "\tvar rect_value: Variant = _args[5] if _args.size() > 5 else null",
+                "\treturn SourceBlockGeometry.tile_hitbox_state(x, y, block_size, source_tilesize, block_offset, rect_value)",
+            ]
+        if method_name == "nearby" and parameter_types == ["Point2"]:
+            return [
+                "\tvar x := int(_args[0] if _args.size() > 0 else 0)",
+                "\tvar y := int(_args[1] if _args.size() > 1 else 0)",
+                "\tvar relative_x := int(_args[2] if _args.size() > 2 else 0)",
+                "\tvar relative_y := int(_args[3] if _args.size() > 3 else 0)",
+                "\tvar world_tile_lookup: Variant = _args[4] if _args.size() > 4 else null",
+                "\treturn SourceBlockGeometry.tile_nearby_relative_state(x, y, relative_x, relative_y, world_tile_lookup)",
+            ]
+        if method_name == "nearby" and parameter_types == ["int", "int"]:
+            return [
+                "\tvar x := int(_args[0] if _args.size() > 0 else 0)",
+                "\tvar y := int(_args[1] if _args.size() > 1 else 0)",
+                "\tvar delta_x := int(_args[2] if _args.size() > 2 else 0)",
+                "\tvar delta_y := int(_args[3] if _args.size() > 3 else 0)",
+                "\tvar world_tile_lookup: Variant = _args[4] if _args.size() > 4 else null",
+                "\treturn SourceBlockGeometry.tile_nearby_delta_state(x, y, delta_x, delta_y, world_tile_lookup)",
+            ]
+        if method_name == "nearby" and parameter_types == ["int"]:
+            return [
+                "\tvar x := int(_args[0] if _args.size() > 0 else 0)",
+                "\tvar y := int(_args[1] if _args.size() > 1 else 0)",
+                "\tvar rotation := int(_args[2] if _args.size() > 2 else 0)",
+                "\tvar world_tile_lookup: Variant = _args[3] if _args.size() > 3 else null",
+                "\treturn SourceBlockGeometry.tile_nearby_rotation_state(x, y, rotation, world_tile_lookup)",
+            ]
+        if method_name == "nearbyBuild" and parameter_types == ["int"]:
+            return [
+                "\tvar x := int(_args[0] if _args.size() > 0 else 0)",
+                "\tvar y := int(_args[1] if _args.size() > 1 else 0)",
+                "\tvar rotation := int(_args[2] if _args.size() > 2 else 0)",
+                "\tvar world_build_lookup: Variant = _args[3] if _args.size() > 3 else null",
+                "\treturn SourceBlockGeometry.tile_nearby_build_rotation_state(x, y, rotation, world_build_lookup)",
+            ]
+        if method_name == "interactable" and parameter_types == ["Team"]:
+            return [
+                "\tvar can_interact := bool(_args[0] if _args.size() > 0 else false)",
+                "\treturn SourceBlockGeometry.tile_interactable_state(can_interact)",
+            ]
+        if method_name == "drop" and not parameters:
+            return [
+                "\tvar overlay_is_air := bool(_args[0] if _args.size() > 0 else true)",
+                "\tvar overlay_item_drop: Variant = _args[1] if _args.size() > 1 else null",
+                "\tvar floor_item_drop: Variant = _args[2] if _args.size() > 2 else null",
+                "\treturn SourceBlockGeometry.tile_drop_state(overlay_is_air, overlay_item_drop, floor_item_drop)",
+            ]
+        if method_name == "wallDrop" and not parameters:
+            return [
+                "\tvar block_solid := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar block_item_drop: Variant = _args[1] if _args.size() > 1 else null",
+                "\tvar overlay_wall_ore := bool(_args[2] if _args.size() > 2 else false)",
+                "\tvar block_synthetic := bool(_args[3] if _args.size() > 3 else false)",
+                "\tvar overlay_item_drop: Variant = _args[4] if _args.size() > 4 else null",
+                "\treturn SourceBlockGeometry.tile_wall_drop_state(block_solid, block_item_drop, overlay_wall_ore, block_synthetic, overlay_item_drop)",
+            ]
+        if method_name == "shouldSaveData" and not parameters:
+            return [
+                "\tvar floor_save_data := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar overlay_save_data := bool(_args[1] if _args.size() > 1 else false)",
+                "\tvar block_save_data := bool(_args[2] if _args.size() > 2 else false)",
+                "\treturn SourceBlockGeometry.tile_should_save_data_state(floor_save_data, overlay_save_data, block_save_data)",
+            ]
+        if method_name == "staticDarkness" and not parameters:
+            return [
+                "\tvar block_solid := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar block_fills_tile := bool(_args[1] if _args.size() > 1 else false)",
+                "\tvar block_synthetic := bool(_args[2] if _args.size() > 2 else false)",
+                "\tvar data := int(_args[3] if _args.size() > 3 else 0)",
+                "\treturn SourceBlockGeometry.tile_static_darkness_state(block_solid, block_fills_tile, block_synthetic, data)",
+            ]
+        if method_name == "legSolid" and not parameters:
+            return [
+                "\tvar static_darkness := int(_args[0] if _args.size() > 0 else 0)",
+                "\tvar floor_solid := bool(_args[1] if _args.size() > 1 else false)",
+                "\tvar block_is_air := bool(_args[2] if _args.size() > 2 else true)",
+                "\treturn SourceBlockGeometry.tile_leg_solid_state(static_darkness, floor_solid, block_is_air)",
+            ]
+        if method_name == "adjacentTo" and parameter_types == ["Tile"]:
+            return [
+                "\tvar relative_result := int(_args[0] if _args.size() > 0 else -1)",
+                "\treturn SourceBlockGeometry.tile_adjacent_state(relative_result)",
+            ]
+        if method_name == "getPackedData" and not parameters:
+            return [
+                "\tvar extra_data := int(_args[0] if _args.size() > 0 else 0)",
+                "\tvar data := int(_args[1] if _args.size() > 1 else 0)",
+                "\tvar floor_data := int(_args[2] if _args.size() > 2 else 0)",
+                "\tvar overlay_data := int(_args[3] if _args.size() > 3 else 0)",
+                "\treturn SourceBlockGeometry.tile_packed_data_state(extra_data, data, floor_data, overlay_data)",
+            ]
+        if method_name == "setPackedData" and parameter_types == ["long"]:
+            return [
+                "\tvar packed := int(_args[0] if _args.size() > 0 else 0)",
+                "\treturn SourceBlockGeometry.tile_unpack_data_state(packed)",
+            ]
+        if method_name == "getX" and not parameters:
+            return [
+                "\tvar draw_x := float(_args[0] if _args.size() > 0 else 0.0)",
+                "\treturn SourceBlockGeometry.tile_coordinate_display_state(draw_x)",
+            ]
+        if method_name == "getY" and not parameters:
+            return [
+                "\tvar draw_y := float(_args[0] if _args.size() > 0 else 0.0)",
+                "\treturn SourceBlockGeometry.tile_coordinate_display_state(draw_y)",
+            ]
+        if method_name == "toString" and not parameters:
+            return [
+                "\tvar floor_name := str(_args[0] if _args.size() > 0 else \"\")",
+                "\tvar block_name := str(_args[1] if _args.size() > 1 else \"\")",
+                "\tvar overlay_text := str(_args[2] if _args.size() > 2 else \"\")",
+                "\tvar x := int(_args[3] if _args.size() > 3 else 0)",
+                "\tvar y := int(_args[4] if _args.size() > 4 else 0)",
+                "\tvar build_present := bool(_args[5] if _args.size() > 5 else false)",
+                "\tvar build_class_name := str(_args[6] if _args.size() > 6 else \"\")",
+                "\tvar team_text := str(_args[7] if _args.size() > 7 else \"\")",
+                "\treturn SourceBlockGeometry.tile_to_string_state(floor_name, block_name, overlay_text, x, y, build_present, build_class_name, team_text)",
+            ]
+        if method_name in ("fireChanged", "firePreChanged") and not parameters:
+            return [
+                "\tvar world_generating := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar event_call: Variant = _args[1] if _args.size() > 1 else null",
+                "\treturn SourceBlockGeometry.tile_fire_change_state(world_generating, event_call)",
+            ]
+        if method_name == "changed" and not parameters:
+            return [
+                "\tvar world_generating := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar build_present := bool(_args[1] if _args.size() > 1 else false)",
+                "\tvar nearby_buildings: Array = _args[2] if _args.size() > 2 and _args[2] is Array else []",
+                "\tvar block_static := bool(_args[3] if _args.size() > 3 else false)",
+                "\tvar event_call: Variant = _args[4] if _args.size() > 4 else null",
+                "\treturn SourceBlockGeometry.tile_changed_state(world_generating, build_present, nearby_buildings, block_static, event_call)",
+            ]
+        if method_name == "preChanged" and not parameters:
+            return [
+                "\tvar world_generating := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar build_present := bool(_args[1] if _args.size() > 1 else false)",
+                "\tvar block_is_multiblock := bool(_args[2] if _args.size() > 2 else false)",
+                "\tvar multiblock_tiles: Array = _args[3] if _args.size() > 3 and _args[3] is Array else []",
+                "\tvar self_tile: Variant = _args[4] if _args.size() > 4 else null",
+                "\tvar pre_event_call: Variant = _args[5] if _args.size() > 5 else null",
+                "\tvar changed_event_call: Variant = _args[6] if _args.size() > 6 else null",
+                "\treturn SourceBlockGeometry.tile_pre_changed_state(world_generating, build_present, block_is_multiblock, multiblock_tiles, self_tile, pre_event_call, changed_event_call)",
+            ]
+        if method_name == "changeBuild" and parameter_types == ["Team", "Prov", "int"]:
+            return [
+                "\tvar build_present := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar existing_build_size := int(_args[1] if _args.size() > 1 else 0)",
+                "\tvar old_build_remove_call: Variant = _args[2] if _args.size() > 2 else null",
+                "\tvar edge_buildings: Array = _args[3] if _args.size() > 3 and _args[3] is Array else []",
+                "\tvar block_has_building := bool(_args[4] if _args.size() > 4 else false)",
+                "\tvar team: Variant = _args[5] if _args.size() > 5 else null",
+                "\tvar rotation := int(_args[6] if _args.size() > 6 else 0)",
+                "\tvar editor_state := bool(_args[7] if _args.size() > 7 else false)",
+                "\tvar block_update := bool(_args[8] if _args.size() > 8 else false)",
+                "\tvar entity_init_result: Variant = _args[9] if _args.size() > 9 else null",
+                "\treturn SourceBlockGeometry.tile_change_build_state(build_present, existing_build_size, old_build_remove_call, edge_buildings, block_has_building, team, rotation, editor_state, block_update, entity_init_result)",
+            ]
+        if method_name == "display" and parameter_types == ["Table"]:
+            return [
+                "\tvar block_item_drop_present := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar overlay_item_drop_present := bool(_args[1] if _args.size() > 1 else false)",
+                "\tvar wall_drop_present := bool(_args[2] if _args.size() > 2 else false)",
+                "\tvar block_value: Variant = _args[3] if _args.size() > 3 else null",
+                "\tvar overlay_value: Variant = _args[4] if _args.size() > 4 else null",
+                "\tvar floor_value: Variant = _args[5] if _args.size() > 5 else null",
+                "\tvar display_icon: Variant = _args[6] if _args.size() > 6 else null",
+                "\tvar display_name := str(_args[7] if _args.size() > 7 else \"\")",
+                "\treturn SourceBlockGeometry.tile_display_state(block_item_drop_present, overlay_item_drop_present, wall_drop_present, block_value, overlay_value, floor_value, display_icon, display_name)",
+            ]
+        if method_name == "setTileBlocks" and len(parameters) == 3:
+            return [
+                "\tvar block: Variant = _args[0] if _args.size() > 0 else null",
+                "\tvar team: Variant = _args[1] if _args.size() > 1 else null",
+                "\tvar positions: Array = _args[2] if _args.size() > 2 and _args[2] is Array else []",
+                "\tvar block_valid := bool(_args[3] if _args.size() > 3 else block != null)",
+                "\tvar world_tiles: Dictionary = _args[4] if _args.size() > 4 and _args[4] is Dictionary else {}",
+                "\treturn SourceBlockGeometry.tile_bulk_mutation_state(\"set_block\", block, team, positions, block_valid, world_tiles)",
+            ]
+        if method_name == "setTileFloors" and len(parameters) == 2:
+            return [
+                "\tvar block: Variant = _args[0] if _args.size() > 0 else null",
+                "\tvar positions: Array = _args[1] if _args.size() > 1 and _args[1] is Array else []",
+                "\tvar floor_valid := bool(_args[2] if _args.size() > 2 else false)",
+                "\tvar world_tiles: Dictionary = _args[3] if _args.size() > 3 and _args[3] is Dictionary else {}",
+                "\treturn SourceBlockGeometry.tile_bulk_mutation_state(\"set_floor\", block, null, positions, floor_valid, world_tiles)",
+            ]
+        if method_name == "setTileOverlays" and len(parameters) == 2:
+            return [
+                "\tvar block: Variant = _args[0] if _args.size() > 0 else null",
+                "\tvar positions: Array = _args[1] if _args.size() > 1 and _args[1] is Array else []",
+                "\tvar overlay_valid := bool(_args[2] if _args.size() > 2 else false)",
+                "\tvar world_tiles: Dictionary = _args[3] if _args.size() > 3 and _args[3] is Dictionary else {}",
+                "\treturn SourceBlockGeometry.tile_bulk_mutation_state(\"set_overlay\", block, null, positions, overlay_valid, world_tiles)",
+            ]
+        if method_name == "setFloor" and parameter_types == ["Tile", "Block", "Block"]:
+            return [
+                "\tvar tile: Variant = _args[0] if _args.size() > 0 else null",
+                "\tvar floor: Variant = _args[1] if _args.size() > 1 else null",
+                "\tvar overlay: Variant = _args[2] if _args.size() > 2 else null",
+                "\treturn SourceBlockGeometry.tile_single_mutation_state(\"set_floor\", tile, floor, overlay, 0, tile != null)",
+            ]
+        if method_name == "setOverlay" and parameter_types == ["Tile", "Block"]:
+            return [
+                "\tvar tile: Variant = _args[0] if _args.size() > 0 else null",
+                "\tvar overlay: Variant = _args[1] if _args.size() > 1 else null",
+                "\treturn SourceBlockGeometry.tile_single_mutation_state(\"set_overlay\", tile, overlay, null, 0, tile != null)",
+            ]
+        if method_name == "removeTile" and parameter_types == ["Tile"]:
+            return [
+                "\tvar tile: Variant = _args[0] if _args.size() > 0 else null",
+                "\treturn SourceBlockGeometry.tile_single_mutation_state(\"remove_tile\", tile, null, null, 0, tile != null)",
+            ]
+        if method_name == "setTile" and parameter_types == ["Tile", "Block", "Team", "int"]:
+            return [
+                "\tvar tile: Variant = _args[0] if _args.size() > 0 else null",
+                "\tvar block: Variant = _args[1] if _args.size() > 1 else null",
+                "\tvar team: Variant = _args[2] if _args.size() > 2 else null",
+                "\tvar rotation := int(_args[3] if _args.size() > 3 else 0)",
+                "\treturn SourceBlockGeometry.tile_single_mutation_state(\"set_tile\", tile, block, team, rotation, tile != null)",
+            ]
+        if method_name == "setTeam" and parameter_types == ["Building", "Team"]:
+            return [
+                "\tvar build: Variant = _args[0] if _args.size() > 0 else null",
+                "\tvar team: Variant = _args[1] if _args.size() > 1 else null",
+                "\treturn SourceBlockGeometry.tile_static_callback_state(\"set_team\", build != null, build, team, [], [], [], [], [])",
+            ]
+        if method_name == "setTeams" and len(parameters) == 2:
+            return [
+                "\tvar positions_present := _args.size() > 0 and _args[0] != null",
+                "\tvar positions: Array = _args[0] if positions_present and _args[0] is Array else []",
+                "\tvar team: Variant = _args[1] if _args.size() > 1 else null",
+                "\tvar first_pass: Array = _args[2] if _args.size() > 2 and _args[2] is Array else []",
+                "\tvar second_pass: Array = _args[3] if _args.size() > 3 and _args[3] is Array else []",
+                "\treturn SourceBlockGeometry.tile_static_callback_state(\"set_teams\", false, null, team, positions, first_pass, second_pass, [], [], positions_present)",
+            ]
+        if method_name == "buildDestroyed" and parameter_types == ["Building"]:
+            return [
+                "\tvar build: Variant = _args[0] if _args.size() > 0 else null",
+                "\treturn SourceBlockGeometry.tile_static_callback_state(\"build_destroyed\", build != null, build, null, [], [], [], [], [])",
+            ]
+        if method_name == "buildHealthUpdate" and parameter_types == ["IntSeq"]:
+            return [
+                "\tvar health_updates: Array = _args[0] if _args.size() > 0 and _args[0] is Array else []",
+                "\treturn SourceBlockGeometry.tile_static_callback_state(\"build_health_update\", false, null, null, [], [], [], [], health_updates)",
+            ]
+        if method_name == "worldx" and not parameters:
+            return [
+                "\tvar x := int(_args[0] if _args.size() > 0 else 0)",
+                "\tvar source_tilesize := float(_args[1] if _args.size() > 1 else SOURCE_TILESIZE)",
+                "\treturn SourceBlockGeometry.tile_worldx_state(x, source_tilesize)",
+            ]
+        if method_name == "worldy" and not parameters:
+            return [
+                "\tvar y := int(_args[0] if _args.size() > 0 else 0)",
+                "\tvar source_tilesize := float(_args[1] if _args.size() > 1 else SOURCE_TILESIZE)",
+                "\treturn SourceBlockGeometry.tile_worldy_state(y, source_tilesize)",
+            ]
+        if method_name == "drawx" and not parameters:
+            return [
+                "\tvar x := int(_args[0] if _args.size() > 0 else 0)",
+                "\tvar source_tilesize := float(_args[1] if _args.size() > 1 else SOURCE_TILESIZE)",
+                "\tvar block_offset := float(_args[2] if _args.size() > 2 else 0.0)",
+                "\treturn SourceBlockGeometry.tile_drawx_state(x, source_tilesize, block_offset)",
+            ]
+        if method_name == "drawy" and not parameters:
+            return [
+                "\tvar y := int(_args[0] if _args.size() > 0 else 0)",
+                "\tvar source_tilesize := float(_args[1] if _args.size() > 1 else SOURCE_TILESIZE)",
+                "\tvar block_offset := float(_args[2] if _args.size() > 2 else 0.0)",
+                "\treturn SourceBlockGeometry.tile_drawy_state(y, source_tilesize, block_offset)",
+            ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/environment/Floor.java"
+        and type_entry.get("name") == "Floor"
+    ):
+        method_index = next((index for index, candidate in enumerate(type_entry.get("methods", [])) if candidate is method), -1)
+        generated_methods = {
+            2: [
+                "\tvar liquid_drop_present := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar super_display_icon: Variant = _args[1] if _args.size() > 1 else null",
+                "\tvar liquid_drop_icon: Variant = _args[2] if _args.size() > 2 else null",
+                "\treturn SourceFloorState.get_display_icon_state(liquid_drop_present, super_display_icon, liquid_drop_icon)",
+            ],
+            3: [
+                "\tvar liquid_drop_present := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar super_display_name := str(_args[1] if _args.size() > 1 else \"\")",
+                "\tvar liquid_drop_name := str(_args[2] if _args.size() > 2 else \"\")",
+                "\treturn SourceFloorState.get_display_name_state(liquid_drop_present, super_display_name, liquid_drop_name)",
+            ],
+            6: [
+                "\tvar tile_x := int(_args[0] if _args.size() > 0 else 0)",
+                "\tvar tile_y := int(_args[1] if _args.size() > 1 else 0)",
+                "\tvar tiling_variants := int(_args[2] if _args.size() > 2 else 0)",
+                "\tvar tiling_size := int(_args[3] if _args.size() > 3 else 1)",
+                "\tvar tiling_regions: Array = _args[4] if _args.size() > 4 and _args[4] is Array else []",
+                "\tvar autotile := bool(_args[5] if _args.size() > 5 else false)",
+                "\tvar autotile_variants := int(_args[6] if _args.size() > 6 else 1)",
+                "\tvar autotile_variant_regions: Array = _args[7] if _args.size() > 7 and _args[7] is Array else []",
+                "\tvar autotile_regions: Array = _args[8] if _args.size() > 8 and _args[8] is Array else []",
+                "\tvar autotile_mid_variants := int(_args[9] if _args.size() > 9 else 1)",
+                "\tvar autotile_mid_regions: Array = _args[10] if _args.size() > 10 and _args[10] is Array else []",
+                "\tvar autotile_same: Array = _args[11] if _args.size() > 11 and _args[11] is Array else []",
+                "\tvar tile_bitmask_values: Array = _args[12] if _args.size() > 12 and _args[12] is Array else []",
+                "\tvar variant_regions: Array = _args[13] if _args.size() > 13 and _args[13] is Array else []",
+                "\treturn SourceFloorState.draw_main_state(tile_x, tile_y, tiling_variants, tiling_size, tiling_regions, autotile, autotile_variants, autotile_variant_regions, autotile_regions, autotile_mid_variants, autotile_mid_regions, autotile_same, tile_bitmask_values, variant_regions)",
+            ],
+            8: [
+                "\tvar x := int(_args[0] if _args.size() > 0 else 0)",
+                "\tvar y := int(_args[1] if _args.size() > 1 else 0)",
+                "\tvar packed_position := int(_args[2] if _args.size() > 2 else 0)",
+                "\tvar variant_region_count := int(_args[3] if _args.size() > 3 else 0)",
+                "\treturn SourceFloorState.variant_state(x, y, -1, packed_position, variant_region_count)",
+            ],
+            9: [
+                "\tvar x := int(_args[0] if _args.size() > 0 else 0)",
+                "\tvar y := int(_args[1] if _args.size() > 1 else 0)",
+                "\tvar max_value := int(_args[2] if _args.size() > 2 else 0)",
+                "\tvar packed_position := int(_args[3] if _args.size() > 3 else 0)",
+                "\treturn SourceFloorState.variant_state(x, y, max_value, packed_position)",
+            ],
+            7: [
+                "\tvar other_present := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar tile_floor_is_this := bool(_args[1] if _args.size() > 1 else true)",
+                "\tvar other_floor_matches := bool(_args[2] if _args.size() > 2 else false)",
+                "\tvar other_overlay_matches := bool(_args[3] if _args.size() > 3 else false)",
+                "\treturn SourceFloorState.check_autotile_same_state(other_present, tile_floor_is_this, other_floor_matches, other_overlay_matches)",
+            ],
+            11: [
+                "\tvar name_value := str(_args[0] if _args.size() > 0 else \"\")",
+                "\tvar atlas_has_name := bool(_args[1] if _args.size() > 1 else false)",
+                "\tvar icon_region: Variant = _args[2] if _args.size() > 2 else null",
+                "\treturn SourceFloorState.icons_state(name_value, atlas_has_name, icon_region)",
+            ],
+            12: [
+                "\tvar tile: Variant = _args[0] if _args.size() > 0 else null",
+                "\treturn SourceFloorState.floor_changed_state(tile)",
+            ],
+            5: [
+                "\tvar draw_edge_in := bool(_args[0] if _args.size() > 0 else true)",
+                "\tvar tile_overlay_is_air := bool(_args[1] if _args.size() > 1 else true)",
+                "\tvar tile_floor_is_this := bool(_args[2] if _args.size() > 2 else true)",
+                "\tvar is_liquid := bool(_args[3] if _args.size() > 3 else false)",
+                "\tvar overlay_alpha := float(_args[4] if _args.size() > 4 else 0.65)",
+                "\tvar draw_edges_result: Dictionary = _args[5] if _args.size() > 5 and _args[5] is Dictionary else {}",
+                "\treturn SourceFloorState.draw_base_state(draw_edge_in, tile_overlay_is_air, tile_floor_is_this, is_liquid, overlay_alpha, draw_edges_result)",
+            ],
+            10: [
+                "\tvar overlay_is_air := bool(_args[0] if _args.size() > 0 else true)",
+                "\tvar overlay_is_this := bool(_args[1] if _args.size() > 1 else false)",
+                "\tvar overlay_draw_base_result: Dictionary = _args[2] if _args.size() > 2 and _args[2] is Dictionary else {}",
+                "\treturn SourceFloorState.draw_overlay_state(overlay_is_air, overlay_is_this, overlay_draw_base_result)",
+            ],
+            13: [
+                "\tvar tile: Variant = _args[0] if _args.size() > 0 else null",
+                "\treturn SourceFloorState.should_index_state(tile)",
+            ],
+            14: [
+                "\tvar tile: Variant = _args[0] if _args.size() > 0 else null",
+                "\treturn SourceFloorState.update_render_state(tile)",
+            ],
+            15: [
+                "\tvar tile: Variant = _args[0] if _args.size() > 0 else null",
+                "\treturn SourceFloorState.render_update_state(tile)",
+            ],
+            16: [
+                "\tvar is_liquid := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar solid := bool(_args[1] if _args.size() > 1 else false)",
+                "\treturn SourceFloorState.has_surface_state(is_liquid, solid)",
+            ],
+            17: [
+                "\tvar drown_time := float(_args[0] if _args.size() > 0 else 0.0)",
+                "\treturn SourceFloorState.is_deep_state(drown_time)",
+            ],
+            18: [
+                "\tvar neighbors: Array = _args[0] if _args.size() > 0 and _args[0] is Array else []",
+                "\tvar layer: Variant = _args[1] if _args.size() > 1 else null",
+                "\tvar tile_x := int(_args[2] if _args.size() > 2 else 0)",
+                "\tvar tile_y := int(_args[3] if _args.size() > 3 else 0)",
+                "\treturn SourceFloorState.draw_non_layer_state(neighbors, layer, tile_x, tile_y)",
+            ],
+            19: [
+                "\tvar neighbors: Array = _args[0] if _args.size() > 0 and _args[0] is Array else []",
+                "\tvar real_cache_layer: Variant = _args[1] if _args.size() > 1 else null",
+                "\tvar tile_floor_is_this := bool(_args[2] if _args.size() > 2 else true)",
+                "\tvar tile_x := int(_args[3] if _args.size() > 3 else 0)",
+                "\tvar tile_y := int(_args[4] if _args.size() > 4 else 0)",
+                "\tvar self_real_blend_id := int(_args[5] if _args.size() > 5 else 0)",
+                "\tvar self_edges_present := bool(_args[6] if _args.size() > 6 else false)",
+                "\treturn SourceFloorState.draw_edges_state(neighbors, real_cache_layer, tile_floor_is_this, tile_x, tile_y, self_real_blend_id, self_edges_present)",
+            ],
+            20: [
+                "\tvar blenders: Array = _args[0] if _args.size() > 0 and _args[0] is Array else []",
+                "\tvar neighbors: Array = _args[1] if _args.size() > 1 and _args[1] is Array else []",
+                "\tvar dirs: Array = _args[2] if _args.size() > 2 and _args[2] is Array else []",
+                "\tvar tile_floor_is_this := bool(_args[3] if _args.size() > 3 else true)",
+                "\tvar check_id := bool(_args[4] if _args.size() > 4 else false)",
+                "\treturn SourceFloorState.draw_blended_state(blenders, neighbors, dirs, tile_floor_is_this, check_id)",
+            ],
+            21: [
+                "\tvar tile_floor_is_liquid := bool(_args[0] if _args.size() > 0 else false)",
+                "\tvar tile_overlay_is_air := bool(_args[1] if _args.size() > 1 else true)",
+                "\tvar tile_overlay_is_ore := bool(_args[2] if _args.size() > 2 else false)",
+                "\tvar tile_overlay_blend_id := int(_args[3] if _args.size() > 3 else 0)",
+                "\tvar tile_floor_blend_id := int(_args[4] if _args.size() > 4 else 0)",
+                "\tvar blend_id := int(_args[5] if _args.size() > 5 else -1)",
+                "\treturn SourceFloorState.real_blend_id_state(tile_floor_is_liquid, tile_overlay_is_air, tile_overlay_is_ore, tile_overlay_blend_id, tile_floor_blend_id, blend_id)",
+            ],
+            22: [
+                "\tvar blend_group_edges: Variant = _args[0] if _args.size() > 0 else null",
+                "\treturn SourceFloorState.edges_state(blend_group_edges)",
+            ],
+            23: [
+                "\tvar edges_grid: Array = _args[0] if _args.size() > 0 and _args[0] is Array else []",
+                "\tvar x := int(_args[1] if _args.size() > 1 else 0)",
+                "\tvar y := int(_args[2] if _args.size() > 2 else 0)",
+                "\tvar rx := int(_args[3] if _args.size() > 3 else 0)",
+                "\tvar ry := int(_args[4] if _args.size() > 4 else 0)",
+                "\treturn SourceFloorState.edge_state(edges_grid, x, y, rx, ry)",
+            ],
+            24: [
+                "\tvar other_real_blend_id := int(_args[0] if _args.size() > 0 else 0)",
+                "\tvar self_real_blend_id := int(_args[1] if _args.size() > 1 else 0)",
+                "\tvar edges_present := bool(_args[2] if _args.size() > 2 else false)",
+                "\treturn SourceFloorState.do_edge_state(other_real_blend_id, self_real_blend_id, edges_present)",
+            ],
+            25: [
+                "\tvar damage_taken := float(_args[0] if _args.size() > 0 else 0.0)",
+                "\tvar status_damage := float(_args[1] if _args.size() > 1 else 0.0)",
+                "\tvar status_present := bool(_args[2] if _args.size() > 2 else false)",
+                "\treturn SourceFloorState.damages_state(damage_taken, status_damage, status_present)",
+            ],
+        }
+        if method_index in generated_methods:
+            return generated_methods[method_index]
+    if (
+        java_file.get("path") == "mindustry/world/meta/Attribute.java"
+        and type_entry.get("name") == "Attribute"
+    ):
+        method_index = next((index for index, candidate in enumerate(type_entry.get("methods", [])) if candidate is method), -1)
+        generated_methods = {
+            0: ["\tvar state_present := bool(_args[0] if _args.size() > 0 else false)", "\tvar env_value := float(_args[1] if _args.size() > 1 else 0.0)", "\treturn SourceAttributeState.env_state(state_present, env_value)"],
+            1: ["\tvar attribute: Dictionary = _args[0] if _args.size() > 0 and _args[0] is Dictionary else {}", "\treturn SourceAttributeState.to_string_state(attribute)"],
+            2: ["\tvar all_attributes: Array = _args[0] if _args.size() > 0 and _args[0] is Array else []", "\tvar attribute_map: Dictionary = _args[1] if _args.size() > 1 and _args[1] is Dictionary else {}", "\tvar name := str(_args[2] if _args.size() > 2 else \"\")", "\treturn SourceAttributeState.get_state(all_attributes, attribute_map, name)"],
+            3: ["\tvar all_attributes: Array = _args[0] if _args.size() > 0 and _args[0] is Array else []", "\tvar attribute_map: Dictionary = _args[1] if _args.size() > 1 and _args[1] is Dictionary else {}", "\tvar name := str(_args[2] if _args.size() > 2 else \"\")", "\treturn SourceAttributeState.get_or_null_state(all_attributes, attribute_map, name)"],
+            4: ["\tvar all_attributes: Array = _args[0] if _args.size() > 0 and _args[0] is Array else []", "\tvar attribute_map: Dictionary = _args[1] if _args.size() > 1 and _args[1] is Dictionary else {}", "\tvar name := str(_args[2] if _args.size() > 2 else \"\")", "\treturn SourceAttributeState.exists_state(all_attributes, attribute_map, name)"],
+            5: ["\tvar all_attributes: Array = _args[0] if _args.size() > 0 and _args[0] is Array else []", "\tvar attribute_map: Dictionary = _args[1] if _args.size() > 1 and _args[1] is Dictionary else {}", "\tvar name := str(_args[2] if _args.size() > 2 else \"\")", "\treturn SourceAttributeState.add_state(all_attributes, attribute_map, name)"],
+        }
+        if method_index in generated_methods:
+            return generated_methods[method_index]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/Attributes.java"
+        and type_entry.get("name") == "Attributes"
+    ):
+        method_index = next(
+            (index for index, candidate in enumerate(type_entry.get("methods", [])) if candidate is method),
+            -1,
+        )
+        generated_methods = {
+            0: [
+                "\tvar attribute_all: Array = _args[0] if _args.size() > 0 and _args[0] is Array else []",
+                "\tvar arr: Array = _args[1] if _args.size() > 1 and _args[1] is Array else []",
+                "\treturn SourceAttributesState.clear_state(attribute_all, arr)",
+            ],
+            1: [
+                "\tvar attribute_all: Array = _args[0] if _args.size() > 0 and _args[0] is Array else []",
+                "\tvar arr: Array = _args[1] if _args.size() > 1 and _args[1] is Array else []",
+                "\tvar attr_id := int(_args[2] if _args.size() > 2 else -1)",
+                "\treturn SourceAttributesState.get_state(attribute_all, arr, attr_id)",
+            ],
+            2: [
+                "\tvar attribute_all: Array = _args[0] if _args.size() > 0 and _args[0] is Array else []",
+                "\tvar arr: Array = _args[1] if _args.size() > 1 and _args[1] is Array else []",
+                "\tvar attr_id := int(_args[2] if _args.size() > 2 else -1)",
+                "\tvar value := float(_args[3] if _args.size() > 3 else 0.0)",
+                "\treturn SourceAttributesState.set_state(attribute_all, arr, attr_id, value)",
+            ],
+            3: [
+                "\tvar attribute_all: Array = _args[0] if _args.size() > 0 and _args[0] is Array else []",
+                "\tvar arr: Array = _args[1] if _args.size() > 1 and _args[1] is Array else []",
+                "\tvar other_arr: Array = _args[2] if _args.size() > 2 and _args[2] is Array else []",
+                "\treturn SourceAttributesState.add_state(attribute_all, arr, other_arr)",
+            ],
+            4: [
+                "\tvar attribute_all: Array = _args[0] if _args.size() > 0 and _args[0] is Array else []",
+                "\tvar arr: Array = _args[1] if _args.size() > 1 and _args[1] is Array else []",
+                "\tvar other_arr: Array = _args[2] if _args.size() > 2 and _args[2] is Array else []",
+                "\tvar scale := float(_args[3] if _args.size() > 3 else 1.0)",
+                "\treturn SourceAttributesState.add_state(attribute_all, arr, other_arr, scale)",
+            ],
+            5: [
+                "\tvar attribute_all: Array = _args[0] if _args.size() > 0 and _args[0] is Array else []",
+                "\tvar arr: Array = _args[1] if _args.size() > 1 and _args[1] is Array else []",
+                "\treturn SourceAttributesState.write_state(attribute_all, arr)",
+            ],
+            6: [
+                "\tvar attribute_all: Array = _args[0] if _args.size() > 0 and _args[0] is Array else []",
+                "\tvar arr: Array = _args[1] if _args.size() > 1 and _args[1] is Array else []",
+                "\tvar data: Dictionary = _args[2] if _args.size() > 2 and _args[2] is Dictionary else {}",
+                "\treturn SourceAttributesState.read_state(attribute_all, arr, data)",
+            ],
+            7: [
+                "\tvar attribute_all: Array = _args[0] if _args.size() > 0 and _args[0] is Array else []",
+                "\tvar arr: Array = _args[1] if _args.size() > 1 and _args[1] is Array else []",
+                "\treturn SourceAttributesState.check_state(attribute_all, arr)",
+            ],
+            8: [
+                "\tvar attribute_all: Array = _args[0] if _args.size() > 0 and _args[0] is Array else []",
+                "\tvar arr: Array = _args[1] if _args.size() > 1 and _args[1] is Array else []",
+                "\treturn SourceAttributesState.to_string_state(attribute_all, arr)",
+            ],
+        }
+        if method_index in generated_methods:
+            return generated_methods[method_index]
     if (
         java_file.get("path") == "mindustry/entities/pattern/ShootPattern.java"
         and type_entry.get("name") == "ShootPattern"
@@ -269,6 +2345,20 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\treturn SourceBuildingDestructionState.begin_break_state(valid_break, tile_has_building, prev_healthf, previous_rotation, previous_instant_deconstruct, previous_size, unit_has_controller_name, controller_name)",
         ]
     if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "sumAttribute"
+    ):
+        return [
+            "\tvar attr_present := bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar tile_present := bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar floating := bool(_args[2] if _args.size() > 2 else false)",
+            "\tvar placeable_liquid := bool(_args[3] if _args.size() > 3 else false)",
+            "\tvar linked_tile_deep_by_index: Array = _args[4] if _args.size() > 4 and _args[4] is Array else []",
+            "\tvar linked_attribute_value_by_index: Array = _args[5] if _args.size() > 5 and _args[5] is Array else []",
+            "\treturn source_block_attribute_state.generated_block_sum_attribute_result_state(attr_present, tile_present, floating, placeable_liquid, linked_tile_deep_by_index, linked_attribute_value_by_index)",
+        ]
+    if (
         java_file.get("path") == "mindustry/world/blocks/ConstructBlock.java"
         and type_entry.get("name") == "ConstructBlock"
         and method.get("name") == "get"
@@ -292,7 +2382,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar calc_pitch_down: float = float(_args[5] if _args.size() > 5 else 1.0)",
             "\tvar block_size: int = int(_args[6] if _args.size() > 6 else SourceBlockDefaults.SIZE_DEFAULT)",
             "\tvar block_map_color: Variant = _args[7] if _args.size() > 7 else null",
-            "\treturn SourceBuildingDestructionState.construct_block_deconstruct_finish_state(tile_present, headless, visible_tile, should_play, break_pitch_change, calc_pitch_down, block_size, block_map_color)",
+            "\treturn SourceConstructBlockState.construct_block_deconstruct_finish_state(tile_present, headless, visible_tile, should_play, break_pitch_change, calc_pitch_down, block_size, block_map_color)",
         ]
     if (
         java_file.get("path") == "mindustry/world/blocks/ConstructBlock.java"
@@ -321,7 +2411,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar block_health: float = float(_args[18] if _args.size() > 18 else SourceBlockDefaults.HEALTH_DEFAULT)",
             "\tvar rotation: int = int(_args[19] if _args.size() > 19 else 0)",
             "\tvar config_state: Variant = _args[20] if _args.size() > 20 else null",
-            "\treturn SourceBuildingDestructionState.construct_block_construct_finish_state(tile_present, block_kind, tile_has_building, tile_build_matches_block, healthf, prev_build_count, floor_supports_overlay, current_overlay_is_overlay_floor, config_present, builder_has_controller_name, controller_name, headless, builder_is_player_unit, visible_tile, should_play, place_pitch_change, calc_pitch_up, block_size, block_health, rotation, config_state)",
+            "\treturn SourceConstructBlockState.construct_block_construct_finish_state(tile_present, block_kind, tile_has_building, tile_build_matches_block, healthf, prev_build_count, floor_supports_overlay, current_overlay_is_overlay_floor, config_present, builder_has_controller_name, controller_name, headless, builder_is_player_unit, visible_tile, should_play, place_pitch_change, calc_pitch_up, block_size, block_health, rotation, config_state)",
         ]
     if (
         java_file.get("path") == "mindustry/world/blocks/ConstructBlock.java"
@@ -386,7 +2476,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar rotation: int = int(_args[19] if _args.size() > 19 else 0)",
             "\tvar config_state: Variant = _args[20] if _args.size() > 20 else null",
             "\tvar tile_has_building_after_construct_finish: bool = bool(_args[21] if _args.size() > 21 else false)",
-            "\treturn SourceBuildingDestructionState.construct_block_constructed_state(tile_present, block_kind, tile_has_building, tile_build_matches_block, healthf, prev_build_count, floor_supports_overlay, current_overlay_is_overlay_floor, config_present, builder_has_controller_name, controller_name, headless, builder_is_player_unit, visible_tile, should_play, place_pitch_change, calc_pitch_up, block_size, block_health, rotation, config_state, tile_has_building_after_construct_finish)",
+            "\treturn SourceConstructBlockState.construct_block_constructed_state(tile_present, block_kind, tile_has_building, tile_build_matches_block, healthf, prev_build_count, floor_supports_overlay, current_overlay_is_overlay_floor, config_present, builder_has_controller_name, controller_name, headless, builder_is_player_unit, visible_tile, should_play, place_pitch_change, calc_pitch_up, block_size, block_health, rotation, config_state, tile_has_building_after_construct_finish)",
         ]
     if (
         java_file.get("path") == "mindustry/world/blocks/ConstructBlock.java"
@@ -453,6 +2543,83 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "init"
+        and [param.get("type") for param in method.get("parameters", [])] == ["Tile", "Team", "boolean", "int"]
+    ):
+        return [
+            "\tvar initialized := bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar block_has_power := bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar should_add := bool(_args[2] if _args.size() > 2 else false)",
+            "\tvar tile_state: Variant = _args[3] if _args.size() > 3 else null",
+            "\tvar team_state: Variant = _args[4] if _args.size() > 4 else null",
+            "\tvar rotation := int(_args[5] if _args.size() > 5 else 0)",
+            "\tvar draw_x := float(_args[6] if _args.size() > 6 else 0.0)",
+            "\tvar draw_y := float(_args[7] if _args.size() > 7 else 0.0)",
+            "\treturn SourceBuildingLifecycleState.init_state(initialized, block_has_power, should_add, tile_state, team_state, rotation, draw_x, draw_y)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "create"
+        and [param.get("type") for param in method.get("parameters", [])] == ["Block", "Team"]
+    ):
+        return [
+            "\tvar block_state: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar team_state: Variant = _args[1] if _args.size() > 1 else null",
+            "\tvar block_health := float(_args[2] if _args.size() > 2 else 0.0)",
+            "\tvar block_timers := int(_args[3] if _args.size() > 3 else 0)",
+            "\tvar has_items := bool(_args[4] if _args.size() > 4 else false)",
+            "\tvar has_liquids := bool(_args[5] if _args.size() > 5 else false)",
+            "\tvar has_power := bool(_args[6] if _args.size() > 6 else false)",
+            "\treturn SourceBuildingLifecycleState.create_state(block_state, team_state, block_health, block_timers, has_items, has_liquids, has_power)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "add"
+        and not method.get("parameters")
+    ):
+        return [
+            "\tvar power_present := bool(_args[0] if _args.size() > 0 else false)",
+            "\treturn SourceBuildingLifecycleState.add_state(power_present)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "canControlSelect"
+    ):
+        return [
+            '\treturn {"source_owner": "port_game.source_building_can_control_select_state", "can_control_select": false}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "onControlSelect"
+    ):
+        return [
+            "\tvar player_state: Variant = _args[0] if _args.size() > 0 else null",
+            '\treturn {"source_owner": "port_game.source_building_on_control_select_state", "player": player_state, "handled": false}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "onCommand"
+    ):
+        return [
+            "\tvar target_state: Variant = _args[0] if _args.size() > 0 else null",
+            '\treturn {"source_owner": "port_game.source_building_on_command_state", "target": target_state, "handled": false}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "getCommandPosition"
+    ):
+        return [
+            '\treturn {"source_owner": "port_game.source_building_get_command_position_state", "command_position": null}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
         and method.get("name") == "getProgressIncrease"
         and method.get("return_type") == "float"
     ):
@@ -480,6 +2647,109 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
         return [
             "\tvar should_consume_state := bool(_args[0] if _args.size() > 0 else false)",
             "\treturn should_consume_state",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "applyBoost"
+        and parameter_types == ["float", "float"]
+    ):
+        return [
+            "\tvar current_time_scale := float(_args[0] if _args.size() > 0 else SOURCE_BLOCK_TIME_SCALE_DEFAULT)",
+            "\tvar current_duration := float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar intensity := float(_args[2] if _args.size() > 2 else SOURCE_BLOCK_TIME_SCALE_DEFAULT)",
+            "\tvar duration := float(_args[3] if _args.size() > 3 else 0.0)",
+            "\tvar can_overdrive := bool(_args[4] if _args.size() > 4 else true)",
+            "\treturn source_building_time_state.apply_boost_state(current_time_scale, current_duration, intensity, duration, can_overdrive, SOURCE_BUILDING_TIME_SCALE_BOOST_EPSILON)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "applySlowdown"
+        and parameter_types == ["float", "float"]
+    ):
+        return [
+            "\tvar current_time_scale := float(_args[0] if _args.size() > 0 else SOURCE_BLOCK_TIME_SCALE_DEFAULT)",
+            "\tvar current_duration := float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar intensity := float(_args[2] if _args.size() > 2 else SOURCE_BLOCK_TIME_SCALE_DEFAULT)",
+            "\tvar duration := float(_args[3] if _args.size() > 3 else 0.0)",
+            "\treturn source_building_time_state.apply_slowdown_state(current_time_scale, current_duration, intensity, duration, SOURCE_BUILDING_TIME_SCALE_BOOST_EPSILON)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") in {"itemTaken", "dropped", "handleString", "created", "getStackOffset"}
+    ):
+        callbacks = {
+            "itemTaken": (["Item"], "EMPTY_ITEM_TAKEN_JAVA_METHOD"),
+            "dropped": ([], "EMPTY_DROPPED_JAVA_METHOD"),
+            "handleString": (["Object"], "EMPTY_HANDLE_STRING_JAVA_METHOD"),
+            "created": ([], "EMPTY_CREATED_JAVA_METHOD"),
+            "getStackOffset": (["Item", "Vec2"], "EMPTY_GET_STACK_OFFSET_JAVA_METHOD"),
+        }
+        types, constant = callbacks[method.get("name")]
+        if parameter_types == types:
+            return [f"\treturn source_building_lifecycle_state.empty_lifecycle_callback_state(source_building_lifecycle_state.source_building_lifecycle_source_text_state.{constant})"]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "applyHealSuppression"
+    ):
+        if parameter_types == ["float"]:
+            return [
+                "\tvar heal_suppression_time := float(_args[0] if _args.size() > 0 else 0.0)",
+                "\tvar source_time := float(_args[1] if _args.size() > 1 else 0.0)",
+                "\tvar amount := float(_args[2] if _args.size() > 2 else 0.0)",
+                "\treturn source_building_lifecycle_state.apply_heal_suppression_state(heal_suppression_time, source_time, amount, source_building_lifecycle_state.SOURCE_BUILDING_HEAL_SUPPRESSION_DEFAULT_COLOR)",
+            ]
+        return [
+            "\tvar heal_suppression_time := float(_args[0] if _args.size() > 0 else 0.0)",
+            "\tvar source_time := float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar amount := float(_args[2] if _args.size() > 2 else 0.0)",
+            "\tvar suppress_color: Variant = _args[3] if _args.size() > 3 else source_building_lifecycle_state.SOURCE_BUILDING_HEAL_SUPPRESSION_DEFAULT_COLOR",
+            "\treturn source_building_lifecycle_state.apply_heal_suppression_state(heal_suppression_time, source_time, amount, suppress_color)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "isHealSuppressed"
+    ):
+        return [
+            "\tvar block_suppressable := bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar source_time := float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar heal_suppression_time := float(_args[2] if _args.size() > 2 else 0.0)",
+            "\treturn source_building_lifecycle_state.is_heal_suppressed_result_state(block_suppressable, source_time, heal_suppression_time)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "recentlyHealed"
+    ):
+        return [
+            "\tvar source_time := float(_args[0] if _args.size() > 0 else 0.0)",
+            "\treturn source_building_lifecycle_state.recently_healed_state(source_time)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "wasRecentlyHealed"
+    ):
+        return [
+            "\tvar last_heal_time := float(_args[0] if _args.size() > 0 else 0.0)",
+            "\tvar duration := float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar source_time := float(_args[2] if _args.size() > 2 else 0.0)",
+            "\treturn source_building_lifecycle_state.was_recently_healed_state(last_heal_time, duration, source_time)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "wasRecentlyDamaged"
+    ):
+        return [
+            "\tvar last_damage_time := float(_args[0] if _args.size() > 0 else 0.0)",
+            "\tvar recent_damage_time := float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar source_time := float(_args[2] if _args.size() > 2 else 0.0)",
+            "\treturn source_building_lifecycle_state.was_recently_damaged_state(last_damage_time, recent_damage_time, source_time)",
         ]
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
@@ -569,6 +2839,556 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar source_y := float(_args[1] if _args.size() > 1 else 0.0)",
             "\tvar disabled_icon_size := SOURCE_BUILDING_DRAW_DISABLED_ICON_SIZE",
             "\treturn {\"visible\": true, \"icon\": SOURCE_BUILDING_DRAW_DISABLED_ICON, \"color\": SOURCE_BUILDING_DRAW_DISABLED_COLOR, \"alpha\": SOURCE_BUILDING_DRAW_DISABLED_ALPHA, \"x\": source_x, \"y\": source_y, \"width\": disabled_icon_size, \"height\": disabled_icon_size}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "tileX"
+    ):
+        return [
+            "\tvar tile_x := int(_args[0] if _args.size() > 0 else 0)",
+            "\treturn tile_x",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "tileY"
+    ):
+        return [
+            "\tvar tile_y := int(_args[0] if _args.size() > 0 else 0)",
+            "\treturn tile_y",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "pos"
+    ):
+        return [
+            "\tvar tile_pos := int(_args[0] if _args.size() > 0 else 0)",
+            "\treturn tile_pos",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "floor"
+        and not parameter_types
+    ):
+        return [
+            "\tvar floor_value: Variant = _args[0] if _args.size() > 0 else null",
+            "\treturn SourceBlockGeometry.tile_reference_state(floor_value)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "interactable"
+        and parameter_types == ["Team"]
+    ):
+        return [
+            "\tvar can_interact := bool(_args[0] if _args.size() > 0 else false)",
+            "\treturn SourceBlockGeometry.tile_interactable_state(can_interact)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "allowUpdate"
+        and not parameter_types
+    ):
+        return [
+            "\tvar team_is_derelict := bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar block_supports_env := bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar editor_tile := bool(_args[2] if _args.size() > 2 else false)",
+            "\tvar block_privileged := bool(_args[3] if _args.size() > 3 else false)",
+            "\tvar limit_map_area := bool(_args[4] if _args.size() > 4 else false)",
+            "\tvar disable_outside_area := bool(_args[5] if _args.size() > 5 else false)",
+            "\tvar tile_x := int(_args[6] if _args.size() > 6 else 0)",
+            "\tvar tile_y := int(_args[7] if _args.size() > 7 else 0)",
+            "\tvar limit_x := int(_args[8] if _args.size() > 8 else 0)",
+            "\tvar limit_y := int(_args[9] if _args.size() > 9 else 0)",
+            "\tvar limit_width := int(_args[10] if _args.size() > 10 else 0)",
+            "\tvar limit_height := int(_args[11] if _args.size() > 11 else 0)",
+            "\treturn SourceBuildingAccessState.allow_update_state(team_is_derelict, block_supports_env, editor_tile, block_privileged, limit_map_area, disable_outside_area, tile_x, tile_y, limit_x, limit_y, limit_width, limit_height)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "inMapArea"
+        and not parameter_types
+    ):
+        return [
+            "\tvar limit_map_area := bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar limit_x := float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar limit_y := float(_args[2] if _args.size() > 2 else 0.0)",
+            "\tvar limit_width := float(_args[3] if _args.size() > 3 else 0.0)",
+            "\tvar limit_height := float(_args[4] if _args.size() > 4 else 0.0)",
+            "\tvar source_x := float(_args[5] if _args.size() > 5 else 0.0)",
+            "\tvar source_y := float(_args[6] if _args.size() > 6 else 0.0)",
+            "\tvar tile_size := float(_args[7] if _args.size() > 7 else SOURCE_TILESIZE)",
+            "\treturn SourceBuildingAccessState.in_map_area_state(limit_map_area, limit_x, limit_y, limit_width, limit_height, source_x, source_y, tile_size)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "status"
+        and not parameter_types
+    ):
+        return [
+            "\tvar enabled := bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar should_consume := bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar efficiency := float(_args[2] if _args.size() > 2 else 0.0)",
+            "\tvar production_valid := bool(_args[3] if _args.size() > 3 else false)",
+            "\tvar state_tick := float(_args[4] if _args.size() > 4 else 0.0)",
+            "\treturn SourceBuildingAccessState.status_state(enabled, should_consume, efficiency, production_valid, state_tick)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "sleep"
+        and not parameter_types
+    ):
+        return [
+            "\tvar sleep_time := float(_args[0] if _args.size() > 0 else 0.0)",
+            "\tvar time_delta := float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar sleeping := bool(_args[2] if _args.size() > 2 else false)",
+            "\tvar sleeping_entities := int(_args[3] if _args.size() > 3 else 0)",
+            "\tvar time_to_sleep := float(_args[4] if _args.size() > 4 else SOURCE_TICK_RATE)",
+            "\treturn SourceBuildingAccessState.sleep_state(sleep_time, time_delta, sleeping, sleeping_entities, time_to_sleep)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "noSleep"
+        and not parameter_types
+    ):
+        return [
+            "\tvar sleeping := bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar sleeping_entities := int(_args[1] if _args.size() > 1 else 0)",
+            "\treturn SourceBuildingAccessState.no_sleep_state(sleeping, sleeping_entities)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "canWithdraw"
+        and not parameter_types
+    ):
+        return ["\treturn SourceBuildingAccessState.can_withdraw_state()"]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "canUnload"
+        and not parameter_types
+    ):
+        return [
+            "\tvar block_unloadable := bool(_args[0] if _args.size() > 0 else false)",
+            "\treturn SourceBuildingAccessState.can_unload_state(block_unloadable)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "canResupply"
+        and not parameter_types
+    ):
+        return [
+            "\tvar block_allow_resupply := bool(_args[0] if _args.size() > 0 else false)",
+            "\treturn SourceBuildingAccessState.can_resupply_state(block_allow_resupply)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "payloadCheck"
+        and parameter_types == ["int"]
+    ):
+        return [
+            "\tvar block_rotate := bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar rotation := int(_args[1] if _args.size() > 1 else 0)",
+            "\tvar conveyor_rotation := int(_args[2] if _args.size() > 2 else 0)",
+            "\treturn SourceBuildingAccessState.payload_check_state(block_rotate, rotation, conveyor_rotation)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "allowDeposit"
+        and not parameter_types
+    ):
+        return [
+            "\tvar block_always_allow_deposit := bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar only_deposit_core := bool(_args[1] if _args.size() > 1 else false)",
+            "\treturn SourceBuildingAccessState.allow_deposit_state(block_always_allow_deposit, only_deposit_core)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "shouldConsume"
+        and not parameter_types
+    ):
+        return [
+            "\tvar enabled := bool(_args[0] if _args.size() > 0 else false)",
+            "\treturn SourceBuildingAccessState.should_consume_state(enabled)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "productionValid"
+        and not parameter_types
+    ):
+        return ["\treturn SourceBuildingAccessState.production_valid_state()"]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "consumeTriggerValid"
+        and not parameter_types
+    ):
+        return ["\treturn SourceBuildingAccessState.consume_trigger_valid_state()"]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "handleUnitPayload"
+        and parameter_types == ["Unit", "Cons"]
+    ):
+        return [
+            "\tvar unit: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar grabber: Variant = _args[1] if _args.size() > 1 else Callable()",
+            "\tvar dependencies: Dictionary = _args[2] if _args.size() > 2 and _args[2] is Dictionary else {}",
+            "\treturn SourceBuildingPayloadState.handle_unit_payload_state(unit, grabber, dependencies)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "acceptStack"
+        and parameter_types == ["Item", "int", "Teamc"]
+    ):
+        return [
+            "\tvar amount := int(_args[1] if _args.size() > 1 else 0)",
+            "\tvar accepts_item := bool(_args[3] if _args.size() > 3 else false)",
+            "\tvar has_items := bool(_args[4] if _args.size() > 4 else false)",
+            "\tvar same_team_or_null_source := bool(_args[5] if _args.size() > 5 else false)",
+            "\tvar maximum_accepted := int(_args[6] if _args.size() > 6 else 0)",
+            "\tvar item_count := int(_args[7] if _args.size() > 7 else 0)",
+            "\treturn SourceBuildingItemState.accept_stack_state(accepts_item, has_items, same_team_or_null_source, maximum_accepted, item_count, amount)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "getMaximumAccepted"
+        and parameter_types == ["Item"]
+    ):
+        return [
+            "\tvar block_item_capacity := int(_args[1] if _args.size() > 1 else 0)",
+            "\treturn SourceBuildingItemState.maximum_accepted(block_item_capacity)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "removeStack"
+        and parameter_types == ["Item", "int"]
+    ):
+        return [
+            "\tvar amount := int(_args[1] if _args.size() > 1 else 0)",
+            "\tvar has_items_module := bool(_args[2] if _args.size() > 2 else false)",
+            "\tvar item_count := int(_args[3] if _args.size() > 3 else 0)",
+            "\treturn SourceBuildingItemState.remove_stack_state(has_items_module, item_count, amount)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "handleStack"
+        and parameter_types == ["Item", "int", "Teamc"]
+    ):
+        return [
+            "\tvar amount := int(_args[1] if _args.size() > 1 else 0)",
+            "\tvar current_count := int(_args[3] if _args.size() > 3 else 0)",
+            "\treturn SourceBuildingItemState.handle_stack_count(current_count, amount)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "handleItem"
+        and parameter_types == ["Building", "Item"]
+    ):
+        return [
+            "\tvar current_count := int(_args[2] if _args.size() > 2 else 0)",
+            "\treturn SourceBuildingItemState.handle_item_count(current_count)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "acceptItem"
+        and parameter_types == ["Building", "Item"]
+    ):
+        return [
+            "\tvar consumes_item := bool(_args[2] if _args.size() > 2 else false)",
+            "\tvar item_count := int(_args[3] if _args.size() > 3 else 0)",
+            "\tvar maximum_accepted := int(_args[4] if _args.size() > 4 else 0)",
+            "\treturn SourceBuildingItemState.accept_item_state(consumes_item, item_count, maximum_accepted)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "acceptLiquid"
+        and parameter_types == ["Building", "Liquid"]
+    ):
+        return [
+            "\tvar has_liquids := bool(_args[2] if _args.size() > 2 else false)",
+            "\tvar consumes_liquid := bool(_args[3] if _args.size() > 3 else false)",
+            "\treturn SourceBuildingLiquidState.accept_liquid_state(has_liquids, consumes_liquid)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "handleLiquid"
+        and parameter_types == ["Building", "Liquid", "float"]
+    ):
+        return [
+            "\tvar amount := float(_args[2] if _args.size() > 2 else 0.0)",
+            "\tvar current_liquid_amount := float(_args[3] if _args.size() > 3 else 0.0)",
+            "\treturn SourceBuildingLiquidState.handle_liquid_amount(current_liquid_amount, amount)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "dumpLiquid"
+        and parameter_types in (["Liquid"], ["Liquid", "float"], ["Liquid", "float", "int"])
+    ):
+        argument_offset = len(parameter_types)
+        scaling_expression = "2.0" if parameter_types == ["Liquid"] else "float(_args[1] if _args.size() > 1 else 0.0)"
+        output_dir_expression = "-1" if len(parameter_types) < 3 else "int(_args[2] if _args.size() > 2 else -1)"
+        return [
+            "\tvar liquid: Variant = _args[0] if _args.size() > 0 else null",
+            f"\tvar scaling := {scaling_expression}",
+            f"\tvar output_dir := {output_dir_expression}",
+            f"\tvar current_liquid_amount := float(_args[{argument_offset}] if _args.size() > {argument_offset} else 0.0)",
+            f"\tvar net_client := bool(_args[{argument_offset + 1}] if _args.size() > {argument_offset + 1} else false)",
+            f"\tvar state_is_campaign := bool(_args[{argument_offset + 2}] if _args.size() > {argument_offset + 2} else false)",
+            f"\tvar team_is_default_team := bool(_args[{argument_offset + 3}] if _args.size() > {argument_offset + 3} else false)",
+            f"\tvar proximity_size := int(_args[{argument_offset + 4}] if _args.size() > {argument_offset + 4} else 0)",
+            f"\tvar dump_cursor := int(_args[{argument_offset + 5}] if _args.size() > {argument_offset + 5} else 0)",
+            f"\tvar rotation_value := int(_args[{argument_offset + 6}] if _args.size() > {argument_offset + 6} else 0)",
+            f"\tvar relative_to_by_index: Array = _args[{argument_offset + 7}] if _args.size() > {argument_offset + 7} and _args[{argument_offset + 7}] is Array else []",
+            f"\tvar destination_present_by_index: Array = _args[{argument_offset + 8}] if _args.size() > {argument_offset + 8} and _args[{argument_offset + 8}] is Array else []",
+            f"\tvar other_has_liquids_by_index: Array = _args[{argument_offset + 9}] if _args.size() > {argument_offset + 9} and _args[{argument_offset + 9}] is Array else []",
+            f"\tvar can_dump_liquid_by_index: Array = _args[{argument_offset + 10}] if _args.size() > {argument_offset + 10} and _args[{argument_offset + 10}] is Array else []",
+            f"\tvar other_liquids_present_by_index: Array = _args[{argument_offset + 11}] if _args.size() > {argument_offset + 11} and _args[{argument_offset + 11}] is Array else []",
+            f"\tvar other_liquid_amount_by_index: Array = _args[{argument_offset + 12}] if _args.size() > {argument_offset + 12} and _args[{argument_offset + 12}] is Array else []",
+            f"\tvar other_block_liquid_capacity_by_index: Array = _args[{argument_offset + 13}] if _args.size() > {argument_offset + 13} and _args[{argument_offset + 13}] is Array else []",
+            f"\tvar other_accepts_liquid_by_index: Array = _args[{argument_offset + 14}] if _args.size() > {argument_offset + 14} and _args[{argument_offset + 14}] is Array else []",
+            f"\tvar block_liquid_capacity := float(_args[{argument_offset + 15}] if _args.size() > {argument_offset + 15} else 0.0)",
+            "\treturn SourceBuildingLiquidState.dump_liquid_state(liquid, scaling, output_dir, current_liquid_amount, net_client, state_is_campaign, team_is_default_team, proximity_size, dump_cursor, rotation_value, relative_to_by_index, destination_present_by_index, other_has_liquids_by_index, can_dump_liquid_by_index, other_liquids_present_by_index, other_liquid_amount_by_index, other_block_liquid_capacity_by_index, other_accepts_liquid_by_index, block_liquid_capacity, Callable(SourceBuildingItemDumpState, \"increment_dump_cursor_state\"))",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "canDumpLiquid"
+        and parameter_types == ["Building", "Liquid"]
+    ):
+        return [
+            "\tvar to_state: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar liquid: Variant = _args[1] if _args.size() > 1 else null",
+            "\treturn SourceBuildingLiquidState.can_dump_liquid_default_state(to_state, liquid)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "transferLiquid"
+        and parameter_types == ["Building", "float", "Liquid"]
+    ):
+        return [
+            "\tvar amount := float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar liquid: Variant = _args[2] if _args.size() > 2 else null",
+            "\tvar next_block_liquid_capacity := float(_args[3] if _args.size() > 3 else 0.0)",
+            "\tvar next_liquid_amount := float(_args[4] if _args.size() > 4 else 0.0)",
+            "\tvar next_accepts_liquid := bool(_args[5] if _args.size() > 5 else false)",
+            "\tvar current_liquid_amount := float(_args[6] if _args.size() > 6 else 0.0)",
+            "\treturn SourceBuildingLiquidState.transfer_liquid_state(liquid, amount, next_block_liquid_capacity, next_liquid_amount, next_accepts_liquid, current_liquid_amount)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "moveLiquidForward"
+        and parameter_types == ["boolean", "Liquid"]
+    ):
+        return [
+            "\tvar leaks := bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar liquid: Variant = _args[1] if _args.size() > 1 else null",
+            "\tvar next_tile_present := bool(_args[2] if _args.size() > 2 else false)",
+            "\tvar next_build_present := bool(_args[3] if _args.size() > 3 else false)",
+            "\tvar next_block_solid := bool(_args[4] if _args.size() > 4 else false)",
+            "\tvar next_block_has_liquids := bool(_args[5] if _args.size() > 5 else false)",
+            "\tvar current_liquid_amount := float(_args[6] if _args.size() > 6 else 0.0)",
+            "\tvar move_liquid_return := float(_args[7] if _args.size() > 7 else 0.0)",
+            "\treturn SourceBuildingLiquidState.move_liquid_forward_state(leaks, liquid, next_tile_present, next_build_present, next_block_solid, next_block_has_liquids, current_liquid_amount, move_liquid_return)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "moveLiquid"
+        and parameter_types == ["Building", "Liquid"]
+    ):
+        return [
+            "\tvar liquid: Variant = _args[1] if _args.size() > 1 else null",
+            "\tvar next_present := bool(_args[2] if _args.size() > 2 else false)",
+            "\tvar destination_team_matches := bool(_args[3] if _args.size() > 3 else false)",
+            "\tvar destination_block_has_liquids := bool(_args[4] if _args.size() > 4 else false)",
+            "\tvar current_liquid_amount := float(_args[5] if _args.size() > 5 else 0.0)",
+            "\tvar destination_liquid_amount := float(_args[6] if _args.size() > 6 else 0.0)",
+            "\tvar source_block_liquid_capacity := float(_args[7] if _args.size() > 7 else 0.0)",
+            "\tvar source_block_liquid_pressure := float(_args[8] if _args.size() > 8 else 0.0)",
+            "\tvar destination_block_liquid_capacity := float(_args[9] if _args.size() > 9 else 0.0)",
+            "\tvar destination_accepts_liquid := bool(_args[10] if _args.size() > 10 else false)",
+            "\treturn SourceBuildingLiquidState.move_liquid_state(liquid, next_present, destination_team_matches, destination_block_has_liquids, current_liquid_amount, destination_liquid_amount, source_block_liquid_capacity, source_block_liquid_pressure, destination_block_liquid_capacity, destination_accepts_liquid)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "getLiquidDestination"
+        and parameter_types == ["Building", "Liquid"]
+    ):
+        return [
+            "\tvar from_state: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar liquid: Variant = _args[1] if _args.size() > 1 else null",
+            "\tvar self_state: Variant = _args[2] if _args.size() > 2 else null",
+            "\treturn SourceBuildingLiquidState.get_liquid_destination_default_state(from_state, liquid, self_state)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "acceptPayload"
+        and parameter_types == ["Building", "Payload"]
+    ):
+        return ["\treturn SourceBuildingPayloadState.accept_payload_state()"]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "handlePayload"
+        and parameter_types == ["Building", "Payload"]
+    ):
+        return [
+            "\tvar payload_state: Variant = _args[1] if _args.size() > 1 else null",
+            "\treturn SourceBuildingPayloadState.handle_payload_state(payload_state)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "movePayload"
+        and parameter_types == ["Payload"]
+    ):
+        return [
+            "\tvar has_next_tile := bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar has_next_build := bool(_args[2] if _args.size() > 2 else false)",
+            "\tvar same_team := bool(_args[3] if _args.size() > 3 else false)",
+            "\tvar accepts_payload := bool(_args[4] if _args.size() > 4 else false)",
+            "\treturn SourceBuildingPayloadState.move_payload_state(has_next_tile, has_next_build, same_team, accepts_payload)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "dumpPayload"
+        and parameter_types == ["Payload"]
+    ):
+        return [
+            "\tvar proximity_size := int(_args[1] if _args.size() > 1 else 0)",
+            "\tvar dump_cursor := int(_args[2] if _args.size() > 2 else 0)",
+            "\tvar accepts_payload_by_index: Array = _args[3] if _args.size() > 3 and _args[3] is Array else []",
+            "\treturn SourceBuildingPayloadState.dump_payload_state(proximity_size, dump_cursor, accepts_payload_by_index, Callable(SourceBuildingItemDumpState, \"increment_dump_cursor_state\"))",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "canBeReplaced"
+        and parameter_types == ["Block"]
+    ):
+        return [
+            "\tvar other_can_replace_block := bool(_args[1] if _args.size() > 1 else false)",
+            "\treturn SourceBuildingCoreState.building_can_be_replaced_state(other_can_replace_block)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "getPayload"
+        and not parameter_types
+    ):
+        return ["\treturn SourceBuildingPayloadState.get_payload_default_state()"]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "takePayload"
+        and not parameter_types
+    ):
+        return ["\treturn SourceBuildingPayloadState.take_payload_default_state()"]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "getPayloads"
+        and not parameter_types
+    ):
+        return ["\treturn SourceBuildingPayloadState.get_payloads_default_state()"]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "getPowerProduction"
+        and not parameter_types
+    ):
+        return ['\treturn float(SourceBuildingCoreState.power_production_state().get("power_production", 0.0))']
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "fogRadius"
+    ):
+        return [
+            "\tvar fog_radius_value := float(_args[0] if _args.size() > 0 else 0.0)",
+            "\treturn fog_radius_value",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "rotdeg"
+    ):
+        return [
+            "\tvar rotation_quadrants := int(_args[0] if _args.size() > 0 else 0)",
+            "\treturn float(rotation_quadrants * SOURCE_BUILDING_DRAW_ROTATION_STEP_DEGREES)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "drawrot"
+    ):
+        return [
+            "\tvar block_rotate := bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar block_rotate_draw := bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar rotation_quadrants := int(_args[2] if _args.size() > 2 else 0)",
+            "\treturn float(rotation_quadrants * SOURCE_BUILDING_DRAW_ROTATION_STEP_DEGREES) if block_rotate and block_rotate_draw else SOURCE_BUILDING_DRAW_ROTATION_DISABLED",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "timeScale"
+    ):
+        return [
+            "\tvar current_time_scale := float(_args[0] if _args.size() > 0 else SOURCE_BLOCK_TIME_SCALE_DEFAULT)",
+            "\treturn current_time_scale",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "warmup"
+    ):
+        return [
+            "\treturn 0.0",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "totalProgress"
+    ):
+        return [
+            "\tvar source_time := float(_args[0] if _args.size() > 0 else 0.0)",
+            "\treturn source_time",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "progress"
+    ):
+        return [
+            "\treturn 0.0",
         ]
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
@@ -934,6 +3754,50 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "getDisplayIcon"
+    ):
+        return [
+            "\tvar block_ui_icon: Variant = _args[0] if _args.size() > 0 else null",
+            "\treturn source_building_display_state.generated_building_comp_get_display_icon_bridge_state(block_ui_icon).get(\"result\")",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "getCursor"
+    ):
+        return [
+            "\tvar block_configurable := bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar interactable_player_team := bool(_args[1] if _args.size() > 1 else false)",
+            "\treturn source_building_meta_state.cursor_state(block_configurable, interactable_player_team)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "buildConfiguration"
+        and parameter_types == ["Table"]
+    ):
+        return [
+            "\tvar table: Variant = _args[0] if _args.size() > 0 else null",
+            "\treturn source_building_configure_state.generated_build_configuration_bridge_state(table)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "updateTableAlign"
+        and parameter_types == ["Table"]
+    ):
+        return [
+            "\tvar table: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar x := float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar y := float(_args[2] if _args.size() > 2 else 0.0)",
+            "\tvar block_size := int(_args[3] if _args.size() > 3 else 0)",
+            "\tvar tilesize := float(_args[4] if _args.size() > 4 else 0.0)",
+            "\tvar mouse_screen_position: Variant = _args[5] if _args.size() > 5 else null",
+            "\treturn source_building_configure_state.generated_update_table_align_bridge_state(table, x, y, block_size, tilesize, mouse_screen_position)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
         and method.get("name") == "getDisplayName"
     ):
         return [
@@ -1033,12 +3897,23 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "onConfigureBuildTapped"
+        and parameter_types == ["Building"]
+    ):
+        return [
+            "\tvar clear_on_double_tap := bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar same_building := bool(_args[1] if _args.size() > 1 else false)",
+            "\treturn source_building_configure_state.on_configure_build_tapped_state(clear_on_double_tap, same_building)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
         and method.get("name") == "onConfigureTapped"
     ):
         return [
             "\tvar x := float(_args[0] if _args.size() > 0 else 0.0)",
             "\tvar y := float(_args[1] if _args.size() > 1 else 0.0)",
-            "\treturn {\"source_owner\": \"port_game.source_building_on_configure_tapped_state\", \"method\": \"public boolean onConfigureTapped(float x, float y){\", \"return_false\": \"return false;\", \"x\": x, \"y\": y, \"consumed\": false}",
+            "\treturn source_building_configure_state.on_configure_tapped_state(x, y)",
         ]
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
@@ -1046,7 +3921,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
         and method.get("name") == "onConfigureClosed"
     ):
         return [
-            "\treturn {\"source_owner\": \"port_game.source_building_on_configure_closed_state\", \"method\": \"public void onConfigureClosed(){}\", \"no_op\": true}",
+            "\treturn source_building_configure_state.on_configure_closed_state()",
         ]
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
@@ -1055,7 +3930,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     ):
         return [
             "\tvar player: Variant = _args[0] if _args.size() > 0 else null",
-            "\treturn {\"source_owner\": \"port_game.source_building_should_show_configure_state\", \"comment\": \"/** Returns whether this config menu should show when the specified player taps it. */\", \"method\": \"public boolean shouldShowConfigure(Player player){\", \"return_true\": \"return true;\", \"player\": player, \"should_show\": true}",
+            "\treturn source_building_configure_state.should_show_configure_state(player)",
         ]
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
@@ -1064,7 +3939,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     ):
         return [
             "\tvar player: Variant = _args[0] if _args.size() > 0 else null",
-            "\treturn {\"source_owner\": \"port_game.source_building_should_hide_configure_state\", \"comment\": \"/** Whether this configuration should be hidden now. Called every frame the config is open. */\", \"method\": \"public boolean shouldHideConfigure(Player player){\", \"return_false\": \"return false;\", \"player\": player, \"should_hide\": false}",
+            "\treturn source_building_configure_state.should_hide_configure_state(player)",
         ]
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
@@ -1076,9 +3951,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar source_y := float(_args[1] if _args.size() > 1 else 0.0)",
             "\tvar block_size_value := int(_args[2] if _args.size() > 2 else 0)",
             "\tvar source_tilesize := float(_args[3] if _args.size() > 3 else SOURCE_TILESIZE)",
-            "\tvar half_extent := float(block_size_value) * source_tilesize / 2.0",
-            "\tvar radius_offset := SOURCE_BUILDING_DRAW_CONFIGURE_RADIUS_OFFSET_DEFAULT",
-            "\treturn {\"source_owner\": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_DRAW_CONFIGURE_STATE, \"method\": \"public void drawConfigure(){\", \"color\": SOURCE_BUILDING_DRAW_CONFIGURE_COLOR, \"stroke\": SOURCE_BUILDING_DRAW_CONFIGURE_STROKE_DEFAULT, \"shape\": SOURCE_BUILDING_DRAW_CONFIGURE_SHAPE, \"square\": SOURCE_BUILDING_DRAW_CONFIGURE_SQUARE_EXPR, \"x\": source_x, \"y\": source_y, \"halfExtent\": half_extent, \"radiusOffset\": radius_offset, \"radius\": half_extent + radius_offset, \"reset\": true, \"source_x\": source_x, \"source_y\": source_y, \"block_size_value\": block_size_value, \"source_tilesize\": source_tilesize}",
+            "\treturn source_building_draw_state.draw_configure_state(source_x, source_y, block_size_value, source_tilesize)",
         ]
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
@@ -1086,7 +3959,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
         and method.get("name") == "checkSolid"
     ):
         return [
-            "\treturn {\"source_owner\": \"port_game.source_building_check_solid_state\", \"method\": \"public boolean checkSolid(){\", \"checkSolid\": false}",
+            "\treturn source_building_core_state.check_solid_state()",
         ]
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
@@ -1727,7 +4600,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
         return [
             "\tvar item_flammability: float = float(_args[0] if _args.size() > 0 else 0.0)",
             "\tvar efficiency_multiplier: float = item_flammability",
-            '\treturn {"source_owner": "port_game.source_consume_item_flammable_item_efficiency_multiplier_state", "source": "core/src/mindustry/world/consumers/ConsumeItemFlammable.java", "method": "public float itemEfficiencyMultiplier(Item item){", "item_flammability": item_flammability, "efficiency_multiplier": efficiency_multiplier, "return_expr": "return item.flammability;"}',
+            '\treturn {"source_owner": "port_game.source_consume_item_flammable_item_efficiency_multiplier_state", "source": "core/src/mindustry/world/consumers/ConsumeItemFlammable.java", "method": "public float itemEfficiencyMultiplier(Item item){", "item_flammability_field": "public float flammability = 0f;", "item_flammability": item_flammability, "efficiency_multiplier": efficiency_multiplier, "return_expr": "return item.flammability;"}',
         ]
     if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeItemExplosive.java"
@@ -1737,7 +4610,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
         return [
             "\tvar item_explosiveness: float = float(_args[0] if _args.size() > 0 else 0.0)",
             "\tvar efficiency_multiplier: float = item_explosiveness",
-            '\treturn {"source_owner": "port_game.source_consume_item_explosive_item_efficiency_multiplier_state", "source": "core/src/mindustry/world/consumers/ConsumeItemExplosive.java", "method": "public float itemEfficiencyMultiplier(Item item){", "item_explosiveness": item_explosiveness, "efficiency_multiplier": efficiency_multiplier, "return_expr": "return item.explosiveness;"}',
+            '\treturn {"source_owner": "port_game.source_consume_item_explosive_item_efficiency_multiplier_state", "source": "core/src/mindustry/world/consumers/ConsumeItemExplosive.java", "method": "public float itemEfficiencyMultiplier(Item item){", "item_explosiveness_field": "public float explosiveness = 0f;", "item_explosiveness": item_explosiveness, "efficiency_multiplier": efficiency_multiplier, "return_expr": "return item.explosiveness;"}',
         ]
     if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeItemRadioactive.java"
@@ -1747,7 +4620,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
         return [
             "\tvar item_radioactivity: float = float(_args[0] if _args.size() > 0 else 0.0)",
             "\tvar efficiency_multiplier: float = item_radioactivity",
-            '\treturn {"source_owner": "port_game.source_consume_item_radioactive_item_efficiency_multiplier_state", "source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java", "method": "public float itemEfficiencyMultiplier(Item item){", "item_radioactivity": item_radioactivity, "efficiency_multiplier": efficiency_multiplier, "return_expr": "return item.radioactivity;"}',
+            '\treturn {"source_owner": "port_game.source_consume_item_radioactive_item_efficiency_multiplier_state", "source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java", "method": "public float itemEfficiencyMultiplier(Item item){", "item_radioactivity_field": "public float radioactivity;", "item_radioactivity": item_radioactivity, "efficiency_multiplier": efficiency_multiplier, "return_expr": "return item.radioactivity;"}',
         ]
     if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeItemCharged.java"
@@ -1757,7 +4630,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
         return [
             "\tvar item_charge: float = float(_args[0] if _args.size() > 0 else 0.0)",
             "\tvar efficiency_multiplier: float = item_charge",
-            '\treturn {"source_owner": "port_game.source_consume_item_charged_item_efficiency_multiplier_state", "source": "core/src/mindustry/world/consumers/ConsumeItemCharged.java", "method": "public float itemEfficiencyMultiplier(Item item){", "item_charge": item_charge, "efficiency_multiplier": efficiency_multiplier, "return_expr": "return item.charge;"}',
+            '\treturn {"source_owner": "port_game.source_consume_item_charged_item_efficiency_multiplier_state", "source": "core/src/mindustry/world/consumers/ConsumeItemCharged.java", "method": "public float itemEfficiencyMultiplier(Item item){", "item_charge_field": "public float charge = 0f;", "item_charge": item_charge, "efficiency_multiplier": efficiency_multiplier, "return_expr": "return item.charge;"}',
         ]
     if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeItemFilter.java"
@@ -2051,7 +4924,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tfor index in filtered_liquid_ids.size():",
             "\t\tvar liquid_id: int = int(filtered_liquid_ids[index])",
             "\t\tvar efficiency: float = float(liquid_efficiency_values[index] if index < liquid_efficiency_values.size() else 0.0)",
-            "\t\tvar efficiency_percent: float = efficiency * 100.0",
+            "\t\tvar efficiency_percent: float = efficiency * SOURCE_CONSUME_LIQUID_FLAMMABLE_EFFICIENCY_PERCENT_SCALE",
             '\t\tdisplay_rows.append({"liquid_id": liquid_id, "display_amount_per_second": display_amount_per_second, "efficiency": efficiency, "efficiency_percent": efficiency_percent})',
             '\tvar stats_add_call: Dictionary = {"call": "stats.add", "stat": selected_stat, "stat_value_expr": "StatValues.liquidEffMultiplier(l -> l.flammability, amount * 60f, filter)", "amount": amount, "display_amount_per_second": display_amount_per_second, "filtered_liquid_ids": filtered_liquid_ids}',
             '\treturn {"source_owner": "port_game.source_consume_liquid_flammable_display_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java", "method": "public void display(Stats stats){", "stats_add_expr": "stats.add(booster ? Stat.booster : Stat.input, StatValues.liquidEffMultiplier(l -> l.flammability, amount * 60f, filter));", "stats_add_call_expr": "stats.add", "selected_stat_expr": "booster ? Stat.booster : Stat.input", "selected_stat": selected_stat, "liquid_eff_multiplier_expr": "StatValues.liquidEffMultiplier(l -> l.flammability, amount * 60f, filter)", "liquid_eff_multiplier_method": "public static StatValue liquidEffMultiplier(Floatf<Liquid> efficiency, float amount, Boolf<Liquid> filter){", "table_cells_grow_expr": "if(table.getCells().size > 0) table.getCells().peek().growX();", "table_grow_previous_cell": table_has_cells, "content_filter_expr": "for(Liquid liquid : content.liquids().select(l -> filter.get(l) && l.unlockedNow() && !l.isHidden())){", "display_liquid_expr": "b.add(displayLiquid(liquid, amount, true)).pad(10f).left().grow();", "efficiency_expr": "b.add(Core.bundle.format(\\"stat.efficiency\\", fixValue(efficiency.get(liquid) * 100f))).right().pad(10f).padRight(15f);", "booster": booster, "amount": amount, "display_amount_per_second": display_amount_per_second, "filtered_liquid_ids": filtered_liquid_ids, "liquid_efficiency_values": liquid_efficiency_values, "stats_add_call": stats_add_call, "display_rows": display_rows}',
@@ -2297,8 +5170,276 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     ):
         return [
             "\tvar power_production: float = float(_args[0] if _args.size() > 0 else 0.0)",
-            "\tvar displayed_power_production: float = power_production",
-            '\treturn {"source_owner": "port_game.source_power_generator_displayed_power_production_state", "source": "core/src/mindustry/world/blocks/power/PowerGenerator.java", "field": "public float powerProduction;", "method": "public float getDisplayedPowerProduction(){", "return_power_production": "return powerProduction;", "schematic_method": "public float powerProduction(){", "schematic_sum_source": "return tiles.sumf(s -> s.block instanceof PowerGenerator p ? p.getDisplayedPowerProduction() : 0f);", "power_production": power_production, "displayed_power_production": displayed_power_production}',
+            "\treturn SourcePowerGeneratorState.displayed_power_production_state(power_production)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/power/PowerGenerator.java"
+        and type_entry.get("name") == "PowerGenerator"
+        and method.get("name") == "icons"
+    ):
+        return [
+            "\tvar drawer_icons: Array = _args[0] if _args.size() > 0 and _args[0] is Array else []",
+            "\treturn SourcePowerGeneratorState.icons_state(drawer_icons)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/power/PowerGenerator.java"
+        and type_entry.get("name") == "PowerGenerator"
+        and method.get("name") == "outputsItems"
+    ):
+        return ["\treturn SourcePowerGeneratorState.outputs_items_state()"]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/power/PowerGenerator.java"
+        and type_entry.get("name") == "PowerGenerator"
+        and method.get("name") == "setStats"
+    ):
+        return [
+            "\tvar power_production: float = float(_args[0] if _args.size() > 0 else 0.0)",
+            "\tvar super_set_stats_state: Dictionary = _args[1] if _args.size() > 1 and _args[1] is Dictionary else {}",
+            "\treturn SourcePowerGeneratorState.set_stats_state(power_production, super_set_stats_state)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/power/PowerGenerator.java"
+        and type_entry.get("name") == "PowerGenerator"
+        and method.get("name") == "setBars"
+    ):
+        return [
+            "\tvar has_power: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar outputs_power: bool = bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar super_set_bars_state: Dictionary = _args[2] if _args.size() > 2 and _args[2] is Dictionary else {}",
+            "\tvar power_production: float = float(_args[3] if _args.size() > 3 else 0.0)",
+            "\tvar time_scale: float = float(_args[4] if _args.size() > 4 else 0.0)",
+            "\tvar production_efficiency: float = float(_args[5] if _args.size() > 5 else 0.0)",
+            "\treturn SourcePowerGeneratorState.set_bars_state(has_power, outputs_power, super_set_bars_state, power_production, time_scale, production_efficiency)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/power/PowerGenerator.java"
+        and type_entry.get("name") == "PowerGenerator"
+        and method.get("name") == "load"
+    ):
+        return [
+            "\tvar super_load_state: Dictionary = _args[0] if _args.size() > 0 and _args[0] is Dictionary else {}",
+            "\tvar drawer_load_state: Dictionary = _args[1] if _args.size() > 1 and _args[1] is Dictionary else {}",
+            "\treturn SourcePowerGeneratorState.load_state(super_load_state, drawer_load_state)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/power/PowerGenerator.java"
+        and type_entry.get("name") == "PowerGenerator"
+        and method.get("name") == "drawPlanRegion"
+    ):
+        return [
+            "\tvar plan: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar list: Variant = _args[1] if _args.size() > 1 else null",
+            "\tvar drawer_draw_plan_state: Dictionary = _args[2] if _args.size() > 2 and _args[2] is Dictionary else {}",
+            "\treturn SourcePowerGeneratorState.draw_plan_region_state(plan, list, drawer_draw_plan_state)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/power/PowerNode.java"
+        and type_entry.get("name") == "PowerNode"
+        and method.get("name") == "setStats"
+    ):
+        return [
+            "\tvar laser_range: float = float(_args[0] if _args.size() > 0 else 0.0)",
+            "\tvar max_nodes: int = int(_args[1] if _args.size() > 1 else 0)",
+            "\tvar super_set_stats_state: Dictionary = _args[2] if _args.size() > 2 and _args[2] is Dictionary else {}",
+            "\treturn SourcePowerNodeState.set_stats_state(laser_range, max_nodes, super_set_stats_state)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/power/PowerNode.java"
+        and type_entry.get("name") == "PowerNode"
+        and method.get("name") == "makePowerBalance"
+    ):
+        return [
+            "\tvar graph_input: Dictionary = _args[0] if _args.size() > 0 and _args[0] is Dictionary else {}",
+            "\treturn SourcePowerNodeState.make_power_balance_state(graph_input)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/power/PowerNode.java"
+        and type_entry.get("name") == "PowerNode"
+        and method.get("name") == "setBars"
+    ):
+        return [
+            "\tvar bars_input: Dictionary = _args[0] if _args.size() > 0 and _args[0] is Dictionary else {}",
+            "\treturn SourcePowerNodeState.set_bars_state(bars_input)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/power/PowerNode.java"
+        and type_entry.get("name") == "PowerNode"
+        and method.get("name") == "makeBatteryBalance"
+    ):
+        return [
+            "\tvar graph_input: Dictionary = _args[0] if _args.size() > 0 and _args[0] is Dictionary else {}",
+            "\treturn SourcePowerNodeState.make_battery_balance_state(graph_input)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/power/PowerNode.java"
+        and type_entry.get("name") == "PowerNode"
+        and method.get("name") == "init"
+    ):
+        return [
+            "\tvar clip_size: float = float(_args[0] if _args.size() > 0 else 0.0)",
+            "\tvar laser_range: float = float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar tilesize: float = float(_args[2] if _args.size() > 2 else 0.0)",
+            "\tvar super_init_state: Dictionary = _args[3] if _args.size() > 3 and _args[3] is Dictionary else {}",
+            "\treturn SourcePowerNodeState.init_state(clip_size, laser_range, tilesize, super_init_state)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/power/PowerNode.java"
+        and type_entry.get("name") == "PowerNode"
+        and method.get("name") == "planConfigClipSize"
+    ):
+        return [
+            "\tvar laser_range: float = float(_args[0] if _args.size() > 0 else 0.0)",
+            "\tvar tilesize: float = float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar size: float = float(_args[2] if _args.size() > 2 else 0.0)",
+            "\treturn SourcePowerNodeState.plan_config_clip_size_state(laser_range, tilesize, size)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/power/PowerNode.java"
+        and type_entry.get("name") == "PowerNode"
+        and method.get("name") == "linkValid"
+    ):
+        lines = [
+            "\tvar link_state: Dictionary = _args[0] if _args.size() > 0 and _args[0] is Dictionary else {}",
+        ]
+        if len(method.get("parameters", [])) >= 3:
+            lines.append("\tvar check_max_nodes: bool = bool(_args[1] if _args.size() > 1 else true)")
+        else:
+            lines.append("\tvar check_max_nodes: bool = true")
+        lines.append("\treturn SourcePowerNodeState.link_valid_state(link_state, check_max_nodes)")
+        return lines
+    if (
+        java_file.get("path") == "mindustry/world/blocks/power/PowerNode.java"
+        and type_entry.get("name") == "PowerNode"
+        and method.get("name") == "insulated"
+    ):
+        return [
+            "\tvar raycast_insulated: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\treturn SourcePowerNodeState.insulated_state(raycast_insulated)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/power/PowerNode.java"
+        and type_entry.get("name") == "PowerNode"
+        and method.get("name") == "overlaps"
+    ):
+        parameters = method.get("parameters", [])
+        parameter_types = [parameter.get("type") for parameter in parameters]
+        if len(parameters) == 5:
+            return [
+                "\tvar overlap_result: bool = bool(_args[0] if _args.size() > 0 else false)",
+                "\treturn SourcePowerNodeState.overlaps_state(overlap_result, SourcePowerNodeState.SOURCE_POWER_NODE_OVERLAPS_BLOCK_METHOD, SourcePowerNodeState.SOURCE_POWER_NODE_OVERLAPS_BLOCK_EXPR)",
+            ]
+        if len(parameters) == 4 and parameter_types[:2] == ["float", "float"]:
+            return [
+                "\tvar overlap_result: bool = bool(_args[0] if _args.size() > 0 else false)",
+                "\treturn SourcePowerNodeState.overlaps_state(overlap_result, SourcePowerNodeState.SOURCE_POWER_NODE_OVERLAPS_TILE_METHOD, SourcePowerNodeState.SOURCE_POWER_NODE_OVERLAPS_TILE_EXPR)",
+            ]
+        if len(parameters) == 4:
+            return [
+                "\tvar overlap_result: bool = bool(_args[0] if _args.size() > 0 else false)",
+                "\treturn SourcePowerNodeState.overlaps_state(overlap_result, SourcePowerNodeState.SOURCE_POWER_NODE_OVERLAPS_TILE_RANGE_METHOD, SourcePowerNodeState.SOURCE_POWER_NODE_OVERLAPS_TILE_RANGE_EXPR)",
+            ]
+        if len(parameters) == 3 and parameter_types and parameter_types[0] == "Building":
+            return [
+                "\tvar overlap_result: bool = bool(_args[0] if _args.size() > 0 else false)",
+                "\treturn SourcePowerNodeState.overlaps_state(overlap_result, SourcePowerNodeState.SOURCE_POWER_NODE_OVERLAPS_BUILDING_METHOD, SourcePowerNodeState.SOURCE_POWER_NODE_OVERLAPS_BUILDING_EXPR)",
+            ]
+        if len(parameters) == 3:
+            return [
+                "\tvar overlap_result: bool = bool(_args[0] if _args.size() > 0 else false)",
+                "\treturn SourcePowerNodeState.overlaps_state(overlap_result, SourcePowerNodeState.SOURCE_POWER_NODE_OVERLAPS_TILE_RANGE_METHOD, SourcePowerNodeState.SOURCE_POWER_NODE_OVERLAPS_TILE_RANGE_EXPR)",
+            ]
+        return [
+            "\tvar src_present: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar other_present: bool = bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar overlap_result: bool = bool(_args[2] if _args.size() > 2 else false)",
+            "\treturn SourcePowerNodeState.overlaps_nullable_state(src_present, other_present, overlap_result)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/power/PowerNode.java"
+        and type_entry.get("name") == "PowerNode"
+        and method.get("name") == "setupColor"
+    ):
+        return [
+            "\tvar satisfaction: float = float(_args[0] if _args.size() > 0 else 0.0)",
+            "\tvar laser_opacity: float = float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar lod_alpha2: float = float(_args[2] if _args.size() > 2 else 0.0)",
+            "\tvar absin_value: float = float(_args[3] if _args.size() > 3 else 0.0)",
+            "\treturn SourcePowerNodeState.setup_color_state(satisfaction, laser_opacity, lod_alpha2, absin_value)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/power/PowerNode.java"
+        and type_entry.get("name") == "PowerNode"
+        and method.get("name") == "drawLaser"
+    ):
+        if len(method.get("parameters", [])) >= 7:
+            return [
+                "\tvar laser_state: Dictionary = _args[0] if _args.size() > 0 and _args[0] is Dictionary else {}",
+                "\tvar light: bool = bool(_args[1] if _args.size() > 1 else true)",
+                "\treturn SourcePowerNodeState.draw_laser_state(laser_state, light)",
+            ]
+        return [
+            "\tvar laser_state: Dictionary = _args[0] if _args.size() > 0 and _args[0] is Dictionary else {}",
+            "\treturn SourcePowerNodeState.draw_laser_state(laser_state, true)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/power/PowerNode.java"
+        and type_entry.get("name") == "PowerNode"
+        and method.get("name") == "changePlacementPath"
+    ):
+        return [
+            "\tvar points: Variant = _args[0] if _args.size() > 0 else []",
+            "\tvar rotation: int = int(_args[1] if _args.size() > 1 else 0)",
+            "\tvar placement_result: Dictionary = _args[2] if _args.size() > 2 and _args[2] is Dictionary else {}",
+            "\treturn SourcePowerNodeState.change_placement_path_state(points, rotation, placement_result)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/power/PowerNode.java"
+        and type_entry.get("name") == "PowerNode"
+        and method.get("name") == "drawPlace"
+    ):
+        return [
+            "\tvar x: int = int(_args[0] if _args.size() > 0 else 0)",
+            "\tvar y: int = int(_args[1] if _args.size() > 1 else 0)",
+            "\tvar rotation: int = int(_args[2] if _args.size() > 2 else 0)",
+            "\tvar valid: bool = bool(_args[3] if _args.size() > 3 else false)",
+            "\tvar draw_input: Dictionary = _args[4] if _args.size() > 4 and _args[4] is Dictionary else {}",
+            "\treturn SourcePowerNodeState.draw_place_state(x, y, rotation, valid, draw_input)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/power/PowerNode.java"
+        and type_entry.get("name") == "PowerNode"
+        and method.get("name") == "getPotentialLinks"
+    ):
+        return [
+            "\tvar link_input: Dictionary = _args[0] if _args.size() > 0 and _args[0] is Dictionary else {}",
+            "\treturn SourcePowerNodeState.get_potential_links_state(link_input)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/power/PowerNode.java"
+        and type_entry.get("name") == "PowerNode"
+        and method.get("name") == "getNodeLinks"
+    ):
+        return [
+            "\tvar link_input: Dictionary = _args[0] if _args.size() > 0 and _args[0] is Dictionary else {}",
+            "\treturn SourcePowerNodeState.get_node_links_state(link_input)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/power/PowerNode.java"
+        and type_entry.get("name") == "PowerNode"
+        and method.get("name") == "drawPlanConfigTop"
+    ):
+        return [
+            "\tvar plan_input: Dictionary = _args[0] if _args.size() > 0 and _args[0] is Dictionary else {}",
+            "\treturn SourcePowerNodeState.draw_plan_config_top_state(plan_input)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/power/PowerGraph.java"
+        and type_entry.get("name") == "PowerGraph"
+        and method.get("name") == "getID"
+    ):
+        return [
+            "\tvar graph_id: int = int(_args[0] if _args.size() > 0 else 0)",
+            '\treturn {"source_owner": "port_game.source_power_graph_get_id_state", "source": "core/src/mindustry/world/blocks/power/PowerGraph.java", "method": "public int getID(){", "return_graph_id": "return graphID;", "graph_id": graph_id}',
         ]
     if (
         java_file.get("path") == "mindustry/world/blocks/power/PowerGraph.java"
@@ -2308,6 +5449,512 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
         return [
             "\tvar graph_id: int = int(_args[0] if _args.size() > 0 else 0)",
             '\treturn {"source_owner": "port_game.source_power_graph_get_id_state", "source": "core/src/mindustry/world/blocks/power/PowerGraph.java", "method": "public int getId(){", "return_graph_id": "return graphID;", "graph_id": graph_id}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/power/PowerGraph.java"
+        and type_entry.get("name") == "PowerGraph"
+        and method.get("name") == "getLastScaledPowerIn"
+    ):
+        return [
+            "\tvar last_scaled_power_in: float = float(_args[0] if _args.size() > 0 else 0.0)",
+            '\treturn {"source_owner": "port_game.source_power_graph_get_last_scaled_power_in_state", "source": "core/src/mindustry/world/blocks/power/PowerGraph.java", "field": "private float lastScaledPowerIn, lastScaledPowerOut, lastCapacity;", "method": "public float getLastScaledPowerIn(){", "return_last_scaled_power_in": "return lastScaledPowerIn;", "last_scaled_power_in": last_scaled_power_in}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/power/PowerGraph.java"
+        and type_entry.get("name") == "PowerGraph"
+        and method.get("name") == "getLastScaledPowerOut"
+    ):
+        return [
+            "\tvar last_scaled_power_out: float = float(_args[0] if _args.size() > 0 else 0.0)",
+            '\treturn {"source_owner": "port_game.source_power_graph_get_last_scaled_power_out_state", "source": "core/src/mindustry/world/blocks/power/PowerGraph.java", "field": "private float lastScaledPowerIn, lastScaledPowerOut, lastCapacity;", "method": "public float getLastScaledPowerOut(){", "return_last_scaled_power_out": "return lastScaledPowerOut;", "last_scaled_power_out": last_scaled_power_out}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/power/PowerGraph.java"
+        and type_entry.get("name") == "PowerGraph"
+        and method.get("name") == "getLastCapacity"
+    ):
+        return [
+            "\tvar last_capacity: float = float(_args[0] if _args.size() > 0 else 0.0)",
+            '\treturn {"source_owner": "port_game.source_power_graph_get_last_capacity_state", "source": "core/src/mindustry/world/blocks/power/PowerGraph.java", "field": "private float lastScaledPowerIn, lastScaledPowerOut, lastCapacity;", "method": "public float getLastCapacity(){", "return_last_capacity": "return lastCapacity;", "last_capacity": last_capacity}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/power/PowerGraph.java"
+        and type_entry.get("name") == "PowerGraph"
+        and method.get("name") == "getPowerBalance"
+    ):
+        return [
+            "\tvar power_balance_raw_mean: float = float(_args[0] if _args.size() > 0 else 0.0)",
+            '\treturn {"source_owner": "port_game.source_power_graph_get_power_balance_state", "source": "core/src/mindustry/world/blocks/power/PowerGraph.java", "field": "private final WindowedMean powerBalance = new WindowedMean(60);", "method": "public float getPowerBalance(){", "return_power_balance_raw_mean": "return powerBalance.rawMean();", "power_balance_raw_mean": power_balance_raw_mean}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/power/PowerGraph.java"
+        and type_entry.get("name") == "PowerGraph"
+        and method.get("name") == "hasPowerBalanceSamples"
+    ):
+        return [
+            "\tvar has_power_balance_samples: bool = bool(_args[0] if _args.size() > 0 else false)",
+            '\treturn {"source_owner": "port_game.source_power_graph_has_power_balance_samples_state", "source": "core/src/mindustry/world/blocks/power/PowerGraph.java", "field": "private final WindowedMean powerBalance = new WindowedMean(60);", "method": "public boolean hasPowerBalanceSamples(){", "return_has_power_balance_samples": "return powerBalance.hasEnoughData();", "has_power_balance_samples": has_power_balance_samples}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/power/PowerGraph.java"
+        and type_entry.get("name") == "PowerGraph"
+        and method.get("name") == "getLastPowerNeeded"
+    ):
+        return [
+            "\tvar last_power_needed: float = float(_args[0] if _args.size() > 0 else 0.0)",
+            '\treturn {"source_owner": "port_game.source_power_graph_get_last_power_needed_state", "source": "core/src/mindustry/world/blocks/power/PowerGraph.java", "field": "private float lastPowerProduced, lastPowerNeeded, lastPowerStored;", "method": "public float getLastPowerNeeded(){", "return_last_power_needed": "return lastPowerNeeded;", "last_power_needed": last_power_needed}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/power/PowerGraph.java"
+        and type_entry.get("name") == "PowerGraph"
+        and method.get("name") == "getLastPowerProduced"
+    ):
+        return [
+            "\tvar last_power_produced: float = float(_args[0] if _args.size() > 0 else 0.0)",
+            '\treturn {"source_owner": "port_game.source_power_graph_get_last_power_produced_state", "source": "core/src/mindustry/world/blocks/power/PowerGraph.java", "field": "private float lastPowerProduced, lastPowerNeeded, lastPowerStored;", "method": "public float getLastPowerProduced(){", "return_last_power_produced": "return lastPowerProduced;", "last_power_produced": last_power_produced}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/power/PowerGraph.java"
+        and type_entry.get("name") == "PowerGraph"
+        and method.get("name") == "getPowerProduced"
+    ):
+        return [
+            "\tvar producers: Array = _args[0] if _args.size() > 0 else []",
+            "\tvar power_produced := 0.0",
+            "\tvar _producer_count := 0",
+            "\tfor producer in producers:",
+            "\t\tif typeof(producer) != TYPE_DICTIONARY:",
+            "\t\t\tcontinue",
+            "\t\t_producer_count += 1",
+            '\t\tpower_produced += float(producer.get("power_production", 0.0)) * float(producer.get("delta", 0.0))',
+            '\treturn {"source_owner": "port_game.source_power_graph_power_produced_state", "source": "core/src/mindustry/world/blocks/power/PowerGraph.java", "method": "public float getPowerProduced(){", "initial": "float powerProduced = 0f;", "items": "var items = producers.items;", "loop": "for(int i = 0; i < producers.size; i++){", "producer": "var producer = items[i];", "add_expr": "powerProduced += producer.getPowerProduction() * producer.delta();", "return_expr": "return powerProduced;", "power_produced": power_produced, "producer_count": _producer_count}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/power/PowerGraph.java"
+        and type_entry.get("name") == "PowerGraph"
+        and method.get("name") == "getPowerNeeded"
+    ):
+        return [
+            "\tvar consumers: Array = _args[0] if _args.size() > 0 else []",
+            "\tvar power_needed := 0.0",
+            "\tvar counted_consumers := 0",
+            "\tvar active_consumers := 0",
+            "\tfor consumer in consumers:",
+            "\t\tif typeof(consumer) != TYPE_DICTIONARY:",
+            "\t\t\tcontinue",
+            "\t\tcounted_consumers += 1",
+            '\t\tif bool(consumer.get("shouldConsumePower", false)):',
+            '\t\t\tvar buffered: bool = bool(consumer.get("buffered", false))',
+            '\t\t\tvar usage: float = float(consumer.get("usage", 0.0))',
+            '\t\t\tvar capacity: float = float(consumer.get("capacity", 0.0))',
+            '\t\t\tvar power_status: float = float(consumer.get("power_status", 0.0))',
+            '\t\t\tvar should_consume: bool = bool(consumer.get("should_consume", false))',
+            "\t\t\tvar requested_power: float = (1.0 - power_status) * capacity if buffered else usage * (1.0 if should_consume else 0.0)",
+            '\t\t\tpower_needed += requested_power * float(consumer.get("delta", 0.0))',
+            "\t\t\tactive_consumers += 1",
+            '\treturn {"source_owner": "port_game.source_power_graph_power_needed_state", "source": "core/src/mindustry/world/blocks/power/PowerGraph.java", "method": "public float getPowerNeeded(){", "initial": "float powerNeeded = 0f;", "items": "var items = consumers.items;", "loop": "for(int i = 0; i < consumers.size; i++){", "consume_power": "var consumePower = consumer.block.consPower;", "guard": "if(consumer.shouldConsumePower){", "add_expr": "powerNeeded += consumePower.requestedPower(consumer) * consumer.delta();", "return_expr": "return powerNeeded;", "power_needed": power_needed, "consumer_count": counted_consumers, "active_consumer_count": active_consumers}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/power/PowerGraph.java"
+        and type_entry.get("name") == "PowerGraph"
+        and method.get("name") in {"getBatteryStored", "getBatteryCapacity", "getTotalBatteryCapacity"}
+    ):
+        return_exprs = {
+            "getBatteryStored": "return totalAccumulator;",
+            "getBatteryCapacity": "return totalCapacity;",
+            "getTotalBatteryCapacity": "return totalCapacity;",
+        }
+        return [
+            "\tvar batteries: Array = _args[0] if _args.size() > 0 else []",
+            "\tvar stored := 0.0",
+            "\tvar capacity := 0.0",
+            "\tvar total_capacity := 0.0",
+            "\tvar battery_count := 0",
+            "\tvar enabled_count := 0",
+            "\tfor battery in batteries:",
+            "\t\tif typeof(battery) != TYPE_DICTIONARY:",
+            "\t\t\tcontinue",
+            "\t\tbattery_count += 1",
+            '\t\tif bool(battery.get("enabled", false)):',
+            '\t\t\tvar power_status := float(battery.get("power_status", 0.0))',
+            '\t\t\tvar source_capacity := float(battery.get("capacity", 0.0))',
+            "\t\t\tstored += power_status * source_capacity",
+            "\t\t\tcapacity += (1.0 - power_status) * source_capacity",
+            "\t\t\ttotal_capacity += source_capacity",
+            "\t\t\tenabled_count += 1",
+            f'\treturn {{"source_owner": "port_game.source_power_graph_battery_state", "source": "core/src/mindustry/world/blocks/power/PowerGraph.java", "stored_method": "public float getBatteryStored(){{", "stored_initial": "float totalAccumulator = 0f;", "capacity_method": "public float getBatteryCapacity(){{", "capacity_initial": "float totalCapacity = 0f;", "total_capacity_method": "public float getTotalBatteryCapacity(){{", "items": "var items = batteries.items;", "loop": "for(int i = 0; i < batteries.size; i++){{", "battery": "var battery = items[i];", "guard": "if(battery.enabled){{", "stored_add": "totalAccumulator += battery.power.status * battery.block.consPower.capacity;", "capacity_add": "totalCapacity += (1f - battery.power.status) * battery.block.consPower.capacity;", "total_capacity_add": "totalCapacity += battery.block.consPower.capacity;", "stored_return": "return totalAccumulator;", "capacity_return": "return totalCapacity;", "return_expr": "{return_exprs[method.get("name")]}", "stored": stored, "capacity": capacity, "total_capacity": total_capacity, "battery_count": battery_count, "enabled_count": enabled_count}}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/power/PowerGraph.java"
+        and type_entry.get("name") == "PowerGraph"
+        and method.get("name") == "useBatteries"
+    ):
+        return [
+            "\tvar batteries: Array = _args[0] if _args.size() > 0 else []",
+            "\tvar needed: float = float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar source_batteries: Array = []",
+            "\tfor battery in batteries:",
+            "\t\tif typeof(battery) != TYPE_DICTIONARY:",
+            "\t\t\tcontinue",
+            "\t\tsource_batteries.append(battery.duplicate(true))",
+            "\tvar stored := 0.0",
+            "\tfor source_battery_state in source_batteries:",
+            '\t\tif bool(source_battery_state.get("enabled", false)):',
+            '\t\t\tstored += float(source_battery_state.get("power_status", 0.0)) * float(source_battery_state.get("capacity", 0.0))',
+            "\tvar used := 0.0",
+            "\tvar consumed_power_percentage := 0.0",
+            "\tvar zero_guard_returned: bool = absf(stored - 0.0) <= 0.000001",
+            "\tif not zero_guard_returned:",
+            "\t\tused = min(stored, needed)",
+            "\t\tconsumed_power_percentage = min(1.0, needed / stored)",
+            "\t\tfor source_battery_state in source_batteries:",
+            '\t\t\tif bool(source_battery_state.get("enabled", false)):',
+            '\t\t\t\tvar power_status := float(source_battery_state.get("power_status", 0.0))',
+            '\t\t\t\tsource_battery_state["power_status"] = power_status * (1.0 - consumed_power_percentage)',
+            '\treturn {"source_owner": "port_game.source_power_graph_use_batteries_state", "source": "core/src/mindustry/world/blocks/power/PowerGraph.java", "method": "public float useBatteries(float needed){", "stored_expr": "float stored = getBatteryStored();", "zero_guard": "if(Mathf.equal(stored, 0f)) return 0f;", "used_expr": "float used = Math.min(stored, needed);", "consumed_percent_expr": "float consumedPowerPercentage = Math.min(1.0f, needed / stored);", "items": "var items = batteries.items;", "loop": "for(int i = 0; i < batteries.size; i++){", "battery": "var battery = items[i];", "status_mul": "battery.power.status *= (1f-consumedPowerPercentage);", "return_expr": "return used;", "mathf_equal": "return Math.abs(a - b) <= FLOAT_ROUNDING_ERROR;", "needed": needed, "stored": stored, "used": used, "consumed_power_percentage": consumed_power_percentage, "zero_guard_returned": zero_guard_returned, "batteries": source_batteries}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/power/PowerGraph.java"
+        and type_entry.get("name") == "PowerGraph"
+        and method.get("name") == "chargeBatteries"
+    ):
+        return [
+            "\tvar batteries: Array = _args[0] if _args.size() > 0 else []",
+            "\tvar excess: float = float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar source_batteries: Array = []",
+            "\tfor battery in batteries:",
+            "\t\tif typeof(battery) != TYPE_DICTIONARY:",
+            "\t\t\tcontinue",
+            "\t\tsource_batteries.append(battery.duplicate(true))",
+            "\tvar capacity := 0.0",
+            "\tfor source_battery_state in source_batteries:",
+            '\t\tif bool(source_battery_state.get("enabled", false)):',
+            '\t\t\tvar power_status := float(source_battery_state.get("power_status", 0.0))',
+            '\t\t\tvar source_capacity := float(source_battery_state.get("capacity", 0.0))',
+            "\t\t\tcapacity += (1.0 - power_status) * source_capacity",
+            "\tvar charged_percent := 0.0",
+            "\tvar charged := 0.0",
+            "\tvar zero_guard_returned: bool = absf(capacity - 0.0) <= 0.000001",
+            "\tif not zero_guard_returned:",
+            "\t\tcharged_percent = min(excess / capacity, 1.0)",
+            "\t\tcharged = min(excess, capacity)",
+            "\t\tfor source_battery_state in source_batteries:",
+            '\t\t\tvar source_capacity := float(source_battery_state.get("capacity", 0.0))',
+            '\t\t\tif bool(source_battery_state.get("enabled", false)) and source_capacity > 0.0:',
+            '\t\t\t\tvar power_status := float(source_battery_state.get("power_status", 0.0))',
+            '\t\t\t\tsource_battery_state["power_status"] = power_status + (1.0 - power_status) * charged_percent',
+            '\treturn {"source_owner": "port_game.source_power_graph_charge_batteries_state", "source": "core/src/mindustry/world/blocks/power/PowerGraph.java", "method": "public float chargeBatteries(float excess){", "capacity_expr": "float capacity = getBatteryCapacity();", "charged_percent_comment": "//how much of the missing in each battery % is charged", "charged_percent_expr": "float chargedPercent = Math.min(excess/capacity, 1f);", "zero_guard": "if(Mathf.equal(capacity, 0f)) return 0f;", "items": "var items = batteries.items;", "loop": "for(int i = 0; i < batteries.size; i++){", "battery": "var battery = items[i];", "todo": "//TODO why would it be 0", "guard": "if(battery.enabled && battery.block.consPower.capacity > 0f){", "status_add": "battery.power.status += (1f - battery.power.status) * chargedPercent;", "return_expr": "return Math.min(excess, capacity);", "mathf_equal": "return Math.abs(a - b) <= FLOAT_ROUNDING_ERROR;", "excess": excess, "capacity": capacity, "charged_percent": charged_percent, "charged": charged, "zero_guard_returned": zero_guard_returned, "batteries": source_batteries}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/power/PowerGraph.java"
+        and type_entry.get("name") == "PowerGraph"
+        and method.get("name") == "distributePower"
+    ):
+        return [
+            "\tvar consumers: Array = _args[0] if _args.size() > 0 else []",
+            "\tvar needed: float = float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar produced: float = float(_args[2] if _args.size() > 2 else 0.0)",
+            "\tvar charged: bool = bool(_args[3] if _args.size() > 3 else false)",
+            "\tvar last_power_stored: float = float(_args[4] if _args.size() > 4 else 0.0)",
+            "\tvar source_consumers: Array = []",
+            "\tfor consumer in consumers:",
+            "\t\tif typeof(consumer) != TYPE_DICTIONARY:",
+            "\t\t\tcontinue",
+            "\t\tsource_consumers.append(consumer.duplicate(true))",
+            "\tvar needed_zero: bool = absf(needed) <= 0.000001",
+            "\tvar produced_zero: bool = absf(produced) <= 0.000001",
+            "\tvar last_power_stored_zero: bool = absf(last_power_stored) <= 0.000001",
+            "\tvar coverage := 0.0",
+            "\tif needed_zero and produced_zero and not charged and last_power_stored_zero:",
+            "\t\tcoverage = 0.0",
+            "\telif needed_zero:",
+            "\t\tcoverage = 1.0",
+            "\telse:",
+            "\t\tcoverage = min(1.0, produced / needed)",
+            "\tvar buffered_count := 0",
+            "\tvar unbuffered_count := 0",
+            "\tvar nan_guard_count := 0",
+            "\tfor consumer_state in source_consumers:",
+            '\t\tvar buffered := bool(consumer_state.get("buffered", false))',
+            '\t\tvar capacity := float(consumer_state.get("capacity", 0.0))',
+            '\t\tvar delta := float(consumer_state.get("delta", 0.0))',
+            '\t\tvar power_status := float(consumer_state.get("power_status", 0.0))',
+            "\t\tif buffered:",
+            "\t\t\tbuffered_count += 1",
+            "\t\t\tif absf(capacity) > 0.000001:",
+            '\t\t\t\tvar requested_power := float(consumer_state.get("requested_power", 0.0))',
+            "\t\t\t\tvar maximum_rate := requested_power * coverage * delta",
+            '\t\t\t\tconsumer_state["maximum_rate"] = maximum_rate',
+            '\t\t\t\tconsumer_state["power_status"] = clamp(power_status + maximum_rate / capacity, 0.0, 1.0)',
+            "\t\t\tcontinue",
+            "\t\tunbuffered_count += 1",
+            '\t\tif bool(consumer_state.get("shouldConsumePower", false)):',
+            '\t\t\tconsumer_state["power_status"] = coverage',
+            "\t\telse:",
+            '\t\t\tvar usage := float(consumer_state.get("usage", 0.0))',
+            "\t\t\tvar denominator := needed + usage * delta",
+            "\t\t\tvar estimated_status := 0.0",
+            "\t\t\tvar estimate_nan := false",
+            "\t\t\tif absf(denominator) <= 0.000001:",
+            "\t\t\t\tif absf(produced) <= 0.000001:",
+            "\t\t\t\t\testimate_nan = true",
+            "\t\t\t\telif produced > 0.0:",
+            "\t\t\t\t\testimated_status = 1.0",
+            "\t\t\t\telse:",
+            "\t\t\t\t\testimated_status = -INF",
+            "\t\t\telse:",
+            "\t\t\t\testimated_status = min(1.0, produced / denominator)",
+            "\t\t\tif estimate_nan or is_nan(estimated_status):",
+            "\t\t\t\testimated_status = 0.0",
+            "\t\t\t\tnan_guard_count += 1",
+            '\t\t\tconsumer_state["power_status"] = estimated_status',
+            '\treturn {"source_owner": "port_game.source_power_graph_distribute_power_state", "source": "core/src/mindustry/world/blocks/power/PowerGraph.java", "method": "public void distributePower(float needed, float produced, boolean charged){", "coverage_expr": "float coverage = Mathf.zero(needed) && Mathf.zero(produced) && !charged && Mathf.zero(lastPowerStored) ? 0f : Mathf.zero(needed) ? 1f : Math.min(1, produced / needed);", "items": "var items = consumers.items;", "loop": "for(int i = 0; i < consumers.size; i++){", "consumer": "var consumer = items[i];", "cons": "var cons = consumer.block.consPower;", "buffered_gate": "if(cons.buffered){", "capacity_zero_guard": "if(!Mathf.zero(cons.capacity)){", "maximum_rate_expr": "float maximumRate = cons.requestedPower(consumer) * coverage * consumer.delta();", "buffered_status_clamp": "consumer.power.status = Mathf.clamp(consumer.power.status + maximumRate / cons.capacity);", "unbuffered_gate": "if(consumer.shouldConsumePower){", "unbuffered_coverage_status": "consumer.power.status = coverage;", "unbuffered_estimate_status": "consumer.power.status = Math.min(1, produced / (needed + cons.usage * consumer.delta()));", "nan_guard": "if(Float.isNaN(consumer.power.status)){", "nan_status_zero": "consumer.power.status = 0f;", "mathf_zero": "return Math.abs(value) <= FLOAT_ROUNDING_ERROR;", "mathf_clamp": "return Math.max(Math.min(value, 1f), 0f);", "needed": needed, "produced": produced, "charged": charged, "last_power_stored": last_power_stored, "coverage": coverage, "consumers": source_consumers, "buffered_count": buffered_count, "unbuffered_count": unbuffered_count, "nan_guard_count": nan_guard_count}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/power/PowerGraph.java"
+        and type_entry.get("name") == "PowerGraph"
+        and method.get("name") == "update"
+    ):
+        return [
+            "\tvar consumers: Array = _args[0] if _args.size() > 0 else []",
+            "\tvar producers: Array = _args[1] if _args.size() > 1 else []",
+            "\tvar batteries: Array = _args[2] if _args.size() > 2 else []",
+            "\tvar energy_delta: float = float(_args[3] if _args.size() > 3 else 0.0)",
+            "\tvar source_delta: float = float(_args[4] if _args.size() > 4 else 1.0)",
+            "\tvar power_balance_samples: Array = _args[5] if _args.size() > 5 else []",
+            "\tvar cheat_state: Dictionary = SourcePowerGraphState.update_cheat_state(consumers)",
+            "\tvar balance_state: Dictionary = SourcePowerGraphState.update_balance_state(consumers, producers, batteries, energy_delta, source_delta, power_balance_samples)",
+            '\tvar power_needed: float = float(balance_state.get("power_needed", 0.0))',
+            '\tvar power_produced: float = float(balance_state.get("power_produced", 0.0))',
+            '\tvar last_power_needed: float = float(balance_state.get("last_power_needed", power_needed))',
+            '\tvar last_power_produced: float = float(balance_state.get("last_power_produced", power_produced))',
+            '\tvar last_power_stored: float = float(balance_state.get("last_power_stored", 0.0))',
+            '\tvar battery_distribute_state: Dictionary = SourcePowerGraphState.update_battery_distribute_state(consumers, producers, batteries, power_needed, power_produced, last_power_produced, last_power_stored)',
+            '\treturn {"source_owner": "port_game.source_power_graph_update_state", "source": "core/src/mindustry/world/blocks/power/PowerGraph.java", "method": "public void update(){", "nonempty_guard": "if(!(consumers.size == 0 && producers.size == 0 && batteries.size == 0)){", "charged_init": "boolean charged = false;", "unequal_guard_expr": "if(!Mathf.equal(powerNeeded, powerProduced)){", "deficit_gate": "if(powerNeeded > powerProduced){", "power_battery_used_expr": "float powerBatteryUsed = useBatteries(powerNeeded - powerProduced);", "power_produced_battery_add_expr": "powerProduced += powerBatteryUsed;", "last_power_produced_battery_add_expr": "lastPowerProduced += powerBatteryUsed;", "surplus_gate": "}else if(powerProduced > powerNeeded){", "charged_true_expr": "charged = true;", "power_produced_charge_sub_expr": "powerProduced -= chargeBatteries(powerProduced - powerNeeded);", "distribute_power_expr": "distributePower(powerNeeded, powerProduced, charged);", "mathf_equal": "return Math.abs(a - b) <= FLOAT_ROUNDING_ERROR;", "cheat_state": cheat_state, "balance_state": balance_state, "battery_distribute_state": battery_distribute_state, "power_needed": power_needed, "power_produced": power_produced, "last_power_needed": last_power_needed, "last_power_produced": last_power_produced, "last_power_stored": last_power_stored, "consumers": consumers, "producers": producers, "batteries": batteries, "energy_delta": energy_delta, "source_delta": source_delta, "power_balance_samples": power_balance_samples}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/power/PowerGraph.java"
+        and type_entry.get("name") == "PowerGraph"
+        and method.get("name") == "addGraph"
+    ):
+        return [
+            "\tvar graph_is_self: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar graph_all_size: int = int(_args[1] if _args.size() > 1 else 0)",
+            "\tvar all_size: int = int(_args[2] if _args.size() > 2 else 0)",
+            "\tvar graph_has_entity: bool = bool(_args[3] if _args.size() > 3 else false)",
+            "\tvar graph_tiles: Array = _args[4] if _args.size() > 4 else []",
+            "\tvar returned := false",
+            "\tvar delegate_to_other_graph := false",
+            "\tvar remove_graph_entity := false",
+            "\tvar check_add := false",
+            "\tvar add_call_count := 0",
+            "\tif graph_is_self:",
+            "\t\treturned = true",
+            "\telif graph_all_size > all_size:",
+            "\t\treturned = true",
+            "\t\tdelegate_to_other_graph = true",
+            "\telse:",
+            "\t\tremove_graph_entity = graph_has_entity",
+            "\t\tfor tile in graph_tiles:",
+            "\t\t\tif typeof(tile) != TYPE_DICTIONARY:",
+            "\t\t\t\tcontinue",
+            "\t\t\tadd_call_count += 1",
+            "\t\tcheck_add = true",
+            '\treturn {"source_owner": "port_game.source_power_graph_add_graph_state", "source": "core/src/mindustry/world/blocks/power/PowerGraph.java", "method": "public void addGraph(PowerGraph graph){", "self_guard": "if(graph == this) return;", "merge_comment": "//merge into other graph instead.", "delegate_guard_expr": "if(graph.all.size > all.size){", "delegate_call_expr": "graph.addGraph(this);", "delegate_return_expr": "return;", "remove_comment": "//other entity should be removed as the graph was merged", "remove_graph_entity_expr": "if(graph.entity != null) graph.entity.remove();", "graph_all_loop_expr": "for(Building tile : graph.all){", "add_tile_expr": "add(tile);", "check_add_expr": "checkAdd();", "graph_is_self": graph_is_self, "graph_all_size": graph_all_size, "all_size": all_size, "graph_has_entity": graph_has_entity, "graph_tiles": graph_tiles.duplicate(true), "returned": returned, "delegate_to_other_graph": delegate_to_other_graph, "remove_graph_entity": remove_graph_entity, "add_call_count": add_call_count, "tile_add_states": [], "check_add": check_add}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/power/PowerGraph.java"
+        and type_entry.get("name") == "PowerGraph"
+        and method.get("name") == "add"
+    ):
+        return [
+            "\tvar build: Dictionary = _args[0] if _args.size() > 0 and _args[0] is Dictionary else {}",
+            '\tvar build_present: bool = bool(build.get("build_present", true))',
+            '\tvar power_present: bool = bool(build.get("power_present", true))',
+            '\tvar graph_matches: bool = bool(build.get("graph_matches", false))',
+            '\tvar power_init: bool = bool(build.get("power_init", false))',
+            '\tvar old_graph_present: bool = bool(build.get("old_graph_present", false))',
+            '\tvar old_graph_is_self: bool = bool(build.get("old_graph_is_self", false))',
+            '\tvar old_graph_has_entity: bool = bool(build.get("old_graph_has_entity", false))',
+            '\tvar outputs_power: bool = bool(build.get("outputs_power", false))',
+            '\tvar consumes_power: bool = bool(build.get("consumes_power", false))',
+            '\tvar has_cons_power: bool = bool(build.get("has_cons_power", false))',
+            '\tvar cons_power_buffered: bool = bool(build.get("cons_power_buffered", false))',
+            '\tvar result := {"source_owner": "port_game.source_power_graph_add_role_state", "source": "core/src/mindustry/world/blocks/power/PowerGraph.java", "returned": false, "remove_old_graph_entity": false, "assign_graph": false, "init_power": false, "add_all": false, "role": "none", "add_producer": false, "add_consumer": false, "add_battery": false, "has_cons_power": has_cons_power, "power_guard": "if(build == null || build.power == null) return;", "add_gate": "if(build.power.graph != this || !build.power.init){", "graph_assign": "build.power.graph = this;", "init_assign": "build.power.init = true;", "all_add": "all.add(build);", "producer_consumer_branch": "if(build.block.outputsPower && build.block.consumesPower && !build.block.consPower.buffered){", "battery_branch": "}else if(build.block.outputsPower && build.block.consumesPower){", "producer_branch": "}else if(build.block.outputsPower){", "consumer_branch": "}else if(build.block.consumesPower && build.block.consPower != null){"}',
+            "\tif not build_present or not power_present:",
+            '\t\tresult["returned"] = true',
+            "\t\treturn result",
+            "\tif not graph_matches or not power_init:",
+            '\t\tresult["remove_old_graph_entity"] = old_graph_present and not old_graph_is_self and old_graph_has_entity',
+            '\t\tresult["assign_graph"] = true',
+            '\t\tresult["init_power"] = true',
+            '\t\tresult["add_all"] = true',
+            "\t\tif outputs_power and consumes_power and has_cons_power and not cons_power_buffered:",
+            '\t\t\tresult["role"] = "producer_consumer"',
+            '\t\t\tresult["add_producer"] = true',
+            '\t\t\tresult["add_consumer"] = true',
+            "\t\telif outputs_power and consumes_power:",
+            '\t\t\tresult["role"] = "battery"',
+            '\t\t\tresult["add_battery"] = true',
+            "\t\telif outputs_power:",
+            '\t\t\tresult["role"] = "producer"',
+            '\t\t\tresult["add_producer"] = true',
+            "\t\telif consumes_power and has_cons_power:",
+            '\t\t\tresult["role"] = "consumer"',
+            '\t\t\tresult["add_consumer"] = true',
+            "\treturn result",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/power/PowerGraph.java"
+        and type_entry.get("name") == "PowerGraph"
+        and method.get("name") == "checkAdd"
+    ):
+        return [
+            "\tvar entity_present: bool = bool(_args[0] if _args.size() > 0 else false)",
+            '\treturn {"source_owner": "port_game.source_power_graph_check_add_state", "source": "core/src/mindustry/world/blocks/power/PowerGraph.java", "method": "public void checkAdd(){", "entity_add_guard": "if(entity != null) entity.add();", "entity_add_called": entity_present}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/power/PowerGraph.java"
+        and type_entry.get("name") == "PowerGraph"
+        and method.get("name") == "clear"
+    ):
+        return [
+            "\tvar all: Array = (_args[0] as Array).duplicate(true) if _args.size() > 0 and _args[0] is Array else []",
+            "\tvar producers: Array = (_args[1] as Array).duplicate(true) if _args.size() > 1 and _args[1] is Array else []",
+            "\tvar consumers: Array = (_args[2] as Array).duplicate(true) if _args.size() > 2 and _args[2] is Array else []",
+            "\tvar batteries: Array = (_args[3] as Array).duplicate(true) if _args.size() > 3 and _args[3] is Array else []",
+            "\tvar entity_present: bool = bool(_args[4] if _args.size() > 4 else false)",
+            "\tall.clear()",
+            "\tproducers.clear()",
+            "\tconsumers.clear()",
+            "\tbatteries.clear()",
+            '\treturn {"source_owner": "port_game.source_power_graph_clear_state", "source": "core/src/mindustry/world/blocks/power/PowerGraph.java", "method": "public void clear(){", "all_clear": "all.clear();", "producers_clear": "producers.clear();", "consumers_clear": "consumers.clear();", "batteries_clear": "batteries.clear();", "nothing_left_comment": "//nothing left", "entity_remove_guard": "if(entity != null) entity.remove();", "all": all, "producers": producers, "consumers": consumers, "batteries": batteries, "entity_removed": entity_present}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/power/PowerGraph.java"
+        and type_entry.get("name") == "PowerGraph"
+        and method.get("name") == "reflow"
+    ):
+        add_method_index = 21
+        for candidate_index, candidate in enumerate(type_entry.get("methods", [])):
+            if candidate.get("name") == "add":
+                add_method_index = candidate_index
+                break
+        add_method_name = f"java_method_add_{add_method_index}"
+        return [
+            "\tvar tile: Dictionary = (_args[0] as Dictionary).duplicate(true) if _args.size() > 0 and _args[0] is Dictionary else {}",
+            "\tvar queue: Array = []",
+            "\tvar closed_lookup: Dictionary = {}",
+            "\tvar closed_positions: Array = []",
+            "\tvar queued_positions: Array = []",
+            "\tvar visited_positions: Array = []",
+            "\tvar tile_add_states: Array = []",
+            "\tvar check_add_count := 0",
+            "\tqueue.clear()",
+            "\tqueue.append(tile.duplicate(true))",
+            "\tclosed_lookup.clear()",
+            "\twhile queue.size() > 0:",
+            "\t\tvar child_variant = queue.pop_front()",
+            "\t\tif typeof(child_variant) != TYPE_DICTIONARY:",
+            "\t\t\tcontinue",
+            "\t\tvar child: Dictionary = child_variant",
+            '\t\tvisited_positions.append(child.get("pos", null))',
+            f"\t\tvar add_state: Dictionary = {add_method_name}([child])",
+            "\t\ttile_add_states.append(add_state)",
+            "\t\tcheck_add_count += 1",
+            '\t\tvar connections: Array = child.get("connections", [])',
+            "\t\tfor next in connections:",
+            "\t\t\tif typeof(next) != TYPE_DICTIONARY:",
+            "\t\t\t\tcontinue",
+            '\t\t\tvar next_pos = next.get("pos", null)',
+            "\t\t\tvar next_pos_key := var_to_str(next_pos)",
+            "\t\t\tif not closed_lookup.has(next_pos_key):",
+            "\t\t\t\tclosed_lookup[next_pos_key] = true",
+            "\t\t\t\tclosed_positions.append(next_pos)",
+            "\t\t\t\tqueued_positions.append(next_pos)",
+            "\t\t\t\tqueue.append(next.duplicate(true))",
+            '\treturn {"source_owner": "port_game.source_power_graph_reflow_state", "source": "core/src/mindustry/world/blocks/power/PowerGraph.java", "method": "public void reflow(Building tile){", "queue_clear": "queue.clear();", "queue_add_tile": "queue.addLast(tile);", "closed_set_clear": "closedSet.clear();", "while_queue": "while(queue.size > 0){", "remove_first": "Building child = queue.removeFirst();", "add_child": "add(child);", "check_add": "checkAdd();", "connections_loop": "for(Building next : child.getPowerConnections(outArray2)){", "closed_set_add": "if(closedSet.add(next.pos())){", "queue_add_next": "queue.addLast(next);", "tile": tile.duplicate(true), "visited_positions": visited_positions, "queued_positions": queued_positions, "closed_positions": closed_positions, "tile_add_states": tile_add_states, "check_add_count": check_add_count}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/power/PowerGraph.java"
+        and type_entry.get("name") == "PowerGraph"
+        and method.get("name") == "removeList"
+    ):
+        return [
+            "\tvar all: Array = (_args[0] as Array).duplicate(true) if _args.size() > 0 and _args[0] is Array else []",
+            "\tvar producers: Array = (_args[1] as Array).duplicate(true) if _args.size() > 1 and _args[1] is Array else []",
+            "\tvar consumers: Array = (_args[2] as Array).duplicate(true) if _args.size() > 2 and _args[2] is Array else []",
+            "\tvar batteries: Array = (_args[3] as Array).duplicate(true) if _args.size() > 3 and _args[3] is Array else []",
+            "\tvar build: Variant = _args[4] if _args.size() > 4 else null",
+            "\tall.erase(build)",
+            "\tproducers.erase(build)",
+            "\tconsumers.erase(build)",
+            "\tbatteries.erase(build)",
+            '\treturn {"source_owner": "port_game.source_power_graph_remove_list_state", "source": "core/src/mindustry/world/blocks/power/PowerGraph.java", "comment": "Used for unit tests only.", "method": "public void removeList(Building build){", "all_remove": "all.remove(build);", "producers_remove": "producers.remove(build);", "consumers_remove": "consumers.remove(build);", "batteries_remove": "batteries.remove(build);", "build": build, "all": all, "producers": producers, "consumers": consumers, "batteries": batteries}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/power/PowerGraph.java"
+        and type_entry.get("name") == "PowerGraph"
+        and method.get("name") == "remove"
+    ):
+        return [
+            "\tvar tile: Dictionary = (_args[0] as Dictionary).duplicate(true) if _args.size() > 0 and _args[0] is Dictionary else {}",
+            "\tvar entity_present: bool = bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar seed_state: Dictionary = SourcePowerGraphState.remove_branch_seed_state(tile)",
+            "\tvar bfs_state: Dictionary = SourcePowerGraphState.remove_branch_bfs_state(tile)",
+            "\tvar update_state: Dictionary = SourcePowerGraphState.remove_branch_update_state(tile)",
+            "\tvar empty_entity_state: Dictionary = SourcePowerGraphState.remove_empty_entity_state(tile, entity_present)",
+            '\treturn {"source_owner": "port_game.source_power_graph_remove_state", "source": "core/src/mindustry/world/blocks/power/PowerGraph.java", "method": "public void remove(Building tile){", "remove_comment": seed_state.get("remove_comment", ""), "seed_state": seed_state, "bfs_state": bfs_state, "update_state": update_state, "empty_entity_state": empty_entity_state, "tile": tile.duplicate(true), "entity_present": entity_present}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/power/PowerGraph.java"
+        and type_entry.get("name") == "PowerGraph"
+        and method.get("name") == "toString"
+    ):
+        return [
+            '\tvar producers: String = str(_args[0] if _args.size() > 0 else "")',
+            '\tvar consumers: String = str(_args[1] if _args.size() > 1 else "")',
+            '\tvar batteries: String = str(_args[2] if _args.size() > 2 else "")',
+            '\tvar all: String = str(_args[3] if _args.size() > 3 else "")',
+            "\tvar graph_id: int = int(_args[4] if _args.size() > 4 else 0)",
+            '\treturn "PowerGraph{producers=" + producers + ", consumers=" + consumers + ", batteries=" + batteries + ", all=" + all + ", graphID=" + str(graph_id) + "}"',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/power/PowerGraph.java"
+        and type_entry.get("name") == "PowerGraph"
+        and method.get("name") == "getLastPowerStored"
+    ):
+        return [
+            "\tvar last_power_stored: float = float(_args[0] if _args.size() > 0 else 0.0)",
+            '\treturn {"source_owner": "port_game.source_power_graph_get_last_power_stored_state", "source": "core/src/mindustry/world/blocks/power/PowerGraph.java", "field": "private float lastPowerProduced, lastPowerNeeded, lastPowerStored;", "method": "public float getLastPowerStored(){", "return_last_power_stored": "return lastPowerStored;", "last_power_stored": last_power_stored}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/power/PowerGraph.java"
+        and type_entry.get("name") == "PowerGraph"
+        and method.get("name") == "transferPower"
+    ):
+        return [
+            "\tvar amount: float = float(_args[0] if _args.size() > 0 else 0.0)",
+            "\tvar energy_delta: float = float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar energy_delta_after: float = energy_delta + amount",
+            '\treturn {"source_owner": "port_game.source_power_graph_transfer_power_state", "source": "core/src/mindustry/world/blocks/power/PowerGraph.java", "field": "private float energyDelta = 0f;", "method": "public void transferPower(float amount){", "positive_guard": "if(amount > 0){", "charge_call": "chargeBatteries(amount);", "else_branch": "}else{", "use_call": "useBatteries(-amount);", "energy_delta_add": "energyDelta += amount;", "amount": amount, "energy_delta": energy_delta, "energy_delta_after": energy_delta_after}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/power/PowerGraph.java"
+        and type_entry.get("name") == "PowerGraph"
+        and method.get("name") == "getSatisfaction"
+    ):
+        return [
+            "\tvar last_power_produced: float = float(_args[0] if _args.size() > 0 else 0.0)",
+            "\tvar last_power_needed: float = float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar satisfaction: float = 0.0",
+            "\tif absf(last_power_produced) <= 0.000001:",
+            "\t\tsatisfaction = 0.0",
+            "\telif absf(last_power_needed) <= 0.000001:",
+            "\t\tsatisfaction = 1.0",
+            "\telse:",
+            "\t\tsatisfaction = clamp(last_power_produced / last_power_needed, 0.0, 1.0)",
+            '\treturn {"source_owner": "port_game.source_power_graph_get_satisfaction_state", "source": "core/src/mindustry/world/blocks/power/PowerGraph.java", "field": "private float lastPowerProduced, lastPowerNeeded, lastPowerStored;", "method": "public float getSatisfaction(){", "produced_zero_guard": "if(Mathf.zero(lastPowerProduced)){", "return_zero": "return 0f;", "needed_zero_guard": "}else if(Mathf.zero(lastPowerNeeded)){", "return_one": "return 1f;", "return_clamp": "return Mathf.clamp(lastPowerProduced / lastPowerNeeded);", "last_power_produced": last_power_produced, "last_power_needed": last_power_needed, "satisfaction": satisfaction}',
         ]
     if (
         java_file.get("path") == "mindustry/world/consumers/Consume.java"
@@ -2800,11 +6447,999 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/world/Block.java"
         and type_entry.get("name") == "Block"
+        and method.get("name") == "drawBase"
+    ):
+        return [
+            "\tvar tile_build_present: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar variants: int = int(_args[1] if _args.size() > 1 else 0)",
+            '\tvar region_value: Variant = _args[2] if _args.size() > 2 else "region"',
+            '\tvar variant_region: Variant = _args[3] if _args.size() > 3 else "variantRegion"',
+            "\tvar tile_drawx: float = float(_args[4] if _args.size() > 4 else 0.0)",
+            "\tvar tile_drawy: float = float(_args[5] if _args.size() > 5 else 0.0)",
+            "\treturn source_block_draw_state.generated_draw_base_result_state(tile_build_present, variants, region_value, variant_region, tile_drawx, tile_drawy)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "drawBaseCached"
+    ):
+        return [
+            "\tvar tile_build_present: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar variants: int = int(_args[1] if _args.size() > 1 else 0)",
+            '\tvar region_value: Variant = _args[2] if _args.size() > 2 else "region"',
+            '\tvar variant_region: Variant = _args[3] if _args.size() > 3 else "variantRegion"',
+            "\tvar tile_drawx: float = float(_args[4] if _args.size() > 4 else 0.0)",
+            "\tvar tile_drawy: float = float(_args[5] if _args.size() > 5 else 0.0)",
+            "\treturn source_block_draw_state.generated_draw_base_cached_result_state(tile_build_present, variants, region_value, variant_region, tile_drawx, tile_drawy)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "drawShadow"
+        and len(method.get("parameters", [])) == 1
+    ):
+        return [
+            "\tvar tile: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar variants: int = int(_args[1] if _args.size() > 1 else 0)",
+            '\tvar custom_shadow_region: Variant = _args[2] if _args.size() > 2 else "customShadowRegion"',
+            '\tvar variant_shadow_region: Variant = _args[3] if _args.size() > 3 else "variantShadowRegion"',
+            "\tvar tile_drawx: float = float(_args[4] if _args.size() > 4 else 0.0)",
+            "\tvar tile_drawy: float = float(_args[5] if _args.size() > 5 else 0.0)",
+            "\tvar shadow_alpha: float = float(_args[6] if _args.size() > 6 else 1.0)",
+            "\treturn source_block_draw_state.generated_draw_shadow_result_state(tile, variants, custom_shadow_region, variant_shadow_region, tile_drawx, tile_drawy, shadow_alpha)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "drawEnvironmentLight"
+    ):
+        return [
+            "\tvar tile_worldx: float = float(_args[0] if _args.size() > 0 else 0.0)",
+            "\tvar tile_worldy: float = float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar light_radius: float = float(_args[2] if _args.size() > 2 else 0.0)",
+            '\tvar light_color: Variant = _args[3] if _args.size() > 3 else "lightColor"',
+            "\tvar light_alpha: float = float(_args[4] if _args.size() > 4 else 1.0)",
+            "\treturn source_block_draw_state.generated_draw_environment_light_result_state(tile_worldx, tile_worldy, light_radius, light_color, light_alpha)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "drawPlace"
+        and len(method.get("parameters", [])) == 4
+    ):
+        return [
+            "\tvar x_value: int = int(_args[0] if _args.size() > 0 else 0)",
+            "\tvar y_value: int = int(_args[1] if _args.size() > 1 else 0)",
+            "\tvar rotation: int = int(_args[2] if _args.size() > 2 else 0)",
+            "\tvar valid: bool = bool(_args[3] if _args.size() > 3 else false)",
+            "\tvar source_tilesize: float = float(_args[4] if _args.size() > 4 else SOURCE_TILESIZE)",
+            "\tvar offset_value: float = float(_args[5] if _args.size() > 5 else 0.0)",
+            "\treturn source_block_draw_state.generated_draw_place_result_state(x_value, y_value, rotation, valid, source_tilesize, offset_value)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "drawOverlay"
+    ):
+        return [
+            "\tvar x_value: float = float(_args[0] if _args.size() > 0 else 0.0)",
+            "\tvar y_value: float = float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar rotation: int = int(_args[2] if _args.size() > 2 else 0)",
+            "\treturn source_block_draw_state.generated_draw_overlay_result_state(x_value, y_value, rotation)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "displayShadow"
+    ):
+        return [
+            "\tvar has_shadow: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar tile: Variant = _args[1] if _args.size() > 1 else null",
+            "\treturn source_block_draw_state.generated_display_shadow_result_state(has_shadow, tile)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
         and method.get("name") == "outputsItems"
     ):
         return [
             "\tvar has_items: bool = bool(_args[0] if _args.size() > 0 else false)",
-            '\treturn {"source_owner": "port_game.source_block_outputs_items_state", "source": "core/src/mindustry/world/Block.java", "field_comment": "/** If true, buildings have an ItemModule. */", "field_expr": "public @NoPatch boolean hasItems;", "method": "public boolean outputsItems(){", "return_expr": "return hasItems;", "has_items": has_items, "outputs_items": has_items}',
+            "\treturn SourceBlockQueryState.generated_outputs_items_result_state(has_items)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "percentSolid"
+    ):
+        return [
+            "\tvar tile_exists: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar x_value: int = int(_args[1] if _args.size() > 1 else 0)",
+            "\tvar y_value: int = int(_args[2] if _args.size() > 2 else 0)",
+            "\tvar linked_non_liquid_count: float = float(_args[3] if _args.size() > 3 else 0.0)",
+            "\tvar size_value: float = float(_args[4] if _args.size() > 4 else 1.0)",
+            "\treturn source_block_display_query_state.generated_block_percent_solid_result_state(tile_exists, x_value, y_value, linked_non_liquid_count, size_value)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "getDisplayIcon"
+    ):
+        return [
+            "\tvar tile_build_present: bool = bool(_args[0] if _args.size() > 0 else false)",
+            '\tvar ui_icon: Variant = _args[1] if _args.size() > 1 else "uiIcon"',
+            '\tvar build_display_icon: Variant = _args[2] if _args.size() > 2 else "buildDisplayIcon"',
+            "\treturn source_block_display_query_state.generated_block_get_display_icon_result_state(tile_build_present, ui_icon, build_display_icon)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "getDisplayName"
+        and len(method.get("parameters", [])) == 1
+    ):
+        return [
+            "\tvar tile_build_present: bool = bool(_args[0] if _args.size() > 0 else false)",
+            '\tvar localized_name: String = str(_args[1] if _args.size() > 1 else "")',
+            '\tvar build_display_name: String = str(_args[2] if _args.size() > 2 else "")',
+            "\treturn source_block_display_query_state.generated_block_get_display_name_result_state(tile_build_present, localized_name, build_display_name)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "minimapColor"
+    ):
+        return [
+            "\tvar tile: Variant = _args[0] if _args.size() > 0 else null",
+            "\treturn source_block_display_query_state.generated_block_minimap_color_result_state(tile)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "getColor"
+    ):
+        return [
+            "\tvar minimap_color: int = int(_args[0] if _args.size() > 0 else 0)",
+            '\tvar map_color: Variant = _args[1] if _args.size() > 1 else "mapColor"',
+            '\tvar tmp_c3_set_color: Variant = _args[2] if _args.size() > 2 else "Tmp.c3.set(mc)"',
+            "\treturn source_block_display_query_state.generated_block_get_color_result_state(minimap_color, map_color, tmp_c3_set_color)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "canReplace"
+        and method_index == 35
+    ):
+        return [
+            "\tvar existing_always_replace: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar existing_privileged: bool = bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar existing_replaceable: bool = bool(_args[2] if _args.size() > 2 else false)",
+            "\tvar same_block: bool = bool(_args[3] if _args.size() > 3 else false)",
+            "\tvar new_rotate: bool = bool(_args[4] if _args.size() > 4 else false)",
+            "\tvar new_quick_rotate: bool = bool(_args[5] if _args.size() > 5 else false)",
+            "\tvar new_group_is_none: bool = bool(_args[6] if _args.size() > 6 else true)",
+            "\tvar same_group: bool = bool(_args[7] if _args.size() > 7 else false)",
+            "\tvar new_size: int = int(_args[8] if _args.size() > 8 else 1)",
+            "\tvar existing_size: int = int(_args[9] if _args.size() > 9 else 1)",
+            "\tvar same_subclass: bool = bool(_args[10] if _args.size() > 10 else false)",
+            "\tvar group_any_replace: bool = bool(_args[11] if _args.size() > 11 else false)",
+            "\treturn source_building_core_state.block_can_replace_result_state(existing_always_replace, existing_privileged, existing_replaceable, same_block, new_rotate, new_quick_rotate, new_group_is_none, same_group, new_size, existing_size, same_subclass, group_any_replace)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "canReplace"
+        and method_index != 35
+    ):
+        return [
+            "\tvar existing_always_replace: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar existing_privileged: bool = bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar existing_replaceable: bool = bool(_args[2] if _args.size() > 2 else false)",
+            "\tvar same_block: bool = bool(_args[3] if _args.size() > 3 else false)",
+            "\tvar new_rotate: bool = bool(_args[4] if _args.size() > 4 else false)",
+            "\tvar new_quick_rotate: bool = bool(_args[5] if _args.size() > 5 else false)",
+            "\tvar new_group_is_none: bool = bool(_args[6] if _args.size() > 6 else true)",
+            "\tvar same_group: bool = bool(_args[7] if _args.size() > 7 else false)",
+            "\tvar new_size: int = int(_args[8] if _args.size() > 8 else 1)",
+            "\tvar existing_size: int = int(_args[9] if _args.size() > 9 else 1)",
+            "\tvar same_subclass: bool = bool(_args[10] if _args.size() > 10 else false)",
+            "\tvar group_any_replace: bool = bool(_args[11] if _args.size() > 11 else false)",
+            "\tvar replacement_gate: bool = existing_replaceable and ((not same_block) or (new_rotate and new_quick_rotate)) and (((not new_group_is_none) and same_group) or same_block)",
+            "\tvar size_gate: bool = new_size == existing_size or (new_size >= existing_size and (same_subclass or group_any_replace))",
+            "\tvar can_replace: bool = true if existing_always_replace else (false if existing_privileged else replacement_gate and size_gate)",
+            '\treturn {"source_owner": "port_game.source_block_can_replace_state", "source": "core/src/mindustry/world/Block.java", "method": "public boolean canReplace(Block other){", "always_replace_expr": "if(other.alwaysReplace) return true;", "privileged_expr": "if(other.privileged) return false;", "return_expr": "return other.replaceable && (other != this || (rotate && quickRotate)) && ((this.group != BlockGroup.none && other.group == this.group) || other == this) && (size == other.size || (size >= other.size && ((subclass != null && subclass == other.subclass) || group.anyReplace)));", "otherAlwaysReplace": existing_always_replace, "otherPrivileged": existing_privileged, "otherReplaceable": existing_replaceable, "sameBlock": same_block, "rotate": new_rotate, "quickRotate": new_quick_rotate, "groupIsNone": new_group_is_none, "sameGroup": same_group, "size": new_size, "otherSize": existing_size, "sameSubclass": same_subclass, "groupAnyReplace": group_any_replace, "replacementGate": replacement_gate, "sizeGate": size_gate, "canReplace": can_replace}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "getReplacement"
+        and method_index == 36
+    ):
+        return [
+            "\tvar req: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar plans: Variant = _args[1] if _args.size() > 1 else []",
+            '\tvar self_block: Variant = _args[2] if _args.size() > 2 else "this"',
+            "\treturn source_block_plan_placement_state.get_replacement_state(req, plans, self_block)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "getReplacement"
+        and method_index != 36
+    ):
+        return [
+            "\tvar req: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar plans: Variant = _args[1] if _args.size() > 1 else []",
+            '\tvar self_block: Variant = _args[2] if _args.size() > 2 else "this"',
+            '\treturn {"source_owner": "port_game.source_block_get_replacement_state", "source": "core/src/mindustry/world/Block.java", "comment": "/** @return a possible replacement for this block when placed in a line by the player. */", "method": "public Block getReplacement(BuildPlan req, Seq<BuildPlan> plans){", "return_expr": "return this;", "req": req, "plans": plans, "replacement": self_block}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "changePlacementPath"
+        and len(method.get("parameters", [])) == 3
+        and method_index == 37
+    ):
+        return [
+            "\tvar points: Variant = _args[0] if _args.size() > 0 else []",
+            "\tvar rotation: int = int(_args[1] if _args.size() > 1 else 0)",
+            "\tvar diagonal_on: bool = bool(_args[2] if _args.size() > 2 else false)",
+            "\treturn source_block_plan_placement_state.change_placement_path_diagonal_state(points, rotation, diagonal_on)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "changePlacementPath"
+        and len(method.get("parameters", [])) == 3
+        and method_index != 37
+    ):
+        return [
+            "\tvar points: Variant = _args[0] if _args.size() > 0 else []",
+            "\tvar rotation: int = int(_args[1] if _args.size() > 1 else 0)",
+            "\tvar diagonal_on: bool = bool(_args[2] if _args.size() > 2 else false)",
+            '\treturn {"source_owner": "port_game.source_block_change_placement_path_diagonal_state", "source": "core/src/mindustry/world/Block.java", "comment": "/** Mutates the given list of points used during line placement. */", "method": "public void changePlacementPath(Seq<Point2> points, int rotation, boolean diagonalOn){", "delegate_call": "changePlacementPath(points, rotation)", "points": points, "rotation": rotation, "diagonalOn": diagonal_on, "delegates_to_two_arg": true}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "changePlacementPath"
+        and len(method.get("parameters", [])) == 2
+        and method_index == 38
+    ):
+        return [
+            "\tvar points: Variant = _args[0] if _args.size() > 0 else []",
+            "\tvar rotation: int = int(_args[1] if _args.size() > 1 else 0)",
+            "\treturn source_block_plan_placement_state.change_placement_path_state(points, rotation)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "changePlacementPath"
+        and len(method.get("parameters", [])) == 2
+        and method_index != 38
+    ):
+        return [
+            "\tvar points: Variant = _args[0] if _args.size() > 0 else []",
+            "\tvar rotation: int = int(_args[1] if _args.size() > 1 else 0)",
+            '\treturn {"source_owner": "port_game.source_block_change_placement_path_state", "source": "core/src/mindustry/world/Block.java", "comment": "/** Mutates the given list of points used during line placement. */", "method": "public void changePlacementPath(Seq<Point2> points, int rotation){", "points": points, "rotation": rotation, "noop": true}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "handlePlacementLine"
+        and method_index == 39
+    ):
+        return [
+            "\tvar plans: Variant = _args[0] if _args.size() > 0 else []",
+            "\treturn source_block_plan_placement_state.handle_placement_line_state(plans)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "handlePlacementLine"
+        and method_index != 39
+    ):
+        return [
+            "\tvar plans: Variant = _args[0] if _args.size() > 0 else []",
+            '\treturn {"source_owner": "port_game.source_block_handle_placement_line_state", "source": "core/src/mindustry/world/Block.java", "comment": "/** Mutates the given list of plans used during line placement. */", "method": "public void handlePlacementLine(Seq<BuildPlan> plans){", "plans": plans, "noop": true}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "configSenseable"
+        and method_index == 40
+    ):
+        return [
+            "\tvar item_configured: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar liquid_configured: bool = bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar unlockable_content_configured: bool = bool(_args[2] if _args.size() > 2 else false)",
+            "\tvar block_configured: bool = bool(_args[3] if _args.size() > 3 else false)",
+            "\tvar unit_type_configured: bool = bool(_args[4] if _args.size() > 4 else false)",
+            "\treturn source_block_plan_config_state.config_senseable_state(item_configured, liquid_configured, unlockable_content_configured, block_configured, unit_type_configured)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "configSenseable"
+        and method_index != 40
+    ):
+        return [
+            "\tvar item_configured: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar liquid_configured: bool = bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar unlockable_content_configured: bool = bool(_args[2] if _args.size() > 2 else false)",
+            "\tvar block_configured: bool = bool(_args[3] if _args.size() > 3 else false)",
+            "\tvar unit_type_configured: bool = bool(_args[4] if _args.size() > 4 else false)",
+            "\tvar config_senseable: bool = item_configured or liquid_configured or unlockable_content_configured or block_configured or unit_type_configured",
+            '\treturn {"source_owner": "port_game.source_block_config_senseable_state", "source": "core/src/mindustry/world/Block.java", "method": "public boolean configSenseable(){", "return_expr": "return configurations.containsKey(Item.class) || configurations.containsKey(Liquid.class) || configurations.containsKey(UnlockableContent.class) || configurations.containsKey(Block.class) || configurations.containsKey(UnitType.class);", "itemConfigured": item_configured, "liquidConfigured": liquid_configured, "unlockableContentConfigured": unlockable_content_configured, "blockConfigured": block_configured, "unitTypeConfigured": unit_type_configured, "config_senseable": config_senseable}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "nextConfig"
+        and method_index == 41
+    ):
+        return [
+            "\tvar save_config: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar last_config: Variant = _args[1] if _args.size() > 1 else null",
+            "\treturn source_block_plan_config_state.next_config_state(save_config, last_config)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "nextConfig"
+        and method_index != 41
+    ):
+        return [
+            "\tvar save_config: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar last_config: Variant = _args[1] if _args.size() > 1 else null",
+            "\tvar next_config: Variant = last_config if (save_config and last_config != null) else null",
+            '\treturn {"source_owner": "port_game.source_block_next_config_state", "source": "core/src/mindustry/world/Block.java", "method": "public Object nextConfig(){", "guard_expr": "if(saveConfig && lastConfig != null){", "last_config_return_expr": "return lastConfig;", "null_return_expr": "return null;", "saveConfig": save_config, "lastConfig": last_config, "last_config_present": last_config != null, "next_config": next_config}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "onNewPlan"
+        and method_index == 42
+    ):
+        return [
+            "\tvar plan: Variant = _args[0] if _args.size() > 0 else null",
+            "\treturn source_block_plan_placement_state.on_new_plan_state(plan)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "onNewPlan"
+        and method_index != 42
+    ):
+        return [
+            "\tvar plan: Variant = _args[0] if _args.size() > 0 else null",
+            '\treturn {"source_owner": "port_game.source_block_on_new_plan_state", "source": "core/src/mindustry/world/Block.java", "comment": "/** Called when a new build plan is created in the player\'s queue. Blocks can maintain a reference to this plan and add configs to it later. */", "method": "public void onNewPlan(BuildPlan plan){", "plan": plan, "noop": true}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "drawPlan"
+        and len(method.get("parameters", [])) == 3
+        and method_index == 43
+    ):
+        return [
+            "\tvar plan: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar list: Variant = _args[1] if _args.size() > 1 else []",
+            "\tvar valid: bool = bool(_args[2] if _args.size() > 2 else false)",
+            "\treturn source_block_plan_draw_state.draw_plan_default_alpha_state(plan, list, valid)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "drawPlan"
+        and len(method.get("parameters", [])) == 3
+        and method_index != 43
+    ):
+        return [
+            "\tvar plan: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar list: Variant = _args[1] if _args.size() > 1 else []",
+            "\tvar valid: bool = bool(_args[2] if _args.size() > 2 else false)",
+            '\treturn {"source_owner": "port_game.source_block_draw_plan_default_alpha_state", "source": "core/src/mindustry/world/Block.java", "method": "public void drawPlan(BuildPlan plan, Eachable<BuildPlan> list, boolean valid){", "delegate_call": "drawPlan(plan, list, valid, 1f)", "plan": plan, "list": list, "valid": valid, "delegates_to_four_arg": true}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "drawPlan"
+        and len(method.get("parameters", [])) == 4
+        and method_index == 44
+    ):
+        return [
+            "\tvar plan: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar list: Variant = _args[1] if _args.size() > 1 else []",
+            "\tvar valid: bool = bool(_args[2] if _args.size() > 2 else false)",
+            "\tvar alpha: float = float(_args[3] if _args.size() > 3 else 1.0)",
+            "\tvar time_absin: float = float(_args[4] if _args.size() > 4 else 0.0)",
+            "\treturn source_block_plan_draw_state.draw_plan_state(plan, list, valid, alpha, time_absin)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "drawPlan"
+        and len(method.get("parameters", [])) == 4
+        and method_index != 44
+    ):
+        return [
+            "\tvar plan: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar list: Variant = _args[1] if _args.size() > 1 else []",
+            "\tvar valid: bool = bool(_args[2] if _args.size() > 2 else false)",
+            "\tvar alpha: float = float(_args[3] if _args.size() > 3 else 1.0)",
+            "\tvar time_absin: float = float(_args[4] if _args.size() > 4 else 0.0)",
+            "\tvar mix_alpha: float = (0.4 if not valid else 0.24) + time_absin",
+            '\treturn {"source_owner": "port_game.source_block_draw_plan_state", "source": "core/src/mindustry/world/Block.java", "method": "public void drawPlan(BuildPlan plan, Eachable<BuildPlan> list, boolean valid, float alpha){", "draw_plan_region_call": "drawPlanRegion(plan, list)", "plan": plan, "list": list, "valid": valid, "alpha": alpha, "time_absin": time_absin, "mix_alpha": mix_alpha, "noop": true}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "drawOtherPlayerPlan"
+        and method_index == 45
+    ):
+        return [
+            "\tvar plan: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar list: Variant = _args[1] if _args.size() > 1 else []",
+            "\tvar alpha: float = float(_args[2] if _args.size() > 2 else 1.0)",
+            "\treturn source_block_plan_draw_state.draw_other_player_plan_state(plan, list, alpha)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "drawOtherPlayerPlan"
+        and method_index != 45
+    ):
+        return [
+            "\tvar plan: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar list: Variant = _args[1] if _args.size() > 1 else []",
+            "\tvar alpha: float = float(_args[2] if _args.size() > 2 else 1.0)",
+            '\treturn {"source_owner": "port_game.source_block_draw_other_player_plan_state", "source": "core/src/mindustry/world/Block.java", "method": "public void drawOtherPlayerPlan(BuildPlan plan, Eachable<BuildPlan> list, float alpha){", "mixcol_expr": "Draw.mixcol(Color.white, Mathf.absin(Time.globalTime, 6f, 0.15f));", "plan": plan, "list": list, "alpha": alpha, "noop": true}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "drawPlanRegion"
+        and method_index == 46
+    ):
+        return [
+            "\tvar plan: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar list: Variant = _args[1] if _args.size() > 1 else []",
+            "\treturn source_block_plan_draw_state.draw_plan_region_state(plan, list)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "drawPlanRegion"
+        and method_index != 46
+    ):
+        return [
+            "\tvar plan: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar list: Variant = _args[1] if _args.size() > 1 else []",
+            '\treturn {"source_owner": "port_game.source_block_draw_plan_region_state", "source": "core/src/mindustry/world/Block.java", "method": "public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){", "delegate_call": "drawDefaultPlanRegion(plan, list)", "plan": plan, "list": list, "noop": true}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "drawDefaultPlanRegion"
+        and method_index == 47
+    ):
+        return [
+            "\tvar plan: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar list: Variant = _args[1] if _args.size() > 1 else []",
+            "\tvar rotate_value: bool = bool(_args[2] if _args.size() > 2 else false)",
+            "\tvar rotate_draw: bool = bool(_args[3] if _args.size() > 3 else false)",
+            "\tvar plan_rotation: float = float(_args[4] if _args.size() > 4 else 0.0)",
+            "\treturn source_block_plan_draw_state.draw_default_plan_region_state(plan, list, rotate_value, rotate_draw, plan_rotation)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "drawDefaultPlanRegion"
+        and method_index != 47
+    ):
+        return [
+            "\tvar plan: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar list: Variant = _args[1] if _args.size() > 1 else []",
+            "\tvar rotate_value: bool = bool(_args[2] if _args.size() > 2 else false)",
+            "\tvar rotate_draw: bool = bool(_args[3] if _args.size() > 3 else false)",
+            "\tvar plan_rotation: float = float(_args[4] if _args.size() > 4 else 0.0)",
+            "\tvar draw_rotation: float = 0.0 if ((not rotate_value) or (not rotate_draw)) else plan_rotation * 90.0",
+            '\treturn {"source_owner": "port_game.source_block_draw_default_plan_region_state", "source": "core/src/mindustry/world/Block.java", "method": "public void drawDefaultPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){", "draw_plan_config_call": "drawPlanConfig(plan, list)", "plan": plan, "list": list, "rotate": rotate_value, "rotateDraw": rotate_draw, "plan_rotation": plan_rotation, "draw_rotation": draw_rotation, "noop": true}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "findPlan"
+        and len(method.get("parameters", [])) == 4
+        and method_index == 48
+    ):
+        return [
+            "\tvar list: Variant = _args[0] if _args.size() > 0 else []",
+            "\tvar x_value: int = int(_args[1] if _args.size() > 1 else 0)",
+            "\tvar y_value: int = int(_args[2] if _args.size() > 2 else 0)",
+            "\tvar predicate: Variant = _args[3] if _args.size() > 3 else null",
+            "\treturn source_block_plan_draw_state.find_plan_default_size_state(list, x_value, y_value, predicate)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "findPlan"
+        and len(method.get("parameters", [])) == 4
+        and method_index != 48
+    ):
+        return [
+            "\tvar list: Variant = _args[0] if _args.size() > 0 else []",
+            "\tvar x_value: int = int(_args[1] if _args.size() > 1 else 0)",
+            "\tvar y_value: int = int(_args[2] if _args.size() > 2 else 0)",
+            "\tvar predicate: Variant = _args[3] if _args.size() > 3 else null",
+            '\treturn {"source_owner": "port_game.source_block_find_plan_default_size_state", "source": "core/src/mindustry/world/Block.java", "method": "public static BuildPlan findPlan(Eachable<BuildPlan> list, int x, int y, Boolf<BuildPlan> predicate){", "delegate_call": "findPlan(list, x, y, 1, predicate)", "list": list, "x": x_value, "y": y_value, "predicate": predicate}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "findPlan"
+        and len(method.get("parameters", [])) == 5
+        and method_index == 49
+    ):
+        return [
+            "\tvar list: Variant = _args[0] if _args.size() > 0 else []",
+            "\tvar x_value: int = int(_args[1] if _args.size() > 1 else 0)",
+            "\tvar y_value: int = int(_args[2] if _args.size() > 2 else 0)",
+            "\tvar size_value: int = int(_args[3] if _args.size() > 3 else 1)",
+            "\tvar predicate: Variant = _args[4] if _args.size() > 4 else null",
+            "\tvar list_is_query_eachable: bool = bool(_args[5] if _args.size() > 5 else false)",
+            "\tvar query_find_result: Variant = _args[6] if _args.size() > 6 else null",
+            "\treturn source_block_plan_draw_state.find_plan_state(list, x_value, y_value, size_value, predicate, list_is_query_eachable, query_find_result)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "findPlan"
+        and len(method.get("parameters", [])) == 5
+        and method_index != 49
+    ):
+        return [
+            "\tvar list: Variant = _args[0] if _args.size() > 0 else []",
+            "\tvar x_value: int = int(_args[1] if _args.size() > 1 else 0)",
+            "\tvar y_value: int = int(_args[2] if _args.size() > 2 else 0)",
+            "\tvar size_value: int = int(_args[3] if _args.size() > 3 else 1)",
+            "\tvar predicate: Variant = _args[4] if _args.size() > 4 else null",
+            "\tvar list_is_query_eachable: bool = bool(_args[5] if _args.size() > 5 else false)",
+            '\tvar query_find_result: Variant = _args[6] if _args.size() > 6 else null',
+            "\tvar found_plan: Variant = query_find_result if list_is_query_eachable else null",
+            '\treturn {"source_owner": "port_game.source_block_find_plan_state", "source": "core/src/mindustry/world/Block.java", "method": "public static BuildPlan findPlan(Eachable<BuildPlan> list, int x, int y, int size, Boolf<BuildPlan> predicate){", "list": list, "x": x_value, "y": y_value, "size": size_value, "predicate": predicate, "list_is_query_eachable": list_is_query_eachable, "query_find_result": query_find_result, "found_plan": found_plan}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "getPlanRegion"
+        and method_index == 50
+    ):
+        return [
+            "\tvar plan: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar list: Variant = _args[1] if _args.size() > 1 else []",
+            '\tvar full_icon: Variant = _args[2] if _args.size() > 2 else "fullIcon"',
+            "\treturn source_block_plan_draw_state.get_plan_region_state(plan, list, full_icon)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "getPlanRegion"
+        and method_index != 50
+    ):
+        return [
+            "\tvar plan: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar list: Variant = _args[1] if _args.size() > 1 else []",
+            '\tvar full_icon: Variant = _args[2] if _args.size() > 2 else "fullIcon"',
+            '\treturn {"source_owner": "port_game.source_block_get_plan_region_state", "source": "core/src/mindustry/world/Block.java", "method": "public TextureRegion getPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){", "plan": plan, "list": list, "plan_region": full_icon}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "drawPlanConfig"
+        and method_index == 51
+    ):
+        return [
+            "\tvar plan: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar list: Variant = _args[1] if _args.size() > 1 else []",
+            "\treturn source_block_plan_draw_state.draw_plan_config_state(plan, list)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "drawPlanConfig"
+        and method_index != 51
+    ):
+        return [
+            "\tvar plan: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar list: Variant = _args[1] if _args.size() > 1 else []",
+            '\treturn {"source_owner": "port_game.source_block_draw_plan_config_state", "source": "core/src/mindustry/world/Block.java", "method": "public void drawPlanConfig(BuildPlan plan, Eachable<BuildPlan> list){", "plan": plan, "list": list, "noop": true}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "drawPlanConfigCenter"
+        and len(method.get("parameters", [])) == 4
+        and method_index == 52
+    ):
+        return [
+            "\tvar plan: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar content: Variant = _args[1] if _args.size() > 1 else null",
+            '\tvar region: String = str(_args[2] if _args.size() > 2 else "")',
+            "\tvar cross: bool = bool(_args[3] if _args.size() > 3 else false)",
+            "\tvar content_color: Variant = _args[4] if _args.size() > 4 else null",
+            "\treturn source_block_plan_draw_state.draw_plan_config_center_state(plan, content, region, cross, content_color)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "drawPlanConfigCenter"
+        and len(method.get("parameters", [])) == 4
+        and method_index != 52
+    ):
+        return [
+            "\tvar plan: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar content: Variant = _args[1] if _args.size() > 1 else null",
+            '\tvar region: String = str(_args[2] if _args.size() > 2 else "")',
+            "\tvar cross: bool = bool(_args[3] if _args.size() > 3 else false)",
+            '\tvar content_present: bool = content != null',
+            '\tvar content_color: Variant = _args[4] if _args.size() > 4 else null',
+            '\tvar should_draw_cross: bool = (not content_present) and cross',
+            '\tvar should_draw_region: bool = content_present and content_color != null',
+            '\treturn {"source_owner": "port_game.source_block_draw_plan_config_center_state", "source": "core/src/mindustry/world/Block.java", "method": "public void drawPlanConfigCenter(BuildPlan plan, Object content, String region, boolean cross){", "plan": plan, "content": content, "region": region, "cross": cross, "content_present": content_present, "content_color": content_color, "should_draw_cross": should_draw_cross, "should_draw_region": should_draw_region, "noop": true}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "drawPlanConfigCenter"
+        and len(method.get("parameters", [])) == 3
+        and method_index == 53
+    ):
+        return [
+            "\tvar plan: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar content: Variant = _args[1] if _args.size() > 1 else null",
+            '\tvar region: String = str(_args[2] if _args.size() > 2 else "")',
+            "\treturn source_block_plan_draw_state.draw_plan_config_center_default_cross_state(plan, content, region)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "drawPlanConfigCenter"
+        and len(method.get("parameters", [])) == 3
+        and method_index != 53
+    ):
+        return [
+            "\tvar plan: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar content: Variant = _args[1] if _args.size() > 1 else null",
+            '\tvar region: String = str(_args[2] if _args.size() > 2 else "")',
+            '\treturn {"source_owner": "port_game.source_block_draw_plan_config_center_default_cross_state", "source": "core/src/mindustry/world/Block.java", "method": "public void drawPlanConfigCenter(BuildPlan plan, Object content, String region){", "delegate_call": "drawPlanConfigCenter(plan, content, region, false)", "plan": plan, "content": content, "region": region, "noop": true}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "drawPlanConfigTop"
+        and method_index == 54
+    ):
+        return [
+            "\tvar plan: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar list: Variant = _args[1] if _args.size() > 1 else []",
+            "\treturn source_block_plan_draw_state.draw_plan_config_top_state(plan, list)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "drawPlanConfigTop"
+        and method_index != 54
+    ):
+        return [
+            "\tvar plan: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar list: Variant = _args[1] if _args.size() > 1 else []",
+            '\treturn {"source_owner": "port_game.source_block_draw_plan_config_top_state", "source": "core/src/mindustry/world/Block.java", "method": "public void drawPlanConfigTop(BuildPlan plan, Eachable<BuildPlan> list){", "plan": plan, "list": list, "noop": true}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "planConfigClipSize"
+        and method_index == 55
+    ):
+        return [
+            "\tvar clip_size: float = float(_args[0] if _args.size() > 0 else 0.0)",
+            "\treturn source_block_plan_draw_state.plan_config_clip_size_state(clip_size)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "planConfigClipSize"
+        and method_index != 55
+    ):
+        return [
+            "\tvar clip_size: float = float(_args[0] if _args.size() > 0 else 0.0)",
+            '\treturn {"source_owner": "port_game.source_block_plan_config_clip_size_state", "source": "core/src/mindustry/world/Block.java", "method": "public float planConfigClipSize(){", "return_expr": "return clipSize;", "clip_size": clip_size, "plan_config_clip_size": clip_size}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "pointConfig"
+        and method_index == 56
+    ):
+        return [
+            "\tvar config: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar transformer: Variant = _args[1] if _args.size() > 1 else null",
+            "\treturn source_block_plan_config_state.point_config_state(config, transformer)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "configClear"
+        and method_index == 57
+    ):
+        return [
+            "\tvar cons: Variant = _args[0] if _args.size() > 0 else null",
+            "\treturn source_block_plan_config_state.config_clear_state(cons)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "config"
+        and method_index == 58
+    ):
+        return [
+            "\tvar type_value: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar config_handler: Variant = _args[1] if _args.size() > 1 else null",
+            "\treturn source_block_plan_config_state.config_handler_state(type_value, config_handler)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "pointConfig"
+        and method_index != 56
+    ):
+        return [
+            "\tvar config: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar transformer: Variant = _args[1] if _args.size() > 1 else null",
+            '\treturn {"source_owner": "port_game.source_block_point_config_state", "source": "core/src/mindustry/world/Block.java", "comment": "/** Transforms the internal position of this config using the specified function, and return the result. */", "method": "public Object pointConfig(Object config, Cons<Point2> transformer){", "return_expr": "return config;", "config": config, "transformer": transformer, "point_config": config}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "configClear"
+        and method_index != 57
+    ):
+        return [
+            "\tvar cons: Variant = _args[0] if _args.size() > 0 else null",
+            '\treturn {"source_owner": "port_game.source_block_config_clear_state", "source": "core/src/mindustry/world/Block.java", "comment": "/** Configure when a null value is passed.*/", "method": "public <E extends Building> void configClear(Cons<E> cons){", "configurations_put_expr": "configurations.put(void.class, (tile, value) -> cons.get((E)tile));", "configuration_type": "void.class", "consumer": cons, "config_registered": true}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "config"
+        and method_index != 58
+    ):
+        return [
+            "\tvar type_value: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar config_handler: Variant = _args[1] if _args.size() > 1 else null",
+            '\treturn {"source_owner": "port_game.source_block_config_handler_state", "source": "core/src/mindustry/world/Block.java", "comment": "/** Listen for a config by class type. */", "method": "public <T, E extends Building> void config(Class<T> type, Cons2<E, T> config){", "configurations_put_expr": "configurations.put(type, config);", "configuration_type": type_value, "config_handler": config_handler, "config_registered": true}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "isAccessible"
+        and method_index == 59
+    ):
+        return [
+            "\tvar has_items: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar item_capacity: int = int(_args[1] if _args.size() > 1 else 0)",
+            "\treturn source_block_plan_config_state.is_accessible_state(has_items, item_capacity)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "nearbySide"
+        and method_index == 60
+    ):
+        return [
+            "\tvar x_value: int = int(_args[0] if _args.size() > 0 else 0)",
+            "\tvar y_value: int = int(_args[1] if _args.size() > 1 else 0)",
+            "\tvar rotation: int = int(_args[2] if _args.size() > 2 else 0)",
+            "\tvar index_value: int = int(_args[3] if _args.size() > 3 else 0)",
+            "\tvar size_value: int = int(_args[4] if _args.size() > 4 else 1)",
+            "\tvar out_value: Variant = _args[5] if _args.size() > 5 else null",
+            "\treturn source_block_plan_geometry_state.nearby_side_state(x_value, y_value, rotation, index_value, size_value, out_value)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "getEdges"
+        and method_index == 61
+    ):
+        return [
+            "\tvar size_value: int = int(_args[0] if _args.size() > 0 else 1)",
+            "\treturn source_block_plan_geometry_state.get_edges_state(size_value)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "getInsideEdges"
+        and method_index == 62
+    ):
+        return [
+            "\tvar size_value: int = int(_args[0] if _args.size() > 0 else 1)",
+            "\treturn source_block_plan_geometry_state.get_inside_edges_state(size_value)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "iterateTaken"
+        and method_index == 63
+    ):
+        return [
+            "\tvar x_value: int = int(_args[0] if _args.size() > 0 else 0)",
+            "\tvar y_value: int = int(_args[1] if _args.size() > 1 else 0)",
+            "\tvar size_value: int = int(_args[2] if _args.size() > 2 else 1)",
+            "\tvar placer: Variant = _args[3] if _args.size() > 3 else null",
+            "\treturn source_block_plan_geometry_state.iterate_taken_state(x_value, y_value, size_value, placer)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "isAccessible"
+        and method_index != 59
+    ):
+        return [
+            "\tvar has_items: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar item_capacity: int = int(_args[1] if _args.size() > 1 else 0)",
+            "\tvar is_accessible: bool = has_items and item_capacity > 0",
+            '\treturn {"source_owner": "port_game.source_block_is_accessible_state", "source": "core/src/mindustry/world/Block.java", "method": "public boolean isAccessible(){", "return_expr": "return (hasItems && itemCapacity > 0);", "hasItems": has_items, "itemCapacity": item_capacity, "is_accessible": is_accessible}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "nearbySide"
+        and method_index != 60
+    ):
+        return [
+            "\tvar x_value: int = int(_args[0] if _args.size() > 0 else 0)",
+            "\tvar y_value: int = int(_args[1] if _args.size() > 1 else 0)",
+            "\tvar rotation: int = int(_args[2] if _args.size() > 2 else 0)",
+            "\tvar index_value: int = int(_args[3] if _args.size() > 3 else 0)",
+            "\tvar size_value: int = int(_args[4] if _args.size() > 4 else 1)",
+            "\tvar out_value: Variant = _args[5] if _args.size() > 5 else null",
+            "\tvar corner_x: int = x_value - int(float(size_value - 1) / 2.0)",
+            "\tvar corner_y: int = y_value - int(float(size_value - 1) / 2.0)",
+            '\tvar nearby_side: Dictionary = {"x": corner_x + size_value, "y": corner_y + index_value}',
+            "\tmatch rotation:",
+            '\t\t1: nearby_side = {"x": corner_x + index_value, "y": corner_y + size_value}',
+            '\t\t2: nearby_side = {"x": corner_x - 1, "y": corner_y + index_value}',
+            '\t\t3: nearby_side = {"x": corner_x + index_value, "y": corner_y - 1}',
+            '\treturn {"source_owner": "port_game.source_block_nearby_side_state", "source": "core/src/mindustry/world/Block.java", "comment": "/** sets {@param out} to the index-th side outside of this block, using the given rotation. */", "method": "public void nearbySide(int x, int y, int rotation, int index, Point2 out){", "corner_expr": "int cornerX = x - (size-1)/2, cornerY = y - (size-1)/2, s = size;", "switch_expr": "switch(rotation){", "x": x_value, "y": y_value, "rotation": rotation, "index": index_value, "size": size_value, "out": out_value, "cornerX": corner_x, "cornerY": corner_y, "nearby_side": nearby_side}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "getEdges"
+        and method_index != 61
+    ):
+        return [
+            "\tvar size_value: int = int(_args[0] if _args.size() > 0 else 1)",
+            '\treturn {"source_owner": "port_game.source_block_get_edges_state", "source": "core/src/mindustry/world/Block.java", "method": "public Point2[] getEdges(){", "return_expr": "return Edges.getEdges(size);", "size": size_value, "edges_source": "mindustry/world/Edges.java", "edges_call": "Edges.getEdges(size)"}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "getInsideEdges"
+        and method_index != 62
+    ):
+        return [
+            "\tvar size_value: int = int(_args[0] if _args.size() > 0 else 1)",
+            '\treturn {"source_owner": "port_game.source_block_get_inside_edges_state", "source": "core/src/mindustry/world/Block.java", "method": "public Point2[] getInsideEdges(){", "return_expr": "return Edges.getInsideEdges(size);", "size": size_value, "edges_source": "mindustry/world/Edges.java", "edges_call": "Edges.getInsideEdges(size)"}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "iterateTaken"
+        and method_index != 63
+    ):
+        return [
+            "\tvar x_value: int = int(_args[0] if _args.size() > 0 else 0)",
+            "\tvar y_value: int = int(_args[1] if _args.size() > 1 else 0)",
+            "\tvar size_value: int = int(_args[2] if _args.size() > 2 else 1)",
+            "\tvar placer: Variant = _args[3] if _args.size() > 3 else null",
+            "\tvar is_multiblock_value: bool = size_value > 1",
+            "\tvar placer_calls: Array = []",
+            "\tif is_multiblock_value:",
+            "\t\tvar offset_x: int = -int(float(size_value - 1) / 2.0)",
+            "\t\tvar offset_y: int = -int(float(size_value - 1) / 2.0)",
+            "\t\tfor dx in range(size_value):",
+            "\t\t\tfor dy in range(size_value):",
+            '\t\t\t\tplacer_calls.append({"x": dx + offset_x + x_value, "y": dy + offset_y + y_value})',
+            "\telse:",
+            '\t\tplacer_calls.append({"x": x_value, "y": y_value})',
+            '\treturn {"source_owner": "port_game.source_block_iterate_taken_state", "source": "core/src/mindustry/world/Block.java", "comment": "/** Iterate through ever grid position taken up by this block. */", "method": "public void iterateTaken(int x, int y, Intc2 placer){", "guard_expr": "if(isMultiblock()){", "offset_expr": "int offsetx = -(size - 1) / 2;", "placer_get_expr": "placer.get(dx + offsetx + x, dy + offsety + y);", "single_get_expr": "placer.get(x, y);", "x": x_value, "y": y_value, "size": size_value, "placer": placer, "is_multiblock": is_multiblock_value, "placer_calls": placer_calls}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "makeIconRegions"
+    ):
+        return [
+            "\treturn SourceBlockIconState.generated_make_icon_regions_result_state()",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "createIcons"
+    ):
+        return [
+            "\tvar super_state: Dictionary = _args[0] if _args.size() > 0 and _args[0] is Dictionary else {}",
+            "\tvar synthetic := bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar full_icon_width := int(_args[2] if _args.size() > 2 else 0)",
+            "\tvar full_icon_height := int(_args[3] if _args.size() > 3 else 0)",
+            "\tvar full_icon_center_color: Variant = _args[4] if _args.size() > 4 else null",
+            "\tvar map_color_before: Variant = _args[5] if _args.size() > 5 else null",
+            "\tvar name_value := str(_args[6] if _args.size() > 6 else \"\")",
+            "\tvar team_region_found := bool(_args[7] if _args.size() > 7 else false)",
+            "\tvar teams: Array = _args[8] if _args.size() > 8 and _args[8] is Array else []",
+            "\tvar team_region: Variant = _args[9] if _args.size() > 9 else null",
+            "\tvar team_regions_before: Array = _args[10] if _args.size() > 10 and _args[10] is Array else []",
+            "\tvar atlas_team_overrides: Array = _args[11] if _args.size() > 11 and _args[11] is Array else []",
+            "\tvar outline_icon := bool(_args[12] if _args.size() > 12 else false)",
+            "\tvar outlined_icon := int(_args[13] if _args.size() > 13 else -1)",
+            "\tvar outline_radius := int(_args[14] if _args.size() > 14 else 0)",
+            "\tvar generated_icons: Array = _args[15] if _args.size() > 15 and _args[15] is Array else []",
+            "\tvar custom_regions_to_outline: Array = _args[16] if _args.size() > 16 and _args[16] is Array else []",
+            "\treturn SourceBlockIconState.generated_create_icons_result_state(super_state, synthetic, full_icon_width, full_icon_height, full_icon_center_color, map_color_before, name_value, team_region_found, teams, team_region, team_regions_before, atlas_team_overrides, outline_icon, outlined_icon, outline_radius, generated_icons, custom_regions_to_outline)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "icons"
+    ):
+        return [
+            '\tvar name_value: String = str(_args[0] if _args.size() > 0 else "")',
+            "\tvar variants: int = int(_args[1] if _args.size() > 1 else 0)",
+            "\tvar region_value: Variant = _args[2] if _args.size() > 2 else null",
+            "\tvar team_region_found: bool = bool(_args[3] if _args.size() > 3 else false)",
+            "\tvar minfo_mod: Variant = _args[4] if _args.size() > 4 else null",
+            "\tvar team_regions: Array = (_args[5] as Array).duplicate() if _args.size() > 5 and _args[5] is Array else []",
+            "\tvar team_sharded_id: int = int(_args[6] if _args.size() > 6 else 0)",
+            "\treturn SourceBlockIconState.generated_icons_result_state(name_value, variants, region_value, team_region_found, minfo_mod, team_regions, team_sharded_id)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "getRegionsToOutline"
+    ):
+        return [
+            "\tvar out_before: Array = (_args[0] as Array).duplicate() if _args.size() > 0 and _args[0] is Array else []",
+            "\treturn SourceBlockIconState.generated_get_regions_to_outline_result_state(out_before)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "getGeneratedIcons"
+    ):
+        return [
+            "\tvar generated_icons_before: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar icons_value: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []",
+            "\treturn SourceBlockIconState.generated_get_generated_icons_result_state(generated_icons_before, icons_value)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "resetGeneratedIcons"
+    ):
+        return [
+            "\tvar generated_icons_before: Variant = _args[0] if _args.size() > 0 else null",
+            "\treturn SourceBlockIconState.generated_reset_generated_icons_result_state(generated_icons_before)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "variantRegions"
+    ):
+        return [
+            "\tvar variant_regions_before: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar full_icon: Variant = _args[1] if _args.size() > 1 else null",
+            "\treturn SourceBlockIconState.generated_variant_regions_result_state(variant_regions_before, full_icon)",
         ]
     if (
         java_file.get("path") == "mindustry/world/Block.java"
@@ -2815,7 +7450,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar tile: Variant = _args[0] if _args.size() > 0 else null",
             "\tvar team: Variant = _args[1] if _args.size() > 1 else null",
             "\tvar rotation: int = int(_args[2] if _args.size() > 2 else 0)",
-            '\treturn {"source_owner": "port_game.source_block_can_place_on_state", "source": "core/src/mindustry/world/Block.java", "comment": "/** @return whether this block can be placed on the specified tile. */", "method": "public boolean canPlaceOn(Tile tile, Team team, int rotation){", "return_expr": "return true;", "tile": tile, "team": team, "rotation": rotation, "can_place": true}',
+            "\treturn SourceBlockQueryPlacementState.generated_can_place_on_result_state(tile, team, rotation)",
         ]
     if (
         java_file.get("path") == "mindustry/world/Block.java"
@@ -2824,7 +7459,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     ):
         return [
             "\tvar tile: Variant = _args[0] if _args.size() > 0 else null",
-            '\treturn {"source_owner": "port_game.source_block_can_break_state", "source": "core/src/mindustry/world/Block.java", "comment": "/** @return whether this block can be broken on the specified tile. */", "method": "public boolean canBreak(Tile tile){", "return_expr": "return true;", "tile": tile, "can_break": true}',
+            "\treturn SourceBlockQueryPlacementState.generated_can_break_result_state(tile)",
         ]
     if (
         java_file.get("path") == "mindustry/world/Block.java"
@@ -2836,7 +7471,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar rotate_value: bool = bool(_args[0] if _args.size() > 0 else false)",
             "\tvar x_value: int = int(_args[1] if _args.size() > 1 else 0)",
             "\tvar y_value: int = int(_args[2] if _args.size() > 2 else 0)",
-            '\treturn {"source_owner": "port_game.source_block_rotated_output_state", "source": "core/src/mindustry/world/Block.java", "field_comment": "/** whether this is rotatable */", "field_expr": "public boolean rotate;", "method": "public boolean rotatedOutput(int x, int y){", "return_expr": "return rotate;", "rotate": rotate_value, "x": x_value, "y": y_value, "rotated_output": rotate_value}',
+            "\treturn SourceBlockQueryPlacementState.generated_rotated_output_result_state(rotate_value, x_value, y_value)",
         ]
     if (
         java_file.get("path") == "mindustry/world/Block.java"
@@ -2849,8 +7484,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar from_x: int = int(_args[1] if _args.size() > 1 else 0)",
             "\tvar from_y: int = int(_args[2] if _args.size() > 2 else 0)",
             "\tvar destination: Variant = _args[3] if _args.size() > 3 else null",
-            '\tvar base_state := {"source_owner": "port_game.source_block_rotated_output_state", "source": "core/src/mindustry/world/Block.java", "field_comment": "/** whether this is rotatable */", "field_expr": "public boolean rotate;", "method": "public boolean rotatedOutput(int x, int y){", "return_expr": "return rotate;", "rotate": rotate_value, "x": from_x, "y": from_y, "rotated_output": rotate_value}',
-            '\treturn {"source_owner": "port_game.source_block_rotated_output_tile_state", "source": "core/src/mindustry/world/Block.java", "method": "public boolean rotatedOutput(int fromX, int fromY, Tile destination){", "delegate_call": "rotatedOutput(fromX, fromY)", "return_expr": "return rotatedOutput(fromX, fromY);", "rotate": rotate_value, "fromX": from_x, "fromY": from_y, "destination": destination, "base_state": base_state, "rotated_output": base_state["rotated_output"]}',
+            "\treturn SourceBlockQueryPlacementState.generated_rotated_output_tile_result_state(rotate_value, from_x, from_y, destination)",
         ]
     if (
         java_file.get("path") == "mindustry/world/Block.java"
@@ -2860,8 +7494,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
         return [
             "\tvar update_value: bool = bool(_args[0] if _args.size() > 0 else false)",
             "\tvar destructible_value: bool = bool(_args[1] if _args.size() > 1 else false)",
-            "\tvar synthetic_value: bool = update_value or destructible_value",
-            '\treturn {"source_owner": "port_game.source_block_synthetic_state", "source": "core/src/mindustry/world/Block.java", "method": "public boolean synthetic(){", "return_expr": "return update || destructible;", "update": update_value, "destructible": destructible_value, "synthetic": synthetic_value}',
+            "\treturn SourceBlockQueryDarknessState.generated_synthetic_result_state(update_value, destructible_value)",
         ]
     if (
         java_file.get("path") == "mindustry/world/Block.java"
@@ -2871,7 +7504,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
         return [
             "\tvar force_dark_value: bool = bool(_args[0] if _args.size() > 0 else false)",
             "\tvar tile: Variant = _args[1] if _args.size() > 1 else null",
-            '\treturn {"source_owner": "port_game.source_block_check_force_dark_state", "source": "core/src/mindustry/world/Block.java", "method": "public boolean checkForceDark(Tile tile){", "return_expr": "return forceDark;", "force_dark": force_dark_value, "tile": tile, "check_force_dark": force_dark_value}',
+            "\treturn SourceBlockQueryDarknessState.generated_check_force_dark_result_state(force_dark_value, tile)",
         ]
     if (
         java_file.get("path") == "mindustry/world/Block.java"
@@ -2885,10 +7518,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar fills_tile_value: bool = bool(_args[3] if _args.size() > 3 else false)",
             "\tvar force_dark_value: bool = bool(_args[4] if _args.size() > 4 else false)",
             "\tvar tile: Variant = _args[5] if _args.size() > 5 else null",
-            '\tvar synthetic_state := {"source_owner": "port_game.source_block_synthetic_state", "source": "core/src/mindustry/world/Block.java", "method": "public boolean synthetic(){", "return_expr": "return update || destructible;", "update": update_value, "destructible": destructible_value, "synthetic": update_value or destructible_value}',
-            '\tvar check_force_dark_state := {"source_owner": "port_game.source_block_check_force_dark_state", "source": "core/src/mindustry/world/Block.java", "method": "public boolean checkForceDark(Tile tile){", "return_expr": "return forceDark;", "force_dark": force_dark_value, "tile": tile, "check_force_dark": force_dark_value}',
-            '\tvar is_darkened_value: bool = solid_value and ((not bool(synthetic_state["synthetic"]) and fills_tile_value) or bool(check_force_dark_state["check_force_dark"]))',
-            '\treturn {"source_owner": "port_game.source_block_is_darkened_state", "source": "core/src/mindustry/world/Block.java", "comment": "/** If true, the \'map edge\' darkness will be applied to this block. */", "method": "public boolean isDarkened(Tile tile){", "return_expr": "return solid && ((!synthetic() && fillsTile) || checkForceDark(tile));", "solid": solid_value, "fillsTile": fills_tile_value, "synthetic_state": synthetic_state, "check_force_dark_state": check_force_dark_state, "tile": tile, "is_darkened": is_darkened_value}',
+            "\treturn SourceBlockQueryDarknessState.generated_is_darkened_result_state(solid_value, update_value, destructible_value, fills_tile_value, force_dark_value, tile)",
         ]
     if (
         java_file.get("path") == "mindustry/world/Block.java"
@@ -2898,8 +7528,31 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
         return [
             "\tvar build_visibility_visible: bool = bool(_args[0] if _args.size() > 0 else false)",
             "\tvar revealed_blocks_contains_self: bool = bool(_args[1] if _args.size() > 1 else false)",
-            "\tvar is_hidden_value: bool = (not build_visibility_visible) and (not revealed_blocks_contains_self)",
-            '\treturn {"source_owner": "port_game.source_block_is_hidden_state", "source": "core/src/mindustry/world/Block.java", "override_expr": "@Override", "method": "public boolean isHidden(){", "return_expr": "return !buildVisibility.visible() && !state.rules.revealedBlocks.contains(this);", "build_visibility_visible": build_visibility_visible, "revealed_blocks_contains_self": revealed_blocks_contains_self, "is_hidden": is_hidden_value}',
+            "\treturn SourceBlockPlanVisibilityState.generated_is_hidden_result_state(build_visibility_visible, revealed_blocks_contains_self)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "isVisible"
+    ):
+        return [
+            "\tvar is_hidden_value: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar state_rules_editor: bool = bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar state_rules_hide_banned_blocks: bool = bool(_args[2] if _args.size() > 2 else false)",
+            "\tvar is_banned_value: bool = bool(_args[3] if _args.size() > 3 else false)",
+            "\treturn SourceBlockPlanVisibilityState.generated_is_visible_result_state(is_hidden_value, state_rules_editor, state_rules_hide_banned_blocks, is_banned_value)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "isPlaceable"
+    ):
+        return [
+            "\tvar placeable_is_visible_value: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar placeable_is_banned_value: bool = bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar placeable_state_rules_editor: bool = bool(_args[2] if _args.size() > 2 else false)",
+            "\tvar supports_env_value: bool = bool(_args[3] if _args.size() > 3 else false)",
+            "\treturn SourceBlockPlanVisibilityState.generated_is_placeable_result_state(placeable_is_visible_value, placeable_is_banned_value, placeable_state_rules_editor, supports_env_value)",
         ]
     if (
         java_file.get("path") == "mindustry/world/Block.java"
@@ -2910,8 +7563,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar rotate_value: bool = bool(_args[0] if _args.size() > 0 else false)",
             "\tvar lock_rotation: bool = bool(_args[1] if _args.size() > 1 else false)",
             "\tvar rot: int = int(_args[2] if _args.size() > 2 else 0)",
-            "\tvar plan_rotation_value: int = 0 if ((not rotate_value) and lock_rotation) else rot",
-            '\treturn {"source_owner": "port_game.source_block_plan_rotation_state", "source": "core/src/mindustry/world/Block.java", "method": "public int planRotation(int rot){", "return_expr": "return !rotate && lockRotation ? 0 : rot;", "rotate": rotate_value, "lockRotation": lock_rotation, "rot": rot, "plan_rotation": plan_rotation_value}',
+            "\treturn SourceBlockPlanPlacementState.generated_plan_rotation_result_state(rotate_value, lock_rotation, rot)",
         ]
     if (
         java_file.get("path") == "mindustry/world/Block.java"
@@ -2924,12 +7576,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar invert_flip: bool = bool(_args[2] if _args.size() > 2 else false)",
             "\tvar rotate_value: bool = bool(_args[3] if _args.size() > 3 else false)",
             "\tvar lock_rotation: bool = bool(_args[4] if _args.size() > 4 else false)",
-            "\tvar rotation_even: bool = rotation_before % 2 == 0",
-            "\tvar flip_guard: bool = (x_value == rotation_even) != invert_flip",
-            "\tvar mod_value: int = int(fmod(fmod(float(rotation_before + 2), 4.0) + 4.0, 4.0))",
-            '\tvar plan_rotation_state := {"source_owner": "port_game.source_block_plan_rotation_state", "source": "core/src/mindustry/world/Block.java", "method": "public int planRotation(int rot){", "return_expr": "return !rotate && lockRotation ? 0 : rot;", "rotate": rotate_value, "lockRotation": lock_rotation, "rot": mod_value, "plan_rotation": 0 if ((not rotate_value) and lock_rotation) else mod_value}',
-            '\tvar rotation_after: int = int(plan_rotation_state["plan_rotation"]) if flip_guard else rotation_before',
-            '\treturn {"source_owner": "port_game.source_block_flip_rotation_state", "source": "core/src/mindustry/world/Block.java", "method": "public void flipRotation(BuildPlan req, boolean x){", "guard_expr": "if((x == (req.rotation % 2 == 0)) != invertFlip){", "assignment_expr": "req.rotation = planRotation(Mathf.mod(req.rotation + 2, 4));", "rotation_before": rotation_before, "x": x_value, "invertFlip": invert_flip, "rotate": rotate_value, "lockRotation": lock_rotation, "rotation_even": rotation_even, "flip_guard": flip_guard, "mod_input": rotation_before + 2, "mod_value": mod_value, "plan_rotation_state": plan_rotation_state, "rotation_after": rotation_after}',
+            "\treturn SourceBlockPlanPlacementState.generated_flip_rotation_result_state(rotation_before, x_value, invert_flip, rotate_value, lock_rotation)",
         ]
     if (
         java_file.get("path") == "mindustry/world/Block.java"
@@ -2942,14 +7589,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar liquid_configured: bool = bool(_args[2] if _args.size() > 2 else false)",
             "\tvar content_items: Array = _args[3] if _args.size() > 3 else []",
             "\tvar content_liquids: Array = _args[4] if _args.size() > 4 else []",
-            "\tvar options_after: Array = options_before.duplicate()",
-            "\tif item_configured:",
-            "\t\toptions_after.append_array(content_items)",
-            "\tif liquid_configured:",
-            "\t\toptions_after.append_array(content_liquids)",
-            "\tvar item_options_added: int = content_items.size() if item_configured else 0",
-            "\tvar liquid_options_added: int = content_liquids.size() if liquid_configured else 0",
-            '\treturn {"source_owner": "port_game.source_block_get_plan_configs_state", "source": "core/src/mindustry/world/Block.java", "comment": "/** Fills the specified array with the list of configuration options this block has. Only used for plans. */", "method": "public void getPlanConfigs(Seq<UnlockableContent> options){", "item_guard_expr": "if(configurations.containsKey(Item.class)){", "item_add_expr": "options.add(content.items());", "liquid_guard_expr": "if(configurations.containsKey(Liquid.class)){", "liquid_add_expr": "options.add(content.liquids());", "options_before": options_before, "item_configured": item_configured, "liquid_configured": liquid_configured, "content_items": content_items, "content_liquids": content_liquids, "item_options_added": item_options_added, "liquid_options_added": liquid_options_added, "options_after": options_after}',
+            "\treturn SourceBlockPlanConfigState.generated_get_plan_configs_result_state(options_before, item_configured, liquid_configured, content_items, content_liquids)",
         ]
     if (
         java_file.get("path") == "mindustry/world/Block.java"
@@ -2970,30 +7610,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar cons_power_buffered: bool = bool(_args[8] if _args.size() > 8 else false)",
             "\tvar cons_power_capacity: float = float(_args[9] if _args.size() > 9 else 0.0)",
             "\tvar logic_id: int = int(_args[10] if _args.size() > 10 else 0)",
-            "\tvar sense_value: float = NAN",
-            "\tmatch sensor:",
-            '\t\t"color":',
-            "\t\t\tsense_value = map_color_double_bits",
-            '\t\t"health", "maxHealth":',
-            "\t\t\tsense_value = health_value",
-            '\t\t"solid":',
-            "\t\t\tsense_value = 1.0 if solid_value else 0.0",
-            '\t\t"size":',
-            "\t\t\tsense_value = float(size_value)",
-            '\t\t"itemCapacity":',
-            "\t\t\tsense_value = float(item_capacity)",
-            '\t\t"liquidCapacity":',
-            "\t\t\tsense_value = liquid_capacity",
-            '\t\t"powerCapacity":',
-            "\t\t\tsense_value = cons_power_capacity if has_cons_power and cons_power_buffered else 0.0",
-            '\t\t"id":',
-            "\t\t\tsense_value = float(logic_id)",
-            '\t\t_:',
-            "\t\t\tsense_value = NAN",
-            "\tvar sense_value_wire: Variant = sense_value",
-            "\tif is_nan(sense_value):",
-            "\t\tsense_value_wire = null",
-            '\treturn {"source_owner": "port_game.source_block_sense_laccess_state", "source": "core/src/mindustry/world/Block.java", "override_expr": "@Override", "method": "public double sense(LAccess sensor){", "switch_expr": "return switch(sensor){", "color_case": "case color -> mapColor.toDoubleBits();", "health_case": "case health, maxHealth -> health;", "solid_case": "case solid -> solid ? 1 : 0;", "size_case": "case size -> size;", "item_capacity_case": "case itemCapacity -> itemCapacity;", "liquid_capacity_case": "case liquidCapacity -> liquidCapacity;", "power_capacity_case": "case powerCapacity -> consPower != null && consPower.buffered ? consPower.capacity : 0f;", "id_case": "case id -> getLogicId();", "default_expr": "default -> Double.NaN;", "sensor": sensor, "map_color_double_bits": map_color_double_bits, "health": health_value, "solid": solid_value, "size": size_value, "itemCapacity": item_capacity, "liquidCapacity": liquid_capacity, "has_cons_power": has_cons_power, "cons_power_buffered": cons_power_buffered, "cons_power_capacity": cons_power_capacity, "logic_id": logic_id, "sense_value": sense_value_wire, "sense_value_is_nan": is_nan(sense_value)}',
+            "\treturn SourceBlockSenseState.generated_laccess_result_state(sensor, map_color_double_bits, health_value, solid_value, size_value, item_capacity, liquid_capacity, has_cons_power, cons_power_buffered, cons_power_capacity, logic_id)",
         ]
     if (
         java_file.get("path") == "mindustry/world/Block.java"
@@ -3008,29 +7625,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar state_rules_infinite_resources: bool = bool(_args[2] if _args.size() > 2 else false)",
             "\tvar requirements: Array = _args[3] if _args.size() > 3 else []",
             "\tvar build_cost_multiplier: float = float(_args[4] if _args.size() > 4 else 1.0)",
-            "\tvar sense_value: float = NAN",
-            "\tvar matched_requirement_index: int = -1",
-            "\tvar matched_requirement: Variant = null",
-            "\tvar matched_amount: int = 0",
-            '\tif content_type == "Item":',
-            "\t\tsense_value = 0.0",
-            "\t\tif state_rules_infinite_resources:",
-            "\t\t\tsense_value = 0.0",
-            "\t\telse:",
-            "\t\t\tfor index in range(requirements.size()):",
-            "\t\t\t\tvar requirement: Dictionary = {}",
-            "\t\t\t\tif requirements[index] is Dictionary:",
-            "\t\t\t\t\trequirement = requirements[index]",
-            '\t\t\t\tif requirement.get("item") == content_item:',
-            "\t\t\t\t\tmatched_requirement_index = index",
-            "\t\t\t\t\tmatched_requirement = requirement",
-            '\t\t\t\t\tmatched_amount = int(floor(float(requirement.get("amount", 0.0)) * build_cost_multiplier + 0.5))',
-            "\t\t\t\t\tsense_value = float(matched_amount)",
-            "\t\t\t\t\tbreak",
-            "\tvar sense_value_wire: Variant = sense_value",
-            "\tif is_nan(sense_value):",
-            "\t\tsense_value_wire = null",
-            '\treturn {"source_owner": "port_game.source_block_sense_content_state", "source": "core/src/mindustry/world/Block.java", "override_expr": "@Override", "method": "public double sense(Content content){", "item_instanceof_expr": "if(content instanceof Item item){", "infinite_resources_return_expr": "if(state.rules.infiniteResources) return 0;", "requirements_loop_expr": "for(ItemStack r : requirements){", "item_match_guard_expr": "if(r.item == item){", "amount_return_expr": "return Math.round(r.amount * state.rules.buildCostMultiplier);", "missing_item_return_expr": "return 0f;", "invalid_return_expr": "return Double.NaN;", "content_type": content_type, "content_item": content_item, "state_rules_infinite_resources": state_rules_infinite_resources, "requirements": requirements, "build_cost_multiplier": build_cost_multiplier, "matched_requirement_index": matched_requirement_index, "matched_requirement": matched_requirement, "matched_amount": matched_amount, "sense_value": sense_value_wire, "sense_value_is_nan": is_nan(sense_value)}',
+            "\treturn SourceBlockSenseState.generated_content_result_state(content_type, content_item, state_rules_infinite_resources, requirements, build_cost_multiplier)",
         ]
     if (
         java_file.get("path") == "mindustry/world/Block.java"
@@ -3043,10 +7638,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\tvar sensor: String = str(_args[0] if _args.size() > 0 else "")',
             "\tvar block_name: Variant = _args[1] if _args.size() > 1 else null",
             "\tvar no_sensed: Variant = _args[2] if _args.size() > 2 else null",
-            "\tvar sense_object_value: Variant = no_sensed",
-            '\tif sensor == "name":',
-            "\t\tsense_object_value = block_name",
-            '\treturn {"source_owner": "port_game.source_block_sense_object_state", "source": "core/src/mindustry/world/Block.java", "override_expr": "@Override", "method": "public Object senseObject(LAccess sensor){", "name_guard_expr": "if(sensor == LAccess.name) return name;", "default_return_expr": "return noSensed;", "sensor": sensor, "block_name": block_name, "no_sensed": no_sensed, "sense_object_value": sense_object_value}',
+            "\treturn SourceBlockSenseState.generated_object_result_state(sensor, block_name, no_sensed)",
         ]
     if (
         java_file.get("path") == "mindustry/world/blocks/payloads/BuildPayload.java"
@@ -3835,8 +8427,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar item_filter: Array = _args[0] if _args.size() > 0 else []",
             "\tvar item_id: int = int(_args[1] if _args.size() > 1 else 0)",
             "\tvar item: Variant = _args[2] if _args.size() > 2 else null",
-            "\tvar consumes_item_value: bool = bool(item_filter[item_id])",
-            '\treturn {"source_owner": "port_game.source_block_consumes_item_state", "source": "core/src/mindustry/world/Block.java", "method": "public boolean consumesItem(Item item){", "return_expr": "return itemFilter[item.id];", "itemFilter": item_filter, "item_id": item_id, "item": item, "consumes_item": consumes_item_value}',
+            "\treturn SourceBlockQueryFilterState.consumes_item_state(item_filter, item_id, item)",
         ]
     if (
         java_file.get("path") == "mindustry/world/Block.java"
@@ -3847,8 +8438,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar liquid_filter: Array = _args[0] if _args.size() > 0 else []",
             "\tvar liquid_id: int = int(_args[1] if _args.size() > 1 else 0)",
             "\tvar liq: Variant = _args[2] if _args.size() > 2 else null",
-            "\tvar consumes_liquid_value: bool = bool(liquid_filter[liquid_id])",
-            '\treturn {"source_owner": "port_game.source_block_consumes_liquid_state", "source": "core/src/mindustry/world/Block.java", "method": "public boolean consumesLiquid(Liquid liq){", "return_expr": "return liquidFilter[liq.id];", "liquidFilter": liquid_filter, "liq_id": liquid_id, "liq": liq, "consumes_liquid": consumes_liquid_value}',
+            "\treturn SourceBlockQueryFilterState.consumes_liquid_state(liquid_filter, liquid_id, liq)",
         ]
     if (
         java_file.get("path") == "mindustry/world/Block.java"
@@ -3858,8 +8448,89 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
         return [
             "\tvar destructible_value: bool = bool(_args[0] if _args.size() > 0 else false)",
             "\tvar update_value: bool = bool(_args[1] if _args.size() > 1 else false)",
-            "\tvar has_building_value: bool = destructible_value or update_value",
-            '\treturn {"source_owner": "port_game.source_block_has_building_state", "source": "core/src/mindustry/world/Block.java", "method": "public boolean hasBuilding(){", "return_expr": "return destructible || update;", "destructible": destructible_value, "update": update_value, "has_building": has_building_value}',
+            "\treturn SourceBlockQueryBasicState.generated_has_building_result_state(destructible_value, update_value)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "newBuilding"
+        and method_index == 71
+    ):
+        return [
+            "\tvar build_type_value: Variant = _args[0] if _args.size() > 0 else null",
+            "\treturn source_block_runtime_geometry_state.new_building_state(build_type_value)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "newBuilding"
+        and method_index != 71
+    ):
+        return [
+            "\tvar build_type_value: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar building_value: Variant = build_type_value",
+            '\treturn {"source_owner": "port_game.source_block_new_building_state", "source": "core/src/mindustry/world/Block.java", "method": "public final Building newBuilding(){", "return_expr": "return buildType.get();", "buildType": build_type_value, "building": building_value}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "updateClipRadius"
+        and method_index == 72
+    ):
+        return [
+            "\tvar clip_size_before: float = float(_args[0] if _args.size() > 0 else 0.0)",
+            "\tvar size_value: int = int(_args[1] if _args.size() > 1 else 1)",
+            "\tvar tilesize_value: float = float(_args[2] if _args.size() > 2 else 8.0)",
+            "\tvar radius_in_world_units: float = float(_args[3] if _args.size() > 3 else 0.0)",
+            "\treturn source_block_runtime_geometry_state.update_clip_radius_state(clip_size_before, size_value, tilesize_value, radius_in_world_units)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "updateClipRadius"
+        and method_index != 72
+    ):
+        return [
+            "\tvar clip_size_before: float = float(_args[0] if _args.size() > 0 else 0.0)",
+            "\tvar size_value: int = int(_args[1] if _args.size() > 1 else 1)",
+            "\tvar tilesize_value: float = float(_args[2] if _args.size() > 2 else 8.0)",
+            "\tvar radius_in_world_units: float = float(_args[3] if _args.size() > 3 else 0.0)",
+            "\tvar clip_size_candidate: float = size_value * tilesize_value + radius_in_world_units * 2.0",
+            "\tvar clip_size_after: float = max(clip_size_before, clip_size_candidate)",
+            '\treturn {"source_owner": "port_game.source_block_update_clip_radius_state", "source": "core/src/mindustry/world/Block.java", "method": "public void updateClipRadius(float radiusInWorldUnits){", "assignment_expr": "clipSize = Math.max(clipSize, this.size * tilesize + radiusInWorldUnits * 2f);", "clipSize_before": clip_size_before, "size": size_value, "tilesize": tilesize_value, "radiusInWorldUnits": radius_in_world_units, "clip_size_candidate": clip_size_candidate, "clipSize": clip_size_after}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "bounds"
+        and method_index == 73
+    ):
+        return [
+            "\tvar x_value: int = int(_args[0] if _args.size() > 0 else 0)",
+            "\tvar y_value: int = int(_args[1] if _args.size() > 1 else 0)",
+            "\tvar size_value: int = int(_args[2] if _args.size() > 2 else 1)",
+            "\tvar tilesize_value: float = float(_args[3] if _args.size() > 3 else 8.0)",
+            "\tvar offset_value: float = float(_args[4] if _args.size() > 4 else 0.0)",
+            "\tvar rect_value: Variant = _args[5] if _args.size() > 5 else null",
+            "\treturn source_block_runtime_geometry_state.bounds_state(x_value, y_value, size_value, tilesize_value, offset_value, rect_value)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "bounds"
+        and method_index != 73
+    ):
+        return [
+            "\tvar x_value: int = int(_args[0] if _args.size() > 0 else 0)",
+            "\tvar y_value: int = int(_args[1] if _args.size() > 1 else 0)",
+            "\tvar size_value: int = int(_args[2] if _args.size() > 2 else 1)",
+            "\tvar tilesize_value: float = float(_args[3] if _args.size() > 3 else 8.0)",
+            "\tvar offset_value: float = float(_args[4] if _args.size() > 4 else 0.0)",
+            "\tvar rect_value: Variant = _args[5] if _args.size() > 5 else null",
+            "\tvar rect_size: float = size_value * tilesize_value",
+            "\tvar center_x: float = x_value * tilesize_value + offset_value",
+            "\tvar center_y: float = y_value * tilesize_value + offset_value",
+            '\treturn {"source_owner": "port_game.source_block_bounds_state", "source": "core/src/mindustry/world/Block.java", "method": "public Rect bounds(int x, int y, Rect rect){", "return_expr": "return rect.setSize(size * tilesize).setCenter(x * tilesize + offset, y * tilesize + offset);", "x": x_value, "y": y_value, "size": size_value, "tilesize": tilesize_value, "offset": offset_value, "rect": rect_value, "rect_size": rect_size, "center": {"x": center_x, "y": center_y}}',
         ]
     if (
         java_file.get("path") == "mindustry/world/Block.java"
@@ -3868,8 +8539,34 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     ):
         return [
             "\tvar size_value: int = int(_args[0] if _args.size() > 0 else 0)",
-            "\tvar is_multiblock_value: bool = size_value > 1",
-            '\treturn {"source_owner": "port_game.source_block_is_multiblock_state", "source": "core/src/mindustry/world/Block.java", "method": "public boolean isMultiblock(){", "return_expr": "return size > 1;", "size": size_value, "is_multiblock": is_multiblock_value}',
+            "\treturn SourceBlockQueryBasicState.generated_is_multiblock_result_state(size_value)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "isFloor"
+    ):
+        return [
+            "\tvar is_floor_instance: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\treturn SourceBlockQueryBasicState.generated_is_floor_result_state(is_floor_instance)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "isOverlay"
+    ):
+        return [
+            "\tvar is_overlay_floor_instance: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\treturn SourceBlockQueryBasicState.generated_is_overlay_result_state(is_overlay_floor_instance)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "asFloor"
+    ):
+        return [
+            "\tvar self_block: Variant = _args[0] if _args.size() > 0 else null",
+            "\treturn SourceBlockQueryBasicState.generated_as_floor_result_state(self_block)",
         ]
     if (
         java_file.get("path") == "mindustry/world/Block.java"
@@ -3878,8 +8575,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     ):
         return [
             "\tvar id_value: int = int(_args[0] if _args.size() > 0 else 0)",
-            "\tvar is_air_value: bool = id_value == 0",
-            '\treturn {"source_owner": "port_game.source_block_is_air_state", "source": "core/src/mindustry/world/Block.java", "method": "public boolean isAir(){", "return_expr": "return id == 0;", "id": id_value, "is_air": is_air_value}',
+            "\treturn SourceBlockQueryBasicState.generated_is_air_result_state(id_value)",
         ]
     if (
         java_file.get("path") == "mindustry/world/Block.java"
@@ -3888,8 +8584,16 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     ):
         return [
             '\tvar build_visibility_value: String = str(_args[0] if _args.size() > 0 else "shown")',
-            '\tvar can_be_built_value: bool = build_visibility_value != "hidden" and build_visibility_value != "debugOnly"',
-            '\treturn {"source_owner": "port_game.source_block_can_be_built_state", "source": "core/src/mindustry/world/Block.java", "method": "public boolean canBeBuilt(){", "return_expr": "return buildVisibility != BuildVisibility.hidden && buildVisibility != BuildVisibility.debugOnly;", "buildVisibility": build_visibility_value, "hidden_constant": "BuildVisibility.hidden", "debug_only_constant": "BuildVisibility.debugOnly", "can_be_built": can_be_built_value}',
+            "\treturn SourceBlockQueryBasicState.generated_can_be_built_result_state(build_visibility_value)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "environmentBuildable"
+    ):
+        return [
+            "\tvar is_on_planet_value: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\treturn SourceBlockQueryBasicState.generated_environment_buildable_result_state(is_on_planet_value)",
         ]
     if (
         java_file.get("path") == "mindustry/world/Block.java"
@@ -3898,8 +8602,118 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     ):
         return [
             '\tvar cache_layer_value: String = str(_args[0] if _args.size() > 0 else "normal")',
-            '\tvar is_static_value: bool = cache_layer_value == "walls"',
-            '\treturn {"source_owner": "port_game.source_block_is_static_state", "source": "core/src/mindustry/world/Block.java", "cache_layer_source": "core/src/mindustry/graphics/CacheLayer.java", "method": "public boolean isStatic(){", "return_expr": "return cacheLayer == CacheLayer.walls;", "cacheLayer": cache_layer_value, "walls_constant": "CacheLayer.walls", "is_static": is_static_value}',
+            "\treturn SourceBlockQueryBasicState.generated_is_static_result_state(cache_layer_value)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "isBanned"
+    ):
+        return [
+            "\tvar rules_is_banned_value: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\treturn SourceBlockQueryBasicState.generated_is_banned_result_state(rules_is_banned_value)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "supportsEnv"
+    ):
+        return [
+            "\tvar env_enabled: int = int(_args[0] if _args.size() > 0 else 0)",
+            "\tvar env_disabled: int = int(_args[1] if _args.size() > 1 else 0)",
+            "\tvar env_required: int = int(_args[2] if _args.size() > 2 else 0)",
+            "\tvar env_value: int = int(_args[3] if _args.size() > 3 else 0)",
+            "\treturn SourceBlockQueryBasicState.generated_supports_env_result_state(env_enabled, env_disabled, env_required, env_value)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "buildEditorConfig"
+    ):
+        return [
+            "\tvar table: Variant = _args[0] if _args.size() > 0 else null",
+            "\treturn source_block_lifecycle_hook_state.build_editor_config_state(table)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "onPicked"
+    ):
+        return [
+            "\tvar tile: Variant = _args[0] if _args.size() > 0 else null",
+            "\treturn source_block_lifecycle_hook_state.on_picked_state(tile)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "getConfig"
+    ):
+        return [
+            "\tvar tile: Variant = _args[0] if _args.size() > 0 else null",
+            "\treturn source_block_lifecycle_hook_state.get_config_state(tile)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "blockChanged"
+    ):
+        return [
+            "\tvar tile: Variant = _args[0] if _args.size() > 0 else null",
+            "\treturn source_block_lifecycle_hook_state.block_changed_state(tile)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "placeBegan"
+        and len(method.get("parameters", [])) == 2
+    ):
+        return [
+            "\tvar tile: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar previous: Variant = _args[1] if _args.size() > 1 else null",
+            "\treturn source_block_lifecycle_hook_state.place_began_state(tile, previous)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "placeBegan"
+        and len(method.get("parameters", [])) == 3
+    ):
+        return [
+            "\tvar tile: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar previous: Variant = _args[1] if _args.size() > 1 else null",
+            "\tvar builder: Variant = _args[2] if _args.size() > 2 else null",
+            "\treturn source_block_lifecycle_hook_state.place_began_builder_state(tile, previous, builder)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "placeEnded"
+    ):
+        return [
+            "\tvar tile: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar builder: Variant = _args[1] if _args.size() > 1 else null",
+            "\tvar rotation_value: int = int(_args[2] if _args.size() > 2 else 0)",
+            "\tvar config: Variant = _args[3] if _args.size() > 3 else null",
+            "\treturn source_block_lifecycle_hook_state.place_ended_state(tile, builder, rotation_value, config)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "beforePlaceBegan"
+    ):
+        return [
+            "\tvar tile: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar previous: Variant = _args[1] if _args.size() > 1 else null",
+            "\treturn source_block_lifecycle_hook_state.before_place_began_state(tile, previous)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "editorPicked"
+    ):
+        return [
+            "\tvar tile: Variant = _args[0] if _args.size() > 0 else null",
+            "\treturn source_block_lifecycle_hook_state.editor_picked_state(tile)",
         ]
     if (
         java_file.get("path") == "mindustry/world/Block.java"
@@ -3909,7 +8723,19 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
         return [
             "\tvar consume_builder_contains: bool = bool(_args[0] if _args.size() > 0 else false)",
             "\tvar cons: Variant = _args[1] if _args.size() > 1 else null",
-            '\treturn {"source_owner": "port_game.source_block_has_consumer_state", "source": "core/src/mindustry/world/Block.java", "method": "public boolean hasConsumer(Consume cons){", "return_expr": "return consumeBuilder.contains(cons);", "consumeBuilder_contains": consume_builder_contains, "cons": cons, "has_consumer": consume_builder_contains}',
+            "\treturn source_block_query_consumer_state.has_consumer_state(consume_builder_contains, cons)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "findConsumer"
+    ):
+        return [
+            "\tvar consumers_length: int = int(_args[0] if _args.size() > 0 else 0)",
+            "\tvar consume_builder_match: Variant = _args[1] if _args.size() > 1 else null",
+            "\tvar consumers_match: Variant = _args[2] if _args.size() > 2 else null",
+            "\tvar filter: Variant = _args[3] if _args.size() > 3 else null",
+            "\treturn source_block_query_consumer_state.find_consumer_state(consumers_length, consume_builder_match, consumers_match, filter)",
         ]
     if (
         java_file.get("path") == "mindustry/world/Block.java"
@@ -3919,9 +8745,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
         return [
             "\tvar consumers_length: int = int(_args[0] if _args.size() > 0 else 0)",
             "\tvar cons: Variant = _args[1] if _args.size() > 1 else null",
-            "\tvar illegal_state_exception_thrown: bool = consumers_length > 0",
-            "\tvar consume_builder_remove_called: bool = not illegal_state_exception_thrown",
-            '\treturn {"source_owner": "port_game.source_block_remove_consumer_state", "source": "core/src/mindustry/world/Block.java", "method": "public void removeConsumer(Consume cons){", "guard_expr": "if(consumers.length > 0){", "exception_expr": "throw new IllegalStateException(\\"You can only remove consumers before init(). After init(), all consumers have already been initialized.\\");", "exception_message": "You can only remove consumers before init(). After init(), all consumers have already been initialized.", "remove_expr": "consumeBuilder.remove(cons);", "consumers_length": consumers_length, "cons": cons, "illegal_state_exception_thrown": illegal_state_exception_thrown, "consume_builder_remove_called": consume_builder_remove_called}',
+            "\treturn source_block_query_consumer_state.remove_consumer_state(consumers_length, cons)",
         ]
     if (
         java_file.get("path") == "mindustry/world/Block.java"
@@ -3931,8 +8755,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
         return [
             "\tvar consume_builder_contains_power_after_remove: bool = bool(_args[0] if _args.size() > 0 else false)",
             "\tvar b: Variant = _args[1] if _args.size() > 1 else null",
-            "\tvar cons_power_cleared: bool = not consume_builder_contains_power_after_remove",
-            '\treturn {"source_owner": "port_game.source_block_remove_consumers_state", "source": "core/src/mindustry/world/Block.java", "method": "public void removeConsumers(Boolf<Consume> b){", "remove_all_expr": "consumeBuilder.removeAll(b);", "comment": "//the power was removed, unassign it", "power_guard_expr": "if(!consumeBuilder.contains(c -> c instanceof ConsumePower)){", "cons_power_expr": "consPower = null;", "consumeBuilder_contains_power_after_remove": consume_builder_contains_power_after_remove, "b": b, "consume_builder_remove_all_called": true, "cons_power_cleared": cons_power_cleared}',
+            "\treturn source_block_query_consumer_state.remove_consumers_state(consume_builder_contains_power_after_remove, b)",
         ]
     if (
         java_file.get("path") == "mindustry/world/Block.java"
@@ -3943,45 +8766,17 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\tvar reinitialize_bridge_mode: String = str(get_meta("mindustry_reinitialize_consumers_bridge_mode", "consumer_arrays"))',
             '\tif reinitialize_bridge_mode == "consumer_apply_loop":',
             "\t\tvar consumer_entries: Array = (_args[0] as Array).duplicate() if _args.size() > 0 and _args[0] is Array else []",
-            "\t\tvar apply_calls: Array = []",
-            "\t\tfor consumer in consumer_entries:",
-            '\t\t\tapply_calls.append({"call": "cons.apply(this);", "consumer": consumer, "block_arg": "this"})',
-            '\t\treturn {"source_owner": "port_game.source_block_reinitialize_consumers_apply_loop_state", "source": "core/src/mindustry/world/Block.java", "consume_source": "core/src/mindustry/world/consumers/Consume.java", "method": "public void reinitializeConsumers(){", "consumers_loop_expr": "for(Consume cons : consumers){", "consume_apply_expr": "cons.apply(this);", "consume_apply_method_expr": "public void apply(Block block){", "consumers": consumer_entries, "apply_calls": apply_calls, "apply_call_count": apply_calls.size()}',
+            "\t\treturn SourceBlockReinitializeConsumersState.generated_apply_loop_result_state(consumer_entries)",
             '\tif reinitialize_bridge_mode == "outputs_power":',
             "\t\tvar outputs_power: bool = bool(_args[0] if _args.size() > 0 else false)",
             "\t\tvar has_power_before: bool = bool(_args[1] if _args.size() > 1 else false)",
-            "\t\tvar has_power_after: bool = true if outputs_power else has_power_before",
-            '\t\treturn {"source_owner": "port_game.source_block_reinitialize_consumers_outputs_power_state", "source": "core/src/mindustry/world/Block.java", "method": "public void reinitializeConsumers(){", "outputs_power_expr": "if(outputsPower) hasPower = true;", "outputs_power": outputs_power, "has_power_before": has_power_before, "has_power_after": has_power_after}',
+            "\t\treturn SourceBlockReinitializeConsumersState.generated_outputs_power_result_state(outputs_power, has_power_before)",
             '\tif reinitialize_bridge_mode == "item_liquid_filters":',
             "\t\tvar content_items_size: int = int(_args[0] if _args.size() > 0 else 0)",
             "\t\tvar content_liquids_size: int = int(_args[1] if _args.size() > 1 else 0)",
-            "\t\tvar item_filter: Array = []",
-            "\t\tfor _i in range(max(content_items_size, 0)):",
-            "\t\t\titem_filter.append(false)",
-            "\t\tvar liquid_filter: Array = []",
-            "\t\tfor _i in range(max(content_liquids_size, 0)):",
-            "\t\t\tliquid_filter.append(false)",
-            '\t\treturn {"source_owner": "port_game.source_block_reinitialize_consumers_item_liquid_filters_state", "source": "core/src/mindustry/world/Block.java", "method": "public void reinitializeConsumers(){", "item_filter_expr": "itemFilter = new boolean[content.items().size];", "liquid_filter_expr": "liquidFilter = new boolean[content.liquids().size];", "content_items_size": content_items_size, "content_liquids_size": content_liquids_size, "item_filter": item_filter, "liquid_filter": liquid_filter, "item_filter_size": item_filter.size(), "liquid_filter_size": liquid_filter.size()}',
+            "\t\treturn SourceBlockReinitializeConsumersState.generated_item_liquid_filters_result_state(content_items_size, content_liquids_size)",
             "\tvar consumer_builder_entries: Array = (_args[0] as Array).duplicate() if _args.size() > 0 and _args[0] is Array else []",
-            "\tvar consumers: Array = consumer_builder_entries.duplicate()",
-            "\tvar cons_power: Variant = null",
-            "\tvar optional_consumers: Array = []",
-            "\tvar non_optional_consumers: Array = []",
-            "\tvar update_consumers: Array = []",
-            "\tfor consumer in consumer_builder_entries:",
-            "\t\tif not consumer is Dictionary:",
-            "\t\t\tcontinue",
-            '\t\tvar ignored: bool = bool(consumer.get("ignored", false))',
-            '\t\tif cons_power == null and bool(consumer.get("is_consume_power", false)):',
-            "\t\t\tcons_power = consumer",
-            '\t\tif bool(consumer.get("optional", false)) and not ignored:',
-            "\t\t\toptional_consumers.append(consumer)",
-            '\t\tif not bool(consumer.get("optional", false)) and not ignored:',
-            "\t\t\tnon_optional_consumers.append(consumer)",
-            '\t\tif bool(consumer.get("update", true)) and not ignored:',
-            "\t\t\tupdate_consumers.append(consumer)",
-            "\tvar has_consumers: bool = consumers.size() > 0",
-            '\treturn {"source_owner": "port_game.source_block_reinitialize_consumers_arrays_state", "source": "core/src/mindustry/world/Block.java", "consume_source": "core/src/mindustry/world/consumers/Consume.java", "method": "public void reinitializeConsumers(){", "consumers_expr": "consumers = consumeBuilder.toArray(Consume.class);", "cons_power_expr": "consPower = (ConsumePower)Structs.find(consumers, c -> c instanceof ConsumePower);", "optional_consumers_expr": "optionalConsumers = consumeBuilder.select(consume -> consume.optional && !consume.ignore()).toArray(Consume.class);", "non_optional_consumers_expr": "nonOptionalConsumers = consumeBuilder.select(consume -> !consume.optional && !consume.ignore()).toArray(Consume.class);", "update_consumers_expr": "updateConsumers = consumeBuilder.select(consume -> consume.update && !consume.ignore()).toArray(Consume.class);", "has_consumers_expr": "hasConsumers = consumers.length > 0;", "consume_optional_field_expr": "public boolean optional;", "consume_update_field_expr": "public boolean update = true;", "consume_ignore_method_expr": "public boolean ignore(){", "consume_is_power_expr": "c instanceof ConsumePower", "consume_builder": consumer_builder_entries, "consumers": consumers, "cons_power": cons_power, "optional_consumers": optional_consumers, "non_optional_consumers": non_optional_consumers, "update_consumers": update_consumers, "has_consumers": has_consumers}',
+            "\treturn SourceBlockReinitializeConsumersState.generated_arrays_result_state(consumer_builder_entries)",
         ]
     if (
         java_file.get("path") == "mindustry/world/Block.java"
@@ -3993,13 +8788,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar liquid_filter: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []",
             "\tvar items: int = int(_args[2] if _args.size() > 2 else item_filter.size())",
             "\tvar liquids: int = int(_args[3] if _args.size() > 3 else liquid_filter.size())",
-            "\tvar item_filter_after: Array = []",
-            "\tfor i in range(max(items, 0)):",
-            "\t\titem_filter_after.append(bool(item_filter[i]) if i < item_filter.size() else false)",
-            "\tvar liquid_filter_after: Array = []",
-            "\tfor i in range(max(liquids, 0)):",
-            "\t\tliquid_filter_after.append(bool(liquid_filter[i]) if i < liquid_filter.size() else false)",
-            '\treturn {"source_owner": "port_game.source_block_check_content_array_capacity_state", "source": "core/src/mindustry/world/Block.java", "method": "public void checkContentArrayCapacity(int items, int liquids){", "liquid_resize_expr": "if(liquidFilter.length != liquids) liquidFilter = Arrays.copyOf(liquidFilter, liquids);", "item_resize_expr": "if(itemFilter.length != items) itemFilter = Arrays.copyOf(itemFilter, items);", "item_filter_before": item_filter, "liquid_filter_before": liquid_filter, "items": items, "liquids": liquids, "item_filter_after": item_filter_after, "liquid_filter_after": liquid_filter_after}',
+            "\treturn SourceBlockCheckContentArrayCapacityState.generated_check_content_array_capacity_result_state(item_filter, liquid_filter, items, liquids)",
         ]
     if (
         java_file.get("path") == "mindustry/world/Block.java"
@@ -4011,50 +8800,19 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\t\tvar shadow_load_name_value: String = str(_args[0] if _args.size() > 0 else "")',
             "\t\tvar shadow_variants: int = int(_args[1] if _args.size() > 1 else 0)",
             "\t\tvar shadow_custom_shadow: bool = bool(_args[2] if _args.size() > 2 else false)",
-            "\t\tvar shadow_variants_guard: bool = shadow_variants != 0",
-            "\t\tvar shadow_custom_shadow_guard: bool = shadow_variants_guard and shadow_custom_shadow",
-            "\t\tvar variant_shadow_regions: Array = []",
-            "\t\tif shadow_custom_shadow_guard:",
-            "\t\t\tfor i in range(shadow_variants):",
-            '\t\t\t\tvariant_shadow_regions.append("Core.atlas.find(%s-shadow%d)" % [shadow_load_name_value, i + 1])',
-            '\t\treturn {"source_owner": "port_game.source_block_load_variant_shadow_regions_state", "source": "core/src/mindustry/world/Block.java", "method": "public void load(){", "variants_guard_expr": "if(variants != 0){", "custom_shadow_guard_expr": "if(customShadow){", "variant_shadow_regions_expr": "variantShadowRegions = new TextureRegion[variants];", "variant_shadow_loop_expr": "for(int i = 0; i < variants; i++){", "variant_shadow_assignment_expr": "variantShadowRegions[i] = Core.atlas.find(name + \\"-shadow\\" + (i + 1));", "name": shadow_load_name_value, "variants": shadow_variants, "custom_shadow": shadow_custom_shadow, "variants_guard": shadow_variants_guard, "custom_shadow_guard": shadow_custom_shadow_guard, "variant_shadow_regions": variant_shadow_regions}',
+            "\t\treturn SourceBlockLoadState.generated_variant_shadow_regions_result_state(shadow_load_name_value, shadow_variants, shadow_custom_shadow)",
             '\tif str(get_meta("mindustry_load_bridge_mode", "")) == "variant_regions":',
             '\t\tvar variant_load_name_value: String = str(_args[0] if _args.size() > 0 else "")',
             "\t\tvar variants: int = int(_args[1] if _args.size() > 1 else 0)",
-            "\t\tvar variants_guard: bool = variants != 0",
-            "\t\tvar variant_regions: Array = []",
-            "\t\tvar variant_region_value: Variant = null",
-            "\t\tif variants_guard:",
-            "\t\t\tfor i in range(variants):",
-            '\t\t\t\tvariant_regions.append("Core.atlas.find(%s%d)" % [variant_load_name_value, i + 1])',
-            "\t\t\tif variant_regions.size() > 0:",
-            "\t\t\t\tvariant_region_value = variant_regions[0]",
-            '\t\treturn {"source_owner": "port_game.source_block_load_variant_regions_state", "source": "core/src/mindustry/world/Block.java", "method": "public void load(){", "variants_guard_expr": "if(variants != 0){", "variant_regions_expr": "variantRegions = new TextureRegion[variants];", "variant_loop_expr": "for(int i = 0; i < variants; i++){", "variant_assignment_expr": "variantRegions[i] = Core.atlas.find(name + (i + 1));", "region_assignment_expr": "region = variantRegions[0];", "name": variant_load_name_value, "variants": variants, "variants_guard": variants_guard, "variant_regions": variant_regions, "region": variant_region_value}',
+            "\t\treturn SourceBlockLoadState.generated_variant_regions_result_state(variant_load_name_value, variants)",
             '\tif str(get_meta("mindustry_load_bridge_mode", "")) == "team_regions":',
             '\t\tvar team_load_name_value: String = str(_args[0] if _args.size() > 0 else "")',
             "\t\tvar team_region_found: bool = bool(_args[1] if _args.size() > 1 else false)",
             '\t\tvar team_region: Variant = _args[2] if _args.size() > 2 else "teamRegion"',
             "\t\tvar teams: Array = (_args[3] as Array).duplicate() if _args.size() > 3 and _args[3] is Array else []",
-            "\t\tvar team_regions: Array = []",
-            "\t\tfor _i in range(teams.size()):",
-            "\t\t\tteam_regions.append(team_region)",
-            "\t\tvar assignments: Array = []",
-            "\t\tfor team in teams:",
-            "\t\t\tif not team is Dictionary:",
-            "\t\t\t\tcontinue",
-            '\t\t\tvar team_id: int = int(team.get("id", 0))',
-            '\t\t\tvar team_name: String = str(team.get("name", ""))',
-            '\t\t\tvar team_has_palette: bool = bool(team.get("hasPalette", false))',
-            "\t\t\tvar assigned_region: Variant = team_region",
-            "\t\t\tif team_region_found and team_has_palette:",
-            '\t\t\t\tassigned_region = "Core.atlas.find(%s-team-%s, %s)" % [team_load_name_value, team_name, str(team_region)]',
-            "\t\t\tif team_id >= 0 and team_id < team_regions.size():",
-            "\t\t\t\tteam_regions[team_id] = assigned_region",
-            '\t\t\tassignments.append({"team_id": team_id, "team_name": team_name, "team_has_palette": team_has_palette, "assigned_region": assigned_region})',
-            '\t\treturn {"source_owner": "port_game.source_block_load_team_regions_state", "source": "core/src/mindustry/world/Block.java", "method": "public void load(){", "comment": "//load specific team regions", "team_regions_expr": "teamRegions = new TextureRegion[Team.all.length];", "team_loop_expr": "for(Team team : Team.all){", "team_assignment_expr": "teamRegions[team.id] = teamRegion.found() && team.hasPalette ? Core.atlas.find(name + \\"-team-\\" + team.name, teamRegion) : teamRegion;", "name": team_load_name_value, "team_region_found": team_region_found, "team_region": team_region, "teams": teams, "team_all_length": teams.size(), "team_regions": team_regions, "assignments": assignments}',
+            "\t\treturn SourceBlockLoadState.generated_team_regions_result_state(team_load_name_value, team_region_found, team_region, teams)",
             '\tvar name_value: String = str(_args[0] if _args.size() > 0 else "")',
-            '\tvar region_value: String = "Core.atlas.find(%s)" % name_value',
-            '\treturn {"source_owner": "port_game.source_block_load_base_regions_state", "source": "core/src/mindustry/world/Block.java", "method": "public void load(){", "super_load_expr": "super.load();", "region_expr": "region = Core.atlas.find(name);", "content_regions_expr": "ContentRegions.loadRegions(this);", "name": name_value, "region": region_value, "super_load_called": true, "content_regions_loaded": true}',
+            "\treturn SourceBlockLoadState.generated_base_regions_result_state(name_value)",
         ]
     if (
         java_file.get("path") == "mindustry/world/Block.java"
@@ -4065,8 +8823,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
         return [
             "\tvar liquid: Variant = _args[0] if _args.size() > 0 else null",
             "\tvar amount: float = float(_args[1] if _args.size() > 1 else 0.0)",
-            '\tvar constructed_consume: Dictionary = {"type": "ConsumeLiquid", "liquid": liquid, "amount": amount}',
-            '\treturn {"source_owner": "port_game.source_block_consume_liquid_state", "source": "core/src/mindustry/world/Block.java", "method": "public ConsumeLiquid consumeLiquid(Liquid liquid, float amount){", "return_expr": "return consume(new ConsumeLiquid(liquid, amount));", "constructor_expr": "new ConsumeLiquid(liquid, amount)", "consume_call_expr": "consume(new ConsumeLiquid(liquid, amount))", "liquid": liquid, "amount": amount, "constructed_consume": constructed_consume, "consume_called": true}',
+            "\treturn SourceBlockConsumeState.generated_consume_liquid_result_state(liquid, amount)",
         ]
     if (
         java_file.get("path") == "mindustry/world/Block.java"
@@ -4075,8 +8832,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     ):
         return [
             "\tvar stacks: Variant = _args[0] if _args.size() > 0 else []",
-            '\tvar constructed_consume: Dictionary = {"type": "ConsumeLiquids", "stacks": stacks}',
-            '\treturn {"source_owner": "port_game.source_block_consume_liquids_state", "source": "core/src/mindustry/world/Block.java", "method": "public ConsumeLiquids consumeLiquids(LiquidStack... stacks){", "return_expr": "return consume(new ConsumeLiquids(stacks));", "constructor_expr": "new ConsumeLiquids(stacks)", "consume_call_expr": "consume(new ConsumeLiquids(stacks))", "stacks": stacks, "constructed_consume": constructed_consume, "consume_called": true}',
+            "\treturn SourceBlockConsumeState.generated_consume_liquids_result_state(stacks)",
         ]
     if (
         java_file.get("path") == "mindustry/world/Block.java"
@@ -4086,8 +8842,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     ):
         return [
             "\tvar power_per_tick: float = float(_args[0] if _args.size() > 0 else 0.0)",
-            '\tvar constructed_consume: Dictionary = {"type": "ConsumePower", "powerPerTick": power_per_tick, "capacity": 0.0, "buffered": false}',
-            '\treturn {"source_owner": "port_game.source_block_consume_power_state", "source": "core/src/mindustry/world/Block.java", "comment": "Creates a consumer which directly uses power without buffering it.", "param": "@param powerPerTick The amount of power which is required each tick for 100% efficiency.", "method": "public ConsumePower consumePower(float powerPerTick){", "return_expr": "return consume(new ConsumePower(powerPerTick, 0.0f, false));", "constructor_expr": "new ConsumePower(powerPerTick, 0.0f, false)", "consume_call_expr": "consume(new ConsumePower(powerPerTick, 0.0f, false))", "powerPerTick": power_per_tick, "capacity": 0.0, "buffered": false, "constructed_consume": constructed_consume, "consume_called": true}',
+            "\treturn SourceBlockConsumeState.generated_consume_power_result_state(power_per_tick)",
         ]
     if (
         java_file.get("path") == "mindustry/world/Block.java"
@@ -4097,8 +8852,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
         return [
             "\tvar usage: float = float(_args[0] if _args.size() > 0 else 0.0)",
             "\tvar cons: Variant = _args[1] if _args.size() > 1 else null",
-            '\tvar constructed_consume: Dictionary = {"type": "ConsumePowerCondition", "usage": usage, "condition": cons}',
-            '\treturn {"source_owner": "port_game.source_block_consume_power_cond_state", "source": "core/src/mindustry/world/Block.java", "comment": "Creates a consumer which only consumes power when the condition is met.", "method": "public <T extends Building> ConsumePower consumePowerCond(float usage, Boolf<T> cons){", "return_expr": "return consume(new ConsumePowerCondition(usage, (Boolf<Building>)cons));", "constructor_expr": "new ConsumePowerCondition(usage, (Boolf<Building>)cons)", "condition_cast_expr": "(Boolf<Building>)cons", "consume_call_expr": "consume(new ConsumePowerCondition(usage, (Boolf<Building>)cons))", "usage": usage, "condition": cons, "constructed_consume": constructed_consume, "consume_called": true}',
+            "\treturn SourceBlockConsumeState.generated_consume_power_cond_result_state(usage, cons)",
         ]
     if (
         java_file.get("path") == "mindustry/world/Block.java"
@@ -4109,8 +8863,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
         return [
             "\tvar displayed: float = float(_args[0] if _args.size() > 0 else 0.0)",
             "\tvar usage: Variant = _args[1] if _args.size() > 1 else null",
-            '\tvar constructed_consume: Dictionary = {"type": "ConsumePowerDynamic", "displayed": displayed, "usage": usage}',
-            '\treturn {"source_owner": "port_game.source_block_consume_power_dynamic_displayed_state", "source": "core/src/mindustry/world/Block.java", "comment": "Creates a consumer that consumes a dynamic amount of power.", "method": "public <T extends Building> ConsumePower consumePowerDynamic(float displayed, Floatf<T> usage){", "return_expr": "return consume(new ConsumePowerDynamic(displayed, (Floatf<Building>)usage));", "constructor_expr": "new ConsumePowerDynamic(displayed, (Floatf<Building>)usage)", "usage_cast_expr": "(Floatf<Building>)usage", "consume_call_expr": "consume(new ConsumePowerDynamic(displayed, (Floatf<Building>)usage))", "displayed": displayed, "usage": usage, "constructed_consume": constructed_consume, "consume_called": true}',
+            "\treturn SourceBlockConsumeState.generated_consume_power_dynamic_displayed_result_state(displayed, usage)",
         ]
     if (
         java_file.get("path") == "mindustry/world/Block.java"
@@ -4119,8 +8872,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     ):
         return [
             "\tvar power_capacity: float = float(_args[0] if _args.size() > 0 else 0.0)",
-            '\tvar constructed_consume: Dictionary = {"type": "ConsumePower", "powerPerTick": 0.0, "capacity": power_capacity, "buffered": true}',
-            '\treturn {"source_owner": "port_game.source_block_consume_power_buffered_state", "source": "core/src/mindustry/world/Block.java", "comment": "Creates a consumer which stores power.", "param": "@param powerCapacity The maximum capacity in power units.", "method": "public ConsumePower consumePowerBuffered(float powerCapacity){", "return_expr": "return consume(new ConsumePower(0f, powerCapacity, true));", "constructor_expr": "new ConsumePower(0f, powerCapacity, true)", "consume_call_expr": "consume(new ConsumePower(0f, powerCapacity, true))", "powerCapacity": power_capacity, "powerPerTick": 0.0, "buffered": true, "constructed_consume": constructed_consume, "consume_called": true}',
+            "\treturn SourceBlockConsumeState.generated_consume_power_buffered_result_state(power_capacity)",
         ]
     if (
         java_file.get("path") == "mindustry/world/Block.java"
@@ -4130,7 +8882,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     ):
         return [
             "\tvar item: Variant = _args[0] if _args.size() > 0 else null",
-            '\treturn {"source_owner": "port_game.source_block_consume_item_single_state", "source": "core/src/mindustry/world/Block.java", "method": "public ConsumeItems consumeItem(Item item){", "return_expr": "return consumeItem(item, 1);", "delegate_call_expr": "consumeItem(item, 1)", "item": item, "amount": 1, "delegate_called": true}',
+            "\treturn SourceBlockConsumeState.generated_consume_item_single_result_state(item)",
         ]
     if (
         java_file.get("path") == "mindustry/world/Block.java"
@@ -4141,9 +8893,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
         return [
             "\tvar item: Variant = _args[0] if _args.size() > 0 else null",
             "\tvar amount: int = int(_args[1] if _args.size() > 1 else 0)",
-            '\tvar item_stack: Dictionary = {"type": "ItemStack", "item": item, "amount": amount}',
-            '\tvar constructed_consume: Dictionary = {"type": "ConsumeItems", "items": [item_stack]}',
-            '\treturn {"source_owner": "port_game.source_block_consume_item_amount_state", "source": "core/src/mindustry/world/Block.java", "method": "public ConsumeItems consumeItem(Item item, int amount){", "return_expr": "return consume(new ConsumeItems(new ItemStack[]{new ItemStack(item, amount)}));", "item_stack_expr": "new ItemStack(item, amount)", "item_stack_array_expr": "new ItemStack[]{new ItemStack(item, amount)}", "constructor_expr": "new ConsumeItems(new ItemStack[]{new ItemStack(item, amount)})", "consume_call_expr": "consume(new ConsumeItems(new ItemStack[]{new ItemStack(item, amount)}))", "item": item, "amount": amount, "item_stack": item_stack, "constructed_consume": constructed_consume, "consume_called": true}',
+            "\treturn SourceBlockConsumeState.generated_consume_item_amount_result_state(item, amount)",
         ]
     if (
         java_file.get("path") == "mindustry/world/Block.java"
@@ -4152,8 +8902,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     ):
         return [
             "\tvar items: Array = _args",
-            '\tvar constructed_consume: Dictionary = {"type": "ConsumeItems", "items": items}',
-            '\treturn {"source_owner": "port_game.source_block_consume_items_varargs_state", "source": "core/src/mindustry/world/Block.java", "method": "public ConsumeItems consumeItems(ItemStack... items){", "return_expr": "return consume(new ConsumeItems(items));", "constructor_expr": "new ConsumeItems(items)", "consume_call_expr": "consume(new ConsumeItems(items))", "items": items, "constructed_consume": constructed_consume, "consume_called": true}',
+            "\treturn SourceBlockConsumeState.generated_consume_items_varargs_result_state(items)",
         ]
     if (
         java_file.get("path") == "mindustry/world/Block.java"
@@ -4165,8 +8914,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar amount: float = float(_args[0] if _args.size() > 0 else 0.0)",
             "\tvar allow_liquid: bool = bool(_args[1] if _args.size() > 1 else false)",
             "\tvar allow_gas: bool = bool(_args[2] if _args.size() > 2 else false)",
-            '\tvar constructed_consume: Dictionary = {"type": "ConsumeCoolant", "amount": amount, "allowLiquid": allow_liquid, "allowGas": allow_gas}',
-            '\treturn {"source_owner": "port_game.source_block_consume_coolant_filtered_state", "source": "core/src/mindustry/world/Block.java", "method": "public ConsumeCoolant consumeCoolant(float amount, boolean allowLiquid, boolean allowGas){", "return_expr": "return consume(new ConsumeCoolant(amount, allowLiquid, allowGas));", "constructor_expr": "new ConsumeCoolant(amount, allowLiquid, allowGas)", "consume_call_expr": "consume(new ConsumeCoolant(amount, allowLiquid, allowGas))", "amount": amount, "allowLiquid": allow_liquid, "allowGas": allow_gas, "constructed_consume": constructed_consume, "consume_called": true}',
+            "\treturn SourceBlockConsumeState.generated_consume_coolant_filtered_result_state(amount, allow_liquid, allow_gas)",
         ]
     if (
         java_file.get("path") == "mindustry/world/Block.java"
@@ -4176,8 +8924,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     ):
         return [
             "\tvar amount: float = float(_args[0] if _args.size() > 0 else 0.0)",
-            '\tvar constructed_consume: Dictionary = {"type": "ConsumeCoolant", "amount": amount}',
-            '\treturn {"source_owner": "port_game.source_block_consume_coolant_single_state", "source": "core/src/mindustry/world/Block.java", "method": "public ConsumeCoolant consumeCoolant(float amount){", "return_expr": "return consume(new ConsumeCoolant(amount));", "constructor_expr": "new ConsumeCoolant(amount)", "consume_call_expr": "consume(new ConsumeCoolant(amount))", "amount": amount, "constructed_consume": constructed_consume, "consume_called": true}',
+            "\treturn SourceBlockConsumeState.generated_consume_coolant_single_result_state(amount)",
         ]
     if (
         java_file.get("path") == "mindustry/world/Block.java"
@@ -4191,11 +8938,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar consume_builder_before: Array = (_args[2] if _args.size() > 2 else []) as Array",
             "\tvar consume_builder_without_power: Array = (_args[3] if _args.size() > 3 else []) as Array",
             "\tvar cons_power_before: Variant = _args[4] if _args.size() > 4 else null",
-            "\tvar consume_builder_after: Array = consume_builder_without_power.duplicate() if consume_is_power else consume_builder_before.duplicate()",
-            "\tconsume_builder_after.append(consume)",
-            "\tvar remove_power_called: bool = consume_is_power",
-            "\tvar cons_power_after: Variant = consume if consume_is_power else cons_power_before",
-            '\treturn {"source_owner": "port_game.source_block_consume_generic_state", "source": "core/src/mindustry/world/Block.java", "method": "public <T extends Consume> T consume(T consume){", "power_guard_expr": "if(consume instanceof ConsumePower){", "comment": "//there can only be one power consumer", "remove_power_expr": "consumeBuilder.removeAll(b -> b instanceof ConsumePower);", "cons_power_expr": "consPower = (ConsumePower)consume;", "add_expr": "consumeBuilder.add(consume);", "return_expr": "return consume;", "consume": consume, "consume_is_power": consume_is_power, "consume_builder_before": consume_builder_before, "consume_builder_without_power": consume_builder_without_power, "consume_builder_after": consume_builder_after, "cons_power_before": cons_power_before, "cons_power_after": cons_power_after, "remove_power_called": remove_power_called, "add_called": true, "returned_consume": consume}',
+            "\treturn SourceBlockConsumeState.generated_consume_generic_result_state(consume, consume_is_power, consume_builder_before, consume_builder_without_power, cons_power_before)",
         ]
     if (
         java_file.get("path") == "mindustry/world/Block.java"
@@ -4206,7 +8949,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
         return [
             "\tvar cat: Variant = _args[0] if _args.size() > 0 else null",
             "\tvar stacks: Variant = _args[1] if _args.size() > 1 else null",
-            '\treturn {"source_owner": "port_game.source_block_setup_requirements_simple_state", "source": "core/src/mindustry/world/Block.java", "method": "public void setupRequirements(Category cat, ItemStack[] stacks){", "delegate_call_expr": "requirements(cat, stacks)", "cat": cat, "stacks": stacks, "delegate_called": true}',
+            "\treturn SourceBlockRequirementsState.generated_setup_requirements_simple_result_state(cat, stacks)",
         ]
     if (
         java_file.get("path") == "mindustry/world/Block.java"
@@ -4218,7 +8961,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar cat: Variant = _args[0] if _args.size() > 0 else null",
             "\tvar build_visibility: Variant = _args[1] if _args.size() > 1 else null",
             "\tvar stacks: Variant = _args[2] if _args.size() > 2 else null",
-            '\treturn {"source_owner": "port_game.source_block_setup_requirements_visible_state", "source": "core/src/mindustry/world/Block.java", "method": "public void setupRequirements(Category cat, BuildVisibility visible, ItemStack[] stacks){", "delegate_call_expr": "requirements(cat, visible, stacks)", "cat": cat, "visible": build_visibility, "stacks": stacks, "delegate_called": true}',
+            "\treturn SourceBlockRequirementsState.generated_setup_requirements_visible_result_state(cat, build_visibility, stacks)",
         ]
     if (
         java_file.get("path") == "mindustry/world/Block.java"
@@ -4230,7 +8973,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar cat: Variant = _args[0] if _args.size() > 0 else null",
             "\tvar stacks: Variant = _args[1] if _args.size() > 1 else null",
             "\tvar unlocked: bool = bool(_args[2] if _args.size() > 2 else false)",
-            '\treturn {"source_owner": "port_game.source_block_requirements_unlocked_state", "source": "core/src/mindustry/world/Block.java", "method": "public void requirements(Category cat, ItemStack[] stacks, boolean unlocked){", "delegate_call_expr": "requirements(cat, BuildVisibility.shown, stacks)", "always_unlocked_assignment_expr": "this.alwaysUnlocked = unlocked;", "cat": cat, "build_visibility": "BuildVisibility.shown", "stacks": stacks, "unlocked": unlocked, "delegate_called": true, "always_unlocked_assigned": true, "always_unlocked_after": unlocked}',
+            "\treturn SourceBlockRequirementsState.generated_requirements_unlocked_result_state(cat, stacks, unlocked)",
         ]
     if (
         java_file.get("path") == "mindustry/world/Block.java"
@@ -4241,7 +8984,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
         return [
             "\tvar cat: Variant = _args[0] if _args.size() > 0 else null",
             "\tvar stacks: Variant = _args[1] if _args.size() > 1 else null",
-            '\treturn {"source_owner": "port_game.source_block_requirements_simple_state", "source": "core/src/mindustry/world/Block.java", "method": "public void requirements(Category cat, ItemStack[] stacks){", "delegate_call_expr": "requirements(cat, BuildVisibility.shown, stacks)", "cat": cat, "build_visibility": "BuildVisibility.shown", "stacks": stacks, "delegate_called": true}',
+            "\treturn SourceBlockRequirementsState.generated_requirements_simple_result_state(cat, stacks)",
         ]
     if (
         java_file.get("path") == "mindustry/world/Block.java"
@@ -4253,11 +8996,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar cat: Variant = _args[0] if _args.size() > 0 else null",
             "\tvar build_visibility: Variant = _args[1] if _args.size() > 1 else null",
             "\tvar stacks: Variant = _args[2] if _args.size() > 2 else null",
-            "\tvar requirements_after: Variant = stacks",
-            "\trequirements_after.sort_custom(func(left, right):",
-            "\t\treturn int(left[\"item\"][\"id\"]) < int(right[\"item\"][\"id\"])",
-            "\t)",
-            '\treturn {"source_owner": "port_game.source_block_requirements_visible_state", "source": "core/src/mindustry/world/Block.java", "method": "public void requirements(Category cat, BuildVisibility visible, ItemStack[] stacks){", "comment": "/** Sets up requirements. Use only this method to set up requirements. */", "category_assignment_expr": "this.category = cat;", "requirements_assignment_expr": "this.requirements = stacks;", "build_visibility_assignment_expr": "this.buildVisibility = visible;", "sort_expr": "Arrays.sort(requirements, Structs.comparingInt(i -> i.item.id));", "cat": cat, "visible": build_visibility, "stacks": stacks, "category_after": cat, "requirements_after": requirements_after, "build_visibility_after": build_visibility, "sort_called": true}',
+            "\treturn SourceBlockRequirementsState.generated_requirements_visible_result_state(cat, build_visibility, stacks)",
         ]
     if (
         java_file.get("path") == "mindustry/world/Block.java"
@@ -4267,9 +9006,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     ):
         return [
             "\tvar build_type_before: Variant = _args[0] if _args.size() > 0 else null",
-            "\tvar default_assigned: bool = build_type_before == null",
-            '\tvar build_type_after: Variant = "Building::create" if default_assigned else build_type_before',
-            '\treturn {"source_owner": "port_game.source_block_init_building_default_state", "source": "core/src/mindustry/world/Block.java", "method": "protected void initBuilding(){", "default_guard_expr": "if(buildType == null){", "default_comment": "//assign default value", "default_assignment_expr": "buildType = Building::create;", "build_type_before": build_type_before, "build_type_after": build_type_after, "default_assigned": default_assigned}',
+            "\treturn SourceBlockInitBuildingDefaultState.generated_building_default_result_state(build_type_before)",
         ]
     if (
         java_file.get("path") == "mindustry/world/Block.java"
@@ -4280,62 +9017,19 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
         return [
             "\tvar research_cost: Variant = _args[0] if _args.size() > 0 else null",
             "\tvar research_cost_multiplier: float = float(_args[1] if _args.size() > 1 else 1.0)",
-            "\tvar returned_early: bool = research_cost != null",
-            "\tvar returned_requirements: Variant = research_cost if returned_early else null",
-            "\tif _args.size() <= 1:",
-            '\t\treturn {"source_owner": "port_game.source_block_research_requirements_research_cost_state", "source": "core/src/mindustry/world/Block.java", "method": "public ItemStack[] researchRequirements(){", "override_expr": "@Override", "research_cost_guard_expr": "if(researchCost != null) return researchCost;", "return_expr": "return researchCost;", "research_cost": research_cost, "returned_requirements": returned_requirements, "returned_early": returned_early}',
-            "\tvar returned_empty: bool = research_cost == null and research_cost_multiplier <= 0.0",
-            '\tvar returned_requirements_after_multiplier: Variant = "ItemStack.empty" if returned_empty else returned_requirements',
-            "\tif _args.size() <= 2:",
-            '\t\treturn {"source_owner": "port_game.source_block_research_requirements_empty_state", "source": "core/src/mindustry/world/Block.java", "method": "public ItemStack[] researchRequirements(){", "override_expr": "@Override", "research_cost_guard_expr": "if(researchCost != null) return researchCost;", "empty_guard_expr": "if(researchCostMultiplier <= 0f) return ItemStack.empty;", "empty_return_expr": "return ItemStack.empty;", "research_cost": research_cost, "research_cost_multiplier": research_cost_multiplier, "returned_requirements": returned_requirements_after_multiplier, "returned_empty": returned_empty}',
             "\tvar requirements: Array = _args[2] if _args.size() > 2 else []",
-            "\tvar allocation_reached: bool = research_cost == null and research_cost_multiplier > 0.0",
-            "\tvar allocated_out_length: int = requirements.size() if allocation_reached else 0",
-            "\tvar loop_indices: Array = []",
-            "\tfor i in range(allocated_out_length):",
-            "\t\tloop_indices.append(i)",
-            "\tif _args.size() <= 3:",
-            '\t\treturn {"source_owner": "port_game.source_block_research_requirements_loop_shape_state", "source": "core/src/mindustry/world/Block.java", "method": "public ItemStack[] researchRequirements(){", "override_expr": "@Override", "research_cost_guard_expr": "if(researchCost != null) return researchCost;", "empty_guard_expr": "if(researchCostMultiplier <= 0f) return ItemStack.empty;", "out_alloc_expr": "ItemStack[] out = new ItemStack[requirements.length];", "loop_expr": "for(int i = 0; i < out.length; i++){", "return_out_expr": "return out;", "research_cost": research_cost, "research_cost_multiplier": research_cost_multiplier, "requirements": requirements, "allocation_reached": allocation_reached, "allocated_out_length": allocated_out_length, "loop_indices": loop_indices}',
             "\tvar research_cost_multipliers: Dictionary = _args[3] if _args.size() > 3 else {}",
-            "\tvar quantity_values: Array = []",
-            "\tvar multiplier_values: Array = []",
-            "\tvar amount_power_values: Array = []",
-            "\tfor requirement in requirements:",
-            "\t\tif not allocation_reached:",
-            "\t\t\tcontinue",
-            '\t\tvar item_key: String = str(requirement.get("item", ""))',
-            '\t\tvar cost_multiplier: float = float(research_cost_multipliers.get(item_key, 1.0))',
-            '\t\tvar amount_power: float = pow(float(requirement.get("amount", 0.0)), 1.11)',
-            "\t\tvar quantity_float: float = 60.0 * research_cost_multiplier + amount_power * 20.0 * research_cost_multiplier * cost_multiplier",
-            "\t\tvar quantity: int = int(quantity_float / 10.0) * 10",
-            "\t\tmultiplier_values.append(cost_multiplier)",
-            "\t\tamount_power_values.append(amount_power)",
-            "\t\tquantity_values.append(quantity)",
+            "\tif _args.size() <= 1:",
+            "\t\treturn source_block_research_requirements_state.research_cost_state(research_cost)",
+            "\tif _args.size() <= 2:",
+            "\t\treturn source_block_research_requirements_state.empty_state(research_cost, research_cost_multiplier)",
+            "\tif _args.size() <= 3:",
+            "\t\treturn source_block_research_requirements_state.loop_shape_state(research_cost, research_cost_multiplier, requirements)",
             "\tif _args.size() <= 4:",
-            '\t\treturn {"source_owner": "port_game.source_block_research_requirements_quantity_formula_state", "source": "core/src/mindustry/world/Block.java", "method": "public ItemStack[] researchRequirements(){", "quantity_expr": "int quantity = Mathf.round(60 * researchCostMultiplier + Mathf.pow(requirements[i].amount, 1.11f) * 20 * researchCostMultiplier * researchCostMultipliers.get(requirements[i].item, 1f), 10);", "mathf_round_expr": "Mathf.round(value, 10)", "mathf_round_step_expr": "return (int)(value / step) * step;", "research_cost": research_cost, "research_cost_multiplier": research_cost_multiplier, "requirements": requirements, "research_cost_multipliers": research_cost_multipliers, "quantity_values": quantity_values, "multiplier_values": multiplier_values, "amount_power_values": amount_power_values}',
-            "\tvar rounded_amount_values: Array = []",
-            "\tfor quantity in quantity_values:",
-            "\t\tvar rounded_amount: int = int(quantity)",
-            "\t\tif rounded_amount >= 1000000000:",
-            "\t\t\trounded_amount = int(float(rounded_amount) / 100000000.0) * 100000000",
-            "\t\telif rounded_amount >= 1000000:",
-            "\t\t\trounded_amount = int(float(rounded_amount) / 100000.0) * 100000",
-            "\t\telif rounded_amount >= 10000:",
-            "\t\t\trounded_amount = int(float(rounded_amount) / 1000.0) * 1000",
-            "\t\telif rounded_amount >= 1000:",
-            "\t\t\trounded_amount = int(float(rounded_amount) / 100.0) * 100",
-            "\t\telif rounded_amount >= 100:",
-            "\t\t\trounded_amount = int(float(rounded_amount) / 100.0) * 100",
-            "\t\telif rounded_amount >= 10:",
-            "\t\t\trounded_amount = int(float(rounded_amount) / 10.0) * 10",
-            "\t\trounded_amount_values.append(rounded_amount)",
+            "\t\treturn source_block_research_requirements_state.quantity_formula_state(research_cost, research_cost_multiplier, requirements, research_cost_multipliers)",
             "\tif _args.size() <= 5:",
-            '\t\treturn {"source_owner": "port_game.source_block_research_requirements_round_amount_state", "source": "core/src/mindustry/world/Block.java", "ui_source": "core/src/mindustry/core/UI.java", "method": "public ItemStack[] researchRequirements(){", "round_amount_expr": "UI.roundAmount(quantity)", "ui_round_amount_method": "public static int roundAmount(int number){", "mathf_round_int_step_expr": "return (value / step) * step;", "quantity_values": quantity_values, "rounded_amount_values": rounded_amount_values}',
-            "\tvar output_requirements: Array = []",
-            "\tfor i in range(rounded_amount_values.size()):",
-            "\t\tvar requirement: Dictionary = requirements[i] if i < requirements.size() else {}",
-            '\t\toutput_requirements.append({"item": requirement.get("item"), "amount": rounded_amount_values[i]})',
-            '\treturn {"source_owner": "port_game.source_block_research_requirements_output_fill_state", "source": "core/src/mindustry/world/Block.java", "method": "public ItemStack[] researchRequirements(){", "itemstack_fill_expr": "out[i] = new ItemStack(requirements[i].item, UI.roundAmount(quantity));", "return_out_expr": "return out;", "quantity_values": quantity_values, "rounded_amount_values": rounded_amount_values, "output_requirements": output_requirements, "returned_requirements": output_requirements}',
+            "\t\treturn source_block_research_requirements_state.round_amount_state(research_cost, research_cost_multiplier, requirements, research_cost_multipliers)",
+            "\treturn source_block_research_requirements_state.output_fill_state(research_cost, research_cost_multiplier, requirements, research_cost_multipliers)",
         ]
     if (
         java_file.get("path") == "mindustry/world/Block.java"
@@ -4345,37 +9039,12 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     ):
         return [
             "\tvar requirements: Array = _args[0] if _args.size() > 0 else []",
-            "\tvar dependency_items: Array = []",
-            "\tfor requirement in requirements:",
-            '\t\tdependency_items.append(requirement.get("item"))',
             "\tif _args.size() <= 1:",
-            '\t\treturn {"source_owner": "port_game.source_block_get_dependencies_requirements_state", "source": "core/src/mindustry/world/Block.java", "method": "public void getDependencies(Cons<UnlockableContent> cons){", "requirements_comment": "//just requires items", "requirements_loop_expr": "for(ItemStack stack : requirements){", "cons_get_item_expr": "cons.get(stack.item);", "requirements": requirements, "dependency_items": dependency_items}',
+            "\t\treturn source_block_get_dependencies_state.requirements_state(requirements)",
             "\tvar consume_builder: Array = _args[1] if _args.size() > 1 else []",
-            "\tvar consume_loop_indices: Array = []",
-            "\tvar skipped_optional_indices: Array = []",
-            "\tvar non_optional_indices: Array = []",
-            "\tfor i in range(consume_builder.size()):",
-            "\t\tconsume_loop_indices.append(i)",
-            "\t\tvar consume: Dictionary = consume_builder[i]",
-            '\t\tif bool(consume.get("optional", false)):',
-            "\t\t\tskipped_optional_indices.append(i)",
-            "\t\t\tcontinue",
-            "\t\tnon_optional_indices.append(i)",
             "\tif _args.size() <= 2:",
-            '\t\treturn {"source_owner": "port_game.source_block_get_dependencies_consume_builder_optional_state", "source": "core/src/mindustry/world/Block.java", "method": "public void getDependencies(Cons<UnlockableContent> cons){", "inputs_comment": "//also requires inputs", "consume_builder_loop_expr": "for(var c : consumeBuilder){", "optional_guard_expr": "if(c.optional) continue;", "requirements": requirements, "dependency_items": dependency_items, "consume_builder": consume_builder, "consume_loop_indices": consume_loop_indices, "skipped_optional_indices": skipped_optional_indices, "non_optional_indices": non_optional_indices}',
-            "\tvar consume_items_indices: Array = []",
-            "\tvar consume_item_dependency_items: Array = []",
-            "\tfor i in range(consume_builder.size()):",
-            "\t\tvar consume: Dictionary = consume_builder[i]",
-            '\t\tif bool(consume.get("optional", false)):',
-            "\t\t\tcontinue",
-            '\t\tif str(consume.get("type", "")) != "ConsumeItems":',
-            "\t\t\tcontinue",
-            "\t\tconsume_items_indices.append(i)",
-            '\t\tfor stack in consume.get("items", []):',
-            '\t\t\tconsume_item_dependency_items.append(stack.get("item"))',
-            '\t\t\tdependency_items.append(stack.get("item"))',
-            '\treturn {"source_owner": "port_game.source_block_get_dependencies_consume_items_state", "source": "core/src/mindustry/world/Block.java", "method": "public void getDependencies(Cons<UnlockableContent> cons){", "consume_items_guard_expr": "if(c instanceof ConsumeItems i){", "consume_items_loop_expr": "for(ItemStack stack : i.items){", "consume_items_cons_get_item_expr": "cons.get(stack.item);", "requirements": requirements, "dependency_items": dependency_items, "consume_builder": consume_builder, "consume_loop_indices": consume_loop_indices, "skipped_optional_indices": skipped_optional_indices, "non_optional_indices": non_optional_indices, "consume_items_indices": consume_items_indices, "consume_item_dependency_items": consume_item_dependency_items}',
+            "\t\treturn source_block_get_dependencies_state.consume_builder_optional_state(requirements, consume_builder)",
+            "\treturn source_block_get_dependencies_state.consume_items_state(requirements, consume_builder)",
         ]
     if (
         java_file.get("path") == "mindustry/world/Block.java"
@@ -4384,7 +9053,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
         and len(method.get("parameters", [])) == 0
     ):
         return [
-            '\treturn {"source_owner": "port_game.source_block_get_content_type_state", "source": "core/src/mindustry/world/Block.java", "method": "public ContentType getContentType(){", "content_type_return_expr": "return ContentType.block;", "content_type": "ContentType.block"}',
+            "\treturn source_block_metadata_state.content_type_state()",
         ]
     if (
         java_file.get("path") == "mindustry/world/Block.java"
@@ -4394,8 +9063,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     ):
         return [
             '\tvar build_visibility_value: String = str(_args[0] if _args.size() > 0 else "")',
-            '\tvar logic_visible: bool = build_visibility_value != "BuildVisibility.hidden"',
-            '\treturn {"source_owner": "port_game.source_block_logic_visible_state", "source": "core/src/mindustry/world/Block.java", "method": "public boolean logicVisible(){", "logic_visible_return_expr": "return buildVisibility != BuildVisibility.hidden;", "build_visibility": build_visibility_value, "logic_visible": logic_visible}',
+            "\treturn source_block_metadata_state.logic_visible_state(build_visibility_value)",
         ]
     if (
         java_file.get("path") == "mindustry/world/Block.java"
@@ -4454,225 +9122,226 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\tif init_bridge_mode == "custom_shadow":',
             "\t\tvar custom_shadow: bool = bool(_args[0] if _args.size() > 0 else false)",
             "\t\tvar has_shadow_before: bool = bool(_args[1] if _args.size() > 1 else true)",
-            "\t\tvar has_shadow_after: bool = has_shadow_before",
-            "\t\tvar has_shadow_assigned: bool = custom_shadow",
-            "\t\tif has_shadow_assigned:",
-            "\t\t\thas_shadow_after = false",
-            '\t\treturn {"source_owner": "port_game.source_block_init_custom_shadow_state", "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "custom_shadow_comment": "//disable standard shadow", "custom_shadow_guard_expr": "if(customShadow){", "has_shadow_assign_expr": "hasShadow = false;", "custom_shadow": custom_shadow, "has_shadow_before": has_shadow_before, "has_shadow_after": has_shadow_after, "has_shadow_assigned": has_shadow_assigned}',
+            "\t\treturn SourceBlockInitFlagsState.generated_custom_shadow_result_state(custom_shadow, has_shadow_before)",
             '\tif init_bridge_mode == "under_bullets":',
             "\t\tvar under_bullets: bool = bool(_args[0] if _args.size() > 0 else false)",
             "\t\tvar priority_before: Variant = _args[1] if _args.size() > 1 else null",
-            "\t\tvar priority_after: Variant = priority_before",
-            "\t\tvar priority_assigned: bool = under_bullets",
-            "\t\tif priority_assigned:",
-            '\t\t\tpriority_after = "TargetPriority.under"',
-            '\t\treturn {"source_owner": "port_game.source_block_init_under_bullets_state", "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "under_bullets_guard_expr": "if(underBullets){", "priority_assign_expr": "priority = TargetPriority.under;", "target_priority_under_expr": "TargetPriority.under", "under_bullets": under_bullets, "priority_before": priority_before, "priority_after": priority_after, "priority_assigned": priority_assigned}',
+            "\t\treturn SourceBlockInitFlagsState.generated_under_bullets_result_state(under_bullets, priority_before)",
             '\tif init_bridge_mode == "fog_radius_flag":',
             "\t\tvar fog_radius: int = int(_args[0] if _args.size() > 0 else -1)",
             "\t\tvar flags_before: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []",
-            "\t\tvar flags_after: Array = flags_before.duplicate()",
-            "\t\tvar has_fog_radius_flag_added: bool = fog_radius > 0",
-            '\t\tif has_fog_radius_flag_added and not flags_after.has("BlockFlag.hasFogRadius"):',
-            '\t\t\tflags_after.append("BlockFlag.hasFogRadius")',
-            '\t\treturn {"source_owner": "port_game.source_block_init_fog_radius_flag_state", "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "fog_radius_guard_expr": "if(fogRadius > 0){", "flags_assign_expr": "flags = flags.with(BlockFlag.hasFogRadius);", "block_flag_has_fog_radius_expr": "BlockFlag.hasFogRadius", "fog_radius": fog_radius, "flags_before": flags_before, "flags_after": flags_after, "has_fog_radius_flag_added": has_fog_radius_flag_added}',
+            "\t\treturn SourceBlockInitFlagsState.generated_fog_radius_flag_result_state(fog_radius, flags_before)",
             '\tif init_bridge_mode == "sync_flag":',
             "\t\tvar sync_value: bool = bool(_args[0] if _args.size() > 0 else false)",
             "\t\tvar flags_before: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []",
-            "\t\tvar flags_after: Array = flags_before.duplicate()",
-            "\t\tvar synced_flag_added: bool = sync_value",
-            '\t\tif synced_flag_added and not flags_after.has("BlockFlag.synced"):',
-            '\t\t\tflags_after.append("BlockFlag.synced")',
-            '\t\treturn {"source_owner": "port_game.source_block_init_sync_flag_state", "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "sync_guard_expr": "if(sync){", "flags_assign_expr": "flags = flags.with(BlockFlag.synced);", "block_flag_synced_expr": "BlockFlag.synced", "sync": sync_value, "flags_before": flags_before, "flags_after": flags_after, "synced_flag_added": synced_flag_added}',
+            "\t\treturn SourceBlockInitFlagsState.generated_sync_flag_result_state(sync_value, flags_before)",
             '\tif init_bridge_mode == "health_scaled":',
             "\t\tvar health_before: int = int(_args[0] if _args.size() > 0 else -1)",
             "\t\tvar health_size_value: int = int(_args[1] if _args.size() > 1 else 1)",
             "\t\tvar scaled_health: float = float(_args[2] if _args.size() > 2 else 0.0)",
-            "\t\tvar health_after: int = health_before",
-            "\t\tvar health_assigned: bool = health_before == -1 and scaled_health >= 0.0",
-            "\t\tif health_assigned:",
-            "\t\t\thealth_after = int(health_size_value * health_size_value * scaled_health)",
-            '\t\treturn {"source_owner": "port_game.source_block_init_health_scaled_state", "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "health_comment": "//initialize default health based on size", "health_guard_expr": "if(health == -1){", "round_init_expr": "boolean round = false;", "scaled_health_negative_guard_expr": "if(scaledHealth < 0){", "health_assign_expr": "health = round ? Mathf.round(size * size * scaledHealth, 5) : (int)(size * size * scaledHealth);", "int_cast_expr": "(int)(size * size * scaledHealth)", "health_before": health_before, "size": health_size_value, "scaled_health": scaled_health, "round": false, "health_after": health_after, "health_assigned": health_assigned}',
+            "\t\treturn SourceBlockInitHealthState.generated_health_scaled_result_state(health_before, health_size_value, scaled_health)",
             '\tif init_bridge_mode == "health_requirements_scaling":',
             "\t\tvar health_before: int = int(_args[0] if _args.size() > 0 else -1)",
             "\t\tvar requirements_health_size_value: int = int(_args[1] if _args.size() > 1 else 1)",
             "\t\tvar scaled_health_before: float = float(_args[2] if _args.size() > 2 else -1.0)",
             "\t\tvar requirement_health_scalings: Array = (_args[3] as Array).duplicate() if _args.size() > 3 and _args[3] is Array else []",
-            "\t\tvar health_assigned: bool = health_before == -1 and scaled_health_before < 0.0",
-            "\t\tvar scaling: float = 1.0",
-            "\t\tfor health_scaling in requirement_health_scalings:",
-            "\t\t\tscaling += float(health_scaling)",
-            "\t\tvar scaled_health_after: float = 40.0 * scaling if health_assigned else scaled_health_before",
-            "\t\tvar health_after: int = health_before",
-            "\t\tif health_assigned:",
-            "\t\t\thealth_after = int(float(requirements_health_size_value * requirements_health_size_value) * scaled_health_after / 5.0) * 5",
-            '\t\treturn {"source_owner": "port_game.source_block_init_health_requirements_scaling_state", "source": "core/src/mindustry/world/Block.java", "item_source": "core/src/mindustry/type/Item.java", "arc_mathf_source": "arc-core/src/arc/math/Mathf.java", "method": "public void init(){", "super_init_expr": "super.init();", "health_comment": "//initialize default health based on size", "health_guard_expr": "if(health == -1){", "scaled_health_negative_guard_expr": "if(scaledHealth < 0){", "scaled_health_default_expr": "scaledHealth = 40;", "scaling_init_expr": "float scaling = 1f;", "requirements_loop_expr": "for(var stack : requirements){", "health_scaling_add_expr": "scaling += stack.item.healthScaling;", "item_health_scaling_field_expr": "public float healthScaling = 0f;", "scaled_health_multiply_expr": "scaledHealth *= scaling;", "round_true_expr": "round = true;", "mathf_round_expr": "Mathf.round(size * size * scaledHealth, 5)", "mathf_round_step_expr": "return (int)(value / step) * step;", "health_before": health_before, "size": requirements_health_size_value, "scaled_health_before": scaled_health_before, "requirement_health_scalings": requirement_health_scalings, "scaling": scaling, "scaled_health_after": scaled_health_after, "round": health_assigned, "health_after": health_after, "health_assigned": health_assigned}',
+            "\t\treturn SourceBlockInitHealthState.generated_health_requirements_scaling_result_state(health_before, requirements_health_size_value, scaled_health_before, requirement_health_scalings)",
             '\tif init_bridge_mode == "clip_size":',
             "\t\tvar clip_size_before: float = float(_args[0] if _args.size() > 0 else 0.0)",
             "\t\tvar clip_size_size_value: int = int(_args[1] if _args.size() > 1 else 1)",
             "\t\tvar source_tilesize: float = float(_args[2] if _args.size() > 2 else SOURCE_TILESIZE)",
-            "\t\tvar size_tilesize: float = float(clip_size_size_value) * source_tilesize",
-            "\t\tvar clip_size_after: float = max(clip_size_before, size_tilesize)",
-            '\t\treturn {"source_owner": "port_game.source_block_init_clip_size_state", "source": "core/src/mindustry/world/Block.java", "vars_source": "core/src/mindustry/Vars.java", "method": "public void init(){", "super_init_expr": "super.init();", "clip_size_expr": "clipSize = Math.max(clipSize, size * tilesize);", "tilesize_comment": "/** size of tiles in units */", "tilesize_field_expr": "public static final int tilesize = 8;", "clip_size_before": clip_size_before, "size": clip_size_size_value, "source_tilesize": source_tilesize, "size_tilesize": size_tilesize, "clip_size_after": clip_size_after}',
+            "\t\treturn SourceBlockInitClipState.generated_clip_size_result_state(clip_size_before, clip_size_size_value, source_tilesize)",
             '\tif init_bridge_mode == "light_clip_size":',
             "\t\tvar light_clip_size_before: float = float(_args[0] if _args.size() > 0 else 0.0)",
             "\t\tvar clip_size: float = float(_args[1] if _args.size() > 1 else 0.0)",
-            "\t\tvar light_clip_size_after: float = max(light_clip_size_before, clip_size)",
-            '\t\treturn {"source_owner": "port_game.source_block_init_light_clip_size_state", "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "clip_size_expr": "clipSize = Math.max(clipSize, size * tilesize);", "light_clip_size_expr": "lightClipSize = Math.max(lightClipSize, clipSize);", "light_clip_size_before": light_clip_size_before, "clip_size": clip_size, "light_clip_size_after": light_clip_size_after}',
+            "\t\treturn SourceBlockInitClipState.generated_light_clip_size_result_state(light_clip_size_before, clip_size)",
             '\tif init_bridge_mode == "liquid_light":',
             "\t\tvar has_liquids: bool = bool(_args[0] if _args.size() > 0 else false)",
             "\t\tvar draw_liquid_light: bool = bool(_args[1] if _args.size() > 1 else false)",
             "\t\tvar emit_light_before: bool = bool(_args[2] if _args.size() > 2 else false)",
             "\t\tvar light_clip_size_before: float = float(_args[3] if _args.size() > 3 else 0.0)",
             "\t\tvar liquid_light_size_value: int = int(_args[4] if _args.size() > 4 else 1)",
-            "\t\tvar liquid_light_gate: bool = has_liquids and draw_liquid_light",
-            "\t\tvar liquid_light_clip_size: float = float(liquid_light_size_value) * 30.0 * 2.0",
-            "\t\tvar emit_light_after: bool = true if liquid_light_gate else emit_light_before",
-            "\t\tvar light_clip_size_after: float = max(light_clip_size_before, liquid_light_clip_size) if liquid_light_gate else light_clip_size_before",
-            '\t\treturn {"source_owner": "port_game.source_block_init_liquid_light_state", "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "liquid_light_guard_expr": "if(hasLiquids && drawLiquidLight){", "emit_light_assign_expr": "emitLight = true;", "light_clip_size_expr": "lightClipSize = Math.max(lightClipSize, size * 30f * 2f);", "has_liquids": has_liquids, "draw_liquid_light": draw_liquid_light, "emit_light_before": emit_light_before, "light_clip_size_before": light_clip_size_before, "size": liquid_light_size_value, "liquid_light_gate": liquid_light_gate, "liquid_light_clip_size": liquid_light_clip_size, "emit_light_after": emit_light_after, "light_clip_size_after": light_clip_size_after}',
+            "\t\treturn SourceBlockInitClipState.generated_liquid_light_result_state(has_liquids, draw_liquid_light, emit_light_before, light_clip_size_before, liquid_light_size_value)",
             '\tif init_bridge_mode == "liquid_capacity_default":',
             "\t\tvar liquid_capacity_before: float = float(_args[0] if _args.size() > 0 else -1.0)",
-            "\t\tvar liquid_capacity_assigned: bool = liquid_capacity_before < 0.0",
-            "\t\tvar consume_amount: float = 1.0",
-            "\t\tvar liquid_capacity_after: float = float(int(10.0 * consume_amount + 16384.5) - 16384) if liquid_capacity_assigned else liquid_capacity_before",
-            '\t\treturn {"source_owner": "port_game.source_block_init_liquid_capacity_default_state", "source": "core/src/mindustry/world/Block.java", "arc_mathf_source": "arc-core/src/arc/math/Mathf.java", "method": "public void init(){", "super_init_expr": "super.init();", "liquid_capacity_comment": "//some blocks don\'t have hasLiquids, but have liquid consumers/liquid capacity", "liquid_capacity_guard_expr": "if(liquidCapacity < 0){", "consume_amount_default_expr": "float consumeAmount = 1f;", "consume_builder_loop_expr": "for(var cons : consumeBuilder){", "liquid_capacity_assign_expr": "liquidCapacity = Mathf.round(10f * consumeAmount);", "mathf_round_expr": "return (int)(value + BIG_ENOUGH_ROUND) - BIG_ENOUGH_INT;", "liquid_capacity_before": liquid_capacity_before, "consume_amount": consume_amount, "liquid_capacity_assigned": liquid_capacity_assigned, "liquid_capacity_after": liquid_capacity_after}',
+            "\t\treturn SourceBlockInitClipState.generated_liquid_capacity_default_result_state(liquid_capacity_before)",
             '\tif init_bridge_mode == "emit_light_radius":',
             "\t\tvar emit_light: bool = bool(_args[0] if _args.size() > 0 else false)",
             "\t\tvar light_clip_size_before: float = float(_args[1] if _args.size() > 1 else 0.0)",
             "\t\tvar light_radius: float = float(_args[2] if _args.size() > 2 else 0.0)",
-            "\t\tvar light_radius_clip_size: float = light_radius * 2.0",
-            "\t\tvar light_clip_size_after: float = max(light_clip_size_before, light_radius_clip_size) if emit_light else light_clip_size_before",
-            '\t\treturn {"source_owner": "port_game.source_block_init_emit_light_radius_state", "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "emit_light_guard_expr": "if(emitLight){", "light_clip_size_expr": "lightClipSize = Math.max(lightClipSize, lightRadius * 2f);", "emit_light": emit_light, "light_clip_size_before": light_clip_size_before, "light_radius": light_radius, "light_radius_clip_size": light_radius_clip_size, "light_clip_size_after": light_clip_size_after}',
+            "\t\treturn SourceBlockInitClipState.generated_emit_light_radius_result_state(emit_light, light_clip_size_before, light_radius)",
             '\tif init_bridge_mode == "accepts_items":',
             '\t\tvar block_group: Variant = _args[0] if _args.size() > 0 else ""',
             '\t\tvar category_value: Variant = _args[1] if _args.size() > 1 else ""',
             "\t\tvar accepts_items_before: bool = bool(_args[2] if _args.size() > 2 else false)",
-            '\t\tvar accepts_items_gate: bool = block_group == "BlockGroup.transportation" or category_value == "Category.distribution"',
-            "\t\tvar accepts_items_after: bool = true if accepts_items_gate else accepts_items_before",
-            '\t\treturn {"source_owner": "port_game.source_block_init_accepts_items_state", "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "accepts_items_guard_expr": "if(group == BlockGroup.transportation || category == Category.distribution){", "accepts_items_assign_expr": "acceptsItems = true;", "block_group": block_group, "category": category_value, "accepts_items_before": accepts_items_before, "accepts_items_gate": accepts_items_gate, "accepts_items_after": accepts_items_after}',
+            "\t\treturn SourceBlockInitPlacementState.generated_accepts_items_result_state(block_group, category_value, accepts_items_before)",
             '\tif init_bridge_mode == "offset":',
             "\t\tvar offset_size_value: int = int(_args[0] if _args.size() > 0 else 1)",
             "\t\tvar source_tilesize: float = float(_args[1] if _args.size() > 1 else SOURCE_TILESIZE)",
-            "\t\tvar offset_after: float = float((offset_size_value + 1) % 2) * source_tilesize / 2.0",
-            "\t\tvar size_offset_after: int = -int(float(offset_size_value - 1) / 2.0)",
-            '\t\treturn {"source_owner": "port_game.source_block_init_offset_state", "source": "core/src/mindustry/world/Block.java", "vars_source": "core/src/mindustry/Vars.java", "method": "public void init(){", "super_init_expr": "super.init();", "offset_expr": "offset = ((size + 1) % 2) * tilesize / 2f;", "size_offset_expr": "sizeOffset = -((size - 1) / 2);", "tilesize_field_expr": "public static final int tilesize = 8;", "size": offset_size_value, "source_tilesize": source_tilesize, "offset_after": offset_after, "size_offset_after": size_offset_after}',
+            "\t\treturn SourceBlockInitPlacementState.generated_offset_result_state(offset_size_value, source_tilesize)",
             '\tif init_bridge_mode == "build_time_requirements":',
             "\t\tvar build_time_before: float = float(_args[0] if _args.size() > 0 else -1.0)",
             "\t\tvar requirement_stacks: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []",
-            "\t\tvar requirements_length: int = requirement_stacks.size()",
-            "\t\tvar build_time_assigned: bool = requirement_stacks.size() > 0 and build_time_before < 0.0",
-            "\t\tvar build_time_after: float = 0.0 if build_time_assigned else build_time_before",
-            "\t\tif build_time_assigned:",
-            "\t\t\tfor stack in requirement_stacks:",
-            "\t\t\t\tif stack is Dictionary:",
-            "\t\t\t\t\tbuild_time_after += float(stack.get(\"amount\", 0)) * float(stack.get(\"cost\", 1.0))",
-            '\t\treturn {"source_owner": "port_game.source_block_init_build_time_requirements_state", "source": "core/src/mindustry/world/Block.java", "item_source": "core/src/mindustry/type/Item.java", "item_stack_source": "core/src/mindustry/type/ItemStack.java", "method": "public void init(){", "super_init_expr": "super.init();", "build_time_guard_expr": "if(requirements.length > 0 && buildTime < 0){", "build_time_zero_expr": "buildTime = 0f;", "requirements_loop_expr": "for(ItemStack stack : requirements){", "build_time_add_expr": "buildTime += stack.amount * stack.item.cost;", "item_cost_field_expr": "public float cost = 1f;", "itemstack_amount_field_expr": "public int amount = 0;", "build_time_before": build_time_before, "requirement_stacks": requirement_stacks, "requirements_length": requirements_length, "build_time_assigned": build_time_assigned, "build_time_after": build_time_after}',
+            "\t\treturn SourceBlockInitBuildTimeState.generated_requirements_result_state(build_time_before, requirement_stacks)",
             '\tif init_bridge_mode == "build_time_default":',
             "\t\tvar default_build_time_before: float = float(_args[0] if _args.size() > 0 else -1.0)",
-            "\t\tvar build_time_assigned: bool = default_build_time_before < 0.0",
-            "\t\tvar build_time_after: float = 20.0 if build_time_assigned else default_build_time_before",
-            '\t\treturn {"source_owner": "port_game.source_block_init_build_time_default_state", "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "build_time_guard_expr": "if(buildTime < 0){", "build_time_default_expr": "buildTime = 20f;", "build_time_before": default_build_time_before, "build_time_assigned": build_time_assigned, "build_time_after": build_time_after}',
+            "\t\treturn SourceBlockInitBuildTimeState.generated_default_result_state(default_build_time_before)",
             '\tif init_bridge_mode == "build_time_multiplier":',
             "\t\tvar multiplier_build_time_before: float = float(_args[0] if _args.size() > 0 else 20.0)",
             "\t\tvar build_cost_multiplier: float = float(_args[1] if _args.size() > 1 else 1.0)",
-            "\t\tvar build_time_after: float = multiplier_build_time_before * build_cost_multiplier",
-            '\t\treturn {"source_owner": "port_game.source_block_init_build_time_multiplier_state", "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "build_cost_multiplier_field_expr": "public float buildCostMultiplier = 1f;", "build_time_multiplier_expr": "buildTime *= buildCostMultiplier;", "build_time_before": multiplier_build_time_before, "build_cost_multiplier": build_cost_multiplier, "build_time_after": build_time_after}',
+            "\t\treturn SourceBlockInitBuildTimeState.generated_multiplier_result_state(multiplier_build_time_before, build_cost_multiplier)",
             '\tif init_bridge_mode == "consumer_arrays":',
             "\t\tvar consumer_builder_entries: Array = (_args[0] as Array).duplicate() if _args.size() > 0 and _args[0] is Array else []",
-            "\t\tvar consumers: Array = consumer_builder_entries.duplicate()",
-            "\t\tvar optional_consumers: Array = []",
-            "\t\tvar non_optional_consumers: Array = []",
-            "\t\tvar update_consumers: Array = []",
-            "\t\tfor consumer in consumer_builder_entries:",
-            "\t\t\tif not consumer is Dictionary:",
-            "\t\t\t\tcontinue",
-            '\t\t\tvar ignored: bool = bool(consumer.get("ignored", false))',
-            '\t\t\tif bool(consumer.get("optional", false)) and not ignored:',
-            "\t\t\t\toptional_consumers.append(consumer)",
-            '\t\t\tif not bool(consumer.get("optional", false)) and not ignored:',
-            "\t\t\t\tnon_optional_consumers.append(consumer)",
-            '\t\t\tif bool(consumer.get("update", true)) and not ignored:',
-            "\t\t\t\tupdate_consumers.append(consumer)",
-            "\t\tvar has_consumers: bool = consumers.size() > 0",
-            '\t\treturn {"source_owner": "port_game.source_block_init_consumer_arrays_state", "source": "core/src/mindustry/world/Block.java", "consume_source": "core/src/mindustry/world/consumers/Consume.java", "method": "public void init(){", "super_init_expr": "super.init();", "consumers_expr": "consumers = consumeBuilder.toArray(Consume.class);", "optional_consumers_expr": "optionalConsumers = consumeBuilder.select(consume -> consume.optional && !consume.ignore()).toArray(Consume.class);", "non_optional_consumers_expr": "nonOptionalConsumers = consumeBuilder.select(consume -> !consume.optional && !consume.ignore()).toArray(Consume.class);", "update_consumers_expr": "updateConsumers = consumeBuilder.select(consume -> consume.update && !consume.ignore()).toArray(Consume.class);", "has_consumers_expr": "hasConsumers = consumers.length > 0;", "consume_optional_field_expr": "public boolean optional;", "consume_update_field_expr": "public boolean update = true;", "consume_ignore_method_expr": "public boolean ignore(){", "consume_builder": consumer_builder_entries, "consumers": consumers, "optional_consumers": optional_consumers, "non_optional_consumers": non_optional_consumers, "update_consumers": update_consumers, "has_consumers": has_consumers}',
+            "\t\treturn SourceBlockInitConsumerState.generated_consumer_arrays_result_state(consumer_builder_entries)",
             '\tif init_bridge_mode == "item_liquid_filters":',
             "\t\tvar content_items_size: int = int(_args[0] if _args.size() > 0 else 0)",
             "\t\tvar content_liquids_size: int = int(_args[1] if _args.size() > 1 else 0)",
-            "\t\tvar item_filter: Array = []",
-            "\t\tfor _i in range(max(content_items_size, 0)):",
-            "\t\t\titem_filter.append(false)",
-            "\t\tvar liquid_filter: Array = []",
-            "\t\tfor _i in range(max(content_liquids_size, 0)):",
-            "\t\t\tliquid_filter.append(false)",
-            '\t\treturn {"source_owner": "port_game.source_block_init_item_liquid_filters_state", "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "item_filter_expr": "itemFilter = new boolean[content.items().size];", "liquid_filter_expr": "liquidFilter = new boolean[content.liquids().size];", "content_items_size": content_items_size, "content_liquids_size": content_liquids_size, "item_filter": item_filter, "liquid_filter": liquid_filter, "item_filter_size": item_filter.size(), "liquid_filter_size": liquid_filter.size()}',
+            "\t\treturn SourceBlockInitItemLiquidFiltersState.generated_item_liquid_filters_result_state(content_items_size, content_liquids_size)",
             '\tif init_bridge_mode == "consumer_apply_loop":',
             "\t\tvar consumer_entries: Array = (_args[0] as Array).duplicate() if _args.size() > 0 and _args[0] is Array else []",
-            "\t\tvar apply_calls: Array = []",
-            "\t\tfor consumer in consumer_entries:",
-            '\t\t\tapply_calls.append({"call": "cons.apply(this);", "consumer": consumer, "block_arg": "this"})',
-            '\t\treturn {"source_owner": "port_game.source_block_init_consumer_apply_loop_state", "source": "core/src/mindustry/world/Block.java", "consume_source": "core/src/mindustry/world/consumers/Consume.java", "method": "public void init(){", "super_init_expr": "super.init();", "consumers_loop_expr": "for(Consume cons : consumers){", "consume_apply_expr": "cons.apply(this);", "consume_apply_method_expr": "public void apply(Block block){", "consumers": consumer_entries, "apply_calls": apply_calls, "apply_call_count": apply_calls.size()}',
+            "\t\treturn SourceBlockInitConsumerState.generated_consumer_apply_loop_result_state(consumer_entries)",
             '\tif init_bridge_mode == "set_bars_call":',
-            '\t\tvar set_bars_call: Dictionary = {"call": "setBars();", "method": "public void setBars(){"}',
-            '\t\treturn {"source_owner": "port_game.source_block_init_set_bars_call_state", "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "set_bars_expr": "setBars();", "set_bars_method_expr": "public void setBars(){", "health_bar_expr": "addBar(\\"health\\", entity -> new Bar(\\"stat.health\\", Pal.health, entity::healthf).blink(Color.white));", "set_bars_call": set_bars_call, "set_bars_called": true}',
+            "\t\treturn SourceBlockInitSetBarsCallState.generated_set_bars_call_result_state()",
             '\tif init_bridge_mode == "stats_categories":',
             "\t\tvar stats_use_categories_before: bool = bool(_args[0] if _args.size() > 0 else false)",
-            "\t\tvar stats_use_categories_after: bool = true",
-            '\t\treturn {"source_owner": "port_game.source_block_init_stats_categories_state", "source": "core/src/mindustry/world/Block.java", "stats_source": "core/src/mindustry/world/meta/Stats.java", "method": "public void init(){", "super_init_expr": "super.init();", "stats_use_categories_expr": "stats.useCategories = true;", "stats_use_categories_field_expr": "public boolean useCategories = false;", "stats_use_categories_before": stats_use_categories_before, "stats_use_categories_after": stats_use_categories_after}',
+            "\t\treturn SourceBlockInitStatsCategoriesState.generated_stats_categories_result_state(stats_use_categories_before)",
             '\tif init_bridge_mode == "logic_configurable":',
             "\t\tvar logic_configurable_before: bool = bool(_args[0] if _args.size() > 0 else false)",
             "\t\tvar config_key_assignable_to_unlockable_content: bool = bool(_args[1] if _args.size() > 1 else false)",
-            "\t\tvar logic_configurable_after: bool = logic_configurable_before or config_key_assignable_to_unlockable_content",
-            '\t\treturn {"source_owner": "port_game.source_block_init_logic_configurable_state", "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "logic_configurable_field_expr": "public boolean logicConfigurable = false;", "logic_configurable_guard_expr": "if(!logicConfigurable){", "configurations_each_expr": "configurations.each((key, val) -> {", "unlockable_assignable_expr": "if(UnlockableContent.class.isAssignableFrom(key)){", "logic_configurable_assignment_expr": "logicConfigurable = true;", "logic_configurable_before": logic_configurable_before, "config_key_assignable_to_unlockable_content": config_key_assignable_to_unlockable_content, "logic_configurable_after": logic_configurable_after}',
+            "\t\treturn SourceBlockInitLogicConfigurableState.generated_logic_configurable_result_state(logic_configurable_before, config_key_assignable_to_unlockable_content)",
             '\tif init_bridge_mode == "buffered_power":',
             "\t\tvar outputs_power: bool = bool(_args[0] if _args.size() > 0 else false)",
             "\t\tvar has_cons_power: bool = bool(_args[1] if _args.size() > 1 else false)",
             "\t\tvar cons_power_buffered_before: bool = bool(_args[2] if _args.size() > 2 else false)",
-            "\t\tvar buffered_power_disabled: bool = (not outputs_power) and has_cons_power and cons_power_buffered_before",
-            "\t\tvar cons_power_buffered_after: bool = false if buffered_power_disabled else cons_power_buffered_before",
-            '\t\treturn {"source_owner": "port_game.source_block_init_buffered_power_state", "source": "core/src/mindustry/world/Block.java", "consume_power_source": "core/src/mindustry/world/consumers/ConsumePower.java", "method": "public void init(){", "super_init_expr": "super.init();", "outputs_power_field_expr": "public boolean outputsPower = false;", "cons_power_field_expr": "public @Nullable ConsumePower consPower;", "consume_power_buffered_field_expr": "public boolean buffered;", "buffered_power_guard_expr": "if(!outputsPower && consPower != null && consPower.buffered){", "buffered_power_warn_expr": "Log.warn(\\"Consumer using buffered power: @. Disabling buffered power.\\", name);", "buffered_power_disable_expr": "consPower.buffered = false;", "outputs_power": outputs_power, "has_cons_power": has_cons_power, "cons_power_buffered_before": cons_power_buffered_before, "buffered_power_disabled": buffered_power_disabled, "cons_power_buffered_after": cons_power_buffered_after}',
+            "\t\treturn SourceBlockInitBufferedPowerState.generated_buffered_power_result_state(outputs_power, has_cons_power, cons_power_buffered_before)",
             '\tif init_bridge_mode == "sandbox_visibility":',
             '\t\tvar build_visibility: String = str(_args[0] if _args.size() > 0 else "BuildVisibility.hidden")',
             "\t\tvar hide_details_before: bool = bool(_args[1] if _args.size() > 1 else true)",
-            '\t\tvar sandbox_visibility_applied: bool = build_visibility == "BuildVisibility.sandboxOnly"',
-            "\t\tvar hide_details_after: bool = false if sandbox_visibility_applied else hide_details_before",
-            '\t\treturn {"source_owner": "port_game.source_block_init_sandbox_visibility_state", "source": "core/src/mindustry/world/Block.java", "build_visibility_source": "core/src/mindustry/world/meta/BuildVisibility.java", "unlockable_content_source": "core/src/mindustry/ctype/UnlockableContent.java", "method": "public void init(){", "super_init_expr": "super.init();", "build_visibility_field_expr": "public BuildVisibility buildVisibility = BuildVisibility.hidden;", "hide_details_field_expr": "public boolean hideDetails = true;", "sandbox_visibility_guard_expr": "if(buildVisibility == BuildVisibility.sandboxOnly){", "sandbox_only_expr": "sandboxOnly = new BuildVisibility(() -> Vars.state == null || Vars.state.rules.infiniteResources),", "hide_details_assign_expr": "hideDetails = false;", "build_visibility": build_visibility, "hide_details_before": hide_details_before, "sandbox_visibility_applied": sandbox_visibility_applied, "hide_details_after": hide_details_after}',
+            "\t\treturn SourceBlockInitSandboxVisibilityState.generated_sandbox_visibility_result_state(build_visibility, hide_details_before)",
             '\tif init_bridge_mode == "place_sound":',
             '\t\tvar place_sound_before: Variant = _args[0] if _args.size() > 0 else "Sounds.unset"',
             "\t\tvar place_size_value: int = int(_args[1] if _args.size() > 1 else 1)",
-            "\t\tvar place_sound_after: Variant = place_sound_before",
-            '\t\tvar place_sound_assigned: bool = place_sound_before == "Sounds.unset"',
-            "\t\tif place_sound_assigned:",
-            "\t\t\tif place_size_value >= 3:",
-            '\t\t\t\tplace_sound_after = "Sounds.blockPlace3"',
-            "\t\t\telif place_size_value >= 2:",
-            '\t\t\t\tplace_sound_after = "Sounds.blockPlace2"',
-            "\t\t\telse:",
-            '\t\t\t\tplace_sound_after = "Sounds.blockPlace1"',
-            '\t\treturn {"source_owner": "port_game.source_block_init_place_sound_state", "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "place_sound_guard_expr": "if(placeSound == Sounds.unset){", "place_sound_assign_expr": "placeSound =", "place_sound_size_3_expr": "size >= 3 ? Sounds.blockPlace3 :", "place_sound_size_2_expr": "size >= 2 ? Sounds.blockPlace2 :", "place_sound_size_1_expr": "Sounds.blockPlace1;", "place_sound_before": place_sound_before, "size": place_size_value, "place_sound_after": place_sound_after, "place_sound_assigned": place_sound_assigned}',
+            "\t\treturn SourceBlockInitSoundState.generated_place_sound_result_state(place_sound_before, place_size_value)",
             '\tif init_bridge_mode == "break_sound":',
             '\t\tvar break_sound_before: Variant = _args[0] if _args.size() > 0 else "Sounds.unset"',
             "\t\tvar break_size_value: int = int(_args[1] if _args.size() > 1 else 1)",
-            "\t\tvar break_sound_after: Variant = break_sound_before",
-            '\t\tvar break_sound_assigned: bool = break_sound_before == "Sounds.unset"',
-            "\t\tif break_sound_assigned:",
-            "\t\t\tif break_size_value >= 3:",
-            '\t\t\t\tbreak_sound_after = "Sounds.blockBreak3"',
-            "\t\t\telif break_size_value >= 2:",
-            '\t\t\t\tbreak_sound_after = "Sounds.blockBreak2"',
-            "\t\t\telse:",
-            '\t\t\t\tbreak_sound_after = "Sounds.blockBreak1"',
-            '\t\treturn {"source_owner": "port_game.source_block_init_break_sound_state", "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "break_sound_guard_expr": "if(breakSound == Sounds.unset){", "break_sound_assign_expr": "breakSound =", "break_sound_size_3_expr": "size >= 3 ? Sounds.blockBreak3 :", "break_sound_size_2_expr": "size >= 2 ? Sounds.blockBreak2 :", "break_sound_size_1_expr": "Sounds.blockBreak1;", "break_sound_before": break_sound_before, "size": break_size_value, "break_sound_after": break_sound_after, "break_sound_assigned": break_sound_assigned}',
+            "\t\treturn SourceBlockInitSoundState.generated_break_sound_result_state(break_sound_before, break_size_value)",
             '\tvar destroy_sound_before: Variant = _args[0] if _args.size() > 0 else "Sounds.unset"',
             "\tvar size_value: int = int(_args[1] if _args.size() > 1 else 1)",
-            "\tvar destroy_sound_after: Variant = destroy_sound_before",
-            '\tvar destroy_sound_assigned: bool = destroy_sound_before == "Sounds.unset"',
-            "\tif destroy_sound_assigned:",
-            "\t\tif size_value >= 3:",
-            '\t\t\tdestroy_sound_after = "Sounds.blockExplode3"',
-            "\t\telif size_value >= 2:",
-            '\t\t\tdestroy_sound_after = {"type": "RandomSound", "sounds": ["Sounds.blockExplode2", "Sounds.blockExplode2Alt"]}',
-            "\t\telse:",
-            '\t\t\tdestroy_sound_after = {"type": "RandomSound", "sounds": ["Sounds.blockExplode1", "Sounds.blockExplode1Alt"]}',
-            '\treturn {"source_owner": "port_game.source_block_init_destroy_sound_state", "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "destroy_sound_guard_expr": "if(destroySound == Sounds.unset){", "destroy_sound_assign_expr": "destroySound =", "destroy_sound_size_3_expr": "size >= 3 ? Sounds.blockExplode3 :", "destroy_sound_size_2_expr": "size >= 2 ? new RandomSound(Sounds.blockExplode2, Sounds.blockExplode2Alt) :", "destroy_sound_size_1_expr": "new RandomSound(Sounds.blockExplode1, Sounds.blockExplode1Alt);", "destroy_sound_before": destroy_sound_before, "size": size_value, "destroy_sound_after": destroy_sound_after, "destroy_sound_assigned": destroy_sound_assigned}',
+            "\treturn SourceBlockInitSoundState.generated_destroy_sound_result_state(destroy_sound_before, size_value)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "setStats"
+    ):
+        return [
+            "\tvar size_value: int = int(_args[0] if _args.size() > 0 else 1)",
+            "\tvar synthetic_value: bool = bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar health: float = float(_args[2] if _args.size() > 2 else 0.0)",
+            "\tvar armor: float = float(_args[3] if _args.size() > 3 else 0.0)",
+            "\tvar buildable_value: bool = bool(_args[4] if _args.size() > 4 else false)",
+            "\tvar requirements_length: int = int(_args[5] if _args.size() > 5 else 0)",
+            "\tvar build_time: float = float(_args[6] if _args.size() > 6 else 0.0)",
+            "\tvar instant_transfer: bool = bool(_args[7] if _args.size() > 7 else false)",
+            "\tvar consumers: Array = (_args[8] as Array).duplicate() if _args.size() > 8 and _args[8] is Array else []",
+            "\tvar has_liquids: bool = bool(_args[9] if _args.size() > 9 else false)",
+            "\tvar liquid_capacity: float = float(_args[10] if _args.size() > 10 else 0.0)",
+            "\tvar has_items: bool = bool(_args[11] if _args.size() > 11 else false)",
+            "\tvar item_capacity: int = int(_args[12] if _args.size() > 12 else 0)",
+            "\treturn SourceBlockStatsBarsState.generated_set_stats_result_state(size_value, synthetic_value, health, armor, buildable_value, requirements_length, build_time, instant_transfer, consumers, has_liquids, liquid_capacity, has_items, item_capacity)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "addBar"
+        and len(method.get("parameters", [])) == 2
+    ):
+        return [
+            '\tvar bar_name: String = str(_args[0] if _args.size() > 0 else "")',
+            "\tvar bar_supplier: Variant = _args[1] if _args.size() > 1 else null",
+            "\tvar bar_map_before: Dictionary = (_args[2] as Dictionary).duplicate() if _args.size() > 2 and _args[2] is Dictionary else {}",
+            "\treturn SourceBlockStatsBarsState.generated_add_bar_result_state(bar_name, bar_supplier, bar_map_before)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "removeBar"
+    ):
+        return [
+            '\tvar bar_name: String = str(_args[0] if _args.size() > 0 else "")',
+            "\tvar bar_map_before: Dictionary = (_args[1] as Dictionary).duplicate() if _args.size() > 1 and _args[1] is Dictionary else {}",
+            "\treturn SourceBlockStatsBarsState.generated_remove_bar_result_state(bar_name, bar_map_before)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "listBars"
+    ):
+        return [
+            "\tvar bar_map: Dictionary = (_args[0] as Dictionary).duplicate() if _args.size() > 0 and _args[0] is Dictionary else {}",
+            "\treturn SourceBlockStatsBarsState.generated_list_bars_result_state(bar_map)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "addLiquidBar"
+        and len(method.get("parameters", [])) == 1
+        and method.get("parameters", [])[0].get("type") == "Liquid"
+    ):
+        return [
+            '\tvar liquid_name: String = str(_args[0] if _args.size() > 0 else "")',
+            "\tvar liquid_unlocked: bool = bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar liquid_amount: float = float(_args[2] if _args.size() > 2 else 0.0)",
+            "\tvar liquid_capacity: float = float(_args[3] if _args.size() > 3 else 1.0)",
+            '\tvar localized_name: String = str(_args[4] if _args.size() > 4 else liquid_name)',
+            '\tvar bar_color: Variant = _args[5] if _args.size() > 5 else "liq.barColor"',
+            "\treturn SourceBlockStatsBarsState.generated_add_liquid_bar_static_result_state(liquid_name, liquid_unlocked, liquid_amount, liquid_capacity, localized_name, bar_color)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "addLiquidBar"
+        and len(method.get("parameters", [])) == 1
+        and method.get("parameters", [])[0].get("type") == "Func"
+    ):
+        return [
+            "\tvar current_liquid: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar current_amount: float = float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar liquid_capacity: float = float(_args[2] if _args.size() > 2 else 1.0)",
+            '\tvar localized_name: String = str(_args[3] if _args.size() > 3 else "")',
+            '\tvar bar_color: Variant = _args[4] if _args.size() > 4 else "Color.clear"',
+            "\tvar empty_threshold: float = float(_args[5] if _args.size() > 5 else 0.001)",
+            "\treturn SourceBlockStatsBarsState.generated_add_liquid_bar_dynamic_result_state(current_liquid, current_amount, liquid_capacity, localized_name, bar_color, empty_threshold)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "setBars"
+    ):
+        return [
+            "\tvar cons_power_present: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar has_items: bool = bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar configurable: bool = bool(_args[2] if _args.size() > 2 else false)",
+            "\tvar item_total: int = int(_args[3] if _args.size() > 3 else 0)",
+            "\tvar item_capacity: int = int(_args[4] if _args.size() > 4 else 1)",
+            "\tvar unit_cap_modifier: int = int(_args[5] if _args.size() > 5 else 0)",
+            "\tvar has_liquids: bool = bool(_args[6] if _args.size() > 6 else false)",
+            "\tvar static_liquid_bar_added: bool = bool(_args[7] if _args.size() > 7 else false)",
+            "\treturn SourceBlockStatsBarsState.generated_set_bars_result_state(cons_power_present, has_items, configurable, item_total, item_capacity, unit_cap_modifier, has_liquids, static_liquid_bar_added)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "afterPatch"
+    ):
+        return [
+            "\tvar size_value: int = int(_args[0] if _args.size() > 0 else 1)",
+            "\tvar source_tilesize: float = float(_args[1] if _args.size() > 1 else SOURCE_TILESIZE)",
+            "\tvar content_items_size: int = int(_args[2] if _args.size() > 2 else 0)",
+            "\tvar content_liquids_size: int = int(_args[3] if _args.size() > 3 else 0)",
+            "\tvar consume_builder: Array = (_args[4] as Array).duplicate() if _args.size() > 4 and _args[4] is Array else []",
+            "\treturn SourceBlockStatsBarsState.generated_after_patch_result_state(size_value, source_tilesize, content_items_size, content_liquids_size, consume_builder)",
         ]
     if (
         java_file.get("path") == "mindustry/world/Block.java"
@@ -4682,8 +9351,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     ):
         return [
             "\tvar usage: Variant = _args[0] if _args.size() > 0 else null",
-            '\tvar constructed_consume: Dictionary = {"type": "ConsumePowerDynamic", "usage": usage}',
-            '\treturn {"source_owner": "port_game.source_block_consume_power_dynamic_state", "source": "core/src/mindustry/world/Block.java", "comment": "Creates a consumer that consumes a dynamic amount of power.", "method": "public <T extends Building> ConsumePower consumePowerDynamic(Floatf<T> usage){", "return_expr": "return consume(new ConsumePowerDynamic((Floatf<Building>)usage));", "constructor_expr": "new ConsumePowerDynamic((Floatf<Building>)usage)", "usage_cast_expr": "(Floatf<Building>)usage", "consume_call_expr": "consume(new ConsumePowerDynamic((Floatf<Building>)usage))", "usage": usage, "constructed_consume": constructed_consume, "consume_called": true}',
+            "\treturn SourceBlockConsumeState.generated_consume_power_dynamic_result_state(usage)",
         ]
     if (
         java_file.get("path") == "mindustry/world/blocks/defense/turrets/ContinuousTurret.java"
@@ -6284,6 +10952,173 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "isDiscovered"
+        and parameter_types == ["Team"]
+    ):
+        return [
+            "\tvar limit_map_area := bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar darkness := float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar viewer_present := bool(_args[2] if _args.size() > 2 else false)",
+            "\tvar static_fog := bool(_args[3] if _args.size() > 3 else false)",
+            "\tvar rules_fog := bool(_args[4] if _args.size() > 4 else false)",
+            "\tvar block_size_value := int(_args[5] if _args.size() > 5 else 0)",
+            "\tvar tile_x := int(_args[6] if _args.size() > 6 else 0)",
+            "\tvar tile_y := int(_args[7] if _args.size() > 7 else 0)",
+            "\tvar fog_discovered_lookup: Callable = _args[8] if _args.size() > 8 and _args[8] is Callable else Callable()",
+            "\treturn source_building_visibility_state.is_discovered_state(limit_map_area, darkness, viewer_present, static_fog, rules_fog, block_size_value, tile_x, tile_y, fog_discovered_lookup)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "addPlan"
+        and parameter_types == ["boolean"]
+    ):
+        return [
+            "\tvar check_previous := bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar rebuildable := bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar is_default_team := bool(_args[2] if _args.size() > 2 else false)",
+            "\tvar is_campaign := bool(_args[3] if _args.size() > 3 else false)",
+            "\tvar block_visible := bool(_args[4] if _args.size() > 4 else false)",
+            "\tvar is_construct_build := bool(_args[5] if _args.size() > 5 else false)",
+            "\tvar construct_current_synthetic := bool(_args[6] if _args.size() > 6 else false)",
+            "\tvar construct_was_constructing := bool(_args[7] if _args.size() > 7 else false)",
+            "\tvar construct_current: Variant = _args[8] if _args.size() > 8 else null",
+            "\tvar construct_last_config: Variant = _args[9] if _args.size() > 9 else null",
+            "\tvar block_value: Variant = _args[10] if _args.size() > 10 else null",
+            "\tvar current_config: Variant = _args[11] if _args.size() > 11 else null",
+            "\tvar tile_x := int(_args[12] if _args.size() > 12 else 0)",
+            "\tvar tile_y := int(_args[13] if _args.size() > 13 else 0)",
+            "\tvar rotation := int(_args[14] if _args.size() > 14 else 0)",
+            "\tvar plans: Array = _args[15] if _args.size() > 15 and _args[15] is Array else []",
+            "\treturn source_building_plan_state.add_plan_default_state(check_previous, rebuildable, is_default_team, is_campaign, block_visible, is_construct_build, construct_current_synthetic, construct_was_constructing, construct_current, construct_last_config, block_value, current_config, tile_x, tile_y, rotation, plans)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "addPlan"
+        and parameter_types == ["boolean", "boolean"]
+    ):
+        return [
+            "\tvar check_previous := bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar ignore_conditions := bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar rebuildable := bool(_args[2] if _args.size() > 2 else false)",
+            "\tvar is_default_team := bool(_args[3] if _args.size() > 3 else false)",
+            "\tvar is_campaign := bool(_args[4] if _args.size() > 4 else false)",
+            "\tvar block_visible := bool(_args[5] if _args.size() > 5 else false)",
+            "\tvar is_construct_build := bool(_args[6] if _args.size() > 6 else false)",
+            "\tvar construct_current_synthetic := bool(_args[7] if _args.size() > 7 else false)",
+            "\tvar construct_was_constructing := bool(_args[8] if _args.size() > 8 else false)",
+            "\tvar construct_current: Variant = _args[9] if _args.size() > 9 else null",
+            "\tvar construct_last_config: Variant = _args[10] if _args.size() > 10 else null",
+            "\tvar block_value: Variant = _args[11] if _args.size() > 11 else null",
+            "\tvar current_config: Variant = _args[12] if _args.size() > 12 else null",
+            "\tvar tile_x := int(_args[13] if _args.size() > 13 else 0)",
+            "\tvar tile_y := int(_args[14] if _args.size() > 14 else 0)",
+            "\tvar rotation := int(_args[15] if _args.size() > 15 else 0)",
+            "\tvar plans: Array = _args[16] if _args.size() > 16 and _args[16] is Array else []",
+            "\treturn source_building_plan_state.add_plan_state(check_previous, ignore_conditions, rebuildable, is_default_team, is_campaign, block_visible, is_construct_build, construct_current_synthetic, construct_was_constructing, construct_current, construct_last_config, block_value, current_config, tile_x, tile_y, rotation, plans)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "findClosestEdge"
+        and parameter_types == ["Position", "Boolf"]
+    ):
+        return [
+            "\tvar to_position: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar solid_lookup: Variant = _args[1] if _args.size() > 1 else null",
+            "\tvar tile_x := int(_args[2] if _args.size() > 2 else 0)",
+            "\tvar tile_y := int(_args[3] if _args.size() > 3 else 0)",
+            "\tvar block_size := int(_args[4] if _args.size() > 4 else 1)",
+            "\tvar world_tile_lookup: Variant = _args[5] if _args.size() > 5 else null",
+            "\treturn source_building_navigation_state.find_closest_edge_state(to_position, tile_x, tile_y, block_size, world_tile_lookup, solid_lookup)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "configure"
+        and parameter_types == ["Object"]
+    ):
+        return [
+            "\tvar value: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar block_state: Dictionary = _args[1] if _args.size() > 1 and _args[1] is Dictionary else {}",
+            "\tvar player_state: Variant = _args[2] if _args.size() > 2 else null",
+            "\tvar self_state: Variant = _args[3] if _args.size() > 3 else null",
+            "\tvar tile_config_callback: Variant = _args[4] if _args.size() > 4 else null",
+            "\treturn source_building_configure_state.configure_state(block_state, player_state, self_state, value, tile_config_callback)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "configureAny"
+        and parameter_types == ["Object"]
+    ):
+        return [
+            "\tvar value: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar self_state: Variant = _args[1] if _args.size() > 1 else null",
+            "\tvar tile_config_callback: Variant = _args[2] if _args.size() > 2 else null",
+            "\treturn source_building_configure_state.configure_any_state(self_state, value, tile_config_callback)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "deselect"
+        and not parameter_types
+    ):
+        return [
+            "\tvar headless := bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar selected_building: Variant = _args[1] if _args.size() > 1 else null",
+            "\tvar self_state: Variant = _args[2] if _args.size() > 2 else null",
+            "\tvar hide_config_callback: Variant = _args[3] if _args.size() > 3 else null",
+            "\treturn source_building_configure_state.deselect_state(headless, selected_building, self_state, hide_config_callback)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "configTapped"
+        and not parameter_types
+    ):
+        return ["\treturn source_building_configure_state.config_tapped_state()"]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "calculateHeat"
+        and parameter_types == ["float"]
+    ):
+        return [
+            "\tvar side_heat: Array = _args[0] if _args.size() > 0 and _args[0] is Array else []",
+            "\tvar proximity: Array = _args[1] if _args.size() > 1 and _args[1] is Array else []",
+            "\tvar team_id := int(_args[2] if _args.size() > 2 else 0)",
+            "\tvar self_x := float(_args[3] if _args.size() > 3 else 0.0)",
+            "\tvar self_y := float(_args[4] if _args.size() > 4 else 0.0)",
+            "\tvar block_size := int(_args[5] if _args.size() > 5 else 1)",
+            "\tvar source_tilesize := float(_args[6] if _args.size() > 6 else SOURCE_TILESIZE)",
+            "\tvar self_id := int(_args[7] if _args.size() > 7 else 0)",
+            "\tvar update_heat_callback: Variant = _args[8] if _args.size() > 8 else null",
+            "\treturn source_building_heat_state.calculate_heat_default_state(side_heat, proximity, team_id, self_x, self_y, block_size, source_tilesize, self_id, update_heat_callback)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "calculateHeat"
+        and parameter_types == ["float", "IntSet"]
+    ):
+        return [
+            "\tvar side_heat: Array = _args[0] if _args.size() > 0 and _args[0] is Array else []",
+            "\tvar came_from: Array = _args[1] if _args.size() > 1 and _args[1] is Array else []",
+            "\tvar proximity: Array = _args[2] if _args.size() > 2 and _args[2] is Array else []",
+            "\tvar team_id := int(_args[3] if _args.size() > 3 else 0)",
+            "\tvar self_x := float(_args[4] if _args.size() > 4 else 0.0)",
+            "\tvar self_y := float(_args[5] if _args.size() > 5 else 0.0)",
+            "\tvar block_size := int(_args[6] if _args.size() > 6 else 1)",
+            "\tvar source_tilesize := float(_args[7] if _args.size() > 7 else SOURCE_TILESIZE)",
+            "\tvar self_id := int(_args[8] if _args.size() > 8 else 0)",
+            "\tvar update_heat_callback: Variant = _args[9] if _args.size() > 9 else null",
+            "\treturn source_building_heat_state.calculate_heat_state(side_heat, came_from, proximity, team_id, self_x, self_y, block_size, source_tilesize, self_id, true, update_heat_callback)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
         and method.get("name") == "inFogTo"
     ):
         return [
@@ -6390,6 +11225,40 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "write"
+        and parameter_types == ["Writes"]
+    ):
+        return [
+            "\tvar write_value: Variant = _args[0] if _args.size() > 0 else null",
+            "\treturn source_building_serialization_state.write_hook_noop_state(write_value)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "read"
+        and parameter_types == ["Reads", "byte"]
+    ):
+        return [
+            "\tvar read_value: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar revision := int(_args[1] if _args.size() > 1 else 0)",
+            "\treturn source_building_serialization_state.read_hook_noop_state(read_value, revision)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") in {"writeAll", "readAll", "writeSync", "readSync", "version"}
+    ):
+        delegates = {
+            "writeAll": "source_building_serialization_state.write_all_state()",
+            "readAll": "source_building_serialization_state.read_all_state()",
+            "writeSync": "source_building_serialization_state.write_sync_state()",
+            "readSync": "source_building_serialization_state.read_sync_state()",
+            "version": "source_building_serialization_state.version_state()",
+        }
+        return [f"\treturn {delegates[method.get('name')]}" ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
         and method.get("name") == "checkAllowUpdate"
     ):
         return [
@@ -6436,6 +11305,148 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar update_tile_gate := {\"method\": \"public void update(){\", \"gate\": \"if(enabled || !block.noUpdateDisabled){\", \"update_tile_call\": \"updateTile();\", \"enabled_state\": enabled_state, \"block_no_update_disabled\": block_no_update_disabled, \"update_tile_called\": update_tile_called}",
             "\treturn {\"source_owner\": \"port_game.source_building_update_timescale_decay_state\", \"update_timescale_decay_source_owner\": \"port_game.source_building_update_timescale_decay_state\", \"update_timescale_decay\": update_timescale_decay, \"update_ambient_sound_gate_source_owner\": \"port_game.source_building_update_ambient_sound_gate_state\", \"update_ambient_sound_gate\": update_ambient_sound_gate, \"update_consumption_call_source_owner\": \"port_game.source_building_update_consumption_call_state\", \"update_consumption_call\": update_consumption_call, \"update_tile_gate_source_owner\": \"port_game.source_building_update_tile_gate_state\", \"update_tile_gate\": update_tile_gate}",
         ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "eachEdge"
+        and parameter_types == ["Cons"]
+    ):
+        return [
+            "\tvar tile_x := int(_args[0] if _args.size() > 0 else 0)",
+            "\tvar tile_y := int(_args[1] if _args.size() > 1 else 0)",
+            "\tvar block_size := int(_args[2] if _args.size() > 2 else 1)",
+            "\tvar block_edges_lookup: Variant = _args[3] if _args.size() > 3 else null",
+            "\tvar world_tile_lookup: Variant = _args[4] if _args.size() > 4 else null",
+            "\tvar cons_callback: Variant = _args[5] if _args.size() > 5 else null",
+            "\treturn source_building_navigation_state.each_edge_state(tile_x, tile_y, block_size, block_edges_lookup, world_tile_lookup, cons_callback)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "nearby"
+        and parameter_types == ["int", "int"]
+    ):
+        return [
+            "\tvar tile_x := int(_args[0] if _args.size() > 0 else 0)",
+            "\tvar tile_y := int(_args[1] if _args.size() > 1 else 0)",
+            "\tvar delta_x := int(_args[2] if _args.size() > 2 else 0)",
+            "\tvar delta_y := int(_args[3] if _args.size() > 3 else 0)",
+            "\tvar world_build_lookup: Variant = _args[4] if _args.size() > 4 else null",
+            "\treturn source_building_navigation_state.nearby_delta_state(tile_x, tile_y, delta_x, delta_y, world_build_lookup)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "nearby"
+        and parameter_types == ["int"]
+    ):
+        return [
+            "\tvar tile_x := int(_args[0] if _args.size() > 0 else 0)",
+            "\tvar tile_y := int(_args[1] if _args.size() > 1 else 0)",
+            "\tvar rotation := int(_args[2] if _args.size() > 2 else 0)",
+            "\tvar world_build_lookup: Variant = _args[3] if _args.size() > 3 else null",
+            "\treturn source_building_navigation_state.nearby_rotation_state(tile_x, tile_y, rotation, world_build_lookup)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "relativeTo"
+        and parameter_types == ["Tile"]
+    ):
+        return [
+            "\tvar tile_x := int(_args[0] if _args.size() > 0 else 0)",
+            "\tvar tile_y := int(_args[1] if _args.size() > 1 else 0)",
+            "\tvar self_block_size := int(_args[2] if _args.size() > 2 else 1)",
+            "\tvar other_x := int(_args[3] if _args.size() > 3 else 0)",
+            "\tvar other_y := int(_args[4] if _args.size() > 4 else 0)",
+            "\treturn source_building_navigation_state.relative_to_tile_state(tile_x, tile_y, self_block_size, other_x, other_y)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "relativeTo"
+        and parameter_types == ["Building"]
+    ):
+        return [
+            "\tvar self_x := float(_args[0] if _args.size() > 0 else 0.0)",
+            "\tvar self_y := float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar other_x := float(_args[2] if _args.size() > 2 else 0.0)",
+            "\tvar other_y := float(_args[3] if _args.size() > 3 else 0.0)",
+            "\treturn source_building_navigation_state.relative_to_building_state(self_x, self_y, other_x, other_y)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "relativeToEdge"
+        and parameter_types == ["Tile"]
+    ):
+        return [
+            "\tvar tile_x := int(_args[0] if _args.size() > 0 else 0)",
+            "\tvar tile_y := int(_args[1] if _args.size() > 1 else 0)",
+            "\tvar self_block_size := int(_args[2] if _args.size() > 2 else 1)",
+            "\tvar other_x := int(_args[3] if _args.size() > 3 else 0)",
+            "\tvar other_y := int(_args[4] if _args.size() > 4 else 0)",
+            "\tvar other_block_size := int(_args[5] if _args.size() > 5 else 1)",
+            "\treturn source_building_navigation_state.relative_to_edge_state(tile_x, tile_y, self_block_size, other_x, other_y, other_block_size)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "relativeTo"
+        and parameter_types == ["int", "int"]
+    ):
+        return [
+            "\tvar tile_x := int(_args[0] if _args.size() > 0 else 0)",
+            "\tvar tile_y := int(_args[1] if _args.size() > 1 else 0)",
+            "\tvar self_block_size := int(_args[2] if _args.size() > 2 else 1)",
+            "\tvar target_x := int(_args[3] if _args.size() > 3 else 0)",
+            "\tvar target_y := int(_args[4] if _args.size() > 4 else 0)",
+            "\treturn source_building_navigation_state.relative_to_coordinates_state(tile_x, tile_y, self_block_size, target_x, target_y)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") in {"front", "back", "left", "right"}
+        and not parameters
+    ):
+        delegate = {
+            "front": "front_state",
+            "back": "back_state",
+            "left": "left_state",
+            "right": "right_state",
+        }[method.get("name")]
+        return [
+            "\tvar tile_x := int(_args[0] if _args.size() > 0 else 0)",
+            "\tvar tile_y := int(_args[1] if _args.size() > 1 else 0)",
+            "\tvar block_size := int(_args[2] if _args.size() > 2 else 1)",
+            "\tvar rotation := int(_args[3] if _args.size() > 3 else 0)",
+            "\tvar world_build_lookup: Variant = _args[4] if _args.size() > 4 else null",
+            f"\treturn source_building_navigation_state.{delegate}(tile_x, tile_y, block_size, rotation, world_build_lookup)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "updatePayload"
+    ):
+        update_method_index = next(
+            (index for index, candidate in enumerate(type_entry.get("methods", []))
+             if candidate.get("name") == "update" and not candidate.get("parameters")),
+            None,
+        )
+        if update_method_index is None:
+            return ["\treturn null"]
+        return [
+            "\tvar unit_holder: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar building_holder: Variant = _args[1] if _args.size() > 1 else null",
+            f"\tvar update_state = java_method_update_{update_method_index}([])",
+            "\treturn SourceBuildingLifecycleState.update_payload_state(update_state, unit_holder, building_holder)",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "updateTile"
+    ):
+        return ["\treturn SourceBuildingLifecycleState.update_tile_noop_state()"]
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
@@ -6563,10 +11574,318 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar power_sound := \"blockExplodeElectricBig\" if power_sound_kind == \"big\" else \"blockExplodeElectric\" if power_sound_kind == \"normal\" else \"\"",
             "\treturn {\"source_owner\": \"port_game.source_building_on_destroyed_item_explosion_state\", \"liquid_source_owner\": \"port_game.source_building_on_destroyed_liquid_explosion_state\", \"buffered_power_source_owner\": \"port_game.source_building_on_destroyed_buffered_power_state\", \"splash_liquid_source_owner\": \"port_game.source_building_on_destroyed_splash_liquid_state\", \"dynamic_explosion_source_owner\": \"port_game.source_building_on_destroyed_dynamic_explosion_call_state\", \"rubble_source_owner\": \"port_game.source_building_on_destroyed_rubble_state\", \"base_sound_source_owner\": \"port_game.source_building_on_destroyed_base_sound_state\", \"reactive_sound_source_owner\": \"port_game.source_building_on_destroyed_reactive_sound_state\", \"power_sound_source_owner\": \"port_game.source_building_on_destroyed_power_sound_state\", \"comment\": \"Called when the block is destroyed. The tile is still intact at this stage.\", \"method\": \"public void onDestroyed(){\", \"dynamic_explosion_comment\": \"//cap explosiveness so fluid tanks/vaults don't instakill units\", \"dynamic_explosion_call\": \"Damage.dynamicExplosion(x, y, flammability * block.flammabilityScale, explosiveness * 3.5f * block.explosivenessScale, power, tilesize * block.size / 2f, state.rules.damageExplosions, block.destroyEffect, block.baseShake);\", \"rubble_gate\": \"if(block.createRubble && !floor().solid && !floor().isLiquid){\", \"rubble_effect_call\": \"Effect.rubble(x, y, block.size);\", \"base_sound_gate\": \"if(!headless){\", \"base_sound_call\": \"playDestroySound();\", \"play_destroy_sound_call\": \"block.destroySound.at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);\", \"reactive_explosive_gate\": \"if(explosiveness > 40f){\", \"reactive_explosive_sound_call\": \"(Mathf.chance(0.5) ? Sounds.blockExplodeExplosive : Sounds.blockExplodeExplosiveAlt).at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);\", \"reactive_flammable_gate\": \"}else if(flammability > 5f){\", \"reactive_flammable_sound_call\": \"Sounds.blockExplodeFlammable.at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);\", \"power_sound_big_gate\": \"if(power > 30000f){\", \"power_sound_big_call\": \"Sounds.blockExplodeElectricBig.at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);\", \"power_sound_normal_gate\": \"}else if(power > 2000f){\", \"power_sound_normal_call\": \"Sounds.blockExplodeElectric.at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);\", \"base_explosiveness_expr\": \"float explosiveness = block.baseExplosiveness;\", \"flammability_expr\": \"float flammability = 0f;\", \"power_expr\": \"float power = 0f;\", \"has_items_gate\": \"if(block.hasItems){\", \"items_loop\": \"for(Item item : content.items()){\", \"amount_expr\": \"int amount = Math.min(items.get(item), explosionItemCap());\", \"explosiveness_add\": \"explosiveness += item.explosiveness * amount;\", \"flammability_add\": \"flammability += item.flammability * amount;\", \"power_add\": \"power += item.charge * Mathf.pow(amount, 1.1f) * 150f;\", \"has_liquids_gate\": \"if(block.hasLiquids){\", \"liquid_flammability_add\": \"flammability += liquids.sum((liquid, amount) -> liquid.flammability * amount / 2f);\", \"liquid_explosiveness_add\": \"explosiveness += liquids.sum((liquid, amount) -> liquid.explosiveness * amount / 2f);\", \"buffered_power_guard\": \"if(block.consPower != null && block.consPower.buffered){\", \"buffered_power_add\": \"power += this.power.status * block.consPower.capacity;\", \"splash_liquid_gate\": \"if(block.hasLiquids && state.rules.damageExplosions){\", \"splash_liquid_call\": \"liquids.each(this::splashLiquid);\", \"base_explosiveness\": base_explosiveness, \"has_items\": has_items, \"item_cap\": item_cap, \"has_liquids\": has_liquids, \"damage_explosions\": damage_explosions, \"splash_liquids\": splash_liquids, \"call\": splash_call, \"liquid_count\": liquid_count, \"liquids\": liquids, \"headless\": headless, \"destroy_sound\": destroy_sound, \"destroy_pitch_min\": destroy_pitch_min, \"destroy_pitch_max\": destroy_pitch_max, \"destroy_sound_volume\": destroy_sound_volume, \"play_destroy_sound\": play_destroy_sound, \"sound\": base_destroy_sound, \"pitch_min\": destroy_pitch_min, \"pitch_max\": destroy_pitch_max, \"volume\": destroy_sound_volume, \"play_reactive_sound\": play_reactive_sound, \"reactive_sound_kind\": reactive_sound_kind, \"reactive_sound\": reactive_sound, \"reactive_sound_choices\": reactive_sound_choices, \"reactive_chance\": reactive_chance, \"play_power_sound\": play_power_sound, \"power_sound_kind\": power_sound_kind, \"power_sound\": power_sound, \"dynamic_explosion_x\": source_x, \"dynamic_explosion_y\": source_y, \"dynamic_explosion_flammability\": dynamic_explosion_flammability, \"dynamic_explosion_explosiveness\": dynamic_explosion_explosiveness, \"dynamic_explosion_power\": power, \"dynamic_explosion_radius\": dynamic_explosion_radius, \"dynamic_explosion_damage_explosions\": damage_explosions, \"dynamic_explosion_effect\": destroy_effect, \"dynamic_explosion_shake\": base_shake, \"rubble_create_rubble\": should_create_rubble, \"rubble_call\": rubble_call, \"rubble_x\": source_x, \"rubble_y\": source_y, \"rubble_size\": source_block_size if should_create_rubble else 0, \"current_power\": current_power, \"has_cons_power\": has_cons_power, \"cons_power_buffered\": cons_power_buffered, \"power_status\": power_status, \"cons_power_capacity\": cons_power_capacity, \"apply_buffered_power\": apply_buffered_power, \"buffered_power_contribution\": buffered_power_contribution, \"explosiveness\": explosiveness, \"flammability\": flammability, \"power\": power}",
         ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "offload"
+        and [param.get("type") for param in method.get("parameters", [])] == ["Item"]
+    ):
+        return [
+            "\tvar item: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar dump_cursor := int(_args[1] if _args.size() > 1 else 0)",
+            "\tvar neighbors: Array = _args[2] if _args.size() > 2 and _args[2] is Array else []",
+            "\treturn SourceDrillInventoryRuntimeState.offload_to_inventory_state({}, str(item), 1, {SourceDrillInventoryRuntimeState.SOURCE_DRILL_INVENTORY_DUMP_CURSOR_KEY: dump_cursor, SourceDrillInventoryRuntimeState.SOURCE_DRILL_INVENTORY_NEIGHBORS_KEY: neighbors})",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "put"
+        and [param.get("type") for param in method.get("parameters", [])] == ["Item"]
+    ):
+        return [
+            "\tvar item: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar proximity_size := int(_args[1] if _args.size() > 1 else 0)",
+            "\tvar dump_cursor := int(_args[2] if _args.size() > 2 else 0)",
+            "\tvar accepts_item_by_index: Array = _args[3] if _args.size() > 3 and _args[3] is Array else []",
+            "\tvar can_dump_by_index: Array = _args[4] if _args.size() > 4 and _args[4] is Array else []",
+            "\tvar result := SourceBuildingItemDumpState.generated_put_item_state(item, proximity_size, dump_cursor, accepts_item_by_index, can_dump_by_index)",
+            "\tresult[\"source_owner\"] = source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_ITEM_DUMP_STATE",
+            "\treturn result",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "produced"
+        and [param.get("type") for param in method.get("parameters", [])] == ["Item"]
+    ):
+        return [
+            "\tvar item: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar result := SourceBuildingItemDumpState.produced_item_default_state(item)",
+            "\tresult[\"source_owner\"] = source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_ITEM_DUMP_STATE",
+            "\treturn result",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "produced"
+        and [param.get("type") for param in method.get("parameters", [])] == ["Item", "int"]
+    ):
+        return [
+            "\tvar item: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar amount := int(_args[1] if _args.size() > 1 else 1)",
+            "\tvar sector_present := bool(_args[2] if _args.size() > 2 else false)",
+            "\tvar team_is_default_team := bool(_args[3] if _args.size() > 3 else false)",
+            "\tvar net_client := bool(_args[4] if _args.size() > 4 else false)",
+            "\tvar result := SourceBuildingItemDumpState.produced_item_amount_state(item, amount, sector_present, team_is_default_team, net_client)",
+            "\tresult[\"source_owner\"] = source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_ITEM_DUMP_STATE",
+            "\treturn result",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "dumpAccumulate"
+        and not method.get("parameters")
+    ):
+        return [
+            "\tvar current_accum := float(_args[0] if _args.size() > 0 else 0.0)",
+            "\tvar source_delta := float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar dump_outcomes: Array = _args[2] if _args.size() > 2 and _args[2] is Array else []",
+            "\tvar result := SourceBuildingItemDumpState.dump_accumulate_generated_state(current_accum, source_delta, null, dump_outcomes)",
+            "\tresult[\"source_owner\"] = source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_ITEM_DUMP_STATE",
+            "\treturn result",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "dumpAccumulate"
+        and [param.get("type") for param in method.get("parameters", [])] == ["Item"]
+    ):
+        return [
+            "\tvar current_accum := float(_args[0] if _args.size() > 0 else 0.0)",
+            "\tvar source_delta := float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar item: Variant = _args[2] if _args.size() > 2 else null",
+            "\tvar dump_outcomes: Array = _args[3] if _args.size() > 3 and _args[3] is Array else []",
+            "\tvar result := SourceBuildingItemDumpState.dump_accumulate_generated_state(current_accum, source_delta, item, dump_outcomes)",
+            "\tresult[\"source_owner\"] = source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_ITEM_DUMP_STATE",
+            "\treturn result",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "dump"
+        and not method.get("parameters")
+    ):
+        return [
+            "\tvar block_has_items := bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar item_total := int(_args[1] if _args.size() > 1 else 0)",
+            "\tvar proximity_size := int(_args[2] if _args.size() > 2 else 0)",
+            "\tvar item_ids: Array = _args[3] if _args.size() > 3 and _args[3] is Array else []",
+            "\tvar item_amounts_by_index: Array = _args[4] if _args.size() > 4 and _args[4] is Array else []",
+            "\tvar accepts_item_by_index: Array = _args[5] if _args.size() > 5 and _args[5] is Array else []",
+            "\tvar can_dump_by_index: Array = _args[6] if _args.size() > 6 and _args[6] is Array else []",
+            "\tvar dump_cursor := int(_args[7] if _args.size() > 7 else 0)",
+            "\tvar result := SourceBuildingItemDumpState.dump_item_state(block_has_items, item_total, proximity_size, null, true, item_ids, item_amounts_by_index, accepts_item_by_index, can_dump_by_index, dump_cursor)",
+            "\tresult[\"source_owner\"] = source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_ITEM_DUMP_STATE",
+            "\treturn result",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "dump"
+        and [param.get("type") for param in method.get("parameters", [])] == ["Item"]
+    ):
+        return [
+            "\tvar block_has_items := bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar item_total := int(_args[1] if _args.size() > 1 else 0)",
+            "\tvar proximity_size := int(_args[2] if _args.size() > 2 else 0)",
+            "\tvar todump: Variant = _args[3] if _args.size() > 3 else null",
+            "\tvar todump_present := bool(_args[4] if _args.size() > 4 else false)",
+            "\tvar item_ids: Array = _args[5] if _args.size() > 5 and _args[5] is Array else []",
+            "\tvar item_amounts_by_index: Array = _args[6] if _args.size() > 6 and _args[6] is Array else []",
+            "\tvar accepts_item_by_index: Array = _args[7] if _args.size() > 7 and _args[7] is Array else []",
+            "\tvar can_dump_by_index: Array = _args[8] if _args.size() > 8 and _args[8] is Array else []",
+            "\tvar dump_cursor := int(_args[9] if _args.size() > 9 else 0)",
+            "\tvar result := SourceBuildingItemDumpState.dump_item_state(block_has_items, item_total, proximity_size, todump, todump_present, item_ids, item_amounts_by_index, accepts_item_by_index, can_dump_by_index, dump_cursor)",
+            "\tresult[\"source_owner\"] = source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_ITEM_DUMP_STATE",
+            "\treturn result",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "incrementDump"
+    ):
+        return [
+            "\tvar current_dump := int(_args[0] if _args.size() > 0 else 0)",
+            "\tvar proximity_size := int(_args[1] if _args.size() > 1 else 0)",
+            "\treturn {\"source_owner\": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_ITEM_DUMP_STATE, \"current_dump\": current_dump, \"proximity_size\": proximity_size, \"cdump\": SourceBuildingItemDumpState.increment_dump_cursor_state(current_dump, proximity_size)}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "canDump"
+    ):
+        return [
+            "\tvar to_state: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar item: Variant = _args[1] if _args.size() > 1 else null",
+            "\tvar result := SourceBuildingItemDumpState.can_dump_item_default_state(to_state, item)",
+            "\tresult[\"source_owner\"] = source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_ITEM_DUMP_STATE",
+            "\treturn result",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "moveForward"
+        and [param.get("type") for param in method.get("parameters", [])] == ["Item"]
+    ):
+        return [
+            "\tvar has_front := bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar same_team := bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar front_accepts := bool(_args[2] if _args.size() > 2 else false)",
+            "\tvar move_forward := SourceBuildingItemState.move_forward_accept_state(has_front, same_team, front_accepts)",
+            "\treturn {\"source_owner\": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_MOVE_FORWARD_STATE, \"source\": \"core/src/mindustry/entities/comp/BuildingComp.java\", \"method\": \"public boolean moveForward(Item item){\", \"front\": has_front, \"moveForward\": move_forward, \"handleDeferred\": move_forward, \"return_value\": move_forward}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "onProximityRemoved"
+    ):
+        return [
+            "\tvar power_present := bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar result := SourceBuildingPowerState.on_proximity_removed_state(power_present)",
+            "\tresult[\"source_owner\"] = source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_ON_PROXIMITY_REMOVED_STATE",
+            "\treturn result",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "onProximityAdded"
+    ):
+        return [
+            "\tvar power_present := bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar result := SourceBuildingPowerState.on_proximity_added_state(power_present)",
+            "\tresult[\"source_owner\"] = source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_ON_PROXIMITY_ADDED_STATE",
+            "\treturn result",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "onProximityUpdate"
+    ):
+        return [
+            "\tvar result := SourceBuildingPowerState.on_proximity_update_state()",
+            "\tresult[\"source_owner\"] = source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_ON_PROXIMITY_UPDATE_STATE",
+            "\treturn result",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "updatePowerGraph"
+    ):
+        return [
+            "\tvar other_power_present_by_index: Array = _args[0] if _args.size() > 0 and _args[0] is Array else []",
+            "\tvar result := SourceBuildingPowerState.update_power_graph_state(other_power_present_by_index)",
+            "\tresult[\"source_owner\"] = source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_UPDATE_POWER_GRAPH_STATE",
+            "\treturn result",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "powerGraphRemoved"
+    ):
+        return [
+            "\tvar power_present := bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar linked_build_present_by_index: Array = _args[1] if _args.size() > 1 and _args[1] is Array else []",
+            "\tvar linked_build_power_present_by_index: Array = _args[2] if _args.size() > 2 and _args[2] is Array else []",
+            "\tvar result := SourceBuildingPowerState.power_graph_removed_state(power_present, linked_build_present_by_index, linked_build_power_present_by_index)",
+            "\tresult[\"source_owner\"] = source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_POWER_GRAPH_REMOVED_STATE",
+            "\treturn result",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "conductsTo"
+    ):
+        return [
+            "\tvar block_insulated := bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar result := SourceBuildingPowerState.conducts_to_state(block_insulated)",
+            "\tresult[\"source_owner\"] = source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_CONDUCTS_TO_STATE",
+            "\treturn result",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "getPowerConnections"
+    ):
+        return [
+            "\tvar power_present := bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar previous_out_count := int(_args[1] if _args.size() > 1 else 0)",
+            "\tvar other_present_by_index: Array = _args[2] if _args.size() > 2 and _args[2] is Array else []",
+            "\tvar other_power_present_by_index: Array = _args[3] if _args.size() > 3 and _args[3] is Array else []",
+            "\tvar other_same_team_by_index: Array = _args[4] if _args.size() > 4 and _args[4] is Array else []",
+            "\tvar block_consumes_power := bool(_args[5] if _args.size() > 5 else false)",
+            "\tvar block_outputs_power := bool(_args[6] if _args.size() > 6 else false)",
+            "\tvar block_conductive_power := bool(_args[7] if _args.size() > 7 else false)",
+            "\tvar other_block_consumes_power_by_index: Array = _args[8] if _args.size() > 8 and _args[8] is Array else []",
+            "\tvar other_block_outputs_power_by_index: Array = _args[9] if _args.size() > 9 and _args[9] is Array else []",
+            "\tvar other_block_conductive_power_by_index: Array = _args[10] if _args.size() > 10 and _args[10] is Array else []",
+            "\tvar conducts_to_other_by_index: Array = _args[11] if _args.size() > 11 and _args[11] is Array else []",
+            "\tvar other_conducts_to_self_by_index: Array = _args[12] if _args.size() > 12 and _args[12] is Array else []",
+            "\tvar power_link_contains_other_pos_by_index: Array = _args[13] if _args.size() > 13 and _args[13] is Array else []",
+            "\tvar link_present_by_index: Array = _args[14] if _args.size() > 14 and _args[14] is Array else []",
+            "\tvar link_build_present_by_index: Array = _args[15] if _args.size() > 15 and _args[15] is Array else []",
+            "\tvar link_build_power_present_by_index: Array = _args[16] if _args.size() > 16 and _args[16] is Array else []",
+            "\tvar link_build_same_team_by_index: Array = _args[17] if _args.size() > 17 and _args[17] is Array else []",
+            "\tvar result := SourceBuildingPowerState.get_power_connections_state(power_present, previous_out_count, other_present_by_index, other_power_present_by_index, other_same_team_by_index, block_consumes_power, block_outputs_power, block_conductive_power, other_block_consumes_power_by_index, other_block_outputs_power_by_index, other_block_conductive_power_by_index, conducts_to_other_by_index, other_conducts_to_self_by_index, power_link_contains_other_pos_by_index, link_present_by_index, link_build_present_by_index, link_build_power_present_by_index, link_build_same_team_by_index)",
+            "\tresult[\"source_owner\"] = source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_GET_POWER_CONNECTIONS_STATE",
+            "\treturn result",
+        ]
     return ["\treturn null"]
 
 def _helper_lines(java_file: dict, type_entry: dict) -> list[str]:
-    return []
+    lines: list[str] = []
+    if (
+        java_file.get("path") == "mindustry/input/InputHandler.java"
+        and type_entry.get("name") == "InputHandler"
+    ):
+        lines.extend([
+            'const SourceInputHandlerState := preload("res://src/game/SourceInputHandlerState.gd")',
+            'const SourceInputHandlerSourceTextState := preload("res://src/game/SourceInputHandlerSourceTextState.gd")',
+        ])
+    if (
+        java_file.get("path") == "mindustry/world/blocks/power/PowerGenerator.java"
+        and type_entry.get("name") == "PowerGenerator"
+    ):
+        lines.append('const SourcePowerGeneratorState := preload("res://src/game/SourcePowerGeneratorState.gd")')
+    if (
+        java_file.get("path") == "mindustry/world/blocks/power/PowerNode.java"
+        and type_entry.get("name") == "PowerNode"
+    ):
+        lines.append('const SourcePowerNodeState := preload("res://src/game/SourcePowerNodeState.gd")')
+    if (
+        java_file.get("path") == "mindustry/type/UnitType.java"
+        and type_entry.get("name") == "UnitType"
+    ):
+        lines.extend([
+            'const SourceUnitTypeState := preload("res://src/game/SourceUnitTypeState.gd")',
+            'const SourceUnitTypeSourceTextState := preload("res://src/game/SourceUnitTypeSourceTextState.gd")',
+        ])
+    if (
+        java_file.get("path") == "mindustry/world/Tile.java"
+        and type_entry.get("name") == "Tile"
+    ):
+        lines.extend([
+            'const SourceBlockGeometry := preload("res://src/game/SourceBlockGeometry.gd")',
+            'const SourceWorldDefaults := preload("res://src/game/SourceWorldDefaults.gd")',
+            "const SOURCE_TILESIZE := SourceWorldDefaults.TILESIZE",
+        ])
+    if (
+        java_file.get("path") == "mindustry/entities/comp/UnitComp.java"
+        and type_entry.get("name") == "UnitComp"
+    ):
+        lines.extend([
+            'const SourceUnitUpdateState := preload("res://src/game/SourceUnitUpdateState.gd")',
+            'const SourceUnitMetadataState := preload("res://src/game/SourceUnitMetadataState.gd")',
+            'const SourceUnitDestroyState := preload("res://src/game/SourceUnitDestroyState.gd")',
+            'const SourceUnitDestroySourceTextState := preload("res://src/game/SourceUnitDestroySourceTextState.gd")',
+            'const SourceUnitUpdateSourceTextState := preload("res://src/game/SourceUnitUpdateSourceTextState.gd")',
+            'const SourceUnitSensorSourceTextState := preload("res://src/game/SourceUnitSensorSourceTextState.gd")',
+            'const SourceUnitSetPropSourceTextState := preload("res://src/game/SourceUnitSetPropSourceTextState.gd")',
+            'const SourceUnitCombatMetadataSourceTextState := preload("res://src/game/SourceUnitCombatMetadataSourceTextState.gd")',
+            'const SourceUnitControllerSourceTextState := preload("res://src/game/SourceUnitControllerSourceTextState.gd")',
+            'const SourceWorldDefaults := preload("res://src/game/SourceWorldDefaults.gd")',
+            "const SOURCE_TILESIZE := SourceWorldDefaults.TILESIZE",
+        ])
+    return lines
 
 def _method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
     lines = []
@@ -6576,12 +11895,45 @@ def _method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
             "",
             f"func java_method_{name}_{index}(_args: Array = []) -> Variant:",
         ])
-        lines.extend(_method_body_lines(java_file, type_entry, method))
+        lines.extend(_method_body_lines(java_file, type_entry, method, index))
     return lines
 
 
 def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
     lines: list[str] = []
+    unit_build_command_sources = {
+        "mindustry/world/blocks/units/UnitFactory.java",
+        "mindustry/world/blocks/units/UnitAssembler.java",
+        "mindustry/world/blocks/units/Reconstructor.java",
+    }
+    if java_file.get("path") in unit_build_command_sources:
+        source_path = "core/src/" + java_file.get("path", "")
+        for inner_class in type_entry.get("inner_classes", []):
+            inner_name = str(inner_class.get("name", ""))
+            if not inner_name.endswith("Build"):
+                continue
+            source_text = str(java_file.get("_source_text", ""))
+            declaration_match = re.search(
+                rf"public\s+(?:abstract\s+)?class\s+{re.escape(inner_name)}\s+extends\s+[^{{]+\{{",
+                source_text,
+            )
+            inner_decl = declaration_match.group(0) if declaration_match else f"public class {inner_name} extends {inner_class.get('extends', '')}{{"
+            for index, method in enumerate(inner_class.get("methods", [])):
+                method_name = method.get("name")
+                if method_name == "getCommandPosition" and not method.get("parameters"):
+                    lines.extend([
+                        "",
+                        f"func java_inner_class_{inner_name}_method_getCommandPosition_{index}(_args: Array = []) -> Variant:",
+                        '\tvar command_position: Variant = _args[0] if _args.size() > 0 else null',
+                        f'\treturn {{"source_owner": "port_game.source_unit_building_get_command_position_state", "source": "{source_path}", "inner_class": "{inner_decl}", "method": "public Vec2 getCommandPosition(){{", "return_expr": "return commandPos;", "command_position": command_position}}',
+                    ])
+                elif method_name == "onCommand" and len(method.get("parameters", [])) == 1:
+                    lines.extend([
+                        "",
+                        f"func java_inner_class_{inner_name}_method_onCommand_{index}(_args: Array = []) -> Variant:",
+                        '\tvar target: Variant = _args[0] if _args.size() > 0 else null',
+                        f'\treturn {{"source_owner": "port_game.source_unit_building_on_command_state", "source": "{source_path}", "inner_class": "{inner_decl}", "method": "public void onCommand(Vec2 target){{", "assignment_expr": "commandPos = target;", "target": target, "command_position": target}}',
+                    ])
     if (
         java_file.get("path") == "mindustry/world/blocks/payloads/BuildPayload.java"
         and type_entry.get("name") == "BuildPayload"
@@ -8038,6 +13390,53 @@ def _script_text(java_file: dict, type_entry: dict) -> str:
             "const SOURCE_SHOOT_PATTERN_SHOT_DELAY_DEFAULT := SourceShootPatternDefaults.SHOT_DELAY_DEFAULT",
         ])
     if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+    ):
+        lines.extend([
+            'const source_building_core_state := preload("res://src/game/SourceBuildingCoreState.gd")',
+            'const SourceBlockInitFlagsState := preload("res://src/game/SourceBlockInitFlagsState.gd")',
+            'const SourceBlockInitHealthState := preload("res://src/game/SourceBlockInitHealthState.gd")',
+            'const SourceBlockInitClipState := preload("res://src/game/SourceBlockInitClipState.gd")',
+            'const SourceBlockQueryState := preload("res://src/game/SourceBlockQueryState.gd")',
+            'const SourceBlockQueryBasicState := preload("res://src/game/SourceBlockQueryBasicState.gd")',
+            'const SourceBlockQueryPlacementState := preload("res://src/game/SourceBlockQueryPlacementState.gd")',
+            'const SourceBlockQueryFilterState := preload("res://src/game/SourceBlockQueryFilterState.gd")',
+            'const SourceBlockQueryDarknessState := preload("res://src/game/SourceBlockQueryDarknessState.gd")',
+            'const SourceBlockPlanVisibilityState := preload("res://src/game/SourceBlockPlanVisibilityState.gd")',
+            'const SourceBlockPlanPlacementState := preload("res://src/game/SourceBlockPlanPlacementState.gd")',
+            'const SourceBlockPlanConfigState := preload("res://src/game/SourceBlockPlanConfigState.gd")',
+            'const SourceBlockPlanDrawState := preload("res://src/game/SourceBlockPlanDrawState.gd")',
+            'const SourceBlockRuntimeGeometryState := preload("res://src/game/SourceBlockRuntimeGeometryState.gd")',
+            'const SourceBlockSenseState := preload("res://src/game/SourceBlockSenseState.gd")',
+            'const SourceBlockDrawState := preload("res://src/game/SourceBlockDrawState.gd")',
+            'const SourceBlockStatsBarsState := preload("res://src/game/SourceBlockStatsBarsState.gd")',
+            'const SourceBlockInitBuildTimeState := preload("res://src/game/SourceBlockInitBuildTimeState.gd")',
+            'const SourceBlockInitPlacementState := preload("res://src/game/SourceBlockInitPlacementState.gd")',
+            'const SourceBlockInitBuildingDefaultState := preload("res://src/game/SourceBlockInitBuildingDefaultState.gd")',
+            'const SourceBlockRequirementsState := preload("res://src/game/SourceBlockRequirementsState.gd")',
+            'const SourceBlockConsumeState := preload("res://src/game/SourceBlockConsumeState.gd")',
+            'const SourceBlockCheckContentArrayCapacityState := preload("res://src/game/SourceBlockCheckContentArrayCapacityState.gd")',
+            'const SourceBlockLoadState := preload("res://src/game/SourceBlockLoadState.gd")',
+            'const SourceBlockIconState := preload("res://src/game/SourceBlockIconState.gd")',
+            'const SourceBlockInitConsumerState := preload("res://src/game/SourceBlockInitConsumerState.gd")',
+            'const SourceBlockInitItemLiquidFiltersState := preload("res://src/game/SourceBlockInitItemLiquidFiltersState.gd")',
+            'const SourceBlockInitSetBarsCallState := preload("res://src/game/SourceBlockInitSetBarsCallState.gd")',
+            'const SourceBlockInitStatsCategoriesState := preload("res://src/game/SourceBlockInitStatsCategoriesState.gd")',
+            'const SourceBlockInitLogicConfigurableState := preload("res://src/game/SourceBlockInitLogicConfigurableState.gd")',
+            'const SourceBlockInitBufferedPowerState := preload("res://src/game/SourceBlockInitBufferedPowerState.gd")',
+            'const SourceBlockInitSandboxVisibilityState := preload("res://src/game/SourceBlockInitSandboxVisibilityState.gd")',
+            'const SourceBlockInitSoundState := preload("res://src/game/SourceBlockInitSoundState.gd")',
+            'const SourceBlockReinitializeConsumersState := preload("res://src/game/SourceBlockReinitializeConsumersState.gd")',
+            'const SourceBlockDisplayQueryState := preload("res://src/game/SourceBlockDisplayQueryState.gd")',
+            'const SourceBlockAttributeState := preload("res://src/game/SourceBlockAttributeState.gd")',
+            'const source_block_lifecycle_hook_state := preload("res://src/game/SourceBlockLifecycleHookState.gd")',
+            'const source_block_query_consumer_state := preload("res://src/game/SourceBlockQueryConsumerState.gd")',
+            'const source_block_get_dependencies_state := preload("res://src/game/SourceBlockGetDependenciesState.gd")',
+            'const source_block_metadata_state := preload("res://src/game/SourceBlockMetadataState.gd")',
+            'const source_block_research_requirements_state := preload("res://src/game/SourceBlockResearchRequirementsState.gd")',
+        ])
+    if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeItemCharged.java"
         and type_entry.get("name") == "ConsumeItemCharged"
     ):
@@ -8090,6 +13489,7 @@ def _script_text(java_file: dict, type_entry: dict) -> str:
             'const SourceConsumerDefaults := preload("res://src/game/SourceConsumerDefaults.gd")',
             "const SOURCE_CONSUME_LIQUID_FLAMMABLE_AMOUNT_DEFAULT := SourceConsumerDefaults.CONSUME_LIQUID_FLAMMABLE_AMOUNT_DEFAULT",
             "const SOURCE_CONSUME_LIQUID_FLAMMABLE_MIN_FLAMMABILITY_DEFAULT := SourceConsumerDefaults.CONSUME_LIQUID_FLAMMABLE_MIN_FLAMMABILITY_DEFAULT",
+            "const SOURCE_CONSUME_LIQUID_FLAMMABLE_EFFICIENCY_PERCENT_SCALE := SourceConsumerDefaults.CONSUME_LIQUID_FLAMMABLE_EFFICIENCY_PERCENT_SCALE",
         ])
     if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeLiquid.java"
@@ -8168,16 +13568,37 @@ def _script_text(java_file: dict, type_entry: dict) -> str:
         and type_entry.get("name") == "BuildingComp"
     ):
         lines.extend([
+            'const SourceBuildingLifecycleState := preload("res://src/game/SourceBuildingLifecycleState.gd")',
+            'const source_building_serialization_state := preload("res://src/game/SourceBuildingSerializationState.gd")',
             'const SourceMathState := preload("res://src/game/SourceMathState.gd")',
             'const SourceMathDefaults := preload("res://src/game/SourceMathDefaults.gd")',
             'const SourceBlockDefaults := preload("res://src/game/SourceBlockDefaults.gd")',
             'const SourceBuildingDefaults := preload("res://src/game/SourceBuildingDefaults.gd")',
             'const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")',
             'const SourceWorldDefaults := preload("res://src/game/SourceWorldDefaults.gd")',
+            'const SourceBuildingItemDumpState := preload("res://src/game/SourceBuildingItemDumpState.gd")',
+            'const SourceBuildingItemState := preload("res://src/game/SourceBuildingItemState.gd")',
+            'const SourceBuildingPowerState := preload("res://src/game/SourceBuildingPowerState.gd")',
+            'const SourceBuildingCoreState := preload("res://src/game/SourceBuildingCoreState.gd")',
+            'const SourceBuildingPayloadState := preload("res://src/game/SourceBuildingPayloadState.gd")',
+            'const SourceBuildingLiquidState := preload("res://src/game/SourceBuildingLiquidState.gd")',
+            'const source_building_configure_state := preload("res://src/game/SourceBuildingConfigureState.gd")',
+            'const source_building_draw_state := preload("res://src/game/SourceBuildingDrawState.gd")',
+            'const source_building_meta_state := preload("res://src/game/SourceBuildingMetaState.gd")',
+            'const source_building_display_state := preload("res://src/game/SourceBuildingDisplayState.gd")',
+            'const source_building_navigation_state := preload("res://src/game/SourceBuildingNavigationState.gd")',
+            'const source_building_heat_state := preload("res://src/game/SourceBuildingHeatState.gd")',
+            'const source_building_time_state := preload("res://src/game/SourceBuildingTimeState.gd")',
+            'const source_building_visibility_state := preload("res://src/game/SourceBuildingVisibilityState.gd")',
+            'const source_building_plan_state := preload("res://src/game/SourceBuildingPlanState.gd")',
+            'const SourceBlockGeometry := preload("res://src/game/SourceBlockGeometry.gd")',
+            'const SourceBuildingAccessState := preload("res://src/game/SourceBuildingAccessState.gd")',
+            'const SourceDrillInventoryRuntimeState := preload("res://src/game/SourceDrillInventoryRuntimeState.gd")',
             'const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")',
             "const SOURCE_FLOAT_ROUNDING_ERROR := SourceMathDefaults.FLOAT_ROUNDING_ERROR",
             "const SOURCE_BLOCK_SIZE_DEFAULT := SourceBlockDefaults.SIZE_DEFAULT",
             "const SOURCE_BLOCK_TIME_SCALE_DEFAULT := SourceBlockDefaults.TIME_SCALE_DEFAULT",
+            "const SOURCE_BUILDING_TIME_SCALE_BOOST_EPSILON := SourceBlockDefaults.TIME_SCALE_BOOST_EPSILON",
             "const SOURCE_BLOCK_NO_UPDATE_DISABLED_DEFAULT := SourceBlockDefaults.NO_UPDATE_DISABLED_DEFAULT",
             "const SOURCE_BUILDING_DRAW_CONFIGURE_COLOR := SourceBuildingDefaults.DRAW_CONFIGURE_COLOR",
             "const SOURCE_BUILDING_DRAW_CONFIGURE_STROKE_DEFAULT := SourceBuildingDefaults.DRAW_CONFIGURE_STROKE_DEFAULT",
@@ -8243,6 +13664,7 @@ def _script_text(java_file: dict, type_entry: dict) -> str:
     ):
         lines.extend([
             'const SourceWorldDefaults := preload("res://src/game/SourceWorldDefaults.gd")',
+            'const source_block_plan_geometry_state := preload("res://src/game/SourceBlockPlanGeometryState.gd")',
             "const SOURCE_TILESIZE := SourceWorldDefaults.TILESIZE",
         ])
     if (
@@ -8404,6 +13826,27 @@ def _script_text(java_file: dict, type_entry: dict) -> str:
     ):
         lines.extend([
             'const SourceBuilderRuntimeState := preload("res://src/game/SourceBuilderRuntimeState.gd")',
+        ])
+    if (
+        java_file.get("path") == "mindustry/world/blocks/Attributes.java"
+        and type_entry.get("name") == "Attributes"
+    ):
+        lines.extend([
+            'const SourceAttributesState := preload("res://src/game/SourceAttributesState.gd")',
+        ])
+    if (
+        java_file.get("path") == "mindustry/world/blocks/environment/Floor.java"
+        and type_entry.get("name") == "Floor"
+    ):
+        lines.extend([
+            'const SourceFloorState := preload("res://src/game/SourceFloorState.gd")',
+        ])
+    if (
+        java_file.get("path") == "mindustry/world/meta/Attribute.java"
+        and type_entry.get("name") == "Attribute"
+    ):
+        lines.extend([
+            'const SourceAttributeState := preload("res://src/game/SourceAttributeState.gd")',
         ])
     if (
         java_file.get("path") == "mindustry/world/Build.java"
