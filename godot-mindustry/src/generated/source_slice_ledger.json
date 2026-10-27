@@ -303,7 +303,7 @@
       "java_class": "mindustry.entities.comp.BuildingComp",
       "java_method": "handleDamage(float amount)",
       "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "Wires generated BuildingComp.java_method_handleDamage_173 and PortGame generated bridge to existing N583 canonical source_building_handle_damage_state.",
+      "rule": "Generated BuildingComp handleDamage delegates directly to canonical SourceBuildingDamageState; the parity bridge wraps the scalar result in the existing contract envelope.",
       "runtime_proof": "/root/Main.generated_building_comp_handle_damage_bridge_state",
       "source_symbols": [
         "building_handle_damage.method",
@@ -312,6 +312,7 @@
       ],
       "status": "done",
       "tests": [
+        "test_building_handle_damage_generated_delegate.py",
         "test_emit_bridges_building_comp_handle_damage_to_source_state",
         "test_generated_building_comp_bridges_handle_damage_to_source_state",
         "test_port_game_exposes_generated_building_comp_handle_damage_bridge_state",

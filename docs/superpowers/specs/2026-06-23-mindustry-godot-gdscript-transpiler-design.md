@@ -47,6 +47,7 @@
 - [x] N1958: Generated BuildingComp configure callbacks delegate to existing canonical configure state.
 - [x] N1959: Generated BuildingComp drawConfigure delegates to existing canonical draw state.
 - [x] N1960: Generated BuildingComp checkSolid delegates directly to existing canonical checkSolid state; parity bridge preserves the existing result envelope.
+- [x] N1961: Generated BuildingComp handleDamage delegates directly to existing canonical damage state; parity bridge preserves the existing result envelope.
 - [x] N167: Source BuildingComp drawConfigure canonical square state.
 - [x] N168: Source BuildingComp checkSolid default state.
 - [x] N169: Source BuildingComp handleDamage passthrough state.

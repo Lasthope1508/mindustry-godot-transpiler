@@ -24,6 +24,7 @@ const source_building_item_dump_state := preload("res://src/game/SourceBuildingI
 const source_building_item_state := preload("res://src/game/SourceBuildingItemState.gd")
 const source_building_power_state := preload("res://src/game/SourceBuildingPowerState.gd")
 const source_building_core_state := preload("res://src/game/SourceBuildingCoreState.gd")
+const source_building_damage_state := preload("res://src/game/SourceBuildingDamageState.gd")
 const source_building_payload_state := preload("res://src/game/SourceBuildingPayloadState.gd")
 const source_building_liquid_state := preload("res://src/game/SourceBuildingLiquidState.gd")
 const source_building_configure_state := preload("res://src/game/SourceBuildingConfigureState.gd")
@@ -1440,7 +1441,7 @@ func java_method_checkSolid_172(_args: Array = []) -> Variant:
 
 func java_method_handleDamage_173(_args: Array = []) -> Variant:
 	var amount := float(_args[0] if _args.size() > 0 else 0.0)
-	return {"source_owner": "port_game.source_building_handle_damage_state", "method": "public float handleDamage(float amount){", "amount": amount, "handled_damage": amount}
+	return source_building_damage_state.handle_damage_state(amount)
 
 func java_method_absorbLasers_174(_args: Array = []) -> Variant:
 	var block_absorb_lasers := bool(_args[0] if _args.size() > 0 else false)

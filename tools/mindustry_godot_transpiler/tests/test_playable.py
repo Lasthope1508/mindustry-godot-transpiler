@@ -27244,11 +27244,10 @@ class PlayableManifestTests(unittest.TestCase):
         source = generated.read_text(encoding="utf-8")
 
         self.assertIn("func java_method_handleDamage_173(_args: Array = []) -> Variant:", source)
-        self.assertIn("var amount := float(_args[0] if _args.size() > 0 else 0.0)", source)
-        self.assertIn('"source_owner": "port_game.source_building_handle_damage_state"', source)
-        self.assertIn('"method": "public float handleDamage(float amount){"', source)
-        self.assertIn('"amount": amount', source)
-        self.assertIn('"handled_damage": amount', source)
+        method_body = source.split("func java_method_handleDamage_173(_args: Array = []) -> Variant:", 1)[1].split("\nfunc ", 1)[0]
+        self.assertIn("var amount := float(_args[0] if _args.size() > 0 else 0.0)", method_body)
+        self.assertIn("return source_building_damage_state.handle_damage_state(amount)", method_body)
+        self.assertNotIn('return {"source_owner": "port_game.source_building_handle_damage_state"', method_body)
 
     def test_port_game_exposes_generated_building_comp_handle_damage_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

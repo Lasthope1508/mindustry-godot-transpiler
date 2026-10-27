@@ -2728,10 +2728,9 @@ public class BuildingComp{
             source_text = emitted.read_text(encoding="utf-8")
             self.assertIn("func java_method_handleDamage_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var amount := float(_args[0] if _args.size() > 0 else 0.0)", source_text)
-            self.assertIn('"source_owner": "port_game.source_building_handle_damage_state"', source_text)
-            self.assertIn('"method": "public float handleDamage(float amount){"', source_text)
-            self.assertIn('"amount": amount', source_text)
-            self.assertIn('"handled_damage": amount', source_text)
+            self.assertIn('const source_building_damage_state := preload("res://src/game/SourceBuildingDamageState.gd")', source_text)
+            self.assertIn("return source_building_damage_state.handle_damage_state(amount)", source_text)
+            self.assertNotIn('return {"source_owner": "port_game.source_building_handle_damage_state"', source_text)
 
     def test_emit_bridges_building_comp_absorb_lasers_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:

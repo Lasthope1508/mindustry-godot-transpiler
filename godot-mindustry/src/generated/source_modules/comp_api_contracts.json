@@ -5814,6 +5814,7 @@
         "handled_damage"
       ],
       "tests": [
+        "test_building_handle_damage_generated_delegate.py",
         "test_building_handle_damage_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_building_handle_damage_state",

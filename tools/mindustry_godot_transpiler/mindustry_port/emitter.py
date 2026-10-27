@@ -3968,7 +3968,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict, method_i
     ):
         return [
             "\tvar amount := float(_args[0] if _args.size() > 0 else 0.0)",
-            "\treturn {\"source_owner\": \"port_game.source_building_handle_damage_state\", \"method\": \"public float handleDamage(float amount){\", \"amount\": amount, \"handled_damage\": amount}",
+            "\treturn source_building_damage_state.handle_damage_state(amount)",
         ]
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
@@ -13580,6 +13580,7 @@ def _script_text(java_file: dict, type_entry: dict) -> str:
             'const SourceBuildingItemState := preload("res://src/game/SourceBuildingItemState.gd")',
             'const SourceBuildingPowerState := preload("res://src/game/SourceBuildingPowerState.gd")',
             'const SourceBuildingCoreState := preload("res://src/game/SourceBuildingCoreState.gd")',
+            'const source_building_damage_state := preload("res://src/game/SourceBuildingDamageState.gd")',
             'const SourceBuildingPayloadState := preload("res://src/game/SourceBuildingPayloadState.gd")',
             'const SourceBuildingLiquidState := preload("res://src/game/SourceBuildingLiquidState.gd")',
             'const source_building_configure_state := preload("res://src/game/SourceBuildingConfigureState.gd")',

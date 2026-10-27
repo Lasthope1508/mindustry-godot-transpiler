@@ -198,6 +198,7 @@
         "building_handle_damage.amount"
       ],
       "tests": [
+        "test_building_handle_damage_generated_delegate.py",
         "test_emit_bridges_building_comp_handle_damage_to_source_state",
         "test_generated_building_comp_bridges_handle_damage_to_source_state",
         "test_port_game_exposes_generated_building_comp_handle_damage_bridge_state",
