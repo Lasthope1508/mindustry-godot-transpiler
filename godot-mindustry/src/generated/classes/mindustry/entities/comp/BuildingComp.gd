@@ -1467,13 +1467,13 @@ func java_method_collision_177(_args: Array = []) -> Variant:
 func java_method_damage_178(_args: Array = []) -> Variant:
 	var source_team: Variant = _args[0] if _args.size() > 0 else null
 	var damage_amount := float(_args[1] if _args.size() > 1 else 0.0)
-	return {"source_owner": "port_game.source_building_damage_delegate_state", "comment": "/** Used to handle damage from splash damage for certain types of blocks. */", "method": "public void damage(@Nullable Team source, float damage){", "source_team": source_team, "damage": damage_amount, "delegates_to_damage": true}
+	return source_building_damage_state.damage_delegate_state(source_team, damage_amount)
 
 func java_method_damage_179(_args: Array = []) -> Variant:
 	var bullet: Variant = _args[0] if _args.size() > 0 else null
 	var source_team: Variant = _args[1] if _args.size() > 1 else null
 	var damage_amount := float(_args[2] if _args.size() > 2 else 0.0)
-	return {"source_owner": "port_game.source_building_bullet_damage_state", "comment": "/** Handles splash damage with a bullet source. */", "method": "public void damage(Bullet bullet, Team source, float damage){", "bullet": bullet, "source_team": source_team, "damage": damage_amount, "delegates_to_source_damage": true, "fires_bullet_damage_event": true}
+	return source_building_damage_state.bullet_damage_state(bullet, source_team, damage_amount)
 
 func java_method_changeTeam_180(_args: Array = []) -> Variant:
 	var next_team: Variant = _args[0] if _args.size() > 0 else null

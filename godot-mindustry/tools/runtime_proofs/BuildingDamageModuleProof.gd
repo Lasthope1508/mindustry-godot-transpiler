@@ -26,6 +26,8 @@ func _ready() -> void:
 	var generated_collision := game.generated_building_comp_collision_bridge_state(current_health, bullet_building_damage, block_armor, bullet_pierce_armor, bullet_armor_multiplier, bullet_block_armor_multiplier)
 	var damage_delegate := game.source_building_damage_delegate_state(source_team, damage_amount)
 	var bullet_damage := game.source_building_bullet_damage_state("bullet", source_team, damage_amount)
+	var generated_damage_delegate := game.generated_building_comp_damage_delegate_bridge_state(source_team, damage_amount)
+	var generated_bullet_damage := game.generated_building_comp_bullet_damage_bridge_state("bullet", source_team, damage_amount)
 	var dead_guard := game.source_building_damage_dead_guard_state(dead_state)
 	var block_health_scale := game.source_building_damage_block_health_scale_state(damage_amount, current_health, block_armor, source_time)
 	var handle_damage_gate := game.source_building_damage_handle_damage_gate_state(net_client, current_health, damage_amount, handled_damage)
@@ -40,6 +42,8 @@ func _ready() -> void:
 		"generated_collision": generated_collision,
 		"damage_delegate": damage_delegate,
 		"bullet_damage": bullet_damage,
+		"generated_damage_delegate": generated_damage_delegate,
+		"generated_bullet_damage": generated_bullet_damage,
 		"dead_guard": dead_guard,
 		"block_health_scale": block_health_scale,
 		"handle_damage_gate": handle_damage_gate,
@@ -48,7 +52,7 @@ func _ready() -> void:
 		"one_headquarter_per_ssot": bool(registry_state.get("one_headquarter_per_ssot", false)),
 		"registry_valid": bool(registry_state.get("errors", []).is_empty()),
 	}
-	proof["matches"] = generated_collision == source_building_damage_state.generated_collision_bridge_state(current_health, bullet_building_damage, block_armor, bullet_pierce_armor, bullet_armor_multiplier, bullet_block_armor_multiplier) and generated_handle_damage == source_building_damage_state.generated_handle_damage_bridge_state(damage_amount) and handle_damage == source_building_damage_state.handle_damage_state(damage_amount) and collision_damage == source_building_damage_state.collision_damage_state(current_health, bullet_building_damage, block_armor, bullet_pierce_armor, bullet_armor_multiplier, bullet_block_armor_multiplier) and damage_delegate == source_building_damage_state.damage_delegate_state(source_team, damage_amount) and bullet_damage == source_building_damage_state.bullet_damage_state("bullet", source_team, damage_amount) and dead_guard == source_building_damage_state.dead_guard_state(dead_state) and block_health_scale == source_building_damage_state.block_health_scale_state(damage_amount, current_health, block_armor, source_time) and handle_damage_gate == source_building_damage_state.handle_damage_gate_state(net_client, current_health, damage_amount, handled_damage) and health_changed_call == source_building_damage_state.health_changed_call_state() and destroy_gate == source_building_damage_state.destroy_gate_state(current_health - 55.0, self_state) and proof["one_headquarter_per_ssot"] and proof["registry_valid"]
+	proof["matches"] = generated_collision == source_building_damage_state.generated_collision_bridge_state(current_health, bullet_building_damage, block_armor, bullet_pierce_armor, bullet_armor_multiplier, bullet_block_armor_multiplier) and generated_handle_damage == source_building_damage_state.generated_handle_damage_bridge_state(damage_amount) and handle_damage == source_building_damage_state.handle_damage_state(damage_amount) and collision_damage == source_building_damage_state.collision_damage_state(current_health, bullet_building_damage, block_armor, bullet_pierce_armor, bullet_armor_multiplier, bullet_block_armor_multiplier) and damage_delegate == source_building_damage_state.damage_delegate_state(source_team, damage_amount) and bullet_damage == source_building_damage_state.bullet_damage_state("bullet", source_team, damage_amount) and generated_damage_delegate == source_building_damage_state.generated_damage_delegate_bridge_state(source_team, damage_amount) and generated_bullet_damage == source_building_damage_state.generated_bullet_damage_bridge_state("bullet", source_team, damage_amount) and dead_guard == source_building_damage_state.dead_guard_state(dead_state) and block_health_scale == source_building_damage_state.block_health_scale_state(damage_amount, current_health, block_armor, source_time) and handle_damage_gate == source_building_damage_state.handle_damage_gate_state(net_client, current_health, damage_amount, handled_damage) and health_changed_call == source_building_damage_state.health_changed_call_state() and destroy_gate == source_building_damage_state.destroy_gate_state(current_health - 55.0, self_state) and proof["one_headquarter_per_ssot"] and proof["registry_valid"]
 	var proof_label := get_node_or_null("ProofCanvas/ProofLabel") as Label
 	if proof_label != null:
 		proof_label.text = "BUILDING_DAMAGE_MODULE_PROOF matches=%s registry_valid=%s" % [str(proof["matches"]), str(proof["registry_valid"])]

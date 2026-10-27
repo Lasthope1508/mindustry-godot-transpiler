@@ -2883,12 +2883,8 @@ public class BuildingComp{
             self.assertIn("func java_method_damage_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var source_team: Variant = _args[0] if _args.size() > 0 else null", source_text)
             self.assertIn("var damage_amount := float(_args[1] if _args.size() > 1 else 0.0)", source_text)
-            self.assertIn('"source_owner": "port_game.source_building_damage_delegate_state"', source_text)
-            self.assertIn('"comment": "/** Used to handle damage from splash damage for certain types of blocks. */"', source_text)
-            self.assertIn('"method": "public void damage(@Nullable Team source, float damage){"', source_text)
-            self.assertIn('"source_team": source_team', source_text)
-            self.assertIn('"damage": damage_amount', source_text)
-            self.assertIn('"delegates_to_damage": true', source_text)
+            self.assertIn("return source_building_damage_state.damage_delegate_state(source_team, damage_amount)", source_text)
+            self.assertNotIn('return {"source_owner":', source_text)
 
     def test_emit_bridges_building_comp_bullet_damage_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -2919,14 +2915,8 @@ public class BuildingComp{
             self.assertIn("var bullet: Variant = _args[0] if _args.size() > 0 else null", source_text)
             self.assertIn("var source_team: Variant = _args[1] if _args.size() > 1 else null", source_text)
             self.assertIn("var damage_amount := float(_args[2] if _args.size() > 2 else 0.0)", source_text)
-            self.assertIn('"source_owner": "port_game.source_building_bullet_damage_state"', source_text)
-            self.assertIn('"comment": "/** Handles splash damage with a bullet source. */"', source_text)
-            self.assertIn('"method": "public void damage(Bullet bullet, Team source, float damage){"', source_text)
-            self.assertIn('"bullet": bullet', source_text)
-            self.assertIn('"source_team": source_team', source_text)
-            self.assertIn('"damage": damage_amount', source_text)
-            self.assertIn('"delegates_to_source_damage": true', source_text)
-            self.assertIn('"fires_bullet_damage_event": true', source_text)
+            self.assertIn("return source_building_damage_state.bullet_damage_state(bullet, source_team, damage_amount)", source_text)
+            self.assertNotIn('return {"source_owner":', source_text)
 
     def test_emit_bridges_building_comp_change_team_delegate_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:

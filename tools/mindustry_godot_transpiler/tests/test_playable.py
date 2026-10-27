@@ -27448,12 +27448,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func java_method_damage_178(_args: Array = []) -> Variant:", source)
         self.assertIn("var source_team: Variant = _args[0] if _args.size() > 0 else null", source)
         self.assertIn("var damage_amount := float(_args[1] if _args.size() > 1 else 0.0)", source)
-        self.assertIn('"source_owner": "port_game.source_building_damage_delegate_state"', source)
-        self.assertIn('"comment": "/** Used to handle damage from splash damage for certain types of blocks. */"', source)
-        self.assertIn('"method": "public void damage(@Nullable Team source, float damage){"', source)
-        self.assertIn('"source_team": source_team', source)
-        self.assertIn('"damage": damage_amount', source)
-        self.assertIn('"delegates_to_damage": true', source)
+        self.assertIn("return source_building_damage_state.damage_delegate_state(source_team, damage_amount)", source)
 
     def test_port_game_exposes_generated_building_comp_damage_delegate_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -27481,14 +27476,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var bullet: Variant = _args[0] if _args.size() > 0 else null", source)
         self.assertIn("var source_team: Variant = _args[1] if _args.size() > 1 else null", source)
         self.assertIn("var damage_amount := float(_args[2] if _args.size() > 2 else 0.0)", source)
-        self.assertIn('"source_owner": "port_game.source_building_bullet_damage_state"', source)
-        self.assertIn('"comment": "/** Handles splash damage with a bullet source. */"', source)
-        self.assertIn('"method": "public void damage(Bullet bullet, Team source, float damage){"', source)
-        self.assertIn('"bullet": bullet', source)
-        self.assertIn('"source_team": source_team', source)
-        self.assertIn('"damage": damage_amount', source)
-        self.assertIn('"delegates_to_source_damage": true', source)
-        self.assertIn('"fires_bullet_damage_event": true', source)
+        self.assertIn("return source_building_damage_state.bullet_damage_state(bullet, source_team, damage_amount)", source)
 
     def test_port_game_exposes_generated_building_comp_bullet_damage_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
