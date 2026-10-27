@@ -98,6 +98,13 @@ static func generated_check_solid_bridge_state() -> Dictionary:
 
 static func generated_absorb_lasers_bridge_state(block_absorb_lasers: bool) -> Dictionary:
 	var result = _building_comp_call(SOURCE_BUILDING_CORE_ABSORB_LASERS_JAVA_METHOD, [block_absorb_lasers])
+	if result is bool:
+		result = {
+			"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_ABSORB_LASERS_STATE,
+			"blockAbsorbLasers": block_absorb_lasers,
+			"defaultAbsorbLasers": false,
+			"absorbLasers": result,
+		}
 	var canonical = {
 		"blockAbsorbLasers": block_absorb_lasers,
 		"defaultAbsorbLasers": false,
@@ -112,6 +119,13 @@ static func generated_absorb_lasers_bridge_state(block_absorb_lasers: bool) -> D
 
 static func generated_is_insulated_bridge_state(block_insulated: bool) -> Dictionary:
 	var result = _building_comp_call(SOURCE_BUILDING_CORE_IS_INSULATED_JAVA_METHOD, [block_insulated])
+	if result is bool:
+		result = {
+			"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_IS_INSULATED_STATE,
+			"method": "public boolean isInsulated(){",
+			"block_insulated": block_insulated,
+			"insulated": result,
+		}
 	var canonical = {
 		"method": "public boolean isInsulated(){",
 		"block_insulated": block_insulated,
@@ -126,6 +140,13 @@ static func generated_is_insulated_bridge_state(block_insulated: bool) -> Dictio
 
 static func generated_collide_bridge_state(other: Variant) -> Dictionary:
 	var result = _building_comp_call(SOURCE_BUILDING_CORE_COLLIDE_JAVA_METHOD, [other])
+	if result is bool:
+		result = {
+			"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_COLLIDE_STATE,
+			"method": "public boolean collide(Bullet other){",
+			"other": other,
+			"collide": result,
+		}
 	var canonical = {
 		"method": "public boolean collide(Bullet other){",
 		"other": other,

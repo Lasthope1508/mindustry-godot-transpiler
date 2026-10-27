@@ -1445,15 +1445,15 @@ func java_method_handleDamage_173(_args: Array = []) -> Variant:
 
 func java_method_absorbLasers_174(_args: Array = []) -> Variant:
 	var block_absorb_lasers := bool(_args[0] if _args.size() > 0 else false)
-	return {"source_owner": "port_game.source_building_absorb_lasers_state", "blockAbsorbLasers": block_absorb_lasers, "defaultAbsorbLasers": false, "absorbLasers": block_absorb_lasers}
+	return source_building_core_state.absorb_lasers_state(block_absorb_lasers)
 
 func java_method_isInsulated_175(_args: Array = []) -> Variant:
 	var block_insulated := bool(_args[0] if _args.size() > 0 else false)
-	return {"source_owner": "port_game.source_building_is_insulated_state", "method": "public boolean isInsulated(){", "block_insulated": block_insulated, "insulated": block_insulated}
+	return source_building_core_state.is_insulated_state(block_insulated)
 
 func java_method_collide_176(_args: Array = []) -> Variant:
 	var other: Variant = _args[0] if _args.size() > 0 else null
-	return {"source_owner": "port_game.source_building_collide_state", "method": "public boolean collide(Bullet other){", "other": other, "collide": true}
+	return source_building_core_state.collide_state(other)
 
 func java_method_collision_177(_args: Array = []) -> Variant:
 	var current_health := float(_args[0] if _args.size() > 0 else 0.0)

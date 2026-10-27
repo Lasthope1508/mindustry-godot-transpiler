@@ -3977,7 +3977,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict, method_i
     ):
         return [
             "\tvar block_absorb_lasers := bool(_args[0] if _args.size() > 0 else false)",
-            "\treturn {\"source_owner\": \"port_game.source_building_absorb_lasers_state\", \"blockAbsorbLasers\": block_absorb_lasers, \"defaultAbsorbLasers\": false, \"absorbLasers\": block_absorb_lasers}",
+            "\treturn source_building_core_state.absorb_lasers_state(block_absorb_lasers)",
         ]
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
@@ -3986,7 +3986,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict, method_i
     ):
         return [
             "\tvar block_insulated := bool(_args[0] if _args.size() > 0 else false)",
-            "\treturn {\"source_owner\": \"port_game.source_building_is_insulated_state\", \"method\": \"public boolean isInsulated(){\", \"block_insulated\": block_insulated, \"insulated\": block_insulated}",
+            "\treturn source_building_core_state.is_insulated_state(block_insulated)",
         ]
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
@@ -3995,7 +3995,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict, method_i
     ):
         return [
             "\tvar other: Variant = _args[0] if _args.size() > 0 else null",
-            "\treturn {\"source_owner\": \"port_game.source_building_collide_state\", \"method\": \"public boolean collide(Bullet other){\", \"other\": other, \"collide\": true}",
+            "\treturn source_building_core_state.collide_state(other)",
         ]
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"

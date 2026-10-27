@@ -32480,7 +32480,8 @@
       "runtime_proof": "/root/Main.source_building_absorb_lasers_state",
       "status": "source-backed",
       "tests": [
-        "test_building_absorb_lasers_symbols_are_registered_with_source_backing"
+        "test_building_absorb_lasers_symbols_are_registered_with_source_backing",
+        "test_building_core_generated_delegates.py"
       ]
     },
     "building_absorb_lasers.input": {
@@ -32493,7 +32494,8 @@
       "runtime_proof": "/root/Main.source_building_absorb_lasers_state",
       "status": "explicit-input",
       "tests": [
-        "test_building_absorb_lasers_symbols_are_registered_with_source_backing"
+        "test_building_absorb_lasers_symbols_are_registered_with_source_backing",
+        "test_building_core_generated_delegates.py"
       ]
     },
     "building_absorb_lasers.method": {
@@ -32506,7 +32508,8 @@
       "runtime_proof": "/root/Main.source_building_absorb_lasers_state",
       "status": "source-backed",
       "tests": [
-        "test_building_absorb_lasers_symbols_are_registered_with_source_backing"
+        "test_building_absorb_lasers_symbols_are_registered_with_source_backing",
+        "test_building_core_generated_delegates.py"
       ]
     },
     "building_accept_item.consumes_item": {
@@ -34390,7 +34393,8 @@
       "runtime_proof": "/root/Main.source_building_collide_state",
       "status": "source-backed",
       "tests": [
-        "test_building_collide_symbols_are_registered_with_source_backing"
+        "test_building_collide_symbols_are_registered_with_source_backing",
+        "test_building_core_generated_delegates.py"
       ]
     },
     "building_collide.other": {
@@ -34403,7 +34407,8 @@
       "runtime_proof": "/root/Main.source_building_collide_state",
       "status": "explicit-input",
       "tests": [
-        "test_building_collide_symbols_are_registered_with_source_backing"
+        "test_building_collide_symbols_are_registered_with_source_backing",
+        "test_building_core_generated_delegates.py"
       ]
     },
     "building_collide.result": {
@@ -34416,7 +34421,8 @@
       "runtime_proof": "/root/Main.source_building_collide_state",
       "status": "source-backed",
       "tests": [
-        "test_building_collide_symbols_are_registered_with_source_backing"
+        "test_building_collide_symbols_are_registered_with_source_backing",
+        "test_building_core_generated_delegates.py"
       ]
     },
     "building_collision_damage.apply_armor": {
@@ -43526,6 +43532,7 @@
       "runtime_proof": "/root/Main.source_building_is_insulated_state",
       "status": "explicit-input",
       "tests": [
+        "test_building_core_generated_delegates.py",
         "test_building_is_insulated_symbols_are_registered_with_source_backing"
       ]
     },
@@ -43539,6 +43546,7 @@
       "runtime_proof": "/root/Main.source_building_is_insulated_state",
       "status": "source-backed",
       "tests": [
+        "test_building_core_generated_delegates.py",
         "test_building_is_insulated_symbols_are_registered_with_source_backing"
       ]
     },
@@ -43552,6 +43560,7 @@
       "runtime_proof": "/root/Main.source_building_is_insulated_state",
       "status": "source-backed",
       "tests": [
+        "test_building_core_generated_delegates.py",
         "test_building_is_insulated_symbols_are_registered_with_source_backing"
       ]
     },

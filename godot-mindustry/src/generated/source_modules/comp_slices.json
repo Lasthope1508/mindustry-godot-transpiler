@@ -218,6 +218,7 @@
         "building_absorb_lasers.input"
       ],
       "tests": [
+        "test_building_core_generated_delegates.py",
         "test_emit_bridges_building_comp_absorb_lasers_to_source_state",
         "test_generated_building_comp_bridges_absorb_lasers_to_source_state",
         "test_port_game_exposes_generated_building_comp_absorb_lasers_bridge_state",
@@ -237,6 +238,7 @@
         "building_is_insulated.block_insulated"
       ],
       "tests": [
+        "test_building_core_generated_delegates.py",
         "test_emit_bridges_building_comp_is_insulated_to_source_state",
         "test_generated_building_comp_bridges_is_insulated_to_source_state",
         "test_port_game_exposes_generated_building_comp_is_insulated_bridge_state",
@@ -256,6 +258,7 @@
         "building_collide.other"
       ],
       "tests": [
+        "test_building_core_generated_delegates.py",
         "test_emit_bridges_building_comp_collide_to_source_state",
         "test_generated_building_comp_bridges_collide_to_source_state",
         "test_port_game_exposes_generated_building_comp_collide_bridge_state",

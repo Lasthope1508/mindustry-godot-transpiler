@@ -16270,7 +16270,8 @@
       "source_slice": "N520",
       "status": "active",
       "tests": [
-        "test_building_absorb_lasers_symbols_are_registered_with_source_backing"
+        "test_building_absorb_lasers_symbols_are_registered_with_source_backing",
+        "test_building_core_generated_delegates.py"
       ]
     },
     "PortGame.source_building_accept_item_state": {
@@ -17119,7 +17120,8 @@
       "source_slice": "N542",
       "status": "active",
       "tests": [
-        "test_building_collide_symbols_are_registered_with_source_backing"
+        "test_building_collide_symbols_are_registered_with_source_backing",
+        "test_building_core_generated_delegates.py"
       ]
     },
     "PortGame.source_building_collision_damage_state": {
@@ -20321,6 +20323,7 @@
       "source_slice": "N597",
       "status": "active",
       "tests": [
+        "test_building_core_generated_delegates.py",
         "test_building_is_insulated_symbols_are_registered_with_source_backing"
       ]
     },

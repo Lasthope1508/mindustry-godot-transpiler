@@ -2757,10 +2757,8 @@ public class BuildingComp{
             source_text = emitted.read_text(encoding="utf-8")
             self.assertIn("func java_method_absorbLasers_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var block_absorb_lasers := bool(_args[0] if _args.size() > 0 else false)", source_text)
-            self.assertIn('"source_owner": "port_game.source_building_absorb_lasers_state"', source_text)
-            self.assertIn('"blockAbsorbLasers": block_absorb_lasers', source_text)
-            self.assertIn('"defaultAbsorbLasers": false', source_text)
-            self.assertIn('"absorbLasers": block_absorb_lasers', source_text)
+            self.assertIn("return source_building_core_state.absorb_lasers_state(block_absorb_lasers)", source_text)
+            self.assertNotIn('return {"source_owner": "port_game.source_building_absorb_lasers_state"', source_text)
 
     def test_emit_bridges_building_comp_is_insulated_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -2787,10 +2785,8 @@ public class BuildingComp{
             source_text = emitted.read_text(encoding="utf-8")
             self.assertIn("func java_method_isInsulated_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var block_insulated := bool(_args[0] if _args.size() > 0 else false)", source_text)
-            self.assertIn('"source_owner": "port_game.source_building_is_insulated_state"', source_text)
-            self.assertIn('"method": "public boolean isInsulated(){"', source_text)
-            self.assertIn('"block_insulated": block_insulated', source_text)
-            self.assertIn('"insulated": block_insulated', source_text)
+            self.assertIn("return source_building_core_state.is_insulated_state(block_insulated)", source_text)
+            self.assertNotIn('return {"source_owner": "port_game.source_building_is_insulated_state"', source_text)
 
     def test_emit_bridges_building_comp_collide_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -2817,10 +2813,8 @@ public class BuildingComp{
             source_text = emitted.read_text(encoding="utf-8")
             self.assertIn("func java_method_collide_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var other: Variant = _args[0] if _args.size() > 0 else null", source_text)
-            self.assertIn('"source_owner": "port_game.source_building_collide_state"', source_text)
-            self.assertIn('"method": "public boolean collide(Bullet other){"', source_text)
-            self.assertIn('"other": other', source_text)
-            self.assertIn('"collide": true', source_text)
+            self.assertIn("return source_building_core_state.collide_state(other)", source_text)
+            self.assertNotIn('return {"source_owner": "port_game.source_building_collide_state"', source_text)
 
     def test_emit_bridges_building_comp_collision_to_source_damage_state(self):
         with tempfile.TemporaryDirectory() as tmp:

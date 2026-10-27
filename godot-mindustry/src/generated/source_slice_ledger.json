@@ -333,7 +333,7 @@
       "java_class": "mindustry.entities.comp.BuildingComp",
       "java_method": "absorbLasers()",
       "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "Wires generated BuildingComp.java_method_absorbLasers_174 and PortGame generated bridge to existing N520 canonical source_building_absorb_lasers_state.",
+      "rule": "Generated BuildingComp absorbLasers delegates directly to canonical SourceBuildingCoreState; parity bridge wraps the scalar result in the existing contract envelope.",
       "runtime_proof": "/root/Main.generated_building_comp_absorb_lasers_bridge_state",
       "source_symbols": [
         "building_absorb_lasers.method",
@@ -342,6 +342,7 @@
       ],
       "status": "done",
       "tests": [
+        "test_building_core_generated_delegates.py",
         "test_emit_bridges_building_comp_absorb_lasers_to_source_state",
         "test_generated_building_comp_bridges_absorb_lasers_to_source_state",
         "test_port_game_exposes_generated_building_comp_absorb_lasers_bridge_state",
@@ -361,7 +362,7 @@
       "java_class": "mindustry.entities.comp.BuildingComp",
       "java_method": "isInsulated()",
       "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "Wires generated BuildingComp.java_method_isInsulated_175 and PortGame generated bridge to existing N597 canonical source_building_is_insulated_state.",
+      "rule": "Generated BuildingComp isInsulated delegates directly to canonical SourceBuildingCoreState; parity bridge wraps the scalar result in the existing contract envelope.",
       "runtime_proof": "/root/Main.generated_building_comp_is_insulated_bridge_state",
       "source_symbols": [
         "building_is_insulated.method",
@@ -370,6 +371,7 @@
       ],
       "status": "done",
       "tests": [
+        "test_building_core_generated_delegates.py",
         "test_emit_bridges_building_comp_is_insulated_to_source_state",
         "test_generated_building_comp_bridges_is_insulated_to_source_state",
         "test_port_game_exposes_generated_building_comp_is_insulated_bridge_state",
@@ -389,7 +391,7 @@
       "java_class": "mindustry.entities.comp.BuildingComp",
       "java_method": "collide(Bullet other)",
       "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "Wires generated BuildingComp.java_method_collide_176 and PortGame generated bridge to existing N542 canonical source_building_collide_state.",
+      "rule": "Generated BuildingComp collide delegates directly to canonical SourceBuildingCoreState; parity bridge wraps the scalar result in the existing contract envelope.",
       "runtime_proof": "/root/Main.generated_building_comp_collide_bridge_state",
       "source_symbols": [
         "building_collide.method",
@@ -398,6 +400,7 @@
       ],
       "status": "done",
       "tests": [
+        "test_building_core_generated_delegates.py",
         "test_emit_bridges_building_comp_collide_to_source_state",
         "test_generated_building_comp_bridges_collide_to_source_state",
         "test_port_game_exposes_generated_building_comp_collide_bridge_state",

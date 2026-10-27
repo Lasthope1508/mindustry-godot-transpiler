@@ -1485,7 +1485,8 @@
         "absorbLasers"
       ],
       "tests": [
-        "test_building_absorb_lasers_symbols_are_registered_with_source_backing"
+        "test_building_absorb_lasers_symbols_are_registered_with_source_backing",
+        "test_building_core_generated_delegates.py"
       ],
       "runtime_proof": "/root/Main.source_building_absorb_lasers_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.absorbLasers helper."
@@ -2709,7 +2710,8 @@
         "collide"
       ],
       "tests": [
-        "test_building_collide_symbols_are_registered_with_source_backing"
+        "test_building_collide_symbols_are_registered_with_source_backing",
+        "test_building_core_generated_delegates.py"
       ],
       "runtime_proof": "/root/Main.source_building_collide_state",
       "rule": "Public runtime contract for Mindustry BuildingComp collide helper; GDScript parameter is intentionally underscored because source default ignores other."
@@ -6557,6 +6559,7 @@
         "insulated"
       ],
       "tests": [
+        "test_building_core_generated_delegates.py",
         "test_building_is_insulated_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_building_is_insulated_state",

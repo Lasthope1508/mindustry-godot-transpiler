@@ -27288,10 +27288,9 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn("func java_method_absorbLasers_174(_args: Array = []) -> Variant:", source)
         self.assertIn("var block_absorb_lasers := bool(_args[0] if _args.size() > 0 else false)", source)
-        self.assertIn('"source_owner": "port_game.source_building_absorb_lasers_state"', source)
-        self.assertIn('"blockAbsorbLasers": block_absorb_lasers', source)
-        self.assertIn('"defaultAbsorbLasers": false', source)
-        self.assertIn('"absorbLasers": block_absorb_lasers', source)
+        method_body = source.split("func java_method_absorbLasers_174(_args: Array = []) -> Variant:", 1)[1].split("\nfunc ", 1)[0]
+        self.assertIn("return source_building_core_state.absorb_lasers_state(block_absorb_lasers)", method_body)
+        self.assertNotIn('return {"source_owner": "port_game.source_building_absorb_lasers_state"', method_body)
 
     def test_port_game_exposes_generated_building_comp_absorb_lasers_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -27320,10 +27319,9 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn("func java_method_isInsulated_175(_args: Array = []) -> Variant:", source)
         self.assertIn("var block_insulated := bool(_args[0] if _args.size() > 0 else false)", source)
-        self.assertIn('"source_owner": "port_game.source_building_is_insulated_state"', source)
-        self.assertIn('"method": "public boolean isInsulated(){"', source)
-        self.assertIn('"block_insulated": block_insulated', source)
-        self.assertIn('"insulated": block_insulated', source)
+        method_body = source.split("func java_method_isInsulated_175(_args: Array = []) -> Variant:", 1)[1].split("\nfunc ", 1)[0]
+        self.assertIn("return source_building_core_state.is_insulated_state(block_insulated)", method_body)
+        self.assertNotIn('return {"source_owner": "port_game.source_building_is_insulated_state"', method_body)
 
     def test_port_game_exposes_generated_building_comp_is_insulated_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -27352,10 +27350,9 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn("func java_method_collide_176(_args: Array = []) -> Variant:", source)
         self.assertIn("var other: Variant = _args[0] if _args.size() > 0 else null", source)
-        self.assertIn('"source_owner": "port_game.source_building_collide_state"', source)
-        self.assertIn('"method": "public boolean collide(Bullet other){"', source)
-        self.assertIn('"other": other', source)
-        self.assertIn('"collide": true', source)
+        method_body = source.split("func java_method_collide_176(_args: Array = []) -> Variant:", 1)[1].split("\nfunc ", 1)[0]
+        self.assertIn("return source_building_core_state.collide_state(other)", method_body)
+        self.assertNotIn('return {"source_owner": "port_game.source_building_collide_state"', method_body)
 
     def test_port_game_exposes_generated_building_comp_collide_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
