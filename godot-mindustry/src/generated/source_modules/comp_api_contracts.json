@@ -2762,7 +2762,8 @@
         "removed"
       ],
       "tests": [
-        "test_building_collision_damage_symbols_are_registered_with_source_backing"
+        "test_building_collision_damage_symbols_are_registered_with_source_backing",
+        "test_building_collision_generated_delegate.py"
       ],
       "runtime_proof": "/root/Main.source_building_collision_damage_state",
       "rule": "Public runtime contract for Mindustry BuildingComp collision damage helper; destroy event stays deferred until post-damage health/event integration is modeled."

@@ -27420,10 +27420,9 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var bullet_pierce_armor := bool(_args[3] if _args.size() > 3 else false)", source)
         self.assertIn("var bullet_armor_multiplier := float(_args[4] if _args.size() > 4 else 0.0)", source)
         self.assertIn("var bullet_block_armor_multiplier := float(_args[5] if _args.size() > 5 else 0.0)", source)
-        self.assertIn('"source_owner": "port_game.source_building_collision_damage_state"', source)
-        self.assertIn('"method": "public boolean collision(Bullet other){"', source)
-        self.assertIn('"raw_damage": bullet_building_damage', source)
-        self.assertIn('"removed": true', source)
+        method_body = source.split("func java_method_collision_177(_args: Array = []) -> Variant:", 1)[1].split("\nfunc ", 1)[0]
+        self.assertIn("return source_building_damage_state.collision_damage_state(current_health, bullet_building_damage, block_armor, bullet_pierce_armor, bullet_armor_multiplier, bullet_block_armor_multiplier)", method_body)
+        self.assertNotIn('return {"source_owner": "port_game.source_building_collision_damage_state"', method_body)
 
     def test_port_game_exposes_generated_building_comp_collision_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

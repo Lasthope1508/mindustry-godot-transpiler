@@ -32,7 +32,9 @@ static func collision_damage_state(current_health: float, bullet_building_damage
 		damage = max(damage - armor, SOURCE_DAMAGE_MIN_ARMOR_DAMAGE * damage)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_COLLISION_DAMAGE_STATE,
+		"method": "public boolean collision(Bullet other){",
 		"current_health": current_health,
+		"raw_damage": bullet_building_damage,
 		"damage": damage,
 		"armor": armor,
 		"was_dead": current_health <= 0.0,

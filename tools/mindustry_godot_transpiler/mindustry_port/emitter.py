@@ -4009,11 +4009,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict, method_i
             "\tvar bullet_pierce_armor := bool(_args[3] if _args.size() > 3 else false)",
             "\tvar bullet_armor_multiplier := float(_args[4] if _args.size() > 4 else 0.0)",
             "\tvar bullet_block_armor_multiplier := float(_args[5] if _args.size() > 5 else 0.0)",
-            "\tvar damage := bullet_building_damage",
-            "\tvar armor := block_armor * bullet_armor_multiplier * bullet_block_armor_multiplier",
-            "\tif not bullet_pierce_armor:",
-            "\t\tdamage = max(damage - armor, 0.1 * damage)",
-            "\treturn {\"source_owner\": \"port_game.source_building_collision_damage_state\", \"method\": \"public boolean collision(Bullet other){\", \"was_dead\": current_health <= 0.0, \"raw_damage\": bullet_building_damage, \"armor\": armor, \"damage\": damage, \"removed\": true}",
+            "\treturn source_building_damage_state.collision_damage_state(current_health, bullet_building_damage, block_armor, bullet_pierce_armor, bullet_armor_multiplier, bullet_block_armor_multiplier)",
         ]
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"

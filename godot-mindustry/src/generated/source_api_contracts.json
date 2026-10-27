@@ -17171,7 +17171,8 @@
       "source_slice": "N543",
       "status": "active",
       "tests": [
-        "test_building_collision_damage_symbols_are_registered_with_source_backing"
+        "test_building_collision_damage_symbols_are_registered_with_source_backing",
+        "test_building_collision_generated_delegate.py"
       ]
     },
     "PortGame.source_building_conducts_to_state": {

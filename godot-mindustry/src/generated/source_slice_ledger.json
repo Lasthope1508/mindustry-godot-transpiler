@@ -427,7 +427,7 @@
       "java_class": "mindustry.entities.comp.BuildingComp",
       "java_method": "collision(Bullet other)",
       "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "Wires generated BuildingComp.java_method_collision_177 and PortGame generated bridge to existing N543 canonical source_building_collision_damage_state.",
+      "rule": "Generated BuildingComp collision delegates to canonical SourceBuildingDamageState; canonical state owns armor/result keys and parity bridge compares the existing envelope.",
       "runtime_proof": "/root/Main.generated_building_comp_collision_bridge_state",
       "source_symbols": [
         "building_collision_damage.method",
@@ -447,6 +447,7 @@
       ],
       "status": "done",
       "tests": [
+        "test_building_collision_generated_delegate.py",
         "test_emit_bridges_building_comp_collision_to_source_damage_state",
         "test_generated_building_comp_bridges_collision_to_source_damage_state",
         "test_port_game_exposes_generated_building_comp_collision_bridge_state",

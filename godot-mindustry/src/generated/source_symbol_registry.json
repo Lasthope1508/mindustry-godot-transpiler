@@ -34435,7 +34435,8 @@
       "runtime_proof": "/root/Main.source_building_collision_damage_state",
       "status": "source-backed",
       "tests": [
-        "test_building_collision_damage_symbols_are_registered_with_source_backing"
+        "test_building_collision_damage_symbols_are_registered_with_source_backing",
+        "test_building_collision_generated_delegate.py"
       ]
     },
     "building_collision_damage.armor": {
@@ -34448,7 +34449,8 @@
       "runtime_proof": "/root/Main.source_building_collision_damage_state",
       "status": "source-backed",
       "tests": [
-        "test_building_collision_damage_symbols_are_registered_with_source_backing"
+        "test_building_collision_damage_symbols_are_registered_with_source_backing",
+        "test_building_collision_generated_delegate.py"
       ]
     },
     "building_collision_damage.block_armor": {
@@ -34461,7 +34463,8 @@
       "runtime_proof": "/root/Main.source_building_collision_damage_state",
       "status": "explicit-input",
       "tests": [
-        "test_building_collision_damage_symbols_are_registered_with_source_backing"
+        "test_building_collision_damage_symbols_are_registered_with_source_backing",
+        "test_building_collision_generated_delegate.py"
       ]
     },
     "building_collision_damage.bullet_armor_multiplier": {
@@ -34474,7 +34477,8 @@
       "runtime_proof": "/root/Main.source_building_collision_damage_state",
       "status": "explicit-input",
       "tests": [
-        "test_building_collision_damage_symbols_are_registered_with_source_backing"
+        "test_building_collision_damage_symbols_are_registered_with_source_backing",
+        "test_building_collision_generated_delegate.py"
       ]
     },
     "building_collision_damage.bullet_block_armor_multiplier": {
@@ -34487,7 +34491,8 @@
       "runtime_proof": "/root/Main.source_building_collision_damage_state",
       "status": "explicit-input",
       "tests": [
-        "test_building_collision_damage_symbols_are_registered_with_source_backing"
+        "test_building_collision_damage_symbols_are_registered_with_source_backing",
+        "test_building_collision_generated_delegate.py"
       ]
     },
     "building_collision_damage.bullet_building_damage": {
@@ -34500,7 +34505,8 @@
       "runtime_proof": "/root/Main.source_building_collision_damage_state",
       "status": "explicit-input",
       "tests": [
-        "test_building_collision_damage_symbols_are_registered_with_source_backing"
+        "test_building_collision_damage_symbols_are_registered_with_source_backing",
+        "test_building_collision_generated_delegate.py"
       ]
     },
     "building_collision_damage.bullet_pierce_armor": {
@@ -34513,7 +34519,8 @@
       "runtime_proof": "/root/Main.source_building_collision_damage_state",
       "status": "explicit-input",
       "tests": [
-        "test_building_collision_damage_symbols_are_registered_with_source_backing"
+        "test_building_collision_damage_symbols_are_registered_with_source_backing",
+        "test_building_collision_generated_delegate.py"
       ]
     },
     "building_collision_damage.current_health": {
@@ -34539,7 +34546,8 @@
       "runtime_proof": "/root/Main.source_building_collision_damage_state",
       "status": "source-backed",
       "tests": [
-        "test_building_collision_damage_symbols_are_registered_with_source_backing"
+        "test_building_collision_damage_symbols_are_registered_with_source_backing",
+        "test_building_collision_generated_delegate.py"
       ]
     },
     "building_collision_damage.method": {
@@ -34552,7 +34560,8 @@
       "runtime_proof": "/root/Main.source_building_collision_damage_state",
       "status": "source-backed",
       "tests": [
-        "test_building_collision_damage_symbols_are_registered_with_source_backing"
+        "test_building_collision_damage_symbols_are_registered_with_source_backing",
+        "test_building_collision_generated_delegate.py"
       ]
     },
     "building_collision_damage.pierce_gate": {
@@ -34565,7 +34574,8 @@
       "runtime_proof": "/root/Main.source_building_collision_damage_state",
       "status": "source-backed",
       "tests": [
-        "test_building_collision_damage_symbols_are_registered_with_source_backing"
+        "test_building_collision_damage_symbols_are_registered_with_source_backing",
+        "test_building_collision_generated_delegate.py"
       ]
     },
     "building_collision_damage.raw_damage": {
@@ -34578,7 +34588,8 @@
       "runtime_proof": "/root/Main.source_building_collision_damage_state",
       "status": "source-backed",
       "tests": [
-        "test_building_collision_damage_symbols_are_registered_with_source_backing"
+        "test_building_collision_damage_symbols_are_registered_with_source_backing",
+        "test_building_collision_generated_delegate.py"
       ]
     },
     "building_collision_damage.return_true": {
@@ -34591,7 +34602,8 @@
       "runtime_proof": "/root/Main.source_building_collision_damage_state",
       "status": "source-backed",
       "tests": [
-        "test_building_collision_damage_symbols_are_registered_with_source_backing"
+        "test_building_collision_damage_symbols_are_registered_with_source_backing",
+        "test_building_collision_generated_delegate.py"
       ]
     },
     "building_collision_damage.was_dead": {
@@ -34604,7 +34616,8 @@
       "runtime_proof": "/root/Main.source_building_collision_damage_state",
       "status": "source-backed",
       "tests": [
-        "test_building_collision_damage_symbols_are_registered_with_source_backing"
+        "test_building_collision_damage_symbols_are_registered_with_source_backing",
+        "test_building_collision_generated_delegate.py"
       ]
     },
     "building_conducts_to.block_insulated": {
