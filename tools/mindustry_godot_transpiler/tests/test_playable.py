@@ -27609,14 +27609,8 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn("func java_method_changeTeam_181(_args: Array = []) -> Variant:", source)
         self.assertIn("var link_count := int(_args[7] if _args.size() > 7 else 0)", source)
-        self.assertIn('"source_owner": "port_game.source_building_change_team_power_links_state', source)
-        self.assertIn('"loop": "for(int i = 0; i < power.links.size; i++){"', source)
-        self.assertIn('"old_graph": old_graph', source)
-        self.assertIn('"team": next_team', source)
-        self.assertIn('"link_count": link_count if power_present and update_power else 0', source)
-        self.assertIn('"remove_index": power_present and update_power and link_count > 0', source)
-        self.assertIn('"reflow_self": power_present and update_power and link_count > 0', source)
-        self.assertIn('"update_power_graph": power_present and update_power and link_count > 0', source)
+        self.assertIn("var power_links = source_building_lifecycle_state.change_team_power_links_state(link_count if power_present and update_power else 0, next_team, old_graph)", source)
+        self.assertIn('power_links["source_owner"] = "port_game.source_building_change_team_power_links_state"', source)
         self.assertIn('result["power_links"] = power_links', source)
 
     def test_port_game_exposes_generated_building_comp_change_team_power_links_bridge_state(self):
@@ -27648,12 +27642,8 @@ class PlayableManifestTests(unittest.TestCase):
         source = generated.read_text(encoding="utf-8")
 
         self.assertIn("func java_method_changeTeam_181(_args: Array = []) -> Variant:", source)
-        self.assertIn('"source_owner": "port_game.source_building_change_team_final_state', source)
-        self.assertIn('"was": was_valid', source)
-        self.assertIn('"add_index": was_valid', source)
-        self.assertIn('"team_change_event": was_valid', source)
-        self.assertIn('"event_last": last_team', source)
-        self.assertIn('"check_allow_update": true', source)
+        self.assertIn("var final_state = source_building_lifecycle_state.change_team_final_state(was_valid, last_team)", source)
+        self.assertIn('final_state["source_owner"] = "port_game.source_building_change_team_final_state"', source)
         self.assertIn('result["final"] = final_state', source)
 
     def test_port_game_exposes_generated_building_comp_change_team_final_bridge_state(self):

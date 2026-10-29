@@ -692,3 +692,14 @@ The generated `power_proximity` state now delegates to canonical `SourceBuilding
 - Cross-catalog validator: `0 errors`; JSON mirror `113 modules / 0 errors`.
 - `BUILDING_LIFECYCLE_STATE_MODULE_PROOF`: `matches=true`, `registry_valid=true`, `one_headquarter_per_ssot=true`.
 - Full Python suite: `5317 passed`, `22504 subtests passed`; one non-blocking `.pytest_cache` permission warning, `1393.82s`.
+
+## N1968/N1969 BuildingComp changeTeam power links and final delegates (2026-10-29)
+
+The generated `power_links` and `final` sections now delegate to canonical lifecycle helpers. The complete changeTeam orchestration routes initial, proximity, links, and final sections through canonical state owners.
+
+- Emitter regeneration: `801 classes`, `0 failures`.
+- Focused power-links/final delegate and emitter tests: `4 passed`.
+- Focused playable power-links/final bridge tests: `4 passed`.
+- Cross-catalog validator: `0 errors`; JSON mirror `113 modules / 0 errors`.
+- `BUILDING_LIFECYCLE_STATE_MODULE_PROOF`: `matches=true`, generated links/final matches true, registry valid, one headquarter per SSOT.
+- Full Python suite: `5319 passed`, `22504 subtests passed`; one non-blocking `.pytest_cache` permission warning, `1375.94s`.

@@ -1501,9 +1501,14 @@ func java_method_changeTeam_181(_args: Array = []) -> Variant:
 	power_proximity["method"] = "public void changeTeam(Team next, boolean updatePower){"
 	power_proximity["gate"] = "if(power != null && updatePower){"
 	result["power_proximity"] = power_proximity
-	var power_links = {"source_owner": "port_game.source_building_change_team_power_links_state", "method": "public void changeTeam(Team next, boolean updatePower){", "loop": "for(int i = 0; i < power.links.size; i++){", "old_graph": old_graph, "team": next_team, "link_count": link_count if power_present and update_power else 0, "remove_index": power_present and update_power and link_count > 0, "reflow_self": power_present and update_power and link_count > 0, "update_power_graph": power_present and update_power and link_count > 0}
+	var power_links = source_building_lifecycle_state.change_team_power_links_state(link_count if power_present and update_power else 0, next_team, old_graph)
+	power_links["source_owner"] = "port_game.source_building_change_team_power_links_state"
+	power_links["method"] = "public void changeTeam(Team next, boolean updatePower){"
+	power_links["loop"] = "for(int i = 0; i < power.links.size; i++){"
 	result["power_links"] = power_links
-	var final_state = {"source_owner": "port_game.source_building_change_team_final_state", "method": "public void changeTeam(Team next, boolean updatePower){", "was": was_valid, "add_index": was_valid, "team_change_event": was_valid, "event_last": last_team, "check_allow_update": true}
+	var final_state = source_building_lifecycle_state.change_team_final_state(was_valid, last_team)
+	final_state["source_owner"] = "port_game.source_building_change_team_final_state"
+	final_state["method"] = "public void changeTeam(Team next, boolean updatePower){"
 	result["final"] = final_state
 	return result
 

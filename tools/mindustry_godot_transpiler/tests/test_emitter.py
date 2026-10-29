@@ -3071,14 +3071,8 @@ public class BuildingComp{
             source_text = emitted.read_text(encoding="utf-8")
             self.assertIn("func java_method_changeTeam_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var link_count := int(_args[7] if _args.size() > 7 else 0)", source_text)
-            self.assertIn('"source_owner": "port_game.source_building_change_team_power_links_state"', source_text)
-            self.assertIn('"loop": "for(int i = 0; i < power.links.size; i++){"', source_text)
-            self.assertIn('"old_graph": old_graph', source_text)
-            self.assertIn('"team": next_team', source_text)
-            self.assertIn('"link_count": link_count if power_present and update_power else 0', source_text)
-            self.assertIn('"remove_index": power_present and update_power and link_count > 0', source_text)
-            self.assertIn('"reflow_self": power_present and update_power and link_count > 0', source_text)
-            self.assertIn('"update_power_graph": power_present and update_power and link_count > 0', source_text)
+            self.assertIn("var power_links = source_building_lifecycle_state.change_team_power_links_state(link_count if power_present and update_power else 0, next_team, old_graph)", source_text)
+            self.assertIn('power_links["source_owner"] = "port_game.source_building_change_team_power_links_state"', source_text)
             self.assertIn('result["power_links"] = power_links', source_text)
 
     def test_emit_bridges_building_comp_change_team_final_to_source_state(self):
@@ -3115,12 +3109,8 @@ public class BuildingComp{
             emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
             source_text = emitted.read_text(encoding="utf-8")
             self.assertIn("func java_method_changeTeam_0(_args: Array = []) -> Variant:", source_text)
-            self.assertIn('"source_owner": "port_game.source_building_change_team_final_state"', source_text)
-            self.assertIn('"was": was_valid', source_text)
-            self.assertIn('"add_index": was_valid', source_text)
-            self.assertIn('"team_change_event": was_valid', source_text)
-            self.assertIn('"event_last": last_team', source_text)
-            self.assertIn('"check_allow_update": true', source_text)
+            self.assertIn("var final_state = source_building_lifecycle_state.change_team_final_state(was_valid, last_team)", source_text)
+            self.assertIn('final_state["source_owner"] = "port_game.source_building_change_team_final_state"', source_text)
             self.assertIn('result["final"] = final_state', source_text)
 
     def test_emit_bridges_building_comp_can_pickup_to_source_state(self):

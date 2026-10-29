@@ -72,3 +72,24 @@ event/index state are unchanged and remain the next independent delegates.
   `one_headquarter_per_ssot=true`.
 - Full Python suite: `5317 passed`, `22504 subtests passed`; one non-blocking
   `.pytest_cache` permission warning, `1393.82s`.
+
+## N1968/N1969 follow-up: power-links and final delegates
+
+The remaining `changeTeam(Team next, boolean updatePower)` result sections now
+use the canonical helpers `change_team_power_links_state(...)` and
+`change_team_final_state(...)`. Generated code retains only source-backed input
+normalization, metadata, and assignment into the established result envelope.
+
+- Focused power-links/final delegate and emitter tests: `4 passed`.
+- Focused playable power-links/final bridge tests: `4 passed`.
+- Emitter regeneration: `801 classes`, `0 failures`.
+- Cross-catalog validator: `0 errors`; JSON mirror `113 modules / 0 errors`.
+- `BUILDING_LIFECYCLE_STATE_MODULE_PROOF`: `matches=true`,
+  `change_team_generated_links_matches=true`,
+  `change_team_generated_final_matches=true`, `registry_valid=true`,
+  `one_headquarter_per_ssot=true`.
+- Full Python suite: `5319 passed`, `22504 subtests passed`; one non-blocking
+  `.pytest_cache` permission warning, `1375.94s`.
+
+The complete generated `changeTeam(Team, boolean)` orchestration now routes
+all four state sections through canonical lifecycle helpers.
