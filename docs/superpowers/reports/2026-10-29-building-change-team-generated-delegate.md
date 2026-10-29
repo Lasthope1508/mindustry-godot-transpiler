@@ -111,3 +111,20 @@ source-backed inputs and no longer construct inline result dictionaries.
   `.pytest_cache` permission warning, `1045.87s`.
 
 `afterPickedUp()` remains the next independent pickup lifecycle delegate.
+
+## N1972 follow-up: afterPickedUp delegate
+
+`BuildingComp.afterPickedUp()` now delegates to canonical
+`after_picked_up_state(...)`. Generated code only normalizes the four source
+inputs; status reset, new power graph, and link clearing remain in canonical
+state.
+
+- Focused afterPickedUp delegate/emitter tests: `2 passed`.
+- Focused playable afterPickedUp bridge tests: `2 passed`.
+- Emitter regeneration: `801 classes`, `0 failures`.
+- Cross-catalog validator: `0 errors`; JSON mirror `113 modules / 0 errors`.
+- `BUILDING_LIFECYCLE_STATE_MODULE_PROOF`: `matches=true`,
+  `pickup_after_picked_up_matches=true`, `registry_valid=true`,
+  `one_headquarter_per_ssot=true`.
+- Full Python suite: `5322 passed`, `22504 subtests passed`; one non-blocking
+  `.pytest_cache` permission warning, `1041.83s`.

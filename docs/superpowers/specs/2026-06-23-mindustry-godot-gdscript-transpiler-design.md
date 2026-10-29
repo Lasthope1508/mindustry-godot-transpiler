@@ -58,6 +58,7 @@
 - [x] N1969: Generated BuildingComp changeTeam(Team, boolean) final event/index state delegates to canonical SourceBuildingLifecycleState.
 - [x] N1970: Generated BuildingComp canPickup delegates to canonical SourceBuildingLifecycleState.
 - [x] N1971: Generated BuildingComp pickedUp delegates to canonical SourceBuildingLifecycleState.
+- [x] N1972: Generated BuildingComp afterPickedUp delegates to canonical SourceBuildingLifecycleState.
 - [x] N167: Source BuildingComp drawConfigure canonical square state.
 - [x] N168: Source BuildingComp checkSolid default state.
 - [x] N169: Source BuildingComp handleDamage passthrough state.

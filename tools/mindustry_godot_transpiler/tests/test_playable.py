@@ -27738,12 +27738,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var has_cons_power := bool(_args[1] if _args.size() > 1 else false)", source)
         self.assertIn("var cons_power_buffered := bool(_args[2] if _args.size() > 2 else false)", source)
         self.assertIn("var current_status := float(_args[3] if _args.size() > 3 else 0.0)", source)
-        self.assertIn("var status := 0.0 if power_present and has_cons_power and not cons_power_buffered else current_status", source)
-        self.assertIn('"source_owner": "port_game.source_building_after_picked_up_state', source)
-        self.assertIn('"power_present": power_present', source)
-        self.assertIn('"new_power_graph": power_present', source)
-        self.assertIn('"clear_links": power_present', source)
-        self.assertIn('"status": status', source)
+        self.assertIn("return source_building_lifecycle_state.after_picked_up_state(power_present, has_cons_power, cons_power_buffered, current_status)", source)
 
     def test_port_game_exposes_generated_building_comp_after_picked_up_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

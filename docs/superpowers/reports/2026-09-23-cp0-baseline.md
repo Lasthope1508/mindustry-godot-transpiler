@@ -716,3 +716,20 @@ The generated `power_links` and `final` sections now delegate to canonical lifec
 - Full Python suite: `5321 passed`, `22504 subtests passed`; one non-blocking `.pytest_cache` permission warning, `1045.87s`.
 
 `afterPickedUp()` remains the next independent pickup lifecycle delegate.
+
+## N1972 BuildingComp afterPickedUp generated delegate (2026-10-29)
+
+`BuildingComp.afterPickedUp()` now delegates to the canonical
+`SourceBuildingLifecycleState.after_picked_up_state(...)` owner. The generated
+callback keeps only source-backed argument normalization; power-graph reset,
+link clearing, and conditional status reset remain in canonical state.
+
+- Emitter regeneration: `801 classes`, `0 failures`.
+- Focused generated delegate/emitter tests: `2 passed`.
+- Focused playable bridge tests: `2 passed`.
+- Cross-catalog validator: `0 errors`; JSON mirror `113 modules / 0 errors`.
+- `BUILDING_LIFECYCLE_STATE_MODULE_PROOF`: `matches=true`,
+  `pickup_after_picked_up_matches=true`, `registry_valid=true`,
+  `one_headquarter_per_ssot=true`.
+- Full Python suite: `5322 passed`, `22504 subtests passed`; one non-blocking
+  `.pytest_cache` permission warning, `1041.83s`.

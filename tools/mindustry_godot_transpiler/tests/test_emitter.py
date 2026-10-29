@@ -3205,12 +3205,8 @@ public class BuildingComp{
             self.assertIn("var has_cons_power := bool(_args[1] if _args.size() > 1 else false)", source_text)
             self.assertIn("var cons_power_buffered := bool(_args[2] if _args.size() > 2 else false)", source_text)
             self.assertIn("var current_status := float(_args[3] if _args.size() > 3 else 0.0)", source_text)
-            self.assertIn("var status := 0.0 if power_present and has_cons_power and not cons_power_buffered else current_status", source_text)
-            self.assertIn('"source_owner": "port_game.source_building_after_picked_up_state"', source_text)
-            self.assertIn('"power_present": power_present', source_text)
-            self.assertIn('"new_power_graph": power_present', source_text)
-            self.assertIn('"clear_links": power_present', source_text)
-            self.assertIn('"status": status', source_text)
+            self.assertIn("return source_building_lifecycle_state.after_picked_up_state(power_present, has_cons_power, cons_power_buffered, current_status)", source_text)
+            self.assertNotIn('return {"source_owner":', source_text)
 
     def test_emit_bridges_building_comp_remove_from_proximity_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
