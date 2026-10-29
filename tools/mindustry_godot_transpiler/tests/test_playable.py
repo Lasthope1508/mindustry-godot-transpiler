@@ -27502,12 +27502,7 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn("func java_method_changeTeam_180(_args: Array = []) -> Variant:", source)
         self.assertIn("var next_team: Variant = _args[0] if _args.size() > 0 else null", source)
-        self.assertIn('"source_owner": "port_game.source_building_change_team_delegate_state', source)
-        self.assertIn('"comment": "/** Changes this building\'s team in a safe manner. */"', source)
-        self.assertIn('"method": "public void changeTeam(Team next){"', source)
-        self.assertIn('"next_team": next_team', source)
-        self.assertIn('"delegates_to_change_team": true', source)
-        self.assertIn('"update_power": true', source)
+        self.assertIn("return source_building_lifecycle_state.change_team_delegate_state(next_team)", source)
 
     def test_port_game_exposes_generated_building_comp_change_team_delegate_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

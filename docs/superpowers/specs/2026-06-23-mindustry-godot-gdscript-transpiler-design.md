@@ -51,6 +51,7 @@
 - [x] N1962: Generated BuildingComp absorbLasers, isInsulated, and collide delegate directly to existing canonical core state; parity bridges preserve their result envelopes.
 - [x] N1963: Generated BuildingComp collision delegates to canonical SourceBuildingDamageState; armor/result keys remain source-backed and parity is preserved.
 - [x] N1964: Generated BuildingComp damage overloads delegate to canonical SourceBuildingDamageState; parity bridges preserve source comment/method metadata and bullet event envelope.
+- [x] N1965: Generated BuildingComp changeTeam(Team) delegates to canonical SourceBuildingLifecycleState; the two-argument power-graph overload remains isolated for a later slice.
 - [x] N167: Source BuildingComp drawConfigure canonical square state.
 - [x] N168: Source BuildingComp checkSolid default state.
 - [x] N169: Source BuildingComp handleDamage passthrough state.

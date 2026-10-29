@@ -2944,12 +2944,8 @@ public class BuildingComp{
             source_text = emitted.read_text(encoding="utf-8")
             self.assertIn("func java_method_changeTeam_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var next_team: Variant = _args[0] if _args.size() > 0 else null", source_text)
-            self.assertIn('"source_owner": "port_game.source_building_change_team_delegate_state"', source_text)
-            self.assertIn('"comment": "/** Changes this building\'s team in a safe manner. */"', source_text)
-            self.assertIn('"method": "public void changeTeam(Team next){"', source_text)
-            self.assertIn('"next_team": next_team', source_text)
-            self.assertIn('"delegates_to_change_team": true', source_text)
-            self.assertIn('"update_power": true', source_text)
+            self.assertIn("return source_building_lifecycle_state.change_team_delegate_state(next_team)", source_text)
+            self.assertNotIn('return {"source_owner":', source_text)
 
     def test_emit_bridges_building_comp_change_team_initial_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:

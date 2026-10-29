@@ -649,3 +649,22 @@ and bullet damage event envelope in canonical state.
 
 CP0/CP1 remain accepted and gameplay migration stays unlocked. The known MCP
 port `7777` ownership limitation is unchanged.
+
+## N1965 BuildingComp changeTeam(Team) generated delegate (2026-10-29)
+
+The narrow `changeTeam(Team next)` overload now delegates to the existing
+canonical lifecycle owner. The generated callback only extracts `next_team`;
+the two-argument power-graph overload remains isolated for a later slice.
+
+- Emitter regeneration: `801 classes`, `0 failures`.
+- Focused delegate/emitter tests: `2 passed`.
+- Focused playable bridge tests: `2 passed`.
+- Cross-catalog validator: `0 errors`; JSON mirror `113 modules / 0 errors`.
+- `BUILDING_LIFECYCLE_STATE_MODULE_PROOF`: `matches=true`,
+  `change_team_delegate_bridge_matches=true`, `registry_valid=true`,
+  `one_headquarter_per_ssot=true`.
+- Full Python suite: `5315 passed`, `22504 subtests passed`; one non-blocking
+  `.pytest_cache` permission warning, `1300.31s`.
+
+N1965 is accepted. The two-argument `changeTeam` power/proximity/link/final
+branches remain the next independent generated-delegate cluster.

@@ -4042,7 +4042,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict, method_i
     ):
         return [
             "\tvar next_team: Variant = _args[0] if _args.size() > 0 else null",
-            "\treturn {\"source_owner\": \"port_game.source_building_change_team_delegate_state\", \"comment\": \"/** Changes this building's team in a safe manner. */\", \"method\": \"public void changeTeam(Team next){\", \"next_team\": next_team, \"delegates_to_change_team\": true, \"update_power\": true}",
+            "\treturn source_building_lifecycle_state.change_team_delegate_state(next_team)",
         ]
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
