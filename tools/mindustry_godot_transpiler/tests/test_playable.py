@@ -27575,11 +27575,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var power_present := bool(_args[4] if _args.size() > 4 else false)", source)
         self.assertIn("var update_power := bool(_args[5] if _args.size() > 5 else false)", source)
         self.assertIn("var old_graph: Variant = _args[6] if _args.size() > 6 else null", source)
-        self.assertIn('"source_owner": "port_game.source_building_change_team_power_proximity_state', source)
-        self.assertIn('"gate": "if(power != null && updatePower){"', source)
-        self.assertIn('"old_graph": old_graph', source)
-        self.assertIn('"team": next_team', source)
-        self.assertIn('"proximity_reflow": power_present and update_power', source)
+        self.assertIn("var power_proximity = source_building_lifecycle_state.change_team_power_proximity_state(power_present, update_power, old_graph, next_team)", source)
+        self.assertIn('power_proximity["source_owner"] = "port_game.source_building_change_team_power_proximity_state"', source)
         self.assertIn('result["power_proximity"] = power_proximity', source)
 
     def test_port_game_exposes_generated_building_comp_change_team_power_proximity_bridge_state(self):

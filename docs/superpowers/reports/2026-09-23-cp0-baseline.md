@@ -681,3 +681,14 @@ The initial guard/force-team portion of `changeTeam(Team next, boolean updatePow
 - Full Python suite: `5316 passed`, `22504 subtests passed`; one non-blocking `.pytest_cache` permission warning, `1283.20s`.
 
 The power proximity, power links, and final event/index branches remain separate source-backed delegates for the next checkpoints.
+
+## N1967 BuildingComp changeTeam power proximity delegate (2026-10-29)
+
+The generated `power_proximity` state now delegates to canonical `SourceBuildingLifecycleState.change_team_power_proximity_state`. Generated code retains only metadata and result orchestration; power links and final state remain separate.
+
+- Emitter regeneration: `801 classes`, `0 failures`.
+- Focused proximity delegate/emitter tests: `2 passed`.
+- Focused playable proximity bridge tests: `2 passed`.
+- Cross-catalog validator: `0 errors`; JSON mirror `113 modules / 0 errors`.
+- `BUILDING_LIFECYCLE_STATE_MODULE_PROOF`: `matches=true`, `registry_valid=true`, `one_headquarter_per_ssot=true`.
+- Full Python suite: `5317 passed`, `22504 subtests passed`; one non-blocking `.pytest_cache` permission warning, `1393.82s`.

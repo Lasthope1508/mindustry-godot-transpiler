@@ -1496,7 +1496,10 @@ func java_method_changeTeam_181(_args: Array = []) -> Variant:
 	if bool(initial_state.get("returned", false)):
 		return initial_state
 	var result = initial_state
-	var power_proximity = {"source_owner": "port_game.source_building_change_team_power_proximity_state", "method": "public void changeTeam(Team next, boolean updatePower){", "gate": "if(power != null && updatePower){", "old_graph": old_graph, "team": next_team, "proximity_reflow": power_present and update_power}
+	var power_proximity = source_building_lifecycle_state.change_team_power_proximity_state(power_present, update_power, old_graph, next_team)
+	power_proximity["source_owner"] = "port_game.source_building_change_team_power_proximity_state"
+	power_proximity["method"] = "public void changeTeam(Team next, boolean updatePower){"
+	power_proximity["gate"] = "if(power != null && updatePower){"
 	result["power_proximity"] = power_proximity
 	var power_links = {"source_owner": "port_game.source_building_change_team_power_links_state", "method": "public void changeTeam(Team next, boolean updatePower){", "loop": "for(int i = 0; i < power.links.size; i++){", "old_graph": old_graph, "team": next_team, "link_count": link_count if power_present and update_power else 0, "remove_index": power_present and update_power and link_count > 0, "reflow_self": power_present and update_power and link_count > 0, "update_power_graph": power_present and update_power and link_count > 0}
 	result["power_links"] = power_links

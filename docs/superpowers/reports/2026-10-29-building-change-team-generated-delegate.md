@@ -54,3 +54,21 @@ longer have duplicated formulas in the generated callback.
 
 The power proximity, power links, and final event/index branches remain
 separate source-backed delegates for the next checkpoints.
+
+## N1967 follow-up: power proximity delegate
+
+The generated power-proximity dictionary now comes from
+`SourceBuildingLifecycleState.change_team_power_proximity_state(...)`. Only
+canonical envelope metadata and the existing `result["power_proximity"]`
+orchestration assignment remain in generated code. Power links and final
+event/index state are unchanged and remain the next independent delegates.
+
+- Focused proximity delegate/emitter tests: `2 passed`.
+- Focused playable proximity bridge tests: `2 passed`.
+- Emitter regeneration: `801 classes`, `0 failures`.
+- Cross-catalog validator: `0 errors`; JSON mirror `113 modules / 0 errors`.
+- `BUILDING_LIFECYCLE_STATE_MODULE_PROOF`: `matches=true`,
+  `change_team_initial_matches=true`, `registry_valid=true`,
+  `one_headquarter_per_ssot=true`.
+- Full Python suite: `5317 passed`, `22504 subtests passed`; one non-blocking
+  `.pytest_cache` permission warning, `1393.82s`.
