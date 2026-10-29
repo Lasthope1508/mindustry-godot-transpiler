@@ -2982,12 +2982,10 @@ public class BuildingComp{
             self.assertIn("var next_team: Variant = _args[1] if _args.size() > 1 else null", source_text)
             self.assertIn("var force_team: Variant = _args[2] if _args.size() > 2 else null", source_text)
             self.assertIn("var was_valid := bool(_args[3] if _args.size() > 3 else false)", source_text)
-            self.assertIn('"source_owner": "port_game.source_building_change_team_initial_state"', source_text)
-            self.assertIn('"comment": "/** Changes this building\'s team in a safe manner. */"', source_text)
-            self.assertIn('"method": "public void changeTeam(Team next, boolean updatePower){"', source_text)
-            self.assertIn('"team": next_team', source_text)
-            self.assertIn('"remove_index": was_valid', source_text)
-            self.assertIn('"assign_next": true', source_text)
+            self.assertIn("var initial_state = source_building_lifecycle_state.change_team_initial_state(current_team, next_team, force_team, was_valid)", source_text)
+            self.assertIn("if bool(initial_state.get(\"returned\", false)):", source_text)
+            self.assertIn("var result = initial_state", source_text)
+            self.assertNotIn("if current_team == next_team:", source_text)
 
     def test_emit_bridges_building_comp_change_team_power_proximity_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:

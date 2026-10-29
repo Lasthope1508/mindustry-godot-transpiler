@@ -1488,13 +1488,14 @@ func java_method_changeTeam_181(_args: Array = []) -> Variant:
 	var update_power := bool(_args[5] if _args.size() > 5 else false)
 	var old_graph: Variant = _args[6] if _args.size() > 6 else null
 	var link_count := int(_args[7] if _args.size() > 7 else 0)
-	if current_team == next_team:
-		return {"source_owner": "port_game.source_building_change_team_initial_state", "comment": "/** Changes this building's team in a safe manner. */", "method": "public void changeTeam(Team next, boolean updatePower){", "team": current_team, "last_team": current_team, "returned": true, "remove_index": false, "assign_next": false}
-	var team_after_force = force_team if force_team != null else current_team
-	var last_team = team_after_force
-	if last_team == next_team:
-		return {"source_owner": "port_game.source_building_change_team_initial_state", "comment": "/** Changes this building's team in a safe manner. */", "method": "public void changeTeam(Team next, boolean updatePower){", "team": team_after_force, "last_team": last_team, "returned": true, "remove_index": false, "assign_next": false}
-	var result = {"source_owner": "port_game.source_building_change_team_initial_state", "comment": "/** Changes this building's team in a safe manner. */", "method": "public void changeTeam(Team next, boolean updatePower){", "team": next_team, "last_team": last_team, "returned": false, "remove_index": was_valid, "assign_next": true}
+	var initial_state = source_building_lifecycle_state.change_team_initial_state(current_team, next_team, force_team, was_valid)
+	initial_state["source_owner"] = "port_game.source_building_change_team_initial_state"
+	initial_state["comment"] = "/** Changes this building's team in a safe manner. */"
+	initial_state["method"] = "public void changeTeam(Team next, boolean updatePower){"
+	var last_team: Variant = initial_state.get("last_team")
+	if bool(initial_state.get("returned", false)):
+		return initial_state
+	var result = initial_state
 	var power_proximity = {"source_owner": "port_game.source_building_change_team_power_proximity_state", "method": "public void changeTeam(Team next, boolean updatePower){", "gate": "if(power != null && updatePower){", "old_graph": old_graph, "team": next_team, "proximity_reflow": power_present and update_power}
 	result["power_proximity"] = power_proximity
 	var power_links = {"source_owner": "port_game.source_building_change_team_power_links_state", "method": "public void changeTeam(Team next, boolean updatePower){", "loop": "for(int i = 0; i < power.links.size; i++){", "old_graph": old_graph, "team": next_team, "link_count": link_count if power_present and update_power else 0, "remove_index": power_present and update_power and link_count > 0, "reflow_self": power_present and update_power and link_count > 0, "update_power_graph": power_present and update_power and link_count > 0}

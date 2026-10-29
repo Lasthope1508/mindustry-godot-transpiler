@@ -668,3 +668,16 @@ the two-argument power-graph overload remains isolated for a later slice.
 
 N1965 is accepted. The two-argument `changeTeam` power/proximity/link/final
 branches remain the next independent generated-delegate cluster.
+
+## N1966 BuildingComp changeTeam initial guard delegate (2026-10-29)
+
+The initial guard/force-team portion of `changeTeam(Team next, boolean updatePower)` now delegates to canonical `SourceBuildingLifecycleState.change_team_initial_state`. Generated code retains only argument parsing, metadata envelope, and orchestration into separate power branches.
+
+- Emitter regeneration: `801 classes`, `0 failures`.
+- Focused initial delegate/emitter tests: `2 passed`.
+- Focused playable initial bridge test: `1 passed`.
+- Cross-catalog validator: `0 errors`; JSON mirror `113 modules / 0 errors`.
+- `BUILDING_LIFECYCLE_STATE_MODULE_PROOF`: `matches=true`, `change_team_initial_matches=true`, `registry_valid=true`, `one_headquarter_per_ssot=true`.
+- Full Python suite: `5316 passed`, `22504 subtests passed`; one non-blocking `.pytest_cache` permission warning, `1283.20s`.
+
+The power proximity, power links, and final event/index branches remain separate source-backed delegates for the next checkpoints.

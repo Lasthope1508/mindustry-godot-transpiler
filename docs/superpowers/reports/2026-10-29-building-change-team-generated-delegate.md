@@ -32,3 +32,25 @@ checkpoint.
   `one_headquarter_per_ssot=true`.
 - Full Python suite: `5315 passed`, `22504 subtests passed`, one non-blocking
   `.pytest_cache` permission warning, `1300.31s`.
+
+## N1966 follow-up: initial guard delegate
+
+The first part of `changeTeam(Team next, boolean updatePower)` now delegates
+to `SourceBuildingLifecycleState.change_team_initial_state(...)`. Generated
+code keeps only argument parsing, canonical envelope metadata, and orchestration
+into the still-separate power proximity/link/final branches. The source-backed
+guard, force-team resolution, equality return, and index-removal decision no
+longer have duplicated formulas in the generated callback.
+
+- Focused initial delegate/emitter tests: `2 passed`.
+- Focused playable initial bridge test: `1 passed`.
+- Emitter regeneration: `801 classes`, `0 failures`.
+- Cross-catalog validator: `0 errors`; JSON mirror `113 modules / 0 errors`.
+- `BUILDING_LIFECYCLE_STATE_MODULE_PROOF`: `matches=true`,
+  `change_team_initial_matches=true`, `registry_valid=true`,
+  `one_headquarter_per_ssot=true`.
+- Full Python suite: `5316 passed`, `22504 subtests passed`; one non-blocking
+  `.pytest_cache` permission warning, `1283.20s`.
+
+The power proximity, power links, and final event/index branches remain
+separate source-backed delegates for the next checkpoints.
