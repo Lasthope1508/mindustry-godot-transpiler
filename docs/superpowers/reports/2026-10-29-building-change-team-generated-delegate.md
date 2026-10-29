@@ -93,3 +93,21 @@ normalization, metadata, and assignment into the established result envelope.
 
 The complete generated `changeTeam(Team, boolean)` orchestration now routes
 all four state sections through canonical lifecycle helpers.
+
+## N1970/N1971 follow-up: pickup delegates
+
+`BuildingComp.canPickup()` and `pickedUp()` now delegate to the existing
+canonical pickup lifecycle state. Generated callbacks only normalize their
+source-backed inputs and no longer construct inline result dictionaries.
+
+- Focused pickup delegate/emitter tests: `5 passed`.
+- Focused playable pickup bridge tests: `4 passed`.
+- Emitter regeneration: `801 classes`, `0 failures`.
+- Cross-catalog validator: `0 errors`; JSON mirror `113 modules / 0 errors`.
+- `BUILDING_LIFECYCLE_STATE_MODULE_PROOF`: `matches=true`,
+  `pickup_can_bridge_matches=true`, `pickup_picked_bridge_matches=true`,
+  `registry_valid=true`, `one_headquarter_per_ssot=true`.
+- Full Python suite: `5321 passed`, `22504 subtests passed`; one non-blocking
+  `.pytest_cache` permission warning, `1045.87s`.
+
+`afterPickedUp()` remains the next independent pickup lifecycle delegate.

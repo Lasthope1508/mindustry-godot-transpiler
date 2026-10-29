@@ -4090,7 +4090,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict, method_i
     ):
         return [
             "\tvar block_can_pickup := bool(_args[0] if _args.size() > 0 else false)",
-            "\treturn {\"source_owner\": \"port_game.source_building_can_pickup_state\", \"method\": \"public boolean canPickup(){\", \"blockCanPickup\": block_can_pickup, \"canPickup\": block_can_pickup}",
+            "\treturn source_building_lifecycle_state.can_pickup_state(block_can_pickup)",
         ]
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
@@ -4099,7 +4099,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict, method_i
     ):
         return [
             "\tvar previous_state: Variant = _args[0] if _args.size() > 0 else null",
-            "\treturn {\"source_owner\": \"port_game.source_building_picked_up_state\", \"method\": \"public void pickedUp(){\", \"comment\": \"Called right before this building is picked up.\", \"no_op\": true, \"previous_state\": previous_state}",
+            "\treturn source_building_lifecycle_state.picked_up_state(previous_state)",
         ]
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"

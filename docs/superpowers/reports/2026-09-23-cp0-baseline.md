@@ -703,3 +703,16 @@ The generated `power_links` and `final` sections now delegate to canonical lifec
 - Cross-catalog validator: `0 errors`; JSON mirror `113 modules / 0 errors`.
 - `BUILDING_LIFECYCLE_STATE_MODULE_PROOF`: `matches=true`, generated links/final matches true, registry valid, one headquarter per SSOT.
 - Full Python suite: `5319 passed`, `22504 subtests passed`; one non-blocking `.pytest_cache` permission warning, `1375.94s`.
+
+## N1970/N1971 BuildingComp pickup delegates (2026-10-29)
+
+`canPickup()` and `pickedUp()` now delegate to canonical lifecycle state; generated callbacks no longer construct inline result dictionaries.
+
+- Emitter regeneration: `801 classes`, `0 failures`.
+- Focused pickup delegate/emitter tests: `5 passed`.
+- Focused playable pickup bridge tests: `4 passed`.
+- Cross-catalog validator: `0 errors`; JSON mirror `113 modules / 0 errors`.
+- `BUILDING_LIFECYCLE_STATE_MODULE_PROOF`: `matches=true`, pickup bridge matches true, registry valid, one headquarter per SSOT.
+- Full Python suite: `5321 passed`, `22504 subtests passed`; one non-blocking `.pytest_cache` permission warning, `1045.87s`.
+
+`afterPickedUp()` remains the next independent pickup lifecycle delegate.

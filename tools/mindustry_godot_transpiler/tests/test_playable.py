@@ -27677,10 +27677,7 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn("func java_method_canPickup_182(_args: Array = []) -> Variant:", source)
         self.assertIn("var block_can_pickup := bool(_args[0] if _args.size() > 0 else false)", source)
-        self.assertIn('"source_owner": "port_game.source_building_can_pickup_state', source)
-        self.assertIn('"method": "public boolean canPickup(){"', source)
-        self.assertIn('"blockCanPickup": block_can_pickup', source)
-        self.assertIn('"canPickup": block_can_pickup', source)
+        self.assertIn("return source_building_lifecycle_state.can_pickup_state(block_can_pickup)", source)
 
     def test_port_game_exposes_generated_building_comp_can_pickup_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -27709,11 +27706,7 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn("func java_method_pickedUp_183(_args: Array = []) -> Variant:", source)
         self.assertIn("var previous_state: Variant = _args[0] if _args.size() > 0 else null", source)
-        self.assertIn('"source_owner": "port_game.source_building_picked_up_state', source)
-        self.assertIn('"method": "public void pickedUp(){"', source)
-        self.assertIn('"comment": "Called right before this building is picked up."', source)
-        self.assertIn('"no_op": true', source)
-        self.assertIn('"previous_state": previous_state', source)
+        self.assertIn("return source_building_lifecycle_state.picked_up_state(previous_state)", source)
 
     def test_port_game_exposes_generated_building_comp_picked_up_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

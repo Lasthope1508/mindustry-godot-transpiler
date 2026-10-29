@@ -1514,11 +1514,11 @@ func java_method_changeTeam_181(_args: Array = []) -> Variant:
 
 func java_method_canPickup_182(_args: Array = []) -> Variant:
 	var block_can_pickup := bool(_args[0] if _args.size() > 0 else false)
-	return {"source_owner": "port_game.source_building_can_pickup_state", "method": "public boolean canPickup(){", "blockCanPickup": block_can_pickup, "canPickup": block_can_pickup}
+	return source_building_lifecycle_state.can_pickup_state(block_can_pickup)
 
 func java_method_pickedUp_183(_args: Array = []) -> Variant:
 	var previous_state: Variant = _args[0] if _args.size() > 0 else null
-	return {"source_owner": "port_game.source_building_picked_up_state", "method": "public void pickedUp(){", "comment": "Called right before this building is picked up.", "no_op": true, "previous_state": previous_state}
+	return source_building_lifecycle_state.picked_up_state(previous_state)
 
 func java_method_afterPickedUp_184(_args: Array = []) -> Variant:
 	var power_present := bool(_args[0] if _args.size() > 0 else false)

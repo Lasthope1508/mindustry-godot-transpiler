@@ -56,6 +56,8 @@
 - [x] N1967: Generated BuildingComp changeTeam(Team, boolean) power-proximity state delegates to canonical SourceBuildingLifecycleState; power links and final state remain isolated.
 - [x] N1968: Generated BuildingComp changeTeam(Team, boolean) power-links state delegates to canonical SourceBuildingLifecycleState.
 - [x] N1969: Generated BuildingComp changeTeam(Team, boolean) final event/index state delegates to canonical SourceBuildingLifecycleState.
+- [x] N1970: Generated BuildingComp canPickup delegates to canonical SourceBuildingLifecycleState.
+- [x] N1971: Generated BuildingComp pickedUp delegates to canonical SourceBuildingLifecycleState.
 - [x] N167: Source BuildingComp drawConfigure canonical square state.
 - [x] N168: Source BuildingComp checkSolid default state.
 - [x] N169: Source BuildingComp handleDamage passthrough state.
