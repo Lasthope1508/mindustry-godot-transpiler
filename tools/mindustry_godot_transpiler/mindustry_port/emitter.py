@@ -4193,10 +4193,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict, method_i
             "\tvar efficiency := float(_args[0] if _args.size() > 0 else 0.0)",
             "\tvar optional_efficiency := float(_args[1] if _args.size() > 1 else 0.0)",
             "\tvar efficiency_scale := float(_args[2] if _args.size() > 2 else 1.0)",
-            "\tvar scale := efficiency_scale",
-            "\tefficiency *= scale",
-            "\toptional_efficiency *= scale",
-            "\treturn {\"source_owner\": \"port_game.source_building_update_efficiency_multiplier_state\", \"comment\": \"/** Called after efficiency is updated but before consumers are updated. Use to apply your own multiplier. */\", \"method\": \"public void updateEfficiencyMultiplier(){\", \"scale\": scale, \"efficiency\": efficiency, \"optional_efficiency\": optional_efficiency, \"efficiency_scale\": efficiency_scale}",
+            "\treturn source_building_efficiency_state.update_efficiency_multiplier_state(efficiency, optional_efficiency, efficiency_scale)",
         ]
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
@@ -4204,7 +4201,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict, method_i
         and method.get("name") == "efficiencyScale"
     ):
         return [
-            "\treturn {\"source_owner\": \"port_game.source_building_efficiency_scale_state\", \"comment\": \"/** Calculate your own efficiency multiplier. By default, this is applied in updateEfficiencyMultiplier. */\", \"method\": \"public float efficiencyScale(){\", \"efficiency_scale\": 1.0}",
+            "\treturn source_building_efficiency_state.efficiency_scale_state()",
         ]
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"

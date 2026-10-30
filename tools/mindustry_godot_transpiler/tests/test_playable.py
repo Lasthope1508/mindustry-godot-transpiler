@@ -28052,16 +28052,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var efficiency := float(_args[0] if _args.size() > 0 else 0.0)", source)
         self.assertIn("var optional_efficiency := float(_args[1] if _args.size() > 1 else 0.0)", source)
         self.assertIn("var efficiency_scale := float(_args[2] if _args.size() > 2 else 1.0)", source)
-        self.assertIn("var scale := efficiency_scale", source)
-        self.assertIn("efficiency *= scale", source)
-        self.assertIn("optional_efficiency *= scale", source)
-        self.assertIn('"source_owner": "port_game.source_building_update_efficiency_multiplier_state"', source)
-        self.assertIn('"comment": "/** Called after efficiency is updated but before consumers are updated. Use to apply your own multiplier. */"', source)
-        self.assertIn('"method": "public void updateEfficiencyMultiplier(){"', source)
-        self.assertIn('"scale": scale', source)
-        self.assertIn('"efficiency": efficiency', source)
-        self.assertIn('"optional_efficiency": optional_efficiency', source)
-        self.assertIn('"efficiency_scale": efficiency_scale', source)
+        self.assertIn("return source_building_efficiency_state.update_efficiency_multiplier_state(efficiency, optional_efficiency, efficiency_scale)", source)
 
     def test_port_game_exposes_generated_building_comp_update_efficiency_multiplier_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -28088,10 +28079,7 @@ class PlayableManifestTests(unittest.TestCase):
         source = generated.read_text(encoding="utf-8")
 
         self.assertIn("func java_method_efficiencyScale_193(_args: Array = []) -> Variant:", source)
-        self.assertIn('"source_owner": "port_game.source_building_efficiency_scale_state"', source)
-        self.assertIn('"comment": "/** Calculate your own efficiency multiplier. By default, this is applied in updateEfficiencyMultiplier. */"', source)
-        self.assertIn('"method": "public float efficiencyScale(){"', source)
-        self.assertIn('"efficiency_scale": 1.0', source)
+        self.assertIn("return source_building_efficiency_state.efficiency_scale_state()", source)
 
     def test_port_game_exposes_generated_building_comp_efficiency_scale_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

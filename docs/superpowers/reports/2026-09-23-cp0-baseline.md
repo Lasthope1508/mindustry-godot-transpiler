@@ -785,3 +785,19 @@ removing duplicated arithmetic from generated callbacks.
   `one_headquarter_per_ssot=true`; no generated-script parse errors.
 - Full Python suite: `5329 passed`, `22504 subtests passed` in `1362.71s`; one
   non-blocking `.pytest_cache` permission warning.
+
+## N1980-N1981 BuildingComp efficiency multiplier generated delegates (2026-10-30)
+
+Generated `updateEfficiencyMultiplier()` and `efficiencyScale()` now delegate
+to canonical `SourceBuildingEfficiencyState`; duplicated scaling and default
+return envelopes were removed from generated code.
+
+- Emitter regeneration: `801 classes`, `0 failures`.
+- Focused generated delegate tests: `2 passed`.
+- Focused emitter tests: `2 passed`.
+- Focused playable bridge tests: `2 passed`.
+- Cross-catalog validator: `0 errors`; JSON mirror `113 modules / 0 errors`.
+- Godot 4.6.2 efficiency proof: `matches=true`, `registry_valid=true`,
+  `one_headquarter_per_ssot=true`; no parse errors.
+- Full Python suite: `5331 passed`, `22504 subtests passed` in `1196.92s`; one
+  non-blocking `.pytest_cache` permission warning.

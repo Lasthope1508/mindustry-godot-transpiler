@@ -66,6 +66,8 @@
 - [x] N1977: Generated BuildingComp canConsume delegates to canonical SourceBuildingEfficiencyState.
 - [x] N1978: Generated BuildingComp delta delegates to canonical SourceBuildingTimeState.
 - [x] N1979: Generated BuildingComp edelta delegates to canonical SourceBuildingTimeState.
+- [x] N1980: Generated BuildingComp updateEfficiencyMultiplier delegates to canonical SourceBuildingEfficiencyState.
+- [x] N1981: Generated BuildingComp efficiencyScale delegates to canonical SourceBuildingEfficiencyState.
 - [x] N167: Source BuildingComp drawConfigure canonical square state.
 - [x] N168: Source BuildingComp checkSolid default state.
 - [x] N169: Source BuildingComp handleDamage passthrough state.
@@ -3312,3 +3314,4 @@ When Godot CLI is not on `PATH`, use the configured MCP Godot path from `C:\User
 | 2026-10-30 | N1973-N1975 generated BuildingComp proximity delegates: `removeFromProximity()`, `updateProximity()`, and `onNearbyBuildAdded(Building)` now delegate to existing canonical lifecycle proximity helpers; focused generated/emitter/playable gates pass, the cross-catalog validator remains `0 errors` with `113` modules, Godot runtime proof reports all three bridge matches true, and the full Python suite passes `5325` tests with `22504` subtests. |
 | 2026-10-30 | N1976-N1977 generated BuildingComp efficiency delegates: `consume()` and `canConsume()` now delegate to existing `SourceBuildingEfficiencyState` helpers; focused gates and validator pass, the Godot efficiency proof parses the generated class with `matches=true`, and the full Python suite passes `5327` tests with `22504` subtests. |
 | 2026-10-30 | N1978-N1979 generated BuildingComp time delegates: `delta()` and `edelta()` now delegate to existing `SourceBuildingTimeState` helpers; focused gates, validator, and Godot time proof pass with `matches=true`, and the full Python suite passes `5329` tests with `22504` subtests. |
+| 2026-10-30 | N1980-N1981 generated BuildingComp efficiency multiplier delegates: `updateEfficiencyMultiplier()` and `efficiencyScale()` now delegate to existing `SourceBuildingEfficiencyState` helpers; focused gates, validator, and Godot efficiency proof pass with `matches=true`, and the full Python suite passes `5331` tests with `22504` subtests. |

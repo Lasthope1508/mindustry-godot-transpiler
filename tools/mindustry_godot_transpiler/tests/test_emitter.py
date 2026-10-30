@@ -3482,16 +3482,7 @@ public class BuildingComp{
             self.assertIn("var efficiency := float(_args[0] if _args.size() > 0 else 0.0)", source_text)
             self.assertIn("var optional_efficiency := float(_args[1] if _args.size() > 1 else 0.0)", source_text)
             self.assertIn("var efficiency_scale := float(_args[2] if _args.size() > 2 else 1.0)", source_text)
-            self.assertIn("var scale := efficiency_scale", source_text)
-            self.assertIn("efficiency *= scale", source_text)
-            self.assertIn("optional_efficiency *= scale", source_text)
-            self.assertIn('"source_owner": "port_game.source_building_update_efficiency_multiplier_state"', source_text)
-            self.assertIn('"comment": "/** Called after efficiency is updated but before consumers are updated. Use to apply your own multiplier. */"', source_text)
-            self.assertIn('"method": "public void updateEfficiencyMultiplier(){"', source_text)
-            self.assertIn('"scale": scale', source_text)
-            self.assertIn('"efficiency": efficiency', source_text)
-            self.assertIn('"optional_efficiency": optional_efficiency', source_text)
-            self.assertIn('"efficiency_scale": efficiency_scale', source_text)
+            self.assertIn("return source_building_efficiency_state.update_efficiency_multiplier_state(efficiency, optional_efficiency, efficiency_scale)", source_text)
 
     def test_emit_bridges_building_comp_efficiency_scale_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -3518,10 +3509,7 @@ public class BuildingComp{
             emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
             source_text = emitted.read_text(encoding="utf-8")
             self.assertIn("func java_method_efficiencyScale_0(_args: Array = []) -> Variant:", source_text)
-            self.assertIn('"source_owner": "port_game.source_building_efficiency_scale_state"', source_text)
-            self.assertIn('"comment": "/** Calculate your own efficiency multiplier. By default, this is applied in updateEfficiencyMultiplier. */"', source_text)
-            self.assertIn('"method": "public float efficiencyScale(){"', source_text)
-            self.assertIn('"efficiency_scale": 1.0', source_text)
+            self.assertIn("return source_building_efficiency_state.efficiency_scale_state()", source_text)
 
     def test_emit_bridges_building_comp_update_consumption_initial_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
