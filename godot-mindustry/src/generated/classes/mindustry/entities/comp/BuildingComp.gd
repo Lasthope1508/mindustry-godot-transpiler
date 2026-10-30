@@ -1591,7 +1591,7 @@ func java_method_updateConsumption_194(_args: Array = []) -> Variant:
 			return source_building_efficiency_state.update_consumption_disabled_state(enabled_state)
 		var update := should_consume_state and production_valid
 		if _args.size() <= 6:
-			return {"source_owner": "port_game.source_building_update_consumption_setup_state", "method": "public void updateConsumption(){", "update_expr": "boolean update = shouldConsume() && productionValid();", "min": "float minEfficiency = 1f;", "comment": "//assume efficiency is 1 for the calculations below", "efficiencies": "efficiency = optionalEfficiency = 1f;", "power": "shouldConsumePower = true;", "should_consume_state": should_consume_state, "production_valid": production_valid, "update": update, "min_efficiency": 1.0, "efficiency": 1.0, "optional_efficiency": 1.0, "should_consume_power": true}
+			return source_building_efficiency_state.update_consumption_setup_state(should_consume_state, production_valid)
 		var min_efficiency := 1.0
 		var should_consume_power := true
 		for consumer in non_optional_consumer_results:

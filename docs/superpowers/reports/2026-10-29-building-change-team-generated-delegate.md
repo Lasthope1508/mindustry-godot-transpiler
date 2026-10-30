@@ -216,3 +216,20 @@ The first two `BuildingComp.updateConsumption()` branches now delegate to the ex
 - Cross-catalog validator: `0 errors`; JSON mirror `113 modules / 0 errors`.
 - Godot 4.6.2 `BuildingEfficiencyStateModuleProof`: `matches=true`, with `update_consumption_initial_branch_matches=true`, `update_consumption_disabled_branch_matches=true`, `registry_valid=true`, and `one_headquarter_per_ssot=true`.
 - Full Python suite: `5332 passed`, `22504 subtests passed` in `1343.41s`; one non-blocking `.pytest_cache` permission warning.
+
+## N1984 BuildingComp updateConsumption setup delegate (2026-10-30)
+
+The setup branch of `BuildingComp.updateConsumption()` now delegates to
+`SourceBuildingEfficiencyState.update_consumption_setup_state(...)` when the
+callback is invoked with only the primary inputs. Consumer result passes and
+efficiency/second-pass orchestration remain staged for subsequent slices.
+
+- Emitter regeneration: `801 classes`, `0 failures`.
+- Focused generated delegate/emitter tests: `10 passed`.
+- Focused playable bridge/proof tests: `26 passed`, `7 subtests passed`.
+- Cross-catalog validator: `0 errors`; JSON mirror `113 modules / 0 errors`.
+- Godot 4.6.2 `BuildingEfficiencyStateModuleProof`: `matches=true`, with
+  initial, disabled, and setup branch matches true, registry valid, and one
+  headquarter per SSOT.
+- Full Python suite: `5333 passed`, `22504 subtests passed` in `1222.95s`; one
+  non-blocking `.pytest_cache` permission warning.

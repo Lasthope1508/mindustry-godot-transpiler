@@ -4234,7 +4234,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict, method_i
             "\t\t\treturn source_building_efficiency_state.update_consumption_disabled_state(enabled_state)",
             "\t\tvar update := should_consume_state and production_valid",
             "\t\tif _args.size() <= 6:",
-            "\t\t\treturn {\"source_owner\": \"port_game.source_building_update_consumption_setup_state\", \"method\": \"public void updateConsumption(){\", \"update_expr\": \"boolean update = shouldConsume() && productionValid();\", \"min\": \"float minEfficiency = 1f;\", \"comment\": \"//assume efficiency is 1 for the calculations below\", \"efficiencies\": \"efficiency = optionalEfficiency = 1f;\", \"power\": \"shouldConsumePower = true;\", \"should_consume_state\": should_consume_state, \"production_valid\": production_valid, \"update\": update, \"min_efficiency\": 1.0, \"efficiency\": 1.0, \"optional_efficiency\": 1.0, \"should_consume_power\": true}",
+            "\t\t\treturn source_building_efficiency_state.update_consumption_setup_state(should_consume_state, production_valid)",
             "\t\tvar min_efficiency := 1.0",
             "\t\tvar should_consume_power := true",
             "\t\tfor consumer in non_optional_consumer_results:",

@@ -28113,7 +28113,6 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var should_consume_state := bool(_args[4] if _args.size() > 4 else false)", source)
         self.assertIn("var efficiency_scale := float(_args[5] if _args.size() > 5 else 1.0)", source)
         self.assertIn("if has_consumers and not cheating:", source)
-        self.assertIn('return {"source_owner": "port_game.source_building_update_consumption_setup_state"', source)
         self.assertIn(
             "return source_building_efficiency_state.update_consumption_initial_state(has_consumers, cheating, enabled_state, production_valid, should_consume_state, efficiency_scale)",
             source,
@@ -28138,20 +28137,11 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn("func java_method_updateConsumption_194(_args: Array = []) -> Variant:", source)
         self.assertIn("var update := should_consume_state and production_valid", source)
-        self.assertIn('"source_owner": "port_game.source_building_update_consumption_setup_state"', source)
-        self.assertIn('"method": "public void updateConsumption(){"', source)
-        self.assertIn('"update_expr": "boolean update = shouldConsume() && productionValid();"', source)
-        self.assertIn('"min": "float minEfficiency = 1f;"', source)
-        self.assertIn('"comment": "//assume efficiency is 1 for the calculations below"', source)
-        self.assertIn('"efficiencies": "efficiency = optionalEfficiency = 1f;"', source)
-        self.assertIn('"power": "shouldConsumePower = true;"', source)
-        self.assertIn('"should_consume_state": should_consume_state', source)
-        self.assertIn('"production_valid": production_valid', source)
-        self.assertIn('"update": update', source)
-        self.assertIn('"min_efficiency": 1.0', source)
-        self.assertIn('"efficiency": 1.0', source)
-        self.assertIn('"optional_efficiency": 1.0', source)
-        self.assertIn('"should_consume_power": true', source)
+        self.assertIn(
+            "return source_building_efficiency_state.update_consumption_setup_state(should_consume_state, production_valid)",
+            source,
+        )
+        self.assertNotIn('"source_owner": "port_game.source_building_update_consumption_setup_state"', source)
 
     def test_generated_building_comp_bridges_update_consumption_non_optional_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -29844,6 +29834,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"update_consumption_call_bridge_matches"', proof_source)
         self.assertIn('"update_consumption_initial_branch_matches"', proof_source)
         self.assertIn('"update_consumption_disabled_branch_matches"', proof_source)
+        self.assertIn('"update_consumption_setup_branch_matches"', proof_source)
         self.assertIn('"one_headquarter_per_ssot"', proof_source)
 
     def test_building_runtime_proofs_use_registry_valid_and_fast_exit(self):

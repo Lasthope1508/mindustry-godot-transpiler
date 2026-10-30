@@ -817,3 +817,18 @@ entry was introduced.
 - Cross-catalog validator: `0 errors`; JSON mirror `113 modules / 0 errors`.
 - Godot 4.6.2 `BuildingEfficiencyStateModuleProof`: `matches=true`, initial and disabled branch matches true, registry valid, one headquarter per SSOT.
 - Full Python suite: `5332 passed`, `22504 subtests passed` in `1343.41s`; one non-blocking `.pytest_cache` permission warning.
+
+## N1984 BuildingComp updateConsumption setup generated delegate (2026-10-30)
+
+The setup branch of `BuildingComp.updateConsumption()` now delegates to the
+canonical `SourceBuildingEfficiencyState.update_consumption_setup_state(...)`
+helper. Generated code retains input normalization and leaves consumer-result
+passes for later slices; no new SSOT owner, alias, schema, or registry entry
+was introduced.
+
+- Emitter regeneration: `801 classes`, `0 failures`.
+- Focused generated delegate/emitter tests: `10 passed`.
+- Focused playable bridge/proof tests: `26 passed`, `7 subtests passed`.
+- Cross-catalog validator: `0 errors`; JSON mirror `113 modules / 0 errors`.
+- Godot 4.6.2 efficiency proof: `matches=true`, initial, disabled, and setup branch matches true.
+- Full Python suite: `5333 passed`, `22504 subtests passed` in `1222.95s`; one non-blocking `.pytest_cache` permission warning.

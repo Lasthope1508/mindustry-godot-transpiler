@@ -3569,7 +3569,11 @@ public class BuildingComp{
             self.assertIn("var should_consume_state := bool(_args[4] if _args.size() > 4 else false)", source_text)
             self.assertIn("var efficiency_scale := float(_args[5] if _args.size() > 5 else 1.0)", source_text)
             self.assertIn("if has_consumers and not cheating:", source_text)
-            self.assertIn('return {"source_owner": "port_game.source_building_update_consumption_setup_state"', source_text)
+            self.assertIn(
+                "return source_building_efficiency_state.update_consumption_setup_state(should_consume_state, production_valid)",
+                source_text,
+            )
+            self.assertNotIn('"source_owner": "port_game.source_building_update_consumption_setup_state"', source_text)
             self.assertIn(
                 "return source_building_efficiency_state.update_consumption_initial_state(has_consumers, cheating, enabled_state, production_valid, should_consume_state, efficiency_scale)",
                 source_text,
@@ -3686,17 +3690,11 @@ public class BuildingComp{
             source_text = emitted.read_text(encoding="utf-8")
             self.assertIn("func java_method_updateConsumption_1(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var update := should_consume_state and production_valid", source_text)
-            self.assertIn('"source_owner": "port_game.source_building_update_consumption_setup_state"', source_text)
-            self.assertIn('"update_expr": "boolean update = shouldConsume() && productionValid();"', source_text)
-            self.assertIn('"min": "float minEfficiency = 1f;"', source_text)
-            self.assertIn('"comment": "//assume efficiency is 1 for the calculations below"', source_text)
-            self.assertIn('"efficiencies": "efficiency = optionalEfficiency = 1f;"', source_text)
-            self.assertIn('"power": "shouldConsumePower = true;"', source_text)
-            self.assertIn('"update": update', source_text)
-            self.assertIn('"min_efficiency": 1.0', source_text)
-            self.assertIn('"efficiency": 1.0', source_text)
-            self.assertIn('"optional_efficiency": 1.0', source_text)
-            self.assertIn('"should_consume_power": true', source_text)
+            self.assertIn(
+                "return source_building_efficiency_state.update_consumption_setup_state(should_consume_state, production_valid)",
+                source_text,
+            )
+            self.assertNotIn('"source_owner": "port_game.source_building_update_consumption_setup_state"', source_text)
 
     def test_emit_bridges_building_comp_update_consumption_non_optional_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
