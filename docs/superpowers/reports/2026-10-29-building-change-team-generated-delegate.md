@@ -150,3 +150,23 @@ alias, or schema was added.
   `one_headquarter_per_ssot=true`.
 - Full Python suite: `5325 passed`, `22504 subtests passed` in `1170.01s`; one
   non-blocking `.pytest_cache` permission warning.
+
+## N1976-N1977 follow-up: efficiency delegates
+
+The generated `BuildingComp.consume()` and `canConsume()` callbacks now keep
+only source-backed argument normalization and delegate to
+`SourceBuildingEfficiencyState.consume_state(...)` and
+`can_consume_state(...)`. The generated class now preloads the canonical
+efficiency owner; no new SSOT owner, alias, or schema was introduced.
+
+- Focused generated delegate tests: `2 passed`.
+- Focused emitter tests: `4 passed`.
+- Focused playable bridge tests: `2 passed`.
+- Emitter regeneration: `801 classes`, `0 failures`.
+- Cross-catalog validator: `0 errors`; JSON mirror `113 modules / 0 errors`.
+- Godot 4.6.2 `BuildingEfficiencyStateModuleProof`: `matches=true`,
+  `update_consumption_call_bridge_matches=true`, `registry_valid=true`,
+  `one_headquarter_per_ssot=true`; generated `BuildingComp.gd` parsed without
+  errors after adding the efficiency preload.
+- Full Python suite: `5327 passed`, `22504 subtests passed` in `1343.87s`; one
+  non-blocking `.pytest_cache` permission warning.

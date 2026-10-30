@@ -62,6 +62,8 @@
 - [x] N1973: Generated BuildingComp removeFromProximity delegates to canonical SourceBuildingLifecycleState.
 - [x] N1974: Generated BuildingComp updateProximity delegates to canonical SourceBuildingLifecycleState.
 - [x] N1975: Generated BuildingComp onNearbyBuildAdded delegates to canonical SourceBuildingLifecycleState.
+- [x] N1976: Generated BuildingComp consume delegates to canonical SourceBuildingEfficiencyState.
+- [x] N1977: Generated BuildingComp canConsume delegates to canonical SourceBuildingEfficiencyState.
 - [x] N167: Source BuildingComp drawConfigure canonical square state.
 - [x] N168: Source BuildingComp checkSolid default state.
 - [x] N169: Source BuildingComp handleDamage passthrough state.
@@ -3306,3 +3308,4 @@ When Godot CLI is not on `PATH`, use the configured MCP Godot path from `C:\User
 | 2026-07-25 | M130 building item dump callback ownership: `SourceBuildingItemDumpState.default_callbacks_state(game)` now owns the PortGame increment-dump callback used by `put_item_state` and `dump_null_proximity_scan_state`, trimming two more `Callable(self, ...)` entries from `PortGame.gd`; focused RED/GREEN, full Playable/Parity/SourceSymbols/SSOT gates, and `BUILDING_ITEM_DUMP_STATE_MODULE_PROOF` all pass. |
 | 2026-09-09 | N1840-N1841 UnitComp metadata SSOT: `SourceUnitMetadataState` now owns source-backed `ammof() -> 1f` and `displayable() -> type.hoverable`; generated `UnitComp.java_method_ammof_24` and `java_method_displayable_25` delegate through the canonical owner, with registry/ledger/contracts/schema entries, focused Python tests (`598 passed`), SSOT JSON validation (`0 errors`), and headless Godot runtime proof (`matches=true`, registry valid, one headquarter per SSOT). |
 | 2026-10-30 | N1973-N1975 generated BuildingComp proximity delegates: `removeFromProximity()`, `updateProximity()`, and `onNearbyBuildAdded(Building)` now delegate to existing canonical lifecycle proximity helpers; focused generated/emitter/playable gates pass, the cross-catalog validator remains `0 errors` with `113` modules, Godot runtime proof reports all three bridge matches true, and the full Python suite passes `5325` tests with `22504` subtests. |
+| 2026-10-30 | N1976-N1977 generated BuildingComp efficiency delegates: `consume()` and `canConsume()` now delegate to existing `SourceBuildingEfficiencyState` helpers; focused gates and validator pass, the Godot efficiency proof parses the generated class with `matches=true`, and the full Python suite passes `5327` tests with `22504` subtests. |

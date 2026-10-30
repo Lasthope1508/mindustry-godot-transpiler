@@ -27894,11 +27894,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func java_method_consume_188(_args: Array = []) -> Variant:", source)
         self.assertIn("var consumers: Array = _args[0] if _args.size() > 0 else []", source)
         self.assertIn("var self_state: Variant = _args[1] if _args.size() > 1 else null", source)
-        self.assertIn("var triggered: Array = []", source)
-        self.assertIn("for consumer in consumers:", source)
-        self.assertIn('triggered.append({"consumer": consumer, "self": self_state})', source)
-        self.assertIn('"source_owner": "port_game.source_building_consume_state"', source)
-        self.assertIn('"triggered": triggered', source)
+        self.assertIn("return source_building_efficiency_state.consume_state(consumers, self_state)", source)
 
     def test_port_game_exposes_generated_building_comp_consume_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -27967,11 +27963,7 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn("func java_method_canConsume_189(_args: Array = []) -> Variant:", source)
         self.assertIn("var potential_efficiency := float(_args[0] if _args.size() > 0 else 0.0)", source)
-        self.assertIn("var can_consume := potential_efficiency > 0.0", source)
-        self.assertIn('"source_owner": "port_game.source_building_can_consume_state"', source)
-        self.assertIn('"method": "public boolean canConsume(){"', source)
-        self.assertIn('"potentialEfficiency": potential_efficiency', source)
-        self.assertIn('"canConsume": can_consume', source)
+        self.assertIn("return source_building_efficiency_state.can_consume_state(potential_efficiency)", source)
 
     def test_port_game_exposes_generated_building_comp_can_consume_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

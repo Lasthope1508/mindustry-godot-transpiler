@@ -4152,10 +4152,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict, method_i
         return [
             "\tvar consumers: Array = _args[0] if _args.size() > 0 else []",
             "\tvar self_state: Variant = _args[1] if _args.size() > 1 else null",
-            "\tvar triggered: Array = []",
-            "\tfor consumer in consumers:",
-            "\t\ttriggered.append({\"consumer\": consumer, \"self\": self_state})",
-            "\treturn {\"source_owner\": \"port_game.source_building_consume_state\", \"triggered\": triggered}",
+            "\treturn source_building_efficiency_state.consume_state(consumers, self_state)",
         ]
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
@@ -4164,8 +4161,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict, method_i
     ):
         return [
             "\tvar potential_efficiency := float(_args[0] if _args.size() > 0 else 0.0)",
-            "\tvar can_consume := potential_efficiency > 0.0",
-            "\treturn {\"source_owner\": \"port_game.source_building_can_consume_state\", \"method\": \"public boolean canConsume(){\", \"potentialEfficiency\": potential_efficiency, \"canConsume\": can_consume}",
+            "\treturn source_building_efficiency_state.can_consume_state(potential_efficiency)",
         ]
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
@@ -13571,6 +13567,7 @@ def _script_text(java_file: dict, type_entry: dict) -> str:
     ):
         lines.extend([
             'const SourceBuildingLifecycleState := preload("res://src/game/SourceBuildingLifecycleState.gd")',
+            'const source_building_efficiency_state := preload("res://src/game/SourceBuildingEfficiencyState.gd")',
             'const source_building_serialization_state := preload("res://src/game/SourceBuildingSerializationState.gd")',
             'const SourceMathState := preload("res://src/game/SourceMathState.gd")',
             'const SourceMathDefaults := preload("res://src/game/SourceMathDefaults.gd")',

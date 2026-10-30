@@ -751,3 +751,21 @@ clamping, recache gating, or no-op result construction.
   flags `true`, `registry_valid=true`, `one_headquarter_per_ssot=true`.
 - Full Python suite: `5325 passed`, `22504 subtests passed` in `1170.01s`; one
   non-blocking `.pytest_cache` permission warning.
+
+## N1976-N1977 BuildingComp efficiency generated delegates (2026-10-30)
+
+Generated `consume()` and `canConsume()` now delegate to the canonical
+`SourceBuildingEfficiencyState` helpers. The generated class preloads that
+owner and retains only input normalization, eliminating duplicated trigger
+loop and potential-efficiency formulas.
+
+- Emitter regeneration: `801 classes`, `0 failures`.
+- Focused generated delegate tests: `2 passed`.
+- Focused emitter tests: `4 passed`.
+- Focused playable bridge tests: `2 passed`.
+- Cross-catalog validator: `0 errors`; JSON mirror `113 modules / 0 errors`.
+- Godot 4.6.2 efficiency proof: `matches=true`,
+  `update_consumption_call_bridge_matches=true`, `registry_valid=true`,
+  `one_headquarter_per_ssot=true`; no parse errors.
+- Full Python suite: `5327 passed`, `22504 subtests passed` in `1343.87s`; one
+  non-blocking `.pytest_cache` permission warning.

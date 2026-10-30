@@ -3362,11 +3362,7 @@ public class BuildingComp{
             self.assertIn("func java_method_consume_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var consumers: Array = _args[0] if _args.size() > 0 else []", source_text)
             self.assertIn("var self_state: Variant = _args[1] if _args.size() > 1 else null", source_text)
-            self.assertIn("var triggered: Array = []", source_text)
-            self.assertIn("for consumer in consumers:", source_text)
-            self.assertIn('triggered.append({"consumer": consumer, "self": self_state})', source_text)
-            self.assertIn('"source_owner": "port_game.source_building_consume_state"', source_text)
-            self.assertIn('"triggered": triggered', source_text)
+            self.assertIn("return source_building_efficiency_state.consume_state(consumers, self_state)", source_text)
 
     def test_emit_bridges_building_comp_can_consume_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -3393,11 +3389,7 @@ public class BuildingComp{
             source_text = emitted.read_text(encoding="utf-8")
             self.assertIn("func java_method_canConsume_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var potential_efficiency := float(_args[0] if _args.size() > 0 else 0.0)", source_text)
-            self.assertIn("var can_consume := potential_efficiency > 0.0", source_text)
-            self.assertIn('"source_owner": "port_game.source_building_can_consume_state"', source_text)
-            self.assertIn('"method": "public boolean canConsume(){"', source_text)
-            self.assertIn('"potentialEfficiency": potential_efficiency', source_text)
-            self.assertIn('"canConsume": can_consume', source_text)
+            self.assertIn("return source_building_efficiency_state.can_consume_state(potential_efficiency)", source_text)
 
     def test_emit_bridges_building_comp_delta_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
