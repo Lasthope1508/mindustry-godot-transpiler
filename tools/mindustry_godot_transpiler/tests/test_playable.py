@@ -28114,20 +28114,11 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var efficiency_scale := float(_args[5] if _args.size() > 5 else 1.0)", source)
         self.assertIn("if has_consumers and not cheating:", source)
         self.assertIn('return {"source_owner": "port_game.source_building_update_consumption_setup_state"', source)
-        self.assertIn("potential_efficiency = 1.0 if enabled_state and production_valid else 0.0", source)
-        self.assertIn("efficiency = potential_efficiency if should_consume_state else 0.0", source)
-        self.assertIn("var multiplied = java_method_updateEfficiencyMultiplier_192([efficiency, efficiency, efficiency_scale])", source)
-        self.assertIn('var final_efficiency := float(multiplied.get("efficiency", efficiency))', source)
-        self.assertIn('var final_optional_efficiency := float(multiplied.get("optional_efficiency", efficiency))', source)
-        self.assertIn('"source_owner": "port_game.source_building_update_consumption_initial_state"', source)
-        self.assertIn('"method": "public void updateConsumption(){"', source)
-        self.assertIn('"comment": "//everything is valid when cheating"', source)
-        self.assertIn('"guard": "if(!block.hasConsumers || cheating()){"', source)
-        self.assertIn('"potential_efficiency": potential_efficiency', source)
-        self.assertIn('"efficiency": final_efficiency', source)
-        self.assertIn('"optional_efficiency": final_optional_efficiency', source)
-        self.assertIn('"should_consume_power": true', source)
-        self.assertIn('"returned": true', source)
+        self.assertIn(
+            "return source_building_efficiency_state.update_consumption_initial_state(has_consumers, cheating, enabled_state, production_valid, should_consume_state, efficiency_scale)",
+            source,
+        )
+        self.assertNotIn('"source_owner": "port_game.source_building_update_consumption_initial_state"', source)
 
     def test_generated_building_comp_bridges_update_consumption_disabled_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -28135,18 +28126,11 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn("func java_method_updateConsumption_194(_args: Array = []) -> Variant:", source)
         self.assertIn("if not enabled_state:", source)
-        self.assertIn('"source_owner": "port_game.source_building_update_consumption_disabled_state"', source)
-        self.assertIn('"method": "public void updateConsumption(){"', source)
-        self.assertIn('"comment": "//disabled -> nothing works"', source)
-        self.assertIn('"guard": "if(!enabled){"', source)
-        self.assertIn('"efficiencies": "potentialEfficiency = efficiency = optionalEfficiency = 0f;"', source)
-        self.assertIn('"power": "shouldConsumePower = false;"', source)
-        self.assertIn('"enabled_state": enabled_state', source)
-        self.assertIn('"potential_efficiency": 0.0', source)
-        self.assertIn('"efficiency": 0.0', source)
-        self.assertIn('"optional_efficiency": 0.0', source)
-        self.assertIn('"should_consume_power": false', source)
-        self.assertIn('"returned": true', source)
+        self.assertIn(
+            "return source_building_efficiency_state.update_consumption_disabled_state(enabled_state)",
+            source,
+        )
+        self.assertNotIn('"source_owner": "port_game.source_building_update_consumption_disabled_state"', source)
 
     def test_generated_building_comp_bridges_update_consumption_setup_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -29858,6 +29842,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("BUILDING_EFFICIENCY_STATE_MODULE_PROOF", proof_source)
         self.assertIn("source_building_efficiency_state.generated_update_consumption_call_bridge_state", proof_source)
         self.assertIn('"update_consumption_call_bridge_matches"', proof_source)
+        self.assertIn('"update_consumption_initial_branch_matches"', proof_source)
+        self.assertIn('"update_consumption_disabled_branch_matches"', proof_source)
         self.assertIn('"one_headquarter_per_ssot"', proof_source)
 
     def test_building_runtime_proofs_use_registry_valid_and_fast_exit(self):

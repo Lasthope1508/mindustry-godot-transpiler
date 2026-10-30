@@ -205,3 +205,14 @@ normalization for the multiplier and no inputs for the default scale.
   `one_headquarter_per_ssot=true`; no generated-script parse errors.
 - Full Python suite: `5331 passed`, `22504 subtests passed` in `1196.92s`; one
   non-blocking `.pytest_cache` permission warning.
+
+## N1982-N1983 BuildingComp updateConsumption initial/disabled delegates (2026-10-30)
+
+The first two `BuildingComp.updateConsumption()` branches now delegate to the existing canonical `SourceBuildingEfficiencyState` helpers. Generated code still normalizes all callback inputs and keeps the setup, consumer passes, efficiency, and second-pass orchestration inline for the next slices; the `initial/cheating` and disabled result construction is no longer duplicated in generated code.
+
+- Emitter regeneration: `801 classes`, `0 failures`.
+- RED delegate gate added for both branches; focused generated delegate/emitter tests: `9 passed`.
+- Focused playable bridge/proof tests: `26 passed`, `7 subtests passed`.
+- Cross-catalog validator: `0 errors`; JSON mirror `113 modules / 0 errors`.
+- Godot 4.6.2 `BuildingEfficiencyStateModuleProof`: `matches=true`, with `update_consumption_initial_branch_matches=true`, `update_consumption_disabled_branch_matches=true`, `registry_valid=true`, and `one_headquarter_per_ssot=true`.
+- Full Python suite: `5332 passed`, `22504 subtests passed` in `1343.41s`; one non-blocking `.pytest_cache` permission warning.

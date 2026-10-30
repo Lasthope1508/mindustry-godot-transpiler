@@ -3570,20 +3570,11 @@ public class BuildingComp{
             self.assertIn("var efficiency_scale := float(_args[5] if _args.size() > 5 else 1.0)", source_text)
             self.assertIn("if has_consumers and not cheating:", source_text)
             self.assertIn('return {"source_owner": "port_game.source_building_update_consumption_setup_state"', source_text)
-            self.assertIn("potential_efficiency = 1.0 if enabled_state and production_valid else 0.0", source_text)
-            self.assertIn("efficiency = potential_efficiency if should_consume_state else 0.0", source_text)
-            self.assertIn("var multiplied = java_method_updateEfficiencyMultiplier_0([efficiency, efficiency, efficiency_scale])", source_text)
-            self.assertIn('var final_efficiency := float(multiplied.get("efficiency", efficiency))', source_text)
-            self.assertIn('var final_optional_efficiency := float(multiplied.get("optional_efficiency", efficiency))', source_text)
-            self.assertIn('"source_owner": "port_game.source_building_update_consumption_initial_state"', source_text)
-            self.assertIn('"method": "public void updateConsumption(){"', source_text)
-            self.assertIn('"comment": "//everything is valid when cheating"', source_text)
-            self.assertIn('"guard": "if(!block.hasConsumers || cheating()){"', source_text)
-            self.assertIn('"potential_efficiency": potential_efficiency', source_text)
-            self.assertIn('"efficiency": final_efficiency', source_text)
-            self.assertIn('"optional_efficiency": final_optional_efficiency', source_text)
-            self.assertIn('"should_consume_power": true', source_text)
-            self.assertIn('"returned": true', source_text)
+            self.assertIn(
+                "return source_building_efficiency_state.update_consumption_initial_state(has_consumers, cheating, enabled_state, production_valid, should_consume_state, efficiency_scale)",
+                source_text,
+            )
+            self.assertNotIn('"source_owner": "port_game.source_building_update_consumption_initial_state"', source_text)
 
     def test_emit_bridges_building_comp_update_consumption_disabled_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -3637,16 +3628,11 @@ public class BuildingComp{
             source_text = emitted.read_text(encoding="utf-8")
             self.assertIn("func java_method_updateConsumption_1(_args: Array = []) -> Variant:", source_text)
             self.assertIn("if not enabled_state:", source_text)
-            self.assertIn('"source_owner": "port_game.source_building_update_consumption_disabled_state"', source_text)
-            self.assertIn('"comment": "//disabled -> nothing works"', source_text)
-            self.assertIn('"guard": "if(!enabled){"', source_text)
-            self.assertIn('"efficiencies": "potentialEfficiency = efficiency = optionalEfficiency = 0f;"', source_text)
-            self.assertIn('"power": "shouldConsumePower = false;"', source_text)
-            self.assertIn('"potential_efficiency": 0.0', source_text)
-            self.assertIn('"efficiency": 0.0', source_text)
-            self.assertIn('"optional_efficiency": 0.0', source_text)
-            self.assertIn('"should_consume_power": false', source_text)
-            self.assertIn('"returned": true', source_text)
+            self.assertIn(
+                "return source_building_efficiency_state.update_consumption_disabled_state(enabled_state)",
+                source_text,
+            )
+            self.assertNotIn('"source_owner": "port_game.source_building_update_consumption_disabled_state"', source_text)
 
     def test_emit_bridges_building_comp_update_consumption_setup_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:

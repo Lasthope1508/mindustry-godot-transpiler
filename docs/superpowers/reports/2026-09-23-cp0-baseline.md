@@ -801,3 +801,19 @@ return envelopes were removed from generated code.
   `one_headquarter_per_ssot=true`; no parse errors.
 - Full Python suite: `5331 passed`, `22504 subtests passed` in `1196.92s`; one
   non-blocking `.pytest_cache` permission warning.
+
+## N1982-N1983 BuildingComp updateConsumption initial/disabled generated delegates (2026-10-30)
+
+The first two `BuildingComp.updateConsumption()` branches now delegate to canonical
+`SourceBuildingEfficiencyState.update_consumption_initial_state(...)` and
+`update_consumption_disabled_state(...)`. Generated callbacks retain typed input
+normalization and leave setup/non-optional/optional/efficiency/second-pass
+orchestration for later slices; no new SSOT owner, alias, schema, or registry
+entry was introduced.
+
+- Emitter regeneration: `801 classes`, `0 failures`.
+- Focused generated delegate/emitter tests: `9 passed`.
+- Focused playable bridge/proof tests: `26 passed`, `7 subtests passed`.
+- Cross-catalog validator: `0 errors`; JSON mirror `113 modules / 0 errors`.
+- Godot 4.6.2 `BuildingEfficiencyStateModuleProof`: `matches=true`, initial and disabled branch matches true, registry valid, one headquarter per SSOT.
+- Full Python suite: `5332 passed`, `22504 subtests passed` in `1343.41s`; one non-blocking `.pytest_cache` permission warning.

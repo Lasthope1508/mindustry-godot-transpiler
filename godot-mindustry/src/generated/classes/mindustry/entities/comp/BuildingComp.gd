@@ -1588,7 +1588,7 @@ func java_method_updateConsumption_194(_args: Array = []) -> Variant:
 	var potential_efficiency := 0.0
 	if has_consumers and not cheating:
 		if not enabled_state:
-			return {"source_owner": "port_game.source_building_update_consumption_disabled_state", "method": "public void updateConsumption(){", "comment": "//disabled -> nothing works", "guard": "if(!enabled){", "efficiencies": "potentialEfficiency = efficiency = optionalEfficiency = 0f;", "power": "shouldConsumePower = false;", "return": "return;", "enabled_state": enabled_state, "potential_efficiency": 0.0, "efficiency": 0.0, "optional_efficiency": 0.0, "should_consume_power": false, "returned": true}
+			return source_building_efficiency_state.update_consumption_disabled_state(enabled_state)
 		var update := should_consume_state and production_valid
 		if _args.size() <= 6:
 			return {"source_owner": "port_game.source_building_update_consumption_setup_state", "method": "public void updateConsumption(){", "update_expr": "boolean update = shouldConsume() && productionValid();", "min": "float minEfficiency = 1f;", "comment": "//assume efficiency is 1 for the calculations below", "efficiencies": "efficiency = optionalEfficiency = 1f;", "power": "shouldConsumePower = true;", "should_consume_state": should_consume_state, "production_valid": production_valid, "update": update, "min_efficiency": 1.0, "efficiency": 1.0, "optional_efficiency": 1.0, "should_consume_power": true}
@@ -1623,13 +1623,7 @@ func java_method_updateConsumption_194(_args: Array = []) -> Variant:
 			for consumer in update_consumers:
 				updated_consumers.append({"consumer": consumer, "self": self_state})
 		return {"source_owner": "port_game.source_building_update_consumption_second_pass_state", "method": "public void updateConsumption(){", "multiplier": "updateEfficiencyMultiplier();", "comment": "//second pass: update every consumer based on efficiency", "guard": "if(update && efficiency > 0){", "loop": "for(var cons : block.updateConsumers){", "update_call": "cons.update(self());", "update": update, "efficiency": efficiency, "update_consumers": update_consumers, "self_state": self_state, "updated_consumers": updated_consumers, "update_count": updated_consumers.size()}
-	else:
-		potential_efficiency = 1.0 if enabled_state and production_valid else 0.0
-		efficiency = potential_efficiency if should_consume_state else 0.0
-		var multiplied = java_method_updateEfficiencyMultiplier_192([efficiency, efficiency, efficiency_scale])
-		var final_efficiency := float(multiplied.get("efficiency", efficiency))
-		var final_optional_efficiency := float(multiplied.get("optional_efficiency", efficiency))
-		return {"source_owner": "port_game.source_building_update_consumption_initial_state", "method": "public void updateConsumption(){", "comment": "//everything is valid when cheating", "guard": "if(!block.hasConsumers || cheating()){", "potential": "potentialEfficiency = enabled && productionValid() ? 1f : 0f;", "efficiency_assign": "efficiency = optionalEfficiency = shouldConsume() ? potentialEfficiency : 0f;", "power": "shouldConsumePower = true;", "multiplier": "updateEfficiencyMultiplier();", "return": "return;", "has_consumers": has_consumers, "cheating": cheating, "enabled_state": enabled_state, "production_valid": production_valid, "should_consume_state": should_consume_state, "efficiency_scale": efficiency_scale, "potential_efficiency": potential_efficiency, "efficiency": final_efficiency, "optional_efficiency": final_optional_efficiency, "should_consume_power": true, "returned": true}
+	return source_building_efficiency_state.update_consumption_initial_state(has_consumers, cheating, enabled_state, production_valid, should_consume_state, efficiency_scale)
 
 func java_method_updatePayload_195(_args: Array = []) -> Variant:
 	var unit_holder: Variant = _args[0] if _args.size() > 0 else null
