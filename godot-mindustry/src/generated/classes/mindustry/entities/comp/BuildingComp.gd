@@ -1606,6 +1606,8 @@ func java_method_updateConsumption_194(_args: Array = []) -> Variant:
 			return source_building_efficiency_state.update_consumption_optional_pass_state(optional_consumer_results)
 		for result in optional_consumer_results:
 			optional_efficiency = min(optional_efficiency, float(result))
+		if _args.size() <= 9:
+			return source_building_efficiency_state.update_consumption_efficiency_state(min_efficiency, optional_efficiency, update)
 		efficiency = min_efficiency
 		var optional_efficiency_input := optional_efficiency
 		optional_efficiency = min(optional_efficiency, min_efficiency)
@@ -1613,8 +1615,6 @@ func java_method_updateConsumption_194(_args: Array = []) -> Variant:
 		if not update:
 			efficiency = 0.0
 			optional_efficiency = 0.0
-		if _args.size() <= 9:
-			return {"source_owner": "port_game.source_building_update_consumption_efficiency_state", "method": "public void updateConsumption(){", "comment": "//efficiency is now this minimum value", "assign": "efficiency = minEfficiency;", "optional_min": "optionalEfficiency = Math.min(optionalEfficiency, minEfficiency);", "potential_comment": "//assign \"potential\"", "potential_assign": "potentialEfficiency = efficiency;", "no_update_comment": "//no updating means zero efficiency", "no_update_guard": "if(!update){", "no_update_zero": "efficiency = optionalEfficiency = 0f;", "min_efficiency": min_efficiency, "optional_efficiency_input": optional_efficiency_input, "update": update, "efficiency": efficiency, "optional_efficiency": optional_efficiency, "potential_efficiency": potential_efficiency}
 		var multiplied = java_method_updateEfficiencyMultiplier_192([efficiency, optional_efficiency, efficiency_scale])
 		efficiency = float(multiplied.get("efficiency", efficiency))
 		optional_efficiency = float(multiplied.get("optional_efficiency", optional_efficiency))

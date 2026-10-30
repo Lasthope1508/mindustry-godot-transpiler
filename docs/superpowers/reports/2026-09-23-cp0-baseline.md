@@ -861,3 +861,17 @@ for later checkpoints.
 - Cross-catalog validator: `0 errors`; JSON mirror `113 modules / 0 errors`.
 - Godot proof: `matches=true`, including optional branch match.
 - Full Python suite: `5335 passed`, `22504 subtests passed` in `1341.42s`; one non-blocking `.pytest_cache` permission warning.
+
+## N1987 BuildingComp updateConsumption efficiency generated delegate (2026-10-30)
+
+The efficiency stage now delegates to canonical
+`SourceBuildingEfficiencyState.update_consumption_efficiency_state(...)` after
+non-optional and optional aggregation. Multiplier and second-pass orchestration
+remain staged for later checkpoints.
+
+- Emitter regeneration: `801 classes`, `0 failures`.
+- Focused generated delegate/emitter tests: `13 passed`.
+- Focused playable bridge tests: `25 passed`, `7 subtests passed`.
+- Cross-catalog validator: `0 errors`; JSON mirror `113 modules / 0 errors`.
+- Godot proof: `matches=true`, including efficiency branch match.
+- Full Python suite: `5336 passed`, `22504 subtests passed` in `1276.42s`; one non-blocking `.pytest_cache` permission warning.

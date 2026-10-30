@@ -3926,16 +3926,11 @@ class BuildingComp{
             self.assertIn("if not update:", source_text)
             self.assertIn("efficiency = 0.0", source_text)
             self.assertIn("optional_efficiency = 0.0", source_text)
-            self.assertIn('"source_owner": "port_game.source_building_update_consumption_efficiency_state"', source_text)
-            self.assertIn('"comment": "//efficiency is now this minimum value"', source_text)
-            self.assertIn('"assign": "efficiency = minEfficiency;"', source_text)
-            self.assertIn('"optional_min": "optionalEfficiency = Math.min(optionalEfficiency, minEfficiency);"', source_text)
-            self.assertIn('"potential_assign": "potentialEfficiency = efficiency;"', source_text)
-            self.assertIn('"no_update_guard": "if(!update){"', source_text)
-            self.assertIn('"no_update_zero": "efficiency = optionalEfficiency = 0f;"', source_text)
-            self.assertIn('"min_efficiency": min_efficiency', source_text)
-            self.assertIn('"optional_efficiency_input": optional_efficiency_input', source_text)
-            self.assertIn('"potential_efficiency": potential_efficiency', source_text)
+            self.assertIn(
+                "return source_building_efficiency_state.update_consumption_efficiency_state(min_efficiency, optional_efficiency, update)",
+                source_text,
+            )
+            self.assertNotIn('"source_owner": "port_game.source_building_update_consumption_efficiency_state"', source_text)
 
     def test_emit_bridges_building_comp_update_consumption_second_pass_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmpdir:

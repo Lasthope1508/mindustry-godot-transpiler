@@ -268,3 +268,19 @@ orchestration paths.
   setup, non-optional, and optional branch matches.
 - Full Python suite: `5335 passed`, `22504 subtests passed` in `1341.42s`; one
   non-blocking `.pytest_cache` permission warning.
+
+## N1987 BuildingComp updateConsumption efficiency pass delegate (2026-10-30)
+
+The efficiency stage now delegates to
+`SourceBuildingEfficiencyState.update_consumption_efficiency_state(...)` after
+canonical non-optional and optional aggregation. The later multiplier and
+second-pass paths remain staged for subsequent slices.
+
+- Emitter regeneration: `801 classes`, `0 failures`.
+- Focused generated delegate/emitter tests: `13 passed`.
+- Focused playable bridge tests: `25 passed`, `7 subtests passed`.
+- Cross-catalog validator: `0 errors`; JSON mirror `113 modules / 0 errors`.
+- Godot 4.6.2 efficiency proof: `matches=true`, including initial, disabled,
+  setup, non-optional, optional, and efficiency branch matches.
+- Full Python suite: `5336 passed`, `22504 subtests passed` in `1276.42s`; one
+  non-blocking `.pytest_cache` permission warning.

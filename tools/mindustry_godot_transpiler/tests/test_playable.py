@@ -28189,16 +28189,11 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("if not update:", source)
         self.assertIn("efficiency = 0.0", source)
         self.assertIn("optional_efficiency = 0.0", source)
-        self.assertIn('"source_owner": "port_game.source_building_update_consumption_efficiency_state"', source)
-        self.assertIn('"comment": "//efficiency is now this minimum value"', source)
-        self.assertIn('"assign": "efficiency = minEfficiency;"', source)
-        self.assertIn('"optional_min": "optionalEfficiency = Math.min(optionalEfficiency, minEfficiency);"', source)
-        self.assertIn('"potential_assign": "potentialEfficiency = efficiency;"', source)
-        self.assertIn('"no_update_guard": "if(!update){"', source)
-        self.assertIn('"no_update_zero": "efficiency = optionalEfficiency = 0f;"', source)
-        self.assertIn('"min_efficiency": min_efficiency', source)
-        self.assertIn('"optional_efficiency_input": optional_efficiency_input', source)
-        self.assertIn('"potential_efficiency": potential_efficiency', source)
+        self.assertIn(
+            "return source_building_efficiency_state.update_consumption_efficiency_state(min_efficiency, optional_efficiency, update)",
+            source,
+        )
+        self.assertNotIn('"source_owner": "port_game.source_building_update_consumption_efficiency_state"', source)
 
     def test_generated_building_comp_bridges_update_consumption_second_pass_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -29829,6 +29824,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"update_consumption_setup_branch_matches"', proof_source)
         self.assertIn('"update_consumption_non_optional_branch_matches"', proof_source)
         self.assertIn('"update_consumption_optional_branch_matches"', proof_source)
+        self.assertIn('"update_consumption_efficiency_branch_matches"', proof_source)
         self.assertIn('"one_headquarter_per_ssot"', proof_source)
 
     def test_building_runtime_proofs_use_registry_valid_and_fast_exit(self):
