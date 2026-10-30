@@ -3764,17 +3764,11 @@ public class BuildingComp{
             self.assertIn('if not bool(consumer.get("is_power", false)) and result <= 0.0000001:', source_text)
             self.assertIn("should_consume_power = false", source_text)
             self.assertIn("min_efficiency = min(min_efficiency, result)", source_text)
-            self.assertIn('"source_owner": "port_game.source_building_update_consumption_non_optional_pass_state"', source_text)
-            self.assertIn('"method": "public void updateConsumption(){"', source_text)
-            self.assertIn('"comment": "//first pass: get the minimum efficiency of any consumer"', source_text)
-            self.assertIn('"loop": "for(var cons : block.nonOptionalConsumers){"', source_text)
-            self.assertIn('"result": "float result = cons.efficiency(self());"', source_text)
-            self.assertIn('"power_gate": "if(cons != block.consPower && result <= 0.0000001f){"', source_text)
-            self.assertIn('"power_state": "shouldConsumePower = false;"', source_text)
-            self.assertIn('"min": "minEfficiency = Math.min(minEfficiency, result);"', source_text)
-            self.assertIn('"non_optional_consumer_results": non_optional_consumer_results', source_text)
-            self.assertIn('"min_efficiency": min_efficiency', source_text)
-            self.assertIn('"should_consume_power": should_consume_power', source_text)
+            self.assertIn(
+                "return source_building_efficiency_state.update_consumption_non_optional_pass_state(non_optional_consumer_results)",
+                source_text,
+            )
+            self.assertNotIn('"source_owner": "port_game.source_building_update_consumption_non_optional_pass_state"', source_text)
 
     def test_emit_bridges_building_comp_update_consumption_optional_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:

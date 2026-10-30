@@ -1600,7 +1600,7 @@ func java_method_updateConsumption_194(_args: Array = []) -> Variant:
 				should_consume_power = false
 			min_efficiency = min(min_efficiency, result)
 		if _args.size() <= 7:
-			return {"source_owner": "port_game.source_building_update_consumption_non_optional_pass_state", "method": "public void updateConsumption(){", "comment": "//first pass: get the minimum efficiency of any consumer", "loop": "for(var cons : block.nonOptionalConsumers){", "result": "float result = cons.efficiency(self());", "power_gate": "if(cons != block.consPower && result <= 0.0000001f){", "power_state": "shouldConsumePower = false;", "min": "minEfficiency = Math.min(minEfficiency, result);", "non_optional_consumer_results": non_optional_consumer_results, "min_efficiency": min_efficiency, "should_consume_power": should_consume_power}
+			return source_building_efficiency_state.update_consumption_non_optional_pass_state(non_optional_consumer_results)
 		var optional_efficiency := 1.0
 		for result in optional_consumer_results:
 			optional_efficiency = min(optional_efficiency, float(result))

@@ -28154,17 +28154,11 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('if not bool(consumer.get("is_power", false)) and result <= 0.0000001:', source)
         self.assertIn("should_consume_power = false", source)
         self.assertIn("min_efficiency = min(min_efficiency, result)", source)
-        self.assertIn('"source_owner": "port_game.source_building_update_consumption_non_optional_pass_state"', source)
-        self.assertIn('"method": "public void updateConsumption(){"', source)
-        self.assertIn('"comment": "//first pass: get the minimum efficiency of any consumer"', source)
-        self.assertIn('"loop": "for(var cons : block.nonOptionalConsumers){"', source)
-        self.assertIn('"result": "float result = cons.efficiency(self());"', source)
-        self.assertIn('"power_gate": "if(cons != block.consPower && result <= 0.0000001f){"', source)
-        self.assertIn('"power_state": "shouldConsumePower = false;"', source)
-        self.assertIn('"min": "minEfficiency = Math.min(minEfficiency, result);"', source)
-        self.assertIn('"non_optional_consumer_results": non_optional_consumer_results', source)
-        self.assertIn('"min_efficiency": min_efficiency', source)
-        self.assertIn('"should_consume_power": should_consume_power', source)
+        self.assertIn(
+            "return source_building_efficiency_state.update_consumption_non_optional_pass_state(non_optional_consumer_results)",
+            source,
+        )
+        self.assertNotIn('"source_owner": "port_game.source_building_update_consumption_non_optional_pass_state"', source)
 
     def test_generated_building_comp_bridges_update_consumption_optional_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -29835,6 +29829,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"update_consumption_initial_branch_matches"', proof_source)
         self.assertIn('"update_consumption_disabled_branch_matches"', proof_source)
         self.assertIn('"update_consumption_setup_branch_matches"', proof_source)
+        self.assertIn('"update_consumption_non_optional_branch_matches"', proof_source)
         self.assertIn('"one_headquarter_per_ssot"', proof_source)
 
     def test_building_runtime_proofs_use_registry_valid_and_fast_exit(self):

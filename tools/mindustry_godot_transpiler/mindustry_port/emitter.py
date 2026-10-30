@@ -4243,7 +4243,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict, method_i
             "\t\t\t\tshould_consume_power = false",
             "\t\t\tmin_efficiency = min(min_efficiency, result)",
             "\t\tif _args.size() <= 7:",
-            "\t\t\treturn {\"source_owner\": \"port_game.source_building_update_consumption_non_optional_pass_state\", \"method\": \"public void updateConsumption(){\", \"comment\": \"//first pass: get the minimum efficiency of any consumer\", \"loop\": \"for(var cons : block.nonOptionalConsumers){\", \"result\": \"float result = cons.efficiency(self());\", \"power_gate\": \"if(cons != block.consPower && result <= 0.0000001f){\", \"power_state\": \"shouldConsumePower = false;\", \"min\": \"minEfficiency = Math.min(minEfficiency, result);\", \"non_optional_consumer_results\": non_optional_consumer_results, \"min_efficiency\": min_efficiency, \"should_consume_power\": should_consume_power}",
+            "\t\t\treturn source_building_efficiency_state.update_consumption_non_optional_pass_state(non_optional_consumer_results)",
             "\t\tvar optional_efficiency := 1.0",
             "\t\tfor result in optional_consumer_results:",
             "\t\t\toptional_efficiency = min(optional_efficiency, float(result))",

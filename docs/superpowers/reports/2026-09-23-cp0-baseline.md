@@ -832,3 +832,17 @@ was introduced.
 - Cross-catalog validator: `0 errors`; JSON mirror `113 modules / 0 errors`.
 - Godot 4.6.2 efficiency proof: `matches=true`, initial, disabled, and setup branch matches true.
 - Full Python suite: `5333 passed`, `22504 subtests passed` in `1222.95s`; one non-blocking `.pytest_cache` permission warning.
+
+## N1985 BuildingComp updateConsumption non-optional generated delegate (2026-10-30)
+
+The non-optional consumer pass now delegates its canonical result aggregation to
+`SourceBuildingEfficiencyState.update_consumption_non_optional_pass_state(...)`.
+The remaining optional, efficiency, and second-pass orchestration stays staged
+for later checkpoints.
+
+- Emitter regeneration: `801 classes`, `0 failures`.
+- Focused generated delegate/emitter tests: `11 passed`.
+- Focused playable bridge tests: `25 passed`, `7 subtests passed`.
+- Cross-catalog validator: `0 errors`; JSON mirror `113 modules / 0 errors`.
+- Godot proof: `matches=true`, including non-optional branch match.
+- Full Python suite: `5334 passed`, `22504 subtests passed` in `1362.52s`; one non-blocking `.pytest_cache` permission warning.

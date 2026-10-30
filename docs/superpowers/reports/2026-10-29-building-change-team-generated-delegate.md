@@ -233,3 +233,21 @@ efficiency/second-pass orchestration remain staged for subsequent slices.
   headquarter per SSOT.
 - Full Python suite: `5333 passed`, `22504 subtests passed` in `1222.95s`; one
   non-blocking `.pytest_cache` permission warning.
+
+## N1985 BuildingComp updateConsumption non-optional pass delegate (2026-10-30)
+
+The non-optional consumer pass of `BuildingComp.updateConsumption()` now delegates
+its source-backed result aggregation to
+`SourceBuildingEfficiencyState.update_consumption_non_optional_pass_state(...)`.
+The generated callback retains the loop for full orchestration paths while the
+stage return boundary is canonicalized; optional, efficiency, and second-pass
+stages remain for subsequent slices.
+
+- Emitter regeneration: `801 classes`, `0 failures`.
+- Focused generated delegate/emitter tests: `11 passed`.
+- Focused playable bridge tests: `25 passed`, `7 subtests passed`.
+- Cross-catalog validator: `0 errors`; JSON mirror `113 modules / 0 errors`.
+- Godot 4.6.2 efficiency proof: `matches=true`, including initial, disabled,
+  setup, and non-optional branch matches, registry valid, one headquarter per SSOT.
+- Full Python suite: `5334 passed`, `22504 subtests passed` in `1362.52s`; one
+  non-blocking `.pytest_cache` permission warning.
