@@ -128,3 +128,25 @@ state.
   `one_headquarter_per_ssot=true`.
 - Full Python suite: `5322 passed`, `22504 subtests passed`; one non-blocking
   `.pytest_cache` permission warning, `1041.83s`.
+
+## N1973-N1975 follow-up: proximity delegates
+
+The generated `BuildingComp.removeFromProximity()`, `updateProximity()`, and
+`onNearbyBuildAdded(Building)` callbacks now normalize only their source-backed
+inputs and delegate to the existing canonical lifecycle proximity state. The
+inline generated formulas and result dictionaries were removed; no SSOT owner,
+alias, or schema was added.
+
+- RED delegate gate: `3 failed` before emitter changes.
+- Focused generated delegate tests: `3 passed`.
+- Focused emitter tests: `3 passed`.
+- Focused playable bridge tests: `9 passed`.
+- Emitter regeneration: `801 classes`, `0 failures`.
+- Cross-catalog validator: `0 errors`; JSON mirror `113 modules / 0 errors`.
+- Godot 4.6.2 runtime proof: `BUILDING_LIFECYCLE_STATE_MODULE_PROOF` reported
+  `matches=true`, `remove_from_proximity_bridge_matches=true`,
+  `update_proximity_bridge_matches=true`,
+  `on_nearby_build_added_bridge_matches=true`, `registry_valid=true`, and
+  `one_headquarter_per_ssot=true`.
+- Full Python suite: `5325 passed`, `22504 subtests passed` in `1170.01s`; one
+  non-blocking `.pytest_cache` permission warning.

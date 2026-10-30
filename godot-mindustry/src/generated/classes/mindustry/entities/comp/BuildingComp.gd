@@ -1530,20 +1530,18 @@ func java_method_afterPickedUp_184(_args: Array = []) -> Variant:
 func java_method_removeFromProximity_185(_args: Array = []) -> Variant:
 	var nearby_count := int(_args[0] if _args.size() > 0 else 0)
 	var removable_count := int(_args[1] if _args.size() > 1 else 0)
-	var queued_removals := clampi(removable_count, 0, nearby_count)
-	return {"source_owner": "port_game.source_building_remove_from_proximity_state", "method": "public void removeFromProximity(){", "on_proximity_removed_call": "onProximityRemoved();", "tmp_tiles_clear_call": "tmpTiles.clear();", "edges_get_call": "Point2[] nearby = Edges.getEdges(block.size);", "world_build_call": "Building other = world.build(tile.x + point.x, tile.y + point.y);", "tmp_tiles_add_call": "tmpTiles.add(other);", "remove_self_call": "other.proximity.remove(self(), true);", "other_update_call": "other.onProximityUpdate();", "proximity_clear_call": "proximity.clear();", "on_proximity_removed": true, "tmp_tiles_cleared": true, "nearby_count": nearby_count, "queued_removals": queued_removals, "proximity_updates": queued_removals, "proximity_cleared": true}
+	return source_building_lifecycle_state.remove_from_proximity_state(nearby_count, removable_count)
 
 func java_method_updateProximity_186(_args: Array = []) -> Variant:
 	var nearby_count := int(_args[0] if _args.size() > 0 else 0)
 	var same_team_count := int(_args[1] if _args.size() > 1 else 0)
 	var headless := bool(_args[2] if _args.size() > 2 else false)
 	var draw_cached := bool(_args[3] if _args.size() > 3 else false)
-	var same_team_clamped := clampi(same_team_count, 0, nearby_count)
-	return {"source_owner": "port_game.source_building_update_proximity_state", "tmp_tiles_cleared": true, "proximity_cleared": true, "nearby_count": nearby_count, "same_team_count": same_team_clamped, "add_unique_calls": same_team_clamped, "on_proximity_added": true, "self_proximity_update": true, "other_proximity_updates": same_team_clamped, "recache": (not headless) and draw_cached}
+	return source_building_lifecycle_state.update_proximity_state(nearby_count, same_team_count, headless, draw_cached)
 
 func java_method_onNearbyBuildAdded_187(_args: Array = []) -> Variant:
 	var other_state: Variant = _args[0] if _args.size() > 0 else null
-	return {"source_owner": "port_game.source_building_on_nearby_build_added_state", "method": "public void onNearbyBuildAdded(Building other){}", "no_op": true, "other_state": other_state}
+	return source_building_lifecycle_state.on_nearby_build_added_state(other_state)
 
 func java_method_consume_188(_args: Array = []) -> Variant:
 	var consumers: Array = _args[0] if _args.size() > 0 else []

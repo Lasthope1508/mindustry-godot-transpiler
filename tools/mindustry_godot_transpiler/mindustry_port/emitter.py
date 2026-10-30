@@ -4121,8 +4121,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict, method_i
         return [
             "\tvar nearby_count := int(_args[0] if _args.size() > 0 else 0)",
             "\tvar removable_count := int(_args[1] if _args.size() > 1 else 0)",
-            "\tvar queued_removals := clampi(removable_count, 0, nearby_count)",
-            "\treturn {\"source_owner\": \"port_game.source_building_remove_from_proximity_state\", \"method\": \"public void removeFromProximity(){\", \"on_proximity_removed_call\": \"onProximityRemoved();\", \"tmp_tiles_clear_call\": \"tmpTiles.clear();\", \"edges_get_call\": \"Point2[] nearby = Edges.getEdges(block.size);\", \"world_build_call\": \"Building other = world.build(tile.x + point.x, tile.y + point.y);\", \"tmp_tiles_add_call\": \"tmpTiles.add(other);\", \"remove_self_call\": \"other.proximity.remove(self(), true);\", \"other_update_call\": \"other.onProximityUpdate();\", \"proximity_clear_call\": \"proximity.clear();\", \"on_proximity_removed\": true, \"tmp_tiles_cleared\": true, \"nearby_count\": nearby_count, \"queued_removals\": queued_removals, \"proximity_updates\": queued_removals, \"proximity_cleared\": true}",
+            "\treturn source_building_lifecycle_state.remove_from_proximity_state(nearby_count, removable_count)",
         ]
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
@@ -4134,8 +4133,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict, method_i
             "\tvar same_team_count := int(_args[1] if _args.size() > 1 else 0)",
             "\tvar headless := bool(_args[2] if _args.size() > 2 else false)",
             "\tvar draw_cached := bool(_args[3] if _args.size() > 3 else false)",
-            "\tvar same_team_clamped := clampi(same_team_count, 0, nearby_count)",
-            "\treturn {\"source_owner\": \"port_game.source_building_update_proximity_state\", \"tmp_tiles_cleared\": true, \"proximity_cleared\": true, \"nearby_count\": nearby_count, \"same_team_count\": same_team_clamped, \"add_unique_calls\": same_team_clamped, \"on_proximity_added\": true, \"self_proximity_update\": true, \"other_proximity_updates\": same_team_clamped, \"recache\": (not headless) and draw_cached}",
+            "\treturn source_building_lifecycle_state.update_proximity_state(nearby_count, same_team_count, headless, draw_cached)",
         ]
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
@@ -4144,7 +4142,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict, method_i
     ):
         return [
             "\tvar other_state: Variant = _args[0] if _args.size() > 0 else null",
-            "\treturn {\"source_owner\": \"port_game.source_building_on_nearby_build_added_state\", \"method\": \"public void onNearbyBuildAdded(Building other){}\", \"no_op\": true, \"other_state\": other_state}",
+            "\treturn source_building_lifecycle_state.on_nearby_build_added_state(other_state)",
         ]
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"

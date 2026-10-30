@@ -3249,15 +3249,8 @@ public class BuildingComp{
             self.assertIn("func java_method_removeFromProximity_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var nearby_count := int(_args[0] if _args.size() > 0 else 0)", source_text)
             self.assertIn("var removable_count := int(_args[1] if _args.size() > 1 else 0)", source_text)
-            self.assertIn("var queued_removals := clampi(removable_count, 0, nearby_count)", source_text)
-            self.assertIn('"source_owner": "port_game.source_building_remove_from_proximity_state"', source_text)
-            self.assertIn('"method": "public void removeFromProximity(){"', source_text)
-            self.assertIn('"on_proximity_removed": true', source_text)
-            self.assertIn('"tmp_tiles_cleared": true', source_text)
-            self.assertIn('"nearby_count": nearby_count', source_text)
-            self.assertIn('"queued_removals": queued_removals', source_text)
-            self.assertIn('"proximity_updates": queued_removals', source_text)
-            self.assertIn('"proximity_cleared": true', source_text)
+            self.assertIn("return source_building_lifecycle_state.remove_from_proximity_state(nearby_count, removable_count)", source_text)
+            self.assertNotIn('return {"source_owner":', source_text)
 
     def test_emit_bridges_building_comp_update_proximity_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -3312,17 +3305,8 @@ public class BuildingComp{
             self.assertIn("var same_team_count := int(_args[1] if _args.size() > 1 else 0)", source_text)
             self.assertIn("var headless := bool(_args[2] if _args.size() > 2 else false)", source_text)
             self.assertIn("var draw_cached := bool(_args[3] if _args.size() > 3 else false)", source_text)
-            self.assertIn("var same_team_clamped := clampi(same_team_count, 0, nearby_count)", source_text)
-            self.assertIn('"source_owner": "port_game.source_building_update_proximity_state"', source_text)
-            self.assertIn('"tmp_tiles_cleared": true', source_text)
-            self.assertIn('"proximity_cleared": true', source_text)
-            self.assertIn('"nearby_count": nearby_count', source_text)
-            self.assertIn('"same_team_count": same_team_clamped', source_text)
-            self.assertIn('"add_unique_calls": same_team_clamped', source_text)
-            self.assertIn('"on_proximity_added": true', source_text)
-            self.assertIn('"self_proximity_update": true', source_text)
-            self.assertIn('"other_proximity_updates": same_team_clamped', source_text)
-            self.assertIn('"recache": (not headless) and draw_cached', source_text)
+            self.assertIn("return source_building_lifecycle_state.update_proximity_state(nearby_count, same_team_count, headless, draw_cached)", source_text)
+            self.assertNotIn('return {"source_owner":', source_text)
 
     def test_emit_bridges_building_comp_on_nearby_build_added_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -3347,10 +3331,8 @@ public class BuildingComp{
             source_text = emitted.read_text(encoding="utf-8")
             self.assertIn("func java_method_onNearbyBuildAdded_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var other_state: Variant = _args[0] if _args.size() > 0 else null", source_text)
-            self.assertIn('"source_owner": "port_game.source_building_on_nearby_build_added_state"', source_text)
-            self.assertIn('"method": "public void onNearbyBuildAdded(Building other){}"', source_text)
-            self.assertIn('"no_op": true', source_text)
-            self.assertIn('"other_state": other_state', source_text)
+            self.assertIn("return source_building_lifecycle_state.on_nearby_build_added_state(other_state)", source_text)
+            self.assertNotIn('return {"source_owner":', source_text)
 
     def test_emit_bridges_building_comp_consume_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:

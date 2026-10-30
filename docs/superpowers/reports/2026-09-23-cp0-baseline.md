@@ -733,3 +733,21 @@ link clearing, and conditional status reset remain in canonical state.
   `one_headquarter_per_ssot=true`.
 - Full Python suite: `5322 passed`, `22504 subtests passed`; one non-blocking
   `.pytest_cache` permission warning, `1041.83s`.
+
+## N1973-N1975 BuildingComp proximity generated delegates (2026-10-30)
+
+Generated `removeFromProximity()`, `updateProximity()`, and
+`onNearbyBuildAdded(Building)` now delegate to the canonical
+`SourceBuildingLifecycleState` proximity helpers. Generated callbacks keep
+only source-backed argument normalization and no longer duplicate proximity
+clamping, recache gating, or no-op result construction.
+
+- Emitter regeneration: `801 classes`, `0 failures`.
+- Focused generated delegate tests: `3 passed`.
+- Focused emitter tests: `3 passed`.
+- Focused playable bridge tests: `9 passed`.
+- Cross-catalog validator: `0 errors`; JSON mirror `113 modules / 0 errors`.
+- Godot 4.6.2 runtime proof: `matches=true`, all three proximity bridge match
+  flags `true`, `registry_valid=true`, `one_headquarter_per_ssot=true`.
+- Full Python suite: `5325 passed`, `22504 subtests passed` in `1170.01s`; one
+  non-blocking `.pytest_cache` permission warning.

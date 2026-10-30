@@ -27803,15 +27803,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func java_method_removeFromProximity_185(_args: Array = []) -> Variant:", source)
         self.assertIn("var nearby_count := int(_args[0] if _args.size() > 0 else 0)", source)
         self.assertIn("var removable_count := int(_args[1] if _args.size() > 1 else 0)", source)
-        self.assertIn("var queued_removals := clampi(removable_count, 0, nearby_count)", source)
-        self.assertIn('"source_owner": "port_game.source_building_remove_from_proximity_state', source)
-        self.assertIn('"method": "public void removeFromProximity(){"', source)
-        self.assertIn('"on_proximity_removed": true', source)
-        self.assertIn('"tmp_tiles_cleared": true', source)
-        self.assertIn('"nearby_count": nearby_count', source)
-        self.assertIn('"queued_removals": queued_removals', source)
-        self.assertIn('"proximity_updates": queued_removals', source)
-        self.assertIn('"proximity_cleared": true', source)
+        self.assertIn("return source_building_lifecycle_state.remove_from_proximity_state(nearby_count, removable_count)", source)
 
     def test_port_game_exposes_generated_building_comp_remove_from_proximity_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -27843,17 +27835,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var same_team_count := int(_args[1] if _args.size() > 1 else 0)", source)
         self.assertIn("var headless := bool(_args[2] if _args.size() > 2 else false)", source)
         self.assertIn("var draw_cached := bool(_args[3] if _args.size() > 3 else false)", source)
-        self.assertIn("var same_team_clamped := clampi(same_team_count, 0, nearby_count)", source)
-        self.assertIn('"source_owner": "port_game.source_building_update_proximity_state', source)
-        self.assertIn('"tmp_tiles_cleared": true', source)
-        self.assertIn('"proximity_cleared": true', source)
-        self.assertIn('"nearby_count": nearby_count', source)
-        self.assertIn('"same_team_count": same_team_clamped', source)
-        self.assertIn('"add_unique_calls": same_team_clamped', source)
-        self.assertIn('"on_proximity_added": true', source)
-        self.assertIn('"self_proximity_update": true', source)
-        self.assertIn('"other_proximity_updates": same_team_clamped', source)
-        self.assertIn('"recache": (not headless) and draw_cached', source)
+        self.assertIn("return source_building_lifecycle_state.update_proximity_state(nearby_count, same_team_count, headless, draw_cached)", source)
 
     def test_port_game_exposes_generated_building_comp_update_proximity_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -27882,10 +27864,7 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn("func java_method_onNearbyBuildAdded_187(_args: Array = []) -> Variant:", source)
         self.assertIn("var other_state: Variant = _args[0] if _args.size() > 0 else null", source)
-        self.assertIn('"source_owner": "port_game.source_building_on_nearby_build_added_state', source)
-        self.assertIn('"method": "public void onNearbyBuildAdded(Building other){}"', source)
-        self.assertIn('"no_op": true', source)
-        self.assertIn('"other_state": other_state', source)
+        self.assertIn("return source_building_lifecycle_state.on_nearby_build_added_state(other_state)", source)
 
     def test_port_game_exposes_generated_building_comp_on_nearby_build_added_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
