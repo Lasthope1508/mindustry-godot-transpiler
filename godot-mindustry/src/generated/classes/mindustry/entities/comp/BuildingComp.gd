@@ -1556,17 +1556,13 @@ func java_method_canConsume_189(_args: Array = []) -> Variant:
 func java_method_delta_190(_args: Array = []) -> Variant:
 	var source_delta := float(_args[0] if _args.size() > 0 else 0.0)
 	var time_scale := float(_args[1] if _args.size() > 1 else 0.0)
-	var delta := source_delta * time_scale
-	return {"source_owner": "port_game.source_building_delta", "comment": "/** Scaled delta. */", "method": "public float delta(){", "source_delta": source_delta, "time_scale": time_scale, "delta": delta}
+	return source_building_time_state.delta(source_delta, time_scale)
 
 func java_method_edelta_191(_args: Array = []) -> Variant:
 	var source_delta := float(_args[0] if _args.size() > 0 else 0.0)
 	var time_scale := float(_args[1] if _args.size() > 1 else 0.0)
 	var efficiency := float(_args[2] if _args.size() > 2 else 0.0)
-	var delta_result = java_method_delta_190([source_delta, time_scale])
-	var delta_call := float(delta_result.get("delta", 0.0))
-	var edelta := efficiency * delta_call
-	return {"source_owner": "port_game.source_building_edelta", "method": "public float edelta(){", "delta_call": delta_call, "efficiency": efficiency, "source_delta": source_delta, "time_scale": time_scale, "edelta": edelta}
+	return source_building_time_state.edelta(source_delta, time_scale, efficiency)
 
 func java_method_updateEfficiencyMultiplier_192(_args: Array = []) -> Variant:
 	var efficiency := float(_args[0] if _args.size() > 0 else 0.0)

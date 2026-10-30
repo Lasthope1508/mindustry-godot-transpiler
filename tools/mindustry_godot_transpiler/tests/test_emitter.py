@@ -3418,13 +3418,7 @@ public class BuildingComp{
             self.assertIn("func java_method_delta_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var source_delta := float(_args[0] if _args.size() > 0 else 0.0)", source_text)
             self.assertIn("var time_scale := float(_args[1] if _args.size() > 1 else 0.0)", source_text)
-            self.assertIn("var delta := source_delta * time_scale", source_text)
-            self.assertIn('"source_owner": "port_game.source_building_delta"', source_text)
-            self.assertIn('"comment": "/** Scaled delta. */"', source_text)
-            self.assertIn('"method": "public float delta(){"', source_text)
-            self.assertIn('"source_delta": source_delta', source_text)
-            self.assertIn('"time_scale": time_scale', source_text)
-            self.assertIn('"delta": delta', source_text)
+            self.assertIn("return source_building_time_state.delta(source_delta, time_scale)", source_text)
 
     def test_emit_bridges_building_comp_edelta_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -3456,16 +3450,7 @@ public class BuildingComp{
             self.assertIn("var source_delta := float(_args[0] if _args.size() > 0 else 0.0)", source_text)
             self.assertIn("var time_scale := float(_args[1] if _args.size() > 1 else 0.0)", source_text)
             self.assertIn("var efficiency := float(_args[2] if _args.size() > 2 else 0.0)", source_text)
-            self.assertIn("var delta_result = java_method_delta_0([source_delta, time_scale])", source_text)
-            self.assertIn('var delta_call := float(delta_result.get("delta", 0.0))', source_text)
-            self.assertIn("var edelta := efficiency * delta_call", source_text)
-            self.assertIn('"source_owner": "port_game.source_building_edelta"', source_text)
-            self.assertIn('"method": "public float edelta(){"', source_text)
-            self.assertIn('"delta_call": delta_call', source_text)
-            self.assertIn('"efficiency": efficiency', source_text)
-            self.assertIn('"source_delta": source_delta', source_text)
-            self.assertIn('"time_scale": time_scale', source_text)
-            self.assertIn('"edelta": edelta', source_text)
+            self.assertIn("return source_building_time_state.edelta(source_delta, time_scale, efficiency)", source_text)
 
     def test_emit_bridges_building_comp_update_efficiency_multiplier_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:

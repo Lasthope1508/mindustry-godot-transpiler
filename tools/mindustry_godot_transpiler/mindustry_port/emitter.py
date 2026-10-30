@@ -4171,30 +4171,18 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict, method_i
         return [
             "\tvar source_delta := float(_args[0] if _args.size() > 0 else 0.0)",
             "\tvar time_scale := float(_args[1] if _args.size() > 1 else 0.0)",
-            "\tvar delta := source_delta * time_scale",
-            "\treturn {\"source_owner\": \"port_game.source_building_delta\", \"comment\": \"/** Scaled delta. */\", \"method\": \"public float delta(){\", \"source_delta\": source_delta, \"time_scale\": time_scale, \"delta\": delta}",
+            "\treturn source_building_time_state.delta(source_delta, time_scale)",
         ]
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
         and method.get("name") == "edelta"
     ):
-        delta_method_index = next(
-            (
-                index
-                for index, candidate in enumerate(type_entry.get("methods", []))
-                if candidate.get("name") == "delta"
-            ),
-            0,
-        )
         return [
             "\tvar source_delta := float(_args[0] if _args.size() > 0 else 0.0)",
             "\tvar time_scale := float(_args[1] if _args.size() > 1 else 0.0)",
             "\tvar efficiency := float(_args[2] if _args.size() > 2 else 0.0)",
-            f"\tvar delta_result = java_method_delta_{delta_method_index}([source_delta, time_scale])",
-            "\tvar delta_call := float(delta_result.get(\"delta\", 0.0))",
-            "\tvar edelta := efficiency * delta_call",
-            "\treturn {\"source_owner\": \"port_game.source_building_edelta\", \"method\": \"public float edelta(){\", \"delta_call\": delta_call, \"efficiency\": efficiency, \"source_delta\": source_delta, \"time_scale\": time_scale, \"edelta\": edelta}",
+            "\treturn source_building_time_state.edelta(source_delta, time_scale, efficiency)",
         ]
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"

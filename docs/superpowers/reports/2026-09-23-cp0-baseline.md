@@ -769,3 +769,19 @@ loop and potential-efficiency formulas.
   `one_headquarter_per_ssot=true`; no parse errors.
 - Full Python suite: `5327 passed`, `22504 subtests passed` in `1343.87s`; one
   non-blocking `.pytest_cache` permission warning.
+
+## N1978-N1979 BuildingComp time generated delegates (2026-10-30)
+
+Generated `delta()` and `edelta()` now delegate to canonical
+`SourceBuildingTimeState`, preserving source-backed input normalization while
+removing duplicated arithmetic from generated callbacks.
+
+- Emitter regeneration: `801 classes`, `0 failures`.
+- Focused generated delegate tests: `2 passed`.
+- Focused emitter tests: `2 passed`.
+- Focused playable bridge tests: `2 passed`.
+- Cross-catalog validator: `0 errors`; JSON mirror `113 modules / 0 errors`.
+- Godot 4.6.2 time proof: `matches=true`, `registry_valid=true`,
+  `one_headquarter_per_ssot=true`; no generated-script parse errors.
+- Full Python suite: `5329 passed`, `22504 subtests passed` in `1362.71s`; one
+  non-blocking `.pytest_cache` permission warning.

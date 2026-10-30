@@ -170,3 +170,21 @@ efficiency owner; no new SSOT owner, alias, or schema was introduced.
   errors after adding the efficiency preload.
 - Full Python suite: `5327 passed`, `22504 subtests passed` in `1343.87s`; one
   non-blocking `.pytest_cache` permission warning.
+
+## N1978-N1979 follow-up: time delegates
+
+The generated `BuildingComp.delta()` and `edelta()` callbacks now delegate to
+the existing `SourceBuildingTimeState.delta(...)` and `edelta(...)` helpers.
+Generated code keeps only typed input normalization; the arithmetic and
+cross-method dependency no longer live in the generated envelope.
+
+- Focused generated delegate tests: `2 passed`.
+- Focused emitter tests: `2 passed`.
+- Focused playable bridge tests: `2 passed`.
+- Emitter regeneration: `801 classes`, `0 failures`.
+- Cross-catalog validator: `0 errors`; JSON mirror `113 modules / 0 errors`.
+- Godot 4.6.2 `BuildingTimeStateModuleProof`: `matches=true`,
+  `registry_valid=true`, `one_headquarter_per_ssot=true`; generated class parsed
+  without errors.
+- Full Python suite: `5329 passed`, `22504 subtests passed` in `1362.71s`; one
+  non-blocking `.pytest_cache` permission warning.

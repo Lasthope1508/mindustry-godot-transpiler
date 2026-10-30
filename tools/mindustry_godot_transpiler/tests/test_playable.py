@@ -27992,13 +27992,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func java_method_delta_190(_args: Array = []) -> Variant:", source)
         self.assertIn("var source_delta := float(_args[0] if _args.size() > 0 else 0.0)", source)
         self.assertIn("var time_scale := float(_args[1] if _args.size() > 1 else 0.0)", source)
-        self.assertIn("var delta := source_delta * time_scale", source)
-        self.assertIn('"source_owner": "port_game.source_building_delta"', source)
-        self.assertIn('"comment": "/** Scaled delta. */"', source)
-        self.assertIn('"method": "public float delta(){"', source)
-        self.assertIn('"source_delta": source_delta', source)
-        self.assertIn('"time_scale": time_scale', source)
-        self.assertIn('"delta": delta', source)
+        self.assertIn("return source_building_time_state.delta(source_delta, time_scale)", source)
 
     def test_port_game_exposes_generated_building_comp_delta_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -28028,16 +28022,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var source_delta := float(_args[0] if _args.size() > 0 else 0.0)", source)
         self.assertIn("var time_scale := float(_args[1] if _args.size() > 1 else 0.0)", source)
         self.assertIn("var efficiency := float(_args[2] if _args.size() > 2 else 0.0)", source)
-        self.assertIn("var delta_result = java_method_delta_190([source_delta, time_scale])", source)
-        self.assertIn('var delta_call := float(delta_result.get("delta", 0.0))', source)
-        self.assertIn("var edelta := efficiency * delta_call", source)
-        self.assertIn('"source_owner": "port_game.source_building_edelta"', source)
-        self.assertIn('"method": "public float edelta(){"', source)
-        self.assertIn('"delta_call": delta_call', source)
-        self.assertIn('"efficiency": efficiency', source)
-        self.assertIn('"source_delta": source_delta', source)
-        self.assertIn('"time_scale": time_scale', source)
-        self.assertIn('"edelta": edelta', source)
+        self.assertIn("return source_building_time_state.edelta(source_delta, time_scale, efficiency)", source)
 
     def test_port_game_exposes_generated_building_comp_edelta_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
