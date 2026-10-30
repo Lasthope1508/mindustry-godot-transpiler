@@ -846,3 +846,18 @@ for later checkpoints.
 - Cross-catalog validator: `0 errors`; JSON mirror `113 modules / 0 errors`.
 - Godot proof: `matches=true`, including non-optional branch match.
 - Full Python suite: `5334 passed`, `22504 subtests passed` in `1362.52s`; one non-blocking `.pytest_cache` permission warning.
+
+## N1986 BuildingComp updateConsumption optional generated delegate (2026-10-30)
+
+The optional consumer pass now delegates to the canonical
+`SourceBuildingEfficiencyState.update_consumption_optional_pass_state(...)`
+helper before the legacy full-orchestration loop. This preserves dictionary
+result rows for the canonical contract and leaves efficiency/second-pass stages
+for later checkpoints.
+
+- Emitter regeneration: `801 classes`, `0 failures`.
+- Focused generated delegate/emitter tests: `12 passed`.
+- Focused playable bridge tests: `25 passed`, `7 subtests passed`.
+- Cross-catalog validator: `0 errors`; JSON mirror `113 modules / 0 errors`.
+- Godot proof: `matches=true`, including optional branch match.
+- Full Python suite: `5335 passed`, `22504 subtests passed` in `1341.42s`; one non-blocking `.pytest_cache` permission warning.

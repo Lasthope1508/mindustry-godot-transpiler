@@ -42,6 +42,15 @@ class BuildingUpdateConsumptionGeneratedDelegateTests(unittest.TestCase):
         )
         self.assertNotIn('"source_owner": "port_game.source_building_update_consumption_non_optional_pass_state"', body)
 
+    def test_optional_branch_uses_canonical_state(self):
+        body = self._body()
+        self.assertIn("if _args.size() <= 8:", body)
+        self.assertIn(
+            "return source_building_efficiency_state.update_consumption_optional_pass_state(optional_consumer_results)",
+            body,
+        )
+        self.assertNotIn('"source_owner": "port_game.source_building_update_consumption_optional_pass_state"', body)
+
 
 if __name__ == "__main__":
     unittest.main()

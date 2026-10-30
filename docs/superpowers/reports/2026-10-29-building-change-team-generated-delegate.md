@@ -251,3 +251,20 @@ stages remain for subsequent slices.
   setup, and non-optional branch matches, registry valid, one headquarter per SSOT.
 - Full Python suite: `5334 passed`, `22504 subtests passed` in `1362.52s`; one
   non-blocking `.pytest_cache` permission warning.
+
+## N1986 BuildingComp updateConsumption optional pass delegate (2026-10-30)
+
+The optional consumer pass now delegates to
+`SourceBuildingEfficiencyState.update_consumption_optional_pass_state(...)`.
+The delegate boundary is evaluated before the legacy float loop, so dictionary
+result rows follow the canonical contract; the loop remains for later full
+orchestration paths.
+
+- Emitter regeneration: `801 classes`, `0 failures`.
+- Focused generated delegate/emitter tests: `12 passed`.
+- Focused playable bridge tests: `25 passed`, `7 subtests passed`.
+- Cross-catalog validator: `0 errors`; JSON mirror `113 modules / 0 errors`.
+- Godot 4.6.2 efficiency proof: `matches=true`, including initial, disabled,
+  setup, non-optional, and optional branch matches.
+- Full Python suite: `5335 passed`, `22504 subtests passed` in `1341.42s`; one
+  non-blocking `.pytest_cache` permission warning.

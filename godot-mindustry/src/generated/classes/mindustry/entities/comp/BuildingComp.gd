@@ -1602,10 +1602,10 @@ func java_method_updateConsumption_194(_args: Array = []) -> Variant:
 		if _args.size() <= 7:
 			return source_building_efficiency_state.update_consumption_non_optional_pass_state(non_optional_consumer_results)
 		var optional_efficiency := 1.0
+		if _args.size() <= 8:
+			return source_building_efficiency_state.update_consumption_optional_pass_state(optional_consumer_results)
 		for result in optional_consumer_results:
 			optional_efficiency = min(optional_efficiency, float(result))
-		if _args.size() <= 8:
-			return {"source_owner": "port_game.source_building_update_consumption_optional_pass_state", "method": "public void updateConsumption(){", "comment": "//same for optionals", "loop": "for(var cons : block.optionalConsumers){", "optional_min": "optionalEfficiency = Math.min(optionalEfficiency, cons.efficiency(self()));", "optional_consumer_results": optional_consumer_results, "optional_efficiency": optional_efficiency}
 		efficiency = min_efficiency
 		var optional_efficiency_input := optional_efficiency
 		optional_efficiency = min(optional_efficiency, min_efficiency)

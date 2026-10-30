@@ -28170,13 +28170,11 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var optional_efficiency := 1.0", source)
         self.assertIn("for result in optional_consumer_results:", source)
         self.assertIn("optional_efficiency = min(optional_efficiency, float(result))", source)
-        self.assertIn('"source_owner": "port_game.source_building_update_consumption_optional_pass_state"', source)
-        self.assertIn('"method": "public void updateConsumption(){"', source)
-        self.assertIn('"comment": "//same for optionals"', source)
-        self.assertIn('"loop": "for(var cons : block.optionalConsumers){"', source)
-        self.assertIn('"optional_min": "optionalEfficiency = Math.min(optionalEfficiency, cons.efficiency(self()));"', source)
-        self.assertIn('"optional_consumer_results": optional_consumer_results', source)
-        self.assertIn('"optional_efficiency": optional_efficiency', source)
+        self.assertIn(
+            "return source_building_efficiency_state.update_consumption_optional_pass_state(optional_consumer_results)",
+            source,
+        )
+        self.assertNotIn('"source_owner": "port_game.source_building_update_consumption_optional_pass_state"', source)
 
     def test_generated_building_comp_bridges_update_consumption_efficiency_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -29830,6 +29828,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"update_consumption_disabled_branch_matches"', proof_source)
         self.assertIn('"update_consumption_setup_branch_matches"', proof_source)
         self.assertIn('"update_consumption_non_optional_branch_matches"', proof_source)
+        self.assertIn('"update_consumption_optional_branch_matches"', proof_source)
         self.assertIn('"one_headquarter_per_ssot"', proof_source)
 
     def test_building_runtime_proofs_use_registry_valid_and_fast_exit(self):

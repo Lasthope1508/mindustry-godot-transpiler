@@ -3854,13 +3854,11 @@ public class BuildingComp{
             self.assertIn("var optional_efficiency := 1.0", source_text)
             self.assertIn("for result in optional_consumer_results:", source_text)
             self.assertIn("optional_efficiency = min(optional_efficiency, float(result))", source_text)
-            self.assertIn('"source_owner": "port_game.source_building_update_consumption_optional_pass_state"', source_text)
-            self.assertIn('"method": "public void updateConsumption(){"', source_text)
-            self.assertIn('"comment": "//same for optionals"', source_text)
-            self.assertIn('"loop": "for(var cons : block.optionalConsumers){"', source_text)
-            self.assertIn('"optional_min": "optionalEfficiency = Math.min(optionalEfficiency, cons.efficiency(self()));"', source_text)
-            self.assertIn('"optional_consumer_results": optional_consumer_results', source_text)
-            self.assertIn('"optional_efficiency": optional_efficiency', source_text)
+            self.assertIn(
+                "return source_building_efficiency_state.update_consumption_optional_pass_state(optional_consumer_results)",
+                source_text,
+            )
+            self.assertNotIn('"source_owner": "port_game.source_building_update_consumption_optional_pass_state"', source_text)
 
     def test_emit_bridges_building_comp_update_consumption_efficiency_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmpdir:
