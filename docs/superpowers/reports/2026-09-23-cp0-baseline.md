@@ -875,3 +875,17 @@ remain staged for later checkpoints.
 - Cross-catalog validator: `0 errors`; JSON mirror `113 modules / 0 errors`.
 - Godot proof: `matches=true`, including efficiency branch match.
 - Full Python suite: `5336 passed`, `22504 subtests passed` in `1276.42s`; one non-blocking `.pytest_cache` permission warning.
+
+## N1988 BuildingComp updateConsumption second-pass generated delegate (2026-10-31)
+
+The second-pass consumer orchestration now delegates to canonical
+`SourceBuildingEfficiencyState.update_consumption_second_pass_state(...)`
+after multiplier application. Generated code retains input normalization and
+multiplier dispatch only for this stage.
+
+- Emitter regeneration: `801 classes`, `0 failures`.
+- Focused generated delegate/emitter tests: `14 passed`.
+- Focused playable bridge tests: `25 passed`, `7 subtests passed`.
+- Cross-catalog validator: `0 errors`; JSON mirror `113 modules / 0 errors`.
+- Godot proof: `matches=true`, including second-pass branch match.
+- Full Python suite: `5337 passed`, `22504 subtests passed` in `1336.08s`; one non-blocking `.pytest_cache` permission warning.

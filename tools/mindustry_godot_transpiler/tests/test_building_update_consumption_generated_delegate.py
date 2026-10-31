@@ -60,6 +60,14 @@ class BuildingUpdateConsumptionGeneratedDelegateTests(unittest.TestCase):
         )
         self.assertNotIn('"source_owner": "port_game.source_building_update_consumption_efficiency_state"', body)
 
+    def test_second_pass_uses_canonical_state(self):
+        body = self._body()
+        self.assertIn(
+            "return source_building_efficiency_state.update_consumption_second_pass_state(update, efficiency, update_consumers, self_state)",
+            body,
+        )
+        self.assertNotIn('"source_owner": "port_game.source_building_update_consumption_second_pass_state"', body)
+
 
 if __name__ == "__main__":
     unittest.main()

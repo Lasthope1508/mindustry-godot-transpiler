@@ -4265,7 +4265,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict, method_i
             "\t\tif update and efficiency > 0.0:",
             "\t\t\tfor consumer in update_consumers:",
             "\t\t\t\tupdated_consumers.append({\"consumer\": consumer, \"self\": self_state})",
-            "\t\treturn {\"source_owner\": \"port_game.source_building_update_consumption_second_pass_state\", \"method\": \"public void updateConsumption(){\", \"multiplier\": \"updateEfficiencyMultiplier();\", \"comment\": \"//second pass: update every consumer based on efficiency\", \"guard\": \"if(update && efficiency > 0){\", \"loop\": \"for(var cons : block.updateConsumers){\", \"update_call\": \"cons.update(self());\", \"update\": update, \"efficiency\": efficiency, \"update_consumers\": update_consumers, \"self_state\": self_state, \"updated_consumers\": updated_consumers, \"update_count\": updated_consumers.size()}",
+            "\t\treturn source_building_efficiency_state.update_consumption_second_pass_state(update, efficiency, update_consumers, self_state)",
             "\treturn source_building_efficiency_state.update_consumption_initial_state(has_consumers, cheating, enabled_state, production_valid, should_consume_state, efficiency_scale)",
         ]
     if (

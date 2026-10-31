@@ -1622,7 +1622,7 @@ func java_method_updateConsumption_194(_args: Array = []) -> Variant:
 		if update and efficiency > 0.0:
 			for consumer in update_consumers:
 				updated_consumers.append({"consumer": consumer, "self": self_state})
-		return {"source_owner": "port_game.source_building_update_consumption_second_pass_state", "method": "public void updateConsumption(){", "multiplier": "updateEfficiencyMultiplier();", "comment": "//second pass: update every consumer based on efficiency", "guard": "if(update && efficiency > 0){", "loop": "for(var cons : block.updateConsumers){", "update_call": "cons.update(self());", "update": update, "efficiency": efficiency, "update_consumers": update_consumers, "self_state": self_state, "updated_consumers": updated_consumers, "update_count": updated_consumers.size()}
+		return source_building_efficiency_state.update_consumption_second_pass_state(update, efficiency, update_consumers, self_state)
 	return source_building_efficiency_state.update_consumption_initial_state(has_consumers, cheating, enabled_state, production_valid, should_consume_state, efficiency_scale)
 
 func java_method_updatePayload_195(_args: Array = []) -> Variant:

@@ -284,3 +284,18 @@ second-pass paths remain staged for subsequent slices.
   setup, non-optional, optional, and efficiency branch matches.
 - Full Python suite: `5336 passed`, `22504 subtests passed` in `1276.42s`; one
   non-blocking `.pytest_cache` permission warning.
+
+## N1988 BuildingComp updateConsumption second-pass delegate (2026-10-31)
+
+The second-pass consumer orchestration now delegates to
+`SourceBuildingEfficiencyState.update_consumption_second_pass_state(...)` after
+the generated callback applies the canonical efficiency multiplier. Updated
+consumer traces and counts are owned by the canonical helper; generated code
+keeps only input normalization and multiplier dispatch.
+
+- Emitter regeneration: `801 classes`, `0 failures`.
+- Focused generated delegate/emitter tests: `14 passed`.
+- Focused playable bridge tests: `25 passed`, `7 subtests passed`.
+- Cross-catalog validator: `0 errors`; JSON mirror `113 modules / 0 errors`.
+- Godot 4.6.2 efficiency proof: `matches=true`, including second-pass branch match.
+- Full Python suite: `5337 passed`, `22504 subtests passed` in `1336.08s`; one non-blocking `.pytest_cache` permission warning.

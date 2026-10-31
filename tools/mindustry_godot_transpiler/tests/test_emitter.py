@@ -4010,17 +4010,11 @@ class BuildingComp{
             self.assertIn("var self_state: Dictionary = _args[10] if _args.size() > 10 else {}", source_text)
             self.assertIn("var multiplied = java_method_updateEfficiencyMultiplier_0([efficiency, optional_efficiency, efficiency_scale])", source_text)
             self.assertIn('efficiency = float(multiplied.get("efficiency", efficiency))', source_text)
-            self.assertIn("var updated_consumers := []", source_text)
-            self.assertIn("if update and efficiency > 0.0:", source_text)
-            self.assertIn("for consumer in update_consumers:", source_text)
-            self.assertIn('"source_owner": "port_game.source_building_update_consumption_second_pass_state"', source_text)
-            self.assertIn('"multiplier": "updateEfficiencyMultiplier();"', source_text)
-            self.assertIn('"comment": "//second pass: update every consumer based on efficiency"', source_text)
-            self.assertIn('"guard": "if(update && efficiency > 0){"', source_text)
-            self.assertIn('"loop": "for(var cons : block.updateConsumers){"', source_text)
-            self.assertIn('"update_call": "cons.update(self());"', source_text)
-            self.assertIn('"updated_consumers": updated_consumers', source_text)
-            self.assertIn('"update_count": updated_consumers.size()', source_text)
+            self.assertIn(
+                "return source_building_efficiency_state.update_consumption_second_pass_state(update, efficiency, update_consumers, self_state)",
+                source_text,
+            )
+            self.assertNotIn('"source_owner": "port_game.source_building_update_consumption_second_pass_state"', source_text)
 
     def test_emit_bridges_building_comp_ambient_volume_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmpdir:

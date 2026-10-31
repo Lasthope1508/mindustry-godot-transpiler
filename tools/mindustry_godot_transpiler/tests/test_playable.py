@@ -28205,17 +28205,11 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var self_state: Dictionary = _args[10] if _args.size() > 10 else {}", source)
         self.assertIn("var multiplied = java_method_updateEfficiencyMultiplier_192([efficiency, optional_efficiency, efficiency_scale])", source)
         self.assertIn('efficiency = float(multiplied.get("efficiency", efficiency))', source)
-        self.assertIn("var updated_consumers := []", source)
-        self.assertIn("if update and efficiency > 0.0:", source)
-        self.assertIn("for consumer in update_consumers:", source)
-        self.assertIn('"source_owner": "port_game.source_building_update_consumption_second_pass_state"', source)
-        self.assertIn('"multiplier": "updateEfficiencyMultiplier();"', source)
-        self.assertIn('"comment": "//second pass: update every consumer based on efficiency"', source)
-        self.assertIn('"guard": "if(update && efficiency > 0){"', source)
-        self.assertIn('"loop": "for(var cons : block.updateConsumers){"', source)
-        self.assertIn('"update_call": "cons.update(self());"', source)
-        self.assertIn('"updated_consumers": updated_consumers', source)
-        self.assertIn('"update_count": updated_consumers.size()', source)
+        self.assertIn(
+            "return source_building_efficiency_state.update_consumption_second_pass_state(update, efficiency, update_consumers, self_state)",
+            source,
+        )
+        self.assertNotIn('"source_owner": "port_game.source_building_update_consumption_second_pass_state"', source)
 
     def test_port_game_exposes_generated_building_comp_update_consumption_initial_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -29825,6 +29819,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"update_consumption_non_optional_branch_matches"', proof_source)
         self.assertIn('"update_consumption_optional_branch_matches"', proof_source)
         self.assertIn('"update_consumption_efficiency_branch_matches"', proof_source)
+        self.assertIn('"update_consumption_second_pass_branch_matches"', proof_source)
         self.assertIn('"one_headquarter_per_ssot"', proof_source)
 
     def test_building_runtime_proofs_use_registry_valid_and_fast_exit(self):
