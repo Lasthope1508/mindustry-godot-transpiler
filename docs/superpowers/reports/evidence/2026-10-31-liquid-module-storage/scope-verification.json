@@ -1,0 +1,47 @@
+[
+  {
+    "catalog": "source_symbol_registry",
+    "added": [
+      "liquid_module_add.amount",
+      "liquid_module_add.cache_sums",
+      "liquid_module_add.liquid_id",
+      "liquid_module_add.self_state",
+      "liquid_module_get.liquid_id",
+      "liquid_module_get.self_state",
+      "liquid_module_remove.amount",
+      "liquid_module_remove.cache_sums",
+      "liquid_module_remove.liquid_id",
+      "liquid_module_remove.self_state"
+    ],
+    "changed_existing": []
+  },
+  {
+    "catalog": "source_api_contracts",
+    "added": [
+      "SourceLiquidModuleState.source_add_state",
+      "SourceLiquidModuleState.source_get_state",
+      "SourceLiquidModuleState.source_remove_state"
+    ],
+    "changed_existing": []
+  },
+  {
+    "catalog": "source_state_schema",
+    "added": [
+      "source_liquid_module_add_result",
+      "source_liquid_module_get_result",
+      "source_liquid_module_remove_result",
+      "source_liquid_module_storage_input",
+      "source_liquid_module_storage_state"
+    ],
+    "changed_existing": []
+  },
+  {
+    "catalog": "source_slice_ledger",
+    "added": [
+      "N1993",
+      "N1994",
+      "N1995"
+    ],
+    "changed_existing": []
+  }
+]

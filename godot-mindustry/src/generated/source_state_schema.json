@@ -164153,6 +164153,157 @@
           "alias_of": "source_building_update_consumption_result.returned"
         }
       }
+    },
+    "source_liquid_module_storage_state": {
+      "status": "active",
+      "owner": "SourceLiquidModuleState.source_add_state",
+      "runtime_proof": "/root/Main.LiquidModuleStorageProof",
+      "keys": {
+        "liquids": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+          "java_method": "LiquidModule",
+          "java_expr": "private float[] liquids = new float[content.liquids().size];",
+          "rule": "Indexed amounts; caller supplies actual content-sized storage, no capacity/default is guessed."
+        },
+        "current": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+          "java_method": "LiquidModule",
+          "java_expr": "private Liquid current = content.liquid(0);",
+          "rule": "Explicit Liquid.id representation of current identity; constructor/content lookup stays deferred."
+        },
+        "flow": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+          "java_method": "LiquidModule",
+          "java_expr": "private @Nullable WindowedMean[] flow;",
+          "rule": "Null/non-null flow identity only; this slice does not implement WindowedMean or timer sampling."
+        }
+      }
+    },
+    "source_liquid_module_storage_input": {
+      "status": "active",
+      "owner": "SourceLiquidModuleState.source_add_state",
+      "runtime_proof": "/root/Main.LiquidModuleStorageProof",
+      "keys": {
+        "self_state": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+          "java_method": "LiquidModule",
+          "java_expr": "private float[] liquids = new float[content.liquids().size];",
+          "rule": "Mutable adapter of the existing LiquidModule instance fields, not new Java state.",
+          "schema": "source_liquid_module_storage_state"
+        },
+        "liquid_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+          "java_method": "LiquidModule",
+          "java_expr": "liquids[liquid.id] += amount;",
+          "rule": "Explicit Liquid.id; caller supplies a valid in-range content ID."
+        },
+        "amount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+          "java_method": "LiquidModule",
+          "java_expr": "public void add(Liquid liquid, float amount){",
+          "rule": "Source amount parameter; no invented nonnegative guard."
+        },
+        "cache_sums": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+          "java_method": "LiquidModule",
+          "java_expr": "private static float[] cacheSums;",
+          "rule": "Explicit shared static cacheSums array; caller supplies capacity when flow is non-null."
+        }
+      }
+    },
+    "source_liquid_module_get_result": {
+      "status": "active",
+      "owner": "SourceLiquidModuleState.source_get_state",
+      "runtime_proof": "/root/Main.LiquidModuleStorageProof",
+      "keys": {
+        "amount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+          "java_method": "get(Liquid liquid)",
+          "java_expr": "return liquids[liquid.id];",
+          "rule": "Read indexed amount without mutation.",
+          "used_by": [
+            "SourceLiquidModuleState.source_get_state"
+          ]
+        }
+      }
+    },
+    "source_liquid_module_add_result": {
+      "status": "active",
+      "owner": "SourceLiquidModuleState.source_add_state",
+      "runtime_proof": "/root/Main.LiquidModuleStorageProof",
+      "keys": {
+        "liquids": {
+          "type": "Array",
+          "status": "alias",
+          "alias_of": "source_liquid_module_storage_state.liquids",
+          "used_by": [
+            "SourceLiquidModuleState.source_add_state"
+          ]
+        },
+        "current": {
+          "type": "int",
+          "status": "alias",
+          "alias_of": "source_liquid_module_storage_state.current",
+          "used_by": [
+            "SourceLiquidModuleState.source_add_state"
+          ]
+        },
+        "flow": {
+          "type": "Variant",
+          "status": "alias",
+          "alias_of": "source_liquid_module_storage_state.flow",
+          "used_by": [
+            "SourceLiquidModuleState.source_add_state"
+          ]
+        }
+      }
+    },
+    "source_liquid_module_remove_result": {
+      "status": "active",
+      "owner": "SourceLiquidModuleState.source_remove_state",
+      "runtime_proof": "/root/Main.LiquidModuleStorageProof",
+      "keys": {
+        "liquids": {
+          "type": "Array",
+          "status": "alias",
+          "alias_of": "source_liquid_module_storage_state.liquids",
+          "used_by": [
+            "SourceLiquidModuleState.source_remove_state"
+          ]
+        },
+        "current": {
+          "type": "int",
+          "status": "alias",
+          "alias_of": "source_liquid_module_storage_state.current",
+          "used_by": [
+            "SourceLiquidModuleState.source_remove_state"
+          ]
+        },
+        "flow": {
+          "type": "Variant",
+          "status": "alias",
+          "alias_of": "source_liquid_module_storage_state.flow",
+          "used_by": [
+            "SourceLiquidModuleState.source_remove_state"
+          ]
+        }
+      }
     }
   },
   "version": 1

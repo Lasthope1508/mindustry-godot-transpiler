@@ -1,0 +1,42 @@
+..F                                                                [100%]
+================================== FAILURES ===================================
+_ LiquidModuleStorageTests.test_storage_contracts_and_source_evidence_are_registered (method='get') _
+tools\mindustry_godot_transpiler\tests\test_liquid_module_storage.py:31: in test_storage_contracts_and_source_evidence_are_registered
+    self.assertEqual(ledger[slice_id]['godot_owner'], owner)
+                     ^^^^^^^^^^^^^^^^
+E   KeyError: 'N1993'
+_ LiquidModuleStorageTests.test_storage_contracts_and_source_evidence_are_registered (method='add') _
+tools\mindustry_godot_transpiler\tests\test_liquid_module_storage.py:31: in test_storage_contracts_and_source_evidence_are_registered
+    self.assertEqual(ledger[slice_id]['godot_owner'], owner)
+                     ^^^^^^^^^^^^^^^^
+E   KeyError: 'N1994'
+_ LiquidModuleStorageTests.test_storage_contracts_and_source_evidence_are_registered (method='remove') _
+tools\mindustry_godot_transpiler\tests\test_liquid_module_storage.py:31: in test_storage_contracts_and_source_evidence_are_registered
+    self.assertEqual(ledger[slice_id]['godot_owner'], owner)
+                     ^^^^^^^^^^^^^^^^
+E   KeyError: 'N1995'
+_ LiquidModuleStorageTests.test_storage_generated_methods_delegate_to_one_domain_owner (method='get') _
+tools\mindustry_godot_transpiler\tests\test_liquid_module_storage.py:18: in test_storage_generated_methods_delegate_to_one_domain_owner
+    self.assertIn(f'source_liquid_module_state.source_{method}_state(', body)
+E   AssertionError: 'source_liquid_module_state.source_get_state(' not found in '(_args: Array = []) -> Variant:\n\treturn null\n'
+_ LiquidModuleStorageTests.test_storage_generated_methods_delegate_to_one_domain_owner (method='add') _
+tools\mindustry_godot_transpiler\tests\test_liquid_module_storage.py:18: in test_storage_generated_methods_delegate_to_one_domain_owner
+    self.assertIn(f'source_liquid_module_state.source_{method}_state(', body)
+E   AssertionError: 'source_liquid_module_state.source_add_state(' not found in '(_args: Array = []) -> Variant:\n\treturn null\n'
+_ LiquidModuleStorageTests.test_storage_generated_methods_delegate_to_one_domain_owner (method='remove') _
+tools\mindustry_godot_transpiler\tests\test_liquid_module_storage.py:18: in test_storage_generated_methods_delegate_to_one_domain_owner
+    self.assertIn(f'source_liquid_module_state.source_{method}_state(', body)
+E   AssertionError: 'source_liquid_module_state.source_remove_state(' not found in '(_args: Array = []) -> Variant:\n\treturn null\n'
+_ LiquidModuleStorageTests.test_storage_golden_runtime_and_consumption_mutation _
+tools\mindustry_godot_transpiler\tests\test_liquid_module_storage.py:45: in test_storage_golden_runtime_and_consumption_mutation
+    self.assertNotIn('SCRIPT ERROR', output)
+E   AssertionError: 'SCRIPT ERROR' unexpectedly found in "Godot Engine v4.6.2.stable.official.71f334935 - https://godotengine.org\n\n[MCP Runtime] Server listening on port 7777\n[MCP Runtime] Autoload ready, server starting on port 7777\nSCRIPT ERROR: Invalid access to property or key 'amount' on a base object of type 'Nil'.\n   at: _ready (res://tools/runtime_proofs/LiquidModuleStorageProof.gd:61)\n   GDScript backtrace (most recent call first):\n       [0] _ready (res://tools/runtime_proofs/LiquidModuleStorageProof.gd:61)\n"
+=========================== short test summary info ===========================
+SUBFAILED(method='get') tools/mindustry_godot_transpiler/tests/test_liquid_module_storage.py::LiquidModuleStorageTests::test_storage_contracts_and_source_evidence_are_registered
+SUBFAILED(method='add') tools/mindustry_godot_transpiler/tests/test_liquid_module_storage.py::LiquidModuleStorageTests::test_storage_contracts_and_source_evidence_are_registered
+SUBFAILED(method='remove') tools/mindustry_godot_transpiler/tests/test_liquid_module_storage.py::LiquidModuleStorageTests::test_storage_contracts_and_source_evidence_are_registered
+SUBFAILED(method='get') tools/mindustry_godot_transpiler/tests/test_liquid_module_storage.py::LiquidModuleStorageTests::test_storage_generated_methods_delegate_to_one_domain_owner
+SUBFAILED(method='add') tools/mindustry_godot_transpiler/tests/test_liquid_module_storage.py::LiquidModuleStorageTests::test_storage_generated_methods_delegate_to_one_domain_owner
+SUBFAILED(method='remove') tools/mindustry_godot_transpiler/tests/test_liquid_module_storage.py::LiquidModuleStorageTests::test_storage_generated_methods_delegate_to_one_domain_owner
+FAILED tools/mindustry_godot_transpiler/tests/test_liquid_module_storage.py::LiquidModuleStorageTests::test_storage_golden_runtime_and_consumption_mutation
+7 failed, 2 passed in 2.61s

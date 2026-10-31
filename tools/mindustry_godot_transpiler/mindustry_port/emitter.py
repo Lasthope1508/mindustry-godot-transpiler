@@ -52,6 +52,18 @@ def _canonicalize_generated_preload_aliases(lines: list[str]) -> list[str]:
 
 
 def _method_body_lines(java_file: dict, type_entry: dict, method: dict, method_index: int) -> list[str]:
+    if java_file.get("path") == "mindustry/world/modules/LiquidModule.java" and type_entry.get("name") == "LiquidModule" and method.get("name") in ("get", "add", "remove"):
+        lines = [
+            "\tvar self_state: Dictionary = _args[0]",
+            "\tvar liquid_id: int = int(_args[1])",
+        ]
+        if method["name"] == "get":
+            return lines + ["\treturn source_liquid_module_state.source_get_state(self_state, liquid_id)"]
+        return lines + [
+            "\tvar amount: float = float(_args[2])",
+            "\tvar cache_sums: Array = _args[3]",
+            f"\treturn source_liquid_module_state.source_{method['name']}_state(self_state, liquid_id, amount, cache_sums)",
+        ]
     method_name = method.get("name")
     parameters = method.get("parameters", [])
     parameter_types = [parameter.get("type") for parameter in parameters]
@@ -13438,6 +13450,8 @@ def _script_text(java_file: dict, type_entry: dict) -> str:
             "const SOURCE_CONSUME_LIQUID_FLAMMABLE_MIN_FLAMMABILITY_DEFAULT := SourceConsumerDefaults.CONSUME_LIQUID_FLAMMABLE_MIN_FLAMMABILITY_DEFAULT",
             "const SOURCE_CONSUME_LIQUID_FLAMMABLE_EFFICIENCY_PERCENT_SCALE := SourceConsumerDefaults.CONSUME_LIQUID_FLAMMABLE_EFFICIENCY_PERCENT_SCALE",
         ])
+    if java_file.get("path") == "mindustry/world/modules/LiquidModule.java" and type_entry.get("name") == "LiquidModule":
+        lines.append('const source_liquid_module_state := preload("res://src/game/SourceLiquidModuleState.gd")')
     if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeLiquid.java"
         and type_entry.get("name") == "ConsumeLiquid"

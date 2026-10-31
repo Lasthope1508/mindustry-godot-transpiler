@@ -56449,6 +56449,114 @@
       ],
       "runtime_proof": "/root/Main.BuildingConsumptionCanonicalProof",
       "rule": "Mutable dictionary self() adapter; applies four fields then dispatches each planned concrete consumer exactly once. Invalid consumer interfaces fail instead of being silently skipped."
+    },
+    "SourceLiquidModuleState.source_get_state": {
+      "status": "active",
+      "source_slice": "N1993",
+      "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+      "source_method": "get",
+      "params": [
+        {
+          "name": "self_state",
+          "type": "Dictionary",
+          "schema": "source_liquid_module_storage_input.self_state"
+        },
+        {
+          "name": "liquid_id",
+          "type": "int",
+          "schema": "source_liquid_module_storage_input.liquid_id"
+        }
+      ],
+      "return_keys": [
+        "amount"
+      ],
+      "tests": [
+        "test_storage_generated_methods_delegate_to_one_domain_owner",
+        "test_storage_contracts_and_source_evidence_are_registered",
+        "test_storage_golden_runtime_and_consumption_mutation"
+      ],
+      "runtime_proof": "/root/Main.LiquidModuleStorageProof",
+      "rule": "Explicit instance storage adapter; get returns amount, add/remove mutate the original frame and shared cache. remove reuses canonical add, preserving source negative-request behavior."
+    },
+    "SourceLiquidModuleState.source_add_state": {
+      "status": "active",
+      "source_slice": "N1994",
+      "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+      "source_method": "add",
+      "params": [
+        {
+          "name": "self_state",
+          "type": "Dictionary",
+          "schema": "source_liquid_module_storage_input.self_state"
+        },
+        {
+          "name": "liquid_id",
+          "type": "int",
+          "schema": "source_liquid_module_storage_input.liquid_id"
+        },
+        {
+          "name": "amount",
+          "type": "float",
+          "schema": "source_liquid_module_storage_input.amount"
+        },
+        {
+          "name": "cache_sums",
+          "type": "Array",
+          "schema": "source_liquid_module_storage_input.cache_sums"
+        }
+      ],
+      "return_keys": [
+        "liquids",
+        "current",
+        "flow"
+      ],
+      "tests": [
+        "test_storage_generated_methods_delegate_to_one_domain_owner",
+        "test_storage_contracts_and_source_evidence_are_registered",
+        "test_storage_golden_runtime_and_consumption_mutation"
+      ],
+      "runtime_proof": "/root/Main.LiquidModuleStorageProof",
+      "rule": "Explicit instance storage adapter; get returns amount, add/remove mutate the original frame and shared cache. remove reuses canonical add, preserving source negative-request behavior."
+    },
+    "SourceLiquidModuleState.source_remove_state": {
+      "status": "active",
+      "source_slice": "N1995",
+      "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+      "source_method": "remove",
+      "params": [
+        {
+          "name": "self_state",
+          "type": "Dictionary",
+          "schema": "source_liquid_module_storage_input.self_state"
+        },
+        {
+          "name": "liquid_id",
+          "type": "int",
+          "schema": "source_liquid_module_storage_input.liquid_id"
+        },
+        {
+          "name": "amount",
+          "type": "float",
+          "schema": "source_liquid_module_storage_input.amount"
+        },
+        {
+          "name": "cache_sums",
+          "type": "Array",
+          "schema": "source_liquid_module_storage_input.cache_sums"
+        }
+      ],
+      "return_keys": [
+        "liquids",
+        "current",
+        "flow"
+      ],
+      "tests": [
+        "test_storage_generated_methods_delegate_to_one_domain_owner",
+        "test_storage_contracts_and_source_evidence_are_registered",
+        "test_storage_golden_runtime_and_consumption_mutation"
+      ],
+      "runtime_proof": "/root/Main.LiquidModuleStorageProof",
+      "rule": "Explicit instance storage adapter; get returns amount, add/remove mutate the original frame and shared cache. remove reuses canonical add, preserving source negative-request behavior."
     }
   },
   "policy": {
