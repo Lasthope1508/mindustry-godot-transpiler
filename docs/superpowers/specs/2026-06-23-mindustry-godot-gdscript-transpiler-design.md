@@ -14,8 +14,8 @@ Counts below are projected from the canonical `source_slice_ledger.json`, not fr
 
 | Bucket | Count |
 | --- | ---: |
-| Canonical slice ledger entries | 1445 |
-| Done | 1445 |
+| Canonical slice ledger entries | 1447 |
+| Done | 1447 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -72,6 +72,8 @@ Counts below are projected from the canonical `source_slice_ledger.json`, not fr
 - [x] N1981: Generated BuildingComp efficiencyScale delegates to canonical SourceBuildingEfficiencyState.
 - [x] N1989: Complete BuildingComp consumption state composes canonical stages; fixes potential scaling and consumer-row consistency.
 - [x] N1990: Registered consumption-frame application and concrete consumer dispatch; independent 21-case golden runtime matrix, validator, editor parse and full-suite acceptance pass.
+- [x] N1991: Generated ConsumeLiquid.update delegates to the existing canonical liquid owner; explicit input boundary and storage deferral are preserved.
+- [x] N1992: Generated ConsumeLiquid.efficiency delegates to the same canonical owner; independent 17-case native proof and BuildingComp composition pass, with full-suite acceptance.
 - [x] N167: Source BuildingComp drawConfigure canonical square state.
 - [x] N168: Source BuildingComp checkSolid default state.
 - [x] N169: Source BuildingComp handleDamage passthrough state.
@@ -3326,3 +3328,4 @@ When Godot CLI is not on `PATH`, use the configured MCP Godot path from `C:\User
 | 2026-10-30 | N1987 generated BuildingComp updateConsumption efficiency delegate: efficiency aggregation now crosses the canonical boundary before multiplier/second-pass orchestration; focused gates, validator, Godot proof, and full suite pass (`5336` tests, `22504` subtests). |
 | 2026-10-31 | N1988 generated BuildingComp updateConsumption second-pass delegate: canonical state now owns updated-consumer traces/counts after multiplier application; focused gates, validator, Godot proof, and full suite pass (`5337` tests, `22504` subtests). |
 | 2026-10-31 | N1989–N1990 consumption audit remediation: canonical complete state and runtime application/ordered consumer dispatch, explicit row schema, independent native 21-case proof; validator 0 errors / 113 modules, editor exit 0, full suite 5341 tests / 22534 subtests pass. Existing compiler warnings are recorded separately from actual runtime errors. |
+| 2026-10-31 | N1991–N1992 ConsumeLiquid generated canonical delegates: update and efficiency reuse SourceConsumeLiquidState without new owners/contracts/schemas/modules; 17 independent golden cases plus BuildingComp composition pass in native MCP, actual runtime errors 0; validator 0 errors / 113 modules, editor exit 0, full suite 5344 tests / 22542 subtests pass. LiquidModule storage mutation and live Drill binding remain deferred. See reports/2026-10-31-consume-liquid-generated-delegate.md. |

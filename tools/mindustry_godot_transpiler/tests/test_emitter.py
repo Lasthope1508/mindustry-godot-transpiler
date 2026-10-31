@@ -23047,13 +23047,8 @@ public class ConsumeLiquid extends ConsumeLiquidBase{
             self.assertIn("var amount: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
             self.assertIn("var build_edelta: float = float(_args[2] if _args.size() > 2 else 0.0)", source_text)
             self.assertIn("var multiplier_get_build: float = float(_args[3] if _args.size() > 3 else 1.0)", source_text)
-            self.assertIn("var remove_amount: float = amount * build_edelta * multiplier_get_build", source_text)
-            self.assertIn('return {"source_owner": "port_game.source_consume_liquid_update_state"', source_text)
-            self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeLiquid.java"', source_text)
-            self.assertIn('"method": "public void update(Building build){"', source_text)
-            self.assertIn('"remove_expr": "build.liquids.remove(liquid, amount * build.edelta() * multiplier.get(build));"', source_text)
-            self.assertIn('"liquid_id": liquid_id', source_text)
-            self.assertIn('"remove_amount": remove_amount', source_text)
+            self.assertIn("return source_consume_liquid_state.update_state(liquid_id, amount, build_edelta, multiplier_get_build)", source_text)
+            self.assertNotIn("amount * build_edelta", source_text)
 
     def test_emit_bridges_consume_liquid_efficiency_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -23095,21 +23090,9 @@ public class ConsumeLiquid extends ConsumeLiquidBase{
             self.assertIn("var build_edelta: float = float(_args[2] if _args.size() > 2 else 0.0)", source_text)
             self.assertIn("var build_efficiency_scale: float = float(_args[3] if _args.size() > 3 else 1.0)", source_text)
             self.assertIn("var multiplier_get_build: float = float(_args[4] if _args.size() > 4 else 1.0)", source_text)
-            self.assertIn("var ed: float = build_edelta * build_efficiency_scale", source_text)
-            self.assertIn("var ed_guard: bool = ed <= SOURCE_CONSUME_EFFICIENCY_EPSILON", source_text)
-            self.assertIn("var required_liquid_amount: float = amount * ed * multiplier_get_build", source_text)
-            self.assertIn("var raw_efficiency: float = build_liquids_get / required_liquid_amount if not ed_guard else 0.0", source_text)
-            self.assertIn("var efficiency: float = 0.0 if ed_guard else min(raw_efficiency, 1.0)", source_text)
-            self.assertIn('return {"source_owner": "port_game.source_consume_liquid_efficiency_state"', source_text)
-            self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeLiquid.java"', source_text)
-            self.assertIn('"method": "public float efficiency(Building build){"', source_text)
-            self.assertIn('"ed_expr": "float ed = build.edelta() * build.efficiencyScale();"', source_text)
-            self.assertIn('"ed_guard_expr": "if(ed <= 0.00000001f) return 0f;"', source_text)
-            self.assertIn('"return_expr": "return Math.min(build.liquids.get(liquid) / (amount * ed * multiplier.get(build)), 1f);"', source_text)
-            self.assertIn('"build_liquids_get_expr": "build.liquids.get(liquid)"', source_text)
-            self.assertIn('"build_efficiency_scale_expr": "build.efficiencyScale()"', source_text)
-            self.assertIn('"raw_efficiency": raw_efficiency', source_text)
-            self.assertIn('"efficiency": efficiency', source_text)
+            self.assertIn("return source_consume_liquid_state.efficiency_state(build_liquids_get, amount, build_edelta, build_efficiency_scale, multiplier_get_build)", source_text)
+            self.assertNotIn("min(raw_efficiency", source_text)
+            self.assertNotIn("var ed_guard", source_text)
 
     def test_emit_bridges_consume_liquids_apply_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:

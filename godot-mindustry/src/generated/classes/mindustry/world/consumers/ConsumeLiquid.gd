@@ -13,6 +13,7 @@ const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "ConsumeLiquid", "
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "apply", "parameters": [{"name": "block", "type": "Block", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "build", "parameters": [{"name": "build", "type": "Building", "varargs": false}, {"name": "table", "type": "Table", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "update", "parameters": [{"name": "build", "type": "Building", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "efficiency", "parameters": [{"name": "build", "type": "Building", "varargs": false}], "return_type": "float"}, {"modifiers": ["public"], "name": "display", "parameters": [{"name": "stats", "type": "Stats", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "consumes", "parameters": [{"name": "liquid", "type": "Liquid", "varargs": false}], "return_type": "boolean"}]
 const JAVA_ENUM_CONSTANTS := []
 const source_consumer_defaults := preload("res://src/game/SourceConsumerDefaults.gd")
+const source_consume_liquid_state := preload("res://src/game/SourceConsumeLiquidState.gd")
 const SOURCE_CONSUME_LIQUID_DEFAULT_LIQUID := source_consumer_defaults.CONSUME_LIQUID_DEFAULT_LIQUID
 const SOURCE_CONSUME_LIQUID_DEFAULT_AMOUNT := source_consumer_defaults.CONSUME_LIQUID_DEFAULT_AMOUNT
 const SOURCE_CONSUME_EFFICIENCY_EPSILON := source_consumer_defaults.CONSUME_EFFICIENCY_EPSILON
@@ -45,8 +46,7 @@ func java_method_update_2(_args: Array = []) -> Variant:
 	var amount: float = float(_args[1] if _args.size() > 1 else 0.0)
 	var build_edelta: float = float(_args[2] if _args.size() > 2 else 0.0)
 	var multiplier_get_build: float = float(_args[3] if _args.size() > 3 else 1.0)
-	var remove_amount: float = amount * build_edelta * multiplier_get_build
-	return {"source_owner": "port_game.source_consume_liquid_update_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquid.java", "method": "public void update(Building build){", "remove_expr": "build.liquids.remove(liquid, amount * build.edelta() * multiplier.get(build));", "liquid_id": liquid_id, "amount": amount, "build_edelta": build_edelta, "multiplier_get_build": multiplier_get_build, "remove_amount": remove_amount}
+	return source_consume_liquid_state.update_state(liquid_id, amount, build_edelta, multiplier_get_build)
 
 func java_method_efficiency_3(_args: Array = []) -> Variant:
 	var build_liquids_get: float = float(_args[0] if _args.size() > 0 else 0.0)
@@ -54,12 +54,7 @@ func java_method_efficiency_3(_args: Array = []) -> Variant:
 	var build_edelta: float = float(_args[2] if _args.size() > 2 else 0.0)
 	var build_efficiency_scale: float = float(_args[3] if _args.size() > 3 else 1.0)
 	var multiplier_get_build: float = float(_args[4] if _args.size() > 4 else 1.0)
-	var ed: float = build_edelta * build_efficiency_scale
-	var ed_guard: bool = ed <= SOURCE_CONSUME_EFFICIENCY_EPSILON
-	var required_liquid_amount: float = amount * ed * multiplier_get_build
-	var raw_efficiency: float = build_liquids_get / required_liquid_amount if not ed_guard else 0.0
-	var efficiency: float = 0.0 if ed_guard else min(raw_efficiency, 1.0)
-	return {"source_owner": "port_game.source_consume_liquid_efficiency_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquid.java", "method": "public float efficiency(Building build){", "liquid_field": "public final Liquid liquid;", "ed_expr": "float ed = build.edelta() * build.efficiencyScale();", "ed_guard_expr": "if(ed <= 0.00000001f) return 0f;", "cap_comment": "//there can be more liquid than necessary, so cap at 1", "return_expr": "return Math.min(build.liquids.get(liquid) / (amount * ed * multiplier.get(build)), 1f);", "build_liquids_get_expr": "build.liquids.get(liquid)", "amount_expr": "amount", "build_edelta_expr": "build.edelta()", "build_efficiency_scale_expr": "build.efficiencyScale()", "multiplier_get_build_expr": "multiplier.get(build)", "amount_field": "public float amount;", "multiplier_field": "public Floatf<Building> multiplier = b -> 1f;", "build_liquids_get": build_liquids_get, "amount": amount, "build_edelta": build_edelta, "build_efficiency_scale": build_efficiency_scale, "multiplier_get_build": multiplier_get_build, "ed": ed, "ed_guard": ed_guard, "required_liquid_amount": required_liquid_amount, "raw_efficiency": raw_efficiency, "efficiency": efficiency}
+	return source_consume_liquid_state.efficiency_state(build_liquids_get, amount, build_edelta, build_efficiency_scale, multiplier_get_build)
 
 func java_method_display_4(_args: Array = []) -> Variant:
 	var booster: bool = bool(_args[0] if _args.size() > 0 else false)

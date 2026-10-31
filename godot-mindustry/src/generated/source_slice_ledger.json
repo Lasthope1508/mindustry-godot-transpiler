@@ -49095,6 +49095,100 @@
       "deferred_exprs": [
         "Concrete resource availability evaluation remains supplied by the caller; this boundary executes already selected consumer.update(self())."
       ]
+    },
+    "N1991": {
+      "deferred_exprs": [
+        "Concrete Liquid object reference and LiquidModule.remove mutation/clamping remain deferred; this slice records source-backed remove amount formula only.",
+        "Concrete ConsumeLiquid instance fields are represented by explicit liquid_id and amount inputs until generated object field state is wired."
+      ],
+      "exact_exprs": [
+        "public final Liquid liquid;",
+        "public float amount;",
+        "public void update(Building build){",
+        "build.liquids.remove(liquid, amount * build.edelta() * multiplier.get(build));",
+        "public Floatf<Building> multiplier = b -> 1f;",
+        "@Nullable LiquidModule liquids;",
+        "public float edelta(){"
+      ],
+      "generated_owner": "ConsumeLiquid.java_method_update_2",
+      "godot_owner": "PortGame.source_consume_liquid_update_state",
+      "java_class": "ConsumeLiquid",
+      "java_method": "update(Building build)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "rule": "Generated ConsumeLiquid.update normalizes explicit inputs and delegates to the existing SourceConsumeLiquidState.update_state; formulas, source metadata and result schema remain owned by the original contract.",
+      "runtime_proof": "/root/Main.ConsumeLiquidCanonicalProof",
+      "source_symbols": [
+        "consume_liquid_update.remove",
+        "consume_liquid_update.amount",
+        "consume_liquid_update.liquid_id",
+        "consume_liquid_update.build_edelta",
+        "consume_liquid_update.multiplier_get_build"
+      ],
+      "status": "done",
+      "tests": [
+        "test_consume_liquid_update_has_one_canonical_formula_owner",
+        "test_consume_liquid_golden_runtime_and_building_composition"
+      ],
+      "title": "ConsumeLiquid.update generated canonical delegate"
+    },
+    "N1992": {
+      "deferred_exprs": [
+        "Concrete Liquid instance field is represented by build_liquids_get until generated object references are wired.",
+        "Concrete LiquidModule.get storage lookup is represented by explicit build_liquids_get until LiquidModule runtime storage is wired.",
+        "Concrete Floatf<Building> multiplier invocation is represented by explicit multiplier_get_build until functional interfaces are wired.",
+        "Concrete Building.edelta and efficiencyScale invocation is represented by explicit build_edelta and build_efficiency_scale until Building object binding is ported."
+      ],
+      "exact_exprs": [
+        "public final Liquid liquid;",
+        "public float efficiency(Building build){",
+        "float ed = build.edelta() * build.efficiencyScale();",
+        "if(ed <= 0.00000001f) return 0f;",
+        "//there can be more liquid than necessary, so cap at 1",
+        "return Math.min(build.liquids.get(liquid) / (amount * ed * multiplier.get(build)), 1f);",
+        "public float amount;",
+        "public Floatf<Building> multiplier = b -> 1f;",
+        "float get(T t);",
+        "public float get(Liquid liquid){",
+        "@Nullable LiquidModule liquids;",
+        "public float edelta(){",
+        "public float efficiencyScale(){"
+      ],
+      "generated_owner": "ConsumeLiquid.java_method_efficiency_3",
+      "godot_owner": "PortGame.source_consume_liquid_efficiency_state",
+      "java_class": "mindustry.world.consumers.ConsumeLiquid",
+      "java_method": "efficiency(Building build)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "rule": "Generated ConsumeLiquid.efficiency normalizes explicit inputs and delegates to the existing SourceConsumeLiquidState.efficiency_state; formulas, source metadata and result schema remain owned by the original contract.",
+      "runtime_proof": "/root/Main.ConsumeLiquidCanonicalProof",
+      "source_symbols": [
+        "consume_liquid_efficiency.method",
+        "consume_liquid_efficiency.liquid_field",
+        "consume_liquid_efficiency.ed",
+        "consume_liquid_efficiency.ed_guard",
+        "consume_liquid_efficiency.cap_comment",
+        "consume_liquid_efficiency.return",
+        "consume_liquid_efficiency.build_liquids_get",
+        "consume_liquid_efficiency.amount",
+        "consume_liquid_efficiency.build_edelta",
+        "consume_liquid_efficiency.build_efficiency_scale",
+        "consume_liquid_efficiency.multiplier_get_build",
+        "consume_liquid_efficiency.amount_field",
+        "consume_liquid_efficiency.multiplier_field",
+        "consume_liquid_efficiency.required_liquid_amount",
+        "consume_liquid_efficiency.raw_efficiency",
+        "consume_liquid_efficiency.efficiency",
+        "consume_liquid_efficiency.building_liquids_field",
+        "consume_liquid_efficiency.building_edelta_method",
+        "consume_liquid_efficiency.building_efficiency_scale_method",
+        "consume_liquid_efficiency.liquid_module_get",
+        "consume_liquid_efficiency.floatf_get"
+      ],
+      "status": "done",
+      "tests": [
+        "test_consume_liquid_efficiency_has_one_canonical_formula_owner",
+        "test_consume_liquid_golden_runtime_and_building_composition"
+      ],
+      "title": "ConsumeLiquid.efficiency generated canonical delegate"
     }
   },
   "version": 1

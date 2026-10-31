@@ -1,0 +1,6 @@
+Godot Engine v4.6.2.stable.official.71f334935 - https://godotengine.org
+
+[MCP Runtime] Server listening on port 7777
+[MCP Runtime] Autoload ready, server starting on port 7777
+CONSUME_LIQUID_GENERATED_RUNTIME_STATE_MODULE_PROOF {"apply_bridge_matches":true,"build_bridge_matches":true,"constructor_bridge_matches":true,"consumes_bridge_matches":true,"default_constructor_bridge_matches":true,"display_bridge_matches":true,"efficiency_bridge_matches":true,"matches":true,"module":"SourceConsumeLiquidGeneratedState","one_headquarter_per_ssot":true,"registry_valid":true,"update_bridge_matches":true}
+CONSUME_LIQUID_GENERATED_RUNTIME_STATE_MODULE_PROOF {"apply_bridge_matches":true,"build_bridge_matches":true,"constructor_bridge_matches":true,"consumes_bridge_matches":true,"default_constructor_bridge_matches":true,"display_bridge_matches":true,"efficiency_bridge_matches":true,"matches":true,"module":"SourceConsumeLiquidGeneratedState","one_headquarter_per_ssot":true,"registry_valid":true,"update_bridge_matches":true}
