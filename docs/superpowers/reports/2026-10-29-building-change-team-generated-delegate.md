@@ -1,5 +1,15 @@
 # BuildingComp `changeTeam(Team)` generated delegate checkpoint
 
+> **Resolution — 2026-10-31, N1989–N1990:** consumption audit findings are addressed at the registered state/runtime boundary. Full suite: 5341 passed / 22534 subtests; validator: 0 errors / 113 modules; native proof: 21 cases match, 0 actual runtime errors (25 existing compiler warnings retained). UC-A–UC-D accepted; full Mindustry parity is not claimed. See [remediation evidence and handoff](C:/Users/Admin/Documents/Game/mindustry-godot-transpiler-copy-20260714-073528/docs/superpowers/reports/2026-10-31-building-consumption-remediation.md). Historical audit/checkpoint text below is preserved.
+
+> **2026-10-31 audit correction for the consumption entries below:** the N1987
+> wording about canonical aggregation and the N1988 statement that generated
+> code retains only normalization/multiplier dispatch overstate the full path.
+> Inline consumer loops and efficiency assignments remain. Individual-boundary
+> results are historical evidence, not complete Java parity. Fresh runtime
+> probes reproduced scaling and composed optional-row errors. See the
+> [consumption audit, evidence and remediation checkpoints](C:/Users/Admin/Documents/Game/mindustry-godot-transpiler-copy-20260714-073528/docs/superpowers/reports/2026-10-31-building-update-consumption-canonical-audit.md).
+
 Date: 2026-10-29
 Slice: N1965 follow-up to existing N175/N534 delegate evidence
 Upstream: `mindustry-upstream/core/src/mindustry/entities/comp/BuildingComp.java`

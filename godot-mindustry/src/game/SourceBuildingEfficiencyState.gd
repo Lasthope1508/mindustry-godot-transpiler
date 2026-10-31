@@ -75,7 +75,8 @@ static func update_consumption_initial_state(has_consumers: bool, cheating: bool
 		return {"returned": false}
 	var potential_efficiency := 1.0 if enabled_state and production_valid else 0.0
 	var efficiency := potential_efficiency if should_consume_state else 0.0
-	return {"potential_efficiency": potential_efficiency * efficiency_scale, "efficiency": efficiency * efficiency_scale, "optional_efficiency": efficiency * efficiency_scale, "should_consume_power": true, "returned": true}
+	var multiplied := update_efficiency_multiplier_state(efficiency, efficiency, efficiency_scale)
+	return {"potential_efficiency": potential_efficiency, "efficiency": multiplied["efficiency"], "optional_efficiency": multiplied["optional_efficiency"], "should_consume_power": true, "returned": true}
 
 static func update_consumption_disabled_state(enabled_state: bool) -> Dictionary:
 	if enabled_state:
@@ -98,7 +99,9 @@ static func update_consumption_non_optional_pass_state(non_optional_consumer_res
 static func update_consumption_optional_pass_state(optional_consumer_results: Array) -> Dictionary:
 	var optional_efficiency := 1.0
 	for result in optional_consumer_results:
-		optional_efficiency = min(optional_efficiency, float(result.get("efficiency", result.get("result", 1.0))))
+		# Dictionary rows are canonical. Numeric rows remain a registered legacy adapter input.
+		var efficiency := float(result.get("result", result.get("efficiency", 1.0))) if result is Dictionary else float(result)
+		optional_efficiency = min(optional_efficiency, efficiency)
 	return {"optional_consumer_results": optional_consumer_results.duplicate(true), "optional_efficiency": optional_efficiency}
 
 static func update_consumption_efficiency_state(min_efficiency: float, optional_efficiency: float, update: bool) -> Dictionary:
@@ -128,6 +131,37 @@ static func update_consumption_second_pass_state(update: bool, efficiency: float
 		"updated_consumers": updated_consumers,
 		"update_count": updated_consumers.size(),
 	}
+
+# Full method state; stage helpers remain the only owners of arithmetic and consumer loops.
+static func update_consumption_state(has_consumers: bool, cheating: bool, enabled_state: bool, production_valid: bool, should_consume_state: bool, efficiency_scale: float, non_optional_consumer_results: Array, optional_consumer_results: Array, update_consumers: Array, self_state: Dictionary) -> Dictionary:
+	var initial := update_consumption_initial_state(has_consumers, cheating, enabled_state, production_valid, should_consume_state, efficiency_scale)
+	if initial["returned"]:
+		initial.merge({"updated_consumers": [], "update_count": 0})
+		return initial
+	var disabled := update_consumption_disabled_state(enabled_state)
+	if disabled["returned"]:
+		disabled.merge({"updated_consumers": [], "update_count": 0})
+		return disabled
+	var setup := update_consumption_setup_state(should_consume_state, production_valid)
+	var non_optional := update_consumption_non_optional_pass_state(non_optional_consumer_results)
+	var optional := update_consumption_optional_pass_state(optional_consumer_results)
+	var state := update_consumption_efficiency_state(non_optional["min_efficiency"], optional["optional_efficiency"], setup["update"])
+	var multiplied := update_efficiency_multiplier_state(state["efficiency"], state["optional_efficiency"], efficiency_scale)
+	state.merge({"efficiency": multiplied["efficiency"], "optional_efficiency": multiplied["optional_efficiency"], "should_consume_power": non_optional["should_consume_power"]}, true)
+	var second_pass := update_consumption_second_pass_state(setup["update"], state["efficiency"], update_consumers, self_state)
+	state.merge({"updated_consumers": second_pass["updated_consumers"], "update_count": second_pass["update_count"]})
+	return state
+
+# Runtime adapter: assign all Java fields before executing the planned consumer updates.
+# The caller supplies concrete consumers implementing update(self_state); pure state APIs do not dispatch.
+static func apply_update_consumption_state(consumption_state: Dictionary, self_state: Dictionary) -> Dictionary:
+	self_state["potential_efficiency"] = consumption_state["potential_efficiency"]
+	self_state["efficiency"] = consumption_state["efficiency"]
+	self_state["optional_efficiency"] = consumption_state["optional_efficiency"]
+	self_state["should_consume_power"] = consumption_state["should_consume_power"]
+	for consumer in consumption_state["updated_consumers"]:
+		consumer["consumer"].update(self_state)
+	return consumption_state
 
 static func generated_consume_bridge_state(consumers: Array, self_state: Variant) -> Dictionary:
 	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_consume_188", [consumers, self_state], null)
@@ -220,7 +254,7 @@ static func generated_update_consumption_optional_bridge_state(optional_consumer
 	}
 
 static func generated_update_consumption_efficiency_bridge_state(min_efficiency: float, optional_efficiency: float, update: bool) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_updateConsumption_194", [true, false, true, true, update, 1.0, [{"result": min_efficiency, "is_power": true}], [optional_efficiency], true], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_updateConsumption_194", [true, false, true, true, update, 1.0, [{"result": min_efficiency, "is_power": true}], [{"result": optional_efficiency}], true], null)
 	var canonical = update_consumption_efficiency_state(min_efficiency, optional_efficiency, update)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_UPDATE_CONSUMPTION_EFFICIENCY_STATE,
@@ -230,9 +264,8 @@ static func generated_update_consumption_efficiency_bridge_state(min_efficiency:
 	}
 
 static func generated_update_consumption_second_pass_bridge_state(update: bool, efficiency: float, update_consumers: Array, self_state := {}) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_updateConsumption_194", [true, false, true, true, update, 1.0, [{"result": efficiency, "is_power": true}], [efficiency], true, update_consumers, self_state], null)
-	var result_efficiency := float(result.get("efficiency", efficiency))
-	var canonical = update_consumption_second_pass_state(update, result_efficiency, update_consumers, self_state)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_updateConsumption_194", [true, false, true, true, update, 1.0, [{"result": efficiency, "is_power": true}], [{"result": efficiency}], true, update_consumers, self_state], null)
+	var canonical = update_consumption_state(true, false, true, true, update, 1.0, [{"result": efficiency, "is_power": true}], [{"result": efficiency}], update_consumers, self_state)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_UPDATE_CONSUMPTION_SECOND_PASS_STATE,
 		"generated_owner": "building_comp.java_method_updateConsumption_194",

@@ -23,10 +23,10 @@
       "port_game.source_building_each_edge_state": "port_game.source_building_navigation_state"
     }
   },
-  "totalSourceFunctions": 1327,
-  "discoveredSourceOwnerCount": 1325,
-  "canonicalDiscoveredOwnerCount": 1310,
-  "registeredSourceOwnerCount": 1302,
+  "totalSourceFunctions": 1329,
+  "discoveredSourceOwnerCount": 1327,
+  "canonicalDiscoveredOwnerCount": 1312,
+  "registeredSourceOwnerCount": 1304,
   "exemptSourceOwnerCount": 8,
   "legacyUnregisteredOwnerCount": 0,
   "canonicalAliasFunctionCount": 17,
@@ -354,6 +354,7 @@
     "port_game.source_building_ambient_volume",
     "port_game.source_building_apply_boost_state",
     "port_game.source_building_apply_slowdown_state",
+    "port_game.source_building_apply_update_consumption_state",
     "port_game.source_building_block_half_extent",
     "port_game.source_building_build_configuration_state",
     "port_game.source_building_bullet_damage_state",
@@ -579,6 +580,7 @@
     "port_game.source_building_update_consumption_optional_pass_state",
     "port_game.source_building_update_consumption_second_pass_state",
     "port_game.source_building_update_consumption_setup_state",
+    "port_game.source_building_update_consumption_state",
     "port_game.source_building_update_efficiency_multiplier_state",
     "port_game.source_building_update_fog_visibility_state",
     "port_game.source_building_update_payload_state",
@@ -3684,6 +3686,18 @@
       "function": "source_building_update_consumption_call_state",
       "gdscript_path": "src/game/SourceBuildingEfficiencyPortBridge.gd",
       "canonical_owner": "port_game.source_building_update_consumption_call_state"
+    },
+    {
+      "owner": "port_game.source_building_update_consumption_state",
+      "function": "source_building_update_consumption_state",
+      "gdscript_path": "src/game/SourceBuildingEfficiencyPortBridge.gd",
+      "canonical_owner": "port_game.source_building_update_consumption_state"
+    },
+    {
+      "owner": "port_game.source_building_apply_update_consumption_state",
+      "function": "source_building_apply_update_consumption_state",
+      "gdscript_path": "src/game/SourceBuildingEfficiencyPortBridge.gd",
+      "canonical_owner": "port_game.source_building_apply_update_consumption_state"
     },
     {
       "owner": "port_game.source_building_is_commandable_state",

@@ -10,10 +10,12 @@
 
 ## Status Summary
 
+Counts below are projected from the canonical `source_slice_ledger.json`, not from the highest N identifier or the historical migration-log rows. They describe registered slice records, not full gameplay parity.
+
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 1451 |
-| Done | 1451 |
+| Canonical slice ledger entries | 1445 |
+| Done | 1445 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -68,6 +70,8 @@
 - [x] N1979: Generated BuildingComp edelta delegates to canonical SourceBuildingTimeState.
 - [x] N1980: Generated BuildingComp updateEfficiencyMultiplier delegates to canonical SourceBuildingEfficiencyState.
 - [x] N1981: Generated BuildingComp efficiencyScale delegates to canonical SourceBuildingEfficiencyState.
+- [x] N1989: Complete BuildingComp consumption state composes canonical stages; fixes potential scaling and consumer-row consistency.
+- [x] N1990: Registered consumption-frame application and concrete consumer dispatch; independent 21-case golden runtime matrix, validator, editor parse and full-suite acceptance pass.
 - [x] N167: Source BuildingComp drawConfigure canonical square state.
 - [x] N168: Source BuildingComp checkSolid default state.
 - [x] N169: Source BuildingComp handleDamage passthrough state.
@@ -3321,3 +3325,4 @@ When Godot CLI is not on `PATH`, use the configured MCP Godot path from `C:\User
 | 2026-10-30 | N1986 generated BuildingComp updateConsumption optional pass delegate: optional result rows now cross the canonical boundary before legacy full orchestration; focused gates, validator, Godot proof, and full suite pass (`5335` tests, `22504` subtests). |
 | 2026-10-30 | N1987 generated BuildingComp updateConsumption efficiency delegate: efficiency aggregation now crosses the canonical boundary before multiplier/second-pass orchestration; focused gates, validator, Godot proof, and full suite pass (`5336` tests, `22504` subtests). |
 | 2026-10-31 | N1988 generated BuildingComp updateConsumption second-pass delegate: canonical state now owns updated-consumer traces/counts after multiplier application; focused gates, validator, Godot proof, and full suite pass (`5337` tests, `22504` subtests). |
+| 2026-10-31 | N1989–N1990 consumption audit remediation: canonical complete state and runtime application/ordered consumer dispatch, explicit row schema, independent native 21-case proof; validator 0 errors / 113 modules, editor exit 0, full suite 5341 tests / 22534 subtests pass. Existing compiler warnings are recorded separately from actual runtime errors. |

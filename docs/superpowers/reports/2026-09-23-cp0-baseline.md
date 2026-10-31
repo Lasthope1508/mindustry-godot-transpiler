@@ -1,5 +1,16 @@
 # CP0 Baseline: Mindustry Godot SSOT Migration
 
+> **Resolution — 2026-10-31, N1989–N1990:** consumption audit findings are addressed at the registered state/runtime boundary. Full suite: 5341 passed / 22534 subtests; validator: 0 errors / 113 modules; native proof: 21 cases match, 0 actual runtime errors (25 existing compiler warnings retained). UC-A–UC-D accepted; full Mindustry parity is not claimed. See [remediation evidence and handoff](C:/Users/Admin/Documents/Game/mindustry-godot-transpiler-copy-20260714-073528/docs/superpowers/reports/2026-10-31-building-consumption-remediation.md). Historical audit/checkpoint text below is preserved.
+
+> **2026-10-31 consumption audit clarification:** historical CP0/CP1 acceptance
+> remains recorded below. N1982–N1988 prove individual delegate boundaries, not
+> complete canonical consumption orchestration or live gameplay parity. A fresh
+> audit reproduced an initial-branch potentialEfficiency scaling mismatch and
+> dictionary optional-row runtime errors in composed paths; inline aggregation
+> also remains. Validator is still 0 errors / 113 modules, and focused tests pass.
+> Resolve consumption checkpoints UC-A–UC-D before opening dependent gameplay
+> slices. See the [audit and reproducible evidence](C:/Users/Admin/Documents/Game/mindustry-godot-transpiler-copy-20260714-073528/docs/superpowers/reports/2026-10-31-building-update-consumption-canonical-audit.md).
+
 **Baseline date:** 2026-09-23
 **Final verification:** 2026-09-28
 **Workspace:** `C:\Users\Admin\Documents\Game\mindustry-godot-transpiler-copy-20260714-073528`

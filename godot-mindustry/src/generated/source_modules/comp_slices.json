@@ -5144,6 +5144,47 @@
       ],
       "runtime_proof": "/root/Main.source_building_draw_configure_state"
     },
+    "N1989": {
+      "canonical_ledger": "source_slice_ledger.N1989",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_state",
+      "source_symbols": [
+        "building_consumption_complete.efficiency",
+        "building_consumption_complete.optional_efficiency",
+        "building_consumption_complete.potential_efficiency",
+        "building_consumption_complete.min_efficiency",
+        "building_consumption_complete.update",
+        "building_consumption_complete.should_consume_power",
+        "building_consumption_complete.updated_consumers",
+        "building_consumption_complete.update_count",
+        "building_consumption_complete.returned"
+      ],
+      "tests": [
+        "test_complete_path_has_one_domain_owner_and_no_inline_behavior",
+        "test_second_pass_expected_never_uses_actual_efficiency",
+        "test_consumption_complete_contract_and_row_schema_are_registered"
+      ],
+      "runtime_proof": "/root/Main.BuildingConsumptionCanonicalProof"
+    },
+    "N1990": {
+      "canonical_ledger": "source_slice_ledger.N1990",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_apply_update_consumption_state",
+      "source_symbols": [
+        "building_consumption_apply.consumption_state",
+        "building_consumption_apply.self_state"
+      ],
+      "tests": [
+        "test_complete_path_has_one_domain_owner_and_no_inline_behavior",
+        "test_second_pass_expected_never_uses_actual_efficiency",
+        "test_consumption_complete_contract_and_row_schema_are_registered"
+      ],
+      "runtime_proof": "/root/Main.BuildingConsumptionCanonicalProof"
+    },
     "N514": {
       "canonical_ledger": "source_slice_ledger.N514",
       "status": "done",

@@ -1584,45 +1584,24 @@ func java_method_updateConsumption_194(_args: Array = []) -> Variant:
 	var optional_consumer_results: Array = _args[7] if _args.size() > 7 else []
 	var update_consumers: Array = _args[9] if _args.size() > 9 else []
 	var self_state: Dictionary = _args[10] if _args.size() > 10 else {}
-	var efficiency := 0.0
-	var potential_efficiency := 0.0
+	if _args.size() > 9:
+		return source_building_efficiency_state.update_consumption_state(has_consumers, cheating, enabled_state, production_valid, should_consume_state, efficiency_scale, non_optional_consumer_results, optional_consumer_results, update_consumers, self_state)
 	if has_consumers and not cheating:
 		if not enabled_state:
 			return source_building_efficiency_state.update_consumption_disabled_state(enabled_state)
-		var update := should_consume_state and production_valid
 		if _args.size() <= 6:
 			return source_building_efficiency_state.update_consumption_setup_state(should_consume_state, production_valid)
-		var min_efficiency := 1.0
-		var should_consume_power := true
-		for consumer in non_optional_consumer_results:
-			var result := float(consumer.get("result", 0.0))
-			if not bool(consumer.get("is_power", false)) and result <= 0.0000001:
-				should_consume_power = false
-			min_efficiency = min(min_efficiency, result)
 		if _args.size() <= 7:
 			return source_building_efficiency_state.update_consumption_non_optional_pass_state(non_optional_consumer_results)
-		var optional_efficiency := 1.0
 		if _args.size() <= 8:
 			return source_building_efficiency_state.update_consumption_optional_pass_state(optional_consumer_results)
-		for result in optional_consumer_results:
-			optional_efficiency = min(optional_efficiency, float(result))
-		if _args.size() <= 9:
-			return source_building_efficiency_state.update_consumption_efficiency_state(min_efficiency, optional_efficiency, update)
-		efficiency = min_efficiency
-		var optional_efficiency_input := optional_efficiency
-		optional_efficiency = min(optional_efficiency, min_efficiency)
-		potential_efficiency = efficiency
-		if not update:
-			efficiency = 0.0
-			optional_efficiency = 0.0
-		var multiplied = java_method_updateEfficiencyMultiplier_192([efficiency, optional_efficiency, efficiency_scale])
-		efficiency = float(multiplied.get("efficiency", efficiency))
-		optional_efficiency = float(multiplied.get("optional_efficiency", optional_efficiency))
-		var updated_consumers := []
-		if update and efficiency > 0.0:
-			for consumer in update_consumers:
-				updated_consumers.append({"consumer": consumer, "self": self_state})
-		return source_building_efficiency_state.update_consumption_second_pass_state(update, efficiency, update_consumers, self_state)
+		var setup := source_building_efficiency_state.update_consumption_setup_state(should_consume_state, production_valid)
+		var non_optional := source_building_efficiency_state.update_consumption_non_optional_pass_state(non_optional_consumer_results)
+		var optional := source_building_efficiency_state.update_consumption_optional_pass_state(optional_consumer_results)
+		var min_efficiency := float(non_optional["min_efficiency"])
+		var optional_efficiency := float(optional["optional_efficiency"])
+		var update := bool(setup["update"])
+		return source_building_efficiency_state.update_consumption_efficiency_state(min_efficiency, optional_efficiency, update)
 	return source_building_efficiency_state.update_consumption_initial_state(has_consumers, cheating, enabled_state, production_valid, should_consume_state, efficiency_scale)
 
 func java_method_updatePayload_195(_args: Array = []) -> Variant:
@@ -2023,6 +2002,11 @@ func java_method_update_217(_args: Array = []) -> Variant:
 	else:
 		update_ambient_sound_gate.merge({"loop_called": true, "sound": ambient_sound_value, "volume": block_ambient_sound_volume * ambient_volume_value})
 	var update_consumption_call := {"method": "public void update(){", "call": "updateConsumption();", "update_consumption_called": true}
+	if _args.size() > 11:
+		var self_state: Dictionary = _args[11]
+		var consumption_state := source_building_efficiency_state.update_consumption_state(self_state["has_consumers"], self_state["cheating"], self_state["enabled_state"], self_state["production_valid"], self_state["should_consume_state"], self_state["efficiency_scale"], self_state["non_optional_consumer_results"], self_state["optional_consumer_results"], self_state["update_consumers"], self_state)
+		source_building_efficiency_state.apply_update_consumption_state(consumption_state, self_state)
+		update_consumption_call.merge(consumption_state)
 	var enabled_state := bool(_args[9] if _args.size() > 9 else false)
 	var block_no_update_disabled := bool(_args[10] if _args.size() > 10 else SOURCE_BLOCK_NO_UPDATE_DISABLED_DEFAULT)
 	var update_tile_called := enabled_state or not block_no_update_disabled

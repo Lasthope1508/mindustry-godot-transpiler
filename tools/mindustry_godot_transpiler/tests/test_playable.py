@@ -28136,7 +28136,7 @@ class PlayableManifestTests(unittest.TestCase):
         source = generated.read_text(encoding="utf-8")
 
         self.assertIn("func java_method_updateConsumption_194(_args: Array = []) -> Variant:", source)
-        self.assertIn("var update := should_consume_state and production_valid", source)
+        self.assertIn("var update := bool(setup[\"update\"])", source)
         self.assertIn(
             "return source_building_efficiency_state.update_consumption_setup_state(should_consume_state, production_valid)",
             source,
@@ -28149,11 +28149,11 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn("func java_method_updateConsumption_194(_args: Array = []) -> Variant:", source)
         self.assertIn("var non_optional_consumer_results: Array = _args[6] if _args.size() > 6 else []", source)
-        self.assertIn("for consumer in non_optional_consumer_results:", source)
-        self.assertIn('var result := float(consumer.get("result", 0.0))', source)
-        self.assertIn('if not bool(consumer.get("is_power", false)) and result <= 0.0000001:', source)
-        self.assertIn("should_consume_power = false", source)
-        self.assertIn("min_efficiency = min(min_efficiency, result)", source)
+        self.assertNotIn("for consumer in non_optional_consumer_results:", source)
+        self.assertNotIn('var result := float(consumer.get("result", 0.0))', source)
+        self.assertNotIn('if not bool(consumer.get("is_power", false)) and result <= 0.0000001:', source)
+        self.assertNotIn("should_consume_power = false", source)
+        self.assertNotIn("min_efficiency = min(min_efficiency, result)", source)
         self.assertIn(
             "return source_building_efficiency_state.update_consumption_non_optional_pass_state(non_optional_consumer_results)",
             source,
@@ -28167,9 +28167,9 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func java_method_updateConsumption_194(_args: Array = []) -> Variant:", source)
         self.assertIn("var optional_consumer_results: Array = _args[7] if _args.size() > 7 else []", source)
         self.assertIn("if _args.size() <= 7:", source)
-        self.assertIn("var optional_efficiency := 1.0", source)
-        self.assertIn("for result in optional_consumer_results:", source)
-        self.assertIn("optional_efficiency = min(optional_efficiency, float(result))", source)
+        self.assertIn("var optional_efficiency := float(optional[\"optional_efficiency\"])", source)
+        self.assertNotIn("for result in optional_consumer_results:", source)
+        self.assertNotIn("optional_efficiency = min(optional_efficiency, float(result))", source)
         self.assertIn(
             "return source_building_efficiency_state.update_consumption_optional_pass_state(optional_consumer_results)",
             source,
@@ -28182,13 +28182,13 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn("func java_method_updateConsumption_194(_args: Array = []) -> Variant:", source)
         self.assertIn("if _args.size() <= 8:", source)
-        self.assertIn("efficiency = min_efficiency", source)
-        self.assertIn("var optional_efficiency_input := optional_efficiency", source)
-        self.assertIn("optional_efficiency = min(optional_efficiency, min_efficiency)", source)
-        self.assertIn("potential_efficiency = efficiency", source)
-        self.assertIn("if not update:", source)
-        self.assertIn("efficiency = 0.0", source)
-        self.assertIn("optional_efficiency = 0.0", source)
+        self.assertNotIn("efficiency = min_efficiency", source)
+        self.assertNotIn("var optional_efficiency_input := optional_efficiency", source)
+        self.assertNotIn("optional_efficiency = min(optional_efficiency, min_efficiency)", source)
+        self.assertNotIn("potential_efficiency = efficiency", source)
+        self.assertNotIn("if not update:", source)
+        self.assertNotIn("efficiency = 0.0", source)
+        self.assertNotIn("optional_efficiency = 0.0", source)
         self.assertIn(
             "return source_building_efficiency_state.update_consumption_efficiency_state(min_efficiency, optional_efficiency, update)",
             source,
@@ -28200,13 +28200,13 @@ class PlayableManifestTests(unittest.TestCase):
         source = generated.read_text(encoding="utf-8")
 
         self.assertIn("func java_method_updateConsumption_194(_args: Array = []) -> Variant:", source)
-        self.assertIn("if _args.size() <= 9:", source)
+        self.assertIn("if _args.size() > 9:", source)
         self.assertIn("var update_consumers: Array = _args[9] if _args.size() > 9 else []", source)
         self.assertIn("var self_state: Dictionary = _args[10] if _args.size() > 10 else {}", source)
-        self.assertIn("var multiplied = java_method_updateEfficiencyMultiplier_192([efficiency, optional_efficiency, efficiency_scale])", source)
-        self.assertIn('efficiency = float(multiplied.get("efficiency", efficiency))', source)
+        self.assertNotIn("var multiplied = java_method_updateEfficiencyMultiplier_192([efficiency, optional_efficiency, efficiency_scale])", source)
+        self.assertNotIn('efficiency = float(multiplied.get("efficiency", efficiency))', source)
         self.assertIn(
-            "return source_building_efficiency_state.update_consumption_second_pass_state(update, efficiency, update_consumers, self_state)",
+            "return source_building_efficiency_state.update_consumption_state(has_consumers, cheating, enabled_state, production_valid, should_consume_state, efficiency_scale, non_optional_consumer_results, optional_consumer_results, update_consumers, self_state)",
             source,
         )
         self.assertNotIn('"source_owner": "port_game.source_building_update_consumption_second_pass_state"', source)
@@ -28325,7 +28325,7 @@ class PlayableManifestTests(unittest.TestCase):
             "return source_building_efficiency_state.generated_update_consumption_efficiency_bridge_state(min_efficiency, optional_efficiency, update)",
             "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd",
             "java_method_updateConsumption_194",
-            'true, false, true, true, update, 1.0, [{"result": min_efficiency, "is_power": true}], [optional_efficiency], true',
+            'true, false, true, true, update, 1.0, [{"result": min_efficiency, "is_power": true}], [{"result": optional_efficiency}], true',
             "var canonical = update_consumption_efficiency_state(min_efficiency, optional_efficiency, update)",
             "port_game.source_building_update_consumption_efficiency_state",
             "building_comp.java_method_updateConsumption_194",
@@ -28345,8 +28345,8 @@ class PlayableManifestTests(unittest.TestCase):
             "return source_building_efficiency_state.generated_update_consumption_second_pass_bridge_state(update, efficiency, update_consumers, self_state)",
             "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd",
             "java_method_updateConsumption_194",
-            'true, false, true, true, update, 1.0, [{"result": efficiency, "is_power": true}], [efficiency], true, update_consumers, self_state',
-            "var canonical = update_consumption_second_pass_state(update, result_efficiency, update_consumers, self_state)",
+            'true, false, true, true, update, 1.0, [{"result": efficiency, "is_power": true}], [{"result": efficiency}], true, update_consumers, self_state',
+            "var canonical = update_consumption_state(true, false, true, true, update, 1.0, [{\"result\": efficiency, \"is_power\": true}], [{\"result\": efficiency}], update_consumers, self_state)",
             "port_game.source_building_update_consumption_second_pass_state",
             "building_comp.java_method_updateConsumption_194",
         )

@@ -79,3 +79,9 @@ func source_building_update_consumption_call_state() -> Dictionary:
 
 func generated_building_comp_update_consumption_call_bridge_state() -> Dictionary:
 	return source_building_efficiency_state.generated_update_consumption_call_bridge_state()
+
+func source_building_update_consumption_state(has_consumers: bool, cheating: bool, enabled_state: bool, production_valid: bool, should_consume_state: bool, efficiency_scale: float, non_optional_consumer_results: Array, optional_consumer_results: Array, update_consumers: Array, self_state: Dictionary) -> Dictionary:
+	return source_building_efficiency_state.update_consumption_state(has_consumers, cheating, enabled_state, production_valid, should_consume_state, efficiency_scale, non_optional_consumer_results, optional_consumer_results, update_consumers, self_state)
+
+func source_building_apply_update_consumption_state(consumption_state: Dictionary, self_state: Dictionary) -> Dictionary:
+	return source_building_efficiency_state.apply_update_consumption_state(consumption_state, self_state)

@@ -148287,6 +148287,171 @@
       ],
       "runtime_proof": "/root/Main.source_building_draw_configure_state",
       "rule": "Generated BuildingComp drawConfigure delegates to the existing canonical drawConfigure owner."
+    },
+    "building_consumption_complete.efficiency": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_building_update_consumption_state",
+      "godot_symbol": "source_building_update_consumption_result.efficiency",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "java_expr": "public void updateConsumption(){",
+      "rule": "Composed state/application adapter uses existing stage ownership and exact source ordering.",
+      "tests": [
+        "test_complete_path_has_one_domain_owner_and_no_inline_behavior",
+        "test_second_pass_expected_never_uses_actual_efficiency",
+        "test_consumption_complete_contract_and_row_schema_are_registered"
+      ],
+      "runtime_proof": "/root/Main.BuildingConsumptionCanonicalProof"
+    },
+    "building_consumption_complete.optional_efficiency": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_building_update_consumption_state",
+      "godot_symbol": "source_building_update_consumption_result.optional_efficiency",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "java_expr": "public void updateConsumption(){",
+      "rule": "Composed state/application adapter uses existing stage ownership and exact source ordering.",
+      "tests": [
+        "test_complete_path_has_one_domain_owner_and_no_inline_behavior",
+        "test_second_pass_expected_never_uses_actual_efficiency",
+        "test_consumption_complete_contract_and_row_schema_are_registered"
+      ],
+      "runtime_proof": "/root/Main.BuildingConsumptionCanonicalProof"
+    },
+    "building_consumption_complete.potential_efficiency": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_building_update_consumption_state",
+      "godot_symbol": "source_building_update_consumption_result.potential_efficiency",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "java_expr": "public void updateConsumption(){",
+      "rule": "Composed state/application adapter uses existing stage ownership and exact source ordering.",
+      "tests": [
+        "test_complete_path_has_one_domain_owner_and_no_inline_behavior",
+        "test_second_pass_expected_never_uses_actual_efficiency",
+        "test_consumption_complete_contract_and_row_schema_are_registered"
+      ],
+      "runtime_proof": "/root/Main.BuildingConsumptionCanonicalProof"
+    },
+    "building_consumption_complete.min_efficiency": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_building_update_consumption_state",
+      "godot_symbol": "source_building_update_consumption_result.min_efficiency",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "java_expr": "public void updateConsumption(){",
+      "rule": "Composed state/application adapter uses existing stage ownership and exact source ordering.",
+      "tests": [
+        "test_complete_path_has_one_domain_owner_and_no_inline_behavior",
+        "test_second_pass_expected_never_uses_actual_efficiency",
+        "test_consumption_complete_contract_and_row_schema_are_registered"
+      ],
+      "runtime_proof": "/root/Main.BuildingConsumptionCanonicalProof"
+    },
+    "building_consumption_complete.update": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_building_update_consumption_state",
+      "godot_symbol": "source_building_update_consumption_result.update",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "java_expr": "public void updateConsumption(){",
+      "rule": "Composed state/application adapter uses existing stage ownership and exact source ordering.",
+      "tests": [
+        "test_complete_path_has_one_domain_owner_and_no_inline_behavior",
+        "test_second_pass_expected_never_uses_actual_efficiency",
+        "test_consumption_complete_contract_and_row_schema_are_registered"
+      ],
+      "runtime_proof": "/root/Main.BuildingConsumptionCanonicalProof"
+    },
+    "building_consumption_complete.should_consume_power": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_building_update_consumption_state",
+      "godot_symbol": "source_building_update_consumption_result.should_consume_power",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "java_expr": "public void updateConsumption(){",
+      "rule": "Composed state/application adapter uses existing stage ownership and exact source ordering.",
+      "tests": [
+        "test_complete_path_has_one_domain_owner_and_no_inline_behavior",
+        "test_second_pass_expected_never_uses_actual_efficiency",
+        "test_consumption_complete_contract_and_row_schema_are_registered"
+      ],
+      "runtime_proof": "/root/Main.BuildingConsumptionCanonicalProof"
+    },
+    "building_consumption_complete.updated_consumers": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_building_update_consumption_state",
+      "godot_symbol": "source_building_update_consumption_result.updated_consumers",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "java_expr": "public void updateConsumption(){",
+      "rule": "Composed state/application adapter uses existing stage ownership and exact source ordering.",
+      "tests": [
+        "test_complete_path_has_one_domain_owner_and_no_inline_behavior",
+        "test_second_pass_expected_never_uses_actual_efficiency",
+        "test_consumption_complete_contract_and_row_schema_are_registered"
+      ],
+      "runtime_proof": "/root/Main.BuildingConsumptionCanonicalProof"
+    },
+    "building_consumption_complete.update_count": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_building_update_consumption_state",
+      "godot_symbol": "source_building_update_consumption_result.update_count",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "java_expr": "public void updateConsumption(){",
+      "rule": "Composed state/application adapter uses existing stage ownership and exact source ordering.",
+      "tests": [
+        "test_complete_path_has_one_domain_owner_and_no_inline_behavior",
+        "test_second_pass_expected_never_uses_actual_efficiency",
+        "test_consumption_complete_contract_and_row_schema_are_registered"
+      ],
+      "runtime_proof": "/root/Main.BuildingConsumptionCanonicalProof"
+    },
+    "building_consumption_complete.returned": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_building_update_consumption_state",
+      "godot_symbol": "source_building_update_consumption_result.returned",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "java_expr": "public void updateConsumption(){",
+      "rule": "Composed state/application adapter uses existing stage ownership and exact source ordering.",
+      "tests": [
+        "test_complete_path_has_one_domain_owner_and_no_inline_behavior",
+        "test_second_pass_expected_never_uses_actual_efficiency",
+        "test_consumption_complete_contract_and_row_schema_are_registered"
+      ],
+      "runtime_proof": "/root/Main.BuildingConsumptionCanonicalProof"
+    },
+    "building_consumption_apply.consumption_state": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_building_apply_update_consumption_state",
+      "godot_symbol": "source_building_apply_update_consumption_input.consumption_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "java_expr": "public void updateConsumption(){",
+      "rule": "Composed state/application adapter uses existing stage ownership and exact source ordering.",
+      "tests": [
+        "test_complete_path_has_one_domain_owner_and_no_inline_behavior",
+        "test_second_pass_expected_never_uses_actual_efficiency",
+        "test_consumption_complete_contract_and_row_schema_are_registered"
+      ],
+      "runtime_proof": "/root/Main.BuildingConsumptionCanonicalProof"
+    },
+    "building_consumption_apply.self_state": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_building_apply_update_consumption_state",
+      "godot_symbol": "source_building_apply_update_consumption_input.self_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "java_expr": "public void updateConsumption(){",
+      "rule": "Composed state/application adapter uses existing stage ownership and exact source ordering.",
+      "tests": [
+        "test_complete_path_has_one_domain_owner_and_no_inline_behavior",
+        "test_second_pass_expected_never_uses_actual_efficiency",
+        "test_consumption_complete_contract_and_row_schema_are_registered"
+      ],
+      "runtime_proof": "/root/Main.BuildingConsumptionCanonicalProof"
     }
   },
   "version": 1

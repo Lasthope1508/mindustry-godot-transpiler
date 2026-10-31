@@ -1,0 +1,35 @@
+Godot Engine v4.6.2.stable.official.71f334935 - https://godotengine.org
+
+[MCP Runtime] Server listening on port 7777
+[MCP Runtime] Autoload ready, server starting on port 7777
+SCRIPT ERROR: Invalid call. Nonexistent 'float' constructor.
+   at: java_method_updateConsumption_194 (res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd:1608)
+   GDScript backtrace (most recent call first):
+       [0] java_method_updateConsumption_194 (res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd:1608)
+       [1] _ready (res://tools/runtime_proofs/BuildingConsumptionCanonicalProof.gd:48)
+SCRIPT ERROR: Invalid call. Nonexistent 'float' constructor.
+   at: java_method_updateConsumption_194 (res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd:1608)
+   GDScript backtrace (most recent call first):
+       [0] java_method_updateConsumption_194 (res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd:1608)
+       [1] _ready (res://tools/runtime_proofs/BuildingConsumptionCanonicalProof.gd:48)
+SCRIPT ERROR: Invalid call. Nonexistent 'float' constructor.
+   at: java_method_updateConsumption_194 (res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd:1608)
+   GDScript backtrace (most recent call first):
+       [0] java_method_updateConsumption_194 (res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd:1608)
+       [1] _ready (res://tools/runtime_proofs/BuildingConsumptionCanonicalProof.gd:48)
+SCRIPT ERROR: Invalid call. Nonexistent 'float' constructor.
+   at: java_method_updateConsumption_194 (res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd:1608)
+   GDScript backtrace (most recent call first):
+       [0] java_method_updateConsumption_194 (res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd:1608)
+       [1] _ready (res://tools/runtime_proofs/BuildingConsumptionCanonicalProof.gd:48)
+SCRIPT ERROR: Invalid call. Nonexistent 'float' constructor.
+   at: java_method_updateConsumption_194 (res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd:1608)
+   GDScript backtrace (most recent call first):
+       [0] java_method_updateConsumption_194 (res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd:1608)
+       [1] _ready (res://tools/runtime_proofs/BuildingConsumptionCanonicalProof.gd:48)
+SCRIPT ERROR: Invalid call. Nonexistent 'float' constructor.
+   at: java_method_updateConsumption_194 (res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd:1608)
+   GDScript backtrace (most recent call first):
+       [0] java_method_updateConsumption_194 (res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd:1608)
+       [1] _ready (res://tools/runtime_proofs/BuildingConsumptionCanonicalProof.gd:68)
+BUILDING_CONSUMPTION_CANONICAL_PROOF {"case_count":20,"checks":[{"applied_matches":false,"case":"initial_scale_zero","dispatch_matches":true,"state_matches":false,"traces_match":true},{"applied_matches":false,"case":"initial_scale_half","dispatch_matches":true,"state_matches":false,"traces_match":true},{"applied_matches":false,"case":"initial_scale_one","dispatch_matches":true,"state_matches":false,"traces_match":true},{"applied_matches":false,"case":"initial_scale_two","dispatch_matches":true,"state_matches":false,"traces_match":true},{"applied_matches":false,"case":"cheating","dispatch_matches":true,"state_matches":false,"traces_match":true},{"applied_matches":false,"case":"initial_no_consume","dispatch_matches":true,"state_matches":false,"traces_match":true},{"applied_matches":false,"case":"initial_invalid","dispatch_matches":true,"state_matches":false,"traces_match":true},{"applied_matches":false,"case":"initial_disabled","dispatch_matches":true,"state_matches":false,"traces_match":true},{"applied_matches":false,"case":"disabled_consumers","dispatch_matches":true,"state_matches":false,"traces_match":true},{"applied_matches":false,"case":"dictionary_composition","dispatch_matches":false,"state_matches":false,"traces_match":false},{"applied_matches":false,"case":"optional_clamp","dispatch_matches":false,"state_matches":false,"traces_match":false},{"applied_matches":false,"case":"should_consume_false","dispatch_matches":true,"state_matches":false,"traces_match":false},{"applied_matches":false,"case":"production_invalid","dispatch_matches":true,"state_matches":false,"traces_match":false},{"applied_matches":false,"case":"scale_zero_no_dispatch","dispatch_matches":true,"state_matches":false,"traces_match":false},{"applied_matches":false,"case":"empty_consumer_results","dispatch_matches":false,"state_matches":false,"traces_match":true},{"applied_matches":false,"case":"power_starved","dispatch_matches":true,"state_matches":false,"traces_match":true},{"applied_matches":false,"case":"non_power_starved","dispatch_matches":true,"state_matches":false,"traces_match":true},{"applied_matches":false,"case":"power_threshold","dispatch_matches":false,"state_matches":false,"traces_match":true},{"applied_matches":false,"case":"above_power_threshold","dispatch_matches":false,"state_matches":false,"traces_match":true},{"applied_matches":false,"case":"legacy_numeric_and_efficiency_alias","dispatch_matches":false,"state_matches":false,"traces_match":false}],"matches":false,"one_headquarter_per_ssot":true,"registry_valid":true}

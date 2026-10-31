@@ -56337,6 +56337,118 @@
       ],
       "runtime_proof": "/root/Main.BuildingConfigureStateModuleProof",
       "rule": "Runtime dependencies are explicit inputs; the result records the exact source expressions and top alignment."
+    },
+    "PortGame.source_building_update_consumption_state": {
+      "status": "active",
+      "source_slice": "N1989",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "updateConsumption()",
+      "params": [
+        {
+          "name": "has_consumers",
+          "schema": "source_building_update_consumption_initial_input.has_consumers",
+          "type": "bool"
+        },
+        {
+          "name": "cheating",
+          "schema": "source_building_update_consumption_initial_input.cheating",
+          "type": "bool"
+        },
+        {
+          "name": "enabled_state",
+          "schema": "source_building_update_consumption_initial_input.enabled_state",
+          "type": "bool"
+        },
+        {
+          "name": "production_valid",
+          "schema": "source_building_update_consumption_initial_input.production_valid",
+          "type": "bool"
+        },
+        {
+          "name": "should_consume_state",
+          "schema": "source_building_update_consumption_initial_input.should_consume_state",
+          "type": "bool"
+        },
+        {
+          "name": "efficiency_scale",
+          "schema": "source_building_update_consumption_initial_input.efficiency_scale",
+          "type": "float"
+        },
+        {
+          "name": "non_optional_consumer_results",
+          "schema": "source_building_update_consumption_non_optional_pass_input.non_optional_consumer_results",
+          "type": "Array"
+        },
+        {
+          "name": "optional_consumer_results",
+          "schema": "source_building_update_consumption_optional_pass_input.optional_consumer_results",
+          "type": "Array"
+        },
+        {
+          "name": "update_consumers",
+          "schema": "source_building_update_consumption_second_pass_input.update_consumers",
+          "type": "Array"
+        },
+        {
+          "name": "self_state",
+          "schema": "source_building_update_consumption_second_pass_input.self_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "efficiency",
+        "optional_efficiency",
+        "potential_efficiency",
+        "min_efficiency",
+        "update",
+        "should_consume_power",
+        "updated_consumers",
+        "update_count",
+        "returned"
+      ],
+      "tests": [
+        "test_complete_path_has_one_domain_owner_and_no_inline_behavior",
+        "test_second_pass_expected_never_uses_actual_efficiency",
+        "test_consumption_complete_contract_and_row_schema_are_registered"
+      ],
+      "runtime_proof": "/root/Main.BuildingConsumptionCanonicalProof",
+      "rule": "Pure complete-method state; no consumer side effects."
+    },
+    "PortGame.source_building_apply_update_consumption_state": {
+      "status": "active",
+      "source_slice": "N1990",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "updateConsumption()",
+      "params": [
+        {
+          "name": "consumption_state",
+          "type": "Dictionary",
+          "schema": "source_building_apply_update_consumption_input.consumption_state"
+        },
+        {
+          "name": "self_state",
+          "type": "Dictionary",
+          "schema": "source_building_apply_update_consumption_input.self_state"
+        }
+      ],
+      "return_keys": [
+        "efficiency",
+        "optional_efficiency",
+        "potential_efficiency",
+        "min_efficiency",
+        "update",
+        "should_consume_power",
+        "updated_consumers",
+        "update_count",
+        "returned"
+      ],
+      "tests": [
+        "test_complete_path_has_one_domain_owner_and_no_inline_behavior",
+        "test_second_pass_expected_never_uses_actual_efficiency",
+        "test_consumption_complete_contract_and_row_schema_are_registered"
+      ],
+      "runtime_proof": "/root/Main.BuildingConsumptionCanonicalProof",
+      "rule": "Mutable dictionary self() adapter; applies four fields then dispatches each planned concrete consumer exactly once. Invalid consumer interfaces fail instead of being silently skipped."
     }
   },
   "policy": {

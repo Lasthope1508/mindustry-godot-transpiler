@@ -3689,7 +3689,7 @@ public class BuildingComp{
             emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
             source_text = emitted.read_text(encoding="utf-8")
             self.assertIn("func java_method_updateConsumption_1(_args: Array = []) -> Variant:", source_text)
-            self.assertIn("var update := should_consume_state and production_valid", source_text)
+            self.assertIn("var update := bool(setup[\"update\"])", source_text)
             self.assertIn(
                 "return source_building_efficiency_state.update_consumption_setup_state(should_consume_state, production_valid)",
                 source_text,
@@ -3759,11 +3759,11 @@ public class BuildingComp{
             source_text = emitted.read_text(encoding="utf-8")
             self.assertIn("func java_method_updateConsumption_1(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var non_optional_consumer_results: Array = _args[6] if _args.size() > 6 else []", source_text)
-            self.assertIn("for consumer in non_optional_consumer_results:", source_text)
-            self.assertIn('var result := float(consumer.get("result", 0.0))', source_text)
-            self.assertIn('if not bool(consumer.get("is_power", false)) and result <= 0.0000001:', source_text)
-            self.assertIn("should_consume_power = false", source_text)
-            self.assertIn("min_efficiency = min(min_efficiency, result)", source_text)
+            self.assertNotIn("for consumer in non_optional_consumer_results:", source_text)
+            self.assertNotIn('var result := float(consumer.get("result", 0.0))', source_text)
+            self.assertNotIn('if not bool(consumer.get("is_power", false)) and result <= 0.0000001:', source_text)
+            self.assertNotIn("should_consume_power = false", source_text)
+            self.assertNotIn("min_efficiency = min(min_efficiency, result)", source_text)
             self.assertIn(
                 "return source_building_efficiency_state.update_consumption_non_optional_pass_state(non_optional_consumer_results)",
                 source_text,
@@ -3851,9 +3851,9 @@ public class BuildingComp{
             self.assertIn("func java_method_updateConsumption_1(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var optional_consumer_results: Array = _args[7] if _args.size() > 7 else []", source_text)
             self.assertIn("if _args.size() <= 7:", source_text)
-            self.assertIn("var optional_efficiency := 1.0", source_text)
-            self.assertIn("for result in optional_consumer_results:", source_text)
-            self.assertIn("optional_efficiency = min(optional_efficiency, float(result))", source_text)
+            self.assertIn("var optional_efficiency := float(optional[\"optional_efficiency\"])", source_text)
+            self.assertNotIn("for result in optional_consumer_results:", source_text)
+            self.assertNotIn("optional_efficiency = min(optional_efficiency, float(result))", source_text)
             self.assertIn(
                 "return source_building_efficiency_state.update_consumption_optional_pass_state(optional_consumer_results)",
                 source_text,
@@ -3919,13 +3919,13 @@ class BuildingComp{
             source_text = emitted.read_text(encoding="utf-8")
             self.assertIn("func java_method_updateConsumption_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("if _args.size() <= 8:", source_text)
-            self.assertIn("efficiency = min_efficiency", source_text)
-            self.assertIn("var optional_efficiency_input := optional_efficiency", source_text)
-            self.assertIn("optional_efficiency = min(optional_efficiency, min_efficiency)", source_text)
-            self.assertIn("potential_efficiency = efficiency", source_text)
-            self.assertIn("if not update:", source_text)
-            self.assertIn("efficiency = 0.0", source_text)
-            self.assertIn("optional_efficiency = 0.0", source_text)
+            self.assertNotIn("efficiency = min_efficiency", source_text)
+            self.assertNotIn("var optional_efficiency_input := optional_efficiency", source_text)
+            self.assertNotIn("optional_efficiency = min(optional_efficiency, min_efficiency)", source_text)
+            self.assertNotIn("potential_efficiency = efficiency", source_text)
+            self.assertNotIn("if not update:", source_text)
+            self.assertNotIn("efficiency = 0.0", source_text)
+            self.assertNotIn("optional_efficiency = 0.0", source_text)
             self.assertIn(
                 "return source_building_efficiency_state.update_consumption_efficiency_state(min_efficiency, optional_efficiency, update)",
                 source_text,
@@ -4005,13 +4005,13 @@ class BuildingComp{
             emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
             source_text = emitted.read_text(encoding="utf-8")
             self.assertIn("func java_method_updateConsumption_1(_args: Array = []) -> Variant:", source_text)
-            self.assertIn("if _args.size() <= 9:", source_text)
+            self.assertIn("if _args.size() > 9:", source_text)
             self.assertIn("var update_consumers: Array = _args[9] if _args.size() > 9 else []", source_text)
             self.assertIn("var self_state: Dictionary = _args[10] if _args.size() > 10 else {}", source_text)
-            self.assertIn("var multiplied = java_method_updateEfficiencyMultiplier_0([efficiency, optional_efficiency, efficiency_scale])", source_text)
-            self.assertIn('efficiency = float(multiplied.get("efficiency", efficiency))', source_text)
+            self.assertNotIn("var multiplied = java_method_updateEfficiencyMultiplier_0([efficiency, optional_efficiency, efficiency_scale])", source_text)
+            self.assertNotIn('efficiency = float(multiplied.get("efficiency", efficiency))', source_text)
             self.assertIn(
-                "return source_building_efficiency_state.update_consumption_second_pass_state(update, efficiency, update_consumers, self_state)",
+                "return source_building_efficiency_state.update_consumption_state(has_consumers, cheating, enabled_state, production_valid, should_consume_state, efficiency_scale, non_optional_consumer_results, optional_consumer_results, update_consumers, self_state)",
                 source_text,
             )
             self.assertNotIn('"source_owner": "port_game.source_building_update_consumption_second_pass_state"', source_text)

@@ -74343,12 +74343,13 @@
           "java_expr": "block.nonOptionalConsumers",
           "java_method": "updateConsumption()",
           "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-          "rule": "Explicit runtime input representing upstream block.nonOptionalConsumers iteration results.",
+          "rule": "Explicit runtime iteration results. Canonical rows are dictionaries with result (compatibility alias efficiency); missing values retain the existing stage neutral 1.0 default.",
           "status": "explicit-input",
           "type": "Array",
           "used_by": [
             "port_game.source_building_update_consumption_non_optional_pass_state"
-          ]
+          ],
+          "element_schema": "source_building_consumer_efficiency_row"
         }
       },
       "owner": "port_game.source_building_update_consumption_non_optional_pass_state",
@@ -74490,12 +74491,13 @@
           "java_expr": "block.optionalConsumers",
           "java_method": "updateConsumption()",
           "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-          "rule": "Explicit runtime input representing upstream block.optionalConsumers iteration results.",
+          "rule": "Explicit runtime iteration results. Canonical rows are dictionaries with result (compatibility alias efficiency); missing values retain the existing stage neutral 1.0 default. Legacy numeric elements are accepted only by the canonical optional reader; production bridges use dictionary rows.",
           "status": "explicit-input",
           "type": "Array",
           "used_by": [
             "port_game.source_building_update_consumption_optional_pass_state"
-          ]
+          ],
+          "element_schema": "source_building_consumer_efficiency_row"
         }
       },
       "owner": "port_game.source_building_update_consumption_optional_pass_state",
@@ -163924,6 +163926,231 @@
           "status": "source-backed",
           "java_source": "core/src/mindustry/core/Logic.java",
           "java_expr": "state.rules.waveTeam"
+        }
+      }
+    },
+    "source_building_update_consumption_result": {
+      "status": "active",
+      "owner": "PortGame.source_building_update_consumption_state",
+      "runtime_proof": "/root/Main.BuildingConsumptionCanonicalProof",
+      "keys": {
+        "efficiency": {
+          "type": "float",
+          "status": "alias",
+          "alias_of": "source_building_update_consumption_efficiency_result.efficiency",
+          "rule": "Complete method composes existing canonical stage state; branch-specific fields remain optional."
+        },
+        "optional_efficiency": {
+          "type": "float",
+          "status": "alias",
+          "alias_of": "source_building_update_consumption_efficiency_result.optional_efficiency",
+          "rule": "Complete method composes existing canonical stage state; branch-specific fields remain optional."
+        },
+        "potential_efficiency": {
+          "type": "float",
+          "status": "alias",
+          "alias_of": "source_building_update_consumption_efficiency_result.potential_efficiency",
+          "rule": "Complete method composes existing canonical stage state; branch-specific fields remain optional."
+        },
+        "min_efficiency": {
+          "type": "float",
+          "status": "alias",
+          "alias_of": "source_building_update_consumption_efficiency_result.min_efficiency",
+          "rule": "Complete method composes existing canonical stage state; branch-specific fields remain optional."
+        },
+        "update": {
+          "type": "bool",
+          "status": "alias",
+          "alias_of": "source_building_update_consumption_efficiency_result.update",
+          "rule": "Complete method composes existing canonical stage state; branch-specific fields remain optional."
+        },
+        "should_consume_power": {
+          "type": "bool",
+          "status": "alias",
+          "alias_of": "source_building_update_consumption_non_optional_pass_result.should_consume_power",
+          "rule": "Complete method composes existing canonical stage state; branch-specific fields remain optional."
+        },
+        "updated_consumers": {
+          "type": "Array",
+          "status": "alias",
+          "alias_of": "source_building_update_consumption_second_pass_result.updated_consumers",
+          "rule": "Complete method composes existing canonical stage state; branch-specific fields remain optional."
+        },
+        "update_count": {
+          "type": "int",
+          "status": "alias",
+          "alias_of": "source_building_update_consumption_second_pass_result.update_count",
+          "rule": "Complete method composes existing canonical stage state; branch-specific fields remain optional."
+        },
+        "returned": {
+          "type": "bool",
+          "status": "alias",
+          "alias_of": "source_building_update_consumption_initial_result.returned",
+          "rule": "Complete method composes existing canonical stage state; branch-specific fields remain optional."
+        }
+      }
+    },
+    "source_building_apply_update_consumption_input": {
+      "status": "active",
+      "owner": "PortGame.source_building_apply_update_consumption_state",
+      "runtime_proof": "/root/Main.BuildingConsumptionCanonicalProof",
+      "keys": {
+        "consumption_state": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "updateConsumption()",
+          "java_expr": "public void updateConsumption(){",
+          "rule": "Calculated complete state from source_building_update_consumption_result; state assignment precedes consumer updates.",
+          "schema": "source_building_update_consumption_result"
+        },
+        "self_state": {
+          "type": "Dictionary",
+          "status": "alias",
+          "alias_of": "source_building_update_consumption_second_pass_input.self_state",
+          "rule": "Mutable Godot dictionary adapter for self(); consumers must implement update(self_state)."
+        }
+      }
+    },
+    "source_building_consumer_efficiency_row": {
+      "status": "active",
+      "owner": "PortGame.source_building_update_consumption_state",
+      "runtime_proof": "/root/Main.BuildingConsumptionCanonicalProof",
+      "keys": {
+        "result": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "updateConsumption()",
+          "java_expr": "float result = cons.efficiency(self());",
+          "rule": "Canonical evaluated consumer efficiency result."
+        },
+        "efficiency": {
+          "type": "float",
+          "status": "alias",
+          "alias_of": "source_building_consumer_efficiency_row.result",
+          "rule": "Existing helper compatibility field for cons.efficiency(self()); both paths use the same canonical reader."
+        },
+        "is_power": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "updateConsumption()",
+          "java_expr": "cons != block.consPower",
+          "rule": "Adapter identifies whether the consumer is block.consPower; omitted means non-power as in existing stage API."
+        }
+      }
+    },
+    "source_building_update_consumption_frame": {
+      "status": "active",
+      "owner": "PortGame.source_building_apply_update_consumption_state",
+      "runtime_proof": "/root/Main.BuildingConsumptionCanonicalProof",
+      "keys": {
+        "has_consumers": {
+          "type": "bool",
+          "status": "alias",
+          "alias_of": "source_building_update_consumption_initial_input.has_consumers",
+          "rule": "Required when a complete consumption frame is supplied to generated update(); source expressions are evaluated by the caller."
+        },
+        "cheating": {
+          "type": "bool",
+          "status": "alias",
+          "alias_of": "source_building_update_consumption_initial_input.cheating",
+          "rule": "Required when a complete consumption frame is supplied to generated update(); source expressions are evaluated by the caller."
+        },
+        "enabled_state": {
+          "type": "bool",
+          "status": "alias",
+          "alias_of": "source_building_update_consumption_initial_input.enabled_state",
+          "rule": "Required when a complete consumption frame is supplied to generated update(); source expressions are evaluated by the caller."
+        },
+        "production_valid": {
+          "type": "bool",
+          "status": "alias",
+          "alias_of": "source_building_update_consumption_initial_input.production_valid",
+          "rule": "Required when a complete consumption frame is supplied to generated update(); source expressions are evaluated by the caller."
+        },
+        "should_consume_state": {
+          "type": "bool",
+          "status": "alias",
+          "alias_of": "source_building_update_consumption_initial_input.should_consume_state",
+          "rule": "Required when a complete consumption frame is supplied to generated update(); source expressions are evaluated by the caller."
+        },
+        "efficiency_scale": {
+          "type": "float",
+          "status": "alias",
+          "alias_of": "source_building_update_consumption_initial_input.efficiency_scale",
+          "rule": "Required when a complete consumption frame is supplied to generated update(); source expressions are evaluated by the caller."
+        },
+        "non_optional_consumer_results": {
+          "type": "Array",
+          "status": "alias",
+          "alias_of": "source_building_update_consumption_non_optional_pass_input.non_optional_consumer_results",
+          "rule": "Required when a complete consumption frame is supplied to generated update(); source expressions are evaluated by the caller."
+        },
+        "optional_consumer_results": {
+          "type": "Array",
+          "status": "alias",
+          "alias_of": "source_building_update_consumption_optional_pass_input.optional_consumer_results",
+          "rule": "Required when a complete consumption frame is supplied to generated update(); source expressions are evaluated by the caller."
+        },
+        "update_consumers": {
+          "type": "Array",
+          "status": "alias",
+          "alias_of": "source_building_update_consumption_second_pass_input.update_consumers",
+          "rule": "Required when a complete consumption frame is supplied to generated update(); source expressions are evaluated by the caller."
+        }
+      }
+    },
+    "source_building_apply_update_consumption_result": {
+      "status": "active",
+      "owner": "PortGame.source_building_apply_update_consumption_state",
+      "runtime_proof": "/root/Main.BuildingConsumptionCanonicalProof",
+      "keys": {
+        "efficiency": {
+          "type": "float",
+          "status": "alias",
+          "alias_of": "source_building_update_consumption_result.efficiency"
+        },
+        "optional_efficiency": {
+          "type": "float",
+          "status": "alias",
+          "alias_of": "source_building_update_consumption_result.optional_efficiency"
+        },
+        "potential_efficiency": {
+          "type": "float",
+          "status": "alias",
+          "alias_of": "source_building_update_consumption_result.potential_efficiency"
+        },
+        "min_efficiency": {
+          "type": "float",
+          "status": "alias",
+          "alias_of": "source_building_update_consumption_result.min_efficiency"
+        },
+        "update": {
+          "type": "bool",
+          "status": "alias",
+          "alias_of": "source_building_update_consumption_result.update"
+        },
+        "should_consume_power": {
+          "type": "bool",
+          "status": "alias",
+          "alias_of": "source_building_update_consumption_result.should_consume_power"
+        },
+        "updated_consumers": {
+          "type": "Array",
+          "status": "alias",
+          "alias_of": "source_building_update_consumption_result.updated_consumers"
+        },
+        "update_count": {
+          "type": "int",
+          "status": "alias",
+          "alias_of": "source_building_update_consumption_result.update_count"
+        },
+        "returned": {
+          "type": "bool",
+          "status": "alias",
+          "alias_of": "source_building_update_consumption_result.returned"
         }
       }
     }
