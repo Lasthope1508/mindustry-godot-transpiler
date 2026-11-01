@@ -56557,6 +56557,172 @@
       ],
       "runtime_proof": "/root/Main.LiquidModuleStorageProof",
       "rule": "Explicit instance storage adapter; get returns amount, add/remove mutate the original frame and shared cache. remove reuses canonical add, preserving source negative-request behavior."
+    },
+    "SourceLiquidModuleState.source_initial_state": {
+      "status": "active",
+      "source_slice": "N1996",
+      "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+      "source_method": "<instance field initialization>",
+      "params": [
+        {
+          "name": "content_liquid_ids",
+          "type": "Array",
+          "schema": "source_liquid_module_initial_input.content_liquid_ids"
+        }
+      ],
+      "return_keys": [
+        "liquids",
+        "current",
+        "flow"
+      ],
+      "tests": [
+        "test_lifecycle_adapters_delegate_to_existing_storage_owner",
+        "test_lifecycle_source_contracts_and_shared_frame_are_registered",
+        "test_lifecycle_golden_runtime_and_initialized_consumption"
+      ],
+      "runtime_proof": "/root/Main.LiquidModuleLifecycleProof",
+      "rule": "Same canonical storage frame/ID representation as N1993\u2013N1995. Explicit field initializer allocates a fresh zeroed array and null instance flow; lifecycle methods preserve source assignment order and existing flow identity."
+    },
+    "SourceLiquidModuleState.source_current_state": {
+      "status": "active",
+      "source_slice": "N1996",
+      "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+      "source_method": "current()",
+      "params": [
+        {
+          "name": "self_state",
+          "type": "Dictionary",
+          "schema": "source_liquid_module_storage_input.self_state"
+        }
+      ],
+      "return_keys": [
+        "current"
+      ],
+      "tests": [
+        "test_lifecycle_adapters_delegate_to_existing_storage_owner",
+        "test_lifecycle_source_contracts_and_shared_frame_are_registered",
+        "test_lifecycle_golden_runtime_and_initialized_consumption"
+      ],
+      "runtime_proof": "/root/Main.LiquidModuleLifecycleProof",
+      "rule": "Same canonical storage frame/ID representation as N1993\u2013N1995. Explicit field initializer allocates a fresh zeroed array and null instance flow; lifecycle methods preserve source assignment order and existing flow identity."
+    },
+    "SourceLiquidModuleState.source_current_amount_state": {
+      "status": "active",
+      "source_slice": "N1996",
+      "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+      "source_method": "currentAmount()",
+      "params": [
+        {
+          "name": "self_state",
+          "type": "Dictionary",
+          "schema": "source_liquid_module_storage_input.self_state"
+        }
+      ],
+      "return_keys": [
+        "amount"
+      ],
+      "tests": [
+        "test_lifecycle_adapters_delegate_to_existing_storage_owner",
+        "test_lifecycle_source_contracts_and_shared_frame_are_registered",
+        "test_lifecycle_golden_runtime_and_initialized_consumption"
+      ],
+      "runtime_proof": "/root/Main.LiquidModuleLifecycleProof",
+      "rule": "Same canonical storage frame/ID representation as N1993\u2013N1995. Explicit field initializer allocates a fresh zeroed array and null instance flow; lifecycle methods preserve source assignment order and existing flow identity."
+    },
+    "SourceLiquidModuleState.source_clear_state": {
+      "status": "active",
+      "source_slice": "N1997",
+      "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+      "source_method": "clear()",
+      "params": [
+        {
+          "name": "self_state",
+          "type": "Dictionary",
+          "schema": "source_liquid_module_storage_input.self_state"
+        }
+      ],
+      "return_keys": [
+        "liquids",
+        "current",
+        "flow"
+      ],
+      "tests": [
+        "test_lifecycle_adapters_delegate_to_existing_storage_owner",
+        "test_lifecycle_source_contracts_and_shared_frame_are_registered",
+        "test_lifecycle_golden_runtime_and_initialized_consumption"
+      ],
+      "runtime_proof": "/root/Main.LiquidModuleLifecycleProof",
+      "rule": "Same canonical storage frame/ID representation as N1993\u2013N1995. Explicit field initializer allocates a fresh zeroed array and null instance flow; lifecycle methods preserve source assignment order and existing flow identity."
+    },
+    "SourceLiquidModuleState.source_reset_state": {
+      "status": "active",
+      "source_slice": "N1997",
+      "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+      "source_method": "reset(Liquid liquid, float amount)",
+      "params": [
+        {
+          "name": "self_state",
+          "type": "Dictionary",
+          "schema": "source_liquid_module_storage_input.self_state"
+        },
+        {
+          "name": "liquid_id",
+          "type": "int",
+          "schema": "source_liquid_module_storage_input.liquid_id"
+        },
+        {
+          "name": "amount",
+          "type": "float",
+          "schema": "source_liquid_module_storage_input.amount"
+        }
+      ],
+      "return_keys": [
+        "liquids",
+        "current",
+        "flow"
+      ],
+      "tests": [
+        "test_lifecycle_adapters_delegate_to_existing_storage_owner",
+        "test_lifecycle_source_contracts_and_shared_frame_are_registered",
+        "test_lifecycle_golden_runtime_and_initialized_consumption"
+      ],
+      "runtime_proof": "/root/Main.LiquidModuleLifecycleProof",
+      "rule": "Same canonical storage frame/ID representation as N1993\u2013N1995. Explicit field initializer allocates a fresh zeroed array and null instance flow; lifecycle methods preserve source assignment order and existing flow identity."
+    },
+    "SourceLiquidModuleState.source_set_state": {
+      "status": "active",
+      "source_slice": "N1998",
+      "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+      "source_method": "set(Liquid liquid, float amount)",
+      "params": [
+        {
+          "name": "self_state",
+          "type": "Dictionary",
+          "schema": "source_liquid_module_storage_input.self_state"
+        },
+        {
+          "name": "liquid_id",
+          "type": "int",
+          "schema": "source_liquid_module_storage_input.liquid_id"
+        },
+        {
+          "name": "amount",
+          "type": "float",
+          "schema": "source_liquid_module_storage_input.amount"
+        }
+      ],
+      "return_keys": [
+        "liquids",
+        "current",
+        "flow"
+      ],
+      "tests": [
+        "test_lifecycle_adapters_delegate_to_existing_storage_owner",
+        "test_lifecycle_source_contracts_and_shared_frame_are_registered",
+        "test_lifecycle_golden_runtime_and_initialized_consumption"
+      ],
+      "runtime_proof": "/root/Main.LiquidModuleLifecycleProof",
+      "rule": "Same canonical storage frame/ID representation as N1993\u2013N1995. Explicit field initializer allocates a fresh zeroed array and null instance flow; lifecycle methods preserve source assignment order and existing flow identity."
     }
   },
   "policy": {

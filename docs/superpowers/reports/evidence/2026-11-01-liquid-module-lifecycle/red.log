@@ -1,0 +1,76 @@
+.F.                                                          [100%]
+================================== FAILURES ===================================
+_ LiquidModuleLifecycleTests.test_lifecycle_adapters_delegate_to_existing_storage_owner (method='initial') _
+tools\mindustry_godot_transpiler\tests\test_liquid_module_lifecycle.py:18: in test_lifecycle_adapters_delegate_to_existing_storage_owner
+    body = text.split(f'func {adapter}', 1)[1].split('\nfunc ', 1)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   IndexError: list index out of range
+_ LiquidModuleLifecycleTests.test_lifecycle_adapters_delegate_to_existing_storage_owner (method='current') _
+tools\mindustry_godot_transpiler\tests\test_liquid_module_lifecycle.py:19: in test_lifecycle_adapters_delegate_to_existing_storage_owner
+    self.assertIn(f'source_liquid_module_state.source_{method}_state(', body)
+E   AssertionError: 'source_liquid_module_state.source_current_state(' not found in '(_args: Array = []) -> Variant:\n\treturn null\n'
+_ LiquidModuleLifecycleTests.test_lifecycle_adapters_delegate_to_existing_storage_owner (method='current_amount') _
+tools\mindustry_godot_transpiler\tests\test_liquid_module_lifecycle.py:19: in test_lifecycle_adapters_delegate_to_existing_storage_owner
+    self.assertIn(f'source_liquid_module_state.source_{method}_state(', body)
+E   AssertionError: 'source_liquid_module_state.source_current_amount_state(' not found in '(_args: Array = []) -> Variant:\n\treturn null\n'
+_ LiquidModuleLifecycleTests.test_lifecycle_adapters_delegate_to_existing_storage_owner (method='clear') _
+tools\mindustry_godot_transpiler\tests\test_liquid_module_lifecycle.py:19: in test_lifecycle_adapters_delegate_to_existing_storage_owner
+    self.assertIn(f'source_liquid_module_state.source_{method}_state(', body)
+E   AssertionError: 'source_liquid_module_state.source_clear_state(' not found in '(_args: Array = []) -> Variant:\n\treturn null\n'
+_ LiquidModuleLifecycleTests.test_lifecycle_adapters_delegate_to_existing_storage_owner (method='reset') _
+tools\mindustry_godot_transpiler\tests\test_liquid_module_lifecycle.py:19: in test_lifecycle_adapters_delegate_to_existing_storage_owner
+    self.assertIn(f'source_liquid_module_state.source_{method}_state(', body)
+E   AssertionError: 'source_liquid_module_state.source_reset_state(' not found in '(_args: Array = []) -> Variant:\n\treturn null\n'
+_ LiquidModuleLifecycleTests.test_lifecycle_adapters_delegate_to_existing_storage_owner (method='set') _
+tools\mindustry_godot_transpiler\tests\test_liquid_module_lifecycle.py:19: in test_lifecycle_adapters_delegate_to_existing_storage_owner
+    self.assertIn(f'source_liquid_module_state.source_{method}_state(', body)
+E   AssertionError: 'source_liquid_module_state.source_set_state(' not found in '(_args: Array = []) -> Variant:\n\treturn null\n'
+_ LiquidModuleLifecycleTests.test_lifecycle_golden_runtime_and_initialized_consumption _
+tools\mindustry_godot_transpiler\tests\test_liquid_module_lifecycle.py:46: in test_lifecycle_golden_runtime_and_initialized_consumption
+    self.assertNotIn('ERROR:', output)
+E   AssertionError: 'ERROR:' unexpectedly found in "Godot Engine v4.6.2.stable.official.71f334935 - https://godotengine.org\n\n[MCP Runtime] Server listening on port 7777\n[MCP Runtime] Autoload ready, server starting on port 7777\nSCRIPT ERROR: Invalid call. Nonexistent function 'java_initialize_state' in base 'RefCounted (LiquidModule.gd)'.\n   at: _ready (res://tools/runtime_proofs/LiquidModuleLifecycleProof.gd:13)\n   GDScript backtrace (most recent call first):\n       [0] _ready (res://tools/runtime_proofs/LiquidModuleLifecycleProof.gd:13)\n"
+_ LiquidModuleLifecycleTests.test_lifecycle_source_contracts_and_shared_frame_are_registered (method='initial') _
+tools\mindustry_godot_transpiler\tests\test_liquid_module_lifecycle.py:32: in test_lifecycle_source_contracts_and_shared_frame_are_registered
+    self.assertIn(owner, ledger[slice_id]['godot_owner'])
+                         ^^^^^^^^^^^^^^^^
+E   KeyError: 'N1996'
+_ LiquidModuleLifecycleTests.test_lifecycle_source_contracts_and_shared_frame_are_registered (method='current') _
+tools\mindustry_godot_transpiler\tests\test_liquid_module_lifecycle.py:32: in test_lifecycle_source_contracts_and_shared_frame_are_registered
+    self.assertIn(owner, ledger[slice_id]['godot_owner'])
+                         ^^^^^^^^^^^^^^^^
+E   KeyError: 'N1996'
+_ LiquidModuleLifecycleTests.test_lifecycle_source_contracts_and_shared_frame_are_registered (method='current_amount') _
+tools\mindustry_godot_transpiler\tests\test_liquid_module_lifecycle.py:32: in test_lifecycle_source_contracts_and_shared_frame_are_registered
+    self.assertIn(owner, ledger[slice_id]['godot_owner'])
+                         ^^^^^^^^^^^^^^^^
+E   KeyError: 'N1996'
+_ LiquidModuleLifecycleTests.test_lifecycle_source_contracts_and_shared_frame_are_registered (method='clear') _
+tools\mindustry_godot_transpiler\tests\test_liquid_module_lifecycle.py:32: in test_lifecycle_source_contracts_and_shared_frame_are_registered
+    self.assertIn(owner, ledger[slice_id]['godot_owner'])
+                         ^^^^^^^^^^^^^^^^
+E   KeyError: 'N1997'
+_ LiquidModuleLifecycleTests.test_lifecycle_source_contracts_and_shared_frame_are_registered (method='reset') _
+tools\mindustry_godot_transpiler\tests\test_liquid_module_lifecycle.py:32: in test_lifecycle_source_contracts_and_shared_frame_are_registered
+    self.assertIn(owner, ledger[slice_id]['godot_owner'])
+                         ^^^^^^^^^^^^^^^^
+E   KeyError: 'N1997'
+_ LiquidModuleLifecycleTests.test_lifecycle_source_contracts_and_shared_frame_are_registered (method='set') _
+tools\mindustry_godot_transpiler\tests\test_liquid_module_lifecycle.py:32: in test_lifecycle_source_contracts_and_shared_frame_are_registered
+    self.assertIn(owner, ledger[slice_id]['godot_owner'])
+                         ^^^^^^^^^^^^^^^^
+E   KeyError: 'N1998'
+=========================== short test summary info ===========================
+SUBFAILED(method='initial') tools/mindustry_godot_transpiler/tests/test_liquid_module_lifecycle.py::LiquidModuleLifecycleTests::test_lifecycle_adapters_delegate_to_existing_storage_owner
+SUBFAILED(method='current') tools/mindustry_godot_transpiler/tests/test_liquid_module_lifecycle.py::LiquidModuleLifecycleTests::test_lifecycle_adapters_delegate_to_existing_storage_owner
+SUBFAILED(method='current_amount') tools/mindustry_godot_transpiler/tests/test_liquid_module_lifecycle.py::LiquidModuleLifecycleTests::test_lifecycle_adapters_delegate_to_existing_storage_owner
+SUBFAILED(method='clear') tools/mindustry_godot_transpiler/tests/test_liquid_module_lifecycle.py::LiquidModuleLifecycleTests::test_lifecycle_adapters_delegate_to_existing_storage_owner
+SUBFAILED(method='reset') tools/mindustry_godot_transpiler/tests/test_liquid_module_lifecycle.py::LiquidModuleLifecycleTests::test_lifecycle_adapters_delegate_to_existing_storage_owner
+SUBFAILED(method='set') tools/mindustry_godot_transpiler/tests/test_liquid_module_lifecycle.py::LiquidModuleLifecycleTests::test_lifecycle_adapters_delegate_to_existing_storage_owner
+FAILED tools/mindustry_godot_transpiler/tests/test_liquid_module_lifecycle.py::LiquidModuleLifecycleTests::test_lifecycle_golden_runtime_and_initialized_consumption
+SUBFAILED(method='initial') tools/mindustry_godot_transpiler/tests/test_liquid_module_lifecycle.py::LiquidModuleLifecycleTests::test_lifecycle_source_contracts_and_shared_frame_are_registered
+SUBFAILED(method='current') tools/mindustry_godot_transpiler/tests/test_liquid_module_lifecycle.py::LiquidModuleLifecycleTests::test_lifecycle_source_contracts_and_shared_frame_are_registered
+SUBFAILED(method='current_amount') tools/mindustry_godot_transpiler/tests/test_liquid_module_lifecycle.py::LiquidModuleLifecycleTests::test_lifecycle_source_contracts_and_shared_frame_are_registered
+SUBFAILED(method='clear') tools/mindustry_godot_transpiler/tests/test_liquid_module_lifecycle.py::LiquidModuleLifecycleTests::test_lifecycle_source_contracts_and_shared_frame_are_registered
+SUBFAILED(method='reset') tools/mindustry_godot_transpiler/tests/test_liquid_module_lifecycle.py::LiquidModuleLifecycleTests::test_lifecycle_source_contracts_and_shared_frame_are_registered
+SUBFAILED(method='set') tools/mindustry_godot_transpiler/tests/test_liquid_module_lifecycle.py::LiquidModuleLifecycleTests::test_lifecycle_source_contracts_and_shared_frame_are_registered
+13 failed, 2 passed in 3.97s

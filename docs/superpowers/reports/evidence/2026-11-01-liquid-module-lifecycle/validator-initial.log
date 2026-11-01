@@ -1,0 +1,2 @@
+errors 0 modules 113 json_errors 0
+counts {'owner_registration': 0, 'slice_symbol_linkage': 0, 'contract_slice_linkage': 0, 'contract_schema_linkage': 0, 'return_schema_linkage': 0, 'implementation_linkage': 0, 'proof_test_metadata': 0, 'duplicate_canonical_ownership': 0, 'alias_graph': 0}

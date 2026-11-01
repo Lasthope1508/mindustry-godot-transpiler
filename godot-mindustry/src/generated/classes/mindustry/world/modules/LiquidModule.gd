@@ -14,6 +14,11 @@ const JAVA_METHODS := [{"modifiers": ["public"], "name": "updateFlow", "paramete
 const JAVA_ENUM_CONSTANTS := []
 const source_liquid_module_state := preload("res://src/game/SourceLiquidModuleState.gd")
 
+# Explicit instance-field initialization; caller resolves the canonical content list.
+func java_initialize_state(_args: Array = []) -> Dictionary:
+	var content_liquid_ids: Array = _args[0]
+	return source_liquid_module_state.source_initial_state(content_liquid_ids)
+
 func java_method_updateFlow_0(_args: Array = []) -> Variant:
 	return null
 
@@ -27,16 +32,24 @@ func java_method_hasFlowLiquid_3(_args: Array = []) -> Variant:
 	return null
 
 func java_method_current_4(_args: Array = []) -> Variant:
-	return null
+	var self_state: Dictionary = _args[0]
+	return source_liquid_module_state.source_current_state(self_state)
 
 func java_method_reset_5(_args: Array = []) -> Variant:
-	return null
+	var self_state: Dictionary = _args[0]
+	var liquid_id: int = int(_args[1])
+	var amount: float = float(_args[2])
+	return source_liquid_module_state.source_reset_state(self_state, liquid_id, amount)
 
 func java_method_set_6(_args: Array = []) -> Variant:
-	return null
+	var self_state: Dictionary = _args[0]
+	var liquid_id: int = int(_args[1])
+	var amount: float = float(_args[2])
+	return source_liquid_module_state.source_set_state(self_state, liquid_id, amount)
 
 func java_method_currentAmount_7(_args: Array = []) -> Variant:
-	return null
+	var self_state: Dictionary = _args[0]
+	return source_liquid_module_state.source_current_amount_state(self_state)
 
 func java_method_get_8(_args: Array = []) -> Variant:
 	var self_state: Dictionary = _args[0]
@@ -44,7 +57,8 @@ func java_method_get_8(_args: Array = []) -> Variant:
 	return source_liquid_module_state.source_get_state(self_state, liquid_id)
 
 func java_method_clear_9(_args: Array = []) -> Variant:
-	return null
+	var self_state: Dictionary = _args[0]
+	return source_liquid_module_state.source_clear_state(self_state)
 
 func java_method_add_10(_args: Array = []) -> Variant:
 	var self_state: Dictionary = _args[0]

@@ -14,8 +14,8 @@ Counts below are projected from the canonical `source_slice_ledger.json`, not fr
 
 | Bucket | Count |
 | --- | ---: |
-| Canonical slice ledger entries | 1450 |
-| Done | 1450 |
+| Canonical slice ledger entries | 1453 |
+| Done | 1453 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -77,6 +77,9 @@ Counts below are projected from the canonical `source_slice_ledger.json`, not fr
 - [x] N1993: Generated LiquidModule.get delegates to canonical indexed storage lookup with a registered explicit instance frame.
 - [x] N1994: Generated LiquidModule.add mutates canonical instance amounts/current identity and the explicitly shared static flow cache.
 - [x] N1995: Generated LiquidModule.remove composes canonical add with the exact source clamp; 15 independent storage cases and multi-tick BuildingComp consumption mutation pass in native MCP, with full-suite acceptance.
+- [x] N1996: Explicit LiquidModule instance-field initializer and current/currentAmount reads reuse the canonical storage frame, with required catalog input and fresh amount allocation.
+- [x] N1997: Generated LiquidModule clear/reset delegate to the existing storage owner, preserving Array/flow identity and source current transitions.
+- [x] N1998: Generated LiquidModule set preserves the pre-write current comparison, ties and negative values; 19 independent lifecycle cases and initialized consumption pass in native MCP, with full-suite acceptance.
 - [x] N167: Source BuildingComp drawConfigure canonical square state.
 - [x] N168: Source BuildingComp checkSolid default state.
 - [x] N169: Source BuildingComp handleDamage passthrough state.
@@ -3333,3 +3336,4 @@ When Godot CLI is not on `PATH`, use the configured MCP Godot path from `C:\User
 | 2026-10-31 | N1989–N1990 consumption audit remediation: canonical complete state and runtime application/ordered consumer dispatch, explicit row schema, independent native 21-case proof; validator 0 errors / 113 modules, editor exit 0, full suite 5341 tests / 22534 subtests pass. Existing compiler warnings are recorded separately from actual runtime errors. |
 | 2026-10-31 | N1991–N1992 ConsumeLiquid generated canonical delegates: update and efficiency reuse SourceConsumeLiquidState without new owners/contracts/schemas/modules; 17 independent golden cases plus BuildingComp composition pass in native MCP, actual runtime errors 0; validator 0 errors / 113 modules, editor exit 0, full suite 5344 tests / 22542 subtests pass. LiquidModule storage mutation and live Drill binding remain deferred. See reports/2026-10-31-consume-liquid-generated-delegate.md. |
 | 2026-10-31 | N1993–N1995 LiquidModule storage: get/add/remove delegate to one SourceLiquidModuleState domain owner, preserving current identity, source clamp and shared flow-cache effects; 15 independent cases plus real storage mutation through BuildingComp consumption pass in native MCP; validator 0 errors / 113 modules, editor exit 0, full suite 5347 tests / 22552 subtests pass. Constructor/flow lifecycle and live world/Drill binding remain deferred. See reports/2026-10-31-liquid-module-storage.md. |
+| 2026-11-01 | N1996–N1998 LiquidModule instance lifecycle: explicit field initializer, current/currentAmount, clear/reset/set reuse SourceLiquidModuleState and the registered storage frame; 19 independent lifecycle cases plus initialized consumption pass in native MCP; validator 0 errors / 113 modules, editor exit 0, full suite 5350 tests / 22570 subtests pass. Runtime content lookup, automatic new()/world ownership and full flow lifecycle remain deferred. See reports/2026-11-01-liquid-module-lifecycle.md. |

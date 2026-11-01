@@ -148602,6 +148602,156 @@
         "test_storage_golden_runtime_and_consumption_mutation"
       ],
       "runtime_proof": "/root/Main.LiquidModuleStorageProof"
+    },
+    "liquid_module_initial.content_liquid_ids": {
+      "status": "explicit-input",
+      "godot_owner": "SourceLiquidModuleState.source_initial_state",
+      "godot_symbol": "source_liquid_module_initial_input.content_liquid_ids",
+      "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+      "java_method": "<instance field initialization>",
+      "java_expr": "private float[] liquids = new float[content.liquids().size];",
+      "rule": "Resolved content.liquids() IDs in source content order. Array size supplies content.liquids().size and the first ID represents content.liquid(0). Caller supplies a nonempty canonical content list; there is no fallback capacity/ID.",
+      "tests": [
+        "test_lifecycle_adapters_delegate_to_existing_storage_owner",
+        "test_lifecycle_source_contracts_and_shared_frame_are_registered",
+        "test_lifecycle_golden_runtime_and_initialized_consumption"
+      ],
+      "runtime_proof": "/root/Main.LiquidModuleLifecycleProof"
+    },
+    "liquid_module_current.self_state": {
+      "status": "source-backed",
+      "godot_owner": "SourceLiquidModuleState.source_current_state",
+      "godot_symbol": "source_liquid_module_storage_input.self_state",
+      "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+      "java_method": "current()",
+      "java_expr": "private float[] liquids = new float[content.liquids().size];",
+      "rule": "Mutable adapter of the existing LiquidModule instance fields, not new Java state.",
+      "tests": [
+        "test_lifecycle_adapters_delegate_to_existing_storage_owner",
+        "test_lifecycle_source_contracts_and_shared_frame_are_registered",
+        "test_lifecycle_golden_runtime_and_initialized_consumption"
+      ],
+      "runtime_proof": "/root/Main.LiquidModuleLifecycleProof"
+    },
+    "liquid_module_current_amount.self_state": {
+      "status": "source-backed",
+      "godot_owner": "SourceLiquidModuleState.source_current_amount_state",
+      "godot_symbol": "source_liquid_module_storage_input.self_state",
+      "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+      "java_method": "currentAmount()",
+      "java_expr": "private float[] liquids = new float[content.liquids().size];",
+      "rule": "Mutable adapter of the existing LiquidModule instance fields, not new Java state.",
+      "tests": [
+        "test_lifecycle_adapters_delegate_to_existing_storage_owner",
+        "test_lifecycle_source_contracts_and_shared_frame_are_registered",
+        "test_lifecycle_golden_runtime_and_initialized_consumption"
+      ],
+      "runtime_proof": "/root/Main.LiquidModuleLifecycleProof"
+    },
+    "liquid_module_clear.self_state": {
+      "status": "source-backed",
+      "godot_owner": "SourceLiquidModuleState.source_clear_state",
+      "godot_symbol": "source_liquid_module_storage_input.self_state",
+      "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+      "java_method": "clear()",
+      "java_expr": "private float[] liquids = new float[content.liquids().size];",
+      "rule": "Mutable adapter of the existing LiquidModule instance fields, not new Java state.",
+      "tests": [
+        "test_lifecycle_adapters_delegate_to_existing_storage_owner",
+        "test_lifecycle_source_contracts_and_shared_frame_are_registered",
+        "test_lifecycle_golden_runtime_and_initialized_consumption"
+      ],
+      "runtime_proof": "/root/Main.LiquidModuleLifecycleProof"
+    },
+    "liquid_module_reset.self_state": {
+      "status": "source-backed",
+      "godot_owner": "SourceLiquidModuleState.source_reset_state",
+      "godot_symbol": "source_liquid_module_storage_input.self_state",
+      "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+      "java_method": "reset(Liquid liquid, float amount)",
+      "java_expr": "private float[] liquids = new float[content.liquids().size];",
+      "rule": "Mutable adapter of the existing LiquidModule instance fields, not new Java state.",
+      "tests": [
+        "test_lifecycle_adapters_delegate_to_existing_storage_owner",
+        "test_lifecycle_source_contracts_and_shared_frame_are_registered",
+        "test_lifecycle_golden_runtime_and_initialized_consumption"
+      ],
+      "runtime_proof": "/root/Main.LiquidModuleLifecycleProof"
+    },
+    "liquid_module_reset.liquid_id": {
+      "status": "source-backed",
+      "godot_owner": "SourceLiquidModuleState.source_reset_state",
+      "godot_symbol": "source_liquid_module_storage_input.liquid_id",
+      "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+      "java_method": "reset(Liquid liquid, float amount)",
+      "java_expr": "liquids[liquid.id] += amount;",
+      "rule": "Explicit Liquid.id; caller supplies a valid in-range content ID.",
+      "tests": [
+        "test_lifecycle_adapters_delegate_to_existing_storage_owner",
+        "test_lifecycle_source_contracts_and_shared_frame_are_registered",
+        "test_lifecycle_golden_runtime_and_initialized_consumption"
+      ],
+      "runtime_proof": "/root/Main.LiquidModuleLifecycleProof"
+    },
+    "liquid_module_reset.amount": {
+      "status": "source-backed",
+      "godot_owner": "SourceLiquidModuleState.source_reset_state",
+      "godot_symbol": "source_liquid_module_storage_input.amount",
+      "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+      "java_method": "reset(Liquid liquid, float amount)",
+      "java_expr": "public void add(Liquid liquid, float amount){",
+      "rule": "Source amount parameter; no invented nonnegative guard.",
+      "tests": [
+        "test_lifecycle_adapters_delegate_to_existing_storage_owner",
+        "test_lifecycle_source_contracts_and_shared_frame_are_registered",
+        "test_lifecycle_golden_runtime_and_initialized_consumption"
+      ],
+      "runtime_proof": "/root/Main.LiquidModuleLifecycleProof"
+    },
+    "liquid_module_set.self_state": {
+      "status": "source-backed",
+      "godot_owner": "SourceLiquidModuleState.source_set_state",
+      "godot_symbol": "source_liquid_module_storage_input.self_state",
+      "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+      "java_method": "set(Liquid liquid, float amount)",
+      "java_expr": "private float[] liquids = new float[content.liquids().size];",
+      "rule": "Mutable adapter of the existing LiquidModule instance fields, not new Java state.",
+      "tests": [
+        "test_lifecycle_adapters_delegate_to_existing_storage_owner",
+        "test_lifecycle_source_contracts_and_shared_frame_are_registered",
+        "test_lifecycle_golden_runtime_and_initialized_consumption"
+      ],
+      "runtime_proof": "/root/Main.LiquidModuleLifecycleProof"
+    },
+    "liquid_module_set.liquid_id": {
+      "status": "source-backed",
+      "godot_owner": "SourceLiquidModuleState.source_set_state",
+      "godot_symbol": "source_liquid_module_storage_input.liquid_id",
+      "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+      "java_method": "set(Liquid liquid, float amount)",
+      "java_expr": "liquids[liquid.id] += amount;",
+      "rule": "Explicit Liquid.id; caller supplies a valid in-range content ID.",
+      "tests": [
+        "test_lifecycle_adapters_delegate_to_existing_storage_owner",
+        "test_lifecycle_source_contracts_and_shared_frame_are_registered",
+        "test_lifecycle_golden_runtime_and_initialized_consumption"
+      ],
+      "runtime_proof": "/root/Main.LiquidModuleLifecycleProof"
+    },
+    "liquid_module_set.amount": {
+      "status": "source-backed",
+      "godot_owner": "SourceLiquidModuleState.source_set_state",
+      "godot_symbol": "source_liquid_module_storage_input.amount",
+      "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+      "java_method": "set(Liquid liquid, float amount)",
+      "java_expr": "public void add(Liquid liquid, float amount){",
+      "rule": "Source amount parameter; no invented nonnegative guard.",
+      "tests": [
+        "test_lifecycle_adapters_delegate_to_existing_storage_owner",
+        "test_lifecycle_source_contracts_and_shared_frame_are_registered",
+        "test_lifecycle_golden_runtime_and_initialized_consumption"
+      ],
+      "runtime_proof": "/root/Main.LiquidModuleLifecycleProof"
     }
   },
   "version": 1

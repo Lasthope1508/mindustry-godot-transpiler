@@ -52,18 +52,23 @@ def _canonicalize_generated_preload_aliases(lines: list[str]) -> list[str]:
 
 
 def _method_body_lines(java_file: dict, type_entry: dict, method: dict, method_index: int) -> list[str]:
-    if java_file.get("path") == "mindustry/world/modules/LiquidModule.java" and type_entry.get("name") == "LiquidModule" and method.get("name") in ("get", "add", "remove"):
-        lines = [
-            "\tvar self_state: Dictionary = _args[0]",
-            "\tvar liquid_id: int = int(_args[1])",
-        ]
-        if method["name"] == "get":
-            return lines + ["\treturn source_liquid_module_state.source_get_state(self_state, liquid_id)"]
-        return lines + [
-            "\tvar amount: float = float(_args[2])",
-            "\tvar cache_sums: Array = _args[3]",
-            f"\treturn source_liquid_module_state.source_{method['name']}_state(self_state, liquid_id, amount, cache_sums)",
-        ]
+    if java_file.get("path") == "mindustry/world/modules/LiquidModule.java" and type_entry.get("name") == "LiquidModule":
+        storage_methods = {"get": "get", "add": "add", "remove": "remove", "current": "current", "currentAmount": "current_amount", "clear": "clear", "reset": "reset", "set": "set"}
+        method_name = method.get("name")
+        if method_name in storage_methods:
+            lines = ["\tvar self_state: Dictionary = _args[0]"]
+            if method_name in ("current", "currentAmount", "clear"):
+                return lines + [f"\treturn source_liquid_module_state.source_{storage_methods[method_name]}_state(self_state)"]
+            lines.append("\tvar liquid_id: int = int(_args[1])")
+            if method_name == "get":
+                return lines + ["\treturn source_liquid_module_state.source_get_state(self_state, liquid_id)"]
+            lines.append("\tvar amount: float = float(_args[2])")
+            if method_name in ("reset", "set"):
+                return lines + [f"\treturn source_liquid_module_state.source_{method_name}_state(self_state, liquid_id, amount)"]
+            return lines + [
+                "\tvar cache_sums: Array = _args[3]",
+                f"\treturn source_liquid_module_state.source_{method_name}_state(self_state, liquid_id, amount, cache_sums)",
+            ]
     method_name = method.get("name")
     parameters = method.get("parameters", [])
     parameter_types = [parameter.get("type") for parameter in parameters]
@@ -13872,6 +13877,14 @@ def _script_text(java_file: dict, type_entry: dict) -> str:
             'const SourceShootPatternDefaults := preload("res://src/game/SourceShootPatternDefaults.gd")',
             "const SOURCE_SHOOT_PATTERN_SHOTS_DEFAULT := SourceShootPatternDefaults.SHOTS_DEFAULT",
             "const SOURCE_SHOOT_PATTERN_FIRST_SHOT_DELAY_DEFAULT := SourceShootPatternDefaults.FIRST_SHOT_DELAY_DEFAULT",
+        ])
+    if java_file.get("path") == "mindustry/world/modules/LiquidModule.java" and type_entry.get("name") == "LiquidModule":
+        lines.extend([
+            "",
+            "# Explicit instance-field initialization; caller resolves the canonical content list.",
+            "func java_initialize_state(_args: Array = []) -> Dictionary:",
+            "\tvar content_liquid_ids: Array = _args[0]",
+            "\treturn source_liquid_module_state.source_initial_state(content_liquid_ids)",
         ])
     lines.extend(_helper_lines(java_file, type_entry))
     lines.extend(_method_stub_lines(java_file, type_entry))

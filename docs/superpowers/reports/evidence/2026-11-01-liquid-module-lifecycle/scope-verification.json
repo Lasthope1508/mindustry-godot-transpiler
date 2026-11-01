@@ -1,0 +1,52 @@
+[
+  {
+    "catalog": "source_symbol_registry",
+    "added": [
+      "liquid_module_clear.self_state",
+      "liquid_module_current.self_state",
+      "liquid_module_current_amount.self_state",
+      "liquid_module_initial.content_liquid_ids",
+      "liquid_module_reset.amount",
+      "liquid_module_reset.liquid_id",
+      "liquid_module_reset.self_state",
+      "liquid_module_set.amount",
+      "liquid_module_set.liquid_id",
+      "liquid_module_set.self_state"
+    ],
+    "changed_existing": []
+  },
+  {
+    "catalog": "source_api_contracts",
+    "added": [
+      "SourceLiquidModuleState.source_clear_state",
+      "SourceLiquidModuleState.source_current_amount_state",
+      "SourceLiquidModuleState.source_current_state",
+      "SourceLiquidModuleState.source_initial_state",
+      "SourceLiquidModuleState.source_reset_state",
+      "SourceLiquidModuleState.source_set_state"
+    ],
+    "changed_existing": []
+  },
+  {
+    "catalog": "source_state_schema",
+    "added": [
+      "source_liquid_module_clear_result",
+      "source_liquid_module_current_amount_result",
+      "source_liquid_module_current_result",
+      "source_liquid_module_initial_input",
+      "source_liquid_module_initial_result",
+      "source_liquid_module_reset_result",
+      "source_liquid_module_set_result"
+    ],
+    "changed_existing": []
+  },
+  {
+    "catalog": "source_slice_ledger",
+    "added": [
+      "N1996",
+      "N1997",
+      "N1998"
+    ],
+    "changed_existing": []
+  }
+]

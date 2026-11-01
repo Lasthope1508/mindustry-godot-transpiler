@@ -49293,6 +49293,102 @@
         "WindowedMean allocation, flow timers, cache reset/poll/display and stopFlow are not implemented; caller supplies actual flow presence and the shared static cacheSums array.",
         "Other LiquidModule methods, serialization and world/Drill resource ownership remain separate integration work."
       ]
+    },
+    "N1996": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+      "java_class": "mindustry.world.modules.LiquidModule",
+      "java_method": "<instance field initialization>; current(); currentAmount()",
+      "godot_owner": "SourceLiquidModuleState.source_initial_state; SourceLiquidModuleState.source_current_state; SourceLiquidModuleState.source_current_amount_state",
+      "generated_owner": "LiquidModule.java_initialize_state; LiquidModule.java_method_current_4; LiquidModule.java_method_currentAmount_7",
+      "exact_exprs": [
+        "private float[] liquids = new float[content.liquids().size];",
+        "private Liquid current = content.liquid(0);",
+        "private @Nullable WindowedMean[] flow;",
+        "public Liquid current(){",
+        "return current;",
+        "public float currentAmount(){",
+        "return liquids[current.id];"
+      ],
+      "source_symbols": [
+        "liquid_module_initial.content_liquid_ids",
+        "liquid_module_current.self_state",
+        "liquid_module_current_amount.self_state"
+      ],
+      "tests": [
+        "test_lifecycle_adapters_delegate_to_existing_storage_owner",
+        "test_lifecycle_source_contracts_and_shared_frame_are_registered",
+        "test_lifecycle_golden_runtime_and_initialized_consumption"
+      ],
+      "runtime_proof": "/root/Main.LiquidModuleLifecycleProof",
+      "rule": "Cohesive instance lifecycle in the existing SourceLiquidModuleState owner; generated methods only normalize arguments and delegate.",
+      "deferred_exprs": [
+        "Runtime content provider and automatic binding from Godot new() remain deferred; java_initialize_state requires resolved canonical content IDs and is not a parsed Java constructor.",
+        "Array capacity changes, flow sampling/reset/display lifecycle, serialization and live world/Drill ownership remain separate integration work."
+      ]
+    },
+    "N1997": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+      "java_class": "mindustry.world.modules.LiquidModule",
+      "java_method": "clear(); reset(Liquid liquid, float amount)",
+      "godot_owner": "SourceLiquidModuleState.source_clear_state; SourceLiquidModuleState.source_reset_state",
+      "generated_owner": "LiquidModule.java_method_clear_9; LiquidModule.java_method_reset_5",
+      "exact_exprs": [
+        "public void clear(){",
+        "Arrays.fill(liquids, 0);",
+        "public void reset(Liquid liquid, float amount){",
+        "Arrays.fill(liquids, 0f);",
+        "liquids[liquid.id] = amount;",
+        "current = liquid;"
+      ],
+      "source_symbols": [
+        "liquid_module_clear.self_state",
+        "liquid_module_reset.self_state",
+        "liquid_module_reset.liquid_id",
+        "liquid_module_reset.amount"
+      ],
+      "tests": [
+        "test_lifecycle_adapters_delegate_to_existing_storage_owner",
+        "test_lifecycle_source_contracts_and_shared_frame_are_registered",
+        "test_lifecycle_golden_runtime_and_initialized_consumption"
+      ],
+      "runtime_proof": "/root/Main.LiquidModuleLifecycleProof",
+      "rule": "Cohesive instance lifecycle in the existing SourceLiquidModuleState owner; generated methods only normalize arguments and delegate.",
+      "deferred_exprs": [
+        "Runtime content provider and automatic binding from Godot new() remain deferred; java_initialize_state requires resolved canonical content IDs and is not a parsed Java constructor.",
+        "Array capacity changes, flow sampling/reset/display lifecycle, serialization and live world/Drill ownership remain separate integration work."
+      ]
+    },
+    "N1998": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+      "java_class": "mindustry.world.modules.LiquidModule",
+      "java_method": "set(Liquid liquid, float amount)",
+      "godot_owner": "SourceLiquidModuleState.source_set_state",
+      "generated_owner": "LiquidModule.java_method_set_6",
+      "exact_exprs": [
+        "public void set(Liquid liquid, float amount){",
+        "if(amount >= liquids[current.id]){",
+        "current = liquid;",
+        "liquids[liquid.id] = amount;"
+      ],
+      "source_symbols": [
+        "liquid_module_set.self_state",
+        "liquid_module_set.liquid_id",
+        "liquid_module_set.amount"
+      ],
+      "tests": [
+        "test_lifecycle_adapters_delegate_to_existing_storage_owner",
+        "test_lifecycle_source_contracts_and_shared_frame_are_registered",
+        "test_lifecycle_golden_runtime_and_initialized_consumption"
+      ],
+      "runtime_proof": "/root/Main.LiquidModuleLifecycleProof",
+      "rule": "Cohesive instance lifecycle in the existing SourceLiquidModuleState owner; generated methods only normalize arguments and delegate.",
+      "deferred_exprs": [
+        "Runtime content provider and automatic binding from Godot new() remain deferred; java_initialize_state requires resolved canonical content IDs and is not a parsed Java constructor.",
+        "Array capacity changes, flow sampling/reset/display lifecycle, serialization and live world/Drill ownership remain separate integration work."
+      ]
     }
   },
   "version": 1

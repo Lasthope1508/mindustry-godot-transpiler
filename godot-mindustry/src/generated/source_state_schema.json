@@ -164304,6 +164304,175 @@
           ]
         }
       }
+    },
+    "source_liquid_module_initial_input": {
+      "status": "active",
+      "owner": "SourceLiquidModuleState.source_initial_state",
+      "runtime_proof": "/root/Main.LiquidModuleLifecycleProof",
+      "keys": {
+        "content_liquid_ids": {
+          "type": "Array",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+          "java_method": "<instance field initialization>",
+          "java_expr": "private float[] liquids = new float[content.liquids().size];",
+          "rule": "Resolved content.liquids() IDs in source content order. Array size supplies content.liquids().size and the first ID represents content.liquid(0). Caller supplies a nonempty canonical content list; there is no fallback capacity/ID."
+        }
+      }
+    },
+    "source_liquid_module_initial_result": {
+      "status": "active",
+      "owner": "SourceLiquidModuleState.source_initial_state",
+      "runtime_proof": "/root/Main.LiquidModuleLifecycleProof",
+      "keys": {
+        "liquids": {
+          "type": "Array",
+          "status": "alias",
+          "alias_of": "source_liquid_module_storage_state.liquids",
+          "used_by": [
+            "SourceLiquidModuleState.source_initial_state"
+          ]
+        },
+        "current": {
+          "type": "int",
+          "status": "alias",
+          "alias_of": "source_liquid_module_storage_state.current",
+          "used_by": [
+            "SourceLiquidModuleState.source_initial_state"
+          ]
+        },
+        "flow": {
+          "type": "Variant",
+          "status": "alias",
+          "alias_of": "source_liquid_module_storage_state.flow",
+          "used_by": [
+            "SourceLiquidModuleState.source_initial_state"
+          ]
+        }
+      }
+    },
+    "source_liquid_module_current_result": {
+      "status": "active",
+      "owner": "SourceLiquidModuleState.source_current_state",
+      "runtime_proof": "/root/Main.LiquidModuleLifecycleProof",
+      "keys": {
+        "current": {
+          "type": "int",
+          "status": "alias",
+          "alias_of": "source_liquid_module_storage_state.current",
+          "used_by": [
+            "SourceLiquidModuleState.source_current_state"
+          ]
+        }
+      }
+    },
+    "source_liquid_module_current_amount_result": {
+      "status": "active",
+      "owner": "SourceLiquidModuleState.source_current_amount_state",
+      "runtime_proof": "/root/Main.LiquidModuleLifecycleProof",
+      "keys": {
+        "amount": {
+          "type": "float",
+          "status": "alias",
+          "alias_of": "source_liquid_module_get_result.amount",
+          "used_by": [
+            "SourceLiquidModuleState.source_current_amount_state"
+          ]
+        }
+      }
+    },
+    "source_liquid_module_clear_result": {
+      "status": "active",
+      "owner": "SourceLiquidModuleState.source_clear_state",
+      "runtime_proof": "/root/Main.LiquidModuleLifecycleProof",
+      "keys": {
+        "liquids": {
+          "type": "Array",
+          "status": "alias",
+          "alias_of": "source_liquid_module_storage_state.liquids",
+          "used_by": [
+            "SourceLiquidModuleState.source_clear_state"
+          ]
+        },
+        "current": {
+          "type": "int",
+          "status": "alias",
+          "alias_of": "source_liquid_module_storage_state.current",
+          "used_by": [
+            "SourceLiquidModuleState.source_clear_state"
+          ]
+        },
+        "flow": {
+          "type": "Variant",
+          "status": "alias",
+          "alias_of": "source_liquid_module_storage_state.flow",
+          "used_by": [
+            "SourceLiquidModuleState.source_clear_state"
+          ]
+        }
+      }
+    },
+    "source_liquid_module_reset_result": {
+      "status": "active",
+      "owner": "SourceLiquidModuleState.source_reset_state",
+      "runtime_proof": "/root/Main.LiquidModuleLifecycleProof",
+      "keys": {
+        "liquids": {
+          "type": "Array",
+          "status": "alias",
+          "alias_of": "source_liquid_module_storage_state.liquids",
+          "used_by": [
+            "SourceLiquidModuleState.source_reset_state"
+          ]
+        },
+        "current": {
+          "type": "int",
+          "status": "alias",
+          "alias_of": "source_liquid_module_storage_state.current",
+          "used_by": [
+            "SourceLiquidModuleState.source_reset_state"
+          ]
+        },
+        "flow": {
+          "type": "Variant",
+          "status": "alias",
+          "alias_of": "source_liquid_module_storage_state.flow",
+          "used_by": [
+            "SourceLiquidModuleState.source_reset_state"
+          ]
+        }
+      }
+    },
+    "source_liquid_module_set_result": {
+      "status": "active",
+      "owner": "SourceLiquidModuleState.source_set_state",
+      "runtime_proof": "/root/Main.LiquidModuleLifecycleProof",
+      "keys": {
+        "liquids": {
+          "type": "Array",
+          "status": "alias",
+          "alias_of": "source_liquid_module_storage_state.liquids",
+          "used_by": [
+            "SourceLiquidModuleState.source_set_state"
+          ]
+        },
+        "current": {
+          "type": "int",
+          "status": "alias",
+          "alias_of": "source_liquid_module_storage_state.current",
+          "used_by": [
+            "SourceLiquidModuleState.source_set_state"
+          ]
+        },
+        "flow": {
+          "type": "Variant",
+          "status": "alias",
+          "alias_of": "source_liquid_module_storage_state.flow",
+          "used_by": [
+            "SourceLiquidModuleState.source_set_state"
+          ]
+        }
+      }
     }
   },
   "version": 1
