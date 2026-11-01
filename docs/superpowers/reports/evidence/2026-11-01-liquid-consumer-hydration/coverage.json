@@ -1,0 +1,587 @@
+{
+  "resolved": [
+    {
+      "block": "multi-press",
+      "source_calls": 1,
+      "source_line": 1052,
+      "descriptors": [
+        {
+          "liquid": "water",
+          "amount": 0.1
+        }
+      ]
+    },
+    {
+      "block": "plastanium-compressor",
+      "source_calls": 1,
+      "source_line": 1118,
+      "descriptors": [
+        {
+          "liquid": "oil",
+          "amount": 0.25
+        }
+      ]
+    },
+    {
+      "block": "cryofluid-mixer",
+      "source_calls": 1,
+      "source_line": 1168,
+      "descriptors": [
+        {
+          "liquid": "water",
+          "amount": 0.2
+        }
+      ]
+    },
+    {
+      "block": "separator",
+      "source_calls": 1,
+      "source_line": 1231,
+      "descriptors": [
+        {
+          "liquid": "slag",
+          "amount": 0.06666666666666667
+        }
+      ]
+    },
+    {
+      "block": "disassembler",
+      "source_calls": 1,
+      "source_line": 1249,
+      "descriptors": [
+        {
+          "liquid": "slag",
+          "amount": 0.12
+        }
+      ]
+    },
+    {
+      "block": "coal-centrifuge",
+      "source_calls": 1,
+      "source_line": 1311,
+      "descriptors": [
+        {
+          "liquid": "oil",
+          "amount": 0.1
+        }
+      ]
+    },
+    {
+      "block": "electrolyzer",
+      "source_calls": 1,
+      "source_line": 1354,
+      "descriptors": [
+        {
+          "liquid": "water",
+          "amount": 0.16666666666666666
+        }
+      ]
+    },
+    {
+      "block": "oxidation-chamber",
+      "source_calls": 1,
+      "source_line": 1427,
+      "descriptors": [
+        {
+          "liquid": "ozone",
+          "amount": 0.03333333333333333
+        }
+      ]
+    },
+    {
+      "block": "slag-heater",
+      "source_calls": 1,
+      "source_line": 1465,
+      "descriptors": [
+        {
+          "liquid": "slag",
+          "amount": 0.6666666666666666
+        }
+      ]
+    },
+    {
+      "block": "slag-incinerator",
+      "source_calls": 1,
+      "source_line": 1529,
+      "descriptors": [
+        {
+          "liquid": "slag",
+          "amount": 0.0
+        }
+      ]
+    },
+    {
+      "block": "slag-centrifuge",
+      "source_calls": 1,
+      "source_line": 1554,
+      "descriptors": [
+        {
+          "liquid": "slag",
+          "amount": 0.6666666666666666
+        }
+      ]
+    },
+    {
+      "block": "surge-crucible",
+      "source_calls": 1,
+      "source_line": 1585,
+      "descriptors": [
+        {
+          "liquid": "slag",
+          "amount": 2.6666666666666665
+        }
+      ]
+    },
+    {
+      "block": "cyanogen-synthesizer",
+      "source_calls": 1,
+      "source_line": 1621,
+      "descriptors": [
+        {
+          "liquid": "arkycite",
+          "amount": 2.6666666666666665
+        }
+      ]
+    },
+    {
+      "block": "phase-synthesizer",
+      "source_calls": 1,
+      "source_line": 1653,
+      "descriptors": [
+        {
+          "liquid": "ozone",
+          "amount": 0.13333333333333333
+        }
+      ]
+    },
+    {
+      "block": "heat-reactor",
+      "source_calls": 1,
+      "source_line": 1687,
+      "descriptors": [
+        {
+          "liquid": "nitrogen",
+          "amount": 0.016666666666666666
+        }
+      ]
+    },
+    {
+      "block": "build-tower",
+      "source_calls": 1,
+      "source_line": 1997,
+      "descriptors": [
+        {
+          "liquid": "nitrogen",
+          "amount": 0.05
+        }
+      ]
+    },
+    {
+      "block": "regen-projector",
+      "source_calls": 1,
+      "source_line": 2009,
+      "descriptors": [
+        {
+          "liquid": "hydrogen",
+          "amount": 0.016666666666666666
+        }
+      ]
+    },
+    {
+      "block": "unit-cargo-loader",
+      "source_calls": 1,
+      "source_line": 2270,
+      "descriptors": [
+        {
+          "liquid": "nitrogen",
+          "amount": 0.16666666666666666
+        }
+      ]
+    },
+    {
+      "block": "reinforced-pump",
+      "source_calls": 1,
+      "source_line": 2401,
+      "descriptors": [
+        {
+          "liquid": "hydrogen",
+          "amount": 0.025
+        }
+      ]
+    },
+    {
+      "block": "steam-generator",
+      "source_calls": 1,
+      "source_line": 2546,
+      "descriptors": [
+        {
+          "liquid": "water",
+          "amount": 0.1
+        }
+      ]
+    },
+    {
+      "block": "differential-generator",
+      "source_calls": 1,
+      "source_line": 2577,
+      "descriptors": [
+        {
+          "liquid": "cryofluid",
+          "amount": 0.1
+        }
+      ]
+    },
+    {
+      "block": "impact-reactor",
+      "source_calls": 1,
+      "source_line": 2632,
+      "descriptors": [
+        {
+          "liquid": "cryofluid",
+          "amount": 0.25
+        }
+      ]
+    },
+    {
+      "block": "flux-reactor",
+      "source_calls": 1,
+      "source_line": 2762,
+      "descriptors": [
+        {
+          "liquid": "cyanogen",
+          "amount": 0.15
+        }
+      ]
+    },
+    {
+      "block": "neoplasia-reactor",
+      "source_calls": 2,
+      "source_line": 2798,
+      "descriptors": [
+        {
+          "liquid": "arkycite",
+          "amount": 1.3333333333333333
+        },
+        {
+          "liquid": "water",
+          "amount": 0.16666666666666666
+        }
+      ]
+    },
+    {
+      "block": "mechanical-drill",
+      "source_calls": 1,
+      "source_line": 2865,
+      "descriptors": [
+        {
+          "liquid": "water",
+          "amount": 0.05,
+          "optional": true,
+          "booster": true
+        }
+      ]
+    },
+    {
+      "block": "pneumatic-drill",
+      "source_calls": 1,
+      "source_line": 2877,
+      "descriptors": [
+        {
+          "liquid": "water",
+          "amount": 0.058333333333333334,
+          "optional": true,
+          "booster": true
+        }
+      ]
+    },
+    {
+      "block": "laser-drill",
+      "source_calls": 1,
+      "source_line": 2886,
+      "descriptors": [
+        {
+          "liquid": "water",
+          "amount": 0.08,
+          "optional": true,
+          "booster": true
+        }
+      ]
+    },
+    {
+      "block": "blast-drill",
+      "source_calls": 1,
+      "source_line": 2899,
+      "descriptors": [
+        {
+          "liquid": "water",
+          "amount": 0.1,
+          "optional": true,
+          "booster": true
+        }
+      ]
+    },
+    {
+      "block": "cultivator",
+      "source_calls": 1,
+      "source_line": 2933,
+      "descriptors": [
+        {
+          "liquid": "water",
+          "amount": 0.3
+        }
+      ]
+    },
+    {
+      "block": "oil-extractor",
+      "source_calls": 1,
+      "source_line": 2964,
+      "descriptors": [
+        {
+          "liquid": "water",
+          "amount": 0.15
+        }
+      ]
+    },
+    {
+      "block": "large-cliff-crusher",
+      "source_calls": 1,
+      "source_line": 3016,
+      "descriptors": [
+        {
+          "liquid": "hydrogen",
+          "amount": 0.016666666666666666
+        }
+      ]
+    },
+    {
+      "block": "plasma-bore",
+      "source_calls": 1,
+      "source_line": 3038,
+      "descriptors": [
+        {
+          "liquid": "hydrogen",
+          "amount": 0.004166666666666667,
+          "optional": true,
+          "booster": true
+        }
+      ]
+    },
+    {
+      "block": "large-plasma-bore",
+      "source_calls": 2,
+      "source_line": 3052,
+      "descriptors": [
+        {
+          "liquid": "hydrogen",
+          "amount": 0.008333333333333333
+        },
+        {
+          "liquid": "nitrogen",
+          "amount": 0.05,
+          "optional": true,
+          "booster": true
+        }
+      ]
+    },
+    {
+      "block": "impact-drill",
+      "source_calls": 2,
+      "source_line": 3070,
+      "descriptors": [
+        {
+          "liquid": "water",
+          "amount": 0.16666666666666666
+        },
+        {
+          "liquid": "ozone",
+          "amount": 0.05,
+          "optional": true,
+          "booster": true
+        }
+      ]
+    },
+    {
+      "block": "eruption-drill",
+      "source_calls": 2,
+      "source_line": 3093,
+      "descriptors": [
+        {
+          "liquid": "hydrogen",
+          "amount": 0.06666666666666667
+        },
+        {
+          "liquid": "cyanogen",
+          "amount": 0.0125,
+          "optional": true,
+          "booster": true
+        }
+      ]
+    },
+    {
+      "block": "titan",
+      "source_calls": 1,
+      "source_line": 4638,
+      "descriptors": [
+        {
+          "liquid": "hydrogen",
+          "amount": 0.08333333333333333
+        }
+      ]
+    },
+    {
+      "block": "lustre",
+      "source_calls": 1,
+      "source_line": 5146,
+      "descriptors": [
+        {
+          "liquid": "nitrogen",
+          "amount": 0.1
+        }
+      ]
+    },
+    {
+      "block": "exponential-reconstructor",
+      "source_calls": 1,
+      "source_line": 6342,
+      "descriptors": [
+        {
+          "liquid": "cryofluid",
+          "amount": 1.0
+        }
+      ]
+    },
+    {
+      "block": "tetrative-reconstructor",
+      "source_calls": 1,
+      "source_line": 6364,
+      "descriptors": [
+        {
+          "liquid": "cryofluid",
+          "amount": 3.0
+        }
+      ]
+    },
+    {
+      "block": "tank-refabricator",
+      "source_calls": 1,
+      "source_line": 6448,
+      "descriptors": [
+        {
+          "liquid": "hydrogen",
+          "amount": 0.05
+        }
+      ]
+    },
+    {
+      "block": "ship-refabricator",
+      "source_calls": 1,
+      "source_line": 6465,
+      "descriptors": [
+        {
+          "liquid": "hydrogen",
+          "amount": 0.05
+        }
+      ]
+    },
+    {
+      "block": "mech-refabricator",
+      "source_calls": 1,
+      "source_line": 6483,
+      "descriptors": [
+        {
+          "liquid": "hydrogen",
+          "amount": 0.05
+        }
+      ]
+    },
+    {
+      "block": "prime-refabricator",
+      "source_calls": 1,
+      "source_line": 6501,
+      "descriptors": [
+        {
+          "liquid": "nitrogen",
+          "amount": 0.16666666666666666
+        }
+      ]
+    },
+    {
+      "block": "tank-assembler",
+      "source_calls": 1,
+      "source_line": 6521,
+      "descriptors": [
+        {
+          "liquid": "cyanogen",
+          "amount": 0.15
+        }
+      ]
+    },
+    {
+      "block": "ship-assembler",
+      "source_calls": 1,
+      "source_line": 6536,
+      "descriptors": [
+        {
+          "liquid": "cyanogen",
+          "amount": 0.2
+        }
+      ]
+    },
+    {
+      "block": "mech-assembler",
+      "source_calls": 1,
+      "source_line": 6550,
+      "descriptors": [
+        {
+          "liquid": "cyanogen",
+          "amount": 0.2
+        }
+      ]
+    },
+    {
+      "block": "unit-repair-tower",
+      "source_calls": 1,
+      "source_line": 6575,
+      "descriptors": [
+        {
+          "liquid": "ozone",
+          "amount": 0.05
+        }
+      ]
+    },
+    {
+      "block": "advanced-launch-pad",
+      "source_calls": 1,
+      "source_line": 6800,
+      "descriptors": [
+        {
+          "liquid": "oil",
+          "amount": 0.15
+        }
+      ]
+    },
+    {
+      "block": "hyper-processor",
+      "source_calls": 1,
+      "source_line": 6860,
+      "descriptors": [
+        {
+          "liquid": "cryofluid",
+          "amount": 0.08
+        }
+      ]
+    }
+  ],
+  "unresolved": [
+    {
+      "block": "thorium-reactor",
+      "source_calls": 1,
+      "source_line": 2618,
+      "rule": "Unsupported expression, scope, assignment, flag or consumer mutation; no consumeLiquid metadata emitted for this block."
+    }
+  ],
+  "resolved_blocks": 49,
+  "resolved_calls": 53,
+  "unresolved_blocks": 1,
+  "unresolved_calls": 1
+}

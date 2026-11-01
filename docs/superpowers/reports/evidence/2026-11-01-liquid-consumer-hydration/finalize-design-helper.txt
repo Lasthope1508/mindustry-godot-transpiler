@@ -1,0 +1,37 @@
+import json
+import re
+from pathlib import Path
+
+ROOT = Path(r'C:/Users/Admin/Documents/Game/mindustry-godot-transpiler-copy-20260714-073528')
+relative = 'docs/superpowers/specs/2026-06-23-mindustry-godot-gdscript-transpiler-design.md'
+path = ROOT / relative
+old = (Path('C:/tmp/liquid-consumer-before') / relative).read_text(encoding='utf-8')
+assert path.read_text(encoding='utf-8') == old
+log = Path('C:/tmp/liquid-consumer-full.log').read_text(encoding='utf-8')
+match = re.search(r'^(\d+) passed, (\d+) subtests passed in ([\d.]+)s', log, re.M)
+assert match, 'Complete successful full gate required'
+tests, subtests, seconds = match.groups()
+assert Path('C:/tmp/liquid-consumer-native-accepted').exists()
+assert json.loads(Path('C:/tmp/liquid-consumer-replay.json').read_text(encoding='utf-8'))['matches']
+assert not json.loads(Path('C:/tmp/liquid-consumer-validator-final.json').read_text(encoding='utf-8'))['errors']
+text = old.replace('| Canonical slice ledger entries | 1456 |', '| Canonical slice ledger entries | 1458 |').replace('| Done | 1456 |', '| Done | 1458 |')
+needle = '- [x] N2001: Actual placed building owns one canonical LiquidModule frame; real Drill storage, multi-tick supplied-consumer composition and allocation guards pass native MCP, full-suite and catalog acceptance.'
+assert text.count(needle) == 1
+text = text.replace(needle, needle + '\n' + '\n'.join([
+    '- [x] N2002: Source direct ConsumeLiquid definitions preserve Java field identity, amount expression, selector order and explicit flags; 53 calls / 49 blocks resolved, thorium-reactor remains unresolved.',
+    '- [x] N2003: Typed liquid consumer descriptor view is shared per actual Block during placement; source definitions remain unchanged, field-to-slug mapping and optional classification pass native MCP and full acceptance. Apply/filter, concrete callbacks and automatic ticks remain deferred.',
+]))
+start = text.index('Current cube:')
+end = text.index('\n\n## Done', start)
+text = text[:start] + 'Current cube: `single-liquid source descriptors and typed Block hydration`. N2002–N2003 export 53 direct constructor/selector calls across 49 blocks and bind one shared typed descriptor view per actual Block. Ledger: 1458 records; catalog: 113 modules. The thorium-reactor variable amount is unresolved. Existing per-building storage ownership remains canonical; consumer apply/filter, concrete production callbacks and automatic Drill ticks are still open. These counts do not measure full gameplay parity. See `reports/2026-11-01-liquid-consumer-hydration.md` for source coverage, acceptance and next dependencies.' + text[end:]
+rows = '\n'.join([
+    '| N2002 | Source direct liquid consumer definitions | Existing content extraction emits 53 standalone literal/division constructor calls across 49 blocks, preserving explicit selector flags and order; comments, unknown expressions/mutations and unsupported scopes do not become guessed consumers. Thorium-reactor remains unresolved. See reports/2026-11-01-liquid-consumer-hydration.md. |',
+    f'| N2003 | Typed shared Block liquid descriptors | Actual placement binds one typed descriptor view per Block through canonical constructor/ignore/catalog owners. Native proof preserves source definitions and shared identity, resolves distinct Java field/content slug names and verifies optional efficiency [1,1], [1,0.5], [1,0]. Focused 16 tests / 13 subtests; full suite {tests} tests / {subtests} subtests in {seconds}s; catalog 0 errors / 113 modules, editor exit 0. Apply/filter, concrete consumers and automatic ticks remain open. |',
+])
+text = text.replace('\n\n## Not Done\n', '\n' + rows + '\n\n## Not Done\n', 1)
+start = text.index('## Not Done\n\n') + len('## Not Done\n\n')
+end = text.index('\n\n## Scope', start)
+text = text[:start] + 'N2002–N2003 are accepted for direct single-liquid definition extraction and shared typed Block descriptor binding. CP-PO2 still needs consumer apply/init capability and filters plus concrete production callbacks; CP-PO3 still needs source predicates, unique real-building traversal and automatic resource ticks. Thorium-reactor variable expressions, inherited/mixed consumers, reload, flow and serialization remain unresolved. Follow reports/2026-11-01-liquid-consumer-hydration.md and preserve canonical owners rather than introducing fallback defaults or duplicate formulas.' + text[end:]
+text += f'| 2026-11-01 | N2002–N2003 accepted: source direct consumeLiquid definitions (53 calls / 49 blocks) and typed descriptor binding shared per actual Block. Canonical constructor/ignore/classification reused; field/slug remapping and optional efficiency match native MCP. Focused 16 tests / 13 subtests; full {tests} tests / {subtests} subtests in {seconds}s; validator 0 errors / 113 modules, editor exit 0. Thorium-reactor, apply/filter, concrete callbacks and automatic ticks remain deferred. See reports/2026-11-01-liquid-consumer-hydration.md. |\n'
+path.write_text(text, encoding='utf-8', newline='\n')
+print('accepted checklist:', tests, subtests, seconds)

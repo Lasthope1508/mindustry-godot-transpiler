@@ -3380,6 +3380,25 @@
       "tests": [
         "test_block_item_capacity_symbols_are_registered_with_source_backing"
       ]
+    },
+    "N2003": {
+      "canonical_ledger": "source_slice_ledger.N2003",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "consumeLiquid(Liquid liquid, float amount); init()",
+      "godot_owner": "SourceConsumeLiquidState.source_bind_liquid_consumers_state",
+      "source_symbols": [
+        "bind_liquid_consumers.block",
+        "bind_liquid_consumers.content_catalog",
+        "bind_liquid_consumers.consumers"
+      ],
+      "tests": [
+        "test_source_calls_preserve_order_flags_zero_and_comments",
+        "test_real_source_registry_exports_definitions_without_block_allowlist",
+        "test_same_slice_contracts_and_placement_binding_are_registered",
+        "test_live_block_shared_consumers_and_optional_efficiency_runtime"
+      ],
+      "runtime_proof": "/root/Main.LiquidConsumerHydrationProof"
     }
   }
 }

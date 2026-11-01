@@ -2276,7 +2276,13 @@
           }
         ],
         "size": 3,
-        "hasLiquids": true
+        "hasLiquids": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.1,
+            "liquid": "water"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/multi-press.png"
     },
@@ -2427,7 +2433,13 @@
           }
         ],
         "size": 2,
-        "hasLiquids": true
+        "hasLiquids": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.25,
+            "liquid": "oil"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/plastanium-compressor.png"
     },
@@ -2536,7 +2548,13 @@
           }
         ],
         "size": 2,
-        "hasLiquids": true
+        "hasLiquids": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.2,
+            "liquid": "water"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/cryofluid-mixer.png"
     },
@@ -2669,7 +2687,13 @@
           }
         ],
         "size": 2,
-        "hasLiquids": true
+        "hasLiquids": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.06666666666666667,
+            "liquid": "slag"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/separator.png"
     },
@@ -2710,7 +2734,13 @@
           }
         ],
         "size": 3,
-        "hasLiquids": true
+        "hasLiquids": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.12,
+            "liquid": "slag"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/disassembler.png"
     },
@@ -2813,7 +2843,13 @@
           }
         ],
         "size": 2,
-        "hasLiquids": true
+        "hasLiquids": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.1,
+            "liquid": "oil"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/coal-centrifuge.png"
     },
@@ -2917,7 +2953,13 @@
             "item": "tungsten"
           }
         ],
-        "size": 3
+        "size": 3,
+        "consumeLiquid": [
+          {
+            "amount": 0.16666666666666666,
+            "liquid": "water"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/electrolyzer.png"
     },
@@ -2991,7 +3033,13 @@
             "item": "beryllium"
           }
         ],
-        "size": 3
+        "size": 3,
+        "consumeLiquid": [
+          {
+            "amount": 0.03333333333333333,
+            "liquid": "ozone"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/oxidation-chamber.png"
     },
@@ -3057,7 +3105,13 @@
             "item": "beryllium"
           }
         ],
-        "size": 3
+        "size": 3,
+        "consumeLiquid": [
+          {
+            "amount": 0.6666666666666666,
+            "liquid": "slag"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/slag-heater.png"
     },
@@ -3187,7 +3241,13 @@
             "item": "tungsten"
           }
         ],
-        "size": 1
+        "size": 1,
+        "consumeLiquid": [
+          {
+            "amount": 0.0,
+            "liquid": "slag"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/slag-incinerator.png"
     },
@@ -3263,7 +3323,13 @@
             "item": "oxide"
           }
         ],
-        "size": 3
+        "size": 3,
+        "consumeLiquid": [
+          {
+            "amount": 0.6666666666666666,
+            "liquid": "slag"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/slag-centrifuge.png"
     },
@@ -3302,7 +3368,13 @@
             "item": "oxide"
           }
         ],
-        "size": 3
+        "size": 3,
+        "consumeLiquid": [
+          {
+            "amount": 2.6666666666666665,
+            "liquid": "slag"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/surge-crucible.png"
     },
@@ -3340,7 +3412,13 @@
             "item": "oxide"
           }
         ],
-        "size": 3
+        "size": 3,
+        "consumeLiquid": [
+          {
+            "amount": 2.6666666666666665,
+            "liquid": "arkycite"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/cyanogen-synthesizer.png"
     },
@@ -3380,7 +3458,13 @@
           }
         ],
         "rotateSpeed": 0.5,
-        "size": 3
+        "size": 3,
+        "consumeLiquid": [
+          {
+            "amount": 0.13333333333333333,
+            "liquid": "ozone"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/phase-synthesizer.png"
     },
@@ -3415,7 +3499,13 @@
             "item": "thorium"
           }
         ],
-        "size": 3
+        "size": 3,
+        "consumeLiquid": [
+          {
+            "amount": 0.016666666666666666,
+            "liquid": "nitrogen"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/heat-reactor.png"
     },
@@ -4324,7 +4414,13 @@
             "item": "thorium"
           }
         ],
-        "size": 3
+        "size": 3,
+        "consumeLiquid": [
+          {
+            "amount": 0.05,
+            "liquid": "nitrogen"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/defense/build-tower.png"
     },
@@ -4366,7 +4462,13 @@
             "item": "beryllium"
           }
         ],
-        "size": 3
+        "size": 3,
+        "consumeLiquid": [
+          {
+            "amount": 0.016666666666666666,
+            "liquid": "hydrogen"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/defense/regen-projector.png"
     },
@@ -5180,7 +5282,13 @@
             "item": "oxide"
           }
         ],
-        "size": 3
+        "size": 3,
+        "consumeLiquid": [
+          {
+            "amount": 0.16666666666666666,
+            "liquid": "nitrogen"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/units/unit-cargo-loader.png"
     },
@@ -5603,7 +5711,13 @@
           }
         ],
         "size": 2,
-        "hasLiquids": true
+        "hasLiquids": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.025,
+            "liquid": "hydrogen"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/reinforced-pump.png"
     },
@@ -6053,7 +6167,13 @@
         ],
         "rotateSpeed": 2,
         "size": 2,
-        "hasLiquids": true
+        "hasLiquids": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.1,
+            "liquid": "water"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/power/steam-generator.png"
     },
@@ -6096,7 +6216,13 @@
           }
         ],
         "size": 3,
-        "hasLiquids": true
+        "hasLiquids": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.1,
+            "liquid": "cryofluid"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/power/differential-generator.png"
     },
@@ -6288,7 +6414,13 @@
           }
         ],
         "size": 4,
-        "hasLiquids": true
+        "hasLiquids": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.25,
+            "liquid": "cryofluid"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/power/impact-reactor.png"
     },
@@ -6525,7 +6657,13 @@
             "item": "surge-alloy"
           }
         ],
-        "size": 5
+        "size": 5,
+        "consumeLiquid": [
+          {
+            "amount": 0.15,
+            "liquid": "cyanogen"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/power/flux-reactor.png"
     },
@@ -6570,7 +6708,17 @@
             "item": "surge-alloy"
           }
         ],
-        "size": 5
+        "size": 5,
+        "consumeLiquid": [
+          {
+            "amount": 1.3333333333333333,
+            "liquid": "arkycite"
+          },
+          {
+            "amount": 0.16666666666666666,
+            "liquid": "water"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/power/neoplasia-reactor.png"
     },
@@ -6597,7 +6745,15 @@
         ],
         "size": 2,
         "tier": 2,
-        "hasLiquids": true
+        "hasLiquids": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.05,
+            "booster": true,
+            "liquid": "water",
+            "optional": true
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/drills/mechanical-drill.png"
     },
@@ -6628,7 +6784,15 @@
         ],
         "size": 2,
         "tier": 3,
-        "hasLiquids": true
+        "hasLiquids": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.058333333333333334,
+            "booster": true,
+            "liquid": "water",
+            "optional": true
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/drills/pneumatic-drill.png"
     },
@@ -6671,7 +6835,15 @@
         ],
         "size": 3,
         "tier": 4,
-        "hasLiquids": true
+        "hasLiquids": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.08,
+            "booster": true,
+            "liquid": "water",
+            "optional": true
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/drills/laser-drill.png"
     },
@@ -6715,7 +6887,15 @@
         "rotateSpeed": 6,
         "size": 4,
         "tier": 5,
-        "hasLiquids": true
+        "hasLiquids": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.1,
+            "booster": true,
+            "liquid": "water",
+            "optional": true
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/drills/blast-drill.png"
     },
@@ -6792,7 +6972,13 @@
           }
         ],
         "size": 2,
-        "hasLiquids": true
+        "hasLiquids": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.3,
+            "liquid": "water"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/cultivator.png"
     },
@@ -6837,7 +7023,13 @@
           }
         ],
         "size": 3,
-        "hasLiquids": true
+        "hasLiquids": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.15,
+            "liquid": "water"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/drills/oil-extractor.png"
     },
@@ -6944,7 +7136,13 @@
             "item": "tungsten"
           }
         ],
-        "size": 3
+        "size": 3,
+        "consumeLiquid": [
+          {
+            "amount": 0.016666666666666666,
+            "liquid": "hydrogen"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/drills/large-cliff-crusher.png"
     },
@@ -6975,7 +7173,15 @@
           }
         ],
         "size": 2,
-        "tier": 3
+        "tier": 3,
+        "consumeLiquid": [
+          {
+            "amount": 0.004166666666666667,
+            "booster": true,
+            "liquid": "hydrogen",
+            "optional": true
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/drills/plasma-bore.png"
     },
@@ -7018,7 +7224,19 @@
           }
         ],
         "size": 3,
-        "tier": 5
+        "tier": 5,
+        "consumeLiquid": [
+          {
+            "amount": 0.008333333333333333,
+            "liquid": "hydrogen"
+          },
+          {
+            "amount": 0.05,
+            "booster": true,
+            "liquid": "nitrogen",
+            "optional": true
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/drills/large-plasma-bore.png"
     },
@@ -7055,7 +7273,19 @@
         ],
         "size": 4,
         "tier": 6,
-        "hasLiquids": true
+        "hasLiquids": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.16666666666666666,
+            "liquid": "water"
+          },
+          {
+            "amount": 0.05,
+            "booster": true,
+            "liquid": "ozone",
+            "optional": true
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/drills/impact-drill.png"
     },
@@ -7097,7 +7327,19 @@
         ],
         "size": 5,
         "tier": 7,
-        "hasLiquids": true
+        "hasLiquids": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.06666666666666667,
+            "liquid": "hydrogen"
+          },
+          {
+            "amount": 0.0125,
+            "booster": true,
+            "liquid": "cyanogen",
+            "optional": true
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/drills/eruption-drill.png"
     },
@@ -8559,7 +8801,13 @@
         "rotateSpeed": 1.4,
         "scaledHealth": 250,
         "shootY": 7,
-        "size": 4
+        "size": 4,
+        "consumeLiquid": [
+          {
+            "amount": 0.08333333333333333,
+            "liquid": "hydrogen"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/titan/titan.png"
     },
@@ -8699,7 +8947,13 @@
         "scaledHealth": 210,
         "shootCone": 360,
         "shootY": 0.5,
-        "size": 4
+        "size": 4,
+        "consumeLiquid": [
+          {
+            "amount": 0.1,
+            "liquid": "nitrogen"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/lustre/lustre-preview.png"
     },
@@ -9091,7 +9345,13 @@
             "item": "phase-fabric"
           }
         ],
-        "size": 7
+        "size": 7,
+        "consumeLiquid": [
+          {
+            "amount": 1.0,
+            "liquid": "cryofluid"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/units/exponential-reconstructor.png"
     },
@@ -9137,7 +9397,13 @@
             "item": "surge-alloy"
           }
         ],
-        "size": 9
+        "size": 9,
+        "consumeLiquid": [
+          {
+            "amount": 3.0,
+            "liquid": "cryofluid"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/units/tetrative-reconstructor.png"
     },
@@ -9330,7 +9596,13 @@
             "item": "silicon"
           }
         ],
-        "size": 3
+        "size": 3,
+        "consumeLiquid": [
+          {
+            "amount": 0.05,
+            "liquid": "hydrogen"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/units/tank-refabricator.png"
     },
@@ -9368,7 +9640,13 @@
             "item": "oxide"
           }
         ],
-        "size": 3
+        "size": 3,
+        "consumeLiquid": [
+          {
+            "amount": 0.05,
+            "liquid": "hydrogen"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/units/ship-refabricator.png"
     },
@@ -9402,7 +9680,13 @@
             "item": "silicon"
           }
         ],
-        "size": 3
+        "size": 3,
+        "consumeLiquid": [
+          {
+            "amount": 0.05,
+            "liquid": "hydrogen"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/units/mech-refabricator.png"
     },
@@ -9440,7 +9724,13 @@
             "item": "silicon"
           }
         ],
-        "size": 5
+        "size": 5,
+        "consumeLiquid": [
+          {
+            "amount": 0.16666666666666666,
+            "liquid": "nitrogen"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/units/prime-refabricator.png"
     },
@@ -9480,7 +9770,13 @@
             "item": "silicon"
           }
         ],
-        "size": 5
+        "size": 5,
+        "consumeLiquid": [
+          {
+            "amount": 0.15,
+            "liquid": "cyanogen"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/units/tank-assembler.png"
     },
@@ -9524,7 +9820,13 @@
             "item": "thorium"
           }
         ],
-        "size": 5
+        "size": 5,
+        "consumeLiquid": [
+          {
+            "amount": 0.2,
+            "liquid": "cyanogen"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/units/ship-assembler.png"
     },
@@ -9568,7 +9870,13 @@
             "item": "silicon"
           }
         ],
-        "size": 5
+        "size": 5,
+        "consumeLiquid": [
+          {
+            "amount": 0.2,
+            "liquid": "cyanogen"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/units/mech-assembler.png"
     },
@@ -9641,7 +9949,13 @@
             "item": "tungsten"
           }
         ],
-        "size": 2
+        "size": 2,
+        "consumeLiquid": [
+          {
+            "amount": 0.05,
+            "liquid": "ozone"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/units/unit-repair-tower.png"
     },
@@ -10295,7 +10609,13 @@
             "item": "titanium"
           }
         ],
-        "size": 4
+        "size": 4,
+        "consumeLiquid": [
+          {
+            "amount": 0.15,
+            "liquid": "oil"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/campaign/advanced-launch-pad.png"
     },
@@ -10527,7 +10847,13 @@
           }
         ],
         "size": 3,
-        "hasLiquids": true
+        "hasLiquids": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.08,
+            "liquid": "cryofluid"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/logic/hyper-processor.png"
     },

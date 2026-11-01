@@ -1,0 +1,106 @@
+import copy
+import importlib.util
+import json
+import re
+import subprocess
+import sys
+from pathlib import Path
+
+ROOT = Path(r'C:/Users/Admin/Documents/Game/mindustry-godot-transpiler-copy-20260714-073528')
+BEFORE = Path('C:/tmp/liquid-consumer-before')
+GEN = 'godot-mindustry/src/generated/'
+ROOTS = {'source_symbol_registry.json': ('symbols', 17), 'source_api_contracts.json': ('contracts', 2), 'source_state_schema.json': ('schemas', 6), 'source_slice_ledger.json': ('slices', 2)}
+MIRRORS = ['consumer_slices', 'consumer_api_contracts', 'block_slices', 'block_api_contracts', 'content_registry_blocks']
+JSON_PATHS = [GEN + p for p in ROOTS] + [GEN + 'source_modules/' + p + '.json' for p in MIRRORS]
+
+def git(*args, input=None):
+    return subprocess.check_output(['git', *args], cwd=ROOT, input=input).decode('utf-8')
+
+def read(path, base=ROOT):
+    return (base / path).read_text(encoding='utf-8')
+
+def merge(old, new, target):
+    if old == new:
+        return copy.deepcopy(target)
+    if isinstance(old, dict) and isinstance(new, dict) and isinstance(target, dict):
+        result = copy.deepcopy(target)
+        for key in dict.fromkeys([*old, *new]):
+            if key not in new:
+                assert result[key] == old[key]
+                del result[key]
+            elif key not in old:
+                assert key not in result or result[key] == new[key]
+                result[key] = copy.deepcopy(new[key])
+            elif old[key] != new[key]:
+                result[key] = merge(old[key], new[key], result[key])
+        return result
+    assert target == old or target == new, 'Conflict with pre-existing change'
+    return copy.deepcopy(new)
+
+def stage(path, text):
+    oid = git('hash-object', '-w', '--stdin', input=text.replace('\r\n', '\n').encode('utf-8')).strip()
+    subprocess.run(['git', 'update-index', '--add', '--cacheinfo', '100644', oid, path], cwd=ROOT, check=True)
+
+def main():
+    do_stage = '--stage' in sys.argv
+    result = {'parent': git('rev-parse', 'HEAD').strip(), 'json': {}}
+    assert result['parent'].startswith('05fd5d87')
+    for path in JSON_PATHS:
+        old, new = json.loads(read(path, BEFORE)), json.loads(read(path))
+        original = json.loads(git('show', 'HEAD:' + path))
+        planned = merge(old, new, original)
+        key = next(k for k in new if k not in ('version', 'policy'))
+        added = sorted(set(new[key]) - set(old[key]))
+        changed = sorted(k for k in old[key] if k in new[key] and old[key][k] != new[key][k])
+        removed = sorted(set(old[key]) - set(new[key]))
+        result['json'][path] = {'added': added, 'changed': changed, 'removed': removed, 'preexisting_dirty': old != original}
+        if path.removeprefix(GEN) in ROOTS:
+            assert not changed and not removed
+            assert len(added) == ROOTS[path.removeprefix(GEN)][1], (path, len(added))
+            assert {k:v for k,v in old.items() if k != key} == {k:v for k,v in new.items() if k != key}
+        if do_stage and original != planned:
+            stage(path, json.dumps(planned, indent=2) + '\n')
+    path = 'godot-mindustry/src/game/SourceConsumeLiquidState.gd'
+    old, new, original = read(path, BEFORE), read(path), git('show', 'HEAD:' + path)
+    prefix = 'extends RefCounted\nclass_name SourceConsumeLiquidState\n\n'
+    assert old.startswith(prefix) and new.startswith(prefix) and original.startswith(prefix)
+    suffix = old[len(prefix):]
+    assert new.endswith(suffix)
+    addition = new[len(prefix):-len(suffix)]
+    assert addition
+    if do_stage:
+        stage(path, prefix + addition + original[len(prefix):])
+    result['runtime'] = {path: {'added_lines': len(addition.splitlines()), 'preexisting_dirty': old != original}}
+    path = 'godot-mindustry/src/game/PortGame.gd'
+    old, new, original = read(path, BEFORE), read(path), git('show', 'HEAD:' + path)
+    assert new.startswith(old)
+    hook = new[len(old):]
+    assert hook == '\tif block != null and block.properties.has("consumeLiquid"):\n\t\tSourceConsumeLiquidState.source_bind_liquid_consumers_state(block, content_catalog)\n'
+    start = original.index('func record_placed_block(')
+    end = original.index('\nfunc ', start + 1)
+    planned = original[:end].rstrip('\n') + '\n' + hook + original[end:]
+    if do_stage:
+        stage(path, planned)
+    result['runtime'][path] = {'added_lines': 2, 'preexisting_dirty': True, 'only_appends_binding_after_existing_placement': True}
+    old = json.loads(read(GEN + 'content_registry.json', BEFORE))
+    new = json.loads(read(GEN + 'content_registry.json'))
+    original = json.loads(git('show', 'HEAD:' + GEN + 'content_registry.json'))
+    assert original == old
+    blocks = {b['id']:b for b in old['blocks']}
+    additions = []
+    clean = copy.deepcopy(new)
+    for block in clean['blocks']:
+        if 'consumeLiquid' in block['properties']:
+            definitions = block['properties'].pop('consumeLiquid')
+            additions.append({'id':block['id'], 'count':len(definitions)})
+        assert block == blocks[block['id']]
+    assert clean == old
+    result['content'] = {'only_added_consumeLiquid': additions, 'blocks':len(additions), 'consumers':sum(b['count'] for b in additions)}
+    for name in ['source_ssot_modules.json', 'source_symbol_audit_report.json']:
+        assert read(GEN + name) == read(GEN + name, BEFORE)
+    Path('C:/tmp/liquid-consumer-scope.json').write_text(json.dumps(result, indent=2) + '\n', encoding='utf-8')
+    print({p: {'added':len(v['added']), 'changed':len(v['changed'])} for p,v in result['json'].items()})
+    print('content', result['content']['blocks'], 'blocks', result['content']['consumers'], 'consumers')
+
+if __name__ == '__main__':
+    main()

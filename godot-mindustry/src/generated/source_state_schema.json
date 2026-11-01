@@ -164585,6 +164585,150 @@
           ]
         }
       }
+    },
+    "source_liquid_consumer_definition": {
+      "status": "active",
+      "owner": "SourceConsumeLiquidState.source_liquid_consumer_definitions_state",
+      "keys": {
+        "liquid": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "consumeLiquid(Liquids.water, 0.05f).boost();",
+          "rule": "Original Liquids static field identifier, not a guessed content slug. Runtime resolves field -> typed content -> canonical ordinal."
+        },
+        "amount": {
+          "type": "float",
+          "status": "alias",
+          "alias_of": "source_consume_liquid_constructor_input.amount"
+        },
+        "optional": {
+          "type": "bool",
+          "status": "alias",
+          "alias_of": "source_consume_optional_result.optional_after",
+          "required": false
+        },
+        "booster": {
+          "type": "bool",
+          "status": "alias",
+          "alias_of": "source_consume_optional_result.booster_after",
+          "required": false
+        },
+        "update": {
+          "type": "bool",
+          "status": "alias",
+          "alias_of": "source_consume_update_flag_result.update_after",
+          "required": false
+        }
+      },
+      "runtime_proof": "/root/Main.LiquidConsumerHydrationProof"
+    },
+    "source_liquid_consumer_state": {
+      "status": "active",
+      "owner": "SourceConsumeLiquidState.source_bind_liquid_consumers_state",
+      "keys": {
+        "liquid": {
+          "type": "Variant",
+          "status": "alias",
+          "alias_of": "source_consume_liquid_constructor_result.liquid_after"
+        },
+        "amount": {
+          "type": "float",
+          "status": "alias",
+          "alias_of": "source_consume_liquid_constructor_result.amount_after"
+        },
+        "optional": {
+          "type": "bool",
+          "status": "alias",
+          "alias_of": "source_consume_optional_result.optional_after",
+          "required": false
+        },
+        "booster": {
+          "type": "bool",
+          "status": "alias",
+          "alias_of": "source_consume_optional_result.booster_after",
+          "required": false
+        },
+        "update": {
+          "type": "bool",
+          "status": "alias",
+          "alias_of": "source_consume_update_flag_result.update_after",
+          "required": false
+        },
+        "ignored": {
+          "type": "bool",
+          "status": "alias",
+          "alias_of": "source_consume_ignore_result.ignored"
+        }
+      },
+      "runtime_proof": "/root/Main.LiquidConsumerHydrationProof"
+    },
+    "source_liquid_consumer_definitions_input": {
+      "status": "active",
+      "owner": "SourceConsumeLiquidState.source_liquid_consumer_definitions_state",
+      "keys": {
+        "block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public ConsumeLiquid consumeLiquid(Liquid liquid, float amount){",
+          "rule": "Required block with fully resolved direct consumeLiquid initializer metadata. Missing property is unresolved, not an empty consumer policy."
+        }
+      },
+      "runtime_proof": "/root/Main.LiquidConsumerHydrationProof"
+    },
+    "source_liquid_consumer_definitions_result": {
+      "status": "active",
+      "owner": "SourceConsumeLiquidState.source_liquid_consumer_definitions_state",
+      "keys": {
+        "consume_builder": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "return consume(new ConsumeLiquid(liquid, amount));",
+          "rule": "Ordered direct single-liquid constructor definitions only. Other consumer types, inherited constructors and unsupported calls remain outside this view.",
+          "schema": "source_liquid_consumer_definition",
+          "used_by": [
+            "SourceConsumeLiquidState.source_liquid_consumer_definitions_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/Main.LiquidConsumerHydrationProof"
+    },
+    "source_bind_liquid_consumers_input": {
+      "status": "active",
+      "owner": "SourceConsumeLiquidState.source_bind_liquid_consumers_state",
+      "keys": {
+        "block": {
+          "type": "Object",
+          "status": "alias",
+          "alias_of": "source_liquid_consumer_definitions_input.block"
+        },
+        "content_catalog": {
+          "type": "Object",
+          "status": "alias",
+          "alias_of": "source_liquid_catalog_input.content_catalog"
+        }
+      },
+      "runtime_proof": "/root/Main.LiquidConsumerHydrationProof"
+    },
+    "source_bind_liquid_consumers_result": {
+      "status": "active",
+      "owner": "SourceConsumeLiquidState.source_bind_liquid_consumers_state",
+      "keys": {
+        "consumers": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "consumers = consumeBuilder.toArray(Consume.class);",
+          "rule": "One cached typed single-liquid descriptor view per Block, shared across its buildings. No full Block.init/apply, full mixed consumer list, automatic tick or multiplier policy is claimed.",
+          "schema": "source_liquid_consumer_state",
+          "used_by": [
+            "SourceConsumeLiquidState.source_bind_liquid_consumers_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/Main.LiquidConsumerHydrationProof"
     }
   },
   "version": 1

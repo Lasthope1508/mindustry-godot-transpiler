@@ -49478,6 +49478,62 @@
         "Production Drill consumer descriptors, booster predicates and automatic resource tick dispatch are not wired here; the proof drives a supplied consumer against the real world-owned frame.",
         "Dynamic content/mod registration/reordering after placement, flow lifecycle and serialization remain separate checkpoints."
       ]
+    },
+    "N2002": {
+      "status": "done",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_class": "mindustry.content.Blocks",
+      "java_method": "load()",
+      "godot_owner": "SourceConsumeLiquidState.source_liquid_consumer_definitions_state",
+      "exact_exprs": [
+        "consumeLiquid(Liquids.water, 0.05f).boost();",
+        "consumeLiquid(Liquids.water, 3.5f / 60f).boost();"
+      ],
+      "source_symbols": [
+        "liquid_consumer_definitions.block",
+        "liquid_consumer_definitions.consume_builder"
+      ],
+      "tests": [
+        "test_source_calls_preserve_order_flags_zero_and_comments",
+        "test_real_source_registry_exports_definitions_without_block_allowlist",
+        "test_same_slice_contracts_and_placement_binding_are_registered",
+        "test_live_block_shared_consumers_and_optional_efficiency_runtime"
+      ],
+      "runtime_proof": "/root/Main.LiquidConsumerHydrationProof",
+      "deferred_exprs": [
+        "Only standalone direct ConsumeLiquid calls with literal/division amounts and supported literal flag selectors are exported; the whole block remains unresolved if any call is unsupported.",
+        "Consumer.apply/post-Block.init capability and liquid filters, inherited constructor consumers, mixed consumer arrays, runtime multiplier callbacks and automatic Drill ticks remain deferred.",
+        "Metadata assumes one immutable catalog load. Dynamic content reload/reorder and consumer mutation need source-backed invalidation before reuse."
+      ]
+    },
+    "N2003": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_class": "mindustry.world.Block",
+      "java_method": "consumeLiquid(Liquid liquid, float amount); init()",
+      "godot_owner": "SourceConsumeLiquidState.source_bind_liquid_consumers_state",
+      "exact_exprs": [
+        "public ConsumeLiquid consumeLiquid(Liquid liquid, float amount){",
+        "return consume(new ConsumeLiquid(liquid, amount));",
+        "consumers = consumeBuilder.toArray(Consume.class);"
+      ],
+      "source_symbols": [
+        "bind_liquid_consumers.block",
+        "bind_liquid_consumers.content_catalog",
+        "bind_liquid_consumers.consumers"
+      ],
+      "tests": [
+        "test_source_calls_preserve_order_flags_zero_and_comments",
+        "test_real_source_registry_exports_definitions_without_block_allowlist",
+        "test_same_slice_contracts_and_placement_binding_are_registered",
+        "test_live_block_shared_consumers_and_optional_efficiency_runtime"
+      ],
+      "runtime_proof": "/root/Main.LiquidConsumerHydrationProof",
+      "deferred_exprs": [
+        "Only standalone direct ConsumeLiquid calls with literal/division amounts and supported literal flag selectors are exported; the whole block remains unresolved if any call is unsupported.",
+        "Consumer.apply/post-Block.init capability and liquid filters, inherited constructor consumers, mixed consumer arrays, runtime multiplier callbacks and automatic Drill ticks remain deferred.",
+        "Metadata assumes one immutable catalog load. Dynamic content reload/reorder and consumer mutation need source-backed invalidation before reuse."
+      ]
     }
   },
   "version": 1

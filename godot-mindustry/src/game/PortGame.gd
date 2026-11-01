@@ -1129,6 +1129,8 @@ func record_placed_block(sprite: Sprite2D, block, cell: Vector2i) -> void:
 	# Only source-explicit hydrated flags participate; missing metadata remains unresolved.
 	if block != null and block.properties.has("hasLiquids"):
 		source_placed_block_state.source_initialize_building_liquids_state(sprite, source_placed_block_state.source_block_has_liquids_state(block)["has_liquids"], content_catalog)
+	if block != null and block.properties.has("consumeLiquid"):
+		SourceConsumeLiquidState.source_bind_liquid_consumers_state(block, content_catalog)
 
 func block_sprite_at_cell(cell: Vector2i):
 	return placed_blocks.get(cell_key(cell))

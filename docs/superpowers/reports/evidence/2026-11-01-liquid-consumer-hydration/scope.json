@@ -1,0 +1,357 @@
+{
+  "parent": "05fd5d87b2b528f808dbab4b2df7fc7c22ead125",
+  "json": {
+    "godot-mindustry/src/generated/source_symbol_registry.json": {
+      "added": [
+        "bind_liquid_consumers.block",
+        "bind_liquid_consumers.consumers",
+        "bind_liquid_consumers.content_catalog",
+        "block_liquid_consumers.metadata_key",
+        "liquid_consumer_definition.amount",
+        "liquid_consumer_definition.booster",
+        "liquid_consumer_definition.liquid",
+        "liquid_consumer_definition.optional",
+        "liquid_consumer_definition.update",
+        "liquid_consumer_definitions.block",
+        "liquid_consumer_definitions.consume_builder",
+        "liquid_consumer_state.amount",
+        "liquid_consumer_state.booster",
+        "liquid_consumer_state.ignored",
+        "liquid_consumer_state.liquid",
+        "liquid_consumer_state.optional",
+        "liquid_consumer_state.update"
+      ],
+      "changed": [],
+      "removed": [],
+      "preexisting_dirty": false
+    },
+    "godot-mindustry/src/generated/source_api_contracts.json": {
+      "added": [
+        "SourceConsumeLiquidState.source_bind_liquid_consumers_state",
+        "SourceConsumeLiquidState.source_liquid_consumer_definitions_state"
+      ],
+      "changed": [],
+      "removed": [],
+      "preexisting_dirty": false
+    },
+    "godot-mindustry/src/generated/source_state_schema.json": {
+      "added": [
+        "source_bind_liquid_consumers_input",
+        "source_bind_liquid_consumers_result",
+        "source_liquid_consumer_definition",
+        "source_liquid_consumer_definitions_input",
+        "source_liquid_consumer_definitions_result",
+        "source_liquid_consumer_state"
+      ],
+      "changed": [],
+      "removed": [],
+      "preexisting_dirty": true
+    },
+    "godot-mindustry/src/generated/source_slice_ledger.json": {
+      "added": [
+        "N2002",
+        "N2003"
+      ],
+      "changed": [],
+      "removed": [],
+      "preexisting_dirty": false
+    },
+    "godot-mindustry/src/generated/source_modules/consumer_slices.json": {
+      "added": [],
+      "changed": [],
+      "removed": [],
+      "preexisting_dirty": true
+    },
+    "godot-mindustry/src/generated/source_modules/consumer_api_contracts.json": {
+      "added": [],
+      "changed": [],
+      "removed": [],
+      "preexisting_dirty": true
+    },
+    "godot-mindustry/src/generated/source_modules/block_slices.json": {
+      "added": [
+        "N2003"
+      ],
+      "changed": [],
+      "removed": [],
+      "preexisting_dirty": true
+    },
+    "godot-mindustry/src/generated/source_modules/block_api_contracts.json": {
+      "added": [
+        "SourceConsumeLiquidState.source_bind_liquid_consumers_state"
+      ],
+      "changed": [],
+      "removed": [],
+      "preexisting_dirty": true
+    },
+    "godot-mindustry/src/generated/source_modules/content_registry_blocks.json": {
+      "added": [],
+      "changed": [
+        "advanced-launch-pad",
+        "blast-drill",
+        "build-tower",
+        "coal-centrifuge",
+        "cryofluid-mixer",
+        "cultivator",
+        "cyanogen-synthesizer",
+        "differential-generator",
+        "disassembler",
+        "electrolyzer",
+        "eruption-drill",
+        "exponential-reconstructor",
+        "flux-reactor",
+        "heat-reactor",
+        "hyper-processor",
+        "impact-drill",
+        "impact-reactor",
+        "large-cliff-crusher",
+        "large-plasma-bore",
+        "laser-drill",
+        "lustre",
+        "mech-assembler",
+        "mech-refabricator",
+        "mechanical-drill",
+        "multi-press",
+        "neoplasia-reactor",
+        "oil-extractor",
+        "oxidation-chamber",
+        "phase-synthesizer",
+        "plasma-bore",
+        "plastanium-compressor",
+        "pneumatic-drill",
+        "prime-refabricator",
+        "regen-projector",
+        "reinforced-pump",
+        "separator",
+        "ship-assembler",
+        "ship-refabricator",
+        "slag-centrifuge",
+        "slag-heater",
+        "slag-incinerator",
+        "steam-generator",
+        "surge-crucible",
+        "tank-assembler",
+        "tank-refabricator",
+        "tetrative-reconstructor",
+        "titan",
+        "unit-cargo-loader",
+        "unit-repair-tower"
+      ],
+      "removed": [],
+      "preexisting_dirty": false
+    }
+  },
+  "runtime": {
+    "godot-mindustry/src/game/SourceConsumeLiquidState.gd": {
+      "added_lines": 25,
+      "preexisting_dirty": true
+    },
+    "godot-mindustry/src/game/PortGame.gd": {
+      "added_lines": 2,
+      "preexisting_dirty": true,
+      "only_appends_binding_after_existing_placement": true
+    }
+  },
+  "content": {
+    "only_added_consumeLiquid": [
+      {
+        "id": "multi-press",
+        "count": 1
+      },
+      {
+        "id": "plastanium-compressor",
+        "count": 1
+      },
+      {
+        "id": "cryofluid-mixer",
+        "count": 1
+      },
+      {
+        "id": "separator",
+        "count": 1
+      },
+      {
+        "id": "disassembler",
+        "count": 1
+      },
+      {
+        "id": "coal-centrifuge",
+        "count": 1
+      },
+      {
+        "id": "electrolyzer",
+        "count": 1
+      },
+      {
+        "id": "oxidation-chamber",
+        "count": 1
+      },
+      {
+        "id": "slag-heater",
+        "count": 1
+      },
+      {
+        "id": "slag-incinerator",
+        "count": 1
+      },
+      {
+        "id": "slag-centrifuge",
+        "count": 1
+      },
+      {
+        "id": "surge-crucible",
+        "count": 1
+      },
+      {
+        "id": "cyanogen-synthesizer",
+        "count": 1
+      },
+      {
+        "id": "phase-synthesizer",
+        "count": 1
+      },
+      {
+        "id": "heat-reactor",
+        "count": 1
+      },
+      {
+        "id": "build-tower",
+        "count": 1
+      },
+      {
+        "id": "regen-projector",
+        "count": 1
+      },
+      {
+        "id": "unit-cargo-loader",
+        "count": 1
+      },
+      {
+        "id": "reinforced-pump",
+        "count": 1
+      },
+      {
+        "id": "steam-generator",
+        "count": 1
+      },
+      {
+        "id": "differential-generator",
+        "count": 1
+      },
+      {
+        "id": "impact-reactor",
+        "count": 1
+      },
+      {
+        "id": "flux-reactor",
+        "count": 1
+      },
+      {
+        "id": "neoplasia-reactor",
+        "count": 2
+      },
+      {
+        "id": "mechanical-drill",
+        "count": 1
+      },
+      {
+        "id": "pneumatic-drill",
+        "count": 1
+      },
+      {
+        "id": "laser-drill",
+        "count": 1
+      },
+      {
+        "id": "blast-drill",
+        "count": 1
+      },
+      {
+        "id": "cultivator",
+        "count": 1
+      },
+      {
+        "id": "oil-extractor",
+        "count": 1
+      },
+      {
+        "id": "large-cliff-crusher",
+        "count": 1
+      },
+      {
+        "id": "plasma-bore",
+        "count": 1
+      },
+      {
+        "id": "large-plasma-bore",
+        "count": 2
+      },
+      {
+        "id": "impact-drill",
+        "count": 2
+      },
+      {
+        "id": "eruption-drill",
+        "count": 2
+      },
+      {
+        "id": "titan",
+        "count": 1
+      },
+      {
+        "id": "lustre",
+        "count": 1
+      },
+      {
+        "id": "exponential-reconstructor",
+        "count": 1
+      },
+      {
+        "id": "tetrative-reconstructor",
+        "count": 1
+      },
+      {
+        "id": "tank-refabricator",
+        "count": 1
+      },
+      {
+        "id": "ship-refabricator",
+        "count": 1
+      },
+      {
+        "id": "mech-refabricator",
+        "count": 1
+      },
+      {
+        "id": "prime-refabricator",
+        "count": 1
+      },
+      {
+        "id": "tank-assembler",
+        "count": 1
+      },
+      {
+        "id": "ship-assembler",
+        "count": 1
+      },
+      {
+        "id": "mech-assembler",
+        "count": 1
+      },
+      {
+        "id": "unit-repair-tower",
+        "count": 1
+      },
+      {
+        "id": "advanced-launch-pad",
+        "count": 1
+      },
+      {
+        "id": "hyper-processor",
+        "count": 1
+      }
+    ],
+    "blocks": 49,
+    "consumers": 53
+  }
+}

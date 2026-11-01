@@ -4342,6 +4342,36 @@
         "test_block_synthetic_matches_upstream_source",
         "test_generated_block_synthetic_slice_is_registered_with_source_backing"
       ]
+    },
+    "SourceConsumeLiquidState.source_bind_liquid_consumers_state": {
+      "canonical_contract": "source_api_contracts.SourceConsumeLiquidState.source_bind_liquid_consumers_state",
+      "status": "active",
+      "source_slice": "N2003",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "source_method": "consumeLiquid(Liquid liquid, float amount); init()",
+      "params": [
+        {
+          "name": "block",
+          "type": "Object",
+          "schema": "source_bind_liquid_consumers_input.block"
+        },
+        {
+          "name": "content_catalog",
+          "type": "Object",
+          "schema": "source_bind_liquid_consumers_input.content_catalog"
+        }
+      ],
+      "return_keys": [
+        "consumers"
+      ],
+      "tests": [
+        "test_source_calls_preserve_order_flags_zero_and_comments",
+        "test_real_source_registry_exports_definitions_without_block_allowlist",
+        "test_same_slice_contracts_and_placement_binding_are_registered",
+        "test_live_block_shared_consumers_and_optional_efficiency_runtime"
+      ],
+      "runtime_proof": "/root/Main.LiquidConsumerHydrationProof",
+      "rule": "Required source-resolved single-liquid definitions and shared typed Block descriptor view; no guessed flag, liquid identity, resource formula or post-init capability fallback."
     }
   }
 }

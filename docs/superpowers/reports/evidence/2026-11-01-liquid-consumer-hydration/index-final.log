@@ -1,0 +1,8 @@
+source_symbol_registry.json: only 17 new entries
+source_api_contracts.json: only 2 new entries
+source_state_schema.json: only 6 new entries
+source_slice_ledger.json: only 2 new entries
+full/native/editor/replay/catalog gates accepted
+no unrelated project/uid/arc/manifest staged
+index diff check PASS
+staged files before audit evidence: 43

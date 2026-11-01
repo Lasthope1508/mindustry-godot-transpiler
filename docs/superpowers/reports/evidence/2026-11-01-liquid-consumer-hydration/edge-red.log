@@ -1,0 +1,14 @@
+.                                                                [100%]
+================================== FAILURES ===================================
+_ LiquidConsumerHydrationTests.test_source_calls_preserve_order_flags_zero_and_comments (body='{{ consumeLiquid(Liquids.water, 1f).update(!true); }}') _
+tools\mindustry_godot_transpiler\tests\test_liquid_consumer_hydration.py:37: in test_source_calls_preserve_order_flags_zero_and_comments
+    self.assertIsNone(content_registry._consume_liquid_descriptors(body))
+E   AssertionError: [{'liquid': 'water', 'amount': 1.0, 'update': True}] is not None
+_ LiquidConsumerHydrationTests.test_source_calls_preserve_order_flags_zero_and_comments (body='{{ consumeLiquid(Liquids.water, 1f); findConsumer(filter).update(false); }}') _
+tools\mindustry_godot_transpiler\tests\test_liquid_consumer_hydration.py:37: in test_source_calls_preserve_order_flags_zero_and_comments
+    self.assertIsNone(content_registry._consume_liquid_descriptors(body))
+E   AssertionError: [{'liquid': 'water', 'amount': 1.0}] is not None
+=========================== short test summary info ===========================
+SUBFAILED(body='{{ consumeLiquid(Liquids.water, 1f).update(!true); }}') tools/mindustry_godot_transpiler/tests/test_liquid_consumer_hydration.py::LiquidConsumerHydrationTests::test_source_calls_preserve_order_flags_zero_and_comments
+SUBFAILED(body='{{ consumeLiquid(Liquids.water, 1f); findConsumer(filter).update(false); }}') tools/mindustry_godot_transpiler/tests/test_liquid_consumer_hydration.py::LiquidConsumerHydrationTests::test_source_calls_preserve_order_flags_zero_and_comments
+2 failed, 1 passed, 6 subtests passed in 0.36s

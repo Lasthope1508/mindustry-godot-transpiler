@@ -400,9 +400,79 @@ def _block_properties(source: str, assignment_end: int, implementation: str = ""
             properties["limitRangeMargin"] = limit_range_margin
             _apply_limit_range_to_ammo(properties, ammo, limit_range_margin)
         properties["ammo"] = ammo
+    liquid_consumers = _consume_liquid_descriptors(initializer)
+    if liquid_consumers:
+        properties["consumeLiquid"] = liquid_consumers
     if implementation == "ItemTurret":
         _apply_item_turret_ammo_defaults(properties, initializer)
     return properties
+
+def _consume_liquid_descriptors(initializer: str) -> list[dict[str, Any]] | None:
+    """Resolve standalone literal calls; None leaves the whole block unresolved.
+
+    Keep Java field identity for typed runtime resolution. Omitted flags belong
+    to canonical Consume classification defaults. Tokenization removes comments
+    and rejects nested/assigned calls rather than making them unconditional.
+    """
+    def number(node):
+        if isinstance(node, Literal):
+            value = _number_literal(node.value)
+            for operator in reversed(node.prefix_operators or []):
+                if operator not in ('+', '-'):
+                    raise ValueError('Unsupported numeric prefix')
+                value = -value if operator == '-' else value
+            return value
+        if isinstance(node, javalang.tree.BinaryOperation) and node.operator == '/':
+            left, right = number(node.operandl), number(node.operandr)
+            return int(left / right) if isinstance(left, int) and isinstance(right, int) else left / right
+        raise ValueError('Unresolved amount expression')
+
+    try:
+        tokens = list(javalang.tokenizer.tokenize(initializer))
+        if any(t.value in ('consumeBuilder', 'findConsumer', 'removeConsumer', 'removeConsumers') for t in tokens):
+            return None
+        result = []
+        depth = 0
+        for index, token in enumerate(tokens):
+            if token.value == '{':
+                depth += 1
+            elif token.value == '}':
+                depth -= 1
+            if token.value != 'consumeLiquid' or index + 1 >= len(tokens) or tokens[index + 1].value != '(':
+                continue
+            if depth != 2 or index == 0 or tokens[index - 1].value not in ('{', ';', '}'):
+                return None
+            end = next(i for i in range(index, len(tokens)) if tokens[i].value == ';')
+            expression = javalang.parse.parse_expression(' '.join(t.value for t in tokens[index:end]))
+            if not isinstance(expression, MethodInvocation) or expression.qualifier or len(expression.arguments) != 2:
+                return None
+            liquid, amount = expression.arguments
+            if not isinstance(liquid, javalang.tree.MemberReference) or liquid.qualifier != 'Liquids' or liquid.selectors:
+                return None
+            descriptor = {'liquid': liquid.member, 'amount': float(number(amount))}
+            for selector in expression.selectors or []:
+                if not isinstance(selector, MethodInvocation):
+                    return None
+                arguments = selector.arguments
+                if selector.member == 'boost' and not arguments:
+                    # Consume.boost(): return optional(true, true).
+                    descriptor.update(optional=True, booster=True)
+                elif selector.member in ('optional', 'update'):
+                    count = 2 if selector.member == 'optional' else 1
+                    if len(arguments) != count or any(not isinstance(a, Literal) or a.value not in ('true', 'false') or a.prefix_operators for a in arguments):
+                        return None
+                    flags = [a.value == 'true' for a in arguments]
+                    if selector.member == 'optional':
+                        descriptor.update(optional=flags[0], booster=flags[1])
+                    else:
+                        descriptor['update'] = flags[0]
+                else:
+                    return None
+            result.append(descriptor)
+        return result
+    except (ValueError, TypeError, StopIteration, ZeroDivisionError, javalang.parser.JavaSyntaxError, javalang.tokenizer.LexerError):
+        return None
+
 
 def _apply_item_turret_ammo_defaults(properties: dict[str, Any], initializer: str) -> None:
     for key, default in {"maxAmmo": 30, "ammoPerShot": 1}.items():

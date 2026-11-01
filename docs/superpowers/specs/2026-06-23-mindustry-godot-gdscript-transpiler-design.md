@@ -14,8 +14,8 @@ Counts below are projected from the canonical `source_slice_ledger.json`, not fr
 
 | Bucket | Count |
 | --- | ---: |
-| Canonical slice ledger entries | 1456 |
-| Done | 1456 |
+| Canonical slice ledger entries | 1458 |
+| Done | 1458 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -83,6 +83,8 @@ Counts below are projected from the canonical `source_slice_ledger.json`, not fr
 - [x] N1999: Typed runtime liquid catalog derives numeric ordinals from canonical liquid registration order, avoiding mixed-type water-name collisions.
 - [x] N2000: Content generation exports source-explicit hasLiquids constructor/inherited/initializer flags; canonical block mirror is regenerated without a missing-flag fallback.
 - [x] N2001: Actual placed building owns one canonical LiquidModule frame; real Drill storage, multi-tick supplied-consumer composition and allocation guards pass native MCP, full-suite and catalog acceptance.
+- [x] N2002: Source direct ConsumeLiquid definitions preserve Java field identity, amount expression, selector order and explicit flags; 53 calls / 49 blocks resolved, thorium-reactor remains unresolved.
+- [x] N2003: Typed liquid consumer descriptor view is shared per actual Block during placement; source definitions remain unchanged, field-to-slug mapping and optional classification pass native MCP and full acceptance. Apply/filter, concrete callbacks and automatic ticks remain deferred.
 - [x] N167: Source BuildingComp drawConfigure canonical square state.
 - [x] N168: Source BuildingComp checkSolid default state.
 - [x] N169: Source BuildingComp handleDamage passthrough state.
@@ -1352,7 +1354,7 @@ Counts below are projected from the canonical `source_slice_ledger.json`, not fr
 
 Work now uses dependency cubes for prioritization without changing the verification contract. Each cube groups source Java, Godot runtime wiring, and playable behavior for one gameplay system. Inside a cube, every slice still moves linearly: read upstream Java, write RED tests, prove RED, implement minimal GREEN, run targeted/full tests, prove through Godot MCP runtime, update this checklist, run `git diff --check`, stage only touched tracked files, and commit.
 
-Current cube: `placed-building canonical liquid ownership`. N1999–N2001 connect typed liquid ordinals, source-explicit capability metadata and persistent LiquidModule allocation to actual placement. Canonical ledger: 1456 records; registered JSON modules: 113. Legacy owner audit remains zero uncovered owners within its existing scope; this does not measure full gameplay parity. Next checkpoint: hydrate the production optional liquid consumer and its apply/init effects, then connect automatic Drill ticks through the existing canonical consumption owner. See `reports/2026-11-01-placed-liquid-ownership.md` for source anchors, acceptance evidence and deferred flow/serialization work.
+Current cube: `single-liquid source descriptors and typed Block hydration`. N2002–N2003 export 53 direct constructor/selector calls across 49 blocks and bind one shared typed descriptor view per actual Block. Ledger: 1458 records; catalog: 113 modules. The thorium-reactor variable amount is unresolved. Existing per-building storage ownership remains canonical; consumer apply/filter, concrete production callbacks and automatic Drill ticks are still open. These counts do not measure full gameplay parity. See `reports/2026-11-01-liquid-consumer-hydration.md` for source coverage, acceptance and next dependencies.
 
 ## Done
 
@@ -2989,10 +2991,12 @@ Current cube: `placed-building canonical liquid ownership`. N1999–N2001 connec
 | N1999 | Typed runtime liquid catalog | Content.java registration and typed ContentLoader liquid access back the ordered numeric ID/name provider in SourceContentRegistryRuntimeState. All eleven expected upstream liquid identities match in real-world runtime proof, including the water namespace collision. See reports/2026-11-01-placed-liquid-ownership.md. |
 | N2000 | Source-explicit liquid capability hydration | Existing constructor/inheritance/initializer extraction adds only hasLiquids to 56 canonical block properties; absent flags stay unresolved. Registered content block mirror is regenerated from canonical data. Consumer.apply post-init effects remain deferred. |
 | N2001 | Placed building canonical liquid ownership | BuildingComp.create conditional allocation binds the existing LiquidModule frame to real placed Drill metadata. Supplied-consumer composition consumes 1.25 -> 0.25 -> 0, preserves instance identity and disabled/no-consume guards; independent/false-allocation cases and registry checks match in native MCP. Focused 18 tests / 21 subtests pass; full suite 5354 tests / 22588 subtests pass in 975.01s; validator 0 errors / 113 modules, final editor parse exit 0. Production optional-booster hydration and automatic ticks remain deferred. |
+| N2002 | Source direct liquid consumer definitions | Existing content extraction emits 53 standalone literal/division constructor calls across 49 blocks, preserving explicit selector flags and order; comments, unknown expressions/mutations and unsupported scopes do not become guessed consumers. Thorium-reactor remains unresolved. See reports/2026-11-01-liquid-consumer-hydration.md. |
+| N2003 | Typed shared Block liquid descriptors | Actual placement binds one typed descriptor view per Block through canonical constructor/ignore/catalog owners. Native proof preserves source definitions and shared identity, resolves distinct Java field/content slug names and verifies optional efficiency [1,1], [1,0.5], [1,0]. Focused 16 tests / 13 subtests; full suite 5358 tests / 22607 subtests in 1022.80s; catalog 0 errors / 113 modules, editor exit 0. Apply/filter, concrete consumers and automatic ticks remain open. |
 
 ## Not Done
 
-N1999–N2001 are accepted for typed content identity, explicit pre-consumer-apply capability metadata and actual placed-instance liquid ownership. Production Drill optional-booster descriptors, consumer apply/init effects, automatic resource ticks, complete LiquidModule flow, dynamic content and serialization remain open. Follow the checkpoint sequence in reports/2026-11-01-placed-liquid-ownership.md. New state must retain one canonical root owner and manifest-defined mirrors; do not infer missing capabilities or duplicate resource formulas in gameplay callbacks.
+N2002–N2003 are accepted for direct single-liquid definition extraction and shared typed Block descriptor binding. CP-PO2 still needs consumer apply/init capability and filters plus concrete production callbacks; CP-PO3 still needs source predicates, unique real-building traversal and automatic resource ticks. Thorium-reactor variable expressions, inherited/mixed consumers, reload, flow and serialization remain unresolved. Follow reports/2026-11-01-liquid-consumer-hydration.md and preserve canonical owners rather than introducing fallback defaults or duplicate formulas.
 
 ## Scope
 
@@ -3344,3 +3348,4 @@ When Godot CLI is not on `PATH`, use the configured MCP Godot path from `C:\User
 | 2026-10-31 | N1993–N1995 LiquidModule storage: get/add/remove delegate to one SourceLiquidModuleState domain owner, preserving current identity, source clamp and shared flow-cache effects; 15 independent cases plus real storage mutation through BuildingComp consumption pass in native MCP; validator 0 errors / 113 modules, editor exit 0, full suite 5347 tests / 22552 subtests pass. Constructor/flow lifecycle and live world/Drill binding remain deferred. See reports/2026-10-31-liquid-module-storage.md. |
 | 2026-11-01 | N1996–N1998 LiquidModule instance lifecycle: explicit field initializer, current/currentAmount, clear/reset/set reuse SourceLiquidModuleState and the registered storage frame; 19 independent lifecycle cases plus initialized consumption pass in native MCP; validator 0 errors / 113 modules, editor exit 0, full suite 5350 tests / 22570 subtests pass. Runtime content lookup, automatic new()/world ownership and full flow lifecycle remain deferred. See reports/2026-11-01-liquid-module-lifecycle.md. |
 | 2026-11-01 | N1999–N2001 accepted: typed liquid IDs from the runtime catalog, 56 source-explicit block capability additions and persistent actual placed-building LiquidModule ownership. Existing canonical placement is delegated; supplied-consumer real-world storage proof and guards match in native MCP. Focused 18 tests / 21 subtests; full suite 5354 tests / 22588 subtests in 975.01s; validator 0 errors / 113 modules / 0 JSON errors; editor exit 0. Production optional consumer hydration, automatic ticks and remaining flow/serialization stay deferred. See reports/2026-11-01-placed-liquid-ownership.md. |
+| 2026-11-01 | N2002–N2003 accepted: source direct consumeLiquid definitions (53 calls / 49 blocks) and typed descriptor binding shared per actual Block. Canonical constructor/ignore/classification reused; field/slug remapping and optional efficiency match native MCP. Focused 16 tests / 13 subtests; full 5358 tests / 22607 subtests in 1022.80s; validator 0 errors / 113 modules, editor exit 0. Thorium-reactor, apply/filter, concrete callbacks and automatic ticks remain deferred. See reports/2026-11-01-liquid-consumer-hydration.md. |

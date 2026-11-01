@@ -2088,6 +2088,12 @@
         "canOverdrive": true,
         "category": "crafting",
         "connectedPower": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.1,
+            "liquid": "water"
+          }
+        ],
         "consumePower": 1.8,
         "consumesPower": true,
         "hasItems": true,
@@ -2234,6 +2240,12 @@
         "canOverdrive": true,
         "category": "crafting",
         "connectedPower": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.25,
+            "liquid": "oil"
+          }
+        ],
         "consumePower": 3.0,
         "consumesPower": true,
         "hasItems": true,
@@ -2345,6 +2357,12 @@
         "canOverdrive": true,
         "category": "crafting",
         "connectedPower": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.2,
+            "liquid": "water"
+          }
+        ],
         "consumePower": 1.0,
         "consumesPower": true,
         "hasItems": true,
@@ -2478,6 +2496,12 @@
         "canOverdrive": true,
         "category": "crafting",
         "connectedPower": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.06666666666666667,
+            "liquid": "slag"
+          }
+        ],
         "consumePower": 1.1,
         "consumesPower": true,
         "hasItems": true,
@@ -2510,6 +2534,12 @@
         "canOverdrive": true,
         "category": "crafting",
         "connectedPower": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.12,
+            "liquid": "slag"
+          }
+        ],
         "consumePower": 4.0,
         "consumesPower": true,
         "hasItems": true,
@@ -2614,6 +2644,12 @@
         "canOverdrive": true,
         "category": "crafting",
         "connectedPower": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.1,
+            "liquid": "oil"
+          }
+        ],
         "consumePower": 0.7,
         "consumesPower": true,
         "hasItems": true,
@@ -2712,6 +2748,12 @@
         "canOverdrive": true,
         "category": "crafting",
         "connectedPower": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.16666666666666666,
+            "liquid": "water"
+          }
+        ],
         "consumePower": 1.0,
         "consumesPower": true,
         "hasItems": true,
@@ -2786,6 +2828,12 @@
         "canOverdrive": false,
         "category": "crafting",
         "connectedPower": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.03333333333333333,
+            "liquid": "ozone"
+          }
+        ],
         "consumePower": 0.5,
         "consumesPower": true,
         "hasPower": true,
@@ -2857,6 +2905,12 @@
         "canOverdrive": false,
         "category": "crafting",
         "connectedPower": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.6666666666666666,
+            "liquid": "slag"
+          }
+        ],
         "consumesPower": true,
         "hasPower": true,
         "itemCapacity": 0,
@@ -2991,6 +3045,12 @@
         "canOverdrive": true,
         "category": "crafting",
         "connectedPower": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.0,
+            "liquid": "slag"
+          }
+        ],
         "consumesPower": true,
         "hasPower": true,
         "outputsPower": false,
@@ -3047,6 +3107,12 @@
         "canOverdrive": true,
         "category": "crafting",
         "connectedPower": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.6666666666666666,
+            "liquid": "slag"
+          }
+        ],
         "consumePower": 0.03333333333333333,
         "consumesPower": true,
         "hasItems": true,
@@ -3086,6 +3152,12 @@
         "canOverdrive": true,
         "category": "crafting",
         "connectedPower": true,
+        "consumeLiquid": [
+          {
+            "amount": 2.6666666666666665,
+            "liquid": "slag"
+          }
+        ],
         "consumePower": 1.5,
         "consumesPower": true,
         "hasPower": true,
@@ -3124,6 +3196,12 @@
         "canOverdrive": true,
         "category": "crafting",
         "connectedPower": true,
+        "consumeLiquid": [
+          {
+            "amount": 2.6666666666666665,
+            "liquid": "arkycite"
+          }
+        ],
         "consumePower": 2.0,
         "consumesPower": true,
         "hasPower": true,
@@ -3161,6 +3239,12 @@
         "canOverdrive": true,
         "category": "crafting",
         "connectedPower": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.13333333333333333,
+            "liquid": "ozone"
+          }
+        ],
         "consumePower": 8.0,
         "consumesPower": true,
         "hasPower": true,
@@ -3200,6 +3284,12 @@
         "canOverdrive": false,
         "category": "crafting",
         "connectedPower": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.016666666666666666,
+            "liquid": "nitrogen"
+          }
+        ],
         "consumesPower": true,
         "hasPower": true,
         "itemCapacity": 20,
@@ -4072,6 +4162,12 @@
         "canOverdrive": true,
         "category": "effect",
         "connectedPower": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.05,
+            "liquid": "nitrogen"
+          }
+        ],
         "consumePower": 3.0,
         "consumesPower": true,
         "hasPower": true,
@@ -4107,6 +4203,12 @@
         "canOverdrive": true,
         "category": "effect",
         "connectedPower": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.016666666666666666,
+            "liquid": "hydrogen"
+          }
+        ],
         "consumePower": 1.0,
         "consumesPower": true,
         "hasItems": true,
@@ -4898,6 +5000,12 @@
         "canOverdrive": true,
         "category": "distribution",
         "connectedPower": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.16666666666666666,
+            "liquid": "nitrogen"
+          }
+        ],
         "consumePower": 0.13333333333333333,
         "consumesPower": true,
         "hasItems": true,
@@ -5312,6 +5420,12 @@
         "canOverdrive": true,
         "category": "liquid",
         "connectedPower": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.025,
+            "liquid": "hydrogen"
+          }
+        ],
         "consumesPower": true,
         "hasLiquids": true,
         "hasPower": true,
@@ -5740,6 +5854,12 @@
         "canOverdrive": true,
         "category": "power",
         "connectedPower": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.1,
+            "liquid": "water"
+          }
+        ],
         "consumesPower": false,
         "hasLiquids": true,
         "hasPower": true,
@@ -5777,6 +5897,12 @@
         "canOverdrive": true,
         "category": "power",
         "connectedPower": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.1,
+            "liquid": "cryofluid"
+          }
+        ],
         "consumesPower": false,
         "hasItems": true,
         "hasLiquids": true,
@@ -5955,6 +6081,12 @@
         "canOverdrive": true,
         "category": "power",
         "connectedPower": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.25,
+            "liquid": "cryofluid"
+          }
+        ],
         "consumePower": 25.0,
         "consumesPower": true,
         "hasItems": true,
@@ -6199,6 +6331,12 @@
         "canOverdrive": true,
         "category": "power",
         "connectedPower": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.15,
+            "liquid": "cyanogen"
+          }
+        ],
         "consumesPower": false,
         "hasPower": true,
         "outputsPower": true,
@@ -6236,6 +6374,16 @@
         "canOverdrive": false,
         "category": "power",
         "connectedPower": true,
+        "consumeLiquid": [
+          {
+            "amount": 1.3333333333333333,
+            "liquid": "arkycite"
+          },
+          {
+            "amount": 0.16666666666666666,
+            "liquid": "water"
+          }
+        ],
         "consumesPower": false,
         "hasPower": true,
         "itemCapacity": 10,
@@ -6280,6 +6428,14 @@
         "canOverdrive": true,
         "category": "production",
         "connectedPower": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.05,
+            "booster": true,
+            "liquid": "water",
+            "optional": true
+          }
+        ],
         "consumesPower": true,
         "drillTime": 600,
         "hasItems": true,
@@ -6306,6 +6462,14 @@
         "canOverdrive": true,
         "category": "production",
         "connectedPower": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.058333333333333334,
+            "booster": true,
+            "liquid": "water",
+            "optional": true
+          }
+        ],
         "consumesPower": true,
         "drillTime": 400,
         "hasItems": true,
@@ -6336,6 +6500,14 @@
         "canOverdrive": true,
         "category": "production",
         "connectedPower": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.08,
+            "booster": true,
+            "liquid": "water",
+            "optional": true
+          }
+        ],
         "consumePower": 1.1,
         "consumesPower": true,
         "drillTime": 280,
@@ -6378,6 +6550,14 @@
         "canOverdrive": true,
         "category": "production",
         "connectedPower": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.1,
+            "booster": true,
+            "liquid": "water",
+            "optional": true
+          }
+        ],
         "consumePower": 3.0,
         "consumesPower": true,
         "drillTime": 280,
@@ -6460,6 +6640,12 @@
         "canOverdrive": true,
         "category": "production",
         "connectedPower": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.3,
+            "liquid": "water"
+          }
+        ],
         "consumePower": 1.3333333333333333,
         "consumesPower": true,
         "hasItems": true,
@@ -6496,6 +6682,12 @@
         "canOverdrive": true,
         "category": "production",
         "connectedPower": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.15,
+            "liquid": "water"
+          }
+        ],
         "consumePower": 3.0,
         "consumesPower": true,
         "hasItems": true,
@@ -6604,6 +6796,12 @@
         "canOverdrive": true,
         "category": "production",
         "connectedPower": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.016666666666666666,
+            "liquid": "hydrogen"
+          }
+        ],
         "consumePower": 1.0,
         "consumesPower": true,
         "drillTime": 48.0,
@@ -6644,6 +6842,14 @@
         "canOverdrive": true,
         "category": "production",
         "connectedPower": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.004166666666666667,
+            "booster": true,
+            "liquid": "hydrogen",
+            "optional": true
+          }
+        ],
         "consumePower": 0.15,
         "consumesPower": true,
         "drillTime": 160.0,
@@ -6674,6 +6880,18 @@
         "canOverdrive": true,
         "category": "production",
         "connectedPower": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.008333333333333333,
+            "liquid": "hydrogen"
+          },
+          {
+            "amount": 0.05,
+            "booster": true,
+            "liquid": "nitrogen",
+            "optional": true
+          }
+        ],
         "consumePower": 0.8,
         "consumesPower": true,
         "drillTime": 100.0,
@@ -6716,6 +6934,18 @@
         "canOverdrive": true,
         "category": "production",
         "connectedPower": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.16666666666666666,
+            "liquid": "water"
+          },
+          {
+            "amount": 0.05,
+            "booster": true,
+            "liquid": "ozone",
+            "optional": true
+          }
+        ],
         "consumePower": 2.6666666666666665,
         "consumesPower": true,
         "hasLiquids": true,
@@ -6752,6 +6982,18 @@
         "canOverdrive": true,
         "category": "production",
         "connectedPower": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.06666666666666667,
+            "liquid": "hydrogen"
+          },
+          {
+            "amount": 0.0125,
+            "booster": true,
+            "liquid": "cyanogen",
+            "optional": true
+          }
+        ],
         "consumePower": 6.0,
         "consumesPower": true,
         "drillTime": 281.25,
@@ -8186,6 +8428,12 @@
         "category": "turret",
         "connectedPower": true,
         "consumeAmmoOnce": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.08333333333333333,
+            "liquid": "hydrogen"
+          }
+        ],
         "consumesPower": true,
         "hasItems": true,
         "hasPower": true,
@@ -8317,6 +8565,12 @@
         "canOverdrive": true,
         "category": "turret",
         "connectedPower": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.1,
+            "liquid": "nitrogen"
+          }
+        ],
         "consumePower": 3.3333333333333335,
         "consumesPower": true,
         "hasPower": true,
@@ -8698,6 +8952,12 @@
         "canOverdrive": true,
         "category": "units",
         "connectedPower": true,
+        "consumeLiquid": [
+          {
+            "amount": 1.0,
+            "liquid": "cryofluid"
+          }
+        ],
         "consumePower": 13.0,
         "consumesPower": true,
         "hasPower": true,
@@ -8743,6 +9003,12 @@
         "canOverdrive": true,
         "category": "units",
         "connectedPower": true,
+        "consumeLiquid": [
+          {
+            "amount": 3.0,
+            "liquid": "cryofluid"
+          }
+        ],
         "consumePower": 25.0,
         "consumesPower": true,
         "hasPower": true,
@@ -8942,6 +9208,12 @@
         "canOverdrive": true,
         "category": "units",
         "connectedPower": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.05,
+            "liquid": "hydrogen"
+          }
+        ],
         "consumePower": 3.0,
         "consumesPower": true,
         "hasPower": true,
@@ -8975,6 +9247,12 @@
         "canOverdrive": true,
         "category": "units",
         "connectedPower": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.05,
+            "liquid": "hydrogen"
+          }
+        ],
         "consumePower": 2.5,
         "consumesPower": true,
         "hasPower": true,
@@ -9012,6 +9290,12 @@
         "canOverdrive": true,
         "category": "units",
         "connectedPower": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.05,
+            "liquid": "hydrogen"
+          }
+        ],
         "consumePower": 2.5,
         "consumesPower": true,
         "hasPower": true,
@@ -9045,6 +9329,12 @@
         "canOverdrive": true,
         "category": "units",
         "connectedPower": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.16666666666666666,
+            "liquid": "nitrogen"
+          }
+        ],
         "consumePower": 4.5,
         "consumesPower": true,
         "hasPower": true,
@@ -9082,6 +9372,12 @@
         "canOverdrive": true,
         "category": "units",
         "connectedPower": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.15,
+            "liquid": "cyanogen"
+          }
+        ],
         "consumePower": 2.5,
         "consumesPower": true,
         "hasItems": true,
@@ -9121,6 +9417,12 @@
         "canOverdrive": true,
         "category": "units",
         "connectedPower": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.2,
+            "liquid": "cyanogen"
+          }
+        ],
         "consumePower": 2.5,
         "consumesPower": true,
         "hasItems": true,
@@ -9164,6 +9466,12 @@
         "canOverdrive": true,
         "category": "units",
         "connectedPower": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.2,
+            "liquid": "cyanogen"
+          }
+        ],
         "consumePower": 3.0,
         "consumesPower": true,
         "hasItems": true,
@@ -9244,6 +9552,12 @@
         "canOverdrive": true,
         "category": "units",
         "connectedPower": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.05,
+            "liquid": "ozone"
+          }
+        ],
         "consumePower": 1.0,
         "consumesPower": true,
         "hasPower": true,
@@ -9869,6 +10183,12 @@
         "canOverdrive": true,
         "category": "effect",
         "connectedPower": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.15,
+            "liquid": "oil"
+          }
+        ],
         "consumePower": 8.0,
         "consumesPower": true,
         "hasItems": true,
@@ -10099,6 +10419,12 @@
         "canOverdrive": true,
         "category": "logic",
         "connectedPower": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.08,
+            "liquid": "cryofluid"
+          }
+        ],
         "consumesPower": true,
         "hasLiquids": true,
         "hasPower": true,

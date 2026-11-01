@@ -1,0 +1,40 @@
+FFFF                                                                   [100%]
+================================== FAILURES ===================================
+_ LiquidConsumerHydrationTests.test_live_block_shared_consumers_and_optional_efficiency_runtime _
+tools\mindustry_godot_transpiler\tests\test_liquid_consumer_hydration.py:63: in test_live_block_shared_consumers_and_optional_efficiency_runtime
+    self.assertNotIn('ERROR:', output)
+E   AssertionError: 'ERROR:' unexpectedly found in 'Godot Engine v4.6.2.stable.official.71f334935 - https://godotengine.org\n\n[MCP Runtime] Server listening on port 7777\n[MCP Runtime] Autoload ready, server starting on port 7777\nSCRIPT ERROR: Parse Error: Cannot find member "SOURCE_BLOCK_LIQUID_CONSUMERS_META_KEY" in base "SourceConsumeLiquidState".\n   at: GDScript::reload (res://tools/runtime_proofs/LiquidConsumerHydrationProof.gd:37)\nSCRIPT ERROR: Parse Error: Cannot find member "SOURCE_BLOCK_LIQUID_CONSUMERS_META_KEY" in base "SourceConsumeLiquidState".\n   at: GDScript::reload (res://tools/runtime_proofs/LiquidConsumerHydrationProof.gd:38)\nSCRIPT ERROR: Parse Error: Static function "source_bind_liquid_consumers_state()" not found in base "SourceConsumeLiquidState".\n   at: GDScript::reload (res://tools/runtime_proofs/LiquidConsumerHydrationProof.gd:39)\nSCRIPT ERROR: Parse Error: Static function "source_liquid_consumer_definitions_state()" not found in base "SourceConsumeLiquidState".\n   at: GDScript::reload (res://tools/runtime_proofs/LiquidConsumerHydrationProof.gd:41)\nSCRIPT ERROR: Parse Error: Static function "source_bind_liquid_consumers_state()" not found in base "SourceConsumeLiquidState".\n   at: GDScript::reload (res://tools/runtime_proofs/LiquidConsumerHydrationProof.gd:62)\nERROR: Failed to load script "res://tools/runtime_proofs/LiquidConsumerHydrationProof.gd" with error "Parse error".\n   at: load (modules/gdscript/gdscript.cpp:2907)\n'
+_ LiquidConsumerHydrationTests.test_real_source_registry_exports_definitions_without_block_allowlist _
+tools\mindustry_godot_transpiler\tests\test_liquid_consumer_hydration.py:40: in test_real_source_registry_exports_definitions_without_block_allowlist
+    self.assertEqual(blocks['mechanical-drill']['properties']['consumeLiquid'], [{'liquid': 'water', 'amount': 0.05, 'optional': True, 'booster': True}])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   KeyError: 'consumeLiquid'
+_ LiquidConsumerHydrationTests.test_same_slice_contracts_and_placement_binding_are_registered (method='source_liquid_consumer_definitions_state') _
+tools\mindustry_godot_transpiler\tests\test_liquid_consumer_hydration.py:50: in test_same_slice_contracts_and_placement_binding_are_registered
+    self.assertEqual(contracts['SourceConsumeLiquidState.' + method]['source_slice'], slice_id)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   KeyError: 'SourceConsumeLiquidState.source_liquid_consumer_definitions_state'
+_ LiquidConsumerHydrationTests.test_same_slice_contracts_and_placement_binding_are_registered (method='source_bind_liquid_consumers_state') _
+tools\mindustry_godot_transpiler\tests\test_liquid_consumer_hydration.py:50: in test_same_slice_contracts_and_placement_binding_are_registered
+    self.assertEqual(contracts['SourceConsumeLiquidState.' + method]['source_slice'], slice_id)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   KeyError: 'SourceConsumeLiquidState.source_bind_liquid_consumers_state'
+_ LiquidConsumerHydrationTests.test_same_slice_contracts_and_placement_binding_are_registered _
+tools\mindustry_godot_transpiler\tests\test_liquid_consumer_hydration.py:53: in test_same_slice_contracts_and_placement_binding_are_registered
+    self.assertIn('SourceConsumeLiquidState.source_bind_liquid_consumers_state(block, content_catalog)', body)
+E   AssertionError: 'SourceConsumeLiquidState.source_bind_liquid_consumers_state(block, content_catalog)' not found in 'sprite: Sprite2D, block, cell: Vector2i) -> void:\n\tsuper.record_placed_block(sprite, block, cell)\n\t# Only source-explicit hydrated flags participate; missing metadata remains unresolved.\n\tif block != null and block.properties.has("hasLiquids"):\n\t\tsource_placed_block_state.source_initialize_building_liquids_state(sprite, source_placed_block_state.source_block_has_liquids_state(block)["has_liquids"], content_catalog)\n'
+---------------------------- Captured stdout call -----------------------------
+uu
+_ LiquidConsumerHydrationTests.test_source_calls_preserve_order_flags_zero_and_comments _
+tools\mindustry_godot_transpiler\tests\test_liquid_consumer_hydration.py:21: in test_source_calls_preserve_order_flags_zero_and_comments
+    self.assertEqual(content_registry._consume_liquid_descriptors(source), [
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: module 'mindustry_port.content_registry' has no attribute '_consume_liquid_descriptors'
+=========================== short test summary info ===========================
+FAILED tools/mindustry_godot_transpiler/tests/test_liquid_consumer_hydration.py::LiquidConsumerHydrationTests::test_live_block_shared_consumers_and_optional_efficiency_runtime
+FAILED tools/mindustry_godot_transpiler/tests/test_liquid_consumer_hydration.py::LiquidConsumerHydrationTests::test_real_source_registry_exports_definitions_without_block_allowlist
+SUBFAILED(method='source_liquid_consumer_definitions_state') tools/mindustry_godot_transpiler/tests/test_liquid_consumer_hydration.py::LiquidConsumerHydrationTests::test_same_slice_contracts_and_placement_binding_are_registered
+SUBFAILED(method='source_bind_liquid_consumers_state') tools/mindustry_godot_transpiler/tests/test_liquid_consumer_hydration.py::LiquidConsumerHydrationTests::test_same_slice_contracts_and_placement_binding_are_registered
+FAILED tools/mindustry_godot_transpiler/tests/test_liquid_consumer_hydration.py::LiquidConsumerHydrationTests::test_same_slice_contracts_and_placement_binding_are_registered
+FAILED tools/mindustry_godot_transpiler/tests/test_liquid_consumer_hydration.py::LiquidConsumerHydrationTests::test_source_calls_preserve_order_flags_zero_and_comments
+6 failed in 11.89s

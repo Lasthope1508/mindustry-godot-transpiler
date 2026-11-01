@@ -148912,6 +148912,278 @@
         "test_live_building_storage_and_typed_catalog_runtime"
       ],
       "runtime_proof": "/root/Main.PlacedLiquidOwnershipProof"
+    },
+    "liquid_consumer_definitions.block": {
+      "status": "source-backed",
+      "godot_owner": "SourceConsumeLiquidState.source_liquid_consumer_definitions_state",
+      "godot_symbol": "source_liquid_consumer_definitions_input.block",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "load()",
+      "java_expr": "public ConsumeLiquid consumeLiquid(Liquid liquid, float amount){",
+      "rule": "Required block with fully resolved direct consumeLiquid initializer metadata. Missing property is unresolved, not an empty consumer policy.",
+      "tests": [
+        "test_source_calls_preserve_order_flags_zero_and_comments",
+        "test_real_source_registry_exports_definitions_without_block_allowlist",
+        "test_same_slice_contracts_and_placement_binding_are_registered",
+        "test_live_block_shared_consumers_and_optional_efficiency_runtime"
+      ],
+      "runtime_proof": "/root/Main.LiquidConsumerHydrationProof"
+    },
+    "liquid_consumer_definitions.consume_builder": {
+      "status": "source-backed",
+      "godot_owner": "SourceConsumeLiquidState.source_liquid_consumer_definitions_state",
+      "godot_symbol": "source_liquid_consumer_definitions_result.consume_builder",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "load()",
+      "java_expr": "return consume(new ConsumeLiquid(liquid, amount));",
+      "rule": "Ordered direct single-liquid constructor definitions only. Other consumer types, inherited constructors and unsupported calls remain outside this view.",
+      "tests": [
+        "test_source_calls_preserve_order_flags_zero_and_comments",
+        "test_real_source_registry_exports_definitions_without_block_allowlist",
+        "test_same_slice_contracts_and_placement_binding_are_registered",
+        "test_live_block_shared_consumers_and_optional_efficiency_runtime"
+      ],
+      "runtime_proof": "/root/Main.LiquidConsumerHydrationProof"
+    },
+    "bind_liquid_consumers.block": {
+      "status": "source-backed",
+      "godot_owner": "SourceConsumeLiquidState.source_bind_liquid_consumers_state",
+      "godot_symbol": "source_bind_liquid_consumers_input.block",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "consumeLiquid(Liquid liquid, float amount); init()",
+      "java_expr": "consumers = consumeBuilder.toArray(Consume.class);",
+      "rule": "Reuse canonical source input and descriptor representation.",
+      "tests": [
+        "test_source_calls_preserve_order_flags_zero_and_comments",
+        "test_real_source_registry_exports_definitions_without_block_allowlist",
+        "test_same_slice_contracts_and_placement_binding_are_registered",
+        "test_live_block_shared_consumers_and_optional_efficiency_runtime"
+      ],
+      "runtime_proof": "/root/Main.LiquidConsumerHydrationProof"
+    },
+    "bind_liquid_consumers.content_catalog": {
+      "status": "source-backed",
+      "godot_owner": "SourceConsumeLiquidState.source_bind_liquid_consumers_state",
+      "godot_symbol": "source_bind_liquid_consumers_input.content_catalog",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "consumeLiquid(Liquid liquid, float amount); init()",
+      "java_expr": "consumers = consumeBuilder.toArray(Consume.class);",
+      "rule": "Reuse canonical source input and descriptor representation.",
+      "tests": [
+        "test_source_calls_preserve_order_flags_zero_and_comments",
+        "test_real_source_registry_exports_definitions_without_block_allowlist",
+        "test_same_slice_contracts_and_placement_binding_are_registered",
+        "test_live_block_shared_consumers_and_optional_efficiency_runtime"
+      ],
+      "runtime_proof": "/root/Main.LiquidConsumerHydrationProof"
+    },
+    "bind_liquid_consumers.consumers": {
+      "status": "source-backed",
+      "godot_owner": "SourceConsumeLiquidState.source_bind_liquid_consumers_state",
+      "godot_symbol": "source_bind_liquid_consumers_result.consumers",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "consumeLiquid(Liquid liquid, float amount); init()",
+      "java_expr": "consumers = consumeBuilder.toArray(Consume.class);",
+      "rule": "One cached typed single-liquid descriptor view per Block, shared across its buildings. No full Block.init/apply, full mixed consumer list, automatic tick or multiplier policy is claimed.",
+      "tests": [
+        "test_source_calls_preserve_order_flags_zero_and_comments",
+        "test_real_source_registry_exports_definitions_without_block_allowlist",
+        "test_same_slice_contracts_and_placement_binding_are_registered",
+        "test_live_block_shared_consumers_and_optional_efficiency_runtime"
+      ],
+      "runtime_proof": "/root/Main.LiquidConsumerHydrationProof"
+    },
+    "liquid_consumer_definition.liquid": {
+      "status": "source-backed",
+      "godot_owner": "SourceConsumeLiquidState.source_liquid_consumer_definitions_state",
+      "godot_symbol": "source_liquid_consumer_definition.liquid",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "ConsumeLiquid(Liquid liquid, float amount)",
+      "java_expr": "consumeLiquid(Liquids.water, 0.05f).boost();",
+      "rule": "Original Liquids static field identifier, not a guessed content slug. Runtime resolves field -> typed content -> canonical ordinal.",
+      "tests": [
+        "test_source_calls_preserve_order_flags_zero_and_comments",
+        "test_real_source_registry_exports_definitions_without_block_allowlist",
+        "test_same_slice_contracts_and_placement_binding_are_registered",
+        "test_live_block_shared_consumers_and_optional_efficiency_runtime"
+      ],
+      "runtime_proof": "/root/Main.LiquidConsumerHydrationProof"
+    },
+    "liquid_consumer_definition.amount": {
+      "status": "source-backed",
+      "godot_owner": "SourceConsumeLiquidState.source_liquid_consumer_definitions_state",
+      "godot_symbol": "source_liquid_consumer_definition.amount",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "java_method": "ConsumeLiquid(Liquid liquid, float amount)",
+      "java_expr": "super(amount);",
+      "rule": "Reuse canonical consumer field; absent flags stay absent for the existing classifier to interpret.",
+      "tests": [
+        "test_source_calls_preserve_order_flags_zero_and_comments",
+        "test_real_source_registry_exports_definitions_without_block_allowlist",
+        "test_same_slice_contracts_and_placement_binding_are_registered",
+        "test_live_block_shared_consumers_and_optional_efficiency_runtime"
+      ],
+      "runtime_proof": "/root/Main.LiquidConsumerHydrationProof"
+    },
+    "liquid_consumer_definition.optional": {
+      "status": "source-backed",
+      "godot_owner": "SourceConsumeLiquidState.source_liquid_consumer_definitions_state",
+      "godot_symbol": "source_liquid_consumer_definition.optional",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "java_method": "optional(boolean optional, boolean boost); update(boolean update); ignore()",
+      "java_expr": "this.optional = optional;",
+      "rule": "Reuse canonical consumer field; absent flags stay absent for the existing classifier to interpret.",
+      "tests": [
+        "test_source_calls_preserve_order_flags_zero_and_comments",
+        "test_real_source_registry_exports_definitions_without_block_allowlist",
+        "test_same_slice_contracts_and_placement_binding_are_registered",
+        "test_live_block_shared_consumers_and_optional_efficiency_runtime"
+      ],
+      "runtime_proof": "/root/Main.LiquidConsumerHydrationProof"
+    },
+    "liquid_consumer_definition.booster": {
+      "status": "source-backed",
+      "godot_owner": "SourceConsumeLiquidState.source_liquid_consumer_definitions_state",
+      "godot_symbol": "source_liquid_consumer_definition.booster",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "java_method": "optional(boolean optional, boolean boost); update(boolean update); ignore()",
+      "java_expr": "this.booster = boost;",
+      "rule": "Reuse canonical consumer field; absent flags stay absent for the existing classifier to interpret.",
+      "tests": [
+        "test_source_calls_preserve_order_flags_zero_and_comments",
+        "test_real_source_registry_exports_definitions_without_block_allowlist",
+        "test_same_slice_contracts_and_placement_binding_are_registered",
+        "test_live_block_shared_consumers_and_optional_efficiency_runtime"
+      ],
+      "runtime_proof": "/root/Main.LiquidConsumerHydrationProof"
+    },
+    "liquid_consumer_definition.update": {
+      "status": "source-backed",
+      "godot_owner": "SourceConsumeLiquidState.source_liquid_consumer_definitions_state",
+      "godot_symbol": "source_liquid_consumer_definition.update",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "java_method": "optional(boolean optional, boolean boost); update(boolean update); ignore()",
+      "java_expr": "this.update = update;",
+      "rule": "Reuse canonical consumer field; absent flags stay absent for the existing classifier to interpret.",
+      "tests": [
+        "test_source_calls_preserve_order_flags_zero_and_comments",
+        "test_real_source_registry_exports_definitions_without_block_allowlist",
+        "test_same_slice_contracts_and_placement_binding_are_registered",
+        "test_live_block_shared_consumers_and_optional_efficiency_runtime"
+      ],
+      "runtime_proof": "/root/Main.LiquidConsumerHydrationProof"
+    },
+    "liquid_consumer_state.liquid": {
+      "status": "source-backed",
+      "godot_owner": "SourceConsumeLiquidState.source_bind_liquid_consumers_state",
+      "godot_symbol": "source_liquid_consumer_state.liquid",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "java_method": "ConsumeLiquid(Liquid liquid, float amount)",
+      "java_expr": "this.liquid = liquid;",
+      "rule": "Reuse canonical consumer field; absent flags stay absent for the existing classifier to interpret.",
+      "tests": [
+        "test_source_calls_preserve_order_flags_zero_and_comments",
+        "test_real_source_registry_exports_definitions_without_block_allowlist",
+        "test_same_slice_contracts_and_placement_binding_are_registered",
+        "test_live_block_shared_consumers_and_optional_efficiency_runtime"
+      ],
+      "runtime_proof": "/root/Main.LiquidConsumerHydrationProof"
+    },
+    "liquid_consumer_state.amount": {
+      "status": "source-backed",
+      "godot_owner": "SourceConsumeLiquidState.source_bind_liquid_consumers_state",
+      "godot_symbol": "source_liquid_consumer_state.amount",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "java_method": "ConsumeLiquid(Liquid liquid, float amount)",
+      "java_expr": "super(amount);",
+      "rule": "Reuse canonical consumer field; absent flags stay absent for the existing classifier to interpret.",
+      "tests": [
+        "test_source_calls_preserve_order_flags_zero_and_comments",
+        "test_real_source_registry_exports_definitions_without_block_allowlist",
+        "test_same_slice_contracts_and_placement_binding_are_registered",
+        "test_live_block_shared_consumers_and_optional_efficiency_runtime"
+      ],
+      "runtime_proof": "/root/Main.LiquidConsumerHydrationProof"
+    },
+    "liquid_consumer_state.optional": {
+      "status": "source-backed",
+      "godot_owner": "SourceConsumeLiquidState.source_bind_liquid_consumers_state",
+      "godot_symbol": "source_liquid_consumer_state.optional",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "java_method": "optional(boolean optional, boolean boost); update(boolean update); ignore()",
+      "java_expr": "this.optional = optional;",
+      "rule": "Reuse canonical consumer field; absent flags stay absent for the existing classifier to interpret.",
+      "tests": [
+        "test_source_calls_preserve_order_flags_zero_and_comments",
+        "test_real_source_registry_exports_definitions_without_block_allowlist",
+        "test_same_slice_contracts_and_placement_binding_are_registered",
+        "test_live_block_shared_consumers_and_optional_efficiency_runtime"
+      ],
+      "runtime_proof": "/root/Main.LiquidConsumerHydrationProof"
+    },
+    "liquid_consumer_state.booster": {
+      "status": "source-backed",
+      "godot_owner": "SourceConsumeLiquidState.source_bind_liquid_consumers_state",
+      "godot_symbol": "source_liquid_consumer_state.booster",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "java_method": "optional(boolean optional, boolean boost); update(boolean update); ignore()",
+      "java_expr": "this.booster = boost;",
+      "rule": "Reuse canonical consumer field; absent flags stay absent for the existing classifier to interpret.",
+      "tests": [
+        "test_source_calls_preserve_order_flags_zero_and_comments",
+        "test_real_source_registry_exports_definitions_without_block_allowlist",
+        "test_same_slice_contracts_and_placement_binding_are_registered",
+        "test_live_block_shared_consumers_and_optional_efficiency_runtime"
+      ],
+      "runtime_proof": "/root/Main.LiquidConsumerHydrationProof"
+    },
+    "liquid_consumer_state.update": {
+      "status": "source-backed",
+      "godot_owner": "SourceConsumeLiquidState.source_bind_liquid_consumers_state",
+      "godot_symbol": "source_liquid_consumer_state.update",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "java_method": "optional(boolean optional, boolean boost); update(boolean update); ignore()",
+      "java_expr": "this.update = update;",
+      "rule": "Reuse canonical consumer field; absent flags stay absent for the existing classifier to interpret.",
+      "tests": [
+        "test_source_calls_preserve_order_flags_zero_and_comments",
+        "test_real_source_registry_exports_definitions_without_block_allowlist",
+        "test_same_slice_contracts_and_placement_binding_are_registered",
+        "test_live_block_shared_consumers_and_optional_efficiency_runtime"
+      ],
+      "runtime_proof": "/root/Main.LiquidConsumerHydrationProof"
+    },
+    "liquid_consumer_state.ignored": {
+      "status": "source-backed",
+      "godot_owner": "SourceConsumeLiquidState.source_bind_liquid_consumers_state",
+      "godot_symbol": "source_liquid_consumer_state.ignored",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "java_method": "optional(boolean optional, boolean boost); update(boolean update); ignore()",
+      "java_expr": "return false;",
+      "rule": "Reuse canonical consumer field; absent flags stay absent for the existing classifier to interpret.",
+      "tests": [
+        "test_source_calls_preserve_order_flags_zero_and_comments",
+        "test_real_source_registry_exports_definitions_without_block_allowlist",
+        "test_same_slice_contracts_and_placement_binding_are_registered",
+        "test_live_block_shared_consumers_and_optional_efficiency_runtime"
+      ],
+      "runtime_proof": "/root/Main.LiquidConsumerHydrationProof"
+    },
+    "block_liquid_consumers.metadata_key": {
+      "status": "source-backed",
+      "godot_owner": "SourceConsumeLiquidState.source_bind_liquid_consumers_state",
+      "godot_symbol": "SourceConsumeLiquidState.SOURCE_BLOCK_LIQUID_CONSUMERS_META_KEY",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "init()",
+      "java_expr": "public Consume[] consumers = {}, optionalConsumers = {}, nonOptionalConsumers = {}, updateConsumers = {};",
+      "rule": "Single-liquid descriptor view belongs to Block and is shared by building instances; this is not a second building liquid storage owner.",
+      "tests": [
+        "test_source_calls_preserve_order_flags_zero_and_comments",
+        "test_real_source_registry_exports_definitions_without_block_allowlist",
+        "test_same_slice_contracts_and_placement_binding_are_registered",
+        "test_live_block_shared_consumers_and_optional_efficiency_runtime"
+      ],
+      "runtime_proof": "/root/Main.LiquidConsumerHydrationProof"
     }
   },
   "version": 1

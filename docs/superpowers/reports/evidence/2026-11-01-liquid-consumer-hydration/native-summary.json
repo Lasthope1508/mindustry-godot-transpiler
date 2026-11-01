@@ -1,0 +1,31 @@
+{
+  "proof": {
+    "bound_at_placement": true,
+    "definition_preserved": true,
+    "descriptor_matches": true,
+    "efficiency_results": [
+      [
+        1,
+        1
+      ],
+      [
+        1,
+        0.5
+      ],
+      [
+        1,
+        0
+      ]
+    ],
+    "java_field_remap_matches": true,
+    "matches": true,
+    "one_headquarter_per_ssot": true,
+    "optional_efficiency_matches": true,
+    "registry_valid": true,
+    "shared_block_consumers": true
+  },
+  "native_actual_errors": [],
+  "native_warning_count": 66,
+  "stopped": true,
+  "editor_exit_code": 0
+}

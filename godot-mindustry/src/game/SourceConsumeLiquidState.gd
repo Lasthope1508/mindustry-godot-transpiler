@@ -1,6 +1,31 @@
 extends RefCounted
 class_name SourceConsumeLiquidState
 
+const source_liquid_consumer_catalog := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
+const source_liquid_consumer_base := preload("res://src/game/SourceConsumeState.gd")
+const SOURCE_BLOCK_LIQUID_CONSUMERS_META_KEY := "source_block_liquid_consumers"
+
+static func source_liquid_consumer_definitions_state(block: Object) -> Dictionary:
+	return {"consume_builder": block.properties["consumeLiquid"]}
+
+static func source_bind_liquid_consumers_state(block: Object, content_catalog: Object) -> Dictionary:
+	if block.has_meta(SOURCE_BLOCK_LIQUID_CONSUMERS_META_KEY):
+		return {"consumers": block.get_meta(SOURCE_BLOCK_LIQUID_CONSUMERS_META_KEY)}
+	var catalog := source_liquid_consumer_catalog.source_liquid_catalog_state(content_catalog)
+	var liquids: Array = content_catalog.call("get_many", "liquid")
+	var consumers: Array = []
+	for definition in source_liquid_consumer_definitions_state(block)["consume_builder"]:
+		var matches := liquids.filter(func(liquid): return liquid.field == definition["liquid"])
+		assert(matches.size() == 1, "ConsumeLiquid Java field must resolve uniquely in the typed liquid catalog")
+		var constructor := constructor_state(catalog["liquid_id_by_name"][matches[0].id], definition["amount"])
+		var consumer: Dictionary = definition.duplicate()
+		consumer["liquid"] = constructor["liquid_after"]
+		consumer["amount"] = constructor["amount_after"]
+		consumer["ignored"] = source_liquid_consumer_base.ignore_state()["ignored"]
+		consumers.append(consumer)
+	block.set_meta(SOURCE_BLOCK_LIQUID_CONSUMERS_META_KEY, consumers)
+	return {"consumers": consumers}
+
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
 const source_consumer_defaults := preload("res://src/game/SourceConsumerDefaults.gd")
 const source_time_defaults := preload("res://src/game/SourceTimeDefaults.gd")

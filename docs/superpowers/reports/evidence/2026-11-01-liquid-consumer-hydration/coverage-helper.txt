@@ -1,0 +1,40 @@
+import importlib.util
+import json
+import re
+import sys
+from pathlib import Path
+
+ROOT = Path(r'C:/Users/Admin/Documents/Game/mindustry-godot-transpiler-copy-20260714-073528')
+sys.path.insert(0, str(ROOT / 'tools/mindustry_godot_transpiler'))
+from mindustry_port import content_registry as c
+import javalang
+
+source = (ROOT / 'mindustry-upstream/core/src/mindustry/content/Blocks.java').read_text(encoding='utf-8')
+declared = c._declared_block_fields(source)
+pattern = re.compile(r'\b([A-Za-z_]\w*)\s*=\s*new\s+([A-Za-z_]\w*)\s*\(\s*"([^"]+)"', re.M)
+report = {'resolved': [], 'unresolved': []}
+for match in pattern.finditer(source):
+    field, implementation, content_id = match.groups()
+    if field not in declared:
+        continue
+    initializer = c._initializer_body(source, match.end())
+    tokens = list(javalang.tokenizer.tokenize(initializer))
+    calls = sum(t.value == 'consumeLiquid' and i + 1 < len(tokens) and tokens[i+1].value == '(' for i,t in enumerate(tokens))
+    if not calls:
+        continue
+    descriptors = c._consume_liquid_descriptors(initializer)
+    entry = {'block':content_id, 'source_calls':calls, 'source_line':source.count('\n',0,match.start())+1}
+    if descriptors is None:
+        entry['rule'] = 'Unsupported expression, scope, assignment, flag or consumer mutation; no consumeLiquid metadata emitted for this block.'
+        report['unresolved'].append(entry)
+    else:
+        assert len(descriptors) == calls
+        entry['descriptors'] = descriptors
+        report['resolved'].append(entry)
+report['resolved_blocks'] = len(report['resolved'])
+report['resolved_calls'] = sum(e['source_calls'] for e in report['resolved'])
+report['unresolved_blocks'] = len(report['unresolved'])
+report['unresolved_calls'] = sum(e['source_calls'] for e in report['unresolved'])
+Path('C:/tmp/liquid-consumer-coverage.json').write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
+print({k:v for k,v in report.items() if not isinstance(v,list)})
+print('unresolved', report['unresolved'])
