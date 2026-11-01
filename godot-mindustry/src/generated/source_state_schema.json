@@ -164473,6 +164473,118 @@
           ]
         }
       }
+    },
+    "source_liquid_catalog_input": {
+      "status": "active",
+      "owner": "SourceContentRegistryRuntimeState.source_liquid_catalog_state",
+      "runtime_proof": "/root/Main.PlacedLiquidOwnershipProof",
+      "keys": {
+        "content_catalog": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/ContentLoader.java",
+          "java_expr": "return getBy(ContentType.liquid);",
+          "rule": "Hydrated typed liquid sequence in upstream constructor registration order; UI string IDs remain unchanged."
+        }
+      }
+    },
+    "source_liquid_catalog_result": {
+      "status": "active",
+      "owner": "SourceContentRegistryRuntimeState.source_liquid_catalog_state",
+      "runtime_proof": "/root/Main.PlacedLiquidOwnershipProof",
+      "keys": {
+        "content_liquid_ids": {
+          "type": "Array",
+          "status": "alias",
+          "alias_of": "source_liquid_module_initial_input.content_liquid_ids",
+          "used_by": [
+            "SourceContentRegistryRuntimeState.source_liquid_catalog_state"
+          ]
+        },
+        "liquid_id_by_name": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/ctype/Content.java",
+          "java_expr": "this.id = (short)Vars.content.getBy(getContentType()).size;",
+          "rule": "Typed liquid name-to-ordinal lookup derives from ordered registration, never the global mixed-type by_id map.",
+          "used_by": [
+            "SourceContentRegistryRuntimeState.source_liquid_catalog_state"
+          ]
+        }
+      }
+    },
+    "source_block_has_liquids_input": {
+      "status": "active",
+      "owner": "SourcePlacedBlockState.source_block_has_liquids_state",
+      "runtime_proof": "/root/Main.PlacedLiquidOwnershipProof",
+      "keys": {
+        "block": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public @NoPatch boolean hasLiquids;",
+          "rule": "Hydrated source-explicit constructor/initializer flag. Missing flags remain unresolved; this API has no false fallback."
+        }
+      }
+    },
+    "source_block_has_liquids_result": {
+      "status": "active",
+      "owner": "SourcePlacedBlockState.source_block_has_liquids_state",
+      "runtime_proof": "/root/Main.PlacedLiquidOwnershipProof",
+      "keys": {
+        "has_liquids": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "hasLiquids = true;",
+          "rule": "Source-explicit flags follow constructor inheritance and initializer overrides. Consumer.apply-only flags and absent flags remain deferred.",
+          "used_by": [
+            "SourcePlacedBlockState.source_block_has_liquids_state"
+          ]
+        }
+      }
+    },
+    "source_initialize_building_liquids_input": {
+      "status": "active",
+      "owner": "SourcePlacedBlockState.source_initialize_building_liquids_state",
+      "runtime_proof": "/root/Main.PlacedLiquidOwnershipProof",
+      "keys": {
+        "sprite": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(block.hasLiquids) liquids = new LiquidModule();",
+          "rule": "Existing placed sprite carries this Building instance field as registered metadata."
+        },
+        "has_liquids": {
+          "type": "bool",
+          "status": "alias",
+          "alias_of": "source_block_has_liquids_result.has_liquids"
+        },
+        "content_catalog": {
+          "type": "Object",
+          "status": "alias",
+          "alias_of": "source_liquid_catalog_input.content_catalog"
+        }
+      }
+    },
+    "source_initialize_building_liquids_result": {
+      "status": "active",
+      "owner": "SourcePlacedBlockState.source_initialize_building_liquids_state",
+      "runtime_proof": "/root/Main.PlacedLiquidOwnershipProof",
+      "keys": {
+        "liquids": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "@Nullable LiquidModule liquids;",
+          "rule": "Nullable canonical storage frame owned by this placed building. True guard replaces storage on create; false guard preserves the existing field.",
+          "schema": "source_liquid_module_storage_state",
+          "used_by": [
+            "SourcePlacedBlockState.source_initialize_building_liquids_state"
+          ]
+        }
+      }
     }
   },
   "version": 1

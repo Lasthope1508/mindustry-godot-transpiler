@@ -604,6 +604,33 @@
           ]
         }
       }
+    },
+    "source_block_has_liquids_input": {
+      "canonical_schema": "source_state_schema.source_block_has_liquids_input",
+      "keys": {
+        "block": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public @NoPatch boolean hasLiquids;",
+          "rule": "Hydrated source-explicit constructor/initializer flag. Missing flags remain unresolved; this API has no false fallback."
+        }
+      }
+    },
+    "source_block_has_liquids_result": {
+      "canonical_schema": "source_state_schema.source_block_has_liquids_result",
+      "keys": {
+        "has_liquids": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "hasLiquids = true;",
+          "rule": "Source-explicit flags follow constructor inheritance and initializer overrides. Consumer.apply-only flags and absent flags remain deferred.",
+          "used_by": [
+            "SourcePlacedBlockState.source_block_has_liquids_state"
+          ]
+        }
+      }
     }
   }
 }

@@ -1,0 +1,80 @@
+{
+  "matches": true,
+  "files": {
+    "godot-mindustry/src/generated/source_symbol_registry.json": {
+      "before": "ad466823a06375a7680e9e7cad3cb621b47635a172410757ccaaf7133643d886",
+      "after": "ad466823a06375a7680e9e7cad3cb621b47635a172410757ccaaf7133643d886",
+      "matches": true
+    },
+    "godot-mindustry/src/generated/source_api_contracts.json": {
+      "before": "853db42dc7daa76682f0a78924b39b6716823b041fd9a59d49114f98347f8d56",
+      "after": "853db42dc7daa76682f0a78924b39b6716823b041fd9a59d49114f98347f8d56",
+      "matches": true
+    },
+    "godot-mindustry/src/generated/source_state_schema.json": {
+      "before": "6854cf68c6fdce76f3ab3de573ad315bb3818aeb247b6229d459890aa63fd790",
+      "after": "6854cf68c6fdce76f3ab3de573ad315bb3818aeb247b6229d459890aa63fd790",
+      "matches": true
+    },
+    "godot-mindustry/src/generated/source_slice_ledger.json": {
+      "before": "f1771b909feea315e3dbc683b8b4bd383f8f8b9eeb4aa0baf2bc404c968171c9",
+      "after": "f1771b909feea315e3dbc683b8b4bd383f8f8b9eeb4aa0baf2bc404c968171c9",
+      "matches": true
+    },
+    "godot-mindustry/src/generated/source_modules/production_slices.json": {
+      "before": "2505de1fefe5ea09e3f95d1a015cb6ff04bc2f6aa443c58f61e091814d485f50",
+      "after": "2505de1fefe5ea09e3f95d1a015cb6ff04bc2f6aa443c58f61e091814d485f50",
+      "matches": true
+    },
+    "godot-mindustry/src/generated/source_modules/production_api_contracts.json": {
+      "before": "1d235ffd33bd7bb35dc9a801e1d2c58e2115dbae883430cf2307f7acbfed0b79",
+      "after": "1d235ffd33bd7bb35dc9a801e1d2c58e2115dbae883430cf2307f7acbfed0b79",
+      "matches": true
+    },
+    "godot-mindustry/src/generated/source_modules/production_state_schema.json": {
+      "before": "a7909501c1a7a38ff3f2f056201db69cab82bdc91e4d533687784d82022f3a7b",
+      "after": "a7909501c1a7a38ff3f2f056201db69cab82bdc91e4d533687784d82022f3a7b",
+      "matches": true
+    },
+    "godot-mindustry/src/generated/source_modules/production_symbols.json": {
+      "before": "5a392105b5994b2dd0f780af263fcfe1509119be8dcfd90ea32bc94a4c1dd6bf",
+      "after": "5a392105b5994b2dd0f780af263fcfe1509119be8dcfd90ea32bc94a4c1dd6bf",
+      "matches": true
+    },
+    "godot-mindustry/src/generated/source_modules/comp_slices.json": {
+      "before": "7fe194948930bd7b102ecf19422d18a330334260fc0cbd8264c09bf2013276ba",
+      "after": "7fe194948930bd7b102ecf19422d18a330334260fc0cbd8264c09bf2013276ba",
+      "matches": true
+    },
+    "godot-mindustry/src/generated/source_modules/comp_api_contracts.json": {
+      "before": "b83efb08b8f93db3f179cd340793931a9370ce118d696a65b754d8bd46c8093d",
+      "after": "b83efb08b8f93db3f179cd340793931a9370ce118d696a65b754d8bd46c8093d",
+      "matches": true
+    },
+    "godot-mindustry/src/generated/source_modules/content_registry_blocks.json": {
+      "before": "44051a1a2c10325a360dc9108b7f26b6609151023cd642c8ca261f9eb8fc5496",
+      "after": "44051a1a2c10325a360dc9108b7f26b6609151023cd642c8ca261f9eb8fc5496",
+      "matches": true
+    },
+    "godot-mindustry/src/generated/content_registry.json": {
+      "before": "57ae8c6baa7f9849ec9c395dbf5f07f6d630835f50a0b16a40c122d3a18cb246",
+      "after": "57ae8c6baa7f9849ec9c395dbf5f07f6d630835f50a0b16a40c122d3a18cb246",
+      "matches": true
+    },
+    "godot-mindustry/src/generated/MindustryContentRegistry.gd": {
+      "before": "ffead6410ff7454da8c19de2d320e0cfe63186f69bdfe5f8b8c6e62bc016bdf2",
+      "after": "ffead6410ff7454da8c19de2d320e0cfe63186f69bdfe5f8b8c6e62bc016bdf2",
+      "matches": true
+    },
+    "godot-mindustry/src/generated/source_ssot_modules.json": {
+      "before": "6b122317ee1fccd7a3967f8b85b18399008db1097d34abfde28f8c5f6a8733bd",
+      "after": "6b122317ee1fccd7a3967f8b85b18399008db1097d34abfde28f8c5f6a8733bd",
+      "matches": true
+    },
+    "godot-mindustry/src/generated/source_symbol_audit_report.json": {
+      "before": "544144f18df94ca4632148ab013a44cedc066cc39421928910d6fdb6c9ca62fc",
+      "after": "544144f18df94ca4632148ab013a44cedc066cc39421928910d6fdb6c9ca62fc",
+      "matches": true
+    }
+  }
+}

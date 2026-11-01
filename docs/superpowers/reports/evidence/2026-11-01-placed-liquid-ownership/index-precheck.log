@@ -1,0 +1,47 @@
+{
+  "godot-mindustry/src/generated/source_symbol_registry.json": {
+    "added": 10,
+    "changed": 0
+  },
+  "godot-mindustry/src/generated/source_api_contracts.json": {
+    "added": 3,
+    "changed": 0
+  },
+  "godot-mindustry/src/generated/source_state_schema.json": {
+    "added": 6,
+    "changed": 0
+  },
+  "godot-mindustry/src/generated/source_slice_ledger.json": {
+    "added": 3,
+    "changed": 0
+  },
+  "godot-mindustry/src/generated/source_modules/production_slices.json": {
+    "added": 1,
+    "changed": 0
+  },
+  "godot-mindustry/src/generated/source_modules/production_api_contracts.json": {
+    "added": 1,
+    "changed": 0
+  },
+  "godot-mindustry/src/generated/source_modules/production_state_schema.json": {
+    "added": 2,
+    "changed": 0
+  },
+  "godot-mindustry/src/generated/source_modules/production_symbols.json": {
+    "added": 2,
+    "changed": 0
+  },
+  "godot-mindustry/src/generated/source_modules/comp_slices.json": {
+    "added": 1,
+    "changed": 0
+  },
+  "godot-mindustry/src/generated/source_modules/comp_api_contracts.json": {
+    "added": 1,
+    "changed": 0
+  },
+  "godot-mindustry/src/generated/source_modules/content_registry_blocks.json": {
+    "added": 0,
+    "changed": 56
+  }
+}
+content flag additions 56 mode staged

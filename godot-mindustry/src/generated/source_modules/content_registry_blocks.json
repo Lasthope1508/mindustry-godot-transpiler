@@ -2275,7 +2275,8 @@
             "item": "graphite"
           }
         ],
-        "size": 3
+        "size": 3,
+        "hasLiquids": true
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/multi-press.png"
     },
@@ -2307,7 +2308,8 @@
             "item": "lead"
           }
         ],
-        "size": 2
+        "size": 2,
+        "hasLiquids": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/silicon-smelter.png"
     },
@@ -2346,7 +2348,8 @@
             "item": "silicon"
           }
         ],
-        "size": 3
+        "size": 3,
+        "hasLiquids": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/silicon-crucible.png"
     },
@@ -2423,7 +2426,8 @@
             "item": "titanium"
           }
         ],
-        "size": 2
+        "size": 2,
+        "hasLiquids": true
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/plastanium-compressor.png"
     },
@@ -2531,7 +2535,8 @@
             "item": "titanium"
           }
         ],
-        "size": 2
+        "size": 2,
+        "hasLiquids": true
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/cryofluid-mixer.png"
     },
@@ -2663,7 +2668,8 @@
             "item": "titanium"
           }
         ],
-        "size": 2
+        "size": 2,
+        "hasLiquids": true
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/separator.png"
     },
@@ -2703,7 +2709,8 @@
             "item": "thorium"
           }
         ],
-        "size": 3
+        "size": 3,
+        "hasLiquids": true
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/disassembler.png"
     },
@@ -2736,7 +2743,8 @@
             "item": "silicon"
           }
         ],
-        "size": 2
+        "size": 2,
+        "hasLiquids": true
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/spore-press.png"
     },
@@ -2804,7 +2812,8 @@
             "item": "lead"
           }
         ],
-        "size": 2
+        "size": 2,
+        "hasLiquids": true
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/coal-centrifuge.png"
     },
@@ -2834,7 +2843,8 @@
             "amount": 15,
             "item": "lead"
           }
-        ]
+        ],
+        "hasLiquids": true
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/incinerator.png"
     },
@@ -2866,7 +2876,8 @@
             "item": "graphite"
           }
         ],
-        "size": 3
+        "size": 3,
+        "hasLiquids": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/silicon-arc-furnace.png"
     },
@@ -2941,7 +2952,8 @@
             "item": "silicon"
           }
         ],
-        "size": 3
+        "size": 3,
+        "hasLiquids": true
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/atmospheric-concentrator.png"
     },
@@ -4217,7 +4229,8 @@
             "item": "silicon"
           }
         ],
-        "size": 3
+        "size": 3,
+        "hasLiquids": true
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/defense/force-projector.png"
     },
@@ -5220,7 +5233,8 @@
             "amount": 10,
             "item": "metaglass"
           }
-        ]
+        ],
+        "hasLiquids": true
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/mechanical-pump.png"
     },
@@ -5258,7 +5272,8 @@
             "item": "titanium"
           }
         ],
-        "size": 2
+        "size": 2,
+        "hasLiquids": true
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/rotary-pump.png"
     },
@@ -5300,7 +5315,8 @@
             "item": "thorium"
           }
         ],
-        "size": 3
+        "size": 3,
+        "hasLiquids": true
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/impulse-pump.png"
     },
@@ -5322,7 +5338,8 @@
             "amount": 1,
             "item": "metaglass"
           }
-        ]
+        ],
+        "hasLiquids": true
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/conduits/conduit-bottom-0.png"
     },
@@ -5348,7 +5365,8 @@
             "amount": 1,
             "item": "metaglass"
           }
-        ]
+        ],
+        "hasLiquids": true
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/conduits/pulse-conduit-top-0.png"
     },
@@ -5378,7 +5396,8 @@
             "amount": 1,
             "item": "plastanium"
           }
-        ]
+        ],
+        "hasLiquids": true
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/conduits/plated-conduit-cap.png"
     },
@@ -5403,7 +5422,8 @@
             "amount": 2,
             "item": "metaglass"
           }
-        ]
+        ],
+        "hasLiquids": true
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/liquid-router.png"
     },
@@ -5429,7 +5449,8 @@
             "item": "metaglass"
           }
         ],
-        "size": 2
+        "size": 2,
+        "hasLiquids": true
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/liquid-container.png"
     },
@@ -5456,7 +5477,8 @@
             "item": "metaglass"
           }
         ],
-        "size": 3
+        "size": 3,
+        "hasLiquids": true
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/liquid-tank.png"
     },
@@ -5481,7 +5503,8 @@
             "amount": 8,
             "item": "metaglass"
           }
-        ]
+        ],
+        "hasLiquids": true
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/liquid-junction.png"
     },
@@ -5508,7 +5531,8 @@
             "amount": 8,
             "item": "metaglass"
           }
-        ]
+        ],
+        "hasLiquids": true
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/bridge-conduit.png"
     },
@@ -5547,7 +5571,8 @@
             "amount": 10,
             "item": "titanium"
           }
-        ]
+        ],
+        "hasLiquids": true
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/phase-conduit.png"
     },
@@ -5577,7 +5602,8 @@
             "item": "silicon"
           }
         ],
-        "size": 2
+        "size": 2,
+        "hasLiquids": true
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/reinforced-pump.png"
     },
@@ -5599,7 +5625,8 @@
             "amount": 2,
             "item": "beryllium"
           }
-        ]
+        ],
+        "hasLiquids": true
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/conduits/reinforced-conduit-cap.png"
     },
@@ -5625,7 +5652,8 @@
             "amount": 8,
             "item": "beryllium"
           }
-        ]
+        ],
+        "hasLiquids": true
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/reinforced-liquid-junction.png"
     },
@@ -5652,7 +5680,8 @@
             "amount": 20,
             "item": "beryllium"
           }
-        ]
+        ],
+        "hasLiquids": true
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/reinforced-bridge-conduit.png"
     },
@@ -5678,7 +5707,8 @@
             "amount": 4,
             "item": "beryllium"
           }
-        ]
+        ],
+        "hasLiquids": true
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/reinforced-liquid-router.png"
     },
@@ -5705,7 +5735,8 @@
             "item": "beryllium"
           }
         ],
-        "size": 2
+        "size": 2,
+        "hasLiquids": true
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/reinforced-liquid-container.png"
     },
@@ -5732,7 +5763,8 @@
             "item": "beryllium"
           }
         ],
-        "size": 3
+        "size": 3,
+        "hasLiquids": true
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/liquid/reinforced-liquid-tank.png"
     },
@@ -6020,7 +6052,8 @@
           }
         ],
         "rotateSpeed": 2,
-        "size": 2
+        "size": 2,
+        "hasLiquids": true
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/power/steam-generator.png"
     },
@@ -6062,7 +6095,8 @@
             "item": "metaglass"
           }
         ],
-        "size": 3
+        "size": 3,
+        "hasLiquids": true
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/power/differential-generator.png"
     },
@@ -6201,7 +6235,8 @@
             "item": "metaglass"
           }
         ],
-        "size": 3
+        "size": 3,
+        "hasLiquids": true
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/power/thorium-reactor.png"
     },
@@ -6252,7 +6287,8 @@
             "item": "metaglass"
           }
         ],
-        "size": 4
+        "size": 4,
+        "hasLiquids": true
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/power/impact-reactor.png"
     },
@@ -6382,7 +6418,8 @@
             "item": "beryllium"
           }
         ],
-        "size": 3
+        "size": 3,
+        "hasLiquids": true
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/power/turbine-condenser.png"
     },
@@ -6559,7 +6596,8 @@
           }
         ],
         "size": 2,
-        "tier": 2
+        "tier": 2,
+        "hasLiquids": true
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/drills/mechanical-drill.png"
     },
@@ -6589,7 +6627,8 @@
           }
         ],
         "size": 2,
-        "tier": 3
+        "tier": 3,
+        "hasLiquids": true
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/drills/pneumatic-drill.png"
     },
@@ -6631,7 +6670,8 @@
           }
         ],
         "size": 3,
-        "tier": 4
+        "tier": 4,
+        "hasLiquids": true
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/drills/laser-drill.png"
     },
@@ -6674,7 +6714,8 @@
         ],
         "rotateSpeed": 6,
         "size": 4,
-        "tier": 5
+        "tier": 5,
+        "hasLiquids": true
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/drills/blast-drill.png"
     },
@@ -6713,7 +6754,8 @@
           }
         ],
         "rotateSpeed": 1.4,
-        "size": 2
+        "size": 2,
+        "hasLiquids": true
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/drills/water-extractor.png"
     },
@@ -6749,7 +6791,8 @@
             "item": "silicon"
           }
         ],
-        "size": 2
+        "size": 2,
+        "hasLiquids": true
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/cultivator.png"
     },
@@ -6793,7 +6836,8 @@
             "item": "silicon"
           }
         ],
-        "size": 3
+        "size": 3,
+        "hasLiquids": true
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/drills/oil-extractor.png"
     },
@@ -6824,7 +6868,8 @@
             "item": "beryllium"
           }
         ],
-        "size": 3
+        "size": 3,
+        "hasLiquids": true
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/production/vent-condenser.png"
     },
@@ -7009,7 +7054,8 @@
           }
         ],
         "size": 4,
-        "tier": 6
+        "tier": 6,
+        "hasLiquids": true
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/drills/impact-drill.png"
     },
@@ -7050,7 +7096,8 @@
           }
         ],
         "size": 5,
-        "tier": 7
+        "tier": 7,
+        "hasLiquids": true
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/drills/eruption-drill.png"
     },
@@ -7603,7 +7650,8 @@
         ],
         "scaledHealth": 250,
         "shootCone": 50,
-        "size": 2
+        "size": 2,
+        "hasLiquids": true
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/wave.png"
     },
@@ -7947,7 +7995,8 @@
           "type": "ShootAlternate"
         },
         "size": 3,
-        "speed": 4
+        "speed": 4,
+        "hasLiquids": true
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/tsunami.png"
     },
@@ -8469,7 +8518,8 @@
         ],
         "scaledHealth": 210,
         "shootY": 8,
-        "size": 3
+        "size": 3,
+        "hasLiquids": true
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/turrets/sublimate/sublimate.png"
     },
@@ -9953,7 +10003,8 @@
             "item": "tungsten"
           }
         ],
-        "size": 3
+        "size": 3,
+        "hasLiquids": true
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/payload/payload-loader.png"
     },
@@ -9987,7 +10038,8 @@
             "item": "tungsten"
           }
         ],
-        "size": 3
+        "size": 3,
+        "hasLiquids": true
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/payload/payload-unloader.png"
     },
@@ -10064,7 +10116,8 @@
         "connectedPower": true,
         "consumesPower": true,
         "hasPower": true,
-        "outputsPower": false
+        "outputsPower": false,
+        "hasLiquids": true
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/sandbox/liquid-source.png"
     },
@@ -10079,7 +10132,8 @@
         "connectedPower": true,
         "consumesPower": true,
         "hasPower": true,
-        "outputsPower": false
+        "outputsPower": false,
+        "hasLiquids": true
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/sandbox/liquid-void.png"
     },
@@ -10273,7 +10327,8 @@
             "item": "titanium"
           }
         ],
-        "size": 4
+        "size": 4,
+        "hasLiquids": true
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/campaign/landing-pad.png"
     },
@@ -10471,7 +10526,8 @@
             "item": "surge-alloy"
           }
         ],
-        "size": 3
+        "size": 3,
+        "hasLiquids": true
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/logic/hyper-processor.png"
     },

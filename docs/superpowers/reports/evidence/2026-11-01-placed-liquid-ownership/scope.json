@@ -1,0 +1,413 @@
+{
+  "parent": "5e174b277943f333aae2b620bc8a08636dd3b525",
+  "json": {
+    "godot-mindustry/src/generated/source_symbol_registry.json": {
+      "added": [
+        "block_has_liquids.block",
+        "block_has_liquids.has_liquids",
+        "initialize_building_liquids.content_catalog",
+        "initialize_building_liquids.has_liquids",
+        "initialize_building_liquids.liquids",
+        "initialize_building_liquids.sprite",
+        "liquid_catalog.content_catalog",
+        "liquid_catalog.content_liquid_ids",
+        "liquid_catalog.liquid_id_by_name",
+        "placed_building_liquids.metadata_key"
+      ],
+      "changed": [],
+      "removed": [],
+      "preexisting_dirty": false
+    },
+    "godot-mindustry/src/generated/source_api_contracts.json": {
+      "added": [
+        "SourceContentRegistryRuntimeState.source_liquid_catalog_state",
+        "SourcePlacedBlockState.source_block_has_liquids_state",
+        "SourcePlacedBlockState.source_initialize_building_liquids_state"
+      ],
+      "changed": [],
+      "removed": [],
+      "preexisting_dirty": false
+    },
+    "godot-mindustry/src/generated/source_state_schema.json": {
+      "added": [
+        "source_block_has_liquids_input",
+        "source_block_has_liquids_result",
+        "source_initialize_building_liquids_input",
+        "source_initialize_building_liquids_result",
+        "source_liquid_catalog_input",
+        "source_liquid_catalog_result"
+      ],
+      "changed": [],
+      "removed": [],
+      "preexisting_dirty": true
+    },
+    "godot-mindustry/src/generated/source_slice_ledger.json": {
+      "added": [
+        "N1999",
+        "N2000",
+        "N2001"
+      ],
+      "changed": [],
+      "removed": [],
+      "preexisting_dirty": false
+    },
+    "godot-mindustry/src/generated/source_modules/production_slices.json": {
+      "added": [
+        "N2000"
+      ],
+      "changed": [],
+      "removed": [],
+      "preexisting_dirty": true
+    },
+    "godot-mindustry/src/generated/source_modules/production_api_contracts.json": {
+      "added": [
+        "SourcePlacedBlockState.source_block_has_liquids_state"
+      ],
+      "changed": [],
+      "removed": [],
+      "preexisting_dirty": true
+    },
+    "godot-mindustry/src/generated/source_modules/production_state_schema.json": {
+      "added": [
+        "source_block_has_liquids_input",
+        "source_block_has_liquids_result"
+      ],
+      "changed": [],
+      "removed": [],
+      "preexisting_dirty": true
+    },
+    "godot-mindustry/src/generated/source_modules/production_symbols.json": {
+      "added": [
+        "block_has_liquids.block",
+        "block_has_liquids.has_liquids"
+      ],
+      "changed": [],
+      "removed": [],
+      "preexisting_dirty": true
+    },
+    "godot-mindustry/src/generated/source_modules/comp_slices.json": {
+      "added": [
+        "N2001"
+      ],
+      "changed": [],
+      "removed": [],
+      "preexisting_dirty": false
+    },
+    "godot-mindustry/src/generated/source_modules/comp_api_contracts.json": {
+      "added": [
+        "SourcePlacedBlockState.source_initialize_building_liquids_state"
+      ],
+      "changed": [],
+      "removed": [],
+      "preexisting_dirty": false
+    },
+    "godot-mindustry/src/generated/source_modules/content_registry_blocks.json": {
+      "added": [],
+      "changed": [
+        "atmospheric-concentrator",
+        "blast-drill",
+        "bridge-conduit",
+        "coal-centrifuge",
+        "conduit",
+        "cryofluid-mixer",
+        "cultivator",
+        "differential-generator",
+        "disassembler",
+        "eruption-drill",
+        "force-projector",
+        "hyper-processor",
+        "impact-drill",
+        "impact-reactor",
+        "impulse-pump",
+        "incinerator",
+        "landing-pad",
+        "laser-drill",
+        "liquid-container",
+        "liquid-junction",
+        "liquid-router",
+        "liquid-source",
+        "liquid-tank",
+        "liquid-void",
+        "mechanical-drill",
+        "mechanical-pump",
+        "multi-press",
+        "oil-extractor",
+        "payload-loader",
+        "payload-unloader",
+        "phase-conduit",
+        "plastanium-compressor",
+        "plated-conduit",
+        "pneumatic-drill",
+        "pulse-conduit",
+        "reinforced-bridge-conduit",
+        "reinforced-conduit",
+        "reinforced-liquid-container",
+        "reinforced-liquid-junction",
+        "reinforced-liquid-router",
+        "reinforced-liquid-tank",
+        "reinforced-pump",
+        "rotary-pump",
+        "separator",
+        "silicon-arc-furnace",
+        "silicon-crucible",
+        "silicon-smelter",
+        "spore-press",
+        "steam-generator",
+        "sublimate",
+        "thorium-reactor",
+        "tsunami",
+        "turbine-condenser",
+        "vent-condenser",
+        "water-extractor",
+        "wave"
+      ],
+      "removed": [],
+      "preexisting_dirty": false
+    }
+  },
+  "runtime": {
+    "godot-mindustry/src/game/SourceContentRegistryRuntimeState.gd": {
+      "added_lines": 9,
+      "preexisting_dirty": true
+    },
+    "godot-mindustry/src/game/SourcePlacedBlockState.gd": {
+      "added_lines": 17,
+      "preexisting_dirty": true
+    },
+    "godot-mindustry/src/game/PortGame.gd": {
+      "added_lines": 3,
+      "preexisting_dirty": true,
+      "rule": "Only append canonical liquid initialization to HEAD record_placed_block; preserve the existing facade refactor in the working tree."
+    }
+  },
+  "content": {
+    "only_added_hasLiquids": [
+      {
+        "id": "multi-press",
+        "hasLiquids": true
+      },
+      {
+        "id": "silicon-smelter",
+        "hasLiquids": false
+      },
+      {
+        "id": "silicon-crucible",
+        "hasLiquids": false
+      },
+      {
+        "id": "plastanium-compressor",
+        "hasLiquids": true
+      },
+      {
+        "id": "cryofluid-mixer",
+        "hasLiquids": true
+      },
+      {
+        "id": "separator",
+        "hasLiquids": true
+      },
+      {
+        "id": "disassembler",
+        "hasLiquids": true
+      },
+      {
+        "id": "spore-press",
+        "hasLiquids": true
+      },
+      {
+        "id": "coal-centrifuge",
+        "hasLiquids": true
+      },
+      {
+        "id": "incinerator",
+        "hasLiquids": true
+      },
+      {
+        "id": "silicon-arc-furnace",
+        "hasLiquids": false
+      },
+      {
+        "id": "atmospheric-concentrator",
+        "hasLiquids": true
+      },
+      {
+        "id": "force-projector",
+        "hasLiquids": true
+      },
+      {
+        "id": "mechanical-pump",
+        "hasLiquids": true
+      },
+      {
+        "id": "rotary-pump",
+        "hasLiquids": true
+      },
+      {
+        "id": "impulse-pump",
+        "hasLiquids": true
+      },
+      {
+        "id": "conduit",
+        "hasLiquids": true
+      },
+      {
+        "id": "pulse-conduit",
+        "hasLiquids": true
+      },
+      {
+        "id": "plated-conduit",
+        "hasLiquids": true
+      },
+      {
+        "id": "liquid-router",
+        "hasLiquids": true
+      },
+      {
+        "id": "liquid-container",
+        "hasLiquids": true
+      },
+      {
+        "id": "liquid-tank",
+        "hasLiquids": true
+      },
+      {
+        "id": "liquid-junction",
+        "hasLiquids": true
+      },
+      {
+        "id": "bridge-conduit",
+        "hasLiquids": true
+      },
+      {
+        "id": "phase-conduit",
+        "hasLiquids": true
+      },
+      {
+        "id": "reinforced-pump",
+        "hasLiquids": true
+      },
+      {
+        "id": "reinforced-conduit",
+        "hasLiquids": true
+      },
+      {
+        "id": "reinforced-liquid-junction",
+        "hasLiquids": true
+      },
+      {
+        "id": "reinforced-bridge-conduit",
+        "hasLiquids": true
+      },
+      {
+        "id": "reinforced-liquid-router",
+        "hasLiquids": true
+      },
+      {
+        "id": "reinforced-liquid-container",
+        "hasLiquids": true
+      },
+      {
+        "id": "reinforced-liquid-tank",
+        "hasLiquids": true
+      },
+      {
+        "id": "steam-generator",
+        "hasLiquids": true
+      },
+      {
+        "id": "differential-generator",
+        "hasLiquids": true
+      },
+      {
+        "id": "thorium-reactor",
+        "hasLiquids": true
+      },
+      {
+        "id": "impact-reactor",
+        "hasLiquids": true
+      },
+      {
+        "id": "turbine-condenser",
+        "hasLiquids": true
+      },
+      {
+        "id": "mechanical-drill",
+        "hasLiquids": true
+      },
+      {
+        "id": "pneumatic-drill",
+        "hasLiquids": true
+      },
+      {
+        "id": "laser-drill",
+        "hasLiquids": true
+      },
+      {
+        "id": "blast-drill",
+        "hasLiquids": true
+      },
+      {
+        "id": "water-extractor",
+        "hasLiquids": true
+      },
+      {
+        "id": "cultivator",
+        "hasLiquids": true
+      },
+      {
+        "id": "oil-extractor",
+        "hasLiquids": true
+      },
+      {
+        "id": "vent-condenser",
+        "hasLiquids": true
+      },
+      {
+        "id": "impact-drill",
+        "hasLiquids": true
+      },
+      {
+        "id": "eruption-drill",
+        "hasLiquids": true
+      },
+      {
+        "id": "wave",
+        "hasLiquids": true
+      },
+      {
+        "id": "tsunami",
+        "hasLiquids": true
+      },
+      {
+        "id": "sublimate",
+        "hasLiquids": true
+      },
+      {
+        "id": "payload-loader",
+        "hasLiquids": true
+      },
+      {
+        "id": "payload-unloader",
+        "hasLiquids": true
+      },
+      {
+        "id": "liquid-source",
+        "hasLiquids": true
+      },
+      {
+        "id": "liquid-void",
+        "hasLiquids": true
+      },
+      {
+        "id": "landing-pad",
+        "hasLiquids": true
+      },
+      {
+        "id": "hyper-processor",
+        "hasLiquids": true
+      }
+    ],
+    "count": 56
+  },
+  "unchanged_manifest_and_audit": true
+}

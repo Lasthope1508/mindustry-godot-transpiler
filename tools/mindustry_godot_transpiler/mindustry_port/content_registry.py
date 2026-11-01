@@ -284,7 +284,7 @@ def _power_defaults(upstream_root: Path) -> dict[str, dict[str, bool]]:
     world_root = _source_world_dir(upstream_root)
     block_source = (world_root / "Block.java").read_text(encoding="utf-8", errors="replace")
     base = {}
-    for key in ["hasPower", "consumesPower", "outputsPower", "connectedPower"]:
+    for key in ["hasPower", "consumesPower", "outputsPower", "connectedPower", "hasLiquids"]:
         value = _boolean_assignment(block_source, key)
         if value is not None:
             base[key] = value
@@ -309,7 +309,7 @@ def _power_defaults(upstream_root: Path) -> dict[str, dict[str, bool]]:
         values = dict(resolved(parent) if parent != class_name else base)
         source = class_sources.get(class_name, "")
         constructor = _constructor_body(source, class_name)
-        for key in ["hasPower", "consumesPower", "outputsPower", "connectedPower"]:
+        for key in ["hasPower", "consumesPower", "outputsPower", "connectedPower", "hasLiquids"]:
             value = _boolean_assignment(constructor, key)
             if value is not None:
                 values[key] = value
@@ -339,6 +339,9 @@ def _block_properties(source: str, assignment_end: int, implementation: str = ""
         match = re.search(rf"\b{key}\s*=\s*([0-9_]+)\s*;", initializer)
         if match:
             properties[key] = int(match.group(1).replace("_", ""))
+    has_liquids = _boolean_assignment(initializer, "hasLiquids")
+    if has_liquids is not None:
+        properties["hasLiquids"] = has_liquids
     has_items = _boolean_assignment(initializer, "hasItems")
     if has_items is not None:
         properties["hasItems"] = has_items

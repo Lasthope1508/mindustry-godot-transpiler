@@ -294,6 +294,24 @@
         "test_port_game_applies_source_drill_warmup_to_output_delta"
       ],
       "runtime_proof": "/root/Main.source_drill_warmup_state"
+    },
+    "N2000": {
+      "canonical_ledger": "source_slice_ledger.N2000",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "Drill(String name)",
+      "godot_owner": "SourcePlacedBlockState.source_block_has_liquids_state",
+      "source_symbols": [
+        "block_has_liquids.block",
+        "block_has_liquids.has_liquids"
+      ],
+      "tests": [
+        "test_explicit_liquid_flags_follow_constructor_inheritance_and_initializer",
+        "test_real_registry_drill_liquid_flag_and_registered_owner_contracts",
+        "test_liquid_owner_is_bound_on_real_placement_path",
+        "test_live_building_storage_and_typed_catalog_runtime"
+      ],
+      "runtime_proof": "/root/Main.PlacedLiquidOwnershipProof"
     }
   }
 }

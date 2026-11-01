@@ -1,6 +1,23 @@
 extends RefCounted
 class_name SourcePlacedBlockState
 
+const source_liquid_module_state := preload("res://src/game/SourceLiquidModuleState.gd")
+const source_content_registry_runtime_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
+const SOURCE_BUILDING_LIQUIDS_META_KEY := "source_building_liquids"
+
+static func source_block_has_liquids_state(block: Variant) -> Dictionary:
+	return {"has_liquids": bool(block.properties["hasLiquids"])}
+
+static func source_initialize_building_liquids_state(sprite: Object, has_liquids: bool, content_catalog: Object) -> Dictionary:
+	if has_liquids:
+		var catalog := source_content_registry_runtime_state.source_liquid_catalog_state(content_catalog)
+		var liquids := source_liquid_module_state.source_initial_state(catalog["content_liquid_ids"])
+		sprite.set_meta(SOURCE_BUILDING_LIQUIDS_META_KEY, liquids)
+	var existing_liquids: Variant = null
+	if sprite.has_meta(SOURCE_BUILDING_LIQUIDS_META_KEY):
+		existing_liquids = sprite.get_meta(SOURCE_BUILDING_LIQUIDS_META_KEY)
+	return {"liquids": existing_liquids}
+
 const source_world_grid := preload("res://src/game/SourceWorldGrid.gd")
 const source_block_metadata_state := preload("res://src/game/SourceBlockMetadataState.gd")
 const source_texture_runtime_state := preload("res://src/game/SourceTextureRuntimeState.gd")

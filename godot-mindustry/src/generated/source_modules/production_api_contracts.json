@@ -445,6 +445,31 @@
       ],
       "runtime_proof": "/root/Main.source_drill_warmup_state",
       "rule": "Public runtime contract for DrillBuild active warmup approach state."
+    },
+    "SourcePlacedBlockState.source_block_has_liquids_state": {
+      "canonical_contract": "source_api_contracts.SourcePlacedBlockState.source_block_has_liquids_state",
+      "status": "active",
+      "source_slice": "N2000",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "Drill(String name)",
+      "params": [
+        {
+          "name": "block",
+          "type": "Variant",
+          "schema": "source_block_has_liquids_input.block"
+        }
+      ],
+      "return_keys": [
+        "has_liquids"
+      ],
+      "tests": [
+        "test_explicit_liquid_flags_follow_constructor_inheritance_and_initializer",
+        "test_real_registry_drill_liquid_flag_and_registered_owner_contracts",
+        "test_liquid_owner_is_bound_on_real_placement_path",
+        "test_live_building_storage_and_typed_catalog_runtime"
+      ],
+      "runtime_proof": "/root/Main.PlacedLiquidOwnershipProof",
+      "rule": "Typed source catalog and one persistent canonical frame per placed instance; no duplicated resource formulas or guessed liquid IDs."
     }
   }
 }

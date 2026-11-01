@@ -1,0 +1,117 @@
+import copy
+import hashlib
+import json
+import subprocess
+import sys
+from pathlib import Path
+
+ROOT = Path(r'C:/Users/Admin/Documents/Game/mindustry-godot-transpiler-copy-20260714-073528')
+BEFORE = Path('C:/tmp/liquid-owner-before')
+GEN = 'godot-mindustry/src/generated/'
+ROOTS = ['source_symbol_registry.json', 'source_api_contracts.json', 'source_state_schema.json', 'source_slice_ledger.json']
+MIRRORS = ['production_slices', 'production_api_contracts', 'production_state_schema', 'production_symbols', 'comp_slices', 'comp_api_contracts', 'content_registry_blocks']
+JSON_PATHS = [GEN + p for p in ROOTS] + [GEN + 'source_modules/' + p + '.json' for p in MIRRORS]
+
+def head(path):
+    return subprocess.check_output(['git', 'show', 'HEAD:' + path], cwd=ROOT).decode('utf-8')
+
+def read(path, base=ROOT):
+    return (base / path).read_text(encoding='utf-8')
+
+def merge_delta(old, new, target):
+    if old == new:
+        return copy.deepcopy(target)
+    if isinstance(old, dict) and isinstance(new, dict) and isinstance(target, dict):
+        result = copy.deepcopy(target)
+        for key in dict.fromkeys([*old, *new]):
+            if key not in new:
+                assert key in result and result[key] == old[key], ('delete conflict', key)
+                del result[key]
+            elif key not in old:
+                assert key not in result or result[key] == new[key], ('add conflict', key)
+                result[key] = copy.deepcopy(new[key])
+            elif old[key] != new[key]:
+                assert key in result, ('missing target', key)
+                result[key] = merge_delta(old[key], new[key], result[key])
+        return result
+    assert target == old or target == new, 'changed leaf conflicts with prior work'
+    return copy.deepcopy(new)
+
+def stage(path, text):
+    # Normalize the index blob without checking out or changing the dirty working tree.
+    blob = text.replace('\r\n', '\n').encode('utf-8')
+    oid = subprocess.check_output(['git', 'hash-object', '-w', '--stdin'], input=blob, cwd=ROOT).decode().strip()
+    subprocess.run(['git', 'update-index', '--add', '--cacheinfo', '100644', oid, path], cwd=ROOT, check=True)
+
+def main():
+    do_stage = '--stage' in sys.argv
+    summary = {'parent': subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT).decode().strip(), 'json': {}, 'runtime': {}}
+    for path in JSON_PATHS:
+        old = json.loads(read(path, BEFORE))
+        new = json.loads(read(path))
+        original = json.loads(head(path))
+        planned = merge_delta(old, new, original)
+        key = next(k for k in new if k not in ('version', 'policy'))
+        added = sorted(set(new[key]) - set(old[key]))
+        changed = sorted(k for k in old[key] if k in new[key] and old[key][k] != new[key][k])
+        removed = sorted(set(old[key]) - set(new[key]))
+        summary['json'][path] = {'added': added, 'changed': changed, 'removed': removed, 'preexisting_dirty': old != original}
+        if path in [GEN + p for p in ROOTS]:
+            assert not changed and not removed, ('old root entry changed', path)
+            assert {k: v for k, v in new.items() if k != key} == {k: v for k, v in old.items() if k != key}
+        if do_stage and planned != original:
+            stage(path, json.dumps(planned, indent=2) + '\n')
+    for path in ['godot-mindustry/src/game/SourceContentRegistryRuntimeState.gd', 'godot-mindustry/src/game/SourcePlacedBlockState.gd']:
+        old, new, original = read(path, BEFORE), read(path), head(path)
+        prefix = new.split('\n\n', 1)[0] + '\n\n'
+        assert old.startswith(prefix) and original.startswith(prefix)
+        suffix = old[len(prefix):]
+        assert new.endswith(suffix)
+        addition = new[len(prefix):-len(suffix)]
+        assert addition and new == prefix + addition + suffix
+        planned = prefix + addition + original[len(prefix):]
+        summary['runtime'][path] = {'added_lines': len(addition.splitlines()), 'preexisting_dirty': old != original}
+        if do_stage:
+            stage(path, planned)
+    path = 'godot-mindustry/src/game/PortGame.gd'
+    old, new, original = read(path, BEFORE), read(path), head(path)
+    prefix = 'extends "res://src/game/SourcePortGameFacadePortBridge.gd"\nclass_name PortGame\n'
+    assert old == prefix and new.startswith(prefix)
+    body = new[len(prefix):].strip('\n') + '\n'
+    start = original.index('func record_placed_block(')
+    end = original.index('\nfunc ', start + 1)
+    original_body = original[start:end].strip('\n') + '\n'
+    hook = body[body.index('\t# Only source-explicit'):]
+    assert body.replace(hook, '') == 'func record_placed_block(sprite: Sprite2D, block, cell: Vector2i) -> void:\n\tsuper.record_placed_block(sprite, block, cell)\n'
+    planned = original[:start] + original_body + hook + original[end:]
+    summary['runtime'][path] = {'added_lines': len(hook.splitlines()), 'preexisting_dirty': True, 'rule': 'Only append canonical liquid initialization to HEAD record_placed_block; preserve the existing facade refactor in the working tree.'}
+    if do_stage:
+        stage(path, planned)
+    path = GEN + 'content_registry.json'
+    old, new = json.loads(read(path, BEFORE)), json.loads(read(path))
+    assert json.loads(head(path)) == old
+    old_blocks = {b['id']: b for b in old['blocks']}
+    new_blocks = {b['id']: b for b in new['blocks']}
+    changed = []
+    assert old_blocks.keys() == new_blocks.keys()
+    for name, block in new_blocks.items():
+        before = old_blocks[name]
+        if before == block:
+            continue
+        clean = copy.deepcopy(block)
+        flag = clean['properties'].pop('hasLiquids')
+        assert clean == before and 'hasLiquids' not in before['properties']
+        changed.append({'id': name, 'hasLiquids': flag})
+    clean_content = copy.deepcopy(new)
+    clean_content['blocks'] = old['blocks']
+    assert clean_content == old
+    summary['content'] = {'only_added_hasLiquids': changed, 'count': len(changed)}
+    for unchanged in ['source_ssot_modules.json', 'source_symbol_audit_report.json']:
+        assert read(GEN + unchanged) == read(GEN + unchanged, BEFORE)
+    summary['unchanged_manifest_and_audit'] = True
+    Path('C:/tmp/liquid-owner-scope.json').write_text(json.dumps(summary, indent=2) + '\n', encoding='utf-8')
+    print(json.dumps({k: {'added': len(v['added']), 'changed': len(v['changed'])} for k, v in summary['json'].items()}, indent=2))
+    print('content flag additions', len(changed), 'mode', 'staged' if do_stage else 'review only')
+
+if __name__ == '__main__':
+    main()

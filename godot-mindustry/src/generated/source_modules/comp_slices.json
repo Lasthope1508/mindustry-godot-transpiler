@@ -12210,6 +12210,26 @@
         "test_building_proximity_power_slice"
       ],
       "runtime_proof": "/root/Main.source_building_get_power_connections_state"
+    },
+    "N2001": {
+      "canonical_ledger": "source_slice_ledger.N2001",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "create(Block block, Team team)",
+      "godot_owner": "SourcePlacedBlockState.source_initialize_building_liquids_state",
+      "source_symbols": [
+        "initialize_building_liquids.sprite",
+        "initialize_building_liquids.has_liquids",
+        "initialize_building_liquids.content_catalog",
+        "initialize_building_liquids.liquids"
+      ],
+      "tests": [
+        "test_explicit_liquid_flags_follow_constructor_inheritance_and_initializer",
+        "test_real_registry_drill_liquid_flag_and_registered_owner_contracts",
+        "test_liquid_owner_is_bound_on_real_placement_path",
+        "test_live_building_storage_and_typed_catalog_runtime"
+      ],
+      "runtime_proof": "/root/Main.PlacedLiquidOwnershipProof"
     }
   }
 }

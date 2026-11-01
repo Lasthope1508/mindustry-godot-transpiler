@@ -1,0 +1,26 @@
+FFFF                                                                     [100%]
+================================== FAILURES ===================================
+_ PlacedLiquidOwnershipTests.test_explicit_liquid_flags_follow_constructor_inheritance_and_initializer _
+tools\mindustry_godot_transpiler\tests\test_placed_liquid_ownership.py:26: in test_explicit_liquid_flags_follow_constructor_inheritance_and_initializer
+    self.assertTrue(defaults['Drill']['hasLiquids'])
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   KeyError: 'hasLiquids'
+_ PlacedLiquidOwnershipTests.test_liquid_owner_is_bound_on_real_placement_path _
+tools\mindustry_godot_transpiler\tests\test_placed_liquid_ownership.py:51: in test_liquid_owner_is_bound_on_real_placement_path
+    self.assertIn('source_initialize_building_liquids_state', body)
+E   AssertionError: 'source_initialize_building_liquids_state' not found in 'sprite: Sprite2D, block, cell: Vector2i) -> void:\n\tvar occupied: Array[Vector2i] = []\n\tfor occupied_cell in call("occupied_cells", cell, block):\n\t\toccupied.append(occupied_cell)\n\tvar placed_block_origins: Dictionary = get("placed_block_origins")\n\tvar placed_blocks: Dictionary = get("placed_blocks")\n\tvar cell_keys: Array[String] = source_placed_block_port_bridge_block_placement.record_cells(placed_block_origins, placed_blocks, cell, occupied, sprite)\n\tset("placed_block_origins", placed_block_origins)\n\tset("placed_blocks", placed_blocks)\n\tsource_placed_block_state.game_initialize_sprite(self, sprite, block, cell, cell_keys)\n'
+_ PlacedLiquidOwnershipTests.test_live_building_storage_and_typed_catalog_runtime _
+tools\mindustry_godot_transpiler\tests\test_placed_liquid_ownership.py:63: in test_live_building_storage_and_typed_catalog_runtime
+    self.assertNotIn('ERROR:', output)
+E   AssertionError: 'ERROR:' unexpectedly found in 'Godot Engine v4.6.2.stable.official.71f334935 - https://godotengine.org\n\n[MCP Runtime] Server listening on port 7777\n[MCP Runtime] Autoload ready, server starting on port 7777\nSCRIPT ERROR: Parse Error: Static function "source_liquid_catalog_state()" not found in base "SourceContentRegistryRuntimeState".\n   at: GDScript::reload (res://tools/runtime_proofs/PlacedLiquidOwnershipProof.gd:42)\nSCRIPT ERROR: Parse Error: Static function "source_building_liquids_read_state()" not found in base "SourcePlacedBlockState".\n   at: GDScript::reload (res://tools/runtime_proofs/PlacedLiquidOwnershipProof.gd:55)\nSCRIPT ERROR: Parse Error: Static function "source_building_liquids_read_state()" not found in base "SourcePlacedBlockState".\n   at: GDScript::reload (res://tools/runtime_proofs/PlacedLiquidOwnershipProof.gd:63)\nSCRIPT ERROR: Parse Error: Static function "source_building_liquids_read_state()" not found in base "SourcePlacedBlockState".\n   at: GDScript::reload (res://tools/runtime_proofs/PlacedLiquidOwnershipProof.gd:65)\nSCRIPT ERROR: Parse Error: Static function "source_building_liquids_read_state()" not found in base "SourcePlacedBlockState".\n   at: GDScript::reload (res://tools/runtime_proofs/PlacedLiquidOwnershipProof.gd:67)\nSCRIPT ERROR: Parse Error: Static function "source_initialize_building_liquids_state()" not found in base "SourcePlacedBlockState".\n   at: GDScript::reload (res://tools/runtime_proofs/PlacedLiquidOwnershipProof.gd:74)\nSCRIPT ERROR: Parse Error: Static function "source_initialize_building_liquids_state()" not found in base "SourcePlacedBlockState".\n   at: GDScript::reload (res://tools/runtime_proofs/PlacedLiquidOwnershipProof.gd:77)\nSCRIPT ERROR: Parse Error: Static function "source_initialize_building_liquids_state()" not found in base "SourcePlacedBlockState".\n   at: GDScript::reload (res://tools/runtime_proofs/PlacedLiquidOwnershipProof.gd:78)\nERROR: Failed to load script "res://tools/runtime_proofs/PlacedLiquidOwnershipProof.gd" with error "Parse error".\n   at: load (modules/gdscript/gdscript.cpp:2907)\n'
+_ PlacedLiquidOwnershipTests.test_real_registry_drill_liquid_flag_and_registered_owner_contracts _
+tools\mindustry_godot_transpiler\tests\test_placed_liquid_ownership.py:37: in test_real_registry_drill_liquid_flag_and_registered_owner_contracts
+    self.assertTrue(drill['properties']['hasLiquids'])
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   KeyError: 'hasLiquids'
+=========================== short test summary info ===========================
+FAILED tools/mindustry_godot_transpiler/tests/test_placed_liquid_ownership.py::PlacedLiquidOwnershipTests::test_explicit_liquid_flags_follow_constructor_inheritance_and_initializer
+FAILED tools/mindustry_godot_transpiler/tests/test_placed_liquid_ownership.py::PlacedLiquidOwnershipTests::test_liquid_owner_is_bound_on_real_placement_path
+FAILED tools/mindustry_godot_transpiler/tests/test_placed_liquid_ownership.py::PlacedLiquidOwnershipTests::test_live_building_storage_and_typed_catalog_runtime
+FAILED tools/mindustry_godot_transpiler/tests/test_placed_liquid_ownership.py::PlacedLiquidOwnershipTests::test_real_registry_drill_liquid_flag_and_registered_owner_contracts
+4 failed in 11.58s

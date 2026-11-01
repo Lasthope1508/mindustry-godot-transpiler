@@ -148752,6 +148752,166 @@
         "test_lifecycle_golden_runtime_and_initialized_consumption"
       ],
       "runtime_proof": "/root/Main.LiquidModuleLifecycleProof"
+    },
+    "liquid_catalog.content_catalog": {
+      "status": "source-backed",
+      "godot_owner": "SourceContentRegistryRuntimeState.source_liquid_catalog_state",
+      "godot_symbol": "source_liquid_catalog_input.content_catalog",
+      "java_source": "core/src/mindustry/core/ContentLoader.java",
+      "java_method": "liquids(); liquid(String name)",
+      "java_expr": "return getBy(ContentType.liquid);",
+      "rule": "Hydrated typed liquid sequence in upstream constructor registration order; UI string IDs remain unchanged.",
+      "tests": [
+        "test_explicit_liquid_flags_follow_constructor_inheritance_and_initializer",
+        "test_real_registry_drill_liquid_flag_and_registered_owner_contracts",
+        "test_liquid_owner_is_bound_on_real_placement_path",
+        "test_live_building_storage_and_typed_catalog_runtime"
+      ],
+      "runtime_proof": "/root/Main.PlacedLiquidOwnershipProof"
+    },
+    "liquid_catalog.content_liquid_ids": {
+      "status": "source-backed",
+      "godot_owner": "SourceContentRegistryRuntimeState.source_liquid_catalog_state",
+      "godot_symbol": "source_liquid_catalog_result.content_liquid_ids",
+      "java_source": "core/src/mindustry/core/ContentLoader.java",
+      "java_method": "liquids(); liquid(String name)",
+      "java_expr": "return getByName(ContentType.liquid, name);",
+      "rule": "Reuse the canonical registered input/result representation.",
+      "tests": [
+        "test_explicit_liquid_flags_follow_constructor_inheritance_and_initializer",
+        "test_real_registry_drill_liquid_flag_and_registered_owner_contracts",
+        "test_liquid_owner_is_bound_on_real_placement_path",
+        "test_live_building_storage_and_typed_catalog_runtime"
+      ],
+      "runtime_proof": "/root/Main.PlacedLiquidOwnershipProof"
+    },
+    "liquid_catalog.liquid_id_by_name": {
+      "status": "source-backed",
+      "godot_owner": "SourceContentRegistryRuntimeState.source_liquid_catalog_state",
+      "godot_symbol": "source_liquid_catalog_result.liquid_id_by_name",
+      "java_source": "core/src/mindustry/ctype/Content.java",
+      "java_method": "liquids(); liquid(String name)",
+      "java_expr": "this.id = (short)Vars.content.getBy(getContentType()).size;",
+      "rule": "Typed liquid name-to-ordinal lookup derives from ordered registration, never the global mixed-type by_id map.",
+      "tests": [
+        "test_explicit_liquid_flags_follow_constructor_inheritance_and_initializer",
+        "test_real_registry_drill_liquid_flag_and_registered_owner_contracts",
+        "test_liquid_owner_is_bound_on_real_placement_path",
+        "test_live_building_storage_and_typed_catalog_runtime"
+      ],
+      "runtime_proof": "/root/Main.PlacedLiquidOwnershipProof"
+    },
+    "block_has_liquids.block": {
+      "status": "source-backed",
+      "godot_owner": "SourcePlacedBlockState.source_block_has_liquids_state",
+      "godot_symbol": "source_block_has_liquids_input.block",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Drill(String name)",
+      "java_expr": "public @NoPatch boolean hasLiquids;",
+      "rule": "Hydrated source-explicit constructor/initializer flag. Missing flags remain unresolved; this API has no false fallback.",
+      "tests": [
+        "test_explicit_liquid_flags_follow_constructor_inheritance_and_initializer",
+        "test_real_registry_drill_liquid_flag_and_registered_owner_contracts",
+        "test_liquid_owner_is_bound_on_real_placement_path",
+        "test_live_building_storage_and_typed_catalog_runtime"
+      ],
+      "runtime_proof": "/root/Main.PlacedLiquidOwnershipProof"
+    },
+    "block_has_liquids.has_liquids": {
+      "status": "source-backed",
+      "godot_owner": "SourcePlacedBlockState.source_block_has_liquids_state",
+      "godot_symbol": "source_block_has_liquids_result.has_liquids",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "Drill(String name)",
+      "java_expr": "hasLiquids = true;",
+      "rule": "Source-explicit flags follow constructor inheritance and initializer overrides. Consumer.apply-only flags and absent flags remain deferred.",
+      "tests": [
+        "test_explicit_liquid_flags_follow_constructor_inheritance_and_initializer",
+        "test_real_registry_drill_liquid_flag_and_registered_owner_contracts",
+        "test_liquid_owner_is_bound_on_real_placement_path",
+        "test_live_building_storage_and_typed_catalog_runtime"
+      ],
+      "runtime_proof": "/root/Main.PlacedLiquidOwnershipProof"
+    },
+    "initialize_building_liquids.sprite": {
+      "status": "source-backed",
+      "godot_owner": "SourcePlacedBlockState.source_initialize_building_liquids_state",
+      "godot_symbol": "source_initialize_building_liquids_input.sprite",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "create(Block block, Team team)",
+      "java_expr": "if(block.hasLiquids) liquids = new LiquidModule();",
+      "rule": "Existing placed sprite carries this Building instance field as registered metadata.",
+      "tests": [
+        "test_explicit_liquid_flags_follow_constructor_inheritance_and_initializer",
+        "test_real_registry_drill_liquid_flag_and_registered_owner_contracts",
+        "test_liquid_owner_is_bound_on_real_placement_path",
+        "test_live_building_storage_and_typed_catalog_runtime"
+      ],
+      "runtime_proof": "/root/Main.PlacedLiquidOwnershipProof"
+    },
+    "initialize_building_liquids.has_liquids": {
+      "status": "source-backed",
+      "godot_owner": "SourcePlacedBlockState.source_initialize_building_liquids_state",
+      "godot_symbol": "source_initialize_building_liquids_input.has_liquids",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "create(Block block, Team team)",
+      "java_expr": "if(block.hasLiquids) liquids = new LiquidModule();",
+      "rule": "Reuse the canonical registered input/result representation.",
+      "tests": [
+        "test_explicit_liquid_flags_follow_constructor_inheritance_and_initializer",
+        "test_real_registry_drill_liquid_flag_and_registered_owner_contracts",
+        "test_liquid_owner_is_bound_on_real_placement_path",
+        "test_live_building_storage_and_typed_catalog_runtime"
+      ],
+      "runtime_proof": "/root/Main.PlacedLiquidOwnershipProof"
+    },
+    "initialize_building_liquids.content_catalog": {
+      "status": "source-backed",
+      "godot_owner": "SourcePlacedBlockState.source_initialize_building_liquids_state",
+      "godot_symbol": "source_initialize_building_liquids_input.content_catalog",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "create(Block block, Team team)",
+      "java_expr": "if(block.hasLiquids) liquids = new LiquidModule();",
+      "rule": "Reuse the canonical registered input/result representation.",
+      "tests": [
+        "test_explicit_liquid_flags_follow_constructor_inheritance_and_initializer",
+        "test_real_registry_drill_liquid_flag_and_registered_owner_contracts",
+        "test_liquid_owner_is_bound_on_real_placement_path",
+        "test_live_building_storage_and_typed_catalog_runtime"
+      ],
+      "runtime_proof": "/root/Main.PlacedLiquidOwnershipProof"
+    },
+    "initialize_building_liquids.liquids": {
+      "status": "source-backed",
+      "godot_owner": "SourcePlacedBlockState.source_initialize_building_liquids_state",
+      "godot_symbol": "source_initialize_building_liquids_result.liquids",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "create(Block block, Team team)",
+      "java_expr": "@Nullable LiquidModule liquids;",
+      "rule": "Nullable canonical storage frame owned by this placed building. True guard replaces storage on create; false guard preserves the existing field.",
+      "tests": [
+        "test_explicit_liquid_flags_follow_constructor_inheritance_and_initializer",
+        "test_real_registry_drill_liquid_flag_and_registered_owner_contracts",
+        "test_liquid_owner_is_bound_on_real_placement_path",
+        "test_live_building_storage_and_typed_catalog_runtime"
+      ],
+      "runtime_proof": "/root/Main.PlacedLiquidOwnershipProof"
+    },
+    "placed_building_liquids.metadata_key": {
+      "status": "source-backed",
+      "godot_owner": "SourcePlacedBlockState.source_initialize_building_liquids_state",
+      "godot_symbol": "SourcePlacedBlockState.SOURCE_BUILDING_LIQUIDS_META_KEY",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "create(Block block, Team team)",
+      "java_expr": "@Nullable LiquidModule liquids;",
+      "rule": "Godot metadata key source_building_liquids represents the single BuildingComp.liquids field.",
+      "tests": [
+        "test_explicit_liquid_flags_follow_constructor_inheritance_and_initializer",
+        "test_real_registry_drill_liquid_flag_and_registered_owner_contracts",
+        "test_liquid_owner_is_bound_on_real_placement_path",
+        "test_live_building_storage_and_typed_catalog_runtime"
+      ],
+      "runtime_proof": "/root/Main.PlacedLiquidOwnershipProof"
     }
   },
   "version": 1

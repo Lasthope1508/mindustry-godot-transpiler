@@ -49389,6 +49389,95 @@
         "Runtime content provider and automatic binding from Godot new() remain deferred; java_initialize_state requires resolved canonical content IDs and is not a parsed Java constructor.",
         "Array capacity changes, flow sampling/reset/display lifecycle, serialization and live world/Drill ownership remain separate integration work."
       ]
+    },
+    "N1999": {
+      "status": "done",
+      "java_source": "core/src/mindustry/core/ContentLoader.java",
+      "java_class": "mindustry.core.ContentLoader",
+      "java_method": "liquids(); liquid(String name)",
+      "godot_owner": "SourceContentRegistryRuntimeState.source_liquid_catalog_state",
+      "exact_exprs": [
+        "public Seq<Liquid> liquids(){",
+        "return getBy(ContentType.liquid);",
+        "public Liquid liquid(String name){",
+        "return getByName(ContentType.liquid, name);"
+      ],
+      "source_symbols": [
+        "liquid_catalog.content_catalog",
+        "liquid_catalog.content_liquid_ids",
+        "liquid_catalog.liquid_id_by_name"
+      ],
+      "tests": [
+        "test_explicit_liquid_flags_follow_constructor_inheritance_and_initializer",
+        "test_real_registry_drill_liquid_flag_and_registered_owner_contracts",
+        "test_liquid_owner_is_bound_on_real_placement_path",
+        "test_live_building_storage_and_typed_catalog_runtime"
+      ],
+      "runtime_proof": "/root/Main.PlacedLiquidOwnershipProof",
+      "rule": "Source-backed placed liquid storage ownership from hydrated explicit flags and typed content order.",
+      "deferred_exprs": [
+        "Consumers that enable hasLiquids only during apply/init are not inferred from missing metadata; their hydration remains deferred.",
+        "Production Drill consumer descriptors, booster predicates and automatic resource tick dispatch are not wired here; the proof drives a supplied consumer against the real world-owned frame.",
+        "Dynamic content/mod registration/reordering after placement, flow lifecycle and serialization remain separate checkpoints."
+      ]
+    },
+    "N2000": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_class": "mindustry.world.blocks.production.Drill",
+      "java_method": "Drill(String name)",
+      "godot_owner": "SourcePlacedBlockState.source_block_has_liquids_state",
+      "exact_exprs": [
+        "public Drill(String name){",
+        "hasLiquids = true;"
+      ],
+      "source_symbols": [
+        "block_has_liquids.block",
+        "block_has_liquids.has_liquids"
+      ],
+      "tests": [
+        "test_explicit_liquid_flags_follow_constructor_inheritance_and_initializer",
+        "test_real_registry_drill_liquid_flag_and_registered_owner_contracts",
+        "test_liquid_owner_is_bound_on_real_placement_path",
+        "test_live_building_storage_and_typed_catalog_runtime"
+      ],
+      "runtime_proof": "/root/Main.PlacedLiquidOwnershipProof",
+      "rule": "Source-backed placed liquid storage ownership from hydrated explicit flags and typed content order.",
+      "deferred_exprs": [
+        "Consumers that enable hasLiquids only during apply/init are not inferred from missing metadata; their hydration remains deferred.",
+        "Production Drill consumer descriptors, booster predicates and automatic resource tick dispatch are not wired here; the proof drives a supplied consumer against the real world-owned frame.",
+        "Dynamic content/mod registration/reordering after placement, flow lifecycle and serialization remain separate checkpoints."
+      ]
+    },
+    "N2001": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "create(Block block, Team team)",
+      "godot_owner": "SourcePlacedBlockState.source_initialize_building_liquids_state",
+      "exact_exprs": [
+        "public Building create(Block block, Team team){",
+        "if(block.hasLiquids) liquids = new LiquidModule();"
+      ],
+      "source_symbols": [
+        "initialize_building_liquids.sprite",
+        "initialize_building_liquids.has_liquids",
+        "initialize_building_liquids.content_catalog",
+        "initialize_building_liquids.liquids"
+      ],
+      "tests": [
+        "test_explicit_liquid_flags_follow_constructor_inheritance_and_initializer",
+        "test_real_registry_drill_liquid_flag_and_registered_owner_contracts",
+        "test_liquid_owner_is_bound_on_real_placement_path",
+        "test_live_building_storage_and_typed_catalog_runtime"
+      ],
+      "runtime_proof": "/root/Main.PlacedLiquidOwnershipProof",
+      "rule": "Source-backed placed liquid storage ownership from hydrated explicit flags and typed content order.",
+      "deferred_exprs": [
+        "Consumers that enable hasLiquids only during apply/init are not inferred from missing metadata; their hydration remains deferred.",
+        "Production Drill consumer descriptors, booster predicates and automatic resource tick dispatch are not wired here; the proof drives a supplied consumer against the real world-owned frame.",
+        "Dynamic content/mod registration/reordering after placement, flow lifecycle and serialization remain separate checkpoints."
+      ]
     }
   },
   "version": 1

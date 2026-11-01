@@ -1,0 +1,9 @@
+..F.                                                                  [100%]
+================================== FAILURES ===================================
+_ PlacedLiquidOwnershipTests.test_live_building_storage_and_typed_catalog_runtime _
+tools\mindustry_godot_transpiler\tests\test_placed_liquid_ownership.py:62: in test_live_building_storage_and_typed_catalog_runtime
+    self.assertNotIn('ERROR:', output)
+E   AssertionError: 'ERROR:' unexpectedly found in 'Godot Engine v4.6.2.stable.official.71f334935 - https://godotengine.org\n\n[MCP Runtime] Server listening on port 7777\n[MCP Runtime] Autoload ready, server starting on port 7777\nPLACED_LIQUID_OWNERSHIP_PROOF {"catalog_matches":true,"false_guard_matches":true,"independent_buildings":true,"liquid_id_by_name":{"arkycite":5,"cryofluid":3,"cyanogen":10,"gallium":6,"hydrogen":8,"neoplasm":4,"nitrogen":9,"oil":2,"ozone":7,"slag":1,"water":0},"live_drill_owned":true,"matches":true,"one_headquarter_per_ssot":true,"owned_consumption_matches":true,"registry_valid":true,"water_after_ticks":[0.25,0.0]}\nERROR: The object does not have any \'meta\' values with the key \'source_building_liquids\'.\n   at: get_meta (core/object/object.cpp:1155)\n   GDScript backtrace (most recent call first):\n       [0] source_initialize_building_liquids_state (res://src/game/SourcePlacedBlockState.gd:16)\n       [1] _ready (res://tools/runtime_proofs/PlacedLiquidOwnershipProof.gd:77)\n'
+=========================== short test summary info ===========================
+FAILED tools/mindustry_godot_transpiler/tests/test_placed_liquid_ownership.py::PlacedLiquidOwnershipTests::test_live_building_storage_and_typed_catalog_runtime
+1 failed, 3 passed, 3 subtests passed in 18.73s

@@ -1,6 +1,15 @@
 extends RefCounted
 class_name SourceContentRegistryRuntimeState
 
+static func source_liquid_catalog_state(content_catalog: Object) -> Dictionary:
+	var liquids: Array = content_catalog.call("get_many", "liquid")
+	var content_liquid_ids: Array = []
+	var liquid_id_by_name: Dictionary = {}
+	for index in range(liquids.size()):
+		content_liquid_ids.append(index)
+		liquid_id_by_name[liquids[index].id] = index
+	return {"content_liquid_ids": content_liquid_ids, "liquid_id_by_name": liquid_id_by_name}
+
 const content_catalog_script := preload("res://src/mindustry/content/ContentCatalog.gd")
 const ContentRegistry := preload("res://src/generated/MindustryContentRegistry.gd")
 const generated_class_registry := preload("res://src/generated/GeneratedClassRegistry.gd")

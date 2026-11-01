@@ -1133,6 +1133,36 @@
         "test_drill_warmup_state_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_drill_warmup_state"
+    },
+    "block_has_liquids.block": {
+      "canonical_symbol": "source_symbol_registry.block_has_liquids.block",
+      "status": "source-backed",
+      "java_expr": "public @NoPatch boolean hasLiquids;",
+      "godot_symbol": "source_block_has_liquids_input.block",
+      "godot_owner": "SourcePlacedBlockState.source_block_has_liquids_state",
+      "rule": "Hydrated source-explicit constructor/initializer flag. Missing flags remain unresolved; this API has no false fallback.",
+      "tests": [
+        "test_explicit_liquid_flags_follow_constructor_inheritance_and_initializer",
+        "test_real_registry_drill_liquid_flag_and_registered_owner_contracts",
+        "test_liquid_owner_is_bound_on_real_placement_path",
+        "test_live_building_storage_and_typed_catalog_runtime"
+      ],
+      "runtime_proof": "/root/Main.PlacedLiquidOwnershipProof"
+    },
+    "block_has_liquids.has_liquids": {
+      "canonical_symbol": "source_symbol_registry.block_has_liquids.has_liquids",
+      "status": "source-backed",
+      "java_expr": "hasLiquids = true;",
+      "godot_symbol": "source_block_has_liquids_result.has_liquids",
+      "godot_owner": "SourcePlacedBlockState.source_block_has_liquids_state",
+      "rule": "Source-explicit flags follow constructor inheritance and initializer overrides. Consumer.apply-only flags and absent flags remain deferred.",
+      "tests": [
+        "test_explicit_liquid_flags_follow_constructor_inheritance_and_initializer",
+        "test_real_registry_drill_liquid_flag_and_registered_owner_contracts",
+        "test_liquid_owner_is_bound_on_real_placement_path",
+        "test_live_building_storage_and_typed_catalog_runtime"
+      ],
+      "runtime_proof": "/root/Main.PlacedLiquidOwnershipProof"
     }
   }
 }
