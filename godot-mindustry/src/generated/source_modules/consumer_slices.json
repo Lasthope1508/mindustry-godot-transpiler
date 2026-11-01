@@ -2553,6 +2553,42 @@
         "test_consume_liquid_golden_runtime_and_building_composition"
       ],
       "runtime_proof": "/root/Main.ConsumeLiquidCanonicalProof"
+    },
+    "N2004": {
+      "canonical_ledger": "source_slice_ledger.N2004",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java",
+      "java_method": "apply(Block block)",
+      "godot_owner": "SourceConsumeLiquidBaseState.source_apply_capability_state",
+      "generated_owner": "ConsumeLiquidBase.java_method_apply_0",
+      "source_symbols": [
+        "liquid_apply_capability.block_has_liquids_after"
+      ],
+      "tests": [
+        "test_partial_apply_contracts_are_registered_without_invented_before_flag",
+        "test_placement_applies_consumers_before_effective_capability_allocation",
+        "test_live_partial_apply_filter_cache_and_real_placement"
+      ],
+      "runtime_proof": "/root/Main.LiquidConsumerApplyHydrationProof"
+    },
+    "N2005": {
+      "canonical_ledger": "source_slice_ledger.N2005",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "java_method": "apply(Block block)",
+      "godot_owner": "SourceConsumeLiquidState.source_apply_filter_state",
+      "generated_owner": "ConsumeLiquid.java_method_apply_0",
+      "source_symbols": [
+        "liquid_apply_filter.liquid_filter_before",
+        "liquid_apply_filter.liquid_id",
+        "liquid_apply_filter.liquid_filter_after"
+      ],
+      "tests": [
+        "test_partial_apply_contracts_are_registered_without_invented_before_flag",
+        "test_placement_applies_consumers_before_effective_capability_allocation",
+        "test_live_partial_apply_filter_cache_and_real_placement"
+      ],
+      "runtime_proof": "/root/Main.LiquidConsumerApplyHydrationProof"
     }
   }
 }

@@ -1,0 +1,185 @@
+{
+  "parent": "28dbf07490710f7b3000c8145474ccf09a5046f2",
+  "json": {
+    "godot-mindustry/src/generated/source_symbol_registry.json": {
+      "added": [
+        "block_liquid_apply.metadata_key",
+        "liquid_apply_capability.block_has_liquids_after",
+        "liquid_apply_filter.liquid_filter_after",
+        "liquid_apply_filter.liquid_filter_before",
+        "liquid_apply_filter.liquid_id",
+        "liquid_consumer_apply.block",
+        "liquid_consumer_apply.content_catalog",
+        "liquid_consumer_apply.has_liquids",
+        "liquid_consumer_apply.liquid_filter"
+      ],
+      "changed": [],
+      "removed": [],
+      "preexisting_dirty": false
+    },
+    "godot-mindustry/src/generated/source_api_contracts.json": {
+      "added": [
+        "SourceConsumeLiquidBaseState.source_apply_capability_state",
+        "SourceConsumeLiquidState.source_apply_filter_state",
+        "SourceConsumeLiquidState.source_apply_liquid_consumers_state"
+      ],
+      "changed": [],
+      "removed": [],
+      "preexisting_dirty": false
+    },
+    "godot-mindustry/src/generated/source_state_schema.json": {
+      "added": [
+        "source_liquid_apply_capability_result",
+        "source_liquid_apply_filter_input",
+        "source_liquid_apply_filter_result",
+        "source_liquid_consumer_apply_input",
+        "source_liquid_consumer_apply_result"
+      ],
+      "changed": [],
+      "removed": [],
+      "preexisting_dirty": true
+    },
+    "godot-mindustry/src/generated/source_slice_ledger.json": {
+      "added": [
+        "N2004",
+        "N2005",
+        "N2006"
+      ],
+      "changed": [],
+      "removed": [],
+      "preexisting_dirty": false
+    },
+    "godot-mindustry/src/generated/source_modules/consumer_slices.json": {
+      "added": [
+        "N2004",
+        "N2005"
+      ],
+      "changed": [],
+      "removed": [],
+      "preexisting_dirty": true
+    },
+    "godot-mindustry/src/generated/source_modules/consumer_api_contracts.json": {
+      "added": [
+        "SourceConsumeLiquidBaseState.source_apply_capability_state",
+        "SourceConsumeLiquidState.source_apply_filter_state"
+      ],
+      "changed": [],
+      "removed": [],
+      "preexisting_dirty": true
+    },
+    "godot-mindustry/src/generated/source_modules/block_slices.json": {
+      "added": [
+        "N2006"
+      ],
+      "changed": [],
+      "removed": [],
+      "preexisting_dirty": true
+    },
+    "godot-mindustry/src/generated/source_modules/block_api_contracts.json": {
+      "added": [
+        "SourceConsumeLiquidState.source_apply_liquid_consumers_state"
+      ],
+      "changed": [],
+      "removed": [],
+      "preexisting_dirty": true
+    }
+  },
+  "runtime": {
+    "godot-mindustry/src/game/SourceConsumeLiquidBaseState.gd": {
+      "preexisting_dirty": true,
+      "delta": [
+        "--- \n",
+        "+++ \n",
+        "@@ -8,5 +8,8 @@\n",
+        " ",
+        " static func apply_state(block_has_liquids_before: bool) -> Dictionary:",
+        "-\treturn {\"source_owner\": source_runtime_owner_registry.PORT_GAME_SOURCE_CONSUME_LIQUID_BASE_APPLY_STATE, \"block_has_liquids_before\": block_has_liquids_before, \"block_has_liquids_after\": true}",
+        "+\treturn {\"source_owner\": source_runtime_owner_registry.PORT_GAME_SOURCE_CONSUME_LIQUID_BASE_APPLY_STATE, \"block_has_liquids_before\": block_has_liquids_before, \"block_has_liquids_after\": source_apply_capability_state()[\"block_has_liquids_after\"]}",
+        "+",
+        "+static func source_apply_capability_state() -> Dictionary:",
+        "+\treturn {\"block_has_liquids_after\": true}",
+        " ",
+        " static func abstract_consumes_state(liquid: Variant) -> Dictionary:"
+      ]
+    },
+    "godot-mindustry/src/game/SourceConsumeLiquidState.gd": {
+      "preexisting_dirty": true,
+      "delta": [
+        "--- \n",
+        "+++ \n",
+        "@@ -5,4 +5,27 @@\n",
+        " const source_liquid_consumer_base := preload(\"res://src/game/SourceConsumeState.gd\")",
+        " const SOURCE_BLOCK_LIQUID_CONSUMERS_META_KEY := \"source_block_liquid_consumers\"",
+        "+const SOURCE_BLOCK_LIQUID_APPLY_META_KEY := \"source_block_liquid_apply\"",
+        "+const source_liquid_base_apply := preload(\"res://src/game/SourceConsumeLiquidBaseState.gd\")",
+        "+const source_liquid_filter_init := preload(\"res://src/game/SourceBlockInitItemLiquidFiltersState.gd\")",
+        "+",
+        "+static func source_apply_filter_state(liquid_filter_before: Array, liquid_id: int) -> Dictionary:",
+        "+\tvar liquid_filter_after := liquid_filter_before.duplicate()",
+        "+\tliquid_filter_after[liquid_id] = true",
+        "+\treturn {\"liquid_filter_after\": liquid_filter_after}",
+        "+",
+        "+static func source_apply_liquid_consumers_state(block: Object, content_catalog: Object) -> Dictionary:",
+        "+\tif block.has_meta(SOURCE_BLOCK_LIQUID_APPLY_META_KEY):",
+        "+\t\treturn block.get_meta(SOURCE_BLOCK_LIQUID_APPLY_META_KEY)",
+        "+\tvar consumers: Array = source_bind_liquid_consumers_state(block, content_catalog)[\"consumers\"]",
+        "+\tassert(not consumers.is_empty(), \"Apply capability requires at least one resolved ConsumeLiquid\")",
+        "+\tvar filters := source_liquid_filter_init.item_liquid_filters_state(content_catalog.call(\"get_many\", \"item\").size(), content_catalog.call(\"get_many\", \"liquid\").size())",
+        "+\tvar liquid_filter: Array = filters[\"liquid_filter\"]",
+        "+\tvar applied: Dictionary = {}",
+        "+\tfor consumer in consumers:",
+        "+\t\tvar capability := source_liquid_base_apply.source_apply_capability_state()",
+        "+\t\tliquid_filter = source_apply_filter_state(liquid_filter, consumer[\"liquid\"])[\"liquid_filter_after\"]",
+        "+\t\tapplied = {\"has_liquids\": capability[\"block_has_liquids_after\"], \"liquid_filter\": liquid_filter}",
+        "+\tblock.set_meta(SOURCE_BLOCK_LIQUID_APPLY_META_KEY, applied)",
+        "+\treturn applied",
+        " ",
+        " static func source_liquid_consumer_definitions_state(block: Object) -> Dictionary:",
+        "@@ -151,6 +174,5 @@\n",
+        " static func apply_state(block_has_liquids_before: bool, liquid_filter_before: Array, liquid_id: int, base_apply_state_provider: Callable) -> Dictionary:",
+        " \tvar base_apply_state: Dictionary = base_apply_state_provider.call(block_has_liquids_before)",
+        "-\tvar liquid_filter_after := liquid_filter_before.duplicate()",
+        "-\tliquid_filter_after[liquid_id] = true",
+        "+\tvar liquid_filter_after: Array = source_apply_filter_state(liquid_filter_before, liquid_id)[\"liquid_filter_after\"]",
+        " \treturn {",
+        " \t\t\"source_owner\": source_runtime_owner_registry.PORT_GAME_SOURCE_CONSUME_LIQUID_APPLY_STATE,"
+      ]
+    },
+    "godot-mindustry/src/game/SourcePlacedBlockState.gd": {
+      "preexisting_dirty": true,
+      "delta": [
+        "--- \n",
+        "+++ \n",
+        "@@ -5,6 +5,9 @@\n",
+        " const source_content_registry_runtime_state := preload(\"res://src/game/SourceContentRegistryRuntimeState.gd\")",
+        " const SOURCE_BUILDING_LIQUIDS_META_KEY := \"source_building_liquids\"",
+        "+const source_consume_liquid_apply := preload(\"res://src/game/SourceConsumeLiquidState.gd\")",
+        " ",
+        " static func source_block_has_liquids_state(block: Variant) -> Dictionary:",
+        "+\tif block.has_meta(source_consume_liquid_apply.SOURCE_BLOCK_LIQUID_APPLY_META_KEY):",
+        "+\t\treturn {\"has_liquids\": block.get_meta(source_consume_liquid_apply.SOURCE_BLOCK_LIQUID_APPLY_META_KEY)[\"has_liquids\"]}",
+        " \treturn {\"has_liquids\": bool(block.properties[\"hasLiquids\"])}",
+        " "
+      ]
+    },
+    "godot-mindustry/src/game/PortGame.gd": {
+      "preexisting_dirty": true,
+      "delta": [
+        "--- \n",
+        "+++ \n",
+        "@@ -4,7 +4,8 @@\n",
+        " func record_placed_block(sprite: Sprite2D, block, cell: Vector2i) -> void:",
+        " \tsuper.record_placed_block(sprite, block, cell)",
+        "-\t# Only source-explicit hydrated flags participate; missing metadata remains unresolved.",
+        "-\tif block != null and block.properties.has(\"hasLiquids\"):",
+        "-\t\tsource_placed_block_state.source_initialize_building_liquids_state(sprite, source_placed_block_state.source_block_has_liquids_state(block)[\"has_liquids\"], content_catalog)",
+        " \tif block != null and block.properties.has(\"consumeLiquid\"):",
+        " \t\tSourceConsumeLiquidState.source_bind_liquid_consumers_state(block, content_catalog)",
+        "+\t\tSourceConsumeLiquidState.source_apply_liquid_consumers_state(block, content_catalog)",
+        "+\t# Resolved consumer apply overrides constructor capability without changing source properties.",
+        "+\tif block != null and (block.properties.has(\"hasLiquids\") or block.has_meta(SourceConsumeLiquidState.SOURCE_BLOCK_LIQUID_APPLY_META_KEY)):",
+        "+\t\tsource_placed_block_state.source_initialize_building_liquids_state(sprite, source_placed_block_state.source_block_has_liquids_state(block)[\"has_liquids\"], content_catalog)"
+      ]
+    }
+  }
+}

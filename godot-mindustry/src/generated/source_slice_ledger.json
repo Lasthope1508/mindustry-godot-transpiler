@@ -49534,6 +49534,84 @@
         "Consumer.apply/post-Block.init capability and liquid filters, inherited constructor consumers, mixed consumer arrays, runtime multiplier callbacks and automatic Drill ticks remain deferred.",
         "Metadata assumes one immutable catalog load. Dynamic content reload/reorder and consumer mutation need source-backed invalidation before reuse."
       ]
+    },
+    "N2004": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java",
+      "java_class": "mindustry.world.consumers.ConsumeLiquidBase",
+      "java_method": "apply(Block block)",
+      "godot_owner": "SourceConsumeLiquidBaseState.source_apply_capability_state",
+      "exact_exprs": [
+        "block.hasLiquids = true;"
+      ],
+      "source_symbols": [
+        "liquid_apply_capability.block_has_liquids_after"
+      ],
+      "tests": [
+        "test_partial_apply_contracts_are_registered_without_invented_before_flag",
+        "test_placement_applies_consumers_before_effective_capability_allocation",
+        "test_live_partial_apply_filter_cache_and_real_placement"
+      ],
+      "runtime_proof": "/root/Main.LiquidConsumerApplyHydrationProof",
+      "generated_owner": "ConsumeLiquidBase.java_method_apply_0",
+      "deferred_exprs": [
+        "Full mixed/inherited consumers, runtime mutations/reinitializeConsumers cache invalidation and content reload remain unresolved.",
+        "Concrete consumer callbacks, multipliers, liquid capacity and automatic Drill ticks remain deferred."
+      ]
+    },
+    "N2005": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "java_class": "mindustry.world.consumers.ConsumeLiquid",
+      "java_method": "apply(Block block)",
+      "godot_owner": "SourceConsumeLiquidState.source_apply_filter_state",
+      "exact_exprs": [
+        "block.liquidFilter[liquid.id] = true;"
+      ],
+      "source_symbols": [
+        "liquid_apply_filter.liquid_filter_before",
+        "liquid_apply_filter.liquid_id",
+        "liquid_apply_filter.liquid_filter_after"
+      ],
+      "tests": [
+        "test_partial_apply_contracts_are_registered_without_invented_before_flag",
+        "test_placement_applies_consumers_before_effective_capability_allocation",
+        "test_live_partial_apply_filter_cache_and_real_placement"
+      ],
+      "runtime_proof": "/root/Main.LiquidConsumerApplyHydrationProof",
+      "generated_owner": "ConsumeLiquid.java_method_apply_0",
+      "deferred_exprs": [
+        "Full mixed/inherited consumers, runtime mutations/reinitializeConsumers cache invalidation and content reload remain unresolved.",
+        "Concrete consumer callbacks, multipliers, liquid capacity and automatic Drill ticks remain deferred."
+      ]
+    },
+    "N2006": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_class": "mindustry.world.Block",
+      "java_method": "init(); reinitializeConsumers()",
+      "godot_owner": "SourceConsumeLiquidState.source_apply_liquid_consumers_state",
+      "exact_exprs": [
+        "liquidFilter = new boolean[content.liquids().size];",
+        "cons.apply(this);"
+      ],
+      "source_symbols": [
+        "liquid_consumer_apply.block",
+        "liquid_consumer_apply.content_catalog",
+        "liquid_consumer_apply.has_liquids",
+        "liquid_consumer_apply.liquid_filter",
+        "block_liquid_apply.metadata_key"
+      ],
+      "tests": [
+        "test_partial_apply_contracts_are_registered_without_invented_before_flag",
+        "test_placement_applies_consumers_before_effective_capability_allocation",
+        "test_live_partial_apply_filter_cache_and_real_placement"
+      ],
+      "runtime_proof": "/root/Main.LiquidConsumerApplyHydrationProof",
+      "deferred_exprs": [
+        "Full mixed/inherited consumers, runtime mutations/reinitializeConsumers cache invalidation and content reload remain unresolved.",
+        "Concrete consumer callbacks, multipliers, liquid capacity and automatic Drill ticks remain deferred."
+      ]
     }
   },
   "version": 1

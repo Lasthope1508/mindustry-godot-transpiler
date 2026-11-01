@@ -1126,11 +1126,12 @@ func can_place_block_at_cell(block, cell: Vector2i) -> bool:
 func record_placed_block(sprite: Sprite2D, block, cell: Vector2i) -> void:
 	var cell_keys: Array[String] = source_block_placement.record_cells(placed_block_origins, placed_blocks, cell, occupied_cells(cell, block), sprite)
 	source_placed_block_state.initialize_sprite(sprite, block, cell, cell_keys, source_block_metadata_state.SOURCE_BLOCK_HEALTH_DEFAULT, source_block_defaults.TIME_SCALE_DEFAULT)
-	# Only source-explicit hydrated flags participate; missing metadata remains unresolved.
-	if block != null and block.properties.has("hasLiquids"):
-		source_placed_block_state.source_initialize_building_liquids_state(sprite, source_placed_block_state.source_block_has_liquids_state(block)["has_liquids"], content_catalog)
 	if block != null and block.properties.has("consumeLiquid"):
 		SourceConsumeLiquidState.source_bind_liquid_consumers_state(block, content_catalog)
+		SourceConsumeLiquidState.source_apply_liquid_consumers_state(block, content_catalog)
+	# Resolved consumer apply overrides constructor capability without changing source properties.
+	if block != null and (block.properties.has("hasLiquids") or block.has_meta(SourceConsumeLiquidState.SOURCE_BLOCK_LIQUID_APPLY_META_KEY)):
+		source_placed_block_state.source_initialize_building_liquids_state(sprite, source_placed_block_state.source_block_has_liquids_state(block)["has_liquids"], content_catalog)
 
 func block_sprite_at_cell(cell: Vector2i):
 	return placed_blocks.get(cell_key(cell))

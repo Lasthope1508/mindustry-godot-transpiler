@@ -1,0 +1,80 @@
+import copy,difflib,hashlib,json,subprocess,sys
+from pathlib import Path
+
+ROOT=Path(r'C:/Users/Admin/Documents/Game/mindustry-godot-transpiler-copy-20260714-073528')
+BEFORE=Path('C:/tmp/liquid-apply-before')
+GEN='godot-mindustry/src/generated/'
+ROOTS={'source_symbol_registry.json':('symbols',9),'source_api_contracts.json':('contracts',3),'source_state_schema.json':('schemas',5),'source_slice_ledger.json':('slices',3)}
+MIRRORS=['consumer_slices','consumer_api_contracts','block_slices','block_api_contracts']
+JSON_PATHS=[GEN+p for p in ROOTS]+[GEN+'source_modules/'+p+'.json' for p in MIRRORS]
+RUNTIME=['SourceConsumeLiquidBaseState.gd','SourceConsumeLiquidState.gd','SourcePlacedBlockState.gd','PortGame.gd']
+
+def git(*args,input=None):
+    return subprocess.check_output(['git',*args],cwd=ROOT,input=input).decode('utf-8')
+
+def read(path,base=ROOT): return (base/path).read_text(encoding='utf-8')
+
+def stage(path,value):
+    oid=git('hash-object','-w','--stdin',input=value.replace('\r\n','\n').encode('utf-8')).strip()
+    subprocess.run(['git','update-index','--add','--cacheinfo','100644',oid,path],cwd=ROOT,check=True)
+
+def merge(old,new,target):
+    if old==new: return copy.deepcopy(target)
+    if isinstance(old,dict) and isinstance(new,dict) and isinstance(target,dict):
+        result=copy.deepcopy(target)
+        for k in dict.fromkeys([*old,*new]):
+            if k not in new:
+                assert result[k]==old[k]; del result[k]
+            elif k not in old:
+                assert k not in result or result[k]==new[k]; result[k]=copy.deepcopy(new[k])
+            elif old[k]!=new[k]: result[k]=merge(old[k],new[k],result[k])
+        return result
+    assert target==old or target==new
+    return copy.deepcopy(new)
+
+def text_delta(old,new,target):
+    # Apply only changed spans, including unchanged context for unique matches.
+    a,b=old.splitlines(keepends=True),new.splitlines(keepends=True)
+    matcher=difflib.SequenceMatcher(None,a,b,autojunk=False)
+    for group in reversed(list(matcher.get_grouped_opcodes(1))):
+        i,j=group[0][1],group[-1][2]; p,q=group[0][3],group[-1][4]
+        before,after=''.join(a[i:j]),''.join(b[p:q])
+        assert target.count(before)==1, ('Cannot isolate runtime change',before)
+        target=target.replace(before,after,1)
+    return target
+
+def main():
+    assert git('rev-parse','HEAD').startswith('28dbf074')
+    out={'parent':git('rev-parse','HEAD').strip(),'json':{},'runtime':{}}
+    for path in JSON_PATHS:
+        old,new=json.loads(read(path,BEFORE)),json.loads(read(path))
+        head=json.loads(git('show','HEAD:'+path)); planned=merge(old,new,head)
+        key=next(k for k in new if k not in ('version','policy'))
+        added=sorted(set(new[key])-set(old[key]))
+        changed=sorted(k for k in old[key] if new[key].get(k)!=old[key][k])
+        removed=sorted(set(old[key])-set(new[key]))
+        if path.removeprefix(GEN) in ROOTS:
+            assert len(added)==ROOTS[path.removeprefix(GEN)][1],(path,len(added))
+            assert not changed and not removed
+            assert {k:v for k,v in old.items() if k!=key}=={k:v for k,v in new.items() if k!=key}
+        out['json'][path]={'added':added,'changed':changed,'removed':removed,'preexisting_dirty':old!=head}
+        if '--stage' in sys.argv: stage(path,json.dumps(planned,indent=2)+'\n')
+    for name in RUNTIME:
+        path='godot-mindustry/src/game/'+name
+        old,new,head=read(path,BEFORE),read(path),git('show','HEAD:'+path)
+        if name=='PortGame.gd':
+            anchor='\tsuper.record_placed_block(sprite, block, cell)\n'
+            before,after=old.split(anchor,1)[1],new.split(anchor,1)[1]
+            assert head.count(before)==1
+            planned=head.replace(before,after,1)
+        else: planned=text_delta(old,new,head)
+        out['runtime'][path]={'preexisting_dirty':old!=head,'delta':list(difflib.unified_diff(old.splitlines(),new.splitlines(),n=2))}
+        if '--stage' in sys.argv: stage(path,planned)
+    for name in ['source_ssot_modules.json','source_symbol_audit_report.json','content_registry.json','MindustryContentRegistry.gd']:
+        p=ROOT/(GEN+name)
+        if (BEFORE/(GEN+name)).exists(): assert read(GEN+name)==read(GEN+name,BEFORE)
+    Path('C:/tmp/liquid-apply-scope.json').write_text(json.dumps(out,indent=2)+'\n',encoding='utf-8')
+    print({p:len(v['added']) for p,v in out['json'].items()})
+    print('Four runtime deltas isolated; pre-existing changes preserved')
+
+if __name__=='__main__': main()

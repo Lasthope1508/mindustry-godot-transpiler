@@ -1,0 +1,10 @@
+import json
+from pathlib import Path
+data=json.loads(Path('godot-mindustry/src/generated/content_registry.json').read_text(encoding='utf-8'))
+blocks=[b for b in data['blocks'] if 'consumeLiquid' in b['properties']]
+out={'blocks':len(blocks),'consumers':sum(len(b['properties']['consumeLiquid']) for b in blocks),'constructor_true':[],'constructor_false':[],'constructor_absent':[]}
+for b in blocks:
+    key='constructor_absent' if 'hasLiquids' not in b['properties'] else ('constructor_true' if b['properties']['hasLiquids'] else 'constructor_false')
+    out[key].append(b['id'])
+Path('C:/tmp/liquid-apply-coverage.json').write_text(json.dumps(out,indent=2)+'\n',encoding='utf-8')
+print({k:len(v) if isinstance(v,list) else v for k,v in out.items()})

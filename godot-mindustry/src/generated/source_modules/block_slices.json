@@ -3399,6 +3399,26 @@
         "test_live_block_shared_consumers_and_optional_efficiency_runtime"
       ],
       "runtime_proof": "/root/Main.LiquidConsumerHydrationProof"
+    },
+    "N2006": {
+      "canonical_ledger": "source_slice_ledger.N2006",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "init(); reinitializeConsumers()",
+      "godot_owner": "SourceConsumeLiquidState.source_apply_liquid_consumers_state",
+      "source_symbols": [
+        "liquid_consumer_apply.block",
+        "liquid_consumer_apply.content_catalog",
+        "liquid_consumer_apply.has_liquids",
+        "liquid_consumer_apply.liquid_filter",
+        "block_liquid_apply.metadata_key"
+      ],
+      "tests": [
+        "test_partial_apply_contracts_are_registered_without_invented_before_flag",
+        "test_placement_applies_consumers_before_effective_capability_allocation",
+        "test_live_partial_apply_filter_cache_and_real_placement"
+      ],
+      "runtime_proof": "/root/Main.LiquidConsumerApplyHydrationProof"
     }
   }
 }

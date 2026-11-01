@@ -1,0 +1,29 @@
+import hashlib,json,re,subprocess
+from pathlib import Path
+ROOT=Path(r'C:/Users/Admin/Documents/Game/mindustry-godot-transpiler-copy-20260714-073528')
+def git(*args): return subprocess.check_output(['git',*args],cwd=ROOT).decode('utf-8')
+assert git('rev-parse','HEAD').startswith('28dbf074')
+paths=git('diff','--cached','--name-only').splitlines()
+assert not any(p.endswith(('.gd.uid','/project.godot','/source_ssot_modules.json','/source_symbol_audit_report.json')) or p.startswith('arc-upstream/') for p in paths)
+out=[]
+for name,(key,count) in {'source_symbol_registry.json':('symbols',9),'source_api_contracts.json':('contracts',3),'source_state_schema.json':('schemas',5),'source_slice_ledger.json':('slices',3)}.items():
+ p='godot-mindustry/src/generated/'+name
+ old,new=json.loads(git('show','HEAD:'+p)),json.loads(git('show',':'+p))
+ assert all(new[key].get(k)==v for k,v in old[key].items())
+ assert len(new[key])-len(old[key])==count
+ assert {k:v for k,v in old.items() if k!=key}=={k:v for k,v in new.items() if k!=key}
+ out.append(name+': only '+str(count)+' additions; prior entries and policy unchanged')
+full=Path('C:/tmp/liquid-apply-full.log').read_text(encoding='utf-8')
+assert re.search(r'^\d+ passed, \d+ subtests passed in ',full,re.M)
+native=json.loads(Path('C:/tmp/liquid-apply-native-summary.json').read_text(encoding='utf-8'))
+assert native['proof']['matches'] and native['stopped'] and not native['actual_errors'] and native['editor_exit_code']==0
+assert not json.loads(Path('C:/tmp/liquid-apply-validator.json').read_text(encoding='utf-8'))['errors']
+assert json.loads(Path('C:/tmp/liquid-apply-replay.json').read_text(encoding='utf-8'))['matches']
+subprocess.run(['git','diff','--cached','--check'],cwd=ROOT,check=True)
+out+=['full/native/explicit-stop/editor/replay/catalog gates accepted','no unrelated project/UID/arc/manifest/audit changes staged','staged whitespace check PASS','staged files before index audit evidence: '+str(len(paths))]
+evidence=ROOT/'docs/superpowers/reports/evidence/2026-11-02-liquid-consumer-apply-hydration'
+(evidence/'index-final.log').write_text('\n'.join(out)+'\n',encoding='utf-8')
+tracked=git('status','--porcelain=v1','-uall').splitlines()
+hashes={line[3:]:hashlib.sha256((ROOT/line[3:]).read_bytes()).hexdigest() for line in tracked if (ROOT/line[3:]).is_file()}
+Path('C:/tmp/liquid-apply-precommit-workspace-hashes.json').write_text(json.dumps(hashes,indent=2)+'\n',encoding='utf-8')
+print('\n'.join(out))

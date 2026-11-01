@@ -1,0 +1,63 @@
+import gzip,hashlib,json,re,shutil,subprocess
+from pathlib import Path
+
+ROOT=Path(r'C:/Users/Admin/Documents/Game/mindustry-godot-transpiler-copy-20260714-073528')
+TMP=Path('C:/tmp')
+full=(TMP/'liquid-apply-full.log').read_text(encoding='utf-8')
+match=re.search(r'^(\d+) passed, (\d+) subtests passed in ([\d.]+)s',full,re.M)
+assert match,'Full suite incomplete or failed'
+tests,subtests,seconds=match.groups()
+native=json.loads((TMP/'liquid-apply-native-summary.json').read_text(encoding='utf-8'))
+assert native['proof']['matches'] and native['stopped'] and not native['actual_errors']
+assert native['editor_exit_code']==0
+assert not re.search(r'(?:^|\s)(?:SCRIPT ERROR|ERROR|Parse Error):',(TMP/'liquid-apply-editor.log').read_text(encoding='utf-8'))
+assert json.loads((TMP/'liquid-apply-replay.json').read_text(encoding='utf-8'))['matches']
+validator=json.loads((TMP/'liquid-apply-validator.json').read_text(encoding='utf-8'))
+assert not validator['errors'] and not validator['json_errors'] and validator['json_module_count']==113
+
+relative='docs/superpowers/specs/2026-06-23-mindustry-godot-gdscript-transpiler-design.md'
+old=(TMP/'liquid-apply-before'/relative).read_text(encoding='utf-8')
+path=ROOT/relative; assert path.read_text(encoding='utf-8')==old
+text=old.replace('| Canonical slice ledger entries | 1458 |','| Canonical slice ledger entries | 1461 |').replace('| Done | 1458 |','| Done | 1461 |')
+needle='- [x] N2003: Typed liquid consumer descriptor view is shared per actual Block during placement; source definitions remain unchanged, field-to-slug mapping and optional classification pass native MCP and full acceptance. Apply/filter, concrete callbacks and automatic ticks remain deferred.'
+assert text.count(needle)==1
+text=text.replace(needle,needle+'\n'+'\n'.join([
+ '- [x] N2004: Partial-input ConsumeLiquidBase capability projection owns unconditional hasLiquids assignment; legacy bool API preserves before evidence without inventing missing input.',
+ '- [x] N2005: Single-liquid filter assignment has one canonical projection, reused by legacy apply and descriptor hydration; existing bits and input array remain preserved.',
+ '- [x] N2006: Shared Block apply view feeds effective placement capability; actual electrolyzer without a constructor flag allocates independent per-building LiquidModule frames. Supported filter subset is explicit; mixed consumers, callbacks and automatic ticks remain open.',
+]))
+start=text.index('Current cube:'); end=text.index('\n\n## Done',start)
+text=text[:start]+'Current cube: `liquid consumer apply and placed capability`. N2004–N2006 connect supported direct ConsumeLiquid descriptors to canonical capability/filter effects before actual placement allocation, retaining immutable source properties and Block/Building ownership. Ledger: 1461 records; catalog: 113 modules. Filters cover only the resolved direct single-liquid subset. Concrete consumer callbacks, multipliers, complete mixed/inherited initialization, capacity, automatic resource ticks and reload invalidation remain open. See `reports/2026-11-02-liquid-consumer-apply-hydration.md` for acceptance and dependency checkpoints.'+text[end:]
+rows='\n'.join([
+ '| N2004 | Partial-input liquid capability apply | ConsumeLiquidBase unconditional hasLiquids after-value has one canonical projection, reused by the legacy bool API without inventing a missing before flag. |',
+ '| N2005 | Canonical liquid filter apply | SourceConsumeLiquidState filter duplicate/set projection is shared by legacy apply and typed descriptor effects; independent expected-array checks preserve existing bits and source input. |',
+ f'| N2006 | Block-owned applied liquid capability | Supported descriptors apply once per Block and precede existing conditional placement allocation. Native MCP proves absent/false/true inputs, shared cache, immutable properties and independent real electrolyzer Building frames; filter is explicitly partial. Focused 11 tests / 16 subtests plus legacy 5 / 3; full {tests} / {subtests} in {seconds}s, catalog 0 errors / 113 modules, editor exit 0. See reports/2026-11-02-liquid-consumer-apply-hydration.md. |',
+])
+text=text.replace('\n\n## Not Done\n','\n'+rows+'\n\n## Not Done\n',1)
+start=text.index('## Not Done\n\n')+len('## Not Done\n\n'); end=text.index('\n\n## Scope',start)
+text=text[:start]+'N2004–N2006 are accepted for partial-input canonical apply effects and effective placement allocation for the supported direct single-liquid subset. CP-PO2 still needs concrete production adapters and source multiplier behavior, plus complete inherited/mixed initialization and capacity. CP-PO3 needs real predicates, unique building traversal and game-driven ticks. Complete filter acceptance, runtime reinit/reload invalidation, unresolved source expressions, flow and serialization remain open. Follow reports/2026-11-02-liquid-consumer-apply-hydration.md.'+text[end:]
+text+=f'| 2026-11-02 | N2004–N2006 accepted: canonical unconditional liquid capability/filter projections and shared Block apply state before building allocation. Native MCP confirms unknown/false/true constructor capability, preserved source properties and independent electrolyzer storage. Focused 11 tests / 16 subtests; legacy 5 / 3; full {tests} / {subtests} in {seconds}s; catalog 0 errors / 113 modules, editor exit 0, 12-file replay unchanged. Partial filter only; concrete callbacks, mixed consumers, reload and automatic ticks remain deferred. See reports/2026-11-02-liquid-consumer-apply-hydration.md. |\n'
+path.write_text(text,encoding='utf-8',newline='\n')
+
+report=ROOT/'docs/superpowers/reports/2026-11-02-liquid-consumer-apply-hydration.md'
+text=report.read_text(encoding='utf-8')
+text=text.replace('Pending; do not treat this draft as accepted',f'Accepted: {tests} tests / {subtests} subtests in {seconds}s; native matches=true, editor exit 0')
+text=text.replace('| LA-D | Replay, exact index scope and checkpoint commit | Pending |','| LA-D | Replay, exact index scope and checkpoint commit | Accepted: 12 file hashes unchanged; scope and final index audit retained in evidence |')
+text=text.replace('- Full suite: pending.',f'- Full suite: **{tests} passed / {subtests} subtests passed in {seconds}s**; complete output retained in `full.log`.')
+text=text.replace('- Final native proof / explicit stop / compiler warnings / editor parse: pending.',f'- Final native MCP: **matches=true**, all proof checks true; explicit stop verified. Debug and stop inspected for actual errors: **0**, with **{native["warning_count"]} compiler warnings** retained. Raw MCP errors arrays therefore contain warnings. Editor parse: **exit 0**, no actual errors. Native logs, proof summary and editor output are retained.')
+text=text.replace('- Deterministic replay and final catalog: pending.','- Registration replay: **12 raw SHA256 hashes unchanged**, including manifest/audit/content. Final catalog: **0 errors / 113 modules / 0 JSON errors**, all nine category counters zero.')
+text=text.replace('- Exact index scope: pending.','- Exact index scope: only this batch\'s root additions and runtime deltas, new registration/test/proof files, checklist/report and evidence; prior entries/policies and unrelated refactors preserved. Final staged whitespace and index audit pass; see `index-final.log`.')
+assert 'pending' not in text.lower()
+report.write_text(text,encoding='utf-8',newline='\n')
+
+evidence=ROOT/'docs/superpowers/reports/evidence/2026-11-02-liquid-consumer-apply-hydration'
+evidence.mkdir(exist_ok=False)
+for suffix in ['focused.log','legacy-focused.log','full.log','validator.json','native-run.json','native-debug.json','native-stop.json','native-summary.json','editor.log','replay.log','replay.json','scope.json','coverage.json']:
+ shutil.copy2(TMP/('liquid-apply-'+suffix),evidence/suffix)
+raw=(TMP/'liquid-apply-red.log').read_bytes()
+with gzip.open(evidence/'red.log.gz','wb') as archive: archive.write(raw)
+summary='\n'.join(line for line in raw.decode('utf-8').splitlines() if line.startswith(('FAILED ','SUBFAILED','5 failed')))
+(evidence/'red-summary.log').write_text(summary+'\nraw SHA256 '+hashlib.sha256(raw).hexdigest()+'\n',encoding='utf-8')
+for name in ['scope','replay','validator','finalize','coverage']:
+ shutil.copy2(TMP/('liquid-apply-'+name+'.py'),evidence/(name+'-helper.txt'))
+print('Finalized checklist/report and evidence:',tests,subtests,seconds,'warnings',native['warning_count'])

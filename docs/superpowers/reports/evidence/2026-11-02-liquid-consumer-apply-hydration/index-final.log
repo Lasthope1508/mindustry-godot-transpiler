@@ -1,0 +1,8 @@
+source_symbol_registry.json: only 9 additions; prior entries and policy unchanged
+source_api_contracts.json: only 3 additions; prior entries and policy unchanged
+source_state_schema.json: only 5 additions; prior entries and policy unchanged
+source_slice_ledger.json: only 3 additions; prior entries and policy unchanged
+full/native/explicit-stop/editor/replay/catalog gates accepted
+no unrelated project/UID/arc/manifest/audit changes staged
+staged whitespace check PASS
+staged files before index audit evidence: 39

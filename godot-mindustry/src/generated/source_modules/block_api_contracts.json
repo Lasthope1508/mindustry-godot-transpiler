@@ -4372,6 +4372,36 @@
       ],
       "runtime_proof": "/root/Main.LiquidConsumerHydrationProof",
       "rule": "Required source-resolved single-liquid definitions and shared typed Block descriptor view; no guessed flag, liquid identity, resource formula or post-init capability fallback."
+    },
+    "SourceConsumeLiquidState.source_apply_liquid_consumers_state": {
+      "canonical_contract": "source_api_contracts.SourceConsumeLiquidState.source_apply_liquid_consumers_state",
+      "status": "active",
+      "source_slice": "N2006",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "source_method": "init(); reinitializeConsumers()",
+      "params": [
+        {
+          "name": "block",
+          "type": "Object",
+          "schema": "source_liquid_consumer_apply_input.block"
+        },
+        {
+          "name": "content_catalog",
+          "type": "Object",
+          "schema": "source_liquid_consumer_apply_input.content_catalog"
+        }
+      ],
+      "return_keys": [
+        "has_liquids",
+        "liquid_filter"
+      ],
+      "tests": [
+        "test_partial_apply_contracts_are_registered_without_invented_before_flag",
+        "test_placement_applies_consumers_before_effective_capability_allocation",
+        "test_live_partial_apply_filter_cache_and_real_placement"
+      ],
+      "runtime_proof": "/root/Main.LiquidConsumerApplyHydrationProof",
+      "rule": "Partial-input projection of unconditional source assignments; no invented before bool. Block apply requires nonempty resolved direct ConsumeLiquid descriptors and caches supported filter effects only. Not full Block.init or a runtime reinitialization API."
     }
   }
 }

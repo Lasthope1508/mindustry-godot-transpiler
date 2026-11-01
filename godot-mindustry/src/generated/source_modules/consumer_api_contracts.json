@@ -4285,6 +4285,53 @@
       ],
       "runtime_proof": "/root/Main.source_consume_item_explode_build_state",
       "rule": "Public source helper exposes ConsumeItemExplode.build(Building, Table) empty body state and echoes arguments for bridge parity."
+    },
+    "SourceConsumeLiquidBaseState.source_apply_capability_state": {
+      "canonical_contract": "source_api_contracts.SourceConsumeLiquidBaseState.source_apply_capability_state",
+      "status": "active",
+      "source_slice": "N2004",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java",
+      "source_method": "apply(Block block)",
+      "params": [],
+      "return_keys": [
+        "block_has_liquids_after"
+      ],
+      "tests": [
+        "test_partial_apply_contracts_are_registered_without_invented_before_flag",
+        "test_placement_applies_consumers_before_effective_capability_allocation",
+        "test_live_partial_apply_filter_cache_and_real_placement"
+      ],
+      "runtime_proof": "/root/Main.LiquidConsumerApplyHydrationProof",
+      "rule": "Partial-input projection of unconditional source assignments; no invented before bool. Block apply requires nonempty resolved direct ConsumeLiquid descriptors and caches supported filter effects only. Not full Block.init or a runtime reinitialization API."
+    },
+    "SourceConsumeLiquidState.source_apply_filter_state": {
+      "canonical_contract": "source_api_contracts.SourceConsumeLiquidState.source_apply_filter_state",
+      "status": "active",
+      "source_slice": "N2005",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "source_method": "apply(Block block)",
+      "params": [
+        {
+          "name": "liquid_filter_before",
+          "type": "Array",
+          "schema": "source_liquid_apply_filter_input.liquid_filter_before"
+        },
+        {
+          "name": "liquid_id",
+          "type": "int",
+          "schema": "source_liquid_apply_filter_input.liquid_id"
+        }
+      ],
+      "return_keys": [
+        "liquid_filter_after"
+      ],
+      "tests": [
+        "test_partial_apply_contracts_are_registered_without_invented_before_flag",
+        "test_placement_applies_consumers_before_effective_capability_allocation",
+        "test_live_partial_apply_filter_cache_and_real_placement"
+      ],
+      "runtime_proof": "/root/Main.LiquidConsumerApplyHydrationProof",
+      "rule": "Partial-input projection of unconditional source assignments; no invented before bool. Block apply requires nonempty resolved direct ConsumeLiquid descriptors and caches supported filter effects only. Not full Block.init or a runtime reinitialization API."
     }
   }
 }

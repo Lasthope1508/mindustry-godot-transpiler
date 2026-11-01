@@ -1,0 +1,12 @@
+import hashlib,importlib.util,json,subprocess,sys
+from pathlib import Path
+spec=importlib.util.spec_from_file_location('scope','C:/tmp/liquid-apply-scope.py')
+scope=importlib.util.module_from_spec(spec); spec.loader.exec_module(scope)
+paths=scope.JSON_PATHS+[scope.GEN+p for p in ['source_ssot_modules.json','source_symbol_audit_report.json','content_registry.json','MindustryContentRegistry.gd']]
+def hashes(): return {p:hashlib.sha256((scope.ROOT/p).read_bytes()).hexdigest() for p in paths}
+before=hashes()
+subprocess.run([sys.executable,'tools/mindustry_godot_transpiler/register_liquid_consumer_apply_hydration.py'],cwd=scope.ROOT,check=True)
+after=hashes(); result={'matches':before==after,'files':{p:{'before':before[p],'after':after[p],'matches':before[p]==after[p]} for p in paths}}
+Path('C:/tmp/liquid-apply-replay.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8')
+assert result['matches']
+print('Registration replay unchanged:',len(paths),'files; manifest, audit and content unchanged')

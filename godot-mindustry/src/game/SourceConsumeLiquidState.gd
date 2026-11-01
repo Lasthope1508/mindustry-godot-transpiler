@@ -4,6 +4,29 @@ class_name SourceConsumeLiquidState
 const source_liquid_consumer_catalog := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
 const source_liquid_consumer_base := preload("res://src/game/SourceConsumeState.gd")
 const SOURCE_BLOCK_LIQUID_CONSUMERS_META_KEY := "source_block_liquid_consumers"
+const SOURCE_BLOCK_LIQUID_APPLY_META_KEY := "source_block_liquid_apply"
+const source_liquid_base_apply := preload("res://src/game/SourceConsumeLiquidBaseState.gd")
+const source_liquid_filter_init := preload("res://src/game/SourceBlockInitItemLiquidFiltersState.gd")
+
+static func source_apply_filter_state(liquid_filter_before: Array, liquid_id: int) -> Dictionary:
+	var liquid_filter_after := liquid_filter_before.duplicate()
+	liquid_filter_after[liquid_id] = true
+	return {"liquid_filter_after": liquid_filter_after}
+
+static func source_apply_liquid_consumers_state(block: Object, content_catalog: Object) -> Dictionary:
+	if block.has_meta(SOURCE_BLOCK_LIQUID_APPLY_META_KEY):
+		return block.get_meta(SOURCE_BLOCK_LIQUID_APPLY_META_KEY)
+	var consumers: Array = source_bind_liquid_consumers_state(block, content_catalog)["consumers"]
+	assert(not consumers.is_empty(), "Apply capability requires at least one resolved ConsumeLiquid")
+	var filters := source_liquid_filter_init.item_liquid_filters_state(content_catalog.call("get_many", "item").size(), content_catalog.call("get_many", "liquid").size())
+	var liquid_filter: Array = filters["liquid_filter"]
+	var applied: Dictionary = {}
+	for consumer in consumers:
+		var capability := source_liquid_base_apply.source_apply_capability_state()
+		liquid_filter = source_apply_filter_state(liquid_filter, consumer["liquid"])["liquid_filter_after"]
+		applied = {"has_liquids": capability["block_has_liquids_after"], "liquid_filter": liquid_filter}
+	block.set_meta(SOURCE_BLOCK_LIQUID_APPLY_META_KEY, applied)
+	return applied
 
 static func source_liquid_consumer_definitions_state(block: Object) -> Dictionary:
 	return {"consume_builder": block.properties["consumeLiquid"]}
@@ -103,8 +126,7 @@ static func default_constructor_state(default_liquid: Variant, default_amount: f
 
 static func apply_state(block_has_liquids_before: bool, liquid_filter_before: Array, liquid_id: int, base_apply_state_provider: Callable) -> Dictionary:
 	var base_apply_state: Dictionary = base_apply_state_provider.call(block_has_liquids_before)
-	var liquid_filter_after := liquid_filter_before.duplicate()
-	liquid_filter_after[liquid_id] = true
+	var liquid_filter_after: Array = source_apply_filter_state(liquid_filter_before, liquid_id)["liquid_filter_after"]
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_CONSUME_LIQUID_APPLY_STATE,
 		"source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",

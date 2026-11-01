@@ -1,0 +1,18 @@
+{
+  "proof": {
+    "actual_filter_matches": true,
+    "actual_placement_allocation_matches": true,
+    "capability_matches": true,
+    "filter_matches": true,
+    "matches": true,
+    "one_headquarter_per_ssot": true,
+    "partial_input_matches": true,
+    "registry_valid": true,
+    "shared_apply_cache": true,
+    "source_definitions_preserved": true
+  },
+  "actual_errors": [],
+  "warning_count": 66,
+  "stopped": true,
+  "editor_exit_code": 0
+}

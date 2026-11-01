@@ -149184,6 +149184,141 @@
         "test_live_block_shared_consumers_and_optional_efficiency_runtime"
       ],
       "runtime_proof": "/root/Main.LiquidConsumerHydrationProof"
+    },
+    "liquid_apply_capability.block_has_liquids_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceConsumeLiquidBaseState.source_apply_capability_state",
+      "godot_symbol": "source_liquid_apply_capability_result.block_has_liquids_after",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java",
+      "java_method": "apply(Block block)",
+      "java_expr": "block.hasLiquids = true;",
+      "rule": "Reuse canonical apply fields. Missing constructor capability remains unknown until the unconditional source assignment is applied. Filter is the supported direct single-liquid subset, not a complete mixed-consumer acceptance policy.",
+      "tests": [
+        "test_partial_apply_contracts_are_registered_without_invented_before_flag",
+        "test_placement_applies_consumers_before_effective_capability_allocation",
+        "test_live_partial_apply_filter_cache_and_real_placement"
+      ],
+      "runtime_proof": "/root/Main.LiquidConsumerApplyHydrationProof"
+    },
+    "liquid_apply_filter.liquid_filter_before": {
+      "status": "source-backed",
+      "godot_owner": "SourceConsumeLiquidState.source_apply_filter_state",
+      "godot_symbol": "source_liquid_apply_filter_input.liquid_filter_before",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "java_method": "apply(Block block)",
+      "java_expr": "block.liquidFilter[liquid.id] = true;",
+      "rule": "Reuse canonical apply fields. Missing constructor capability remains unknown until the unconditional source assignment is applied. Filter is the supported direct single-liquid subset, not a complete mixed-consumer acceptance policy.",
+      "tests": [
+        "test_partial_apply_contracts_are_registered_without_invented_before_flag",
+        "test_placement_applies_consumers_before_effective_capability_allocation",
+        "test_live_partial_apply_filter_cache_and_real_placement"
+      ],
+      "runtime_proof": "/root/Main.LiquidConsumerApplyHydrationProof"
+    },
+    "liquid_apply_filter.liquid_id": {
+      "status": "source-backed",
+      "godot_owner": "SourceConsumeLiquidState.source_apply_filter_state",
+      "godot_symbol": "source_liquid_apply_filter_input.liquid_id",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "java_method": "apply(Block block)",
+      "java_expr": "block.liquidFilter[liquid.id] = true;",
+      "rule": "Reuse canonical apply fields. Missing constructor capability remains unknown until the unconditional source assignment is applied. Filter is the supported direct single-liquid subset, not a complete mixed-consumer acceptance policy.",
+      "tests": [
+        "test_partial_apply_contracts_are_registered_without_invented_before_flag",
+        "test_placement_applies_consumers_before_effective_capability_allocation",
+        "test_live_partial_apply_filter_cache_and_real_placement"
+      ],
+      "runtime_proof": "/root/Main.LiquidConsumerApplyHydrationProof"
+    },
+    "liquid_apply_filter.liquid_filter_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceConsumeLiquidState.source_apply_filter_state",
+      "godot_symbol": "source_liquid_apply_filter_result.liquid_filter_after",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "java_method": "apply(Block block)",
+      "java_expr": "block.liquidFilter[liquid.id] = true;",
+      "rule": "Reuse canonical apply fields. Missing constructor capability remains unknown until the unconditional source assignment is applied. Filter is the supported direct single-liquid subset, not a complete mixed-consumer acceptance policy.",
+      "tests": [
+        "test_partial_apply_contracts_are_registered_without_invented_before_flag",
+        "test_placement_applies_consumers_before_effective_capability_allocation",
+        "test_live_partial_apply_filter_cache_and_real_placement"
+      ],
+      "runtime_proof": "/root/Main.LiquidConsumerApplyHydrationProof"
+    },
+    "liquid_consumer_apply.block": {
+      "status": "source-backed",
+      "godot_owner": "SourceConsumeLiquidState.source_apply_liquid_consumers_state",
+      "godot_symbol": "source_liquid_consumer_apply_input.block",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "init(); reinitializeConsumers()",
+      "java_expr": "cons.apply(this);",
+      "rule": "Reuse canonical apply fields. Missing constructor capability remains unknown until the unconditional source assignment is applied. Filter is the supported direct single-liquid subset, not a complete mixed-consumer acceptance policy.",
+      "tests": [
+        "test_partial_apply_contracts_are_registered_without_invented_before_flag",
+        "test_placement_applies_consumers_before_effective_capability_allocation",
+        "test_live_partial_apply_filter_cache_and_real_placement"
+      ],
+      "runtime_proof": "/root/Main.LiquidConsumerApplyHydrationProof"
+    },
+    "liquid_consumer_apply.content_catalog": {
+      "status": "source-backed",
+      "godot_owner": "SourceConsumeLiquidState.source_apply_liquid_consumers_state",
+      "godot_symbol": "source_liquid_consumer_apply_input.content_catalog",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "init(); reinitializeConsumers()",
+      "java_expr": "cons.apply(this);",
+      "rule": "Reuse canonical apply fields. Missing constructor capability remains unknown until the unconditional source assignment is applied. Filter is the supported direct single-liquid subset, not a complete mixed-consumer acceptance policy.",
+      "tests": [
+        "test_partial_apply_contracts_are_registered_without_invented_before_flag",
+        "test_placement_applies_consumers_before_effective_capability_allocation",
+        "test_live_partial_apply_filter_cache_and_real_placement"
+      ],
+      "runtime_proof": "/root/Main.LiquidConsumerApplyHydrationProof"
+    },
+    "liquid_consumer_apply.has_liquids": {
+      "status": "source-backed",
+      "godot_owner": "SourceConsumeLiquidState.source_apply_liquid_consumers_state",
+      "godot_symbol": "source_liquid_consumer_apply_result.has_liquids",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "init(); reinitializeConsumers()",
+      "java_expr": "cons.apply(this);",
+      "rule": "Reuse canonical apply fields. Missing constructor capability remains unknown until the unconditional source assignment is applied. Filter is the supported direct single-liquid subset, not a complete mixed-consumer acceptance policy.",
+      "tests": [
+        "test_partial_apply_contracts_are_registered_without_invented_before_flag",
+        "test_placement_applies_consumers_before_effective_capability_allocation",
+        "test_live_partial_apply_filter_cache_and_real_placement"
+      ],
+      "runtime_proof": "/root/Main.LiquidConsumerApplyHydrationProof"
+    },
+    "liquid_consumer_apply.liquid_filter": {
+      "status": "source-backed",
+      "godot_owner": "SourceConsumeLiquidState.source_apply_liquid_consumers_state",
+      "godot_symbol": "source_liquid_consumer_apply_result.liquid_filter",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "init(); reinitializeConsumers()",
+      "java_expr": "cons.apply(this);",
+      "rule": "Reuse canonical apply fields. Missing constructor capability remains unknown until the unconditional source assignment is applied. Filter is the supported direct single-liquid subset, not a complete mixed-consumer acceptance policy.",
+      "tests": [
+        "test_partial_apply_contracts_are_registered_without_invented_before_flag",
+        "test_placement_applies_consumers_before_effective_capability_allocation",
+        "test_live_partial_apply_filter_cache_and_real_placement"
+      ],
+      "runtime_proof": "/root/Main.LiquidConsumerApplyHydrationProof"
+    },
+    "block_liquid_apply.metadata_key": {
+      "status": "source-backed",
+      "godot_owner": "SourceConsumeLiquidState.source_apply_liquid_consumers_state",
+      "godot_symbol": "SourceConsumeLiquidState.SOURCE_BLOCK_LIQUID_APPLY_META_KEY",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "init(); reinitializeConsumers()",
+      "java_expr": "cons.apply(this);",
+      "rule": "Block-owned applied capability and supported single-liquid filter subset, shared by buildings. Immutable source properties and per-building liquid amount frames retain their original owners. Cache assumes immutable catalog; full reinit/reload invalidation remains deferred.",
+      "tests": [
+        "test_partial_apply_contracts_are_registered_without_invented_before_flag",
+        "test_placement_applies_consumers_before_effective_capability_allocation",
+        "test_live_partial_apply_filter_cache_and_real_placement"
+      ],
+      "runtime_proof": "/root/Main.LiquidConsumerApplyHydrationProof"
     }
   },
   "version": 1

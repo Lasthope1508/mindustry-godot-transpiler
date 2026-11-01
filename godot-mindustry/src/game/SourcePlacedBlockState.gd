@@ -4,8 +4,11 @@ class_name SourcePlacedBlockState
 const source_liquid_module_state := preload("res://src/game/SourceLiquidModuleState.gd")
 const source_content_registry_runtime_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
 const SOURCE_BUILDING_LIQUIDS_META_KEY := "source_building_liquids"
+const source_consume_liquid_apply := preload("res://src/game/SourceConsumeLiquidState.gd")
 
 static func source_block_has_liquids_state(block: Variant) -> Dictionary:
+	if block.has_meta(source_consume_liquid_apply.SOURCE_BLOCK_LIQUID_APPLY_META_KEY):
+		return {"has_liquids": block.get_meta(source_consume_liquid_apply.SOURCE_BLOCK_LIQUID_APPLY_META_KEY)["has_liquids"]}
 	return {"has_liquids": bool(block.properties["hasLiquids"])}
 
 static func source_initialize_building_liquids_state(sprite: Object, has_liquids: bool, content_catalog: Object) -> Dictionary:

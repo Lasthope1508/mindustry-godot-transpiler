@@ -164729,6 +164729,105 @@
         }
       },
       "runtime_proof": "/root/Main.LiquidConsumerHydrationProof"
+    },
+    "source_liquid_apply_capability_result": {
+      "status": "active",
+      "owner": "SourceConsumeLiquidBaseState.source_apply_capability_state",
+      "keys": {
+        "block_has_liquids_after": {
+          "type": "bool",
+          "status": "alias",
+          "alias_of": "source_consume_liquid_base_apply_result.block_has_liquids_after",
+          "used_by": [
+            "SourceConsumeLiquidBaseState.source_apply_capability_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/Main.LiquidConsumerApplyHydrationProof"
+    },
+    "source_liquid_apply_filter_input": {
+      "status": "active",
+      "owner": "SourceConsumeLiquidState.source_apply_filter_state",
+      "keys": {
+        "liquid_filter_before": {
+          "type": "Array",
+          "status": "alias",
+          "alias_of": "source_consume_liquid_apply_input.liquid_filter_before",
+          "used_by": [
+            "SourceConsumeLiquidState.source_apply_filter_state"
+          ]
+        },
+        "liquid_id": {
+          "type": "int",
+          "status": "alias",
+          "alias_of": "source_consume_liquid_apply_input.liquid_id",
+          "used_by": [
+            "SourceConsumeLiquidState.source_apply_filter_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/Main.LiquidConsumerApplyHydrationProof"
+    },
+    "source_liquid_apply_filter_result": {
+      "status": "active",
+      "owner": "SourceConsumeLiquidState.source_apply_filter_state",
+      "keys": {
+        "liquid_filter_after": {
+          "type": "Array",
+          "status": "alias",
+          "alias_of": "source_consume_liquid_apply_result.liquid_filter_after",
+          "used_by": [
+            "SourceConsumeLiquidState.source_apply_filter_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/Main.LiquidConsumerApplyHydrationProof"
+    },
+    "source_liquid_consumer_apply_input": {
+      "status": "active",
+      "owner": "SourceConsumeLiquidState.source_apply_liquid_consumers_state",
+      "keys": {
+        "block": {
+          "type": "Object",
+          "status": "alias",
+          "alias_of": "source_bind_liquid_consumers_input.block",
+          "used_by": [
+            "SourceConsumeLiquidState.source_apply_liquid_consumers_state"
+          ]
+        },
+        "content_catalog": {
+          "type": "Object",
+          "status": "alias",
+          "alias_of": "source_liquid_catalog_input.content_catalog",
+          "used_by": [
+            "SourceConsumeLiquidState.source_apply_liquid_consumers_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/Main.LiquidConsumerApplyHydrationProof"
+    },
+    "source_liquid_consumer_apply_result": {
+      "status": "active",
+      "owner": "SourceConsumeLiquidState.source_apply_liquid_consumers_state",
+      "keys": {
+        "has_liquids": {
+          "type": "bool",
+          "status": "alias",
+          "alias_of": "source_liquid_apply_capability_result.block_has_liquids_after",
+          "used_by": [
+            "SourceConsumeLiquidState.source_apply_liquid_consumers_state"
+          ]
+        },
+        "liquid_filter": {
+          "type": "Array",
+          "status": "alias",
+          "alias_of": "source_liquid_apply_filter_result.liquid_filter_after",
+          "used_by": [
+            "SourceConsumeLiquidState.source_apply_liquid_consumers_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/Main.LiquidConsumerApplyHydrationProof"
     }
   },
   "version": 1
