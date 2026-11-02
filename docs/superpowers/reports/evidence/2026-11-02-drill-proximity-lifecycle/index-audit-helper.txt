@@ -43,7 +43,8 @@ def audit():
  assert json.loads((TMP/'drill-proximity-replay.json').read_text())['matches']
  subprocess.run(['git','diff','--cached','--check'],cwd=ROOT,check=True)
  out+=['Existing canonical audit/content/manifest unchanged; no new game facade query owners','Exact contextual runtime/test deltas PASS; shared Item field/placement callback mapped into existing HEAD PortGame; unrelated facade work preserved','Full frozen-input/native/inspect-stop/editor/replay/catalog gates accepted on working tree; C01 and C02-C12 not accepted; C12 clean reproducibility remains open','25 exact upstream source expressions matched; nested schema references checked','Exact staged allowlist PASS; project/UID/arc/content/manifest/audit/unrelated dirty work excluded','Staged whitespace PASS','Staged files at initial audit: '+str(len(paths))]
- p=E/'index-final.log';p.write_text('\n'.join(out)+'\n',encoding='utf-8');stage_bytes(p.relative_to(ROOT).as_posix(),p.read_bytes())
+ p=E/'index-final.log';p.write_text('\n'.join(out)+'\n',encoding='utf-8',newline='\n');stage_bytes(p.relative_to(ROOT).as_posix(),p.read_bytes())
+ subprocess.run(['git','diff','--cached','--check'],cwd=ROOT,check=True)
  hashes={}
  for line in git('status','--porcelain=v1','-uall').splitlines():
   p=line[3:]

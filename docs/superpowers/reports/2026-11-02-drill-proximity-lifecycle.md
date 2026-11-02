@@ -1,6 +1,6 @@
-# Drill proximity, typed dominant Item and production — N2020–N2022
+# Drill proximity, typed dominant Item and production â€” N2020â€“N2022
 
-Date: 2026-11-02. Parent: `9bfecb91`. Sequential C01–C12 goal, C01 assignment/proximity/output batch. This accepts the stated partial lifecycle, not the whole of C01 or full Mindustry parity. C01 and C02–C12 remain open.
+Date: 2026-11-02. Parent: `9bfecb91`. Sequential C01â€“C12 goal, C01 assignment/proximity/output batch. This accepts the stated partial lifecycle, not the whole of C01 or full Mindustry parity. C01 and C02â€“C12 remain open.
 
 ## Checkpoints
 
@@ -62,6 +62,8 @@ The working tree contains a substantial preexisting facade/source-text extractio
 
 Continue C01 with canonical floor mutation notification and actual Building removal/overlap/proximity invalidation. Reuse SourceBlockGeometry.tile_set_floor_state, tile_pre_changed_state/tile_change_build_state/tile_changed_state and existing placement/removal owners before adding code. Floor notification differs from overlay: it runs even while generating. Source noSleep belongs to SourceBuildingAccessState; bind actual state/group lifecycle before claiming full superclass behavior.
 
-Then complete C02 per-Building offload/dump/transport and nullable dump-any semantics, removing secondary local fallback and global primary inventory ownership only through a source-backed composition. Keep C03–C12 in dependency order. Do not label all 12 groups complete from this batch or infer parity percentage from slice/test counts.
+Then complete C02 per-Building offload/dump/transport and nullable dump-any semantics, removing secondary local fallback and global primary inventory ownership only through a source-backed composition. Keep C03â€“C12 in dependency order. Do not label all 12 groups complete from this batch or infer parity percentage from slice/test counts.
 
 Evidence: `evidence/2026-11-02-drill-proximity-lifecycle/`.
+
+Evidence correction after implementation commit `110afde5`: the first index audit checked whitespace before staging its own CRLF log. The command sequence then committed despite that final log-only check failing. A separate documentation commit normalizes the log to LF and fixes the audit helper to recheck after staging its own output. Runtime, catalog, source/test files and all accepted behavioral gates are unchanged; history is preserved.

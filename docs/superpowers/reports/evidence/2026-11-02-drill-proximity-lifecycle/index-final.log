@@ -9,3 +9,4 @@ Full frozen-input/native/inspect-stop/editor/replay/catalog gates accepted on wo
 Exact staged allowlist PASS; project/UID/arc/content/manifest/audit/unrelated dirty work excluded
 Staged whitespace PASS
 Staged files at initial audit: 45
+Post-commit evidence correction: normalize this log to LF and recheck the entire staged diff after staging the audit log itself. Runtime/catalog/source gates unchanged.
