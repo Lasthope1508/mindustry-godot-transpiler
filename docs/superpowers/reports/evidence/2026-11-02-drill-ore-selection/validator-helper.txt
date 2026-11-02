@@ -1,0 +1,8 @@
+import json,sys
+from pathlib import Path
+sys.path.insert(0,'tools/mindustry_godot_transpiler')
+from mindustry_port import source_symbols
+r=source_symbols.validate_source_catalog(Path('godot-mindustry'))
+Path('C:/tmp/drill-ore-validator.json').write_text(json.dumps(r,indent=2)+'\n',encoding='utf-8')
+print(json.dumps({'counts':r['counts'],'json_modules':r['json_module_count'],'json_errors':r['json_errors'],'errors':r['errors']},indent=2))
+assert not r['errors'] and not r['json_errors'] and r['json_module_count']==113

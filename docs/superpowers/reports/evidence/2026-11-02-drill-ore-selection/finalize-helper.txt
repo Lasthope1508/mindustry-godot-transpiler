@@ -1,0 +1,38 @@
+import gzip,hashlib,json,re,shutil
+from pathlib import Path
+ROOT=Path(r'C:/Users/Admin/Documents/Game/mindustry-godot-transpiler-copy-20260714-073528');TMP=Path('C:/tmp')
+full=(TMP/'drill-ore-full.log').read_text(encoding='utf-8');m=re.search(r'^(\d+) passed, (\d+) subtests passed in ([\d.]+)s',full,re.M);assert m
+tests,subtests,seconds=m.groups();native=json.loads((TMP/'drill-ore-native-summary.json').read_text(encoding='utf-8'))
+assert native['proof']['matches'] and native['stopped'] and not native['actual_errors'] and native['editor_exit_code']==0
+assert not re.search(r'(?:^|\s)(?:SCRIPT ERROR|ERROR|Parse Error):',(TMP/'drill-ore-editor.log').read_text(encoding='utf-8'))
+replay=json.loads((TMP/'drill-ore-replay.json').read_text(encoding='utf-8'));assert replay['matches']
+v=json.loads((TMP/'drill-ore-validator.json').read_text(encoding='utf-8'));assert not v['errors'] and not v['json_errors'] and v['json_module_count']==113
+relative='docs/superpowers/specs/2026-06-23-mindustry-godot-gdscript-transpiler-design.md';path=ROOT/relative;old=(TMP/'drill-ore-before'/relative).read_text(encoding='utf-8');assert path.read_text(encoding='utf-8')==old
+text=old.replace('| Canonical slice ledger entries | 1464 |','| Canonical slice ledger entries | 1465 |').replace('| Done | 1464 |','| Done | 1465 |')
+needle=next(line for line in text.splitlines() if line.startswith('- [x] N2009:'))
+text=text.replace(needle,needle+'\n- [x] N2010: Canonical Drill canMine/countOre over explicit source facts: null/static/tier/blocked guards, lowPriority/count/numeric-ID ordering, empty/reset and Item identity. Reuses the existing Drill module; live mixed-ore map/proximity/output binding remains open.')
+start=text.index('Current cube:');end=text.index('\n\n## Done',start)
+text=text[:start]+'Current cube: `Drill ore selection canonical state`. N2010 completes canMine/countOre over explicit initialized Tile/Item facts in the existing Drill owner; it adds no live world inference or sorting duplicate. Ledger: 1465 records; catalog: 113 modules. N2007–N2009 automatic gameplay remains power-free and single-ore. Live typed item/tile providers, proximity invalidation and dominant-item output binding are C01-A/B/C; the full completion backlog has 12 domain groups and independent gates. See `reports/2026-11-02-drill-ore-selection.md` and `handoffs/2026-11-02-mindustry-completion-backlog.md`.'+text[end:]
+row=f'| N2010 | Canonical Drill canMine/countOre | Source predicate and priority/count/numeric-ID sort share the existing Drill owner. 13 independent semantic cases plus registry checks; focused 5 tests / 6 subtests, full {tests} / {subtests} in {seconds}s, catalog 0 errors / 113 modules, native matches=true, editor exit 0. Explicit facts only; live mixed-ore/proximity/output remains deferred. See reports/2026-11-02-drill-ore-selection.md. |'
+text=text.replace('\n\n## Not Done\n','\n'+row+'\n\n## Not Done\n',1)
+start=text.index('## Not Done\n\n')+len('## Not Done\n\n');end=text.index('\n\n## Scope',start)
+text=text[:start]+'N2010 accepts canonical ore-selection state only. C01-A/B/C still need numeric Item/provider binding, actual Tile/drop/static/footprint facts, Drill.init blockedItems, proximity lifecycle and actual dominant-item output before mixed-ore gameplay is enabled. C02–C12 cover secondary output, power, liquid supply/flow, complete consumers/rules/reload, vertical gameplay, units/campaign, generated semantics, facade debt, persistence/network, performance/presentation and clean-checkout release. Ledger Not done=0 counts registered records, not unported source/gameplay. Follow handoffs/2026-11-02-mindustry-completion-backlog.md.'+text[end:]
+text+=f'| 2026-11-02 | N2010 accepted: complete canonical canMine/countOre state on explicit source facts, in existing Drill module. Focused 5 / 6; full {tests} / {subtests} in {seconds}s; catalog 0 errors / 113 modules; native matches=true, 0 actual errors / {native["warning_count"]} warnings, explicit stop; editor exit 0; {replay["file_count"]}-file replay unchanged. Live mixed-ore binding remains open. Added 12-group completion backlog with dependency/acceptance gates; full parity is not claimed. |\n'
+path.write_text(text,encoding='utf-8',newline='\n')
+report=ROOT/'docs/superpowers/reports/2026-11-02-drill-ore-selection.md';text=report.read_text(encoding='utf-8')
+text=text.replace('| DO-C | Complete full suite, native MCP, explicit stop, editor parse | Pending |',f'| DO-C | Complete full suite, native MCP, explicit stop, editor parse | Accepted: {tests} / {subtests} in {seconds}s; native matches=true; editor exit 0 |')
+text=text.replace('| DO-D | Deterministic registration replay, exact staging and commit | Pending |',f'| DO-D | Deterministic registration replay, exact staging and commit | Accepted: {replay["file_count"]} hashes unchanged; exact index audit retained |')
+text=text.replace('- Full suite: pending.',f'- Full suite: **{tests} passed / {subtests} subtests passed in {seconds}s**; complete log retained.')
+text=text.replace('- Native MCP / stop / diagnostics / editor: pending.',f'- Native MCP: **15/15 checks true, matches=true**, explicit stop verified, **0 actual errors / {native["warning_count"]} compiler warnings**; debug/stop retained. Editor parse **exit 0**, no actual errors.')
+text=text.replace('- Replay / final catalog / staging audit: pending.',f'- Replay: **{replay["file_count"]} raw SHA256 hashes unchanged**, including manifest/audit/content. Final catalog **0 errors / 113 modules / 0 JSON errors**. Exact staged allowlist/root-addition audit and whitespace gate pass; see `index-final.log`.')
+assert 'pending' not in text.lower();report.write_text(text,encoding='utf-8',newline='\n')
+evidence=ROOT/'docs/superpowers/reports/evidence/2026-11-02-drill-ore-selection';evidence.mkdir(exist_ok=False)
+for suffix in ['focused.log','focused-final.log','full.log','validator.json','native-run.json','native-debug.json','native-stop.json','native-summary.json','editor.log','replay.log','replay.json','scope.json','inventory.json']:
+ shutil.copy2(TMP/('drill-ore-'+suffix),evidence/suffix)
+raw=(TMP/'drill-ore-red.log').read_bytes()
+with gzip.open(evidence/'red.log.gz','wb') as archive:archive.write(raw)
+summary='\n'.join(line[:500] for line in raw.decode('utf-8').splitlines() if line.startswith(('FAILED ','SUBFAILED','3 failed')))
+(evidence/'red-summary.log').write_text(summary+'\nraw SHA256 '+hashlib.sha256(raw).hexdigest()+'\n',encoding='utf-8')
+for name in ['scope','replay','validator','inventory','finalize']:
+ shutil.copy2(TMP/('drill-ore-'+name+'.py'),evidence/(name+'-helper.txt'))
+print('Finalized N2010:',tests,subtests,seconds,'warnings',native['warning_count'],'replay',replay['file_count'])

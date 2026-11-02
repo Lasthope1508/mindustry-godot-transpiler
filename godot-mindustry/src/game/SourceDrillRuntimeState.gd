@@ -1,6 +1,31 @@
 extends RefCounted
 class_name SourceDrillRuntimeState
 
+static func source_can_mine_state(tile: Variant, tier: int, blocked_items: Variant) -> Dictionary:
+	if tile == null or tile["is_static"]:
+		return {"can_mine": false}
+	var drops: Variant = tile["drop"]
+	return {"can_mine": drops != null and drops["hardness"] <= tier and (blocked_items == null or not blocked_items.has(drops["id"]))}
+
+static func source_count_ore_state(linked_tiles: Array, tier: int, blocked_items: Variant) -> Dictionary:
+	var ore_count: Dictionary = {}
+	var item_array: Array = []
+	for other in linked_tiles:
+		if source_can_mine_state(other, tier, blocked_items)["can_mine"]:
+			var item: Dictionary = other["drop"]
+			if not ore_count.has(item["id"]):
+				item_array.append(item)
+			ore_count[item["id"]] = ore_count.get(item["id"], 0) + 1
+	item_array.sort_custom(func(item1: Dictionary, item2: Dictionary) -> bool:
+		if item1["low_priority"] != item2["low_priority"]:
+			return item1["low_priority"]
+		if ore_count[item1["id"]] != ore_count[item2["id"]]:
+			return ore_count[item1["id"]] < ore_count[item2["id"]]
+		return item1["id"] < item2["id"]
+	)
+	var return_item: Variant = null if item_array.is_empty() else item_array.back()
+	return {"returnItem": return_item, "returnCount": 0 if return_item == null else ore_count[return_item["id"]], "oreCount": ore_count, "itemArray": item_array}
+
 const source_block_metadata_state := preload("res://src/game/SourceBlockMetadataState.gd")
 const source_block_defaults := preload("res://src/game/SourceBlockDefaults.gd")
 const source_factory_runtime_state := preload("res://src/game/SourceFactoryRuntimeState.gd")

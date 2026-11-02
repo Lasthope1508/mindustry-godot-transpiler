@@ -1,0 +1,23 @@
+import hashlib,json,re
+from pathlib import Path
+ROOT=Path(r'C:/Users/Admin/Documents/Game/mindustry-godot-transpiler-copy-20260714-073528');GEN=ROOT/'godot-mindustry/src/generated'
+def load(name):return json.loads((GEN/name).read_text(encoding='utf-8'))
+out={'note':'Live inventory; stored reports describe structural coverage, not full semantic acceptance. A null body can be legitimate and requires classification.', 'roots':{}}
+for name,key in [('source_symbol_registry.json','symbols'),('source_slice_ledger.json','slices'),('source_api_contracts.json','contracts'),('source_state_schema.json','schemas')]:out['roots'][key]=len(load(name)[key])
+r=load('port_report.json');out['stored_port_report']={k:r[k] for k in ['java_file_count','parsed_file_count','failed_file_count','asset_count']};out['stored_port_report']['unsupported_feature_records']=len(r['unsupported_features'])
+out['stored_port_report']['sha256']=hashlib.sha256((GEN/'port_report.json').read_bytes()).hexdigest()
+a=load('source_symbol_audit_report.json');out['stored_owner_audit']={k:a[k] for k in ['totalSourceFunctions','registeredSourceOwnerCount','exemptSourceOwnerCount','legacyUnregisteredOwnerCount','ownerCoverageGap','functionRecordAccountingGap']}
+files=sorted((GEN/'classes').rglob('*.gd'));methods=0;nulls=0
+for p in files:
+ lines=p.read_text(encoding='utf-8').splitlines();i=0
+ while i<len(lines):
+  if not re.match(r'^(?:static )?func java_method_',lines[i]):i+=1;continue
+  methods+=1;i+=1;body=[]
+  while i<len(lines) and (not lines[i].strip() or lines[i][0].isspace()):
+   line=lines[i].strip()
+   if line and not line.startswith('#'):body.append(line)
+   i+=1
+  if body==['return null']:nulls+=1
+out['live_generated_scan']={'gd_files':len(files),'java_method_functions':methods,'body_only_return_null':nulls,'definition':'Non-comment method body is exactly return null; excludes formulas and delegates. Not a count of confirmed defects.'}
+Path('C:/tmp/drill-ore-inventory.json').write_text(json.dumps(out,indent=2)+'\n',encoding='utf-8')
+print(json.dumps(out,indent=2))

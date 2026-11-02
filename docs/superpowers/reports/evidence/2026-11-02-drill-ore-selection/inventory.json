@@ -1,0 +1,31 @@
+{
+  "note": "Live inventory; stored reports describe structural coverage, not full semantic acceptance. A null body can be legitimate and requires classification.",
+  "roots": {
+    "symbols": 9904,
+    "slices": 1465,
+    "contracts": 1348,
+    "schemas": 2482
+  },
+  "stored_port_report": {
+    "java_file_count": 801,
+    "parsed_file_count": 801,
+    "failed_file_count": 0,
+    "asset_count": 2970,
+    "unsupported_feature_records": 6986,
+    "sha256": "dec7ffd680ebe14b042c9631bb4d1c819181d474f89e1a0adde3a75692022821"
+  },
+  "stored_owner_audit": {
+    "totalSourceFunctions": 1329,
+    "registeredSourceOwnerCount": 1304,
+    "exemptSourceOwnerCount": 8,
+    "legacyUnregisteredOwnerCount": 0,
+    "ownerCoverageGap": 0,
+    "functionRecordAccountingGap": 17
+  },
+  "live_generated_scan": {
+    "gd_files": 845,
+    "java_method_functions": 6273,
+    "body_only_return_null": 5390,
+    "definition": "Non-comment method body is exactly return null; excludes formulas and delegates. Not a count of confirmed defects."
+  }
+}

@@ -57077,6 +57077,73 @@
       ],
       "runtime_proof": "/root/Main.DrillLiveConsumptionProof",
       "rule": "Source-backed concrete adapter and live base-Drill gameplay integration. Power consumers, mixed ore, flow binding, reload and secondary output routing are explicitly outside this checkpoint."
+    },
+    "SourceDrillRuntimeState.source_can_mine_state": {
+      "status": "active",
+      "source_slice": "N2010",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "canMine(Tile tile)",
+      "params": [
+        {
+          "name": "tile",
+          "type": "Variant",
+          "schema": "source_drill_can_mine_input.tile"
+        },
+        {
+          "name": "tier",
+          "type": "int",
+          "schema": "source_drill_can_mine_input.tier"
+        },
+        {
+          "name": "blocked_items",
+          "type": "Variant",
+          "schema": "source_drill_can_mine_input.blocked_items"
+        }
+      ],
+      "return_keys": [
+        "can_mine"
+      ],
+      "tests": [
+        "test_ore_selection_contracts_and_source_evidence",
+        "test_independent_ore_selection_matrix_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreSelectionProof",
+      "rule": "Canonical source state over explicit initialized source facts. Existing selected-item ore_count preview remains a bounded map counter; live mixed-ore binding/proximity integration is deferred."
+    },
+    "SourceDrillRuntimeState.source_count_ore_state": {
+      "status": "active",
+      "source_slice": "N2010",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "countOre(Tile tile)",
+      "params": [
+        {
+          "name": "linked_tiles",
+          "type": "Array",
+          "schema": "source_drill_count_ore_input.linked_tiles"
+        },
+        {
+          "name": "tier",
+          "type": "int",
+          "schema": "source_drill_count_ore_input.tier"
+        },
+        {
+          "name": "blocked_items",
+          "type": "Variant",
+          "schema": "source_drill_count_ore_input.blocked_items"
+        }
+      ],
+      "return_keys": [
+        "returnItem",
+        "returnCount",
+        "oreCount",
+        "itemArray"
+      ],
+      "tests": [
+        "test_ore_selection_contracts_and_source_evidence",
+        "test_independent_ore_selection_matrix_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreSelectionProof",
+      "rule": "Canonical source state over explicit initialized source facts. Existing selected-item ore_count preview remains a bounded map counter; live mixed-ore binding/proximity integration is deferred."
     }
   },
   "policy": {

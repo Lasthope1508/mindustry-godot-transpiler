@@ -49722,6 +49722,47 @@
         "Power consumers, mixed ore selection, active flow caches, live reload and mutable TeamRules binding remain unresolved.",
         "Primary routing retains existing factory path; secondary output remains local inventory fallback, complete secondary transport/dump routing is deferred."
       ]
+    },
+    "N2010": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_class": "mindustry.world.blocks.production.Drill",
+      "java_method": "canMine(Tile tile); countOre(Tile tile)",
+      "godot_owner": "SourceDrillRuntimeState.source_count_ore_state",
+      "exact_exprs": [
+        "if(tile == null || tile.block().isStatic()) return false;",
+        "int type = Boolean.compare(!item1.lowPriority, !item2.lowPriority);",
+        "int amounts = Integer.compare(oreCount.get(item1, 0), oreCount.get(item2, 0));",
+        "return Integer.compare(item1.id, item2.id);",
+        "returnItem = itemArray.peek();"
+      ],
+      "source_symbols": [
+        "source_drill_ore_item.id",
+        "source_drill_ore_item.hardness",
+        "source_drill_ore_item.low_priority",
+        "source_drill_ore_tile.is_static",
+        "source_drill_ore_tile.drop",
+        "source_drill_can_mine_input.tile",
+        "source_drill_can_mine_input.tier",
+        "source_drill_can_mine_input.blocked_items",
+        "source_drill_can_mine_result.can_mine",
+        "source_drill_count_ore_input.linked_tiles",
+        "source_drill_count_ore_input.tier",
+        "source_drill_count_ore_input.blocked_items",
+        "source_drill_count_ore_result.returnItem",
+        "source_drill_count_ore_result.returnCount",
+        "source_drill_count_ore_result.oreCount",
+        "source_drill_count_ore_result.itemArray"
+      ],
+      "tests": [
+        "test_ore_selection_contracts_and_source_evidence",
+        "test_independent_ore_selection_matrix_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreSelectionProof",
+      "deferred_exprs": [
+        "Live Tile.drop/isStatic/getLinkedTilesAs providers, canonical Item ordinal binding and initialized blockedItems adapter.",
+        "DrillBuild.onProximityUpdate assignment/invalidation and replacement of the bounded single-ore gameplay projection."
+      ]
     }
   },
   "version": 1

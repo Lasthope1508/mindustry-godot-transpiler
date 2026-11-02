@@ -1,0 +1,8 @@
+source_symbol_registry.json: only 16 additions; prior data/policy preserved
+source_api_contracts.json: only 2 additions; prior data/policy preserved
+source_state_schema.json: only 6 additions; prior data/policy preserved
+source_slice_ledger.json: only 1 additions; prior data/policy preserved
+full/native/stop/editor/replay/catalog gates accepted
+exact allowlist PASS; unrelated dirty data/noise excluded
+staged whitespace PASS
+staged files before audit evidence: 36

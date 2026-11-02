@@ -656,6 +656,41 @@
           ]
         }
       }
+    },
+    "source_drill_count_ore_input": {
+      "canonical_schema": "source_state_schema.source_drill_count_ore_input",
+      "keys": {
+        "linked_tiles": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "for(Tile other : tile.getLinkedTilesAs(this, tempTiles)){",
+          "rule": "Explicit complete linked footprint in caller order; Tile projection uses source_drill_ore_tile. No live-world lookup or proximity invalidation is fabricated.",
+          "used_by": [
+            "SourceDrillRuntimeState.source_count_ore_state"
+          ]
+        },
+        "tier": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public int tier;",
+          "rule": "Explicit source Drill tier; no fallback.",
+          "used_by": [
+            "SourceDrillRuntimeState.source_count_ore_state"
+          ]
+        },
+        "blocked_items": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "(blockedItems == null || !blockedItems.contains(drops))",
+          "rule": "Nullable Array of canonical numeric Item IDs, not names or slugs. Caller supplies initialized blockedItems; blockedItem compatibility initialization remains in Drill.init.",
+          "used_by": [
+            "SourceDrillRuntimeState.source_count_ore_state"
+          ]
+        }
+      }
     }
   }
 }

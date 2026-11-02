@@ -1,0 +1,5 @@
+FAILED tools/mindustry_godot_transpiler/tests/test_drill_ore_selection.py::DrillOreSelectionTests::test_independent_ore_selection_matrix_in_godot
+SUBFAILED(owner='SourceDrillRuntimeState.can_mine_state') tools/mindustry_godot_transpiler/tests/test_drill_ore_selection.py::DrillOreSelectionTests::test_ore_selection_contracts_and_source_evidence
+SUBFAILED(owner='SourceDrillRuntimeState.count_ore_state') tools/mindustry_godot_transpiler/tests/test_drill_ore_selection.py::DrillOreSelectionTests::test_ore_selection_contracts_and_source_evidence
+3 failed, 1 passed in 0.90s
+raw SHA256 8a954004c78efe409a9dd0e03e7775caf9d5ff2d366e08d023c2d4591ba8afdb

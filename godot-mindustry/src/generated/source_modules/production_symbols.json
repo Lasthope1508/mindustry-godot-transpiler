@@ -1569,6 +1569,214 @@
         "test_real_process_drives_two_multicell_drills_and_concrete_adapter"
       ],
       "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
+    },
+    "source_drill_can_mine_input.blocked_items": {
+      "canonical_symbol": "source_symbol_registry.source_drill_can_mine_input.blocked_items",
+      "status": "source-backed",
+      "java_expr": "(blockedItems == null || !blockedItems.contains(drops))",
+      "godot_symbol": "source_drill_can_mine_input.blocked_items",
+      "godot_owner": "SourceDrillRuntimeState.source_can_mine_state",
+      "rule": "Nullable Array of canonical numeric Item IDs, not names or slugs. Caller supplies initialized blockedItems; blockedItem compatibility initialization remains in Drill.init.",
+      "tests": [
+        "test_ore_selection_contracts_and_source_evidence",
+        "test_independent_ore_selection_matrix_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreSelectionProof"
+    },
+    "source_drill_can_mine_input.tier": {
+      "canonical_symbol": "source_symbol_registry.source_drill_can_mine_input.tier",
+      "status": "source-backed",
+      "java_expr": "public int tier;",
+      "godot_symbol": "source_drill_can_mine_input.tier",
+      "godot_owner": "SourceDrillRuntimeState.source_can_mine_state",
+      "rule": "Explicit source Drill tier; no fallback.",
+      "tests": [
+        "test_ore_selection_contracts_and_source_evidence",
+        "test_independent_ore_selection_matrix_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreSelectionProof"
+    },
+    "source_drill_can_mine_input.tile": {
+      "canonical_symbol": "source_symbol_registry.source_drill_can_mine_input.tile",
+      "status": "source-backed",
+      "java_expr": "if(tile == null || tile.block().isStatic()) return false;",
+      "godot_symbol": "source_drill_can_mine_input.tile",
+      "godot_owner": "SourceDrillRuntimeState.source_can_mine_state",
+      "rule": "Nullable explicit Tile projection; no map integration is claimed.",
+      "tests": [
+        "test_ore_selection_contracts_and_source_evidence",
+        "test_independent_ore_selection_matrix_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreSelectionProof"
+    },
+    "source_drill_can_mine_result.can_mine": {
+      "canonical_symbol": "source_symbol_registry.source_drill_can_mine_result.can_mine",
+      "status": "source-backed",
+      "java_expr": "return drops != null && drops.hardness <= tier && (blockedItems == null || !blockedItems.contains(drops));",
+      "godot_symbol": "source_drill_can_mine_result.can_mine",
+      "godot_owner": "SourceDrillRuntimeState.source_can_mine_state",
+      "rule": "Source canMine result after null/static guard.",
+      "tests": [
+        "test_ore_selection_contracts_and_source_evidence",
+        "test_independent_ore_selection_matrix_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreSelectionProof"
+    },
+    "source_drill_count_ore_input.blocked_items": {
+      "canonical_symbol": "source_symbol_registry.source_drill_count_ore_input.blocked_items",
+      "status": "source-backed",
+      "java_expr": "(blockedItems == null || !blockedItems.contains(drops))",
+      "godot_symbol": "source_drill_count_ore_input.blocked_items",
+      "godot_owner": "SourceDrillRuntimeState.source_count_ore_state",
+      "rule": "Nullable Array of canonical numeric Item IDs, not names or slugs. Caller supplies initialized blockedItems; blockedItem compatibility initialization remains in Drill.init.",
+      "tests": [
+        "test_ore_selection_contracts_and_source_evidence",
+        "test_independent_ore_selection_matrix_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreSelectionProof"
+    },
+    "source_drill_count_ore_input.linked_tiles": {
+      "canonical_symbol": "source_symbol_registry.source_drill_count_ore_input.linked_tiles",
+      "status": "source-backed",
+      "java_expr": "for(Tile other : tile.getLinkedTilesAs(this, tempTiles)){",
+      "godot_symbol": "source_drill_count_ore_input.linked_tiles",
+      "godot_owner": "SourceDrillRuntimeState.source_count_ore_state",
+      "rule": "Explicit complete linked footprint in caller order; Tile projection uses source_drill_ore_tile. No live-world lookup or proximity invalidation is fabricated.",
+      "tests": [
+        "test_ore_selection_contracts_and_source_evidence",
+        "test_independent_ore_selection_matrix_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreSelectionProof"
+    },
+    "source_drill_count_ore_input.tier": {
+      "canonical_symbol": "source_symbol_registry.source_drill_count_ore_input.tier",
+      "status": "source-backed",
+      "java_expr": "public int tier;",
+      "godot_symbol": "source_drill_count_ore_input.tier",
+      "godot_owner": "SourceDrillRuntimeState.source_count_ore_state",
+      "rule": "Explicit source Drill tier; no fallback.",
+      "tests": [
+        "test_ore_selection_contracts_and_source_evidence",
+        "test_independent_ore_selection_matrix_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreSelectionProof"
+    },
+    "source_drill_count_ore_result.itemArray": {
+      "canonical_symbol": "source_symbol_registry.source_drill_count_ore_result.itemArray",
+      "status": "source-backed",
+      "java_expr": "itemArray.sort((item1, item2) -> {",
+      "godot_symbol": "source_drill_count_ore_result.itemArray",
+      "godot_owner": "SourceDrillRuntimeState.source_count_ore_state",
+      "rule": "Ascending lowPriority/amount/numeric-ID ordering; peek selects the last. Item references preserved; fresh transient array per call.",
+      "tests": [
+        "test_ore_selection_contracts_and_source_evidence",
+        "test_independent_ore_selection_matrix_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreSelectionProof"
+    },
+    "source_drill_count_ore_result.oreCount": {
+      "canonical_symbol": "source_symbol_registry.source_drill_count_ore_result.oreCount",
+      "status": "source-backed",
+      "java_expr": "oreCount.increment(getDrop(other), 0, 1);",
+      "godot_symbol": "source_drill_count_ore_result.oreCount",
+      "godot_owner": "SourceDrillRuntimeState.source_count_ore_state",
+      "rule": "Transient counts keyed by canonical numeric Item.id; each eligible linked tile contributes one.",
+      "tests": [
+        "test_ore_selection_contracts_and_source_evidence",
+        "test_independent_ore_selection_matrix_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreSelectionProof"
+    },
+    "source_drill_count_ore_result.returnCount": {
+      "canonical_symbol": "source_symbol_registry.source_drill_count_ore_result.returnCount",
+      "status": "source-backed",
+      "java_expr": "returnCount = oreCount.get(itemArray.peek(), 0);",
+      "godot_symbol": "source_drill_count_ore_result.returnCount",
+      "godot_owner": "SourceDrillRuntimeState.source_count_ore_state",
+      "rule": "Selected item count; zero for no mineable tiles.",
+      "tests": [
+        "test_ore_selection_contracts_and_source_evidence",
+        "test_independent_ore_selection_matrix_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreSelectionProof"
+    },
+    "source_drill_count_ore_result.returnItem": {
+      "canonical_symbol": "source_symbol_registry.source_drill_count_ore_result.returnItem",
+      "status": "source-backed",
+      "java_expr": "returnItem = itemArray.peek();",
+      "godot_symbol": "source_drill_count_ore_result.returnItem",
+      "godot_owner": "SourceDrillRuntimeState.source_count_ore_state",
+      "rule": "Selected Item facts by reference or null after empty/reset; actual state rather than legacy method-text metadata.",
+      "tests": [
+        "test_ore_selection_contracts_and_source_evidence",
+        "test_independent_ore_selection_matrix_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreSelectionProof"
+    },
+    "source_drill_ore_item.hardness": {
+      "canonical_symbol": "source_symbol_registry.source_drill_ore_item.hardness",
+      "status": "source-backed",
+      "java_expr": "public int hardness = 0;",
+      "godot_symbol": "source_drill_ore_item.hardness",
+      "godot_owner": "SourceDrillRuntimeState.source_count_ore_state",
+      "rule": "Explicit effective Item hardness; no zero fallback.",
+      "tests": [
+        "test_ore_selection_contracts_and_source_evidence",
+        "test_independent_ore_selection_matrix_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreSelectionProof"
+    },
+    "source_drill_ore_item.id": {
+      "canonical_symbol": "source_symbol_registry.source_drill_ore_item.id",
+      "status": "source-backed",
+      "java_expr": "return Integer.compare(item1.id, item2.id);",
+      "godot_symbol": "source_drill_ore_item.id",
+      "godot_owner": "SourceDrillRuntimeState.source_count_ore_state",
+      "rule": "Canonical numeric Item.id supplied explicitly; never infer from a slug or dictionary iteration.",
+      "tests": [
+        "test_ore_selection_contracts_and_source_evidence",
+        "test_independent_ore_selection_matrix_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreSelectionProof"
+    },
+    "source_drill_ore_item.low_priority": {
+      "canonical_symbol": "source_symbol_registry.source_drill_ore_item.low_priority",
+      "status": "source-backed",
+      "java_expr": "int type = Boolean.compare(!item1.lowPriority, !item2.lowPriority);",
+      "godot_symbol": "source_drill_ore_item.low_priority",
+      "godot_owner": "SourceDrillRuntimeState.source_count_ore_state",
+      "rule": "Explicit effective Item.lowPriority, including the Java false field default; no guessed priority.",
+      "tests": [
+        "test_ore_selection_contracts_and_source_evidence",
+        "test_independent_ore_selection_matrix_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreSelectionProof"
+    },
+    "source_drill_ore_tile.drop": {
+      "canonical_symbol": "source_symbol_registry.source_drill_ore_tile.drop",
+      "status": "source-backed",
+      "java_expr": "public @Nullable Item drop(){",
+      "godot_symbol": "source_drill_ore_tile.drop",
+      "godot_owner": "SourceDrillRuntimeState.source_count_ore_state",
+      "rule": "Nullable Item facts by reference; actual Tile.drop and Drill.getDrop adapters remain caller responsibilities.",
+      "tests": [
+        "test_ore_selection_contracts_and_source_evidence",
+        "test_independent_ore_selection_matrix_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreSelectionProof"
+    },
+    "source_drill_ore_tile.is_static": {
+      "canonical_symbol": "source_symbol_registry.source_drill_ore_tile.is_static",
+      "status": "source-backed",
+      "java_expr": "tile.block().isStatic()",
+      "godot_symbol": "source_drill_ore_tile.is_static",
+      "godot_owner": "SourceDrillRuntimeState.source_count_ore_state",
+      "rule": "Explicit result of actual tile Block.isStatic; no inference from occupancy.",
+      "tests": [
+        "test_ore_selection_contracts_and_source_evidence",
+        "test_independent_ore_selection_matrix_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreSelectionProof"
     }
   }
 }

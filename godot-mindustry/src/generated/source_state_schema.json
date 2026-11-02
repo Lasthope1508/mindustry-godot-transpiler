@@ -165229,6 +165229,211 @@
         }
       },
       "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
+    },
+    "source_drill_ore_item": {
+      "status": "active",
+      "owner": "SourceDrillRuntimeState.source_count_ore_state",
+      "keys": {
+        "id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "return Integer.compare(item1.id, item2.id);",
+          "rule": "Canonical numeric Item.id supplied explicitly; never infer from a slug or dictionary iteration.",
+          "used_by": [
+            "SourceDrillRuntimeState.source_count_ore_state"
+          ]
+        },
+        "hardness": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Item.java",
+          "java_expr": "public int hardness = 0;",
+          "rule": "Explicit effective Item hardness; no zero fallback.",
+          "used_by": [
+            "SourceDrillRuntimeState.source_count_ore_state"
+          ]
+        },
+        "low_priority": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "int type = Boolean.compare(!item1.lowPriority, !item2.lowPriority);",
+          "rule": "Explicit effective Item.lowPriority, including the Java false field default; no guessed priority.",
+          "used_by": [
+            "SourceDrillRuntimeState.source_count_ore_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/DrillOreSelectionProof"
+    },
+    "source_drill_ore_tile": {
+      "status": "active",
+      "owner": "SourceDrillRuntimeState.source_count_ore_state",
+      "keys": {
+        "is_static": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "tile.block().isStatic()",
+          "rule": "Explicit result of actual tile Block.isStatic; no inference from occupancy.",
+          "used_by": [
+            "SourceDrillRuntimeState.source_count_ore_state"
+          ]
+        },
+        "drop": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "public @Nullable Item drop(){",
+          "rule": "Nullable Item facts by reference; actual Tile.drop and Drill.getDrop adapters remain caller responsibilities.",
+          "schema": "source_drill_ore_item",
+          "used_by": [
+            "SourceDrillRuntimeState.source_count_ore_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/DrillOreSelectionProof"
+    },
+    "source_drill_can_mine_input": {
+      "status": "active",
+      "owner": "SourceDrillRuntimeState.source_can_mine_state",
+      "keys": {
+        "tile": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "if(tile == null || tile.block().isStatic()) return false;",
+          "rule": "Nullable explicit Tile projection; no map integration is claimed.",
+          "schema": "source_drill_ore_tile",
+          "used_by": [
+            "SourceDrillRuntimeState.source_can_mine_state"
+          ]
+        },
+        "tier": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public int tier;",
+          "rule": "Explicit source Drill tier; no fallback.",
+          "used_by": [
+            "SourceDrillRuntimeState.source_can_mine_state"
+          ]
+        },
+        "blocked_items": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "(blockedItems == null || !blockedItems.contains(drops))",
+          "rule": "Nullable Array of canonical numeric Item IDs, not names or slugs. Caller supplies initialized blockedItems; blockedItem compatibility initialization remains in Drill.init.",
+          "used_by": [
+            "SourceDrillRuntimeState.source_can_mine_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/DrillOreSelectionProof"
+    },
+    "source_drill_can_mine_result": {
+      "status": "active",
+      "owner": "SourceDrillRuntimeState.source_can_mine_state",
+      "keys": {
+        "can_mine": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "return drops != null && drops.hardness <= tier && (blockedItems == null || !blockedItems.contains(drops));",
+          "rule": "Source canMine result after null/static guard.",
+          "used_by": [
+            "SourceDrillRuntimeState.source_can_mine_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/DrillOreSelectionProof"
+    },
+    "source_drill_count_ore_input": {
+      "status": "active",
+      "owner": "SourceDrillRuntimeState.source_count_ore_state",
+      "keys": {
+        "linked_tiles": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "for(Tile other : tile.getLinkedTilesAs(this, tempTiles)){",
+          "rule": "Explicit complete linked footprint in caller order; Tile projection uses source_drill_ore_tile. No live-world lookup or proximity invalidation is fabricated.",
+          "used_by": [
+            "SourceDrillRuntimeState.source_count_ore_state"
+          ]
+        },
+        "tier": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public int tier;",
+          "rule": "Explicit source Drill tier; no fallback.",
+          "used_by": [
+            "SourceDrillRuntimeState.source_count_ore_state"
+          ]
+        },
+        "blocked_items": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "(blockedItems == null || !blockedItems.contains(drops))",
+          "rule": "Nullable Array of canonical numeric Item IDs, not names or slugs. Caller supplies initialized blockedItems; blockedItem compatibility initialization remains in Drill.init.",
+          "used_by": [
+            "SourceDrillRuntimeState.source_count_ore_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/DrillOreSelectionProof"
+    },
+    "source_drill_count_ore_result": {
+      "status": "active",
+      "owner": "SourceDrillRuntimeState.source_count_ore_state",
+      "keys": {
+        "returnItem": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "returnItem = itemArray.peek();",
+          "rule": "Selected Item facts by reference or null after empty/reset; actual state rather than legacy method-text metadata.",
+          "schema": "source_drill_ore_item",
+          "used_by": [
+            "SourceDrillRuntimeState.source_count_ore_state"
+          ]
+        },
+        "returnCount": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "returnCount = oreCount.get(itemArray.peek(), 0);",
+          "rule": "Selected item count; zero for no mineable tiles.",
+          "used_by": [
+            "SourceDrillRuntimeState.source_count_ore_state"
+          ]
+        },
+        "oreCount": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "oreCount.increment(getDrop(other), 0, 1);",
+          "rule": "Transient counts keyed by canonical numeric Item.id; each eligible linked tile contributes one.",
+          "used_by": [
+            "SourceDrillRuntimeState.source_count_ore_state"
+          ]
+        },
+        "itemArray": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "itemArray.sort((item1, item2) -> {",
+          "rule": "Ascending lowPriority/amount/numeric-ID ordering; peek selects the last. Item references preserved; fresh transient array per call.",
+          "used_by": [
+            "SourceDrillRuntimeState.source_count_ore_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/DrillOreSelectionProof"
     }
   },
   "version": 1

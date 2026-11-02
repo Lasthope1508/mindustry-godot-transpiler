@@ -1,0 +1,95 @@
+{
+  "parent": "2c71340309c0d8a40fb7466da654798156f6946f",
+  "json": {
+    "godot-mindustry/src/generated/source_symbol_registry.json": {
+      "added": [
+        "source_drill_can_mine_input.blocked_items",
+        "source_drill_can_mine_input.tier",
+        "source_drill_can_mine_input.tile",
+        "source_drill_can_mine_result.can_mine",
+        "source_drill_count_ore_input.blocked_items",
+        "source_drill_count_ore_input.linked_tiles",
+        "source_drill_count_ore_input.tier",
+        "source_drill_count_ore_result.itemArray",
+        "source_drill_count_ore_result.oreCount",
+        "source_drill_count_ore_result.returnCount",
+        "source_drill_count_ore_result.returnItem",
+        "source_drill_ore_item.hardness",
+        "source_drill_ore_item.id",
+        "source_drill_ore_item.low_priority",
+        "source_drill_ore_tile.drop",
+        "source_drill_ore_tile.is_static"
+      ],
+      "preexisting_dirty": false
+    },
+    "godot-mindustry/src/generated/source_api_contracts.json": {
+      "added": [
+        "SourceDrillRuntimeState.source_can_mine_state",
+        "SourceDrillRuntimeState.source_count_ore_state"
+      ],
+      "preexisting_dirty": false
+    },
+    "godot-mindustry/src/generated/source_state_schema.json": {
+      "added": [
+        "source_drill_can_mine_input",
+        "source_drill_can_mine_result",
+        "source_drill_count_ore_input",
+        "source_drill_count_ore_result",
+        "source_drill_ore_item",
+        "source_drill_ore_tile"
+      ],
+      "preexisting_dirty": true
+    },
+    "godot-mindustry/src/generated/source_slice_ledger.json": {
+      "added": [
+        "N2010"
+      ],
+      "preexisting_dirty": false
+    },
+    "godot-mindustry/src/generated/source_modules/production_api_contracts.json": {
+      "added": [
+        "SourceDrillRuntimeState.source_count_ore_state"
+      ],
+      "preexisting_dirty": true
+    },
+    "godot-mindustry/src/generated/source_modules/production_slices.json": {
+      "added": [
+        "N2010"
+      ],
+      "preexisting_dirty": true
+    },
+    "godot-mindustry/src/generated/source_modules/production_state_schema.json": {
+      "added": [
+        "source_drill_count_ore_input"
+      ],
+      "preexisting_dirty": true
+    },
+    "godot-mindustry/src/generated/source_modules/production_symbols.json": {
+      "added": [
+        "source_drill_can_mine_input.blocked_items",
+        "source_drill_can_mine_input.tier",
+        "source_drill_can_mine_input.tile",
+        "source_drill_can_mine_result.can_mine",
+        "source_drill_count_ore_input.blocked_items",
+        "source_drill_count_ore_input.linked_tiles",
+        "source_drill_count_ore_input.tier",
+        "source_drill_count_ore_result.itemArray",
+        "source_drill_count_ore_result.oreCount",
+        "source_drill_count_ore_result.returnCount",
+        "source_drill_count_ore_result.returnItem",
+        "source_drill_ore_item.hardness",
+        "source_drill_ore_item.id",
+        "source_drill_ore_item.low_priority",
+        "source_drill_ore_tile.drop",
+        "source_drill_ore_tile.is_static"
+      ],
+      "preexisting_dirty": true
+    }
+  },
+  "runtime": {
+    "godot-mindustry/src/game/SourceDrillRuntimeState.gd": {
+      "preexisting_dirty": true,
+      "added_lines": 25
+    }
+  }
+}

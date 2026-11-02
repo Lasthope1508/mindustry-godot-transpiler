@@ -149919,6 +149919,230 @@
         "test_real_process_drives_two_multicell_drills_and_concrete_adapter"
       ],
       "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
+    },
+    "source_drill_ore_item.id": {
+      "status": "source-backed",
+      "godot_owner": "SourceDrillRuntimeState.source_count_ore_state",
+      "godot_symbol": "source_drill_ore_item.id",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "canMine(Tile); countOre(Tile)",
+      "java_expr": "return Integer.compare(item1.id, item2.id);",
+      "rule": "Canonical numeric Item.id supplied explicitly; never infer from a slug or dictionary iteration.",
+      "tests": [
+        "test_ore_selection_contracts_and_source_evidence",
+        "test_independent_ore_selection_matrix_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreSelectionProof"
+    },
+    "source_drill_ore_item.hardness": {
+      "status": "source-backed",
+      "godot_owner": "SourceDrillRuntimeState.source_count_ore_state",
+      "godot_symbol": "source_drill_ore_item.hardness",
+      "java_source": "core/src/mindustry/type/Item.java",
+      "java_method": "canMine(Tile); countOre(Tile)",
+      "java_expr": "public int hardness = 0;",
+      "rule": "Explicit effective Item hardness; no zero fallback.",
+      "tests": [
+        "test_ore_selection_contracts_and_source_evidence",
+        "test_independent_ore_selection_matrix_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreSelectionProof"
+    },
+    "source_drill_ore_item.low_priority": {
+      "status": "source-backed",
+      "godot_owner": "SourceDrillRuntimeState.source_count_ore_state",
+      "godot_symbol": "source_drill_ore_item.low_priority",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "canMine(Tile); countOre(Tile)",
+      "java_expr": "int type = Boolean.compare(!item1.lowPriority, !item2.lowPriority);",
+      "rule": "Explicit effective Item.lowPriority, including the Java false field default; no guessed priority.",
+      "tests": [
+        "test_ore_selection_contracts_and_source_evidence",
+        "test_independent_ore_selection_matrix_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreSelectionProof"
+    },
+    "source_drill_ore_tile.is_static": {
+      "status": "source-backed",
+      "godot_owner": "SourceDrillRuntimeState.source_count_ore_state",
+      "godot_symbol": "source_drill_ore_tile.is_static",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "canMine(Tile); countOre(Tile)",
+      "java_expr": "tile.block().isStatic()",
+      "rule": "Explicit result of actual tile Block.isStatic; no inference from occupancy.",
+      "tests": [
+        "test_ore_selection_contracts_and_source_evidence",
+        "test_independent_ore_selection_matrix_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreSelectionProof"
+    },
+    "source_drill_ore_tile.drop": {
+      "status": "source-backed",
+      "godot_owner": "SourceDrillRuntimeState.source_count_ore_state",
+      "godot_symbol": "source_drill_ore_tile.drop",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "canMine(Tile); countOre(Tile)",
+      "java_expr": "public @Nullable Item drop(){",
+      "rule": "Nullable Item facts by reference; actual Tile.drop and Drill.getDrop adapters remain caller responsibilities.",
+      "tests": [
+        "test_ore_selection_contracts_and_source_evidence",
+        "test_independent_ore_selection_matrix_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreSelectionProof"
+    },
+    "source_drill_can_mine_input.tile": {
+      "status": "source-backed",
+      "godot_owner": "SourceDrillRuntimeState.source_can_mine_state",
+      "godot_symbol": "source_drill_can_mine_input.tile",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "canMine(Tile); countOre(Tile)",
+      "java_expr": "if(tile == null || tile.block().isStatic()) return false;",
+      "rule": "Nullable explicit Tile projection; no map integration is claimed.",
+      "tests": [
+        "test_ore_selection_contracts_and_source_evidence",
+        "test_independent_ore_selection_matrix_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreSelectionProof"
+    },
+    "source_drill_can_mine_input.tier": {
+      "status": "source-backed",
+      "godot_owner": "SourceDrillRuntimeState.source_can_mine_state",
+      "godot_symbol": "source_drill_can_mine_input.tier",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "canMine(Tile); countOre(Tile)",
+      "java_expr": "public int tier;",
+      "rule": "Explicit source Drill tier; no fallback.",
+      "tests": [
+        "test_ore_selection_contracts_and_source_evidence",
+        "test_independent_ore_selection_matrix_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreSelectionProof"
+    },
+    "source_drill_can_mine_input.blocked_items": {
+      "status": "source-backed",
+      "godot_owner": "SourceDrillRuntimeState.source_can_mine_state",
+      "godot_symbol": "source_drill_can_mine_input.blocked_items",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "canMine(Tile); countOre(Tile)",
+      "java_expr": "(blockedItems == null || !blockedItems.contains(drops))",
+      "rule": "Nullable Array of canonical numeric Item IDs, not names or slugs. Caller supplies initialized blockedItems; blockedItem compatibility initialization remains in Drill.init.",
+      "tests": [
+        "test_ore_selection_contracts_and_source_evidence",
+        "test_independent_ore_selection_matrix_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreSelectionProof"
+    },
+    "source_drill_can_mine_result.can_mine": {
+      "status": "source-backed",
+      "godot_owner": "SourceDrillRuntimeState.source_can_mine_state",
+      "godot_symbol": "source_drill_can_mine_result.can_mine",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "canMine(Tile); countOre(Tile)",
+      "java_expr": "return drops != null && drops.hardness <= tier && (blockedItems == null || !blockedItems.contains(drops));",
+      "rule": "Source canMine result after null/static guard.",
+      "tests": [
+        "test_ore_selection_contracts_and_source_evidence",
+        "test_independent_ore_selection_matrix_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreSelectionProof"
+    },
+    "source_drill_count_ore_input.linked_tiles": {
+      "status": "source-backed",
+      "godot_owner": "SourceDrillRuntimeState.source_count_ore_state",
+      "godot_symbol": "source_drill_count_ore_input.linked_tiles",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "canMine(Tile); countOre(Tile)",
+      "java_expr": "for(Tile other : tile.getLinkedTilesAs(this, tempTiles)){",
+      "rule": "Explicit complete linked footprint in caller order; Tile projection uses source_drill_ore_tile. No live-world lookup or proximity invalidation is fabricated.",
+      "tests": [
+        "test_ore_selection_contracts_and_source_evidence",
+        "test_independent_ore_selection_matrix_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreSelectionProof"
+    },
+    "source_drill_count_ore_input.tier": {
+      "status": "source-backed",
+      "godot_owner": "SourceDrillRuntimeState.source_count_ore_state",
+      "godot_symbol": "source_drill_count_ore_input.tier",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "canMine(Tile); countOre(Tile)",
+      "java_expr": "public int tier;",
+      "rule": "Explicit source Drill tier; no fallback.",
+      "tests": [
+        "test_ore_selection_contracts_and_source_evidence",
+        "test_independent_ore_selection_matrix_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreSelectionProof"
+    },
+    "source_drill_count_ore_input.blocked_items": {
+      "status": "source-backed",
+      "godot_owner": "SourceDrillRuntimeState.source_count_ore_state",
+      "godot_symbol": "source_drill_count_ore_input.blocked_items",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "canMine(Tile); countOre(Tile)",
+      "java_expr": "(blockedItems == null || !blockedItems.contains(drops))",
+      "rule": "Nullable Array of canonical numeric Item IDs, not names or slugs. Caller supplies initialized blockedItems; blockedItem compatibility initialization remains in Drill.init.",
+      "tests": [
+        "test_ore_selection_contracts_and_source_evidence",
+        "test_independent_ore_selection_matrix_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreSelectionProof"
+    },
+    "source_drill_count_ore_result.returnItem": {
+      "status": "source-backed",
+      "godot_owner": "SourceDrillRuntimeState.source_count_ore_state",
+      "godot_symbol": "source_drill_count_ore_result.returnItem",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "canMine(Tile); countOre(Tile)",
+      "java_expr": "returnItem = itemArray.peek();",
+      "rule": "Selected Item facts by reference or null after empty/reset; actual state rather than legacy method-text metadata.",
+      "tests": [
+        "test_ore_selection_contracts_and_source_evidence",
+        "test_independent_ore_selection_matrix_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreSelectionProof"
+    },
+    "source_drill_count_ore_result.returnCount": {
+      "status": "source-backed",
+      "godot_owner": "SourceDrillRuntimeState.source_count_ore_state",
+      "godot_symbol": "source_drill_count_ore_result.returnCount",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "canMine(Tile); countOre(Tile)",
+      "java_expr": "returnCount = oreCount.get(itemArray.peek(), 0);",
+      "rule": "Selected item count; zero for no mineable tiles.",
+      "tests": [
+        "test_ore_selection_contracts_and_source_evidence",
+        "test_independent_ore_selection_matrix_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreSelectionProof"
+    },
+    "source_drill_count_ore_result.oreCount": {
+      "status": "source-backed",
+      "godot_owner": "SourceDrillRuntimeState.source_count_ore_state",
+      "godot_symbol": "source_drill_count_ore_result.oreCount",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "canMine(Tile); countOre(Tile)",
+      "java_expr": "oreCount.increment(getDrop(other), 0, 1);",
+      "rule": "Transient counts keyed by canonical numeric Item.id; each eligible linked tile contributes one.",
+      "tests": [
+        "test_ore_selection_contracts_and_source_evidence",
+        "test_independent_ore_selection_matrix_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreSelectionProof"
+    },
+    "source_drill_count_ore_result.itemArray": {
+      "status": "source-backed",
+      "godot_owner": "SourceDrillRuntimeState.source_count_ore_state",
+      "godot_symbol": "source_drill_count_ore_result.itemArray",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "canMine(Tile); countOre(Tile)",
+      "java_expr": "itemArray.sort((item1, item2) -> {",
+      "rule": "Ascending lowPriority/amount/numeric-ID ordering; peek selects the last. Item references preserved; fresh transient array per call.",
+      "tests": [
+        "test_ore_selection_contracts_and_source_evidence",
+        "test_independent_ore_selection_matrix_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreSelectionProof"
     }
   },
   "version": 1

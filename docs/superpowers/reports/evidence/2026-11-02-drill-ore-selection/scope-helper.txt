@@ -1,0 +1,50 @@
+import copy,hashlib,json,subprocess,sys
+from pathlib import Path
+ROOT=Path(r'C:/Users/Admin/Documents/Game/mindustry-godot-transpiler-copy-20260714-073528');BEFORE=Path('C:/tmp/drill-ore-before');GEN='godot-mindustry/src/generated/'
+ROOTS={'source_symbol_registry.json':('symbols',16),'source_api_contracts.json':('contracts',2),'source_state_schema.json':('schemas',6),'source_slice_ledger.json':('slices',1)}
+RUNTIME='godot-mindustry/src/game/SourceDrillRuntimeState.gd'
+def git(*args,input=None):return subprocess.check_output(['git',*args],cwd=ROOT,input=input).decode('utf-8')
+def read(p,base=ROOT):return (base/p).read_text(encoding='utf-8')
+def merge(a,b,c):
+ if a==b:return copy.deepcopy(c)
+ if isinstance(a,dict) and isinstance(b,dict) and isinstance(c,dict):
+  d=copy.deepcopy(c)
+  for k in dict.fromkeys([*a,*b]):
+   if k not in b:assert d[k]==a[k];del d[k]
+   elif k not in a:assert k not in d or d[k]==b[k];d[k]=copy.deepcopy(b[k])
+   elif a[k]!=b[k]:d[k]=merge(a[k],b[k],d[k])
+  return d
+ assert c==a or c==b
+ return copy.deepcopy(b)
+def stage(p,s):
+ oid=git('hash-object','-w','--stdin',input=s.replace('\r\n','\n').encode('utf-8')).strip()
+ subprocess.run(['git','update-index','--add','--cacheinfo','100644',oid,p],cwd=ROOT,check=True)
+def json_paths():
+ paths=[GEN+n for n in ROOTS]
+ for m in json.loads(read(GEN+'source_ssot_modules.json'))['modules'].values():
+  p='godot-mindustry/'+m['path']
+  if json.loads(read(p))!=json.loads(read(p,BEFORE)):paths.append(p)
+ return paths
+def main():
+ assert git('rev-parse','HEAD').startswith('2c713403')
+ out={'parent':git('rev-parse','HEAD').strip(),'json':{},'runtime':{}}
+ for p in json_paths():
+  a,b,c=json.loads(read(p,BEFORE)),json.loads(read(p)),json.loads(git('show','HEAD:'+p))
+  key=next(k for k in b if k not in ('version','policy'))
+  added=sorted(set(b[key])-set(a[key]));changed=[k for k,v in a[key].items() if b[key].get(k)!=v];removed=set(a[key])-set(b[key])
+  assert not changed and not removed,(p,changed,removed)
+  assert {k:v for k,v in a.items() if k!=key}=={k:v for k,v in b.items() if k!=key}
+  if p.removeprefix(GEN) in ROOTS:assert len(added)==ROOTS[p.removeprefix(GEN)][1]
+  planned=merge(a,b,c);out['json'][p]={'added':added,'preexisting_dirty':a!=c}
+  if '--stage' in sys.argv:stage(p,json.dumps(planned,indent=2)+'\n')
+ a,b,c=read(RUNTIME,BEFORE),read(RUNTIME),git('show','HEAD:'+RUNTIME)
+ marker='const source_block_metadata_state'
+ old_prefix,old_rest=a.split(marker,1);new_prefix,new_rest=b.split(marker,1)
+ assert old_rest==new_rest and c.startswith(old_prefix) and new_prefix.startswith(old_prefix)
+ planned=new_prefix+c[len(old_prefix):]
+ out['runtime'][RUNTIME]={'preexisting_dirty':a!=c,'added_lines':len(new_prefix.splitlines())-len(old_prefix.splitlines())}
+ if '--stage' in sys.argv:stage(RUNTIME,planned)
+ for n in ['source_ssot_modules.json','source_symbol_audit_report.json','content_registry.json','MindustryContentRegistry.gd']:assert read(GEN+n)==read(GEN+n,BEFORE)
+ Path('C:/tmp/drill-ore-scope.json').write_text(json.dumps(out,indent=2)+'\n',encoding='utf-8')
+ print({p:len(v['added']) for p,v in out['json'].items()});print('Only canonical additions/runtime prefix; prior dirty data preserved; manifest/audit/content unchanged')
+if __name__=='__main__':main()
