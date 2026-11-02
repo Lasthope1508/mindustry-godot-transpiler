@@ -1,0 +1,56 @@
+import hashlib,importlib.util,json,re,subprocess,sys
+from pathlib import Path
+ROOT=Path.cwd();TMP=Path('C:/tmp')
+spec=importlib.util.spec_from_file_location('scope',str(TMP/'proximity-remove-scope.py'));s=importlib.util.module_from_spec(spec);spec.loader.exec_module(s)
+WHOLE={'godot-mindustry/tools/runtime_proofs/BuildingProximityMutationProof.gd','godot-mindustry/tools/runtime_proofs/BuildingProximityMutationProof.tscn','tools/mindustry_godot_transpiler/register_building_proximity_mutation.py','tools/mindustry_godot_transpiler/tests/test_building_proximity_mutation.py','docs/superpowers/specs/2026-06-23-mindustry-godot-gdscript-transpiler-design.md','docs/superpowers/handoffs/2026-11-02-mindustry-completion-backlog.md','docs/superpowers/reports/2026-11-02-building-proximity-mutation.md'}
+E=ROOT/'docs/superpowers/reports/evidence/2026-11-02-building-proximity-mutation'
+def git(*args):return s.s.git(*args)
+def stage_bytes(p,data):
+ oid=s.s.git('hash-object','-w','--stdin',input=data).strip();subprocess.run(['git','update-index','--add','--cacheinfo','100644',oid,p],cwd=ROOT,check=True)
+def main():
+ assert git('rev-parse','HEAD').startswith('fb25c7d9')
+ if '--stage' in sys.argv:
+  assert not git('diff','--cached','--name-only').strip()
+  s.main()
+  for p in WHOLE:s.s.stage(p,s.s.read(p))
+  (E/'index-audit-helper.txt').write_text((TMP/'proximity-remove-index-audit.py').read_text(encoding='utf-8').rstrip()+'\n',encoding='utf-8',newline='\n')
+  for p in E.iterdir():
+   if p.is_file():
+    relative=p.relative_to(ROOT).as_posix()
+    if p.suffix=='.gz':stage_bytes(relative,p.read_bytes())
+    else:
+     content=p.read_text(encoding='utf-8').rstrip()+'\n';p.write_text(content,encoding='utf-8',newline='\n');s.s.stage(relative,content)
+ scope=json.loads((TMP/'proximity-remove-scope.json').read_text(encoding='utf-8'))
+ paths=set(git('diff','--cached','--name-only').splitlines());expected=set(scope['json'])|set(scope['runtime'])|WHOLE|{p.relative_to(ROOT).as_posix() for p in E.iterdir() if p.is_file()}
+ assert paths==expected,(paths-expected,expected-paths)
+ assert not any(p.endswith(('.gd.uid','/project.godot','/content_registry.json','/MindustryContentRegistry.gd','/source_symbol_audit_report.json','/PortGame.gd')) or p.startswith('arc-upstream/') for p in paths)
+ out=[]
+ for name,(key,count) in s.ROOTS.items():
+  p=s.GEN+name;old,new=json.loads(git('show','HEAD:'+p)),json.loads(git('show',':'+p));assert all(new[key].get(k)==v for k,v in old[key].items()) and len(new[key])-len(old[key])==count;assert {k:v for k,v in old.items() if k!=key}=={k:v for k,v in new.items() if k!=key};out.append(name+': only '+str(count)+' additions; existing entries/policy preserved')
+ for p in scope['json']:
+  a,b,c=json.loads(s.s.read(p,s.BEFORE)),json.loads(s.s.read(p)),json.loads(git('show','HEAD:'+p));assert json.loads(git('show',':'+p))==s.s.merge(a,b,c)
+ for p in scope['runtime']:assert git('show',':'+p)==s.runtime_plan(p),p
+ for p in WHOLE:assert git('show',':'+p)==s.s.read(p),p
+ assert re.search(r'^\d+ passed, \d+ subtests passed in ',(TMP/'proximity-remove-full.log').read_text(encoding='utf-8'),re.M)
+ f=json.loads((TMP/'proximity-remove-full-result.json').read_text(encoding='utf-8'));assert f['exit_code']==0 and f['inputs_unchanged']
+ hashes=json.loads((TMP/'proximity-remove-full-input-hashes.json').read_text(encoding='utf-8'));assert all(hashlib.sha256((ROOT/p).read_bytes()).hexdigest()==h for p,h in hashes.items())
+ n=json.loads((TMP/'proximity-remove-native-summary.json').read_text(encoding='utf-8'));assert n['proof']['matches'] and n['stopped'] and not n['actual_errors'] and n['editor_exit_code']==0
+ v=json.loads((TMP/'proximity-remove-validator.json').read_text(encoding='utf-8'));assert not v['errors'] and not v['json_errors'] and v['json_module_count']==113
+ assert json.loads((TMP/'proximity-remove-replay.json').read_text(encoding='utf-8'))['matches']
+ assert len(json.loads((TMP/'proximity-remove-source-evidence.json').read_text(encoding='utf-8')))==33
+ out+=['Only executable methods staged in existing domain owner paths; existing uncommitted descriptive/source-text extraction preserved',
+ 'Existing root records/audit/content preserved; 3 explicit void contracts and optional type mirroring added without fabricated Dictionary results',
+ 'Complete existing canonical Python validator/mirror owner modules adopted as required dependencies; other dirty extraction remains outside scope',
+ 'C12 dependency inventory retained: working-tree/supplied-context acceptance only; automatic Main lifecycle/domain/group hooks and clean checkout remain open',
+ 'Frozen-input full, native, inspect-stop, editor, replay and catalog gates accepted; C01 and C02-C12 remain open',
+ 'Exact staged allowlist PASS; project/UID/arc/content/audit/PortGame and unrelated dirty changes excluded; manifest only enables optional comp return_type',
+ 'Final staged whitespace check runs after staging this audit log itself']
+ p=E/'index-final.log';p.write_text('\n'.join(out)+'\n',encoding='utf-8',newline='\n');s.s.stage(p.relative_to(ROOT).as_posix(),p.read_text(encoding='utf-8'))
+ subprocess.run(['git','diff','--cached','--check'],cwd=ROOT,check=True)
+ workspace={}
+ for line in git('status','--porcelain=v1','-uall').splitlines():
+  p=line[3:]
+  if (ROOT/p).is_file():workspace[p]=hashlib.sha256((ROOT/p).read_bytes()).hexdigest()
+ (TMP/'proximity-remove-precommit-workspace-hashes.json').write_text(json.dumps(workspace,indent=2)+'\n',encoding='utf-8',newline='\n')
+ print('\n'.join(out));print('Final staged whitespace PASS; workspace hashes saved',len(workspace))
+if __name__=='__main__':main()

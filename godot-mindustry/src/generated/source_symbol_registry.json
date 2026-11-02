@@ -152433,6 +152433,501 @@
         "test_new_terrain_evidence_and_nested_schemas"
       ],
       "runtime_proof": "/root/TerrainMutationLifecycleProof"
+    },
+    "source_apply_remove_from_proximity_input.building": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingLifecycleProximityState.source_apply_remove_from_proximity",
+      "godot_symbol": "source_apply_remove_from_proximity_input.building",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "removeFromProximity",
+      "java_expr": "other.proximity.remove(self(), true);",
+      "rule": "Actual Building identity; all arrays retain original object references.",
+      "tests": [
+        "test_executable_lifecycle_registration",
+        "test_all_lifecycle_input_evidence_is_exact",
+        "test_reference_graph_and_actual_tile_pre_change"
+      ],
+      "runtime_proof": "/root/BuildingProximityMutationProof"
+    },
+    "source_apply_remove_from_proximity_input.block_size": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingLifecycleProximityState.source_apply_remove_from_proximity",
+      "godot_symbol": "source_apply_remove_from_proximity_input.block_size",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "removeFromProximity",
+      "java_expr": "Point2[] nearby = Edges.getEdges(block.size);",
+      "rule": "Actual initialized positive Block size; existing canonical edge owner supplies offsets.",
+      "tests": [
+        "test_executable_lifecycle_registration",
+        "test_all_lifecycle_input_evidence_is_exact",
+        "test_reference_graph_and_actual_tile_pre_change"
+      ],
+      "runtime_proof": "/root/BuildingProximityMutationProof"
+    },
+    "source_apply_remove_from_proximity_input.tile_x": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingLifecycleProximityState.source_apply_remove_from_proximity",
+      "godot_symbol": "source_apply_remove_from_proximity_input.tile_x",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "removeFromProximity",
+      "java_expr": "Building other = world.build(tile.x + point.x, tile.y + point.y);",
+      "rule": "Actual Building origin x, not an arbitrary clicked proxy coordinate.",
+      "tests": [
+        "test_executable_lifecycle_registration",
+        "test_all_lifecycle_input_evidence_is_exact",
+        "test_reference_graph_and_actual_tile_pre_change"
+      ],
+      "runtime_proof": "/root/BuildingProximityMutationProof"
+    },
+    "source_apply_remove_from_proximity_input.tile_y": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingLifecycleProximityState.source_apply_remove_from_proximity",
+      "godot_symbol": "source_apply_remove_from_proximity_input.tile_y",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "removeFromProximity",
+      "java_expr": "Building other = world.build(tile.x + point.x, tile.y + point.y);",
+      "rule": "Actual Building origin y.",
+      "tests": [
+        "test_executable_lifecycle_registration",
+        "test_all_lifecycle_input_evidence_is_exact",
+        "test_reference_graph_and_actual_tile_pre_change"
+      ],
+      "runtime_proof": "/root/BuildingProximityMutationProof"
+    },
+    "source_apply_remove_from_proximity_input.world_build": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingLifecycleProximityState.source_apply_remove_from_proximity",
+      "godot_symbol": "source_apply_remove_from_proximity_input.world_build",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "removeFromProximity",
+      "java_expr": "Building other = world.build(tile.x + point.x, tile.y + point.y);",
+      "rule": "Actual world Building lookup returning original object or null; multiple edges may return the same entity.",
+      "tests": [
+        "test_executable_lifecycle_registration",
+        "test_all_lifecycle_input_evidence_is_exact",
+        "test_reference_graph_and_actual_tile_pre_change"
+      ],
+      "runtime_proof": "/root/BuildingProximityMutationProof"
+    },
+    "source_apply_remove_from_proximity_input.proximity_for": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingLifecycleProximityState.source_apply_remove_from_proximity",
+      "godot_symbol": "source_apply_remove_from_proximity_input.proximity_for",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "removeFromProximity",
+      "java_expr": "transient Seq<Building> proximity = new Seq<>(true, 6, Building.class);",
+      "rule": "Returns the actual persistent mutable Array for the supplied Building; a copy would violate this contract.",
+      "tests": [
+        "test_executable_lifecycle_registration",
+        "test_all_lifecycle_input_evidence_is_exact",
+        "test_reference_graph_and_actual_tile_pre_change"
+      ],
+      "runtime_proof": "/root/BuildingProximityMutationProof"
+    },
+    "source_apply_remove_from_proximity_input.on_proximity_removed": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingLifecycleProximityState.source_apply_remove_from_proximity",
+      "godot_symbol": "source_apply_remove_from_proximity_input.on_proximity_removed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "removeFromProximity",
+      "java_expr": "onProximityRemoved();",
+      "rule": "Call the actual domain hook once before collecting adjacent Building identities; power removal belongs to that hook.",
+      "tests": [
+        "test_executable_lifecycle_registration",
+        "test_all_lifecycle_input_evidence_is_exact",
+        "test_reference_graph_and_actual_tile_pre_change"
+      ],
+      "runtime_proof": "/root/BuildingProximityMutationProof"
+    },
+    "source_apply_remove_from_proximity_input.on_proximity_update": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingLifecycleProximityState.source_apply_remove_from_proximity",
+      "godot_symbol": "source_apply_remove_from_proximity_input.on_proximity_update",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "removeFromProximity",
+      "java_expr": "other.onProximityUpdate();",
+      "rule": "Call once per unique adjacent entity after unlink, including other teams. Own proximity clears only after those hooks.",
+      "tests": [
+        "test_executable_lifecycle_registration",
+        "test_all_lifecycle_input_evidence_is_exact",
+        "test_reference_graph_and_actual_tile_pre_change"
+      ],
+      "runtime_proof": "/root/BuildingProximityMutationProof"
+    },
+    "source_apply_update_proximity_input.building": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingLifecycleProximityState.source_apply_update_proximity",
+      "godot_symbol": "source_apply_update_proximity_input.building",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateProximity",
+      "java_expr": "other.proximity.remove(self(), true);",
+      "rule": "Actual Building identity; all arrays retain original object references.",
+      "tests": [
+        "test_executable_lifecycle_registration",
+        "test_all_lifecycle_input_evidence_is_exact",
+        "test_reference_graph_and_actual_tile_pre_change"
+      ],
+      "runtime_proof": "/root/BuildingProximityMutationProof"
+    },
+    "source_apply_update_proximity_input.block_size": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingLifecycleProximityState.source_apply_update_proximity",
+      "godot_symbol": "source_apply_update_proximity_input.block_size",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateProximity",
+      "java_expr": "Point2[] nearby = Edges.getEdges(block.size);",
+      "rule": "Actual initialized positive Block size; existing canonical edge owner supplies offsets.",
+      "tests": [
+        "test_executable_lifecycle_registration",
+        "test_all_lifecycle_input_evidence_is_exact",
+        "test_reference_graph_and_actual_tile_pre_change"
+      ],
+      "runtime_proof": "/root/BuildingProximityMutationProof"
+    },
+    "source_apply_update_proximity_input.tile_x": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingLifecycleProximityState.source_apply_update_proximity",
+      "godot_symbol": "source_apply_update_proximity_input.tile_x",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateProximity",
+      "java_expr": "Building other = world.build(tile.x + point.x, tile.y + point.y);",
+      "rule": "Actual Building origin x, not an arbitrary clicked proxy coordinate.",
+      "tests": [
+        "test_executable_lifecycle_registration",
+        "test_all_lifecycle_input_evidence_is_exact",
+        "test_reference_graph_and_actual_tile_pre_change"
+      ],
+      "runtime_proof": "/root/BuildingProximityMutationProof"
+    },
+    "source_apply_update_proximity_input.tile_y": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingLifecycleProximityState.source_apply_update_proximity",
+      "godot_symbol": "source_apply_update_proximity_input.tile_y",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateProximity",
+      "java_expr": "Building other = world.build(tile.x + point.x, tile.y + point.y);",
+      "rule": "Actual Building origin y.",
+      "tests": [
+        "test_executable_lifecycle_registration",
+        "test_all_lifecycle_input_evidence_is_exact",
+        "test_reference_graph_and_actual_tile_pre_change"
+      ],
+      "runtime_proof": "/root/BuildingProximityMutationProof"
+    },
+    "source_apply_update_proximity_input.world_build": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingLifecycleProximityState.source_apply_update_proximity",
+      "godot_symbol": "source_apply_update_proximity_input.world_build",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateProximity",
+      "java_expr": "Building other = world.build(tile.x + point.x, tile.y + point.y);",
+      "rule": "Actual world Building lookup returning original object or null; multiple edges may return the same entity.",
+      "tests": [
+        "test_executable_lifecycle_registration",
+        "test_all_lifecycle_input_evidence_is_exact",
+        "test_reference_graph_and_actual_tile_pre_change"
+      ],
+      "runtime_proof": "/root/BuildingProximityMutationProof"
+    },
+    "source_apply_update_proximity_input.proximity_for": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingLifecycleProximityState.source_apply_update_proximity",
+      "godot_symbol": "source_apply_update_proximity_input.proximity_for",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateProximity",
+      "java_expr": "transient Seq<Building> proximity = new Seq<>(true, 6, Building.class);",
+      "rule": "Returns the actual persistent mutable Array for the supplied Building; a copy would violate this contract.",
+      "tests": [
+        "test_executable_lifecycle_registration",
+        "test_all_lifecycle_input_evidence_is_exact",
+        "test_reference_graph_and_actual_tile_pre_change"
+      ],
+      "runtime_proof": "/root/BuildingProximityMutationProof"
+    },
+    "source_apply_update_proximity_input.team_for": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingLifecycleProximityState.source_apply_update_proximity",
+      "godot_symbol": "source_apply_update_proximity_input.team_for",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateProximity",
+      "java_expr": "if(other == null || other.team != team) continue;",
+      "rule": "Returns actual Team object; filter by reference identity, never infer from sprite or accept missing teams.",
+      "tests": [
+        "test_executable_lifecycle_registration",
+        "test_all_lifecycle_input_evidence_is_exact",
+        "test_reference_graph_and_actual_tile_pre_change"
+      ],
+      "runtime_proof": "/root/BuildingProximityMutationProof"
+    },
+    "source_apply_update_proximity_input.on_proximity_added": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingLifecycleProximityState.source_apply_update_proximity",
+      "godot_symbol": "source_apply_update_proximity_input.on_proximity_added",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateProximity",
+      "java_expr": "onProximityAdded();",
+      "rule": "Actual hook after complete graph construction; no power implementation is synthesized.",
+      "tests": [
+        "test_executable_lifecycle_registration",
+        "test_all_lifecycle_input_evidence_is_exact",
+        "test_reference_graph_and_actual_tile_pre_change"
+      ],
+      "runtime_proof": "/root/BuildingProximityMutationProof"
+    },
+    "source_apply_update_proximity_input.on_proximity_update": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingLifecycleProximityState.source_apply_update_proximity",
+      "godot_symbol": "source_apply_update_proximity_input.on_proximity_update",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateProximity",
+      "java_expr": "onProximityUpdate();",
+      "rule": "Self hook then one hook per unique same-team neighbor; actual noSleep/domain integration remains caller owned.",
+      "tests": [
+        "test_executable_lifecycle_registration",
+        "test_all_lifecycle_input_evidence_is_exact",
+        "test_reference_graph_and_actual_tile_pre_change"
+      ],
+      "runtime_proof": "/root/BuildingProximityMutationProof"
+    },
+    "source_apply_update_proximity_input.recache": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingLifecycleProximityState.source_apply_update_proximity",
+      "godot_symbol": "source_apply_update_proximity_input.recache",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateProximity",
+      "java_expr": "if(!headless && block.drawCached) recache();",
+      "rule": "Actual recache hook after proximity hooks when source guard is true.",
+      "tests": [
+        "test_executable_lifecycle_registration",
+        "test_all_lifecycle_input_evidence_is_exact",
+        "test_reference_graph_and_actual_tile_pre_change"
+      ],
+      "runtime_proof": "/root/BuildingProximityMutationProof"
+    },
+    "source_apply_update_proximity_input.headless": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingLifecycleProximityState.source_apply_update_proximity",
+      "godot_symbol": "source_apply_update_proximity_input.headless",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateProximity",
+      "java_expr": "if(!headless && block.drawCached) recache();",
+      "rule": "Explicit actual headless context; never fabricated by primitive.",
+      "tests": [
+        "test_executable_lifecycle_registration",
+        "test_all_lifecycle_input_evidence_is_exact",
+        "test_reference_graph_and_actual_tile_pre_change"
+      ],
+      "runtime_proof": "/root/BuildingProximityMutationProof"
+    },
+    "source_apply_update_proximity_input.draw_cached": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingLifecycleProximityState.source_apply_update_proximity",
+      "godot_symbol": "source_apply_update_proximity_input.draw_cached",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateProximity",
+      "java_expr": "if(!headless && block.drawCached) recache();",
+      "rule": "Actual initialized Block.drawCached flag.",
+      "tests": [
+        "test_executable_lifecycle_registration",
+        "test_all_lifecycle_input_evidence_is_exact",
+        "test_reference_graph_and_actual_tile_pre_change"
+      ],
+      "runtime_proof": "/root/BuildingProximityMutationProof"
+    },
+    "source_apply_tile_pre_changed_input.self_tile": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_apply_tile_pre_changed",
+      "godot_symbol": "source_apply_tile_pre_changed_input.self_tile",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "preChanged",
+      "java_expr": "if(other != this){",
+      "rule": "Actual canonical mutation Tile by reference; excluded from old-footprint resets until changeBuild.",
+      "tests": [
+        "test_executable_lifecycle_registration",
+        "test_all_lifecycle_input_evidence_is_exact",
+        "test_reference_graph_and_actual_tile_pre_change"
+      ],
+      "runtime_proof": "/root/BuildingProximityMutationProof"
+    },
+    "source_apply_tile_pre_changed_input.build": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_apply_tile_pre_changed",
+      "godot_symbol": "source_apply_tile_pre_changed_input.build",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "preChanged",
+      "java_expr": "if(build != null){",
+      "rule": "Actual previous Building or null; proxy mutation must retain old Building identity.",
+      "tests": [
+        "test_executable_lifecycle_registration",
+        "test_all_lifecycle_input_evidence_is_exact",
+        "test_reference_graph_and_actual_tile_pre_change"
+      ],
+      "runtime_proof": "/root/BuildingProximityMutationProof"
+    },
+    "source_apply_tile_pre_changed_input.block_is_multiblock": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_apply_tile_pre_changed",
+      "godot_symbol": "source_apply_tile_pre_changed_input.block_is_multiblock",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "preChanged",
+      "java_expr": "if(build.block.isMultiblock()){",
+      "rule": "Actual old Building block predicate, not the new block or clicked proxy geometry.",
+      "tests": [
+        "test_executable_lifecycle_registration",
+        "test_all_lifecycle_input_evidence_is_exact",
+        "test_reference_graph_and_actual_tile_pre_change"
+      ],
+      "runtime_proof": "/root/BuildingProximityMutationProof"
+    },
+    "source_apply_tile_pre_changed_input.block_size": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_apply_tile_pre_changed",
+      "godot_symbol": "source_apply_tile_pre_changed_input.block_size",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "preChanged",
+      "java_expr": "int size = build.block.size;",
+      "rule": "Actual old Building size.",
+      "tests": [
+        "test_executable_lifecycle_registration",
+        "test_all_lifecycle_input_evidence_is_exact",
+        "test_reference_graph_and_actual_tile_pre_change"
+      ],
+      "runtime_proof": "/root/BuildingProximityMutationProof"
+    },
+    "source_apply_tile_pre_changed_input.size_offset": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_apply_tile_pre_changed",
+      "godot_symbol": "source_apply_tile_pre_changed_input.size_offset",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "preChanged",
+      "java_expr": "int offsetx = -(size - 1) / 2;",
+      "rule": "Actual old initialized footprint offset, supplied from canonical Block geometry owner.",
+      "tests": [
+        "test_executable_lifecycle_registration",
+        "test_all_lifecycle_input_evidence_is_exact",
+        "test_reference_graph_and_actual_tile_pre_change"
+      ],
+      "runtime_proof": "/root/BuildingProximityMutationProof"
+    },
+    "source_apply_tile_pre_changed_input.old_build_center": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_apply_tile_pre_changed",
+      "godot_symbol": "source_apply_tile_pre_changed_input.old_build_center",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "preChanged",
+      "java_expr": "int cx = build.tileX(), cy = build.tileY();",
+      "rule": "Actual old Building center; a proxy mutation must not center its reset on the proxy.",
+      "tests": [
+        "test_executable_lifecycle_registration",
+        "test_all_lifecycle_input_evidence_is_exact",
+        "test_reference_graph_and_actual_tile_pre_change"
+      ],
+      "runtime_proof": "/root/BuildingProximityMutationProof"
+    },
+    "source_apply_tile_pre_changed_input.world_tile_lookup": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_apply_tile_pre_changed",
+      "godot_symbol": "source_apply_tile_pre_changed_input.world_tile_lookup",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "preChanged",
+      "java_expr": "Tile other = world.tile(cx + dx + offsetx, cy + dy + offsety);",
+      "rule": "Actual nullable Tile lookup; existing linked footprint owner preserves bounds and source dx/dy order.",
+      "tests": [
+        "test_executable_lifecycle_registration",
+        "test_all_lifecycle_input_evidence_is_exact",
+        "test_reference_graph_and_actual_tile_pre_change"
+      ],
+      "runtime_proof": "/root/BuildingProximityMutationProof"
+    },
+    "source_apply_tile_pre_changed_input.air_block": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_apply_tile_pre_changed",
+      "godot_symbol": "source_apply_tile_pre_changed_input.air_block",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "preChanged",
+      "java_expr": "other.block = Blocks.air;",
+      "rule": "Canonical resolved Blocks.air object; no string content substitute is assigned.",
+      "tests": [
+        "test_executable_lifecycle_registration",
+        "test_all_lifecycle_input_evidence_is_exact",
+        "test_reference_graph_and_actual_tile_pre_change"
+      ],
+      "runtime_proof": "/root/BuildingProximityMutationProof"
+    },
+    "source_apply_tile_pre_changed_input.world_generating": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_apply_tile_pre_changed",
+      "godot_symbol": "source_apply_tile_pre_changed_input.world_generating",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "preChanged",
+      "java_expr": "if(!world.isGenerating()){",
+      "rule": "Actual generation phase used by the existing canonical event plan; hooks and field reset still occur.",
+      "tests": [
+        "test_executable_lifecycle_registration",
+        "test_all_lifecycle_input_evidence_is_exact",
+        "test_reference_graph_and_actual_tile_pre_change"
+      ],
+      "runtime_proof": "/root/BuildingProximityMutationProof"
+    },
+    "source_apply_tile_pre_changed_input.on_removed": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_apply_tile_pre_changed",
+      "godot_symbol": "source_apply_tile_pre_changed_input.on_removed",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "preChanged",
+      "java_expr": "build.onRemoved();",
+      "rule": "Actual source domain hook once before removal from proximity and any old proxy reset.",
+      "tests": [
+        "test_executable_lifecycle_registration",
+        "test_all_lifecycle_input_evidence_is_exact",
+        "test_reference_graph_and_actual_tile_pre_change"
+      ],
+      "runtime_proof": "/root/BuildingProximityMutationProof"
+    },
+    "source_apply_tile_pre_changed_input.remove_from_proximity": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_apply_tile_pre_changed",
+      "godot_symbol": "source_apply_tile_pre_changed_input.remove_from_proximity",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "preChanged",
+      "java_expr": "build.removeFromProximity();",
+      "rule": "Actual previous Building proximity removal. Caller can compose the registered executable reference owner.",
+      "tests": [
+        "test_executable_lifecycle_registration",
+        "test_all_lifecycle_input_evidence_is_exact",
+        "test_reference_graph_and_actual_tile_pre_change"
+      ],
+      "runtime_proof": "/root/BuildingProximityMutationProof"
+    },
+    "source_apply_tile_pre_changed_input.fire_pre_changed": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_apply_tile_pre_changed",
+      "godot_symbol": "source_apply_tile_pre_changed_input.fire_pre_changed",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "preChanged",
+      "java_expr": "other.firePreChanged();",
+      "rule": "Actual event hook before each proxy assignment; self pre-event comes before Building hooks. Suppressed by generation.",
+      "tests": [
+        "test_executable_lifecycle_registration",
+        "test_all_lifecycle_input_evidence_is_exact",
+        "test_reference_graph_and_actual_tile_pre_change"
+      ],
+      "runtime_proof": "/root/BuildingProximityMutationProof"
+    },
+    "source_apply_tile_pre_changed_input.fire_changed": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_apply_tile_pre_changed",
+      "godot_symbol": "source_apply_tile_pre_changed_input.fire_changed",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "preChanged",
+      "java_expr": "other.fireChanged();",
+      "rule": "Actual event hook after each proxy assignment; no synthetic queue or event bus.",
+      "tests": [
+        "test_executable_lifecycle_registration",
+        "test_all_lifecycle_input_evidence_is_exact",
+        "test_reference_graph_and_actual_tile_pre_change"
+      ],
+      "runtime_proof": "/root/BuildingProximityMutationProof"
     }
   },
   "version": 1

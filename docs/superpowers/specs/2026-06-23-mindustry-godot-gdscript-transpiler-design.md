@@ -14,8 +14,8 @@ Counts below are projected from the canonical `source_slice_ledger.json`, not fr
 
 | Bucket | Count |
 | --- | ---: |
-| Canonical slice ledger entries | 1480 |
-| Done | 1480 |
+| Canonical slice ledger entries | 1483 |
+| Done | 1483 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -107,6 +107,9 @@ Counts below are projected from the canonical `source_slice_ledger.json`, not fr
 - [x] N2023: One canonical floor assignment/notification helper is shared by existing state description and actual terrain mutation; real Drill reselects from Floor Item drops without fake renderer/pathfinder inputs.
 - [x] N2024: Quiet overlay assigns actual terrain without notification; canonical clear delegates normal setOverlay and retains generation/identity guards.
 - [x] N2025: Actual ordered floor/overlay receiver and canonical air default execute the existing source recipe; generating order and sand production proved. RPC/complete Tile effects remain open.
+- [x] N2026: Executable removeFromProximity mutates actual reference arrays; all-team edge dedup, unlink/hook/self-clear ordering proved with supplied actual context.
+- [x] N2027: Executable updateProximity preserves actual Building/Team identities, unique bidirectional links and hook/recache order; automatic domain/group wiring remains open.
+- [x] N2028: Execute existing Tile pre-change plan on streamed old-center footprint lookups; source callbacks, generation, proxy/bounds and actual Main Tile store primitive application proved. Full setBlock/changeBuild removal remains open.
 - [x] N167: Source BuildingComp drawConfigure canonical square state.
 - [x] N168: Source BuildingComp checkSolid default state.
 - [x] N169: Source BuildingComp handleDamage passthrough state.
@@ -1376,7 +1379,7 @@ Counts below are projected from the canonical `source_slice_ledger.json`, not fr
 
 Work now uses dependency cubes for prioritization without changing the verification contract. Each cube groups source Java, Godot runtime wiring, and playable behavior for one gameplay system. Inside a cube, every slice still moves linearly: read upstream Java, write RED tests, prove RED, implement minimal GREEN, run targeted/full tests, prove through Godot MCP runtime, update this checklist, run `git diff --check`, stage only touched tracked files, and commit.
 
-Current cube: `actual terrain mutation and Drill notification`. N2023–N2025 share floor assignment/notification, bind quiet/clear overlays and execute the ordered floor/overlay recipe on actual Tiles. Ledger: 1480; catalog: 113 modules; blocks: 425. Complete C01 removal/overlap/superclass/world lifecycle and C02–C12 remain open. C12 must adopt existing uncommitted Tile owner dependencies. See `reports/2026-11-02-terrain-mutation-lifecycle.md`.
+Current cube: `executable proximity and Tile pre-change`. N2026–N2028 mutate actual Building reference arrays and execute the existing old-footprint reset/event plan with streamed lookups. Ledger: 1483; expanded catalog: 113 modules; blocks: 425. Supplied-context/working-tree acceptance only; production graph/hook binding, changeBuild/two-pass setBlock, superclass/world lifecycle and C02–C12 remain open. See `reports/2026-11-02-building-proximity-mutation.md`.
 
 ## Done
 
@@ -3037,10 +3040,13 @@ Current cube: `actual terrain mutation and Drill notification`. N2023–N2025 sh
 | N2023 | Canonical floor mutation and Drill notification | Shared identity/assignment/notification owner, real Floor sand selection, proxy/no-op/unoccupied cases; no fabricated renderer/pathfinder context. |
 | N2024 | Actual quiet and clear overlay lifecycle | Quiet does not notify/reselect on tick; normal clear uses canonical air and existing identity/generation guards. |
 | N2025 | Ordered floor/overlay receiver | Focused 14/93; full 5389/22905 in 1182.91s; native 18 true, 0 actual errors/68 warnings; editor 0; 114-hash replay. Working-tree acceptance only; C01/C02–C12 open. See reports/2026-11-02-terrain-mutation-lifecycle.md. |
+| N2026 | Executable removeFromProximity | Actual persistent reference arrays; all-team unique edge neighbors; removed hook before unlink, neighbor hooks before own clear. |
+| N2027 | Executable updateProximity | Team identity, unique reciprocal links, full graph before self/neighbor hooks; explicit headless/drawCached guard. |
+| N2028 | Executable Tile.preChanged | Old-center streamed footprint, callbacks before lookup, proxy event bracketing/generation/bounds; focused 21/5659, full 5397/22981, native 23 true, 0 errors/68 warnings, editor 0 and replay. Supplied-context working-tree acceptance only. |
 
 ## Not Done
 
-C01 now also includes actual floor/quiet/clear/ordered terrain mutation and supported Drill notification (N2023–N2025). Complete removal/overlap, superclass sleep/group lifecycle, controller pickup/world transitions and remaining Tile/Floor side effects are open. C12 must adopt preexisting uncommitted Tile owner dependencies; current gates prove the working tree. C02–C12 remain open.
+C01 now has executable proximity and Tile pre-change primitives (N2026–N2028), including a bounded actual Main Tile-store application. Production graph/hook binding, complete changeBuild/setBlock overlap/removal, superclass sleep/groups, pickup/world transitions and remaining side effects stay open. C12 must adopt existing uncommitted owner dependencies. C02–C12 remain open.
 
 ## Scope
 
@@ -3403,3 +3409,5 @@ When Godot CLI is not on `PATH`, use the configured MCP Godot path from `C:\User
 | 2026-11-02 | N2020–N2022 accepted: actual Drill proximity and selected Item production; full 5386/22848, native 22 true, explicit stop/editor/replay; C01 and C02–C12 remain open. See reports/2026-11-02-drill-proximity-lifecycle.md. |
 
 | 2026-11-02 | N2023–N2025 accepted on working tree: actual terrain mutation/Drill notification; full 5389/22905, native 18 true, inspect/stop/editor/replay; C01 and C02–C12 open; uncommitted Tile owner dependency debt recorded. See reports/2026-11-02-terrain-mutation-lifecycle.md. |
+
+| 2026-11-02 | N2026–N2028 accepted as supplied-context executable primitives on working tree; full 5397/22981, native 23 true, inspect/stop/editor/replay. C01/C02–C12 open. See reports/2026-11-02-building-proximity-mutation.md. |

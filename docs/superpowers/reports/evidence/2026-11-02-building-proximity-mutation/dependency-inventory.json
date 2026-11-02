@@ -1,0 +1,56 @@
+{
+  "parent": "fb25c7d9100301e808ea924845293a3b47b049c7",
+  "modules": {
+    "godot-mindustry/src/game/SourceBuildingLifecycleProximityState.gd": {
+      "head_present": false,
+      "working_sha256": "503809f716fe62a8ef3706a785cd9bc8439c8eaca7333ae62e4675a47d9f2198",
+      "functions": {
+        "source_apply_remove_from_proximity": {
+          "working_present": true,
+          "head_present": false
+        },
+        "source_apply_update_proximity": {
+          "working_present": true,
+          "head_present": false
+        },
+        "remove_from_proximity_state": {
+          "working_present": true,
+          "head_present": false
+        },
+        "update_proximity_state": {
+          "working_present": true,
+          "head_present": false
+        }
+      }
+    },
+    "godot-mindustry/src/game/SourceBlockGeometry.gd": {
+      "head_present": true,
+      "working_sha256": "17eb08dfc6890c514edcbc64e203e4877264de4357f510bc034f1b6bc30296ef",
+      "functions": {
+        "tile_fire_change_state": {
+          "working_present": true,
+          "head_present": false
+        },
+        "tile_get_linked_tiles_state": {
+          "working_present": true,
+          "head_present": false
+        },
+        "tile_pre_changed_state": {
+          "working_present": true,
+          "head_present": false
+        }
+      }
+    },
+    "godot-mindustry/src/game/SourceBlockPlanGeometryState.gd": {
+      "head_present": false,
+      "working_sha256": "47179fe246996463f9ea7db7e00cf413fcabc45126b4e22fc43ce888a2b93e22",
+      "functions": {
+        "edge_points_state": {
+          "working_present": true,
+          "head_present": false
+        }
+      }
+    }
+  },
+  "note": "New executable methods stage only their own additions. Existing uncommitted descriptive/extracted runtime owner dependencies remain preserved for explicit C12 adoption; the complete Python catalog validator/mirror owners are explicitly adopted in this batch. Full acceptance is working-tree only."
+}

@@ -21,6 +21,8 @@ class SourceSsotModule:
     canonical_reference_key: str = ""
     canonical_reference_prefix: str = ""
     mirror_fields: tuple[str, ...] = ()
+    selection: dict[str, Any] | None = None
+    optional_mirror_fields: tuple[str, ...] = ()
 
 
 EXTENSION_MANIFEST_MODULE = SourceSsotModule(
@@ -217,6 +219,36 @@ _DOMAIN_SYMBOL_SHARDS: dict[str, dict[str, Any]] = {
             "runtime_proof",
         ),
     },
+    "unit_building_symbols": {
+        "slice_module": "unit_building_slices",
+        "contract_module": "unit_building_api_contracts",
+        "slice_filter": "/world/blocks/units/",
+        "include_contract_owner_symbols": False,
+        "mirror_fields": (
+            "status",
+            "java_expr",
+            "godot_symbol",
+            "godot_owner",
+            "rule",
+            "tests",
+            "runtime_proof",
+        ),
+    },
+    "unit_comp_symbols": {
+        "slice_module": "unit_comp_slices",
+        "contract_module": "unit_comp_api_contracts",
+        "slice_filter": "core/src/mindustry/entities/comp/UnitComp.java",
+        "include_contract_owner_symbols": True,
+        "mirror_fields": (
+            "status",
+            "java_expr",
+            "godot_symbol",
+            "godot_owner",
+            "rule",
+            "tests",
+            "runtime_proof",
+        ),
+    },
 }
 _DOMAIN_STATE_SCHEMA_SHARDS: dict[str, dict[str, Any]] = {
     "payload_state_schema": {
@@ -249,6 +281,14 @@ _DOMAIN_STATE_SCHEMA_SHARDS: dict[str, dict[str, Any]] = {
     },
     "defense_state_schema": {
         "contract_module": "defense_api_contracts",
+        "mirror_fields": ("keys",),
+    },
+    "unit_building_state_schema": {
+        "contract_module": "unit_building_api_contracts",
+        "mirror_fields": ("keys",),
+    },
+    "unit_comp_state_schema": {
+        "contract_module": "unit_comp_api_contracts",
         "mirror_fields": ("keys",),
     },
 }
@@ -293,6 +333,12 @@ def _extension_module_from_entry(name: str, entry: dict[str, Any]) -> SourceSsot
     mirror_fields = entry.get("mirror_fields", [])
     if not isinstance(mirror_fields, list):
         mirror_fields = []
+    selection = entry.get("selection", {})
+    if not isinstance(selection, dict):
+        selection = {}
+    optional_fields = entry.get("optional_mirror_fields", [])
+    if not isinstance(optional_fields, list):
+        optional_fields = []
     return SourceSsotModule(
         name,
         Path(str(entry.get("path", ""))),
@@ -305,6 +351,8 @@ def _extension_module_from_entry(name: str, entry: dict[str, Any]) -> SourceSsot
         str(entry.get("canonical_reference_key", "")),
         str(entry.get("canonical_reference_prefix", "")),
         tuple(str(field) for field in mirror_fields),
+        selection,
+        tuple(str(field) for field in optional_fields),
     )
 
 
@@ -561,6 +609,7 @@ def _virtual_source_ssot_module_entries(godot_root: Path) -> dict[str, Any]:
             "canonical_reference_key": canonical_entry.get("canonical_reference_key", ""),
             "canonical_reference_prefix": canonical_entry.get("canonical_reference_prefix", ""),
             "mirror_fields": list(canonical_entry.get("mirror_fields", [])) if isinstance(canonical_entry.get("mirror_fields", []), list) else [],
+            "selection": dict(canonical_entry.get("selection", {})) if isinstance(canonical_entry.get("selection", {}), dict) else {},
             "entry": dict(canonical_entry),
         }
     return {"version": 1, "modules": mirror}
@@ -711,6 +760,27 @@ def write_json(godot_root: Path, name: str, data: dict[str, Any]) -> Path:
     return path
 
 
+def write_registered_json(godot_root: Path, name: str, data: dict[str, Any]) -> Path:
+    """Write a registered core or extension module through its catalog path."""
+    path = Path(godot_root) / registered_relative_path(godot_root, name)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
+    return path
+
+
+def update_extension_selection(godot_root: Path, name: str, selection: dict[str, Any]) -> Path:
+    """Update the manifest-owned canonical selection rule for an extension shard."""
+    if not isinstance(selection, dict):
+        raise ValueError("extension selection must be an object")
+    manifest = load_extension_manifest(godot_root)
+    modules = manifest.get("modules", {})
+    if not isinstance(modules, dict) or name not in modules or not isinstance(modules[name], dict):
+        raise KeyError(f"source SSOT extension module not registered: {name}")
+    modules[name]["selection"] = selection
+    manifest["modules"] = modules
+    return write_registered_json(godot_root, "module_manifest", manifest)
+
+
 def _canonical_values_for_extension(godot_root: Path, entry: SourceSsotModule) -> dict[str, Any]:
     canonical_module = registered_module(godot_root, entry.canonical_module)
     canonical_data = load_registered_json(godot_root, entry.canonical_module)
@@ -746,6 +816,79 @@ def _canonical_values_for_extension(godot_root: Path, entry: SourceSsotModule) -
         raise ValueError(f"{entry.name}: canonical collection {entry.canonical_module}.{entry.canonical_collection_key} must be an array or object")
     return canonical_values
 
+
+def _selected_canonical_values(godot_root: Path, entry: SourceSsotModule) -> dict[str, Any]:
+    canonical_values = _canonical_values_for_extension(godot_root, entry)
+    selection = entry.selection or {}
+    if not selection:
+        return canonical_values
+    kind = str(selection.get("kind", ""))
+    if kind == "entry_field":
+        field = str(selection.get("field", ""))
+        operator = str(selection.get("operator", "equals"))
+        value = selection.get("value")
+        if not field or operator not in {"equals", "contains"}:
+            raise ValueError(f"{entry.name}: invalid entry_field selection")
+        if operator == "equals":
+            return {
+                key: item for key, item in canonical_values.items()
+                if isinstance(item, dict) and item.get(field) == value
+            }
+        return {
+            key: item for key, item in canonical_values.items()
+            if isinstance(item, dict) and str(value) in str(item.get(field, ""))
+        }
+    if kind == "referenced_values":
+        module_name = str(selection.get("module", ""))
+        collection_key = str(selection.get("collection_key", ""))
+        field = str(selection.get("field", ""))
+        if not module_name or not collection_key or not field:
+            raise ValueError(f"{entry.name}: invalid referenced_values selection")
+        referenced_data = load_registered_json(godot_root, module_name)
+        referenced_entries = _nested_value(referenced_data, collection_key)
+        if not isinstance(referenced_entries, dict):
+            raise ValueError(f"{entry.name}: selection {module_name}.{collection_key} must be an object")
+        selected_keys = {
+            str(item[field]) for item in referenced_entries.values()
+            if isinstance(item, dict) and field in item
+        }
+        return {key: item for key, item in canonical_values.items() if key in selected_keys}
+    if kind == "contract_schemas":
+        module_name = str(selection.get("module", ""))
+        if not module_name:
+            raise ValueError(f"{entry.name}: contract_schemas selection requires module")
+        contracts = load_registered_json(godot_root, module_name).get("contracts", {})
+        if not isinstance(contracts, dict):
+            raise ValueError(f"{entry.name}: selection {module_name}.contracts must be an object")
+        schema_names = _schema_names_for_contracts(canonical_values, contracts)
+        return {key: item for key, item in canonical_values.items() if key in schema_names}
+    if kind == "slice_symbols":
+        module_name = str(selection.get("module", ""))
+        collection_key = str(selection.get("collection_key", "slices"))
+        field = str(selection.get("field", "source_symbols"))
+        if not module_name or not field:
+            raise ValueError(f"{entry.name}: invalid slice_symbols selection")
+        slices = _nested_value(load_registered_json(godot_root, module_name), collection_key)
+        if not isinstance(slices, dict):
+            raise ValueError(f"{entry.name}: selection {module_name}.{collection_key} must be an object")
+        selected_keys = {
+            str(symbol_name)
+            for slice_entry in slices.values()
+            if isinstance(slice_entry, dict)
+            for symbol_name in slice_entry.get(field, [])
+        }
+        contract_module = str(selection.get("contract_module", ""))
+        if bool(selection.get("include_contract_owner_symbols", False)) and contract_module:
+            contracts = load_registered_json(godot_root, contract_module).get("contracts", {})
+            if not isinstance(contracts, dict):
+                raise ValueError(f"{entry.name}: selection {contract_module}.contracts must be an object")
+            selected_keys |= {
+                symbol_name for symbol_name, symbol_entry in canonical_values.items()
+                if isinstance(symbol_entry, dict) and symbol_entry.get("godot_owner") in contracts
+            }
+        return {key: item for key, item in canonical_values.items() if key in selected_keys}
+    raise ValueError(f"{entry.name}: unsupported selection kind {kind}")
+
 def build_extension_shard(godot_root: Path, name: str) -> dict[str, Any]:
     godot_root = Path(godot_root)
     if name == "port_report_unsupported":
@@ -762,7 +905,7 @@ def build_extension_shard(godot_root: Path, name: str) -> dict[str, Any]:
     if not entry.mirror_fields:
         raise ValueError(f"{entry.name}: mirror_fields must be a non-empty list")
 
-    canonical_values = _canonical_values_for_extension(godot_root, entry)
+    canonical_values = _selected_canonical_values(godot_root, entry)
     shard_entries: dict[str, Any] = {}
     for item_key, canonical_value in sorted(canonical_values.items()):
         shard_entry: dict[str, Any] = {
@@ -777,6 +920,9 @@ def build_extension_shard(godot_root: Path, name: str) -> dict[str, Any]:
                 shard_entry[field] = canonical_value[field]
             else:
                 shard_entry[field] = canonical_value
+        for field in entry.optional_mirror_fields:
+            if isinstance(canonical_value, dict) and field in canonical_value:
+                shard_entry[field] = canonical_value[field]
         shard_entries[item_key] = shard_entry
     return {"version": 1, entry.root_key: shard_entries}
 
@@ -851,13 +997,19 @@ def _validate_extension_canonical_mirror(
         errors.append(f"{entry.name}: cannot load canonical module {entry.canonical_module}: {exc}")
         return report
     shard_entries = data.get(entry.root_key, {})
-    canonical_entries = canonical_data.get(canonical_module.root_key, {})
+    canonical_entries = _selected_canonical_values(godot_root, entry)
     if not isinstance(shard_entries, dict):
         errors.append(f"{entry.name}: root key {entry.root_key} must be an object")
         return report
     if not isinstance(canonical_entries, dict):
         errors.append(f"{entry.name}: canonical root key {canonical_module.root_key} must be an object")
         return report
+    shard_keys = set(str(key) for key in shard_entries)
+    canonical_keys = set(canonical_entries)
+    for item_key in sorted(canonical_keys - shard_keys):
+        errors.append(f"{entry.name}.{item_key}: missing selected canonical entry")
+    for item_key in sorted(shard_keys - canonical_keys):
+        errors.append(f"{entry.name}.{item_key}: entry is outside canonical selection")
     for item_key, shard_entry in sorted(shard_entries.items()):
         if not isinstance(shard_entry, dict):
             errors.append(f"{entry.name}.{item_key}: shard entry must be an object")
@@ -882,6 +1034,7 @@ def _validate_extension_canonical_mirror(
                 expected_value = canonical_entry[field]
             if shard_entry[field] != expected_value:
                 errors.append(f"{entry.name}.{item_key}: mirror field {field} differs from {entry.canonical_module}.{item_key}")
+        _validate_optional_mirror_fields(entry, item_key, shard_entry, canonical_entry, errors)
         report["checked"] += 1
     return report
 
@@ -892,6 +1045,15 @@ def _nested_value(data: dict[str, Any], dotted_key: str) -> Any:
             return None
         value = value[key]
     return value
+
+
+def _validate_optional_mirror_fields(entry: SourceSsotModule, item_key: str, shard_entry: dict[str, Any], canonical_value: Any, errors: list[str]) -> None:
+    for field in entry.optional_mirror_fields:
+        canonical_has_field = isinstance(canonical_value, dict) and field in canonical_value
+        if canonical_has_field != (field in shard_entry):
+            errors.append(f"{entry.name}.{item_key}: optional mirror field {field} presence differs from canonical")
+        elif canonical_has_field and shard_entry[field] != canonical_value[field]:
+            errors.append(f"{entry.name}.{item_key}: optional mirror field {field} differs from canonical")
 
 def _validate_extension_canonical_array_mirror(
     godot_root: Path,
@@ -958,6 +1120,7 @@ def _validate_extension_canonical_array_mirror(
                 expected_value = canonical_value.get(field) if isinstance(canonical_value, dict) else canonical_value
             if shard_entry[field] != expected_value:
                 errors.append(f"{entry.name}.{item_key}: mirror field {field} differs from {entry.canonical_module}.{entry.canonical_collection_key}.{item_key}")
+        _validate_optional_mirror_fields(entry, item_key, shard_entry, canonical_values[item_key], errors)
         report["checked"] += 1
     return report
 
@@ -997,6 +1160,14 @@ def _manifest_extension_modules(godot_root: Path, errors: list[str]) -> list[Sou
                 errors.append(f"{module_name}: canonical_reference_prefix is required")
             if not isinstance(entry.get("mirror_fields", []), list) or not entry.get("mirror_fields"):
                 errors.append(f"{module_name}: mirror_fields must be a non-empty list")
+            optional_fields = entry.get("optional_mirror_fields", [])
+            if not isinstance(optional_fields, list) or any(not isinstance(field, str) or not field for field in optional_fields):
+                errors.append(f"{module_name}: optional_mirror_fields must be a list of non-empty field names")
+            elif len(set(optional_fields)) != len(optional_fields) or set(optional_fields).intersection(entry.get("mirror_fields", []) if isinstance(entry.get("mirror_fields"), list) else []):
+                errors.append(f"{module_name}: optional_mirror_fields must be unique and separate from mirror_fields")
+            selection = entry.get("selection", {})
+            if selection and not isinstance(selection, dict):
+                errors.append(f"{module_name}: selection must be an object")
         path_obj = Path(relative_path)
         path_text = path_obj.as_posix()
         if path_obj.is_absolute() or ".." in path_obj.parts or not path_text.startswith(EXTENSION_MODULE_ROOT):

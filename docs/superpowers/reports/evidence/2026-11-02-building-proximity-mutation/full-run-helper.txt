@@ -1,0 +1,19 @@
+import hashlib,json,subprocess,sys,time
+from pathlib import Path
+R=Path.cwd();paths=[]
+for prefix in ['godot-mindustry/src','tools/mindustry_godot_transpiler','godot-mindustry/scenes','godot-mindustry/tools/runtime_proofs']:
+ for p in (R/prefix).rglob('*'):
+  if p.is_file() and p.suffix in ['.gd','.py','.json','.tscn'] and '__pycache__' not in p.parts:
+   if prefix.endswith('runtime_proofs') and p.suffix=='.json':continue
+   paths.append(p)
+paths.append(R/'godot-mindustry/project.godot')
+start={p.relative_to(R).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in paths}
+Path('C:/tmp/proximity-remove-full-input-hashes.json').write_text(json.dumps(start,indent=2)+'\n',encoding='utf-8')
+t0=time.monotonic()
+with Path('C:/tmp/proximity-remove-full.log').open('w',encoding='utf-8') as log:
+ result=subprocess.run([sys.executable,'-m','pytest','-p','no:cacheprovider','tools/mindustry_godot_transpiler/tests','-q','--tb=short'],cwd=R,stdout=log,stderr=subprocess.STDOUT)
+after={p.relative_to(R).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in paths}
+out={'exit_code':result.returncode,'seconds':time.monotonic()-t0,'input_file_count':len(paths),'inputs_unchanged':start==after,'changed_inputs':[p for p in start if start[p]!=after[p]]}
+Path('C:/tmp/proximity-remove-full-result.json').write_text(json.dumps(out,indent=2)+'\n',encoding='utf-8');print(out)
+assert out['inputs_unchanged']
+sys.exit(result.returncode)

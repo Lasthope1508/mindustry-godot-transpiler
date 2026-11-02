@@ -1,0 +1,10 @@
+import json,shutil,subprocess
+from pathlib import Path
+TMP=Path('C:/tmp');R=Path.cwd()
+godot=shutil.which('Godot_v4.6.2-stable_win64_console.exe') or shutil.which('godot');assert godot
+with (TMP/'proximity-remove-editor.log').open('w',encoding='utf-8') as log:
+ r=subprocess.run([godot,'--headless','--editor','--path',str(R/'godot-mindustry'),'--quit'],stdout=log,stderr=subprocess.STDOUT)
+assert r.returncode==0,r.returncode
+log=(TMP/'proximity-remove-editor.log').read_text(encoding='utf-8');assert 'SCRIPT ERROR:' not in log and '\nERROR:' not in log
+p=TMP/'proximity-remove-native-summary.json';n=json.loads(p.read_text(encoding='utf-8'));n['editor_exit_code']=r.returncode;p.write_text(json.dumps(n,indent=2)+'\n',encoding='utf-8',newline='\n')
+print('Editor parse exit 0; no actual errors')

@@ -167247,6 +167247,363 @@
         }
       },
       "runtime_proof": "/root/TerrainMutationLifecycleProof"
+    },
+    "source_apply_remove_from_proximity_input": {
+      "status": "active",
+      "owner": "SourceBuildingLifecycleProximityState.source_apply_remove_from_proximity",
+      "source_slice": "N2026",
+      "keys": {
+        "building": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "other.proximity.remove(self(), true);",
+          "rule": "Actual Building identity; all arrays retain original object references.",
+          "used_by": [
+            "SourceBuildingLifecycleProximityState.source_apply_remove_from_proximity"
+          ]
+        },
+        "block_size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Point2[] nearby = Edges.getEdges(block.size);",
+          "rule": "Actual initialized positive Block size; existing canonical edge owner supplies offsets.",
+          "used_by": [
+            "SourceBuildingLifecycleProximityState.source_apply_remove_from_proximity"
+          ]
+        },
+        "tile_x": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Building other = world.build(tile.x + point.x, tile.y + point.y);",
+          "rule": "Actual Building origin x, not an arbitrary clicked proxy coordinate.",
+          "used_by": [
+            "SourceBuildingLifecycleProximityState.source_apply_remove_from_proximity"
+          ]
+        },
+        "tile_y": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Building other = world.build(tile.x + point.x, tile.y + point.y);",
+          "rule": "Actual Building origin y.",
+          "used_by": [
+            "SourceBuildingLifecycleProximityState.source_apply_remove_from_proximity"
+          ]
+        },
+        "world_build": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Building other = world.build(tile.x + point.x, tile.y + point.y);",
+          "rule": "Actual world Building lookup returning original object or null; multiple edges may return the same entity.",
+          "used_by": [
+            "SourceBuildingLifecycleProximityState.source_apply_remove_from_proximity"
+          ]
+        },
+        "proximity_for": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "transient Seq<Building> proximity = new Seq<>(true, 6, Building.class);",
+          "rule": "Returns the actual persistent mutable Array for the supplied Building; a copy would violate this contract.",
+          "used_by": [
+            "SourceBuildingLifecycleProximityState.source_apply_remove_from_proximity"
+          ]
+        },
+        "on_proximity_removed": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "onProximityRemoved();",
+          "rule": "Call the actual domain hook once before collecting adjacent Building identities; power removal belongs to that hook.",
+          "used_by": [
+            "SourceBuildingLifecycleProximityState.source_apply_remove_from_proximity"
+          ]
+        },
+        "on_proximity_update": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "other.onProximityUpdate();",
+          "rule": "Call once per unique adjacent entity after unlink, including other teams. Own proximity clears only after those hooks.",
+          "used_by": [
+            "SourceBuildingLifecycleProximityState.source_apply_remove_from_proximity"
+          ]
+        }
+      },
+      "runtime_proof": "/root/BuildingProximityMutationProof",
+      "rule": "Void mutation; no fabricated result dictionary or competing persistent state. Inputs and hooks must be actual source context."
+    },
+    "source_apply_update_proximity_input": {
+      "status": "active",
+      "owner": "SourceBuildingLifecycleProximityState.source_apply_update_proximity",
+      "source_slice": "N2027",
+      "keys": {
+        "building": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "other.proximity.remove(self(), true);",
+          "rule": "Actual Building identity; all arrays retain original object references.",
+          "used_by": [
+            "SourceBuildingLifecycleProximityState.source_apply_update_proximity"
+          ]
+        },
+        "block_size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Point2[] nearby = Edges.getEdges(block.size);",
+          "rule": "Actual initialized positive Block size; existing canonical edge owner supplies offsets.",
+          "used_by": [
+            "SourceBuildingLifecycleProximityState.source_apply_update_proximity"
+          ]
+        },
+        "tile_x": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Building other = world.build(tile.x + point.x, tile.y + point.y);",
+          "rule": "Actual Building origin x, not an arbitrary clicked proxy coordinate.",
+          "used_by": [
+            "SourceBuildingLifecycleProximityState.source_apply_update_proximity"
+          ]
+        },
+        "tile_y": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Building other = world.build(tile.x + point.x, tile.y + point.y);",
+          "rule": "Actual Building origin y.",
+          "used_by": [
+            "SourceBuildingLifecycleProximityState.source_apply_update_proximity"
+          ]
+        },
+        "world_build": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Building other = world.build(tile.x + point.x, tile.y + point.y);",
+          "rule": "Actual world Building lookup returning original object or null; multiple edges may return the same entity.",
+          "used_by": [
+            "SourceBuildingLifecycleProximityState.source_apply_update_proximity"
+          ]
+        },
+        "proximity_for": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "transient Seq<Building> proximity = new Seq<>(true, 6, Building.class);",
+          "rule": "Returns the actual persistent mutable Array for the supplied Building; a copy would violate this contract.",
+          "used_by": [
+            "SourceBuildingLifecycleProximityState.source_apply_update_proximity"
+          ]
+        },
+        "team_for": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(other == null || other.team != team) continue;",
+          "rule": "Returns actual Team object; filter by reference identity, never infer from sprite or accept missing teams.",
+          "used_by": [
+            "SourceBuildingLifecycleProximityState.source_apply_update_proximity"
+          ]
+        },
+        "on_proximity_added": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "onProximityAdded();",
+          "rule": "Actual hook after complete graph construction; no power implementation is synthesized.",
+          "used_by": [
+            "SourceBuildingLifecycleProximityState.source_apply_update_proximity"
+          ]
+        },
+        "on_proximity_update": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "onProximityUpdate();",
+          "rule": "Self hook then one hook per unique same-team neighbor; actual noSleep/domain integration remains caller owned.",
+          "used_by": [
+            "SourceBuildingLifecycleProximityState.source_apply_update_proximity"
+          ]
+        },
+        "recache": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(!headless && block.drawCached) recache();",
+          "rule": "Actual recache hook after proximity hooks when source guard is true.",
+          "used_by": [
+            "SourceBuildingLifecycleProximityState.source_apply_update_proximity"
+          ]
+        },
+        "headless": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(!headless && block.drawCached) recache();",
+          "rule": "Explicit actual headless context; never fabricated by primitive.",
+          "used_by": [
+            "SourceBuildingLifecycleProximityState.source_apply_update_proximity"
+          ]
+        },
+        "draw_cached": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(!headless && block.drawCached) recache();",
+          "rule": "Actual initialized Block.drawCached flag.",
+          "used_by": [
+            "SourceBuildingLifecycleProximityState.source_apply_update_proximity"
+          ]
+        }
+      },
+      "runtime_proof": "/root/BuildingProximityMutationProof",
+      "rule": "Void mutation; no fabricated result dictionary or competing persistent state. Inputs and hooks must be actual source context."
+    },
+    "source_apply_tile_pre_changed_input": {
+      "status": "active",
+      "owner": "SourceBlockGeometry.source_apply_tile_pre_changed",
+      "source_slice": "N2028",
+      "keys": {
+        "self_tile": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "if(other != this){",
+          "rule": "Actual canonical mutation Tile by reference; excluded from old-footprint resets until changeBuild.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_pre_changed"
+          ]
+        },
+        "build": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "if(build != null){",
+          "rule": "Actual previous Building or null; proxy mutation must retain old Building identity.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_pre_changed"
+          ]
+        },
+        "block_is_multiblock": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "if(build.block.isMultiblock()){",
+          "rule": "Actual old Building block predicate, not the new block or clicked proxy geometry.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_pre_changed"
+          ]
+        },
+        "block_size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "int size = build.block.size;",
+          "rule": "Actual old Building size.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_pre_changed"
+          ]
+        },
+        "size_offset": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "int offsetx = -(size - 1) / 2;",
+          "rule": "Actual old initialized footprint offset, supplied from canonical Block geometry owner.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_pre_changed"
+          ]
+        },
+        "old_build_center": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "int cx = build.tileX(), cy = build.tileY();",
+          "rule": "Actual old Building center; a proxy mutation must not center its reset on the proxy.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_pre_changed"
+          ]
+        },
+        "world_tile_lookup": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "Tile other = world.tile(cx + dx + offsetx, cy + dy + offsety);",
+          "rule": "Actual nullable Tile lookup; existing linked footprint owner preserves bounds and source dx/dy order.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_pre_changed"
+          ]
+        },
+        "air_block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "other.block = Blocks.air;",
+          "rule": "Canonical resolved Blocks.air object; no string content substitute is assigned.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_pre_changed"
+          ]
+        },
+        "world_generating": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "if(!world.isGenerating()){",
+          "rule": "Actual generation phase used by the existing canonical event plan; hooks and field reset still occur.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_pre_changed"
+          ]
+        },
+        "on_removed": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "build.onRemoved();",
+          "rule": "Actual source domain hook once before removal from proximity and any old proxy reset.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_pre_changed"
+          ]
+        },
+        "remove_from_proximity": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "build.removeFromProximity();",
+          "rule": "Actual previous Building proximity removal. Caller can compose the registered executable reference owner.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_pre_changed"
+          ]
+        },
+        "fire_pre_changed": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "other.firePreChanged();",
+          "rule": "Actual event hook before each proxy assignment; self pre-event comes before Building hooks. Suppressed by generation.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_pre_changed"
+          ]
+        },
+        "fire_changed": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "other.fireChanged();",
+          "rule": "Actual event hook after each proxy assignment; no synthetic queue or event bus.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_pre_changed"
+          ]
+        }
+      },
+      "runtime_proof": "/root/BuildingProximityMutationProof",
+      "rule": "Void mutation; no fabricated result dictionary or competing persistent state. Inputs and hooks must be actual source context."
     }
   },
   "version": 1

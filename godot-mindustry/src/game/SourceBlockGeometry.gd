@@ -57,3 +57,30 @@ static func block_unit_tile_hit_size(block_size: float, tile_size: float) -> flo
 static func tile_floor_assignment_state(type_value: Variant, previous_floor: Variant, build_present: bool) -> Dictionary:
 	var same_floor: bool = type_value == previous_floor
 	return {"same_floor": same_floor, "floor": previous_floor if same_floor else type_value, "build_proximity_updated": not same_floor and build_present}
+
+# Execute the existing pre-change plan on actual Tile references. The old Building
+# stays on the mutation Tile until changeBuild; all other old footprint cells reset.
+static func source_apply_tile_pre_changed(self_tile: Dictionary, build: Object, block_is_multiblock: bool, block_size: int, size_offset: int, old_build_center: Vector2i, world_tile_lookup: Callable, air_block: Object, world_generating: bool, on_removed: Callable, remove_from_proximity: Callable, fire_pre_changed: Callable, fire_changed: Callable) -> void:
+	if tile_fire_change_state(world_generating, fire_pre_changed)["event_fired"]:
+		fire_pre_changed.call(self_tile)
+	if build == null:
+		return
+	on_removed.call(build)
+	remove_from_proximity.call(build)
+	if not block_is_multiblock:
+		return
+	var reset_proxy := func(other: Variant) -> void:
+		var plan := tile_pre_changed_state(world_generating, build != null, block_is_multiblock, [other], self_tile, fire_pre_changed, fire_changed)
+		for index in range(plan["multiblock_reset_tiles"].size()):
+			var reset: Dictionary = plan["multiblock_reset_tiles"][index]
+			var tile: Dictionary = reset["tile"]
+			var pre_call: Variant = plan["multiblock_pre_change_calls"][index]["event_call"]
+			if pre_call != null:
+				pre_call.call(tile)
+			tile["build"] = reset["build"]
+			tile["block"] = air_block
+			var changed_call: Variant = plan["multiblock_changed_calls"][index]["event_call"]
+			if changed_call != null:
+				changed_call.call(tile)
+	# Stream lookup and assignment in source dx/dy order; events may change a later Tile.
+	tile_get_linked_tiles_state(block_is_multiblock, block_size, size_offset, old_build_center.x, old_build_center.y, world_tile_lookup, self_tile, reset_proxy)

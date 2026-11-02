@@ -17723,6 +17723,142 @@
       ],
       "runtime_proof": "/root/Main.PlacedLiquidOwnershipProof",
       "rule": "Typed source catalog and one persistent canonical frame per placed instance; no duplicated resource formulas or guessed liquid IDs."
+    },
+    "SourceBuildingLifecycleProximityState.source_apply_remove_from_proximity": {
+      "canonical_contract": "source_api_contracts.SourceBuildingLifecycleProximityState.source_apply_remove_from_proximity",
+      "status": "active",
+      "source_slice": "N2026",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "removeFromProximity",
+      "params": [
+        {
+          "name": "building",
+          "type": "Object",
+          "schema": "source_apply_remove_from_proximity_input.building"
+        },
+        {
+          "name": "block_size",
+          "type": "int",
+          "schema": "source_apply_remove_from_proximity_input.block_size"
+        },
+        {
+          "name": "tile_x",
+          "type": "int",
+          "schema": "source_apply_remove_from_proximity_input.tile_x"
+        },
+        {
+          "name": "tile_y",
+          "type": "int",
+          "schema": "source_apply_remove_from_proximity_input.tile_y"
+        },
+        {
+          "name": "world_build",
+          "type": "Callable",
+          "schema": "source_apply_remove_from_proximity_input.world_build"
+        },
+        {
+          "name": "proximity_for",
+          "type": "Callable",
+          "schema": "source_apply_remove_from_proximity_input.proximity_for"
+        },
+        {
+          "name": "on_proximity_removed",
+          "type": "Callable",
+          "schema": "source_apply_remove_from_proximity_input.on_proximity_removed"
+        },
+        {
+          "name": "on_proximity_update",
+          "type": "Callable",
+          "schema": "source_apply_remove_from_proximity_input.on_proximity_update"
+        }
+      ],
+      "return_keys": [],
+      "tests": [
+        "test_executable_lifecycle_registration",
+        "test_all_lifecycle_input_evidence_is_exact",
+        "test_reference_graph_and_actual_tile_pre_change"
+      ],
+      "runtime_proof": "/root/BuildingProximityMutationProof",
+      "rule": "Source void mutation, verified against explicit GDScript -> void; input/owner/slice/proof checks remain mandatory. No result schema or fabricated wrapper.",
+      "return_type": "void"
+    },
+    "SourceBuildingLifecycleProximityState.source_apply_update_proximity": {
+      "canonical_contract": "source_api_contracts.SourceBuildingLifecycleProximityState.source_apply_update_proximity",
+      "status": "active",
+      "source_slice": "N2027",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "updateProximity",
+      "params": [
+        {
+          "name": "building",
+          "type": "Object",
+          "schema": "source_apply_update_proximity_input.building"
+        },
+        {
+          "name": "block_size",
+          "type": "int",
+          "schema": "source_apply_update_proximity_input.block_size"
+        },
+        {
+          "name": "tile_x",
+          "type": "int",
+          "schema": "source_apply_update_proximity_input.tile_x"
+        },
+        {
+          "name": "tile_y",
+          "type": "int",
+          "schema": "source_apply_update_proximity_input.tile_y"
+        },
+        {
+          "name": "world_build",
+          "type": "Callable",
+          "schema": "source_apply_update_proximity_input.world_build"
+        },
+        {
+          "name": "proximity_for",
+          "type": "Callable",
+          "schema": "source_apply_update_proximity_input.proximity_for"
+        },
+        {
+          "name": "team_for",
+          "type": "Callable",
+          "schema": "source_apply_update_proximity_input.team_for"
+        },
+        {
+          "name": "on_proximity_added",
+          "type": "Callable",
+          "schema": "source_apply_update_proximity_input.on_proximity_added"
+        },
+        {
+          "name": "on_proximity_update",
+          "type": "Callable",
+          "schema": "source_apply_update_proximity_input.on_proximity_update"
+        },
+        {
+          "name": "recache",
+          "type": "Callable",
+          "schema": "source_apply_update_proximity_input.recache"
+        },
+        {
+          "name": "headless",
+          "type": "bool",
+          "schema": "source_apply_update_proximity_input.headless"
+        },
+        {
+          "name": "draw_cached",
+          "type": "bool",
+          "schema": "source_apply_update_proximity_input.draw_cached"
+        }
+      ],
+      "return_keys": [],
+      "tests": [
+        "test_executable_lifecycle_registration",
+        "test_all_lifecycle_input_evidence_is_exact",
+        "test_reference_graph_and_actual_tile_pre_change"
+      ],
+      "runtime_proof": "/root/BuildingProximityMutationProof",
+      "rule": "Source void mutation, verified against explicit GDScript -> void; input/owner/slice/proof checks remain mandatory. No result schema or fabricated wrapper.",
+      "return_type": "void"
     }
   }
 }

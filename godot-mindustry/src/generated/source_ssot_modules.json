@@ -483,7 +483,10 @@
       "path": "src/generated/source_modules/comp_api_contracts.json",
       "root_key": "contracts",
       "rule": "Extension shard for entity-component source API contracts; canonical owners come from comp_slices.godot_owner and public contract fields remain mirrored through source_api_contracts before use.",
-      "status": "active"
+      "status": "active",
+      "optional_mirror_fields": [
+        "return_type"
+      ]
     },
     "block_slices": {
       "canonical_module": "slice_ledger",

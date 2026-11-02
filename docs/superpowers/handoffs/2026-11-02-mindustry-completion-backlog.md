@@ -1,6 +1,6 @@
 # Backlog hoàn thiện Mindustry → Godot
 
-Ngày kiểm tra: 2026-11-02. Workspace: `C:/Users/Admin/Documents/Game/mindustry-godot-transpiler-copy-20260714-073528`. Parent của checkpoint mới nhất N2023–N2025: `f6f76298`. Đọc cùng handoff kiến trúc `2026-09-23-mindustry-godot-ssot-canonical-handoff.md`; tài liệu này cập nhật việc còn thiếu, không thay thế upstream Java hay root SSOT.
+Ngày kiểm tra: 2026-11-02. Workspace: `C:/Users/Admin/Documents/Game/mindustry-godot-transpiler-copy-20260714-073528`. Parent của checkpoint mới nhất N2026–N2028: `fb25c7d9`. Đọc cùng handoff kiến trúc `2026-09-23-mindustry-godot-ssot-canonical-handoff.md`; tài liệu này cập nhật việc còn thiếu, không thay thế upstream Java hay root SSOT.
 
 ## Kết luận và cách hiểu tiến độ
 
@@ -59,6 +59,7 @@ Các dòng dưới đây là nhóm công việc, không phải cam kết mỗi n
 - **Đã làm trong N2017–N2019:** bind initialized geometry qua owner có sẵn; dense Tile storage theo source, complete floor-run/block projection; bootstrap default game và record placement thật cập nhật cùng storage. Decoded-map branch có fixture; chưa nghiệm thu campaign launch/reload hay toàn bộ Tile.setBlock side effects.
 - **Đã làm trong N2020–N2022:** getDrop/countOre composition; actual placement/overlay-driven dominant assignment vào frame hiện có; một typed Item view dùng chung theo world; pickup helper chỉ null Item; tick không scan/ghi đè quặng; primary/secondary sản xuất lead thật dù global display còn copper. Native/full/editor/replay accepted theo report.
 - **Đã làm trong N2023–N2025:** floor assignment/notification owner dùng chung; floor/quiet/clear/ordered floor-overlay thay đổi actual Tile và frame Drill hiện có; source call order khi generating và sản xuất sand qua process thật đã có full/native/editor/replay gate. Đây là working-tree acceptance, không phải full Tile/RPC/clean-checkout.
+- **Đã làm trong N2026–N2028:** executable remove/updateProximity thao tác actual Building/Team references và persistent proximity arrays qua provider; Tile preChanged dùng plan/footprint owner hiện có, lookup tuần tự sau hook và reset proxy theo old center. Supplied-context + bounded actual Main Tile-store proof đã đủ gate; chưa nối tự động toàn production lifecycle.
 - **Còn thiếu:** complete removal/overlap/events; superclass noSleep/group lifecycle; actual controller pickup và world transition invalidation; Floor override/data, renderer/pathfinder/event integration. Primary inventory bridge, secondary local fallback và dump(null) vẫn là C02.
 - **Không được làm:** lấy thứ tự dictionary làm Item.id; suy static từ có sprite/occupancy; default thiếu thành false/zero; dùng slug để phá hòa; tick quét map thay cho proximity lifecycle rồi gọi đó là parity.
 - **Checkpoint C01-A:** typed providers có source evidence và schema; test null/static/missing fields không fabricate value.
@@ -126,26 +127,27 @@ Các dòng dưới đây là nhóm công việc, không phải cam kết mỗi n
 
 - Map/UI/HUD/input/effects/audio phải đọc canonical state, không sinh simulation riêng.
 - Đo startup, memory, frame time, tải generated classes, nhiều Building/units và long-session cleanup; kiểm tra registry không bị scan nặng mỗi frame.
-- Native proof N2023–N2025 hiện lưu còn 68 warnings khi load scene Main; phân loại và xử lý theo domain, không gọi chúng là zero diagnostics.
+- Native proof N2026–N2028 hiện lưu còn 68 warnings khi load scene Main; phân loại và xử lý theo domain, không gọi chúng là zero diagnostics.
 - **Gate:** startup/scene reload/stop ổn định, không actual errors/leaks; warning budget được xử lý rõ; có performance budget với workload và môi trường đo cụ thể trước CP4.
 
 ### C12 — clean reproducibility và release
 
 - Rà từng phần dirty work có sẵn, gom các thay đổi cần thiết thành commit có review/gates. Không stage toàn bộ noise để làm sạch cây.
 - Dependency debt đã xác nhận trong N2023–N2025: tile_set_floor_state, tile_overlay_mutation_state, tile_single_mutation_state và các source-text/owner constants đang thuộc extraction chưa commit; HEAD thiếu các function hoàn chỉnh. Adopt đúng owner hiện có cùng shared floor helper/delegation, không viết công thức thứ hai. Working-tree gate không chứng minh checkout sạch.
+- N2026–N2028 bổ sung dependency inventory: SourceBuildingLifecycleProximityState extraction, SourceBlockPlanGeometryState.edge_points_state và Tile geometry helpers còn thiếu trong HEAD. Adopt owner graph/delegation đã có thành cluster, không viết lại thuật toán hoặc bulk-stage dirty tree.
 - Từ clean checkout: regenerate metadata/content/classes/mirrors → catalog → full tests → editor → native gameplay → build/package. Đối chiếu manifest/stale artifacts và deterministic hashes.
 - Cập nhật deferred/unsupported/release scope, GPL/source lineage, asset licenses, upstream pin và instructions build.
 - **Gate:** người khác làm lại từ checkout sạch được kết quả tương đương; artifact đúng platform và scope được công bố. CP5 chỉ accepted sau evidence này.
 
 ## Handoff bước tiếp theo
 
-1. Đọc report N2023–N2025: phân biệt actual terrain assignment/Drill notification đã có gate với complete Tile lifecycle và C12 chưa đóng.
-2. Tiếp tục **C01 removal/overlap/proximity**. Source Tile.preChanged reset old multiblock theo center của Building cũ, Tile.changeBuild remove entity và update edge entities, Tile.setBlock xóa overlap pass 1 rồi gán proxy pass 2. Reuse SourceBlockGeometry và SourceBlockPlanGeometryState.edge_points_state; không chỉ erase một cell/queue_free.
-3. BuildingComp.removeFromProximity/updateProximity cần actual proximity/team context; noSleep cần actual sleep/group state. Bind cleanup theo domain (turret unregister/power graph...) khi applicable. Controller pickup/world transition và các Tile/Floor side effects chưa làm vẫn mở.
-4. Giữ một source_world_tiles, một typed Item view theo world và frame per Building. Không thêm per-tick ore scan hoặc dùng global output slug để quyết định Item.
-5. Đóng phần còn thiếu C01 rồi **C02**: actual per-Building inventory/offload/dump/transport và nullable dump-any. C03–C12 theo dependency. C12 có dependency inventory rõ ở trên; không stage cả dirty tree để làm sạch.
-6. Mỗi batch 1–3 slices, RED/focused/catalog/full/native/inspect-stop/editor/replay/exact commit. Whitespace check phải chạy sau khi stage chính log audit của nó. Không suy parity từ counts.
+1. Đọc report N2026–N2028. Đây là executable reference primitives với supplied context, không phải complete production removal/overlap. N2023–N2025 live terrain/Drill path vẫn có gate riêng.
+2. Tiếp tục **C01 actual lifecycle binding**: source Building/proximity/Team state theo placement/reload; compose registered source_apply_remove_from_proximity/source_apply_update_proximity và source_apply_tile_pre_changed vào Tile.changeBuild/full two-pass setBlock. Không tạo thuật toán proximity/footprint thứ hai.
+3. changeBuild phải remove old entity/group, null build trên mutation Tile, unique edge updateProximity, optional init. setBlock phải clear overlap pass 1 trước assign proxy pass 2, giữ callback order và old Building center.
+4. noSleep cần actual sleepTime/sleeping/sleepingEntities/group membership; power/turret cần actual domain hooks. Callback probes không chứng minh integrations này. Controller pickup/world transition và Tile/Floor/event/renderer/pathfinder side effects còn mở.
+5. C02 inventory/offload/dump/transport theo Building sau C01; C03–C12 theo dependencies. Giữ một Tile store, một world Item view, một frame per Building; không per-tick ore scan/global output slug.
+6. Mỗi batch 1–3 slices, RED/focused/catalog/full/native/inspect-stop/editor/replay/exact commit. Full input freeze gồm cả scene/proof scripts. Whitespace check sau stage log audit. C12 adopt đúng owner graph chưa commit; working-tree pass không chứng minh checkout sạch.
 
 ## Checkpoint tuần tự mới nhất
 
-N2023–N2025 accepted trên working tree theo report `2026-11-02-terrain-mutation-lifecycle.md`. Actual terrain floor/quiet/clear/ordered composition và Drill notification/production đã có gate; complete C01 và C02–C12 vẫn mở. Chưa nhóm nào hoàn thiện toàn bộ; checkout sạch chưa được chứng minh.
+N2026–N2028 accepted dưới dạng executable primitives trên working tree theo report `2026-11-02-building-proximity-mutation.md`. Complete C01 và C02–C12 vẫn mở; chưa nhóm nào hoàn thiện toàn bộ.

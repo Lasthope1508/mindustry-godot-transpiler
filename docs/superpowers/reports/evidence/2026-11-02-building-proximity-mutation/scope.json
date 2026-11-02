@@ -1,0 +1,98 @@
+{
+  "parent": "fb25c7d9100301e808ea924845293a3b47b049c7",
+  "json": {
+    "godot-mindustry/src/generated/source_symbol_registry.json": {
+      "additions": [
+        "source_apply_remove_from_proximity_input.block_size",
+        "source_apply_remove_from_proximity_input.building",
+        "source_apply_remove_from_proximity_input.on_proximity_removed",
+        "source_apply_remove_from_proximity_input.on_proximity_update",
+        "source_apply_remove_from_proximity_input.proximity_for",
+        "source_apply_remove_from_proximity_input.tile_x",
+        "source_apply_remove_from_proximity_input.tile_y",
+        "source_apply_remove_from_proximity_input.world_build",
+        "source_apply_tile_pre_changed_input.air_block",
+        "source_apply_tile_pre_changed_input.block_is_multiblock",
+        "source_apply_tile_pre_changed_input.block_size",
+        "source_apply_tile_pre_changed_input.build",
+        "source_apply_tile_pre_changed_input.fire_changed",
+        "source_apply_tile_pre_changed_input.fire_pre_changed",
+        "source_apply_tile_pre_changed_input.old_build_center",
+        "source_apply_tile_pre_changed_input.on_removed",
+        "source_apply_tile_pre_changed_input.remove_from_proximity",
+        "source_apply_tile_pre_changed_input.self_tile",
+        "source_apply_tile_pre_changed_input.size_offset",
+        "source_apply_tile_pre_changed_input.world_generating",
+        "source_apply_tile_pre_changed_input.world_tile_lookup",
+        "source_apply_update_proximity_input.block_size",
+        "source_apply_update_proximity_input.building",
+        "source_apply_update_proximity_input.draw_cached",
+        "source_apply_update_proximity_input.headless",
+        "source_apply_update_proximity_input.on_proximity_added",
+        "source_apply_update_proximity_input.on_proximity_update",
+        "source_apply_update_proximity_input.proximity_for",
+        "source_apply_update_proximity_input.recache",
+        "source_apply_update_proximity_input.team_for",
+        "source_apply_update_proximity_input.tile_x",
+        "source_apply_update_proximity_input.tile_y",
+        "source_apply_update_proximity_input.world_build"
+      ],
+      "preexisting_dirty": false
+    },
+    "godot-mindustry/src/generated/source_state_schema.json": {
+      "additions": [
+        "source_apply_remove_from_proximity_input",
+        "source_apply_tile_pre_changed_input",
+        "source_apply_update_proximity_input"
+      ],
+      "preexisting_dirty": true
+    },
+    "godot-mindustry/src/generated/source_slice_ledger.json": {
+      "additions": [
+        "N2026",
+        "N2027",
+        "N2028"
+      ],
+      "preexisting_dirty": false
+    },
+    "godot-mindustry/src/generated/source_api_contracts.json": {
+      "additions": [
+        "SourceBlockGeometry.source_apply_tile_pre_changed",
+        "SourceBuildingLifecycleProximityState.source_apply_remove_from_proximity",
+        "SourceBuildingLifecycleProximityState.source_apply_update_proximity"
+      ],
+      "preexisting_dirty": false
+    },
+    "godot-mindustry/src/generated/source_ssot_modules.json": {
+      "preexisting_dirty": true
+    },
+    "godot-mindustry/src/generated/source_modules/comp_api_contracts.json": {
+      "preexisting_dirty": false
+    },
+    "godot-mindustry/src/generated/source_modules/comp_slices.json": {
+      "preexisting_dirty": false
+    }
+  },
+  "runtime": {
+    "godot-mindustry/src/game/SourceBuildingLifecycleProximityState.gd": {
+      "working_baseline_sha256": "786cf1b1aa3cc7e83ef7ea66ed0d695dffed5ea28828ae34af678a6c27c8cbf3",
+      "staged_sha256": "141805ef99904e7b1809bc1d092c8f3ce3dcb53a1ab110aaa5cd36a0681af1ac",
+      "strategy": "New executable methods only; existing uncommitted extraction stays preserved. C12 adoption still required."
+    },
+    "godot-mindustry/src/game/SourceBlockGeometry.gd": {
+      "working_baseline_sha256": "a95a524632e5450d6ec7d529df87ad8ce398eba5c94cba15ee1c06ee96eb6c6d",
+      "staged_sha256": "27ab1b43cfdd068ee658785fdda77142ec485c93734b7ff30c1b785cb03d1c34",
+      "strategy": "New executable methods only; existing uncommitted extraction stays preserved. C12 adoption still required."
+    },
+    "tools/mindustry_godot_transpiler/mindustry_port/source_symbols.py": {
+      "working_baseline_sha256": "72627f9ba82905e92e813f035d6379f4fa2600c44211b16b2dc36dd677a8ab40",
+      "staged_sha256": "a625124a804211091c2727d23b9de286adf1b6579283898d05ddd37279cbea76",
+      "strategy": "Adopt complete canonical validator/mirror owner with prerequisite existing logic."
+    },
+    "tools/mindustry_godot_transpiler/mindustry_port/source_ssot.py": {
+      "working_baseline_sha256": "7f4f0cf60cda5d360639868b1a3f97f21ed5707007f19bb7a43bb2a13c7324f6",
+      "staged_sha256": "84527639aad5aa8f162e8267740e0e09dc81be4b123a9f0831d5a0de374d1528",
+      "strategy": "Adopt complete canonical validator/mirror owner with prerequisite existing logic."
+    }
+  }
+}

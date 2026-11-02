@@ -1,0 +1,200 @@
+[
+  {
+    "symbol": "source_apply_remove_from_proximity_input.building",
+    "source": "core/src/mindustry/entities/comp/BuildingComp.java",
+    "expr": "other.proximity.remove(self(), true);",
+    "matches": true
+  },
+  {
+    "symbol": "source_apply_remove_from_proximity_input.block_size",
+    "source": "core/src/mindustry/entities/comp/BuildingComp.java",
+    "expr": "Point2[] nearby = Edges.getEdges(block.size);",
+    "matches": true
+  },
+  {
+    "symbol": "source_apply_remove_from_proximity_input.tile_x",
+    "source": "core/src/mindustry/entities/comp/BuildingComp.java",
+    "expr": "Building other = world.build(tile.x + point.x, tile.y + point.y);",
+    "matches": true
+  },
+  {
+    "symbol": "source_apply_remove_from_proximity_input.tile_y",
+    "source": "core/src/mindustry/entities/comp/BuildingComp.java",
+    "expr": "Building other = world.build(tile.x + point.x, tile.y + point.y);",
+    "matches": true
+  },
+  {
+    "symbol": "source_apply_remove_from_proximity_input.world_build",
+    "source": "core/src/mindustry/entities/comp/BuildingComp.java",
+    "expr": "Building other = world.build(tile.x + point.x, tile.y + point.y);",
+    "matches": true
+  },
+  {
+    "symbol": "source_apply_remove_from_proximity_input.proximity_for",
+    "source": "core/src/mindustry/entities/comp/BuildingComp.java",
+    "expr": "transient Seq<Building> proximity = new Seq<>(true, 6, Building.class);",
+    "matches": true
+  },
+  {
+    "symbol": "source_apply_remove_from_proximity_input.on_proximity_removed",
+    "source": "core/src/mindustry/entities/comp/BuildingComp.java",
+    "expr": "onProximityRemoved();",
+    "matches": true
+  },
+  {
+    "symbol": "source_apply_remove_from_proximity_input.on_proximity_update",
+    "source": "core/src/mindustry/entities/comp/BuildingComp.java",
+    "expr": "other.onProximityUpdate();",
+    "matches": true
+  },
+  {
+    "symbol": "source_apply_update_proximity_input.building",
+    "source": "core/src/mindustry/entities/comp/BuildingComp.java",
+    "expr": "other.proximity.remove(self(), true);",
+    "matches": true
+  },
+  {
+    "symbol": "source_apply_update_proximity_input.block_size",
+    "source": "core/src/mindustry/entities/comp/BuildingComp.java",
+    "expr": "Point2[] nearby = Edges.getEdges(block.size);",
+    "matches": true
+  },
+  {
+    "symbol": "source_apply_update_proximity_input.tile_x",
+    "source": "core/src/mindustry/entities/comp/BuildingComp.java",
+    "expr": "Building other = world.build(tile.x + point.x, tile.y + point.y);",
+    "matches": true
+  },
+  {
+    "symbol": "source_apply_update_proximity_input.tile_y",
+    "source": "core/src/mindustry/entities/comp/BuildingComp.java",
+    "expr": "Building other = world.build(tile.x + point.x, tile.y + point.y);",
+    "matches": true
+  },
+  {
+    "symbol": "source_apply_update_proximity_input.world_build",
+    "source": "core/src/mindustry/entities/comp/BuildingComp.java",
+    "expr": "Building other = world.build(tile.x + point.x, tile.y + point.y);",
+    "matches": true
+  },
+  {
+    "symbol": "source_apply_update_proximity_input.proximity_for",
+    "source": "core/src/mindustry/entities/comp/BuildingComp.java",
+    "expr": "transient Seq<Building> proximity = new Seq<>(true, 6, Building.class);",
+    "matches": true
+  },
+  {
+    "symbol": "source_apply_update_proximity_input.team_for",
+    "source": "core/src/mindustry/entities/comp/BuildingComp.java",
+    "expr": "if(other == null || other.team != team) continue;",
+    "matches": true
+  },
+  {
+    "symbol": "source_apply_update_proximity_input.on_proximity_added",
+    "source": "core/src/mindustry/entities/comp/BuildingComp.java",
+    "expr": "onProximityAdded();",
+    "matches": true
+  },
+  {
+    "symbol": "source_apply_update_proximity_input.on_proximity_update",
+    "source": "core/src/mindustry/entities/comp/BuildingComp.java",
+    "expr": "onProximityUpdate();",
+    "matches": true
+  },
+  {
+    "symbol": "source_apply_update_proximity_input.recache",
+    "source": "core/src/mindustry/entities/comp/BuildingComp.java",
+    "expr": "if(!headless && block.drawCached) recache();",
+    "matches": true
+  },
+  {
+    "symbol": "source_apply_update_proximity_input.headless",
+    "source": "core/src/mindustry/entities/comp/BuildingComp.java",
+    "expr": "if(!headless && block.drawCached) recache();",
+    "matches": true
+  },
+  {
+    "symbol": "source_apply_update_proximity_input.draw_cached",
+    "source": "core/src/mindustry/entities/comp/BuildingComp.java",
+    "expr": "if(!headless && block.drawCached) recache();",
+    "matches": true
+  },
+  {
+    "symbol": "source_apply_tile_pre_changed_input.self_tile",
+    "source": "core/src/mindustry/world/Tile.java",
+    "expr": "if(other != this){",
+    "matches": true
+  },
+  {
+    "symbol": "source_apply_tile_pre_changed_input.build",
+    "source": "core/src/mindustry/world/Tile.java",
+    "expr": "if(build != null){",
+    "matches": true
+  },
+  {
+    "symbol": "source_apply_tile_pre_changed_input.block_is_multiblock",
+    "source": "core/src/mindustry/world/Tile.java",
+    "expr": "if(build.block.isMultiblock()){",
+    "matches": true
+  },
+  {
+    "symbol": "source_apply_tile_pre_changed_input.block_size",
+    "source": "core/src/mindustry/world/Tile.java",
+    "expr": "int size = build.block.size;",
+    "matches": true
+  },
+  {
+    "symbol": "source_apply_tile_pre_changed_input.size_offset",
+    "source": "core/src/mindustry/world/Tile.java",
+    "expr": "int offsetx = -(size - 1) / 2;",
+    "matches": true
+  },
+  {
+    "symbol": "source_apply_tile_pre_changed_input.old_build_center",
+    "source": "core/src/mindustry/world/Tile.java",
+    "expr": "int cx = build.tileX(), cy = build.tileY();",
+    "matches": true
+  },
+  {
+    "symbol": "source_apply_tile_pre_changed_input.world_tile_lookup",
+    "source": "core/src/mindustry/world/Tile.java",
+    "expr": "Tile other = world.tile(cx + dx + offsetx, cy + dy + offsety);",
+    "matches": true
+  },
+  {
+    "symbol": "source_apply_tile_pre_changed_input.air_block",
+    "source": "core/src/mindustry/world/Tile.java",
+    "expr": "other.block = Blocks.air;",
+    "matches": true
+  },
+  {
+    "symbol": "source_apply_tile_pre_changed_input.world_generating",
+    "source": "core/src/mindustry/world/Tile.java",
+    "expr": "if(!world.isGenerating()){",
+    "matches": true
+  },
+  {
+    "symbol": "source_apply_tile_pre_changed_input.on_removed",
+    "source": "core/src/mindustry/world/Tile.java",
+    "expr": "build.onRemoved();",
+    "matches": true
+  },
+  {
+    "symbol": "source_apply_tile_pre_changed_input.remove_from_proximity",
+    "source": "core/src/mindustry/world/Tile.java",
+    "expr": "build.removeFromProximity();",
+    "matches": true
+  },
+  {
+    "symbol": "source_apply_tile_pre_changed_input.fire_pre_changed",
+    "source": "core/src/mindustry/world/Tile.java",
+    "expr": "other.firePreChanged();",
+    "matches": true
+  },
+  {
+    "symbol": "source_apply_tile_pre_changed_input.fire_changed",
+    "source": "core/src/mindustry/world/Tile.java",
+    "expr": "other.fireChanged();",
+    "matches": true
+  }
+]

@@ -1,0 +1,15 @@
+import hashlib,json,subprocess,sys
+from pathlib import Path
+ROOT=Path(r'C:/Users/Admin/Documents/Game/mindustry-godot-transpiler-copy-20260714-073528');GODOT=ROOT/'godot-mindustry'
+sys.path.insert(0,str(ROOT/'tools/mindustry_godot_transpiler'))
+from mindustry_port import source_ssot,source_symbols
+paths=sorted({(Path('godot-mindustry')/m.relative_path).as_posix() for m in source_ssot.registered_modules(GODOT)}|{'godot-mindustry/src/generated/source_ssot_modules.json','godot-mindustry/src/generated/MindustryContentRegistry.gd'})
+def hashes():return {p:hashlib.sha256((ROOT/p).read_bytes()).hexdigest() for p in paths}
+before=hashes()
+subprocess.run([sys.executable,'tools/mindustry_godot_transpiler/register_building_proximity_mutation.py'],cwd=ROOT,check=True)
+after=hashes();result={'matches':before==after,'file_count':len(paths),'files':{p:{'before':before[p],'after':after[p],'matches':before[p]==after[p]} for p in paths}}
+Path('C:/tmp/proximity-remove-replay.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8');assert result['matches']
+report=source_symbols.validate_source_catalog(GODOT)
+assert not report['errors'] and not report['json_errors'];assert report['json_module_count']==113
+Path('C:/tmp/proximity-remove-validator.json').write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
+print('114 registered JSON/content hashes unchanged; catalog 0 errors, 113 modules')

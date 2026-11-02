@@ -1,0 +1,56 @@
+import hashlib,importlib.util,json,subprocess,sys
+from pathlib import Path
+spec=importlib.util.spec_from_file_location('primitives','C:/tmp/tile-ore-scope.py');s=importlib.util.module_from_spec(spec);spec.loader.exec_module(s)
+ROOT=s.ROOT;BEFORE=Path('C:/tmp/proximity-remove-before');GEN=s.GEN
+ROOTS={'source_symbol_registry.json':('symbols',33),'source_state_schema.json':('schemas',3),'source_slice_ledger.json':('slices',3),'source_api_contracts.json':('contracts',3)}
+PROX='godot-mindustry/src/game/SourceBuildingLifecycleProximityState.gd'
+GEOM='godot-mindustry/src/game/SourceBlockGeometry.gd'
+PYTHON=['tools/mindustry_godot_transpiler/mindustry_port/source_symbols.py','tools/mindustry_godot_transpiler/mindustry_port/source_ssot.py']
+
+def runtime_plan(p):
+ a,b=s.read(p,BEFORE),s.read(p)
+ if p==PROX:
+  added=b[b.index('const source_block_plan_geometry_state :='):b.index('const source_generated_class_runtime :=')]
+  assert b.replace(added,'',1)==a
+  assert not s.git('ls-tree','HEAD','--',p).strip()
+  return 'extends RefCounted\nclass_name SourceBuildingLifecycleProximityState\n\n'+added.rstrip()+'\n'
+ if p==GEOM:
+  added=b[b.index('# Execute the existing pre-change plan'):]
+  assert b.removesuffix(added).rstrip()==a.rstrip()
+  return s.git('show','HEAD:'+p).rstrip()+'\n\n'+added.rstrip()+'\n'
+ if p.endswith('/source_symbols.py'):
+  assert 'def validate_source_catalog(' not in s.git('show','HEAD:'+p)
+  return b
+ if p in PYTHON:return b
+ raise AssertionError(p)
+
+def json_paths():
+ paths=[GEN+n for n in ROOTS]+[GEN+'source_ssot_modules.json']
+ for m in json.loads(s.read(GEN+'source_ssot_modules.json'))['modules'].values():
+  p='godot-mindustry/'+m['path']
+  if json.loads(s.read(p))!=json.loads(s.read(p,BEFORE)):paths.append(p)
+ return list(dict.fromkeys(paths))
+
+def main():
+ assert s.git('rev-parse','HEAD').startswith('fb25c7d9')
+ out={'parent':s.git('rev-parse','HEAD').strip(),'json':{},'runtime':{}}
+ for p in json_paths():
+  a,b,c=json.loads(s.read(p,BEFORE)),json.loads(s.read(p)),json.loads(s.git('show','HEAD:'+p));planned=s.merge(a,b,c)
+  if p.removeprefix(GEN) in ROOTS:
+   key,count=ROOTS[p.removeprefix(GEN)];added=sorted(set(b[key])-set(a[key]));assert len(added)==count,(p,len(added));assert all(b[key].get(k)==v for k,v in a[key].items());assert {k:v for k,v in a.items() if k!=key}=={k:v for k,v in b.items() if k!=key};out['json'][p]={'additions':added,'preexisting_dirty':a!=c}
+  else:out['json'][p]={'preexisting_dirty':a!=c}
+  if '--stage' in sys.argv:s.stage(p,json.dumps(planned,indent=2)+'\n')
+ for p in [PROX,GEOM]+PYTHON:
+  plan=runtime_plan(p);out['runtime'][p]={'working_baseline_sha256':hashlib.sha256((BEFORE/p).read_bytes()).hexdigest(),'staged_sha256':hashlib.sha256(plan.encode()).hexdigest(),'strategy':'Adopt complete canonical validator/mirror owner with prerequisite existing logic.' if p in PYTHON else 'New executable methods only; existing uncommitted extraction stays preserved. C12 adoption still required.'}
+  if '--stage' in sys.argv:s.stage(p,plan)
+ for name in ['source_symbol_audit_report.json']:
+  assert s.read(GEN+name)==s.read(GEN+name,BEFORE),name
+ manifest=json.loads(s.read(GEN+'source_ssot_modules.json',BEFORE));manifest['modules']['comp_api_contracts']['optional_mirror_fields']=['return_type']
+ assert json.loads(s.read(GEN+'source_ssot_modules.json'))==manifest
+ old=json.loads(Path('C:/tmp/terrain-notify-replay.json').read_text(encoding='utf-8'))['files']
+ for name in ['content_registry.json','MindustryContentRegistry.gd']:
+  assert hashlib.sha256((ROOT/(GEN+name)).read_bytes()).hexdigest()==old[GEN+name]['after']
+ Path('C:/tmp/proximity-remove-scope.json').write_text(json.dumps(out,indent=2)+'\n',encoding='utf-8',newline='\n')
+ print('Scope PASS: 33 symbols, 3 input schemas, 3 source void contracts, 3 slices; manifest adds only optional return_type mirroring for comp contracts; prior root records/content/audit preserved')
+
+if __name__=='__main__':main()

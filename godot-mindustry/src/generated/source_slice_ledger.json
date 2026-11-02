@@ -50306,6 +50306,128 @@
         "Remote receiver composition is executed locally; no RPC transport, authority, save/load or multiplayer acceptance is implied.",
         "C02 per-Building inventory, offload/dump/transport, secondary local fallback and nullable dump-any remain open."
       ]
+    },
+    "N2026": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "removeFromProximity",
+      "godot_owner": "SourceBuildingLifecycleProximityState.source_apply_remove_from_proximity",
+      "exact_exprs": [
+        "onProximityRemoved();",
+        "other.proximity.remove(self(), true);",
+        "other.onProximityUpdate();",
+        "proximity.clear();"
+      ],
+      "source_symbols": [
+        "source_apply_remove_from_proximity_input.building",
+        "source_apply_remove_from_proximity_input.block_size",
+        "source_apply_remove_from_proximity_input.tile_x",
+        "source_apply_remove_from_proximity_input.tile_y",
+        "source_apply_remove_from_proximity_input.world_build",
+        "source_apply_remove_from_proximity_input.proximity_for",
+        "source_apply_remove_from_proximity_input.on_proximity_removed",
+        "source_apply_remove_from_proximity_input.on_proximity_update"
+      ],
+      "tests": [
+        "test_executable_lifecycle_registration",
+        "test_all_lifecycle_input_evidence_is_exact",
+        "test_reference_graph_and_actual_tile_pre_change"
+      ],
+      "runtime_proof": "/root/BuildingProximityMutationProof",
+      "deferred_exprs": [
+        "These are executable reference-mutation primitives, not automatic complete Main placement/removal integration.",
+        "World lookup, actual persistent proximity arrays, actual Team references and domain hooks must be provided by their lifecycle owners; no empty-array/team/default hook is synthesized.",
+        "BuildingComp.noSleep must bind actual sleep/group membership and count; power/turret hooks must bind their actual domain cleanup. Callback probes do not prove those integrations.",
+        "Tile.changeBuild, full two-pass setBlock overlap, entity group removal/init, controller pickup/world transitions and actual event bus remain open in C01.",
+        "C02 inventory/offload/dump/transport and C03-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
+    },
+    "N2027": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "updateProximity",
+      "godot_owner": "SourceBuildingLifecycleProximityState.source_apply_update_proximity",
+      "exact_exprs": [
+        "proximity.clear();",
+        "if(other == null || other.team != team) continue;",
+        "other.proximity.addUnique(self());",
+        "proximity.add(tile);",
+        "onProximityAdded();",
+        "onProximityUpdate();"
+      ],
+      "source_symbols": [
+        "source_apply_update_proximity_input.building",
+        "source_apply_update_proximity_input.block_size",
+        "source_apply_update_proximity_input.tile_x",
+        "source_apply_update_proximity_input.tile_y",
+        "source_apply_update_proximity_input.world_build",
+        "source_apply_update_proximity_input.proximity_for",
+        "source_apply_update_proximity_input.team_for",
+        "source_apply_update_proximity_input.on_proximity_added",
+        "source_apply_update_proximity_input.on_proximity_update",
+        "source_apply_update_proximity_input.recache",
+        "source_apply_update_proximity_input.headless",
+        "source_apply_update_proximity_input.draw_cached"
+      ],
+      "tests": [
+        "test_executable_lifecycle_registration",
+        "test_all_lifecycle_input_evidence_is_exact",
+        "test_reference_graph_and_actual_tile_pre_change"
+      ],
+      "runtime_proof": "/root/BuildingProximityMutationProof",
+      "deferred_exprs": [
+        "These are executable reference-mutation primitives, not automatic complete Main placement/removal integration.",
+        "World lookup, actual persistent proximity arrays, actual Team references and domain hooks must be provided by their lifecycle owners; no empty-array/team/default hook is synthesized.",
+        "BuildingComp.noSleep must bind actual sleep/group membership and count; power/turret hooks must bind their actual domain cleanup. Callback probes do not prove those integrations.",
+        "Tile.changeBuild, full two-pass setBlock overlap, entity group removal/init, controller pickup/world transitions and actual event bus remain open in C01.",
+        "C02 inventory/offload/dump/transport and C03-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
+    },
+    "N2028": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_class": "mindustry.world.Tile",
+      "java_method": "preChanged",
+      "godot_owner": "SourceBlockGeometry.source_apply_tile_pre_changed",
+      "exact_exprs": [
+        "firePreChanged();",
+        "build.onRemoved();",
+        "build.removeFromProximity();",
+        "int cx = build.tileX(), cy = build.tileY();",
+        "if(other != this){",
+        "other.build = null;",
+        "other.block = Blocks.air;"
+      ],
+      "source_symbols": [
+        "source_apply_tile_pre_changed_input.self_tile",
+        "source_apply_tile_pre_changed_input.build",
+        "source_apply_tile_pre_changed_input.block_is_multiblock",
+        "source_apply_tile_pre_changed_input.block_size",
+        "source_apply_tile_pre_changed_input.size_offset",
+        "source_apply_tile_pre_changed_input.old_build_center",
+        "source_apply_tile_pre_changed_input.world_tile_lookup",
+        "source_apply_tile_pre_changed_input.air_block",
+        "source_apply_tile_pre_changed_input.world_generating",
+        "source_apply_tile_pre_changed_input.on_removed",
+        "source_apply_tile_pre_changed_input.remove_from_proximity",
+        "source_apply_tile_pre_changed_input.fire_pre_changed",
+        "source_apply_tile_pre_changed_input.fire_changed"
+      ],
+      "tests": [
+        "test_executable_lifecycle_registration",
+        "test_all_lifecycle_input_evidence_is_exact",
+        "test_reference_graph_and_actual_tile_pre_change"
+      ],
+      "runtime_proof": "/root/BuildingProximityMutationProof",
+      "deferred_exprs": [
+        "These are executable reference-mutation primitives, not automatic complete Main placement/removal integration.",
+        "World lookup, actual persistent proximity arrays, actual Team references and domain hooks must be provided by their lifecycle owners; no empty-array/team/default hook is synthesized.",
+        "BuildingComp.noSleep must bind actual sleep/group membership and count; power/turret hooks must bind their actual domain cleanup. Callback probes do not prove those integrations.",
+        "Tile.changeBuild, full two-pass setBlock overlap, entity group removal/init, controller pickup/world transitions and actual event bus remain open in C01.",
+        "C02 inventory/offload/dump/transport and C03-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1
