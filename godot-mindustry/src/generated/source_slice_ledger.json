@@ -49855,6 +49855,110 @@
         "Actual world Tile.drop/isStatic/getLinkedTilesAs providers and proximity lifecycle.",
         "Live mixed-ore output and subclass production, dynamic source expressions and reload invalidation."
       ]
+    },
+    "N2014": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/environment/OreBlock.java",
+      "java_class": "mindustry.world.blocks.environment.OreBlock",
+      "java_method": "OreBlock(Item); OreBlock(String, Item); source Block constructors",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_tile_ore_state",
+      "exact_exprs": [
+        "this(\"ore-\" + ore.name, ore);",
+        "this.itemDrop = ore;"
+      ],
+      "source_symbols": [
+        "source_terrain_block_definition.itemDrop",
+        "source_terrain_block_definition.cacheLayer"
+      ],
+      "tests": [
+        "test_item_constructor_uses_source_name_not_field_slug",
+        "test_source_ancestry_static_and_explicit_null",
+        "test_constructor_evaluation_and_unresolved_writes",
+        "test_creators_keep_source_positions_after_java_text_block",
+        "test_terrain_contracts_registered",
+        "test_actual_tile_and_linked_provider_in_godot",
+        "test_missing_tile_metadata_is_rejected"
+      ],
+      "runtime_proof": "/root/TileOreProviderProof",
+      "deferred_exprs": [
+        "Real world terrain load/mutation/storage and initialized geometry binder; current projection requires explicit complete source inputs.",
+        "Drill onProximityUpdate/invalidation, actual dominant production and live mixed-ore gameplay.",
+        "Arbitrary Java constructor/method interpretation, dynamic terrain definitions and mod reload."
+      ]
+    },
+    "N2015": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_class": "mindustry.world.Tile",
+      "java_method": "drop()",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_tile_ore_state",
+      "exact_exprs": [
+        "return overlay == Blocks.air || overlay.itemDrop == null ? floor.itemDrop : overlay.itemDrop;"
+      ],
+      "source_symbols": [
+        "source_terrain_tile_definition.floor",
+        "source_terrain_tile_definition.overlay",
+        "source_terrain_tile_definition.block",
+        "source_tile_ore_input.tile",
+        "source_tile_ore_input.item_catalog",
+        "source_tile_ore_input.air_block",
+        "source_tile_ore_result.is_static",
+        "source_tile_ore_result.drop"
+      ],
+      "tests": [
+        "test_item_constructor_uses_source_name_not_field_slug",
+        "test_source_ancestry_static_and_explicit_null",
+        "test_constructor_evaluation_and_unresolved_writes",
+        "test_creators_keep_source_positions_after_java_text_block",
+        "test_terrain_contracts_registered",
+        "test_actual_tile_and_linked_provider_in_godot",
+        "test_missing_tile_metadata_is_rejected"
+      ],
+      "runtime_proof": "/root/TileOreProviderProof",
+      "deferred_exprs": [
+        "Real world terrain load/mutation/storage and initialized geometry binder; current projection requires explicit complete source inputs.",
+        "Drill onProximityUpdate/invalidation, actual dominant production and live mixed-ore gameplay.",
+        "Arbitrary Java constructor/method interpretation, dynamic terrain definitions and mod reload."
+      ]
+    },
+    "N2016": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_class": "mindustry.world.Tile",
+      "java_method": "getLinkedTilesAs(Block block, Seq<Tile> tmpArray)",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_linked_ore_tiles_state",
+      "exact_exprs": [
+        "getLinkedTilesAs(block, tmpArray::add);",
+        "Tile other = world.tile(x + dx + o, y + dy + o);",
+        "if(other != null) tmpArray.get(other);"
+      ],
+      "source_symbols": [
+        "source_linked_ore_tiles_input.block_is_multiblock",
+        "source_linked_ore_tiles_input.block_size",
+        "source_linked_ore_tiles_input.size_offset",
+        "source_linked_ore_tiles_input.x",
+        "source_linked_ore_tiles_input.y",
+        "source_linked_ore_tiles_input.world_tile_lookup",
+        "source_linked_ore_tiles_input.self_tile",
+        "source_linked_ore_tiles_input.item_catalog",
+        "source_linked_ore_tiles_input.air_block",
+        "source_linked_ore_tiles_result.ore_tiles"
+      ],
+      "tests": [
+        "test_item_constructor_uses_source_name_not_field_slug",
+        "test_source_ancestry_static_and_explicit_null",
+        "test_constructor_evaluation_and_unresolved_writes",
+        "test_creators_keep_source_positions_after_java_text_block",
+        "test_terrain_contracts_registered",
+        "test_actual_tile_and_linked_provider_in_godot",
+        "test_missing_tile_metadata_is_rejected"
+      ],
+      "runtime_proof": "/root/TileOreProviderProof",
+      "deferred_exprs": [
+        "Real world terrain load/mutation/storage and initialized geometry binder; current projection requires explicit complete source inputs.",
+        "Drill onProximityUpdate/invalidation, actual dominant production and live mixed-ore gameplay.",
+        "Arbitrary Java constructor/method interpretation, dynamic terrain definitions and mod reload."
+      ]
     }
   },
   "version": 1

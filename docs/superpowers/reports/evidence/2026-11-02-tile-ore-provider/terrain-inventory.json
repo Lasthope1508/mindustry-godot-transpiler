@@ -1,0 +1,64 @@
+{
+  "counts": {
+    "blocks": 425,
+    "items": 22,
+    "liquids": 11,
+    "units": 56
+  },
+  "item_drop_resolved": 424,
+  "cache_layer_resolved": 421,
+  "unresolved": [
+    {
+      "block": "darksand-tainted-water",
+      "implementation": "ShallowLiquid",
+      "missing_fields": [
+        "cacheLayer"
+      ],
+      "source": "core/src/mindustry/world/blocks/environment/ShallowLiquid.java",
+      "line": 29,
+      "source_expr": "cacheLayer = liquidBase.cacheLayer;",
+      "reason": "Post-construction set() reads another floor; source initialization lifecycle not evaluated."
+    },
+    {
+      "block": "sand-water",
+      "implementation": "ShallowLiquid",
+      "missing_fields": [
+        "cacheLayer"
+      ],
+      "source": "core/src/mindustry/world/blocks/environment/ShallowLiquid.java",
+      "line": 29,
+      "source_expr": "cacheLayer = liquidBase.cacheLayer;",
+      "reason": "Post-construction set() reads another floor; source initialization lifecycle not evaluated."
+    },
+    {
+      "block": "darksand-water",
+      "implementation": "ShallowLiquid",
+      "missing_fields": [
+        "cacheLayer"
+      ],
+      "source": "core/src/mindustry/world/blocks/environment/ShallowLiquid.java",
+      "line": 29,
+      "source_expr": "cacheLayer = liquidBase.cacheLayer;",
+      "reason": "Post-construction set() reads another floor; source initialization lifecycle not evaluated."
+    },
+    {
+      "block": "large-canvas",
+      "implementation": "CanvasBlock",
+      "missing_fields": [
+        "itemDrop",
+        "cacheLayer"
+      ],
+      "source": "core/src/mindustry/world/blocks/logic/CanvasBlock.java",
+      "line": 38,
+      "source_expr": "public CanvasBlock(String name){",
+      "reason": "Constructor AST is unsupported by bounded Java-8 parser; do not inherit guessed terrain defaults."
+    }
+  ],
+  "source_sha256": {
+    "core/src/mindustry/world/blocks/environment/Cliff.java": "0896ee095e4976c448c0ad59405bfb531fb4e8d9604aa70cde1b873e8538aadd",
+    "core/src/mindustry/world/blocks/environment/OreBlock.java": "6c816daf4cfeb8d0516f5aaae19752b27ead4c64ab842b2e58d6a16b4cfc76e0",
+    "core/src/mindustry/world/blocks/environment/ShallowLiquid.java": "aa7246977d771ecd7699e4a2df9fb76d1501b8452db4e1f1f12a6b64dbeddba0",
+    "core/src/mindustry/world/blocks/environment/StaticWall.java": "63a31395b4de65462a5958c27f18e3c00c9a50ac754dbbb06e08b0e4459aaf0f",
+    "core/src/mindustry/world/blocks/logic/CanvasBlock.java": "bf1c5786db2201e9744894bf58600ab38e469a6c35169a8149a8f5b1899d5f08"
+  }
+}

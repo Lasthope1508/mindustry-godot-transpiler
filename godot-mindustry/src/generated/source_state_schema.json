@@ -165605,6 +165605,257 @@
         }
       },
       "runtime_proof": "/root/DrillOreBindingProof"
+    },
+    "source_terrain_block_definition": {
+      "status": "active",
+      "owner": "SourceWorldTerrainRuntimeState.source_tile_ore_state",
+      "keys": {
+        "itemDrop": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public @Nullable Item itemDrop = null;",
+          "rule": "Source constructor/initializer definition, null or exact Java Item field. Actual inherited constructor signature and delegation are evaluated; unsupported writes stay absent. No slug-derived Item lookup.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_tile_ore_state"
+          ]
+        },
+        "cacheLayer": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public CacheLayer cacheLayer = CacheLayer.normal;",
+          "rule": "Source CacheLayer field suffix through class constructor ancestry/initializer. Unknown conditional/dynamic/late writes leave key absent; never infer static from occupancy or sprite.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_tile_ore_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/TileOreProviderProof"
+    },
+    "source_terrain_tile_definition": {
+      "status": "active",
+      "owner": "SourceWorldTerrainRuntimeState.source_tile_ore_state",
+      "keys": {
+        "floor": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "protected Floor floor;",
+          "rule": "Actual source-backed floor Block object; requires explicit itemDrop, including null.",
+          "schema": "source_terrain_block_definition",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_tile_ore_state"
+          ]
+        },
+        "overlay": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "protected Floor overlay;",
+          "rule": "Actual overlay Block object, preserving source reference identity and explicit itemDrop.",
+          "schema": "source_terrain_block_definition",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_tile_ore_state"
+          ]
+        },
+        "block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "protected Block block;",
+          "rule": "Actual occupying Block object with resolved source cacheLayer.",
+          "schema": "source_terrain_block_definition",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_tile_ore_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/TileOreProviderProof"
+    },
+    "source_tile_ore_input": {
+      "status": "active",
+      "owner": "SourceWorldTerrainRuntimeState.source_tile_ore_state",
+      "keys": {
+        "tile": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "public @Nullable Item drop(){",
+          "rule": "Explicit source Tile projection with actual floor/overlay/occupying Block objects. Missing definitions assert; no world-map deserialization or live ownership is claimed.",
+          "schema": "source_terrain_tile_definition",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_tile_ore_state"
+          ]
+        },
+        "item_catalog": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/environment/OreBlock.java",
+          "java_expr": "this.itemDrop = ore;",
+          "rule": "Existing typed Item facts resolve exact Java field references, preserving canonical numeric IDs and fact identity.",
+          "schema": "source_item_catalog_result",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_tile_ore_state"
+          ]
+        },
+        "air_block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "overlay == Blocks.air",
+          "rule": "Actual canonical air Block reference. Equality uses identity, never matching a slug or class name.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_tile_ore_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/TileOreProviderProof"
+    },
+    "source_tile_ore_result": {
+      "status": "active",
+      "owner": "SourceWorldTerrainRuntimeState.source_tile_ore_state",
+      "keys": {
+        "is_static": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "return cacheLayer == CacheLayer.walls;",
+          "rule": "Delegate existing SourceBlockQueryBasicState.is_static_state with actual Block definition.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_tile_ore_state"
+          ]
+        },
+        "drop": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "return overlay == Blocks.air || overlay.itemDrop == null ? floor.itemDrop : overlay.itemDrop;",
+          "rule": "Delegate existing SourceBlockGeometry.tile_drop_state; return nullable shared canonical Item fact, without copying.",
+          "schema": "source_drill_ore_item",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_tile_ore_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/TileOreProviderProof"
+    },
+    "source_linked_ore_tiles_input": {
+      "status": "active",
+      "owner": "SourceWorldTerrainRuntimeState.source_linked_ore_tiles_state",
+      "keys": {
+        "block_is_multiblock": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "if(block.isMultiblock()){",
+          "rule": "Explicit source geometry fact; lifecycle/init binder is not synthesized.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_linked_ore_tiles_state"
+          ]
+        },
+        "block_size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "int size = block.size, o = block.sizeOffset;",
+          "rule": "Explicit source Block size.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_linked_ore_tiles_state"
+          ]
+        },
+        "size_offset": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "int size = block.size, o = block.sizeOffset;",
+          "rule": "Actual initialized Block.sizeOffset supplied by caller; no alternate footprint formula.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_linked_ore_tiles_state"
+          ]
+        },
+        "x": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "world.tile(x + dx + o, y + dy + o)",
+          "rule": "Source tile x coordinate.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_linked_ore_tiles_state"
+          ]
+        },
+        "y": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "world.tile(x + dx + o, y + dy + o)",
+          "rule": "Source tile y coordinate.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_linked_ore_tiles_state"
+          ]
+        },
+        "world_tile_lookup": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "Tile other = world.tile(x + dx + o, y + dy + o);",
+          "rule": "Source world provider returning source_terrain_tile_definition or null. World storage/load/mutation ownership remains caller responsibility.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_linked_ore_tiles_state"
+          ]
+        },
+        "self_tile": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "tmpArray.get(this);",
+          "rule": "Actual self tile for the non-multiblock branch; no lookup is performed.",
+          "schema": "source_terrain_tile_definition",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_linked_ore_tiles_state"
+          ]
+        },
+        "item_catalog": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/environment/OreBlock.java",
+          "java_expr": "this.itemDrop = ore;",
+          "rule": "Existing typed source Item facts.",
+          "schema": "source_item_catalog_result",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_linked_ore_tiles_state"
+          ]
+        },
+        "air_block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "overlay == Blocks.air",
+          "rule": "Actual canonical air reference shared with Tile provider.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_linked_ore_tiles_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/TileOreProviderProof"
+    },
+    "source_linked_ore_tiles_result": {
+      "status": "active",
+      "owner": "SourceWorldTerrainRuntimeState.source_linked_ore_tiles_state",
+      "keys": {
+        "ore_tiles": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "getLinkedTilesAs(block, tmpArray::add);",
+          "rule": "Delegate existing canonical linked geometry, then Tile provider. Preserve source iteration order and skip only null world tiles. Elements use source_drill_ore_tile; compatible with canonical countOre.",
+          "schema": "source_drill_ore_tile",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_linked_ore_tiles_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/TileOreProviderProof"
     }
   },
   "version": 1

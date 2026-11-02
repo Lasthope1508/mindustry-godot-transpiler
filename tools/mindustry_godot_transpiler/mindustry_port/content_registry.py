@@ -228,6 +228,8 @@ def extract_waves(upstream_root: Path, units: list[dict[str, Any]]) -> dict[str,
 
 
 def extract_blocks(upstream_root: Path, godot_root: Path | None = None) -> list[dict[str, str]]:
+    from .terrain_content import TerrainContentResolver, UNKNOWN, anonymous_body, block_creators
+
     source = (_source_content_dir(upstream_root) / "Blocks.java").read_text(encoding="utf-8", errors="replace")
     declared = _declared_block_fields(source)
     asset_root = _asset_root(godot_root) if godot_root is not None else None
@@ -236,15 +238,28 @@ def extract_blocks(upstream_root: Path, godot_root: Path | None = None) -> list[
     has_items_defaults = _has_items_defaults(upstream_root)
     default_item_capacity = _block_item_capacity_default(upstream_root)
     drill_blocked_defaults = _drill_blocked_defaults(upstream_root)
-    pattern = re.compile(r"\b([A-Za-z_]\w*)\s*=\s*new\s+([A-Za-z_]\w*)\s*\(\s*\"([^\"]+)\"", re.MULTILINE)
+    item_source = _source_content_dir(upstream_root) / 'Items.java'
+    terrain = TerrainContentResolver(upstream_root, _extract_creators(item_source, {'Item'}) if item_source.exists() else [])
     blocks = []
-    for match in pattern.finditer(source):
-        field, implementation, content_id = match.groups()
+    for field, implementation, arguments, assignment_end in block_creators(source):
         if field not in declared:
             continue
-        entry = {"field": field, "id": content_id, "implementation": implementation, "properties": _block_properties(source, match.end(), implementation, can_overdrive_defaults, has_items_defaults, default_item_capacity, power_defaults)}
+        definitions = terrain.resolve(implementation, arguments)
+        # Existing literal-name extraction remains valid independently of
+        # unsupported terrain metadata. Item-only constructors need source name
+        # delegation; never derive an id from the Java field spelling.
+        first_argument = javalang.parse.parse_expression('new ' + implementation + '(' + arguments + ')').arguments[0]
+        content_id = _literal_value(first_argument) if isinstance(first_argument, Literal) and first_argument.value.startswith('"') else definitions.get('name')
+        if not isinstance(content_id, str) or not content_id: continue
+        properties = _block_properties(source, assignment_end, implementation, can_overdrive_defaults, has_items_defaults, default_item_capacity, power_defaults)
+        overrides = terrain.overrides(anonymous_body(source, assignment_end))
+        for key in ('itemDrop', 'cacheLayer'):
+            value = overrides.get(key, definitions.get(key, UNKNOWN))
+            if value is not UNKNOWN:
+                properties[key] = value[1] if isinstance(value, tuple) else value
+        entry = {"field": field, "id": content_id, "implementation": implementation, "properties": properties}
         if implementation in drill_blocked_defaults:
-            definitions = _drill_blocked_definitions(_initializer_body(source, match.end()))
+            definitions = _drill_blocked_definitions(_initializer_body(source, assignment_end))
             if definitions is not None:
                 entry["properties"].update({**drill_blocked_defaults[implementation], **definitions})
         if asset_root is not None:

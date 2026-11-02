@@ -1,0 +1,10 @@
+source_symbol_registry.json: only 20 additions; prior entries/policy preserved
+source_api_contracts.json: only 2 additions; prior entries/policy preserved
+source_state_schema.json: only 6 additions; prior entries/policy preserved
+source_slice_ledger.json: only 3 additions; prior entries/policy preserved
+content: exactly eight source-backed Item-only ores added; old entries only gain itemDrop/cacheLayer; all prior properties preserved
+GD registry regenerated from staged canonical JSON; contextual runtime/test deltas exclude prior dirty work
+full/native/inspect/stop/editor/replay/catalog gates accepted
+exact staged allowlist PASS; project settings/UID/arc/manifest/audit noise excluded
+staged whitespace PASS
+staged files before audit evidence: 40

@@ -57234,6 +57234,111 @@
       ],
       "runtime_proof": "/root/DrillOreBindingProof",
       "rule": "Canonical typed/source initialization prerequisite for live Drill ore selection. Actual Tile.drop/static/world proximity and dominant-item output remain deferred."
+    },
+    "SourceWorldTerrainRuntimeState.source_tile_ore_state": {
+      "status": "active",
+      "source_slice": "N2015",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "source_method": "drop(); getLinkedTilesAs(Block, Seq)",
+      "params": [
+        {
+          "name": "tile",
+          "type": "Dictionary",
+          "schema": "source_tile_ore_input.tile"
+        },
+        {
+          "name": "item_catalog",
+          "type": "Dictionary",
+          "schema": "source_tile_ore_input.item_catalog"
+        },
+        {
+          "name": "air_block",
+          "type": "Object",
+          "schema": "source_tile_ore_input.air_block"
+        }
+      ],
+      "return_keys": [
+        "is_static",
+        "drop"
+      ],
+      "tests": [
+        "test_item_constructor_uses_source_name_not_field_slug",
+        "test_source_ancestry_static_and_explicit_null",
+        "test_constructor_evaluation_and_unresolved_writes",
+        "test_creators_keep_source_positions_after_java_text_block",
+        "test_terrain_contracts_registered",
+        "test_actual_tile_and_linked_provider_in_godot",
+        "test_missing_tile_metadata_is_rejected"
+      ],
+      "runtime_proof": "/root/TileOreProviderProof",
+      "rule": "Actual source-backed object projection delegates existing canonical geometry/static owners. Supplied world callback only; real game world/proximity/output lifecycle remains deferred."
+    },
+    "SourceWorldTerrainRuntimeState.source_linked_ore_tiles_state": {
+      "status": "active",
+      "source_slice": "N2016",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "source_method": "drop(); getLinkedTilesAs(Block, Seq)",
+      "params": [
+        {
+          "name": "block_is_multiblock",
+          "type": "bool",
+          "schema": "source_linked_ore_tiles_input.block_is_multiblock"
+        },
+        {
+          "name": "block_size",
+          "type": "int",
+          "schema": "source_linked_ore_tiles_input.block_size"
+        },
+        {
+          "name": "size_offset",
+          "type": "int",
+          "schema": "source_linked_ore_tiles_input.size_offset"
+        },
+        {
+          "name": "x",
+          "type": "int",
+          "schema": "source_linked_ore_tiles_input.x"
+        },
+        {
+          "name": "y",
+          "type": "int",
+          "schema": "source_linked_ore_tiles_input.y"
+        },
+        {
+          "name": "world_tile_lookup",
+          "type": "Callable",
+          "schema": "source_linked_ore_tiles_input.world_tile_lookup"
+        },
+        {
+          "name": "self_tile",
+          "type": "Dictionary",
+          "schema": "source_linked_ore_tiles_input.self_tile"
+        },
+        {
+          "name": "item_catalog",
+          "type": "Dictionary",
+          "schema": "source_linked_ore_tiles_input.item_catalog"
+        },
+        {
+          "name": "air_block",
+          "type": "Object",
+          "schema": "source_linked_ore_tiles_input.air_block"
+        }
+      ],
+      "return_keys": [
+        "ore_tiles"
+      ],
+      "tests": [
+        "test_item_constructor_uses_source_name_not_field_slug",
+        "test_source_ancestry_static_and_explicit_null",
+        "test_constructor_evaluation_and_unresolved_writes",
+        "test_creators_keep_source_positions_after_java_text_block",
+        "test_terrain_contracts_registered",
+        "test_actual_tile_and_linked_provider_in_godot",
+        "test_missing_tile_metadata_is_rejected"
+      ],
+      "runtime_proof": "/root/TileOreProviderProof",
+      "rule": "Actual source-backed object projection delegates existing canonical geometry/static owners. Supplied world callback only; real game world/proximity/output lifecycle remains deferred."
     }
   },
   "policy": {

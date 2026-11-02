@@ -150377,6 +150377,386 @@
         "test_real_catalog_drill_binding_in_godot"
       ],
       "runtime_proof": "/root/DrillOreBindingProof"
+    },
+    "source_terrain_block_definition.itemDrop": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_tile_ore_state",
+      "godot_symbol": "source_terrain_block_definition.itemDrop",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block constructors; Tile.drop(); Tile.getLinkedTilesAs()",
+      "java_expr": "public @Nullable Item itemDrop = null;",
+      "rule": "Source constructor/initializer definition, null or exact Java Item field. Actual inherited constructor signature and delegation are evaluated; unsupported writes stay absent. No slug-derived Item lookup.",
+      "tests": [
+        "test_item_constructor_uses_source_name_not_field_slug",
+        "test_source_ancestry_static_and_explicit_null",
+        "test_constructor_evaluation_and_unresolved_writes",
+        "test_creators_keep_source_positions_after_java_text_block",
+        "test_terrain_contracts_registered",
+        "test_actual_tile_and_linked_provider_in_godot",
+        "test_missing_tile_metadata_is_rejected"
+      ],
+      "runtime_proof": "/root/TileOreProviderProof"
+    },
+    "source_terrain_block_definition.cacheLayer": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_tile_ore_state",
+      "godot_symbol": "source_terrain_block_definition.cacheLayer",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block constructors; Tile.drop(); Tile.getLinkedTilesAs()",
+      "java_expr": "public CacheLayer cacheLayer = CacheLayer.normal;",
+      "rule": "Source CacheLayer field suffix through class constructor ancestry/initializer. Unknown conditional/dynamic/late writes leave key absent; never infer static from occupancy or sprite.",
+      "tests": [
+        "test_item_constructor_uses_source_name_not_field_slug",
+        "test_source_ancestry_static_and_explicit_null",
+        "test_constructor_evaluation_and_unresolved_writes",
+        "test_creators_keep_source_positions_after_java_text_block",
+        "test_terrain_contracts_registered",
+        "test_actual_tile_and_linked_provider_in_godot",
+        "test_missing_tile_metadata_is_rejected"
+      ],
+      "runtime_proof": "/root/TileOreProviderProof"
+    },
+    "source_terrain_tile_definition.floor": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_tile_ore_state",
+      "godot_symbol": "source_terrain_tile_definition.floor",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "Block constructors; Tile.drop(); Tile.getLinkedTilesAs()",
+      "java_expr": "protected Floor floor;",
+      "rule": "Actual source-backed floor Block object; requires explicit itemDrop, including null.",
+      "tests": [
+        "test_item_constructor_uses_source_name_not_field_slug",
+        "test_source_ancestry_static_and_explicit_null",
+        "test_constructor_evaluation_and_unresolved_writes",
+        "test_creators_keep_source_positions_after_java_text_block",
+        "test_terrain_contracts_registered",
+        "test_actual_tile_and_linked_provider_in_godot",
+        "test_missing_tile_metadata_is_rejected"
+      ],
+      "runtime_proof": "/root/TileOreProviderProof"
+    },
+    "source_terrain_tile_definition.overlay": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_tile_ore_state",
+      "godot_symbol": "source_terrain_tile_definition.overlay",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "Block constructors; Tile.drop(); Tile.getLinkedTilesAs()",
+      "java_expr": "protected Floor overlay;",
+      "rule": "Actual overlay Block object, preserving source reference identity and explicit itemDrop.",
+      "tests": [
+        "test_item_constructor_uses_source_name_not_field_slug",
+        "test_source_ancestry_static_and_explicit_null",
+        "test_constructor_evaluation_and_unresolved_writes",
+        "test_creators_keep_source_positions_after_java_text_block",
+        "test_terrain_contracts_registered",
+        "test_actual_tile_and_linked_provider_in_godot",
+        "test_missing_tile_metadata_is_rejected"
+      ],
+      "runtime_proof": "/root/TileOreProviderProof"
+    },
+    "source_terrain_tile_definition.block": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_tile_ore_state",
+      "godot_symbol": "source_terrain_tile_definition.block",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "Block constructors; Tile.drop(); Tile.getLinkedTilesAs()",
+      "java_expr": "protected Block block;",
+      "rule": "Actual occupying Block object with resolved source cacheLayer.",
+      "tests": [
+        "test_item_constructor_uses_source_name_not_field_slug",
+        "test_source_ancestry_static_and_explicit_null",
+        "test_constructor_evaluation_and_unresolved_writes",
+        "test_creators_keep_source_positions_after_java_text_block",
+        "test_terrain_contracts_registered",
+        "test_actual_tile_and_linked_provider_in_godot",
+        "test_missing_tile_metadata_is_rejected"
+      ],
+      "runtime_proof": "/root/TileOreProviderProof"
+    },
+    "source_tile_ore_input.tile": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_tile_ore_state",
+      "godot_symbol": "source_tile_ore_input.tile",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "Block constructors; Tile.drop(); Tile.getLinkedTilesAs()",
+      "java_expr": "public @Nullable Item drop(){",
+      "rule": "Explicit source Tile projection with actual floor/overlay/occupying Block objects. Missing definitions assert; no world-map deserialization or live ownership is claimed.",
+      "tests": [
+        "test_item_constructor_uses_source_name_not_field_slug",
+        "test_source_ancestry_static_and_explicit_null",
+        "test_constructor_evaluation_and_unresolved_writes",
+        "test_creators_keep_source_positions_after_java_text_block",
+        "test_terrain_contracts_registered",
+        "test_actual_tile_and_linked_provider_in_godot",
+        "test_missing_tile_metadata_is_rejected"
+      ],
+      "runtime_proof": "/root/TileOreProviderProof"
+    },
+    "source_tile_ore_input.item_catalog": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_tile_ore_state",
+      "godot_symbol": "source_tile_ore_input.item_catalog",
+      "java_source": "core/src/mindustry/world/blocks/environment/OreBlock.java",
+      "java_method": "Block constructors; Tile.drop(); Tile.getLinkedTilesAs()",
+      "java_expr": "this.itemDrop = ore;",
+      "rule": "Existing typed Item facts resolve exact Java field references, preserving canonical numeric IDs and fact identity.",
+      "tests": [
+        "test_item_constructor_uses_source_name_not_field_slug",
+        "test_source_ancestry_static_and_explicit_null",
+        "test_constructor_evaluation_and_unresolved_writes",
+        "test_creators_keep_source_positions_after_java_text_block",
+        "test_terrain_contracts_registered",
+        "test_actual_tile_and_linked_provider_in_godot",
+        "test_missing_tile_metadata_is_rejected"
+      ],
+      "runtime_proof": "/root/TileOreProviderProof"
+    },
+    "source_tile_ore_input.air_block": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_tile_ore_state",
+      "godot_symbol": "source_tile_ore_input.air_block",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "Block constructors; Tile.drop(); Tile.getLinkedTilesAs()",
+      "java_expr": "overlay == Blocks.air",
+      "rule": "Actual canonical air Block reference. Equality uses identity, never matching a slug or class name.",
+      "tests": [
+        "test_item_constructor_uses_source_name_not_field_slug",
+        "test_source_ancestry_static_and_explicit_null",
+        "test_constructor_evaluation_and_unresolved_writes",
+        "test_creators_keep_source_positions_after_java_text_block",
+        "test_terrain_contracts_registered",
+        "test_actual_tile_and_linked_provider_in_godot",
+        "test_missing_tile_metadata_is_rejected"
+      ],
+      "runtime_proof": "/root/TileOreProviderProof"
+    },
+    "source_tile_ore_result.is_static": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_tile_ore_state",
+      "godot_symbol": "source_tile_ore_result.is_static",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block constructors; Tile.drop(); Tile.getLinkedTilesAs()",
+      "java_expr": "return cacheLayer == CacheLayer.walls;",
+      "rule": "Delegate existing SourceBlockQueryBasicState.is_static_state with actual Block definition.",
+      "tests": [
+        "test_item_constructor_uses_source_name_not_field_slug",
+        "test_source_ancestry_static_and_explicit_null",
+        "test_constructor_evaluation_and_unresolved_writes",
+        "test_creators_keep_source_positions_after_java_text_block",
+        "test_terrain_contracts_registered",
+        "test_actual_tile_and_linked_provider_in_godot",
+        "test_missing_tile_metadata_is_rejected"
+      ],
+      "runtime_proof": "/root/TileOreProviderProof"
+    },
+    "source_tile_ore_result.drop": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_tile_ore_state",
+      "godot_symbol": "source_tile_ore_result.drop",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "Block constructors; Tile.drop(); Tile.getLinkedTilesAs()",
+      "java_expr": "return overlay == Blocks.air || overlay.itemDrop == null ? floor.itemDrop : overlay.itemDrop;",
+      "rule": "Delegate existing SourceBlockGeometry.tile_drop_state; return nullable shared canonical Item fact, without copying.",
+      "tests": [
+        "test_item_constructor_uses_source_name_not_field_slug",
+        "test_source_ancestry_static_and_explicit_null",
+        "test_constructor_evaluation_and_unresolved_writes",
+        "test_creators_keep_source_positions_after_java_text_block",
+        "test_terrain_contracts_registered",
+        "test_actual_tile_and_linked_provider_in_godot",
+        "test_missing_tile_metadata_is_rejected"
+      ],
+      "runtime_proof": "/root/TileOreProviderProof"
+    },
+    "source_linked_ore_tiles_input.block_is_multiblock": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_linked_ore_tiles_state",
+      "godot_symbol": "source_linked_ore_tiles_input.block_is_multiblock",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "Block constructors; Tile.drop(); Tile.getLinkedTilesAs()",
+      "java_expr": "if(block.isMultiblock()){",
+      "rule": "Explicit source geometry fact; lifecycle/init binder is not synthesized.",
+      "tests": [
+        "test_item_constructor_uses_source_name_not_field_slug",
+        "test_source_ancestry_static_and_explicit_null",
+        "test_constructor_evaluation_and_unresolved_writes",
+        "test_creators_keep_source_positions_after_java_text_block",
+        "test_terrain_contracts_registered",
+        "test_actual_tile_and_linked_provider_in_godot",
+        "test_missing_tile_metadata_is_rejected"
+      ],
+      "runtime_proof": "/root/TileOreProviderProof"
+    },
+    "source_linked_ore_tiles_input.block_size": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_linked_ore_tiles_state",
+      "godot_symbol": "source_linked_ore_tiles_input.block_size",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "Block constructors; Tile.drop(); Tile.getLinkedTilesAs()",
+      "java_expr": "int size = block.size, o = block.sizeOffset;",
+      "rule": "Explicit source Block size.",
+      "tests": [
+        "test_item_constructor_uses_source_name_not_field_slug",
+        "test_source_ancestry_static_and_explicit_null",
+        "test_constructor_evaluation_and_unresolved_writes",
+        "test_creators_keep_source_positions_after_java_text_block",
+        "test_terrain_contracts_registered",
+        "test_actual_tile_and_linked_provider_in_godot",
+        "test_missing_tile_metadata_is_rejected"
+      ],
+      "runtime_proof": "/root/TileOreProviderProof"
+    },
+    "source_linked_ore_tiles_input.size_offset": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_linked_ore_tiles_state",
+      "godot_symbol": "source_linked_ore_tiles_input.size_offset",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "Block constructors; Tile.drop(); Tile.getLinkedTilesAs()",
+      "java_expr": "int size = block.size, o = block.sizeOffset;",
+      "rule": "Actual initialized Block.sizeOffset supplied by caller; no alternate footprint formula.",
+      "tests": [
+        "test_item_constructor_uses_source_name_not_field_slug",
+        "test_source_ancestry_static_and_explicit_null",
+        "test_constructor_evaluation_and_unresolved_writes",
+        "test_creators_keep_source_positions_after_java_text_block",
+        "test_terrain_contracts_registered",
+        "test_actual_tile_and_linked_provider_in_godot",
+        "test_missing_tile_metadata_is_rejected"
+      ],
+      "runtime_proof": "/root/TileOreProviderProof"
+    },
+    "source_linked_ore_tiles_input.x": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_linked_ore_tiles_state",
+      "godot_symbol": "source_linked_ore_tiles_input.x",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "Block constructors; Tile.drop(); Tile.getLinkedTilesAs()",
+      "java_expr": "world.tile(x + dx + o, y + dy + o)",
+      "rule": "Source tile x coordinate.",
+      "tests": [
+        "test_item_constructor_uses_source_name_not_field_slug",
+        "test_source_ancestry_static_and_explicit_null",
+        "test_constructor_evaluation_and_unresolved_writes",
+        "test_creators_keep_source_positions_after_java_text_block",
+        "test_terrain_contracts_registered",
+        "test_actual_tile_and_linked_provider_in_godot",
+        "test_missing_tile_metadata_is_rejected"
+      ],
+      "runtime_proof": "/root/TileOreProviderProof"
+    },
+    "source_linked_ore_tiles_input.y": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_linked_ore_tiles_state",
+      "godot_symbol": "source_linked_ore_tiles_input.y",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "Block constructors; Tile.drop(); Tile.getLinkedTilesAs()",
+      "java_expr": "world.tile(x + dx + o, y + dy + o)",
+      "rule": "Source tile y coordinate.",
+      "tests": [
+        "test_item_constructor_uses_source_name_not_field_slug",
+        "test_source_ancestry_static_and_explicit_null",
+        "test_constructor_evaluation_and_unresolved_writes",
+        "test_creators_keep_source_positions_after_java_text_block",
+        "test_terrain_contracts_registered",
+        "test_actual_tile_and_linked_provider_in_godot",
+        "test_missing_tile_metadata_is_rejected"
+      ],
+      "runtime_proof": "/root/TileOreProviderProof"
+    },
+    "source_linked_ore_tiles_input.world_tile_lookup": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_linked_ore_tiles_state",
+      "godot_symbol": "source_linked_ore_tiles_input.world_tile_lookup",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "Block constructors; Tile.drop(); Tile.getLinkedTilesAs()",
+      "java_expr": "Tile other = world.tile(x + dx + o, y + dy + o);",
+      "rule": "Source world provider returning source_terrain_tile_definition or null. World storage/load/mutation ownership remains caller responsibility.",
+      "tests": [
+        "test_item_constructor_uses_source_name_not_field_slug",
+        "test_source_ancestry_static_and_explicit_null",
+        "test_constructor_evaluation_and_unresolved_writes",
+        "test_creators_keep_source_positions_after_java_text_block",
+        "test_terrain_contracts_registered",
+        "test_actual_tile_and_linked_provider_in_godot",
+        "test_missing_tile_metadata_is_rejected"
+      ],
+      "runtime_proof": "/root/TileOreProviderProof"
+    },
+    "source_linked_ore_tiles_input.self_tile": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_linked_ore_tiles_state",
+      "godot_symbol": "source_linked_ore_tiles_input.self_tile",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "Block constructors; Tile.drop(); Tile.getLinkedTilesAs()",
+      "java_expr": "tmpArray.get(this);",
+      "rule": "Actual self tile for the non-multiblock branch; no lookup is performed.",
+      "tests": [
+        "test_item_constructor_uses_source_name_not_field_slug",
+        "test_source_ancestry_static_and_explicit_null",
+        "test_constructor_evaluation_and_unresolved_writes",
+        "test_creators_keep_source_positions_after_java_text_block",
+        "test_terrain_contracts_registered",
+        "test_actual_tile_and_linked_provider_in_godot",
+        "test_missing_tile_metadata_is_rejected"
+      ],
+      "runtime_proof": "/root/TileOreProviderProof"
+    },
+    "source_linked_ore_tiles_input.item_catalog": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_linked_ore_tiles_state",
+      "godot_symbol": "source_linked_ore_tiles_input.item_catalog",
+      "java_source": "core/src/mindustry/world/blocks/environment/OreBlock.java",
+      "java_method": "Block constructors; Tile.drop(); Tile.getLinkedTilesAs()",
+      "java_expr": "this.itemDrop = ore;",
+      "rule": "Existing typed source Item facts.",
+      "tests": [
+        "test_item_constructor_uses_source_name_not_field_slug",
+        "test_source_ancestry_static_and_explicit_null",
+        "test_constructor_evaluation_and_unresolved_writes",
+        "test_creators_keep_source_positions_after_java_text_block",
+        "test_terrain_contracts_registered",
+        "test_actual_tile_and_linked_provider_in_godot",
+        "test_missing_tile_metadata_is_rejected"
+      ],
+      "runtime_proof": "/root/TileOreProviderProof"
+    },
+    "source_linked_ore_tiles_input.air_block": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_linked_ore_tiles_state",
+      "godot_symbol": "source_linked_ore_tiles_input.air_block",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "Block constructors; Tile.drop(); Tile.getLinkedTilesAs()",
+      "java_expr": "overlay == Blocks.air",
+      "rule": "Actual canonical air reference shared with Tile provider.",
+      "tests": [
+        "test_item_constructor_uses_source_name_not_field_slug",
+        "test_source_ancestry_static_and_explicit_null",
+        "test_constructor_evaluation_and_unresolved_writes",
+        "test_creators_keep_source_positions_after_java_text_block",
+        "test_terrain_contracts_registered",
+        "test_actual_tile_and_linked_provider_in_godot",
+        "test_missing_tile_metadata_is_rejected"
+      ],
+      "runtime_proof": "/root/TileOreProviderProof"
+    },
+    "source_linked_ore_tiles_result.ore_tiles": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_linked_ore_tiles_state",
+      "godot_symbol": "source_linked_ore_tiles_result.ore_tiles",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "Block constructors; Tile.drop(); Tile.getLinkedTilesAs()",
+      "java_expr": "getLinkedTilesAs(block, tmpArray::add);",
+      "rule": "Delegate existing canonical linked geometry, then Tile provider. Preserve source iteration order and skip only null world tiles. Elements use source_drill_ore_tile; compatible with canonical countOre.",
+      "tests": [
+        "test_item_constructor_uses_source_name_not_field_slug",
+        "test_source_ancestry_static_and_explicit_null",
+        "test_constructor_evaluation_and_unresolved_writes",
+        "test_creators_keep_source_positions_after_java_text_block",
+        "test_terrain_contracts_registered",
+        "test_actual_tile_and_linked_provider_in_godot",
+        "test_missing_tile_metadata_is_rejected"
+      ],
+      "runtime_proof": "/root/TileOreProviderProof"
     }
   },
   "version": 1

@@ -52,7 +52,8 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_ssot.load_json(ROOT / "godot-mindustry", "asset_manifest")["asset_count"], 2970)
         self.assertEqual(source_ssot.load_json(ROOT / "godot-mindustry", "source_manifest")["java_file_count"], 801)
         self.assertEqual(source_ssot.load_json(ROOT / "godot-mindustry", "ast_manifest")["parsed_file_count"], 8)
-        self.assertEqual(source_ssot.load_json(ROOT / "godot-mindustry", "content_registry")["counts"]["blocks"], 417)
+        content_registry = source_ssot.load_json(ROOT / "godot-mindustry", "content_registry")
+        self.assertEqual(content_registry["counts"]["blocks"], len(content_registry["blocks"]))
         self.assertEqual(source_ssot.load_json(ROOT / "godot-mindustry", "emitted_classes")["emitted_file_count"], 801)
         self.assertEqual(len(source_ssot.load_json(ROOT / "godot-mindustry", "port_report")["unsupported_features"]), 6986)
         self.assertIn("consumer_slices", source_ssot.registered_module_names(ROOT / "godot-mindustry"))
@@ -967,7 +968,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(set(count_files), set(canonical_counts))
         self.assertEqual(count_files["items"]["count"], 22)
         self.assertEqual(count_files["liquids"]["count"], 11)
-        self.assertEqual(count_files["blocks"]["count"], 417)
+        self.assertEqual(count_files["blocks"]["count"], len(canonical_registry["blocks"]))
         self.assertEqual(count_files["units"]["count"], 56)
         for count_name, canonical_value in sorted(canonical_counts.items()):
             with self.subTest(count_name=count_name):

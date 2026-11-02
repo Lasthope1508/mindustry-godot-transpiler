@@ -1,0 +1,27 @@
+{
+  "proof": {
+    "actual_facts_priority_count_id_selection": true,
+    "actual_floor_drop": true,
+    "actual_static_wall_blocks_mining": true,
+    "air_is_reference_identity": true,
+    "cliff_constructor_static": true,
+    "drop_ignores_overlay_slug": true,
+    "empty_world_does_not_invent_tiles": true,
+    "explicit_null_drop": true,
+    "item_only_constructor_overlay": true,
+    "matches": true,
+    "non_air_null_overlay_falls_back": true,
+    "odd_size_offset_and_world_edges": true,
+    "one_headquarter_per_ssot": true,
+    "placed_building_is_not_static_wall": true,
+    "registry_valid": true,
+    "single_tile_uses_self_without_lookup": true,
+    "source_footprint_order": true,
+    "source_objects_unchanged": true
+  },
+  "check_count": 17,
+  "warning_count": 23,
+  "actual_errors": [],
+  "stopped": true,
+  "editor_exit_code": 0
+}

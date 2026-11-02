@@ -1,0 +1,22 @@
+import hashlib,json,re
+from pathlib import Path
+ROOT=Path(r'C:/Users/Admin/Documents/Game/mindustry-godot-transpiler-copy-20260714-073528')
+data=json.loads((ROOT/'godot-mindustry/src/generated/content_registry.json').read_text())
+sources={}
+for path in (ROOT/'mindustry-upstream/core/src/mindustry/world/blocks').rglob('*.java'):
+ source=path.read_text(encoding='utf-8');match=re.search(r'\bclass\s+(\w+)',source)
+ if match:sources[match[1]]=(path,source)
+missing=[]
+for block in data['blocks']:
+ absent=[key for key in ['itemDrop','cacheLayer'] if key not in block['properties']]
+ if not absent:continue
+ path,source=sources[block['implementation']]
+ if block['implementation']=='ShallowLiquid':
+  expr='cacheLayer = liquidBase.cacheLayer;';reason='Post-construction set() reads another floor; source initialization lifecycle not evaluated.'
+ else:
+  expr='public '+block['implementation']+'(String name){';reason='Constructor AST is unsupported by bounded Java-8 parser; do not inherit guessed terrain defaults.'
+ index=source.index(expr);line=source.count('\n',0,index)+1
+ missing.append({'block':block['id'],'implementation':block['implementation'],'missing_fields':absent,'source':path.relative_to(ROOT/'mindustry-upstream').as_posix(),'line':line,'source_expr':expr,'reason':reason})
+out={'counts':data['counts'],'item_drop_resolved':sum('itemDrop' in b['properties'] for b in data['blocks']),'cache_layer_resolved':sum('cacheLayer' in b['properties'] for b in data['blocks']),'unresolved':missing,'source_sha256':{path.relative_to(ROOT/'mindustry-upstream').as_posix():hashlib.sha256(path.read_bytes()).hexdigest() for path,source in sources.values() if path.name in ['OreBlock.java','StaticWall.java','Cliff.java','ShallowLiquid.java','CanvasBlock.java']}}
+Path('C:/tmp/tile-ore-terrain-inventory.json').write_text(json.dumps(out,indent=2)+'\n',encoding='utf-8')
+print('Terrain inventory:',out['counts'],'itemDrop',out['item_drop_resolved'],'cacheLayer',out['cache_layer_resolved'],'unresolved',len(missing))

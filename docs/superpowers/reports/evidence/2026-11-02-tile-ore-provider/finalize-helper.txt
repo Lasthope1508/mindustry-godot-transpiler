@@ -1,0 +1,56 @@
+import gzip,json,re,shutil
+from pathlib import Path
+ROOT=Path(r'C:/Users/Admin/Documents/Game/mindustry-godot-transpiler-copy-20260714-073528');TMP=Path('C:/tmp');BEFORE=TMP/'tile-ore-before'
+full=(TMP/'tile-ore-full.log').read_text(encoding='utf-8');m=re.search(r'^(\d+) passed, (\d+) subtests passed in ([\d.]+)s',full,re.M);assert m
+tests,subtests,seconds=m.groups()
+focused=(TMP/'tile-ore-focused-final.log').read_text(encoding='utf-8');f=re.search(r'^(\d+) passed, .*?(\d+) subtests passed in ([\d.]+)s',focused,re.M);assert f
+ft,fs,ftime=f.groups()
+n=json.loads((TMP/'tile-ore-native-summary.json').read_text());assert n['proof']['matches'] and n['stopped'] and not n['actual_errors'] and n['editor_exit_code']==0
+assert not re.search(r'(?:^|\s)(?:SCRIPT ERROR|ERROR|Parse Error):',(TMP/'tile-ore-editor.log').read_text(encoding='utf-8'))
+r=json.loads((TMP/'tile-ore-replay.json').read_text());assert r['matches']
+v=json.loads((TMP/'tile-ore-validator.json').read_text());assert not v['errors'] and not v['json_errors'] and v['json_module_count']==113
+p='docs/superpowers/specs/2026-06-23-mindustry-godot-gdscript-transpiler-design.md';old=(BEFORE/p).read_text(encoding='utf-8');assert (ROOT/p).read_text(encoding='utf-8')==old
+text=old.replace('| Canonical slice ledger entries | 1468 |','| Canonical slice ledger entries | 1471 |').replace('| Done | 1468 |','| Done | 1471 |')
+needle=next(line for line in text.splitlines() if line.startswith('- [x] N2013:'))
+text=text.replace(needle,needle+'\n'+'\n'.join([
+ '- [x] N2014: Source constructor terrain extraction preserves inherited itemDrop/cacheLayer, actual Item-only OreBlock naming/delegation and source order; unsupported writes stay unresolved. Eight omitted builtin ores now regenerate without changing old properties.',
+ '- [x] N2015: Actual typed Tile floor/overlay/occupying Block definitions bind through canonical Tile.drop and Block.isStatic owners; preserve Item/air reference identity and reject incomplete metadata.',
+ '- [x] N2016: Supplied source world callback and initialized geometry delegate canonical linked traversal, then Tile provider; actual game world/proximity/output lifecycle remains open.',
+]))
+start=text.index('Current cube:');end=text.index('\n\n## Done',start)
+text=text[:start]+'Current cube: `source terrain definitions and canonical Tile ore providers`. N2014–N2016 repair omitted Item-only ore construction, export source-backed terrain metadata and bind actual typed Tile objects/linked source callbacks to existing canonical owners. Ledger: 1471 records; catalog: 113 modules; generated blocks: 425. C01-A remains open for real game-world load/mutation/storage and initialized geometry binding, followed by C01-B proximity and C01-C actual dominant production/output. C02–C12 remain open. See `reports/2026-11-02-tile-ore-provider.md`.'+text[end:]
+needle=next(line for line in text.splitlines() if line.startswith('| N2013 |'))
+text=text.replace(needle,needle+'\n'+'\n'.join([
+ '| N2014 | Source terrain metadata and Item-only ore construction | Bounded source constructor/initializer AST evaluation exports itemDrop/cacheLayer and adds eight omitted ore definitions. Unknown writes remain unresolved; prior content properties preserved. |',
+ '| N2015 | Actual typed Tile ore provider | Existing canonical drop/static owners receive actual Block definitions and shared typed Item facts. Air equality uses identity; missing metadata asserts. |',
+ f'| N2016 | Canonical linked ore projection | Existing canonical geometry owns order, bounds and self-tile behavior. Focused {ft} / {fs}; full {tests} / {subtests} in {seconds}s; catalog 0 errors / 113 modules; native matches=true; editor exit 0; {r["file_count"]}-file replay unchanged. Supplied-world proof only; real game lifecycle/proximity/output remains open. See reports/2026-11-02-tile-ore-provider.md. |',
+]))
+start=text.index('C01-A now has actual numeric Item/effective fields');end=text.index('\n\n## Scope',start)
+text=text[:start]+'C01-A has numeric Item/effective fields, blocked initialization, regenerated source terrain definitions and actual typed Tile/linked callback binding (N2010–N2016). It still needs the real game-world terrain/storage/load/mutation provider and initialized geometry integration. C01-B proximity invalidation and C01-C dominant production/output remain prerequisites for live mixed-ore gameplay. C02–C12 remain open in handoffs/2026-11-02-mindustry-completion-backlog.md. Ledger totals are not a whole-game parity measure.'+text[end:]
+text+=f'| 2026-11-02 | N2014–N2016 accepted: source terrain extraction and eight omitted ore overlays, actual typed Tile drop/static and canonical linked callback binding. Focused {ft} tests / {fs} subtests in {ftime}s; full {tests} / {subtests} in {seconds}s; catalog 0 errors / 113 modules; native {n["check_count"]} checks true, 0 actual errors / {n["warning_count"]} warnings, explicit stop; editor exit 0; {r["file_count"]}-file replay unchanged. C01 real-world lifecycle/proximity/output and C02–C12 remain open. See reports/2026-11-02-tile-ore-provider.md. |\n'
+(ROOT/p).write_text(text,encoding='utf-8',newline='\n')
+p='docs/superpowers/handoffs/2026-11-02-mindustry-completion-backlog.md';old=(BEFORE/p).read_text(encoding='utf-8');assert (ROOT/p).read_text(encoding='utf-8')==old
+text=old.replace('Parent của checkpoint mới nhất N2011–N2013: `295188b6`.','Parent của checkpoint mới nhất N2014–N2016: `1b74e8c3`.')
+text=text.replace('N2010 state và N2011–N2013 typed Item/blocked binding accepted; actual world/proximity/output còn mở','N2010–N2016 source facts/typed Tile/linked callback accepted; real world/proximity/output còn mở')
+text=text.replace('- **Còn thiếu:** actual `Tile.drop`, `getDrop`, static block và linked footprint; `DrillBuild.onProximityUpdate` assignment/invalidation; actual dominant-item output. C01-A chưa đóng toàn bộ.', '- **Đã làm trong N2014–N2016:** source constructor itemDrop/cacheLayer và 8 ore overlay bị bỏ sót; actual typed Tile projection dùng canonical drop/static; linked callback dùng canonical footprint order/bounds/self. Supplied-world proof đã full/native/editor/replay accepted; chưa phải actual game lifecycle.\n- **Còn thiếu:** real world terrain load/mutation/storage, `getDrop` integration và initialized Block geometry binding; `DrillBuild.onProximityUpdate` assignment/invalidation; actual dominant-item output. C01-A chưa đóng toàn bộ.')
+text=text.replace('2. Tiếp tục **C01-A**: actual world terrain/Tile.drop/static/linked-footprint providers. N2011–N2013 đã có typed Item ID/effective fields và blocked initialization; giữ N2010 là owner sort duy nhất. Không suy static/drop từ ore-name projection thiếu metadata.', '2. Tiếp tục **C01-A**: actual game-world terrain/load/mutation/storage và initialized Block geometry. N2014–N2016 đã có source definitions và typed Tile/linked callback provider; reuse các owner này, không tạo world/ore cache cạnh tranh hoặc suy drop từ slug. `SourceDrillConsumptionRuntimeState._ore_state` hiện vẫn dùng single-ore projection; chưa gọi đó là mixed-ore parity.')
+text=text.replace('N2011–N2013 accepted trong report `2026-11-02-drill-item-blocked-binding.md`. Goal C01–C12 vẫn đang thực hiện tuần tự; chưa nhóm nào được đánh dấu hoàn thiện toàn bộ chỉ từ batch prerequisite này. C01-A tiếp tục tại world tile facts.', 'N2014–N2016 accepted trong report `2026-11-02-tile-ore-provider.md`. Source definitions/typed Tile/linked callback đã có gate; C01-A tiếp tục ở real game-world load/mutation/storage và initialized geometry. C01-B/C và C02–C12 vẫn mở; chưa nhóm nào hoàn thiện toàn bộ chỉ từ prerequisite này.')
+(ROOT/p).write_text(text,encoding='utf-8',newline='\n')
+p=ROOT/'docs/superpowers/reports/2026-11-02-tile-ore-provider.md';text=p.read_text(encoding='utf-8')
+text=text.replace('22 tests / 19 subtests in 38.74s',f'{ft} tests / {fs} subtests in {ftime}s')
+text=text.replace('| TO-C | Full suite and native MCP/inspect/stop | Pending |',f'| TO-C | Full suite and native MCP/inspect/stop | Accepted: {tests} / {subtests} in {seconds}s; native {n["check_count"]} checks true; explicit stop |')
+text=text.replace('| TO-D | Editor parse, deterministic replay, exact index/commit | Pending |',f'| TO-D | Editor parse, deterministic replay, exact index/commit | Editor exit 0; {r["file_count"]} hashes unchanged; exact staged audit in index-final.log |')
+text=text.replace('- Full suite: pending.',f'- Full suite: **{tests} passed / {subtests} subtests passed in {seconds}s**, complete log retained. The earlier safety-review interruption is retained separately and is not counted as a successful gate.')
+text=text.replace('- Native/stop/editor: pending.',f'- Native MCP: **{n["check_count"]}/{n["check_count"]} checks true, matches=true**; **0 actual errors / {n["warning_count"]} compiler warnings**. Debug and explicit stop inspected. Editor parse: **exit 0**, no actual errors.')
+text=text.replace('- Replay and exact staged audit: pending.',f'- Complete content+SSOT replay: **{r["file_count"]} raw SHA256 hashes unchanged**. Final catalog accepted. Exact root/content/runtime staged audit and whitespace gate are retained in `index-final.log`.')
+assert 'pending' not in text.lower();p.write_text(text,encoding='utf-8',newline='\n')
+e=ROOT/'docs/superpowers/reports/evidence/2026-11-02-tile-ore-provider';e.mkdir(exist_ok=False)
+for suffix in ['focused.log','focused-final.log','full.log','full-interrupted.log','validator.json','native-run.json','native-debug.json','native-stop.json','native-summary.json','editor.log','replay.log','replay.json','scope.json','terrain-inventory.json']:
+ shutil.copy2(TMP/('tile-ore-'+suffix),e/suffix)
+raw=(TMP/'tile-ore-red.log').read_bytes()
+with gzip.open(e/'red.log.gz','wb') as archive:archive.write(raw)
+summary='\n'.join(line[:450] for line in raw.decode('utf-8').splitlines() if line.startswith(('FAILED ','SUBFAILED','6 failed')))
+(e/'red-summary.log').write_text(summary+'\n',encoding='utf-8')
+for name in ['scope','replay','inventory','native-summary','finalize']:
+ shutil.copy2(TMP/('tile-ore-'+name+'.py'),e/(name+'-helper.txt'))
+print('Finalized full',tests,subtests,seconds,'focused',ft,fs,ftime,'native',n['check_count'],'warnings',n['warning_count'],'replay',r['file_count'])
