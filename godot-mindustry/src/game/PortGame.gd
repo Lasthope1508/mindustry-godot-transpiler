@@ -194,6 +194,7 @@ var content_catalog: RefCounted
 var build_palette: Array = []
 var selected_build_index := 0
 var ore_items_by_cell: Dictionary = {}
+var source_world_tiles: Dictionary = {}
 var placed_blocks: Dictionary = {}
 var placed_block_origins: Dictionary = {}
 var mend_projector_charges: Dictionary = {}
@@ -1126,6 +1127,9 @@ func can_place_block_at_cell(block, cell: Vector2i) -> bool:
 func record_placed_block(sprite: Sprite2D, block, cell: Vector2i) -> void:
 	var cell_keys: Array[String] = source_block_placement.record_cells(placed_block_origins, placed_blocks, cell, occupied_cells(cell, block), sprite)
 	source_placed_block_state.initialize_sprite(sprite, block, cell, cell_keys, source_block_metadata_state.SOURCE_BLOCK_HEALTH_DEFAULT, source_block_defaults.TIME_SCALE_DEFAULT)
+	var world_tiles: Dictionary = get("source_world_tiles")
+	if not world_tiles.is_empty():
+		SourceWorldTerrainRuntimeState.source_record_world_block(world_tiles, block, cell.x, cell.y, float(get("tile_size")))
 	if block != null and block.properties.has("consumeLiquid"):
 		SourceConsumeLiquidState.source_bind_liquid_consumers_state(block, content_catalog)
 		SourceConsumeLiquidState.source_apply_liquid_consumers_state(block, content_catalog)
@@ -3449,3 +3453,14 @@ func update_hud() -> void:
 	if hud_label == null:
 		return
 	hud_label.text = source_hud_runtime_state.game_hud_text(self)
+
+func source_world_tile(x: int, y: int) -> Variant:
+	return source_world_terrain_runtime_state_script.source_world_tile(source_world_tiles, x, y)
+
+func source_world_linked_ore_tiles_state(block: Object, x: int, y: int, item_catalog: Dictionary) -> Dictionary:
+	var self_tile: Variant = source_world_tile(x, y)
+	if self_tile == null:
+		return {"ore_tiles": []}
+	var geometry: Dictionary = source_world_terrain_runtime_state_script.source_block_geometry_state(block, float(get("tile_size")))
+	var air: Object = source_world_terrain_runtime_state_script.source_world_block_by_field(get("content_catalog"), source_world_terrain_runtime_state_script.SOURCE_WORLD_AIR_FIELD)
+	return source_world_terrain_runtime_state_script.source_linked_ore_tiles_state(geometry["is_multiblock"], geometry["size"], geometry["size_offset"], x, y, Callable(self, "source_world_tile"), self_tile, item_catalog, air)

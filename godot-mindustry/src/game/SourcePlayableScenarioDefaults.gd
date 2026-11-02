@@ -38,6 +38,9 @@ static func selected_generated_class_names() -> Array[String]:
 static func pinned_build_block_ids() -> Array[String]:
 	return source_playable_content_defaults.pinned_build_block_ids()
 
+static func world_size() -> Vector2i:
+	return WORLD_SIZE
+
 static func world_cells() -> Array[Vector2i]:
 	var cells: Array[Vector2i] = []
 	for y in range(WORLD_SIZE.y):

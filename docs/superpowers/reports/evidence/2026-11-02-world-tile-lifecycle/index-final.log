@@ -1,0 +1,11 @@
+source_symbol_registry.json: only 48 additions; prior entries/policy preserved
+source_api_contracts.json: only 5 additions; prior entries/policy preserved
+source_state_schema.json: only 15 additions; prior entries/policy preserved
+source_slice_ledger.json: only 3 additions; prior entries/policy preserved
+Audit: exactly two new registered query owners/functions; source paths match staged PortGame layout; existing records/policy preserved
+Working facade bridge additions mapped semantically into existing PortGame owner in HEAD; unrelated facade extraction not staged
+Shared build_world receives one canonical Tile materializer call; terrain preload and existing scenario getter dependencies explicit in staged modules
+Full/native/inspect/stop/editor/replay/catalog gates accepted on working tree; no clean-checkout claim
+Exact staged allowlist PASS; content/manifest/project/UID/arc/unrelated dirty work excluded
+Staged whitespace PASS
+Staged files at audit: 40

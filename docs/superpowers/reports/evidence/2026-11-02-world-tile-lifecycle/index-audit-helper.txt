@@ -1,0 +1,37 @@
+import hashlib,importlib.util,json,re,shutil,subprocess
+from pathlib import Path
+ROOT=Path(r'C:/Users/Admin/Documents/Game/mindustry-godot-transpiler-copy-20260714-073528');TMP=Path('C:/tmp')
+def git(*args):return subprocess.check_output(['git',*args],cwd=ROOT).decode('utf-8')
+assert git('rev-parse','HEAD').startswith('a9fcb807')
+spec=importlib.util.spec_from_file_location('scope','C:/tmp/world-tile-scope.py');s=importlib.util.module_from_spec(spec);spec.loader.exec_module(s)
+scope=json.loads((TMP/'world-tile-scope.json').read_text())
+whole={'godot-mindustry/tools/runtime_proofs/WorldTileLifecycleProof.gd','godot-mindustry/tools/runtime_proofs/WorldTileLifecycleProof.tscn','tools/mindustry_godot_transpiler/register_world_tile_lifecycle.py','tools/mindustry_godot_transpiler/tests/test_world_tile_lifecycle.py','docs/superpowers/specs/2026-06-23-mindustry-godot-gdscript-transpiler-design.md','docs/superpowers/handoffs/2026-11-02-mindustry-completion-backlog.md','docs/superpowers/reports/2026-11-02-world-tile-lifecycle.md'}
+e=ROOT/'docs/superpowers/reports/evidence/2026-11-02-world-tile-lifecycle'
+shutil.copy2(TMP/'world-tile-index-audit.py',e/'index-audit-helper.txt')
+paths=git('diff','--cached','--name-only').splitlines()
+expected=set(scope['json'])|set(scope['runtime'])|whole|{p.relative_to(ROOT).as_posix() for p in e.iterdir() if p.is_file() and p.name!='index-final.log'}
+# Helper evidence is added immediately after its creation by the caller.
+expected.discard((e/'index-audit-helper.txt').relative_to(ROOT).as_posix())
+actual=set(paths)-{(e/'index-final.log').relative_to(ROOT).as_posix(),(e/'index-audit-helper.txt').relative_to(ROOT).as_posix()}
+assert actual==expected,(actual-expected,expected-actual)
+assert not any(p.endswith(('.gd.uid','/project.godot','/source_ssot_modules.json','/content_registry.json','/MindustryContentRegistry.gd')) or p.startswith('arc-upstream/') for p in paths)
+out=[]
+for name,(key,count) in s.ROOTS.items():
+ p=s.GEN+name;old,new=json.loads(git('show','HEAD:'+p)),json.loads(git('show',':'+p))
+ assert all(new[key].get(k)==v for k,v in old[key].items()) and len(new[key])-len(old[key])==count
+ assert {k:v for k,v in old.items() if k!=key}=={k:v for k,v in new.items() if k!=key}
+ out.append(name+': only '+str(count)+' additions; prior entries/policy preserved')
+for p in s.RUNTIME:assert git('show',':'+p)==s.runtime_plan(p)
+assert git('show',':godot-mindustry/src/game/PortGame.gd')==s.port_plan()
+p=s.GEN+'source_symbol_audit_report.json';assert json.loads(git('show',':'+p))==s.audit_plan(json.loads(s.s.read(p,s.BEFORE)),json.loads(s.s.read(p)),json.loads(git('show','HEAD:'+p)))
+p='tools/mindustry_godot_transpiler/tests/test_playable.py';assert git('show',':'+p)==s.s.delta(s.s.read('test_playable.py',s.BEFORE),s.s.read(p),git('show','HEAD:'+p))
+for p in whole:assert git('show',':'+p)==s.s.read(p)
+assert re.search(r'^\d+ passed, \d+ subtests passed in ',(TMP/'world-tile-full.log').read_text(),re.M)
+n=json.loads((TMP/'world-tile-native-summary.json').read_text());assert n['proof']['matches'] and n['stopped'] and not n['actual_errors'] and n['editor_exit_code']==0
+v=json.loads((TMP/'world-tile-validator.json').read_text());assert not v['errors'] and not v['json_errors'] and v['json_module_count']==113
+assert json.loads((TMP/'world-tile-replay.json').read_text())['matches']
+subprocess.run(['git','diff','--cached','--check'],cwd=ROOT,check=True)
+out+=['Audit: exactly two new registered query owners/functions; source paths match staged PortGame layout; existing records/policy preserved','Working facade bridge additions mapped semantically into existing PortGame owner in HEAD; unrelated facade extraction not staged','Shared build_world receives one canonical Tile materializer call; terrain preload and existing scenario getter dependencies explicit in staged modules','Full/native/inspect/stop/editor/replay/catalog gates accepted on working tree; no clean-checkout claim','Exact staged allowlist PASS; content/manifest/project/UID/arc/unrelated dirty work excluded','Staged whitespace PASS','Staged files at audit: '+str(len(paths))]
+(e/'index-final.log').write_text('\n'.join(out)+'\n',encoding='utf-8')
+lines=git('status','--porcelain=v1','-uall').splitlines();hashes={line[3:]:hashlib.sha256((ROOT/line[3:]).read_bytes()).hexdigest() for line in lines if (ROOT/line[3:]).is_file()}
+(TMP/'world-tile-precommit-workspace-hashes.json').write_text(json.dumps(hashes,indent=2)+'\n',encoding='utf-8');print('\n'.join(out))

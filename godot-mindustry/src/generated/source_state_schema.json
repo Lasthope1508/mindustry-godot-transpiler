@@ -165856,6 +165856,579 @@
         }
       },
       "runtime_proof": "/root/TileOreProviderProof"
+    },
+    "source_block_geometry_state_input": {
+      "status": "active",
+      "owner": "SourceWorldTerrainRuntimeState.source_block_geometry_state",
+      "source_slice": "N2017",
+      "keys": {
+        "block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "this.block = type;",
+          "rule": "Actual typed canonical Block; unresolved definitions are rejected.",
+          "schema": "source_terrain_block_definition",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_block_geometry_state"
+          ]
+        },
+        "source_tilesize": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "offset = ((size + 1) % 2) * tilesize / 2f;",
+          "rule": "Existing source tilesize input passed to canonical Block.init offset owner; no second formula.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_block_geometry_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_block_geometry_state_result": {
+      "status": "active",
+      "owner": "SourceWorldTerrainRuntimeState.source_block_geometry_state",
+      "source_slice": "N2017",
+      "keys": {
+        "size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public int size = 1;",
+          "rule": "Reuse existing SourceBlockMetadataState.block_size source default and definition.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_block_geometry_state"
+          ]
+        },
+        "size_offset": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "sizeOffset = -((size - 1) / 2);",
+          "rule": "Reuse existing SourceBlockInitPlacementState.offset_state; no separate formula or stale geometry cache.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_block_geometry_state"
+          ]
+        },
+        "is_multiblock": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "return size > 1;",
+          "rule": "Reuse existing SourceBlockQueryBasicState.is_multiblock_state.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_block_geometry_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_world_tile_definition": {
+      "status": "active",
+      "owner": "SourceWorldTerrainRuntimeState.source_world_tiles_state",
+      "source_slice": "N2018",
+      "keys": {
+        "x": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tiles.java",
+          "java_expr": "new Tile(i % width, i / width)",
+          "rule": "Source logical x coordinate.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_world_tiles_state"
+          ]
+        },
+        "y": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tiles.java",
+          "java_expr": "new Tile(i % width, i / width)",
+          "rule": "Source logical y coordinate.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_world_tiles_state"
+          ]
+        },
+        "floor": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "block = floor = overlay = (Floor)Blocks.air;",
+          "rule": "Actual floor reference, source air at fill; exact loaded definition on materialization.",
+          "schema": "source_terrain_block_definition",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_world_tiles_state"
+          ]
+        },
+        "overlay": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "block = floor = overlay = (Floor)Blocks.air;",
+          "rule": "Actual overlay reference, source air at fill; exact loaded definition on materialization.",
+          "schema": "source_terrain_block_definition",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_world_tiles_state"
+          ]
+        },
+        "block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "block = floor = overlay = (Floor)Blocks.air;",
+          "rule": "Actual block reference, source air at fill; exact loaded definition on materialization.",
+          "schema": "source_terrain_block_definition",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_world_tiles_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_world_tiles_state_input": {
+      "status": "active",
+      "owner": "SourceWorldTerrainRuntimeState.source_world_tiles_state",
+      "source_slice": "N2018",
+      "keys": {
+        "width": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tiles.java",
+          "java_expr": "this.width = width;",
+          "rule": "Positive logical map width.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_world_tiles_state"
+          ]
+        },
+        "height": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tiles.java",
+          "java_expr": "this.height = height;",
+          "rule": "Positive logical map height.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_world_tiles_state"
+          ]
+        },
+        "air_block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "block = floor = overlay = (Floor)Blocks.air;",
+          "rule": "Actual canonical air reference; never inferred from id equality.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_world_tiles_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_world_tiles_state_result": {
+      "status": "active",
+      "owner": "SourceWorldTerrainRuntimeState.source_world_tiles_state",
+      "source_slice": "N2018",
+      "keys": {
+        "width": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tiles.java",
+          "java_expr": "this.width = width;",
+          "rule": "Actual logical map width; independent of viewport background.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_world_tiles_state"
+          ]
+        },
+        "height": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tiles.java",
+          "java_expr": "this.height = height;",
+          "rule": "Actual logical map height.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_world_tiles_state"
+          ]
+        },
+        "array": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tiles.java",
+          "java_expr": "this.array = new Tile[width * height];",
+          "rule": "Dense y*width+x storage of actual Tile dictionaries preserving Block identity. Coordinates and nullable ore facts have existing canonical providers.",
+          "schema": "source_world_tile_definition",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_world_tiles_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_world_tile_input": {
+      "status": "active",
+      "owner": "SourceWorldTerrainRuntimeState.source_world_tile",
+      "source_slice": "N2018",
+      "keys": {
+        "world_tiles": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/World.java",
+          "java_expr": "public Tiles tiles = new Tiles(0, 0);",
+          "rule": "Single dense source Tile storage; placed_blocks remains the Building sprite index, never a competing terrain/ore owner.",
+          "schema": "source_world_tiles_state_result",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_world_tile"
+          ]
+        },
+        "x": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tiles.java",
+          "java_expr": "array[y*width + x]",
+          "rule": "Source Tile x coordinate.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_world_tile"
+          ]
+        },
+        "y": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tiles.java",
+          "java_expr": "array[y*width + x]",
+          "rule": "Source Tile y coordinate.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_world_tile"
+          ]
+        }
+      },
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_record_world_block_input": {
+      "status": "active",
+      "owner": "SourceWorldTerrainRuntimeState.source_record_world_block",
+      "source_slice": "N2019",
+      "keys": {
+        "world_tiles": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/World.java",
+          "java_expr": "public Tiles tiles = new Tiles(0, 0);",
+          "rule": "Single dense source Tile storage; placed_blocks remains the Building sprite index, never a competing terrain/ore owner.",
+          "schema": "source_world_tiles_state_result",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_record_world_block"
+          ]
+        },
+        "block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "this.block = type;",
+          "rule": "Actual typed canonical Block; unresolved definitions are rejected.",
+          "schema": "source_terrain_block_definition",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_record_world_block"
+          ]
+        },
+        "x": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tiles.java",
+          "java_expr": "array[y*width + x]",
+          "rule": "Source Tile x coordinate.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_record_world_block"
+          ]
+        },
+        "y": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tiles.java",
+          "java_expr": "array[y*width + x]",
+          "rule": "Source Tile y coordinate.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_record_world_block"
+          ]
+        },
+        "source_tilesize": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "offset = ((size + 1) % 2) * tilesize / 2f;",
+          "rule": "Existing source tilesize input passed to canonical Block.init offset owner; no second formula.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_record_world_block"
+          ]
+        }
+      },
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_world_block_by_field_input": {
+      "status": "active",
+      "owner": "SourceWorldTerrainRuntimeState.source_world_block_by_field",
+      "source_slice": "N2018",
+      "keys": {
+        "content_catalog": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/io/SaveVersion.java",
+          "java_expr": "Block block = content.block(stream.readShort());",
+          "rule": "Actual loaded typed content catalog. Resolve exact map content ID or source field; no slug conversion or fabricated Block.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_world_block_by_field"
+          ]
+        },
+        "field": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "public static Block",
+          "rule": "Exact registered source field identifier, not a slug-derived guess.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_world_block_by_field"
+          ]
+        }
+      },
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_campaign_world_tiles_state_input": {
+      "status": "active",
+      "owner": "SourceWorldTerrainRuntimeState.source_campaign_world_tiles_state",
+      "source_slice": "N2018",
+      "keys": {
+        "campaign_map_tile_state": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/io/SaveVersion.java",
+          "java_expr": "context.create(x, y, floorid, oreid, (short)0);",
+          "rule": "Existing decoded map dimensions, complete ordered floor runs and center/static block placements; validate full coverage before claiming materialization.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_campaign_world_tiles_state"
+          ]
+        },
+        "content_catalog": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/io/SaveVersion.java",
+          "java_expr": "Block block = content.block(stream.readShort());",
+          "rule": "Actual loaded typed content catalog. Resolve exact map content ID or source field; no slug conversion or fabricated Block.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_campaign_world_tiles_state"
+          ]
+        },
+        "source_tilesize": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "offset = ((size + 1) % 2) * tilesize / 2f;",
+          "rule": "Existing source tilesize input passed to canonical Block.init offset owner; no second formula.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_campaign_world_tiles_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_campaign_world_tiles_state_result": {
+      "status": "active",
+      "owner": "SourceWorldTerrainRuntimeState.source_campaign_world_tiles_state",
+      "source_slice": "N2018",
+      "keys": {
+        "width": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tiles.java",
+          "java_expr": "this.width = width;",
+          "rule": "Actual logical map width; independent of viewport background.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_campaign_world_tiles_state"
+          ]
+        },
+        "height": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tiles.java",
+          "java_expr": "this.height = height;",
+          "rule": "Actual logical map height.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_campaign_world_tiles_state"
+          ]
+        },
+        "array": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tiles.java",
+          "java_expr": "this.array = new Tile[width * height];",
+          "rule": "Dense y*width+x storage of actual Tile dictionaries preserving Block identity. Coordinates and nullable ore facts have existing canonical providers.",
+          "schema": "source_world_tile_definition",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_campaign_world_tiles_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_game_world_tiles_state_input": {
+      "status": "active",
+      "owner": "SourceWorldTerrainRuntimeState.source_game_world_tiles_state",
+      "source_slice": "N2019",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/World.java",
+          "java_expr": "public Tiles tiles = new Tiles(0, 0);",
+          "rule": "Actual game bootstrap owner with loaded content and source tilesize.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_game_world_tiles_state"
+          ]
+        },
+        "initial_build_state": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/io/SaveVersion.java",
+          "java_expr": "context.resize(width, height);",
+          "rule": "Existing canonical initial build plan: consumed campaign map wins; otherwise explicit builtin scenario source field bindings and logical layout, independent of textures.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_game_world_tiles_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_game_world_tiles_state_result": {
+      "status": "active",
+      "owner": "SourceWorldTerrainRuntimeState.source_game_world_tiles_state",
+      "source_slice": "N2019",
+      "keys": {
+        "width": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tiles.java",
+          "java_expr": "this.width = width;",
+          "rule": "Actual logical map width; independent of viewport background.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_game_world_tiles_state"
+          ]
+        },
+        "height": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tiles.java",
+          "java_expr": "this.height = height;",
+          "rule": "Actual logical map height.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_game_world_tiles_state"
+          ]
+        },
+        "array": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tiles.java",
+          "java_expr": "this.array = new Tile[width * height];",
+          "rule": "Dense y*width+x storage of actual Tile dictionaries preserving Block identity. Coordinates and nullable ore facts have existing canonical providers.",
+          "schema": "source_world_tile_definition",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_game_world_tiles_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_game_world_tile_input": {
+      "status": "active",
+      "owner": "PortGame.source_world_tile",
+      "source_slice": "N2019",
+      "keys": {
+        "x": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tiles.java",
+          "java_expr": "array[y*width + x]",
+          "rule": "Source Tile x coordinate.",
+          "used_by": [
+            "PortGame.source_world_tile"
+          ]
+        },
+        "y": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tiles.java",
+          "java_expr": "array[y*width + x]",
+          "rule": "Source Tile y coordinate.",
+          "used_by": [
+            "PortGame.source_world_tile"
+          ]
+        }
+      },
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_world_linked_ore_tiles_input": {
+      "status": "active",
+      "owner": "PortGame.source_world_linked_ore_tiles_state",
+      "source_slice": "N2019",
+      "keys": {
+        "block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "this.block = type;",
+          "rule": "Actual typed canonical Block; unresolved definitions are rejected.",
+          "schema": "source_terrain_block_definition",
+          "used_by": [
+            "PortGame.source_world_linked_ore_tiles_state"
+          ]
+        },
+        "x": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tiles.java",
+          "java_expr": "array[y*width + x]",
+          "rule": "Source Tile x coordinate.",
+          "used_by": [
+            "PortGame.source_world_linked_ore_tiles_state"
+          ]
+        },
+        "y": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tiles.java",
+          "java_expr": "array[y*width + x]",
+          "rule": "Source Tile y coordinate.",
+          "used_by": [
+            "PortGame.source_world_linked_ore_tiles_state"
+          ]
+        },
+        "item_catalog": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "return overlay == Blocks.air || overlay.itemDrop == null ? floor.itemDrop : overlay.itemDrop;",
+          "rule": "Shared typed numeric Item catalog supplied to existing Tile ore provider.",
+          "schema": "source_item_catalog_result",
+          "used_by": [
+            "PortGame.source_world_linked_ore_tiles_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_world_linked_ore_tiles_result": {
+      "status": "active",
+      "owner": "PortGame.source_world_linked_ore_tiles_state",
+      "source_slice": "N2019",
+      "keys": {
+        "ore_tiles": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "getLinkedTilesAs(block, tmpArray::add);",
+          "rule": "Actual world lookup plus canonical geometry/static/drop composition; no new ore-selection or production algorithm.",
+          "schema": "source_drill_ore_tile",
+          "used_by": [
+            "PortGame.source_world_linked_ore_tiles_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/WorldTileLifecycleProof"
     }
   },
   "version": 1

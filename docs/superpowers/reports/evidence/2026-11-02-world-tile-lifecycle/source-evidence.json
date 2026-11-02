@@ -1,0 +1,242 @@
+{
+  "source_block_geometry_state_input.block": {
+    "source": "core/src/mindustry/world/Tile.java",
+    "line": 247,
+    "expression": "this.block = type;"
+  },
+  "source_block_geometry_state_input.source_tilesize": {
+    "source": "core/src/mindustry/world/Block.java",
+    "line": 761,
+    "expression": "offset = ((size + 1) % 2) * tilesize / 2f;"
+  },
+  "source_block_geometry_state_result.is_multiblock": {
+    "source": "core/src/mindustry/world/Block.java",
+    "line": 1015,
+    "expression": "return size > 1;"
+  },
+  "source_block_geometry_state_result.size": {
+    "source": "core/src/mindustry/world/Block.java",
+    "line": 215,
+    "expression": "public int size = 1;"
+  },
+  "source_block_geometry_state_result.size_offset": {
+    "source": "core/src/mindustry/world/Block.java",
+    "line": 762,
+    "expression": "sizeOffset = -((size - 1) / 2);"
+  },
+  "source_campaign_world_tiles_state_input.campaign_map_tile_state": {
+    "source": "core/src/mindustry/io/SaveVersion.java",
+    "line": 297,
+    "expression": "context.create(x, y, floorid, oreid, (short)0);"
+  },
+  "source_campaign_world_tiles_state_input.content_catalog": {
+    "source": "core/src/mindustry/io/SaveVersion.java",
+    "line": 309,
+    "expression": "Block block = content.block(stream.readShort());"
+  },
+  "source_campaign_world_tiles_state_input.source_tilesize": {
+    "source": "core/src/mindustry/world/Block.java",
+    "line": 761,
+    "expression": "offset = ((size + 1) % 2) * tilesize / 2f;"
+  },
+  "source_campaign_world_tiles_state_result.array": {
+    "source": "core/src/mindustry/world/Tiles.java",
+    "line": 22,
+    "expression": "this.array = new Tile[width * height];"
+  },
+  "source_campaign_world_tiles_state_result.height": {
+    "source": "core/src/mindustry/world/Tiles.java",
+    "line": 24,
+    "expression": "this.height = height;"
+  },
+  "source_campaign_world_tiles_state_result.width": {
+    "source": "core/src/mindustry/world/Tiles.java",
+    "line": 23,
+    "expression": "this.width = width;"
+  },
+  "source_game_world_tile_input.x": {
+    "source": "core/src/mindustry/world/Tiles.java",
+    "line": 80,
+    "expression": "array[y*width + x]"
+  },
+  "source_game_world_tile_input.y": {
+    "source": "core/src/mindustry/world/Tiles.java",
+    "line": 80,
+    "expression": "array[y*width + x]"
+  },
+  "source_game_world_tiles_state_input.game": {
+    "source": "core/src/mindustry/core/World.java",
+    "line": 33,
+    "expression": "public Tiles tiles = new Tiles(0, 0);"
+  },
+  "source_game_world_tiles_state_input.initial_build_state": {
+    "source": "core/src/mindustry/io/SaveVersion.java",
+    "line": 287,
+    "expression": "context.resize(width, height);"
+  },
+  "source_game_world_tiles_state_result.array": {
+    "source": "core/src/mindustry/world/Tiles.java",
+    "line": 22,
+    "expression": "this.array = new Tile[width * height];"
+  },
+  "source_game_world_tiles_state_result.height": {
+    "source": "core/src/mindustry/world/Tiles.java",
+    "line": 24,
+    "expression": "this.height = height;"
+  },
+  "source_game_world_tiles_state_result.width": {
+    "source": "core/src/mindustry/world/Tiles.java",
+    "line": 23,
+    "expression": "this.width = width;"
+  },
+  "source_record_world_block_input.block": {
+    "source": "core/src/mindustry/world/Tile.java",
+    "line": 247,
+    "expression": "this.block = type;"
+  },
+  "source_record_world_block_input.source_tilesize": {
+    "source": "core/src/mindustry/world/Block.java",
+    "line": 761,
+    "expression": "offset = ((size + 1) % 2) * tilesize / 2f;"
+  },
+  "source_record_world_block_input.world_tiles": {
+    "source": "core/src/mindustry/core/World.java",
+    "line": 33,
+    "expression": "public Tiles tiles = new Tiles(0, 0);"
+  },
+  "source_record_world_block_input.x": {
+    "source": "core/src/mindustry/world/Tiles.java",
+    "line": 80,
+    "expression": "array[y*width + x]"
+  },
+  "source_record_world_block_input.y": {
+    "source": "core/src/mindustry/world/Tiles.java",
+    "line": 80,
+    "expression": "array[y*width + x]"
+  },
+  "source_world_block_by_field_input.content_catalog": {
+    "source": "core/src/mindustry/io/SaveVersion.java",
+    "line": 309,
+    "expression": "Block block = content.block(stream.readShort());"
+  },
+  "source_world_block_by_field_input.field": {
+    "source": "core/src/mindustry/content/Blocks.java",
+    "line": 44,
+    "expression": "public static Block"
+  },
+  "source_world_linked_ore_tiles_input.block": {
+    "source": "core/src/mindustry/world/Tile.java",
+    "line": 247,
+    "expression": "this.block = type;"
+  },
+  "source_world_linked_ore_tiles_input.item_catalog": {
+    "source": "core/src/mindustry/world/Tile.java",
+    "line": 572,
+    "expression": "return overlay == Blocks.air || overlay.itemDrop == null ? floor.itemDrop : overlay.itemDrop;"
+  },
+  "source_world_linked_ore_tiles_input.x": {
+    "source": "core/src/mindustry/world/Tiles.java",
+    "line": 80,
+    "expression": "array[y*width + x]"
+  },
+  "source_world_linked_ore_tiles_input.y": {
+    "source": "core/src/mindustry/world/Tiles.java",
+    "line": 80,
+    "expression": "array[y*width + x]"
+  },
+  "source_world_linked_ore_tiles_result.ore_tiles": {
+    "source": "core/src/mindustry/world/Tile.java",
+    "line": 504,
+    "expression": "getLinkedTilesAs(block, tmpArray::add);"
+  },
+  "source_world_tile_definition.block": {
+    "source": "core/src/mindustry/world/Tile.java",
+    "line": 53,
+    "expression": "block = floor = overlay = (Floor)Blocks.air;"
+  },
+  "source_world_tile_definition.floor": {
+    "source": "core/src/mindustry/world/Tile.java",
+    "line": 53,
+    "expression": "block = floor = overlay = (Floor)Blocks.air;"
+  },
+  "source_world_tile_definition.overlay": {
+    "source": "core/src/mindustry/world/Tile.java",
+    "line": 53,
+    "expression": "block = floor = overlay = (Floor)Blocks.air;"
+  },
+  "source_world_tile_definition.x": {
+    "source": "core/src/mindustry/world/Tiles.java",
+    "line": 74,
+    "expression": "new Tile(i % width, i / width)"
+  },
+  "source_world_tile_definition.y": {
+    "source": "core/src/mindustry/world/Tiles.java",
+    "line": 74,
+    "expression": "new Tile(i % width, i / width)"
+  },
+  "source_world_tile_input.world_tiles": {
+    "source": "core/src/mindustry/core/World.java",
+    "line": 33,
+    "expression": "public Tiles tiles = new Tiles(0, 0);"
+  },
+  "source_world_tile_input.x": {
+    "source": "core/src/mindustry/world/Tiles.java",
+    "line": 80,
+    "expression": "array[y*width + x]"
+  },
+  "source_world_tile_input.y": {
+    "source": "core/src/mindustry/world/Tiles.java",
+    "line": 80,
+    "expression": "array[y*width + x]"
+  },
+  "source_world_tiles_state_input.air_block": {
+    "source": "core/src/mindustry/world/Tile.java",
+    "line": 53,
+    "expression": "block = floor = overlay = (Floor)Blocks.air;"
+  },
+  "source_world_tiles_state_input.height": {
+    "source": "core/src/mindustry/world/Tiles.java",
+    "line": 24,
+    "expression": "this.height = height;"
+  },
+  "source_world_tiles_state_input.width": {
+    "source": "core/src/mindustry/world/Tiles.java",
+    "line": 23,
+    "expression": "this.width = width;"
+  },
+  "source_world_tiles_state_result.array": {
+    "source": "core/src/mindustry/world/Tiles.java",
+    "line": 22,
+    "expression": "this.array = new Tile[width * height];"
+  },
+  "source_world_tiles_state_result.height": {
+    "source": "core/src/mindustry/world/Tiles.java",
+    "line": 24,
+    "expression": "this.height = height;"
+  },
+  "source_world_tiles_state_result.width": {
+    "source": "core/src/mindustry/world/Tiles.java",
+    "line": 23,
+    "expression": "this.width = width;"
+  },
+  "world_tile_game_storage.tiles": {
+    "source": "core/src/mindustry/core/World.java",
+    "line": 33,
+    "expression": "public Tiles tiles = new Tiles(0, 0);"
+  },
+  "world_tile_source_fields.air": {
+    "source": "core/src/mindustry/content/Blocks.java",
+    "line": 191,
+    "expression": "air = new AirBlock(\"air\");"
+  },
+  "world_tile_source_fields.oreCopper": {
+    "source": "core/src/mindustry/content/Blocks.java",
+    "line": 978,
+    "expression": "oreCopper = new OreBlock(Items.copper){{"
+  },
+  "world_tile_source_fields.stone": {
+    "source": "core/src/mindustry/content/Blocks.java",
+    "line": 347,
+    "expression": "stone = new Floor(\"stone\");"
+  }
+}

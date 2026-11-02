@@ -14,8 +14,8 @@ Counts below are projected from the canonical `source_slice_ledger.json`, not fr
 
 | Bucket | Count |
 | --- | ---: |
-| Canonical slice ledger entries | 1471 |
-| Done | 1471 |
+| Canonical slice ledger entries | 1474 |
+| Done | 1474 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -98,6 +98,9 @@ Counts below are projected from the canonical `source_slice_ledger.json`, not fr
 - [x] N2014: Source constructor terrain extraction preserves inherited itemDrop/cacheLayer, actual Item-only OreBlock naming/delegation and source order; unsupported writes stay unresolved. Eight omitted builtin ores now regenerate without changing old properties.
 - [x] N2015: Actual typed Tile floor/overlay/occupying Block definitions bind through canonical Tile.drop and Block.isStatic owners; preserve Item/air reference identity and reject incomplete metadata.
 - [x] N2016: Supplied source world callback and initialized geometry delegate canonical linked traversal, then Tile provider; actual game world/proximity/output lifecycle remains open.
+- [x] N2017: Actual Block geometry composes existing source size/init offset/isMultiblock owners; no duplicate formula or geometry cache.
+- [x] N2018: Dense source Tile fill/get and decoded floor/block map materialization preserve reference identity, source air-floor replacement, complete coverage and border clipping; unknown content rejects.
+- [x] N2019: Real game bootstrap/placement updates one Tile container and exposes canonical linked ore queries; actual Main proof passes. Complete Tile lifecycle/proximity/dominant output remains open.
 - [x] N167: Source BuildingComp drawConfigure canonical square state.
 - [x] N168: Source BuildingComp checkSolid default state.
 - [x] N169: Source BuildingComp handleDamage passthrough state.
@@ -1367,7 +1370,7 @@ Counts below are projected from the canonical `source_slice_ledger.json`, not fr
 
 Work now uses dependency cubes for prioritization without changing the verification contract. Each cube groups source Java, Godot runtime wiring, and playable behavior for one gameplay system. Inside a cube, every slice still moves linearly: read upstream Java, write RED tests, prove RED, implement minimal GREEN, run targeted/full tests, prove through Godot MCP runtime, update this checklist, run `git diff --check`, stage only touched tracked files, and commit.
 
-Current cube: `source terrain definitions and canonical Tile ore providers`. N2014–N2016 repair omitted Item-only ore construction, export source-backed terrain metadata and bind actual typed Tile objects/linked source callbacks to existing canonical owners. Ledger: 1471 records; catalog: 113 modules; generated blocks: 425. C01-A remains open for real game-world load/mutation/storage and initialized geometry binding, followed by C01-B proximity and C01-C actual dominant production/output. C02–C12 remain open. See `reports/2026-11-02-tile-ore-provider.md`.
+Current cube: `canonical world Tile storage and bootstrap/placement projection`. N2017–N2019 compose canonical initialized geometry, dense logical Tile storage, decoded-map field materialization and real default game bootstrap/placement. Ledger: 1474 records; catalog: 113 modules; generated blocks unchanged at 425. C01-A getDrop/lifecycle boundaries, C01-B proximity and C01-C dominant production/output remain open; C02–C12 remain open. See `reports/2026-11-02-world-tile-lifecycle.md`.
 
 ## Done
 
@@ -3019,10 +3022,13 @@ Current cube: `source terrain definitions and canonical Tile ore providers`. N20
 | N2014 | Source terrain metadata and Item-only ore construction | Bounded source constructor/initializer AST evaluation exports itemDrop/cacheLayer and adds eight omitted ore definitions. Unknown writes remain unresolved; prior content properties preserved. |
 | N2015 | Actual typed Tile ore provider | Existing canonical drop/static owners receive actual Block definitions and shared typed Item facts. Air equality uses identity; missing metadata asserts. |
 | N2016 | Canonical linked ore projection | Existing canonical geometry owns order, bounds and self-tile behavior. Focused 22 / 19; full 5379 / 22748 in 1071.39s; catalog 0 errors / 113 modules; native matches=true; editor exit 0; 10-file replay unchanged. Supplied-world proof only; real game lifecycle/proximity/output remains open. See reports/2026-11-02-tile-ore-provider.md. |
+| N2017 | Canonical Block geometry binding | Reuse source metadata size/default, Block.init offset and isMultiblock owners on actual definitions; 1/2/3/4 cases. |
+| N2018 | Dense world Tile materialization | Source fill/get identity/bounds and complete decoded floor runs; air floor becomes stone, static blocks and center proxies represented independently of sprites. |
+| N2019 | Real bootstrap and placement Tile projection | Focused 19/18; full 5383/22772 in 1170.21s; catalog 0 errors/113 modules; native 20 checks true, explicit stop; editor 0; 114-hash replay unchanged. Proximity/removal/dominant output remains open. See reports/2026-11-02-world-tile-lifecycle.md. |
 
 ## Not Done
 
-C01-A has numeric Item/effective fields, blocked initialization, regenerated source terrain definitions and actual typed Tile/linked callback binding (N2010–N2016). It still needs the real game-world terrain/storage/load/mutation provider and initialized geometry integration. C01-B proximity invalidation and C01-C dominant production/output remain prerequisites for live mixed-ore gameplay. C02–C12 remain open in handoffs/2026-11-02-mindustry-completion-backlog.md. Ledger totals are not a whole-game parity measure.
+C01-A now includes canonical initialized geometry, source dense Tile storage, decoded map field projection and real default-world bootstrap/placement (N2017–N2019). Drill.getDrop/live lifecycle boundaries, proximity invalidation and dominant production/output remain open. Removal/overlap/event/map-transition side effects are explicitly deferred. Live mixed-ore gameplay and C02–C12 remain gated; ledger totals do not measure whole-game parity.
 
 ## Scope
 
@@ -3380,3 +3386,4 @@ When Godot CLI is not on `PATH`, use the configured MCP Godot path from `C:\User
 | 2026-11-02 | N2010 accepted: complete canonical canMine/countOre state on explicit source facts, in existing Drill module. Focused 5 / 6; full 5366 / 22708 in 1039.04s; catalog 0 errors / 113 modules; native matches=true, 0 actual errors / 23 warnings, explicit stop; editor exit 0; 12-file replay unchanged. Live mixed-ore binding remains open. Added 12-group completion backlog with dependency/acceptance gates; full parity is not claimed. |
 | 2026-11-02 | N2011–N2013 accepted: typed Item ordinal/effective facts, source Drill blocked definitions/init and actual Block binding. Focused 16 tests / 15 subtests; full 5372 / 22734 in 1091.66s; catalog 0 errors / 113 modules; native matches=true, 0 actual errors / 23 warnings, explicit stop; editor exit 0; 13-file content+SSOT replay unchanged. C01-A partially advanced; live Tile/proximity/output and C02–C12 remain open. |
 | 2026-11-02 | N2014–N2016 accepted: source terrain extraction and eight omitted ore overlays, actual typed Tile drop/static and canonical linked callback binding. Focused 22 tests / 19 subtests in 38.30s; full 5379 / 22748 in 1071.39s; catalog 0 errors / 113 modules; native 17 checks true, 0 actual errors / 23 warnings, explicit stop; editor exit 0; 10-file replay unchanged. C01 real-world lifecycle/proximity/output and C02–C12 remain open. See reports/2026-11-02-tile-ore-provider.md. |
+| 2026-11-02 | N2017–N2019 accepted: canonical geometry, dense Tile map materialization and actual default-world bootstrap/placement. Focused 19/18 in 73.68s; full 5383/22772 in 1170.21s; native 20 true, 0 actual errors/68 warnings, explicit stop; editor 0; 114-hash replay. C01 proximity/output and C02–C12 remain open. See reports/2026-11-02-world-tile-lifecycle.md. |

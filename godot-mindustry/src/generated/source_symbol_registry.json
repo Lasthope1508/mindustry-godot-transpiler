@@ -150757,6 +150757,777 @@
         "test_missing_tile_metadata_is_rejected"
       ],
       "runtime_proof": "/root/TileOreProviderProof"
+    },
+    "source_block_geometry_state_input.block": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_block_geometry_state",
+      "godot_symbol": "source_block_geometry_state_input.block",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "Tiles.fill/get; Tile fields/getLinkedTilesAs; Block.init; SaveVersion.readMap",
+      "java_expr": "this.block = type;",
+      "rule": "Actual typed canonical Block; unresolved definitions are rejected.",
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_block_geometry_state_input.source_tilesize": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_block_geometry_state",
+      "godot_symbol": "source_block_geometry_state_input.source_tilesize",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Tiles.fill/get; Tile fields/getLinkedTilesAs; Block.init; SaveVersion.readMap",
+      "java_expr": "offset = ((size + 1) % 2) * tilesize / 2f;",
+      "rule": "Existing source tilesize input passed to canonical Block.init offset owner; no second formula.",
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_block_geometry_state_result.size": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_block_geometry_state",
+      "godot_symbol": "source_block_geometry_state_result.size",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Tiles.fill/get; Tile fields/getLinkedTilesAs; Block.init; SaveVersion.readMap",
+      "java_expr": "public int size = 1;",
+      "rule": "Reuse existing SourceBlockMetadataState.block_size source default and definition.",
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_block_geometry_state_result.size_offset": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_block_geometry_state",
+      "godot_symbol": "source_block_geometry_state_result.size_offset",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Tiles.fill/get; Tile fields/getLinkedTilesAs; Block.init; SaveVersion.readMap",
+      "java_expr": "sizeOffset = -((size - 1) / 2);",
+      "rule": "Reuse existing SourceBlockInitPlacementState.offset_state; no separate formula or stale geometry cache.",
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_block_geometry_state_result.is_multiblock": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_block_geometry_state",
+      "godot_symbol": "source_block_geometry_state_result.is_multiblock",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Tiles.fill/get; Tile fields/getLinkedTilesAs; Block.init; SaveVersion.readMap",
+      "java_expr": "return size > 1;",
+      "rule": "Reuse existing SourceBlockQueryBasicState.is_multiblock_state.",
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_world_tile_definition.x": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_world_tiles_state",
+      "godot_symbol": "source_world_tile_definition.x",
+      "java_source": "core/src/mindustry/world/Tiles.java",
+      "java_method": "Tiles.fill/get; Tile fields/getLinkedTilesAs; Block.init; SaveVersion.readMap",
+      "java_expr": "new Tile(i % width, i / width)",
+      "rule": "Source logical x coordinate.",
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_world_tile_definition.y": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_world_tiles_state",
+      "godot_symbol": "source_world_tile_definition.y",
+      "java_source": "core/src/mindustry/world/Tiles.java",
+      "java_method": "Tiles.fill/get; Tile fields/getLinkedTilesAs; Block.init; SaveVersion.readMap",
+      "java_expr": "new Tile(i % width, i / width)",
+      "rule": "Source logical y coordinate.",
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_world_tile_definition.floor": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_world_tiles_state",
+      "godot_symbol": "source_world_tile_definition.floor",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "Tiles.fill/get; Tile fields/getLinkedTilesAs; Block.init; SaveVersion.readMap",
+      "java_expr": "block = floor = overlay = (Floor)Blocks.air;",
+      "rule": "Actual floor reference, source air at fill; exact loaded definition on materialization.",
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_world_tile_definition.overlay": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_world_tiles_state",
+      "godot_symbol": "source_world_tile_definition.overlay",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "Tiles.fill/get; Tile fields/getLinkedTilesAs; Block.init; SaveVersion.readMap",
+      "java_expr": "block = floor = overlay = (Floor)Blocks.air;",
+      "rule": "Actual overlay reference, source air at fill; exact loaded definition on materialization.",
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_world_tile_definition.block": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_world_tiles_state",
+      "godot_symbol": "source_world_tile_definition.block",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "Tiles.fill/get; Tile fields/getLinkedTilesAs; Block.init; SaveVersion.readMap",
+      "java_expr": "block = floor = overlay = (Floor)Blocks.air;",
+      "rule": "Actual block reference, source air at fill; exact loaded definition on materialization.",
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_world_tiles_state_input.width": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_world_tiles_state",
+      "godot_symbol": "source_world_tiles_state_input.width",
+      "java_source": "core/src/mindustry/world/Tiles.java",
+      "java_method": "Tiles.fill/get; Tile fields/getLinkedTilesAs; Block.init; SaveVersion.readMap",
+      "java_expr": "this.width = width;",
+      "rule": "Positive logical map width.",
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_world_tiles_state_input.height": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_world_tiles_state",
+      "godot_symbol": "source_world_tiles_state_input.height",
+      "java_source": "core/src/mindustry/world/Tiles.java",
+      "java_method": "Tiles.fill/get; Tile fields/getLinkedTilesAs; Block.init; SaveVersion.readMap",
+      "java_expr": "this.height = height;",
+      "rule": "Positive logical map height.",
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_world_tiles_state_input.air_block": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_world_tiles_state",
+      "godot_symbol": "source_world_tiles_state_input.air_block",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "Tiles.fill/get; Tile fields/getLinkedTilesAs; Block.init; SaveVersion.readMap",
+      "java_expr": "block = floor = overlay = (Floor)Blocks.air;",
+      "rule": "Actual canonical air reference; never inferred from id equality.",
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_world_tiles_state_result.width": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_world_tiles_state",
+      "godot_symbol": "source_world_tiles_state_result.width",
+      "java_source": "core/src/mindustry/world/Tiles.java",
+      "java_method": "Tiles.fill/get; Tile fields/getLinkedTilesAs; Block.init; SaveVersion.readMap",
+      "java_expr": "this.width = width;",
+      "rule": "Actual logical map width; independent of viewport background.",
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_world_tiles_state_result.height": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_world_tiles_state",
+      "godot_symbol": "source_world_tiles_state_result.height",
+      "java_source": "core/src/mindustry/world/Tiles.java",
+      "java_method": "Tiles.fill/get; Tile fields/getLinkedTilesAs; Block.init; SaveVersion.readMap",
+      "java_expr": "this.height = height;",
+      "rule": "Actual logical map height.",
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_world_tiles_state_result.array": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_world_tiles_state",
+      "godot_symbol": "source_world_tiles_state_result.array",
+      "java_source": "core/src/mindustry/world/Tiles.java",
+      "java_method": "Tiles.fill/get; Tile fields/getLinkedTilesAs; Block.init; SaveVersion.readMap",
+      "java_expr": "this.array = new Tile[width * height];",
+      "rule": "Dense y*width+x storage of actual Tile dictionaries preserving Block identity. Coordinates and nullable ore facts have existing canonical providers.",
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_world_tile_input.world_tiles": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_world_tile",
+      "godot_symbol": "source_world_tile_input.world_tiles",
+      "java_source": "core/src/mindustry/core/World.java",
+      "java_method": "Tiles.fill/get; Tile fields/getLinkedTilesAs; Block.init; SaveVersion.readMap",
+      "java_expr": "public Tiles tiles = new Tiles(0, 0);",
+      "rule": "Single dense source Tile storage; placed_blocks remains the Building sprite index, never a competing terrain/ore owner.",
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_world_tile_input.x": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_world_tile",
+      "godot_symbol": "source_world_tile_input.x",
+      "java_source": "core/src/mindustry/world/Tiles.java",
+      "java_method": "Tiles.fill/get; Tile fields/getLinkedTilesAs; Block.init; SaveVersion.readMap",
+      "java_expr": "array[y*width + x]",
+      "rule": "Source Tile x coordinate.",
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_world_tile_input.y": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_world_tile",
+      "godot_symbol": "source_world_tile_input.y",
+      "java_source": "core/src/mindustry/world/Tiles.java",
+      "java_method": "Tiles.fill/get; Tile fields/getLinkedTilesAs; Block.init; SaveVersion.readMap",
+      "java_expr": "array[y*width + x]",
+      "rule": "Source Tile y coordinate.",
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_record_world_block_input.world_tiles": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_record_world_block",
+      "godot_symbol": "source_record_world_block_input.world_tiles",
+      "java_source": "core/src/mindustry/core/World.java",
+      "java_method": "Tiles.fill/get; Tile fields/getLinkedTilesAs; Block.init; SaveVersion.readMap",
+      "java_expr": "public Tiles tiles = new Tiles(0, 0);",
+      "rule": "Single dense source Tile storage; placed_blocks remains the Building sprite index, never a competing terrain/ore owner.",
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_record_world_block_input.block": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_record_world_block",
+      "godot_symbol": "source_record_world_block_input.block",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "Tiles.fill/get; Tile fields/getLinkedTilesAs; Block.init; SaveVersion.readMap",
+      "java_expr": "this.block = type;",
+      "rule": "Actual typed canonical Block; unresolved definitions are rejected.",
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_record_world_block_input.x": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_record_world_block",
+      "godot_symbol": "source_record_world_block_input.x",
+      "java_source": "core/src/mindustry/world/Tiles.java",
+      "java_method": "Tiles.fill/get; Tile fields/getLinkedTilesAs; Block.init; SaveVersion.readMap",
+      "java_expr": "array[y*width + x]",
+      "rule": "Source Tile x coordinate.",
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_record_world_block_input.y": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_record_world_block",
+      "godot_symbol": "source_record_world_block_input.y",
+      "java_source": "core/src/mindustry/world/Tiles.java",
+      "java_method": "Tiles.fill/get; Tile fields/getLinkedTilesAs; Block.init; SaveVersion.readMap",
+      "java_expr": "array[y*width + x]",
+      "rule": "Source Tile y coordinate.",
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_record_world_block_input.source_tilesize": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_record_world_block",
+      "godot_symbol": "source_record_world_block_input.source_tilesize",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Tiles.fill/get; Tile fields/getLinkedTilesAs; Block.init; SaveVersion.readMap",
+      "java_expr": "offset = ((size + 1) % 2) * tilesize / 2f;",
+      "rule": "Existing source tilesize input passed to canonical Block.init offset owner; no second formula.",
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_world_block_by_field_input.content_catalog": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_world_block_by_field",
+      "godot_symbol": "source_world_block_by_field_input.content_catalog",
+      "java_source": "core/src/mindustry/io/SaveVersion.java",
+      "java_method": "Tiles.fill/get; Tile fields/getLinkedTilesAs; Block.init; SaveVersion.readMap",
+      "java_expr": "Block block = content.block(stream.readShort());",
+      "rule": "Actual loaded typed content catalog. Resolve exact map content ID or source field; no slug conversion or fabricated Block.",
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_world_block_by_field_input.field": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_world_block_by_field",
+      "godot_symbol": "source_world_block_by_field_input.field",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "Tiles.fill/get; Tile fields/getLinkedTilesAs; Block.init; SaveVersion.readMap",
+      "java_expr": "public static Block",
+      "rule": "Exact registered source field identifier, not a slug-derived guess.",
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_campaign_world_tiles_state_input.campaign_map_tile_state": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_campaign_world_tiles_state",
+      "godot_symbol": "source_campaign_world_tiles_state_input.campaign_map_tile_state",
+      "java_source": "core/src/mindustry/io/SaveVersion.java",
+      "java_method": "Tiles.fill/get; Tile fields/getLinkedTilesAs; Block.init; SaveVersion.readMap",
+      "java_expr": "context.create(x, y, floorid, oreid, (short)0);",
+      "rule": "Existing decoded map dimensions, complete ordered floor runs and center/static block placements; validate full coverage before claiming materialization.",
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_campaign_world_tiles_state_input.content_catalog": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_campaign_world_tiles_state",
+      "godot_symbol": "source_campaign_world_tiles_state_input.content_catalog",
+      "java_source": "core/src/mindustry/io/SaveVersion.java",
+      "java_method": "Tiles.fill/get; Tile fields/getLinkedTilesAs; Block.init; SaveVersion.readMap",
+      "java_expr": "Block block = content.block(stream.readShort());",
+      "rule": "Actual loaded typed content catalog. Resolve exact map content ID or source field; no slug conversion or fabricated Block.",
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_campaign_world_tiles_state_input.source_tilesize": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_campaign_world_tiles_state",
+      "godot_symbol": "source_campaign_world_tiles_state_input.source_tilesize",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Tiles.fill/get; Tile fields/getLinkedTilesAs; Block.init; SaveVersion.readMap",
+      "java_expr": "offset = ((size + 1) % 2) * tilesize / 2f;",
+      "rule": "Existing source tilesize input passed to canonical Block.init offset owner; no second formula.",
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_campaign_world_tiles_state_result.width": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_campaign_world_tiles_state",
+      "godot_symbol": "source_campaign_world_tiles_state_result.width",
+      "java_source": "core/src/mindustry/world/Tiles.java",
+      "java_method": "Tiles.fill/get; Tile fields/getLinkedTilesAs; Block.init; SaveVersion.readMap",
+      "java_expr": "this.width = width;",
+      "rule": "Actual logical map width; independent of viewport background.",
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_campaign_world_tiles_state_result.height": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_campaign_world_tiles_state",
+      "godot_symbol": "source_campaign_world_tiles_state_result.height",
+      "java_source": "core/src/mindustry/world/Tiles.java",
+      "java_method": "Tiles.fill/get; Tile fields/getLinkedTilesAs; Block.init; SaveVersion.readMap",
+      "java_expr": "this.height = height;",
+      "rule": "Actual logical map height.",
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_campaign_world_tiles_state_result.array": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_campaign_world_tiles_state",
+      "godot_symbol": "source_campaign_world_tiles_state_result.array",
+      "java_source": "core/src/mindustry/world/Tiles.java",
+      "java_method": "Tiles.fill/get; Tile fields/getLinkedTilesAs; Block.init; SaveVersion.readMap",
+      "java_expr": "this.array = new Tile[width * height];",
+      "rule": "Dense y*width+x storage of actual Tile dictionaries preserving Block identity. Coordinates and nullable ore facts have existing canonical providers.",
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_game_world_tiles_state_input.game": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_game_world_tiles_state",
+      "godot_symbol": "source_game_world_tiles_state_input.game",
+      "java_source": "core/src/mindustry/core/World.java",
+      "java_method": "Tiles.fill/get; Tile fields/getLinkedTilesAs; Block.init; SaveVersion.readMap",
+      "java_expr": "public Tiles tiles = new Tiles(0, 0);",
+      "rule": "Actual game bootstrap owner with loaded content and source tilesize.",
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_game_world_tiles_state_input.initial_build_state": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_game_world_tiles_state",
+      "godot_symbol": "source_game_world_tiles_state_input.initial_build_state",
+      "java_source": "core/src/mindustry/io/SaveVersion.java",
+      "java_method": "Tiles.fill/get; Tile fields/getLinkedTilesAs; Block.init; SaveVersion.readMap",
+      "java_expr": "context.resize(width, height);",
+      "rule": "Existing canonical initial build plan: consumed campaign map wins; otherwise explicit builtin scenario source field bindings and logical layout, independent of textures.",
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_game_world_tiles_state_result.width": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_game_world_tiles_state",
+      "godot_symbol": "source_game_world_tiles_state_result.width",
+      "java_source": "core/src/mindustry/world/Tiles.java",
+      "java_method": "Tiles.fill/get; Tile fields/getLinkedTilesAs; Block.init; SaveVersion.readMap",
+      "java_expr": "this.width = width;",
+      "rule": "Actual logical map width; independent of viewport background.",
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_game_world_tiles_state_result.height": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_game_world_tiles_state",
+      "godot_symbol": "source_game_world_tiles_state_result.height",
+      "java_source": "core/src/mindustry/world/Tiles.java",
+      "java_method": "Tiles.fill/get; Tile fields/getLinkedTilesAs; Block.init; SaveVersion.readMap",
+      "java_expr": "this.height = height;",
+      "rule": "Actual logical map height.",
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_game_world_tiles_state_result.array": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_game_world_tiles_state",
+      "godot_symbol": "source_game_world_tiles_state_result.array",
+      "java_source": "core/src/mindustry/world/Tiles.java",
+      "java_method": "Tiles.fill/get; Tile fields/getLinkedTilesAs; Block.init; SaveVersion.readMap",
+      "java_expr": "this.array = new Tile[width * height];",
+      "rule": "Dense y*width+x storage of actual Tile dictionaries preserving Block identity. Coordinates and nullable ore facts have existing canonical providers.",
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_game_world_tile_input.x": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_world_tile",
+      "godot_symbol": "source_game_world_tile_input.x",
+      "java_source": "core/src/mindustry/world/Tiles.java",
+      "java_method": "Tiles.fill/get; Tile fields/getLinkedTilesAs; Block.init; SaveVersion.readMap",
+      "java_expr": "array[y*width + x]",
+      "rule": "Source Tile x coordinate.",
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_game_world_tile_input.y": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_world_tile",
+      "godot_symbol": "source_game_world_tile_input.y",
+      "java_source": "core/src/mindustry/world/Tiles.java",
+      "java_method": "Tiles.fill/get; Tile fields/getLinkedTilesAs; Block.init; SaveVersion.readMap",
+      "java_expr": "array[y*width + x]",
+      "rule": "Source Tile y coordinate.",
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_world_linked_ore_tiles_input.block": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_world_linked_ore_tiles_state",
+      "godot_symbol": "source_world_linked_ore_tiles_input.block",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "Tiles.fill/get; Tile fields/getLinkedTilesAs; Block.init; SaveVersion.readMap",
+      "java_expr": "this.block = type;",
+      "rule": "Actual typed canonical Block; unresolved definitions are rejected.",
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_world_linked_ore_tiles_input.x": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_world_linked_ore_tiles_state",
+      "godot_symbol": "source_world_linked_ore_tiles_input.x",
+      "java_source": "core/src/mindustry/world/Tiles.java",
+      "java_method": "Tiles.fill/get; Tile fields/getLinkedTilesAs; Block.init; SaveVersion.readMap",
+      "java_expr": "array[y*width + x]",
+      "rule": "Source Tile x coordinate.",
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_world_linked_ore_tiles_input.y": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_world_linked_ore_tiles_state",
+      "godot_symbol": "source_world_linked_ore_tiles_input.y",
+      "java_source": "core/src/mindustry/world/Tiles.java",
+      "java_method": "Tiles.fill/get; Tile fields/getLinkedTilesAs; Block.init; SaveVersion.readMap",
+      "java_expr": "array[y*width + x]",
+      "rule": "Source Tile y coordinate.",
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_world_linked_ore_tiles_input.item_catalog": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_world_linked_ore_tiles_state",
+      "godot_symbol": "source_world_linked_ore_tiles_input.item_catalog",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "Tiles.fill/get; Tile fields/getLinkedTilesAs; Block.init; SaveVersion.readMap",
+      "java_expr": "return overlay == Blocks.air || overlay.itemDrop == null ? floor.itemDrop : overlay.itemDrop;",
+      "rule": "Shared typed numeric Item catalog supplied to existing Tile ore provider.",
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_world_linked_ore_tiles_result.ore_tiles": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_world_linked_ore_tiles_state",
+      "godot_symbol": "source_world_linked_ore_tiles_result.ore_tiles",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "Tiles.fill/get; Tile fields/getLinkedTilesAs; Block.init; SaveVersion.readMap",
+      "java_expr": "getLinkedTilesAs(block, tmpArray::add);",
+      "rule": "Actual world lookup plus canonical geometry/static/drop composition; no new ore-selection or production algorithm.",
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "world_tile_source_fields.air": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_game_world_tiles_state",
+      "godot_symbol": "SourceWorldTerrainRuntimeState.SOURCE_WORLD_AIR_FIELD",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "load()",
+      "java_expr": "air = new AirBlock(\"air\");",
+      "value": "air",
+      "rule": "Source field identity for air/SaveVersion air-floor replacement and existing explicit copper scenario. Not an allowlist or inference for arbitrary map content.",
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "world_tile_source_fields.stone": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_game_world_tiles_state",
+      "godot_symbol": "SourceWorldTerrainRuntimeState.SOURCE_WORLD_STONE_FIELD",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "load()",
+      "java_expr": "stone = new Floor(\"stone\");",
+      "value": "stone",
+      "rule": "Source field identity for air/SaveVersion air-floor replacement and existing explicit copper scenario. Not an allowlist or inference for arbitrary map content.",
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "world_tile_source_fields.oreCopper": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_game_world_tiles_state",
+      "godot_symbol": "SourceWorldTerrainRuntimeState.SOURCE_WORLD_SCENARIO_ORE_FIELD",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "load()",
+      "java_expr": "oreCopper = new OreBlock(Items.copper){{",
+      "value": "oreCopper",
+      "rule": "Source field identity for air/SaveVersion air-floor replacement and existing explicit copper scenario. Not an allowlist or inference for arbitrary map content.",
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "world_tile_game_storage.tiles": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_game_world_tiles_state",
+      "godot_symbol": "PortGame.source_world_tiles",
+      "java_source": "core/src/mindustry/core/World.java",
+      "java_method": "World.tile(int x, int y)",
+      "java_expr": "public Tiles tiles = new Tiles(0, 0);",
+      "rule": "One authoritative dense Tile container per actual game world, initialized before static/dynamic placement. Sprite indexes remain Building references.",
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof"
     }
   },
   "version": 1

@@ -3419,6 +3419,27 @@
         "test_live_partial_apply_filter_cache_and_real_placement"
       ],
       "runtime_proof": "/root/Main.LiquidConsumerApplyHydrationProof"
+    },
+    "N2017": {
+      "canonical_ledger": "source_slice_ledger.N2017",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "init(); isMultiblock()",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_block_geometry_state",
+      "source_symbols": [
+        "source_block_geometry_state_input.block",
+        "source_block_geometry_state_input.source_tilesize",
+        "source_block_geometry_state_result.size",
+        "source_block_geometry_state_result.size_offset",
+        "source_block_geometry_state_result.is_multiblock"
+      ],
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof"
     }
   }
 }

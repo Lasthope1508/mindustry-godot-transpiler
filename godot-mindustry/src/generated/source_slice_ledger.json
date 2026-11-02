@@ -49959,6 +49959,130 @@
         "Drill onProximityUpdate/invalidation, actual dominant production and live mixed-ore gameplay.",
         "Arbitrary Java constructor/method interpretation, dynamic terrain definitions and mod reload."
       ]
+    },
+    "N2017": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_class": "mindustry.world.Block",
+      "java_method": "init(); isMultiblock()",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_block_geometry_state",
+      "exact_exprs": [
+        "sizeOffset = -((size - 1) / 2);",
+        "return size > 1;"
+      ],
+      "source_symbols": [
+        "source_block_geometry_state_input.block",
+        "source_block_geometry_state_input.source_tilesize",
+        "source_block_geometry_state_result.size",
+        "source_block_geometry_state_result.size_offset",
+        "source_block_geometry_state_result.is_multiblock"
+      ],
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof",
+      "deferred_exprs": [
+        "Tile.setBlock overlapping entity removal, changeBuild, events, recache, team and proximity lifecycle.",
+        "setFloor/setOverlay notifications, pickup/removal/reload invalidation and save/network persistence.",
+        "Drill onProximityUpdate and actual dominant-item production/output; legacy rendering ore projection remains a compatibility path."
+      ]
+    },
+    "N2018": {
+      "status": "done",
+      "java_source": "core/src/mindustry/io/SaveVersion.java",
+      "java_class": "mindustry.io.SaveVersion",
+      "java_method": "readMap(DataInput stream, WorldContext context)",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_campaign_world_tiles_state",
+      "exact_exprs": [
+        "context.resize(width, height);",
+        "if(content.block(floorid) == Blocks.air) floorid = Blocks.stone.id;",
+        "context.create(x, y, floorid, oreid, (short)0);"
+      ],
+      "source_symbols": [
+        "source_world_tile_definition.x",
+        "source_world_tile_definition.y",
+        "source_world_tile_definition.floor",
+        "source_world_tile_definition.overlay",
+        "source_world_tile_definition.block",
+        "source_world_tiles_state_input.width",
+        "source_world_tiles_state_input.height",
+        "source_world_tiles_state_input.air_block",
+        "source_world_tiles_state_result.width",
+        "source_world_tiles_state_result.height",
+        "source_world_tiles_state_result.array",
+        "source_world_tile_input.world_tiles",
+        "source_world_tile_input.x",
+        "source_world_tile_input.y",
+        "source_world_block_by_field_input.content_catalog",
+        "source_world_block_by_field_input.field",
+        "source_campaign_world_tiles_state_input.campaign_map_tile_state",
+        "source_campaign_world_tiles_state_input.content_catalog",
+        "source_campaign_world_tiles_state_input.source_tilesize",
+        "source_campaign_world_tiles_state_result.width",
+        "source_campaign_world_tiles_state_result.height",
+        "source_campaign_world_tiles_state_result.array"
+      ],
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof",
+      "deferred_exprs": [
+        "Tile.setBlock overlapping entity removal, changeBuild, events, recache, team and proximity lifecycle.",
+        "setFloor/setOverlay notifications, pickup/removal/reload invalidation and save/network persistence.",
+        "Drill onProximityUpdate and actual dominant-item production/output; legacy rendering ore projection remains a compatibility path."
+      ]
+    },
+    "N2019": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_class": "mindustry.world.Tile",
+      "java_method": "setBlock(Block type, Team team, int rotation, Prov<Building> entityprov)",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_game_world_tiles_state",
+      "exact_exprs": [
+        "this.block = type;",
+        "other.block = block;"
+      ],
+      "source_symbols": [
+        "source_record_world_block_input.world_tiles",
+        "source_record_world_block_input.block",
+        "source_record_world_block_input.x",
+        "source_record_world_block_input.y",
+        "source_record_world_block_input.source_tilesize",
+        "source_game_world_tiles_state_input.game",
+        "source_game_world_tiles_state_input.initial_build_state",
+        "source_game_world_tiles_state_result.width",
+        "source_game_world_tiles_state_result.height",
+        "source_game_world_tiles_state_result.array",
+        "source_game_world_tile_input.x",
+        "source_game_world_tile_input.y",
+        "source_world_linked_ore_tiles_input.block",
+        "source_world_linked_ore_tiles_input.x",
+        "source_world_linked_ore_tiles_input.y",
+        "source_world_linked_ore_tiles_input.item_catalog",
+        "source_world_linked_ore_tiles_result.ore_tiles",
+        "world_tile_source_fields.air",
+        "world_tile_source_fields.stone",
+        "world_tile_source_fields.oreCopper",
+        "world_tile_game_storage.tiles"
+      ],
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof",
+      "deferred_exprs": [
+        "Tile.setBlock overlapping entity removal, changeBuild, events, recache, team and proximity lifecycle.",
+        "setFloor/setOverlay notifications, pickup/removal/reload invalidation and save/network persistence.",
+        "Drill onProximityUpdate and actual dominant-item production/output; legacy rendering ore projection remains a compatibility path."
+      ]
     }
   },
   "version": 1

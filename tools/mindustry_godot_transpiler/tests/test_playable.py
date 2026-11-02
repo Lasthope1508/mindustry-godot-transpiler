@@ -14242,7 +14242,7 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_delegates_world_terrain_runtime_state_to_module(self):
         source = self._port_game_world_terrain_runtime_source()
-        build_world_body = source.split("func build_world() -> void:", 1)[1].split("func _unhandled_input", 1)[0]
+        build_world_body = self._method_body(source, "func build_world() -> void:")
         module_build_world_body = source.split("static func build_world(game) -> void:", 1)[1].split("\nstatic func", 1)[0] if "static func build_world(game) -> void:" in source else ""
 
         self.assertIn('const source_world_terrain_runtime_state_script := preload("res://src/game/SourceWorldTerrainRuntimeState.gd")', source)

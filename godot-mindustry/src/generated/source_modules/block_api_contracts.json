@@ -4402,6 +4402,38 @@
       ],
       "runtime_proof": "/root/Main.LiquidConsumerApplyHydrationProof",
       "rule": "Partial-input projection of unconditional source assignments; no invented before bool. Block apply requires nonempty resolved direct ConsumeLiquid descriptors and caches supported filter effects only. Not full Block.init or a runtime reinitialization API."
+    },
+    "SourceWorldTerrainRuntimeState.source_block_geometry_state": {
+      "canonical_contract": "source_api_contracts.SourceWorldTerrainRuntimeState.source_block_geometry_state",
+      "status": "active",
+      "source_slice": "N2017",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "source_method": "init(); isMultiblock()",
+      "params": [
+        {
+          "name": "block",
+          "type": "Object",
+          "schema": "source_block_geometry_state_input.block"
+        },
+        {
+          "name": "source_tilesize",
+          "type": "float",
+          "schema": "source_block_geometry_state_input.source_tilesize"
+        }
+      ],
+      "return_keys": [
+        "size",
+        "size_offset",
+        "is_multiblock"
+      ],
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof",
+      "rule": "Canonical geometry/dense Tile field projection and real bootstrap/placement wiring only. Complete entity removal, proximity, persistence and dominant production remain explicitly deferred."
     }
   }
 }

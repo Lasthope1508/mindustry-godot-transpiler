@@ -1,0 +1,7 @@
+FAILED tools/mindustry_godot_transpiler/tests/test_world_tile_lifecycle.py::WorldTileLifecycleTests::test_actual_world_bootstrap_and_placement
+FAILED tools/mindustry_godot_transpiler/tests/test_world_tile_lifecycle.py::WorldTileLifecycleTests::test_incomplete_map_terrain_rejected
+FAILED tools/mindustry_godot_transpiler/tests/test_world_tile_lifecycle.py::WorldTileLifecycleTests::test_unknown_map_content_rejected
+SUBFAILED(owner='source_block_geometry_state') tools/mindustry_godot_transpiler/tests/test_world_tile_lifecycle.py::WorldTileLifecycleTests::test_world_tile_lifecycle_contracts
+SUBFAILED(owner='source_campaign_world_tiles_state') tools/mindustry_godot_transpiler/tests/test_world_tile_lifecycle.py::WorldTileLifecycleTests::test_world_tile_lifecycle_contracts
+SUBFAILED(owner='game_world_tiles_state') tools/mindustry_godot_transpiler/tests/test_world_tile_lifecycle.py::WorldTileLifecycleTests::test_world_tile_lifecycle_contracts
+6 failed, 1 passed, 2 warnings in 31.17s

@@ -57339,6 +57339,179 @@
       ],
       "runtime_proof": "/root/TileOreProviderProof",
       "rule": "Actual source-backed object projection delegates existing canonical geometry/static owners. Supplied world callback only; real game world/proximity/output lifecycle remains deferred."
+    },
+    "SourceWorldTerrainRuntimeState.source_block_geometry_state": {
+      "status": "active",
+      "source_slice": "N2017",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "source_method": "init(); isMultiblock()",
+      "params": [
+        {
+          "name": "block",
+          "type": "Object",
+          "schema": "source_block_geometry_state_input.block"
+        },
+        {
+          "name": "source_tilesize",
+          "type": "float",
+          "schema": "source_block_geometry_state_input.source_tilesize"
+        }
+      ],
+      "return_keys": [
+        "size",
+        "size_offset",
+        "is_multiblock"
+      ],
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof",
+      "rule": "Canonical geometry/dense Tile field projection and real bootstrap/placement wiring only. Complete entity removal, proximity, persistence and dominant production remain explicitly deferred."
+    },
+    "SourceWorldTerrainRuntimeState.source_world_tiles_state": {
+      "status": "active",
+      "source_slice": "N2018",
+      "java_source": "core/src/mindustry/world/Tiles.java",
+      "source_method": "Tiles(int width, int height); fill()",
+      "params": [
+        {
+          "name": "width",
+          "type": "int",
+          "schema": "source_world_tiles_state_input.width"
+        },
+        {
+          "name": "height",
+          "type": "int",
+          "schema": "source_world_tiles_state_input.height"
+        },
+        {
+          "name": "air_block",
+          "type": "Object",
+          "schema": "source_world_tiles_state_input.air_block"
+        }
+      ],
+      "return_keys": [
+        "width",
+        "height",
+        "array"
+      ],
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof",
+      "rule": "Canonical geometry/dense Tile field projection and real bootstrap/placement wiring only. Complete entity removal, proximity, persistence and dominant production remain explicitly deferred."
+    },
+    "SourceWorldTerrainRuntimeState.source_campaign_world_tiles_state": {
+      "status": "active",
+      "source_slice": "N2018",
+      "java_source": "core/src/mindustry/io/SaveVersion.java",
+      "source_method": "readMap(DataInput stream, WorldContext context)",
+      "params": [
+        {
+          "name": "campaign_map_tile_state",
+          "type": "Dictionary",
+          "schema": "source_campaign_world_tiles_state_input.campaign_map_tile_state"
+        },
+        {
+          "name": "content_catalog",
+          "type": "Object",
+          "schema": "source_campaign_world_tiles_state_input.content_catalog"
+        },
+        {
+          "name": "source_tilesize",
+          "type": "float",
+          "schema": "source_campaign_world_tiles_state_input.source_tilesize"
+        }
+      ],
+      "return_keys": [
+        "width",
+        "height",
+        "array"
+      ],
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof",
+      "rule": "Canonical geometry/dense Tile field projection and real bootstrap/placement wiring only. Complete entity removal, proximity, persistence and dominant production remain explicitly deferred."
+    },
+    "SourceWorldTerrainRuntimeState.source_game_world_tiles_state": {
+      "status": "active",
+      "source_slice": "N2019",
+      "java_source": "core/src/mindustry/core/World.java",
+      "source_method": "resize(int width, int height)",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_game_world_tiles_state_input.game"
+        },
+        {
+          "name": "initial_build_state",
+          "type": "Dictionary",
+          "schema": "source_game_world_tiles_state_input.initial_build_state"
+        }
+      ],
+      "return_keys": [
+        "width",
+        "height",
+        "array"
+      ],
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof",
+      "rule": "Canonical geometry/dense Tile field projection and real bootstrap/placement wiring only. Complete entity removal, proximity, persistence and dominant production remain explicitly deferred."
+    },
+    "PortGame.source_world_linked_ore_tiles_state": {
+      "status": "active",
+      "source_slice": "N2019",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "source_method": "getLinkedTilesAs(Block block, Seq<Tile> tmpArray)",
+      "params": [
+        {
+          "name": "block",
+          "type": "Object",
+          "schema": "source_world_linked_ore_tiles_input.block"
+        },
+        {
+          "name": "x",
+          "type": "int",
+          "schema": "source_world_linked_ore_tiles_input.x"
+        },
+        {
+          "name": "y",
+          "type": "int",
+          "schema": "source_world_linked_ore_tiles_input.y"
+        },
+        {
+          "name": "item_catalog",
+          "type": "Dictionary",
+          "schema": "source_world_linked_ore_tiles_input.item_catalog"
+        }
+      ],
+      "return_keys": [
+        "ore_tiles"
+      ],
+      "tests": [
+        "test_world_tile_lifecycle_contracts",
+        "test_actual_world_bootstrap_and_placement",
+        "test_unknown_map_content_rejected",
+        "test_incomplete_map_terrain_rejected"
+      ],
+      "runtime_proof": "/root/WorldTileLifecycleProof",
+      "rule": "Canonical geometry/dense Tile field projection and real bootstrap/placement wiring only. Complete entity removal, proximity, persistence and dominant production remain explicitly deferred."
     }
   },
   "policy": {

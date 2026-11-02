@@ -1,0 +1,95 @@
+import importlib.util,json,subprocess,sys
+from pathlib import Path
+spec=importlib.util.spec_from_file_location('prior_scope','C:/tmp/tile-ore-scope.py');s=importlib.util.module_from_spec(spec);spec.loader.exec_module(s)
+ROOT=s.ROOT;BEFORE=Path('C:/tmp/world-tile-before');GEN=s.GEN
+ROOTS={'source_symbol_registry.json':('symbols',48),'source_api_contracts.json':('contracts',5),'source_state_schema.json':('schemas',15),'source_slice_ledger.json':('slices',3)}
+RUNTIME=['godot-mindustry/src/game/'+n+'.gd' for n in ['SourceWorldTerrainRuntimeState','SourceWorldInitialBuildRuntimeState','SourcePlayableScenarioDefaults']]
+
+def runtime_plan(p):
+ a,b,c=s.read(p,BEFORE),s.read(p),s.git('show','HEAD:'+p)
+ if p.endswith('SourcePlayableScenarioDefaults.gd'):
+  getter='static func world_size() -> Vector2i:\n\treturn WORLD_SIZE\n'
+  assert a==b and getter in b and getter not in c
+  anchor='static func world_cells() -> Array[Vector2i]:\n';assert c.count(anchor)==1
+  return c.replace(anchor,getter+'\n'+anchor,1)
+ if p.endswith('SourceWorldInitialBuildRuntimeState.gd'):
+  preload='const source_world_terrain_runtime_state := preload("res://src/game/SourceWorldTerrainRuntimeState.gd")\n'
+  assign='\tgame.set("source_world_tiles", source_world_terrain_runtime_state.source_game_world_tiles_state(game, initial_build_state))\n'
+  assert b.replace('\n'+preload,'',1).replace(assign,'',1)==a
+  header='class_name SourceWorldInitialBuildRuntimeState\n';anchor='\tvar initial_build_state: Dictionary = game.call(METHOD_SOURCE_WORLD_INITIAL_BUILD_RUNTIME_STATE)\n'
+  assert c.count(header)==c.count(anchor)==1
+  return c.replace(header,header+'\n'+preload,1).replace(anchor,anchor+assign,1)
+ planned=s.delta(a,b,c)
+ dependency='const source_playable_scenario_defaults := preload("res://src/game/SourcePlayableScenarioDefaults.gd")\n'
+ if dependency not in planned:
+  assert dependency in b
+  anchor='class_name SourceWorldTerrainRuntimeState\n';planned=planned.replace(anchor,anchor+'\n'+dependency,1)
+ return planned
+
+def port_plan():
+ p='godot-mindustry/src/game/PortGame.gd';c=s.git('show','HEAD:'+p)
+ bridge=s.read('godot-mindustry/src/game/SourcePlayableWorldRuntimePortBridge.gd')
+ added=bridge[bridge.index('var source_world_tiles: Dictionary = {}'):bridge.index('func build_world()')]
+ assert 'func source_world_tile' not in c and added.startswith('var source_world_tiles: Dictionary = {}\n')
+ field,functions=added.split('\n',1);anchor='var ore_items_by_cell: Dictionary = {}\n';assert c.count(anchor)==1
+ c=c.replace(anchor,anchor+field+'\n',1)
+ placed=s.read('godot-mindustry/src/game/SourcePlacedBlockPortBridge.gd')
+ hook=placed[placed.index('\tvar world_tiles: Dictionary = get("source_world_tiles")'):placed.index('\nfunc block_sprite_at_cell')].rstrip()+'\n'
+ start=c.index('func record_placed_block(');line=c.index('\tsource_placed_block_state.initialize_sprite(',start);end=c.index('\n',line)+1
+ c=c[:end]+hook+c[end:]
+ return c.rstrip()+'\n\n'+functions.strip()+'\n'
+
+def json_paths():
+ paths=[GEN+n for n in ROOTS]+[GEN+'source_symbol_audit_report.json']
+ for module in json.loads(s.read(GEN+'source_ssot_modules.json'))['modules'].values():
+  p='godot-mindustry/'+module['path']
+  if json.loads(s.read(p))!=json.loads(s.read(p,BEFORE)):paths.append(p)
+ return paths
+
+def audit_plan(a,b,c):
+ assert a==c
+ assert all(a[k]==b[k] for k in a if k not in ['totalSourceFunctions','discoveredSourceOwnerCount','canonicalDiscoveredOwnerCount','registeredSourceOwnerCount','registeredSourceOwners','sourceFunctions'])
+ for k in ['totalSourceFunctions','discoveredSourceOwnerCount','canonicalDiscoveredOwnerCount','registeredSourceOwnerCount']:assert b[k]==a[k]+2
+ expected={'port_game.source_world_tile','port_game.source_world_linked_ore_tiles_state'}
+ assert set(b['registeredSourceOwners'])-set(a['registeredSourceOwners'])==expected
+ assert set(a['registeredSourceOwners'])<=set(b['registeredSourceOwners'])
+ def token(x):return json.dumps(x,sort_keys=True)
+ from collections import Counter
+ am,bm=Counter(map(token,a['sourceFunctions'])),Counter(map(token,b['sourceFunctions']))
+ assert not (am-bm)
+ new=[json.loads(x) for x in (bm-am).elements()];assert len(new)==2 and {x['owner'] for x in new}==expected
+ planned=__import__('copy').deepcopy(b)
+ for entry in planned['sourceFunctions']:
+  if entry['owner'] in expected:entry['gdscript_path']='src/game/PortGame.gd'
+ return planned
+
+def main():
+ assert s.git('rev-parse','HEAD').startswith('a9fcb807')
+ out={'parent':s.git('rev-parse','HEAD').strip(),'json':{},'runtime':{}}
+ for p in json_paths():
+  a,b,c=json.loads(s.read(p,BEFORE)),json.loads(s.read(p)),json.loads(s.git('show','HEAD:'+p));planned=audit_plan(a,b,c) if p.endswith('/source_symbol_audit_report.json') else s.merge(a,b,c)
+  if p.removeprefix(GEN) in ROOTS:
+   key,count=ROOTS[p.removeprefix(GEN)];added=sorted(set(b[key])-set(a[key]));assert len(added)==count,(p,len(added),count)
+   assert all(b[key].get(k)==v for k,v in a[key].items())
+   assert {k:v for k,v in a.items() if k!=key}=={k:v for k,v in b.items() if k!=key}
+   out['json'][p]={'additions':added,'preexisting_dirty':a!=c}
+  else:out['json'][p]={'preexisting_dirty':a!=c}
+  if '--stage' in sys.argv:s.stage(p,json.dumps(planned,indent=2)+'\n')
+ for p in RUNTIME:
+  a,b,c=s.read(p,BEFORE),s.read(p),s.git('show','HEAD:'+p);planned=runtime_plan(p)
+  out['runtime'][p]={'preexisting_dirty':a!=c,'delta':list(__import__('difflib').unified_diff(a.splitlines(),b.splitlines(),n=1))}
+  if '--stage' in sys.argv:s.stage(p,planned)
+ p='godot-mindustry/src/game/PortGame.gd';planned=port_plan()
+ out['runtime'][p]={'mapping':'Working-tree SourcePlayableWorldRuntimePortBridge/SourcePlacedBlockPortBridge additions mapped to same existing PortGame functions/field in HEAD. Existing facade refactor remains unstaged.'}
+ if '--stage' in sys.argv:s.stage(p,planned)
+ p='tools/mindustry_godot_transpiler/tests/test_playable.py';a=s.read('test_playable.py',BEFORE);b=s.read(p);c=s.git('show','HEAD:'+p);planned=s.delta(a,b,c)
+ out['runtime'][p]={'mapping':'Method-boundary repair only; all preexisting facade test refactors remain unstaged'}
+ if '--stage' in sys.argv:s.stage(p,planned)
+ for name in ['source_ssot_modules.json','content_registry.json','MindustryContentRegistry.gd']:
+  assert s.read(GEN+name)==s.read(GEN+name,BEFORE)
+ assert s.read('godot-mindustry/src/game/SourceWorldTerrainSourceTextState.gd')==s.read('godot-mindustry/src/game/SourceWorldTerrainSourceTextState.gd',BEFORE)
+ Path('C:/tmp/world-tile-scope.json').write_text(json.dumps(out,indent=2)+'\n',encoding='utf-8')
+ print('Scope PASS: 48 symbols, 5 Dictionary contracts, 15 schemas, 3 slices; audit gains exactly 2 source functions/owners; existing root records, content and manifest preserved')
+ print('Changed JSON',len(out['json']),'contextual runtime',len(out['runtime']))
+
+if __name__=='__main__':main()

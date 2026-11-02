@@ -23,10 +23,10 @@
       "port_game.source_building_each_edge_state": "port_game.source_building_navigation_state"
     }
   },
-  "totalSourceFunctions": 1329,
-  "discoveredSourceOwnerCount": 1327,
-  "canonicalDiscoveredOwnerCount": 1312,
-  "registeredSourceOwnerCount": 1304,
+  "totalSourceFunctions": 1331,
+  "discoveredSourceOwnerCount": 1329,
+  "canonicalDiscoveredOwnerCount": 1314,
+  "registeredSourceOwnerCount": 1306,
   "exemptSourceOwnerCount": 8,
   "legacyUnregisteredOwnerCount": 0,
   "canonicalAliasFunctionCount": 17,
@@ -1339,7 +1339,9 @@
     "port_game.source_weapons_setup_mounts_state",
     "port_game.source_weapons_update_dispatch_state",
     "port_game.source_world_initial_build_runtime_state",
-    "port_game.source_world_terrain_runtime_state"
+    "port_game.source_world_linked_ore_tiles_state",
+    "port_game.source_world_terrain_runtime_state",
+    "port_game.source_world_tile"
   ],
   "exemptSourceOwners": [
     "port_game.source_api_contract_state",
@@ -6878,6 +6880,18 @@
       "function": "source_block_time_scale_duration_at_cell",
       "gdscript_path": "src/game/SourcePlacedBlockPortBridge.gd",
       "canonical_owner": "port_game.source_block_time_scale_duration_at_cell"
+    },
+    {
+      "owner": "port_game.source_world_tile",
+      "function": "source_world_tile",
+      "gdscript_path": "src/game/PortGame.gd",
+      "canonical_owner": "port_game.source_world_tile"
+    },
+    {
+      "owner": "port_game.source_world_linked_ore_tiles_state",
+      "function": "source_world_linked_ore_tiles_state",
+      "gdscript_path": "src/game/PortGame.gd",
+      "canonical_owner": "port_game.source_world_linked_ore_tiles_state"
     },
     {
       "owner": "port_game.source_world_terrain_runtime_state",
