@@ -1,6 +1,9 @@
 extends RefCounted
 class_name SourceConsumeState
 
+static func source_cost_multiplier_state(_build: Variant) -> Dictionary:
+	return {"multiplier": 1.0}
+
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
 
 static func optional_state(optional_value: bool, boost_value: bool) -> Dictionary:

@@ -470,6 +470,35 @@
       ],
       "runtime_proof": "/root/Main.PlacedLiquidOwnershipProof",
       "rule": "Typed source catalog and one persistent canonical frame per placed instance; no duplicated resource formulas or guessed liquid IDs."
+    },
+    "SourceDrillConsumptionRuntimeState.source_tick_state": {
+      "canonical_contract": "source_api_contracts.SourceDrillConsumptionRuntimeState.source_tick_state",
+      "status": "active",
+      "source_slice": "N2009",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "update(Building build); efficiency(Building build); updateTile()",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_drill_live_tick_input.game"
+        },
+        {
+          "name": "seconds",
+          "type": "float",
+          "schema": "source_drill_live_tick_input.seconds"
+        }
+      ],
+      "return_keys": [
+        "drill_states"
+      ],
+      "tests": [
+        "test_same_batch_contracts_cover_adapter_unique_traversal_and_live_ticks",
+        "test_factory_uses_live_tick_owner_and_timescale_uses_unique_buildings",
+        "test_real_process_drives_two_multicell_drills_and_concrete_adapter"
+      ],
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof",
+      "rule": "Source-backed concrete adapter and live base-Drill gameplay integration. Power consumers, mixed ore, flow binding, reload and secondary output routing are explicitly outside this checkpoint."
     }
   }
 }

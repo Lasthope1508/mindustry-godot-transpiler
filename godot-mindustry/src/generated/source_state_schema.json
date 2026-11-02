@@ -164828,6 +164828,407 @@
         }
       },
       "runtime_proof": "/root/Main.LiquidConsumerApplyHydrationProof"
+    },
+    "source_cost_multiplier_input": {
+      "status": "active",
+      "owner": "SourceConsumeState.source_cost_multiplier_state",
+      "keys": {
+        "_build": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "public Floatf<Building> multiplier = b -> 1f;",
+          "rule": "Compose existing canonical owners; retain source object/frame identity.",
+          "used_by": [
+            "SourceConsumeState.source_cost_multiplier_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
+    },
+    "source_cost_multiplier_result": {
+      "status": "active",
+      "owner": "SourceConsumeState.source_cost_multiplier_state",
+      "keys": {
+        "multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "public Floatf<Building> multiplier = b -> 1f;",
+          "rule": "Cost multiplier callback result; distinct from efficiencyMultiplier(Building).",
+          "used_by": [
+            "SourceConsumeState.source_cost_multiplier_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
+    },
+    "source_runtime_consumer_input": {
+      "status": "active",
+      "owner": "SourceConsumeLiquidState.source_runtime_consumer_state",
+      "keys": {
+        "definition": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_expr": "public final Liquid liquid;",
+          "rule": "Shared typed Block descriptor reference; amount and flags are not copied per building.",
+          "schema": "source_liquid_consumer_state",
+          "used_by": [
+            "SourceConsumeLiquidState.source_runtime_consumer_state"
+          ]
+        },
+        "liquids": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(block.hasLiquids) liquids = new LiquidModule();",
+          "rule": "Existing Building LiquidModule frame by reference.",
+          "used_by": [
+            "SourceConsumeLiquidState.source_runtime_consumer_state"
+          ]
+        },
+        "cache_sums": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+          "java_expr": "private static float[] cacheSums;",
+          "rule": "Explicit canonical shared flow cache supplied by caller; live null-flow branch has no cache activity.",
+          "used_by": [
+            "SourceConsumeLiquidState.source_runtime_consumer_state"
+          ]
+        },
+        "cost_multiplier": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "public Floatf<Building> multiplier = b -> 1f;",
+          "rule": "Callable receives building frame and returns registered cost-multiplier result, not efficiencyMultiplier.",
+          "used_by": [
+            "SourceConsumeLiquidState.source_runtime_consumer_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
+    },
+    "source_runtime_consumer_result": {
+      "status": "active",
+      "owner": "SourceConsumeLiquidState.source_runtime_consumer_state",
+      "keys": {
+        "consumer": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_expr": "public void update(Building build){",
+          "rule": "Concrete adapter implements efficiency(build) and update(build); delegates all arithmetic, storage mutation and clamping to canonical owners.",
+          "used_by": [
+            "SourceConsumeLiquidState.source_runtime_consumer_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
+    },
+    "source_unique_buildings_input": {
+      "status": "active",
+      "owner": "SourcePlacedBlockState.source_unique_buildings_state",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/Logic.java",
+          "java_expr": "Groups.build.update();",
+          "rule": "Current loaded gameplay owner; traversal resolves actual instances through the canonical occupied-cell placement map.",
+          "used_by": [
+            "SourcePlacedBlockState.source_unique_buildings_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
+    },
+    "source_unique_buildings_result": {
+      "status": "active",
+      "owner": "SourcePlacedBlockState.source_unique_buildings_state",
+      "keys": {
+        "buildings": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/Logic.java",
+          "java_expr": "Groups.build.update();",
+          "rule": "One live Sprite2D per placed Building identity. Transient deduplication over existing placement map, no second persistent registry.",
+          "used_by": [
+            "SourcePlacedBlockState.source_unique_buildings_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
+    },
+    "source_drill_live_tick_input": {
+      "status": "active",
+      "owner": "SourceDrillConsumptionRuntimeState.source_tick_state",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/Logic.java",
+          "java_expr": "Groups.build.update();",
+          "rule": "Current loaded gameplay owner; traversal resolves actual instances through the canonical occupied-cell placement map.",
+          "used_by": [
+            "SourceDrillConsumptionRuntimeState.source_tick_state"
+          ]
+        },
+        "seconds": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "timeScaleDuration -= Time.delta",
+          "rule": "Godot seconds are converted once through the canonical source tick rate.",
+          "used_by": [
+            "SourceDrillConsumptionRuntimeState.source_tick_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
+    },
+    "source_drill_live_tick_result": {
+      "status": "active",
+      "owner": "SourceDrillConsumptionRuntimeState.source_tick_state",
+      "keys": {
+        "drill_states": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public void updateTile(){",
+          "rule": "Transient events keyed by origin cell for supported power-free base Drill in a single-ore footprint. Existing production/consumption owners compute state.",
+          "used_by": [
+            "SourceDrillConsumptionRuntimeState.source_tick_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
+    },
+    "source_drill_live_factory_input": {
+      "status": "active",
+      "owner": "SourceDrillConsumptionRuntimeState.source_factory_state",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/Logic.java",
+          "java_expr": "Groups.build.update();",
+          "rule": "Current loaded gameplay owner; traversal resolves actual instances through the canonical occupied-cell placement map.",
+          "used_by": [
+            "SourceDrillConsumptionRuntimeState.source_factory_state"
+          ]
+        },
+        "seconds": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "timeScaleDuration -= Time.delta",
+          "rule": "Godot seconds are converted once through the canonical source tick rate.",
+          "used_by": [
+            "SourceDrillConsumptionRuntimeState.source_factory_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
+    },
+    "source_drill_live_factory_result": {
+      "status": "active",
+      "owner": "SourceDrillConsumptionRuntimeState.source_factory_state",
+      "keys": {
+        "drill_state": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public void updateTile(){",
+          "rule": "Primary event from world tick, injected into existing factory composition without a second production tick.",
+          "used_by": [
+            "SourceDrillConsumptionRuntimeState.source_factory_state"
+          ]
+        },
+        "dump_state": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "dump(dominantItem != null && items.has(dominantItem) ? dominantItem : null);",
+          "rule": "Compose existing canonical owners; retain source object/frame identity.",
+          "used_by": [
+            "SourceDrillConsumptionRuntimeState.source_factory_state"
+          ]
+        },
+        "transport_state": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "updateTile();",
+          "rule": "Existing factory transport composition retained.",
+          "used_by": [
+            "SourceDrillConsumptionRuntimeState.source_factory_state"
+          ]
+        },
+        "transport_progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "updateTile();",
+          "rule": "Existing factory transport projection, not a new conveyor formula.",
+          "used_by": [
+            "SourceDrillConsumptionRuntimeState.source_factory_state"
+          ]
+        },
+        "source_owner": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public void updateTile(){",
+          "rule": "Retains existing factory simulation owner metadata.",
+          "used_by": [
+            "SourceDrillConsumptionRuntimeState.source_factory_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
+    },
+    "source_drill_live_frame": {
+      "status": "active",
+      "owner": "SourceDrillConsumptionRuntimeState.source_tick_state",
+      "keys": {
+        "enabled": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "transient boolean enabled = true;",
+          "rule": "Building-owned runtime projection; primary inventory/progress bridge existing demo owners, secondary isolated frame. Loaded campaign uses default non-cheating team rule; mutable TeamRules binding remains separate."
+        },
+        "cheating": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Rules.java",
+          "java_expr": "public boolean cheat;",
+          "rule": "Building-owned runtime projection; primary inventory/progress bridge existing demo owners, secondary isolated frame. Loaded campaign uses default non-cheating team rule; mutable TeamRules binding remains separate."
+        },
+        "items": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "items.total() < itemCapacity",
+          "rule": "Building-owned runtime projection; primary inventory/progress bridge existing demo owners, secondary isolated frame. Loaded campaign uses default non-cheating team rule; mutable TeamRules binding remains separate."
+        },
+        "item_progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public float progress;",
+          "rule": "Building-owned runtime projection; primary inventory/progress bridge existing demo owners, secondary isolated frame. Loaded campaign uses default non-cheating team rule; mutable TeamRules binding remains separate."
+        },
+        "warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public float warmup;",
+          "rule": "Building-owned runtime projection; primary inventory/progress bridge existing demo owners, secondary isolated frame. Loaded campaign uses default non-cheating team rule; mutable TeamRules binding remains separate."
+        },
+        "time_drilled": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public float timeDrilled;",
+          "rule": "Building-owned runtime projection; primary inventory/progress bridge existing demo owners, secondary isolated frame. Loaded campaign uses default non-cheating team rule; mutable TeamRules binding remains separate."
+        },
+        "last_drill_speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public float lastDrillSpeed;",
+          "rule": "Building-owned runtime projection; primary inventory/progress bridge existing demo owners, secondary isolated frame. Loaded campaign uses default non-cheating team rule; mutable TeamRules binding remains separate."
+        },
+        "dominant_item": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public Item dominantItem;",
+          "rule": "Building-owned runtime projection; primary inventory/progress bridge existing demo owners, secondary isolated frame. Loaded campaign uses default non-cheating team rule; mutable TeamRules binding remains separate."
+        },
+        "dominant_items": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public int dominantItems;",
+          "rule": "Building-owned runtime projection; primary inventory/progress bridge existing demo owners, secondary isolated frame. Loaded campaign uses default non-cheating team rule; mutable TeamRules binding remains separate."
+        },
+        "consumers": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "cons.update(self());",
+          "rule": "Building-owned runtime projection; primary inventory/progress bridge existing demo owners, secondary isolated frame. Loaded campaign uses default non-cheating team rule; mutable TeamRules binding remains separate."
+        },
+        "efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "efficiency = minEfficiency;",
+          "rule": "Building-owned runtime projection; primary inventory/progress bridge existing demo owners, secondary isolated frame. Loaded campaign uses default non-cheating team rule; mutable TeamRules binding remains separate."
+        },
+        "optional_efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "optionalEfficiency = Math.min(optionalEfficiency, minEfficiency);",
+          "rule": "Building-owned runtime projection; primary inventory/progress bridge existing demo owners, secondary isolated frame. Loaded campaign uses default non-cheating team rule; mutable TeamRules binding remains separate."
+        },
+        "potential_efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "potentialEfficiency = efficiency;",
+          "rule": "Building-owned runtime projection; primary inventory/progress bridge existing demo owners, secondary isolated frame. Loaded campaign uses default non-cheating team rule; mutable TeamRules binding remains separate."
+        },
+        "should_consume_power": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "shouldConsumePower = true;",
+          "rule": "Building-owned runtime projection; primary inventory/progress bridge existing demo owners, secondary isolated frame. Loaded campaign uses default non-cheating team rule; mutable TeamRules binding remains separate."
+        },
+        "efficiency_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public float efficiencyScale(){",
+          "rule": "Building-owned runtime projection; primary inventory/progress bridge existing demo owners, secondary isolated frame. Loaded campaign uses default non-cheating team rule; mutable TeamRules binding remains separate."
+        },
+        "speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "float speed = Mathf.lerp(1f, liquidBoostIntensity, optionalEfficiency) * efficiency;",
+          "rule": "Building-owned runtime projection; primary inventory/progress bridge existing demo owners, secondary isolated frame. Loaded campaign uses default non-cheating team rule; mutable TeamRules binding remains separate."
+        }
+      },
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
+    },
+    "source_runtime_consumer_binding": {
+      "status": "active",
+      "owner": "SourceConsumeLiquidState.source_runtime_consumer_state",
+      "keys": {
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return Time.delta * timeScale;",
+          "rule": "Source ticks supplied before calling concrete consumer efficiency/update; canonical Time.delta conversion retained."
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return Time.delta * timeScale;",
+          "rule": "Actual Building timeScale supplied before both passes; not a copied Block resource amount."
+        }
+      },
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
     }
   },
   "version": 1

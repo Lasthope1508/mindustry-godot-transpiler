@@ -1,6 +1,8 @@
 extends RefCounted
 class_name SourceFactoryRuntimeState
 
+const source_drill_consumption_runtime_state := preload("res://src/game/SourceDrillConsumptionRuntimeState.gd")
+
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
 const source_drill_dump_runtime_state_script := preload("res://src/game/SourceDrillDumpRuntimeState.gd")
 const source_drill_production_runtime_state_script := preload("res://src/game/SourceDrillProductionRuntimeState.gd")
@@ -117,7 +119,7 @@ static func simulate_factory(game: Object, delta: float) -> void:
 		return
 	var drill_cell: Vector2i = game.get("drill_pos")
 	var drill_output_item_id := str(game.get(SOURCE_FACTORY_SUMMARY_DRILL_OUTPUT_ITEM_ID_KEY))
-	var factory_state: Dictionary = game.call("source_factory_simulation_runtime_state", delta)
+	var factory_state: Dictionary = source_drill_consumption_runtime_state.source_factory_state(game, delta)
 	var apply_state: Dictionary = game.call("source_factory_simulation_apply_state", factory_state)
 	game.call("set_drill_time_drilled_at_cell", drill_cell.x, drill_cell.y, float(apply_state.get(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_DRILL_TIME_DRILLED_KEY, game.call("drill_time_drilled_at_cell", drill_cell.x, drill_cell.y))))
 	game.call("set_drill_last_speed_at_cell", drill_cell.x, drill_cell.y, float(apply_state.get(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_DRILL_LAST_SPEED_KEY, game.call("drill_last_speed_at_cell", drill_cell.x, drill_cell.y))))

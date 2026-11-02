@@ -2589,6 +2589,31 @@
         "test_live_partial_apply_filter_cache_and_real_placement"
       ],
       "runtime_proof": "/root/Main.LiquidConsumerApplyHydrationProof"
+    },
+    "N2007": {
+      "canonical_ledger": "source_slice_ledger.N2007",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "java_method": "update(); updateConsumption(); updateTile()",
+      "godot_owner": "SourceConsumeLiquidState.source_runtime_consumer_state",
+      "generated_owner": "",
+      "source_symbols": [
+        "cost_multiplier._build",
+        "cost_multiplier.multiplier",
+        "runtime_consumer.definition",
+        "runtime_consumer.liquids",
+        "runtime_consumer.cache_sums",
+        "runtime_consumer.cost_multiplier",
+        "runtime_consumer.consumer",
+        "runtime_consumer_binding.source_delta",
+        "runtime_consumer_binding.time_scale"
+      ],
+      "tests": [
+        "test_same_batch_contracts_cover_adapter_unique_traversal_and_live_ticks",
+        "test_factory_uses_live_tick_owner_and_timescale_uses_unique_buildings",
+        "test_real_process_drives_two_multicell_drills_and_concrete_adapter"
+      ],
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
     }
   }
 }

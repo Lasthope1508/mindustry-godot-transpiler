@@ -1,6 +1,35 @@
 extends RefCounted
 class_name SourceConsumeLiquidState
 
+const source_runtime_storage := preload("res://src/game/SourceLiquidModuleState.gd")
+const source_runtime_time := preload("res://src/game/SourceBuildingTimeState.gd")
+
+class RuntimeConsumer extends RefCounted:
+	var definition: Dictionary
+	var liquids: Dictionary
+	var cache_sums: Array
+	var cost_multiplier: Callable
+	var source_delta: float
+	var time_scale: float
+
+	func efficiency(build: Dictionary) -> float:
+		var available = SourceConsumeLiquidState.source_runtime_storage.source_get_state(liquids, definition["liquid"])["amount"]
+		var edelta = SourceConsumeLiquidState.source_runtime_time.edelta(source_delta, time_scale, build["efficiency"])
+		return SourceConsumeLiquidState.efficiency_state(available, definition["amount"], edelta, build["efficiency_scale"], cost_multiplier.call(build)["multiplier"])["efficiency"]
+
+	func update(build: Dictionary) -> void:
+		var edelta = SourceConsumeLiquidState.source_runtime_time.edelta(source_delta, time_scale, build["efficiency"])
+		var request = SourceConsumeLiquidState.update_state(definition["liquid"], definition["amount"], edelta, cost_multiplier.call(build)["multiplier"])
+		SourceConsumeLiquidState.source_runtime_storage.source_remove_state(liquids, definition["liquid"], request["remove_amount"], cache_sums)
+
+static func source_runtime_consumer_state(definition: Dictionary, liquids: Dictionary, cache_sums: Array, cost_multiplier: Callable) -> Dictionary:
+	var consumer := RuntimeConsumer.new()
+	consumer.definition = definition
+	consumer.liquids = liquids
+	consumer.cache_sums = cache_sums
+	consumer.cost_multiplier = cost_multiplier
+	return {"consumer": consumer}
+
 const source_liquid_consumer_catalog := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
 const source_liquid_consumer_base := preload("res://src/game/SourceConsumeState.gd")
 const SOURCE_BLOCK_LIQUID_CONSUMERS_META_KEY := "source_block_liquid_consumers"

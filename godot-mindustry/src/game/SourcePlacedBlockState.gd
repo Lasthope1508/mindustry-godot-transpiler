@@ -1,6 +1,19 @@
 extends RefCounted
 class_name SourcePlacedBlockState
 
+static func source_unique_buildings_state(game: Object) -> Dictionary:
+	var buildings: Array = []
+	var seen: Dictionary = {}
+	var placed_blocks: Dictionary = game.get("placed_blocks")
+	for sprite in placed_blocks.values():
+		if not is_instance_valid(sprite) or not sprite is Sprite2D:
+			continue
+		var identity: int = sprite.get_instance_id()
+		if not seen.has(identity):
+			seen[identity] = true
+			buildings.append(sprite)
+	return {"buildings": buildings}
+
 const source_liquid_module_state := preload("res://src/game/SourceLiquidModuleState.gd")
 const source_content_registry_runtime_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
 const SOURCE_BUILDING_LIQUIDS_META_KEY := "source_building_liquids"
@@ -134,12 +147,8 @@ static func decay_time_scale_sprite(game: Object, sprite, source_delta: float, d
 	apply_time_scale_decay(sprite, result, default_time_scale)
 
 static func simulate_time_scales(game: Object, source_delta: float, default_time_scale: float) -> void:
-	var placed_block_origins_value = game.get("placed_block_origins")
-	if not (placed_block_origins_value is Dictionary):
-		return
-	var placed_block_origins: Dictionary = placed_block_origins_value
-	for key in placed_block_origins.keys():
-		decay_time_scale_sprite(game, placed_block_origins.get(key), source_delta, default_time_scale)
+	for sprite in source_unique_buildings_state(game)["buildings"]:
+		decay_time_scale_sprite(game, sprite, source_delta, default_time_scale)
 
 static func step_time_scales(game: Object, seconds: float, tick_rate: float, default_time_scale: float) -> Dictionary:
 	var source_delta := seconds * tick_rate

@@ -312,6 +312,50 @@
         "test_live_building_storage_and_typed_catalog_runtime"
       ],
       "runtime_proof": "/root/Main.PlacedLiquidOwnershipProof"
+    },
+    "N2009": {
+      "canonical_ledger": "source_slice_ledger.N2009",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "update(); updateConsumption(); updateTile()",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_tick_state",
+      "source_symbols": [
+        "drill_live_tick.game",
+        "drill_live_tick.seconds",
+        "drill_live_tick.drill_states",
+        "drill_live_factory.game",
+        "drill_live_factory.seconds",
+        "drill_live_factory.drill_state",
+        "drill_live_factory.dump_state",
+        "drill_live_factory.transport_state",
+        "drill_live_factory.transport_progress",
+        "drill_live_factory.source_owner",
+        "drill_live_frame.enabled",
+        "drill_live_frame.cheating",
+        "drill_live_frame.items",
+        "drill_live_frame.item_progress",
+        "drill_live_frame.warmup",
+        "drill_live_frame.time_drilled",
+        "drill_live_frame.last_drill_speed",
+        "drill_live_frame.dominant_item",
+        "drill_live_frame.dominant_items",
+        "drill_live_frame.consumers",
+        "drill_live_frame.efficiency",
+        "drill_live_frame.optional_efficiency",
+        "drill_live_frame.potential_efficiency",
+        "drill_live_frame.should_consume_power",
+        "drill_live_frame.efficiency_scale",
+        "drill_live_frame.speed",
+        "drill_live.metadata_key",
+        "drill_live.liquid_boost_intensity",
+        "drill_live.unboosted_speed"
+      ],
+      "tests": [
+        "test_same_batch_contracts_cover_adapter_unique_traversal_and_live_ticks",
+        "test_factory_uses_live_tick_owner_and_timescale_uses_unique_buildings",
+        "test_real_process_drives_two_multicell_drills_and_concrete_adapter"
+      ],
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
     }
   }
 }

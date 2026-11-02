@@ -14,8 +14,8 @@ Counts below are projected from the canonical `source_slice_ledger.json`, not fr
 
 | Bucket | Count |
 | --- | ---: |
-| Canonical slice ledger entries | 1461 |
-| Done | 1461 |
+| Canonical slice ledger entries | 1464 |
+| Done | 1464 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -88,6 +88,9 @@ Counts below are projected from the canonical `source_slice_ledger.json`, not fr
 - [x] N2004: Partial-input ConsumeLiquidBase capability projection owns unconditional hasLiquids assignment; legacy bool API preserves before evidence without inventing missing input.
 - [x] N2005: Single-liquid filter assignment has one canonical projection, reused by legacy apply and descriptor hydration; existing bits and input array remain preserved.
 - [x] N2006: Shared Block apply view feeds effective placement capability; actual electrolyzer without a constructor flag allocates independent per-building LiquidModule frames. Supported filter subset is explicit; mixed consumers, callbacks and automatic ticks remain open.
+- [x] N2007: Concrete ConsumeLiquid adapter delegates efficiency/update to canonical owners, uses explicit cost multiplier callback, shared Block descriptor and actual Building liquid storage; adapter identities are reused.
+- [x] N2008: Actual Building traversal derives unique live instances from placed_blocks; time-scale decay visits each multi-cell building once, without another persistent registry.
+- [x] N2009: Automatic game-process consumption and production for power-free base Drill on a single-ore footprint; canonical predicates and callback dispatch feed the existing factory composition once. Power, mixed ore and complete secondary transport remain open.
 - [x] N167: Source BuildingComp drawConfigure canonical square state.
 - [x] N168: Source BuildingComp checkSolid default state.
 - [x] N169: Source BuildingComp handleDamage passthrough state.
@@ -1357,7 +1360,7 @@ Counts below are projected from the canonical `source_slice_ledger.json`, not fr
 
 Work now uses dependency cubes for prioritization without changing the verification contract. Each cube groups source Java, Godot runtime wiring, and playable behavior for one gameplay system. Inside a cube, every slice still moves linearly: read upstream Java, write RED tests, prove RED, implement minimal GREEN, run targeted/full tests, prove through Godot MCP runtime, update this checklist, run `git diff --check`, stage only touched tracked files, and commit.
 
-Current cube: `liquid consumer apply and placed capability`. N2004–N2006 connect supported direct ConsumeLiquid descriptors to canonical capability/filter effects before actual placement allocation, retaining immutable source properties and Block/Building ownership. Ledger: 1461 records; catalog: 113 modules. Filters cover only the resolved direct single-liquid subset. Concrete consumer callbacks, multipliers, complete mixed/inherited initialization, capacity, automatic resource ticks and reload invalidation remain open. See `reports/2026-11-02-liquid-consumer-apply-hydration.md` for acceptance and dependency checkpoints.
+Current cube: `concrete liquid consumers and automatic Drill gameplay`. N2007–N2009 connect source-backed concrete callbacks and per-Building liquid storage to unique Building traversal and the actual factory game loop. Ledger: 1464 records; catalog: 113 modules. Accepted scope is the current power-free base Drill on a single-ore footprint, including optional water boosts, real predicates, independent buildings and primary production. Power consumers, mixed-ore sorting, complete secondary output routing, live TeamRules/reload and active-flow lifecycle remain open. See `reports/2026-11-02-drill-live-consumption.md`.
 
 ## Done
 
@@ -2999,10 +3002,13 @@ Current cube: `liquid consumer apply and placed capability`. N2004–N2006 conne
 | N2004 | Partial-input liquid capability apply | ConsumeLiquidBase unconditional hasLiquids after-value has one canonical projection, reused by the legacy bool API without inventing a missing before flag. |
 | N2005 | Canonical liquid filter apply | SourceConsumeLiquidState filter duplicate/set projection is shared by legacy apply and typed descriptor effects; independent expected-array checks preserve existing bits and source input. |
 | N2006 | Block-owned applied liquid capability | Supported descriptors apply once per Block and precede existing conditional placement allocation. Native MCP proves absent/false/true inputs, shared cache, immutable properties and independent real electrolyzer Building frames; filter is explicitly partial. Focused 11 tests / 16 subtests plus legacy 5 / 3; full 5361 / 22630 in 1043.57s, catalog 0 errors / 113 modules, editor exit 0. See reports/2026-11-02-liquid-consumer-apply-hydration.md. |
+| N2007 | Concrete liquid runtime consumer | Source cost callback and reusable concrete adapter delegate edelta, efficiency/update and LiquidModule get/remove to canonical owners; descriptor and storage ownership remain separate. |
+| N2008 | Unique live Building traversal | Transient instance deduplication fixes time-scale iteration over origin coordinates and supplies one game update per multi-cell Building; no second registry. |
+| N2009 | Automatic Drill consumption and production | Actual game process drives independent power-free base Drills on single-ore footprints. Canonical consumption precedes one production event and existing primary output composition. Focused 14 tests / 20 subtests; full 5364 / 22683 in 1030.23s; catalog 0 errors / 113 modules, native matches=true, editor exit 0. Power/mixed ore/complete secondary routing remain deferred. See reports/2026-11-02-drill-live-consumption.md. |
 
 ## Not Done
 
-N2004–N2006 are accepted for partial-input canonical apply effects and effective placement allocation for the supported direct single-liquid subset. CP-PO2 still needs concrete production adapters and source multiplier behavior, plus complete inherited/mixed initialization and capacity. CP-PO3 needs real predicates, unique building traversal and game-driven ticks. Complete filter acceptance, runtime reinit/reload invalidation, unresolved source expressions, flow and serialization remain open. Follow reports/2026-11-02-liquid-consumer-apply-hydration.md.
+N2007–N2009 accept concrete single-liquid cost/efficiency/update callbacks and automatic game-driven consumption/production for power-free base Drill with single-ore footprints. CP-PO2/CP-PO3 are advanced within this subset, not closed globally. Complete mixed/inherited consumers and capacity, power adapters, ore priority/proximity invalidation, secondary output routing, live TeamRules, descriptor reload invalidation, active flow cache, supply transport and serialization remain open. Follow reports/2026-11-02-drill-live-consumption.md.
 
 ## Scope
 
@@ -3356,3 +3362,4 @@ When Godot CLI is not on `PATH`, use the configured MCP Godot path from `C:\User
 | 2026-11-01 | N1999–N2001 accepted: typed liquid IDs from the runtime catalog, 56 source-explicit block capability additions and persistent actual placed-building LiquidModule ownership. Existing canonical placement is delegated; supplied-consumer real-world storage proof and guards match in native MCP. Focused 18 tests / 21 subtests; full suite 5354 tests / 22588 subtests in 975.01s; validator 0 errors / 113 modules / 0 JSON errors; editor exit 0. Production optional consumer hydration, automatic ticks and remaining flow/serialization stay deferred. See reports/2026-11-01-placed-liquid-ownership.md. |
 | 2026-11-01 | N2002–N2003 accepted: source direct consumeLiquid definitions (53 calls / 49 blocks) and typed descriptor binding shared per actual Block. Canonical constructor/ignore/classification reused; field/slug remapping and optional efficiency match native MCP. Focused 16 tests / 13 subtests; full 5358 tests / 22607 subtests in 1022.80s; validator 0 errors / 113 modules, editor exit 0. Thorium-reactor, apply/filter, concrete callbacks and automatic ticks remain deferred. See reports/2026-11-01-liquid-consumer-hydration.md. |
 | 2026-11-02 | N2004–N2006 accepted: canonical unconditional liquid capability/filter projections and shared Block apply state before building allocation. Native MCP confirms unknown/false/true constructor capability, preserved source properties and independent electrolyzer storage. Focused 11 tests / 16 subtests; legacy 5 / 3; full 5361 / 22630 in 1043.57s; catalog 0 errors / 113 modules, editor exit 0, 12-file replay unchanged. Partial filter only; concrete callbacks, mixed consumers, reload and automatic ticks remain deferred. See reports/2026-11-02-liquid-consumer-apply-hydration.md. |
+| 2026-11-02 | N2007–N2009 accepted: concrete liquid consumers, canonical unique Building traversal and automatic supported Drill ticks. Focused 14 / 20, final proof 3 / 4; full 5364 / 22683 in 1030.23s; catalog 0 errors / 113 modules; native matches=true, 0 actual errors, 66 compiler warnings, explicit stop; editor exit 0; 14-file replay unchanged. Power, mixed ore and complete secondary routing remain open. See reports/2026-11-02-drill-live-consumption.md. |

@@ -4332,6 +4332,45 @@
       ],
       "runtime_proof": "/root/Main.LiquidConsumerApplyHydrationProof",
       "rule": "Partial-input projection of unconditional source assignments; no invented before bool. Block apply requires nonempty resolved direct ConsumeLiquid descriptors and caches supported filter effects only. Not full Block.init or a runtime reinitialization API."
+    },
+    "SourceConsumeLiquidState.source_runtime_consumer_state": {
+      "canonical_contract": "source_api_contracts.SourceConsumeLiquidState.source_runtime_consumer_state",
+      "status": "active",
+      "source_slice": "N2007",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "source_method": "update(Building build); efficiency(Building build); updateTile()",
+      "params": [
+        {
+          "name": "definition",
+          "type": "Dictionary",
+          "schema": "source_runtime_consumer_input.definition"
+        },
+        {
+          "name": "liquids",
+          "type": "Dictionary",
+          "schema": "source_runtime_consumer_input.liquids"
+        },
+        {
+          "name": "cache_sums",
+          "type": "Array",
+          "schema": "source_runtime_consumer_input.cache_sums"
+        },
+        {
+          "name": "cost_multiplier",
+          "type": "Callable",
+          "schema": "source_runtime_consumer_input.cost_multiplier"
+        }
+      ],
+      "return_keys": [
+        "consumer"
+      ],
+      "tests": [
+        "test_same_batch_contracts_cover_adapter_unique_traversal_and_live_ticks",
+        "test_factory_uses_live_tick_owner_and_timescale_uses_unique_buildings",
+        "test_real_process_drives_two_multicell_drills_and_concrete_adapter"
+      ],
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof",
+      "rule": "Source-backed concrete adapter and live base-Drill gameplay integration. Power consumers, mixed ore, flow binding, reload and secondary output routing are explicitly outside this checkpoint."
     }
   }
 }

@@ -1,0 +1,72 @@
+import copy,difflib,hashlib,json,subprocess,sys
+from pathlib import Path
+ROOT=Path(r'C:/Users/Admin/Documents/Game/mindustry-godot-transpiler-copy-20260714-073528')
+BEFORE=Path('C:/tmp/drill-live-before'); GEN='godot-mindustry/src/generated/'
+ROOTS={'source_symbol_registry.json':('symbols',40),'source_api_contracts.json':('contracts',5),'source_state_schema.json':('schemas',12),'source_slice_ledger.json':('slices',3)}
+RUNTIME=['SourcePlacedBlockState.gd','SourceConsumeState.gd','SourceConsumeLiquidState.gd','SourceFactoryRuntimeState.gd','SourceFactoryDefaults.gd']
+def git(*args,input=None):return subprocess.check_output(['git',*args],cwd=ROOT,input=input).decode('utf-8')
+def read(p,base=ROOT):return (base/p).read_text(encoding='utf-8')
+def merge(a,b,c):
+ if a==b:return copy.deepcopy(c)
+ if isinstance(a,dict) and isinstance(b,dict) and isinstance(c,dict):
+  d=copy.deepcopy(c)
+  for k in dict.fromkeys([*a,*b]):
+   if k not in b: assert d[k]==a[k];del d[k]
+   elif k not in a: assert k not in d or d[k]==b[k];d[k]=copy.deepcopy(b[k])
+   elif a[k]!=b[k]:d[k]=merge(a[k],b[k],d[k])
+  return d
+ assert c==a or c==b
+ return copy.deepcopy(b)
+def stage(p,s):
+ oid=git('hash-object','-w','--stdin',input=s.replace('\r\n','\n').encode('utf-8')).strip()
+ subprocess.run(['git','update-index','--add','--cacheinfo','100644',oid,p],cwd=ROOT,check=True)
+def delta(a,b,c):
+ x,y=a.splitlines(keepends=True),b.splitlines(keepends=True)
+ for group in reversed(list(difflib.SequenceMatcher(None,x,y,autojunk=False).get_grouped_opcodes(1))):
+  old=''.join(x[group[0][1]:group[-1][2]]);new=''.join(y[group[0][3]:group[-1][4]])
+  if c.count(old)==1:c=c.replace(old,new,1);continue
+  for tag,i,j,p,q in reversed(group):
+   if tag=='equal':continue
+   old,new=''.join(x[i:j]),''.join(y[p:q])
+   assert old and c.count(old)==1,('Cannot isolate text delta',old)
+   c=c.replace(old,new,1)
+ return c
+def json_paths():
+ paths=[GEN+p for p in ROOTS]
+ m=json.loads(read(GEN+'source_ssot_modules.json'))['modules']
+ for entry in m.values():
+  p='godot-mindustry/'+entry['path']
+  if json.loads(read(p))!=json.loads(read(p,BEFORE)):paths.append(p)
+ return paths
+def main():
+ assert git('rev-parse','HEAD').startswith('e97eb17c')
+ out={'parent':git('rev-parse','HEAD').strip(),'json':{},'runtime':{}}
+ for p in json_paths():
+  a,b,c=json.loads(read(p,BEFORE)),json.loads(read(p)),json.loads(git('show','HEAD:'+p))
+  key=next(k for k in b if k not in ('version','policy'))
+  added=sorted(set(b[key])-set(a[key]));changed=sorted(k for k,v in a[key].items() if b[key].get(k)!=v)
+  removed=sorted(set(a[key])-set(b[key]))
+  assert not changed and not removed,(p,changed,removed)
+  assert {k:v for k,v in a.items() if k!=key}=={k:v for k,v in b.items() if k!=key}
+  if p.removeprefix(GEN) in ROOTS: assert len(added)==ROOTS[p.removeprefix(GEN)][1],(p,len(added))
+  planned=merge(a,b,c)
+  out['json'][p]={'added':added,'preexisting_dirty':a!=c}
+  if '--stage' in sys.argv:stage(p,json.dumps(planned,indent=2)+'\n')
+ for name in RUNTIME+['test_playable.py']:
+  p='tools/mindustry_godot_transpiler/tests/'+name if name=='test_playable.py' else 'godot-mindustry/src/game/'+name
+  a=read('test_playable.py',BEFORE) if name=='test_playable.py' else read(p,BEFORE)
+  b,c=read(p),git('show','HEAD:'+p)
+  if name=='test_playable.py':
+   old='var factory_state: Dictionary = game.call("source_factory_simulation_runtime_state", delta)'
+   new='var factory_state: Dictionary = source_drill_consumption_runtime_state.source_factory_state(game, delta)'
+   assert a.replace(old,new)==b and a.count(old)==c.count(old)==2
+   planned=c.replace(old,new)
+  else:planned=delta(a,b,c)
+  out['runtime'][p]={'preexisting_dirty':a!=c,'delta':list(difflib.unified_diff(a.splitlines(),b.splitlines(),n=1))}
+  if '--stage' in sys.argv:stage(p,planned)
+ for n in ['source_ssot_modules.json','source_symbol_audit_report.json','content_registry.json','MindustryContentRegistry.gd']:
+  assert read(GEN+n)==read(GEN+n,BEFORE)
+ Path('C:/tmp/drill-live-scope.json').write_text(json.dumps(out,indent=2)+'\n',encoding='utf-8')
+ print({p:len(v['added']) for p,v in out['json'].items()})
+ print('Runtime/test deltas isolated; content/manifest/audit unchanged')
+if __name__=='__main__':main()

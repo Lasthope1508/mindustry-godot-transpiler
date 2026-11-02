@@ -631,6 +631,31 @@
           ]
         }
       }
+    },
+    "source_drill_live_tick_input": {
+      "canonical_schema": "source_state_schema.source_drill_live_tick_input",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/Logic.java",
+          "java_expr": "Groups.build.update();",
+          "rule": "Current loaded gameplay owner; traversal resolves actual instances through the canonical occupied-cell placement map.",
+          "used_by": [
+            "SourceDrillConsumptionRuntimeState.source_tick_state"
+          ]
+        },
+        "seconds": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "timeScaleDuration -= Time.delta",
+          "rule": "Godot seconds are converted once through the canonical source tick rate.",
+          "used_by": [
+            "SourceDrillConsumptionRuntimeState.source_tick_state"
+          ]
+        }
+      }
     }
   }
 }

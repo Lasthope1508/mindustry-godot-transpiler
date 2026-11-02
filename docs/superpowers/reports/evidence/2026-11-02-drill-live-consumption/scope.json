@@ -1,0 +1,283 @@
+{
+  "parent": "e97eb17c774e3502275c248479bafb7d6694e3d7",
+  "json": {
+    "godot-mindustry/src/generated/source_symbol_registry.json": {
+      "added": [
+        "cost_multiplier._build",
+        "cost_multiplier.multiplier",
+        "drill_live.liquid_boost_intensity",
+        "drill_live.metadata_key",
+        "drill_live.unboosted_speed",
+        "drill_live_factory.drill_state",
+        "drill_live_factory.dump_state",
+        "drill_live_factory.game",
+        "drill_live_factory.seconds",
+        "drill_live_factory.source_owner",
+        "drill_live_factory.transport_progress",
+        "drill_live_factory.transport_state",
+        "drill_live_frame.cheating",
+        "drill_live_frame.consumers",
+        "drill_live_frame.dominant_item",
+        "drill_live_frame.dominant_items",
+        "drill_live_frame.efficiency",
+        "drill_live_frame.efficiency_scale",
+        "drill_live_frame.enabled",
+        "drill_live_frame.item_progress",
+        "drill_live_frame.items",
+        "drill_live_frame.last_drill_speed",
+        "drill_live_frame.optional_efficiency",
+        "drill_live_frame.potential_efficiency",
+        "drill_live_frame.should_consume_power",
+        "drill_live_frame.speed",
+        "drill_live_frame.time_drilled",
+        "drill_live_frame.warmup",
+        "drill_live_tick.drill_states",
+        "drill_live_tick.game",
+        "drill_live_tick.seconds",
+        "runtime_consumer.cache_sums",
+        "runtime_consumer.consumer",
+        "runtime_consumer.cost_multiplier",
+        "runtime_consumer.definition",
+        "runtime_consumer.liquids",
+        "runtime_consumer_binding.source_delta",
+        "runtime_consumer_binding.time_scale",
+        "unique_buildings.buildings",
+        "unique_buildings.game"
+      ],
+      "preexisting_dirty": false
+    },
+    "godot-mindustry/src/generated/source_api_contracts.json": {
+      "added": [
+        "SourceConsumeLiquidState.source_runtime_consumer_state",
+        "SourceConsumeState.source_cost_multiplier_state",
+        "SourceDrillConsumptionRuntimeState.source_factory_state",
+        "SourceDrillConsumptionRuntimeState.source_tick_state",
+        "SourcePlacedBlockState.source_unique_buildings_state"
+      ],
+      "preexisting_dirty": false
+    },
+    "godot-mindustry/src/generated/source_state_schema.json": {
+      "added": [
+        "source_cost_multiplier_input",
+        "source_cost_multiplier_result",
+        "source_drill_live_factory_input",
+        "source_drill_live_factory_result",
+        "source_drill_live_frame",
+        "source_drill_live_tick_input",
+        "source_drill_live_tick_result",
+        "source_runtime_consumer_binding",
+        "source_runtime_consumer_input",
+        "source_runtime_consumer_result",
+        "source_unique_buildings_input",
+        "source_unique_buildings_result"
+      ],
+      "preexisting_dirty": true
+    },
+    "godot-mindustry/src/generated/source_slice_ledger.json": {
+      "added": [
+        "N2007",
+        "N2008",
+        "N2009"
+      ],
+      "preexisting_dirty": false
+    },
+    "godot-mindustry/src/generated/source_modules/consumer_api_contracts.json": {
+      "added": [
+        "SourceConsumeLiquidState.source_runtime_consumer_state"
+      ],
+      "preexisting_dirty": true
+    },
+    "godot-mindustry/src/generated/source_modules/consumer_slices.json": {
+      "added": [
+        "N2007"
+      ],
+      "preexisting_dirty": true
+    },
+    "godot-mindustry/src/generated/source_modules/production_api_contracts.json": {
+      "added": [
+        "SourceDrillConsumptionRuntimeState.source_tick_state"
+      ],
+      "preexisting_dirty": true
+    },
+    "godot-mindustry/src/generated/source_modules/production_slices.json": {
+      "added": [
+        "N2009"
+      ],
+      "preexisting_dirty": true
+    },
+    "godot-mindustry/src/generated/source_modules/production_state_schema.json": {
+      "added": [
+        "source_drill_live_tick_input"
+      ],
+      "preexisting_dirty": true
+    },
+    "godot-mindustry/src/generated/source_modules/production_symbols.json": {
+      "added": [
+        "drill_live.liquid_boost_intensity",
+        "drill_live.metadata_key",
+        "drill_live.unboosted_speed",
+        "drill_live_factory.drill_state",
+        "drill_live_factory.dump_state",
+        "drill_live_factory.game",
+        "drill_live_factory.seconds",
+        "drill_live_factory.source_owner",
+        "drill_live_factory.transport_progress",
+        "drill_live_factory.transport_state",
+        "drill_live_frame.cheating",
+        "drill_live_frame.consumers",
+        "drill_live_frame.dominant_item",
+        "drill_live_frame.dominant_items",
+        "drill_live_frame.efficiency",
+        "drill_live_frame.efficiency_scale",
+        "drill_live_frame.enabled",
+        "drill_live_frame.item_progress",
+        "drill_live_frame.items",
+        "drill_live_frame.last_drill_speed",
+        "drill_live_frame.optional_efficiency",
+        "drill_live_frame.potential_efficiency",
+        "drill_live_frame.should_consume_power",
+        "drill_live_frame.speed",
+        "drill_live_frame.time_drilled",
+        "drill_live_frame.warmup",
+        "drill_live_tick.drill_states",
+        "drill_live_tick.game",
+        "drill_live_tick.seconds"
+      ],
+      "preexisting_dirty": true
+    }
+  },
+  "runtime": {
+    "godot-mindustry/src/game/SourcePlacedBlockState.gd": {
+      "preexisting_dirty": true,
+      "delta": [
+        "--- \n",
+        "+++ \n",
+        "@@ -2,2 +2,15 @@\n",
+        " class_name SourcePlacedBlockState",
+        "+",
+        "+static func source_unique_buildings_state(game: Object) -> Dictionary:",
+        "+\tvar buildings: Array = []",
+        "+\tvar seen: Dictionary = {}",
+        "+\tvar placed_blocks: Dictionary = game.get(\"placed_blocks\")",
+        "+\tfor sprite in placed_blocks.values():",
+        "+\t\tif not is_instance_valid(sprite) or not sprite is Sprite2D:",
+        "+\t\t\tcontinue",
+        "+\t\tvar identity: int = sprite.get_instance_id()",
+        "+\t\tif not seen.has(identity):",
+        "+\t\t\tseen[identity] = true",
+        "+\t\t\tbuildings.append(sprite)",
+        "+\treturn {\"buildings\": buildings}",
+        " ",
+        "@@ -150,8 +163,4 @@\n",
+        " static func simulate_time_scales(game: Object, source_delta: float, default_time_scale: float) -> void:",
+        "-\tvar placed_block_origins_value = game.get(\"placed_block_origins\")",
+        "-\tif not (placed_block_origins_value is Dictionary):",
+        "-\t\treturn",
+        "-\tvar placed_block_origins: Dictionary = placed_block_origins_value",
+        "-\tfor key in placed_block_origins.keys():",
+        "-\t\tdecay_time_scale_sprite(game, placed_block_origins.get(key), source_delta, default_time_scale)",
+        "+\tfor sprite in source_unique_buildings_state(game)[\"buildings\"]:",
+        "+\t\tdecay_time_scale_sprite(game, sprite, source_delta, default_time_scale)",
+        " "
+      ]
+    },
+    "godot-mindustry/src/game/SourceConsumeState.gd": {
+      "preexisting_dirty": true,
+      "delta": [
+        "--- \n",
+        "+++ \n",
+        "@@ -2,2 +2,5 @@\n",
+        " class_name SourceConsumeState",
+        "+",
+        "+static func source_cost_multiplier_state(_build: Variant) -> Dictionary:",
+        "+\treturn {\"multiplier\": 1.0}",
+        " "
+      ]
+    },
+    "godot-mindustry/src/game/SourceConsumeLiquidState.gd": {
+      "preexisting_dirty": true,
+      "delta": [
+        "--- \n",
+        "+++ \n",
+        "@@ -2,2 +2,31 @@\n",
+        " class_name SourceConsumeLiquidState",
+        "+",
+        "+const source_runtime_storage := preload(\"res://src/game/SourceLiquidModuleState.gd\")",
+        "+const source_runtime_time := preload(\"res://src/game/SourceBuildingTimeState.gd\")",
+        "+",
+        "+class RuntimeConsumer extends RefCounted:",
+        "+\tvar definition: Dictionary",
+        "+\tvar liquids: Dictionary",
+        "+\tvar cache_sums: Array",
+        "+\tvar cost_multiplier: Callable",
+        "+\tvar source_delta: float",
+        "+\tvar time_scale: float",
+        "+",
+        "+\tfunc efficiency(build: Dictionary) -> float:",
+        "+\t\tvar available = SourceConsumeLiquidState.source_runtime_storage.source_get_state(liquids, definition[\"liquid\"])[\"amount\"]",
+        "+\t\tvar edelta = SourceConsumeLiquidState.source_runtime_time.edelta(source_delta, time_scale, build[\"efficiency\"])",
+        "+\t\treturn SourceConsumeLiquidState.efficiency_state(available, definition[\"amount\"], edelta, build[\"efficiency_scale\"], cost_multiplier.call(build)[\"multiplier\"])[\"efficiency\"]",
+        "+",
+        "+\tfunc update(build: Dictionary) -> void:",
+        "+\t\tvar edelta = SourceConsumeLiquidState.source_runtime_time.edelta(source_delta, time_scale, build[\"efficiency\"])",
+        "+\t\tvar request = SourceConsumeLiquidState.update_state(definition[\"liquid\"], definition[\"amount\"], edelta, cost_multiplier.call(build)[\"multiplier\"])",
+        "+\t\tSourceConsumeLiquidState.source_runtime_storage.source_remove_state(liquids, definition[\"liquid\"], request[\"remove_amount\"], cache_sums)",
+        "+",
+        "+static func source_runtime_consumer_state(definition: Dictionary, liquids: Dictionary, cache_sums: Array, cost_multiplier: Callable) -> Dictionary:",
+        "+\tvar consumer := RuntimeConsumer.new()",
+        "+\tconsumer.definition = definition",
+        "+\tconsumer.liquids = liquids",
+        "+\tconsumer.cache_sums = cache_sums",
+        "+\tconsumer.cost_multiplier = cost_multiplier",
+        "+\treturn {\"consumer\": consumer}",
+        " "
+      ]
+    },
+    "godot-mindustry/src/game/SourceFactoryRuntimeState.gd": {
+      "preexisting_dirty": true,
+      "delta": [
+        "--- \n",
+        "+++ \n",
+        "@@ -2,2 +2,4 @@\n",
+        " class_name SourceFactoryRuntimeState",
+        "+",
+        "+const source_drill_consumption_runtime_state := preload(\"res://src/game/SourceDrillConsumptionRuntimeState.gd\")",
+        " ",
+        "@@ -128,3 +130,3 @@\n",
+        " \tvar drill_output_item_id := str(game.get(SOURCE_FACTORY_SUMMARY_DRILL_OUTPUT_ITEM_ID_KEY))",
+        "-\tvar factory_state: Dictionary = game.call(\"source_factory_simulation_runtime_state\", delta)",
+        "+\tvar factory_state: Dictionary = source_drill_consumption_runtime_state.source_factory_state(game, delta)",
+        " \tvar apply_state: Dictionary = game.call(\"source_factory_simulation_apply_state\", factory_state)"
+      ]
+    },
+    "godot-mindustry/src/game/SourceFactoryDefaults.gd": {
+      "preexisting_dirty": false,
+      "delta": [
+        "--- \n",
+        "+++ \n",
+        "@@ -7,2 +7,4 @@\n",
+        " const DRILL_WARMUP_SPEED := 0.015",
+        "+const DRILL_LIQUID_BOOST_INTENSITY := 1.6",
+        "+const DRILL_UNBOOSTED_SPEED := 1.0",
+        " const BLOCK_DUMP_TIME := 5.0"
+      ]
+    },
+    "tools/mindustry_godot_transpiler/tests/test_playable.py": {
+      "preexisting_dirty": false,
+      "delta": [
+        "--- \n",
+        "+++ \n",
+        "@@ -15123,3 +15123,3 @@\n",
+        "         self.assertIn(\"source_game_simulation_factory_runtime_state.simulate_factory(self, delta)\", simulate_factory_body)",
+        "-        self.assertIn('var factory_state: Dictionary = game.call(\"source_factory_simulation_runtime_state\", delta)', factory_runtime_source)",
+        "+        self.assertIn('var factory_state: Dictionary = source_drill_consumption_runtime_state.source_factory_state(game, delta)', factory_runtime_source)",
+        "         self.assertIn('var apply_state: Dictionary = game.call(\"source_factory_simulation_apply_state\", factory_state)', factory_runtime_source)",
+        "@@ -15258,3 +15258,3 @@\n",
+        "         self.assertIn(\"source_game_simulation_factory_runtime_state.simulate_factory(self, delta)\", simulate_factory_body)",
+        "-        self.assertIn('var factory_state: Dictionary = game.call(\"source_factory_simulation_runtime_state\", delta)', factory_runtime_source)",
+        "+        self.assertIn('var factory_state: Dictionary = source_drill_consumption_runtime_state.source_factory_state(game, delta)', factory_runtime_source)",
+        "         self.assertIn('var apply_state: Dictionary = game.call(\"source_factory_simulation_apply_state\", factory_state)', factory_runtime_source)"
+      ]
+    }
+  }
+}

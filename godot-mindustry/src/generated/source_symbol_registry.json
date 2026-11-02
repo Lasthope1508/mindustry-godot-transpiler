@@ -149319,6 +149319,606 @@
         "test_live_partial_apply_filter_cache_and_real_placement"
       ],
       "runtime_proof": "/root/Main.LiquidConsumerApplyHydrationProof"
+    },
+    "cost_multiplier._build": {
+      "status": "source-backed",
+      "godot_owner": "SourceConsumeState.source_cost_multiplier_state",
+      "godot_symbol": "source_cost_multiplier_input._build",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "java_method": "update(Building build); efficiency(Building build); updateTile()",
+      "java_expr": "public Floatf<Building> multiplier = b -> 1f;",
+      "rule": "Compose existing canonical owners; retain source object/frame identity.",
+      "tests": [
+        "test_same_batch_contracts_cover_adapter_unique_traversal_and_live_ticks",
+        "test_factory_uses_live_tick_owner_and_timescale_uses_unique_buildings",
+        "test_real_process_drives_two_multicell_drills_and_concrete_adapter"
+      ],
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
+    },
+    "cost_multiplier.multiplier": {
+      "status": "source-backed",
+      "godot_owner": "SourceConsumeState.source_cost_multiplier_state",
+      "godot_symbol": "source_cost_multiplier_result.multiplier",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "java_method": "update(Building build); efficiency(Building build); updateTile()",
+      "java_expr": "public Floatf<Building> multiplier = b -> 1f;",
+      "rule": "Cost multiplier callback result; distinct from efficiencyMultiplier(Building).",
+      "tests": [
+        "test_same_batch_contracts_cover_adapter_unique_traversal_and_live_ticks",
+        "test_factory_uses_live_tick_owner_and_timescale_uses_unique_buildings",
+        "test_real_process_drives_two_multicell_drills_and_concrete_adapter"
+      ],
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
+    },
+    "runtime_consumer.definition": {
+      "status": "source-backed",
+      "godot_owner": "SourceConsumeLiquidState.source_runtime_consumer_state",
+      "godot_symbol": "source_runtime_consumer_input.definition",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "java_method": "update(Building build); efficiency(Building build); updateTile()",
+      "java_expr": "public final Liquid liquid;",
+      "rule": "Shared typed Block descriptor reference; amount and flags are not copied per building.",
+      "tests": [
+        "test_same_batch_contracts_cover_adapter_unique_traversal_and_live_ticks",
+        "test_factory_uses_live_tick_owner_and_timescale_uses_unique_buildings",
+        "test_real_process_drives_two_multicell_drills_and_concrete_adapter"
+      ],
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
+    },
+    "runtime_consumer.liquids": {
+      "status": "source-backed",
+      "godot_owner": "SourceConsumeLiquidState.source_runtime_consumer_state",
+      "godot_symbol": "source_runtime_consumer_input.liquids",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "update(Building build); efficiency(Building build); updateTile()",
+      "java_expr": "if(block.hasLiquids) liquids = new LiquidModule();",
+      "rule": "Existing Building LiquidModule frame by reference.",
+      "tests": [
+        "test_same_batch_contracts_cover_adapter_unique_traversal_and_live_ticks",
+        "test_factory_uses_live_tick_owner_and_timescale_uses_unique_buildings",
+        "test_real_process_drives_two_multicell_drills_and_concrete_adapter"
+      ],
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
+    },
+    "runtime_consumer.cache_sums": {
+      "status": "source-backed",
+      "godot_owner": "SourceConsumeLiquidState.source_runtime_consumer_state",
+      "godot_symbol": "source_runtime_consumer_input.cache_sums",
+      "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+      "java_method": "update(Building build); efficiency(Building build); updateTile()",
+      "java_expr": "private static float[] cacheSums;",
+      "rule": "Explicit canonical shared flow cache supplied by caller; live null-flow branch has no cache activity.",
+      "tests": [
+        "test_same_batch_contracts_cover_adapter_unique_traversal_and_live_ticks",
+        "test_factory_uses_live_tick_owner_and_timescale_uses_unique_buildings",
+        "test_real_process_drives_two_multicell_drills_and_concrete_adapter"
+      ],
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
+    },
+    "runtime_consumer.cost_multiplier": {
+      "status": "source-backed",
+      "godot_owner": "SourceConsumeLiquidState.source_runtime_consumer_state",
+      "godot_symbol": "source_runtime_consumer_input.cost_multiplier",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "java_method": "update(Building build); efficiency(Building build); updateTile()",
+      "java_expr": "public Floatf<Building> multiplier = b -> 1f;",
+      "rule": "Callable receives building frame and returns registered cost-multiplier result, not efficiencyMultiplier.",
+      "tests": [
+        "test_same_batch_contracts_cover_adapter_unique_traversal_and_live_ticks",
+        "test_factory_uses_live_tick_owner_and_timescale_uses_unique_buildings",
+        "test_real_process_drives_two_multicell_drills_and_concrete_adapter"
+      ],
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
+    },
+    "runtime_consumer.consumer": {
+      "status": "source-backed",
+      "godot_owner": "SourceConsumeLiquidState.source_runtime_consumer_state",
+      "godot_symbol": "source_runtime_consumer_result.consumer",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "java_method": "update(Building build); efficiency(Building build); updateTile()",
+      "java_expr": "public void update(Building build){",
+      "rule": "Concrete adapter implements efficiency(build) and update(build); delegates all arithmetic, storage mutation and clamping to canonical owners.",
+      "tests": [
+        "test_same_batch_contracts_cover_adapter_unique_traversal_and_live_ticks",
+        "test_factory_uses_live_tick_owner_and_timescale_uses_unique_buildings",
+        "test_real_process_drives_two_multicell_drills_and_concrete_adapter"
+      ],
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
+    },
+    "unique_buildings.game": {
+      "status": "source-backed",
+      "godot_owner": "SourcePlacedBlockState.source_unique_buildings_state",
+      "godot_symbol": "source_unique_buildings_input.game",
+      "java_source": "core/src/mindustry/core/Logic.java",
+      "java_method": "update(Building build); efficiency(Building build); updateTile()",
+      "java_expr": "Groups.build.update();",
+      "rule": "Current loaded gameplay owner; traversal resolves actual instances through the canonical occupied-cell placement map.",
+      "tests": [
+        "test_same_batch_contracts_cover_adapter_unique_traversal_and_live_ticks",
+        "test_factory_uses_live_tick_owner_and_timescale_uses_unique_buildings",
+        "test_real_process_drives_two_multicell_drills_and_concrete_adapter"
+      ],
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
+    },
+    "unique_buildings.buildings": {
+      "status": "source-backed",
+      "godot_owner": "SourcePlacedBlockState.source_unique_buildings_state",
+      "godot_symbol": "source_unique_buildings_result.buildings",
+      "java_source": "core/src/mindustry/core/Logic.java",
+      "java_method": "update(Building build); efficiency(Building build); updateTile()",
+      "java_expr": "Groups.build.update();",
+      "rule": "One live Sprite2D per placed Building identity. Transient deduplication over existing placement map, no second persistent registry.",
+      "tests": [
+        "test_same_batch_contracts_cover_adapter_unique_traversal_and_live_ticks",
+        "test_factory_uses_live_tick_owner_and_timescale_uses_unique_buildings",
+        "test_real_process_drives_two_multicell_drills_and_concrete_adapter"
+      ],
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
+    },
+    "drill_live_tick.game": {
+      "status": "source-backed",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_tick_state",
+      "godot_symbol": "source_drill_live_tick_input.game",
+      "java_source": "core/src/mindustry/core/Logic.java",
+      "java_method": "update(Building build); efficiency(Building build); updateTile()",
+      "java_expr": "Groups.build.update();",
+      "rule": "Current loaded gameplay owner; traversal resolves actual instances through the canonical occupied-cell placement map.",
+      "tests": [
+        "test_same_batch_contracts_cover_adapter_unique_traversal_and_live_ticks",
+        "test_factory_uses_live_tick_owner_and_timescale_uses_unique_buildings",
+        "test_real_process_drives_two_multicell_drills_and_concrete_adapter"
+      ],
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
+    },
+    "drill_live_tick.seconds": {
+      "status": "source-backed",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_tick_state",
+      "godot_symbol": "source_drill_live_tick_input.seconds",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "update(Building build); efficiency(Building build); updateTile()",
+      "java_expr": "timeScaleDuration -= Time.delta",
+      "rule": "Godot seconds are converted once through the canonical source tick rate.",
+      "tests": [
+        "test_same_batch_contracts_cover_adapter_unique_traversal_and_live_ticks",
+        "test_factory_uses_live_tick_owner_and_timescale_uses_unique_buildings",
+        "test_real_process_drives_two_multicell_drills_and_concrete_adapter"
+      ],
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
+    },
+    "drill_live_tick.drill_states": {
+      "status": "source-backed",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_tick_state",
+      "godot_symbol": "source_drill_live_tick_result.drill_states",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "update(Building build); efficiency(Building build); updateTile()",
+      "java_expr": "public void updateTile(){",
+      "rule": "Transient events keyed by origin cell for supported power-free base Drill in a single-ore footprint. Existing production/consumption owners compute state.",
+      "tests": [
+        "test_same_batch_contracts_cover_adapter_unique_traversal_and_live_ticks",
+        "test_factory_uses_live_tick_owner_and_timescale_uses_unique_buildings",
+        "test_real_process_drives_two_multicell_drills_and_concrete_adapter"
+      ],
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
+    },
+    "drill_live_factory.game": {
+      "status": "source-backed",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_factory_state",
+      "godot_symbol": "source_drill_live_factory_input.game",
+      "java_source": "core/src/mindustry/core/Logic.java",
+      "java_method": "update(Building build); efficiency(Building build); updateTile()",
+      "java_expr": "Groups.build.update();",
+      "rule": "Current loaded gameplay owner; traversal resolves actual instances through the canonical occupied-cell placement map.",
+      "tests": [
+        "test_same_batch_contracts_cover_adapter_unique_traversal_and_live_ticks",
+        "test_factory_uses_live_tick_owner_and_timescale_uses_unique_buildings",
+        "test_real_process_drives_two_multicell_drills_and_concrete_adapter"
+      ],
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
+    },
+    "drill_live_factory.seconds": {
+      "status": "source-backed",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_factory_state",
+      "godot_symbol": "source_drill_live_factory_input.seconds",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "update(Building build); efficiency(Building build); updateTile()",
+      "java_expr": "timeScaleDuration -= Time.delta",
+      "rule": "Godot seconds are converted once through the canonical source tick rate.",
+      "tests": [
+        "test_same_batch_contracts_cover_adapter_unique_traversal_and_live_ticks",
+        "test_factory_uses_live_tick_owner_and_timescale_uses_unique_buildings",
+        "test_real_process_drives_two_multicell_drills_and_concrete_adapter"
+      ],
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
+    },
+    "drill_live_factory.drill_state": {
+      "status": "source-backed",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_factory_state",
+      "godot_symbol": "source_drill_live_factory_result.drill_state",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "update(Building build); efficiency(Building build); updateTile()",
+      "java_expr": "public void updateTile(){",
+      "rule": "Primary event from world tick, injected into existing factory composition without a second production tick.",
+      "tests": [
+        "test_same_batch_contracts_cover_adapter_unique_traversal_and_live_ticks",
+        "test_factory_uses_live_tick_owner_and_timescale_uses_unique_buildings",
+        "test_real_process_drives_two_multicell_drills_and_concrete_adapter"
+      ],
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
+    },
+    "drill_live_factory.dump_state": {
+      "status": "source-backed",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_factory_state",
+      "godot_symbol": "source_drill_live_factory_result.dump_state",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "update(Building build); efficiency(Building build); updateTile()",
+      "java_expr": "dump(dominantItem != null && items.has(dominantItem) ? dominantItem : null);",
+      "rule": "Compose existing canonical owners; retain source object/frame identity.",
+      "tests": [
+        "test_same_batch_contracts_cover_adapter_unique_traversal_and_live_ticks",
+        "test_factory_uses_live_tick_owner_and_timescale_uses_unique_buildings",
+        "test_real_process_drives_two_multicell_drills_and_concrete_adapter"
+      ],
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
+    },
+    "drill_live_factory.transport_state": {
+      "status": "source-backed",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_factory_state",
+      "godot_symbol": "source_drill_live_factory_result.transport_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "update(Building build); efficiency(Building build); updateTile()",
+      "java_expr": "updateTile();",
+      "rule": "Existing factory transport composition retained.",
+      "tests": [
+        "test_same_batch_contracts_cover_adapter_unique_traversal_and_live_ticks",
+        "test_factory_uses_live_tick_owner_and_timescale_uses_unique_buildings",
+        "test_real_process_drives_two_multicell_drills_and_concrete_adapter"
+      ],
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
+    },
+    "drill_live_factory.transport_progress": {
+      "status": "source-backed",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_factory_state",
+      "godot_symbol": "source_drill_live_factory_result.transport_progress",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "update(Building build); efficiency(Building build); updateTile()",
+      "java_expr": "updateTile();",
+      "rule": "Existing factory transport projection, not a new conveyor formula.",
+      "tests": [
+        "test_same_batch_contracts_cover_adapter_unique_traversal_and_live_ticks",
+        "test_factory_uses_live_tick_owner_and_timescale_uses_unique_buildings",
+        "test_real_process_drives_two_multicell_drills_and_concrete_adapter"
+      ],
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
+    },
+    "drill_live_factory.source_owner": {
+      "status": "source-backed",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_factory_state",
+      "godot_symbol": "source_drill_live_factory_result.source_owner",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "update(Building build); efficiency(Building build); updateTile()",
+      "java_expr": "public void updateTile(){",
+      "rule": "Retains existing factory simulation owner metadata.",
+      "tests": [
+        "test_same_batch_contracts_cover_adapter_unique_traversal_and_live_ticks",
+        "test_factory_uses_live_tick_owner_and_timescale_uses_unique_buildings",
+        "test_real_process_drives_two_multicell_drills_and_concrete_adapter"
+      ],
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
+    },
+    "drill_live_frame.enabled": {
+      "status": "source-backed",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_tick_state",
+      "godot_symbol": "source_drill_live_frame.enabled",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption(); updateTile()",
+      "java_expr": "transient boolean enabled = true;",
+      "rule": "Building-owned runtime projection; primary inventory/progress bridge existing demo owners, secondary isolated frame. Loaded campaign uses default non-cheating team rule; mutable TeamRules binding remains separate.",
+      "tests": [
+        "test_same_batch_contracts_cover_adapter_unique_traversal_and_live_ticks",
+        "test_factory_uses_live_tick_owner_and_timescale_uses_unique_buildings",
+        "test_real_process_drives_two_multicell_drills_and_concrete_adapter"
+      ],
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
+    },
+    "drill_live_frame.cheating": {
+      "status": "source-backed",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_tick_state",
+      "godot_symbol": "source_drill_live_frame.cheating",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_method": "updateConsumption(); updateTile()",
+      "java_expr": "public boolean cheat;",
+      "rule": "Building-owned runtime projection; primary inventory/progress bridge existing demo owners, secondary isolated frame. Loaded campaign uses default non-cheating team rule; mutable TeamRules binding remains separate.",
+      "tests": [
+        "test_same_batch_contracts_cover_adapter_unique_traversal_and_live_ticks",
+        "test_factory_uses_live_tick_owner_and_timescale_uses_unique_buildings",
+        "test_real_process_drives_two_multicell_drills_and_concrete_adapter"
+      ],
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
+    },
+    "drill_live_frame.items": {
+      "status": "source-backed",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_tick_state",
+      "godot_symbol": "source_drill_live_frame.items",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "updateConsumption(); updateTile()",
+      "java_expr": "items.total() < itemCapacity",
+      "rule": "Building-owned runtime projection; primary inventory/progress bridge existing demo owners, secondary isolated frame. Loaded campaign uses default non-cheating team rule; mutable TeamRules binding remains separate.",
+      "tests": [
+        "test_same_batch_contracts_cover_adapter_unique_traversal_and_live_ticks",
+        "test_factory_uses_live_tick_owner_and_timescale_uses_unique_buildings",
+        "test_real_process_drives_two_multicell_drills_and_concrete_adapter"
+      ],
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
+    },
+    "drill_live_frame.item_progress": {
+      "status": "source-backed",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_tick_state",
+      "godot_symbol": "source_drill_live_frame.item_progress",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "updateConsumption(); updateTile()",
+      "java_expr": "public float progress;",
+      "rule": "Building-owned runtime projection; primary inventory/progress bridge existing demo owners, secondary isolated frame. Loaded campaign uses default non-cheating team rule; mutable TeamRules binding remains separate.",
+      "tests": [
+        "test_same_batch_contracts_cover_adapter_unique_traversal_and_live_ticks",
+        "test_factory_uses_live_tick_owner_and_timescale_uses_unique_buildings",
+        "test_real_process_drives_two_multicell_drills_and_concrete_adapter"
+      ],
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
+    },
+    "drill_live_frame.warmup": {
+      "status": "source-backed",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_tick_state",
+      "godot_symbol": "source_drill_live_frame.warmup",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "updateConsumption(); updateTile()",
+      "java_expr": "public float warmup;",
+      "rule": "Building-owned runtime projection; primary inventory/progress bridge existing demo owners, secondary isolated frame. Loaded campaign uses default non-cheating team rule; mutable TeamRules binding remains separate.",
+      "tests": [
+        "test_same_batch_contracts_cover_adapter_unique_traversal_and_live_ticks",
+        "test_factory_uses_live_tick_owner_and_timescale_uses_unique_buildings",
+        "test_real_process_drives_two_multicell_drills_and_concrete_adapter"
+      ],
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
+    },
+    "drill_live_frame.time_drilled": {
+      "status": "source-backed",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_tick_state",
+      "godot_symbol": "source_drill_live_frame.time_drilled",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "updateConsumption(); updateTile()",
+      "java_expr": "public float timeDrilled;",
+      "rule": "Building-owned runtime projection; primary inventory/progress bridge existing demo owners, secondary isolated frame. Loaded campaign uses default non-cheating team rule; mutable TeamRules binding remains separate.",
+      "tests": [
+        "test_same_batch_contracts_cover_adapter_unique_traversal_and_live_ticks",
+        "test_factory_uses_live_tick_owner_and_timescale_uses_unique_buildings",
+        "test_real_process_drives_two_multicell_drills_and_concrete_adapter"
+      ],
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
+    },
+    "drill_live_frame.last_drill_speed": {
+      "status": "source-backed",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_tick_state",
+      "godot_symbol": "source_drill_live_frame.last_drill_speed",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "updateConsumption(); updateTile()",
+      "java_expr": "public float lastDrillSpeed;",
+      "rule": "Building-owned runtime projection; primary inventory/progress bridge existing demo owners, secondary isolated frame. Loaded campaign uses default non-cheating team rule; mutable TeamRules binding remains separate.",
+      "tests": [
+        "test_same_batch_contracts_cover_adapter_unique_traversal_and_live_ticks",
+        "test_factory_uses_live_tick_owner_and_timescale_uses_unique_buildings",
+        "test_real_process_drives_two_multicell_drills_and_concrete_adapter"
+      ],
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
+    },
+    "drill_live_frame.dominant_item": {
+      "status": "source-backed",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_tick_state",
+      "godot_symbol": "source_drill_live_frame.dominant_item",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "updateConsumption(); updateTile()",
+      "java_expr": "public Item dominantItem;",
+      "rule": "Building-owned runtime projection; primary inventory/progress bridge existing demo owners, secondary isolated frame. Loaded campaign uses default non-cheating team rule; mutable TeamRules binding remains separate.",
+      "tests": [
+        "test_same_batch_contracts_cover_adapter_unique_traversal_and_live_ticks",
+        "test_factory_uses_live_tick_owner_and_timescale_uses_unique_buildings",
+        "test_real_process_drives_two_multicell_drills_and_concrete_adapter"
+      ],
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
+    },
+    "drill_live_frame.dominant_items": {
+      "status": "source-backed",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_tick_state",
+      "godot_symbol": "source_drill_live_frame.dominant_items",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "updateConsumption(); updateTile()",
+      "java_expr": "public int dominantItems;",
+      "rule": "Building-owned runtime projection; primary inventory/progress bridge existing demo owners, secondary isolated frame. Loaded campaign uses default non-cheating team rule; mutable TeamRules binding remains separate.",
+      "tests": [
+        "test_same_batch_contracts_cover_adapter_unique_traversal_and_live_ticks",
+        "test_factory_uses_live_tick_owner_and_timescale_uses_unique_buildings",
+        "test_real_process_drives_two_multicell_drills_and_concrete_adapter"
+      ],
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
+    },
+    "drill_live_frame.consumers": {
+      "status": "source-backed",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_tick_state",
+      "godot_symbol": "source_drill_live_frame.consumers",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption(); updateTile()",
+      "java_expr": "cons.update(self());",
+      "rule": "Building-owned runtime projection; primary inventory/progress bridge existing demo owners, secondary isolated frame. Loaded campaign uses default non-cheating team rule; mutable TeamRules binding remains separate.",
+      "tests": [
+        "test_same_batch_contracts_cover_adapter_unique_traversal_and_live_ticks",
+        "test_factory_uses_live_tick_owner_and_timescale_uses_unique_buildings",
+        "test_real_process_drives_two_multicell_drills_and_concrete_adapter"
+      ],
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
+    },
+    "drill_live_frame.efficiency": {
+      "status": "source-backed",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_tick_state",
+      "godot_symbol": "source_drill_live_frame.efficiency",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption(); updateTile()",
+      "java_expr": "efficiency = minEfficiency;",
+      "rule": "Building-owned runtime projection; primary inventory/progress bridge existing demo owners, secondary isolated frame. Loaded campaign uses default non-cheating team rule; mutable TeamRules binding remains separate.",
+      "tests": [
+        "test_same_batch_contracts_cover_adapter_unique_traversal_and_live_ticks",
+        "test_factory_uses_live_tick_owner_and_timescale_uses_unique_buildings",
+        "test_real_process_drives_two_multicell_drills_and_concrete_adapter"
+      ],
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
+    },
+    "drill_live_frame.optional_efficiency": {
+      "status": "source-backed",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_tick_state",
+      "godot_symbol": "source_drill_live_frame.optional_efficiency",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption(); updateTile()",
+      "java_expr": "optionalEfficiency = Math.min(optionalEfficiency, minEfficiency);",
+      "rule": "Building-owned runtime projection; primary inventory/progress bridge existing demo owners, secondary isolated frame. Loaded campaign uses default non-cheating team rule; mutable TeamRules binding remains separate.",
+      "tests": [
+        "test_same_batch_contracts_cover_adapter_unique_traversal_and_live_ticks",
+        "test_factory_uses_live_tick_owner_and_timescale_uses_unique_buildings",
+        "test_real_process_drives_two_multicell_drills_and_concrete_adapter"
+      ],
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
+    },
+    "drill_live_frame.potential_efficiency": {
+      "status": "source-backed",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_tick_state",
+      "godot_symbol": "source_drill_live_frame.potential_efficiency",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption(); updateTile()",
+      "java_expr": "potentialEfficiency = efficiency;",
+      "rule": "Building-owned runtime projection; primary inventory/progress bridge existing demo owners, secondary isolated frame. Loaded campaign uses default non-cheating team rule; mutable TeamRules binding remains separate.",
+      "tests": [
+        "test_same_batch_contracts_cover_adapter_unique_traversal_and_live_ticks",
+        "test_factory_uses_live_tick_owner_and_timescale_uses_unique_buildings",
+        "test_real_process_drives_two_multicell_drills_and_concrete_adapter"
+      ],
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
+    },
+    "drill_live_frame.should_consume_power": {
+      "status": "source-backed",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_tick_state",
+      "godot_symbol": "source_drill_live_frame.should_consume_power",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption(); updateTile()",
+      "java_expr": "shouldConsumePower = true;",
+      "rule": "Building-owned runtime projection; primary inventory/progress bridge existing demo owners, secondary isolated frame. Loaded campaign uses default non-cheating team rule; mutable TeamRules binding remains separate.",
+      "tests": [
+        "test_same_batch_contracts_cover_adapter_unique_traversal_and_live_ticks",
+        "test_factory_uses_live_tick_owner_and_timescale_uses_unique_buildings",
+        "test_real_process_drives_two_multicell_drills_and_concrete_adapter"
+      ],
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
+    },
+    "drill_live_frame.efficiency_scale": {
+      "status": "source-backed",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_tick_state",
+      "godot_symbol": "source_drill_live_frame.efficiency_scale",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption(); updateTile()",
+      "java_expr": "public float efficiencyScale(){",
+      "rule": "Building-owned runtime projection; primary inventory/progress bridge existing demo owners, secondary isolated frame. Loaded campaign uses default non-cheating team rule; mutable TeamRules binding remains separate.",
+      "tests": [
+        "test_same_batch_contracts_cover_adapter_unique_traversal_and_live_ticks",
+        "test_factory_uses_live_tick_owner_and_timescale_uses_unique_buildings",
+        "test_real_process_drives_two_multicell_drills_and_concrete_adapter"
+      ],
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
+    },
+    "drill_live_frame.speed": {
+      "status": "source-backed",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_tick_state",
+      "godot_symbol": "source_drill_live_frame.speed",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "updateConsumption(); updateTile()",
+      "java_expr": "float speed = Mathf.lerp(1f, liquidBoostIntensity, optionalEfficiency) * efficiency;",
+      "rule": "Building-owned runtime projection; primary inventory/progress bridge existing demo owners, secondary isolated frame. Loaded campaign uses default non-cheating team rule; mutable TeamRules binding remains separate.",
+      "tests": [
+        "test_same_batch_contracts_cover_adapter_unique_traversal_and_live_ticks",
+        "test_factory_uses_live_tick_owner_and_timescale_uses_unique_buildings",
+        "test_real_process_drives_two_multicell_drills_and_concrete_adapter"
+      ],
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
+    },
+    "drill_live.metadata_key": {
+      "status": "source-backed",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_tick_state",
+      "godot_symbol": "SourceDrillConsumptionRuntimeState.SOURCE_DRILL_BUILDING_META_KEY",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "updateTile()",
+      "java_expr": "public class DrillBuild extends Building{",
+      "rule": "One source-backed owner for runtime identity/default; no block-name or liquid-rate allowlist.",
+      "tests": [
+        "test_same_batch_contracts_cover_adapter_unique_traversal_and_live_ticks",
+        "test_factory_uses_live_tick_owner_and_timescale_uses_unique_buildings",
+        "test_real_process_drives_two_multicell_drills_and_concrete_adapter"
+      ],
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
+    },
+    "drill_live.liquid_boost_intensity": {
+      "status": "source-backed",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_tick_state",
+      "godot_symbol": "SourceFactoryDefaults.DRILL_LIQUID_BOOST_INTENSITY",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "updateTile()",
+      "java_expr": "public float liquidBoostIntensity = 1.6f;",
+      "rule": "One source-backed owner for runtime identity/default; no block-name or liquid-rate allowlist.",
+      "tests": [
+        "test_same_batch_contracts_cover_adapter_unique_traversal_and_live_ticks",
+        "test_factory_uses_live_tick_owner_and_timescale_uses_unique_buildings",
+        "test_real_process_drives_two_multicell_drills_and_concrete_adapter"
+      ],
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
+    },
+    "drill_live.unboosted_speed": {
+      "status": "source-backed",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_tick_state",
+      "godot_symbol": "SourceFactoryDefaults.DRILL_UNBOOSTED_SPEED",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "updateTile()",
+      "java_expr": "float speed = Mathf.lerp(1f, liquidBoostIntensity, optionalEfficiency) * efficiency;",
+      "rule": "One source-backed owner for runtime identity/default; no block-name or liquid-rate allowlist.",
+      "tests": [
+        "test_same_batch_contracts_cover_adapter_unique_traversal_and_live_ticks",
+        "test_factory_uses_live_tick_owner_and_timescale_uses_unique_buildings",
+        "test_real_process_drives_two_multicell_drills_and_concrete_adapter"
+      ],
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
+    },
+    "runtime_consumer_binding.source_delta": {
+      "status": "source-backed",
+      "godot_owner": "SourceConsumeLiquidState.source_runtime_consumer_state",
+      "godot_symbol": "source_runtime_consumer_binding.source_delta",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "delta()",
+      "java_expr": "return Time.delta * timeScale;",
+      "rule": "Source ticks supplied before calling concrete consumer efficiency/update; canonical Time.delta conversion retained.",
+      "tests": [
+        "test_same_batch_contracts_cover_adapter_unique_traversal_and_live_ticks",
+        "test_factory_uses_live_tick_owner_and_timescale_uses_unique_buildings",
+        "test_real_process_drives_two_multicell_drills_and_concrete_adapter"
+      ],
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
+    },
+    "runtime_consumer_binding.time_scale": {
+      "status": "source-backed",
+      "godot_owner": "SourceConsumeLiquidState.source_runtime_consumer_state",
+      "godot_symbol": "source_runtime_consumer_binding.time_scale",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "delta()",
+      "java_expr": "return Time.delta * timeScale;",
+      "rule": "Actual Building timeScale supplied before both passes; not a copied Block resource amount.",
+      "tests": [
+        "test_same_batch_contracts_cover_adapter_unique_traversal_and_live_ticks",
+        "test_factory_uses_live_tick_owner_and_timescale_uses_unique_buildings",
+        "test_real_process_drives_two_multicell_drills_and_concrete_adapter"
+      ],
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
     }
   },
   "version": 1

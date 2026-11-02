@@ -1,0 +1,4 @@
+FAILED tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_delegates_drill_production_runtime_state_to_module
+FAILED tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_delegates_drill_runtime_state_to_module
+2 failed, 52 passed, 2276 deselected, 120 subtests passed in 72.33s (0:01:12)
+raw SHA256 30419a696f2053ca318d2819fb3d9496c9dec806283944697d8d94e68e198ecb

@@ -1,0 +1,75 @@
+{
+  "matches": true,
+  "files": {
+    "godot-mindustry/src/generated/source_symbol_registry.json": {
+      "before": "649504e00a93ef4a0cd62f9203a4ba26c8a6c6654abcba3e7d93a4a17dea38de",
+      "after": "649504e00a93ef4a0cd62f9203a4ba26c8a6c6654abcba3e7d93a4a17dea38de",
+      "matches": true
+    },
+    "godot-mindustry/src/generated/source_api_contracts.json": {
+      "before": "f8687eab42e307c6a27b986f54da372e2971f1459092eb4f76f7e21a217e189f",
+      "after": "f8687eab42e307c6a27b986f54da372e2971f1459092eb4f76f7e21a217e189f",
+      "matches": true
+    },
+    "godot-mindustry/src/generated/source_state_schema.json": {
+      "before": "86fc5596e05caa112f7dcf901a1a39302f443169b77a099aff24d3cf03a66e3f",
+      "after": "86fc5596e05caa112f7dcf901a1a39302f443169b77a099aff24d3cf03a66e3f",
+      "matches": true
+    },
+    "godot-mindustry/src/generated/source_slice_ledger.json": {
+      "before": "6066469f7db267a4331b018214b2e3b7f501695f4ee7357280775e624b3d3e57",
+      "after": "6066469f7db267a4331b018214b2e3b7f501695f4ee7357280775e624b3d3e57",
+      "matches": true
+    },
+    "godot-mindustry/src/generated/source_modules/consumer_api_contracts.json": {
+      "before": "cb53ee569f3bc45019e6ae3d8cf4294ba83270fd687ffc98e8f60f09e4c001bb",
+      "after": "cb53ee569f3bc45019e6ae3d8cf4294ba83270fd687ffc98e8f60f09e4c001bb",
+      "matches": true
+    },
+    "godot-mindustry/src/generated/source_modules/consumer_slices.json": {
+      "before": "a2bd02e846255b29e371dca4d5690de25899ed7b7e6d02d7003665ef3b96f6df",
+      "after": "a2bd02e846255b29e371dca4d5690de25899ed7b7e6d02d7003665ef3b96f6df",
+      "matches": true
+    },
+    "godot-mindustry/src/generated/source_modules/production_api_contracts.json": {
+      "before": "613cf5ad7d9a91f68e1086b20f002856b0f02e6440016428809407fe666346a4",
+      "after": "613cf5ad7d9a91f68e1086b20f002856b0f02e6440016428809407fe666346a4",
+      "matches": true
+    },
+    "godot-mindustry/src/generated/source_modules/production_slices.json": {
+      "before": "56f3f88f6fb2687015357c5cc29f9320518044627598ac151149ba633f0ef09d",
+      "after": "56f3f88f6fb2687015357c5cc29f9320518044627598ac151149ba633f0ef09d",
+      "matches": true
+    },
+    "godot-mindustry/src/generated/source_modules/production_state_schema.json": {
+      "before": "aae740e2fb0cafd7171e51c529778dbf76b6ffae9ec3e28da176fbc407423198",
+      "after": "aae740e2fb0cafd7171e51c529778dbf76b6ffae9ec3e28da176fbc407423198",
+      "matches": true
+    },
+    "godot-mindustry/src/generated/source_modules/production_symbols.json": {
+      "before": "7ac7a9b9334e3b2863ddea30b7d3389723d44721963bf6fea444fa805627dfb2",
+      "after": "7ac7a9b9334e3b2863ddea30b7d3389723d44721963bf6fea444fa805627dfb2",
+      "matches": true
+    },
+    "godot-mindustry/src/generated/source_ssot_modules.json": {
+      "before": "6b122317ee1fccd7a3967f8b85b18399008db1097d34abfde28f8c5f6a8733bd",
+      "after": "6b122317ee1fccd7a3967f8b85b18399008db1097d34abfde28f8c5f6a8733bd",
+      "matches": true
+    },
+    "godot-mindustry/src/generated/source_symbol_audit_report.json": {
+      "before": "544144f18df94ca4632148ab013a44cedc066cc39421928910d6fdb6c9ca62fc",
+      "after": "544144f18df94ca4632148ab013a44cedc066cc39421928910d6fdb6c9ca62fc",
+      "matches": true
+    },
+    "godot-mindustry/src/generated/content_registry.json": {
+      "before": "1b94d39cc9a84fe2672e5f03763ef87073c7f9ab70667d58423ec80a6019dd7c",
+      "after": "1b94d39cc9a84fe2672e5f03763ef87073c7f9ab70667d58423ec80a6019dd7c",
+      "matches": true
+    },
+    "godot-mindustry/src/generated/MindustryContentRegistry.gd": {
+      "before": "4027da39f79936b1c140af9333c212b507de52cd952d3f84405fe5618f76d8f9",
+      "after": "4027da39f79936b1c140af9333c212b507de52cd952d3f84405fe5618f76d8f9",
+      "matches": true
+    }
+  }
+}

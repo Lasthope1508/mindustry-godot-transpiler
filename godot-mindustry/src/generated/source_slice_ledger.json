@@ -49612,6 +49612,116 @@
         "Full mixed/inherited consumers, runtime mutations/reinitializeConsumers cache invalidation and content reload remain unresolved.",
         "Concrete consumer callbacks, multipliers, liquid capacity and automatic Drill ticks remain deferred."
       ]
+    },
+    "N2007": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "java_class": "mindustry.world.consumers.ConsumeLiquid",
+      "java_method": "update(); updateConsumption(); updateTile()",
+      "godot_owner": "SourceConsumeLiquidState.source_runtime_consumer_state",
+      "exact_exprs": [
+        "build.liquids.remove(liquid, amount * build.edelta() * multiplier.get(build));",
+        "float ed = build.edelta() * build.efficiencyScale();"
+      ],
+      "source_symbols": [
+        "cost_multiplier._build",
+        "cost_multiplier.multiplier",
+        "runtime_consumer.definition",
+        "runtime_consumer.liquids",
+        "runtime_consumer.cache_sums",
+        "runtime_consumer.cost_multiplier",
+        "runtime_consumer.consumer",
+        "runtime_consumer_binding.source_delta",
+        "runtime_consumer_binding.time_scale"
+      ],
+      "tests": [
+        "test_same_batch_contracts_cover_adapter_unique_traversal_and_live_ticks",
+        "test_factory_uses_live_tick_owner_and_timescale_uses_unique_buildings",
+        "test_real_process_drives_two_multicell_drills_and_concrete_adapter"
+      ],
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof",
+      "generated_owner": "",
+      "deferred_exprs": [
+        "Power consumers, mixed ore selection, active flow caches, live reload and mutable TeamRules binding remain unresolved.",
+        "Primary routing retains existing factory path; secondary output remains local inventory fallback, complete secondary transport/dump routing is deferred."
+      ]
+    },
+    "N2008": {
+      "status": "done",
+      "java_source": "core/src/mindustry/core/Logic.java",
+      "java_class": "mindustry.core.Logic",
+      "java_method": "update(); updateConsumption(); updateTile()",
+      "godot_owner": "SourcePlacedBlockState.source_unique_buildings_state",
+      "exact_exprs": [
+        "Groups.build.update();"
+      ],
+      "source_symbols": [
+        "unique_buildings.game",
+        "unique_buildings.buildings"
+      ],
+      "tests": [
+        "test_same_batch_contracts_cover_adapter_unique_traversal_and_live_ticks",
+        "test_factory_uses_live_tick_owner_and_timescale_uses_unique_buildings",
+        "test_real_process_drives_two_multicell_drills_and_concrete_adapter"
+      ],
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof",
+      "deferred_exprs": [
+        "Power consumers, mixed ore selection, active flow caches, live reload and mutable TeamRules binding remain unresolved.",
+        "Primary routing retains existing factory path; secondary output remains local inventory fallback, complete secondary transport/dump routing is deferred."
+      ]
+    },
+    "N2009": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_class": "mindustry.world.blocks.production.Drill",
+      "java_method": "update(); updateConsumption(); updateTile()",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_tick_state",
+      "exact_exprs": [
+        "return items.total() < itemCapacity && enabled && dominantItem != null;",
+        "float speed = Mathf.lerp(1f, liquidBoostIntensity, optionalEfficiency) * efficiency;",
+        "progress += delta() * dominantItems * speed * warmup;"
+      ],
+      "source_symbols": [
+        "drill_live_tick.game",
+        "drill_live_tick.seconds",
+        "drill_live_tick.drill_states",
+        "drill_live_factory.game",
+        "drill_live_factory.seconds",
+        "drill_live_factory.drill_state",
+        "drill_live_factory.dump_state",
+        "drill_live_factory.transport_state",
+        "drill_live_factory.transport_progress",
+        "drill_live_factory.source_owner",
+        "drill_live_frame.enabled",
+        "drill_live_frame.cheating",
+        "drill_live_frame.items",
+        "drill_live_frame.item_progress",
+        "drill_live_frame.warmup",
+        "drill_live_frame.time_drilled",
+        "drill_live_frame.last_drill_speed",
+        "drill_live_frame.dominant_item",
+        "drill_live_frame.dominant_items",
+        "drill_live_frame.consumers",
+        "drill_live_frame.efficiency",
+        "drill_live_frame.optional_efficiency",
+        "drill_live_frame.potential_efficiency",
+        "drill_live_frame.should_consume_power",
+        "drill_live_frame.efficiency_scale",
+        "drill_live_frame.speed",
+        "drill_live.metadata_key",
+        "drill_live.liquid_boost_intensity",
+        "drill_live.unboosted_speed"
+      ],
+      "tests": [
+        "test_same_batch_contracts_cover_adapter_unique_traversal_and_live_ticks",
+        "test_factory_uses_live_tick_owner_and_timescale_uses_unique_buildings",
+        "test_real_process_drives_two_multicell_drills_and_concrete_adapter"
+      ],
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof",
+      "deferred_exprs": [
+        "Power consumers, mixed ore selection, active flow caches, live reload and mutable TeamRules binding remain unresolved.",
+        "Primary routing retains existing factory path; secondary output remains local inventory fallback, complete secondary transport/dump routing is deferred."
+      ]
     }
   },
   "version": 1

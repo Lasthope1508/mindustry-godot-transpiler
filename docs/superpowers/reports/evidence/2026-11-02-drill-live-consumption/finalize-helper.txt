@@ -1,0 +1,56 @@
+import gzip,hashlib,json,re,shutil
+from pathlib import Path
+ROOT=Path(r'C:/Users/Admin/Documents/Game/mindustry-godot-transpiler-copy-20260714-073528');TMP=Path('C:/tmp')
+full=(TMP/'drill-live-full.log').read_text(encoding='utf-8')
+m=re.search(r'^(\d+) passed, (\d+) subtests passed in ([\d.]+)s',full,re.M)
+assert m,'Full suite incomplete or failed'
+tests,subtests,seconds=m.groups()
+native=json.loads((TMP/'drill-live-native-summary.json').read_text(encoding='utf-8'))
+assert native['proof']['matches'] and native['stopped'] and not native['actual_errors'] and native['editor_exit_code']==0
+assert not re.search(r'(?:^|\s)(?:SCRIPT ERROR|ERROR|Parse Error):',(TMP/'drill-live-editor.log').read_text(encoding='utf-8'))
+assert json.loads((TMP/'drill-live-replay.json').read_text(encoding='utf-8'))['matches']
+v=json.loads((TMP/'drill-live-validator.json').read_text(encoding='utf-8'))
+assert not v['errors'] and not v['json_errors'] and v['json_module_count']==113
+relative='docs/superpowers/specs/2026-06-23-mindustry-godot-gdscript-transpiler-design.md'
+old=(TMP/'drill-live-before'/relative).read_text(encoding='utf-8');path=ROOT/relative
+assert path.read_text(encoding='utf-8')==old
+text=old.replace('| Canonical slice ledger entries | 1461 |','| Canonical slice ledger entries | 1464 |').replace('| Done | 1461 |','| Done | 1464 |')
+needle='- [x] N2006: Shared Block apply view feeds effective placement capability; actual electrolyzer without a constructor flag allocates independent per-building LiquidModule frames. Supported filter subset is explicit; mixed consumers, callbacks and automatic ticks remain open.'
+assert text.count(needle)==1
+text=text.replace(needle,needle+'\n'+'\n'.join([
+ '- [x] N2007: Concrete ConsumeLiquid adapter delegates efficiency/update to canonical owners, uses explicit cost multiplier callback, shared Block descriptor and actual Building liquid storage; adapter identities are reused.',
+ '- [x] N2008: Actual Building traversal derives unique live instances from placed_blocks; time-scale decay visits each multi-cell building once, without another persistent registry.',
+ '- [x] N2009: Automatic game-process consumption and production for power-free base Drill on a single-ore footprint; canonical predicates and callback dispatch feed the existing factory composition once. Power, mixed ore and complete secondary transport remain open.',
+]))
+start=text.index('Current cube:');end=text.index('\n\n## Done',start)
+text=text[:start]+'Current cube: `concrete liquid consumers and automatic Drill gameplay`. N2007–N2009 connect source-backed concrete callbacks and per-Building liquid storage to unique Building traversal and the actual factory game loop. Ledger: 1464 records; catalog: 113 modules. Accepted scope is the current power-free base Drill on a single-ore footprint, including optional water boosts, real predicates, independent buildings and primary production. Power consumers, mixed-ore sorting, complete secondary output routing, live TeamRules/reload and active-flow lifecycle remain open. See `reports/2026-11-02-drill-live-consumption.md`.'+text[end:]
+rows='\n'.join([
+ '| N2007 | Concrete liquid runtime consumer | Source cost callback and reusable concrete adapter delegate edelta, efficiency/update and LiquidModule get/remove to canonical owners; descriptor and storage ownership remain separate. |',
+ '| N2008 | Unique live Building traversal | Transient instance deduplication fixes time-scale iteration over origin coordinates and supplies one game update per multi-cell Building; no second registry. |',
+ f'| N2009 | Automatic Drill consumption and production | Actual game process drives independent power-free base Drills on single-ore footprints. Canonical consumption precedes one production event and existing primary output composition. Focused 14 tests / 20 subtests; full {tests} / {subtests} in {seconds}s; catalog 0 errors / 113 modules, native matches=true, editor exit 0. Power/mixed ore/complete secondary routing remain deferred. See reports/2026-11-02-drill-live-consumption.md. |',
+])
+text=text.replace('\n\n## Not Done\n','\n'+rows+'\n\n## Not Done\n',1)
+start=text.index('## Not Done\n\n')+len('## Not Done\n\n');end=text.index('\n\n## Scope',start)
+text=text[:start]+'N2007–N2009 accept concrete single-liquid cost/efficiency/update callbacks and automatic game-driven consumption/production for power-free base Drill with single-ore footprints. CP-PO2/CP-PO3 are advanced within this subset, not closed globally. Complete mixed/inherited consumers and capacity, power adapters, ore priority/proximity invalidation, secondary output routing, live TeamRules, descriptor reload invalidation, active flow cache, supply transport and serialization remain open. Follow reports/2026-11-02-drill-live-consumption.md.'+text[end:]
+text+=f'| 2026-11-02 | N2007–N2009 accepted: concrete liquid consumers, canonical unique Building traversal and automatic supported Drill ticks. Focused 14 / 20, final proof 3 / 4; full {tests} / {subtests} in {seconds}s; catalog 0 errors / 113 modules; native matches=true, 0 actual errors, {native["warning_count"]} compiler warnings, explicit stop; editor exit 0; 14-file replay unchanged. Power, mixed ore and complete secondary routing remain open. See reports/2026-11-02-drill-live-consumption.md. |\n'
+path.write_text(text,encoding='utf-8',newline='\n')
+report=ROOT/'docs/superpowers/reports/2026-11-02-drill-live-consumption.md';text=report.read_text(encoding='utf-8')
+text=text.replace('Pending; this draft is not accepted',f'Accepted: {tests} tests / {subtests} subtests in {seconds}s; native matches=true; editor exit 0')
+text=text.replace('| DL-D | Replay, final catalog, exact checkpoint staging/commit | Pending |','| DL-D | Replay, final catalog, exact checkpoint staging/commit | Accepted: 14 hashes unchanged; exact index audit retained in evidence |')
+text=text.replace('- Full suite: pending.',f'- Full suite: **{tests} passed / {subtests} subtests passed in {seconds}s**. Complete output retained in `full.log`.')
+text=text.replace('- Final native MCP / stop / warnings / editor parse: pending.',f'- Native MCP: **matches=true**, all 13 proof checks true, explicit stop verified; **0 actual errors / {native["warning_count"]} compiler warnings**. Raw debug and stop errors arrays contain these warnings and are retained. Editor parse: **exit 0**, no actual errors.')
+text=text.replace('- Replay and final catalog: pending.','- Registration replay: **14 raw SHA256 hashes unchanged**, including manifest/audit/content. Final catalog: **0 errors / 113 modules / 0 JSON errors**, all nine category counters zero.')
+text=text.replace('- Exact staged scope: pending.','- Exact staged scope: only this batch additions/deltas, new registration/test/proof files, checklist/report and evidence. Prior root entries/policies and unrelated dirty refactors remain preserved. Staged whitespace and exact index audit pass; see `index-final.log`.')
+assert 'pending' not in text.lower()
+report.write_text(text,encoding='utf-8',newline='\n')
+evidence=ROOT/'docs/superpowers/reports/evidence/2026-11-02-drill-live-consumption';evidence.mkdir(exist_ok=False)
+for suffix in ['focused-initial.log','focused.log','focused-last.log','regression-final.log','full.log','validator.json','native-run.json','native-debug.json','native-stop.json','native-summary.json','editor.log','replay.log','replay.json','scope.json']:
+ shutil.copy2(TMP/('drill-live-'+suffix),evidence/suffix)
+for kind in ['red','regression']:
+ raw=(TMP/('drill-live-'+kind+'.log')).read_bytes()
+ with gzip.open(evidence/(kind+'.log.gz'),'wb') as archive:archive.write(raw)
+ summary='\n'.join(line for line in raw.decode('utf-8').splitlines() if line.startswith(('FAILED ','SUBFAILED','6 failed','2 failed')))
+ (evidence/(kind+'-summary.log')).write_text(summary+'\nraw SHA256 '+hashlib.sha256(raw).hexdigest()+'\n',encoding='utf-8')
+for name in ['scope','replay','validator','finalize']:
+ shutil.copy2(TMP/('drill-live-'+name+'.py'),evidence/(name+'-helper.txt'))
+print('Finalized checklist/report/evidence:',tests,subtests,seconds,'warnings',native['warning_count'])
