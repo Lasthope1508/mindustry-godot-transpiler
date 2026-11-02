@@ -118,17 +118,19 @@ static func simulate_factory(game: Object, delta: float) -> void:
 	if not (path_points_value is Array) or path_points_value.is_empty():
 		return
 	var drill_cell: Vector2i = game.get("drill_pos")
-	var drill_output_item_id := str(game.get(SOURCE_FACTORY_SUMMARY_DRILL_OUTPUT_ITEM_ID_KEY))
+	var drill_output_item_id: Variant = source_drill_consumption_runtime_state.source_dominant_item_name_state(game, game.call("block_sprite_at_cell", drill_cell))["item_id"]
 	var factory_state: Dictionary = source_drill_consumption_runtime_state.source_factory_state(game, delta)
 	var apply_state: Dictionary = game.call("source_factory_simulation_apply_state", factory_state)
 	game.call("set_drill_time_drilled_at_cell", drill_cell.x, drill_cell.y, float(apply_state.get(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_DRILL_TIME_DRILLED_KEY, game.call("drill_time_drilled_at_cell", drill_cell.x, drill_cell.y))))
 	game.call("set_drill_last_speed_at_cell", drill_cell.x, drill_cell.y, float(apply_state.get(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_DRILL_LAST_SPEED_KEY, game.call("drill_last_speed_at_cell", drill_cell.x, drill_cell.y))))
 	game.call("set_drill_warmup_at_cell", drill_cell.x, drill_cell.y, float(apply_state.get(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_DRILL_WARMUP_KEY, game.call("drill_warmup_at_cell", drill_cell.x, drill_cell.y))))
 	game.set(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_ITEM_PROGRESS_KEY, float(apply_state.get(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_ITEM_PROGRESS_KEY, game.get(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_ITEM_PROGRESS_KEY))))
-	game.call("source_offload_to_inventory", drill_output_item_id, int(apply_state.get(source_drill_production_runtime_state_script.SOURCE_DRILL_PRODUCTION_OFFLOAD_AMOUNT_KEY, 0)))
+	var offload_amount := int(apply_state.get(source_drill_production_runtime_state_script.SOURCE_DRILL_PRODUCTION_OFFLOAD_AMOUNT_KEY, 0))
+	if drill_output_item_id != null and offload_amount > 0:
+		game.call("source_offload_to_inventory", drill_output_item_id, offload_amount)
 	game.set(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_PRODUCED_TOTAL_KEY, int(apply_state.get(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_PRODUCED_TOTAL_KEY, game.get(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_PRODUCED_TOTAL_KEY))))
 	game.set(source_drill_dump_runtime_state_script.SOURCE_DRILL_DUMP_TIMER_KEY, float(apply_state.get(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_DRILL_DUMP_TIMER_KEY, game.get(source_drill_dump_runtime_state_script.SOURCE_DRILL_DUMP_TIMER_KEY))))
-	if bool(apply_state.get(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_SHOULD_DUMP_KEY, false)):
+	if drill_output_item_id != null and bool(apply_state.get(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_SHOULD_DUMP_KEY, false)):
 		game.call(SOURCE_FACTORY_DUMP_DRILL_ITEM_TO_CORE_METHOD_FALLBACK, drill_output_item_id)
 	game.set(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_TRANSPORT_PROGRESS_KEY, float(apply_state.get(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_TRANSPORT_PROGRESS_KEY, game.get(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_TRANSPORT_PROGRESS_KEY))))
 	var item_sprites_value = game.get(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_ITEM_SPRITES_KEY)

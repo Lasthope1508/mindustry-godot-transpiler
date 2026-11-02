@@ -15,30 +15,37 @@ const SOURCE_DRILL_BUILDING_META_KEY := "source_drill_building"
 static func _initial_frame() -> Dictionary:
 	return {"enabled": true, "cheating": false, "items": {}, "item_progress": 0.0, "warmup": 0.0, "time_drilled": 0.0, "last_drill_speed": 0.0, "dominant_item": null, "dominant_items": 0, "consumers": []}
 
-static func _ore_state(game: Object, block: Object, cell: Vector2i) -> Dictionary:
-	var ores: Dictionary = game.get("ore_items_by_cell")
-	var found: Dictionary = {}
-	for occupied in game.call("occupied_cells", cell, block):
-		var key: String = game.call("cell_key", occupied)
-		if ores.has(key):
-			found[ores[key]] = true
-	# Current flat-ore gameplay has one item kind per drill. Mixed-ore selection is unresolved.
-	if found.size() > 1:
-		return {"resolved": false}
-	var item: Variant = null
-	var count := 0
-	if found.size() == 1:
-		var item_id: String = found.keys()[0]
-		var catalog = game.get("content_catalog")
-		var candidates: Array = catalog.get_many("item").filter(func(value): return value.id == item_id)
-		assert(candidates.size() == 1)
-		if int(candidates[0].properties.get("hardness", defaults.DRILL_DELAY_ITEM_HARDNESS_DEFAULT)) <= int(block.properties["tier"]):
-			item = item_id
-			count = drill.game_ore_count(game, block.id, cell, item_id)
-	return {"resolved": true, "dominant_item": item, "dominant_items": count}
+static func source_on_proximity_update_state(game: Object, sprite: Sprite2D, block: Object) -> Dictionary:
+	# These fields are exported through Drill ancestry. Separate implementations retain their own lifecycle.
+	if not block.properties.has("blockedItems"):
+		return {"applied": false}
+	var items: Dictionary = game.get("source_item_catalog")
+	var blocked: Dictionary = drill.source_bind_ore_items_state(block, items)
+	var cell: Vector2i = sprite.get_meta("origin_cell")
+	var linked: Dictionary = game.call("source_world_linked_ore_tiles_state", block, cell.x, cell.y, items)
+	var selected := drill.source_on_proximity_update_state(linked["ore_tiles"], int(block.properties["tier"]), blocked["blocked_items"])
+	if not sprite.has_meta(SOURCE_DRILL_BUILDING_META_KEY):
+		sprite.set_meta(SOURCE_DRILL_BUILDING_META_KEY, _initial_frame())
+	var frame: Dictionary = sprite.get_meta(SOURCE_DRILL_BUILDING_META_KEY)
+	frame["dominant_item"] = selected["dominant_item"]
+	frame["dominant_items"] = selected["dominant_items"]
+	return {"applied": true}
+
+static func source_picked_up_state(sprite: Sprite2D) -> void:
+	var frame: Dictionary = sprite.get_meta(SOURCE_DRILL_BUILDING_META_KEY)
+	frame["dominant_item"] = drill.source_picked_up_state(frame)["dominant_item"]
+
+static func source_dominant_item_name_state(game: Object, sprite: Variant) -> Dictionary:
+	if sprite == null or not sprite.has_meta(SOURCE_DRILL_BUILDING_META_KEY):
+		return {"item_id": null}
+	var frame: Dictionary = sprite.get_meta(SOURCE_DRILL_BUILDING_META_KEY)
+	if frame["dominant_item"] == null:
+		return {"item_id": null}
+	var items: Dictionary = game.get("source_item_catalog")
+	return {"item_id": items["item_names_by_id"][frame["dominant_item"]["id"]]}
 
 static func _context(game: Object, seconds: float, cell: Vector2i, block: Object, frame: Dictionary) -> Dictionary:
-	var context := drill.runtime_context(game, seconds, cell, block.id, str(frame["dominant_item"]), frame["dominant_items"], time_defaults.TICK_RATE, frame["speed"])
+	var context := drill.runtime_context(game, seconds, cell, block.id, source_dominant_item_name_state(game, game.call("block_sprite_at_cell", cell))["item_id"], frame["dominant_items"], time_defaults.TICK_RATE, frame["speed"])
 	context[drill.SOURCE_DRILL_CONTEXT_ACTIVE_KEY] = frame["dominant_item"] != null and frame["dominant_items"] > 0 and frame["efficiency"] > 0 and inventory.items_total(frame["items"]) < block.properties["itemCapacity"]
 	context[drill.SOURCE_DRILL_CONTEXT_ITEMS_TOTAL_KEY] = inventory.items_total(frame["items"])
 	context[drill.SOURCE_DRILL_CONTEXT_CURRENT_WARMUP_KEY] = frame["warmup"]
@@ -66,11 +73,7 @@ static func source_tick_state(game: Object, seconds: float) -> Dictionary:
 		if block.implementation != drill.SOURCE_DRILL_GENERATED_CLASS.get_file().get_basename() or not block.properties.has("consumeLiquid") or block.properties.has("consumePower"):
 			continue
 		var cell: Vector2i = sprite.get_meta("origin_cell")
-		var ore := _ore_state(game, block, cell)
-		if not ore["resolved"]:
-			continue
-		if not sprite.has_meta(SOURCE_DRILL_BUILDING_META_KEY):
-			sprite.set_meta(SOURCE_DRILL_BUILDING_META_KEY, _initial_frame())
+		assert(sprite.has_meta(SOURCE_DRILL_BUILDING_META_KEY), "Drill proximity must bind the frame before ticking")
 		var frame: Dictionary = sprite.get_meta(SOURCE_DRILL_BUILDING_META_KEY)
 		var rows: Array = liquid.source_bind_liquid_consumers_state(block, catalog)["consumers"]
 		var amounts: Dictionary = sprite.get_meta(placed.SOURCE_BUILDING_LIQUIDS_META_KEY)
@@ -84,8 +87,6 @@ static func source_tick_state(game: Object, seconds: float) -> Dictionary:
 			frame["warmup"] = game.call("drill_warmup_at_cell", cell.x, cell.y)
 			frame["time_drilled"] = game.call("drill_time_drilled_at_cell", cell.x, cell.y)
 			frame["last_drill_speed"] = game.call("drill_last_speed_at_cell", cell.x, cell.y)
-		frame["dominant_item"] = ore["dominant_item"]
-		frame["dominant_items"] = ore["dominant_items"]
 		var should_consume: bool = inventory.items_total(frame["items"]) < block.properties["itemCapacity"] and frame["enabled"] and frame["dominant_item"] != null
 		var valid := access.production_valid_state()
 		var setup := efficiency.update_consumption_setup_state(should_consume, valid)
@@ -120,7 +121,7 @@ static func source_tick_state(game: Object, seconds: float) -> Dictionary:
 		frame["last_drill_speed"] = event["drill_last_speed"]
 		if cell != primary:
 			if event["offload_amount"] > 0:
-				frame["items"] = inventory.add_item_state(frame["items"], frame["dominant_item"], event["offload_amount"])["drill_items"]
+				frame["items"] = inventory.add_item_state(frame["items"], source_dominant_item_name_state(game, sprite)["item_id"], event["offload_amount"])["drill_items"]
 			game.call("set_drill_warmup_at_cell", cell.x, cell.y, frame["warmup"])
 			game.call("set_drill_time_drilled_at_cell", cell.x, cell.y, frame["time_drilled"])
 			game.call("set_drill_last_speed_at_cell", cell.x, cell.y, frame["last_drill_speed"])

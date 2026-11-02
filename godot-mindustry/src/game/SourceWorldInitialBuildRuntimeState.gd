@@ -108,6 +108,7 @@ static func build_world(game) -> void:
 	for ore_sprite in terrain_state.get(KEY_ORE_SPRITES, []):
 		game.call(METHOD_ADD_SPRITE, terrain, str(ore_sprite.get(KEY_KEY, "")), Vector2(float(ore_sprite.get(KEY_X, 0.0)), float(ore_sprite.get(KEY_Y, 0.0))))
 	var initial_build_state: Dictionary = game.call(METHOD_SOURCE_WORLD_INITIAL_BUILD_RUNTIME_STATE)
+	game.set("source_item_catalog", SourceContentRegistryRuntimeState.source_item_catalog_state(game.get("content_catalog")))
 	game.set("source_world_tiles", source_world_terrain_runtime_state.source_game_world_tiles_state(game, initial_build_state))
 	for block_placement in initial_build_state.get(KEY_BLOCK_PLACEMENTS, []):
 		game.call(METHOD_ADD_SOURCE_BLOCK, blocks, str(block_placement.get(KEY_KEY, "")), Vector2i(int(block_placement.get(KEY_CELL, {}).get(KEY_X, 0)), int(block_placement.get(KEY_CELL, {}).get(KEY_Y, 0))))

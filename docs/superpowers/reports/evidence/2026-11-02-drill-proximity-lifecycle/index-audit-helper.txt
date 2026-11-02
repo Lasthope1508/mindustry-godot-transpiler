@@ -1,0 +1,63 @@
+import hashlib,importlib.util,json,re,shutil,subprocess,sys
+from pathlib import Path
+ROOT=Path(r'C:/Users/Admin/Documents/Game/mindustry-godot-transpiler-copy-20260714-073528');TMP=Path('C:/tmp')
+spec=importlib.util.spec_from_file_location('scope',str(TMP/'drill-proximity-scope.py'));s=importlib.util.module_from_spec(spec);spec.loader.exec_module(s)
+WHOLE={'godot-mindustry/tools/runtime_proofs/DrillProximityLifecycleProof.gd','godot-mindustry/tools/runtime_proofs/DrillProximityLifecycleProof.tscn','tools/mindustry_godot_transpiler/register_drill_proximity_lifecycle.py','tools/mindustry_godot_transpiler/tests/test_drill_proximity_lifecycle.py','docs/superpowers/specs/2026-06-23-mindustry-godot-gdscript-transpiler-design.md','docs/superpowers/handoffs/2026-11-02-mindustry-completion-backlog.md','docs/superpowers/reports/2026-11-02-drill-proximity-lifecycle.md'}
+E=ROOT/'docs/superpowers/reports/evidence/2026-11-02-drill-proximity-lifecycle'
+def git(*args):return s.s.git(*args)
+def stage_bytes(p,data):
+ oid=s.s.git('hash-object','-w','--stdin',input=data).strip();subprocess.run(['git','update-index','--add','--cacheinfo','100644',oid,p],cwd=ROOT,check=True)
+def stage():
+ assert not git('diff','--cached','--name-only').strip()
+ s.main()
+ for p in WHOLE:s.s.stage(p,s.s.read(p))
+ shutil.copy2(TMP/'drill-proximity-index-audit.py',E/'index-audit-helper.txt')
+ for p in E.iterdir():
+  if p.is_file():
+   if p.suffix=='.gz':stage_bytes(p.relative_to(ROOT).as_posix(),p.read_bytes())
+   else:s.s.stage(p.relative_to(ROOT).as_posix(),p.read_text(encoding='utf-8'))
+ audit()
+def audit():
+ assert git('rev-parse','HEAD').startswith('9bfecb91')
+ scope=json.loads((TMP/'drill-proximity-scope.json').read_text())
+ paths=set(git('diff','--cached','--name-only').splitlines())
+ expected=set(scope['json'])|set(scope['runtime'])|WHOLE|{p.relative_to(ROOT).as_posix() for p in E.iterdir() if p.is_file()}
+ assert paths==expected,(paths-expected,expected-paths)
+ assert not any(p.endswith(('.gd.uid','/project.godot','/source_ssot_modules.json','/content_registry.json','/MindustryContentRegistry.gd','/source_symbol_audit_report.json')) or p.startswith('arc-upstream/') for p in paths)
+ out=[]
+ for name,(key,count) in s.ROOTS.items():
+  p=s.GEN+name;old,new=json.loads(git('show','HEAD:'+p)),json.loads(git('show',':'+p))
+  assert all(new[key].get(k)==v for k,v in old[key].items()) and len(new[key])-len(old[key])==count
+  assert {k:v for k,v in old.items() if k!=key}=={k:v for k,v in new.items() if k!=key}
+  out.append(name+': only '+str(count)+' additions; prior entries/policy preserved')
+ for p in scope['json']:
+  a,b,c=json.loads(s.s.read(p,s.BEFORE)),json.loads(s.s.read(p)),json.loads(git('show','HEAD:'+p))
+  assert json.loads(git('show',':'+p))==s.s.merge(a,b,c)
+ for p in s.RUNTIME:assert git('show',':'+p)==s.runtime_plan(p),p
+ assert git('show',':godot-mindustry/src/game/PortGame.gd')==s.port_plan()
+ for p in WHOLE:assert git('show',':'+p)==s.s.read(p),p
+ assert re.search(r'^\d+ passed, \d+ subtests passed in ',(TMP/'drill-proximity-full.log').read_text(),re.M)
+ f=json.loads((TMP/'drill-proximity-full-result.json').read_text());assert f['exit_code']==0 and f['inputs_unchanged']
+ n=json.loads((TMP/'drill-proximity-native-summary.json').read_text());assert n['proof']['matches'] and n['stopped'] and not n['actual_errors'] and n['editor_exit_code']==0
+ v=json.loads((TMP/'drill-proximity-validator.json').read_text());assert not v['errors'] and not v['json_errors'] and v['json_module_count']==113
+ assert json.loads((TMP/'drill-proximity-replay.json').read_text())['matches']
+ subprocess.run(['git','diff','--cached','--check'],cwd=ROOT,check=True)
+ out+=['Existing canonical audit/content/manifest unchanged; no new game facade query owners','Exact contextual runtime/test deltas PASS; shared Item field/placement callback mapped into existing HEAD PortGame; unrelated facade work preserved','Full frozen-input/native/inspect-stop/editor/replay/catalog gates accepted on working tree; C01 and C02-C12 not accepted; C12 clean reproducibility remains open','25 exact upstream source expressions matched; nested schema references checked','Exact staged allowlist PASS; project/UID/arc/content/manifest/audit/unrelated dirty work excluded','Staged whitespace PASS','Staged files at initial audit: '+str(len(paths))]
+ p=E/'index-final.log';p.write_text('\n'.join(out)+'\n',encoding='utf-8');stage_bytes(p.relative_to(ROOT).as_posix(),p.read_bytes())
+ hashes={}
+ for line in git('status','--porcelain=v1','-uall').splitlines():
+  p=line[3:]
+  if (ROOT/p).is_file():hashes[p]=hashlib.sha256((ROOT/p).read_bytes()).hexdigest()
+ (TMP/'drill-proximity-precommit-workspace-hashes.json').write_text(json.dumps(hashes,indent=2)+'\n',encoding='utf-8')
+ print('\n'.join(out));print('Workspace hashes saved',len(hashes))
+if __name__=='__main__':
+ if '--stage' in sys.argv:
+  # Source scope helper sees --stage and stages only its explicit paths.
+  stage()
+ elif '--restage-evidence' in sys.argv:
+  shutil.copy2(TMP/'drill-proximity-index-audit.py',E/'index-audit-helper.txt')
+  for p in E.iterdir():
+   if p.is_file() and p.suffix!='.gz':
+    text=p.read_text(encoding='utf-8').rstrip()+'\n';p.write_text(text,encoding='utf-8',newline='\n');s.s.stage(p.relative_to(ROOT).as_posix(),text)
+  audit()
+ else:audit()

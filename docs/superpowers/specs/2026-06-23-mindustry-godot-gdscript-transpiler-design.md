@@ -14,8 +14,8 @@ Counts below are projected from the canonical `source_slice_ledger.json`, not fr
 
 | Bucket | Count |
 | --- | ---: |
-| Canonical slice ledger entries | 1474 |
-| Done | 1474 |
+| Canonical slice ledger entries | 1477 |
+| Done | 1477 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -101,6 +101,9 @@ Counts below are projected from the canonical `source_slice_ledger.json`, not fr
 - [x] N2017: Actual Block geometry composes existing source size/init offset/isMultiblock owners; no duplicate formula or geometry cache.
 - [x] N2018: Dense source Tile fill/get and decoded floor/block map materialization preserve reference identity, source air-floor replacement, complete coverage and border clipping; unknown content rejects.
 - [x] N2019: Real game bootstrap/placement updates one Tile container and exposes canonical linked ore queries; actual Main proof passes. Complete Tile lifecycle/proximity/dominant output remains open.
+- [x] N2020: Canonical Drill.getDrop composition, proximity dominant assignment and pickup null-only reset reuse countOre/shared Item facts; superclass sleep lifecycle remains separate.
+- [x] N2021: Actual placement and canonical overlay mutation guards bind/recompute the same Building frame and one world-scoped typed Item view; proxy/tie/generation/identity cases pass.
+- [x] N2022: Live tick retains proximity-selected Item without legacy-map scan; actual primary and secondary produce selected lead independently of old copper display slug. C02 routing and complete C01 lifecycle remain open.
 - [x] N167: Source BuildingComp drawConfigure canonical square state.
 - [x] N168: Source BuildingComp checkSolid default state.
 - [x] N169: Source BuildingComp handleDamage passthrough state.
@@ -1370,7 +1373,7 @@ Counts below are projected from the canonical `source_slice_ledger.json`, not fr
 
 Work now uses dependency cubes for prioritization without changing the verification contract. Each cube groups source Java, Godot runtime wiring, and playable behavior for one gameplay system. Inside a cube, every slice still moves linearly: read upstream Java, write RED tests, prove RED, implement minimal GREEN, run targeted/full tests, prove through Godot MCP runtime, update this checklist, run `git diff --check`, stage only touched tracked files, and commit.
 
-Current cube: `canonical world Tile storage and bootstrap/placement projection`. N2017–N2019 compose canonical initialized geometry, dense logical Tile storage, decoded-map field materialization and real default game bootstrap/placement. Ledger: 1474 records; catalog: 113 modules; generated blocks unchanged at 425. C01-A getDrop/lifecycle boundaries, C01-B proximity and C01-C dominant production/output remain open; C02–C12 remain open. See `reports/2026-11-02-world-tile-lifecycle.md`.
+Current cube: `Drill proximity and actual dominant production`. N2020–N2022 bind canonical countOre assignment into actual placement/overlay notifications and retain typed Item identity through production. Ledger: 1477; catalog: 113 modules; blocks: 425. C01 floor/removal/overlap/superclass lifecycle and C02–C12 remain open. See `reports/2026-11-02-drill-proximity-lifecycle.md`.
 
 ## Done
 
@@ -3025,10 +3028,13 @@ Current cube: `canonical world Tile storage and bootstrap/placement projection`.
 | N2017 | Canonical Block geometry binding | Reuse source metadata size/default, Block.init offset and isMultiblock owners on actual definitions; 1/2/3/4 cases. |
 | N2018 | Dense world Tile materialization | Source fill/get identity/bounds and complete decoded floor runs; air floor becomes stone, static blocks and center proxies represented independently of sprites. |
 | N2019 | Real bootstrap and placement Tile projection | Focused 19/18; full 5383/22772 in 1170.21s; catalog 0 errors/113 modules; native 20 checks true, explicit stop; editor 0; 114-hash replay unchanged. Proximity/removal/dominant output remains open. See reports/2026-11-02-world-tile-lifecycle.md. |
+| N2020 | Canonical Drill drop/proximity/pickup assignment | Reuse Tile.drop/countOre; retain typed Item reference; pickup clears only Item. |
+| N2021 | Live placement/overlay proximity | One world-scoped Item view and existing Building frame; canonical overlay guard, proxy, tie, generating deferral and identity no-op. |
+| N2022 | Actual dominant Item production | Focused 17/44; full 5386/22848 in 1156.75s; native 22 checks true, 0 actual errors/68 warnings; editor 0; 114-hash replay. See reports/2026-11-02-drill-proximity-lifecycle.md. C01/C02–C12 still open. |
 
 ## Not Done
 
-C01-A now includes canonical initialized geometry, source dense Tile storage, decoded map field projection and real default-world bootstrap/placement (N2017–N2019). Drill.getDrop/live lifecycle boundaries, proximity invalidation and dominant production/output remain open. Removal/overlap/event/map-transition side effects are explicitly deferred. Live mixed-ore gameplay and C02–C12 remain gated; ledger totals do not measure whole-game parity.
+C01 now includes source getDrop, actual placement/overlay-driven dominant assignment, pickup helper semantics and production using the selected typed Item (N2020–N2022). Floor notifications, complete removal/overlap, superclass sleep/group lifecycle, controller pickup/world transition and C02 routing still require acceptance. Mixed footprints are proved in the supported base-Drill subset only; C01 and C02–C12 remain open.
 
 ## Scope
 
@@ -3387,3 +3393,5 @@ When Godot CLI is not on `PATH`, use the configured MCP Godot path from `C:\User
 | 2026-11-02 | N2011–N2013 accepted: typed Item ordinal/effective facts, source Drill blocked definitions/init and actual Block binding. Focused 16 tests / 15 subtests; full 5372 / 22734 in 1091.66s; catalog 0 errors / 113 modules; native matches=true, 0 actual errors / 23 warnings, explicit stop; editor exit 0; 13-file content+SSOT replay unchanged. C01-A partially advanced; live Tile/proximity/output and C02–C12 remain open. |
 | 2026-11-02 | N2014–N2016 accepted: source terrain extraction and eight omitted ore overlays, actual typed Tile drop/static and canonical linked callback binding. Focused 22 tests / 19 subtests in 38.30s; full 5379 / 22748 in 1071.39s; catalog 0 errors / 113 modules; native 17 checks true, 0 actual errors / 23 warnings, explicit stop; editor exit 0; 10-file replay unchanged. C01 real-world lifecycle/proximity/output and C02–C12 remain open. See reports/2026-11-02-tile-ore-provider.md. |
 | 2026-11-02 | N2017–N2019 accepted: canonical geometry, dense Tile map materialization and actual default-world bootstrap/placement. Focused 19/18 in 73.68s; full 5383/22772 in 1170.21s; native 20 true, 0 actual errors/68 warnings, explicit stop; editor 0; 114-hash replay. C01 proximity/output and C02–C12 remain open. See reports/2026-11-02-world-tile-lifecycle.md. |
+
+| 2026-11-02 | N2020–N2022 accepted: actual Drill proximity and selected Item production; full 5386/22848, native 22 true, explicit stop/editor/replay; C01 and C02–C12 remain open. See reports/2026-11-02-drill-proximity-lifecycle.md. |

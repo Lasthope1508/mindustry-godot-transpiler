@@ -57512,6 +57512,185 @@
       ],
       "runtime_proof": "/root/WorldTileLifecycleProof",
       "rule": "Canonical geometry/dense Tile field projection and real bootstrap/placement wiring only. Complete entity removal, proximity, persistence and dominant production remain explicitly deferred."
+    },
+    "SourceDrillRuntimeState.source_get_drop_state": {
+      "status": "active",
+      "source_slice": "N2020",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "getDrop(Tile tile)",
+      "params": [
+        {
+          "name": "tile",
+          "type": "Dictionary",
+          "schema": "source_drill_get_drop_input.tile"
+        }
+      ],
+      "return_keys": [
+        "drop"
+      ],
+      "tests": [
+        "test_proximity_lifecycle_contracts",
+        "test_actual_proximity_mutation_and_dominant_production"
+      ],
+      "runtime_proof": "/root/DrillProximityLifecycleProof",
+      "rule": "One world-scoped typed Item view; reuse canonical countOre/drop/Tile mutation and existing per-Building frame. No per-tick ore re-selection. Only stated partial lifecycle/production scope; deferred behaviors are recorded in ledger."
+    },
+    "SourceDrillRuntimeState.source_on_proximity_update_state": {
+      "status": "active",
+      "source_slice": "N2020",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "DrillBuild.onProximityUpdate()",
+      "params": [
+        {
+          "name": "linked_tiles",
+          "type": "Array",
+          "schema": "source_drill_proximity_assignment_input.linked_tiles"
+        },
+        {
+          "name": "tier",
+          "type": "int",
+          "schema": "source_drill_proximity_assignment_input.tier"
+        },
+        {
+          "name": "blocked_items",
+          "type": "Variant",
+          "schema": "source_drill_proximity_assignment_input.blocked_items"
+        }
+      ],
+      "return_keys": [
+        "dominant_item",
+        "dominant_items"
+      ],
+      "tests": [
+        "test_proximity_lifecycle_contracts",
+        "test_actual_proximity_mutation_and_dominant_production"
+      ],
+      "runtime_proof": "/root/DrillProximityLifecycleProof",
+      "rule": "One world-scoped typed Item view; reuse canonical countOre/drop/Tile mutation and existing per-Building frame. No per-tick ore re-selection. Only stated partial lifecycle/production scope; deferred behaviors are recorded in ledger."
+    },
+    "SourceDrillRuntimeState.source_picked_up_state": {
+      "status": "active",
+      "source_slice": "N2020",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "DrillBuild.pickedUp()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_drill_pickup_assignment_input.frame"
+        }
+      ],
+      "return_keys": [
+        "dominant_item"
+      ],
+      "tests": [
+        "test_proximity_lifecycle_contracts",
+        "test_actual_proximity_mutation_and_dominant_production"
+      ],
+      "runtime_proof": "/root/DrillProximityLifecycleProof",
+      "rule": "One world-scoped typed Item view; reuse canonical countOre/drop/Tile mutation and existing per-Building frame. No per-tick ore re-selection. Only stated partial lifecycle/production scope; deferred behaviors are recorded in ledger."
+    },
+    "SourceDrillConsumptionRuntimeState.source_on_proximity_update_state": {
+      "status": "active",
+      "source_slice": "N2021",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "DrillBuild.onProximityUpdate()",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_drill_live_proximity_input.game"
+        },
+        {
+          "name": "sprite",
+          "type": "Sprite2D",
+          "schema": "source_drill_live_proximity_input.sprite"
+        },
+        {
+          "name": "block",
+          "type": "Object",
+          "schema": "source_drill_live_proximity_input.block"
+        }
+      ],
+      "return_keys": [
+        "applied"
+      ],
+      "tests": [
+        "test_proximity_lifecycle_contracts",
+        "test_actual_proximity_mutation_and_dominant_production"
+      ],
+      "runtime_proof": "/root/DrillProximityLifecycleProof",
+      "rule": "One world-scoped typed Item view; reuse canonical countOre/drop/Tile mutation and existing per-Building frame. No per-tick ore re-selection. Only stated partial lifecycle/production scope; deferred behaviors are recorded in ledger."
+    },
+    "SourceWorldTerrainRuntimeState.source_set_world_overlay_state": {
+      "status": "active",
+      "source_slice": "N2021",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "source_method": "setOverlay(Block block)",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_world_drill_overlay_input.game"
+        },
+        {
+          "name": "x",
+          "type": "int",
+          "schema": "source_world_drill_overlay_input.x"
+        },
+        {
+          "name": "y",
+          "type": "int",
+          "schema": "source_world_drill_overlay_input.y"
+        },
+        {
+          "name": "block",
+          "type": "Object",
+          "schema": "source_world_drill_overlay_input.block"
+        },
+        {
+          "name": "generating",
+          "type": "bool",
+          "schema": "source_world_drill_overlay_input.generating"
+        }
+      ],
+      "return_keys": [
+        "changed",
+        "proximity_updated"
+      ],
+      "tests": [
+        "test_proximity_lifecycle_contracts",
+        "test_actual_proximity_mutation_and_dominant_production"
+      ],
+      "runtime_proof": "/root/DrillProximityLifecycleProof",
+      "rule": "One world-scoped typed Item view; reuse canonical countOre/drop/Tile mutation and existing per-Building frame. No per-tick ore re-selection. Only stated partial lifecycle/production scope; deferred behaviors are recorded in ledger."
+    },
+    "SourceDrillConsumptionRuntimeState.source_dominant_item_name_state": {
+      "status": "active",
+      "source_slice": "N2022",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "DrillBuild.updateTile()",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_drill_dominant_item_name_input.game"
+        },
+        {
+          "name": "sprite",
+          "type": "Sprite2D",
+          "schema": "source_drill_dominant_item_name_input.sprite"
+        }
+      ],
+      "return_keys": [
+        "item_id"
+      ],
+      "tests": [
+        "test_proximity_lifecycle_contracts",
+        "test_actual_proximity_mutation_and_dominant_production"
+      ],
+      "runtime_proof": "/root/DrillProximityLifecycleProof",
+      "rule": "One world-scoped typed Item view; reuse canonical countOre/drop/Tile mutation and existing per-Building frame. No per-tick ore re-selection. Only stated partial lifecycle/production scope; deferred behaviors are recorded in ledger."
     }
   },
   "policy": {

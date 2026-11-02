@@ -195,6 +195,7 @@ var build_palette: Array = []
 var selected_build_index := 0
 var ore_items_by_cell: Dictionary = {}
 var source_world_tiles: Dictionary = {}
+var source_item_catalog: Dictionary = {}
 var placed_blocks: Dictionary = {}
 var placed_block_origins: Dictionary = {}
 var mend_projector_charges: Dictionary = {}
@@ -1130,6 +1131,7 @@ func record_placed_block(sprite: Sprite2D, block, cell: Vector2i) -> void:
 	var world_tiles: Dictionary = get("source_world_tiles")
 	if not world_tiles.is_empty():
 		SourceWorldTerrainRuntimeState.source_record_world_block(world_tiles, block, cell.x, cell.y, float(get("tile_size")))
+		SourceDrillConsumptionRuntimeState.source_on_proximity_update_state(self, sprite, block)
 	if block != null and block.properties.has("consumeLiquid"):
 		SourceConsumeLiquidState.source_bind_liquid_consumers_state(block, content_catalog)
 		SourceConsumeLiquidState.source_apply_liquid_consumers_state(block, content_catalog)

@@ -1913,6 +1913,331 @@
         "test_real_catalog_drill_binding_in_godot"
       ],
       "runtime_proof": "/root/DrillOreBindingProof"
+    },
+    "drill_proximity.world_item_catalog": {
+      "canonical_symbol": "source_symbol_registry.drill_proximity.world_item_catalog",
+      "status": "source-backed",
+      "java_expr": "return getBy(ContentType.item);",
+      "godot_symbol": "port_game.source_item_catalog",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_on_proximity_update_state",
+      "rule": "One shared typed Item view per build_world from canonical content order. Rebuilt before placements; never reconstructed per tick. World reload acceptance remains separate.",
+      "tests": [
+        "test_proximity_lifecycle_contracts",
+        "test_actual_proximity_mutation_and_dominant_production"
+      ],
+      "runtime_proof": "/root/DrillProximityLifecycleProof"
+    },
+    "source_drill_dominant_item_name_input.game": {
+      "canonical_symbol": "source_symbol_registry.source_drill_dominant_item_name_input.game",
+      "status": "source-backed",
+      "java_expr": "build.onProximityUpdate();",
+      "godot_symbol": "source_drill_dominant_item_name_input.game",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_dominant_item_name_state",
+      "rule": "Actual game world containing canonical Tile store, placement index and readonly typed Item view.",
+      "tests": [
+        "test_proximity_lifecycle_contracts",
+        "test_actual_proximity_mutation_and_dominant_production"
+      ],
+      "runtime_proof": "/root/DrillProximityLifecycleProof"
+    },
+    "source_drill_dominant_item_name_input.sprite": {
+      "canonical_symbol": "source_symbol_registry.source_drill_dominant_item_name_input.sprite",
+      "status": "source-backed",
+      "java_expr": "public class DrillBuild extends Building{",
+      "godot_symbol": "source_drill_dominant_item_name_input.sprite",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_dominant_item_name_state",
+      "rule": "Actual placed Building identity and existing frame metadata; nullable only for output name lookup.",
+      "tests": [
+        "test_proximity_lifecycle_contracts",
+        "test_actual_proximity_mutation_and_dominant_production"
+      ],
+      "runtime_proof": "/root/DrillProximityLifecycleProof"
+    },
+    "source_drill_dominant_item_name_result.item_id": {
+      "canonical_symbol": "source_symbol_registry.source_drill_dominant_item_name_result.item_id",
+      "status": "source-backed",
+      "java_expr": "offload(dominantItem);",
+      "godot_symbol": "source_drill_dominant_item_name_result.item_id",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_dominant_item_name_state",
+      "rule": "Nullable exact registered content name resolved through shared numeric Item id; never global output slug or dictionary stringification. Actual primary offload and secondary local storage use this projection; C02 routing still open.",
+      "tests": [
+        "test_proximity_lifecycle_contracts",
+        "test_actual_proximity_mutation_and_dominant_production"
+      ],
+      "runtime_proof": "/root/DrillProximityLifecycleProof"
+    },
+    "source_drill_get_drop_input.tile": {
+      "canonical_symbol": "source_symbol_registry.source_drill_get_drop_input.tile",
+      "status": "source-backed",
+      "java_expr": "return overlay == Blocks.air || overlay.itemDrop == null ? floor.itemDrop : overlay.itemDrop;",
+      "godot_symbol": "source_drill_get_drop_input.tile",
+      "godot_owner": "SourceDrillRuntimeState.source_get_drop_state",
+      "rule": "Tile facts already computed by canonical Tile drop provider.",
+      "tests": [
+        "test_proximity_lifecycle_contracts",
+        "test_actual_proximity_mutation_and_dominant_production"
+      ],
+      "runtime_proof": "/root/DrillProximityLifecycleProof"
+    },
+    "source_drill_get_drop_result.drop": {
+      "canonical_symbol": "source_symbol_registry.source_drill_get_drop_result.drop",
+      "status": "source-backed",
+      "java_expr": "return tile.drop();",
+      "godot_symbol": "source_drill_get_drop_result.drop",
+      "godot_owner": "SourceDrillRuntimeState.source_get_drop_state",
+      "rule": "Return canonical Tile drop by reference, including null.",
+      "tests": [
+        "test_proximity_lifecycle_contracts",
+        "test_actual_proximity_mutation_and_dominant_production"
+      ],
+      "runtime_proof": "/root/DrillProximityLifecycleProof"
+    },
+    "source_drill_live_pickup_input.sprite": {
+      "canonical_symbol": "source_symbol_registry.source_drill_live_pickup_input.sprite",
+      "status": "source-backed",
+      "java_expr": "public class DrillBuild extends Building{",
+      "godot_symbol": "source_drill_live_pickup_input.sprite",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_picked_up_state",
+      "rule": "Actual placed Building identity and existing frame metadata; nullable only for output name lookup.",
+      "tests": [
+        "test_proximity_lifecycle_contracts",
+        "test_actual_proximity_mutation_and_dominant_production"
+      ],
+      "runtime_proof": "/root/DrillProximityLifecycleProof"
+    },
+    "source_drill_live_proximity_input.block": {
+      "canonical_symbol": "source_symbol_registry.source_drill_live_proximity_input.block",
+      "status": "source-backed",
+      "java_expr": "countOre(tile);",
+      "godot_symbol": "source_drill_live_proximity_input.block",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_on_proximity_update_state",
+      "rule": "Actual typed Drill ancestry definition, identified by source-exported blockedItems metadata; separate overrides remain unsupported.",
+      "tests": [
+        "test_proximity_lifecycle_contracts",
+        "test_actual_proximity_mutation_and_dominant_production"
+      ],
+      "runtime_proof": "/root/DrillProximityLifecycleProof"
+    },
+    "source_drill_live_proximity_input.game": {
+      "canonical_symbol": "source_symbol_registry.source_drill_live_proximity_input.game",
+      "status": "source-backed",
+      "java_expr": "build.onProximityUpdate();",
+      "godot_symbol": "source_drill_live_proximity_input.game",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_on_proximity_update_state",
+      "rule": "Actual game world containing canonical Tile store, placement index and readonly typed Item view.",
+      "tests": [
+        "test_proximity_lifecycle_contracts",
+        "test_actual_proximity_mutation_and_dominant_production"
+      ],
+      "runtime_proof": "/root/DrillProximityLifecycleProof"
+    },
+    "source_drill_live_proximity_input.sprite": {
+      "canonical_symbol": "source_symbol_registry.source_drill_live_proximity_input.sprite",
+      "status": "source-backed",
+      "java_expr": "public class DrillBuild extends Building{",
+      "godot_symbol": "source_drill_live_proximity_input.sprite",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_on_proximity_update_state",
+      "rule": "Actual placed Building identity and existing frame metadata; nullable only for output name lookup.",
+      "tests": [
+        "test_proximity_lifecycle_contracts",
+        "test_actual_proximity_mutation_and_dominant_production"
+      ],
+      "runtime_proof": "/root/DrillProximityLifecycleProof"
+    },
+    "source_drill_live_proximity_result.applied": {
+      "canonical_symbol": "source_symbol_registry.source_drill_live_proximity_result.applied",
+      "status": "source-backed",
+      "java_expr": "dominantItem = returnItem;",
+      "godot_symbol": "source_drill_live_proximity_result.applied",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_on_proximity_update_state",
+      "rule": "Whether supported Drill assignment was applied to its existing frame; no claim of superclass sleep/other override execution.",
+      "tests": [
+        "test_proximity_lifecycle_contracts",
+        "test_actual_proximity_mutation_and_dominant_production"
+      ],
+      "runtime_proof": "/root/DrillProximityLifecycleProof"
+    },
+    "source_drill_pickup_assignment_input.frame": {
+      "canonical_symbol": "source_symbol_registry.source_drill_pickup_assignment_input.frame",
+      "status": "source-backed",
+      "java_expr": "public class DrillBuild extends Building{",
+      "godot_symbol": "source_drill_pickup_assignment_input.frame",
+      "godot_owner": "SourceDrillRuntimeState.source_picked_up_state",
+      "rule": "Existing live frame, same mutable identity; no parallel dominant state.",
+      "tests": [
+        "test_proximity_lifecycle_contracts",
+        "test_actual_proximity_mutation_and_dominant_production"
+      ],
+      "runtime_proof": "/root/DrillProximityLifecycleProof"
+    },
+    "source_drill_pickup_assignment_result.dominant_item": {
+      "canonical_symbol": "source_symbol_registry.source_drill_pickup_assignment_result.dominant_item",
+      "status": "source-backed",
+      "java_expr": "dominantItem = null;",
+      "godot_symbol": "source_drill_pickup_assignment_result.dominant_item",
+      "godot_owner": "SourceDrillRuntimeState.source_picked_up_state",
+      "rule": "Only reset item; preserve count/progress and all other supplied fields. Extra frame keys pass through unchanged.",
+      "tests": [
+        "test_proximity_lifecycle_contracts",
+        "test_actual_proximity_mutation_and_dominant_production"
+      ],
+      "runtime_proof": "/root/DrillProximityLifecycleProof"
+    },
+    "source_drill_proximity_assignment_input.blocked_items": {
+      "canonical_symbol": "source_symbol_registry.source_drill_proximity_assignment_input.blocked_items",
+      "status": "source-backed",
+      "java_expr": "(blockedItems == null || !blockedItems.contains(drops))",
+      "godot_symbol": "source_drill_proximity_assignment_input.blocked_items",
+      "godot_owner": "SourceDrillRuntimeState.source_on_proximity_update_state",
+      "rule": "Canonical nullable numeric Item identities from existing Drill.init/bind owner.",
+      "tests": [
+        "test_proximity_lifecycle_contracts",
+        "test_actual_proximity_mutation_and_dominant_production"
+      ],
+      "runtime_proof": "/root/DrillProximityLifecycleProof"
+    },
+    "source_drill_proximity_assignment_input.linked_tiles": {
+      "canonical_symbol": "source_symbol_registry.source_drill_proximity_assignment_input.linked_tiles",
+      "status": "source-backed",
+      "java_expr": "for(Tile other : tile.getLinkedTilesAs(this, tempTiles)){",
+      "godot_symbol": "source_drill_proximity_assignment_input.linked_tiles",
+      "godot_owner": "SourceDrillRuntimeState.source_on_proximity_update_state",
+      "rule": "Source linked order/bounds from existing Tile provider.",
+      "tests": [
+        "test_proximity_lifecycle_contracts",
+        "test_actual_proximity_mutation_and_dominant_production"
+      ],
+      "runtime_proof": "/root/DrillProximityLifecycleProof"
+    },
+    "source_drill_proximity_assignment_input.tier": {
+      "canonical_symbol": "source_symbol_registry.source_drill_proximity_assignment_input.tier",
+      "status": "source-backed",
+      "java_expr": "drops.hardness <= tier",
+      "godot_symbol": "source_drill_proximity_assignment_input.tier",
+      "godot_owner": "SourceDrillRuntimeState.source_on_proximity_update_state",
+      "rule": "Actual resolved Block tier; no guessed default.",
+      "tests": [
+        "test_proximity_lifecycle_contracts",
+        "test_actual_proximity_mutation_and_dominant_production"
+      ],
+      "runtime_proof": "/root/DrillProximityLifecycleProof"
+    },
+    "source_drill_proximity_assignment_result.dominant_item": {
+      "canonical_symbol": "source_symbol_registry.source_drill_proximity_assignment_result.dominant_item",
+      "status": "source-backed",
+      "java_expr": "public Item dominantItem;",
+      "godot_symbol": "source_drill_proximity_assignment_result.dominant_item",
+      "godot_owner": "SourceDrillRuntimeState.source_on_proximity_update_state",
+      "rule": "Nullable typed Item fact; retain shared reference, numeric id/hardness/lowPriority from canonical content provider.",
+      "tests": [
+        "test_proximity_lifecycle_contracts",
+        "test_actual_proximity_mutation_and_dominant_production"
+      ],
+      "runtime_proof": "/root/DrillProximityLifecycleProof"
+    },
+    "source_drill_proximity_assignment_result.dominant_items": {
+      "canonical_symbol": "source_symbol_registry.source_drill_proximity_assignment_result.dominant_items",
+      "status": "source-backed",
+      "java_expr": "dominantItems = returnCount;",
+      "godot_symbol": "source_drill_proximity_assignment_result.dominant_items",
+      "godot_owner": "SourceDrillRuntimeState.source_on_proximity_update_state",
+      "rule": "Count from existing canonical countOre owner; zero on empty.",
+      "tests": [
+        "test_proximity_lifecycle_contracts",
+        "test_actual_proximity_mutation_and_dominant_production"
+      ],
+      "runtime_proof": "/root/DrillProximityLifecycleProof"
+    },
+    "source_world_drill_overlay_input.block": {
+      "canonical_symbol": "source_symbol_registry.source_world_drill_overlay_input.block",
+      "status": "source-backed",
+      "java_expr": "this.overlay = (Floor)block;",
+      "godot_symbol": "source_world_drill_overlay_input.block",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_set_world_overlay_state",
+      "rule": "Resolved typed overlay Block; no guessed content or rendering-based lookup.",
+      "tests": [
+        "test_proximity_lifecycle_contracts",
+        "test_actual_proximity_mutation_and_dominant_production"
+      ],
+      "runtime_proof": "/root/DrillProximityLifecycleProof"
+    },
+    "source_world_drill_overlay_input.game": {
+      "canonical_symbol": "source_symbol_registry.source_world_drill_overlay_input.game",
+      "status": "source-backed",
+      "java_expr": "build.onProximityUpdate();",
+      "godot_symbol": "source_world_drill_overlay_input.game",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_set_world_overlay_state",
+      "rule": "Actual game world containing canonical Tile store, placement index and readonly typed Item view.",
+      "tests": [
+        "test_proximity_lifecycle_contracts",
+        "test_actual_proximity_mutation_and_dominant_production"
+      ],
+      "runtime_proof": "/root/DrillProximityLifecycleProof"
+    },
+    "source_world_drill_overlay_input.generating": {
+      "canonical_symbol": "source_symbol_registry.source_world_drill_overlay_input.generating",
+      "status": "source-backed",
+      "java_expr": "if(!world.isGenerating() && build != null){",
+      "godot_symbol": "source_world_drill_overlay_input.generating",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_set_world_overlay_state",
+      "rule": "Explicit source world generation phase; defer notification during generation.",
+      "tests": [
+        "test_proximity_lifecycle_contracts",
+        "test_actual_proximity_mutation_and_dominant_production"
+      ],
+      "runtime_proof": "/root/DrillProximityLifecycleProof"
+    },
+    "source_world_drill_overlay_input.x": {
+      "canonical_symbol": "source_symbol_registry.source_world_drill_overlay_input.x",
+      "status": "source-backed",
+      "java_expr": "public short x, y;",
+      "godot_symbol": "source_world_drill_overlay_input.x",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_set_world_overlay_state",
+      "rule": "Actual Tile x coordinate.",
+      "tests": [
+        "test_proximity_lifecycle_contracts",
+        "test_actual_proximity_mutation_and_dominant_production"
+      ],
+      "runtime_proof": "/root/DrillProximityLifecycleProof"
+    },
+    "source_world_drill_overlay_input.y": {
+      "canonical_symbol": "source_symbol_registry.source_world_drill_overlay_input.y",
+      "status": "source-backed",
+      "java_expr": "public short x, y;",
+      "godot_symbol": "source_world_drill_overlay_input.y",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_set_world_overlay_state",
+      "rule": "Actual Tile y coordinate.",
+      "tests": [
+        "test_proximity_lifecycle_contracts",
+        "test_actual_proximity_mutation_and_dominant_production"
+      ],
+      "runtime_proof": "/root/DrillProximityLifecycleProof"
+    },
+    "source_world_drill_overlay_result.changed": {
+      "canonical_symbol": "source_symbol_registry.source_world_drill_overlay_result.changed",
+      "status": "source-backed",
+      "java_expr": "if(this.overlay == block) return;",
+      "godot_symbol": "source_world_drill_overlay_result.changed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_set_world_overlay_state",
+      "rule": "Canonical Tile overlay owner controls identity guard and assignment.",
+      "tests": [
+        "test_proximity_lifecycle_contracts",
+        "test_actual_proximity_mutation_and_dominant_production"
+      ],
+      "runtime_proof": "/root/DrillProximityLifecycleProof"
+    },
+    "source_world_drill_overlay_result.proximity_updated": {
+      "canonical_symbol": "source_symbol_registry.source_world_drill_overlay_result.proximity_updated",
+      "status": "source-backed",
+      "java_expr": "build.onProximityUpdate();",
+      "godot_symbol": "source_world_drill_overlay_result.proximity_updated",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_set_world_overlay_state",
+      "rule": "Canonical guard selects notification; true only when supported live Drill assignment actually ran. Recache/events/other Building overrides remain deferred.",
+      "tests": [
+        "test_proximity_lifecycle_contracts",
+        "test_actual_proximity_mutation_and_dominant_production"
+      ],
+      "runtime_proof": "/root/DrillProximityLifecycleProof"
     }
   }
 }

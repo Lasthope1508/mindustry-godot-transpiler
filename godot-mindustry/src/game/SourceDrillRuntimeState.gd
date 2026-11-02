@@ -19,10 +19,23 @@ static func source_bind_ore_items_state(block: Object, item_catalog: Dictionary)
 			blocked_items.append(fields[field]["id"])
 	return source_init_blocked_items_state(blocked_items, blocked_item)
 
+static func source_get_drop_state(tile: Dictionary) -> Dictionary:
+	return {"drop": tile["drop"]}
+
+# Assignment part of DrillBuild.onProximityUpdate; superclass sleeping lifecycle is separate.
+static func source_on_proximity_update_state(linked_tiles: Array, tier: int, blocked_items: Variant) -> Dictionary:
+	var counted := source_count_ore_state(linked_tiles, tier, blocked_items)
+	return {"dominant_item": counted["returnItem"], "dominant_items": counted["returnCount"]}
+
+static func source_picked_up_state(frame: Dictionary) -> Dictionary:
+	var result := frame.duplicate()
+	result["dominant_item"] = null
+	return result
+
 static func source_can_mine_state(tile: Variant, tier: int, blocked_items: Variant) -> Dictionary:
 	if tile == null or tile["is_static"]:
 		return {"can_mine": false}
-	var drops: Variant = tile["drop"]
+	var drops: Variant = source_get_drop_state(tile)["drop"]
 	return {"can_mine": drops != null and drops["hardness"] <= tier and (blocked_items == null or not blocked_items.has(drops["id"]))}
 
 static func source_count_ore_state(linked_tiles: Array, tier: int, blocked_items: Variant) -> Dictionary:
@@ -30,7 +43,7 @@ static func source_count_ore_state(linked_tiles: Array, tier: int, blocked_items
 	var item_array: Array = []
 	for other in linked_tiles:
 		if source_can_mine_state(other, tier, blocked_items)["can_mine"]:
-			var item: Dictionary = other["drop"]
+			var item: Dictionary = source_get_drop_state(other)["drop"]
 			if not ore_count.has(item["id"]):
 				item_array.append(item)
 			ore_count[item["id"]] = ore_count.get(item["id"], 0) + 1

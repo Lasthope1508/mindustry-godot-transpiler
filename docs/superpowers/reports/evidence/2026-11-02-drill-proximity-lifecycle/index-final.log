@@ -1,0 +1,11 @@
+source_symbol_registry.json: only 25 additions; prior entries/policy preserved
+source_api_contracts.json: only 6 additions; prior entries/policy preserved
+source_state_schema.json: only 13 additions; prior entries/policy preserved
+source_slice_ledger.json: only 3 additions; prior entries/policy preserved
+Existing canonical audit/content/manifest unchanged; no new game facade query owners
+Exact contextual runtime/test deltas PASS; shared Item field/placement callback mapped into existing HEAD PortGame; unrelated facade work preserved
+Full frozen-input/native/inspect-stop/editor/replay/catalog gates accepted on working tree; C01 and C02-C12 not accepted; C12 clean reproducibility remains open
+25 exact upstream source expressions matched; nested schema references checked
+Exact staged allowlist PASS; project/UID/arc/content/manifest/audit/unrelated dirty work excluded
+Staged whitespace PASS
+Staged files at initial audit: 45

@@ -1,0 +1,15 @@
+import hashlib,json,subprocess,sys,time
+from pathlib import Path
+R=Path.cwd();paths=[]
+for prefix in ['godot-mindustry/src','tools/mindustry_godot_transpiler']:
+ for p in (R/prefix).rglob('*'):
+  if p.is_file() and p.suffix in ['.gd','.py','.json','.tscn'] and '__pycache__' not in p.parts:
+   paths.append(p)
+start={p.relative_to(R).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in paths}
+Path('C:/tmp/drill-proximity-full-input-hashes.json').write_text(json.dumps(start,indent=2)+'\n')
+t0=time.monotonic()
+with Path('C:/tmp/drill-proximity-full.log').open('w',encoding='utf-8') as log:
+ result=subprocess.run([sys.executable,'-m','pytest','-p','no:cacheprovider','tools/mindustry_godot_transpiler/tests','-q','--tb=short'],cwd=R,stdout=log,stderr=subprocess.STDOUT)
+after={p.relative_to(R).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in paths}
+out={'exit_code':result.returncode,'seconds':time.monotonic()-t0,'input_file_count':len(paths),'inputs_unchanged':start==after,'changed_inputs':[p for p in start if start[p]!=after[p]]}
+Path('C:/tmp/drill-proximity-full-result.json').write_text(json.dumps(out,indent=2)+'\n');print(out);sys.exit(result.returncode)

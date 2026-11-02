@@ -166429,6 +166429,357 @@
         }
       },
       "runtime_proof": "/root/WorldTileLifecycleProof"
+    },
+    "source_drill_get_drop_input": {
+      "status": "active",
+      "owner": "SourceDrillRuntimeState.source_get_drop_state",
+      "source_slice": "N2020",
+      "keys": {
+        "tile": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "return overlay == Blocks.air || overlay.itemDrop == null ? floor.itemDrop : overlay.itemDrop;",
+          "rule": "Tile facts already computed by canonical Tile drop provider.",
+          "schema": "source_drill_ore_tile",
+          "used_by": [
+            "SourceDrillRuntimeState.source_get_drop_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/DrillProximityLifecycleProof"
+    },
+    "source_drill_get_drop_result": {
+      "status": "active",
+      "owner": "SourceDrillRuntimeState.source_get_drop_state",
+      "source_slice": "N2020",
+      "keys": {
+        "drop": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "return tile.drop();",
+          "rule": "Return canonical Tile drop by reference, including null.",
+          "schema": "source_drill_ore_item",
+          "used_by": [
+            "SourceDrillRuntimeState.source_get_drop_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/DrillProximityLifecycleProof"
+    },
+    "source_drill_proximity_assignment_input": {
+      "status": "active",
+      "owner": "SourceDrillRuntimeState.source_on_proximity_update_state",
+      "source_slice": "N2020",
+      "keys": {
+        "linked_tiles": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "for(Tile other : tile.getLinkedTilesAs(this, tempTiles)){",
+          "rule": "Source linked order/bounds from existing Tile provider.",
+          "schema": "source_drill_ore_tile",
+          "used_by": [
+            "SourceDrillRuntimeState.source_on_proximity_update_state"
+          ]
+        },
+        "tier": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "drops.hardness <= tier",
+          "rule": "Actual resolved Block tier; no guessed default.",
+          "used_by": [
+            "SourceDrillRuntimeState.source_on_proximity_update_state"
+          ]
+        },
+        "blocked_items": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "(blockedItems == null || !blockedItems.contains(drops))",
+          "rule": "Canonical nullable numeric Item identities from existing Drill.init/bind owner.",
+          "used_by": [
+            "SourceDrillRuntimeState.source_on_proximity_update_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/DrillProximityLifecycleProof"
+    },
+    "source_drill_proximity_assignment_result": {
+      "status": "active",
+      "owner": "SourceDrillRuntimeState.source_on_proximity_update_state",
+      "source_slice": "N2020",
+      "keys": {
+        "dominant_item": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public Item dominantItem;",
+          "rule": "Nullable typed Item fact; retain shared reference, numeric id/hardness/lowPriority from canonical content provider.",
+          "schema": "source_drill_ore_item",
+          "used_by": [
+            "SourceDrillRuntimeState.source_on_proximity_update_state"
+          ]
+        },
+        "dominant_items": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "dominantItems = returnCount;",
+          "rule": "Count from existing canonical countOre owner; zero on empty.",
+          "used_by": [
+            "SourceDrillRuntimeState.source_on_proximity_update_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/DrillProximityLifecycleProof"
+    },
+    "source_drill_pickup_assignment_input": {
+      "status": "active",
+      "owner": "SourceDrillRuntimeState.source_picked_up_state",
+      "source_slice": "N2020",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public class DrillBuild extends Building{",
+          "rule": "Existing live frame, same mutable identity; no parallel dominant state.",
+          "schema": "source_drill_live_frame",
+          "used_by": [
+            "SourceDrillRuntimeState.source_picked_up_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/DrillProximityLifecycleProof"
+    },
+    "source_drill_pickup_assignment_result": {
+      "status": "active",
+      "owner": "SourceDrillRuntimeState.source_picked_up_state",
+      "source_slice": "N2020",
+      "keys": {
+        "dominant_item": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "dominantItem = null;",
+          "rule": "Only reset item; preserve count/progress and all other supplied fields. Extra frame keys pass through unchanged.",
+          "used_by": [
+            "SourceDrillRuntimeState.source_picked_up_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/DrillProximityLifecycleProof"
+    },
+    "source_drill_live_proximity_input": {
+      "status": "active",
+      "owner": "SourceDrillConsumptionRuntimeState.source_on_proximity_update_state",
+      "source_slice": "N2021",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "build.onProximityUpdate();",
+          "rule": "Actual game world containing canonical Tile store, placement index and readonly typed Item view.",
+          "used_by": [
+            "SourceDrillConsumptionRuntimeState.source_on_proximity_update_state"
+          ]
+        },
+        "sprite": {
+          "type": "Sprite2D",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public class DrillBuild extends Building{",
+          "rule": "Actual placed Building identity and existing frame metadata; nullable only for output name lookup.",
+          "used_by": [
+            "SourceDrillConsumptionRuntimeState.source_on_proximity_update_state"
+          ]
+        },
+        "block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "countOre(tile);",
+          "rule": "Actual typed Drill ancestry definition, identified by source-exported blockedItems metadata; separate overrides remain unsupported.",
+          "schema": "source_terrain_block_definition",
+          "used_by": [
+            "SourceDrillConsumptionRuntimeState.source_on_proximity_update_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/DrillProximityLifecycleProof"
+    },
+    "source_drill_live_proximity_result": {
+      "status": "active",
+      "owner": "SourceDrillConsumptionRuntimeState.source_on_proximity_update_state",
+      "source_slice": "N2021",
+      "keys": {
+        "applied": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "dominantItem = returnItem;",
+          "rule": "Whether supported Drill assignment was applied to its existing frame; no claim of superclass sleep/other override execution.",
+          "used_by": [
+            "SourceDrillConsumptionRuntimeState.source_on_proximity_update_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/DrillProximityLifecycleProof"
+    },
+    "source_drill_live_pickup_input": {
+      "status": "active",
+      "owner": "SourceDrillConsumptionRuntimeState.source_picked_up_state",
+      "source_slice": "N2021",
+      "keys": {
+        "sprite": {
+          "type": "Sprite2D",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public class DrillBuild extends Building{",
+          "rule": "Actual placed Building identity and existing frame metadata; nullable only for output name lookup.",
+          "used_by": [
+            "SourceDrillConsumptionRuntimeState.source_picked_up_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/DrillProximityLifecycleProof"
+    },
+    "source_world_drill_overlay_input": {
+      "status": "active",
+      "owner": "SourceWorldTerrainRuntimeState.source_set_world_overlay_state",
+      "source_slice": "N2021",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "build.onProximityUpdate();",
+          "rule": "Actual game world containing canonical Tile store, placement index and readonly typed Item view.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_set_world_overlay_state"
+          ]
+        },
+        "x": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "public short x, y;",
+          "rule": "Actual Tile x coordinate.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_set_world_overlay_state"
+          ]
+        },
+        "y": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "public short x, y;",
+          "rule": "Actual Tile y coordinate.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_set_world_overlay_state"
+          ]
+        },
+        "block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "this.overlay = (Floor)block;",
+          "rule": "Resolved typed overlay Block; no guessed content or rendering-based lookup.",
+          "schema": "source_terrain_block_definition",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_set_world_overlay_state"
+          ]
+        },
+        "generating": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "if(!world.isGenerating() && build != null){",
+          "rule": "Explicit source world generation phase; defer notification during generation.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_set_world_overlay_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/DrillProximityLifecycleProof"
+    },
+    "source_world_drill_overlay_result": {
+      "status": "active",
+      "owner": "SourceWorldTerrainRuntimeState.source_set_world_overlay_state",
+      "source_slice": "N2021",
+      "keys": {
+        "changed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "if(this.overlay == block) return;",
+          "rule": "Canonical Tile overlay owner controls identity guard and assignment.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_set_world_overlay_state"
+          ]
+        },
+        "proximity_updated": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "build.onProximityUpdate();",
+          "rule": "Canonical guard selects notification; true only when supported live Drill assignment actually ran. Recache/events/other Building overrides remain deferred.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_set_world_overlay_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/DrillProximityLifecycleProof"
+    },
+    "source_drill_dominant_item_name_input": {
+      "status": "active",
+      "owner": "SourceDrillConsumptionRuntimeState.source_dominant_item_name_state",
+      "source_slice": "N2022",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "build.onProximityUpdate();",
+          "rule": "Actual game world containing canonical Tile store, placement index and readonly typed Item view.",
+          "used_by": [
+            "SourceDrillConsumptionRuntimeState.source_dominant_item_name_state"
+          ]
+        },
+        "sprite": {
+          "type": "Sprite2D",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public class DrillBuild extends Building{",
+          "rule": "Actual placed Building identity and existing frame metadata; nullable only for output name lookup.",
+          "used_by": [
+            "SourceDrillConsumptionRuntimeState.source_dominant_item_name_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/DrillProximityLifecycleProof"
+    },
+    "source_drill_dominant_item_name_result": {
+      "status": "active",
+      "owner": "SourceDrillConsumptionRuntimeState.source_dominant_item_name_state",
+      "source_slice": "N2022",
+      "keys": {
+        "item_id": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "offload(dominantItem);",
+          "rule": "Nullable exact registered content name resolved through shared numeric Item id; never global output slug or dictionary stringification. Actual primary offload and secondary local storage use this projection; C02 routing still open.",
+          "used_by": [
+            "SourceDrillConsumptionRuntimeState.source_dominant_item_name_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/DrillProximityLifecycleProof"
     }
   },
   "version": 1

@@ -599,6 +599,101 @@
       ],
       "runtime_proof": "/root/DrillOreBindingProof",
       "rule": "Canonical typed/source initialization prerequisite for live Drill ore selection. Actual Tile.drop/static/world proximity and dominant-item output remain deferred."
+    },
+    "SourceDrillConsumptionRuntimeState.source_dominant_item_name_state": {
+      "canonical_contract": "source_api_contracts.SourceDrillConsumptionRuntimeState.source_dominant_item_name_state",
+      "status": "active",
+      "source_slice": "N2022",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "DrillBuild.updateTile()",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_drill_dominant_item_name_input.game"
+        },
+        {
+          "name": "sprite",
+          "type": "Sprite2D",
+          "schema": "source_drill_dominant_item_name_input.sprite"
+        }
+      ],
+      "return_keys": [
+        "item_id"
+      ],
+      "tests": [
+        "test_proximity_lifecycle_contracts",
+        "test_actual_proximity_mutation_and_dominant_production"
+      ],
+      "runtime_proof": "/root/DrillProximityLifecycleProof",
+      "rule": "One world-scoped typed Item view; reuse canonical countOre/drop/Tile mutation and existing per-Building frame. No per-tick ore re-selection. Only stated partial lifecycle/production scope; deferred behaviors are recorded in ledger."
+    },
+    "SourceDrillConsumptionRuntimeState.source_on_proximity_update_state": {
+      "canonical_contract": "source_api_contracts.SourceDrillConsumptionRuntimeState.source_on_proximity_update_state",
+      "status": "active",
+      "source_slice": "N2021",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "DrillBuild.onProximityUpdate()",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_drill_live_proximity_input.game"
+        },
+        {
+          "name": "sprite",
+          "type": "Sprite2D",
+          "schema": "source_drill_live_proximity_input.sprite"
+        },
+        {
+          "name": "block",
+          "type": "Object",
+          "schema": "source_drill_live_proximity_input.block"
+        }
+      ],
+      "return_keys": [
+        "applied"
+      ],
+      "tests": [
+        "test_proximity_lifecycle_contracts",
+        "test_actual_proximity_mutation_and_dominant_production"
+      ],
+      "runtime_proof": "/root/DrillProximityLifecycleProof",
+      "rule": "One world-scoped typed Item view; reuse canonical countOre/drop/Tile mutation and existing per-Building frame. No per-tick ore re-selection. Only stated partial lifecycle/production scope; deferred behaviors are recorded in ledger."
+    },
+    "SourceDrillRuntimeState.source_on_proximity_update_state": {
+      "canonical_contract": "source_api_contracts.SourceDrillRuntimeState.source_on_proximity_update_state",
+      "status": "active",
+      "source_slice": "N2020",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "DrillBuild.onProximityUpdate()",
+      "params": [
+        {
+          "name": "linked_tiles",
+          "type": "Array",
+          "schema": "source_drill_proximity_assignment_input.linked_tiles"
+        },
+        {
+          "name": "tier",
+          "type": "int",
+          "schema": "source_drill_proximity_assignment_input.tier"
+        },
+        {
+          "name": "blocked_items",
+          "type": "Variant",
+          "schema": "source_drill_proximity_assignment_input.blocked_items"
+        }
+      ],
+      "return_keys": [
+        "dominant_item",
+        "dominant_items"
+      ],
+      "tests": [
+        "test_proximity_lifecycle_contracts",
+        "test_actual_proximity_mutation_and_dominant_production"
+      ],
+      "runtime_proof": "/root/DrillProximityLifecycleProof",
+      "rule": "One world-scoped typed Item view; reuse canonical countOre/drop/Tile mutation and existing per-Building frame. No per-tick ore re-selection. Only stated partial lifecycle/production scope; deferred behaviors are recorded in ledger."
     }
   }
 }

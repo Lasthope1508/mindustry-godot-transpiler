@@ -93,6 +93,22 @@ static func source_game_world_tiles_state(game: Object, initial_build_state: Dic
 			tile["overlay"] = overlay
 	return world_tiles
 
+# Live overlay assignment/Drill notification only; rendering/events and other Building overrides remain separate.
+static func source_set_world_overlay_state(game: Object, x: int, y: int, block: Object, generating: bool) -> Dictionary:
+	var tile: Variant = source_world_tile(game.get("source_world_tiles"), x, y)
+	assert(tile != null and block != null, "Tile overlay mutation requires resolved world/content")
+	var sprite: Variant = game.call("block_sprite_at_cell", Vector2i(x, y))
+	var mutation := source_block_geometry.tile_overlay_mutation_state("set_overlay", block, tile["overlay"], false, generating, sprite != null)
+	if mutation["same_overlay"]:
+		return {"changed": false, "proximity_updated": false}
+	tile["overlay"] = mutation["overlay"]
+	var applied := false
+	if mutation["proximity_updated"]:
+		var catalog: Object = game.get("content_catalog")
+		var placed_block: Object = catalog.get_by_id(sprite.get_meta(SourcePlacedBlockState.SOURCE_BLOCK_ID_META_KEY))
+		applied = SourceDrillConsumptionRuntimeState.source_on_proximity_update_state(game, sprite, placed_block)["applied"]
+	return {"changed": true, "proximity_updated": applied}
+
 static func source_tile_ore_state(tile: Dictionary, item_catalog: Dictionary, air_block: Object) -> Dictionary:
 	var floor_block: Object = tile["floor"]
 	var overlay_block: Object = tile["overlay"]

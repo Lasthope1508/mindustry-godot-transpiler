@@ -1,0 +1,127 @@
+{
+  "source_drill_proximity_assignment_input.tier": {
+    "source": "core/src/mindustry/world/blocks/production/Drill.java",
+    "expression": "drops.hardness <= tier",
+    "matched": true
+  },
+  "source_world_drill_overlay_input.y": {
+    "source": "core/src/mindustry/world/Tile.java",
+    "expression": "public short x, y;",
+    "matched": true
+  },
+  "source_drill_proximity_assignment_result.dominant_item": {
+    "source": "core/src/mindustry/world/blocks/production/Drill.java",
+    "expression": "public Item dominantItem;",
+    "matched": true
+  },
+  "source_world_drill_overlay_result.changed": {
+    "source": "core/src/mindustry/world/Tile.java",
+    "expression": "if(this.overlay == block) return;",
+    "matched": true
+  },
+  "source_drill_proximity_assignment_input.linked_tiles": {
+    "source": "core/src/mindustry/world/blocks/production/Drill.java",
+    "expression": "for(Tile other : tile.getLinkedTilesAs(this, tempTiles)){",
+    "matched": true
+  },
+  "source_drill_live_proximity_input.block": {
+    "source": "core/src/mindustry/world/blocks/production/Drill.java",
+    "expression": "countOre(tile);",
+    "matched": true
+  },
+  "source_drill_get_drop_input.tile": {
+    "source": "core/src/mindustry/world/Tile.java",
+    "expression": "return overlay == Blocks.air || overlay.itemDrop == null ? floor.itemDrop : overlay.itemDrop;",
+    "matched": true
+  },
+  "source_drill_pickup_assignment_input.frame": {
+    "source": "core/src/mindustry/world/blocks/production/Drill.java",
+    "expression": "public class DrillBuild extends Building{",
+    "matched": true
+  },
+  "source_drill_dominant_item_name_input.game": {
+    "source": "core/src/mindustry/world/Tile.java",
+    "expression": "build.onProximityUpdate();",
+    "matched": true
+  },
+  "source_drill_dominant_item_name_input.sprite": {
+    "source": "core/src/mindustry/world/blocks/production/Drill.java",
+    "expression": "public class DrillBuild extends Building{",
+    "matched": true
+  },
+  "source_drill_dominant_item_name_result.item_id": {
+    "source": "core/src/mindustry/world/blocks/production/Drill.java",
+    "expression": "offload(dominantItem);",
+    "matched": true
+  },
+  "drill_proximity.world_item_catalog": {
+    "source": "core/src/mindustry/core/ContentLoader.java",
+    "expression": "return getBy(ContentType.item);",
+    "matched": true
+  },
+  "source_drill_live_proximity_result.applied": {
+    "source": "core/src/mindustry/world/blocks/production/Drill.java",
+    "expression": "dominantItem = returnItem;",
+    "matched": true
+  },
+  "source_world_drill_overlay_result.proximity_updated": {
+    "source": "core/src/mindustry/world/Tile.java",
+    "expression": "build.onProximityUpdate();",
+    "matched": true
+  },
+  "source_world_drill_overlay_input.block": {
+    "source": "core/src/mindustry/world/Tile.java",
+    "expression": "this.overlay = (Floor)block;",
+    "matched": true
+  },
+  "source_drill_get_drop_result.drop": {
+    "source": "core/src/mindustry/world/blocks/production/Drill.java",
+    "expression": "return tile.drop();",
+    "matched": true
+  },
+  "source_drill_live_pickup_input.sprite": {
+    "source": "core/src/mindustry/world/blocks/production/Drill.java",
+    "expression": "public class DrillBuild extends Building{",
+    "matched": true
+  },
+  "source_drill_proximity_assignment_input.blocked_items": {
+    "source": "core/src/mindustry/world/blocks/production/Drill.java",
+    "expression": "(blockedItems == null || !blockedItems.contains(drops))",
+    "matched": true
+  },
+  "source_drill_live_proximity_input.game": {
+    "source": "core/src/mindustry/world/Tile.java",
+    "expression": "build.onProximityUpdate();",
+    "matched": true
+  },
+  "source_world_drill_overlay_input.x": {
+    "source": "core/src/mindustry/world/Tile.java",
+    "expression": "public short x, y;",
+    "matched": true
+  },
+  "source_world_drill_overlay_input.generating": {
+    "source": "core/src/mindustry/world/Tile.java",
+    "expression": "if(!world.isGenerating() && build != null){",
+    "matched": true
+  },
+  "source_drill_live_proximity_input.sprite": {
+    "source": "core/src/mindustry/world/blocks/production/Drill.java",
+    "expression": "public class DrillBuild extends Building{",
+    "matched": true
+  },
+  "source_drill_proximity_assignment_result.dominant_items": {
+    "source": "core/src/mindustry/world/blocks/production/Drill.java",
+    "expression": "dominantItems = returnCount;",
+    "matched": true
+  },
+  "source_world_drill_overlay_input.game": {
+    "source": "core/src/mindustry/world/Tile.java",
+    "expression": "build.onProximityUpdate();",
+    "matched": true
+  },
+  "source_drill_pickup_assignment_result.dominant_item": {
+    "source": "core/src/mindustry/world/blocks/production/Drill.java",
+    "expression": "dominantItem = null;",
+    "matched": true
+  }
+}

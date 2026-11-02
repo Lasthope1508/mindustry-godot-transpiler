@@ -430,6 +430,73 @@
         "test_real_catalog_drill_binding_in_godot"
       ],
       "runtime_proof": "/root/DrillOreBindingProof"
+    },
+    "N2020": {
+      "canonical_ledger": "source_slice_ledger.N2020",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "getDrop(Tile); DrillBuild.onProximityUpdate(); pickedUp()",
+      "godot_owner": "SourceDrillRuntimeState.source_on_proximity_update_state",
+      "source_symbols": [
+        "source_drill_get_drop_input.tile",
+        "source_drill_get_drop_result.drop",
+        "source_drill_proximity_assignment_input.linked_tiles",
+        "source_drill_proximity_assignment_input.tier",
+        "source_drill_proximity_assignment_input.blocked_items",
+        "source_drill_proximity_assignment_result.dominant_item",
+        "source_drill_proximity_assignment_result.dominant_items",
+        "source_drill_pickup_assignment_input.frame",
+        "source_drill_pickup_assignment_result.dominant_item"
+      ],
+      "tests": [
+        "test_proximity_lifecycle_contracts",
+        "test_actual_proximity_mutation_and_dominant_production"
+      ],
+      "runtime_proof": "/root/DrillProximityLifecycleProof"
+    },
+    "N2021": {
+      "canonical_ledger": "source_slice_ledger.N2021",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.onProximityUpdate()",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_on_proximity_update_state",
+      "source_symbols": [
+        "source_drill_live_proximity_input.game",
+        "source_drill_live_proximity_input.sprite",
+        "source_drill_live_proximity_input.block",
+        "source_drill_live_proximity_result.applied",
+        "source_drill_live_pickup_input.sprite",
+        "source_world_drill_overlay_input.game",
+        "source_world_drill_overlay_input.x",
+        "source_world_drill_overlay_input.y",
+        "source_world_drill_overlay_input.block",
+        "source_world_drill_overlay_input.generating",
+        "source_world_drill_overlay_result.changed",
+        "source_world_drill_overlay_result.proximity_updated",
+        "drill_proximity.world_item_catalog"
+      ],
+      "tests": [
+        "test_proximity_lifecycle_contracts",
+        "test_actual_proximity_mutation_and_dominant_production"
+      ],
+      "runtime_proof": "/root/DrillProximityLifecycleProof"
+    },
+    "N2022": {
+      "canonical_ledger": "source_slice_ledger.N2022",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.updateTile()",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_dominant_item_name_state",
+      "source_symbols": [
+        "source_drill_dominant_item_name_input.game",
+        "source_drill_dominant_item_name_input.sprite",
+        "source_drill_dominant_item_name_result.item_id"
+      ],
+      "tests": [
+        "test_proximity_lifecycle_contracts",
+        "test_actual_proximity_mutation_and_dominant_production"
+      ],
+      "runtime_proof": "/root/DrillProximityLifecycleProof"
     }
   }
 }

@@ -1,0 +1,67 @@
+import importlib.util,json,sys
+from pathlib import Path
+spec=importlib.util.spec_from_file_location('prior','C:/tmp/tile-ore-scope.py');s=importlib.util.module_from_spec(spec);spec.loader.exec_module(s)
+ROOT=s.ROOT;BEFORE=Path('C:/tmp/drill-proximity-before');GEN=s.GEN
+ROOTS={'source_symbol_registry.json':('symbols',25),'source_api_contracts.json':('contracts',6),'source_state_schema.json':('schemas',13),'source_slice_ledger.json':('slices',3)}
+RUNTIME=['godot-mindustry/src/game/'+n+'.gd' for n in ['SourceDrillRuntimeState','SourceDrillConsumptionRuntimeState','SourceWorldTerrainRuntimeState','SourceWorldInitialBuildRuntimeState','SourceFactoryRuntimeState']]
+RUNTIME+=['godot-mindustry/tools/runtime_proofs/DrillLiveConsumptionProof.gd', 'tools/mindustry_godot_transpiler/tests/test_playable.py']
+
+def runtime_plan(p):
+ a,b,c=s.read(p,BEFORE),s.read(p),s.git('show','HEAD:'+p)
+ if p.endswith('tests/test_playable.py'):
+  old='game.call("source_offload_to_inventory", drill_output_item_id, int(apply_state.get(source_drill_production_runtime_state_script.SOURCE_DRILL_PRODUCTION_OFFLOAD_AMOUNT_KEY, 0)))'
+  prefix='game.call("source_offload_to_inventory", drill_output_item_id, int(apply_state.get(source_drill_production_runtime_state_script.SOURCE_DRILL_PRODUCTION_OFFLOAD_AMOUNT_KEY'
+  new='game.call("source_offload_to_inventory", drill_output_item_id, offload_amount)'
+  assert a.count(old)==c.count(old)==5 and a.count(prefix)==c.count(prefix)==6
+  dump='if bool(apply_state.get(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_SHOULD_DUMP_KEY, false)):'
+  guarded='if drill_output_item_id != null and '+dump[3:]
+  assert a.count(dump)==c.count(dump)==1
+  assert a.replace(old,new).replace(prefix,new).replace(dump,guarded)==b
+  return c.replace(old,new).replace(prefix,new).replace(dump,guarded)
+ if p.endswith('SourceWorldTerrainRuntimeState.gd'):
+  start=b.index('# Live overlay assignment/Drill notification only;')
+  end=b.index('static func source_tile_ore_state(',start)
+  addition=b[start:end];assert b.replace(addition,'',1)==a
+  anchor='static func source_tile_ore_state(';assert c.count(anchor)==1
+  return c.replace(anchor,addition+anchor,1)
+ return s.delta(a,b,c)
+def port_plan():
+ c=s.git('show','HEAD:godot-mindustry/src/game/PortGame.gd')
+ field='var source_world_tiles: Dictionary = {}\n';assert c.count(field)==1
+ c=c.replace(field,field+'var source_item_catalog: Dictionary = {}\n',1)
+ hook='\t\tSourceWorldTerrainRuntimeState.source_record_world_block(world_tiles, block, cell.x, cell.y, float(get("tile_size")))\n';assert c.count(hook)==1
+ return c.replace(hook,hook+'\t\tSourceDrillConsumptionRuntimeState.source_on_proximity_update_state(self, sprite, block)\n',1)
+def json_paths():
+ paths=[GEN+n for n in ROOTS]
+ for m in json.loads(s.read(GEN+'source_ssot_modules.json'))['modules'].values():
+  p='godot-mindustry/'+m['path']
+  if json.loads(s.read(p))!=json.loads(s.read(p,BEFORE)):paths.append(p)
+ return list(dict.fromkeys(paths))
+def main():
+ assert s.git('rev-parse','HEAD').startswith('9bfecb91')
+ out={'parent':s.git('rev-parse','HEAD').strip(),'json':{},'runtime':{}}
+ for p in json_paths():
+  a,b,c=json.loads(s.read(p,BEFORE)),json.loads(s.read(p)),json.loads(s.git('show','HEAD:'+p));planned=s.merge(a,b,c)
+  if p.removeprefix(GEN) in ROOTS:
+   key,count=ROOTS[p.removeprefix(GEN)];added=sorted(set(b[key])-set(a[key]));print(p,len(added),'expected',count)
+   assert len(added)==count,(p,len(added),count)
+   assert all(b[key].get(k)==v for k,v in a[key].items())
+   assert {k:v for k,v in a.items() if k!=key}=={k:v for k,v in b.items() if k!=key}
+   out['json'][p]={'additions':added,'preexisting_dirty':a!=c}
+  else:out['json'][p]={'preexisting_dirty':a!=c}
+  if '--stage' in sys.argv:s.stage(p,json.dumps(planned,indent=2)+'\n')
+ for p in RUNTIME:
+  planned=runtime_plan(p);out['runtime'][p]={'preexisting_dirty':s.read(p,BEFORE)!=s.git('show','HEAD:'+p),'delta':list(__import__('difflib').unified_diff(s.read(p,BEFORE).splitlines(),s.read(p).splitlines(),n=1))}
+  if '--stage' in sys.argv:s.stage(p,planned)
+ p='godot-mindustry/src/game/PortGame.gd';planned=port_plan();out['runtime'][p]={'mapping':'World-scoped typed Item view and placement proximity call from working facade bridges mapped into same existing functions/state in HEAD PortGame; unrelated facade work preserved.'}
+ if '--stage' in sys.argv:s.stage(p,planned)
+ for name in ['source_ssot_modules.json','source_symbol_audit_report.json','content_registry.json','MindustryContentRegistry.gd']:
+  if (BEFORE/(GEN+name)).exists():
+   assert s.read(GEN+name)==s.read(GEN+name,BEFORE),name
+  else:
+   import hashlib
+   prior=json.loads(Path('C:/tmp/world-tile-replay.json').read_text())['files'][GEN+name]['after']
+   assert hashlib.sha256((ROOT/(GEN+name)).read_bytes()).hexdigest()==prior,name
+ Path('C:/tmp/drill-proximity-scope.json').write_text(json.dumps(out,indent=2)+'\n',encoding='utf-8')
+ print('Only source-backed additions; existing entries/content/manifest/audit preserved; contextual code and semantic PortGame mapping PASS')
+if __name__=='__main__':main()

@@ -38,11 +38,11 @@ func _ready() -> void:
 	var block = catalog.get_many("block").filter(func(value): return value.id == "mechanical-drill")[0]
 	var second := Sprite2D.new()
 	game.add_child(second)
-	var second_cell := Vector2i(100, 100)
-	game.call("record_placed_block", second, block, second_cell)
-	var ores: Dictionary = game.get("ore_items_by_cell")
+	var second_cell := Vector2i(28, 20)
+	var terrain := preload("res://src/game/SourceWorldTerrainRuntimeState.gd")
 	for occupied in game.call("occupied_cells", second_cell, block):
-		ores[game.call("cell_key", occupied)] = game.get("drill_output_item_id")
+		terrain.source_set_world_overlay_state(game, occupied.x, occupied.y, catalog.get_by_id("ore-copper"), false)
+	game.call("record_placed_block", second, block, second_cell)
 	var unique: Array = placed.source_unique_buildings_state(game)["buildings"]
 	var unique_matches: bool = unique.count(first) == 1 and unique.count(second) == 1
 	var second_origin_values: Dictionary = game.get("placed_block_origins")
@@ -77,11 +77,11 @@ func _ready() -> void:
 	var full_matches: bool = first_liquids["liquids"][0] == 1.0 and first_frame["efficiency"] == 0.0
 	game.set("drill_items", {})
 	for occupied in game.call("occupied_cells", cell, block):
-		ores.erase(game.call("cell_key", occupied))
+		terrain.source_set_world_overlay_state(game, occupied.x, occupied.y, catalog.get_by_id("air"), false)
 	tick(game)
 	var no_ore_matches: bool = first_liquids["liquids"][0] == 1.0 and first_frame["efficiency"] == 0.0 and first_frame["dominant_item"] == null
 	for occupied in game.call("occupied_cells", cell, block):
-		ores[game.call("cell_key", occupied)] = game.get("drill_output_item_id")
+		terrain.source_set_world_overlay_state(game, occupied.x, occupied.y, catalog.get_by_id("ore-copper"), false)
 	game.set_process(true)
 	await get_tree().process_frame
 	await get_tree().process_frame
