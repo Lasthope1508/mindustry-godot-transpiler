@@ -6753,7 +6753,9 @@
             "liquid": "water",
             "optional": true
           }
-        ]
+        ],
+        "blockedItem": null,
+        "blockedItems": null
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/drills/mechanical-drill.png"
     },
@@ -6792,7 +6794,9 @@
             "liquid": "water",
             "optional": true
           }
-        ]
+        ],
+        "blockedItem": null,
+        "blockedItems": null
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/drills/pneumatic-drill.png"
     },
@@ -6843,7 +6847,9 @@
             "liquid": "water",
             "optional": true
           }
-        ]
+        ],
+        "blockedItem": null,
+        "blockedItems": null
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/drills/laser-drill.png"
     },
@@ -6895,7 +6901,9 @@
             "liquid": "water",
             "optional": true
           }
-        ]
+        ],
+        "blockedItem": null,
+        "blockedItems": null
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/drills/blast-drill.png"
     },
@@ -7285,7 +7293,9 @@
             "liquid": "ozone",
             "optional": true
           }
-        ]
+        ],
+        "blockedItem": "thorium",
+        "blockedItems": null
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/drills/impact-drill.png"
     },
@@ -7339,7 +7349,9 @@
             "liquid": "cyanogen",
             "optional": true
           }
-        ]
+        ],
+        "blockedItem": null,
+        "blockedItems": null
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/drills/eruption-drill.png"
     },

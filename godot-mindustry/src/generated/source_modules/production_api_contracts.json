@@ -535,6 +535,70 @@
       ],
       "runtime_proof": "/root/DrillOreSelectionProof",
       "rule": "Canonical source state over explicit initialized source facts. Existing selected-item ore_count preview remains a bounded map counter; live mixed-ore binding/proximity integration is deferred."
+    },
+    "SourceDrillRuntimeState.source_bind_ore_items_state": {
+      "canonical_contract": "source_api_contracts.SourceDrillRuntimeState.source_bind_ore_items_state",
+      "status": "active",
+      "source_slice": "N2013",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "init(); canMine(Tile tile)",
+      "params": [
+        {
+          "name": "block",
+          "type": "Object",
+          "schema": "source_drill_bind_ore_items_input.block"
+        },
+        {
+          "name": "item_catalog",
+          "type": "Dictionary",
+          "schema": "source_drill_bind_ore_items_input.item_catalog"
+        }
+      ],
+      "return_keys": [
+        "blocked_items"
+      ],
+      "tests": [
+        "test_blocked_item_parser_preserves_fields_null_and_order",
+        "test_ancestry_constructor_overrides_and_unresolved_descendants",
+        "test_real_registry_exports_drill_ancestry_and_blocked_fields",
+        "test_item_registration_order_and_source_priority_survive_export",
+        "test_ore_binding_contracts_are_registered_in_own_slices",
+        "test_real_catalog_drill_binding_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreBindingProof",
+      "rule": "Canonical typed/source initialization prerequisite for live Drill ore selection. Actual Tile.drop/static/world proximity and dominant-item output remain deferred."
+    },
+    "SourceDrillRuntimeState.source_init_blocked_items_state": {
+      "canonical_contract": "source_api_contracts.SourceDrillRuntimeState.source_init_blocked_items_state",
+      "status": "active",
+      "source_slice": "N2012",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "init()",
+      "params": [
+        {
+          "name": "blocked_items",
+          "type": "Variant",
+          "schema": "source_drill_init_blocked_items_input.blocked_items"
+        },
+        {
+          "name": "blocked_item",
+          "type": "Variant",
+          "schema": "source_drill_init_blocked_items_input.blocked_item"
+        }
+      ],
+      "return_keys": [
+        "blocked_items"
+      ],
+      "tests": [
+        "test_blocked_item_parser_preserves_fields_null_and_order",
+        "test_ancestry_constructor_overrides_and_unresolved_descendants",
+        "test_real_registry_exports_drill_ancestry_and_blocked_fields",
+        "test_item_registration_order_and_source_priority_survive_export",
+        "test_ore_binding_contracts_are_registered_in_own_slices",
+        "test_real_catalog_drill_binding_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreBindingProof",
+      "rule": "Canonical typed/source initialization prerequisite for live Drill ore selection. Actual Tile.drop/static/world proximity and dominant-item output remain deferred."
     }
   }
 }

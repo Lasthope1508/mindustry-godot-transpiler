@@ -1,0 +1,264 @@
+{
+  "parent": "295188b68407e540e75c9e4275554cb5cdaf991e",
+  "json": {
+    "godot-mindustry/src/generated/source_symbol_registry.json": {
+      "added": [
+        "item.low_priority",
+        "source_drill_bind_ore_items_input.block",
+        "source_drill_bind_ore_items_input.item_catalog",
+        "source_drill_bind_ore_items_result.blocked_items",
+        "source_drill_blocked_definition.blockedItem",
+        "source_drill_blocked_definition.blockedItems",
+        "source_drill_init_blocked_items_input.blocked_item",
+        "source_drill_init_blocked_items_input.blocked_items",
+        "source_drill_init_blocked_items_result.blocked_items",
+        "source_item_catalog_input.content_catalog",
+        "source_item_catalog_result.item_facts_by_field",
+        "source_item_catalog_result.item_facts_by_name",
+        "source_item_catalog_result.item_names_by_id"
+      ],
+      "preexisting_dirty": false
+    },
+    "godot-mindustry/src/generated/source_api_contracts.json": {
+      "added": [
+        "SourceContentRegistryRuntimeState.source_item_catalog_state",
+        "SourceDrillRuntimeState.source_bind_ore_items_state",
+        "SourceDrillRuntimeState.source_init_blocked_items_state"
+      ],
+      "preexisting_dirty": false
+    },
+    "godot-mindustry/src/generated/source_state_schema.json": {
+      "added": [
+        "source_drill_bind_ore_items_input",
+        "source_drill_bind_ore_items_result",
+        "source_drill_blocked_definition",
+        "source_drill_init_blocked_items_input",
+        "source_drill_init_blocked_items_result",
+        "source_item_catalog_input",
+        "source_item_catalog_result"
+      ],
+      "preexisting_dirty": true
+    },
+    "godot-mindustry/src/generated/source_slice_ledger.json": {
+      "added": [
+        "N2011",
+        "N2012",
+        "N2013"
+      ],
+      "preexisting_dirty": false
+    },
+    "godot-mindustry/src/generated/content_registry.json": {
+      "changed_blocks": [
+        "mechanical-drill",
+        "pneumatic-drill",
+        "laser-drill",
+        "blast-drill",
+        "impact-drill",
+        "eruption-drill"
+      ],
+      "preexisting_dirty": false
+    },
+    "godot-mindustry/src/generated/source_modules/content_registry_blocks.json": {
+      "changed_blocks": [
+        "blast-drill",
+        "eruption-drill",
+        "impact-drill",
+        "laser-drill",
+        "mechanical-drill",
+        "pneumatic-drill"
+      ],
+      "preexisting_dirty": false
+    },
+    "godot-mindustry/src/generated/source_modules/production_api_contracts.json": {
+      "added": [
+        "SourceDrillRuntimeState.source_bind_ore_items_state",
+        "SourceDrillRuntimeState.source_init_blocked_items_state"
+      ],
+      "preexisting_dirty": true
+    },
+    "godot-mindustry/src/generated/source_modules/production_slices.json": {
+      "added": [
+        "N2012",
+        "N2013"
+      ],
+      "preexisting_dirty": true
+    },
+    "godot-mindustry/src/generated/source_modules/production_state_schema.json": {
+      "added": [
+        "source_drill_bind_ore_items_input",
+        "source_drill_init_blocked_items_input"
+      ],
+      "preexisting_dirty": true
+    },
+    "godot-mindustry/src/generated/source_modules/production_symbols.json": {
+      "added": [
+        "source_drill_bind_ore_items_input.block",
+        "source_drill_bind_ore_items_input.item_catalog",
+        "source_drill_bind_ore_items_result.blocked_items",
+        "source_drill_blocked_definition.blockedItem",
+        "source_drill_blocked_definition.blockedItems",
+        "source_drill_init_blocked_items_input.blocked_item",
+        "source_drill_init_blocked_items_input.blocked_items",
+        "source_drill_init_blocked_items_result.blocked_items"
+      ],
+      "preexisting_dirty": true
+    }
+  },
+  "runtime": {
+    "godot-mindustry/src/generated/MindustryContentRegistry.gd": {
+      "rebuilt_from_staged_canonical_content": true
+    },
+    "godot-mindustry/src/game/SourceContentRegistryRuntimeState.gd": {
+      "preexisting_dirty": true,
+      "delta": [
+        "--- \n",
+        "+++ \n",
+        "@@ -2,2 +2,16 @@\n",
+        " class_name SourceContentRegistryRuntimeState",
+        "+",
+        "+static func source_item_catalog_state(content_catalog: Object) -> Dictionary:",
+        "+\tvar items: Array = content_catalog.call(\"get_many\", \"item\")",
+        "+\tvar item_facts_by_name: Dictionary = {}",
+        "+\tvar item_facts_by_field: Dictionary = {}",
+        "+\tvar item_names_by_id: Array = []",
+        "+\tfor index in range(items.size()):",
+        "+\t\tvar item = items[index]",
+        "+\t\tassert(not item_facts_by_name.has(item.id) and not item_facts_by_field.has(item.field))",
+        "+\t\tvar facts := {\"id\": index, \"hardness\": item.hardness, \"low_priority\": item.low_priority}",
+        "+\t\titem_facts_by_name[item.id] = facts",
+        "+\t\titem_facts_by_field[item.field] = facts",
+        "+\t\titem_names_by_id.append(item.id)",
+        "+\treturn {\"item_facts_by_name\": item_facts_by_name, \"item_facts_by_field\": item_facts_by_field, \"item_names_by_id\": item_names_by_id}",
+        " "
+      ]
+    },
+    "godot-mindustry/src/game/SourceDrillRuntimeState.gd": {
+      "preexisting_dirty": true,
+      "delta": [
+        "--- \n",
+        "+++ \n",
+        "@@ -2,2 +2,20 @@\n",
+        " class_name SourceDrillRuntimeState",
+        "+",
+        "+static func source_init_blocked_items_state(blocked_items: Variant, blocked_item: Variant) -> Dictionary:",
+        "+\tif blocked_items == null and blocked_item != null:",
+        "+\t\tblocked_items = [blocked_item]",
+        "+\treturn {\"blocked_items\": blocked_items}",
+        "+",
+        "+static func source_bind_ore_items_state(block: Object, item_catalog: Dictionary) -> Dictionary:",
+        "+\tassert(block.properties.has(\"blockedItem\") and block.properties.has(\"blockedItems\"), \"Drill blocked-item source definitions are unresolved\")",
+        "+\tvar fields: Dictionary = item_catalog[\"item_facts_by_field\"]",
+        "+\tvar blocked_item: Variant = null",
+        "+\tvar blocked_items: Variant = null",
+        "+\tif block.properties[\"blockedItem\"] != null:",
+        "+\t\tblocked_item = fields[block.properties[\"blockedItem\"]][\"id\"]",
+        "+\tif block.properties[\"blockedItems\"] != null:",
+        "+\t\tblocked_items = []",
+        "+\t\tfor field in block.properties[\"blockedItems\"]:",
+        "+\t\t\tblocked_items.append(fields[field][\"id\"])",
+        "+\treturn source_init_blocked_items_state(blocked_items, blocked_item)",
+        " "
+      ]
+    },
+    "godot-mindustry/src/mindustry/content/Item.gd": {
+      "preexisting_dirty": false,
+      "delta": [
+        "--- \n",
+        "+++ \n",
+        "@@ -5,2 +5,3 @@\n",
+        " var hardness := 0",
+        "+var low_priority := false",
+        " var cost := 1.0",
+        "@@ -16,2 +17,3 @@\n",
+        " \thardness = int(properties.get(\"hardness\", 0))",
+        "+\tlow_priority = bool(properties.get(\"lowPriority\", low_priority))",
+        " \tcost = float(properties.get(\"cost\", 1.0))"
+      ]
+    },
+    "tools/mindustry_godot_transpiler/mindustry_port/content_registry.py": {
+      "preexisting_dirty": false,
+      "delta": [
+        "--- \n",
+        "+++ \n",
+        "@@ -237,2 +237,3 @@\n",
+        "     default_item_capacity = _block_item_capacity_default(upstream_root)",
+        "+    drill_blocked_defaults = _drill_blocked_defaults(upstream_root)",
+        "     pattern = re.compile(r\"\\b([A-Za-z_]\\w*)\\s*=\\s*new\\s+([A-Za-z_]\\w*)\\s*\\(\\s*\\\"([^\\\"]+)\\\"\", re.MULTILINE)",
+        "@@ -244,2 +245,6 @@\n",
+        "         entry = {\"field\": field, \"id\": content_id, \"implementation\": implementation, \"properties\": _block_properties(source, match.end(), implementation, can_overdrive_defaults, has_items_defaults, default_item_capacity, power_defaults)}",
+        "+        if implementation in drill_blocked_defaults:",
+        "+            definitions = _drill_blocked_definitions(_initializer_body(source, match.end()))",
+        "+            if definitions is not None:",
+        "+                entry[\"properties\"].update({**drill_blocked_defaults[implementation], **definitions})",
+        "         if asset_root is not None:",
+        "@@ -248,2 +253,66 @@\n",
+        "     return blocks",
+        "+",
+        "+def _drill_blocked_definitions(initializer: str) -> dict[str, Any] | None:",
+        "+    \"\"\"Only unconditional null/Items fields/Seq.with references are resolved.\"\"\"",
+        "+    def item_field(node):",
+        "+        if not isinstance(node, javalang.tree.MemberReference) or node.qualifier != 'Items' or node.selectors or node.prefix_operators or node.postfix_operators:",
+        "+            raise ValueError('Unresolved Item field')",
+        "+        return node.member",
+        "+",
+        "+    try:",
+        "+        tokens = list(javalang.tokenizer.tokenize(initializer))",
+        "+        result = {}",
+        "+        depth = 0",
+        "+        for index, token in enumerate(tokens):",
+        "+            if token.value == '{': depth += 1",
+        "+            elif token.value == '}': depth -= 1",
+        "+            if token.value not in ('blockedItem', 'blockedItems'): continue",
+        "+            if depth != 2 or index == 0 or tokens[index - 1].value not in ('{', ';', '}') or tokens[index + 1].value != '=':",
+        "+                return None",
+        "+            end = next(i for i in range(index + 2, len(tokens)) if tokens[i].value == ';')",
+        "+            value = javalang.parse.parse_expression(' '.join(t.value for t in tokens[index + 2:end]))",
+        "+            if isinstance(value, Literal) and value.value == 'null' and not value.prefix_operators and not value.postfix_operators and not value.selectors:",
+        "+                result[token.value] = None",
+        "+            elif token.value == 'blockedItem':",
+        "+                result[token.value] = item_field(value)",
+        "+            elif isinstance(value, MethodInvocation) and value.qualifier == 'Seq' and value.member == 'with' and not value.selectors and not value.prefix_operators and not value.postfix_operators:",
+        "+                result[token.value] = [item_field(arg) for arg in value.arguments]",
+        "+            else:",
+        "+                return None",
+        "+        return result",
+        "+    except (ValueError, IndexError, StopIteration, javalang.parser.JavaSyntaxError, javalang.tokenizer.LexerError):",
+        "+        return None",
+        "+",
+        "+",
+        "+def _drill_blocked_defaults(upstream_root: Path) -> dict[str, dict[str, Any]]:",
+        "+    sources = {}",
+        "+    parents = {}",
+        "+    for path in (_source_world_dir(upstream_root) / 'blocks').rglob('*.java'):",
+        "+        text = path.read_text(encoding='utf-8', errors='replace')",
+        "+        match = re.search(r'\\bclass\\s+(\\w+)\\s+extends\\s+(\\w+)', text)",
+        "+        if match:",
+        "+            sources[match[1]], parents[match[1]] = text, match[2]",
+        "+    base = sources.get('Drill', '')",
+        "+    if not all(re.search(r'public\\s+@Nullable\\s+' + typ + r'\\s+' + field + r'\\s*;', base) for typ, field in [('Item', 'blockedItem'), ('Seq<Item>', 'blockedItems')]):",
+        "+        return {}",
+        "+    cache = {}",
+        "+",
+        "+    def resolve(name):",
+        "+        if name in cache: return cache[name]",
+        "+        if name == 'Drill':",
+        "+            values = {'blockedItem': None, 'blockedItems': None}",
+        "+        elif name in parents:",
+        "+            parent = resolve(parents[name])",
+        "+            if parent is None:",
+        "+                cache[name] = None",
+        "+                return None",
+        "+            values = dict(parent)",
+        "+        else:",
+        "+            return None",
+        "+        overrides = _drill_blocked_definitions('{' + _constructor_body(sources[name], name) + '}')",
+        "+        cache[name] = None if overrides is None else {**values, **overrides}",
+        "+        return cache[name]",
+        "+",
+        "+    return {name: value for name in sources if (value := resolve(name)) is not None}",
+        "+",
+        " "
+      ]
+    }
+  }
+}

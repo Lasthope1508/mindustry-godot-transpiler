@@ -235,6 +235,7 @@ def extract_blocks(upstream_root: Path, godot_root: Path | None = None) -> list[
     power_defaults = _power_defaults(upstream_root)
     has_items_defaults = _has_items_defaults(upstream_root)
     default_item_capacity = _block_item_capacity_default(upstream_root)
+    drill_blocked_defaults = _drill_blocked_defaults(upstream_root)
     pattern = re.compile(r"\b([A-Za-z_]\w*)\s*=\s*new\s+([A-Za-z_]\w*)\s*\(\s*\"([^\"]+)\"", re.MULTILINE)
     blocks = []
     for match in pattern.finditer(source):
@@ -242,10 +243,78 @@ def extract_blocks(upstream_root: Path, godot_root: Path | None = None) -> list[
         if field not in declared:
             continue
         entry = {"field": field, "id": content_id, "implementation": implementation, "properties": _block_properties(source, match.end(), implementation, can_overdrive_defaults, has_items_defaults, default_item_capacity, power_defaults)}
+        if implementation in drill_blocked_defaults:
+            definitions = _drill_blocked_definitions(_initializer_body(source, match.end()))
+            if definitions is not None:
+                entry["properties"].update({**drill_blocked_defaults[implementation], **definitions})
         if asset_root is not None:
             entry["texture"] = _block_texture_path(asset_root, content_id)
         blocks.append(entry)
     return blocks
+
+def _drill_blocked_definitions(initializer: str) -> dict[str, Any] | None:
+    """Only unconditional null/Items fields/Seq.with references are resolved."""
+    def item_field(node):
+        if not isinstance(node, javalang.tree.MemberReference) or node.qualifier != 'Items' or node.selectors or node.prefix_operators or node.postfix_operators:
+            raise ValueError('Unresolved Item field')
+        return node.member
+
+    try:
+        tokens = list(javalang.tokenizer.tokenize(initializer))
+        result = {}
+        depth = 0
+        for index, token in enumerate(tokens):
+            if token.value == '{': depth += 1
+            elif token.value == '}': depth -= 1
+            if token.value not in ('blockedItem', 'blockedItems'): continue
+            if depth != 2 or index == 0 or tokens[index - 1].value not in ('{', ';', '}') or tokens[index + 1].value != '=':
+                return None
+            end = next(i for i in range(index + 2, len(tokens)) if tokens[i].value == ';')
+            value = javalang.parse.parse_expression(' '.join(t.value for t in tokens[index + 2:end]))
+            if isinstance(value, Literal) and value.value == 'null' and not value.prefix_operators and not value.postfix_operators and not value.selectors:
+                result[token.value] = None
+            elif token.value == 'blockedItem':
+                result[token.value] = item_field(value)
+            elif isinstance(value, MethodInvocation) and value.qualifier == 'Seq' and value.member == 'with' and not value.selectors and not value.prefix_operators and not value.postfix_operators:
+                result[token.value] = [item_field(arg) for arg in value.arguments]
+            else:
+                return None
+        return result
+    except (ValueError, IndexError, StopIteration, javalang.parser.JavaSyntaxError, javalang.tokenizer.LexerError):
+        return None
+
+
+def _drill_blocked_defaults(upstream_root: Path) -> dict[str, dict[str, Any]]:
+    sources = {}
+    parents = {}
+    for path in (_source_world_dir(upstream_root) / 'blocks').rglob('*.java'):
+        text = path.read_text(encoding='utf-8', errors='replace')
+        match = re.search(r'\bclass\s+(\w+)\s+extends\s+(\w+)', text)
+        if match:
+            sources[match[1]], parents[match[1]] = text, match[2]
+    base = sources.get('Drill', '')
+    if not all(re.search(r'public\s+@Nullable\s+' + typ + r'\s+' + field + r'\s*;', base) for typ, field in [('Item', 'blockedItem'), ('Seq<Item>', 'blockedItems')]):
+        return {}
+    cache = {}
+
+    def resolve(name):
+        if name in cache: return cache[name]
+        if name == 'Drill':
+            values = {'blockedItem': None, 'blockedItems': None}
+        elif name in parents:
+            parent = resolve(parents[name])
+            if parent is None:
+                cache[name] = None
+                return None
+            values = dict(parent)
+        else:
+            return None
+        overrides = _drill_blocked_definitions('{' + _constructor_body(sources[name], name) + '}')
+        cache[name] = None if overrides is None else {**values, **overrides}
+        return cache[name]
+
+    return {name: value for name in sources if (value := resolve(name)) is not None}
+
 
 def _block_item_capacity_default(upstream_root: Path) -> int:
     block_source = (_source_world_dir(upstream_root) / "Block.java").read_text(encoding="utf-8", errors="replace")

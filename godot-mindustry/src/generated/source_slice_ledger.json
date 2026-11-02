@@ -49763,6 +49763,98 @@
         "Live Tile.drop/isStatic/getLinkedTilesAs providers, canonical Item ordinal binding and initialized blockedItems adapter.",
         "DrillBuild.onProximityUpdate assignment/invalidation and replacement of the bounded single-ore gameplay projection."
       ]
+    },
+    "N2011": {
+      "status": "done",
+      "java_source": "core/src/mindustry/ctype/Content.java",
+      "java_class": "mindustry.ctype.Content",
+      "java_method": "Content()",
+      "godot_owner": "SourceContentRegistryRuntimeState.source_item_catalog_state",
+      "exact_exprs": [
+        "this.id = (short)Vars.content.getBy(getContentType()).size;",
+        "Vars.content.handleContent(this);"
+      ],
+      "source_symbols": [
+        "source_item_catalog_input.content_catalog",
+        "source_item_catalog_result.item_facts_by_name",
+        "source_item_catalog_result.item_facts_by_field",
+        "source_item_catalog_result.item_names_by_id",
+        "item.low_priority"
+      ],
+      "tests": [
+        "test_blocked_item_parser_preserves_fields_null_and_order",
+        "test_ancestry_constructor_overrides_and_unresolved_descendants",
+        "test_real_registry_exports_drill_ancestry_and_blocked_fields",
+        "test_item_registration_order_and_source_priority_survive_export",
+        "test_ore_binding_contracts_are_registered_in_own_slices",
+        "test_real_catalog_drill_binding_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreBindingProof",
+      "deferred_exprs": [
+        "Actual world Tile.drop/isStatic/getLinkedTilesAs providers and proximity lifecycle.",
+        "Live mixed-ore output and subclass production, dynamic source expressions and reload invalidation."
+      ]
+    },
+    "N2012": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_class": "mindustry.world.blocks.production.Drill",
+      "java_method": "init()",
+      "godot_owner": "SourceDrillRuntimeState.source_init_blocked_items_state",
+      "exact_exprs": [
+        "if(blockedItems == null && blockedItem != null){",
+        "blockedItems = Seq.with(blockedItem);"
+      ],
+      "source_symbols": [
+        "source_drill_init_blocked_items_input.blocked_items",
+        "source_drill_init_blocked_items_input.blocked_item",
+        "source_drill_init_blocked_items_result.blocked_items",
+        "source_drill_blocked_definition.blockedItem",
+        "source_drill_blocked_definition.blockedItems"
+      ],
+      "tests": [
+        "test_blocked_item_parser_preserves_fields_null_and_order",
+        "test_ancestry_constructor_overrides_and_unresolved_descendants",
+        "test_real_registry_exports_drill_ancestry_and_blocked_fields",
+        "test_item_registration_order_and_source_priority_survive_export",
+        "test_ore_binding_contracts_are_registered_in_own_slices",
+        "test_real_catalog_drill_binding_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreBindingProof",
+      "deferred_exprs": [
+        "Actual world Tile.drop/isStatic/getLinkedTilesAs providers and proximity lifecycle.",
+        "Live mixed-ore output and subclass production, dynamic source expressions and reload invalidation."
+      ]
+    },
+    "N2013": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_class": "mindustry.world.blocks.production.Drill",
+      "java_method": "init(); canMine(Tile tile)",
+      "godot_owner": "SourceDrillRuntimeState.source_bind_ore_items_state",
+      "exact_exprs": [
+        "public @Nullable Item blockedItem;",
+        "public @Nullable Seq<Item> blockedItems;",
+        "blockedItems = Seq.with(blockedItem);"
+      ],
+      "source_symbols": [
+        "source_drill_bind_ore_items_input.block",
+        "source_drill_bind_ore_items_input.item_catalog",
+        "source_drill_bind_ore_items_result.blocked_items"
+      ],
+      "tests": [
+        "test_blocked_item_parser_preserves_fields_null_and_order",
+        "test_ancestry_constructor_overrides_and_unresolved_descendants",
+        "test_real_registry_exports_drill_ancestry_and_blocked_fields",
+        "test_item_registration_order_and_source_priority_survive_export",
+        "test_ore_binding_contracts_are_registered_in_own_slices",
+        "test_real_catalog_drill_binding_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreBindingProof",
+      "deferred_exprs": [
+        "Actual world Tile.drop/isStatic/getLinkedTilesAs providers and proximity lifecycle.",
+        "Live mixed-ore output and subclass production, dynamic source expressions and reload invalidation."
+      ]
     }
   },
   "version": 1

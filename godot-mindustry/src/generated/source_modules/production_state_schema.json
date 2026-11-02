@@ -691,6 +691,58 @@
           ]
         }
       }
+    },
+    "source_drill_bind_ore_items_input": {
+      "canonical_schema": "source_state_schema.source_drill_bind_ore_items_input",
+      "keys": {
+        "block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public void init(){",
+          "rule": "Actual Block with both source-backed definition keys present. Missing/unresolved definitions assert instead of assuming null.",
+          "schema": "source_drill_blocked_definition",
+          "used_by": [
+            "SourceDrillRuntimeState.source_bind_ore_items_state"
+          ]
+        },
+        "item_catalog": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/ctype/Content.java",
+          "java_expr": "this.id = (short)Vars.content.getBy(getContentType()).size;",
+          "rule": "Transient typed item view from source_item_catalog_state; Java field resolves to canonical numeric Item.id.",
+          "schema": "source_item_catalog_result",
+          "used_by": [
+            "SourceDrillRuntimeState.source_bind_ore_items_state"
+          ]
+        }
+      }
+    },
+    "source_drill_init_blocked_items_input": {
+      "canonical_schema": "source_state_schema.source_drill_init_blocked_items_input",
+      "keys": {
+        "blocked_items": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public @Nullable Seq<Item> blockedItems;",
+          "rule": "Explicit nullable Array of canonical numeric Item IDs. Existing empty/nonempty sequence is authoritative.",
+          "used_by": [
+            "SourceDrillRuntimeState.source_init_blocked_items_state"
+          ]
+        },
+        "blocked_item": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public @Nullable Item blockedItem;",
+          "rule": "Explicit nullable legacy Item numeric ID; Java reference field starts null.",
+          "used_by": [
+            "SourceDrillRuntimeState.source_init_blocked_items_state"
+          ]
+        }
+      }
     }
   }
 }

@@ -1,6 +1,6 @@
 # Backlog hoàn thiện Mindustry → Godot
 
-Ngày kiểm tra: 2026-11-02. Workspace: `C:/Users/Admin/Documents/Game/mindustry-godot-transpiler-copy-20260714-073528`. Parent của batch đang làm: `2c713403`. Đọc cùng handoff kiến trúc `2026-09-23-mindustry-godot-ssot-canonical-handoff.md`; tài liệu này cập nhật việc còn thiếu, không thay thế upstream Java hay root SSOT.
+Ngày kiểm tra: 2026-11-02. Workspace: `C:/Users/Admin/Documents/Game/mindustry-godot-transpiler-copy-20260714-073528`. Parent của checkpoint mới nhất N2011–N2013: `295188b6`. Đọc cùng handoff kiến trúc `2026-09-23-mindustry-godot-ssot-canonical-handoff.md`; tài liệu này cập nhật việc còn thiếu, không thay thế upstream Java hay root SSOT.
 
 ## Kết luận và cách hiểu tiến độ
 
@@ -37,7 +37,7 @@ Các dòng dưới đây là nhóm công việc, không phải cam kết mỗi n
 
 | ID | Nhóm task | Trạng thái hiện tại | Phụ thuộc |
 | --- | --- | --- | --- |
-| C01 | Ore selection và proximity của Drill | N2010 hoàn thiện thuật toán trên explicit facts; live binding còn mở | Content ID + tile facts |
+| C01 | Ore selection và proximity của Drill | N2010 state và N2011–N2013 typed Item/blocked binding accepted; actual world/proximity/output còn mở | Tile facts + proximity/output |
 | C02 | Output/dump/transport theo từng Building | Primary có đường composition cũ; secondary còn local fallback | C01 + Building inventory/neighbor |
 | C03 | Power consumer và Drill dùng điện | Có state power riêng; chưa nối consumer thật vào Drill live path | Consumer descriptor + power graph |
 | C04 | Liquid supply/flow/capacity/serialization | Kho và remove thật đã có; flow null, cấp nước sẵn trong proof | Building storage + network lifecycle |
@@ -54,7 +54,8 @@ Các dòng dưới đây là nhóm công việc, không phải cam kết mỗi n
 
 - **Owner:** mở rộng `SourceDrillRuntimeState`; game wiring tại `SourceDrillConsumptionRuntimeState`, tile/content providers giữ ở domain tương ứng.
 - **Đã làm trong N2010:** `source_can_mine_state` và `source_count_ore_state`: null/static/drop/tier/blocked guards; sort lowPriority → amount → numeric Item.id; chọn phần tử cuối; empty/reset và Item reference identity. Native/full acceptance của batch được ghi riêng trong report.
-- **Còn thiếu:** numeric Item ID lấy từ content registration order đúng type; effective hardness/lowPriority từ source; `Drill.init` blockedItem→blockedItems; actual `Tile.drop`, `getDrop`, static block và linked footprint; `DrillBuild.onProximityUpdate` assignment/invalidation.
+- **Đã làm trong N2011–N2013:** numeric Item ID theo typed registration order, effective hardness/lowPriority, metadata blockedItem/blockedItems theo source ancestry và canonical Drill.init/binding. Full/native/editor/replay accepted trong reports/2026-11-02-drill-item-blocked-binding.md.
+- **Còn thiếu:** actual `Tile.drop`, `getDrop`, static block và linked footprint; `DrillBuild.onProximityUpdate` assignment/invalidation; actual dominant-item output. C01-A chưa đóng toàn bộ.
 - **Không được làm:** lấy thứ tự dictionary làm Item.id; suy static từ có sprite/occupancy; default thiếu thành false/zero; dùng slug để phá hòa; tick quét map thay cho proximity lifecycle rồi gọi đó là parity.
 - **Checkpoint C01-A:** typed providers có source evidence và schema; test null/static/missing fields không fabricate value.
 - **Checkpoint C01-B:** live mixed-ore placement chọn đúng Item/amount khi ưu tiên, số lượng và ID xung đột; mutate footprint/proximity đổi dominant state đúng, pickup/removal reset đúng.
@@ -134,7 +135,11 @@ Các dòng dưới đây là nhóm công việc, không phải cam kết mỗi n
 ## Handoff bước tiếp theo
 
 1. Đọc report N2010 để biết gate thực tế và commit, không suy từ status trong tài liệu kế hoạch.
-2. Ưu tiên **C01-A**: item numeric ID/effective fields + explicit world tile facts. Giữ thuật toán N2010 là owner duy nhất; không viết lại sort trong binder.
+2. Tiếp tục **C01-A**: actual world terrain/Tile.drop/static/linked-footprint providers. N2011–N2013 đã có typed Item ID/effective fields và blocked initialization; giữ N2010 là owner sort duy nhất. Không suy static/drop từ ore-name projection thiếu metadata.
 3. **C01-B/C**: proximity lifecycle và actual dominant output item. Chỉ sau đó mở live mixed-ore gameplay và chuyển C02.
 4. C03/C04/C05 theo dependency; dựng C06 end-to-end proof trước mở thêm domain lớn.
 5. C08–C12 tiếp tục theo cluster, có checkpoint riêng. Không tuyên bố full game hoàn thành chỉ vì validator/full Python suite xanh.
+
+## Checkpoint tuần tự mới nhất
+
+N2011–N2013 accepted trong report `2026-11-02-drill-item-blocked-binding.md`. Goal C01–C12 vẫn đang thực hiện tuần tự; chưa nhóm nào được đánh dấu hoàn thiện toàn bộ chỉ từ batch prerequisite này. C01-A tiếp tục tại world tile facts.

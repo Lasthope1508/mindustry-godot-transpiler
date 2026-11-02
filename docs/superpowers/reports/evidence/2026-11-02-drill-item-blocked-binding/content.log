@@ -1,0 +1,2 @@
+generated {'items': 22, 'liquids': 11, 'blocks': 417, 'units': 56}
+[('mechanical-drill', None, None), ('pneumatic-drill', None, None), ('laser-drill', None, None), ('blast-drill', None, None), ('impact-drill', 'thorium', None), ('eruption-drill', None, None)]

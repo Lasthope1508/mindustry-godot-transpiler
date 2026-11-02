@@ -150143,6 +150143,240 @@
         "test_independent_ore_selection_matrix_in_godot"
       ],
       "runtime_proof": "/root/DrillOreSelectionProof"
+    },
+    "source_item_catalog_input.content_catalog": {
+      "status": "source-backed",
+      "godot_owner": "SourceContentRegistryRuntimeState.source_item_catalog_state",
+      "godot_symbol": "source_item_catalog_input.content_catalog",
+      "java_source": "core/src/mindustry/core/ContentLoader.java",
+      "java_method": "Content(); Drill.init()",
+      "java_expr": "contentMap[content.getContentType().ordinal()].add(content);",
+      "rule": "Existing typed catalog; read only item registration order, never global slug lookup or alphabetical sort.",
+      "tests": [
+        "test_blocked_item_parser_preserves_fields_null_and_order",
+        "test_ancestry_constructor_overrides_and_unresolved_descendants",
+        "test_real_registry_exports_drill_ancestry_and_blocked_fields",
+        "test_item_registration_order_and_source_priority_survive_export",
+        "test_ore_binding_contracts_are_registered_in_own_slices",
+        "test_real_catalog_drill_binding_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreBindingProof"
+    },
+    "source_item_catalog_result.item_facts_by_name": {
+      "status": "source-backed",
+      "godot_owner": "SourceContentRegistryRuntimeState.source_item_catalog_state",
+      "godot_symbol": "source_item_catalog_result.item_facts_by_name",
+      "java_source": "core/src/mindustry/ctype/Content.java",
+      "java_method": "Content(); Drill.init()",
+      "java_expr": "this.id = (short)Vars.content.getBy(getContentType()).size;",
+      "rule": "Transient slug lookup of source_drill_ore_item facts, with numeric id from the existing item sequence and effective typed Item hardness/lowPriority. No persistent registry.",
+      "tests": [
+        "test_blocked_item_parser_preserves_fields_null_and_order",
+        "test_ancestry_constructor_overrides_and_unresolved_descendants",
+        "test_real_registry_exports_drill_ancestry_and_blocked_fields",
+        "test_item_registration_order_and_source_priority_survive_export",
+        "test_ore_binding_contracts_are_registered_in_own_slices",
+        "test_real_catalog_drill_binding_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreBindingProof"
+    },
+    "source_item_catalog_result.item_facts_by_field": {
+      "status": "source-backed",
+      "godot_owner": "SourceContentRegistryRuntimeState.source_item_catalog_state",
+      "godot_symbol": "source_item_catalog_result.item_facts_by_field",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "Content(); Drill.init()",
+      "java_expr": "blockedItem = Items.thorium;",
+      "rule": "Transient Java-field lookup sharing the exact fact dictionary with the slug view. Unresolved references are not synthesized.",
+      "tests": [
+        "test_blocked_item_parser_preserves_fields_null_and_order",
+        "test_ancestry_constructor_overrides_and_unresolved_descendants",
+        "test_real_registry_exports_drill_ancestry_and_blocked_fields",
+        "test_item_registration_order_and_source_priority_survive_export",
+        "test_ore_binding_contracts_are_registered_in_own_slices",
+        "test_real_catalog_drill_binding_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreBindingProof"
+    },
+    "source_item_catalog_result.item_names_by_id": {
+      "status": "source-backed",
+      "godot_owner": "SourceContentRegistryRuntimeState.source_item_catalog_state",
+      "godot_symbol": "source_item_catalog_result.item_names_by_id",
+      "java_source": "core/src/mindustry/ctype/Content.java",
+      "java_method": "Content(); Drill.init()",
+      "java_expr": "this.id = (short)Vars.content.getBy(getContentType()).size;",
+      "rule": "Existing item slugs in numeric source registration order; no second numeric-ID assignment owner.",
+      "tests": [
+        "test_blocked_item_parser_preserves_fields_null_and_order",
+        "test_ancestry_constructor_overrides_and_unresolved_descendants",
+        "test_real_registry_exports_drill_ancestry_and_blocked_fields",
+        "test_item_registration_order_and_source_priority_survive_export",
+        "test_ore_binding_contracts_are_registered_in_own_slices",
+        "test_real_catalog_drill_binding_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreBindingProof"
+    },
+    "source_drill_init_blocked_items_input.blocked_items": {
+      "status": "source-backed",
+      "godot_owner": "SourceDrillRuntimeState.source_init_blocked_items_state",
+      "godot_symbol": "source_drill_init_blocked_items_input.blocked_items",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "Content(); Drill.init()",
+      "java_expr": "public @Nullable Seq<Item> blockedItems;",
+      "rule": "Explicit nullable Array of canonical numeric Item IDs. Existing empty/nonempty sequence is authoritative.",
+      "tests": [
+        "test_blocked_item_parser_preserves_fields_null_and_order",
+        "test_ancestry_constructor_overrides_and_unresolved_descendants",
+        "test_real_registry_exports_drill_ancestry_and_blocked_fields",
+        "test_item_registration_order_and_source_priority_survive_export",
+        "test_ore_binding_contracts_are_registered_in_own_slices",
+        "test_real_catalog_drill_binding_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreBindingProof"
+    },
+    "source_drill_init_blocked_items_input.blocked_item": {
+      "status": "source-backed",
+      "godot_owner": "SourceDrillRuntimeState.source_init_blocked_items_state",
+      "godot_symbol": "source_drill_init_blocked_items_input.blocked_item",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "Content(); Drill.init()",
+      "java_expr": "public @Nullable Item blockedItem;",
+      "rule": "Explicit nullable legacy Item numeric ID; Java reference field starts null.",
+      "tests": [
+        "test_blocked_item_parser_preserves_fields_null_and_order",
+        "test_ancestry_constructor_overrides_and_unresolved_descendants",
+        "test_real_registry_exports_drill_ancestry_and_blocked_fields",
+        "test_item_registration_order_and_source_priority_survive_export",
+        "test_ore_binding_contracts_are_registered_in_own_slices",
+        "test_real_catalog_drill_binding_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreBindingProof"
+    },
+    "source_drill_init_blocked_items_result.blocked_items": {
+      "status": "source-backed",
+      "godot_owner": "SourceDrillRuntimeState.source_init_blocked_items_state",
+      "godot_symbol": "source_drill_init_blocked_items_result.blocked_items",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "Content(); Drill.init()",
+      "java_expr": "if(blockedItems == null && blockedItem != null){",
+      "rule": "Only null sequence plus nonnull legacy item allocates [blocked_item], matching Seq.with(blockedItem). Otherwise preserve input sequence/null and identity.",
+      "tests": [
+        "test_blocked_item_parser_preserves_fields_null_and_order",
+        "test_ancestry_constructor_overrides_and_unresolved_descendants",
+        "test_real_registry_exports_drill_ancestry_and_blocked_fields",
+        "test_item_registration_order_and_source_priority_survive_export",
+        "test_ore_binding_contracts_are_registered_in_own_slices",
+        "test_real_catalog_drill_binding_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreBindingProof"
+    },
+    "source_drill_blocked_definition.blockedItem": {
+      "status": "source-backed",
+      "godot_owner": "SourceDrillRuntimeState.source_bind_ore_items_state",
+      "godot_symbol": "source_drill_blocked_definition.blockedItem",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "Content(); Drill.init()",
+      "java_expr": "public @Nullable Item blockedItem;",
+      "rule": "Generated immutable source field reference or null, resolved through actual Drill ancestry and constructor/initializer order. Dynamic/nested expressions leave both definition keys absent.",
+      "tests": [
+        "test_blocked_item_parser_preserves_fields_null_and_order",
+        "test_ancestry_constructor_overrides_and_unresolved_descendants",
+        "test_real_registry_exports_drill_ancestry_and_blocked_fields",
+        "test_item_registration_order_and_source_priority_survive_export",
+        "test_ore_binding_contracts_are_registered_in_own_slices",
+        "test_real_catalog_drill_binding_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreBindingProof"
+    },
+    "source_drill_blocked_definition.blockedItems": {
+      "status": "source-backed",
+      "godot_owner": "SourceDrillRuntimeState.source_bind_ore_items_state",
+      "godot_symbol": "source_drill_blocked_definition.blockedItems",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "Content(); Drill.init()",
+      "java_expr": "public @Nullable Seq<Item> blockedItems;",
+      "rule": "Generated null or ordered Java Item field list from supported direct Seq.with references. Explicit empty is preserved; source Drill.init conversion happens at runtime.",
+      "tests": [
+        "test_blocked_item_parser_preserves_fields_null_and_order",
+        "test_ancestry_constructor_overrides_and_unresolved_descendants",
+        "test_real_registry_exports_drill_ancestry_and_blocked_fields",
+        "test_item_registration_order_and_source_priority_survive_export",
+        "test_ore_binding_contracts_are_registered_in_own_slices",
+        "test_real_catalog_drill_binding_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreBindingProof"
+    },
+    "source_drill_bind_ore_items_input.block": {
+      "status": "source-backed",
+      "godot_owner": "SourceDrillRuntimeState.source_bind_ore_items_state",
+      "godot_symbol": "source_drill_bind_ore_items_input.block",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "Content(); Drill.init()",
+      "java_expr": "public void init(){",
+      "rule": "Actual Block with both source-backed definition keys present. Missing/unresolved definitions assert instead of assuming null.",
+      "tests": [
+        "test_blocked_item_parser_preserves_fields_null_and_order",
+        "test_ancestry_constructor_overrides_and_unresolved_descendants",
+        "test_real_registry_exports_drill_ancestry_and_blocked_fields",
+        "test_item_registration_order_and_source_priority_survive_export",
+        "test_ore_binding_contracts_are_registered_in_own_slices",
+        "test_real_catalog_drill_binding_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreBindingProof"
+    },
+    "source_drill_bind_ore_items_input.item_catalog": {
+      "status": "source-backed",
+      "godot_owner": "SourceDrillRuntimeState.source_bind_ore_items_state",
+      "godot_symbol": "source_drill_bind_ore_items_input.item_catalog",
+      "java_source": "core/src/mindustry/ctype/Content.java",
+      "java_method": "Content(); Drill.init()",
+      "java_expr": "this.id = (short)Vars.content.getBy(getContentType()).size;",
+      "rule": "Transient typed item view from source_item_catalog_state; Java field resolves to canonical numeric Item.id.",
+      "tests": [
+        "test_blocked_item_parser_preserves_fields_null_and_order",
+        "test_ancestry_constructor_overrides_and_unresolved_descendants",
+        "test_real_registry_exports_drill_ancestry_and_blocked_fields",
+        "test_item_registration_order_and_source_priority_survive_export",
+        "test_ore_binding_contracts_are_registered_in_own_slices",
+        "test_real_catalog_drill_binding_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreBindingProof"
+    },
+    "source_drill_bind_ore_items_result.blocked_items": {
+      "status": "source-backed",
+      "godot_owner": "SourceDrillRuntimeState.source_bind_ore_items_state",
+      "godot_symbol": "source_drill_bind_ore_items_result.blocked_items",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "Content(); Drill.init()",
+      "java_expr": "blockedItems = Seq.with(blockedItem);",
+      "rule": "Resolve source field references, delegate compatibility initialization to the canonical init owner, return null/ordered numeric IDs. Source metadata and Item storage are not mutated or cached.",
+      "tests": [
+        "test_blocked_item_parser_preserves_fields_null_and_order",
+        "test_ancestry_constructor_overrides_and_unresolved_descendants",
+        "test_real_registry_exports_drill_ancestry_and_blocked_fields",
+        "test_item_registration_order_and_source_priority_survive_export",
+        "test_ore_binding_contracts_are_registered_in_own_slices",
+        "test_real_catalog_drill_binding_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreBindingProof"
+    },
+    "item.low_priority": {
+      "status": "source-backed",
+      "godot_owner": "SourceContentRegistryRuntimeState.source_item_catalog_state",
+      "godot_symbol": "MindustryItem.low_priority",
+      "java_source": "core/src/mindustry/type/Item.java",
+      "java_method": "Item(String name, Color color)",
+      "java_expr": "public boolean lowPriority;",
+      "rule": "One typed Item field owns the Java implicit false default, then explicit generated lowPriority initialization overrides it. Catalog facts read that field.",
+      "tests": [
+        "test_blocked_item_parser_preserves_fields_null_and_order",
+        "test_ancestry_constructor_overrides_and_unresolved_descendants",
+        "test_real_registry_exports_drill_ancestry_and_blocked_fields",
+        "test_item_registration_order_and_source_priority_survive_export",
+        "test_ore_binding_contracts_are_registered_in_own_slices",
+        "test_real_catalog_drill_binding_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreBindingProof"
     }
   },
   "version": 1

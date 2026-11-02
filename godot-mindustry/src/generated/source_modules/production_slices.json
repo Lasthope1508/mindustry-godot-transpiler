@@ -386,6 +386,50 @@
         "test_independent_ore_selection_matrix_in_godot"
       ],
       "runtime_proof": "/root/DrillOreSelectionProof"
+    },
+    "N2012": {
+      "canonical_ledger": "source_slice_ledger.N2012",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "init()",
+      "godot_owner": "SourceDrillRuntimeState.source_init_blocked_items_state",
+      "source_symbols": [
+        "source_drill_init_blocked_items_input.blocked_items",
+        "source_drill_init_blocked_items_input.blocked_item",
+        "source_drill_init_blocked_items_result.blocked_items",
+        "source_drill_blocked_definition.blockedItem",
+        "source_drill_blocked_definition.blockedItems"
+      ],
+      "tests": [
+        "test_blocked_item_parser_preserves_fields_null_and_order",
+        "test_ancestry_constructor_overrides_and_unresolved_descendants",
+        "test_real_registry_exports_drill_ancestry_and_blocked_fields",
+        "test_item_registration_order_and_source_priority_survive_export",
+        "test_ore_binding_contracts_are_registered_in_own_slices",
+        "test_real_catalog_drill_binding_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreBindingProof"
+    },
+    "N2013": {
+      "canonical_ledger": "source_slice_ledger.N2013",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "init(); canMine(Tile tile)",
+      "godot_owner": "SourceDrillRuntimeState.source_bind_ore_items_state",
+      "source_symbols": [
+        "source_drill_bind_ore_items_input.block",
+        "source_drill_bind_ore_items_input.item_catalog",
+        "source_drill_bind_ore_items_result.blocked_items"
+      ],
+      "tests": [
+        "test_blocked_item_parser_preserves_fields_null_and_order",
+        "test_ancestry_constructor_overrides_and_unresolved_descendants",
+        "test_real_registry_exports_drill_ancestry_and_blocked_fields",
+        "test_item_registration_order_and_source_priority_survive_export",
+        "test_ore_binding_contracts_are_registered_in_own_slices",
+        "test_real_catalog_drill_binding_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreBindingProof"
     }
   }
 }

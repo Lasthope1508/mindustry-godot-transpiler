@@ -6425,6 +6425,8 @@
       "id": "mechanical-drill",
       "implementation": "Drill",
       "properties": {
+        "blockedItem": null,
+        "blockedItems": null,
         "canOverdrive": true,
         "category": "production",
         "connectedPower": true,
@@ -6459,6 +6461,8 @@
       "id": "pneumatic-drill",
       "implementation": "Drill",
       "properties": {
+        "blockedItem": null,
+        "blockedItems": null,
         "canOverdrive": true,
         "category": "production",
         "connectedPower": true,
@@ -6497,6 +6501,8 @@
       "id": "laser-drill",
       "implementation": "Drill",
       "properties": {
+        "blockedItem": null,
+        "blockedItems": null,
         "canOverdrive": true,
         "category": "production",
         "connectedPower": true,
@@ -6547,6 +6553,8 @@
       "id": "blast-drill",
       "implementation": "Drill",
       "properties": {
+        "blockedItem": null,
+        "blockedItems": null,
         "canOverdrive": true,
         "category": "production",
         "connectedPower": true,
@@ -6931,6 +6939,8 @@
       "id": "impact-drill",
       "implementation": "BurstDrill",
       "properties": {
+        "blockedItem": "thorium",
+        "blockedItems": null,
         "canOverdrive": true,
         "category": "production",
         "connectedPower": true,
@@ -6979,6 +6989,8 @@
       "id": "eruption-drill",
       "implementation": "BurstDrill",
       "properties": {
+        "blockedItem": null,
+        "blockedItems": null,
         "canOverdrive": true,
         "category": "production",
         "connectedPower": true,

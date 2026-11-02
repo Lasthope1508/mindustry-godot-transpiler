@@ -14,8 +14,8 @@ Counts below are projected from the canonical `source_slice_ledger.json`, not fr
 
 | Bucket | Count |
 | --- | ---: |
-| Canonical slice ledger entries | 1465 |
-| Done | 1465 |
+| Canonical slice ledger entries | 1468 |
+| Done | 1468 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -92,6 +92,9 @@ Counts below are projected from the canonical `source_slice_ledger.json`, not fr
 - [x] N2008: Actual Building traversal derives unique live instances from placed_blocks; time-scale decay visits each multi-cell building once, without another persistent registry.
 - [x] N2009: Automatic game-process consumption and production for power-free base Drill on a single-ore footprint; canonical predicates and callback dispatch feed the existing factory composition once. Power, mixed ore and complete secondary transport remain open.
 - [x] N2010: Canonical Drill canMine/countOre over explicit source facts: null/static/tier/blocked guards, lowPriority/count/numeric-ID ordering, empty/reset and Item identity. Reuses the existing Drill module; live mixed-ore map/proximity/output binding remains open.
+- [x] N2011: Typed Item registration sequence supplies numeric ore facts; Java field/slug views share fact identity and read canonical effective hardness/lowPriority. No global slug lookup or persistent alternate registry.
+- [x] N2012: Source Drill ancestry/constructor/initializer blocked definitions export null/Item fields/Seq.with order; canonical init preserves existing empty/nonempty sequences and converts legacy only on the source branch. Dynamic definitions remain unresolved.
+- [x] N2013: Actual Block blocked definitions bind through typed Item fields to numeric IDs, then delegate to canonical init and compose with countOre. World tile/proximity/output integration remains open.
 - [x] N167: Source BuildingComp drawConfigure canonical square state.
 - [x] N168: Source BuildingComp checkSolid default state.
 - [x] N169: Source BuildingComp handleDamage passthrough state.
@@ -1361,7 +1364,7 @@ Counts below are projected from the canonical `source_slice_ledger.json`, not fr
 
 Work now uses dependency cubes for prioritization without changing the verification contract. Each cube groups source Java, Godot runtime wiring, and playable behavior for one gameplay system. Inside a cube, every slice still moves linearly: read upstream Java, write RED tests, prove RED, implement minimal GREEN, run targeted/full tests, prove through Godot MCP runtime, update this checklist, run `git diff --check`, stage only touched tracked files, and commit.
 
-Current cube: `Drill ore selection canonical state`. N2010 completes canMine/countOre over explicit initialized Tile/Item facts in the existing Drill owner; it adds no live world inference or sorting duplicate. Ledger: 1465 records; catalog: 113 modules. N2007–N2009 automatic gameplay remains power-free and single-ore. Live typed item/tile providers, proximity invalidation and dominant-item output binding are C01-A/B/C; the full completion backlog has 12 domain groups and independent gates. See `reports/2026-11-02-drill-ore-selection.md` and `handoffs/2026-11-02-mindustry-completion-backlog.md`.
+Current cube: `typed Drill ore item and blocked initialization binding`. N2011–N2013 supply actual numeric Item identity/effective fields, source-preserving blocked definitions and actual Block initialization. Ledger: 1468 records; catalog: 113 modules. C01-A is advanced, not complete: terrain/Tile.drop/static/linked footprint providers remain open, followed by C01-B proximity and C01-C actual dominant output. C02–C12 stay open in the sequential completion backlog. See `reports/2026-11-02-drill-item-blocked-binding.md`.
 
 ## Done
 
@@ -3007,10 +3010,13 @@ Current cube: `Drill ore selection canonical state`. N2010 completes canMine/cou
 | N2008 | Unique live Building traversal | Transient instance deduplication fixes time-scale iteration over origin coordinates and supplies one game update per multi-cell Building; no second registry. |
 | N2009 | Automatic Drill consumption and production | Actual game process drives independent power-free base Drills on single-ore footprints. Canonical consumption precedes one production event and existing primary output composition. Focused 14 tests / 20 subtests; full 5364 / 22683 in 1030.23s; catalog 0 errors / 113 modules, native matches=true, editor exit 0. Power/mixed ore/complete secondary routing remain deferred. See reports/2026-11-02-drill-live-consumption.md. |
 | N2010 | Canonical Drill canMine/countOre | Source predicate and priority/count/numeric-ID sort share the existing Drill owner. 13 independent semantic cases plus registry checks; focused 5 tests / 6 subtests, full 5366 / 22708 in 1039.04s, catalog 0 errors / 113 modules, native matches=true, editor exit 0. Explicit facts only; live mixed-ore/proximity/output remains deferred. See reports/2026-11-02-drill-ore-selection.md. |
+| N2011 | Typed numeric Item ore facts | Existing typed registration order yields numeric identity and shared Java-field/slug facts; source lowPriority hydration is owned by MindustryItem. |
+| N2012 | Source blocked definitions and init | Actual Drill class ancestry and constructor order preserve null/Item/Seq.with definitions; unresolved writes remain unresolved. Source init preserves existing sequence identity and explicit empty precedence. |
+| N2013 | Actual Block blocked-item binding | Java fields resolve through the typed Item view, then canonical init/countOre compose without source mutation. Focused 16 / 15; full 5372 / 22734 in 1091.66s; catalog 0 errors / 113 modules, native matches=true, editor exit 0. Live world/proximity/output remains deferred. See reports/2026-11-02-drill-item-blocked-binding.md. |
 
 ## Not Done
 
-N2010 accepts canonical ore-selection state only. C01-A/B/C still need numeric Item/provider binding, actual Tile/drop/static/footprint facts, Drill.init blockedItems, proximity lifecycle and actual dominant-item output before mixed-ore gameplay is enabled. C02–C12 cover secondary output, power, liquid supply/flow, complete consumers/rules/reload, vertical gameplay, units/campaign, generated semantics, facade debt, persistence/network, performance/presentation and clean-checkout release. Ledger Not done=0 counts registered records, not unported source/gameplay. Follow handoffs/2026-11-02-mindustry-completion-backlog.md.
+C01-A now has actual numeric Item/effective fields and source-backed blocked initialization/binding (N2011–N2013). Remaining: source terrain/Tile.drop/isStatic/linked footprint facts; C01-B proximity invalidation and C01-C actual dominant output before live mixed-ore gameplay. C02–C12 remain open for per-Building routing, power, liquid supply/flow, complete consumers/rules/reload, full vertical gameplay, units/campaign, generated semantics, facade debt, persistence/network, performance/presentation and clean release. Follow handoffs/2026-11-02-mindustry-completion-backlog.md. Registered ledger totals are not a whole-game parity measure.
 
 ## Scope
 
@@ -3366,3 +3372,4 @@ When Godot CLI is not on `PATH`, use the configured MCP Godot path from `C:\User
 | 2026-11-02 | N2004–N2006 accepted: canonical unconditional liquid capability/filter projections and shared Block apply state before building allocation. Native MCP confirms unknown/false/true constructor capability, preserved source properties and independent electrolyzer storage. Focused 11 tests / 16 subtests; legacy 5 / 3; full 5361 / 22630 in 1043.57s; catalog 0 errors / 113 modules, editor exit 0, 12-file replay unchanged. Partial filter only; concrete callbacks, mixed consumers, reload and automatic ticks remain deferred. See reports/2026-11-02-liquid-consumer-apply-hydration.md. |
 | 2026-11-02 | N2007–N2009 accepted: concrete liquid consumers, canonical unique Building traversal and automatic supported Drill ticks. Focused 14 / 20, final proof 3 / 4; full 5364 / 22683 in 1030.23s; catalog 0 errors / 113 modules; native matches=true, 0 actual errors, 66 compiler warnings, explicit stop; editor exit 0; 14-file replay unchanged. Power, mixed ore and complete secondary routing remain open. See reports/2026-11-02-drill-live-consumption.md. |
 | 2026-11-02 | N2010 accepted: complete canonical canMine/countOre state on explicit source facts, in existing Drill module. Focused 5 / 6; full 5366 / 22708 in 1039.04s; catalog 0 errors / 113 modules; native matches=true, 0 actual errors / 23 warnings, explicit stop; editor exit 0; 12-file replay unchanged. Live mixed-ore binding remains open. Added 12-group completion backlog with dependency/acceptance gates; full parity is not claimed. |
+| 2026-11-02 | N2011–N2013 accepted: typed Item ordinal/effective facts, source Drill blocked definitions/init and actual Block binding. Focused 16 tests / 15 subtests; full 5372 / 22734 in 1091.66s; catalog 0 errors / 113 modules; native matches=true, 0 actual errors / 23 warnings, explicit stop; editor exit 0; 13-file content+SSOT replay unchanged. C01-A partially advanced; live Tile/proximity/output and C02–C12 remain open. |

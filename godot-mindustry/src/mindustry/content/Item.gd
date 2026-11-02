@@ -3,6 +3,7 @@ class_name MindustryItem
 
 var color_hex := ""
 var hardness := 0
+var low_priority := false
 var cost := 1.0
 var flammability := 0.0
 var explosiveness := 0.0
@@ -14,6 +15,7 @@ func _init(data: Dictionary = {}) -> void:
 	super(data, "item")
 	color_hex = str(data.get("color", ""))
 	hardness = int(properties.get("hardness", 0))
+	low_priority = bool(properties.get("lowPriority", low_priority))
 	cost = float(properties.get("cost", 1.0))
 	flammability = float(properties.get("flammability", 0.0))
 	explosiveness = float(properties.get("explosiveness", 0.0))

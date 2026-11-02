@@ -1,6 +1,20 @@
 extends RefCounted
 class_name SourceContentRegistryRuntimeState
 
+static func source_item_catalog_state(content_catalog: Object) -> Dictionary:
+	var items: Array = content_catalog.call("get_many", "item")
+	var item_facts_by_name: Dictionary = {}
+	var item_facts_by_field: Dictionary = {}
+	var item_names_by_id: Array = []
+	for index in range(items.size()):
+		var item = items[index]
+		assert(not item_facts_by_name.has(item.id) and not item_facts_by_field.has(item.field))
+		var facts := {"id": index, "hardness": item.hardness, "low_priority": item.low_priority}
+		item_facts_by_name[item.id] = facts
+		item_facts_by_field[item.field] = facts
+		item_names_by_id.append(item.id)
+	return {"item_facts_by_name": item_facts_by_name, "item_facts_by_field": item_facts_by_field, "item_names_by_id": item_names_by_id}
+
 static func source_liquid_catalog_state(content_catalog: Object) -> Dictionary:
 	var liquids: Array = content_catalog.call("get_many", "liquid")
 	var content_liquid_ids: Array = []

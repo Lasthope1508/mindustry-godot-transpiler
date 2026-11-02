@@ -165434,6 +165434,177 @@
         }
       },
       "runtime_proof": "/root/DrillOreSelectionProof"
+    },
+    "source_item_catalog_input": {
+      "status": "active",
+      "owner": "SourceContentRegistryRuntimeState.source_item_catalog_state",
+      "keys": {
+        "content_catalog": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/ContentLoader.java",
+          "java_expr": "contentMap[content.getContentType().ordinal()].add(content);",
+          "rule": "Existing typed catalog; read only item registration order, never global slug lookup or alphabetical sort.",
+          "used_by": [
+            "SourceContentRegistryRuntimeState.source_item_catalog_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/DrillOreBindingProof"
+    },
+    "source_item_catalog_result": {
+      "status": "active",
+      "owner": "SourceContentRegistryRuntimeState.source_item_catalog_state",
+      "keys": {
+        "item_facts_by_name": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/ctype/Content.java",
+          "java_expr": "this.id = (short)Vars.content.getBy(getContentType()).size;",
+          "rule": "Transient slug lookup of source_drill_ore_item facts, with numeric id from the existing item sequence and effective typed Item hardness/lowPriority. No persistent registry.",
+          "used_by": [
+            "SourceContentRegistryRuntimeState.source_item_catalog_state"
+          ]
+        },
+        "item_facts_by_field": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "blockedItem = Items.thorium;",
+          "rule": "Transient Java-field lookup sharing the exact fact dictionary with the slug view. Unresolved references are not synthesized.",
+          "used_by": [
+            "SourceContentRegistryRuntimeState.source_item_catalog_state"
+          ]
+        },
+        "item_names_by_id": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/ctype/Content.java",
+          "java_expr": "this.id = (short)Vars.content.getBy(getContentType()).size;",
+          "rule": "Existing item slugs in numeric source registration order; no second numeric-ID assignment owner.",
+          "used_by": [
+            "SourceContentRegistryRuntimeState.source_item_catalog_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/DrillOreBindingProof"
+    },
+    "source_drill_init_blocked_items_input": {
+      "status": "active",
+      "owner": "SourceDrillRuntimeState.source_init_blocked_items_state",
+      "keys": {
+        "blocked_items": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public @Nullable Seq<Item> blockedItems;",
+          "rule": "Explicit nullable Array of canonical numeric Item IDs. Existing empty/nonempty sequence is authoritative.",
+          "used_by": [
+            "SourceDrillRuntimeState.source_init_blocked_items_state"
+          ]
+        },
+        "blocked_item": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public @Nullable Item blockedItem;",
+          "rule": "Explicit nullable legacy Item numeric ID; Java reference field starts null.",
+          "used_by": [
+            "SourceDrillRuntimeState.source_init_blocked_items_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/DrillOreBindingProof"
+    },
+    "source_drill_init_blocked_items_result": {
+      "status": "active",
+      "owner": "SourceDrillRuntimeState.source_init_blocked_items_state",
+      "keys": {
+        "blocked_items": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "if(blockedItems == null && blockedItem != null){",
+          "rule": "Only null sequence plus nonnull legacy item allocates [blocked_item], matching Seq.with(blockedItem). Otherwise preserve input sequence/null and identity.",
+          "used_by": [
+            "SourceDrillRuntimeState.source_init_blocked_items_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/DrillOreBindingProof"
+    },
+    "source_drill_blocked_definition": {
+      "status": "active",
+      "owner": "SourceDrillRuntimeState.source_bind_ore_items_state",
+      "keys": {
+        "blockedItem": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public @Nullable Item blockedItem;",
+          "rule": "Generated immutable source field reference or null, resolved through actual Drill ancestry and constructor/initializer order. Dynamic/nested expressions leave both definition keys absent.",
+          "used_by": [
+            "SourceDrillRuntimeState.source_bind_ore_items_state"
+          ]
+        },
+        "blockedItems": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public @Nullable Seq<Item> blockedItems;",
+          "rule": "Generated null or ordered Java Item field list from supported direct Seq.with references. Explicit empty is preserved; source Drill.init conversion happens at runtime.",
+          "used_by": [
+            "SourceDrillRuntimeState.source_bind_ore_items_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/DrillOreBindingProof"
+    },
+    "source_drill_bind_ore_items_input": {
+      "status": "active",
+      "owner": "SourceDrillRuntimeState.source_bind_ore_items_state",
+      "keys": {
+        "block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public void init(){",
+          "rule": "Actual Block with both source-backed definition keys present. Missing/unresolved definitions assert instead of assuming null.",
+          "schema": "source_drill_blocked_definition",
+          "used_by": [
+            "SourceDrillRuntimeState.source_bind_ore_items_state"
+          ]
+        },
+        "item_catalog": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/ctype/Content.java",
+          "java_expr": "this.id = (short)Vars.content.getBy(getContentType()).size;",
+          "rule": "Transient typed item view from source_item_catalog_state; Java field resolves to canonical numeric Item.id.",
+          "schema": "source_item_catalog_result",
+          "used_by": [
+            "SourceDrillRuntimeState.source_bind_ore_items_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/DrillOreBindingProof"
+    },
+    "source_drill_bind_ore_items_result": {
+      "status": "active",
+      "owner": "SourceDrillRuntimeState.source_bind_ore_items_state",
+      "keys": {
+        "blocked_items": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "blockedItems = Seq.with(blockedItem);",
+          "rule": "Resolve source field references, delegate compatibility initialization to the canonical init owner, return null/ordered numeric IDs. Source metadata and Item storage are not mutated or cached.",
+          "used_by": [
+            "SourceDrillRuntimeState.source_bind_ore_items_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/DrillOreBindingProof"
     }
   },
   "version": 1

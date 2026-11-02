@@ -1,0 +1,10 @@
+source_symbol_registry.json: only 13 additions; old data/policy preserved
+source_api_contracts.json: only 3 additions; old data/policy preserved
+source_state_schema.json: only 7 additions; old data/policy preserved
+source_slice_ledger.json: only 3 additions; old data/policy preserved
+content: exactly 2 added blocked keys on 6 existing blocks; other data/counts preserved
+GD content registry equals regeneration from staged canonical JSON
+full/native/stop/editor/replay/catalog gates accepted
+exact staged allowlist PASS; unrelated dirty work/noise excluded
+staged whitespace PASS
+staged files before audit evidence: 42

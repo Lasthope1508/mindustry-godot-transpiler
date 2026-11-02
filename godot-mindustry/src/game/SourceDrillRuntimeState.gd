@@ -1,6 +1,24 @@
 extends RefCounted
 class_name SourceDrillRuntimeState
 
+static func source_init_blocked_items_state(blocked_items: Variant, blocked_item: Variant) -> Dictionary:
+	if blocked_items == null and blocked_item != null:
+		blocked_items = [blocked_item]
+	return {"blocked_items": blocked_items}
+
+static func source_bind_ore_items_state(block: Object, item_catalog: Dictionary) -> Dictionary:
+	assert(block.properties.has("blockedItem") and block.properties.has("blockedItems"), "Drill blocked-item source definitions are unresolved")
+	var fields: Dictionary = item_catalog["item_facts_by_field"]
+	var blocked_item: Variant = null
+	var blocked_items: Variant = null
+	if block.properties["blockedItem"] != null:
+		blocked_item = fields[block.properties["blockedItem"]]["id"]
+	if block.properties["blockedItems"] != null:
+		blocked_items = []
+		for field in block.properties["blockedItems"]:
+			blocked_items.append(fields[field]["id"])
+	return source_init_blocked_items_state(blocked_items, blocked_item)
+
 static func source_can_mine_state(tile: Variant, tier: int, blocked_items: Variant) -> Dictionary:
 	if tile == null or tile["is_static"]:
 		return {"can_mine": false}

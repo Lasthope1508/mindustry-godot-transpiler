@@ -1,0 +1,52 @@
+import gzip,hashlib,json,re,shutil
+from pathlib import Path
+ROOT=Path(r'C:/Users/Admin/Documents/Game/mindustry-godot-transpiler-copy-20260714-073528');TMP=Path('C:/tmp')
+full=(TMP/'ore-bind-full.log').read_text(encoding='utf-8');m=re.search(r'^(\d+) passed, (\d+) subtests passed in ([\d.]+)s',full,re.M);assert m
+tests,subtests,seconds=m.groups();n=json.loads((TMP/'ore-bind-native-summary.json').read_text(encoding='utf-8'));assert n['proof']['matches'] and n['stopped'] and not n['actual_errors'] and n['editor_exit_code']==0
+assert not re.search(r'(?:^|\s)(?:SCRIPT ERROR|ERROR|Parse Error):',(TMP/'ore-bind-editor.log').read_text(encoding='utf-8'))
+r=json.loads((TMP/'ore-bind-replay.json').read_text(encoding='utf-8'));assert r['matches']
+v=json.loads((TMP/'ore-bind-validator.json').read_text(encoding='utf-8'));assert not v['errors'] and not v['json_errors'] and v['json_module_count']==113
+p='docs/superpowers/specs/2026-06-23-mindustry-godot-gdscript-transpiler-design.md';old=(TMP/'ore-bind-before'/p).read_text(encoding='utf-8');assert (ROOT/p).read_text(encoding='utf-8')==old
+text=old.replace('| Canonical slice ledger entries | 1465 |','| Canonical slice ledger entries | 1468 |').replace('| Done | 1465 |','| Done | 1468 |')
+needle=next(line for line in text.splitlines() if line.startswith('- [x] N2010:'))
+text=text.replace(needle,needle+'\n'+'\n'.join([
+ '- [x] N2011: Typed Item registration sequence supplies numeric ore facts; Java field/slug views share fact identity and read canonical effective hardness/lowPriority. No global slug lookup or persistent alternate registry.',
+ '- [x] N2012: Source Drill ancestry/constructor/initializer blocked definitions export null/Item fields/Seq.with order; canonical init preserves existing empty/nonempty sequences and converts legacy only on the source branch. Dynamic definitions remain unresolved.',
+ '- [x] N2013: Actual Block blocked definitions bind through typed Item fields to numeric IDs, then delegate to canonical init and compose with countOre. World tile/proximity/output integration remains open.',
+]))
+start=text.index('Current cube:');end=text.index('\n\n## Done',start)
+text=text[:start]+'Current cube: `typed Drill ore item and blocked initialization binding`. N2011–N2013 supply actual numeric Item identity/effective fields, source-preserving blocked definitions and actual Block initialization. Ledger: 1468 records; catalog: 113 modules. C01-A is advanced, not complete: terrain/Tile.drop/static/linked footprint providers remain open, followed by C01-B proximity and C01-C actual dominant output. C02–C12 stay open in the sequential completion backlog. See `reports/2026-11-02-drill-item-blocked-binding.md`.'+text[end:]
+rows='\n'.join([
+ '| N2011 | Typed numeric Item ore facts | Existing typed registration order yields numeric identity and shared Java-field/slug facts; source lowPriority hydration is owned by MindustryItem. |',
+ '| N2012 | Source blocked definitions and init | Actual Drill class ancestry and constructor order preserve null/Item/Seq.with definitions; unresolved writes remain unresolved. Source init preserves existing sequence identity and explicit empty precedence. |',
+ f'| N2013 | Actual Block blocked-item binding | Java fields resolve through the typed Item view, then canonical init/countOre compose without source mutation. Focused 16 / 15; full {tests} / {subtests} in {seconds}s; catalog 0 errors / 113 modules, native matches=true, editor exit 0. Live world/proximity/output remains deferred. See reports/2026-11-02-drill-item-blocked-binding.md. |',
+])
+text=text.replace('\n\n## Not Done\n','\n'+rows+'\n\n## Not Done\n',1)
+start=text.index('## Not Done\n\n')+len('## Not Done\n\n');end=text.index('\n\n## Scope',start)
+text=text[:start]+'C01-A now has actual numeric Item/effective fields and source-backed blocked initialization/binding (N2011–N2013). Remaining: source terrain/Tile.drop/isStatic/linked footprint facts; C01-B proximity invalidation and C01-C actual dominant output before live mixed-ore gameplay. C02–C12 remain open for per-Building routing, power, liquid supply/flow, complete consumers/rules/reload, full vertical gameplay, units/campaign, generated semantics, facade debt, persistence/network, performance/presentation and clean release. Follow handoffs/2026-11-02-mindustry-completion-backlog.md. Registered ledger totals are not a whole-game parity measure.'+text[end:]
+text+=f'| 2026-11-02 | N2011–N2013 accepted: typed Item ordinal/effective facts, source Drill blocked definitions/init and actual Block binding. Focused 16 tests / 15 subtests; full {tests} / {subtests} in {seconds}s; catalog 0 errors / 113 modules; native matches=true, 0 actual errors / {n["warning_count"]} warnings, explicit stop; editor exit 0; {r["file_count"]}-file content+SSOT replay unchanged. C01-A partially advanced; live Tile/proximity/output and C02–C12 remain open. |\n'
+(ROOT/p).write_text(text,encoding='utf-8',newline='\n')
+p='docs/superpowers/handoffs/2026-11-02-mindustry-completion-backlog.md';old=(TMP/'ore-bind-before'/p).read_text(encoding='utf-8');assert (ROOT/p).read_text(encoding='utf-8')==old
+text=old.replace('Parent của batch đang làm: `2c713403`.', 'Parent của checkpoint mới nhất N2011–N2013: `295188b6`.')
+text=text.replace('| C01 | Ore selection và proximity của Drill | N2010 hoàn thiện thuật toán trên explicit facts; live binding còn mở | Content ID + tile facts |','| C01 | Ore selection và proximity của Drill | N2010 state và N2011–N2013 typed Item/blocked binding accepted; actual world/proximity/output còn mở | Tile facts + proximity/output |')
+text=text.replace('- **Còn thiếu:** numeric Item ID lấy từ content registration order đúng type; effective hardness/lowPriority từ source; `Drill.init` blockedItem→blockedItems; actual `Tile.drop`, `getDrop`, static block và linked footprint; `DrillBuild.onProximityUpdate` assignment/invalidation.','- **Đã làm trong N2011–N2013:** numeric Item ID theo typed registration order, effective hardness/lowPriority, metadata blockedItem/blockedItems theo source ancestry và canonical Drill.init/binding. Full/native/editor/replay accepted trong reports/2026-11-02-drill-item-blocked-binding.md.\n- **Còn thiếu:** actual `Tile.drop`, `getDrop`, static block và linked footprint; `DrillBuild.onProximityUpdate` assignment/invalidation; actual dominant-item output. C01-A chưa đóng toàn bộ.')
+text=text.replace('2. Ưu tiên **C01-A**: item numeric ID/effective fields + explicit world tile facts. Giữ thuật toán N2010 là owner duy nhất; không viết lại sort trong binder.','2. Tiếp tục **C01-A**: actual world terrain/Tile.drop/static/linked-footprint providers. N2011–N2013 đã có typed Item ID/effective fields và blocked initialization; giữ N2010 là owner sort duy nhất. Không suy static/drop từ ore-name projection thiếu metadata.')
+text+='\n## Checkpoint tuần tự mới nhất\n\nN2011–N2013 accepted trong report `2026-11-02-drill-item-blocked-binding.md`. Goal C01–C12 vẫn đang thực hiện tuần tự; chưa nhóm nào được đánh dấu hoàn thiện toàn bộ chỉ từ batch prerequisite này. C01-A tiếp tục tại world tile facts.\n'
+(ROOT/p).write_text(text,encoding='utf-8',newline='\n')
+report=ROOT/'docs/superpowers/reports/2026-11-02-drill-item-blocked-binding.md';text=report.read_text(encoding='utf-8')
+text=text.replace('| OB-C | Full suite, native MCP/stop, editor | Pending |',f'| OB-C | Full suite, native MCP/stop, editor | Accepted: {tests} / {subtests} in {seconds}s; native matches=true; editor exit 0 |')
+text=text.replace('| OB-D | Replay, exact scope/index audit and commit | Pending |',f'| OB-D | Replay, exact scope/index audit and commit | Accepted: {r["file_count"]} hashes unchanged; exact staged audit retained |')
+text=text.replace('- Full suite: pending.',f'- Full suite: **{tests} passed / {subtests} subtests passed in {seconds}s**; complete log retained.')
+text=text.replace('- Native MCP / stop / warnings / editor: pending.',f'- Native MCP: **16/16 checks true, matches=true**, explicit stop, **0 actual errors / {n["warning_count"]} compiler warnings**. Editor parse: **exit 0**, no actual errors. Raw debug and stop retained.')
+text=text.replace('- Replay / final catalog / index audit: pending.',f'- Content+SSOT replay: **{r["file_count"]} raw SHA256 hashes unchanged**. Final catalog **0 errors / 113 modules / 0 JSON errors**. Exact root/content/runtime scope and staged whitespace audit pass; see `index-final.log`.')
+assert 'pending' not in text.lower();report.write_text(text,encoding='utf-8',newline='\n')
+e=ROOT/'docs/superpowers/reports/evidence/2026-11-02-drill-item-blocked-binding';e.mkdir(exist_ok=False)
+for suffix in ['parser.log','content.log','focused.log','focused-final.log','full.log','validator.json','native-run.json','native-debug.json','native-stop.json','native-summary.json','editor.log','replay.log','replay.json','scope.json']:
+ shutil.copy2(TMP/('ore-bind-'+suffix),e/suffix)
+raw=(TMP/'ore-bind-red.log').read_bytes()
+with gzip.open(e/'red.log.gz','wb') as archive:archive.write(raw)
+summary='\n'.join(line[:500] for line in raw.decode('utf-8').splitlines() if line.startswith(('FAILED ','SUBFAILED','6 failed')))
+(e/'red-summary.log').write_text(summary+'\nraw SHA256 '+hashlib.sha256(raw).hexdigest()+'\n',encoding='utf-8')
+for name in ['scope','replay','validator','finalize']:
+ shutil.copy2(TMP/('ore-bind-'+name+'.py'),e/(name+'-helper.txt'))
+print('Finalized',tests,subtests,seconds,'warnings',n['warning_count'],'replay',r['file_count'])
