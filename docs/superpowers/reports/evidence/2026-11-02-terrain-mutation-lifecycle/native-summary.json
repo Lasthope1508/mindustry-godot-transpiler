@@ -1,0 +1,28 @@
+{
+  "proof": {
+    "actual_process_produces_floor_item": true,
+    "clear_delegates_canonical_air_and_notifies": true,
+    "clear_inherits_identity_guard": true,
+    "cleared_footprint_has_no_item": true,
+    "end_generation_resolves_ordered_receiver": true,
+    "explicit_proximity_resolves_quiet_overlay": true,
+    "floor_assigns_and_notifies": true,
+    "floor_default_clears_overlay_after_floor": true,
+    "floor_identity_guard": true,
+    "floor_retains_actual_tile_and_definition": true,
+    "matches": true,
+    "one_headquarter_per_ssot": true,
+    "ordered_receiver_executes_both_assignments": true,
+    "proxy_floor_updates_one_existing_frame": true,
+    "quiet_assigns_without_notification": true,
+    "quiet_is_not_implicitly_rescanned": true,
+    "registry_valid": true,
+    "source_floor_before_overlay_order_is_observable": true,
+    "unoccupied_floor_does_not_create_building": true
+  },
+  "check_count": 18,
+  "warning_count": 68,
+  "actual_errors": [],
+  "stopped": true,
+  "editor_exit_code": 0
+}

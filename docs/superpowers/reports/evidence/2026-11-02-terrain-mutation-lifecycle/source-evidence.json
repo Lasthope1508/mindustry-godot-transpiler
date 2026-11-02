@@ -1,0 +1,187 @@
+{
+  "source_world_floor_overlay_receiver_input.generating": {
+    "source": "core/src/mindustry/world/Tile.java",
+    "expression": "if(!world.isGenerating() && build != null){",
+    "matched": true
+  },
+  "source_tile_floor_assignment_input.type_value": {
+    "source": "core/src/mindustry/world/Tile.java",
+    "expression": "this.floor = type;",
+    "matched": true
+  },
+  "source_world_drill_floor_input.floor_block": {
+    "source": "core/src/mindustry/world/Tile.java",
+    "expression": "this.floor = type;",
+    "matched": true
+  },
+  "source_world_floor_default_receiver_input.game": {
+    "source": "core/src/mindustry/world/Tile.java",
+    "expression": "build.onProximityUpdate();",
+    "matched": true
+  },
+  "source_world_clear_overlay_input.x": {
+    "source": "core/src/mindustry/world/Tile.java",
+    "expression": "public short x, y;",
+    "matched": true
+  },
+  "source_tile_floor_assignment_result.same_floor": {
+    "source": "core/src/mindustry/world/Tile.java",
+    "expression": "if(this.floor == type) return;",
+    "matched": true
+  },
+  "source_world_quiet_overlay_input.x": {
+    "source": "core/src/mindustry/world/Tile.java",
+    "expression": "public short x, y;",
+    "matched": true
+  },
+  "source_world_clear_overlay_input.y": {
+    "source": "core/src/mindustry/world/Tile.java",
+    "expression": "public short x, y;",
+    "matched": true
+  },
+  "source_world_floor_overlay_receiver_input.floor_block": {
+    "source": "core/src/mindustry/world/Tile.java",
+    "expression": "this.floor = type;",
+    "matched": true
+  },
+  "source_world_quiet_overlay_input.game": {
+    "source": "core/src/mindustry/world/Tile.java",
+    "expression": "build.onProximityUpdate();",
+    "matched": true
+  },
+  "source_world_floor_overlay_receiver_input.game": {
+    "source": "core/src/mindustry/world/Tile.java",
+    "expression": "build.onProximityUpdate();",
+    "matched": true
+  },
+  "source_world_clear_overlay_result.changed": {
+    "source": "core/src/mindustry/world/Tile.java",
+    "expression": "if(this.overlay == block) return;",
+    "matched": true
+  },
+  "source_world_floor_default_receiver_input.generating": {
+    "source": "core/src/mindustry/world/Tile.java",
+    "expression": "if(!world.isGenerating() && build != null){",
+    "matched": true
+  },
+  "source_world_floor_overlay_receiver_result.overlay_state": {
+    "source": "core/src/mindustry/world/Tile.java",
+    "expression": "tile.setOverlay(overlay);",
+    "matched": true
+  },
+  "source_world_quiet_overlay_input.y": {
+    "source": "core/src/mindustry/world/Tile.java",
+    "expression": "public short x, y;",
+    "matched": true
+  },
+  "source_world_clear_overlay_input.generating": {
+    "source": "core/src/mindustry/world/Tile.java",
+    "expression": "if(!world.isGenerating() && build != null){",
+    "matched": true
+  },
+  "source_world_clear_overlay_result.proximity_updated": {
+    "source": "core/src/mindustry/world/Tile.java",
+    "expression": "if(!world.isGenerating() && build != null){",
+    "matched": true
+  },
+  "source_world_drill_floor_result.proximity_updated": {
+    "source": "core/src/mindustry/world/Tile.java",
+    "expression": "build.onProximityUpdate();",
+    "matched": true
+  },
+  "source_tile_floor_assignment_input.previous_floor": {
+    "source": "core/src/mindustry/world/Tile.java",
+    "expression": "var prev = this.floor;",
+    "matched": true
+  },
+  "source_tile_floor_assignment_result.floor": {
+    "source": "core/src/mindustry/world/Tile.java",
+    "expression": "this.floor = type;",
+    "matched": true
+  },
+  "source_world_floor_overlay_receiver_input.x": {
+    "source": "core/src/mindustry/world/Tile.java",
+    "expression": "public short x, y;",
+    "matched": true
+  },
+  "source_world_drill_floor_result.changed": {
+    "source": "core/src/mindustry/world/Tile.java",
+    "expression": "if(this.floor == type) return;",
+    "matched": true
+  },
+  "source_world_floor_overlay_receiver_input.overlay_block": {
+    "source": "core/src/mindustry/world/Tile.java",
+    "expression": "this.overlay = (Floor)block;",
+    "matched": true
+  },
+  "source_world_clear_overlay_input.game": {
+    "source": "core/src/mindustry/world/Tile.java",
+    "expression": "build.onProximityUpdate();",
+    "matched": true
+  },
+  "source_world_drill_floor_input.x": {
+    "source": "core/src/mindustry/world/Tile.java",
+    "expression": "public short x, y;",
+    "matched": true
+  },
+  "source_world_floor_default_receiver_input.y": {
+    "source": "core/src/mindustry/world/Tile.java",
+    "expression": "public short x, y;",
+    "matched": true
+  },
+  "source_world_floor_default_receiver_input.floor_block": {
+    "source": "core/src/mindustry/world/Tile.java",
+    "expression": "this.floor = type;",
+    "matched": true
+  },
+  "source_world_floor_overlay_receiver_result.floor_state": {
+    "source": "core/src/mindustry/world/Tile.java",
+    "expression": "tile.setFloor(floor.asFloor());",
+    "matched": true
+  },
+  "source_tile_floor_assignment_result.build_proximity_updated": {
+    "source": "core/src/mindustry/world/Tile.java",
+    "expression": "if(build != null){",
+    "matched": true
+  },
+  "source_world_drill_floor_input.y": {
+    "source": "core/src/mindustry/world/Tile.java",
+    "expression": "public short x, y;",
+    "matched": true
+  },
+  "source_world_floor_default_receiver_result.overlay_state": {
+    "source": "core/src/mindustry/world/Tile.java",
+    "expression": "tile.setOverlay(overlay);",
+    "matched": true
+  },
+  "source_tile_floor_assignment_input.build_present": {
+    "source": "core/src/mindustry/world/Tile.java",
+    "expression": "if(build != null){",
+    "matched": true
+  },
+  "source_world_floor_default_receiver_input.x": {
+    "source": "core/src/mindustry/world/Tile.java",
+    "expression": "public short x, y;",
+    "matched": true
+  },
+  "source_world_floor_default_receiver_result.floor_state": {
+    "source": "core/src/mindustry/world/Tile.java",
+    "expression": "tile.setFloor(floor.asFloor());",
+    "matched": true
+  },
+  "source_world_floor_overlay_receiver_input.y": {
+    "source": "core/src/mindustry/world/Tile.java",
+    "expression": "public short x, y;",
+    "matched": true
+  },
+  "source_world_quiet_overlay_input.block": {
+    "source": "core/src/mindustry/world/Tile.java",
+    "expression": "this.overlay = (Floor)block;",
+    "matched": true
+  },
+  "source_world_drill_floor_input.game": {
+    "source": "core/src/mindustry/world/Tile.java",
+    "expression": "build.onProximityUpdate();",
+    "matched": true
+  }
+}

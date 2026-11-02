@@ -151878,6 +151878,561 @@
         "test_actual_proximity_mutation_and_dominant_production"
       ],
       "runtime_proof": "/root/DrillProximityLifecycleProof"
+    },
+    "source_tile_floor_assignment_input.type_value": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.tile_floor_assignment_state",
+      "godot_symbol": "source_tile_floor_assignment_input.type_value",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "setFloor; setOverlayQuiet; clearOverlay; setFloorNet",
+      "java_expr": "this.floor = type;",
+      "rule": "Actual supplied Floor reference.",
+      "tests": [
+        "test_terrain_lifecycle_contracts",
+        "test_live_terrain_notifications_and_ordered_mutations",
+        "test_new_terrain_evidence_and_nested_schemas"
+      ],
+      "runtime_proof": "/root/TerrainMutationLifecycleProof"
+    },
+    "source_tile_floor_assignment_input.previous_floor": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.tile_floor_assignment_state",
+      "godot_symbol": "source_tile_floor_assignment_input.previous_floor",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "setFloor; setOverlayQuiet; clearOverlay; setFloorNet",
+      "java_expr": "var prev = this.floor;",
+      "rule": "Previous Floor reference; preserve identity.",
+      "tests": [
+        "test_terrain_lifecycle_contracts",
+        "test_live_terrain_notifications_and_ordered_mutations",
+        "test_new_terrain_evidence_and_nested_schemas"
+      ],
+      "runtime_proof": "/root/TerrainMutationLifecycleProof"
+    },
+    "source_tile_floor_assignment_input.build_present": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.tile_floor_assignment_state",
+      "godot_symbol": "source_tile_floor_assignment_input.build_present",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "setFloor; setOverlayQuiet; clearOverlay; setFloorNet",
+      "java_expr": "if(build != null){",
+      "rule": "Actual Building presence, not an inferred content flag.",
+      "tests": [
+        "test_terrain_lifecycle_contracts",
+        "test_live_terrain_notifications_and_ordered_mutations",
+        "test_new_terrain_evidence_and_nested_schemas"
+      ],
+      "runtime_proof": "/root/TerrainMutationLifecycleProof"
+    },
+    "source_tile_floor_assignment_result.same_floor": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.tile_floor_assignment_state",
+      "godot_symbol": "source_tile_floor_assignment_result.same_floor",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "setFloor; setOverlayQuiet; clearOverlay; setFloorNet",
+      "java_expr": "if(this.floor == type) return;",
+      "rule": "Canonical identity guard shared by state description and actual mutation.",
+      "tests": [
+        "test_terrain_lifecycle_contracts",
+        "test_live_terrain_notifications_and_ordered_mutations",
+        "test_new_terrain_evidence_and_nested_schemas"
+      ],
+      "runtime_proof": "/root/TerrainMutationLifecycleProof"
+    },
+    "source_tile_floor_assignment_result.floor": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.tile_floor_assignment_state",
+      "godot_symbol": "source_tile_floor_assignment_result.floor",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "setFloor; setOverlayQuiet; clearOverlay; setFloorNet",
+      "java_expr": "this.floor = type;",
+      "rule": "Prior reference on no-op; supplied reference on assignment.",
+      "tests": [
+        "test_terrain_lifecycle_contracts",
+        "test_live_terrain_notifications_and_ordered_mutations",
+        "test_new_terrain_evidence_and_nested_schemas"
+      ],
+      "runtime_proof": "/root/TerrainMutationLifecycleProof"
+    },
+    "source_tile_floor_assignment_result.build_proximity_updated": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.tile_floor_assignment_state",
+      "godot_symbol": "source_tile_floor_assignment_result.build_proximity_updated",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "setFloor; setOverlayQuiet; clearOverlay; setFloorNet",
+      "java_expr": "if(build != null){",
+      "rule": "Changed floor notifies Building regardless of generation; one formula shared with existing full Tile.setFloor state owner.",
+      "tests": [
+        "test_terrain_lifecycle_contracts",
+        "test_live_terrain_notifications_and_ordered_mutations",
+        "test_new_terrain_evidence_and_nested_schemas"
+      ],
+      "runtime_proof": "/root/TerrainMutationLifecycleProof"
+    },
+    "source_world_drill_floor_input.game": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_set_world_floor_state",
+      "godot_symbol": "source_world_drill_floor_input.game",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "setFloor; setOverlayQuiet; clearOverlay; setFloorNet",
+      "java_expr": "build.onProximityUpdate();",
+      "rule": "Actual game with canonical dense Tile storage, placement index, world-scoped Item view and existing Building frames.",
+      "tests": [
+        "test_terrain_lifecycle_contracts",
+        "test_live_terrain_notifications_and_ordered_mutations",
+        "test_new_terrain_evidence_and_nested_schemas"
+      ],
+      "runtime_proof": "/root/TerrainMutationLifecycleProof"
+    },
+    "source_world_drill_floor_input.x": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_set_world_floor_state",
+      "godot_symbol": "source_world_drill_floor_input.x",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "setFloor; setOverlayQuiet; clearOverlay; setFloorNet",
+      "java_expr": "public short x, y;",
+      "rule": "Actual in-bounds Tile coordinate; unresolved Tile is rejected, not fabricated.",
+      "tests": [
+        "test_terrain_lifecycle_contracts",
+        "test_live_terrain_notifications_and_ordered_mutations",
+        "test_new_terrain_evidence_and_nested_schemas"
+      ],
+      "runtime_proof": "/root/TerrainMutationLifecycleProof"
+    },
+    "source_world_drill_floor_input.y": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_set_world_floor_state",
+      "godot_symbol": "source_world_drill_floor_input.y",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "setFloor; setOverlayQuiet; clearOverlay; setFloorNet",
+      "java_expr": "public short x, y;",
+      "rule": "Actual in-bounds Tile coordinate; unresolved Tile is rejected, not fabricated.",
+      "tests": [
+        "test_terrain_lifecycle_contracts",
+        "test_live_terrain_notifications_and_ordered_mutations",
+        "test_new_terrain_evidence_and_nested_schemas"
+      ],
+      "runtime_proof": "/root/TerrainMutationLifecycleProof"
+    },
+    "source_world_drill_floor_input.floor_block": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_set_world_floor_state",
+      "godot_symbol": "source_world_drill_floor_input.floor_block",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "setFloor; setOverlayQuiet; clearOverlay; setFloorNet",
+      "java_expr": "this.floor = type;",
+      "rule": "Actual resolved typed Floor definition; Item drops come from existing canonical metadata. Floor override/data callbacks remain separate.",
+      "tests": [
+        "test_terrain_lifecycle_contracts",
+        "test_live_terrain_notifications_and_ordered_mutations",
+        "test_new_terrain_evidence_and_nested_schemas"
+      ],
+      "runtime_proof": "/root/TerrainMutationLifecycleProof"
+    },
+    "source_world_drill_floor_result.changed": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_set_world_floor_state",
+      "godot_symbol": "source_world_drill_floor_result.changed",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "setFloor; setOverlayQuiet; clearOverlay; setFloorNet",
+      "java_expr": "if(this.floor == type) return;",
+      "rule": "True after the canonical identity guard allows floor assignment.",
+      "tests": [
+        "test_terrain_lifecycle_contracts",
+        "test_live_terrain_notifications_and_ordered_mutations",
+        "test_new_terrain_evidence_and_nested_schemas"
+      ],
+      "runtime_proof": "/root/TerrainMutationLifecycleProof"
+    },
+    "source_world_drill_floor_result.proximity_updated": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_set_world_floor_state",
+      "godot_symbol": "source_world_drill_floor_result.proximity_updated",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "setFloor; setOverlayQuiet; clearOverlay; setFloorNet",
+      "java_expr": "build.onProximityUpdate();",
+      "rule": "True only when the supported actual Drill frame was recomputed. Floor notification is independent of generating.",
+      "tests": [
+        "test_terrain_lifecycle_contracts",
+        "test_live_terrain_notifications_and_ordered_mutations",
+        "test_new_terrain_evidence_and_nested_schemas"
+      ],
+      "runtime_proof": "/root/TerrainMutationLifecycleProof"
+    },
+    "source_world_quiet_overlay_input.game": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_set_world_overlay_quiet_state",
+      "godot_symbol": "source_world_quiet_overlay_input.game",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "setFloor; setOverlayQuiet; clearOverlay; setFloorNet",
+      "java_expr": "build.onProximityUpdate();",
+      "rule": "Actual game with canonical dense Tile storage, placement index, world-scoped Item view and existing Building frames.",
+      "tests": [
+        "test_terrain_lifecycle_contracts",
+        "test_live_terrain_notifications_and_ordered_mutations",
+        "test_new_terrain_evidence_and_nested_schemas"
+      ],
+      "runtime_proof": "/root/TerrainMutationLifecycleProof"
+    },
+    "source_world_quiet_overlay_input.x": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_set_world_overlay_quiet_state",
+      "godot_symbol": "source_world_quiet_overlay_input.x",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "setFloor; setOverlayQuiet; clearOverlay; setFloorNet",
+      "java_expr": "public short x, y;",
+      "rule": "Actual in-bounds Tile coordinate; unresolved Tile is rejected, not fabricated.",
+      "tests": [
+        "test_terrain_lifecycle_contracts",
+        "test_live_terrain_notifications_and_ordered_mutations",
+        "test_new_terrain_evidence_and_nested_schemas"
+      ],
+      "runtime_proof": "/root/TerrainMutationLifecycleProof"
+    },
+    "source_world_quiet_overlay_input.y": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_set_world_overlay_quiet_state",
+      "godot_symbol": "source_world_quiet_overlay_input.y",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "setFloor; setOverlayQuiet; clearOverlay; setFloorNet",
+      "java_expr": "public short x, y;",
+      "rule": "Actual in-bounds Tile coordinate; unresolved Tile is rejected, not fabricated.",
+      "tests": [
+        "test_terrain_lifecycle_contracts",
+        "test_live_terrain_notifications_and_ordered_mutations",
+        "test_new_terrain_evidence_and_nested_schemas"
+      ],
+      "runtime_proof": "/root/TerrainMutationLifecycleProof"
+    },
+    "source_world_quiet_overlay_input.block": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_set_world_overlay_quiet_state",
+      "godot_symbol": "source_world_quiet_overlay_input.block",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "setFloor; setOverlayQuiet; clearOverlay; setFloorNet",
+      "java_expr": "this.overlay = (Floor)block;",
+      "rule": "Actual resolved typed overlay Floor definition by reference.",
+      "tests": [
+        "test_terrain_lifecycle_contracts",
+        "test_live_terrain_notifications_and_ordered_mutations",
+        "test_new_terrain_evidence_and_nested_schemas"
+      ],
+      "runtime_proof": "/root/TerrainMutationLifecycleProof"
+    },
+    "source_world_clear_overlay_input.game": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_clear_world_overlay_state",
+      "godot_symbol": "source_world_clear_overlay_input.game",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "setFloor; setOverlayQuiet; clearOverlay; setFloorNet",
+      "java_expr": "build.onProximityUpdate();",
+      "rule": "Actual game with canonical dense Tile storage, placement index, world-scoped Item view and existing Building frames.",
+      "tests": [
+        "test_terrain_lifecycle_contracts",
+        "test_live_terrain_notifications_and_ordered_mutations",
+        "test_new_terrain_evidence_and_nested_schemas"
+      ],
+      "runtime_proof": "/root/TerrainMutationLifecycleProof"
+    },
+    "source_world_clear_overlay_input.x": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_clear_world_overlay_state",
+      "godot_symbol": "source_world_clear_overlay_input.x",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "setFloor; setOverlayQuiet; clearOverlay; setFloorNet",
+      "java_expr": "public short x, y;",
+      "rule": "Actual in-bounds Tile coordinate; unresolved Tile is rejected, not fabricated.",
+      "tests": [
+        "test_terrain_lifecycle_contracts",
+        "test_live_terrain_notifications_and_ordered_mutations",
+        "test_new_terrain_evidence_and_nested_schemas"
+      ],
+      "runtime_proof": "/root/TerrainMutationLifecycleProof"
+    },
+    "source_world_clear_overlay_input.y": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_clear_world_overlay_state",
+      "godot_symbol": "source_world_clear_overlay_input.y",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "setFloor; setOverlayQuiet; clearOverlay; setFloorNet",
+      "java_expr": "public short x, y;",
+      "rule": "Actual in-bounds Tile coordinate; unresolved Tile is rejected, not fabricated.",
+      "tests": [
+        "test_terrain_lifecycle_contracts",
+        "test_live_terrain_notifications_and_ordered_mutations",
+        "test_new_terrain_evidence_and_nested_schemas"
+      ],
+      "runtime_proof": "/root/TerrainMutationLifecycleProof"
+    },
+    "source_world_clear_overlay_input.generating": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_clear_world_overlay_state",
+      "godot_symbol": "source_world_clear_overlay_input.generating",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "setFloor; setOverlayQuiet; clearOverlay; setFloorNet",
+      "java_expr": "if(!world.isGenerating() && build != null){",
+      "rule": "Explicit source generation phase. setFloor notification deliberately ignores this overlay-only guard.",
+      "tests": [
+        "test_terrain_lifecycle_contracts",
+        "test_live_terrain_notifications_and_ordered_mutations",
+        "test_new_terrain_evidence_and_nested_schemas"
+      ],
+      "runtime_proof": "/root/TerrainMutationLifecycleProof"
+    },
+    "source_world_clear_overlay_result.changed": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_clear_world_overlay_state",
+      "godot_symbol": "source_world_clear_overlay_result.changed",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "setFloor; setOverlayQuiet; clearOverlay; setFloorNet",
+      "java_expr": "if(this.overlay == block) return;",
+      "rule": "Delegate normal setOverlay; retain its identity guard.",
+      "tests": [
+        "test_terrain_lifecycle_contracts",
+        "test_live_terrain_notifications_and_ordered_mutations",
+        "test_new_terrain_evidence_and_nested_schemas"
+      ],
+      "runtime_proof": "/root/TerrainMutationLifecycleProof"
+    },
+    "source_world_clear_overlay_result.proximity_updated": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_clear_world_overlay_state",
+      "godot_symbol": "source_world_clear_overlay_result.proximity_updated",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "setFloor; setOverlayQuiet; clearOverlay; setFloorNet",
+      "java_expr": "if(!world.isGenerating() && build != null){",
+      "rule": "Actual supported Drill notification only; generating and identity no-op are inherited from canonical overlay owner.",
+      "tests": [
+        "test_terrain_lifecycle_contracts",
+        "test_live_terrain_notifications_and_ordered_mutations",
+        "test_new_terrain_evidence_and_nested_schemas"
+      ],
+      "runtime_proof": "/root/TerrainMutationLifecycleProof"
+    },
+    "source_world_floor_overlay_receiver_input.game": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_set_world_floor_overlay_state",
+      "godot_symbol": "source_world_floor_overlay_receiver_input.game",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "setFloor; setOverlayQuiet; clearOverlay; setFloorNet",
+      "java_expr": "build.onProximityUpdate();",
+      "rule": "Actual game with canonical dense Tile storage, placement index, world-scoped Item view and existing Building frames.",
+      "tests": [
+        "test_terrain_lifecycle_contracts",
+        "test_live_terrain_notifications_and_ordered_mutations",
+        "test_new_terrain_evidence_and_nested_schemas"
+      ],
+      "runtime_proof": "/root/TerrainMutationLifecycleProof"
+    },
+    "source_world_floor_overlay_receiver_input.x": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_set_world_floor_overlay_state",
+      "godot_symbol": "source_world_floor_overlay_receiver_input.x",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "setFloor; setOverlayQuiet; clearOverlay; setFloorNet",
+      "java_expr": "public short x, y;",
+      "rule": "Actual in-bounds Tile coordinate; unresolved Tile is rejected, not fabricated.",
+      "tests": [
+        "test_terrain_lifecycle_contracts",
+        "test_live_terrain_notifications_and_ordered_mutations",
+        "test_new_terrain_evidence_and_nested_schemas"
+      ],
+      "runtime_proof": "/root/TerrainMutationLifecycleProof"
+    },
+    "source_world_floor_overlay_receiver_input.y": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_set_world_floor_overlay_state",
+      "godot_symbol": "source_world_floor_overlay_receiver_input.y",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "setFloor; setOverlayQuiet; clearOverlay; setFloorNet",
+      "java_expr": "public short x, y;",
+      "rule": "Actual in-bounds Tile coordinate; unresolved Tile is rejected, not fabricated.",
+      "tests": [
+        "test_terrain_lifecycle_contracts",
+        "test_live_terrain_notifications_and_ordered_mutations",
+        "test_new_terrain_evidence_and_nested_schemas"
+      ],
+      "runtime_proof": "/root/TerrainMutationLifecycleProof"
+    },
+    "source_world_floor_overlay_receiver_input.floor_block": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_set_world_floor_overlay_state",
+      "godot_symbol": "source_world_floor_overlay_receiver_input.floor_block",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "setFloor; setOverlayQuiet; clearOverlay; setFloorNet",
+      "java_expr": "this.floor = type;",
+      "rule": "Actual resolved typed Floor definition; Item drops come from existing canonical metadata. Floor override/data callbacks remain separate.",
+      "tests": [
+        "test_terrain_lifecycle_contracts",
+        "test_live_terrain_notifications_and_ordered_mutations",
+        "test_new_terrain_evidence_and_nested_schemas"
+      ],
+      "runtime_proof": "/root/TerrainMutationLifecycleProof"
+    },
+    "source_world_floor_overlay_receiver_input.overlay_block": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_set_world_floor_overlay_state",
+      "godot_symbol": "source_world_floor_overlay_receiver_input.overlay_block",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "setFloor; setOverlayQuiet; clearOverlay; setFloorNet",
+      "java_expr": "this.overlay = (Floor)block;",
+      "rule": "Actual resolved typed overlay Floor definition by reference.",
+      "tests": [
+        "test_terrain_lifecycle_contracts",
+        "test_live_terrain_notifications_and_ordered_mutations",
+        "test_new_terrain_evidence_and_nested_schemas"
+      ],
+      "runtime_proof": "/root/TerrainMutationLifecycleProof"
+    },
+    "source_world_floor_overlay_receiver_input.generating": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_set_world_floor_overlay_state",
+      "godot_symbol": "source_world_floor_overlay_receiver_input.generating",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "setFloor; setOverlayQuiet; clearOverlay; setFloorNet",
+      "java_expr": "if(!world.isGenerating() && build != null){",
+      "rule": "Explicit source generation phase. setFloor notification deliberately ignores this overlay-only guard.",
+      "tests": [
+        "test_terrain_lifecycle_contracts",
+        "test_live_terrain_notifications_and_ordered_mutations",
+        "test_new_terrain_evidence_and_nested_schemas"
+      ],
+      "runtime_proof": "/root/TerrainMutationLifecycleProof"
+    },
+    "source_world_floor_overlay_receiver_result.floor_state": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_set_world_floor_overlay_state",
+      "godot_symbol": "source_world_floor_overlay_receiver_result.floor_state",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "setFloor; setOverlayQuiet; clearOverlay; setFloorNet",
+      "java_expr": "tile.setFloor(floor.asFloor());",
+      "rule": "Result of first canonical receiver call.",
+      "tests": [
+        "test_terrain_lifecycle_contracts",
+        "test_live_terrain_notifications_and_ordered_mutations",
+        "test_new_terrain_evidence_and_nested_schemas"
+      ],
+      "runtime_proof": "/root/TerrainMutationLifecycleProof"
+    },
+    "source_world_floor_overlay_receiver_result.overlay_state": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_set_world_floor_overlay_state",
+      "godot_symbol": "source_world_floor_overlay_receiver_result.overlay_state",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "setFloor; setOverlayQuiet; clearOverlay; setFloorNet",
+      "java_expr": "tile.setOverlay(overlay);",
+      "rule": "Result of second call, after first notification has observed the prior overlay.",
+      "tests": [
+        "test_terrain_lifecycle_contracts",
+        "test_live_terrain_notifications_and_ordered_mutations",
+        "test_new_terrain_evidence_and_nested_schemas"
+      ],
+      "runtime_proof": "/root/TerrainMutationLifecycleProof"
+    },
+    "source_world_floor_default_receiver_input.game": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_set_world_floor_default_state",
+      "godot_symbol": "source_world_floor_default_receiver_input.game",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "setFloor; setOverlayQuiet; clearOverlay; setFloorNet",
+      "java_expr": "build.onProximityUpdate();",
+      "rule": "Actual game with canonical dense Tile storage, placement index, world-scoped Item view and existing Building frames.",
+      "tests": [
+        "test_terrain_lifecycle_contracts",
+        "test_live_terrain_notifications_and_ordered_mutations",
+        "test_new_terrain_evidence_and_nested_schemas"
+      ],
+      "runtime_proof": "/root/TerrainMutationLifecycleProof"
+    },
+    "source_world_floor_default_receiver_input.x": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_set_world_floor_default_state",
+      "godot_symbol": "source_world_floor_default_receiver_input.x",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "setFloor; setOverlayQuiet; clearOverlay; setFloorNet",
+      "java_expr": "public short x, y;",
+      "rule": "Actual in-bounds Tile coordinate; unresolved Tile is rejected, not fabricated.",
+      "tests": [
+        "test_terrain_lifecycle_contracts",
+        "test_live_terrain_notifications_and_ordered_mutations",
+        "test_new_terrain_evidence_and_nested_schemas"
+      ],
+      "runtime_proof": "/root/TerrainMutationLifecycleProof"
+    },
+    "source_world_floor_default_receiver_input.y": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_set_world_floor_default_state",
+      "godot_symbol": "source_world_floor_default_receiver_input.y",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "setFloor; setOverlayQuiet; clearOverlay; setFloorNet",
+      "java_expr": "public short x, y;",
+      "rule": "Actual in-bounds Tile coordinate; unresolved Tile is rejected, not fabricated.",
+      "tests": [
+        "test_terrain_lifecycle_contracts",
+        "test_live_terrain_notifications_and_ordered_mutations",
+        "test_new_terrain_evidence_and_nested_schemas"
+      ],
+      "runtime_proof": "/root/TerrainMutationLifecycleProof"
+    },
+    "source_world_floor_default_receiver_input.floor_block": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_set_world_floor_default_state",
+      "godot_symbol": "source_world_floor_default_receiver_input.floor_block",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "setFloor; setOverlayQuiet; clearOverlay; setFloorNet",
+      "java_expr": "this.floor = type;",
+      "rule": "Actual resolved typed Floor definition; Item drops come from existing canonical metadata. Floor override/data callbacks remain separate.",
+      "tests": [
+        "test_terrain_lifecycle_contracts",
+        "test_live_terrain_notifications_and_ordered_mutations",
+        "test_new_terrain_evidence_and_nested_schemas"
+      ],
+      "runtime_proof": "/root/TerrainMutationLifecycleProof"
+    },
+    "source_world_floor_default_receiver_input.generating": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_set_world_floor_default_state",
+      "godot_symbol": "source_world_floor_default_receiver_input.generating",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "setFloor; setOverlayQuiet; clearOverlay; setFloorNet",
+      "java_expr": "if(!world.isGenerating() && build != null){",
+      "rule": "Explicit source generation phase. setFloor notification deliberately ignores this overlay-only guard.",
+      "tests": [
+        "test_terrain_lifecycle_contracts",
+        "test_live_terrain_notifications_and_ordered_mutations",
+        "test_new_terrain_evidence_and_nested_schemas"
+      ],
+      "runtime_proof": "/root/TerrainMutationLifecycleProof"
+    },
+    "source_world_floor_default_receiver_result.floor_state": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_set_world_floor_default_state",
+      "godot_symbol": "source_world_floor_default_receiver_result.floor_state",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "setFloor; setOverlayQuiet; clearOverlay; setFloorNet",
+      "java_expr": "tile.setFloor(floor.asFloor());",
+      "rule": "Result of first canonical receiver call.",
+      "tests": [
+        "test_terrain_lifecycle_contracts",
+        "test_live_terrain_notifications_and_ordered_mutations",
+        "test_new_terrain_evidence_and_nested_schemas"
+      ],
+      "runtime_proof": "/root/TerrainMutationLifecycleProof"
+    },
+    "source_world_floor_default_receiver_result.overlay_state": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_set_world_floor_default_state",
+      "godot_symbol": "source_world_floor_default_receiver_result.overlay_state",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "setFloor; setOverlayQuiet; clearOverlay; setFloorNet",
+      "java_expr": "tile.setOverlay(overlay);",
+      "rule": "Result of second call, after first notification has observed the prior overlay.",
+      "tests": [
+        "test_terrain_lifecycle_contracts",
+        "test_live_terrain_notifications_and_ordered_mutations",
+        "test_new_terrain_evidence_and_nested_schemas"
+      ],
+      "runtime_proof": "/root/TerrainMutationLifecycleProof"
     }
   },
   "version": 1

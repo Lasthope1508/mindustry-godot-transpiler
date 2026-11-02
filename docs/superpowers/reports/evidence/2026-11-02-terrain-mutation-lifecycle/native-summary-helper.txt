@@ -1,0 +1,17 @@
+import json,re
+from pathlib import Path
+TMP=Path('C:/tmp')
+def unwrap(suffix):
+ raw=json.loads((TMP/('terrain-notify-native-'+suffix+'.json')).read_text(encoding='utf-8'))
+ return json.loads(next(c['text'] for c in raw['content'] if c['type']=='text'))
+debug,stop=unwrap('debug'),unwrap('stop')
+proofs=[json.loads(line.strip().split(' ',1)[1]) for line in debug['output'] if line.startswith('TERRAIN_MUTATION_LIFECYCLE_PROOF ')]
+assert len(proofs)==1 and proofs[0]['matches'] and all(v is True for v in proofs[0].values())
+lines=debug.get('output',[])+debug.get('errors',[])+stop.get('finalOutput',[])+stop.get('finalErrors',[])
+errors=[line for line in lines if re.search(r'(?:^|\s)(?:SCRIPT ERROR|ERROR|Parse Error):',line)]
+assert not errors,errors
+warnings=[line for line in debug.get('errors',[]) if line.strip().startswith('WARNING:')]
+assert 'stopped' in json.dumps(stop).lower() or 'terminated' in json.dumps(stop).lower(),stop
+out={'proof':proofs[0],'check_count':len(proofs[0])-1,'warning_count':len(warnings),'actual_errors':errors,'stopped':True}
+(TMP/'terrain-notify-native-summary.json').write_text(json.dumps(out,indent=2)+'\n',encoding='utf-8')
+print('Native',out['check_count'],'checks true; warnings',len(warnings),'; actual errors 0; explicit stop inspected')

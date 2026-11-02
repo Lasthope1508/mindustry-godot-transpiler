@@ -1,0 +1,47 @@
+import hashlib,importlib.util,json,re,subprocess,sys
+from pathlib import Path
+ROOT=Path(r'C:/Users/Admin/Documents/Game/mindustry-godot-transpiler-copy-20260714-073528');TMP=Path('C:/tmp')
+spec=importlib.util.spec_from_file_location('scope',str(TMP/'terrain-notify-scope.py'));s=importlib.util.module_from_spec(spec);spec.loader.exec_module(s)
+WHOLE={'godot-mindustry/tools/runtime_proofs/TerrainMutationLifecycleProof.gd','godot-mindustry/tools/runtime_proofs/TerrainMutationLifecycleProof.tscn','tools/mindustry_godot_transpiler/register_terrain_mutation_lifecycle.py','tools/mindustry_godot_transpiler/tests/test_terrain_mutation_lifecycle.py','docs/superpowers/specs/2026-06-23-mindustry-godot-gdscript-transpiler-design.md','docs/superpowers/handoffs/2026-11-02-mindustry-completion-backlog.md','docs/superpowers/reports/2026-11-02-terrain-mutation-lifecycle.md'}
+E=ROOT/'docs/superpowers/reports/evidence/2026-11-02-terrain-mutation-lifecycle'
+def git(*args):return s.s.git(*args)
+def stage_bytes(p,data):
+ oid=s.s.git('hash-object','-w','--stdin',input=data).strip();subprocess.run(['git','update-index','--add','--cacheinfo','100644',oid,p],cwd=ROOT,check=True)
+def main():
+ assert git('rev-parse','HEAD').startswith('f6f76298')
+ if '--stage' in sys.argv:
+  assert not git('diff','--cached','--name-only').strip()
+  s.main()
+  for p in WHOLE:s.s.stage(p,s.s.read(p))
+  (E/'index-audit-helper.txt').write_text((TMP/'terrain-notify-index-audit.py').read_text(encoding='utf-8').rstrip()+'\n',encoding='utf-8',newline='\n')
+  for p in E.iterdir():
+   if p.is_file():
+    relative=p.relative_to(ROOT).as_posix()
+    if p.suffix=='.gz':stage_bytes(relative,p.read_bytes())
+    else:
+     content=p.read_text(encoding='utf-8').rstrip()+'\n';p.write_text(content,encoding='utf-8',newline='\n');s.s.stage(relative,content)
+ scope=json.loads((TMP/'terrain-notify-scope.json').read_text(encoding='utf-8'));paths=set(git('diff','--cached','--name-only').splitlines());expected=set(scope['json'])|set(scope['runtime'])|WHOLE|{p.relative_to(ROOT).as_posix() for p in E.iterdir() if p.is_file()}
+ assert paths==expected,(paths-expected,expected-paths)
+ assert not any(p.endswith(('.gd.uid','/project.godot','/source_ssot_modules.json','/content_registry.json','/MindustryContentRegistry.gd','/source_symbol_audit_report.json','/PortGame.gd')) or p.startswith('arc-upstream/') for p in paths)
+ out=[]
+ for name,(key,count) in s.ROOTS.items():
+  p=s.GEN+name;old,new=json.loads(git('show','HEAD:'+p)),json.loads(git('show',':'+p));assert all(new[key].get(k)==v for k,v in old[key].items()) and len(new[key])-len(old[key])==count;assert {k:v for k,v in old.items() if k!=key}=={k:v for k,v in new.items() if k!=key};out.append(name+': only '+str(count)+' additions; prior entries/policy preserved')
+ for p in scope['json']:
+  a,b,c=json.loads(s.s.read(p,s.BEFORE)),json.loads(s.s.read(p)),json.loads(git('show','HEAD:'+p));assert json.loads(git('show',':'+p))==s.s.merge(a,b,c)
+ for p in s.RUNTIME:assert git('show',':'+p)==s.runtime_plan(p),p
+ for p in WHOLE:assert git('show',':'+p)==s.s.read(p),p
+ assert re.search(r'^\d+ passed, \d+ subtests passed in ',(TMP/'terrain-notify-full.log').read_text(encoding='utf-8'),re.M)
+ f=json.loads((TMP/'terrain-notify-full-result.json').read_text(encoding='utf-8'));assert f['exit_code']==0 and f['inputs_unchanged']
+ n=json.loads((TMP/'terrain-notify-native-summary.json').read_text(encoding='utf-8'));assert n['proof']['matches'] and n['stopped'] and not n['actual_errors'] and n['editor_exit_code']==0
+ v=json.loads((TMP/'terrain-notify-validator.json').read_text(encoding='utf-8'));assert not v['errors'] and not v['json_errors'] and v['json_module_count']==113
+ assert json.loads((TMP/'terrain-notify-replay.json').read_text(encoding='utf-8'))['matches']
+ d=json.loads((TMP/'terrain-notify-dependency-inventory.json').read_text(encoding='utf-8'));assert all(x['working_present'] and not x['head_present'] for x in d['functions'].values())
+ out+=['Canonical audit/content/manifest unchanged; no game facade function/field additions','Geometry staging: new shared assignment helper only; working descriptive Tile.setFloor delegation preserved in the preexisting uncommitted extraction','World terrain staging: exact cohesive floor/quiet/clear/ordered receiver additions; unrelated source-text/facade work excluded','C12 debt explicitly evidenced: existing Tile owner functions/source-text dependencies are missing from HEAD; acceptance is on working tree, not clean checkout','Full frozen-input/native/inspect-stop/editor/replay/catalog gates accepted; C01 and C02-C12 remain open','All 37 new exact source expressions matched; nested schema references checked','Exact staged allowlist PASS; source-text/owner extraction, project/UID/arc/content/manifest/audit/PortGame and unrelated dirty work excluded','Staged whitespace check follows staging of this log itself']
+ p=E/'index-final.log';p.write_text('\n'.join(out)+'\n',encoding='utf-8',newline='\n');s.s.stage(p.relative_to(ROOT).as_posix(),p.read_text(encoding='utf-8'))
+ subprocess.run(['git','diff','--cached','--check'],cwd=ROOT,check=True)
+ hashes={}
+ for line in git('status','--porcelain=v1','-uall').splitlines():
+  p=line[3:]
+  if (ROOT/p).is_file():hashes[p]=hashlib.sha256((ROOT/p).read_bytes()).hexdigest()
+ (TMP/'terrain-notify-precommit-workspace-hashes.json').write_text(json.dumps(hashes,indent=2)+'\n',encoding='utf-8',newline='\n');print('\n'.join(out));print('Final staged whitespace PASS; workspace hashes saved',len(hashes))
+if __name__=='__main__':main()

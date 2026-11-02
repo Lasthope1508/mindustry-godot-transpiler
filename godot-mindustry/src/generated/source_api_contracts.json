@@ -57691,6 +57691,212 @@
       ],
       "runtime_proof": "/root/DrillProximityLifecycleProof",
       "rule": "One world-scoped typed Item view; reuse canonical countOre/drop/Tile mutation and existing per-Building frame. No per-tick ore re-selection. Only stated partial lifecycle/production scope; deferred behaviors are recorded in ledger."
+    },
+    "SourceBlockGeometry.tile_floor_assignment_state": {
+      "status": "active",
+      "source_slice": "N2023",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "source_method": "setFloor(Floor type)",
+      "params": [
+        {
+          "name": "type_value",
+          "type": "Variant",
+          "schema": "source_tile_floor_assignment_input.type_value"
+        },
+        {
+          "name": "previous_floor",
+          "type": "Variant",
+          "schema": "source_tile_floor_assignment_input.previous_floor"
+        },
+        {
+          "name": "build_present",
+          "type": "bool",
+          "schema": "source_tile_floor_assignment_input.build_present"
+        }
+      ],
+      "return_keys": [
+        "same_floor",
+        "floor",
+        "build_proximity_updated"
+      ],
+      "tests": [
+        "test_terrain_lifecycle_contracts",
+        "test_live_terrain_notifications_and_ordered_mutations",
+        "test_new_terrain_evidence_and_nested_schemas"
+      ],
+      "runtime_proof": "/root/TerrainMutationLifecycleProof",
+      "rule": "Reuse canonical Tile geometry assignment/notification guards and receiver recipe on the actual Tile store. Only supported Drill proximity callback runs; renderer/events/pathfinder/Floor override/RPC effects remain deferred, not populated with invented defaults."
+    },
+    "SourceWorldTerrainRuntimeState.source_set_world_floor_state": {
+      "status": "active",
+      "source_slice": "N2023",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "source_method": "setFloor(Floor type)",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_world_drill_floor_input.game"
+        },
+        {
+          "name": "x",
+          "type": "int",
+          "schema": "source_world_drill_floor_input.x"
+        },
+        {
+          "name": "y",
+          "type": "int",
+          "schema": "source_world_drill_floor_input.y"
+        },
+        {
+          "name": "floor_block",
+          "type": "Object",
+          "schema": "source_world_drill_floor_input.floor_block"
+        }
+      ],
+      "return_keys": [
+        "changed",
+        "proximity_updated"
+      ],
+      "tests": [
+        "test_terrain_lifecycle_contracts",
+        "test_live_terrain_notifications_and_ordered_mutations",
+        "test_new_terrain_evidence_and_nested_schemas"
+      ],
+      "runtime_proof": "/root/TerrainMutationLifecycleProof",
+      "rule": "Reuse canonical Tile geometry assignment/notification guards and receiver recipe on the actual Tile store. Only supported Drill proximity callback runs; renderer/events/pathfinder/Floor override/RPC effects remain deferred, not populated with invented defaults."
+    },
+    "SourceWorldTerrainRuntimeState.source_clear_world_overlay_state": {
+      "status": "active",
+      "source_slice": "N2024",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "source_method": "clearOverlay()",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_world_clear_overlay_input.game"
+        },
+        {
+          "name": "x",
+          "type": "int",
+          "schema": "source_world_clear_overlay_input.x"
+        },
+        {
+          "name": "y",
+          "type": "int",
+          "schema": "source_world_clear_overlay_input.y"
+        },
+        {
+          "name": "generating",
+          "type": "bool",
+          "schema": "source_world_clear_overlay_input.generating"
+        }
+      ],
+      "return_keys": [
+        "changed",
+        "proximity_updated"
+      ],
+      "tests": [
+        "test_terrain_lifecycle_contracts",
+        "test_live_terrain_notifications_and_ordered_mutations",
+        "test_new_terrain_evidence_and_nested_schemas"
+      ],
+      "runtime_proof": "/root/TerrainMutationLifecycleProof",
+      "rule": "Reuse canonical Tile geometry assignment/notification guards and receiver recipe on the actual Tile store. Only supported Drill proximity callback runs; renderer/events/pathfinder/Floor override/RPC effects remain deferred, not populated with invented defaults."
+    },
+    "SourceWorldTerrainRuntimeState.source_set_world_floor_overlay_state": {
+      "status": "active",
+      "source_slice": "N2025",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "source_method": "setFloor(Tile tile, Block floor, Block overlay)",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_world_floor_overlay_receiver_input.game"
+        },
+        {
+          "name": "x",
+          "type": "int",
+          "schema": "source_world_floor_overlay_receiver_input.x"
+        },
+        {
+          "name": "y",
+          "type": "int",
+          "schema": "source_world_floor_overlay_receiver_input.y"
+        },
+        {
+          "name": "floor_block",
+          "type": "Object",
+          "schema": "source_world_floor_overlay_receiver_input.floor_block"
+        },
+        {
+          "name": "overlay_block",
+          "type": "Object",
+          "schema": "source_world_floor_overlay_receiver_input.overlay_block"
+        },
+        {
+          "name": "generating",
+          "type": "bool",
+          "schema": "source_world_floor_overlay_receiver_input.generating"
+        }
+      ],
+      "return_keys": [
+        "floor_state",
+        "overlay_state"
+      ],
+      "tests": [
+        "test_terrain_lifecycle_contracts",
+        "test_live_terrain_notifications_and_ordered_mutations",
+        "test_new_terrain_evidence_and_nested_schemas"
+      ],
+      "runtime_proof": "/root/TerrainMutationLifecycleProof",
+      "rule": "Reuse canonical Tile geometry assignment/notification guards and receiver recipe on the actual Tile store. Only supported Drill proximity callback runs; renderer/events/pathfinder/Floor override/RPC effects remain deferred, not populated with invented defaults."
+    },
+    "SourceWorldTerrainRuntimeState.source_set_world_floor_default_state": {
+      "status": "active",
+      "source_slice": "N2025",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "source_method": "setFloorNet(Block floor)",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_world_floor_default_receiver_input.game"
+        },
+        {
+          "name": "x",
+          "type": "int",
+          "schema": "source_world_floor_default_receiver_input.x"
+        },
+        {
+          "name": "y",
+          "type": "int",
+          "schema": "source_world_floor_default_receiver_input.y"
+        },
+        {
+          "name": "floor_block",
+          "type": "Object",
+          "schema": "source_world_floor_default_receiver_input.floor_block"
+        },
+        {
+          "name": "generating",
+          "type": "bool",
+          "schema": "source_world_floor_default_receiver_input.generating"
+        }
+      ],
+      "return_keys": [
+        "floor_state",
+        "overlay_state"
+      ],
+      "tests": [
+        "test_terrain_lifecycle_contracts",
+        "test_live_terrain_notifications_and_ordered_mutations",
+        "test_new_terrain_evidence_and_nested_schemas"
+      ],
+      "runtime_proof": "/root/TerrainMutationLifecycleProof",
+      "rule": "Reuse canonical Tile geometry assignment/notification guards and receiver recipe on the actual Tile store. Only supported Drill proximity callback runs; renderer/events/pathfinder/Floor override/RPC effects remain deferred, not populated with invented defaults."
     }
   },
   "policy": {

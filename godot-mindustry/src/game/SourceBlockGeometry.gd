@@ -53,3 +53,7 @@ static func generated_building_hitbox_bridge_state(world_x: float, world_y: floa
 
 static func block_unit_tile_hit_size(block_size: float, tile_size: float) -> float:
 	return float(block_size) * tile_size * source_block_defaults.BLOCK_UNIT_TILE_HIT_SIZE_SCALE_DEFAULT
+
+static func tile_floor_assignment_state(type_value: Variant, previous_floor: Variant, build_present: bool) -> Dictionary:
+	var same_floor: bool = type_value == previous_floor
+	return {"same_floor": same_floor, "floor": previous_floor if same_floor else type_value, "build_proximity_updated": not same_floor and build_present}

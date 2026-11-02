@@ -1,0 +1,12 @@
+source_symbol_registry.json: only 37 additions; prior entries/policy preserved
+source_api_contracts.json: only 5 additions; prior entries/policy preserved
+source_state_schema.json: only 11 additions; prior entries/policy preserved
+source_slice_ledger.json: only 3 additions; prior entries/policy preserved
+Canonical audit/content/manifest unchanged; no game facade function/field additions
+Geometry staging: new shared assignment helper only; working descriptive Tile.setFloor delegation preserved in the preexisting uncommitted extraction
+World terrain staging: exact cohesive floor/quiet/clear/ordered receiver additions; unrelated source-text/facade work excluded
+C12 debt explicitly evidenced: existing Tile owner functions/source-text dependencies are missing from HEAD; acceptance is on working tree, not clean checkout
+Full frozen-input/native/inspect-stop/editor/replay/catalog gates accepted; C01 and C02-C12 remain open
+All 37 new exact source expressions matched; nested schema references checked
+Exact staged allowlist PASS; source-text/owner extraction, project/UID/arc/content/manifest/audit/PortGame and unrelated dirty work excluded
+Staged whitespace check follows staging of this log itself

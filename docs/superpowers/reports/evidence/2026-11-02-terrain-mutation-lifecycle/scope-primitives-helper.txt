@@ -1,0 +1,91 @@
+import copy,difflib,json,subprocess,sys,tempfile
+from pathlib import Path
+ROOT=Path(r'C:/Users/Admin/Documents/Game/mindustry-godot-transpiler-copy-20260714-073528');BEFORE=Path('C:/tmp/tile-ore-before');GEN='godot-mindustry/src/generated/'
+ROOTS={'source_symbol_registry.json':('symbols',20),'source_api_contracts.json':('contracts',2),'source_state_schema.json':('schemas',6),'source_slice_ledger.json':('slices',3)}
+RUNTIME=['godot-mindustry/src/game/SourceWorldTerrainRuntimeState.gd','tools/mindustry_godot_transpiler/mindustry_port/content_registry.py','tools/mindustry_godot_transpiler/tests/test_source_symbols.py']
+ADDED={'ore-beryllium','ore-coal','ore-copper','ore-lead','ore-scrap','ore-thorium','ore-titanium','ore-tungsten'}
+
+def git(*args,input=None):return subprocess.check_output(['git',*args],cwd=ROOT,input=input).decode('utf-8')
+def read(p,base=ROOT):return (base/p).read_text(encoding='utf-8')
+
+def merge(a,b,c):
+ if a==b:return copy.deepcopy(c)
+ if isinstance(a,dict) and isinstance(b,dict) and isinstance(c,dict):
+  d=copy.deepcopy(c)
+  for k in dict.fromkeys([*a,*b]):
+   if k not in b:assert d[k]==a[k];del d[k]
+   elif k not in a:assert k not in d or d[k]==b[k];d[k]=copy.deepcopy(b[k])
+   elif a[k]!=b[k]:d[k]=merge(a[k],b[k],d[k])
+  return d
+ if isinstance(a,list) and isinstance(b,list) and isinstance(c,list):
+  if all(isinstance(x,dict) and 'id' in x for x in a+b+c):
+   am,bm,cm=({x['id']:x for x in values} for values in [a,b,c]);assert set(am)<=set(bm) and set(am)==set(cm)
+   return [merge(am[x['id']],x,cm[x['id']]) if x['id'] in am else copy.deepcopy(x) for x in b]
+  assert len(a)==len(b)==len(c)
+  return [merge(x,y,z) for x,y,z in zip(a,b,c)]
+ assert c==a or c==b
+ return copy.deepcopy(b)
+
+def delta(a,b,c):
+ x,y=a.splitlines(keepends=True),b.splitlines(keepends=True)
+ for group in reversed(list(difflib.SequenceMatcher(None,x,y,autojunk=False).get_grouped_opcodes(1))):
+  old=''.join(x[group[0][1]:group[-1][2]]);new=''.join(y[group[0][3]:group[-1][4]])
+  if c.count(old)==1:c=c.replace(old,new,1);continue
+  for tag,i,j,p,q in reversed(group):
+   if tag=='equal':continue
+   old,new=''.join(x[i:j]),''.join(y[p:q]);assert old and c.count(old)==1,old;c=c.replace(old,new,1)
+ return c
+
+def stage(p,s):
+ oid=git('hash-object','-w','--stdin',input=s.replace('\r\n','\n').encode('utf-8')).strip();subprocess.run(['git','update-index','--add','--cacheinfo','100644',oid,p],cwd=ROOT,check=True)
+
+def json_paths():
+ paths=[GEN+n for n in ROOTS]+[GEN+'content_registry.json']
+ for m in json.loads(read(GEN+'source_ssot_modules.json'))['modules'].values():
+  p='godot-mindustry/'+m['path']
+  if json.loads(read(p))!=json.loads(read(p,BEFORE)):paths.append(p)
+ return paths
+
+def content_delta(a,b):
+ assert {k:v for k,v in a.items() if k not in ('blocks','counts')}=={k:v for k,v in b.items() if k not in ('blocks','counts')}
+ assert {k:v for k,v in a['counts'].items() if k!='blocks'}=={k:v for k,v in b['counts'].items() if k!='blocks'}
+ am,bm=({x['id']:x for x in data['blocks']} for data in [a,b]);assert set(bm)-set(am)==ADDED and set(am)<=set(bm)
+ assert b['counts']['blocks']==a['counts']['blocks']+len(ADDED)==len(b['blocks'])
+ changed=[]
+ for name,old in am.items():
+  new=bm[name]
+  assert {k:v for k,v in old.items() if k!='properties'}=={k:v for k,v in new.items() if k!='properties'}
+  x,y=old['properties'],new['properties'];assert all(y.get(k)==v for k,v in x.items());assert set(y)-set(x)<= {'itemDrop','cacheLayer'}
+  if old!=new:changed.append(name)
+ assert [x['id'] for x in b['blocks'] if x['id'] in am]==[x['id'] for x in a['blocks']]
+ return {'added_blocks':sorted(ADDED),'changed_existing_blocks':changed,'counts_before':a['counts'],'counts_after':b['counts']}
+
+def main():
+ assert git('rev-parse','HEAD').startswith('1b74e8c3')
+ out={'parent':git('rev-parse','HEAD').strip(),'json':{},'runtime':{}}
+ planned_content=None
+ for p in json_paths():
+  a,b,c=json.loads(read(p,BEFORE)),json.loads(read(p)),json.loads(git('show','HEAD:'+p));planned=merge(a,b,c)
+  if p==GEN+'content_registry.json':
+   out['content_delta']=content_delta(a,b);planned_content=planned
+  elif p.removeprefix(GEN) in ROOTS:
+   key,count=ROOTS[p.removeprefix(GEN)];added=sorted(set(b[key])-set(a[key]));assert len(added)==count and all(b[key].get(k)==v for k,v in a[key].items())
+   assert {k:v for k,v in a.items() if k!=key}=={k:v for k,v in b.items() if k!=key}
+  out['json'][p]={'preexisting_dirty':a!=c}
+  if '--stage' in sys.argv:stage(p,json.dumps(planned,indent=2,sort_keys=p.endswith('/content_registry.json'))+('' if p.endswith('/content_registry.json') else '\n'))
+ assert planned_content is not None
+ sys.path.insert(0,str(ROOT/'tools/mindustry_godot_transpiler'));from mindustry_port.content_registry import write_gdscript_registry
+ with tempfile.TemporaryDirectory() as d:
+  target=Path(d)/'registry.gd';write_gdscript_registry(planned_content,target)
+  if '--stage' in sys.argv:stage(GEN+'MindustryContentRegistry.gd',target.read_text(encoding='utf-8'))
+ out['runtime'][GEN+'MindustryContentRegistry.gd']={'rebuilt_from_staged_canonical_content':True}
+ for p in RUNTIME:
+  a,b,c=read(p,BEFORE),read(p),git('show','HEAD:'+p);planned=delta(a,b,c)
+  out['runtime'][p]={'preexisting_dirty':a!=c,'delta':list(difflib.unified_diff(a.splitlines(),b.splitlines(),n=1))}
+  if '--stage' in sys.argv:stage(p,planned)
+ for n in ['source_ssot_modules.json','source_symbol_audit_report.json']:assert read(GEN+n)==read(GEN+n,BEFORE)
+ Path('C:/tmp/tile-ore-scope.json').write_text(json.dumps(out,indent=2)+'\n',encoding='utf-8')
+ print('Scope PASS: source roots only additions; 8 source-created ore overlays; existing content changes only itemDrop/cacheLayer; manifest/audit unchanged')
+ print('JSON paths',len(out['json']),'runtime',len(out['runtime']))
+
+if __name__=='__main__':main()

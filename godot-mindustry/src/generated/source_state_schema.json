@@ -166780,6 +166780,473 @@
         }
       },
       "runtime_proof": "/root/DrillProximityLifecycleProof"
+    },
+    "source_tile_floor_assignment_input": {
+      "status": "active",
+      "owner": "SourceBlockGeometry.tile_floor_assignment_state",
+      "source_slice": "N2023",
+      "keys": {
+        "type_value": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "this.floor = type;",
+          "rule": "Actual supplied Floor reference.",
+          "used_by": [
+            "SourceBlockGeometry.tile_floor_assignment_state"
+          ]
+        },
+        "previous_floor": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "var prev = this.floor;",
+          "rule": "Previous Floor reference; preserve identity.",
+          "used_by": [
+            "SourceBlockGeometry.tile_floor_assignment_state"
+          ]
+        },
+        "build_present": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "if(build != null){",
+          "rule": "Actual Building presence, not an inferred content flag.",
+          "used_by": [
+            "SourceBlockGeometry.tile_floor_assignment_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/TerrainMutationLifecycleProof"
+    },
+    "source_tile_floor_assignment_result": {
+      "status": "active",
+      "owner": "SourceBlockGeometry.tile_floor_assignment_state",
+      "source_slice": "N2023",
+      "keys": {
+        "same_floor": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "if(this.floor == type) return;",
+          "rule": "Canonical identity guard shared by state description and actual mutation.",
+          "used_by": [
+            "SourceBlockGeometry.tile_floor_assignment_state"
+          ]
+        },
+        "floor": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "this.floor = type;",
+          "rule": "Prior reference on no-op; supplied reference on assignment.",
+          "used_by": [
+            "SourceBlockGeometry.tile_floor_assignment_state"
+          ]
+        },
+        "build_proximity_updated": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "if(build != null){",
+          "rule": "Changed floor notifies Building regardless of generation; one formula shared with existing full Tile.setFloor state owner.",
+          "used_by": [
+            "SourceBlockGeometry.tile_floor_assignment_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/TerrainMutationLifecycleProof"
+    },
+    "source_world_drill_floor_input": {
+      "status": "active",
+      "owner": "SourceWorldTerrainRuntimeState.source_set_world_floor_state",
+      "source_slice": "N2023",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "build.onProximityUpdate();",
+          "rule": "Actual game with canonical dense Tile storage, placement index, world-scoped Item view and existing Building frames.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_set_world_floor_state"
+          ]
+        },
+        "x": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "public short x, y;",
+          "rule": "Actual in-bounds Tile coordinate; unresolved Tile is rejected, not fabricated.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_set_world_floor_state"
+          ]
+        },
+        "y": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "public short x, y;",
+          "rule": "Actual in-bounds Tile coordinate; unresolved Tile is rejected, not fabricated.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_set_world_floor_state"
+          ]
+        },
+        "floor_block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "this.floor = type;",
+          "rule": "Actual resolved typed Floor definition; Item drops come from existing canonical metadata. Floor override/data callbacks remain separate.",
+          "schema": "source_terrain_block_definition",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_set_world_floor_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/TerrainMutationLifecycleProof"
+    },
+    "source_world_drill_floor_result": {
+      "status": "active",
+      "owner": "SourceWorldTerrainRuntimeState.source_set_world_floor_state",
+      "source_slice": "N2023",
+      "keys": {
+        "changed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "if(this.floor == type) return;",
+          "rule": "True after the canonical identity guard allows floor assignment.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_set_world_floor_state"
+          ]
+        },
+        "proximity_updated": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "build.onProximityUpdate();",
+          "rule": "True only when the supported actual Drill frame was recomputed. Floor notification is independent of generating.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_set_world_floor_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/TerrainMutationLifecycleProof"
+    },
+    "source_world_quiet_overlay_input": {
+      "status": "active",
+      "owner": "SourceWorldTerrainRuntimeState.source_set_world_overlay_quiet_state",
+      "source_slice": "N2024",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "build.onProximityUpdate();",
+          "rule": "Actual game with canonical dense Tile storage, placement index, world-scoped Item view and existing Building frames.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_set_world_overlay_quiet_state"
+          ]
+        },
+        "x": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "public short x, y;",
+          "rule": "Actual in-bounds Tile coordinate; unresolved Tile is rejected, not fabricated.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_set_world_overlay_quiet_state"
+          ]
+        },
+        "y": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "public short x, y;",
+          "rule": "Actual in-bounds Tile coordinate; unresolved Tile is rejected, not fabricated.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_set_world_overlay_quiet_state"
+          ]
+        },
+        "block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "this.overlay = (Floor)block;",
+          "rule": "Actual resolved typed overlay Floor definition by reference.",
+          "schema": "source_terrain_block_definition",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_set_world_overlay_quiet_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/TerrainMutationLifecycleProof"
+    },
+    "source_world_clear_overlay_input": {
+      "status": "active",
+      "owner": "SourceWorldTerrainRuntimeState.source_clear_world_overlay_state",
+      "source_slice": "N2024",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "build.onProximityUpdate();",
+          "rule": "Actual game with canonical dense Tile storage, placement index, world-scoped Item view and existing Building frames.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_clear_world_overlay_state"
+          ]
+        },
+        "x": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "public short x, y;",
+          "rule": "Actual in-bounds Tile coordinate; unresolved Tile is rejected, not fabricated.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_clear_world_overlay_state"
+          ]
+        },
+        "y": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "public short x, y;",
+          "rule": "Actual in-bounds Tile coordinate; unresolved Tile is rejected, not fabricated.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_clear_world_overlay_state"
+          ]
+        },
+        "generating": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "if(!world.isGenerating() && build != null){",
+          "rule": "Explicit source generation phase. setFloor notification deliberately ignores this overlay-only guard.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_clear_world_overlay_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/TerrainMutationLifecycleProof"
+    },
+    "source_world_clear_overlay_result": {
+      "status": "active",
+      "owner": "SourceWorldTerrainRuntimeState.source_clear_world_overlay_state",
+      "source_slice": "N2024",
+      "keys": {
+        "changed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "if(this.overlay == block) return;",
+          "rule": "Delegate normal setOverlay; retain its identity guard.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_clear_world_overlay_state"
+          ]
+        },
+        "proximity_updated": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "if(!world.isGenerating() && build != null){",
+          "rule": "Actual supported Drill notification only; generating and identity no-op are inherited from canonical overlay owner.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_clear_world_overlay_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/TerrainMutationLifecycleProof"
+    },
+    "source_world_floor_overlay_receiver_input": {
+      "status": "active",
+      "owner": "SourceWorldTerrainRuntimeState.source_set_world_floor_overlay_state",
+      "source_slice": "N2025",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "build.onProximityUpdate();",
+          "rule": "Actual game with canonical dense Tile storage, placement index, world-scoped Item view and existing Building frames.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_set_world_floor_overlay_state"
+          ]
+        },
+        "x": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "public short x, y;",
+          "rule": "Actual in-bounds Tile coordinate; unresolved Tile is rejected, not fabricated.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_set_world_floor_overlay_state"
+          ]
+        },
+        "y": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "public short x, y;",
+          "rule": "Actual in-bounds Tile coordinate; unresolved Tile is rejected, not fabricated.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_set_world_floor_overlay_state"
+          ]
+        },
+        "floor_block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "this.floor = type;",
+          "rule": "Actual resolved typed Floor definition; Item drops come from existing canonical metadata. Floor override/data callbacks remain separate.",
+          "schema": "source_terrain_block_definition",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_set_world_floor_overlay_state"
+          ]
+        },
+        "overlay_block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "this.overlay = (Floor)block;",
+          "rule": "Actual resolved typed overlay Floor definition by reference.",
+          "schema": "source_terrain_block_definition",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_set_world_floor_overlay_state"
+          ]
+        },
+        "generating": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "if(!world.isGenerating() && build != null){",
+          "rule": "Explicit source generation phase. setFloor notification deliberately ignores this overlay-only guard.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_set_world_floor_overlay_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/TerrainMutationLifecycleProof"
+    },
+    "source_world_floor_overlay_receiver_result": {
+      "status": "active",
+      "owner": "SourceWorldTerrainRuntimeState.source_set_world_floor_overlay_state",
+      "source_slice": "N2025",
+      "keys": {
+        "floor_state": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "tile.setFloor(floor.asFloor());",
+          "rule": "Result of first canonical receiver call.",
+          "schema": "source_world_drill_floor_result",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_set_world_floor_overlay_state"
+          ]
+        },
+        "overlay_state": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "tile.setOverlay(overlay);",
+          "rule": "Result of second call, after first notification has observed the prior overlay.",
+          "schema": "source_world_drill_overlay_result",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_set_world_floor_overlay_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/TerrainMutationLifecycleProof"
+    },
+    "source_world_floor_default_receiver_input": {
+      "status": "active",
+      "owner": "SourceWorldTerrainRuntimeState.source_set_world_floor_default_state",
+      "source_slice": "N2025",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "build.onProximityUpdate();",
+          "rule": "Actual game with canonical dense Tile storage, placement index, world-scoped Item view and existing Building frames.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_set_world_floor_default_state"
+          ]
+        },
+        "x": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "public short x, y;",
+          "rule": "Actual in-bounds Tile coordinate; unresolved Tile is rejected, not fabricated.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_set_world_floor_default_state"
+          ]
+        },
+        "y": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "public short x, y;",
+          "rule": "Actual in-bounds Tile coordinate; unresolved Tile is rejected, not fabricated.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_set_world_floor_default_state"
+          ]
+        },
+        "floor_block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "this.floor = type;",
+          "rule": "Actual resolved typed Floor definition; Item drops come from existing canonical metadata. Floor override/data callbacks remain separate.",
+          "schema": "source_terrain_block_definition",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_set_world_floor_default_state"
+          ]
+        },
+        "generating": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "if(!world.isGenerating() && build != null){",
+          "rule": "Explicit source generation phase. setFloor notification deliberately ignores this overlay-only guard.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_set_world_floor_default_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/TerrainMutationLifecycleProof"
+    },
+    "source_world_floor_default_receiver_result": {
+      "status": "active",
+      "owner": "SourceWorldTerrainRuntimeState.source_set_world_floor_default_state",
+      "source_slice": "N2025",
+      "keys": {
+        "floor_state": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "tile.setFloor(floor.asFloor());",
+          "rule": "Result of first canonical receiver call.",
+          "schema": "source_world_drill_floor_result",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_set_world_floor_default_state"
+          ]
+        },
+        "overlay_state": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "tile.setOverlay(overlay);",
+          "rule": "Result of second call, after first notification has observed the prior overlay.",
+          "schema": "source_world_drill_overlay_result",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_set_world_floor_default_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/TerrainMutationLifecycleProof"
     }
   },
   "version": 1

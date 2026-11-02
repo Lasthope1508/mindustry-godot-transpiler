@@ -109,6 +109,50 @@ static func source_set_world_overlay_state(game: Object, x: int, y: int, block: 
 		applied = SourceDrillConsumptionRuntimeState.source_on_proximity_update_state(game, sprite, placed_block)["applied"]
 	return {"changed": true, "proximity_updated": applied}
 
+# Apply Tile.setFloor assignment and its Building notification; other Tile side effects have separate owners.
+static func source_set_world_floor_state(game: Object, x: int, y: int, floor_block: Object) -> Dictionary:
+	var tile: Variant = source_world_tile(game.get("source_world_tiles"), x, y)
+	assert(tile != null and floor_block != null, "Tile floor mutation requires resolved world/content")
+	var sprite: Variant = game.call("block_sprite_at_cell", Vector2i(x, y))
+	var mutation := source_block_geometry.tile_floor_assignment_state(floor_block, tile["floor"], sprite != null)
+	if mutation["same_floor"]:
+		return {"changed": false, "proximity_updated": false}
+	tile["floor"] = mutation["floor"]
+	var applied := false
+	if mutation["build_proximity_updated"]:
+		var catalog: Object = game.get("content_catalog")
+		var placed_block: Object = catalog.get_by_id(sprite.get_meta(SourcePlacedBlockState.SOURCE_BLOCK_ID_META_KEY))
+		applied = SourceDrillConsumptionRuntimeState.source_on_proximity_update_state(game, sprite, placed_block)["applied"]
+	return {"changed": true, "proximity_updated": applied}
+
+static func source_set_world_overlay_quiet_state(game: Object, x: int, y: int, block: Object) -> void:
+	var tile: Variant = source_world_tile(game.get("source_world_tiles"), x, y)
+	assert(tile != null and block != null, "Tile overlay mutation requires resolved world/content")
+	var mutation := source_block_geometry.tile_overlay_mutation_state("set_overlay_quiet", block)
+	tile["overlay"] = mutation["overlay"]
+
+static func source_clear_world_overlay_state(game: Object, x: int, y: int, generating: bool) -> Dictionary:
+	var air: Object = source_world_block_by_field(game.get("content_catalog"), SOURCE_WORLD_AIR_FIELD)
+	var mutation := source_block_geometry.tile_overlay_mutation_state("clear_overlay", null, null, false, generating, false, null, air)
+	return source_set_world_overlay_state(game, x, y, mutation["overlay"], generating)
+
+# Execute the existing canonical receiver recipe in order; no networking transport is implied.
+static func source_set_world_floor_overlay_state(game: Object, x: int, y: int, floor_block: Object, overlay_block: Object, generating: bool) -> Dictionary:
+	var tile: Variant = source_world_tile(game.get("source_world_tiles"), x, y)
+	assert(tile != null)
+	var recipe := source_block_geometry.tile_single_mutation_state("set_floor", tile, floor_block, overlay_block, 0, true)
+	var result: Dictionary = {}
+	for mutation in recipe["calls"]:
+		if mutation.has("floor"):
+			result["floor_state"] = source_set_world_floor_state(game, x, y, mutation["floor"])
+		else:
+			result["overlay_state"] = source_set_world_overlay_state(game, x, y, mutation["overlay"], generating)
+	return result
+
+static func source_set_world_floor_default_state(game: Object, x: int, y: int, floor_block: Object, generating: bool) -> Dictionary:
+	var air: Object = source_world_block_by_field(game.get("content_catalog"), SOURCE_WORLD_AIR_FIELD)
+	return source_set_world_floor_overlay_state(game, x, y, floor_block, air, generating)
+
 static func source_tile_ore_state(tile: Dictionary, item_catalog: Dictionary, air_block: Object) -> Dictionary:
 	var floor_block: Object = tile["floor"]
 	var overlay_block: Object = tile["overlay"]

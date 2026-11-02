@@ -1,0 +1,33 @@
+{
+  "parent": "f6f762989ae2b43cd5b11d92c0238d9b2d171ca1",
+  "geometry_head_sha256": "f61d4473d51d2118b15ccc8c8780cf00721cf6e57d7f1b209d04cad94da2be28",
+  "geometry_working_sha256": "a95a524632e5450d6ec7d529df87ad8ce398eba5c94cba15ee1c06ee96eb6c6d",
+  "functions": {
+    "tile_set_floor_state": {
+      "working_present": true,
+      "head_present": false
+    },
+    "tile_overlay_mutation_state": {
+      "working_present": true,
+      "head_present": false
+    },
+    "tile_single_mutation_state": {
+      "working_present": true,
+      "head_present": false
+    }
+  },
+  "dependencies": {
+    "godot-mindustry/src/game/SourceTileSetFloorSourceTextState.gd": {
+      "working_present": true,
+      "head_present": false
+    },
+    "godot-mindustry/src/game/SourceTileOverlayMutationSourceTextState.gd": {
+      "working_present": true,
+      "head_present": false
+    },
+    "godot-mindustry/src/game/SourceRuntimeOwnerGameplayRegistry.gd": {
+      "working_present": true,
+      "head_present": false
+    }
+  }
+}

@@ -1,0 +1,49 @@
+import importlib.util,json,sys
+from pathlib import Path
+spec=importlib.util.spec_from_file_location('primitives','C:/tmp/tile-ore-scope.py');s=importlib.util.module_from_spec(spec);spec.loader.exec_module(s)
+ROOT=s.ROOT;BEFORE=Path('C:/tmp/terrain-notify-before');GEN=s.GEN
+ROOTS={'source_symbol_registry.json':('symbols',37),'source_api_contracts.json':('contracts',5),'source_state_schema.json':('schemas',11),'source_slice_ledger.json':('slices',3)}
+RUNTIME=['godot-mindustry/src/game/SourceWorldTerrainRuntimeState.gd','godot-mindustry/src/game/SourceBlockGeometry.gd']
+def runtime_plan(p):
+ a,b,c=s.read(p,BEFORE),s.read(p),s.git('show','HEAD:'+p)
+ if p.endswith('SourceWorldTerrainRuntimeState.gd'):
+  start=b.index('# Apply Tile.setFloor assignment and its Building notification;');end=b.index('static func source_tile_ore_state(',start);addition=b[start:end];assert b.replace(addition,'',1)==a;anchor='static func source_tile_ore_state(';assert c.count(anchor)==1;return c.replace(anchor,addition+anchor,1)
+ if p.endswith('SourceBlockGeometry.gd'):
+  start=b.index('static func tile_floor_assignment_state(');end=b.index('static func tile_set_floor_state(',start);helper=b[start:end]
+  reconstructed=a.replace('static func tile_set_floor_state(',helper+'static func tile_set_floor_state(',1)
+  start=reconstructed.index('static func tile_set_floor_state(')
+  prefix,body=reconstructed[:start],reconstructed[start:]
+  body=body.replace('\tvar same_floor: bool = type_value == previous_floor','\tvar assignment := tile_floor_assignment_state(type_value, previous_floor, build_present)\n\tvar same_floor: bool = assignment["same_floor"]',1).replace('"floor": previous_floor if same_floor else type_value,','"floor": assignment["floor"],',1).replace('"build_proximity_updated": not same_floor and build_present,','"build_proximity_updated": assignment["build_proximity_updated"],',1)
+  assert prefix+body==b
+  assert 'tile_floor_assignment_state(' not in c and 'tile_set_floor_state(' not in c
+  # The old descriptive Tile.setFloor state owner exists only in the preexisting
+  # uncommitted extraction. Preserve its new delegation in the working tree;
+  # HEAD receives the actual shared helper required by the live adapter.
+  return c.rstrip()+'\n\n'+helper.rstrip()+'\n'
+ return s.delta(a,b,c)
+def json_paths():
+ paths=[GEN+n for n in ROOTS]
+ for m in json.loads(s.read(GEN+'source_ssot_modules.json'))['modules'].values():
+  p='godot-mindustry/'+m['path']
+  if json.loads(s.read(p))!=json.loads(s.read(p,BEFORE)):paths.append(p)
+ return list(dict.fromkeys(paths))
+def main():
+ assert s.git('rev-parse','HEAD').startswith('f6f76298')
+ out={'parent':s.git('rev-parse','HEAD').strip(),'json':{},'runtime':{}}
+ for p in json_paths():
+  a,b,c=json.loads(s.read(p,BEFORE)),json.loads(s.read(p)),json.loads(s.git('show','HEAD:'+p));planned=s.merge(a,b,c)
+  if p.removeprefix(GEN) in ROOTS:
+   key,count=ROOTS[p.removeprefix(GEN)];added=sorted(set(b[key])-set(a[key]));assert len(added)==count,(p,len(added),count);assert all(b[key].get(k)==v for k,v in a[key].items());assert {k:v for k,v in a.items() if k!=key}=={k:v for k,v in b.items() if k!=key};out['json'][p]={'additions':added,'preexisting_dirty':a!=c}
+  else:out['json'][p]={'preexisting_dirty':a!=c}
+  if '--stage' in sys.argv:s.stage(p,json.dumps(planned,indent=2)+'\n')
+ for p in RUNTIME:
+  planned=runtime_plan(p);out['runtime'][p]={'preexisting_dirty':s.read(p,BEFORE)!=s.git('show','HEAD:'+p),'delta':list(__import__('difflib').unified_diff(s.read(p,BEFORE).splitlines(),s.read(p).splitlines(),n=1))}
+  if '--stage' in sys.argv:s.stage(p,planned)
+ for name in ['source_ssot_modules.json','source_symbol_audit_report.json']:
+  assert s.read(GEN+name)==s.read(GEN+name,BEFORE),name
+ import hashlib
+ old=json.loads(Path('C:/tmp/drill-proximity-replay.json').read_text())['files']
+ for name in ['content_registry.json','MindustryContentRegistry.gd']:
+  assert hashlib.sha256((ROOT/(GEN+name)).read_bytes()).hexdigest()==old[GEN+name]['after']
+ Path('C:/tmp/terrain-notify-scope.json').write_text(json.dumps(out,indent=2)+'\n',encoding='utf-8',newline='\n');print('Scope PASS: only 37 symbols, 5 contracts, 11 schemas, 3 slices; two contextual runtime modules; existing records/content/manifest/audit preserved')
+if __name__=='__main__':main()
