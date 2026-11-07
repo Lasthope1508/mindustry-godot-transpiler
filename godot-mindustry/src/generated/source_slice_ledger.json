@@ -52539,6 +52539,37 @@
         "Adding a power producer (and a power consumer) to the bootstrap world so the live power graph is non-empty; the C03 gate needs power 0/partial/full, battery charge/discharge and multiple consumers.",
         "C04-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2078": {
+      "status": "done",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_class": "mindustry.content.Blocks",
+      "java_method": "solarPanel",
+      "godot_owner": "SourceWorldInitialBuildRuntimeState.source_solar_panel_placement_state",
+      "exact_exprs": [
+        "solarPanel = new SolarGenerator(\"solar-panel\"){{",
+        "powerProduction = 0.12f;",
+        "requirements(Category.power, with(Items.lead, 10, Items.silicon, 8));"
+      ],
+      "source_symbols": [
+        "source_solar_panel_placement_state_input.tile_size",
+        "source_solar_panel_placement_state_result.block_id",
+        "source_solar_panel_placement_state_result.role",
+        "source_solar_panel_placement_state_result.cell",
+        "source_solar_panel_placement_state_result.x",
+        "source_solar_panel_placement_state_result.y",
+        "source_solar_panel_placement_state_result.power_production"
+      ],
+      "tests": [
+        "test_solar_panel_placement_binding_registration",
+        "test_all_solar_panel_placement_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_solar_panel_placement"
+      ],
+      "runtime_proof": "/root/SolarPanelPlacementProof",
+      "deferred_exprs": [
+        "Adding a battery and a power consumer to the bootstrap world so the power flow (charge/discharge, 0/partial/full, multiple consumers) is testable; the C03 gate needs those.",
+        "C04-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1

@@ -24,9 +24,18 @@ static func load_textures(game: Object) -> void:
 			textures["unit:" + unit.id] = load_png_texture(unit.texture_path)
 
 static func block_from_sprite(game: Object, sprite) -> Variant:
-	if game.get("content_catalog") == null or not is_instance_valid(sprite):
+	if game.get("content_catalog") == null:
 		return null
-	return game.get("content_catalog").get_by_id(str(sprite.get_meta(source_placed_block_state.SOURCE_BLOCK_ID_META_KEY, "")))
+	# The real game's placed_block_origins maps a cell to its Vector2i
+	# origin, not to a sprite; resolve a cell to its sprite first so the
+	# placed power graph (which iterates placed_block_origins) actually
+	# sees the placed blocks.
+	var resolved = sprite
+	if resolved is Vector2i:
+		resolved = game.call("block_sprite_at_cell", resolved)
+	if not is_instance_valid(resolved):
+		return null
+	return game.get("content_catalog").get_by_id(str(resolved.get_meta(source_placed_block_state.SOURCE_BLOCK_ID_META_KEY, "")))
 
 static func block_from_sprite_callback(game: Object) -> Callable:
 	return func(sprite):

@@ -14,8 +14,8 @@ Counts below are projected from the canonical `source_slice_ledger.json`, not fr
 
 | Bucket | Count |
 | --- | ---: |
-| Canonical slice ledger entries | 1532 |
-| Done | 1532 |
+| Canonical slice ledger entries | 1533 |
+| Done | 1533 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -159,6 +159,7 @@ Counts below are projected from the canonical `source_slice_ledger.json`, not fr
 - [x] N2075: Teams unregisterCore: `SourceTeamsRuntimeState.source_teams_unregister_core_state` removes a core from the team's core list if present, and deactivates the team (recomputing enemies) when it has nothing left. Godot proof 9/9 true on the real Main scene (shared with N2074).
 - [x] N2076: Conveyor item draw positions: `SourceConveyorRuntimeState.source_conveyor_item_draw_positions_state` computes each queue item's world position from the Java draw formula (xs/ys, belt center, rotation, tilesize). Godot proof 5/5 true on the real Main scene.
 - [x] N2077: Live-loop power graph update: `SourceFactoryRuntimeState.source_factory_update_power_graph_state` runs the placed power graph's update each frame, and `simulate_factory` calls it after the conveyor advance step. Godot proof 5/5 true on the real Main scene.
+- [x] N2078: Solar panel placement: `SourceWorldInitialBuildRuntimeState.source_solar_panel_placement_state` places a solar panel at (21, 7) in the bootstrap world, so the live power graph has a producer (powerProduction 0.12). Godot proof 5/5 true on the real Main scene.
 - [x] N167: Source BuildingComp drawConfigure canonical square state.
 - [x] N168: Source BuildingComp checkSolid default state.
 - [x] N169: Source BuildingComp handleDamage passthrough state.
@@ -1428,7 +1429,7 @@ Counts below are projected from the canonical `source_slice_ledger.json`, not fr
 
 Work now uses dependency cubes for prioritization without changing the verification contract. Each cube groups source Java, Godot runtime wiring, and playable behavior for one gameplay system. Inside a cube, every slice still moves linearly: read upstream Java, write RED tests, prove RED, implement minimal GREEN, run targeted/full tests, prove through Godot MCP runtime, update this checklist, run `git diff --check`, stage only touched tracked files, and commit.
 
-Current cube: `Live-loop power graph update`. N2077 wires the power graph update into the live loop: each frame `simulate_factory` runs the placed power graph's update (PowerGraph.java), so the graph's balance and consumer statuses are actually recomputed. Ledger: 1532; expanded catalog: 113 modules; blocks: 425. Registration + targeted tests pass; all binding symbol exprs exact against pinned PowerGraph.java; Godot proof 5/5 true on the real Main scene. Full suite, editor and replay still pending. Adding a power producer/consumer to the bootstrap world, the live-loop sprite wiring, per-belt clogHeat persistence and C04–C12 remain open. See `reports/2026-11-07-power-graph-live-update-binding.md`.
+Current cube: `Solar panel placement`. N2078 places a solar panel at (21, 7) in the bootstrap world, so the live power graph has a producer (powerProduction 0.12); it also fixed `block_from_sprite` to resolve a Vector2i cell to its sprite, so the placed power graph actually reads the real game. Ledger: 1533; expanded catalog: 113 modules; blocks: 425. Registration + targeted tests pass; all binding symbol exprs exact against pinned Blocks.java; Godot proof 5/5 true on the real Main scene. Full suite, editor and replay still pending. A battery and a power consumer, the live-loop sprite wiring, per-belt clogHeat persistence and C04–C12 remain open. See `reports/2026-11-07-solar-panel-placement-binding.md`.
 
 ## Done
 
@@ -3141,6 +3142,7 @@ Current cube: `Live-loop power graph update`. N2077 wires the power graph update
 | N2075 | Teams unregisterCore | `SourceTeamsRuntimeState.source_teams_unregister_core_state` removes a core from the team's core list and deactivates the team when it has nothing left; Godot proof 9/9 true on the real Main scene (shared with N2074). |
 | N2076 | Conveyor item draw positions | `SourceConveyorRuntimeState.source_conveyor_item_draw_positions_state` computes each queue item's world position from the Java draw formula; Godot proof 5/5 true on the real Main scene. |
 | N2077 | Live-loop power graph update | `SourceFactoryRuntimeState.source_factory_update_power_graph_state` runs the placed power graph's update each frame, and `simulate_factory` calls it after the conveyor advance step; Godot proof 5/5 true on the real Main scene. |
+| N2078 | Solar panel placement | `SourceWorldInitialBuildRuntimeState.source_solar_panel_placement_state` places a solar panel at (21, 7) in the bootstrap world, so the live power graph has a producer; Godot proof 5/5 true on the real Main scene. |
 
 ## Not Done
 
@@ -3531,3 +3533,4 @@ When Godot CLI is not on `PATH`, use the configured MCP Godot path from `C:\User
 | 2026-11-07 | N2074–N2075 implemented: Teams core registration — `SourceTeamsRuntimeState.source_teams_register_core_state` / `source_teams_unregister_core_state` register/unregister a core in the team's core list, activating/deactivating the team and recomputing enemies. Registration + targeted tests pass; Godot proof 9/9 true on the real Main scene. Full Python suite 5441 OK in 1169.666s; editor and replay still pending. See reports/2026-11-07-teams-core-registration-binding.md. |
 | 2026-11-07 | N2076 implemented: conveyor item draw positions — `SourceConveyorRuntimeState.source_conveyor_item_draw_positions_state` computes each queue item's world position from the Java draw formula (xs/ys, belt center, rotation, tilesize). Registration + targeted tests pass; Godot proof 5/5 true on the real Main scene. Full Python suite 5444 OK in 1162.564s; editor and replay still pending. See reports/2026-11-07-conveyor-draw-positions-binding.md. |
 | 2026-11-07 | N2077 implemented: live-loop power graph update — `SourceFactoryRuntimeState.source_factory_update_power_graph_state` runs the placed power graph's update each frame, and `simulate_factory` calls it after the conveyor advance step. Registration + targeted tests pass; Godot proof 5/5 true on the real Main scene. Full Python suite 5447 OK in 1214.140s; editor and replay still pending. See reports/2026-11-07-power-graph-live-update-binding.md. |
+| 2026-11-07 | N2078 implemented: solar panel placement — `SourceWorldInitialBuildRuntimeState.source_solar_panel_placement_state` places a solar panel at (21, 7) in the bootstrap world, so the live power graph has a producer; also fixed `block_from_sprite` to resolve a Vector2i cell to its sprite so the placed power graph actually reads the real game. Registration + targeted tests pass; Godot proof 5/5 true on the real Main scene. Full Python suite 5450 OK in 1204.648s; editor and replay still pending. See reports/2026-11-07-solar-panel-placement-binding.md. |

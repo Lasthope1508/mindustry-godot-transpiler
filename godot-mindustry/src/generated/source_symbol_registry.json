@@ -162618,6 +162618,111 @@
         "test_reference_graph_and_actual_power_graph_live_update"
       ],
       "runtime_proof": "/root/PowerGraphLiveUpdateProof"
+    },
+    "source_solar_panel_placement_state_input.tile_size": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldInitialBuildRuntimeState.source_solar_panel_placement_state",
+      "godot_symbol": "source_solar_panel_placement_state_input.tile_size",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "solarPanel",
+      "java_expr": "solarPanel = new SolarGenerator(\"solar-panel\"){{",
+      "rule": "The world units per tile, for the placement world position.",
+      "tests": [
+        "test_solar_panel_placement_binding_registration",
+        "test_all_solar_panel_placement_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_solar_panel_placement"
+      ],
+      "runtime_proof": "/root/SolarPanelPlacementProof"
+    },
+    "source_solar_panel_placement_state_result.block_id": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldInitialBuildRuntimeState.source_solar_panel_placement_state",
+      "godot_symbol": "source_solar_panel_placement_state_result.block_id",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "solarPanel",
+      "java_expr": "solarPanel = new SolarGenerator(\"solar-panel\"){{",
+      "rule": "The placed block id: solar-panel.",
+      "tests": [
+        "test_solar_panel_placement_binding_registration",
+        "test_all_solar_panel_placement_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_solar_panel_placement"
+      ],
+      "runtime_proof": "/root/SolarPanelPlacementProof"
+    },
+    "source_solar_panel_placement_state_result.role": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldInitialBuildRuntimeState.source_solar_panel_placement_state",
+      "godot_symbol": "source_solar_panel_placement_state_result.role",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "solarPanel",
+      "java_expr": "solarPanel = new SolarGenerator(\"solar-panel\"){{",
+      "rule": "The initial-build role: solar-panel.",
+      "tests": [
+        "test_solar_panel_placement_binding_registration",
+        "test_all_solar_panel_placement_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_solar_panel_placement"
+      ],
+      "runtime_proof": "/root/SolarPanelPlacementProof"
+    },
+    "source_solar_panel_placement_state_result.cell": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldInitialBuildRuntimeState.source_solar_panel_placement_state",
+      "godot_symbol": "source_solar_panel_placement_state_result.cell",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "solarPanel",
+      "java_expr": "solarPanel = new SolarGenerator(\"solar-panel\"){{",
+      "rule": "The placement cell: (21, 7), east of the duo.",
+      "tests": [
+        "test_solar_panel_placement_binding_registration",
+        "test_all_solar_panel_placement_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_solar_panel_placement"
+      ],
+      "runtime_proof": "/root/SolarPanelPlacementProof"
+    },
+    "source_solar_panel_placement_state_result.x": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldInitialBuildRuntimeState.source_solar_panel_placement_state",
+      "godot_symbol": "source_solar_panel_placement_state_result.x",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "solarPanel",
+      "java_expr": "solarPanel = new SolarGenerator(\"solar-panel\"){{",
+      "rule": "The placement world x.",
+      "tests": [
+        "test_solar_panel_placement_binding_registration",
+        "test_all_solar_panel_placement_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_solar_panel_placement"
+      ],
+      "runtime_proof": "/root/SolarPanelPlacementProof"
+    },
+    "source_solar_panel_placement_state_result.y": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldInitialBuildRuntimeState.source_solar_panel_placement_state",
+      "godot_symbol": "source_solar_panel_placement_state_result.y",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "solarPanel",
+      "java_expr": "solarPanel = new SolarGenerator(\"solar-panel\"){{",
+      "rule": "The placement world y.",
+      "tests": [
+        "test_solar_panel_placement_binding_registration",
+        "test_all_solar_panel_placement_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_solar_panel_placement"
+      ],
+      "runtime_proof": "/root/SolarPanelPlacementProof"
+    },
+    "source_solar_panel_placement_state_result.power_production": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldInitialBuildRuntimeState.source_solar_panel_placement_state",
+      "godot_symbol": "source_solar_panel_placement_state_result.power_production",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "solarPanel",
+      "java_expr": "powerProduction = 0.12f;",
+      "rule": "The panel power production: 0.12 per tick at full efficiency.",
+      "tests": [
+        "test_solar_panel_placement_binding_registration",
+        "test_all_solar_panel_placement_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_solar_panel_placement"
+      ],
+      "runtime_proof": "/root/SolarPanelPlacementProof"
     }
   },
   "version": 1

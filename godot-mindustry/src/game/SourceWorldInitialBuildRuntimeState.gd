@@ -87,6 +87,21 @@ static func block_placement_state(key: String, role: String, cell: Vector2i, til
 	return state
 
 
+static func source_solar_panel_placement_state(tile_size: int) -> Dictionary:
+	# Blocks.java:2607-2610: solarPanel = new SolarGenerator("solar-panel")
+	# with powerProduction = 0.12f. The panel is the bootstrap world's
+	# power producer, placed on a free size-1 cell east of the duo.
+	var world_position := source_world_grid.grid_to_world(source_playable_scenario_defaults.SOLAR_PANEL_POS, tile_size)
+	return {
+		"block_id": source_playable_scenario_defaults.BLOCK_SOLAR_PANEL,
+		"role": source_playable_scenario_defaults.INITIAL_BUILD_ROLE_SOLAR_PANEL,
+		"cell": source_playable_scenario_defaults.SOLAR_PANEL_POS,
+		"x": world_position.x,
+		"y": world_position.y,
+		"power_production": 0.12,
+	}
+
+
 static func initial_build_plan_state(drill_cell: Vector2i, conveyor_cells: Array[Vector2i], core_cell: Vector2i, duo_cell: Vector2i, drill_block_id: String, conveyor_block_id: String, core_block_id: String, duo_block_id: String, path_points_input: Array[Vector2], tile_size: int) -> Dictionary:
 	var block_placements: Array[Dictionary] = []
 	var path_points: Array[Dictionary] = []
@@ -95,6 +110,8 @@ static func initial_build_plan_state(drill_cell: Vector2i, conveyor_cells: Array
 		block_placements.append(block_placement_state(conveyor_block_id, source_playable_scenario_defaults.INITIAL_BUILD_ROLE_CONVEYOR, cell, tile_size))
 	block_placements.append(block_placement_state(core_block_id, source_playable_scenario_defaults.INITIAL_BUILD_ROLE_CORE, core_cell, tile_size))
 	block_placements.append(block_placement_state(duo_block_id, source_playable_scenario_defaults.INITIAL_BUILD_ROLE_DUO, duo_cell, tile_size))
+	var solar_panel := source_solar_panel_placement_state(tile_size)
+	block_placements.append(block_placement_state(str(solar_panel.get("block_id", "")), str(solar_panel.get("role", "")), solar_panel.get("cell", Vector2i.ZERO), tile_size))
 	for point in path_points_input:
 		var path_point := {}
 		path_point[KEY_X] = point.x

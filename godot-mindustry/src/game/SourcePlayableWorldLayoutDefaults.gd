@@ -10,3 +10,6 @@ const CORE_POS := Vector2i(17, 8)
 # East of the size-3 Core footprint (x 16..18); the old (18, 7) was a
 # Core cell, and Tile.setBlock removes any Building on its footprint.
 const DUO_POS := Vector2i(19, 7)
+# East of the size-1 Duo at (19, 7); a free size-1 cell for the solar
+# panel, the bootstrap world's power producer.
+const SOLAR_PANEL_POS := Vector2i(21, 7)

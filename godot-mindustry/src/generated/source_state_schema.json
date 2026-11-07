@@ -219640,6 +219640,94 @@
       },
       "runtime_proof": "/root/PowerGraphLiveUpdateProof",
       "rule": "Source-backed live-loop power graph update."
+    },
+    "source_solar_panel_placement_state_input": {
+      "status": "active",
+      "owner": "SourceWorldInitialBuildRuntimeState.source_solar_panel_placement_state",
+      "source_slice": "N2078",
+      "keys": {
+        "tile_size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "solarPanel = new SolarGenerator(\"solar-panel\"){{",
+          "rule": "The world units per tile, for the placement world position.",
+          "used_by": [
+            "SourceWorldInitialBuildRuntimeState.source_solar_panel_placement_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/SolarPanelPlacementProof",
+      "rule": "Source-backed solar panel placement in the initial build."
+    },
+    "source_solar_panel_placement_state_result": {
+      "status": "active",
+      "owner": "SourceWorldInitialBuildRuntimeState.source_solar_panel_placement_state",
+      "source_slice": "N2078",
+      "keys": {
+        "block_id": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "solarPanel = new SolarGenerator(\"solar-panel\"){{",
+          "rule": "The placed block id: solar-panel.",
+          "used_by": [
+            "SourceWorldInitialBuildRuntimeState.source_solar_panel_placement_state"
+          ]
+        },
+        "role": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "solarPanel = new SolarGenerator(\"solar-panel\"){{",
+          "rule": "The initial-build role: solar-panel.",
+          "used_by": [
+            "SourceWorldInitialBuildRuntimeState.source_solar_panel_placement_state"
+          ]
+        },
+        "cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "solarPanel = new SolarGenerator(\"solar-panel\"){{",
+          "rule": "The placement cell: (21, 7), east of the duo.",
+          "used_by": [
+            "SourceWorldInitialBuildRuntimeState.source_solar_panel_placement_state"
+          ]
+        },
+        "x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "solarPanel = new SolarGenerator(\"solar-panel\"){{",
+          "rule": "The placement world x.",
+          "used_by": [
+            "SourceWorldInitialBuildRuntimeState.source_solar_panel_placement_state"
+          ]
+        },
+        "y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "solarPanel = new SolarGenerator(\"solar-panel\"){{",
+          "rule": "The placement world y.",
+          "used_by": [
+            "SourceWorldInitialBuildRuntimeState.source_solar_panel_placement_state"
+          ]
+        },
+        "power_production": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "powerProduction = 0.12f;",
+          "rule": "The panel power production: 0.12 per tick at full efficiency.",
+          "used_by": [
+            "SourceWorldInitialBuildRuntimeState.source_solar_panel_placement_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/SolarPanelPlacementProof",
+      "rule": "Source-backed solar panel placement in the initial build."
     }
   },
   "version": 1
