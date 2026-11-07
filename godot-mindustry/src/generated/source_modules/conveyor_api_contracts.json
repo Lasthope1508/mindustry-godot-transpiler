@@ -84,6 +84,84 @@
       "runtime_proof": "/root/Main.source_conveyor_world_speed",
       "rule": "Public runtime contract for resolving Conveyor speed into source world speed mspeed."
     },
+    "SourceConveyorRuntimeState.source_conveyor_accept_for_cell_state": {
+      "canonical_contract": "source_api_contracts.SourceConveyorRuntimeState.source_conveyor_accept_for_cell_state",
+      "status": "active",
+      "source_slice": "N2060",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "source_method": "acceptItem",
+      "params": [
+        {
+          "name": "queue_ids",
+          "type": "Array",
+          "schema": "source_conveyor_accept_for_cell_state_input.queue_ids"
+        },
+        {
+          "name": "queue_xs",
+          "type": "Array",
+          "schema": "source_conveyor_accept_for_cell_state_input.queue_xs"
+        },
+        {
+          "name": "queue_ys",
+          "type": "Array",
+          "schema": "source_conveyor_accept_for_cell_state_input.queue_ys"
+        },
+        {
+          "name": "queue_len",
+          "type": "int",
+          "schema": "source_conveyor_accept_for_cell_state_input.queue_len"
+        },
+        {
+          "name": "capacity",
+          "type": "int",
+          "schema": "source_conveyor_accept_for_cell_state_input.capacity"
+        },
+        {
+          "name": "item_space",
+          "type": "float",
+          "schema": "source_conveyor_accept_for_cell_state_input.item_space"
+        },
+        {
+          "name": "source_cell",
+          "type": "Vector2i",
+          "schema": "source_conveyor_accept_for_cell_state_input.source_cell"
+        },
+        {
+          "name": "conveyor_cell",
+          "type": "Vector2i",
+          "schema": "source_conveyor_accept_for_cell_state_input.conveyor_cell"
+        },
+        {
+          "name": "conveyor_rotation",
+          "type": "int",
+          "schema": "source_conveyor_accept_for_cell_state_input.conveyor_rotation"
+        },
+        {
+          "name": "source_block_rotate",
+          "type": "bool",
+          "schema": "source_conveyor_accept_for_cell_state_input.source_block_rotate"
+        },
+        {
+          "name": "next_is_source",
+          "type": "bool",
+          "schema": "source_conveyor_accept_for_cell_state_input.next_is_source"
+        }
+      ],
+      "return_keys": [
+        "accepted",
+        "direction",
+        "facing_direction",
+        "minitem",
+        "reason"
+      ],
+      "tests": [
+        "test_drill_conveyor_dump_binding_registration",
+        "test_all_drill_conveyor_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_conveyor_dump"
+      ],
+      "runtime_proof": "/root/DrillConveyorDumpProof",
+      "rule": "Source-backed drill->conveyor dump wiring; the result reports the facing edge or the belt intake."
+    },
     "SourceConveyorRuntimeState.source_conveyor_accept_item_state": {
       "canonical_contract": "source_api_contracts.SourceConveyorRuntimeState.source_conveyor_accept_item_state",
       "status": "active",
@@ -180,6 +258,90 @@
       ],
       "runtime_proof": "/root/ConveyorStackProof",
       "rule": "Source-backed ConveyorBuild stack API; the result reports the queue and the items-module count after the operation."
+    },
+    "SourceConveyorRuntimeState.source_conveyor_handle_for_cell_state": {
+      "canonical_contract": "source_api_contracts.SourceConveyorRuntimeState.source_conveyor_handle_for_cell_state",
+      "status": "active",
+      "source_slice": "N2061",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "source_method": "handleItem",
+      "params": [
+        {
+          "name": "queue_ids",
+          "type": "Array",
+          "schema": "source_conveyor_handle_for_cell_state_input.queue_ids"
+        },
+        {
+          "name": "queue_xs",
+          "type": "Array",
+          "schema": "source_conveyor_handle_for_cell_state_input.queue_xs"
+        },
+        {
+          "name": "queue_ys",
+          "type": "Array",
+          "schema": "source_conveyor_handle_for_cell_state_input.queue_ys"
+        },
+        {
+          "name": "queue_len",
+          "type": "int",
+          "schema": "source_conveyor_handle_for_cell_state_input.queue_len"
+        },
+        {
+          "name": "capacity",
+          "type": "int",
+          "schema": "source_conveyor_handle_for_cell_state_input.capacity"
+        },
+        {
+          "name": "item_space",
+          "type": "float",
+          "schema": "source_conveyor_handle_for_cell_state_input.item_space"
+        },
+        {
+          "name": "source_cell",
+          "type": "Vector2i",
+          "schema": "source_conveyor_handle_for_cell_state_input.source_cell"
+        },
+        {
+          "name": "conveyor_cell",
+          "type": "Vector2i",
+          "schema": "source_conveyor_handle_for_cell_state_input.conveyor_cell"
+        },
+        {
+          "name": "conveyor_rotation",
+          "type": "int",
+          "schema": "source_conveyor_handle_for_cell_state_input.conveyor_rotation"
+        },
+        {
+          "name": "item_id",
+          "type": "String",
+          "schema": "source_conveyor_handle_for_cell_state_input.item_id"
+        },
+        {
+          "name": "item_count_before",
+          "type": "int",
+          "schema": "source_conveyor_handle_for_cell_state_input.item_count_before"
+        }
+      ],
+      "return_keys": [
+        "ids_after",
+        "xs_after",
+        "ys_after",
+        "len_before",
+        "len_after",
+        "index",
+        "x",
+        "y",
+        "item_count_after",
+        "no_sleep_called",
+        "reason"
+      ],
+      "tests": [
+        "test_drill_conveyor_dump_binding_registration",
+        "test_all_drill_conveyor_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_conveyor_dump"
+      ],
+      "runtime_proof": "/root/DrillConveyorDumpProof",
+      "rule": "Source-backed drill->conveyor dump wiring; the result reports the facing edge or the belt intake."
     },
     "SourceConveyorRuntimeState.source_conveyor_handle_item_state": {
       "canonical_contract": "source_api_contracts.SourceConveyorRuntimeState.source_conveyor_handle_item_state",

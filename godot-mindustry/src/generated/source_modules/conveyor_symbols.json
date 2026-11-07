@@ -349,6 +349,230 @@
       ],
       "runtime_proof": "/root/Main.source_conveyor_world_speed"
     },
+    "source_conveyor_accept_for_cell_state_input.capacity": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_accept_for_cell_state_input.capacity",
+      "status": "source-backed",
+      "java_expr": "private static final int capacity = 3;",
+      "godot_symbol": "source_conveyor_accept_for_cell_state_input.capacity",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_accept_for_cell_state",
+      "rule": "Maximum item count on the belt.",
+      "tests": [
+        "test_drill_conveyor_dump_binding_registration",
+        "test_all_drill_conveyor_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_conveyor_dump"
+      ],
+      "runtime_proof": "/root/DrillConveyorDumpProof"
+    },
+    "source_conveyor_accept_for_cell_state_input.conveyor_cell": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_accept_for_cell_state_input.conveyor_cell",
+      "status": "source-backed",
+      "java_expr": "if(x == cx - 1 && y == cy) return 0;",
+      "godot_symbol": "source_conveyor_accept_for_cell_state_input.conveyor_cell",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_accept_for_cell_state",
+      "rule": "Cell of the belt receiving the item.",
+      "tests": [
+        "test_drill_conveyor_dump_binding_registration",
+        "test_all_drill_conveyor_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_conveyor_dump"
+      ],
+      "runtime_proof": "/root/DrillConveyorDumpProof"
+    },
+    "source_conveyor_accept_for_cell_state_input.conveyor_rotation": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_accept_for_cell_state_input.conveyor_rotation",
+      "status": "source-backed",
+      "java_expr": "int direction = Math.abs(facing.relativeTo(tile.x, tile.y) - rotation);",
+      "godot_symbol": "source_conveyor_accept_for_cell_state_input.conveyor_rotation",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_accept_for_cell_state",
+      "rule": "Rotation of the belt receiving the item.",
+      "tests": [
+        "test_drill_conveyor_dump_binding_registration",
+        "test_all_drill_conveyor_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_conveyor_dump"
+      ],
+      "runtime_proof": "/root/DrillConveyorDumpProof"
+    },
+    "source_conveyor_accept_for_cell_state_input.item_space": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_accept_for_cell_state_input.item_space",
+      "status": "source-backed",
+      "java_expr": "private static final float itemSpace = 0.4f;",
+      "godot_symbol": "source_conveyor_accept_for_cell_state_input.item_space",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_accept_for_cell_state",
+      "rule": "Spacing between items on the belt.",
+      "tests": [
+        "test_drill_conveyor_dump_binding_registration",
+        "test_all_drill_conveyor_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_conveyor_dump"
+      ],
+      "runtime_proof": "/root/DrillConveyorDumpProof"
+    },
+    "source_conveyor_accept_for_cell_state_input.next_is_source": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_accept_for_cell_state_input.next_is_source",
+      "status": "source-backed",
+      "java_expr": "return (((direction == 0) && minitem >= itemSpace) || ((direction % 2 == 1) && minitem > 0.7f)) && !(source.block.rotate && next == source);",
+      "godot_symbol": "source_conveyor_accept_for_cell_state_input.next_is_source",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_accept_for_cell_state",
+      "rule": "Whether the belt ahead is the source itself.",
+      "tests": [
+        "test_drill_conveyor_dump_binding_registration",
+        "test_all_drill_conveyor_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_conveyor_dump"
+      ],
+      "runtime_proof": "/root/DrillConveyorDumpProof"
+    },
+    "source_conveyor_accept_for_cell_state_input.queue_ids": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_accept_for_cell_state_input.queue_ids",
+      "status": "source-backed",
+      "java_expr": "ids[i] = ids[i - 1];",
+      "godot_symbol": "source_conveyor_accept_for_cell_state_input.queue_ids",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_accept_for_cell_state",
+      "rule": "Item ids on the belt in queue order.",
+      "tests": [
+        "test_drill_conveyor_dump_binding_registration",
+        "test_all_drill_conveyor_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_conveyor_dump"
+      ],
+      "runtime_proof": "/root/DrillConveyorDumpProof"
+    },
+    "source_conveyor_accept_for_cell_state_input.queue_len": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_accept_for_cell_state_input.queue_len",
+      "status": "source-backed",
+      "java_expr": "len++;",
+      "godot_symbol": "source_conveyor_accept_for_cell_state_input.queue_len",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_accept_for_cell_state",
+      "rule": "Current item count on the belt.",
+      "tests": [
+        "test_drill_conveyor_dump_binding_registration",
+        "test_all_drill_conveyor_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_conveyor_dump"
+      ],
+      "runtime_proof": "/root/DrillConveyorDumpProof"
+    },
+    "source_conveyor_accept_for_cell_state_input.queue_xs": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_accept_for_cell_state_input.queue_xs",
+      "status": "source-backed",
+      "java_expr": "xs[i] = xs[i - 1];",
+      "godot_symbol": "source_conveyor_accept_for_cell_state_input.queue_xs",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_accept_for_cell_state",
+      "rule": "Item x offsets on the belt in queue order.",
+      "tests": [
+        "test_drill_conveyor_dump_binding_registration",
+        "test_all_drill_conveyor_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_conveyor_dump"
+      ],
+      "runtime_proof": "/root/DrillConveyorDumpProof"
+    },
+    "source_conveyor_accept_for_cell_state_input.queue_ys": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_accept_for_cell_state_input.queue_ys",
+      "status": "source-backed",
+      "java_expr": "ys[i] = ys[i - 1];",
+      "godot_symbol": "source_conveyor_accept_for_cell_state_input.queue_ys",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_accept_for_cell_state",
+      "rule": "Item y positions on the belt in queue order.",
+      "tests": [
+        "test_drill_conveyor_dump_binding_registration",
+        "test_all_drill_conveyor_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_conveyor_dump"
+      ],
+      "runtime_proof": "/root/DrillConveyorDumpProof"
+    },
+    "source_conveyor_accept_for_cell_state_input.source_block_rotate": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_accept_for_cell_state_input.source_block_rotate",
+      "status": "source-backed",
+      "java_expr": "return (((direction == 0) && minitem >= itemSpace) || ((direction % 2 == 1) && minitem > 0.7f)) && !(source.block.rotate && next == source);",
+      "godot_symbol": "source_conveyor_accept_for_cell_state_input.source_block_rotate",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_accept_for_cell_state",
+      "rule": "Whether the source block rotates; a rotating source feeding its own next belt is refused.",
+      "tests": [
+        "test_drill_conveyor_dump_binding_registration",
+        "test_all_drill_conveyor_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_conveyor_dump"
+      ],
+      "runtime_proof": "/root/DrillConveyorDumpProof"
+    },
+    "source_conveyor_accept_for_cell_state_input.source_cell": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_accept_for_cell_state_input.source_cell",
+      "status": "source-backed",
+      "java_expr": "if(x == cx && y == cy - 1) return 1;",
+      "godot_symbol": "source_conveyor_accept_for_cell_state_input.source_cell",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_accept_for_cell_state",
+      "rule": "Cell of the facing edge handing the item to the belt.",
+      "tests": [
+        "test_drill_conveyor_dump_binding_registration",
+        "test_all_drill_conveyor_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_conveyor_dump"
+      ],
+      "runtime_proof": "/root/DrillConveyorDumpProof"
+    },
+    "source_conveyor_accept_for_cell_state_result.accepted": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_accept_for_cell_state_result.accepted",
+      "status": "source-backed",
+      "java_expr": "if(len >= capacity) return false;",
+      "godot_symbol": "source_conveyor_accept_for_cell_state_result.accepted",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_accept_for_cell_state",
+      "rule": "Whether the belt accepts the item from this cell.",
+      "tests": [
+        "test_drill_conveyor_dump_binding_registration",
+        "test_all_drill_conveyor_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_conveyor_dump"
+      ],
+      "runtime_proof": "/root/DrillConveyorDumpProof"
+    },
+    "source_conveyor_accept_for_cell_state_result.direction": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_accept_for_cell_state_result.direction",
+      "status": "source-backed",
+      "java_expr": "int direction = Math.abs(facing.relativeTo(tile.x, tile.y) - rotation);",
+      "godot_symbol": "source_conveyor_accept_for_cell_state_result.direction",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_accept_for_cell_state",
+      "rule": "Absolute facing difference between the source direction and the belt rotation.",
+      "tests": [
+        "test_drill_conveyor_dump_binding_registration",
+        "test_all_drill_conveyor_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_conveyor_dump"
+      ],
+      "runtime_proof": "/root/DrillConveyorDumpProof"
+    },
+    "source_conveyor_accept_for_cell_state_result.facing_direction": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_accept_for_cell_state_result.facing_direction",
+      "status": "source-backed",
+      "java_expr": "int direction = Math.abs(facing.relativeTo(tile.x, tile.y) - rotation);",
+      "godot_symbol": "source_conveyor_accept_for_cell_state_result.facing_direction",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_accept_for_cell_state",
+      "rule": "Direction from the source cell to the belt cell.",
+      "tests": [
+        "test_drill_conveyor_dump_binding_registration",
+        "test_all_drill_conveyor_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_conveyor_dump"
+      ],
+      "runtime_proof": "/root/DrillConveyorDumpProof"
+    },
+    "source_conveyor_accept_for_cell_state_result.minitem": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_accept_for_cell_state_result.minitem",
+      "status": "source-backed",
+      "java_expr": "minitem = 1f;",
+      "godot_symbol": "source_conveyor_accept_for_cell_state_result.minitem",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_accept_for_cell_state",
+      "rule": "Smallest y among items on the belt.",
+      "tests": [
+        "test_drill_conveyor_dump_binding_registration",
+        "test_all_drill_conveyor_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_conveyor_dump"
+      ],
+      "runtime_proof": "/root/DrillConveyorDumpProof"
+    },
+    "source_conveyor_accept_for_cell_state_result.reason": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_accept_for_cell_state_result.reason",
+      "status": "source-backed",
+      "java_expr": "if(len >= capacity) return false;",
+      "godot_symbol": "source_conveyor_accept_for_cell_state_result.reason",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_accept_for_cell_state",
+      "rule": "Accept outcome: accepted, at_capacity, no_facing, wrong_direction, rotate_loop.",
+      "tests": [
+        "test_drill_conveyor_dump_binding_registration",
+        "test_all_drill_conveyor_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_conveyor_dump"
+      ],
+      "runtime_proof": "/root/DrillConveyorDumpProof"
+    },
     "source_conveyor_accept_item_state_input.capacity": {
       "canonical_symbol": "source_symbol_registry.source_conveyor_accept_item_state_input.capacity",
       "status": "source-backed",
@@ -586,6 +810,314 @@
         "test_reference_graph_and_actual_conveyor_stack"
       ],
       "runtime_proof": "/root/ConveyorStackProof"
+    },
+    "source_conveyor_handle_for_cell_state_input.capacity": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_handle_for_cell_state_input.capacity",
+      "status": "source-backed",
+      "java_expr": "private static final int capacity = 3;",
+      "godot_symbol": "source_conveyor_handle_for_cell_state_input.capacity",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_for_cell_state",
+      "rule": "Maximum item count on the belt.",
+      "tests": [
+        "test_drill_conveyor_dump_binding_registration",
+        "test_all_drill_conveyor_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_conveyor_dump"
+      ],
+      "runtime_proof": "/root/DrillConveyorDumpProof"
+    },
+    "source_conveyor_handle_for_cell_state_input.conveyor_cell": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_handle_for_cell_state_input.conveyor_cell",
+      "status": "source-backed",
+      "java_expr": "if(x == cx - 1 && y == cy) return 0;",
+      "godot_symbol": "source_conveyor_handle_for_cell_state_input.conveyor_cell",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_for_cell_state",
+      "rule": "Cell of the belt receiving the item.",
+      "tests": [
+        "test_drill_conveyor_dump_binding_registration",
+        "test_all_drill_conveyor_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_conveyor_dump"
+      ],
+      "runtime_proof": "/root/DrillConveyorDumpProof"
+    },
+    "source_conveyor_handle_for_cell_state_input.conveyor_rotation": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_handle_for_cell_state_input.conveyor_rotation",
+      "status": "source-backed",
+      "java_expr": "int direction = Math.abs(facing.relativeTo(tile.x, tile.y) - rotation);",
+      "godot_symbol": "source_conveyor_handle_for_cell_state_input.conveyor_rotation",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_for_cell_state",
+      "rule": "Rotation of the belt receiving the item.",
+      "tests": [
+        "test_drill_conveyor_dump_binding_registration",
+        "test_all_drill_conveyor_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_conveyor_dump"
+      ],
+      "runtime_proof": "/root/DrillConveyorDumpProof"
+    },
+    "source_conveyor_handle_for_cell_state_input.item_count_before": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_handle_for_cell_state_input.item_count_before",
+      "status": "source-backed",
+      "java_expr": "items.add(item, 1);",
+      "godot_symbol": "source_conveyor_handle_for_cell_state_input.item_count_before",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_for_cell_state",
+      "rule": "Items-module count of the item on the belt before the insertion.",
+      "tests": [
+        "test_drill_conveyor_dump_binding_registration",
+        "test_all_drill_conveyor_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_conveyor_dump"
+      ],
+      "runtime_proof": "/root/DrillConveyorDumpProof"
+    },
+    "source_conveyor_handle_for_cell_state_input.item_id": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_handle_for_cell_state_input.item_id",
+      "status": "source-backed",
+      "java_expr": "public void handleItem(Building source, Item item){",
+      "godot_symbol": "source_conveyor_handle_for_cell_state_input.item_id",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_for_cell_state",
+      "rule": "Item to insert on the belt.",
+      "tests": [
+        "test_drill_conveyor_dump_binding_registration",
+        "test_all_drill_conveyor_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_conveyor_dump"
+      ],
+      "runtime_proof": "/root/DrillConveyorDumpProof"
+    },
+    "source_conveyor_handle_for_cell_state_input.item_space": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_handle_for_cell_state_input.item_space",
+      "status": "source-backed",
+      "java_expr": "private static final float itemSpace = 0.4f;",
+      "godot_symbol": "source_conveyor_handle_for_cell_state_input.item_space",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_for_cell_state",
+      "rule": "Spacing between items on the belt.",
+      "tests": [
+        "test_drill_conveyor_dump_binding_registration",
+        "test_all_drill_conveyor_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_conveyor_dump"
+      ],
+      "runtime_proof": "/root/DrillConveyorDumpProof"
+    },
+    "source_conveyor_handle_for_cell_state_input.queue_ids": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_handle_for_cell_state_input.queue_ids",
+      "status": "source-backed",
+      "java_expr": "ids[i] = ids[i - 1];",
+      "godot_symbol": "source_conveyor_handle_for_cell_state_input.queue_ids",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_for_cell_state",
+      "rule": "Item ids on the belt in queue order.",
+      "tests": [
+        "test_drill_conveyor_dump_binding_registration",
+        "test_all_drill_conveyor_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_conveyor_dump"
+      ],
+      "runtime_proof": "/root/DrillConveyorDumpProof"
+    },
+    "source_conveyor_handle_for_cell_state_input.queue_len": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_handle_for_cell_state_input.queue_len",
+      "status": "source-backed",
+      "java_expr": "len++;",
+      "godot_symbol": "source_conveyor_handle_for_cell_state_input.queue_len",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_for_cell_state",
+      "rule": "Current item count on the belt.",
+      "tests": [
+        "test_drill_conveyor_dump_binding_registration",
+        "test_all_drill_conveyor_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_conveyor_dump"
+      ],
+      "runtime_proof": "/root/DrillConveyorDumpProof"
+    },
+    "source_conveyor_handle_for_cell_state_input.queue_xs": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_handle_for_cell_state_input.queue_xs",
+      "status": "source-backed",
+      "java_expr": "xs[i] = xs[i - 1];",
+      "godot_symbol": "source_conveyor_handle_for_cell_state_input.queue_xs",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_for_cell_state",
+      "rule": "Item x offsets on the belt in queue order.",
+      "tests": [
+        "test_drill_conveyor_dump_binding_registration",
+        "test_all_drill_conveyor_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_conveyor_dump"
+      ],
+      "runtime_proof": "/root/DrillConveyorDumpProof"
+    },
+    "source_conveyor_handle_for_cell_state_input.queue_ys": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_handle_for_cell_state_input.queue_ys",
+      "status": "source-backed",
+      "java_expr": "ys[i] = ys[i - 1];",
+      "godot_symbol": "source_conveyor_handle_for_cell_state_input.queue_ys",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_for_cell_state",
+      "rule": "Item y positions on the belt in queue order.",
+      "tests": [
+        "test_drill_conveyor_dump_binding_registration",
+        "test_all_drill_conveyor_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_conveyor_dump"
+      ],
+      "runtime_proof": "/root/DrillConveyorDumpProof"
+    },
+    "source_conveyor_handle_for_cell_state_input.source_cell": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_handle_for_cell_state_input.source_cell",
+      "status": "source-backed",
+      "java_expr": "if(x == cx && y == cy - 1) return 1;",
+      "godot_symbol": "source_conveyor_handle_for_cell_state_input.source_cell",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_for_cell_state",
+      "rule": "Cell of the facing edge handing the item to the belt.",
+      "tests": [
+        "test_drill_conveyor_dump_binding_registration",
+        "test_all_drill_conveyor_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_conveyor_dump"
+      ],
+      "runtime_proof": "/root/DrillConveyorDumpProof"
+    },
+    "source_conveyor_handle_for_cell_state_result.ids_after": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_handle_for_cell_state_result.ids_after",
+      "status": "source-backed",
+      "java_expr": "ids[i] = ids[i - 1];",
+      "godot_symbol": "source_conveyor_handle_for_cell_state_result.ids_after",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_for_cell_state",
+      "rule": "Item ids after the insertion.",
+      "tests": [
+        "test_drill_conveyor_dump_binding_registration",
+        "test_all_drill_conveyor_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_conveyor_dump"
+      ],
+      "runtime_proof": "/root/DrillConveyorDumpProof"
+    },
+    "source_conveyor_handle_for_cell_state_result.index": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_handle_for_cell_state_result.index",
+      "status": "source-backed",
+      "java_expr": "add(0);",
+      "godot_symbol": "source_conveyor_handle_for_cell_state_result.index",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_for_cell_state",
+      "rule": "Queue index the item was inserted at.",
+      "tests": [
+        "test_drill_conveyor_dump_binding_registration",
+        "test_all_drill_conveyor_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_conveyor_dump"
+      ],
+      "runtime_proof": "/root/DrillConveyorDumpProof"
+    },
+    "source_conveyor_handle_for_cell_state_result.item_count_after": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_handle_for_cell_state_result.item_count_after",
+      "status": "source-backed",
+      "java_expr": "items.add(item, 1);",
+      "godot_symbol": "source_conveyor_handle_for_cell_state_result.item_count_after",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_for_cell_state",
+      "rule": "Items-module count of the item on the belt after the insertion.",
+      "tests": [
+        "test_drill_conveyor_dump_binding_registration",
+        "test_all_drill_conveyor_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_conveyor_dump"
+      ],
+      "runtime_proof": "/root/DrillConveyorDumpProof"
+    },
+    "source_conveyor_handle_for_cell_state_result.len_after": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_handle_for_cell_state_result.len_after",
+      "status": "source-backed",
+      "java_expr": "len++;",
+      "godot_symbol": "source_conveyor_handle_for_cell_state_result.len_after",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_for_cell_state",
+      "rule": "Item count after the insertion.",
+      "tests": [
+        "test_drill_conveyor_dump_binding_registration",
+        "test_all_drill_conveyor_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_conveyor_dump"
+      ],
+      "runtime_proof": "/root/DrillConveyorDumpProof"
+    },
+    "source_conveyor_handle_for_cell_state_result.len_before": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_handle_for_cell_state_result.len_before",
+      "status": "source-backed",
+      "java_expr": "len++;",
+      "godot_symbol": "source_conveyor_handle_for_cell_state_result.len_before",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_for_cell_state",
+      "rule": "Item count before the insertion.",
+      "tests": [
+        "test_drill_conveyor_dump_binding_registration",
+        "test_all_drill_conveyor_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_conveyor_dump"
+      ],
+      "runtime_proof": "/root/DrillConveyorDumpProof"
+    },
+    "source_conveyor_handle_for_cell_state_result.no_sleep_called": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_handle_for_cell_state_result.no_sleep_called",
+      "status": "source-backed",
+      "java_expr": "public void handleItem(Building source, Item item){",
+      "godot_symbol": "source_conveyor_handle_for_cell_state_result.no_sleep_called",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_for_cell_state",
+      "rule": "Whether noSleep ran on intake.",
+      "tests": [
+        "test_drill_conveyor_dump_binding_registration",
+        "test_all_drill_conveyor_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_conveyor_dump"
+      ],
+      "runtime_proof": "/root/DrillConveyorDumpProof"
+    },
+    "source_conveyor_handle_for_cell_state_result.reason": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_handle_for_cell_state_result.reason",
+      "status": "source-backed",
+      "java_expr": "if(len >= capacity) return false;",
+      "godot_symbol": "source_conveyor_handle_for_cell_state_result.reason",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_for_cell_state",
+      "rule": "Handle outcome: accepted, at_capacity.",
+      "tests": [
+        "test_drill_conveyor_dump_binding_registration",
+        "test_all_drill_conveyor_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_conveyor_dump"
+      ],
+      "runtime_proof": "/root/DrillConveyorDumpProof"
+    },
+    "source_conveyor_handle_for_cell_state_result.x": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_handle_for_cell_state_result.x",
+      "status": "source-backed",
+      "java_expr": "int ang = ((facing.relativeTo(tile.x, tile.y) - r));",
+      "godot_symbol": "source_conveyor_handle_for_cell_state_result.x",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_for_cell_state",
+      "rule": "Item x offset on the belt.",
+      "tests": [
+        "test_drill_conveyor_dump_binding_registration",
+        "test_all_drill_conveyor_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_conveyor_dump"
+      ],
+      "runtime_proof": "/root/DrillConveyorDumpProof"
+    },
+    "source_conveyor_handle_for_cell_state_result.xs_after": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_handle_for_cell_state_result.xs_after",
+      "status": "source-backed",
+      "java_expr": "xs[i] = xs[i - 1];",
+      "godot_symbol": "source_conveyor_handle_for_cell_state_result.xs_after",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_for_cell_state",
+      "rule": "Item x offsets after the insertion.",
+      "tests": [
+        "test_drill_conveyor_dump_binding_registration",
+        "test_all_drill_conveyor_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_conveyor_dump"
+      ],
+      "runtime_proof": "/root/DrillConveyorDumpProof"
+    },
+    "source_conveyor_handle_for_cell_state_result.y": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_handle_for_cell_state_result.y",
+      "status": "source-backed",
+      "java_expr": "add(0);",
+      "godot_symbol": "source_conveyor_handle_for_cell_state_result.y",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_for_cell_state",
+      "rule": "Item y position on the belt.",
+      "tests": [
+        "test_drill_conveyor_dump_binding_registration",
+        "test_all_drill_conveyor_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_conveyor_dump"
+      ],
+      "runtime_proof": "/root/DrillConveyorDumpProof"
+    },
+    "source_conveyor_handle_for_cell_state_result.ys_after": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_handle_for_cell_state_result.ys_after",
+      "status": "source-backed",
+      "java_expr": "ys[i] = ys[i - 1];",
+      "godot_symbol": "source_conveyor_handle_for_cell_state_result.ys_after",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_for_cell_state",
+      "rule": "Item y positions after the insertion.",
+      "tests": [
+        "test_drill_conveyor_dump_binding_registration",
+        "test_all_drill_conveyor_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_conveyor_dump"
+      ],
+      "runtime_proof": "/root/DrillConveyorDumpProof"
     },
     "source_conveyor_handle_item_state_input.capacity": {
       "canonical_symbol": "source_symbol_registry.source_conveyor_handle_item_state_input.capacity",

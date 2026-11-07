@@ -1,6 +1,121 @@
 {
   "version": 1,
   "schemas": {
+    "source_conveyor_accept_for_cell_state_input": {
+      "canonical_schema": "source_state_schema.source_conveyor_accept_for_cell_state_input",
+      "keys": {
+        "queue_ids": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "ids[i] = ids[i - 1];",
+          "rule": "Item ids on the belt in queue order.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_accept_for_cell_state"
+          ]
+        },
+        "queue_xs": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "xs[i] = xs[i - 1];",
+          "rule": "Item x offsets on the belt in queue order.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_accept_for_cell_state"
+          ]
+        },
+        "queue_ys": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "ys[i] = ys[i - 1];",
+          "rule": "Item y positions on the belt in queue order.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_accept_for_cell_state"
+          ]
+        },
+        "queue_len": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "len++;",
+          "rule": "Current item count on the belt.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_accept_for_cell_state"
+          ]
+        },
+        "capacity": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "private static final int capacity = 3;",
+          "rule": "Maximum item count on the belt.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_accept_for_cell_state"
+          ]
+        },
+        "item_space": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "private static final float itemSpace = 0.4f;",
+          "rule": "Spacing between items on the belt.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_accept_for_cell_state"
+          ]
+        },
+        "source_cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "if(x == cx && y == cy - 1) return 1;",
+          "rule": "Cell of the facing edge handing the item to the belt.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_accept_for_cell_state"
+          ]
+        },
+        "conveyor_cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "if(x == cx - 1 && y == cy) return 0;",
+          "rule": "Cell of the belt receiving the item.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_accept_for_cell_state"
+          ]
+        },
+        "conveyor_rotation": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "int direction = Math.abs(facing.relativeTo(tile.x, tile.y) - rotation);",
+          "rule": "Rotation of the belt receiving the item.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_accept_for_cell_state"
+          ]
+        },
+        "source_block_rotate": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "return (((direction == 0) && minitem >= itemSpace) || ((direction % 2 == 1) && minitem > 0.7f)) && !(source.block.rotate && next == source);",
+          "rule": "Whether the source block rotates; a rotating source feeding its own next belt is refused.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_accept_for_cell_state"
+          ]
+        },
+        "next_is_source": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "return (((direction == 0) && minitem >= itemSpace) || ((direction % 2 == 1) && minitem > 0.7f)) && !(source.block.rotate && next == source);",
+          "rule": "Whether the belt ahead is the source itself.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_accept_for_cell_state"
+          ]
+        }
+      }
+    },
     "source_conveyor_accept_item_state_input": {
       "canonical_schema": "source_state_schema.source_conveyor_accept_item_state_input",
       "keys": {
@@ -117,6 +232,121 @@
           "rule": "Requested stack size.",
           "used_by": [
             "SourceConveyorRuntimeState.source_conveyor_accept_stack_state"
+          ]
+        }
+      }
+    },
+    "source_conveyor_handle_for_cell_state_input": {
+      "canonical_schema": "source_state_schema.source_conveyor_handle_for_cell_state_input",
+      "keys": {
+        "queue_ids": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "ids[i] = ids[i - 1];",
+          "rule": "Item ids on the belt in queue order.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_handle_for_cell_state"
+          ]
+        },
+        "queue_xs": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "xs[i] = xs[i - 1];",
+          "rule": "Item x offsets on the belt in queue order.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_handle_for_cell_state"
+          ]
+        },
+        "queue_ys": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "ys[i] = ys[i - 1];",
+          "rule": "Item y positions on the belt in queue order.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_handle_for_cell_state"
+          ]
+        },
+        "queue_len": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "len++;",
+          "rule": "Current item count on the belt.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_handle_for_cell_state"
+          ]
+        },
+        "capacity": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "private static final int capacity = 3;",
+          "rule": "Maximum item count on the belt.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_handle_for_cell_state"
+          ]
+        },
+        "item_space": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "private static final float itemSpace = 0.4f;",
+          "rule": "Spacing between items on the belt.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_handle_for_cell_state"
+          ]
+        },
+        "source_cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "if(x == cx && y == cy - 1) return 1;",
+          "rule": "Cell of the facing edge handing the item to the belt.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_handle_for_cell_state"
+          ]
+        },
+        "conveyor_cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "if(x == cx - 1 && y == cy) return 0;",
+          "rule": "Cell of the belt receiving the item.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_handle_for_cell_state"
+          ]
+        },
+        "conveyor_rotation": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "int direction = Math.abs(facing.relativeTo(tile.x, tile.y) - rotation);",
+          "rule": "Rotation of the belt receiving the item.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_handle_for_cell_state"
+          ]
+        },
+        "item_id": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "public void handleItem(Building source, Item item){",
+          "rule": "Item to insert on the belt.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_handle_for_cell_state"
+          ]
+        },
+        "item_count_before": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "items.add(item, 1);",
+          "rule": "Items-module count of the item on the belt before the insertion.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_handle_for_cell_state"
           ]
         }
       }

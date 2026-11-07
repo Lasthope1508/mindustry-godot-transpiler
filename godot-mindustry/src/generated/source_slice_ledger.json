@@ -51785,6 +51785,141 @@
         "The live drill->conveyor->core wiring, the drill runtime bridge global item and the one-inventory-owner cleanup stay open in C02.",
         "C02 two-Drill gate and C03-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2059": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/Edges.java",
+      "java_class": "mindustry.world.Edges",
+      "java_method": "getFacingEdge",
+      "godot_owner": "SourceBlockGeometry.source_block_facing_edge_state",
+      "exact_exprs": [
+        "if(!block.isMultiblock()) return world.tile(tilex, tiley);",
+        "int size = block.size;",
+        "tilex + Mathf.clamp(other.x - tilex, -(size - 1) / 2, (size / 2))",
+        "tiley + Mathf.clamp(other.y - tiley, -(size - 1) / 2, (size / 2))",
+        "return size > 1;"
+      ],
+      "source_symbols": [
+        "source_block_facing_edge_state_input.block_size",
+        "source_block_facing_edge_state_input.tile_x",
+        "source_block_facing_edge_state_input.tile_y",
+        "source_block_facing_edge_state_input.other_x",
+        "source_block_facing_edge_state_input.other_y",
+        "source_block_facing_edge_state_result.edge_x",
+        "source_block_facing_edge_state_result.edge_y",
+        "source_block_facing_edge_state_result.is_multiblock",
+        "source_block_facing_edge_state_result.reason"
+      ],
+      "tests": [
+        "test_drill_conveyor_dump_binding_registration",
+        "test_all_drill_conveyor_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_conveyor_dump"
+      ],
+      "runtime_proof": "/root/DrillConveyorDumpProof",
+      "deferred_exprs": [
+        "The drill dump step composing the facing edge, the accept/handle hooks and the dump composition is the next batch (N2062); the live loop still dumps straight to the core.",
+        "The drill runtime bridge global item and the one-inventory-owner cleanup stay open in C02.",
+        "C02 two-Drill gate and C03-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
+    },
+    "N2060": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_class": "mindustry.world.blocks.distribution.Conveyor.ConveyorBuild",
+      "java_method": "acceptItem",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_accept_for_cell_state",
+      "exact_exprs": [
+        "if(x == cx && y == cy - 1) return 1;",
+        "if(x == cx - 1 && y == cy) return 0;",
+        "int direction = Math.abs(facing.relativeTo(tile.x, tile.y) - rotation);",
+        "return (((direction == 0) && minitem >= itemSpace) || ((direction % 2 == 1) && minitem > 0.7f)) && !(source.block.rotate && next == source);",
+        "if(len >= capacity) return false;",
+        "minitem = 1f;"
+      ],
+      "source_symbols": [
+        "source_conveyor_accept_for_cell_state_input.queue_ids",
+        "source_conveyor_accept_for_cell_state_input.queue_xs",
+        "source_conveyor_accept_for_cell_state_input.queue_ys",
+        "source_conveyor_accept_for_cell_state_input.queue_len",
+        "source_conveyor_accept_for_cell_state_input.capacity",
+        "source_conveyor_accept_for_cell_state_input.item_space",
+        "source_conveyor_accept_for_cell_state_input.source_cell",
+        "source_conveyor_accept_for_cell_state_input.conveyor_cell",
+        "source_conveyor_accept_for_cell_state_input.conveyor_rotation",
+        "source_conveyor_accept_for_cell_state_input.source_block_rotate",
+        "source_conveyor_accept_for_cell_state_input.next_is_source",
+        "source_conveyor_accept_for_cell_state_result.accepted",
+        "source_conveyor_accept_for_cell_state_result.direction",
+        "source_conveyor_accept_for_cell_state_result.facing_direction",
+        "source_conveyor_accept_for_cell_state_result.minitem",
+        "source_conveyor_accept_for_cell_state_result.reason"
+      ],
+      "tests": [
+        "test_drill_conveyor_dump_binding_registration",
+        "test_all_drill_conveyor_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_conveyor_dump"
+      ],
+      "runtime_proof": "/root/DrillConveyorDumpProof",
+      "deferred_exprs": [
+        "The drill dump step composing the facing edge, the accept/handle hooks and the dump composition is the next batch (N2062); the live loop still dumps straight to the core.",
+        "The drill runtime bridge global item and the one-inventory-owner cleanup stay open in C02.",
+        "C02 two-Drill gate and C03-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
+    },
+    "N2061": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_class": "mindustry.world.blocks.distribution.Conveyor.ConveyorBuild",
+      "java_method": "handleItem",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_for_cell_state",
+      "exact_exprs": [
+        "if(x == cx && y == cy - 1) return 1;",
+        "if(x == cx - 1 && y == cy) return 0;",
+        "public void handleItem(Building source, Item item){",
+        "int ang = ((facing.relativeTo(tile.x, tile.y) - r));",
+        "items.add(item, 1);",
+        "add(0);",
+        "if(ys[i] > 0.5 && i > 0) mid = i - 1;",
+        "ids[i] = ids[i - 1];",
+        "xs[i] = xs[i - 1];",
+        "ys[i] = ys[i - 1];",
+        "len++;"
+      ],
+      "source_symbols": [
+        "source_conveyor_handle_for_cell_state_input.queue_ids",
+        "source_conveyor_handle_for_cell_state_input.queue_xs",
+        "source_conveyor_handle_for_cell_state_input.queue_ys",
+        "source_conveyor_handle_for_cell_state_input.queue_len",
+        "source_conveyor_handle_for_cell_state_input.capacity",
+        "source_conveyor_handle_for_cell_state_input.item_space",
+        "source_conveyor_handle_for_cell_state_input.source_cell",
+        "source_conveyor_handle_for_cell_state_input.conveyor_cell",
+        "source_conveyor_handle_for_cell_state_input.conveyor_rotation",
+        "source_conveyor_handle_for_cell_state_input.item_id",
+        "source_conveyor_handle_for_cell_state_input.item_count_before",
+        "source_conveyor_handle_for_cell_state_result.ids_after",
+        "source_conveyor_handle_for_cell_state_result.xs_after",
+        "source_conveyor_handle_for_cell_state_result.ys_after",
+        "source_conveyor_handle_for_cell_state_result.len_before",
+        "source_conveyor_handle_for_cell_state_result.len_after",
+        "source_conveyor_handle_for_cell_state_result.index",
+        "source_conveyor_handle_for_cell_state_result.x",
+        "source_conveyor_handle_for_cell_state_result.y",
+        "source_conveyor_handle_for_cell_state_result.item_count_after",
+        "source_conveyor_handle_for_cell_state_result.no_sleep_called",
+        "source_conveyor_handle_for_cell_state_result.reason"
+      ],
+      "tests": [
+        "test_drill_conveyor_dump_binding_registration",
+        "test_all_drill_conveyor_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_conveyor_dump"
+      ],
+      "runtime_proof": "/root/DrillConveyorDumpProof",
+      "deferred_exprs": [
+        "The drill dump step composing the facing edge, the accept/handle hooks and the dump composition is the next batch (N2062); the live loop still dumps straight to the core.",
+        "The drill runtime bridge global item and the one-inventory-owner cleanup stay open in C02.",
+        "C02 two-Drill gate and C03-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1

@@ -333,3 +333,61 @@ static func source_conveyor_handle_stack_state(ids: Array, xs: Array, ys: Array,
 		"no_sleep_called": true,
 		"reason": "inserted",
 	}
+
+
+static func source_conveyor_accept_for_cell_state(queue_ids: Array, queue_xs: Array, queue_ys: Array, queue_len: int, capacity: int, item_space: float, source_cell: Vector2i, conveyor_cell: Vector2i, conveyor_rotation: int, source_block_rotate: bool, next_is_source: bool) -> Dictionary:
+	var facing_direction := SourceBlockGeometry.tile_relative_cardinal_state(source_cell.x, source_cell.y, conveyor_cell.x, conveyor_cell.y)
+	var passed: Array[bool] = []
+	passed.resize(queue_ys.size())
+	var scan := source_conveyor_queue_scan_state(queue_ys, passed)
+	var accept := source_conveyor_accept_item_state(queue_len, capacity, facing_direction, conveyor_rotation, float(scan.get("minitem", 1.0)), item_space, source_block_rotate, next_is_source)
+	return {
+		"accepted": bool(accept.get("accepted", false)),
+		"direction": int(accept.get("direction", -1)),
+		"facing_direction": facing_direction,
+		"minitem": float(scan.get("minitem", 1.0)),
+		"reason": str(accept.get("reason", "")),
+	}
+
+
+static func source_conveyor_handle_for_cell_state(queue_ids: Array, queue_xs: Array, queue_ys: Array, queue_len: int, capacity: int, item_space: float, source_cell: Vector2i, conveyor_cell: Vector2i, conveyor_rotation: int, item_id: String, item_count_before: int) -> Dictionary:
+	var facing_direction := SourceBlockGeometry.tile_relative_cardinal_state(source_cell.x, source_cell.y, conveyor_cell.x, conveyor_cell.y)
+	var passed: Array[bool] = []
+	passed.resize(queue_ys.size())
+	var scan := source_conveyor_queue_scan_state(queue_ys, passed)
+	var handle := source_conveyor_handle_item_state(queue_len, capacity, facing_direction, conveyor_rotation, int(scan.get("mid", 0)), item_id, item_count_before)
+	if not bool(handle.get("accepted", false)):
+		return {
+			"ids_after": queue_ids.duplicate(),
+			"xs_after": queue_xs.duplicate(),
+			"ys_after": queue_ys.duplicate(),
+			"len_before": queue_len,
+			"len_after": queue_len,
+			"index": -1,
+			"x": 0.0,
+			"y": 0.0,
+			"item_count_after": item_count_before,
+			"no_sleep_called": false,
+			"reason": str(handle.get("reason", "")),
+		}
+	var index := int(handle.get("index", 0))
+	var added := source_conveyor_queue_add_state(queue_ids, queue_xs, queue_ys, queue_len, index)
+	var next_ids: Array = added["ids_after"]
+	var next_xs: Array = added["xs_after"]
+	var next_ys: Array = added["ys_after"]
+	next_ids[index] = item_id
+	next_xs[index] = float(handle.get("x", 0.0))
+	next_ys[index] = float(handle.get("y", 0.0))
+	return {
+		"ids_after": next_ids,
+		"xs_after": next_xs,
+		"ys_after": next_ys,
+		"len_before": queue_len,
+		"len_after": int(added["len_after"]),
+		"index": index,
+		"x": float(handle.get("x", 0.0)),
+		"y": float(handle.get("y", 0.0)),
+		"item_count_after": int(handle.get("item_count_after", item_count_before)),
+		"no_sleep_called": true,
+		"reason": str(handle.get("reason", "")),
+	}

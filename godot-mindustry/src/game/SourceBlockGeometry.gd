@@ -1171,3 +1171,21 @@ static func source_valid_place_ignore_units_state(game: Object, block: Object, b
 			if bool(enemy_overlap_hook.call(block, team_id, x, y)):
 				return {"valid": false, "reason": "enemy_overlap", "cell": null}
 	return {"valid": true, "reason": "", "cell": null}
+
+
+static func source_block_facing_edge_state(block_size: int, tile_x: int, tile_y: int, other_x: int, other_y: int) -> Dictionary:
+	if block_size <= 1:
+		return {
+			"edge_x": tile_x,
+			"edge_y": tile_y,
+			"is_multiblock": false,
+			"reason": "tile",
+		}
+	var edge_x := tile_x + clampi(other_x - tile_x, -((block_size - 1) / 2), block_size / 2)
+	var edge_y := tile_y + clampi(other_y - tile_y, -((block_size - 1) / 2), block_size / 2)
+	return {
+		"edge_x": edge_x,
+		"edge_y": edge_y,
+		"is_multiblock": true,
+		"reason": "facing_edge",
+	}
