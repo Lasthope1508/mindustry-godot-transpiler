@@ -14,8 +14,8 @@ Counts below are projected from the canonical `source_slice_ledger.json`, not fr
 
 | Bucket | Count |
 | --- | ---: |
-| Canonical slice ledger entries | 1486 |
-| Done | 1486 |
+| Canonical slice ledger entries | 1489 |
+| Done | 1489 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -112,7 +112,10 @@ Counts below are projected from the canonical `source_slice_ledger.json`, not fr
 - [x] N2028: Execute existing Tile pre-change plan on streamed old-center footprint lookups; source callbacks, generation, proxy/bounds and actual Main Tile store primitive application proved. Full setBlock/changeBuild removal remains open.
 - [x] N2029: Executable Tile.changeBuild removes the old Building, updates each unique edge Building once through the canonical edge owner, and inits a new Building only when the new Block has one, with init_update = block.update && !isEditor().
 - [x] N2030: Executable Tile.changed updates own-build or non-changing d4-neighbour proximity outside generation, gates the change event, and still recaches a static Block.
-- [x] N2031: Executable full two-pass Tile.setBlock composes preChanged/changeBuild/changed in source order, with fresh per-pass proxy lookups, forceTeam, rotation normalization and blockChanged. Production placement/reload binding and Godot proof/full suite remain pending.
+- [x] N2031: Executable full two-pass Tile.setBlock composes preChanged/changeBuild/changed in source order, with fresh per-pass proxy lookups, forceTeam, rotation normalization and blockChanged. Godot proof 15/15 true; full Python suite 5387 OK in 967.176s. Editor/replay + native MCP still pending.
+- [x] N2032: Placed-Building team identity assigns Team.sharded (id 1) to the placed sprite meta, with Team.derelict (id 0) as the no-Building default; the build_team hook target for the production setBlock binding.
+- [x] N2033: Production setBlock binding builds all 38 setBlock hooks from the game context: placed sprite as the Building entity, real Drill proximity recompute team-filtered like Building.updateProximity, old-sprite removal with placement-index cleanup, recursive setBlock(air) proxy clearing. Change events and renderer recache have no runtime bus/cache yet and stay explicit no-ops.
+- [x] N2034: record_placed_block routes player, scenario and campaign-bootstrap placement through the binding before the placement index is overwritten; the default scenario is de-overlapped (conveyor line clear of the Drill/Core footprints, Duo east of the Core) because setBlock removes any Building on its footprint. Out-of-world cells fall back to legacy init (the liquid-hydration proof places at (200,200)). Godot proof 13/13 true on the real Main scene.
 - [x] N167: Source BuildingComp drawConfigure canonical square state.
 - [x] N168: Source BuildingComp checkSolid default state.
 - [x] N169: Source BuildingComp handleDamage passthrough state.
@@ -1382,7 +1385,7 @@ Counts below are projected from the canonical `source_slice_ledger.json`, not fr
 
 Work now uses dependency cubes for prioritization without changing the verification contract. Each cube groups source Java, Godot runtime wiring, and playable behavior for one gameplay system. Inside a cube, every slice still moves linearly: read upstream Java, write RED tests, prove RED, implement minimal GREEN, run targeted/full tests, prove through Godot MCP runtime, update this checklist, run `git diff --check`, stage only touched tracked files, and commit.
 
-Current cube: `executable Tile changeBuild / changed / full two-pass setBlock`. N2029–N2031 compose the registered proximity/pre-change primitives into executable Tile mutations on actual Tile dictionaries. Ledger: 1486; expanded catalog: 113 modules; blocks: 425. Registration + targeted tests pass and all 61 symbol exprs are exact against pinned Tile.java; Godot proof, full suite, editor and replay are still pending (no Godot binary or local upstream checkout on this machine yet). Production placement/reload binding, superclass/world lifecycle and C02–C12 remain open. See `reports/2026-11-07-tile-change-build-set-block.md`.
+Current cube: `production setBlock binding at placement/reload`. N2032–N2034 bind the N2029–N2031 primitives into the real placement funnel: team identity (sharded), all 38 setBlock hooks from the game context, and record_placed_block wiring for player/scenario/bootstrap placement. Ledger: 1489; expanded catalog: 113 modules; blocks: 425. Registration + targeted tests pass; all binding symbol exprs exact against pinned Tile.java / Team.java / Build.java / ConstructBlock.java; Godot proof 13/13 true on the real Main scene. The default scenario is de-overlapped (conveyor line clear of the Drill/Core footprints, Duo east of the Core) because setBlock removes any Building on its footprint. Full suite, editor and replay still pending. Superclass/world lifecycle and C02–C12 remain open. See `reports/2026-11-07-placed-tile-set-block-binding.md`.
 
 ## Done
 
@@ -3049,10 +3052,13 @@ Current cube: `executable Tile changeBuild / changed / full two-pass setBlock`. 
 | N2029 | Executable Tile.changeBuild | Old removal, unique edge proximity updates via canonical edge owner, conditional entity init with editor-gated update flag. |
 | N2030 | Executable Tile.changed | Own-build or non-changing d4-neighbour proximity outside generation, gated change event, static recache. |
 | N2031 | Executable full two-pass Tile.setBlock | Composes preChanged/changeBuild/changed in source order; fresh per-pass proxy lookups, forceTeam, rotation normalization, blockChanged. Registration + targeted gates pass; Godot proof 15/15 true; full Python suite 5387 OK in 967.176s. Editor/replay + native MCP still pending. |
+| N2032 | Placed-Building team identity | Team.sharded id 1 on the placed sprite meta; derelict id 0 default; build_team hook target. |
+| N2033 | Production setBlock binding | All 38 setBlock hooks from the game context; sprite entity, team-filtered Drill proximity, old-sprite removal, recursive setBlock(air) proxies; events/recache explicit no-ops. |
+| N2034 | Placement funnel wiring + live proof | record_placed_block routes player/scenario/bootstrap placement through the binding; scenario de-overlapped; Godot proof 13/13 true on the real Main scene. |
 
 ## Not Done
 
-C01 now has executable Tile changeBuild / changed / full two-pass setBlock primitives (N2029–N2031) composing the N2026–N2028 proximity/pre-change primitives on actual Tile dictionaries. Production placement/reload binding, superclass sleep/groups, pickup/world transitions and remaining side effects stay open. C12 must adopt existing uncommitted owner dependencies. C02–C12 remain open.
+C01 now has executable Tile changeBuild / changed / full two-pass setBlock primitives (N2029–N2031) bound at production placement and world reload (N2032–N2034): player, scenario and campaign-bootstrap placement go through the canonical setBlock with real Building identity, team and proximity. Superclass sleep/groups, pickup/world transitions and remaining side effects stay open. C12 must adopt existing uncommitted owner dependencies. C02–C12 remain open.
 
 ## Scope
 
@@ -3419,3 +3425,4 @@ When Godot CLI is not on `PATH`, use the configured MCP Godot path from `C:\User
 | 2026-11-02 | N2026–N2028 accepted as supplied-context executable primitives on working tree; full 5397/22981, native 23 true, inspect/stop/editor/replay. C01/C02–C12 open. See reports/2026-11-02-building-proximity-mutation.md. |
 
 | 2026-11-07 | N2029–N2031 implemented: executable Tile changeBuild / changed / full two-pass setBlock on actual Tile dictionaries; registration test OK, tile slice 41 OK, catalog 0 errors / 113 modules, all 61 symbol exprs exact against pinned Tile.java. Godot proof, full suite, editor and replay still pending (no Godot binary or local upstream checkout on this machine yet). C01 placement binding and C02–C12 remain open. See reports/2026-11-07-tile-change-build-set-block.md. |
+| 2026-11-07 | N2032–N2034 implemented: production setBlock binding at placement/reload — team identity (sharded), all 38 hooks from the game context, record_placed_block wiring for player/scenario/bootstrap placement. Registration + targeted tests pass; Godot proof 13/13 true on the real Main scene. Default scenario de-overlapped (conveyor line x 9..15, Duo at (19, 7)) because setBlock removes any Building on its footprint. Full Python suite 5390 OK in 904.200s; editor and replay still pending. See reports/2026-11-07-placed-tile-set-block-binding.md. |

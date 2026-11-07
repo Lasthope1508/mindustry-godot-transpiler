@@ -45083,7 +45083,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("const ORE_COPPER_MAX := Vector2i(7, 10)", layout_source)
         self.assertIn("const DRILL_POS := Vector2i(7, 8)", layout_source)
         self.assertIn("const CORE_POS := Vector2i(17, 8)", layout_source)
-        self.assertIn("const DUO_POS := Vector2i(18, 7)", layout_source)
+        self.assertIn("const DUO_POS := Vector2i(19, 7)", layout_source)
         self.assertIn('const source_playable_world_layout_defaults := preload("res://src/game/SourcePlayableWorldLayoutDefaults.gd")', scenario_source)
         self.assertIn("const WORLD_SIZE := source_playable_world_layout_defaults.WORLD_SIZE", scenario_source)
         self.assertIn("const ORE_COPPER_MIN := source_playable_world_layout_defaults.ORE_COPPER_MIN", scenario_source)

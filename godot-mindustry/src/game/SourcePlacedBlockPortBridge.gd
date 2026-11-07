@@ -9,15 +9,26 @@ func record_placed_block(sprite: Sprite2D, block, cell: Vector2i) -> void:
 		occupied.append(occupied_cell)
 	var placed_block_origins: Dictionary = get("placed_block_origins")
 	var placed_blocks: Dictionary = get("placed_blocks")
+	var world_tiles: Dictionary = get("source_world_tiles")
+	var world_tile: Variant = null
+	if not world_tiles.is_empty():
+		# The binding only runs when the placement cell resolves to a
+		# world Tile. Out-of-world placement (for example the liquid
+		# hydration proof places electrolyzers at (200, 200)) has no
+		# Tile to mutate, so it falls back to the legacy init below,
+		# exactly like the pre-binding path did.
+		world_tile = SourceWorldTerrainRuntimeState.source_world_tile(world_tiles, cell.x, cell.y)
+	if world_tile != null:
+		# Canonical setBlock binding runs before the placement index is
+		# overwritten, so the previous Building is still resolvable for
+		# removal and the new sprite is inited, assigned and proximity-
+		# updated through the Tile mutation itself.
+		SourceWorldTerrainRuntimeState.source_apply_placed_tile_set_block_state(self, block, cell, sprite, source_block_geometry.SOURCE_TEAM_SHARDED_ID, 0)
 	var cell_keys: Array[String] = source_placed_block_port_bridge_block_placement.record_cells(placed_block_origins, placed_blocks, cell, occupied, sprite)
 	set("placed_block_origins", placed_block_origins)
 	set("placed_blocks", placed_blocks)
-	source_placed_block_state.game_initialize_sprite(self, sprite, block, cell, cell_keys)
-	var world_tiles: Dictionary = get("source_world_tiles")
-	if not world_tiles.is_empty():
-		SourceWorldTerrainRuntimeState.source_record_world_block(world_tiles, block, cell.x, cell.y, float(get("tile_size")))
-
-		SourceDrillConsumptionRuntimeState.source_on_proximity_update_state(self, sprite, block)
+	if world_tile == null:
+		source_placed_block_state.game_initialize_sprite(self, sprite, block, cell, cell_keys)
 
 func block_sprite_at_cell(cell: Vector2i):
 	var placed_blocks: Dictionary = get("placed_blocks")

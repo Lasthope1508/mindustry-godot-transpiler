@@ -86,7 +86,12 @@ static func ore_copper_cells() -> Array[Vector2i]:
 
 static func conveyor_cells() -> Array[Vector2i]:
 	var cells: Array[Vector2i] = []
-	for x in range(DRILL_POS.x + 1, CORE_POS.x):
+	# The conveyor line starts clear of the size-2 Drill footprint
+	# (DRILL_POS.x + 1 is a Drill cell) and ends clear of the size-3
+	# Core footprint (CORE_POS.x - 1 is a Core cell). Tile.setBlock
+	# removes any Building on its footprint, so the old overlapping line
+	# destroyed the Drill and the Core at bootstrap.
+	for x in range(DRILL_POS.x + 2, CORE_POS.x - 1):
 		cells.append(Vector2i(x, DRILL_POS.y))
 	return cells
 

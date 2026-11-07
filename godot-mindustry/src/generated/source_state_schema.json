@@ -212991,6 +212991,241 @@
       },
       "runtime_proof": "/root/TileChangeBuildSetBlockProof",
       "rule": "Void mutation; no fabricated result dictionary or competing persistent state. Inputs and hooks must be actual source context."
+    },
+    "source_assign_build_team_state_input": {
+      "status": "active",
+      "owner": "SourceBlockGeometry.source_assign_build_team_state",
+      "source_slice": "N2032",
+      "keys": {
+        "sprite": {
+          "type": "Sprite2D",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "build.team(team);",
+          "rule": "Actual placed Building sprite whose team is assigned.",
+          "used_by": [
+            "SourceBlockGeometry.source_assign_build_team_state"
+          ]
+        },
+        "team_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "Team.sharded.id",
+          "rule": "Actual campaign player team id; sharded is the placing team.",
+          "used_by": [
+            "SourceBlockGeometry.source_assign_build_team_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/PlacedTileSetBlockProof",
+      "rule": "Source-backed placement binding inputs; hooks must be actual source context."
+    },
+    "source_assign_build_team_state_result": {
+      "status": "active",
+      "owner": "SourceBlockGeometry.source_assign_build_team_state",
+      "source_slice": "N2032",
+      "keys": {
+        "team_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "build.team(team);",
+          "rule": "Team id stored on the Building sprite meta.",
+          "used_by": [
+            "SourceBlockGeometry.source_assign_build_team_state"
+          ]
+        },
+        "build": {
+          "type": "Sprite2D",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "build.team(team);",
+          "rule": "The same Building sprite, now carrying its team id.",
+          "used_by": [
+            "SourceBlockGeometry.source_assign_build_team_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/PlacedTileSetBlockProof",
+      "rule": "Source-backed placement binding inputs; hooks must be actual source context."
+    },
+    "source_apply_placed_tile_set_block_state_input": {
+      "status": "active",
+      "owner": "SourceWorldTerrainRuntimeState.source_apply_placed_tile_set_block_state",
+      "source_slice": "N2033",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/ConstructBlock.java",
+          "java_expr": "tile.setBlock(block, team, rotation);",
+          "rule": "Actual game world containing the Tile store, placement index and content catalog.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_apply_placed_tile_set_block_state"
+          ]
+        },
+        "block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/ConstructBlock.java",
+          "java_expr": "tile.setBlock(block, team, rotation);",
+          "rule": "Actual Block placed by ConstructBlock.constructFinish.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_apply_placed_tile_set_block_state"
+          ]
+        },
+        "cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Build.java",
+          "java_expr": "Tile tile = world.tile(x, y);",
+          "rule": "Actual placement Tile cell resolved through the world lookup.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_apply_placed_tile_set_block_state"
+          ]
+        },
+        "sprite": {
+          "type": "Sprite2D",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "build = entityprov.get().init(this, team, block.update && !state.isEditor(), rotation);",
+          "rule": "Actual created Building entity; the placed sprite is the runtime Building identity.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_apply_placed_tile_set_block_state"
+          ]
+        },
+        "team_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "build.team(team);",
+          "rule": "Actual Team id assigned to the new Building after changeBuild.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_apply_placed_tile_set_block_state"
+          ]
+        },
+        "rotation": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "changeBuild(team, entityprov, (byte)Mathf.mod(rotation, 4));",
+          "rule": "Actual requested rotation; normalized with posmod 4 by the composed primitive.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_apply_placed_tile_set_block_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/PlacedTileSetBlockProof",
+      "rule": "Source-backed placement binding inputs; hooks must be actual source context."
+    },
+    "source_apply_placed_tile_set_block_state_result": {
+      "status": "active",
+      "owner": "SourceWorldTerrainRuntimeState.source_apply_placed_tile_set_block_state",
+      "source_slice": "N2033",
+      "keys": {
+        "tile": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "public void setBlock(Block type, Team team, int rotation, Prov<Building> entityprov){",
+          "rule": "Actual mutated Tile dictionary; changing, block and build are set on it in source order.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_apply_placed_tile_set_block_state"
+          ]
+        },
+        "build": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "build = entityprov.get().init(this, team, block.update && !state.isEditor(), rotation);",
+          "rule": "The placed Building sprite, or null when no sprite was supplied.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_apply_placed_tile_set_block_state"
+          ]
+        },
+        "removed_old_build": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "build.remove();",
+          "rule": "Whether a previous Building was removed by the composed changeBuild.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_apply_placed_tile_set_block_state"
+          ]
+        },
+        "proximity_updated": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "t.updateProximity();",
+          "rule": "Number of unique Buildings whose proximity recompute applied through the binding.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_apply_placed_tile_set_block_state"
+          ]
+        },
+        "changed_event_fired": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "fireChanged();",
+          "rule": "Whether the changed event hook was reached; no runtime event bus consumes it yet.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_apply_placed_tile_set_block_state"
+          ]
+        },
+        "recache_called": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "recache();",
+          "rule": "Whether the static recache guard fired; no runtime renderer cache consumes it yet.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_apply_placed_tile_set_block_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/PlacedTileSetBlockProof",
+      "rule": "Source-backed placement binding inputs; hooks must be actual source context."
+    },
+    "record_placed_block_input": {
+      "status": "active",
+      "owner": "SourcePlacedBlockPortBridge.record_placed_block",
+      "source_slice": "N2034",
+      "keys": {
+        "sprite": {
+          "type": "Sprite2D",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "build = entityprov.get().init(this, team, block.update && !state.isEditor(), rotation);",
+          "rule": "Actual placed Building sprite threaded through the placement funnel as the created entity.",
+          "used_by": [
+            "SourcePlacedBlockPortBridge.record_placed_block"
+          ]
+        },
+        "block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/ConstructBlock.java",
+          "java_expr": "tile.setBlock(block, team, rotation);",
+          "rule": "Actual Block placed by ConstructBlock.constructFinish.",
+          "used_by": [
+            "SourcePlacedBlockPortBridge.record_placed_block"
+          ]
+        },
+        "cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Build.java",
+          "java_expr": "Tile tile = world.tile(x, y);",
+          "rule": "Actual placement Tile cell resolved through the world lookup.",
+          "used_by": [
+            "SourcePlacedBlockPortBridge.record_placed_block"
+          ]
+        }
+      },
+      "runtime_proof": "/root/PlacedTileSetBlockProof",
+      "rule": "Source-backed placement binding inputs; hooks must be actual source context."
     }
   },
   "version": 1

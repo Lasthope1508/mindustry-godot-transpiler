@@ -153843,6 +153843,321 @@
         "test_reference_graph_and_actual_tile_set_block"
       ],
       "runtime_proof": "/root/TileChangeBuildSetBlockProof"
+    },
+    "source_assign_build_team_state_input.sprite": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_assign_build_team_state",
+      "godot_symbol": "source_assign_build_team_state_input.sprite",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "setBlock",
+      "java_expr": "build.team(team);",
+      "rule": "Actual placed Building sprite whose team is assigned.",
+      "tests": [
+        "test_placed_tile_set_block_binding_registration",
+        "test_all_placed_tile_set_block_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_placed_tile_set_block"
+      ],
+      "runtime_proof": "/root/PlacedTileSetBlockProof"
+    },
+    "source_assign_build_team_state_input.team_id": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_assign_build_team_state",
+      "godot_symbol": "source_assign_build_team_state_input.team_id",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "setBlock",
+      "java_expr": "Team.sharded.id",
+      "rule": "Actual campaign player team id; sharded is the placing team.",
+      "tests": [
+        "test_placed_tile_set_block_binding_registration",
+        "test_all_placed_tile_set_block_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_placed_tile_set_block"
+      ],
+      "runtime_proof": "/root/PlacedTileSetBlockProof"
+    },
+    "source_assign_build_team_state_result.team_id": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_assign_build_team_state",
+      "godot_symbol": "source_assign_build_team_state_result.team_id",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "setBlock",
+      "java_expr": "build.team(team);",
+      "rule": "Team id stored on the Building sprite meta.",
+      "tests": [
+        "test_placed_tile_set_block_binding_registration",
+        "test_all_placed_tile_set_block_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_placed_tile_set_block"
+      ],
+      "runtime_proof": "/root/PlacedTileSetBlockProof"
+    },
+    "source_assign_build_team_state_result.build": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_assign_build_team_state",
+      "godot_symbol": "source_assign_build_team_state_result.build",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "setBlock",
+      "java_expr": "build.team(team);",
+      "rule": "The same Building sprite, now carrying its team id.",
+      "tests": [
+        "test_placed_tile_set_block_binding_registration",
+        "test_all_placed_tile_set_block_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_placed_tile_set_block"
+      ],
+      "runtime_proof": "/root/PlacedTileSetBlockProof"
+    },
+    "source_apply_placed_tile_set_block_state_input.game": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_apply_placed_tile_set_block_state",
+      "godot_symbol": "source_apply_placed_tile_set_block_state_input.game",
+      "java_source": "core/src/mindustry/world/blocks/ConstructBlock.java",
+      "java_method": "setBlock",
+      "java_expr": "tile.setBlock(block, team, rotation);",
+      "rule": "Actual game world containing the Tile store, placement index and content catalog.",
+      "tests": [
+        "test_placed_tile_set_block_binding_registration",
+        "test_all_placed_tile_set_block_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_placed_tile_set_block"
+      ],
+      "runtime_proof": "/root/PlacedTileSetBlockProof"
+    },
+    "source_apply_placed_tile_set_block_state_input.block": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_apply_placed_tile_set_block_state",
+      "godot_symbol": "source_apply_placed_tile_set_block_state_input.block",
+      "java_source": "core/src/mindustry/world/blocks/ConstructBlock.java",
+      "java_method": "setBlock",
+      "java_expr": "tile.setBlock(block, team, rotation);",
+      "rule": "Actual Block placed by ConstructBlock.constructFinish.",
+      "tests": [
+        "test_placed_tile_set_block_binding_registration",
+        "test_all_placed_tile_set_block_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_placed_tile_set_block"
+      ],
+      "runtime_proof": "/root/PlacedTileSetBlockProof"
+    },
+    "source_apply_placed_tile_set_block_state_input.cell": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_apply_placed_tile_set_block_state",
+      "godot_symbol": "source_apply_placed_tile_set_block_state_input.cell",
+      "java_source": "core/src/mindustry/world/Build.java",
+      "java_method": "setBlock",
+      "java_expr": "Tile tile = world.tile(x, y);",
+      "rule": "Actual placement Tile cell resolved through the world lookup.",
+      "tests": [
+        "test_placed_tile_set_block_binding_registration",
+        "test_all_placed_tile_set_block_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_placed_tile_set_block"
+      ],
+      "runtime_proof": "/root/PlacedTileSetBlockProof"
+    },
+    "source_apply_placed_tile_set_block_state_input.sprite": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_apply_placed_tile_set_block_state",
+      "godot_symbol": "source_apply_placed_tile_set_block_state_input.sprite",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "setBlock",
+      "java_expr": "build = entityprov.get().init(this, team, block.update && !state.isEditor(), rotation);",
+      "rule": "Actual created Building entity; the placed sprite is the runtime Building identity.",
+      "tests": [
+        "test_placed_tile_set_block_binding_registration",
+        "test_all_placed_tile_set_block_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_placed_tile_set_block"
+      ],
+      "runtime_proof": "/root/PlacedTileSetBlockProof"
+    },
+    "source_apply_placed_tile_set_block_state_input.team_id": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_apply_placed_tile_set_block_state",
+      "godot_symbol": "source_apply_placed_tile_set_block_state_input.team_id",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "setBlock",
+      "java_expr": "build.team(team);",
+      "rule": "Actual Team id assigned to the new Building after changeBuild.",
+      "tests": [
+        "test_placed_tile_set_block_binding_registration",
+        "test_all_placed_tile_set_block_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_placed_tile_set_block"
+      ],
+      "runtime_proof": "/root/PlacedTileSetBlockProof"
+    },
+    "source_apply_placed_tile_set_block_state_input.rotation": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_apply_placed_tile_set_block_state",
+      "godot_symbol": "source_apply_placed_tile_set_block_state_input.rotation",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "setBlock",
+      "java_expr": "changeBuild(team, entityprov, (byte)Mathf.mod(rotation, 4));",
+      "rule": "Actual requested rotation; normalized with posmod 4 by the composed primitive.",
+      "tests": [
+        "test_placed_tile_set_block_binding_registration",
+        "test_all_placed_tile_set_block_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_placed_tile_set_block"
+      ],
+      "runtime_proof": "/root/PlacedTileSetBlockProof"
+    },
+    "source_apply_placed_tile_set_block_state_result.tile": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_apply_placed_tile_set_block_state",
+      "godot_symbol": "source_apply_placed_tile_set_block_state_result.tile",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "setBlock",
+      "java_expr": "public void setBlock(Block type, Team team, int rotation, Prov<Building> entityprov){",
+      "rule": "Actual mutated Tile dictionary; changing, block and build are set on it in source order.",
+      "tests": [
+        "test_placed_tile_set_block_binding_registration",
+        "test_all_placed_tile_set_block_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_placed_tile_set_block"
+      ],
+      "runtime_proof": "/root/PlacedTileSetBlockProof"
+    },
+    "source_apply_placed_tile_set_block_state_result.build": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_apply_placed_tile_set_block_state",
+      "godot_symbol": "source_apply_placed_tile_set_block_state_result.build",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "setBlock",
+      "java_expr": "build = entityprov.get().init(this, team, block.update && !state.isEditor(), rotation);",
+      "rule": "The placed Building sprite, or null when no sprite was supplied.",
+      "tests": [
+        "test_placed_tile_set_block_binding_registration",
+        "test_all_placed_tile_set_block_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_placed_tile_set_block"
+      ],
+      "runtime_proof": "/root/PlacedTileSetBlockProof"
+    },
+    "source_apply_placed_tile_set_block_state_result.removed_old_build": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_apply_placed_tile_set_block_state",
+      "godot_symbol": "source_apply_placed_tile_set_block_state_result.removed_old_build",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "setBlock",
+      "java_expr": "build.remove();",
+      "rule": "Whether a previous Building was removed by the composed changeBuild.",
+      "tests": [
+        "test_placed_tile_set_block_binding_registration",
+        "test_all_placed_tile_set_block_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_placed_tile_set_block"
+      ],
+      "runtime_proof": "/root/PlacedTileSetBlockProof"
+    },
+    "source_apply_placed_tile_set_block_state_result.proximity_updated": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_apply_placed_tile_set_block_state",
+      "godot_symbol": "source_apply_placed_tile_set_block_state_result.proximity_updated",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "setBlock",
+      "java_expr": "t.updateProximity();",
+      "rule": "Number of unique Buildings whose proximity recompute applied through the binding.",
+      "tests": [
+        "test_placed_tile_set_block_binding_registration",
+        "test_all_placed_tile_set_block_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_placed_tile_set_block"
+      ],
+      "runtime_proof": "/root/PlacedTileSetBlockProof"
+    },
+    "source_apply_placed_tile_set_block_state_result.changed_event_fired": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_apply_placed_tile_set_block_state",
+      "godot_symbol": "source_apply_placed_tile_set_block_state_result.changed_event_fired",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "setBlock",
+      "java_expr": "fireChanged();",
+      "rule": "Whether the changed event hook was reached; no runtime event bus consumes it yet.",
+      "tests": [
+        "test_placed_tile_set_block_binding_registration",
+        "test_all_placed_tile_set_block_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_placed_tile_set_block"
+      ],
+      "runtime_proof": "/root/PlacedTileSetBlockProof"
+    },
+    "source_apply_placed_tile_set_block_state_result.recache_called": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_apply_placed_tile_set_block_state",
+      "godot_symbol": "source_apply_placed_tile_set_block_state_result.recache_called",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "setBlock",
+      "java_expr": "recache();",
+      "rule": "Whether the static recache guard fired; no runtime renderer cache consumes it yet.",
+      "tests": [
+        "test_placed_tile_set_block_binding_registration",
+        "test_all_placed_tile_set_block_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_placed_tile_set_block"
+      ],
+      "runtime_proof": "/root/PlacedTileSetBlockProof"
+    },
+    "record_placed_block_input.sprite": {
+      "status": "source-backed",
+      "godot_owner": "SourcePlacedBlockPortBridge.record_placed_block",
+      "godot_symbol": "record_placed_block_input.sprite",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "constructFinish",
+      "java_expr": "build = entityprov.get().init(this, team, block.update && !state.isEditor(), rotation);",
+      "rule": "Actual placed Building sprite threaded through the placement funnel as the created entity.",
+      "tests": [
+        "test_placed_tile_set_block_binding_registration",
+        "test_all_placed_tile_set_block_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_placed_tile_set_block"
+      ],
+      "runtime_proof": "/root/PlacedTileSetBlockProof"
+    },
+    "record_placed_block_input.block": {
+      "status": "source-backed",
+      "godot_owner": "SourcePlacedBlockPortBridge.record_placed_block",
+      "godot_symbol": "record_placed_block_input.block",
+      "java_source": "core/src/mindustry/world/blocks/ConstructBlock.java",
+      "java_method": "constructFinish",
+      "java_expr": "tile.setBlock(block, team, rotation);",
+      "rule": "Actual Block placed by ConstructBlock.constructFinish.",
+      "tests": [
+        "test_placed_tile_set_block_binding_registration",
+        "test_all_placed_tile_set_block_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_placed_tile_set_block"
+      ],
+      "runtime_proof": "/root/PlacedTileSetBlockProof"
+    },
+    "record_placed_block_input.cell": {
+      "status": "source-backed",
+      "godot_owner": "SourcePlacedBlockPortBridge.record_placed_block",
+      "godot_symbol": "record_placed_block_input.cell",
+      "java_source": "core/src/mindustry/world/Build.java",
+      "java_method": "constructFinish",
+      "java_expr": "Tile tile = world.tile(x, y);",
+      "rule": "Actual placement Tile cell resolved through the world lookup.",
+      "tests": [
+        "test_placed_tile_set_block_binding_registration",
+        "test_all_placed_tile_set_block_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_placed_tile_set_block"
+      ],
+      "runtime_proof": "/root/PlacedTileSetBlockProof"
+    },
+    "team_identity.sharded_id": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_assign_build_team_state",
+      "godot_symbol": "SourceBlockGeometry.SOURCE_TEAM_SHARDED_ID",
+      "java_source": "core/src/mindustry/game/Team.java",
+      "java_method": "Team",
+      "java_expr": "sharded = new Team(1, \"sharded\", Pal.accent.cpy(), Color.valueOf(\"ffd37f\"), Color.valueOf(\"eab678\"), Color.valueOf(\"d4816b\")),",
+      "rule": "Team id constant from the Team field declaration; sharded is the campaign player team and derelict is the default for tiles without a Building.",
+      "tests": [
+        "test_placed_tile_set_block_binding_registration",
+        "test_all_placed_tile_set_block_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_placed_tile_set_block"
+      ],
+      "runtime_proof": "/root/PlacedTileSetBlockProof"
+    },
+    "team_identity.derelict_id": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_assign_build_team_state",
+      "godot_symbol": "SourceBlockGeometry.SOURCE_TEAM_DERELICT_ID",
+      "java_source": "core/src/mindustry/game/Team.java",
+      "java_method": "Team",
+      "java_expr": "derelict = new Team(0, \"derelict\", Color.valueOf(\"4d4e58\")),",
+      "rule": "Team id constant from the Team field declaration; sharded is the campaign player team and derelict is the default for tiles without a Building.",
+      "tests": [
+        "test_placed_tile_set_block_binding_registration",
+        "test_all_placed_tile_set_block_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_placed_tile_set_block"
+      ],
+      "runtime_proof": "/root/PlacedTileSetBlockProof"
     }
   },
   "version": 1

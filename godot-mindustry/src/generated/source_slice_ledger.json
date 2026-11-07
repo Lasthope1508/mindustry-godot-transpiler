@@ -50597,6 +50597,116 @@
         "Superclass noSleep, power onProximity hooks, turret unregister, controller pickup, world transitions and remaining Tile/Floor side effects stay open in C01.",
         "C02 inventory/offload/dump/transport and C03-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2032": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_class": "mindustry.world.Tile",
+      "java_method": "setBlock",
+      "godot_owner": "SourceBlockGeometry.source_assign_build_team_state",
+      "exact_exprs": [
+        "build.team(team);",
+        "public void setBlock(Block type, Team team, int rotation, Prov<Building> entityprov){"
+      ],
+      "source_symbols": [
+        "source_assign_build_team_state_input.sprite",
+        "source_assign_build_team_state_input.team_id",
+        "source_assign_build_team_state_result.team_id",
+        "source_assign_build_team_state_result.build",
+        "team_identity.sharded_id",
+        "team_identity.derelict_id"
+      ],
+      "tests": [
+        "test_placed_tile_set_block_binding_registration",
+        "test_all_placed_tile_set_block_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_placed_tile_set_block"
+      ],
+      "runtime_proof": "/root/PlacedTileSetBlockProof",
+      "deferred_exprs": [
+        "Change events and renderer recache have no runtime bus or cache yet; the binding records only whether the setBlock guard reached them.",
+        "Block.blockChanged overrides beyond the empty default (ColoredWall, TiledWall) stay open.",
+        "Schematic placement (Schematics.place) has no runtime path yet; only player, scenario and campaign-bootstrap placement go through record_placed_block.",
+        "Block.update and Block.hasBuilding are not exported by the content catalog; the binding reads update from the catalog when present and treats a supplied sprite as the Building.",
+        "Superclass noSleep, power onProximity hooks, turret unregister, controller pickup, world transitions and remaining Tile/Floor side effects stay open in C01.",
+        "C02 inventory/offload/dump/transport and C03-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
+    },
+    "N2033": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_class": "mindustry.world.Tile",
+      "java_method": "setBlock",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_apply_placed_tile_set_block_state",
+      "exact_exprs": [
+        "public void setBlock(Block type, Team team, int rotation, Prov<Building> entityprov){",
+        "build.team(team);",
+        "if(block.hasBuilding()){",
+        "build.remove();",
+        "t.updateProximity();",
+        "tile.onProximityUpdate();",
+        "fireChanged();",
+        "recache();",
+        "block.blockChanged(this);",
+        "changing = false;"
+      ],
+      "source_symbols": [
+        "source_apply_placed_tile_set_block_state_input.game",
+        "source_apply_placed_tile_set_block_state_input.block",
+        "source_apply_placed_tile_set_block_state_input.cell",
+        "source_apply_placed_tile_set_block_state_input.sprite",
+        "source_apply_placed_tile_set_block_state_input.team_id",
+        "source_apply_placed_tile_set_block_state_input.rotation",
+        "source_apply_placed_tile_set_block_state_result.tile",
+        "source_apply_placed_tile_set_block_state_result.build",
+        "source_apply_placed_tile_set_block_state_result.removed_old_build",
+        "source_apply_placed_tile_set_block_state_result.proximity_updated",
+        "source_apply_placed_tile_set_block_state_result.changed_event_fired",
+        "source_apply_placed_tile_set_block_state_result.recache_called"
+      ],
+      "tests": [
+        "test_placed_tile_set_block_binding_registration",
+        "test_all_placed_tile_set_block_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_placed_tile_set_block"
+      ],
+      "runtime_proof": "/root/PlacedTileSetBlockProof",
+      "deferred_exprs": [
+        "Change events and renderer recache have no runtime bus or cache yet; the binding records only whether the setBlock guard reached them.",
+        "Block.blockChanged overrides beyond the empty default (ColoredWall, TiledWall) stay open.",
+        "Schematic placement (Schematics.place) has no runtime path yet; only player, scenario and campaign-bootstrap placement go through record_placed_block.",
+        "Block.update and Block.hasBuilding are not exported by the content catalog; the binding reads update from the catalog when present and treats a supplied sprite as the Building.",
+        "Superclass noSleep, power onProximity hooks, turret unregister, controller pickup, world transitions and remaining Tile/Floor side effects stay open in C01.",
+        "C02 inventory/offload/dump/transport and C03-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
+    },
+    "N2034": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/ConstructBlock.java",
+      "java_class": "mindustry.world.blocks.ConstructBlock",
+      "java_method": "constructFinish",
+      "godot_owner": "SourcePlacedBlockPortBridge.record_placed_block",
+      "exact_exprs": [
+        "tile.setBlock(block, team, rotation);",
+        "if(tile.build != null && tile.build.block == block){"
+      ],
+      "source_symbols": [
+        "record_placed_block_input.sprite",
+        "record_placed_block_input.block",
+        "record_placed_block_input.cell"
+      ],
+      "tests": [
+        "test_placed_tile_set_block_binding_registration",
+        "test_all_placed_tile_set_block_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_placed_tile_set_block"
+      ],
+      "runtime_proof": "/root/PlacedTileSetBlockProof",
+      "deferred_exprs": [
+        "Change events and renderer recache have no runtime bus or cache yet; the binding records only whether the setBlock guard reached them.",
+        "Block.blockChanged overrides beyond the empty default (ColoredWall, TiledWall) stay open.",
+        "Schematic placement (Schematics.place) has no runtime path yet; only player, scenario and campaign-bootstrap placement go through record_placed_block.",
+        "Block.update and Block.hasBuilding are not exported by the content catalog; the binding reads update from the catalog when present and treats a supplied sprite as the Building.",
+        "Superclass noSleep, power onProximity hooks, turret unregister, controller pickup, world transitions and remaining Tile/Floor side effects stay open in C01.",
+        "C02 inventory/offload/dump/transport and C03-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1

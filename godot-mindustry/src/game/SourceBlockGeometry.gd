@@ -152,6 +152,24 @@ static func tile_set_team_state(build_present: bool, team: Variant) -> Dictionar
 	}
 
 
+# Placed-Building team identity. Team.sharded (id 1) is the campaign player
+# team; Team.derelict (id 0) is the Tile-constructor default for tiles
+# without a Building. The id is stored on the Building sprite meta, the
+# same identity the proximity team filter reads.
+const SOURCE_TEAM_DERELICT_ID := 0
+const SOURCE_TEAM_SHARDED_ID := 1
+const SOURCE_BUILD_TEAM_META_KEY := "team_id"
+
+
+# Execute Building.team(team) on a placed Building sprite: store the team id
+# on its meta and return it with the Building. This is the build_team hook
+# target for the production setBlock binding.
+static func source_assign_build_team_state(sprite: Sprite2D, team_id: int) -> Dictionary:
+	if sprite != null and is_instance_valid(sprite):
+		sprite.set_meta(SOURCE_BUILD_TEAM_META_KEY, team_id)
+	return {"team_id": team_id, "build": sprite}
+
+
 static func tile_set_block_delegate_state(overload: String, type_value: Variant, team_value: Variant, rotation_value: int, entityprov_value: Variant = null) -> Dictionary:
 	var delegate := ""
 	match overload:

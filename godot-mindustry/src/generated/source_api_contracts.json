@@ -58469,6 +58469,88 @@
       ],
       "runtime_proof": "/root/TileChangeBuildSetBlockProof",
       "rule": "Source void mutation, verified against explicit GDScript -> void; input/owner/slice/proof checks remain mandatory. No result schema or fabricated wrapper."
+    },
+    "SourceBlockGeometry.source_assign_build_team_state": {
+      "status": "active",
+      "source_slice": "N2032",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "source_method": "setBlock",
+      "params": [
+        {
+          "name": "sprite",
+          "type": "Sprite2D",
+          "schema": "source_assign_build_team_state_input.sprite"
+        },
+        {
+          "name": "team_id",
+          "type": "int",
+          "schema": "source_assign_build_team_state_input.team_id"
+        }
+      ],
+      "return_keys": [
+        "team_id",
+        "build"
+      ],
+      "tests": [
+        "test_placed_tile_set_block_binding_registration",
+        "test_all_placed_tile_set_block_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_placed_tile_set_block"
+      ],
+      "runtime_proof": "/root/PlacedTileSetBlockProof",
+      "rule": "Source-backed placement binding; the result dictionary reports what the composed setBlock did, with no fabricated runtime state."
+    },
+    "SourceWorldTerrainRuntimeState.source_apply_placed_tile_set_block_state": {
+      "status": "active",
+      "source_slice": "N2033",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "source_method": "setBlock",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_apply_placed_tile_set_block_state_input.game"
+        },
+        {
+          "name": "block",
+          "type": "Object",
+          "schema": "source_apply_placed_tile_set_block_state_input.block"
+        },
+        {
+          "name": "cell",
+          "type": "Vector2i",
+          "schema": "source_apply_placed_tile_set_block_state_input.cell"
+        },
+        {
+          "name": "sprite",
+          "type": "Sprite2D",
+          "schema": "source_apply_placed_tile_set_block_state_input.sprite"
+        },
+        {
+          "name": "team_id",
+          "type": "int",
+          "schema": "source_apply_placed_tile_set_block_state_input.team_id"
+        },
+        {
+          "name": "rotation",
+          "type": "int",
+          "schema": "source_apply_placed_tile_set_block_state_input.rotation"
+        }
+      ],
+      "return_keys": [
+        "tile",
+        "build",
+        "removed_old_build",
+        "proximity_updated",
+        "changed_event_fired",
+        "recache_called"
+      ],
+      "tests": [
+        "test_placed_tile_set_block_binding_registration",
+        "test_all_placed_tile_set_block_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_placed_tile_set_block"
+      ],
+      "runtime_proof": "/root/PlacedTileSetBlockProof",
+      "rule": "Source-backed placement binding; the result dictionary reports what the composed setBlock did, with no fabricated runtime state."
     }
   },
   "policy": {

@@ -2,7 +2,10 @@ extends RefCounted
 class_name SourceWorldTerrainRuntimeState
 
 const source_block_geometry := preload("res://src/game/SourceBlockGeometry.gd")
+const source_block_plan_geometry_state := preload("res://src/game/SourceBlockPlanGeometryState.gd")
 const source_block_query_basic_state := preload("res://src/game/SourceBlockQueryBasicState.gd")
+const source_placed_block_state := preload("res://src/game/SourcePlacedBlockState.gd")
+const source_drill_consumption_runtime_state := preload("res://src/game/SourceDrillConsumptionRuntimeState.gd")
 const SOURCE_WORLD_AIR_FIELD := "air"
 const SOURCE_WORLD_STONE_FIELD := "stone"
 const SOURCE_WORLD_SCENARIO_ORE_FIELD := "oreCopper"
@@ -38,6 +41,157 @@ static func source_record_world_block(world_tiles: Dictionary, block: Object, x:
 	# Field/proxy assignment only. Removal, overlapping entity cleanup and events have separate lifecycle gates.
 	for tile in linked:
 		tile["block"] = block
+
+
+# Execute Tile.setBlock for a placed Building on the actual world Tile
+# store, with runtime hooks built from the game context. This is the
+# ConstructBlock.constructFinish equivalent: the placed sprite is the
+# Building entity, the player team is sharded, rotation is normalized by
+# the primitive, and multiblock proxies are cleared through setBlock(air)
+# then reassigned. A Building exists exactly when a sprite is supplied;
+# the air recursion passes null and creates none. Block.update is read
+# from the catalog when exported and falls back to the Java field default
+# (false); the sprite init is unconditional so the value is inert here.
+# Change events and renderer recache have no runtime bus or cache yet, so
+# those hooks are explicit no-ops and the result records only whether the
+# guard reached them. Building.onRemoved and Block.blockChanged are empty
+# by default upstream, so those hooks are no-ops too; the ColoredWall /
+# TiledWall blockChanged overrides stay open. Proximity updates are the
+# registered Drill recompute, team-filtered like Building.updateProximity.
+static func source_apply_placed_tile_set_block_state(game: Object, block: Object, cell: Vector2i, sprite: Sprite2D, team_id: int, rotation: int) -> Dictionary:
+	var world_tiles: Dictionary = game.get("source_world_tiles")
+	var self_tile: Variant = source_world_tile(world_tiles, cell.x, cell.y)
+	assert(self_tile != null and block != null, "Placed Tile.setBlock requires a resolved world Tile and Block")
+	var catalog: Object = game.get("content_catalog")
+	var placed_blocks: Dictionary = game.get("placed_blocks")
+	var air_block: Object = source_world_block_by_field(catalog, SOURCE_WORLD_AIR_FIELD)
+	var previous_build: Variant = placed_blocks.get(source_world_grid.cell_key(cell))
+	if previous_build != null and not is_instance_valid(previous_build):
+		previous_build = null
+	var previous_block: Variant = null
+	var previous_block_size := 0
+	var previous_block_multiblock := false
+	var old_build_center := cell
+	if previous_build != null:
+		var previous_block_id: String = str(previous_build.get_meta(source_placed_block_state.SOURCE_BLOCK_ID_META_KEY, ""))
+		if previous_block_id != "":
+			previous_block = catalog.get_by_id(previous_block_id)
+		if previous_block != null:
+			previous_block_size = source_block_metadata_state.block_size(previous_block)
+			previous_block_multiblock = source_block_query_basic_state.is_multiblock_state(previous_block_size)["is_multiblock"]
+			old_build_center = previous_build.get_meta("origin_cell", cell)
+	var geometry: Dictionary = source_block_geometry_state(block, float(game.get("tile_size")))
+	var new_block_size: int = geometry["size"]
+	var new_block_multiblock: bool = geometry["is_multiblock"]
+	var size_offset: int = geometry["size_offset"]
+	var previous_block_static := false
+	if previous_block != null:
+		previous_block_static = source_block_query_basic_state.is_static_state(str(previous_block.properties["cacheLayer"]))["is_static"]
+	var type_static: bool = source_block_query_basic_state.is_static_state(str(block.properties["cacheLayer"]))["is_static"]
+	var new_block_has_building: bool = sprite != null
+	var new_block_update: bool = bool(block.properties.get("update", false))
+	var removed_old_build: bool = previous_build != null and not is_same(previous_build, sprite)
+	var proximity_state := {"updated": 0}
+	var world_tile_lookup := func(tile_x: int, tile_y: int) -> Variant: return source_world_tile(world_tiles, tile_x, tile_y)
+	var world_build := func(tile_x: int, tile_y: int) -> Variant:
+		var tile: Variant = source_world_tile(world_tiles, tile_x, tile_y)
+		return tile.get("build") if tile != null else null
+	var on_proximity_update := func(build: Variant) -> bool:
+		if build == null or not is_instance_valid(build):
+			return false
+		if int(build.get_meta(source_block_geometry.SOURCE_BUILD_TEAM_META_KEY, source_block_geometry.SOURCE_TEAM_DERELICT_ID)) != team_id:
+			return false
+		var build_block_id: String = str(build.get_meta(source_placed_block_state.SOURCE_BLOCK_ID_META_KEY, ""))
+		if build_block_id == "":
+			return false
+		var build_block: Variant = catalog.get_by_id(build_block_id)
+		if build_block == null:
+			return false
+		var applied: bool = source_drill_consumption_runtime_state.source_on_proximity_update_state(game, build, build_block)["applied"]
+		if applied:
+			proximity_state["updated"] = int(proximity_state["updated"]) + 1
+		return applied
+	var update_proximity := func(build: Variant) -> bool:
+		# Building.updateProximity: recompute this Building, then
+		# onProximityUpdate on each same-team edge neighbour. The
+		# neighbour pass is deduplicated; the recompute is idempotent,
+		# so the count reports unique neighbours only.
+		var applied_self: bool = on_proximity_update.call(build)
+		if build == null or not is_instance_valid(build):
+			return applied_self
+		var build_block_id: String = str(build.get_meta(source_placed_block_state.SOURCE_BLOCK_ID_META_KEY, ""))
+		var build_block: Variant = catalog.get_by_id(build_block_id) if build_block_id != "" else null
+		if build_block == null:
+			return applied_self
+		var build_size: int = source_block_metadata_state.block_size(build_block)
+		var origin: Vector2i = build.get_meta("origin_cell", cell)
+		var seen: Array = []
+		for point in source_block_plan_geometry_state.edge_points_state(build_size):
+			var other: Variant = world_build.call(origin.x + point.x, origin.y + point.y)
+			if other != null and not is_same(other, build) and not seen.has(other):
+				seen.append(other)
+				on_proximity_update.call(other)
+		return applied_self
+	var remove_from_proximity := func(old_build: Variant) -> void:
+		if old_build == null:
+			return
+		var seen: Array = []
+		for point in source_block_plan_geometry_state.edge_points_state(previous_block_size):
+			var other: Variant = world_build.call(int(self_tile["x"]) + point.x, int(self_tile["y"]) + point.y)
+			if other != null and not seen.has(other):
+				seen.append(other)
+				on_proximity_update.call(other)
+	var remove_build := func(old_build: Variant) -> void:
+		if old_build == null or not is_instance_valid(old_build):
+			return
+		if is_same(old_build, sprite):
+			return
+		for key in placed_blocks.keys():
+			if is_same(placed_blocks[key], old_build):
+				placed_blocks.erase(key)
+		# placed_block_origins maps each occupied cell to the origin cell,
+		# not to the sprite, so the old Building's cells are removed by
+		# matching its origin.
+		var old_origin: Vector2i = old_build.get_meta("origin_cell", cell)
+		var origins: Dictionary = game.get("placed_block_origins")
+		for key in origins.keys():
+			if origins.get(key) == old_origin:
+				origins.erase(key)
+		game.set("placed_blocks", placed_blocks)
+		game.set("placed_block_origins", origins)
+		old_build.queue_free()
+	var entity_provider := func() -> Variant:
+		return sprite
+	var entity_init := func(created: Variant, tile: Dictionary, init_team: int, init_update: bool, init_rotation: int) -> Variant:
+		var occupied: Array[Vector2i] = game.call("occupied_cells", cell, block)
+		var cell_keys: Array[String] = []
+		for occupied_cell in occupied:
+			cell_keys.append(source_world_grid.cell_key(occupied_cell))
+		source_placed_block_state.game_initialize_sprite(game, created, block, cell, cell_keys)
+		return created
+	var build_team := func(build: Variant, new_team_id: int) -> void:
+		source_block_geometry.source_assign_build_team_state(build, new_team_id)
+	var neighbor_changing := func(other_build: Variant) -> bool:
+		if other_build == null or not is_instance_valid(other_build):
+			return false
+		var origin: Vector2i = other_build.get_meta("origin_cell", cell)
+		var tile: Variant = source_world_tile(world_tiles, origin.x, origin.y)
+		return bool(tile.get("changing", false)) if tile != null else false
+	var set_block_air := func(other_tile: Dictionary) -> void:
+		var proxy_cell := Vector2i(int(other_tile["x"]), int(other_tile["y"]))
+		source_apply_placed_tile_set_block_state(game, air_block, proxy_cell, null, team_id, 0)
+	var d4_offsets: Array = [Vector2i(1, 0), Vector2i(0, 1), Vector2i(-1, 0), Vector2i(0, -1)]
+	var world_generating := false
+	var editor_state := false
+	source_block_geometry.source_apply_tile_set_block(self_tile, block, team_id, rotation, type_static, previous_block_static, false, null, world_generating, previous_build, previous_block_multiblock, previous_block_size, size_offset, old_build_center, world_tile_lookup, world_build, air_block, func(_old_build: Variant) -> void: pass, remove_from_proximity, remove_build, func(_tile: Dictionary) -> void: pass, func(_tile: Dictionary) -> void: pass, new_block_has_building, new_block_update, editor_state, update_proximity, on_proximity_update, entity_provider, entity_init, build_team, d4_offsets, neighbor_changing, func(_tile: Dictionary) -> void: pass, func(_tile: Dictionary) -> void: pass, set_block_air, new_block_multiblock, new_block_size, func(_new_block: Variant, _tile: Dictionary) -> void: pass)
+	return {
+		"tile": self_tile,
+		"build": self_tile.get("build"),
+		"removed_old_build": removed_old_build,
+		"proximity_updated": int(proximity_state["updated"]),
+		"changed_event_fired": not world_generating,
+		"recache_called": type_static or previous_block_static,
+	}
 
 static func _source_block_by_id(content_catalog: Object, id: String) -> Object:
 	var block: Object = content_catalog.call("get_by_id", id)
