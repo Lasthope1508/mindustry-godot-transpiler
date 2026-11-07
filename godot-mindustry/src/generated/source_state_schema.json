@@ -218390,6 +218390,164 @@
       },
       "runtime_proof": "/root/ConveyorQueueStorageProof",
       "rule": "Source-backed conveyor queue storage."
+    },
+    "source_factory_dump_drill_output_state_input": {
+      "status": "active",
+      "owner": "SourceFactoryRuntimeState.source_factory_dump_drill_output_state",
+      "source_slice": "N2068",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "if(timer(timerDump, dumpTime / timeScale)){",
+          "rule": "Actual game world containing the drill and its conveyors.",
+          "used_by": [
+            "SourceFactoryRuntimeState.source_factory_dump_drill_output_state"
+          ]
+        },
+        "drill_cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "dump(dominantItem != null && items.has(dominantItem) ? dominantItem : null);",
+          "rule": "Cell of the dumping drill.",
+          "used_by": [
+            "SourceFactoryRuntimeState.source_factory_dump_drill_output_state"
+          ]
+        },
+        "drill_output_item_id": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "dump(dominantItem != null && items.has(dominantItem) ? dominantItem : null);",
+          "rule": "Dominant item id, or null when the drill has no dominant item.",
+          "used_by": [
+            "SourceFactoryRuntimeState.source_factory_dump_drill_output_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/FactoryDumpSwapProof",
+      "rule": "Source-backed live-loop drill dump."
+    },
+    "source_factory_dump_drill_output_state_result": {
+      "status": "active",
+      "owner": "SourceFactoryRuntimeState.source_factory_dump_drill_output_state",
+      "source_slice": "N2068",
+      "keys": {
+        "dumped": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "other.handleItem(self(), todump);",
+          "rule": "Whether the item reached a neighbor belt.",
+          "used_by": [
+            "SourceFactoryRuntimeState.source_factory_dump_drill_output_state"
+          ]
+        },
+        "item_id": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "dump(dominantItem != null && items.has(dominantItem) ? dominantItem : null);",
+          "rule": "Item dumped, or null when nothing was dumped.",
+          "used_by": [
+            "SourceFactoryRuntimeState.source_factory_dump_drill_output_state"
+          ]
+        },
+        "receiver_index": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+          "rule": "Index of the receiving neighbor in the proximity list, or -1.",
+          "used_by": [
+            "SourceFactoryRuntimeState.source_factory_dump_drill_output_state"
+          ]
+        },
+        "receiver_cell": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+          "rule": "Cell of the receiving neighbor belt, or null.",
+          "used_by": [
+            "SourceFactoryRuntimeState.source_factory_dump_drill_output_state"
+          ]
+        },
+        "cdump_before": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "int dump = this.cdump;",
+          "rule": "Dump cursor before the step.",
+          "used_by": [
+            "SourceFactoryRuntimeState.source_factory_dump_drill_output_state"
+          ]
+        },
+        "cdump_after": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "cdump = ((cdump + 1) % prox);",
+          "rule": "Dump cursor after the step.",
+          "used_by": [
+            "SourceFactoryRuntimeState.source_factory_dump_drill_output_state"
+          ]
+        },
+        "items_after": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "items.remove(todump, 1);",
+          "rule": "The drill inventory after the step.",
+          "used_by": [
+            "SourceFactoryRuntimeState.source_factory_dump_drill_output_state"
+          ]
+        },
+        "queues_after": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "public Item[] ids = new Item[capacity];",
+          "rule": "Conveyor queues keyed by neighbor cell after the step.",
+          "used_by": [
+            "SourceFactoryRuntimeState.source_factory_dump_drill_output_state"
+          ]
+        },
+        "removed": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "items.remove(todump, 1);",
+          "rule": "Units removed from the drill inventory.",
+          "used_by": [
+            "SourceFactoryRuntimeState.source_factory_dump_drill_output_state"
+          ]
+        },
+        "destination": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "other.handleItem(self(), todump);",
+          "rule": "Where the item went: conveyor, none.",
+          "used_by": [
+            "SourceFactoryRuntimeState.source_factory_dump_drill_output_state"
+          ]
+        },
+        "reason": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(!block.hasItems || items.total() == 0 || proximity.size == 0 || (todump != null && !items.has(todump))) return false;",
+          "rule": "Dump outcome: dumped, no_receiver, no_items_block, empty_items, no_proximity, item_not_held, no_sprite, no_frame.",
+          "used_by": [
+            "SourceFactoryRuntimeState.source_factory_dump_drill_output_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/FactoryDumpSwapProof",
+      "rule": "Source-backed live-loop drill dump."
     }
   },
   "version": 1

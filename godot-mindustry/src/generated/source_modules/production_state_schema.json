@@ -835,6 +835,41 @@
           ]
         }
       }
+    },
+    "source_factory_dump_drill_output_state_input": {
+      "canonical_schema": "source_state_schema.source_factory_dump_drill_output_state_input",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "if(timer(timerDump, dumpTime / timeScale)){",
+          "rule": "Actual game world containing the drill and its conveyors.",
+          "used_by": [
+            "SourceFactoryRuntimeState.source_factory_dump_drill_output_state"
+          ]
+        },
+        "drill_cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "dump(dominantItem != null && items.has(dominantItem) ? dominantItem : null);",
+          "rule": "Cell of the dumping drill.",
+          "used_by": [
+            "SourceFactoryRuntimeState.source_factory_dump_drill_output_state"
+          ]
+        },
+        "drill_output_item_id": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "dump(dominantItem != null && items.has(dominantItem) ? dominantItem : null);",
+          "rule": "Dominant item id, or null when the drill has no dominant item.",
+          "used_by": [
+            "SourceFactoryRuntimeState.source_factory_dump_drill_output_state"
+          ]
+        }
+      }
     }
   }
 }

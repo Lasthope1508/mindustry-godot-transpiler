@@ -1412,7 +1412,10 @@
         "module": "production_slices",
         "collection_key": "slices",
         "field": "godot_owner"
-      }
+      },
+      "optional_mirror_fields": [
+        "return_type"
+      ]
     },
     "production_slices": {
       "canonical_module": "slice_ledger",

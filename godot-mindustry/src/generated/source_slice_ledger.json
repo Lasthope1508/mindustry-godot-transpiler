@@ -52160,6 +52160,45 @@
         "The drill runtime bridge global item and the one-inventory-owner cleanup stay open in C02.",
         "C02 two-Drill gate and C03-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2068": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_class": "mindustry.world.blocks.production.Drill$DrillBuild",
+      "java_method": "updateTile",
+      "godot_owner": "SourceFactoryRuntimeState.source_factory_dump_drill_output_state",
+      "exact_exprs": [
+        "if(timer(timerDump, dumpTime / timeScale)){",
+        "dump(dominantItem != null && items.has(dominantItem) ? dominantItem : null);"
+      ],
+      "source_symbols": [
+        "source_factory_dump_drill_output_state_input.game",
+        "source_factory_dump_drill_output_state_input.drill_cell",
+        "source_factory_dump_drill_output_state_input.drill_output_item_id",
+        "source_factory_dump_drill_output_state_result.dumped",
+        "source_factory_dump_drill_output_state_result.item_id",
+        "source_factory_dump_drill_output_state_result.receiver_index",
+        "source_factory_dump_drill_output_state_result.receiver_cell",
+        "source_factory_dump_drill_output_state_result.cdump_before",
+        "source_factory_dump_drill_output_state_result.cdump_after",
+        "source_factory_dump_drill_output_state_result.items_after",
+        "source_factory_dump_drill_output_state_result.queues_after",
+        "source_factory_dump_drill_output_state_result.removed",
+        "source_factory_dump_drill_output_state_result.destination",
+        "source_factory_dump_drill_output_state_result.reason"
+      ],
+      "tests": [
+        "test_factory_dump_swap_binding_registration",
+        "test_all_factory_dump_swap_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_factory_dump_swap"
+      ],
+      "runtime_proof": "/root/FactoryDumpSwapProof",
+      "deferred_exprs": [
+        "The belt-advance step (queue items moving along the belt and passing to the next building or the core) stays open; a dumped item waits on the belt until then.",
+        "The queue-to-sprite sync for the visual item sprites stays open.",
+        "The drill runtime bridge global item and the one-inventory-owner cleanup stay open in C02.",
+        "C02 two-Drill gate and C03-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1

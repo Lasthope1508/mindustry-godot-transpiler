@@ -2,6 +2,10 @@ extends RefCounted
 class_name SourceFactoryRuntimeState
 
 const source_drill_consumption_runtime_state := preload("res://src/game/SourceDrillConsumptionRuntimeState.gd")
+const source_block_geometry := preload("res://src/game/SourceBlockGeometry.gd")
+const source_conveyor_runtime_state := preload("res://src/game/SourceConveyorRuntimeState.gd")
+const source_building_item_dump_state := preload("res://src/game/SourceBuildingItemDumpState.gd")
+const source_placed_block_state := preload("res://src/game/SourcePlacedBlockState.gd")
 
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
 const source_drill_dump_runtime_state_script := preload("res://src/game/SourceDrillDumpRuntimeState.gd")
@@ -140,7 +144,7 @@ static func simulate_factory(game: Object, delta: float) -> void:
 	game.set(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_PRODUCED_TOTAL_KEY, int(apply_state.get(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_PRODUCED_TOTAL_KEY, game.get(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_PRODUCED_TOTAL_KEY))))
 	game.set(source_drill_dump_runtime_state_script.SOURCE_DRILL_DUMP_TIMER_KEY, float(apply_state.get(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_DRILL_DUMP_TIMER_KEY, game.get(source_drill_dump_runtime_state_script.SOURCE_DRILL_DUMP_TIMER_KEY))))
 	if drill_output_item_id != null and bool(apply_state.get(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_SHOULD_DUMP_KEY, false)):
-		game.call(SOURCE_FACTORY_DUMP_DRILL_ITEM_TO_CORE_METHOD_FALLBACK, drill_output_item_id)
+		source_factory_dump_drill_output_state(game, drill_cell, drill_output_item_id)
 	game.set(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_TRANSPORT_PROGRESS_KEY, float(apply_state.get(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_TRANSPORT_PROGRESS_KEY, game.get(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_TRANSPORT_PROGRESS_KEY))))
 	var item_sprites_value = game.get(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_ITEM_SPRITES_KEY)
 	if not (item_sprites_value is Array):
@@ -305,3 +309,85 @@ static func drill_dump_preview_state(game: Object, preview_context: Dictionary) 
 
 static func game_drill_dump_preview_state(game: Object, seconds: float) -> Dictionary:
 	return drill_dump_preview_state(game, drill_dump_preview_context(game, seconds, game.get("drill_pos"), source_playable_scenario_defaults.BLOCK_MECHANICAL_DRILL, source_time_defaults.TICK_RATE))
+
+
+static func source_factory_dump_drill_output_state(game: Object, drill_cell: Vector2i, drill_output_item_id: Variant) -> Dictionary:
+	var empty := {
+		"dumped": false,
+		"item_id": null,
+		"receiver_index": -1,
+		"receiver_cell": null,
+		"cdump_before": 0,
+		"cdump_after": 0,
+		"items_after": {},
+		"queues_after": {},
+		"removed": 0,
+		"destination": "none",
+		"reason": "",
+	}
+	var sprite: Variant = game.call("block_sprite_at_cell", drill_cell)
+	if sprite == null:
+		empty["reason"] = "no_sprite"
+		return empty
+	if not sprite.has_meta(source_drill_consumption_runtime_state.SOURCE_DRILL_BUILDING_META_KEY):
+		empty["reason"] = "no_frame"
+		return empty
+	var frame: Dictionary = sprite.get_meta(source_drill_consumption_runtime_state.SOURCE_DRILL_BUILDING_META_KEY)
+	var cdump := int(frame.get("cdump", 0))
+	var items_value: Variant = game.get("drill_items")
+	var items: Dictionary = items_value if items_value is Dictionary else {}
+	var drill_size := 1
+	var block_id := str(sprite.get_meta(source_placed_block_state.SOURCE_BLOCK_ID_META_KEY, ""))
+	if block_id != "":
+		var catalog = game.get("content_catalog")
+		if catalog != null:
+			var block = catalog.get_by_id(block_id)
+			if block != null:
+				drill_size = int(block.properties.get("size", 1))
+	var ring := source_block_geometry.source_block_proximity_cells_state(drill_size, drill_cell.x, drill_cell.y)
+	var ring_cells: Array = ring.get("cells", [])
+	var queues := source_conveyor_runtime_state.source_conveyor_queues_for_cells_state(game, ring_cells)
+	var queues_by_cell: Dictionary = queues.get("queues_by_cell", {})
+	var rotations := {}
+	for cell in queues_by_cell.keys():
+		var conveyor_sprite: Variant = game.call("block_sprite_at_cell", cell)
+		if conveyor_sprite != null:
+			rotations[cell] = int(conveyor_sprite.get_meta(source_block_geometry.SOURCE_BUILD_ROTATION_META_KEY, 0))
+	var content_item_ids: Array = []
+	var item_catalog_value: Variant = game.get("source_item_catalog")
+	if item_catalog_value is Dictionary and item_catalog_value.has("item_names_by_id"):
+		content_item_ids = item_catalog_value["item_names_by_id"]
+	# Conveyor.java:27-28: itemSpace = 0.4f, capacity = 3. Block.rotate
+	# defaults to false (Block.java:120) and the Drill never sets it, so
+	# the source never rotates and the next belt is never the source.
+	var result: Dictionary
+	if drill_output_item_id != null and int(items.get(str(drill_output_item_id), 0)) > 0:
+		result = source_building_item_dump_state.source_drill_dump_step_state(items, ring_cells, str(drill_output_item_id), cdump, true, queues_by_cell, 3, 0.4, rotations, false, false, drill_cell, drill_size)
+	else:
+		result = source_building_item_dump_state.source_drill_dump_any_step_state(items, ring_cells, cdump, true, content_item_ids, queues_by_cell, 3, 0.4, rotations, false, false, drill_cell, drill_size)
+	var queues_after: Dictionary = result.get("queues_after", {})
+	# Only the receiving belt's queue changes: the dump composition calls
+	# the handle hook for the receiver alone, so writing back every
+	# resolved queue would create a stored (empty) queue on belts the
+	# dump never touched.
+	if bool(result.get("dumped", false)):
+		var receiver_cell: Variant = result.get("receiver_cell")
+		if receiver_cell is Vector2i and queues_after.has(receiver_cell):
+			source_conveyor_runtime_state.source_conveyor_set_queue_for_cell_state(game, receiver_cell, queues_after[receiver_cell])
+	var items_after: Dictionary = result.get("items_after", items.duplicate(true))
+	game.set("drill_items", items_after)
+	frame["items"] = items_after
+	frame["cdump"] = int(result.get("cdump_after", cdump))
+	return {
+		"dumped": bool(result.get("dumped", false)),
+		"item_id": result.get("item_id"),
+		"receiver_index": int(result.get("receiver_index", -1)),
+		"receiver_cell": result.get("receiver_cell"),
+		"cdump_before": int(result.get("cdump_before", cdump)),
+		"cdump_after": int(result.get("cdump_after", cdump)),
+		"items_after": items_after,
+		"queues_after": queues_after,
+		"removed": int(result.get("removed", 0)),
+		"destination": str(result.get("destination", "none")),
+		"reason": str(result.get("reason", "")),
+	}
