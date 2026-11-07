@@ -60708,6 +60708,44 @@
       ],
       "runtime_proof": "/root/ConveyorAdvanceProof",
       "rule": "Source-backed conveyor belt advance; the belt moves its items and hands the front item to the next belt or the core."
+    },
+    "PortGame.source_drill_runtime_state": {
+      "status": "active",
+      "source_slice": "N2071",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "updateTile",
+      "params": [
+        {
+          "name": "seconds",
+          "type": "float",
+          "schema": "source_drill_runtime_state_input.seconds"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "drill_active",
+        "drill_warmup_before",
+        "drill_warmup",
+        "drill_last_speed_before",
+        "drill_last_speed",
+        "drill_time_drilled_before",
+        "drill_time_drilled_delta",
+        "drill_time_drilled",
+        "drill_delay",
+        "drill_output_delta",
+        "production_state",
+        "offload_amount",
+        "produced_delta",
+        "item_progress",
+        "source_owner"
+      ],
+      "tests": [
+        "test_drill_bridge_dominant_binding_registration",
+        "test_all_drill_bridge_dominant_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_bridge_dominant"
+      ],
+      "runtime_proof": "/root/DrillBridgeDominantProof",
+      "rule": "Source-backed drill bridge; the runtime state resolves the actual dominant item from the drill frame instead of the game-global item id."
     }
   },
   "policy": {

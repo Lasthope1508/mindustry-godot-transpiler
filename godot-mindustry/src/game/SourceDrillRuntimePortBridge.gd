@@ -1,5 +1,6 @@
 extends "res://src/game/SourceDrillCellStatePortBridge.gd"
 
+const source_drill_consumption_runtime_state := preload("res://src/game/SourceDrillConsumptionRuntimeState.gd")
 const source_drill_dump_runtime_state_script := preload("res://src/game/SourceDrillDumpRuntimeState.gd")
 const source_drill_production_runtime_state_script := preload("res://src/game/SourceDrillProductionRuntimeState.gd")
 const source_drill_runtime_state_script := preload("res://src/game/SourceDrillRuntimeState.gd")
@@ -16,7 +17,10 @@ func source_drill_production_runtime_state(current_progress_fraction: float, dri
 
 func source_drill_runtime_state(seconds: float) -> Dictionary:
 	var drill_pos = get("drill_pos")
-	var drill_output_item_id = get("drill_output_item_id")
+	var drill_sprite: Variant = call("block_sprite_at_cell", drill_pos)
+	# Drill.onProximityUpdate resolves the dominant item from the ores
+	# under the drill (countOre), not from a game-global item id.
+	var drill_output_item_id = source_drill_consumption_runtime_state.source_dominant_item_name_state(self, drill_sprite).get("item_id")
 	var drill_ore_cell_count = get("drill_ore_cell_count")
 	return source_drill_runtime_state_script.runtime_state(source_drill_runtime_state_script.runtime_context(self, seconds, drill_pos, source_drill_runtime_port_bridge_playable_scenario_defaults.BLOCK_MECHANICAL_DRILL, drill_output_item_id, drill_ore_cell_count, source_drill_runtime_port_bridge_time_defaults.TICK_RATE), source_drill_runtime_state_script.runtime_callbacks(self))
 

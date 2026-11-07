@@ -258,6 +258,37 @@
       ],
       "runtime_proof": "/root/FactoryDumpSwapProof"
     },
+    "N2071": {
+      "canonical_ledger": "source_slice_ledger.N2071",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "updateTile",
+      "godot_owner": "PortGame.source_drill_runtime_state",
+      "source_symbols": [
+        "source_drill_runtime_state_input.seconds",
+        "source_drill_runtime_state_result.drill_active",
+        "source_drill_runtime_state_result.drill_warmup_before",
+        "source_drill_runtime_state_result.drill_warmup",
+        "source_drill_runtime_state_result.drill_last_speed_before",
+        "source_drill_runtime_state_result.drill_last_speed",
+        "source_drill_runtime_state_result.drill_time_drilled_before",
+        "source_drill_runtime_state_result.drill_time_drilled_delta",
+        "source_drill_runtime_state_result.drill_time_drilled",
+        "source_drill_runtime_state_result.drill_delay",
+        "source_drill_runtime_state_result.drill_output_delta",
+        "source_drill_runtime_state_result.production_state",
+        "source_drill_runtime_state_result.offload_amount",
+        "source_drill_runtime_state_result.produced_delta",
+        "source_drill_runtime_state_result.item_progress",
+        "source_drill_runtime_state_result.source_owner"
+      ],
+      "tests": [
+        "test_drill_bridge_dominant_binding_registration",
+        "test_all_drill_bridge_dominant_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_bridge_dominant"
+      ],
+      "runtime_proof": "/root/DrillBridgeDominantProof"
+    },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",
       "status": "done",

@@ -725,6 +725,21 @@
         }
       }
     },
+    "source_drill_runtime_state_input": {
+      "canonical_schema": "source_state_schema.source_drill_runtime_state_input",
+      "keys": {
+        "seconds": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "timeDrilled += warmup * delta();",
+          "rule": "Frame delta in seconds driving the drill tick.",
+          "used_by": [
+            "port_game.source_drill_runtime_state"
+          ]
+        }
+      }
+    },
     "source_drill_time_drilled_delta_input": {
       "canonical_schema": "source_state_schema.source_drill_time_drilled_delta_input",
       "keys": {

@@ -218864,6 +218864,184 @@
       },
       "runtime_proof": "/root/ConveyorAdvanceProof",
       "rule": "Source-backed conveyor belt advance."
+    },
+    "source_drill_runtime_state_input": {
+      "status": "active",
+      "owner": "PortGame.source_drill_runtime_state",
+      "source_slice": "N2071",
+      "keys": {
+        "seconds": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "timeDrilled += warmup * delta();",
+          "rule": "Frame delta in seconds driving the drill tick.",
+          "used_by": [
+            "PortGame.source_drill_runtime_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/DrillBridgeDominantProof",
+      "rule": "Source-backed drill bridge dominant item."
+    },
+    "source_drill_runtime_state_result": {
+      "status": "active",
+      "owner": "PortGame.source_drill_runtime_state",
+      "source_slice": "N2071",
+      "keys": {
+        "drill_active": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "if(dominantItem == null){",
+          "rule": "Whether the drill is active (it has a dominant item).",
+          "used_by": [
+            "PortGame.source_drill_runtime_state"
+          ]
+        },
+        "drill_warmup_before": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "timeDrilled += warmup * delta();",
+          "rule": "Warmup before this tick.",
+          "used_by": [
+            "PortGame.source_drill_runtime_state"
+          ]
+        },
+        "drill_warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "timeDrilled += warmup * delta();",
+          "rule": "Warmup after this tick.",
+          "used_by": [
+            "PortGame.source_drill_runtime_state"
+          ]
+        },
+        "drill_last_speed_before": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "float delay = getDrillTime(dominantItem);",
+          "rule": "Last drill speed before this tick.",
+          "used_by": [
+            "PortGame.source_drill_runtime_state"
+          ]
+        },
+        "drill_last_speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "float delay = getDrillTime(dominantItem);",
+          "rule": "Last drill speed after this tick.",
+          "used_by": [
+            "PortGame.source_drill_runtime_state"
+          ]
+        },
+        "drill_time_drilled_before": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "timeDrilled += warmup * delta();",
+          "rule": "Time drilled before this tick.",
+          "used_by": [
+            "PortGame.source_drill_runtime_state"
+          ]
+        },
+        "drill_time_drilled_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "timeDrilled += warmup * delta();",
+          "rule": "Time drilled added this tick.",
+          "used_by": [
+            "PortGame.source_drill_runtime_state"
+          ]
+        },
+        "drill_time_drilled": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "timeDrilled += warmup * delta();",
+          "rule": "Time drilled after this tick.",
+          "used_by": [
+            "PortGame.source_drill_runtime_state"
+          ]
+        },
+        "drill_delay": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "float delay = getDrillTime(dominantItem);",
+          "rule": "Drill delay for the dominant item (getDrillTime).",
+          "used_by": [
+            "PortGame.source_drill_runtime_state"
+          ]
+        },
+        "drill_output_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "if(items.total() < itemCapacity && dominantItems > 0 && efficiency > 0){",
+          "rule": "Output produced this tick.",
+          "used_by": [
+            "PortGame.source_drill_runtime_state"
+          ]
+        },
+        "production_state": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "if(items.total() < itemCapacity && dominantItems > 0 && efficiency > 0){",
+          "rule": "Production state for this tick.",
+          "used_by": [
+            "PortGame.source_drill_runtime_state"
+          ]
+        },
+        "offload_amount": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "if(items.total() < itemCapacity && dominantItems > 0 && efficiency > 0){",
+          "rule": "Items offloaded this tick.",
+          "used_by": [
+            "PortGame.source_drill_runtime_state"
+          ]
+        },
+        "produced_delta": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "if(items.total() < itemCapacity && dominantItems > 0 && efficiency > 0){",
+          "rule": "Items produced this tick.",
+          "used_by": [
+            "PortGame.source_drill_runtime_state"
+          ]
+        },
+        "item_progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "if(items.total() < itemCapacity && dominantItems > 0 && efficiency > 0){",
+          "rule": "Item progress after this tick.",
+          "used_by": [
+            "PortGame.source_drill_runtime_state"
+          ]
+        },
+        "source_owner": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public void updateTile(){",
+          "rule": "Source owner of the drill runtime state.",
+          "used_by": [
+            "PortGame.source_drill_runtime_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/DrillBridgeDominantProof",
+      "rule": "Source-backed drill bridge dominant item."
     }
   },
   "version": 1

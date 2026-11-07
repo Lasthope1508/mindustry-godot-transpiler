@@ -2143,6 +2143,230 @@
       ],
       "runtime_proof": "/root/DrillProximityLifecycleProof"
     },
+    "source_drill_runtime_state_input.seconds": {
+      "canonical_symbol": "source_symbol_registry.source_drill_runtime_state_input.seconds",
+      "status": "source-backed",
+      "java_expr": "timeDrilled += warmup * delta();",
+      "godot_symbol": "source_drill_runtime_state_input.seconds",
+      "godot_owner": "PortGame.source_drill_runtime_state",
+      "rule": "Frame delta in seconds driving the drill tick.",
+      "tests": [
+        "test_drill_bridge_dominant_binding_registration",
+        "test_all_drill_bridge_dominant_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_bridge_dominant"
+      ],
+      "runtime_proof": "/root/DrillBridgeDominantProof"
+    },
+    "source_drill_runtime_state_result.drill_active": {
+      "canonical_symbol": "source_symbol_registry.source_drill_runtime_state_result.drill_active",
+      "status": "source-backed",
+      "java_expr": "if(dominantItem == null){",
+      "godot_symbol": "source_drill_runtime_state_result.drill_active",
+      "godot_owner": "PortGame.source_drill_runtime_state",
+      "rule": "Whether the drill is active (it has a dominant item).",
+      "tests": [
+        "test_drill_bridge_dominant_binding_registration",
+        "test_all_drill_bridge_dominant_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_bridge_dominant"
+      ],
+      "runtime_proof": "/root/DrillBridgeDominantProof"
+    },
+    "source_drill_runtime_state_result.drill_delay": {
+      "canonical_symbol": "source_symbol_registry.source_drill_runtime_state_result.drill_delay",
+      "status": "source-backed",
+      "java_expr": "float delay = getDrillTime(dominantItem);",
+      "godot_symbol": "source_drill_runtime_state_result.drill_delay",
+      "godot_owner": "PortGame.source_drill_runtime_state",
+      "rule": "Drill delay for the dominant item (getDrillTime).",
+      "tests": [
+        "test_drill_bridge_dominant_binding_registration",
+        "test_all_drill_bridge_dominant_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_bridge_dominant"
+      ],
+      "runtime_proof": "/root/DrillBridgeDominantProof"
+    },
+    "source_drill_runtime_state_result.drill_last_speed": {
+      "canonical_symbol": "source_symbol_registry.source_drill_runtime_state_result.drill_last_speed",
+      "status": "source-backed",
+      "java_expr": "float delay = getDrillTime(dominantItem);",
+      "godot_symbol": "source_drill_runtime_state_result.drill_last_speed",
+      "godot_owner": "PortGame.source_drill_runtime_state",
+      "rule": "Last drill speed after this tick.",
+      "tests": [
+        "test_drill_bridge_dominant_binding_registration",
+        "test_all_drill_bridge_dominant_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_bridge_dominant"
+      ],
+      "runtime_proof": "/root/DrillBridgeDominantProof"
+    },
+    "source_drill_runtime_state_result.drill_last_speed_before": {
+      "canonical_symbol": "source_symbol_registry.source_drill_runtime_state_result.drill_last_speed_before",
+      "status": "source-backed",
+      "java_expr": "float delay = getDrillTime(dominantItem);",
+      "godot_symbol": "source_drill_runtime_state_result.drill_last_speed_before",
+      "godot_owner": "PortGame.source_drill_runtime_state",
+      "rule": "Last drill speed before this tick.",
+      "tests": [
+        "test_drill_bridge_dominant_binding_registration",
+        "test_all_drill_bridge_dominant_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_bridge_dominant"
+      ],
+      "runtime_proof": "/root/DrillBridgeDominantProof"
+    },
+    "source_drill_runtime_state_result.drill_output_delta": {
+      "canonical_symbol": "source_symbol_registry.source_drill_runtime_state_result.drill_output_delta",
+      "status": "source-backed",
+      "java_expr": "if(items.total() < itemCapacity && dominantItems > 0 && efficiency > 0){",
+      "godot_symbol": "source_drill_runtime_state_result.drill_output_delta",
+      "godot_owner": "PortGame.source_drill_runtime_state",
+      "rule": "Output produced this tick.",
+      "tests": [
+        "test_drill_bridge_dominant_binding_registration",
+        "test_all_drill_bridge_dominant_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_bridge_dominant"
+      ],
+      "runtime_proof": "/root/DrillBridgeDominantProof"
+    },
+    "source_drill_runtime_state_result.drill_time_drilled": {
+      "canonical_symbol": "source_symbol_registry.source_drill_runtime_state_result.drill_time_drilled",
+      "status": "source-backed",
+      "java_expr": "timeDrilled += warmup * delta();",
+      "godot_symbol": "source_drill_runtime_state_result.drill_time_drilled",
+      "godot_owner": "PortGame.source_drill_runtime_state",
+      "rule": "Time drilled after this tick.",
+      "tests": [
+        "test_drill_bridge_dominant_binding_registration",
+        "test_all_drill_bridge_dominant_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_bridge_dominant"
+      ],
+      "runtime_proof": "/root/DrillBridgeDominantProof"
+    },
+    "source_drill_runtime_state_result.drill_time_drilled_before": {
+      "canonical_symbol": "source_symbol_registry.source_drill_runtime_state_result.drill_time_drilled_before",
+      "status": "source-backed",
+      "java_expr": "timeDrilled += warmup * delta();",
+      "godot_symbol": "source_drill_runtime_state_result.drill_time_drilled_before",
+      "godot_owner": "PortGame.source_drill_runtime_state",
+      "rule": "Time drilled before this tick.",
+      "tests": [
+        "test_drill_bridge_dominant_binding_registration",
+        "test_all_drill_bridge_dominant_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_bridge_dominant"
+      ],
+      "runtime_proof": "/root/DrillBridgeDominantProof"
+    },
+    "source_drill_runtime_state_result.drill_time_drilled_delta": {
+      "canonical_symbol": "source_symbol_registry.source_drill_runtime_state_result.drill_time_drilled_delta",
+      "status": "source-backed",
+      "java_expr": "timeDrilled += warmup * delta();",
+      "godot_symbol": "source_drill_runtime_state_result.drill_time_drilled_delta",
+      "godot_owner": "PortGame.source_drill_runtime_state",
+      "rule": "Time drilled added this tick.",
+      "tests": [
+        "test_drill_bridge_dominant_binding_registration",
+        "test_all_drill_bridge_dominant_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_bridge_dominant"
+      ],
+      "runtime_proof": "/root/DrillBridgeDominantProof"
+    },
+    "source_drill_runtime_state_result.drill_warmup": {
+      "canonical_symbol": "source_symbol_registry.source_drill_runtime_state_result.drill_warmup",
+      "status": "source-backed",
+      "java_expr": "timeDrilled += warmup * delta();",
+      "godot_symbol": "source_drill_runtime_state_result.drill_warmup",
+      "godot_owner": "PortGame.source_drill_runtime_state",
+      "rule": "Warmup after this tick.",
+      "tests": [
+        "test_drill_bridge_dominant_binding_registration",
+        "test_all_drill_bridge_dominant_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_bridge_dominant"
+      ],
+      "runtime_proof": "/root/DrillBridgeDominantProof"
+    },
+    "source_drill_runtime_state_result.drill_warmup_before": {
+      "canonical_symbol": "source_symbol_registry.source_drill_runtime_state_result.drill_warmup_before",
+      "status": "source-backed",
+      "java_expr": "timeDrilled += warmup * delta();",
+      "godot_symbol": "source_drill_runtime_state_result.drill_warmup_before",
+      "godot_owner": "PortGame.source_drill_runtime_state",
+      "rule": "Warmup before this tick.",
+      "tests": [
+        "test_drill_bridge_dominant_binding_registration",
+        "test_all_drill_bridge_dominant_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_bridge_dominant"
+      ],
+      "runtime_proof": "/root/DrillBridgeDominantProof"
+    },
+    "source_drill_runtime_state_result.item_progress": {
+      "canonical_symbol": "source_symbol_registry.source_drill_runtime_state_result.item_progress",
+      "status": "source-backed",
+      "java_expr": "if(items.total() < itemCapacity && dominantItems > 0 && efficiency > 0){",
+      "godot_symbol": "source_drill_runtime_state_result.item_progress",
+      "godot_owner": "PortGame.source_drill_runtime_state",
+      "rule": "Item progress after this tick.",
+      "tests": [
+        "test_drill_bridge_dominant_binding_registration",
+        "test_all_drill_bridge_dominant_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_bridge_dominant"
+      ],
+      "runtime_proof": "/root/DrillBridgeDominantProof"
+    },
+    "source_drill_runtime_state_result.offload_amount": {
+      "canonical_symbol": "source_symbol_registry.source_drill_runtime_state_result.offload_amount",
+      "status": "source-backed",
+      "java_expr": "if(items.total() < itemCapacity && dominantItems > 0 && efficiency > 0){",
+      "godot_symbol": "source_drill_runtime_state_result.offload_amount",
+      "godot_owner": "PortGame.source_drill_runtime_state",
+      "rule": "Items offloaded this tick.",
+      "tests": [
+        "test_drill_bridge_dominant_binding_registration",
+        "test_all_drill_bridge_dominant_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_bridge_dominant"
+      ],
+      "runtime_proof": "/root/DrillBridgeDominantProof"
+    },
+    "source_drill_runtime_state_result.produced_delta": {
+      "canonical_symbol": "source_symbol_registry.source_drill_runtime_state_result.produced_delta",
+      "status": "source-backed",
+      "java_expr": "if(items.total() < itemCapacity && dominantItems > 0 && efficiency > 0){",
+      "godot_symbol": "source_drill_runtime_state_result.produced_delta",
+      "godot_owner": "PortGame.source_drill_runtime_state",
+      "rule": "Items produced this tick.",
+      "tests": [
+        "test_drill_bridge_dominant_binding_registration",
+        "test_all_drill_bridge_dominant_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_bridge_dominant"
+      ],
+      "runtime_proof": "/root/DrillBridgeDominantProof"
+    },
+    "source_drill_runtime_state_result.production_state": {
+      "canonical_symbol": "source_symbol_registry.source_drill_runtime_state_result.production_state",
+      "status": "source-backed",
+      "java_expr": "if(items.total() < itemCapacity && dominantItems > 0 && efficiency > 0){",
+      "godot_symbol": "source_drill_runtime_state_result.production_state",
+      "godot_owner": "PortGame.source_drill_runtime_state",
+      "rule": "Production state for this tick.",
+      "tests": [
+        "test_drill_bridge_dominant_binding_registration",
+        "test_all_drill_bridge_dominant_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_bridge_dominant"
+      ],
+      "runtime_proof": "/root/DrillBridgeDominantProof"
+    },
+    "source_drill_runtime_state_result.source_owner": {
+      "canonical_symbol": "source_symbol_registry.source_drill_runtime_state_result.source_owner",
+      "status": "source-backed",
+      "java_expr": "public void updateTile(){",
+      "godot_symbol": "source_drill_runtime_state_result.source_owner",
+      "godot_owner": "PortGame.source_drill_runtime_state",
+      "rule": "Source owner of the drill runtime state.",
+      "tests": [
+        "test_drill_bridge_dominant_binding_registration",
+        "test_all_drill_bridge_dominant_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_bridge_dominant"
+      ],
+      "runtime_proof": "/root/DrillBridgeDominantProof"
+    },
     "source_factory_dump_drill_output_state_input.drill_cell": {
       "canonical_symbol": "source_symbol_registry.source_factory_dump_drill_output_state_input.drill_cell",
       "status": "source-backed",
