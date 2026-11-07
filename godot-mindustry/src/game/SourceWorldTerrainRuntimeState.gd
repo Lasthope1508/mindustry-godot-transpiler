@@ -168,6 +168,8 @@ static func source_apply_placed_tile_set_block_state(game: Object, block: Object
 		for occupied_cell in occupied:
 			cell_keys.append(source_world_grid.cell_key(occupied_cell))
 		source_placed_block_state.game_initialize_sprite(game, created, block, cell, cell_keys)
+		if created is Sprite2D:
+			created.set_meta(source_block_geometry.SOURCE_BUILD_ROTATION_META_KEY, init_rotation)
 		return created
 	var build_team := func(build: Variant, new_team_id: int) -> void:
 		source_block_geometry.source_assign_build_team_state(build, new_team_id)

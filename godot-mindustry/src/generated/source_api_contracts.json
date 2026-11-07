@@ -58923,6 +58923,291 @@
       ],
       "runtime_proof": "/root/LoadoutPlaceProof",
       "rule": "Source-backed loadout placement; the result dictionary reports what the canonical setBlock binding did, with no fabricated runtime state."
+    },
+    "SourceBlockGeometry.source_valid_place_footprint_cell_state": {
+      "status": "active",
+      "source_slice": "N2041",
+      "java_source": "core/src/mindustry/world/Build.java",
+      "source_method": "validPlaceIgnoreUnits",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_valid_place_footprint_cell_state_input.game"
+        },
+        {
+          "name": "block",
+          "type": "Object",
+          "schema": "source_valid_place_footprint_cell_state_input.block"
+        },
+        {
+          "name": "block_flags",
+          "type": "Dictionary",
+          "schema": "source_valid_place_footprint_cell_state_input.block_flags"
+        },
+        {
+          "name": "floor_flags",
+          "type": "Dictionary",
+          "schema": "source_valid_place_footprint_cell_state_input.floor_flags"
+        },
+        {
+          "name": "check_cell",
+          "type": "Vector2i",
+          "schema": "source_valid_place_footprint_cell_state_input.check_cell"
+        },
+        {
+          "name": "origin_cell",
+          "type": "Vector2i",
+          "schema": "source_valid_place_footprint_cell_state_input.origin_cell"
+        },
+        {
+          "name": "team_id",
+          "type": "int",
+          "schema": "source_valid_place_footprint_cell_state_input.team_id"
+        },
+        {
+          "name": "rotation",
+          "type": "int",
+          "schema": "source_valid_place_footprint_cell_state_input.rotation"
+        },
+        {
+          "name": "check_visible",
+          "type": "bool",
+          "schema": "source_valid_place_footprint_cell_state_input.check_visible"
+        },
+        {
+          "name": "check_core_radius",
+          "type": "bool",
+          "schema": "source_valid_place_footprint_cell_state_input.check_core_radius"
+        },
+        {
+          "name": "rules_state",
+          "type": "Dictionary",
+          "schema": "source_valid_place_footprint_cell_state_input.rules_state"
+        },
+        {
+          "name": "darkness_hook",
+          "type": "Callable",
+          "schema": "source_valid_place_footprint_cell_state_input.darkness_hook"
+        },
+        {
+          "name": "fog_discovered_hook",
+          "type": "Callable",
+          "schema": "source_valid_place_footprint_cell_state_input.fog_discovered_hook"
+        }
+      ],
+      "return_keys": [
+        "cell",
+        "valid",
+        "reason"
+      ],
+      "tests": [
+        "test_valid_place_binding_registration",
+        "test_all_valid_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_valid_place"
+      ],
+      "runtime_proof": "/root/ValidPlaceProof",
+      "rule": "Source-backed validPlace; the result dictionary reports which check failed, with no fabricated runtime state."
+    },
+    "SourceBlockGeometry.source_valid_place_ignore_units_state": {
+      "status": "active",
+      "source_slice": "N2042",
+      "java_source": "core/src/mindustry/world/Build.java",
+      "source_method": "validPlaceIgnoreUnits",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_valid_place_ignore_units_state_input.game"
+        },
+        {
+          "name": "block",
+          "type": "Object",
+          "schema": "source_valid_place_ignore_units_state_input.block"
+        },
+        {
+          "name": "block_flags",
+          "type": "Dictionary",
+          "schema": "source_valid_place_ignore_units_state_input.block_flags"
+        },
+        {
+          "name": "floor_flags",
+          "type": "Dictionary",
+          "schema": "source_valid_place_ignore_units_state_input.floor_flags"
+        },
+        {
+          "name": "team_id",
+          "type": "int",
+          "schema": "source_valid_place_ignore_units_state_input.team_id"
+        },
+        {
+          "name": "x",
+          "type": "int",
+          "schema": "source_valid_place_ignore_units_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "int",
+          "schema": "source_valid_place_ignore_units_state_input.y"
+        },
+        {
+          "name": "rotation",
+          "type": "int",
+          "schema": "source_valid_place_ignore_units_state_input.rotation"
+        },
+        {
+          "name": "check_visible",
+          "type": "bool",
+          "schema": "source_valid_place_ignore_units_state_input.check_visible"
+        },
+        {
+          "name": "check_core_radius",
+          "type": "bool",
+          "schema": "source_valid_place_ignore_units_state_input.check_core_radius"
+        },
+        {
+          "name": "rules_state",
+          "type": "Dictionary",
+          "schema": "source_valid_place_ignore_units_state_input.rules_state"
+        },
+        {
+          "name": "cores_state",
+          "type": "Dictionary",
+          "schema": "source_valid_place_ignore_units_state_input.cores_state"
+        },
+        {
+          "name": "can_place_on_hook",
+          "type": "Callable",
+          "schema": "source_valid_place_ignore_units_state_input.can_place_on_hook"
+        },
+        {
+          "name": "darkness_hook",
+          "type": "Callable",
+          "schema": "source_valid_place_ignore_units_state_input.darkness_hook"
+        },
+        {
+          "name": "fog_discovered_hook",
+          "type": "Callable",
+          "schema": "source_valid_place_ignore_units_state_input.fog_discovered_hook"
+        },
+        {
+          "name": "enemy_overlap_hook",
+          "type": "Callable",
+          "schema": "source_valid_place_ignore_units_state_input.enemy_overlap_hook"
+        }
+      ],
+      "return_keys": [
+        "valid",
+        "reason",
+        "cell"
+      ],
+      "tests": [
+        "test_valid_place_binding_registration",
+        "test_all_valid_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_valid_place"
+      ],
+      "runtime_proof": "/root/ValidPlaceProof",
+      "rule": "Source-backed validPlace; the result dictionary reports which check failed, with no fabricated runtime state."
+    },
+    "PortGame.source_valid_place_state": {
+      "status": "active",
+      "source_slice": "N2043",
+      "java_source": "core/src/mindustry/world/Build.java",
+      "source_method": "validPlace",
+      "params": [
+        {
+          "name": "block",
+          "type": "Object",
+          "schema": "source_valid_place_state_input.block"
+        },
+        {
+          "name": "block_flags",
+          "type": "Dictionary",
+          "schema": "source_valid_place_state_input.block_flags"
+        },
+        {
+          "name": "floor_flags",
+          "type": "Dictionary",
+          "schema": "source_valid_place_state_input.floor_flags"
+        },
+        {
+          "name": "team_id",
+          "type": "int",
+          "schema": "source_valid_place_state_input.team_id"
+        },
+        {
+          "name": "x",
+          "type": "int",
+          "schema": "source_valid_place_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "int",
+          "schema": "source_valid_place_state_input.y"
+        },
+        {
+          "name": "rotation",
+          "type": "int",
+          "schema": "source_valid_place_state_input.rotation"
+        },
+        {
+          "name": "check_visible",
+          "type": "bool",
+          "schema": "source_valid_place_state_input.check_visible"
+        },
+        {
+          "name": "check_core_radius",
+          "type": "bool",
+          "schema": "source_valid_place_state_input.check_core_radius"
+        },
+        {
+          "name": "rules_state",
+          "type": "Dictionary",
+          "schema": "source_valid_place_state_input.rules_state"
+        },
+        {
+          "name": "cores_state",
+          "type": "Dictionary",
+          "schema": "source_valid_place_state_input.cores_state"
+        },
+        {
+          "name": "can_place_on_hook",
+          "type": "Callable",
+          "schema": "source_valid_place_state_input.can_place_on_hook"
+        },
+        {
+          "name": "darkness_hook",
+          "type": "Callable",
+          "schema": "source_valid_place_state_input.darkness_hook"
+        },
+        {
+          "name": "fog_discovered_hook",
+          "type": "Callable",
+          "schema": "source_valid_place_state_input.fog_discovered_hook"
+        },
+        {
+          "name": "enemy_overlap_hook",
+          "type": "Callable",
+          "schema": "source_valid_place_state_input.enemy_overlap_hook"
+        },
+        {
+          "name": "unit_overlap_hook",
+          "type": "Callable",
+          "schema": "source_valid_place_state_input.unit_overlap_hook"
+        }
+      ],
+      "return_keys": [
+        "valid",
+        "reason",
+        "cell"
+      ],
+      "tests": [
+        "test_valid_place_binding_registration",
+        "test_all_valid_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_valid_place"
+      ],
+      "runtime_proof": "/root/ValidPlaceProof",
+      "rule": "Source-backed validPlace; the result dictionary reports which check failed, with no fabricated runtime state."
     }
   },
   "policy": {

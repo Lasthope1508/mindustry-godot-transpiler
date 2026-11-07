@@ -214204,6 +214204,600 @@
       },
       "runtime_proof": "/root/LoadoutPlaceProof",
       "rule": "Source-backed loadout placement inputs; hooks must be actual source context."
+    },
+    "source_valid_place_footprint_cell_state_input": {
+      "status": "active",
+      "owner": "SourceBlockGeometry.source_valid_place_footprint_cell_state",
+      "source_slice": "N2041",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Build.java",
+          "java_expr": "for(int dx = 0; dx < type.size; dx++){",
+          "rule": "Actual game world containing the Tile store and placement index.",
+          "used_by": [
+            "SourceBlockGeometry.source_valid_place_footprint_cell_state"
+          ]
+        },
+        "block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Build.java",
+          "java_expr": "for(int dx = 0; dx < type.size; dx++){",
+          "rule": "Actual Block the placement is checked for; its size sets the footprint.",
+          "used_by": [
+            "SourceBlockGeometry.source_valid_place_footprint_cell_state"
+          ]
+        },
+        "block_flags": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public boolean canReplace(Block other){",
+          "rule": "Caller-supplied Block fields the catalog does not export, keyed by block id; Java field defaults apply when a flag is absent.",
+          "used_by": [
+            "SourceBlockGeometry.source_valid_place_footprint_cell_state"
+          ]
+        },
+        "floor_flags": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Build.java",
+          "java_expr": "(check.floor().isDeep() && !type.floating && !type.requiresWater && !type.placeableLiquid) || //deep water",
+          "rule": "Caller-supplied Floor fields the catalog does not export, keyed by floor block id; Java field defaults apply when a flag is absent.",
+          "used_by": [
+            "SourceBlockGeometry.source_valid_place_footprint_cell_state"
+          ]
+        },
+        "check_cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Build.java",
+          "java_expr": "check == null || //nothing there",
+          "rule": "Actual footprint cell being checked.",
+          "used_by": [
+            "SourceBlockGeometry.source_valid_place_footprint_cell_state"
+          ]
+        },
+        "origin_cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Build.java",
+          "java_expr": "type.bounds(tile.x, tile.y, Tmp.r1).grow(0.01f).contains(check.block.bounds(check.centerX(), check.centerY(), Tmp.r2))) || //no replacement",
+          "rule": "Actual placement cell the new Block bounds are built from.",
+          "used_by": [
+            "SourceBlockGeometry.source_valid_place_footprint_cell_state"
+          ]
+        },
+        "team_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Build.java",
+          "java_expr": "!check.interactable(team) || //cannot interact",
+          "rule": "Actual Team id placing the block; Tile.interactable and derelict checks compare against it.",
+          "used_by": [
+            "SourceBlockGeometry.source_valid_place_footprint_cell_state"
+          ]
+        },
+        "rotation": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Build.java",
+          "java_expr": "(type == check.block() && check.build != null && rotation == check.build.rotation && type.rotate && !((type == check.block && team != Team.derelict && check.team() == Team.derelict))) || //same block, same rotation",
+          "rule": "Actual placement rotation; the same-block check compares it with the existing Building rotation.",
+          "used_by": [
+            "SourceBlockGeometry.source_valid_place_footprint_cell_state"
+          ]
+        },
+        "check_visible": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Build.java",
+          "java_expr": "(!checkVisible && checkCoreRadius && !check.block().alwaysReplace) || //replacing a block that should be replaced (e.g. payload placement)",
+          "rule": "Whether the placement comes from a visible (non-payload) path; payload placement may not replace non-alwaysReplace blocks.",
+          "used_by": [
+            "SourceBlockGeometry.source_valid_place_footprint_cell_state"
+          ]
+        },
+        "check_core_radius": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Build.java",
+          "java_expr": "(!checkVisible && checkCoreRadius && !check.block().alwaysReplace) || //replacing a block that should be replaced (e.g. payload placement)",
+          "rule": "Whether core-radius rules apply; payload placement with core radius may not replace non-alwaysReplace blocks.",
+          "used_by": [
+            "SourceBlockGeometry.source_valid_place_footprint_cell_state"
+          ]
+        },
+        "rules_state": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Build.java",
+          "java_expr": "(!state.rules.derelictRepair && check.team() == Team.derelict && check.build != null) ||",
+          "rule": "Caller-supplied Rules fields the check reads (derelictRepair, staticFog, fog); Rules.java defaults apply when a field is absent.",
+          "used_by": [
+            "SourceBlockGeometry.source_valid_place_footprint_cell_state"
+          ]
+        },
+        "darkness_hook": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Build.java",
+          "java_expr": "(type.size == 2 && world.getDarkness(wx, wy) >= 3) ||",
+          "rule": "Caller-supplied World.getDarkness equivalent; defaults to 0 (no darkness data) when absent.",
+          "used_by": [
+            "SourceBlockGeometry.source_valid_place_footprint_cell_state"
+          ]
+        },
+        "fog_discovered_hook": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Build.java",
+          "java_expr": "(state.rules.staticFog && state.rules.fog && !fogControl.isDiscovered(team, wx, wy)) ||",
+          "rule": "Caller-supplied fogControl.isDiscovered equivalent; only called when staticFog and fog are both true.",
+          "used_by": [
+            "SourceBlockGeometry.source_valid_place_footprint_cell_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/ValidPlaceProof",
+      "rule": "Source-backed validPlace inputs; hooks and flag dictionaries must be actual source context."
+    },
+    "source_valid_place_footprint_cell_state_result": {
+      "status": "active",
+      "owner": "SourceBlockGeometry.source_valid_place_footprint_cell_state",
+      "source_slice": "N2041",
+      "keys": {
+        "cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Build.java",
+          "java_expr": "check == null || //nothing there",
+          "rule": "Actual footprint cell that was checked.",
+          "used_by": [
+            "SourceBlockGeometry.source_valid_place_footprint_cell_state"
+          ]
+        },
+        "valid": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Build.java",
+          "java_expr": "check == null || //nothing there",
+          "rule": "Whether the footprint cell passes every check in the Java loop body.",
+          "used_by": [
+            "SourceBlockGeometry.source_valid_place_footprint_cell_state"
+          ]
+        },
+        "reason": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Build.java",
+          "java_expr": "check == null || //nothing there",
+          "rule": "Which check failed, or empty when the cell is valid.",
+          "used_by": [
+            "SourceBlockGeometry.source_valid_place_footprint_cell_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/ValidPlaceProof",
+      "rule": "Source-backed validPlace inputs; hooks and flag dictionaries must be actual source context."
+    },
+    "source_valid_place_ignore_units_state_input": {
+      "status": "active",
+      "owner": "SourceBlockGeometry.source_valid_place_ignore_units_state",
+      "source_slice": "N2042",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Build.java",
+          "java_expr": "public static boolean validPlaceIgnoreUnits(Block type, Team team, int x, int y, int rotation, boolean checkVisible, boolean checkCoreRadius){",
+          "rule": "Actual game world containing the Tile store, placement index and content catalog.",
+          "used_by": [
+            "SourceBlockGeometry.source_valid_place_ignore_units_state"
+          ]
+        },
+        "block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Build.java",
+          "java_expr": "public static boolean validPlaceIgnoreUnits(Block type, Team team, int x, int y, int rotation, boolean checkVisible, boolean checkCoreRadius){",
+          "rule": "Actual Block the placement is checked for.",
+          "used_by": [
+            "SourceBlockGeometry.source_valid_place_ignore_units_state"
+          ]
+        },
+        "block_flags": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public boolean canReplace(Block other){",
+          "rule": "Caller-supplied Block fields the catalog does not export, keyed by block id; Java field defaults apply when a flag is absent.",
+          "used_by": [
+            "SourceBlockGeometry.source_valid_place_ignore_units_state"
+          ]
+        },
+        "floor_flags": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Build.java",
+          "java_expr": "(check.floor().isDeep() && !type.floating && !type.requiresWater && !type.placeableLiquid) || //deep water",
+          "rule": "Caller-supplied Floor fields the catalog does not export, keyed by floor block id; Java field defaults apply when a flag is absent.",
+          "used_by": [
+            "SourceBlockGeometry.source_valid_place_ignore_units_state"
+          ]
+        },
+        "team_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Build.java",
+          "java_expr": "public static boolean validPlaceIgnoreUnits(Block type, Team team, int x, int y, int rotation, boolean checkVisible, boolean checkCoreRadius){",
+          "rule": "Actual Team id placing the block.",
+          "used_by": [
+            "SourceBlockGeometry.source_valid_place_ignore_units_state"
+          ]
+        },
+        "x": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Build.java",
+          "java_expr": "public static boolean validPlaceIgnoreUnits(Block type, Team team, int x, int y, int rotation, boolean checkVisible, boolean checkCoreRadius){",
+          "rule": "Actual placement cell x.",
+          "used_by": [
+            "SourceBlockGeometry.source_valid_place_ignore_units_state"
+          ]
+        },
+        "y": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Build.java",
+          "java_expr": "public static boolean validPlaceIgnoreUnits(Block type, Team team, int x, int y, int rotation, boolean checkVisible, boolean checkCoreRadius){",
+          "rule": "Actual placement cell y.",
+          "used_by": [
+            "SourceBlockGeometry.source_valid_place_ignore_units_state"
+          ]
+        },
+        "rotation": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Build.java",
+          "java_expr": "public static boolean validPlaceIgnoreUnits(Block type, Team team, int x, int y, int rotation, boolean checkVisible, boolean checkCoreRadius){",
+          "rule": "Actual placement rotation.",
+          "used_by": [
+            "SourceBlockGeometry.source_valid_place_ignore_units_state"
+          ]
+        },
+        "check_visible": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Build.java",
+          "java_expr": "public static boolean validPlace(Block type, Team team, int x, int y, int rotation, boolean checkVisible, boolean checkCoreRadius){",
+          "rule": "Whether the placement comes from a visible path; the visibility gate and payload replacement depend on it.",
+          "used_by": [
+            "SourceBlockGeometry.source_valid_place_ignore_units_state"
+          ]
+        },
+        "check_core_radius": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Build.java",
+          "java_expr": "public static boolean validPlace(Block type, Team team, int x, int y, int rotation, boolean checkVisible, boolean checkCoreRadius){",
+          "rule": "Whether core-radius rules apply.",
+          "used_by": [
+            "SourceBlockGeometry.source_valid_place_ignore_units_state"
+          ]
+        },
+        "rules_state": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Build.java",
+          "java_expr": "if(type == null || (!state.rules.editor && (checkVisible && (!type.environmentBuildable() || (!type.isPlaceable() && !(state.rules.waves && team == state.rules.waveTeam && type.isVisible())))))){",
+          "rule": "Caller-supplied Rules fields the check reads (editor, waves, waveTeam, derelictRepair, polygonCoreProtection, staticFog, fog, placeRangeCheck); Rules.java defaults apply when a field is absent.",
+          "used_by": [
+            "SourceBlockGeometry.source_valid_place_ignore_units_state"
+          ]
+        },
+        "cores_state": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Build.java",
+          "java_expr": "if(state.teams.anyEnemyCoresWithinBuildRadius(team, x * tilesize + type.offset, y * tilesize + type.offset)){",
+          "rule": "Caller-supplied core registry (cores with cell, team and protectCores, plus build radius and tilesize) for the core-protection check.",
+          "used_by": [
+            "SourceBlockGeometry.source_valid_place_ignore_units_state"
+          ]
+        },
+        "can_place_on_hook": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Build.java",
+          "java_expr": "if(!type.canPlaceOn(tile, team, rotation)){",
+          "rule": "Caller-supplied Block.canPlaceOn equivalent; the Block default returns true when absent.",
+          "used_by": [
+            "SourceBlockGeometry.source_valid_place_ignore_units_state"
+          ]
+        },
+        "darkness_hook": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Build.java",
+          "java_expr": "if(!type.ignoreBuildDarkness && world.getDarkness(x, y) >= 3){",
+          "rule": "Caller-supplied World.getDarkness equivalent; defaults to 0 (no darkness data) when absent.",
+          "used_by": [
+            "SourceBlockGeometry.source_valid_place_ignore_units_state"
+          ]
+        },
+        "fog_discovered_hook": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Build.java",
+          "java_expr": "(state.rules.staticFog && state.rules.fog && !fogControl.isDiscovered(team, wx, wy)) ||",
+          "rule": "Caller-supplied fogControl.isDiscovered equivalent; only called when staticFog and fog are both true.",
+          "used_by": [
+            "SourceBlockGeometry.source_valid_place_ignore_units_state"
+          ]
+        },
+        "enemy_overlap_hook": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Build.java",
+          "java_expr": "if(state.rules.placeRangeCheck && checkCoreRadius && !state.isEditor() && getEnemyOverlap(type, team, x, y) != null){",
+          "rule": "Caller-supplied getEnemyOverlap equivalent; only called when placeRangeCheck is true, defaulting to no overlap when absent.",
+          "used_by": [
+            "SourceBlockGeometry.source_valid_place_ignore_units_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/ValidPlaceProof",
+      "rule": "Source-backed validPlace inputs; hooks and flag dictionaries must be actual source context."
+    },
+    "source_valid_place_ignore_units_state_result": {
+      "status": "active",
+      "owner": "SourceBlockGeometry.source_valid_place_ignore_units_state",
+      "source_slice": "N2042",
+      "keys": {
+        "valid": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Build.java",
+          "java_expr": "public static boolean validPlaceIgnoreUnits(Block type, Team team, int x, int y, int rotation, boolean checkVisible, boolean checkCoreRadius){",
+          "rule": "Whether the placement passes validPlaceIgnoreUnits.",
+          "used_by": [
+            "SourceBlockGeometry.source_valid_place_ignore_units_state"
+          ]
+        },
+        "reason": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Build.java",
+          "java_expr": "public static boolean validPlaceIgnoreUnits(Block type, Team team, int x, int y, int rotation, boolean checkVisible, boolean checkCoreRadius){",
+          "rule": "Which check failed, or empty when the placement is valid.",
+          "used_by": [
+            "SourceBlockGeometry.source_valid_place_ignore_units_state"
+          ]
+        },
+        "cell": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Build.java",
+          "java_expr": "for(int dx = 0; dx < type.size; dx++){",
+          "rule": "The footprint cell that failed, or null when no cell failed.",
+          "used_by": [
+            "SourceBlockGeometry.source_valid_place_ignore_units_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/ValidPlaceProof",
+      "rule": "Source-backed validPlace inputs; hooks and flag dictionaries must be actual source context."
+    },
+    "source_valid_place_state_input": {
+      "status": "active",
+      "owner": "PortGame.source_valid_place_state",
+      "source_slice": "N2043",
+      "keys": {
+        "block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Build.java",
+          "java_expr": "public static boolean validPlace(Block type, Team team, int x, int y, int rotation, boolean checkVisible, boolean checkCoreRadius){",
+          "rule": "Actual Block the placement is checked for.",
+          "used_by": [
+            "PortGame.source_valid_place_state"
+          ]
+        },
+        "block_flags": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public boolean canReplace(Block other){",
+          "rule": "Caller-supplied Block fields the catalog does not export, keyed by block id.",
+          "used_by": [
+            "PortGame.source_valid_place_state"
+          ]
+        },
+        "floor_flags": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Build.java",
+          "java_expr": "(check.floor().isDeep() && !type.floating && !type.requiresWater && !type.placeableLiquid) || //deep water",
+          "rule": "Caller-supplied Floor fields the catalog does not export, keyed by floor block id.",
+          "used_by": [
+            "PortGame.source_valid_place_state"
+          ]
+        },
+        "team_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Build.java",
+          "java_expr": "public static boolean validPlace(Block type, Team team, int x, int y, int rotation, boolean checkVisible, boolean checkCoreRadius){",
+          "rule": "Actual Team id placing the block.",
+          "used_by": [
+            "PortGame.source_valid_place_state"
+          ]
+        },
+        "x": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Build.java",
+          "java_expr": "public static boolean validPlace(Block type, Team team, int x, int y, int rotation, boolean checkVisible, boolean checkCoreRadius){",
+          "rule": "Actual placement cell x.",
+          "used_by": [
+            "PortGame.source_valid_place_state"
+          ]
+        },
+        "y": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Build.java",
+          "java_expr": "public static boolean validPlace(Block type, Team team, int x, int y, int rotation, boolean checkVisible, boolean checkCoreRadius){",
+          "rule": "Actual placement cell y.",
+          "used_by": [
+            "PortGame.source_valid_place_state"
+          ]
+        },
+        "rotation": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Build.java",
+          "java_expr": "public static boolean validPlace(Block type, Team team, int x, int y, int rotation, boolean checkVisible, boolean checkCoreRadius){",
+          "rule": "Actual placement rotation.",
+          "used_by": [
+            "PortGame.source_valid_place_state"
+          ]
+        },
+        "check_visible": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Build.java",
+          "java_expr": "public static boolean validPlace(Block type, Team team, int x, int y, int rotation, boolean checkVisible, boolean checkCoreRadius){",
+          "rule": "Whether the placement comes from a visible path; the 5-arg entry defaults it to true.",
+          "used_by": [
+            "PortGame.source_valid_place_state"
+          ]
+        },
+        "check_core_radius": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Build.java",
+          "java_expr": "public static boolean validPlace(Block type, Team team, int x, int y, int rotation, boolean checkVisible, boolean checkCoreRadius){",
+          "rule": "Whether core-radius rules apply; the 6-arg entry defaults it to true.",
+          "used_by": [
+            "PortGame.source_valid_place_state"
+          ]
+        },
+        "rules_state": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Build.java",
+          "java_expr": "if(type == null || (!state.rules.editor && (checkVisible && (!type.environmentBuildable() || (!type.isPlaceable() && !(state.rules.waves && team == state.rules.waveTeam && type.isVisible())))))){",
+          "rule": "Caller-supplied Rules fields the check reads.",
+          "used_by": [
+            "PortGame.source_valid_place_state"
+          ]
+        },
+        "cores_state": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Build.java",
+          "java_expr": "if(state.teams.anyEnemyCoresWithinBuildRadius(team, x * tilesize + type.offset, y * tilesize + type.offset)){",
+          "rule": "Caller-supplied core registry for the core-protection check.",
+          "used_by": [
+            "PortGame.source_valid_place_state"
+          ]
+        },
+        "can_place_on_hook": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Build.java",
+          "java_expr": "if(!type.canPlaceOn(tile, team, rotation)){",
+          "rule": "Caller-supplied Block.canPlaceOn equivalent.",
+          "used_by": [
+            "PortGame.source_valid_place_state"
+          ]
+        },
+        "darkness_hook": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Build.java",
+          "java_expr": "if(!type.ignoreBuildDarkness && world.getDarkness(x, y) >= 3){",
+          "rule": "Caller-supplied World.getDarkness equivalent.",
+          "used_by": [
+            "PortGame.source_valid_place_state"
+          ]
+        },
+        "fog_discovered_hook": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Build.java",
+          "java_expr": "(state.rules.staticFog && state.rules.fog && !fogControl.isDiscovered(team, wx, wy)) ||",
+          "rule": "Caller-supplied fogControl.isDiscovered equivalent.",
+          "used_by": [
+            "PortGame.source_valid_place_state"
+          ]
+        },
+        "enemy_overlap_hook": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Build.java",
+          "java_expr": "if(state.rules.placeRangeCheck && checkCoreRadius && !state.isEditor() && getEnemyOverlap(type, team, x, y) != null){",
+          "rule": "Caller-supplied getEnemyOverlap equivalent.",
+          "used_by": [
+            "PortGame.source_valid_place_state"
+          ]
+        },
+        "unit_overlap_hook": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Build.java",
+          "java_expr": "public static boolean checkNoUnitOverlap(Block type, int x, int y){",
+          "rule": "Caller-supplied Units.anyEntities equivalent; defaults to no overlap when absent because the runtime has no unit system yet.",
+          "used_by": [
+            "PortGame.source_valid_place_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/ValidPlaceProof",
+      "rule": "Source-backed validPlace inputs; hooks and flag dictionaries must be actual source context."
+    },
+    "source_valid_place_state_result": {
+      "status": "active",
+      "owner": "PortGame.source_valid_place_state",
+      "source_slice": "N2043",
+      "keys": {
+        "valid": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Build.java",
+          "java_expr": "public static boolean validPlaceIgnoreUnits(Block type, Team team, int x, int y, int rotation, boolean checkVisible, boolean checkCoreRadius){",
+          "rule": "Whether the placement passes validPlaceIgnoreUnits.",
+          "used_by": [
+            "PortGame.source_valid_place_state"
+          ]
+        },
+        "reason": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Build.java",
+          "java_expr": "public static boolean validPlaceIgnoreUnits(Block type, Team team, int x, int y, int rotation, boolean checkVisible, boolean checkCoreRadius){",
+          "rule": "Which check failed, or empty when the placement is valid.",
+          "used_by": [
+            "PortGame.source_valid_place_state"
+          ]
+        },
+        "cell": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Build.java",
+          "java_expr": "for(int dx = 0; dx < type.size; dx++){",
+          "rule": "The footprint cell that failed, or null when no cell failed.",
+          "used_by": [
+            "PortGame.source_valid_place_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/ValidPlaceProof",
+      "rule": "Source-backed validPlace inputs; hooks and flag dictionaries must be actual source context."
     }
   },
   "version": 1

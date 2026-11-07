@@ -155463,6 +155463,816 @@
         "test_reference_graph_and_actual_loadout_place"
       ],
       "runtime_proof": "/root/LoadoutPlaceProof"
+    },
+    "source_valid_place_footprint_cell_state_input.game": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_valid_place_footprint_cell_state",
+      "godot_symbol": "source_valid_place_footprint_cell_state_input.game",
+      "java_source": "core/src/mindustry/world/Build.java",
+      "java_method": "validPlaceIgnoreUnits",
+      "java_expr": "for(int dx = 0; dx < type.size; dx++){",
+      "rule": "Actual game world containing the Tile store and placement index.",
+      "tests": [
+        "test_valid_place_binding_registration",
+        "test_all_valid_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_valid_place"
+      ],
+      "runtime_proof": "/root/ValidPlaceProof"
+    },
+    "source_valid_place_footprint_cell_state_input.block": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_valid_place_footprint_cell_state",
+      "godot_symbol": "source_valid_place_footprint_cell_state_input.block",
+      "java_source": "core/src/mindustry/world/Build.java",
+      "java_method": "validPlaceIgnoreUnits",
+      "java_expr": "for(int dx = 0; dx < type.size; dx++){",
+      "rule": "Actual Block the placement is checked for; its size sets the footprint.",
+      "tests": [
+        "test_valid_place_binding_registration",
+        "test_all_valid_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_valid_place"
+      ],
+      "runtime_proof": "/root/ValidPlaceProof"
+    },
+    "source_valid_place_footprint_cell_state_input.block_flags": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_valid_place_footprint_cell_state",
+      "godot_symbol": "source_valid_place_footprint_cell_state_input.block_flags",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "validPlaceIgnoreUnits",
+      "java_expr": "public boolean canReplace(Block other){",
+      "rule": "Caller-supplied Block fields the catalog does not export, keyed by block id; Java field defaults apply when a flag is absent.",
+      "tests": [
+        "test_valid_place_binding_registration",
+        "test_all_valid_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_valid_place"
+      ],
+      "runtime_proof": "/root/ValidPlaceProof"
+    },
+    "source_valid_place_footprint_cell_state_input.floor_flags": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_valid_place_footprint_cell_state",
+      "godot_symbol": "source_valid_place_footprint_cell_state_input.floor_flags",
+      "java_source": "core/src/mindustry/world/Build.java",
+      "java_method": "validPlaceIgnoreUnits",
+      "java_expr": "(check.floor().isDeep() && !type.floating && !type.requiresWater && !type.placeableLiquid) || //deep water",
+      "rule": "Caller-supplied Floor fields the catalog does not export, keyed by floor block id; Java field defaults apply when a flag is absent.",
+      "tests": [
+        "test_valid_place_binding_registration",
+        "test_all_valid_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_valid_place"
+      ],
+      "runtime_proof": "/root/ValidPlaceProof"
+    },
+    "source_valid_place_footprint_cell_state_input.check_cell": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_valid_place_footprint_cell_state",
+      "godot_symbol": "source_valid_place_footprint_cell_state_input.check_cell",
+      "java_source": "core/src/mindustry/world/Build.java",
+      "java_method": "validPlaceIgnoreUnits",
+      "java_expr": "check == null || //nothing there",
+      "rule": "Actual footprint cell being checked.",
+      "tests": [
+        "test_valid_place_binding_registration",
+        "test_all_valid_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_valid_place"
+      ],
+      "runtime_proof": "/root/ValidPlaceProof"
+    },
+    "source_valid_place_footprint_cell_state_input.origin_cell": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_valid_place_footprint_cell_state",
+      "godot_symbol": "source_valid_place_footprint_cell_state_input.origin_cell",
+      "java_source": "core/src/mindustry/world/Build.java",
+      "java_method": "validPlaceIgnoreUnits",
+      "java_expr": "type.bounds(tile.x, tile.y, Tmp.r1).grow(0.01f).contains(check.block.bounds(check.centerX(), check.centerY(), Tmp.r2))) || //no replacement",
+      "rule": "Actual placement cell the new Block bounds are built from.",
+      "tests": [
+        "test_valid_place_binding_registration",
+        "test_all_valid_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_valid_place"
+      ],
+      "runtime_proof": "/root/ValidPlaceProof"
+    },
+    "source_valid_place_footprint_cell_state_input.team_id": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_valid_place_footprint_cell_state",
+      "godot_symbol": "source_valid_place_footprint_cell_state_input.team_id",
+      "java_source": "core/src/mindustry/world/Build.java",
+      "java_method": "validPlaceIgnoreUnits",
+      "java_expr": "!check.interactable(team) || //cannot interact",
+      "rule": "Actual Team id placing the block; Tile.interactable and derelict checks compare against it.",
+      "tests": [
+        "test_valid_place_binding_registration",
+        "test_all_valid_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_valid_place"
+      ],
+      "runtime_proof": "/root/ValidPlaceProof"
+    },
+    "source_valid_place_footprint_cell_state_input.rotation": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_valid_place_footprint_cell_state",
+      "godot_symbol": "source_valid_place_footprint_cell_state_input.rotation",
+      "java_source": "core/src/mindustry/world/Build.java",
+      "java_method": "validPlaceIgnoreUnits",
+      "java_expr": "(type == check.block() && check.build != null && rotation == check.build.rotation && type.rotate && !((type == check.block && team != Team.derelict && check.team() == Team.derelict))) || //same block, same rotation",
+      "rule": "Actual placement rotation; the same-block check compares it with the existing Building rotation.",
+      "tests": [
+        "test_valid_place_binding_registration",
+        "test_all_valid_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_valid_place"
+      ],
+      "runtime_proof": "/root/ValidPlaceProof"
+    },
+    "source_valid_place_footprint_cell_state_input.check_visible": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_valid_place_footprint_cell_state",
+      "godot_symbol": "source_valid_place_footprint_cell_state_input.check_visible",
+      "java_source": "core/src/mindustry/world/Build.java",
+      "java_method": "validPlaceIgnoreUnits",
+      "java_expr": "(!checkVisible && checkCoreRadius && !check.block().alwaysReplace) || //replacing a block that should be replaced (e.g. payload placement)",
+      "rule": "Whether the placement comes from a visible (non-payload) path; payload placement may not replace non-alwaysReplace blocks.",
+      "tests": [
+        "test_valid_place_binding_registration",
+        "test_all_valid_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_valid_place"
+      ],
+      "runtime_proof": "/root/ValidPlaceProof"
+    },
+    "source_valid_place_footprint_cell_state_input.check_core_radius": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_valid_place_footprint_cell_state",
+      "godot_symbol": "source_valid_place_footprint_cell_state_input.check_core_radius",
+      "java_source": "core/src/mindustry/world/Build.java",
+      "java_method": "validPlaceIgnoreUnits",
+      "java_expr": "(!checkVisible && checkCoreRadius && !check.block().alwaysReplace) || //replacing a block that should be replaced (e.g. payload placement)",
+      "rule": "Whether core-radius rules apply; payload placement with core radius may not replace non-alwaysReplace blocks.",
+      "tests": [
+        "test_valid_place_binding_registration",
+        "test_all_valid_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_valid_place"
+      ],
+      "runtime_proof": "/root/ValidPlaceProof"
+    },
+    "source_valid_place_footprint_cell_state_input.rules_state": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_valid_place_footprint_cell_state",
+      "godot_symbol": "source_valid_place_footprint_cell_state_input.rules_state",
+      "java_source": "core/src/mindustry/world/Build.java",
+      "java_method": "validPlaceIgnoreUnits",
+      "java_expr": "(!state.rules.derelictRepair && check.team() == Team.derelict && check.build != null) ||",
+      "rule": "Caller-supplied Rules fields the check reads (derelictRepair, staticFog, fog); Rules.java defaults apply when a field is absent.",
+      "tests": [
+        "test_valid_place_binding_registration",
+        "test_all_valid_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_valid_place"
+      ],
+      "runtime_proof": "/root/ValidPlaceProof"
+    },
+    "source_valid_place_footprint_cell_state_input.darkness_hook": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_valid_place_footprint_cell_state",
+      "godot_symbol": "source_valid_place_footprint_cell_state_input.darkness_hook",
+      "java_source": "core/src/mindustry/world/Build.java",
+      "java_method": "validPlaceIgnoreUnits",
+      "java_expr": "(type.size == 2 && world.getDarkness(wx, wy) >= 3) ||",
+      "rule": "Caller-supplied World.getDarkness equivalent; defaults to 0 (no darkness data) when absent.",
+      "tests": [
+        "test_valid_place_binding_registration",
+        "test_all_valid_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_valid_place"
+      ],
+      "runtime_proof": "/root/ValidPlaceProof"
+    },
+    "source_valid_place_footprint_cell_state_input.fog_discovered_hook": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_valid_place_footprint_cell_state",
+      "godot_symbol": "source_valid_place_footprint_cell_state_input.fog_discovered_hook",
+      "java_source": "core/src/mindustry/world/Build.java",
+      "java_method": "validPlaceIgnoreUnits",
+      "java_expr": "(state.rules.staticFog && state.rules.fog && !fogControl.isDiscovered(team, wx, wy)) ||",
+      "rule": "Caller-supplied fogControl.isDiscovered equivalent; only called when staticFog and fog are both true.",
+      "tests": [
+        "test_valid_place_binding_registration",
+        "test_all_valid_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_valid_place"
+      ],
+      "runtime_proof": "/root/ValidPlaceProof"
+    },
+    "source_valid_place_footprint_cell_state_result.cell": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_valid_place_footprint_cell_state",
+      "godot_symbol": "source_valid_place_footprint_cell_state_result.cell",
+      "java_source": "core/src/mindustry/world/Build.java",
+      "java_method": "validPlaceIgnoreUnits",
+      "java_expr": "check == null || //nothing there",
+      "rule": "Actual footprint cell that was checked.",
+      "tests": [
+        "test_valid_place_binding_registration",
+        "test_all_valid_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_valid_place"
+      ],
+      "runtime_proof": "/root/ValidPlaceProof"
+    },
+    "source_valid_place_footprint_cell_state_result.valid": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_valid_place_footprint_cell_state",
+      "godot_symbol": "source_valid_place_footprint_cell_state_result.valid",
+      "java_source": "core/src/mindustry/world/Build.java",
+      "java_method": "validPlaceIgnoreUnits",
+      "java_expr": "check == null || //nothing there",
+      "rule": "Whether the footprint cell passes every check in the Java loop body.",
+      "tests": [
+        "test_valid_place_binding_registration",
+        "test_all_valid_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_valid_place"
+      ],
+      "runtime_proof": "/root/ValidPlaceProof"
+    },
+    "source_valid_place_footprint_cell_state_result.reason": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_valid_place_footprint_cell_state",
+      "godot_symbol": "source_valid_place_footprint_cell_state_result.reason",
+      "java_source": "core/src/mindustry/world/Build.java",
+      "java_method": "validPlaceIgnoreUnits",
+      "java_expr": "check == null || //nothing there",
+      "rule": "Which check failed, or empty when the cell is valid.",
+      "tests": [
+        "test_valid_place_binding_registration",
+        "test_all_valid_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_valid_place"
+      ],
+      "runtime_proof": "/root/ValidPlaceProof"
+    },
+    "source_valid_place_ignore_units_state_input.game": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_valid_place_ignore_units_state",
+      "godot_symbol": "source_valid_place_ignore_units_state_input.game",
+      "java_source": "core/src/mindustry/world/Build.java",
+      "java_method": "validPlaceIgnoreUnits",
+      "java_expr": "public static boolean validPlaceIgnoreUnits(Block type, Team team, int x, int y, int rotation, boolean checkVisible, boolean checkCoreRadius){",
+      "rule": "Actual game world containing the Tile store, placement index and content catalog.",
+      "tests": [
+        "test_valid_place_binding_registration",
+        "test_all_valid_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_valid_place"
+      ],
+      "runtime_proof": "/root/ValidPlaceProof"
+    },
+    "source_valid_place_ignore_units_state_input.block": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_valid_place_ignore_units_state",
+      "godot_symbol": "source_valid_place_ignore_units_state_input.block",
+      "java_source": "core/src/mindustry/world/Build.java",
+      "java_method": "validPlaceIgnoreUnits",
+      "java_expr": "public static boolean validPlaceIgnoreUnits(Block type, Team team, int x, int y, int rotation, boolean checkVisible, boolean checkCoreRadius){",
+      "rule": "Actual Block the placement is checked for.",
+      "tests": [
+        "test_valid_place_binding_registration",
+        "test_all_valid_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_valid_place"
+      ],
+      "runtime_proof": "/root/ValidPlaceProof"
+    },
+    "source_valid_place_ignore_units_state_input.block_flags": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_valid_place_ignore_units_state",
+      "godot_symbol": "source_valid_place_ignore_units_state_input.block_flags",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "validPlaceIgnoreUnits",
+      "java_expr": "public boolean canReplace(Block other){",
+      "rule": "Caller-supplied Block fields the catalog does not export, keyed by block id; Java field defaults apply when a flag is absent.",
+      "tests": [
+        "test_valid_place_binding_registration",
+        "test_all_valid_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_valid_place"
+      ],
+      "runtime_proof": "/root/ValidPlaceProof"
+    },
+    "source_valid_place_ignore_units_state_input.floor_flags": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_valid_place_ignore_units_state",
+      "godot_symbol": "source_valid_place_ignore_units_state_input.floor_flags",
+      "java_source": "core/src/mindustry/world/Build.java",
+      "java_method": "validPlaceIgnoreUnits",
+      "java_expr": "(check.floor().isDeep() && !type.floating && !type.requiresWater && !type.placeableLiquid) || //deep water",
+      "rule": "Caller-supplied Floor fields the catalog does not export, keyed by floor block id; Java field defaults apply when a flag is absent.",
+      "tests": [
+        "test_valid_place_binding_registration",
+        "test_all_valid_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_valid_place"
+      ],
+      "runtime_proof": "/root/ValidPlaceProof"
+    },
+    "source_valid_place_ignore_units_state_input.team_id": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_valid_place_ignore_units_state",
+      "godot_symbol": "source_valid_place_ignore_units_state_input.team_id",
+      "java_source": "core/src/mindustry/world/Build.java",
+      "java_method": "validPlaceIgnoreUnits",
+      "java_expr": "public static boolean validPlaceIgnoreUnits(Block type, Team team, int x, int y, int rotation, boolean checkVisible, boolean checkCoreRadius){",
+      "rule": "Actual Team id placing the block.",
+      "tests": [
+        "test_valid_place_binding_registration",
+        "test_all_valid_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_valid_place"
+      ],
+      "runtime_proof": "/root/ValidPlaceProof"
+    },
+    "source_valid_place_ignore_units_state_input.x": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_valid_place_ignore_units_state",
+      "godot_symbol": "source_valid_place_ignore_units_state_input.x",
+      "java_source": "core/src/mindustry/world/Build.java",
+      "java_method": "validPlaceIgnoreUnits",
+      "java_expr": "public static boolean validPlaceIgnoreUnits(Block type, Team team, int x, int y, int rotation, boolean checkVisible, boolean checkCoreRadius){",
+      "rule": "Actual placement cell x.",
+      "tests": [
+        "test_valid_place_binding_registration",
+        "test_all_valid_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_valid_place"
+      ],
+      "runtime_proof": "/root/ValidPlaceProof"
+    },
+    "source_valid_place_ignore_units_state_input.y": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_valid_place_ignore_units_state",
+      "godot_symbol": "source_valid_place_ignore_units_state_input.y",
+      "java_source": "core/src/mindustry/world/Build.java",
+      "java_method": "validPlaceIgnoreUnits",
+      "java_expr": "public static boolean validPlaceIgnoreUnits(Block type, Team team, int x, int y, int rotation, boolean checkVisible, boolean checkCoreRadius){",
+      "rule": "Actual placement cell y.",
+      "tests": [
+        "test_valid_place_binding_registration",
+        "test_all_valid_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_valid_place"
+      ],
+      "runtime_proof": "/root/ValidPlaceProof"
+    },
+    "source_valid_place_ignore_units_state_input.rotation": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_valid_place_ignore_units_state",
+      "godot_symbol": "source_valid_place_ignore_units_state_input.rotation",
+      "java_source": "core/src/mindustry/world/Build.java",
+      "java_method": "validPlaceIgnoreUnits",
+      "java_expr": "public static boolean validPlaceIgnoreUnits(Block type, Team team, int x, int y, int rotation, boolean checkVisible, boolean checkCoreRadius){",
+      "rule": "Actual placement rotation.",
+      "tests": [
+        "test_valid_place_binding_registration",
+        "test_all_valid_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_valid_place"
+      ],
+      "runtime_proof": "/root/ValidPlaceProof"
+    },
+    "source_valid_place_ignore_units_state_input.check_visible": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_valid_place_ignore_units_state",
+      "godot_symbol": "source_valid_place_ignore_units_state_input.check_visible",
+      "java_source": "core/src/mindustry/world/Build.java",
+      "java_method": "validPlaceIgnoreUnits",
+      "java_expr": "public static boolean validPlace(Block type, Team team, int x, int y, int rotation, boolean checkVisible, boolean checkCoreRadius){",
+      "rule": "Whether the placement comes from a visible path; the visibility gate and payload replacement depend on it.",
+      "tests": [
+        "test_valid_place_binding_registration",
+        "test_all_valid_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_valid_place"
+      ],
+      "runtime_proof": "/root/ValidPlaceProof"
+    },
+    "source_valid_place_ignore_units_state_input.check_core_radius": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_valid_place_ignore_units_state",
+      "godot_symbol": "source_valid_place_ignore_units_state_input.check_core_radius",
+      "java_source": "core/src/mindustry/world/Build.java",
+      "java_method": "validPlaceIgnoreUnits",
+      "java_expr": "public static boolean validPlace(Block type, Team team, int x, int y, int rotation, boolean checkVisible, boolean checkCoreRadius){",
+      "rule": "Whether core-radius rules apply.",
+      "tests": [
+        "test_valid_place_binding_registration",
+        "test_all_valid_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_valid_place"
+      ],
+      "runtime_proof": "/root/ValidPlaceProof"
+    },
+    "source_valid_place_ignore_units_state_input.rules_state": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_valid_place_ignore_units_state",
+      "godot_symbol": "source_valid_place_ignore_units_state_input.rules_state",
+      "java_source": "core/src/mindustry/world/Build.java",
+      "java_method": "validPlaceIgnoreUnits",
+      "java_expr": "if(type == null || (!state.rules.editor && (checkVisible && (!type.environmentBuildable() || (!type.isPlaceable() && !(state.rules.waves && team == state.rules.waveTeam && type.isVisible())))))){",
+      "rule": "Caller-supplied Rules fields the check reads (editor, waves, waveTeam, derelictRepair, polygonCoreProtection, staticFog, fog, placeRangeCheck); Rules.java defaults apply when a field is absent.",
+      "tests": [
+        "test_valid_place_binding_registration",
+        "test_all_valid_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_valid_place"
+      ],
+      "runtime_proof": "/root/ValidPlaceProof"
+    },
+    "source_valid_place_ignore_units_state_input.cores_state": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_valid_place_ignore_units_state",
+      "godot_symbol": "source_valid_place_ignore_units_state_input.cores_state",
+      "java_source": "core/src/mindustry/world/Build.java",
+      "java_method": "validPlaceIgnoreUnits",
+      "java_expr": "if(state.teams.anyEnemyCoresWithinBuildRadius(team, x * tilesize + type.offset, y * tilesize + type.offset)){",
+      "rule": "Caller-supplied core registry (cores with cell, team and protectCores, plus build radius and tilesize) for the core-protection check.",
+      "tests": [
+        "test_valid_place_binding_registration",
+        "test_all_valid_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_valid_place"
+      ],
+      "runtime_proof": "/root/ValidPlaceProof"
+    },
+    "source_valid_place_ignore_units_state_input.can_place_on_hook": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_valid_place_ignore_units_state",
+      "godot_symbol": "source_valid_place_ignore_units_state_input.can_place_on_hook",
+      "java_source": "core/src/mindustry/world/Build.java",
+      "java_method": "validPlaceIgnoreUnits",
+      "java_expr": "if(!type.canPlaceOn(tile, team, rotation)){",
+      "rule": "Caller-supplied Block.canPlaceOn equivalent; the Block default returns true when absent.",
+      "tests": [
+        "test_valid_place_binding_registration",
+        "test_all_valid_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_valid_place"
+      ],
+      "runtime_proof": "/root/ValidPlaceProof"
+    },
+    "source_valid_place_ignore_units_state_input.darkness_hook": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_valid_place_ignore_units_state",
+      "godot_symbol": "source_valid_place_ignore_units_state_input.darkness_hook",
+      "java_source": "core/src/mindustry/world/Build.java",
+      "java_method": "validPlaceIgnoreUnits",
+      "java_expr": "if(!type.ignoreBuildDarkness && world.getDarkness(x, y) >= 3){",
+      "rule": "Caller-supplied World.getDarkness equivalent; defaults to 0 (no darkness data) when absent.",
+      "tests": [
+        "test_valid_place_binding_registration",
+        "test_all_valid_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_valid_place"
+      ],
+      "runtime_proof": "/root/ValidPlaceProof"
+    },
+    "source_valid_place_ignore_units_state_input.fog_discovered_hook": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_valid_place_ignore_units_state",
+      "godot_symbol": "source_valid_place_ignore_units_state_input.fog_discovered_hook",
+      "java_source": "core/src/mindustry/world/Build.java",
+      "java_method": "validPlaceIgnoreUnits",
+      "java_expr": "(state.rules.staticFog && state.rules.fog && !fogControl.isDiscovered(team, wx, wy)) ||",
+      "rule": "Caller-supplied fogControl.isDiscovered equivalent; only called when staticFog and fog are both true.",
+      "tests": [
+        "test_valid_place_binding_registration",
+        "test_all_valid_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_valid_place"
+      ],
+      "runtime_proof": "/root/ValidPlaceProof"
+    },
+    "source_valid_place_ignore_units_state_input.enemy_overlap_hook": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_valid_place_ignore_units_state",
+      "godot_symbol": "source_valid_place_ignore_units_state_input.enemy_overlap_hook",
+      "java_source": "core/src/mindustry/world/Build.java",
+      "java_method": "validPlaceIgnoreUnits",
+      "java_expr": "if(state.rules.placeRangeCheck && checkCoreRadius && !state.isEditor() && getEnemyOverlap(type, team, x, y) != null){",
+      "rule": "Caller-supplied getEnemyOverlap equivalent; only called when placeRangeCheck is true, defaulting to no overlap when absent.",
+      "tests": [
+        "test_valid_place_binding_registration",
+        "test_all_valid_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_valid_place"
+      ],
+      "runtime_proof": "/root/ValidPlaceProof"
+    },
+    "source_valid_place_ignore_units_state_result.valid": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_valid_place_ignore_units_state",
+      "godot_symbol": "source_valid_place_ignore_units_state_result.valid",
+      "java_source": "core/src/mindustry/world/Build.java",
+      "java_method": "validPlaceIgnoreUnits",
+      "java_expr": "public static boolean validPlaceIgnoreUnits(Block type, Team team, int x, int y, int rotation, boolean checkVisible, boolean checkCoreRadius){",
+      "rule": "Whether the placement passes validPlaceIgnoreUnits.",
+      "tests": [
+        "test_valid_place_binding_registration",
+        "test_all_valid_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_valid_place"
+      ],
+      "runtime_proof": "/root/ValidPlaceProof"
+    },
+    "source_valid_place_ignore_units_state_result.reason": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_valid_place_ignore_units_state",
+      "godot_symbol": "source_valid_place_ignore_units_state_result.reason",
+      "java_source": "core/src/mindustry/world/Build.java",
+      "java_method": "validPlaceIgnoreUnits",
+      "java_expr": "public static boolean validPlaceIgnoreUnits(Block type, Team team, int x, int y, int rotation, boolean checkVisible, boolean checkCoreRadius){",
+      "rule": "Which check failed, or empty when the placement is valid.",
+      "tests": [
+        "test_valid_place_binding_registration",
+        "test_all_valid_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_valid_place"
+      ],
+      "runtime_proof": "/root/ValidPlaceProof"
+    },
+    "source_valid_place_ignore_units_state_result.cell": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_valid_place_ignore_units_state",
+      "godot_symbol": "source_valid_place_ignore_units_state_result.cell",
+      "java_source": "core/src/mindustry/world/Build.java",
+      "java_method": "validPlaceIgnoreUnits",
+      "java_expr": "for(int dx = 0; dx < type.size; dx++){",
+      "rule": "The footprint cell that failed, or null when no cell failed.",
+      "tests": [
+        "test_valid_place_binding_registration",
+        "test_all_valid_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_valid_place"
+      ],
+      "runtime_proof": "/root/ValidPlaceProof"
+    },
+    "source_valid_place_state_input.block": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_valid_place_state",
+      "godot_symbol": "source_valid_place_state_input.block",
+      "java_source": "core/src/mindustry/world/Build.java",
+      "java_method": "validPlace",
+      "java_expr": "public static boolean validPlace(Block type, Team team, int x, int y, int rotation, boolean checkVisible, boolean checkCoreRadius){",
+      "rule": "Actual Block the placement is checked for.",
+      "tests": [
+        "test_valid_place_binding_registration",
+        "test_all_valid_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_valid_place"
+      ],
+      "runtime_proof": "/root/ValidPlaceProof"
+    },
+    "source_valid_place_state_input.block_flags": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_valid_place_state",
+      "godot_symbol": "source_valid_place_state_input.block_flags",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "validPlace",
+      "java_expr": "public boolean canReplace(Block other){",
+      "rule": "Caller-supplied Block fields the catalog does not export, keyed by block id.",
+      "tests": [
+        "test_valid_place_binding_registration",
+        "test_all_valid_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_valid_place"
+      ],
+      "runtime_proof": "/root/ValidPlaceProof"
+    },
+    "source_valid_place_state_input.floor_flags": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_valid_place_state",
+      "godot_symbol": "source_valid_place_state_input.floor_flags",
+      "java_source": "core/src/mindustry/world/Build.java",
+      "java_method": "validPlace",
+      "java_expr": "(check.floor().isDeep() && !type.floating && !type.requiresWater && !type.placeableLiquid) || //deep water",
+      "rule": "Caller-supplied Floor fields the catalog does not export, keyed by floor block id.",
+      "tests": [
+        "test_valid_place_binding_registration",
+        "test_all_valid_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_valid_place"
+      ],
+      "runtime_proof": "/root/ValidPlaceProof"
+    },
+    "source_valid_place_state_input.team_id": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_valid_place_state",
+      "godot_symbol": "source_valid_place_state_input.team_id",
+      "java_source": "core/src/mindustry/world/Build.java",
+      "java_method": "validPlace",
+      "java_expr": "public static boolean validPlace(Block type, Team team, int x, int y, int rotation, boolean checkVisible, boolean checkCoreRadius){",
+      "rule": "Actual Team id placing the block.",
+      "tests": [
+        "test_valid_place_binding_registration",
+        "test_all_valid_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_valid_place"
+      ],
+      "runtime_proof": "/root/ValidPlaceProof"
+    },
+    "source_valid_place_state_input.x": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_valid_place_state",
+      "godot_symbol": "source_valid_place_state_input.x",
+      "java_source": "core/src/mindustry/world/Build.java",
+      "java_method": "validPlace",
+      "java_expr": "public static boolean validPlace(Block type, Team team, int x, int y, int rotation, boolean checkVisible, boolean checkCoreRadius){",
+      "rule": "Actual placement cell x.",
+      "tests": [
+        "test_valid_place_binding_registration",
+        "test_all_valid_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_valid_place"
+      ],
+      "runtime_proof": "/root/ValidPlaceProof"
+    },
+    "source_valid_place_state_input.y": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_valid_place_state",
+      "godot_symbol": "source_valid_place_state_input.y",
+      "java_source": "core/src/mindustry/world/Build.java",
+      "java_method": "validPlace",
+      "java_expr": "public static boolean validPlace(Block type, Team team, int x, int y, int rotation, boolean checkVisible, boolean checkCoreRadius){",
+      "rule": "Actual placement cell y.",
+      "tests": [
+        "test_valid_place_binding_registration",
+        "test_all_valid_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_valid_place"
+      ],
+      "runtime_proof": "/root/ValidPlaceProof"
+    },
+    "source_valid_place_state_input.rotation": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_valid_place_state",
+      "godot_symbol": "source_valid_place_state_input.rotation",
+      "java_source": "core/src/mindustry/world/Build.java",
+      "java_method": "validPlace",
+      "java_expr": "public static boolean validPlace(Block type, Team team, int x, int y, int rotation, boolean checkVisible, boolean checkCoreRadius){",
+      "rule": "Actual placement rotation.",
+      "tests": [
+        "test_valid_place_binding_registration",
+        "test_all_valid_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_valid_place"
+      ],
+      "runtime_proof": "/root/ValidPlaceProof"
+    },
+    "source_valid_place_state_input.check_visible": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_valid_place_state",
+      "godot_symbol": "source_valid_place_state_input.check_visible",
+      "java_source": "core/src/mindustry/world/Build.java",
+      "java_method": "validPlace",
+      "java_expr": "public static boolean validPlace(Block type, Team team, int x, int y, int rotation, boolean checkVisible, boolean checkCoreRadius){",
+      "rule": "Whether the placement comes from a visible path; the 5-arg entry defaults it to true.",
+      "tests": [
+        "test_valid_place_binding_registration",
+        "test_all_valid_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_valid_place"
+      ],
+      "runtime_proof": "/root/ValidPlaceProof"
+    },
+    "source_valid_place_state_input.check_core_radius": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_valid_place_state",
+      "godot_symbol": "source_valid_place_state_input.check_core_radius",
+      "java_source": "core/src/mindustry/world/Build.java",
+      "java_method": "validPlace",
+      "java_expr": "public static boolean validPlace(Block type, Team team, int x, int y, int rotation, boolean checkVisible, boolean checkCoreRadius){",
+      "rule": "Whether core-radius rules apply; the 6-arg entry defaults it to true.",
+      "tests": [
+        "test_valid_place_binding_registration",
+        "test_all_valid_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_valid_place"
+      ],
+      "runtime_proof": "/root/ValidPlaceProof"
+    },
+    "source_valid_place_state_input.rules_state": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_valid_place_state",
+      "godot_symbol": "source_valid_place_state_input.rules_state",
+      "java_source": "core/src/mindustry/world/Build.java",
+      "java_method": "validPlace",
+      "java_expr": "if(type == null || (!state.rules.editor && (checkVisible && (!type.environmentBuildable() || (!type.isPlaceable() && !(state.rules.waves && team == state.rules.waveTeam && type.isVisible())))))){",
+      "rule": "Caller-supplied Rules fields the check reads.",
+      "tests": [
+        "test_valid_place_binding_registration",
+        "test_all_valid_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_valid_place"
+      ],
+      "runtime_proof": "/root/ValidPlaceProof"
+    },
+    "source_valid_place_state_input.cores_state": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_valid_place_state",
+      "godot_symbol": "source_valid_place_state_input.cores_state",
+      "java_source": "core/src/mindustry/world/Build.java",
+      "java_method": "validPlace",
+      "java_expr": "if(state.teams.anyEnemyCoresWithinBuildRadius(team, x * tilesize + type.offset, y * tilesize + type.offset)){",
+      "rule": "Caller-supplied core registry for the core-protection check.",
+      "tests": [
+        "test_valid_place_binding_registration",
+        "test_all_valid_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_valid_place"
+      ],
+      "runtime_proof": "/root/ValidPlaceProof"
+    },
+    "source_valid_place_state_input.can_place_on_hook": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_valid_place_state",
+      "godot_symbol": "source_valid_place_state_input.can_place_on_hook",
+      "java_source": "core/src/mindustry/world/Build.java",
+      "java_method": "validPlace",
+      "java_expr": "if(!type.canPlaceOn(tile, team, rotation)){",
+      "rule": "Caller-supplied Block.canPlaceOn equivalent.",
+      "tests": [
+        "test_valid_place_binding_registration",
+        "test_all_valid_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_valid_place"
+      ],
+      "runtime_proof": "/root/ValidPlaceProof"
+    },
+    "source_valid_place_state_input.darkness_hook": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_valid_place_state",
+      "godot_symbol": "source_valid_place_state_input.darkness_hook",
+      "java_source": "core/src/mindustry/world/Build.java",
+      "java_method": "validPlace",
+      "java_expr": "if(!type.ignoreBuildDarkness && world.getDarkness(x, y) >= 3){",
+      "rule": "Caller-supplied World.getDarkness equivalent.",
+      "tests": [
+        "test_valid_place_binding_registration",
+        "test_all_valid_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_valid_place"
+      ],
+      "runtime_proof": "/root/ValidPlaceProof"
+    },
+    "source_valid_place_state_input.fog_discovered_hook": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_valid_place_state",
+      "godot_symbol": "source_valid_place_state_input.fog_discovered_hook",
+      "java_source": "core/src/mindustry/world/Build.java",
+      "java_method": "validPlace",
+      "java_expr": "(state.rules.staticFog && state.rules.fog && !fogControl.isDiscovered(team, wx, wy)) ||",
+      "rule": "Caller-supplied fogControl.isDiscovered equivalent.",
+      "tests": [
+        "test_valid_place_binding_registration",
+        "test_all_valid_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_valid_place"
+      ],
+      "runtime_proof": "/root/ValidPlaceProof"
+    },
+    "source_valid_place_state_input.enemy_overlap_hook": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_valid_place_state",
+      "godot_symbol": "source_valid_place_state_input.enemy_overlap_hook",
+      "java_source": "core/src/mindustry/world/Build.java",
+      "java_method": "validPlace",
+      "java_expr": "if(state.rules.placeRangeCheck && checkCoreRadius && !state.isEditor() && getEnemyOverlap(type, team, x, y) != null){",
+      "rule": "Caller-supplied getEnemyOverlap equivalent.",
+      "tests": [
+        "test_valid_place_binding_registration",
+        "test_all_valid_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_valid_place"
+      ],
+      "runtime_proof": "/root/ValidPlaceProof"
+    },
+    "source_valid_place_state_input.unit_overlap_hook": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_valid_place_state",
+      "godot_symbol": "source_valid_place_state_input.unit_overlap_hook",
+      "java_source": "core/src/mindustry/world/Build.java",
+      "java_method": "validPlace",
+      "java_expr": "public static boolean checkNoUnitOverlap(Block type, int x, int y){",
+      "rule": "Caller-supplied Units.anyEntities equivalent; defaults to no overlap when absent because the runtime has no unit system yet.",
+      "tests": [
+        "test_valid_place_binding_registration",
+        "test_all_valid_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_valid_place"
+      ],
+      "runtime_proof": "/root/ValidPlaceProof"
+    },
+    "source_valid_place_state_result.valid": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_valid_place_state",
+      "godot_symbol": "source_valid_place_state_result.valid",
+      "java_source": "core/src/mindustry/world/Build.java",
+      "java_method": "validPlace",
+      "java_expr": "public static boolean validPlaceIgnoreUnits(Block type, Team team, int x, int y, int rotation, boolean checkVisible, boolean checkCoreRadius){",
+      "rule": "Whether the placement passes validPlaceIgnoreUnits.",
+      "tests": [
+        "test_valid_place_binding_registration",
+        "test_all_valid_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_valid_place"
+      ],
+      "runtime_proof": "/root/ValidPlaceProof"
+    },
+    "source_valid_place_state_result.reason": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_valid_place_state",
+      "godot_symbol": "source_valid_place_state_result.reason",
+      "java_source": "core/src/mindustry/world/Build.java",
+      "java_method": "validPlace",
+      "java_expr": "public static boolean validPlaceIgnoreUnits(Block type, Team team, int x, int y, int rotation, boolean checkVisible, boolean checkCoreRadius){",
+      "rule": "Which check failed, or empty when the placement is valid.",
+      "tests": [
+        "test_valid_place_binding_registration",
+        "test_all_valid_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_valid_place"
+      ],
+      "runtime_proof": "/root/ValidPlaceProof"
+    },
+    "source_valid_place_state_result.cell": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_valid_place_state",
+      "godot_symbol": "source_valid_place_state_result.cell",
+      "java_source": "core/src/mindustry/world/Build.java",
+      "java_method": "validPlace",
+      "java_expr": "for(int dx = 0; dx < type.size; dx++){",
+      "rule": "The footprint cell that failed, or null when no cell failed.",
+      "tests": [
+        "test_valid_place_binding_registration",
+        "test_all_valid_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_valid_place"
+      ],
+      "runtime_proof": "/root/ValidPlaceProof"
     }
   },
   "version": 1

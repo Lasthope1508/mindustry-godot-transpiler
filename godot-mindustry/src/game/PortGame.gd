@@ -9,6 +9,21 @@ func source_place_loadout_state(schematic: Dictionary, x: int, y: int, team_id: 
 	return SourceSchematicPlacementState.source_apply_loadout_place_state(self, schematic, x, y, team_id, check, priority_hook, tile_config_callback, register_core_hook)
 
 
+# Build.validPlace: validPlaceIgnoreUnits plus the unit-overlap check. With
+# no unit system in the runtime, a null unit_overlap_hook means no overlap;
+# a solid or solidifes block with a hook reporting an overlap is rejected.
+func source_valid_place_state(block: Object, block_flags: Dictionary, floor_flags: Dictionary, team_id: int, x: int, y: int, rotation: int, check_visible: bool, check_core_radius: bool, rules_state: Dictionary, cores_state: Dictionary, can_place_on_hook: Variant, darkness_hook: Variant, fog_discovered_hook: Variant, enemy_overlap_hook: Variant, unit_overlap_hook: Variant) -> Dictionary:
+	var ignore_units: Dictionary = SourceBlockGeometry.source_valid_place_ignore_units_state(self, block, block_flags, floor_flags, team_id, x, y, rotation, check_visible, check_core_radius, rules_state, cores_state, can_place_on_hook, darkness_hook, fog_discovered_hook, enemy_overlap_hook)
+	if not bool(ignore_units.get("valid", false)):
+		return ignore_units
+	var flags: Dictionary = block_flags.get(block.id, {})
+	if bool(flags.get("solid", false)) or bool(flags.get("solidifes", false)):
+		if unit_overlap_hook is Callable and unit_overlap_hook.is_valid():
+			if bool(unit_overlap_hook.call(block, x, y)):
+				return {"valid": false, "reason": "unit_overlap", "cell": Vector2i(x, y)}
+	return {"valid": true, "reason": "", "cell": null}
+
+
 func record_placed_block(sprite: Sprite2D, block, cell: Vector2i, team_id: int = 1) -> void:
 	super.record_placed_block(sprite, block, cell, team_id)
 	if block != null and block.properties.has("consumeLiquid"):

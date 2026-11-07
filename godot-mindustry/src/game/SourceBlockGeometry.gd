@@ -159,6 +159,12 @@ static func tile_set_team_state(build_present: bool, team: Variant) -> Dictionar
 const SOURCE_TEAM_DERELICT_ID := 0
 const SOURCE_TEAM_SHARDED_ID := 1
 const SOURCE_BUILD_TEAM_META_KEY := "team_id"
+# Placed-Building rotation. Building.rotation is set from the placement
+# rotation at creation; the runtime stores it on the Building sprite meta
+# so Build.validPlace can compare it with a new placement rotation. Sprites
+# placed before this meta existed read as rotation 0, which matches every
+# placement the runtime has made so far.
+const SOURCE_BUILD_ROTATION_META_KEY := "rotation"
 
 
 # Execute Building.team(team) on a placed Building sprite: store the team id
@@ -967,3 +973,201 @@ static func source_apply_tile_set_block(self_tile: Dictionary, type_value: Varia
 	source_apply_tile_changed(self_tile, world_generating, type_static, world_build, d4_offsets, neighbor_changing, update_proximity, on_proximity_update, fire_changed, recache)
 	self_tile["changing"] = false
 	block_changed.call(type_value, self_tile)
+
+
+# Build.validPlace helpers. Block/Floor fields the content catalog does not
+# export arrive as caller-supplied lookup dictionaries keyed by block id;
+# absent flags fall back to the Block.java / Floor.java field defaults, so a
+# missing entry never invents a value. Tile.team() is build == null ?
+# derelict : build.team, read from the Building sprite team meta.
+
+static func _valid_place_flags(flags: Dictionary, block_id: String) -> Dictionary:
+	return flags.get(block_id, {})
+
+
+static func _valid_place_tile_team(tile: Dictionary) -> int:
+	var build: Variant = tile.get("build")
+	if build == null or not is_instance_valid(build):
+		return SOURCE_TEAM_DERELICT_ID
+	return int(build.get_meta(SOURCE_BUILD_TEAM_META_KEY, SOURCE_TEAM_DERELICT_ID))
+
+
+static func _valid_place_block_size(block: Object) -> int:
+	return int(block.properties.get("size", 1))
+
+
+static func _valid_place_darkness(darkness_hook: Variant, x: int, y: int) -> int:
+	if darkness_hook is Callable and darkness_hook.is_valid():
+		return int(darkness_hook.call(x, y))
+	return 0
+
+
+static func _valid_place_can_replace(new_flags: Dictionary, new_size: int, other_flags: Dictionary, other_size: int, other_is_self: bool) -> bool:
+	if bool(other_flags.get("always_replace", false)):
+		return true
+	if bool(other_flags.get("privileged", false)):
+		return false
+	var rotate: bool = bool(new_flags.get("rotate", false))
+	var quick_rotate: bool = bool(new_flags.get("quick_rotate", true))
+	var new_group: String = str(new_flags.get("group", "none"))
+	var other_group: String = str(other_flags.get("group", "none"))
+	var rotation_ok: bool = (not other_is_self) or (rotate and quick_rotate)
+	var group_ok: bool = (new_group != "none" and other_group == new_group) or other_is_self
+	var new_subclass: Variant = new_flags.get("subclass", null)
+	var other_subclass: Variant = other_flags.get("subclass", null)
+	var subclass_ok: bool = new_subclass != null and other_subclass != null and str(new_subclass) == str(other_subclass)
+	var size_ok: bool = new_size == other_size or (new_size >= other_size and (subclass_ok or bool(new_flags.get("group_any_replace", false))))
+	return bool(other_flags.get("replaceable", true)) and rotation_ok and group_ok and size_ok
+
+
+static func _valid_place_bounds_contain(new_origin: Vector2i, new_size: int, check_origin: Vector2i, check_size: int) -> bool:
+	var new_offset: int = -(new_size - 1) / 2
+	var check_offset: int = -(check_size - 1) / 2
+	var new_min := Vector2i(new_origin.x + new_offset, new_origin.y + new_offset)
+	var new_max := Vector2i(new_min.x + new_size - 1, new_min.y + new_size - 1)
+	var check_min := Vector2i(check_origin.x + check_offset, check_origin.y + check_offset)
+	var check_max := Vector2i(check_min.x + check_size - 1, check_min.y + check_size - 1)
+	return new_min.x <= check_min.x and new_min.y <= check_min.y and check_max.x <= new_max.x and check_max.y <= new_max.y
+
+
+# One footprint cell of Build.validPlaceIgnoreUnits: the big loop-body guard,
+# in Java order. The reason names the first failed check. Tile.interactable
+# is Teams.canInteract (team == other || other == derelict), evaluated from
+# the team metas. canBeReplaced collapses into canReplace here because
+# Building.canBeReplaced(other) is other.canReplace(block); ConstructBuild
+# replacement is false because the runtime has no build under construction.
+static func source_valid_place_footprint_cell_state(game: Object, block: Object, block_flags: Dictionary, floor_flags: Dictionary, check_cell: Vector2i, origin_cell: Vector2i, team_id: int, rotation: int, check_visible: bool, check_core_radius: bool, rules_state: Dictionary, darkness_hook: Variant, fog_discovered_hook: Variant) -> Dictionary:
+	var check_tile: Variant = game.call("source_world_tile", check_cell.x, check_cell.y)
+	if check_tile == null:
+		return {"cell": check_cell, "valid": false, "reason": "cell_missing"}
+	var new_size: int = _valid_place_block_size(block)
+	var new_flags: Dictionary = _valid_place_flags(block_flags, block.id)
+	if new_size == 2 and _valid_place_darkness(darkness_hook, check_cell.x, check_cell.y) >= 3:
+		return {"cell": check_cell, "valid": false, "reason": "darkness"}
+	if bool(rules_state.get("static_fog", true)) and bool(rules_state.get("fog", false)):
+		var discovered := false
+		if fog_discovered_hook is Callable and fog_discovered_hook.is_valid():
+			discovered = bool(fog_discovered_hook.call(team_id, check_cell.x, check_cell.y))
+		if not discovered:
+			return {"cell": check_cell, "valid": false, "reason": "fog"}
+	var floor_block: Variant = check_tile.get("floor")
+	var floor_entry: Dictionary = _valid_place_flags(floor_flags, floor_block.id)
+	if bool(floor_entry.get("is_deep", false)) and not bool(new_flags.get("floating", false)) and not bool(new_flags.get("requires_water", false)) and not bool(new_flags.get("placeable_liquid", false)):
+		return {"cell": check_cell, "valid": false, "reason": "deep_floor"}
+	var check_build: Variant = check_tile.get("build")
+	var check_team: int = _valid_place_tile_team(check_tile)
+	if not bool(rules_state.get("derelict_repair", true)) and check_team == SOURCE_TEAM_DERELICT_ID and check_build != null:
+		return {"cell": check_cell, "valid": false, "reason": "derelict"}
+	var check_block: Variant = check_tile.get("block")
+	if check_block == block and check_build != null and rotation == int(check_build.get_meta(SOURCE_BUILD_ROTATION_META_KEY, 0)) and bool(new_flags.get("rotate", false)) and not (team_id != SOURCE_TEAM_DERELICT_ID and check_team == SOURCE_TEAM_DERELICT_ID):
+		return {"cell": check_cell, "valid": false, "reason": "same_block_rotation"}
+	if not (team_id == check_team or check_team == SOURCE_TEAM_DERELICT_ID):
+		return {"cell": check_cell, "valid": false, "reason": "not_interactable"}
+	if not bool(floor_entry.get("placeable_on", true)) and not bool(new_flags.get("ignore_build_darkness", false)):
+		return {"cell": check_cell, "valid": false, "reason": "solid_floor"}
+	var check_flags: Dictionary = _valid_place_flags(block_flags, check_block.id)
+	if not check_visible and check_core_radius and not bool(check_flags.get("always_replace", false)):
+		return {"cell": check_cell, "valid": false, "reason": "payload_replace"}
+	var check_size: int = _valid_place_block_size(check_block)
+	var check_origin: Vector2i = check_cell
+	if check_build != null and is_instance_valid(check_build):
+		check_origin = check_build.get_meta("origin_cell", check_cell)
+	var can_replace: bool = _valid_place_can_replace(new_flags, new_size, check_flags, check_size, check_block == block)
+	var derelict_same_type: bool = check_block == block and team_id != SOURCE_TEAM_DERELICT_ID and check_team == SOURCE_TEAM_DERELICT_ID
+	if not ((can_replace or derelict_same_type) and _valid_place_bounds_contain(origin_cell, new_size, check_origin, check_size)):
+		return {"cell": check_cell, "valid": false, "reason": "cannot_replace"}
+	if bool(new_flags.get("requires_water", false)) and str(floor_entry.get("liquid_drop", "")) != "water":
+		return {"cell": check_cell, "valid": false, "reason": "requires_water"}
+	return {"cell": check_cell, "valid": true, "reason": ""}
+
+
+# Whether any footprint or ring cell has a non-deep floor: Build
+# .contactsShallows. Multiblock reads its inside edges plus its edges; a
+# single block reads its d4 neighbours plus itself; both are the footprint
+# plus the ring around it.
+static func _valid_place_contacts_shallows(game: Object, floor_flags: Dictionary, cell: Vector2i, block: Object) -> bool:
+	var seen := {}
+	for footprint_cell in game.call("occupied_cells", cell, block):
+		seen[footprint_cell] = true
+		for offset in [Vector2i(1, 0), Vector2i(0, 1), Vector2i(-1, 0), Vector2i(0, -1)]:
+			seen[footprint_cell + offset] = true
+	for shallow_cell in seen.keys():
+		var tile: Variant = game.call("source_world_tile", shallow_cell.x, shallow_cell.y)
+		if tile != null:
+			var floor_entry: Dictionary = _valid_place_flags(floor_flags, tile.get("floor").id)
+			if not bool(floor_entry.get("is_deep", false)):
+				return true
+	return false
+
+
+# Build.validPlaceIgnoreUnits: the pre-footprint checks in Java order, then
+# the footprint loop through the per-cell binding above, then the
+# place-range check. The visibility gate reads the caller-supplied
+# rules_state (editor, waves, waveTeam) and block flags
+# (environmentBuildable, isPlaceable, isVisible). Core protection uses the
+# caller-supplied cores registry: polygon mode takes the closest protected
+# core, otherwise any enemy protected core within buildRadius + tilesize
+# blocks (distances are cell-center distances in pixels, the runtime has no
+# pixel-space building positions). canPlaceOn defaults to the Block default
+# (true) without a hook; the place-range hook defaults to no overlap.
+static func source_valid_place_ignore_units_state(game: Object, block: Object, block_flags: Dictionary, floor_flags: Dictionary, team_id: int, x: int, y: int, rotation: int, check_visible: bool, check_core_radius: bool, rules_state: Dictionary, cores_state: Dictionary, can_place_on_hook: Variant, darkness_hook: Variant, fog_discovered_hook: Variant, enemy_overlap_hook: Variant) -> Dictionary:
+	if block == null:
+		return {"valid": false, "reason": "type_null", "cell": null}
+	var new_flags: Dictionary = _valid_place_flags(block_flags, block.id)
+	var editor: bool = bool(rules_state.get("editor", false))
+	if not editor and check_visible:
+		var waves: bool = bool(rules_state.get("waves", false))
+		var wave_team: int = int(rules_state.get("wave_team_id", 2))
+		if not bool(new_flags.get("environment_buildable", true)) or (not bool(new_flags.get("placeable", true)) and not (waves and team_id == wave_team and bool(new_flags.get("visible", true)))):
+			return {"valid": false, "reason": "not_visible", "cell": null}
+	if not editor and check_core_radius:
+		var cores: Array = cores_state.get("cores", [])
+		var build_radius: float = float(cores_state.get("build_radius", 400.0))
+		var tilesize: float = float(cores_state.get("tilesize", 8.0))
+		if bool(rules_state.get("polygon_core_protection", false)):
+			var closest: Variant = null
+			var closest_dst := INF
+			for core in cores:
+				if not bool(core.get("protect_cores", true)):
+					continue
+				var dst: float = Vector2(x, y).distance_to(core.get("cell", Vector2i.ZERO)) * tilesize
+				if dst < closest_dst:
+					closest = core
+					closest_dst = dst
+			if closest != null and int(closest.get("team_id", -1)) != team_id:
+				return {"valid": false, "reason": "core_protection", "cell": null}
+		else:
+			for core in cores:
+				if int(core.get("team_id", -1)) == team_id or not bool(core.get("protect_cores", true)):
+					continue
+				var dst: float = Vector2(x, y).distance_to(core.get("cell", Vector2i.ZERO)) * tilesize
+				if dst <= build_radius + tilesize:
+					return {"valid": false, "reason": "core_protection", "cell": null}
+	var tile: Variant = game.call("source_world_tile", x, y)
+	if tile == null:
+		return {"valid": false, "reason": "tile_missing", "cell": null}
+	if can_place_on_hook is Callable and can_place_on_hook.is_valid():
+		if not bool(can_place_on_hook.call(block, tile, team_id, rotation)):
+			return {"valid": false, "reason": "can_place_on", "cell": null}
+	if bool(new_flags.get("is_floor", false)):
+		var surface: Variant = tile.get("overlay") if bool(new_flags.get("is_overlay", false)) else tile.get("floor")
+		if surface == block:
+			return {"valid": false, "reason": "floor_already", "cell": null}
+		return {"valid": true, "reason": "", "cell": null}
+	if not bool(new_flags.get("ignore_build_darkness", false)) and _valid_place_darkness(darkness_hook, x, y) >= 3:
+		return {"valid": false, "reason": "darkness", "cell": null}
+	if not bool(new_flags.get("requires_water", false)) and not _valid_place_contacts_shallows(game, floor_flags, Vector2i(x, y), block) and not bool(new_flags.get("placeable_liquid", false)):
+		return {"valid": false, "reason": "no_shallows", "cell": null}
+	var size: int = _valid_place_block_size(block)
+	var offset: int = -(size - 1) / 2
+	for dx in range(size):
+		for dy in range(size):
+			var check_cell := Vector2i(x + dx + offset, y + dy + offset)
+			var cell_result: Dictionary = source_valid_place_footprint_cell_state(game, block, block_flags, floor_flags, check_cell, Vector2i(x, y), team_id, rotation, check_visible, check_core_radius, rules_state, darkness_hook, fog_discovered_hook)
+			if not bool(cell_result.get("valid", false)):
+				return {"valid": false, "reason": cell_result.get("reason", ""), "cell": check_cell}
+	if bool(rules_state.get("place_range_check", false)) and check_core_radius and not editor:
+		if enemy_overlap_hook is Callable and enemy_overlap_hook.is_valid():
+			if bool(enemy_overlap_hook.call(block, team_id, x, y)):
+				return {"valid": false, "reason": "enemy_overlap", "cell": null}
+	return {"valid": true, "reason": "", "cell": null}

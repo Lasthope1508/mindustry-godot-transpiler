@@ -23,10 +23,10 @@
       "port_game.source_building_each_edge_state": "port_game.source_building_navigation_state"
     }
   },
-  "totalSourceFunctions": 1333,
-  "discoveredSourceOwnerCount": 1331,
-  "canonicalDiscoveredOwnerCount": 1316,
-  "registeredSourceOwnerCount": 1308,
+  "totalSourceFunctions": 1334,
+  "discoveredSourceOwnerCount": 1332,
+  "canonicalDiscoveredOwnerCount": 1317,
+  "registeredSourceOwnerCount": 1309,
   "exemptSourceOwnerCount": 8,
   "legacyUnregisteredOwnerCount": 0,
   "canonicalAliasFunctionCount": 17,
@@ -1290,6 +1290,7 @@
     "port_game.source_unit_weapon_damage",
     "port_game.source_unit_wobble_state",
     "port_game.source_unit_world_speed",
+    "port_game.source_valid_place_state",
     "port_game.source_vec2_limit",
     "port_game.source_wave_timing_runtime_state",
     "port_game.source_weapon_bullet_angle_life_state",
@@ -1368,6 +1369,12 @@
       "function": "source_place_loadout_state",
       "gdscript_path": "src/game/PortGame.gd",
       "canonical_owner": "port_game.source_place_loadout_state"
+    },
+    {
+      "owner": "port_game.source_valid_place_state",
+      "function": "source_valid_place_state",
+      "gdscript_path": "src/game/PortGame.gd",
+      "canonical_owner": "port_game.source_valid_place_state"
     },
     {
       "owner": "port_game.source_ability_update_state",
