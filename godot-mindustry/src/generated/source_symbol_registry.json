@@ -162168,6 +162168,246 @@
         "test_reference_graph_and_actual_two_drill_gate"
       ],
       "runtime_proof": "/root/TwoDrillGateProof"
+    },
+    "source_teams_register_core_state_input.teams_state": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_teams_register_core_state",
+      "godot_symbol": "source_teams_register_core_state_input.teams_state",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "registerCore",
+      "java_expr": "TeamData data = get(core.team);",
+      "rule": "The teams state: teams keyed by team id, the active list, and the wave rules.",
+      "tests": [
+        "test_teams_core_registration_binding_registration",
+        "test_all_teams_core_registration_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_teams_core_registration"
+      ],
+      "runtime_proof": "/root/TeamsCoreRegistrationProof"
+    },
+    "source_teams_register_core_state_input.team_id": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_teams_register_core_state",
+      "godot_symbol": "source_teams_register_core_state_input.team_id",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "registerCore",
+      "java_expr": "TeamData data = get(core.team);",
+      "rule": "The team id of the core being registered.",
+      "tests": [
+        "test_teams_core_registration_binding_registration",
+        "test_all_teams_core_registration_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_teams_core_registration"
+      ],
+      "runtime_proof": "/root/TeamsCoreRegistrationProof"
+    },
+    "source_teams_register_core_state_input.core_ref": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_teams_register_core_state",
+      "godot_symbol": "source_teams_register_core_state_input.core_ref",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "registerCore",
+      "java_expr": "data.cores.add(core);",
+      "rule": "The core reference being registered.",
+      "tests": [
+        "test_teams_core_registration_binding_registration",
+        "test_all_teams_core_registration_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_teams_core_registration"
+      ],
+      "runtime_proof": "/root/TeamsCoreRegistrationProof"
+    },
+    "source_teams_register_core_state_result.registered": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_teams_register_core_state",
+      "godot_symbol": "source_teams_register_core_state_result.registered",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "registerCore",
+      "java_expr": "if(!data.cores.contains(core)){",
+      "rule": "Whether the core was added (false when it was already present).",
+      "tests": [
+        "test_teams_core_registration_binding_registration",
+        "test_all_teams_core_registration_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_teams_core_registration"
+      ],
+      "runtime_proof": "/root/TeamsCoreRegistrationProof"
+    },
+    "source_teams_register_core_state_result.active_changed": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_teams_register_core_state",
+      "godot_symbol": "source_teams_register_core_state_result.active_changed",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "registerCore",
+      "java_expr": "if(data.active() && !active.contains(data)){",
+      "rule": "Whether the team was added to the active list.",
+      "tests": [
+        "test_teams_core_registration_binding_registration",
+        "test_all_teams_core_registration_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_teams_core_registration"
+      ],
+      "runtime_proof": "/root/TeamsCoreRegistrationProof"
+    },
+    "source_teams_register_core_state_result.active": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_teams_register_core_state",
+      "godot_symbol": "source_teams_register_core_state_result.active",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "registerCore",
+      "java_expr": "active.add(data);",
+      "rule": "The active team ids after registration.",
+      "tests": [
+        "test_teams_core_registration_binding_registration",
+        "test_all_teams_core_registration_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_teams_core_registration"
+      ],
+      "runtime_proof": "/root/TeamsCoreRegistrationProof"
+    },
+    "source_teams_register_core_state_result.enemies_by_team": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_teams_register_core_state",
+      "godot_symbol": "source_teams_register_core_state_result.enemies_by_team",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "registerCore",
+      "java_expr": "updateEnemies();",
+      "rule": "Each active team id mapped to the other active team ids.",
+      "tests": [
+        "test_teams_core_registration_binding_registration",
+        "test_all_teams_core_registration_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_teams_core_registration"
+      ],
+      "runtime_proof": "/root/TeamsCoreRegistrationProof"
+    },
+    "source_teams_register_core_state_result.teams_state": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_teams_register_core_state",
+      "godot_symbol": "source_teams_register_core_state_result.teams_state",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "registerCore",
+      "java_expr": "TeamData data = get(core.team);",
+      "rule": "The teams state after registration.",
+      "tests": [
+        "test_teams_core_registration_binding_registration",
+        "test_all_teams_core_registration_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_teams_core_registration"
+      ],
+      "runtime_proof": "/root/TeamsCoreRegistrationProof"
+    },
+    "source_teams_unregister_core_state_input.teams_state": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_teams_unregister_core_state",
+      "godot_symbol": "source_teams_unregister_core_state_input.teams_state",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "unregisterCore",
+      "java_expr": "TeamData data = get(entity.team);",
+      "rule": "The teams state: teams keyed by team id, the active list, and the wave rules.",
+      "tests": [
+        "test_teams_core_registration_binding_registration",
+        "test_all_teams_core_registration_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_teams_core_registration"
+      ],
+      "runtime_proof": "/root/TeamsCoreRegistrationProof"
+    },
+    "source_teams_unregister_core_state_input.team_id": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_teams_unregister_core_state",
+      "godot_symbol": "source_teams_unregister_core_state_input.team_id",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "unregisterCore",
+      "java_expr": "TeamData data = get(entity.team);",
+      "rule": "The team id of the core being unregistered.",
+      "tests": [
+        "test_teams_core_registration_binding_registration",
+        "test_all_teams_core_registration_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_teams_core_registration"
+      ],
+      "runtime_proof": "/root/TeamsCoreRegistrationProof"
+    },
+    "source_teams_unregister_core_state_input.core_ref": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_teams_unregister_core_state",
+      "godot_symbol": "source_teams_unregister_core_state_input.core_ref",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "unregisterCore",
+      "java_expr": "data.cores.remove(entity);",
+      "rule": "The core reference being unregistered.",
+      "tests": [
+        "test_teams_core_registration_binding_registration",
+        "test_all_teams_core_registration_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_teams_core_registration"
+      ],
+      "runtime_proof": "/root/TeamsCoreRegistrationProof"
+    },
+    "source_teams_unregister_core_state_result.unregistered": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_teams_unregister_core_state",
+      "godot_symbol": "source_teams_unregister_core_state_result.unregistered",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "unregisterCore",
+      "java_expr": "data.cores.remove(entity);",
+      "rule": "Whether the core was removed (false when it was not present).",
+      "tests": [
+        "test_teams_core_registration_binding_registration",
+        "test_all_teams_core_registration_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_teams_core_registration"
+      ],
+      "runtime_proof": "/root/TeamsCoreRegistrationProof"
+    },
+    "source_teams_unregister_core_state_result.active_changed": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_teams_unregister_core_state",
+      "godot_symbol": "source_teams_unregister_core_state_result.active_changed",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "unregisterCore",
+      "java_expr": "if(!data.active()){",
+      "rule": "Whether the team was removed from the active list.",
+      "tests": [
+        "test_teams_core_registration_binding_registration",
+        "test_all_teams_core_registration_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_teams_core_registration"
+      ],
+      "runtime_proof": "/root/TeamsCoreRegistrationProof"
+    },
+    "source_teams_unregister_core_state_result.active": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_teams_unregister_core_state",
+      "godot_symbol": "source_teams_unregister_core_state_result.active",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "unregisterCore",
+      "java_expr": "active.remove(data);",
+      "rule": "The active team ids after unregistration.",
+      "tests": [
+        "test_teams_core_registration_binding_registration",
+        "test_all_teams_core_registration_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_teams_core_registration"
+      ],
+      "runtime_proof": "/root/TeamsCoreRegistrationProof"
+    },
+    "source_teams_unregister_core_state_result.enemies_by_team": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_teams_unregister_core_state",
+      "godot_symbol": "source_teams_unregister_core_state_result.enemies_by_team",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "unregisterCore",
+      "java_expr": "updateEnemies();",
+      "rule": "Each active team id mapped to the other active team ids.",
+      "tests": [
+        "test_teams_core_registration_binding_registration",
+        "test_all_teams_core_registration_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_teams_core_registration"
+      ],
+      "runtime_proof": "/root/TeamsCoreRegistrationProof"
+    },
+    "source_teams_unregister_core_state_result.teams_state": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_teams_unregister_core_state",
+      "godot_symbol": "source_teams_unregister_core_state_result.teams_state",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "unregisterCore",
+      "java_expr": "TeamData data = get(entity.team);",
+      "rule": "The teams state after unregistration.",
+      "tests": [
+        "test_teams_core_registration_binding_registration",
+        "test_all_teams_core_registration_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_teams_core_registration"
+      ],
+      "runtime_proof": "/root/TeamsCoreRegistrationProof"
     }
   },
   "version": 1

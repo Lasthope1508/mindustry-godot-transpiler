@@ -60821,6 +60821,82 @@
       ],
       "runtime_proof": "/root/TwoDrillGateProof",
       "rule": "Source-backed live-loop step; when the dump timer fires it dumps every drill from its own inventory."
+    },
+    "SourceTeamsRuntimeState.source_teams_register_core_state": {
+      "status": "active",
+      "source_slice": "N2074",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "source_method": "registerCore",
+      "params": [
+        {
+          "name": "teams_state",
+          "type": "Dictionary",
+          "schema": "source_teams_register_core_state_input.teams_state"
+        },
+        {
+          "name": "team_id",
+          "type": "int",
+          "schema": "source_teams_register_core_state_input.team_id"
+        },
+        {
+          "name": "core_ref",
+          "type": "Variant",
+          "schema": "source_teams_register_core_state_input.core_ref"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "registered",
+        "active_changed",
+        "active",
+        "enemies_by_team",
+        "teams_state"
+      ],
+      "tests": [
+        "test_teams_core_registration_binding_registration",
+        "test_all_teams_core_registration_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_teams_core_registration"
+      ],
+      "runtime_proof": "/root/TeamsCoreRegistrationProof",
+      "rule": "Source-backed Teams core registration; a core placement registers it in the team core list and activates the team, a removal unregisters it and deactivates the team when it has nothing left."
+    },
+    "SourceTeamsRuntimeState.source_teams_unregister_core_state": {
+      "status": "active",
+      "source_slice": "N2075",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "source_method": "unregisterCore",
+      "params": [
+        {
+          "name": "teams_state",
+          "type": "Dictionary",
+          "schema": "source_teams_unregister_core_state_input.teams_state"
+        },
+        {
+          "name": "team_id",
+          "type": "int",
+          "schema": "source_teams_unregister_core_state_input.team_id"
+        },
+        {
+          "name": "core_ref",
+          "type": "Variant",
+          "schema": "source_teams_unregister_core_state_input.core_ref"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "unregistered",
+        "active_changed",
+        "active",
+        "enemies_by_team",
+        "teams_state"
+      ],
+      "tests": [
+        "test_teams_core_registration_binding_registration",
+        "test_all_teams_core_registration_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_teams_core_registration"
+      ],
+      "runtime_proof": "/root/TeamsCoreRegistrationProof",
+      "rule": "Source-backed Teams core registration; a core placement registers it in the team core list and activates the team, a removal unregisters it and deactivates the team when it has nothing left."
     }
   },
   "policy": {

@@ -52402,6 +52402,77 @@
         "The queue-to-sprite sync stays open in C02 (transport is sprite-based with no item identity).",
         "C02 two-Drill gate and C03-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2074": {
+      "status": "done",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_class": "mindustry.game.Teams",
+      "java_method": "registerCore",
+      "godot_owner": "SourceTeamsRuntimeState.source_teams_register_core_state",
+      "exact_exprs": [
+        "TeamData data = get(core.team);",
+        "if(!data.cores.contains(core)){",
+        "data.cores.add(core);",
+        "if(data.active() && !active.contains(data)){",
+        "active.add(data);",
+        "updateEnemies();",
+        "return (team == state.rules.waveTeam && state.rules.waves) || cores.size > 0 || buildings.size > 0 || (team == Team.neoplastic && units.size > 0);"
+      ],
+      "source_symbols": [
+        "source_teams_register_core_state_input.teams_state",
+        "source_teams_register_core_state_input.team_id",
+        "source_teams_register_core_state_input.core_ref",
+        "source_teams_register_core_state_result.registered",
+        "source_teams_register_core_state_result.active_changed",
+        "source_teams_register_core_state_result.active",
+        "source_teams_register_core_state_result.enemies_by_team",
+        "source_teams_register_core_state_result.teams_state"
+      ],
+      "tests": [
+        "test_teams_core_registration_binding_registration",
+        "test_all_teams_core_registration_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_teams_core_registration"
+      ],
+      "runtime_proof": "/root/TeamsCoreRegistrationProof",
+      "deferred_exprs": [
+        "Entity group membership, controller pickup/world transitions and the remaining Tile/Floor side effects stay open in C01 (they need the entity groups, unit system and campaign state machine the runtime does not own yet).",
+        "C02 queue-to-sprite sync and C03-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
+    },
+    "N2075": {
+      "status": "done",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_class": "mindustry.game.Teams",
+      "java_method": "unregisterCore",
+      "godot_owner": "SourceTeamsRuntimeState.source_teams_unregister_core_state",
+      "exact_exprs": [
+        "TeamData data = get(entity.team);",
+        "data.cores.remove(entity);",
+        "if(!data.active()){",
+        "active.remove(data);",
+        "updateEnemies();",
+        "return (team == state.rules.waveTeam && state.rules.waves) || cores.size > 0 || buildings.size > 0 || (team == Team.neoplastic && units.size > 0);"
+      ],
+      "source_symbols": [
+        "source_teams_unregister_core_state_input.teams_state",
+        "source_teams_unregister_core_state_input.team_id",
+        "source_teams_unregister_core_state_input.core_ref",
+        "source_teams_unregister_core_state_result.unregistered",
+        "source_teams_unregister_core_state_result.active_changed",
+        "source_teams_unregister_core_state_result.active",
+        "source_teams_unregister_core_state_result.enemies_by_team",
+        "source_teams_unregister_core_state_result.teams_state"
+      ],
+      "tests": [
+        "test_teams_core_registration_binding_registration",
+        "test_all_teams_core_registration_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_teams_core_registration"
+      ],
+      "runtime_proof": "/root/TeamsCoreRegistrationProof",
+      "deferred_exprs": [
+        "Entity group membership, controller pickup/world transitions and the remaining Tile/Floor side effects stay open in C01 (they need the entity groups, unit system and campaign state machine the runtime does not own yet).",
+        "C02 queue-to-sprite sync and C03-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1
