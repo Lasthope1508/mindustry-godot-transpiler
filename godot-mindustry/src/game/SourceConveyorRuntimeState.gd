@@ -459,3 +459,70 @@ static func source_conveyor_queues_for_cells_state(game: Object, cells: Array) -
 		"found_count": queues_by_cell.size(),
 		"reason": "resolved" if not queues_by_cell.is_empty() else "none_found",
 	}
+
+
+static func source_conveyor_advance_state(ids: Array, xs: Array, ys: Array, len: int, speed: float, delta: float, time_scale: float, aligned: bool, next_minitem: float, blendbits: int, clog_heat_before: float) -> Dictionary:
+	# Conveyor.java:27-28: itemSpace = 0.4f, capacity = 3.
+	var result_ids: Array = ids.duplicate()
+	var result_xs: Array = xs.duplicate()
+	var result_ys: Array = ys.duplicate()
+	var result_len := len
+	var mid := 0
+	var minitem := 1.0
+	# Conveyor.java:255-262: an empty belt at time scale 1 sleeps.
+	if len == 0 and is_equal_approx(time_scale, 1.0):
+		return {
+			"ids_after": result_ids,
+			"xs_after": result_xs,
+			"ys_after": result_ys,
+			"len_after": result_len,
+			"mid": mid,
+			"minitem": minitem,
+			"pass_ready": false,
+			"pass_item_id": null,
+			"clog_heat": 0.0,
+			"no_sleep_called": false,
+			"reason": "empty_sleep",
+		}
+	var next_max := 1.0
+	if aligned:
+		next_max = 1.0 - maxf(0.4 - next_minitem, 0.0)
+	var moved := speed * delta
+	var i := result_len - 1
+	while i >= 0:
+		var nextpos := 100.0 - 0.4
+		if i != result_len - 1:
+			nextpos = float(result_ys[i + 1]) - 0.4
+		var maxmove := clampf(nextpos - float(result_ys[i]), 0.0, moved)
+		result_ys[i] = float(result_ys[i]) + maxmove
+		if float(result_ys[i]) > next_max:
+			result_ys[i] = next_max
+		if float(result_ys[i]) > 0.5 and i > 0:
+			mid = i - 1
+		result_xs[i] = move_toward(float(result_xs[i]), 0.0, moved * 2.0)
+		if float(result_ys[i]) < minitem:
+			minitem = float(result_ys[i])
+		i -= 1
+	var clog_heat := clog_heat_before
+	if minitem < 0.4 + (0.3 if blendbits == 1 else 0.0):
+		clog_heat = move_toward(clog_heat, 1.0, 1.0 / 60.0)
+	else:
+		clog_heat = 0.0
+	var pass_ready := false
+	var pass_item_id: Variant = null
+	if result_len > 0 and float(result_ys[result_len - 1]) >= 1.0:
+		pass_ready = true
+		pass_item_id = result_ids[result_len - 1]
+	return {
+		"ids_after": result_ids,
+		"xs_after": result_xs,
+		"ys_after": result_ys,
+		"len_after": result_len,
+		"mid": mid,
+		"minitem": minitem,
+		"pass_ready": pass_ready,
+		"pass_item_id": pass_item_id,
+		"clog_heat": clog_heat,
+		"no_sleep_called": true,
+		"reason": "advanced",
+	}

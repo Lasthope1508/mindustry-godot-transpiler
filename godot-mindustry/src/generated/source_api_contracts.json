@@ -60588,6 +60588,126 @@
       ],
       "runtime_proof": "/root/FactoryDumpSwapProof",
       "rule": "Source-backed live-loop drill dump; the drill dumps through the dump composition over the stored conveyor queues, and simulate_factory calls this step instead of dumping straight to the core."
+    },
+    "SourceConveyorRuntimeState.source_conveyor_advance_state": {
+      "status": "active",
+      "source_slice": "N2069",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "source_method": "updateTile",
+      "params": [
+        {
+          "name": "ids",
+          "type": "Array",
+          "schema": "source_conveyor_advance_state_input.ids"
+        },
+        {
+          "name": "xs",
+          "type": "Array",
+          "schema": "source_conveyor_advance_state_input.xs"
+        },
+        {
+          "name": "ys",
+          "type": "Array",
+          "schema": "source_conveyor_advance_state_input.ys"
+        },
+        {
+          "name": "len",
+          "type": "int",
+          "schema": "source_conveyor_advance_state_input.len"
+        },
+        {
+          "name": "speed",
+          "type": "float",
+          "schema": "source_conveyor_advance_state_input.speed"
+        },
+        {
+          "name": "delta",
+          "type": "float",
+          "schema": "source_conveyor_advance_state_input.delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_conveyor_advance_state_input.time_scale"
+        },
+        {
+          "name": "aligned",
+          "type": "bool",
+          "schema": "source_conveyor_advance_state_input.aligned"
+        },
+        {
+          "name": "next_minitem",
+          "type": "float",
+          "schema": "source_conveyor_advance_state_input.next_minitem"
+        },
+        {
+          "name": "blendbits",
+          "type": "int",
+          "schema": "source_conveyor_advance_state_input.blendbits"
+        },
+        {
+          "name": "clog_heat_before",
+          "type": "float",
+          "schema": "source_conveyor_advance_state_input.clog_heat_before"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "ids_after",
+        "xs_after",
+        "ys_after",
+        "len_after",
+        "mid",
+        "minitem",
+        "pass_ready",
+        "pass_item_id",
+        "clog_heat",
+        "no_sleep_called",
+        "reason"
+      ],
+      "tests": [
+        "test_conveyor_advance_binding_registration",
+        "test_all_conveyor_advance_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_advance"
+      ],
+      "runtime_proof": "/root/ConveyorAdvanceProof",
+      "rule": "Source-backed conveyor belt advance; the belt moves its items and hands the front item to the next belt or the core."
+    },
+    "SourceFactoryRuntimeState.source_factory_advance_conveyors_state": {
+      "status": "active",
+      "source_slice": "N2070",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "source_method": "updateTile",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_factory_advance_conveyors_state_input.game"
+        },
+        {
+          "name": "conveyor_cells",
+          "type": "Array",
+          "schema": "source_factory_advance_conveyors_state_input.conveyor_cells"
+        },
+        {
+          "name": "delta",
+          "type": "float",
+          "schema": "source_factory_advance_conveyors_state_input.delta"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "results_by_cell",
+        "passed_count",
+        "reason"
+      ],
+      "tests": [
+        "test_conveyor_advance_binding_registration",
+        "test_all_conveyor_advance_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_advance"
+      ],
+      "runtime_proof": "/root/ConveyorAdvanceProof",
+      "rule": "Source-backed conveyor belt advance; the belt moves its items and hands the front item to the next belt or the core."
     }
   },
   "policy": {

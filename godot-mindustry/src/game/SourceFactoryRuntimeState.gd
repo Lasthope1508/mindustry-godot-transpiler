@@ -145,6 +145,9 @@ static func simulate_factory(game: Object, delta: float) -> void:
 	game.set(source_drill_dump_runtime_state_script.SOURCE_DRILL_DUMP_TIMER_KEY, float(apply_state.get(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_DRILL_DUMP_TIMER_KEY, game.get(source_drill_dump_runtime_state_script.SOURCE_DRILL_DUMP_TIMER_KEY))))
 	if drill_output_item_id != null and bool(apply_state.get(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_SHOULD_DUMP_KEY, false)):
 		source_factory_dump_drill_output_state(game, drill_cell, drill_output_item_id)
+	var advance_cells: Array = source_playable_scenario_defaults.conveyor_cells()
+	advance_cells.reverse()
+	source_factory_advance_conveyors_state(game, advance_cells, delta)
 	game.set(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_TRANSPORT_PROGRESS_KEY, float(apply_state.get(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_TRANSPORT_PROGRESS_KEY, game.get(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_TRANSPORT_PROGRESS_KEY))))
 	var item_sprites_value = game.get(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_ITEM_SPRITES_KEY)
 	if not (item_sprites_value is Array):
@@ -391,3 +394,140 @@ static func source_factory_dump_drill_output_state(game: Object, drill_cell: Vec
 		"destination": str(result.get("destination", "none")),
 		"reason": str(result.get("reason", "")),
 	}
+
+
+static func _factory_conveyor_item_count(queue: Dictionary, item_id: String) -> int:
+	var count := 0
+	for queued_id in queue.get("ids", []):
+		if str(queued_id) == item_id:
+			count += 1
+	return count
+
+
+static func _factory_next_cell(cell: Vector2i, rotation: int) -> Vector2i:
+	# Tile.relativeTo: 0 east, 1 north (y - 1), 2 west, 3 south (y + 1).
+	match rotation:
+		0:
+			return Vector2i(cell.x + 1, cell.y)
+		1:
+			return Vector2i(cell.x, cell.y - 1)
+		2:
+			return Vector2i(cell.x - 1, cell.y)
+		_:
+			return Vector2i(cell.x, cell.y + 1)
+
+
+static func source_factory_advance_conveyors_state(game: Object, conveyor_cells: Array, delta: float) -> Dictionary:
+	var results_by_cell := {}
+	var passed_count := 0
+	if conveyor_cells.is_empty():
+		return {"results_by_cell": results_by_cell, "passed_count": passed_count, "reason": "no_conveyors"}
+	var queues := {}
+	var original_queues := {}
+	var rotations := {}
+	var speeds := {}
+	var teams := {}
+	for cell in conveyor_cells:
+		var sprite: Variant = game.call("block_sprite_at_cell", cell)
+		if sprite == null:
+			continue
+		var queue := source_conveyor_runtime_state.source_conveyor_queue_for_cell_state(game, cell)
+		if not bool(queue.get("found", false)):
+			continue
+		queues[cell] = {"ids": queue.get("ids", []), "xs": queue.get("xs", []), "ys": queue.get("ys", []), "len": int(queue.get("len", 0))}
+		original_queues[cell] = {"ids": queue.get("ids", []).duplicate(), "xs": queue.get("xs", []).duplicate(), "ys": queue.get("ys", []).duplicate(), "len": int(queue.get("len", 0))}
+		rotations[cell] = int(sprite.get_meta(source_block_geometry.SOURCE_BUILD_ROTATION_META_KEY, 0))
+		teams[cell] = int(sprite.get_meta(source_block_geometry.SOURCE_BUILD_TEAM_META_KEY, 1))
+		speeds[cell] = 0.03
+		var block_id := str(sprite.get_meta(source_placed_block_state.SOURCE_BLOCK_ID_META_KEY, ""))
+		if block_id != "":
+			var catalog = game.get("content_catalog")
+			if catalog != null:
+				var block = catalog.get_by_id(block_id)
+				if block != null:
+					speeds[cell] = float(block.properties.get("speed", 0.03))
+	# Advance front-to-back, so a belt hands off to a belt that already
+	# advanced this frame. The caller gives the cells in that order.
+	for cell in conveyor_cells:
+		if not queues.has(cell):
+			continue
+		var queue: Dictionary = queues[cell]
+		var rotation: int = rotations[cell]
+		var next_cell := _factory_next_cell(cell, rotation)
+		var next_sprite: Variant = game.call("block_sprite_at_cell", next_cell)
+		var next_is_conveyor := false
+		var next_is_core := false
+		var next_rotation := 0
+		var next_team := -1
+		if next_sprite != null:
+			var next_block_id := str(next_sprite.get_meta(source_placed_block_state.SOURCE_BLOCK_ID_META_KEY, ""))
+			next_rotation = int(next_sprite.get_meta(source_block_geometry.SOURCE_BUILD_ROTATION_META_KEY, 0))
+			next_team = int(next_sprite.get_meta(source_block_geometry.SOURCE_BUILD_TEAM_META_KEY, 1))
+			if next_block_id == source_playable_scenario_defaults.BLOCK_CONVEYOR:
+				next_is_conveyor = true
+			elif next_block_id == source_playable_scenario_defaults.BLOCK_CORE_SHARD:
+				next_is_core = true
+		var aligned := next_is_conveyor and next_rotation == rotation
+		var next_minitem := 1.0
+		if next_is_conveyor and queues.has(next_cell):
+			var next_queue: Dictionary = queues[next_cell]
+			next_minitem = float(source_conveyor_runtime_state.source_conveyor_queue_scan_state(next_queue.get("ys", []), []).get("minitem", 1.0))
+		var advance := source_conveyor_runtime_state.source_conveyor_advance_state(queue.get("ids", []), queue.get("xs", []), queue.get("ys", []), int(queue.get("len", 0)), float(speeds[cell]), delta, 1.0, aligned, next_minitem, 0, 0.0)
+		var cell_result := {
+			"ids_after": advance.get("ids_after", []),
+			"xs_after": advance.get("xs_after", []),
+			"ys_after": advance.get("ys_after", []),
+			"len_after": advance.get("len_after", 0),
+			"mid": advance.get("mid", 0),
+			"minitem": advance.get("minitem", 1.0),
+			"pass_ready": advance.get("pass_ready", false),
+			"pass_item_id": advance.get("pass_item_id"),
+			"passed": false,
+			"passed_to": "none",
+			"clog_heat": advance.get("clog_heat", 0.0),
+			"reason": advance.get("reason", "advanced"),
+		}
+		queues[cell] = {"ids": cell_result["ids_after"], "xs": cell_result["xs_after"], "ys": cell_result["ys_after"], "len": cell_result["len_after"]}
+		if bool(advance.get("pass_ready", false)):
+			var pass_item_id := str(advance.get("pass_item_id", ""))
+			var next_present := next_sprite != null
+			var next_same_team := next_present and next_team == int(teams[cell])
+			var accept_hook: Callable
+			var handle_hook: Callable
+			if next_is_conveyor:
+				# Conveyor.java:40: rotate = true for the conveyor block.
+				accept_hook = func(item_id):
+					var nq: Dictionary = queues.get(next_cell, {"ids": [], "xs": [], "ys": [], "len": 0})
+					var result := source_conveyor_runtime_state.source_conveyor_accept_for_cell_state(nq.get("ids", []), nq.get("xs", []), nq.get("ys", []), int(nq.get("len", 0)), 3, 0.4, cell, next_cell, int(rotations.get(next_cell, 0)), true, false)
+					return bool(result.get("accepted", false))
+				handle_hook = func(item_id):
+					var nq: Dictionary = queues.get(next_cell, {"ids": [], "xs": [], "ys": [], "len": 0})
+					var result := source_conveyor_runtime_state.source_conveyor_handle_for_cell_state(nq.get("ids", []), nq.get("xs", []), nq.get("ys", []), int(nq.get("len", 0)), 3, 0.4, cell, next_cell, int(rotations.get(next_cell, 0)), item_id, _factory_conveyor_item_count(nq, item_id))
+					if int(result.get("index", -1)) >= 0:
+						queues[next_cell] = {"ids": result.get("ids_after", []), "xs": result.get("xs_after", []), "ys": result.get("ys_after", []), "len": result.get("len_after", 0)}
+					return result
+			elif next_is_core:
+				accept_hook = Callable(game, "source_core_accept_item")
+				handle_hook = Callable(game, "source_core_handle_item")
+			else:
+				accept_hook = func(_item_id): return false
+				handle_hook = func(_item_id): return false
+			var pass_result := source_conveyor_runtime_state.source_conveyor_pass_state(pass_item_id, next_present, next_same_team, accept_hook, handle_hook)
+			if bool(pass_result.get("passed", false)):
+				var remove_result := source_conveyor_runtime_state.source_conveyor_queue_remove_state(cell_result["ids_after"], cell_result["xs_after"], cell_result["ys_after"], int(cell_result["len_after"]), int(cell_result["len_after"]) - 1)
+				cell_result["ids_after"] = remove_result.get("ids_after", cell_result["ids_after"])
+				cell_result["xs_after"] = remove_result.get("xs_after", cell_result["xs_after"])
+				cell_result["ys_after"] = remove_result.get("ys_after", cell_result["ys_after"])
+				cell_result["len_after"] = remove_result.get("len_after", cell_result["len_after"])
+				queues[cell] = {"ids": cell_result["ids_after"], "xs": cell_result["xs_after"], "ys": cell_result["ys_after"], "len": cell_result["len_after"]}
+				cell_result["passed"] = true
+				cell_result["passed_to"] = "next_belt" if next_is_conveyor else ("core" if next_is_core else "other")
+				passed_count += 1
+		results_by_cell[cell] = cell_result
+	# Only write back a queue that actually changed; an empty belt that
+	# stayed empty must not gain a stored queue meta (the N2068 lesson:
+	# the live loop ticks during every proof's setup frames).
+	for cell in queues.keys():
+		if queues[cell] != original_queues.get(cell, {}):
+			source_conveyor_runtime_state.source_conveyor_set_queue_for_cell_state(game, cell, queues[cell])
+	return {"results_by_cell": results_by_cell, "passed_count": passed_count, "reason": "advanced"}

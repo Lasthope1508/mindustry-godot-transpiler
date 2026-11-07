@@ -369,6 +369,64 @@
       ],
       "runtime_proof": "/root/ConveyorQueueStorageProof"
     },
+    "N2069": {
+      "canonical_ledger": "source_slice_ledger.N2069",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_method": "updateTile",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_advance_state",
+      "source_symbols": [
+        "source_conveyor_advance_state_input.ids",
+        "source_conveyor_advance_state_input.xs",
+        "source_conveyor_advance_state_input.ys",
+        "source_conveyor_advance_state_input.len",
+        "source_conveyor_advance_state_input.speed",
+        "source_conveyor_advance_state_input.delta",
+        "source_conveyor_advance_state_input.time_scale",
+        "source_conveyor_advance_state_input.aligned",
+        "source_conveyor_advance_state_input.next_minitem",
+        "source_conveyor_advance_state_input.blendbits",
+        "source_conveyor_advance_state_input.clog_heat_before",
+        "source_conveyor_advance_state_result.ids_after",
+        "source_conveyor_advance_state_result.xs_after",
+        "source_conveyor_advance_state_result.ys_after",
+        "source_conveyor_advance_state_result.len_after",
+        "source_conveyor_advance_state_result.mid",
+        "source_conveyor_advance_state_result.minitem",
+        "source_conveyor_advance_state_result.pass_ready",
+        "source_conveyor_advance_state_result.pass_item_id",
+        "source_conveyor_advance_state_result.clog_heat",
+        "source_conveyor_advance_state_result.no_sleep_called",
+        "source_conveyor_advance_state_result.reason"
+      ],
+      "tests": [
+        "test_conveyor_advance_binding_registration",
+        "test_all_conveyor_advance_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_advance"
+      ],
+      "runtime_proof": "/root/ConveyorAdvanceProof"
+    },
+    "N2070": {
+      "canonical_ledger": "source_slice_ledger.N2070",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_method": "updateTile",
+      "godot_owner": "SourceFactoryRuntimeState.source_factory_advance_conveyors_state",
+      "source_symbols": [
+        "source_factory_advance_conveyors_state_input.game",
+        "source_factory_advance_conveyors_state_input.conveyor_cells",
+        "source_factory_advance_conveyors_state_input.delta",
+        "source_factory_advance_conveyors_state_result.results_by_cell",
+        "source_factory_advance_conveyors_state_result.passed_count",
+        "source_factory_advance_conveyors_state_result.reason"
+      ],
+      "tests": [
+        "test_conveyor_advance_binding_registration",
+        "test_all_conveyor_advance_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_advance"
+      ],
+      "runtime_proof": "/root/ConveyorAdvanceProof"
+    },
     "N684": {
       "canonical_ledger": "source_slice_ledger.N684",
       "status": "done",

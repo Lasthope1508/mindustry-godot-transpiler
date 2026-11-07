@@ -811,6 +811,314 @@
       ],
       "runtime_proof": "/root/ConveyorStackProof"
     },
+    "source_conveyor_advance_state_input.aligned": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_advance_state_input.aligned",
+      "status": "source-backed",
+      "java_expr": "float nextMax = aligned ? 1f - Math.max(itemSpace - nextc.minitem, 0) : 1f;",
+      "godot_symbol": "source_conveyor_advance_state_input.aligned",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_advance_state",
+      "rule": "Whether the next building is a conveyor with the same rotation.",
+      "tests": [
+        "test_conveyor_advance_binding_registration",
+        "test_all_conveyor_advance_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_advance"
+      ],
+      "runtime_proof": "/root/ConveyorAdvanceProof"
+    },
+    "source_conveyor_advance_state_input.blendbits": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_advance_state_input.blendbits",
+      "status": "source-backed",
+      "java_expr": "if(minitem < itemSpace + (blendbits == 1 ? 0.3f : 0f)){",
+      "godot_symbol": "source_conveyor_advance_state_input.blendbits",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_advance_state",
+      "rule": "Blend bits for the clog threshold (1 adds 0.3).",
+      "tests": [
+        "test_conveyor_advance_binding_registration",
+        "test_all_conveyor_advance_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_advance"
+      ],
+      "runtime_proof": "/root/ConveyorAdvanceProof"
+    },
+    "source_conveyor_advance_state_input.clog_heat_before": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_advance_state_input.clog_heat_before",
+      "status": "source-backed",
+      "java_expr": "if(minitem < itemSpace + (blendbits == 1 ? 0.3f : 0f)){",
+      "godot_symbol": "source_conveyor_advance_state_input.clog_heat_before",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_advance_state",
+      "rule": "Clog heat before this frame.",
+      "tests": [
+        "test_conveyor_advance_binding_registration",
+        "test_all_conveyor_advance_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_advance"
+      ],
+      "runtime_proof": "/root/ConveyorAdvanceProof"
+    },
+    "source_conveyor_advance_state_input.delta": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_advance_state_input.delta",
+      "status": "source-backed",
+      "java_expr": "float moved = speed * edelta();",
+      "godot_symbol": "source_conveyor_advance_state_input.delta",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_advance_state",
+      "rule": "Effective frame delta (edelta).",
+      "tests": [
+        "test_conveyor_advance_binding_registration",
+        "test_all_conveyor_advance_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_advance"
+      ],
+      "runtime_proof": "/root/ConveyorAdvanceProof"
+    },
+    "source_conveyor_advance_state_input.ids": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_advance_state_input.ids",
+      "status": "source-backed",
+      "java_expr": "float nextpos = (i == len - 1 ? 100f : ys[i + 1]) - itemSpace;",
+      "godot_symbol": "source_conveyor_advance_state_input.ids",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_advance_state",
+      "rule": "Item ids on the belt, index 0 is the newest.",
+      "tests": [
+        "test_conveyor_advance_binding_registration",
+        "test_all_conveyor_advance_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_advance"
+      ],
+      "runtime_proof": "/root/ConveyorAdvanceProof"
+    },
+    "source_conveyor_advance_state_input.len": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_advance_state_input.len",
+      "status": "source-backed",
+      "java_expr": "if(len == 0 && Mathf.equal(timeScale, 1f)){",
+      "godot_symbol": "source_conveyor_advance_state_input.len",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_advance_state",
+      "rule": "Number of items on the belt.",
+      "tests": [
+        "test_conveyor_advance_binding_registration",
+        "test_all_conveyor_advance_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_advance"
+      ],
+      "runtime_proof": "/root/ConveyorAdvanceProof"
+    },
+    "source_conveyor_advance_state_input.next_minitem": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_advance_state_input.next_minitem",
+      "status": "source-backed",
+      "java_expr": "float nextMax = aligned ? 1f - Math.max(itemSpace - nextc.minitem, 0) : 1f;",
+      "godot_symbol": "source_conveyor_advance_state_input.next_minitem",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_advance_state",
+      "rule": "The next conveyor minitem, used for the exit cap when aligned.",
+      "tests": [
+        "test_conveyor_advance_binding_registration",
+        "test_all_conveyor_advance_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_advance"
+      ],
+      "runtime_proof": "/root/ConveyorAdvanceProof"
+    },
+    "source_conveyor_advance_state_input.speed": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_advance_state_input.speed",
+      "status": "source-backed",
+      "java_expr": "float moved = speed * edelta();",
+      "godot_symbol": "source_conveyor_advance_state_input.speed",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_advance_state",
+      "rule": "Belt speed in tile units per second (0.03 for the base conveyor).",
+      "tests": [
+        "test_conveyor_advance_binding_registration",
+        "test_all_conveyor_advance_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_advance"
+      ],
+      "runtime_proof": "/root/ConveyorAdvanceProof"
+    },
+    "source_conveyor_advance_state_input.time_scale": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_advance_state_input.time_scale",
+      "status": "source-backed",
+      "java_expr": "if(len == 0 && Mathf.equal(timeScale, 1f)){",
+      "godot_symbol": "source_conveyor_advance_state_input.time_scale",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_advance_state",
+      "rule": "Block time scale; an empty belt sleeps when it is 1.",
+      "tests": [
+        "test_conveyor_advance_binding_registration",
+        "test_all_conveyor_advance_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_advance"
+      ],
+      "runtime_proof": "/root/ConveyorAdvanceProof"
+    },
+    "source_conveyor_advance_state_input.xs": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_advance_state_input.xs",
+      "status": "source-backed",
+      "java_expr": "xs[i] = Mathf.approach(xs[i], 0, moved*2);",
+      "godot_symbol": "source_conveyor_advance_state_input.xs",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_advance_state",
+      "rule": "Item x offsets on the belt.",
+      "tests": [
+        "test_conveyor_advance_binding_registration",
+        "test_all_conveyor_advance_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_advance"
+      ],
+      "runtime_proof": "/root/ConveyorAdvanceProof"
+    },
+    "source_conveyor_advance_state_input.ys": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_advance_state_input.ys",
+      "status": "source-backed",
+      "java_expr": "float maxmove = Mathf.clamp(nextpos - ys[i], 0, moved);",
+      "godot_symbol": "source_conveyor_advance_state_input.ys",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_advance_state",
+      "rule": "Item y progress on the belt, 0 at the entrance, 1 at the exit.",
+      "tests": [
+        "test_conveyor_advance_binding_registration",
+        "test_all_conveyor_advance_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_advance"
+      ],
+      "runtime_proof": "/root/ConveyorAdvanceProof"
+    },
+    "source_conveyor_advance_state_result.clog_heat": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_advance_state_result.clog_heat",
+      "status": "source-backed",
+      "java_expr": "if(minitem < itemSpace + (blendbits == 1 ? 0.3f : 0f)){",
+      "godot_symbol": "source_conveyor_advance_state_result.clog_heat",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_advance_state",
+      "rule": "Clog heat after the frame.",
+      "tests": [
+        "test_conveyor_advance_binding_registration",
+        "test_all_conveyor_advance_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_advance"
+      ],
+      "runtime_proof": "/root/ConveyorAdvanceProof"
+    },
+    "source_conveyor_advance_state_result.ids_after": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_advance_state_result.ids_after",
+      "status": "source-backed",
+      "java_expr": "items.remove(ids[i], len - i);",
+      "godot_symbol": "source_conveyor_advance_state_result.ids_after",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_advance_state",
+      "rule": "Item ids after the frame.",
+      "tests": [
+        "test_conveyor_advance_binding_registration",
+        "test_all_conveyor_advance_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_advance"
+      ],
+      "runtime_proof": "/root/ConveyorAdvanceProof"
+    },
+    "source_conveyor_advance_state_result.len_after": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_advance_state_result.len_after",
+      "status": "source-backed",
+      "java_expr": "items.remove(ids[i], len - i);",
+      "godot_symbol": "source_conveyor_advance_state_result.len_after",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_advance_state",
+      "rule": "Number of items after the frame.",
+      "tests": [
+        "test_conveyor_advance_binding_registration",
+        "test_all_conveyor_advance_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_advance"
+      ],
+      "runtime_proof": "/root/ConveyorAdvanceProof"
+    },
+    "source_conveyor_advance_state_result.mid": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_advance_state_result.mid",
+      "status": "source-backed",
+      "java_expr": "if(ys[i] > 0.5 && i > 0) mid = i - 1;",
+      "godot_symbol": "source_conveyor_advance_state_result.mid",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_advance_state",
+      "rule": "Mid index from the scan.",
+      "tests": [
+        "test_conveyor_advance_binding_registration",
+        "test_all_conveyor_advance_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_advance"
+      ],
+      "runtime_proof": "/root/ConveyorAdvanceProof"
+    },
+    "source_conveyor_advance_state_result.minitem": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_advance_state_result.minitem",
+      "status": "source-backed",
+      "java_expr": "minitem = 1f;",
+      "godot_symbol": "source_conveyor_advance_state_result.minitem",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_advance_state",
+      "rule": "Smallest y among the items after the frame.",
+      "tests": [
+        "test_conveyor_advance_binding_registration",
+        "test_all_conveyor_advance_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_advance"
+      ],
+      "runtime_proof": "/root/ConveyorAdvanceProof"
+    },
+    "source_conveyor_advance_state_result.no_sleep_called": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_advance_state_result.no_sleep_called",
+      "status": "source-backed",
+      "java_expr": "noSleep();",
+      "godot_symbol": "source_conveyor_advance_state_result.no_sleep_called",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_advance_state",
+      "rule": "Whether noSleep ran (the belt stayed awake this frame).",
+      "tests": [
+        "test_conveyor_advance_binding_registration",
+        "test_all_conveyor_advance_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_advance"
+      ],
+      "runtime_proof": "/root/ConveyorAdvanceProof"
+    },
+    "source_conveyor_advance_state_result.pass_item_id": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_advance_state_result.pass_item_id",
+      "status": "source-backed",
+      "java_expr": "if(ys[i] >= 1f && pass(ids[i])){",
+      "godot_symbol": "source_conveyor_advance_state_result.pass_item_id",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_advance_state",
+      "rule": "The front item id when ready to pass, or null.",
+      "tests": [
+        "test_conveyor_advance_binding_registration",
+        "test_all_conveyor_advance_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_advance"
+      ],
+      "runtime_proof": "/root/ConveyorAdvanceProof"
+    },
+    "source_conveyor_advance_state_result.pass_ready": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_advance_state_result.pass_ready",
+      "status": "source-backed",
+      "java_expr": "if(ys[i] >= 1f && pass(ids[i])){",
+      "godot_symbol": "source_conveyor_advance_state_result.pass_ready",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_advance_state",
+      "rule": "Whether the front item reached the exit and is ready to pass.",
+      "tests": [
+        "test_conveyor_advance_binding_registration",
+        "test_all_conveyor_advance_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_advance"
+      ],
+      "runtime_proof": "/root/ConveyorAdvanceProof"
+    },
+    "source_conveyor_advance_state_result.reason": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_advance_state_result.reason",
+      "status": "source-backed",
+      "java_expr": "if(len == 0 && Mathf.equal(timeScale, 1f)){",
+      "godot_symbol": "source_conveyor_advance_state_result.reason",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_advance_state",
+      "rule": "Advance outcome: advanced, empty_sleep.",
+      "tests": [
+        "test_conveyor_advance_binding_registration",
+        "test_all_conveyor_advance_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_advance"
+      ],
+      "runtime_proof": "/root/ConveyorAdvanceProof"
+    },
+    "source_conveyor_advance_state_result.xs_after": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_advance_state_result.xs_after",
+      "status": "source-backed",
+      "java_expr": "xs[i] = Mathf.approach(xs[i], 0, moved*2);",
+      "godot_symbol": "source_conveyor_advance_state_result.xs_after",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_advance_state",
+      "rule": "Item x offsets after the frame.",
+      "tests": [
+        "test_conveyor_advance_binding_registration",
+        "test_all_conveyor_advance_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_advance"
+      ],
+      "runtime_proof": "/root/ConveyorAdvanceProof"
+    },
+    "source_conveyor_advance_state_result.ys_after": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_advance_state_result.ys_after",
+      "status": "source-backed",
+      "java_expr": "float maxmove = Mathf.clamp(nextpos - ys[i], 0, moved);",
+      "godot_symbol": "source_conveyor_advance_state_result.ys_after",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_advance_state",
+      "rule": "Item y progress after the frame.",
+      "tests": [
+        "test_conveyor_advance_binding_registration",
+        "test_all_conveyor_advance_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_advance"
+      ],
+      "runtime_proof": "/root/ConveyorAdvanceProof"
+    },
     "source_conveyor_handle_for_cell_state_input.capacity": {
       "canonical_symbol": "source_symbol_registry.source_conveyor_handle_for_cell_state_input.capacity",
       "status": "source-backed",
@@ -2560,6 +2868,90 @@
         "test_reference_graph_and_actual_conveyor_queue_storage"
       ],
       "runtime_proof": "/root/ConveyorQueueStorageProof"
+    },
+    "source_factory_advance_conveyors_state_input.conveyor_cells": {
+      "canonical_symbol": "source_symbol_registry.source_factory_advance_conveyors_state_input.conveyor_cells",
+      "status": "source-backed",
+      "java_expr": "float moved = speed * edelta();",
+      "godot_symbol": "source_factory_advance_conveyors_state_input.conveyor_cells",
+      "godot_owner": "SourceFactoryRuntimeState.source_factory_advance_conveyors_state",
+      "rule": "Conveyor cells front-to-back (closest to the core first).",
+      "tests": [
+        "test_conveyor_advance_binding_registration",
+        "test_all_conveyor_advance_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_advance"
+      ],
+      "runtime_proof": "/root/ConveyorAdvanceProof"
+    },
+    "source_factory_advance_conveyors_state_input.delta": {
+      "canonical_symbol": "source_symbol_registry.source_factory_advance_conveyors_state_input.delta",
+      "status": "source-backed",
+      "java_expr": "float moved = speed * edelta();",
+      "godot_symbol": "source_factory_advance_conveyors_state_input.delta",
+      "godot_owner": "SourceFactoryRuntimeState.source_factory_advance_conveyors_state",
+      "rule": "Effective frame delta.",
+      "tests": [
+        "test_conveyor_advance_binding_registration",
+        "test_all_conveyor_advance_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_advance"
+      ],
+      "runtime_proof": "/root/ConveyorAdvanceProof"
+    },
+    "source_factory_advance_conveyors_state_input.game": {
+      "canonical_symbol": "source_symbol_registry.source_factory_advance_conveyors_state_input.game",
+      "status": "source-backed",
+      "java_expr": "if(item != null && next != null && next.team == team && next.acceptItem(this, item)){",
+      "godot_symbol": "source_factory_advance_conveyors_state_input.game",
+      "godot_owner": "SourceFactoryRuntimeState.source_factory_advance_conveyors_state",
+      "rule": "Actual game world containing the conveyor line and the core.",
+      "tests": [
+        "test_conveyor_advance_binding_registration",
+        "test_all_conveyor_advance_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_advance"
+      ],
+      "runtime_proof": "/root/ConveyorAdvanceProof"
+    },
+    "source_factory_advance_conveyors_state_result.passed_count": {
+      "canonical_symbol": "source_symbol_registry.source_factory_advance_conveyors_state_result.passed_count",
+      "status": "source-backed",
+      "java_expr": "next.handleItem(this, item);",
+      "godot_symbol": "source_factory_advance_conveyors_state_result.passed_count",
+      "godot_owner": "SourceFactoryRuntimeState.source_factory_advance_conveyors_state",
+      "rule": "Items passed to the next belt or the core this frame.",
+      "tests": [
+        "test_conveyor_advance_binding_registration",
+        "test_all_conveyor_advance_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_advance"
+      ],
+      "runtime_proof": "/root/ConveyorAdvanceProof"
+    },
+    "source_factory_advance_conveyors_state_result.reason": {
+      "canonical_symbol": "source_symbol_registry.source_factory_advance_conveyors_state_result.reason",
+      "status": "source-backed",
+      "java_expr": "return state.rules.coreIncinerates || items.get(item) < getMaximumAccepted(item);",
+      "godot_symbol": "source_factory_advance_conveyors_state_result.reason",
+      "godot_owner": "SourceFactoryRuntimeState.source_factory_advance_conveyors_state",
+      "rule": "Advance outcome: advanced, no_conveyors, no_sprite.",
+      "tests": [
+        "test_conveyor_advance_binding_registration",
+        "test_all_conveyor_advance_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_advance"
+      ],
+      "runtime_proof": "/root/ConveyorAdvanceProof"
+    },
+    "source_factory_advance_conveyors_state_result.results_by_cell": {
+      "canonical_symbol": "source_symbol_registry.source_factory_advance_conveyors_state_result.results_by_cell",
+      "status": "source-backed",
+      "java_expr": "next.handleItem(this, item);",
+      "godot_symbol": "source_factory_advance_conveyors_state_result.results_by_cell",
+      "godot_owner": "SourceFactoryRuntimeState.source_factory_advance_conveyors_state",
+      "rule": "Per-cell advance results, keyed by conveyor cell.",
+      "tests": [
+        "test_conveyor_advance_binding_registration",
+        "test_all_conveyor_advance_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_advance"
+      ],
+      "runtime_proof": "/root/ConveyorAdvanceProof"
     }
   }
 }

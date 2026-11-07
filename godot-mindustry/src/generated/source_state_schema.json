@@ -218548,6 +218548,322 @@
       },
       "runtime_proof": "/root/FactoryDumpSwapProof",
       "rule": "Source-backed live-loop drill dump."
+    },
+    "source_conveyor_advance_state_input": {
+      "status": "active",
+      "owner": "SourceConveyorRuntimeState.source_conveyor_advance_state",
+      "source_slice": "N2069",
+      "keys": {
+        "ids": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "float nextpos = (i == len - 1 ? 100f : ys[i + 1]) - itemSpace;",
+          "rule": "Item ids on the belt, index 0 is the newest.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_advance_state"
+          ]
+        },
+        "xs": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "xs[i] = Mathf.approach(xs[i], 0, moved*2);",
+          "rule": "Item x offsets on the belt.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_advance_state"
+          ]
+        },
+        "ys": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "float maxmove = Mathf.clamp(nextpos - ys[i], 0, moved);",
+          "rule": "Item y progress on the belt, 0 at the entrance, 1 at the exit.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_advance_state"
+          ]
+        },
+        "len": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "if(len == 0 && Mathf.equal(timeScale, 1f)){",
+          "rule": "Number of items on the belt.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_advance_state"
+          ]
+        },
+        "speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "float moved = speed * edelta();",
+          "rule": "Belt speed in tile units per second (0.03 for the base conveyor).",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_advance_state"
+          ]
+        },
+        "delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "float moved = speed * edelta();",
+          "rule": "Effective frame delta (edelta).",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_advance_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "if(len == 0 && Mathf.equal(timeScale, 1f)){",
+          "rule": "Block time scale; an empty belt sleeps when it is 1.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_advance_state"
+          ]
+        },
+        "aligned": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "float nextMax = aligned ? 1f - Math.max(itemSpace - nextc.minitem, 0) : 1f;",
+          "rule": "Whether the next building is a conveyor with the same rotation.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_advance_state"
+          ]
+        },
+        "next_minitem": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "float nextMax = aligned ? 1f - Math.max(itemSpace - nextc.minitem, 0) : 1f;",
+          "rule": "The next conveyor minitem, used for the exit cap when aligned.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_advance_state"
+          ]
+        },
+        "blendbits": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "if(minitem < itemSpace + (blendbits == 1 ? 0.3f : 0f)){",
+          "rule": "Blend bits for the clog threshold (1 adds 0.3).",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_advance_state"
+          ]
+        },
+        "clog_heat_before": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "if(minitem < itemSpace + (blendbits == 1 ? 0.3f : 0f)){",
+          "rule": "Clog heat before this frame.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/ConveyorAdvanceProof",
+      "rule": "Source-backed conveyor belt advance."
+    },
+    "source_conveyor_advance_state_result": {
+      "status": "active",
+      "owner": "SourceConveyorRuntimeState.source_conveyor_advance_state",
+      "source_slice": "N2069",
+      "keys": {
+        "ids_after": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "items.remove(ids[i], len - i);",
+          "rule": "Item ids after the frame.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_advance_state"
+          ]
+        },
+        "xs_after": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "xs[i] = Mathf.approach(xs[i], 0, moved*2);",
+          "rule": "Item x offsets after the frame.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_advance_state"
+          ]
+        },
+        "ys_after": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "float maxmove = Mathf.clamp(nextpos - ys[i], 0, moved);",
+          "rule": "Item y progress after the frame.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_advance_state"
+          ]
+        },
+        "len_after": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "items.remove(ids[i], len - i);",
+          "rule": "Number of items after the frame.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_advance_state"
+          ]
+        },
+        "mid": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "if(ys[i] > 0.5 && i > 0) mid = i - 1;",
+          "rule": "Mid index from the scan.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_advance_state"
+          ]
+        },
+        "minitem": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "minitem = 1f;",
+          "rule": "Smallest y among the items after the frame.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_advance_state"
+          ]
+        },
+        "pass_ready": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "if(ys[i] >= 1f && pass(ids[i])){",
+          "rule": "Whether the front item reached the exit and is ready to pass.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_advance_state"
+          ]
+        },
+        "pass_item_id": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "if(ys[i] >= 1f && pass(ids[i])){",
+          "rule": "The front item id when ready to pass, or null.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_advance_state"
+          ]
+        },
+        "clog_heat": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "if(minitem < itemSpace + (blendbits == 1 ? 0.3f : 0f)){",
+          "rule": "Clog heat after the frame.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_advance_state"
+          ]
+        },
+        "no_sleep_called": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "noSleep();",
+          "rule": "Whether noSleep ran (the belt stayed awake this frame).",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_advance_state"
+          ]
+        },
+        "reason": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "if(len == 0 && Mathf.equal(timeScale, 1f)){",
+          "rule": "Advance outcome: advanced, empty_sleep.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/ConveyorAdvanceProof",
+      "rule": "Source-backed conveyor belt advance."
+    },
+    "source_factory_advance_conveyors_state_input": {
+      "status": "active",
+      "owner": "SourceFactoryRuntimeState.source_factory_advance_conveyors_state",
+      "source_slice": "N2070",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "if(item != null && next != null && next.team == team && next.acceptItem(this, item)){",
+          "rule": "Actual game world containing the conveyor line and the core.",
+          "used_by": [
+            "SourceFactoryRuntimeState.source_factory_advance_conveyors_state"
+          ]
+        },
+        "conveyor_cells": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "float moved = speed * edelta();",
+          "rule": "Conveyor cells front-to-back (closest to the core first).",
+          "used_by": [
+            "SourceFactoryRuntimeState.source_factory_advance_conveyors_state"
+          ]
+        },
+        "delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "float moved = speed * edelta();",
+          "rule": "Effective frame delta.",
+          "used_by": [
+            "SourceFactoryRuntimeState.source_factory_advance_conveyors_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/ConveyorAdvanceProof",
+      "rule": "Source-backed conveyor belt advance."
+    },
+    "source_factory_advance_conveyors_state_result": {
+      "status": "active",
+      "owner": "SourceFactoryRuntimeState.source_factory_advance_conveyors_state",
+      "source_slice": "N2070",
+      "keys": {
+        "results_by_cell": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "next.handleItem(this, item);",
+          "rule": "Per-cell advance results, keyed by conveyor cell.",
+          "used_by": [
+            "SourceFactoryRuntimeState.source_factory_advance_conveyors_state"
+          ]
+        },
+        "passed_count": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "next.handleItem(this, item);",
+          "rule": "Items passed to the next belt or the core this frame.",
+          "used_by": [
+            "SourceFactoryRuntimeState.source_factory_advance_conveyors_state"
+          ]
+        },
+        "reason": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/storage/CoreBlock.java",
+          "java_expr": "return state.rules.coreIncinerates || items.get(item) < getMaximumAccepted(item);",
+          "rule": "Advance outcome: advanced, no_conveyors, no_sprite.",
+          "used_by": [
+            "SourceFactoryRuntimeState.source_factory_advance_conveyors_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/ConveyorAdvanceProof",
+      "rule": "Source-backed conveyor belt advance."
     }
   },
   "version": 1
