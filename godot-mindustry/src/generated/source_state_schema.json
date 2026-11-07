@@ -218156,6 +218156,240 @@
       },
       "runtime_proof": "/root/DrillDumpStepProof",
       "rule": "Source-backed drill dump step and proximity ring."
+    },
+    "source_conveyor_queue_for_cell_state_input": {
+      "status": "active",
+      "owner": "SourceConveyorRuntimeState.source_conveyor_queue_for_cell_state",
+      "source_slice": "N2065",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "public Item[] ids = new Item[capacity];",
+          "rule": "Actual game world containing the conveyor buildings whose queues are stored on their sprites.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_queue_for_cell_state"
+          ]
+        },
+        "cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "public int len = 0;",
+          "rule": "Cell of the conveyor whose queue is read.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_queue_for_cell_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/ConveyorQueueStorageProof",
+      "rule": "Source-backed conveyor queue storage."
+    },
+    "source_conveyor_queue_for_cell_state_result": {
+      "status": "active",
+      "owner": "SourceConveyorRuntimeState.source_conveyor_queue_for_cell_state",
+      "source_slice": "N2065",
+      "keys": {
+        "ids": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "public Item[] ids = new Item[capacity];",
+          "rule": "Item ids on the belt, in queue order.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_queue_for_cell_state"
+          ]
+        },
+        "xs": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "public float[] xs = new float[capacity], ys = new float[capacity];",
+          "rule": "X offsets of the items on the belt.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_queue_for_cell_state"
+          ]
+        },
+        "ys": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "public float[] xs = new float[capacity], ys = new float[capacity];",
+          "rule": "Y offsets of the items on the belt.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_queue_for_cell_state"
+          ]
+        },
+        "len": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "public int len = 0;",
+          "rule": "Number of items on the belt.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_queue_for_cell_state"
+          ]
+        },
+        "found": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "public Item[] ids = new Item[capacity];",
+          "rule": "Whether a conveyor sprite exists at the cell.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_queue_for_cell_state"
+          ]
+        },
+        "reason": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "public Item[] ids = new Item[capacity];",
+          "rule": "Queue outcome: queue, no_queue, no_sprite.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_queue_for_cell_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/ConveyorQueueStorageProof",
+      "rule": "Source-backed conveyor queue storage."
+    },
+    "source_conveyor_set_queue_for_cell_state_input": {
+      "status": "active",
+      "owner": "SourceConveyorRuntimeState.source_conveyor_set_queue_for_cell_state",
+      "source_slice": "N2066",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "public Item[] ids = new Item[capacity];",
+          "rule": "Actual game world containing the conveyor buildings whose queues are stored on their sprites.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_set_queue_for_cell_state"
+          ]
+        },
+        "cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "public int len = 0;",
+          "rule": "Cell of the conveyor whose queue is written.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_set_queue_for_cell_state"
+          ]
+        },
+        "queue": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "public Item[] ids = new Item[capacity];",
+          "rule": "Queue to store: ids, xs, ys, len.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_set_queue_for_cell_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/ConveyorQueueStorageProof",
+      "rule": "Source-backed conveyor queue storage."
+    },
+    "source_conveyor_set_queue_for_cell_state_result": {
+      "status": "active",
+      "owner": "SourceConveyorRuntimeState.source_conveyor_set_queue_for_cell_state",
+      "source_slice": "N2066",
+      "keys": {
+        "stored": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "public Item[] ids = new Item[capacity];",
+          "rule": "Whether the queue was stored on the conveyor sprite.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_set_queue_for_cell_state"
+          ]
+        },
+        "reason": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "public Item[] ids = new Item[capacity];",
+          "rule": "Store outcome: stored, no_sprite.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_set_queue_for_cell_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/ConveyorQueueStorageProof",
+      "rule": "Source-backed conveyor queue storage."
+    },
+    "source_conveyor_queues_for_cells_state_input": {
+      "status": "active",
+      "owner": "SourceConveyorRuntimeState.source_conveyor_queues_for_cells_state",
+      "source_slice": "N2067",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "public Item[] ids = new Item[capacity];",
+          "rule": "Actual game world containing the conveyor buildings whose queues are resolved.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_queues_for_cells_state"
+          ]
+        },
+        "cells": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "public Item[] ids = new Item[capacity];",
+          "rule": "Cells whose conveyor queues are resolved.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_queues_for_cells_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/ConveyorQueueStorageProof",
+      "rule": "Source-backed conveyor queue storage."
+    },
+    "source_conveyor_queues_for_cells_state_result": {
+      "status": "active",
+      "owner": "SourceConveyorRuntimeState.source_conveyor_queues_for_cells_state",
+      "source_slice": "N2067",
+      "keys": {
+        "queues_by_cell": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "public Item[] ids = new Item[capacity];",
+          "rule": "Conveyor queues keyed by cell, only for cells with a conveyor sprite.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_queues_for_cells_state"
+          ]
+        },
+        "found_count": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "public int len = 0;",
+          "rule": "Number of cells with a conveyor sprite.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_queues_for_cells_state"
+          ]
+        },
+        "reason": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "public Item[] ids = new Item[capacity];",
+          "rule": "Resolve outcome: resolved, none_found.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_queues_for_cells_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/ConveyorQueueStorageProof",
+      "rule": "Source-backed conveyor queue storage."
     }
   },
   "version": 1

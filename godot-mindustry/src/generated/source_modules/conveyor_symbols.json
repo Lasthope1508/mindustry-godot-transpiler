@@ -1875,6 +1875,118 @@
       ],
       "runtime_proof": "/root/ConveyorQueueProof"
     },
+    "source_conveyor_queue_for_cell_state_input.cell": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_queue_for_cell_state_input.cell",
+      "status": "source-backed",
+      "java_expr": "public int len = 0;",
+      "godot_symbol": "source_conveyor_queue_for_cell_state_input.cell",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_queue_for_cell_state",
+      "rule": "Cell of the conveyor whose queue is read.",
+      "tests": [
+        "test_conveyor_queue_storage_binding_registration",
+        "test_all_conveyor_queue_storage_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_queue_storage"
+      ],
+      "runtime_proof": "/root/ConveyorQueueStorageProof"
+    },
+    "source_conveyor_queue_for_cell_state_input.game": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_queue_for_cell_state_input.game",
+      "status": "source-backed",
+      "java_expr": "public Item[] ids = new Item[capacity];",
+      "godot_symbol": "source_conveyor_queue_for_cell_state_input.game",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_queue_for_cell_state",
+      "rule": "Actual game world containing the conveyor buildings whose queues are stored on their sprites.",
+      "tests": [
+        "test_conveyor_queue_storage_binding_registration",
+        "test_all_conveyor_queue_storage_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_queue_storage"
+      ],
+      "runtime_proof": "/root/ConveyorQueueStorageProof"
+    },
+    "source_conveyor_queue_for_cell_state_result.found": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_queue_for_cell_state_result.found",
+      "status": "source-backed",
+      "java_expr": "public Item[] ids = new Item[capacity];",
+      "godot_symbol": "source_conveyor_queue_for_cell_state_result.found",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_queue_for_cell_state",
+      "rule": "Whether a conveyor sprite exists at the cell.",
+      "tests": [
+        "test_conveyor_queue_storage_binding_registration",
+        "test_all_conveyor_queue_storage_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_queue_storage"
+      ],
+      "runtime_proof": "/root/ConveyorQueueStorageProof"
+    },
+    "source_conveyor_queue_for_cell_state_result.ids": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_queue_for_cell_state_result.ids",
+      "status": "source-backed",
+      "java_expr": "public Item[] ids = new Item[capacity];",
+      "godot_symbol": "source_conveyor_queue_for_cell_state_result.ids",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_queue_for_cell_state",
+      "rule": "Item ids on the belt, in queue order.",
+      "tests": [
+        "test_conveyor_queue_storage_binding_registration",
+        "test_all_conveyor_queue_storage_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_queue_storage"
+      ],
+      "runtime_proof": "/root/ConveyorQueueStorageProof"
+    },
+    "source_conveyor_queue_for_cell_state_result.len": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_queue_for_cell_state_result.len",
+      "status": "source-backed",
+      "java_expr": "public int len = 0;",
+      "godot_symbol": "source_conveyor_queue_for_cell_state_result.len",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_queue_for_cell_state",
+      "rule": "Number of items on the belt.",
+      "tests": [
+        "test_conveyor_queue_storage_binding_registration",
+        "test_all_conveyor_queue_storage_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_queue_storage"
+      ],
+      "runtime_proof": "/root/ConveyorQueueStorageProof"
+    },
+    "source_conveyor_queue_for_cell_state_result.reason": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_queue_for_cell_state_result.reason",
+      "status": "source-backed",
+      "java_expr": "public Item[] ids = new Item[capacity];",
+      "godot_symbol": "source_conveyor_queue_for_cell_state_result.reason",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_queue_for_cell_state",
+      "rule": "Queue outcome: queue, no_queue, no_sprite.",
+      "tests": [
+        "test_conveyor_queue_storage_binding_registration",
+        "test_all_conveyor_queue_storage_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_queue_storage"
+      ],
+      "runtime_proof": "/root/ConveyorQueueStorageProof"
+    },
+    "source_conveyor_queue_for_cell_state_result.xs": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_queue_for_cell_state_result.xs",
+      "status": "source-backed",
+      "java_expr": "public float[] xs = new float[capacity], ys = new float[capacity];",
+      "godot_symbol": "source_conveyor_queue_for_cell_state_result.xs",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_queue_for_cell_state",
+      "rule": "X offsets of the items on the belt.",
+      "tests": [
+        "test_conveyor_queue_storage_binding_registration",
+        "test_all_conveyor_queue_storage_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_queue_storage"
+      ],
+      "runtime_proof": "/root/ConveyorQueueStorageProof"
+    },
+    "source_conveyor_queue_for_cell_state_result.ys": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_queue_for_cell_state_result.ys",
+      "status": "source-backed",
+      "java_expr": "public float[] xs = new float[capacity], ys = new float[capacity];",
+      "godot_symbol": "source_conveyor_queue_for_cell_state_result.ys",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_queue_for_cell_state",
+      "rule": "Y offsets of the items on the belt.",
+      "tests": [
+        "test_conveyor_queue_storage_binding_registration",
+        "test_all_conveyor_queue_storage_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_queue_storage"
+      ],
+      "runtime_proof": "/root/ConveyorQueueStorageProof"
+    },
     "source_conveyor_queue_remove_state_input.ids": {
       "canonical_symbol": "source_symbol_registry.source_conveyor_queue_remove_state_input.ids",
       "status": "source-backed",
@@ -2099,6 +2211,76 @@
       ],
       "runtime_proof": "/root/ConveyorQueueProof"
     },
+    "source_conveyor_queues_for_cells_state_input.cells": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_queues_for_cells_state_input.cells",
+      "status": "source-backed",
+      "java_expr": "public Item[] ids = new Item[capacity];",
+      "godot_symbol": "source_conveyor_queues_for_cells_state_input.cells",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_queues_for_cells_state",
+      "rule": "Cells whose conveyor queues are resolved.",
+      "tests": [
+        "test_conveyor_queue_storage_binding_registration",
+        "test_all_conveyor_queue_storage_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_queue_storage"
+      ],
+      "runtime_proof": "/root/ConveyorQueueStorageProof"
+    },
+    "source_conveyor_queues_for_cells_state_input.game": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_queues_for_cells_state_input.game",
+      "status": "source-backed",
+      "java_expr": "public Item[] ids = new Item[capacity];",
+      "godot_symbol": "source_conveyor_queues_for_cells_state_input.game",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_queues_for_cells_state",
+      "rule": "Actual game world containing the conveyor buildings whose queues are resolved.",
+      "tests": [
+        "test_conveyor_queue_storage_binding_registration",
+        "test_all_conveyor_queue_storage_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_queue_storage"
+      ],
+      "runtime_proof": "/root/ConveyorQueueStorageProof"
+    },
+    "source_conveyor_queues_for_cells_state_result.found_count": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_queues_for_cells_state_result.found_count",
+      "status": "source-backed",
+      "java_expr": "public int len = 0;",
+      "godot_symbol": "source_conveyor_queues_for_cells_state_result.found_count",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_queues_for_cells_state",
+      "rule": "Number of cells with a conveyor sprite.",
+      "tests": [
+        "test_conveyor_queue_storage_binding_registration",
+        "test_all_conveyor_queue_storage_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_queue_storage"
+      ],
+      "runtime_proof": "/root/ConveyorQueueStorageProof"
+    },
+    "source_conveyor_queues_for_cells_state_result.queues_by_cell": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_queues_for_cells_state_result.queues_by_cell",
+      "status": "source-backed",
+      "java_expr": "public Item[] ids = new Item[capacity];",
+      "godot_symbol": "source_conveyor_queues_for_cells_state_result.queues_by_cell",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_queues_for_cells_state",
+      "rule": "Conveyor queues keyed by cell, only for cells with a conveyor sprite.",
+      "tests": [
+        "test_conveyor_queue_storage_binding_registration",
+        "test_all_conveyor_queue_storage_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_queue_storage"
+      ],
+      "runtime_proof": "/root/ConveyorQueueStorageProof"
+    },
+    "source_conveyor_queues_for_cells_state_result.reason": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_queues_for_cells_state_result.reason",
+      "status": "source-backed",
+      "java_expr": "public Item[] ids = new Item[capacity];",
+      "godot_symbol": "source_conveyor_queues_for_cells_state_result.reason",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_queues_for_cells_state",
+      "rule": "Resolve outcome: resolved, none_found.",
+      "tests": [
+        "test_conveyor_queue_storage_binding_registration",
+        "test_all_conveyor_queue_storage_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_queue_storage"
+      ],
+      "runtime_proof": "/root/ConveyorQueueStorageProof"
+    },
     "source_conveyor_remove_stack_state_input.amount": {
       "canonical_symbol": "source_symbol_registry.source_conveyor_remove_stack_state_input.amount",
       "status": "source-backed",
@@ -2308,6 +2490,76 @@
         "test_reference_graph_and_actual_conveyor_stack"
       ],
       "runtime_proof": "/root/ConveyorStackProof"
+    },
+    "source_conveyor_set_queue_for_cell_state_input.cell": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_set_queue_for_cell_state_input.cell",
+      "status": "source-backed",
+      "java_expr": "public int len = 0;",
+      "godot_symbol": "source_conveyor_set_queue_for_cell_state_input.cell",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_set_queue_for_cell_state",
+      "rule": "Cell of the conveyor whose queue is written.",
+      "tests": [
+        "test_conveyor_queue_storage_binding_registration",
+        "test_all_conveyor_queue_storage_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_queue_storage"
+      ],
+      "runtime_proof": "/root/ConveyorQueueStorageProof"
+    },
+    "source_conveyor_set_queue_for_cell_state_input.game": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_set_queue_for_cell_state_input.game",
+      "status": "source-backed",
+      "java_expr": "public Item[] ids = new Item[capacity];",
+      "godot_symbol": "source_conveyor_set_queue_for_cell_state_input.game",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_set_queue_for_cell_state",
+      "rule": "Actual game world containing the conveyor buildings whose queues are stored on their sprites.",
+      "tests": [
+        "test_conveyor_queue_storage_binding_registration",
+        "test_all_conveyor_queue_storage_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_queue_storage"
+      ],
+      "runtime_proof": "/root/ConveyorQueueStorageProof"
+    },
+    "source_conveyor_set_queue_for_cell_state_input.queue": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_set_queue_for_cell_state_input.queue",
+      "status": "source-backed",
+      "java_expr": "public Item[] ids = new Item[capacity];",
+      "godot_symbol": "source_conveyor_set_queue_for_cell_state_input.queue",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_set_queue_for_cell_state",
+      "rule": "Queue to store: ids, xs, ys, len.",
+      "tests": [
+        "test_conveyor_queue_storage_binding_registration",
+        "test_all_conveyor_queue_storage_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_queue_storage"
+      ],
+      "runtime_proof": "/root/ConveyorQueueStorageProof"
+    },
+    "source_conveyor_set_queue_for_cell_state_result.reason": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_set_queue_for_cell_state_result.reason",
+      "status": "source-backed",
+      "java_expr": "public Item[] ids = new Item[capacity];",
+      "godot_symbol": "source_conveyor_set_queue_for_cell_state_result.reason",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_set_queue_for_cell_state",
+      "rule": "Store outcome: stored, no_sprite.",
+      "tests": [
+        "test_conveyor_queue_storage_binding_registration",
+        "test_all_conveyor_queue_storage_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_queue_storage"
+      ],
+      "runtime_proof": "/root/ConveyorQueueStorageProof"
+    },
+    "source_conveyor_set_queue_for_cell_state_result.stored": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_set_queue_for_cell_state_result.stored",
+      "status": "source-backed",
+      "java_expr": "public Item[] ids = new Item[capacity];",
+      "godot_symbol": "source_conveyor_set_queue_for_cell_state_result.stored",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_set_queue_for_cell_state",
+      "rule": "Whether the queue was stored on the conveyor sprite.",
+      "tests": [
+        "test_conveyor_queue_storage_binding_registration",
+        "test_all_conveyor_queue_storage_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_queue_storage"
+      ],
+      "runtime_proof": "/root/ConveyorQueueStorageProof"
     }
   }
 }

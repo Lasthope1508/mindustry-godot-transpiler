@@ -43,6 +43,7 @@ const SOURCE_CONVEYOR_PATH_PROGRESS_DELTA_FOR_CELL_TIME_SCALE_METHOD := source_c
 const SOURCE_CONVEYOR_PATH_PROGRESS_DELTA_FOR_CELL_TIME_SCALE_RETURN := source_conveyor_source_text_state.SOURCE_CONVEYOR_PATH_PROGRESS_DELTA_FOR_CELL_TIME_SCALE_RETURN
 const SOURCE_CONVEYOR_EDELTA_PROVIDER_KEY := source_conveyor_source_text_state.SOURCE_CONVEYOR_EDELTA_PROVIDER_KEY
 const SOURCE_CONVEYOR_EDELTA_PROVIDER_FALLBACK := source_conveyor_source_text_state.SOURCE_CONVEYOR_EDELTA_PROVIDER_FALLBACK
+const SOURCE_CONVEYOR_QUEUE_META_KEY := "source_conveyor_queue"
 
 static func runtime_method_names(game: Object) -> Dictionary:
 	if game.has_method("_conveyor_runtime_method_names"):
@@ -390,4 +391,71 @@ static func source_conveyor_handle_for_cell_state(queue_ids: Array, queue_xs: Ar
 		"item_count_after": int(handle.get("item_count_after", item_count_before)),
 		"no_sleep_called": true,
 		"reason": str(handle.get("reason", "")),
+	}
+
+
+static func _conveyor_queue_empty() -> Dictionary:
+	return {
+		"ids": [],
+		"xs": [],
+		"ys": [],
+		"len": 0,
+	}
+
+
+static func source_conveyor_queue_for_cell_state(game: Object, cell: Vector2i) -> Dictionary:
+	var sprite: Variant = game.call("block_sprite_at_cell", cell)
+	if sprite == null:
+		var missing := _conveyor_queue_empty()
+		missing["found"] = false
+		missing["reason"] = "no_sprite"
+		return missing
+	if not sprite.has_meta(SOURCE_CONVEYOR_QUEUE_META_KEY):
+		var empty := _conveyor_queue_empty()
+		empty["found"] = true
+		empty["reason"] = "no_queue"
+		return empty
+	var stored: Dictionary = sprite.get_meta(SOURCE_CONVEYOR_QUEUE_META_KEY)
+	return {
+		"ids": stored.get("ids", []),
+		"xs": stored.get("xs", []),
+		"ys": stored.get("ys", []),
+		"len": int(stored.get("len", 0)),
+		"found": true,
+		"reason": "queue",
+	}
+
+
+static func source_conveyor_set_queue_for_cell_state(game: Object, cell: Vector2i, queue: Dictionary) -> Dictionary:
+	var sprite: Variant = game.call("block_sprite_at_cell", cell)
+	if sprite == null:
+		return {
+			"stored": false,
+			"reason": "no_sprite",
+		}
+	sprite.set_meta(SOURCE_CONVEYOR_QUEUE_META_KEY, queue)
+	return {
+		"stored": true,
+		"reason": "stored",
+	}
+
+
+static func source_conveyor_queues_for_cells_state(game: Object, cells: Array) -> Dictionary:
+	var queues_by_cell := {}
+	for cell in cells:
+		if not (cell is Vector2i):
+			continue
+		var queue := source_conveyor_queue_for_cell_state(game, cell)
+		if not bool(queue.get("found", false)):
+			continue
+		queues_by_cell[cell] = {
+			"ids": queue.get("ids", []),
+			"xs": queue.get("xs", []),
+			"ys": queue.get("ys", []),
+			"len": int(queue.get("len", 0)),
+		}
+	return {
+		"queues_by_cell": queues_by_cell,
+		"found_count": queues_by_cell.size(),
+		"reason": "resolved" if not queues_by_cell.is_empty() else "none_found",
 	}

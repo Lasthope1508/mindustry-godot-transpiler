@@ -701,6 +701,31 @@
         }
       }
     },
+    "source_conveyor_queue_for_cell_state_input": {
+      "canonical_schema": "source_state_schema.source_conveyor_queue_for_cell_state_input",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "public Item[] ids = new Item[capacity];",
+          "rule": "Actual game world containing the conveyor buildings whose queues are stored on their sprites.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_queue_for_cell_state"
+          ]
+        },
+        "cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "public int len = 0;",
+          "rule": "Cell of the conveyor whose queue is read.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_queue_for_cell_state"
+          ]
+        }
+      }
+    },
     "source_conveyor_queue_remove_state_input": {
       "canonical_schema": "source_state_schema.source_conveyor_queue_remove_state_input",
       "keys": {
@@ -781,6 +806,31 @@
         }
       }
     },
+    "source_conveyor_queues_for_cells_state_input": {
+      "canonical_schema": "source_state_schema.source_conveyor_queues_for_cells_state_input",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "public Item[] ids = new Item[capacity];",
+          "rule": "Actual game world containing the conveyor buildings whose queues are resolved.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_queues_for_cells_state"
+          ]
+        },
+        "cells": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "public Item[] ids = new Item[capacity];",
+          "rule": "Cells whose conveyor queues are resolved.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_queues_for_cells_state"
+          ]
+        }
+      }
+    },
     "source_conveyor_remove_stack_state_input": {
       "canonical_schema": "source_state_schema.source_conveyor_remove_stack_state_input",
       "keys": {
@@ -852,6 +902,41 @@
           "rule": "Items-module count of the item before the removal.",
           "used_by": [
             "SourceConveyorRuntimeState.source_conveyor_remove_stack_state"
+          ]
+        }
+      }
+    },
+    "source_conveyor_set_queue_for_cell_state_input": {
+      "canonical_schema": "source_state_schema.source_conveyor_set_queue_for_cell_state_input",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "public Item[] ids = new Item[capacity];",
+          "rule": "Actual game world containing the conveyor buildings whose queues are stored on their sprites.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_set_queue_for_cell_state"
+          ]
+        },
+        "cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "public int len = 0;",
+          "rule": "Cell of the conveyor whose queue is written.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_set_queue_for_cell_state"
+          ]
+        },
+        "queue": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "public Item[] ids = new Item[capacity];",
+          "rule": "Queue to store: ids, xs, ys, len.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_set_queue_for_cell_state"
           ]
         }
       }

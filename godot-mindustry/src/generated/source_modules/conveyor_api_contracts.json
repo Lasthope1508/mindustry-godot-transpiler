@@ -573,6 +573,40 @@
       "runtime_proof": "/root/ConveyorQueueProof",
       "rule": "Source-backed ConveyorBuild queue primitive; the result reports the shifted queue and the new count."
     },
+    "SourceConveyorRuntimeState.source_conveyor_queue_for_cell_state": {
+      "canonical_contract": "source_api_contracts.SourceConveyorRuntimeState.source_conveyor_queue_for_cell_state",
+      "status": "active",
+      "source_slice": "N2065",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "source_method": "ConveyorBuild",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_conveyor_queue_for_cell_state_input.game"
+        },
+        {
+          "name": "cell",
+          "type": "Vector2i",
+          "schema": "source_conveyor_queue_for_cell_state_input.cell"
+        }
+      ],
+      "return_keys": [
+        "ids",
+        "xs",
+        "ys",
+        "len",
+        "found",
+        "reason"
+      ],
+      "tests": [
+        "test_conveyor_queue_storage_binding_registration",
+        "test_all_conveyor_queue_storage_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_queue_storage"
+      ],
+      "runtime_proof": "/root/ConveyorQueueStorageProof",
+      "rule": "Source-backed conveyor queue storage; the queue lives on the conveyor sprite meta, following the drill-frame pattern."
+    },
     "SourceConveyorRuntimeState.source_conveyor_queue_remove_state": {
       "canonical_contract": "source_api_contracts.SourceConveyorRuntimeState.source_conveyor_queue_remove_state",
       "status": "active",
@@ -653,6 +687,37 @@
       "runtime_proof": "/root/ConveyorQueueProof",
       "rule": "Source-backed ConveyorBuild queue primitive; the result reports the shifted queue and the new count."
     },
+    "SourceConveyorRuntimeState.source_conveyor_queues_for_cells_state": {
+      "canonical_contract": "source_api_contracts.SourceConveyorRuntimeState.source_conveyor_queues_for_cells_state",
+      "status": "active",
+      "source_slice": "N2067",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "source_method": "ConveyorBuild",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_conveyor_queues_for_cells_state_input.game"
+        },
+        {
+          "name": "cells",
+          "type": "Array",
+          "schema": "source_conveyor_queues_for_cells_state_input.cells"
+        }
+      ],
+      "return_keys": [
+        "queues_by_cell",
+        "found_count",
+        "reason"
+      ],
+      "tests": [
+        "test_conveyor_queue_storage_binding_registration",
+        "test_all_conveyor_queue_storage_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_queue_storage"
+      ],
+      "runtime_proof": "/root/ConveyorQueueStorageProof",
+      "rule": "Source-backed conveyor queue storage; the queue lives on the conveyor sprite meta, following the drill-frame pattern."
+    },
     "SourceConveyorRuntimeState.source_conveyor_remove_stack_state": {
       "canonical_contract": "source_api_contracts.SourceConveyorRuntimeState.source_conveyor_remove_stack_state",
       "status": "active",
@@ -713,6 +778,41 @@
       ],
       "runtime_proof": "/root/ConveyorStackProof",
       "rule": "Source-backed ConveyorBuild stack API; the result reports the queue and the items-module count after the operation."
+    },
+    "SourceConveyorRuntimeState.source_conveyor_set_queue_for_cell_state": {
+      "canonical_contract": "source_api_contracts.SourceConveyorRuntimeState.source_conveyor_set_queue_for_cell_state",
+      "status": "active",
+      "source_slice": "N2066",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "source_method": "ConveyorBuild",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_conveyor_set_queue_for_cell_state_input.game"
+        },
+        {
+          "name": "cell",
+          "type": "Vector2i",
+          "schema": "source_conveyor_set_queue_for_cell_state_input.cell"
+        },
+        {
+          "name": "queue",
+          "type": "Dictionary",
+          "schema": "source_conveyor_set_queue_for_cell_state_input.queue"
+        }
+      ],
+      "return_keys": [
+        "stored",
+        "reason"
+      ],
+      "tests": [
+        "test_conveyor_queue_storage_binding_registration",
+        "test_all_conveyor_queue_storage_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_queue_storage"
+      ],
+      "runtime_proof": "/root/ConveyorQueueStorageProof",
+      "rule": "Source-backed conveyor queue storage; the queue lives on the conveyor sprite meta, following the drill-frame pattern."
     }
   }
 }
