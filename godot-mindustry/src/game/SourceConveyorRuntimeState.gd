@@ -238,3 +238,98 @@ static func source_conveyor_queue_scan_state(ys: Array, passed_by_index: Array) 
 		"mid": mid,
 		"minitem": minitem,
 	}
+
+
+static func source_conveyor_remove_stack_state(ids: Array, xs: Array, ys: Array, len: int, item_id: String, amount: int, item_count_before: int) -> Dictionary:
+	var next_ids := ids.duplicate()
+	var next_xs := xs.duplicate()
+	var next_ys := ys.duplicate()
+	var next_len := len
+	var removed := 0
+	for j in range(amount):
+		for i in range(next_len):
+			if str(next_ids[i]) == item_id:
+				var removed_state := source_conveyor_queue_remove_state(next_ids, next_xs, next_ys, next_len, i)
+				next_ids = removed_state["ids_after"]
+				next_xs = removed_state["xs_after"]
+				next_ys = removed_state["ys_after"]
+				next_len = int(removed_state["len_after"])
+				removed += 1
+				break
+	return {
+		"ids_after": next_ids,
+		"xs_after": next_xs,
+		"ys_after": next_ys,
+		"len_before": len,
+		"len_after": next_len,
+		"removed": removed,
+		"item_count_after": maxi(item_count_before - removed, 0),
+		"no_sleep_called": true,
+	}
+
+
+static func source_conveyor_accept_stack_state(minitem: float, item_space: float, amount: int) -> Dictionary:
+	if item_space <= 0.0:
+		return {
+			"accepted": 0,
+			"free_slots": 0,
+			"reason": "invalid_item_space",
+		}
+	var free_slots := int(minitem / item_space)
+	return {
+		"accepted": mini(free_slots, amount),
+		"free_slots": free_slots,
+		"reason": "accepted",
+	}
+
+
+static func source_conveyor_handle_stack_state(ids: Array, xs: Array, ys: Array, len: int, capacity: int, item_id: String, amount: int, item_space: float, item_count_before: int) -> Dictionary:
+	var clamped := mini(amount, capacity - len)
+	if amount <= 0:
+		return {
+			"ids_after": ids.duplicate(),
+			"xs_after": xs.duplicate(),
+			"ys_after": ys.duplicate(),
+			"len_before": len,
+			"len_after": len,
+			"inserted": 0,
+			"item_count_after": item_count_before,
+			"no_sleep_called": true,
+			"reason": "empty_request",
+		}
+	if clamped <= 0:
+		return {
+			"ids_after": ids.duplicate(),
+			"xs_after": xs.duplicate(),
+			"ys_after": ys.duplicate(),
+			"len_before": len,
+			"len_after": len,
+			"inserted": 0,
+			"item_count_after": item_count_before,
+			"no_sleep_called": true,
+			"reason": "at_capacity",
+		}
+	var next_ids := ids.duplicate()
+	var next_xs := xs.duplicate()
+	var next_ys := ys.duplicate()
+	var next_len := len
+	for i in range(clamped - 1, -1, -1):
+		var added := source_conveyor_queue_add_state(next_ids, next_xs, next_ys, next_len, 0)
+		next_ids = added["ids_after"]
+		next_xs = added["xs_after"]
+		next_ys = added["ys_after"]
+		next_len = int(added["len_after"])
+		next_xs[0] = 0.0
+		next_ys[0] = float(i) * item_space
+		next_ids[0] = item_id
+	return {
+		"ids_after": next_ids,
+		"xs_after": next_xs,
+		"ys_after": next_ys,
+		"len_before": len,
+		"len_after": next_len,
+		"inserted": clamped,
+		"item_count_after": item_count_before + clamped,
+		"no_sleep_called": true,
+		"reason": "inserted",
+	}

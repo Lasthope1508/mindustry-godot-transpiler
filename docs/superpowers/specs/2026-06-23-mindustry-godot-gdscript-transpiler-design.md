@@ -14,8 +14,8 @@ Counts below are projected from the canonical `source_slice_ledger.json`, not fr
 
 | Bucket | Count |
 | --- | ---: |
-| Canonical slice ledger entries | 1510 |
-| Done | 1510 |
+| Canonical slice ledger entries | 1513 |
+| Done | 1513 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -137,6 +137,9 @@ Counts below are projected from the canonical `source_slice_ledger.json`, not fr
 - [x] N2053: ConveyorBuild.add queue insert: shift the parallel ids/xs/ys arrays right from the insertion index, len++; the slot is left for the caller (handleItem) to fill.
 - [x] N2054: ConveyorBuild.remove queue removal: shift the parallel arrays left from the removal index, len--.
 - [x] N2055: The updateTile mid/minitem scan over the ys array: mid is the last item before the first one past halfway, minitem is the smallest y among items that did not pass. Godot proof 18/18 true on the real Main scene (add/remove shifts and guards, scan mid and minitem including the passed-item skip).
+- [x] N2056: ConveyorBuild.removeStack removes up to the requested amount of an item from the belt (first match per iteration, from the front) and the same count from the items module; noSleep runs first.
+- [x] N2057: ConveyorBuild.acceptStack returns the stack size the belt accepts: free slots in item-space units (minitem / itemSpace, truncated), capped by the request.
+- [x] N2058: ConveyorBuild.handleStack inserts a stack at the front, clamped by free capacity, spaced itemSpace apart from ys 0, and adds the same count to the items module; noSleep runs after. Godot proof 17/17 true on the real Main scene (removeStack counts and ordering, acceptStack caps, handleStack spacing and clamping).
 - [x] N167: Source BuildingComp drawConfigure canonical square state.
 - [x] N168: Source BuildingComp checkSolid default state.
 - [x] N169: Source BuildingComp handleDamage passthrough state.
@@ -1406,7 +1409,7 @@ Counts below are projected from the canonical `source_slice_ledger.json`, not fr
 
 Work now uses dependency cubes for prioritization without changing the verification contract. Each cube groups source Java, Godot runtime wiring, and playable behavior for one gameplay system. Inside a cube, every slice still moves linearly: read upstream Java, write RED tests, prove RED, implement minimal GREEN, run targeted/full tests, prove through Godot MCP runtime, update this checklist, run `git diff --check`, stage only touched tracked files, and commit.
 
-Current cube: `ConveyorBuild queue primitives`. N2053–N2055 bind the conveyor item queue: add(o) and remove(o) shifts on the parallel ids/xs/ys arrays, and the updateTile mid/minitem scan. Ledger: 1510; expanded catalog: 113 modules; blocks: 425. Registration + targeted tests pass; all binding symbol exprs exact against pinned Conveyor.java; Godot proof 18/18 true on the real Main scene. Full suite, editor and replay still pending. The live drill→conveyor→core wiring, the drill bridge global item, one-inventory-owner cleanup, the two-Drill gate and C03–C12 remain open. See `reports/2026-11-07-conveyor-queue-binding.md`.
+Current cube: `ConveyorBuild stack API`. N2056–N2058 bind the conveyor stack interface: removeStack removes up to the requested amount of an item (first match per iteration, from the front) and the same count from the items module, acceptStack returns the free slots in item-space units capped by the request, and handleStack inserts a stack at the front clamped by free capacity and spaced itemSpace apart. Ledger: 1513; expanded catalog: 113 modules; blocks: 425. Registration + targeted tests pass; all binding symbol exprs exact against pinned Conveyor.java; Godot proof 17/17 true on the real Main scene. Full suite, editor and replay still pending. The live drill→conveyor→core wiring, the drill bridge global item, one-inventory-owner cleanup, the two-Drill gate and C03–C12 remain open. See `reports/2026-11-07-conveyor-stack-binding.md`.
 
 ## Done
 
@@ -3097,10 +3100,13 @@ Current cube: `ConveyorBuild queue primitives`. N2053–N2055 bind the conveyor 
 | N2053 | ConveyorBuild.add queue insert | Shift the parallel ids/xs/ys arrays right from the insertion index, len++. |
 | N2054 | ConveyorBuild.remove queue removal | Shift the parallel arrays left from the removal index, len--. |
 | N2055 | updateTile mid/minitem scan | Mid from the ys array, minitem skips passed items; Godot proof 18/18 true on the real Main scene. |
+| N2056 | ConveyorBuild.removeStack | Removes up to the requested amount of an item (first match per iteration, from the front) and the same count from the items module. |
+| N2057 | ConveyorBuild.acceptStack | Returns the stack size the belt accepts: free slots in item-space units, capped by the request. |
+| N2058 | ConveyorBuild.handleStack | Inserts a stack at the front, clamped by free capacity, spaced itemSpace apart; Godot proof 17/17 true on the real Main scene. |
 
 ## Not Done
 
-C01 now has executable Tile changeBuild / changed / full two-pass setBlock primitives (N2029–N2031) bound at production placement and world reload (N2032–N2034), at schematic placement (N2035–N2037) and loadout placement (N2038–N2040), a real Build.validPlace check (N2041–N2043), and the noSleep wake-on-activity call sites (N2044–N2046): player, scenario, campaign-bootstrap, schematic and loadout placement go through the canonical setBlock with real Building identity, team and proximity, placement legality is evaluated from the world Tile store, and Buildings wake when stacks are handled or proximity updates. C02 has the Building.dump(todump) composition (N2047–N2049), the ConveyorBuild intake (N2050–N2052) and the ConveyorBuild queue primitives (N2053–N2055): one item per call to the first accepting neighbor in cdump order, with per-item accept honored in the null branch, and conveyors that gate, take in, forward, insert and remove items with the Java direction arms, insertion positions and parallel-array shifts. Entity group membership, controller pickup/world transitions and remaining side effects stay open. C12 must adopt existing uncommitted owner dependencies. C02–C12 remain open.
+C01 now has executable Tile changeBuild / changed / full two-pass setBlock primitives (N2029–N2031) bound at production placement and world reload (N2032–N2034), at schematic placement (N2035–N2037) and loadout placement (N2038–N2040), a real Build.validPlace check (N2041–N2043), and the noSleep wake-on-activity call sites (N2044–N2046): player, scenario, campaign-bootstrap, schematic and loadout placement go through the canonical setBlock with real Building identity, team and proximity, placement legality is evaluated from the world Tile store, and Buildings wake when stacks are handled or proximity updates. C02 has the Building.dump(todump) composition (N2047–N2049), the ConveyorBuild intake (N2050–N2052), the ConveyorBuild queue primitives (N2053–N2055) and the ConveyorBuild stack API (N2056–N2058): one item per call to the first accepting neighbor in cdump order, with per-item accept honored in the null branch, and conveyors that gate, take in, forward, insert, remove and stack items with the Java direction arms, insertion positions, parallel-array shifts and itemSpace spacing. Entity group membership, controller pickup/world transitions and remaining side effects stay open. C12 must adopt existing uncommitted owner dependencies. C02–C12 remain open.
 
 ## Scope
 
@@ -3475,3 +3481,4 @@ When Godot CLI is not on `PATH`, use the configured MCP Godot path from `C:\User
 | 2026-11-07 | N2047–N2049 implemented: Building.dump(todump) composition — specific-item and any-item branches with the Java guards, cdump-order scan and one-unit transfer; the any-item branch tries items in content order per neighbor so per-item accept is honored; PortGame entry dispatches on todump null-ness. Receiver accept/handle/canDump are caller-supplied hooks. Registration + targeted tests pass; Godot proof 18/18 true on the real Main scene. Full Python suite 5405 OK in 1006.550s; editor and replay still pending. See reports/2026-11-07-building-dump-binding.md. |
 | 2026-11-07 | N2050–N2052 implemented: ConveyorBuild intake — acceptItem with the Java direction arms (straight minitem >= itemSpace 0.4, side minitem > 0.7), handleItem with straight at index 0 and side at mid (y 0.5) plus noSleep, pass forwarding one item to the next building. The facing direction comes from the caller via the existing tile_relative_cardinal_state; the multiblock facing-edge clamp stays open. Registration + targeted tests pass; Godot proof 23/23 true on the real Main scene. Full Python suite 5408 OK in 1006.173s (the first run was killed mid-way by a service restart; the re-run completed cleanly); editor and replay still pending. See reports/2026-11-07-conveyor-intake-binding.md. |
 | 2026-11-07 | N2053–N2055 implemented: ConveyorBuild queue primitives — add(o) shifts the parallel ids/xs/ys arrays right from the insertion index (len++), remove(o) shifts them left (len--), and the updateTile scan derives mid and minitem from the ys array (passed items do not update minitem). The insertion slot is left for handleItem to fill. Registration + targeted tests pass; Godot proof 18/18 true on the real Main scene. Full Python suite 5411 OK in 1018.477s; editor and replay still pending. See reports/2026-11-07-conveyor-queue-binding.md. |
+| 2026-11-07 | N2056–N2058 implemented: ConveyorBuild stack API — removeStack removes up to the requested amount of an item (first match per iteration, from the front) and the same count from the items module; acceptStack returns the free slots in item-space units (minitem / itemSpace, truncated) capped by the request; handleStack inserts a stack at the front clamped by free capacity and spaced itemSpace apart. Registration + targeted tests pass; Godot proof 17/17 true on the real Main scene. Full Python suite 5414 OK in 1031.567s; editor and replay still pending. See reports/2026-11-07-conveyor-stack-binding.md. |

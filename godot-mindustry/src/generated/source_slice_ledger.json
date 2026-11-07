@@ -51663,6 +51663,128 @@
         "ConveyorBuild.removeStack (bulk removal over the queue) is a later slice; the drill runtime bridge global item and the one-inventory-owner cleanup stay open in C02.",
         "C02 two-Drill gate and C03-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2056": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_class": "mindustry.world.blocks.distribution.Conveyor.ConveyorBuild",
+      "java_method": "removeStack",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_remove_stack_state",
+      "exact_exprs": [
+        "public int removeStack(Item item, int amount){",
+        "for(int j = 0; j < amount; j++){",
+        "for(int i = 0; i < len; i++){",
+        "if(ids[i] == item){",
+        "remove(i);",
+        "items.remove(item, removed);",
+        "return removed;"
+      ],
+      "source_symbols": [
+        "source_conveyor_remove_stack_state_input.ids",
+        "source_conveyor_remove_stack_state_input.xs",
+        "source_conveyor_remove_stack_state_input.ys",
+        "source_conveyor_remove_stack_state_input.len",
+        "source_conveyor_remove_stack_state_input.item_id",
+        "source_conveyor_remove_stack_state_input.amount",
+        "source_conveyor_remove_stack_state_input.item_count_before",
+        "source_conveyor_remove_stack_state_result.ids_after",
+        "source_conveyor_remove_stack_state_result.xs_after",
+        "source_conveyor_remove_stack_state_result.ys_after",
+        "source_conveyor_remove_stack_state_result.len_before",
+        "source_conveyor_remove_stack_state_result.len_after",
+        "source_conveyor_remove_stack_state_result.removed",
+        "source_conveyor_remove_stack_state_result.item_count_after",
+        "source_conveyor_remove_stack_state_result.no_sleep_called"
+      ],
+      "tests": [
+        "test_conveyor_stack_binding_registration",
+        "test_all_conveyor_stack_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_stack"
+      ],
+      "runtime_proof": "/root/ConveyorStackProof",
+      "deferred_exprs": [
+        "The stack functions operate on the queue primitives (N2053-N2055); the caller supplies the items-module count before the call and applies the count after it.",
+        "The live drill->conveyor->core wiring, the drill runtime bridge global item and the one-inventory-owner cleanup stay open in C02.",
+        "C02 two-Drill gate and C03-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
+    },
+    "N2057": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_class": "mindustry.world.blocks.distribution.Conveyor.ConveyorBuild",
+      "java_method": "acceptStack",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_accept_stack_state",
+      "exact_exprs": [
+        "public int acceptStack(Item item, int amount, Teamc source){",
+        "return Math.min((int)(minitem / itemSpace), amount);"
+      ],
+      "source_symbols": [
+        "source_conveyor_accept_stack_state_input.minitem",
+        "source_conveyor_accept_stack_state_input.item_space",
+        "source_conveyor_accept_stack_state_input.amount",
+        "source_conveyor_accept_stack_state_result.accepted",
+        "source_conveyor_accept_stack_state_result.free_slots",
+        "source_conveyor_accept_stack_state_result.reason"
+      ],
+      "tests": [
+        "test_conveyor_stack_binding_registration",
+        "test_all_conveyor_stack_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_stack"
+      ],
+      "runtime_proof": "/root/ConveyorStackProof",
+      "deferred_exprs": [
+        "The stack functions operate on the queue primitives (N2053-N2055); the caller supplies the items-module count before the call and applies the count after it.",
+        "The live drill->conveyor->core wiring, the drill runtime bridge global item and the one-inventory-owner cleanup stay open in C02.",
+        "C02 two-Drill gate and C03-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
+    },
+    "N2058": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_class": "mindustry.world.blocks.distribution.Conveyor.ConveyorBuild",
+      "java_method": "handleStack",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_stack_state",
+      "exact_exprs": [
+        "public void handleStack(Item item, int amount, Teamc source){",
+        "amount = Math.min(amount, capacity - len);",
+        "for(int i = amount - 1; i >= 0; i--){",
+        "add(0);",
+        "xs[0] = 0;",
+        "ys[0] = i * itemSpace;",
+        "ids[0] = item;",
+        "items.add(item, 1);"
+      ],
+      "source_symbols": [
+        "source_conveyor_handle_stack_state_input.ids",
+        "source_conveyor_handle_stack_state_input.xs",
+        "source_conveyor_handle_stack_state_input.ys",
+        "source_conveyor_handle_stack_state_input.len",
+        "source_conveyor_handle_stack_state_input.capacity",
+        "source_conveyor_handle_stack_state_input.item_id",
+        "source_conveyor_handle_stack_state_input.amount",
+        "source_conveyor_handle_stack_state_input.item_space",
+        "source_conveyor_handle_stack_state_input.item_count_before",
+        "source_conveyor_handle_stack_state_result.ids_after",
+        "source_conveyor_handle_stack_state_result.xs_after",
+        "source_conveyor_handle_stack_state_result.ys_after",
+        "source_conveyor_handle_stack_state_result.len_before",
+        "source_conveyor_handle_stack_state_result.len_after",
+        "source_conveyor_handle_stack_state_result.inserted",
+        "source_conveyor_handle_stack_state_result.item_count_after",
+        "source_conveyor_handle_stack_state_result.no_sleep_called",
+        "source_conveyor_handle_stack_state_result.reason"
+      ],
+      "tests": [
+        "test_conveyor_stack_binding_registration",
+        "test_all_conveyor_stack_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_stack"
+      ],
+      "runtime_proof": "/root/ConveyorStackProof",
+      "deferred_exprs": [
+        "The stack functions operate on the queue primitives (N2053-N2055); the caller supplies the items-module count before the call and applies the count after it.",
+        "The live drill->conveyor->core wiring, the drill runtime bridge global item and the one-inventory-owner cleanup stay open in C02.",
+        "C02 two-Drill gate and C03-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1

@@ -145,6 +145,42 @@
       "runtime_proof": "/root/ConveyorIntakeProof",
       "rule": "Source-backed ConveyorBuild intake; the result reports the gate, the insertion and the forward."
     },
+    "SourceConveyorRuntimeState.source_conveyor_accept_stack_state": {
+      "canonical_contract": "source_api_contracts.SourceConveyorRuntimeState.source_conveyor_accept_stack_state",
+      "status": "active",
+      "source_slice": "N2057",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "source_method": "acceptStack",
+      "params": [
+        {
+          "name": "minitem",
+          "type": "float",
+          "schema": "source_conveyor_accept_stack_state_input.minitem"
+        },
+        {
+          "name": "item_space",
+          "type": "float",
+          "schema": "source_conveyor_accept_stack_state_input.item_space"
+        },
+        {
+          "name": "amount",
+          "type": "int",
+          "schema": "source_conveyor_accept_stack_state_input.amount"
+        }
+      ],
+      "return_keys": [
+        "accepted",
+        "free_slots",
+        "reason"
+      ],
+      "tests": [
+        "test_conveyor_stack_binding_registration",
+        "test_all_conveyor_stack_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_stack"
+      ],
+      "runtime_proof": "/root/ConveyorStackProof",
+      "rule": "Source-backed ConveyorBuild stack API; the result reports the queue and the items-module count after the operation."
+    },
     "SourceConveyorRuntimeState.source_conveyor_handle_item_state": {
       "canonical_contract": "source_api_contracts.SourceConveyorRuntimeState.source_conveyor_handle_item_state",
       "status": "active",
@@ -205,6 +241,78 @@
       ],
       "runtime_proof": "/root/ConveyorIntakeProof",
       "rule": "Source-backed ConveyorBuild intake; the result reports the gate, the insertion and the forward."
+    },
+    "SourceConveyorRuntimeState.source_conveyor_handle_stack_state": {
+      "canonical_contract": "source_api_contracts.SourceConveyorRuntimeState.source_conveyor_handle_stack_state",
+      "status": "active",
+      "source_slice": "N2058",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "source_method": "handleStack",
+      "params": [
+        {
+          "name": "ids",
+          "type": "Array",
+          "schema": "source_conveyor_handle_stack_state_input.ids"
+        },
+        {
+          "name": "xs",
+          "type": "Array",
+          "schema": "source_conveyor_handle_stack_state_input.xs"
+        },
+        {
+          "name": "ys",
+          "type": "Array",
+          "schema": "source_conveyor_handle_stack_state_input.ys"
+        },
+        {
+          "name": "len",
+          "type": "int",
+          "schema": "source_conveyor_handle_stack_state_input.len"
+        },
+        {
+          "name": "capacity",
+          "type": "int",
+          "schema": "source_conveyor_handle_stack_state_input.capacity"
+        },
+        {
+          "name": "item_id",
+          "type": "String",
+          "schema": "source_conveyor_handle_stack_state_input.item_id"
+        },
+        {
+          "name": "amount",
+          "type": "int",
+          "schema": "source_conveyor_handle_stack_state_input.amount"
+        },
+        {
+          "name": "item_space",
+          "type": "float",
+          "schema": "source_conveyor_handle_stack_state_input.item_space"
+        },
+        {
+          "name": "item_count_before",
+          "type": "int",
+          "schema": "source_conveyor_handle_stack_state_input.item_count_before"
+        }
+      ],
+      "return_keys": [
+        "ids_after",
+        "xs_after",
+        "ys_after",
+        "len_before",
+        "len_after",
+        "inserted",
+        "item_count_after",
+        "no_sleep_called",
+        "reason"
+      ],
+      "tests": [
+        "test_conveyor_stack_binding_registration",
+        "test_all_conveyor_stack_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_stack"
+      ],
+      "runtime_proof": "/root/ConveyorStackProof",
+      "rule": "Source-backed ConveyorBuild stack API; the result reports the queue and the items-module count after the operation."
     },
     "SourceConveyorRuntimeState.source_conveyor_pass_state": {
       "canonical_contract": "source_api_contracts.SourceConveyorRuntimeState.source_conveyor_pass_state",
@@ -382,6 +490,67 @@
       ],
       "runtime_proof": "/root/ConveyorQueueProof",
       "rule": "Source-backed ConveyorBuild queue primitive; the result reports the shifted queue and the new count."
+    },
+    "SourceConveyorRuntimeState.source_conveyor_remove_stack_state": {
+      "canonical_contract": "source_api_contracts.SourceConveyorRuntimeState.source_conveyor_remove_stack_state",
+      "status": "active",
+      "source_slice": "N2056",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "source_method": "removeStack",
+      "params": [
+        {
+          "name": "ids",
+          "type": "Array",
+          "schema": "source_conveyor_remove_stack_state_input.ids"
+        },
+        {
+          "name": "xs",
+          "type": "Array",
+          "schema": "source_conveyor_remove_stack_state_input.xs"
+        },
+        {
+          "name": "ys",
+          "type": "Array",
+          "schema": "source_conveyor_remove_stack_state_input.ys"
+        },
+        {
+          "name": "len",
+          "type": "int",
+          "schema": "source_conveyor_remove_stack_state_input.len"
+        },
+        {
+          "name": "item_id",
+          "type": "String",
+          "schema": "source_conveyor_remove_stack_state_input.item_id"
+        },
+        {
+          "name": "amount",
+          "type": "int",
+          "schema": "source_conveyor_remove_stack_state_input.amount"
+        },
+        {
+          "name": "item_count_before",
+          "type": "int",
+          "schema": "source_conveyor_remove_stack_state_input.item_count_before"
+        }
+      ],
+      "return_keys": [
+        "ids_after",
+        "xs_after",
+        "ys_after",
+        "len_before",
+        "len_after",
+        "removed",
+        "item_count_after",
+        "no_sleep_called"
+      ],
+      "tests": [
+        "test_conveyor_stack_binding_registration",
+        "test_all_conveyor_stack_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_stack"
+      ],
+      "runtime_proof": "/root/ConveyorStackProof",
+      "rule": "Source-backed ConveyorBuild stack API; the result reports the queue and the items-module count after the operation."
     }
   }
 }

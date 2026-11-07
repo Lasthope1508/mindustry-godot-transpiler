@@ -503,6 +503,90 @@
       ],
       "runtime_proof": "/root/ConveyorIntakeProof"
     },
+    "source_conveyor_accept_stack_state_input.amount": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_accept_stack_state_input.amount",
+      "status": "source-backed",
+      "java_expr": "return Math.min((int)(minitem / itemSpace), amount);",
+      "godot_symbol": "source_conveyor_accept_stack_state_input.amount",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_accept_stack_state",
+      "rule": "Requested stack size.",
+      "tests": [
+        "test_conveyor_stack_binding_registration",
+        "test_all_conveyor_stack_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_stack"
+      ],
+      "runtime_proof": "/root/ConveyorStackProof"
+    },
+    "source_conveyor_accept_stack_state_input.item_space": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_accept_stack_state_input.item_space",
+      "status": "source-backed",
+      "java_expr": "return Math.min((int)(minitem / itemSpace), amount);",
+      "godot_symbol": "source_conveyor_accept_stack_state_input.item_space",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_accept_stack_state",
+      "rule": "Spacing between items on the belt.",
+      "tests": [
+        "test_conveyor_stack_binding_registration",
+        "test_all_conveyor_stack_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_stack"
+      ],
+      "runtime_proof": "/root/ConveyorStackProof"
+    },
+    "source_conveyor_accept_stack_state_input.minitem": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_accept_stack_state_input.minitem",
+      "status": "source-backed",
+      "java_expr": "return Math.min((int)(minitem / itemSpace), amount);",
+      "godot_symbol": "source_conveyor_accept_stack_state_input.minitem",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_accept_stack_state",
+      "rule": "Smallest y among items on the belt.",
+      "tests": [
+        "test_conveyor_stack_binding_registration",
+        "test_all_conveyor_stack_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_stack"
+      ],
+      "runtime_proof": "/root/ConveyorStackProof"
+    },
+    "source_conveyor_accept_stack_state_result.accepted": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_accept_stack_state_result.accepted",
+      "status": "source-backed",
+      "java_expr": "return Math.min((int)(minitem / itemSpace), amount);",
+      "godot_symbol": "source_conveyor_accept_stack_state_result.accepted",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_accept_stack_state",
+      "rule": "Stack size the belt accepts: free slots in item-space units, capped by the request.",
+      "tests": [
+        "test_conveyor_stack_binding_registration",
+        "test_all_conveyor_stack_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_stack"
+      ],
+      "runtime_proof": "/root/ConveyorStackProof"
+    },
+    "source_conveyor_accept_stack_state_result.free_slots": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_accept_stack_state_result.free_slots",
+      "status": "source-backed",
+      "java_expr": "return Math.min((int)(minitem / itemSpace), amount);",
+      "godot_symbol": "source_conveyor_accept_stack_state_result.free_slots",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_accept_stack_state",
+      "rule": "Free slots in item-space units before capping by the request.",
+      "tests": [
+        "test_conveyor_stack_binding_registration",
+        "test_all_conveyor_stack_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_stack"
+      ],
+      "runtime_proof": "/root/ConveyorStackProof"
+    },
+    "source_conveyor_accept_stack_state_result.reason": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_accept_stack_state_result.reason",
+      "status": "source-backed",
+      "java_expr": "public int acceptStack(Item item, int amount, Teamc source){",
+      "godot_symbol": "source_conveyor_accept_stack_state_result.reason",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_accept_stack_state",
+      "rule": "Stack outcome: accepted, invalid_item_space.",
+      "tests": [
+        "test_conveyor_stack_binding_registration",
+        "test_all_conveyor_stack_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_stack"
+      ],
+      "runtime_proof": "/root/ConveyorStackProof"
+    },
     "source_conveyor_handle_item_state_input.capacity": {
       "canonical_symbol": "source_symbol_registry.source_conveyor_handle_item_state_input.capacity",
       "status": "source-backed",
@@ -712,6 +796,258 @@
         "test_reference_graph_and_actual_conveyor_intake"
       ],
       "runtime_proof": "/root/ConveyorIntakeProof"
+    },
+    "source_conveyor_handle_stack_state_input.amount": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_handle_stack_state_input.amount",
+      "status": "source-backed",
+      "java_expr": "amount = Math.min(amount, capacity - len);",
+      "godot_symbol": "source_conveyor_handle_stack_state_input.amount",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_stack_state",
+      "rule": "Requested stack size.",
+      "tests": [
+        "test_conveyor_stack_binding_registration",
+        "test_all_conveyor_stack_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_stack"
+      ],
+      "runtime_proof": "/root/ConveyorStackProof"
+    },
+    "source_conveyor_handle_stack_state_input.capacity": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_handle_stack_state_input.capacity",
+      "status": "source-backed",
+      "java_expr": "amount = Math.min(amount, capacity - len);",
+      "godot_symbol": "source_conveyor_handle_stack_state_input.capacity",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_stack_state",
+      "rule": "Maximum item count on the belt.",
+      "tests": [
+        "test_conveyor_stack_binding_registration",
+        "test_all_conveyor_stack_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_stack"
+      ],
+      "runtime_proof": "/root/ConveyorStackProof"
+    },
+    "source_conveyor_handle_stack_state_input.ids": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_handle_stack_state_input.ids",
+      "status": "source-backed",
+      "java_expr": "ids[0] = item;",
+      "godot_symbol": "source_conveyor_handle_stack_state_input.ids",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_stack_state",
+      "rule": "Item ids on the belt in queue order.",
+      "tests": [
+        "test_conveyor_stack_binding_registration",
+        "test_all_conveyor_stack_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_stack"
+      ],
+      "runtime_proof": "/root/ConveyorStackProof"
+    },
+    "source_conveyor_handle_stack_state_input.item_count_before": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_handle_stack_state_input.item_count_before",
+      "status": "source-backed",
+      "java_expr": "items.add(item, 1);",
+      "godot_symbol": "source_conveyor_handle_stack_state_input.item_count_before",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_stack_state",
+      "rule": "Items-module count of the item before the insertion.",
+      "tests": [
+        "test_conveyor_stack_binding_registration",
+        "test_all_conveyor_stack_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_stack"
+      ],
+      "runtime_proof": "/root/ConveyorStackProof"
+    },
+    "source_conveyor_handle_stack_state_input.item_id": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_handle_stack_state_input.item_id",
+      "status": "source-backed",
+      "java_expr": "ids[0] = item;",
+      "godot_symbol": "source_conveyor_handle_stack_state_input.item_id",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_stack_state",
+      "rule": "Item to insert as a stack.",
+      "tests": [
+        "test_conveyor_stack_binding_registration",
+        "test_all_conveyor_stack_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_stack"
+      ],
+      "runtime_proof": "/root/ConveyorStackProof"
+    },
+    "source_conveyor_handle_stack_state_input.item_space": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_handle_stack_state_input.item_space",
+      "status": "source-backed",
+      "java_expr": "ys[0] = i * itemSpace;",
+      "godot_symbol": "source_conveyor_handle_stack_state_input.item_space",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_stack_state",
+      "rule": "Spacing between items on the belt.",
+      "tests": [
+        "test_conveyor_stack_binding_registration",
+        "test_all_conveyor_stack_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_stack"
+      ],
+      "runtime_proof": "/root/ConveyorStackProof"
+    },
+    "source_conveyor_handle_stack_state_input.len": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_handle_stack_state_input.len",
+      "status": "source-backed",
+      "java_expr": "amount = Math.min(amount, capacity - len);",
+      "godot_symbol": "source_conveyor_handle_stack_state_input.len",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_stack_state",
+      "rule": "Current item count on the belt.",
+      "tests": [
+        "test_conveyor_stack_binding_registration",
+        "test_all_conveyor_stack_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_stack"
+      ],
+      "runtime_proof": "/root/ConveyorStackProof"
+    },
+    "source_conveyor_handle_stack_state_input.xs": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_handle_stack_state_input.xs",
+      "status": "source-backed",
+      "java_expr": "xs[0] = 0;",
+      "godot_symbol": "source_conveyor_handle_stack_state_input.xs",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_stack_state",
+      "rule": "Item x offsets on the belt in queue order.",
+      "tests": [
+        "test_conveyor_stack_binding_registration",
+        "test_all_conveyor_stack_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_stack"
+      ],
+      "runtime_proof": "/root/ConveyorStackProof"
+    },
+    "source_conveyor_handle_stack_state_input.ys": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_handle_stack_state_input.ys",
+      "status": "source-backed",
+      "java_expr": "ys[0] = i * itemSpace;",
+      "godot_symbol": "source_conveyor_handle_stack_state_input.ys",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_stack_state",
+      "rule": "Item y positions on the belt in queue order.",
+      "tests": [
+        "test_conveyor_stack_binding_registration",
+        "test_all_conveyor_stack_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_stack"
+      ],
+      "runtime_proof": "/root/ConveyorStackProof"
+    },
+    "source_conveyor_handle_stack_state_result.ids_after": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_handle_stack_state_result.ids_after",
+      "status": "source-backed",
+      "java_expr": "ids[0] = item;",
+      "godot_symbol": "source_conveyor_handle_stack_state_result.ids_after",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_stack_state",
+      "rule": "Item ids after the insertion.",
+      "tests": [
+        "test_conveyor_stack_binding_registration",
+        "test_all_conveyor_stack_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_stack"
+      ],
+      "runtime_proof": "/root/ConveyorStackProof"
+    },
+    "source_conveyor_handle_stack_state_result.inserted": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_handle_stack_state_result.inserted",
+      "status": "source-backed",
+      "java_expr": "for(int i = amount - 1; i >= 0; i--){",
+      "godot_symbol": "source_conveyor_handle_stack_state_result.inserted",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_stack_state",
+      "rule": "Number of the item inserted on the belt.",
+      "tests": [
+        "test_conveyor_stack_binding_registration",
+        "test_all_conveyor_stack_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_stack"
+      ],
+      "runtime_proof": "/root/ConveyorStackProof"
+    },
+    "source_conveyor_handle_stack_state_result.item_count_after": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_handle_stack_state_result.item_count_after",
+      "status": "source-backed",
+      "java_expr": "items.add(item, 1);",
+      "godot_symbol": "source_conveyor_handle_stack_state_result.item_count_after",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_stack_state",
+      "rule": "Items-module count of the item after the insertion.",
+      "tests": [
+        "test_conveyor_stack_binding_registration",
+        "test_all_conveyor_stack_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_stack"
+      ],
+      "runtime_proof": "/root/ConveyorStackProof"
+    },
+    "source_conveyor_handle_stack_state_result.len_after": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_handle_stack_state_result.len_after",
+      "status": "source-backed",
+      "java_expr": "add(0);",
+      "godot_symbol": "source_conveyor_handle_stack_state_result.len_after",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_stack_state",
+      "rule": "Item count after the insertion.",
+      "tests": [
+        "test_conveyor_stack_binding_registration",
+        "test_all_conveyor_stack_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_stack"
+      ],
+      "runtime_proof": "/root/ConveyorStackProof"
+    },
+    "source_conveyor_handle_stack_state_result.len_before": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_handle_stack_state_result.len_before",
+      "status": "source-backed",
+      "java_expr": "amount = Math.min(amount, capacity - len);",
+      "godot_symbol": "source_conveyor_handle_stack_state_result.len_before",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_stack_state",
+      "rule": "Item count before the insertion.",
+      "tests": [
+        "test_conveyor_stack_binding_registration",
+        "test_all_conveyor_stack_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_stack"
+      ],
+      "runtime_proof": "/root/ConveyorStackProof"
+    },
+    "source_conveyor_handle_stack_state_result.no_sleep_called": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_handle_stack_state_result.no_sleep_called",
+      "status": "source-backed",
+      "java_expr": "public void handleStack(Item item, int amount, Teamc source){",
+      "godot_symbol": "source_conveyor_handle_stack_state_result.no_sleep_called",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_stack_state",
+      "rule": "Whether noSleep ran after the insertion in handleStack.",
+      "tests": [
+        "test_conveyor_stack_binding_registration",
+        "test_all_conveyor_stack_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_stack"
+      ],
+      "runtime_proof": "/root/ConveyorStackProof"
+    },
+    "source_conveyor_handle_stack_state_result.reason": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_handle_stack_state_result.reason",
+      "status": "source-backed",
+      "java_expr": "public void handleStack(Item item, int amount, Teamc source){",
+      "godot_symbol": "source_conveyor_handle_stack_state_result.reason",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_stack_state",
+      "rule": "Stack outcome: inserted, at_capacity, empty_request.",
+      "tests": [
+        "test_conveyor_stack_binding_registration",
+        "test_all_conveyor_stack_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_stack"
+      ],
+      "runtime_proof": "/root/ConveyorStackProof"
+    },
+    "source_conveyor_handle_stack_state_result.xs_after": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_handle_stack_state_result.xs_after",
+      "status": "source-backed",
+      "java_expr": "xs[0] = 0;",
+      "godot_symbol": "source_conveyor_handle_stack_state_result.xs_after",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_stack_state",
+      "rule": "Item x offsets after the insertion.",
+      "tests": [
+        "test_conveyor_stack_binding_registration",
+        "test_all_conveyor_stack_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_stack"
+      ],
+      "runtime_proof": "/root/ConveyorStackProof"
+    },
+    "source_conveyor_handle_stack_state_result.ys_after": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_handle_stack_state_result.ys_after",
+      "status": "source-backed",
+      "java_expr": "ys[0] = i * itemSpace;",
+      "godot_symbol": "source_conveyor_handle_stack_state_result.ys_after",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_stack_state",
+      "rule": "Item y positions after the insertion.",
+      "tests": [
+        "test_conveyor_stack_binding_registration",
+        "test_all_conveyor_stack_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_stack"
+      ],
+      "runtime_proof": "/root/ConveyorStackProof"
     },
     "source_conveyor_pass_state_input.item_id": {
       "canonical_symbol": "source_symbol_registry.source_conveyor_pass_state_input.item_id",
@@ -1230,6 +1566,216 @@
         "test_reference_graph_and_actual_conveyor_queue"
       ],
       "runtime_proof": "/root/ConveyorQueueProof"
+    },
+    "source_conveyor_remove_stack_state_input.amount": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_remove_stack_state_input.amount",
+      "status": "source-backed",
+      "java_expr": "for(int j = 0; j < amount; j++){",
+      "godot_symbol": "source_conveyor_remove_stack_state_input.amount",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_remove_stack_state",
+      "rule": "Maximum number of the item to remove.",
+      "tests": [
+        "test_conveyor_stack_binding_registration",
+        "test_all_conveyor_stack_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_stack"
+      ],
+      "runtime_proof": "/root/ConveyorStackProof"
+    },
+    "source_conveyor_remove_stack_state_input.ids": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_remove_stack_state_input.ids",
+      "status": "source-backed",
+      "java_expr": "if(ids[i] == item){",
+      "godot_symbol": "source_conveyor_remove_stack_state_input.ids",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_remove_stack_state",
+      "rule": "Item ids on the belt in queue order.",
+      "tests": [
+        "test_conveyor_stack_binding_registration",
+        "test_all_conveyor_stack_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_stack"
+      ],
+      "runtime_proof": "/root/ConveyorStackProof"
+    },
+    "source_conveyor_remove_stack_state_input.item_count_before": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_remove_stack_state_input.item_count_before",
+      "status": "source-backed",
+      "java_expr": "items.remove(item, removed);",
+      "godot_symbol": "source_conveyor_remove_stack_state_input.item_count_before",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_remove_stack_state",
+      "rule": "Items-module count of the item before the removal.",
+      "tests": [
+        "test_conveyor_stack_binding_registration",
+        "test_all_conveyor_stack_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_stack"
+      ],
+      "runtime_proof": "/root/ConveyorStackProof"
+    },
+    "source_conveyor_remove_stack_state_input.item_id": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_remove_stack_state_input.item_id",
+      "status": "source-backed",
+      "java_expr": "if(ids[i] == item){",
+      "godot_symbol": "source_conveyor_remove_stack_state_input.item_id",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_remove_stack_state",
+      "rule": "Item to remove from the belt.",
+      "tests": [
+        "test_conveyor_stack_binding_registration",
+        "test_all_conveyor_stack_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_stack"
+      ],
+      "runtime_proof": "/root/ConveyorStackProof"
+    },
+    "source_conveyor_remove_stack_state_input.len": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_remove_stack_state_input.len",
+      "status": "source-backed",
+      "java_expr": "for(int i = 0; i < len; i++){",
+      "godot_symbol": "source_conveyor_remove_stack_state_input.len",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_remove_stack_state",
+      "rule": "Current item count on the belt.",
+      "tests": [
+        "test_conveyor_stack_binding_registration",
+        "test_all_conveyor_stack_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_stack"
+      ],
+      "runtime_proof": "/root/ConveyorStackProof"
+    },
+    "source_conveyor_remove_stack_state_input.xs": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_remove_stack_state_input.xs",
+      "status": "source-backed",
+      "java_expr": "remove(i);",
+      "godot_symbol": "source_conveyor_remove_stack_state_input.xs",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_remove_stack_state",
+      "rule": "Item x offsets on the belt in queue order.",
+      "tests": [
+        "test_conveyor_stack_binding_registration",
+        "test_all_conveyor_stack_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_stack"
+      ],
+      "runtime_proof": "/root/ConveyorStackProof"
+    },
+    "source_conveyor_remove_stack_state_input.ys": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_remove_stack_state_input.ys",
+      "status": "source-backed",
+      "java_expr": "remove(i);",
+      "godot_symbol": "source_conveyor_remove_stack_state_input.ys",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_remove_stack_state",
+      "rule": "Item y positions on the belt in queue order.",
+      "tests": [
+        "test_conveyor_stack_binding_registration",
+        "test_all_conveyor_stack_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_stack"
+      ],
+      "runtime_proof": "/root/ConveyorStackProof"
+    },
+    "source_conveyor_remove_stack_state_result.ids_after": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_remove_stack_state_result.ids_after",
+      "status": "source-backed",
+      "java_expr": "remove(i);",
+      "godot_symbol": "source_conveyor_remove_stack_state_result.ids_after",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_remove_stack_state",
+      "rule": "Item ids after the removal.",
+      "tests": [
+        "test_conveyor_stack_binding_registration",
+        "test_all_conveyor_stack_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_stack"
+      ],
+      "runtime_proof": "/root/ConveyorStackProof"
+    },
+    "source_conveyor_remove_stack_state_result.item_count_after": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_remove_stack_state_result.item_count_after",
+      "status": "source-backed",
+      "java_expr": "items.remove(item, removed);",
+      "godot_symbol": "source_conveyor_remove_stack_state_result.item_count_after",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_remove_stack_state",
+      "rule": "Items-module count of the item after the removal.",
+      "tests": [
+        "test_conveyor_stack_binding_registration",
+        "test_all_conveyor_stack_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_stack"
+      ],
+      "runtime_proof": "/root/ConveyorStackProof"
+    },
+    "source_conveyor_remove_stack_state_result.len_after": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_remove_stack_state_result.len_after",
+      "status": "source-backed",
+      "java_expr": "remove(i);",
+      "godot_symbol": "source_conveyor_remove_stack_state_result.len_after",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_remove_stack_state",
+      "rule": "Item count after the removal.",
+      "tests": [
+        "test_conveyor_stack_binding_registration",
+        "test_all_conveyor_stack_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_stack"
+      ],
+      "runtime_proof": "/root/ConveyorStackProof"
+    },
+    "source_conveyor_remove_stack_state_result.len_before": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_remove_stack_state_result.len_before",
+      "status": "source-backed",
+      "java_expr": "for(int i = 0; i < len; i++){",
+      "godot_symbol": "source_conveyor_remove_stack_state_result.len_before",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_remove_stack_state",
+      "rule": "Item count before the removal.",
+      "tests": [
+        "test_conveyor_stack_binding_registration",
+        "test_all_conveyor_stack_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_stack"
+      ],
+      "runtime_proof": "/root/ConveyorStackProof"
+    },
+    "source_conveyor_remove_stack_state_result.no_sleep_called": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_remove_stack_state_result.no_sleep_called",
+      "status": "source-backed",
+      "java_expr": "public int removeStack(Item item, int amount){",
+      "godot_symbol": "source_conveyor_remove_stack_state_result.no_sleep_called",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_remove_stack_state",
+      "rule": "Whether noSleep ran first in removeStack.",
+      "tests": [
+        "test_conveyor_stack_binding_registration",
+        "test_all_conveyor_stack_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_stack"
+      ],
+      "runtime_proof": "/root/ConveyorStackProof"
+    },
+    "source_conveyor_remove_stack_state_result.removed": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_remove_stack_state_result.removed",
+      "status": "source-backed",
+      "java_expr": "return removed;",
+      "godot_symbol": "source_conveyor_remove_stack_state_result.removed",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_remove_stack_state",
+      "rule": "Number of the item removed from the belt.",
+      "tests": [
+        "test_conveyor_stack_binding_registration",
+        "test_all_conveyor_stack_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_stack"
+      ],
+      "runtime_proof": "/root/ConveyorStackProof"
+    },
+    "source_conveyor_remove_stack_state_result.xs_after": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_remove_stack_state_result.xs_after",
+      "status": "source-backed",
+      "java_expr": "remove(i);",
+      "godot_symbol": "source_conveyor_remove_stack_state_result.xs_after",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_remove_stack_state",
+      "rule": "Item x offsets after the removal.",
+      "tests": [
+        "test_conveyor_stack_binding_registration",
+        "test_all_conveyor_stack_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_stack"
+      ],
+      "runtime_proof": "/root/ConveyorStackProof"
+    },
+    "source_conveyor_remove_stack_state_result.ys_after": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_remove_stack_state_result.ys_after",
+      "status": "source-backed",
+      "java_expr": "remove(i);",
+      "godot_symbol": "source_conveyor_remove_stack_state_result.ys_after",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_remove_stack_state",
+      "rule": "Item y positions after the removal.",
+      "tests": [
+        "test_conveyor_stack_binding_registration",
+        "test_all_conveyor_stack_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_stack"
+      ],
+      "runtime_proof": "/root/ConveyorStackProof"
     }
   }
 }
