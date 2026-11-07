@@ -3,6 +3,7 @@ class_name SourceBuildingItemState
 
 const source_building_item_source_text_state := preload("res://src/game/SourceBuildingItemSourceTextState.gd")
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
+const source_building_access_state := preload("res://src/game/SourceBuildingAccessState.gd")
 
 const SOURCE_MOVE_FORWARD_ACCEPT_METHOD := source_building_item_source_text_state.SOURCE_MOVE_FORWARD_ACCEPT_METHOD
 const SOURCE_MOVE_FORWARD_ACCEPT_FRONT := source_building_item_source_text_state.SOURCE_MOVE_FORWARD_ACCEPT_FRONT
@@ -49,3 +50,57 @@ static func remove_stack_state(has_items_module: bool, item_count: int, amount: 
 		return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_REMOVE_STACK_STATE, "method": SOURCE_BUILDING_REMOVE_STACK_METHOD, "null_guard": SOURCE_BUILDING_REMOVE_STACK_NULL_GUARD, "has_items_module": has_items_module, "item_count": item_count, "amount": amount, "removed": 0, "remaining": item_count, "return_value": 0}
 	var removed := mini(amount, item_count)
 	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_REMOVE_STACK_STATE, "method": SOURCE_BUILDING_REMOVE_STACK_METHOD, "null_guard": SOURCE_BUILDING_REMOVE_STACK_NULL_GUARD, "min_assign": SOURCE_BUILDING_REMOVE_STACK_MIN_ASSIGN, "no_sleep_call": SOURCE_BUILDING_REMOVE_STACK_NO_SLEEP_CALL, "items_remove_call": SOURCE_BUILDING_REMOVE_STACK_ITEMS_REMOVE_CALL, "return_amount": SOURCE_BUILDING_REMOVE_STACK_RETURN_AMOUNT, "has_items_module": has_items_module, "item_count": item_count, "amount": amount, "removed": removed, "remaining": item_count - removed, "return_value": removed}
+
+
+# Building.handleStack: noSleep() runs first, then the stack is added.
+# The wake transition comes from the noSleep binding; the group add() is
+# recorded, not executed, because the runtime has no entity groups.
+static func source_handle_stack_wake_state(current_count: int, amount: int, sleep_time: float, sleeping: bool, sleeping_entities: int) -> Dictionary:
+	var wake: Dictionary = source_building_access_state.no_sleep_state(sleeping, sleeping_entities)
+	return {
+		"count_before": current_count,
+		"count_after": handle_stack_count(current_count, amount),
+		"sleep_time_before": sleep_time,
+		"sleep_time_after": wake.get("sleep_time", 0.0),
+		"sleeping_before": sleeping,
+		"sleeping_after": wake.get("sleeping_after", false),
+		"sleeping_entities_before": sleeping_entities,
+		"sleeping_entities_after": wake.get("sleeping_entities_after", sleeping_entities),
+		"woke": sleeping,
+		"add_called": wake.get("add_called", false),
+	}
+
+
+# Building.removeStack: the null guard returns 0 before noSleep, so a
+# Building without an items module keeps its sleep state untouched. With
+# an items module, noSleep runs, then the clamped stack is removed.
+static func source_remove_stack_wake_state(has_items_module: bool, item_count: int, amount: int, sleep_time: float, sleeping: bool, sleeping_entities: int) -> Dictionary:
+	var removed_state: Dictionary = remove_stack_state(has_items_module, item_count, amount)
+	if not has_items_module:
+		return {
+			"removed": removed_state.get("removed", 0),
+			"remaining": removed_state.get("remaining", item_count),
+			"return_value": removed_state.get("return_value", 0),
+			"sleep_time_before": sleep_time,
+			"sleep_time_after": sleep_time,
+			"sleeping_before": sleeping,
+			"sleeping_after": sleeping,
+			"sleeping_entities_before": sleeping_entities,
+			"sleeping_entities_after": sleeping_entities,
+			"woke": false,
+			"add_called": false,
+		}
+	var wake: Dictionary = source_building_access_state.no_sleep_state(sleeping, sleeping_entities)
+	return {
+		"removed": removed_state.get("removed", 0),
+		"remaining": removed_state.get("remaining", item_count),
+		"return_value": removed_state.get("return_value", 0),
+		"sleep_time_before": sleep_time,
+		"sleep_time_after": wake.get("sleep_time", 0.0),
+		"sleeping_before": sleeping,
+		"sleeping_after": wake.get("sleeping_after", false),
+		"sleeping_entities_before": sleeping_entities,
+		"sleeping_entities_after": wake.get("sleeping_entities_after", sleeping_entities),
+		"woke": sleeping,
+		"add_called": wake.get("add_called", false),
+	}

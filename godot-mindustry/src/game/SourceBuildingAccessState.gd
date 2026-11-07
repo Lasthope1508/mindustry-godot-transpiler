@@ -119,6 +119,23 @@ static func no_sleep_state(sleeping: bool, sleeping_entities: int) -> Dictionary
 		"sleeping": false,
 	}
 
+
+# Building.onProximityUpdate: the whole method is noSleep(). This is the
+# superclass wake, distinct from the power-domain onProximityUpdate state
+# (N968), which covers the power graph side of the same call.
+static func source_on_proximity_update_wake_state(sleep_time: float, sleeping: bool, sleeping_entities: int) -> Dictionary:
+	var wake: Dictionary = no_sleep_state(sleeping, sleeping_entities)
+	return {
+		"sleep_time_before": sleep_time,
+		"sleep_time_after": wake.get("sleep_time", 0.0),
+		"sleeping_before": sleeping,
+		"sleeping_after": wake.get("sleeping_after", false),
+		"sleeping_entities_before": sleeping_entities,
+		"sleeping_entities_after": wake.get("sleeping_entities_after", sleeping_entities),
+		"woke": sleeping,
+		"add_called": wake.get("add_called", false),
+	}
+
 static func can_withdraw_state() -> bool:
 	return true
 

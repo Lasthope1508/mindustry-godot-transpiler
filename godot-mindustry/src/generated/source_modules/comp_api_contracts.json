@@ -17689,6 +17689,159 @@
       "runtime_proof": "/root/Main.source_weapons_update_dispatch_state",
       "rule": "Public runtime contract for WeaponsComp.update() dispatch state."
     },
+    "SourceBuildingAccessState.source_on_proximity_update_wake_state": {
+      "canonical_contract": "source_api_contracts.SourceBuildingAccessState.source_on_proximity_update_wake_state",
+      "status": "active",
+      "source_slice": "N2046",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "onProximityUpdate",
+      "params": [
+        {
+          "name": "sleep_time",
+          "type": "float",
+          "schema": "source_on_proximity_update_wake_state_input.sleep_time"
+        },
+        {
+          "name": "sleeping",
+          "type": "bool",
+          "schema": "source_on_proximity_update_wake_state_input.sleeping"
+        },
+        {
+          "name": "sleeping_entities",
+          "type": "int",
+          "schema": "source_on_proximity_update_wake_state_input.sleeping_entities"
+        }
+      ],
+      "return_keys": [
+        "sleep_time_before",
+        "sleep_time_after",
+        "sleeping_before",
+        "sleeping_after",
+        "sleeping_entities_before",
+        "sleeping_entities_after",
+        "woke",
+        "add_called"
+      ],
+      "tests": [
+        "test_no_sleep_wake_binding_registration",
+        "test_all_no_sleep_wake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_no_sleep_wake"
+      ],
+      "runtime_proof": "/root/NoSleepWakeProof",
+      "rule": "Source-backed noSleep wake; the result reports the stack change and the sleep transition."
+    },
+    "SourceBuildingItemState.source_handle_stack_wake_state": {
+      "canonical_contract": "source_api_contracts.SourceBuildingItemState.source_handle_stack_wake_state",
+      "status": "active",
+      "source_slice": "N2044",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "handleStack",
+      "params": [
+        {
+          "name": "current_count",
+          "type": "int",
+          "schema": "source_handle_stack_wake_state_input.current_count"
+        },
+        {
+          "name": "amount",
+          "type": "int",
+          "schema": "source_handle_stack_wake_state_input.amount"
+        },
+        {
+          "name": "sleep_time",
+          "type": "float",
+          "schema": "source_handle_stack_wake_state_input.sleep_time"
+        },
+        {
+          "name": "sleeping",
+          "type": "bool",
+          "schema": "source_handle_stack_wake_state_input.sleeping"
+        },
+        {
+          "name": "sleeping_entities",
+          "type": "int",
+          "schema": "source_handle_stack_wake_state_input.sleeping_entities"
+        }
+      ],
+      "return_keys": [
+        "count_before",
+        "count_after",
+        "sleep_time_before",
+        "sleep_time_after",
+        "sleeping_before",
+        "sleeping_after",
+        "sleeping_entities_before",
+        "sleeping_entities_after",
+        "woke",
+        "add_called"
+      ],
+      "tests": [
+        "test_no_sleep_wake_binding_registration",
+        "test_all_no_sleep_wake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_no_sleep_wake"
+      ],
+      "runtime_proof": "/root/NoSleepWakeProof",
+      "rule": "Source-backed noSleep wake; the result reports the stack change and the sleep transition."
+    },
+    "SourceBuildingItemState.source_remove_stack_wake_state": {
+      "canonical_contract": "source_api_contracts.SourceBuildingItemState.source_remove_stack_wake_state",
+      "status": "active",
+      "source_slice": "N2045",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "removeStack",
+      "params": [
+        {
+          "name": "has_items_module",
+          "type": "bool",
+          "schema": "source_remove_stack_wake_state_input.has_items_module"
+        },
+        {
+          "name": "item_count",
+          "type": "int",
+          "schema": "source_remove_stack_wake_state_input.item_count"
+        },
+        {
+          "name": "amount",
+          "type": "int",
+          "schema": "source_remove_stack_wake_state_input.amount"
+        },
+        {
+          "name": "sleep_time",
+          "type": "float",
+          "schema": "source_remove_stack_wake_state_input.sleep_time"
+        },
+        {
+          "name": "sleeping",
+          "type": "bool",
+          "schema": "source_remove_stack_wake_state_input.sleeping"
+        },
+        {
+          "name": "sleeping_entities",
+          "type": "int",
+          "schema": "source_remove_stack_wake_state_input.sleeping_entities"
+        }
+      ],
+      "return_keys": [
+        "removed",
+        "remaining",
+        "return_value",
+        "sleep_time_before",
+        "sleep_time_after",
+        "sleeping_before",
+        "sleeping_after",
+        "sleeping_entities_before",
+        "sleeping_entities_after",
+        "woke",
+        "add_called"
+      ],
+      "tests": [
+        "test_no_sleep_wake_binding_registration",
+        "test_all_no_sleep_wake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_no_sleep_wake"
+      ],
+      "runtime_proof": "/root/NoSleepWakeProof",
+      "rule": "Source-backed noSleep wake; the result reports the stack change and the sleep transition."
+    },
     "SourceBuildingLifecycleProximityState.source_apply_remove_from_proximity": {
       "canonical_contract": "source_api_contracts.SourceBuildingLifecycleProximityState.source_apply_remove_from_proximity",
       "status": "active",

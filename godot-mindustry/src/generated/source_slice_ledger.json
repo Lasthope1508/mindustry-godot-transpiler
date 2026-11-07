@@ -51120,6 +51120,144 @@
         "Superclass noSleep group membership (entity group add/remove), power/turret live hooks, controller pickup and world transitions stay open in C01.",
         "C02 inventory/offload/dump/transport and C03-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2044": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "handleStack",
+      "godot_owner": "SourceBuildingItemState.source_handle_stack_wake_state",
+      "exact_exprs": [
+        "public void handleStack(Item item, int amount, @Nullable Teamc source){",
+        "items.add(item, amount);",
+        "public void noSleep(){",
+        "sleepTime = 0f;",
+        "if(sleeping){",
+        "add();",
+        "sleeping = false;",
+        "sleepingEntities--;"
+      ],
+      "source_symbols": [
+        "source_handle_stack_wake_state_input.current_count",
+        "source_handle_stack_wake_state_input.amount",
+        "source_handle_stack_wake_state_input.sleep_time",
+        "source_handle_stack_wake_state_input.sleeping",
+        "source_handle_stack_wake_state_input.sleeping_entities",
+        "source_handle_stack_wake_state_result.count_before",
+        "source_handle_stack_wake_state_result.count_after",
+        "source_handle_stack_wake_state_result.sleep_time_before",
+        "source_handle_stack_wake_state_result.sleep_time_after",
+        "source_handle_stack_wake_state_result.sleeping_before",
+        "source_handle_stack_wake_state_result.sleeping_after",
+        "source_handle_stack_wake_state_result.sleeping_entities_before",
+        "source_handle_stack_wake_state_result.sleeping_entities_after",
+        "source_handle_stack_wake_state_result.woke",
+        "source_handle_stack_wake_state_result.add_called"
+      ],
+      "tests": [
+        "test_no_sleep_wake_binding_registration",
+        "test_all_no_sleep_wake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_no_sleep_wake"
+      ],
+      "runtime_proof": "/root/NoSleepWakeProof",
+      "deferred_exprs": [
+        "Entity group membership (Groups add/remove) has no runtime equivalent; the wake transition records add_called with the Java add() call instead of moving the Building between groups.",
+        "Conveyor.unitOn also calls noSleep, but its unit-pushing body is out of scope for this batch; only handleStack, removeStack and onProximityUpdate wake the Building here.",
+        "Controller pickup and world transition invalidation stay open in C01; they need the unit system and campaign state machine.",
+        "C02 inventory/offload/dump/transport and C03-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
+    },
+    "N2045": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "removeStack",
+      "godot_owner": "SourceBuildingItemState.source_remove_stack_wake_state",
+      "exact_exprs": [
+        "public int removeStack(Item item, int amount){",
+        "if(items == null) return 0;",
+        "amount = Math.min(amount, items.get(item));",
+        "items.remove(item, amount);",
+        "return amount;",
+        "public void noSleep(){",
+        "sleepTime = 0f;",
+        "if(sleeping){",
+        "add();",
+        "sleeping = false;",
+        "sleepingEntities--;"
+      ],
+      "source_symbols": [
+        "source_remove_stack_wake_state_input.has_items_module",
+        "source_remove_stack_wake_state_input.item_count",
+        "source_remove_stack_wake_state_input.amount",
+        "source_remove_stack_wake_state_input.sleep_time",
+        "source_remove_stack_wake_state_input.sleeping",
+        "source_remove_stack_wake_state_input.sleeping_entities",
+        "source_remove_stack_wake_state_result.removed",
+        "source_remove_stack_wake_state_result.remaining",
+        "source_remove_stack_wake_state_result.return_value",
+        "source_remove_stack_wake_state_result.sleep_time_before",
+        "source_remove_stack_wake_state_result.sleep_time_after",
+        "source_remove_stack_wake_state_result.sleeping_before",
+        "source_remove_stack_wake_state_result.sleeping_after",
+        "source_remove_stack_wake_state_result.sleeping_entities_before",
+        "source_remove_stack_wake_state_result.sleeping_entities_after",
+        "source_remove_stack_wake_state_result.woke",
+        "source_remove_stack_wake_state_result.add_called"
+      ],
+      "tests": [
+        "test_no_sleep_wake_binding_registration",
+        "test_all_no_sleep_wake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_no_sleep_wake"
+      ],
+      "runtime_proof": "/root/NoSleepWakeProof",
+      "deferred_exprs": [
+        "Entity group membership (Groups add/remove) has no runtime equivalent; the wake transition records add_called with the Java add() call instead of moving the Building between groups.",
+        "Conveyor.unitOn also calls noSleep, but its unit-pushing body is out of scope for this batch; only handleStack, removeStack and onProximityUpdate wake the Building here.",
+        "Controller pickup and world transition invalidation stay open in C01; they need the unit system and campaign state machine.",
+        "C02 inventory/offload/dump/transport and C03-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
+    },
+    "N2046": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "onProximityUpdate",
+      "godot_owner": "SourceBuildingAccessState.source_on_proximity_update_wake_state",
+      "exact_exprs": [
+        "public void onProximityUpdate(){",
+        "public void noSleep(){",
+        "sleepTime = 0f;",
+        "if(sleeping){",
+        "add();",
+        "sleeping = false;",
+        "sleepingEntities--;"
+      ],
+      "source_symbols": [
+        "source_on_proximity_update_wake_state_input.sleep_time",
+        "source_on_proximity_update_wake_state_input.sleeping",
+        "source_on_proximity_update_wake_state_input.sleeping_entities",
+        "source_on_proximity_update_wake_state_result.sleep_time_before",
+        "source_on_proximity_update_wake_state_result.sleep_time_after",
+        "source_on_proximity_update_wake_state_result.sleeping_before",
+        "source_on_proximity_update_wake_state_result.sleeping_after",
+        "source_on_proximity_update_wake_state_result.sleeping_entities_before",
+        "source_on_proximity_update_wake_state_result.sleeping_entities_after",
+        "source_on_proximity_update_wake_state_result.woke",
+        "source_on_proximity_update_wake_state_result.add_called"
+      ],
+      "tests": [
+        "test_no_sleep_wake_binding_registration",
+        "test_all_no_sleep_wake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_no_sleep_wake"
+      ],
+      "runtime_proof": "/root/NoSleepWakeProof",
+      "deferred_exprs": [
+        "Entity group membership (Groups add/remove) has no runtime equivalent; the wake transition records add_called with the Java add() call instead of moving the Building between groups.",
+        "Conveyor.unitOn also calls noSleep, but its unit-pushing body is out of scope for this batch; only handleStack, removeStack and onProximityUpdate wake the Building here.",
+        "Controller pickup and world transition invalidation stay open in C01; they need the unit system and campaign state machine.",
+        "C02 inventory/offload/dump/transport and C03-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1

@@ -156273,6 +156273,651 @@
         "test_reference_graph_and_actual_valid_place"
       ],
       "runtime_proof": "/root/ValidPlaceProof"
+    },
+    "source_handle_stack_wake_state_input.current_count": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemState.source_handle_stack_wake_state",
+      "godot_symbol": "source_handle_stack_wake_state_input.current_count",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "handleStack",
+      "java_expr": "public void handleStack(Item item, int amount, @Nullable Teamc source){",
+      "rule": "Actual item count before the stack is handled.",
+      "tests": [
+        "test_no_sleep_wake_binding_registration",
+        "test_all_no_sleep_wake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_no_sleep_wake"
+      ],
+      "runtime_proof": "/root/NoSleepWakeProof"
+    },
+    "source_handle_stack_wake_state_input.amount": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemState.source_handle_stack_wake_state",
+      "godot_symbol": "source_handle_stack_wake_state_input.amount",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "handleStack",
+      "java_expr": "public void handleStack(Item item, int amount, @Nullable Teamc source){",
+      "rule": "Actual stack amount being handled.",
+      "tests": [
+        "test_no_sleep_wake_binding_registration",
+        "test_all_no_sleep_wake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_no_sleep_wake"
+      ],
+      "runtime_proof": "/root/NoSleepWakeProof"
+    },
+    "source_handle_stack_wake_state_input.sleep_time": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemState.source_handle_stack_wake_state",
+      "godot_symbol": "source_handle_stack_wake_state_input.sleep_time",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "handleStack",
+      "java_expr": "sleepTime = 0f;",
+      "rule": "Actual sleepTime before the wake.",
+      "tests": [
+        "test_no_sleep_wake_binding_registration",
+        "test_all_no_sleep_wake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_no_sleep_wake"
+      ],
+      "runtime_proof": "/root/NoSleepWakeProof"
+    },
+    "source_handle_stack_wake_state_input.sleeping": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemState.source_handle_stack_wake_state",
+      "godot_symbol": "source_handle_stack_wake_state_input.sleeping",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "handleStack",
+      "java_expr": "if(sleeping){",
+      "rule": "Actual sleeping flag before the wake.",
+      "tests": [
+        "test_no_sleep_wake_binding_registration",
+        "test_all_no_sleep_wake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_no_sleep_wake"
+      ],
+      "runtime_proof": "/root/NoSleepWakeProof"
+    },
+    "source_handle_stack_wake_state_input.sleeping_entities": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemState.source_handle_stack_wake_state",
+      "godot_symbol": "source_handle_stack_wake_state_input.sleeping_entities",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "handleStack",
+      "java_expr": "sleepingEntities--;",
+      "rule": "Actual sleepingEntities count before the wake.",
+      "tests": [
+        "test_no_sleep_wake_binding_registration",
+        "test_all_no_sleep_wake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_no_sleep_wake"
+      ],
+      "runtime_proof": "/root/NoSleepWakeProof"
+    },
+    "source_handle_stack_wake_state_result.count_before": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemState.source_handle_stack_wake_state",
+      "godot_symbol": "source_handle_stack_wake_state_result.count_before",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "handleStack",
+      "java_expr": "public void handleStack(Item item, int amount, @Nullable Teamc source){",
+      "rule": "Actual item count before the stack is handled.",
+      "tests": [
+        "test_no_sleep_wake_binding_registration",
+        "test_all_no_sleep_wake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_no_sleep_wake"
+      ],
+      "runtime_proof": "/root/NoSleepWakeProof"
+    },
+    "source_handle_stack_wake_state_result.count_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemState.source_handle_stack_wake_state",
+      "godot_symbol": "source_handle_stack_wake_state_result.count_after",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "handleStack",
+      "java_expr": "items.add(item, amount);",
+      "rule": "Actual item count after the stack is added.",
+      "tests": [
+        "test_no_sleep_wake_binding_registration",
+        "test_all_no_sleep_wake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_no_sleep_wake"
+      ],
+      "runtime_proof": "/root/NoSleepWakeProof"
+    },
+    "source_handle_stack_wake_state_result.sleep_time_before": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemState.source_handle_stack_wake_state",
+      "godot_symbol": "source_handle_stack_wake_state_result.sleep_time_before",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "handleStack",
+      "java_expr": "sleepTime = 0f;",
+      "rule": "Actual sleepTime before the wake; noSleep resets it to 0.",
+      "tests": [
+        "test_no_sleep_wake_binding_registration",
+        "test_all_no_sleep_wake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_no_sleep_wake"
+      ],
+      "runtime_proof": "/root/NoSleepWakeProof"
+    },
+    "source_handle_stack_wake_state_result.sleep_time_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemState.source_handle_stack_wake_state",
+      "godot_symbol": "source_handle_stack_wake_state_result.sleep_time_after",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "handleStack",
+      "java_expr": "sleepTime = 0f;",
+      "rule": "Actual sleepTime after the wake: 0 when noSleep ran, unchanged when the null guard returned first.",
+      "tests": [
+        "test_no_sleep_wake_binding_registration",
+        "test_all_no_sleep_wake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_no_sleep_wake"
+      ],
+      "runtime_proof": "/root/NoSleepWakeProof"
+    },
+    "source_handle_stack_wake_state_result.sleeping_before": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemState.source_handle_stack_wake_state",
+      "godot_symbol": "source_handle_stack_wake_state_result.sleeping_before",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "handleStack",
+      "java_expr": "if(sleeping){",
+      "rule": "Actual sleeping flag before the wake.",
+      "tests": [
+        "test_no_sleep_wake_binding_registration",
+        "test_all_no_sleep_wake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_no_sleep_wake"
+      ],
+      "runtime_proof": "/root/NoSleepWakeProof"
+    },
+    "source_handle_stack_wake_state_result.sleeping_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemState.source_handle_stack_wake_state",
+      "godot_symbol": "source_handle_stack_wake_state_result.sleeping_after",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "handleStack",
+      "java_expr": "sleeping = false;",
+      "rule": "Actual sleeping flag after the wake: false when noSleep ran, unchanged when the null guard returned first.",
+      "tests": [
+        "test_no_sleep_wake_binding_registration",
+        "test_all_no_sleep_wake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_no_sleep_wake"
+      ],
+      "runtime_proof": "/root/NoSleepWakeProof"
+    },
+    "source_handle_stack_wake_state_result.sleeping_entities_before": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemState.source_handle_stack_wake_state",
+      "godot_symbol": "source_handle_stack_wake_state_result.sleeping_entities_before",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "handleStack",
+      "java_expr": "sleepingEntities--;",
+      "rule": "Actual sleepingEntities count before the wake.",
+      "tests": [
+        "test_no_sleep_wake_binding_registration",
+        "test_all_no_sleep_wake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_no_sleep_wake"
+      ],
+      "runtime_proof": "/root/NoSleepWakeProof"
+    },
+    "source_handle_stack_wake_state_result.sleeping_entities_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemState.source_handle_stack_wake_state",
+      "godot_symbol": "source_handle_stack_wake_state_result.sleeping_entities_after",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "handleStack",
+      "java_expr": "sleepingEntities--;",
+      "rule": "Actual sleepingEntities count after the wake: one less when the Building was sleeping and noSleep ran.",
+      "tests": [
+        "test_no_sleep_wake_binding_registration",
+        "test_all_no_sleep_wake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_no_sleep_wake"
+      ],
+      "runtime_proof": "/root/NoSleepWakeProof"
+    },
+    "source_handle_stack_wake_state_result.woke": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemState.source_handle_stack_wake_state",
+      "godot_symbol": "source_handle_stack_wake_state_result.woke",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "handleStack",
+      "java_expr": "if(sleeping){",
+      "rule": "Whether the Building was sleeping and noSleep woke it.",
+      "tests": [
+        "test_no_sleep_wake_binding_registration",
+        "test_all_no_sleep_wake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_no_sleep_wake"
+      ],
+      "runtime_proof": "/root/NoSleepWakeProof"
+    },
+    "source_handle_stack_wake_state_result.add_called": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemState.source_handle_stack_wake_state",
+      "godot_symbol": "source_handle_stack_wake_state_result.add_called",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "handleStack",
+      "java_expr": "add();",
+      "rule": "Whether the Java add() group rejoin ran (only when the Building was sleeping).",
+      "tests": [
+        "test_no_sleep_wake_binding_registration",
+        "test_all_no_sleep_wake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_no_sleep_wake"
+      ],
+      "runtime_proof": "/root/NoSleepWakeProof"
+    },
+    "source_remove_stack_wake_state_input.has_items_module": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemState.source_remove_stack_wake_state",
+      "godot_symbol": "source_remove_stack_wake_state_input.has_items_module",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "removeStack",
+      "java_expr": "if(items == null) return 0;",
+      "rule": "Whether the Building has an items module; without one removeStack returns 0 before noSleep.",
+      "tests": [
+        "test_no_sleep_wake_binding_registration",
+        "test_all_no_sleep_wake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_no_sleep_wake"
+      ],
+      "runtime_proof": "/root/NoSleepWakeProof"
+    },
+    "source_remove_stack_wake_state_input.item_count": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemState.source_remove_stack_wake_state",
+      "godot_symbol": "source_remove_stack_wake_state_input.item_count",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "removeStack",
+      "java_expr": "amount = Math.min(amount, items.get(item));",
+      "rule": "Actual item count before the stack is removed.",
+      "tests": [
+        "test_no_sleep_wake_binding_registration",
+        "test_all_no_sleep_wake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_no_sleep_wake"
+      ],
+      "runtime_proof": "/root/NoSleepWakeProof"
+    },
+    "source_remove_stack_wake_state_input.amount": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemState.source_remove_stack_wake_state",
+      "godot_symbol": "source_remove_stack_wake_state_input.amount",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "removeStack",
+      "java_expr": "amount = Math.min(amount, items.get(item));",
+      "rule": "Actual stack amount requested for removal.",
+      "tests": [
+        "test_no_sleep_wake_binding_registration",
+        "test_all_no_sleep_wake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_no_sleep_wake"
+      ],
+      "runtime_proof": "/root/NoSleepWakeProof"
+    },
+    "source_remove_stack_wake_state_input.sleep_time": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemState.source_remove_stack_wake_state",
+      "godot_symbol": "source_remove_stack_wake_state_input.sleep_time",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "removeStack",
+      "java_expr": "sleepTime = 0f;",
+      "rule": "Actual sleepTime before the wake.",
+      "tests": [
+        "test_no_sleep_wake_binding_registration",
+        "test_all_no_sleep_wake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_no_sleep_wake"
+      ],
+      "runtime_proof": "/root/NoSleepWakeProof"
+    },
+    "source_remove_stack_wake_state_input.sleeping": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemState.source_remove_stack_wake_state",
+      "godot_symbol": "source_remove_stack_wake_state_input.sleeping",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "removeStack",
+      "java_expr": "if(sleeping){",
+      "rule": "Actual sleeping flag before the wake.",
+      "tests": [
+        "test_no_sleep_wake_binding_registration",
+        "test_all_no_sleep_wake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_no_sleep_wake"
+      ],
+      "runtime_proof": "/root/NoSleepWakeProof"
+    },
+    "source_remove_stack_wake_state_input.sleeping_entities": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemState.source_remove_stack_wake_state",
+      "godot_symbol": "source_remove_stack_wake_state_input.sleeping_entities",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "removeStack",
+      "java_expr": "sleepingEntities--;",
+      "rule": "Actual sleepingEntities count before the wake.",
+      "tests": [
+        "test_no_sleep_wake_binding_registration",
+        "test_all_no_sleep_wake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_no_sleep_wake"
+      ],
+      "runtime_proof": "/root/NoSleepWakeProof"
+    },
+    "source_remove_stack_wake_state_result.removed": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemState.source_remove_stack_wake_state",
+      "godot_symbol": "source_remove_stack_wake_state_result.removed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "removeStack",
+      "java_expr": "amount = Math.min(amount, items.get(item));",
+      "rule": "Actual amount removed: the minimum of the requested amount and the item count.",
+      "tests": [
+        "test_no_sleep_wake_binding_registration",
+        "test_all_no_sleep_wake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_no_sleep_wake"
+      ],
+      "runtime_proof": "/root/NoSleepWakeProof"
+    },
+    "source_remove_stack_wake_state_result.remaining": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemState.source_remove_stack_wake_state",
+      "godot_symbol": "source_remove_stack_wake_state_result.remaining",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "removeStack",
+      "java_expr": "items.remove(item, amount);",
+      "rule": "Actual item count after the stack is removed.",
+      "tests": [
+        "test_no_sleep_wake_binding_registration",
+        "test_all_no_sleep_wake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_no_sleep_wake"
+      ],
+      "runtime_proof": "/root/NoSleepWakeProof"
+    },
+    "source_remove_stack_wake_state_result.return_value": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemState.source_remove_stack_wake_state",
+      "godot_symbol": "source_remove_stack_wake_state_result.return_value",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "removeStack",
+      "java_expr": "return amount;",
+      "rule": "Actual removeStack return value, equal to the removed amount.",
+      "tests": [
+        "test_no_sleep_wake_binding_registration",
+        "test_all_no_sleep_wake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_no_sleep_wake"
+      ],
+      "runtime_proof": "/root/NoSleepWakeProof"
+    },
+    "source_remove_stack_wake_state_result.sleep_time_before": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemState.source_remove_stack_wake_state",
+      "godot_symbol": "source_remove_stack_wake_state_result.sleep_time_before",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "removeStack",
+      "java_expr": "sleepTime = 0f;",
+      "rule": "Actual sleepTime before the wake; noSleep resets it to 0.",
+      "tests": [
+        "test_no_sleep_wake_binding_registration",
+        "test_all_no_sleep_wake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_no_sleep_wake"
+      ],
+      "runtime_proof": "/root/NoSleepWakeProof"
+    },
+    "source_remove_stack_wake_state_result.sleep_time_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemState.source_remove_stack_wake_state",
+      "godot_symbol": "source_remove_stack_wake_state_result.sleep_time_after",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "removeStack",
+      "java_expr": "sleepTime = 0f;",
+      "rule": "Actual sleepTime after the wake: 0 when noSleep ran, unchanged when the null guard returned first.",
+      "tests": [
+        "test_no_sleep_wake_binding_registration",
+        "test_all_no_sleep_wake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_no_sleep_wake"
+      ],
+      "runtime_proof": "/root/NoSleepWakeProof"
+    },
+    "source_remove_stack_wake_state_result.sleeping_before": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemState.source_remove_stack_wake_state",
+      "godot_symbol": "source_remove_stack_wake_state_result.sleeping_before",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "removeStack",
+      "java_expr": "if(sleeping){",
+      "rule": "Actual sleeping flag before the wake.",
+      "tests": [
+        "test_no_sleep_wake_binding_registration",
+        "test_all_no_sleep_wake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_no_sleep_wake"
+      ],
+      "runtime_proof": "/root/NoSleepWakeProof"
+    },
+    "source_remove_stack_wake_state_result.sleeping_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemState.source_remove_stack_wake_state",
+      "godot_symbol": "source_remove_stack_wake_state_result.sleeping_after",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "removeStack",
+      "java_expr": "sleeping = false;",
+      "rule": "Actual sleeping flag after the wake: false when noSleep ran, unchanged when the null guard returned first.",
+      "tests": [
+        "test_no_sleep_wake_binding_registration",
+        "test_all_no_sleep_wake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_no_sleep_wake"
+      ],
+      "runtime_proof": "/root/NoSleepWakeProof"
+    },
+    "source_remove_stack_wake_state_result.sleeping_entities_before": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemState.source_remove_stack_wake_state",
+      "godot_symbol": "source_remove_stack_wake_state_result.sleeping_entities_before",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "removeStack",
+      "java_expr": "sleepingEntities--;",
+      "rule": "Actual sleepingEntities count before the wake.",
+      "tests": [
+        "test_no_sleep_wake_binding_registration",
+        "test_all_no_sleep_wake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_no_sleep_wake"
+      ],
+      "runtime_proof": "/root/NoSleepWakeProof"
+    },
+    "source_remove_stack_wake_state_result.sleeping_entities_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemState.source_remove_stack_wake_state",
+      "godot_symbol": "source_remove_stack_wake_state_result.sleeping_entities_after",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "removeStack",
+      "java_expr": "sleepingEntities--;",
+      "rule": "Actual sleepingEntities count after the wake: one less when the Building was sleeping and noSleep ran.",
+      "tests": [
+        "test_no_sleep_wake_binding_registration",
+        "test_all_no_sleep_wake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_no_sleep_wake"
+      ],
+      "runtime_proof": "/root/NoSleepWakeProof"
+    },
+    "source_remove_stack_wake_state_result.woke": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemState.source_remove_stack_wake_state",
+      "godot_symbol": "source_remove_stack_wake_state_result.woke",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "removeStack",
+      "java_expr": "if(sleeping){",
+      "rule": "Whether the Building was sleeping and noSleep woke it.",
+      "tests": [
+        "test_no_sleep_wake_binding_registration",
+        "test_all_no_sleep_wake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_no_sleep_wake"
+      ],
+      "runtime_proof": "/root/NoSleepWakeProof"
+    },
+    "source_remove_stack_wake_state_result.add_called": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemState.source_remove_stack_wake_state",
+      "godot_symbol": "source_remove_stack_wake_state_result.add_called",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "removeStack",
+      "java_expr": "add();",
+      "rule": "Whether the Java add() group rejoin ran (only when the Building was sleeping).",
+      "tests": [
+        "test_no_sleep_wake_binding_registration",
+        "test_all_no_sleep_wake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_no_sleep_wake"
+      ],
+      "runtime_proof": "/root/NoSleepWakeProof"
+    },
+    "source_on_proximity_update_wake_state_input.sleep_time": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingAccessState.source_on_proximity_update_wake_state",
+      "godot_symbol": "source_on_proximity_update_wake_state_input.sleep_time",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onProximityUpdate",
+      "java_expr": "sleepTime = 0f;",
+      "rule": "Actual sleepTime before the wake.",
+      "tests": [
+        "test_no_sleep_wake_binding_registration",
+        "test_all_no_sleep_wake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_no_sleep_wake"
+      ],
+      "runtime_proof": "/root/NoSleepWakeProof"
+    },
+    "source_on_proximity_update_wake_state_input.sleeping": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingAccessState.source_on_proximity_update_wake_state",
+      "godot_symbol": "source_on_proximity_update_wake_state_input.sleeping",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onProximityUpdate",
+      "java_expr": "if(sleeping){",
+      "rule": "Actual sleeping flag before the wake.",
+      "tests": [
+        "test_no_sleep_wake_binding_registration",
+        "test_all_no_sleep_wake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_no_sleep_wake"
+      ],
+      "runtime_proof": "/root/NoSleepWakeProof"
+    },
+    "source_on_proximity_update_wake_state_input.sleeping_entities": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingAccessState.source_on_proximity_update_wake_state",
+      "godot_symbol": "source_on_proximity_update_wake_state_input.sleeping_entities",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onProximityUpdate",
+      "java_expr": "sleepingEntities--;",
+      "rule": "Actual sleepingEntities count before the wake.",
+      "tests": [
+        "test_no_sleep_wake_binding_registration",
+        "test_all_no_sleep_wake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_no_sleep_wake"
+      ],
+      "runtime_proof": "/root/NoSleepWakeProof"
+    },
+    "source_on_proximity_update_wake_state_result.sleep_time_before": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingAccessState.source_on_proximity_update_wake_state",
+      "godot_symbol": "source_on_proximity_update_wake_state_result.sleep_time_before",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onProximityUpdate",
+      "java_expr": "sleepTime = 0f;",
+      "rule": "Actual sleepTime before the wake; noSleep resets it to 0.",
+      "tests": [
+        "test_no_sleep_wake_binding_registration",
+        "test_all_no_sleep_wake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_no_sleep_wake"
+      ],
+      "runtime_proof": "/root/NoSleepWakeProof"
+    },
+    "source_on_proximity_update_wake_state_result.sleep_time_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingAccessState.source_on_proximity_update_wake_state",
+      "godot_symbol": "source_on_proximity_update_wake_state_result.sleep_time_after",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onProximityUpdate",
+      "java_expr": "sleepTime = 0f;",
+      "rule": "Actual sleepTime after the wake: 0 when noSleep ran, unchanged when the null guard returned first.",
+      "tests": [
+        "test_no_sleep_wake_binding_registration",
+        "test_all_no_sleep_wake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_no_sleep_wake"
+      ],
+      "runtime_proof": "/root/NoSleepWakeProof"
+    },
+    "source_on_proximity_update_wake_state_result.sleeping_before": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingAccessState.source_on_proximity_update_wake_state",
+      "godot_symbol": "source_on_proximity_update_wake_state_result.sleeping_before",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onProximityUpdate",
+      "java_expr": "if(sleeping){",
+      "rule": "Actual sleeping flag before the wake.",
+      "tests": [
+        "test_no_sleep_wake_binding_registration",
+        "test_all_no_sleep_wake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_no_sleep_wake"
+      ],
+      "runtime_proof": "/root/NoSleepWakeProof"
+    },
+    "source_on_proximity_update_wake_state_result.sleeping_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingAccessState.source_on_proximity_update_wake_state",
+      "godot_symbol": "source_on_proximity_update_wake_state_result.sleeping_after",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onProximityUpdate",
+      "java_expr": "sleeping = false;",
+      "rule": "Actual sleeping flag after the wake: false when noSleep ran, unchanged when the null guard returned first.",
+      "tests": [
+        "test_no_sleep_wake_binding_registration",
+        "test_all_no_sleep_wake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_no_sleep_wake"
+      ],
+      "runtime_proof": "/root/NoSleepWakeProof"
+    },
+    "source_on_proximity_update_wake_state_result.sleeping_entities_before": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingAccessState.source_on_proximity_update_wake_state",
+      "godot_symbol": "source_on_proximity_update_wake_state_result.sleeping_entities_before",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onProximityUpdate",
+      "java_expr": "sleepingEntities--;",
+      "rule": "Actual sleepingEntities count before the wake.",
+      "tests": [
+        "test_no_sleep_wake_binding_registration",
+        "test_all_no_sleep_wake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_no_sleep_wake"
+      ],
+      "runtime_proof": "/root/NoSleepWakeProof"
+    },
+    "source_on_proximity_update_wake_state_result.sleeping_entities_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingAccessState.source_on_proximity_update_wake_state",
+      "godot_symbol": "source_on_proximity_update_wake_state_result.sleeping_entities_after",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onProximityUpdate",
+      "java_expr": "sleepingEntities--;",
+      "rule": "Actual sleepingEntities count after the wake: one less when the Building was sleeping and noSleep ran.",
+      "tests": [
+        "test_no_sleep_wake_binding_registration",
+        "test_all_no_sleep_wake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_no_sleep_wake"
+      ],
+      "runtime_proof": "/root/NoSleepWakeProof"
+    },
+    "source_on_proximity_update_wake_state_result.woke": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingAccessState.source_on_proximity_update_wake_state",
+      "godot_symbol": "source_on_proximity_update_wake_state_result.woke",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onProximityUpdate",
+      "java_expr": "if(sleeping){",
+      "rule": "Whether the Building was sleeping and noSleep woke it.",
+      "tests": [
+        "test_no_sleep_wake_binding_registration",
+        "test_all_no_sleep_wake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_no_sleep_wake"
+      ],
+      "runtime_proof": "/root/NoSleepWakeProof"
+    },
+    "source_on_proximity_update_wake_state_result.add_called": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingAccessState.source_on_proximity_update_wake_state",
+      "godot_symbol": "source_on_proximity_update_wake_state_result.add_called",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onProximityUpdate",
+      "java_expr": "add();",
+      "rule": "Whether the Java add() group rejoin ran (only when the Building was sleeping).",
+      "tests": [
+        "test_no_sleep_wake_binding_registration",
+        "test_all_no_sleep_wake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_no_sleep_wake"
+      ],
+      "runtime_proof": "/root/NoSleepWakeProof"
     }
   },
   "version": 1

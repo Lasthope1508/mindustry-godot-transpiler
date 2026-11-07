@@ -14,8 +14,8 @@ Counts below are projected from the canonical `source_slice_ledger.json`, not fr
 
 | Bucket | Count |
 | --- | ---: |
-| Canonical slice ledger entries | 1498 |
-| Done | 1498 |
+| Canonical slice ledger entries | 1501 |
+| Done | 1501 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -125,6 +125,9 @@ Counts below are projected from the canonical `source_slice_ledger.json`, not fr
 - [x] N2041: One footprint cell of Build.validPlaceIgnoreUnits: null cell, size-2 darkness, staticFog/fog discovery, deep floor, derelict repair, same-block-same-rotation (Building rotation now stored on the placed sprite meta by the setBlock binding), Tile.interactable from Teams.canInteract, solid floor, payload replacement, canReplace/canBeReplaced/bounds containment, requires-water. Block/Floor fields the catalog does not export arrive as caller-supplied flag dictionaries keyed by block id with Java field defaults.
 - [x] N2042: Build.validPlaceIgnoreUnits: null type, visibility gate, core protection (polygon closest-core and enemy-radius modes from a caller-supplied cores registry), null tile, canPlaceOn hook (Block default true), floor already-placed, darkness, contactsShallows, footprint loop through N2041, place-range check. Fog, darkness and enemy overlap have no runtime equivalent yet and arrive as hooks.
 - [x] N2043: PortGame.source_valid_place_state entry point: validPlaceIgnoreUnits plus checkNoUnitOverlap (no unit system yet, so a null hook means no overlap). Godot proof 21/21 true on the real Main scene (empty/out-of-world, drill ore, same-block rotation, cannot-replace both ways, deep water, shallows, core protection both modes, unit overlap, derelict, floor already/other).
+- [x] N2044: Building.handleStack wakes the Building through the noSleep binding, then adds the stack: sleepTime reset to 0, sleeping cleared, sleepingEntities decremented when it was sleeping.
+- [x] N2045: Building.removeStack wakes the Building, then removes the clamped stack; without an items module the null guard returns 0 before noSleep, so sleep state is untouched.
+- [x] N2046: Building.onProximityUpdate is just noSleep, bound as its own owner (distinct from the power-domain onProximityUpdate state at N968, which covers the power graph side). Godot proof 10/10 true on the real Main scene (handle/remove stack wake and clamp, null-guard no-wake, proximity wake).
 - [x] N167: Source BuildingComp drawConfigure canonical square state.
 - [x] N168: Source BuildingComp checkSolid default state.
 - [x] N169: Source BuildingComp handleDamage passthrough state.
@@ -1394,7 +1397,7 @@ Counts below are projected from the canonical `source_slice_ledger.json`, not fr
 
 Work now uses dependency cubes for prioritization without changing the verification contract. Each cube groups source Java, Godot runtime wiring, and playable behavior for one gameplay system. Inside a cube, every slice still moves linearly: read upstream Java, write RED tests, prove RED, implement minimal GREEN, run targeted/full tests, prove through Godot MCP runtime, update this checklist, run `git diff --check`, stage only touched tracked files, and commit.
 
-Current cube: `Build.validPlace binding`. N2041–N2043 bind Build.validPlace into the runtime: one footprint cell check in Java order, validPlaceIgnoreUnits with the visibility gate, core protection, canPlaceOn hook, floor, darkness, shallows and place-range checks, and a PortGame entry adding checkNoUnitOverlap. Ledger: 1498; expanded catalog: 113 modules; blocks: 425. Registration + targeted tests pass; all binding symbol exprs exact against pinned Build.java / Block.java / Tile.java / Teams.java / Rules.java / Floor.java / Drill.java / Vars.java; Godot proof 21/21 true on the real Main scene. Full suite, editor and replay still pending. Superclass/world lifecycle and C02–C12 remain open. See `reports/2026-11-07-valid-place-binding.md`.
+Current cube: `noSleep wake-on-activity`. N2044–N2046 wire the noSleep binding into its Building call sites: handleStack and removeStack wake the Building (the null guard returns before noSleep), and onProximityUpdate is just noSleep. Ledger: 1501; expanded catalog: 113 modules; blocks: 425. Registration + targeted tests pass; all binding symbol exprs exact against pinned BuildingComp.java; Godot proof 10/10 true on the real Main scene. Full suite, editor and replay still pending. Entity groups, controller pickup, world transitions and C02–C12 remain open. See `reports/2026-11-07-no-sleep-wake-binding.md`.
 
 ## Done
 
@@ -3073,10 +3076,13 @@ Current cube: `Build.validPlace binding`. N2041–N2043 bind Build.validPlace in
 | N2041 | One validPlace footprint cell | Null/darkness/fog/deep/derelict/same-rotation/interactable/solid-floor/payload/replace/bounds/water checks in Java order, with the Building rotation meta. |
 | N2042 | validPlaceIgnoreUnits | Visibility gate, core protection both modes, canPlaceOn hook, floor, darkness, shallows, footprint loop through N2041, place-range check. |
 | N2043 | PortGame validPlace entry + live proof | source_valid_place_state adds checkNoUnitOverlap to N2042; Godot proof 21/21 true on the real Main scene. |
+| N2044 | handleStack wakes the Building | noSleep transition, then the stack is added; sleepTime 0, sleeping cleared, sleepingEntities decremented when it was sleeping. |
+| N2045 | removeStack wakes the Building | Null guard returns 0 before noSleep (sleep untouched); otherwise noSleep, then the clamped stack is removed. |
+| N2046 | onProximityUpdate is noSleep | Superclass wake bound as its own owner; Godot proof 10/10 true on the real Main scene. |
 
 ## Not Done
 
-C01 now has executable Tile changeBuild / changed / full two-pass setBlock primitives (N2029–N2031) bound at production placement and world reload (N2032–N2034), at schematic placement (N2035–N2037) and loadout placement (N2038–N2040), and a real Build.validPlace check (N2041–N2043): player, scenario, campaign-bootstrap, schematic and loadout placement go through the canonical setBlock with real Building identity, team and proximity, and placement legality is evaluated from the world Tile store. Superclass sleep group membership, pickup/world transitions and remaining side effects stay open. C12 must adopt existing uncommitted owner dependencies. C02–C12 remain open.
+C01 now has executable Tile changeBuild / changed / full two-pass setBlock primitives (N2029–N2031) bound at production placement and world reload (N2032–N2034), at schematic placement (N2035–N2037) and loadout placement (N2038–N2040), a real Build.validPlace check (N2041–N2043), and the noSleep wake-on-activity call sites (N2044–N2046): player, scenario, campaign-bootstrap, schematic and loadout placement go through the canonical setBlock with real Building identity, team and proximity, placement legality is evaluated from the world Tile store, and Buildings wake when stacks are handled or proximity updates. Entity group membership, controller pickup/world transitions and remaining side effects stay open. C12 must adopt existing uncommitted owner dependencies. C02–C12 remain open.
 
 ## Scope
 
@@ -3447,3 +3453,4 @@ When Godot CLI is not on `PATH`, use the configured MCP Godot path from `C:\User
 | 2026-11-07 | N2035–N2037 implemented: Schematics.place binding — per-tile placement through the setBlock funnel with fail-closed valid-place hook and configureAny, whole-schematic loop with centered origin, PortGame entry point; the funnel threads its team (defaulted sharded). Registration + targeted tests pass; Godot proof 10/10 true on the real Main scene. Full Python suite 5393 OK in 928.702s; editor and replay still pending. See reports/2026-11-07-schematic-place-binding.md. |
 | 2026-11-07 | N2038–N2040 implemented: Schematics.placeLoadout binding — per-tile placement through the setBlock funnel with the blocking-build removal pass (setBlock(air)) and register-core hook, whole-loadout loop with core-anchored origin and descending schematicPriority order, PortGame entry point; the 4-arg delegation defaults check=true. Registration + targeted tests pass; Godot proof 10/10 true on the real Main scene. Full Python suite 5396 OK in 958.013s; editor and replay still pending. See reports/2026-11-07-loadout-place-binding.md. |
 | 2026-11-07 | N2041–N2043 implemented: Build.validPlace binding — one footprint cell check in Java order, validPlaceIgnoreUnits with visibility gate, core protection, canPlaceOn hook, floor, darkness, shallows and place-range checks, PortGame entry adding checkNoUnitOverlap; the setBlock binding now stores the Building rotation meta so the same-block check reads real state. Registration + targeted tests pass; Godot proof 21/21 true on the real Main scene. Full Python suite 5399 OK in 980.136s; editor and replay still pending. See reports/2026-11-07-valid-place-binding.md. |
+| 2026-11-07 | N2044–N2046 implemented: noSleep wake-on-activity — handleStack and removeStack wake the Building through the noSleep binding (the null guard returns before noSleep), onProximityUpdate is just noSleep; the group add() is recorded, not executed, because the runtime has no entity groups. Registration + targeted tests pass; Godot proof 10/10 true on the real Main scene. Full Python suite 5402 OK in 992.821s; editor and replay still pending. See reports/2026-11-07-no-sleep-wake-binding.md. |

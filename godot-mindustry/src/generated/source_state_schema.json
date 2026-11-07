@@ -214798,6 +214798,490 @@
       },
       "runtime_proof": "/root/ValidPlaceProof",
       "rule": "Source-backed validPlace inputs; hooks and flag dictionaries must be actual source context."
+    },
+    "source_handle_stack_wake_state_input": {
+      "status": "active",
+      "owner": "SourceBuildingItemState.source_handle_stack_wake_state",
+      "source_slice": "N2044",
+      "keys": {
+        "current_count": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public void handleStack(Item item, int amount, @Nullable Teamc source){",
+          "rule": "Actual item count before the stack is handled.",
+          "used_by": [
+            "SourceBuildingItemState.source_handle_stack_wake_state"
+          ]
+        },
+        "amount": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public void handleStack(Item item, int amount, @Nullable Teamc source){",
+          "rule": "Actual stack amount being handled.",
+          "used_by": [
+            "SourceBuildingItemState.source_handle_stack_wake_state"
+          ]
+        },
+        "sleep_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "sleepTime = 0f;",
+          "rule": "Actual sleepTime before the wake.",
+          "used_by": [
+            "SourceBuildingItemState.source_handle_stack_wake_state"
+          ]
+        },
+        "sleeping": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(sleeping){",
+          "rule": "Actual sleeping flag before the wake.",
+          "used_by": [
+            "SourceBuildingItemState.source_handle_stack_wake_state"
+          ]
+        },
+        "sleeping_entities": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "sleepingEntities--;",
+          "rule": "Actual sleepingEntities count before the wake.",
+          "used_by": [
+            "SourceBuildingItemState.source_handle_stack_wake_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/NoSleepWakeProof",
+      "rule": "Source-backed noSleep wake; the group add() is recorded, not executed, because the runtime has no entity groups."
+    },
+    "source_handle_stack_wake_state_result": {
+      "status": "active",
+      "owner": "SourceBuildingItemState.source_handle_stack_wake_state",
+      "source_slice": "N2044",
+      "keys": {
+        "count_before": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public void handleStack(Item item, int amount, @Nullable Teamc source){",
+          "rule": "Actual item count before the stack is handled.",
+          "used_by": [
+            "SourceBuildingItemState.source_handle_stack_wake_state"
+          ]
+        },
+        "count_after": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "items.add(item, amount);",
+          "rule": "Actual item count after the stack is added.",
+          "used_by": [
+            "SourceBuildingItemState.source_handle_stack_wake_state"
+          ]
+        },
+        "sleep_time_before": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "sleepTime = 0f;",
+          "rule": "Actual sleepTime before the wake; noSleep resets it to 0.",
+          "used_by": [
+            "SourceBuildingItemState.source_handle_stack_wake_state"
+          ]
+        },
+        "sleep_time_after": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "sleepTime = 0f;",
+          "rule": "Actual sleepTime after the wake: 0 when noSleep ran, unchanged when the null guard returned first.",
+          "used_by": [
+            "SourceBuildingItemState.source_handle_stack_wake_state"
+          ]
+        },
+        "sleeping_before": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(sleeping){",
+          "rule": "Actual sleeping flag before the wake.",
+          "used_by": [
+            "SourceBuildingItemState.source_handle_stack_wake_state"
+          ]
+        },
+        "sleeping_after": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "sleeping = false;",
+          "rule": "Actual sleeping flag after the wake: false when noSleep ran, unchanged when the null guard returned first.",
+          "used_by": [
+            "SourceBuildingItemState.source_handle_stack_wake_state"
+          ]
+        },
+        "sleeping_entities_before": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "sleepingEntities--;",
+          "rule": "Actual sleepingEntities count before the wake.",
+          "used_by": [
+            "SourceBuildingItemState.source_handle_stack_wake_state"
+          ]
+        },
+        "sleeping_entities_after": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "sleepingEntities--;",
+          "rule": "Actual sleepingEntities count after the wake: one less when the Building was sleeping and noSleep ran.",
+          "used_by": [
+            "SourceBuildingItemState.source_handle_stack_wake_state"
+          ]
+        },
+        "woke": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(sleeping){",
+          "rule": "Whether the Building was sleeping and noSleep woke it.",
+          "used_by": [
+            "SourceBuildingItemState.source_handle_stack_wake_state"
+          ]
+        },
+        "add_called": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "add();",
+          "rule": "Whether the Java add() group rejoin ran (only when the Building was sleeping).",
+          "used_by": [
+            "SourceBuildingItemState.source_handle_stack_wake_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/NoSleepWakeProof",
+      "rule": "Source-backed noSleep wake; the group add() is recorded, not executed, because the runtime has no entity groups."
+    },
+    "source_remove_stack_wake_state_input": {
+      "status": "active",
+      "owner": "SourceBuildingItemState.source_remove_stack_wake_state",
+      "source_slice": "N2045",
+      "keys": {
+        "has_items_module": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(items == null) return 0;",
+          "rule": "Whether the Building has an items module; without one removeStack returns 0 before noSleep.",
+          "used_by": [
+            "SourceBuildingItemState.source_remove_stack_wake_state"
+          ]
+        },
+        "item_count": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "amount = Math.min(amount, items.get(item));",
+          "rule": "Actual item count before the stack is removed.",
+          "used_by": [
+            "SourceBuildingItemState.source_remove_stack_wake_state"
+          ]
+        },
+        "amount": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "amount = Math.min(amount, items.get(item));",
+          "rule": "Actual stack amount requested for removal.",
+          "used_by": [
+            "SourceBuildingItemState.source_remove_stack_wake_state"
+          ]
+        },
+        "sleep_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "sleepTime = 0f;",
+          "rule": "Actual sleepTime before the wake.",
+          "used_by": [
+            "SourceBuildingItemState.source_remove_stack_wake_state"
+          ]
+        },
+        "sleeping": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(sleeping){",
+          "rule": "Actual sleeping flag before the wake.",
+          "used_by": [
+            "SourceBuildingItemState.source_remove_stack_wake_state"
+          ]
+        },
+        "sleeping_entities": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "sleepingEntities--;",
+          "rule": "Actual sleepingEntities count before the wake.",
+          "used_by": [
+            "SourceBuildingItemState.source_remove_stack_wake_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/NoSleepWakeProof",
+      "rule": "Source-backed noSleep wake; the group add() is recorded, not executed, because the runtime has no entity groups."
+    },
+    "source_remove_stack_wake_state_result": {
+      "status": "active",
+      "owner": "SourceBuildingItemState.source_remove_stack_wake_state",
+      "source_slice": "N2045",
+      "keys": {
+        "removed": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "amount = Math.min(amount, items.get(item));",
+          "rule": "Actual amount removed: the minimum of the requested amount and the item count.",
+          "used_by": [
+            "SourceBuildingItemState.source_remove_stack_wake_state"
+          ]
+        },
+        "remaining": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "items.remove(item, amount);",
+          "rule": "Actual item count after the stack is removed.",
+          "used_by": [
+            "SourceBuildingItemState.source_remove_stack_wake_state"
+          ]
+        },
+        "return_value": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return amount;",
+          "rule": "Actual removeStack return value, equal to the removed amount.",
+          "used_by": [
+            "SourceBuildingItemState.source_remove_stack_wake_state"
+          ]
+        },
+        "sleep_time_before": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "sleepTime = 0f;",
+          "rule": "Actual sleepTime before the wake; noSleep resets it to 0.",
+          "used_by": [
+            "SourceBuildingItemState.source_remove_stack_wake_state"
+          ]
+        },
+        "sleep_time_after": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "sleepTime = 0f;",
+          "rule": "Actual sleepTime after the wake: 0 when noSleep ran, unchanged when the null guard returned first.",
+          "used_by": [
+            "SourceBuildingItemState.source_remove_stack_wake_state"
+          ]
+        },
+        "sleeping_before": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(sleeping){",
+          "rule": "Actual sleeping flag before the wake.",
+          "used_by": [
+            "SourceBuildingItemState.source_remove_stack_wake_state"
+          ]
+        },
+        "sleeping_after": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "sleeping = false;",
+          "rule": "Actual sleeping flag after the wake: false when noSleep ran, unchanged when the null guard returned first.",
+          "used_by": [
+            "SourceBuildingItemState.source_remove_stack_wake_state"
+          ]
+        },
+        "sleeping_entities_before": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "sleepingEntities--;",
+          "rule": "Actual sleepingEntities count before the wake.",
+          "used_by": [
+            "SourceBuildingItemState.source_remove_stack_wake_state"
+          ]
+        },
+        "sleeping_entities_after": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "sleepingEntities--;",
+          "rule": "Actual sleepingEntities count after the wake: one less when the Building was sleeping and noSleep ran.",
+          "used_by": [
+            "SourceBuildingItemState.source_remove_stack_wake_state"
+          ]
+        },
+        "woke": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(sleeping){",
+          "rule": "Whether the Building was sleeping and noSleep woke it.",
+          "used_by": [
+            "SourceBuildingItemState.source_remove_stack_wake_state"
+          ]
+        },
+        "add_called": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "add();",
+          "rule": "Whether the Java add() group rejoin ran (only when the Building was sleeping).",
+          "used_by": [
+            "SourceBuildingItemState.source_remove_stack_wake_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/NoSleepWakeProof",
+      "rule": "Source-backed noSleep wake; the group add() is recorded, not executed, because the runtime has no entity groups."
+    },
+    "source_on_proximity_update_wake_state_input": {
+      "status": "active",
+      "owner": "SourceBuildingAccessState.source_on_proximity_update_wake_state",
+      "source_slice": "N2046",
+      "keys": {
+        "sleep_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "sleepTime = 0f;",
+          "rule": "Actual sleepTime before the wake.",
+          "used_by": [
+            "SourceBuildingAccessState.source_on_proximity_update_wake_state"
+          ]
+        },
+        "sleeping": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(sleeping){",
+          "rule": "Actual sleeping flag before the wake.",
+          "used_by": [
+            "SourceBuildingAccessState.source_on_proximity_update_wake_state"
+          ]
+        },
+        "sleeping_entities": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "sleepingEntities--;",
+          "rule": "Actual sleepingEntities count before the wake.",
+          "used_by": [
+            "SourceBuildingAccessState.source_on_proximity_update_wake_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/NoSleepWakeProof",
+      "rule": "Source-backed noSleep wake; the group add() is recorded, not executed, because the runtime has no entity groups."
+    },
+    "source_on_proximity_update_wake_state_result": {
+      "status": "active",
+      "owner": "SourceBuildingAccessState.source_on_proximity_update_wake_state",
+      "source_slice": "N2046",
+      "keys": {
+        "sleep_time_before": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "sleepTime = 0f;",
+          "rule": "Actual sleepTime before the wake; noSleep resets it to 0.",
+          "used_by": [
+            "SourceBuildingAccessState.source_on_proximity_update_wake_state"
+          ]
+        },
+        "sleep_time_after": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "sleepTime = 0f;",
+          "rule": "Actual sleepTime after the wake: 0 when noSleep ran, unchanged when the null guard returned first.",
+          "used_by": [
+            "SourceBuildingAccessState.source_on_proximity_update_wake_state"
+          ]
+        },
+        "sleeping_before": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(sleeping){",
+          "rule": "Actual sleeping flag before the wake.",
+          "used_by": [
+            "SourceBuildingAccessState.source_on_proximity_update_wake_state"
+          ]
+        },
+        "sleeping_after": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "sleeping = false;",
+          "rule": "Actual sleeping flag after the wake: false when noSleep ran, unchanged when the null guard returned first.",
+          "used_by": [
+            "SourceBuildingAccessState.source_on_proximity_update_wake_state"
+          ]
+        },
+        "sleeping_entities_before": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "sleepingEntities--;",
+          "rule": "Actual sleepingEntities count before the wake.",
+          "used_by": [
+            "SourceBuildingAccessState.source_on_proximity_update_wake_state"
+          ]
+        },
+        "sleeping_entities_after": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "sleepingEntities--;",
+          "rule": "Actual sleepingEntities count after the wake: one less when the Building was sleeping and noSleep ran.",
+          "used_by": [
+            "SourceBuildingAccessState.source_on_proximity_update_wake_state"
+          ]
+        },
+        "woke": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(sleeping){",
+          "rule": "Whether the Building was sleeping and noSleep woke it.",
+          "used_by": [
+            "SourceBuildingAccessState.source_on_proximity_update_wake_state"
+          ]
+        },
+        "add_called": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "add();",
+          "rule": "Whether the Java add() group rejoin ran (only when the Building was sleeping).",
+          "used_by": [
+            "SourceBuildingAccessState.source_on_proximity_update_wake_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/NoSleepWakeProof",
+      "rule": "Source-backed noSleep wake; the group add() is recorded, not executed, because the runtime has no entity groups."
     }
   },
   "version": 1

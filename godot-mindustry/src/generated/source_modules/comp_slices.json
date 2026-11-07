@@ -5255,6 +5255,94 @@
       ],
       "runtime_proof": "/root/BuildingProximityMutationProof"
     },
+    "N2044": {
+      "canonical_ledger": "source_slice_ledger.N2044",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "handleStack",
+      "godot_owner": "SourceBuildingItemState.source_handle_stack_wake_state",
+      "source_symbols": [
+        "source_handle_stack_wake_state_input.current_count",
+        "source_handle_stack_wake_state_input.amount",
+        "source_handle_stack_wake_state_input.sleep_time",
+        "source_handle_stack_wake_state_input.sleeping",
+        "source_handle_stack_wake_state_input.sleeping_entities",
+        "source_handle_stack_wake_state_result.count_before",
+        "source_handle_stack_wake_state_result.count_after",
+        "source_handle_stack_wake_state_result.sleep_time_before",
+        "source_handle_stack_wake_state_result.sleep_time_after",
+        "source_handle_stack_wake_state_result.sleeping_before",
+        "source_handle_stack_wake_state_result.sleeping_after",
+        "source_handle_stack_wake_state_result.sleeping_entities_before",
+        "source_handle_stack_wake_state_result.sleeping_entities_after",
+        "source_handle_stack_wake_state_result.woke",
+        "source_handle_stack_wake_state_result.add_called"
+      ],
+      "tests": [
+        "test_no_sleep_wake_binding_registration",
+        "test_all_no_sleep_wake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_no_sleep_wake"
+      ],
+      "runtime_proof": "/root/NoSleepWakeProof"
+    },
+    "N2045": {
+      "canonical_ledger": "source_slice_ledger.N2045",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "removeStack",
+      "godot_owner": "SourceBuildingItemState.source_remove_stack_wake_state",
+      "source_symbols": [
+        "source_remove_stack_wake_state_input.has_items_module",
+        "source_remove_stack_wake_state_input.item_count",
+        "source_remove_stack_wake_state_input.amount",
+        "source_remove_stack_wake_state_input.sleep_time",
+        "source_remove_stack_wake_state_input.sleeping",
+        "source_remove_stack_wake_state_input.sleeping_entities",
+        "source_remove_stack_wake_state_result.removed",
+        "source_remove_stack_wake_state_result.remaining",
+        "source_remove_stack_wake_state_result.return_value",
+        "source_remove_stack_wake_state_result.sleep_time_before",
+        "source_remove_stack_wake_state_result.sleep_time_after",
+        "source_remove_stack_wake_state_result.sleeping_before",
+        "source_remove_stack_wake_state_result.sleeping_after",
+        "source_remove_stack_wake_state_result.sleeping_entities_before",
+        "source_remove_stack_wake_state_result.sleeping_entities_after",
+        "source_remove_stack_wake_state_result.woke",
+        "source_remove_stack_wake_state_result.add_called"
+      ],
+      "tests": [
+        "test_no_sleep_wake_binding_registration",
+        "test_all_no_sleep_wake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_no_sleep_wake"
+      ],
+      "runtime_proof": "/root/NoSleepWakeProof"
+    },
+    "N2046": {
+      "canonical_ledger": "source_slice_ledger.N2046",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onProximityUpdate",
+      "godot_owner": "SourceBuildingAccessState.source_on_proximity_update_wake_state",
+      "source_symbols": [
+        "source_on_proximity_update_wake_state_input.sleep_time",
+        "source_on_proximity_update_wake_state_input.sleeping",
+        "source_on_proximity_update_wake_state_input.sleeping_entities",
+        "source_on_proximity_update_wake_state_result.sleep_time_before",
+        "source_on_proximity_update_wake_state_result.sleep_time_after",
+        "source_on_proximity_update_wake_state_result.sleeping_before",
+        "source_on_proximity_update_wake_state_result.sleeping_after",
+        "source_on_proximity_update_wake_state_result.sleeping_entities_before",
+        "source_on_proximity_update_wake_state_result.sleeping_entities_after",
+        "source_on_proximity_update_wake_state_result.woke",
+        "source_on_proximity_update_wake_state_result.add_called"
+      ],
+      "tests": [
+        "test_no_sleep_wake_binding_registration",
+        "test_all_no_sleep_wake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_no_sleep_wake"
+      ],
+      "runtime_proof": "/root/NoSleepWakeProof"
+    },
     "N514": {
       "canonical_ledger": "source_slice_ledger.N514",
       "status": "done",
