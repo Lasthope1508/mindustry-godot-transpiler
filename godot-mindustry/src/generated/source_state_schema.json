@@ -216260,6 +216260,340 @@
       },
       "runtime_proof": "/root/ConveyorIntakeProof",
       "rule": "Source-backed ConveyorBuild intake; one item per call."
+    },
+    "source_conveyor_queue_add_state_input": {
+      "status": "active",
+      "owner": "SourceConveyorRuntimeState.source_conveyor_queue_add_state",
+      "source_slice": "N2053",
+      "keys": {
+        "ids": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "ids[i] = ids[i - 1];",
+          "rule": "Item ids on the belt in queue order.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_queue_add_state"
+          ]
+        },
+        "xs": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "xs[i] = xs[i - 1];",
+          "rule": "Item x offsets on the belt in queue order.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_queue_add_state"
+          ]
+        },
+        "ys": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "ys[i] = ys[i - 1];",
+          "rule": "Item y positions on the belt in queue order.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_queue_add_state"
+          ]
+        },
+        "len": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "len++;",
+          "rule": "Current item count on the belt.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_queue_add_state"
+          ]
+        },
+        "index": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "for(int i = Math.max(o + 1, len); i > o; i--){",
+          "rule": "Queue index to insert at (add) or remove at (remove).",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_queue_add_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/ConveyorQueueProof",
+      "rule": "Source-backed ConveyorBuild queue primitive."
+    },
+    "source_conveyor_queue_add_state_result": {
+      "status": "active",
+      "owner": "SourceConveyorRuntimeState.source_conveyor_queue_add_state",
+      "source_slice": "N2053",
+      "keys": {
+        "ids_after": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "ids[i] = ids[i - 1];",
+          "rule": "Item ids after the shift.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_queue_add_state"
+          ]
+        },
+        "xs_after": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "xs[i] = xs[i - 1];",
+          "rule": "Item x offsets after the shift.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_queue_add_state"
+          ]
+        },
+        "ys_after": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "ys[i] = ys[i - 1];",
+          "rule": "Item y positions after the shift.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_queue_add_state"
+          ]
+        },
+        "len_before": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "len++;",
+          "rule": "Item count before the operation.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_queue_add_state"
+          ]
+        },
+        "len_after": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "len++;",
+          "rule": "Item count after the operation.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_queue_add_state"
+          ]
+        },
+        "shifted": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "for(int i = Math.max(o + 1, len); i > o; i--){",
+          "rule": "Elements moved by the shift.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_queue_add_state"
+          ]
+        },
+        "reason": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "public final void add(int o){",
+          "rule": "Queue outcome: shifted, invalid_index.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_queue_add_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/ConveyorQueueProof",
+      "rule": "Source-backed ConveyorBuild queue primitive."
+    },
+    "source_conveyor_queue_remove_state_input": {
+      "status": "active",
+      "owner": "SourceConveyorRuntimeState.source_conveyor_queue_remove_state",
+      "source_slice": "N2054",
+      "keys": {
+        "ids": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "ids[i] = ids[i - 1];",
+          "rule": "Item ids on the belt in queue order.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_queue_remove_state"
+          ]
+        },
+        "xs": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "xs[i] = xs[i - 1];",
+          "rule": "Item x offsets on the belt in queue order.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_queue_remove_state"
+          ]
+        },
+        "ys": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "ys[i] = ys[i - 1];",
+          "rule": "Item y positions on the belt in queue order.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_queue_remove_state"
+          ]
+        },
+        "len": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "len++;",
+          "rule": "Current item count on the belt.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_queue_remove_state"
+          ]
+        },
+        "index": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "for(int i = Math.max(o + 1, len); i > o; i--){",
+          "rule": "Queue index to insert at (add) or remove at (remove).",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_queue_remove_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/ConveyorQueueProof",
+      "rule": "Source-backed ConveyorBuild queue primitive."
+    },
+    "source_conveyor_queue_remove_state_result": {
+      "status": "active",
+      "owner": "SourceConveyorRuntimeState.source_conveyor_queue_remove_state",
+      "source_slice": "N2054",
+      "keys": {
+        "ids_after": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "ids[i] = ids[i - 1];",
+          "rule": "Item ids after the shift.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_queue_remove_state"
+          ]
+        },
+        "xs_after": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "xs[i] = xs[i - 1];",
+          "rule": "Item x offsets after the shift.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_queue_remove_state"
+          ]
+        },
+        "ys_after": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "ys[i] = ys[i - 1];",
+          "rule": "Item y positions after the shift.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_queue_remove_state"
+          ]
+        },
+        "len_before": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "len++;",
+          "rule": "Item count before the operation.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_queue_remove_state"
+          ]
+        },
+        "len_after": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "len++;",
+          "rule": "Item count after the operation.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_queue_remove_state"
+          ]
+        },
+        "shifted": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "for(int i = Math.max(o + 1, len); i > o; i--){",
+          "rule": "Elements moved by the shift.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_queue_remove_state"
+          ]
+        },
+        "reason": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "public final void add(int o){",
+          "rule": "Queue outcome: shifted, invalid_index.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_queue_remove_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/ConveyorQueueProof",
+      "rule": "Source-backed ConveyorBuild queue primitive."
+    },
+    "source_conveyor_queue_scan_state_input": {
+      "status": "active",
+      "owner": "SourceConveyorRuntimeState.source_conveyor_queue_scan_state",
+      "source_slice": "N2055",
+      "keys": {
+        "ys": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "if(ys[i] > 0.5 && i > 0) mid = i - 1;",
+          "rule": "Item y positions on the belt in queue order.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_queue_scan_state"
+          ]
+        },
+        "passed_by_index": {
+          "type": "Array[bool]",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "if(ys[i] >= 1f && pass(ids[i])){",
+          "rule": "Whether the item at each index passed forwards this tick; passed items do not update minitem.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_queue_scan_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/ConveyorQueueProof",
+      "rule": "Source-backed ConveyorBuild queue primitive."
+    },
+    "source_conveyor_queue_scan_state_result": {
+      "status": "active",
+      "owner": "SourceConveyorRuntimeState.source_conveyor_queue_scan_state",
+      "source_slice": "N2055",
+      "keys": {
+        "mid": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "if(ys[i] > 0.5 && i > 0) mid = i - 1;",
+          "rule": "Mid insertion index: the last item before the first one past halfway, or 0.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_queue_scan_state"
+          ]
+        },
+        "minitem": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "else if(ys[i] < minitem){",
+          "rule": "Smallest y among items that did not pass, starting from 1.0.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_queue_scan_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/ConveyorQueueProof",
+      "rule": "Source-backed ConveyorBuild queue primitive."
     }
   },
   "version": 1

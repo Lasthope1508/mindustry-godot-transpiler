@@ -170,3 +170,71 @@ static func source_conveyor_pass_state(item_id: Variant, next_present: bool, nex
 		"handle_called": true,
 		"reason": "passed",
 	}
+
+
+static func _conveyor_queue_result(ids_after: Array, xs_after: Array, ys_after: Array, len_before: int, len_after: int, shifted: int, reason: String) -> Dictionary:
+	return {
+		"ids_after": ids_after,
+		"xs_after": xs_after,
+		"ys_after": ys_after,
+		"len_before": len_before,
+		"len_after": len_after,
+		"shifted": shifted,
+		"reason": reason,
+	}
+
+
+static func source_conveyor_queue_add_state(ids: Array, xs: Array, ys: Array, len: int, index: int) -> Dictionary:
+	if index < 0 or index > len:
+		return _conveyor_queue_result(ids.duplicate(), xs.duplicate(), ys.duplicate(), len, len, 0, "invalid_index")
+	var next_ids := ids.duplicate()
+	var next_xs := xs.duplicate()
+	var next_ys := ys.duplicate()
+	next_ids.append(null)
+	next_xs.append(0.0)
+	next_ys.append(0.0)
+	var shifted := 0
+	if index < len:
+		var i := len
+		while i > index:
+			next_ids[i] = next_ids[i - 1]
+			next_xs[i] = next_xs[i - 1]
+			next_ys[i] = next_ys[i - 1]
+			shifted += 1
+			i -= 1
+	return _conveyor_queue_result(next_ids, next_xs, next_ys, len, len + 1, shifted, "shifted")
+
+
+static func source_conveyor_queue_remove_state(ids: Array, xs: Array, ys: Array, len: int, index: int) -> Dictionary:
+	if index < 0 or index >= len:
+		return _conveyor_queue_result(ids.duplicate(), xs.duplicate(), ys.duplicate(), len, len, 0, "invalid_index")
+	var next_ids := ids.duplicate()
+	var next_xs := xs.duplicate()
+	var next_ys := ys.duplicate()
+	var shifted := 0
+	for i in range(index, len - 1):
+		next_ids[i] = next_ids[i + 1]
+		next_xs[i] = next_xs[i + 1]
+		next_ys[i] = next_ys[i + 1]
+		shifted += 1
+	next_ids.resize(len - 1)
+	next_xs.resize(len - 1)
+	next_ys.resize(len - 1)
+	return _conveyor_queue_result(next_ids, next_xs, next_ys, len, len - 1, shifted, "shifted")
+
+
+static func source_conveyor_queue_scan_state(ys: Array, passed_by_index: Array) -> Dictionary:
+	var mid := 0
+	var minitem := 1.0
+	var i := ys.size() - 1
+	while i >= 0:
+		if float(ys[i]) > 0.5 and i > 0:
+			mid = i - 1
+		var passed := i < passed_by_index.size() and bool(passed_by_index[i])
+		if not passed and float(ys[i]) < minitem:
+			minitem = float(ys[i])
+		i -= 1
+	return {
+		"mid": mid,
+		"minitem": minitem,
+	}

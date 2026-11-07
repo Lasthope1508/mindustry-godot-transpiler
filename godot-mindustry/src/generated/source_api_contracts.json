@@ -59727,6 +59727,133 @@
       ],
       "runtime_proof": "/root/ConveyorIntakeProof",
       "rule": "Source-backed ConveyorBuild intake; the result reports the gate, the insertion and the forward."
+    },
+    "SourceConveyorRuntimeState.source_conveyor_queue_add_state": {
+      "status": "active",
+      "source_slice": "N2053",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "source_method": "add",
+      "params": [
+        {
+          "name": "ids",
+          "type": "Array",
+          "schema": "source_conveyor_queue_add_state_input.ids"
+        },
+        {
+          "name": "xs",
+          "type": "Array",
+          "schema": "source_conveyor_queue_add_state_input.xs"
+        },
+        {
+          "name": "ys",
+          "type": "Array",
+          "schema": "source_conveyor_queue_add_state_input.ys"
+        },
+        {
+          "name": "len",
+          "type": "int",
+          "schema": "source_conveyor_queue_add_state_input.len"
+        },
+        {
+          "name": "index",
+          "type": "int",
+          "schema": "source_conveyor_queue_add_state_input.index"
+        }
+      ],
+      "return_keys": [
+        "ids_after",
+        "xs_after",
+        "ys_after",
+        "len_before",
+        "len_after",
+        "shifted",
+        "reason"
+      ],
+      "tests": [
+        "test_conveyor_queue_binding_registration",
+        "test_all_conveyor_queue_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_queue"
+      ],
+      "runtime_proof": "/root/ConveyorQueueProof",
+      "rule": "Source-backed ConveyorBuild queue primitive; the result reports the shifted queue and the new count."
+    },
+    "SourceConveyorRuntimeState.source_conveyor_queue_remove_state": {
+      "status": "active",
+      "source_slice": "N2054",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "source_method": "remove",
+      "params": [
+        {
+          "name": "ids",
+          "type": "Array",
+          "schema": "source_conveyor_queue_remove_state_input.ids"
+        },
+        {
+          "name": "xs",
+          "type": "Array",
+          "schema": "source_conveyor_queue_remove_state_input.xs"
+        },
+        {
+          "name": "ys",
+          "type": "Array",
+          "schema": "source_conveyor_queue_remove_state_input.ys"
+        },
+        {
+          "name": "len",
+          "type": "int",
+          "schema": "source_conveyor_queue_remove_state_input.len"
+        },
+        {
+          "name": "index",
+          "type": "int",
+          "schema": "source_conveyor_queue_remove_state_input.index"
+        }
+      ],
+      "return_keys": [
+        "ids_after",
+        "xs_after",
+        "ys_after",
+        "len_before",
+        "len_after",
+        "shifted",
+        "reason"
+      ],
+      "tests": [
+        "test_conveyor_queue_binding_registration",
+        "test_all_conveyor_queue_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_queue"
+      ],
+      "runtime_proof": "/root/ConveyorQueueProof",
+      "rule": "Source-backed ConveyorBuild queue primitive; the result reports the shifted queue and the new count."
+    },
+    "SourceConveyorRuntimeState.source_conveyor_queue_scan_state": {
+      "status": "active",
+      "source_slice": "N2055",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "source_method": "updateTile",
+      "params": [
+        {
+          "name": "ys",
+          "type": "Array",
+          "schema": "source_conveyor_queue_scan_state_input.ys"
+        },
+        {
+          "name": "passed_by_index",
+          "type": "Array[bool]",
+          "schema": "source_conveyor_queue_scan_state_input.passed_by_index"
+        }
+      ],
+      "return_keys": [
+        "mid",
+        "minitem"
+      ],
+      "tests": [
+        "test_conveyor_queue_binding_registration",
+        "test_all_conveyor_queue_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_queue"
+      ],
+      "runtime_proof": "/root/ConveyorQueueProof",
+      "rule": "Source-backed ConveyorBuild queue primitive; the result reports the shifted queue and the new count."
     }
   },
   "policy": {

@@ -158223,6 +158223,426 @@
         "test_reference_graph_and_actual_conveyor_intake"
       ],
       "runtime_proof": "/root/ConveyorIntakeProof"
+    },
+    "source_conveyor_queue_add_state_input.ids": {
+      "status": "source-backed",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_queue_add_state",
+      "godot_symbol": "source_conveyor_queue_add_state_input.ids",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_method": "add",
+      "java_expr": "ids[i] = ids[i - 1];",
+      "rule": "Item ids on the belt in queue order.",
+      "tests": [
+        "test_conveyor_queue_binding_registration",
+        "test_all_conveyor_queue_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_queue"
+      ],
+      "runtime_proof": "/root/ConveyorQueueProof"
+    },
+    "source_conveyor_queue_add_state_input.xs": {
+      "status": "source-backed",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_queue_add_state",
+      "godot_symbol": "source_conveyor_queue_add_state_input.xs",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_method": "add",
+      "java_expr": "xs[i] = xs[i - 1];",
+      "rule": "Item x offsets on the belt in queue order.",
+      "tests": [
+        "test_conveyor_queue_binding_registration",
+        "test_all_conveyor_queue_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_queue"
+      ],
+      "runtime_proof": "/root/ConveyorQueueProof"
+    },
+    "source_conveyor_queue_add_state_input.ys": {
+      "status": "source-backed",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_queue_add_state",
+      "godot_symbol": "source_conveyor_queue_add_state_input.ys",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_method": "add",
+      "java_expr": "ys[i] = ys[i - 1];",
+      "rule": "Item y positions on the belt in queue order.",
+      "tests": [
+        "test_conveyor_queue_binding_registration",
+        "test_all_conveyor_queue_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_queue"
+      ],
+      "runtime_proof": "/root/ConveyorQueueProof"
+    },
+    "source_conveyor_queue_add_state_input.len": {
+      "status": "source-backed",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_queue_add_state",
+      "godot_symbol": "source_conveyor_queue_add_state_input.len",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_method": "add",
+      "java_expr": "len++;",
+      "rule": "Current item count on the belt.",
+      "tests": [
+        "test_conveyor_queue_binding_registration",
+        "test_all_conveyor_queue_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_queue"
+      ],
+      "runtime_proof": "/root/ConveyorQueueProof"
+    },
+    "source_conveyor_queue_add_state_input.index": {
+      "status": "source-backed",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_queue_add_state",
+      "godot_symbol": "source_conveyor_queue_add_state_input.index",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_method": "add",
+      "java_expr": "for(int i = Math.max(o + 1, len); i > o; i--){",
+      "rule": "Queue index to insert at (add) or remove at (remove).",
+      "tests": [
+        "test_conveyor_queue_binding_registration",
+        "test_all_conveyor_queue_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_queue"
+      ],
+      "runtime_proof": "/root/ConveyorQueueProof"
+    },
+    "source_conveyor_queue_add_state_result.ids_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_queue_add_state",
+      "godot_symbol": "source_conveyor_queue_add_state_result.ids_after",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_method": "add",
+      "java_expr": "ids[i] = ids[i - 1];",
+      "rule": "Item ids after the shift.",
+      "tests": [
+        "test_conveyor_queue_binding_registration",
+        "test_all_conveyor_queue_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_queue"
+      ],
+      "runtime_proof": "/root/ConveyorQueueProof"
+    },
+    "source_conveyor_queue_add_state_result.xs_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_queue_add_state",
+      "godot_symbol": "source_conveyor_queue_add_state_result.xs_after",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_method": "add",
+      "java_expr": "xs[i] = xs[i - 1];",
+      "rule": "Item x offsets after the shift.",
+      "tests": [
+        "test_conveyor_queue_binding_registration",
+        "test_all_conveyor_queue_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_queue"
+      ],
+      "runtime_proof": "/root/ConveyorQueueProof"
+    },
+    "source_conveyor_queue_add_state_result.ys_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_queue_add_state",
+      "godot_symbol": "source_conveyor_queue_add_state_result.ys_after",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_method": "add",
+      "java_expr": "ys[i] = ys[i - 1];",
+      "rule": "Item y positions after the shift.",
+      "tests": [
+        "test_conveyor_queue_binding_registration",
+        "test_all_conveyor_queue_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_queue"
+      ],
+      "runtime_proof": "/root/ConveyorQueueProof"
+    },
+    "source_conveyor_queue_add_state_result.len_before": {
+      "status": "source-backed",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_queue_add_state",
+      "godot_symbol": "source_conveyor_queue_add_state_result.len_before",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_method": "add",
+      "java_expr": "len++;",
+      "rule": "Item count before the operation.",
+      "tests": [
+        "test_conveyor_queue_binding_registration",
+        "test_all_conveyor_queue_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_queue"
+      ],
+      "runtime_proof": "/root/ConveyorQueueProof"
+    },
+    "source_conveyor_queue_add_state_result.len_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_queue_add_state",
+      "godot_symbol": "source_conveyor_queue_add_state_result.len_after",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_method": "add",
+      "java_expr": "len++;",
+      "rule": "Item count after the operation.",
+      "tests": [
+        "test_conveyor_queue_binding_registration",
+        "test_all_conveyor_queue_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_queue"
+      ],
+      "runtime_proof": "/root/ConveyorQueueProof"
+    },
+    "source_conveyor_queue_add_state_result.shifted": {
+      "status": "source-backed",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_queue_add_state",
+      "godot_symbol": "source_conveyor_queue_add_state_result.shifted",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_method": "add",
+      "java_expr": "for(int i = Math.max(o + 1, len); i > o; i--){",
+      "rule": "Elements moved by the shift.",
+      "tests": [
+        "test_conveyor_queue_binding_registration",
+        "test_all_conveyor_queue_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_queue"
+      ],
+      "runtime_proof": "/root/ConveyorQueueProof"
+    },
+    "source_conveyor_queue_add_state_result.reason": {
+      "status": "source-backed",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_queue_add_state",
+      "godot_symbol": "source_conveyor_queue_add_state_result.reason",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_method": "add",
+      "java_expr": "public final void add(int o){",
+      "rule": "Queue outcome: shifted, invalid_index.",
+      "tests": [
+        "test_conveyor_queue_binding_registration",
+        "test_all_conveyor_queue_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_queue"
+      ],
+      "runtime_proof": "/root/ConveyorQueueProof"
+    },
+    "source_conveyor_queue_remove_state_input.ids": {
+      "status": "source-backed",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_queue_remove_state",
+      "godot_symbol": "source_conveyor_queue_remove_state_input.ids",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_method": "remove",
+      "java_expr": "ids[i] = ids[i - 1];",
+      "rule": "Item ids on the belt in queue order.",
+      "tests": [
+        "test_conveyor_queue_binding_registration",
+        "test_all_conveyor_queue_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_queue"
+      ],
+      "runtime_proof": "/root/ConveyorQueueProof"
+    },
+    "source_conveyor_queue_remove_state_input.xs": {
+      "status": "source-backed",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_queue_remove_state",
+      "godot_symbol": "source_conveyor_queue_remove_state_input.xs",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_method": "remove",
+      "java_expr": "xs[i] = xs[i - 1];",
+      "rule": "Item x offsets on the belt in queue order.",
+      "tests": [
+        "test_conveyor_queue_binding_registration",
+        "test_all_conveyor_queue_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_queue"
+      ],
+      "runtime_proof": "/root/ConveyorQueueProof"
+    },
+    "source_conveyor_queue_remove_state_input.ys": {
+      "status": "source-backed",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_queue_remove_state",
+      "godot_symbol": "source_conveyor_queue_remove_state_input.ys",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_method": "remove",
+      "java_expr": "ys[i] = ys[i - 1];",
+      "rule": "Item y positions on the belt in queue order.",
+      "tests": [
+        "test_conveyor_queue_binding_registration",
+        "test_all_conveyor_queue_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_queue"
+      ],
+      "runtime_proof": "/root/ConveyorQueueProof"
+    },
+    "source_conveyor_queue_remove_state_input.len": {
+      "status": "source-backed",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_queue_remove_state",
+      "godot_symbol": "source_conveyor_queue_remove_state_input.len",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_method": "remove",
+      "java_expr": "len++;",
+      "rule": "Current item count on the belt.",
+      "tests": [
+        "test_conveyor_queue_binding_registration",
+        "test_all_conveyor_queue_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_queue"
+      ],
+      "runtime_proof": "/root/ConveyorQueueProof"
+    },
+    "source_conveyor_queue_remove_state_input.index": {
+      "status": "source-backed",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_queue_remove_state",
+      "godot_symbol": "source_conveyor_queue_remove_state_input.index",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_method": "remove",
+      "java_expr": "for(int i = Math.max(o + 1, len); i > o; i--){",
+      "rule": "Queue index to insert at (add) or remove at (remove).",
+      "tests": [
+        "test_conveyor_queue_binding_registration",
+        "test_all_conveyor_queue_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_queue"
+      ],
+      "runtime_proof": "/root/ConveyorQueueProof"
+    },
+    "source_conveyor_queue_remove_state_result.ids_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_queue_remove_state",
+      "godot_symbol": "source_conveyor_queue_remove_state_result.ids_after",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_method": "remove",
+      "java_expr": "ids[i] = ids[i - 1];",
+      "rule": "Item ids after the shift.",
+      "tests": [
+        "test_conveyor_queue_binding_registration",
+        "test_all_conveyor_queue_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_queue"
+      ],
+      "runtime_proof": "/root/ConveyorQueueProof"
+    },
+    "source_conveyor_queue_remove_state_result.xs_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_queue_remove_state",
+      "godot_symbol": "source_conveyor_queue_remove_state_result.xs_after",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_method": "remove",
+      "java_expr": "xs[i] = xs[i - 1];",
+      "rule": "Item x offsets after the shift.",
+      "tests": [
+        "test_conveyor_queue_binding_registration",
+        "test_all_conveyor_queue_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_queue"
+      ],
+      "runtime_proof": "/root/ConveyorQueueProof"
+    },
+    "source_conveyor_queue_remove_state_result.ys_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_queue_remove_state",
+      "godot_symbol": "source_conveyor_queue_remove_state_result.ys_after",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_method": "remove",
+      "java_expr": "ys[i] = ys[i - 1];",
+      "rule": "Item y positions after the shift.",
+      "tests": [
+        "test_conveyor_queue_binding_registration",
+        "test_all_conveyor_queue_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_queue"
+      ],
+      "runtime_proof": "/root/ConveyorQueueProof"
+    },
+    "source_conveyor_queue_remove_state_result.len_before": {
+      "status": "source-backed",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_queue_remove_state",
+      "godot_symbol": "source_conveyor_queue_remove_state_result.len_before",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_method": "remove",
+      "java_expr": "len++;",
+      "rule": "Item count before the operation.",
+      "tests": [
+        "test_conveyor_queue_binding_registration",
+        "test_all_conveyor_queue_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_queue"
+      ],
+      "runtime_proof": "/root/ConveyorQueueProof"
+    },
+    "source_conveyor_queue_remove_state_result.len_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_queue_remove_state",
+      "godot_symbol": "source_conveyor_queue_remove_state_result.len_after",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_method": "remove",
+      "java_expr": "len++;",
+      "rule": "Item count after the operation.",
+      "tests": [
+        "test_conveyor_queue_binding_registration",
+        "test_all_conveyor_queue_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_queue"
+      ],
+      "runtime_proof": "/root/ConveyorQueueProof"
+    },
+    "source_conveyor_queue_remove_state_result.shifted": {
+      "status": "source-backed",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_queue_remove_state",
+      "godot_symbol": "source_conveyor_queue_remove_state_result.shifted",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_method": "remove",
+      "java_expr": "for(int i = Math.max(o + 1, len); i > o; i--){",
+      "rule": "Elements moved by the shift.",
+      "tests": [
+        "test_conveyor_queue_binding_registration",
+        "test_all_conveyor_queue_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_queue"
+      ],
+      "runtime_proof": "/root/ConveyorQueueProof"
+    },
+    "source_conveyor_queue_remove_state_result.reason": {
+      "status": "source-backed",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_queue_remove_state",
+      "godot_symbol": "source_conveyor_queue_remove_state_result.reason",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_method": "remove",
+      "java_expr": "public final void add(int o){",
+      "rule": "Queue outcome: shifted, invalid_index.",
+      "tests": [
+        "test_conveyor_queue_binding_registration",
+        "test_all_conveyor_queue_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_queue"
+      ],
+      "runtime_proof": "/root/ConveyorQueueProof"
+    },
+    "source_conveyor_queue_scan_state_input.ys": {
+      "status": "source-backed",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_queue_scan_state",
+      "godot_symbol": "source_conveyor_queue_scan_state_input.ys",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_method": "updateTile",
+      "java_expr": "if(ys[i] > 0.5 && i > 0) mid = i - 1;",
+      "rule": "Item y positions on the belt in queue order.",
+      "tests": [
+        "test_conveyor_queue_binding_registration",
+        "test_all_conveyor_queue_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_queue"
+      ],
+      "runtime_proof": "/root/ConveyorQueueProof"
+    },
+    "source_conveyor_queue_scan_state_input.passed_by_index": {
+      "status": "source-backed",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_queue_scan_state",
+      "godot_symbol": "source_conveyor_queue_scan_state_input.passed_by_index",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_method": "updateTile",
+      "java_expr": "if(ys[i] >= 1f && pass(ids[i])){",
+      "rule": "Whether the item at each index passed forwards this tick; passed items do not update minitem.",
+      "tests": [
+        "test_conveyor_queue_binding_registration",
+        "test_all_conveyor_queue_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_queue"
+      ],
+      "runtime_proof": "/root/ConveyorQueueProof"
+    },
+    "source_conveyor_queue_scan_state_result.mid": {
+      "status": "source-backed",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_queue_scan_state",
+      "godot_symbol": "source_conveyor_queue_scan_state_result.mid",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_method": "updateTile",
+      "java_expr": "if(ys[i] > 0.5 && i > 0) mid = i - 1;",
+      "rule": "Mid insertion index: the last item before the first one past halfway, or 0.",
+      "tests": [
+        "test_conveyor_queue_binding_registration",
+        "test_all_conveyor_queue_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_queue"
+      ],
+      "runtime_proof": "/root/ConveyorQueueProof"
+    },
+    "source_conveyor_queue_scan_state_result.minitem": {
+      "status": "source-backed",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_queue_scan_state",
+      "godot_symbol": "source_conveyor_queue_scan_state_result.minitem",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_method": "updateTile",
+      "java_expr": "else if(ys[i] < minitem){",
+      "rule": "Smallest y among items that did not pass, starting from 1.0.",
+      "tests": [
+        "test_conveyor_queue_binding_registration",
+        "test_all_conveyor_queue_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_queue"
+      ],
+      "runtime_proof": "/root/ConveyorQueueProof"
     }
   },
   "version": 1

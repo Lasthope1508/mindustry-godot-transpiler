@@ -81,6 +81,79 @@
       ],
       "runtime_proof": "/root/ConveyorIntakeProof"
     },
+    "N2053": {
+      "canonical_ledger": "source_slice_ledger.N2053",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_method": "add",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_queue_add_state",
+      "source_symbols": [
+        "source_conveyor_queue_add_state_input.ids",
+        "source_conveyor_queue_add_state_input.xs",
+        "source_conveyor_queue_add_state_input.ys",
+        "source_conveyor_queue_add_state_input.len",
+        "source_conveyor_queue_add_state_input.index",
+        "source_conveyor_queue_add_state_result.ids_after",
+        "source_conveyor_queue_add_state_result.xs_after",
+        "source_conveyor_queue_add_state_result.ys_after",
+        "source_conveyor_queue_add_state_result.len_before",
+        "source_conveyor_queue_add_state_result.len_after",
+        "source_conveyor_queue_add_state_result.shifted",
+        "source_conveyor_queue_add_state_result.reason"
+      ],
+      "tests": [
+        "test_conveyor_queue_binding_registration",
+        "test_all_conveyor_queue_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_queue"
+      ],
+      "runtime_proof": "/root/ConveyorQueueProof"
+    },
+    "N2054": {
+      "canonical_ledger": "source_slice_ledger.N2054",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_method": "remove",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_queue_remove_state",
+      "source_symbols": [
+        "source_conveyor_queue_remove_state_input.ids",
+        "source_conveyor_queue_remove_state_input.xs",
+        "source_conveyor_queue_remove_state_input.ys",
+        "source_conveyor_queue_remove_state_input.len",
+        "source_conveyor_queue_remove_state_input.index",
+        "source_conveyor_queue_remove_state_result.ids_after",
+        "source_conveyor_queue_remove_state_result.xs_after",
+        "source_conveyor_queue_remove_state_result.ys_after",
+        "source_conveyor_queue_remove_state_result.len_before",
+        "source_conveyor_queue_remove_state_result.len_after",
+        "source_conveyor_queue_remove_state_result.shifted",
+        "source_conveyor_queue_remove_state_result.reason"
+      ],
+      "tests": [
+        "test_conveyor_queue_binding_registration",
+        "test_all_conveyor_queue_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_queue"
+      ],
+      "runtime_proof": "/root/ConveyorQueueProof"
+    },
+    "N2055": {
+      "canonical_ledger": "source_slice_ledger.N2055",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_method": "updateTile",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_queue_scan_state",
+      "source_symbols": [
+        "source_conveyor_queue_scan_state_input.ys",
+        "source_conveyor_queue_scan_state_input.passed_by_index",
+        "source_conveyor_queue_scan_state_result.mid",
+        "source_conveyor_queue_scan_state_result.minitem"
+      ],
+      "tests": [
+        "test_conveyor_queue_binding_registration",
+        "test_all_conveyor_queue_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_queue"
+      ],
+      "runtime_proof": "/root/ConveyorQueueProof"
+    },
     "N684": {
       "canonical_ledger": "source_slice_ledger.N684",
       "status": "done",
