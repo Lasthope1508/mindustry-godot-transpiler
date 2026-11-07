@@ -448,3 +448,88 @@ static func dump_item_state(
 		"dumped": false,
 		"return_value": false,
 	}
+
+
+static func _dump_items_total(items: Dictionary) -> int:
+	var total := 0
+	for amount in items.values():
+		total += int(amount)
+	return total
+
+
+static func _dump_guard_reason(has_items: bool, items: Dictionary, proximity: Array, todump: Variant) -> String:
+	if not has_items:
+		return "no_items_block"
+	if _dump_items_total(items) == 0:
+		return "empty_items"
+	if proximity.is_empty():
+		return "no_proximity"
+	if todump != null and int(items.get(todump, 0)) <= 0:
+		return "item_not_held"
+	return ""
+
+
+static func _dump_result(dumped: bool, item_id: Variant, receiver_index: int, receiver: Variant, cdump_before: int, cdump_after: int, items_after: Dictionary, removed: int, reason: String) -> Dictionary:
+	return {
+		"dumped": dumped,
+		"item_id": item_id,
+		"receiver_index": receiver_index,
+		"receiver": receiver,
+		"cdump_before": cdump_before,
+		"cdump_after": cdump_after,
+		"items_after": items_after,
+		"removed": removed,
+		"reason": reason,
+	}
+
+
+static func _dump_can_dump(can_dump_hook: Callable, receiver: Variant, item_id: String) -> bool:
+	if can_dump_hook == Callable():
+		return true
+	return bool(can_dump_hook.call(receiver, item_id))
+
+
+static func _dump_accepts(accept_item_hook: Callable, receiver: Variant, item_id: String) -> bool:
+	if accept_item_hook == Callable():
+		return false
+	return bool(accept_item_hook.call(receiver, item_id))
+
+
+static func source_building_dump_specific_state(items: Dictionary, proximity: Array, todump: String, cdump: int, has_items: bool, accept_item_hook: Callable, handle_item_hook: Callable, can_dump_hook: Callable) -> Dictionary:
+	var reason := _dump_guard_reason(has_items, items, proximity, todump)
+	var next_cursor := cdump
+	if reason != "":
+		return _dump_result(false, null, -1, null, cdump, next_cursor, items.duplicate(true), 0, reason)
+	for i in range(proximity.size()):
+		var other_index := (i + cdump) % proximity.size()
+		var other: Variant = proximity[other_index]
+		if _dump_accepts(accept_item_hook, other, todump) and _dump_can_dump(can_dump_hook, other, todump) and handle_item_hook != Callable():
+			handle_item_hook.call(other, todump)
+			var next_items := items.duplicate(true)
+			next_items[todump] = int(next_items.get(todump, 0)) - 1
+			next_cursor = increment_dump_cursor_state(next_cursor, proximity.size())
+			return _dump_result(true, todump, other_index, other, cdump, next_cursor, next_items, 1, "dumped")
+		next_cursor = increment_dump_cursor_state(next_cursor, proximity.size())
+	return _dump_result(false, null, -1, null, cdump, next_cursor, items.duplicate(true), 0, "no_receiver")
+
+
+static func source_building_dump_any_state(items: Dictionary, proximity: Array, cdump: int, has_items: bool, content_item_ids: Array, accept_item_hook: Callable, handle_item_hook: Callable, can_dump_hook: Callable) -> Dictionary:
+	var reason := _dump_guard_reason(has_items, items, proximity, null)
+	var next_cursor := cdump
+	if reason != "":
+		return _dump_result(false, null, -1, null, cdump, next_cursor, items.duplicate(true), 0, reason)
+	for i in range(proximity.size()):
+		var other_index := (i + cdump) % proximity.size()
+		var other: Variant = proximity[other_index]
+		for item_id in content_item_ids:
+			var item := str(item_id)
+			if int(items.get(item, 0)) <= 0:
+				continue
+			if _dump_accepts(accept_item_hook, other, item) and _dump_can_dump(can_dump_hook, other, item) and handle_item_hook != Callable():
+				handle_item_hook.call(other, item)
+				var next_items := items.duplicate(true)
+				next_items[item] = int(next_items.get(item, 0)) - 1
+				next_cursor = increment_dump_cursor_state(next_cursor, proximity.size())
+				return _dump_result(true, item, other_index, other, cdump, next_cursor, next_items, 1, "dumped")
+		next_cursor = increment_dump_cursor_state(next_cursor, proximity.size())
+	return _dump_result(false, null, -1, null, cdump, next_cursor, items.duplicate(true), 0, "no_receiver")

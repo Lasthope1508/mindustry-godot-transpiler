@@ -48,6 +48,12 @@ func source_building_dump_terminal_failure_state() -> Dictionary:
 	return source_building_item_dump_state.dump_terminal_failure_state()
 
 
+func source_building_dump_state(items: Dictionary, proximity: Array, todump: Variant, cdump: int, has_items: bool, content_item_ids: Array, accept_item_hook: Callable, handle_item_hook: Callable, can_dump_hook: Callable) -> Dictionary:
+	if todump == null:
+		return source_building_item_dump_state.source_building_dump_any_state(items, proximity, cdump, has_items, content_item_ids, accept_item_hook, handle_item_hook, can_dump_hook)
+	return source_building_item_dump_state.source_building_dump_specific_state(items, proximity, str(todump), cdump, has_items, accept_item_hook, handle_item_hook, can_dump_hook)
+
+
 func source_dump_accumulate_attempt_state(current_accum: float, source_delta: float) -> Dictionary:
 	return source_building_item_dump_state.dump_accumulate_state(current_accum, source_delta)
 

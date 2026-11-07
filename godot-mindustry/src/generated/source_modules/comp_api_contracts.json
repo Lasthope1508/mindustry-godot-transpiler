@@ -5167,6 +5167,78 @@
       "runtime_proof": "/root/Main.source_building_dump_specific_proximity_scan_state",
       "rule": "N963 exposes BuildingComp.dump(Item todump) specific-item branch proximity scan only; transfer side effects remain existing or later owners."
     },
+    "PortGame.source_building_dump_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_building_dump_state",
+      "status": "active",
+      "source_slice": "N2049",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "dump",
+      "params": [
+        {
+          "name": "items",
+          "type": "Dictionary",
+          "schema": "source_building_dump_state_input.items"
+        },
+        {
+          "name": "proximity",
+          "type": "Array",
+          "schema": "source_building_dump_state_input.proximity"
+        },
+        {
+          "name": "todump",
+          "type": "Variant",
+          "schema": "source_building_dump_state_input.todump"
+        },
+        {
+          "name": "cdump",
+          "type": "int",
+          "schema": "source_building_dump_state_input.cdump"
+        },
+        {
+          "name": "has_items",
+          "type": "bool",
+          "schema": "source_building_dump_state_input.has_items"
+        },
+        {
+          "name": "content_item_ids",
+          "type": "Array",
+          "schema": "source_building_dump_state_input.content_item_ids"
+        },
+        {
+          "name": "accept_item_hook",
+          "type": "Callable",
+          "schema": "source_building_dump_state_input.accept_item_hook"
+        },
+        {
+          "name": "handle_item_hook",
+          "type": "Callable",
+          "schema": "source_building_dump_state_input.handle_item_hook"
+        },
+        {
+          "name": "can_dump_hook",
+          "type": "Callable",
+          "schema": "source_building_dump_state_input.can_dump_hook"
+        }
+      ],
+      "return_keys": [
+        "dumped",
+        "item_id",
+        "receiver_index",
+        "receiver",
+        "cdump_before",
+        "cdump_after",
+        "items_after",
+        "removed",
+        "reason"
+      ],
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof",
+      "rule": "Source-backed Building.dump composition; the result reports the dumped item, the receiver and the advanced cdump cursor."
+    },
     "PortGame.source_building_dump_terminal_failure_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_building_dump_terminal_failure_state",
       "status": "active",
@@ -17729,6 +17801,140 @@
       ],
       "runtime_proof": "/root/NoSleepWakeProof",
       "rule": "Source-backed noSleep wake; the result reports the stack change and the sleep transition."
+    },
+    "SourceBuildingItemDumpState.source_building_dump_any_state": {
+      "canonical_contract": "source_api_contracts.SourceBuildingItemDumpState.source_building_dump_any_state",
+      "status": "active",
+      "source_slice": "N2048",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "dump",
+      "params": [
+        {
+          "name": "items",
+          "type": "Dictionary",
+          "schema": "source_building_dump_any_state_input.items"
+        },
+        {
+          "name": "proximity",
+          "type": "Array",
+          "schema": "source_building_dump_any_state_input.proximity"
+        },
+        {
+          "name": "cdump",
+          "type": "int",
+          "schema": "source_building_dump_any_state_input.cdump"
+        },
+        {
+          "name": "has_items",
+          "type": "bool",
+          "schema": "source_building_dump_any_state_input.has_items"
+        },
+        {
+          "name": "content_item_ids",
+          "type": "Array",
+          "schema": "source_building_dump_any_state_input.content_item_ids"
+        },
+        {
+          "name": "accept_item_hook",
+          "type": "Callable",
+          "schema": "source_building_dump_any_state_input.accept_item_hook"
+        },
+        {
+          "name": "handle_item_hook",
+          "type": "Callable",
+          "schema": "source_building_dump_any_state_input.handle_item_hook"
+        },
+        {
+          "name": "can_dump_hook",
+          "type": "Callable",
+          "schema": "source_building_dump_any_state_input.can_dump_hook"
+        }
+      ],
+      "return_keys": [
+        "dumped",
+        "item_id",
+        "receiver_index",
+        "receiver",
+        "cdump_before",
+        "cdump_after",
+        "items_after",
+        "removed",
+        "reason"
+      ],
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof",
+      "rule": "Source-backed Building.dump composition; the result reports the dumped item, the receiver and the advanced cdump cursor."
+    },
+    "SourceBuildingItemDumpState.source_building_dump_specific_state": {
+      "canonical_contract": "source_api_contracts.SourceBuildingItemDumpState.source_building_dump_specific_state",
+      "status": "active",
+      "source_slice": "N2047",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "dump",
+      "params": [
+        {
+          "name": "items",
+          "type": "Dictionary",
+          "schema": "source_building_dump_specific_state_input.items"
+        },
+        {
+          "name": "proximity",
+          "type": "Array",
+          "schema": "source_building_dump_specific_state_input.proximity"
+        },
+        {
+          "name": "todump",
+          "type": "String",
+          "schema": "source_building_dump_specific_state_input.todump"
+        },
+        {
+          "name": "cdump",
+          "type": "int",
+          "schema": "source_building_dump_specific_state_input.cdump"
+        },
+        {
+          "name": "has_items",
+          "type": "bool",
+          "schema": "source_building_dump_specific_state_input.has_items"
+        },
+        {
+          "name": "accept_item_hook",
+          "type": "Callable",
+          "schema": "source_building_dump_specific_state_input.accept_item_hook"
+        },
+        {
+          "name": "handle_item_hook",
+          "type": "Callable",
+          "schema": "source_building_dump_specific_state_input.handle_item_hook"
+        },
+        {
+          "name": "can_dump_hook",
+          "type": "Callable",
+          "schema": "source_building_dump_specific_state_input.can_dump_hook"
+        }
+      ],
+      "return_keys": [
+        "dumped",
+        "item_id",
+        "receiver_index",
+        "receiver",
+        "cdump_before",
+        "cdump_after",
+        "items_after",
+        "removed",
+        "reason"
+      ],
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof",
+      "rule": "Source-backed Building.dump composition; the result reports the dumped item, the receiver and the advanced cdump cursor."
     },
     "SourceBuildingItemState.source_handle_stack_wake_state": {
       "canonical_contract": "source_api_contracts.SourceBuildingItemState.source_handle_stack_wake_state",

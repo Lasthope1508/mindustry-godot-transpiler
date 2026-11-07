@@ -156918,6 +156918,786 @@
         "test_reference_graph_and_actual_no_sleep_wake"
       ],
       "runtime_proof": "/root/NoSleepWakeProof"
+    },
+    "source_building_dump_specific_state_input.items": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_building_dump_specific_state",
+      "godot_symbol": "source_building_dump_specific_state_input.items",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "if(!block.hasItems || items.total() == 0 || proximity.size == 0 || (todump != null && !items.has(todump))) return false;",
+      "rule": "The Building items dict (item id to count).",
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof"
+    },
+    "source_building_dump_specific_state_input.proximity": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_building_dump_specific_state",
+      "godot_symbol": "source_building_dump_specific_state_input.proximity",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "if(!block.hasItems || items.total() == 0 || proximity.size == 0 || (todump != null && !items.has(todump))) return false;",
+      "rule": "The proximity builds in updateProximity order.",
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof"
+    },
+    "source_building_dump_specific_state_input.todump": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_building_dump_specific_state",
+      "godot_symbol": "source_building_dump_specific_state_input.todump",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "if(other.acceptItem(self(), todump) && canDump(other, todump)){",
+      "rule": "The item id to dump.",
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof"
+    },
+    "source_building_dump_specific_state_input.cdump": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_building_dump_specific_state",
+      "godot_symbol": "source_building_dump_specific_state_input.cdump",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "int dump = this.cdump;",
+      "rule": "The cdump cursor; the scan starts at this neighbor.",
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof"
+    },
+    "source_building_dump_specific_state_input.has_items": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_building_dump_specific_state",
+      "godot_symbol": "source_building_dump_specific_state_input.has_items",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "if(!block.hasItems || items.total() == 0 || proximity.size == 0 || (todump != null && !items.has(todump))) return false;",
+      "rule": "Whether the block hasItems; without it dump returns false.",
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof"
+    },
+    "source_building_dump_specific_state_input.accept_item_hook": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_building_dump_specific_state",
+      "godot_symbol": "source_building_dump_specific_state_input.accept_item_hook",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "if(other.acceptItem(self(), todump) && canDump(other, todump)){",
+      "rule": "Caller-supplied acceptItem: whether a neighbor accepts an item.",
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof"
+    },
+    "source_building_dump_specific_state_input.handle_item_hook": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_building_dump_specific_state",
+      "godot_symbol": "source_building_dump_specific_state_input.handle_item_hook",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "other.handleItem(self(), todump);",
+      "rule": "Caller-supplied handleItem: the receiver-side item intake.",
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof"
+    },
+    "source_building_dump_specific_state_input.can_dump_hook": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_building_dump_specific_state",
+      "godot_symbol": "source_building_dump_specific_state_input.can_dump_hook",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "public boolean canDump(Building to, Item item){",
+      "rule": "Caller-supplied canDump: defaults to true, matching the Java default.",
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof"
+    },
+    "source_building_dump_specific_state_result.dumped": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_building_dump_specific_state",
+      "godot_symbol": "source_building_dump_specific_state_result.dumped",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "return true;",
+      "rule": "Whether one item was transferred to a neighbor; false when no neighbor accepted.",
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof"
+    },
+    "source_building_dump_specific_state_result.item_id": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_building_dump_specific_state",
+      "godot_symbol": "source_building_dump_specific_state_result.item_id",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "other.handleItem(self(), todump);",
+      "rule": "The item id transferred, or null when nothing was dumped.",
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof"
+    },
+    "source_building_dump_specific_state_result.receiver_index": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_building_dump_specific_state",
+      "godot_symbol": "source_building_dump_specific_state_result.receiver_index",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "int dump = this.cdump;",
+      "rule": "Index of the receiving neighbor in the proximity array, or -1 when nothing was dumped.",
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof"
+    },
+    "source_building_dump_specific_state_result.receiver": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_building_dump_specific_state",
+      "godot_symbol": "source_building_dump_specific_state_result.receiver",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "other.handleItem(self(), todump);",
+      "rule": "The receiving neighbor, or null when nothing was dumped.",
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof"
+    },
+    "source_building_dump_specific_state_result.cdump_before": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_building_dump_specific_state",
+      "godot_symbol": "source_building_dump_specific_state_result.cdump_before",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "int dump = this.cdump;",
+      "rule": "The cdump cursor before the dump; the scan starts at this neighbor.",
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof"
+    },
+    "source_building_dump_specific_state_result.cdump_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_building_dump_specific_state",
+      "godot_symbol": "source_building_dump_specific_state_result.cdump_after",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "cdump = ((cdump + 1) % prox);",
+      "rule": "The cdump cursor after the dump; it advances once per neighbor visited, including the receiving one.",
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof"
+    },
+    "source_building_dump_specific_state_result.items_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_building_dump_specific_state",
+      "godot_symbol": "source_building_dump_specific_state_result.items_after",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "items.remove(todump, 1);",
+      "rule": "The items dict after the dump; one unit of the dumped item is removed.",
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof"
+    },
+    "source_building_dump_specific_state_result.removed": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_building_dump_specific_state",
+      "godot_symbol": "source_building_dump_specific_state_result.removed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "items.remove(todump, 1);",
+      "rule": "Units removed from the items dict: 1 when an item was dumped, 0 otherwise.",
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof"
+    },
+    "source_building_dump_specific_state_result.reason": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_building_dump_specific_state",
+      "godot_symbol": "source_building_dump_specific_state_result.reason",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "return false;",
+      "rule": "Dump outcome: dumped, no_items_block, empty_items, no_proximity, item_not_held, no_receiver.",
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof"
+    },
+    "source_building_dump_any_state_input.items": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_building_dump_any_state",
+      "godot_symbol": "source_building_dump_any_state_input.items",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "if(!block.hasItems || items.total() == 0 || proximity.size == 0 || (todump != null && !items.has(todump))) return false;",
+      "rule": "The Building items dict (item id to count).",
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof"
+    },
+    "source_building_dump_any_state_input.proximity": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_building_dump_any_state",
+      "godot_symbol": "source_building_dump_any_state_input.proximity",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "if(!block.hasItems || items.total() == 0 || proximity.size == 0 || (todump != null && !items.has(todump))) return false;",
+      "rule": "The proximity builds in updateProximity order.",
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof"
+    },
+    "source_building_dump_any_state_input.cdump": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_building_dump_any_state",
+      "godot_symbol": "source_building_dump_any_state_input.cdump",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "int dump = this.cdump;",
+      "rule": "The cdump cursor; the scan starts at this neighbor.",
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof"
+    },
+    "source_building_dump_any_state_input.has_items": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_building_dump_any_state",
+      "godot_symbol": "source_building_dump_any_state_input.has_items",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "if(!block.hasItems || items.total() == 0 || proximity.size == 0 || (todump != null && !items.has(todump))) return false;",
+      "rule": "Whether the block hasItems; without it dump returns false.",
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof"
+    },
+    "source_building_dump_any_state_input.content_item_ids": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_building_dump_any_state",
+      "godot_symbol": "source_building_dump_any_state_input.content_item_ids",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "if(todump == null){",
+      "rule": "Content-order item ids; the null branch tries them in this order per neighbor.",
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof"
+    },
+    "source_building_dump_any_state_input.accept_item_hook": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_building_dump_any_state",
+      "godot_symbol": "source_building_dump_any_state_input.accept_item_hook",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "if(other.acceptItem(self(), todump) && canDump(other, todump)){",
+      "rule": "Caller-supplied acceptItem: whether a neighbor accepts an item.",
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof"
+    },
+    "source_building_dump_any_state_input.handle_item_hook": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_building_dump_any_state",
+      "godot_symbol": "source_building_dump_any_state_input.handle_item_hook",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "other.handleItem(self(), todump);",
+      "rule": "Caller-supplied handleItem: the receiver-side item intake.",
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof"
+    },
+    "source_building_dump_any_state_input.can_dump_hook": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_building_dump_any_state",
+      "godot_symbol": "source_building_dump_any_state_input.can_dump_hook",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "public boolean canDump(Building to, Item item){",
+      "rule": "Caller-supplied canDump: defaults to true, matching the Java default.",
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof"
+    },
+    "source_building_dump_any_state_result.dumped": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_building_dump_any_state",
+      "godot_symbol": "source_building_dump_any_state_result.dumped",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "return true;",
+      "rule": "Whether one item was transferred to a neighbor; false when no neighbor accepted.",
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof"
+    },
+    "source_building_dump_any_state_result.item_id": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_building_dump_any_state",
+      "godot_symbol": "source_building_dump_any_state_result.item_id",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "other.handleItem(self(), todump);",
+      "rule": "The item id transferred, or null when nothing was dumped.",
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof"
+    },
+    "source_building_dump_any_state_result.receiver_index": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_building_dump_any_state",
+      "godot_symbol": "source_building_dump_any_state_result.receiver_index",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "int dump = this.cdump;",
+      "rule": "Index of the receiving neighbor in the proximity array, or -1 when nothing was dumped.",
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof"
+    },
+    "source_building_dump_any_state_result.receiver": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_building_dump_any_state",
+      "godot_symbol": "source_building_dump_any_state_result.receiver",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "other.handleItem(self(), todump);",
+      "rule": "The receiving neighbor, or null when nothing was dumped.",
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof"
+    },
+    "source_building_dump_any_state_result.cdump_before": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_building_dump_any_state",
+      "godot_symbol": "source_building_dump_any_state_result.cdump_before",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "int dump = this.cdump;",
+      "rule": "The cdump cursor before the dump; the scan starts at this neighbor.",
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof"
+    },
+    "source_building_dump_any_state_result.cdump_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_building_dump_any_state",
+      "godot_symbol": "source_building_dump_any_state_result.cdump_after",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "cdump = ((cdump + 1) % prox);",
+      "rule": "The cdump cursor after the dump; it advances once per neighbor visited, including the receiving one.",
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof"
+    },
+    "source_building_dump_any_state_result.items_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_building_dump_any_state",
+      "godot_symbol": "source_building_dump_any_state_result.items_after",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "items.remove(todump, 1);",
+      "rule": "The items dict after the dump; one unit of the dumped item is removed.",
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof"
+    },
+    "source_building_dump_any_state_result.removed": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_building_dump_any_state",
+      "godot_symbol": "source_building_dump_any_state_result.removed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "items.remove(todump, 1);",
+      "rule": "Units removed from the items dict: 1 when an item was dumped, 0 otherwise.",
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof"
+    },
+    "source_building_dump_any_state_result.reason": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_building_dump_any_state",
+      "godot_symbol": "source_building_dump_any_state_result.reason",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "return false;",
+      "rule": "Dump outcome: dumped, no_items_block, empty_items, no_proximity, item_not_held, no_receiver.",
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof"
+    },
+    "source_building_dump_state_input.items": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_building_dump_state",
+      "godot_symbol": "source_building_dump_state_input.items",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "if(!block.hasItems || items.total() == 0 || proximity.size == 0 || (todump != null && !items.has(todump))) return false;",
+      "rule": "The Building items dict (item id to count).",
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof"
+    },
+    "source_building_dump_state_input.proximity": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_building_dump_state",
+      "godot_symbol": "source_building_dump_state_input.proximity",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "if(!block.hasItems || items.total() == 0 || proximity.size == 0 || (todump != null && !items.has(todump))) return false;",
+      "rule": "The proximity builds in updateProximity order.",
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof"
+    },
+    "source_building_dump_state_input.todump": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_building_dump_state",
+      "godot_symbol": "source_building_dump_state_input.todump",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "return dump(null);",
+      "rule": "The item id to dump, or null to dump any item.",
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof"
+    },
+    "source_building_dump_state_input.cdump": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_building_dump_state",
+      "godot_symbol": "source_building_dump_state_input.cdump",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "int dump = this.cdump;",
+      "rule": "The cdump cursor; the scan starts at this neighbor.",
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof"
+    },
+    "source_building_dump_state_input.has_items": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_building_dump_state",
+      "godot_symbol": "source_building_dump_state_input.has_items",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "if(!block.hasItems || items.total() == 0 || proximity.size == 0 || (todump != null && !items.has(todump))) return false;",
+      "rule": "Whether the block hasItems; without it dump returns false.",
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof"
+    },
+    "source_building_dump_state_input.content_item_ids": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_building_dump_state",
+      "godot_symbol": "source_building_dump_state_input.content_item_ids",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "if(todump == null){",
+      "rule": "Content-order item ids for the null branch.",
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof"
+    },
+    "source_building_dump_state_input.accept_item_hook": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_building_dump_state",
+      "godot_symbol": "source_building_dump_state_input.accept_item_hook",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "if(other.acceptItem(self(), todump) && canDump(other, todump)){",
+      "rule": "Caller-supplied acceptItem: whether a neighbor accepts an item.",
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof"
+    },
+    "source_building_dump_state_input.handle_item_hook": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_building_dump_state",
+      "godot_symbol": "source_building_dump_state_input.handle_item_hook",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "other.handleItem(self(), todump);",
+      "rule": "Caller-supplied handleItem: the receiver-side item intake.",
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof"
+    },
+    "source_building_dump_state_input.can_dump_hook": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_building_dump_state",
+      "godot_symbol": "source_building_dump_state_input.can_dump_hook",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "public boolean canDump(Building to, Item item){",
+      "rule": "Caller-supplied canDump: defaults to true, matching the Java default.",
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof"
+    },
+    "source_building_dump_state_result.dumped": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_building_dump_state",
+      "godot_symbol": "source_building_dump_state_result.dumped",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "return true;",
+      "rule": "Whether one item was transferred to a neighbor; false when no neighbor accepted.",
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof"
+    },
+    "source_building_dump_state_result.item_id": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_building_dump_state",
+      "godot_symbol": "source_building_dump_state_result.item_id",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "other.handleItem(self(), todump);",
+      "rule": "The item id transferred, or null when nothing was dumped.",
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof"
+    },
+    "source_building_dump_state_result.receiver_index": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_building_dump_state",
+      "godot_symbol": "source_building_dump_state_result.receiver_index",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "int dump = this.cdump;",
+      "rule": "Index of the receiving neighbor in the proximity array, or -1 when nothing was dumped.",
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof"
+    },
+    "source_building_dump_state_result.receiver": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_building_dump_state",
+      "godot_symbol": "source_building_dump_state_result.receiver",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "other.handleItem(self(), todump);",
+      "rule": "The receiving neighbor, or null when nothing was dumped.",
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof"
+    },
+    "source_building_dump_state_result.cdump_before": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_building_dump_state",
+      "godot_symbol": "source_building_dump_state_result.cdump_before",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "int dump = this.cdump;",
+      "rule": "The cdump cursor before the dump; the scan starts at this neighbor.",
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof"
+    },
+    "source_building_dump_state_result.cdump_after": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_building_dump_state",
+      "godot_symbol": "source_building_dump_state_result.cdump_after",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "cdump = ((cdump + 1) % prox);",
+      "rule": "The cdump cursor after the dump; it advances once per neighbor visited, including the receiving one.",
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof"
+    },
+    "source_building_dump_state_result.items_after": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_building_dump_state",
+      "godot_symbol": "source_building_dump_state_result.items_after",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "items.remove(todump, 1);",
+      "rule": "The items dict after the dump; one unit of the dumped item is removed.",
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof"
+    },
+    "source_building_dump_state_result.removed": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_building_dump_state",
+      "godot_symbol": "source_building_dump_state_result.removed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "items.remove(todump, 1);",
+      "rule": "Units removed from the items dict: 1 when an item was dumped, 0 otherwise.",
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof"
+    },
+    "source_building_dump_state_result.reason": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_building_dump_state",
+      "godot_symbol": "source_building_dump_state_result.reason",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "return false;",
+      "rule": "Dump outcome: dumped, no_items_block, empty_items, no_proximity, item_not_held, no_receiver.",
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof"
     }
   },
   "version": 1

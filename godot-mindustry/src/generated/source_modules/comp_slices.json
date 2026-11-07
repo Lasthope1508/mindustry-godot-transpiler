@@ -5343,6 +5343,103 @@
       ],
       "runtime_proof": "/root/NoSleepWakeProof"
     },
+    "N2047": {
+      "canonical_ledger": "source_slice_ledger.N2047",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "godot_owner": "SourceBuildingItemDumpState.source_building_dump_specific_state",
+      "source_symbols": [
+        "source_building_dump_specific_state_input.items",
+        "source_building_dump_specific_state_input.proximity",
+        "source_building_dump_specific_state_input.todump",
+        "source_building_dump_specific_state_input.cdump",
+        "source_building_dump_specific_state_input.has_items",
+        "source_building_dump_specific_state_input.accept_item_hook",
+        "source_building_dump_specific_state_input.handle_item_hook",
+        "source_building_dump_specific_state_input.can_dump_hook",
+        "source_building_dump_specific_state_result.dumped",
+        "source_building_dump_specific_state_result.item_id",
+        "source_building_dump_specific_state_result.receiver_index",
+        "source_building_dump_specific_state_result.receiver",
+        "source_building_dump_specific_state_result.cdump_before",
+        "source_building_dump_specific_state_result.cdump_after",
+        "source_building_dump_specific_state_result.items_after",
+        "source_building_dump_specific_state_result.removed",
+        "source_building_dump_specific_state_result.reason"
+      ],
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof"
+    },
+    "N2048": {
+      "canonical_ledger": "source_slice_ledger.N2048",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "godot_owner": "SourceBuildingItemDumpState.source_building_dump_any_state",
+      "source_symbols": [
+        "source_building_dump_any_state_input.items",
+        "source_building_dump_any_state_input.proximity",
+        "source_building_dump_any_state_input.cdump",
+        "source_building_dump_any_state_input.has_items",
+        "source_building_dump_any_state_input.content_item_ids",
+        "source_building_dump_any_state_input.accept_item_hook",
+        "source_building_dump_any_state_input.handle_item_hook",
+        "source_building_dump_any_state_input.can_dump_hook",
+        "source_building_dump_any_state_result.dumped",
+        "source_building_dump_any_state_result.item_id",
+        "source_building_dump_any_state_result.receiver_index",
+        "source_building_dump_any_state_result.receiver",
+        "source_building_dump_any_state_result.cdump_before",
+        "source_building_dump_any_state_result.cdump_after",
+        "source_building_dump_any_state_result.items_after",
+        "source_building_dump_any_state_result.removed",
+        "source_building_dump_any_state_result.reason"
+      ],
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof"
+    },
+    "N2049": {
+      "canonical_ledger": "source_slice_ledger.N2049",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "godot_owner": "PortGame.source_building_dump_state",
+      "source_symbols": [
+        "source_building_dump_state_input.items",
+        "source_building_dump_state_input.proximity",
+        "source_building_dump_state_input.todump",
+        "source_building_dump_state_input.cdump",
+        "source_building_dump_state_input.has_items",
+        "source_building_dump_state_input.content_item_ids",
+        "source_building_dump_state_input.accept_item_hook",
+        "source_building_dump_state_input.handle_item_hook",
+        "source_building_dump_state_input.can_dump_hook",
+        "source_building_dump_state_result.dumped",
+        "source_building_dump_state_result.item_id",
+        "source_building_dump_state_result.receiver_index",
+        "source_building_dump_state_result.receiver",
+        "source_building_dump_state_result.cdump_before",
+        "source_building_dump_state_result.cdump_after",
+        "source_building_dump_state_result.items_after",
+        "source_building_dump_state_result.removed",
+        "source_building_dump_state_result.reason"
+      ],
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof"
+    },
     "N514": {
       "canonical_ledger": "source_slice_ledger.N514",
       "status": "done",

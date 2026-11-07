@@ -51258,6 +51258,165 @@
         "Controller pickup and world transition invalidation stay open in C01; they need the unit system and campaign state machine.",
         "C02 inventory/offload/dump/transport and C03-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2047": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "dump",
+      "godot_owner": "SourceBuildingItemDumpState.source_building_dump_specific_state",
+      "exact_exprs": [
+        "public boolean dump(Item todump){",
+        "if(!block.hasItems || items.total() == 0 || proximity.size == 0 || (todump != null && !items.has(todump))) return false;",
+        "int dump = this.cdump;",
+        "if(other.acceptItem(self(), todump) && canDump(other, todump)){",
+        "other.handleItem(self(), todump);",
+        "items.remove(todump, 1);",
+        "incrementDump(proximity.size);",
+        "return true;",
+        "return false;",
+        "public void incrementDump(int prox){",
+        "if(prox != 0){",
+        "cdump = ((cdump + 1) % prox);",
+        "public boolean canDump(Building to, Item item){"
+      ],
+      "source_symbols": [
+        "source_building_dump_specific_state_input.items",
+        "source_building_dump_specific_state_input.proximity",
+        "source_building_dump_specific_state_input.todump",
+        "source_building_dump_specific_state_input.cdump",
+        "source_building_dump_specific_state_input.has_items",
+        "source_building_dump_specific_state_input.accept_item_hook",
+        "source_building_dump_specific_state_input.handle_item_hook",
+        "source_building_dump_specific_state_input.can_dump_hook",
+        "source_building_dump_specific_state_result.dumped",
+        "source_building_dump_specific_state_result.item_id",
+        "source_building_dump_specific_state_result.receiver_index",
+        "source_building_dump_specific_state_result.receiver",
+        "source_building_dump_specific_state_result.cdump_before",
+        "source_building_dump_specific_state_result.cdump_after",
+        "source_building_dump_specific_state_result.items_after",
+        "source_building_dump_specific_state_result.removed",
+        "source_building_dump_specific_state_result.reason"
+      ],
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof",
+      "deferred_exprs": [
+        "The dump composition transfers one item per call to the first accepting neighbor in cdump order; multi-item and per-frame dump accumulation stay with the existing dump-accumulate state.",
+        "Receiver-side accept/handle/canDump are caller-supplied hooks; the runtime has no per-building acceptItem/handleItem yet, so the proof supplies them from a neighbor accept map.",
+        "The drill runtime bridge still reads the game-global drill_output_item_id; making it use the actual dominant item stays open in C02.",
+        "C02 conveyor transport and C03-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
+    },
+    "N2048": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "dump",
+      "godot_owner": "SourceBuildingItemDumpState.source_building_dump_any_state",
+      "exact_exprs": [
+        "public boolean dump(Item todump){",
+        "if(!block.hasItems || items.total() == 0 || proximity.size == 0 || (todump != null && !items.has(todump))) return false;",
+        "int dump = this.cdump;",
+        "if(todump == null){",
+        "if(other.acceptItem(self(), item) && canDump(other, item)){",
+        "other.handleItem(self(), item);",
+        "items.remove(item, 1);",
+        "incrementDump(proximity.size);",
+        "return true;",
+        "return false;",
+        "public void incrementDump(int prox){",
+        "if(prox != 0){",
+        "cdump = ((cdump + 1) % prox);",
+        "public boolean canDump(Building to, Item item){"
+      ],
+      "source_symbols": [
+        "source_building_dump_any_state_input.items",
+        "source_building_dump_any_state_input.proximity",
+        "source_building_dump_any_state_input.cdump",
+        "source_building_dump_any_state_input.has_items",
+        "source_building_dump_any_state_input.content_item_ids",
+        "source_building_dump_any_state_input.accept_item_hook",
+        "source_building_dump_any_state_input.handle_item_hook",
+        "source_building_dump_any_state_input.can_dump_hook",
+        "source_building_dump_any_state_result.dumped",
+        "source_building_dump_any_state_result.item_id",
+        "source_building_dump_any_state_result.receiver_index",
+        "source_building_dump_any_state_result.receiver",
+        "source_building_dump_any_state_result.cdump_before",
+        "source_building_dump_any_state_result.cdump_after",
+        "source_building_dump_any_state_result.items_after",
+        "source_building_dump_any_state_result.removed",
+        "source_building_dump_any_state_result.reason"
+      ],
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof",
+      "deferred_exprs": [
+        "The dump composition transfers one item per call to the first accepting neighbor in cdump order; multi-item and per-frame dump accumulation stay with the existing dump-accumulate state.",
+        "Receiver-side accept/handle/canDump are caller-supplied hooks; the runtime has no per-building acceptItem/handleItem yet, so the proof supplies them from a neighbor accept map.",
+        "The drill runtime bridge still reads the game-global drill_output_item_id; making it use the actual dominant item stays open in C02.",
+        "C02 conveyor transport and C03-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
+    },
+    "N2049": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "dump",
+      "godot_owner": "PortGame.source_building_dump_state",
+      "exact_exprs": [
+        "public boolean dump(){",
+        "return dump(null);",
+        "public boolean dump(Item todump){",
+        "if(!block.hasItems || items.total() == 0 || proximity.size == 0 || (todump != null && !items.has(todump))) return false;",
+        "int dump = this.cdump;",
+        "if(todump == null){",
+        "if(other.acceptItem(self(), todump) && canDump(other, todump)){",
+        "if(other.acceptItem(self(), item) && canDump(other, item)){",
+        "incrementDump(proximity.size);",
+        "return true;",
+        "return false;"
+      ],
+      "source_symbols": [
+        "source_building_dump_state_input.items",
+        "source_building_dump_state_input.proximity",
+        "source_building_dump_state_input.todump",
+        "source_building_dump_state_input.cdump",
+        "source_building_dump_state_input.has_items",
+        "source_building_dump_state_input.content_item_ids",
+        "source_building_dump_state_input.accept_item_hook",
+        "source_building_dump_state_input.handle_item_hook",
+        "source_building_dump_state_input.can_dump_hook",
+        "source_building_dump_state_result.dumped",
+        "source_building_dump_state_result.item_id",
+        "source_building_dump_state_result.receiver_index",
+        "source_building_dump_state_result.receiver",
+        "source_building_dump_state_result.cdump_before",
+        "source_building_dump_state_result.cdump_after",
+        "source_building_dump_state_result.items_after",
+        "source_building_dump_state_result.removed",
+        "source_building_dump_state_result.reason"
+      ],
+      "tests": [
+        "test_building_dump_binding_registration",
+        "test_all_building_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_building_dump"
+      ],
+      "runtime_proof": "/root/BuildingDumpProof",
+      "deferred_exprs": [
+        "The dump composition transfers one item per call to the first accepting neighbor in cdump order; multi-item and per-frame dump accumulation stay with the existing dump-accumulate state.",
+        "Receiver-side accept/handle/canDump are caller-supplied hooks; the runtime has no per-building acceptItem/handleItem yet, so the proof supplies them from a neighbor accept map.",
+        "The drill runtime bridge still reads the game-global drill_output_item_id; making it use the actual dominant item stays open in C02.",
+        "C02 conveyor transport and C03-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1

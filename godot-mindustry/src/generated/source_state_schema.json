@@ -215282,6 +215282,580 @@
       },
       "runtime_proof": "/root/NoSleepWakeProof",
       "rule": "Source-backed noSleep wake; the group add() is recorded, not executed, because the runtime has no entity groups."
+    },
+    "source_building_dump_specific_state_input": {
+      "status": "active",
+      "owner": "SourceBuildingItemDumpState.source_building_dump_specific_state",
+      "source_slice": "N2047",
+      "keys": {
+        "items": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(!block.hasItems || items.total() == 0 || proximity.size == 0 || (todump != null && !items.has(todump))) return false;",
+          "rule": "The Building items dict (item id to count).",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_building_dump_specific_state"
+          ]
+        },
+        "proximity": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(!block.hasItems || items.total() == 0 || proximity.size == 0 || (todump != null && !items.has(todump))) return false;",
+          "rule": "The proximity builds in updateProximity order.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_building_dump_specific_state"
+          ]
+        },
+        "todump": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(other.acceptItem(self(), todump) && canDump(other, todump)){",
+          "rule": "The item id to dump.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_building_dump_specific_state"
+          ]
+        },
+        "cdump": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "int dump = this.cdump;",
+          "rule": "The cdump cursor; the scan starts at this neighbor.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_building_dump_specific_state"
+          ]
+        },
+        "has_items": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(!block.hasItems || items.total() == 0 || proximity.size == 0 || (todump != null && !items.has(todump))) return false;",
+          "rule": "Whether the block hasItems; without it dump returns false.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_building_dump_specific_state"
+          ]
+        },
+        "accept_item_hook": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(other.acceptItem(self(), todump) && canDump(other, todump)){",
+          "rule": "Caller-supplied acceptItem: whether a neighbor accepts an item.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_building_dump_specific_state"
+          ]
+        },
+        "handle_item_hook": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "other.handleItem(self(), todump);",
+          "rule": "Caller-supplied handleItem: the receiver-side item intake.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_building_dump_specific_state"
+          ]
+        },
+        "can_dump_hook": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public boolean canDump(Building to, Item item){",
+          "rule": "Caller-supplied canDump: defaults to true, matching the Java default.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_building_dump_specific_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/BuildingDumpProof",
+      "rule": "Source-backed Building.dump composition; one item per call to the first accepting neighbor in cdump order."
+    },
+    "source_building_dump_specific_state_result": {
+      "status": "active",
+      "owner": "SourceBuildingItemDumpState.source_building_dump_specific_state",
+      "source_slice": "N2047",
+      "keys": {
+        "dumped": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return true;",
+          "rule": "Whether one item was transferred to a neighbor; false when no neighbor accepted.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_building_dump_specific_state"
+          ]
+        },
+        "item_id": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "other.handleItem(self(), todump);",
+          "rule": "The item id transferred, or null when nothing was dumped.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_building_dump_specific_state"
+          ]
+        },
+        "receiver_index": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "int dump = this.cdump;",
+          "rule": "Index of the receiving neighbor in the proximity array, or -1 when nothing was dumped.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_building_dump_specific_state"
+          ]
+        },
+        "receiver": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "other.handleItem(self(), todump);",
+          "rule": "The receiving neighbor, or null when nothing was dumped.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_building_dump_specific_state"
+          ]
+        },
+        "cdump_before": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "int dump = this.cdump;",
+          "rule": "The cdump cursor before the dump; the scan starts at this neighbor.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_building_dump_specific_state"
+          ]
+        },
+        "cdump_after": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "cdump = ((cdump + 1) % prox);",
+          "rule": "The cdump cursor after the dump; it advances once per neighbor visited, including the receiving one.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_building_dump_specific_state"
+          ]
+        },
+        "items_after": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "items.remove(todump, 1);",
+          "rule": "The items dict after the dump; one unit of the dumped item is removed.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_building_dump_specific_state"
+          ]
+        },
+        "removed": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "items.remove(todump, 1);",
+          "rule": "Units removed from the items dict: 1 when an item was dumped, 0 otherwise.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_building_dump_specific_state"
+          ]
+        },
+        "reason": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return false;",
+          "rule": "Dump outcome: dumped, no_items_block, empty_items, no_proximity, item_not_held, no_receiver.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_building_dump_specific_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/BuildingDumpProof",
+      "rule": "Source-backed Building.dump composition; one item per call to the first accepting neighbor in cdump order."
+    },
+    "source_building_dump_any_state_input": {
+      "status": "active",
+      "owner": "SourceBuildingItemDumpState.source_building_dump_any_state",
+      "source_slice": "N2048",
+      "keys": {
+        "items": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(!block.hasItems || items.total() == 0 || proximity.size == 0 || (todump != null && !items.has(todump))) return false;",
+          "rule": "The Building items dict (item id to count).",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_building_dump_any_state"
+          ]
+        },
+        "proximity": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(!block.hasItems || items.total() == 0 || proximity.size == 0 || (todump != null && !items.has(todump))) return false;",
+          "rule": "The proximity builds in updateProximity order.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_building_dump_any_state"
+          ]
+        },
+        "cdump": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "int dump = this.cdump;",
+          "rule": "The cdump cursor; the scan starts at this neighbor.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_building_dump_any_state"
+          ]
+        },
+        "has_items": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(!block.hasItems || items.total() == 0 || proximity.size == 0 || (todump != null && !items.has(todump))) return false;",
+          "rule": "Whether the block hasItems; without it dump returns false.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_building_dump_any_state"
+          ]
+        },
+        "content_item_ids": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(todump == null){",
+          "rule": "Content-order item ids; the null branch tries them in this order per neighbor.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_building_dump_any_state"
+          ]
+        },
+        "accept_item_hook": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(other.acceptItem(self(), todump) && canDump(other, todump)){",
+          "rule": "Caller-supplied acceptItem: whether a neighbor accepts an item.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_building_dump_any_state"
+          ]
+        },
+        "handle_item_hook": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "other.handleItem(self(), todump);",
+          "rule": "Caller-supplied handleItem: the receiver-side item intake.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_building_dump_any_state"
+          ]
+        },
+        "can_dump_hook": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public boolean canDump(Building to, Item item){",
+          "rule": "Caller-supplied canDump: defaults to true, matching the Java default.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_building_dump_any_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/BuildingDumpProof",
+      "rule": "Source-backed Building.dump composition; one item per call to the first accepting neighbor in cdump order."
+    },
+    "source_building_dump_any_state_result": {
+      "status": "active",
+      "owner": "SourceBuildingItemDumpState.source_building_dump_any_state",
+      "source_slice": "N2048",
+      "keys": {
+        "dumped": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return true;",
+          "rule": "Whether one item was transferred to a neighbor; false when no neighbor accepted.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_building_dump_any_state"
+          ]
+        },
+        "item_id": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "other.handleItem(self(), todump);",
+          "rule": "The item id transferred, or null when nothing was dumped.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_building_dump_any_state"
+          ]
+        },
+        "receiver_index": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "int dump = this.cdump;",
+          "rule": "Index of the receiving neighbor in the proximity array, or -1 when nothing was dumped.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_building_dump_any_state"
+          ]
+        },
+        "receiver": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "other.handleItem(self(), todump);",
+          "rule": "The receiving neighbor, or null when nothing was dumped.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_building_dump_any_state"
+          ]
+        },
+        "cdump_before": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "int dump = this.cdump;",
+          "rule": "The cdump cursor before the dump; the scan starts at this neighbor.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_building_dump_any_state"
+          ]
+        },
+        "cdump_after": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "cdump = ((cdump + 1) % prox);",
+          "rule": "The cdump cursor after the dump; it advances once per neighbor visited, including the receiving one.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_building_dump_any_state"
+          ]
+        },
+        "items_after": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "items.remove(todump, 1);",
+          "rule": "The items dict after the dump; one unit of the dumped item is removed.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_building_dump_any_state"
+          ]
+        },
+        "removed": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "items.remove(todump, 1);",
+          "rule": "Units removed from the items dict: 1 when an item was dumped, 0 otherwise.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_building_dump_any_state"
+          ]
+        },
+        "reason": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return false;",
+          "rule": "Dump outcome: dumped, no_items_block, empty_items, no_proximity, item_not_held, no_receiver.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_building_dump_any_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/BuildingDumpProof",
+      "rule": "Source-backed Building.dump composition; one item per call to the first accepting neighbor in cdump order."
+    },
+    "source_building_dump_state_input": {
+      "status": "active",
+      "owner": "PortGame.source_building_dump_state",
+      "source_slice": "N2049",
+      "keys": {
+        "items": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(!block.hasItems || items.total() == 0 || proximity.size == 0 || (todump != null && !items.has(todump))) return false;",
+          "rule": "The Building items dict (item id to count).",
+          "used_by": [
+            "PortGame.source_building_dump_state"
+          ]
+        },
+        "proximity": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(!block.hasItems || items.total() == 0 || proximity.size == 0 || (todump != null && !items.has(todump))) return false;",
+          "rule": "The proximity builds in updateProximity order.",
+          "used_by": [
+            "PortGame.source_building_dump_state"
+          ]
+        },
+        "todump": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return dump(null);",
+          "rule": "The item id to dump, or null to dump any item.",
+          "used_by": [
+            "PortGame.source_building_dump_state"
+          ]
+        },
+        "cdump": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "int dump = this.cdump;",
+          "rule": "The cdump cursor; the scan starts at this neighbor.",
+          "used_by": [
+            "PortGame.source_building_dump_state"
+          ]
+        },
+        "has_items": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(!block.hasItems || items.total() == 0 || proximity.size == 0 || (todump != null && !items.has(todump))) return false;",
+          "rule": "Whether the block hasItems; without it dump returns false.",
+          "used_by": [
+            "PortGame.source_building_dump_state"
+          ]
+        },
+        "content_item_ids": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(todump == null){",
+          "rule": "Content-order item ids for the null branch.",
+          "used_by": [
+            "PortGame.source_building_dump_state"
+          ]
+        },
+        "accept_item_hook": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(other.acceptItem(self(), todump) && canDump(other, todump)){",
+          "rule": "Caller-supplied acceptItem: whether a neighbor accepts an item.",
+          "used_by": [
+            "PortGame.source_building_dump_state"
+          ]
+        },
+        "handle_item_hook": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "other.handleItem(self(), todump);",
+          "rule": "Caller-supplied handleItem: the receiver-side item intake.",
+          "used_by": [
+            "PortGame.source_building_dump_state"
+          ]
+        },
+        "can_dump_hook": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public boolean canDump(Building to, Item item){",
+          "rule": "Caller-supplied canDump: defaults to true, matching the Java default.",
+          "used_by": [
+            "PortGame.source_building_dump_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/BuildingDumpProof",
+      "rule": "Source-backed Building.dump composition; one item per call to the first accepting neighbor in cdump order."
+    },
+    "source_building_dump_state_result": {
+      "status": "active",
+      "owner": "PortGame.source_building_dump_state",
+      "source_slice": "N2049",
+      "keys": {
+        "dumped": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return true;",
+          "rule": "Whether one item was transferred to a neighbor; false when no neighbor accepted.",
+          "used_by": [
+            "PortGame.source_building_dump_state"
+          ]
+        },
+        "item_id": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "other.handleItem(self(), todump);",
+          "rule": "The item id transferred, or null when nothing was dumped.",
+          "used_by": [
+            "PortGame.source_building_dump_state"
+          ]
+        },
+        "receiver_index": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "int dump = this.cdump;",
+          "rule": "Index of the receiving neighbor in the proximity array, or -1 when nothing was dumped.",
+          "used_by": [
+            "PortGame.source_building_dump_state"
+          ]
+        },
+        "receiver": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "other.handleItem(self(), todump);",
+          "rule": "The receiving neighbor, or null when nothing was dumped.",
+          "used_by": [
+            "PortGame.source_building_dump_state"
+          ]
+        },
+        "cdump_before": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "int dump = this.cdump;",
+          "rule": "The cdump cursor before the dump; the scan starts at this neighbor.",
+          "used_by": [
+            "PortGame.source_building_dump_state"
+          ]
+        },
+        "cdump_after": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "cdump = ((cdump + 1) % prox);",
+          "rule": "The cdump cursor after the dump; it advances once per neighbor visited, including the receiving one.",
+          "used_by": [
+            "PortGame.source_building_dump_state"
+          ]
+        },
+        "items_after": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "items.remove(todump, 1);",
+          "rule": "The items dict after the dump; one unit of the dumped item is removed.",
+          "used_by": [
+            "PortGame.source_building_dump_state"
+          ]
+        },
+        "removed": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "items.remove(todump, 1);",
+          "rule": "Units removed from the items dict: 1 when an item was dumped, 0 otherwise.",
+          "used_by": [
+            "PortGame.source_building_dump_state"
+          ]
+        },
+        "reason": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return false;",
+          "rule": "Dump outcome: dumped, no_items_block, empty_items, no_proximity, item_not_held, no_receiver.",
+          "used_by": [
+            "PortGame.source_building_dump_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/BuildingDumpProof",
+      "rule": "Source-backed Building.dump composition; one item per call to the first accepting neighbor in cdump order."
     }
   },
   "version": 1

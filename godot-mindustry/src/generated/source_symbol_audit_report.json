@@ -23,10 +23,10 @@
       "port_game.source_building_each_edge_state": "port_game.source_building_navigation_state"
     }
   },
-  "totalSourceFunctions": 1334,
-  "discoveredSourceOwnerCount": 1332,
-  "canonicalDiscoveredOwnerCount": 1317,
-  "registeredSourceOwnerCount": 1309,
+  "totalSourceFunctions": 1335,
+  "discoveredSourceOwnerCount": 1333,
+  "canonicalDiscoveredOwnerCount": 1318,
+  "registeredSourceOwnerCount": 1310,
   "exemptSourceOwnerCount": 8,
   "legacyUnregisteredOwnerCount": 0,
   "canonicalAliasFunctionCount": 17,
@@ -435,6 +435,7 @@
     "port_game.source_building_dump_null_remove_item_state",
     "port_game.source_building_dump_null_success_handoff_state",
     "port_game.source_building_dump_specific_proximity_scan_state",
+    "port_game.source_building_dump_state",
     "port_game.source_building_dump_terminal_failure_state",
     "port_game.source_building_edelta",
     "port_game.source_building_efficiency_scale_state",
@@ -3973,6 +3974,12 @@
       "function": "source_building_dump_terminal_failure_state",
       "gdscript_path": "src/game/SourceBuildingItemDumpPortBridge.gd",
       "canonical_owner": "port_game.source_building_dump_terminal_failure_state"
+    },
+    {
+      "owner": "port_game.source_building_dump_state",
+      "function": "source_building_dump_state",
+      "gdscript_path": "src/game/SourceBuildingItemDumpPortBridge.gd",
+      "canonical_owner": "port_game.source_building_dump_state"
     },
     {
       "owner": "port_game.source_dump_accumulate_attempt_state",
