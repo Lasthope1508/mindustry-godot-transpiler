@@ -12,6 +12,7 @@ const BLOCK_CORE_SHARD := "core-shard"
 const BLOCK_DUO := "duo"
 const BLOCK_SOLAR_PANEL := "solar-panel"
 const BLOCK_BATTERY := "battery"
+const BLOCK_LANCER := "lancer"
 const BLOCK_COPPER_WALL := "copper-wall"
 
 static func selected_generated_class_names() -> Array[String]:

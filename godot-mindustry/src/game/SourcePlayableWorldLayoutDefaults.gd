@@ -14,3 +14,4 @@ const DUO_POS := Vector2i(19, 7)
 # panel, the bootstrap world's power producer.
 const SOLAR_PANEL_POS := Vector2i(21, 7)
 const BATTERY_POS := Vector2i(23, 7)
+const LANCER_POS := Vector2i(25, 7)

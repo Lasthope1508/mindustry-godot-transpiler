@@ -29,9 +29,12 @@ func _ready() -> void:
 	proof["battery_placement_live_sprite"] = battery != null and str(battery.get_meta("source_block_id", "")) == "battery"
 
 	# --- the placed power graph now has one battery, one producer, and
-	# 21 consumers per origin cell (drill 4 + core 9 + conveyors 7 +
-	# duo 1); the panel is a producer, not a consumer. The panel's
-	# surplus (0.12 produced, 0 needed) charges the battery each frame. ---
+	# 25 consumers per origin cell (drill 4 + core 9 + conveyors 7 +
+	# duo 1 + lancer 4); the panel is a producer, not a consumer. The
+	# lancer's deficit (0.4 needed, 0.002 produced) means the battery
+	# no longer charges — it did when the graph had no real consumer
+	# (N2079), and that charge path is now covered by the lancer
+	# proof's deficit check, not by a surplus here. ---
 	var step: Dictionary = factory_state.source_factory_update_power_graph_state(game, 1.0 / 60.0)
 	var update: Dictionary = step.get("update", {})
 	var distribute: Dictionary = update.get("battery_distribute_state", {})
@@ -39,7 +42,7 @@ func _ready() -> void:
 	var battery_status := 0.0
 	if not batteries.is_empty() and batteries[0] is Dictionary:
 		battery_status = float(batteries[0].get("power_status", 0.0))
-	proof["battery_placement_live_graph"] = int(step.get("battery_count", -1)) == 1 and int(step.get("producer_count", -1)) == 1 and int(step.get("consumer_count", -1)) == 21 and bool(distribute.get("charged", false)) and is_equal_approx(float(distribute.get("power_battery_charged", -1.0)), 0.12 / 60.0) and battery_status > 0.0
+	proof["battery_placement_live_graph"] = int(step.get("battery_count", -1)) == 1 and int(step.get("producer_count", -1)) == 1 and int(step.get("consumer_count", -1)) == 25 and not bool(distribute.get("charged", true)) and is_equal_approx(float(distribute.get("power_battery_charged", -1.0)), 0.0) and is_equal_approx(battery_status, 0.0)
 
 	var state_registry := registry.canonical_headquarter_registry_state()
 	proof["registry_valid"] = state_registry.get("errors", []).is_empty()

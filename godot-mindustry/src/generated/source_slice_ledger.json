@@ -52601,6 +52601,37 @@
         "Adding a real power consumer (e.g. a lancer turret) to the bootstrap world so the 0/partial/full coverage and the battery discharge path are testable; the C03 gate needs those.",
         "C04-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2080": {
+      "status": "done",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_class": "mindustry.content.Blocks",
+      "java_method": "lancer",
+      "godot_owner": "SourceWorldInitialBuildRuntimeState.source_lancer_placement_state",
+      "exact_exprs": [
+        "lancer = new PowerTurret(\"lancer\"){{",
+        "consumePower(6f);",
+        "requirements(Category.turret, with(Items.copper, 60, Items.lead, 70, Items.silicon, 60, Items.titanium, 30));"
+      ],
+      "source_symbols": [
+        "source_lancer_placement_state_input.tile_size",
+        "source_lancer_placement_state_result.block_id",
+        "source_lancer_placement_state_result.role",
+        "source_lancer_placement_state_result.cell",
+        "source_lancer_placement_state_result.x",
+        "source_lancer_placement_state_result.y",
+        "source_lancer_placement_state_result.power_usage"
+      ],
+      "tests": [
+        "test_lancer_placement_binding_registration",
+        "test_all_lancer_placement_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_lancer_placement"
+      ],
+      "runtime_proof": "/root/LancerPlacementProof",
+      "deferred_exprs": [
+        "The battery discharge path (a charged battery covering a deficit) and the full-power case (coverage 1.0); the C03 gate needs those.",
+        "C04-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1

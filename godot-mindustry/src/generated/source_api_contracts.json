@@ -61029,6 +61029,35 @@
       ],
       "runtime_proof": "/root/BatteryPlacementProof",
       "rule": "Source-backed battery placement; the battery is placed at (23, 7) with powerCapacity 4000."
+    },
+    "SourceWorldInitialBuildRuntimeState.source_lancer_placement_state": {
+      "status": "active",
+      "source_slice": "N2080",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "source_method": "lancer",
+      "params": [
+        {
+          "name": "tile_size",
+          "type": "int",
+          "schema": "source_lancer_placement_state_input.tile_size"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "block_id",
+        "role",
+        "cell",
+        "x",
+        "y",
+        "power_usage"
+      ],
+      "tests": [
+        "test_lancer_placement_binding_registration",
+        "test_all_lancer_placement_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_lancer_placement"
+      ],
+      "runtime_proof": "/root/LancerPlacementProof",
+      "rule": "Source-backed lancer placement; the lancer is placed at (25, 7) with powerUsage 6.0."
     }
   },
   "policy": {
