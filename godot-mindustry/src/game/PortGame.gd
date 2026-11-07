@@ -5,6 +5,10 @@ func source_place_schematic_state(schematic: Dictionary, x: int, y: int, team_id
 	return SourceSchematicPlacementState.source_apply_schematic_place_state(self, schematic, x, y, team_id, overwrite, valid_place_hook, tile_config_callback)
 
 
+func source_place_loadout_state(schematic: Dictionary, x: int, y: int, team_id: int, check: bool, priority_hook: Variant, tile_config_callback: Variant, register_core_hook: Variant) -> Dictionary:
+	return SourceSchematicPlacementState.source_apply_loadout_place_state(self, schematic, x, y, team_id, check, priority_hook, tile_config_callback, register_core_hook)
+
+
 func record_placed_block(sprite: Sprite2D, block, cell: Vector2i, team_id: int = 1) -> void:
 	super.record_placed_block(sprite, block, cell, team_id)
 	if block != null and block.properties.has("consumeLiquid"):

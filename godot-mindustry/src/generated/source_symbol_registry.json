@@ -154758,6 +154758,711 @@
         "test_reference_graph_and_actual_schematic_place"
       ],
       "runtime_proof": "/root/SchematicPlaceProof"
+    },
+    "source_apply_loadout_tile_state_input.game": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_loadout_tile_state",
+      "godot_symbol": "source_apply_loadout_tile_state_input.game",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "placeLoadout",
+      "java_expr": "Tile tile = world.tile(st.x + ox, st.y + oy);",
+      "rule": "Actual game world containing the Tile store, placement index and content catalog.",
+      "tests": [
+        "test_loadout_place_binding_registration",
+        "test_all_loadout_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_loadout_place"
+      ],
+      "runtime_proof": "/root/LoadoutPlaceProof"
+    },
+    "source_apply_loadout_tile_state_input.stile": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_loadout_tile_state",
+      "godot_symbol": "source_apply_loadout_tile_state_input.stile",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "placeLoadout",
+      "java_expr": "schem.tiles.copy().sort(s -> -s.block.schematicPriority).each(st -> {",
+      "rule": "Actual schematic tile: block, cell offsets, config and rotation.",
+      "tests": [
+        "test_loadout_place_binding_registration",
+        "test_all_loadout_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_loadout_place"
+      ],
+      "runtime_proof": "/root/LoadoutPlaceProof"
+    },
+    "source_apply_loadout_tile_state_input.origin_cell": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_loadout_tile_state",
+      "godot_symbol": "source_apply_loadout_tile_state_input.origin_cell",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "placeLoadout",
+      "java_expr": "int ox = x - coreTile.x, oy = y - coreTile.y;",
+      "rule": "Actual loadout origin cell (the placed core position minus the core stile offsets); stile offsets are added to it.",
+      "tests": [
+        "test_loadout_place_binding_registration",
+        "test_all_loadout_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_loadout_place"
+      ],
+      "runtime_proof": "/root/LoadoutPlaceProof"
+    },
+    "source_apply_loadout_tile_state_input.team_id": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_loadout_tile_state",
+      "godot_symbol": "source_apply_loadout_tile_state_input.team_id",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "placeLoadout",
+      "java_expr": "tile.setBlock(st.block, team, st.rotation);",
+      "rule": "Actual Team id the loadout is placed for; threaded through the placement funnel.",
+      "tests": [
+        "test_loadout_place_binding_registration",
+        "test_all_loadout_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_loadout_place"
+      ],
+      "runtime_proof": "/root/LoadoutPlaceProof"
+    },
+    "source_apply_loadout_tile_state_input.check": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_loadout_tile_state",
+      "godot_symbol": "source_apply_loadout_tile_state_input.check",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "placeLoadout",
+      "java_expr": "if(check && !(st.block instanceof CoreBlock)){",
+      "rule": "Whether the removal pass clears blocking Buildings from the stile footprint before placement.",
+      "tests": [
+        "test_loadout_place_binding_registration",
+        "test_all_loadout_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_loadout_place"
+      ],
+      "runtime_proof": "/root/LoadoutPlaceProof"
+    },
+    "source_apply_loadout_tile_state_input.tile_config_callback": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_loadout_tile_state",
+      "godot_symbol": "source_apply_loadout_tile_state_input.tile_config_callback",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "placeLoadout",
+      "java_expr": "tile.build.configureAny(config);",
+      "rule": "Caller-supplied Call.tileConfig equivalent applied to the placed Building.",
+      "tests": [
+        "test_loadout_place_binding_registration",
+        "test_all_loadout_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_loadout_place"
+      ],
+      "runtime_proof": "/root/LoadoutPlaceProof"
+    },
+    "source_apply_loadout_tile_state_input.register_core_hook": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_loadout_tile_state",
+      "godot_symbol": "source_apply_loadout_tile_state_input.register_core_hook",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "placeLoadout",
+      "java_expr": "state.teams.registerCore(cb);",
+      "rule": "Caller-supplied Teams.registerCore equivalent, called when the placed Building is a CoreBuild.",
+      "tests": [
+        "test_loadout_place_binding_registration",
+        "test_all_loadout_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_loadout_place"
+      ],
+      "runtime_proof": "/root/LoadoutPlaceProof"
+    },
+    "source_apply_loadout_tile_state_result.cell": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_loadout_tile_state",
+      "godot_symbol": "source_apply_loadout_tile_state_result.cell",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "placeLoadout",
+      "java_expr": "Tile tile = world.tile(st.x + ox, st.y + oy);",
+      "rule": "Actual placement cell the stile resolved to.",
+      "tests": [
+        "test_loadout_place_binding_registration",
+        "test_all_loadout_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_loadout_place"
+      ],
+      "runtime_proof": "/root/LoadoutPlaceProof"
+    },
+    "source_apply_loadout_tile_state_result.tile": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_loadout_tile_state",
+      "godot_symbol": "source_apply_loadout_tile_state_result.tile",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "placeLoadout",
+      "java_expr": "Tile tile = world.tile(st.x + ox, st.y + oy);",
+      "rule": "Actual resolved world Tile dictionary, or null when the cell is outside the world.",
+      "tests": [
+        "test_loadout_place_binding_registration",
+        "test_all_loadout_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_loadout_place"
+      ],
+      "runtime_proof": "/root/LoadoutPlaceProof"
+    },
+    "source_apply_loadout_tile_state_result.build": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_loadout_tile_state",
+      "godot_symbol": "source_apply_loadout_tile_state_result.build",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "placeLoadout",
+      "java_expr": "if(tile.build != null){",
+      "rule": "The placed Building sprite, or null when the tile was skipped.",
+      "tests": [
+        "test_loadout_place_binding_registration",
+        "test_all_loadout_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_loadout_place"
+      ],
+      "runtime_proof": "/root/LoadoutPlaceProof"
+    },
+    "source_apply_loadout_tile_state_result.placed": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_loadout_tile_state",
+      "godot_symbol": "source_apply_loadout_tile_state_result.placed",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "placeLoadout",
+      "java_expr": "tile.setBlock(st.block, team, st.rotation);",
+      "rule": "Whether the stile was placed through the canonical setBlock binding.",
+      "tests": [
+        "test_loadout_place_binding_registration",
+        "test_all_loadout_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_loadout_place"
+      ],
+      "runtime_proof": "/root/LoadoutPlaceProof"
+    },
+    "source_apply_loadout_tile_state_result.skipped": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_loadout_tile_state",
+      "godot_symbol": "source_apply_loadout_tile_state_result.skipped",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "placeLoadout",
+      "java_expr": "if(tile == null) return;",
+      "rule": "Why the stile was skipped, or empty when placed.",
+      "tests": [
+        "test_loadout_place_binding_registration",
+        "test_all_loadout_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_loadout_place"
+      ],
+      "runtime_proof": "/root/LoadoutPlaceProof"
+    },
+    "source_apply_loadout_tile_state_result.removed": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_loadout_tile_state",
+      "godot_symbol": "source_apply_loadout_tile_state_result.removed",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "placeLoadout",
+      "java_expr": "t.remove();",
+      "rule": "Number of blocking non-air tiles the removal pass cleared from the stile footprint.",
+      "tests": [
+        "test_loadout_place_binding_registration",
+        "test_all_loadout_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_loadout_place"
+      ],
+      "runtime_proof": "/root/LoadoutPlaceProof"
+    },
+    "source_apply_loadout_tile_state_result.configured": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_loadout_tile_state",
+      "godot_symbol": "source_apply_loadout_tile_state_result.configured",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "placeLoadout",
+      "java_expr": "tile.build.configureAny(config);",
+      "rule": "Whether configureAny ran on the placed Building.",
+      "tests": [
+        "test_loadout_place_binding_registration",
+        "test_all_loadout_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_loadout_place"
+      ],
+      "runtime_proof": "/root/LoadoutPlaceProof"
+    },
+    "source_apply_loadout_tile_state_result.core_placed": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_loadout_tile_state",
+      "godot_symbol": "source_apply_loadout_tile_state_result.core_placed",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "placeLoadout",
+      "java_expr": "if(tile.build instanceof CoreBuild cb){",
+      "rule": "Whether the placed Building is a CoreBuild.",
+      "tests": [
+        "test_loadout_place_binding_registration",
+        "test_all_loadout_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_loadout_place"
+      ],
+      "runtime_proof": "/root/LoadoutPlaceProof"
+    },
+    "source_apply_loadout_tile_state_result.core_registered": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_loadout_tile_state",
+      "godot_symbol": "source_apply_loadout_tile_state_result.core_registered",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "placeLoadout",
+      "java_expr": "state.teams.registerCore(cb);",
+      "rule": "Whether the register-core hook fired for the placed CoreBuild.",
+      "tests": [
+        "test_loadout_place_binding_registration",
+        "test_all_loadout_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_loadout_place"
+      ],
+      "runtime_proof": "/root/LoadoutPlaceProof"
+    },
+    "source_apply_loadout_place_state_input.game": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_loadout_place_state",
+      "godot_symbol": "source_apply_loadout_place_state_input.game",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "placeLoadout",
+      "java_expr": "public static void placeLoadout(Schematic schem, int x, int y, Team team, boolean check){",
+      "rule": "Actual game world the loadout is placed into.",
+      "tests": [
+        "test_loadout_place_binding_registration",
+        "test_all_loadout_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_loadout_place"
+      ],
+      "runtime_proof": "/root/LoadoutPlaceProof"
+    },
+    "source_apply_loadout_place_state_input.schematic": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_loadout_place_state",
+      "godot_symbol": "source_apply_loadout_place_state_input.schematic",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "placeLoadout",
+      "java_expr": "public static void placeLoadout(Schematic schem, int x, int y, Team team, boolean check){",
+      "rule": "Actual loadout schematic: stile tiles in source order, including exactly one core stile.",
+      "tests": [
+        "test_loadout_place_binding_registration",
+        "test_all_loadout_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_loadout_place"
+      ],
+      "runtime_proof": "/root/LoadoutPlaceProof"
+    },
+    "source_apply_loadout_place_state_input.x": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_loadout_place_state",
+      "godot_symbol": "source_apply_loadout_place_state_input.x",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "placeLoadout",
+      "java_expr": "int ox = x - coreTile.x, oy = y - coreTile.y;",
+      "rule": "Actual core placement x; the origin is x minus the core stile x.",
+      "tests": [
+        "test_loadout_place_binding_registration",
+        "test_all_loadout_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_loadout_place"
+      ],
+      "runtime_proof": "/root/LoadoutPlaceProof"
+    },
+    "source_apply_loadout_place_state_input.y": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_loadout_place_state",
+      "godot_symbol": "source_apply_loadout_place_state_input.y",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "placeLoadout",
+      "java_expr": "int ox = x - coreTile.x, oy = y - coreTile.y;",
+      "rule": "Actual core placement y; the origin is y minus the core stile y.",
+      "tests": [
+        "test_loadout_place_binding_registration",
+        "test_all_loadout_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_loadout_place"
+      ],
+      "runtime_proof": "/root/LoadoutPlaceProof"
+    },
+    "source_apply_loadout_place_state_input.team_id": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_loadout_place_state",
+      "godot_symbol": "source_apply_loadout_place_state_input.team_id",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "placeLoadout",
+      "java_expr": "tile.setBlock(st.block, team, st.rotation);",
+      "rule": "Actual Team id the loadout is placed for.",
+      "tests": [
+        "test_loadout_place_binding_registration",
+        "test_all_loadout_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_loadout_place"
+      ],
+      "runtime_proof": "/root/LoadoutPlaceProof"
+    },
+    "source_apply_loadout_place_state_input.check": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_loadout_place_state",
+      "godot_symbol": "source_apply_loadout_place_state_input.check",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "placeLoadout",
+      "java_expr": "public static void placeLoadout(Schematic schem, int x, int y, Team team, boolean check){",
+      "rule": "Whether the removal pass clears blocking Buildings before each non-core stile.",
+      "tests": [
+        "test_loadout_place_binding_registration",
+        "test_all_loadout_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_loadout_place"
+      ],
+      "runtime_proof": "/root/LoadoutPlaceProof"
+    },
+    "source_apply_loadout_place_state_input.priority_hook": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_loadout_place_state",
+      "godot_symbol": "source_apply_loadout_place_state_input.priority_hook",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "placeLoadout",
+      "java_expr": "s -> -s.block.schematicPriority",
+      "rule": "Caller-supplied Block.schematicPriority equivalent; stiles are placed in descending priority order.",
+      "tests": [
+        "test_loadout_place_binding_registration",
+        "test_all_loadout_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_loadout_place"
+      ],
+      "runtime_proof": "/root/LoadoutPlaceProof"
+    },
+    "source_apply_loadout_place_state_input.tile_config_callback": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_loadout_place_state",
+      "godot_symbol": "source_apply_loadout_place_state_input.tile_config_callback",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "placeLoadout",
+      "java_expr": "tile.build.configureAny(config);",
+      "rule": "Caller-supplied Call.tileConfig equivalent, applied per placed Building.",
+      "tests": [
+        "test_loadout_place_binding_registration",
+        "test_all_loadout_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_loadout_place"
+      ],
+      "runtime_proof": "/root/LoadoutPlaceProof"
+    },
+    "source_apply_loadout_place_state_input.register_core_hook": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_loadout_place_state",
+      "godot_symbol": "source_apply_loadout_place_state_input.register_core_hook",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "placeLoadout",
+      "java_expr": "state.teams.registerCore(cb);",
+      "rule": "Caller-supplied Teams.registerCore equivalent, called per placed CoreBuild.",
+      "tests": [
+        "test_loadout_place_binding_registration",
+        "test_all_loadout_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_loadout_place"
+      ],
+      "runtime_proof": "/root/LoadoutPlaceProof"
+    },
+    "source_apply_loadout_place_state_result.origin": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_loadout_place_state",
+      "godot_symbol": "source_apply_loadout_place_state_result.origin",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "placeLoadout",
+      "java_expr": "int ox = x - coreTile.x, oy = y - coreTile.y;",
+      "rule": "Actual loadout origin cell the stiles were offset from.",
+      "tests": [
+        "test_loadout_place_binding_registration",
+        "test_all_loadout_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_loadout_place"
+      ],
+      "runtime_proof": "/root/LoadoutPlaceProof"
+    },
+    "source_apply_loadout_place_state_result.placed": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_loadout_place_state",
+      "godot_symbol": "source_apply_loadout_place_state_result.placed",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "placeLoadout",
+      "java_expr": "tile.setBlock(st.block, team, st.rotation);",
+      "rule": "Number of stiles placed through the canonical setBlock binding.",
+      "tests": [
+        "test_loadout_place_binding_registration",
+        "test_all_loadout_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_loadout_place"
+      ],
+      "runtime_proof": "/root/LoadoutPlaceProof"
+    },
+    "source_apply_loadout_place_state_result.skipped": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_loadout_place_state",
+      "godot_symbol": "source_apply_loadout_place_state_result.skipped",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "placeLoadout",
+      "java_expr": "if(tile == null) return;",
+      "rule": "Number of stiles skipped by the tile guard.",
+      "tests": [
+        "test_loadout_place_binding_registration",
+        "test_all_loadout_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_loadout_place"
+      ],
+      "runtime_proof": "/root/LoadoutPlaceProof"
+    },
+    "source_apply_loadout_place_state_result.removed": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_loadout_place_state",
+      "godot_symbol": "source_apply_loadout_place_state_result.removed",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "placeLoadout",
+      "java_expr": "t.remove();",
+      "rule": "Number of blocking non-air tiles the removal passes cleared.",
+      "tests": [
+        "test_loadout_place_binding_registration",
+        "test_all_loadout_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_loadout_place"
+      ],
+      "runtime_proof": "/root/LoadoutPlaceProof"
+    },
+    "source_apply_loadout_place_state_result.configured": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_loadout_place_state",
+      "godot_symbol": "source_apply_loadout_place_state_result.configured",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "placeLoadout",
+      "java_expr": "tile.build.configureAny(config);",
+      "rule": "Number of placed Buildings configureAny ran on.",
+      "tests": [
+        "test_loadout_place_binding_registration",
+        "test_all_loadout_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_loadout_place"
+      ],
+      "runtime_proof": "/root/LoadoutPlaceProof"
+    },
+    "source_apply_loadout_place_state_result.cores_registered": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_loadout_place_state",
+      "godot_symbol": "source_apply_loadout_place_state_result.cores_registered",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "placeLoadout",
+      "java_expr": "state.teams.registerCore(cb);",
+      "rule": "Number of placed CoreBuilds the register-core hook fired for.",
+      "tests": [
+        "test_loadout_place_binding_registration",
+        "test_all_loadout_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_loadout_place"
+      ],
+      "runtime_proof": "/root/LoadoutPlaceProof"
+    },
+    "source_apply_loadout_place_state_result.results": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_loadout_place_state",
+      "godot_symbol": "source_apply_loadout_place_state_result.results",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "placeLoadout",
+      "java_expr": "schem.tiles.copy().sort(s -> -s.block.schematicPriority).each(st -> {",
+      "rule": "Per-stile result dictionaries in priority order.",
+      "tests": [
+        "test_loadout_place_binding_registration",
+        "test_all_loadout_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_loadout_place"
+      ],
+      "runtime_proof": "/root/LoadoutPlaceProof"
+    },
+    "source_place_loadout_state_input.schematic": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_place_loadout_state",
+      "godot_symbol": "source_place_loadout_state_input.schematic",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "placeLoadout",
+      "java_expr": "public static void placeLoadout(Schematic schem, int x, int y, Team team){",
+      "rule": "Actual loadout schematic: stile tiles in source order, including exactly one core stile.",
+      "tests": [
+        "test_loadout_place_binding_registration",
+        "test_all_loadout_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_loadout_place"
+      ],
+      "runtime_proof": "/root/LoadoutPlaceProof"
+    },
+    "source_place_loadout_state_input.x": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_place_loadout_state",
+      "godot_symbol": "source_place_loadout_state_input.x",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "placeLoadout",
+      "java_expr": "placeLoadout(schem, x, y, team, true);",
+      "rule": "Actual core placement x.",
+      "tests": [
+        "test_loadout_place_binding_registration",
+        "test_all_loadout_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_loadout_place"
+      ],
+      "runtime_proof": "/root/LoadoutPlaceProof"
+    },
+    "source_place_loadout_state_input.y": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_place_loadout_state",
+      "godot_symbol": "source_place_loadout_state_input.y",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "placeLoadout",
+      "java_expr": "placeLoadout(schem, x, y, team, true);",
+      "rule": "Actual core placement y.",
+      "tests": [
+        "test_loadout_place_binding_registration",
+        "test_all_loadout_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_loadout_place"
+      ],
+      "runtime_proof": "/root/LoadoutPlaceProof"
+    },
+    "source_place_loadout_state_input.team_id": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_place_loadout_state",
+      "godot_symbol": "source_place_loadout_state_input.team_id",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "placeLoadout",
+      "java_expr": "tile.setBlock(st.block, team, st.rotation);",
+      "rule": "Actual Team id the loadout is placed for.",
+      "tests": [
+        "test_loadout_place_binding_registration",
+        "test_all_loadout_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_loadout_place"
+      ],
+      "runtime_proof": "/root/LoadoutPlaceProof"
+    },
+    "source_place_loadout_state_input.check": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_place_loadout_state",
+      "godot_symbol": "source_place_loadout_state_input.check",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "placeLoadout",
+      "java_expr": "placeLoadout(schem, x, y, team, true);",
+      "rule": "Whether the removal pass clears blocking Buildings; the 4-arg entry defaults it to true.",
+      "tests": [
+        "test_loadout_place_binding_registration",
+        "test_all_loadout_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_loadout_place"
+      ],
+      "runtime_proof": "/root/LoadoutPlaceProof"
+    },
+    "source_place_loadout_state_input.priority_hook": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_place_loadout_state",
+      "godot_symbol": "source_place_loadout_state_input.priority_hook",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "placeLoadout",
+      "java_expr": "s -> -s.block.schematicPriority",
+      "rule": "Caller-supplied Block.schematicPriority equivalent, shared by every stile.",
+      "tests": [
+        "test_loadout_place_binding_registration",
+        "test_all_loadout_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_loadout_place"
+      ],
+      "runtime_proof": "/root/LoadoutPlaceProof"
+    },
+    "source_place_loadout_state_input.tile_config_callback": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_place_loadout_state",
+      "godot_symbol": "source_place_loadout_state_input.tile_config_callback",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "placeLoadout",
+      "java_expr": "tile.build.configureAny(config);",
+      "rule": "Caller-supplied Call.tileConfig equivalent, applied per placed Building.",
+      "tests": [
+        "test_loadout_place_binding_registration",
+        "test_all_loadout_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_loadout_place"
+      ],
+      "runtime_proof": "/root/LoadoutPlaceProof"
+    },
+    "source_place_loadout_state_input.register_core_hook": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_place_loadout_state",
+      "godot_symbol": "source_place_loadout_state_input.register_core_hook",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "placeLoadout",
+      "java_expr": "state.teams.registerCore(cb);",
+      "rule": "Caller-supplied Teams.registerCore equivalent, called per placed CoreBuild.",
+      "tests": [
+        "test_loadout_place_binding_registration",
+        "test_all_loadout_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_loadout_place"
+      ],
+      "runtime_proof": "/root/LoadoutPlaceProof"
+    },
+    "source_place_loadout_state_result.origin": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_place_loadout_state",
+      "godot_symbol": "source_place_loadout_state_result.origin",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "placeLoadout",
+      "java_expr": "int ox = x - coreTile.x, oy = y - coreTile.y;",
+      "rule": "Actual loadout origin cell the stiles were offset from.",
+      "tests": [
+        "test_loadout_place_binding_registration",
+        "test_all_loadout_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_loadout_place"
+      ],
+      "runtime_proof": "/root/LoadoutPlaceProof"
+    },
+    "source_place_loadout_state_result.placed": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_place_loadout_state",
+      "godot_symbol": "source_place_loadout_state_result.placed",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "placeLoadout",
+      "java_expr": "tile.setBlock(st.block, team, st.rotation);",
+      "rule": "Number of stiles placed through the canonical setBlock binding.",
+      "tests": [
+        "test_loadout_place_binding_registration",
+        "test_all_loadout_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_loadout_place"
+      ],
+      "runtime_proof": "/root/LoadoutPlaceProof"
+    },
+    "source_place_loadout_state_result.skipped": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_place_loadout_state",
+      "godot_symbol": "source_place_loadout_state_result.skipped",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "placeLoadout",
+      "java_expr": "if(tile == null) return;",
+      "rule": "Number of stiles skipped by the tile guard.",
+      "tests": [
+        "test_loadout_place_binding_registration",
+        "test_all_loadout_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_loadout_place"
+      ],
+      "runtime_proof": "/root/LoadoutPlaceProof"
+    },
+    "source_place_loadout_state_result.removed": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_place_loadout_state",
+      "godot_symbol": "source_place_loadout_state_result.removed",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "placeLoadout",
+      "java_expr": "t.remove();",
+      "rule": "Number of blocking non-air tiles the removal passes cleared.",
+      "tests": [
+        "test_loadout_place_binding_registration",
+        "test_all_loadout_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_loadout_place"
+      ],
+      "runtime_proof": "/root/LoadoutPlaceProof"
+    },
+    "source_place_loadout_state_result.configured": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_place_loadout_state",
+      "godot_symbol": "source_place_loadout_state_result.configured",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "placeLoadout",
+      "java_expr": "tile.build.configureAny(config);",
+      "rule": "Number of placed Buildings configureAny ran on.",
+      "tests": [
+        "test_loadout_place_binding_registration",
+        "test_all_loadout_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_loadout_place"
+      ],
+      "runtime_proof": "/root/LoadoutPlaceProof"
+    },
+    "source_place_loadout_state_result.cores_registered": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_place_loadout_state",
+      "godot_symbol": "source_place_loadout_state_result.cores_registered",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "placeLoadout",
+      "java_expr": "state.teams.registerCore(cb);",
+      "rule": "Number of placed CoreBuilds the register-core hook fired for.",
+      "tests": [
+        "test_loadout_place_binding_registration",
+        "test_all_loadout_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_loadout_place"
+      ],
+      "runtime_proof": "/root/LoadoutPlaceProof"
+    },
+    "source_place_loadout_state_result.results": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_place_loadout_state",
+      "godot_symbol": "source_place_loadout_state_result.results",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "placeLoadout",
+      "java_expr": "schem.tiles.copy().sort(s -> -s.block.schematicPriority).each(st -> {",
+      "rule": "Per-stile result dictionaries in priority order.",
+      "tests": [
+        "test_loadout_place_binding_registration",
+        "test_all_loadout_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_loadout_place"
+      ],
+      "runtime_proof": "/root/LoadoutPlaceProof"
     }
   },
   "version": 1

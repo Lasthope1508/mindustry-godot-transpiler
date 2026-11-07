@@ -58729,6 +58729,200 @@
       ],
       "runtime_proof": "/root/SchematicPlaceProof",
       "rule": "Source-backed schematic placement; the result dictionary reports what the canonical setBlock binding did, with no fabricated runtime state."
+    },
+    "SourceSchematicPlacementState.source_apply_loadout_tile_state": {
+      "status": "active",
+      "source_slice": "N2038",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "source_method": "placeLoadout",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_apply_loadout_tile_state_input.game"
+        },
+        {
+          "name": "stile",
+          "type": "Dictionary",
+          "schema": "source_apply_loadout_tile_state_input.stile"
+        },
+        {
+          "name": "origin_cell",
+          "type": "Vector2i",
+          "schema": "source_apply_loadout_tile_state_input.origin_cell"
+        },
+        {
+          "name": "team_id",
+          "type": "int",
+          "schema": "source_apply_loadout_tile_state_input.team_id"
+        },
+        {
+          "name": "check",
+          "type": "bool",
+          "schema": "source_apply_loadout_tile_state_input.check"
+        },
+        {
+          "name": "tile_config_callback",
+          "type": "Callable",
+          "schema": "source_apply_loadout_tile_state_input.tile_config_callback"
+        },
+        {
+          "name": "register_core_hook",
+          "type": "Callable",
+          "schema": "source_apply_loadout_tile_state_input.register_core_hook"
+        }
+      ],
+      "return_keys": [
+        "cell",
+        "tile",
+        "build",
+        "placed",
+        "skipped",
+        "removed",
+        "configured",
+        "core_placed",
+        "core_registered"
+      ],
+      "tests": [
+        "test_loadout_place_binding_registration",
+        "test_all_loadout_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_loadout_place"
+      ],
+      "runtime_proof": "/root/LoadoutPlaceProof",
+      "rule": "Source-backed loadout placement; the result dictionary reports what the canonical setBlock binding did, with no fabricated runtime state."
+    },
+    "SourceSchematicPlacementState.source_apply_loadout_place_state": {
+      "status": "active",
+      "source_slice": "N2039",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "source_method": "placeLoadout",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_apply_loadout_place_state_input.game"
+        },
+        {
+          "name": "schematic",
+          "type": "Dictionary",
+          "schema": "source_apply_loadout_place_state_input.schematic"
+        },
+        {
+          "name": "x",
+          "type": "int",
+          "schema": "source_apply_loadout_place_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "int",
+          "schema": "source_apply_loadout_place_state_input.y"
+        },
+        {
+          "name": "team_id",
+          "type": "int",
+          "schema": "source_apply_loadout_place_state_input.team_id"
+        },
+        {
+          "name": "check",
+          "type": "bool",
+          "schema": "source_apply_loadout_place_state_input.check"
+        },
+        {
+          "name": "priority_hook",
+          "type": "Callable",
+          "schema": "source_apply_loadout_place_state_input.priority_hook"
+        },
+        {
+          "name": "tile_config_callback",
+          "type": "Callable",
+          "schema": "source_apply_loadout_place_state_input.tile_config_callback"
+        },
+        {
+          "name": "register_core_hook",
+          "type": "Callable",
+          "schema": "source_apply_loadout_place_state_input.register_core_hook"
+        }
+      ],
+      "return_keys": [
+        "origin",
+        "placed",
+        "skipped",
+        "removed",
+        "configured",
+        "cores_registered",
+        "results"
+      ],
+      "tests": [
+        "test_loadout_place_binding_registration",
+        "test_all_loadout_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_loadout_place"
+      ],
+      "runtime_proof": "/root/LoadoutPlaceProof",
+      "rule": "Source-backed loadout placement; the result dictionary reports what the canonical setBlock binding did, with no fabricated runtime state."
+    },
+    "PortGame.source_place_loadout_state": {
+      "status": "active",
+      "source_slice": "N2040",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "source_method": "placeLoadout",
+      "params": [
+        {
+          "name": "schematic",
+          "type": "Dictionary",
+          "schema": "source_place_loadout_state_input.schematic"
+        },
+        {
+          "name": "x",
+          "type": "int",
+          "schema": "source_place_loadout_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "int",
+          "schema": "source_place_loadout_state_input.y"
+        },
+        {
+          "name": "team_id",
+          "type": "int",
+          "schema": "source_place_loadout_state_input.team_id"
+        },
+        {
+          "name": "check",
+          "type": "bool",
+          "schema": "source_place_loadout_state_input.check"
+        },
+        {
+          "name": "priority_hook",
+          "type": "Callable",
+          "schema": "source_place_loadout_state_input.priority_hook"
+        },
+        {
+          "name": "tile_config_callback",
+          "type": "Callable",
+          "schema": "source_place_loadout_state_input.tile_config_callback"
+        },
+        {
+          "name": "register_core_hook",
+          "type": "Callable",
+          "schema": "source_place_loadout_state_input.register_core_hook"
+        }
+      ],
+      "return_keys": [
+        "origin",
+        "placed",
+        "skipped",
+        "removed",
+        "configured",
+        "cores_registered",
+        "results"
+      ],
+      "tests": [
+        "test_loadout_place_binding_registration",
+        "test_all_loadout_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_loadout_place"
+      ],
+      "runtime_proof": "/root/LoadoutPlaceProof",
+      "rule": "Source-backed loadout placement; the result dictionary reports what the canonical setBlock binding did, with no fabricated runtime state."
     }
   },
   "policy": {

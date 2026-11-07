@@ -23,10 +23,10 @@
       "port_game.source_building_each_edge_state": "port_game.source_building_navigation_state"
     }
   },
-  "totalSourceFunctions": 1332,
-  "discoveredSourceOwnerCount": 1330,
-  "canonicalDiscoveredOwnerCount": 1315,
-  "registeredSourceOwnerCount": 1307,
+  "totalSourceFunctions": 1333,
+  "discoveredSourceOwnerCount": 1331,
+  "canonicalDiscoveredOwnerCount": 1316,
+  "registeredSourceOwnerCount": 1308,
   "exemptSourceOwnerCount": 8,
   "legacyUnregisteredOwnerCount": 0,
   "canonicalAliasFunctionCount": 17,
@@ -955,6 +955,7 @@
     "port_game.source_overdrive_projector_target_filter_state",
     "port_game.source_overdrive_projector_use_time",
     "port_game.source_payload_forward_offset",
+    "port_game.source_place_loadout_state",
     "port_game.source_place_schematic_state",
     "port_game.source_point_defense_turret_set_stats_state",
     "port_game.source_pos_set_state",
@@ -1361,6 +1362,12 @@
       "function": "source_place_schematic_state",
       "gdscript_path": "src/game/PortGame.gd",
       "canonical_owner": "port_game.source_place_schematic_state"
+    },
+    {
+      "owner": "port_game.source_place_loadout_state",
+      "function": "source_place_loadout_state",
+      "gdscript_path": "src/game/PortGame.gd",
+      "canonical_owner": "port_game.source_place_loadout_state"
     },
     {
       "owner": "port_game.source_ability_update_state",

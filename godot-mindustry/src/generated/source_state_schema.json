@@ -213680,6 +213680,530 @@
       },
       "runtime_proof": "/root/SchematicPlaceProof",
       "rule": "Source-backed schematic placement inputs; hooks must be actual source context."
+    },
+    "source_apply_loadout_tile_state_input": {
+      "status": "active",
+      "owner": "SourceSchematicPlacementState.source_apply_loadout_tile_state",
+      "source_slice": "N2038",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Schematics.java",
+          "java_expr": "Tile tile = world.tile(st.x + ox, st.y + oy);",
+          "rule": "Actual game world containing the Tile store, placement index and content catalog.",
+          "used_by": [
+            "SourceSchematicPlacementState.source_apply_loadout_tile_state"
+          ]
+        },
+        "stile": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Schematics.java",
+          "java_expr": "schem.tiles.copy().sort(s -> -s.block.schematicPriority).each(st -> {",
+          "rule": "Actual schematic tile: block, cell offsets, config and rotation.",
+          "used_by": [
+            "SourceSchematicPlacementState.source_apply_loadout_tile_state"
+          ]
+        },
+        "origin_cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Schematics.java",
+          "java_expr": "int ox = x - coreTile.x, oy = y - coreTile.y;",
+          "rule": "Actual loadout origin cell (the placed core position minus the core stile offsets); stile offsets are added to it.",
+          "used_by": [
+            "SourceSchematicPlacementState.source_apply_loadout_tile_state"
+          ]
+        },
+        "team_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Schematics.java",
+          "java_expr": "tile.setBlock(st.block, team, st.rotation);",
+          "rule": "Actual Team id the loadout is placed for; threaded through the placement funnel.",
+          "used_by": [
+            "SourceSchematicPlacementState.source_apply_loadout_tile_state"
+          ]
+        },
+        "check": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Schematics.java",
+          "java_expr": "if(check && !(st.block instanceof CoreBlock)){",
+          "rule": "Whether the removal pass clears blocking Buildings from the stile footprint before placement.",
+          "used_by": [
+            "SourceSchematicPlacementState.source_apply_loadout_tile_state"
+          ]
+        },
+        "tile_config_callback": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Schematics.java",
+          "java_expr": "tile.build.configureAny(config);",
+          "rule": "Caller-supplied Call.tileConfig equivalent applied to the placed Building.",
+          "used_by": [
+            "SourceSchematicPlacementState.source_apply_loadout_tile_state"
+          ]
+        },
+        "register_core_hook": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Schematics.java",
+          "java_expr": "state.teams.registerCore(cb);",
+          "rule": "Caller-supplied Teams.registerCore equivalent, called when the placed Building is a CoreBuild.",
+          "used_by": [
+            "SourceSchematicPlacementState.source_apply_loadout_tile_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/LoadoutPlaceProof",
+      "rule": "Source-backed loadout placement inputs; hooks must be actual source context."
+    },
+    "source_apply_loadout_tile_state_result": {
+      "status": "active",
+      "owner": "SourceSchematicPlacementState.source_apply_loadout_tile_state",
+      "source_slice": "N2038",
+      "keys": {
+        "cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Schematics.java",
+          "java_expr": "Tile tile = world.tile(st.x + ox, st.y + oy);",
+          "rule": "Actual placement cell the stile resolved to.",
+          "used_by": [
+            "SourceSchematicPlacementState.source_apply_loadout_tile_state"
+          ]
+        },
+        "tile": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Schematics.java",
+          "java_expr": "Tile tile = world.tile(st.x + ox, st.y + oy);",
+          "rule": "Actual resolved world Tile dictionary, or null when the cell is outside the world.",
+          "used_by": [
+            "SourceSchematicPlacementState.source_apply_loadout_tile_state"
+          ]
+        },
+        "build": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Schematics.java",
+          "java_expr": "if(tile.build != null){",
+          "rule": "The placed Building sprite, or null when the tile was skipped.",
+          "used_by": [
+            "SourceSchematicPlacementState.source_apply_loadout_tile_state"
+          ]
+        },
+        "placed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Schematics.java",
+          "java_expr": "tile.setBlock(st.block, team, st.rotation);",
+          "rule": "Whether the stile was placed through the canonical setBlock binding.",
+          "used_by": [
+            "SourceSchematicPlacementState.source_apply_loadout_tile_state"
+          ]
+        },
+        "skipped": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Schematics.java",
+          "java_expr": "if(tile == null) return;",
+          "rule": "Why the stile was skipped, or empty when placed.",
+          "used_by": [
+            "SourceSchematicPlacementState.source_apply_loadout_tile_state"
+          ]
+        },
+        "removed": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Schematics.java",
+          "java_expr": "t.remove();",
+          "rule": "Number of blocking non-air tiles the removal pass cleared from the stile footprint.",
+          "used_by": [
+            "SourceSchematicPlacementState.source_apply_loadout_tile_state"
+          ]
+        },
+        "configured": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Schematics.java",
+          "java_expr": "tile.build.configureAny(config);",
+          "rule": "Whether configureAny ran on the placed Building.",
+          "used_by": [
+            "SourceSchematicPlacementState.source_apply_loadout_tile_state"
+          ]
+        },
+        "core_placed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Schematics.java",
+          "java_expr": "if(tile.build instanceof CoreBuild cb){",
+          "rule": "Whether the placed Building is a CoreBuild.",
+          "used_by": [
+            "SourceSchematicPlacementState.source_apply_loadout_tile_state"
+          ]
+        },
+        "core_registered": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Schematics.java",
+          "java_expr": "state.teams.registerCore(cb);",
+          "rule": "Whether the register-core hook fired for the placed CoreBuild.",
+          "used_by": [
+            "SourceSchematicPlacementState.source_apply_loadout_tile_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/LoadoutPlaceProof",
+      "rule": "Source-backed loadout placement inputs; hooks must be actual source context."
+    },
+    "source_apply_loadout_place_state_input": {
+      "status": "active",
+      "owner": "SourceSchematicPlacementState.source_apply_loadout_place_state",
+      "source_slice": "N2039",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Schematics.java",
+          "java_expr": "public static void placeLoadout(Schematic schem, int x, int y, Team team, boolean check){",
+          "rule": "Actual game world the loadout is placed into.",
+          "used_by": [
+            "SourceSchematicPlacementState.source_apply_loadout_place_state"
+          ]
+        },
+        "schematic": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Schematics.java",
+          "java_expr": "public static void placeLoadout(Schematic schem, int x, int y, Team team, boolean check){",
+          "rule": "Actual loadout schematic: stile tiles in source order, including exactly one core stile.",
+          "used_by": [
+            "SourceSchematicPlacementState.source_apply_loadout_place_state"
+          ]
+        },
+        "x": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Schematics.java",
+          "java_expr": "int ox = x - coreTile.x, oy = y - coreTile.y;",
+          "rule": "Actual core placement x; the origin is x minus the core stile x.",
+          "used_by": [
+            "SourceSchematicPlacementState.source_apply_loadout_place_state"
+          ]
+        },
+        "y": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Schematics.java",
+          "java_expr": "int ox = x - coreTile.x, oy = y - coreTile.y;",
+          "rule": "Actual core placement y; the origin is y minus the core stile y.",
+          "used_by": [
+            "SourceSchematicPlacementState.source_apply_loadout_place_state"
+          ]
+        },
+        "team_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Schematics.java",
+          "java_expr": "tile.setBlock(st.block, team, st.rotation);",
+          "rule": "Actual Team id the loadout is placed for.",
+          "used_by": [
+            "SourceSchematicPlacementState.source_apply_loadout_place_state"
+          ]
+        },
+        "check": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Schematics.java",
+          "java_expr": "public static void placeLoadout(Schematic schem, int x, int y, Team team, boolean check){",
+          "rule": "Whether the removal pass clears blocking Buildings before each non-core stile.",
+          "used_by": [
+            "SourceSchematicPlacementState.source_apply_loadout_place_state"
+          ]
+        },
+        "priority_hook": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Schematics.java",
+          "java_expr": "s -> -s.block.schematicPriority",
+          "rule": "Caller-supplied Block.schematicPriority equivalent; stiles are placed in descending priority order.",
+          "used_by": [
+            "SourceSchematicPlacementState.source_apply_loadout_place_state"
+          ]
+        },
+        "tile_config_callback": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Schematics.java",
+          "java_expr": "tile.build.configureAny(config);",
+          "rule": "Caller-supplied Call.tileConfig equivalent, applied per placed Building.",
+          "used_by": [
+            "SourceSchematicPlacementState.source_apply_loadout_place_state"
+          ]
+        },
+        "register_core_hook": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Schematics.java",
+          "java_expr": "state.teams.registerCore(cb);",
+          "rule": "Caller-supplied Teams.registerCore equivalent, called per placed CoreBuild.",
+          "used_by": [
+            "SourceSchematicPlacementState.source_apply_loadout_place_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/LoadoutPlaceProof",
+      "rule": "Source-backed loadout placement inputs; hooks must be actual source context."
+    },
+    "source_apply_loadout_place_state_result": {
+      "status": "active",
+      "owner": "SourceSchematicPlacementState.source_apply_loadout_place_state",
+      "source_slice": "N2039",
+      "keys": {
+        "origin": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Schematics.java",
+          "java_expr": "int ox = x - coreTile.x, oy = y - coreTile.y;",
+          "rule": "Actual loadout origin cell the stiles were offset from.",
+          "used_by": [
+            "SourceSchematicPlacementState.source_apply_loadout_place_state"
+          ]
+        },
+        "placed": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Schematics.java",
+          "java_expr": "tile.setBlock(st.block, team, st.rotation);",
+          "rule": "Number of stiles placed through the canonical setBlock binding.",
+          "used_by": [
+            "SourceSchematicPlacementState.source_apply_loadout_place_state"
+          ]
+        },
+        "skipped": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Schematics.java",
+          "java_expr": "if(tile == null) return;",
+          "rule": "Number of stiles skipped by the tile guard.",
+          "used_by": [
+            "SourceSchematicPlacementState.source_apply_loadout_place_state"
+          ]
+        },
+        "removed": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Schematics.java",
+          "java_expr": "t.remove();",
+          "rule": "Number of blocking non-air tiles the removal passes cleared.",
+          "used_by": [
+            "SourceSchematicPlacementState.source_apply_loadout_place_state"
+          ]
+        },
+        "configured": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Schematics.java",
+          "java_expr": "tile.build.configureAny(config);",
+          "rule": "Number of placed Buildings configureAny ran on.",
+          "used_by": [
+            "SourceSchematicPlacementState.source_apply_loadout_place_state"
+          ]
+        },
+        "cores_registered": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Schematics.java",
+          "java_expr": "state.teams.registerCore(cb);",
+          "rule": "Number of placed CoreBuilds the register-core hook fired for.",
+          "used_by": [
+            "SourceSchematicPlacementState.source_apply_loadout_place_state"
+          ]
+        },
+        "results": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Schematics.java",
+          "java_expr": "schem.tiles.copy().sort(s -> -s.block.schematicPriority).each(st -> {",
+          "rule": "Per-stile result dictionaries in priority order.",
+          "used_by": [
+            "SourceSchematicPlacementState.source_apply_loadout_place_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/LoadoutPlaceProof",
+      "rule": "Source-backed loadout placement inputs; hooks must be actual source context."
+    },
+    "source_place_loadout_state_input": {
+      "status": "active",
+      "owner": "PortGame.source_place_loadout_state",
+      "source_slice": "N2040",
+      "keys": {
+        "schematic": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Schematics.java",
+          "java_expr": "public static void placeLoadout(Schematic schem, int x, int y, Team team){",
+          "rule": "Actual loadout schematic: stile tiles in source order, including exactly one core stile.",
+          "used_by": [
+            "PortGame.source_place_loadout_state"
+          ]
+        },
+        "x": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Schematics.java",
+          "java_expr": "placeLoadout(schem, x, y, team, true);",
+          "rule": "Actual core placement x.",
+          "used_by": [
+            "PortGame.source_place_loadout_state"
+          ]
+        },
+        "y": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Schematics.java",
+          "java_expr": "placeLoadout(schem, x, y, team, true);",
+          "rule": "Actual core placement y.",
+          "used_by": [
+            "PortGame.source_place_loadout_state"
+          ]
+        },
+        "team_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Schematics.java",
+          "java_expr": "tile.setBlock(st.block, team, st.rotation);",
+          "rule": "Actual Team id the loadout is placed for.",
+          "used_by": [
+            "PortGame.source_place_loadout_state"
+          ]
+        },
+        "check": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Schematics.java",
+          "java_expr": "placeLoadout(schem, x, y, team, true);",
+          "rule": "Whether the removal pass clears blocking Buildings; the 4-arg entry defaults it to true.",
+          "used_by": [
+            "PortGame.source_place_loadout_state"
+          ]
+        },
+        "priority_hook": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Schematics.java",
+          "java_expr": "s -> -s.block.schematicPriority",
+          "rule": "Caller-supplied Block.schematicPriority equivalent, shared by every stile.",
+          "used_by": [
+            "PortGame.source_place_loadout_state"
+          ]
+        },
+        "tile_config_callback": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Schematics.java",
+          "java_expr": "tile.build.configureAny(config);",
+          "rule": "Caller-supplied Call.tileConfig equivalent, applied per placed Building.",
+          "used_by": [
+            "PortGame.source_place_loadout_state"
+          ]
+        },
+        "register_core_hook": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Schematics.java",
+          "java_expr": "state.teams.registerCore(cb);",
+          "rule": "Caller-supplied Teams.registerCore equivalent, called per placed CoreBuild.",
+          "used_by": [
+            "PortGame.source_place_loadout_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/LoadoutPlaceProof",
+      "rule": "Source-backed loadout placement inputs; hooks must be actual source context."
+    },
+    "source_place_loadout_state_result": {
+      "status": "active",
+      "owner": "PortGame.source_place_loadout_state",
+      "source_slice": "N2040",
+      "keys": {
+        "origin": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Schematics.java",
+          "java_expr": "int ox = x - coreTile.x, oy = y - coreTile.y;",
+          "rule": "Actual loadout origin cell the stiles were offset from.",
+          "used_by": [
+            "PortGame.source_place_loadout_state"
+          ]
+        },
+        "placed": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Schematics.java",
+          "java_expr": "tile.setBlock(st.block, team, st.rotation);",
+          "rule": "Number of stiles placed through the canonical setBlock binding.",
+          "used_by": [
+            "PortGame.source_place_loadout_state"
+          ]
+        },
+        "skipped": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Schematics.java",
+          "java_expr": "if(tile == null) return;",
+          "rule": "Number of stiles skipped by the tile guard.",
+          "used_by": [
+            "PortGame.source_place_loadout_state"
+          ]
+        },
+        "removed": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Schematics.java",
+          "java_expr": "t.remove();",
+          "rule": "Number of blocking non-air tiles the removal passes cleared.",
+          "used_by": [
+            "PortGame.source_place_loadout_state"
+          ]
+        },
+        "configured": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Schematics.java",
+          "java_expr": "tile.build.configureAny(config);",
+          "rule": "Number of placed Buildings configureAny ran on.",
+          "used_by": [
+            "PortGame.source_place_loadout_state"
+          ]
+        },
+        "cores_registered": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Schematics.java",
+          "java_expr": "state.teams.registerCore(cb);",
+          "rule": "Number of placed CoreBuilds the register-core hook fired for.",
+          "used_by": [
+            "PortGame.source_place_loadout_state"
+          ]
+        },
+        "results": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Schematics.java",
+          "java_expr": "schem.tiles.copy().sort(s -> -s.block.schematicPriority).each(st -> {",
+          "rule": "Per-stile result dictionaries in priority order.",
+          "used_by": [
+            "PortGame.source_place_loadout_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/LoadoutPlaceProof",
+      "rule": "Source-backed loadout placement inputs; hooks must be actual source context."
     }
   },
   "version": 1
