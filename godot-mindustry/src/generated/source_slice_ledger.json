@@ -52570,6 +52570,37 @@
         "Adding a battery and a power consumer to the bootstrap world so the power flow (charge/discharge, 0/partial/full, multiple consumers) is testable; the C03 gate needs those.",
         "C04-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2079": {
+      "status": "done",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_class": "mindustry.content.Blocks",
+      "java_method": "battery",
+      "godot_owner": "SourceWorldInitialBuildRuntimeState.source_battery_placement_state",
+      "exact_exprs": [
+        "battery = new Battery(\"battery\"){{",
+        "consumePowerBuffered(4000f);",
+        "requirements(Category.power, with(Items.copper, 5, Items.lead, 20));"
+      ],
+      "source_symbols": [
+        "source_battery_placement_state_input.tile_size",
+        "source_battery_placement_state_result.block_id",
+        "source_battery_placement_state_result.role",
+        "source_battery_placement_state_result.cell",
+        "source_battery_placement_state_result.x",
+        "source_battery_placement_state_result.y",
+        "source_battery_placement_state_result.power_capacity"
+      ],
+      "tests": [
+        "test_battery_placement_binding_registration",
+        "test_all_battery_placement_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_battery_placement"
+      ],
+      "runtime_proof": "/root/BatteryPlacementProof",
+      "deferred_exprs": [
+        "Adding a real power consumer (e.g. a lancer turret) to the bootstrap world so the 0/partial/full coverage and the battery discharge path are testable; the C03 gate needs those.",
+        "C04-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1

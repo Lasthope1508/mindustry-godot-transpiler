@@ -19,12 +19,12 @@ func _ready() -> void:
 	game.set_physics_process(false)
 
 	# --- the bootstrap world has one power producer (the solar panel at
-	# (21, 7), N2078) and no real consumer, so the update produces
-	# 0.12/delta and needs nothing. The 21 consumers are the other
-	# placed blocks counted per origin cell (drill 4 + core 9 +
-	# conveyors 7 + duo 1); their usage is 0. ---
+	# (21, 7), N2078), one battery (at (23, 7), N2079) and no real
+	# consumer, so the update produces 0.12/delta and needs nothing.
+	# The 21 consumers are the other placed blocks counted per origin
+	# cell (drill 4 + core 9 + conveyors 7 + duo 1); their usage is 0. ---
 	var step: Dictionary = factory_state.source_factory_update_power_graph_state(game, 1.0 / 60.0)
-	proof["power_graph_live_update_one_producer"] = is_equal_approx(float(step.get("power_needed", -1.0)), 0.0) and is_equal_approx(float(step.get("power_produced", -1.0)), 0.12 / 60.0) and int(step.get("consumer_count", -1)) == 21 and int(step.get("producer_count", -1)) == 1 and int(step.get("battery_count", -1)) == 0
+	proof["power_graph_live_update_one_producer_one_battery"] = is_equal_approx(float(step.get("power_needed", -1.0)), 0.0) and is_equal_approx(float(step.get("power_produced", -1.0)), 0.12 / 60.0) and int(step.get("consumer_count", -1)) == 21 and int(step.get("producer_count", -1)) == 1 and int(step.get("battery_count", -1)) == 1
 	var update: Dictionary = step.get("update", {})
 	proof["power_graph_live_update_states"] = update.has("cheat_state") and update.has("balance_state") and update.has("battery_distribute_state") and is_equal_approx(float(update.get("power_needed", -1.0)), 0.0) and is_equal_approx(float(update.get("power_produced", -1.0)), 0.12 / 60.0)
 

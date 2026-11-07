@@ -102,6 +102,23 @@ static func source_solar_panel_placement_state(tile_size: int) -> Dictionary:
 	}
 
 
+static func source_battery_placement_state(tile_size: int) -> Dictionary:
+	# Blocks.java:2506-2510: battery = new Battery("battery")
+	# with consumePowerBuffered(4000f). The battery is the bootstrap
+	# world's power storage: the solar panel's surplus (0.12 produced,
+	# 0 needed) charges it each frame (PowerGraph.java
+	# chargeBatteries), placed on a free size-1 cell east of the panel.
+	var world_position := source_world_grid.grid_to_world(source_playable_scenario_defaults.BATTERY_POS, tile_size)
+	return {
+		"block_id": source_playable_scenario_defaults.BLOCK_BATTERY,
+		"role": source_playable_scenario_defaults.INITIAL_BUILD_ROLE_BATTERY,
+		"cell": source_playable_scenario_defaults.BATTERY_POS,
+		"x": world_position.x,
+		"y": world_position.y,
+		"power_capacity": 4000.0,
+	}
+
+
 static func initial_build_plan_state(drill_cell: Vector2i, conveyor_cells: Array[Vector2i], core_cell: Vector2i, duo_cell: Vector2i, drill_block_id: String, conveyor_block_id: String, core_block_id: String, duo_block_id: String, path_points_input: Array[Vector2], tile_size: int) -> Dictionary:
 	var block_placements: Array[Dictionary] = []
 	var path_points: Array[Dictionary] = []
@@ -112,6 +129,8 @@ static func initial_build_plan_state(drill_cell: Vector2i, conveyor_cells: Array
 	block_placements.append(block_placement_state(duo_block_id, source_playable_scenario_defaults.INITIAL_BUILD_ROLE_DUO, duo_cell, tile_size))
 	var solar_panel := source_solar_panel_placement_state(tile_size)
 	block_placements.append(block_placement_state(str(solar_panel.get("block_id", "")), str(solar_panel.get("role", "")), solar_panel.get("cell", Vector2i.ZERO), tile_size))
+	var battery := source_battery_placement_state(tile_size)
+	block_placements.append(block_placement_state(str(battery.get("block_id", "")), str(battery.get("role", "")), battery.get("cell", Vector2i.ZERO), tile_size))
 	for point in path_points_input:
 		var path_point := {}
 		path_point[KEY_X] = point.x

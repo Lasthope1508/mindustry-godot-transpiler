@@ -61000,6 +61000,35 @@
       ],
       "runtime_proof": "/root/SolarPanelPlacementProof",
       "rule": "Source-backed solar panel placement; the panel is placed at (21, 7) with powerProduction 0.12."
+    },
+    "SourceWorldInitialBuildRuntimeState.source_battery_placement_state": {
+      "status": "active",
+      "source_slice": "N2079",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "source_method": "battery",
+      "params": [
+        {
+          "name": "tile_size",
+          "type": "int",
+          "schema": "source_battery_placement_state_input.tile_size"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "block_id",
+        "role",
+        "cell",
+        "x",
+        "y",
+        "power_capacity"
+      ],
+      "tests": [
+        "test_battery_placement_binding_registration",
+        "test_all_battery_placement_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_battery_placement"
+      ],
+      "runtime_proof": "/root/BatteryPlacementProof",
+      "rule": "Source-backed battery placement; the battery is placed at (23, 7) with powerCapacity 4000."
     }
   },
   "policy": {

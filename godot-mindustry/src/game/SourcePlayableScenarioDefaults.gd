@@ -15,6 +15,7 @@ const DRILL_POS := source_playable_world_layout_defaults.DRILL_POS
 const CORE_POS := source_playable_world_layout_defaults.CORE_POS
 const DUO_POS := source_playable_world_layout_defaults.DUO_POS
 const SOLAR_PANEL_POS := source_playable_world_layout_defaults.SOLAR_PANEL_POS
+const BATTERY_POS := source_playable_world_layout_defaults.BATTERY_POS
 
 const ITEM_COPPER := source_playable_content_defaults.ITEM_COPPER
 const BLOCK_STONE_FLOOR := source_playable_content_defaults.BLOCK_STONE_FLOOR
@@ -26,12 +27,14 @@ const BLOCK_JUNCTION := source_playable_content_defaults.BLOCK_JUNCTION
 const BLOCK_CORE_SHARD := source_playable_content_defaults.BLOCK_CORE_SHARD
 const BLOCK_DUO := source_playable_content_defaults.BLOCK_DUO
 const BLOCK_SOLAR_PANEL := source_playable_content_defaults.BLOCK_SOLAR_PANEL
+const BLOCK_BATTERY := source_playable_content_defaults.BLOCK_BATTERY
 const BLOCK_COPPER_WALL := source_playable_content_defaults.BLOCK_COPPER_WALL
 const INITIAL_BUILD_ROLE_DRILL := "drill"
 const INITIAL_BUILD_ROLE_CONVEYOR := "conveyor"
 const INITIAL_BUILD_ROLE_CORE := "core"
 const INITIAL_BUILD_ROLE_DUO := "duo"
 const INITIAL_BUILD_ROLE_SOLAR_PANEL := "solar-panel"
+const INITIAL_BUILD_ROLE_BATTERY := "battery"
 const PLAYABLE_WAVE_SPACING_SECONDS := 3.0
 const ENEMY_CORE_IMPACT_RADIUS_TILE_FRACTION := 0.35
 
