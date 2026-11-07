@@ -3048,7 +3048,7 @@ Current cube: `executable Tile changeBuild / changed / full two-pass setBlock`. 
 | N2028 | Executable Tile.preChanged | Old-center streamed footprint, callbacks before lookup, proxy event bracketing/generation/bounds; focused 21/5659, full 5397/22981, native 23 true, 0 errors/68 warnings, editor 0 and replay. Supplied-context working-tree acceptance only. |
 | N2029 | Executable Tile.changeBuild | Old removal, unique edge proximity updates via canonical edge owner, conditional entity init with editor-gated update flag. |
 | N2030 | Executable Tile.changed | Own-build or non-changing d4-neighbour proximity outside generation, gated change event, static recache. |
-| N2031 | Executable full two-pass Tile.setBlock | Composes preChanged/changeBuild/changed in source order; fresh per-pass proxy lookups, forceTeam, rotation normalization, blockChanged. Registration + targeted gates pass; Godot proof/full suite pending. |
+| N2031 | Executable full two-pass Tile.setBlock | Composes preChanged/changeBuild/changed in source order; fresh per-pass proxy lookups, forceTeam, rotation normalization, blockChanged. Registration + targeted gates pass; Godot proof 15/15 true; full Python suite 5387 OK in 967.176s. Editor/replay + native MCP still pending. |
 
 ## Not Done
 

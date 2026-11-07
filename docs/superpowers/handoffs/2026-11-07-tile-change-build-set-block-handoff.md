@@ -19,7 +19,7 @@ SSOT delta: **61 symbols / 3 input schemas / 3 void contracts / 3 slices**. Tota
 - Catalog: 0 errors, JSON modules 0 errors / 113 modules. `git diff --check` clean.
 - Godot proof: `TileChangeBuildSetBlockProof` — all 15 checks true, `matches=true`, Godot `4.6.2.stable.official.71f334935` headless. Proof JSON at `godot-mindustry/tools/runtime_proofs/TileChangeBuildSetBlockProof.json`.
 - Two environment fixes were needed on a fresh Linux checkout and are NOT part of the slice: (1) upstream checkouts were missing, so `mindustry-upstream/` was populated from the pinned-commit tarball and `arc-upstream/` likewise (`f30acd23…`); both are gitignored. (2) The Godot proof first failed with `ERROR: Unrecognized UID: "uid://csajjlruh8jey"` (MCPRuntime autoload) plus one wrong fixture lookup; fixed by running `godot --headless --path godot-mindustry --import` once to build the gitignored `.godot/` cache, and by correcting the size-2 edge fixture to real `edge_points_state(2)` offsets. If a proof run shows UID errors on a fresh checkout, import first.
-- Full Python suite was started in the background when this slice was committed; check `/tmp/full-suite-n2029.log` before treating the push as fully gated. Editor parse and deterministic replay are part of that gate.
+- Full Python suite PASS after the push: 5387 tests OK in 967.176s. Editor parse, deterministic replay and native MCP proof are still open for this slice.
 
 ## Files in this slice (stage/commit exactly these)
 
