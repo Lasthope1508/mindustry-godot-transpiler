@@ -61058,6 +61058,31 @@
       ],
       "runtime_proof": "/root/LancerPlacementProof",
       "rule": "Source-backed lancer placement; the lancer is placed at (25, 7) with powerUsage 6.0."
+    },
+    "SourcePlacedPowerGraphState.source_group_buildings_by_origin_state": {
+      "status": "active",
+      "source_slice": "N2081",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "source_method": "add",
+      "params": [
+        {
+          "name": "placed_block_origins",
+          "type": "Dictionary",
+          "schema": "source_group_buildings_by_origin_state_input.placed_block_origins"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "origins",
+        "count"
+      ],
+      "tests": [
+        "test_placed_power_graph_grouping_binding_registration",
+        "test_all_placed_power_graph_grouping_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_placed_power_graph_grouping"
+      ],
+      "runtime_proof": "/root/PlacedPowerGraphGroupingProof",
+      "rule": "Source-backed per-building grouping; each building is grouped once, as PowerGraph.add adds each building once."
     }
   },
   "policy": {

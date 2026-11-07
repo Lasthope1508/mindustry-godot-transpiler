@@ -219904,6 +219904,54 @@
       },
       "runtime_proof": "/root/LancerPlacementProof",
       "rule": "Source-backed lancer placement in the initial build."
+    },
+    "source_group_buildings_by_origin_state_input": {
+      "status": "active",
+      "owner": "SourcePlacedPowerGraphState.source_group_buildings_by_origin_state",
+      "source_slice": "N2081",
+      "keys": {
+        "placed_block_origins": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "public void add(Building build){",
+          "rule": "The placed-block origins map: every footprint cell keyed to its origin cell.",
+          "used_by": [
+            "SourcePlacedPowerGraphState.source_group_buildings_by_origin_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/PlacedPowerGraphGroupingProof",
+      "rule": "Source-backed per-building grouping of the placed power graph."
+    },
+    "source_group_buildings_by_origin_state_result": {
+      "status": "active",
+      "owner": "SourcePlacedPowerGraphState.source_group_buildings_by_origin_state",
+      "source_slice": "N2081",
+      "keys": {
+        "origins": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "all.add(build);",
+          "rule": "The unique building origins, one per building.",
+          "used_by": [
+            "SourcePlacedPowerGraphState.source_group_buildings_by_origin_state"
+          ]
+        },
+        "count": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "if(build.power.graph != this || !build.power.init){",
+          "rule": "The number of buildings: one per unique origin.",
+          "used_by": [
+            "SourcePlacedPowerGraphState.source_group_buildings_by_origin_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/PlacedPowerGraphGroupingProof",
+      "rule": "Source-backed per-building grouping of the placed power graph."
     }
   },
   "version": 1

@@ -162933,6 +162933,51 @@
         "test_reference_graph_and_actual_lancer_placement"
       ],
       "runtime_proof": "/root/LancerPlacementProof"
+    },
+    "source_group_buildings_by_origin_state_input.placed_block_origins": {
+      "status": "source-backed",
+      "godot_owner": "SourcePlacedPowerGraphState.source_group_buildings_by_origin_state",
+      "godot_symbol": "source_group_buildings_by_origin_state_input.placed_block_origins",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "add",
+      "java_expr": "public void add(Building build){",
+      "rule": "The placed-block origins map: every footprint cell keyed to its origin cell.",
+      "tests": [
+        "test_placed_power_graph_grouping_binding_registration",
+        "test_all_placed_power_graph_grouping_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_placed_power_graph_grouping"
+      ],
+      "runtime_proof": "/root/PlacedPowerGraphGroupingProof"
+    },
+    "source_group_buildings_by_origin_state_result.origins": {
+      "status": "source-backed",
+      "godot_owner": "SourcePlacedPowerGraphState.source_group_buildings_by_origin_state",
+      "godot_symbol": "source_group_buildings_by_origin_state_result.origins",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "add",
+      "java_expr": "all.add(build);",
+      "rule": "The unique building origins, one per building.",
+      "tests": [
+        "test_placed_power_graph_grouping_binding_registration",
+        "test_all_placed_power_graph_grouping_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_placed_power_graph_grouping"
+      ],
+      "runtime_proof": "/root/PlacedPowerGraphGroupingProof"
+    },
+    "source_group_buildings_by_origin_state_result.count": {
+      "status": "source-backed",
+      "godot_owner": "SourcePlacedPowerGraphState.source_group_buildings_by_origin_state",
+      "godot_symbol": "source_group_buildings_by_origin_state_result.count",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "add",
+      "java_expr": "if(build.power.graph != this || !build.power.init){",
+      "rule": "The number of buildings: one per unique origin.",
+      "tests": [
+        "test_placed_power_graph_grouping_binding_registration",
+        "test_all_placed_power_graph_grouping_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_placed_power_graph_grouping"
+      ],
+      "runtime_proof": "/root/PlacedPowerGraphGroupingProof"
     }
   },
   "version": 1

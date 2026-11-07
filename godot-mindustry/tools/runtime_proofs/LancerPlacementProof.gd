@@ -28,18 +28,16 @@ func _ready() -> void:
 	var lancer: Variant = game.call("block_sprite_at_cell", Vector2i(25, 7))
 	proof["lancer_placement_live_sprite"] = lancer != null and str(lancer.get_meta("source_block_id", "")) == "lancer"
 
-	# --- the placed power graph now has a real consumer: the size-2
-	# lancer adds 4 consumers per footprint cell (21 + 4 = 25), and
-	# each cell carries the block's full usage, so the graph needs
-	# 4 x 6.0/60 = 0.4 against 0.12/60 produced — coverage 0.005
-	# (partial power). That per-cell usage is a known divergence
-	# from Java, which counts each building once (0.1); the
-	# _group_state per-cell counting is existing behavior, not
-	# changed here. The empty battery cannot charge (a deficit). ---
+	# --- the placed power graph now has a real consumer: the lancer
+	# adds 1 consumer per building (11 total: drill, core, 7
+	# conveyors, duo, lancer; N2081), and its usage is counted once,
+	# so the graph needs 6.0/60 = 0.1 against 0.12/60 produced —
+	# coverage 0.02 (partial power, the Java value). The empty
+	# battery cannot charge (a deficit). ---
 	var step: Dictionary = factory_state.source_factory_update_power_graph_state(game, 1.0 / 60.0)
 	var update: Dictionary = step.get("update", {})
 	var distribute: Dictionary = update.get("battery_distribute_state", {})
-	proof["lancer_placement_live_graph"] = int(step.get("consumer_count", -1)) == 25 and int(step.get("producer_count", -1)) == 1 and int(step.get("battery_count", -1)) == 1 and is_equal_approx(float(step.get("power_needed", -1.0)), 0.4) and is_equal_approx(float(step.get("power_produced", -1.0)), 0.12 / 60.0) and is_equal_approx(float(distribute.get("coverage", -1.0)), 0.005) and not bool(distribute.get("charged", true)) and is_equal_approx(float(distribute.get("power_battery_charged", -1.0)), 0.0)
+	proof["lancer_placement_live_graph"] = int(step.get("consumer_count", -1)) == 11 and int(step.get("producer_count", -1)) == 1 and int(step.get("battery_count", -1)) == 1 and is_equal_approx(float(step.get("power_needed", -1.0)), 6.0 / 60.0) and is_equal_approx(float(step.get("power_produced", -1.0)), 0.12 / 60.0) and is_equal_approx(float(distribute.get("coverage", -1.0)), 0.02) and not bool(distribute.get("charged", true)) and is_equal_approx(float(distribute.get("power_battery_charged", -1.0)), 0.0)
 
 	var state_registry := registry.canonical_headquarter_registry_state()
 	proof["registry_valid"] = state_registry.get("errors", []).is_empty()

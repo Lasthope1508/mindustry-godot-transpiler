@@ -35,13 +35,36 @@ static func game_runtime_state(game: Object) -> Dictionary:
 	var callbacks := default_callbacks_state(game)
 	return runtime_state(game.get("placed_block_origins"), callbacks.get("block_from_sprite", Callable()), callbacks.get("role_for_block", Callable()), game_source_delta(game))
 
+static func source_group_buildings_by_origin_state(placed_block_origins: Dictionary) -> Dictionary:
+	# PowerGraph.java:277-301 add(Building): each building is added
+	# once to the graph (guarded by build.power.graph != this ||
+	# !build.power.init), and to exactly one role list. The
+	# placed-block origins map holds one key per footprint cell,
+	# so a size-2 building has 4 keys for 1 building; grouping over
+	# the unique origins (one per building) matches Java. The
+	# origins are kept as Variants: the real game stores Vector2i
+	# origins, and callers with sprite values (the module proof's
+	# fake game) keep one entry per distinct sprite.
+	var seen: Dictionary = {}
+	var origins: Array = []
+	for key in placed_block_origins.keys():
+		var origin: Variant = placed_block_origins.get(key)
+		if seen.has(origin):
+			continue
+		seen[origin] = true
+		origins.append(origin)
+	return {
+		"origins": origins,
+		"count": origins.size(),
+	}
+
 static func _group_state(placed_block_origins: Dictionary, block_from_sprite_fn: Callable, power_graph_role_for_block_fn: Callable, source_delta: float) -> Dictionary:
 	var counts := {"all": 0, "producers": 0, "consumers": 0, "batteries": 0}
 	var consumers: Array = []
 	var producers: Array = []
 	var batteries: Array = []
-	for key in placed_block_origins.keys():
-		var block = block_from_sprite_fn.call(placed_block_origins.get(key))
+	for origin in source_group_buildings_by_origin_state(placed_block_origins).get("origins", []):
+		var block = block_from_sprite_fn.call(origin)
 		var role_state: Dictionary = power_graph_role_for_block_fn.call(block)
 		if bool(role_state.get("add_all", false)):
 			counts["all"] += 1

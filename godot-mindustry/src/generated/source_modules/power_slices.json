@@ -960,6 +960,24 @@
       ],
       "runtime_proof": "/root/PowerGraphLiveUpdateProof"
     },
+    "N2081": {
+      "canonical_ledger": "source_slice_ledger.N2081",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "add",
+      "godot_owner": "SourcePlacedPowerGraphState.source_group_buildings_by_origin_state",
+      "source_symbols": [
+        "source_group_buildings_by_origin_state_input.placed_block_origins",
+        "source_group_buildings_by_origin_state_result.origins",
+        "source_group_buildings_by_origin_state_result.count"
+      ],
+      "tests": [
+        "test_placed_power_graph_grouping_binding_registration",
+        "test_all_placed_power_graph_grouping_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_placed_power_graph_grouping"
+      ],
+      "runtime_proof": "/root/PlacedPowerGraphGroupingProof"
+    },
     "N888": {
       "canonical_ledger": "source_slice_ledger.N888",
       "status": "done",
