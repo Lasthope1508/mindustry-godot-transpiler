@@ -83,6 +83,175 @@
       ],
       "runtime_proof": "/root/Main.source_conveyor_world_speed",
       "rule": "Public runtime contract for resolving Conveyor speed into source world speed mspeed."
+    },
+    "SourceConveyorRuntimeState.source_conveyor_accept_item_state": {
+      "canonical_contract": "source_api_contracts.SourceConveyorRuntimeState.source_conveyor_accept_item_state",
+      "status": "active",
+      "source_slice": "N2050",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "source_method": "acceptItem",
+      "params": [
+        {
+          "name": "len",
+          "type": "int",
+          "schema": "source_conveyor_accept_item_state_input.len"
+        },
+        {
+          "name": "capacity",
+          "type": "int",
+          "schema": "source_conveyor_accept_item_state_input.capacity"
+        },
+        {
+          "name": "facing_direction",
+          "type": "int",
+          "schema": "source_conveyor_accept_item_state_input.facing_direction"
+        },
+        {
+          "name": "rotation",
+          "type": "int",
+          "schema": "source_conveyor_accept_item_state_input.rotation"
+        },
+        {
+          "name": "minitem",
+          "type": "float",
+          "schema": "source_conveyor_accept_item_state_input.minitem"
+        },
+        {
+          "name": "item_space",
+          "type": "float",
+          "schema": "source_conveyor_accept_item_state_input.item_space"
+        },
+        {
+          "name": "source_block_rotate",
+          "type": "bool",
+          "schema": "source_conveyor_accept_item_state_input.source_block_rotate"
+        },
+        {
+          "name": "next_is_source",
+          "type": "bool",
+          "schema": "source_conveyor_accept_item_state_input.next_is_source"
+        }
+      ],
+      "return_keys": [
+        "accepted",
+        "direction",
+        "reason"
+      ],
+      "tests": [
+        "test_conveyor_intake_binding_registration",
+        "test_all_conveyor_intake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_intake"
+      ],
+      "runtime_proof": "/root/ConveyorIntakeProof",
+      "rule": "Source-backed ConveyorBuild intake; the result reports the gate, the insertion and the forward."
+    },
+    "SourceConveyorRuntimeState.source_conveyor_handle_item_state": {
+      "canonical_contract": "source_api_contracts.SourceConveyorRuntimeState.source_conveyor_handle_item_state",
+      "status": "active",
+      "source_slice": "N2051",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "source_method": "handleItem",
+      "params": [
+        {
+          "name": "len",
+          "type": "int",
+          "schema": "source_conveyor_handle_item_state_input.len"
+        },
+        {
+          "name": "capacity",
+          "type": "int",
+          "schema": "source_conveyor_handle_item_state_input.capacity"
+        },
+        {
+          "name": "facing_direction",
+          "type": "int",
+          "schema": "source_conveyor_handle_item_state_input.facing_direction"
+        },
+        {
+          "name": "rotation",
+          "type": "int",
+          "schema": "source_conveyor_handle_item_state_input.rotation"
+        },
+        {
+          "name": "mid",
+          "type": "int",
+          "schema": "source_conveyor_handle_item_state_input.mid"
+        },
+        {
+          "name": "item_id",
+          "type": "String",
+          "schema": "source_conveyor_handle_item_state_input.item_id"
+        },
+        {
+          "name": "item_count_before",
+          "type": "int",
+          "schema": "source_conveyor_handle_item_state_input.item_count_before"
+        }
+      ],
+      "return_keys": [
+        "accepted",
+        "index",
+        "x",
+        "y",
+        "len_after",
+        "item_count_after",
+        "no_sleep_called",
+        "reason"
+      ],
+      "tests": [
+        "test_conveyor_intake_binding_registration",
+        "test_all_conveyor_intake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_intake"
+      ],
+      "runtime_proof": "/root/ConveyorIntakeProof",
+      "rule": "Source-backed ConveyorBuild intake; the result reports the gate, the insertion and the forward."
+    },
+    "SourceConveyorRuntimeState.source_conveyor_pass_state": {
+      "canonical_contract": "source_api_contracts.SourceConveyorRuntimeState.source_conveyor_pass_state",
+      "status": "active",
+      "source_slice": "N2052",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "source_method": "pass",
+      "params": [
+        {
+          "name": "item_id",
+          "type": "Variant",
+          "schema": "source_conveyor_pass_state_input.item_id"
+        },
+        {
+          "name": "next_present",
+          "type": "bool",
+          "schema": "source_conveyor_pass_state_input.next_present"
+        },
+        {
+          "name": "next_same_team",
+          "type": "bool",
+          "schema": "source_conveyor_pass_state_input.next_same_team"
+        },
+        {
+          "name": "next_accepts_hook",
+          "type": "Callable",
+          "schema": "source_conveyor_pass_state_input.next_accepts_hook"
+        },
+        {
+          "name": "next_handle_hook",
+          "type": "Callable",
+          "schema": "source_conveyor_pass_state_input.next_handle_hook"
+        }
+      ],
+      "return_keys": [
+        "passed",
+        "item_id",
+        "handle_called",
+        "reason"
+      ],
+      "tests": [
+        "test_conveyor_intake_binding_registration",
+        "test_all_conveyor_intake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_intake"
+      ],
+      "runtime_proof": "/root/ConveyorIntakeProof",
+      "rule": "Source-backed ConveyorBuild intake; the result reports the gate, the insertion and the forward."
     }
   }
 }

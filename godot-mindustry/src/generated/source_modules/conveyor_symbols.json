@@ -348,6 +348,496 @@
         "test_conveyor_world_speed_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_conveyor_world_speed"
+    },
+    "source_conveyor_accept_item_state_input.capacity": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_accept_item_state_input.capacity",
+      "status": "source-backed",
+      "java_expr": "private static final int capacity = 3;",
+      "godot_symbol": "source_conveyor_accept_item_state_input.capacity",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_accept_item_state",
+      "rule": "Belt capacity (3 for a conveyor).",
+      "tests": [
+        "test_conveyor_intake_binding_registration",
+        "test_all_conveyor_intake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_intake"
+      ],
+      "runtime_proof": "/root/ConveyorIntakeProof"
+    },
+    "source_conveyor_accept_item_state_input.facing_direction": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_accept_item_state_input.facing_direction",
+      "status": "source-backed",
+      "java_expr": "int direction = Math.abs(facing.relativeTo(tile.x, tile.y) - rotation);",
+      "godot_symbol": "source_conveyor_accept_item_state_input.facing_direction",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_accept_item_state",
+      "rule": "Direction from the source facing edge to the conveyor tile (0 west, 1 north, 2 east, 3 south); -1 when there is no facing edge.",
+      "tests": [
+        "test_conveyor_intake_binding_registration",
+        "test_all_conveyor_intake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_intake"
+      ],
+      "runtime_proof": "/root/ConveyorIntakeProof"
+    },
+    "source_conveyor_accept_item_state_input.item_space": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_accept_item_state_input.item_space",
+      "status": "source-backed",
+      "java_expr": "private static final float itemSpace = 0.4f;",
+      "godot_symbol": "source_conveyor_accept_item_state_input.item_space",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_accept_item_state",
+      "rule": "Item spacing on the belt (0.4).",
+      "tests": [
+        "test_conveyor_intake_binding_registration",
+        "test_all_conveyor_intake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_intake"
+      ],
+      "runtime_proof": "/root/ConveyorIntakeProof"
+    },
+    "source_conveyor_accept_item_state_input.len": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_accept_item_state_input.len",
+      "status": "source-backed",
+      "java_expr": "if(len >= capacity) return false;",
+      "godot_symbol": "source_conveyor_accept_item_state_input.len",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_accept_item_state",
+      "rule": "Current item count on the belt.",
+      "tests": [
+        "test_conveyor_intake_binding_registration",
+        "test_all_conveyor_intake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_intake"
+      ],
+      "runtime_proof": "/root/ConveyorIntakeProof"
+    },
+    "source_conveyor_accept_item_state_input.minitem": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_accept_item_state_input.minitem",
+      "status": "source-backed",
+      "java_expr": "return (((direction == 0) && minitem >= itemSpace) || ((direction % 2 == 1) && minitem > 0.7f)) && !(source.block.rotate && next == source);",
+      "godot_symbol": "source_conveyor_accept_item_state_input.minitem",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_accept_item_state",
+      "rule": "Smallest item y on the belt; the straight arm needs it at or past itemSpace, the side arm past 0.7.",
+      "tests": [
+        "test_conveyor_intake_binding_registration",
+        "test_all_conveyor_intake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_intake"
+      ],
+      "runtime_proof": "/root/ConveyorIntakeProof"
+    },
+    "source_conveyor_accept_item_state_input.next_is_source": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_accept_item_state_input.next_is_source",
+      "status": "source-backed",
+      "java_expr": "return (((direction == 0) && minitem >= itemSpace) || ((direction % 2 == 1) && minitem > 0.7f)) && !(source.block.rotate && next == source);",
+      "godot_symbol": "source_conveyor_accept_item_state_input.next_is_source",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_accept_item_state",
+      "rule": "Whether the next building is the source (a rotating source feeding its own next is refused).",
+      "tests": [
+        "test_conveyor_intake_binding_registration",
+        "test_all_conveyor_intake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_intake"
+      ],
+      "runtime_proof": "/root/ConveyorIntakeProof"
+    },
+    "source_conveyor_accept_item_state_input.rotation": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_accept_item_state_input.rotation",
+      "status": "source-backed",
+      "java_expr": "int direction = Math.abs(facing.relativeTo(tile.x, tile.y) - rotation);",
+      "godot_symbol": "source_conveyor_accept_item_state_input.rotation",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_accept_item_state",
+      "rule": "Conveyor rotation (0-3).",
+      "tests": [
+        "test_conveyor_intake_binding_registration",
+        "test_all_conveyor_intake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_intake"
+      ],
+      "runtime_proof": "/root/ConveyorIntakeProof"
+    },
+    "source_conveyor_accept_item_state_input.source_block_rotate": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_accept_item_state_input.source_block_rotate",
+      "status": "source-backed",
+      "java_expr": "return (((direction == 0) && minitem >= itemSpace) || ((direction % 2 == 1) && minitem > 0.7f)) && !(source.block.rotate && next == source);",
+      "godot_symbol": "source_conveyor_accept_item_state_input.source_block_rotate",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_accept_item_state",
+      "rule": "Whether the source block rotates.",
+      "tests": [
+        "test_conveyor_intake_binding_registration",
+        "test_all_conveyor_intake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_intake"
+      ],
+      "runtime_proof": "/root/ConveyorIntakeProof"
+    },
+    "source_conveyor_accept_item_state_result.accepted": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_accept_item_state_result.accepted",
+      "status": "source-backed",
+      "java_expr": "return (((direction == 0) && minitem >= itemSpace) || ((direction % 2 == 1) && minitem > 0.7f)) && !(source.block.rotate && next == source);",
+      "godot_symbol": "source_conveyor_accept_item_state_result.accepted",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_accept_item_state",
+      "rule": "Whether the conveyor accepts the item.",
+      "tests": [
+        "test_conveyor_intake_binding_registration",
+        "test_all_conveyor_intake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_intake"
+      ],
+      "runtime_proof": "/root/ConveyorIntakeProof"
+    },
+    "source_conveyor_accept_item_state_result.direction": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_accept_item_state_result.direction",
+      "status": "source-backed",
+      "java_expr": "int direction = Math.abs(facing.relativeTo(tile.x, tile.y) - rotation);",
+      "godot_symbol": "source_conveyor_accept_item_state_result.direction",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_accept_item_state",
+      "rule": "Absolute direction difference between the facing direction and the rotation.",
+      "tests": [
+        "test_conveyor_intake_binding_registration",
+        "test_all_conveyor_intake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_intake"
+      ],
+      "runtime_proof": "/root/ConveyorIntakeProof"
+    },
+    "source_conveyor_accept_item_state_result.reason": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_accept_item_state_result.reason",
+      "status": "source-backed",
+      "java_expr": "return (((direction == 0) && minitem >= itemSpace) || ((direction % 2 == 1) && minitem > 0.7f)) && !(source.block.rotate && next == source);",
+      "godot_symbol": "source_conveyor_accept_item_state_result.reason",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_accept_item_state",
+      "rule": "Intake outcome: accepted, at_capacity, no_facing, wrong_direction, rotate_loop.",
+      "tests": [
+        "test_conveyor_intake_binding_registration",
+        "test_all_conveyor_intake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_intake"
+      ],
+      "runtime_proof": "/root/ConveyorIntakeProof"
+    },
+    "source_conveyor_handle_item_state_input.capacity": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_handle_item_state_input.capacity",
+      "status": "source-backed",
+      "java_expr": "private static final int capacity = 3;",
+      "godot_symbol": "source_conveyor_handle_item_state_input.capacity",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_item_state",
+      "rule": "Belt capacity (3 for a conveyor).",
+      "tests": [
+        "test_conveyor_intake_binding_registration",
+        "test_all_conveyor_intake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_intake"
+      ],
+      "runtime_proof": "/root/ConveyorIntakeProof"
+    },
+    "source_conveyor_handle_item_state_input.facing_direction": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_handle_item_state_input.facing_direction",
+      "status": "source-backed",
+      "java_expr": "int ang = ((facing.relativeTo(tile.x, tile.y) - r));",
+      "godot_symbol": "source_conveyor_handle_item_state_input.facing_direction",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_item_state",
+      "rule": "Direction from the source facing edge to the conveyor tile (0 west, 1 north, 2 east, 3 south).",
+      "tests": [
+        "test_conveyor_intake_binding_registration",
+        "test_all_conveyor_intake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_intake"
+      ],
+      "runtime_proof": "/root/ConveyorIntakeProof"
+    },
+    "source_conveyor_handle_item_state_input.item_count_before": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_handle_item_state_input.item_count_before",
+      "status": "source-backed",
+      "java_expr": "items.add(item, 1);",
+      "godot_symbol": "source_conveyor_handle_item_state_input.item_count_before",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_item_state",
+      "rule": "Item count before the intake.",
+      "tests": [
+        "test_conveyor_intake_binding_registration",
+        "test_all_conveyor_intake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_intake"
+      ],
+      "runtime_proof": "/root/ConveyorIntakeProof"
+    },
+    "source_conveyor_handle_item_state_input.item_id": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_handle_item_state_input.item_id",
+      "status": "source-backed",
+      "java_expr": "items.add(item, 1);",
+      "godot_symbol": "source_conveyor_handle_item_state_input.item_id",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_item_state",
+      "rule": "The item id being taken in.",
+      "tests": [
+        "test_conveyor_intake_binding_registration",
+        "test_all_conveyor_intake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_intake"
+      ],
+      "runtime_proof": "/root/ConveyorIntakeProof"
+    },
+    "source_conveyor_handle_item_state_input.len": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_handle_item_state_input.len",
+      "status": "source-backed",
+      "java_expr": "if(len >= capacity) return;",
+      "godot_symbol": "source_conveyor_handle_item_state_input.len",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_item_state",
+      "rule": "Current item count on the belt.",
+      "tests": [
+        "test_conveyor_intake_binding_registration",
+        "test_all_conveyor_intake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_intake"
+      ],
+      "runtime_proof": "/root/ConveyorIntakeProof"
+    },
+    "source_conveyor_handle_item_state_input.mid": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_handle_item_state_input.mid",
+      "status": "source-backed",
+      "java_expr": "add(mid);",
+      "godot_symbol": "source_conveyor_handle_item_state_input.mid",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_item_state",
+      "rule": "Mid insertion index from the last updateTile (the last item before the first one past halfway).",
+      "tests": [
+        "test_conveyor_intake_binding_registration",
+        "test_all_conveyor_intake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_intake"
+      ],
+      "runtime_proof": "/root/ConveyorIntakeProof"
+    },
+    "source_conveyor_handle_item_state_input.rotation": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_handle_item_state_input.rotation",
+      "status": "source-backed",
+      "java_expr": "int r = rotation;",
+      "godot_symbol": "source_conveyor_handle_item_state_input.rotation",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_item_state",
+      "rule": "Conveyor rotation (0-3).",
+      "tests": [
+        "test_conveyor_intake_binding_registration",
+        "test_all_conveyor_intake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_intake"
+      ],
+      "runtime_proof": "/root/ConveyorIntakeProof"
+    },
+    "source_conveyor_handle_item_state_result.accepted": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_handle_item_state_result.accepted",
+      "status": "source-backed",
+      "java_expr": "if(len >= capacity) return;",
+      "godot_symbol": "source_conveyor_handle_item_state_result.accepted",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_item_state",
+      "rule": "Whether the item was taken in (false at capacity).",
+      "tests": [
+        "test_conveyor_intake_binding_registration",
+        "test_all_conveyor_intake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_intake"
+      ],
+      "runtime_proof": "/root/ConveyorIntakeProof"
+    },
+    "source_conveyor_handle_item_state_result.index": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_handle_item_state_result.index",
+      "status": "source-backed",
+      "java_expr": "add(0);",
+      "godot_symbol": "source_conveyor_handle_item_state_result.index",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_item_state",
+      "rule": "Insertion index: 0 for a straight entry, mid for a side entry, -1 when refused.",
+      "tests": [
+        "test_conveyor_intake_binding_registration",
+        "test_all_conveyor_intake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_intake"
+      ],
+      "runtime_proof": "/root/ConveyorIntakeProof"
+    },
+    "source_conveyor_handle_item_state_result.item_count_after": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_handle_item_state_result.item_count_after",
+      "status": "source-backed",
+      "java_expr": "items.add(item, 1);",
+      "godot_symbol": "source_conveyor_handle_item_state_result.item_count_after",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_item_state",
+      "rule": "Item count after the intake.",
+      "tests": [
+        "test_conveyor_intake_binding_registration",
+        "test_all_conveyor_intake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_intake"
+      ],
+      "runtime_proof": "/root/ConveyorIntakeProof"
+    },
+    "source_conveyor_handle_item_state_result.len_after": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_handle_item_state_result.len_after",
+      "status": "source-backed",
+      "java_expr": "items.add(item, 1);",
+      "godot_symbol": "source_conveyor_handle_item_state_result.len_after",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_item_state",
+      "rule": "Belt item count after the intake.",
+      "tests": [
+        "test_conveyor_intake_binding_registration",
+        "test_all_conveyor_intake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_intake"
+      ],
+      "runtime_proof": "/root/ConveyorIntakeProof"
+    },
+    "source_conveyor_handle_item_state_result.no_sleep_called": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_handle_item_state_result.no_sleep_called",
+      "status": "source-backed",
+      "java_expr": "noSleep();",
+      "godot_symbol": "source_conveyor_handle_item_state_result.no_sleep_called",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_item_state",
+      "rule": "Whether noSleep ran (only when the item was taken in).",
+      "tests": [
+        "test_conveyor_intake_binding_registration",
+        "test_all_conveyor_intake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_intake"
+      ],
+      "runtime_proof": "/root/ConveyorIntakeProof"
+    },
+    "source_conveyor_handle_item_state_result.reason": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_handle_item_state_result.reason",
+      "status": "source-backed",
+      "java_expr": "if(len >= capacity) return;",
+      "godot_symbol": "source_conveyor_handle_item_state_result.reason",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_item_state",
+      "rule": "Intake outcome: accepted, at_capacity.",
+      "tests": [
+        "test_conveyor_intake_binding_registration",
+        "test_all_conveyor_intake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_intake"
+      ],
+      "runtime_proof": "/root/ConveyorIntakeProof"
+    },
+    "source_conveyor_handle_item_state_result.x": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_handle_item_state_result.x",
+      "status": "source-backed",
+      "java_expr": "float x = (ang == -1 || ang == 3) ? 1 : (ang == 1 || ang == -3) ? -1 : 0;",
+      "godot_symbol": "source_conveyor_handle_item_state_result.x",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_item_state",
+      "rule": "Inserted item x offset: 1 for a left-side entry, -1 for a right-side entry, 0 otherwise.",
+      "tests": [
+        "test_conveyor_intake_binding_registration",
+        "test_all_conveyor_intake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_intake"
+      ],
+      "runtime_proof": "/root/ConveyorIntakeProof"
+    },
+    "source_conveyor_handle_item_state_result.y": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_handle_item_state_result.y",
+      "status": "source-backed",
+      "java_expr": "ys[mid] = 0.5f;",
+      "godot_symbol": "source_conveyor_handle_item_state_result.y",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_item_state",
+      "rule": "Inserted item y: 0 for a straight entry, 0.5 for a side entry.",
+      "tests": [
+        "test_conveyor_intake_binding_registration",
+        "test_all_conveyor_intake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_intake"
+      ],
+      "runtime_proof": "/root/ConveyorIntakeProof"
+    },
+    "source_conveyor_pass_state_input.item_id": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_pass_state_input.item_id",
+      "status": "source-backed",
+      "java_expr": "if(item != null && next != null && next.team == team && next.acceptItem(this, item)){",
+      "godot_symbol": "source_conveyor_pass_state_input.item_id",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_pass_state",
+      "rule": "The item id to forward, or null.",
+      "tests": [
+        "test_conveyor_intake_binding_registration",
+        "test_all_conveyor_intake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_intake"
+      ],
+      "runtime_proof": "/root/ConveyorIntakeProof"
+    },
+    "source_conveyor_pass_state_input.next_accepts_hook": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_pass_state_input.next_accepts_hook",
+      "status": "source-backed",
+      "java_expr": "if(item != null && next != null && next.team == team && next.acceptItem(this, item)){",
+      "godot_symbol": "source_conveyor_pass_state_input.next_accepts_hook",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_pass_state",
+      "rule": "Caller-supplied next.acceptItem for the item.",
+      "tests": [
+        "test_conveyor_intake_binding_registration",
+        "test_all_conveyor_intake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_intake"
+      ],
+      "runtime_proof": "/root/ConveyorIntakeProof"
+    },
+    "source_conveyor_pass_state_input.next_handle_hook": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_pass_state_input.next_handle_hook",
+      "status": "source-backed",
+      "java_expr": "next.handleItem(this, item);",
+      "godot_symbol": "source_conveyor_pass_state_input.next_handle_hook",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_pass_state",
+      "rule": "Caller-supplied next.handleItem for the item.",
+      "tests": [
+        "test_conveyor_intake_binding_registration",
+        "test_all_conveyor_intake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_intake"
+      ],
+      "runtime_proof": "/root/ConveyorIntakeProof"
+    },
+    "source_conveyor_pass_state_input.next_present": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_pass_state_input.next_present",
+      "status": "source-backed",
+      "java_expr": "if(item != null && next != null && next.team == team && next.acceptItem(this, item)){",
+      "godot_symbol": "source_conveyor_pass_state_input.next_present",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_pass_state",
+      "rule": "Whether the next building exists.",
+      "tests": [
+        "test_conveyor_intake_binding_registration",
+        "test_all_conveyor_intake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_intake"
+      ],
+      "runtime_proof": "/root/ConveyorIntakeProof"
+    },
+    "source_conveyor_pass_state_input.next_same_team": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_pass_state_input.next_same_team",
+      "status": "source-backed",
+      "java_expr": "if(item != null && next != null && next.team == team && next.acceptItem(this, item)){",
+      "godot_symbol": "source_conveyor_pass_state_input.next_same_team",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_pass_state",
+      "rule": "Whether the next building is on the same team.",
+      "tests": [
+        "test_conveyor_intake_binding_registration",
+        "test_all_conveyor_intake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_intake"
+      ],
+      "runtime_proof": "/root/ConveyorIntakeProof"
+    },
+    "source_conveyor_pass_state_result.handle_called": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_pass_state_result.handle_called",
+      "status": "source-backed",
+      "java_expr": "next.handleItem(this, item);",
+      "godot_symbol": "source_conveyor_pass_state_result.handle_called",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_pass_state",
+      "rule": "Whether next.handleItem ran.",
+      "tests": [
+        "test_conveyor_intake_binding_registration",
+        "test_all_conveyor_intake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_intake"
+      ],
+      "runtime_proof": "/root/ConveyorIntakeProof"
+    },
+    "source_conveyor_pass_state_result.item_id": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_pass_state_result.item_id",
+      "status": "source-backed",
+      "java_expr": "if(item != null && next != null && next.team == team && next.acceptItem(this, item)){",
+      "godot_symbol": "source_conveyor_pass_state_result.item_id",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_pass_state",
+      "rule": "The item id forwarded, or null when nothing was passed.",
+      "tests": [
+        "test_conveyor_intake_binding_registration",
+        "test_all_conveyor_intake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_intake"
+      ],
+      "runtime_proof": "/root/ConveyorIntakeProof"
+    },
+    "source_conveyor_pass_state_result.passed": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_pass_state_result.passed",
+      "status": "source-backed",
+      "java_expr": "return true;",
+      "godot_symbol": "source_conveyor_pass_state_result.passed",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_pass_state",
+      "rule": "Whether the item was forwarded to the next building.",
+      "tests": [
+        "test_conveyor_intake_binding_registration",
+        "test_all_conveyor_intake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_intake"
+      ],
+      "runtime_proof": "/root/ConveyorIntakeProof"
+    },
+    "source_conveyor_pass_state_result.reason": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_pass_state_result.reason",
+      "status": "source-backed",
+      "java_expr": "return false;",
+      "godot_symbol": "source_conveyor_pass_state_result.reason",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_pass_state",
+      "rule": "Forward outcome: passed, null_item, no_next, wrong_team, next_rejects, no_handle.",
+      "tests": [
+        "test_conveyor_intake_binding_registration",
+        "test_all_conveyor_intake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_intake"
+      ],
+      "runtime_proof": "/root/ConveyorIntakeProof"
     }
   }
 }

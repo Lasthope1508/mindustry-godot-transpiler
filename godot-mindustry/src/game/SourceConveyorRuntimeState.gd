@@ -97,3 +97,76 @@ static func game_path_progress_delta_for_cell(game: Object, x: int, y: int, seco
 	if not is_instance_valid(sprite):
 		return 0.0
 	return game.call("source_conveyor_path_progress_delta", str(sprite.get_meta(source_placed_block_state.SOURCE_BLOCK_ID_META_KEY, "")), seconds, float(sprite.get_meta(source_placed_block_state.SOURCE_BLOCK_TIME_SCALE_META_KEY, source_block_defaults.TIME_SCALE_DEFAULT)), efficiency)
+
+
+static func source_conveyor_accept_item_state(len: int, capacity: int, facing_direction: int, rotation: int, minitem: float, item_space: float, source_block_rotate: bool, next_is_source: bool) -> Dictionary:
+	var direction: int = abs(facing_direction - rotation)
+	var reason := "accepted"
+	if len >= capacity:
+		reason = "at_capacity"
+	elif facing_direction == -1:
+		reason = "no_facing"
+	elif not (((direction == 0) and minitem >= item_space) or ((direction % 2 == 1) and minitem > 0.7)):
+		reason = "wrong_direction"
+	elif source_block_rotate and next_is_source:
+		reason = "rotate_loop"
+	return {
+		"accepted": reason == "accepted",
+		"direction": direction,
+		"reason": reason,
+	}
+
+
+static func source_conveyor_handle_item_state(len: int, capacity: int, facing_direction: int, rotation: int, mid: int, item_id: String, item_count_before: int) -> Dictionary:
+	if len >= capacity:
+		return {
+			"accepted": false,
+			"index": -1,
+			"x": 0.0,
+			"y": 0.0,
+			"len_after": len,
+			"item_count_after": item_count_before,
+			"no_sleep_called": false,
+			"reason": "at_capacity",
+		}
+	var ang: int = facing_direction - rotation
+	var x := 1.0 if (ang == -1 or ang == 3) else (-1.0 if (ang == 1 or ang == -3) else 0.0)
+	var straight: bool = abs(ang) == 0
+	return {
+		"accepted": true,
+		"index": 0 if straight else mid,
+		"x": x,
+		"y": 0.0 if straight else 0.5,
+		"len_after": len + 1,
+		"item_count_after": item_count_before + 1,
+		"no_sleep_called": true,
+		"reason": "accepted",
+	}
+
+
+static func source_conveyor_pass_state(item_id: Variant, next_present: bool, next_same_team: bool, next_accepts_hook: Callable, next_handle_hook: Callable) -> Dictionary:
+	var reason := "passed"
+	if item_id == null:
+		reason = "null_item"
+	elif not next_present:
+		reason = "no_next"
+	elif not next_same_team:
+		reason = "wrong_team"
+	elif next_accepts_hook == Callable() or not bool(next_accepts_hook.call(item_id)):
+		reason = "next_rejects"
+	elif next_handle_hook == Callable():
+		reason = "no_handle"
+	if reason != "passed":
+		return {
+			"passed": false,
+			"item_id": item_id,
+			"handle_called": false,
+			"reason": reason,
+		}
+	next_handle_hook.call(item_id)
+	return {
+		"passed": true,
+		"item_id": item_id,
+		"handle_called": true,
+		"reason": "passed",
+	}

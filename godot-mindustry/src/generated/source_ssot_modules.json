@@ -717,7 +717,10 @@
         "module": "conveyor_slices",
         "collection_key": "slices",
         "field": "godot_owner"
-      }
+      },
+      "optional_mirror_fields": [
+        "return_type"
+      ]
     },
     "conveyor_slices": {
       "canonical_module": "slice_ledger",

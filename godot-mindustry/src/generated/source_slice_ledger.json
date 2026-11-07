@@ -51417,6 +51417,138 @@
         "The drill runtime bridge still reads the game-global drill_output_item_id; making it use the actual dominant item stays open in C02.",
         "C02 conveyor transport and C03-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2050": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_class": "mindustry.world.blocks.distribution.Conveyor.ConveyorBuild",
+      "java_method": "acceptItem",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_accept_item_state",
+      "exact_exprs": [
+        "public boolean acceptItem(Building source, Item item){",
+        "if(len >= capacity) return false;",
+        "Tile facing = Edges.getFacingEdge(source.tile, tile);",
+        "if(facing == null) return false;",
+        "int direction = Math.abs(facing.relativeTo(tile.x, tile.y) - rotation);",
+        "return (((direction == 0) && minitem >= itemSpace) || ((direction % 2 == 1) && minitem > 0.7f)) && !(source.block.rotate && next == source);",
+        "private static final float itemSpace = 0.4f;",
+        "private static final int capacity = 3;"
+      ],
+      "source_symbols": [
+        "source_conveyor_accept_item_state_input.len",
+        "source_conveyor_accept_item_state_input.capacity",
+        "source_conveyor_accept_item_state_input.facing_direction",
+        "source_conveyor_accept_item_state_input.rotation",
+        "source_conveyor_accept_item_state_input.minitem",
+        "source_conveyor_accept_item_state_input.item_space",
+        "source_conveyor_accept_item_state_input.source_block_rotate",
+        "source_conveyor_accept_item_state_input.next_is_source",
+        "source_conveyor_accept_item_state_result.accepted",
+        "source_conveyor_accept_item_state_result.direction",
+        "source_conveyor_accept_item_state_result.reason"
+      ],
+      "tests": [
+        "test_conveyor_intake_binding_registration",
+        "test_all_conveyor_intake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_intake"
+      ],
+      "runtime_proof": "/root/ConveyorIntakeProof",
+      "deferred_exprs": [
+        "The facing direction is the direction from the source facing edge to the conveyor tile, computed by the caller with the existing tile_relative_cardinal_state; the multiblock facing-edge clamp (Edges.getFacingEdge) is a later slice.",
+        "The intake inserts one item per call; per-frame movement along the belt stays with the existing conveyor path-progress runtime.",
+        "The drill runtime bridge still reads the game-global drill_output_item_id; making it use the actual dominant item stays open in C02.",
+        "C02 one-inventory-owner cleanup and the two-Drill gate, and C03-C12, remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
+    },
+    "N2051": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_class": "mindustry.world.blocks.distribution.Conveyor.ConveyorBuild",
+      "java_method": "handleItem",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_item_state",
+      "exact_exprs": [
+        "public void handleItem(Building source, Item item){",
+        "if(len >= capacity) return;",
+        "int r = rotation;",
+        "int ang = ((facing.relativeTo(tile.x, tile.y) - r));",
+        "float x = (ang == -1 || ang == 3) ? 1 : (ang == 1 || ang == -3) ? -1 : 0;",
+        "noSleep();",
+        "items.add(item, 1);",
+        "if(Math.abs(facing.relativeTo(tile.x, tile.y) - r) == 0){ //idx = 0",
+        "add(0);",
+        "xs[0] = x;",
+        "ys[0] = 0;",
+        "add(mid);",
+        "ys[mid] = 0.5f;",
+        "private static final float itemSpace = 0.4f;",
+        "private static final int capacity = 3;"
+      ],
+      "source_symbols": [
+        "source_conveyor_handle_item_state_input.len",
+        "source_conveyor_handle_item_state_input.capacity",
+        "source_conveyor_handle_item_state_input.facing_direction",
+        "source_conveyor_handle_item_state_input.rotation",
+        "source_conveyor_handle_item_state_input.mid",
+        "source_conveyor_handle_item_state_input.item_id",
+        "source_conveyor_handle_item_state_input.item_count_before",
+        "source_conveyor_handle_item_state_result.accepted",
+        "source_conveyor_handle_item_state_result.index",
+        "source_conveyor_handle_item_state_result.x",
+        "source_conveyor_handle_item_state_result.y",
+        "source_conveyor_handle_item_state_result.len_after",
+        "source_conveyor_handle_item_state_result.item_count_after",
+        "source_conveyor_handle_item_state_result.no_sleep_called",
+        "source_conveyor_handle_item_state_result.reason"
+      ],
+      "tests": [
+        "test_conveyor_intake_binding_registration",
+        "test_all_conveyor_intake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_intake"
+      ],
+      "runtime_proof": "/root/ConveyorIntakeProof",
+      "deferred_exprs": [
+        "The facing direction is the direction from the source facing edge to the conveyor tile, computed by the caller with the existing tile_relative_cardinal_state; the multiblock facing-edge clamp (Edges.getFacingEdge) is a later slice.",
+        "The intake inserts one item per call; per-frame movement along the belt stays with the existing conveyor path-progress runtime.",
+        "The drill runtime bridge still reads the game-global drill_output_item_id; making it use the actual dominant item stays open in C02.",
+        "C02 one-inventory-owner cleanup and the two-Drill gate, and C03-C12, remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
+    },
+    "N2052": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_class": "mindustry.world.blocks.distribution.Conveyor.ConveyorBuild",
+      "java_method": "pass",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_pass_state",
+      "exact_exprs": [
+        "public boolean pass(Item item){",
+        "if(item != null && next != null && next.team == team && next.acceptItem(this, item)){",
+        "next.handleItem(this, item);",
+        "return true;",
+        "return false;"
+      ],
+      "source_symbols": [
+        "source_conveyor_pass_state_input.item_id",
+        "source_conveyor_pass_state_input.next_present",
+        "source_conveyor_pass_state_input.next_same_team",
+        "source_conveyor_pass_state_input.next_accepts_hook",
+        "source_conveyor_pass_state_input.next_handle_hook",
+        "source_conveyor_pass_state_result.passed",
+        "source_conveyor_pass_state_result.item_id",
+        "source_conveyor_pass_state_result.handle_called",
+        "source_conveyor_pass_state_result.reason"
+      ],
+      "tests": [
+        "test_conveyor_intake_binding_registration",
+        "test_all_conveyor_intake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_intake"
+      ],
+      "runtime_proof": "/root/ConveyorIntakeProof",
+      "deferred_exprs": [
+        "The facing direction is the direction from the source facing edge to the conveyor tile, computed by the caller with the existing tile_relative_cardinal_state; the multiblock facing-edge clamp (Edges.getFacingEdge) is a later slice.",
+        "The intake inserts one item per call; per-frame movement along the belt stays with the existing conveyor path-progress runtime.",
+        "The drill runtime bridge still reads the game-global drill_output_item_id; making it use the actual dominant item stays open in C02.",
+        "C02 one-inventory-owner cleanup and the two-Drill gate, and C03-C12, remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1

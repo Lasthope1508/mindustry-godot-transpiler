@@ -215856,6 +215856,410 @@
       },
       "runtime_proof": "/root/BuildingDumpProof",
       "rule": "Source-backed Building.dump composition; one item per call to the first accepting neighbor in cdump order."
+    },
+    "source_conveyor_accept_item_state_input": {
+      "status": "active",
+      "owner": "SourceConveyorRuntimeState.source_conveyor_accept_item_state",
+      "source_slice": "N2050",
+      "keys": {
+        "len": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "if(len >= capacity) return false;",
+          "rule": "Current item count on the belt.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_accept_item_state"
+          ]
+        },
+        "capacity": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "private static final int capacity = 3;",
+          "rule": "Belt capacity (3 for a conveyor).",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_accept_item_state"
+          ]
+        },
+        "facing_direction": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "int direction = Math.abs(facing.relativeTo(tile.x, tile.y) - rotation);",
+          "rule": "Direction from the source facing edge to the conveyor tile (0 west, 1 north, 2 east, 3 south); -1 when there is no facing edge.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_accept_item_state"
+          ]
+        },
+        "rotation": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "int direction = Math.abs(facing.relativeTo(tile.x, tile.y) - rotation);",
+          "rule": "Conveyor rotation (0-3).",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_accept_item_state"
+          ]
+        },
+        "minitem": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "return (((direction == 0) && minitem >= itemSpace) || ((direction % 2 == 1) && minitem > 0.7f)) && !(source.block.rotate && next == source);",
+          "rule": "Smallest item y on the belt; the straight arm needs it at or past itemSpace, the side arm past 0.7.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_accept_item_state"
+          ]
+        },
+        "item_space": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "private static final float itemSpace = 0.4f;",
+          "rule": "Item spacing on the belt (0.4).",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_accept_item_state"
+          ]
+        },
+        "source_block_rotate": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "return (((direction == 0) && minitem >= itemSpace) || ((direction % 2 == 1) && minitem > 0.7f)) && !(source.block.rotate && next == source);",
+          "rule": "Whether the source block rotates.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_accept_item_state"
+          ]
+        },
+        "next_is_source": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "return (((direction == 0) && minitem >= itemSpace) || ((direction % 2 == 1) && minitem > 0.7f)) && !(source.block.rotate && next == source);",
+          "rule": "Whether the next building is the source (a rotating source feeding its own next is refused).",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_accept_item_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/ConveyorIntakeProof",
+      "rule": "Source-backed ConveyorBuild intake; one item per call."
+    },
+    "source_conveyor_accept_item_state_result": {
+      "status": "active",
+      "owner": "SourceConveyorRuntimeState.source_conveyor_accept_item_state",
+      "source_slice": "N2050",
+      "keys": {
+        "accepted": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "return (((direction == 0) && minitem >= itemSpace) || ((direction % 2 == 1) && minitem > 0.7f)) && !(source.block.rotate && next == source);",
+          "rule": "Whether the conveyor accepts the item.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_accept_item_state"
+          ]
+        },
+        "direction": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "int direction = Math.abs(facing.relativeTo(tile.x, tile.y) - rotation);",
+          "rule": "Absolute direction difference between the facing direction and the rotation.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_accept_item_state"
+          ]
+        },
+        "reason": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "return (((direction == 0) && minitem >= itemSpace) || ((direction % 2 == 1) && minitem > 0.7f)) && !(source.block.rotate && next == source);",
+          "rule": "Intake outcome: accepted, at_capacity, no_facing, wrong_direction, rotate_loop.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_accept_item_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/ConveyorIntakeProof",
+      "rule": "Source-backed ConveyorBuild intake; one item per call."
+    },
+    "source_conveyor_handle_item_state_input": {
+      "status": "active",
+      "owner": "SourceConveyorRuntimeState.source_conveyor_handle_item_state",
+      "source_slice": "N2051",
+      "keys": {
+        "len": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "if(len >= capacity) return;",
+          "rule": "Current item count on the belt.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_handle_item_state"
+          ]
+        },
+        "capacity": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "private static final int capacity = 3;",
+          "rule": "Belt capacity (3 for a conveyor).",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_handle_item_state"
+          ]
+        },
+        "facing_direction": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "int ang = ((facing.relativeTo(tile.x, tile.y) - r));",
+          "rule": "Direction from the source facing edge to the conveyor tile (0 west, 1 north, 2 east, 3 south).",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_handle_item_state"
+          ]
+        },
+        "rotation": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "int r = rotation;",
+          "rule": "Conveyor rotation (0-3).",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_handle_item_state"
+          ]
+        },
+        "mid": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "add(mid);",
+          "rule": "Mid insertion index from the last updateTile (the last item before the first one past halfway).",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_handle_item_state"
+          ]
+        },
+        "item_id": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "items.add(item, 1);",
+          "rule": "The item id being taken in.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_handle_item_state"
+          ]
+        },
+        "item_count_before": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "items.add(item, 1);",
+          "rule": "Item count before the intake.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_handle_item_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/ConveyorIntakeProof",
+      "rule": "Source-backed ConveyorBuild intake; one item per call."
+    },
+    "source_conveyor_handle_item_state_result": {
+      "status": "active",
+      "owner": "SourceConveyorRuntimeState.source_conveyor_handle_item_state",
+      "source_slice": "N2051",
+      "keys": {
+        "accepted": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "if(len >= capacity) return;",
+          "rule": "Whether the item was taken in (false at capacity).",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_handle_item_state"
+          ]
+        },
+        "index": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "add(0);",
+          "rule": "Insertion index: 0 for a straight entry, mid for a side entry, -1 when refused.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_handle_item_state"
+          ]
+        },
+        "x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "float x = (ang == -1 || ang == 3) ? 1 : (ang == 1 || ang == -3) ? -1 : 0;",
+          "rule": "Inserted item x offset: 1 for a left-side entry, -1 for a right-side entry, 0 otherwise.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_handle_item_state"
+          ]
+        },
+        "y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "ys[mid] = 0.5f;",
+          "rule": "Inserted item y: 0 for a straight entry, 0.5 for a side entry.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_handle_item_state"
+          ]
+        },
+        "len_after": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "items.add(item, 1);",
+          "rule": "Belt item count after the intake.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_handle_item_state"
+          ]
+        },
+        "item_count_after": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "items.add(item, 1);",
+          "rule": "Item count after the intake.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_handle_item_state"
+          ]
+        },
+        "no_sleep_called": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "noSleep();",
+          "rule": "Whether noSleep ran (only when the item was taken in).",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_handle_item_state"
+          ]
+        },
+        "reason": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "if(len >= capacity) return;",
+          "rule": "Intake outcome: accepted, at_capacity.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_handle_item_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/ConveyorIntakeProof",
+      "rule": "Source-backed ConveyorBuild intake; one item per call."
+    },
+    "source_conveyor_pass_state_input": {
+      "status": "active",
+      "owner": "SourceConveyorRuntimeState.source_conveyor_pass_state",
+      "source_slice": "N2052",
+      "keys": {
+        "item_id": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "if(item != null && next != null && next.team == team && next.acceptItem(this, item)){",
+          "rule": "The item id to forward, or null.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_pass_state"
+          ]
+        },
+        "next_present": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "if(item != null && next != null && next.team == team && next.acceptItem(this, item)){",
+          "rule": "Whether the next building exists.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_pass_state"
+          ]
+        },
+        "next_same_team": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "if(item != null && next != null && next.team == team && next.acceptItem(this, item)){",
+          "rule": "Whether the next building is on the same team.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_pass_state"
+          ]
+        },
+        "next_accepts_hook": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "if(item != null && next != null && next.team == team && next.acceptItem(this, item)){",
+          "rule": "Caller-supplied next.acceptItem for the item.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_pass_state"
+          ]
+        },
+        "next_handle_hook": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "next.handleItem(this, item);",
+          "rule": "Caller-supplied next.handleItem for the item.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_pass_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/ConveyorIntakeProof",
+      "rule": "Source-backed ConveyorBuild intake; one item per call."
+    },
+    "source_conveyor_pass_state_result": {
+      "status": "active",
+      "owner": "SourceConveyorRuntimeState.source_conveyor_pass_state",
+      "source_slice": "N2052",
+      "keys": {
+        "passed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "return true;",
+          "rule": "Whether the item was forwarded to the next building.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_pass_state"
+          ]
+        },
+        "item_id": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "if(item != null && next != null && next.team == team && next.acceptItem(this, item)){",
+          "rule": "The item id forwarded, or null when nothing was passed.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_pass_state"
+          ]
+        },
+        "handle_called": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "next.handleItem(this, item);",
+          "rule": "Whether next.handleItem ran.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_pass_state"
+          ]
+        },
+        "reason": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "return false;",
+          "rule": "Forward outcome: passed, null_item, no_next, wrong_team, next_rejects, no_handle.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_pass_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/ConveyorIntakeProof",
+      "rule": "Source-backed ConveyorBuild intake; one item per call."
     }
   },
   "version": 1

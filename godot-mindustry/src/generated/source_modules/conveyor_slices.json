@@ -1,6 +1,86 @@
 {
   "version": 1,
   "slices": {
+    "N2050": {
+      "canonical_ledger": "source_slice_ledger.N2050",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_method": "acceptItem",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_accept_item_state",
+      "source_symbols": [
+        "source_conveyor_accept_item_state_input.len",
+        "source_conveyor_accept_item_state_input.capacity",
+        "source_conveyor_accept_item_state_input.facing_direction",
+        "source_conveyor_accept_item_state_input.rotation",
+        "source_conveyor_accept_item_state_input.minitem",
+        "source_conveyor_accept_item_state_input.item_space",
+        "source_conveyor_accept_item_state_input.source_block_rotate",
+        "source_conveyor_accept_item_state_input.next_is_source",
+        "source_conveyor_accept_item_state_result.accepted",
+        "source_conveyor_accept_item_state_result.direction",
+        "source_conveyor_accept_item_state_result.reason"
+      ],
+      "tests": [
+        "test_conveyor_intake_binding_registration",
+        "test_all_conveyor_intake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_intake"
+      ],
+      "runtime_proof": "/root/ConveyorIntakeProof"
+    },
+    "N2051": {
+      "canonical_ledger": "source_slice_ledger.N2051",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_method": "handleItem",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_handle_item_state",
+      "source_symbols": [
+        "source_conveyor_handle_item_state_input.len",
+        "source_conveyor_handle_item_state_input.capacity",
+        "source_conveyor_handle_item_state_input.facing_direction",
+        "source_conveyor_handle_item_state_input.rotation",
+        "source_conveyor_handle_item_state_input.mid",
+        "source_conveyor_handle_item_state_input.item_id",
+        "source_conveyor_handle_item_state_input.item_count_before",
+        "source_conveyor_handle_item_state_result.accepted",
+        "source_conveyor_handle_item_state_result.index",
+        "source_conveyor_handle_item_state_result.x",
+        "source_conveyor_handle_item_state_result.y",
+        "source_conveyor_handle_item_state_result.len_after",
+        "source_conveyor_handle_item_state_result.item_count_after",
+        "source_conveyor_handle_item_state_result.no_sleep_called",
+        "source_conveyor_handle_item_state_result.reason"
+      ],
+      "tests": [
+        "test_conveyor_intake_binding_registration",
+        "test_all_conveyor_intake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_intake"
+      ],
+      "runtime_proof": "/root/ConveyorIntakeProof"
+    },
+    "N2052": {
+      "canonical_ledger": "source_slice_ledger.N2052",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_method": "pass",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_pass_state",
+      "source_symbols": [
+        "source_conveyor_pass_state_input.item_id",
+        "source_conveyor_pass_state_input.next_present",
+        "source_conveyor_pass_state_input.next_same_team",
+        "source_conveyor_pass_state_input.next_accepts_hook",
+        "source_conveyor_pass_state_input.next_handle_hook",
+        "source_conveyor_pass_state_result.passed",
+        "source_conveyor_pass_state_result.item_id",
+        "source_conveyor_pass_state_result.handle_called",
+        "source_conveyor_pass_state_result.reason"
+      ],
+      "tests": [
+        "test_conveyor_intake_binding_registration",
+        "test_all_conveyor_intake_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_intake"
+      ],
+      "runtime_proof": "/root/ConveyorIntakeProof"
+    },
     "N684": {
       "canonical_ledger": "source_slice_ledger.N684",
       "status": "done",
