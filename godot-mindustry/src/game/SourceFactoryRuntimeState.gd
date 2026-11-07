@@ -315,6 +315,16 @@ static func game_drill_dump_preview_state(game: Object, seconds: float) -> Dicti
 
 
 static func source_factory_dump_drill_output_state(game: Object, drill_cell: Vector2i, drill_output_item_id: Variant) -> Dictionary:
+	return source_factory_dump_drill_output_for_cell_state(game, drill_cell, drill_output_item_id)
+
+
+static func source_factory_dump_drill_output_for_cell_state(game: Object, drill_cell: Vector2i, drill_output_item_id: Variant) -> Dictionary:
+	# Each drill dumps from its own inventory (one inventory owner per
+	# drill): the primary drill's inventory is the game-global
+	# drill_items (kept in sync with its frame), and every other
+	# drill's inventory is its own frame items. Before N2072 this read
+	# the game-global for every drill, so a second drill's output never
+	# reached a belt or the core.
 	var empty := {
 		"dumped": false,
 		"item_id": null,
@@ -337,8 +347,14 @@ static func source_factory_dump_drill_output_state(game: Object, drill_cell: Vec
 		return empty
 	var frame: Dictionary = sprite.get_meta(source_drill_consumption_runtime_state.SOURCE_DRILL_BUILDING_META_KEY)
 	var cdump := int(frame.get("cdump", 0))
-	var items_value: Variant = game.get("drill_items")
-	var items: Dictionary = items_value if items_value is Dictionary else {}
+	var is_primary: bool = drill_cell == game.get("drill_pos")
+	var items: Dictionary
+	if is_primary:
+		var items_value: Variant = game.get("drill_items")
+		items = items_value if items_value is Dictionary else {}
+	else:
+		var frame_items: Variant = frame.get("items", {})
+		items = frame_items if frame_items is Dictionary else {}
 	var drill_size := 1
 	var block_id := str(sprite.get_meta(source_placed_block_state.SOURCE_BLOCK_ID_META_KEY, ""))
 	if block_id != "":
@@ -378,7 +394,8 @@ static func source_factory_dump_drill_output_state(game: Object, drill_cell: Vec
 		if receiver_cell is Vector2i and queues_after.has(receiver_cell):
 			source_conveyor_runtime_state.source_conveyor_set_queue_for_cell_state(game, receiver_cell, queues_after[receiver_cell])
 	var items_after: Dictionary = result.get("items_after", items.duplicate(true))
-	game.set("drill_items", items_after)
+	if is_primary:
+		game.set("drill_items", items_after)
 	frame["items"] = items_after
 	frame["cdump"] = int(result.get("cdump_after", cdump))
 	return {

@@ -851,6 +851,41 @@
         }
       }
     },
+    "source_factory_dump_drill_output_for_cell_state_input": {
+      "canonical_schema": "source_state_schema.source_factory_dump_drill_output_for_cell_state_input",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "if(timer(timerDump, dumpTime / timeScale)){",
+          "rule": "Actual game world containing the drill and its belts.",
+          "used_by": [
+            "SourceFactoryRuntimeState.source_factory_dump_drill_output_for_cell_state"
+          ]
+        },
+        "drill_cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "dump(dominantItem != null && items.has(dominantItem) ? dominantItem : null);",
+          "rule": "The drill cell whose output is dumped.",
+          "used_by": [
+            "SourceFactoryRuntimeState.source_factory_dump_drill_output_for_cell_state"
+          ]
+        },
+        "drill_output_item_id": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "dump(dominantItem != null && items.has(dominantItem) ? dominantItem : null);",
+          "rule": "The dominant item id for this drill, or null.",
+          "used_by": [
+            "SourceFactoryRuntimeState.source_factory_dump_drill_output_for_cell_state"
+          ]
+        }
+      }
+    },
     "source_factory_dump_drill_output_state_input": {
       "canonical_schema": "source_state_schema.source_factory_dump_drill_output_state_input",
       "keys": {

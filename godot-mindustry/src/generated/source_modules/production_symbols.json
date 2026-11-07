@@ -2367,6 +2367,202 @@
       ],
       "runtime_proof": "/root/DrillBridgeDominantProof"
     },
+    "source_factory_dump_drill_output_for_cell_state_input.drill_cell": {
+      "canonical_symbol": "source_symbol_registry.source_factory_dump_drill_output_for_cell_state_input.drill_cell",
+      "status": "source-backed",
+      "java_expr": "dump(dominantItem != null && items.has(dominantItem) ? dominantItem : null);",
+      "godot_symbol": "source_factory_dump_drill_output_for_cell_state_input.drill_cell",
+      "godot_owner": "SourceFactoryRuntimeState.source_factory_dump_drill_output_for_cell_state",
+      "rule": "The drill cell whose output is dumped.",
+      "tests": [
+        "test_drill_per_drill_dump_binding_registration",
+        "test_all_drill_per_drill_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_per_drill_dump"
+      ],
+      "runtime_proof": "/root/DrillPerDrillDumpProof"
+    },
+    "source_factory_dump_drill_output_for_cell_state_input.drill_output_item_id": {
+      "canonical_symbol": "source_symbol_registry.source_factory_dump_drill_output_for_cell_state_input.drill_output_item_id",
+      "status": "source-backed",
+      "java_expr": "dump(dominantItem != null && items.has(dominantItem) ? dominantItem : null);",
+      "godot_symbol": "source_factory_dump_drill_output_for_cell_state_input.drill_output_item_id",
+      "godot_owner": "SourceFactoryRuntimeState.source_factory_dump_drill_output_for_cell_state",
+      "rule": "The dominant item id for this drill, or null.",
+      "tests": [
+        "test_drill_per_drill_dump_binding_registration",
+        "test_all_drill_per_drill_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_per_drill_dump"
+      ],
+      "runtime_proof": "/root/DrillPerDrillDumpProof"
+    },
+    "source_factory_dump_drill_output_for_cell_state_input.game": {
+      "canonical_symbol": "source_symbol_registry.source_factory_dump_drill_output_for_cell_state_input.game",
+      "status": "source-backed",
+      "java_expr": "if(timer(timerDump, dumpTime / timeScale)){",
+      "godot_symbol": "source_factory_dump_drill_output_for_cell_state_input.game",
+      "godot_owner": "SourceFactoryRuntimeState.source_factory_dump_drill_output_for_cell_state",
+      "rule": "Actual game world containing the drill and its belts.",
+      "tests": [
+        "test_drill_per_drill_dump_binding_registration",
+        "test_all_drill_per_drill_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_per_drill_dump"
+      ],
+      "runtime_proof": "/root/DrillPerDrillDumpProof"
+    },
+    "source_factory_dump_drill_output_for_cell_state_result.cdump_after": {
+      "canonical_symbol": "source_symbol_registry.source_factory_dump_drill_output_for_cell_state_result.cdump_after",
+      "status": "source-backed",
+      "java_expr": "cdump = ((cdump + 1) % prox);",
+      "godot_symbol": "source_factory_dump_drill_output_for_cell_state_result.cdump_after",
+      "godot_owner": "SourceFactoryRuntimeState.source_factory_dump_drill_output_for_cell_state",
+      "rule": "The cdump cursor after the dump.",
+      "tests": [
+        "test_drill_per_drill_dump_binding_registration",
+        "test_all_drill_per_drill_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_per_drill_dump"
+      ],
+      "runtime_proof": "/root/DrillPerDrillDumpProof"
+    },
+    "source_factory_dump_drill_output_for_cell_state_result.cdump_before": {
+      "canonical_symbol": "source_symbol_registry.source_factory_dump_drill_output_for_cell_state_result.cdump_before",
+      "status": "source-backed",
+      "java_expr": "transient int cdump;",
+      "godot_symbol": "source_factory_dump_drill_output_for_cell_state_result.cdump_before",
+      "godot_owner": "SourceFactoryRuntimeState.source_factory_dump_drill_output_for_cell_state",
+      "rule": "The cdump cursor before the dump.",
+      "tests": [
+        "test_drill_per_drill_dump_binding_registration",
+        "test_all_drill_per_drill_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_per_drill_dump"
+      ],
+      "runtime_proof": "/root/DrillPerDrillDumpProof"
+    },
+    "source_factory_dump_drill_output_for_cell_state_result.destination": {
+      "canonical_symbol": "source_symbol_registry.source_factory_dump_drill_output_for_cell_state_result.destination",
+      "status": "source-backed",
+      "java_expr": "dump(dominantItem != null && items.has(dominantItem) ? dominantItem : null);",
+      "godot_symbol": "source_factory_dump_drill_output_for_cell_state_result.destination",
+      "godot_owner": "SourceFactoryRuntimeState.source_factory_dump_drill_output_for_cell_state",
+      "rule": "The dump destination: conveyor, none.",
+      "tests": [
+        "test_drill_per_drill_dump_binding_registration",
+        "test_all_drill_per_drill_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_per_drill_dump"
+      ],
+      "runtime_proof": "/root/DrillPerDrillDumpProof"
+    },
+    "source_factory_dump_drill_output_for_cell_state_result.dumped": {
+      "canonical_symbol": "source_symbol_registry.source_factory_dump_drill_output_for_cell_state_result.dumped",
+      "status": "source-backed",
+      "java_expr": "dump(dominantItem != null && items.has(dominantItem) ? dominantItem : null);",
+      "godot_symbol": "source_factory_dump_drill_output_for_cell_state_result.dumped",
+      "godot_owner": "SourceFactoryRuntimeState.source_factory_dump_drill_output_for_cell_state",
+      "rule": "Whether an item was dumped to a receiver.",
+      "tests": [
+        "test_drill_per_drill_dump_binding_registration",
+        "test_all_drill_per_drill_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_per_drill_dump"
+      ],
+      "runtime_proof": "/root/DrillPerDrillDumpProof"
+    },
+    "source_factory_dump_drill_output_for_cell_state_result.item_id": {
+      "canonical_symbol": "source_symbol_registry.source_factory_dump_drill_output_for_cell_state_result.item_id",
+      "status": "source-backed",
+      "java_expr": "dump(dominantItem != null && items.has(dominantItem) ? dominantItem : null);",
+      "godot_symbol": "source_factory_dump_drill_output_for_cell_state_result.item_id",
+      "godot_owner": "SourceFactoryRuntimeState.source_factory_dump_drill_output_for_cell_state",
+      "rule": "The dumped item id, or null.",
+      "tests": [
+        "test_drill_per_drill_dump_binding_registration",
+        "test_all_drill_per_drill_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_per_drill_dump"
+      ],
+      "runtime_proof": "/root/DrillPerDrillDumpProof"
+    },
+    "source_factory_dump_drill_output_for_cell_state_result.items_after": {
+      "canonical_symbol": "source_symbol_registry.source_factory_dump_drill_output_for_cell_state_result.items_after",
+      "status": "source-backed",
+      "java_expr": "dump(dominantItem != null && items.has(dominantItem) ? dominantItem : null);",
+      "godot_symbol": "source_factory_dump_drill_output_for_cell_state_result.items_after",
+      "godot_owner": "SourceFactoryRuntimeState.source_factory_dump_drill_output_for_cell_state",
+      "rule": "This drill inventory after the dump.",
+      "tests": [
+        "test_drill_per_drill_dump_binding_registration",
+        "test_all_drill_per_drill_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_per_drill_dump"
+      ],
+      "runtime_proof": "/root/DrillPerDrillDumpProof"
+    },
+    "source_factory_dump_drill_output_for_cell_state_result.queues_after": {
+      "canonical_symbol": "source_symbol_registry.source_factory_dump_drill_output_for_cell_state_result.queues_after",
+      "status": "source-backed",
+      "java_expr": "dump(dominantItem != null && items.has(dominantItem) ? dominantItem : null);",
+      "godot_symbol": "source_factory_dump_drill_output_for_cell_state_result.queues_after",
+      "godot_owner": "SourceFactoryRuntimeState.source_factory_dump_drill_output_for_cell_state",
+      "rule": "The conveyor queues after the dump.",
+      "tests": [
+        "test_drill_per_drill_dump_binding_registration",
+        "test_all_drill_per_drill_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_per_drill_dump"
+      ],
+      "runtime_proof": "/root/DrillPerDrillDumpProof"
+    },
+    "source_factory_dump_drill_output_for_cell_state_result.reason": {
+      "canonical_symbol": "source_symbol_registry.source_factory_dump_drill_output_for_cell_state_result.reason",
+      "status": "source-backed",
+      "java_expr": "if(dominantItem == null){",
+      "godot_symbol": "source_factory_dump_drill_output_for_cell_state_result.reason",
+      "godot_owner": "SourceFactoryRuntimeState.source_factory_dump_drill_output_for_cell_state",
+      "rule": "Dump outcome: dumped, no_receiver, no_items_block, empty_items, no_proximity, item_not_held, no_sprite, no_frame.",
+      "tests": [
+        "test_drill_per_drill_dump_binding_registration",
+        "test_all_drill_per_drill_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_per_drill_dump"
+      ],
+      "runtime_proof": "/root/DrillPerDrillDumpProof"
+    },
+    "source_factory_dump_drill_output_for_cell_state_result.receiver_cell": {
+      "canonical_symbol": "source_symbol_registry.source_factory_dump_drill_output_for_cell_state_result.receiver_cell",
+      "status": "source-backed",
+      "java_expr": "dump(dominantItem != null && items.has(dominantItem) ? dominantItem : null);",
+      "godot_symbol": "source_factory_dump_drill_output_for_cell_state_result.receiver_cell",
+      "godot_owner": "SourceFactoryRuntimeState.source_factory_dump_drill_output_for_cell_state",
+      "rule": "The receiver cell, or null.",
+      "tests": [
+        "test_drill_per_drill_dump_binding_registration",
+        "test_all_drill_per_drill_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_per_drill_dump"
+      ],
+      "runtime_proof": "/root/DrillPerDrillDumpProof"
+    },
+    "source_factory_dump_drill_output_for_cell_state_result.receiver_index": {
+      "canonical_symbol": "source_symbol_registry.source_factory_dump_drill_output_for_cell_state_result.receiver_index",
+      "status": "source-backed",
+      "java_expr": "dump(dominantItem != null && items.has(dominantItem) ? dominantItem : null);",
+      "godot_symbol": "source_factory_dump_drill_output_for_cell_state_result.receiver_index",
+      "godot_owner": "SourceFactoryRuntimeState.source_factory_dump_drill_output_for_cell_state",
+      "rule": "The receiver index in the proximity ring, or -1.",
+      "tests": [
+        "test_drill_per_drill_dump_binding_registration",
+        "test_all_drill_per_drill_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_per_drill_dump"
+      ],
+      "runtime_proof": "/root/DrillPerDrillDumpProof"
+    },
+    "source_factory_dump_drill_output_for_cell_state_result.removed": {
+      "canonical_symbol": "source_symbol_registry.source_factory_dump_drill_output_for_cell_state_result.removed",
+      "status": "source-backed",
+      "java_expr": "dump(dominantItem != null && items.has(dominantItem) ? dominantItem : null);",
+      "godot_symbol": "source_factory_dump_drill_output_for_cell_state_result.removed",
+      "godot_owner": "SourceFactoryRuntimeState.source_factory_dump_drill_output_for_cell_state",
+      "rule": "Items removed from this drill inventory.",
+      "tests": [
+        "test_drill_per_drill_dump_binding_registration",
+        "test_all_drill_per_drill_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_per_drill_dump"
+      ],
+      "runtime_proof": "/root/DrillPerDrillDumpProof"
+    },
     "source_factory_dump_drill_output_state_input.drill_cell": {
       "canonical_symbol": "source_symbol_registry.source_factory_dump_drill_output_state_input.drill_cell",
       "status": "source-backed",

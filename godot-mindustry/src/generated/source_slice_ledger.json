@@ -52331,6 +52331,46 @@
         "The one-inventory-owner cleanup stays open in C02 (the secondary drill frame accumulates its own items and the live loop only dumps the primary).",
         "C02 two-Drill gate and C03-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2072": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_class": "mindustry.world.blocks.production.Drill$DrillBuild",
+      "java_method": "updateTile",
+      "godot_owner": "SourceFactoryRuntimeState.source_factory_dump_drill_output_for_cell_state",
+      "exact_exprs": [
+        "if(timer(timerDump, dumpTime / timeScale)){",
+        "dump(dominantItem != null && items.has(dominantItem) ? dominantItem : null);",
+        "if(dominantItem == null){",
+        "timeDrilled += warmup * delta();",
+        "float delay = getDrillTime(dominantItem);"
+      ],
+      "source_symbols": [
+        "source_factory_dump_drill_output_for_cell_state_input.game",
+        "source_factory_dump_drill_output_for_cell_state_input.drill_cell",
+        "source_factory_dump_drill_output_for_cell_state_input.drill_output_item_id",
+        "source_factory_dump_drill_output_for_cell_state_result.dumped",
+        "source_factory_dump_drill_output_for_cell_state_result.item_id",
+        "source_factory_dump_drill_output_for_cell_state_result.receiver_index",
+        "source_factory_dump_drill_output_for_cell_state_result.receiver_cell",
+        "source_factory_dump_drill_output_for_cell_state_result.cdump_before",
+        "source_factory_dump_drill_output_for_cell_state_result.cdump_after",
+        "source_factory_dump_drill_output_for_cell_state_result.items_after",
+        "source_factory_dump_drill_output_for_cell_state_result.queues_after",
+        "source_factory_dump_drill_output_for_cell_state_result.removed",
+        "source_factory_dump_drill_output_for_cell_state_result.destination",
+        "source_factory_dump_drill_output_for_cell_state_result.reason"
+      ],
+      "tests": [
+        "test_drill_per_drill_dump_binding_registration",
+        "test_all_drill_per_drill_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_per_drill_dump"
+      ],
+      "runtime_proof": "/root/DrillPerDrillDumpProof",
+      "deferred_exprs": [
+        "The live loop still dumps only the primary drill; the two-Drill gate (simulate_factory dumping each drill) stays open in C02.",
+        "C02 two-Drill gate and C03-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1

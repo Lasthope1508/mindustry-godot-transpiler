@@ -704,6 +704,51 @@
       "runtime_proof": "/root/DrillProximityLifecycleProof",
       "rule": "One world-scoped typed Item view; reuse canonical countOre/drop/Tile mutation and existing per-Building frame. No per-tick ore re-selection. Only stated partial lifecycle/production scope; deferred behaviors are recorded in ledger."
     },
+    "SourceFactoryRuntimeState.source_factory_dump_drill_output_for_cell_state": {
+      "canonical_contract": "source_api_contracts.SourceFactoryRuntimeState.source_factory_dump_drill_output_for_cell_state",
+      "status": "active",
+      "source_slice": "N2072",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "updateTile",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_factory_dump_drill_output_for_cell_state_input.game"
+        },
+        {
+          "name": "drill_cell",
+          "type": "Vector2i",
+          "schema": "source_factory_dump_drill_output_for_cell_state_input.drill_cell"
+        },
+        {
+          "name": "drill_output_item_id",
+          "type": "Variant",
+          "schema": "source_factory_dump_drill_output_for_cell_state_input.drill_output_item_id"
+        }
+      ],
+      "return_keys": [
+        "dumped",
+        "item_id",
+        "receiver_index",
+        "receiver_cell",
+        "cdump_before",
+        "cdump_after",
+        "items_after",
+        "queues_after",
+        "removed",
+        "destination",
+        "reason"
+      ],
+      "tests": [
+        "test_drill_per_drill_dump_binding_registration",
+        "test_all_drill_per_drill_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_per_drill_dump"
+      ],
+      "runtime_proof": "/root/DrillPerDrillDumpProof",
+      "rule": "Source-backed per-drill dump; each drill dumps from its own inventory (the primary from the game-global, every other from its frame).",
+      "return_type": "Dictionary"
+    },
     "SourceFactoryRuntimeState.source_factory_dump_drill_output_state": {
       "canonical_contract": "source_api_contracts.SourceFactoryRuntimeState.source_factory_dump_drill_output_state",
       "status": "active",

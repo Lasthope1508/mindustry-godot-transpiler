@@ -289,6 +289,35 @@
       ],
       "runtime_proof": "/root/DrillBridgeDominantProof"
     },
+    "N2072": {
+      "canonical_ledger": "source_slice_ledger.N2072",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "updateTile",
+      "godot_owner": "SourceFactoryRuntimeState.source_factory_dump_drill_output_for_cell_state",
+      "source_symbols": [
+        "source_factory_dump_drill_output_for_cell_state_input.game",
+        "source_factory_dump_drill_output_for_cell_state_input.drill_cell",
+        "source_factory_dump_drill_output_for_cell_state_input.drill_output_item_id",
+        "source_factory_dump_drill_output_for_cell_state_result.dumped",
+        "source_factory_dump_drill_output_for_cell_state_result.item_id",
+        "source_factory_dump_drill_output_for_cell_state_result.receiver_index",
+        "source_factory_dump_drill_output_for_cell_state_result.receiver_cell",
+        "source_factory_dump_drill_output_for_cell_state_result.cdump_before",
+        "source_factory_dump_drill_output_for_cell_state_result.cdump_after",
+        "source_factory_dump_drill_output_for_cell_state_result.items_after",
+        "source_factory_dump_drill_output_for_cell_state_result.queues_after",
+        "source_factory_dump_drill_output_for_cell_state_result.removed",
+        "source_factory_dump_drill_output_for_cell_state_result.destination",
+        "source_factory_dump_drill_output_for_cell_state_result.reason"
+      ],
+      "tests": [
+        "test_drill_per_drill_dump_binding_registration",
+        "test_all_drill_per_drill_dump_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_per_drill_dump"
+      ],
+      "runtime_proof": "/root/DrillPerDrillDumpProof"
+    },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",
       "status": "done",
