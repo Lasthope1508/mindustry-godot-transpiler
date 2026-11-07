@@ -217562,6 +217562,600 @@
       },
       "runtime_proof": "/root/DrillConveyorDumpProof",
       "rule": "Source-backed drill->conveyor dump wiring."
+    },
+    "source_drill_dump_step_state_input": {
+      "status": "active",
+      "owner": "SourceBuildingItemDumpState.source_drill_dump_step_state",
+      "source_slice": "N2062",
+      "keys": {
+        "items": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(!block.hasItems || items.total() == 0 || proximity.size == 0 || (todump != null && !items.has(todump))) return false;",
+          "rule": "The dumping building inventory by item id.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_drill_dump_step_state"
+          ]
+        },
+        "proximity_cells": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+          "rule": "Neighbor cells in dump order.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_drill_dump_step_state"
+          ]
+        },
+        "todump": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public boolean dump(Item todump){",
+          "rule": "Item to dump to the first accepting neighbor.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_drill_dump_step_state"
+          ]
+        },
+        "cdump": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "int dump = this.cdump;",
+          "rule": "Dump cursor before the step.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_drill_dump_step_state"
+          ]
+        },
+        "has_items": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(!block.hasItems || items.total() == 0 || proximity.size == 0 || (todump != null && !items.has(todump))) return false;",
+          "rule": "Whether the dumping building has an items module.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_drill_dump_step_state"
+          ]
+        },
+        "queues_by_cell": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+          "rule": "Conveyor queues keyed by neighbor cell; cells without a queue fail closed.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_drill_dump_step_state"
+          ]
+        },
+        "capacity": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "private static final int capacity = 3;",
+          "rule": "Maximum item count on a belt.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_drill_dump_step_state"
+          ]
+        },
+        "item_space": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "private static final float itemSpace = 0.4f;",
+          "rule": "Spacing between items on a belt.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_drill_dump_step_state"
+          ]
+        },
+        "conveyor_rotation_by_cell": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "int direction = Math.abs(facing.relativeTo(tile.x, tile.y) - rotation);",
+          "rule": "Belt rotations keyed by neighbor cell.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_drill_dump_step_state"
+          ]
+        },
+        "source_block_rotate": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "return (((direction == 0) && minitem >= itemSpace) || ((direction % 2 == 1) && minitem > 0.7f)) && !(source.block.rotate && next == source);",
+          "rule": "Whether the source block rotates; a rotating source feeding its own next belt is refused.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_drill_dump_step_state"
+          ]
+        },
+        "next_is_source": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "return (((direction == 0) && minitem >= itemSpace) || ((direction % 2 == 1) && minitem > 0.7f)) && !(source.block.rotate && next == source);",
+          "rule": "Whether the belt ahead is the source itself.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_drill_dump_step_state"
+          ]
+        },
+        "drill_cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "if(x == cx && y == cy - 1) return 1;",
+          "rule": "Cell of the dumping drill.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_drill_dump_step_state"
+          ]
+        },
+        "drill_size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Edges.java",
+          "java_expr": "tilex + Mathf.clamp(other.x - tilex, -(size - 1) / 2, (size / 2))",
+          "rule": "Size of the dumping drill; the facing edge is clamped from it.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_drill_dump_step_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/DrillDumpStepProof",
+      "rule": "Source-backed drill dump step and proximity ring."
+    },
+    "source_drill_dump_step_state_result": {
+      "status": "active",
+      "owner": "SourceBuildingItemDumpState.source_drill_dump_step_state",
+      "source_slice": "N2062",
+      "keys": {
+        "dumped": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "other.handleItem(self(), todump);",
+          "rule": "Whether the item reached a neighbor belt.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_drill_dump_step_state"
+          ]
+        },
+        "item_id": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public boolean dump(Item todump){",
+          "rule": "Item dumped, or null when nothing was dumped.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_drill_dump_step_state"
+          ]
+        },
+        "receiver_index": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+          "rule": "Index of the receiving neighbor in the proximity list, or -1.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_drill_dump_step_state"
+          ]
+        },
+        "receiver_cell": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+          "rule": "Cell of the receiving neighbor belt, or null.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_drill_dump_step_state"
+          ]
+        },
+        "cdump_before": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "int dump = this.cdump;",
+          "rule": "Dump cursor before the step.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_drill_dump_step_state"
+          ]
+        },
+        "cdump_after": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "incrementDump(proximity.size);",
+          "rule": "Dump cursor after the step.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_drill_dump_step_state"
+          ]
+        },
+        "items_after": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "items.remove(todump, 1);",
+          "rule": "The dumping building inventory after the step.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_drill_dump_step_state"
+          ]
+        },
+        "queues_after": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "other.handleItem(self(), todump);",
+          "rule": "Conveyor queues keyed by neighbor cell after the step.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_drill_dump_step_state"
+          ]
+        },
+        "removed": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "items.remove(todump, 1);",
+          "rule": "Units removed from the dumping building inventory.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_drill_dump_step_state"
+          ]
+        },
+        "destination": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "other.handleItem(self(), todump);",
+          "rule": "Where the item went: conveyor, none.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_drill_dump_step_state"
+          ]
+        },
+        "reason": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(!block.hasItems || items.total() == 0 || proximity.size == 0 || (todump != null && !items.has(todump))) return false;",
+          "rule": "Dump outcome: dumped, no_receiver, no_items_block, empty_items, no_proximity, item_not_held.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_drill_dump_step_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/DrillDumpStepProof",
+      "rule": "Source-backed drill dump step and proximity ring."
+    },
+    "source_drill_dump_any_step_state_input": {
+      "status": "active",
+      "owner": "SourceBuildingItemDumpState.source_drill_dump_any_step_state",
+      "source_slice": "N2063",
+      "keys": {
+        "items": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(!block.hasItems || items.total() == 0 || proximity.size == 0 || (todump != null && !items.has(todump))) return false;",
+          "rule": "The dumping building inventory by item id.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_drill_dump_any_step_state"
+          ]
+        },
+        "proximity_cells": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+          "rule": "Neighbor cells in dump order.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_drill_dump_any_step_state"
+          ]
+        },
+        "cdump": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "int dump = this.cdump;",
+          "rule": "Dump cursor before the step.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_drill_dump_any_step_state"
+          ]
+        },
+        "has_items": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(!block.hasItems || items.total() == 0 || proximity.size == 0 || (todump != null && !items.has(todump))) return false;",
+          "rule": "Whether the dumping building has an items module.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_drill_dump_any_step_state"
+          ]
+        },
+        "content_item_ids": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return dump(null);",
+          "rule": "Item ids in content order; the any branch tries them per neighbor.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_drill_dump_any_step_state"
+          ]
+        },
+        "queues_by_cell": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+          "rule": "Conveyor queues keyed by neighbor cell; cells without a queue fail closed.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_drill_dump_any_step_state"
+          ]
+        },
+        "capacity": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "private static final int capacity = 3;",
+          "rule": "Maximum item count on a belt.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_drill_dump_any_step_state"
+          ]
+        },
+        "item_space": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "private static final float itemSpace = 0.4f;",
+          "rule": "Spacing between items on a belt.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_drill_dump_any_step_state"
+          ]
+        },
+        "conveyor_rotation_by_cell": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "int direction = Math.abs(facing.relativeTo(tile.x, tile.y) - rotation);",
+          "rule": "Belt rotations keyed by neighbor cell.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_drill_dump_any_step_state"
+          ]
+        },
+        "source_block_rotate": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "return (((direction == 0) && minitem >= itemSpace) || ((direction % 2 == 1) && minitem > 0.7f)) && !(source.block.rotate && next == source);",
+          "rule": "Whether the source block rotates; a rotating source feeding its own next belt is refused.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_drill_dump_any_step_state"
+          ]
+        },
+        "next_is_source": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "return (((direction == 0) && minitem >= itemSpace) || ((direction % 2 == 1) && minitem > 0.7f)) && !(source.block.rotate && next == source);",
+          "rule": "Whether the belt ahead is the source itself.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_drill_dump_any_step_state"
+          ]
+        },
+        "drill_cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "if(x == cx && y == cy - 1) return 1;",
+          "rule": "Cell of the dumping drill.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_drill_dump_any_step_state"
+          ]
+        },
+        "drill_size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Edges.java",
+          "java_expr": "tilex + Mathf.clamp(other.x - tilex, -(size - 1) / 2, (size / 2))",
+          "rule": "Size of the dumping drill; the facing edge is clamped from it.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_drill_dump_any_step_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/DrillDumpStepProof",
+      "rule": "Source-backed drill dump step and proximity ring."
+    },
+    "source_drill_dump_any_step_state_result": {
+      "status": "active",
+      "owner": "SourceBuildingItemDumpState.source_drill_dump_any_step_state",
+      "source_slice": "N2063",
+      "keys": {
+        "dumped": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "other.handleItem(self(), item);",
+          "rule": "Whether an item reached a neighbor belt.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_drill_dump_any_step_state"
+          ]
+        },
+        "item_id": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public boolean dump(Item todump){",
+          "rule": "Item dumped, or null when nothing was dumped.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_drill_dump_any_step_state"
+          ]
+        },
+        "receiver_index": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+          "rule": "Index of the receiving neighbor in the proximity list, or -1.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_drill_dump_any_step_state"
+          ]
+        },
+        "receiver_cell": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+          "rule": "Cell of the receiving neighbor belt, or null.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_drill_dump_any_step_state"
+          ]
+        },
+        "cdump_before": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "int dump = this.cdump;",
+          "rule": "Dump cursor before the step.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_drill_dump_any_step_state"
+          ]
+        },
+        "cdump_after": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "incrementDump(proximity.size);",
+          "rule": "Dump cursor after the step.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_drill_dump_any_step_state"
+          ]
+        },
+        "items_after": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "items.remove(item, 1);",
+          "rule": "The dumping building inventory after the step.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_drill_dump_any_step_state"
+          ]
+        },
+        "queues_after": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "other.handleItem(self(), item);",
+          "rule": "Conveyor queues keyed by neighbor cell after the step.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_drill_dump_any_step_state"
+          ]
+        },
+        "removed": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "items.remove(item, 1);",
+          "rule": "Units removed from the dumping building inventory.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_drill_dump_any_step_state"
+          ]
+        },
+        "destination": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "other.handleItem(self(), item);",
+          "rule": "Where the item went: conveyor, none.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_drill_dump_any_step_state"
+          ]
+        },
+        "reason": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(!block.hasItems || items.total() == 0 || proximity.size == 0 || (todump != null && !items.has(todump))) return false;",
+          "rule": "Dump outcome: dumped, no_receiver, no_items_block, empty_items, no_proximity, item_not_held.",
+          "used_by": [
+            "SourceBuildingItemDumpState.source_drill_dump_any_step_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/DrillDumpStepProof",
+      "rule": "Source-backed drill dump step and proximity ring."
+    },
+    "source_block_proximity_cells_state_input": {
+      "status": "active",
+      "owner": "SourceBlockGeometry.source_block_proximity_cells_state",
+      "source_slice": "N2064",
+      "keys": {
+        "block_size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Edges.java",
+          "java_expr": "return edges[size - 1];",
+          "rule": "Size of the block whose proximity ring is returned.",
+          "used_by": [
+            "SourceBlockGeometry.source_block_proximity_cells_state"
+          ]
+        },
+        "tile_x": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Edges.java",
+          "java_expr": "int bot = -(int)(i / 2f) - 1;",
+          "rule": "X cell of the block tile.",
+          "used_by": [
+            "SourceBlockGeometry.source_block_proximity_cells_state"
+          ]
+        },
+        "tile_y": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Edges.java",
+          "java_expr": "int bot = -(int)(i / 2f) - 1;",
+          "rule": "Y cell of the block tile.",
+          "used_by": [
+            "SourceBlockGeometry.source_block_proximity_cells_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/DrillDumpStepProof",
+      "rule": "Source-backed drill dump step and proximity ring."
+    },
+    "source_block_proximity_cells_state_result": {
+      "status": "active",
+      "owner": "SourceBlockGeometry.source_block_proximity_cells_state",
+      "source_slice": "N2064",
+      "keys": {
+        "cells": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Edges.java",
+          "java_expr": "Arrays.sort(edges[i], (e1, e2) -> Float.compare(Mathf.angle(e1.x, e1.y), Mathf.angle(e2.x, e2.y)));",
+          "rule": "Ring cells around the block in Java angle order.",
+          "used_by": [
+            "SourceBlockGeometry.source_block_proximity_cells_state"
+          ]
+        },
+        "count": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Edges.java",
+          "java_expr": "return edges[size - 1];",
+          "rule": "Number of ring cells (size * 4).",
+          "used_by": [
+            "SourceBlockGeometry.source_block_proximity_cells_state"
+          ]
+        },
+        "reason": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Edges.java",
+          "java_expr": "return edges[size - 1];",
+          "rule": "Ring outcome: ring, invalid_size.",
+          "used_by": [
+            "SourceBlockGeometry.source_block_proximity_cells_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/DrillDumpStepProof",
+      "rule": "Source-backed drill dump step and proximity ring."
     }
   },
   "version": 1

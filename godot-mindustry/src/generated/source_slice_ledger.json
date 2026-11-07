@@ -51920,6 +51920,150 @@
         "The drill runtime bridge global item and the one-inventory-owner cleanup stay open in C02.",
         "C02 two-Drill gate and C03-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2062": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "dump",
+      "godot_owner": "SourceBuildingItemDumpState.source_drill_dump_step_state",
+      "exact_exprs": [
+        "public boolean dump(Item todump){",
+        "if(!block.hasItems || items.total() == 0 || proximity.size == 0 || (todump != null && !items.has(todump))) return false;",
+        "int dump = this.cdump;",
+        "Building other = proximity.get((i + dump) % proximity.size);",
+        "if(other.acceptItem(self(), todump) && canDump(other, todump)){",
+        "other.handleItem(self(), todump);",
+        "items.remove(todump, 1);",
+        "incrementDump(proximity.size);"
+      ],
+      "source_symbols": [
+        "source_drill_dump_step_state_input.items",
+        "source_drill_dump_step_state_input.proximity_cells",
+        "source_drill_dump_step_state_input.todump",
+        "source_drill_dump_step_state_input.cdump",
+        "source_drill_dump_step_state_input.has_items",
+        "source_drill_dump_step_state_input.queues_by_cell",
+        "source_drill_dump_step_state_input.capacity",
+        "source_drill_dump_step_state_input.item_space",
+        "source_drill_dump_step_state_input.conveyor_rotation_by_cell",
+        "source_drill_dump_step_state_input.source_block_rotate",
+        "source_drill_dump_step_state_input.next_is_source",
+        "source_drill_dump_step_state_input.drill_cell",
+        "source_drill_dump_step_state_input.drill_size",
+        "source_drill_dump_step_state_result.dumped",
+        "source_drill_dump_step_state_result.item_id",
+        "source_drill_dump_step_state_result.receiver_index",
+        "source_drill_dump_step_state_result.receiver_cell",
+        "source_drill_dump_step_state_result.cdump_before",
+        "source_drill_dump_step_state_result.cdump_after",
+        "source_drill_dump_step_state_result.items_after",
+        "source_drill_dump_step_state_result.queues_after",
+        "source_drill_dump_step_state_result.removed",
+        "source_drill_dump_step_state_result.destination",
+        "source_drill_dump_step_state_result.reason"
+      ],
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof",
+      "deferred_exprs": [
+        "The dump step operates on caller-supplied conveyor queues keyed by cell; no runtime queue storage exists yet, so the live loop still dumps straight to the core.",
+        "The drill runtime bridge global item and the one-inventory-owner cleanup stay open in C02.",
+        "C02 two-Drill gate and C03-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
+    },
+    "N2063": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "dump",
+      "godot_owner": "SourceBuildingItemDumpState.source_drill_dump_any_step_state",
+      "exact_exprs": [
+        "return dump(null);",
+        "if(!block.hasItems || items.total() == 0 || proximity.size == 0 || (todump != null && !items.has(todump))) return false;",
+        "int dump = this.cdump;",
+        "Building other = proximity.get((i + dump) % proximity.size);",
+        "if(other.acceptItem(self(), item) && canDump(other, item)){",
+        "other.handleItem(self(), item);",
+        "items.remove(item, 1);",
+        "incrementDump(proximity.size);"
+      ],
+      "source_symbols": [
+        "source_drill_dump_any_step_state_input.items",
+        "source_drill_dump_any_step_state_input.proximity_cells",
+        "source_drill_dump_any_step_state_input.cdump",
+        "source_drill_dump_any_step_state_input.has_items",
+        "source_drill_dump_any_step_state_input.content_item_ids",
+        "source_drill_dump_any_step_state_input.queues_by_cell",
+        "source_drill_dump_any_step_state_input.capacity",
+        "source_drill_dump_any_step_state_input.item_space",
+        "source_drill_dump_any_step_state_input.conveyor_rotation_by_cell",
+        "source_drill_dump_any_step_state_input.source_block_rotate",
+        "source_drill_dump_any_step_state_input.next_is_source",
+        "source_drill_dump_any_step_state_input.drill_cell",
+        "source_drill_dump_any_step_state_input.drill_size",
+        "source_drill_dump_any_step_state_result.dumped",
+        "source_drill_dump_any_step_state_result.item_id",
+        "source_drill_dump_any_step_state_result.receiver_index",
+        "source_drill_dump_any_step_state_result.receiver_cell",
+        "source_drill_dump_any_step_state_result.cdump_before",
+        "source_drill_dump_any_step_state_result.cdump_after",
+        "source_drill_dump_any_step_state_result.items_after",
+        "source_drill_dump_any_step_state_result.queues_after",
+        "source_drill_dump_any_step_state_result.removed",
+        "source_drill_dump_any_step_state_result.destination",
+        "source_drill_dump_any_step_state_result.reason"
+      ],
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof",
+      "deferred_exprs": [
+        "The dump step operates on caller-supplied conveyor queues keyed by cell; no runtime queue storage exists yet, so the live loop still dumps straight to the core.",
+        "The drill runtime bridge global item and the one-inventory-owner cleanup stay open in C02.",
+        "C02 two-Drill gate and C03-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
+    },
+    "N2064": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/Edges.java",
+      "java_class": "mindustry.world.Edges",
+      "java_method": "getEdges",
+      "godot_owner": "SourceBlockGeometry.source_block_proximity_cells_state",
+      "exact_exprs": [
+        "int bot = -(int)(i / 2f) - 1;",
+        "int top = (int)(i / 2f + 0.5f) + 1;",
+        "edges[i][idx++] = new Point2(bot + 1 + j, bot);",
+        "edges[i][idx++] = new Point2(bot + 1 + j, top);",
+        "edges[i][idx++] = new Point2(bot, bot + j + 1);",
+        "edges[i][idx++] = new Point2(top, bot + j + 1);",
+        "Arrays.sort(edges[i], (e1, e2) -> Float.compare(Mathf.angle(e1.x, e1.y), Mathf.angle(e2.x, e2.y)));",
+        "return edges[size - 1];"
+      ],
+      "source_symbols": [
+        "source_block_proximity_cells_state_input.block_size",
+        "source_block_proximity_cells_state_input.tile_x",
+        "source_block_proximity_cells_state_input.tile_y",
+        "source_block_proximity_cells_state_result.cells",
+        "source_block_proximity_cells_state_result.count",
+        "source_block_proximity_cells_state_result.reason"
+      ],
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof",
+      "deferred_exprs": [
+        "The dump step operates on caller-supplied conveyor queues keyed by cell; no runtime queue storage exists yet, so the live loop still dumps straight to the core.",
+        "The drill runtime bridge global item and the one-inventory-owner cleanup stay open in C02.",
+        "C02 two-Drill gate and C03-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1

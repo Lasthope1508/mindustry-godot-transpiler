@@ -533,3 +533,72 @@ static func source_building_dump_any_state(items: Dictionary, proximity: Array, 
 				return _dump_result(true, item, other_index, other, cdump, next_cursor, next_items, 1, "dumped")
 		next_cursor = increment_dump_cursor_state(next_cursor, proximity.size())
 	return _dump_result(false, null, -1, null, cdump, next_cursor, items.duplicate(true), 0, "no_receiver")
+
+
+static func _drill_dump_hooks(queues: Dictionary, capacity: int, item_space: float, conveyor_rotation_by_cell: Dictionary, source_block_rotate: bool, next_is_source: bool, drill_cell: Vector2i, drill_size: int) -> Dictionary:
+	var accept_hook := func(other: Variant, item: String) -> bool:
+		if not (other is Vector2i) or not queues.has(other):
+			return false
+		var queue: Dictionary = queues[other]
+		var edge := SourceBlockGeometry.source_block_facing_edge_state(drill_size, drill_cell.x, drill_cell.y, other.x, other.y)
+		var edge_cell := Vector2i(int(edge.get("edge_x", drill_cell.x)), int(edge.get("edge_y", drill_cell.y)))
+		var rotation := int(conveyor_rotation_by_cell.get(other, 0))
+		var accept := SourceConveyorRuntimeState.source_conveyor_accept_for_cell_state(queue.get("ids", []), queue.get("xs", []), queue.get("ys", []), int(queue.get("len", 0)), capacity, item_space, edge_cell, other, rotation, source_block_rotate, next_is_source)
+		return bool(accept.get("accepted", false))
+	var handle_hook := func(other: Variant, item: String) -> void:
+		if not (other is Vector2i) or not queues.has(other):
+			return
+		var queue: Dictionary = queues[other]
+		var edge := SourceBlockGeometry.source_block_facing_edge_state(drill_size, drill_cell.x, drill_cell.y, other.x, other.y)
+		var edge_cell := Vector2i(int(edge.get("edge_x", drill_cell.x)), int(edge.get("edge_y", drill_cell.y)))
+		var rotation := int(conveyor_rotation_by_cell.get(other, 0))
+		var count_before := 0
+		for queue_id in queue.get("ids", []):
+			if str(queue_id) == item:
+				count_before += 1
+		var handled := SourceConveyorRuntimeState.source_conveyor_handle_for_cell_state(queue.get("ids", []), queue.get("xs", []), queue.get("ys", []), int(queue.get("len", 0)), capacity, item_space, edge_cell, other, rotation, item, count_before)
+		if int(handled.get("index", -1)) >= 0:
+			queues[other] = {
+				"ids": handled["ids_after"],
+				"xs": handled["xs_after"],
+				"ys": handled["ys_after"],
+				"len": handled["len_after"],
+			}
+	var can_dump_hook := func(_other: Variant, _item: String) -> bool:
+		return true
+	return {
+		"accept": accept_hook,
+		"handle": handle_hook,
+		"can_dump": can_dump_hook,
+	}
+
+
+static func _drill_dump_step_result(result: Dictionary, items: Dictionary, queues: Dictionary, cdump: int) -> Dictionary:
+	var dumped := bool(result.get("dumped", false))
+	return {
+		"dumped": dumped,
+		"item_id": result.get("item_id"),
+		"receiver_index": int(result.get("receiver_index", -1)),
+		"receiver_cell": result.get("receiver"),
+		"cdump_before": int(result.get("cdump_before", cdump)),
+		"cdump_after": int(result.get("cdump_after", cdump)),
+		"items_after": result.get("items_after", items.duplicate(true)),
+		"queues_after": queues,
+		"removed": int(result.get("removed", 0)),
+		"destination": "conveyor" if dumped else "none",
+		"reason": str(result.get("reason", "")),
+	}
+
+
+static func source_drill_dump_step_state(items: Dictionary, proximity_cells: Array, todump: String, cdump: int, has_items: bool, queues_by_cell: Dictionary, capacity: int, item_space: float, conveyor_rotation_by_cell: Dictionary, source_block_rotate: bool, next_is_source: bool, drill_cell: Vector2i, drill_size: int) -> Dictionary:
+	var queues := queues_by_cell.duplicate(true)
+	var hooks := _drill_dump_hooks(queues, capacity, item_space, conveyor_rotation_by_cell, source_block_rotate, next_is_source, drill_cell, drill_size)
+	var result := source_building_dump_specific_state(items, proximity_cells, todump, cdump, has_items, hooks["accept"], hooks["handle"], hooks["can_dump"])
+	return _drill_dump_step_result(result, items, queues, cdump)
+
+
+static func source_drill_dump_any_step_state(items: Dictionary, proximity_cells: Array, cdump: int, has_items: bool, content_item_ids: Array, queues_by_cell: Dictionary, capacity: int, item_space: float, conveyor_rotation_by_cell: Dictionary, source_block_rotate: bool, next_is_source: bool, drill_cell: Vector2i, drill_size: int) -> Dictionary:
+	var queues := queues_by_cell.duplicate(true)
+	var hooks := _drill_dump_hooks(queues, capacity, item_space, conveyor_rotation_by_cell, source_block_rotate, next_is_source, drill_cell, drill_size)
+	var result := source_building_dump_any_state(items, proximity_cells, cdump, has_items, content_item_ids, hooks["accept"], hooks["handle"], hooks["can_dump"])
+	return _drill_dump_step_result(result, items, queues, cdump)

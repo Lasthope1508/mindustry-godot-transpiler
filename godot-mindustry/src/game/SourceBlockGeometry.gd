@@ -1189,3 +1189,38 @@ static func source_block_facing_edge_state(block_size: int, tile_x: int, tile_y:
 		"is_multiblock": true,
 		"reason": "facing_edge",
 	}
+
+
+static func source_block_proximity_cells_state(block_size: int, tile_x: int, tile_y: int) -> Dictionary:
+	if block_size < 1:
+		return {
+			"cells": [],
+			"count": 0,
+			"reason": "invalid_size",
+		}
+	var i := block_size - 1
+	var bot := -int(float(i) / 2.0) - 1
+	var top := int(float(i) / 2.0 + 0.5) + 1
+	var offsets: Array[Vector2i] = []
+	for j in range(i + 1):
+		offsets.append(Vector2i(bot + 1 + j, bot))
+		offsets.append(Vector2i(bot + 1 + j, top))
+		offsets.append(Vector2i(bot, bot + j + 1))
+		offsets.append(Vector2i(top, bot + j + 1))
+	offsets.sort_custom(func(a: Vector2i, b: Vector2i) -> bool:
+		var angle_a := rad_to_deg(atan2(float(a.y), float(a.x)))
+		var angle_b := rad_to_deg(atan2(float(b.y), float(b.x)))
+		if angle_a != angle_b:
+			return angle_a < angle_b
+		if a.x != b.x:
+			return a.x < b.x
+		return a.y < b.y
+	)
+	var cells: Array[Vector2i] = []
+	for offset in offsets:
+		cells.append(Vector2i(tile_x + offset.x, tile_y + offset.y))
+	return {
+		"cells": cells,
+		"count": cells.size(),
+		"reason": "ring",
+	}

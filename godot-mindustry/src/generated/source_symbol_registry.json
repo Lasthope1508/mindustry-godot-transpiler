@@ -159933,6 +159933,816 @@
         "test_reference_graph_and_actual_drill_conveyor_dump"
       ],
       "runtime_proof": "/root/DrillConveyorDumpProof"
+    },
+    "source_drill_dump_step_state_input.items": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_drill_dump_step_state",
+      "godot_symbol": "source_drill_dump_step_state_input.items",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "if(!block.hasItems || items.total() == 0 || proximity.size == 0 || (todump != null && !items.has(todump))) return false;",
+      "rule": "The dumping building inventory by item id.",
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof"
+    },
+    "source_drill_dump_step_state_input.proximity_cells": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_drill_dump_step_state",
+      "godot_symbol": "source_drill_dump_step_state_input.proximity_cells",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+      "rule": "Neighbor cells in dump order.",
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof"
+    },
+    "source_drill_dump_step_state_input.todump": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_drill_dump_step_state",
+      "godot_symbol": "source_drill_dump_step_state_input.todump",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "public boolean dump(Item todump){",
+      "rule": "Item to dump to the first accepting neighbor.",
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof"
+    },
+    "source_drill_dump_step_state_input.cdump": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_drill_dump_step_state",
+      "godot_symbol": "source_drill_dump_step_state_input.cdump",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "int dump = this.cdump;",
+      "rule": "Dump cursor before the step.",
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof"
+    },
+    "source_drill_dump_step_state_input.has_items": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_drill_dump_step_state",
+      "godot_symbol": "source_drill_dump_step_state_input.has_items",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "if(!block.hasItems || items.total() == 0 || proximity.size == 0 || (todump != null && !items.has(todump))) return false;",
+      "rule": "Whether the dumping building has an items module.",
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof"
+    },
+    "source_drill_dump_step_state_input.queues_by_cell": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_drill_dump_step_state",
+      "godot_symbol": "source_drill_dump_step_state_input.queues_by_cell",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+      "rule": "Conveyor queues keyed by neighbor cell; cells without a queue fail closed.",
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof"
+    },
+    "source_drill_dump_step_state_input.capacity": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_drill_dump_step_state",
+      "godot_symbol": "source_drill_dump_step_state_input.capacity",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_method": "dump",
+      "java_expr": "private static final int capacity = 3;",
+      "rule": "Maximum item count on a belt.",
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof"
+    },
+    "source_drill_dump_step_state_input.item_space": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_drill_dump_step_state",
+      "godot_symbol": "source_drill_dump_step_state_input.item_space",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_method": "dump",
+      "java_expr": "private static final float itemSpace = 0.4f;",
+      "rule": "Spacing between items on a belt.",
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof"
+    },
+    "source_drill_dump_step_state_input.conveyor_rotation_by_cell": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_drill_dump_step_state",
+      "godot_symbol": "source_drill_dump_step_state_input.conveyor_rotation_by_cell",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_method": "dump",
+      "java_expr": "int direction = Math.abs(facing.relativeTo(tile.x, tile.y) - rotation);",
+      "rule": "Belt rotations keyed by neighbor cell.",
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof"
+    },
+    "source_drill_dump_step_state_input.source_block_rotate": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_drill_dump_step_state",
+      "godot_symbol": "source_drill_dump_step_state_input.source_block_rotate",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_method": "dump",
+      "java_expr": "return (((direction == 0) && minitem >= itemSpace) || ((direction % 2 == 1) && minitem > 0.7f)) && !(source.block.rotate && next == source);",
+      "rule": "Whether the source block rotates; a rotating source feeding its own next belt is refused.",
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof"
+    },
+    "source_drill_dump_step_state_input.next_is_source": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_drill_dump_step_state",
+      "godot_symbol": "source_drill_dump_step_state_input.next_is_source",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_method": "dump",
+      "java_expr": "return (((direction == 0) && minitem >= itemSpace) || ((direction % 2 == 1) && minitem > 0.7f)) && !(source.block.rotate && next == source);",
+      "rule": "Whether the belt ahead is the source itself.",
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof"
+    },
+    "source_drill_dump_step_state_input.drill_cell": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_drill_dump_step_state",
+      "godot_symbol": "source_drill_dump_step_state_input.drill_cell",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "dump",
+      "java_expr": "if(x == cx && y == cy - 1) return 1;",
+      "rule": "Cell of the dumping drill.",
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof"
+    },
+    "source_drill_dump_step_state_input.drill_size": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_drill_dump_step_state",
+      "godot_symbol": "source_drill_dump_step_state_input.drill_size",
+      "java_source": "core/src/mindustry/world/Edges.java",
+      "java_method": "dump",
+      "java_expr": "tilex + Mathf.clamp(other.x - tilex, -(size - 1) / 2, (size / 2))",
+      "rule": "Size of the dumping drill; the facing edge is clamped from it.",
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof"
+    },
+    "source_drill_dump_step_state_result.dumped": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_drill_dump_step_state",
+      "godot_symbol": "source_drill_dump_step_state_result.dumped",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "other.handleItem(self(), todump);",
+      "rule": "Whether the item reached a neighbor belt.",
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof"
+    },
+    "source_drill_dump_step_state_result.item_id": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_drill_dump_step_state",
+      "godot_symbol": "source_drill_dump_step_state_result.item_id",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "public boolean dump(Item todump){",
+      "rule": "Item dumped, or null when nothing was dumped.",
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof"
+    },
+    "source_drill_dump_step_state_result.receiver_index": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_drill_dump_step_state",
+      "godot_symbol": "source_drill_dump_step_state_result.receiver_index",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+      "rule": "Index of the receiving neighbor in the proximity list, or -1.",
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof"
+    },
+    "source_drill_dump_step_state_result.receiver_cell": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_drill_dump_step_state",
+      "godot_symbol": "source_drill_dump_step_state_result.receiver_cell",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+      "rule": "Cell of the receiving neighbor belt, or null.",
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof"
+    },
+    "source_drill_dump_step_state_result.cdump_before": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_drill_dump_step_state",
+      "godot_symbol": "source_drill_dump_step_state_result.cdump_before",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "int dump = this.cdump;",
+      "rule": "Dump cursor before the step.",
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof"
+    },
+    "source_drill_dump_step_state_result.cdump_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_drill_dump_step_state",
+      "godot_symbol": "source_drill_dump_step_state_result.cdump_after",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "incrementDump(proximity.size);",
+      "rule": "Dump cursor after the step.",
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof"
+    },
+    "source_drill_dump_step_state_result.items_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_drill_dump_step_state",
+      "godot_symbol": "source_drill_dump_step_state_result.items_after",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "items.remove(todump, 1);",
+      "rule": "The dumping building inventory after the step.",
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof"
+    },
+    "source_drill_dump_step_state_result.queues_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_drill_dump_step_state",
+      "godot_symbol": "source_drill_dump_step_state_result.queues_after",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "other.handleItem(self(), todump);",
+      "rule": "Conveyor queues keyed by neighbor cell after the step.",
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof"
+    },
+    "source_drill_dump_step_state_result.removed": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_drill_dump_step_state",
+      "godot_symbol": "source_drill_dump_step_state_result.removed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "items.remove(todump, 1);",
+      "rule": "Units removed from the dumping building inventory.",
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof"
+    },
+    "source_drill_dump_step_state_result.destination": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_drill_dump_step_state",
+      "godot_symbol": "source_drill_dump_step_state_result.destination",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "other.handleItem(self(), todump);",
+      "rule": "Where the item went: conveyor, none.",
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof"
+    },
+    "source_drill_dump_step_state_result.reason": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_drill_dump_step_state",
+      "godot_symbol": "source_drill_dump_step_state_result.reason",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "if(!block.hasItems || items.total() == 0 || proximity.size == 0 || (todump != null && !items.has(todump))) return false;",
+      "rule": "Dump outcome: dumped, no_receiver, no_items_block, empty_items, no_proximity, item_not_held.",
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof"
+    },
+    "source_drill_dump_any_step_state_input.items": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_drill_dump_any_step_state",
+      "godot_symbol": "source_drill_dump_any_step_state_input.items",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "if(!block.hasItems || items.total() == 0 || proximity.size == 0 || (todump != null && !items.has(todump))) return false;",
+      "rule": "The dumping building inventory by item id.",
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof"
+    },
+    "source_drill_dump_any_step_state_input.proximity_cells": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_drill_dump_any_step_state",
+      "godot_symbol": "source_drill_dump_any_step_state_input.proximity_cells",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+      "rule": "Neighbor cells in dump order.",
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof"
+    },
+    "source_drill_dump_any_step_state_input.cdump": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_drill_dump_any_step_state",
+      "godot_symbol": "source_drill_dump_any_step_state_input.cdump",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "int dump = this.cdump;",
+      "rule": "Dump cursor before the step.",
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof"
+    },
+    "source_drill_dump_any_step_state_input.has_items": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_drill_dump_any_step_state",
+      "godot_symbol": "source_drill_dump_any_step_state_input.has_items",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "if(!block.hasItems || items.total() == 0 || proximity.size == 0 || (todump != null && !items.has(todump))) return false;",
+      "rule": "Whether the dumping building has an items module.",
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof"
+    },
+    "source_drill_dump_any_step_state_input.content_item_ids": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_drill_dump_any_step_state",
+      "godot_symbol": "source_drill_dump_any_step_state_input.content_item_ids",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "return dump(null);",
+      "rule": "Item ids in content order; the any branch tries them per neighbor.",
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof"
+    },
+    "source_drill_dump_any_step_state_input.queues_by_cell": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_drill_dump_any_step_state",
+      "godot_symbol": "source_drill_dump_any_step_state_input.queues_by_cell",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+      "rule": "Conveyor queues keyed by neighbor cell; cells without a queue fail closed.",
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof"
+    },
+    "source_drill_dump_any_step_state_input.capacity": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_drill_dump_any_step_state",
+      "godot_symbol": "source_drill_dump_any_step_state_input.capacity",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_method": "dump",
+      "java_expr": "private static final int capacity = 3;",
+      "rule": "Maximum item count on a belt.",
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof"
+    },
+    "source_drill_dump_any_step_state_input.item_space": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_drill_dump_any_step_state",
+      "godot_symbol": "source_drill_dump_any_step_state_input.item_space",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_method": "dump",
+      "java_expr": "private static final float itemSpace = 0.4f;",
+      "rule": "Spacing between items on a belt.",
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof"
+    },
+    "source_drill_dump_any_step_state_input.conveyor_rotation_by_cell": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_drill_dump_any_step_state",
+      "godot_symbol": "source_drill_dump_any_step_state_input.conveyor_rotation_by_cell",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_method": "dump",
+      "java_expr": "int direction = Math.abs(facing.relativeTo(tile.x, tile.y) - rotation);",
+      "rule": "Belt rotations keyed by neighbor cell.",
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof"
+    },
+    "source_drill_dump_any_step_state_input.source_block_rotate": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_drill_dump_any_step_state",
+      "godot_symbol": "source_drill_dump_any_step_state_input.source_block_rotate",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_method": "dump",
+      "java_expr": "return (((direction == 0) && minitem >= itemSpace) || ((direction % 2 == 1) && minitem > 0.7f)) && !(source.block.rotate && next == source);",
+      "rule": "Whether the source block rotates; a rotating source feeding its own next belt is refused.",
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof"
+    },
+    "source_drill_dump_any_step_state_input.next_is_source": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_drill_dump_any_step_state",
+      "godot_symbol": "source_drill_dump_any_step_state_input.next_is_source",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_method": "dump",
+      "java_expr": "return (((direction == 0) && minitem >= itemSpace) || ((direction % 2 == 1) && minitem > 0.7f)) && !(source.block.rotate && next == source);",
+      "rule": "Whether the belt ahead is the source itself.",
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof"
+    },
+    "source_drill_dump_any_step_state_input.drill_cell": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_drill_dump_any_step_state",
+      "godot_symbol": "source_drill_dump_any_step_state_input.drill_cell",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "dump",
+      "java_expr": "if(x == cx && y == cy - 1) return 1;",
+      "rule": "Cell of the dumping drill.",
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof"
+    },
+    "source_drill_dump_any_step_state_input.drill_size": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_drill_dump_any_step_state",
+      "godot_symbol": "source_drill_dump_any_step_state_input.drill_size",
+      "java_source": "core/src/mindustry/world/Edges.java",
+      "java_method": "dump",
+      "java_expr": "tilex + Mathf.clamp(other.x - tilex, -(size - 1) / 2, (size / 2))",
+      "rule": "Size of the dumping drill; the facing edge is clamped from it.",
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof"
+    },
+    "source_drill_dump_any_step_state_result.dumped": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_drill_dump_any_step_state",
+      "godot_symbol": "source_drill_dump_any_step_state_result.dumped",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "other.handleItem(self(), item);",
+      "rule": "Whether an item reached a neighbor belt.",
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof"
+    },
+    "source_drill_dump_any_step_state_result.item_id": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_drill_dump_any_step_state",
+      "godot_symbol": "source_drill_dump_any_step_state_result.item_id",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "public boolean dump(Item todump){",
+      "rule": "Item dumped, or null when nothing was dumped.",
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof"
+    },
+    "source_drill_dump_any_step_state_result.receiver_index": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_drill_dump_any_step_state",
+      "godot_symbol": "source_drill_dump_any_step_state_result.receiver_index",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+      "rule": "Index of the receiving neighbor in the proximity list, or -1.",
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof"
+    },
+    "source_drill_dump_any_step_state_result.receiver_cell": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_drill_dump_any_step_state",
+      "godot_symbol": "source_drill_dump_any_step_state_result.receiver_cell",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+      "rule": "Cell of the receiving neighbor belt, or null.",
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof"
+    },
+    "source_drill_dump_any_step_state_result.cdump_before": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_drill_dump_any_step_state",
+      "godot_symbol": "source_drill_dump_any_step_state_result.cdump_before",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "int dump = this.cdump;",
+      "rule": "Dump cursor before the step.",
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof"
+    },
+    "source_drill_dump_any_step_state_result.cdump_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_drill_dump_any_step_state",
+      "godot_symbol": "source_drill_dump_any_step_state_result.cdump_after",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "incrementDump(proximity.size);",
+      "rule": "Dump cursor after the step.",
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof"
+    },
+    "source_drill_dump_any_step_state_result.items_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_drill_dump_any_step_state",
+      "godot_symbol": "source_drill_dump_any_step_state_result.items_after",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "items.remove(item, 1);",
+      "rule": "The dumping building inventory after the step.",
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof"
+    },
+    "source_drill_dump_any_step_state_result.queues_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_drill_dump_any_step_state",
+      "godot_symbol": "source_drill_dump_any_step_state_result.queues_after",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "other.handleItem(self(), item);",
+      "rule": "Conveyor queues keyed by neighbor cell after the step.",
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof"
+    },
+    "source_drill_dump_any_step_state_result.removed": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_drill_dump_any_step_state",
+      "godot_symbol": "source_drill_dump_any_step_state_result.removed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "items.remove(item, 1);",
+      "rule": "Units removed from the dumping building inventory.",
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof"
+    },
+    "source_drill_dump_any_step_state_result.destination": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_drill_dump_any_step_state",
+      "godot_symbol": "source_drill_dump_any_step_state_result.destination",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "other.handleItem(self(), item);",
+      "rule": "Where the item went: conveyor, none.",
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof"
+    },
+    "source_drill_dump_any_step_state_result.reason": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemDumpState.source_drill_dump_any_step_state",
+      "godot_symbol": "source_drill_dump_any_step_state_result.reason",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dump",
+      "java_expr": "if(!block.hasItems || items.total() == 0 || proximity.size == 0 || (todump != null && !items.has(todump))) return false;",
+      "rule": "Dump outcome: dumped, no_receiver, no_items_block, empty_items, no_proximity, item_not_held.",
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof"
+    },
+    "source_block_proximity_cells_state_input.block_size": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_block_proximity_cells_state",
+      "godot_symbol": "source_block_proximity_cells_state_input.block_size",
+      "java_source": "core/src/mindustry/world/Edges.java",
+      "java_method": "getEdges",
+      "java_expr": "return edges[size - 1];",
+      "rule": "Size of the block whose proximity ring is returned.",
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof"
+    },
+    "source_block_proximity_cells_state_input.tile_x": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_block_proximity_cells_state",
+      "godot_symbol": "source_block_proximity_cells_state_input.tile_x",
+      "java_source": "core/src/mindustry/world/Edges.java",
+      "java_method": "getEdges",
+      "java_expr": "int bot = -(int)(i / 2f) - 1;",
+      "rule": "X cell of the block tile.",
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof"
+    },
+    "source_block_proximity_cells_state_input.tile_y": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_block_proximity_cells_state",
+      "godot_symbol": "source_block_proximity_cells_state_input.tile_y",
+      "java_source": "core/src/mindustry/world/Edges.java",
+      "java_method": "getEdges",
+      "java_expr": "int bot = -(int)(i / 2f) - 1;",
+      "rule": "Y cell of the block tile.",
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof"
+    },
+    "source_block_proximity_cells_state_result.cells": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_block_proximity_cells_state",
+      "godot_symbol": "source_block_proximity_cells_state_result.cells",
+      "java_source": "core/src/mindustry/world/Edges.java",
+      "java_method": "getEdges",
+      "java_expr": "Arrays.sort(edges[i], (e1, e2) -> Float.compare(Mathf.angle(e1.x, e1.y), Mathf.angle(e2.x, e2.y)));",
+      "rule": "Ring cells around the block in Java angle order.",
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof"
+    },
+    "source_block_proximity_cells_state_result.count": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_block_proximity_cells_state",
+      "godot_symbol": "source_block_proximity_cells_state_result.count",
+      "java_source": "core/src/mindustry/world/Edges.java",
+      "java_method": "getEdges",
+      "java_expr": "return edges[size - 1];",
+      "rule": "Number of ring cells (size * 4).",
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof"
+    },
+    "source_block_proximity_cells_state_result.reason": {
+      "status": "source-backed",
+      "godot_owner": "SourceBlockGeometry.source_block_proximity_cells_state",
+      "godot_symbol": "source_block_proximity_cells_state_result.reason",
+      "java_source": "core/src/mindustry/world/Edges.java",
+      "java_method": "getEdges",
+      "java_expr": "return edges[size - 1];",
+      "rule": "Ring outcome: ring, invalid_size.",
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof"
     }
   },
   "version": 1

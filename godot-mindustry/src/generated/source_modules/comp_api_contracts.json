@@ -17936,6 +17936,194 @@
       "runtime_proof": "/root/BuildingDumpProof",
       "rule": "Source-backed Building.dump composition; the result reports the dumped item, the receiver and the advanced cdump cursor."
     },
+    "SourceBuildingItemDumpState.source_drill_dump_any_step_state": {
+      "canonical_contract": "source_api_contracts.SourceBuildingItemDumpState.source_drill_dump_any_step_state",
+      "status": "active",
+      "source_slice": "N2063",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "dump",
+      "params": [
+        {
+          "name": "items",
+          "type": "Dictionary",
+          "schema": "source_drill_dump_any_step_state_input.items"
+        },
+        {
+          "name": "proximity_cells",
+          "type": "Array",
+          "schema": "source_drill_dump_any_step_state_input.proximity_cells"
+        },
+        {
+          "name": "cdump",
+          "type": "int",
+          "schema": "source_drill_dump_any_step_state_input.cdump"
+        },
+        {
+          "name": "has_items",
+          "type": "bool",
+          "schema": "source_drill_dump_any_step_state_input.has_items"
+        },
+        {
+          "name": "content_item_ids",
+          "type": "Array",
+          "schema": "source_drill_dump_any_step_state_input.content_item_ids"
+        },
+        {
+          "name": "queues_by_cell",
+          "type": "Dictionary",
+          "schema": "source_drill_dump_any_step_state_input.queues_by_cell"
+        },
+        {
+          "name": "capacity",
+          "type": "int",
+          "schema": "source_drill_dump_any_step_state_input.capacity"
+        },
+        {
+          "name": "item_space",
+          "type": "float",
+          "schema": "source_drill_dump_any_step_state_input.item_space"
+        },
+        {
+          "name": "conveyor_rotation_by_cell",
+          "type": "Dictionary",
+          "schema": "source_drill_dump_any_step_state_input.conveyor_rotation_by_cell"
+        },
+        {
+          "name": "source_block_rotate",
+          "type": "bool",
+          "schema": "source_drill_dump_any_step_state_input.source_block_rotate"
+        },
+        {
+          "name": "next_is_source",
+          "type": "bool",
+          "schema": "source_drill_dump_any_step_state_input.next_is_source"
+        },
+        {
+          "name": "drill_cell",
+          "type": "Vector2i",
+          "schema": "source_drill_dump_any_step_state_input.drill_cell"
+        },
+        {
+          "name": "drill_size",
+          "type": "int",
+          "schema": "source_drill_dump_any_step_state_input.drill_size"
+        }
+      ],
+      "return_keys": [
+        "dumped",
+        "item_id",
+        "receiver_index",
+        "receiver_cell",
+        "cdump_before",
+        "cdump_after",
+        "items_after",
+        "queues_after",
+        "removed",
+        "destination",
+        "reason"
+      ],
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof",
+      "rule": "Source-backed drill dump step; the result reports the receiving belt and the updated queues."
+    },
+    "SourceBuildingItemDumpState.source_drill_dump_step_state": {
+      "canonical_contract": "source_api_contracts.SourceBuildingItemDumpState.source_drill_dump_step_state",
+      "status": "active",
+      "source_slice": "N2062",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "dump",
+      "params": [
+        {
+          "name": "items",
+          "type": "Dictionary",
+          "schema": "source_drill_dump_step_state_input.items"
+        },
+        {
+          "name": "proximity_cells",
+          "type": "Array",
+          "schema": "source_drill_dump_step_state_input.proximity_cells"
+        },
+        {
+          "name": "todump",
+          "type": "String",
+          "schema": "source_drill_dump_step_state_input.todump"
+        },
+        {
+          "name": "cdump",
+          "type": "int",
+          "schema": "source_drill_dump_step_state_input.cdump"
+        },
+        {
+          "name": "has_items",
+          "type": "bool",
+          "schema": "source_drill_dump_step_state_input.has_items"
+        },
+        {
+          "name": "queues_by_cell",
+          "type": "Dictionary",
+          "schema": "source_drill_dump_step_state_input.queues_by_cell"
+        },
+        {
+          "name": "capacity",
+          "type": "int",
+          "schema": "source_drill_dump_step_state_input.capacity"
+        },
+        {
+          "name": "item_space",
+          "type": "float",
+          "schema": "source_drill_dump_step_state_input.item_space"
+        },
+        {
+          "name": "conveyor_rotation_by_cell",
+          "type": "Dictionary",
+          "schema": "source_drill_dump_step_state_input.conveyor_rotation_by_cell"
+        },
+        {
+          "name": "source_block_rotate",
+          "type": "bool",
+          "schema": "source_drill_dump_step_state_input.source_block_rotate"
+        },
+        {
+          "name": "next_is_source",
+          "type": "bool",
+          "schema": "source_drill_dump_step_state_input.next_is_source"
+        },
+        {
+          "name": "drill_cell",
+          "type": "Vector2i",
+          "schema": "source_drill_dump_step_state_input.drill_cell"
+        },
+        {
+          "name": "drill_size",
+          "type": "int",
+          "schema": "source_drill_dump_step_state_input.drill_size"
+        }
+      ],
+      "return_keys": [
+        "dumped",
+        "item_id",
+        "receiver_index",
+        "receiver_cell",
+        "cdump_before",
+        "cdump_after",
+        "items_after",
+        "queues_after",
+        "removed",
+        "destination",
+        "reason"
+      ],
+      "tests": [
+        "test_drill_dump_step_binding_registration",
+        "test_all_drill_dump_step_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_dump_step"
+      ],
+      "runtime_proof": "/root/DrillDumpStepProof",
+      "rule": "Source-backed drill dump step; the result reports the receiving belt and the updated queues."
+    },
     "SourceBuildingItemState.source_handle_stack_wake_state": {
       "canonical_contract": "source_api_contracts.SourceBuildingItemState.source_handle_stack_wake_state",
       "status": "active",
