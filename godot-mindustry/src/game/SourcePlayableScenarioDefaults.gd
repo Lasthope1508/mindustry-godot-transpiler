@@ -11,6 +11,8 @@ const WORLD_SIZE := source_playable_world_layout_defaults.WORLD_SIZE
 const WORLD_BACKGROUND_MIN_CELLS := source_playable_world_layout_defaults.WORLD_BACKGROUND_MIN_CELLS
 const ORE_COPPER_MIN := source_playable_world_layout_defaults.ORE_COPPER_MIN
 const ORE_COPPER_MAX := source_playable_world_layout_defaults.ORE_COPPER_MAX
+const WATER_MIN := source_playable_world_layout_defaults.WATER_MIN
+const WATER_MAX := source_playable_world_layout_defaults.WATER_MAX
 const DRILL_POS := source_playable_world_layout_defaults.DRILL_POS
 const CORE_POS := source_playable_world_layout_defaults.CORE_POS
 const DUO_POS := source_playable_world_layout_defaults.DUO_POS
@@ -90,6 +92,13 @@ static func ore_copper_cells() -> Array[Vector2i]:
 	var cells: Array[Vector2i] = []
 	for y in range(ORE_COPPER_MIN.y, ORE_COPPER_MAX.y + 1):
 		for x in range(ORE_COPPER_MIN.x, ORE_COPPER_MAX.x + 1):
+			cells.append(Vector2i(x, y))
+	return cells
+
+static func water_cells() -> Array[Vector2i]:
+	var cells: Array[Vector2i] = []
+	for y in range(WATER_MIN.y, WATER_MAX.y + 1):
+		for x in range(WATER_MIN.x, WATER_MAX.x + 1):
 			cells.append(Vector2i(x, y))
 	return cells
 

@@ -52713,6 +52713,35 @@
       "deferred_exprs": [
         "The full-power case (coverage 1.0 with produced >= needed); C04-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2084": {
+      "status": "done",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_class": "mindustry.content.Blocks",
+      "java_method": "water",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_water_region_state",
+      "exact_exprs": [
+        "water = new Floor(\"shallow-water\"){{",
+        "liquidDrop = Liquids.water;",
+        "isLiquid = true;"
+      ],
+      "source_symbols": [
+        "source_water_region_state_input.world_tiles",
+        "source_water_region_state_input.water_block",
+        "source_water_region_state_result.cells",
+        "source_water_region_state_result.count",
+        "source_water_region_state_result.reason"
+      ],
+      "tests": [
+        "test_water_region_binding_registration",
+        "test_all_water_region_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_water_region"
+      ],
+      "runtime_proof": "/root/WaterRegionProof",
+      "deferred_exprs": [
+        "The pump placement on the water (mechanical-pump, pumpAmount 7/60), the conduit line to the drill, and the live-loop liquid flow (C04 gate).",
+        "C05-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1

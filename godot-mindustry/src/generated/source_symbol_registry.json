@@ -163128,6 +163128,81 @@
         "test_reference_graph_and_actual_battery_power_status"
       ],
       "runtime_proof": "/root/BatteryPowerStatusProof"
+    },
+    "source_water_region_state_input.world_tiles": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_water_region_state",
+      "godot_symbol": "source_water_region_state_input.world_tiles",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "water",
+      "java_expr": "water = new Floor(\"shallow-water\"){{",
+      "rule": "The world tile store to apply the water region to.",
+      "tests": [
+        "test_water_region_binding_registration",
+        "test_all_water_region_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_water_region"
+      ],
+      "runtime_proof": "/root/WaterRegionProof"
+    },
+    "source_water_region_state_input.water_block": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_water_region_state",
+      "godot_symbol": "source_water_region_state_input.water_block",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "water",
+      "java_expr": "liquidDrop = Liquids.water;",
+      "rule": "The shallow-water floor block (liquidDrop water).",
+      "tests": [
+        "test_water_region_binding_registration",
+        "test_all_water_region_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_water_region"
+      ],
+      "runtime_proof": "/root/WaterRegionProof"
+    },
+    "source_water_region_state_result.cells": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_water_region_state",
+      "godot_symbol": "source_water_region_state_result.cells",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "water",
+      "java_expr": "isLiquid = true;",
+      "rule": "The water region cells.",
+      "tests": [
+        "test_water_region_binding_registration",
+        "test_all_water_region_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_water_region"
+      ],
+      "runtime_proof": "/root/WaterRegionProof"
+    },
+    "source_water_region_state_result.count": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_water_region_state",
+      "godot_symbol": "source_water_region_state_result.count",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "water",
+      "java_expr": "liquidDrop = Liquids.water;",
+      "rule": "The number of tiles set to the water floor.",
+      "tests": [
+        "test_water_region_binding_registration",
+        "test_all_water_region_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_water_region"
+      ],
+      "runtime_proof": "/root/WaterRegionProof"
+    },
+    "source_water_region_state_result.reason": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_water_region_state",
+      "godot_symbol": "source_water_region_state_result.reason",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "water",
+      "java_expr": "water = new Floor(\"shallow-water\"){{",
+      "rule": "Why the region was applied.",
+      "tests": [
+        "test_water_region_binding_registration",
+        "test_all_water_region_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_water_region"
+      ],
+      "runtime_proof": "/root/WaterRegionProof"
     }
   },
   "version": 1

@@ -9,6 +9,7 @@ const source_drill_consumption_runtime_state := preload("res://src/game/SourceDr
 const SOURCE_WORLD_AIR_FIELD := "air"
 const SOURCE_WORLD_STONE_FIELD := "stone"
 const SOURCE_WORLD_SCENARIO_ORE_FIELD := "oreCopper"
+const SOURCE_WORLD_WATER_FIELD := "water"
 const source_block_metadata_state := preload("res://src/game/SourceBlockMetadataState.gd")
 const source_block_init_placement_state := preload("res://src/game/SourceBlockInitPlacementState.gd")
 
@@ -229,6 +230,20 @@ static func source_campaign_world_tiles_state(campaign_map_tile_state: Dictionar
 		source_record_world_block(world_tiles, block, placement["cell"]["x"], placement["cell"]["y"], source_tilesize)
 	return world_tiles
 
+static func source_water_region_state(world_tiles: Dictionary, water_block: Object) -> Dictionary:
+	# Blocks.java:224-234 water = new Floor("shallow-water") with
+	# liquidDrop = Liquids.water and isLiquid = true. The bootstrap
+	# world has a water region (5,14)-(8,17) so a pump has water to
+	# pump (C04); the region is free of buildings and ore.
+	var cells: Array[Vector2i] = source_playable_scenario_defaults.water_cells()
+	var applied := 0
+	for cell in cells:
+		var tile: Variant = source_world_tile(world_tiles, cell.x, cell.y)
+		if tile != null:
+			tile["floor"] = water_block
+			applied += 1
+	return {"cells": cells, "count": applied, "reason": "water_region"}
+
 static func source_game_world_tiles_state(game: Object, initial_build_state: Dictionary) -> Dictionary:
 	var catalog: Object = game.get("content_catalog")
 	var map: Dictionary = initial_build_state.get("campaign_map_tile", {})
@@ -245,6 +260,8 @@ static func source_game_world_tiles_state(game: Object, initial_build_state: Dic
 		var tile: Variant = source_world_tile(world_tiles, cell.x, cell.y)
 		if tile != null:
 			tile["overlay"] = overlay
+	var water_block: Object = source_world_block_by_field(catalog, SOURCE_WORLD_WATER_FIELD)
+	source_water_region_state(world_tiles, water_block)
 	return world_tiles
 
 # Live overlay assignment/Drill notification only; rendering/events and other Building overrides remain separate.

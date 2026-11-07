@@ -220088,6 +220088,74 @@
       },
       "runtime_proof": "/root/BatteryPowerStatusProof",
       "rule": "Source-backed battery power_status write on the sprite meta."
+    },
+    "source_water_region_state_input": {
+      "status": "active",
+      "owner": "SourceWorldTerrainRuntimeState.source_water_region_state",
+      "source_slice": "N2084",
+      "keys": {
+        "world_tiles": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "water = new Floor(\"shallow-water\"){{",
+          "rule": "The world tile store to apply the water region to.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_water_region_state"
+          ]
+        },
+        "water_block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "liquidDrop = Liquids.water;",
+          "rule": "The shallow-water floor block (liquidDrop water).",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_water_region_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/WaterRegionProof",
+      "rule": "Source-backed water region in the bootstrap world."
+    },
+    "source_water_region_state_result": {
+      "status": "active",
+      "owner": "SourceWorldTerrainRuntimeState.source_water_region_state",
+      "source_slice": "N2084",
+      "keys": {
+        "cells": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "isLiquid = true;",
+          "rule": "The water region cells.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_water_region_state"
+          ]
+        },
+        "count": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "liquidDrop = Liquids.water;",
+          "rule": "The number of tiles set to the water floor.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_water_region_state"
+          ]
+        },
+        "reason": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "water = new Floor(\"shallow-water\"){{",
+          "rule": "Why the region was applied.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_water_region_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/WaterRegionProof",
+      "rule": "Source-backed water region in the bootstrap world."
     }
   },
   "version": 1

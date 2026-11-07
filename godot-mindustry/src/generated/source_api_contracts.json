@@ -61149,6 +61149,37 @@
       ],
       "runtime_proof": "/root/BatteryPowerStatusProof",
       "rule": "Source-backed battery power_status write; the live-loop step uses it to persist the status after each update."
+    },
+    "SourceWorldTerrainRuntimeState.source_water_region_state": {
+      "status": "active",
+      "source_slice": "N2084",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "source_method": "water",
+      "params": [
+        {
+          "name": "world_tiles",
+          "type": "Dictionary",
+          "schema": "source_water_region_state_input.world_tiles"
+        },
+        {
+          "name": "water_block",
+          "type": "Object",
+          "schema": "source_water_region_state_input.water_block"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "cells",
+        "count",
+        "reason"
+      ],
+      "tests": [
+        "test_water_region_binding_registration",
+        "test_all_water_region_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_water_region"
+      ],
+      "runtime_proof": "/root/WaterRegionProof",
+      "rule": "Source-backed water region; the shallow-water floor drops water for a pump."
     }
   },
   "policy": {
