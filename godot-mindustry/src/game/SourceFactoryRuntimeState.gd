@@ -6,6 +6,8 @@ const source_block_geometry := preload("res://src/game/SourceBlockGeometry.gd")
 const source_conveyor_runtime_state := preload("res://src/game/SourceConveyorRuntimeState.gd")
 const source_building_item_dump_state := preload("res://src/game/SourceBuildingItemDumpState.gd")
 const source_placed_block_state := preload("res://src/game/SourcePlacedBlockState.gd")
+const source_placed_power_graph_state := preload("res://src/game/SourcePlacedPowerGraphState.gd")
+const source_power_graph_state := preload("res://src/game/SourcePowerGraphState.gd")
 
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
 const source_drill_dump_runtime_state_script := preload("res://src/game/SourceDrillDumpRuntimeState.gd")
@@ -147,6 +149,7 @@ static func simulate_factory(game: Object, delta: float) -> void:
 	var advance_cells: Array = source_playable_scenario_defaults.conveyor_cells()
 	advance_cells.reverse()
 	source_factory_advance_conveyors_state(game, advance_cells, delta)
+	source_factory_update_power_graph_state(game, delta)
 	game.set(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_TRANSPORT_PROGRESS_KEY, float(apply_state.get(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_TRANSPORT_PROGRESS_KEY, game.get(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_TRANSPORT_PROGRESS_KEY))))
 	var item_sprites_value = game.get(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_ITEM_SPRITES_KEY)
 	if not (item_sprites_value is Array):
@@ -582,3 +585,25 @@ static func source_factory_advance_conveyors_state(game: Object, conveyor_cells:
 		if queues[cell] != original_queues.get(cell, {}):
 			source_conveyor_runtime_state.source_conveyor_set_queue_for_cell_state(game, cell, queues[cell])
 	return {"results_by_cell": results_by_cell, "passed_count": passed_count, "reason": "advanced"}
+
+
+static func source_factory_update_power_graph_state(game: Object, delta: float) -> Dictionary:
+	# PowerGraph.java:220-260 (update): the graph's balance is recomputed
+	# each tick (needed/produced, battery use/charge, distributePower).
+	# The bootstrap world has no power producer or consumer, so the
+	# placed graph is empty and this update is a no-op there; it still
+	# runs so the live loop owns the power graph.
+	var callbacks: Dictionary = source_placed_power_graph_state.default_callbacks_state(game)
+	var grouped: Dictionary = source_placed_power_graph_state._group_state(game.get("placed_block_origins"), callbacks.get("block_from_sprite", Callable()), callbacks.get("role_for_block", Callable()), delta)
+	var consumers: Array = grouped.get("consumers", [])
+	var producers: Array = grouped.get("producers", [])
+	var batteries: Array = grouped.get("batteries", [])
+	var update: Dictionary = source_power_graph_state.update_state(consumers, producers, batteries, 0.0, delta, [])
+	return {
+		"power_needed": float(update.get("power_needed", 0.0)),
+		"power_produced": float(update.get("power_produced", 0.0)),
+		"consumer_count": consumers.size(),
+		"producer_count": producers.size(),
+		"battery_count": batteries.size(),
+		"update": update,
+	}

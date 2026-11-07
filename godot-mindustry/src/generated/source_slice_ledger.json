@@ -52505,6 +52505,40 @@
         "The live-loop wiring that drives the visual item sprites from these queue-derived positions is still open in C02 (the transport keeps a fixed sprite count spaced by phase; syncing it to the queues is a design decision).",
         "C03-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2077": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_class": "mindustry.world.blocks.power.PowerGraph",
+      "java_method": "update",
+      "godot_owner": "SourceFactoryRuntimeState.source_factory_update_power_graph_state",
+      "exact_exprs": [
+        "public void update(){",
+        "float powerNeeded = getPowerNeeded();",
+        "float powerProduced = getPowerProduced();",
+        "if(!(consumers.size == 0 && producers.size == 0 && batteries.size == 0)){",
+        "distributePower(powerNeeded, powerProduced, charged);"
+      ],
+      "source_symbols": [
+        "source_factory_update_power_graph_state_input.game",
+        "source_factory_update_power_graph_state_input.delta",
+        "source_factory_update_power_graph_state_result.power_needed",
+        "source_factory_update_power_graph_state_result.power_produced",
+        "source_factory_update_power_graph_state_result.consumer_count",
+        "source_factory_update_power_graph_state_result.producer_count",
+        "source_factory_update_power_graph_state_result.battery_count",
+        "source_factory_update_power_graph_state_result.update"
+      ],
+      "tests": [
+        "test_power_graph_live_update_binding_registration",
+        "test_all_power_graph_live_update_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_power_graph_live_update"
+      ],
+      "runtime_proof": "/root/PowerGraphLiveUpdateProof",
+      "deferred_exprs": [
+        "Adding a power producer (and a power consumer) to the bootstrap world so the live power graph is non-empty; the C03 gate needs power 0/partial/full, battery charge/discharge and multiple consumers.",
+        "C04-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1

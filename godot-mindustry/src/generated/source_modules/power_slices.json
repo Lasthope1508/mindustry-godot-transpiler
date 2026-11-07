@@ -937,6 +937,29 @@
       ],
       "runtime_proof": "/root/Main.source_power_node_set_bars_state"
     },
+    "N2077": {
+      "canonical_ledger": "source_slice_ledger.N2077",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "update",
+      "godot_owner": "SourceFactoryRuntimeState.source_factory_update_power_graph_state",
+      "source_symbols": [
+        "source_factory_update_power_graph_state_input.game",
+        "source_factory_update_power_graph_state_input.delta",
+        "source_factory_update_power_graph_state_result.power_needed",
+        "source_factory_update_power_graph_state_result.power_produced",
+        "source_factory_update_power_graph_state_result.consumer_count",
+        "source_factory_update_power_graph_state_result.producer_count",
+        "source_factory_update_power_graph_state_result.battery_count",
+        "source_factory_update_power_graph_state_result.update"
+      ],
+      "tests": [
+        "test_power_graph_live_update_binding_registration",
+        "test_all_power_graph_live_update_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_power_graph_live_update"
+      ],
+      "runtime_proof": "/root/PowerGraphLiveUpdateProof"
+    },
     "N888": {
       "canonical_ledger": "source_slice_ledger.N888",
       "status": "done",

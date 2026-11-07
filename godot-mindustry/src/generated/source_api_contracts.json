@@ -60937,6 +60937,40 @@
       ],
       "runtime_proof": "/root/ConveyorDrawPositionsProof",
       "rule": "Source-backed conveyor draw; each queue item is positioned from its xs/ys, the belt center, rotation and tilesize."
+    },
+    "SourceFactoryRuntimeState.source_factory_update_power_graph_state": {
+      "status": "active",
+      "source_slice": "N2077",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "source_method": "update",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_factory_update_power_graph_state_input.game"
+        },
+        {
+          "name": "delta",
+          "type": "float",
+          "schema": "source_factory_update_power_graph_state_input.delta"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "power_needed",
+        "power_produced",
+        "consumer_count",
+        "producer_count",
+        "battery_count",
+        "update"
+      ],
+      "tests": [
+        "test_power_graph_live_update_binding_registration",
+        "test_all_power_graph_live_update_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_power_graph_live_update"
+      ],
+      "runtime_proof": "/root/PowerGraphLiveUpdateProof",
+      "rule": "Source-backed live-loop power graph update; each frame the placed graph runs PowerGraph.update()."
     }
   },
   "policy": {

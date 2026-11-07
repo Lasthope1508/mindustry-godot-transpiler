@@ -219542,6 +219542,104 @@
       },
       "runtime_proof": "/root/ConveyorDrawPositionsProof",
       "rule": "Source-backed conveyor item draw positions."
+    },
+    "source_factory_update_power_graph_state_input": {
+      "status": "active",
+      "owner": "SourceFactoryRuntimeState.source_factory_update_power_graph_state",
+      "source_slice": "N2077",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "public void update(){",
+          "rule": "The game, whose placed blocks form the power graph.",
+          "used_by": [
+            "SourceFactoryRuntimeState.source_factory_update_power_graph_state"
+          ]
+        },
+        "delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "float powerNeeded = getPowerNeeded();",
+          "rule": "The frame delta (source_delta).",
+          "used_by": [
+            "SourceFactoryRuntimeState.source_factory_update_power_graph_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/PowerGraphLiveUpdateProof",
+      "rule": "Source-backed live-loop power graph update."
+    },
+    "source_factory_update_power_graph_state_result": {
+      "status": "active",
+      "owner": "SourceFactoryRuntimeState.source_factory_update_power_graph_state",
+      "source_slice": "N2077",
+      "keys": {
+        "power_needed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "float powerNeeded = getPowerNeeded();",
+          "rule": "The graph power needed this frame.",
+          "used_by": [
+            "SourceFactoryRuntimeState.source_factory_update_power_graph_state"
+          ]
+        },
+        "power_produced": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "float powerProduced = getPowerProduced();",
+          "rule": "The graph power produced this frame.",
+          "used_by": [
+            "SourceFactoryRuntimeState.source_factory_update_power_graph_state"
+          ]
+        },
+        "consumer_count": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "if(!(consumers.size == 0 && producers.size == 0 && batteries.size == 0)){",
+          "rule": "How many consumers are in the placed graph.",
+          "used_by": [
+            "SourceFactoryRuntimeState.source_factory_update_power_graph_state"
+          ]
+        },
+        "producer_count": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "if(!(consumers.size == 0 && producers.size == 0 && batteries.size == 0)){",
+          "rule": "How many producers are in the placed graph.",
+          "used_by": [
+            "SourceFactoryRuntimeState.source_factory_update_power_graph_state"
+          ]
+        },
+        "battery_count": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "if(!(consumers.size == 0 && producers.size == 0 && batteries.size == 0)){",
+          "rule": "How many batteries are in the placed graph.",
+          "used_by": [
+            "SourceFactoryRuntimeState.source_factory_update_power_graph_state"
+          ]
+        },
+        "update": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "distributePower(powerNeeded, powerProduced, charged);",
+          "rule": "The full PowerGraph.update() result for this frame.",
+          "used_by": [
+            "SourceFactoryRuntimeState.source_factory_update_power_graph_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/PowerGraphLiveUpdateProof",
+      "rule": "Source-backed live-loop power graph update."
     }
   },
   "version": 1

@@ -162498,6 +162498,126 @@
         "test_reference_graph_and_actual_conveyor_draw_positions"
       ],
       "runtime_proof": "/root/ConveyorDrawPositionsProof"
+    },
+    "source_factory_update_power_graph_state_input.game": {
+      "status": "source-backed",
+      "godot_owner": "SourceFactoryRuntimeState.source_factory_update_power_graph_state",
+      "godot_symbol": "source_factory_update_power_graph_state_input.game",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "update",
+      "java_expr": "public void update(){",
+      "rule": "The game, whose placed blocks form the power graph.",
+      "tests": [
+        "test_power_graph_live_update_binding_registration",
+        "test_all_power_graph_live_update_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_power_graph_live_update"
+      ],
+      "runtime_proof": "/root/PowerGraphLiveUpdateProof"
+    },
+    "source_factory_update_power_graph_state_input.delta": {
+      "status": "source-backed",
+      "godot_owner": "SourceFactoryRuntimeState.source_factory_update_power_graph_state",
+      "godot_symbol": "source_factory_update_power_graph_state_input.delta",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "update",
+      "java_expr": "float powerNeeded = getPowerNeeded();",
+      "rule": "The frame delta (source_delta).",
+      "tests": [
+        "test_power_graph_live_update_binding_registration",
+        "test_all_power_graph_live_update_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_power_graph_live_update"
+      ],
+      "runtime_proof": "/root/PowerGraphLiveUpdateProof"
+    },
+    "source_factory_update_power_graph_state_result.power_needed": {
+      "status": "source-backed",
+      "godot_owner": "SourceFactoryRuntimeState.source_factory_update_power_graph_state",
+      "godot_symbol": "source_factory_update_power_graph_state_result.power_needed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "update",
+      "java_expr": "float powerNeeded = getPowerNeeded();",
+      "rule": "The graph power needed this frame.",
+      "tests": [
+        "test_power_graph_live_update_binding_registration",
+        "test_all_power_graph_live_update_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_power_graph_live_update"
+      ],
+      "runtime_proof": "/root/PowerGraphLiveUpdateProof"
+    },
+    "source_factory_update_power_graph_state_result.power_produced": {
+      "status": "source-backed",
+      "godot_owner": "SourceFactoryRuntimeState.source_factory_update_power_graph_state",
+      "godot_symbol": "source_factory_update_power_graph_state_result.power_produced",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "update",
+      "java_expr": "float powerProduced = getPowerProduced();",
+      "rule": "The graph power produced this frame.",
+      "tests": [
+        "test_power_graph_live_update_binding_registration",
+        "test_all_power_graph_live_update_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_power_graph_live_update"
+      ],
+      "runtime_proof": "/root/PowerGraphLiveUpdateProof"
+    },
+    "source_factory_update_power_graph_state_result.consumer_count": {
+      "status": "source-backed",
+      "godot_owner": "SourceFactoryRuntimeState.source_factory_update_power_graph_state",
+      "godot_symbol": "source_factory_update_power_graph_state_result.consumer_count",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "update",
+      "java_expr": "if(!(consumers.size == 0 && producers.size == 0 && batteries.size == 0)){",
+      "rule": "How many consumers are in the placed graph.",
+      "tests": [
+        "test_power_graph_live_update_binding_registration",
+        "test_all_power_graph_live_update_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_power_graph_live_update"
+      ],
+      "runtime_proof": "/root/PowerGraphLiveUpdateProof"
+    },
+    "source_factory_update_power_graph_state_result.producer_count": {
+      "status": "source-backed",
+      "godot_owner": "SourceFactoryRuntimeState.source_factory_update_power_graph_state",
+      "godot_symbol": "source_factory_update_power_graph_state_result.producer_count",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "update",
+      "java_expr": "if(!(consumers.size == 0 && producers.size == 0 && batteries.size == 0)){",
+      "rule": "How many producers are in the placed graph.",
+      "tests": [
+        "test_power_graph_live_update_binding_registration",
+        "test_all_power_graph_live_update_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_power_graph_live_update"
+      ],
+      "runtime_proof": "/root/PowerGraphLiveUpdateProof"
+    },
+    "source_factory_update_power_graph_state_result.battery_count": {
+      "status": "source-backed",
+      "godot_owner": "SourceFactoryRuntimeState.source_factory_update_power_graph_state",
+      "godot_symbol": "source_factory_update_power_graph_state_result.battery_count",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "update",
+      "java_expr": "if(!(consumers.size == 0 && producers.size == 0 && batteries.size == 0)){",
+      "rule": "How many batteries are in the placed graph.",
+      "tests": [
+        "test_power_graph_live_update_binding_registration",
+        "test_all_power_graph_live_update_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_power_graph_live_update"
+      ],
+      "runtime_proof": "/root/PowerGraphLiveUpdateProof"
+    },
+    "source_factory_update_power_graph_state_result.update": {
+      "status": "source-backed",
+      "godot_owner": "SourceFactoryRuntimeState.source_factory_update_power_graph_state",
+      "godot_symbol": "source_factory_update_power_graph_state_result.update",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "update",
+      "java_expr": "distributePower(powerNeeded, powerProduced, charged);",
+      "rule": "The full PowerGraph.update() result for this frame.",
+      "tests": [
+        "test_power_graph_live_update_binding_registration",
+        "test_all_power_graph_live_update_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_power_graph_live_update"
+      ],
+      "runtime_proof": "/root/PowerGraphLiveUpdateProof"
     }
   },
   "version": 1

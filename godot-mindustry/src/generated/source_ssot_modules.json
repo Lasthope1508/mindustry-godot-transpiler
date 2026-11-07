@@ -1360,7 +1360,10 @@
         "module": "power_slices",
         "collection_key": "slices",
         "field": "godot_owner"
-      }
+      },
+      "optional_mirror_fields": [
+        "return_type"
+      ]
     },
     "power_slices": {
       "canonical_module": "slice_ledger",
