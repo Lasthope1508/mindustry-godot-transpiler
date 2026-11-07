@@ -60790,6 +60790,37 @@
       ],
       "runtime_proof": "/root/DrillPerDrillDumpProof",
       "rule": "Source-backed per-drill dump; each drill dumps from its own inventory (the primary from the game-global, every other from its frame)."
+    },
+    "SourceFactoryRuntimeState.source_factory_dump_all_drill_outputs_state": {
+      "status": "active",
+      "source_slice": "N2073",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "updateTile",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_factory_dump_all_drill_outputs_state_input.game"
+        },
+        {
+          "name": "should_dump",
+          "type": "bool",
+          "schema": "source_factory_dump_all_drill_outputs_state_input.should_dump"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "results_by_cell",
+        "dumped_count",
+        "reason"
+      ],
+      "tests": [
+        "test_two_drill_gate_binding_registration",
+        "test_all_two_drill_gate_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_two_drill_gate"
+      ],
+      "runtime_proof": "/root/TwoDrillGateProof",
+      "rule": "Source-backed live-loop step; when the dump timer fires it dumps every drill from its own inventory."
     }
   },
   "policy": {

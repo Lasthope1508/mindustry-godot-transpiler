@@ -2367,6 +2367,76 @@
       ],
       "runtime_proof": "/root/DrillBridgeDominantProof"
     },
+    "source_factory_dump_all_drill_outputs_state_input.game": {
+      "canonical_symbol": "source_symbol_registry.source_factory_dump_all_drill_outputs_state_input.game",
+      "status": "source-backed",
+      "java_expr": "if(timer(timerDump, dumpTime / timeScale)){",
+      "godot_symbol": "source_factory_dump_all_drill_outputs_state_input.game",
+      "godot_owner": "SourceFactoryRuntimeState.source_factory_dump_all_drill_outputs_state",
+      "rule": "Actual game world containing the drills and their belts.",
+      "tests": [
+        "test_two_drill_gate_binding_registration",
+        "test_all_two_drill_gate_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_two_drill_gate"
+      ],
+      "runtime_proof": "/root/TwoDrillGateProof"
+    },
+    "source_factory_dump_all_drill_outputs_state_input.should_dump": {
+      "canonical_symbol": "source_symbol_registry.source_factory_dump_all_drill_outputs_state_input.should_dump",
+      "status": "source-backed",
+      "java_expr": "if(timer(timerDump, dumpTime / timeScale)){",
+      "godot_symbol": "source_factory_dump_all_drill_outputs_state_input.should_dump",
+      "godot_owner": "SourceFactoryRuntimeState.source_factory_dump_all_drill_outputs_state",
+      "rule": "Whether the dump timer fired this frame.",
+      "tests": [
+        "test_two_drill_gate_binding_registration",
+        "test_all_two_drill_gate_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_two_drill_gate"
+      ],
+      "runtime_proof": "/root/TwoDrillGateProof"
+    },
+    "source_factory_dump_all_drill_outputs_state_result.dumped_count": {
+      "canonical_symbol": "source_symbol_registry.source_factory_dump_all_drill_outputs_state_result.dumped_count",
+      "status": "source-backed",
+      "java_expr": "dump(dominantItem != null && items.has(dominantItem) ? dominantItem : null);",
+      "godot_symbol": "source_factory_dump_all_drill_outputs_state_result.dumped_count",
+      "godot_owner": "SourceFactoryRuntimeState.source_factory_dump_all_drill_outputs_state",
+      "rule": "How many drills dumped an item this frame.",
+      "tests": [
+        "test_two_drill_gate_binding_registration",
+        "test_all_two_drill_gate_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_two_drill_gate"
+      ],
+      "runtime_proof": "/root/TwoDrillGateProof"
+    },
+    "source_factory_dump_all_drill_outputs_state_result.reason": {
+      "canonical_symbol": "source_symbol_registry.source_factory_dump_all_drill_outputs_state_result.reason",
+      "status": "source-backed",
+      "java_expr": "if(dominantItem == null){",
+      "godot_symbol": "source_factory_dump_all_drill_outputs_state_result.reason",
+      "godot_owner": "SourceFactoryRuntimeState.source_factory_dump_all_drill_outputs_state",
+      "rule": "Dump outcome: timer_not_fired, no_drills, dumped, none_dumped.",
+      "tests": [
+        "test_two_drill_gate_binding_registration",
+        "test_all_two_drill_gate_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_two_drill_gate"
+      ],
+      "runtime_proof": "/root/TwoDrillGateProof"
+    },
+    "source_factory_dump_all_drill_outputs_state_result.results_by_cell": {
+      "canonical_symbol": "source_symbol_registry.source_factory_dump_all_drill_outputs_state_result.results_by_cell",
+      "status": "source-backed",
+      "java_expr": "dump(dominantItem != null && items.has(dominantItem) ? dominantItem : null);",
+      "godot_symbol": "source_factory_dump_all_drill_outputs_state_result.results_by_cell",
+      "godot_owner": "SourceFactoryRuntimeState.source_factory_dump_all_drill_outputs_state",
+      "rule": "The per-drill dump results keyed by drill cell.",
+      "tests": [
+        "test_two_drill_gate_binding_registration",
+        "test_all_two_drill_gate_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_two_drill_gate"
+      ],
+      "runtime_proof": "/root/TwoDrillGateProof"
+    },
     "source_factory_dump_drill_output_for_cell_state_input.drill_cell": {
       "canonical_symbol": "source_symbol_registry.source_factory_dump_drill_output_for_cell_state_input.drill_cell",
       "status": "source-backed",

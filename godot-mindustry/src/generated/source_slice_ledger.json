@@ -52371,6 +52371,37 @@
         "The live loop still dumps only the primary drill; the two-Drill gate (simulate_factory dumping each drill) stays open in C02.",
         "C02 two-Drill gate and C03-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2073": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_class": "mindustry.world.blocks.production.Drill$DrillBuild",
+      "java_method": "updateTile",
+      "godot_owner": "SourceFactoryRuntimeState.source_factory_dump_all_drill_outputs_state",
+      "exact_exprs": [
+        "if(timer(timerDump, dumpTime / timeScale)){",
+        "dump(dominantItem != null && items.has(dominantItem) ? dominantItem : null);",
+        "if(dominantItem == null){",
+        "timeDrilled += warmup * delta();",
+        "float delay = getDrillTime(dominantItem);"
+      ],
+      "source_symbols": [
+        "source_factory_dump_all_drill_outputs_state_input.game",
+        "source_factory_dump_all_drill_outputs_state_input.should_dump",
+        "source_factory_dump_all_drill_outputs_state_result.results_by_cell",
+        "source_factory_dump_all_drill_outputs_state_result.dumped_count",
+        "source_factory_dump_all_drill_outputs_state_result.reason"
+      ],
+      "tests": [
+        "test_two_drill_gate_binding_registration",
+        "test_all_two_drill_gate_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_two_drill_gate"
+      ],
+      "runtime_proof": "/root/TwoDrillGateProof",
+      "deferred_exprs": [
+        "The queue-to-sprite sync stays open in C02 (transport is sprite-based with no item identity).",
+        "C02 two-Drill gate and C03-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1

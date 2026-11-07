@@ -143,8 +143,7 @@ static func simulate_factory(game: Object, delta: float) -> void:
 		game.call("source_offload_to_inventory", drill_output_item_id, offload_amount)
 	game.set(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_PRODUCED_TOTAL_KEY, int(apply_state.get(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_PRODUCED_TOTAL_KEY, game.get(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_PRODUCED_TOTAL_KEY))))
 	game.set(source_drill_dump_runtime_state_script.SOURCE_DRILL_DUMP_TIMER_KEY, float(apply_state.get(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_DRILL_DUMP_TIMER_KEY, game.get(source_drill_dump_runtime_state_script.SOURCE_DRILL_DUMP_TIMER_KEY))))
-	if drill_output_item_id != null and bool(apply_state.get(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_SHOULD_DUMP_KEY, false)):
-		source_factory_dump_drill_output_state(game, drill_cell, drill_output_item_id)
+	source_factory_dump_all_drill_outputs_state(game, bool(apply_state.get(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_SHOULD_DUMP_KEY, false)))
 	var advance_cells: Array = source_playable_scenario_defaults.conveyor_cells()
 	advance_cells.reverse()
 	source_factory_advance_conveyors_state(game, advance_cells, delta)
@@ -312,6 +311,41 @@ static func drill_dump_preview_state(game: Object, preview_context: Dictionary) 
 
 static func game_drill_dump_preview_state(game: Object, seconds: float) -> Dictionary:
 	return drill_dump_preview_state(game, drill_dump_preview_context(game, seconds, game.get("drill_pos"), source_playable_scenario_defaults.BLOCK_MECHANICAL_DRILL, source_time_defaults.TICK_RATE))
+
+
+static func source_factory_dump_all_drill_outputs_state(game: Object, should_dump: bool) -> Dictionary:
+	# The live-loop dump step (the two-Drill gate): when the dump timer
+	# fires, every drill dumps from its own inventory via the per-drill
+	# dump (N2072). All drills share the primary's SHOULD_DUMP — they
+	# share dumpTime 5 and were placed at bootstrap — and each drill
+	# resolves its own dominant item from its frame.
+	var results_by_cell := {}
+	var dumped_count := 0
+	if not should_dump:
+		return {"results_by_cell": results_by_cell, "dumped_count": dumped_count, "reason": "timer_not_fired"}
+	var found := 0
+	for sprite in source_placed_block_state.source_unique_buildings_state(game).get("buildings", []):
+		if not is_instance_valid(sprite) or not sprite is Sprite2D:
+			continue
+		if not sprite.has_meta(source_drill_consumption_runtime_state.SOURCE_DRILL_BUILDING_META_KEY):
+			continue
+		var cell_value: Variant = sprite.get_meta("origin_cell", null)
+		if not (cell_value is Vector2i):
+			continue
+		var cell: Vector2i = cell_value
+		var dominant_item_id: Variant = source_drill_consumption_runtime_state.source_dominant_item_name_state(game, sprite).get("item_id")
+		if dominant_item_id == null:
+			continue
+		found += 1
+		var result: Dictionary = source_factory_dump_drill_output_for_cell_state(game, cell, dominant_item_id)
+		results_by_cell[cell] = result
+		if bool(result.get("dumped", false)):
+			dumped_count += 1
+	if found == 0:
+		return {"results_by_cell": results_by_cell, "dumped_count": dumped_count, "reason": "no_drills"}
+	if dumped_count > 0:
+		return {"results_by_cell": results_by_cell, "dumped_count": dumped_count, "reason": "dumped"}
+	return {"results_by_cell": results_by_cell, "dumped_count": dumped_count, "reason": "none_dumped"}
 
 
 static func source_factory_dump_drill_output_state(game: Object, drill_cell: Vector2i, drill_output_item_id: Variant) -> Dictionary:

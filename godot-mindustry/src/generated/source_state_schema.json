@@ -219200,6 +219200,74 @@
       },
       "runtime_proof": "/root/DrillPerDrillDumpProof",
       "rule": "Source-backed per-drill dump."
+    },
+    "source_factory_dump_all_drill_outputs_state_input": {
+      "status": "active",
+      "owner": "SourceFactoryRuntimeState.source_factory_dump_all_drill_outputs_state",
+      "source_slice": "N2073",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "if(timer(timerDump, dumpTime / timeScale)){",
+          "rule": "Actual game world containing the drills and their belts.",
+          "used_by": [
+            "SourceFactoryRuntimeState.source_factory_dump_all_drill_outputs_state"
+          ]
+        },
+        "should_dump": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "if(timer(timerDump, dumpTime / timeScale)){",
+          "rule": "Whether the dump timer fired this frame.",
+          "used_by": [
+            "SourceFactoryRuntimeState.source_factory_dump_all_drill_outputs_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/TwoDrillGateProof",
+      "rule": "Source-backed live-loop dump-all-drills step."
+    },
+    "source_factory_dump_all_drill_outputs_state_result": {
+      "status": "active",
+      "owner": "SourceFactoryRuntimeState.source_factory_dump_all_drill_outputs_state",
+      "source_slice": "N2073",
+      "keys": {
+        "results_by_cell": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "dump(dominantItem != null && items.has(dominantItem) ? dominantItem : null);",
+          "rule": "The per-drill dump results keyed by drill cell.",
+          "used_by": [
+            "SourceFactoryRuntimeState.source_factory_dump_all_drill_outputs_state"
+          ]
+        },
+        "dumped_count": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "dump(dominantItem != null && items.has(dominantItem) ? dominantItem : null);",
+          "rule": "How many drills dumped an item this frame.",
+          "used_by": [
+            "SourceFactoryRuntimeState.source_factory_dump_all_drill_outputs_state"
+          ]
+        },
+        "reason": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "if(dominantItem == null){",
+          "rule": "Dump outcome: timer_not_fired, no_drills, dumped, none_dumped.",
+          "used_by": [
+            "SourceFactoryRuntimeState.source_factory_dump_all_drill_outputs_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/TwoDrillGateProof",
+      "rule": "Source-backed live-loop dump-all-drills step."
     }
   },
   "version": 1

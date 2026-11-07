@@ -318,6 +318,26 @@
       ],
       "runtime_proof": "/root/DrillPerDrillDumpProof"
     },
+    "N2073": {
+      "canonical_ledger": "source_slice_ledger.N2073",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "updateTile",
+      "godot_owner": "SourceFactoryRuntimeState.source_factory_dump_all_drill_outputs_state",
+      "source_symbols": [
+        "source_factory_dump_all_drill_outputs_state_input.game",
+        "source_factory_dump_all_drill_outputs_state_input.should_dump",
+        "source_factory_dump_all_drill_outputs_state_result.results_by_cell",
+        "source_factory_dump_all_drill_outputs_state_result.dumped_count",
+        "source_factory_dump_all_drill_outputs_state_result.reason"
+      ],
+      "tests": [
+        "test_two_drill_gate_binding_registration",
+        "test_all_two_drill_gate_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_two_drill_gate"
+      ],
+      "runtime_proof": "/root/TwoDrillGateProof"
+    },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",
       "status": "done",

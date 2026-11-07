@@ -851,6 +851,31 @@
         }
       }
     },
+    "source_factory_dump_all_drill_outputs_state_input": {
+      "canonical_schema": "source_state_schema.source_factory_dump_all_drill_outputs_state_input",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "if(timer(timerDump, dumpTime / timeScale)){",
+          "rule": "Actual game world containing the drills and their belts.",
+          "used_by": [
+            "SourceFactoryRuntimeState.source_factory_dump_all_drill_outputs_state"
+          ]
+        },
+        "should_dump": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "if(timer(timerDump, dumpTime / timeScale)){",
+          "rule": "Whether the dump timer fired this frame.",
+          "used_by": [
+            "SourceFactoryRuntimeState.source_factory_dump_all_drill_outputs_state"
+          ]
+        }
+      }
+    },
     "source_factory_dump_drill_output_for_cell_state_input": {
       "canonical_schema": "source_state_schema.source_factory_dump_drill_output_for_cell_state_input",
       "keys": {
