@@ -2886,6 +2886,126 @@
       "canonical_owner": "port_game.source_block_unit_is_added_state"
     },
     {
+      "owner": "port_game.source_build_payload_block_state",
+      "function": "source_build_payload_block_state",
+      "gdscript_path": "src/game/SourceBuildPayloadPortBridge.gd",
+      "canonical_owner": "port_game.source_build_payload_block_state"
+    },
+    {
+      "owner": "port_game.source_build_payload_constructor_block_team_state",
+      "function": "source_build_payload_constructor_block_team_state",
+      "gdscript_path": "src/game/SourceBuildPayloadPortBridge.gd",
+      "canonical_owner": "port_game.source_build_payload_constructor_block_team_state"
+    },
+    {
+      "owner": "port_game.source_build_payload_constructor_build_state",
+      "function": "source_build_payload_constructor_build_state",
+      "gdscript_path": "src/game/SourceBuildPayloadPortBridge.gd",
+      "canonical_owner": "port_game.source_build_payload_constructor_build_state"
+    },
+    {
+      "owner": "port_game.source_build_payload_content_equals_state",
+      "function": "source_build_payload_content_equals_state",
+      "gdscript_path": "src/game/SourceBuildPayloadPortBridge.gd",
+      "canonical_owner": "port_game.source_build_payload_content_equals_state"
+    },
+    {
+      "owner": "port_game.source_build_payload_content_state",
+      "function": "source_build_payload_content_state",
+      "gdscript_path": "src/game/SourceBuildPayloadPortBridge.gd",
+      "canonical_owner": "port_game.source_build_payload_content_state"
+    },
+    {
+      "owner": "port_game.source_build_payload_build_time_state",
+      "function": "source_build_payload_build_time_state",
+      "gdscript_path": "src/game/SourceBuildPayloadPortBridge.gd",
+      "canonical_owner": "port_game.source_build_payload_build_time_state"
+    },
+    {
+      "owner": "port_game.source_build_payload_requirements_state",
+      "function": "source_build_payload_requirements_state",
+      "gdscript_path": "src/game/SourceBuildPayloadPortBridge.gd",
+      "canonical_owner": "port_game.source_build_payload_requirements_state"
+    },
+    {
+      "owner": "port_game.source_build_payload_x_state",
+      "function": "source_build_payload_x_state",
+      "gdscript_path": "src/game/SourceBuildPayloadPortBridge.gd",
+      "canonical_owner": "port_game.source_build_payload_x_state"
+    },
+    {
+      "owner": "port_game.source_build_payload_y_state",
+      "function": "source_build_payload_y_state",
+      "gdscript_path": "src/game/SourceBuildPayloadPortBridge.gd",
+      "canonical_owner": "port_game.source_build_payload_y_state"
+    },
+    {
+      "owner": "port_game.source_build_payload_size_state",
+      "function": "source_build_payload_size_state",
+      "gdscript_path": "src/game/SourceBuildPayloadPortBridge.gd",
+      "canonical_owner": "port_game.source_build_payload_size_state"
+    },
+    {
+      "owner": "port_game.source_build_payload_write_state",
+      "function": "source_build_payload_write_state",
+      "gdscript_path": "src/game/SourceBuildPayloadPortBridge.gd",
+      "canonical_owner": "port_game.source_build_payload_write_state"
+    },
+    {
+      "owner": "port_game.source_build_payload_set_state",
+      "function": "source_build_payload_set_state",
+      "gdscript_path": "src/game/SourceBuildPayloadPortBridge.gd",
+      "canonical_owner": "port_game.source_build_payload_set_state"
+    },
+    {
+      "owner": "port_game.source_build_payload_place_default_state",
+      "function": "source_build_payload_place_default_state",
+      "gdscript_path": "src/game/SourceBuildPayloadPortBridge.gd",
+      "canonical_owner": "port_game.source_build_payload_place_default_state"
+    },
+    {
+      "owner": "port_game.source_build_payload_place_state",
+      "function": "source_build_payload_place_state",
+      "gdscript_path": "src/game/SourceBuildPayloadPortBridge.gd",
+      "canonical_owner": "port_game.source_build_payload_place_state"
+    },
+    {
+      "owner": "port_game.source_build_payload_update_state",
+      "function": "source_build_payload_update_state",
+      "gdscript_path": "src/game/SourceBuildPayloadPortBridge.gd",
+      "canonical_owner": "port_game.source_build_payload_update_state"
+    },
+    {
+      "owner": "port_game.source_build_payload_destroyed_state",
+      "function": "source_build_payload_destroyed_state",
+      "gdscript_path": "src/game/SourceBuildPayloadPortBridge.gd",
+      "canonical_owner": "port_game.source_build_payload_destroyed_state"
+    },
+    {
+      "owner": "port_game.source_build_payload_remove_state",
+      "function": "source_build_payload_remove_state",
+      "gdscript_path": "src/game/SourceBuildPayloadPortBridge.gd",
+      "canonical_owner": "port_game.source_build_payload_remove_state"
+    },
+    {
+      "owner": "port_game.source_build_payload_draw_shadow_state",
+      "function": "source_build_payload_draw_shadow_state",
+      "gdscript_path": "src/game/SourceBuildPayloadPortBridge.gd",
+      "canonical_owner": "port_game.source_build_payload_draw_shadow_state"
+    },
+    {
+      "owner": "port_game.source_build_payload_draw_state",
+      "function": "source_build_payload_draw_state",
+      "gdscript_path": "src/game/SourceBuildPayloadPortBridge.gd",
+      "canonical_owner": "port_game.source_build_payload_draw_state"
+    },
+    {
+      "owner": "port_game.source_build_payload_icon_state",
+      "function": "source_build_payload_icon_state",
+      "gdscript_path": "src/game/SourceBuildPayloadPortBridge.gd",
+      "canonical_owner": "port_game.source_build_payload_icon_state"
+    },
+    {
       "owner": "port_game.source_builder_draw_plan_state",
       "function": "source_builder_draw_plan_state",
       "gdscript_path": "src/game/SourceBuilderDrawPortBridge.gd",
@@ -4648,126 +4768,6 @@
       "function": "source_building_update_ambient_sound_gate_state",
       "gdscript_path": "src/game/SourceBuildingTimePortBridge.gd",
       "canonical_owner": "port_game.source_building_update_ambient_sound_gate_state"
-    },
-    {
-      "owner": "port_game.source_build_payload_block_state",
-      "function": "source_build_payload_block_state",
-      "gdscript_path": "src/game/SourceBuildPayloadPortBridge.gd",
-      "canonical_owner": "port_game.source_build_payload_block_state"
-    },
-    {
-      "owner": "port_game.source_build_payload_constructor_block_team_state",
-      "function": "source_build_payload_constructor_block_team_state",
-      "gdscript_path": "src/game/SourceBuildPayloadPortBridge.gd",
-      "canonical_owner": "port_game.source_build_payload_constructor_block_team_state"
-    },
-    {
-      "owner": "port_game.source_build_payload_constructor_build_state",
-      "function": "source_build_payload_constructor_build_state",
-      "gdscript_path": "src/game/SourceBuildPayloadPortBridge.gd",
-      "canonical_owner": "port_game.source_build_payload_constructor_build_state"
-    },
-    {
-      "owner": "port_game.source_build_payload_content_equals_state",
-      "function": "source_build_payload_content_equals_state",
-      "gdscript_path": "src/game/SourceBuildPayloadPortBridge.gd",
-      "canonical_owner": "port_game.source_build_payload_content_equals_state"
-    },
-    {
-      "owner": "port_game.source_build_payload_content_state",
-      "function": "source_build_payload_content_state",
-      "gdscript_path": "src/game/SourceBuildPayloadPortBridge.gd",
-      "canonical_owner": "port_game.source_build_payload_content_state"
-    },
-    {
-      "owner": "port_game.source_build_payload_build_time_state",
-      "function": "source_build_payload_build_time_state",
-      "gdscript_path": "src/game/SourceBuildPayloadPortBridge.gd",
-      "canonical_owner": "port_game.source_build_payload_build_time_state"
-    },
-    {
-      "owner": "port_game.source_build_payload_requirements_state",
-      "function": "source_build_payload_requirements_state",
-      "gdscript_path": "src/game/SourceBuildPayloadPortBridge.gd",
-      "canonical_owner": "port_game.source_build_payload_requirements_state"
-    },
-    {
-      "owner": "port_game.source_build_payload_x_state",
-      "function": "source_build_payload_x_state",
-      "gdscript_path": "src/game/SourceBuildPayloadPortBridge.gd",
-      "canonical_owner": "port_game.source_build_payload_x_state"
-    },
-    {
-      "owner": "port_game.source_build_payload_y_state",
-      "function": "source_build_payload_y_state",
-      "gdscript_path": "src/game/SourceBuildPayloadPortBridge.gd",
-      "canonical_owner": "port_game.source_build_payload_y_state"
-    },
-    {
-      "owner": "port_game.source_build_payload_size_state",
-      "function": "source_build_payload_size_state",
-      "gdscript_path": "src/game/SourceBuildPayloadPortBridge.gd",
-      "canonical_owner": "port_game.source_build_payload_size_state"
-    },
-    {
-      "owner": "port_game.source_build_payload_write_state",
-      "function": "source_build_payload_write_state",
-      "gdscript_path": "src/game/SourceBuildPayloadPortBridge.gd",
-      "canonical_owner": "port_game.source_build_payload_write_state"
-    },
-    {
-      "owner": "port_game.source_build_payload_set_state",
-      "function": "source_build_payload_set_state",
-      "gdscript_path": "src/game/SourceBuildPayloadPortBridge.gd",
-      "canonical_owner": "port_game.source_build_payload_set_state"
-    },
-    {
-      "owner": "port_game.source_build_payload_place_default_state",
-      "function": "source_build_payload_place_default_state",
-      "gdscript_path": "src/game/SourceBuildPayloadPortBridge.gd",
-      "canonical_owner": "port_game.source_build_payload_place_default_state"
-    },
-    {
-      "owner": "port_game.source_build_payload_place_state",
-      "function": "source_build_payload_place_state",
-      "gdscript_path": "src/game/SourceBuildPayloadPortBridge.gd",
-      "canonical_owner": "port_game.source_build_payload_place_state"
-    },
-    {
-      "owner": "port_game.source_build_payload_update_state",
-      "function": "source_build_payload_update_state",
-      "gdscript_path": "src/game/SourceBuildPayloadPortBridge.gd",
-      "canonical_owner": "port_game.source_build_payload_update_state"
-    },
-    {
-      "owner": "port_game.source_build_payload_destroyed_state",
-      "function": "source_build_payload_destroyed_state",
-      "gdscript_path": "src/game/SourceBuildPayloadPortBridge.gd",
-      "canonical_owner": "port_game.source_build_payload_destroyed_state"
-    },
-    {
-      "owner": "port_game.source_build_payload_remove_state",
-      "function": "source_build_payload_remove_state",
-      "gdscript_path": "src/game/SourceBuildPayloadPortBridge.gd",
-      "canonical_owner": "port_game.source_build_payload_remove_state"
-    },
-    {
-      "owner": "port_game.source_build_payload_draw_shadow_state",
-      "function": "source_build_payload_draw_shadow_state",
-      "gdscript_path": "src/game/SourceBuildPayloadPortBridge.gd",
-      "canonical_owner": "port_game.source_build_payload_draw_shadow_state"
-    },
-    {
-      "owner": "port_game.source_build_payload_draw_state",
-      "function": "source_build_payload_draw_state",
-      "gdscript_path": "src/game/SourceBuildPayloadPortBridge.gd",
-      "canonical_owner": "port_game.source_build_payload_draw_state"
-    },
-    {
-      "owner": "port_game.source_build_payload_icon_state",
-      "function": "source_build_payload_icon_state",
-      "gdscript_path": "src/game/SourceBuildPayloadPortBridge.gd",
-      "canonical_owner": "port_game.source_build_payload_icon_state"
     },
     {
       "owner": "port_game.source_turret_init_state",

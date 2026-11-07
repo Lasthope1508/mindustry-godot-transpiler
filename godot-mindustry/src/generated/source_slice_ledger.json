@@ -50428,6 +50428,175 @@
         "Tile.changeBuild, full two-pass setBlock overlap, entity group removal/init, controller pickup/world transitions and actual event bus remain open in C01.",
         "C02 inventory/offload/dump/transport and C03-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2029": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_class": "mindustry.world.Tile",
+      "java_method": "changeBuild",
+      "godot_owner": "SourceBlockGeometry.source_apply_tile_change_build",
+      "exact_exprs": [
+        "protected void changeBuild(Team team, Prov<Building> entityprov, int rotation){",
+        "if(build != null){",
+        "int size = build.block.size;",
+        "build.remove();",
+        "tileSet.clear();",
+        "for(Point2 edge : Edges.getEdges(size)){",
+        "Building other = world.build(x + edge.x, y + edge.y);",
+        "tileSet.add(other);",
+        "for(Building t : tileSet){",
+        "t.updateProximity();",
+        "if(block.hasBuilding()){",
+        "build = entityprov.get().init(this, team, block.update && !state.isEditor(), rotation);"
+      ],
+      "source_symbols": [
+        "source_apply_tile_change_build_input.self_tile",
+        "source_apply_tile_change_build_input.old_build",
+        "source_apply_tile_change_build_input.old_block_size",
+        "source_apply_tile_change_build_input.new_block_has_building",
+        "source_apply_tile_change_build_input.new_block_update",
+        "source_apply_tile_change_build_input.team",
+        "source_apply_tile_change_build_input.rotation",
+        "source_apply_tile_change_build_input.editor_state",
+        "source_apply_tile_change_build_input.world_build",
+        "source_apply_tile_change_build_input.remove_build",
+        "source_apply_tile_change_build_input.update_proximity",
+        "source_apply_tile_change_build_input.entity_provider",
+        "source_apply_tile_change_build_input.entity_init"
+      ],
+      "tests": [
+        "test_executable_tile_change_build_set_block_registration",
+        "test_all_tile_change_build_input_evidence_is_exact",
+        "test_reference_graph_and_actual_tile_set_block"
+      ],
+      "runtime_proof": "/root/TileChangeBuildSetBlockProof",
+      "deferred_exprs": [
+        "These are executable composition primitives, not automatic production placement or world-reload binding.",
+        "Multiblock pass 0 uses a caller-bound setBlock(air) hook; full recursive proxy setBlock wiring belongs to production placement binding.",
+        "Superclass noSleep, power onProximity hooks, turret unregister, controller pickup, world transitions and remaining Tile/Floor side effects stay open in C01.",
+        "C02 inventory/offload/dump/transport and C03-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
+    },
+    "N2030": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_class": "mindustry.world.Tile",
+      "java_method": "changed",
+      "godot_owner": "SourceBlockGeometry.source_apply_tile_changed",
+      "exact_exprs": [
+        "protected void changed(){",
+        "if(!world.isGenerating()){",
+        "build.updateProximity();",
+        "for(Point2 p : Geometry.d4){",
+        "Building tile = world.build(x + p.x, y + p.y);",
+        "if(tile != null && !tile.tile.changing){",
+        "tile.onProximityUpdate();",
+        "fireChanged();",
+        "if(block.isStatic()){",
+        "recache();"
+      ],
+      "source_symbols": [
+        "source_apply_tile_changed_input.self_tile",
+        "source_apply_tile_changed_input.world_generating",
+        "source_apply_tile_changed_input.block_static",
+        "source_apply_tile_changed_input.world_build",
+        "source_apply_tile_changed_input.d4_offsets",
+        "source_apply_tile_changed_input.neighbor_changing",
+        "source_apply_tile_changed_input.update_proximity",
+        "source_apply_tile_changed_input.on_proximity_update",
+        "source_apply_tile_changed_input.fire_changed",
+        "source_apply_tile_changed_input.recache"
+      ],
+      "tests": [
+        "test_executable_tile_change_build_set_block_registration",
+        "test_all_tile_change_build_input_evidence_is_exact",
+        "test_reference_graph_and_actual_tile_set_block"
+      ],
+      "runtime_proof": "/root/TileChangeBuildSetBlockProof",
+      "deferred_exprs": [
+        "These are executable composition primitives, not automatic production placement or world-reload binding.",
+        "Multiblock pass 0 uses a caller-bound setBlock(air) hook; full recursive proxy setBlock wiring belongs to production placement binding.",
+        "Superclass noSleep, power onProximity hooks, turret unregister, controller pickup, world transitions and remaining Tile/Floor side effects stay open in C01.",
+        "C02 inventory/offload/dump/transport and C03-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
+    },
+    "N2031": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_class": "mindustry.world.Tile",
+      "java_method": "setBlock",
+      "godot_owner": "SourceBlockGeometry.source_apply_tile_set_block",
+      "exact_exprs": [
+        "public void setBlock(Block type, Team team, int rotation, Prov<Building> entityprov){",
+        "changing = true;",
+        "if(type.isStatic() || this.block.isStatic()){",
+        "recache();",
+        "recacheWall();",
+        "if(type.forceTeam != null) team = type.forceTeam;",
+        "preChanged();",
+        "this.block = type;",
+        "changeBuild(team, entityprov, (byte)Mathf.mod(rotation, 4));",
+        "build.team(team);",
+        "if(block.isMultiblock()){",
+        "other.setBlock(Blocks.air);",
+        "other.build = entity;",
+        "other.block = block;",
+        "changed();",
+        "changing = false;",
+        "block.blockChanged(this);"
+      ],
+      "source_symbols": [
+        "source_apply_tile_set_block_input.self_tile",
+        "source_apply_tile_set_block_input.type_value",
+        "source_apply_tile_set_block_input.team_value",
+        "source_apply_tile_set_block_input.rotation_value",
+        "source_apply_tile_set_block_input.type_static",
+        "source_apply_tile_set_block_input.previous_block_static",
+        "source_apply_tile_set_block_input.force_team_present",
+        "source_apply_tile_set_block_input.force_team_value",
+        "source_apply_tile_set_block_input.world_generating",
+        "source_apply_tile_set_block_input.previous_build",
+        "source_apply_tile_set_block_input.previous_build_multiblock",
+        "source_apply_tile_set_block_input.previous_block_size",
+        "source_apply_tile_set_block_input.size_offset",
+        "source_apply_tile_set_block_input.old_build_center",
+        "source_apply_tile_set_block_input.world_tile_lookup",
+        "source_apply_tile_set_block_input.world_build",
+        "source_apply_tile_set_block_input.air_block",
+        "source_apply_tile_set_block_input.on_removed",
+        "source_apply_tile_set_block_input.remove_from_proximity",
+        "source_apply_tile_set_block_input.remove_build",
+        "source_apply_tile_set_block_input.fire_pre_changed",
+        "source_apply_tile_set_block_input.fire_changed",
+        "source_apply_tile_set_block_input.new_block_has_building",
+        "source_apply_tile_set_block_input.new_block_update",
+        "source_apply_tile_set_block_input.editor_state",
+        "source_apply_tile_set_block_input.update_proximity",
+        "source_apply_tile_set_block_input.on_proximity_update",
+        "source_apply_tile_set_block_input.entity_provider",
+        "source_apply_tile_set_block_input.entity_init",
+        "source_apply_tile_set_block_input.build_team",
+        "source_apply_tile_set_block_input.d4_offsets",
+        "source_apply_tile_set_block_input.neighbor_changing",
+        "source_apply_tile_set_block_input.recache",
+        "source_apply_tile_set_block_input.recache_wall",
+        "source_apply_tile_set_block_input.set_block_air",
+        "source_apply_tile_set_block_input.new_block_multiblock",
+        "source_apply_tile_set_block_input.new_block_size",
+        "source_apply_tile_set_block_input.block_changed"
+      ],
+      "tests": [
+        "test_executable_tile_change_build_set_block_registration",
+        "test_all_tile_change_build_input_evidence_is_exact",
+        "test_reference_graph_and_actual_tile_set_block"
+      ],
+      "runtime_proof": "/root/TileChangeBuildSetBlockProof",
+      "deferred_exprs": [
+        "These are executable composition primitives, not automatic production placement or world-reload binding.",
+        "Multiblock pass 0 uses a caller-bound setBlock(air) hook; full recursive proxy setBlock wiring belongs to production placement binding.",
+        "Superclass noSleep, power onProximity hooks, turret unregister, controller pickup, world transitions and remaining Tile/Floor side effects stay open in C01.",
+        "C02 inventory/offload/dump/transport and C03-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1

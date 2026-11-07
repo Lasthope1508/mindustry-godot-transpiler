@@ -212354,6 +212354,643 @@
       },
       "runtime_proof": "/root/BuildingProximityMutationProof",
       "rule": "Void mutation; no fabricated result dictionary or competing persistent state. Inputs and hooks must be actual source context."
+    },
+    "source_apply_tile_change_build_input": {
+      "status": "active",
+      "owner": "SourceBlockGeometry.source_apply_tile_change_build",
+      "source_slice": "N2029",
+      "keys": {
+        "self_tile": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "protected void changeBuild(Team team, Prov<Building> entityprov, int rotation){",
+          "rule": "Actual mutation Tile by reference; old build is cleared and the new build is assigned on it.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_change_build"
+          ]
+        },
+        "old_build": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "if(build != null){",
+          "rule": "Actual previous Building or null; removal and edge collection happen only when present.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_change_build"
+          ]
+        },
+        "old_block_size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "int size = build.block.size;",
+          "rule": "Actual old Building block size for the canonical edge owner.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_change_build"
+          ]
+        },
+        "new_block_has_building": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "if(block.hasBuilding()){",
+          "rule": "Actual new Block predicate; no Building is created when false.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_change_build"
+          ]
+        },
+        "new_block_update": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "build = entityprov.get().init(this, team, block.update && !state.isEditor(), rotation);",
+          "rule": "Actual new Block.update flag; init_update is block.update && !state.isEditor().",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_change_build"
+          ]
+        },
+        "team": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "build = entityprov.get().init(this, team, block.update && !state.isEditor(), rotation);",
+          "rule": "Actual Team passed to the new Building init.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_change_build"
+          ]
+        },
+        "rotation": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "build = entityprov.get().init(this, team, block.update && !state.isEditor(), rotation);",
+          "rule": "Actual normalized rotation passed to the new Building init.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_change_build"
+          ]
+        },
+        "editor_state": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "build = entityprov.get().init(this, team, block.update && !state.isEditor(), rotation);",
+          "rule": "Actual state.isEditor(); init_update is false in the editor.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_change_build"
+          ]
+        },
+        "world_build": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "Building other = world.build(x + edge.x, y + edge.y);",
+          "rule": "Actual world Building lookup returning the original object or null; multiple edges may return the same entity.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_change_build"
+          ]
+        },
+        "remove_build": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "build.remove();",
+          "rule": "Actual old Building removal, called once before its Tile build is cleared.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_change_build"
+          ]
+        },
+        "update_proximity": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "t.updateProximity();",
+          "rule": "Actual proximity update, called once per unique edge Building after removal.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_change_build"
+          ]
+        },
+        "entity_provider": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "build = entityprov.get().init(this, team, block.update && !state.isEditor(), rotation);",
+          "rule": "Actual entityprov.get(); returns the uninitialized new Building.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_change_build"
+          ]
+        },
+        "entity_init": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "build = entityprov.get().init(this, team, block.update && !state.isEditor(), rotation);",
+          "rule": "Actual Building.init(this, team, block.update && !state.isEditor(), rotation); returns the initialized Building.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_change_build"
+          ]
+        }
+      },
+      "runtime_proof": "/root/TileChangeBuildSetBlockProof",
+      "rule": "Void mutation; no fabricated result dictionary or competing persistent state. Inputs and hooks must be actual source context."
+    },
+    "source_apply_tile_changed_input": {
+      "status": "active",
+      "owner": "SourceBlockGeometry.source_apply_tile_changed",
+      "source_slice": "N2030",
+      "keys": {
+        "self_tile": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "protected void changed(){",
+          "rule": "Actual mutation Tile by reference; its build decides the proximity branch.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_changed"
+          ]
+        },
+        "world_generating": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "if(!world.isGenerating()){",
+          "rule": "Actual generation phase; proximity work and the change event are gated on it.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_changed"
+          ]
+        },
+        "block_static": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "if(block.isStatic()){",
+          "rule": "Actual new Block static predicate for the recache call.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_changed"
+          ]
+        },
+        "world_build": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "Building tile = world.build(x + p.x, y + p.y);",
+          "rule": "Actual world Building lookup for the Geometry.d4 neighbours.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_changed"
+          ]
+        },
+        "d4_offsets": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "for(Point2 p : Geometry.d4){",
+          "rule": "Actual Geometry.d4 offsets in Arc order (1,0), (0,1), (-1,0), (0,-1); never a guessed neighbour set.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_changed"
+          ]
+        },
+        "neighbor_changing": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "if(tile != null && !tile.tile.changing){",
+          "rule": "Actual neighbour tile changing flag; changing neighbours receive no proximity update.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_changed"
+          ]
+        },
+        "update_proximity": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "build.updateProximity();",
+          "rule": "Actual own-Building proximity update when a build is present.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_changed"
+          ]
+        },
+        "on_proximity_update": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "tile.onProximityUpdate();",
+          "rule": "Actual neighbour proximity update hook.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_changed"
+          ]
+        },
+        "fire_changed": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "fireChanged();",
+          "rule": "Actual change event hook; suppressed while generating by the canonical event gate.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_changed"
+          ]
+        },
+        "recache": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "recache();",
+          "rule": "Actual Tile recache hook for a static Block.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_changed"
+          ]
+        }
+      },
+      "runtime_proof": "/root/TileChangeBuildSetBlockProof",
+      "rule": "Void mutation; no fabricated result dictionary or competing persistent state. Inputs and hooks must be actual source context."
+    },
+    "source_apply_tile_set_block_input": {
+      "status": "active",
+      "owner": "SourceBlockGeometry.source_apply_tile_set_block",
+      "source_slice": "N2031",
+      "keys": {
+        "self_tile": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "public void setBlock(Block type, Team team, int rotation, Prov<Building> entityprov){",
+          "rule": "Actual mutation Tile by reference; changing, block and build are mutated on it in source order.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_set_block"
+          ]
+        },
+        "type_value": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "this.block = type;",
+          "rule": "Actual new Block assigned to the mutation Tile.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_set_block"
+          ]
+        },
+        "team_value": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "if(type.forceTeam != null) team = type.forceTeam;",
+          "rule": "Actual requested Team, replaced by the new Block forceTeam when present.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_set_block"
+          ]
+        },
+        "rotation_value": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "changeBuild(team, entityprov, (byte)Mathf.mod(rotation, 4));",
+          "rule": "Actual requested rotation; normalized with posmod 4 before changeBuild.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_set_block"
+          ]
+        },
+        "type_static": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "if(type.isStatic() || this.block.isStatic()){",
+          "rule": "Actual new Block static predicate for the opening recache guard.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_set_block"
+          ]
+        },
+        "previous_block_static": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "if(type.isStatic() || this.block.isStatic()){",
+          "rule": "Actual previous Block static predicate for the opening recache guard.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_set_block"
+          ]
+        },
+        "force_team_present": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "if(type.forceTeam != null) team = type.forceTeam;",
+          "rule": "Whether the new Block carries a forceTeam; the team is only replaced when present.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_set_block"
+          ]
+        },
+        "force_team_value": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "if(type.forceTeam != null) team = type.forceTeam;",
+          "rule": "Actual new Block forceTeam value.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_set_block"
+          ]
+        },
+        "world_generating": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "if(!world.isGenerating()){",
+          "rule": "Actual generation phase used by the composed preChanged and changed primitives.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_set_block"
+          ]
+        },
+        "previous_build": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "if(build != null){",
+          "rule": "Actual previous Building on the mutation Tile or null; retained through preChanged and removed by changeBuild.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_set_block"
+          ]
+        },
+        "previous_build_multiblock": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "if(build.block.isMultiblock()){",
+          "rule": "Actual old Building block predicate for the preChanged footprint.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_set_block"
+          ]
+        },
+        "previous_block_size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "int size = build.block.size;",
+          "rule": "Actual old Building block size.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_set_block"
+          ]
+        },
+        "size_offset": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "int offsetx = -(size - 1) / 2;",
+          "rule": "Actual old initialized footprint offset from the canonical Block geometry owner.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_set_block"
+          ]
+        },
+        "old_build_center": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "int cx = build.tileX(), cy = build.tileY();",
+          "rule": "Actual old Building center; a proxy mutation must not center its reset on the proxy.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_set_block"
+          ]
+        },
+        "world_tile_lookup": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "Tile other = world.tile(cx + dx + offsetx, cy + dy + offsety);",
+          "rule": "Actual nullable Tile lookup; each multiblock pass looks up fresh in source dx/dy order.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_set_block"
+          ]
+        },
+        "world_build": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "Building other = world.build(x + edge.x, y + edge.y);",
+          "rule": "Actual world Building lookup for the composed changeBuild and changed primitives.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_set_block"
+          ]
+        },
+        "air_block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "other.block = Blocks.air;",
+          "rule": "Canonical resolved Blocks.air object; no string content substitute is assigned.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_set_block"
+          ]
+        },
+        "on_removed": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "build.onRemoved();",
+          "rule": "Actual source domain hook once before removal from proximity and any old proxy reset.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_set_block"
+          ]
+        },
+        "remove_from_proximity": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "build.removeFromProximity();",
+          "rule": "Actual previous Building proximity removal. Caller can compose the registered executable reference owner.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_set_block"
+          ]
+        },
+        "remove_build": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "build.remove();",
+          "rule": "Actual old Building removal inside the composed changeBuild.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_set_block"
+          ]
+        },
+        "fire_pre_changed": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "firePreChanged();",
+          "rule": "Actual pre-change event hook; suppressed by generation.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_set_block"
+          ]
+        },
+        "fire_changed": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "fireChanged();",
+          "rule": "Actual change event hook; suppressed by generation.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_set_block"
+          ]
+        },
+        "new_block_has_building": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "if(block.hasBuilding()){",
+          "rule": "Actual new Block predicate for the composed changeBuild.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_set_block"
+          ]
+        },
+        "new_block_update": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "build = entityprov.get().init(this, team, block.update && !state.isEditor(), rotation);",
+          "rule": "Actual new Block.update flag for the composed changeBuild init.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_set_block"
+          ]
+        },
+        "editor_state": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "build = entityprov.get().init(this, team, block.update && !state.isEditor(), rotation);",
+          "rule": "Actual state.isEditor() for the composed changeBuild init.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_set_block"
+          ]
+        },
+        "update_proximity": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "t.updateProximity();",
+          "rule": "Actual proximity update used by the composed changeBuild and changed primitives.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_set_block"
+          ]
+        },
+        "on_proximity_update": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "tile.onProximityUpdate();",
+          "rule": "Actual neighbour proximity update hook used by the composed changed primitive.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_set_block"
+          ]
+        },
+        "entity_provider": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "build = entityprov.get().init(this, team, block.update && !state.isEditor(), rotation);",
+          "rule": "Actual entityprov.get(); returns the uninitialized new Building.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_set_block"
+          ]
+        },
+        "entity_init": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "build = entityprov.get().init(this, team, block.update && !state.isEditor(), rotation);",
+          "rule": "Actual Building.init(this, team, block.update && !state.isEditor(), rotation); returns the initialized Building.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_set_block"
+          ]
+        },
+        "build_team": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "build.team(team);",
+          "rule": "Actual new Building team assignment after changeBuild.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_set_block"
+          ]
+        },
+        "d4_offsets": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "for(Point2 p : Geometry.d4){",
+          "rule": "Actual Geometry.d4 offsets in Arc order for the composed changed primitive.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_set_block"
+          ]
+        },
+        "neighbor_changing": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "if(tile != null && !tile.tile.changing){",
+          "rule": "Actual neighbour tile changing flag for the composed changed primitive.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_set_block"
+          ]
+        },
+        "recache": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "recache();",
+          "rule": "Actual Tile recache hook for the static guard and the composed changed primitive.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_set_block"
+          ]
+        },
+        "recache_wall": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "recacheWall();",
+          "rule": "Actual Tile wall recache hook for the static guard.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_set_block"
+          ]
+        },
+        "set_block_air": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "other.setBlock(Blocks.air);",
+          "rule": "Caller-bound setBlock(Blocks.air) for multiblock pass 0; full recursive proxy wiring belongs to production placement binding.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_set_block"
+          ]
+        },
+        "new_block_multiblock": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "if(block.isMultiblock()){",
+          "rule": "Actual new Block multiblock predicate for the two-pass proxy assignment.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_set_block"
+          ]
+        },
+        "new_block_size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "int offset = -(block.size - 1) / 2;",
+          "rule": "Actual new Block size for the two-pass footprint.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_set_block"
+          ]
+        },
+        "block_changed": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "block.blockChanged(this);",
+          "rule": "Actual new Block blockChanged hook after changing is reset.",
+          "used_by": [
+            "SourceBlockGeometry.source_apply_tile_set_block"
+          ]
+        }
+      },
+      "runtime_proof": "/root/TileChangeBuildSetBlockProof",
+      "rule": "Void mutation; no fabricated result dictionary or competing persistent state. Inputs and hooks must be actual source context."
     }
   },
   "version": 1

@@ -14,8 +14,8 @@ Counts below are projected from the canonical `source_slice_ledger.json`, not fr
 
 | Bucket | Count |
 | --- | ---: |
-| Canonical slice ledger entries | 1483 |
-| Done | 1483 |
+| Canonical slice ledger entries | 1486 |
+| Done | 1486 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -110,6 +110,9 @@ Counts below are projected from the canonical `source_slice_ledger.json`, not fr
 - [x] N2026: Executable removeFromProximity mutates actual reference arrays; all-team edge dedup, unlink/hook/self-clear ordering proved with supplied actual context.
 - [x] N2027: Executable updateProximity preserves actual Building/Team identities, unique bidirectional links and hook/recache order; automatic domain/group wiring remains open.
 - [x] N2028: Execute existing Tile pre-change plan on streamed old-center footprint lookups; source callbacks, generation, proxy/bounds and actual Main Tile store primitive application proved. Full setBlock/changeBuild removal remains open.
+- [x] N2029: Executable Tile.changeBuild removes the old Building, updates each unique edge Building once through the canonical edge owner, and inits a new Building only when the new Block has one, with init_update = block.update && !isEditor().
+- [x] N2030: Executable Tile.changed updates own-build or non-changing d4-neighbour proximity outside generation, gates the change event, and still recaches a static Block.
+- [x] N2031: Executable full two-pass Tile.setBlock composes preChanged/changeBuild/changed in source order, with fresh per-pass proxy lookups, forceTeam, rotation normalization and blockChanged. Production placement/reload binding and Godot proof/full suite remain pending.
 - [x] N167: Source BuildingComp drawConfigure canonical square state.
 - [x] N168: Source BuildingComp checkSolid default state.
 - [x] N169: Source BuildingComp handleDamage passthrough state.
@@ -1379,7 +1382,7 @@ Counts below are projected from the canonical `source_slice_ledger.json`, not fr
 
 Work now uses dependency cubes for prioritization without changing the verification contract. Each cube groups source Java, Godot runtime wiring, and playable behavior for one gameplay system. Inside a cube, every slice still moves linearly: read upstream Java, write RED tests, prove RED, implement minimal GREEN, run targeted/full tests, prove through Godot MCP runtime, update this checklist, run `git diff --check`, stage only touched tracked files, and commit.
 
-Current cube: `executable proximity and Tile pre-change`. N2026–N2028 mutate actual Building reference arrays and execute the existing old-footprint reset/event plan with streamed lookups. Ledger: 1483; expanded catalog: 113 modules; blocks: 425. Supplied-context/working-tree acceptance only; production graph/hook binding, changeBuild/two-pass setBlock, superclass/world lifecycle and C02–C12 remain open. See `reports/2026-11-02-building-proximity-mutation.md`.
+Current cube: `executable Tile changeBuild / changed / full two-pass setBlock`. N2029–N2031 compose the registered proximity/pre-change primitives into executable Tile mutations on actual Tile dictionaries. Ledger: 1486; expanded catalog: 113 modules; blocks: 425. Registration + targeted tests pass and all 61 symbol exprs are exact against pinned Tile.java; Godot proof, full suite, editor and replay are still pending (no Godot binary or local upstream checkout on this machine yet). Production placement/reload binding, superclass/world lifecycle and C02–C12 remain open. See `reports/2026-11-07-tile-change-build-set-block.md`.
 
 ## Done
 
@@ -3043,10 +3046,13 @@ Current cube: `executable proximity and Tile pre-change`. N2026–N2028 mutate a
 | N2026 | Executable removeFromProximity | Actual persistent reference arrays; all-team unique edge neighbors; removed hook before unlink, neighbor hooks before own clear. |
 | N2027 | Executable updateProximity | Team identity, unique reciprocal links, full graph before self/neighbor hooks; explicit headless/drawCached guard. |
 | N2028 | Executable Tile.preChanged | Old-center streamed footprint, callbacks before lookup, proxy event bracketing/generation/bounds; focused 21/5659, full 5397/22981, native 23 true, 0 errors/68 warnings, editor 0 and replay. Supplied-context working-tree acceptance only. |
+| N2029 | Executable Tile.changeBuild | Old removal, unique edge proximity updates via canonical edge owner, conditional entity init with editor-gated update flag. |
+| N2030 | Executable Tile.changed | Own-build or non-changing d4-neighbour proximity outside generation, gated change event, static recache. |
+| N2031 | Executable full two-pass Tile.setBlock | Composes preChanged/changeBuild/changed in source order; fresh per-pass proxy lookups, forceTeam, rotation normalization, blockChanged. Registration + targeted gates pass; Godot proof/full suite pending. |
 
 ## Not Done
 
-C01 now has executable proximity and Tile pre-change primitives (N2026–N2028), including a bounded actual Main Tile-store application. Production graph/hook binding, complete changeBuild/setBlock overlap/removal, superclass sleep/groups, pickup/world transitions and remaining side effects stay open. C12 must adopt existing uncommitted owner dependencies. C02–C12 remain open.
+C01 now has executable Tile changeBuild / changed / full two-pass setBlock primitives (N2029–N2031) composing the N2026–N2028 proximity/pre-change primitives on actual Tile dictionaries. Production placement/reload binding, superclass sleep/groups, pickup/world transitions and remaining side effects stay open. C12 must adopt existing uncommitted owner dependencies. C02–C12 remain open.
 
 ## Scope
 
@@ -3411,3 +3417,5 @@ When Godot CLI is not on `PATH`, use the configured MCP Godot path from `C:\User
 | 2026-11-02 | N2023–N2025 accepted on working tree: actual terrain mutation/Drill notification; full 5389/22905, native 18 true, inspect/stop/editor/replay; C01 and C02–C12 open; uncommitted Tile owner dependency debt recorded. See reports/2026-11-02-terrain-mutation-lifecycle.md. |
 
 | 2026-11-02 | N2026–N2028 accepted as supplied-context executable primitives on working tree; full 5397/22981, native 23 true, inspect/stop/editor/replay. C01/C02–C12 open. See reports/2026-11-02-building-proximity-mutation.md. |
+
+| 2026-11-07 | N2029–N2031 implemented: executable Tile changeBuild / changed / full two-pass setBlock on actual Tile dictionaries; registration test OK, tile slice 41 OK, catalog 0 errors / 113 modules, all 61 symbol exprs exact against pinned Tile.java. Godot proof, full suite, editor and replay still pending (no Godot binary or local upstream checkout on this machine yet). C01 placement binding and C02–C12 remain open. See reports/2026-11-07-tile-change-build-set-block.md. |

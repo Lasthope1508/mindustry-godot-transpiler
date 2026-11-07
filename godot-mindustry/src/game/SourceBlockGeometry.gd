@@ -13,6 +13,7 @@ const source_tile_recache_source_text_state := preload("res://src/game/SourceTil
 const source_tile_network_mutation_source_text_state := preload("res://src/game/SourceTileNetworkMutationSourceTextState.gd")
 const source_tile_overlay_mutation_source_text_state := preload("res://src/game/SourceTileOverlayMutationSourceTextState.gd")
 const source_tile_circle_source_text_state := preload("res://src/game/SourceTileCircleSourceTextState.gd")
+const source_block_plan_geometry_state := preload("res://src/game/SourceBlockPlanGeometryState.gd")
 
 const SOURCE_BUILDING_COMP_GENERATED_CLASS := source_building_source_text_state.SOURCE_BUILDING_COMP_GENERATED_CLASS
 const SOURCE_BUILDING_HIT_SIZE_JAVA_METHOD := source_building_source_text_state.SOURCE_BUILDING_HIT_SIZE_JAVA_METHOD
@@ -864,3 +865,87 @@ static func source_apply_tile_pre_changed(self_tile: Dictionary, build: Object, 
 				changed_call.call(tile)
 	# Stream lookup and assignment in source dx/dy order; events may change a later Tile.
 	tile_get_linked_tiles_state(block_is_multiblock, block_size, size_offset, old_build_center.x, old_build_center.y, world_tile_lookup, self_tile, reset_proxy)
+
+
+# Execute Tile.changeBuild on an actual Tile dictionary. The old Building is
+# removed first; edge Buildings are collected through the canonical edge owner
+# in source order and deduplicated by identity (upstream tileSet is an
+# ObjectSet, so no order between distinct neighbours is claimed), and each
+# unique edge Building updates proximity once. A new Building is created only
+# when the new Block has one, with init_update = block.update && !isEditor().
+static func source_apply_tile_change_build(self_tile: Dictionary, old_build: Variant, old_block_size: int, new_block_has_building: bool, new_block_update: bool, team: Variant, rotation: int, editor_state: bool, world_build: Callable, remove_build: Callable, update_proximity: Callable, entity_provider: Callable, entity_init: Callable) -> void:
+	if old_build != null:
+		remove_build.call(old_build)
+		self_tile["build"] = null
+		var tile_set: Array = []
+		for point in source_block_plan_geometry_state.edge_points_state(old_block_size):
+			var other: Variant = world_build.call(int(self_tile["x"]) + point.x, int(self_tile["y"]) + point.y)
+			if other != null and not tile_set.has(other):
+				tile_set.append(other)
+		for other in tile_set:
+			update_proximity.call(other)
+	if new_block_has_building:
+		var created: Variant = entity_provider.call()
+		var init_update: bool = new_block_update and not editor_state
+		self_tile["build"] = entity_init.call(created, self_tile, team, init_update, rotation)
+
+
+# Execute Tile.changed on an actual Tile dictionary. While generating, no
+# proximity work happens; the change event still passes through the
+# generation gate in tile_fire_change_state, and a static Block still recaches.
+static func source_apply_tile_changed(self_tile: Dictionary, world_generating: bool, block_static: bool, world_build: Callable, d4_offsets: Array, neighbor_changing: Callable, update_proximity: Callable, on_proximity_update: Callable, fire_changed: Callable, recache: Callable) -> void:
+	if not world_generating:
+		if self_tile.get("build") != null:
+			update_proximity.call(self_tile["build"])
+		else:
+			for point in d4_offsets:
+				var other: Variant = world_build.call(int(self_tile["x"]) + int(point.x), int(self_tile["y"]) + int(point.y))
+				if other != null and not neighbor_changing.call(other):
+					on_proximity_update.call(other)
+	if tile_fire_change_state(world_generating, fire_changed)["event_fired"]:
+		fire_changed.call(self_tile)
+	if block_static:
+		recache.call(self_tile)
+
+
+# Execute the full Tile.setBlock on an actual Tile dictionary, composing the
+# registered preChanged / changeBuild / changed primitives in source order.
+# Multiblock proxies are looked up fresh in each pass in source dx/dy order;
+# pass 0 clears each proxy through the supplied setBlock(air) hook and pass 1
+# assigns the new entity and Block. The mutation Tile keeps its old Building
+# through preChanged and regains its entity only through changeBuild.
+static func source_apply_tile_set_block(self_tile: Dictionary, type_value: Variant, team_value: Variant, rotation_value: int, type_static: bool, previous_block_static: bool, force_team_present: bool, force_team_value: Variant, world_generating: bool, previous_build: Variant, previous_build_multiblock: bool, previous_block_size: int, size_offset: int, old_build_center: Vector2i, world_tile_lookup: Callable, world_build: Callable, air_block: Object, on_removed: Callable, remove_from_proximity: Callable, remove_build: Callable, fire_pre_changed: Callable, fire_changed: Callable, new_block_has_building: bool, new_block_update: bool, editor_state: bool, update_proximity: Callable, on_proximity_update: Callable, entity_provider: Callable, entity_init: Callable, build_team: Callable, d4_offsets: Array, neighbor_changing: Callable, recache: Callable, recache_wall: Callable, set_block_air: Callable, new_block_multiblock: bool, new_block_size: int, block_changed: Callable) -> void:
+	self_tile["changing"] = true
+	if type_static or previous_block_static:
+		recache.call(self_tile)
+		recache_wall.call(self_tile)
+	var effective_team: Variant = force_team_value if force_team_present else team_value
+	source_apply_tile_pre_changed(self_tile, previous_build, previous_build_multiblock, previous_block_size, size_offset, old_build_center, world_tile_lookup, air_block, world_generating, on_removed, remove_from_proximity, fire_pre_changed, fire_changed)
+	self_tile["block"] = type_value
+	var normalized_rotation: int = posmod(rotation_value, 4)
+	source_apply_tile_change_build(self_tile, previous_build, previous_block_size, new_block_has_building, new_block_update, effective_team, normalized_rotation, editor_state, world_build, remove_build, update_proximity, entity_provider, entity_init)
+	if self_tile.get("build") != null:
+		build_team.call(self_tile["build"], effective_team)
+	if new_block_multiblock:
+		var offset: int = -(new_block_size - 1) / 2
+		var entity: Variant = self_tile.get("build")
+		for pass_index in range(2):
+			for dx in range(new_block_size):
+				for dy in range(new_block_size):
+					var world_x: int = dx + offset + int(self_tile["x"])
+					var world_y: int = dy + offset + int(self_tile["y"])
+					if world_x == int(self_tile["x"]) and world_y == int(self_tile["y"]):
+						continue
+					var other: Variant = world_tile_lookup.call(world_x, world_y)
+					if other == null:
+						continue
+					if pass_index == 0:
+						set_block_air.call(other)
+					else:
+						other["build"] = entity
+						other["block"] = type_value
+		self_tile["build"] = entity
+		self_tile["block"] = type_value
+	source_apply_tile_changed(self_tile, world_generating, type_static, world_build, d4_offsets, neighbor_changing, update_proximity, on_proximity_update, fire_changed, recache)
+	self_tile["changing"] = false
+	block_changed.call(type_value, self_tile)
