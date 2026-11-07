@@ -154158,6 +154158,606 @@
         "test_reference_graph_and_actual_placed_tile_set_block"
       ],
       "runtime_proof": "/root/PlacedTileSetBlockProof"
+    },
+    "source_apply_schematic_tile_state_input.game": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_schematic_tile_state",
+      "godot_symbol": "source_apply_schematic_tile_state_input.game",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "place",
+      "java_expr": "Tile tile = world.tile(st.x + ox, st.y + oy);",
+      "rule": "Actual game world containing the Tile store, placement index and content catalog.",
+      "tests": [
+        "test_schematic_place_binding_registration",
+        "test_all_schematic_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_schematic_place"
+      ],
+      "runtime_proof": "/root/SchematicPlaceProof"
+    },
+    "source_apply_schematic_tile_state_input.stile": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_schematic_tile_state",
+      "godot_symbol": "source_apply_schematic_tile_state_input.stile",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "place",
+      "java_expr": "schem.tiles.each(st -> {",
+      "rule": "Actual schematic tile: block, cell offsets, config and rotation.",
+      "tests": [
+        "test_schematic_place_binding_registration",
+        "test_all_schematic_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_schematic_place"
+      ],
+      "runtime_proof": "/root/SchematicPlaceProof"
+    },
+    "source_apply_schematic_tile_state_input.origin_cell": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_schematic_tile_state",
+      "godot_symbol": "source_apply_schematic_tile_state_input.origin_cell",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "place",
+      "java_expr": "int ox = x - schem.width/2, oy = y - schem.height/2;",
+      "rule": "Actual schematic origin cell; stile offsets are added to it.",
+      "tests": [
+        "test_schematic_place_binding_registration",
+        "test_all_schematic_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_schematic_place"
+      ],
+      "runtime_proof": "/root/SchematicPlaceProof"
+    },
+    "source_apply_schematic_tile_state_input.team_id": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_schematic_tile_state",
+      "godot_symbol": "source_apply_schematic_tile_state_input.team_id",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "place",
+      "java_expr": "tile.setBlock(st.block, team, st.rotation);",
+      "rule": "Actual Team id the schematic is placed for; threaded through the placement funnel.",
+      "tests": [
+        "test_schematic_place_binding_registration",
+        "test_all_schematic_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_schematic_place"
+      ],
+      "runtime_proof": "/root/SchematicPlaceProof"
+    },
+    "source_apply_schematic_tile_state_input.overwrite": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_schematic_tile_state",
+      "godot_symbol": "source_apply_schematic_tile_state_input.overwrite",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "place",
+      "java_expr": "if(tile == null || (!overwrite && !Build.validPlace(st.block, team, tile.x, tile.y, st.rotation))) return;",
+      "rule": "Whether placement may replace an existing Building without a valid-place check.",
+      "tests": [
+        "test_schematic_place_binding_registration",
+        "test_all_schematic_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_schematic_place"
+      ],
+      "runtime_proof": "/root/SchematicPlaceProof"
+    },
+    "source_apply_schematic_tile_state_input.valid_place_hook": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_schematic_tile_state",
+      "godot_symbol": "source_apply_schematic_tile_state_input.valid_place_hook",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "place",
+      "java_expr": "!Build.validPlace(st.block, team, tile.x, tile.y, st.rotation)",
+      "rule": "Caller-supplied Build.validPlace equivalent; placement is fail-closed without one when overwrite is false.",
+      "tests": [
+        "test_schematic_place_binding_registration",
+        "test_all_schematic_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_schematic_place"
+      ],
+      "runtime_proof": "/root/SchematicPlaceProof"
+    },
+    "source_apply_schematic_tile_state_input.tile_config_callback": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_schematic_tile_state",
+      "godot_symbol": "source_apply_schematic_tile_state_input.tile_config_callback",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "place",
+      "java_expr": "tile.build.configureAny(config);",
+      "rule": "Caller-supplied Call.tileConfig equivalent applied to the placed Building.",
+      "tests": [
+        "test_schematic_place_binding_registration",
+        "test_all_schematic_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_schematic_place"
+      ],
+      "runtime_proof": "/root/SchematicPlaceProof"
+    },
+    "source_apply_schematic_tile_state_result.cell": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_schematic_tile_state",
+      "godot_symbol": "source_apply_schematic_tile_state_result.cell",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "place",
+      "java_expr": "Tile tile = world.tile(st.x + ox, st.y + oy);",
+      "rule": "Actual placement cell the stile resolved to.",
+      "tests": [
+        "test_schematic_place_binding_registration",
+        "test_all_schematic_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_schematic_place"
+      ],
+      "runtime_proof": "/root/SchematicPlaceProof"
+    },
+    "source_apply_schematic_tile_state_result.tile": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_schematic_tile_state",
+      "godot_symbol": "source_apply_schematic_tile_state_result.tile",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "place",
+      "java_expr": "Tile tile = world.tile(st.x + ox, st.y + oy);",
+      "rule": "Actual resolved world Tile dictionary, or null when the cell is outside the world.",
+      "tests": [
+        "test_schematic_place_binding_registration",
+        "test_all_schematic_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_schematic_place"
+      ],
+      "runtime_proof": "/root/SchematicPlaceProof"
+    },
+    "source_apply_schematic_tile_state_result.build": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_schematic_tile_state",
+      "godot_symbol": "source_apply_schematic_tile_state_result.build",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "place",
+      "java_expr": "if(tile.build != null){",
+      "rule": "The placed Building sprite, or null when the tile was skipped.",
+      "tests": [
+        "test_schematic_place_binding_registration",
+        "test_all_schematic_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_schematic_place"
+      ],
+      "runtime_proof": "/root/SchematicPlaceProof"
+    },
+    "source_apply_schematic_tile_state_result.placed": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_schematic_tile_state",
+      "godot_symbol": "source_apply_schematic_tile_state_result.placed",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "place",
+      "java_expr": "tile.setBlock(st.block, team, st.rotation);",
+      "rule": "Whether the stile was placed through the canonical setBlock binding.",
+      "tests": [
+        "test_schematic_place_binding_registration",
+        "test_all_schematic_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_schematic_place"
+      ],
+      "runtime_proof": "/root/SchematicPlaceProof"
+    },
+    "source_apply_schematic_tile_state_result.skipped": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_schematic_tile_state",
+      "godot_symbol": "source_apply_schematic_tile_state_result.skipped",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "place",
+      "java_expr": "if(tile == null || (!overwrite && !Build.validPlace(st.block, team, tile.x, tile.y, st.rotation))) return;",
+      "rule": "Why the stile was skipped, or empty when placed.",
+      "tests": [
+        "test_schematic_place_binding_registration",
+        "test_all_schematic_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_schematic_place"
+      ],
+      "runtime_proof": "/root/SchematicPlaceProof"
+    },
+    "source_apply_schematic_tile_state_result.valid_place_checked": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_schematic_tile_state",
+      "godot_symbol": "source_apply_schematic_tile_state_result.valid_place_checked",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "place",
+      "java_expr": "!Build.validPlace(st.block, team, tile.x, tile.y, st.rotation)",
+      "rule": "Whether a valid-place hook decided the placement.",
+      "tests": [
+        "test_schematic_place_binding_registration",
+        "test_all_schematic_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_schematic_place"
+      ],
+      "runtime_proof": "/root/SchematicPlaceProof"
+    },
+    "source_apply_schematic_tile_state_result.configured": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_schematic_tile_state",
+      "godot_symbol": "source_apply_schematic_tile_state_result.configured",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "place",
+      "java_expr": "tile.build.configureAny(config);",
+      "rule": "Whether configureAny ran on the placed Building.",
+      "tests": [
+        "test_schematic_place_binding_registration",
+        "test_all_schematic_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_schematic_place"
+      ],
+      "runtime_proof": "/root/SchematicPlaceProof"
+    },
+    "source_apply_schematic_place_state_input.game": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_schematic_place_state",
+      "godot_symbol": "source_apply_schematic_place_state_input.game",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "place",
+      "java_expr": "public static void place(Schematic schem, int x, int y, Team team, boolean overwrite){",
+      "rule": "Actual game world the schematic is placed into.",
+      "tests": [
+        "test_schematic_place_binding_registration",
+        "test_all_schematic_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_schematic_place"
+      ],
+      "runtime_proof": "/root/SchematicPlaceProof"
+    },
+    "source_apply_schematic_place_state_input.schematic": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_schematic_place_state",
+      "godot_symbol": "source_apply_schematic_place_state_input.schematic",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "place",
+      "java_expr": "public static void place(Schematic schem, int x, int y, Team team, boolean overwrite){",
+      "rule": "Actual schematic: width, height and stile tiles in source order.",
+      "tests": [
+        "test_schematic_place_binding_registration",
+        "test_all_schematic_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_schematic_place"
+      ],
+      "runtime_proof": "/root/SchematicPlaceProof"
+    },
+    "source_apply_schematic_place_state_input.x": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_schematic_place_state",
+      "godot_symbol": "source_apply_schematic_place_state_input.x",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "place",
+      "java_expr": "int ox = x - schem.width/2, oy = y - schem.height/2;",
+      "rule": "Actual schematic center x; the origin is x minus half the width.",
+      "tests": [
+        "test_schematic_place_binding_registration",
+        "test_all_schematic_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_schematic_place"
+      ],
+      "runtime_proof": "/root/SchematicPlaceProof"
+    },
+    "source_apply_schematic_place_state_input.y": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_schematic_place_state",
+      "godot_symbol": "source_apply_schematic_place_state_input.y",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "place",
+      "java_expr": "int ox = x - schem.width/2, oy = y - schem.height/2;",
+      "rule": "Actual schematic center y; the origin is y minus half the height.",
+      "tests": [
+        "test_schematic_place_binding_registration",
+        "test_all_schematic_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_schematic_place"
+      ],
+      "runtime_proof": "/root/SchematicPlaceProof"
+    },
+    "source_apply_schematic_place_state_input.team_id": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_schematic_place_state",
+      "godot_symbol": "source_apply_schematic_place_state_input.team_id",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "place",
+      "java_expr": "tile.setBlock(st.block, team, st.rotation);",
+      "rule": "Actual Team id the schematic is placed for.",
+      "tests": [
+        "test_schematic_place_binding_registration",
+        "test_all_schematic_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_schematic_place"
+      ],
+      "runtime_proof": "/root/SchematicPlaceProof"
+    },
+    "source_apply_schematic_place_state_input.overwrite": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_schematic_place_state",
+      "godot_symbol": "source_apply_schematic_place_state_input.overwrite",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "place",
+      "java_expr": "if(tile == null || (!overwrite && !Build.validPlace(st.block, team, tile.x, tile.y, st.rotation))) return;",
+      "rule": "Whether placement may replace existing Buildings without a valid-place check.",
+      "tests": [
+        "test_schematic_place_binding_registration",
+        "test_all_schematic_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_schematic_place"
+      ],
+      "runtime_proof": "/root/SchematicPlaceProof"
+    },
+    "source_apply_schematic_place_state_input.valid_place_hook": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_schematic_place_state",
+      "godot_symbol": "source_apply_schematic_place_state_input.valid_place_hook",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "place",
+      "java_expr": "!Build.validPlace(st.block, team, tile.x, tile.y, st.rotation)",
+      "rule": "Caller-supplied Build.validPlace equivalent, shared by every stile.",
+      "tests": [
+        "test_schematic_place_binding_registration",
+        "test_all_schematic_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_schematic_place"
+      ],
+      "runtime_proof": "/root/SchematicPlaceProof"
+    },
+    "source_apply_schematic_place_state_input.tile_config_callback": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_schematic_place_state",
+      "godot_symbol": "source_apply_schematic_place_state_input.tile_config_callback",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "place",
+      "java_expr": "tile.build.configureAny(config);",
+      "rule": "Caller-supplied Call.tileConfig equivalent, applied per placed Building.",
+      "tests": [
+        "test_schematic_place_binding_registration",
+        "test_all_schematic_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_schematic_place"
+      ],
+      "runtime_proof": "/root/SchematicPlaceProof"
+    },
+    "source_apply_schematic_place_state_result.origin": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_schematic_place_state",
+      "godot_symbol": "source_apply_schematic_place_state_result.origin",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "place",
+      "java_expr": "int ox = x - schem.width/2, oy = y - schem.height/2;",
+      "rule": "Actual schematic origin cell the stiles were offset from.",
+      "tests": [
+        "test_schematic_place_binding_registration",
+        "test_all_schematic_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_schematic_place"
+      ],
+      "runtime_proof": "/root/SchematicPlaceProof"
+    },
+    "source_apply_schematic_place_state_result.placed": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_schematic_place_state",
+      "godot_symbol": "source_apply_schematic_place_state_result.placed",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "place",
+      "java_expr": "tile.setBlock(st.block, team, st.rotation);",
+      "rule": "Number of stiles placed through the canonical setBlock binding.",
+      "tests": [
+        "test_schematic_place_binding_registration",
+        "test_all_schematic_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_schematic_place"
+      ],
+      "runtime_proof": "/root/SchematicPlaceProof"
+    },
+    "source_apply_schematic_place_state_result.skipped": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_schematic_place_state",
+      "godot_symbol": "source_apply_schematic_place_state_result.skipped",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "place",
+      "java_expr": "if(tile == null || (!overwrite && !Build.validPlace(st.block, team, tile.x, tile.y, st.rotation))) return;",
+      "rule": "Number of stiles skipped by the tile or valid-place guards.",
+      "tests": [
+        "test_schematic_place_binding_registration",
+        "test_all_schematic_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_schematic_place"
+      ],
+      "runtime_proof": "/root/SchematicPlaceProof"
+    },
+    "source_apply_schematic_place_state_result.configured": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_schematic_place_state",
+      "godot_symbol": "source_apply_schematic_place_state_result.configured",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "place",
+      "java_expr": "tile.build.configureAny(config);",
+      "rule": "Number of placed Buildings configureAny ran on.",
+      "tests": [
+        "test_schematic_place_binding_registration",
+        "test_all_schematic_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_schematic_place"
+      ],
+      "runtime_proof": "/root/SchematicPlaceProof"
+    },
+    "source_apply_schematic_place_state_result.results": {
+      "status": "source-backed",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_schematic_place_state",
+      "godot_symbol": "source_apply_schematic_place_state_result.results",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "place",
+      "java_expr": "schem.tiles.each(st -> {",
+      "rule": "Per-stile result dictionaries in source order.",
+      "tests": [
+        "test_schematic_place_binding_registration",
+        "test_all_schematic_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_schematic_place"
+      ],
+      "runtime_proof": "/root/SchematicPlaceProof"
+    },
+    "source_place_schematic_state_input.schematic": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_place_schematic_state",
+      "godot_symbol": "source_place_schematic_state_input.schematic",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "place",
+      "java_expr": "public static void place(Schematic schem, int x, int y, Team team){",
+      "rule": "Actual schematic: width, height and stile tiles in source order.",
+      "tests": [
+        "test_schematic_place_binding_registration",
+        "test_all_schematic_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_schematic_place"
+      ],
+      "runtime_proof": "/root/SchematicPlaceProof"
+    },
+    "source_place_schematic_state_input.x": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_place_schematic_state",
+      "godot_symbol": "source_place_schematic_state_input.x",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "place",
+      "java_expr": "place(schem, x, y, team, true);",
+      "rule": "Actual schematic center x.",
+      "tests": [
+        "test_schematic_place_binding_registration",
+        "test_all_schematic_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_schematic_place"
+      ],
+      "runtime_proof": "/root/SchematicPlaceProof"
+    },
+    "source_place_schematic_state_input.y": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_place_schematic_state",
+      "godot_symbol": "source_place_schematic_state_input.y",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "place",
+      "java_expr": "place(schem, x, y, team, true);",
+      "rule": "Actual schematic center y.",
+      "tests": [
+        "test_schematic_place_binding_registration",
+        "test_all_schematic_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_schematic_place"
+      ],
+      "runtime_proof": "/root/SchematicPlaceProof"
+    },
+    "source_place_schematic_state_input.team_id": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_place_schematic_state",
+      "godot_symbol": "source_place_schematic_state_input.team_id",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "place",
+      "java_expr": "tile.setBlock(st.block, team, st.rotation);",
+      "rule": "Actual Team id the schematic is placed for.",
+      "tests": [
+        "test_schematic_place_binding_registration",
+        "test_all_schematic_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_schematic_place"
+      ],
+      "runtime_proof": "/root/SchematicPlaceProof"
+    },
+    "source_place_schematic_state_input.overwrite": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_place_schematic_state",
+      "godot_symbol": "source_place_schematic_state_input.overwrite",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "place",
+      "java_expr": "place(schem, x, y, team, true);",
+      "rule": "Whether placement may replace existing Buildings; the 4-arg entry defaults it to true.",
+      "tests": [
+        "test_schematic_place_binding_registration",
+        "test_all_schematic_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_schematic_place"
+      ],
+      "runtime_proof": "/root/SchematicPlaceProof"
+    },
+    "source_place_schematic_state_input.valid_place_hook": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_place_schematic_state",
+      "godot_symbol": "source_place_schematic_state_input.valid_place_hook",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "place",
+      "java_expr": "!Build.validPlace(st.block, team, tile.x, tile.y, st.rotation)",
+      "rule": "Caller-supplied Build.validPlace equivalent, shared by every stile.",
+      "tests": [
+        "test_schematic_place_binding_registration",
+        "test_all_schematic_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_schematic_place"
+      ],
+      "runtime_proof": "/root/SchematicPlaceProof"
+    },
+    "source_place_schematic_state_input.tile_config_callback": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_place_schematic_state",
+      "godot_symbol": "source_place_schematic_state_input.tile_config_callback",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "place",
+      "java_expr": "tile.build.configureAny(config);",
+      "rule": "Caller-supplied Call.tileConfig equivalent, applied per placed Building.",
+      "tests": [
+        "test_schematic_place_binding_registration",
+        "test_all_schematic_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_schematic_place"
+      ],
+      "runtime_proof": "/root/SchematicPlaceProof"
+    },
+    "source_place_schematic_state_result.origin": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_place_schematic_state",
+      "godot_symbol": "source_place_schematic_state_result.origin",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "place",
+      "java_expr": "int ox = x - schem.width/2, oy = y - schem.height/2;",
+      "rule": "Actual schematic origin cell the stiles were offset from.",
+      "tests": [
+        "test_schematic_place_binding_registration",
+        "test_all_schematic_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_schematic_place"
+      ],
+      "runtime_proof": "/root/SchematicPlaceProof"
+    },
+    "source_place_schematic_state_result.placed": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_place_schematic_state",
+      "godot_symbol": "source_place_schematic_state_result.placed",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "place",
+      "java_expr": "tile.setBlock(st.block, team, st.rotation);",
+      "rule": "Number of stiles placed through the canonical setBlock binding.",
+      "tests": [
+        "test_schematic_place_binding_registration",
+        "test_all_schematic_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_schematic_place"
+      ],
+      "runtime_proof": "/root/SchematicPlaceProof"
+    },
+    "source_place_schematic_state_result.skipped": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_place_schematic_state",
+      "godot_symbol": "source_place_schematic_state_result.skipped",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "place",
+      "java_expr": "if(tile == null || (!overwrite && !Build.validPlace(st.block, team, tile.x, tile.y, st.rotation))) return;",
+      "rule": "Number of stiles skipped by the tile or valid-place guards.",
+      "tests": [
+        "test_schematic_place_binding_registration",
+        "test_all_schematic_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_schematic_place"
+      ],
+      "runtime_proof": "/root/SchematicPlaceProof"
+    },
+    "source_place_schematic_state_result.configured": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_place_schematic_state",
+      "godot_symbol": "source_place_schematic_state_result.configured",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "place",
+      "java_expr": "tile.build.configureAny(config);",
+      "rule": "Number of placed Buildings configureAny ran on.",
+      "tests": [
+        "test_schematic_place_binding_registration",
+        "test_all_schematic_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_schematic_place"
+      ],
+      "runtime_proof": "/root/SchematicPlaceProof"
+    },
+    "source_place_schematic_state_result.results": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_place_schematic_state",
+      "godot_symbol": "source_place_schematic_state_result.results",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_method": "place",
+      "java_expr": "schem.tiles.each(st -> {",
+      "rule": "Per-stile result dictionaries in source order.",
+      "tests": [
+        "test_schematic_place_binding_registration",
+        "test_all_schematic_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_schematic_place"
+      ],
+      "runtime_proof": "/root/SchematicPlaceProof"
+    },
+    "record_placed_block_input.team_id": {
+      "status": "source-backed",
+      "godot_owner": "SourcePlacedBlockPortBridge.record_placed_block",
+      "godot_symbol": "record_placed_block_input.team_id",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "constructFinish",
+      "java_expr": "Team.sharded.id",
+      "rule": "Placement funnel team threaded from the schematic caller; defaults to sharded for existing player/scenario placement.",
+      "tests": [
+        "test_schematic_place_binding_registration",
+        "test_all_schematic_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_schematic_place"
+      ],
+      "runtime_proof": "/root/SchematicPlaceProof"
     }
   },
   "version": 1

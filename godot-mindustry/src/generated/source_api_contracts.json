@@ -58551,6 +58551,184 @@
       ],
       "runtime_proof": "/root/PlacedTileSetBlockProof",
       "rule": "Source-backed placement binding; the result dictionary reports what the composed setBlock did, with no fabricated runtime state."
+    },
+    "SourceSchematicPlacementState.source_apply_schematic_tile_state": {
+      "status": "active",
+      "source_slice": "N2035",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "source_method": "place",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_apply_schematic_tile_state_input.game"
+        },
+        {
+          "name": "stile",
+          "type": "Dictionary",
+          "schema": "source_apply_schematic_tile_state_input.stile"
+        },
+        {
+          "name": "origin_cell",
+          "type": "Vector2i",
+          "schema": "source_apply_schematic_tile_state_input.origin_cell"
+        },
+        {
+          "name": "team_id",
+          "type": "int",
+          "schema": "source_apply_schematic_tile_state_input.team_id"
+        },
+        {
+          "name": "overwrite",
+          "type": "bool",
+          "schema": "source_apply_schematic_tile_state_input.overwrite"
+        },
+        {
+          "name": "valid_place_hook",
+          "type": "Callable",
+          "schema": "source_apply_schematic_tile_state_input.valid_place_hook"
+        },
+        {
+          "name": "tile_config_callback",
+          "type": "Callable",
+          "schema": "source_apply_schematic_tile_state_input.tile_config_callback"
+        }
+      ],
+      "return_keys": [
+        "cell",
+        "tile",
+        "build",
+        "placed",
+        "skipped",
+        "valid_place_checked",
+        "configured"
+      ],
+      "tests": [
+        "test_schematic_place_binding_registration",
+        "test_all_schematic_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_schematic_place"
+      ],
+      "runtime_proof": "/root/SchematicPlaceProof",
+      "rule": "Source-backed schematic placement; the result dictionary reports what the canonical setBlock binding did, with no fabricated runtime state."
+    },
+    "SourceSchematicPlacementState.source_apply_schematic_place_state": {
+      "status": "active",
+      "source_slice": "N2036",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "source_method": "place",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_apply_schematic_place_state_input.game"
+        },
+        {
+          "name": "schematic",
+          "type": "Dictionary",
+          "schema": "source_apply_schematic_place_state_input.schematic"
+        },
+        {
+          "name": "x",
+          "type": "int",
+          "schema": "source_apply_schematic_place_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "int",
+          "schema": "source_apply_schematic_place_state_input.y"
+        },
+        {
+          "name": "team_id",
+          "type": "int",
+          "schema": "source_apply_schematic_place_state_input.team_id"
+        },
+        {
+          "name": "overwrite",
+          "type": "bool",
+          "schema": "source_apply_schematic_place_state_input.overwrite"
+        },
+        {
+          "name": "valid_place_hook",
+          "type": "Callable",
+          "schema": "source_apply_schematic_place_state_input.valid_place_hook"
+        },
+        {
+          "name": "tile_config_callback",
+          "type": "Callable",
+          "schema": "source_apply_schematic_place_state_input.tile_config_callback"
+        }
+      ],
+      "return_keys": [
+        "origin",
+        "placed",
+        "skipped",
+        "configured",
+        "results"
+      ],
+      "tests": [
+        "test_schematic_place_binding_registration",
+        "test_all_schematic_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_schematic_place"
+      ],
+      "runtime_proof": "/root/SchematicPlaceProof",
+      "rule": "Source-backed schematic placement; the result dictionary reports what the canonical setBlock binding did, with no fabricated runtime state."
+    },
+    "PortGame.source_place_schematic_state": {
+      "status": "active",
+      "source_slice": "N2037",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "source_method": "place",
+      "params": [
+        {
+          "name": "schematic",
+          "type": "Dictionary",
+          "schema": "source_place_schematic_state_input.schematic"
+        },
+        {
+          "name": "x",
+          "type": "int",
+          "schema": "source_place_schematic_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "int",
+          "schema": "source_place_schematic_state_input.y"
+        },
+        {
+          "name": "team_id",
+          "type": "int",
+          "schema": "source_place_schematic_state_input.team_id"
+        },
+        {
+          "name": "overwrite",
+          "type": "bool",
+          "schema": "source_place_schematic_state_input.overwrite"
+        },
+        {
+          "name": "valid_place_hook",
+          "type": "Callable",
+          "schema": "source_place_schematic_state_input.valid_place_hook"
+        },
+        {
+          "name": "tile_config_callback",
+          "type": "Callable",
+          "schema": "source_place_schematic_state_input.tile_config_callback"
+        }
+      ],
+      "return_keys": [
+        "origin",
+        "placed",
+        "skipped",
+        "configured",
+        "results"
+      ],
+      "tests": [
+        "test_schematic_place_binding_registration",
+        "test_all_schematic_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_schematic_place"
+      ],
+      "runtime_proof": "/root/SchematicPlaceProof",
+      "rule": "Source-backed schematic placement; the result dictionary reports what the canonical setBlock binding did, with no fabricated runtime state."
     }
   },
   "policy": {

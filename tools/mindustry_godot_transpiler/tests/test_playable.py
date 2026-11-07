@@ -14120,7 +14120,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func can_place_block_at_cell(block, cell: Vector2i) -> bool:", source)
         self.assertIn("var state := source_block_placement.game_can_place_state(self, block, cell)", source)
         self.assertIn('return bool(state.get("can_place", false))', source)
-        self.assertIn("func record_placed_block(sprite: Sprite2D, block, cell: Vector2i) -> void:", source)
+        self.assertIn("func record_placed_block(sprite: Sprite2D, block, cell: Vector2i, team_id: int = 1) -> void:", source)
         self.assertIn("var cell_keys: Array[String] = source_placed_block_port_bridge_block_placement.record_cells(placed_block_origins, placed_blocks, cell, occupied, sprite)", source)
         self.assertIn("source_placed_block_state.game_initialize_sprite(self, sprite, block, cell, cell_keys)", source)
         self.assertIn("sprite.set_meta(\"occupied_cells\", occupied_cell_keys)", placed_block_source)

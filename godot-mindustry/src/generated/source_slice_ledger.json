@@ -50691,7 +50691,8 @@
       "source_symbols": [
         "record_placed_block_input.sprite",
         "record_placed_block_input.block",
-        "record_placed_block_input.cell"
+        "record_placed_block_input.cell",
+        "record_placed_block_input.team_id"
       ],
       "tests": [
         "test_placed_tile_set_block_binding_registration",
@@ -50704,6 +50705,127 @@
         "Block.blockChanged overrides beyond the empty default (ColoredWall, TiledWall) stay open.",
         "Schematic placement (Schematics.place) has no runtime path yet; only player, scenario and campaign-bootstrap placement go through record_placed_block.",
         "Block.update and Block.hasBuilding are not exported by the content catalog; the binding reads update from the catalog when present and treats a supplied sprite as the Building.",
+        "Superclass noSleep, power onProximity hooks, turret unregister, controller pickup, world transitions and remaining Tile/Floor side effects stay open in C01.",
+        "C02 inventory/offload/dump/transport and C03-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
+    },
+    "N2035": {
+      "status": "done",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_class": "mindustry.game.Schematics",
+      "java_method": "place",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_schematic_tile_state",
+      "exact_exprs": [
+        "Tile tile = world.tile(st.x + ox, st.y + oy);",
+        "if(tile == null || (!overwrite && !Build.validPlace(st.block, team, tile.x, tile.y, st.rotation))) return;",
+        "tile.setBlock(st.block, team, st.rotation);",
+        "if(tile.build != null){",
+        "tile.build.configureAny(config);"
+      ],
+      "source_symbols": [
+        "source_apply_schematic_tile_state_input.game",
+        "source_apply_schematic_tile_state_input.stile",
+        "source_apply_schematic_tile_state_input.origin_cell",
+        "source_apply_schematic_tile_state_input.team_id",
+        "source_apply_schematic_tile_state_input.overwrite",
+        "source_apply_schematic_tile_state_input.valid_place_hook",
+        "source_apply_schematic_tile_state_input.tile_config_callback",
+        "source_apply_schematic_tile_state_result.cell",
+        "source_apply_schematic_tile_state_result.tile",
+        "source_apply_schematic_tile_state_result.build",
+        "source_apply_schematic_tile_state_result.placed",
+        "source_apply_schematic_tile_state_result.skipped",
+        "source_apply_schematic_tile_state_result.valid_place_checked",
+        "source_apply_schematic_tile_state_result.configured"
+      ],
+      "tests": [
+        "test_schematic_place_binding_registration",
+        "test_all_schematic_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_schematic_place"
+      ],
+      "runtime_proof": "/root/SchematicPlaceProof",
+      "deferred_exprs": [
+        "Build.validPlace has no runtime equivalent yet (rules visibility, core protection, fog, darkness, unit overlap, canPlaceOn/canReplace); the per-tile valid-place hook is caller-supplied and placement is fail-closed without one.",
+        "Schematics.placeLoadout stays open: core-tile anchoring, schematicPriority sort, blocking-build removal pass and registerCore.",
+        "Per-block-type config application beyond the tile_config_callback stays open; the callback receives (null, building, config) like Call.tileConfig.",
+        "Superclass noSleep, power onProximity hooks, turret unregister, controller pickup, world transitions and remaining Tile/Floor side effects stay open in C01.",
+        "C02 inventory/offload/dump/transport and C03-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
+    },
+    "N2036": {
+      "status": "done",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_class": "mindustry.game.Schematics",
+      "java_method": "place",
+      "godot_owner": "SourceSchematicPlacementState.source_apply_schematic_place_state",
+      "exact_exprs": [
+        "public static void place(Schematic schem, int x, int y, Team team, boolean overwrite){",
+        "int ox = x - schem.width/2, oy = y - schem.height/2;",
+        "schem.tiles.each(st -> {"
+      ],
+      "source_symbols": [
+        "source_apply_schematic_place_state_input.game",
+        "source_apply_schematic_place_state_input.schematic",
+        "source_apply_schematic_place_state_input.x",
+        "source_apply_schematic_place_state_input.y",
+        "source_apply_schematic_place_state_input.team_id",
+        "source_apply_schematic_place_state_input.overwrite",
+        "source_apply_schematic_place_state_input.valid_place_hook",
+        "source_apply_schematic_place_state_input.tile_config_callback",
+        "source_apply_schematic_place_state_result.origin",
+        "source_apply_schematic_place_state_result.placed",
+        "source_apply_schematic_place_state_result.skipped",
+        "source_apply_schematic_place_state_result.configured",
+        "source_apply_schematic_place_state_result.results"
+      ],
+      "tests": [
+        "test_schematic_place_binding_registration",
+        "test_all_schematic_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_schematic_place"
+      ],
+      "runtime_proof": "/root/SchematicPlaceProof",
+      "deferred_exprs": [
+        "Build.validPlace has no runtime equivalent yet (rules visibility, core protection, fog, darkness, unit overlap, canPlaceOn/canReplace); the per-tile valid-place hook is caller-supplied and placement is fail-closed without one.",
+        "Schematics.placeLoadout stays open: core-tile anchoring, schematicPriority sort, blocking-build removal pass and registerCore.",
+        "Per-block-type config application beyond the tile_config_callback stays open; the callback receives (null, building, config) like Call.tileConfig.",
+        "Superclass noSleep, power onProximity hooks, turret unregister, controller pickup, world transitions and remaining Tile/Floor side effects stay open in C01.",
+        "C02 inventory/offload/dump/transport and C03-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
+    },
+    "N2037": {
+      "status": "done",
+      "java_source": "core/src/mindustry/game/Schematics.java",
+      "java_class": "mindustry.game.Schematics",
+      "java_method": "place",
+      "godot_owner": "PortGame.source_place_schematic_state",
+      "exact_exprs": [
+        "public static void place(Schematic schem, int x, int y, Team team){",
+        "place(schem, x, y, team, true);"
+      ],
+      "source_symbols": [
+        "source_place_schematic_state_input.schematic",
+        "source_place_schematic_state_input.x",
+        "source_place_schematic_state_input.y",
+        "source_place_schematic_state_input.team_id",
+        "source_place_schematic_state_input.overwrite",
+        "source_place_schematic_state_input.valid_place_hook",
+        "source_place_schematic_state_input.tile_config_callback",
+        "source_place_schematic_state_result.origin",
+        "source_place_schematic_state_result.placed",
+        "source_place_schematic_state_result.skipped",
+        "source_place_schematic_state_result.configured",
+        "source_place_schematic_state_result.results"
+      ],
+      "tests": [
+        "test_schematic_place_binding_registration",
+        "test_all_schematic_place_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_schematic_place"
+      ],
+      "runtime_proof": "/root/SchematicPlaceProof",
+      "deferred_exprs": [
+        "Build.validPlace has no runtime equivalent yet (rules visibility, core protection, fog, darkness, unit overlap, canPlaceOn/canReplace); the per-tile valid-place hook is caller-supplied and placement is fail-closed without one.",
+        "Schematics.placeLoadout stays open: core-tile anchoring, schematicPriority sort, blocking-build removal pass and registerCore.",
+        "Per-block-type config application beyond the tile_config_callback stays open; the callback receives (null, building, config) like Call.tileConfig.",
         "Superclass noSleep, power onProximity hooks, turret unregister, controller pickup, world transitions and remaining Tile/Floor side effects stay open in C01.",
         "C02 inventory/offload/dump/transport and C03-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]

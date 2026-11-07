@@ -1,8 +1,12 @@
 extends "res://src/game/SourcePortGameFacadePortBridge.gd"
 class_name PortGame
 
-func record_placed_block(sprite: Sprite2D, block, cell: Vector2i) -> void:
-	super.record_placed_block(sprite, block, cell)
+func source_place_schematic_state(schematic: Dictionary, x: int, y: int, team_id: int, overwrite: bool, valid_place_hook: Variant, tile_config_callback: Variant) -> Dictionary:
+	return SourceSchematicPlacementState.source_apply_schematic_place_state(self, schematic, x, y, team_id, overwrite, valid_place_hook, tile_config_callback)
+
+
+func record_placed_block(sprite: Sprite2D, block, cell: Vector2i, team_id: int = 1) -> void:
+	super.record_placed_block(sprite, block, cell, team_id)
 	if block != null and block.properties.has("consumeLiquid"):
 		SourceConsumeLiquidState.source_bind_liquid_consumers_state(block, content_catalog)
 		SourceConsumeLiquidState.source_apply_liquid_consumers_state(block, content_catalog)

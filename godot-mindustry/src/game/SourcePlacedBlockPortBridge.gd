@@ -3,7 +3,7 @@ extends "res://src/game/SourceBlockMetadataGeometryPortBridge.gd"
 const source_placed_block_state := preload("res://src/game/SourcePlacedBlockState.gd")
 const source_placed_block_port_bridge_block_placement := preload("res://src/game/SourceBlockPlacement.gd")
 
-func record_placed_block(sprite: Sprite2D, block, cell: Vector2i) -> void:
+func record_placed_block(sprite: Sprite2D, block, cell: Vector2i, team_id: int = 1) -> void:
 	var occupied: Array[Vector2i] = []
 	for occupied_cell in call("occupied_cells", cell, block):
 		occupied.append(occupied_cell)
@@ -22,8 +22,10 @@ func record_placed_block(sprite: Sprite2D, block, cell: Vector2i) -> void:
 		# Canonical setBlock binding runs before the placement index is
 		# overwritten, so the previous Building is still resolvable for
 		# removal and the new sprite is inited, assigned and proximity-
-		# updated through the Tile mutation itself.
-		SourceWorldTerrainRuntimeState.source_apply_placed_tile_set_block_state(self, block, cell, sprite, source_block_geometry.SOURCE_TEAM_SHARDED_ID, 0)
+		# updated through the Tile mutation itself. The team is threaded
+		# from the caller (schematic placement passes it); existing
+		# player/scenario callers keep the sharded default.
+		SourceWorldTerrainRuntimeState.source_apply_placed_tile_set_block_state(self, block, cell, sprite, team_id, 0)
 	var cell_keys: Array[String] = source_placed_block_port_bridge_block_placement.record_cells(placed_block_origins, placed_blocks, cell, occupied, sprite)
 	set("placed_block_origins", placed_block_origins)
 	set("placed_blocks", placed_blocks)

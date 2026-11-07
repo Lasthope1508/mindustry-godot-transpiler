@@ -14,8 +14,8 @@ Counts below are projected from the canonical `source_slice_ledger.json`, not fr
 
 | Bucket | Count |
 | --- | ---: |
-| Canonical slice ledger entries | 1489 |
-| Done | 1489 |
+| Canonical slice ledger entries | 1492 |
+| Done | 1492 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -116,6 +116,9 @@ Counts below are projected from the canonical `source_slice_ledger.json`, not fr
 - [x] N2032: Placed-Building team identity assigns Team.sharded (id 1) to the placed sprite meta, with Team.derelict (id 0) as the no-Building default; the build_team hook target for the production setBlock binding.
 - [x] N2033: Production setBlock binding builds all 38 setBlock hooks from the game context: placed sprite as the Building entity, real Drill proximity recompute team-filtered like Building.updateProximity, old-sprite removal with placement-index cleanup, recursive setBlock(air) proxy clearing. Change events and renderer recache have no runtime bus/cache yet and stay explicit no-ops.
 - [x] N2034: record_placed_block routes player, scenario and campaign-bootstrap placement through the binding before the placement index is overwritten; the default scenario is de-overlapped (conveyor line clear of the Drill/Core footprints, Duo east of the Core) because setBlock removes any Building on its footprint. Out-of-world cells fall back to legacy init (the liquid-hydration proof places at (200,200)). Godot proof 13/13 true on the real Main scene.
+- [x] N2035: One Schematics.place stile through the canonical setBlock binding: world Tile resolved at the stile offset, null Tile skipped, overwrite=false fail-closed without a caller-supplied valid-place hook, Building created by the placement funnel with the threaded team, configureAny on the placed Building through the Call.tileConfig-equivalent callback.
+- [x] N2036: Whole-schematic place loop: origin is the center minus half the width/height, stiles run in source order through N2035, result counts placed/skipped/configured and keeps every per-tile result.
+- [x] N2037: PortGame.source_place_schematic_state entry point delegating to N2036; the funnel gains a defaulted team_id (sharded) so schematic placement threads its team instead of hardcoding the player team. Godot proof 10/10 true on the real Main scene.
 - [x] N167: Source BuildingComp drawConfigure canonical square state.
 - [x] N168: Source BuildingComp checkSolid default state.
 - [x] N169: Source BuildingComp handleDamage passthrough state.
@@ -1385,7 +1388,7 @@ Counts below are projected from the canonical `source_slice_ledger.json`, not fr
 
 Work now uses dependency cubes for prioritization without changing the verification contract. Each cube groups source Java, Godot runtime wiring, and playable behavior for one gameplay system. Inside a cube, every slice still moves linearly: read upstream Java, write RED tests, prove RED, implement minimal GREEN, run targeted/full tests, prove through Godot MCP runtime, update this checklist, run `git diff --check`, stage only touched tracked files, and commit.
 
-Current cube: `production setBlock binding at placement/reload`. N2032–N2034 bind the N2029–N2031 primitives into the real placement funnel: team identity (sharded), all 38 setBlock hooks from the game context, and record_placed_block wiring for player/scenario/bootstrap placement. Ledger: 1489; expanded catalog: 113 modules; blocks: 425. Registration + targeted tests pass; all binding symbol exprs exact against pinned Tile.java / Team.java / Build.java / ConstructBlock.java; Godot proof 13/13 true on the real Main scene. The default scenario is de-overlapped (conveyor line clear of the Drill/Core footprints, Duo east of the Core) because setBlock removes any Building on its footprint. Full suite, editor and replay still pending. Superclass/world lifecycle and C02–C12 remain open. See `reports/2026-11-07-placed-tile-set-block-binding.md`.
+Current cube: `Schematics.place binding`. N2035–N2037 bind Schematics.place into the production setBlock funnel: per-tile placement with fail-closed valid-place hook and configureAny, the whole-schematic loop with centered origin, and a PortGame entry point; the funnel threads its team instead of hardcoding sharded. Ledger: 1492; expanded catalog: 113 modules; blocks: 425. Registration + targeted tests pass; all binding symbol exprs exact against pinned Schematics.java / Schematic.java / BuildingComp.java / Block.java; Godot proof 10/10 true on the real Main scene. Full suite, editor and replay still pending. placeLoadout, superclass/world lifecycle and C02–C12 remain open. See `reports/2026-11-07-schematic-place-binding.md`.
 
 ## Done
 
@@ -3055,10 +3058,13 @@ Current cube: `production setBlock binding at placement/reload`. N2032–N2034 b
 | N2032 | Placed-Building team identity | Team.sharded id 1 on the placed sprite meta; derelict id 0 default; build_team hook target. |
 | N2033 | Production setBlock binding | All 38 setBlock hooks from the game context; sprite entity, team-filtered Drill proximity, old-sprite removal, recursive setBlock(air) proxies; events/recache explicit no-ops. |
 | N2034 | Placement funnel wiring + live proof | record_placed_block routes player/scenario/bootstrap placement through the binding; scenario de-overlapped; Godot proof 13/13 true on the real Main scene. |
+| N2035 | One schematic stile through setBlock | Tile resolved at the stile offset, null skipped, overwrite=false fail-closed without a valid-place hook, funnel-created Building with threaded team, configureAny via the tileConfig callback. |
+| N2036 | Whole-schematic place loop | Centered origin, stiles in source order through N2035, placed/skipped/configured counts with per-tile results. |
+| N2037 | PortGame schematic entry + live proof | source_place_schematic_state delegates to N2036; funnel gains a defaulted team_id; Godot proof 10/10 true on the real Main scene. |
 
 ## Not Done
 
-C01 now has executable Tile changeBuild / changed / full two-pass setBlock primitives (N2029–N2031) bound at production placement and world reload (N2032–N2034): player, scenario and campaign-bootstrap placement go through the canonical setBlock with real Building identity, team and proximity. Superclass sleep/groups, pickup/world transitions and remaining side effects stay open. C12 must adopt existing uncommitted owner dependencies. C02–C12 remain open.
+C01 now has executable Tile changeBuild / changed / full two-pass setBlock primitives (N2029–N2031) bound at production placement and world reload (N2032–N2034) and at schematic placement (N2035–N2037): player, scenario, campaign-bootstrap and schematic placement go through the canonical setBlock with real Building identity, team and proximity. placeLoadout (core anchoring, priority sort, removal pass, registerCore), superclass sleep/groups, pickup/world transitions and remaining side effects stay open. C12 must adopt existing uncommitted owner dependencies. C02–C12 remain open.
 
 ## Scope
 
@@ -3426,3 +3432,4 @@ When Godot CLI is not on `PATH`, use the configured MCP Godot path from `C:\User
 
 | 2026-11-07 | N2029–N2031 implemented: executable Tile changeBuild / changed / full two-pass setBlock on actual Tile dictionaries; registration test OK, tile slice 41 OK, catalog 0 errors / 113 modules, all 61 symbol exprs exact against pinned Tile.java. Godot proof, full suite, editor and replay still pending (no Godot binary or local upstream checkout on this machine yet). C01 placement binding and C02–C12 remain open. See reports/2026-11-07-tile-change-build-set-block.md. |
 | 2026-11-07 | N2032–N2034 implemented: production setBlock binding at placement/reload — team identity (sharded), all 38 hooks from the game context, record_placed_block wiring for player/scenario/bootstrap placement. Registration + targeted tests pass; Godot proof 13/13 true on the real Main scene. Default scenario de-overlapped (conveyor line x 9..15, Duo at (19, 7)) because setBlock removes any Building on its footprint. Full Python suite 5390 OK in 904.200s; editor and replay still pending. See reports/2026-11-07-placed-tile-set-block-binding.md. |
+| 2026-11-07 | N2035–N2037 implemented: Schematics.place binding — per-tile placement through the setBlock funnel with fail-closed valid-place hook and configureAny, whole-schematic loop with centered origin, PortGame entry point; the funnel threads its team (defaulted sharded). Registration + targeted tests pass; Godot proof 10/10 true on the real Main scene. Full Python suite 5393 OK in 928.702s; editor and replay still pending. See reports/2026-11-07-schematic-place-binding.md. |
