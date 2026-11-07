@@ -526,3 +526,22 @@ static func source_conveyor_advance_state(ids: Array, xs: Array, ys: Array, len:
 		"no_sleep_called": true,
 		"reason": "advanced",
 	}
+
+
+static func source_conveyor_item_draw_positions_state(queue: Dictionary, center: Vector2, rotation: int, tilesize: float) -> Dictionary:
+	# Conveyor.java:163-173 (draw): each queue item is drawn at
+	# ix = x + v1.x * ys[i] + v2.x, iy = y + v1.y * ys[i] + v2.y, where
+	# v1 = trns(rotation * 90, tilesize, 0) and v2 = trns(rotation * 90,
+	# -tilesize / 2, xs[i] * tilesize / 2). Java is y-up, Godot is
+	# y-down, so the rotation angle is negated here.
+	var ids: Array = queue.get("ids", [])
+	var xs: Array = queue.get("xs", [])
+	var ys: Array = queue.get("ys", [])
+	var queue_len := int(queue.get("len", ids.size()))
+	var angle := deg_to_rad(float(rotation) * -90.0)
+	var along := Vector2(tilesize, 0.0).rotated(angle)
+	var positions: Array = []
+	for index in range(mini(mini(queue_len, ids.size()), mini(xs.size(), ys.size()))):
+		var lateral := Vector2(-tilesize / 2.0, float(xs[index]) * tilesize / 2.0).rotated(angle)
+		positions.append({"item_id": ids[index], "x": center.x + along.x * float(ys[index]) + lateral.x, "y": center.y + along.y * float(ys[index]) + lateral.y})
+	return {"positions": positions, "count": positions.size()}

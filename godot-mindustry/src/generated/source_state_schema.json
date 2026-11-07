@@ -219464,6 +219464,84 @@
       },
       "runtime_proof": "/root/TeamsCoreRegistrationProof",
       "rule": "Source-backed Teams core registration."
+    },
+    "source_conveyor_item_draw_positions_state_input": {
+      "status": "active",
+      "owner": "SourceConveyorRuntimeState.source_conveyor_item_draw_positions_state",
+      "source_slice": "N2076",
+      "keys": {
+        "queue": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "Draw.rect(item.fullIcon, ix, iy, itemSize, itemSize);",
+          "rule": "The belt queue: ids, xs, ys and len.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_item_draw_positions_state"
+          ]
+        },
+        "center": {
+          "type": "Vector2",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "ix = (x + Tmp.v1.x * ys[i] + Tmp.v2.x),",
+          "rule": "The belt building world center.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_item_draw_positions_state"
+          ]
+        },
+        "rotation": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "Tmp.v1.trns(rotation * 90, tilesize, 0);",
+          "rule": "The belt rotation (0 east, 1 north, 2 west, 3 south).",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_item_draw_positions_state"
+          ]
+        },
+        "tilesize": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "Tmp.v1.trns(rotation * 90, tilesize, 0);",
+          "rule": "The world units per tile (Vars.tilesize = 8).",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_item_draw_positions_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/ConveyorDrawPositionsProof",
+      "rule": "Source-backed conveyor item draw positions."
+    },
+    "source_conveyor_item_draw_positions_state_result": {
+      "status": "active",
+      "owner": "SourceConveyorRuntimeState.source_conveyor_item_draw_positions_state",
+      "source_slice": "N2076",
+      "keys": {
+        "positions": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "Draw.rect(item.fullIcon, ix, iy, itemSize, itemSize);",
+          "rule": "One {item_id, x, y} per queue item, in queue order.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_item_draw_positions_state"
+          ]
+        },
+        "count": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "Draw.rect(item.fullIcon, ix, iy, itemSize, itemSize);",
+          "rule": "How many queue items were positioned.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_item_draw_positions_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/ConveyorDrawPositionsProof",
+      "rule": "Source-backed conveyor item draw positions."
     }
   },
   "version": 1

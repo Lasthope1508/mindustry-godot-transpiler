@@ -427,6 +427,27 @@
       ],
       "runtime_proof": "/root/ConveyorAdvanceProof"
     },
+    "N2076": {
+      "canonical_ledger": "source_slice_ledger.N2076",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_method": "draw",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_item_draw_positions_state",
+      "source_symbols": [
+        "source_conveyor_item_draw_positions_state_input.queue",
+        "source_conveyor_item_draw_positions_state_input.center",
+        "source_conveyor_item_draw_positions_state_input.rotation",
+        "source_conveyor_item_draw_positions_state_input.tilesize",
+        "source_conveyor_item_draw_positions_state_result.positions",
+        "source_conveyor_item_draw_positions_state_result.count"
+      ],
+      "tests": [
+        "test_conveyor_draw_positions_binding_registration",
+        "test_all_conveyor_draw_positions_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_draw_positions"
+      ],
+      "runtime_proof": "/root/ConveyorDrawPositionsProof"
+    },
     "N684": {
       "canonical_ledger": "source_slice_ledger.N684",
       "status": "done",

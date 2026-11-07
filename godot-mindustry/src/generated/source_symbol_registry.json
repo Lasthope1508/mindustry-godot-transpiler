@@ -162408,6 +162408,96 @@
         "test_reference_graph_and_actual_teams_core_registration"
       ],
       "runtime_proof": "/root/TeamsCoreRegistrationProof"
+    },
+    "source_conveyor_item_draw_positions_state_input.queue": {
+      "status": "source-backed",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_item_draw_positions_state",
+      "godot_symbol": "source_conveyor_item_draw_positions_state_input.queue",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_method": "draw",
+      "java_expr": "Draw.rect(item.fullIcon, ix, iy, itemSize, itemSize);",
+      "rule": "The belt queue: ids, xs, ys and len.",
+      "tests": [
+        "test_conveyor_draw_positions_binding_registration",
+        "test_all_conveyor_draw_positions_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_draw_positions"
+      ],
+      "runtime_proof": "/root/ConveyorDrawPositionsProof"
+    },
+    "source_conveyor_item_draw_positions_state_input.center": {
+      "status": "source-backed",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_item_draw_positions_state",
+      "godot_symbol": "source_conveyor_item_draw_positions_state_input.center",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_method": "draw",
+      "java_expr": "ix = (x + Tmp.v1.x * ys[i] + Tmp.v2.x),",
+      "rule": "The belt building world center.",
+      "tests": [
+        "test_conveyor_draw_positions_binding_registration",
+        "test_all_conveyor_draw_positions_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_draw_positions"
+      ],
+      "runtime_proof": "/root/ConveyorDrawPositionsProof"
+    },
+    "source_conveyor_item_draw_positions_state_input.rotation": {
+      "status": "source-backed",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_item_draw_positions_state",
+      "godot_symbol": "source_conveyor_item_draw_positions_state_input.rotation",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_method": "draw",
+      "java_expr": "Tmp.v1.trns(rotation * 90, tilesize, 0);",
+      "rule": "The belt rotation (0 east, 1 north, 2 west, 3 south).",
+      "tests": [
+        "test_conveyor_draw_positions_binding_registration",
+        "test_all_conveyor_draw_positions_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_draw_positions"
+      ],
+      "runtime_proof": "/root/ConveyorDrawPositionsProof"
+    },
+    "source_conveyor_item_draw_positions_state_input.tilesize": {
+      "status": "source-backed",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_item_draw_positions_state",
+      "godot_symbol": "source_conveyor_item_draw_positions_state_input.tilesize",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_method": "draw",
+      "java_expr": "Tmp.v1.trns(rotation * 90, tilesize, 0);",
+      "rule": "The world units per tile (Vars.tilesize = 8).",
+      "tests": [
+        "test_conveyor_draw_positions_binding_registration",
+        "test_all_conveyor_draw_positions_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_draw_positions"
+      ],
+      "runtime_proof": "/root/ConveyorDrawPositionsProof"
+    },
+    "source_conveyor_item_draw_positions_state_result.positions": {
+      "status": "source-backed",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_item_draw_positions_state",
+      "godot_symbol": "source_conveyor_item_draw_positions_state_result.positions",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_method": "draw",
+      "java_expr": "Draw.rect(item.fullIcon, ix, iy, itemSize, itemSize);",
+      "rule": "One {item_id, x, y} per queue item, in queue order.",
+      "tests": [
+        "test_conveyor_draw_positions_binding_registration",
+        "test_all_conveyor_draw_positions_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_draw_positions"
+      ],
+      "runtime_proof": "/root/ConveyorDrawPositionsProof"
+    },
+    "source_conveyor_item_draw_positions_state_result.count": {
+      "status": "source-backed",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_item_draw_positions_state",
+      "godot_symbol": "source_conveyor_item_draw_positions_state_result.count",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_method": "draw",
+      "java_expr": "Draw.rect(item.fullIcon, ix, iy, itemSize, itemSize);",
+      "rule": "How many queue items were positioned.",
+      "tests": [
+        "test_conveyor_draw_positions_binding_registration",
+        "test_all_conveyor_draw_positions_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_draw_positions"
+      ],
+      "runtime_proof": "/root/ConveyorDrawPositionsProof"
     }
   },
   "version": 1

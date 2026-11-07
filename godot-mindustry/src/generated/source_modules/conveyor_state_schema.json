@@ -636,6 +636,51 @@
         }
       }
     },
+    "source_conveyor_item_draw_positions_state_input": {
+      "canonical_schema": "source_state_schema.source_conveyor_item_draw_positions_state_input",
+      "keys": {
+        "queue": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "Draw.rect(item.fullIcon, ix, iy, itemSize, itemSize);",
+          "rule": "The belt queue: ids, xs, ys and len.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_item_draw_positions_state"
+          ]
+        },
+        "center": {
+          "type": "Vector2",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "ix = (x + Tmp.v1.x * ys[i] + Tmp.v2.x),",
+          "rule": "The belt building world center.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_item_draw_positions_state"
+          ]
+        },
+        "rotation": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "Tmp.v1.trns(rotation * 90, tilesize, 0);",
+          "rule": "The belt rotation (0 east, 1 north, 2 west, 3 south).",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_item_draw_positions_state"
+          ]
+        },
+        "tilesize": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "Tmp.v1.trns(rotation * 90, tilesize, 0);",
+          "rule": "The world units per tile (Vars.tilesize = 8).",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_item_draw_positions_state"
+          ]
+        }
+      }
+    },
     "source_conveyor_pass_state_input": {
       "canonical_schema": "source_state_schema.source_conveyor_pass_state_input",
       "keys": {

@@ -561,6 +561,47 @@
       "runtime_proof": "/root/ConveyorStackProof",
       "rule": "Source-backed ConveyorBuild stack API; the result reports the queue and the items-module count after the operation."
     },
+    "SourceConveyorRuntimeState.source_conveyor_item_draw_positions_state": {
+      "canonical_contract": "source_api_contracts.SourceConveyorRuntimeState.source_conveyor_item_draw_positions_state",
+      "status": "active",
+      "source_slice": "N2076",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "source_method": "draw",
+      "params": [
+        {
+          "name": "queue",
+          "type": "Dictionary",
+          "schema": "source_conveyor_item_draw_positions_state_input.queue"
+        },
+        {
+          "name": "center",
+          "type": "Vector2",
+          "schema": "source_conveyor_item_draw_positions_state_input.center"
+        },
+        {
+          "name": "rotation",
+          "type": "int",
+          "schema": "source_conveyor_item_draw_positions_state_input.rotation"
+        },
+        {
+          "name": "tilesize",
+          "type": "float",
+          "schema": "source_conveyor_item_draw_positions_state_input.tilesize"
+        }
+      ],
+      "return_keys": [
+        "positions",
+        "count"
+      ],
+      "tests": [
+        "test_conveyor_draw_positions_binding_registration",
+        "test_all_conveyor_draw_positions_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_draw_positions"
+      ],
+      "runtime_proof": "/root/ConveyorDrawPositionsProof",
+      "rule": "Source-backed conveyor draw; each queue item is positioned from its xs/ys, the belt center, rotation and tilesize.",
+      "return_type": "Dictionary"
+    },
     "SourceConveyorRuntimeState.source_conveyor_pass_state": {
       "canonical_contract": "source_api_contracts.SourceConveyorRuntimeState.source_conveyor_pass_state",
       "status": "active",

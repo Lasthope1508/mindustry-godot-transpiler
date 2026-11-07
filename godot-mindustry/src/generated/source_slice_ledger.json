@@ -52473,6 +52473,38 @@
         "Entity group membership, controller pickup/world transitions and the remaining Tile/Floor side effects stay open in C01 (they need the entity groups, unit system and campaign state machine the runtime does not own yet).",
         "C02 queue-to-sprite sync and C03-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2076": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_class": "mindustry.world.blocks.distribution.Conveyor$ConveyorBuild",
+      "java_method": "draw",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_item_draw_positions_state",
+      "exact_exprs": [
+        "Tmp.v1.trns(rotation * 90, tilesize, 0);",
+        "Tmp.v2.trns(rotation * 90, -tilesize / 2f, xs[i] * tilesize / 2f);",
+        "ix = (x + Tmp.v1.x * ys[i] + Tmp.v2.x),",
+        "iy = (y + Tmp.v1.y * ys[i] + Tmp.v2.y);",
+        "Draw.rect(item.fullIcon, ix, iy, itemSize, itemSize);"
+      ],
+      "source_symbols": [
+        "source_conveyor_item_draw_positions_state_input.queue",
+        "source_conveyor_item_draw_positions_state_input.center",
+        "source_conveyor_item_draw_positions_state_input.rotation",
+        "source_conveyor_item_draw_positions_state_input.tilesize",
+        "source_conveyor_item_draw_positions_state_result.positions",
+        "source_conveyor_item_draw_positions_state_result.count"
+      ],
+      "tests": [
+        "test_conveyor_draw_positions_binding_registration",
+        "test_all_conveyor_draw_positions_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_draw_positions"
+      ],
+      "runtime_proof": "/root/ConveyorDrawPositionsProof",
+      "deferred_exprs": [
+        "The live-loop wiring that drives the visual item sprites from these queue-derived positions is still open in C02 (the transport keeps a fixed sprite count spaced by phase; syncing it to the queues is a design decision).",
+        "C03-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1

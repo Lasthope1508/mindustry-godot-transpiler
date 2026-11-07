@@ -60897,6 +60897,46 @@
       ],
       "runtime_proof": "/root/TeamsCoreRegistrationProof",
       "rule": "Source-backed Teams core registration; a core placement registers it in the team core list and activates the team, a removal unregisters it and deactivates the team when it has nothing left."
+    },
+    "SourceConveyorRuntimeState.source_conveyor_item_draw_positions_state": {
+      "status": "active",
+      "source_slice": "N2076",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "source_method": "draw",
+      "params": [
+        {
+          "name": "queue",
+          "type": "Dictionary",
+          "schema": "source_conveyor_item_draw_positions_state_input.queue"
+        },
+        {
+          "name": "center",
+          "type": "Vector2",
+          "schema": "source_conveyor_item_draw_positions_state_input.center"
+        },
+        {
+          "name": "rotation",
+          "type": "int",
+          "schema": "source_conveyor_item_draw_positions_state_input.rotation"
+        },
+        {
+          "name": "tilesize",
+          "type": "float",
+          "schema": "source_conveyor_item_draw_positions_state_input.tilesize"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "positions",
+        "count"
+      ],
+      "tests": [
+        "test_conveyor_draw_positions_binding_registration",
+        "test_all_conveyor_draw_positions_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conveyor_draw_positions"
+      ],
+      "runtime_proof": "/root/ConveyorDrawPositionsProof",
+      "rule": "Source-backed conveyor draw; each queue item is positioned from its xs/ys, the belt center, rotation and tilesize."
     }
   },
   "policy": {
