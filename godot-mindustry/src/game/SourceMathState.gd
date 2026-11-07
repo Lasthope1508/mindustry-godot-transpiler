@@ -2,6 +2,7 @@ class_name SourceMathState
 extends RefCounted
 
 const source_math_defaults := preload("res://src/game/SourceMathDefaults.gd")
+const source_math_source_text_state := preload("res://src/game/SourceMathSourceTextState.gd")
 
 const SOURCE_PI2 := source_math_defaults.PI2
 const SOURCE_ARC_PI := source_math_defaults.ARC_PI
@@ -27,15 +28,15 @@ const SOURCE_MATHF_LERP_DELTA_METHOD := source_math_defaults.LERP_DELTA_METHOD
 const SOURCE_MATHF_LERP_DELTA_SCALED_PROGRESS := source_math_defaults.LERP_DELTA_SCALED_PROGRESS
 const SOURCE_MATHF_LERP_DELTA_CLAMP_EXPR := source_math_defaults.LERP_DELTA_CLAMP_EXPR
 const SOURCE_MATHF_LERP_DELTA_LERP_EXPR := source_math_defaults.LERP_DELTA_LERP_EXPR
-const SOURCE_MATHF_APPROACH_DELTA_METHOD := "public static float approachDelta(float from, float to, float speed){\n        return approach(from, to, Time.delta * speed);\n    }"
-const SOURCE_MATHF_APPROACH_DELTA_APPROACH_METHOD := "public static float approach(float from, float to, float speed){\n        return from + Mathf.clamp(to - from, -speed, speed);\n    }"
-const SOURCE_MATHF_APPROACH_DELTA_SCALED_SPEED := "Time.delta * speed"
-const SOURCE_MATHF_DST_METHOD := "public static float dst(float x1, float y1, float x2, float y2){\n        final float xd = x2 - x1;\n        final float yd = y2 - y1;\n        return (float)Math.sqrt(xd * xd + yd * yd);\n    }"
-const SOURCE_MATHF_DST_XD_EXPR := "final float xd = x2 - x1;"
-const SOURCE_MATHF_DST_YD_EXPR := "final float yd = y2 - y1;"
-const SOURCE_MATHF_DST_RETURN_EXPR := "return (float)Math.sqrt(xd * xd + yd * yd);"
-const SOURCE_ARC_MATHF_NUM_METHOD := "public static int num(boolean b){"
-const SOURCE_ANGLES_WITHIN_METHOD := "public static boolean within(float a, float b, float margin){\n        return angleDist(a, b) <= margin;\n    }"
+const SOURCE_MATHF_APPROACH_DELTA_METHOD := source_math_source_text_state.SOURCE_MATHF_APPROACH_DELTA_METHOD
+const SOURCE_MATHF_APPROACH_DELTA_APPROACH_METHOD := source_math_source_text_state.SOURCE_MATHF_APPROACH_DELTA_APPROACH_METHOD
+const SOURCE_MATHF_APPROACH_DELTA_SCALED_SPEED := source_math_source_text_state.SOURCE_MATHF_APPROACH_DELTA_SCALED_SPEED
+const SOURCE_MATHF_DST_METHOD := source_math_source_text_state.SOURCE_MATHF_DST_METHOD
+const SOURCE_MATHF_DST_XD_EXPR := source_math_source_text_state.SOURCE_MATHF_DST_XD_EXPR
+const SOURCE_MATHF_DST_YD_EXPR := source_math_source_text_state.SOURCE_MATHF_DST_YD_EXPR
+const SOURCE_MATHF_DST_RETURN_EXPR := source_math_source_text_state.SOURCE_MATHF_DST_RETURN_EXPR
+const SOURCE_ARC_MATHF_NUM_METHOD := source_math_source_text_state.SOURCE_ARC_MATHF_NUM_METHOD
+const SOURCE_ANGLES_WITHIN_METHOD := source_math_source_text_state.SOURCE_ANGLES_WITHIN_METHOD
 
 static func source_absin(value: float, scl: float, mag: float) -> float:
 	if scl == 0.0:
@@ -97,15 +98,17 @@ static func source_mod_float(value: float, divisor: float) -> float:
 	return fposmod(value, divisor)
 
 static func source_angles_forward_distance(angle1: float, angle2: float) -> float:
-	return source_mod_float(angle2 - angle1, SOURCE_FULL_CIRCLE_DEGREES)
+	return abs(angle1 - angle2)
 
 static func source_angles_backward_distance(angle1: float, angle2: float) -> float:
-	return source_mod_float(angle1 - angle2, SOURCE_FULL_CIRCLE_DEGREES)
+	return SOURCE_FULL_CIRCLE_DEGREES - abs(angle1 - angle2)
 
 static func source_angles_angle_dist(angle_a: float, angle_b: float) -> float:
-	var forward := source_angles_forward_distance(angle_a, angle_b)
-	var backward := source_angles_backward_distance(angle_a, angle_b)
-	return forward if forward < backward else -backward
+	angle_a = source_mod_float(angle_a, SOURCE_FULL_CIRCLE_DEGREES)
+	angle_b = source_mod_float(angle_b, SOURCE_FULL_CIRCLE_DEGREES)
+	var forward := angle_a - angle_b + SOURCE_FULL_CIRCLE_DEGREES if (angle_a - angle_b) < 0.0 else angle_a - angle_b
+	var backward := angle_b - angle_a + SOURCE_FULL_CIRCLE_DEGREES if (angle_b - angle_a) < 0.0 else angle_b - angle_a
+	return min(forward, backward)
 
 static func source_angles_within(a: float, b: float, margin: float) -> bool:
 	return abs(source_angles_angle_dist(a, b)) <= margin
@@ -113,12 +116,18 @@ static func source_angles_within(a: float, b: float, margin: float) -> bool:
 static func source_angles_move_toward(angle: float, to: float, speed: float) -> float:
 	if abs(source_angles_angle_dist(angle, to)) < speed:
 		return to
+	angle = source_mod_float(angle, SOURCE_FULL_CIRCLE_DEGREES)
+	to = source_mod_float(to, SOURCE_FULL_CIRCLE_DEGREES)
 	if (angle > to) == (source_angles_backward_distance(angle, to) > source_angles_forward_distance(angle, to)):
-		return source_mod_float(angle + speed, SOURCE_FULL_CIRCLE_DEGREES)
-	return source_mod_float(angle - speed, SOURCE_FULL_CIRCLE_DEGREES)
+		angle -= speed
+	else:
+		angle += speed
+	return angle
 
 static func source_angles_angle(from_x: float, from_y: float, to_x: float, to_y: float) -> float:
 	var angle := rad_to_deg(atan2(to_y - from_y, to_x - from_x))
+	if angle < 0.0:
+		angle += SOURCE_FULL_CIRCLE_DEGREES
 	return angle
 
 static func source_vec2_angle(vec_x: float, vec_y: float) -> float:
@@ -126,6 +135,7 @@ static func source_vec2_angle(vec_x: float, vec_y: float) -> float:
 	if angle < 0.0:
 		angle += SOURCE_FULL_CIRCLE_DEGREES
 	return angle
+
 
 static func source_angles_trns_vec(angle_degrees: float, x_value: float, y_value: float) -> Dictionary:
 	var radians := deg_to_rad(angle_degrees)

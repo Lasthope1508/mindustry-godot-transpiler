@@ -3,6 +3,26 @@ godot-mindustry/.godot/
 __pycache__/
 .pytest_cache/
 *.pyc
-*.uid
 godot-mindustry/tools/runtime_proofs/*.json
 godot-mindustry/tools/runtime_proofs/*.png
+
+# Upstream checkouts and local copies (see README.md for pinned revisions).
+arc-upstream/
+/mindustry-godot-transpiler-copy*/
+
+# Local captures, reconciliation output, and disposable logs.
+/*.log
+/*.png
+/.reconcile-*.json
+/runtime_proofs/
+
+# Godot import cache and local credentials.
+*.import
+.env
+.env.*
+!.env.example
+*.pem
+*.p12
+*.pfx
+*.keystore
+*.jks

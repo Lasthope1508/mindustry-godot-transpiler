@@ -1,0 +1,2868 @@
+{
+  "version": 1,
+  "slices": {
+    "N1833": {
+      "canonical_ledger": "source_slice_ledger.N1833",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.physicSize()",
+      "godot_owner": "PortGame.source_unit_physic_size",
+      "source_symbols": [
+        "unit_physic_size.method",
+        "unit_physic_size.return"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_comp_metrics_block_to_canonical_state",
+        "test_unit_comp_generated_runtime_metrics_block"
+      ],
+      "runtime_proof": "/root/Main.source_unit_physic_size"
+    },
+    "N1834": {
+      "canonical_ledger": "source_slice_ledger.N1834",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.inRange(Position other)",
+      "godot_owner": "PortGame.source_unit_in_range",
+      "source_symbols": [
+        "unit_in_range.method",
+        "unit_in_range.return"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_comp_metrics_block_to_canonical_state",
+        "test_unit_comp_generated_runtime_metrics_block"
+      ],
+      "runtime_proof": "/root/Main.source_unit_in_range"
+    },
+    "N1835": {
+      "canonical_ledger": "source_slice_ledger.N1835",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.hasWeapons()",
+      "godot_owner": "PortGame.source_unit_has_weapons",
+      "source_symbols": [
+        "unit_has_weapons.method",
+        "unit_has_weapons.return",
+        "unit_has_weapons.type_method",
+        "unit_has_weapons.type_return"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_comp_metrics_block_to_canonical_state",
+        "test_unit_comp_generated_runtime_metrics_block"
+      ],
+      "runtime_proof": "/root/Main.source_unit_has_weapons"
+    },
+    "N1836": {
+      "canonical_ledger": "source_slice_ledger.N1836",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.speed()",
+      "godot_owner": "PortGame.source_unit_speed",
+      "source_symbols": [
+        "unit_speed.method",
+        "unit_speed.strafe_penalty",
+        "unit_speed.boost",
+        "unit_speed.return"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_comp_metrics_block_to_canonical_state",
+        "test_unit_comp_generated_runtime_metrics_block"
+      ],
+      "runtime_proof": "/root/Main.source_unit_speed"
+    },
+    "N1837": {
+      "canonical_ledger": "source_slice_ledger.N1837",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.isPathImpassable(int tileX, int tileY)",
+      "godot_owner": "PortGame.source_unit_is_path_impassable_state",
+      "source_symbols": [
+        "unit_is_path_impassable.method",
+        "unit_is_path_impassable.return"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_comp_navigation_block_to_canonical_state",
+        "test_unit_comp_navigation_block_is_registered_and_generated"
+      ],
+      "runtime_proof": "/root/Main.source_unit_is_path_impassable_state"
+    },
+    "N1838": {
+      "canonical_ledger": "source_slice_ledger.N1838",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.canLand()",
+      "godot_owner": "PortGame.source_unit_can_land_state",
+      "source_symbols": [
+        "unit_can_land.method",
+        "unit_can_land.return"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_comp_navigation_block_to_canonical_state",
+        "test_unit_comp_navigation_block_is_registered_and_generated"
+      ],
+      "runtime_proof": "/root/Main.source_unit_can_land_state"
+    },
+    "N1839": {
+      "canonical_ledger": "source_slice_ledger.N1839",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.prefRotation()",
+      "godot_owner": "PortGame.source_unit_pref_rotation_state",
+      "source_symbols": [
+        "unit_pref_rotation.method",
+        "unit_pref_rotation.building_branch",
+        "unit_pref_rotation.mine_branch",
+        "unit_pref_rotation.omni_branch",
+        "unit_pref_rotation.return"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_comp_navigation_block_to_canonical_state",
+        "test_unit_comp_navigation_block_is_registered_and_generated"
+      ],
+      "runtime_proof": "/root/Main.source_unit_pref_rotation_state"
+    },
+    "N1840": {
+      "canonical_ledger": "source_slice_ledger.N1840",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.ammof()",
+      "godot_owner": "PortGame.source_unit_ammof_state",
+      "source_symbols": [
+        "unit_ammof.method",
+        "unit_ammof.return"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_comp_metadata_block_to_canonical_state",
+        "test_unit_comp_ammo_and_displayability_block_is_registered_and_generated"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof"
+    },
+    "N1841": {
+      "canonical_ledger": "source_slice_ledger.N1841",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.displayable()",
+      "godot_owner": "PortGame.source_unit_displayable_state",
+      "source_symbols": [
+        "unit_displayable.method",
+        "unit_displayable.return",
+        "unit_displayable.type_hoverable"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_comp_metadata_block_to_canonical_state",
+        "test_unit_comp_ammo_and_displayability_block_is_registered_and_generated"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof"
+    },
+    "N1842": {
+      "canonical_ledger": "source_slice_ledger.N1842",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.isSyncHidden(Player player)",
+      "godot_owner": "PortGame.source_unit_is_sync_hidden_state",
+      "source_symbols": [
+        "unit_is_sync_hidden.method",
+        "unit_is_sync_hidden.comment",
+        "unit_is_sync_hidden.return",
+        "unit_is_sync_hidden.is_shooting",
+        "unit_is_sync_hidden.in_fog_to",
+        "unit_is_sync_hidden.is_sync_hidden"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_comp_sync_hidden_block_to_canonical_state",
+        "test_unit_sync_hidden_matches_upstream_source",
+        "test_unit_comp_sync_hidden_block_is_registered_and_generated"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof"
+    },
+    "N1843": {
+      "canonical_ledger": "source_slice_ledger.N1843",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.handleSyncHidden()",
+      "godot_owner": "PortGame.source_unit_handle_sync_hidden_state",
+      "source_symbols": [
+        "unit_handle_sync_hidden.method",
+        "unit_handle_sync_hidden.remove",
+        "unit_handle_sync_hidden.clear_removed_entity",
+        "unit_handle_sync_hidden.unit_id",
+        "unit_handle_sync_hidden.handled"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_comp_sync_hidden_block_to_canonical_state",
+        "test_unit_sync_hidden_matches_upstream_source",
+        "test_unit_comp_sync_hidden_block_is_registered_and_generated"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof"
+    },
+    "N1844": {
+      "canonical_ledger": "source_slice_ledger.N1844",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.inFogTo(Team viewer)",
+      "godot_owner": "PortGame.source_unit_in_fog_to_state",
+      "source_symbols": [
+        "unit_in_fog_to.method",
+        "unit_in_fog_to.initial_gate",
+        "unit_in_fog_to.small_hit_size_gate",
+        "unit_in_fog_to.center_visible",
+        "unit_in_fog_to.large_comment",
+        "unit_in_fog_to.translation",
+        "unit_in_fog_to.d8_loop",
+        "unit_in_fog_to.d8_offsets",
+        "unit_in_fog_to.d8_visible",
+        "unit_in_fog_to.visible_point",
+        "unit_in_fog_to.final_return",
+        "unit_in_fog_to.in_fog"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_comp_in_fog_to_canonical_state",
+        "test_unit_in_fog_to_matches_upstream_source",
+        "test_unit_comp_in_fog_to_block_is_registered_and_generated"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof"
+    },
+    "N1845": {
+      "canonical_ledger": "source_slice_ledger.N1845",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.range()",
+      "godot_owner": "PortGame.source_unit_range_state",
+      "source_symbols": [
+        "unit_range.method",
+        "unit_range.return",
+        "unit_range.type_max_range",
+        "unit_range.range"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_comp_metrics_to_canonical_state",
+        "test_unit_range_matches_upstream_source",
+        "test_unit_comp_range_block_is_registered_and_generated",
+        "test_unit_range_registration_is_canonical"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof"
+    },
+    "N1846": {
+      "canonical_ledger": "source_slice_ledger.N1846",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.clipSize()",
+      "godot_owner": "PortGame.source_unit_clip_size_state",
+      "source_symbols": [
+        "unit_clip_size.method",
+        "unit_clip_size.building_gate",
+        "unit_clip_size.infinite_resources",
+        "unit_clip_size.type_clip_size",
+        "unit_clip_size.type_region_width",
+        "unit_clip_size.type_build_range",
+        "unit_clip_size.source_tilesize",
+        "unit_clip_size.mining_gate",
+        "unit_clip_size.type_mine_range",
+        "unit_clip_size.clip_size"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_comp_clip_size_to_canonical_state",
+        "test_unit_clip_size_matches_upstream_source",
+        "test_unit_comp_clip_size_block_is_registered_and_generated",
+        "test_unit_clip_size_registration_is_canonical"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof"
+    },
+    "N1847": {
+      "canonical_ledger": "source_slice_ledger.N1847",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.sense(LAccess)",
+      "godot_owner": "PortGame.source_unit_sense_laccess_state",
+      "source_symbols": [
+        "unit_sense_laccess.method",
+        "unit_sense_laccess.sensor",
+        "unit_sense_laccess.value"
+      ],
+      "tests": [
+        "test_unit_comp_laccess_sensor_block_is_registered_and_generated",
+        "test_unit_sense_laccess_matches_upstream_source",
+        "test_unit_sense_laccess_registration_is_canonical"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof"
+    },
+    "N1848": {
+      "canonical_ledger": "source_slice_ledger.N1848",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.senseObject(LAccess)",
+      "godot_owner": "PortGame.source_unit_sense_object_state",
+      "source_symbols": [
+        "unit_sense_object.method",
+        "unit_sense_object.sensor",
+        "unit_sense_object.value"
+      ],
+      "tests": [
+        "test_unit_comp_laccess_sensor_block_is_registered_and_generated",
+        "test_unit_sense_object_matches_upstream_source",
+        "test_unit_sense_content_matches_upstream_source",
+        "test_unit_sense_laccess_registration_is_canonical"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof"
+    },
+    "N1849": {
+      "canonical_ledger": "source_slice_ledger.N1849",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.sense(Content)",
+      "godot_owner": "PortGame.source_unit_sense_content_state",
+      "source_symbols": [
+        "unit_sense_content.method",
+        "unit_sense_content.content",
+        "unit_sense_content.value"
+      ],
+      "tests": [
+        "test_unit_comp_laccess_sensor_block_is_registered_and_generated",
+        "test_unit_sense_object_matches_upstream_source",
+        "test_unit_sense_content_matches_upstream_source",
+        "test_unit_sense_laccess_registration_is_canonical"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof"
+    },
+    "N1850": {
+      "canonical_ledger": "source_slice_ledger.N1850",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.setProp(LAccess,double)",
+      "godot_owner": "PortGame.source_unit_set_prop_laccess_double_state",
+      "source_symbols": [
+        "unit_set_prop_laccess_double.method",
+        "unit_set_prop_laccess_double.prop",
+        "unit_set_prop_laccess_double.action"
+      ],
+      "tests": [
+        "test_unit_comp_laccess_sensor_block_is_registered_and_generated",
+        "test_unit_set_prop_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof"
+    },
+    "N1851": {
+      "canonical_ledger": "source_slice_ledger.N1851",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.setProp(LAccess,Object)",
+      "godot_owner": "PortGame.source_unit_set_prop_laccess_object_state",
+      "source_symbols": [
+        "unit_set_prop_laccess_object.method",
+        "unit_set_prop_laccess_object.prop",
+        "unit_set_prop_laccess_object.action"
+      ],
+      "tests": [
+        "test_unit_comp_laccess_sensor_block_is_registered_and_generated",
+        "test_unit_set_prop_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof"
+    },
+    "N1852": {
+      "canonical_ledger": "source_slice_ledger.N1852",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.setProp(UnlockableContent,double)",
+      "godot_owner": "PortGame.source_unit_set_prop_content_state",
+      "source_symbols": [
+        "unit_set_prop_content.method",
+        "unit_set_prop_content.content",
+        "unit_set_prop_content.action"
+      ],
+      "tests": [
+        "test_unit_comp_laccess_sensor_block_is_registered_and_generated",
+        "test_unit_set_prop_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof"
+    },
+    "N1853": {
+      "canonical_ledger": "source_slice_ledger.N1853",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.canShoot()",
+      "godot_owner": "PortGame.source_unit_can_shoot_state",
+      "source_symbols": [
+        "unit_can_shoot.method",
+        "unit_can_shoot.can_shoot"
+      ],
+      "tests": [
+        "test_unit_combat_metadata_matches_upstream_source",
+        "test_unit_comp_laccess_sensor_block_is_registered_and_generated"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof"
+    },
+    "N1854": {
+      "canonical_ledger": "source_slice_ledger.N1854",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.isEnemy()",
+      "godot_owner": "PortGame.source_unit_is_enemy_state",
+      "source_symbols": [
+        "unit_is_enemy.method",
+        "unit_is_enemy.is_enemy"
+      ],
+      "tests": [
+        "test_unit_combat_metadata_matches_upstream_source",
+        "test_unit_comp_laccess_sensor_block_is_registered_and_generated"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof"
+    },
+    "N1855": {
+      "canonical_ledger": "source_slice_ledger.N1855",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.collides(Hitboxc)",
+      "godot_owner": "PortGame.source_unit_collides_state",
+      "source_symbols": [
+        "unit_collides.method",
+        "unit_collides.collides"
+      ],
+      "tests": [
+        "test_unit_combat_metadata_matches_upstream_source",
+        "test_unit_comp_laccess_sensor_block_is_registered_and_generated"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof"
+    },
+    "N1856": {
+      "canonical_ledger": "source_slice_ledger.N1856",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.itemCapacity()",
+      "godot_owner": "PortGame.source_unit_item_capacity_state",
+      "source_symbols": [
+        "unit_item_capacity.method",
+        "unit_item_capacity.item_capacity"
+      ],
+      "tests": [
+        "test_unit_combat_metadata_matches_upstream_source",
+        "test_unit_comp_laccess_sensor_block_is_registered_and_generated"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof"
+    },
+    "N1857": {
+      "canonical_ledger": "source_slice_ledger.N1857",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.bounds()",
+      "godot_owner": "PortGame.source_unit_bounds_state",
+      "source_symbols": [
+        "unit_bounds.method",
+        "unit_bounds.bounds"
+      ],
+      "tests": [
+        "test_unit_combat_metadata_matches_upstream_source",
+        "test_unit_comp_laccess_sensor_block_is_registered_and_generated"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof"
+    },
+    "N1858": {
+      "canonical_ledger": "source_slice_ledger.N1858",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.collision(Hitboxc,float,float)",
+      "godot_owner": "PortGame.source_unit_collision_state",
+      "source_symbols": [
+        "unit_collision.method",
+        "unit_collision.bullet_guard",
+        "unit_collision.controller_hit"
+      ],
+      "tests": [
+        "test_unit_controller_runtime_block_matches_upstream_source",
+        "test_unit_comp_controller_block_is_registered_and_generated"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof"
+    },
+    "N1859": {
+      "canonical_ledger": "source_slice_ledger.N1859",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.controller(UnitController)",
+      "godot_owner": "PortGame.source_unit_controller_set_state",
+      "source_symbols": [
+        "unit_controller_set.method",
+        "unit_controller_set.assign",
+        "unit_controller_set.sync"
+      ],
+      "tests": [
+        "test_unit_controller_runtime_block_matches_upstream_source",
+        "test_unit_comp_controller_block_is_registered_and_generated"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof"
+    },
+    "N1860": {
+      "canonical_ledger": "source_slice_ledger.N1860",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.controller()",
+      "godot_owner": "PortGame.source_unit_controller_get_state",
+      "source_symbols": [
+        "unit_controller_get.method",
+        "unit_controller_get.return"
+      ],
+      "tests": [
+        "test_unit_controller_runtime_block_matches_upstream_source",
+        "test_unit_comp_controller_block_is_registered_and_generated"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof"
+    },
+    "N1861": {
+      "canonical_ledger": "source_slice_ledger.N1861",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.resetController()",
+      "godot_owner": "PortGame.source_unit_reset_controller_state",
+      "source_symbols": [
+        "unit_reset_controller.method",
+        "unit_reset_controller.create"
+      ],
+      "tests": [
+        "test_unit_controller_runtime_block_matches_upstream_source",
+        "test_unit_comp_controller_block_is_registered_and_generated"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof"
+    },
+    "N1862": {
+      "canonical_ledger": "source_slice_ledger.N1862",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.set(UnitType,UnitController)",
+      "godot_owner": "PortGame.source_unit_set_state",
+      "source_symbols": [
+        "unit_set.method",
+        "unit_set.type_guard",
+        "unit_set.type_call",
+        "unit_set.controller_call"
+      ],
+      "tests": [
+        "test_unit_controller_runtime_block_matches_upstream_source",
+        "test_unit_comp_controller_block_is_registered_and_generated"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof"
+    },
+    "N1863": {
+      "canonical_ledger": "source_slice_ledger.N1863",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.collisionLayer()",
+      "godot_owner": "PortGame.source_unit_collision_layer_state",
+      "source_symbols": [
+        "unit_collision_layer.method",
+        "unit_collision_layer.return"
+      ],
+      "tests": [
+        "test_unit_controller_runtime_block_matches_upstream_source",
+        "test_unit_comp_controller_block_is_registered_and_generated"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof"
+    },
+    "N1864": {
+      "canonical_ledger": "source_slice_ledger.N1864",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.getControllerName()",
+      "godot_owner": "PortGame.source_unit_get_controller_name_state",
+      "source_symbols": [
+        "unit_get_controller_name.comment",
+        "unit_get_controller_name.method",
+        "unit_get_controller_name.player_guard",
+        "unit_get_controller_name.logic_guard",
+        "unit_get_controller_name.null_return"
+      ],
+      "tests": [
+        "test_unit_controller_runtime_block_matches_upstream_source",
+        "test_unit_comp_controller_block_is_registered_and_generated"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof"
+    },
+    "N1865": {
+      "canonical_ledger": "source_slice_ledger.N1865",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.display(Table)",
+      "godot_owner": "PortGame.source_unit_display_state",
+      "source_symbols": [
+        "unit_display.method",
+        "unit_display.call"
+      ],
+      "tests": [
+        "test_unit_controller_runtime_block_matches_upstream_source",
+        "test_unit_comp_controller_block_is_registered_and_generated"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof"
+    },
+    "N1866": {
+      "canonical_ledger": "source_slice_ledger.N1866",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.draw()",
+      "godot_owner": "PortGame.source_unit_draw_state",
+      "source_symbols": [
+        "unit_draw.method",
+        "unit_draw.call"
+      ],
+      "tests": [
+        "test_unit_controller_runtime_block_matches_upstream_source",
+        "test_unit_comp_controller_block_is_registered_and_generated"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof"
+    },
+    "N1867": {
+      "canonical_ledger": "source_slice_ledger.N1867",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.isPlayer()",
+      "godot_owner": "PortGame.source_unit_is_player_state",
+      "source_symbols": [
+        "unit_is_player.method",
+        "unit_is_player.return"
+      ],
+      "tests": [
+        "test_unit_controller_runtime_block_matches_upstream_source",
+        "test_unit_comp_controller_block_is_registered_and_generated"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof"
+    },
+    "N1868": {
+      "canonical_ledger": "source_slice_ledger.N1868",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.getPlayer()",
+      "godot_owner": "PortGame.source_unit_get_player_state",
+      "source_symbols": [
+        "unit_get_player.method",
+        "unit_get_player.return"
+      ],
+      "tests": [
+        "test_unit_controller_runtime_block_matches_upstream_source",
+        "test_unit_comp_controller_block_is_registered_and_generated"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof"
+    },
+    "N1869": {
+      "canonical_ledger": "source_slice_ledger.N1869",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.toString()",
+      "godot_owner": "PortGame.source_unit_to_string_state",
+      "source_symbols": [
+        "unit_to_string.override",
+        "unit_to_string.replace",
+        "unit_to_string.method",
+        "unit_to_string.return"
+      ],
+      "tests": [
+        "test_unit_controller_runtime_block_matches_upstream_source",
+        "test_unit_comp_controller_block_is_registered_and_generated"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof"
+    },
+    "N1870": {
+      "canonical_ledger": "source_slice_ledger.N1870",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.update()",
+      "godot_owner": "PortGame.source_unit_update_state",
+      "source_symbols": [
+        "unit_update.method",
+        "unit_update.type_hook",
+        "unit_update.drowning",
+        "unit_update.ability_loop",
+        "unit_update.drag",
+        "unit_update.falling",
+        "unit_update.controller",
+        "unit_update.core_despawn"
+      ],
+      "tests": [
+        "test_unit_controller_runtime_block_matches_upstream_source",
+        "test_unit_comp_controller_block_is_registered_and_generated"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof"
+    },
+    "N752": {
+      "canonical_ledger": "source_slice_ledger.N752",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.add()",
+      "godot_owner": "PortGame.source_unit_add_state",
+      "source_symbols": [
+        "unit_add.method",
+        "unit_add.initial_update_count",
+        "unit_add.cap_comment",
+        "unit_add.cap_guard",
+        "unit_add.unit_cap_death_call",
+        "unit_add.rollback_update_count",
+        "unit_add.team_data_update_count_method",
+        "unit_add.team_data_update_null_guard",
+        "unit_add.team_data_unit_count_clamp",
+        "unit_add.team_data_type_count_clamp",
+        "unit_add.unit_cap_death_method",
+        "unit_add.unit_cap_death_dead",
+        "unit_add.use_unit_cap_default",
+        "unit_add.rules_editor_default"
+      ],
+      "tests": [
+        "test_unit_add_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_add_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_add_state"
+    },
+    "N753": {
+      "canonical_ledger": "source_slice_ledger.N753",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.afterReadAll()",
+      "godot_owner": "PortGame.source_unit_after_read_all_state",
+      "source_symbols": [
+        "unit_after_read_all.override",
+        "unit_after_read_all.method",
+        "unit_after_read_all.controller_after_read",
+        "unit_after_read_all.unit_controller_after_read_method"
+      ],
+      "tests": [
+        "test_unit_after_read_all_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_after_read_all_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_after_read_all_state"
+    },
+    "N754": {
+      "canonical_ledger": "source_slice_ledger.N754",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.afterRead()",
+      "godot_owner": "PortGame.source_unit_after_read_state",
+      "source_symbols": [
+        "unit_after_read.method",
+        "unit_after_read.set_type_call",
+        "unit_after_read.controller_unit_call",
+        "unit_after_read.reset_comment",
+        "unit_after_read.reset_guard",
+        "unit_after_read.create_controller_call",
+        "unit_after_read.unit_controller_unit_method",
+        "unit_after_read.ai_controller_keep_state_method",
+        "unit_after_read.unit_type_create_controller_method"
+      ],
+      "tests": [
+        "test_unit_after_read_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_after_read_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_after_read_state"
+    },
+    "N755": {
+      "canonical_ledger": "source_slice_ledger.N755",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.afterSync()",
+      "godot_owner": "PortGame.source_unit_after_sync_state",
+      "source_symbols": [
+        "unit_after_sync.method",
+        "unit_after_sync.comment",
+        "unit_after_sync.set_type_call",
+        "unit_after_sync.controller_unit_call",
+        "unit_after_sync.synccomp_after_sync_method"
+      ],
+      "tests": [
+        "test_unit_after_sync_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_after_sync_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_after_sync_state"
+    },
+    "N756": {
+      "canonical_ledger": "source_slice_ledger.N756",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.aimLook(Position pos)",
+      "godot_owner": "PortGame.source_unit_aim_look_position_state",
+      "source_symbols": [
+        "unit_aim_look_position.method",
+        "unit_aim_look_position.pos_input",
+        "unit_aim_look_position.aim_call",
+        "unit_aim_look_position.look_at_call"
+      ],
+      "tests": [
+        "test_unit_aim_look_position_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_aim_look_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_aim_look_position_state"
+    },
+    "N757": {
+      "canonical_ledger": "source_slice_ledger.N757",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.aimLook(float x, float y)",
+      "godot_owner": "PortGame.source_unit_aim_look_xy_state",
+      "source_symbols": [
+        "unit_aim_look_xy.method",
+        "unit_aim_look_xy.x_input",
+        "unit_aim_look_xy.y_input",
+        "unit_aim_look_xy.aim_call",
+        "unit_aim_look_xy.look_at_call"
+      ],
+      "tests": [
+        "test_unit_aim_look_xy_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_aim_look_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_aim_look_xy_state"
+    },
+    "N758": {
+      "canonical_ledger": "source_slice_ledger.N758",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.approach(Vec2 vector)/Vec2.approachDelta",
+      "godot_owner": "PortGame.source_unit_approach_state",
+      "source_symbols": [
+        "unit_approach.method",
+        "unit_approach.call",
+        "unit_approach.vec2_approach_delta",
+        "unit_approach.vec2_approach_method",
+        "unit_approach.vec2_dx_dy",
+        "unit_approach.vec2_alpha2",
+        "unit_approach.vec2_len2",
+        "unit_approach.vec2_scl",
+        "unit_approach.vec2_sub",
+        "unit_approach.vec2_set"
+      ],
+      "tests": [
+        "test_unit_approach_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_approach_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_approach_state"
+    },
+    "N759": {
+      "canonical_ledger": "source_slice_ledger.N759",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.canDrown()",
+      "godot_owner": "PortGame.source_unit_can_drown_state",
+      "source_symbols": [
+        "unit_can_drown.method",
+        "unit_can_drown.is_grounded_call",
+        "unit_can_drown.type_can_drown",
+        "unit_can_drown.return"
+      ],
+      "tests": [
+        "test_unit_can_drown_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_can_drown_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_can_drown_state"
+    },
+    "N760": {
+      "canonical_ledger": "source_slice_ledger.N760",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.canTarget(Teamc other)",
+      "godot_owner": "PortGame.source_unit_can_target_state",
+      "source_symbols": [
+        "unit_can_target.method",
+        "unit_can_target.return",
+        "unit_can_target.unit_check_target_call",
+        "unit_can_target.building_check",
+        "unit_can_target.type_target_air",
+        "unit_can_target.type_target_ground"
+      ],
+      "tests": [
+        "test_unit_can_target_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_can_target_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_can_target_state"
+    },
+    "N761": {
+      "canonical_ledger": "source_slice_ledger.N761",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.cap()/Units.getCap(Team team)",
+      "godot_owner": "PortGame.source_unit_cap_state",
+      "source_symbols": [
+        "unit_cap.method",
+        "unit_cap.call",
+        "unit_cap.units_get_cap_method",
+        "unit_cap.uncapped_gate",
+        "unit_cap.integer_max_value",
+        "unit_cap.formula"
+      ],
+      "tests": [
+        "test_unit_cap_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_cap_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_cap_state"
+    },
+    "N762": {
+      "canonical_ledger": "source_slice_ledger.N762",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.checkTarget(boolean targetAir, boolean targetGround)",
+      "godot_owner": "PortGame.source_unit_check_target_state",
+      "source_symbols": [
+        "unit_check_target.method",
+        "unit_check_target.return",
+        "unit_check_target.is_grounded_call",
+        "unit_check_target.is_flying_call",
+        "unit_check_target.target_air",
+        "unit_check_target.target_ground"
+      ],
+      "tests": [
+        "test_unit_check_target_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_grounded_flying_target_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_check_target_state"
+    },
+    "N763": {
+      "canonical_ledger": "source_slice_ledger.N763",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.command()",
+      "godot_owner": "PortGame.source_unit_command_state",
+      "source_symbols": [
+        "unit_command.method",
+        "unit_command.command_ai_gate",
+        "unit_command.command_return",
+        "unit_command.command_throw",
+        "unit_command.command_ai_class",
+        "unit_command.controller_is_command_ai"
+      ],
+      "tests": [
+        "test_unit_command_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_command_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_command_state"
+    },
+    "N764": {
+      "canonical_ledger": "source_slice_ledger.N764",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.isAI()/allowCommand()/isCommandable()",
+      "godot_owner": "PortGame.source_unit_controller_predicates_state",
+      "source_symbols": [
+        "unit_controller_predicates.is_ai_method",
+        "unit_controller_predicates.is_ai_return",
+        "unit_controller_predicates.allow_command_method",
+        "unit_controller_predicates.allow_command_return",
+        "unit_controller_predicates.is_commandable_method",
+        "unit_controller_predicates.is_commandable_return",
+        "unit_controller_predicates.ai_controller_class",
+        "unit_controller_predicates.command_ai_class",
+        "unit_controller_predicates.controller_is_ai_controller",
+        "unit_controller_predicates.controller_is_command_ai"
+      ],
+      "tests": [
+        "test_unit_controller_predicates_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_controller_predicates_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_controller_predicates_state"
+    },
+    "N765": {
+      "canonical_ledger": "source_slice_ledger.N765",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.count()/Team.data()/Teams.TeamData.countType(UnitType type)",
+      "godot_owner": "PortGame.source_unit_count_state",
+      "source_symbols": [
+        "unit_count.method",
+        "unit_count.count_return",
+        "unit_count.team_data_method",
+        "unit_count.team_data_return",
+        "unit_count.count_type_method",
+        "unit_count.count_type_return",
+        "unit_count.team_data_count_type_result",
+        "unit_count.type_id"
+      ],
+      "tests": [
+        "test_unit_count_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_count_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_count_state"
+    },
+    "N766": {
+      "canonical_ledger": "source_slice_ledger.N766",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.destroy()/Ability.death(Unit unit)",
+      "godot_owner": "PortGame.source_unit_destroy_ability_death_state",
+      "source_symbols": [
+        "unit_destroy_ability_death.method",
+        "unit_destroy_ability_death.ability_import",
+        "unit_destroy_ability_death.abilities_field",
+        "unit_destroy_ability_death.ability_loop",
+        "unit_destroy_ability_death.death_call",
+        "unit_destroy_ability_death.ability_death_default",
+        "unit_destroy_ability_death.ability_states",
+        "unit_destroy_ability_death.unit_id"
+      ],
+      "tests": [
+        "test_unit_destroy_ability_death_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_ability_death_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_destroy_ability_death_state"
+    },
+    "N767": {
+      "canonical_ledger": "source_slice_ledger.N767",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.destroy() crash landing damage",
+      "godot_owner": "PortGame.source_unit_destroy_crash_landing_damage_state",
+      "source_symbols": [
+        "unit_destroy_crash_landing_damage.method",
+        "unit_destroy_crash_landing_damage.comment",
+        "unit_destroy_crash_landing_damage.guard",
+        "unit_destroy_crash_landing_damage.shield_lookup",
+        "unit_destroy_crash_landing_damage.crash_damage_formula",
+        "unit_destroy_crash_landing_damage.shield_absorb_guard",
+        "unit_destroy_crash_landing_damage.damage_call",
+        "unit_destroy_crash_landing_damage.explosion_shield_absorb",
+        "unit_destroy_crash_landing_damage.block_flag_shield",
+        "unit_destroy_crash_landing_damage.damage_overload",
+        "unit_destroy_crash_landing_damage.type_create_wreck_default",
+        "unit_destroy_crash_landing_damage.type_flying_default",
+        "unit_destroy_crash_landing_damage.team_rules_unit_crash_damage_multiplier_default",
+        "unit_destroy_crash_landing_damage.rules_unit_crash_damage_multiplier_default",
+        "unit_destroy_crash_landing_damage.rules_unit_crash_damage_return",
+        "unit_destroy_crash_landing_damage.rules_unit_crash_damage_method",
+        "unit_destroy_crash_landing_damage.mathf_pow",
+        "unit_destroy_crash_landing_damage.type_flying",
+        "unit_destroy_crash_landing_damage.spawned_by_core_value",
+        "unit_destroy_crash_landing_damage.type_create_wreck",
+        "unit_destroy_crash_landing_damage.rules_unit_crash_damage",
+        "unit_destroy_crash_landing_damage.hit_size",
+        "unit_destroy_crash_landing_damage.type_crash_damage_multiplier",
+        "unit_destroy_crash_landing_damage.shields_empty",
+        "unit_destroy_crash_landing_damage.shield_absorbed",
+        "unit_destroy_crash_landing_damage.team_id",
+        "unit_destroy_crash_landing_damage.source_x",
+        "unit_destroy_crash_landing_damage.source_y"
+      ],
+      "tests": [
+        "test_unit_destroy_crash_landing_damage_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_crash_landing_damage_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_destroy_crash_landing_damage_state"
+    },
+    "N768": {
+      "canonical_ledger": "source_slice_ledger.N768",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.destroy() explosion dispatch",
+      "godot_owner": "PortGame.source_unit_destroy_explosion_dispatch_state",
+      "source_symbols": [
+        "unit_destroy_explosion_dispatch.method",
+        "unit_destroy_explosion_dispatch.not_spawned_guard",
+        "unit_destroy_explosion_dispatch.dynamic_explosion_call",
+        "unit_destroy_explosion_dispatch.spawned_core_else",
+        "unit_destroy_explosion_dispatch.spawned_core_effect_call",
+        "unit_destroy_explosion_dispatch.type_death_explosion_effect_default",
+        "unit_destroy_explosion_dispatch.type_leg_length_default",
+        "unit_destroy_explosion_dispatch.damage_dynamic_explosion_overload",
+        "unit_destroy_explosion_dispatch.rules_damage_explosions_default",
+        "unit_destroy_explosion_dispatch.rules_unit_crash_damage_method",
+        "unit_destroy_explosion_dispatch.rules_unit_crash_damage_return",
+        "unit_destroy_explosion_dispatch.item_flammability_default",
+        "unit_destroy_explosion_dispatch.bounds_method",
+        "unit_destroy_explosion_dispatch.bounds_return",
+        "unit_destroy_explosion_dispatch.effect_at_float_float_rotation",
+        "unit_destroy_explosion_dispatch.spawned_by_core_value",
+        "unit_destroy_explosion_dispatch.source_x",
+        "unit_destroy_explosion_dispatch.source_y",
+        "unit_destroy_explosion_dispatch.flammability",
+        "unit_destroy_explosion_dispatch.explosiveness",
+        "unit_destroy_explosion_dispatch.power",
+        "unit_destroy_explosion_dispatch.bounds_value",
+        "unit_destroy_explosion_dispatch.type_leg_length",
+        "unit_destroy_explosion_dispatch.rules_damage_explosions",
+        "unit_destroy_explosion_dispatch.rules_unit_crash_damage",
+        "unit_destroy_explosion_dispatch.item_flammability",
+        "unit_destroy_explosion_dispatch.team_id",
+        "unit_destroy_explosion_dispatch.death_explosion_effect"
+      ],
+      "tests": [
+        "test_unit_destroy_explosion_dispatch_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_explosion_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_destroy_explosion_dispatch_state"
+    },
+    "N769": {
+      "canonical_ledger": "source_slice_ledger.N769",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.destroy() initial payload",
+      "godot_owner": "PortGame.source_unit_destroy_initial_payload_state",
+      "source_symbols": [
+        "unit_destroy_initial_payload.method",
+        "unit_destroy_initial_payload.comment",
+        "unit_destroy_initial_payload.return_guard",
+        "unit_destroy_initial_payload.explosiveness_formula",
+        "unit_destroy_initial_payload.flammability_formula",
+        "unit_destroy_initial_payload.power_formula",
+        "unit_destroy_initial_payload.entity_is_added",
+        "unit_destroy_initial_payload.entity_is_added_body",
+        "unit_destroy_initial_payload.unit_killable",
+        "unit_destroy_initial_payload.unit_killable_body",
+        "unit_destroy_initial_payload.items_item",
+        "unit_destroy_initial_payload.items_item_body",
+        "unit_destroy_initial_payload.item_explosiveness_default",
+        "unit_destroy_initial_payload.item_flammability_default",
+        "unit_destroy_initial_payload.item_charge_default",
+        "unit_destroy_initial_payload.item_stack_amount_default",
+        "unit_destroy_initial_payload.mathf_pow",
+        "unit_destroy_initial_payload.mathf_pow_body",
+        "unit_destroy_initial_payload.is_added_value",
+        "unit_destroy_initial_payload.killable_value",
+        "unit_destroy_initial_payload.item_explosiveness",
+        "unit_destroy_initial_payload.item_flammability",
+        "unit_destroy_initial_payload.item_charge",
+        "unit_destroy_initial_payload.stack_amount"
+      ],
+      "tests": [
+        "test_unit_destroy_initial_payload_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_initial_payload_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_destroy_initial_payload_state"
+    },
+    "N770": {
+      "canonical_ledger": "source_slice_ledger.N770",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.destroy() shoot-on-death mounts",
+      "godot_owner": "PortGame.source_unit_destroy_shoot_on_death_mounts_state",
+      "source_symbols": [
+        "unit_destroy_shoot_on_death_mounts.allow_effects_false",
+        "unit_destroy_shoot_on_death_mounts.bullet_kill_shooter",
+        "unit_destroy_shoot_on_death_mounts.effect_at",
+        "unit_destroy_shoot_on_death_mounts.effect_guard",
+        "unit_destroy_shoot_on_death_mounts.guard",
+        "unit_destroy_shoot_on_death_mounts.has_target",
+        "unit_destroy_shoot_on_death_mounts.loop",
+        "unit_destroy_shoot_on_death_mounts.method",
+        "unit_destroy_shoot_on_death_mounts.mount_allow_shoot_effects",
+        "unit_destroy_shoot_on_death_mounts.mount_reload",
+        "unit_destroy_shoot_on_death_mounts.mount_shoot",
+        "unit_destroy_shoot_on_death_mounts.mount_states",
+        "unit_destroy_shoot_on_death_mounts.mount_total_shots",
+        "unit_destroy_shoot_on_death_mounts.mount_weapon",
+        "unit_destroy_shoot_on_death_mounts.mounts_import",
+        "unit_destroy_shoot_on_death_mounts.reload_zero",
+        "unit_destroy_shoot_on_death_mounts.shoot_true",
+        "unit_destroy_shoot_on_death_mounts.unit_id",
+        "unit_destroy_shoot_on_death_mounts.weapon_shoot_on_death",
+        "unit_destroy_shoot_on_death_mounts.weapon_shoot_on_death_effect",
+        "unit_destroy_shoot_on_death_mounts.weapon_update"
+      ],
+      "tests": [
+        "test_unit_destroy_shoot_on_death_mounts_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_shoot_on_death_mounts_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_destroy_shoot_on_death_mounts_state"
+    },
+    "N771": {
+      "canonical_ledger": "source_slice_ledger.N771",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.destroy() sound and event",
+      "godot_owner": "PortGame.source_unit_destroy_sound_and_event_state",
+      "source_symbols": [
+        "unit_destroy_sound_and_event.arc_events_fire_object",
+        "unit_destroy_sound_and_event.arc_events_fire_object_body",
+        "unit_destroy_sound_and_event.death_sound",
+        "unit_destroy_sound_and_event.death_sound_call",
+        "unit_destroy_sound_and_event.death_sound_volume",
+        "unit_destroy_sound_and_event.method",
+        "unit_destroy_sound_and_event.sound_at_position",
+        "unit_destroy_sound_and_event.sound_at_position_body",
+        "unit_destroy_sound_and_event.unit_death_sound_field",
+        "unit_destroy_sound_and_event.unit_death_sound_volume",
+        "unit_destroy_sound_and_event.unit_destroy_event",
+        "unit_destroy_sound_and_event.unit_destroy_event_class",
+        "unit_destroy_sound_and_event.unit_destroy_event_constructor",
+        "unit_destroy_sound_and_event.unit_destroy_event_unit",
+        "unit_destroy_sound_and_event.unit_id"
+      ],
+      "tests": [
+        "test_unit_destroy_sound_and_event_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_sound_and_event_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_destroy_sound_and_event_state"
+    },
+    "N772": {
+      "canonical_ledger": "source_slice_ledger.N772",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.destroy() suicide bomb trigger",
+      "godot_owner": "PortGame.source_unit_destroy_suicide_bomb_trigger_state",
+      "source_symbols": [
+        "unit_destroy_suicide_bomb_trigger.arc_events_fire_enum",
+        "unit_destroy_suicide_bomb_trigger.arc_events_fire_enum_body",
+        "unit_destroy_suicide_bomb_trigger.event_call",
+        "unit_destroy_suicide_bomb_trigger.explosiveness",
+        "unit_destroy_suicide_bomb_trigger.guard",
+        "unit_destroy_suicide_bomb_trigger.is_local",
+        "unit_destroy_suicide_bomb_trigger.method",
+        "unit_destroy_suicide_bomb_trigger.trigger_enum",
+        "unit_destroy_suicide_bomb_trigger.trigger_member",
+        "unit_destroy_suicide_bomb_trigger.was_player"
+      ],
+      "tests": [
+        "test_unit_destroy_suicide_bomb_trigger_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_suicide_bomb_trigger_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_destroy_suicide_bomb_trigger_state"
+    },
+    "N773": {
+      "canonical_ledger": "source_slice_ledger.N773",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.destroy() type killed and remove",
+      "godot_owner": "PortGame.source_unit_destroy_type_killed_remove_state",
+      "source_symbols": [
+        "unit_destroy_type_killed_remove.method",
+        "unit_destroy_type_killed_remove.remove_call",
+        "unit_destroy_type_killed_remove.self_method",
+        "unit_destroy_type_killed_remove.type_killed_call",
+        "unit_destroy_type_killed_remove.unit_id",
+        "unit_destroy_type_killed_remove.unit_remove_override",
+        "unit_destroy_type_killed_remove.unit_type_killed_default"
+      ],
+      "tests": [
+        "test_unit_destroy_type_killed_remove_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_type_killed_remove_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_destroy_type_killed_remove_state"
+    },
+    "N774": {
+      "canonical_ledger": "source_slice_ledger.N774",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.destroy() visual effects",
+      "godot_owner": "PortGame.source_unit_destroy_visual_effects_state",
+      "source_symbols": [
+        "unit_destroy_visual_effects.create_scorch_default",
+        "unit_destroy_visual_effects.death_shake_default",
+        "unit_destroy_visual_effects.effect_scorch_method",
+        "unit_destroy_visual_effects.effect_shake_position",
+        "unit_destroy_visual_effects.effect_shake_position_body",
+        "unit_destroy_visual_effects.hit_size",
+        "unit_destroy_visual_effects.hit_size_default",
+        "unit_destroy_visual_effects.method",
+        "unit_destroy_visual_effects.scorch_call",
+        "unit_destroy_visual_effects.scorch_guard",
+        "unit_destroy_visual_effects.shake_call",
+        "unit_destroy_visual_effects.shake_formula",
+        "unit_destroy_visual_effects.source_x",
+        "unit_destroy_visual_effects.source_y",
+        "unit_destroy_visual_effects.type_create_scorch",
+        "unit_destroy_visual_effects.type_death_shake",
+        "unit_destroy_visual_effects.unit_id"
+      ],
+      "tests": [
+        "test_unit_destroy_visual_effects_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_visual_effects_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_destroy_visual_effects_state"
+    },
+    "N775": {
+      "canonical_ledger": "source_slice_ledger.N775",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.destroy() wreck decals",
+      "godot_owner": "PortGame.source_unit_destroy_wreck_decal_state",
+      "source_symbols": [
+        "unit_destroy_wreck_decal.create_scorch_default",
+        "unit_destroy_wreck_decal.decal_call",
+        "unit_destroy_wreck_decal.effect_decal",
+        "unit_destroy_wreck_decal.found_guard",
+        "unit_destroy_wreck_decal.guard",
+        "unit_destroy_wreck_decal.headless_value",
+        "unit_destroy_wreck_decal.hit_size_default",
+        "unit_destroy_wreck_decal.loop",
+        "unit_destroy_wreck_decal.method",
+        "unit_destroy_wreck_decal.random_call",
+        "unit_destroy_wreck_decal.range_formula",
+        "unit_destroy_wreck_decal.source_rotation_degrees",
+        "unit_destroy_wreck_decal.source_x",
+        "unit_destroy_wreck_decal.source_y",
+        "unit_destroy_wreck_decal.texture_region_found",
+        "unit_destroy_wreck_decal.tmp_offsets",
+        "unit_destroy_wreck_decal.tmp_v1",
+        "unit_destroy_wreck_decal.type_create_scorch",
+        "unit_destroy_wreck_decal.type_hit_size",
+        "unit_destroy_wreck_decal.vec2_rnd",
+        "unit_destroy_wreck_decal.wreck_region_init",
+        "unit_destroy_wreck_decal.wreck_region_load",
+        "unit_destroy_wreck_decal.wreck_regions",
+        "unit_destroy_wreck_decal.wreck_regions_input"
+      ],
+      "tests": [
+        "test_unit_destroy_wreck_decal_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_wreck_decal_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_destroy_wreck_decal_state"
+    },
+    "N776": {
+      "canonical_ledger": "source_slice_ledger.N776",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.drownFloor()",
+      "godot_owner": "PortGame.source_unit_drown_floor_state",
+      "source_symbols": [
+        "unit_drown_floor.floor_class",
+        "unit_drown_floor.floor_on",
+        "unit_drown_floor.floor_on_method",
+        "unit_drown_floor.floor_on_return",
+        "unit_drown_floor.floor_on_tile",
+        "unit_drown_floor.method",
+        "unit_drown_floor.return",
+        "unit_drown_floor.tile_on_method",
+        "unit_drown_floor.tile_on_return"
+      ],
+      "tests": [
+        "test_unit_drown_floor_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_drown_floor_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_drown_floor_state"
+    },
+    "N777": {
+      "canonical_ledger": "source_slice_ledger.N777",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.floorSpeedMultiplier()",
+      "godot_owner": "PortGame.source_unit_floor_speed_multiplier_state",
+      "source_symbols": [
+        "unit_floor_speed_multiplier.block_as_floor",
+        "unit_floor_speed_multiplier.floor_choice",
+        "unit_floor_speed_multiplier.floor_on_speed_multiplier",
+        "unit_floor_speed_multiplier.floor_speed_multiplier_default",
+        "unit_floor_speed_multiplier.method",
+        "unit_floor_speed_multiplier.return",
+        "unit_floor_speed_multiplier.speed_multiplier",
+        "unit_floor_speed_multiplier.type_floor_multiplier",
+        "unit_floor_speed_multiplier.type_hovering"
+      ],
+      "tests": [
+        "test_unit_floor_speed_multiplier_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_floor_speed_multiplier_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_floor_speed_multiplier_state"
+    },
+    "N778": {
+      "canonical_ledger": "source_slice_ledger.N778",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.heal(float amount)",
+      "godot_owner": "PortGame.source_unit_heal_state",
+      "source_symbols": [
+        "unit_heal.amount",
+        "unit_heal.current_was_healed",
+        "unit_heal.guard",
+        "unit_heal.health",
+        "unit_heal.health_comp_add",
+        "unit_heal.health_comp_clamp",
+        "unit_heal.health_comp_heal",
+        "unit_heal.health_mutation_source",
+        "unit_heal.max_health",
+        "unit_heal.override",
+        "unit_heal.set_was_healed",
+        "unit_heal.was_healed"
+      ],
+      "tests": [
+        "test_unit_heal_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_heal_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_heal_state"
+    },
+    "N781": {
+      "canonical_ledger": "source_slice_ledger.N781",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.hittable()",
+      "godot_owner": "PortGame.source_unit_hittable_state",
+      "source_symbols": [
+        "unit_hittable.has_payload",
+        "unit_hittable.method",
+        "unit_hittable.payload_hittable",
+        "unit_hittable.payload_instance",
+        "unit_hittable.type_hittable",
+        "unit_hittable.type_method",
+        "unit_hittable.type_return",
+        "unit_hittable.type_vulnerable_with_payloads",
+        "unit_hittable.unit_return"
+      ],
+      "tests": [
+        "test_unit_hittable_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_hittable_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_hittable_state"
+    },
+    "N782": {
+      "canonical_ledger": "source_slice_ledger.N782",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.icon()",
+      "godot_owner": "PortGame.source_unit_icon_state",
+      "source_symbols": [
+        "unit_icon.comment",
+        "unit_icon.method",
+        "unit_icon.return",
+        "unit_icon.type_ui_icon",
+        "unit_icon.ui_icon_field",
+        "unit_icon.ui_icon_load"
+      ],
+      "tests": [
+        "test_unit_icon_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_icon_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_icon_state"
+    },
+    "N783": {
+      "canonical_ledger": "source_slice_ledger.N783",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.isFlying()",
+      "godot_owner": "PortGame.source_unit_is_flying",
+      "source_symbols": [
+        "unit_is_flying.elevation",
+        "unit_is_flying.method",
+        "unit_is_flying.return",
+        "unit_is_flying.result"
+      ],
+      "tests": [
+        "test_unit_is_flying_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_grounded_flying_target_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_is_flying"
+    },
+    "N784": {
+      "canonical_ledger": "source_slice_ledger.N784",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.isGrounded()",
+      "godot_owner": "PortGame.source_unit_is_grounded",
+      "source_symbols": [
+        "unit_is_grounded.elevation",
+        "unit_is_grounded.method",
+        "unit_is_grounded.return",
+        "unit_is_grounded.result"
+      ],
+      "tests": [
+        "test_unit_is_grounded_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_grounded_flying_target_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_is_grounded"
+    },
+    "N785": {
+      "canonical_ledger": "source_slice_ledger.N785",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.isMissile()",
+      "godot_owner": "PortGame.source_unit_is_missile_state",
+      "source_symbols": [
+        "unit_is_missile.entity_def",
+        "unit_is_missile.method",
+        "unit_is_missile.return",
+        "unit_is_missile.result",
+        "unit_is_missile.timed_killc_input"
+      ],
+      "tests": [
+        "test_unit_is_missile_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_is_missile_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_is_missile_state"
+    },
+    "N786": {
+      "canonical_ledger": "source_slice_ledger.N786",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.kill()",
+      "godot_owner": "PortGame.source_unit_kill_sync_state",
+      "source_symbols": [
+        "unit_kill_sync.call",
+        "unit_kill_sync.comment",
+        "unit_kill_sync.dead_input",
+        "unit_kill_sync.guard",
+        "unit_kill_sync.killable_input",
+        "unit_kill_sync.method",
+        "unit_kill_sync.net_client_input",
+        "unit_kill_sync.unit_death_killed",
+        "unit_kill_sync.unit_death_lookup",
+        "unit_kill_sync.unit_death_method",
+        "unit_kill_sync.unit_death_remote",
+        "unit_kill_sync.unit_death_removed_entity",
+        "unit_kill_sync.unit_id_input"
+      ],
+      "tests": [
+        "test_unit_kill_sync_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_kill_sync_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_kill_sync_state"
+    },
+    "N787": {
+      "canonical_ledger": "source_slice_ledger.N787",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.killable()",
+      "godot_owner": "PortGame.source_unit_killable_state",
+      "source_symbols": [
+        "unit_killable.method",
+        "unit_killable.result",
+        "unit_killable.type_killable",
+        "unit_killable.type_method",
+        "unit_killable.type_return",
+        "unit_killable.unit_return"
+      ],
+      "tests": [
+        "test_unit_killable_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_killable_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_killable_state"
+    },
+    "N788": {
+      "canonical_ledger": "source_slice_ledger.N788",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.killed()",
+      "godot_owner": "PortGame.source_unit_killed_state",
+      "source_symbols": [
+        "unit_killed.current_health_input",
+        "unit_killed.dead_assignment",
+        "unit_killed.destroy_call",
+        "unit_killed.destroy_guard",
+        "unit_killed.entity_is_local_method",
+        "unit_killed.entity_is_local_return",
+        "unit_killed.health_clamp",
+        "unit_killed.is_local_input",
+        "unit_killed.method",
+        "unit_killed.sound_at_position",
+        "unit_killed.type_create_wreck_default",
+        "unit_killed.type_create_wreck_input",
+        "unit_killed.type_flying_input",
+        "unit_killed.type_wreck_sound_default",
+        "unit_killed.type_wreck_sound_volume_default",
+        "unit_killed.unit_id_input",
+        "unit_killed.was_player",
+        "unit_killed.wreck_sound_call",
+        "unit_killed.wreck_sound_input",
+        "unit_killed.wreck_sound_volume_input"
+      ],
+      "tests": [
+        "test_unit_killed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_killed_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_killed_state"
+    },
+    "N789": {
+      "canonical_ledger": "source_slice_ledger.N789",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.landed()",
+      "godot_owner": "PortGame.source_unit_landed_state",
+      "source_symbols": [
+        "unit_landed.effect_shake_position",
+        "unit_landed.effect_shake_position_call",
+        "unit_landed.mech_land_shake_default",
+        "unit_landed.mech_land_shake_input",
+        "unit_landed.method",
+        "unit_landed.shake_call",
+        "unit_landed.shake_guard",
+        "unit_landed.type_call",
+        "unit_landed.unit_type_landed_default"
+      ],
+      "tests": [
+        "test_unit_landed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_landed_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_landed_state"
+    },
+    "N790": {
+      "canonical_ledger": "source_slice_ledger.N790",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.lookAt(float angle)",
+      "godot_owner": "PortGame.source_unit_look_at_angle_state",
+      "source_symbols": [
+        "unit_look_at_angle.angle_input",
+        "unit_look_at_angle.method",
+        "unit_look_at_angle.rotate_speed_input",
+        "unit_look_at_angle.rotation_assignment",
+        "unit_look_at_angle.rotation_input",
+        "unit_look_at_angle.rotation_speed",
+        "unit_look_at_angle.speed_multiplier_input",
+        "unit_look_at_angle.time_delta_input"
+      ],
+      "tests": [
+        "test_unit_look_at_angle_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_look_at_angle_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_look_at_angle_state"
+    },
+    "N791": {
+      "canonical_ledger": "source_slice_ledger.N791",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.lookAt(Position pos)",
+      "godot_owner": "PortGame.source_unit_look_at_position_state",
+      "source_symbols": [
+        "unit_look_at_position.angle_to_call",
+        "unit_look_at_position.arc_angle",
+        "unit_look_at_position.arc_angle_method",
+        "unit_look_at_position.arc_angle_wrap",
+        "unit_look_at_position.look_at_call",
+        "unit_look_at_position.method",
+        "unit_look_at_position.pos_input",
+        "unit_look_at_position.position_angle_to"
+      ],
+      "tests": [
+        "test_unit_look_at_position_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_look_at_position_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_look_at_position_state"
+    },
+    "N792": {
+      "canonical_ledger": "source_slice_ledger.N792",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.lookAt(float x, float y)",
+      "godot_owner": "PortGame.source_unit_look_at_xy_state",
+      "source_symbols": [
+        "unit_look_at_xy.angle_to_call",
+        "unit_look_at_xy.arc_angle",
+        "unit_look_at_xy.arc_angle_method",
+        "unit_look_at_xy.arc_angle_wrap",
+        "unit_look_at_xy.look_at_call",
+        "unit_look_at_xy.method",
+        "unit_look_at_xy.position_angle_to",
+        "unit_look_at_xy.x_input",
+        "unit_look_at_xy.y_input"
+      ],
+      "tests": [
+        "test_unit_look_at_xy_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_look_at_xy_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_look_at_xy_state"
+    },
+    "N793": {
+      "canonical_ledger": "source_slice_ledger.N793",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.moveAt(Vec2 vector)",
+      "godot_owner": "PortGame.source_unit_move_at_default_accel_state",
+      "source_symbols": [
+        "unit_move_at_default_accel.call",
+        "unit_move_at_default_accel.method",
+        "unit_move_at_default_accel.move_at_acceleration_method",
+        "unit_move_at_default_accel.type_accel_input",
+        "unit_move_at_default_accel.vector_input",
+        "unit_move_at_default_accel.vector_x_input",
+        "unit_move_at_default_accel.vector_y_input"
+      ],
+      "tests": [
+        "test_unit_move_at_default_accel_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_move_at_default_accel_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_move_at_default_accel_state"
+    },
+    "N794": {
+      "canonical_ledger": "source_slice_ledger.N794",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.moveAt(Vec2 vector, float acceleration)",
+      "godot_owner": "PortGame.source_unit_move_at_state",
+      "source_symbols": [
+        "unit_move_at.delta_limit",
+        "unit_move_at.method",
+        "unit_move_at.target_set",
+        "unit_move_at.time_delta",
+        "unit_move_at.vec2_add",
+        "unit_move_at.vec2_len",
+        "unit_move_at.vec2_limit",
+        "unit_move_at.vec2_limit2",
+        "unit_move_at.vec2_set",
+        "unit_move_at.vec2_sub",
+        "unit_move_at.vel_add"
+      ],
+      "tests": [
+        "test_unit_move_at_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_move_at_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_move_at_state"
+    },
+    "N795": {
+      "canonical_ledger": "source_slice_ledger.N795",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.movePref(Vec2 movement)",
+      "godot_owner": "PortGame.source_unit_move_pref_state",
+      "source_symbols": [
+        "unit_move_pref.method",
+        "unit_move_pref.movement_input",
+        "unit_move_pref.movement_x_input",
+        "unit_move_pref.movement_y_input",
+        "unit_move_pref.move_at_call",
+        "unit_move_pref.omni_gate",
+        "unit_move_pref.rotate_move_call",
+        "unit_move_pref.type_omni_movement"
+      ],
+      "tests": [
+        "test_unit_move_pref_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_move_pref_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_move_pref_state"
+    },
+    "N796": {
+      "canonical_ledger": "source_slice_ledger.N796",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.playerControllable()",
+      "godot_owner": "PortGame.source_unit_player_controllable_state",
+      "source_symbols": [
+        "unit_player_controllable.block_privileged",
+        "unit_player_controllable.logic_ai_class",
+        "unit_player_controllable.logic_ai_controller",
+        "unit_player_controllable.method",
+        "unit_player_controllable.return",
+        "unit_player_controllable.type_field"
+      ],
+      "tests": [
+        "test_unit_player_controllable_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_player_controllable_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_player_controllable_state"
+    },
+    "N797": {
+      "canonical_ledger": "source_slice_ledger.N797",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.remove()",
+      "godot_owner": "PortGame.source_unit_remove_state",
+      "source_symbols": [
+        "unit_remove.method",
+        "unit_remove.update_count",
+        "unit_remove.controller_removed",
+        "unit_remove.trail_guard",
+        "unit_remove.trail_fade"
+      ],
+      "tests": [
+        "test_unit_remove_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_remove_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_remove_state"
+    },
+    "N798": {
+      "canonical_ledger": "source_slice_ledger.N798",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.rotateMove(Vec2 vec) motion",
+      "godot_owner": "PortGame.source_unit_rotate_move_motion_state",
+      "source_symbols": [
+        "unit_rotate_move_motion.method",
+        "unit_rotate_move_motion.motion_call",
+        "unit_rotate_move_motion.vec2_trns",
+        "unit_rotate_move_motion.vec2_len"
+      ],
+      "tests": [
+        "test_unit_rotate_move_motion_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_rotate_move_motion_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_rotate_move_motion_state"
+    },
+    "N799": {
+      "canonical_ledger": "source_slice_ledger.N799",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.rotateMove(Vec2 vec) rotation",
+      "godot_owner": "PortGame.source_unit_rotate_move_rotation_state",
+      "source_symbols": [
+        "unit_rotate_move_rotation.gate",
+        "unit_rotate_move_rotation.rotation_assignment",
+        "unit_rotate_move_rotation.vec2_is_zero",
+        "unit_rotate_move_rotation.vec2_angle"
+      ],
+      "tests": [
+        "test_unit_rotate_move_rotation_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_rotate_move_rotation_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_rotate_move_rotation_state"
+    },
+    "N800": {
+      "canonical_ledger": "source_slice_ledger.N800",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.setType(UnitType type)",
+      "godot_owner": "PortGame.source_unit_set_type_state",
+      "source_symbols": [
+        "unit_set_type.method",
+        "unit_set_type.assign_type",
+        "unit_set_type.assign_max_health",
+        "unit_set_type.assign_drag",
+        "unit_set_type.assign_armor",
+        "unit_set_type.assign_hit_size",
+        "unit_set_type.setup_weapons_guard",
+        "unit_set_type.abilities_guard",
+        "unit_set_type.abilities_array",
+        "unit_set_type.ability_copy",
+        "unit_set_type.ability_data_carry",
+        "unit_set_type.controller_guard",
+        "unit_set_type.unit_type_health_default",
+        "unit_set_type.unit_type_drag_default",
+        "unit_set_type.unit_type_armor_default",
+        "unit_set_type.unit_type_hit_size_default",
+        "unit_set_type.unit_type_abilities",
+        "unit_set_type.unit_type_weapons",
+        "unit_set_type.unit_type_create_controller"
+      ],
+      "tests": [
+        "test_unit_set_type_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_set_type_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_set_type_state"
+    },
+    "N801": {
+      "canonical_ledger": "source_slice_ledger.N801",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.targetable(Team targeter)",
+      "godot_owner": "PortGame.source_unit_targetable_state",
+      "source_symbols": [
+        "unit_targetable.method",
+        "unit_targetable.unit_return",
+        "unit_targetable.type_method",
+        "unit_targetable.type_return",
+        "unit_targetable.type_targetable",
+        "unit_targetable.type_vulnerable_with_payloads",
+        "unit_targetable.payload_instance",
+        "unit_targetable.has_payload",
+        "unit_targetable.payload_targetable",
+        "unit_targetable.targeter_input"
+      ],
+      "tests": [
+        "test_unit_targetable_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_targetable_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_targetable_state"
+    },
+    "N802": {
+      "canonical_ledger": "source_slice_ledger.N802",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.unloaded()",
+      "godot_owner": "PortGame.source_unit_unloaded_state",
+      "source_symbols": [
+        "unit_unloaded.comment",
+        "unit_unloaded.method",
+        "unit_unloaded.empty_body",
+        "unit_unloaded.unit_state"
+      ],
+      "tests": [
+        "test_unit_unloaded_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_unloaded_noop_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_unloaded_state"
+    },
+    "N803": {
+      "canonical_ledger": "source_slice_ledger.N803",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.update()/Ability.update(Unit unit)",
+      "godot_owner": "PortGame.source_unit_update_abilities_loop_state",
+      "source_symbols": [
+        "unit_update_abilities_loop.abilities_field",
+        "unit_update_abilities_loop.loop",
+        "unit_update_abilities_loop.update_call",
+        "unit_update_abilities_loop.ability_update_method",
+        "unit_update_abilities_loop.ability_ids"
+      ],
+      "tests": [
+        "test_unit_update_abilities_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_abilities_loop_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_abilities_loop_state"
+    },
+    "N804": {
+      "canonical_ledger": "source_slice_ledger.N804",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.update()/UnitController.updateUnit()/Net.client()",
+      "godot_owner": "PortGame.source_unit_update_ai_controller_server_gate_state",
+      "source_symbols": [
+        "unit_update_ai_controller_server_gate.comment",
+        "unit_update_ai_controller_server_gate.guard",
+        "unit_update_ai_controller_server_gate.update_call",
+        "unit_update_ai_controller_server_gate.controller_field",
+        "unit_update_ai_controller_server_gate.dead_import",
+        "unit_update_ai_controller_server_gate.should_update_method",
+        "unit_update_ai_controller_server_gate.should_update_default",
+        "unit_update_ai_controller_server_gate.unit_controller_update",
+        "unit_update_ai_controller_server_gate.net_client_method",
+        "unit_update_ai_controller_server_gate.net_client_body",
+        "unit_update_ai_controller_server_gate.net_client",
+        "unit_update_ai_controller_server_gate.dead",
+        "unit_update_ai_controller_server_gate.should_update_controller",
+        "unit_update_ai_controller_server_gate.unit_id"
+      ],
+      "tests": [
+        "test_unit_update_ai_controller_server_gate_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_ai_controller_server_gate_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_ai_controller_server_gate_state"
+    },
+    "N805": {
+      "canonical_ledger": "source_slice_ledger.N805",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.updateBoosting(boolean boost)",
+      "godot_owner": "PortGame.source_unit_update_boosting_default_event_state",
+      "source_symbols": [
+        "unit_update_boosting_default_event.method",
+        "unit_update_boosting_default_event.delegate_call",
+        "unit_update_boosting_default_event.overload_method",
+        "unit_update_boosting_default_event.boost",
+        "unit_update_boosting_default_event.event"
+      ],
+      "tests": [
+        "test_unit_update_boosting_default_event_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_boosting_default_event_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_boosting_default_event_state"
+    },
+    "N806": {
+      "canonical_ledger": "source_slice_ledger.N806",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.updateBoosting(boolean boost, boolean event)/Mathf.approachDelta",
+      "godot_owner": "PortGame.source_unit_update_boosting_elevation_state",
+      "source_symbols": [
+        "unit_update_boosting_elevation.elevation_assignment",
+        "unit_update_boosting_elevation.current_elevation",
+        "unit_update_boosting_elevation.type_can_boost",
+        "unit_update_boosting_elevation.should_boost",
+        "unit_update_boosting_elevation.type_rise_speed",
+        "unit_update_boosting_elevation.type_descent_speed",
+        "unit_update_boosting_elevation.source_delta",
+        "unit_update_boosting_elevation.target_elevation",
+        "unit_update_boosting_elevation.speed",
+        "unit_update_boosting_elevation.elevation",
+        "unit_update_boosting_elevation.mathf_num_method",
+        "unit_update_boosting_elevation.mathf_num_return",
+        "unit_update_boosting_elevation.mathf_approach_delta_method",
+        "unit_update_boosting_elevation.mathf_approach_delta_return",
+        "unit_update_boosting_elevation.mathf_approach_method",
+        "unit_update_boosting_elevation.mathf_approach_return",
+        "unit_update_boosting_elevation.mathf_clamp_float_method",
+        "unit_update_boosting_elevation.mathf_clamp_float_return"
+      ],
+      "tests": [
+        "test_unit_update_boosting_elevation_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_boosting_elevation_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_boosting_elevation_state"
+    },
+    "N807": {
+      "canonical_ledger": "source_slice_ledger.N807",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.updateBoosting(boolean boost, boolean event)/EventType.Trigger",
+      "godot_owner": "PortGame.source_unit_update_boosting_event_state",
+      "source_symbols": [
+        "unit_update_boosting_event.event_gate",
+        "unit_update_boosting_event.fire_trigger",
+        "unit_update_boosting_event.trigger_enum",
+        "unit_update_boosting_event.unit_command_boost",
+        "unit_update_boosting_event.event",
+        "unit_update_boosting_event.event_fired",
+        "unit_update_boosting_event.trigger"
+      ],
+      "tests": [
+        "test_unit_update_boosting_event_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_boosting_event_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_boosting_event_state"
+    },
+    "N808": {
+      "canonical_ledger": "source_slice_ledger.N808",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.updateBoosting(boolean boost, boolean event)",
+      "godot_owner": "PortGame.source_unit_update_boosting_guard_state",
+      "source_symbols": [
+        "unit_update_boosting_guard.overload_method",
+        "unit_update_boosting_guard.guard",
+        "unit_update_boosting_guard.type_can_boost",
+        "unit_update_boosting_guard.dead_state",
+        "unit_update_boosting_guard.elevation_value",
+        "unit_update_boosting_guard.returned",
+        "unit_update_boosting_guard.can_update_boosting"
+      ],
+      "tests": [
+        "test_unit_update_boosting_guard_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_boosting_guard_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_boosting_guard_state"
+    },
+    "N809": {
+      "canonical_ledger": "source_slice_ledger.N809",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.updateBoosting(boolean boost, boolean event)/UnitComp.isFlying",
+      "godot_owner": "PortGame.source_unit_update_boosting_should_boost_state",
+      "source_symbols": [
+        "unit_update_boosting_should_boost.should_boost_line",
+        "unit_update_boosting_should_boost.boost",
+        "unit_update_boosting_should_boost.on_solid_result",
+        "unit_update_boosting_should_boost.elevation_value",
+        "unit_update_boosting_should_boost.can_land_result",
+        "unit_update_boosting_should_boost.is_flying_return",
+        "unit_update_boosting_should_boost.flying",
+        "unit_update_boosting_should_boost.should_boost"
+      ],
+      "tests": [
+        "test_unit_update_boosting_should_boost_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_boosting_should_boost_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_boosting_should_boost_state"
+    },
+    "N810": {
+      "canonical_ledger": "source_slice_ledger.N810",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.update() bounds",
+      "godot_owner": "PortGame.source_unit_update_bounds_state",
+      "source_symbols": [
+        "unit_update_bounds.type_bounded",
+        "unit_update_bounds.world_unit_height",
+        "unit_update_bounds.world_unit_width",
+        "unit_update_bounds.rules_limit_map_area",
+        "unit_update_bounds.team_is_ai",
+        "unit_update_bounds.rules_limit_x",
+        "unit_update_bounds.rules_limit_y",
+        "unit_update_bounds.rules_limit_width",
+        "unit_update_bounds.rules_limit_height",
+        "unit_update_bounds.current_x",
+        "unit_update_bounds.current_y",
+        "unit_update_bounds.elevation_value",
+        "unit_update_bounds.net_client",
+        "unit_update_bounds.is_local",
+        "unit_update_bounds.source_delta",
+        "unit_update_bounds.warp_dst",
+        "unit_update_bounds.bounded_guard",
+        "unit_update_bounds.world_bounds",
+        "unit_update_bounds.limit_area_guard",
+        "unit_update_bounds.limit_bot",
+        "unit_update_bounds.limit_left",
+        "unit_update_bounds.limit_top",
+        "unit_update_bounds.limit_right",
+        "unit_update_bounds.net_local_guard",
+        "unit_update_bounds.dx_left",
+        "unit_update_bounds.dy_bot",
+        "unit_update_bounds.dx_right",
+        "unit_update_bounds.dy_top",
+        "unit_update_bounds.vel_add_net",
+        "unit_update_bounds.margin_clamp_x",
+        "unit_update_bounds.margin_clamp_y",
+        "unit_update_bounds.grounded_guard",
+        "unit_update_bounds.grounded_clamp_x",
+        "unit_update_bounds.grounded_clamp_y",
+        "unit_update_bounds.kill_guard",
+        "unit_update_bounds.kill_call"
+      ],
+      "tests": [
+        "test_unit_update_bounds_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_bounds_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_bounds_state"
+    },
+    "N811": {
+      "canonical_ledger": "source_slice_ledger.N811",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.update() captured-sector death",
+      "godot_owner": "PortGame.source_unit_update_captured_sector_death_state",
+      "source_symbols": [
+        "unit_update_captured_sector_death.captured_comment",
+        "unit_update_captured_sector_death.captured_guard",
+        "unit_update_captured_sector_death.kill",
+        "unit_update_captured_sector_death.kill_call",
+        "unit_update_captured_sector_death.team_is_only_ai",
+        "unit_update_captured_sector_death.state_is_campaign",
+        "unit_update_captured_sector_death.sector_is_captured",
+        "unit_update_captured_sector_death.team_is_only_ai_method",
+        "unit_update_captured_sector_death.team_is_only_ai_body",
+        "unit_update_captured_sector_death.state_is_campaign_method",
+        "unit_update_captured_sector_death.state_is_campaign_body",
+        "unit_update_captured_sector_death.state_get_sector_method",
+        "unit_update_captured_sector_death.state_get_sector_body",
+        "unit_update_captured_sector_death.sector_is_captured_method",
+        "unit_update_captured_sector_death.sector_playing_capture",
+        "unit_update_captured_sector_death.sector_save_capture"
+      ],
+      "tests": [
+        "test_unit_update_captured_sector_death_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_captured_sector_death_state",
+        "test_unit_update_captured_sector_death_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_captured_sector_death_state"
+    },
+    "N812": {
+      "canonical_ledger": "source_slice_ledger.N812",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.update() drag formula",
+      "godot_owner": "PortGame.source_unit_update_drag_formula_state",
+      "source_symbols": [
+        "unit_update_drag_formula.unit_import_drag",
+        "unit_update_drag_formula.drag_formula",
+        "unit_update_drag_formula.type_drag",
+        "unit_update_drag_formula.grounded_value",
+        "unit_update_drag_formula.floor_drag_multiplier",
+        "unit_update_drag_formula.unit_drag_multiplier",
+        "unit_update_drag_formula.rules_drag_multiplier",
+        "unit_update_drag_formula.floor_factor",
+        "unit_update_drag_formula.grounded_result",
+        "unit_update_drag_formula.formula_string",
+        "unit_update_drag_formula.inputs_echo",
+        "unit_update_drag_formula.unit_type_drag_default",
+        "unit_update_drag_formula.floor_drag_multiplier_default",
+        "unit_update_drag_formula.rules_drag_multiplier_default"
+      ],
+      "tests": [
+        "test_unit_update_drag_formula_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_drag_formula_state",
+        "test_unit_update_drag_formula_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_drag_formula_state"
+    },
+    "N813": {
+      "canonical_ledger": "source_slice_ledger.N813",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.updateDrowning()",
+      "godot_owner": "PortGame.source_unit_update_drowning_state",
+      "source_symbols": [
+        "unit_update_drowning.can_drown_value",
+        "unit_update_drowning.chance_delta_result",
+        "unit_update_drowning.clamp",
+        "unit_update_drowning.current_drown_time",
+        "unit_update_drowning.drown_effect_call",
+        "unit_update_drowning.drown_floor_field",
+        "unit_update_drowning.drown_guard",
+        "unit_update_drowning.drown_increment",
+        "unit_update_drowning.drown_time_field",
+        "unit_update_drowning.dry_decay",
+        "unit_update_drowning.event_call",
+        "unit_update_drowning.floor_drown_time",
+        "unit_update_drowning.floor_drown_update_effect",
+        "unit_update_drowning.floor_exists",
+        "unit_update_drowning.floor_is_liquid",
+        "unit_update_drowning.floor_is_liquid_field",
+        "unit_update_drowning.floor_lookup",
+        "unit_update_drowning.hit_size",
+        "unit_update_drowning.kill_call",
+        "unit_update_drowning.kill_guard",
+        "unit_update_drowning.last_drown_floor_field",
+        "unit_update_drowning.last_floor_set",
+        "unit_update_drowning.mathf_chance_delta",
+        "unit_update_drowning.mathf_clamp_unit",
+        "unit_update_drowning.method",
+        "unit_update_drowning.net_client",
+        "unit_update_drowning.source_delta",
+        "unit_update_drowning.time_delta_default",
+        "unit_update_drowning.type_drown_time_multiplier",
+        "unit_update_drowning.unit_drown_event",
+        "unit_update_drowning.unit_drown_event_unit",
+        "unit_update_drowning.unit_type_drown_multiplier"
+      ],
+      "tests": [
+        "test_unit_update_drowning_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_drowning_state",
+        "test_unit_update_drowning_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_drowning_state"
+    },
+    "N814": {
+      "canonical_ledger": "source_slice_ledger.N814",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.update() falling descent",
+      "godot_owner": "PortGame.source_unit_update_falling_descent_state",
+      "source_symbols": [
+        "unit_update_falling_descent.dead",
+        "unit_update_falling_descent.descent",
+        "unit_update_falling_descent.destroy_guard",
+        "unit_update_falling_descent.elevation",
+        "unit_update_falling_descent.elevation_before",
+        "unit_update_falling_descent.fall_speed",
+        "unit_update_falling_descent.falling_guard",
+        "unit_update_falling_descent.health",
+        "unit_update_falling_descent.is_grounded",
+        "unit_update_falling_descent.max_health",
+        "unit_update_falling_descent.move_down_comment",
+        "unit_update_falling_descent.simulate_falling_comment",
+        "unit_update_falling_descent.source_delta",
+        "unit_update_falling_descent.time_delta_default",
+        "unit_update_falling_descent.type_wreck_health_multiplier",
+        "unit_update_falling_descent.unit_destroy_call",
+        "unit_update_falling_descent.unit_id",
+        "unit_update_falling_descent.unit_type_fall_speed_default",
+        "unit_update_falling_descent.unit_type_wreck_health_multiplier_default",
+        "unit_update_falling_descent.units_destroy_body",
+        "unit_update_falling_descent.units_unit_destroy_method",
+        "unit_update_falling_descent.units_unit_destroy_remote",
+        "unit_update_falling_descent.wreck_health_multiplier",
+        "unit_update_falling_descent.wreck_health_threshold"
+      ],
+      "tests": [
+        "test_unit_update_falling_descent_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_descent_state",
+        "test_unit_update_falling_descent_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_falling_descent_state"
+    },
+    "N815": {
+      "canonical_ledger": "source_slice_ledger.N815",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.update() falling drag",
+      "godot_owner": "PortGame.source_unit_update_falling_drag_state",
+      "source_symbols": [
+        "unit_update_falling_drag.call",
+        "unit_update_falling_drag.current_drag",
+        "unit_update_falling_drag.dead_value",
+        "unit_update_falling_drag.drag",
+        "unit_update_falling_drag.falling_comment",
+        "unit_update_falling_drag.falling_drag",
+        "unit_update_falling_drag.falling_guard",
+        "unit_update_falling_drag.guard",
+        "unit_update_falling_drag.health_value",
+        "unit_update_falling_drag.less_drag_comment",
+        "unit_update_falling_drag.source",
+        "unit_update_falling_drag.unit_import_dead",
+        "unit_update_falling_drag.unit_import_health_drag"
+      ],
+      "tests": [
+        "test_unit_update_falling_drag_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_drag_state",
+        "test_unit_update_falling_drag_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_falling_drag_state"
+    },
+    "N816": {
+      "canonical_ledger": "source_slice_ledger.N816",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.update() falling engine trail",
+      "godot_owner": "PortGame.source_unit_update_falling_engine_trail_state",
+      "source_symbols": [
+        "unit_update_falling_engine_trail.angle",
+        "unit_update_falling_engine_trail.angles_trnsx",
+        "unit_update_falling_engine_trail.angles_trnsx_body",
+        "unit_update_falling_engine_trail.angles_trnsy",
+        "unit_update_falling_engine_trail.angles_trnsy_body",
+        "unit_update_falling_engine_trail.chance_delta_result",
+        "unit_update_falling_engine_trail.dead_value",
+        "unit_update_falling_engine_trail.elevation_value",
+        "unit_update_falling_engine_trail.engine_range_value",
+        "unit_update_falling_engine_trail.falling_guard",
+        "unit_update_falling_engine_trail.health_value",
+        "unit_update_falling_engine_trail.mathf_chance_delta",
+        "unit_update_falling_engine_trail.mathf_random",
+        "unit_update_falling_engine_trail.mathf_range_float",
+        "unit_update_falling_engine_trail.random_rotation_value",
+        "unit_update_falling_engine_trail.source_rotation_degrees",
+        "unit_update_falling_engine_trail.thruster_chance",
+        "unit_update_falling_engine_trail.thruster_effect_call",
+        "unit_update_falling_engine_trail.thruster_effect_rotation",
+        "unit_update_falling_engine_trail.thruster_effect_x",
+        "unit_update_falling_engine_trail.thruster_effect_y",
+        "unit_update_falling_engine_trail.thruster_fall_trail_comment",
+        "unit_update_falling_engine_trail.thruster_offset",
+        "unit_update_falling_engine_trail.thruster_range",
+        "unit_update_falling_engine_trail.type_engine_offset",
+        "unit_update_falling_engine_trail.type_engine_size",
+        "unit_update_falling_engine_trail.unit_engine_offset",
+        "unit_update_falling_engine_trail.unit_engine_size",
+        "unit_update_falling_engine_trail.unit_type_fall_engine_effect",
+        "unit_update_falling_engine_trail.unit_x",
+        "unit_update_falling_engine_trail.unit_y",
+        "unit_update_falling_engine_trail.x_range_value",
+        "unit_update_falling_engine_trail.y_range_value"
+      ],
+      "tests": [
+        "test_unit_update_falling_engine_trail_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_engine_trail_state",
+        "test_unit_update_falling_engine_trail_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_falling_engine_trail_state"
+    },
+    "N817": {
+      "canonical_ledger": "source_slice_ledger.N817",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.update() falling smoke",
+      "godot_owner": "PortGame.source_unit_update_falling_smoke_state",
+      "source_symbols": [
+        "unit_update_falling_smoke.chance_delta_result",
+        "unit_update_falling_smoke.dead_value",
+        "unit_update_falling_smoke.effect_at_xy",
+        "unit_update_falling_smoke.effect_call",
+        "unit_update_falling_smoke.effect_x",
+        "unit_update_falling_smoke.effect_y",
+        "unit_update_falling_smoke.falling_guard",
+        "unit_update_falling_smoke.fx_fall_smoke",
+        "unit_update_falling_smoke.health_value",
+        "unit_update_falling_smoke.hit_size",
+        "unit_update_falling_smoke.mathf_chance_delta",
+        "unit_update_falling_smoke.mathf_range_float",
+        "unit_update_falling_smoke.smoke_chance",
+        "unit_update_falling_smoke.standard_fall_smoke_comment",
+        "unit_update_falling_smoke.tmp_v1",
+        "unit_update_falling_smoke.tmp_v1_rnd",
+        "unit_update_falling_smoke.tmp_v1_x",
+        "unit_update_falling_smoke.tmp_v1_y",
+        "unit_update_falling_smoke.unit_type_fall_effect",
+        "unit_update_falling_smoke.unit_x",
+        "unit_update_falling_smoke.unit_y",
+        "unit_update_falling_smoke.vec2_rnd"
+      ],
+      "tests": [
+        "test_unit_update_falling_smoke_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_smoke_state",
+        "test_unit_update_falling_smoke_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_falling_smoke_state"
+    },
+    "N818": {
+      "canonical_ledger": "source_slice_ledger.N818",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.update() floor damage",
+      "godot_owner": "PortGame.source_unit_update_floor_damage_state",
+      "source_symbols": [
+        "unit_update_floor_damage.damage_comment",
+        "unit_update_floor_damage.damage_continuous_call",
+        "unit_update_floor_damage.damage_guard",
+        "unit_update_floor_damage.floor_damage_taken",
+        "unit_update_floor_damage.floor_damage_taken_default",
+        "unit_update_floor_damage.ground_tile_guard",
+        "unit_update_floor_damage.health_damage_continuous_body",
+        "unit_update_floor_damage.health_damage_continuous_method",
+        "unit_update_floor_damage.hit_duration",
+        "unit_update_floor_damage.hit_duration_default",
+        "unit_update_floor_damage.hit_time",
+        "unit_update_floor_damage.is_grounded_value",
+        "unit_update_floor_damage.source_delta",
+        "unit_update_floor_damage.tile_exists",
+        "unit_update_floor_damage.time_delta_default",
+        "unit_update_floor_damage.type_hovering"
+      ],
+      "tests": [
+        "test_unit_update_floor_damage_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_floor_damage_state",
+        "test_unit_update_floor_damage_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_floor_damage_state"
+    },
+    "N819": {
+      "canonical_ledger": "source_slice_ledger.N819",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.update() flying transition",
+      "godot_owner": "PortGame.source_unit_update_flying_transition_state",
+      "source_symbols": [
+        "unit_update_flying_transition.effect_at_xy_rotation_color",
+        "unit_update_flying_transition.effect_at_xy_rotation_color_body",
+        "unit_update_flying_transition.floor_is_liquid",
+        "unit_update_flying_transition.floor_is_liquid_field",
+        "unit_update_flying_transition.floor_lookup",
+        "unit_update_flying_transition.fx_unit_land",
+        "unit_update_flying_transition.is_flying_method",
+        "unit_update_flying_transition.is_flying_return",
+        "unit_update_flying_transition.is_flying_value",
+        "unit_update_flying_transition.land_rotation_expr",
+        "unit_update_flying_transition.tile_exists",
+        "unit_update_flying_transition.tile_floor_color",
+        "unit_update_flying_transition.tile_get_floor_color_body",
+        "unit_update_flying_transition.tile_get_floor_color_method",
+        "unit_update_flying_transition.tile_guard",
+        "unit_update_flying_transition.tile_lookup",
+        "unit_update_flying_transition.transition_guard",
+        "unit_update_flying_transition.unit_land_call",
+        "unit_update_flying_transition.update_drown_flying_comment",
+        "unit_update_flying_transition.was_flying_assign",
+        "unit_update_flying_transition.was_flying_field",
+        "unit_update_flying_transition.was_flying_guard",
+        "unit_update_flying_transition.was_flying_value"
+      ],
+      "tests": [
+        "test_unit_update_flying_transition_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_flying_transition_state",
+        "test_unit_update_flying_transition_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_flying_transition_state"
+    },
+    "N820": {
+      "canonical_ledger": "source_slice_ledger.N820",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.update() heal time",
+      "godot_owner": "PortGame.source_unit_update_heal_time_state",
+      "source_symbols": [
+        "unit_update_heal_time.current_heal_time",
+        "unit_update_heal_time.heal_time_decay",
+        "unit_update_heal_time.heal_time_field",
+        "unit_update_heal_time.heal_time_reset",
+        "unit_update_heal_time.order",
+        "unit_update_heal_time.source_delta",
+        "unit_update_heal_time.time_delta_default",
+        "unit_update_heal_time.update_drowning_call",
+        "unit_update_heal_time.was_healed_field",
+        "unit_update_heal_time.was_healed_gate",
+        "unit_update_heal_time.was_healed_reset",
+        "unit_update_heal_time.was_healed_value"
+      ],
+      "tests": [
+        "test_unit_update_heal_time_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_heal_time_state",
+        "test_unit_update_heal_time_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_heal_time_state"
+    },
+    "N821": {
+      "canonical_ledger": "source_slice_ledger.N821",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.update() invalid controller reset",
+      "godot_owner": "PortGame.source_unit_update_invalid_controller_reset_state",
+      "source_symbols": [
+        "unit_update_invalid_controller_reset.comment",
+        "unit_update_invalid_controller_reset.controller_assign",
+        "unit_update_invalid_controller_reset.controller_is_valid_value",
+        "unit_update_invalid_controller_reset.controller_setter",
+        "unit_update_invalid_controller_reset.controller_unit_sync",
+        "unit_update_invalid_controller_reset.guard",
+        "unit_update_invalid_controller_reset.reset_controller_body",
+        "unit_update_invalid_controller_reset.reset_controller_call",
+        "unit_update_invalid_controller_reset.reset_controller_method",
+        "unit_update_invalid_controller_reset.unit_controller_is_valid_default",
+        "unit_update_invalid_controller_reset.unit_controller_is_valid_method",
+        "unit_update_invalid_controller_reset.unit_id",
+        "unit_update_invalid_controller_reset.unit_type_create_controller_method",
+        "unit_update_invalid_controller_reset.unit_type_create_controller_return"
+      ],
+      "tests": [
+        "test_unit_update_invalid_controller_reset_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_invalid_controller_reset_state",
+        "test_unit_update_invalid_controller_reset_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_invalid_controller_reset_state"
+    },
+    "N822": {
+      "canonical_ledger": "source_slice_ledger.N822",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.update() NaN health",
+      "godot_owner": "PortGame.source_unit_update_nan_health_state",
+      "source_symbols": [
+        "unit_update_nan_health.current_health",
+        "unit_update_nan_health.float_is_nan_call",
+        "unit_update_nan_health.guard",
+        "unit_update_nan_health.health_zero",
+        "unit_update_nan_health.kill_call"
+      ],
+      "tests": [
+        "test_unit_update_nan_health_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_nan_health_state",
+        "test_unit_update_nan_health_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_nan_health_state"
+    },
+    "N823": {
+      "canonical_ledger": "source_slice_ledger.N823",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.update() solid tile response",
+      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
+      "source_symbols": [
+        "unit_update_solid_tile_response.boost_comment",
+        "unit_update_solid_tile_response.boost_elevation",
+        "unit_update_solid_tile_response.can_boost_guard",
+        "unit_update_solid_tile_response.can_pass_on",
+        "unit_update_solid_tile_response.comment",
+        "unit_update_solid_tile_response.current_elevation",
+        "unit_update_solid_tile_response.entity_is_remote",
+        "unit_update_solid_tile_response.guard",
+        "unit_update_solid_tile_response.headless_value",
+        "unit_update_solid_tile_response.is_remote_value",
+        "unit_update_solid_tile_response.kill_call",
+        "unit_update_solid_tile_response.kill_guard",
+        "unit_update_solid_tile_response.net_client",
+        "unit_update_solid_tile_response.net_client_body",
+        "unit_update_solid_tile_response.net_client_value",
+        "unit_update_solid_tile_response.tile_exists",
+        "unit_update_solid_tile_response.type_can_boost",
+        "unit_update_solid_tile_response.unit_id",
+        "unit_update_solid_tile_response.unit_type_can_boost_default",
+        "unit_update_solid_tile_response.vars_headless",
+        "unit_update_solid_tile_response.vel_can_pass_on",
+        "unit_update_solid_tile_response.vel_can_pass_on_body"
+      ],
+      "tests": [
+        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
+        "test_unit_update_solid_tile_response_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state"
+    },
+    "N824": {
+      "canonical_ledger": "source_slice_ledger.N824",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.update() sound loop",
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "source_symbols": [
+        "unit_update_sound_loop.headless_guard",
+        "unit_update_sound_loop.headless_value",
+        "unit_update_sound_loop.loop_sound_call",
+        "unit_update_sound_loop.mathf_clamp_unit",
+        "unit_update_sound_loop.mathf_clamp_unit_body",
+        "unit_update_sound_loop.mathf_lerp",
+        "unit_update_sound_loop.mathf_lerp_body",
+        "unit_update_sound_loop.move_pitch",
+        "unit_update_sound_loop.move_progress",
+        "unit_update_sound_loop.move_sound_call",
+        "unit_update_sound_loop.move_sound_guard",
+        "unit_update_sound_loop.sound_control_guard",
+        "unit_update_sound_loop.sound_control_loop_pos",
+        "unit_update_sound_loop.type_loop_sound",
+        "unit_update_sound_loop.type_loop_sound_volume",
+        "unit_update_sound_loop.type_move_sound",
+        "unit_update_sound_loop.type_move_sound_pitch_max",
+        "unit_update_sound_loop.type_move_sound_pitch_min",
+        "unit_update_sound_loop.type_move_sound_volume",
+        "unit_update_sound_loop.type_speed",
+        "unit_update_sound_loop.unit_loop_sound",
+        "unit_update_sound_loop.unit_loop_sound_volume",
+        "unit_update_sound_loop.unit_move_sound",
+        "unit_update_sound_loop.unit_move_sound_pitch",
+        "unit_update_sound_loop.unit_move_sound_volume",
+        "unit_update_sound_loop.vars_headless",
+        "unit_update_sound_loop.vec2_len",
+        "unit_update_sound_loop.vec2_len_body",
+        "unit_update_sound_loop.velocity_len",
+        "unit_update_sound_loop.velocity_x",
+        "unit_update_sound_loop.velocity_y"
+      ],
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state"
+    },
+    "N825": {
+      "canonical_ledger": "source_slice_ledger.N825",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.update() spawn knockback",
+      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
+      "source_symbols": [
+        "unit_update_spawn_knockback.comment",
+        "unit_update_spawn_knockback.drop_zone_radius",
+        "unit_update_spawn_knockback.guard",
+        "unit_update_spawn_knockback.hit_size",
+        "unit_update_spawn_knockback.hittable_value",
+        "unit_update_spawn_knockback.is_local_value",
+        "unit_update_spawn_knockback.net_client",
+        "unit_update_spawn_knockback.net_client_body",
+        "unit_update_spawn_knockback.net_client_value",
+        "unit_update_spawn_knockback.position_dst",
+        "unit_update_spawn_knockback.position_dst_body",
+        "unit_update_spawn_knockback.position_within",
+        "unit_update_spawn_knockback.position_within_body",
+        "unit_update_spawn_knockback.relative_size",
+        "unit_update_spawn_knockback.rules_drop_zone_radius",
+        "unit_update_spawn_knockback.rules_wave_team",
+        "unit_update_spawn_knockback.source_delta",
+        "unit_update_spawn_knockback.spawn_loop",
+        "unit_update_spawn_knockback.spawn_within_guard",
+        "unit_update_spawn_knockback.spawner_get_spawns",
+        "unit_update_spawn_knockback.spawner_get_spawns_body",
+        "unit_update_spawn_knockback.spawns",
+        "unit_update_spawn_knockback.state_has_spawns",
+        "unit_update_spawn_knockback.state_has_spawns_body",
+        "unit_update_spawn_knockback.state_has_spawns_value",
+        "unit_update_spawn_knockback.team_is_wave_team",
+        "unit_update_spawn_knockback.time_delta_default",
+        "unit_update_spawn_knockback.unit_x",
+        "unit_update_spawn_knockback.unit_y",
+        "unit_update_spawn_knockback.vec2_scl",
+        "unit_update_spawn_knockback.vec2_set_length",
+        "unit_update_spawn_knockback.vec2_set_position",
+        "unit_update_spawn_knockback.vec2_set_position_x",
+        "unit_update_spawn_knockback.vec2_sub",
+        "unit_update_spawn_knockback.vel_add_net_add",
+        "unit_update_spawn_knockback.vel_add_net_call",
+        "unit_update_spawn_knockback.vel_add_net_remote_x",
+        "unit_update_spawn_knockback.vel_add_net_remote_y",
+        "unit_update_spawn_knockback.vel_add_net_vec"
+      ],
+      "tests": [
+        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
+        "test_unit_update_spawn_knockback_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state"
+    },
+    "N826": {
+      "canonical_ledger": "source_slice_ledger.N826",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.update() spawned core despawn",
+      "godot_owner": "PortGame.source_unit_update_spawned_core_despawn_state",
+      "source_symbols": [
+        "unit_update_spawned_core_despawn.call",
+        "unit_update_spawned_core_despawn.comment",
+        "unit_update_spawned_core_despawn.dead_import",
+        "unit_update_spawned_core_despawn.dead_value",
+        "unit_update_spawned_core_despawn.guard",
+        "unit_update_spawned_core_despawn.is_player_body",
+        "unit_update_spawned_core_despawn.is_player_method",
+        "unit_update_spawned_core_despawn.is_player_value",
+        "unit_update_spawned_core_despawn.spawned_by_core_field",
+        "unit_update_spawned_core_despawn.spawned_by_core_value",
+        "unit_update_spawned_core_despawn.unit_despawn_effect",
+        "unit_update_spawned_core_despawn.unit_despawn_method",
+        "unit_update_spawned_core_despawn.unit_despawn_null_guard",
+        "unit_update_spawned_core_despawn.unit_despawn_remote",
+        "unit_update_spawned_core_despawn.unit_despawn_remove",
+        "unit_update_spawned_core_despawn.unit_id"
+      ],
+      "tests": [
+        "test_unit_update_spawned_core_despawn_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawned_core_despawn_state",
+        "test_unit_update_spawned_core_despawn_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_spawned_core_despawn_state"
+    },
+    "N827": {
+      "canonical_ledger": "source_slice_ledger.N827",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.update() tile unitOnAny",
+      "godot_owner": "PortGame.source_unit_update_tile_unit_on_any_state",
+      "source_symbols": [
+        "unit_update_tile_unit_on_any.building_unit_on_any",
+        "unit_update_tile_unit_on_any.building_unit_on_any_comment",
+        "unit_update_tile_unit_on_any.call",
+        "unit_update_tile_unit_on_any.guard",
+        "unit_update_tile_unit_on_any.tile_build_exists",
+        "unit_update_tile_unit_on_any.tile_build_field",
+        "unit_update_tile_unit_on_any.tile_exists",
+        "unit_update_tile_unit_on_any.unit_id"
+      ],
+      "tests": [
+        "test_unit_update_tile_unit_on_any_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_tile_unit_on_any_state",
+        "test_unit_update_tile_unit_on_any_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_tile_unit_on_any_state"
+    },
+    "N828": {
+      "canonical_ledger": "source_slice_ledger.N828",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.update() tile unitOn",
+      "godot_owner": "PortGame.source_unit_update_tile_unit_on_state",
+      "source_symbols": [
+        "unit_update_tile_unit_on.apply_damage_boundary",
+        "unit_update_tile_unit_on.building_unit_on",
+        "unit_update_tile_unit_on.building_unit_on_comment",
+        "unit_update_tile_unit_on.call",
+        "unit_update_tile_unit_on.comment",
+        "unit_update_tile_unit_on.guard",
+        "unit_update_tile_unit_on.is_grounded_body",
+        "unit_update_tile_unit_on.is_grounded_method",
+        "unit_update_tile_unit_on.is_grounded_value",
+        "unit_update_tile_unit_on.tile_build_exists",
+        "unit_update_tile_unit_on.tile_build_field",
+        "unit_update_tile_unit_on.tile_build_guard",
+        "unit_update_tile_unit_on.tile_exists",
+        "unit_update_tile_unit_on.type_hovering",
+        "unit_update_tile_unit_on.unit_id",
+        "unit_update_tile_unit_on.unit_type_hovering_default"
+      ],
+      "tests": [
+        "test_unit_update_tile_unit_on_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_tile_unit_on_state",
+        "test_unit_update_tile_unit_on_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_tile_unit_on_state"
+    },
+    "N829": {
+      "canonical_ledger": "source_slice_ledger.N829",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.update() trail position",
+      "godot_owner": "PortGame.source_unit_update_trail_position_state",
+      "source_symbols": [
+        "unit_update_trail_position.angles_trnsx",
+        "unit_update_trail_position.angles_trnsx_body",
+        "unit_update_trail_position.angles_trnsy",
+        "unit_update_trail_position.angles_trnsy_body",
+        "unit_update_trail_position.elevation",
+        "unit_update_trail_position.engine_offset",
+        "unit_update_trail_position.engine_offset_default",
+        "unit_update_trail_position.guard",
+        "unit_update_trail_position.length_set",
+        "unit_update_trail_position.mathf_cos_deg",
+        "unit_update_trail_position.mathf_sin_deg",
+        "unit_update_trail_position.offset_formula",
+        "unit_update_trail_position.position_formula",
+        "unit_update_trail_position.rotation",
+        "unit_update_trail_position.scale_formula",
+        "unit_update_trail_position.trail_exists",
+        "unit_update_trail_position.trail_field",
+        "unit_update_trail_position.trail_length",
+        "unit_update_trail_position.trail_length_default",
+        "unit_update_trail_position.trail_update",
+        "unit_update_trail_position.trail_update_delegation",
+        "unit_update_trail_position.trail_update_method",
+        "unit_update_trail_position.use_engine_elevation",
+        "unit_update_trail_position.use_engine_elevation_default",
+        "unit_update_trail_position.x_value",
+        "unit_update_trail_position.y_value"
+      ],
+      "tests": [
+        "test_unit_update_trail_position_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_trail_position_state",
+        "test_unit_update_trail_position_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_trail_position_state"
+    },
+    "N830": {
+      "canonical_ledger": "source_slice_ledger.N830",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.update() type hook",
+      "godot_owner": "PortGame.source_unit_update_type_hook_state",
+      "source_symbols": [
+        "unit_update_type_hook.arg",
+        "unit_update_type_hook.call",
+        "unit_update_type_hook.order",
+        "unit_update_type_hook.override",
+        "unit_update_type_hook.self_arg",
+        "unit_update_type_hook.unit_type_update_hook",
+        "unit_update_type_hook.unit_type_update_hook_empty_body",
+        "unit_update_type_hook.update_method"
+      ],
+      "tests": [
+        "test_unit_update_type_hook_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_type_hook_state",
+        "test_unit_update_type_hook_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_type_hook_state"
+    },
+    "N831": {
+      "canonical_ledger": "source_slice_ledger.N831",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.update() unsupported environment",
+      "godot_owner": "PortGame.source_unit_update_unsupported_env_state",
+      "source_symbols": [
+        "unit_update_unsupported_env.comment",
+        "unit_update_unsupported_env.guard",
+        "unit_update_unsupported_env.type_supports_env_input",
+        "unit_update_unsupported_env.dead_input",
+        "unit_update_unsupported_env.unit_env_death_call",
+        "unit_update_unsupported_env.update_count_negative",
+        "unit_update_unsupported_env.call_order",
+        "unit_update_unsupported_env.supports_env_method",
+        "unit_update_unsupported_env.supports_env_body",
+        "unit_update_unsupported_env.units_unit_env_death",
+        "unit_update_unsupported_env.units_unit_env_dead",
+        "unit_update_unsupported_env.units_unit_env_effect",
+        "unit_update_unsupported_env.units_unit_env_destroy",
+        "unit_update_unsupported_env.team_data_update_count",
+        "unit_update_unsupported_env.team_data_update_count_null_guard",
+        "unit_update_unsupported_env.team_data_update_count_total",
+        "unit_update_unsupported_env.team_data_update_count_type"
+      ],
+      "tests": [
+        "test_unit_update_unsupported_env_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_unsupported_env_state",
+        "test_unit_update_unsupported_env_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_unsupported_env_state"
+    },
+    "N832": {
+      "canonical_ledger": "source_slice_ledger.N832",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.update() walk effect",
+      "godot_owner": "PortGame.source_unit_update_walk_effect_state",
+      "source_symbols": [
+        "unit_update_walk_effect.gate",
+        "unit_update_walk_effect.timer_add_threshold",
+        "unit_update_walk_effect.walk_effect_call",
+        "unit_update_walk_effect.splash_timer_reset",
+        "unit_update_walk_effect.walk_sound_guard",
+        "unit_update_walk_effect.walk_sound_call",
+        "unit_update_walk_effect.type_hovering_input",
+        "unit_update_walk_effect.elevation_input",
+        "unit_update_walk_effect.type_emit_walk_effect_input",
+        "unit_update_walk_effect.type_emit_walk_sound_input",
+        "unit_update_walk_effect.current_splash_timer_input",
+        "unit_update_walk_effect.delta_x_input",
+        "unit_update_walk_effect.delta_y_input",
+        "unit_update_walk_effect.hit_size_input",
+        "unit_update_walk_effect.tile_exists_input",
+        "unit_update_walk_effect.tile_floor_color_input",
+        "unit_update_walk_effect.floor_map_color_input",
+        "unit_update_walk_effect.floor_walk_sound_pitch_min_input",
+        "unit_update_walk_effect.floor_walk_sound_pitch_max_input",
+        "unit_update_walk_effect.floor_walk_sound_volume_input",
+        "unit_update_walk_effect.random_pitch_input",
+        "unit_update_walk_effect.floor_walk_effect",
+        "unit_update_walk_effect.floor_walk_sound",
+        "unit_update_walk_effect.floor_walk_sound_params",
+        "unit_update_walk_effect.liquid_walk_effect",
+        "unit_update_walk_effect.liquid_walk_sound",
+        "unit_update_walk_effect.tile_get_floor_color",
+        "unit_update_walk_effect.tile_get_floor_color_body",
+        "unit_update_walk_effect.unit_type_emit_walk_sound",
+        "unit_update_walk_effect.unit_type_emit_walk_effect",
+        "unit_update_walk_effect.hitbox_delta_fields",
+        "unit_update_walk_effect.hitbox_delta_x_assign",
+        "unit_update_walk_effect.hitbox_delta_y_assign",
+        "unit_update_walk_effect.mathf_dst",
+        "unit_update_walk_effect.mathf_dst_body",
+        "unit_update_walk_effect.mathf_random_float_range",
+        "unit_update_walk_effect.mathf_random_float_range_body"
+      ],
+      "tests": [
+        "test_unit_update_walk_effect_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_walk_effect_state",
+        "test_unit_update_walk_effect_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_walk_effect_state"
+    },
+    "N835": {
+      "canonical_ledger": "source_slice_ledger.N835",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.wobble()",
+      "godot_owner": "PortGame.source_unit_wobble_state",
+      "source_symbols": [
+        "unit_wobble.method",
+        "unit_wobble.x_update",
+        "unit_wobble.y_update",
+        "unit_wobble.wobble_input",
+        "unit_wobble.sin_scaled",
+        "unit_wobble.cos_scaled",
+        "unit_wobble.current_x",
+        "unit_wobble.current_y",
+        "unit_wobble.source_time",
+        "unit_wobble.source_delta",
+        "unit_wobble.elevation_value",
+        "unit_wobble.unit_id"
+      ],
+      "tests": [
+        "test_unit_wobble_symbols_are_registered_with_source_backing",
+        "test_unit_wobble_matches_upstream_source",
+        "test_port_game_exposes_source_unit_wobble_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_wobble_state"
+    }
+  }
+}

@@ -1,0 +1,5051 @@
+{
+  "version": 1,
+  "contracts": {
+    "PortGame.source_unit_add_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_add_state",
+      "status": "active",
+      "source_slice": "N752",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.add()",
+      "params": [
+        {
+          "name": "type_use_unit_cap",
+          "schema": "source_unit_add_input.type_use_unit_cap",
+          "type": "bool"
+        },
+        {
+          "name": "count_after_add",
+          "schema": "source_unit_add_input.count_after_add",
+          "type": "int"
+        },
+        {
+          "name": "cap_value",
+          "schema": "source_unit_add_input.cap_value",
+          "type": "int"
+        },
+        {
+          "name": "spawned_by_core",
+          "schema": "source_unit_add_input.spawned_by_core",
+          "type": "bool"
+        },
+        {
+          "name": "dead",
+          "schema": "source_unit_add_input.dead",
+          "type": "bool"
+        },
+        {
+          "name": "rules_editor",
+          "schema": "source_unit_add_input.rules_editor",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "initialUpdateCount",
+        "guard",
+        "unitCapDeath",
+        "rollbackUpdateCount",
+        "call_order"
+      ],
+      "tests": [
+        "test_unit_add_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_add_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_add_state",
+      "rule": "Public runtime contract for UnitComp.add count increment and unit-cap death rollback state."
+    },
+    "PortGame.source_unit_after_read_all_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_after_read_all_state",
+      "status": "active",
+      "source_slice": "N753",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.afterReadAll()",
+      "params": [
+        {
+          "name": "controller_exists",
+          "schema": "source_unit_after_read_all_input.controller_exists",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "controller_exists",
+        "call",
+        "afterReadArg"
+      ],
+      "tests": [
+        "test_unit_after_read_all_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_after_read_all_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_after_read_all_state",
+      "rule": "Public runtime contract for UnitComp.afterReadAll controller.afterRead(self()) bridge."
+    },
+    "PortGame.source_unit_after_read_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_after_read_state",
+      "status": "active",
+      "source_slice": "N754",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.afterRead()",
+      "params": [
+        {
+          "name": "type_id",
+          "schema": "source_unit_after_read_input.type_id",
+          "type": "int"
+        },
+        {
+          "name": "controller_is_ai_controller",
+          "schema": "source_unit_after_read_input.controller_is_ai_controller",
+          "type": "bool"
+        },
+        {
+          "name": "ai_keep_state",
+          "schema": "source_unit_after_read_input.ai_keep_state",
+          "type": "bool"
+        },
+        {
+          "name": "controller_exists",
+          "schema": "source_unit_after_read_input.controller_exists",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "type_id",
+        "controller_exists",
+        "controllerIsAIController",
+        "aiKeepState",
+        "resetController",
+        "call_order",
+        "setType_arg",
+        "controllerUnitArg",
+        "createControllerArg"
+      ],
+      "tests": [
+        "test_unit_after_read_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_after_read_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_after_read_state",
+      "rule": "Public runtime contract for UnitComp.afterRead type restore, controller self binding, and reset-controller guard."
+    },
+    "PortGame.source_unit_after_sync_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_after_sync_state",
+      "status": "active",
+      "source_slice": "N755",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.afterSync()",
+      "params": [
+        {
+          "name": "type_id",
+          "schema": "source_unit_after_sync_input.type_id",
+          "type": "int"
+        },
+        {
+          "name": "controller_exists",
+          "schema": "source_unit_after_sync_input.controller_exists",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "type_id",
+        "controller_exists",
+        "call_order",
+        "setType_arg",
+        "controllerUnitArg"
+      ],
+      "tests": [
+        "test_unit_after_sync_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_after_sync_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_after_sync_state",
+      "rule": "Public runtime contract for UnitComp.afterSync type restore and controller self binding."
+    },
+    "PortGame.source_unit_aim_look_position_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_aim_look_position_state",
+      "status": "active",
+      "source_slice": "N756",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.aimLook(Position pos)",
+      "params": [
+        {
+          "name": "pos_x",
+          "schema": "source_unit_aim_look_position_input.pos_x",
+          "type": "float"
+        },
+        {
+          "name": "pos_y",
+          "schema": "source_unit_aim_look_position_input.pos_y",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "target",
+        "aim_call",
+        "look_at_call",
+        "call_order"
+      ],
+      "tests": [
+        "test_unit_aim_look_position_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_aim_look_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_aim_look_position_state",
+      "rule": "Public runtime contract for UnitComp.aimLook(Position) call order."
+    },
+    "PortGame.source_unit_aim_look_xy_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_aim_look_xy_state",
+      "status": "active",
+      "source_slice": "N757",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.aimLook(float x, float y)",
+      "params": [
+        {
+          "name": "target_x",
+          "schema": "source_unit_aim_look_xy_input.x",
+          "type": "float"
+        },
+        {
+          "name": "target_y",
+          "schema": "source_unit_aim_look_xy_input.y",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "target",
+        "aim_call",
+        "look_at_call",
+        "call_order"
+      ],
+      "tests": [
+        "test_unit_aim_look_xy_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_aim_look_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_aim_look_xy_state",
+      "rule": "Public runtime contract for UnitComp.aimLook(float x, float y) call order."
+    },
+    "PortGame.source_unit_ammof_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_ammof_state",
+      "status": "active",
+      "source_slice": "N1840",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.ammof()",
+      "params": [],
+      "return_keys": [
+        "ammof"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_comp_metadata_block_to_canonical_state",
+        "test_unit_comp_ammo_and_displayability_block_is_registered_and_generated"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof",
+      "rule": "Public runtime contract for UnitComp fixed ammo fraction without synthesizing ammo storage."
+    },
+    "PortGame.source_unit_approach_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_approach_state",
+      "status": "active",
+      "source_slice": "N758",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.approach(Vec2 vector)/Vec2.approachDelta",
+      "params": [
+        {
+          "name": "vel_x",
+          "schema": "source_unit_approach_input.vel_x",
+          "type": "float"
+        },
+        {
+          "name": "vel_y",
+          "schema": "source_unit_approach_input.vel_y",
+          "type": "float"
+        },
+        {
+          "name": "vector_x",
+          "schema": "source_unit_approach_input.vector_x",
+          "type": "float"
+        },
+        {
+          "name": "vector_y",
+          "schema": "source_unit_approach_input.vector_y",
+          "type": "float"
+        },
+        {
+          "name": "type_accel",
+          "schema": "source_unit_approach_input.type_accel",
+          "type": "float"
+        },
+        {
+          "name": "speed_value",
+          "schema": "source_unit_approach_input.speed_value",
+          "type": "float"
+        },
+        {
+          "name": "source_delta",
+          "schema": "source_unit_approach_input.source_delta",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "alpha",
+        "vel_x",
+        "vel_y",
+        "target_x",
+        "target_y"
+      ],
+      "tests": [
+        "test_unit_approach_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_approach_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_approach_state",
+      "rule": "Public runtime contract for UnitComp.approach(Vec2 vector) and Vec2.approachDelta projection."
+    },
+    "PortGame.source_unit_bounds_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_bounds_state",
+      "status": "active",
+      "source_slice": "N1857",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.bounds()",
+      "params": [],
+      "return_keys": [
+        "bounds"
+      ],
+      "tests": [
+        "test_unit_combat_metadata_matches_upstream_source",
+        "test_unit_comp_laccess_sensor_block_is_registered_and_generated"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof",
+      "rule": "Public runtime contract for UnitComp.bounds() with explicit dependencies supplied at call time."
+    },
+    "PortGame.source_unit_can_drown_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_can_drown_state",
+      "status": "active",
+      "source_slice": "N759",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.canDrown()",
+      "params": [
+        {
+          "name": "elevation_value",
+          "schema": "source_unit_can_drown_input.elevation_value",
+          "type": "float"
+        },
+        {
+          "name": "type_can_drown",
+          "schema": "source_unit_can_drown_input.type_can_drown",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "grounded",
+        "can_drown"
+      ],
+      "tests": [
+        "test_unit_can_drown_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_can_drown_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_can_drown_state",
+      "rule": "Public runtime contract for UnitComp.canDrown grounded and type.canDrown gate."
+    },
+    "PortGame.source_unit_can_land_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_can_land_state",
+      "status": "active",
+      "source_slice": "N1838",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.canLand()",
+      "params": [
+        {
+          "name": "unit_x",
+          "type": "float",
+          "schema": "source_unit_can_land_input.unit_x"
+        },
+        {
+          "name": "unit_y",
+          "type": "float",
+          "schema": "source_unit_can_land_input.unit_y"
+        },
+        {
+          "name": "physic_size",
+          "type": "float",
+          "schema": "source_unit_can_land_input.physic_size"
+        },
+        {
+          "name": "on_solid_result",
+          "type": "bool",
+          "schema": "source_unit_can_land_input.on_solid_result"
+        },
+        {
+          "name": "nearby_grounded_units_count",
+          "type": "int",
+          "schema": "source_unit_can_land_input.nearby_grounded_units_count"
+        }
+      ],
+      "return_keys": [
+        "can_land"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_comp_navigation_block_to_canonical_state",
+        "test_unit_comp_navigation_block_is_registered_and_generated"
+      ],
+      "runtime_proof": "/root/Main.source_unit_can_land_state",
+      "rule": "Public runtime contract for UnitComp landing eligibility with explicit onSolid and Units.count facts."
+    },
+    "PortGame.source_unit_can_shoot_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_can_shoot_state",
+      "status": "active",
+      "source_slice": "N1853",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.canShoot()",
+      "params": [],
+      "return_keys": [
+        "can_shoot"
+      ],
+      "tests": [
+        "test_unit_combat_metadata_matches_upstream_source",
+        "test_unit_comp_laccess_sensor_block_is_registered_and_generated"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof",
+      "rule": "Public runtime contract for UnitComp.canShoot() with explicit dependencies supplied at call time."
+    },
+    "PortGame.source_unit_can_target_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_can_target_state",
+      "status": "active",
+      "source_slice": "N760",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.canTarget(Teamc other)",
+      "params": [
+        {
+          "name": "other_exists",
+          "schema": "source_unit_can_target_input.other_exists",
+          "type": "bool"
+        },
+        {
+          "name": "other_is_unit",
+          "schema": "source_unit_can_target_input.other_is_unit",
+          "type": "bool"
+        },
+        {
+          "name": "other_unit_check_target_result",
+          "schema": "source_unit_can_target_input.other_unit_check_target_result",
+          "type": "bool"
+        },
+        {
+          "name": "other_is_building",
+          "schema": "source_unit_can_target_input.other_is_building",
+          "type": "bool"
+        },
+        {
+          "name": "type_target_air",
+          "schema": "source_unit_can_target_input.type_target_air",
+          "type": "bool"
+        },
+        {
+          "name": "type_target_ground",
+          "schema": "source_unit_can_target_input.type_target_ground",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "branch",
+        "can_target",
+        "unit_check_target_air",
+        "unit_check_target_ground"
+      ],
+      "tests": [
+        "test_unit_can_target_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_can_target_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_can_target_state",
+      "rule": "Public runtime contract for UnitComp.canTarget null/unit/building branch selection."
+    },
+    "PortGame.source_unit_cap_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_cap_state",
+      "status": "active",
+      "source_slice": "N761",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.cap()/Units.getCap(Team team)",
+      "params": [
+        {
+          "name": "team_is_wave_team",
+          "schema": "source_unit_cap_input.team_is_wave_team",
+          "type": "bool"
+        },
+        {
+          "name": "rules_pvp",
+          "schema": "source_unit_cap_input.rules_pvp",
+          "type": "bool"
+        },
+        {
+          "name": "state_is_campaign",
+          "schema": "source_unit_cap_input.state_is_campaign",
+          "type": "bool"
+        },
+        {
+          "name": "rules_disable_unit_cap",
+          "schema": "source_unit_cap_input.rules_disable_unit_cap",
+          "type": "bool"
+        },
+        {
+          "name": "team_ignore_unit_cap",
+          "schema": "source_unit_cap_input.team_ignore_unit_cap",
+          "type": "bool"
+        },
+        {
+          "name": "rules_unit_cap_variable",
+          "schema": "source_unit_cap_input.rules_unit_cap_variable",
+          "type": "bool"
+        },
+        {
+          "name": "rules_unit_cap",
+          "schema": "source_unit_cap_input.rules_unit_cap",
+          "type": "int"
+        },
+        {
+          "name": "team_data_unit_cap",
+          "schema": "source_unit_cap_input.team_data_unit_cap",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "cap",
+        "uncapped",
+        "call"
+      ],
+      "tests": [
+        "test_unit_cap_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_cap_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_cap_state",
+      "rule": "Public runtime contract for UnitComp.cap and Units.getCap team cap rules."
+    },
+    "PortGame.source_unit_check_target_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_check_target_state",
+      "status": "active",
+      "source_slice": "N762",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.checkTarget(boolean targetAir, boolean targetGround)",
+      "params": [
+        {
+          "name": "elevation_value",
+          "schema": "source_unit_check_target_input.elevation_value",
+          "type": "float"
+        },
+        {
+          "name": "target_air",
+          "schema": "source_unit_check_target_input.target_air",
+          "type": "bool"
+        },
+        {
+          "name": "target_ground",
+          "schema": "source_unit_check_target_input.target_ground",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "grounded",
+        "flying",
+        "targetable"
+      ],
+      "tests": [
+        "test_unit_check_target_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_grounded_flying_target_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_check_target_state",
+      "rule": "Public runtime contract for UnitComp.checkTarget grounded/flying target gates."
+    },
+    "PortGame.source_unit_clip_size_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_clip_size_state",
+      "status": "active",
+      "source_slice": "N1846",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.clipSize()",
+      "params": [
+        {
+          "name": "is_building",
+          "type": "bool",
+          "schema": "source_unit_clip_size_input.is_building"
+        },
+        {
+          "name": "infinite_resources",
+          "type": "bool",
+          "schema": "source_unit_clip_size_input.infinite_resources"
+        },
+        {
+          "name": "type_clip_size",
+          "type": "float",
+          "schema": "source_unit_clip_size_input.type_clip_size"
+        },
+        {
+          "name": "type_region_width",
+          "type": "float",
+          "schema": "source_unit_clip_size_input.type_region_width"
+        },
+        {
+          "name": "type_build_range",
+          "type": "float",
+          "schema": "source_unit_clip_size_input.type_build_range"
+        },
+        {
+          "name": "source_tilesize",
+          "type": "float",
+          "schema": "source_unit_clip_size_input.source_tilesize"
+        },
+        {
+          "name": "is_mining",
+          "type": "bool",
+          "schema": "source_unit_clip_size_input.is_mining"
+        },
+        {
+          "name": "type_mine_range",
+          "type": "float",
+          "schema": "source_unit_clip_size_input.type_mine_range"
+        }
+      ],
+      "return_keys": [
+        "clip_size"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_comp_clip_size_to_canonical_state",
+        "test_unit_clip_size_matches_upstream_source",
+        "test_unit_comp_clip_size_block_is_registered_and_generated",
+        "test_unit_clip_size_registration_is_canonical"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof",
+      "rule": "Public runtime contract for UnitComp.clipSize() with explicit building, mining, UnitType, rules, region, and tile-size dependencies."
+    },
+    "PortGame.source_unit_collides_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_collides_state",
+      "status": "active",
+      "source_slice": "N1855",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.collides(Hitboxc)",
+      "params": [],
+      "return_keys": [
+        "collides"
+      ],
+      "tests": [
+        "test_unit_combat_metadata_matches_upstream_source",
+        "test_unit_comp_laccess_sensor_block_is_registered_and_generated"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof",
+      "rule": "Public runtime contract for UnitComp.collides(Hitboxc) with explicit dependencies supplied at call time."
+    },
+    "PortGame.source_unit_collision_layer_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_collision_layer_state",
+      "status": "active",
+      "source_slice": "N1863",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.collisionLayer()",
+      "params": [
+        {
+          "name": "type_allow_leg_step",
+          "type": "bool",
+          "schema": "source_unit_collision_layer_input.type_allow_leg_step"
+        },
+        {
+          "name": "type_leg_physics_layer",
+          "type": "bool",
+          "schema": "source_unit_collision_layer_input.type_leg_physics_layer"
+        },
+        {
+          "name": "is_grounded",
+          "type": "bool",
+          "schema": "source_unit_collision_layer_input.is_grounded"
+        },
+        {
+          "name": "layer_legs",
+          "type": "int",
+          "schema": "source_unit_collision_layer_input.layer_legs"
+        },
+        {
+          "name": "layer_ground",
+          "type": "int",
+          "schema": "source_unit_collision_layer_input.layer_ground"
+        },
+        {
+          "name": "layer_flying",
+          "type": "int",
+          "schema": "source_unit_collision_layer_input.layer_flying"
+        }
+      ],
+      "return_keys": [
+        "collision_layer",
+        "branch"
+      ],
+      "tests": [
+        "test_unit_controller_runtime_block_matches_upstream_source",
+        "test_unit_comp_controller_block_is_registered_and_generated"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof",
+      "rule": "Canonical runtime contract for UnitComp.collisionLayer() with explicit dependencies supplied at call time."
+    },
+    "PortGame.source_unit_collision_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_collision_state",
+      "status": "active",
+      "source_slice": "N1858",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.collision(Hitboxc,float,float)",
+      "params": [
+        {
+          "name": "other_is_bullet",
+          "type": "bool",
+          "schema": "source_unit_collision_input.other_is_bullet"
+        },
+        {
+          "name": "bullet",
+          "type": "Variant",
+          "schema": "source_unit_collision_input.bullet"
+        }
+      ],
+      "return_keys": [
+        "other_is_bullet",
+        "bullet",
+        "controller_hit_called",
+        "controller_hit"
+      ],
+      "tests": [
+        "test_unit_controller_runtime_block_matches_upstream_source",
+        "test_unit_comp_controller_block_is_registered_and_generated"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof",
+      "rule": "Canonical runtime contract for UnitComp.collision(Hitboxc,float,float) with explicit dependencies supplied at call time."
+    },
+    "PortGame.source_unit_command_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_command_state",
+      "status": "active",
+      "source_slice": "N763",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.command()",
+      "params": [
+        {
+          "name": "controller_is_command_ai",
+          "schema": "source_unit_command_input.controller_is_command_ai",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "returned_command_ai",
+        "throws",
+        "exception_type",
+        "message"
+      ],
+      "tests": [
+        "test_unit_command_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_command_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_command_state",
+      "rule": "Public runtime contract for UnitComp.command CommandAI return or IllegalArgumentException branch."
+    },
+    "PortGame.source_unit_controller_get_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_controller_get_state",
+      "status": "active",
+      "source_slice": "N1860",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.controller()",
+      "params": [
+        {
+          "name": "controller",
+          "type": "Variant",
+          "schema": "source_unit_controller_get_input.controller"
+        }
+      ],
+      "return_keys": [
+        "controller"
+      ],
+      "tests": [
+        "test_unit_controller_runtime_block_matches_upstream_source",
+        "test_unit_comp_controller_block_is_registered_and_generated"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof",
+      "rule": "Canonical runtime contract for UnitComp.controller() with explicit dependencies supplied at call time."
+    },
+    "PortGame.source_unit_controller_predicates_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_controller_predicates_state",
+      "status": "active",
+      "source_slice": "N764",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.isAI()/allowCommand()/isCommandable()",
+      "params": [
+        {
+          "name": "controller_is_ai_controller",
+          "schema": "source_unit_controller_predicates_input.controller_is_ai_controller",
+          "type": "bool"
+        },
+        {
+          "name": "controller_is_command_ai",
+          "schema": "source_unit_controller_predicates_input.controller_is_command_ai",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "is_ai",
+        "allow_command",
+        "is_commandable"
+      ],
+      "tests": [
+        "test_unit_controller_predicates_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_controller_predicates_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_controller_predicates_state",
+      "rule": "Public runtime contract for UnitComp controller predicate methods."
+    },
+    "PortGame.source_unit_controller_set_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_controller_set_state",
+      "status": "active",
+      "source_slice": "N1859",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.controller(UnitController)",
+      "params": [
+        {
+          "name": "next_controller",
+          "type": "Variant",
+          "schema": "source_unit_controller_set_input.next_controller"
+        },
+        {
+          "name": "controller_unit",
+          "type": "Variant",
+          "schema": "source_unit_controller_set_input.controller_unit"
+        },
+        {
+          "name": "self_unit",
+          "type": "Variant",
+          "schema": "source_unit_controller_set_input.self_unit"
+        }
+      ],
+      "return_keys": [
+        "controller",
+        "controller_unit",
+        "unit_sync_required",
+        "call_order"
+      ],
+      "tests": [
+        "test_unit_controller_runtime_block_matches_upstream_source",
+        "test_unit_comp_controller_block_is_registered_and_generated"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof",
+      "rule": "Canonical runtime contract for UnitComp.controller(UnitController) with explicit dependencies supplied at call time."
+    },
+    "PortGame.source_unit_count_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_count_state",
+      "status": "active",
+      "source_slice": "N765",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.count()/Team.data()/Teams.TeamData.countType(UnitType type)",
+      "params": [
+        {
+          "name": "team_data_count_type_result",
+          "schema": "source_unit_count_input.team_data_count_type_result",
+          "type": "int"
+        },
+        {
+          "name": "type_id",
+          "schema": "source_unit_count_input.type_id",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "count",
+        "type_id",
+        "call"
+      ],
+      "tests": [
+        "test_unit_count_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_count_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_count_state",
+      "rule": "Public runtime contract for UnitComp.count delegated per-type count lookup."
+    },
+    "PortGame.source_unit_destroy_ability_death_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_destroy_ability_death_state",
+      "status": "active",
+      "source_slice": "N766",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.destroy()/Ability.death(Unit unit)",
+      "params": [
+        {
+          "name": "ability_states",
+          "schema": "source_unit_destroy_ability_death_input.ability_states",
+          "type": "Array"
+        },
+        {
+          "name": "unit_id",
+          "schema": "source_unit_destroy_ability_death_input.unit_id",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "loop",
+        "calls"
+      ],
+      "tests": [
+        "test_unit_destroy_ability_death_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_ability_death_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_destroy_ability_death_state",
+      "rule": "Public runtime contract for UnitComp.destroy ability death hook dispatch."
+    },
+    "PortGame.source_unit_destroy_crash_landing_damage_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_destroy_crash_landing_damage_state",
+      "status": "active",
+      "source_slice": "N767",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.destroy() crash landing damage",
+      "params": [
+        {
+          "name": "type_flying",
+          "schema": "source_unit_destroy_crash_landing_damage_input.type_flying",
+          "type": "bool"
+        },
+        {
+          "name": "spawned_by_core_value",
+          "schema": "source_unit_destroy_crash_landing_damage_input.spawned_by_core_value",
+          "type": "bool"
+        },
+        {
+          "name": "type_create_wreck",
+          "schema": "source_unit_destroy_crash_landing_damage_input.type_create_wreck",
+          "type": "bool"
+        },
+        {
+          "name": "rules_unit_crash_damage",
+          "schema": "source_unit_destroy_crash_landing_damage_input.rules_unit_crash_damage",
+          "type": "float"
+        },
+        {
+          "name": "hit_size",
+          "schema": "source_unit_destroy_crash_landing_damage_input.hit_size",
+          "type": "float"
+        },
+        {
+          "name": "type_crash_damage_multiplier",
+          "schema": "source_unit_destroy_crash_landing_damage_input.type_crash_damage_multiplier",
+          "type": "float"
+        },
+        {
+          "name": "shields_empty",
+          "schema": "source_unit_destroy_crash_landing_damage_input.shields_empty",
+          "type": "bool"
+        },
+        {
+          "name": "shield_absorbed",
+          "schema": "source_unit_destroy_crash_landing_damage_input.shield_absorbed",
+          "type": "bool"
+        },
+        {
+          "name": "team_id",
+          "schema": "source_unit_destroy_crash_landing_damage_input.team_id",
+          "type": "int"
+        },
+        {
+          "name": "source_x",
+          "schema": "source_unit_destroy_crash_landing_damage_input.source_x",
+          "type": "float"
+        },
+        {
+          "name": "source_y",
+          "schema": "source_unit_destroy_crash_landing_damage_input.source_y",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "guard",
+        "shouldCheckCrash",
+        "shieldLookup",
+        "crashDamage",
+        "shieldGuard",
+        "shieldAbsorbed",
+        "damageRadius",
+        "damageCall"
+      ],
+      "tests": [
+        "test_unit_destroy_crash_landing_damage_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_crash_landing_damage_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_destroy_crash_landing_damage_state",
+      "rule": "Public runtime contract for UnitComp.destroy crash landing shield and damage branch."
+    },
+    "PortGame.source_unit_destroy_explosion_dispatch_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_destroy_explosion_dispatch_state",
+      "status": "active",
+      "source_slice": "N768",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.destroy() explosion dispatch",
+      "params": [
+        {
+          "name": "spawned_by_core_value",
+          "schema": "source_unit_destroy_explosion_dispatch_input.spawned_by_core_value",
+          "type": "bool"
+        },
+        {
+          "name": "source_x",
+          "schema": "source_unit_destroy_explosion_dispatch_input.source_x",
+          "type": "float"
+        },
+        {
+          "name": "source_y",
+          "schema": "source_unit_destroy_explosion_dispatch_input.source_y",
+          "type": "float"
+        },
+        {
+          "name": "flammability",
+          "schema": "source_unit_destroy_explosion_dispatch_input.flammability",
+          "type": "float"
+        },
+        {
+          "name": "explosiveness",
+          "schema": "source_unit_destroy_explosion_dispatch_input.explosiveness",
+          "type": "float"
+        },
+        {
+          "name": "power",
+          "schema": "source_unit_destroy_explosion_dispatch_input.power",
+          "type": "float"
+        },
+        {
+          "name": "bounds_value",
+          "schema": "source_unit_destroy_explosion_dispatch_input.bounds_value",
+          "type": "float"
+        },
+        {
+          "name": "type_leg_length",
+          "schema": "source_unit_destroy_explosion_dispatch_input.type_leg_length",
+          "type": "float"
+        },
+        {
+          "name": "rules_damage_explosions",
+          "schema": "source_unit_destroy_explosion_dispatch_input.rules_damage_explosions",
+          "type": "bool"
+        },
+        {
+          "name": "rules_unit_crash_damage",
+          "schema": "source_unit_destroy_explosion_dispatch_input.rules_unit_crash_damage",
+          "type": "float"
+        },
+        {
+          "name": "item_flammability",
+          "schema": "source_unit_destroy_explosion_dispatch_input.item_flammability",
+          "type": "float"
+        },
+        {
+          "name": "team_id",
+          "schema": "source_unit_destroy_explosion_dispatch_input.team_id",
+          "type": "int"
+        },
+        {
+          "name": "death_explosion_effect",
+          "schema": "source_unit_destroy_explosion_dispatch_input.death_explosion_effect",
+          "type": "String"
+        }
+      ],
+      "return_keys": [
+        "call",
+        "sourceCall",
+        "guard",
+        "elseBranch",
+        "x",
+        "y",
+        "flammability",
+        "explosiveness",
+        "power",
+        "radius",
+        "damage",
+        "fire",
+        "team",
+        "explosionFx",
+        "baseShake",
+        "rotation",
+        "effect"
+      ],
+      "tests": [
+        "test_unit_destroy_explosion_dispatch_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_explosion_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_destroy_explosion_dispatch_state",
+      "rule": "Public runtime contract for UnitComp.destroy explosion dispatch branch."
+    },
+    "PortGame.source_unit_destroy_initial_payload_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_destroy_initial_payload_state",
+      "status": "active",
+      "source_slice": "N769",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.destroy() initial payload",
+      "params": [
+        {
+          "name": "is_added_value",
+          "schema": "source_unit_destroy_initial_payload_input.is_added_value",
+          "type": "bool"
+        },
+        {
+          "name": "killable_value",
+          "schema": "source_unit_destroy_initial_payload_input.killable_value",
+          "type": "bool"
+        },
+        {
+          "name": "item_explosiveness",
+          "schema": "source_unit_destroy_initial_payload_input.item_explosiveness",
+          "type": "float"
+        },
+        {
+          "name": "item_flammability",
+          "schema": "source_unit_destroy_initial_payload_input.item_flammability",
+          "type": "float"
+        },
+        {
+          "name": "item_charge",
+          "schema": "source_unit_destroy_initial_payload_input.item_charge",
+          "type": "float"
+        },
+        {
+          "name": "stack_amount",
+          "schema": "source_unit_destroy_initial_payload_input.stack_amount",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "returnGuard",
+        "sourceGuard",
+        "isAdded",
+        "killable",
+        "explosivenessFormula",
+        "flammabilityFormula",
+        "powerFormula",
+        "explosiveness",
+        "flammability",
+        "power"
+      ],
+      "tests": [
+        "test_unit_destroy_initial_payload_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_initial_payload_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_destroy_initial_payload_state",
+      "rule": "Public runtime contract for UnitComp.destroy initial guard and payload formulas."
+    },
+    "PortGame.source_unit_destroy_shoot_on_death_mounts_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_destroy_shoot_on_death_mounts_state",
+      "status": "active",
+      "source_slice": "N770",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.destroy() shoot-on-death mounts",
+      "params": [
+        {
+          "name": "mount_states",
+          "schema": "source_unit_destroy_shoot_on_death_mounts_input.mount_states",
+          "type": "Array"
+        },
+        {
+          "name": "has_target_value",
+          "schema": "source_unit_destroy_shoot_on_death_mounts_input.has_target_value",
+          "type": "bool"
+        },
+        {
+          "name": "source_x",
+          "schema": "source_unit_destroy_shoot_on_death_mounts_input.source_x",
+          "type": "float"
+        },
+        {
+          "name": "source_y",
+          "schema": "source_unit_destroy_shoot_on_death_mounts_input.source_y",
+          "type": "float"
+        },
+        {
+          "name": "source_rotation_degrees",
+          "schema": "source_unit_destroy_shoot_on_death_mounts_input.source_rotation_degrees",
+          "type": "float"
+        },
+        {
+          "name": "unit_id",
+          "schema": "source_unit_destroy_shoot_on_death_mounts_input.unit_id",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "loop",
+        "hasTarget",
+        "actions",
+        "guard",
+        "effectGuard",
+        "allowShootEffectsSource",
+        "effectCall",
+        "reload",
+        "shoot",
+        "reloadSource",
+        "shootSource",
+        "update",
+        "unit"
+      ],
+      "tests": [
+        "test_unit_destroy_shoot_on_death_mounts_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_shoot_on_death_mounts_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_destroy_shoot_on_death_mounts_state",
+      "rule": "Public runtime contract for UnitComp.destroy shoot-on-death mounts branch."
+    },
+    "PortGame.source_unit_destroy_sound_and_event_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_destroy_sound_and_event_state",
+      "status": "active",
+      "source_slice": "N771",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.destroy() sound and event",
+      "params": [
+        {
+          "name": "death_sound",
+          "schema": "source_unit_destroy_sound_and_event_input.death_sound",
+          "type": "String"
+        },
+        {
+          "name": "death_sound_volume",
+          "schema": "source_unit_destroy_sound_and_event_input.death_sound_volume",
+          "type": "float"
+        },
+        {
+          "name": "unit_id",
+          "schema": "source_unit_destroy_sound_and_event_input.unit_id",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "soundCall",
+        "eventCall",
+        "call",
+        "sound",
+        "pitch",
+        "volume",
+        "unit",
+        "event",
+        "eventClass",
+        "sourcePositionOverload",
+        "sourcePositionBody",
+        "eventsFire",
+        "eventsFireBody"
+      ],
+      "tests": [
+        "test_unit_destroy_sound_and_event_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_sound_and_event_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_destroy_sound_and_event_state",
+      "rule": "Public runtime contract for UnitComp.destroy death sound and UnitDestroyEvent dispatch."
+    },
+    "PortGame.source_unit_destroy_suicide_bomb_trigger_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_destroy_suicide_bomb_trigger_state",
+      "status": "active",
+      "source_slice": "N772",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.destroy() suicide bomb trigger",
+      "params": [
+        {
+          "name": "explosiveness",
+          "schema": "source_unit_destroy_suicide_bomb_trigger_input.explosiveness",
+          "type": "float"
+        },
+        {
+          "name": "is_local_value",
+          "schema": "source_unit_destroy_suicide_bomb_trigger_input.is_local_value",
+          "type": "bool"
+        },
+        {
+          "name": "was_player_value",
+          "schema": "source_unit_destroy_suicide_bomb_trigger_input.was_player_value",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "guard",
+        "explosiveness",
+        "isLocal",
+        "wasPlayer",
+        "trigger",
+        "event",
+        "eventsFire",
+        "eventsFireBody",
+        "triggerEnum",
+        "triggerMember"
+      ],
+      "tests": [
+        "test_unit_destroy_suicide_bomb_trigger_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_suicide_bomb_trigger_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_destroy_suicide_bomb_trigger_state",
+      "rule": "Public runtime contract for UnitComp.destroy suicide bomb trigger and Trigger.suicideBomb event identity."
+    },
+    "PortGame.source_unit_destroy_type_killed_remove_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_destroy_type_killed_remove_state",
+      "status": "active",
+      "source_slice": "N773",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.destroy() type killed and remove",
+      "params": [
+        {
+          "name": "unit_id",
+          "schema": "source_unit_destroy_type_killed_remove_input.unit_id",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "order",
+        "typeKilledCall",
+        "removeCall",
+        "unitTypeDefault",
+        "unitRemoveOverride",
+        "selfMethod",
+        "unit"
+      ],
+      "tests": [
+        "test_unit_destroy_type_killed_remove_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_type_killed_remove_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_destroy_type_killed_remove_state",
+      "rule": "Public runtime contract for UnitComp.destroy type.killed(self()) then remove() tail order."
+    },
+    "PortGame.source_unit_destroy_visual_effects_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_destroy_visual_effects_state",
+      "status": "active",
+      "source_slice": "N774",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.destroy() visual effects",
+      "params": [
+        {
+          "name": "source_x",
+          "schema": "source_unit_destroy_visual_effects_input.source_x",
+          "type": "float"
+        },
+        {
+          "name": "source_y",
+          "schema": "source_unit_destroy_visual_effects_input.source_y",
+          "type": "float"
+        },
+        {
+          "name": "hit_size",
+          "schema": "source_unit_destroy_visual_effects_input.hit_size",
+          "type": "float"
+        },
+        {
+          "name": "type_death_shake",
+          "schema": "source_unit_destroy_visual_effects_input.type_death_shake",
+          "type": "float"
+        },
+        {
+          "name": "type_create_scorch",
+          "schema": "source_unit_destroy_visual_effects_input.type_create_scorch",
+          "type": "bool"
+        },
+        {
+          "name": "unit_id",
+          "schema": "source_unit_destroy_visual_effects_input.unit_id",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "shakeFormula",
+        "scorchGuard",
+        "scorchCall",
+        "shakeCall",
+        "deathShakeDefault",
+        "createScorchDefault",
+        "hitSizeDefault",
+        "effectShakePosition",
+        "effectShakePositionBody",
+        "effectScorchMethod",
+        "shake",
+        "scorch",
+        "shakeEffect",
+        "unit"
+      ],
+      "tests": [
+        "test_unit_destroy_visual_effects_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_visual_effects_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_destroy_visual_effects_state",
+      "rule": "Public runtime contract for UnitComp.destroy visual effect source records without renderer/decal side effects."
+    },
+    "PortGame.source_unit_destroy_wreck_decal_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_destroy_wreck_decal_state",
+      "status": "active",
+      "source_slice": "N775",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.destroy() wreck decals",
+      "params": [
+        {
+          "name": "headless_value",
+          "schema": "source_unit_destroy_wreck_decal_input.headless_value",
+          "type": "bool"
+        },
+        {
+          "name": "type_create_scorch",
+          "schema": "source_unit_destroy_wreck_decal_input.type_create_scorch",
+          "type": "bool"
+        },
+        {
+          "name": "wreck_regions",
+          "schema": "source_unit_destroy_wreck_decal_input.wreck_regions",
+          "type": "Array"
+        },
+        {
+          "name": "tmp_offsets",
+          "schema": "source_unit_destroy_wreck_decal_input.tmp_offsets",
+          "type": "Array"
+        },
+        {
+          "name": "source_x",
+          "schema": "source_unit_destroy_wreck_decal_input.source_x",
+          "type": "float"
+        },
+        {
+          "name": "source_y",
+          "schema": "source_unit_destroy_wreck_decal_input.source_y",
+          "type": "float"
+        },
+        {
+          "name": "source_rotation_degrees",
+          "schema": "source_unit_destroy_wreck_decal_input.source_rotation_degrees",
+          "type": "float"
+        },
+        {
+          "name": "type_hit_size",
+          "schema": "source_unit_destroy_wreck_decal_input.type_hit_size",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "guard",
+        "shouldCreateDecals",
+        "loop",
+        "foundGuard",
+        "rangeFormula",
+        "randomCall",
+        "decalCall",
+        "wreckRegions",
+        "wreckRegionInit",
+        "wreckRegionLoad",
+        "textureRegionFound",
+        "effectDecal",
+        "tmpV1",
+        "vec2Rnd",
+        "range",
+        "decals"
+      ],
+      "tests": [
+        "test_unit_destroy_wreck_decal_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_wreck_decal_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_destroy_wreck_decal_state",
+      "rule": "Public runtime contract for UnitComp.destroy wreck decal source records with explicit sampled Tmp.v1 offsets."
+    },
+    "PortGame.source_unit_display_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_display_state",
+      "status": "active",
+      "source_slice": "N1865",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.display(Table)",
+      "params": [
+        {
+          "name": "table",
+          "type": "Variant",
+          "schema": "source_unit_display_input.table"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "call",
+        "table"
+      ],
+      "tests": [
+        "test_unit_controller_runtime_block_matches_upstream_source",
+        "test_unit_comp_controller_block_is_registered_and_generated"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof",
+      "rule": "Canonical runtime contract for UnitComp.display(Table) with explicit dependencies supplied at call time."
+    },
+    "PortGame.source_unit_displayable_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_displayable_state",
+      "status": "active",
+      "source_slice": "N1841",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.displayable()",
+      "params": [
+        {
+          "name": "type_hoverable",
+          "type": "bool",
+          "schema": "source_unit_displayable_input.type_hoverable"
+        }
+      ],
+      "return_keys": [
+        "displayable"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_comp_metadata_block_to_canonical_state",
+        "test_unit_comp_ammo_and_displayability_block_is_registered_and_generated"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof",
+      "rule": "Public runtime contract for UnitComp displayability from the explicit UnitType.hoverable fact."
+    },
+    "PortGame.source_unit_draw_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_draw_state",
+      "status": "active",
+      "source_slice": "N1866",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.draw()",
+      "params": [],
+      "return_keys": [
+        "method",
+        "call"
+      ],
+      "tests": [
+        "test_unit_controller_runtime_block_matches_upstream_source",
+        "test_unit_comp_controller_block_is_registered_and_generated"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof",
+      "rule": "Canonical runtime contract for UnitComp.draw() with explicit dependencies supplied at call time."
+    },
+    "PortGame.source_unit_drown_floor_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_drown_floor_state",
+      "status": "active",
+      "source_slice": "N776",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.drownFloor()",
+      "params": [
+        {
+          "name": "floor_on_value",
+          "schema": "source_unit_drown_floor_input.floor_on_value",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "floor"
+      ],
+      "tests": [
+        "test_unit_drown_floor_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_drown_floor_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_drown_floor_state",
+      "rule": "Public runtime contract for UnitComp.drownFloor passthrough of floorOn()."
+    },
+    "PortGame.source_unit_floor_speed_multiplier_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_floor_speed_multiplier_state",
+      "status": "active",
+      "source_slice": "N777",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.floorSpeedMultiplier()",
+      "params": [
+        {
+          "name": "elevation_value",
+          "schema": "source_unit_floor_speed_multiplier_input.elevation_value",
+          "type": "float"
+        },
+        {
+          "name": "type_hovering",
+          "schema": "source_unit_floor_speed_multiplier_input.type_hovering",
+          "type": "bool"
+        },
+        {
+          "name": "floor_on_speed_multiplier",
+          "schema": "source_unit_floor_speed_multiplier_input.floor_on_speed_multiplier",
+          "type": "float"
+        },
+        {
+          "name": "type_floor_multiplier",
+          "schema": "source_unit_floor_speed_multiplier_input.type_floor_multiplier",
+          "type": "float"
+        },
+        {
+          "name": "speed_multiplier_value",
+          "schema": "source_unit_floor_speed_multiplier_input.speed_multiplier_value",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "flying",
+        "uses_air_floor",
+        "on_speed_multiplier",
+        "speed_multiplier"
+      ],
+      "tests": [
+        "test_unit_floor_speed_multiplier_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_floor_speed_multiplier_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_floor_speed_multiplier_state",
+      "rule": "Public runtime contract for UnitComp.floorSpeedMultiplier terrain speed calculation."
+    },
+    "PortGame.source_unit_get_controller_name_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_get_controller_name_state",
+      "status": "active",
+      "source_slice": "N1864",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.getControllerName()",
+      "params": [
+        {
+          "name": "is_player",
+          "type": "bool",
+          "schema": "source_unit_get_controller_name_input.is_player"
+        },
+        {
+          "name": "player_colored_name",
+          "type": "String",
+          "schema": "source_unit_get_controller_name_input.player_colored_name"
+        },
+        {
+          "name": "controller_is_logic_ai",
+          "type": "bool",
+          "schema": "source_unit_get_controller_name_input.controller_is_logic_ai"
+        },
+        {
+          "name": "logic_controller_exists",
+          "type": "bool",
+          "schema": "source_unit_get_controller_name_input.logic_controller_exists"
+        },
+        {
+          "name": "logic_controller_last_accessed",
+          "type": "String",
+          "schema": "source_unit_get_controller_name_input.logic_controller_last_accessed"
+        }
+      ],
+      "return_keys": [
+        "controller_name",
+        "branch"
+      ],
+      "tests": [
+        "test_unit_controller_runtime_block_matches_upstream_source",
+        "test_unit_comp_controller_block_is_registered_and_generated"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof",
+      "rule": "Canonical runtime contract for UnitComp.getControllerName() with explicit dependencies supplied at call time."
+    },
+    "PortGame.source_unit_get_player_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_get_player_state",
+      "status": "active",
+      "source_slice": "N1868",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.getPlayer()",
+      "params": [
+        {
+          "name": "controller_is_player",
+          "type": "bool",
+          "schema": "source_unit_get_player_input.controller_is_player"
+        },
+        {
+          "name": "controller",
+          "type": "Variant",
+          "schema": "source_unit_get_player_input.controller"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "return",
+        "player",
+        "is_player"
+      ],
+      "tests": [
+        "test_unit_controller_runtime_block_matches_upstream_source",
+        "test_unit_comp_controller_block_is_registered_and_generated"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof",
+      "rule": "Canonical runtime contract for UnitComp.getPlayer() with explicit dependencies supplied at call time."
+    },
+    "PortGame.source_unit_handle_sync_hidden_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_handle_sync_hidden_state",
+      "status": "active",
+      "source_slice": "N1843",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.handleSyncHidden()",
+      "params": [
+        {
+          "name": "unit_id",
+          "schema": "source_unit_handle_sync_hidden_input.unit_id",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "handled",
+        "remove",
+        "clear_removed_entity"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_comp_sync_hidden_block_to_canonical_state",
+        "test_unit_sync_hidden_matches_upstream_source",
+        "test_unit_comp_sync_hidden_block_is_registered_and_generated"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof",
+      "rule": "Public runtime contract for UnitComp.handleSyncHidden() remove and netClient.clearRemovedEntity(id) side effects."
+    },
+    "PortGame.source_unit_has_weapons": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_has_weapons",
+      "status": "active",
+      "source_slice": "N1835",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.hasWeapons()",
+      "params": [
+        {
+          "schema": "source_unit_has_weapons_input.weapons",
+          "type": "Array",
+          "name": "weapons"
+        }
+      ],
+      "return_keys": [
+        "has_weapons"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_comp_metrics_block_to_canonical_state",
+        "test_unit_comp_generated_runtime_metrics_block"
+      ],
+      "runtime_proof": "/root/Main.source_unit_has_weapons",
+      "rule": "Public runtime contract for UnitComp UnitType weapon presence check."
+    },
+    "PortGame.source_unit_heal_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_heal_state",
+      "status": "active",
+      "source_slice": "N778",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.heal(float amount)",
+      "params": [
+        {
+          "name": "current_health",
+          "schema": "source_unit_heal_input.current_health",
+          "type": "float"
+        },
+        {
+          "name": "max_health",
+          "schema": "source_unit_heal_input.max_health",
+          "type": "float"
+        },
+        {
+          "name": "amount",
+          "schema": "source_unit_heal_input.amount",
+          "type": "float"
+        },
+        {
+          "name": "current_was_healed",
+          "schema": "source_unit_heal_input.current_was_healed",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "guard",
+        "health",
+        "healthDelta",
+        "healthCompAdd",
+        "healthCompClamp",
+        "healthCompHeal",
+        "wasHealed",
+        "setWasHealed",
+        "healthMutationSource",
+        "override"
+      ],
+      "tests": [
+        "test_unit_heal_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_heal_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_heal_state",
+      "rule": "Public runtime contract for generated Unit.heal(float amount) merged HealthComp and UnitComp behavior."
+    },
+    "PortGame.source_unit_hittable_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_hittable_state",
+      "status": "active",
+      "source_slice": "N781",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.hittable()",
+      "params": [
+        {
+          "name": "type_hittable",
+          "schema": "source_unit_hittable_input.type_hittable",
+          "type": "bool"
+        },
+        {
+          "name": "type_vulnerable_with_payloads",
+          "schema": "source_unit_hittable_input.type_vulnerable_with_payloads",
+          "type": "bool"
+        },
+        {
+          "name": "unit_is_payloadc",
+          "schema": "source_unit_hittable_input.unit_is_payloadc",
+          "type": "bool"
+        },
+        {
+          "name": "unit_has_payload",
+          "schema": "source_unit_hittable_input.unit_has_payload",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "hittable",
+        "payloadHittable",
+        "call"
+      ],
+      "tests": [
+        "test_unit_hittable_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_hittable_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_hittable_state",
+      "rule": "Public runtime contract for UnitComp.hittable delegation through UnitType.hittable(Unit)."
+    },
+    "PortGame.source_unit_icon_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_icon_state",
+      "status": "active",
+      "source_slice": "N782",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.icon()",
+      "params": [
+        {
+          "name": "type_ui_icon",
+          "schema": "source_unit_icon_input.type_ui_icon",
+          "type": "String"
+        }
+      ],
+      "return_keys": [
+        "call",
+        "return",
+        "uiIcon"
+      ],
+      "tests": [
+        "test_unit_icon_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_icon_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_icon_state",
+      "rule": "Public runtime contract for UnitComp.icon() returning type.uiIcon."
+    },
+    "PortGame.source_unit_in_fog_to_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_in_fog_to_state",
+      "status": "active",
+      "source_slice": "N1844",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.inFogTo(Team viewer)",
+      "params": [
+        {
+          "name": "same_team",
+          "schema": "source_unit_in_fog_to_input.same_team",
+          "type": "bool"
+        },
+        {
+          "name": "rules_fog",
+          "schema": "source_unit_in_fog_to_input.rules_fog",
+          "type": "bool"
+        },
+        {
+          "name": "hit_size",
+          "schema": "source_unit_in_fog_to_input.hit_size",
+          "type": "float"
+        },
+        {
+          "name": "unit_x",
+          "schema": "source_unit_in_fog_to_input.unit_x",
+          "type": "float"
+        },
+        {
+          "name": "unit_y",
+          "schema": "source_unit_in_fog_to_input.unit_y",
+          "type": "float"
+        },
+        {
+          "name": "center_visible",
+          "schema": "source_unit_in_fog_to_input.center_visible",
+          "type": "bool"
+        },
+        {
+          "name": "d8_visible",
+          "schema": "source_unit_in_fog_to_input.d8_visible",
+          "type": "Array"
+        }
+      ],
+      "return_keys": [
+        "in_fog"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_comp_in_fog_to_canonical_state",
+        "test_unit_in_fog_to_matches_upstream_source",
+        "test_unit_comp_in_fog_to_block_is_registered_and_generated"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof",
+      "rule": "Public runtime contract for UnitComp.inFogTo(Team viewer) with explicit fog visibility dependencies and source-ordered D8 probes."
+    },
+    "PortGame.source_unit_in_range": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_in_range",
+      "status": "active",
+      "source_slice": "N1834",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.inRange(Position other)",
+      "params": [
+        {
+          "schema": "source_unit_in_range_input.unit_x",
+          "type": "float",
+          "name": "unit_x"
+        },
+        {
+          "schema": "source_unit_in_range_input.unit_y",
+          "type": "float",
+          "name": "unit_y"
+        },
+        {
+          "schema": "source_unit_in_range_input.other_x",
+          "type": "float",
+          "name": "other_x"
+        },
+        {
+          "schema": "source_unit_in_range_input.other_y",
+          "type": "float",
+          "name": "other_y"
+        },
+        {
+          "schema": "source_unit_in_range_input.type_range",
+          "type": "float",
+          "name": "type_range"
+        }
+      ],
+      "return_keys": [
+        "in_range"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_comp_metrics_block_to_canonical_state",
+        "test_unit_comp_generated_runtime_metrics_block"
+      ],
+      "runtime_proof": "/root/Main.source_unit_in_range",
+      "rule": "Public runtime contract for UnitComp position range check."
+    },
+    "PortGame.source_unit_is_enemy_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_is_enemy_state",
+      "status": "active",
+      "source_slice": "N1854",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.isEnemy()",
+      "params": [],
+      "return_keys": [
+        "is_enemy"
+      ],
+      "tests": [
+        "test_unit_combat_metadata_matches_upstream_source",
+        "test_unit_comp_laccess_sensor_block_is_registered_and_generated"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof",
+      "rule": "Public runtime contract for UnitComp.isEnemy() with explicit dependencies supplied at call time."
+    },
+    "PortGame.source_unit_is_flying": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_is_flying",
+      "status": "active",
+      "source_slice": "N783",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.isFlying()",
+      "params": [
+        {
+          "name": "elevation_value",
+          "schema": "source_unit_is_flying_input.elevation_value",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "flying"
+      ],
+      "tests": [
+        "test_unit_is_flying_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_grounded_flying_target_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_is_flying",
+      "rule": "Public scalar runtime contract for UnitComp.isFlying() elevation gate."
+    },
+    "PortGame.source_unit_is_grounded": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_is_grounded",
+      "status": "active",
+      "source_slice": "N784",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.isGrounded()",
+      "params": [
+        {
+          "name": "elevation_value",
+          "schema": "source_unit_is_grounded_input.elevation_value",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "grounded"
+      ],
+      "tests": [
+        "test_unit_is_grounded_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_grounded_flying_target_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_is_grounded",
+      "rule": "Public scalar runtime contract for UnitComp.isGrounded() elevation gate."
+    },
+    "PortGame.source_unit_is_missile_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_is_missile_state",
+      "status": "active",
+      "source_slice": "N785",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.isMissile()",
+      "params": [
+        {
+          "name": "unit_is_timed_killc",
+          "schema": "source_unit_is_missile_input.unit_is_timed_killc",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "is_missile",
+        "instanceof"
+      ],
+      "tests": [
+        "test_unit_is_missile_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_is_missile_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_is_missile_state",
+      "rule": "Public runtime contract for UnitComp.isMissile() TimedKillc gate."
+    },
+    "PortGame.source_unit_is_path_impassable_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_is_path_impassable_state",
+      "status": "active",
+      "source_slice": "N1837",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.isPathImpassable(int tileX, int tileY)",
+      "params": [
+        {
+          "name": "type_flying",
+          "type": "bool",
+          "schema": "source_unit_is_path_impassable_input.type_flying"
+        },
+        {
+          "name": "tile_x",
+          "type": "int",
+          "schema": "source_unit_is_path_impassable_input.tile_x"
+        },
+        {
+          "name": "tile_y",
+          "type": "int",
+          "schema": "source_unit_is_path_impassable_input.tile_y"
+        },
+        {
+          "name": "tile_in_bounds",
+          "type": "bool",
+          "schema": "source_unit_is_path_impassable_input.tile_in_bounds"
+        },
+        {
+          "name": "path_cost",
+          "type": "int",
+          "schema": "source_unit_is_path_impassable_input.path_cost"
+        }
+      ],
+      "return_keys": [
+        "impassable"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_comp_navigation_block_to_canonical_state",
+        "test_unit_comp_navigation_block_is_registered_and_generated"
+      ],
+      "runtime_proof": "/root/Main.source_unit_is_path_impassable_state",
+      "rule": "Public runtime contract for UnitComp path-cost impassability with explicit world query facts."
+    },
+    "PortGame.source_unit_is_player_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_is_player_state",
+      "status": "active",
+      "source_slice": "N1867",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.isPlayer()",
+      "params": [
+        {
+          "name": "controller_is_player",
+          "type": "bool",
+          "schema": "source_unit_is_player_input.controller_is_player"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "return",
+        "is_player"
+      ],
+      "tests": [
+        "test_unit_controller_runtime_block_matches_upstream_source",
+        "test_unit_comp_controller_block_is_registered_and_generated"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof",
+      "rule": "Canonical runtime contract for UnitComp.isPlayer() with explicit dependencies supplied at call time."
+    },
+    "PortGame.source_unit_is_sync_hidden_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_is_sync_hidden_state",
+      "status": "active",
+      "source_slice": "N1842",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.isSyncHidden(Player player)",
+      "params": [
+        {
+          "name": "is_shooting_value",
+          "schema": "source_unit_is_sync_hidden_input.is_shooting_value",
+          "type": "bool"
+        },
+        {
+          "name": "in_fog_to_value",
+          "schema": "source_unit_is_sync_hidden_input.in_fog_to_value",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "is_sync_hidden"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_comp_sync_hidden_block_to_canonical_state",
+        "test_unit_sync_hidden_matches_upstream_source",
+        "test_unit_comp_sync_hidden_block_is_registered_and_generated"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof",
+      "rule": "Public runtime contract for UnitComp.isSyncHidden(Player player) source predicate with explicit dependency inputs."
+    },
+    "PortGame.source_unit_item_capacity_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_item_capacity_state",
+      "status": "active",
+      "source_slice": "N1856",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.itemCapacity()",
+      "params": [],
+      "return_keys": [
+        "item_capacity"
+      ],
+      "tests": [
+        "test_unit_combat_metadata_matches_upstream_source",
+        "test_unit_comp_laccess_sensor_block_is_registered_and_generated"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof",
+      "rule": "Public runtime contract for UnitComp.itemCapacity() with explicit dependencies supplied at call time."
+    },
+    "PortGame.source_unit_kill_sync_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_kill_sync_state",
+      "status": "active",
+      "source_slice": "N786",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.kill()",
+      "params": [
+        {
+          "name": "dead_value",
+          "schema": "source_unit_kill_sync_input.dead_value",
+          "type": "bool"
+        },
+        {
+          "name": "net_client",
+          "schema": "source_unit_kill_sync_input.net_client",
+          "type": "bool"
+        },
+        {
+          "name": "killable_value",
+          "schema": "source_unit_kill_sync_input.killable_value",
+          "type": "bool"
+        },
+        {
+          "name": "unit_id",
+          "schema": "source_unit_kill_sync_input.unit_id",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "dead",
+        "guard",
+        "killable",
+        "netClient",
+        "remoteCall",
+        "shouldReturn"
+      ],
+      "tests": [
+        "test_unit_kill_sync_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_kill_sync_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_kill_sync_state",
+      "rule": "Public runtime contract for UnitComp.kill() death sync guard and Call.unitDeath(id) dispatch."
+    },
+    "PortGame.source_unit_killable_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_killable_state",
+      "status": "active",
+      "source_slice": "N787",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.killable()",
+      "params": [
+        {
+          "name": "type_killable",
+          "schema": "source_unit_killable_input.type_killable",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "killable",
+        "call"
+      ],
+      "tests": [
+        "test_unit_killable_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_killable_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_killable_state",
+      "rule": "Public runtime contract for UnitComp.killable delegation through UnitType.killable(Unit)."
+    },
+    "PortGame.source_unit_killed_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_killed_state",
+      "status": "active",
+      "source_slice": "N788",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.killed()",
+      "params": [
+        {
+          "name": "is_local_value",
+          "schema": "source_unit_killed_input.is_local_value",
+          "type": "bool"
+        },
+        {
+          "name": "current_health",
+          "schema": "source_unit_killed_input.current_health",
+          "type": "float"
+        },
+        {
+          "name": "type_flying",
+          "schema": "source_unit_killed_input.type_flying",
+          "type": "bool"
+        },
+        {
+          "name": "type_create_wreck",
+          "schema": "source_unit_killed_input.type_create_wreck",
+          "type": "bool"
+        },
+        {
+          "name": "wreck_sound",
+          "schema": "source_unit_killed_input.wreck_sound",
+          "type": "String"
+        },
+        {
+          "name": "wreck_sound_volume",
+          "schema": "source_unit_killed_input.wreck_sound_volume",
+          "type": "float"
+        },
+        {
+          "name": "unit_id",
+          "schema": "source_unit_killed_input.unit_id",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "wasPlayer",
+        "health",
+        "dead",
+        "guard",
+        "destroyCalled",
+        "destroyCall",
+        "wreckSoundCall"
+      ],
+      "tests": [
+        "test_unit_killed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_killed_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_killed_state",
+      "rule": "Public runtime contract for UnitComp.killed() state mutations and destroy/wreck branch record."
+    },
+    "PortGame.source_unit_landed_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_landed_state",
+      "status": "active",
+      "source_slice": "N789",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.landed()",
+      "params": [
+        {
+          "name": "type_mech_land_shake",
+          "schema": "source_unit_landed_input.type_mech_land_shake",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "shake",
+        "shakeCall",
+        "typeLanded",
+        "call_order"
+      ],
+      "tests": [
+        "test_unit_landed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_landed_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_landed_state",
+      "rule": "Public runtime contract for UnitComp.landed() shake branch and UnitType landed hook order."
+    },
+    "PortGame.source_unit_look_at_angle_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_look_at_angle_state",
+      "status": "active",
+      "source_slice": "N790",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.lookAt(float angle)",
+      "params": [
+        {
+          "name": "current_rotation",
+          "schema": "source_unit_look_at_angle_input.current_rotation",
+          "type": "float"
+        },
+        {
+          "name": "target_angle",
+          "schema": "source_unit_look_at_angle_input.target_angle",
+          "type": "float"
+        },
+        {
+          "name": "type_rotate_speed",
+          "schema": "source_unit_look_at_angle_input.type_rotate_speed",
+          "type": "float"
+        },
+        {
+          "name": "speed_multiplier_value",
+          "schema": "source_unit_look_at_angle_input.speed_multiplier_value",
+          "type": "float"
+        },
+        {
+          "name": "source_delta",
+          "schema": "source_unit_look_at_angle_input.source_delta",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "source",
+        "target_angle",
+        "rotation_speed",
+        "rotation"
+      ],
+      "tests": [
+        "test_unit_look_at_angle_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_look_at_angle_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_look_at_angle_state",
+      "rule": "Public runtime contract for UnitComp.lookAt(float angle) rotation movement through Arc Angles.moveToward."
+    },
+    "PortGame.source_unit_look_at_position_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_look_at_position_state",
+      "status": "active",
+      "source_slice": "N791",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.lookAt(Position pos)",
+      "params": [
+        {
+          "name": "current_rotation",
+          "schema": "source_unit_look_at_position_input.current_rotation",
+          "type": "float"
+        },
+        {
+          "name": "unit_x",
+          "schema": "source_unit_look_at_position_input.unit_x",
+          "type": "float"
+        },
+        {
+          "name": "unit_y",
+          "schema": "source_unit_look_at_position_input.unit_y",
+          "type": "float"
+        },
+        {
+          "name": "target_x",
+          "schema": "source_unit_look_at_position_input.target_x",
+          "type": "float"
+        },
+        {
+          "name": "target_y",
+          "schema": "source_unit_look_at_position_input.target_y",
+          "type": "float"
+        },
+        {
+          "name": "type_rotate_speed",
+          "schema": "source_unit_look_at_position_input.type_rotate_speed",
+          "type": "float"
+        },
+        {
+          "name": "speed_multiplier_value",
+          "schema": "source_unit_look_at_position_input.speed_multiplier_value",
+          "type": "float"
+        },
+        {
+          "name": "source_delta",
+          "schema": "source_unit_look_at_position_input.source_delta",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "call",
+        "target",
+        "target_angle",
+        "rotation_speed",
+        "rotation"
+      ],
+      "tests": [
+        "test_unit_look_at_position_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_look_at_position_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_look_at_position_state",
+      "rule": "Public runtime contract for UnitComp.lookAt(Position pos) wrapper through Position.angleTo(Position) and UnitComp.lookAt(float)."
+    },
+    "PortGame.source_unit_look_at_xy_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_look_at_xy_state",
+      "status": "active",
+      "source_slice": "N792",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.lookAt(float x, float y)",
+      "params": [
+        {
+          "name": "current_rotation",
+          "schema": "source_unit_look_at_xy_input.current_rotation",
+          "type": "float"
+        },
+        {
+          "name": "unit_x",
+          "schema": "source_unit_look_at_xy_input.unit_x",
+          "type": "float"
+        },
+        {
+          "name": "unit_y",
+          "schema": "source_unit_look_at_xy_input.unit_y",
+          "type": "float"
+        },
+        {
+          "name": "target_x",
+          "schema": "source_unit_look_at_xy_input.target_x",
+          "type": "float"
+        },
+        {
+          "name": "target_y",
+          "schema": "source_unit_look_at_xy_input.target_y",
+          "type": "float"
+        },
+        {
+          "name": "type_rotate_speed",
+          "schema": "source_unit_look_at_xy_input.type_rotate_speed",
+          "type": "float"
+        },
+        {
+          "name": "speed_multiplier_value",
+          "schema": "source_unit_look_at_xy_input.speed_multiplier_value",
+          "type": "float"
+        },
+        {
+          "name": "source_delta",
+          "schema": "source_unit_look_at_xy_input.source_delta",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "call",
+        "target",
+        "target_angle",
+        "rotation_speed",
+        "rotation"
+      ],
+      "tests": [
+        "test_unit_look_at_xy_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_look_at_xy_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_look_at_xy_state",
+      "rule": "Public runtime contract for UnitComp.lookAt(float x, float y) wrapper through Position.angleTo(float,float) and UnitComp.lookAt(float)."
+    },
+    "PortGame.source_unit_move_at_default_accel_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_move_at_default_accel_state",
+      "status": "active",
+      "source_slice": "N793",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.moveAt(Vec2 vector)",
+      "params": [
+        {
+          "name": "vector_x",
+          "schema": "source_unit_move_at_default_accel_input.vector_x",
+          "type": "float"
+        },
+        {
+          "name": "vector_y",
+          "schema": "source_unit_move_at_default_accel_input.vector_y",
+          "type": "float"
+        },
+        {
+          "name": "type_accel",
+          "schema": "source_unit_move_at_default_accel_input.type_accel",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "source",
+        "vector",
+        "acceleration",
+        "call"
+      ],
+      "tests": [
+        "test_unit_move_at_default_accel_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_move_at_default_accel_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_move_at_default_accel_state",
+      "rule": "Public runtime contract for UnitComp.moveAt(Vec2 vector) default-acceleration wrapper into moveAt(Vec2,float)."
+    },
+    "PortGame.source_unit_move_at_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_move_at_state",
+      "status": "active",
+      "source_slice": "N794",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.moveAt(Vec2 vector, float acceleration)",
+      "params": [
+        {
+          "name": "vel_x",
+          "schema": "source_unit_move_at_input.vel_x",
+          "type": "float"
+        },
+        {
+          "name": "vel_y",
+          "schema": "source_unit_move_at_input.vel_y",
+          "type": "float"
+        },
+        {
+          "name": "vector_x",
+          "schema": "source_unit_move_at_input.vector_x",
+          "type": "float"
+        },
+        {
+          "name": "vector_y",
+          "schema": "source_unit_move_at_input.vector_y",
+          "type": "float"
+        },
+        {
+          "name": "acceleration",
+          "schema": "source_unit_move_at_input.acceleration",
+          "type": "float"
+        },
+        {
+          "name": "source_delta",
+          "schema": "source_unit_move_at_input.source_delta",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "targetSet",
+        "deltaLimit",
+        "velAdd",
+        "vel_x",
+        "vel_y",
+        "delta_x",
+        "delta_y",
+        "target_x",
+        "target_y",
+        "limit"
+      ],
+      "tests": [
+        "test_unit_move_at_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_move_at_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_move_at_state",
+      "rule": "Public runtime contract for UnitComp.moveAt(Vec2 vector, float acceleration) limited velocity movement."
+    },
+    "PortGame.source_unit_move_pref_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_move_pref_state",
+      "status": "active",
+      "source_slice": "N795",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.movePref(Vec2 movement)",
+      "params": [
+        {
+          "name": "type_omni_movement",
+          "schema": "source_unit_move_pref_input.type_omni_movement",
+          "type": "bool"
+        },
+        {
+          "name": "movement_x",
+          "schema": "source_unit_move_pref_input.movement_x",
+          "type": "float"
+        },
+        {
+          "name": "movement_y",
+          "schema": "source_unit_move_pref_input.movement_y",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "omniGate",
+        "moveAtCall",
+        "rotateMoveCall",
+        "movement",
+        "call"
+      ],
+      "tests": [
+        "test_unit_move_pref_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_move_pref_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_move_pref_state",
+      "rule": "Public runtime contract for UnitComp.movePref(Vec2 movement) preferred movement dispatch."
+    },
+    "PortGame.source_unit_physic_size": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_physic_size",
+      "status": "active",
+      "source_slice": "N1833",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.physicSize()",
+      "params": [
+        {
+          "schema": "source_unit_physic_size_input.hit_size",
+          "type": "float",
+          "name": "hit_size"
+        }
+      ],
+      "return_keys": [
+        "size"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_comp_metrics_block_to_canonical_state",
+        "test_unit_comp_generated_runtime_metrics_block"
+      ],
+      "runtime_proof": "/root/Main.source_unit_physic_size",
+      "rule": "Public runtime contract for UnitComp physicSize hitbox approximation."
+    },
+    "PortGame.source_unit_player_controllable_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_player_controllable_state",
+      "status": "active",
+      "source_slice": "N796",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.playerControllable()",
+      "params": [
+        {
+          "name": "type_player_controllable",
+          "schema": "source_unit_player_controllable_input.type_player_controllable",
+          "type": "bool"
+        },
+        {
+          "name": "controller_is_logic_ai",
+          "schema": "source_unit_player_controllable_input.controller_is_logic_ai",
+          "type": "bool"
+        },
+        {
+          "name": "logic_controller_exists",
+          "schema": "source_unit_player_controllable_input.logic_controller_exists",
+          "type": "bool"
+        },
+        {
+          "name": "logic_controller_block_privileged",
+          "schema": "source_unit_player_controllable_input.logic_controller_block_privileged",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "returnExpr",
+        "playerControllable",
+        "logicPrivilegedBlocked",
+        "call"
+      ],
+      "tests": [
+        "test_unit_player_controllable_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_player_controllable_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_player_controllable_state",
+      "rule": "Public runtime contract for UnitComp.playerControllable() logic-controller privileged block gate."
+    },
+    "PortGame.source_unit_pref_rotation_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_pref_rotation_state",
+      "status": "active",
+      "source_slice": "N1839",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.prefRotation()",
+      "params": [
+        {
+          "name": "actively_building",
+          "type": "bool",
+          "schema": "source_unit_pref_rotation_input.actively_building"
+        },
+        {
+          "name": "rotate_to_building",
+          "type": "bool",
+          "schema": "source_unit_pref_rotation_input.rotate_to_building"
+        },
+        {
+          "name": "build_plan_angle",
+          "type": "float",
+          "schema": "source_unit_pref_rotation_input.build_plan_angle"
+        },
+        {
+          "name": "mine_tile_exists",
+          "type": "bool",
+          "schema": "source_unit_pref_rotation_input.mine_tile_exists"
+        },
+        {
+          "name": "mine_tile_angle",
+          "type": "float",
+          "schema": "source_unit_pref_rotation_input.mine_tile_angle"
+        },
+        {
+          "name": "moving",
+          "type": "bool",
+          "schema": "source_unit_pref_rotation_input.moving"
+        },
+        {
+          "name": "omni_movement",
+          "type": "bool",
+          "schema": "source_unit_pref_rotation_input.omni_movement"
+        },
+        {
+          "name": "velocity_angle",
+          "type": "float",
+          "schema": "source_unit_pref_rotation_input.velocity_angle"
+        },
+        {
+          "name": "current_rotation",
+          "type": "float",
+          "schema": "source_unit_pref_rotation_input.current_rotation"
+        }
+      ],
+      "return_keys": [
+        "branch",
+        "rotation"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_comp_navigation_block_to_canonical_state",
+        "test_unit_comp_navigation_block_is_registered_and_generated"
+      ],
+      "runtime_proof": "/root/Main.source_unit_pref_rotation_state",
+      "rule": "Public runtime contract for UnitComp preferred rotation priority without synthesizing build, mining, or velocity state."
+    },
+    "PortGame.source_unit_range_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_range_state",
+      "status": "active",
+      "source_slice": "N1845",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.range()",
+      "params": [
+        {
+          "name": "type_max_range",
+          "type": "float",
+          "schema": "source_unit_range_input.type_max_range"
+        }
+      ],
+      "return_keys": [
+        "range"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_comp_metrics_to_canonical_state",
+        "test_unit_range_matches_upstream_source",
+        "test_unit_comp_range_block_is_registered_and_generated",
+        "test_unit_range_registration_is_canonical"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof",
+      "rule": "Public runtime contract for UnitComp.range() from the explicit UnitType.maxRange input."
+    },
+    "PortGame.source_unit_remove_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_remove_state",
+      "status": "active",
+      "source_slice": "N797",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.remove()",
+      "params": [
+        {
+          "name": "trail_exists",
+          "schema": "source_unit_remove_input.trail_exists",
+          "type": "bool"
+        },
+        {
+          "name": "trail_size",
+          "schema": "source_unit_remove_input.trail_size",
+          "type": "int"
+        },
+        {
+          "name": "trail_width",
+          "schema": "source_unit_remove_input.trail_width",
+          "type": "float"
+        },
+        {
+          "name": "type_trail_color_exists",
+          "schema": "source_unit_remove_input.type_trail_color_exists",
+          "type": "bool"
+        },
+        {
+          "name": "team_color",
+          "schema": "source_unit_remove_input.team_color",
+          "type": "String"
+        },
+        {
+          "name": "type_trail_color",
+          "schema": "source_unit_remove_input.type_trail_color",
+          "type": "String"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "updateCount",
+        "controllerRemoved",
+        "trailGuard",
+        "trail",
+        "trailColor",
+        "trailFade",
+        "trailFadeCall",
+        "call_order"
+      ],
+      "tests": [
+        "test_unit_remove_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_remove_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_remove_state",
+      "rule": "Public runtime contract for UnitComp.remove() count decrement, controller removal, and guarded trail fade call."
+    },
+    "PortGame.source_unit_reset_controller_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_reset_controller_state",
+      "status": "active",
+      "source_slice": "N1861",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.resetController()",
+      "params": [
+        {
+          "name": "created_controller",
+          "type": "Variant",
+          "schema": "source_unit_reset_controller_input.created_controller"
+        }
+      ],
+      "return_keys": [
+        "created_controller",
+        "controller",
+        "create_controller_call"
+      ],
+      "tests": [
+        "test_unit_controller_runtime_block_matches_upstream_source",
+        "test_unit_comp_controller_block_is_registered_and_generated"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof",
+      "rule": "Canonical runtime contract for UnitComp.resetController() with explicit dependencies supplied at call time."
+    },
+    "PortGame.source_unit_rotate_move_motion_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_rotate_move_motion_state",
+      "status": "active",
+      "source_slice": "N798",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.rotateMove(Vec2 vec) motion",
+      "params": [
+        {
+          "name": "unit_rotation_degrees",
+          "schema": "source_unit_rotate_move_motion_input.unit_rotation_degrees",
+          "type": "float"
+        },
+        {
+          "name": "vec_x",
+          "schema": "source_unit_rotate_move_motion_input.vec_x",
+          "type": "float"
+        },
+        {
+          "name": "vec_y",
+          "schema": "source_unit_rotate_move_motion_input.vec_y",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "moveAtCall",
+        "vec2Trns",
+        "call",
+        "movement",
+        "amount"
+      ],
+      "tests": [
+        "test_unit_rotate_move_motion_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_rotate_move_motion_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_rotate_move_motion_state",
+      "rule": "Public runtime contract for UnitComp.rotateMove(Vec2 vec) motion dispatch into moveAt(Tmp.v2.trns(rotation, vec.len()))."
+    },
+    "PortGame.source_unit_rotate_move_rotation_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_rotate_move_rotation_state",
+      "status": "active",
+      "source_slice": "N799",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.rotateMove(Vec2 vec) rotation",
+      "params": [
+        {
+          "name": "current_rotation",
+          "schema": "source_unit_rotate_move_rotation_input.current_rotation",
+          "type": "float"
+        },
+        {
+          "name": "vec_x",
+          "schema": "source_unit_rotate_move_rotation_input.vec_x",
+          "type": "float"
+        },
+        {
+          "name": "vec_y",
+          "schema": "source_unit_rotate_move_rotation_input.vec_y",
+          "type": "float"
+        },
+        {
+          "name": "type_rotate_speed",
+          "schema": "source_unit_rotate_move_rotation_input.type_rotate_speed",
+          "type": "float"
+        },
+        {
+          "name": "speed_multiplier_value",
+          "schema": "source_unit_rotate_move_rotation_input.speed_multiplier_value",
+          "type": "float"
+        },
+        {
+          "name": "source_delta",
+          "schema": "source_unit_rotate_move_rotation_input.source_delta",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "gate",
+        "rotationAssignment",
+        "vec2IsZero",
+        "vec2Angle",
+        "vector_is_zero",
+        "target_rotation",
+        "rotation"
+      ],
+      "tests": [
+        "test_unit_rotate_move_rotation_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_rotate_move_rotation_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_rotate_move_rotation_state",
+      "rule": "Public runtime contract for UnitComp.rotateMove(Vec2 vec) nonzero vector rotation branch."
+    },
+    "PortGame.source_unit_sense_content_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_sense_content_state",
+      "status": "active",
+      "source_slice": "N1849",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.sense(Content)",
+      "params": [
+        {
+          "name": "content",
+          "type": "Dictionary",
+          "schema": "source_unit_sense_content_input.content"
+        },
+        {
+          "name": "unit_state",
+          "type": "Dictionary",
+          "schema": "source_unit_sense_content_input.unit_state"
+        },
+        {
+          "name": "source_tilesize",
+          "type": "float",
+          "schema": "source_unit_sense_content_input.source_tilesize"
+        }
+      ],
+      "return_keys": [
+        "value"
+      ],
+      "tests": [
+        "test_unit_comp_laccess_sensor_block_is_registered_and_generated",
+        "test_unit_sense_object_matches_upstream_source",
+        "test_unit_sense_content_matches_upstream_source",
+        "test_unit_sense_laccess_registration_is_canonical"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof",
+      "rule": "Public runtime contract for UnitComp.sense(Content) with explicit dependency inputs."
+    },
+    "PortGame.source_unit_sense_laccess_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_sense_laccess_state",
+      "status": "active",
+      "source_slice": "N1847",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.sense(LAccess)",
+      "params": [
+        {
+          "name": "sensor",
+          "type": "String",
+          "schema": "source_unit_sense_laccess_input.sensor"
+        },
+        {
+          "name": "unit_state",
+          "type": "Dictionary",
+          "schema": "source_unit_sense_laccess_input.unit_state"
+        },
+        {
+          "name": "source_tilesize",
+          "type": "float",
+          "schema": "source_unit_sense_laccess_input.source_tilesize"
+        }
+      ],
+      "return_keys": [
+        "value"
+      ],
+      "tests": [
+        "test_unit_comp_laccess_sensor_block_is_registered_and_generated",
+        "test_unit_sense_laccess_matches_upstream_source",
+        "test_unit_sense_laccess_registration_is_canonical"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof",
+      "rule": "Public runtime contract for UnitComp.sense(LAccess), with all unit dependencies supplied by a single explicit state dictionary."
+    },
+    "PortGame.source_unit_sense_object_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_sense_object_state",
+      "status": "active",
+      "source_slice": "N1848",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.senseObject(LAccess)",
+      "params": [
+        {
+          "name": "sensor",
+          "type": "String",
+          "schema": "source_unit_sense_object_input.sensor"
+        },
+        {
+          "name": "unit_state",
+          "type": "Dictionary",
+          "schema": "source_unit_sense_object_input.unit_state"
+        },
+        {
+          "name": "no_sensed",
+          "type": "Variant",
+          "schema": "source_unit_sense_object_input.no_sensed"
+        }
+      ],
+      "return_keys": [
+        "value"
+      ],
+      "tests": [
+        "test_unit_comp_laccess_sensor_block_is_registered_and_generated",
+        "test_unit_sense_object_matches_upstream_source",
+        "test_unit_sense_content_matches_upstream_source",
+        "test_unit_sense_laccess_registration_is_canonical"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof",
+      "rule": "Public runtime contract for UnitComp.senseObject(LAccess) with explicit dependency inputs."
+    },
+    "PortGame.source_unit_set_prop_content_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_set_prop_content_state",
+      "status": "active",
+      "source_slice": "N1852",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.setProp(UnlockableContent,double)",
+      "params": [
+        {
+          "name": "content",
+          "type": "Dictionary",
+          "schema": "source_unit_set_prop_content_input.content"
+        },
+        {
+          "name": "value",
+          "type": "float",
+          "schema": "source_unit_set_prop_content_input.value"
+        },
+        {
+          "name": "unit_state",
+          "type": "Dictionary",
+          "schema": "source_unit_set_prop_content_input.unit_state"
+        }
+      ],
+      "return_keys": [
+        "value"
+      ],
+      "tests": [
+        "test_unit_comp_laccess_sensor_block_is_registered_and_generated",
+        "test_unit_set_prop_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof",
+      "rule": "Public runtime contract for UnitComp.setProp(UnlockableContent,double) with explicit inputs and canonical action result."
+    },
+    "PortGame.source_unit_set_prop_laccess_double_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_set_prop_laccess_double_state",
+      "status": "active",
+      "source_slice": "N1850",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.setProp(LAccess,double)",
+      "params": [
+        {
+          "name": "prop",
+          "type": "String",
+          "schema": "source_unit_set_prop_laccess_double_input.prop"
+        },
+        {
+          "name": "value",
+          "type": "float",
+          "schema": "source_unit_set_prop_laccess_double_input.value"
+        },
+        {
+          "name": "unit_state",
+          "type": "Dictionary",
+          "schema": "source_unit_set_prop_laccess_double_input.unit_state"
+        },
+        {
+          "name": "source_tilesize",
+          "type": "float",
+          "schema": "source_unit_set_prop_laccess_double_input.source_tilesize"
+        }
+      ],
+      "return_keys": [
+        "value"
+      ],
+      "tests": [
+        "test_unit_comp_laccess_sensor_block_is_registered_and_generated",
+        "test_unit_set_prop_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof",
+      "rule": "Public runtime contract for UnitComp.setProp(LAccess,double) with explicit inputs and canonical action result."
+    },
+    "PortGame.source_unit_set_prop_laccess_object_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_set_prop_laccess_object_state",
+      "status": "active",
+      "source_slice": "N1851",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.setProp(LAccess,Object)",
+      "params": [
+        {
+          "name": "prop",
+          "type": "String",
+          "schema": "source_unit_set_prop_laccess_object_input.prop"
+        },
+        {
+          "name": "value",
+          "type": "Variant",
+          "schema": "source_unit_set_prop_laccess_object_input.value"
+        },
+        {
+          "name": "unit_state",
+          "type": "Dictionary",
+          "schema": "source_unit_set_prop_laccess_object_input.unit_state"
+        }
+      ],
+      "return_keys": [
+        "value"
+      ],
+      "tests": [
+        "test_unit_comp_laccess_sensor_block_is_registered_and_generated",
+        "test_unit_set_prop_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof",
+      "rule": "Public runtime contract for UnitComp.setProp(LAccess,Object) with explicit inputs and canonical action result."
+    },
+    "PortGame.source_unit_set_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_set_state",
+      "status": "active",
+      "source_slice": "N1862",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.set(UnitType,UnitController)",
+      "params": [
+        {
+          "name": "current_type",
+          "type": "Variant",
+          "schema": "source_unit_set_input.current_type"
+        },
+        {
+          "name": "definition",
+          "type": "Variant",
+          "schema": "source_unit_set_input.definition"
+        },
+        {
+          "name": "controller",
+          "type": "Variant",
+          "schema": "source_unit_set_input.controller"
+        },
+        {
+          "name": "controller_unit",
+          "type": "Variant",
+          "schema": "source_unit_set_input.controller_unit"
+        },
+        {
+          "name": "self_unit",
+          "type": "Variant",
+          "schema": "source_unit_set_input.self_unit"
+        }
+      ],
+      "return_keys": [
+        "type",
+        "type_changed",
+        "set_type_called",
+        "controller",
+        "controller_unit",
+        "controller_unit_sync_required",
+        "call_order"
+      ],
+      "tests": [
+        "test_unit_controller_runtime_block_matches_upstream_source",
+        "test_unit_comp_controller_block_is_registered_and_generated"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof",
+      "rule": "Canonical runtime contract for UnitComp.set(UnitType,UnitController) with explicit dependencies supplied at call time."
+    },
+    "PortGame.source_unit_set_type_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_set_type_state",
+      "status": "active",
+      "source_slice": "N800",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.setType(UnitType type)",
+      "params": [
+        {
+          "name": "type_id",
+          "schema": "source_unit_set_type_input.type_id",
+          "type": "int"
+        },
+        {
+          "name": "type_health",
+          "schema": "source_unit_set_type_input.type_health",
+          "type": "float"
+        },
+        {
+          "name": "type_drag",
+          "schema": "source_unit_set_type_input.type_drag",
+          "type": "float"
+        },
+        {
+          "name": "type_armor",
+          "schema": "source_unit_set_type_input.type_armor",
+          "type": "float"
+        },
+        {
+          "name": "type_hit_size",
+          "schema": "source_unit_set_type_input.type_hit_size",
+          "type": "float"
+        },
+        {
+          "name": "mounts_length",
+          "schema": "source_unit_set_type_input.mounts_length",
+          "type": "int"
+        },
+        {
+          "name": "type_weapons_size",
+          "schema": "source_unit_set_type_input.type_weapons_size",
+          "type": "int"
+        },
+        {
+          "name": "abilities_length",
+          "schema": "source_unit_set_type_input.abilities_length",
+          "type": "int"
+        },
+        {
+          "name": "type_abilities_size",
+          "schema": "source_unit_set_type_input.type_abilities_size",
+          "type": "int"
+        },
+        {
+          "name": "first_ability_is_empty_data_ability",
+          "schema": "source_unit_set_type_input.first_ability_is_empty_data_ability",
+          "type": "bool"
+        },
+        {
+          "name": "controller_is_null",
+          "schema": "source_unit_set_type_input.controller_is_null",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "assignType",
+        "assignMaxHealth",
+        "assignDrag",
+        "assignArmor",
+        "assignHitSize",
+        "setupWeaponsGuard",
+        "abilitiesGuard",
+        "abilitiesArray",
+        "abilityCopy",
+        "abilityDataCarry",
+        "controllerGuard",
+        "unitTypeCreateControllerMethod",
+        "assigned_type_id",
+        "maxHealth",
+        "drag",
+        "armor",
+        "hitSize",
+        "setupWeapons",
+        "refreshAbilities",
+        "createController",
+        "call"
+      ],
+      "tests": [
+        "test_unit_set_type_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_set_type_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_set_type_state",
+      "rule": "Public runtime contract for UnitComp.setType(UnitType type) assignment and guard state."
+    },
+    "PortGame.source_unit_speed": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_speed",
+      "status": "active",
+      "source_slice": "N1836",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.speed()",
+      "params": [
+        {
+          "schema": "source_unit_speed_input.elevation_value",
+          "type": "float",
+          "name": "elevation_value"
+        },
+        {
+          "schema": "source_unit_speed_input.grounded_value",
+          "type": "bool",
+          "name": "grounded_value"
+        },
+        {
+          "schema": "source_unit_speed_input.player_value",
+          "type": "bool",
+          "name": "player_value"
+        },
+        {
+          "schema": "source_unit_speed_input.velocity_angle",
+          "type": "float",
+          "name": "velocity_angle"
+        },
+        {
+          "schema": "source_unit_speed_input.rotation_value",
+          "type": "float",
+          "name": "rotation_value"
+        },
+        {
+          "schema": "source_unit_speed_input.strafe_penalty_value",
+          "type": "float",
+          "name": "strafe_penalty_value"
+        },
+        {
+          "schema": "source_unit_speed_input.can_boost_value",
+          "type": "bool",
+          "name": "can_boost_value"
+        },
+        {
+          "schema": "source_unit_speed_input.boost_multiplier_value",
+          "type": "float",
+          "name": "boost_multiplier_value"
+        },
+        {
+          "schema": "source_unit_speed_input.type_speed_value",
+          "type": "float",
+          "name": "type_speed_value"
+        },
+        {
+          "schema": "source_unit_speed_input.floor_speed_multiplier_value",
+          "type": "float",
+          "name": "floor_speed_multiplier_value"
+        }
+      ],
+      "return_keys": [
+        "speed"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_comp_metrics_block_to_canonical_state",
+        "test_unit_comp_generated_runtime_metrics_block"
+      ],
+      "runtime_proof": "/root/Main.source_unit_speed",
+      "rule": "Public runtime contract for UnitComp speed with strafe, boost, and floor multipliers."
+    },
+    "PortGame.source_unit_targetable_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_targetable_state",
+      "status": "active",
+      "source_slice": "N801",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.targetable(Team targeter)",
+      "params": [
+        {
+          "name": "type_targetable",
+          "schema": "source_unit_targetable_input.type_targetable",
+          "type": "bool"
+        },
+        {
+          "name": "type_vulnerable_with_payloads",
+          "schema": "source_unit_targetable_input.type_vulnerable_with_payloads",
+          "type": "bool"
+        },
+        {
+          "name": "unit_is_payloadc",
+          "schema": "source_unit_targetable_input.unit_is_payloadc",
+          "type": "bool"
+        },
+        {
+          "name": "unit_has_payload",
+          "schema": "source_unit_targetable_input.unit_has_payload",
+          "type": "bool"
+        },
+        {
+          "name": "targeter_id",
+          "schema": "source_unit_targetable_input.targeter_id",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "unitReturn",
+        "typeMethod",
+        "typeReturn",
+        "targetable",
+        "payloadTargetable",
+        "targeter_id",
+        "call"
+      ],
+      "tests": [
+        "test_unit_targetable_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_targetable_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_targetable_state",
+      "rule": "Public runtime contract for UnitComp.targetable delegation through UnitType.targetable(Unit, Team)."
+    },
+    "PortGame.source_unit_to_string_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_to_string_state",
+      "status": "active",
+      "source_slice": "N1869",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.toString()",
+      "params": [
+        {
+          "name": "unit_id",
+          "type": "int",
+          "schema": "source_unit_to_string_input.unit_id"
+        },
+        {
+          "name": "unit_type",
+          "type": "Variant",
+          "schema": "source_unit_to_string_input.unit_type"
+        },
+        {
+          "name": "unit_x",
+          "type": "float",
+          "schema": "source_unit_to_string_input.unit_x"
+        },
+        {
+          "name": "unit_y",
+          "type": "float",
+          "schema": "source_unit_to_string_input.unit_y"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "return",
+        "id",
+        "type",
+        "x",
+        "y",
+        "to_string"
+      ],
+      "tests": [
+        "test_unit_controller_runtime_block_matches_upstream_source",
+        "test_unit_comp_controller_block_is_registered_and_generated"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof",
+      "rule": "Canonical runtime contract for UnitComp.toString() with explicit dependencies supplied at call time."
+    },
+    "PortGame.source_unit_unloaded_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_unloaded_state",
+      "status": "active",
+      "source_slice": "N802",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.unloaded()",
+      "params": [
+        {
+          "name": "unit_state",
+          "schema": "source_unit_unloaded_input.unit_state",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "unit_state"
+      ],
+      "tests": [
+        "test_unit_unloaded_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_unloaded_noop_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_unloaded_state",
+      "rule": "Public runtime contract for UnitComp.unloaded() no-op passthrough state."
+    },
+    "PortGame.source_unit_update_abilities_loop_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_update_abilities_loop_state",
+      "status": "active",
+      "source_slice": "N803",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.update()/Ability.update(Unit unit)",
+      "params": [
+        {
+          "name": "ability_ids",
+          "schema": "source_unit_update_abilities_loop_input.ability_ids",
+          "type": "Array"
+        }
+      ],
+      "return_keys": [
+        "abilitiesField",
+        "loop",
+        "updateCall",
+        "abilityUpdateMethod",
+        "updates",
+        "updateCount"
+      ],
+      "tests": [
+        "test_unit_update_abilities_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_abilities_loop_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_abilities_loop_state",
+      "rule": "Public runtime contract for UnitComp.update ability loop ordered dispatch record."
+    },
+    "PortGame.source_unit_update_ai_controller_server_gate_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_update_ai_controller_server_gate_state",
+      "status": "active",
+      "source_slice": "N804",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.update()/UnitController.updateUnit()/Net.client()",
+      "params": [
+        {
+          "name": "net_client_value",
+          "schema": "source_unit_update_ai_controller_server_gate_input.net_client_value",
+          "type": "bool"
+        },
+        {
+          "name": "dead_value",
+          "schema": "source_unit_update_ai_controller_server_gate_input.dead_value",
+          "type": "bool"
+        },
+        {
+          "name": "should_update_controller_value",
+          "schema": "source_unit_update_ai_controller_server_gate_input.should_update_controller_value",
+          "type": "bool"
+        },
+        {
+          "name": "unit_id",
+          "schema": "source_unit_update_ai_controller_server_gate_input.unit_id",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "controllerField",
+        "deadImport",
+        "comment",
+        "guardSource",
+        "controllerUpdateCall",
+        "shouldUpdateMethod",
+        "shouldUpdateDefault",
+        "unitControllerUpdate",
+        "netClientMethod",
+        "netClientBody",
+        "guard",
+        "netClient",
+        "dead",
+        "shouldUpdateController",
+        "controllerUpdate"
+      ],
+      "tests": [
+        "test_unit_update_ai_controller_server_gate_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_ai_controller_server_gate_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_ai_controller_server_gate_state",
+      "rule": "Public runtime contract for UnitComp.update AI controller server gate record."
+    },
+    "PortGame.source_unit_update_boosting_default_event_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_update_boosting_default_event_state",
+      "status": "active",
+      "source_slice": "N805",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.updateBoosting(boolean boost)",
+      "params": [
+        {
+          "name": "boost",
+          "schema": "source_unit_update_boosting_default_event_input.boost",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "delegateCall",
+        "overloadMethod",
+        "boost",
+        "event"
+      ],
+      "tests": [
+        "test_unit_update_boosting_default_event_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_boosting_default_event_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_boosting_default_event_state",
+      "rule": "Public runtime contract for UnitComp.updateBoosting(boolean boost) default-event wrapper."
+    },
+    "PortGame.source_unit_update_boosting_elevation_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_update_boosting_elevation_state",
+      "status": "active",
+      "source_slice": "N806",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.updateBoosting(boolean boost, boolean event)/Mathf.approachDelta",
+      "params": [
+        {
+          "name": "current_elevation",
+          "schema": "source_unit_update_boosting_elevation_input.current_elevation",
+          "type": "float"
+        },
+        {
+          "name": "type_can_boost",
+          "schema": "source_unit_update_boosting_elevation_input.type_can_boost",
+          "type": "bool"
+        },
+        {
+          "name": "should_boost",
+          "schema": "source_unit_update_boosting_elevation_input.should_boost",
+          "type": "bool"
+        },
+        {
+          "name": "type_rise_speed",
+          "schema": "source_unit_update_boosting_elevation_input.type_rise_speed",
+          "type": "float"
+        },
+        {
+          "name": "type_descent_speed",
+          "schema": "source_unit_update_boosting_elevation_input.type_descent_speed",
+          "type": "float"
+        },
+        {
+          "name": "source_delta",
+          "schema": "source_unit_update_boosting_elevation_input.source_delta",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "elevationAssignment",
+        "target_elevation",
+        "speed",
+        "elevation",
+        "mathfNumMethod",
+        "mathfNumReturn",
+        "mathfApproachDeltaMethod",
+        "mathfApproachDeltaReturn",
+        "mathfApproachMethod",
+        "mathfApproachReturn",
+        "mathfClampFloatMethod",
+        "mathfClampFloatReturn"
+      ],
+      "tests": [
+        "test_unit_update_boosting_elevation_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_boosting_elevation_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_boosting_elevation_state",
+      "rule": "Public runtime contract for UnitComp.updateBoosting elevation approach assignment."
+    },
+    "PortGame.source_unit_update_boosting_event_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_update_boosting_event_state",
+      "status": "active",
+      "source_slice": "N807",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.updateBoosting(boolean boost, boolean event)/EventType.Trigger",
+      "params": [
+        {
+          "name": "event",
+          "schema": "source_unit_update_boosting_event_input.event",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "eventGate",
+        "fireTrigger",
+        "triggerEnum",
+        "unitCommandBoost",
+        "event_fired",
+        "trigger"
+      ],
+      "tests": [
+        "test_unit_update_boosting_event_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_boosting_event_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_boosting_event_state",
+      "rule": "Public runtime contract for UnitComp.updateBoosting command boost event trigger."
+    },
+    "PortGame.source_unit_update_boosting_guard_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_update_boosting_guard_state",
+      "status": "active",
+      "source_slice": "N808",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.updateBoosting(boolean boost, boolean event)",
+      "params": [
+        {
+          "name": "type_can_boost",
+          "schema": "source_unit_update_boosting_guard_input.type_can_boost",
+          "type": "bool"
+        },
+        {
+          "name": "dead_state",
+          "schema": "source_unit_update_boosting_guard_input.dead_state",
+          "type": "bool"
+        },
+        {
+          "name": "elevation_value",
+          "schema": "source_unit_update_boosting_guard_input.elevation_value",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "overloadMethod",
+        "guard",
+        "returned",
+        "can_update_boosting",
+        "elevation"
+      ],
+      "tests": [
+        "test_unit_update_boosting_guard_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_boosting_guard_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_boosting_guard_state",
+      "rule": "Public runtime contract for UnitComp.updateBoosting early return guard."
+    },
+    "PortGame.source_unit_update_boosting_should_boost_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_update_boosting_should_boost_state",
+      "status": "active",
+      "source_slice": "N809",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.updateBoosting(boolean boost, boolean event)/UnitComp.isFlying",
+      "params": [
+        {
+          "name": "boost",
+          "schema": "source_unit_update_boosting_should_boost_input.boost",
+          "type": "bool"
+        },
+        {
+          "name": "on_solid_result",
+          "schema": "source_unit_update_boosting_should_boost_input.on_solid_result",
+          "type": "bool"
+        },
+        {
+          "name": "elevation_value",
+          "schema": "source_unit_update_boosting_should_boost_input.elevation_value",
+          "type": "float"
+        },
+        {
+          "name": "can_land_result",
+          "schema": "source_unit_update_boosting_should_boost_input.can_land_result",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "shouldBoostSource",
+        "isFlyingReturn",
+        "flying",
+        "should_boost"
+      ],
+      "tests": [
+        "test_unit_update_boosting_should_boost_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_boosting_should_boost_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_boosting_should_boost_state",
+      "rule": "Public runtime contract for UnitComp.updateBoosting shouldBoost expression."
+    },
+    "PortGame.source_unit_update_bounds_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_update_bounds_state",
+      "status": "active",
+      "source_slice": "N810",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.update() bounds",
+      "params": [
+        {
+          "name": "type_bounded",
+          "schema": "source_unit_update_bounds_input.type_bounded",
+          "type": "bool"
+        },
+        {
+          "name": "world_unit_height",
+          "schema": "source_unit_update_bounds_input.world_unit_height",
+          "type": "float"
+        },
+        {
+          "name": "world_unit_width",
+          "schema": "source_unit_update_bounds_input.world_unit_width",
+          "type": "float"
+        },
+        {
+          "name": "rules_limit_map_area",
+          "schema": "source_unit_update_bounds_input.rules_limit_map_area",
+          "type": "bool"
+        },
+        {
+          "name": "team_is_ai",
+          "schema": "source_unit_update_bounds_input.team_is_ai",
+          "type": "bool"
+        },
+        {
+          "name": "rules_limit_x",
+          "schema": "source_unit_update_bounds_input.rules_limit_x",
+          "type": "int"
+        },
+        {
+          "name": "rules_limit_y",
+          "schema": "source_unit_update_bounds_input.rules_limit_y",
+          "type": "int"
+        },
+        {
+          "name": "rules_limit_width",
+          "schema": "source_unit_update_bounds_input.rules_limit_width",
+          "type": "int"
+        },
+        {
+          "name": "rules_limit_height",
+          "schema": "source_unit_update_bounds_input.rules_limit_height",
+          "type": "int"
+        },
+        {
+          "name": "current_x",
+          "schema": "source_unit_update_bounds_input.current_x",
+          "type": "float"
+        },
+        {
+          "name": "current_y",
+          "schema": "source_unit_update_bounds_input.current_y",
+          "type": "float"
+        },
+        {
+          "name": "elevation_value",
+          "schema": "source_unit_update_bounds_input.elevation_value",
+          "type": "float"
+        },
+        {
+          "name": "net_client",
+          "schema": "source_unit_update_bounds_input.net_client",
+          "type": "bool"
+        },
+        {
+          "name": "is_local",
+          "schema": "source_unit_update_bounds_input.is_local",
+          "type": "bool"
+        },
+        {
+          "name": "source_delta",
+          "schema": "source_unit_update_bounds_input.source_delta",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "bounded",
+        "limits",
+        "canApplyNetLocal",
+        "dx",
+        "dy",
+        "velAddNet",
+        "grounded",
+        "x",
+        "y",
+        "kill"
+      ],
+      "tests": [
+        "test_unit_update_bounds_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_bounds_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_bounds_state",
+      "rule": "Public runtime contract for UnitComp.update bounds state."
+    },
+    "PortGame.source_unit_update_captured_sector_death_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_update_captured_sector_death_state",
+      "status": "active",
+      "source_slice": "N811",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.update() captured-sector death",
+      "params": [
+        {
+          "name": "team_is_only_ai",
+          "schema": "source_unit_update_captured_sector_death_input.team_is_only_ai",
+          "type": "bool"
+        },
+        {
+          "name": "state_is_campaign",
+          "schema": "source_unit_update_captured_sector_death_input.state_is_campaign",
+          "type": "bool"
+        },
+        {
+          "name": "sector_is_captured",
+          "schema": "source_unit_update_captured_sector_death_input.sector_is_captured",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "guard",
+        "kill",
+        "call"
+      ],
+      "tests": [
+        "test_unit_update_captured_sector_death_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_captured_sector_death_state",
+        "test_unit_update_captured_sector_death_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_captured_sector_death_state",
+      "rule": "Public runtime contract for UnitComp.update captured-sector death state."
+    },
+    "PortGame.source_unit_update_drag_formula_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_update_drag_formula_state",
+      "status": "active",
+      "source_slice": "N812",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.update() drag formula",
+      "params": [
+        {
+          "name": "type_drag",
+          "schema": "source_unit_update_drag_formula_input.type_drag",
+          "type": "float"
+        },
+        {
+          "name": "grounded_value",
+          "schema": "source_unit_update_drag_formula_input.grounded_value",
+          "type": "bool"
+        },
+        {
+          "name": "floor_drag_multiplier",
+          "schema": "source_unit_update_drag_formula_input.floor_drag_multiplier",
+          "type": "float"
+        },
+        {
+          "name": "unit_drag_multiplier",
+          "schema": "source_unit_update_drag_formula_input.unit_drag_multiplier",
+          "type": "float"
+        },
+        {
+          "name": "rules_drag_multiplier",
+          "schema": "source_unit_update_drag_formula_input.rules_drag_multiplier",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "drag",
+        "floorFactor",
+        "grounded",
+        "formula",
+        "inputs"
+      ],
+      "tests": [
+        "test_unit_update_drag_formula_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_drag_formula_state",
+        "test_unit_update_drag_formula_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_drag_formula_state",
+      "rule": "Public runtime contract for UnitComp.update drag formula state."
+    },
+    "PortGame.source_unit_update_drowning_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_update_drowning_state",
+      "status": "active",
+      "source_slice": "N813",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.updateDrowning()",
+      "params": [
+        {
+          "name": "floor_exists",
+          "schema": "source_unit_update_drowning_input.floor_exists",
+          "type": "bool"
+        },
+        {
+          "name": "floor_is_liquid",
+          "schema": "source_unit_update_drowning_input.floor_is_liquid",
+          "type": "bool"
+        },
+        {
+          "name": "floor_drown_time",
+          "schema": "source_unit_update_drowning_input.floor_drown_time",
+          "type": "float"
+        },
+        {
+          "name": "can_drown_value",
+          "schema": "source_unit_update_drowning_input.can_drown_value",
+          "type": "bool"
+        },
+        {
+          "name": "current_drown_time",
+          "schema": "source_unit_update_drowning_input.current_drown_time",
+          "type": "float"
+        },
+        {
+          "name": "source_delta",
+          "schema": "source_unit_update_drowning_input.source_delta",
+          "type": "float"
+        },
+        {
+          "name": "hit_size",
+          "schema": "source_unit_update_drowning_input.hit_size",
+          "type": "float"
+        },
+        {
+          "name": "type_drown_time_multiplier",
+          "schema": "source_unit_update_drowning_input.type_drown_time_multiplier",
+          "type": "float"
+        },
+        {
+          "name": "chance_delta_result",
+          "schema": "source_unit_update_drowning_input.chance_delta_result",
+          "type": "bool"
+        },
+        {
+          "name": "net_client",
+          "schema": "source_unit_update_drowning_input.net_client",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "canDrownOnFloor",
+        "lastDrownFloorSet",
+        "drownIncrement",
+        "drownTimeBeforeClamp",
+        "drownTime",
+        "effectCall",
+        "kill",
+        "eventCall",
+        "netClient"
+      ],
+      "tests": [
+        "test_unit_update_drowning_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_drowning_state",
+        "test_unit_update_drowning_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_drowning_state",
+      "rule": "Public runtime contract for UnitComp.updateDrowning state."
+    },
+    "PortGame.source_unit_update_falling_descent_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_update_falling_descent_state",
+      "status": "active",
+      "source_slice": "N814",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.update() falling descent",
+      "params": [
+        {
+          "name": "dead_value",
+          "schema": "source_unit_update_falling_descent_input.dead_value",
+          "type": "bool"
+        },
+        {
+          "name": "health_value",
+          "schema": "source_unit_update_falling_descent_input.health_value",
+          "type": "float"
+        },
+        {
+          "name": "elevation_value",
+          "schema": "source_unit_update_falling_descent_input.elevation_value",
+          "type": "float"
+        },
+        {
+          "name": "type_fall_speed",
+          "schema": "source_unit_update_falling_descent_input.type_fall_speed",
+          "type": "float"
+        },
+        {
+          "name": "source_delta",
+          "schema": "source_unit_update_falling_descent_input.source_delta",
+          "type": "float"
+        },
+        {
+          "name": "is_grounded_value",
+          "schema": "source_unit_update_falling_descent_input.is_grounded_value",
+          "type": "bool"
+        },
+        {
+          "name": "max_health",
+          "schema": "source_unit_update_falling_descent_input.max_health",
+          "type": "float"
+        },
+        {
+          "name": "type_wreck_health_multiplier",
+          "schema": "source_unit_update_falling_descent_input.type_wreck_health_multiplier",
+          "type": "float"
+        },
+        {
+          "name": "unit_id",
+          "schema": "source_unit_update_falling_descent_input.unit_id",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "fallingGuard",
+        "elevationBefore",
+        "elevation",
+        "descent",
+        "grounded",
+        "wreckHealthThreshold",
+        "destroy"
+      ],
+      "tests": [
+        "test_unit_update_falling_descent_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_descent_state",
+        "test_unit_update_falling_descent_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_falling_descent_state",
+      "rule": "Public runtime contract for UnitComp.update falling descent state."
+    },
+    "PortGame.source_unit_update_falling_drag_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_update_falling_drag_state",
+      "status": "active",
+      "source_slice": "N815",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.update() falling drag",
+      "params": [
+        {
+          "name": "dead_value",
+          "schema": "source_unit_update_falling_drag_input.dead_value",
+          "type": "bool"
+        },
+        {
+          "name": "health_value",
+          "schema": "source_unit_update_falling_drag_input.health_value",
+          "type": "float"
+        },
+        {
+          "name": "current_drag",
+          "schema": "source_unit_update_falling_drag_input.current_drag",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "guard",
+        "drag",
+        "call",
+        "source"
+      ],
+      "tests": [
+        "test_unit_update_falling_drag_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_drag_state",
+        "test_unit_update_falling_drag_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_falling_drag_state",
+      "rule": "Public runtime contract for UnitComp.update falling drag state."
+    },
+    "PortGame.source_unit_update_falling_engine_trail_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_update_falling_engine_trail_state",
+      "status": "active",
+      "source_slice": "N816",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.update() falling engine trail",
+      "params": [
+        {
+          "name": "dead_value",
+          "schema": "source_unit_update_falling_engine_trail_input.dead_value",
+          "type": "bool"
+        },
+        {
+          "name": "health_value",
+          "schema": "source_unit_update_falling_engine_trail_input.health_value",
+          "type": "float"
+        },
+        {
+          "name": "chance_delta_result",
+          "schema": "source_unit_update_falling_engine_trail_input.chance_delta_result",
+          "type": "bool"
+        },
+        {
+          "name": "unit_x",
+          "schema": "source_unit_update_falling_engine_trail_input.unit_x",
+          "type": "float"
+        },
+        {
+          "name": "unit_y",
+          "schema": "source_unit_update_falling_engine_trail_input.unit_y",
+          "type": "float"
+        },
+        {
+          "name": "source_rotation_degrees",
+          "schema": "source_unit_update_falling_engine_trail_input.source_rotation_degrees",
+          "type": "float"
+        },
+        {
+          "name": "elevation_value",
+          "schema": "source_unit_update_falling_engine_trail_input.elevation_value",
+          "type": "float"
+        },
+        {
+          "name": "type_engine_offset",
+          "schema": "source_unit_update_falling_engine_trail_input.type_engine_offset",
+          "type": "float"
+        },
+        {
+          "name": "type_engine_size",
+          "schema": "source_unit_update_falling_engine_trail_input.type_engine_size",
+          "type": "float"
+        },
+        {
+          "name": "engine_range_value",
+          "schema": "source_unit_update_falling_engine_trail_input.engine_range_value",
+          "type": "float"
+        },
+        {
+          "name": "x_range_value",
+          "schema": "source_unit_update_falling_engine_trail_input.x_range_value",
+          "type": "float"
+        },
+        {
+          "name": "y_range_value",
+          "schema": "source_unit_update_falling_engine_trail_input.y_range_value",
+          "type": "float"
+        },
+        {
+          "name": "random_rotation_value",
+          "schema": "source_unit_update_falling_engine_trail_input.random_rotation_value",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "fallingGuard",
+        "chance",
+        "angle",
+        "offset",
+        "effect"
+      ],
+      "tests": [
+        "test_unit_update_falling_engine_trail_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_engine_trail_state",
+        "test_unit_update_falling_engine_trail_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_falling_engine_trail_state",
+      "rule": "Public runtime contract for UnitComp.update falling engine trail state."
+    },
+    "PortGame.source_unit_update_falling_smoke_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_update_falling_smoke_state",
+      "status": "active",
+      "source_slice": "N817",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.update() falling smoke",
+      "params": [
+        {
+          "name": "dead_value",
+          "schema": "source_unit_update_falling_smoke_input.dead_value",
+          "type": "bool"
+        },
+        {
+          "name": "health_value",
+          "schema": "source_unit_update_falling_smoke_input.health_value",
+          "type": "float"
+        },
+        {
+          "name": "chance_delta_result",
+          "schema": "source_unit_update_falling_smoke_input.chance_delta_result",
+          "type": "bool"
+        },
+        {
+          "name": "unit_x",
+          "schema": "source_unit_update_falling_smoke_input.unit_x",
+          "type": "float"
+        },
+        {
+          "name": "unit_y",
+          "schema": "source_unit_update_falling_smoke_input.unit_y",
+          "type": "float"
+        },
+        {
+          "name": "hit_size",
+          "schema": "source_unit_update_falling_smoke_input.hit_size",
+          "type": "float"
+        },
+        {
+          "name": "tmp_v1_x",
+          "schema": "source_unit_update_falling_smoke_input.tmp_v1_x",
+          "type": "float"
+        },
+        {
+          "name": "tmp_v1_y",
+          "schema": "source_unit_update_falling_smoke_input.tmp_v1_y",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "fallingGuard",
+        "chance",
+        "effect"
+      ],
+      "tests": [
+        "test_unit_update_falling_smoke_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_smoke_state",
+        "test_unit_update_falling_smoke_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_falling_smoke_state",
+      "rule": "Public runtime contract for UnitComp.update falling smoke state."
+    },
+    "PortGame.source_unit_update_floor_damage_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_update_floor_damage_state",
+      "status": "active",
+      "source_slice": "N818",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.update() floor damage",
+      "params": [
+        {
+          "name": "tile_exists",
+          "schema": "source_unit_update_floor_damage_input.tile_exists",
+          "type": "bool"
+        },
+        {
+          "name": "is_grounded_value",
+          "schema": "source_unit_update_floor_damage_input.is_grounded_value",
+          "type": "bool"
+        },
+        {
+          "name": "type_hovering",
+          "schema": "source_unit_update_floor_damage_input.type_hovering",
+          "type": "bool"
+        },
+        {
+          "name": "floor_damage_taken",
+          "schema": "source_unit_update_floor_damage_input.floor_damage_taken",
+          "type": "float"
+        },
+        {
+          "name": "source_delta",
+          "schema": "source_unit_update_floor_damage_input.source_delta",
+          "type": "float"
+        },
+        {
+          "name": "hit_time",
+          "schema": "source_unit_update_floor_damage_input.hit_time",
+          "type": "float"
+        },
+        {
+          "name": "hit_duration",
+          "schema": "source_unit_update_floor_damage_input.hit_duration",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "guard",
+        "tileExists",
+        "isGrounded",
+        "typeHovering",
+        "damage"
+      ],
+      "tests": [
+        "test_unit_update_floor_damage_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_floor_damage_state",
+        "test_unit_update_floor_damage_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_floor_damage_state",
+      "rule": "Public runtime contract for UnitComp.update floor damage state."
+    },
+    "PortGame.source_unit_update_flying_transition_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_update_flying_transition_state",
+      "status": "active",
+      "source_slice": "N819",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.update() flying transition",
+      "params": [
+        {
+          "name": "is_flying_value",
+          "schema": "source_unit_update_flying_transition_input.is_flying_value",
+          "type": "bool"
+        },
+        {
+          "name": "was_flying_value",
+          "schema": "source_unit_update_flying_transition_input.was_flying_value",
+          "type": "bool"
+        },
+        {
+          "name": "tile_exists",
+          "schema": "source_unit_update_flying_transition_input.tile_exists",
+          "type": "bool"
+        },
+        {
+          "name": "floor_is_liquid",
+          "schema": "source_unit_update_flying_transition_input.floor_is_liquid",
+          "type": "bool"
+        },
+        {
+          "name": "tile_floor_color",
+          "schema": "source_unit_update_flying_transition_input.tile_floor_color",
+          "type": "String"
+        }
+      ],
+      "return_keys": [
+        "changed",
+        "landEffect",
+        "wasFlying"
+      ],
+      "tests": [
+        "test_unit_update_flying_transition_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_flying_transition_state",
+        "test_unit_update_flying_transition_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_flying_transition_state",
+      "rule": "Public runtime contract for UnitComp.update flying transition state."
+    },
+    "PortGame.source_unit_update_heal_time_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_update_heal_time_state",
+      "status": "active",
+      "source_slice": "N820",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.update() heal time",
+      "params": [
+        {
+          "name": "was_healed_value",
+          "schema": "source_unit_update_heal_time_input.was_healed_value",
+          "type": "bool"
+        },
+        {
+          "name": "current_heal_time",
+          "schema": "source_unit_update_heal_time_input.current_heal_time",
+          "type": "float"
+        },
+        {
+          "name": "source_delta",
+          "schema": "source_unit_update_heal_time_input.source_delta",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "healTime",
+        "wasHealed",
+        "resetHealTime",
+        "decay",
+        "order"
+      ],
+      "tests": [
+        "test_unit_update_heal_time_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_heal_time_state",
+        "test_unit_update_heal_time_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_heal_time_state",
+      "rule": "Public runtime contract for UnitComp.update healTime visual state update."
+    },
+    "PortGame.source_unit_update_invalid_controller_reset_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_update_invalid_controller_reset_state",
+      "status": "active",
+      "source_slice": "N821",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.update() invalid controller reset",
+      "params": [
+        {
+          "name": "controller_is_valid_value",
+          "schema": "source_unit_update_invalid_controller_reset_input.controller_is_valid_value",
+          "type": "bool"
+        },
+        {
+          "name": "unit_id",
+          "schema": "source_unit_update_invalid_controller_reset_input.unit_id",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "guard",
+        "controllerIsValid",
+        "resetController"
+      ],
+      "tests": [
+        "test_unit_update_invalid_controller_reset_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_invalid_controller_reset_state",
+        "test_unit_update_invalid_controller_reset_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_invalid_controller_reset_state",
+      "rule": "Public runtime contract for UnitComp.update invalid controller reset gate."
+    },
+    "PortGame.source_unit_update_nan_health_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_update_nan_health_state",
+      "status": "active",
+      "source_slice": "N822",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.update() NaN health",
+      "params": [
+        {
+          "name": "current_health",
+          "schema": "source_unit_update_nan_health_input.current_health",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "guard",
+        "health",
+        "kill"
+      ],
+      "tests": [
+        "test_unit_update_nan_health_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_nan_health_state",
+        "test_unit_update_nan_health_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_nan_health_state",
+      "rule": "Public runtime contract for UnitComp.update NaN health reset/kill state."
+    },
+    "PortGame.source_unit_update_solid_tile_response_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_update_solid_tile_response_state",
+      "status": "active",
+      "source_slice": "N823",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.update() solid tile response",
+      "params": [
+        {
+          "name": "tile_exists",
+          "schema": "source_unit_update_solid_tile_response_input.tile_exists",
+          "type": "bool"
+        },
+        {
+          "name": "can_pass_on_value",
+          "schema": "source_unit_update_solid_tile_response_input.can_pass_on_value",
+          "type": "bool"
+        },
+        {
+          "name": "type_can_boost",
+          "schema": "source_unit_update_solid_tile_response_input.type_can_boost",
+          "type": "bool"
+        },
+        {
+          "name": "current_elevation",
+          "schema": "source_unit_update_solid_tile_response_input.current_elevation",
+          "type": "float"
+        },
+        {
+          "name": "net_client_value",
+          "schema": "source_unit_update_solid_tile_response_input.net_client_value",
+          "type": "bool"
+        },
+        {
+          "name": "headless_value",
+          "schema": "source_unit_update_solid_tile_response_input.headless_value",
+          "type": "bool"
+        },
+        {
+          "name": "is_remote_value",
+          "schema": "source_unit_update_solid_tile_response_input.is_remote_value",
+          "type": "bool"
+        },
+        {
+          "name": "unit_id",
+          "schema": "source_unit_update_solid_tile_response_input.unit_id",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "guard",
+        "canPassOn",
+        "typeCanBoost",
+        "elevation",
+        "netClient",
+        "headless",
+        "isRemote",
+        "kill"
+      ],
+      "tests": [
+        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
+        "test_unit_update_solid_tile_response_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
+      "rule": "Public runtime contract for UnitComp.update solid tile boost/kill response."
+    },
+    "PortGame.source_unit_update_sound_loop_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_update_sound_loop_state",
+      "status": "active",
+      "source_slice": "N824",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.update() sound loop",
+      "params": [
+        {
+          "name": "headless_value",
+          "schema": "source_unit_update_sound_loop_input.headless_value",
+          "type": "bool"
+        },
+        {
+          "name": "type_loop_sound",
+          "schema": "source_unit_update_sound_loop_input.type_loop_sound",
+          "type": "String"
+        },
+        {
+          "name": "type_loop_sound_volume",
+          "schema": "source_unit_update_sound_loop_input.type_loop_sound_volume",
+          "type": "float"
+        },
+        {
+          "name": "type_move_sound",
+          "schema": "source_unit_update_sound_loop_input.type_move_sound",
+          "type": "String"
+        },
+        {
+          "name": "type_move_sound_volume",
+          "schema": "source_unit_update_sound_loop_input.type_move_sound_volume",
+          "type": "float"
+        },
+        {
+          "name": "type_move_sound_pitch_min",
+          "schema": "source_unit_update_sound_loop_input.type_move_sound_pitch_min",
+          "type": "float"
+        },
+        {
+          "name": "type_move_sound_pitch_max",
+          "schema": "source_unit_update_sound_loop_input.type_move_sound_pitch_max",
+          "type": "float"
+        },
+        {
+          "name": "velocity_x",
+          "schema": "source_unit_update_sound_loop_input.velocity_x",
+          "type": "float"
+        },
+        {
+          "name": "velocity_y",
+          "schema": "source_unit_update_sound_loop_input.velocity_y",
+          "type": "float"
+        },
+        {
+          "name": "type_speed",
+          "schema": "source_unit_update_sound_loop_input.type_speed",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "soundEnabled",
+        "velocityLen",
+        "progress",
+        "pitch",
+        "loopSound",
+        "moveSound"
+      ],
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "rule": "Public runtime contract for UnitComp.update loop/move sound call state."
+    },
+    "PortGame.source_unit_update_spawn_knockback_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_update_spawn_knockback_state",
+      "status": "active",
+      "source_slice": "N825",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.update() spawn knockback",
+      "params": [
+        {
+          "name": "team_is_wave_team",
+          "schema": "source_unit_update_spawn_knockback_input.team_is_wave_team",
+          "type": "bool"
+        },
+        {
+          "name": "state_has_spawns_value",
+          "schema": "source_unit_update_spawn_knockback_input.state_has_spawns_value",
+          "type": "bool"
+        },
+        {
+          "name": "net_client_value",
+          "schema": "source_unit_update_spawn_knockback_input.net_client_value",
+          "type": "bool"
+        },
+        {
+          "name": "is_local_value",
+          "schema": "source_unit_update_spawn_knockback_input.is_local_value",
+          "type": "bool"
+        },
+        {
+          "name": "hittable_value",
+          "schema": "source_unit_update_spawn_knockback_input.hittable_value",
+          "type": "bool"
+        },
+        {
+          "name": "drop_zone_radius",
+          "schema": "source_unit_update_spawn_knockback_input.drop_zone_radius",
+          "type": "float"
+        },
+        {
+          "name": "hit_size",
+          "schema": "source_unit_update_spawn_knockback_input.hit_size",
+          "type": "float"
+        },
+        {
+          "name": "unit_x",
+          "schema": "source_unit_update_spawn_knockback_input.unit_x",
+          "type": "float"
+        },
+        {
+          "name": "unit_y",
+          "schema": "source_unit_update_spawn_knockback_input.unit_y",
+          "type": "float"
+        },
+        {
+          "name": "spawns",
+          "schema": "source_unit_update_spawn_knockback_input.spawns",
+          "type": "Array"
+        },
+        {
+          "name": "source_delta",
+          "schema": "source_unit_update_spawn_knockback_input.source_delta",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "guard",
+        "relativeSize",
+        "knockbacks"
+      ],
+      "tests": [
+        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
+        "test_unit_update_spawn_knockback_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
+      "rule": "Public runtime contract for UnitComp.update spawn knockback call state."
+    },
+    "PortGame.source_unit_update_spawned_core_despawn_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_update_spawned_core_despawn_state",
+      "status": "active",
+      "source_slice": "N826",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.update() spawned core despawn",
+      "params": [
+        {
+          "name": "spawned_by_core_value",
+          "schema": "source_unit_update_spawned_core_despawn_input.spawned_by_core_value",
+          "type": "bool"
+        },
+        {
+          "name": "is_player_value",
+          "schema": "source_unit_update_spawned_core_despawn_input.is_player_value",
+          "type": "bool"
+        },
+        {
+          "name": "dead_value",
+          "schema": "source_unit_update_spawned_core_despawn_input.dead_value",
+          "type": "bool"
+        },
+        {
+          "name": "unit_id",
+          "schema": "source_unit_update_spawned_core_despawn_input.unit_id",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "guard",
+        "spawnedByCore",
+        "isPlayer",
+        "dead",
+        "despawn"
+      ],
+      "tests": [
+        "test_unit_update_spawned_core_despawn_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawned_core_despawn_state",
+        "test_unit_update_spawned_core_despawn_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_spawned_core_despawn_state",
+      "rule": "Public runtime contract for UnitComp.update spawned core despawn call state."
+    },
+    "PortGame.source_unit_update_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_update_state",
+      "status": "active",
+      "source_slice": "N1870",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.update()",
+      "params": [
+        {
+          "name": "context",
+          "type": "Dictionary",
+          "schema": "source_unit_update_input.context"
+        }
+      ],
+      "return_keys": [
+        "deferred",
+        "missing_dependencies",
+        "call_order",
+        "stages"
+      ],
+      "tests": [
+        "test_unit_controller_runtime_block_matches_upstream_source",
+        "test_unit_comp_controller_block_is_registered_and_generated"
+      ],
+      "runtime_proof": "/root/Main.UnitCompGeneratedRuntimeModuleProof",
+      "rule": "Canonical runtime contract for UnitComp.update() with explicit dependencies supplied at call time."
+    },
+    "PortGame.source_unit_update_tile_unit_on_any_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_update_tile_unit_on_any_state",
+      "status": "active",
+      "source_slice": "N827",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.update() tile unitOnAny",
+      "params": [
+        {
+          "name": "tile_exists",
+          "schema": "source_unit_update_tile_unit_on_any_input.tile_exists",
+          "type": "bool"
+        },
+        {
+          "name": "tile_build_exists",
+          "schema": "source_unit_update_tile_unit_on_any_input.tile_build_exists",
+          "type": "bool"
+        },
+        {
+          "name": "unit_id",
+          "schema": "source_unit_update_tile_unit_on_any_input.unit_id",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "guard",
+        "tileExists",
+        "tileBuildExists",
+        "unitOnAny"
+      ],
+      "tests": [
+        "test_unit_update_tile_unit_on_any_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_tile_unit_on_any_state",
+        "test_unit_update_tile_unit_on_any_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_tile_unit_on_any_state",
+      "rule": "Public runtime contract for UnitComp.update tile unitOnAny callback state."
+    },
+    "PortGame.source_unit_update_tile_unit_on_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_update_tile_unit_on_state",
+      "status": "active",
+      "source_slice": "N828",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.update() tile unitOn",
+      "params": [
+        {
+          "name": "tile_exists",
+          "schema": "source_unit_update_tile_unit_on_input.tile_exists",
+          "type": "bool"
+        },
+        {
+          "name": "is_grounded_value",
+          "schema": "source_unit_update_tile_unit_on_input.is_grounded_value",
+          "type": "bool"
+        },
+        {
+          "name": "type_hovering",
+          "schema": "source_unit_update_tile_unit_on_input.type_hovering",
+          "type": "bool"
+        },
+        {
+          "name": "tile_build_exists",
+          "schema": "source_unit_update_tile_unit_on_input.tile_build_exists",
+          "type": "bool"
+        },
+        {
+          "name": "unit_id",
+          "schema": "source_unit_update_tile_unit_on_input.unit_id",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "guard",
+        "tileExists",
+        "isGrounded",
+        "typeHovering",
+        "tileBuildExists",
+        "unitOn"
+      ],
+      "tests": [
+        "test_unit_update_tile_unit_on_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_tile_unit_on_state",
+        "test_unit_update_tile_unit_on_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_tile_unit_on_state",
+      "rule": "Public runtime contract for UnitComp.update grounded tile unitOn callback state."
+    },
+    "PortGame.source_unit_update_trail_position_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_update_trail_position_state",
+      "status": "active",
+      "source_slice": "N829",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.update() trail position",
+      "params": [
+        {
+          "name": "trail_exists",
+          "schema": "source_unit_update_trail_position_input.trail_exists",
+          "type": "bool"
+        },
+        {
+          "name": "type_trail_length",
+          "schema": "source_unit_update_trail_position_input.type_trail_length",
+          "type": "int"
+        },
+        {
+          "name": "type_use_engine_elevation",
+          "schema": "source_unit_update_trail_position_input.type_use_engine_elevation",
+          "type": "bool"
+        },
+        {
+          "name": "elevation_value",
+          "schema": "source_unit_update_trail_position_input.elevation_value",
+          "type": "float"
+        },
+        {
+          "name": "type_engine_offset",
+          "schema": "source_unit_update_trail_position_input.type_engine_offset",
+          "type": "float"
+        },
+        {
+          "name": "x_value",
+          "schema": "source_unit_update_trail_position_input.x_value",
+          "type": "float"
+        },
+        {
+          "name": "y_value",
+          "schema": "source_unit_update_trail_position_input.y_value",
+          "type": "float"
+        },
+        {
+          "name": "source_rotation_degrees",
+          "schema": "source_unit_update_trail_position_input.source_rotation_degrees",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "trailExists",
+        "scale",
+        "offset",
+        "position",
+        "lengthSet",
+        "trailUpdate"
+      ],
+      "tests": [
+        "test_unit_update_trail_position_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_trail_position_state",
+        "test_unit_update_trail_position_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_trail_position_state",
+      "rule": "Public runtime contract for UnitComp.update trail position state."
+    },
+    "PortGame.source_unit_update_type_hook_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_update_type_hook_state",
+      "status": "active",
+      "source_slice": "N830",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.update() type hook",
+      "params": [],
+      "return_keys": [
+        "call",
+        "arg",
+        "unitTypeHook",
+        "order"
+      ],
+      "tests": [
+        "test_unit_update_type_hook_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_type_hook_state",
+        "test_unit_update_type_hook_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_type_hook_state",
+      "rule": "Public runtime contract for UnitComp.update UnitType hook dispatch state."
+    },
+    "PortGame.source_unit_update_unsupported_env_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_update_unsupported_env_state",
+      "status": "active",
+      "source_slice": "N831",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.update() unsupported environment",
+      "params": [
+        {
+          "name": "type_supports_env",
+          "schema": "source_unit_update_unsupported_env_input.type_supports_env",
+          "type": "bool"
+        },
+        {
+          "name": "dead_value",
+          "schema": "source_unit_update_unsupported_env_input.dead_value",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "envDeath",
+        "guard",
+        "unitEnvDeath",
+        "updateCount",
+        "callOrder"
+      ],
+      "tests": [
+        "test_unit_update_unsupported_env_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_unsupported_env_state",
+        "test_unit_update_unsupported_env_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_unsupported_env_state",
+      "rule": "Public runtime contract for UnitComp.update unsupported environment death state."
+    },
+    "PortGame.source_unit_update_walk_effect_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_update_walk_effect_state",
+      "status": "active",
+      "source_slice": "N832",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.update() walk effect",
+      "params": [
+        {
+          "name": "type_hovering",
+          "schema": "source_unit_update_walk_effect_input.type_hovering",
+          "type": "bool"
+        },
+        {
+          "name": "elevation_value",
+          "schema": "source_unit_update_walk_effect_input.elevation_value",
+          "type": "float"
+        },
+        {
+          "name": "type_emit_walk_effect",
+          "schema": "source_unit_update_walk_effect_input.type_emit_walk_effect",
+          "type": "bool"
+        },
+        {
+          "name": "type_emit_walk_sound",
+          "schema": "source_unit_update_walk_effect_input.type_emit_walk_sound",
+          "type": "bool"
+        },
+        {
+          "name": "current_splash_timer",
+          "schema": "source_unit_update_walk_effect_input.current_splash_timer",
+          "type": "float"
+        },
+        {
+          "name": "delta_x",
+          "schema": "source_unit_update_walk_effect_input.delta_x",
+          "type": "float"
+        },
+        {
+          "name": "delta_y",
+          "schema": "source_unit_update_walk_effect_input.delta_y",
+          "type": "float"
+        },
+        {
+          "name": "hit_size_value",
+          "schema": "source_unit_update_walk_effect_input.hit_size_value",
+          "type": "float"
+        },
+        {
+          "name": "tile_exists",
+          "schema": "source_unit_update_walk_effect_input.tile_exists",
+          "type": "bool"
+        },
+        {
+          "name": "tile_floor_color",
+          "schema": "source_unit_update_walk_effect_input.tile_floor_color",
+          "type": "String"
+        },
+        {
+          "name": "floor_map_color",
+          "schema": "source_unit_update_walk_effect_input.floor_map_color",
+          "type": "String"
+        },
+        {
+          "name": "floor_walk_sound_pitch_min",
+          "schema": "source_unit_update_walk_effect_input.floor_walk_sound_pitch_min",
+          "type": "float"
+        },
+        {
+          "name": "floor_walk_sound_pitch_max",
+          "schema": "source_unit_update_walk_effect_input.floor_walk_sound_pitch_max",
+          "type": "float"
+        },
+        {
+          "name": "floor_walk_sound_volume",
+          "schema": "source_unit_update_walk_effect_input.floor_walk_sound_volume",
+          "type": "float"
+        },
+        {
+          "name": "random_pitch_value",
+          "schema": "source_unit_update_walk_effect_input.random_pitch_value",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "grounded",
+        "gate",
+        "distance",
+        "threshold",
+        "splashTimer",
+        "walkEffect",
+        "walkSound"
+      ],
+      "tests": [
+        "test_unit_update_walk_effect_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_walk_effect_state",
+        "test_unit_update_walk_effect_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_walk_effect_state",
+      "rule": "Public runtime contract for UnitComp.update walk effect and sound state."
+    },
+    "PortGame.source_unit_wobble_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_wobble_state",
+      "status": "active",
+      "source_slice": "N835",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.wobble()",
+      "params": [
+        {
+          "name": "current_x",
+          "schema": "source_unit_wobble_input.current_x",
+          "type": "float"
+        },
+        {
+          "name": "current_y",
+          "schema": "source_unit_wobble_input.current_y",
+          "type": "float"
+        },
+        {
+          "name": "source_time",
+          "schema": "source_unit_wobble_input.source_time",
+          "type": "float"
+        },
+        {
+          "name": "source_delta",
+          "schema": "source_unit_wobble_input.source_delta",
+          "type": "float"
+        },
+        {
+          "name": "elevation_value",
+          "schema": "source_unit_wobble_input.elevation_value",
+          "type": "float"
+        },
+        {
+          "name": "unit_id",
+          "schema": "source_unit_wobble_input.unit_id",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "x",
+        "y",
+        "dx",
+        "dy",
+        "wobble_input"
+      ],
+      "tests": [
+        "test_unit_wobble_symbols_are_registered_with_source_backing",
+        "test_unit_wobble_matches_upstream_source",
+        "test_port_game_exposes_source_unit_wobble_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_wobble_state",
+      "rule": "Runtime contract for UnitComp.wobble() position offsets using source Time/id/elevation inputs."
+    }
+  }
+}

@@ -1,0 +1,151 @@
+extends "res://src/game/SourceConsumeItemPortBridge.gd"
+
+func source_consume_liquid_filter_constructor_state(filter_handle: Variant, amount: float) -> Dictionary:
+	return source_consume_module_registry.source_consume_liquid_filter_state.constructor_state(filter_handle, amount)
+
+func generated_consume_liquid_filter_constructor_bridge_state(filter_handle: Variant, amount: float) -> Dictionary:
+	return source_consume_module_registry.source_consume_liquid_filter_generated_state.generated_constructor_bridge_state(filter_handle, amount)
+
+func source_consume_liquid_filter_default_constructor_state() -> Dictionary:
+	return source_consume_module_registry.source_consume_liquid_filter_state.default_constructor_state(source_consumer_defaults.CONSUME_LIQUID_FILTER_DEFAULT_EXPR)
+
+func generated_consume_liquid_filter_default_constructor_bridge_state() -> Dictionary:
+	return source_consume_module_registry.source_consume_liquid_filter_generated_state.generated_default_constructor_bridge_state(source_consumer_defaults.CONSUME_LIQUID_FILTER_DEFAULT_EXPR)
+
+func source_consume_liquid_filter_apply_state(block_has_liquids_before: bool, liquid_filter_before: Array, filtered_liquid_ids: Array) -> Dictionary:
+	return source_consume_module_registry.source_consume_liquid_filter_state.apply_state(block_has_liquids_before, liquid_filter_before, filtered_liquid_ids)
+
+func generated_consume_liquid_filter_apply_bridge_state(block_has_liquids_before: bool, liquid_filter_before: Array, filtered_liquid_ids: Array) -> Dictionary:
+	return source_consume_module_registry.source_consume_liquid_filter_generated_state.generated_apply_bridge_state(block_has_liquids_before, liquid_filter_before, filtered_liquid_ids)
+
+func source_consume_liquid_filter_build_state(filtered_liquid_ids: Array, consumed_liquid: Variant) -> Dictionary:
+	return source_consume_module_registry.source_consume_liquid_filter_state.build_state(filtered_liquid_ids, consumed_liquid, source_consume_port_bridge_ui_defaults.ICON_MED)
+
+func generated_consume_liquid_filter_build_bridge_state(filtered_liquid_ids: Array, consumed_liquid: Variant) -> Dictionary:
+	return source_consume_module_registry.source_consume_liquid_filter_generated_state.generated_build_bridge_state(filtered_liquid_ids, consumed_liquid, source_consume_port_bridge_ui_defaults.ICON_MED)
+
+func source_consume_liquid_filter_get_consumed_state(current_liquid: Variant, current_filter_get_liquid: bool, current_amount: float, content_liquids: Array, filter_get_liquid_flags: Array, build_liquid_amounts: Array) -> Dictionary:
+	return source_consume_module_registry.source_consume_liquid_filter_state.get_consumed_state(current_liquid, current_filter_get_liquid, current_amount, content_liquids, filter_get_liquid_flags, build_liquid_amounts)
+
+func generated_consume_liquid_filter_get_consumed_bridge_state(current_liquid: Variant, current_filter_get_liquid: bool, current_amount: float, content_liquids: Array, filter_get_liquid_flags: Array, build_liquid_amounts: Array) -> Dictionary:
+	return source_consume_module_registry.source_consume_liquid_filter_generated_state.generated_get_consumed_bridge_state(current_liquid, current_filter_get_liquid, current_amount, content_liquids, filter_get_liquid_flags, build_liquid_amounts)
+
+func source_consume_liquid_filter_update_state(consumed_liquid: Variant, amount: float, build_edelta: float, multiplier_get_build: float) -> Dictionary:
+	return source_consume_module_registry.source_consume_liquid_filter_state.update_state(consumed_liquid, amount, build_edelta, multiplier_get_build)
+
+func generated_consume_liquid_filter_update_bridge_state(consumed_liquid: Variant, amount: float, build_edelta: float, multiplier_get_build: float) -> Dictionary:
+	return source_consume_module_registry.source_consume_liquid_filter_generated_state.generated_update_bridge_state(consumed_liquid, amount, build_edelta, multiplier_get_build)
+
+func source_consume_liquid_filter_efficiency_state(consumed_liquid: Variant, build_liquids_get: float, amount: float, build_edelta: float, multiplier_get_build: float) -> Dictionary:
+	return source_consume_module_registry.source_consume_liquid_filter_state.efficiency_state(consumed_liquid, build_liquids_get, amount, build_edelta, multiplier_get_build, source_consumer_defaults.CONSUME_EFFICIENCY_EPSILON)
+
+func generated_consume_liquid_filter_efficiency_bridge_state(consumed_liquid: Variant, build_liquids_get: float, amount: float, build_edelta: float, multiplier_get_build: float) -> Dictionary:
+	return source_consume_module_registry.source_consume_liquid_filter_generated_state.generated_efficiency_bridge_state(consumed_liquid, build_liquids_get, amount, build_edelta, multiplier_get_build, source_consumer_defaults.CONSUME_EFFICIENCY_EPSILON)
+
+func source_consume_liquid_filter_efficiency_multiplier_state(consumed_liquid: Variant, liquid_efficiency_multiplier: float) -> Dictionary:
+	return source_consume_module_registry.source_consume_liquid_filter_state.efficiency_multiplier_state(consumed_liquid, liquid_efficiency_multiplier)
+
+func generated_consume_liquid_filter_efficiency_multiplier_bridge_state(consumed_liquid: Variant, liquid_efficiency_multiplier: float) -> Dictionary:
+	return source_consume_module_registry.source_consume_liquid_filter_generated_state.generated_efficiency_multiplier_bridge_state(consumed_liquid, liquid_efficiency_multiplier)
+
+func source_consume_liquid_filter_liquid_efficiency_multiplier_state() -> Dictionary:
+	return source_consume_module_registry.source_consume_liquid_filter_state.liquid_efficiency_multiplier_state()
+
+func generated_consume_liquid_filter_liquid_efficiency_multiplier_bridge_state() -> Dictionary:
+	return source_consume_module_registry.source_consume_liquid_filter_generated_state.generated_liquid_efficiency_multiplier_bridge_state()
+
+func source_consume_liquid_filter_display_state(booster: bool, amount: float, filtered_liquid_ids: Array) -> Dictionary:
+	return source_consume_module_registry.source_consume_liquid_filter_state.display_state(booster, amount, filtered_liquid_ids, source_time_defaults.TICK_RATE)
+
+func generated_consume_liquid_filter_display_bridge_state(booster: bool, amount: float, filtered_liquid_ids: Array) -> Dictionary:
+	return source_consume_module_registry.source_consume_liquid_filter_generated_state.generated_display_bridge_state(booster, amount, filtered_liquid_ids, source_time_defaults.TICK_RATE)
+
+func source_consume_liquid_filter_consumes_state(filter_get_liquid: bool) -> Dictionary:
+	return source_consume_module_registry.source_consume_liquid_filter_state.consumes_state(filter_get_liquid)
+
+func generated_consume_liquid_filter_consumes_bridge_state(filter_get_liquid: bool) -> Dictionary:
+	return source_consume_module_registry.source_consume_liquid_filter_generated_state.generated_consumes_bridge_state(filter_get_liquid)
+
+func source_consume_liquids_constructor_state(liquid_stacks: Array) -> Dictionary:
+	return source_consume_module_registry.source_consume_liquids_state.constructor_state(liquid_stacks)
+
+func generated_consume_liquids_constructor_bridge_state(liquid_stacks: Array) -> Dictionary:
+	return source_consume_module_registry.source_consume_liquids_generated_state.generated_constructor_bridge_state(liquid_stacks)
+
+func source_consume_liquids_default_constructor_state() -> Dictionary:
+	return source_consume_module_registry.source_consume_liquids_state.default_constructor_state(source_consume_module_registry.source_consume_liquids_state.SOURCE_CONSUME_LIQUIDS_EMPTY_STACKS)
+
+func generated_consume_liquids_default_constructor_bridge_state() -> Dictionary:
+	return source_consume_module_registry.source_consume_liquids_generated_state.generated_default_constructor_bridge_state(source_consume_module_registry.source_consume_liquids_state.SOURCE_CONSUME_LIQUIDS_EMPTY_STACKS)
+
+func source_consume_liquids_apply_state(block_has_liquids_before: bool, liquid_filter_before: Array, liquid_ids: Array) -> Dictionary:
+	return source_consume_module_registry.source_consume_liquids_state.apply_state(block_has_liquids_before, liquid_filter_before, liquid_ids)
+
+func generated_consume_liquids_apply_bridge_state(block_has_liquids_before: bool, liquid_filter_before: Array, liquid_ids: Array) -> Dictionary:
+	return source_consume_module_registry.source_consume_liquids_generated_state.generated_apply_bridge_state(block_has_liquids_before, liquid_filter_before, liquid_ids)
+
+func source_consume_liquids_build_state(liquid_ids: Array, liquid_amounts: Array) -> Dictionary:
+	return source_consume_module_registry.source_consume_liquids_state.build_state(liquid_ids, liquid_amounts)
+
+func generated_consume_liquids_build_bridge_state(liquid_ids: Array, liquid_amounts: Array) -> Dictionary:
+	return source_consume_module_registry.source_consume_liquids_generated_state.generated_build_bridge_state(liquid_ids, liquid_amounts)
+
+func source_consume_liquids_update_state(liquid_ids: Array, liquid_stack_amounts: Array, build_edelta: float, multiplier_get_build: float) -> Dictionary:
+	return source_consume_module_registry.source_consume_liquids_state.update_state(liquid_ids, liquid_stack_amounts, build_edelta, multiplier_get_build)
+
+func generated_consume_liquids_update_bridge_state(liquid_ids: Array, liquid_stack_amounts: Array, build_edelta: float, multiplier_get_build: float) -> Dictionary:
+	return source_consume_module_registry.source_consume_liquids_generated_state.generated_update_bridge_state(liquid_ids, liquid_stack_amounts, build_edelta, multiplier_get_build)
+
+func source_consume_liquids_efficiency_state(liquid_ids: Array, liquid_stack_amounts: Array, liquid_amounts: Array, build_edelta: float, build_efficiency_scale: float, multiplier_get_build: float) -> Dictionary:
+	return source_consume_module_registry.source_consume_liquids_state.efficiency_state(liquid_ids, liquid_stack_amounts, liquid_amounts, build_edelta, build_efficiency_scale, multiplier_get_build)
+
+func generated_consume_liquids_efficiency_bridge_state(liquid_ids: Array, liquid_stack_amounts: Array, liquid_amounts: Array, build_edelta: float, build_efficiency_scale: float, multiplier_get_build: float) -> Dictionary:
+	return source_consume_module_registry.source_consume_liquids_generated_state.generated_efficiency_bridge_state(liquid_ids, liquid_stack_amounts, liquid_amounts, build_edelta, build_efficiency_scale, multiplier_get_build)
+
+func source_consume_liquids_display_state(booster: bool, liquid_ids: Array, liquid_stack_amounts: Array) -> Dictionary:
+	return source_consume_module_registry.source_consume_liquids_state.display_state(booster, liquid_ids, liquid_stack_amounts)
+
+func generated_consume_liquids_display_bridge_state(booster: bool, liquid_ids: Array, liquid_stack_amounts: Array) -> Dictionary:
+	return source_consume_module_registry.source_consume_liquids_generated_state.generated_display_bridge_state(booster, liquid_ids, liquid_stack_amounts, source_time_defaults.TICK_RATE)
+
+func source_consume_liquids_dynamic_constructor_state(liquids: Variant) -> Dictionary:
+	return source_consume_module_registry.source_consume_liquids_dynamic_state.constructor_state(liquids)
+
+func generated_consume_liquids_dynamic_constructor_bridge_state(liquids: Variant) -> Dictionary:
+	return source_consume_module_registry.source_consume_liquids_dynamic_generated_state.generated_constructor_bridge_state(liquids)
+
+func source_consume_liquids_dynamic_apply_state(block_has_liquids_before: bool) -> Dictionary:
+	return source_consume_module_registry.source_consume_liquids_dynamic_state.apply_state(block_has_liquids_before)
+
+func generated_consume_liquids_dynamic_apply_bridge_state(block_has_liquids_before: bool) -> Dictionary:
+	return source_consume_module_registry.source_consume_liquids_dynamic_generated_state.generated_apply_bridge_state(block_has_liquids_before)
+
+func source_consume_liquids_dynamic_build_state(current_liquid_ids: Array, next_liquid_ids: Array) -> Dictionary:
+	return source_consume_module_registry.source_consume_liquids_dynamic_state.build_state(current_liquid_ids, next_liquid_ids)
+
+func generated_consume_liquids_dynamic_build_bridge_state(current_liquid_ids: Array, next_liquid_ids: Array) -> Dictionary:
+	return source_consume_module_registry.source_consume_liquids_dynamic_generated_state.generated_build_bridge_state(current_liquid_ids, next_liquid_ids)
+
+func source_consume_liquids_dynamic_rebuild_state(liquid_ids: Array, liquid_amounts: Array, building_has_liquids: bool) -> Dictionary:
+	return source_consume_module_registry.source_consume_liquids_dynamic_state.rebuild_state(liquid_ids, liquid_amounts, building_has_liquids, source_consume_port_bridge_ui_defaults.ICON_MED, source_consume_port_bridge_ui_defaults.PAD_RIGHT)
+
+func generated_consume_liquids_dynamic_rebuild_bridge_state(liquid_ids: Array, liquid_amounts: Array, building_has_liquids: bool) -> Dictionary:
+	return source_consume_module_registry.source_consume_liquids_dynamic_generated_state.generated_rebuild_bridge_state(liquid_ids, liquid_amounts, building_has_liquids, source_consume_port_bridge_ui_defaults.ICON_MED, source_consume_port_bridge_ui_defaults.PAD_RIGHT)
+
+func source_consume_liquids_dynamic_update_state(liquid_ids: Array, liquid_stack_amounts: Array, build_edelta: float, multiplier_get_build: float) -> Dictionary:
+	return source_consume_module_registry.source_consume_liquids_dynamic_state.update_state(liquid_ids, liquid_stack_amounts, build_edelta, multiplier_get_build)
+
+func generated_consume_liquids_dynamic_update_bridge_state(liquid_ids: Array, liquid_stack_amounts: Array, build_edelta: float, multiplier_get_build: float) -> Dictionary:
+	return source_consume_module_registry.source_consume_liquids_dynamic_generated_state.generated_update_bridge_state(liquid_ids, liquid_stack_amounts, build_edelta, multiplier_get_build)
+
+func source_consume_liquids_dynamic_efficiency_state(liquid_ids: Array, liquid_stack_amounts: Array, liquid_amounts: Array, build_edelta: float, multiplier_get_build: float) -> Dictionary:
+	return source_consume_module_registry.source_consume_liquids_dynamic_state.efficiency_state(liquid_ids, liquid_stack_amounts, liquid_amounts, build_edelta, multiplier_get_build)
+
+func generated_consume_liquids_dynamic_efficiency_bridge_state(liquid_ids: Array, liquid_stack_amounts: Array, liquid_amounts: Array, build_edelta: float, multiplier_get_build: float) -> Dictionary:
+	return source_consume_module_registry.source_consume_liquids_dynamic_generated_state.generated_efficiency_bridge_state(liquid_ids, liquid_stack_amounts, liquid_amounts, build_edelta, multiplier_get_build)
+
+func source_consume_liquid_consumes_state(liquid_matches_self_liquid: bool) -> Dictionary:
+	return source_consume_module_registry.source_consume_liquid_state.consumes_state(liquid_matches_self_liquid)
+
+func generated_consume_liquid_consumes_bridge_state(liquid_matches_self_liquid: bool) -> Dictionary:
+	return source_consume_module_registry.source_consume_liquid_generated_state.generated_consumes_bridge_state(liquid_matches_self_liquid)

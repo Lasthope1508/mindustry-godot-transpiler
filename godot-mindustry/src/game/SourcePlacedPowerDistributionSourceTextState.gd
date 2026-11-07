@@ -1,0 +1,12 @@
+extends RefCounted
+class_name SourcePlacedPowerDistributionSourceTextState
+
+const SOURCE_PLACED_POWER_DISTRIBUTION_BLOCK_FROM_SPRITE_KEY := "block_from_sprite"
+const SOURCE_PLACED_POWER_DISTRIBUTION_ROLE_FOR_BLOCK_KEY := "role_for_block"
+const SOURCE_PLACED_POWER_DISTRIBUTION_ROLE_FOR_BLOCK_FALLBACK := "power_graph_role_for_block"
+const SOURCE_PLACED_POWER_DISTRIBUTION_REQUESTED_POWER_KEY := "requested_power"
+const SOURCE_PLACED_POWER_DISTRIBUTION_REQUESTED_POWER_FALLBACK := "source_consume_power_requested_power_state"
+const SOURCE_PLACED_POWER_DISTRIBUTION_BALANCE_KEY := "balance"
+const SOURCE_PLACED_POWER_DISTRIBUTION_BALANCE_FALLBACK := "source_power_graph_update_balance_state"
+const SOURCE_PLACED_POWER_DISTRIBUTION_DISTRIBUTE_KEY := "distribute"
+const SOURCE_PLACED_POWER_DISTRIBUTION_DISTRIBUTE_FALLBACK := "source_power_graph_update_battery_distribute_state"

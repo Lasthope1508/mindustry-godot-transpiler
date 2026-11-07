@@ -1,9 +1,5 @@
 {
   "version": 1,
-  "policy": {
-    "canonicalOwner": "playable_content.blocks",
-    "newBlockRequiresCanonicalPlayableContentEntry": true
-  },
   "blocks": {
     "conveyor": {
       "canonical_block": "playable_content.blocks.conveyor",

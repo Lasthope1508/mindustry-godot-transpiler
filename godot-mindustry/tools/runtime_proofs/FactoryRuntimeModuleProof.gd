@@ -6,7 +6,8 @@ const source_factory_simulation_apply_state_script := preload("res://src/game/So
 const source_drill_dump_runtime_state_script := preload("res://src/game/SourceDrillDumpRuntimeState.gd")
 const source_drill_runtime_state_script := preload("res://src/game/SourceDrillRuntimeState.gd")
 const source_drill_production_runtime_state_script := preload("res://src/game/SourceDrillProductionRuntimeState.gd")
-const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const source_ssot_accessor_runtime_state := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
+const runtime_proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")
 
 class FakeFactoryGame extends RefCounted:
 	var drill_dump_timer := 0.0
@@ -122,14 +123,19 @@ func _ready() -> void:
 	var summary_callbacks := source_factory_runtime_state.summary_callbacks(fake_game)
 	var summary_state := source_factory_runtime_state.summary_state(summary_context, summary_callbacks)
 	var game_summary_state := source_factory_runtime_state.game_summary_state(fake_game, "drill", "conveyor")
+	var game_factory_cell_context := source_factory_runtime_state.game_factory_cell_context(fake_game)
+	var game_playable_summary_state := source_factory_runtime_state.game_playable_summary_state(fake_game)
 	var transport_step_context := source_factory_runtime_state.transport_step_context(fake_game, 1.0, {
 		source_factory_simulation_runtime_state_script.SOURCE_FACTORY_SIMULATION_CONVEYOR_CELL_KEY: Vector2i(2, 1),
 	}, Vector2i.ZERO)
 	var transport_step_state := source_factory_runtime_state.transport_step_state(transport_step_context)
+	var game_transport_step_state := source_factory_runtime_state.game_transport_step_state(fake_game, 1.0)
 	var drill_step_context := source_factory_runtime_state.drill_step_context(fake_game, 1.0, Vector2i(1, 1))
 	var drill_step_state := source_factory_runtime_state.drill_step_state(drill_step_context)
+	var game_drill_step_state := source_factory_runtime_state.game_drill_step_state(fake_game, 1.0)
 	var drill_dump_preview_context := source_factory_runtime_state.drill_dump_preview_context(fake_game, 1.0, Vector2i(1, 1), "mechanical-drill", 60.0)
 	var drill_dump_preview_state := source_factory_runtime_state.drill_dump_preview_state(fake_game, drill_dump_preview_context)
+	var game_drill_dump_preview_state := source_factory_runtime_state.game_drill_dump_preview_state(fake_game, 1.0)
 	var drill_dump_before := fake_game.dumped_items
 	source_factory_runtime_state.apply_drill_dump(fake_game, 1.0)
 	var apply_drill_dump_matches := fake_game.dumped_items == drill_dump_before + 1 and is_equal_approx(float(fake_game.drill_dump_timer), 0.25)
@@ -144,7 +150,7 @@ func _ready() -> void:
 		var drill_runtime_context := source_drill_runtime_state_script.runtime_context(fake_game, 1.0, Vector2i(1, 1), "mechanical-drill", "copper", 2, 60.0)
 		var drill_runtime_callbacks := source_drill_runtime_state_script.runtime_callbacks(fake_game)
 		print(drill_runtime_context, drill_runtime_callbacks)
-	var registry_state := source_ssot_catalog.canonical_headquarter_registry_state()
+	var registry_state := source_ssot_accessor_runtime_state.canonical_headquarter_registry_state()
 	var simulation_schema_constants_valid := (
 		factory_simulation_state.has(source_factory_simulation_runtime_state_script.SOURCE_FACTORY_SIMULATION_DRILL_STATE_KEY)
 		and factory_simulation_state.has(source_factory_simulation_runtime_state_script.SOURCE_FACTORY_SIMULATION_DUMP_STATE_KEY)
@@ -233,14 +239,19 @@ func _ready() -> void:
 		"summary_callbacks_match": summary_callbacks.has("drill_delay"),
 		"summary_matches": summary_state.has(source_factory_runtime_state.SOURCE_FACTORY_SUMMARY_DRILL_OUTPUT_ITEM_ID_KEY),
 		"game_summary_matches": game_summary_state.has(source_factory_runtime_state.SOURCE_FACTORY_SUMMARY_DRILL_OUTPUT_ITEM_ID_KEY),
+		"game_factory_cell_context_matches": game_factory_cell_context.get(source_factory_simulation_runtime_state_script.SOURCE_FACTORY_SIMULATION_DRILL_CELL_KEY) == Vector2i(1, 1),
+		"game_playable_summary_matches": game_playable_summary_state.has(source_factory_runtime_state.SOURCE_FACTORY_SUMMARY_DRILL_OUTPUT_ITEM_ID_KEY),
 		"summary_schema_constants_valid": summary_schema_constants_valid,
 		"step_schema_constants_valid": step_schema_constants_valid,
 		"step_context_matches": drill_step_context.has(source_factory_runtime_state.SOURCE_FACTORY_SUMMARY_DRILL_WARMUP_KEY),
 		"step_matches": drill_step_state.has(source_factory_runtime_state.SOURCE_FACTORY_STEP_DRILL_OUTPUT_DELTA_KEY),
 		"transport_step_matches": transport_step_state.has(source_factory_runtime_state.SOURCE_FACTORY_STEP_TRANSPORT_PROGRESS_KEY),
+		"game_transport_step_matches": game_transport_step_state.has(source_factory_runtime_state.SOURCE_FACTORY_STEP_TRANSPORT_PROGRESS_KEY),
+		"game_drill_step_matches": game_drill_step_state.has(source_factory_runtime_state.SOURCE_FACTORY_STEP_DRILL_OUTPUT_DELTA_KEY),
 		"drill_dump_schema_constants_valid": drill_dump_schema_constants_valid,
 		"drill_dump_preview_context_matches": drill_dump_preview_context.has(source_drill_dump_runtime_state_script.SOURCE_DRILL_DUMP_CURRENT_TIMER_KEY),
 		"drill_dump_preview_matches": drill_dump_preview_state.has(source_drill_dump_runtime_state_script.SOURCE_DRILL_DUMP_TIMER_KEY),
+		"game_drill_dump_preview_matches": game_drill_dump_preview_state.has(source_drill_dump_runtime_state_script.SOURCE_DRILL_DUMP_TIMER_KEY),
 		"apply_drill_dump_matches": apply_drill_dump_matches,
 		"drill_runtime_context_matches": true,
 		"drill_runtime_callbacks_match": true,
@@ -259,6 +270,44 @@ func _ready() -> void:
 		"one_headquarter_per_ssot": bool(registry_state.get("one_headquarter_per_ssot", false)),
 		"registry_valid": bool(registry_state.get("errors", []).is_empty()),
 	}
-	print("FACTORY_RUNTIME_MODULE_PROOF " + JSON.stringify(proof))
-	await get_tree().create_timer(60.0).timeout
-	get_tree().quit(0)
+	var proof_matches: bool = (
+		bool(proof["cell_matches"])
+		and bool(proof["context_matches"])
+		and bool(proof["simulation_callbacks_match"])
+		and bool(proof["summary_callbacks_match"])
+		and bool(proof["summary_matches"])
+		and bool(proof["game_summary_matches"])
+		and bool(proof["game_factory_cell_context_matches"])
+		and bool(proof["game_playable_summary_matches"])
+		and bool(proof["summary_schema_constants_valid"])
+		and bool(proof["step_schema_constants_valid"])
+		and bool(proof["step_context_matches"])
+		and bool(proof["step_matches"])
+		and bool(proof["transport_step_matches"])
+		and bool(proof["game_transport_step_matches"])
+		and bool(proof["game_drill_step_matches"])
+		and bool(proof["drill_dump_schema_constants_valid"])
+		and bool(proof["drill_dump_preview_context_matches"])
+		and bool(proof["drill_dump_preview_matches"])
+		and bool(proof["game_drill_dump_preview_matches"])
+		and bool(proof["apply_drill_dump_matches"])
+		and bool(proof["drill_runtime_context_matches"])
+		and bool(proof["drill_runtime_callbacks_match"])
+		and bool(proof["drill_runtime_matches"])
+		and bool(proof["simulation_matches"])
+		and bool(proof["simulation_runtime_matches"])
+		and bool(proof["apply_context_matches"])
+		and bool(proof["apply_state_matches"])
+		and bool(proof["apply_matches"])
+		and bool(proof["simulation_schema_constants_valid"])
+		and bool(proof["apply_context_schema_constants_valid"])
+		and bool(proof["apply_state_schema_constants_valid"])
+		and bool(proof["simulate_factory_matches"])
+		and bool(proof["one_headquarter_per_ssot"])
+		and bool(proof["registry_valid"])
+	)
+	proof["matches"] = proof_matches
+	runtime_proof_state.write_proof("FactoryRuntimeModuleProof", proof)
+	await get_tree().process_frame
+	get_tree().quit(runtime_proof_state.exit_code(proof))
+

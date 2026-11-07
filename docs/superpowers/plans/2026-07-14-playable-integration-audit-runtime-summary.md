@@ -11,10 +11,10 @@
 ## Current Evidence
 
 - Source slice ledger:
-  - Total tracked slices: `1073`
-  - Done: `1073`
-  - Not done: `0`
-  - Progress: `100.00%`
+- Total tracked slices: `1294`
+- Done: `1294`
+- Not done: `0`
+- Progress: `100.00%`
 - Godot project inventory from MCP:
   - Name: `Mindustry Godot Port`
   - Godot version: `4.6.2.stable.official.71f334935`
@@ -45,6 +45,9 @@
   - Core damage taken total: `54.0`
 
 ## SSOT Hardcode Cleanup Rows
+
+| 2026-09-09 | Tile linked-tile traversal (`N1808`) | Read exact `Tile.java` implementation; added one canonical `SourceBlockGeometry` traversal with explicit caller-provided world lookup, preserving multiblock size/offset, `dx`/`dy` order, null skipping, self fallback, and sequence clear/return behavior. Registry/headquarter owner is `SourceBlockGeometry.tile_get_linked_tiles_state`; focused Tile/parity tests returned `885 passed`; emitter returned `801 emitted, 0 failures`; source-symbol audit remained `1198` functions, `1188` registered owners, `0` legacy unregistered; Godot `TileModuleProof` returned `matches:true`. |
+| 2026-09-09 | Tile rect geometry (`N1809`) | Read exact `Tile.java` implementation; added canonical `SourceBlockGeometry` helpers for `getHitbox`, `getBounds`, and the `hitbox` delegate, preserving centered multiblock sizing and tile bounds offsets. Registry/ledger owner validation passed; focused Tile/parity tests returned `887 passed`; emitter returned `801 emitted, 0 failures`; Godot `TileModuleProof` returned `matches:true` with hitbox size `16.0`, center `(25.5, 33.5)`, and bounds `(20, 28, 8, 8)`. |
 
 | Date | Slice | Evidence |
 | --- | --- | --- |
@@ -3068,3 +3071,107 @@ Fresh MCP placement-cost proof on the restarted runtime:
   - Registry/HQ: no new `source_*` owner, SSOT JSON shard, registry module, or headquarter was added. Existing `SourceSsotCatalog.canonical_headquarter_registry_state(...)` remained valid.
   - Runtime proof: CLI-run Godot proof scene printed `POWER_GRAPH_DEFAULT_ROLE_CALLBACK_PROOF {"add_graph_matches":true,"module":"SourcePowerGraphState","one_headquarter_per_ssot":true,"reflow_branch_count":2,"reflow_matches":true,"registry_valid":true,"remove_empty_matches":true,"remove_empty_returned":true}` and exited with code `0`.
   - Whole-suite proof: fresh `python -m pytest tools\\mindustry_godot_transpiler\\tests\\test_playable.py -q -p no:cacheprovider` -> `1682 passed, 269 subtests passed in 9.80s`; fresh `python -m pytest tools\\mindustry_godot_transpiler\\tests\\test_source_parity.py -q -p no:cacheprovider` -> `843 passed in 2.31s`; fresh `python -m pytest tools\\mindustry_godot_transpiler\\tests\\test_source_symbols.py -q -p no:cacheprovider` -> `1082 passed, 39449 subtests passed in 408.23s (0:06:48)`; SSOT validator returned `{"errors": [], "module_count": 112, "warning_count": 0}`.
+- Tile absoluteRelativeTo slice:
+  - RED added emitter and runtime-proof assertions for the previously null `Tile.absoluteRelativeTo(int cx, int cy)` generated method.
+  - GREEN added the upstream odd/even block-size direction formula to `SourceBlockGeometry.tile_absolute_relative_state(...)`, wired the generated method through the emitter, regenerated `Tile.gd`, and registered canonical slice `N1797` plus symbol `tile.absolute_relative`.
+  - Runtime proof: Godot 4.6.2 printed `TILE_MODULE_PROOF` with odd/even cases and `"matches":true`.
+  - Verification: focused Tile/Floor tests `30 passed`; full playable gate `2328 passed, 2363 subtests passed`; source-symbol gate `1101 passed, 18413 subtests passed`; source-parity gate `860 passed`; audit `1198` functions, `1188` registered owners, `0` legacy unregistered.
+
+- Tile inMapArea/isCenter slices:
+  - RED added emitter, runtime-proof, source-parity, and SSOT assertions for the previously null `Tile.inMapArea()` and `Tile.isCenter()` generated methods.
+  - GREEN added explicit-input canonical helpers in `SourceBlockGeometry`, wired generated `Tile.gd`, and registered canonical slices `N1798` and `N1799` with symbols `tile.in_map_area` and `tile.is_center`.
+  - Runtime proof: Godot 4.6.2 printed `TILE_MODULE_PROOF` with unrestricted/inside/outside map-area cases and no-build/self/off-center center cases; `matches:true`.
+  - Verification: focused Tile/parity tests `51 passed`; full playable gate `2328 passed, 2363 subtests passed`; source-symbol gate `1101 passed, 18413 subtests passed`; source-parity gate `862 passed`; audit `1198` functions, `1188` registered owners, `0` legacy unregistered; generated `return null` count reduced to `5700`.
+
+- Tile center/team query slices:
+  - `N1800` completed `Tile.centerX()` and `Tile.centerY()` from the exact upstream expressions `return build == null ? x : build.tile.x;` and `return build == null ? y : build.tile.y;`. Each method has its own canonical owner in the existing `SourceBlockGeometry` module, with registry and ledger entries.
+  - `N1801` completed `Tile.getTeamID()` from the exact upstream expression `return team().id;`, preserving the upstream `team()` selection through explicit `build_present`, `build_team_id`, and `derelict_team_id` inputs. No team ID was invented in gameplay code.
+  - Runtime proof `tools/runtime_proofs/TileModuleProof.json` reports `matches:true`, center values `9/4` and `11/6`, and team values `6/5` for no-build/build cases. Registry, ledger, and JSON module validation all report no errors; the audit remains `1198` functions, `1188` registered owners, `0` legacy unregistered.
+  - Verification: focused Tile/parity gate `871 passed`; fresh playable gate `2328 passed, 2363 subtests passed`; fresh source-symbol gate `1101 passed, 18413 subtests passed`.
+
+- Tile flammability slice:
+  - `N1802` completed `Tile.getFlammability()` from upstream with its air/floor-liquid, item-storage, and liquid-storage branches. Inventory weighted sums are explicit bridge inputs; the canonical helper preserves the upstream `Math.max` and `Mathf.clamp` factors without inventing runtime defaults.
+  - Runtime proof `tools/runtime_proofs/TileModuleProof.json` reports `matches:true`: floor `0.8`, storage `1.6`, empty `0.0`. Registry/ledger/JSON validation report no errors; audit remains `1198` functions, `1188` registered owners, `0` legacy unregistered.
+  - Verification: focused Tile/parity gate `873 passed`; fresh playable gate `2328 passed, 2363 subtests passed`; fresh source-symbol gate `1101 passed, 18413 subtests passed`. Generated `return null` lines are now `5696`.
+
+- Tile object getter slice:
+  - `N1803` completed `Tile.floor()`, `block()`, `overlay()`, `cblock()`, and `team()`. The four direct object getters share the one intentional `tile_reference_state` passthrough owner; `team()` retains its separate build-or-derelict conditional owner, avoiding duplicate helpers with renamed behavior.
+  - Runtime proof `tools/runtime_proofs/TileModuleProof.json` reports `matches:true`: floor/block/overlay/cblock preserve their references and team selects `{id:6}` without a build or `{id:5}` with a build.
+  - Verification: focused Tile/parity gate `875 passed`; fresh playable gate `2328 passed, 2363 subtests passed`; fresh source-symbol gate `1101 passed, 18413 subtests passed`; audit remains `1198` functions, `1188` registered owners, `0` legacy unregistered.
+
+- Tile darkening/team mutation/ID/predicate slices:
+  - `N1804` completed `Tile.isDarkened()` from the exact upstream delegation `return block.isDarkened(this);`, owned by the existing `SourceBlockGeometry.tile_is_darkened_state` helper. Focused Tile/parity gate returned `877 passed`; Godot 4.6.2 `TILE_MODULE_PROOF` returned `darkened:true`, `not_darkened:false`, `matches:true`.
+  - `N1805` completed `Tile.setTeam(Team team)` with the exact `if(build != null){ build.team(team); }` branch. The canonical state records both the no-build no-call path and build delegation path. Focused gate returned `879 passed`; Godot proof returned `matches:true` for both branches.
+  - `N1806` completed `Tile.overlayID()`, `blockID()`, and `floorID()` as one shared `SourceBlockGeometry.tile_id_state` owner, preserving `return overlay.id;`, `return block.id;`, and `return floor.id;`. Focused gate returned `881 passed`; Godot proof returned IDs `12/13/14` and `matches:true`.
+  - `N1807` completed `Tile.passable()`, `synthetic()`, `solid()`, `breakable()`, and `dangerous()` with separate canonical helpers in the existing geometry module because their upstream predicates differ. Focused gate returned `883 passed`; Godot proof covered representative branches and returned `matches:true`.
+  - The latest whole-suite gates after `N1804` remained `2328 passed, 2363 subtests passed` for playable and `1101 passed, 18413 subtests passed` for source symbols. `N1805` through `N1807` have focused and Godot runtime proof coverage; their broader whole-suite rerun remains pending. The refreshed audit remains `1198` functions, `1188` registered owners, `0` legacy unregistered, and JSON SSOT files are valid.
+
+- BuildingComp access/status/sleep slices:
+  - `N1888` completed `BuildingComp.status()` from the exact four source branches: disabled -> `logicDisable`, no consumption -> `noOutput`, invalid production -> `noInput`, and tick-gated active/no-input selection from `((state.tick / 30f) % 1f) < efficiency`.
+  - `N1889` and `N1890` completed `sleep()` and `noSleep()` without collapsing their side effects: timer/count state, `remove()`/`add()` calls, and sleeping transitions are explicit canonical results in `SourceBuildingAccessState`.
+  - Verification: regenerated all `801` classes with `0` failures; focused access gate `9 passed`; playable and source-parity gates each `905 passed`; source-symbol gate `1103 passed, 18938 subtests passed`; Godot 4.6.2 `BUILDING_ACCESS_STATE_MODULE_PROOF` returned `matches:true`, `registry_valid:true`, and `one_headquarter_per_ssot:true`. Audit: `1256` source functions, `1246` registered owners, `0` legacy unregistered; SSOT validation: `113` modules, `0` errors, `0` warnings. Generated `return null` count: `5515`.
+
+- Block consumer/reinitialize and PowerGenerator hardcode cleanup continuation:
+  - `Block.init` consumer source-text ownership is now verified by `test_block_init_module_slice.py`: `7` focused tests pass, and `BlockInitConsumerModuleProof` reports `matches=true`, `registry_valid=true`, and `one_headquarter_per_ssot=true` for consumer-array classification and `cons.apply(this)` projection.
+  - `Block.reinitializeConsumers` parity/SSOT gate passes `9` tests. `BlockReinitializeConsumersModuleProof` reports `matches=true`, covering consumer arrays, item/liquid filters, outputs-power, and apply-loop branches with the shared consume registry.
+  - PowerGenerator direct production and build-serialization methods now resolve their source-backed field, return, version, read, and write expressions from `SourcePowerSourceTextState.gd`; `SourcePowerGeneratorState.gd` no longer owns those duplicate source literals. Focused emitter/playable/source-parity gate passed `6` tests across the cleanup passes, and Godot `PowerGeneratorModuleProof` reports `matches=true`, `registry_valid=true`, `one_headquarter_per_ssot=true`.
+  - Final full-suite rerun after the emitter/source-text cleanup is green: `5254 passed, 22164 subtests passed in 899.98s`.
+
+- PowerGenerator source-text headquarter continuation:
+  - The generated `PowerGenerator.gd` bridge was stale after the Schematic metadata extraction: its emitter still constructed a separate inline dictionary and omitted `schematic_source`. The emitter now delegates `getDisplayedPowerProduction()` to `SourcePowerGeneratorState.displayed_power_production_state(...)`; `transpile.py emit` regenerated all `801` classes with `0` failures.
+  - Focused emitter/playable/source-parity gate passed (`5` tests), and Godot `PowerGeneratorModuleProof` now reports `matches=true`, `generated_canonical_matches=[true,true]`, `registry_valid=true`, and `one_headquarter_per_ssot=true`.
+  - The bounded block now includes `GeneratorBuild.warmup()`, `shouldExplode()`, and `ambientVolume()`: their exact upstream return/field expressions live in the existing `SourcePowerSourceTextState.gd` headquarter and are consumed by `SourcePowerGeneratorState.gd`. Focused source-text/parity gate passed (`4` tests); runtime proof remains green after the extraction.
+  - Final full-suite rerun after the warmup/should-explode/ambient extractions is green: `5254 passed, 22164 subtests passed in 899.98s`; source-catalog validator is also green (`7 passed, 10 subtests passed`).
+
+- Block.init consumer handling slice:
+  - `SourceBlockInitConsumerSourceTextState.gd` is the sole source-text headquarter for the upstream `Block.init()` consumer-array expressions, `Consume` metadata, and `cons.apply(this);` loop expressions. `SourceBlockInitConsumerState.gd` delegates classification and apply-call projection through the shared `SourceConsumeModuleRegistry`.
+  - Focused module gate passed: `7` tests. Emitter/source-parity gate passed: `4` tests. Godot 4.6.2 `BlockInitConsumerModuleProof` returned `matches=true`, `arrays_bridge_matches=true`, `apply_loop_bridge_matches=true`, `registry_valid=true`, and `one_headquarter_per_ssot=true`.
+  - Godot editor headless parse passed with exit code `0`. No full-suite rerun was required for this documentation-only checkpoint; the preceding full suite remains `5254 passed, 22164 subtests passed` before this bounded slice.
+
+- Block consumer source-text deduplication and shared Vars tile-size checkpoint:
+  - `SourceBlockReinitializeConsumersSourceTextState.gd` now aliases the shared
+    `Consume` metadata, array expressions, apply-loop expressions, and input
+    keys from `SourceBlockInitConsumerSourceTextState.gd`. It retains only
+    `reinitializeConsumers()`-specific evidence such as `consPower`, content
+    filters, and `hasPower`, so the two Block methods no longer maintain
+    duplicate source-text literals.
+  - `SourceBlockSourceTextState.gd` is the shared Block-domain source-text
+    headquarter for `Vars.java` and the upstream `tilesize` field. Block init
+    clip and placement source-text states alias those values instead of
+    duplicating the literal; runtime values still come from `SourceWorldDefaults.TILESIZE`.
+  - Focused consumer SSOT/emitter/parity gate: `12 + 6 + 7` tests passed.
+    Reinitialize runtime proof reports `matches=true`,
+    `registry_valid=true`, and `one_headquarter_per_ssot=true`.
+  - Clip and placement focused playable gate: `14 passed`; source parity:
+    `912 passed`; full `test_playable.py`: `2330 passed`, `2366 subtests`.
+  - P1 cross-catalog validator remains `errors=0`, `unknown_return_keys=0`,
+    `json_modules=113`, `json_errors=0`. Direct Godot clip/placement proofs
+    exit `0` and report `matches=true`; the known MCP port `7777` ownership
+    warning remains from the existing debug process.
+
+- PowerGenerator item-output predicate slice:
+  - Upstream `PowerGenerator.outputsItems()` is an exact constant `return false;`. The generated method now delegates to `SourcePowerGeneratorState.outputs_items_state()`, while the source expression and generated method identity live in `SourcePowerSourceTextState.gd`.
+  - The canonical owner is registered as `PortGame.source_power_generator_outputs_items_state` with slice `N1923`, source symbols, contract, result schema, and the PowerGenerator runtime-owner registry entry. No drawer/UI behavior was folded into this predicate slice.
+  - Focused source/emitter gate passed (`4` tests). `PowerGeneratorModuleProof` returned `matches=true`, all source comparisons true, `generated_canonical_matches=[true,true]`, `registry_valid=true`, and `one_headquarter_per_ssot=true`. Live cross-catalog validation remained `0` errors across all categories with `113` JSON modules.
+
+- PowerGenerator statistics slice:
+  - Upstream `PowerGenerator.setStats()` is now represented as one canonical state: `super.setStats();` followed by `stats.add(generationType, powerProduction * 60.0f, StatUnit.powerSecond);`. The `60` scale is resolved through `SourceTimeDefaults.TICK_RATE`; the Java expression remains in `SourcePowerSourceTextState.gd`.
+  - Registered owner: `PortGame.source_power_generator_set_stats_state`, slice `N1924`, input/result schemas, source symbols, contract, and runtime-owner registry. `setBars()` remains deliberately separate because it is a UI/bar lifecycle block.
+  - Focused gate passed (`9` tests including catalog validation). `PowerGeneratorModuleProof` returned `matches=true`, all source comparisons true, `registry_valid=true`, and `one_headquarter_per_ssot=true`. Emitter regeneration completed `801` classes with `0` failures.
+
+- PowerGenerator load/plan-drawing orchestration slices:
+  - `PowerGenerator.load()` now has a canonical state preserving `super.load();` followed by `drawer.load(this);`, with explicit injected dependency states for each call.
+  - `PowerGenerator.drawPlanRegion(...)` now has a separate canonical state preserving `drawer.drawPlan(this, plan, list);`; drawer implementation remains an injected dependency and is not duplicated in the generator module.
+  - Owners and SSOT are registered as `PortGame.source_power_generator_load_state` (`N1925`) and `PortGame.source_power_generator_draw_plan_region_state` (`N1926`). Focused gate passed (`9` tests), emitter regeneration completed `801` classes with `0` failures, catalog validation stayed at `0` errors, and `PowerGeneratorModuleProof` returned `matches=true`, `registry_valid=true`, and `one_headquarter_per_ssot=true`.
+
+- Shared world source-text headquarter continuation:
+  - Added `SourceWorldSourceTextState.gd` as the single source-text owner for the upstream `Vars.java` path and `public static final int tilesize = 8;` evidence.
+  - `SourceBlockSourceTextState`, `SourceConveyorSourceTextState`, and `SourceUnitPayloadDumpSourceTextState` preserve their public domain-specific constant names while aliasing the shared world headquarter; no duplicate `tilesize` literal remains in those domain source-text states.
+  - Godot 4.6.2 headless parse passed. Block init consumer, Block reinitialize-consumers, and UnitPayload dump runtime proofs report `matches=true`, `registry_valid=true`, and `one_headquarter_per_ssot=true`.
+  - Verification: focused dedup gate `10 passed, 3 subtests`; source parity `912 passed`; catalog validator `8 passed, 10 subtests`; playable `2330 passed, 2366 subtests`; full Python suite `5275 passed, 22444 subtests`.
+
+- Building navigation edge-order regression proof:
+  - Revalidated `Edges.java` ordering against Arc `Mathf.angle(x, y)` and confirmed the existing canonical `source_vec2_angle` helper has the equivalent `atan2(y, x)` Godot semantics; no duplicate `Mathf.angle` helper or new SSOT slice was retained.
+  - `SourceBlockPlanGeometryState.edge_points_state()` remains wired to the shared math headquarter, preserving upstream order and first-valid tie behavior for odd and even block sizes.
+  - Godot 4.6.2 `BuildingNavigationStateModuleProof` reports `matches=true`, including odd/even edge order, closest-edge tie selection, generated bridge parity, registry validity, and one-headquarter-per-SSOT.
+  - Verification: focused navigation/math gate `8 passed, 22 subtests`; math source-symbol subset `15 passed, 195 subtests`; catalog validator `8 passed, 10 subtests`; emitter/source-parity gate `1511 passed, 20 subtests`; live P1 validator `0 errors`, `0 unknown_return_keys`, `113` JSON modules, `0` JSON errors.

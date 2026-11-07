@@ -17689,41 +17689,6 @@
       "runtime_proof": "/root/Main.source_weapons_update_dispatch_state",
       "rule": "Public runtime contract for WeaponsComp.update() dispatch state."
     },
-    "SourcePlacedBlockState.source_initialize_building_liquids_state": {
-      "canonical_contract": "source_api_contracts.SourcePlacedBlockState.source_initialize_building_liquids_state",
-      "status": "active",
-      "source_slice": "N2001",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "source_method": "create(Block block, Team team)",
-      "params": [
-        {
-          "name": "sprite",
-          "type": "Object",
-          "schema": "source_initialize_building_liquids_input.sprite"
-        },
-        {
-          "name": "has_liquids",
-          "type": "bool",
-          "schema": "source_initialize_building_liquids_input.has_liquids"
-        },
-        {
-          "name": "content_catalog",
-          "type": "Object",
-          "schema": "source_initialize_building_liquids_input.content_catalog"
-        }
-      ],
-      "return_keys": [
-        "liquids"
-      ],
-      "tests": [
-        "test_explicit_liquid_flags_follow_constructor_inheritance_and_initializer",
-        "test_real_registry_drill_liquid_flag_and_registered_owner_contracts",
-        "test_liquid_owner_is_bound_on_real_placement_path",
-        "test_live_building_storage_and_typed_catalog_runtime"
-      ],
-      "runtime_proof": "/root/Main.PlacedLiquidOwnershipProof",
-      "rule": "Typed source catalog and one persistent canonical frame per placed instance; no duplicated resource formulas or guessed liquid IDs."
-    },
     "SourceBuildingLifecycleProximityState.source_apply_remove_from_proximity": {
       "canonical_contract": "source_api_contracts.SourceBuildingLifecycleProximityState.source_apply_remove_from_proximity",
       "status": "active",
@@ -17859,6 +17824,41 @@
       "runtime_proof": "/root/BuildingProximityMutationProof",
       "rule": "Source void mutation, verified against explicit GDScript -> void; input/owner/slice/proof checks remain mandatory. No result schema or fabricated wrapper.",
       "return_type": "void"
+    },
+    "SourcePlacedBlockState.source_initialize_building_liquids_state": {
+      "canonical_contract": "source_api_contracts.SourcePlacedBlockState.source_initialize_building_liquids_state",
+      "status": "active",
+      "source_slice": "N2001",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "create(Block block, Team team)",
+      "params": [
+        {
+          "name": "sprite",
+          "type": "Object",
+          "schema": "source_initialize_building_liquids_input.sprite"
+        },
+        {
+          "name": "has_liquids",
+          "type": "bool",
+          "schema": "source_initialize_building_liquids_input.has_liquids"
+        },
+        {
+          "name": "content_catalog",
+          "type": "Object",
+          "schema": "source_initialize_building_liquids_input.content_catalog"
+        }
+      ],
+      "return_keys": [
+        "liquids"
+      ],
+      "tests": [
+        "test_explicit_liquid_flags_follow_constructor_inheritance_and_initializer",
+        "test_real_registry_drill_liquid_flag_and_registered_owner_contracts",
+        "test_liquid_owner_is_bound_on_real_placement_path",
+        "test_live_building_storage_and_typed_catalog_runtime"
+      ],
+      "runtime_proof": "/root/Main.PlacedLiquidOwnershipProof",
+      "rule": "Typed source catalog and one persistent canonical frame per placed instance; no duplicated resource formulas or guessed liquid IDs."
     }
   }
 }

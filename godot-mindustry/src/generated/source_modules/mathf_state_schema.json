@@ -40,8 +40,7 @@
             "port_game.source_absin"
           ]
         }
-      },
-      "status": "active"
+      }
     },
     "source_approach_delta_input": {
       "canonical_schema": "source_state_schema.source_approach_delta_input",
@@ -94,8 +93,7 @@
             "port_game.source_approach_delta"
           ]
         }
-      },
-      "status": "active"
+      }
     },
     "source_approach_input": {
       "canonical_schema": "source_state_schema.source_approach_input",
@@ -136,8 +134,7 @@
             "port_game.source_approach"
           ]
         }
-      },
-      "status": "active"
+      }
     },
     "source_arc_chance_delta_threshold_input": {
       "canonical_schema": "source_state_schema.source_arc_chance_delta_threshold_input",
@@ -166,8 +163,7 @@
             "port_game.source_arc_chance_delta_threshold"
           ]
         }
-      },
-      "status": "active"
+      }
     },
     "source_arc_is_power_of_two_input": {
       "canonical_schema": "source_state_schema.source_arc_is_power_of_two_input",
@@ -184,8 +180,7 @@
             "port_game.source_arc_is_power_of_two"
           ]
         }
-      },
-      "status": "active"
+      }
     },
     "source_arc_lerp_delta_input": {
       "canonical_schema": "source_state_schema.source_arc_lerp_delta_input",
@@ -238,8 +233,7 @@
             "port_game.source_arc_lerp_delta"
           ]
         }
-      },
-      "status": "active"
+      }
     },
     "source_arc_mathf_cos_lookup_input": {
       "canonical_schema": "source_state_schema.source_arc_mathf_cos_lookup_input",
@@ -256,8 +250,7 @@
             "port_game.source_arc_mathf_cos_lookup"
           ]
         }
-      },
-      "status": "active"
+      }
     },
     "source_arc_mathf_cos_scaled_input": {
       "canonical_schema": "source_state_schema.source_arc_mathf_cos_scaled_input",
@@ -298,8 +291,7 @@
             "port_game.source_arc_mathf_cos_scaled"
           ]
         }
-      },
-      "status": "active"
+      }
     },
     "source_arc_mathf_mod_float_input": {
       "canonical_schema": "source_state_schema.source_arc_mathf_mod_float_input",
@@ -328,8 +320,7 @@
             "port_game.source_arc_mathf_mod_float"
           ]
         }
-      },
-      "status": "active"
+      }
     },
     "source_arc_mathf_num_input": {
       "canonical_schema": "source_state_schema.source_arc_mathf_num_input",
@@ -346,8 +337,7 @@
             "port_game.source_arc_mathf_num"
           ]
         }
-      },
-      "status": "active"
+      }
     },
     "source_arc_mathf_sin_lookup_input": {
       "canonical_schema": "source_state_schema.source_arc_mathf_sin_lookup_input",
@@ -364,8 +354,7 @@
             "port_game.source_arc_mathf_sin_lookup"
           ]
         }
-      },
-      "status": "active"
+      }
     },
     "source_arc_mathf_sin_scaled_input": {
       "canonical_schema": "source_state_schema.source_arc_mathf_sin_scaled_input",
@@ -406,8 +395,7 @@
             "port_game.source_arc_mathf_sin_scaled"
           ]
         }
-      },
-      "status": "active"
+      }
     },
     "source_arc_mathf_sin_table_value_input": {
       "canonical_schema": "source_state_schema.source_arc_mathf_sin_table_value_input",
@@ -424,8 +412,7 @@
             "port_game.source_arc_mathf_sin_table_value"
           ]
         }
-      },
-      "status": "active"
+      }
     },
     "source_arc_random_seed_float_max_input": {
       "canonical_schema": "source_state_schema.source_arc_random_seed_float_max_input",
@@ -454,8 +441,7 @@
             "port_game.source_arc_random_seed_float_max"
           ]
         }
-      },
-      "status": "active"
+      }
     },
     "source_arc_random_seed_int_input": {
       "canonical_schema": "source_state_schema.source_arc_random_seed_int_input",
@@ -496,8 +482,7 @@
             "port_game.source_arc_random_seed_int"
           ]
         }
-      },
-      "status": "active"
+      }
     },
     "source_lerp_delta_input": {
       "canonical_schema": "source_state_schema.source_lerp_delta_input",
@@ -550,8 +535,7 @@
             "port_game.source_lerp_delta"
           ]
         }
-      },
-      "status": "active"
+      }
     },
     "source_mathf_approach_delta_input": {
       "canonical_schema": "source_state_schema.source_mathf_approach_delta_input",
@@ -604,8 +588,7 @@
             "port_game.source_mathf_approach_delta"
           ]
         }
-      },
-      "status": "active"
+      }
     },
     "source_mathf_dst_input": {
       "canonical_schema": "source_state_schema.source_mathf_dst_input",
@@ -658,8 +641,7 @@
             "port_game.source_mathf_dst"
           ]
         }
-      },
-      "status": "active"
+      }
     },
     "source_mathf_lerp_delta_input": {
       "canonical_schema": "source_state_schema.source_mathf_lerp_delta_input",
@@ -712,8 +694,7 @@
             "port_game.source_mathf_lerp_delta"
           ]
         }
-      },
-      "status": "active"
+      }
     }
   }
 }

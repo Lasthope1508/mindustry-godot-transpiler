@@ -3,34 +3,74 @@ extends RefCounted
 
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
 const source_generated_class_runtime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
+const source_block_source_text_state := preload("res://src/game/SourceBlockSourceTextState.gd")
+const source_block_query_consumer_source_text_state := preload("res://src/game/SourceBlockQueryConsumerSourceTextState.gd")
+
+const SOURCE_BLOCK_GENERATED_CLASS := source_block_source_text_state.SOURCE_BLOCK_GENERATED_CLASS
+const SOURCE_BLOCK_HAS_CONSUMER_METHOD := source_block_source_text_state.SOURCE_BLOCK_HAS_CONSUMER_METHOD
+const SOURCE_BLOCK_FIND_CONSUMER_METHOD := source_block_source_text_state.SOURCE_BLOCK_FIND_CONSUMER_METHOD
+const SOURCE_BLOCK_REMOVE_CONSUMER_METHOD := source_block_source_text_state.SOURCE_BLOCK_REMOVE_CONSUMER_METHOD
+const SOURCE_BLOCK_REMOVE_CONSUMERS_METHOD := source_block_source_text_state.SOURCE_BLOCK_REMOVE_CONSUMERS_METHOD
+const SOURCE_BLOCK_QUERY_CONSUMER_SOURCE := source_block_query_consumer_source_text_state.SOURCE_BLOCK_QUERY_CONSUMER_SOURCE
+const SOURCE_BLOCK_QUERY_CONSUMER_HAS_CONSUMER_RETURN_EXPR := source_block_query_consumer_source_text_state.SOURCE_BLOCK_QUERY_CONSUMER_HAS_CONSUMER_RETURN_EXPR
+const SOURCE_BLOCK_QUERY_CONSUMER_FIND_CONSUMER_RETURN_EXPR := source_block_query_consumer_source_text_state.SOURCE_BLOCK_QUERY_CONSUMER_FIND_CONSUMER_RETURN_EXPR
+const SOURCE_BLOCK_QUERY_CONSUMER_HAS_CONSUMER_JAVA_METHOD_HAS_CONSUMER_96 := source_block_query_consumer_source_text_state.SOURCE_BLOCK_QUERY_CONSUMER_HAS_CONSUMER_JAVA_METHOD_HAS_CONSUMER_96
+const SOURCE_BLOCK_QUERY_CONSUMER_HAS_CONSUMER_GENERATED_OWNER := source_block_query_consumer_source_text_state.SOURCE_BLOCK_QUERY_CONSUMER_HAS_CONSUMER_GENERATED_OWNER
+const SOURCE_BLOCK_QUERY_CONSUMER_FIND_CONSUMER_JAVA_METHOD_FIND_CONSUMER_95 := source_block_query_consumer_source_text_state.SOURCE_BLOCK_QUERY_CONSUMER_FIND_CONSUMER_JAVA_METHOD_FIND_CONSUMER_95
+const SOURCE_BLOCK_QUERY_CONSUMER_FIND_CONSUMER_GENERATED_OWNER := source_block_query_consumer_source_text_state.SOURCE_BLOCK_QUERY_CONSUMER_FIND_CONSUMER_GENERATED_OWNER
+const SOURCE_BLOCK_QUERY_CONSUMER_REMOVE_CONSUMER_GUARD_EXPR := source_block_query_consumer_source_text_state.SOURCE_BLOCK_QUERY_CONSUMER_REMOVE_CONSUMER_GUARD_EXPR
+const SOURCE_BLOCK_QUERY_CONSUMER_REMOVE_CONSUMER_EXCEPTION_EXPR := source_block_query_consumer_source_text_state.SOURCE_BLOCK_QUERY_CONSUMER_REMOVE_CONSUMER_EXCEPTION_EXPR
+const SOURCE_BLOCK_QUERY_CONSUMER_REMOVE_CONSUMER_REMOVE_EXPR := source_block_query_consumer_source_text_state.SOURCE_BLOCK_QUERY_CONSUMER_REMOVE_CONSUMER_REMOVE_EXPR
+const SOURCE_BLOCK_QUERY_CONSUMER_REMOVE_CONSUMER_JAVA_METHOD_REMOVE_CONSUMER_97 := source_block_query_consumer_source_text_state.SOURCE_BLOCK_QUERY_CONSUMER_REMOVE_CONSUMER_JAVA_METHOD_REMOVE_CONSUMER_97
+const SOURCE_BLOCK_QUERY_CONSUMER_REMOVE_CONSUMER_GENERATED_OWNER := source_block_query_consumer_source_text_state.SOURCE_BLOCK_QUERY_CONSUMER_REMOVE_CONSUMER_GENERATED_OWNER
+const SOURCE_BLOCK_QUERY_CONSUMER_REMOVE_CONSUMERS_RETURN_EXPR := source_block_query_consumer_source_text_state.SOURCE_BLOCK_QUERY_CONSUMER_REMOVE_CONSUMERS_RETURN_EXPR
+const SOURCE_BLOCK_QUERY_CONSUMER_REMOVE_CONSUMERS_REMOVE_ALL_EXPR := source_block_query_consumer_source_text_state.SOURCE_BLOCK_QUERY_CONSUMER_REMOVE_CONSUMERS_REMOVE_ALL_EXPR
+const SOURCE_BLOCK_QUERY_CONSUMER_REMOVE_CONSUMERS_COMMENT := source_block_query_consumer_source_text_state.SOURCE_BLOCK_QUERY_CONSUMER_REMOVE_CONSUMERS_COMMENT
+const SOURCE_BLOCK_QUERY_CONSUMER_REMOVE_CONSUMERS_POWER_GUARD_EXPR := source_block_query_consumer_source_text_state.SOURCE_BLOCK_QUERY_CONSUMER_REMOVE_CONSUMERS_POWER_GUARD_EXPR
+const SOURCE_BLOCK_QUERY_CONSUMER_REMOVE_CONSUMERS_CONS_POWER_EXPR := source_block_query_consumer_source_text_state.SOURCE_BLOCK_QUERY_CONSUMER_REMOVE_CONSUMERS_CONS_POWER_EXPR
+const SOURCE_BLOCK_QUERY_CONSUMER_REMOVE_CONSUMERS_JAVA_METHOD_REMOVE_CONSUMERS_98 := source_block_query_consumer_source_text_state.SOURCE_BLOCK_QUERY_CONSUMER_REMOVE_CONSUMERS_JAVA_METHOD_REMOVE_CONSUMERS_98
+const SOURCE_BLOCK_QUERY_CONSUMER_REMOVE_CONSUMERS_GENERATED_OWNER := source_block_query_consumer_source_text_state.SOURCE_BLOCK_QUERY_CONSUMER_REMOVE_CONSUMERS_GENERATED_OWNER
+
+static func _block_call(generated_method: String, generated_args: Array) -> Variant:
+	return source_generated_class_runtime.call_java_method(SOURCE_BLOCK_GENERATED_CLASS, generated_method, generated_args, null)
 
 static func has_consumer_state(consume_builder_contains: bool, cons: Variant) -> Dictionary:
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_HAS_CONSUMER_STATE, "source": "core/src/mindustry/world/Block.java", "method": "public boolean hasConsumer(Consume cons){", "return_expr": "return consumeBuilder.contains(cons);", "consumeBuilder_contains": consume_builder_contains, "cons": cons, "has_consumer": consume_builder_contains}
+	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_HAS_CONSUMER_STATE, "source": SOURCE_BLOCK_QUERY_CONSUMER_SOURCE, "method": SOURCE_BLOCK_HAS_CONSUMER_METHOD, "return_expr": SOURCE_BLOCK_QUERY_CONSUMER_HAS_CONSUMER_RETURN_EXPR, "consumeBuilder_contains": consume_builder_contains, "cons": cons, "has_consumer": consume_builder_contains}
+
+static func find_consumer_state(consumers_length: int, consume_builder_match: Variant, consumers_match: Variant, filter: Variant) -> Dictionary:
+	var consumer: Variant = consume_builder_match if consumers_length == 0 else consumers_match
+	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_FIND_CONSUMER_STATE, "source": SOURCE_BLOCK_QUERY_CONSUMER_SOURCE, "method": SOURCE_BLOCK_FIND_CONSUMER_METHOD, "return_expr": SOURCE_BLOCK_QUERY_CONSUMER_FIND_CONSUMER_RETURN_EXPR, "consumers_length": consumers_length, "consume_builder_match": consume_builder_match, "consumers_match": consumers_match, "filter": filter, "consumer": consumer}
 
 static func remove_consumer_state(consumers_length: int, cons: Variant) -> Dictionary:
 	var illegal_state_exception_thrown: bool = consumers_length > 0
 	var consume_builder_remove_called: bool = not illegal_state_exception_thrown
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_REMOVE_CONSUMER_STATE, "source": "core/src/mindustry/world/Block.java", "method": "public void removeConsumer(Consume cons){", "guard_expr": "if(consumers.length > 0){", "exception_expr": "throw new IllegalStateException(\"You can only remove consumers before init(). After init(), all consumers have already been initialized.\");", "exception_message": "You can only remove consumers before init(). After init(), all consumers have already been initialized.", "remove_expr": "consumeBuilder.remove(cons);", "consumers_length": consumers_length, "cons": cons, "illegal_state_exception_thrown": illegal_state_exception_thrown, "consume_builder_remove_called": consume_builder_remove_called}
+	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_REMOVE_CONSUMER_STATE, "source": SOURCE_BLOCK_QUERY_CONSUMER_SOURCE, "method": SOURCE_BLOCK_REMOVE_CONSUMER_METHOD, "guard_expr": SOURCE_BLOCK_QUERY_CONSUMER_REMOVE_CONSUMER_GUARD_EXPR, "exception_expr": SOURCE_BLOCK_QUERY_CONSUMER_REMOVE_CONSUMER_EXCEPTION_EXPR, "exception_message": "You can only remove consumers before init(). After init(), all consumers have already been initialized.", "remove_expr": SOURCE_BLOCK_QUERY_CONSUMER_REMOVE_CONSUMER_REMOVE_EXPR, "consumers_length": consumers_length, "cons": cons, "illegal_state_exception_thrown": illegal_state_exception_thrown, "consume_builder_remove_called": consume_builder_remove_called}
 
 static func remove_consumers_state(consume_builder_contains_power_after_remove: bool, b: Variant) -> Dictionary:
 	var cons_power_cleared: bool = not consume_builder_contains_power_after_remove
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_REMOVE_CONSUMERS_STATE, "source": "core/src/mindustry/world/Block.java", "method": "public void removeConsumers(Boolf<Consume> b){", "remove_all_expr": "consumeBuilder.removeAll(b);", "comment": "//the power was removed, unassign it", "power_guard_expr": "if(!consumeBuilder.contains(c -> c instanceof ConsumePower)){", "cons_power_expr": "consPower = null;", "consumeBuilder_contains_power_after_remove": consume_builder_contains_power_after_remove, "b": b, "consume_builder_remove_all_called": true, "cons_power_cleared": cons_power_cleared}
+	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_REMOVE_CONSUMERS_STATE, "source": SOURCE_BLOCK_QUERY_CONSUMER_SOURCE, "method": SOURCE_BLOCK_REMOVE_CONSUMERS_METHOD, "remove_all_expr": SOURCE_BLOCK_QUERY_CONSUMER_REMOVE_CONSUMERS_REMOVE_ALL_EXPR, "comment": SOURCE_BLOCK_QUERY_CONSUMER_REMOVE_CONSUMERS_COMMENT, "power_guard_expr": SOURCE_BLOCK_QUERY_CONSUMER_REMOVE_CONSUMERS_POWER_GUARD_EXPR, "cons_power_expr": SOURCE_BLOCK_QUERY_CONSUMER_REMOVE_CONSUMERS_CONS_POWER_EXPR, "consumeBuilder_contains_power_after_remove": consume_builder_contains_power_after_remove, "b": b, "consume_builder_remove_all_called": true, "cons_power_cleared": cons_power_cleared}
 
 static func generated_block_has_consumer_bridge_state(consume_builder_contains: bool, cons: Variant) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_hasConsumer_96", [consume_builder_contains, cons], null)
+	var result = _block_call(SOURCE_BLOCK_QUERY_CONSUMER_HAS_CONSUMER_JAVA_METHOD_HAS_CONSUMER_96, [consume_builder_contains, cons])
 	var canonical = has_consumer_state(consume_builder_contains, cons)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_HAS_CONSUMER_STATE, "generated_owner": "block.java_method_hasConsumer_96", "result": result, "canonical": canonical, "matches": matches}
+	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_HAS_CONSUMER_STATE, "generated_owner": SOURCE_BLOCK_QUERY_CONSUMER_HAS_CONSUMER_GENERATED_OWNER, "result": result, "canonical": canonical, "matches": matches}
+
+static func generated_block_find_consumer_bridge_state(consumers_length: int, consume_builder_match: Variant, consumers_match: Variant, filter: Variant) -> Dictionary:
+	var result = _block_call(SOURCE_BLOCK_QUERY_CONSUMER_FIND_CONSUMER_JAVA_METHOD_FIND_CONSUMER_95, [consumers_length, consume_builder_match, consumers_match, filter])
+	var canonical = find_consumer_state(consumers_length, consume_builder_match, consumers_match, filter)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_FIND_CONSUMER_STATE, "generated_owner": SOURCE_BLOCK_QUERY_CONSUMER_FIND_CONSUMER_GENERATED_OWNER, "result": result, "canonical": canonical, "matches": matches}
 
 static func generated_block_remove_consumer_bridge_state(consumers_length: int, cons: Variant) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_removeConsumer_97", [consumers_length, cons], null)
+	var result = _block_call(SOURCE_BLOCK_QUERY_CONSUMER_REMOVE_CONSUMER_JAVA_METHOD_REMOVE_CONSUMER_97, [consumers_length, cons])
 	var canonical = remove_consumer_state(consumers_length, cons)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_REMOVE_CONSUMER_STATE, "generated_owner": "block.java_method_removeConsumer_97", "result": result, "canonical": canonical, "matches": matches}
+	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_REMOVE_CONSUMER_STATE, "generated_owner": SOURCE_BLOCK_QUERY_CONSUMER_REMOVE_CONSUMER_GENERATED_OWNER, "result": result, "canonical": canonical, "matches": matches}
 
 static func generated_block_remove_consumers_bridge_state(consume_builder_contains_power_after_remove: bool, b: Variant) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_removeConsumers_98", [consume_builder_contains_power_after_remove, b], null)
+	var result = _block_call(SOURCE_BLOCK_QUERY_CONSUMER_REMOVE_CONSUMERS_JAVA_METHOD_REMOVE_CONSUMERS_98, [consume_builder_contains_power_after_remove, b])
 	var block_remove_consumers_result = result
 	var canonical = remove_consumers_state(consume_builder_contains_power_after_remove, b)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(block_remove_consumers_result, canonical)
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_REMOVE_CONSUMERS_STATE, "generated_owner": "block.java_method_removeConsumers_98", "result": result, "canonical": canonical, "matches": matches}
+	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_REMOVE_CONSUMERS_STATE, "generated_owner": SOURCE_BLOCK_QUERY_CONSUMER_REMOVE_CONSUMERS_GENERATED_OWNER, "result": result, "canonical": canonical, "matches": matches}

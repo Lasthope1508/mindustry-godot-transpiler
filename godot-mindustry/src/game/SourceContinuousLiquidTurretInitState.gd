@@ -4,6 +4,13 @@ class_name SourceContinuousLiquidTurretInitState
 const source_turret_defaults := preload("res://src/game/SourceTurretDefaults.gd")
 const source_generated_class_runtime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
+const source_turret_source_text_state := preload("res://src/game/SourceTurretSourceTextState.gd")
+const SOURCE_CONTINUOUS_LIQUID_TURRET_GENERATED_CLASS := source_turret_source_text_state.SOURCE_CONTINUOUS_LIQUID_TURRET_GENERATED_CLASS
+const SOURCE_CONTINUOUS_LIQUID_TURRET_INIT_JAVA_METHOD := source_turret_source_text_state.SOURCE_CONTINUOUS_LIQUID_TURRET_INIT_JAVA_METHOD
+const SOURCE_CONTINUOUS_LIQUID_TURRET_INIT_GENERATED_OWNER := source_turret_source_text_state.SOURCE_CONTINUOUS_LIQUID_TURRET_INIT_GENERATED_OWNER
+
+static func _continuous_liquid_turret_call(generated_method: String, generated_args: Array) -> Variant:
+	return source_generated_class_runtime.call_java_method(SOURCE_CONTINUOUS_LIQUID_TURRET_GENERATED_CLASS, generated_method, generated_args, null)
 
 static func init_state(ammo_entries: Array, target_ground: bool, place_overlap_range: float, range_value: float, place_overlap_margin: float, liquid_consumed: float, current_liquid: Variant, current_ammo_multiplier: Variant) -> Dictionary:
 	var current_place_overlap_range: float = place_overlap_range
@@ -61,11 +68,11 @@ static func init_state(ammo_entries: Array, target_ground: bool, place_overlap_r
 	}
 
 static func generated_init_bridge_state(ammo_entries: Array, target_ground: bool, place_overlap_range: float, range_value: float, place_overlap_margin: float, liquid_consumed: float, current_liquid: Variant, current_ammo_multiplier: Variant) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd", "java_method_init_2", [ammo_entries, target_ground, place_overlap_range, range_value, place_overlap_margin, liquid_consumed, current_liquid, current_ammo_multiplier], null)
+	var result = _continuous_liquid_turret_call(SOURCE_CONTINUOUS_LIQUID_TURRET_INIT_JAVA_METHOD, [ammo_entries, target_ground, place_overlap_range, range_value, place_overlap_margin, liquid_consumed, current_liquid, current_ammo_multiplier])
 	var canonical = init_state(ammo_entries, target_ground, place_overlap_range, range_value, place_overlap_margin, liquid_consumed, current_liquid, current_ammo_multiplier)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_CONTINUOUS_LIQUID_TURRET_INIT_STATE,
-		"generated_owner": "continuous_liquid_turret.init",
+		"generated_owner": SOURCE_CONTINUOUS_LIQUID_TURRET_INIT_GENERATED_OWNER,
 		"result": result,
 		"canonical": canonical,
 		"matches": result.get("place_overlap_range_after", null) == canonical.get("place_overlap_range_after", null)
@@ -75,11 +82,11 @@ static func generated_init_bridge_state(ammo_entries: Array, target_ground: bool
 	}
 
 static func generated_init_range_margin_default_bridge_state(ammo_entries: Array, target_ground: bool, place_overlap_range: float) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd", "java_method_init_2", [ammo_entries, target_ground, place_overlap_range], null)
+	var result = _continuous_liquid_turret_call(SOURCE_CONTINUOUS_LIQUID_TURRET_INIT_JAVA_METHOD, [ammo_entries, target_ground, place_overlap_range])
 	var canonical = init_state(ammo_entries, target_ground, place_overlap_range, source_turret_defaults.RANGE_DEFAULT, source_turret_defaults.PLACE_OVERLAP_MARGIN_DEFAULT, 0.0, null, null)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_CONTINUOUS_LIQUID_TURRET_INIT_STATE,
-		"generated_owner": "continuous_liquid_turret.init",
+		"generated_owner": SOURCE_CONTINUOUS_LIQUID_TURRET_INIT_GENERATED_OWNER,
 		"defaulted_args": ["range", "place_overlap_margin"],
 		"range_value": source_turret_defaults.RANGE_DEFAULT,
 		"place_overlap_margin": source_turret_defaults.PLACE_OVERLAP_MARGIN_DEFAULT,

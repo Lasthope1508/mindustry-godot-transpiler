@@ -1,0 +1,193 @@
+extends RefCounted
+class_name SourceBlockPlanGeneratedBridgeState
+
+const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
+const source_generated_class_runtime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
+const source_block_source_text_state := preload("res://src/game/SourceBlockSourceTextState.gd")
+const source_block_plan_source_text_state := preload("res://src/game/SourceBlockPlanSourceTextState.gd")
+const source_block_plan_visibility_state := preload("res://src/game/SourceBlockPlanVisibilityState.gd")
+const source_block_plan_placement_state := preload("res://src/game/SourceBlockPlanPlacementState.gd")
+const source_block_plan_config_state := preload("res://src/game/SourceBlockPlanConfigState.gd")
+const source_block_plan_draw_state := preload("res://src/game/SourceBlockPlanDrawState.gd")
+const source_block_plan_geometry_state := preload("res://src/game/SourceBlockPlanGeometryState.gd")
+
+const SOURCE_BLOCK_GENERATED_CLASS := source_block_source_text_state.SOURCE_BLOCK_GENERATED_CLASS
+const SOURCE_BLOCK_PLAN_CANONICAL_KEY := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_CANONICAL_KEY
+const SOURCE_BLOCK_PLAN_CONFIG_CLEAR_GENERATED_OWNER := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_CONFIG_CLEAR_GENERATED_OWNER
+const SOURCE_BLOCK_PLAN_CONFIG_CLEAR_JAVA_METHOD := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_CONFIG_CLEAR_JAVA_METHOD
+const SOURCE_BLOCK_PLAN_CONFIG_HANDLER_GENERATED_OWNER := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_CONFIG_HANDLER_GENERATED_OWNER
+const SOURCE_BLOCK_PLAN_CONFIG_HANDLER_JAVA_METHOD := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_CONFIG_HANDLER_JAVA_METHOD
+const SOURCE_BLOCK_PLAN_DRAW_DEFAULT_PLAN_REGION_GENERATED_OWNER := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_DRAW_DEFAULT_PLAN_REGION_GENERATED_OWNER
+const SOURCE_BLOCK_PLAN_DRAW_DEFAULT_PLAN_REGION_JAVA_METHOD := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_DRAW_DEFAULT_PLAN_REGION_JAVA_METHOD
+const SOURCE_BLOCK_PLAN_DRAW_OTHER_PLAYER_PLAN_GENERATED_OWNER := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_DRAW_OTHER_PLAYER_PLAN_GENERATED_OWNER
+const SOURCE_BLOCK_PLAN_DRAW_OTHER_PLAYER_PLAN_JAVA_METHOD := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_DRAW_OTHER_PLAYER_PLAN_JAVA_METHOD
+const SOURCE_BLOCK_PLAN_DRAW_PLAN_CONFIG_CENTER_DEFAULT_CROSS_GENERATED_OWNER := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_DRAW_PLAN_CONFIG_CENTER_DEFAULT_CROSS_GENERATED_OWNER
+const SOURCE_BLOCK_PLAN_DRAW_PLAN_CONFIG_CENTER_DEFAULT_CROSS_JAVA_METHOD := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_DRAW_PLAN_CONFIG_CENTER_DEFAULT_CROSS_JAVA_METHOD
+const SOURCE_BLOCK_PLAN_DRAW_PLAN_CONFIG_CENTER_GENERATED_OWNER := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_DRAW_PLAN_CONFIG_CENTER_GENERATED_OWNER
+const SOURCE_BLOCK_PLAN_DRAW_PLAN_CONFIG_CENTER_JAVA_METHOD := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_DRAW_PLAN_CONFIG_CENTER_JAVA_METHOD
+const SOURCE_BLOCK_PLAN_DRAW_PLAN_CONFIG_GENERATED_OWNER := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_DRAW_PLAN_CONFIG_GENERATED_OWNER
+const SOURCE_BLOCK_PLAN_DRAW_PLAN_CONFIG_JAVA_METHOD := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_DRAW_PLAN_CONFIG_JAVA_METHOD
+const SOURCE_BLOCK_PLAN_DRAW_PLAN_CONFIG_TOP_GENERATED_OWNER := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_DRAW_PLAN_CONFIG_TOP_GENERATED_OWNER
+const SOURCE_BLOCK_PLAN_DRAW_PLAN_CONFIG_TOP_JAVA_METHOD := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_DRAW_PLAN_CONFIG_TOP_JAVA_METHOD
+const SOURCE_BLOCK_PLAN_DRAW_PLAN_DEFAULT_ALPHA_GENERATED_OWNER := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_DRAW_PLAN_DEFAULT_ALPHA_GENERATED_OWNER
+const SOURCE_BLOCK_PLAN_DRAW_PLAN_DEFAULT_ALPHA_JAVA_METHOD := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_DRAW_PLAN_DEFAULT_ALPHA_JAVA_METHOD
+const SOURCE_BLOCK_PLAN_DRAW_PLAN_GENERATED_OWNER := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_DRAW_PLAN_GENERATED_OWNER
+const SOURCE_BLOCK_PLAN_DRAW_PLAN_JAVA_METHOD := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_DRAW_PLAN_JAVA_METHOD
+const SOURCE_BLOCK_PLAN_DRAW_PLAN_REGION_GENERATED_OWNER := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_DRAW_PLAN_REGION_GENERATED_OWNER
+const SOURCE_BLOCK_PLAN_DRAW_PLAN_REGION_JAVA_METHOD := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_DRAW_PLAN_REGION_JAVA_METHOD
+const SOURCE_BLOCK_PLAN_FIND_PLAN_DEFAULT_SIZE_GENERATED_OWNER := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_FIND_PLAN_DEFAULT_SIZE_GENERATED_OWNER
+const SOURCE_BLOCK_PLAN_FIND_PLAN_DEFAULT_SIZE_JAVA_METHOD := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_FIND_PLAN_DEFAULT_SIZE_JAVA_METHOD
+const SOURCE_BLOCK_PLAN_FIND_PLAN_GENERATED_OWNER := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_FIND_PLAN_GENERATED_OWNER
+const SOURCE_BLOCK_PLAN_FIND_PLAN_JAVA_METHOD := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_FIND_PLAN_JAVA_METHOD
+const SOURCE_BLOCK_PLAN_GENERATED_OWNER_KEY := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_GENERATED_OWNER_KEY
+const SOURCE_BLOCK_PLAN_GET_EDGES_GENERATED_OWNER := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_GET_EDGES_GENERATED_OWNER
+const SOURCE_BLOCK_PLAN_GET_EDGES_JAVA_METHOD := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_GET_EDGES_JAVA_METHOD
+const SOURCE_BLOCK_PLAN_GET_INSIDE_EDGES_GENERATED_OWNER := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_GET_INSIDE_EDGES_GENERATED_OWNER
+const SOURCE_BLOCK_PLAN_GET_INSIDE_EDGES_JAVA_METHOD := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_GET_INSIDE_EDGES_JAVA_METHOD
+const SOURCE_BLOCK_PLAN_GET_PLAN_REGION_GENERATED_OWNER := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_GET_PLAN_REGION_GENERATED_OWNER
+const SOURCE_BLOCK_PLAN_GET_PLAN_REGION_JAVA_METHOD := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_GET_PLAN_REGION_JAVA_METHOD
+const SOURCE_BLOCK_PLAN_IS_ACCESSIBLE_GENERATED_OWNER := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_IS_ACCESSIBLE_GENERATED_OWNER
+const SOURCE_BLOCK_PLAN_IS_ACCESSIBLE_JAVA_METHOD := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_IS_ACCESSIBLE_JAVA_METHOD
+const SOURCE_BLOCK_PLAN_ITERATE_TAKEN_GENERATED_OWNER := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_ITERATE_TAKEN_GENERATED_OWNER
+const SOURCE_BLOCK_PLAN_ITERATE_TAKEN_JAVA_METHOD := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_ITERATE_TAKEN_JAVA_METHOD
+const SOURCE_BLOCK_PLAN_MATCHES_KEY := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_MATCHES_KEY
+const SOURCE_BLOCK_PLAN_NEARBY_SIDE_GENERATED_OWNER := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_NEARBY_SIDE_GENERATED_OWNER
+const SOURCE_BLOCK_PLAN_NEARBY_SIDE_JAVA_METHOD := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_NEARBY_SIDE_JAVA_METHOD
+const SOURCE_BLOCK_PLAN_PLAN_CONFIG_CLIP_SIZE_GENERATED_OWNER := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_PLAN_CONFIG_CLIP_SIZE_GENERATED_OWNER
+const SOURCE_BLOCK_PLAN_PLAN_CONFIG_CLIP_SIZE_JAVA_METHOD := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_PLAN_CONFIG_CLIP_SIZE_JAVA_METHOD
+const SOURCE_BLOCK_PLAN_POINT_CONFIG_GENERATED_OWNER := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_POINT_CONFIG_GENERATED_OWNER
+const SOURCE_BLOCK_PLAN_POINT_CONFIG_JAVA_METHOD := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_POINT_CONFIG_JAVA_METHOD
+const SOURCE_BLOCK_PLAN_RESULT_KEY := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_RESULT_KEY
+const SOURCE_BLOCK_PLAN_SOURCE_OWNER_KEY := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_SOURCE_OWNER_KEY
+
+static func _block_call(generated_method: String, generated_args: Array) -> Variant:
+	return source_generated_class_runtime.call_java_method(SOURCE_BLOCK_GENERATED_CLASS, generated_method, generated_args, null)
+
+static func generated_block_draw_plan_default_alpha_bridge_state(plan: Variant, list: Variant, valid: bool) -> Dictionary:
+	var result = _block_call(SOURCE_BLOCK_PLAN_DRAW_PLAN_DEFAULT_ALPHA_JAVA_METHOD, [plan, list, valid])
+	var canonical = source_block_plan_draw_state.draw_plan_default_alpha_state(plan, list, valid)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return {SOURCE_BLOCK_PLAN_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_DRAW_PLAN_DEFAULT_ALPHA_STATE, SOURCE_BLOCK_PLAN_GENERATED_OWNER_KEY: SOURCE_BLOCK_PLAN_DRAW_PLAN_DEFAULT_ALPHA_GENERATED_OWNER, SOURCE_BLOCK_PLAN_RESULT_KEY: result, SOURCE_BLOCK_PLAN_CANONICAL_KEY: canonical, SOURCE_BLOCK_PLAN_MATCHES_KEY: matches}
+
+static func generated_block_draw_plan_bridge_state(plan: Variant, list: Variant, valid: bool, alpha: float, time_absin: float) -> Dictionary:
+	var result = _block_call(SOURCE_BLOCK_PLAN_DRAW_PLAN_JAVA_METHOD, [plan, list, valid, alpha, time_absin])
+	var canonical = source_block_plan_draw_state.draw_plan_state(plan, list, valid, alpha, time_absin)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return {SOURCE_BLOCK_PLAN_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_DRAW_PLAN_STATE, SOURCE_BLOCK_PLAN_GENERATED_OWNER_KEY: SOURCE_BLOCK_PLAN_DRAW_PLAN_GENERATED_OWNER, SOURCE_BLOCK_PLAN_RESULT_KEY: result, SOURCE_BLOCK_PLAN_CANONICAL_KEY: canonical, SOURCE_BLOCK_PLAN_MATCHES_KEY: matches}
+
+static func generated_block_draw_other_player_plan_bridge_state(plan: Variant, list: Variant, alpha: float) -> Dictionary:
+	var result = _block_call(SOURCE_BLOCK_PLAN_DRAW_OTHER_PLAYER_PLAN_JAVA_METHOD, [plan, list, alpha])
+	var canonical = source_block_plan_draw_state.draw_other_player_plan_state(plan, list, alpha)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return {SOURCE_BLOCK_PLAN_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_DRAW_OTHER_PLAYER_PLAN_STATE, SOURCE_BLOCK_PLAN_GENERATED_OWNER_KEY: SOURCE_BLOCK_PLAN_DRAW_OTHER_PLAYER_PLAN_GENERATED_OWNER, SOURCE_BLOCK_PLAN_RESULT_KEY: result, SOURCE_BLOCK_PLAN_CANONICAL_KEY: canonical, SOURCE_BLOCK_PLAN_MATCHES_KEY: matches}
+
+static func generated_block_draw_plan_region_bridge_state(plan: Variant, list: Variant) -> Dictionary:
+	var result = _block_call(SOURCE_BLOCK_PLAN_DRAW_PLAN_REGION_JAVA_METHOD, [plan, list])
+	var canonical = source_block_plan_draw_state.draw_plan_region_state(plan, list)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return {SOURCE_BLOCK_PLAN_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_DRAW_PLAN_REGION_STATE, SOURCE_BLOCK_PLAN_GENERATED_OWNER_KEY: SOURCE_BLOCK_PLAN_DRAW_PLAN_REGION_GENERATED_OWNER, SOURCE_BLOCK_PLAN_RESULT_KEY: result, SOURCE_BLOCK_PLAN_CANONICAL_KEY: canonical, SOURCE_BLOCK_PLAN_MATCHES_KEY: matches}
+
+static func generated_block_draw_default_plan_region_bridge_state(plan: Variant, list: Variant, rotate_value: bool, rotate_draw: bool, plan_rotation: float) -> Dictionary:
+	var result = _block_call(SOURCE_BLOCK_PLAN_DRAW_DEFAULT_PLAN_REGION_JAVA_METHOD, [plan, list, rotate_value, rotate_draw, plan_rotation])
+	var canonical = source_block_plan_draw_state.draw_default_plan_region_state(plan, list, rotate_value, rotate_draw, plan_rotation)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return {SOURCE_BLOCK_PLAN_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_DRAW_DEFAULT_PLAN_REGION_STATE, SOURCE_BLOCK_PLAN_GENERATED_OWNER_KEY: SOURCE_BLOCK_PLAN_DRAW_DEFAULT_PLAN_REGION_GENERATED_OWNER, SOURCE_BLOCK_PLAN_RESULT_KEY: result, SOURCE_BLOCK_PLAN_CANONICAL_KEY: canonical, SOURCE_BLOCK_PLAN_MATCHES_KEY: matches}
+
+static func generated_block_find_plan_default_size_bridge_state(list: Variant, x_value: int, y_value: int, predicate: Variant) -> Dictionary:
+	var result = _block_call(SOURCE_BLOCK_PLAN_FIND_PLAN_DEFAULT_SIZE_JAVA_METHOD, [list, x_value, y_value, predicate])
+	var canonical = source_block_plan_draw_state.find_plan_default_size_state(list, x_value, y_value, predicate)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return {SOURCE_BLOCK_PLAN_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_FIND_PLAN_DEFAULT_SIZE_STATE, SOURCE_BLOCK_PLAN_GENERATED_OWNER_KEY: SOURCE_BLOCK_PLAN_FIND_PLAN_DEFAULT_SIZE_GENERATED_OWNER, SOURCE_BLOCK_PLAN_RESULT_KEY: result, SOURCE_BLOCK_PLAN_CANONICAL_KEY: canonical, SOURCE_BLOCK_PLAN_MATCHES_KEY: matches}
+
+static func generated_block_find_plan_bridge_state(list: Variant, x_value: int, y_value: int, size_value: int, predicate: Variant, list_is_query_eachable: bool, query_find_result: Variant) -> Dictionary:
+	var result = _block_call(SOURCE_BLOCK_PLAN_FIND_PLAN_JAVA_METHOD, [list, x_value, y_value, size_value, predicate, list_is_query_eachable, query_find_result])
+	var canonical = source_block_plan_draw_state.find_plan_state(list, x_value, y_value, size_value, predicate, list_is_query_eachable, query_find_result)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return {SOURCE_BLOCK_PLAN_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_FIND_PLAN_STATE, SOURCE_BLOCK_PLAN_GENERATED_OWNER_KEY: SOURCE_BLOCK_PLAN_FIND_PLAN_GENERATED_OWNER, SOURCE_BLOCK_PLAN_RESULT_KEY: result, SOURCE_BLOCK_PLAN_CANONICAL_KEY: canonical, SOURCE_BLOCK_PLAN_MATCHES_KEY: matches}
+
+static func generated_block_get_plan_region_bridge_state(plan: Variant, list: Variant, full_icon: Variant) -> Dictionary:
+	var result = _block_call(SOURCE_BLOCK_PLAN_GET_PLAN_REGION_JAVA_METHOD, [plan, list, full_icon])
+	var canonical = source_block_plan_draw_state.get_plan_region_state(plan, list, full_icon)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return {SOURCE_BLOCK_PLAN_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_GET_PLAN_REGION_STATE, SOURCE_BLOCK_PLAN_GENERATED_OWNER_KEY: SOURCE_BLOCK_PLAN_GET_PLAN_REGION_GENERATED_OWNER, SOURCE_BLOCK_PLAN_RESULT_KEY: result, SOURCE_BLOCK_PLAN_CANONICAL_KEY: canonical, SOURCE_BLOCK_PLAN_MATCHES_KEY: matches}
+
+static func generated_block_draw_plan_config_bridge_state(plan: Variant, list: Variant) -> Dictionary:
+	var result = _block_call(SOURCE_BLOCK_PLAN_DRAW_PLAN_CONFIG_JAVA_METHOD, [plan, list])
+	var canonical = source_block_plan_draw_state.draw_plan_config_state(plan, list)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return {SOURCE_BLOCK_PLAN_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_DRAW_PLAN_CONFIG_STATE, SOURCE_BLOCK_PLAN_GENERATED_OWNER_KEY: SOURCE_BLOCK_PLAN_DRAW_PLAN_CONFIG_GENERATED_OWNER, SOURCE_BLOCK_PLAN_RESULT_KEY: result, SOURCE_BLOCK_PLAN_CANONICAL_KEY: canonical, SOURCE_BLOCK_PLAN_MATCHES_KEY: matches}
+
+static func generated_block_draw_plan_config_center_bridge_state(plan: Variant, content: Variant, region: String, cross: bool, content_color: Variant) -> Dictionary:
+	var result = _block_call(SOURCE_BLOCK_PLAN_DRAW_PLAN_CONFIG_CENTER_JAVA_METHOD, [plan, content, region, cross, content_color])
+	var canonical = source_block_plan_draw_state.draw_plan_config_center_state(plan, content, region, cross, content_color)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return {SOURCE_BLOCK_PLAN_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_DRAW_PLAN_CONFIG_CENTER_STATE, SOURCE_BLOCK_PLAN_GENERATED_OWNER_KEY: SOURCE_BLOCK_PLAN_DRAW_PLAN_CONFIG_CENTER_GENERATED_OWNER, SOURCE_BLOCK_PLAN_RESULT_KEY: result, SOURCE_BLOCK_PLAN_CANONICAL_KEY: canonical, SOURCE_BLOCK_PLAN_MATCHES_KEY: matches}
+
+static func generated_block_draw_plan_config_center_default_cross_bridge_state(plan: Variant, content: Variant, region: String) -> Dictionary:
+	var result = _block_call(SOURCE_BLOCK_PLAN_DRAW_PLAN_CONFIG_CENTER_DEFAULT_CROSS_JAVA_METHOD, [plan, content, region])
+	var canonical = source_block_plan_draw_state.draw_plan_config_center_default_cross_state(plan, content, region)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return {SOURCE_BLOCK_PLAN_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_DRAW_PLAN_CONFIG_CENTER_DEFAULT_CROSS_STATE, SOURCE_BLOCK_PLAN_GENERATED_OWNER_KEY: SOURCE_BLOCK_PLAN_DRAW_PLAN_CONFIG_CENTER_DEFAULT_CROSS_GENERATED_OWNER, SOURCE_BLOCK_PLAN_RESULT_KEY: result, SOURCE_BLOCK_PLAN_CANONICAL_KEY: canonical, SOURCE_BLOCK_PLAN_MATCHES_KEY: matches}
+
+static func generated_block_draw_plan_config_top_bridge_state(plan: Variant, list: Variant) -> Dictionary:
+	var result = _block_call(SOURCE_BLOCK_PLAN_DRAW_PLAN_CONFIG_TOP_JAVA_METHOD, [plan, list])
+	var canonical = source_block_plan_draw_state.draw_plan_config_top_state(plan, list)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return {SOURCE_BLOCK_PLAN_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_DRAW_PLAN_CONFIG_TOP_STATE, SOURCE_BLOCK_PLAN_GENERATED_OWNER_KEY: SOURCE_BLOCK_PLAN_DRAW_PLAN_CONFIG_TOP_GENERATED_OWNER, SOURCE_BLOCK_PLAN_RESULT_KEY: result, SOURCE_BLOCK_PLAN_CANONICAL_KEY: canonical, SOURCE_BLOCK_PLAN_MATCHES_KEY: matches}
+
+static func generated_block_plan_config_clip_size_bridge_state(clip_size: float) -> Dictionary:
+	var result = _block_call(SOURCE_BLOCK_PLAN_PLAN_CONFIG_CLIP_SIZE_JAVA_METHOD, [clip_size])
+	var canonical = source_block_plan_draw_state.plan_config_clip_size_state(clip_size)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return {SOURCE_BLOCK_PLAN_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_PLAN_CONFIG_CLIP_SIZE_STATE, SOURCE_BLOCK_PLAN_GENERATED_OWNER_KEY: SOURCE_BLOCK_PLAN_PLAN_CONFIG_CLIP_SIZE_GENERATED_OWNER, SOURCE_BLOCK_PLAN_RESULT_KEY: result, SOURCE_BLOCK_PLAN_CANONICAL_KEY: canonical, SOURCE_BLOCK_PLAN_MATCHES_KEY: matches}
+
+static func generated_block_point_config_bridge_state(config: Variant, transformer: Variant) -> Dictionary:
+	var result = _block_call(SOURCE_BLOCK_PLAN_POINT_CONFIG_JAVA_METHOD, [config, transformer])
+	var canonical = source_block_plan_config_state.point_config_state(config, transformer)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return {SOURCE_BLOCK_PLAN_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_POINT_CONFIG_STATE, SOURCE_BLOCK_PLAN_GENERATED_OWNER_KEY: SOURCE_BLOCK_PLAN_POINT_CONFIG_GENERATED_OWNER, SOURCE_BLOCK_PLAN_RESULT_KEY: result, SOURCE_BLOCK_PLAN_CANONICAL_KEY: canonical, SOURCE_BLOCK_PLAN_MATCHES_KEY: matches}
+
+static func generated_block_config_clear_bridge_state(cons: Variant) -> Dictionary:
+	var result = _block_call(SOURCE_BLOCK_PLAN_CONFIG_CLEAR_JAVA_METHOD, [cons])
+	var canonical = source_block_plan_config_state.config_clear_state(cons)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return {SOURCE_BLOCK_PLAN_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CONFIG_CLEAR_STATE, SOURCE_BLOCK_PLAN_GENERATED_OWNER_KEY: SOURCE_BLOCK_PLAN_CONFIG_CLEAR_GENERATED_OWNER, SOURCE_BLOCK_PLAN_RESULT_KEY: result, SOURCE_BLOCK_PLAN_CANONICAL_KEY: canonical, SOURCE_BLOCK_PLAN_MATCHES_KEY: matches}
+
+static func generated_block_config_handler_bridge_state(type_value: Variant, config_handler: Variant) -> Dictionary:
+	var result = _block_call(SOURCE_BLOCK_PLAN_CONFIG_HANDLER_JAVA_METHOD, [type_value, config_handler])
+	var canonical = source_block_plan_config_state.config_handler_state(type_value, config_handler)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return {SOURCE_BLOCK_PLAN_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CONFIG_HANDLER_STATE, SOURCE_BLOCK_PLAN_GENERATED_OWNER_KEY: SOURCE_BLOCK_PLAN_CONFIG_HANDLER_GENERATED_OWNER, SOURCE_BLOCK_PLAN_RESULT_KEY: result, SOURCE_BLOCK_PLAN_CANONICAL_KEY: canonical, SOURCE_BLOCK_PLAN_MATCHES_KEY: matches}
+
+static func generated_block_is_accessible_bridge_state(has_items: bool, item_capacity: int) -> Dictionary:
+	var result = _block_call(SOURCE_BLOCK_PLAN_IS_ACCESSIBLE_JAVA_METHOD, [has_items, item_capacity])
+	var canonical = source_block_plan_config_state.is_accessible_state(has_items, item_capacity)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return {SOURCE_BLOCK_PLAN_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_IS_ACCESSIBLE_STATE, SOURCE_BLOCK_PLAN_GENERATED_OWNER_KEY: SOURCE_BLOCK_PLAN_IS_ACCESSIBLE_GENERATED_OWNER, SOURCE_BLOCK_PLAN_RESULT_KEY: result, SOURCE_BLOCK_PLAN_CANONICAL_KEY: canonical, SOURCE_BLOCK_PLAN_MATCHES_KEY: matches}
+
+static func generated_block_nearby_side_bridge_state(x_value: int, y_value: int, rotation: int, index_value: int, size_value: int, out_value: Variant) -> Dictionary:
+	var result = _block_call(SOURCE_BLOCK_PLAN_NEARBY_SIDE_JAVA_METHOD, [x_value, y_value, rotation, index_value, size_value, out_value])
+	var canonical = source_block_plan_geometry_state.nearby_side_state(x_value, y_value, rotation, index_value, size_value, out_value)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return {SOURCE_BLOCK_PLAN_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_NEARBY_SIDE_STATE, SOURCE_BLOCK_PLAN_GENERATED_OWNER_KEY: SOURCE_BLOCK_PLAN_NEARBY_SIDE_GENERATED_OWNER, SOURCE_BLOCK_PLAN_RESULT_KEY: result, SOURCE_BLOCK_PLAN_CANONICAL_KEY: canonical, SOURCE_BLOCK_PLAN_MATCHES_KEY: matches}
+
+static func generated_block_get_edges_bridge_state(size_value: int) -> Dictionary:
+	var result = _block_call(SOURCE_BLOCK_PLAN_GET_EDGES_JAVA_METHOD, [size_value])
+	var canonical = source_block_plan_geometry_state.get_edges_state(size_value)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return {SOURCE_BLOCK_PLAN_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_GET_EDGES_STATE, SOURCE_BLOCK_PLAN_GENERATED_OWNER_KEY: SOURCE_BLOCK_PLAN_GET_EDGES_GENERATED_OWNER, SOURCE_BLOCK_PLAN_RESULT_KEY: result, SOURCE_BLOCK_PLAN_CANONICAL_KEY: canonical, SOURCE_BLOCK_PLAN_MATCHES_KEY: matches}
+
+static func generated_block_get_inside_edges_bridge_state(size_value: int) -> Dictionary:
+	var result = _block_call(SOURCE_BLOCK_PLAN_GET_INSIDE_EDGES_JAVA_METHOD, [size_value])
+	var canonical = source_block_plan_geometry_state.get_inside_edges_state(size_value)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return {SOURCE_BLOCK_PLAN_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_GET_INSIDE_EDGES_STATE, SOURCE_BLOCK_PLAN_GENERATED_OWNER_KEY: SOURCE_BLOCK_PLAN_GET_INSIDE_EDGES_GENERATED_OWNER, SOURCE_BLOCK_PLAN_RESULT_KEY: result, SOURCE_BLOCK_PLAN_CANONICAL_KEY: canonical, SOURCE_BLOCK_PLAN_MATCHES_KEY: matches}
+
+static func generated_block_iterate_taken_bridge_state(x_value: int, y_value: int, size_value: int, placer: Variant) -> Dictionary:
+	var result = _block_call(SOURCE_BLOCK_PLAN_ITERATE_TAKEN_JAVA_METHOD, [x_value, y_value, size_value, placer])
+	var canonical = source_block_plan_geometry_state.iterate_taken_state(x_value, y_value, size_value, placer)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return {SOURCE_BLOCK_PLAN_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_ITERATE_TAKEN_STATE, SOURCE_BLOCK_PLAN_GENERATED_OWNER_KEY: SOURCE_BLOCK_PLAN_ITERATE_TAKEN_GENERATED_OWNER, SOURCE_BLOCK_PLAN_RESULT_KEY: result, SOURCE_BLOCK_PLAN_CANONICAL_KEY: canonical, SOURCE_BLOCK_PLAN_MATCHES_KEY: matches}
+
+
+

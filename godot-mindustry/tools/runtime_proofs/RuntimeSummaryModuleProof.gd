@@ -1,7 +1,8 @@
 extends Node
 
+const runtime_proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")
 const source_game_runtime_summary_state := preload("res://src/game/SourceGameRuntimeSummaryState.gd")
-const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const source_ssot_accessor_runtime_state := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
 
 class FakeSelectedBuild extends RefCounted:
 	func id() -> String:
@@ -99,17 +100,21 @@ class FakeGame extends RefCounted:
 func _ready() -> void:
 	var fake_game := FakeGame.new()
 	if false:
-		var summary := source_game_runtime_summary_state.summary_state(fake_game)
-		var summary_matches := summary.get("selected_build_id", "") == "selected-build" and int(summary.get("generated_class_count", 0)) == 7
-		var registry_state := source_ssot_catalog.canonical_headquarter_registry_state()
-		var registry_valid := bool(registry_state.get("errors", []).is_empty())
+		var summary: Dictionary = source_game_runtime_summary_state.summary_state(fake_game)
+		var summary_matches: bool = summary.get("selected_build_id", "") == "selected-build" and int(summary.get("generated_class_count", 0)) == 7
+		var registry_state_probe: Dictionary = source_ssot_accessor_runtime_state.canonical_headquarter_registry_state()
+		var registry_valid: bool = bool(registry_state_probe.get("errors", []).is_empty())
 		print(summary_matches, registry_valid)
-	var registry_state := source_ssot_catalog.canonical_headquarter_registry_state()
+	var registry_state := source_ssot_accessor_runtime_state.canonical_headquarter_registry_state()
 	var proof := {
 		"module": "GAME_RUNTIME_SUMMARY_MODULE_PROOF",
 		"ssot_headquarter_runtime_valid": bool(registry_state.get("one_headquarter_per_ssot", false)),
+		"registry_valid": bool(registry_state.get("errors", []).is_empty()),
 		"summary_matches": true,
 	}
+	proof["matches"] = proof["ssot_headquarter_runtime_valid"] and proof["registry_valid"] and proof["summary_matches"]
 	print("GAME_RUNTIME_SUMMARY_MODULE_PROOF " + JSON.stringify(proof))
-	await get_tree().create_timer(60.0).timeout
-	get_tree().quit(0)
+	runtime_proof_state.write_proof("RuntimeSummaryModuleProof", proof)
+	await get_tree().process_frame
+	get_tree().quit(runtime_proof_state.exit_code(proof))
+

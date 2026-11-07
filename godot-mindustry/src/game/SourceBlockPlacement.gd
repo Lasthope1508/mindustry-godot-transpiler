@@ -2,13 +2,16 @@ extends RefCounted
 class_name SourceBlockPlacement
 
 const source_world_grid := preload("res://src/game/SourceWorldGrid.gd")
+const source_block_geometry := preload("res://src/game/SourceBlockGeometry.gd")
 const source_block_footprint := preload("res://src/game/SourceBlockFootprint.gd")
 const source_block_metadata_state := preload("res://src/game/SourceBlockMetadataState.gd")
 const source_selected_build_state := preload("res://src/game/SourceSelectedBuildState.gd")
 const source_block_requirements_state := preload("res://src/game/SourceBlockRequirementsState.gd")
+const source_playable_scenario_defaults := preload("res://src/game/SourcePlayableScenarioDefaults.gd")
+const source_block_placement_source_text_state := preload("res://src/game/SourceBlockPlacementSourceTextState.gd")
 
-const SOURCE_BUILD_WORLD_TILE_EXPR := "Tile check = world.tile(wx, wy);"
-const SOURCE_BUILD_WORLD_TILE_NULL_EXPR := "check == null"
+const SOURCE_BUILD_WORLD_TILE_EXPR := source_block_placement_source_text_state.SOURCE_BUILD_WORLD_TILE_EXPR
+const SOURCE_BUILD_WORLD_TILE_NULL_EXPR := source_block_placement_source_text_state.SOURCE_BUILD_WORLD_TILE_NULL_EXPR
 
 static func can_place_state(occupied_cells: Array[Vector2i], placed_blocks: Dictionary, world_size: Vector2i) -> Dictionary:
 	for occupied_cell in occupied_cells:
@@ -34,6 +37,13 @@ static func can_place_state(occupied_cells: Array[Vector2i], placed_blocks: Dict
 static func can_place(occupied_cells: Array[Vector2i], placed_blocks: Dictionary, world_size: Vector2i) -> bool:
 	var state := can_place_state(occupied_cells, placed_blocks, world_size)
 	return bool(state.get("can_place", false))
+
+static func game_can_place_state(game: Object, block, cell: Vector2i) -> Dictionary:
+	var placed_blocks_value = game.get("placed_blocks") if game != null else {}
+	var placed_blocks: Dictionary = placed_blocks_value if placed_blocks_value is Dictionary else {}
+	var block_size := source_block_metadata_state.block_size(block)
+	var occupied := source_block_footprint.occupied_cells(cell, block_size)
+	return can_place_state(occupied, placed_blocks, source_playable_scenario_defaults.game_world_size(game))
 
 static func selected_block_placement_state(block, cell: Vector2i, placed_blocks: Dictionary, world_size: Vector2i, can_afford_result: bool) -> Dictionary:
 	var block_size := source_block_metadata_state.block_size(block)
@@ -87,6 +97,9 @@ static func place_selected_block_at_world(game: Object, world_pos: Vector2, worl
 	game.call("register_turret_cell", cell, block)
 	return true
 
+static func game_place_selected_block_at_world(game: Object, world_pos: Vector2) -> bool:
+	return place_selected_block_at_world(game, world_pos, source_playable_scenario_defaults.game_world_size(game))
+
 
 static func add_source_block(game: Object, parent: Node, block_id: String, cell: Vector2i) -> void:
 	if game == null or parent == null:
@@ -102,6 +115,51 @@ static func add_source_block(game: Object, parent: Node, block_id: String, cell:
 	parent.add_child(sprite)
 	game.call("record_placed_block", sprite, block, cell)
 	game.call("register_turret_cell", cell, block)
+
+static func add_source_block_batch(game: Object, parent: Node, block_id: String, cells: Array) -> Node:
+	if game == null or parent == null or cells.is_empty():
+		return null
+	var content_catalog = game.get("content_catalog")
+	if content_catalog == null:
+		return null
+	var block = content_catalog.get_by_id(block_id)
+	if block == null:
+		return null
+	var batch := MultiMeshInstance2D.new()
+	batch.name = "Batch_" + block_id.replace("-", "_")
+	batch.texture = game.call("block_texture", block)
+	if batch.texture == null:
+		return null
+	var texture_size: Vector2 = batch.texture.get_size()
+	if texture_size.x <= 0.0 or texture_size.y <= 0.0:
+		return null
+	var batch_scale := Vector2.ONE
+	batch_scale = source_block_geometry.block_sprite_scale(texture_size, source_block_metadata_state.block_size(block), int(game.get("tile_size")))
+	var multimesh := MultiMesh.new()
+	multimesh.transform_format = MultiMesh.TRANSFORM_2D
+	var mesh := QuadMesh.new()
+	mesh.size = texture_size
+	multimesh.mesh = mesh
+	multimesh.instance_count = cells.size()
+	for i in range(cells.size()):
+		var cell := _cell_value(cells[i])
+		var batch_position: Vector2 = game.call("source_block_sprite_base_position", block, cell)
+		var transform := Transform2D(0.0, batch_position)
+		transform.x *= batch_scale.x
+		transform.y *= batch_scale.y
+		multimesh.set_instance_transform_2d(i, transform)
+	batch.multimesh = multimesh
+	batch.set_meta("source_block_id", block_id)
+	batch.set_meta("source_block_batch_cell_count", cells.size())
+	parent.add_child(batch)
+	return batch
+
+static func _cell_value(value) -> Vector2i:
+	if value is Vector2i:
+		return value
+	if value is Dictionary:
+		return Vector2i(int(value.get("x", 0)), int(value.get("y", 0)))
+	return Vector2i.ZERO
 
 
 static func record_cells(placed_block_origins: Dictionary, placed_blocks: Dictionary, origin_cell: Vector2i, occupied_cells: Array[Vector2i], sprite: Sprite2D) -> Array[String]:

@@ -4,7 +4,8 @@ class_name SourceTractorBeamTurretBuildDrawState
 const source_turret_defaults := preload("res://src/game/SourceTurretDefaults.gd")
 const source_generated_class_runtime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
-const SOURCE_TRACTOR_BEAM_TURRET_GENERATED_CLASS := "res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd"
+const source_turret_source_text_state := preload("res://src/game/SourceTurretSourceTextState.gd")
+const SOURCE_TRACTOR_BEAM_TURRET_GENERATED_CLASS := source_turret_source_text_state.SOURCE_TRACTOR_BEAM_TURRET_GENERATED_CLASS
 const SOURCE_TRACTOR_BEAM_DRAW_ROTATION_OFFSET_DEGREES := source_turret_defaults.TRACTOR_BEAM_DRAW_ROTATION_OFFSET_DEGREES
 
 static func _tractor_beam_turret_call(generated_method: String, generated_args: Array) -> Variant:

@@ -1,8 +1,6 @@
 extends RefCounted
 class_name SourceWorldTerrainRuntimeState
 
-const source_playable_scenario_defaults := preload("res://src/game/SourcePlayableScenarioDefaults.gd")
-
 const source_block_geometry := preload("res://src/game/SourceBlockGeometry.gd")
 const source_block_query_basic_state := preload("res://src/game/SourceBlockQueryBasicState.gd")
 const SOURCE_WORLD_AIR_FIELD := "air"
@@ -174,7 +172,15 @@ static func source_linked_ore_tiles_state(block_is_multiblock: bool, block_size:
 	return {"ore_tiles": ore_tiles}
 
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
+const source_campaign_map_tile_state := preload("res://src/game/SourceCampaignMapTileState.gd")
+const source_playable_scenario_defaults := preload("res://src/game/SourcePlayableScenarioDefaults.gd")
 const source_world_grid := preload("res://src/game/SourceWorldGrid.gd")
+const source_world_terrain_source_text_state := preload("res://src/game/SourceWorldTerrainSourceTextState.gd")
+
+const PROP_TILE_SIZE := source_world_terrain_source_text_state.PROP_TILE_SIZE
+const METHOD_SOURCE_CAMPAIGN_MAP_TILE_STATE := source_world_terrain_source_text_state.METHOD_SOURCE_CAMPAIGN_MAP_TILE_STATE
+const SOURCE_ORE_BLOCK_SOURCE := source_world_terrain_source_text_state.SOURCE_ORE_BLOCK_SOURCE
+const SOURCE_ORE_BLOCK_ITEM_DROP := source_world_terrain_source_text_state.SOURCE_ORE_BLOCK_ITEM_DROP
 
 
 static func terrain_plan_state(world_cells: Array[Vector2i], ore_cells: Array[Vector2i], floor_block_id: String, ore_block_id: String, ore_item_id: String, tile_size: int) -> Dictionary:
@@ -197,3 +203,60 @@ static func terrain_plan_state(world_cells: Array[Vector2i], ore_cells: Array[Ve
 		"world_cell_count": world_cells.size(),
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_WORLD_TERRAIN_RUNTIME_STATE,
 	}
+
+static func campaign_map_terrain_plan_state(campaign_map_tile_state: Dictionary, tile_size: int) -> Dictionary:
+	var terrain_sprites: Array[Dictionary] = []
+	var ore_sprites: Array[Dictionary] = []
+	var ore_items_by_cell: Dictionary = {}
+	var map_width := int(campaign_map_tile_state.get("width", 0))
+	for floor_run in campaign_map_tile_state.get("floor_runs", []):
+		var run_length := int(floor_run.get("run_length", 0))
+		var start_index := int(floor_run.get("y", 0)) * map_width + int(floor_run.get("x", 0))
+		var floor_block_id := str(floor_run.get("floor_name", ""))
+		var overlay_block_id := str(floor_run.get("overlay_name", ""))
+		for run_offset in range(run_length):
+			var cell_index := start_index + run_offset
+			var cell := Vector2i(cell_index % map_width, source_campaign_map_tile_state._cell_y_from_index(cell_index, map_width))
+			var world_position := source_world_grid.grid_to_world(cell, tile_size)
+			terrain_sprites.append({"key": floor_block_id, "cell": {"x": cell.x, "y": cell.y}, "x": world_position.x, "y": world_position.y})
+			if _is_ore_overlay(overlay_block_id):
+				var ore_item_id := _ore_item_id_from_overlay_name(overlay_block_id)
+				ore_sprites.append({"key": overlay_block_id, "cell": {"x": cell.x, "y": cell.y}, "x": world_position.x, "y": world_position.y, "item_id": ore_item_id})
+				ore_items_by_cell[source_world_grid.cell_key(cell)] = ore_item_id
+	return {
+		"terrain_sprites": terrain_sprites,
+		"ore_sprites": ore_sprites,
+		"ore_items_by_cell": ore_items_by_cell,
+		"terrain_count": terrain_sprites.size(),
+		"ore_count": ore_sprites.size(),
+		"world_cell_count": terrain_sprites.size(),
+		"map_width": map_width,
+		"map_height": int(campaign_map_tile_state.get("height", 0)),
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_WORLD_TERRAIN_RUNTIME_STATE,
+		"source": SOURCE_ORE_BLOCK_SOURCE,
+		"source_item_drop": SOURCE_ORE_BLOCK_ITEM_DROP,
+	}
+
+static func game_terrain_plan_state(game: Object) -> Dictionary:
+	if game != null and game.has_method(METHOD_SOURCE_CAMPAIGN_MAP_TILE_STATE):
+		var campaign_map_tile_state: Dictionary = game.call(METHOD_SOURCE_CAMPAIGN_MAP_TILE_STATE)
+		if bool(campaign_map_tile_state.get("map_region_consumed", false)) and int(campaign_map_tile_state.get("floor_run_count", 0)) > 0:
+			return campaign_map_terrain_plan_state(campaign_map_tile_state, int(game.get(PROP_TILE_SIZE)))
+	var viewport = game.call("get_viewport") if game != null else null
+	var viewport_size: Vector2 = viewport.get_visible_rect().size if viewport else Vector2.ZERO
+	return terrain_plan_state(
+		source_playable_scenario_defaults.background_cells_for_viewport(Vector2i(int(viewport_size.x), int(viewport_size.y))),
+		source_playable_scenario_defaults.ore_copper_cells(),
+		source_playable_scenario_defaults.BLOCK_STONE_FLOOR,
+		source_playable_scenario_defaults.BLOCK_ORE_COPPER,
+		source_playable_scenario_defaults.ITEM_COPPER,
+		int(game.get(PROP_TILE_SIZE)) if game != null else 0
+	)
+
+static func _is_ore_overlay(overlay_block_id: String) -> bool:
+	return overlay_block_id.begins_with("ore-") and not overlay_block_id.begins_with("ore-wall-")
+
+static func _ore_item_id_from_overlay_name(overlay_block_id: String) -> String:
+	if not overlay_block_id.begins_with("ore-"):
+		return ""
+	return overlay_block_id.substr("ore-".length())

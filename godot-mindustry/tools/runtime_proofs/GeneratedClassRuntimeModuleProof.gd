@@ -1,7 +1,8 @@
 extends Node
 
+const runtime_proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")
 const source_generated_class_runtime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
-const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const source_ssot_accessor_runtime_state := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
 
 func _ready() -> void:
 	var result := {"value": 1, "present": true}
@@ -13,7 +14,7 @@ func _ready() -> void:
 	var subset_matches := source_generated_class_runtime.generated_state_matches_generated_subset_ignoring_source_owner(result, canonical)
 	var ignored_extra_matches := source_generated_class_runtime.generated_state_matches_generated_subset_ignoring_source_owner(ignored_result, ignored_canonical, ["volatile"])
 	var nan_matches := source_generated_class_runtime.generated_state_matches_generated_subset_or_nan_ignoring_source_owner(nan_result, nan_canonical, "nan", "identity")
-	var registry_state := source_ssot_catalog.canonical_headquarter_registry_state()
+	var registry_state := source_ssot_accessor_runtime_state.canonical_headquarter_registry_state()
 	var proof := {
 		"module": "GENERATED_CLASS_RUNTIME_MODULE_PROOF",
 		"subset_matches": subset_matches,
@@ -25,12 +26,8 @@ func _ready() -> void:
 		"registry_headquarter_count": int(registry_state.get("headquarter_count", 0)),
 	}
 	proof["matches"] = proof["module_matches"] and proof["one_headquarter_per_ssot"] and proof["registry_valid"]
-	var proof_json := JSON.stringify(proof)
-	print("GENERATED_CLASS_RUNTIME_MODULE_PROOF " + proof_json)
-	var proof_path := ProjectSettings.globalize_path("res://tools/runtime_proofs/GeneratedClassRuntimeModuleProof.json")
-	var proof_file := FileAccess.open(proof_path, FileAccess.WRITE)
-	if proof_file != null:
-		proof_file.store_string(proof_json)
-		proof_file.flush()
-	await get_tree().create_timer(60.0).timeout
-	get_tree().quit(0)
+	print("GENERATED_CLASS_RUNTIME_MODULE_PROOF " + JSON.stringify(proof))
+	runtime_proof_state.write_proof("GeneratedClassRuntimeModuleProof", proof)
+	await get_tree().process_frame
+	get_tree().quit(runtime_proof_state.exit_code(proof))
+

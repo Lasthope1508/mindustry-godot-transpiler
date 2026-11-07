@@ -2,7 +2,8 @@ extends Node
 
 const PortGameScript := preload("res://src/game/PortGame.gd")
 const source_block_requirements_state := preload("res://src/game/SourceBlockRequirementsState.gd")
-const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const source_ssot_accessor_runtime_state := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
+const runtime_proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")
 
 func _ready() -> void:
 	var game := PortGameScript.new()
@@ -24,7 +25,7 @@ func _ready() -> void:
 	var game_can_afford_matches := source_block_requirements_state.game_can_afford(game, proof_block) == true
 	source_block_requirements_state.game_spend_requirements(game, proof_block)
 	var game_spend_matches := int(game.core_items.get("copper", 0)) == 8
-	var registry_state := source_ssot_catalog.canonical_headquarter_registry_state()
+	var registry_state := source_ssot_accessor_runtime_state.canonical_headquarter_registry_state()
 	var stacks := [
 		{"item": {"id": 2, "name": "copper"}, "amount": 2},
 		{"item": {"id": 1, "name": "lead"}, "amount": 1},
@@ -59,12 +60,9 @@ func _ready() -> void:
 		"registry_headquarter_count": int(registry_state.get("headquarter_count", 0)),
 	}
 	proof["matches"] = bool(proof.get("default_callbacks_match", false)) and game_can_afford_matches and game_spend_matches and generated_bridge_matches and proof["one_headquarter_per_ssot"] and proof["registry_valid"]
-	var proof_json := JSON.stringify(proof)
-	print("BLOCK_REQUIREMENTS_STATE_MODULE_PROOF " + proof_json)
-	var proof_path := ProjectSettings.globalize_path("res://tools/runtime_proofs/BlockRequirementsStateModuleProof.json")
-	var proof_file := FileAccess.open(proof_path, FileAccess.WRITE)
-	if proof_file != null:
-		proof_file.store_string(proof_json)
+	print("BLOCK_REQUIREMENTS_STATE_MODULE_PROOF " + JSON.stringify(proof))
+	runtime_proof_state.write_proof("BlockRequirementsStateModuleProof", proof)
 	game.free()
-	await get_tree().create_timer(60.0).timeout
-	get_tree().quit(0)
+	await get_tree().process_frame
+	get_tree().quit(runtime_proof_state.exit_code(proof))
+

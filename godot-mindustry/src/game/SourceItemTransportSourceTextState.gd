@@ -1,0 +1,21 @@
+extends RefCounted
+class_name SourceItemTransportSourceTextState
+
+const ITEM_SPRITE_KEY_DEFAULT := "item"
+const PROP_PATH_POINTS := "path_points"
+const PROP_ITEM_SPRITES := "item_sprites"
+const SOURCE_ITEM_TRANSPORT_PROGRESS_KEY := "transport_progress"
+const SOURCE_ITEM_TRANSPORT_SPRITES_KEY := "item_sprites"
+const SOURCE_ITEM_TRANSPORT_SPRITE_COUNT_KEY := "item_sprite_count"
+const SOURCE_ITEM_TRANSPORT_PROGRESS_BEFORE_KEY := "transport_progress_before"
+const SOURCE_ITEM_TRANSPORT_PROGRESS_DELTA_KEY := "transport_progress_delta"
+const SOURCE_ITEM_TRANSPORT_SOURCE_OWNER_KEY := "source_owner"
+const SOURCE_ITEM_TRANSPORT_SPRITE_INDEX_KEY := "index"
+const SOURCE_ITEM_TRANSPORT_SPRITE_KEY_KEY := "key"
+const SOURCE_ITEM_TRANSPORT_SPRITE_X_KEY := "x"
+const SOURCE_ITEM_TRANSPORT_SPRITE_Y_KEY := "y"
+const SOURCE_ITEM_TRANSPORT_SPRITE_VISIBLE_KEY := "visible"
+const SOURCE_ITEM_TRANSPORT_SPRITE_PHASE_KEY := "phase"
+const SOURCE_ITEM_TRANSPORT_SPRITE_PATH_INDEX_KEY := "path_index"
+const SOURCE_ITEM_TRANSPORT_SPRITE_NEXT_PATH_INDEX_KEY := "next_path_index"
+const SOURCE_ITEM_TRANSPORT_SPRITE_LOCAL_T_KEY := "local_t"

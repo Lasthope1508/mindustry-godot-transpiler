@@ -1,8 +1,9 @@
 extends Node
 
+const runtime_proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")
 const source_playable_content_defaults := preload("res://src/game/SourcePlayableContentDefaults.gd")
 const source_playable_scenario_defaults := preload("res://src/game/SourcePlayableScenarioDefaults.gd")
-const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const source_ssot_accessor_runtime_state := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
 
 func _has_unique_strings(values: Array[String]) -> bool:
 	var seen := {}
@@ -62,7 +63,7 @@ func _ready() -> void:
 	]
 	var pinned_blocks := source_playable_content_defaults.pinned_build_block_ids()
 	var scenario_pinned_blocks := source_playable_scenario_defaults.pinned_build_block_ids()
-	var registry_state := source_ssot_catalog.canonical_headquarter_registry_state()
+	var registry_state := source_ssot_accessor_runtime_state.canonical_headquarter_registry_state()
 	var proof := {
 		"module": "SourcePlayableContentDefaults",
 		"content_ids_match": content_ids == expected_content_ids,
@@ -76,11 +77,8 @@ func _ready() -> void:
 		"registry_headquarter_count": int(registry_state.get("headquarter_count", 0)),
 	}
 	proof["matches"] = proof["content_ids_match"] and proof["scenario_aliases_match"] and proof["selected_classes_match"] and proof["pinned_blocks_match"] and proof["selected_classes_unique"] and proof["pinned_blocks_unique"] and proof["one_headquarter_per_ssot"] and proof["registry_valid"]
-	var proof_json := JSON.stringify(proof)
-	print("PLAYABLE_CONTENT_DEFAULTS_MODULE_PROOF " + proof_json)
-	var proof_path := ProjectSettings.globalize_path("res://tools/runtime_proofs/PlayableContentDefaultsModuleProof.json")
-	var proof_file := FileAccess.open(proof_path, FileAccess.WRITE)
-	if proof_file != null:
-		proof_file.store_string(proof_json)
-	await get_tree().create_timer(60.0).timeout
-	get_tree().quit(0)
+	print("PLAYABLE_CONTENT_DEFAULTS_MODULE_PROOF " + JSON.stringify(proof))
+	runtime_proof_state.write_proof("PlayableContentDefaultsModuleProof", proof)
+	await get_tree().process_frame
+	get_tree().quit(runtime_proof_state.exit_code(proof))
+

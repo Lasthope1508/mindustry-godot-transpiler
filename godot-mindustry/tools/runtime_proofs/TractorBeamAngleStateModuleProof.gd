@@ -2,7 +2,8 @@ extends Node
 
 const PortGameScript := preload("res://src/game/PortGame.gd")
 const source_tractor_beam_turret_build_update_tile_angle_to_target_state_script := preload("res://src/game/SourceTractorBeamTurretBuildUpdateTileAngleToTargetState.gd")
-const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const source_ssot_accessor_runtime_state := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
+const runtime_proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")
 
 func _ready() -> void:
 	var game := PortGameScript.new()
@@ -20,7 +21,7 @@ func _ready() -> void:
 	var module := source_tractor_beam_turret_build_update_tile_angle_to_target_state_script.angle_to_target_state(true, 4.0, 6.0, target_after, callbacks.get(source_tractor_beam_turret_build_update_tile_angle_to_target_state_script.SOURCE_TRACTOR_BEAM_ANGLE_TO_TARGET_KEY, Callable()))
 	var override_module := source_tractor_beam_turret_build_update_tile_angle_to_target_state_script.game_angle_to_target_state(self, true, 4.0, 6.0, target_after)
 	var primitive_override_module := source_tractor_beam_turret_build_update_tile_angle_to_target_state_script.angle_to_target_state(true, 4.0, 6.0, target_after, Callable(self, "proof_angle_to_target"))
-	var registry_state := source_ssot_catalog.canonical_headquarter_registry_state()
+	var registry_state := source_ssot_accessor_runtime_state.canonical_headquarter_registry_state()
 	var proof := {
 		"module": "SourceTractorBeamTurretBuildUpdateTileAngleToTargetState",
 		"wrapper_matches": wrapper == module,
@@ -34,9 +35,10 @@ func _ready() -> void:
 	}
 	proof["matches"] = proof["module_matches"] and proof["default_callbacks_match"] and proof["override_callbacks_match"] and proof["override_module_matches"] and proof["one_headquarter_per_ssot"] and proof["registry_valid"]
 	print("TRACTOR_BEAM_ANGLE_STATE_MODULE_PROOF " + JSON.stringify(proof))
+	runtime_proof_state.write_proof("TractorBeamAngleStateModuleProof", proof)
 	game.free()
-	await get_tree().create_timer(60.0).timeout
-	get_tree().quit(0)
+	await get_tree().process_frame
+	get_tree().quit(runtime_proof_state.exit_code(proof))
 
 func proof_angle_to_target(_origin: Dictionary, _target: Variant) -> float:
 	return 33.0
@@ -45,3 +47,4 @@ func _tractor_beam_angle_method_names() -> Dictionary:
 	return {
 		source_tractor_beam_turret_build_update_tile_angle_to_target_state_script.SOURCE_TRACTOR_BEAM_ANGLE_TO_TARGET_KEY: "proof_angle_to_target",
 	}
+

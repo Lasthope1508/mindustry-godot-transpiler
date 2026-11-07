@@ -1,0 +1,4 @@
+extends "res://src/game/SourceRuntimeOwnerUnitDestroyRegistry.gd"
+
+const PORT_GAME_SOURCE_UNIT_BUILDING_GET_COMMAND_POSITION_STATE := "port_game.source_unit_building_get_command_position_state"
+const PORT_GAME_SOURCE_UNIT_BUILDING_ON_COMMAND_STATE := "port_game.source_unit_building_on_command_state"

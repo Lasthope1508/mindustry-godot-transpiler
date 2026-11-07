@@ -1,4 +1,4 @@
-extends "res://src/game/SourceBuildPayloadPortBridge.gd"
+extends "res://src/game/SourceBaseTurretDrawPortBridge.gd"
 
 const source_item_turret_build_state := preload("res://src/game/SourceItemTurretBuildState.gd")
 

@@ -3,19 +3,10 @@
   "slices": {
     "N486": {
       "canonical_ledger": "source_slice_ledger.N486",
-      "deferred_exprs": [],
-      "exact_exprs": [
-        "public static float angleDist(float a, float b){\n        a = Mathf.mod(a, 360f);\n        b = Mathf.mod(b, 360f);\n        return Math.min((a - b) < 0 ? a - b + 360 : a - b, (b - a) < 0 ? b - a + 360 : b - a);\n    }",
-        "a = Mathf.mod(a, 360f);",
-        "b = Mathf.mod(b, 360f);",
-        "Math.min((a - b) < 0 ? a - b + 360 : a - b, (b - a) < 0 ? b - a + 360 : b - a)"
-      ],
-      "godot_owner": "PortGame.source_angle_distance",
-      "java_class": "arc.math.Angles",
-      "java_method": "angleDist(float a, float b)",
+      "status": "done",
       "java_source": "arc-core/src/arc/math/Angles.java",
-      "rule": "Backfills SSOT for existing source_angle_distance helper against Arc Angles.angleDist.",
-      "runtime_proof": "/root/Main.source_angle_distance",
+      "java_method": "angleDist(float a, float b)",
+      "godot_owner": "PortGame.source_angle_distance",
       "source_symbols": [
         "arc_angles_angle_dist.method",
         "arc_angles_angle_dist.mod_a",
@@ -24,58 +15,36 @@
         "arc_angles_angle_dist.current_input",
         "arc_angles_angle_dist.target_input"
       ],
-      "status": "done",
       "tests": [
         "test_arc_angles_angle_distance_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_turret_rotation_and_shoot_cone"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_angle_distance"
     },
     "N488": {
       "canonical_ledger": "source_slice_ledger.N488",
-      "deferred_exprs": [],
-      "exact_exprs": [
-        "public static float angleDist(float a, float b){\n        a = Mathf.mod(a, 360f);\n        b = Mathf.mod(b, 360f);\n        return Math.min((a - b) < 0 ? a - b + 360 : a - b, (b - a) < 0 ? b - a + 360 : b - a);\n    }",
-        "source_arc_angles_angle_dist(a, b)",
-        "a",
-        "b"
-      ],
-      "godot_owner": "PortGame.source_angles_angle_dist",
-      "java_class": "arc.math.Angles",
-      "java_method": "angleDist(float a, float b)",
+      "status": "done",
       "java_source": "arc-core/src/arc/math/Angles.java",
-      "rule": "Backfills and wires source_angles_angle_dist to the canonical Arc Angles.angleDist helper for weapon cone gating.",
-      "runtime_proof": "/root/Main.source_angles_angle_dist",
+      "java_method": "angleDist(float a, float b)",
+      "godot_owner": "PortGame.source_angles_angle_dist",
       "source_symbols": [
         "source_angles_angle_dist.method",
         "source_angles_angle_dist.canonical_wrapper",
         "source_angles_angle_dist.a_input",
         "source_angles_angle_dist.b_input"
       ],
-      "status": "done",
       "tests": [
         "test_source_angles_angle_dist_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_weapon_update_cone_gate_state"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_angles_angle_dist"
     },
     "N491": {
       "canonical_ledger": "source_slice_ledger.N491",
-      "deferred_exprs": [],
-      "exact_exprs": [
-        "public static float angle(float x, float y, float x2, float y2){\n        float ang = Mathf.atan2(x2 - x, y2 - y) * Mathf.radDeg;\n        if(ang < 0) ang += 360f;\n        return ang;\n    }",
-        "float ang = Mathf.atan2(x2 - x, y2 - y) * Mathf.radDeg;",
-        "if(ang < 0) ang += 360f;",
-        "return ang;",
-        "x",
-        "y",
-        "x2",
-        "y2"
-      ],
-      "godot_owner": "PortGame.source_arc_angles_angle",
-      "java_class": "arc.math.Angles",
-      "java_method": "angle(float x, float y, float x2, float y2)",
+      "status": "done",
       "java_source": "arc-core/src/arc/math/Angles.java",
-      "rule": "Backfills SSOT for existing canonical source_arc_angles_angle helper against Arc Angles.angle.",
-      "runtime_proof": "/root/Main.source_arc_angles_angle",
+      "java_method": "angle(float x, float y, float x2, float y2)",
+      "godot_owner": "PortGame.source_arc_angles_angle",
       "source_symbols": [
         "arc_angles_angle.method",
         "arc_angles_angle.atan2_expr",
@@ -86,29 +55,18 @@
         "arc_angles_angle.to_x_input",
         "arc_angles_angle.to_y_input"
       ],
-      "status": "done",
       "tests": [
         "test_arc_angles_angle_symbols_are_registered_with_source_backing",
         "test_arc_position_angle_to_target_symbols_are_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_arc_angles_angle"
     },
     "N492": {
       "canonical_ledger": "source_slice_ledger.N492",
-      "deferred_exprs": [],
-      "exact_exprs": [
-        "public static float angleDist(float a, float b){\n        a = Mathf.mod(a, 360f);\n        b = Mathf.mod(b, 360f);\n        return Math.min((a - b) < 0 ? a - b + 360 : a - b, (b - a) < 0 ? b - a + 360 : b - a);\n    }",
-        "a = Mathf.mod(a, 360f);",
-        "b = Mathf.mod(b, 360f);",
-        "Math.min((a - b) < 0 ? a - b + 360 : a - b, (b - a) < 0 ? b - a + 360 : b - a)",
-        "a",
-        "b"
-      ],
-      "godot_owner": "PortGame.source_arc_angles_angle_dist",
-      "java_class": "arc.math.Angles",
-      "java_method": "angleDist(float a, float b)",
+      "status": "done",
       "java_source": "arc-core/src/arc/math/Angles.java",
-      "rule": "Backfills SSOT for existing canonical source_arc_angles_angle_dist helper against Arc Angles.angleDist.",
-      "runtime_proof": "/root/Main.source_arc_angles_angle_dist",
+      "java_method": "angleDist(float a, float b)",
+      "godot_owner": "PortGame.source_arc_angles_angle_dist",
       "source_symbols": [
         "arc_angles_angle_dist_canonical.method",
         "arc_angles_angle_dist_canonical.mod_a",
@@ -117,86 +75,52 @@
         "arc_angles_angle_dist_canonical.angle_a_input",
         "arc_angles_angle_dist_canonical.angle_b_input"
       ],
-      "status": "done",
       "tests": [
         "test_arc_angles_angle_dist_canonical_symbols_are_registered_with_source_backing",
         "test_source_angles_angle_dist_symbols_are_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_arc_angles_angle_dist"
     },
     "N493": {
       "canonical_ledger": "source_slice_ledger.N493",
-      "deferred_exprs": [],
-      "exact_exprs": [
-        "public static float backwardDistance(float angle1, float angle2){\n        return 360 - Math.abs(angle1 - angle2);\n    }",
-        "return 360 - Math.abs(angle1 - angle2);",
-        "angle1",
-        "angle2"
-      ],
-      "godot_owner": "PortGame.source_arc_angles_backward_distance",
-      "java_class": "arc.math.Angles",
-      "java_method": "backwardDistance(float angle1, float angle2)",
+      "status": "done",
       "java_source": "arc-core/src/arc/math/Angles.java",
-      "rule": "Backfills SSOT for existing canonical source_arc_angles_backward_distance helper against Arc Angles.backwardDistance.",
-      "runtime_proof": "/root/Main.source_arc_angles_backward_distance",
+      "java_method": "backwardDistance(float angle1, float angle2)",
+      "godot_owner": "PortGame.source_arc_angles_backward_distance",
       "source_symbols": [
         "arc_angles_backward_distance.method",
         "arc_angles_backward_distance.return_expr",
         "arc_angles_backward_distance.angle1_input",
         "arc_angles_backward_distance.angle2_input"
       ],
-      "status": "done",
       "tests": [
         "test_arc_angles_backward_distance_symbols_are_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_arc_angles_backward_distance"
     },
     "N494": {
       "canonical_ledger": "source_slice_ledger.N494",
-      "deferred_exprs": [],
-      "exact_exprs": [
-        "public static float forwardDistance(float angle1, float angle2){\n        return Math.abs(angle1 - angle2);\n    }",
-        "return Math.abs(angle1 - angle2);",
-        "angle1",
-        "angle2"
-      ],
-      "godot_owner": "PortGame.source_arc_angles_forward_distance",
-      "java_class": "arc.math.Angles",
-      "java_method": "forwardDistance(float angle1, float angle2)",
+      "status": "done",
       "java_source": "arc-core/src/arc/math/Angles.java",
-      "rule": "Backfills SSOT for existing canonical source_arc_angles_forward_distance helper against Arc Angles.forwardDistance.",
-      "runtime_proof": "/root/Main.source_arc_angles_forward_distance",
+      "java_method": "forwardDistance(float angle1, float angle2)",
+      "godot_owner": "PortGame.source_arc_angles_forward_distance",
       "source_symbols": [
         "arc_angles_forward_distance.method",
         "arc_angles_forward_distance.return_expr",
         "arc_angles_forward_distance.angle1_input",
         "arc_angles_forward_distance.angle2_input"
       ],
-      "status": "done",
       "tests": [
         "test_arc_angles_forward_distance_symbols_are_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_arc_angles_forward_distance"
     },
     "N495": {
       "canonical_ledger": "source_slice_ledger.N495",
-      "deferred_exprs": [],
-      "exact_exprs": [
-        "public static float moveToward(float angle, float to, float speed){\n        if(Math.abs(angleDist(angle, to)) < speed) return to;\n        angle = Mathf.mod(angle, 360f);\n        to = Mathf.mod(to, 360f);\n\n        if(angle > to == backwardDistance(angle, to) > forwardDistance(angle, to)){\n            angle -= speed;\n        }else{\n            angle += speed;\n        }\n\n        return angle;\n    }",
-        "if(Math.abs(angleDist(angle, to)) < speed) return to;",
-        "angle = Mathf.mod(angle, 360f);",
-        "to = Mathf.mod(to, 360f);",
-        "angle > to == backwardDistance(angle, to) > forwardDistance(angle, to)",
-        "angle -= speed;",
-        "angle += speed;",
-        "return angle;",
-        "angle",
-        "to",
-        "speed"
-      ],
-      "godot_owner": "PortGame.source_arc_angles_move_toward",
-      "java_class": "arc.math.Angles",
-      "java_method": "moveToward(float angle, float to, float speed)",
+      "status": "done",
       "java_source": "arc-core/src/arc/math/Angles.java",
-      "rule": "Backfills SSOT for existing canonical source_arc_angles_move_toward helper against Arc Angles.moveToward.",
-      "runtime_proof": "/root/Main.source_arc_angles_move_toward",
+      "java_method": "moveToward(float angle, float to, float speed)",
+      "godot_owner": "PortGame.source_arc_angles_move_toward",
       "source_symbols": [
         "arc_angles_move_toward.method",
         "arc_angles_move_toward.snap_guard",
@@ -210,31 +134,17 @@
         "arc_angles_move_toward.to_input",
         "arc_angles_move_toward.speed_input"
       ],
-      "status": "done",
       "tests": [
         "test_arc_angles_move_toward_symbols_are_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_arc_angles_move_toward"
     },
     "N496": {
       "canonical_ledger": "source_slice_ledger.N496",
-      "deferred_exprs": [],
-      "exact_exprs": [
-        "public static float trnsx(float angle, float x, float y){\n        return rv.set(x, y).rotate(angle).x;\n    }",
-        "public static float trnsy(float angle, float x, float y){\n        return rv.set(x, y).rotate(angle).y;\n    }",
-        "public Vec2 trns(float angle, float x, float y){\n        return set(x, y).rotate(angle);\n    }",
-        "public Vec2 set(float x, float y){\n        this.x = x;\n        this.y = y;\n        return this;\n    }",
-        "public Vec2 rotate(float degrees){\n        return rotateRad(degrees * Mathf.degreesToRadians);\n    }",
-        "float newX = this.x * cos - this.y * sin;\n        float newY = this.x * sin + this.y * cos;",
-        "angle",
-        "x",
-        "y"
-      ],
-      "godot_owner": "PortGame.source_arc_angles_trns_vec",
-      "java_class": "arc.math.Angles",
-      "java_method": "trnsx/trnsy(float angle, float x, float y)",
+      "status": "done",
       "java_source": "arc-core/src/arc/math/Angles.java",
-      "rule": "Backfills SSOT for existing canonical source_arc_angles_trns_vec helper against Arc Angles.trnsx/trnsy and Vec2 rotation source.",
-      "runtime_proof": "/root/Main.source_arc_angles_trns_vec",
+      "java_method": "trnsx/trnsy(float angle, float x, float y)",
+      "godot_owner": "PortGame.source_arc_angles_trns_vec",
       "source_symbols": [
         "arc_angles_trns_vec.trnsx_method",
         "arc_angles_trns_vec.trnsy_method",
@@ -246,27 +156,17 @@
         "arc_angles_trns_vec.x_input",
         "arc_angles_trns_vec.y_input"
       ],
-      "status": "done",
       "tests": [
         "test_arc_angles_trns_vec_symbols_are_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_arc_angles_trns_vec"
     },
     "N720": {
       "canonical_ledger": "source_slice_ledger.N720",
-      "deferred_exprs": [],
-      "exact_exprs": [
-        "public static float moveToward(float angle, float to, float speed){\n        if(Math.abs(angleDist(angle, to)) < speed) return to;\n        angle = Mathf.mod(angle, 360f);\n        to = Mathf.mod(to, 360f);\n\n        if(angle > to == backwardDistance(angle, to) > forwardDistance(angle, to)){\n            angle -= speed;\n        }else{\n            angle += speed;\n        }\n\n        return angle;\n    }",
-        "source_arc_angles_move_toward(current_degrees, target_degrees, max_delta)",
-        "angle",
-        "to",
-        "speed"
-      ],
-      "godot_owner": "PortGame.source_move_angle_toward",
-      "java_class": "arc.math.Angles",
-      "java_method": "moveToward(float angle, float to, float speed)",
+      "status": "done",
       "java_source": "arc-core/src/arc/math/Angles.java",
-      "rule": "Backfills SSOT for source_move_angle_toward wrapper and aligns it to canonical Arc Angles.moveToward behavior.",
-      "runtime_proof": "/root/Main.source_move_angle_toward",
+      "java_method": "moveToward(float angle, float to, float speed)",
+      "godot_owner": "PortGame.source_move_angle_toward",
       "source_symbols": [
         "source_move_angle_toward.method",
         "source_move_angle_toward.canonical_wrapper",
@@ -274,11 +174,11 @@
         "source_move_angle_toward.target_degrees_input",
         "source_move_angle_toward.max_delta_input"
       ],
-      "status": "done",
       "tests": [
         "test_source_move_angle_toward_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_turret_rotation_and_shoot_cone"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_move_angle_toward"
     }
   }
 }

@@ -4,16 +4,18 @@ class_name SourcePlacedPowerDistributionRuntimeState
 const source_placed_block_state := preload("res://src/game/SourcePlacedBlockState.gd")
 const source_block_defaults := preload("res://src/game/SourceBlockDefaults.gd")
 const source_texture_runtime_state := preload("res://src/game/SourceTextureRuntimeState.gd")
+const source_placed_power_distribution_source_text_state := preload("res://src/game/SourcePlacedPowerDistributionSourceTextState.gd")
+const source_time_defaults := preload("res://src/game/SourceTimeDefaults.gd")
 
-const SOURCE_PLACED_POWER_DISTRIBUTION_BLOCK_FROM_SPRITE_KEY := "block_from_sprite"
-const SOURCE_PLACED_POWER_DISTRIBUTION_ROLE_FOR_BLOCK_KEY := "role_for_block"
-const SOURCE_PLACED_POWER_DISTRIBUTION_ROLE_FOR_BLOCK_FALLBACK := "power_graph_role_for_block"
-const SOURCE_PLACED_POWER_DISTRIBUTION_REQUESTED_POWER_KEY := "requested_power"
-const SOURCE_PLACED_POWER_DISTRIBUTION_REQUESTED_POWER_FALLBACK := "source_consume_power_requested_power_state"
-const SOURCE_PLACED_POWER_DISTRIBUTION_BALANCE_KEY := "balance"
-const SOURCE_PLACED_POWER_DISTRIBUTION_BALANCE_FALLBACK := "source_power_graph_update_balance_state"
-const SOURCE_PLACED_POWER_DISTRIBUTION_DISTRIBUTE_KEY := "distribute"
-const SOURCE_PLACED_POWER_DISTRIBUTION_DISTRIBUTE_FALLBACK := "source_power_graph_update_battery_distribute_state"
+const SOURCE_PLACED_POWER_DISTRIBUTION_BLOCK_FROM_SPRITE_KEY := source_placed_power_distribution_source_text_state.SOURCE_PLACED_POWER_DISTRIBUTION_BLOCK_FROM_SPRITE_KEY
+const SOURCE_PLACED_POWER_DISTRIBUTION_ROLE_FOR_BLOCK_KEY := source_placed_power_distribution_source_text_state.SOURCE_PLACED_POWER_DISTRIBUTION_ROLE_FOR_BLOCK_KEY
+const SOURCE_PLACED_POWER_DISTRIBUTION_ROLE_FOR_BLOCK_FALLBACK := source_placed_power_distribution_source_text_state.SOURCE_PLACED_POWER_DISTRIBUTION_ROLE_FOR_BLOCK_FALLBACK
+const SOURCE_PLACED_POWER_DISTRIBUTION_REQUESTED_POWER_KEY := source_placed_power_distribution_source_text_state.SOURCE_PLACED_POWER_DISTRIBUTION_REQUESTED_POWER_KEY
+const SOURCE_PLACED_POWER_DISTRIBUTION_REQUESTED_POWER_FALLBACK := source_placed_power_distribution_source_text_state.SOURCE_PLACED_POWER_DISTRIBUTION_REQUESTED_POWER_FALLBACK
+const SOURCE_PLACED_POWER_DISTRIBUTION_BALANCE_KEY := source_placed_power_distribution_source_text_state.SOURCE_PLACED_POWER_DISTRIBUTION_BALANCE_KEY
+const SOURCE_PLACED_POWER_DISTRIBUTION_BALANCE_FALLBACK := source_placed_power_distribution_source_text_state.SOURCE_PLACED_POWER_DISTRIBUTION_BALANCE_FALLBACK
+const SOURCE_PLACED_POWER_DISTRIBUTION_DISTRIBUTE_KEY := source_placed_power_distribution_source_text_state.SOURCE_PLACED_POWER_DISTRIBUTION_DISTRIBUTE_KEY
+const SOURCE_PLACED_POWER_DISTRIBUTION_DISTRIBUTE_FALLBACK := source_placed_power_distribution_source_text_state.SOURCE_PLACED_POWER_DISTRIBUTION_DISTRIBUTE_FALLBACK
 
 static func runtime_method_names(game: Object) -> Dictionary:
 	if game.has_method("_placed_power_distribution_method_names"):
@@ -36,13 +38,16 @@ static func default_callbacks_state(game: Object) -> Dictionary:
 		SOURCE_PLACED_POWER_DISTRIBUTION_DISTRIBUTE_KEY: Callable(game, runtime_method_name(method_names, SOURCE_PLACED_POWER_DISTRIBUTION_DISTRIBUTE_KEY, SOURCE_PLACED_POWER_DISTRIBUTION_DISTRIBUTE_FALLBACK)),
 	}
 
-static func game_summary_state(game: Object, tick_rate: float) -> Dictionary:
+static func game_tick_rate(_game: Object) -> float:
+	return source_time_defaults.TICK_RATE
+
+static func game_summary_state(game: Object) -> Dictionary:
 	return summary_state(game.get("placed_block_origins"), default_callbacks_state(game), {
 		"power_buffered": source_block_defaults.SOURCE_BLOCK_POWER_BUFFERED_DEFAULT,
 		"power_usage": source_block_defaults.SOURCE_BLOCK_POWER_USAGE_DEFAULT,
 		"power_capacity": source_block_defaults.SOURCE_BLOCK_POWER_CAPACITY_DEFAULT,
 		"power_production": source_block_defaults.SOURCE_BLOCK_POWER_PRODUCTION_DEFAULT,
-	}, tick_rate)
+	}, game_tick_rate(game))
 
 static func summary_state(placed_block_origins: Dictionary, callbacks: Dictionary, defaults: Dictionary, tick_rate: float) -> Dictionary:
 	var block_from_sprite_fn: Callable = callbacks.get(SOURCE_PLACED_POWER_DISTRIBUTION_BLOCK_FROM_SPRITE_KEY, Callable())

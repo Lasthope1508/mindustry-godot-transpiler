@@ -1,13 +1,13 @@
 extends Node
 
 const port_game := preload("res://src/game/PortGame.gd")
-const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const source_ssot_accessor_runtime_state := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
 const source_game_config_runtime_state := preload("res://src/game/SourceGameConfigRuntimeState.gd")
 
 func _ready() -> void:
 	var game := port_game.new()
 	source_game_config_runtime_state.load_config(game)
-	var registry_state := source_ssot_catalog.canonical_headquarter_registry_state()
+	var registry_state := source_ssot_accessor_runtime_state.canonical_headquarter_registry_state()
 	var config: Dictionary = game.config
 	var proof := {
 		"module": "SourceGameConfigRuntimeState",

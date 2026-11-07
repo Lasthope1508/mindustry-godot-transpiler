@@ -18,7 +18,7 @@ const SOURCE_CONSUME_ITEM_RADIOACTIVE_MIN_RADIOACTIVITY_DEFAULT := source_consum
 func java_method_itemEfficiencyMultiplier_0(_args: Array = []) -> Variant:
 	var item_radioactivity: float = float(_args[0] if _args.size() > 0 else 0.0)
 	var efficiency_multiplier: float = item_radioactivity
-	return {"source_owner": "port_game.source_consume_item_radioactive_item_efficiency_multiplier_state", "source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java", "method": "public float itemEfficiencyMultiplier(Item item){", "item_radioactivity": item_radioactivity, "efficiency_multiplier": efficiency_multiplier, "return_expr": "return item.radioactivity;"}
+	return {"source_owner": "port_game.source_consume_item_radioactive_item_efficiency_multiplier_state", "source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java", "method": "public float itemEfficiencyMultiplier(Item item){", "item_radioactivity_field": "public float radioactivity;", "item_radioactivity": item_radioactivity, "efficiency_multiplier": efficiency_multiplier, "return_expr": "return item.radioactivity;"}
 
 func java_constructor_ConsumeItemRadioactive_0(_args: Array = []) -> Variant:
 	var min_radioactivity: float = float(_args[0] if _args.size() > 0 else 0.0)

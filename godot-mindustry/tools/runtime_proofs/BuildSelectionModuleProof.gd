@@ -1,11 +1,12 @@
 extends Node
 
+const runtime_proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")
 const source_build_selection_runtime_state := preload("res://src/game/SourceBuildSelectionRuntimeState.gd")
 const source_playable_scenario_defaults := preload("res://src/game/SourcePlayableScenarioDefaults.gd")
 const source_selected_build_state := preload("res://src/game/SourceSelectedBuildState.gd")
 const source_projector_defaults := preload("res://src/game/SourceProjectorDefaults.gd")
 const source_mend_projector_state := preload("res://src/game/SourceMendProjectorState.gd")
-const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const source_ssot_accessor_runtime_state := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
 
 class FakeBlock:
 	extends RefCounted
@@ -102,7 +103,7 @@ func _ready() -> void:
 	source_build_selection_runtime_state.select_previous_build_slot(fake_game)
 	var previous_matches := fake_game.selected_build_index == 0
 	var select_by_id_matches := source_build_selection_runtime_state.select_build_block_by_id(fake_game, "proof-extra-block") and fake_game.selected_build_index == 2
-	var registry_state := source_ssot_catalog.canonical_headquarter_registry_state()
+	var registry_state := source_ssot_accessor_runtime_state.canonical_headquarter_registry_state()
 	var proof := {
 		"module": "SourceBuildSelectionRuntimeState",
 		"palette_matches": palette_matches,
@@ -120,11 +121,9 @@ func _ready() -> void:
 		"one_headquarter_per_ssot": bool(registry_state.get("one_headquarter_per_ssot", false)),
 		"registry_valid": bool(registry_state.get("errors", []).is_empty()),
 	}
-	var proof_json := JSON.stringify(proof)
-	print("BUILD_SELECTION_MODULE_PROOF " + proof_json)
-	var proof_path := ProjectSettings.globalize_path("res://tools/runtime_proofs/BuildSelectionModuleProof.json")
-	var proof_file := FileAccess.open(proof_path, FileAccess.WRITE)
-	if proof_file != null:
-		proof_file.store_string(proof_json)
-	await get_tree().create_timer(60.0).timeout
-	get_tree().quit(0)
+	proof["matches"] = proof["palette_matches"] and proof["block_by_id_matches"] and proof["target_filter_matches"] and proof["selected_build_for_game_matches"] and proof["selected_build_stats_matches"] and proof["selected_build_extended_stats_matches"] and proof["select_slot_action_matches"] and proof["select_previous_action_matches"] and proof["select_next_action_matches"] and proof["next_matches"] and proof["previous_matches"] and proof["select_by_id_matches"] and proof["one_headquarter_per_ssot"] and proof["registry_valid"]
+	print("BUILD_SELECTION_MODULE_PROOF " + JSON.stringify(proof))
+	runtime_proof_state.write_proof("BuildSelectionModuleProof", proof)
+	await get_tree().process_frame
+	get_tree().quit(runtime_proof_state.exit_code(proof))
+

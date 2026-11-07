@@ -3,39 +3,93 @@ class_name SourceBlockInitPlacementState
 
 const source_generated_class_runtime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
+const source_block_source_text_state := preload("res://src/game/SourceBlockSourceTextState.gd")
+const source_block_init_placement_source_text_state := preload("res://src/game/SourceBlockInitPlacementSourceTextState.gd")
+
+const SOURCE_BLOCK_GENERATED_CLASS := source_block_source_text_state.SOURCE_BLOCK_GENERATED_CLASS
+const SOURCE_BLOCK_INIT_PLACEMENT_SOURCE := source_block_init_placement_source_text_state.SOURCE_BLOCK_INIT_PLACEMENT_SOURCE
+const SOURCE_BLOCK_INIT_PLACEMENT_VARS_SOURCE := source_block_init_placement_source_text_state.SOURCE_BLOCK_INIT_PLACEMENT_VARS_SOURCE
+const SOURCE_BLOCK_INIT_PLACEMENT_JAVA_METHOD_INIT_123 := source_block_init_placement_source_text_state.SOURCE_BLOCK_INIT_PLACEMENT_JAVA_METHOD_INIT_123
+const SOURCE_BLOCK_INIT_PLACEMENT_BRIDGE_MODE_KEY := source_block_init_placement_source_text_state.SOURCE_BLOCK_INIT_PLACEMENT_BRIDGE_MODE_KEY
+const SOURCE_BLOCK_INIT_PLACEMENT_ACCEPTS_ITEMS_MODE := source_block_init_placement_source_text_state.SOURCE_BLOCK_INIT_PLACEMENT_ACCEPTS_ITEMS_MODE
+const SOURCE_BLOCK_INIT_PLACEMENT_OFFSET_MODE := source_block_init_placement_source_text_state.SOURCE_BLOCK_INIT_PLACEMENT_OFFSET_MODE
+const SOURCE_BLOCK_INIT_PLACEMENT_GENERATED_OWNER := source_block_init_placement_source_text_state.SOURCE_BLOCK_INIT_PLACEMENT_GENERATED_OWNER
+const SOURCE_BLOCK_INIT_PLACEMENT_SOURCE_OWNER_KEY := source_block_init_placement_source_text_state.SOURCE_BLOCK_INIT_PLACEMENT_SOURCE_OWNER_KEY
+const SOURCE_BLOCK_INIT_PLACEMENT_GENERATED_OWNER_KEY := source_block_init_placement_source_text_state.SOURCE_BLOCK_INIT_PLACEMENT_GENERATED_OWNER_KEY
+const SOURCE_BLOCK_INIT_PLACEMENT_RESULT_KEY := source_block_init_placement_source_text_state.SOURCE_BLOCK_INIT_PLACEMENT_RESULT_KEY
+const SOURCE_BLOCK_INIT_PLACEMENT_CANONICAL_KEY := source_block_init_placement_source_text_state.SOURCE_BLOCK_INIT_PLACEMENT_CANONICAL_KEY
+const SOURCE_BLOCK_INIT_PLACEMENT_MATCHES_KEY := source_block_init_placement_source_text_state.SOURCE_BLOCK_INIT_PLACEMENT_MATCHES_KEY
+const SOURCE_BLOCK_INIT_PLACEMENT_SOURCE_KEY := source_block_init_placement_source_text_state.SOURCE_BLOCK_INIT_PLACEMENT_SOURCE_KEY
+const SOURCE_BLOCK_INIT_PLACEMENT_VARS_SOURCE_KEY := source_block_init_placement_source_text_state.SOURCE_BLOCK_INIT_PLACEMENT_VARS_SOURCE_KEY
+const SOURCE_BLOCK_INIT_PLACEMENT_METHOD_KEY := source_block_init_placement_source_text_state.SOURCE_BLOCK_INIT_PLACEMENT_METHOD_KEY
+const SOURCE_BLOCK_INIT_PLACEMENT_SUPER_INIT_EXPR_KEY := source_block_init_placement_source_text_state.SOURCE_BLOCK_INIT_PLACEMENT_SUPER_INIT_EXPR_KEY
+const SOURCE_BLOCK_INIT_PLACEMENT_ACCEPTS_ITEMS_GUARD_EXPR_KEY := source_block_init_placement_source_text_state.SOURCE_BLOCK_INIT_PLACEMENT_ACCEPTS_ITEMS_GUARD_EXPR_KEY
+const SOURCE_BLOCK_INIT_PLACEMENT_ACCEPTS_ITEMS_ASSIGN_EXPR_KEY := source_block_init_placement_source_text_state.SOURCE_BLOCK_INIT_PLACEMENT_ACCEPTS_ITEMS_ASSIGN_EXPR_KEY
+const SOURCE_BLOCK_INIT_PLACEMENT_BLOCK_GROUP_KEY := source_block_init_placement_source_text_state.SOURCE_BLOCK_INIT_PLACEMENT_BLOCK_GROUP_KEY
+const SOURCE_BLOCK_INIT_PLACEMENT_CATEGORY_KEY := source_block_init_placement_source_text_state.SOURCE_BLOCK_INIT_PLACEMENT_CATEGORY_KEY
+const SOURCE_BLOCK_INIT_PLACEMENT_ACCEPTS_ITEMS_BEFORE_KEY := source_block_init_placement_source_text_state.SOURCE_BLOCK_INIT_PLACEMENT_ACCEPTS_ITEMS_BEFORE_KEY
+const SOURCE_BLOCK_INIT_PLACEMENT_ACCEPTS_ITEMS_GATE_KEY := source_block_init_placement_source_text_state.SOURCE_BLOCK_INIT_PLACEMENT_ACCEPTS_ITEMS_GATE_KEY
+const SOURCE_BLOCK_INIT_PLACEMENT_ACCEPTS_ITEMS_AFTER_KEY := source_block_init_placement_source_text_state.SOURCE_BLOCK_INIT_PLACEMENT_ACCEPTS_ITEMS_AFTER_KEY
+const SOURCE_BLOCK_INIT_PLACEMENT_OFFSET_EXPR_KEY := source_block_init_placement_source_text_state.SOURCE_BLOCK_INIT_PLACEMENT_OFFSET_EXPR_KEY
+const SOURCE_BLOCK_INIT_PLACEMENT_SIZE_OFFSET_EXPR_KEY := source_block_init_placement_source_text_state.SOURCE_BLOCK_INIT_PLACEMENT_SIZE_OFFSET_EXPR_KEY
+const SOURCE_BLOCK_INIT_PLACEMENT_TILESIZE_FIELD_EXPR_KEY := source_block_init_placement_source_text_state.SOURCE_BLOCK_INIT_PLACEMENT_TILESIZE_FIELD_EXPR_KEY
+const SOURCE_BLOCK_INIT_PLACEMENT_SIZE_KEY := source_block_init_placement_source_text_state.SOURCE_BLOCK_INIT_PLACEMENT_SIZE_KEY
+const SOURCE_BLOCK_INIT_PLACEMENT_SOURCE_TILESIZE_KEY := source_block_init_placement_source_text_state.SOURCE_BLOCK_INIT_PLACEMENT_SOURCE_TILESIZE_KEY
+const SOURCE_BLOCK_INIT_PLACEMENT_OFFSET_AFTER_KEY := source_block_init_placement_source_text_state.SOURCE_BLOCK_INIT_PLACEMENT_OFFSET_AFTER_KEY
+const SOURCE_BLOCK_INIT_PLACEMENT_SIZE_OFFSET_AFTER_KEY := source_block_init_placement_source_text_state.SOURCE_BLOCK_INIT_PLACEMENT_SIZE_OFFSET_AFTER_KEY
+const SOURCE_BLOCK_INIT_PLACEMENT_METHOD := source_block_init_placement_source_text_state.SOURCE_BLOCK_INIT_PLACEMENT_METHOD
+const SOURCE_BLOCK_INIT_PLACEMENT_SUPER_INIT_EXPR := source_block_init_placement_source_text_state.SOURCE_BLOCK_INIT_PLACEMENT_SUPER_INIT_EXPR
+const SOURCE_BLOCK_INIT_PLACEMENT_ACCEPTS_ITEMS_GUARD_EXPR := source_block_init_placement_source_text_state.SOURCE_BLOCK_INIT_PLACEMENT_ACCEPTS_ITEMS_GUARD_EXPR
+const SOURCE_BLOCK_INIT_PLACEMENT_ACCEPTS_ITEMS_ASSIGN_EXPR := source_block_init_placement_source_text_state.SOURCE_BLOCK_INIT_PLACEMENT_ACCEPTS_ITEMS_ASSIGN_EXPR
+const SOURCE_BLOCK_INIT_PLACEMENT_BLOCK_GROUP_TRANSPORTATION := source_block_init_placement_source_text_state.SOURCE_BLOCK_INIT_PLACEMENT_BLOCK_GROUP_TRANSPORTATION
+const SOURCE_BLOCK_INIT_PLACEMENT_CATEGORY_DISTRIBUTION := source_block_init_placement_source_text_state.SOURCE_BLOCK_INIT_PLACEMENT_CATEGORY_DISTRIBUTION
+const SOURCE_BLOCK_INIT_PLACEMENT_OFFSET_EXPR := source_block_init_placement_source_text_state.SOURCE_BLOCK_INIT_PLACEMENT_OFFSET_EXPR
+const SOURCE_BLOCK_INIT_PLACEMENT_SIZE_OFFSET_EXPR := source_block_init_placement_source_text_state.SOURCE_BLOCK_INIT_PLACEMENT_SIZE_OFFSET_EXPR
+const SOURCE_BLOCK_INIT_PLACEMENT_TILESIZE_FIELD_EXPR := source_block_init_placement_source_text_state.SOURCE_BLOCK_INIT_PLACEMENT_TILESIZE_FIELD_EXPR
+
+static func _block_call(generated_method: String, generated_args: Array, metadata: Variant = null) -> Variant:
+	if metadata == null:
+		return source_generated_class_runtime.call_java_method(SOURCE_BLOCK_GENERATED_CLASS, generated_method, generated_args, null)
+	return source_generated_class_runtime.call_java_method(SOURCE_BLOCK_GENERATED_CLASS, generated_method, generated_args, null, metadata)
 
 static func accepts_items_state(block_group: Variant, category_value: Variant, accepts_items_before: bool) -> Dictionary:
-	var accepts_items_gate: bool = block_group == "BlockGroup.transportation" or category_value == "Category.distribution"
+	var accepts_items_gate: bool = block_group == SOURCE_BLOCK_INIT_PLACEMENT_BLOCK_GROUP_TRANSPORTATION or category_value == SOURCE_BLOCK_INIT_PLACEMENT_CATEGORY_DISTRIBUTION
 	var accepts_items_after: bool = true if accepts_items_gate else accepts_items_before
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_ACCEPTS_ITEMS_STATE, "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "accepts_items_guard_expr": "if(group == BlockGroup.transportation || category == Category.distribution){", "accepts_items_assign_expr": "acceptsItems = true;", "block_group": block_group, "category": category_value, "accepts_items_before": accepts_items_before, "accepts_items_gate": accepts_items_gate, "accepts_items_after": accepts_items_after}
+	return {SOURCE_BLOCK_INIT_PLACEMENT_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_ACCEPTS_ITEMS_STATE, SOURCE_BLOCK_INIT_PLACEMENT_SOURCE_KEY: SOURCE_BLOCK_INIT_PLACEMENT_SOURCE, SOURCE_BLOCK_INIT_PLACEMENT_METHOD_KEY: SOURCE_BLOCK_INIT_PLACEMENT_METHOD, SOURCE_BLOCK_INIT_PLACEMENT_SUPER_INIT_EXPR_KEY: SOURCE_BLOCK_INIT_PLACEMENT_SUPER_INIT_EXPR, SOURCE_BLOCK_INIT_PLACEMENT_ACCEPTS_ITEMS_GUARD_EXPR_KEY: SOURCE_BLOCK_INIT_PLACEMENT_ACCEPTS_ITEMS_GUARD_EXPR, SOURCE_BLOCK_INIT_PLACEMENT_ACCEPTS_ITEMS_ASSIGN_EXPR_KEY: SOURCE_BLOCK_INIT_PLACEMENT_ACCEPTS_ITEMS_ASSIGN_EXPR, SOURCE_BLOCK_INIT_PLACEMENT_BLOCK_GROUP_KEY: block_group, SOURCE_BLOCK_INIT_PLACEMENT_CATEGORY_KEY: category_value, SOURCE_BLOCK_INIT_PLACEMENT_ACCEPTS_ITEMS_BEFORE_KEY: accepts_items_before, SOURCE_BLOCK_INIT_PLACEMENT_ACCEPTS_ITEMS_GATE_KEY: accepts_items_gate, SOURCE_BLOCK_INIT_PLACEMENT_ACCEPTS_ITEMS_AFTER_KEY: accepts_items_after}
+
+static func generated_accepts_items_result_state(block_group: Variant, category_value: Variant, accepts_items_before: bool) -> Dictionary:
+	return accepts_items_state(block_group, category_value, accepts_items_before)
 
 static func generated_accepts_items_bridge_state(block_group: Variant, category_value: Variant, accepts_items_before: bool) -> Dictionary:
-	var metadata := {"mindustry_init_bridge_mode": "accepts_items"}
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [block_group, category_value, accepts_items_before], null, metadata)
+	var metadata := {SOURCE_BLOCK_INIT_PLACEMENT_BRIDGE_MODE_KEY: SOURCE_BLOCK_INIT_PLACEMENT_ACCEPTS_ITEMS_MODE}
+	var result = _block_call(SOURCE_BLOCK_INIT_PLACEMENT_JAVA_METHOD_INIT_123, [block_group, category_value, accepts_items_before], metadata)
 	var canonical = accepts_items_state(block_group, category_value, accepts_items_before)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
 	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_ACCEPTS_ITEMS_STATE,
-		"generated_owner": "block.java_method_init_123",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
+		SOURCE_BLOCK_INIT_PLACEMENT_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_ACCEPTS_ITEMS_STATE,
+		SOURCE_BLOCK_INIT_PLACEMENT_GENERATED_OWNER_KEY: SOURCE_BLOCK_INIT_PLACEMENT_GENERATED_OWNER,
+		SOURCE_BLOCK_INIT_PLACEMENT_RESULT_KEY: result,
+		SOURCE_BLOCK_INIT_PLACEMENT_CANONICAL_KEY: canonical,
+		SOURCE_BLOCK_INIT_PLACEMENT_MATCHES_KEY: matches,
 	}
 
 static func offset_state(size_value: int, source_tilesize: float) -> Dictionary:
 	var offset_after: float = float((size_value + 1) % 2) * source_tilesize / 2.0
 	var size_offset_after: int = -int(float(size_value - 1) / 2.0)
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_OFFSET_STATE, "source": "core/src/mindustry/world/Block.java", "vars_source": "core/src/mindustry/Vars.java", "method": "public void init(){", "super_init_expr": "super.init();", "offset_expr": "offset = ((size + 1) % 2) * tilesize / 2f;", "size_offset_expr": "sizeOffset = -((size - 1) / 2);", "tilesize_field_expr": "public static final int tilesize = 8;", "size": size_value, "source_tilesize": source_tilesize, "offset_after": offset_after, "size_offset_after": size_offset_after}
+	return {SOURCE_BLOCK_INIT_PLACEMENT_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_OFFSET_STATE, SOURCE_BLOCK_INIT_PLACEMENT_SOURCE_KEY: SOURCE_BLOCK_INIT_PLACEMENT_SOURCE, SOURCE_BLOCK_INIT_PLACEMENT_VARS_SOURCE_KEY: SOURCE_BLOCK_INIT_PLACEMENT_VARS_SOURCE, SOURCE_BLOCK_INIT_PLACEMENT_METHOD_KEY: SOURCE_BLOCK_INIT_PLACEMENT_METHOD, SOURCE_BLOCK_INIT_PLACEMENT_SUPER_INIT_EXPR_KEY: SOURCE_BLOCK_INIT_PLACEMENT_SUPER_INIT_EXPR, SOURCE_BLOCK_INIT_PLACEMENT_OFFSET_EXPR_KEY: SOURCE_BLOCK_INIT_PLACEMENT_OFFSET_EXPR, SOURCE_BLOCK_INIT_PLACEMENT_SIZE_OFFSET_EXPR_KEY: SOURCE_BLOCK_INIT_PLACEMENT_SIZE_OFFSET_EXPR, SOURCE_BLOCK_INIT_PLACEMENT_TILESIZE_FIELD_EXPR_KEY: SOURCE_BLOCK_INIT_PLACEMENT_TILESIZE_FIELD_EXPR, SOURCE_BLOCK_INIT_PLACEMENT_SIZE_KEY: size_value, SOURCE_BLOCK_INIT_PLACEMENT_SOURCE_TILESIZE_KEY: source_tilesize, SOURCE_BLOCK_INIT_PLACEMENT_OFFSET_AFTER_KEY: offset_after, SOURCE_BLOCK_INIT_PLACEMENT_SIZE_OFFSET_AFTER_KEY: size_offset_after}
+
+static func generated_offset_result_state(size_value: int, source_tilesize: float) -> Dictionary:
+	return offset_state(size_value, source_tilesize)
 
 static func generated_offset_bridge_state(size_value: int, source_tilesize: float) -> Dictionary:
-	var metadata := {"mindustry_init_bridge_mode": "offset"}
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [size_value, source_tilesize], null, metadata)
+	var metadata := {SOURCE_BLOCK_INIT_PLACEMENT_BRIDGE_MODE_KEY: SOURCE_BLOCK_INIT_PLACEMENT_OFFSET_MODE}
+	var result = _block_call(SOURCE_BLOCK_INIT_PLACEMENT_JAVA_METHOD_INIT_123, [size_value, source_tilesize], metadata)
 	var canonical = offset_state(size_value, source_tilesize)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
 	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_OFFSET_STATE,
-		"generated_owner": "block.java_method_init_123",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
+		SOURCE_BLOCK_INIT_PLACEMENT_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_OFFSET_STATE,
+		SOURCE_BLOCK_INIT_PLACEMENT_GENERATED_OWNER_KEY: SOURCE_BLOCK_INIT_PLACEMENT_GENERATED_OWNER,
+		SOURCE_BLOCK_INIT_PLACEMENT_RESULT_KEY: result,
+		SOURCE_BLOCK_INIT_PLACEMENT_CANONICAL_KEY: canonical,
+		SOURCE_BLOCK_INIT_PLACEMENT_MATCHES_KEY: matches,
 	}

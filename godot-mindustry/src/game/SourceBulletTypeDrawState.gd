@@ -71,7 +71,10 @@ static func draw_parts_state(bullet_type_state: Dictionary, bullet_state: Dictio
 		"fin": fin,
 		"partParams": part_params,
 		"partDrawCalls": part_draw_calls,
+		"partsDrawn": gate_passed,
 		"paramsSetSource": "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",
+		"paramsLifeSource": "DrawPart.params.life = b.fin();",
+		"partDrawSource": "parts.get(i).draw(DrawPart.params);",
 	}
 
 static func draw_light_state(bullet_type_state: Dictionary, bullet_state: Dictionary) -> Dictionary:

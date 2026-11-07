@@ -3,123 +3,310 @@ class_name SourceBlockConsumeState
 
 const source_generated_class_runtime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
+const source_block_source_text_state := preload("res://src/game/SourceBlockSourceTextState.gd")
+const source_block_consume_source_text_state := preload("res://src/game/SourceBlockConsumeSourceTextState.gd")
+
+const SOURCE_BLOCK_GENERATED_CLASS := source_block_source_text_state.SOURCE_BLOCK_GENERATED_CLASS
+const SOURCE_BLOCK_CONSUME_SOURCE := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_SOURCE
+const SOURCE_BLOCK_CONSUME_ADD_CALLED_KEY := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_ADD_CALLED_KEY
+const SOURCE_BLOCK_CONSUME_ADD_EXPR_KEY := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_ADD_EXPR_KEY
+const SOURCE_BLOCK_CONSUME_ALLOW_GAS_KEY := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_ALLOW_GAS_KEY
+const SOURCE_BLOCK_CONSUME_ALLOW_LIQUID_KEY := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_ALLOW_LIQUID_KEY
+const SOURCE_BLOCK_CONSUME_AMOUNT_KEY := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_AMOUNT_KEY
+const SOURCE_BLOCK_CONSUME_BUFFERED_KEY := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_BUFFERED_KEY
+const SOURCE_BLOCK_CONSUME_CANONICAL_KEY := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_CANONICAL_KEY
+const SOURCE_BLOCK_CONSUME_CAPACITY_KEY := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_CAPACITY_KEY
+const SOURCE_BLOCK_CONSUME_COMMENT_KEY := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_COMMENT_KEY
+const SOURCE_BLOCK_CONSUME_CONDITION_KEY := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_CONDITION_KEY
+const SOURCE_BLOCK_CONSUME_CONDITION_CAST_EXPR_KEY := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_CONDITION_CAST_EXPR_KEY
+const SOURCE_BLOCK_CONSUME_CONS_POWER_AFTER_KEY := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_CONS_POWER_AFTER_KEY
+const SOURCE_BLOCK_CONSUME_CONS_POWER_BEFORE_KEY := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_CONS_POWER_BEFORE_KEY
+const SOURCE_BLOCK_CONSUME_CONS_POWER_EXPR_KEY := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_CONS_POWER_EXPR_KEY
+const SOURCE_BLOCK_CONSUME_CONSTRUCTED_CONSUME_KEY := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_CONSTRUCTED_CONSUME_KEY
+const SOURCE_BLOCK_CONSUME_CONSTRUCTOR_EXPR_KEY := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_CONSTRUCTOR_EXPR_KEY
+const SOURCE_BLOCK_CONSUME_CONSUME_KEY := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_CONSUME_KEY
+const SOURCE_BLOCK_CONSUME_CONSUME_BUILDER_AFTER_KEY := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_CONSUME_BUILDER_AFTER_KEY
+const SOURCE_BLOCK_CONSUME_CONSUME_BUILDER_BEFORE_KEY := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_CONSUME_BUILDER_BEFORE_KEY
+const SOURCE_BLOCK_CONSUME_CONSUME_BUILDER_WITHOUT_POWER_KEY := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_CONSUME_BUILDER_WITHOUT_POWER_KEY
+const SOURCE_BLOCK_CONSUME_CONSUME_CALL_EXPR_KEY := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_CONSUME_CALL_EXPR_KEY
+const SOURCE_BLOCK_CONSUME_CONSUME_CALLED_KEY := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_CONSUME_CALLED_KEY
+const SOURCE_BLOCK_CONSUME_CONSUME_IS_POWER_KEY := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_CONSUME_IS_POWER_KEY
+const SOURCE_BLOCK_CONSUME_DELEGATE_CALL_EXPR_KEY := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_DELEGATE_CALL_EXPR_KEY
+const SOURCE_BLOCK_CONSUME_DELEGATE_CALLED_KEY := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_DELEGATE_CALLED_KEY
+const SOURCE_BLOCK_CONSUME_DISPLAYED_KEY := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_DISPLAYED_KEY
+const SOURCE_BLOCK_CONSUME_GENERATED_OWNER_KEY := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_GENERATED_OWNER_KEY
+const SOURCE_BLOCK_CONSUME_ITEM_KEY := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_ITEM_KEY
+const SOURCE_BLOCK_CONSUME_ITEM_STACK_KEY := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_ITEM_STACK_KEY
+const SOURCE_BLOCK_CONSUME_ITEM_STACK_ARRAY_EXPR_KEY := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_ITEM_STACK_ARRAY_EXPR_KEY
+const SOURCE_BLOCK_CONSUME_ITEM_STACK_EXPR_KEY := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_ITEM_STACK_EXPR_KEY
+const SOURCE_BLOCK_CONSUME_ITEMS_KEY := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_ITEMS_KEY
+const SOURCE_BLOCK_CONSUME_LIQUID_KEY := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_LIQUID_KEY
+const SOURCE_BLOCK_CONSUME_MATCHES_KEY := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_MATCHES_KEY
+const SOURCE_BLOCK_CONSUME_METHOD_KEY := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_METHOD_KEY
+const SOURCE_BLOCK_CONSUME_PARAM_KEY := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_PARAM_KEY
+const SOURCE_BLOCK_CONSUME_POWER_GUARD_EXPR_KEY := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_POWER_GUARD_EXPR_KEY
+const SOURCE_BLOCK_CONSUME_POWER_CAPACITY_KEY := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_POWER_CAPACITY_KEY
+const SOURCE_BLOCK_CONSUME_POWER_PER_TICK_KEY := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_POWER_PER_TICK_KEY
+const SOURCE_BLOCK_CONSUME_REMOVE_POWER_CALLED_KEY := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_REMOVE_POWER_CALLED_KEY
+const SOURCE_BLOCK_CONSUME_REMOVE_POWER_EXPR_KEY := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_REMOVE_POWER_EXPR_KEY
+const SOURCE_BLOCK_CONSUME_RESULT_KEY := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_RESULT_KEY
+const SOURCE_BLOCK_CONSUME_RETURN_EXPR_KEY := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_RETURN_EXPR_KEY
+const SOURCE_BLOCK_CONSUME_RETURNED_CONSUME_KEY := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_RETURNED_CONSUME_KEY
+const SOURCE_BLOCK_CONSUME_SOURCE_KEY := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_SOURCE_KEY
+const SOURCE_BLOCK_CONSUME_SOURCE_OWNER_KEY := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_SOURCE_OWNER_KEY
+const SOURCE_BLOCK_CONSUME_STACKS_KEY := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_STACKS_KEY
+const SOURCE_BLOCK_CONSUME_TYPE_KEY := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_TYPE_KEY
+const SOURCE_BLOCK_CONSUME_USAGE_KEY := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_USAGE_KEY
+const SOURCE_BLOCK_CONSUME_USAGE_CAST_EXPR_KEY := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_USAGE_CAST_EXPR_KEY
+const SOURCE_BLOCK_CONSUME_LIQUID_METHOD := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_LIQUID_METHOD
+const SOURCE_BLOCK_CONSUME_LIQUID_RETURN_EXPR := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_LIQUID_RETURN_EXPR
+const SOURCE_BLOCK_CONSUME_LIQUID_CONSTRUCTOR_EXPR := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_LIQUID_CONSTRUCTOR_EXPR
+const SOURCE_BLOCK_CONSUME_LIQUID_CONSUME_CALL_EXPR := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_LIQUID_CONSUME_CALL_EXPR
+const SOURCE_BLOCK_CONSUME_LIQUID_JAVA_METHOD := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_LIQUID_JAVA_METHOD
+const SOURCE_BLOCK_CONSUME_LIQUID_GENERATED_OWNER := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_LIQUID_GENERATED_OWNER
+const SOURCE_BLOCK_CONSUME_LIQUIDS_METHOD := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_LIQUIDS_METHOD
+const SOURCE_BLOCK_CONSUME_LIQUIDS_RETURN_EXPR := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_LIQUIDS_RETURN_EXPR
+const SOURCE_BLOCK_CONSUME_LIQUIDS_CONSTRUCTOR_EXPR := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_LIQUIDS_CONSTRUCTOR_EXPR
+const SOURCE_BLOCK_CONSUME_LIQUIDS_CONSUME_CALL_EXPR := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_LIQUIDS_CONSUME_CALL_EXPR
+const SOURCE_BLOCK_CONSUME_LIQUIDS_JAVA_METHOD := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_LIQUIDS_JAVA_METHOD
+const SOURCE_BLOCK_CONSUME_LIQUIDS_GENERATED_OWNER := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_LIQUIDS_GENERATED_OWNER
+const SOURCE_BLOCK_CONSUME_POWER_COMMENT := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_POWER_COMMENT
+const SOURCE_BLOCK_CONSUME_POWER_PARAM := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_POWER_PARAM
+const SOURCE_BLOCK_CONSUME_POWER_METHOD := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_POWER_METHOD
+const SOURCE_BLOCK_CONSUME_POWER_RETURN_EXPR := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_POWER_RETURN_EXPR
+const SOURCE_BLOCK_CONSUME_POWER_CONSTRUCTOR_EXPR := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_POWER_CONSTRUCTOR_EXPR
+const SOURCE_BLOCK_CONSUME_POWER_CONSUME_CALL_EXPR := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_POWER_CONSUME_CALL_EXPR
+const SOURCE_BLOCK_CONSUME_POWER_JAVA_METHOD := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_POWER_JAVA_METHOD
+const SOURCE_BLOCK_CONSUME_POWER_GENERATED_OWNER := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_POWER_GENERATED_OWNER
+const SOURCE_BLOCK_CONSUME_POWER_COND_COMMENT := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_POWER_COND_COMMENT
+const SOURCE_BLOCK_CONSUME_POWER_COND_METHOD := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_POWER_COND_METHOD
+const SOURCE_BLOCK_CONSUME_POWER_COND_RETURN_EXPR := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_POWER_COND_RETURN_EXPR
+const SOURCE_BLOCK_CONSUME_POWER_COND_CONSTRUCTOR_EXPR := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_POWER_COND_CONSTRUCTOR_EXPR
+const SOURCE_BLOCK_CONSUME_POWER_COND_CONDITION_CAST_EXPR := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_POWER_COND_CONDITION_CAST_EXPR
+const SOURCE_BLOCK_CONSUME_POWER_COND_CONSUME_CALL_EXPR := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_POWER_COND_CONSUME_CALL_EXPR
+const SOURCE_BLOCK_CONSUME_POWER_COND_JAVA_METHOD := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_POWER_COND_JAVA_METHOD
+const SOURCE_BLOCK_CONSUME_POWER_COND_GENERATED_OWNER := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_POWER_COND_GENERATED_OWNER
+const SOURCE_BLOCK_CONSUME_POWER_DYNAMIC_COMMENT := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_POWER_DYNAMIC_COMMENT
+const SOURCE_BLOCK_CONSUME_POWER_DYNAMIC_METHOD := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_POWER_DYNAMIC_METHOD
+const SOURCE_BLOCK_CONSUME_POWER_DYNAMIC_RETURN_EXPR := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_POWER_DYNAMIC_RETURN_EXPR
+const SOURCE_BLOCK_CONSUME_POWER_DYNAMIC_CONSTRUCTOR_EXPR := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_POWER_DYNAMIC_CONSTRUCTOR_EXPR
+const SOURCE_BLOCK_CONSUME_POWER_DYNAMIC_USAGE_CAST_EXPR := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_POWER_DYNAMIC_USAGE_CAST_EXPR
+const SOURCE_BLOCK_CONSUME_POWER_DYNAMIC_CONSUME_CALL_EXPR := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_POWER_DYNAMIC_CONSUME_CALL_EXPR
+const SOURCE_BLOCK_CONSUME_POWER_DYNAMIC_JAVA_METHOD := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_POWER_DYNAMIC_JAVA_METHOD
+const SOURCE_BLOCK_CONSUME_POWER_DYNAMIC_GENERATED_OWNER := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_POWER_DYNAMIC_GENERATED_OWNER
+const SOURCE_BLOCK_CONSUME_POWER_DYNAMIC_DISPLAYED_METHOD := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_POWER_DYNAMIC_DISPLAYED_METHOD
+const SOURCE_BLOCK_CONSUME_POWER_DYNAMIC_DISPLAYED_RETURN_EXPR := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_POWER_DYNAMIC_DISPLAYED_RETURN_EXPR
+const SOURCE_BLOCK_CONSUME_POWER_DYNAMIC_DISPLAYED_CONSTRUCTOR_EXPR := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_POWER_DYNAMIC_DISPLAYED_CONSTRUCTOR_EXPR
+const SOURCE_BLOCK_CONSUME_POWER_DYNAMIC_DISPLAYED_CONSUME_CALL_EXPR := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_POWER_DYNAMIC_DISPLAYED_CONSUME_CALL_EXPR
+const SOURCE_BLOCK_CONSUME_POWER_DYNAMIC_DISPLAYED_JAVA_METHOD := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_POWER_DYNAMIC_DISPLAYED_JAVA_METHOD
+const SOURCE_BLOCK_CONSUME_POWER_DYNAMIC_DISPLAYED_GENERATED_OWNER := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_POWER_DYNAMIC_DISPLAYED_GENERATED_OWNER
+const SOURCE_BLOCK_CONSUME_POWER_BUFFERED_COMMENT := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_POWER_BUFFERED_COMMENT
+const SOURCE_BLOCK_CONSUME_POWER_BUFFERED_PARAM := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_POWER_BUFFERED_PARAM
+const SOURCE_BLOCK_CONSUME_POWER_BUFFERED_METHOD := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_POWER_BUFFERED_METHOD
+const SOURCE_BLOCK_CONSUME_POWER_BUFFERED_RETURN_EXPR := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_POWER_BUFFERED_RETURN_EXPR
+const SOURCE_BLOCK_CONSUME_POWER_BUFFERED_CONSTRUCTOR_EXPR := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_POWER_BUFFERED_CONSTRUCTOR_EXPR
+const SOURCE_BLOCK_CONSUME_POWER_BUFFERED_CONSUME_CALL_EXPR := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_POWER_BUFFERED_CONSUME_CALL_EXPR
+const SOURCE_BLOCK_CONSUME_POWER_BUFFERED_JAVA_METHOD := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_POWER_BUFFERED_JAVA_METHOD
+const SOURCE_BLOCK_CONSUME_POWER_BUFFERED_GENERATED_OWNER := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_POWER_BUFFERED_GENERATED_OWNER
+const SOURCE_BLOCK_CONSUME_ITEM_SINGLE_METHOD := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_ITEM_SINGLE_METHOD
+const SOURCE_BLOCK_CONSUME_ITEM_SINGLE_RETURN_EXPR := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_ITEM_SINGLE_RETURN_EXPR
+const SOURCE_BLOCK_CONSUME_ITEM_SINGLE_DELEGATE_CALL_EXPR := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_ITEM_SINGLE_DELEGATE_CALL_EXPR
+const SOURCE_BLOCK_CONSUME_ITEM_SINGLE_JAVA_METHOD := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_ITEM_SINGLE_JAVA_METHOD
+const SOURCE_BLOCK_CONSUME_ITEM_SINGLE_GENERATED_OWNER := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_ITEM_SINGLE_GENERATED_OWNER
+const SOURCE_BLOCK_CONSUME_ITEM_AMOUNT_METHOD := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_ITEM_AMOUNT_METHOD
+const SOURCE_BLOCK_CONSUME_ITEM_AMOUNT_RETURN_EXPR := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_ITEM_AMOUNT_RETURN_EXPR
+const SOURCE_BLOCK_CONSUME_ITEM_AMOUNT_ITEM_STACK_EXPR := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_ITEM_AMOUNT_ITEM_STACK_EXPR
+const SOURCE_BLOCK_CONSUME_ITEM_AMOUNT_ITEM_STACK_ARRAY_EXPR := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_ITEM_AMOUNT_ITEM_STACK_ARRAY_EXPR
+const SOURCE_BLOCK_CONSUME_ITEM_AMOUNT_CONSTRUCTOR_EXPR := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_ITEM_AMOUNT_CONSTRUCTOR_EXPR
+const SOURCE_BLOCK_CONSUME_ITEM_AMOUNT_CONSUME_CALL_EXPR := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_ITEM_AMOUNT_CONSUME_CALL_EXPR
+const SOURCE_BLOCK_CONSUME_ITEM_AMOUNT_JAVA_METHOD := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_ITEM_AMOUNT_JAVA_METHOD
+const SOURCE_BLOCK_CONSUME_ITEM_AMOUNT_GENERATED_OWNER := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_ITEM_AMOUNT_GENERATED_OWNER
+const SOURCE_BLOCK_CONSUME_ITEMS_VARARGS_METHOD := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_ITEMS_VARARGS_METHOD
+const SOURCE_BLOCK_CONSUME_ITEMS_VARARGS_RETURN_EXPR := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_ITEMS_VARARGS_RETURN_EXPR
+const SOURCE_BLOCK_CONSUME_ITEMS_VARARGS_CONSTRUCTOR_EXPR := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_ITEMS_VARARGS_CONSTRUCTOR_EXPR
+const SOURCE_BLOCK_CONSUME_ITEMS_VARARGS_CONSUME_CALL_EXPR := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_ITEMS_VARARGS_CONSUME_CALL_EXPR
+const SOURCE_BLOCK_CONSUME_ITEMS_VARARGS_JAVA_METHOD := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_ITEMS_VARARGS_JAVA_METHOD
+const SOURCE_BLOCK_CONSUME_ITEMS_VARARGS_GENERATED_OWNER := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_ITEMS_VARARGS_GENERATED_OWNER
+const SOURCE_BLOCK_CONSUME_COOLANT_SINGLE_METHOD := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_COOLANT_SINGLE_METHOD
+const SOURCE_BLOCK_CONSUME_COOLANT_SINGLE_RETURN_EXPR := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_COOLANT_SINGLE_RETURN_EXPR
+const SOURCE_BLOCK_CONSUME_COOLANT_SINGLE_CONSTRUCTOR_EXPR := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_COOLANT_SINGLE_CONSTRUCTOR_EXPR
+const SOURCE_BLOCK_CONSUME_COOLANT_SINGLE_CONSUME_CALL_EXPR := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_COOLANT_SINGLE_CONSUME_CALL_EXPR
+const SOURCE_BLOCK_CONSUME_COOLANT_SINGLE_JAVA_METHOD := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_COOLANT_SINGLE_JAVA_METHOD
+const SOURCE_BLOCK_CONSUME_COOLANT_SINGLE_GENERATED_OWNER := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_COOLANT_SINGLE_GENERATED_OWNER
+const SOURCE_BLOCK_CONSUME_COOLANT_FILTERED_METHOD := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_COOLANT_FILTERED_METHOD
+const SOURCE_BLOCK_CONSUME_COOLANT_FILTERED_RETURN_EXPR := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_COOLANT_FILTERED_RETURN_EXPR
+const SOURCE_BLOCK_CONSUME_COOLANT_FILTERED_CONSTRUCTOR_EXPR := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_COOLANT_FILTERED_CONSTRUCTOR_EXPR
+const SOURCE_BLOCK_CONSUME_COOLANT_FILTERED_CONSUME_CALL_EXPR := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_COOLANT_FILTERED_CONSUME_CALL_EXPR
+const SOURCE_BLOCK_CONSUME_COOLANT_FILTERED_JAVA_METHOD := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_COOLANT_FILTERED_JAVA_METHOD
+const SOURCE_BLOCK_CONSUME_COOLANT_FILTERED_GENERATED_OWNER := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_COOLANT_FILTERED_GENERATED_OWNER
+const SOURCE_BLOCK_CONSUME_GENERIC_METHOD := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_GENERIC_METHOD
+const SOURCE_BLOCK_CONSUME_GENERIC_POWER_GUARD_EXPR := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_GENERIC_POWER_GUARD_EXPR
+const SOURCE_BLOCK_CONSUME_GENERIC_COMMENT := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_GENERIC_COMMENT
+const SOURCE_BLOCK_CONSUME_GENERIC_REMOVE_POWER_EXPR := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_GENERIC_REMOVE_POWER_EXPR
+const SOURCE_BLOCK_CONSUME_GENERIC_CONS_POWER_EXPR := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_GENERIC_CONS_POWER_EXPR
+const SOURCE_BLOCK_CONSUME_GENERIC_ADD_EXPR := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_GENERIC_ADD_EXPR
+const SOURCE_BLOCK_CONSUME_GENERIC_RETURN_EXPR := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_GENERIC_RETURN_EXPR
+const SOURCE_BLOCK_CONSUME_GENERIC_JAVA_METHOD := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_GENERIC_JAVA_METHOD
+const SOURCE_BLOCK_CONSUME_GENERIC_GENERATED_OWNER := source_block_consume_source_text_state.SOURCE_BLOCK_CONSUME_GENERIC_GENERATED_OWNER
+
+static func _block_call(generated_method: String, generated_args: Array) -> Variant:
+	return source_generated_class_runtime.call_java_method(SOURCE_BLOCK_GENERATED_CLASS, generated_method, generated_args, null)
 
 static func consume_liquid_state(liquid: Variant, amount: float) -> Dictionary:
-	var constructed_consume: Dictionary = {"type": "ConsumeLiquid", "liquid": liquid, "amount": amount}
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CONSUME_LIQUID_STATE, "source": "core/src/mindustry/world/Block.java", "method": "public ConsumeLiquid consumeLiquid(Liquid liquid, float amount){", "return_expr": "return consume(new ConsumeLiquid(liquid, amount));", "constructor_expr": "new ConsumeLiquid(liquid, amount)", "consume_call_expr": "consume(new ConsumeLiquid(liquid, amount))", "liquid": liquid, "amount": amount, "constructed_consume": constructed_consume, "consume_called": true}
+	var constructed_consume: Dictionary = {SOURCE_BLOCK_CONSUME_TYPE_KEY: "ConsumeLiquid", SOURCE_BLOCK_CONSUME_LIQUID_KEY: liquid, SOURCE_BLOCK_CONSUME_AMOUNT_KEY: amount}
+	return {SOURCE_BLOCK_CONSUME_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CONSUME_LIQUID_STATE, SOURCE_BLOCK_CONSUME_SOURCE_KEY: SOURCE_BLOCK_CONSUME_SOURCE, SOURCE_BLOCK_CONSUME_METHOD_KEY: SOURCE_BLOCK_CONSUME_LIQUID_METHOD, SOURCE_BLOCK_CONSUME_RETURN_EXPR_KEY: SOURCE_BLOCK_CONSUME_LIQUID_RETURN_EXPR, SOURCE_BLOCK_CONSUME_CONSTRUCTOR_EXPR_KEY: SOURCE_BLOCK_CONSUME_LIQUID_CONSTRUCTOR_EXPR, SOURCE_BLOCK_CONSUME_CONSUME_CALL_EXPR_KEY: SOURCE_BLOCK_CONSUME_LIQUID_CONSUME_CALL_EXPR, SOURCE_BLOCK_CONSUME_LIQUID_KEY: liquid, SOURCE_BLOCK_CONSUME_AMOUNT_KEY: amount, SOURCE_BLOCK_CONSUME_CONSTRUCTED_CONSUME_KEY: constructed_consume, SOURCE_BLOCK_CONSUME_CONSUME_CALLED_KEY: true}
 
 static func consume_liquids_state(stacks: Variant) -> Dictionary:
-	var constructed_consume: Dictionary = {"type": "ConsumeLiquids", "stacks": stacks}
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CONSUME_LIQUIDS_STATE, "source": "core/src/mindustry/world/Block.java", "method": "public ConsumeLiquids consumeLiquids(LiquidStack... stacks){", "return_expr": "return consume(new ConsumeLiquids(stacks));", "constructor_expr": "new ConsumeLiquids(stacks)", "consume_call_expr": "consume(new ConsumeLiquids(stacks))", "stacks": stacks, "constructed_consume": constructed_consume, "consume_called": true}
+	var constructed_consume: Dictionary = {SOURCE_BLOCK_CONSUME_TYPE_KEY: "ConsumeLiquids", SOURCE_BLOCK_CONSUME_STACKS_KEY: stacks}
+	return {SOURCE_BLOCK_CONSUME_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CONSUME_LIQUIDS_STATE, SOURCE_BLOCK_CONSUME_SOURCE_KEY: SOURCE_BLOCK_CONSUME_SOURCE, SOURCE_BLOCK_CONSUME_METHOD_KEY: SOURCE_BLOCK_CONSUME_LIQUIDS_METHOD, SOURCE_BLOCK_CONSUME_RETURN_EXPR_KEY: SOURCE_BLOCK_CONSUME_LIQUIDS_RETURN_EXPR, SOURCE_BLOCK_CONSUME_CONSTRUCTOR_EXPR_KEY: SOURCE_BLOCK_CONSUME_LIQUIDS_CONSTRUCTOR_EXPR, SOURCE_BLOCK_CONSUME_CONSUME_CALL_EXPR_KEY: SOURCE_BLOCK_CONSUME_LIQUIDS_CONSUME_CALL_EXPR, SOURCE_BLOCK_CONSUME_STACKS_KEY: stacks, SOURCE_BLOCK_CONSUME_CONSTRUCTED_CONSUME_KEY: constructed_consume, SOURCE_BLOCK_CONSUME_CONSUME_CALLED_KEY: true}
 
 static func consume_power_state(power_per_tick: float) -> Dictionary:
-	var constructed_consume: Dictionary = {"type": "ConsumePower", "powerPerTick": power_per_tick, "capacity": 0.0, "buffered": false}
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CONSUME_POWER_STATE, "source": "core/src/mindustry/world/Block.java", "comment": "Creates a consumer which directly uses power without buffering it.", "param": "@param powerPerTick The amount of power which is required each tick for 100% efficiency.", "method": "public ConsumePower consumePower(float powerPerTick){", "return_expr": "return consume(new ConsumePower(powerPerTick, 0.0f, false));", "constructor_expr": "new ConsumePower(powerPerTick, 0.0f, false)", "consume_call_expr": "consume(new ConsumePower(powerPerTick, 0.0f, false))", "powerPerTick": power_per_tick, "capacity": 0.0, "buffered": false, "constructed_consume": constructed_consume, "consume_called": true}
+	var constructed_consume: Dictionary = {SOURCE_BLOCK_CONSUME_TYPE_KEY: "ConsumePower", SOURCE_BLOCK_CONSUME_POWER_PER_TICK_KEY: power_per_tick, SOURCE_BLOCK_CONSUME_CAPACITY_KEY: 0.0, SOURCE_BLOCK_CONSUME_BUFFERED_KEY: false}
+	return {SOURCE_BLOCK_CONSUME_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CONSUME_POWER_STATE, SOURCE_BLOCK_CONSUME_SOURCE_KEY: SOURCE_BLOCK_CONSUME_SOURCE, SOURCE_BLOCK_CONSUME_COMMENT_KEY: SOURCE_BLOCK_CONSUME_POWER_COMMENT, SOURCE_BLOCK_CONSUME_PARAM_KEY: SOURCE_BLOCK_CONSUME_POWER_PARAM, SOURCE_BLOCK_CONSUME_METHOD_KEY: SOURCE_BLOCK_CONSUME_POWER_METHOD, SOURCE_BLOCK_CONSUME_RETURN_EXPR_KEY: SOURCE_BLOCK_CONSUME_POWER_RETURN_EXPR, SOURCE_BLOCK_CONSUME_CONSTRUCTOR_EXPR_KEY: SOURCE_BLOCK_CONSUME_POWER_CONSTRUCTOR_EXPR, SOURCE_BLOCK_CONSUME_CONSUME_CALL_EXPR_KEY: SOURCE_BLOCK_CONSUME_POWER_CONSUME_CALL_EXPR, SOURCE_BLOCK_CONSUME_POWER_PER_TICK_KEY: power_per_tick, SOURCE_BLOCK_CONSUME_CAPACITY_KEY: 0.0, SOURCE_BLOCK_CONSUME_BUFFERED_KEY: false, SOURCE_BLOCK_CONSUME_CONSTRUCTED_CONSUME_KEY: constructed_consume, SOURCE_BLOCK_CONSUME_CONSUME_CALLED_KEY: true}
 
 static func consume_power_cond_state(usage: float, cons: Variant) -> Dictionary:
-	var constructed_consume: Dictionary = {"type": "ConsumePowerCondition", "usage": usage, "condition": cons}
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CONSUME_POWER_COND_STATE, "source": "core/src/mindustry/world/Block.java", "comment": "Creates a consumer which only consumes power when the condition is met.", "method": "public <T extends Building> ConsumePower consumePowerCond(float usage, Boolf<T> cons){", "return_expr": "return consume(new ConsumePowerCondition(usage, (Boolf<Building>)cons));", "constructor_expr": "new ConsumePowerCondition(usage, (Boolf<Building>)cons)", "condition_cast_expr": "(Boolf<Building>)cons", "consume_call_expr": "consume(new ConsumePowerCondition(usage, (Boolf<Building>)cons))", "usage": usage, "condition": cons, "constructed_consume": constructed_consume, "consume_called": true}
+	var constructed_consume: Dictionary = {SOURCE_BLOCK_CONSUME_TYPE_KEY: "ConsumePowerCondition", SOURCE_BLOCK_CONSUME_USAGE_KEY: usage, SOURCE_BLOCK_CONSUME_CONDITION_KEY: cons}
+	return {SOURCE_BLOCK_CONSUME_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CONSUME_POWER_COND_STATE, SOURCE_BLOCK_CONSUME_SOURCE_KEY: SOURCE_BLOCK_CONSUME_SOURCE, SOURCE_BLOCK_CONSUME_COMMENT_KEY: SOURCE_BLOCK_CONSUME_POWER_COND_COMMENT, SOURCE_BLOCK_CONSUME_METHOD_KEY: SOURCE_BLOCK_CONSUME_POWER_COND_METHOD, SOURCE_BLOCK_CONSUME_RETURN_EXPR_KEY: SOURCE_BLOCK_CONSUME_POWER_COND_RETURN_EXPR, SOURCE_BLOCK_CONSUME_CONSTRUCTOR_EXPR_KEY: SOURCE_BLOCK_CONSUME_POWER_COND_CONSTRUCTOR_EXPR, SOURCE_BLOCK_CONSUME_CONDITION_CAST_EXPR_KEY: SOURCE_BLOCK_CONSUME_POWER_COND_CONDITION_CAST_EXPR, SOURCE_BLOCK_CONSUME_CONSUME_CALL_EXPR_KEY: SOURCE_BLOCK_CONSUME_POWER_COND_CONSUME_CALL_EXPR, SOURCE_BLOCK_CONSUME_USAGE_KEY: usage, SOURCE_BLOCK_CONSUME_CONDITION_KEY: cons, SOURCE_BLOCK_CONSUME_CONSTRUCTED_CONSUME_KEY: constructed_consume, SOURCE_BLOCK_CONSUME_CONSUME_CALLED_KEY: true}
 
 static func consume_power_dynamic_state(usage: Variant) -> Dictionary:
-	var constructed_consume: Dictionary = {"type": "ConsumePowerDynamic", "usage": usage}
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CONSUME_POWER_DYNAMIC_STATE, "source": "core/src/mindustry/world/Block.java", "comment": "Creates a consumer that consumes a dynamic amount of power.", "method": "public <T extends Building> ConsumePower consumePowerDynamic(Floatf<T> usage){", "return_expr": "return consume(new ConsumePowerDynamic((Floatf<Building>)usage));", "constructor_expr": "new ConsumePowerDynamic((Floatf<Building>)usage)", "usage_cast_expr": "(Floatf<Building>)usage", "consume_call_expr": "consume(new ConsumePowerDynamic((Floatf<Building>)usage))", "usage": usage, "constructed_consume": constructed_consume, "consume_called": true}
+	var constructed_consume: Dictionary = {SOURCE_BLOCK_CONSUME_TYPE_KEY: "ConsumePowerDynamic", SOURCE_BLOCK_CONSUME_USAGE_KEY: usage}
+	return {SOURCE_BLOCK_CONSUME_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CONSUME_POWER_DYNAMIC_STATE, SOURCE_BLOCK_CONSUME_SOURCE_KEY: SOURCE_BLOCK_CONSUME_SOURCE, SOURCE_BLOCK_CONSUME_COMMENT_KEY: SOURCE_BLOCK_CONSUME_POWER_DYNAMIC_COMMENT, SOURCE_BLOCK_CONSUME_METHOD_KEY: SOURCE_BLOCK_CONSUME_POWER_DYNAMIC_METHOD, SOURCE_BLOCK_CONSUME_RETURN_EXPR_KEY: SOURCE_BLOCK_CONSUME_POWER_DYNAMIC_RETURN_EXPR, SOURCE_BLOCK_CONSUME_CONSTRUCTOR_EXPR_KEY: SOURCE_BLOCK_CONSUME_POWER_DYNAMIC_CONSTRUCTOR_EXPR, SOURCE_BLOCK_CONSUME_USAGE_CAST_EXPR_KEY: SOURCE_BLOCK_CONSUME_POWER_DYNAMIC_USAGE_CAST_EXPR, SOURCE_BLOCK_CONSUME_CONSUME_CALL_EXPR_KEY: SOURCE_BLOCK_CONSUME_POWER_DYNAMIC_CONSUME_CALL_EXPR, SOURCE_BLOCK_CONSUME_USAGE_KEY: usage, SOURCE_BLOCK_CONSUME_CONSTRUCTED_CONSUME_KEY: constructed_consume, SOURCE_BLOCK_CONSUME_CONSUME_CALLED_KEY: true}
 
 static func consume_power_dynamic_displayed_state(displayed: float, usage: Variant) -> Dictionary:
-	var constructed_consume: Dictionary = {"type": "ConsumePowerDynamic", "displayed": displayed, "usage": usage}
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CONSUME_POWER_DYNAMIC_DISPLAYED_STATE, "source": "core/src/mindustry/world/Block.java", "comment": "Creates a consumer that consumes a dynamic amount of power.", "method": "public <T extends Building> ConsumePower consumePowerDynamic(float displayed, Floatf<T> usage){", "return_expr": "return consume(new ConsumePowerDynamic(displayed, (Floatf<Building>)usage));", "constructor_expr": "new ConsumePowerDynamic(displayed, (Floatf<Building>)usage)", "usage_cast_expr": "(Floatf<Building>)usage", "consume_call_expr": "consume(new ConsumePowerDynamic(displayed, (Floatf<Building>)usage))", "displayed": displayed, "usage": usage, "constructed_consume": constructed_consume, "consume_called": true}
+	var constructed_consume: Dictionary = {SOURCE_BLOCK_CONSUME_TYPE_KEY: "ConsumePowerDynamic", SOURCE_BLOCK_CONSUME_DISPLAYED_KEY: displayed, SOURCE_BLOCK_CONSUME_USAGE_KEY: usage}
+	return {SOURCE_BLOCK_CONSUME_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CONSUME_POWER_DYNAMIC_DISPLAYED_STATE, SOURCE_BLOCK_CONSUME_SOURCE_KEY: SOURCE_BLOCK_CONSUME_SOURCE, SOURCE_BLOCK_CONSUME_COMMENT_KEY: SOURCE_BLOCK_CONSUME_POWER_DYNAMIC_COMMENT, SOURCE_BLOCK_CONSUME_METHOD_KEY: SOURCE_BLOCK_CONSUME_POWER_DYNAMIC_DISPLAYED_METHOD, SOURCE_BLOCK_CONSUME_RETURN_EXPR_KEY: SOURCE_BLOCK_CONSUME_POWER_DYNAMIC_DISPLAYED_RETURN_EXPR, SOURCE_BLOCK_CONSUME_CONSTRUCTOR_EXPR_KEY: SOURCE_BLOCK_CONSUME_POWER_DYNAMIC_DISPLAYED_CONSTRUCTOR_EXPR, SOURCE_BLOCK_CONSUME_USAGE_CAST_EXPR_KEY: SOURCE_BLOCK_CONSUME_POWER_DYNAMIC_USAGE_CAST_EXPR, SOURCE_BLOCK_CONSUME_CONSUME_CALL_EXPR_KEY: SOURCE_BLOCK_CONSUME_POWER_DYNAMIC_DISPLAYED_CONSUME_CALL_EXPR, SOURCE_BLOCK_CONSUME_DISPLAYED_KEY: displayed, SOURCE_BLOCK_CONSUME_USAGE_KEY: usage, SOURCE_BLOCK_CONSUME_CONSTRUCTED_CONSUME_KEY: constructed_consume, SOURCE_BLOCK_CONSUME_CONSUME_CALLED_KEY: true}
 
 static func consume_power_buffered_state(power_capacity: float) -> Dictionary:
-	var constructed_consume: Dictionary = {"type": "ConsumePower", "powerPerTick": 0.0, "capacity": power_capacity, "buffered": true}
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CONSUME_POWER_BUFFERED_STATE, "source": "core/src/mindustry/world/Block.java", "comment": "Creates a consumer which stores power.", "param": "@param powerCapacity The maximum capacity in power units.", "method": "public ConsumePower consumePowerBuffered(float powerCapacity){", "return_expr": "return consume(new ConsumePower(0f, powerCapacity, true));", "constructor_expr": "new ConsumePower(0f, powerCapacity, true)", "consume_call_expr": "consume(new ConsumePower(0f, powerCapacity, true))", "powerCapacity": power_capacity, "powerPerTick": 0.0, "buffered": true, "constructed_consume": constructed_consume, "consume_called": true}
+	var constructed_consume: Dictionary = {SOURCE_BLOCK_CONSUME_TYPE_KEY: "ConsumePower", SOURCE_BLOCK_CONSUME_POWER_PER_TICK_KEY: 0.0, SOURCE_BLOCK_CONSUME_CAPACITY_KEY: power_capacity, SOURCE_BLOCK_CONSUME_BUFFERED_KEY: true}
+	return {SOURCE_BLOCK_CONSUME_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CONSUME_POWER_BUFFERED_STATE, SOURCE_BLOCK_CONSUME_SOURCE_KEY: SOURCE_BLOCK_CONSUME_SOURCE, SOURCE_BLOCK_CONSUME_COMMENT_KEY: SOURCE_BLOCK_CONSUME_POWER_BUFFERED_COMMENT, SOURCE_BLOCK_CONSUME_PARAM_KEY: SOURCE_BLOCK_CONSUME_POWER_BUFFERED_PARAM, SOURCE_BLOCK_CONSUME_METHOD_KEY: SOURCE_BLOCK_CONSUME_POWER_BUFFERED_METHOD, SOURCE_BLOCK_CONSUME_RETURN_EXPR_KEY: SOURCE_BLOCK_CONSUME_POWER_BUFFERED_RETURN_EXPR, SOURCE_BLOCK_CONSUME_CONSTRUCTOR_EXPR_KEY: SOURCE_BLOCK_CONSUME_POWER_BUFFERED_CONSTRUCTOR_EXPR, SOURCE_BLOCK_CONSUME_CONSUME_CALL_EXPR_KEY: SOURCE_BLOCK_CONSUME_POWER_BUFFERED_CONSUME_CALL_EXPR, SOURCE_BLOCK_CONSUME_POWER_CAPACITY_KEY: power_capacity, SOURCE_BLOCK_CONSUME_POWER_PER_TICK_KEY: 0.0, SOURCE_BLOCK_CONSUME_BUFFERED_KEY: true, SOURCE_BLOCK_CONSUME_CONSTRUCTED_CONSUME_KEY: constructed_consume, SOURCE_BLOCK_CONSUME_CONSUME_CALLED_KEY: true}
 
 static func consume_item_single_state(item: Variant) -> Dictionary:
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CONSUME_ITEM_SINGLE_STATE, "source": "core/src/mindustry/world/Block.java", "method": "public ConsumeItems consumeItem(Item item){", "return_expr": "return consumeItem(item, 1);", "delegate_call_expr": "consumeItem(item, 1)", "item": item, "amount": 1, "delegate_called": true}
+	return {SOURCE_BLOCK_CONSUME_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CONSUME_ITEM_SINGLE_STATE, SOURCE_BLOCK_CONSUME_SOURCE_KEY: SOURCE_BLOCK_CONSUME_SOURCE, SOURCE_BLOCK_CONSUME_METHOD_KEY: SOURCE_BLOCK_CONSUME_ITEM_SINGLE_METHOD, SOURCE_BLOCK_CONSUME_RETURN_EXPR_KEY: SOURCE_BLOCK_CONSUME_ITEM_SINGLE_RETURN_EXPR, SOURCE_BLOCK_CONSUME_DELEGATE_CALL_EXPR_KEY: SOURCE_BLOCK_CONSUME_ITEM_SINGLE_DELEGATE_CALL_EXPR, SOURCE_BLOCK_CONSUME_ITEM_KEY: item, SOURCE_BLOCK_CONSUME_AMOUNT_KEY: 1, SOURCE_BLOCK_CONSUME_DELEGATE_CALLED_KEY: true}
 
 static func consume_item_amount_state(item: Variant, amount: int) -> Dictionary:
-	var item_stack: Dictionary = {"type": "ItemStack", "item": item, "amount": amount}
-	var constructed_consume: Dictionary = {"type": "ConsumeItems", "items": [item_stack]}
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CONSUME_ITEM_AMOUNT_STATE, "source": "core/src/mindustry/world/Block.java", "method": "public ConsumeItems consumeItem(Item item, int amount){", "return_expr": "return consume(new ConsumeItems(new ItemStack[]{new ItemStack(item, amount)}));", "item_stack_expr": "new ItemStack(item, amount)", "item_stack_array_expr": "new ItemStack[]{new ItemStack(item, amount)}", "constructor_expr": "new ConsumeItems(new ItemStack[]{new ItemStack(item, amount)})", "consume_call_expr": "consume(new ConsumeItems(new ItemStack[]{new ItemStack(item, amount)}))", "item": item, "amount": amount, "item_stack": item_stack, "constructed_consume": constructed_consume, "consume_called": true}
+	var item_stack: Dictionary = {SOURCE_BLOCK_CONSUME_TYPE_KEY: "ItemStack", SOURCE_BLOCK_CONSUME_ITEM_KEY: item, SOURCE_BLOCK_CONSUME_AMOUNT_KEY: amount}
+	var constructed_consume: Dictionary = {SOURCE_BLOCK_CONSUME_TYPE_KEY: "ConsumeItems", SOURCE_BLOCK_CONSUME_ITEMS_KEY: [item_stack]}
+	return {SOURCE_BLOCK_CONSUME_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CONSUME_ITEM_AMOUNT_STATE, SOURCE_BLOCK_CONSUME_SOURCE_KEY: SOURCE_BLOCK_CONSUME_SOURCE, SOURCE_BLOCK_CONSUME_METHOD_KEY: SOURCE_BLOCK_CONSUME_ITEM_AMOUNT_METHOD, SOURCE_BLOCK_CONSUME_RETURN_EXPR_KEY: SOURCE_BLOCK_CONSUME_ITEM_AMOUNT_RETURN_EXPR, SOURCE_BLOCK_CONSUME_ITEM_STACK_EXPR_KEY: SOURCE_BLOCK_CONSUME_ITEM_AMOUNT_ITEM_STACK_EXPR, SOURCE_BLOCK_CONSUME_ITEM_STACK_ARRAY_EXPR_KEY: SOURCE_BLOCK_CONSUME_ITEM_AMOUNT_ITEM_STACK_ARRAY_EXPR, SOURCE_BLOCK_CONSUME_CONSTRUCTOR_EXPR_KEY: SOURCE_BLOCK_CONSUME_ITEM_AMOUNT_CONSTRUCTOR_EXPR, SOURCE_BLOCK_CONSUME_CONSUME_CALL_EXPR_KEY: SOURCE_BLOCK_CONSUME_ITEM_AMOUNT_CONSUME_CALL_EXPR, SOURCE_BLOCK_CONSUME_ITEM_KEY: item, SOURCE_BLOCK_CONSUME_AMOUNT_KEY: amount, SOURCE_BLOCK_CONSUME_ITEM_STACK_KEY: item_stack, SOURCE_BLOCK_CONSUME_CONSTRUCTED_CONSUME_KEY: constructed_consume, SOURCE_BLOCK_CONSUME_CONSUME_CALLED_KEY: true}
 
 static func consume_items_varargs_state(items: Array) -> Dictionary:
-	var constructed_consume: Dictionary = {"type": "ConsumeItems", "items": items}
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CONSUME_ITEMS_VARARGS_STATE, "source": "core/src/mindustry/world/Block.java", "method": "public ConsumeItems consumeItems(ItemStack... items){", "return_expr": "return consume(new ConsumeItems(items));", "constructor_expr": "new ConsumeItems(items)", "consume_call_expr": "consume(new ConsumeItems(items))", "items": items, "constructed_consume": constructed_consume, "consume_called": true}
+	var constructed_consume: Dictionary = {SOURCE_BLOCK_CONSUME_TYPE_KEY: "ConsumeItems", SOURCE_BLOCK_CONSUME_ITEMS_KEY: items}
+	return {SOURCE_BLOCK_CONSUME_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CONSUME_ITEMS_VARARGS_STATE, SOURCE_BLOCK_CONSUME_SOURCE_KEY: SOURCE_BLOCK_CONSUME_SOURCE, SOURCE_BLOCK_CONSUME_METHOD_KEY: SOURCE_BLOCK_CONSUME_ITEMS_VARARGS_METHOD, SOURCE_BLOCK_CONSUME_RETURN_EXPR_KEY: SOURCE_BLOCK_CONSUME_ITEMS_VARARGS_RETURN_EXPR, SOURCE_BLOCK_CONSUME_CONSTRUCTOR_EXPR_KEY: SOURCE_BLOCK_CONSUME_ITEMS_VARARGS_CONSTRUCTOR_EXPR, SOURCE_BLOCK_CONSUME_CONSUME_CALL_EXPR_KEY: SOURCE_BLOCK_CONSUME_ITEMS_VARARGS_CONSUME_CALL_EXPR, SOURCE_BLOCK_CONSUME_ITEMS_KEY: items, SOURCE_BLOCK_CONSUME_CONSTRUCTED_CONSUME_KEY: constructed_consume, SOURCE_BLOCK_CONSUME_CONSUME_CALLED_KEY: true}
 
 static func consume_coolant_single_state(amount: float) -> Dictionary:
-	var constructed_consume: Dictionary = {"type": "ConsumeCoolant", "amount": amount}
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CONSUME_COOLANT_SINGLE_STATE, "source": "core/src/mindustry/world/Block.java", "method": "public ConsumeCoolant consumeCoolant(float amount){", "return_expr": "return consume(new ConsumeCoolant(amount));", "constructor_expr": "new ConsumeCoolant(amount)", "consume_call_expr": "consume(new ConsumeCoolant(amount))", "amount": amount, "constructed_consume": constructed_consume, "consume_called": true}
+	var constructed_consume: Dictionary = {SOURCE_BLOCK_CONSUME_TYPE_KEY: "ConsumeCoolant", SOURCE_BLOCK_CONSUME_AMOUNT_KEY: amount}
+	return {SOURCE_BLOCK_CONSUME_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CONSUME_COOLANT_SINGLE_STATE, SOURCE_BLOCK_CONSUME_SOURCE_KEY: SOURCE_BLOCK_CONSUME_SOURCE, SOURCE_BLOCK_CONSUME_METHOD_KEY: SOURCE_BLOCK_CONSUME_COOLANT_SINGLE_METHOD, SOURCE_BLOCK_CONSUME_RETURN_EXPR_KEY: SOURCE_BLOCK_CONSUME_COOLANT_SINGLE_RETURN_EXPR, SOURCE_BLOCK_CONSUME_CONSTRUCTOR_EXPR_KEY: SOURCE_BLOCK_CONSUME_COOLANT_SINGLE_CONSTRUCTOR_EXPR, SOURCE_BLOCK_CONSUME_CONSUME_CALL_EXPR_KEY: SOURCE_BLOCK_CONSUME_COOLANT_SINGLE_CONSUME_CALL_EXPR, SOURCE_BLOCK_CONSUME_AMOUNT_KEY: amount, SOURCE_BLOCK_CONSUME_CONSTRUCTED_CONSUME_KEY: constructed_consume, SOURCE_BLOCK_CONSUME_CONSUME_CALLED_KEY: true}
 
 static func consume_coolant_filtered_state(amount: float, allow_liquid: bool, allow_gas: bool) -> Dictionary:
-	var constructed_consume: Dictionary = {"type": "ConsumeCoolant", "amount": amount, "allowLiquid": allow_liquid, "allowGas": allow_gas}
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CONSUME_COOLANT_FILTERED_STATE, "source": "core/src/mindustry/world/Block.java", "method": "public ConsumeCoolant consumeCoolant(float amount, boolean allowLiquid, boolean allowGas){", "return_expr": "return consume(new ConsumeCoolant(amount, allowLiquid, allowGas));", "constructor_expr": "new ConsumeCoolant(amount, allowLiquid, allowGas)", "consume_call_expr": "consume(new ConsumeCoolant(amount, allowLiquid, allowGas))", "amount": amount, "allowLiquid": allow_liquid, "allowGas": allow_gas, "constructed_consume": constructed_consume, "consume_called": true}
+	var constructed_consume: Dictionary = {SOURCE_BLOCK_CONSUME_TYPE_KEY: "ConsumeCoolant", SOURCE_BLOCK_CONSUME_AMOUNT_KEY: amount, SOURCE_BLOCK_CONSUME_ALLOW_LIQUID_KEY: allow_liquid, SOURCE_BLOCK_CONSUME_ALLOW_GAS_KEY: allow_gas}
+	return {SOURCE_BLOCK_CONSUME_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CONSUME_COOLANT_FILTERED_STATE, SOURCE_BLOCK_CONSUME_SOURCE_KEY: SOURCE_BLOCK_CONSUME_SOURCE, SOURCE_BLOCK_CONSUME_METHOD_KEY: SOURCE_BLOCK_CONSUME_COOLANT_FILTERED_METHOD, SOURCE_BLOCK_CONSUME_RETURN_EXPR_KEY: SOURCE_BLOCK_CONSUME_COOLANT_FILTERED_RETURN_EXPR, SOURCE_BLOCK_CONSUME_CONSTRUCTOR_EXPR_KEY: SOURCE_BLOCK_CONSUME_COOLANT_FILTERED_CONSTRUCTOR_EXPR, SOURCE_BLOCK_CONSUME_CONSUME_CALL_EXPR_KEY: SOURCE_BLOCK_CONSUME_COOLANT_FILTERED_CONSUME_CALL_EXPR, SOURCE_BLOCK_CONSUME_AMOUNT_KEY: amount, SOURCE_BLOCK_CONSUME_ALLOW_LIQUID_KEY: allow_liquid, SOURCE_BLOCK_CONSUME_ALLOW_GAS_KEY: allow_gas, SOURCE_BLOCK_CONSUME_CONSTRUCTED_CONSUME_KEY: constructed_consume, SOURCE_BLOCK_CONSUME_CONSUME_CALLED_KEY: true}
+
+static func generated_consume_liquid_result_state(liquid: Variant, amount: float) -> Dictionary:
+	return consume_liquid_state(liquid, amount)
+
+static func generated_consume_liquids_result_state(stacks: Variant) -> Dictionary:
+	return consume_liquids_state(stacks)
+
+static func generated_consume_power_result_state(power_per_tick: float) -> Dictionary:
+	return consume_power_state(power_per_tick)
+
+static func generated_consume_power_cond_result_state(usage: float, cons: Variant) -> Dictionary:
+	return consume_power_cond_state(usage, cons)
+
+static func generated_consume_power_dynamic_result_state(usage: Variant) -> Dictionary:
+	return consume_power_dynamic_state(usage)
+
+static func generated_consume_power_dynamic_displayed_result_state(displayed: float, usage: Variant) -> Dictionary:
+	return consume_power_dynamic_displayed_state(displayed, usage)
+
+static func generated_consume_power_buffered_result_state(power_capacity: float) -> Dictionary:
+	return consume_power_buffered_state(power_capacity)
+
+static func generated_consume_item_single_result_state(item: Variant) -> Dictionary:
+	return consume_item_single_state(item)
+
+static func generated_consume_item_amount_result_state(item: Variant, amount: int) -> Dictionary:
+	return consume_item_amount_state(item, amount)
+
+static func generated_consume_items_varargs_result_state(items: Array) -> Dictionary:
+	return consume_items_varargs_state(items)
+
+static func generated_consume_coolant_filtered_result_state(amount: float, allow_liquid: bool, allow_gas: bool) -> Dictionary:
+	return consume_coolant_filtered_state(amount, allow_liquid, allow_gas)
+
+static func generated_consume_coolant_single_result_state(amount: float) -> Dictionary:
+	return consume_coolant_single_state(amount)
 
 static func consume_generic_state(consume: Variant, consume_is_power: bool, consume_builder_before: Array, consume_builder_without_power: Array, cons_power_before: Variant) -> Dictionary:
 	var remove_power_called: bool = consume_is_power
 	var consume_builder_after: Array = consume_builder_without_power.duplicate() if consume_is_power else consume_builder_before.duplicate()
 	consume_builder_after.append(consume)
 	var cons_power_after: Variant = consume if consume_is_power else cons_power_before
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CONSUME_GENERIC_STATE, "source": "core/src/mindustry/world/Block.java", "method": "public <T extends Consume> T consume(T consume){", "power_guard_expr": "if(consume instanceof ConsumePower){", "comment": "//there can only be one power consumer", "remove_power_expr": "consumeBuilder.removeAll(b -> b instanceof ConsumePower);", "cons_power_expr": "consPower = (ConsumePower)consume;", "add_expr": "consumeBuilder.add(consume);", "return_expr": "return consume;", "consume": consume, "consume_is_power": consume_is_power, "consume_builder_before": consume_builder_before, "consume_builder_without_power": consume_builder_without_power, "consume_builder_after": consume_builder_after, "cons_power_before": cons_power_before, "cons_power_after": cons_power_after, "remove_power_called": remove_power_called, "add_called": true, "returned_consume": consume}
+	return {SOURCE_BLOCK_CONSUME_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CONSUME_GENERIC_STATE, SOURCE_BLOCK_CONSUME_SOURCE_KEY: SOURCE_BLOCK_CONSUME_SOURCE, SOURCE_BLOCK_CONSUME_METHOD_KEY: SOURCE_BLOCK_CONSUME_GENERIC_METHOD, SOURCE_BLOCK_CONSUME_POWER_GUARD_EXPR_KEY: SOURCE_BLOCK_CONSUME_GENERIC_POWER_GUARD_EXPR, SOURCE_BLOCK_CONSUME_COMMENT_KEY: SOURCE_BLOCK_CONSUME_GENERIC_COMMENT, SOURCE_BLOCK_CONSUME_REMOVE_POWER_EXPR_KEY: SOURCE_BLOCK_CONSUME_GENERIC_REMOVE_POWER_EXPR, SOURCE_BLOCK_CONSUME_CONS_POWER_EXPR_KEY: SOURCE_BLOCK_CONSUME_GENERIC_CONS_POWER_EXPR, SOURCE_BLOCK_CONSUME_ADD_EXPR_KEY: SOURCE_BLOCK_CONSUME_GENERIC_ADD_EXPR, SOURCE_BLOCK_CONSUME_RETURN_EXPR_KEY: SOURCE_BLOCK_CONSUME_GENERIC_RETURN_EXPR, SOURCE_BLOCK_CONSUME_CONSUME_KEY: consume, SOURCE_BLOCK_CONSUME_CONSUME_IS_POWER_KEY: consume_is_power, SOURCE_BLOCK_CONSUME_CONSUME_BUILDER_BEFORE_KEY: consume_builder_before, SOURCE_BLOCK_CONSUME_CONSUME_BUILDER_WITHOUT_POWER_KEY: consume_builder_without_power, SOURCE_BLOCK_CONSUME_CONSUME_BUILDER_AFTER_KEY: consume_builder_after, SOURCE_BLOCK_CONSUME_CONS_POWER_BEFORE_KEY: cons_power_before, SOURCE_BLOCK_CONSUME_CONS_POWER_AFTER_KEY: cons_power_after, SOURCE_BLOCK_CONSUME_REMOVE_POWER_CALLED_KEY: remove_power_called, SOURCE_BLOCK_CONSUME_ADD_CALLED_KEY: true, SOURCE_BLOCK_CONSUME_RETURNED_CONSUME_KEY: consume}
+
+static func generated_consume_generic_result_state(consume: Variant, consume_is_power: bool, consume_builder_before: Array, consume_builder_without_power: Array, cons_power_before: Variant) -> Dictionary:
+	return consume_generic_state(consume, consume_is_power, consume_builder_before, consume_builder_without_power, cons_power_before)
 
 static func generated_block_consume_liquid_bridge_state(liquid: Variant, amount: float) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_consumeLiquid_99", [liquid, amount], null)
+	var result = _block_call(SOURCE_BLOCK_CONSUME_LIQUID_JAVA_METHOD, [liquid, amount])
 	var canonical = consume_liquid_state(liquid, amount)
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CONSUME_LIQUID_STATE, "generated_owner": "block.java_method_consumeLiquid_99", "result": result, "canonical": canonical, "matches": source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)}
+	return {SOURCE_BLOCK_CONSUME_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CONSUME_LIQUID_STATE, SOURCE_BLOCK_CONSUME_GENERATED_OWNER_KEY: SOURCE_BLOCK_CONSUME_LIQUID_GENERATED_OWNER, SOURCE_BLOCK_CONSUME_RESULT_KEY: result, SOURCE_BLOCK_CONSUME_CANONICAL_KEY: canonical, SOURCE_BLOCK_CONSUME_MATCHES_KEY: source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)}
 
 static func generated_block_consume_liquids_bridge_state(stacks: Variant) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_consumeLiquids_100", [stacks], null)
+	var result = _block_call(SOURCE_BLOCK_CONSUME_LIQUIDS_JAVA_METHOD, [stacks])
 	var canonical = consume_liquids_state(stacks)
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CONSUME_LIQUIDS_STATE, "generated_owner": "block.java_method_consumeLiquids_100", "result": result, "canonical": canonical, "matches": source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)}
+	return {SOURCE_BLOCK_CONSUME_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CONSUME_LIQUIDS_STATE, SOURCE_BLOCK_CONSUME_GENERATED_OWNER_KEY: SOURCE_BLOCK_CONSUME_LIQUIDS_GENERATED_OWNER, SOURCE_BLOCK_CONSUME_RESULT_KEY: result, SOURCE_BLOCK_CONSUME_CANONICAL_KEY: canonical, SOURCE_BLOCK_CONSUME_MATCHES_KEY: source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)}
 
 static func generated_block_consume_power_bridge_state(power_per_tick: float) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_consumePower_101", [power_per_tick], null)
+	var result = _block_call(SOURCE_BLOCK_CONSUME_POWER_JAVA_METHOD, [power_per_tick])
 	var canonical = consume_power_state(power_per_tick)
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CONSUME_POWER_STATE, "generated_owner": "block.java_method_consumePower_101", "result": result, "canonical": canonical, "matches": source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)}
+	return {SOURCE_BLOCK_CONSUME_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CONSUME_POWER_STATE, SOURCE_BLOCK_CONSUME_GENERATED_OWNER_KEY: SOURCE_BLOCK_CONSUME_POWER_GENERATED_OWNER, SOURCE_BLOCK_CONSUME_RESULT_KEY: result, SOURCE_BLOCK_CONSUME_CANONICAL_KEY: canonical, SOURCE_BLOCK_CONSUME_MATCHES_KEY: source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)}
 
 static func generated_block_consume_power_cond_bridge_state(usage: float, cons: Variant) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_consumePowerCond_102", [usage, cons], null)
+	var result = _block_call(SOURCE_BLOCK_CONSUME_POWER_COND_JAVA_METHOD, [usage, cons])
 	var canonical = consume_power_cond_state(usage, cons)
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CONSUME_POWER_COND_STATE, "generated_owner": "block.java_method_consumePowerCond_102", "result": result, "canonical": canonical, "matches": source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)}
+	return {SOURCE_BLOCK_CONSUME_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CONSUME_POWER_COND_STATE, SOURCE_BLOCK_CONSUME_GENERATED_OWNER_KEY: SOURCE_BLOCK_CONSUME_POWER_COND_GENERATED_OWNER, SOURCE_BLOCK_CONSUME_RESULT_KEY: result, SOURCE_BLOCK_CONSUME_CANONICAL_KEY: canonical, SOURCE_BLOCK_CONSUME_MATCHES_KEY: source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)}
 
 static func generated_block_consume_power_dynamic_bridge_state(usage: Variant) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_consumePowerDynamic_103", [usage], null)
+	var result = _block_call(SOURCE_BLOCK_CONSUME_POWER_DYNAMIC_JAVA_METHOD, [usage])
 	var canonical = consume_power_dynamic_state(usage)
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CONSUME_POWER_DYNAMIC_STATE, "generated_owner": "block.java_method_consumePowerDynamic_103", "result": result, "canonical": canonical, "matches": source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)}
+	return {SOURCE_BLOCK_CONSUME_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CONSUME_POWER_DYNAMIC_STATE, SOURCE_BLOCK_CONSUME_GENERATED_OWNER_KEY: SOURCE_BLOCK_CONSUME_POWER_DYNAMIC_GENERATED_OWNER, SOURCE_BLOCK_CONSUME_RESULT_KEY: result, SOURCE_BLOCK_CONSUME_CANONICAL_KEY: canonical, SOURCE_BLOCK_CONSUME_MATCHES_KEY: source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)}
 
 static func generated_block_consume_power_dynamic_displayed_bridge_state(displayed: float, usage: Variant) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_consumePowerDynamic_104", [displayed, usage], null)
+	var result = _block_call(SOURCE_BLOCK_CONSUME_POWER_DYNAMIC_DISPLAYED_JAVA_METHOD, [displayed, usage])
 	var canonical = consume_power_dynamic_displayed_state(displayed, usage)
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CONSUME_POWER_DYNAMIC_DISPLAYED_STATE, "generated_owner": "block.java_method_consumePowerDynamic_104", "result": result, "canonical": canonical, "matches": source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)}
+	return {SOURCE_BLOCK_CONSUME_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CONSUME_POWER_DYNAMIC_DISPLAYED_STATE, SOURCE_BLOCK_CONSUME_GENERATED_OWNER_KEY: SOURCE_BLOCK_CONSUME_POWER_DYNAMIC_DISPLAYED_GENERATED_OWNER, SOURCE_BLOCK_CONSUME_RESULT_KEY: result, SOURCE_BLOCK_CONSUME_CANONICAL_KEY: canonical, SOURCE_BLOCK_CONSUME_MATCHES_KEY: source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)}
 
 static func generated_block_consume_power_buffered_bridge_state(power_capacity: float) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_consumePowerBuffered_105", [power_capacity], null)
+	var result = _block_call(SOURCE_BLOCK_CONSUME_POWER_BUFFERED_JAVA_METHOD, [power_capacity])
 	var canonical = consume_power_buffered_state(power_capacity)
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CONSUME_POWER_BUFFERED_STATE, "generated_owner": "block.java_method_consumePowerBuffered_105", "result": result, "canonical": canonical, "matches": source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)}
+	return {SOURCE_BLOCK_CONSUME_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CONSUME_POWER_BUFFERED_STATE, SOURCE_BLOCK_CONSUME_GENERATED_OWNER_KEY: SOURCE_BLOCK_CONSUME_POWER_BUFFERED_GENERATED_OWNER, SOURCE_BLOCK_CONSUME_RESULT_KEY: result, SOURCE_BLOCK_CONSUME_CANONICAL_KEY: canonical, SOURCE_BLOCK_CONSUME_MATCHES_KEY: source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)}
 
 static func generated_block_consume_item_single_bridge_state(item: Variant) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_consumeItem_106", [item], null)
+	var result = _block_call(SOURCE_BLOCK_CONSUME_ITEM_SINGLE_JAVA_METHOD, [item])
 	var canonical = consume_item_single_state(item)
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CONSUME_ITEM_SINGLE_STATE, "generated_owner": "block.java_method_consumeItem_106", "result": result, "canonical": canonical, "matches": source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)}
+	return {SOURCE_BLOCK_CONSUME_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CONSUME_ITEM_SINGLE_STATE, SOURCE_BLOCK_CONSUME_GENERATED_OWNER_KEY: SOURCE_BLOCK_CONSUME_ITEM_SINGLE_GENERATED_OWNER, SOURCE_BLOCK_CONSUME_RESULT_KEY: result, SOURCE_BLOCK_CONSUME_CANONICAL_KEY: canonical, SOURCE_BLOCK_CONSUME_MATCHES_KEY: source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)}
 
 static func generated_block_consume_item_amount_bridge_state(item: Variant, amount: int) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_consumeItem_107", [item, amount], null)
+	var result = _block_call(SOURCE_BLOCK_CONSUME_ITEM_AMOUNT_JAVA_METHOD, [item, amount])
 	var canonical = consume_item_amount_state(item, amount)
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CONSUME_ITEM_AMOUNT_STATE, "generated_owner": "block.java_method_consumeItem_107", "result": result, "canonical": canonical, "matches": source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)}
+	return {SOURCE_BLOCK_CONSUME_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CONSUME_ITEM_AMOUNT_STATE, SOURCE_BLOCK_CONSUME_GENERATED_OWNER_KEY: SOURCE_BLOCK_CONSUME_ITEM_AMOUNT_GENERATED_OWNER, SOURCE_BLOCK_CONSUME_RESULT_KEY: result, SOURCE_BLOCK_CONSUME_CANONICAL_KEY: canonical, SOURCE_BLOCK_CONSUME_MATCHES_KEY: source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)}
 
 static func generated_block_consume_items_varargs_bridge_state(items: Array) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_consumeItems_108", items, null)
+	var result = _block_call(SOURCE_BLOCK_CONSUME_ITEMS_VARARGS_JAVA_METHOD, items)
 	var canonical = consume_items_varargs_state(items)
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CONSUME_ITEMS_VARARGS_STATE, "generated_owner": "block.java_method_consumeItems_108", "result": result, "canonical": canonical, "matches": source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)}
+	return {SOURCE_BLOCK_CONSUME_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CONSUME_ITEMS_VARARGS_STATE, SOURCE_BLOCK_CONSUME_GENERATED_OWNER_KEY: SOURCE_BLOCK_CONSUME_ITEMS_VARARGS_GENERATED_OWNER, SOURCE_BLOCK_CONSUME_RESULT_KEY: result, SOURCE_BLOCK_CONSUME_CANONICAL_KEY: canonical, SOURCE_BLOCK_CONSUME_MATCHES_KEY: source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)}
 
 static func generated_block_consume_coolant_single_bridge_state(amount: float) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_consumeCoolant_109", [amount], null)
+	var result = _block_call(SOURCE_BLOCK_CONSUME_COOLANT_SINGLE_JAVA_METHOD, [amount])
 	var canonical = consume_coolant_single_state(amount)
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CONSUME_COOLANT_SINGLE_STATE, "generated_owner": "block.java_method_consumeCoolant_109", "result": result, "canonical": canonical, "matches": source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)}
+	return {SOURCE_BLOCK_CONSUME_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CONSUME_COOLANT_SINGLE_STATE, SOURCE_BLOCK_CONSUME_GENERATED_OWNER_KEY: SOURCE_BLOCK_CONSUME_COOLANT_SINGLE_GENERATED_OWNER, SOURCE_BLOCK_CONSUME_RESULT_KEY: result, SOURCE_BLOCK_CONSUME_CANONICAL_KEY: canonical, SOURCE_BLOCK_CONSUME_MATCHES_KEY: source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)}
 
 static func generated_block_consume_coolant_filtered_bridge_state(amount: float, allow_liquid: bool, allow_gas: bool) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_consumeCoolant_110", [amount, allow_liquid, allow_gas], null)
+	var result = _block_call(SOURCE_BLOCK_CONSUME_COOLANT_FILTERED_JAVA_METHOD, [amount, allow_liquid, allow_gas])
 	var canonical = consume_coolant_filtered_state(amount, allow_liquid, allow_gas)
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CONSUME_COOLANT_FILTERED_STATE, "generated_owner": "block.java_method_consumeCoolant_110", "result": result, "canonical": canonical, "matches": source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)}
+	return {SOURCE_BLOCK_CONSUME_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CONSUME_COOLANT_FILTERED_STATE, SOURCE_BLOCK_CONSUME_GENERATED_OWNER_KEY: SOURCE_BLOCK_CONSUME_COOLANT_FILTERED_GENERATED_OWNER, SOURCE_BLOCK_CONSUME_RESULT_KEY: result, SOURCE_BLOCK_CONSUME_CANONICAL_KEY: canonical, SOURCE_BLOCK_CONSUME_MATCHES_KEY: source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)}
 
 static func generated_block_consume_generic_bridge_state(consume: Variant, consume_is_power: bool, consume_builder_before: Array, consume_builder_without_power: Array, cons_power_before: Variant) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_consume_111", [consume, consume_is_power, consume_builder_before, consume_builder_without_power, cons_power_before], null)
+	var result = _block_call(SOURCE_BLOCK_CONSUME_GENERIC_JAVA_METHOD, [consume, consume_is_power, consume_builder_before, consume_builder_without_power, cons_power_before])
 	var canonical = consume_generic_state(consume, consume_is_power, consume_builder_before, consume_builder_without_power, cons_power_before)
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CONSUME_GENERIC_STATE, "generated_owner": "block.java_method_consume_111", "result": result, "canonical": canonical, "matches": source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)}
+	return {SOURCE_BLOCK_CONSUME_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CONSUME_GENERIC_STATE, SOURCE_BLOCK_CONSUME_GENERATED_OWNER_KEY: SOURCE_BLOCK_CONSUME_GENERIC_GENERATED_OWNER, SOURCE_BLOCK_CONSUME_RESULT_KEY: result, SOURCE_BLOCK_CONSUME_CANONICAL_KEY: canonical, SOURCE_BLOCK_CONSUME_MATCHES_KEY: source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)}

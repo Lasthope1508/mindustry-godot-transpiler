@@ -1,0 +1,24 @@
+extends RefCounted
+class_name SourceWeaponsCallbackRegistry
+
+const source_geometry_callback_registry := preload("res://src/game/SourceGeometryCallbackRegistry.gd")
+const source_math_callback_registry := preload("res://src/game/SourceMathCallbackRegistry.gd")
+
+const SOURCE_WEAPONS_APPROACH_DELTA_KEY := source_math_callback_registry.APPROACH_DELTA_KEY
+const SOURCE_WEAPONS_APPROACH_DELTA_FALLBACK := source_math_callback_registry.MATHF_APPROACH_DELTA_FALLBACK
+const SOURCE_WEAPONS_LERP_DELTA_KEY := source_math_callback_registry.LERP_DELTA_KEY
+const SOURCE_WEAPONS_LERP_DELTA_FALLBACK := source_math_callback_registry.MATHF_LERP_DELTA_FALLBACK
+const SOURCE_WEAPONS_TRNS_VEC_KEY := source_geometry_callback_registry.TRNS_VEC_KEY
+const SOURCE_WEAPONS_TRNS_VEC_FALLBACK := source_geometry_callback_registry.TRNS_VEC_FALLBACK
+const SOURCE_WEAPONS_ANGLES_ANGLE_KEY := source_geometry_callback_registry.ANGLES_ANGLE_KEY
+const SOURCE_WEAPONS_ANGLES_ANGLE_FALLBACK := source_geometry_callback_registry.ANGLES_ANGLE_FALLBACK
+const SOURCE_WEAPONS_MOVE_TOWARD_ANGLE_KEY := source_geometry_callback_registry.MOVE_TOWARD_ANGLE_KEY
+const SOURCE_WEAPONS_MOVE_TOWARD_ANGLE_FALLBACK := source_geometry_callback_registry.MOVE_TOWARD_ANGLE_FALLBACK
+const SOURCE_WEAPONS_ANGLE_DIST_KEY := source_geometry_callback_registry.ANGLE_DIST_KEY
+const SOURCE_WEAPONS_ANGLE_DIST_FALLBACK := source_geometry_callback_registry.ANGLE_DIST_FALLBACK
+const SOURCE_WEAPONS_MATHF_DST_KEY := source_math_callback_registry.MATHF_DST_KEY
+const SOURCE_WEAPONS_MATHF_DST_FALLBACK := source_math_callback_registry.MATHF_DST_FALLBACK
+const SOURCE_WEAPONS_STATUS_APPLY_RESULT_KEY := "status_apply_result"
+const SOURCE_WEAPONS_STATUS_APPLY_RESULT_FALLBACK := "source_status_apply_result"
+const SOURCE_WEAPONS_BULLET_ORIGIN_STATE_KEY := "bullet_origin_state"
+const SOURCE_WEAPONS_BULLET_ORIGIN_STATE_FALLBACK := "source_weapon_update_bullet_origin_state"

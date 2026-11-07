@@ -2,22 +2,11 @@ extends RefCounted
 class_name SourceUnitDestroyState
 
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
+const source_unit_destroy_source_text_state := preload("res://src/game/SourceUnitDestroySourceTextState.gd")
+const source_unit_destroy_effects_state := preload("res://src/game/SourceUnitDestroyEffectsState.gd")
 const source_unit_defaults := preload("res://src/game/SourceUnitDefaults.gd")
 const source_weapon_defaults := preload("res://src/game/SourceWeaponDefaults.gd")
 
-const SOURCE_UNIT_DESTROY_INITIAL_EXPLOSIVENESS_BASE := source_unit_defaults.DESTROY_INITIAL_EXPLOSIVENESS_BASE
-const SOURCE_UNIT_DESTROY_INITIAL_EXPLOSIVENESS_MULTIPLIER := source_unit_defaults.DESTROY_INITIAL_EXPLOSIVENESS_MULTIPLIER
-const SOURCE_UNIT_DESTROY_INITIAL_FLAMMABILITY_DIVISOR := source_unit_defaults.DESTROY_INITIAL_FLAMMABILITY_DIVISOR
-const SOURCE_UNIT_DESTROY_INITIAL_POWER_EXPONENT := source_unit_defaults.DESTROY_INITIAL_POWER_EXPONENT
-const SOURCE_UNIT_DESTROY_INITIAL_POWER_MULTIPLIER := source_unit_defaults.DESTROY_INITIAL_POWER_MULTIPLIER
-const SOURCE_UNIT_DESTROY_EXPLOSION_LEG_LENGTH_DIVISOR := source_unit_defaults.DESTROY_EXPLOSION_LEG_LENGTH_DIVISOR
-const SOURCE_UNIT_DESTROY_EXPLOSION_RADIUS_DIVISOR := source_unit_defaults.DESTROY_EXPLOSION_RADIUS_DIVISOR
-const SOURCE_UNIT_DESTROY_EXPLOSION_CORE_ROTATION_DIVISOR := source_unit_defaults.DESTROY_EXPLOSION_CORE_ROTATION_DIVISOR
-const SOURCE_UNIT_DESTROY_VISUAL_DEATH_SHAKE_BASE := source_unit_defaults.DESTROY_VISUAL_DEATH_SHAKE_BASE
-const SOURCE_UNIT_DESTROY_VISUAL_DEATH_SHAKE_HIT_SIZE_DIVISOR := source_unit_defaults.DESTROY_VISUAL_DEATH_SHAKE_HIT_SIZE_DIVISOR
-const SOURCE_UNIT_DESTROY_VISUAL_SCORCH_HIT_SIZE_DIVISOR := source_unit_defaults.DESTROY_VISUAL_SCORCH_HIT_SIZE_DIVISOR
-const SOURCE_UNIT_DESTROY_SOUND_PITCH := source_unit_defaults.DESTROY_SOUND_PITCH
-const SOURCE_UNIT_DESTROY_SUICIDE_BOMB_EXPLOSIVENESS_THRESHOLD := source_unit_defaults.DESTROY_SUICIDE_BOMB_EXPLOSIVENESS_THRESHOLD
 const SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_TOTAL_SHOTS_THRESHOLD := source_unit_defaults.DESTROY_SHOOT_ON_DEATH_TOTAL_SHOTS_THRESHOLD
 const SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_RELOAD_RESET := source_unit_defaults.DESTROY_SHOOT_ON_DEATH_RELOAD_RESET
 const SOURCE_WEAPON_SHOOT_ON_DEATH_DEFAULT := source_weapon_defaults.SHOOT_ON_DEATH_DEFAULT
@@ -30,104 +19,114 @@ const SOURCE_UNIT_DESTROY_WRECK_DECAL_ROTATION_OFFSET := source_unit_defaults.WR
 const SOURCE_UNIT_KILLED_HEALTH_CLAMP_MAX := source_unit_defaults.KILLED_HEALTH_CLAMP_MAX
 const SOURCE_UNIT_KILLED_WRECK_SOUND_PITCH := source_unit_defaults.KILLED_WRECK_SOUND_PITCH
 
-const SOURCE_UNIT_REMOVE_METHOD := "@Override\n    public void remove(){"
-const SOURCE_UNIT_REMOVE_UPDATE_COUNT := "team.data().updateCount(type, -1);"
-const SOURCE_UNIT_REMOVE_CONTROLLER_REMOVED := "controller.removed(self());"
-const SOURCE_UNIT_REMOVE_TRAIL_GUARD := "if(trail != null && trail.size() > 0){"
-const SOURCE_UNIT_REMOVE_TRAIL_FADE := "Fx.trailFade.at(x, y, trail.width(), type.trailColor == null ? team.color : type.trailColor, trail.copy());"
+const SOURCE_UNIT_REMOVE_METHOD := source_unit_destroy_source_text_state.SOURCE_UNIT_REMOVE_METHOD
+const SOURCE_UNIT_REMOVE_UPDATE_COUNT := source_unit_destroy_source_text_state.SOURCE_UNIT_REMOVE_UPDATE_COUNT
+const SOURCE_UNIT_REMOVE_CONTROLLER_REMOVED := source_unit_destroy_source_text_state.SOURCE_UNIT_REMOVE_CONTROLLER_REMOVED
+const SOURCE_UNIT_REMOVE_TRAIL_GUARD := source_unit_destroy_source_text_state.SOURCE_UNIT_REMOVE_TRAIL_GUARD
+const SOURCE_UNIT_REMOVE_TRAIL_FADE := source_unit_destroy_source_text_state.SOURCE_UNIT_REMOVE_TRAIL_FADE
 
-const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_METHOD := "public void destroy(){"
-const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_COMMENT := "/** Actually destroys the unit, removing it and creating explosions. **/"
-const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_GUARD := "if(!isAdded() || !killable()) return;"
-const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_EXPLOSIVENESS := "float explosiveness = 2f + item().explosiveness * stack().amount * 1.53f;"
-const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_FLAMMABILITY := "float flammability = item().flammability * stack().amount / 1.9f;"
-const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_POWER := "float power = item().charge * Mathf.pow(stack().amount, 1.11f) * 160f;"
+const SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_METHOD := source_unit_destroy_source_text_state.SOURCE_UNIT_DESTROY_METHOD
+const SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_LOOP := source_unit_destroy_source_text_state.SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_LOOP
+const SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_GUARD := source_unit_destroy_source_text_state.SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_GUARD
+const SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_EFFECT_GUARD := source_unit_destroy_source_text_state.SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_EFFECT_GUARD
+const SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_ALLOW_EFFECTS := source_unit_destroy_source_text_state.SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_ALLOW_EFFECTS
+const SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_EFFECT_AT := source_unit_destroy_source_text_state.SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_EFFECT_AT
+const SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_RELOAD := source_unit_destroy_source_text_state.SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_RELOAD
+const SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_SHOOT := source_unit_destroy_source_text_state.SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_SHOOT
+const SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_UPDATE := source_unit_destroy_source_text_state.SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_UPDATE
 
-const SOURCE_UNIT_DESTROY_EXPLOSION_DISPATCH_METHOD := "public void destroy(){"
-const SOURCE_UNIT_DESTROY_EXPLOSION_DISPATCH_GUARD := "if(!spawnedByCore){"
-const SOURCE_UNIT_DESTROY_EXPLOSION_DISPATCH_DYNAMIC_CALL := "Damage.dynamicExplosion(x, y, flammability, explosiveness, power, (bounds() + type.legLength/1.7f) / 2f, state.rules.damageExplosions && state.rules.unitCrashDamage(team) > 0, item().flammability > 1, team, type.deathExplosionEffect, 0f);"
-const SOURCE_UNIT_DESTROY_EXPLOSION_DISPATCH_ELSE := "}else{"
-const SOURCE_UNIT_DESTROY_EXPLOSION_DISPATCH_CORE_EFFECT := "type.deathExplosionEffect.at(x, y, bounds() / 2f / 8f);"
+const SOURCE_UNIT_DESTROY_CRASH_LANDING_DAMAGE_METHOD := source_unit_destroy_source_text_state.SOURCE_UNIT_DESTROY_METHOD
+const SOURCE_UNIT_DESTROY_CRASH_LANDING_DAMAGE_COMMENT := source_unit_destroy_source_text_state.SOURCE_UNIT_DESTROY_CRASH_LANDING_DAMAGE_COMMENT
+const SOURCE_UNIT_DESTROY_CRASH_LANDING_DAMAGE_GUARD := source_unit_destroy_source_text_state.SOURCE_UNIT_DESTROY_CRASH_LANDING_DAMAGE_GUARD
+const SOURCE_UNIT_DESTROY_CRASH_LANDING_DAMAGE_SHIELD_LOOKUP := source_unit_destroy_source_text_state.SOURCE_UNIT_DESTROY_CRASH_LANDING_DAMAGE_SHIELD_LOOKUP
+const SOURCE_UNIT_DESTROY_CRASH_LANDING_DAMAGE_FORMULA := source_unit_destroy_source_text_state.SOURCE_UNIT_DESTROY_CRASH_LANDING_DAMAGE_FORMULA
+const SOURCE_UNIT_DESTROY_CRASH_LANDING_DAMAGE_SHIELD_GUARD := source_unit_destroy_source_text_state.SOURCE_UNIT_DESTROY_CRASH_LANDING_DAMAGE_SHIELD_GUARD
+const SOURCE_UNIT_DESTROY_CRASH_LANDING_DAMAGE_CALL := source_unit_destroy_source_text_state.SOURCE_UNIT_DESTROY_CRASH_LANDING_DAMAGE_CALL
 
-const SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_METHOD := "public void destroy(){"
-const SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_SHAKE_FORMULA := "float shake = type.deathShake < 0 ? 3f + hitSize / 3f : type.deathShake;"
-const SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_SCORCH_GUARD := "if(type.createScorch){"
-const SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_SCORCH_CALL := "Effect.scorch(x, y, (int)(hitSize / 5));"
-const SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_SHAKE_CALL := "Effect.shake(shake, shake, this);"
-const SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_DEATH_SHAKE_DEFAULT := "deathShake = -1f,"
-const SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_CREATE_SCORCH_DEFAULT := "createScorch = true,"
-const SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_HIT_SIZE_DEFAULT := "hitSize = 6f,"
-const SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_EFFECT_SHAKE_POSITION := "public static void shake(float intensity, float duration, Position loc){"
-const SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_EFFECT_SHAKE_POSITION_BODY := "shake(intensity, duration, loc.getX(), loc.getY());"
-const SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_EFFECT_SCORCH_METHOD := "public static void scorch(float x, float y, int size){"
+const SOURCE_UNIT_DESTROY_WRECK_DECAL_METHOD := source_unit_destroy_source_text_state.SOURCE_UNIT_DESTROY_METHOD
+const SOURCE_UNIT_DESTROY_WRECK_DECAL_GUARD := source_unit_destroy_source_text_state.SOURCE_UNIT_DESTROY_WRECK_DECAL_GUARD
+const SOURCE_UNIT_DESTROY_WRECK_DECAL_LOOP := source_unit_destroy_source_text_state.SOURCE_UNIT_DESTROY_WRECK_DECAL_LOOP
+const SOURCE_UNIT_DESTROY_WRECK_DECAL_FOUND_GUARD := source_unit_destroy_source_text_state.SOURCE_UNIT_DESTROY_WRECK_DECAL_FOUND_GUARD
+const SOURCE_UNIT_DESTROY_WRECK_DECAL_RANGE_FORMULA := source_unit_destroy_source_text_state.SOURCE_UNIT_DESTROY_WRECK_DECAL_RANGE_FORMULA
+const SOURCE_UNIT_DESTROY_WRECK_DECAL_RANDOM_CALL := source_unit_destroy_source_text_state.SOURCE_UNIT_DESTROY_WRECK_DECAL_RANDOM_CALL
+const SOURCE_UNIT_DESTROY_WRECK_DECAL_DECAL_CALL := source_unit_destroy_source_text_state.SOURCE_UNIT_DESTROY_WRECK_DECAL_DECAL_CALL
 
-const SOURCE_UNIT_DESTROY_SOUND_AND_EVENT_METHOD := "public void destroy(){"
-const SOURCE_UNIT_DESTROY_SOUND_AND_EVENT_SOUND_CALL := "type.deathSound.at(this, 1f, type.deathSoundVolume);"
-const SOURCE_UNIT_DESTROY_SOUND_AND_EVENT_EVENT_CALL := "Events.fire(new UnitDestroyEvent(self()));"
-const SOURCE_UNIT_DESTROY_SOUND_AND_EVENT_SOUND_AT_POSITION := "public int at(Position pos, float pitch, float volume){"
-const SOURCE_UNIT_DESTROY_SOUND_AND_EVENT_SOUND_AT_POSITION_BODY := "return at(pos.getX(), pos.getY(), pitch, volume);"
-const SOURCE_UNIT_DESTROY_SOUND_AND_EVENT_EVENTS_FIRE := "public static <T> void fire(T type){"
-const SOURCE_UNIT_DESTROY_SOUND_AND_EVENT_EVENTS_FIRE_BODY := "fire(type.getClass(), type);"
+const SOURCE_UNIT_DESTROY_ABILITY_DEATH_METHOD := source_unit_destroy_source_text_state.SOURCE_UNIT_DESTROY_METHOD
+const SOURCE_UNIT_DESTROY_ABILITY_DEATH_IMPORT := source_unit_destroy_source_text_state.SOURCE_UNIT_DESTROY_ABILITY_DEATH_IMPORT
+const SOURCE_UNIT_DESTROY_ABILITY_DEATH_FIELD := source_unit_destroy_source_text_state.SOURCE_UNIT_DESTROY_ABILITY_DEATH_FIELD
+const SOURCE_UNIT_DESTROY_ABILITY_DEATH_LOOP := source_unit_destroy_source_text_state.SOURCE_UNIT_DESTROY_ABILITY_DEATH_LOOP
+const SOURCE_UNIT_DESTROY_ABILITY_DEATH_CALL := source_unit_destroy_source_text_state.SOURCE_UNIT_DESTROY_ABILITY_DEATH_CALL
+const SOURCE_UNIT_DESTROY_ABILITY_DEATH_DEFAULT := source_unit_destroy_source_text_state.SOURCE_UNIT_DESTROY_ABILITY_DEATH_DEFAULT
 
-const SOURCE_UNIT_DESTROY_SUICIDE_BOMB_TRIGGER_METHOD := "public void destroy(){"
-const SOURCE_UNIT_DESTROY_SUICIDE_BOMB_TRIGGER_GUARD := "if(explosiveness > 7f && (isLocal() || wasPlayer)){"
-const SOURCE_UNIT_DESTROY_SUICIDE_BOMB_TRIGGER_EVENT := "Events.fire(Trigger.suicideBomb);"
-const SOURCE_UNIT_DESTROY_SUICIDE_BOMB_TRIGGER_EVENTS_FIRE_ENUM := "public static <T extends Enum<T>> void fire(Enum<T> type){"
-const SOURCE_UNIT_DESTROY_SUICIDE_BOMB_TRIGGER_EVENTS_FIRE_ENUM_BODY := "items[i].get(type);"
-const SOURCE_UNIT_DESTROY_SUICIDE_BOMB_TRIGGER_ENUM := "public enum Trigger{"
-const SOURCE_UNIT_DESTROY_SUICIDE_BOMB_TRIGGER_ENUM_MEMBER := "suicideBomb,"
+const SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_METHOD := source_unit_destroy_source_text_state.SOURCE_UNIT_DESTROY_METHOD
+const SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_TYPE_KILLED := source_unit_destroy_source_text_state.SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_TYPE_KILLED
+const SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_REMOVE := source_unit_destroy_source_text_state.SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_REMOVE
+const SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_UNIT_TYPE_DEFAULT := source_unit_destroy_source_text_state.SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_UNIT_TYPE_DEFAULT
+const SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_REMOVE_OVERRIDE := source_unit_destroy_source_text_state.SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_REMOVE_OVERRIDE
+const SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_SELF_METHOD := source_unit_destroy_source_text_state.SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_SELF_METHOD
 
-const SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_METHOD := "public void destroy(){"
-const SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_LOOP := "for(WeaponMount mount : mounts){"
-const SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_GUARD := "if(mount.weapon.shootOnDeath && !(mount.weapon.bullet.killShooter && mount.totalShots > 0)){"
-const SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_EFFECT_GUARD := "if(mount.weapon.shootOnDeathEffect != null && !hasTarget){"
-const SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_ALLOW_EFFECTS := "mount.allowShootEffects = false;"
-const SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_EFFECT_AT := "mount.weapon.shootOnDeathEffect.at(x, y, rotation);"
-const SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_RELOAD := "mount.reload = 0f;"
-const SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_SHOOT := "mount.shoot = true;"
-const SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_UPDATE := "mount.weapon.update(self(), mount);"
+const SOURCE_UNIT_KILLED_METHOD := source_unit_destroy_source_text_state.SOURCE_UNIT_KILLED_METHOD
+const SOURCE_UNIT_KILLED_WAS_PLAYER := source_unit_destroy_source_text_state.SOURCE_UNIT_KILLED_WAS_PLAYER
+const SOURCE_UNIT_KILLED_HEALTH_CLAMP := source_unit_destroy_source_text_state.SOURCE_UNIT_KILLED_HEALTH_CLAMP
+const SOURCE_UNIT_KILLED_DEAD_ASSIGNMENT := source_unit_destroy_source_text_state.SOURCE_UNIT_KILLED_DEAD_ASSIGNMENT
+const SOURCE_UNIT_KILLED_DESTROY_GUARD := source_unit_destroy_source_text_state.SOURCE_UNIT_KILLED_DESTROY_GUARD
+const SOURCE_UNIT_KILLED_DESTROY_CALL := source_unit_destroy_source_text_state.SOURCE_UNIT_KILLED_DESTROY_CALL
+const SOURCE_UNIT_KILLED_WRECK_SOUND_CALL := source_unit_destroy_source_text_state.SOURCE_UNIT_KILLED_WRECK_SOUND_CALL
 
-const SOURCE_UNIT_DESTROY_CRASH_LANDING_DAMAGE_METHOD := "public void destroy(){"
-const SOURCE_UNIT_DESTROY_CRASH_LANDING_DAMAGE_COMMENT := "//if this unit crash landed (was flying), damage stuff in a radius"
-const SOURCE_UNIT_DESTROY_CRASH_LANDING_DAMAGE_GUARD := "if(type.flying && !spawnedByCore && type.createWreck && state.rules.unitCrashDamage(team) > 0){"
-const SOURCE_UNIT_DESTROY_CRASH_LANDING_DAMAGE_SHIELD_LOOKUP := "var shields = indexer.getEnemy(team, BlockFlag.shield);"
-const SOURCE_UNIT_DESTROY_CRASH_LANDING_DAMAGE_FORMULA := "float crashDamage = Mathf.pow(hitSize, 0.75f) * type.crashDamageMultiplier * 2.5f * state.rules.unitCrashDamage(team);"
-const SOURCE_UNIT_DESTROY_CRASH_LANDING_DAMAGE_SHIELD_GUARD := "if(shields.isEmpty() || !shields.contains(b -> b instanceof ExplosionShield s && s.absorbExplosion(x, y, crashDamage))){"
-const SOURCE_UNIT_DESTROY_CRASH_LANDING_DAMAGE_CALL := "Damage.damage(team, x, y, Mathf.pow(hitSize, 0.94f) * 1.25f, crashDamage, true, false, true);"
+const SOURCE_UNIT_KILL_SYNC_METHOD := source_unit_destroy_source_text_state.SOURCE_UNIT_KILL_SYNC_METHOD
+const SOURCE_UNIT_KILL_SYNC_GUARD := source_unit_destroy_source_text_state.SOURCE_UNIT_KILL_SYNC_GUARD
+const SOURCE_UNIT_KILL_SYNC_CALL := source_unit_destroy_source_text_state.SOURCE_UNIT_KILL_SYNC_CALL
+const SOURCE_UNIT_KILL_SYNC_GUARD_EXPR := source_unit_destroy_source_text_state.SOURCE_UNIT_KILL_SYNC_GUARD_EXPR
+const SOURCE_UNIT_KILL_SYNC_CALL_EXPR := source_unit_destroy_source_text_state.SOURCE_UNIT_KILL_SYNC_CALL_EXPR
+const SOURCE_UNIT_KILL_SYNC_REMOTE := source_unit_destroy_source_text_state.SOURCE_UNIT_KILL_SYNC_REMOTE
+const SOURCE_UNIT_KILL_SYNC_SERVER_HANDLER := source_unit_destroy_source_text_state.SOURCE_UNIT_KILL_SYNC_SERVER_HANDLER
 
-const SOURCE_UNIT_DESTROY_WRECK_DECAL_METHOD := "public void destroy(){"
-const SOURCE_UNIT_DESTROY_WRECK_DECAL_GUARD := "if(!headless && type.createScorch){"
-const SOURCE_UNIT_DESTROY_WRECK_DECAL_LOOP := "for(int i = 0; i < type.wreckRegions.length; i++){"
-const SOURCE_UNIT_DESTROY_WRECK_DECAL_FOUND_GUARD := "if(type.wreckRegions[i].found()){"
-const SOURCE_UNIT_DESTROY_WRECK_DECAL_RANGE_FORMULA := "float range = type.hitSize /4f;"
-const SOURCE_UNIT_DESTROY_WRECK_DECAL_RANDOM_CALL := "Tmp.v1.rnd(range);"
-const SOURCE_UNIT_DESTROY_WRECK_DECAL_DECAL_CALL := "Effect.decal(type.wreckRegions[i], x + Tmp.v1.x, y + Tmp.v1.y, rotation - 90);"
-
-const SOURCE_UNIT_DESTROY_ABILITY_DEATH_METHOD := "public void destroy(){"
-const SOURCE_UNIT_DESTROY_ABILITY_DEATH_IMPORT := "import mindustry.entities.abilities.*;"
-const SOURCE_UNIT_DESTROY_ABILITY_DEATH_FIELD := "Ability[] abilities = {};"
-const SOURCE_UNIT_DESTROY_ABILITY_DEATH_LOOP := "for(Ability a : abilities){"
-const SOURCE_UNIT_DESTROY_ABILITY_DEATH_CALL := "a.death(self());"
-const SOURCE_UNIT_DESTROY_ABILITY_DEATH_DEFAULT := "public void death(Unit unit){}"
-
-const SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_METHOD := "public void destroy(){"
-const SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_TYPE_KILLED := "type.killed(self());"
-const SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_REMOVE := "remove();"
-const SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_UNIT_TYPE_DEFAULT := "public void killed(Unit unit){}"
-const SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_REMOVE_OVERRIDE := "public void remove(){"
-const SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_SELF_METHOD := "<T extends Entityc> T self(){"
-
-const SOURCE_UNIT_KILLED_METHOD := "public void killed(){"
-const SOURCE_UNIT_KILLED_WAS_PLAYER := "wasPlayer = isLocal();"
-const SOURCE_UNIT_KILLED_HEALTH_CLAMP := "health = Math.min(health, 0);"
-const SOURCE_UNIT_KILLED_DEAD_ASSIGNMENT := "dead = true;"
-const SOURCE_UNIT_KILLED_DESTROY_GUARD := "if(!type.flying || !type.createWreck){"
-const SOURCE_UNIT_KILLED_DESTROY_CALL := "destroy();"
-const SOURCE_UNIT_KILLED_WRECK_SOUND_CALL := "type.wreckSound.at(this, 1f, type.wreckSoundVolume);"
-
-const SOURCE_UNIT_KILL_SYNC_METHOD := "@Replace\n    public void kill(){"
-const SOURCE_UNIT_KILL_SYNC_GUARD := "if(dead || net.client() || !killable()) return;"
-const SOURCE_UNIT_KILL_SYNC_CALL := "Call.unitDeath(id);"
+static func destroy_state(input_state: Dictionary) -> Dictionary:
+	var initial := initial_payload_state(
+		bool(input_state.get("is_added", false)),
+		bool(input_state.get("killable", false)),
+		float(input_state.get("item_explosiveness", 0.0)),
+		float(input_state.get("item_flammability", 0.0)),
+		float(input_state.get("item_charge", 0.0)),
+		int(input_state.get("stack_amount", 0))
+	)
+	var phases: Array = ["initial_payload"]
+	var states: Array = [initial]
+	if bool(initial.get("returnGuard", false)):
+		return {
+			"source_owner": source_unit_destroy_source_text_state.SOURCE_UNIT_DESTROY_GENERATED_OWNER,
+			"method": source_unit_destroy_source_text_state.SOURCE_UNIT_DESTROY_METHOD,
+			"generated_method": source_unit_destroy_source_text_state.SOURCE_UNIT_DESTROY_GENERATED_METHOD,
+			"guard_returned": true,
+			"phases": phases,
+			"states": states,
+		}
+	var explosion := explosion_dispatch_state(
+		bool(input_state.get("spawned_by_core", false)),
+		float(input_state.get("x", 0.0)), float(input_state.get("y", 0.0)),
+		float(initial.get("flammability", 0.0)), float(initial.get("explosiveness", 0.0)), float(initial.get("power", 0.0)),
+		float(input_state.get("bounds", 0.0)), float(input_state.get("type_leg_length", 0.0)),
+		bool(input_state.get("rules_damage_explosions", false)), float(input_state.get("rules_unit_crash_damage", 0.0)),
+		float(input_state.get("item_flammability", 0.0)), int(input_state.get("team", 0)), str(input_state.get("death_explosion_effect", ""))
+	)
+	var visual := visual_effects_state(float(input_state.get("x", 0.0)), float(input_state.get("y", 0.0)), float(input_state.get("hit_size", 0.0)), float(input_state.get("death_shake", -1.0)), bool(input_state.get("create_scorch", false)), int(input_state.get("unit_id", 0)))
+	var sound := sound_and_event_state(str(input_state.get("death_sound", "")), float(input_state.get("death_sound_volume", 1.0)), int(input_state.get("unit_id", 0)))
+	var suicide := suicide_bomb_trigger_state(float(initial.get("explosiveness", 0.0)), bool(input_state.get("is_local", false)), bool(input_state.get("was_player", false)))
+	var mounts := shoot_on_death_mounts_state(input_state.get("mounts", []) as Array, bool(input_state.get("has_target", false)), float(input_state.get("x", 0.0)), float(input_state.get("y", 0.0)), float(input_state.get("rotation", 0.0)), int(input_state.get("unit_id", 0)))
+	var crash := crash_landing_damage_state(bool(input_state.get("type_flying", false)), bool(input_state.get("spawned_by_core", false)), bool(input_state.get("create_wreck", false)), float(input_state.get("rules_unit_crash_damage", 0.0)), float(input_state.get("hit_size", 0.0)), float(input_state.get("crash_damage_multiplier", 1.0)), bool(input_state.get("shields_empty", true)), bool(input_state.get("shield_absorbed", false)), int(input_state.get("team", 0)), float(input_state.get("x", 0.0)), float(input_state.get("y", 0.0)))
+	var wreck := wreck_decal_state(bool(input_state.get("headless", false)), bool(input_state.get("create_scorch", false)), input_state.get("wreck_regions", []) as Array, input_state.get("tmp_offsets", []) as Array, float(input_state.get("x", 0.0)), float(input_state.get("y", 0.0)), float(input_state.get("rotation", 0.0)), float(input_state.get("hit_size", 0.0)))
+	var abilities := ability_death_state(input_state.get("abilities", []) as Array, int(input_state.get("unit_id", 0)))
+	var tail := type_killed_remove_state(int(input_state.get("unit_id", 0)))
+	phases.append_array(["explosion_dispatch", "visual_effects", "sound_and_event", "suicide_bomb_trigger", "shoot_on_death_mounts", "crash_landing_damage", "wreck_decal", "ability_death", "type_killed_remove"])
+	states.append_array([explosion, visual, sound, suicide, mounts, crash, wreck, abilities, tail])
+	return {
+		"source_owner": source_unit_destroy_source_text_state.SOURCE_UNIT_DESTROY_GENERATED_OWNER,
+		"method": source_unit_destroy_source_text_state.SOURCE_UNIT_DESTROY_METHOD,
+		"generated_method": source_unit_destroy_source_text_state.SOURCE_UNIT_DESTROY_GENERATED_METHOD,
+		"guard_returned": false,
+		"phases": phases,
+		"states": states,
+	}
 
 static func remove_state(trail_exists: bool, trail_size: int, trail_width: float, type_trail_color_exists: bool, team_color: String, type_trail_color: String) -> Dictionary:
 	var fade_trail := trail_exists and trail_size > 0
@@ -154,118 +153,19 @@ static func remove_state(trail_exists: bool, trail_size: int, trail_width: float
 	}
 
 static func initial_payload_state(is_added_value: bool, killable_value: bool, item_explosiveness: float, item_flammability: float, item_charge: float, stack_amount: int) -> Dictionary:
-	var should_return := (not is_added_value) or (not killable_value)
-	var explosiveness := 0.0
-	var flammability := 0.0
-	var power := 0.0
-	if not should_return:
-		explosiveness = SOURCE_UNIT_DESTROY_INITIAL_EXPLOSIVENESS_BASE + item_explosiveness * float(stack_amount) * SOURCE_UNIT_DESTROY_INITIAL_EXPLOSIVENESS_MULTIPLIER
-		flammability = item_flammability * float(stack_amount) / SOURCE_UNIT_DESTROY_INITIAL_FLAMMABILITY_DIVISOR
-		power = item_charge * pow(float(stack_amount), SOURCE_UNIT_DESTROY_INITIAL_POWER_EXPONENT) * SOURCE_UNIT_DESTROY_INITIAL_POWER_MULTIPLIER
-	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_STATE,
-		"method": SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_METHOD,
-		"comment": SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_COMMENT,
-		"sourceGuard": SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_GUARD,
-		"explosivenessFormula": SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_EXPLOSIVENESS,
-		"flammabilityFormula": SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_FLAMMABILITY,
-		"powerFormula": SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_POWER,
-		"returnGuard": should_return,
-		"explosiveness": explosiveness,
-		"flammability": flammability,
-		"power": power,
-	}
+	return source_unit_destroy_effects_state.initial_payload_state(is_added_value, killable_value, item_explosiveness, item_flammability, item_charge, stack_amount)
 
 static func explosion_dispatch_state(spawned_by_core_value: bool, source_x: float, source_y: float, flammability: float, explosiveness: float, power: float, bounds_value: float, type_leg_length: float, rules_damage_explosions: bool, rules_unit_crash_damage: float, item_flammability: float, team_id: int, death_explosion_effect: String) -> Dictionary:
-	var dispatch: Dictionary
-	if not spawned_by_core_value:
-		dispatch = {
-			"call": "Damage.dynamicExplosion",
-			"sourceCall": SOURCE_UNIT_DESTROY_EXPLOSION_DISPATCH_DYNAMIC_CALL,
-			"x": source_x,
-			"y": source_y,
-			"flammability": flammability,
-			"explosiveness": explosiveness,
-			"power": power,
-			"radius": (bounds_value + type_leg_length / SOURCE_UNIT_DESTROY_EXPLOSION_LEG_LENGTH_DIVISOR) / SOURCE_UNIT_DESTROY_EXPLOSION_RADIUS_DIVISOR,
-			"damage": rules_damage_explosions and rules_unit_crash_damage > 0.0,
-			"fire": item_flammability > 1.0,
-			"team": team_id,
-			"explosionFx": death_explosion_effect,
-			"baseShake": 0.0,
-		}
-	else:
-		dispatch = {
-			"call": "type.deathExplosionEffect.at",
-			"sourceCall": SOURCE_UNIT_DESTROY_EXPLOSION_DISPATCH_CORE_EFFECT,
-			"x": source_x,
-			"y": source_y,
-			"rotation": bounds_value / SOURCE_UNIT_DESTROY_EXPLOSION_RADIUS_DIVISOR / SOURCE_UNIT_DESTROY_EXPLOSION_CORE_ROTATION_DIVISOR,
-			"explosionFx": death_explosion_effect,
-		}
-	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_DESTROY_EXPLOSION_DISPATCH_STATE,
-		"method": SOURCE_UNIT_DESTROY_EXPLOSION_DISPATCH_METHOD,
-		"guard": SOURCE_UNIT_DESTROY_EXPLOSION_DISPATCH_GUARD,
-		"else": SOURCE_UNIT_DESTROY_EXPLOSION_DISPATCH_ELSE,
-		"dispatch": dispatch,
-	}
+	return source_unit_destroy_effects_state.explosion_dispatch_state(spawned_by_core_value, source_x, source_y, flammability, explosiveness, power, bounds_value, type_leg_length, rules_damage_explosions, rules_unit_crash_damage, item_flammability, team_id, death_explosion_effect)
 
 static func visual_effects_state(source_x: float, source_y: float, hit_size: float, type_death_shake: float, type_create_scorch: bool, unit_id: int) -> Dictionary:
-	var shake := SOURCE_UNIT_DESTROY_VISUAL_DEATH_SHAKE_BASE + hit_size / SOURCE_UNIT_DESTROY_VISUAL_DEATH_SHAKE_HIT_SIZE_DIVISOR if type_death_shake < 0.0 else type_death_shake
-	var scorch_call: Variant = null
-	if type_create_scorch:
-		scorch_call = {"call": SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_SCORCH_CALL, "x": source_x, "y": source_y, "size": int(hit_size / SOURCE_UNIT_DESTROY_VISUAL_SCORCH_HIT_SIZE_DIVISOR)}
-	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_STATE,
-		"method": SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_METHOD,
-		"shakeFormula": SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_SHAKE_FORMULA,
-		"scorchGuard": SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_SCORCH_GUARD,
-		"scorchCall": SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_SCORCH_CALL,
-		"scorch": scorch_call,
-		"size": int(hit_size / SOURCE_UNIT_DESTROY_VISUAL_SCORCH_HIT_SIZE_DIVISOR),
-		"shakeCall": SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_SHAKE_CALL,
-		"deathShakeDefault": SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_DEATH_SHAKE_DEFAULT,
-		"createScorchDefault": SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_CREATE_SCORCH_DEFAULT,
-		"hitSizeDefault": SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_HIT_SIZE_DEFAULT,
-		"effectShakePosition": SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_EFFECT_SHAKE_POSITION,
-		"effectShakePositionBody": SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_EFFECT_SHAKE_POSITION_BODY,
-		"effectScorchMethod": SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_EFFECT_SCORCH_METHOD,
-		"intensity": shake,
-		"duration": shake,
-		"unit": unit_id,
-	}
+	return source_unit_destroy_effects_state.visual_effects_state(source_x, source_y, hit_size, type_death_shake, type_create_scorch, unit_id)
 
 static func sound_and_event_state(death_sound: String, death_sound_volume: float, unit_id: int) -> Dictionary:
-	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_DESTROY_SOUND_AND_EVENT_STATE,
-		"method": SOURCE_UNIT_DESTROY_SOUND_AND_EVENT_METHOD,
-		"call": SOURCE_UNIT_DESTROY_SOUND_AND_EVENT_SOUND_CALL,
-		"sourcePositionOverload": SOURCE_UNIT_DESTROY_SOUND_AND_EVENT_SOUND_AT_POSITION,
-		"sourcePositionBody": SOURCE_UNIT_DESTROY_SOUND_AND_EVENT_SOUND_AT_POSITION_BODY,
-		"sound": death_sound,
-		"pitch": SOURCE_UNIT_DESTROY_SOUND_PITCH,
-		"volume": death_sound_volume,
-		"event": SOURCE_UNIT_DESTROY_SOUND_AND_EVENT_EVENT_CALL,
-		"eventsFire": SOURCE_UNIT_DESTROY_SOUND_AND_EVENT_EVENTS_FIRE,
-		"eventsFireBody": SOURCE_UNIT_DESTROY_SOUND_AND_EVENT_EVENTS_FIRE_BODY,
-		"eventClass": "UnitDestroyEvent",
-		"unit": unit_id,
-	}
+	return source_unit_destroy_effects_state.sound_and_event_state(death_sound, death_sound_volume, unit_id)
 
 static func suicide_bomb_trigger_state(explosiveness: float, is_local_value: bool, was_player_value: bool) -> Dictionary:
-	var trigger := explosiveness > SOURCE_UNIT_DESTROY_SUICIDE_BOMB_EXPLOSIVENESS_THRESHOLD and (is_local_value or was_player_value)
-	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_DESTROY_SUICIDE_BOMB_TRIGGER_STATE,
-		"method": SOURCE_UNIT_DESTROY_SUICIDE_BOMB_TRIGGER_METHOD,
-		"guard": SOURCE_UNIT_DESTROY_SUICIDE_BOMB_TRIGGER_GUARD,
-		"trigger": trigger,
-		"event": SOURCE_UNIT_DESTROY_SUICIDE_BOMB_TRIGGER_EVENT if trigger else "",
-		"eventsFire": SOURCE_UNIT_DESTROY_SUICIDE_BOMB_TRIGGER_EVENTS_FIRE_ENUM,
-		"eventsFireBody": SOURCE_UNIT_DESTROY_SUICIDE_BOMB_TRIGGER_EVENTS_FIRE_ENUM_BODY,
-		"triggerEnum": SOURCE_UNIT_DESTROY_SUICIDE_BOMB_TRIGGER_ENUM,
-		"triggerMember": SOURCE_UNIT_DESTROY_SUICIDE_BOMB_TRIGGER_ENUM_MEMBER,
-	}
+	return source_unit_destroy_effects_state.suicide_bomb_trigger_state(explosiveness, is_local_value, was_player_value)
 
 static func shoot_on_death_mounts_state(mount_states: Array, has_target_value: bool, source_x: float, source_y: float, source_rotation_degrees: float, unit_id: int) -> Dictionary:
 	var mounts: Array = []
@@ -425,11 +325,11 @@ static func kill_sync_state(dead_value: bool, net_client: bool, killable_value: 
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_KILL_SYNC_STATE,
 		"method": SOURCE_UNIT_KILL_SYNC_METHOD,
 		"sourceGuard": SOURCE_UNIT_KILL_SYNC_GUARD,
-		"guard": "dead || net.client() || !killable()",
+		"guard": SOURCE_UNIT_KILL_SYNC_GUARD_EXPR,
 		"returnGuard": should_return,
 		"sourceCall": SOURCE_UNIT_KILL_SYNC_CALL,
-		"call": "Call.unitDeath(id)",
-		"remote": "@Remote(called = Loc.server)",
-		"serverHandler": "unit.killed()",
+		"call": SOURCE_UNIT_KILL_SYNC_CALL_EXPR,
+		"remote": SOURCE_UNIT_KILL_SYNC_REMOTE,
+		"serverHandler": SOURCE_UNIT_KILL_SYNC_SERVER_HANDLER,
 		"unit": unit_id,
 	}

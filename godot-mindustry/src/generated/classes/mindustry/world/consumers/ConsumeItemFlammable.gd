@@ -18,7 +18,7 @@ const SOURCE_CONSUME_ITEM_FLAMMABLE_MIN_FLAMMABILITY_DEFAULT := source_consumer_
 func java_method_itemEfficiencyMultiplier_0(_args: Array = []) -> Variant:
 	var item_flammability: float = float(_args[0] if _args.size() > 0 else 0.0)
 	var efficiency_multiplier: float = item_flammability
-	return {"source_owner": "port_game.source_consume_item_flammable_item_efficiency_multiplier_state", "source": "core/src/mindustry/world/consumers/ConsumeItemFlammable.java", "method": "public float itemEfficiencyMultiplier(Item item){", "item_flammability": item_flammability, "efficiency_multiplier": efficiency_multiplier, "return_expr": "return item.flammability;"}
+	return {"source_owner": "port_game.source_consume_item_flammable_item_efficiency_multiplier_state", "source": "core/src/mindustry/world/consumers/ConsumeItemFlammable.java", "method": "public float itemEfficiencyMultiplier(Item item){", "item_flammability_field": "public float flammability = 0f;", "item_flammability": item_flammability, "efficiency_multiplier": efficiency_multiplier, "return_expr": "return item.flammability;"}
 
 func java_constructor_ConsumeItemFlammable_0(_args: Array = []) -> Variant:
 	var min_flammability: float = float(_args[0] if _args.size() > 0 else 0.0)

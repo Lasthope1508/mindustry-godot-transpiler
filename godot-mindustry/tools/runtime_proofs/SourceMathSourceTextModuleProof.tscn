@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://tools/runtime_proofs/SourceMathSourceTextModuleProof.gd" id="1_math_source_text_proof"]
+
+[node name="SourceMathSourceTextModuleProof" type="Node"]
+script = ExtResource("1_math_source_text_proof")

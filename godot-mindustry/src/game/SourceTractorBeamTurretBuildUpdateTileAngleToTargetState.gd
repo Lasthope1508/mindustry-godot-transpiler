@@ -3,9 +3,11 @@ class_name SourceTractorBeamTurretBuildUpdateTileAngleToTargetState
 
 const source_generated_class_runtime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
-const SOURCE_TRACTOR_BEAM_TURRET_GENERATED_CLASS := "res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd"
-const SOURCE_TRACTOR_BEAM_ANGLE_TO_TARGET_KEY := "angle_to_target"
-const SOURCE_TRACTOR_BEAM_ANGLE_TO_TARGET_FALLBACK := "source_angle_to_target"
+const source_turret_source_text_state := preload("res://src/game/SourceTurretSourceTextState.gd")
+const source_tractor_beam_callback_registry := preload("res://src/game/SourceTractorBeamCallbackRegistry.gd")
+const SOURCE_TRACTOR_BEAM_TURRET_GENERATED_CLASS := source_turret_source_text_state.SOURCE_TRACTOR_BEAM_TURRET_GENERATED_CLASS
+const SOURCE_TRACTOR_BEAM_ANGLE_TO_TARGET_KEY := source_tractor_beam_callback_registry.SOURCE_TRACTOR_BEAM_ANGLE_TO_TARGET_KEY
+const SOURCE_TRACTOR_BEAM_ANGLE_TO_TARGET_FALLBACK := source_tractor_beam_callback_registry.SOURCE_TRACTOR_BEAM_ANGLE_TO_TARGET_FALLBACK
 
 static func _tractor_beam_turret_call(generated_method: String, generated_args: Array) -> Variant:
 	return source_generated_class_runtime.call_java_method(SOURCE_TRACTOR_BEAM_TURRET_GENERATED_CLASS, generated_method, generated_args, null)

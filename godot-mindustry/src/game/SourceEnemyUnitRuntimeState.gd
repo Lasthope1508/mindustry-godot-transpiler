@@ -1,7 +1,8 @@
 extends RefCounted
 class_name SourceEnemyUnitRuntimeState
 
-const ContentRegistry := preload("res://src/generated/MindustryContentRegistry.gd")
+const source_content_registry_source_text_state := preload("res://src/game/SourceContentRegistrySourceTextState.gd")
+static var ContentRegistry := load(source_content_registry_source_text_state.CONTENT_REGISTRY)
 const source_playable_scenario_defaults := preload("res://src/game/SourcePlayableScenarioDefaults.gd")
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
 const source_wave_spawn_runtime_state := preload("res://src/game/SourceWaveSpawnRuntimeState.gd")

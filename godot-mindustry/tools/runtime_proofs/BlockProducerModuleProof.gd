@@ -2,14 +2,15 @@ extends Node
 
 const PortGameScript := preload("res://src/game/PortGame.gd")
 const source_math_defaults := preload("res://src/game/SourceMathDefaults.gd")
-const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const source_ssot_accessor_runtime_state := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
 const source_block_producer_state := preload("res://src/game/SourceBlockProducerState.gd")
 const source_block_producer_build_update_state := preload("res://src/game/SourceBlockProducerBuildUpdateState.gd")
 const source_block_producer_move_out_payload_state := preload("res://src/game/SourceBlockProducerMoveOutPayloadState.gd")
+const runtime_proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")
 
 func _ready() -> void:
 	var game := PortGameScript.new()
-	var registry_state := source_ssot_catalog.canonical_headquarter_registry_state()
+	var registry_state := source_ssot_accessor_runtime_state.canonical_headquarter_registry_state()
 	var region := "region"
 	var out_region := "out-region"
 	var top_region := "top-region"
@@ -93,12 +94,9 @@ func _ready() -> void:
 		"one_headquarter_per_ssot": bool(registry_state.get("one_headquarter_per_ssot", false)),
 	}
 	proof["matches"] = bool(icons_bridge.get("matches", false)) and bool(draw_plan_region_bridge.get("matches", false)) and bool(set_bars_bridge.get("matches", false)) and bool(accept_item_bridge.get("matches", false)) and bool(maximum_accepted_bridge.get("matches", false)) and bool(accept_payload_bridge.get("matches", false)) and bool(should_consume_bridge.get("matches", false)) and bool(produce_gate_bridge.get("matches", false)) and bool(progress_accumulation_bridge.get("matches", false)) and bool(completion_guard_bridge.get("matches", false)) and bool(payload_creation_bridge.get("matches", false)) and bool(pay_vector_reset_bridge.get("matches", false)) and bool(heat_time_bridge.get("matches", false)) and bool(move_out_payload_bridge.get("matches", false)) and proof["icons_bridge_matches"] and proof["draw_plan_region_bridge_matches"] and proof["set_bars_bridge_matches"] and proof["accept_item_bridge_matches"] and proof["maximum_accepted_bridge_matches"] and proof["accept_payload_bridge_matches"] and proof["should_consume_bridge_matches"] and proof["produce_gate_bridge_matches"] and proof["progress_accumulation_bridge_matches"] and proof["completion_guard_bridge_matches"] and proof["payload_creation_bridge_matches"] and proof["pay_vector_reset_bridge_matches"] and proof["heat_time_bridge_matches"] and proof["move_out_payload_bridge_matches"] and proof["one_headquarter_per_ssot"] and proof["registry_valid"]
-	var proof_json := JSON.stringify(proof)
-	print("BLOCK_PRODUCER_MODULE_PROOF " + proof_json)
-	var proof_path := ProjectSettings.globalize_path("res://tools/runtime_proofs/BlockProducerModuleProof.json")
-	var proof_file := FileAccess.open(proof_path, FileAccess.WRITE)
-	if proof_file != null:
-		proof_file.store_string(proof_json)
+	print("BLOCK_PRODUCER_MODULE_PROOF " + JSON.stringify(proof))
+	runtime_proof_state.write_proof("BlockProducerModuleProof", proof)
 	game.free()
-	await get_tree().create_timer(60.0).timeout
-	get_tree().quit(0)
+	await get_tree().process_frame
+	get_tree().quit(runtime_proof_state.exit_code(proof))
+

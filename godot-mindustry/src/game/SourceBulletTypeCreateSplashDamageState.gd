@@ -2,7 +2,6 @@ extends RefCounted
 class_name SourceBulletTypeCreateSplashDamageState
 
 const source_bullet_defaults := preload("res://src/game/SourceBulletDefaults.gd")
-const source_bullet_runtime := preload("res://src/game/SourceBulletRuntime.gd")
 
 static func damage_dispatch_state(bullet_type_state: Dictionary, bullet_state: Dictionary, hit_splash_damage_dispatch_state: Dictionary, damage_multiplier_state: Dictionary) -> Dictionary:
 	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
@@ -40,26 +39,27 @@ static func damage_dispatch_state(bullet_type_state: Dictionary, bullet_state: D
 			"armorMult": armor_multiplier,
 			"called": true,
 		}
-	var runtime_state := source_bullet_runtime.create_splash_damage_damage_dispatch_state(bullet_type_state, bullet_state, hit_splash_damage_dispatch_state, damage_multiplier_state)
-	runtime_state["bulletType"] = update_type_state
-	runtime_state["bullet"] = update_bullet_state
-	runtime_state["hitSplashDamageDispatch"] = update_hit_splash_damage_dispatch_state
-	runtime_state["damageMultiplierState"] = update_damage_multiplier_state
-	runtime_state["x"] = hit_x
-	runtime_state["y"] = hit_y
-	runtime_state["bulletTeam"] = bullet_team
-	runtime_state["bulletAbsorbed"] = bullet_absorbed
-	runtime_state["splashDamageRadius"] = splash_damage_radius
-	runtime_state["splashDamage"] = splash_damage
-	runtime_state["damageMultiplier"] = damage_multiplier
-	runtime_state["damageAmount"] = damage_amount
-	runtime_state["splashDamagePierce"] = splash_damage_pierce
-	runtime_state["collidesAir"] = collides_air
-	runtime_state["collidesGround"] = collides_ground
-	runtime_state["scaledSplashDamage"] = scaled_splash_damage
-	runtime_state["armorMultiplier"] = armor_multiplier
-	runtime_state["splashDamageGatePassed"] = splash_damage_gate_passed
-	runtime_state["damageCall"] = damage_call
+	var runtime_state := {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"hitSplashDamageDispatch": update_hit_splash_damage_dispatch_state,
+		"damageMultiplierState": update_damage_multiplier_state,
+		"x": hit_x,
+		"y": hit_y,
+		"bulletTeam": bullet_team,
+		"bulletAbsorbed": bullet_absorbed,
+		"splashDamageRadius": splash_damage_radius,
+		"splashDamage": splash_damage,
+		"damageMultiplier": damage_multiplier,
+		"damageAmount": damage_amount,
+		"splashDamagePierce": splash_damage_pierce,
+		"collidesAir": collides_air,
+		"collidesGround": collides_ground,
+		"scaledSplashDamage": scaled_splash_damage,
+		"armorMultiplier": armor_multiplier,
+		"splashDamageGatePassed": splash_damage_gate_passed,
+		"damageCall": damage_call,
+	}
 	var source_trace := {
 		"splashDamageGateSource": "if(splashDamageRadius > 0 && !b.absorbed)",
 		"damageCallSource": "Damage.damage(b.team, x, y, splashDamageRadius, splashDamage * b.damageMultiplier(), splashDamagePierce, collidesAir, collidesGround, scaledSplashDamage, b, armorMultiplier)",
@@ -70,13 +70,14 @@ static func damage_dispatch_state(bullet_type_state: Dictionary, bullet_state: D
 	runtime_state["statusBoundarySource"] = source_trace.get("statusBoundarySource", "")
 	return runtime_state
 
-static func status_dispatch_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_splash_damage_damage_dispatch_state: Dictionary) -> Dictionary:
+static func status_dispatch_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_splash_damage_damage_dispatch_state: Dictionary, source_tick_rate: float = source_bullet_defaults.TICKS_PER_SECOND) -> Dictionary:
 	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
 	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
 	var update_damage_dispatch_state: Dictionary = create_splash_damage_damage_dispatch_state.duplicate(true)
 	var hit_x := float(update_damage_dispatch_state.get("x", 0.0))
 	var hit_y := float(update_damage_dispatch_state.get("y", 0.0))
 	var bullet_team: Variant = update_bullet_state.get("team", null)
+	var _status_duration_tick_rate := source_tick_rate
 	var splash_damage_radius := float(update_damage_dispatch_state.get("splashDamageRadius", update_type_state.get("splashDamageRadius", -1.0)))
 	var status := str(update_type_state.get("status", "none"))
 	var status_duration := float(update_type_state.get("statusDuration", source_bullet_defaults.STATUS_DURATION_DEFAULT))
@@ -98,21 +99,22 @@ static func status_dispatch_state(bullet_type_state: Dictionary, bullet_state: D
 			"ground": collides_ground,
 			"called": true,
 		}
-	var runtime_state := source_bullet_runtime.create_splash_damage_status_dispatch_state(bullet_type_state, bullet_state, create_splash_damage_damage_dispatch_state, source_bullet_defaults.TICKS_PER_SECOND)
-	runtime_state["bulletType"] = update_type_state
-	runtime_state["bullet"] = update_bullet_state
-	runtime_state["createSplashDamageDamageDispatch"] = update_damage_dispatch_state
-	runtime_state["x"] = hit_x
-	runtime_state["y"] = hit_y
-	runtime_state["bulletTeam"] = bullet_team
-	runtime_state["splashDamageRadius"] = splash_damage_radius
-	runtime_state["status"] = status
-	runtime_state["statusDuration"] = status_duration
-	runtime_state["collidesAir"] = collides_air
-	runtime_state["collidesGround"] = collides_ground
-	runtime_state["splashDamageGatePassed"] = splash_damage_gate_passed
-	runtime_state["statusGatePassed"] = status_gate_passed
-	runtime_state["statusCall"] = status_call
+	var runtime_state := {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"createSplashDamageDamageDispatch": update_damage_dispatch_state,
+		"x": hit_x,
+		"y": hit_y,
+		"bulletTeam": bullet_team,
+		"splashDamageRadius": splash_damage_radius,
+		"status": status,
+		"statusDuration": status_duration,
+		"collidesAir": collides_air,
+		"collidesGround": collides_ground,
+		"splashDamageGatePassed": splash_damage_gate_passed,
+		"statusGatePassed": status_gate_passed,
+		"statusCall": status_call,
+	}
 	var source_trace := {
 		"statusGateSource": "if(status != StatusEffects.none)",
 		"statusCallSource": "Damage.status(b.team, x, y, splashDamageRadius, status, statusDuration, collidesAir, collidesGround)",
@@ -180,24 +182,25 @@ static func heal_dispatch_state(bullet_type_state: Dictionary, bullet_state: Dic
 					"amount": heal_applied_amount,
 				},
 			})
-	var runtime_state := source_bullet_runtime.create_splash_damage_heal_dispatch_state(bullet_type_state, bullet_state, create_splash_damage_status_dispatch_state, nearby_blocks_state)
-	runtime_state["bulletType"] = update_type_state
-	runtime_state["bullet"] = update_bullet_state
-	runtime_state["createSplashDamageStatusDispatch"] = update_status_dispatch_state
-	runtime_state["nearbyBlocks"] = update_nearby_blocks_state
-	runtime_state["x"] = hit_x
-	runtime_state["y"] = hit_y
-	runtime_state["bulletTeam"] = bullet_team
-	runtime_state["splashDamageRadius"] = splash_damage_radius
-	runtime_state["splashDamageGatePassed"] = splash_damage_gate_passed
-	runtime_state["healPercent"] = heal_percent
-	runtime_state["healAmount"] = heal_amount
-	runtime_state["healColor"] = heal_color
-	runtime_state["healEffect"] = heal_effect
-	runtime_state["heals"] = heals
-	runtime_state["healGatePassed"] = heal_gate_passed
-	runtime_state["eachBlockCall"] = each_block_call
-	runtime_state["healApplications"] = heal_applications
+	var runtime_state := {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"createSplashDamageStatusDispatch": update_status_dispatch_state,
+		"nearbyBlocks": update_nearby_blocks_state,
+		"x": hit_x,
+		"y": hit_y,
+		"bulletTeam": bullet_team,
+		"splashDamageRadius": splash_damage_radius,
+		"splashDamageGatePassed": splash_damage_gate_passed,
+		"healPercent": heal_percent,
+		"healAmount": heal_amount,
+		"healColor": heal_color,
+		"healEffect": heal_effect,
+		"heals": heals,
+		"healGatePassed": heal_gate_passed,
+		"eachBlockCall": each_block_call,
+		"healApplications": heal_applications,
+	}
 	var source_trace := {
 		"healsGateSource": "if(heals())",
 		"eachBlockCallSource": "indexer.eachBlock(b.team, x, y, splashDamageRadius, Building::damaged, other -> {...})",
@@ -251,20 +254,21 @@ static func make_fire_dispatch_state(bullet_type_state: Dictionary, bullet_state
 					"tile": other_tile,
 				},
 			})
-	var runtime_state := source_bullet_runtime.create_splash_damage_make_fire_dispatch_state(bullet_type_state, bullet_state, create_splash_damage_heal_dispatch_state, nearby_blocks_state)
-	runtime_state["bulletType"] = update_type_state
-	runtime_state["bullet"] = update_bullet_state
-	runtime_state["createSplashDamageHealDispatch"] = update_heal_dispatch_state
-	runtime_state["nearbyBlocks"] = update_nearby_blocks_state
-	runtime_state["x"] = hit_x
-	runtime_state["y"] = hit_y
-	runtime_state["bulletTeam"] = bullet_team
-	runtime_state["splashDamageRadius"] = splash_damage_radius
-	runtime_state["splashDamageGatePassed"] = splash_damage_gate_passed
-	runtime_state["makeFire"] = make_fire
-	runtime_state["makeFireGatePassed"] = make_fire_gate_passed
-	runtime_state["eachBlockCall"] = each_block_call
-	runtime_state["fireApplications"] = fire_applications
+	var runtime_state := {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"createSplashDamageHealDispatch": update_heal_dispatch_state,
+		"nearbyBlocks": update_nearby_blocks_state,
+		"x": hit_x,
+		"y": hit_y,
+		"bulletTeam": bullet_team,
+		"splashDamageRadius": splash_damage_radius,
+		"splashDamageGatePassed": splash_damage_gate_passed,
+		"makeFire": make_fire,
+		"makeFireGatePassed": make_fire_gate_passed,
+		"eachBlockCall": each_block_call,
+		"fireApplications": fire_applications,
+	}
 	var source_trace := {
 		"makeFireGateSource": "if(makeFire)",
 		"eachBlockCallSource": "indexer.eachBlock(null, x, y, splashDamageRadius, other -> other.team != b.team, other -> Fires.create(other.tile))",

@@ -2,7 +2,8 @@ extends Node
 
 const source_placed_power_distribution_runtime_state := preload("res://src/game/SourcePlacedPowerDistributionRuntimeState.gd")
 const source_placed_block_state := preload("res://src/game/SourcePlacedBlockState.gd")
-const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const source_ssot_accessor_runtime_state := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
+const runtime_proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")
 
 class FakeBlock:
 	extends RefCounted
@@ -115,12 +116,14 @@ func _ready() -> void:
 		"power_production": 0.0,
 	}
 	var summary := source_placed_power_distribution_runtime_state.summary_state(placed_block_origins, callbacks, defaults, 2.0)
-	var game_summary := source_placed_power_distribution_runtime_state.game_summary_state(self, 2.0)
+	var game_tick_rate := source_placed_power_distribution_runtime_state.game_tick_rate(self)
+	var direct_game_summary := source_placed_power_distribution_runtime_state.summary_state(placed_block_origins, callbacks, defaults, game_tick_rate)
+	var game_summary := source_placed_power_distribution_runtime_state.game_summary_state(self)
 	var override_callbacks := source_placed_power_distribution_runtime_state.default_callbacks_state(self)
 	var override_callbacks_match: bool = override_callbacks.get(source_placed_power_distribution_runtime_state.SOURCE_PLACED_POWER_DISTRIBUTION_REQUESTED_POWER_KEY, Callable()) == Callable(self, "proof_consume_power_requested_power_state") \
 		and override_callbacks.get(source_placed_power_distribution_runtime_state.SOURCE_PLACED_POWER_DISTRIBUTION_BALANCE_KEY, Callable()) == Callable(self, "proof_power_graph_update_balance_state") \
 		and override_callbacks.get(source_placed_power_distribution_runtime_state.SOURCE_PLACED_POWER_DISTRIBUTION_DISTRIBUTE_KEY, Callable()) == Callable(self, "proof_power_graph_update_battery_distribute_state")
-	var registry := source_ssot_catalog.canonical_headquarter_registry_state()
+	var registry := source_ssot_accessor_runtime_state.canonical_headquarter_registry_state()
 	var summary_matches: bool = int(summary.get("consumer_count", 0)) == 1 \
 		and int(summary.get("producer_count", 0)) == 1 \
 		and int(summary.get("battery_count", 0)) == 1 \
@@ -133,7 +136,8 @@ func _ready() -> void:
 	var proof := {
 		"module": "SourcePlacedPowerDistributionRuntimeState",
 		"summary_matches": summary_matches,
-		"game_summary_matches": game_summary == summary,
+		"game_summary_matches": game_summary == direct_game_summary,
+		"game_tick_rate": game_tick_rate,
 		"override_callbacks_match": override_callbacks_match,
 		"consumer_count": int(summary.get("consumer_count", 0)),
 		"producer_count": int(summary.get("producer_count", 0)),
@@ -144,9 +148,11 @@ func _ready() -> void:
 		"one_headquarter_per_ssot": bool(registry.get("one_headquarter_per_ssot", false)),
 		"registry_valid": bool(registry.get("errors", []).is_empty()),
 	}
+	proof["matches"] = proof["summary_matches"] and proof["game_summary_matches"] and proof["override_callbacks_match"] and proof["registry_valid"] and proof["one_headquarter_per_ssot"]
 	print("PLACED_POWER_DISTRIBUTION_RUNTIME_MODULE_PROOF " + JSON.stringify(proof))
-	await get_tree().create_timer(60.0).timeout
-	get_tree().quit(0)
+	runtime_proof_state.write_proof("PlacedPowerDistributionRuntimeModuleProof", proof)
+	await get_tree().process_frame
+	get_tree().quit(runtime_proof_state.exit_code(proof))
 
 func _placed_power_distribution_method_names() -> Dictionary:
 	return {
@@ -154,3 +160,4 @@ func _placed_power_distribution_method_names() -> Dictionary:
 		source_placed_power_distribution_runtime_state.SOURCE_PLACED_POWER_DISTRIBUTION_BALANCE_KEY: "proof_power_graph_update_balance_state",
 		source_placed_power_distribution_runtime_state.SOURCE_PLACED_POWER_DISTRIBUTION_DISTRIBUTE_KEY: "proof_power_graph_update_battery_distribute_state",
 	}
+

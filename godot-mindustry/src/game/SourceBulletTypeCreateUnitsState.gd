@@ -4,7 +4,6 @@ class_name SourceBulletTypeCreateUnitsState
 const source_bullet_defaults := preload("res://src/game/SourceBulletDefaults.gd")
 const source_math_defaults := preload("res://src/game/SourceMathDefaults.gd")
 const source_math_state := preload("res://src/game/SourceMathState.gd")
-const source_bullet_runtime := preload("res://src/game/SourceBulletRuntime.gd")
 
 const SOURCE_BULLET_DESPAWN_UNIT_RADIUS_DEFAULT := source_bullet_defaults.DESPAWN_UNIT_RADIUS_DEFAULT
 const SOURCE_ARC_RAD_FULL := source_math_defaults.ARC_RAD_FULL
@@ -27,26 +26,25 @@ static func initial_state(bullet_type_state: Dictionary, bullet_state: Dictionar
 	var chance_passed: Variant = update_random_state.get("chancePassed", null)
 	var create_units_gate_passed: bool = not net_client and despawn_unit != null and chance_passed == true
 	var loop_iterations := despawn_unit_count if create_units_gate_passed else 0
-	var runtime_state := source_bullet_runtime.create_units_initial_state(bullet_type_state, bullet_state, create_units_state, create_units_random_state, net_state)
-	runtime_state["bulletType"] = update_type_state
-	runtime_state["bullet"] = update_bullet_state
-	runtime_state["createUnits"] = update_create_units_state
-	runtime_state["createUnitsRandom"] = update_random_state
-	runtime_state["net"] = update_net_state
-	runtime_state["x"] = unit_x
-	runtime_state["y"] = unit_y
-	runtime_state["netClient"] = net_client
-	runtime_state["despawnUnit"] = despawn_unit
-	runtime_state["despawnUnitChance"] = despawn_unit_chance
-	runtime_state["despawnUnitCount"] = despawn_unit_count
-	runtime_state["despawnUnitRadius"] = despawn_unit_radius
-	runtime_state["faceOutwards"] = face_outwards
-	runtime_state["bulletTeam"] = bullet_team
-	runtime_state["chancePassed"] = chance_passed
-	runtime_state["chancePassedProvided"] = chance_passed != null
-	runtime_state["createUnitsGatePassed"] = create_units_gate_passed
-	runtime_state["loopIterations"] = loop_iterations
-	var source_trace := {
+	return {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"createUnits": update_create_units_state,
+		"createUnitsRandom": update_random_state,
+		"net": update_net_state,
+		"x": unit_x,
+		"y": unit_y,
+		"netClient": net_client,
+		"despawnUnit": despawn_unit,
+		"despawnUnitChance": despawn_unit_chance,
+		"despawnUnitCount": despawn_unit_count,
+		"despawnUnitRadius": despawn_unit_radius,
+		"faceOutwards": face_outwards,
+		"bulletTeam": bullet_team,
+		"chancePassed": chance_passed,
+		"chancePassedProvided": chance_passed != null,
+		"createUnitsGatePassed": create_units_gate_passed,
+		"loopIterations": loop_iterations,
 		"gateSource": "if(!net.client() && despawnUnit != null && Mathf.chance(despawnUnitChance)){",
 		"loopBoundarySource": "for(int i = 0; i < despawnUnitCount; i++){",
 		"randomOffsetBoundarySource": "Tmp.v1.rnd(Mathf.random(despawnUnitRadius));",
@@ -54,13 +52,6 @@ static func initial_state(bullet_type_state: Dictionary, bullet_state: Dictionar
 		"rotationBoundarySource": "u.rotation = faceOutwards ? Tmp.v1.angle() : b.rotation();",
 		"notifyBoundarySource": "Units.notifyUnitSpawn(u);",
 	}
-	runtime_state["gateSource"] = source_trace.get("gateSource", "")
-	runtime_state["loopBoundarySource"] = source_trace.get("loopBoundarySource", "")
-	runtime_state["randomOffsetBoundarySource"] = source_trace.get("randomOffsetBoundarySource", "")
-	runtime_state["spawnBoundarySource"] = source_trace.get("spawnBoundarySource", "")
-	runtime_state["rotationBoundarySource"] = source_trace.get("rotationBoundarySource", "")
-	runtime_state["notifyBoundarySource"] = source_trace.get("notifyBoundarySource", "")
-	return runtime_state
 
 static func random_offset_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_units_initial_state: Dictionary, create_units_random_state: Dictionary) -> Dictionary:
 	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
@@ -99,28 +90,22 @@ static func random_offset_state(bullet_type_state: Dictionary, bullet_state: Dic
 				"tmpV1Y": tmp_v1_y,
 				"call": "Tmp.v1.rnd(Mathf.random(despawnUnitRadius))",
 			})
-	var runtime_state := source_bullet_runtime.create_units_random_offset_state(bullet_type_state, bullet_state, create_units_initial_state, create_units_random_state)
-	runtime_state["bulletType"] = update_type_state
-	runtime_state["bullet"] = update_bullet_state
-	runtime_state["createUnitsInitial"] = update_initial_state
-	runtime_state["createUnitsRandom"] = update_random_state
-	runtime_state["createUnitsGatePassed"] = create_units_gate_passed
-	runtime_state["loopIterations"] = loop_iterations
-	runtime_state["despawnUnitRadius"] = despawn_unit_radius
-	runtime_state["x"] = base_x
-	runtime_state["y"] = base_y
-	runtime_state["unitOffsetPlans"] = unit_offset_plans
-	var source_trace := {
+	return {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"createUnitsInitial": update_initial_state,
+		"createUnitsRandom": update_random_state,
+		"createUnitsGatePassed": create_units_gate_passed,
+		"loopIterations": loop_iterations,
+		"despawnUnitRadius": despawn_unit_radius,
+		"x": base_x,
+		"y": base_y,
+		"unitOffsetPlans": unit_offset_plans,
 		"randomLengthSource": "Mathf.random(despawnUnitRadius)",
 		"vec2RndSource": "Tmp.v1.rnd(Mathf.random(despawnUnitRadius));",
 		"randomDirectionSource": "float theta = Mathf.random(0f, Mathf.PI2);",
 		"spawnBoundarySource": "var u = despawnUnit.spawn(b.team, x + Tmp.v1.x, y + Tmp.v1.y);",
 	}
-	runtime_state["randomLengthSource"] = source_trace.get("randomLengthSource", "")
-	runtime_state["vec2RndSource"] = source_trace.get("vec2RndSource", "")
-	runtime_state["randomDirectionSource"] = source_trace.get("randomDirectionSource", "")
-	runtime_state["spawnBoundarySource"] = source_trace.get("spawnBoundarySource", "")
-	return runtime_state
 
 static func spawn_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_units_random_offset_state: Dictionary) -> Dictionary:
 	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
@@ -155,24 +140,19 @@ static func spawn_state(bullet_type_state: Dictionary, bullet_state: Dictionary,
 				"tmpV1Y": tmp_v1_y,
 				"call": "despawnUnit.spawn(b.team, x + Tmp.v1.x, y + Tmp.v1.y)",
 			})
-	var runtime_state := source_bullet_runtime.create_units_spawn_state(bullet_type_state, bullet_state, create_units_random_offset_state)
-	runtime_state["bulletType"] = update_type_state
-	runtime_state["bullet"] = update_bullet_state
-	runtime_state["createUnitsRandomOffset"] = update_random_offset_state
-	runtime_state["createUnitsGatePassed"] = create_units_gate_passed
-	runtime_state["despawnUnit"] = despawn_unit
-	runtime_state["bulletTeam"] = bullet_team
-	runtime_state["unitOffsetPlans"] = unit_offset_plans
-	runtime_state["spawnCalls"] = spawn_calls
-	var source_trace := {
+	return {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"createUnitsRandomOffset": update_random_offset_state,
+		"createUnitsGatePassed": create_units_gate_passed,
+		"despawnUnit": despawn_unit,
+		"bulletTeam": bullet_team,
+		"unitOffsetPlans": unit_offset_plans,
+		"spawnCalls": spawn_calls,
 		"spawnSource": "despawnUnit.spawn(b.team, x + Tmp.v1.x, y + Tmp.v1.y)",
 		"rotationBoundarySource": "u.rotation = faceOutwards ? Tmp.v1.angle() : b.rotation();",
 		"notifyBoundarySource": "Units.notifyUnitSpawn(u);",
 	}
-	runtime_state["spawnSource"] = source_trace.get("spawnSource", "")
-	runtime_state["rotationBoundarySource"] = source_trace.get("rotationBoundarySource", "")
-	runtime_state["notifyBoundarySource"] = source_trace.get("notifyBoundarySource", "")
-	return runtime_state
 
 static func rotation_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_units_spawn_state: Dictionary) -> Dictionary:
 	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
@@ -199,25 +179,19 @@ static func rotation_state(bullet_type_state: Dictionary, bullet_state: Dictiona
 			"unitRotation": unit_rotation,
 			"assignment": "u.rotation = faceOutwards ? Tmp.v1.angle() : b.rotation()",
 		})
-	var runtime_state := source_bullet_runtime.create_units_rotation_state(bullet_type_state, bullet_state, create_units_spawn_state)
-	runtime_state["bulletType"] = update_type_state
-	runtime_state["bullet"] = update_bullet_state
-	runtime_state["createUnitsSpawn"] = update_spawn_state
-	runtime_state["faceOutwards"] = face_outwards
-	runtime_state["bulletRotation"] = bullet_rotation
-	runtime_state["spawnCalls"] = spawn_calls
-	runtime_state["rotationAssignments"] = rotation_assignments
-	var source_trace := {
+	return {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"createUnitsSpawn": update_spawn_state,
+		"faceOutwards": face_outwards,
+		"bulletRotation": bullet_rotation,
+		"spawnCalls": spawn_calls,
+		"rotationAssignments": rotation_assignments,
 		"rotationSource": "u.rotation = faceOutwards ? Tmp.v1.angle() : b.rotation();",
 		"vec2AngleSource": "public float angle(){ float angle = Mathf.atan2(x, y) * Mathf.radiansToDegrees; if(angle < 0) angle += 360; return angle; }",
 		"bulletRotationSource": "return vel.isZero(0.001f) ? rotation : vel.angle();",
 		"notifyBoundarySource": "Units.notifyUnitSpawn(u);",
 	}
-	runtime_state["rotationSource"] = source_trace.get("rotationSource", "")
-	runtime_state["vec2AngleSource"] = source_trace.get("vec2AngleSource", "")
-	runtime_state["bulletRotationSource"] = source_trace.get("bulletRotationSource", "")
-	runtime_state["notifyBoundarySource"] = source_trace.get("notifyBoundarySource", "")
-	return runtime_state
 
 static func notify_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_units_rotation_state: Dictionary) -> Dictionary:
 	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
@@ -231,12 +205,11 @@ static func notify_state(bullet_type_state: Dictionary, bullet_state: Dictionary
 			"unitRotation": rotation_assignment.get("unitRotation", null),
 			"call": "Units.notifyUnitSpawn(u)",
 		})
-	var runtime_state := source_bullet_runtime.create_units_notify_state(bullet_type_state, bullet_state, create_units_rotation_state)
-	runtime_state["bulletType"] = update_type_state
-	runtime_state["bullet"] = update_bullet_state
-	runtime_state["createUnitsRotation"] = update_rotation_state
-	runtime_state["rotationAssignments"] = rotation_assignments
-	runtime_state["notifyCalls"] = notify_calls
-	var source_trace := {"notifySource": "Units.notifyUnitSpawn(u);"}
-	runtime_state["notifySource"] = source_trace.get("notifySource", "")
-	return runtime_state
+	return {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"createUnitsRotation": update_rotation_state,
+		"rotationAssignments": rotation_assignments,
+		"notifyCalls": notify_calls,
+		"notifySource": "Units.notifyUnitSpawn(u);",
+	}

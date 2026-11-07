@@ -1,0 +1,121 @@
+extends RefCounted
+class_name SourceUnitPayloadDumpGuardState
+
+const source_unit_payload_basic_state := preload("res://src/game/SourceUnitPayloadBasicState.gd")
+const source_unit_payload_dump_source_text_state := preload("res://src/game/SourceUnitPayloadDumpSourceTextState.gd")
+const source_unit_payload_dump_solidity_guard_state := preload("res://src/game/SourceUnitPayloadDumpSolidityGuardState.gd")
+const source_unit_payload_dump_overlap_guard_state := preload("res://src/game/SourceUnitPayloadDumpOverlapGuardState.gd")
+const source_unit_payload_dump_spawn_state := preload("res://src/game/SourceUnitPayloadDumpSpawnState.gd")
+const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
+
+const SOURCE_UNIT_PAYLOAD_DUMP_SOLID_LOOKAHEAD := source_unit_payload_dump_solidity_guard_state.SOURCE_UNIT_PAYLOAD_DUMP_SOLID_LOOKAHEAD
+const SOURCE_UNIT_PAYLOAD_OVERLAP_RADIUS_MULTIPLIER := source_unit_payload_dump_overlap_guard_state.SOURCE_UNIT_PAYLOAD_OVERLAP_RADIUS_MULTIPLIER
+const SOURCE_UNIT_PAYLOAD_DUMP_METHOD := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_METHOD
+const SOURCE_UNIT_PAYLOAD_DUMP_TYPE_NULL_GUARD_EXPR := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_TYPE_NULL_GUARD_EXPR
+const SOURCE_UNIT_PAYLOAD_DUMP_RETURN_TRUE_EXPR := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_RETURN_TRUE_EXPR
+const SOURCE_UNIT_PAYLOAD_DUMP_CAN_CREATE_GUARD_EXPR := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_CAN_CREATE_GUARD_EXPR
+const SOURCE_UNIT_PAYLOAD_DUMP_OVERLAY_TIME_ASSIGN_EXPR := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_OVERLAY_TIME_ASSIGN_EXPR
+const SOURCE_UNIT_PAYLOAD_DUMP_OVERLAY_REGION_ASSIGN_EXPR := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_OVERLAY_REGION_ASSIGN_EXPR
+const SOURCE_UNIT_PAYLOAD_DUMP_RETURN_FALSE_EXPR := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_RETURN_FALSE_EXPR
+const SOURCE_UNIT_PAYLOAD_DUMP_ARC_VEC2_SOURCE := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_ARC_VEC2_SOURCE
+const SOURCE_UNIT_PAYLOAD_DUMP_WORLD_SOURCE := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_WORLD_SOURCE
+const SOURCE_UNIT_PAYLOAD_DUMP_VARS_SOURCE := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_VARS_SOURCE
+const SOURCE_UNIT_PAYLOAD_DUMP_SOLIDITY_COMMENT_EXPR := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_SOLIDITY_COMMENT_EXPR
+const SOURCE_UNIT_PAYLOAD_DUMP_SOLID_ASSIGN_EXPR := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_SOLID_ASSIGN_EXPR
+const SOURCE_UNIT_PAYLOAD_DUMP_SOLID_GUARD_EXPR := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_SOLID_GUARD_EXPR
+const SOURCE_UNIT_PAYLOAD_DUMP_TRNS_EXPR := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_TRNS_EXPR
+const SOURCE_UNIT_PAYLOAD_DUMP_VEC2_TRNS_AMOUNT_EXPR := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_VEC2_TRNS_AMOUNT_EXPR
+const SOURCE_UNIT_PAYLOAD_DUMP_VEC2_TRNS_AMOUNT_RETURN_EXPR := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_VEC2_TRNS_AMOUNT_RETURN_EXPR
+const SOURCE_UNIT_PAYLOAD_DUMP_VEC2_ROTATE_RAD_EXPR := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_VEC2_ROTATE_RAD_EXPR
+const SOURCE_UNIT_PAYLOAD_DUMP_TILE_ASSIGN_EXPR := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_TILE_ASSIGN_EXPR
+const SOURCE_UNIT_PAYLOAD_DUMP_WORLD_TO_TILE_METHOD := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_WORLD_TO_TILE_METHOD
+const SOURCE_UNIT_PAYLOAD_DUMP_WORLD_TO_TILE_RETURN := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_WORLD_TO_TILE_RETURN
+const SOURCE_UNIT_PAYLOAD_DUMP_VARS_TILESIZE_FIELD := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_VARS_TILESIZE_FIELD
+const SOURCE_UNIT_PAYLOAD_DUMP_SOLID_BLOCK_COMMENT_EXPR := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_SOLID_BLOCK_COMMENT_EXPR
+const SOURCE_UNIT_PAYLOAD_DUMP_SOLID_SOLID_GUARD_EXPR := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_SOLID_SOLID_GUARD_EXPR
+const SOURCE_UNIT_PAYLOAD_DUMP_SOLID_SOLID_CALL_EXPR := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_SOLID_SOLID_CALL_EXPR
+const SOURCE_UNIT_PAYLOAD_DUMP_OVERLAP_COMMENT_EXPR := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_OVERLAP_COMMENT_EXPR
+const SOURCE_UNIT_PAYLOAD_DUMP_OVERLAP_GUARD_EXPR := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_OVERLAP_GUARD_EXPR
+const SOURCE_UNIT_PAYLOAD_DUMP_UNIT_TYPE_FLYING_EXPR := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_UNIT_TYPE_FLYING_EXPR
+const SOURCE_UNIT_PAYLOAD_DUMP_UNITS_COUNT_EXPR := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_UNITS_COUNT_EXPR
+const SOURCE_UNIT_PAYLOAD_DUMP_PHYSIC_SIZE_EXPR := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_PHYSIC_SIZE_EXPR
+const SOURCE_UNIT_PAYLOAD_DUMP_RADIUS_MULTIPLIER_EXPR := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_RADIUS_MULTIPLIER_EXPR
+const SOURCE_UNIT_PAYLOAD_DUMP_PREDICATE_IS_GROUNDED_EXPR := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_PREDICATE_IS_GROUNDED_EXPR
+const SOURCE_UNIT_PAYLOAD_DUMP_PREDICATE_ALLOW_LEG_STEP_EXPR := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_PREDICATE_ALLOW_LEG_STEP_EXPR
+const SOURCE_UNIT_PAYLOAD_DUMP_CLIENT_DUMPING_COMMENT_EXPR := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_CLIENT_DUMPING_COMMENT_EXPR
+const SOURCE_UNIT_PAYLOAD_DUMP_NET_CLIENT_GUARD_EXPR := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_NET_CLIENT_GUARD_EXPR
+const SOURCE_UNIT_PAYLOAD_DUMP_VARS_NET_FIELD := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_VARS_NET_FIELD
+const SOURCE_UNIT_PAYLOAD_DUMP_RETURN_TRUE_STATEMENT_EXPR := source_unit_payload_dump_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_RETURN_TRUE_STATEMENT_EXPR
+const SOURCE_UNIT_PAYLOAD_DUMP_PREVENTS_STACKING_COMMENT_EXPR := source_unit_payload_dump_overlap_guard_state.SOURCE_UNIT_PAYLOAD_DUMP_PREVENTS_STACKING_COMMENT_EXPR
+
+static func type_null_guard_state(unit_type_null: bool) -> Dictionary:
+	var returned: bool = unit_type_null
+	var dump_result: Variant = null
+	if returned:
+		dump_result = true
+	var deferred_remaining_dump: bool = not returned
+	return {
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_PAYLOAD_DUMP_TYPE_NULL_GUARD_STATE,
+		"source": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_SOURCE,
+		"class_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_CLASS_EXPR,
+		"field_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR,
+		"override_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR,
+		"method": SOURCE_UNIT_PAYLOAD_DUMP_METHOD,
+		"todo_comment_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_TODO_COMMENT_EXPR,
+		"guard_expr": SOURCE_UNIT_PAYLOAD_DUMP_TYPE_NULL_GUARD_EXPR,
+		"return_expr": SOURCE_UNIT_PAYLOAD_DUMP_RETURN_TRUE_EXPR,
+		"unit_type_null": unit_type_null,
+		"returned": returned,
+		"dump": dump_result,
+		"deferred_remaining_dump": deferred_remaining_dump,
+	}
+
+static func can_create_guard_state(unit_type_null: bool, units_can_create: bool) -> Dictionary:
+	var can_create_evaluated: bool = not unit_type_null
+	var can_create_guard: bool = can_create_evaluated and not units_can_create
+	var returned: bool = unit_type_null or can_create_guard
+	var dump_result: Variant = null
+	if unit_type_null:
+		dump_result = true
+	elif can_create_guard:
+		dump_result = false
+	var overlayTime_after: float = 1.0 if can_create_guard else 0.0
+	var overlayRegion_after: Variant = null
+	var deferred_remaining_dump: bool = not returned
+	return {
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_PAYLOAD_DUMP_CAN_CREATE_GUARD_STATE,
+		"source": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_SOURCE,
+		"class_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_CLASS_EXPR,
+		"field_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR,
+		"field_overlay_time_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_OVERLAY_TIME_FIELD_EXPR,
+		"field_overlay_region_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_OVERLAY_REGION_FIELD_EXPR,
+		"override_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR,
+		"method": SOURCE_UNIT_PAYLOAD_DUMP_METHOD,
+		"todo_comment_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_TODO_COMMENT_EXPR,
+		"type_null_guard_expr": SOURCE_UNIT_PAYLOAD_DUMP_TYPE_NULL_GUARD_EXPR,
+		"can_create_guard_expr": SOURCE_UNIT_PAYLOAD_DUMP_CAN_CREATE_GUARD_EXPR,
+		"overlay_time_assign_expr": SOURCE_UNIT_PAYLOAD_DUMP_OVERLAY_TIME_ASSIGN_EXPR,
+		"overlay_region_assign_expr": SOURCE_UNIT_PAYLOAD_DUMP_OVERLAY_REGION_ASSIGN_EXPR,
+		"return_false_expr": SOURCE_UNIT_PAYLOAD_DUMP_RETURN_FALSE_EXPR,
+		"unit_type_null": unit_type_null,
+		"units_can_create": units_can_create,
+		"can_create_evaluated": can_create_evaluated,
+		"can_create_guard": can_create_guard,
+		"returned": returned,
+		"dump": dump_result,
+		"overlayTime_after": overlayTime_after,
+		"overlayRegion_after": overlayRegion_after,
+		"deferred_remaining_dump": deferred_remaining_dump,
+	}
+
+static func trns_vec_state(angle_degrees: float, x_value: float, y_value: float) -> Dictionary:
+	return source_unit_payload_dump_solidity_guard_state.trns_vec_state(angle_degrees, x_value, y_value)
+
+static func solidity_guard_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool) -> Dictionary:
+	return source_unit_payload_dump_solidity_guard_state.solidity_guard_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid)
+
+static func overlap_guard_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool, unit_type_flying: bool, unit_physic_size: float, units_count: int) -> Dictionary:
+	return source_unit_payload_dump_overlap_guard_state.overlap_guard_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count)
+
+static func no_client_guard_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool, unit_type_flying: bool, unit_physic_size: float, units_count: int, net_client: bool) -> Dictionary:
+	return source_unit_payload_dump_overlap_guard_state.no_client_guard_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count, net_client)

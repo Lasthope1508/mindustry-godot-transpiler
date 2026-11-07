@@ -2,7 +2,8 @@ extends Node
 
 const PortGameScript := preload("res://src/game/PortGame.gd")
 const source_building_interaction_state := preload("res://src/game/SourceBuildingInteractionState.gd")
-const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const source_ssot_accessor_runtime_state := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
+const runtime_proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")
 
 func _ready() -> void:
 	var game := PortGameScript.new()
@@ -24,7 +25,7 @@ func _ready() -> void:
 	var puddle_on_module := source_building_interaction_state.generated_puddle_on_bridge_state({"puddle": "delta"})
 	var tapped_wrapper := game.generated_building_comp_tapped_bridge_state({"current": "epsilon"})
 	var tapped_module := source_building_interaction_state.generated_tapped_bridge_state({"current": "epsilon"})
-	var registry_state := source_ssot_catalog.canonical_headquarter_registry_state()
+	var registry_state := source_ssot_accessor_runtime_state.canonical_headquarter_registry_state()
 	var generated_bridge_matches := (
 		bool(is_commandable_module.get("matches", false))
 		and bool(is_payload_module.get("matches", false))
@@ -62,12 +63,9 @@ func _ready() -> void:
 		"registry_headquarter_count": int(registry_state.get("headquarter_count", 0)),
 	}
 	proof["matches"] = bool(proof.get("is_commandable_matches", false)) and bool(proof.get("is_payload_matches", false)) and bool(proof.get("overwrote_matches", false)) and bool(proof.get("on_removed_matches", false)) and bool(proof.get("unit_on_matches", false)) and bool(proof.get("unit_on_any_matches", false)) and bool(proof.get("unit_removed_matches", false)) and bool(proof.get("puddle_on_matches", false)) and bool(proof.get("tapped_matches", false)) and generated_bridge_matches and proof["one_headquarter_per_ssot"] and proof["registry_valid"]
-	var proof_json := JSON.stringify(proof)
-	print("BUILDING_INTERACTION_STATE_MODULE_PROOF " + proof_json)
-	var proof_path := ProjectSettings.globalize_path("res://tools/runtime_proofs/BuildingInteractionStateModuleProof.json")
-	var proof_file := FileAccess.open(proof_path, FileAccess.WRITE)
-	if proof_file != null:
-		proof_file.store_string(proof_json)
+	print("BUILDING_INTERACTION_STATE_MODULE_PROOF " + JSON.stringify(proof))
+	runtime_proof_state.write_proof("BuildingInteractionStateModuleProof", proof)
 	game.free()
-	await get_tree().create_timer(60.0).timeout
-	get_tree().quit(0)
+	await get_tree().process_frame
+	get_tree().quit(runtime_proof_state.exit_code(proof))
+

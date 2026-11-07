@@ -39,3 +39,11 @@ func java_method_checkContentArrayCapacity_7(_args: Array = []) -> Variant:
 
 func java_method_addUpgrade_8(_args: Array = []) -> Variant:
 	return null
+
+func java_inner_class_ReconstructorBuild_method_getCommandPosition_1(_args: Array = []) -> Variant:
+	var command_position: Variant = _args[0] if _args.size() > 0 else null
+	return {"source_owner": "port_game.source_unit_building_get_command_position_state", "source": "core/src/mindustry/world/blocks/units/Reconstructor.java", "inner_class": "public class ReconstructorBuild extends UnitBuild{", "method": "public Vec2 getCommandPosition(){", "return_expr": "return commandPos;", "command_position": command_position}
+
+func java_inner_class_ReconstructorBuild_method_onCommand_2(_args: Array = []) -> Variant:
+	var target: Variant = _args[0] if _args.size() > 0 else null
+	return {"source_owner": "port_game.source_unit_building_on_command_state", "source": "core/src/mindustry/world/blocks/units/Reconstructor.java", "inner_class": "public class ReconstructorBuild extends UnitBuild{", "method": "public void onCommand(Vec2 target){", "assignment_expr": "commandPos = target;", "target": target, "command_position": target}

@@ -1,7 +1,7 @@
 extends Node
 
 const port_game := preload("res://src/game/PortGame.gd")
-const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const source_ssot_accessor_runtime_state := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
 const source_ui_defaults := preload("res://src/game/SourceUiDefaults.gd")
 const source_node_binding_runtime_state := preload("res://src/game/SourceNodeBindingRuntimeState.gd")
 
@@ -17,7 +17,7 @@ func _ready() -> void:
 	game.add_child(camera)
 	game.add_child(ui)
 	source_node_binding_runtime_state.bind_nodes(game)
-	var registry_state := source_ssot_catalog.canonical_headquarter_registry_state()
+	var registry_state := source_ssot_accessor_runtime_state.canonical_headquarter_registry_state()
 	var proof := {
 		"module": "SourceNodeBindingRuntimeState",
 		"camera_bound": game.camera == camera,
@@ -27,4 +27,5 @@ func _ready() -> void:
 		"registry_valid": bool(registry_state.get("errors", []).is_empty()),
 	}
 	print("NODE_BINDING_RUNTIME_MODULE_PROOF " + JSON.stringify(proof))
-	await get_tree().create_timer(20.0).timeout
+	get_tree().quit(0)
+

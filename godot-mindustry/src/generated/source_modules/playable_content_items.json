@@ -1,10 +1,5 @@
 {
   "version": 1,
-  "policy": {
-    "canonicalOwner": "playable_content.item",
-    "canonicalKey": "id",
-    "newItemRequiresCanonicalPlayableContentEntry": true
-  },
   "items": {
     "copper": {
       "canonical_item": "playable_content.item.copper",

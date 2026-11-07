@@ -3,53 +3,115 @@ class_name SourceBlockInitConsumerState
 
 const source_generated_class_runtime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
+const source_consume_module_registry := preload("res://src/game/SourceConsumeModuleRegistry.gd")
+const source_block_source_text_state := preload("res://src/game/SourceBlockSourceTextState.gd")
+const source_block_init_consumer_source_text_state := preload("res://src/game/SourceBlockInitConsumerSourceTextState.gd")
+
+const SOURCE_BLOCK_GENERATED_CLASS := source_block_source_text_state.SOURCE_BLOCK_GENERATED_CLASS
+const SOURCE_BLOCK_INIT_CONSUMER_SOURCE := source_block_init_consumer_source_text_state.SOURCE_BLOCK_INIT_CONSUMER_SOURCE
+const SOURCE_BLOCK_INIT_CONSUMER_CONSUME_SOURCE := source_block_init_consumer_source_text_state.SOURCE_BLOCK_INIT_CONSUMER_CONSUME_SOURCE
+const SOURCE_BLOCK_INIT_CONSUMER_METHOD := source_block_init_consumer_source_text_state.SOURCE_BLOCK_INIT_CONSUMER_METHOD
+const SOURCE_BLOCK_INIT_CONSUMER_SUPER_INIT_EXPR := source_block_init_consumer_source_text_state.SOURCE_BLOCK_INIT_CONSUMER_SUPER_INIT_EXPR
+const SOURCE_BLOCK_INIT_CONSUMER_CONSUMERS_EXPR := source_block_init_consumer_source_text_state.SOURCE_BLOCK_INIT_CONSUMER_CONSUMERS_EXPR
+const SOURCE_BLOCK_INIT_CONSUMER_OPTIONAL_CONSUMERS_EXPR := source_block_init_consumer_source_text_state.SOURCE_BLOCK_INIT_CONSUMER_OPTIONAL_CONSUMERS_EXPR
+const SOURCE_BLOCK_INIT_CONSUMER_NON_OPTIONAL_CONSUMERS_EXPR := source_block_init_consumer_source_text_state.SOURCE_BLOCK_INIT_CONSUMER_NON_OPTIONAL_CONSUMERS_EXPR
+const SOURCE_BLOCK_INIT_CONSUMER_UPDATE_CONSUMERS_EXPR := source_block_init_consumer_source_text_state.SOURCE_BLOCK_INIT_CONSUMER_UPDATE_CONSUMERS_EXPR
+const SOURCE_BLOCK_INIT_CONSUMER_HAS_CONSUMERS_EXPR := source_block_init_consumer_source_text_state.SOURCE_BLOCK_INIT_CONSUMER_HAS_CONSUMERS_EXPR
+const SOURCE_BLOCK_INIT_CONSUMER_OPTIONAL_FIELD_EXPR := source_block_init_consumer_source_text_state.SOURCE_BLOCK_INIT_CONSUMER_OPTIONAL_FIELD_EXPR
+const SOURCE_BLOCK_INIT_CONSUMER_UPDATE_FIELD_EXPR := source_block_init_consumer_source_text_state.SOURCE_BLOCK_INIT_CONSUMER_UPDATE_FIELD_EXPR
+const SOURCE_BLOCK_INIT_CONSUMER_IGNORE_METHOD_EXPR := source_block_init_consumer_source_text_state.SOURCE_BLOCK_INIT_CONSUMER_IGNORE_METHOD_EXPR
+const SOURCE_BLOCK_INIT_CONSUMER_LOOP_EXPR := source_block_init_consumer_source_text_state.SOURCE_BLOCK_INIT_CONSUMER_LOOP_EXPR
+const SOURCE_BLOCK_INIT_CONSUMER_APPLY_EXPR := source_block_init_consumer_source_text_state.SOURCE_BLOCK_INIT_CONSUMER_APPLY_EXPR
+const SOURCE_BLOCK_INIT_CONSUMER_APPLY_METHOD_EXPR := source_block_init_consumer_source_text_state.SOURCE_BLOCK_INIT_CONSUMER_APPLY_METHOD_EXPR
+const SOURCE_BLOCK_INIT_CONSUMER_THIS_ARG := source_block_init_consumer_source_text_state.SOURCE_BLOCK_INIT_CONSUMER_THIS_ARG
+const SOURCE_BLOCK_INIT_CONSUMER_INPUT_IGNORED_KEY := source_block_init_consumer_source_text_state.SOURCE_BLOCK_INIT_CONSUMER_INPUT_IGNORED_KEY
+const SOURCE_BLOCK_INIT_CONSUMER_INPUT_OPTIONAL_KEY := source_block_init_consumer_source_text_state.SOURCE_BLOCK_INIT_CONSUMER_INPUT_OPTIONAL_KEY
+const SOURCE_BLOCK_INIT_CONSUMER_INPUT_UPDATE_KEY := source_block_init_consumer_source_text_state.SOURCE_BLOCK_INIT_CONSUMER_INPUT_UPDATE_KEY
+const SOURCE_BLOCK_INIT_CONSUMER_SOURCE_OWNER_KEY := source_block_init_consumer_source_text_state.SOURCE_BLOCK_INIT_CONSUMER_SOURCE_OWNER_KEY
+const SOURCE_BLOCK_INIT_CONSUMER_SOURCE_KEY := source_block_init_consumer_source_text_state.SOURCE_BLOCK_INIT_CONSUMER_SOURCE_KEY
+const SOURCE_BLOCK_INIT_CONSUMER_CONSUME_SOURCE_KEY := source_block_init_consumer_source_text_state.SOURCE_BLOCK_INIT_CONSUMER_CONSUME_SOURCE_KEY
+const SOURCE_BLOCK_INIT_CONSUMER_METHOD_KEY := source_block_init_consumer_source_text_state.SOURCE_BLOCK_INIT_CONSUMER_METHOD_KEY
+const SOURCE_BLOCK_INIT_CONSUMER_SUPER_INIT_EXPR_KEY := source_block_init_consumer_source_text_state.SOURCE_BLOCK_INIT_CONSUMER_SUPER_INIT_EXPR_KEY
+const SOURCE_BLOCK_INIT_CONSUMER_CONSUMERS_KEY := source_block_init_consumer_source_text_state.SOURCE_BLOCK_INIT_CONSUMER_CONSUMERS_KEY
+const SOURCE_BLOCK_INIT_CONSUMER_CONSUMERS_EXPR_KEY := source_block_init_consumer_source_text_state.SOURCE_BLOCK_INIT_CONSUMER_CONSUMERS_EXPR_KEY
+const SOURCE_BLOCK_INIT_CONSUMER_OPTIONAL_CONSUMERS_KEY := source_block_init_consumer_source_text_state.SOURCE_BLOCK_INIT_CONSUMER_OPTIONAL_CONSUMERS_KEY
+const SOURCE_BLOCK_INIT_CONSUMER_OPTIONAL_CONSUMERS_EXPR_KEY := source_block_init_consumer_source_text_state.SOURCE_BLOCK_INIT_CONSUMER_OPTIONAL_CONSUMERS_EXPR_KEY
+const SOURCE_BLOCK_INIT_CONSUMER_NON_OPTIONAL_CONSUMERS_KEY := source_block_init_consumer_source_text_state.SOURCE_BLOCK_INIT_CONSUMER_NON_OPTIONAL_CONSUMERS_KEY
+const SOURCE_BLOCK_INIT_CONSUMER_NON_OPTIONAL_CONSUMERS_EXPR_KEY := source_block_init_consumer_source_text_state.SOURCE_BLOCK_INIT_CONSUMER_NON_OPTIONAL_CONSUMERS_EXPR_KEY
+const SOURCE_BLOCK_INIT_CONSUMER_UPDATE_CONSUMERS_KEY := source_block_init_consumer_source_text_state.SOURCE_BLOCK_INIT_CONSUMER_UPDATE_CONSUMERS_KEY
+const SOURCE_BLOCK_INIT_CONSUMER_UPDATE_CONSUMERS_EXPR_KEY := source_block_init_consumer_source_text_state.SOURCE_BLOCK_INIT_CONSUMER_UPDATE_CONSUMERS_EXPR_KEY
+const SOURCE_BLOCK_INIT_CONSUMER_HAS_CONSUMERS_KEY := source_block_init_consumer_source_text_state.SOURCE_BLOCK_INIT_CONSUMER_HAS_CONSUMERS_KEY
+const SOURCE_BLOCK_INIT_CONSUMER_HAS_CONSUMERS_EXPR_KEY := source_block_init_consumer_source_text_state.SOURCE_BLOCK_INIT_CONSUMER_HAS_CONSUMERS_EXPR_KEY
+const SOURCE_BLOCK_INIT_CONSUMER_CONSUME_OPTIONAL_FIELD_EXPR_KEY := source_block_init_consumer_source_text_state.SOURCE_BLOCK_INIT_CONSUMER_CONSUME_OPTIONAL_FIELD_EXPR_KEY
+const SOURCE_BLOCK_INIT_CONSUMER_CONSUME_UPDATE_FIELD_EXPR_KEY := source_block_init_consumer_source_text_state.SOURCE_BLOCK_INIT_CONSUMER_CONSUME_UPDATE_FIELD_EXPR_KEY
+const SOURCE_BLOCK_INIT_CONSUMER_CONSUME_IGNORE_METHOD_EXPR_KEY := source_block_init_consumer_source_text_state.SOURCE_BLOCK_INIT_CONSUMER_CONSUME_IGNORE_METHOD_EXPR_KEY
+const SOURCE_BLOCK_INIT_CONSUMER_CONSUMERS_LOOP_EXPR_KEY := source_block_init_consumer_source_text_state.SOURCE_BLOCK_INIT_CONSUMER_CONSUMERS_LOOP_EXPR_KEY
+const SOURCE_BLOCK_INIT_CONSUMER_CONSUME_APPLY_EXPR_KEY := source_block_init_consumer_source_text_state.SOURCE_BLOCK_INIT_CONSUMER_CONSUME_APPLY_EXPR_KEY
+const SOURCE_BLOCK_INIT_CONSUMER_CONSUME_APPLY_METHOD_EXPR_KEY := source_block_init_consumer_source_text_state.SOURCE_BLOCK_INIT_CONSUMER_CONSUME_APPLY_METHOD_EXPR_KEY
+const SOURCE_BLOCK_INIT_CONSUMER_CONSUME_BUILDER_KEY := source_block_init_consumer_source_text_state.SOURCE_BLOCK_INIT_CONSUMER_CONSUME_BUILDER_KEY
+const SOURCE_BLOCK_INIT_CONSUMER_APPLY_CALLS_KEY := source_block_init_consumer_source_text_state.SOURCE_BLOCK_INIT_CONSUMER_APPLY_CALLS_KEY
+const SOURCE_BLOCK_INIT_CONSUMER_APPLY_CALL_COUNT_KEY := source_block_init_consumer_source_text_state.SOURCE_BLOCK_INIT_CONSUMER_APPLY_CALL_COUNT_KEY
+const SOURCE_BLOCK_INIT_CONSUMER_GENERATED_OWNER_KEY := source_block_init_consumer_source_text_state.SOURCE_BLOCK_INIT_CONSUMER_GENERATED_OWNER_KEY
+const SOURCE_BLOCK_INIT_CONSUMER_RESULT_KEY := source_block_init_consumer_source_text_state.SOURCE_BLOCK_INIT_CONSUMER_RESULT_KEY
+const SOURCE_BLOCK_INIT_CONSUMER_CANONICAL_KEY := source_block_init_consumer_source_text_state.SOURCE_BLOCK_INIT_CONSUMER_CANONICAL_KEY
+const SOURCE_BLOCK_INIT_CONSUMER_MATCHES_KEY := source_block_init_consumer_source_text_state.SOURCE_BLOCK_INIT_CONSUMER_MATCHES_KEY
+const SOURCE_BLOCK_INIT_CONSUMER_APPLY_CALL_KEY := source_block_init_consumer_source_text_state.SOURCE_BLOCK_INIT_CONSUMER_APPLY_CALL_KEY
+const SOURCE_BLOCK_INIT_CONSUMER_CONSUMER_KEY := source_block_init_consumer_source_text_state.SOURCE_BLOCK_INIT_CONSUMER_CONSUMER_KEY
+const SOURCE_BLOCK_INIT_CONSUMER_BLOCK_ARG_KEY := source_block_init_consumer_source_text_state.SOURCE_BLOCK_INIT_CONSUMER_BLOCK_ARG_KEY
+const SOURCE_BLOCK_INIT_CONSUMER_BRIDGE_MODE_KEY := source_block_init_consumer_source_text_state.SOURCE_BLOCK_INIT_CONSUMER_BRIDGE_MODE_KEY
+const SOURCE_BLOCK_INIT_CONSUMER_CONSUMER_ARRAYS_MODE := source_block_init_consumer_source_text_state.SOURCE_BLOCK_INIT_CONSUMER_CONSUMER_ARRAYS_MODE
+const SOURCE_BLOCK_INIT_CONSUMER_CONSUMER_APPLY_LOOP_MODE := source_block_init_consumer_source_text_state.SOURCE_BLOCK_INIT_CONSUMER_CONSUMER_APPLY_LOOP_MODE
+const SOURCE_BLOCK_INIT_CONSUMER_JAVA_METHOD_INIT_123 := source_block_init_consumer_source_text_state.SOURCE_BLOCK_INIT_CONSUMER_JAVA_METHOD_INIT_123
+const SOURCE_BLOCK_INIT_CONSUMER_GENERATED_OWNER := source_block_init_consumer_source_text_state.SOURCE_BLOCK_INIT_CONSUMER_GENERATED_OWNER
+
+static func _block_call(generated_method: String, generated_args: Array, metadata: Variant = null) -> Variant:
+	if metadata == null:
+		return source_generated_class_runtime.call_java_method(SOURCE_BLOCK_GENERATED_CLASS, generated_method, generated_args, null)
+	return source_generated_class_runtime.call_java_method(SOURCE_BLOCK_GENERATED_CLASS, generated_method, generated_args, null, metadata)
 
 static func arrays_state(consume_builder: Array) -> Dictionary:
-	var consumers: Array = consume_builder.duplicate()
-	var optional_consumers: Array = []
-	var non_optional_consumers: Array = []
-	var update_consumers: Array = []
-	for consumer in consume_builder:
-		if not consumer is Dictionary:
-			continue
-		var ignored: bool = bool(consumer.get("ignored", false))
-		if bool(consumer.get("optional", false)) and not ignored:
-			optional_consumers.append(consumer)
-		if not bool(consumer.get("optional", false)) and not ignored:
-			non_optional_consumers.append(consumer)
-		if bool(consumer.get("update", true)) and not ignored:
-			update_consumers.append(consumer)
-	var has_consumers: bool = consumers.size() > 0
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_CONSUMER_ARRAYS_STATE, "source": "core/src/mindustry/world/Block.java", "consume_source": "core/src/mindustry/world/consumers/Consume.java", "method": "public void init(){", "super_init_expr": "super.init();", "consumers_expr": "consumers = consumeBuilder.toArray(Consume.class);", "optional_consumers_expr": "optionalConsumers = consumeBuilder.select(consume -> consume.optional && !consume.ignore()).toArray(Consume.class);", "non_optional_consumers_expr": "nonOptionalConsumers = consumeBuilder.select(consume -> !consume.optional && !consume.ignore()).toArray(Consume.class);", "update_consumers_expr": "updateConsumers = consumeBuilder.select(consume -> consume.update && !consume.ignore()).toArray(Consume.class);", "has_consumers_expr": "hasConsumers = consumers.length > 0;", "consume_optional_field_expr": "public boolean optional;", "consume_update_field_expr": "public boolean update = true;", "consume_ignore_method_expr": "public boolean ignore(){", "consume_builder": consume_builder, "consumers": consumers, "optional_consumers": optional_consumers, "non_optional_consumers": non_optional_consumers, "update_consumers": update_consumers, "has_consumers": has_consumers}
+	var classified := source_consume_module_registry.source_consume_state.classify_consumer_arrays(consume_builder, SOURCE_BLOCK_INIT_CONSUMER_INPUT_IGNORED_KEY, SOURCE_BLOCK_INIT_CONSUMER_INPUT_OPTIONAL_KEY, SOURCE_BLOCK_INIT_CONSUMER_INPUT_UPDATE_KEY)
+	var consumers: Array = classified[source_consume_module_registry.source_consume_state.SOURCE_CONSUME_CONSUMERS_KEY]
+	var optional_consumers: Array = classified[source_consume_module_registry.source_consume_state.SOURCE_CONSUME_OPTIONAL_CONSUMERS_KEY]
+	var non_optional_consumers: Array = classified[source_consume_module_registry.source_consume_state.SOURCE_CONSUME_NON_OPTIONAL_CONSUMERS_KEY]
+	var update_consumers: Array = classified[source_consume_module_registry.source_consume_state.SOURCE_CONSUME_UPDATE_CONSUMERS_KEY]
+	var has_consumers: bool = bool(classified[source_consume_module_registry.source_consume_state.SOURCE_CONSUME_HAS_CONSUMERS_KEY])
+	return {SOURCE_BLOCK_INIT_CONSUMER_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_CONSUMER_ARRAYS_STATE, SOURCE_BLOCK_INIT_CONSUMER_SOURCE_KEY: SOURCE_BLOCK_INIT_CONSUMER_SOURCE, SOURCE_BLOCK_INIT_CONSUMER_CONSUME_SOURCE_KEY: SOURCE_BLOCK_INIT_CONSUMER_CONSUME_SOURCE, SOURCE_BLOCK_INIT_CONSUMER_METHOD_KEY: SOURCE_BLOCK_INIT_CONSUMER_METHOD, SOURCE_BLOCK_INIT_CONSUMER_SUPER_INIT_EXPR_KEY: SOURCE_BLOCK_INIT_CONSUMER_SUPER_INIT_EXPR, SOURCE_BLOCK_INIT_CONSUMER_CONSUMERS_EXPR_KEY: SOURCE_BLOCK_INIT_CONSUMER_CONSUMERS_EXPR, SOURCE_BLOCK_INIT_CONSUMER_OPTIONAL_CONSUMERS_EXPR_KEY: SOURCE_BLOCK_INIT_CONSUMER_OPTIONAL_CONSUMERS_EXPR, SOURCE_BLOCK_INIT_CONSUMER_NON_OPTIONAL_CONSUMERS_EXPR_KEY: SOURCE_BLOCK_INIT_CONSUMER_NON_OPTIONAL_CONSUMERS_EXPR, SOURCE_BLOCK_INIT_CONSUMER_UPDATE_CONSUMERS_EXPR_KEY: SOURCE_BLOCK_INIT_CONSUMER_UPDATE_CONSUMERS_EXPR, SOURCE_BLOCK_INIT_CONSUMER_HAS_CONSUMERS_EXPR_KEY: SOURCE_BLOCK_INIT_CONSUMER_HAS_CONSUMERS_EXPR, SOURCE_BLOCK_INIT_CONSUMER_CONSUME_OPTIONAL_FIELD_EXPR_KEY: SOURCE_BLOCK_INIT_CONSUMER_OPTIONAL_FIELD_EXPR, SOURCE_BLOCK_INIT_CONSUMER_CONSUME_UPDATE_FIELD_EXPR_KEY: SOURCE_BLOCK_INIT_CONSUMER_UPDATE_FIELD_EXPR, SOURCE_BLOCK_INIT_CONSUMER_CONSUME_IGNORE_METHOD_EXPR_KEY: SOURCE_BLOCK_INIT_CONSUMER_IGNORE_METHOD_EXPR, SOURCE_BLOCK_INIT_CONSUMER_CONSUME_BUILDER_KEY: consume_builder, SOURCE_BLOCK_INIT_CONSUMER_CONSUMERS_KEY: consumers, SOURCE_BLOCK_INIT_CONSUMER_OPTIONAL_CONSUMERS_KEY: optional_consumers, SOURCE_BLOCK_INIT_CONSUMER_NON_OPTIONAL_CONSUMERS_KEY: non_optional_consumers, SOURCE_BLOCK_INIT_CONSUMER_UPDATE_CONSUMERS_KEY: update_consumers, SOURCE_BLOCK_INIT_CONSUMER_HAS_CONSUMERS_KEY: has_consumers}
+
+static func generated_consumer_arrays_result_state(consume_builder: Array) -> Dictionary:
+	return arrays_state(consume_builder)
 
 static func generated_consumer_arrays_bridge_state(consume_builder: Array) -> Dictionary:
-	var metadata := {"mindustry_init_bridge_mode": "consumer_arrays"}
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [consume_builder], null, metadata)
+	var metadata := {SOURCE_BLOCK_INIT_CONSUMER_BRIDGE_MODE_KEY: SOURCE_BLOCK_INIT_CONSUMER_CONSUMER_ARRAYS_MODE}
+	var result = _block_call(SOURCE_BLOCK_INIT_CONSUMER_JAVA_METHOD_INIT_123, [consume_builder], metadata)
 	var canonical = arrays_state(consume_builder)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
 	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_CONSUMER_ARRAYS_STATE,
-		"generated_owner": "block.java_method_init_123",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
+		SOURCE_BLOCK_INIT_CONSUMER_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_CONSUMER_ARRAYS_STATE,
+		SOURCE_BLOCK_INIT_CONSUMER_GENERATED_OWNER_KEY: SOURCE_BLOCK_INIT_CONSUMER_GENERATED_OWNER,
+		SOURCE_BLOCK_INIT_CONSUMER_RESULT_KEY: result,
+		SOURCE_BLOCK_INIT_CONSUMER_CANONICAL_KEY: canonical,
+		SOURCE_BLOCK_INIT_CONSUMER_MATCHES_KEY: matches,
 	}
 
 static func apply_loop_state(consumers: Array) -> Dictionary:
-	var apply_calls: Array = []
-	for consumer in consumers:
-		apply_calls.append({"call": "cons.apply(this);", "consumer": consumer, "block_arg": "this"})
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_CONSUMER_APPLY_LOOP_STATE, "source": "core/src/mindustry/world/Block.java", "consume_source": "core/src/mindustry/world/consumers/Consume.java", "method": "public void init(){", "super_init_expr": "super.init();", "consumers_loop_expr": "for(Consume cons : consumers){", "consume_apply_expr": "cons.apply(this);", "consume_apply_method_expr": "public void apply(Block block){", "consumers": consumers, "apply_calls": apply_calls, "apply_call_count": apply_calls.size()}
+	var apply_projection := source_consume_module_registry.source_consume_state.consumer_apply_calls(consumers, SOURCE_BLOCK_INIT_CONSUMER_APPLY_EXPR, SOURCE_BLOCK_INIT_CONSUMER_THIS_ARG)
+	var apply_calls: Array = apply_projection[source_consume_module_registry.source_consume_state.SOURCE_CONSUME_APPLY_CALLS_KEY]
+	var apply_call_count: int = int(apply_projection[source_consume_module_registry.source_consume_state.SOURCE_CONSUME_APPLY_CALL_COUNT_KEY])
+	return {SOURCE_BLOCK_INIT_CONSUMER_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_CONSUMER_APPLY_LOOP_STATE, SOURCE_BLOCK_INIT_CONSUMER_SOURCE_KEY: SOURCE_BLOCK_INIT_CONSUMER_SOURCE, SOURCE_BLOCK_INIT_CONSUMER_CONSUME_SOURCE_KEY: SOURCE_BLOCK_INIT_CONSUMER_CONSUME_SOURCE, SOURCE_BLOCK_INIT_CONSUMER_METHOD_KEY: SOURCE_BLOCK_INIT_CONSUMER_METHOD, SOURCE_BLOCK_INIT_CONSUMER_SUPER_INIT_EXPR_KEY: SOURCE_BLOCK_INIT_CONSUMER_SUPER_INIT_EXPR, SOURCE_BLOCK_INIT_CONSUMER_CONSUMERS_LOOP_EXPR_KEY: SOURCE_BLOCK_INIT_CONSUMER_LOOP_EXPR, SOURCE_BLOCK_INIT_CONSUMER_CONSUME_APPLY_EXPR_KEY: SOURCE_BLOCK_INIT_CONSUMER_APPLY_EXPR, SOURCE_BLOCK_INIT_CONSUMER_CONSUME_APPLY_METHOD_EXPR_KEY: SOURCE_BLOCK_INIT_CONSUMER_APPLY_METHOD_EXPR, SOURCE_BLOCK_INIT_CONSUMER_CONSUMERS_KEY: consumers, SOURCE_BLOCK_INIT_CONSUMER_APPLY_CALLS_KEY: apply_calls, SOURCE_BLOCK_INIT_CONSUMER_APPLY_CALL_COUNT_KEY: apply_call_count}
+
+static func generated_consumer_apply_loop_result_state(consumers: Array) -> Dictionary:
+	return apply_loop_state(consumers)
 
 static func generated_consumer_apply_loop_bridge_state(consumers: Array) -> Dictionary:
-	var metadata := {"mindustry_init_bridge_mode": "consumer_apply_loop"}
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [consumers], null, metadata)
+	var metadata := {SOURCE_BLOCK_INIT_CONSUMER_BRIDGE_MODE_KEY: SOURCE_BLOCK_INIT_CONSUMER_CONSUMER_APPLY_LOOP_MODE}
+	var result = _block_call(SOURCE_BLOCK_INIT_CONSUMER_JAVA_METHOD_INIT_123, [consumers], metadata)
 	var canonical = apply_loop_state(consumers)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
 	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_CONSUMER_APPLY_LOOP_STATE,
-		"generated_owner": "block.java_method_init_123",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
+		SOURCE_BLOCK_INIT_CONSUMER_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_CONSUMER_APPLY_LOOP_STATE,
+		SOURCE_BLOCK_INIT_CONSUMER_GENERATED_OWNER_KEY: SOURCE_BLOCK_INIT_CONSUMER_GENERATED_OWNER,
+		SOURCE_BLOCK_INIT_CONSUMER_RESULT_KEY: result,
+		SOURCE_BLOCK_INIT_CONSUMER_CANONICAL_KEY: canonical,
+		SOURCE_BLOCK_INIT_CONSUMER_MATCHES_KEY: matches,
 	}

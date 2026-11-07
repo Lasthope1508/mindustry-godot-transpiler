@@ -1,0 +1,101 @@
+{
+  "version": 1,
+  "symbols": {
+    "unit_building_command_position.command_position": {
+      "canonical_symbol": "source_symbol_registry.unit_building_command_position.command_position",
+      "status": "source-backed",
+      "java_expr": "commandPos",
+      "godot_symbol": "source_unit_building_command_position_result.command_position",
+      "godot_owner": "PortGame.source_unit_building_get_command_position_state",
+      "rule": "Command position is the explicit bridge value returned by the source-backed getter.",
+      "tests": [
+        "test_unit_build_command_slice"
+      ],
+      "runtime_proof": "/root/Main.generated_unit_building_get_command_position_bridge_state"
+    },
+    "unit_building_command_position.inner_class": {
+      "canonical_symbol": "source_symbol_registry.unit_building_command_position.inner_class",
+      "status": "source-backed",
+      "java_expr": "public class UnitFactoryBuild extends UnitBuild{",
+      "godot_symbol": "source_unit_building_command_position_result.inner_class",
+      "godot_owner": "PortGame.source_unit_building_get_command_position_state",
+      "rule": "The runtime state records the canonical nested Build declaration selected from the class registry.",
+      "tests": [
+        "test_unit_build_command_slice"
+      ],
+      "runtime_proof": "/root/Main.generated_unit_building_get_command_position_bridge_state"
+    },
+    "unit_building_command_position.method": {
+      "canonical_symbol": "source_symbol_registry.unit_building_command_position.method",
+      "status": "source-backed",
+      "java_expr": "public Vec2 getCommandPosition(){",
+      "godot_symbol": "source_unit_building_command_position_result.method",
+      "godot_owner": "PortGame.source_unit_building_get_command_position_state",
+      "rule": "Shared canonical command-position getter for UnitFactoryBuild, UnitAssemblerBuild, and ReconstructorBuild.",
+      "tests": [
+        "test_unit_build_command_slice"
+      ],
+      "runtime_proof": "/root/Main.generated_unit_building_get_command_position_bridge_state"
+    },
+    "unit_building_command_position.return": {
+      "canonical_symbol": "source_symbol_registry.unit_building_command_position.return",
+      "status": "source-backed",
+      "java_expr": "return commandPos;",
+      "godot_symbol": "source_unit_building_command_position_result.return_expr",
+      "godot_owner": "PortGame.source_unit_building_get_command_position_state",
+      "rule": "The shared getter returns the commandPos field for all covered unit-building Build classes.",
+      "tests": [
+        "test_unit_build_command_slice"
+      ],
+      "runtime_proof": "/root/Main.generated_unit_building_get_command_position_bridge_state"
+    },
+    "unit_building_on_command.assignment": {
+      "canonical_symbol": "source_symbol_registry.unit_building_on_command.assignment",
+      "status": "source-backed",
+      "java_expr": "commandPos = target;",
+      "godot_symbol": "source_unit_building_on_command_result.assignment_expr",
+      "godot_owner": "PortGame.source_unit_building_on_command_state",
+      "rule": "The shared command hook assigns target to commandPos for all covered unit-building Build classes.",
+      "tests": [
+        "test_unit_build_command_slice"
+      ],
+      "runtime_proof": "/root/Main.generated_unit_building_on_command_bridge_state"
+    },
+    "unit_building_on_command.inner_class": {
+      "canonical_symbol": "source_symbol_registry.unit_building_on_command.inner_class",
+      "status": "source-backed",
+      "java_expr": "public class UnitFactoryBuild extends UnitBuild{",
+      "godot_symbol": "source_unit_building_on_command_result.inner_class",
+      "godot_owner": "PortGame.source_unit_building_on_command_state",
+      "rule": "The runtime state records the canonical nested Build declaration selected from the class registry.",
+      "tests": [
+        "test_unit_build_command_slice"
+      ],
+      "runtime_proof": "/root/Main.generated_unit_building_on_command_bridge_state"
+    },
+    "unit_building_on_command.method": {
+      "canonical_symbol": "source_symbol_registry.unit_building_on_command.method",
+      "status": "source-backed",
+      "java_expr": "public void onCommand(Vec2 target){",
+      "godot_symbol": "source_unit_building_on_command_result.method",
+      "godot_owner": "PortGame.source_unit_building_on_command_state",
+      "rule": "Shared canonical command hook for UnitFactoryBuild, UnitAssemblerBuild, and ReconstructorBuild.",
+      "tests": [
+        "test_unit_build_command_slice"
+      ],
+      "runtime_proof": "/root/Main.generated_unit_building_on_command_bridge_state"
+    },
+    "unit_building_on_command.target": {
+      "canonical_symbol": "source_symbol_registry.unit_building_on_command.target",
+      "status": "source-backed",
+      "java_expr": "target",
+      "godot_symbol": "source_unit_building_on_command_result.target",
+      "godot_owner": "PortGame.source_unit_building_on_command_state",
+      "rule": "Target is the explicit bridge value assigned by the source-backed command hook.",
+      "tests": [
+        "test_unit_build_command_slice"
+      ],
+      "runtime_proof": "/root/Main.generated_unit_building_on_command_bridge_state"
+    }
+  }
+}

@@ -1,9 +1,10 @@
 extends Node
 
+const runtime_proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")
 const PortGameScript := preload("res://src/game/PortGame.gd")
 const source_drill_inventory_runtime_state := preload("res://src/game/SourceDrillInventoryRuntimeState.gd")
 const source_core_inventory_runtime_state := preload("res://src/game/SourceCoreInventoryRuntimeState.gd")
-const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const source_ssot_accessor_runtime_state := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
 
 func _ready() -> void:
 	var wrapper_game := PortGameScript.new()
@@ -31,6 +32,8 @@ func _ready() -> void:
 		game.core_items = {}
 	for game in [drill_mutation_wrapper_game, drill_mutation_module_game]:
 		game.drill_items = {}
+		game.offload_neighbors = [{"accepts_item": false, "can_dump": true, "item_count": 0}, {"accepts_item": true, "can_dump": true, "item_count": 0}]
+		game.drill_dump_cursor = 0
 	var callbacks := source_drill_inventory_runtime_state.default_callbacks_state(module_game)
 	var expected_callbacks := {
 		source_drill_inventory_runtime_state.SOURCE_DRILL_INVENTORY_ITEM_COUNT_KEY: Callable(module_game, source_drill_inventory_runtime_state.SOURCE_DRILL_INVENTORY_ITEM_COUNT_FALLBACK),
@@ -57,14 +60,21 @@ func _ready() -> void:
 	source_drill_inventory_runtime_state.offload_to_inventory_runtime_state(drill_mutation_module_game, "copper", 3)
 	var drill_removed_wrapper := drill_mutation_wrapper_game.remove_drill_item("copper", 2)
 	var drill_removed_module := source_drill_inventory_runtime_state.remove_item_runtime_state(drill_mutation_module_game, "copper", 2)
+	var routed_wrapper_game := PortGameScript.new()
+	var routed_module_game := PortGameScript.new()
+	routed_wrapper_game.offload_neighbors = [{"accepts_item": false, "can_dump": true, "item_count": 0}, {"accepts_item": true, "can_dump": true, "item_count": 0}]
+	routed_module_game.offload_neighbors = routed_wrapper_game.offload_neighbors.duplicate(true)
+	routed_wrapper_game.source_offload_to_inventory("copper", 2)
+	source_drill_inventory_runtime_state.offload_to_inventory_runtime_state(routed_module_game, "copper", 2)
 	var core_wrapper := core_wrapper_game.source_core_handle_item("copper")
 	var core_module := source_core_inventory_runtime_state.game_handle_item(core_module_game, "copper")
-	var registry_state := source_ssot_catalog.canonical_headquarter_registry_state()
+	var registry_state := source_ssot_accessor_runtime_state.canonical_headquarter_registry_state()
 	var proof := {
 		"module": "SourceDrillInventoryRuntimeState",
 		"wrapper_matches": bool(wrapper) == bool(module.get("dump_success", false)),
 		"core_inventory_mutation_matches": mutation_wrapper_game.core_items == mutation_module_game.core_items and mutation_wrapper_game.core_inventory == mutation_module_game.core_inventory and mutation_wrapper_count == mutation_module_count,
 		"drill_inventory_mutation_matches": drill_mutation_wrapper_game.drill_items == drill_mutation_module_game.drill_items and drill_removed_wrapper == drill_removed_module,
+		"offload_neighbor_routing_matches": routed_wrapper_game.drill_items == routed_module_game.drill_items and routed_wrapper_game.offload_neighbors == routed_module_game.offload_neighbors and routed_wrapper_game.drill_dump_cursor == routed_module_game.drill_dump_cursor and int(routed_wrapper_game.offload_neighbors[1].get("item_count", 0)) == 2,
 		"core_handle_matches": bool(core_wrapper) == bool(core_module) and core_wrapper_game.core_items == core_module_game.core_items,
 		"default_callbacks_match": callbacks == expected_callbacks,
 		"override_callbacks_match": override_callbacks_match,
@@ -73,7 +83,9 @@ func _ready() -> void:
 		"registry_headquarter_count": int(registry_state.get("headquarter_count", 0)),
 	}
 	proof["module_matches"] = proof["wrapper_matches"]
+	proof["matches"] = proof["module_matches"] and proof["offload_neighbor_routing_matches"] and proof["one_headquarter_per_ssot"] and proof["registry_valid"]
 	print("DRILL_INVENTORY_CALLBACK_MODULE_PROOF " + JSON.stringify(proof))
+	runtime_proof_state.write_proof("DrillInventoryCallbackModuleProof", proof)
 	wrapper_game.free()
 	module_game.free()
 	core_wrapper_game.free()
@@ -82,8 +94,10 @@ func _ready() -> void:
 	mutation_module_game.free()
 	drill_mutation_wrapper_game.free()
 	drill_mutation_module_game.free()
-	await get_tree().create_timer(60.0).timeout
-	get_tree().quit(0)
+	routed_wrapper_game.free()
+	routed_module_game.free()
+	await get_tree().process_frame
+	get_tree().quit(runtime_proof_state.exit_code(proof))
 
 func proof_core_handle_item(item_id: String) -> bool:
 	return item_id != ""
@@ -92,3 +106,4 @@ func _drill_inventory_method_names() -> Dictionary:
 	return {
 		source_drill_inventory_runtime_state.SOURCE_DRILL_INVENTORY_CORE_HANDLE_KEY: "proof_core_handle_item",
 	}
+

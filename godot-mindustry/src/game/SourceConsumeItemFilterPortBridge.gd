@@ -1,0 +1,109 @@
+extends "res://src/game/SourceConsumeItemAttributePortBridge.gd"
+
+func source_consume_item_filter_item_efficiency_multiplier_state() -> Dictionary:
+	return source_consume_module_registry.source_consume_item_filter_state.item_efficiency_multiplier_state()
+
+func generated_consume_item_filter_item_efficiency_multiplier_bridge_state() -> Dictionary:
+	return source_consume_module_registry.source_consume_item_filter_generated_state.generated_item_efficiency_multiplier_bridge_state()
+
+func source_consume_item_filter_constructor_state(item: Variant) -> Dictionary:
+	return source_consume_module_registry.source_consume_item_filter_state.constructor_state(item)
+
+func generated_consume_item_filter_constructor_bridge_state(item: Variant) -> Dictionary:
+	return source_consume_module_registry.source_consume_item_filter_generated_state.generated_constructor_bridge_state(item)
+
+func source_consume_item_filter_default_constructor_state() -> Dictionary:
+	return source_consume_module_registry.source_consume_item_filter_state.default_constructor_state(source_consumer_defaults.CONSUME_ITEM_FILTER_DEFAULT_EXPR)
+
+func generated_consume_item_filter_default_constructor_bridge_state() -> Dictionary:
+	return source_consume_module_registry.source_consume_item_filter_generated_state.generated_default_constructor_bridge_state(source_consumer_defaults.CONSUME_ITEM_FILTER_DEFAULT_EXPR)
+
+func source_consume_item_filter_apply_state(block_has_items_before: bool, block_accepts_items_before: bool, item_filter_before: Array, filtered_item_ids: Array) -> Dictionary:
+	return source_consume_module_registry.source_consume_item_filter_state.apply_state(block_has_items_before, block_accepts_items_before, item_filter_before, filtered_item_ids)
+
+func generated_consume_item_filter_apply_bridge_state(block_has_items_before: bool, block_accepts_items_before: bool, item_filter_before: Array, filtered_item_ids: Array) -> Dictionary:
+	return source_consume_module_registry.source_consume_item_filter_generated_state.generated_apply_bridge_state(block_has_items_before, block_accepts_items_before, item_filter_before, filtered_item_ids)
+
+func source_consume_item_filter_build_state(filtered_item_ids: Array, build_items_has_item_flags: Array) -> Dictionary:
+	return source_consume_module_registry.source_consume_item_filter_state.build_state(filtered_item_ids, build_items_has_item_flags, source_consume_port_bridge_ui_defaults.ICON_MED)
+
+func generated_consume_item_filter_build_bridge_state(filtered_item_ids: Array, build_items_has_item_flags: Array) -> Dictionary:
+	return source_consume_module_registry.source_consume_item_filter_generated_state.generated_build_bridge_state(filtered_item_ids, build_items_has_item_flags, source_consume_port_bridge_ui_defaults.ICON_MED)
+
+func source_consume_item_filter_update_state(build_state: Variant) -> Dictionary:
+	return source_consume_module_registry.source_consume_item_filter_state.update_state(build_state)
+
+func generated_consume_item_filter_update_bridge_state(build_state: Variant) -> Dictionary:
+	return source_consume_module_registry.source_consume_item_filter_generated_state.generated_update_bridge_state(build_state)
+
+func source_consume_item_filter_trigger_state(build_state: Variant, consumed_item: Variant) -> Dictionary:
+	return source_consume_module_registry.source_consume_item_filter_state.trigger_state(build_state, consumed_item)
+
+func generated_consume_item_filter_trigger_bridge_state(build_state: Variant, consumed_item: Variant) -> Dictionary:
+	return source_consume_module_registry.source_consume_item_filter_generated_state.generated_trigger_bridge_state(build_state, consumed_item)
+
+func source_consume_item_filter_efficiency_state(consume_trigger_valid: bool, consumed_item: Variant) -> Dictionary:
+	return source_consume_module_registry.source_consume_item_filter_state.efficiency_state(consume_trigger_valid, consumed_item)
+
+func generated_consume_item_filter_efficiency_bridge_state(consume_trigger_valid: bool, consumed_item: Variant) -> Dictionary:
+	return source_consume_module_registry.source_consume_item_filter_generated_state.generated_efficiency_bridge_state(consume_trigger_valid, consumed_item)
+
+func source_consume_item_filter_get_consumed_state(content_items: Array, build_items_has_item_flags: Array, filter_get_item_flags: Array) -> Dictionary:
+	return source_consume_module_registry.source_consume_item_filter_state.get_consumed_state(content_items, build_items_has_item_flags, filter_get_item_flags)
+
+func generated_consume_item_filter_get_consumed_bridge_state(content_items: Array, build_items_has_item_flags: Array, filter_get_item_flags: Array) -> Dictionary:
+	return source_consume_module_registry.source_consume_item_filter_generated_state.generated_get_consumed_bridge_state(content_items, build_items_has_item_flags, filter_get_item_flags)
+
+func source_consume_item_filter_display_state(booster: bool, stats_time_period: float, filtered_item_ids: Array) -> Dictionary:
+	return source_consume_module_registry.source_consume_item_filter_state.display_state(booster, stats_time_period, filtered_item_ids)
+
+func generated_consume_item_filter_display_bridge_state(booster: bool, stats_time_period: float, filtered_item_ids: Array) -> Dictionary:
+	return source_consume_module_registry.source_consume_item_filter_generated_state.generated_display_bridge_state(booster, stats_time_period, filtered_item_ids)
+
+func source_consume_item_filter_efficiency_multiplier_state(consumed_item: Variant, item_efficiency_multiplier: float) -> Dictionary:
+	return source_consume_module_registry.source_consume_item_filter_state.efficiency_multiplier_state(consumed_item, item_efficiency_multiplier)
+
+func generated_consume_item_filter_efficiency_multiplier_bridge_state(consumed_item: Variant, item_efficiency_multiplier: float) -> Dictionary:
+	return source_consume_module_registry.source_consume_item_filter_generated_state.generated_efficiency_multiplier_bridge_state(consumed_item, item_efficiency_multiplier)
+
+func source_consume_items_constructor_state(item_stacks: Array) -> Dictionary:
+	return source_consume_module_registry.source_consume_items_state.constructor_state(item_stacks)
+
+func generated_consume_items_constructor_bridge_state(item_stacks: Array) -> Dictionary:
+	return source_consume_module_registry.source_consume_items_generated_state.generated_constructor_bridge_state(item_stacks)
+
+func source_consume_items_default_constructor_state() -> Dictionary:
+	return source_consume_module_registry.source_consume_items_state.default_constructor_state(source_consumer_defaults.CONSUME_ITEMS_EMPTY_STACKS)
+
+func generated_consume_items_default_constructor_bridge_state() -> Dictionary:
+	return source_consume_module_registry.source_consume_items_generated_state.generated_default_constructor_bridge_state(source_consumer_defaults.CONSUME_ITEMS_EMPTY_STACKS)
+
+func source_consume_items_apply_state(block_has_items_before: bool, block_accepts_items_before: bool, item_filter_before: Array, item_stacks: Array) -> Dictionary:
+	return source_consume_module_registry.source_consume_items_state.apply_state(block_has_items_before, block_accepts_items_before, item_filter_before, item_stacks)
+
+func generated_consume_items_apply_bridge_state(block_has_items_before: bool, block_accepts_items_before: bool, item_filter_before: Array, item_stacks: Array) -> Dictionary:
+	return source_consume_module_registry.source_consume_items_generated_state.generated_apply_bridge_state(block_has_items_before, block_accepts_items_before, item_filter_before, item_stacks)
+
+func source_consume_items_build_state(item_stacks: Array, item_amounts: Array, multiplier_get_build: float) -> Dictionary:
+	return source_consume_module_registry.source_consume_items_state.build_state(item_stacks, item_amounts, multiplier_get_build, source_consume_port_bridge_ui_defaults.PAD_RIGHT)
+
+func generated_consume_items_build_bridge_state(item_stacks: Array, item_amounts: Array, multiplier_get_build: float) -> Dictionary:
+	return source_consume_module_registry.source_consume_items_generated_state.generated_build_bridge_state(item_stacks, item_amounts, multiplier_get_build, source_consume_port_bridge_ui_defaults.PAD_RIGHT)
+
+func source_consume_items_trigger_state(item_stacks: Array, multiplier_get_build: float) -> Dictionary:
+	return source_consume_module_registry.source_consume_items_state.trigger_state(item_stacks, multiplier_get_build)
+
+func generated_consume_items_trigger_bridge_state(item_stacks: Array, multiplier_get_build: float) -> Dictionary:
+	return source_consume_module_registry.source_consume_items_generated_state.generated_trigger_bridge_state(item_stacks, multiplier_get_build)
+
+func source_consume_items_efficiency_state(consume_trigger_valid: bool, item_stacks: Array, item_amounts: Array, multiplier_get_build: float) -> Dictionary:
+	return source_consume_module_registry.source_consume_items_state.efficiency_state(consume_trigger_valid, item_stacks, item_amounts, multiplier_get_build)
+
+func generated_consume_items_efficiency_bridge_state(consume_trigger_valid: bool, item_stacks: Array, item_amounts: Array, multiplier_get_build: float) -> Dictionary:
+	return source_consume_module_registry.source_consume_items_generated_state.generated_efficiency_bridge_state(consume_trigger_valid, item_stacks, item_amounts, multiplier_get_build)
+
+func source_consume_items_display_state(booster: bool, stats_time_period: float, item_stacks: Array) -> Dictionary:
+	return source_consume_module_registry.source_consume_items_state.display_state(booster, stats_time_period, item_stacks)
+
+func generated_consume_items_display_bridge_state(booster: bool, stats_time_period: float, item_stacks: Array) -> Dictionary:
+	return source_consume_module_registry.source_consume_items_generated_state.generated_display_bridge_state(booster, stats_time_period, item_stacks)

@@ -1,57 +1,58 @@
 extends RefCounted
 class_name SourceTurretAmmoState
 
-const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const source_ssot_accessor_runtime_state := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
 const source_turret_defaults := preload("res://src/game/SourceTurretDefaults.gd")
 const source_bullet_defaults := preload("res://src/game/SourceBulletDefaults.gd")
-const source_turret_runtime_state := preload("res://src/game/SourceTurretRuntimeState.gd")
-const source_generated_class_runtime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
+const source_turret_source_text_state := preload("res://src/game/SourceTurretSourceTextState.gd")
+const source_turret_ammo_manifest_state := preload("res://src/game/SourceTurretAmmoManifestState.gd")
+const source_turret_ammo_stack_state := preload("res://src/game/SourceTurretAmmoStackState.gd")
 
-const SOURCE_TURRET_MAX_AMMO_FIELD := "public int maxAmmo = 30;"
-const SOURCE_TURRET_AMMO_PER_SHOT_FIELD := "public int ammoPerShot = 1;"
-const SOURCE_TURRET_CONSUME_AMMO_ONCE_FIELD := "public boolean consumeAmmoOnce = true;"
-const SOURCE_TURRET_USE_AMMO_METHOD := "public BulletType useAmmo(){"
-const SOURCE_TURRET_PEEK_AMMO_METHOD := "public @Nullable BulletType peekAmmo(){"
-const SOURCE_TURRET_HAS_AMMO_SWAP_EXPR := "ammo.swap(ammo.size - 1, i);"
-const SOURCE_ITEM_TURRET_HANDLE_ITEM_METHOD := "public void handleItem(Building source, Item item){"
-const SOURCE_ITEM_TURRET_ACCEPT_ITEM_EXPR := "return ammoTypes.get(item) != null && totalAmmo + ammoTypes.get(item).ammoMultiplier <= maxAmmo;"
-const SOURCE_TURRET_AMMO_DATA_AMMO_TYPES_FIELD := "public ObjectMap<Item, BulletType> ammoTypes = new OrderedMap<>();"
-const SOURCE_LIQUID_TURRET_AMMO_DATA_AMMO_TYPES_FIELD := "public ObjectMap<Liquid, BulletType> ammoTypes = new ObjectMap<>();"
-const SOURCE_TURRET_AMMO_DATA_METHOD := "public void ammo(Object... objects){"
-const SOURCE_TURRET_AMMO_DATA_ORDERED_MAP := "ammoTypes = OrderedMap.of(objects);"
-const SOURCE_TURRET_AMMO_DATA_OBJECT_MAP := "ammoTypes = ObjectMap.of(objects);"
-const SOURCE_TURRET_AMMO_DATA_ITEM_COMMENT := "/** Initializes accepted ammo map. Format: [item1, bullet1, item2, bullet2...] */"
-const SOURCE_TURRET_AMMO_DATA_LIQUID_COMMENT := "/** Initializes accepted ammo map. Format: [liquid1, bullet1, liquid2, bullet2...] */"
-const SOURCE_TURRET_AMMO_DATA_DUO_AMMO_CALL := "ammo("
-const SOURCE_TURRET_AMMO_DATA_DUO_COPPER_ENTRY := "Items.copper,  new BasicBulletType(2.5f, 9){{"
-const SOURCE_LIQUID_TURRET_GENERATED_CLASS := "res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd"
-const SOURCE_ITEM_TURRET_GENERATED_CLASS := "res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd"
-const SOURCE_CONTINUOUS_LIQUID_TURRET_GENERATED_CLASS := "res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd"
-const SOURCE_TURRET_AMMO_GENERATED_METHOD := "java_method_ammo_0"
+const SOURCE_TURRET_MAX_AMMO_FIELD := source_turret_source_text_state.SOURCE_TURRET_MAX_AMMO_FIELD
+const SOURCE_TURRET_AMMO_PER_SHOT_FIELD := source_turret_source_text_state.SOURCE_TURRET_AMMO_PER_SHOT_FIELD
+const SOURCE_TURRET_CONSUME_AMMO_ONCE_FIELD := source_turret_source_text_state.SOURCE_TURRET_CONSUME_AMMO_ONCE_FIELD
+const SOURCE_TURRET_USE_AMMO_METHOD := source_turret_ammo_stack_state.SOURCE_TURRET_USE_AMMO_METHOD
+const SOURCE_TURRET_USE_AMMO_CHEATING_GUARD := source_turret_ammo_stack_state.SOURCE_TURRET_USE_AMMO_CHEATING_GUARD
+const SOURCE_TURRET_USE_AMMO_ENTRY := source_turret_ammo_stack_state.SOURCE_TURRET_USE_AMMO_ENTRY
+const SOURCE_TURRET_USE_AMMO_SUBTRACT := source_turret_ammo_stack_state.SOURCE_TURRET_USE_AMMO_SUBTRACT
+const SOURCE_TURRET_USE_AMMO_POP_EMPTY := source_turret_ammo_stack_state.SOURCE_TURRET_USE_AMMO_POP_EMPTY
+const SOURCE_TURRET_USE_AMMO_TOTAL_SUBTRACT := source_turret_ammo_stack_state.SOURCE_TURRET_USE_AMMO_TOTAL_SUBTRACT
+const SOURCE_TURRET_USE_AMMO_TOTAL_CLAMP := source_turret_ammo_stack_state.SOURCE_TURRET_USE_AMMO_TOTAL_CLAMP
+const SOURCE_TURRET_USE_AMMO_RETURN := source_turret_ammo_stack_state.SOURCE_TURRET_USE_AMMO_RETURN
+const SOURCE_TURRET_PEEK_AMMO_METHOD := source_turret_ammo_stack_state.SOURCE_TURRET_PEEK_AMMO_METHOD
+const SOURCE_TURRET_PEEK_AMMO_RETURN := source_turret_ammo_stack_state.SOURCE_TURRET_PEEK_AMMO_RETURN
+const SOURCE_TURRET_HAS_AMMO_METHOD := source_turret_ammo_stack_state.SOURCE_TURRET_HAS_AMMO_METHOD
+const SOURCE_TURRET_HAS_AMMO_SKIP_COMMENT := source_turret_ammo_stack_state.SOURCE_TURRET_HAS_AMMO_SKIP_COMMENT
+const SOURCE_TURRET_HAS_AMMO_SWAP_EXPR := source_turret_ammo_stack_state.SOURCE_TURRET_HAS_AMMO_SWAP_EXPR
+const SOURCE_ITEM_TURRET_HANDLE_ITEM_METHOD := source_turret_ammo_stack_state.SOURCE_ITEM_TURRET_HANDLE_ITEM_METHOD
+const SOURCE_ITEM_TURRET_ACCEPT_ITEM_EXPR := source_turret_ammo_stack_state.SOURCE_ITEM_TURRET_ACCEPT_ITEM_EXPR
 const SOURCE_TURRET_AMMO_GAME_CONTENT_CATALOG_KEY := "content_catalog"
 const SOURCE_TURRET_AMMO_GAME_DUO_POS_KEY := "duo_pos"
 
 static func _properties(turret) -> Dictionary:
-	return source_turret_runtime_state.read_turret_properties(turret)
+	if turret == null:
+		return {}
+	var properties = turret.get("properties") if turret is Object else turret.get("properties", {})
+	return properties if typeof(properties) == TYPE_DICTIONARY else {}
 
 static func _bullet_ammo_multiplier(data: Dictionary) -> int:
-	return int(float(data.get("ammoMultiplier", source_bullet_defaults.new(source_ssot_catalog).ammo_multiplier_default())))
+	return int(float(data.get("ammoMultiplier", source_bullet_defaults.new(source_ssot_accessor_runtime_state).ammo_multiplier_default())))
 
 static func max_ammo_default(turret) -> int:
-	return int(_properties(turret).get("maxAmmo", source_turret_defaults.new(source_ssot_catalog).max_ammo_default()))
+	return int(_properties(turret).get("maxAmmo", source_turret_defaults.new(source_ssot_accessor_runtime_state).max_ammo_default()))
 
 static func ammo_per_shot(turret) -> int:
-	return int(_properties(turret).get("ammoPerShot", source_turret_defaults.new(source_ssot_catalog).ammo_per_shot_default()))
+	return int(_properties(turret).get("ammoPerShot", source_turret_defaults.new(source_ssot_accessor_runtime_state).ammo_per_shot_default()))
 
 static func consume_ammo_once(turret) -> bool:
-	return bool(_properties(turret).get("consumeAmmoOnce", source_turret_defaults.new(source_ssot_catalog).consume_ammo_once_default()))
+	return bool(_properties(turret).get("consumeAmmoOnce", source_turret_defaults.new(source_ssot_accessor_runtime_state).consume_ammo_once_default()))
 
 static func item_turret_ammo_data(turret_properties: Dictionary, item_id: String) -> Dictionary:
-	for data in turret_properties.get("ammo", []):
-		if data is Dictionary and str(data.get("item", "")) == item_id:
-			return data
-	return {}
+	return source_turret_ammo_stack_state.item_turret_ammo_data(turret_properties, item_id)
+
+static func ammo_data(turret_property_map: Dictionary, item_id: String) -> Dictionary:
+	return item_turret_ammo_data(turret_property_map, item_id)
 
 static func turret_item_turret_ammo_data(turret, item_id: String) -> Dictionary:
 	if turret == null:
@@ -68,23 +69,23 @@ static func selected_turret_ammo_entries(turret) -> Array:
 
 @warning_ignore("shadowed_variable")
 static func peek_ammo_stack_state(stacks: Array, ammo_per_shot: int, ammo_entries: Array) -> Dictionary:
-	return source_turret_runtime_state.peek_ammo_stack_state(stacks, ammo_per_shot, ammo_entries)
+	return source_turret_ammo_stack_state.peek_ammo_stack_state(stacks, ammo_per_shot, ammo_entries)
 
 @warning_ignore("shadowed_variable")
 static func use_ammo_stack_state(stacks: Array, total_ammo: int, ammo_per_shot: int, ammo_entries: Array) -> Dictionary:
-	return source_turret_runtime_state.use_ammo_stack_state(stacks, total_ammo, ammo_per_shot, ammo_entries)
+	return source_turret_ammo_stack_state.use_ammo_stack_state(stacks, total_ammo, ammo_per_shot, ammo_entries)
 
 static func peek_turret_ammo_state(turret_properties: Dictionary, stacks: Array) -> Dictionary:
-	return peek_ammo_stack_state(stacks, int(turret_properties.get("ammoPerShot", source_turret_defaults.new(source_ssot_catalog).ammo_per_shot_default())), turret_properties.get("ammo", []))
+	return peek_ammo_stack_state(stacks, int(turret_properties.get("ammoPerShot", source_turret_defaults.new(source_ssot_accessor_runtime_state).ammo_per_shot_default())), turret_properties.get("ammo", []))
 
 static func use_turret_ammo_state(turret_properties: Dictionary, stacks: Array, total_ammo: int) -> Dictionary:
-	return use_ammo_stack_state(stacks, total_ammo, int(turret_properties.get("ammoPerShot", source_turret_defaults.new(source_ssot_catalog).ammo_per_shot_default())), turret_properties.get("ammo", []))
+	return use_ammo_stack_state(stacks, total_ammo, int(turret_properties.get("ammoPerShot", source_turret_defaults.new(source_ssot_accessor_runtime_state).ammo_per_shot_default())), turret_properties.get("ammo", []))
 
 static func handle_turret_item_state(_turret_properties: Dictionary, item: Variant, item_is_pyratite: bool, total_ammo: int, ammo_multiplier: float, ammo_type_null: bool, ammo_entries: Array) -> Dictionary:
-	return source_turret_runtime_state.item_turret_build_handle_item_state(item, item_is_pyratite, total_ammo, ammo_multiplier, ammo_type_null, ammo_entries)
+	return item_turret_build_handle_item_state(item, item_is_pyratite, total_ammo, ammo_multiplier, ammo_type_null, ammo_entries)
 
 static func item_turret_build_handle_item_state(item: Variant, item_is_pyratite: bool, total_ammo: int, ammo_multiplier: float, ammo_type_null: bool, ammo_entries: Array) -> Dictionary:
-	return source_turret_runtime_state.item_turret_build_handle_item_state(item, item_is_pyratite, total_ammo, ammo_multiplier, ammo_type_null, ammo_entries)
+	return source_turret_ammo_stack_state.item_turret_build_handle_item_state(item, item_is_pyratite, total_ammo, ammo_multiplier, ammo_type_null, ammo_entries)
 
 static func peek_turret_ammo_state_for_turret(turret, stacks: Array) -> Dictionary:
 	return peek_turret_ammo_state(_properties(turret), stacks)
@@ -101,7 +102,7 @@ static func max_ammo(turret, default_max_ammo: int) -> int:
 	return int(_properties(turret).get("maxAmmo", default_max_ammo))
 
 static func item_turret_build_accept_item_state(item: Variant, total_ammo: int, max_ammo_value: float, ammo_multiplier: float, ammo_type_null: bool) -> Dictionary:
-	return source_turret_runtime_state.item_turret_build_accept_item_state(item, total_ammo, max_ammo_value, ammo_multiplier, ammo_type_null)
+	return source_turret_ammo_stack_state.item_turret_build_accept_item_state(item, total_ammo, max_ammo_value, ammo_multiplier, ammo_type_null)
 
 static func peek_turret_ammo(game, cell: Vector2i, turret) -> Dictionary:
 	if turret == null:
@@ -299,40 +300,20 @@ static func _use_turret_ammo_state_impl(turret, stacks: Array, total_ammo: int) 
 	result["used"] = true
 	return result
 
-static func _ammo_manifest_state(source_owner: String, field: String, comment: String, method: String, assignment_expr: String, objects: Array) -> Dictionary:
-	return {
-		"source_owner": source_owner,
-		"field": field,
-		"comment": comment,
-		"method": method,
-		"assignment_expr": assignment_expr,
-		"objects": objects.duplicate(true),
-		"ammo_types_after": objects.duplicate(true),
-	}
-
 static func liquid_turret_ammo_state(objects: Array) -> Dictionary:
-	return _ammo_manifest_state(source_runtime_owner_registry.PORT_GAME_SOURCE_LIQUID_TURRET_AMMO_STATE, SOURCE_LIQUID_TURRET_AMMO_DATA_AMMO_TYPES_FIELD, SOURCE_TURRET_AMMO_DATA_LIQUID_COMMENT, SOURCE_TURRET_AMMO_DATA_METHOD, SOURCE_TURRET_AMMO_DATA_OBJECT_MAP, objects)
+	return source_turret_ammo_manifest_state.liquid_turret_ammo_state(objects)
 
 static func generated_liquid_turret_ammo_bridge_state(objects: Array) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method(SOURCE_LIQUID_TURRET_GENERATED_CLASS, SOURCE_TURRET_AMMO_GENERATED_METHOD, [objects], null)
-	var canonical = liquid_turret_ammo_state(objects)
-	var matches: bool = source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_LIQUID_TURRET_AMMO_STATE, "generated_owner": "liquid_turret.ammo", "result": result, "canonical": canonical, "matches": matches}
+	return source_turret_ammo_manifest_state.generated_liquid_turret_ammo_bridge_state(objects)
 
 static func item_turret_ammo_state(objects: Array) -> Dictionary:
-	return _ammo_manifest_state(source_runtime_owner_registry.PORT_GAME_SOURCE_ITEM_TURRET_AMMO_STATE, SOURCE_TURRET_AMMO_DATA_AMMO_TYPES_FIELD, SOURCE_TURRET_AMMO_DATA_ITEM_COMMENT, SOURCE_TURRET_AMMO_DATA_METHOD, SOURCE_TURRET_AMMO_DATA_ORDERED_MAP, objects)
+	return source_turret_ammo_manifest_state.item_turret_ammo_state(objects)
 
 static func generated_item_turret_ammo_bridge_state(objects: Array) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method(SOURCE_ITEM_TURRET_GENERATED_CLASS, SOURCE_TURRET_AMMO_GENERATED_METHOD, [objects], null)
-	var canonical = item_turret_ammo_state(objects)
-	var matches: bool = source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_ITEM_TURRET_AMMO_STATE, "generated_owner": "item_turret.ammo", "result": result, "canonical": canonical, "matches": matches}
+	return source_turret_ammo_manifest_state.generated_item_turret_ammo_bridge_state(objects)
 
 static func continuous_liquid_turret_ammo_state(objects: Array) -> Dictionary:
-	return _ammo_manifest_state(source_runtime_owner_registry.PORT_GAME_SOURCE_CONTINUOUS_LIQUID_TURRET_AMMO_STATE, SOURCE_LIQUID_TURRET_AMMO_DATA_AMMO_TYPES_FIELD, SOURCE_TURRET_AMMO_DATA_LIQUID_COMMENT, SOURCE_TURRET_AMMO_DATA_METHOD, SOURCE_TURRET_AMMO_DATA_OBJECT_MAP, objects)
+	return source_turret_ammo_manifest_state.continuous_liquid_turret_ammo_state(objects)
 
 static func generated_continuous_liquid_turret_ammo_bridge_state(objects: Array) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method(SOURCE_CONTINUOUS_LIQUID_TURRET_GENERATED_CLASS, SOURCE_TURRET_AMMO_GENERATED_METHOD, [objects], null)
-	var canonical = continuous_liquid_turret_ammo_state(objects)
-	var matches: bool = source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_CONTINUOUS_LIQUID_TURRET_AMMO_STATE, "generated_owner": "continuous_liquid_turret.ammo", "result": result, "canonical": canonical, "matches": matches}
+	return source_turret_ammo_manifest_state.generated_continuous_liquid_turret_ammo_bridge_state(objects)

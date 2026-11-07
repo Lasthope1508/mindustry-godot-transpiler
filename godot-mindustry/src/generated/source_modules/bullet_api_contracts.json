@@ -1,9 +1,5 @@
 {
   "version": 1,
-  "policy": {
-    "canonicalOwner": "source_api_contracts",
-    "ownerSource": "source_modules/bullet_slices.json"
-  },
   "contracts": {
     "PortGame.source_bullet_ammo_multiplier": {
       "canonical_contract": "source_api_contracts.PortGame.source_bullet_ammo_multiplier",

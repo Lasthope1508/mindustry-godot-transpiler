@@ -3,25 +3,10 @@
   "slices": {
     "N510": {
       "canonical_ledger": "source_slice_ledger.N510",
-      "deferred_exprs": [],
-      "exact_exprs": [
-        "public Vec2 limit(float limit){\n        return limit2(limit * limit);\n    }",
-        "public Vec2 limit2(float limit2){\n        float len2 = len2();\n        if(len2 > limit2){\n            return scl((float)Math.sqrt(limit2 / len2));\n        }\n        return this;\n    }",
-        "public float len2(){\n        return x * x + y * y;\n    }",
-        "public Vec2 scl(float scalar){\n        x *= scalar;\n        y *= scalar;\n        return this;\n    }",
-        "limit * limit",
-        "if(len2 > limit2)",
-        "(float)Math.sqrt(limit2 / len2)",
-        "return this;",
-        "this",
-        "limit"
-      ],
-      "godot_owner": "PortGame.source_arc_vec2_limit",
-      "java_class": "arc.math.geom.Vec2",
-      "java_method": "limit(float limit)",
+      "status": "done",
       "java_source": "arc-core/src/arc/math/geom/Vec2.java",
-      "rule": "Backfills SSOT for existing canonical source_arc_vec2_limit helper against Arc Vec2.limit(float).",
-      "runtime_proof": "/root/Main.source_arc_vec2_limit",
+      "java_method": "limit(float limit)",
+      "godot_owner": "PortGame.source_arc_vec2_limit",
       "source_symbols": [
         "arc_vec2_limit.method",
         "arc_vec2_limit.limit2_method",
@@ -34,34 +19,17 @@
         "arc_vec2_limit.vec_input",
         "arc_vec2_limit.limit_input"
       ],
-      "status": "done",
       "tests": [
         "test_arc_vec2_limit_symbols_are_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_arc_vec2_limit"
     },
     "N833": {
       "canonical_ledger": "source_slice_ledger.N833",
-      "bridge_exprs": [
-        "if(!vec.isZero()){",
-        "rotation = Angles.moveToward(rotation, vec.angle(), type.rotateSpeed * Time.delta * speedMultiplier);",
-        "public static float atan2(float x, final float y){",
-        "public static final float radiansToDegrees = 180f / PI;"
-      ],
-      "deferred_exprs": [
-        "Native Godot atan2 keeps exact public runtime cardinal semantics; Arc approximation internals remain delegated to registered Mathf source.",
-        "Zero-vector rotateMove behavior remains owned by UnitComp.rotateMove non-zero guard."
-      ],
-      "exact_exprs": [
-        "public float angle(){",
-        "float angle = Mathf.atan2(x, y) * Mathf.radiansToDegrees;",
-        "if(angle < 0) angle += 360;",
-        "return angle;"
-      ],
-      "godot_owner": "PortGame.source_unit_vec2_angle",
-      "java_class": "arc.math.geom.Vec2",
-      "java_method": "Vec2.angle()",
+      "status": "done",
       "java_source": "arc-core/src/arc/math/geom/Vec2.java",
-      "runtime_proof": "/root/Main.source_unit_vec2_angle",
+      "java_method": "Vec2.angle()",
+      "godot_owner": "PortGame.source_unit_vec2_angle",
       "source_symbols": [
         "unit_vec2_angle.method",
         "unit_vec2_angle.atan2_expr",
@@ -74,37 +42,19 @@
         "unit_vec2_angle.rotate_move_guard",
         "unit_vec2_angle.rotate_move_angle_call"
       ],
-      "status": "done",
       "tests": [
         "test_unit_vec2_angle_symbols_are_registered_with_source_backing",
         "test_unit_vec2_angle_matches_upstream_source",
         "test_port_game_exposes_source_unit_rotate_move_rotation_state"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_unit_vec2_angle"
     },
     "N837": {
       "canonical_ledger": "source_slice_ledger.N837",
-      "bridge_exprs": [],
-      "deferred_exprs": [
-        "port_game.source_arc_vec2_limit remains the canonical typed Vector2 helper; this owner registers the dictionary wrapper used by bullet update slices."
-      ],
-      "exact_exprs": [
-        "public Vec2 limit(float limit){\n        return limit2(limit * limit);\n    }",
-        "public Vec2 limit2(float limit2){\n        float len2 = len2();\n        if(len2 > limit2){\n            return scl((float)Math.sqrt(limit2 / len2));\n        }\n        return this;\n    }",
-        "public float len2(){\n        return x * x + y * y;\n    }",
-        "public Vec2 scl(float scalar){\n        x *= scalar;\n        y *= scalar;\n        return this;\n    }",
-        "limit * limit",
-        "if(len2 > limit2)",
-        "(float)Math.sqrt(limit2 / len2)",
-        "return this;",
-        "this",
-        "limit"
-      ],
-      "godot_owner": "PortGame.source_vec2_limit",
-      "java_class": "arc.math.geom.Vec2",
-      "java_method": "limit(float limit)",
+      "status": "done",
       "java_source": "arc-core/src/arc/math/geom/Vec2.java",
-      "rule": "Backfills SSOT for existing source_vec2_limit dictionary wrapper against Arc Vec2.limit(float).",
-      "runtime_proof": "/root/Main.source_vec2_limit",
+      "java_method": "limit(float limit)",
+      "godot_owner": "PortGame.source_vec2_limit",
       "source_symbols": [
         "source_vec2_limit.gate",
         "source_vec2_limit.len2_method",
@@ -119,11 +69,11 @@
         "source_vec2_limit.x_result",
         "source_vec2_limit.y_result"
       ],
-      "status": "done",
       "tests": [
         "test_source_vec2_limit_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_bullet_type_update_weaving_circle_shooter_state"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_vec2_limit"
     }
   }
 }

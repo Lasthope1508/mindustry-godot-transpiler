@@ -2,11 +2,12 @@ extends RefCounted
 class_name SourceTurretDefaults
 
 const source_math_defaults := preload("res://src/game/SourceMathDefaults.gd")
+const source_range_defaults := preload("res://src/game/SourceRangeDefaults.gd")
 const LIQUID_AMMO_EPSILON := 0.001
 const RELOAD_DEFAULT := 10.0
 const TARGET_GROUND_DEFAULT := true
 const TARGET_AIR_DEFAULT := true
-const RANGE_DEFAULT := 80.0
+const RANGE_DEFAULT := source_range_defaults.DEFAULT_BLOCK_RANGE
 const LIMIT_RANGE_MARGIN_DEFAULT := 0.0
 const PLACE_OVERLAP_MARGIN_DEFAULT := 56.0
 const FOG_RADIUS_MULTIPLIER_DEFAULT := 1.0

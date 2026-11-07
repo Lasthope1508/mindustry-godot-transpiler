@@ -4,32 +4,51 @@ class_name SourceBlockProducerState
 const source_generated_class_runtime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
 const source_math_defaults := preload("res://src/game/SourceMathDefaults.gd")
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
+const source_block_producer_source_text_state := preload("res://src/game/SourceBlockProducerSourceTextState.gd")
 
-const SOURCE_BLOCK_PRODUCER_SOURCE := "core/src/mindustry/world/blocks/payloads/BlockProducer.java"
-const SOURCE_BLOCK_PRODUCER_CLASS_EXPR := "public abstract class BlockProducer extends PayloadBlock{"
-const SOURCE_BLOCK_PRODUCER_ICONS_METHOD := "public TextureRegion[] icons(){"
-const SOURCE_BLOCK_PRODUCER_ICONS_RETURN_EXPR := "return new TextureRegion[]{region, outRegion, topRegion};"
-const SOURCE_BLOCK_PRODUCER_DRAW_PLAN_REGION_METHOD := "public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){"
-const SOURCE_BLOCK_PRODUCER_DRAW_PLAN_REGION_REGION_EXPR := "Draw.rect(region, plan.drawx(), plan.drawy());"
-const SOURCE_BLOCK_PRODUCER_DRAW_PLAN_REGION_OUT_REGION_EXPR := "Draw.rect(outRegion, plan.drawx(), plan.drawy(), plan.rotation * 90);"
-const SOURCE_BLOCK_PRODUCER_DRAW_PLAN_REGION_TOP_REGION_EXPR := "Draw.rect(topRegion, plan.drawx(), plan.drawy());"
+const SOURCE_BLOCK_PRODUCER_GENERATED_CLASS := source_block_producer_source_text_state.SOURCE_BLOCK_PRODUCER_GENERATED_CLASS
+const SOURCE_BLOCK_PRODUCER_SOURCE := source_block_producer_source_text_state.SOURCE_BLOCK_PRODUCER_SOURCE
+const SOURCE_BLOCK_PRODUCER_CLASS_EXPR := source_block_producer_source_text_state.SOURCE_BLOCK_PRODUCER_CLASS_EXPR
+const SOURCE_BLOCK_PRODUCER_ICONS_METHOD := source_block_producer_source_text_state.SOURCE_BLOCK_PRODUCER_ICONS_METHOD
+const SOURCE_BLOCK_PRODUCER_ICONS_RETURN_EXPR := source_block_producer_source_text_state.SOURCE_BLOCK_PRODUCER_ICONS_RETURN_EXPR
+const SOURCE_BLOCK_PRODUCER_DRAW_PLAN_REGION_METHOD := source_block_producer_source_text_state.SOURCE_BLOCK_PRODUCER_DRAW_PLAN_REGION_METHOD
+const SOURCE_BLOCK_PRODUCER_DRAW_PLAN_REGION_REGION_EXPR := source_block_producer_source_text_state.SOURCE_BLOCK_PRODUCER_DRAW_PLAN_REGION_REGION_EXPR
+const SOURCE_BLOCK_PRODUCER_DRAW_PLAN_REGION_OUT_REGION_EXPR := source_block_producer_source_text_state.SOURCE_BLOCK_PRODUCER_DRAW_PLAN_REGION_OUT_REGION_EXPR
+const SOURCE_BLOCK_PRODUCER_DRAW_PLAN_REGION_TOP_REGION_EXPR := source_block_producer_source_text_state.SOURCE_BLOCK_PRODUCER_DRAW_PLAN_REGION_TOP_REGION_EXPR
 const SOURCE_BLOCK_PRODUCER_DRAW_PLAN_REGION_ROTATION_OFFSET_DEGREES := source_math_defaults.QUARTER_CIRCLE_DEGREES
-const SOURCE_BLOCK_PRODUCER_SET_BARS_METHOD := "public void setBars(){"
-const SOURCE_BLOCK_PRODUCER_SET_BARS_SUPER_EXPR := "super.setBars();"
-const SOURCE_BLOCK_PRODUCER_SET_BARS_ADD_BAR_EXPR := "addBar(\"progress\", (BlockProducerBuild entity) -> new Bar(\"bar.progress\", Pal.ammo, () -> entity.recipe() == null ? 0f : (entity.progress / entity.recipe().buildTime)));"
-const SOURCE_BLOCK_PRODUCER_SET_BARS_PROGRESS_EXPR := "entity.recipe() == null ? 0f : (entity.progress / entity.recipe().buildTime)"
-const SOURCE_BLOCK_PRODUCER_BUILD_CLASS_EXPR := "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{"
-const SOURCE_BLOCK_PRODUCER_BUILD_ACCEPT_ITEM_METHOD := "public boolean acceptItem(Building source, Item item){"
-const SOURCE_BLOCK_PRODUCER_BUILD_ACCEPT_ITEM_RETURN_EXPR := "return items.get(item) < getMaximumAccepted(item);"
-const SOURCE_BLOCK_PRODUCER_BUILD_GET_MAXIMUM_ACCEPTED_METHOD := "public int getMaximumAccepted(Item item){"
-const SOURCE_BLOCK_PRODUCER_BUILD_GET_MAXIMUM_ACCEPTED_NULL_GUARD := "if(recipe() == null) return 0;"
-const SOURCE_BLOCK_PRODUCER_BUILD_GET_MAXIMUM_ACCEPTED_REQUIREMENT_LOOP := "for(ItemStack stack : recipe().requirements){"
-const SOURCE_BLOCK_PRODUCER_BUILD_GET_MAXIMUM_ACCEPTED_MATCH_EXPR := "if(stack.item == item) return stack.amount * 2;"
-const SOURCE_BLOCK_PRODUCER_BUILD_GET_MAXIMUM_ACCEPTED_FINAL_RETURN := "return 0;"
-const SOURCE_BLOCK_PRODUCER_BUILD_ACCEPT_PAYLOAD_METHOD := "public boolean acceptPayload(Building source, Payload payload){"
-const SOURCE_BLOCK_PRODUCER_BUILD_ACCEPT_PAYLOAD_RETURN_EXPR := "return false;"
-const SOURCE_BLOCK_PRODUCER_BUILD_SHOULD_CONSUME_METHOD := "public boolean shouldConsume(){"
-const SOURCE_BLOCK_PRODUCER_BUILD_SHOULD_CONSUME_RETURN_EXPR := "return super.shouldConsume() && recipe() != null;"
+const SOURCE_BLOCK_PRODUCER_SET_BARS_METHOD := source_block_producer_source_text_state.SOURCE_BLOCK_PRODUCER_SET_BARS_METHOD
+const SOURCE_BLOCK_PRODUCER_SET_BARS_SUPER_EXPR := source_block_producer_source_text_state.SOURCE_BLOCK_PRODUCER_SET_BARS_SUPER_EXPR
+const SOURCE_BLOCK_PRODUCER_SET_BARS_ADD_BAR_EXPR := source_block_producer_source_text_state.SOURCE_BLOCK_PRODUCER_SET_BARS_ADD_BAR_EXPR
+const SOURCE_BLOCK_PRODUCER_SET_BARS_PROGRESS_EXPR := source_block_producer_source_text_state.SOURCE_BLOCK_PRODUCER_SET_BARS_PROGRESS_EXPR
+const SOURCE_BLOCK_PRODUCER_BUILD_CLASS_EXPR := source_block_producer_source_text_state.SOURCE_BLOCK_PRODUCER_BUILD_CLASS_EXPR
+const SOURCE_BLOCK_PRODUCER_BUILD_ACCEPT_ITEM_METHOD := source_block_producer_source_text_state.SOURCE_BLOCK_PRODUCER_BUILD_ACCEPT_ITEM_METHOD
+const SOURCE_BLOCK_PRODUCER_ICONS_JAVA_METHOD := source_block_producer_source_text_state.SOURCE_BLOCK_PRODUCER_ICONS_JAVA_METHOD
+const SOURCE_BLOCK_PRODUCER_ICONS_GENERATED_OWNER := source_block_producer_source_text_state.SOURCE_BLOCK_PRODUCER_ICONS_GENERATED_OWNER
+const SOURCE_BLOCK_PRODUCER_DRAW_PLAN_REGION_JAVA_METHOD := source_block_producer_source_text_state.SOURCE_BLOCK_PRODUCER_DRAW_PLAN_REGION_JAVA_METHOD
+const SOURCE_BLOCK_PRODUCER_DRAW_PLAN_REGION_GENERATED_OWNER := source_block_producer_source_text_state.SOURCE_BLOCK_PRODUCER_DRAW_PLAN_REGION_GENERATED_OWNER
+const SOURCE_BLOCK_PRODUCER_SET_BARS_JAVA_METHOD := source_block_producer_source_text_state.SOURCE_BLOCK_PRODUCER_SET_BARS_JAVA_METHOD
+const SOURCE_BLOCK_PRODUCER_SET_BARS_GENERATED_OWNER := source_block_producer_source_text_state.SOURCE_BLOCK_PRODUCER_SET_BARS_GENERATED_OWNER
+const SOURCE_BLOCK_PRODUCER_BUILD_ACCEPT_ITEM_JAVA_METHOD := source_block_producer_source_text_state.SOURCE_BLOCK_PRODUCER_BUILD_ACCEPT_ITEM_JAVA_METHOD
+const SOURCE_BLOCK_PRODUCER_BUILD_ACCEPT_ITEM_GENERATED_OWNER := source_block_producer_source_text_state.SOURCE_BLOCK_PRODUCER_BUILD_ACCEPT_ITEM_GENERATED_OWNER
+const SOURCE_BLOCK_PRODUCER_BUILD_ACCEPT_ITEM_RETURN_EXPR := source_block_producer_source_text_state.SOURCE_BLOCK_PRODUCER_BUILD_ACCEPT_ITEM_RETURN_EXPR
+const SOURCE_BLOCK_PRODUCER_BUILD_GET_MAXIMUM_ACCEPTED_METHOD := source_block_producer_source_text_state.SOURCE_BLOCK_PRODUCER_BUILD_GET_MAXIMUM_ACCEPTED_METHOD
+const SOURCE_BLOCK_PRODUCER_BUILD_GET_MAXIMUM_ACCEPTED_JAVA_METHOD := source_block_producer_source_text_state.SOURCE_BLOCK_PRODUCER_BUILD_GET_MAXIMUM_ACCEPTED_JAVA_METHOD
+const SOURCE_BLOCK_PRODUCER_BUILD_GET_MAXIMUM_ACCEPTED_GENERATED_OWNER := source_block_producer_source_text_state.SOURCE_BLOCK_PRODUCER_BUILD_GET_MAXIMUM_ACCEPTED_GENERATED_OWNER
+const SOURCE_BLOCK_PRODUCER_BUILD_GET_MAXIMUM_ACCEPTED_NULL_GUARD := source_block_producer_source_text_state.SOURCE_BLOCK_PRODUCER_BUILD_GET_MAXIMUM_ACCEPTED_NULL_GUARD
+const SOURCE_BLOCK_PRODUCER_BUILD_GET_MAXIMUM_ACCEPTED_REQUIREMENT_LOOP := source_block_producer_source_text_state.SOURCE_BLOCK_PRODUCER_BUILD_GET_MAXIMUM_ACCEPTED_REQUIREMENT_LOOP
+const SOURCE_BLOCK_PRODUCER_BUILD_GET_MAXIMUM_ACCEPTED_MATCH_EXPR := source_block_producer_source_text_state.SOURCE_BLOCK_PRODUCER_BUILD_GET_MAXIMUM_ACCEPTED_MATCH_EXPR
+const SOURCE_BLOCK_PRODUCER_BUILD_GET_MAXIMUM_ACCEPTED_FINAL_RETURN := source_block_producer_source_text_state.SOURCE_BLOCK_PRODUCER_BUILD_GET_MAXIMUM_ACCEPTED_FINAL_RETURN
+const SOURCE_BLOCK_PRODUCER_BUILD_ACCEPT_PAYLOAD_METHOD := source_block_producer_source_text_state.SOURCE_BLOCK_PRODUCER_BUILD_ACCEPT_PAYLOAD_METHOD
+const SOURCE_BLOCK_PRODUCER_BUILD_ACCEPT_PAYLOAD_JAVA_METHOD := source_block_producer_source_text_state.SOURCE_BLOCK_PRODUCER_BUILD_ACCEPT_PAYLOAD_JAVA_METHOD
+const SOURCE_BLOCK_PRODUCER_BUILD_ACCEPT_PAYLOAD_GENERATED_OWNER := source_block_producer_source_text_state.SOURCE_BLOCK_PRODUCER_BUILD_ACCEPT_PAYLOAD_GENERATED_OWNER
+const SOURCE_BLOCK_PRODUCER_BUILD_ACCEPT_PAYLOAD_RETURN_EXPR := source_block_producer_source_text_state.SOURCE_BLOCK_PRODUCER_BUILD_ACCEPT_PAYLOAD_RETURN_EXPR
+const SOURCE_BLOCK_PRODUCER_BUILD_SHOULD_CONSUME_METHOD := source_block_producer_source_text_state.SOURCE_BLOCK_PRODUCER_BUILD_SHOULD_CONSUME_METHOD
+const SOURCE_BLOCK_PRODUCER_BUILD_SHOULD_CONSUME_JAVA_METHOD := source_block_producer_source_text_state.SOURCE_BLOCK_PRODUCER_BUILD_SHOULD_CONSUME_JAVA_METHOD
+const SOURCE_BLOCK_PRODUCER_BUILD_SHOULD_CONSUME_GENERATED_OWNER := source_block_producer_source_text_state.SOURCE_BLOCK_PRODUCER_BUILD_SHOULD_CONSUME_GENERATED_OWNER
+const SOURCE_BLOCK_PRODUCER_BUILD_SHOULD_CONSUME_RETURN_EXPR := source_block_producer_source_text_state.SOURCE_BLOCK_PRODUCER_BUILD_SHOULD_CONSUME_RETURN_EXPR
+
+static func _block_producer_call(generated_method: String, generated_args: Array) -> Variant:
+	return source_generated_class_runtime.call_java_method(SOURCE_BLOCK_PRODUCER_GENERATED_CLASS, generated_method, generated_args, null)
 
 static func icons_state(region: Variant, out_region: Variant, top_region: Variant) -> Dictionary:
 	var icons: Array = [region, out_region, top_region]
@@ -72,43 +91,43 @@ static func build_should_consume_state(super_should_consume: bool, recipe_null: 
 	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_PRODUCER_BUILD_SHOULD_CONSUME_STATE, "source": SOURCE_BLOCK_PRODUCER_SOURCE, "inner_class": SOURCE_BLOCK_PRODUCER_BUILD_CLASS_EXPR, "override_expr": "@Override", "method": SOURCE_BLOCK_PRODUCER_BUILD_SHOULD_CONSUME_METHOD, "return_expr": SOURCE_BLOCK_PRODUCER_BUILD_SHOULD_CONSUME_RETURN_EXPR, "super_should_consume": super_should_consume, "recipe_null": recipe_null, "should_consume": should_consume}
 
 static func generated_block_producer_icons_bridge_state(region: Variant, out_region: Variant, top_region: Variant) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd", "java_method_icons_0", [region, out_region, top_region], null)
+	var result = _block_producer_call(SOURCE_BLOCK_PRODUCER_ICONS_JAVA_METHOD, [region, out_region, top_region])
 	var canonical = icons_state(region, out_region, top_region)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_PRODUCER_ICONS_STATE, "generated_owner": "block_producer.java_method_icons_0", "result": result, "canonical": canonical, "matches": matches}
+	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_PRODUCER_ICONS_STATE, "generated_owner": SOURCE_BLOCK_PRODUCER_ICONS_GENERATED_OWNER, "result": result, "canonical": canonical, "matches": matches}
 
 static func generated_block_producer_draw_plan_region_bridge_state(region: Variant, out_region: Variant, top_region: Variant, plan_drawx: float, plan_drawy: float, plan_rotation: float) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd", "java_method_drawPlanRegion_1", [region, out_region, top_region, plan_drawx, plan_drawy, plan_rotation], null)
+	var result = _block_producer_call(SOURCE_BLOCK_PRODUCER_DRAW_PLAN_REGION_JAVA_METHOD, [region, out_region, top_region, plan_drawx, plan_drawy, plan_rotation])
 	var canonical = draw_plan_region_state(region, out_region, top_region, plan_drawx, plan_drawy, plan_rotation)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_PRODUCER_DRAW_PLAN_REGION_STATE, "generated_owner": "block_producer.java_method_drawPlanRegion_1", "result": result, "canonical": canonical, "matches": matches}
+	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_PRODUCER_DRAW_PLAN_REGION_STATE, "generated_owner": SOURCE_BLOCK_PRODUCER_DRAW_PLAN_REGION_GENERATED_OWNER, "result": result, "canonical": canonical, "matches": matches}
 
 static func generated_block_producer_set_bars_bridge_state(recipe_null: bool, entity_progress: float, recipe_build_time: float) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd", "java_method_setBars_2", [recipe_null, entity_progress, recipe_build_time], null)
+	var result = _block_producer_call(SOURCE_BLOCK_PRODUCER_SET_BARS_JAVA_METHOD, [recipe_null, entity_progress, recipe_build_time])
 	var canonical = set_bars_state(recipe_null, entity_progress, recipe_build_time)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_PRODUCER_SET_BARS_STATE, "generated_owner": "block_producer.java_method_setBars_2", "result": result, "canonical": canonical, "matches": matches}
+	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_PRODUCER_SET_BARS_STATE, "generated_owner": SOURCE_BLOCK_PRODUCER_SET_BARS_GENERATED_OWNER, "result": result, "canonical": canonical, "matches": matches}
 
 static func generated_block_producer_build_accept_item_bridge_state(source_building: Variant, item: Variant, item_count: int, maximum_accepted: int) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd", "java_inner_class_BlockProducerBuild_method_acceptItem_1", [source_building, item, item_count, maximum_accepted], null)
+	var result = _block_producer_call(SOURCE_BLOCK_PRODUCER_BUILD_ACCEPT_ITEM_JAVA_METHOD, [source_building, item, item_count, maximum_accepted])
 	var canonical = build_accept_item_state(source_building, item, item_count, maximum_accepted)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_PRODUCER_BUILD_ACCEPT_ITEM_STATE, "generated_owner": "block_producer.BlockProducerBuild.acceptItem", "result": result, "canonical": canonical, "matches": matches}
+	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_PRODUCER_BUILD_ACCEPT_ITEM_STATE, "generated_owner": SOURCE_BLOCK_PRODUCER_BUILD_ACCEPT_ITEM_GENERATED_OWNER, "result": result, "canonical": canonical, "matches": matches}
 
 static func generated_block_producer_build_get_maximum_accepted_bridge_state(item: Variant, recipe_null: bool, requirements: Array) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd", "java_inner_class_BlockProducerBuild_method_getMaximumAccepted_2", [item, recipe_null, requirements], null)
+	var result = _block_producer_call(SOURCE_BLOCK_PRODUCER_BUILD_GET_MAXIMUM_ACCEPTED_JAVA_METHOD, [item, recipe_null, requirements])
 	var canonical = build_get_maximum_accepted_state(item, recipe_null, requirements)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_PRODUCER_BUILD_GET_MAXIMUM_ACCEPTED_STATE, "generated_owner": "block_producer.BlockProducerBuild.getMaximumAccepted", "result": result, "canonical": canonical, "matches": matches}
+	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_PRODUCER_BUILD_GET_MAXIMUM_ACCEPTED_STATE, "generated_owner": SOURCE_BLOCK_PRODUCER_BUILD_GET_MAXIMUM_ACCEPTED_GENERATED_OWNER, "result": result, "canonical": canonical, "matches": matches}
 
 static func generated_block_producer_build_accept_payload_bridge_state(source_building: Variant, payload: Variant) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd", "java_inner_class_BlockProducerBuild_method_acceptPayload_3", [source_building, payload], null)
+	var result = _block_producer_call(SOURCE_BLOCK_PRODUCER_BUILD_ACCEPT_PAYLOAD_JAVA_METHOD, [source_building, payload])
 	var canonical = build_accept_payload_state(source_building, payload)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_PRODUCER_BUILD_ACCEPT_PAYLOAD_STATE, "generated_owner": "block_producer.BlockProducerBuild.acceptPayload", "result": result, "canonical": canonical, "matches": matches}
+	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_PRODUCER_BUILD_ACCEPT_PAYLOAD_STATE, "generated_owner": SOURCE_BLOCK_PRODUCER_BUILD_ACCEPT_PAYLOAD_GENERATED_OWNER, "result": result, "canonical": canonical, "matches": matches}
 
 static func generated_block_producer_build_should_consume_bridge_state(super_should_consume: bool, recipe_null: bool) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd", "java_inner_class_BlockProducerBuild_method_shouldConsume_4", [super_should_consume, recipe_null], null)
+	var result = _block_producer_call(SOURCE_BLOCK_PRODUCER_BUILD_SHOULD_CONSUME_JAVA_METHOD, [super_should_consume, recipe_null])
 	var canonical = build_should_consume_state(super_should_consume, recipe_null)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_PRODUCER_BUILD_SHOULD_CONSUME_STATE, "generated_owner": "block_producer.BlockProducerBuild.shouldConsume", "result": result, "canonical": canonical, "matches": matches}
+	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_PRODUCER_BUILD_SHOULD_CONSUME_STATE, "generated_owner": SOURCE_BLOCK_PRODUCER_BUILD_SHOULD_CONSUME_GENERATED_OWNER, "result": result, "canonical": canonical, "matches": matches}

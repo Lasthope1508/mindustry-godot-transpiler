@@ -2,8 +2,9 @@ extends Node
 
 const PortGameScript := preload("res://src/game/PortGame.gd")
 const source_item_turret_init_state := preload("res://src/game/SourceItemTurretInitState.gd")
-const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const source_ssot_accessor_runtime_state := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
 const source_turret_range_state := preload("res://src/game/SourceTurretRangeState.gd")
+const runtime_proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")
 
 
 func _ready() -> void:
@@ -18,7 +19,7 @@ func _ready() -> void:
 	var item_entries_bridge := game.generated_item_turret_limit_range_entries_bridge_state(7.0, [{"value": {"id": "copper"}}])
 	var item_init_bridge := game.generated_item_turret_init_ground_overlap_bridge_state(true, 0.0, 70.0, 3.0, [{"value": {"id": "graphite", "rangeChange": 8.0}}])
 	var item_init_default_bridge := game.generated_item_turret_init_ground_overlap_default_bridge_state()
-	var registry_state := source_ssot_catalog.canonical_headquarter_registry_state()
+	var registry_state := source_ssot_accessor_runtime_state.canonical_headquarter_registry_state()
 	var proof := {
 		"module": "SourceTurretRangeState",
 		"range_matches": range_state.get("bullet_lifetime", null) == 57.5,
@@ -37,12 +38,9 @@ func _ready() -> void:
 	}
 	proof["module_matches"] = proof["range_matches"] and proof["game_limit_range_matches"] and proof["game_generated_bridge_matches"] and proof["power_matches"] and proof["item_default_matches"] and proof["item_entries_matches"] and proof["item_default_bridge_matches"] and proof["item_entries_bridge_matches"] and proof["item_init_bridge_matches"] and proof["item_init_default_bridge_matches"]
 	proof["matches"] = proof["module_matches"] and proof["one_headquarter_per_ssot"] and proof["registry_valid"]
-	var proof_json := JSON.stringify(proof)
-	print("TURRET_RANGE_MODULE_PROOF " + proof_json)
-	var proof_path := ProjectSettings.globalize_path("res://tools/runtime_proofs/TurretRangeModuleProof.json")
-	var proof_file := FileAccess.open(proof_path, FileAccess.WRITE)
-	if proof_file != null:
-		proof_file.store_string(proof_json)
+	print("TURRET_RANGE_MODULE_PROOF " + JSON.stringify(proof))
+	runtime_proof_state.write_proof("TurretRangeModuleProof", proof)
 	game.free()
-	await get_tree().create_timer(60.0).timeout
-	get_tree().quit(0)
+	await get_tree().process_frame
+	get_tree().quit(runtime_proof_state.exit_code(proof))
+

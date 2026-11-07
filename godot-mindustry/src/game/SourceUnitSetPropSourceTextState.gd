@@ -1,0 +1,20 @@
+extends RefCounted
+class_name SourceUnitSetPropSourceTextState
+
+const SOURCE_UNIT_SET_PROP_SOURCE := "core/src/mindustry/entities/comp/UnitComp.java"
+const SOURCE_UNIT_SET_PROP_LACCESS_DOUBLE_METHOD := "public void setProp(LAccess prop, double value){"
+const SOURCE_UNIT_SET_PROP_LACCESS_DOUBLE_GENERATED_METHOD := "java_method_setProp_34"
+const SOURCE_UNIT_SET_PROP_LACCESS_DOUBLE_GENERATED_OWNER := "UnitComp.java_method_setProp_34"
+const SOURCE_UNIT_SET_PROP_LACCESS_OBJECT_METHOD := "public void setProp(LAccess prop, Object value){"
+const SOURCE_UNIT_SET_PROP_LACCESS_OBJECT_GENERATED_METHOD := "java_method_setProp_35"
+const SOURCE_UNIT_SET_PROP_LACCESS_OBJECT_GENERATED_OWNER := "UnitComp.java_method_setProp_35"
+const SOURCE_UNIT_SET_PROP_CONTENT_METHOD := "public void setProp(UnlockableContent content, double value){"
+const SOURCE_UNIT_SET_PROP_CONTENT_GENERATED_METHOD := "java_method_setProp_36"
+const SOURCE_UNIT_SET_PROP_CONTENT_GENERATED_OWNER := "UnitComp.java_method_setProp_36"
+const SOURCE_UNIT_SET_PROP_SWITCH_EXPR := "switch(prop){"
+const SOURCE_UNIT_SET_PROP_HEALTH_CASE := "case health -> {"
+const SOURCE_UNIT_SET_PROP_SHIELD_CASE := "case shield -> shield = Math.max((float)value, 0f);"
+const SOURCE_UNIT_SET_PROP_VELOCITY_X_CASE := "case velocityX -> vel.x = (float)(value * tilesize / 60d);"
+const SOURCE_UNIT_SET_PROP_TEAM_CASE := "case team -> {"
+const SOURCE_UNIT_SET_PROP_PAYLOAD_TYPE_CASE := "case payloadType -> {"
+const SOURCE_UNIT_SET_PROP_ITEM_CASE := "if(content instanceof Item item){"

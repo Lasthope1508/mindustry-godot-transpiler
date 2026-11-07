@@ -1,9 +1,10 @@
 extends Node
 
+const runtime_proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")
 const PortGameScript := preload("res://src/game/PortGame.gd")
 const source_projector_boost_state := preload("res://src/game/SourceProjectorBoostState.gd")
 const source_placed_block_state := preload("res://src/game/SourcePlacedBlockState.gd")
-const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const source_ssot_accessor_runtime_state := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
 const source_world_grid := preload("res://src/game/SourceWorldGrid.gd")
 
 func _ready() -> void:
@@ -22,7 +23,7 @@ func _ready() -> void:
 	var overdrive_optional_efficiency: Dictionary = {}
 	var mend_applied := source_projector_boost_state.apply_projector_boost_at_cell(game, 3, 4, source_projector_boost_state.PROJECTOR_KIND_MEND, mend_booster_items, mend_optional_efficiency)
 	var overdrive_applied := source_projector_boost_state.apply_projector_boost_at_cell(game, 7, 8, source_projector_boost_state.PROJECTOR_KIND_OVERDRIVE, overdrive_booster_items, overdrive_optional_efficiency)
-	var registry_state := source_ssot_catalog.canonical_headquarter_registry_state()
+	var registry_state := source_ssot_accessor_runtime_state.canonical_headquarter_registry_state()
 	var proof := {
 		"module": "PROJECTOR_BOOST_RUNTIME_MODULE_PROOF",
 		"mend_applied": mend_applied,
@@ -36,15 +37,11 @@ func _ready() -> void:
 		"registry_valid": bool(registry_state.get("errors", []).is_empty()),
 	}
 	proof["matches"] = proof["mend_applied"] and proof["overdrive_applied"] and proof["mend_stock_consumed"] and proof["mend_booster_stock"] == 1 and proof["overdrive_booster_stock"] == 1 and proof["one_headquarter_per_ssot"] and proof["registry_valid"]
-	var proof_json := JSON.stringify(proof)
-	print("PROJECTOR_BOOST_RUNTIME_MODULE_PROOF " + proof_json)
-	var proof_path := ProjectSettings.globalize_path("res://tools/runtime_proofs/ProjectorBoostRuntimeModuleProof.json")
-	var proof_file := FileAccess.open(proof_path, FileAccess.WRITE)
-	if proof_file != null:
-		proof_file.store_string(proof_json)
+	print("PROJECTOR_BOOST_RUNTIME_MODULE_PROOF " + JSON.stringify(proof))
+	runtime_proof_state.write_proof("ProjectorBoostRuntimeModuleProof", proof)
 	game.free()
-	await get_tree().create_timer(60.0).timeout
-	get_tree().quit(0)
+	await get_tree().process_frame
+	get_tree().quit(runtime_proof_state.exit_code(proof))
 
 func _projector_sprite(game: Node, cell: Vector2i, block_id: String) -> Sprite2D:
 	var sprite := Sprite2D.new()
@@ -53,3 +50,4 @@ func _projector_sprite(game: Node, cell: Vector2i, block_id: String) -> Sprite2D
 	sprite.set_meta(source_placed_block_state.SOURCE_BLOCK_CELL_KEY_META_KEY, source_world_grid.cell_key(cell))
 	game.placed_blocks[game.cell_key(cell)] = sprite
 	return sprite
+

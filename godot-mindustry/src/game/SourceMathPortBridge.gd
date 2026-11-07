@@ -1,4 +1,4 @@
-extends "res://src/game/SourceBuildingDrawPortBridge.gd"
+extends "res://src/game/SourceBuildingAccessPortBridge.gd"
 
 const source_math_state := preload("res://src/game/SourceMathState.gd")
 

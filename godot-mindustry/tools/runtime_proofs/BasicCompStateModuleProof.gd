@@ -1,8 +1,9 @@
 extends Node
 
 const PortGameScript := preload("res://src/game/PortGame.gd")
+const runtime_proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")
 const source_basic_comp_state := preload("res://src/game/SourceBasicCompState.gd")
-const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const source_ssot_accessor_runtime_state := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
 
 func _ready() -> void:
 	var game := PortGameScript.new()
@@ -10,7 +11,7 @@ func _ready() -> void:
 	var shielder_absorb_state := source_basic_comp_state.shielder_absorb_state()
 	var pos_set_bridge := game.generated_pos_comp_set_bridge_state(12.0, 34.0)
 	var shielder_absorb_bridge := game.generated_shielder_comp_absorb_bridge_state()
-	var registry_state := source_ssot_catalog.canonical_headquarter_registry_state()
+	var registry_state := source_ssot_accessor_runtime_state.canonical_headquarter_registry_state()
 	var proof := {
 		"module": "BASIC_COMP_STATE_MODULE_PROOF",
 		"pos_set_state": pos_set_state,
@@ -23,12 +24,8 @@ func _ready() -> void:
 		"one_headquarter_per_ssot": bool(registry_state.get("one_headquarter_per_ssot", false)),
 	}
 	proof["matches"] = proof["pos_set_bridge_matches"] and proof["shielder_absorb_bridge_matches"] and proof["one_headquarter_per_ssot"] and proof["registry_valid"]
-	var proof_json := JSON.stringify(proof)
-	print("BASIC_COMP_STATE_MODULE_PROOF " + proof_json)
-	var proof_path := ProjectSettings.globalize_path("res://tools/runtime_proofs/BasicCompStateModuleProof.json")
-	var proof_file := FileAccess.open(proof_path, FileAccess.WRITE)
-	if proof_file != null:
-		proof_file.store_string(proof_json)
+	runtime_proof_state.write_proof("BasicCompStateModuleProof", proof)
 	game.free()
-	await get_tree().create_timer(60.0).timeout
-	get_tree().quit(0)
+	await get_tree().process_frame
+	get_tree().quit(runtime_proof_state.exit_code(proof))
+

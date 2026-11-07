@@ -1,8 +1,9 @@
 extends Node
 
 const PortGameScript := preload("res://src/game/PortGame.gd")
+const runtime_proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")
 const source_game_loop_runtime_state := preload("res://src/game/SourceGameLoopRuntimeState.gd")
-const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const source_ssot_accessor_runtime_state := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
 
 class FakeTimeRuntime:
 	extends RefCounted
@@ -78,7 +79,7 @@ func _ready() -> void:
 		if call_entry == ["apply_world_viewport_fit"]:
 			continue
 		filtered_calls.append(call_entry)
-	var registry_state := source_ssot_catalog.canonical_headquarter_registry_state()
+	var registry_state := source_ssot_accessor_runtime_state.canonical_headquarter_registry_state()
 	var proof := {
 		"module": "SourceGameLoopRuntimeState",
 		"ready_order_matches": game.calls.slice(0, 7) == expected_calls_no_viewport.slice(0, 7),
@@ -89,11 +90,7 @@ func _ready() -> void:
 		"registry_valid": bool(registry_state.get("errors", []).is_empty()),
 	}
 	proof["matches"] = proof["ready_order_matches"] and proof["tick_order_matches"] and proof["viewport_fit_deferred_matches"] and proof["time_runtime_updated"] and proof["one_headquarter_per_ssot"] and proof["registry_valid"]
-	var proof_json := JSON.stringify(proof)
-	print("GAME_LOOP_RUNTIME_STATE_MODULE_PROOF " + proof_json)
-	var proof_path := ProjectSettings.globalize_path("res://tools/runtime_proofs/GameLoopRuntimeStateModuleProof.json")
-	var proof_file := FileAccess.open(proof_path, FileAccess.WRITE)
-	if proof_file != null:
-		proof_file.store_string(proof_json)
-	await get_tree().create_timer(60.0).timeout
-	get_tree().quit(0)
+	runtime_proof_state.write_proof("GameLoopRuntimeStateModuleProof", proof)
+	await get_tree().process_frame
+	get_tree().quit(runtime_proof_state.exit_code(proof))
+

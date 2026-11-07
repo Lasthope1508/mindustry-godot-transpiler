@@ -1,6 +1,58 @@
 {
   "version": 1,
   "items": {
+    "beryllium": {
+      "canonical_item": "content_registry.items.beryllium",
+      "color": "3a8f64",
+      "field": "beryllium",
+      "id": "beryllium",
+      "implementation": "Item",
+      "properties": {
+        "cost": 1.2,
+        "hardness": 3,
+        "healthScaling": 0.6
+      },
+      "texture": "res://assets/core/assets-raw/sprites/items/item-beryllium.png"
+    },
+    "blast-compound": {
+      "canonical_item": "content_registry.items.blast-compound",
+      "color": "ff795e",
+      "field": "blastCompound",
+      "id": "blast-compound",
+      "implementation": "Item",
+      "properties": {
+        "buildable": false,
+        "explosiveness": 1.2,
+        "flammability": 0.4
+      },
+      "texture": "res://assets/core/assets-raw/sprites/items/item-blast-compound.png"
+    },
+    "carbide": {
+      "canonical_item": "content_registry.items.carbide",
+      "color": "89769a",
+      "field": "carbide",
+      "id": "carbide",
+      "implementation": "Item",
+      "properties": {
+        "cost": 1.4,
+        "healthScaling": 1.1
+      },
+      "texture": "res://assets/core/assets-raw/sprites/items/item-carbide.png"
+    },
+    "coal": {
+      "canonical_item": "content_registry.items.coal",
+      "color": "272727",
+      "field": "coal",
+      "id": "coal",
+      "implementation": "Item",
+      "properties": {
+        "buildable": false,
+        "explosiveness": 0.2,
+        "flammability": 1,
+        "hardness": 2
+      },
+      "texture": "res://assets/core/assets-raw/sprites/items/item-coal.png"
+    },
     "copper": {
       "canonical_item": "content_registry.items.copper",
       "color": "d99d73",
@@ -13,6 +65,41 @@
         "hardness": 1
       },
       "texture": "res://assets/core/assets-raw/sprites/items/item-copper.png"
+    },
+    "dormant-cyst": {
+      "canonical_item": "content_registry.items.dormant-cyst",
+      "color": "df824d",
+      "field": "dormantCyst",
+      "id": "dormant-cyst",
+      "implementation": "Item",
+      "properties": {
+        "flammability": 0.1,
+        "hidden": true
+      },
+      "texture": "res://assets/core/assets-raw/sprites/items/item-dormant-cyst.png"
+    },
+    "fissile-matter": {
+      "canonical_item": "content_registry.items.fissile-matter",
+      "color": "5e988d",
+      "field": "fissileMatter",
+      "id": "fissile-matter",
+      "implementation": "Item",
+      "properties": {
+        "hidden": true,
+        "radioactivity": 1.5
+      },
+      "texture": "res://assets/core/assets-raw/sprites/items/item-fissile-matter.png"
+    },
+    "graphite": {
+      "canonical_item": "content_registry.items.graphite",
+      "color": "b2c6d2",
+      "field": "graphite",
+      "id": "graphite",
+      "implementation": "Item",
+      "properties": {
+        "cost": 1
+      },
+      "texture": "res://assets/core/assets-raw/sprites/items/item-graphite.png"
     },
     "lead": {
       "canonical_item": "content_registry.items.lead",
@@ -37,16 +124,57 @@
       },
       "texture": "res://assets/core/assets-raw/sprites/items/item-metaglass.png"
     },
-    "graphite": {
-      "canonical_item": "content_registry.items.graphite",
-      "color": "b2c6d2",
-      "field": "graphite",
-      "id": "graphite",
+    "oxide": {
+      "canonical_item": "content_registry.items.oxide",
+      "color": "e4ffd6",
+      "field": "oxide",
+      "id": "oxide",
       "implementation": "Item",
       "properties": {
-        "cost": 1
+        "cost": 1.2,
+        "healthScaling": 0.5
       },
-      "texture": "res://assets/core/assets-raw/sprites/items/item-graphite.png"
+      "texture": "res://assets/core/assets-raw/sprites/items/item-oxide.png"
+    },
+    "phase-fabric": {
+      "canonical_item": "content_registry.items.phase-fabric",
+      "color": "f4ba6e",
+      "field": "phaseFabric",
+      "id": "phase-fabric",
+      "implementation": "Item",
+      "properties": {
+        "cost": 1.3,
+        "healthScaling": 0.25,
+        "radioactivity": 0.6
+      },
+      "texture": "res://assets/core/assets-raw/sprites/items/item-phase-fabric.png"
+    },
+    "plastanium": {
+      "canonical_item": "content_registry.items.plastanium",
+      "color": "cbd97f",
+      "field": "plastanium",
+      "id": "plastanium",
+      "implementation": "Item",
+      "properties": {
+        "cost": 1.3,
+        "explosiveness": 0.2,
+        "flammability": 0.1,
+        "healthScaling": 0.1
+      },
+      "texture": "res://assets/core/assets-raw/sprites/items/item-plastanium.png"
+    },
+    "pyratite": {
+      "canonical_item": "content_registry.items.pyratite",
+      "color": "ffaa5f",
+      "field": "pyratite",
+      "id": "pyratite",
+      "implementation": "Item",
+      "properties": {
+        "buildable": false,
+        "explosiveness": 0.4,
+        "flammability": 1.4
+      },
+      "texture": "res://assets/core/assets-raw/sprites/items/item-pyratite.png"
     },
     "sand": {
       "canonical_item": "content_registry.items.sand",
@@ -60,47 +188,6 @@
         "lowPriority": true
       },
       "texture": "res://assets/core/assets-raw/sprites/items/item-sand.png"
-    },
-    "coal": {
-      "canonical_item": "content_registry.items.coal",
-      "color": "272727",
-      "field": "coal",
-      "id": "coal",
-      "implementation": "Item",
-      "properties": {
-        "buildable": false,
-        "explosiveness": 0.2,
-        "flammability": 1,
-        "hardness": 2
-      },
-      "texture": "res://assets/core/assets-raw/sprites/items/item-coal.png"
-    },
-    "titanium": {
-      "canonical_item": "content_registry.items.titanium",
-      "color": "8da1e3",
-      "field": "titanium",
-      "id": "titanium",
-      "implementation": "Item",
-      "properties": {
-        "cost": 1,
-        "hardness": 3
-      },
-      "texture": "res://assets/core/assets-raw/sprites/items/item-titanium.png"
-    },
-    "thorium": {
-      "canonical_item": "content_registry.items.thorium",
-      "color": "f9a3c7",
-      "field": "thorium",
-      "id": "thorium",
-      "implementation": "Item",
-      "properties": {
-        "cost": 1.1,
-        "explosiveness": 0.2,
-        "hardness": 4,
-        "healthScaling": 0.2,
-        "radioactivity": 1
-      },
-      "texture": "res://assets/core/assets-raw/sprites/items/item-thorium.png"
     },
     "scrap": {
       "canonical_item": "content_registry.items.scrap",
@@ -124,32 +211,17 @@
       },
       "texture": "res://assets/core/assets-raw/sprites/items/item-silicon.png"
     },
-    "plastanium": {
-      "canonical_item": "content_registry.items.plastanium",
-      "color": "cbd97f",
-      "field": "plastanium",
-      "id": "plastanium",
+    "spore-pod": {
+      "canonical_item": "content_registry.items.spore-pod",
+      "color": "7457ce",
+      "field": "sporePod",
+      "id": "spore-pod",
       "implementation": "Item",
       "properties": {
-        "cost": 1.3,
-        "explosiveness": 0.2,
-        "flammability": 0.1,
-        "healthScaling": 0.1
+        "buildable": false,
+        "flammability": 1.15
       },
-      "texture": "res://assets/core/assets-raw/sprites/items/item-plastanium.png"
-    },
-    "phase-fabric": {
-      "canonical_item": "content_registry.items.phase-fabric",
-      "color": "f4ba6e",
-      "field": "phaseFabric",
-      "id": "phase-fabric",
-      "implementation": "Item",
-      "properties": {
-        "cost": 1.3,
-        "healthScaling": 0.25,
-        "radioactivity": 0.6
-      },
-      "texture": "res://assets/core/assets-raw/sprites/items/item-phase-fabric.png"
+      "texture": "res://assets/core/assets-raw/sprites/items/item-spore-pod.png"
     },
     "surge-alloy": {
       "canonical_item": "content_registry.items.surge-alloy",
@@ -164,56 +236,32 @@
       },
       "texture": "res://assets/core/assets-raw/sprites/items/item-surge-alloy.png"
     },
-    "spore-pod": {
-      "canonical_item": "content_registry.items.spore-pod",
-      "color": "7457ce",
-      "field": "sporePod",
-      "id": "spore-pod",
+    "thorium": {
+      "canonical_item": "content_registry.items.thorium",
+      "color": "f9a3c7",
+      "field": "thorium",
+      "id": "thorium",
       "implementation": "Item",
       "properties": {
-        "buildable": false,
-        "flammability": 1.15
+        "cost": 1.1,
+        "explosiveness": 0.2,
+        "hardness": 4,
+        "healthScaling": 0.2,
+        "radioactivity": 1
       },
-      "texture": "res://assets/core/assets-raw/sprites/items/item-spore-pod.png"
+      "texture": "res://assets/core/assets-raw/sprites/items/item-thorium.png"
     },
-    "blast-compound": {
-      "canonical_item": "content_registry.items.blast-compound",
-      "color": "ff795e",
-      "field": "blastCompound",
-      "id": "blast-compound",
+    "titanium": {
+      "canonical_item": "content_registry.items.titanium",
+      "color": "8da1e3",
+      "field": "titanium",
+      "id": "titanium",
       "implementation": "Item",
       "properties": {
-        "buildable": false,
-        "explosiveness": 1.2,
-        "flammability": 0.4
+        "cost": 1,
+        "hardness": 3
       },
-      "texture": "res://assets/core/assets-raw/sprites/items/item-blast-compound.png"
-    },
-    "pyratite": {
-      "canonical_item": "content_registry.items.pyratite",
-      "color": "ffaa5f",
-      "field": "pyratite",
-      "id": "pyratite",
-      "implementation": "Item",
-      "properties": {
-        "buildable": false,
-        "explosiveness": 0.4,
-        "flammability": 1.4
-      },
-      "texture": "res://assets/core/assets-raw/sprites/items/item-pyratite.png"
-    },
-    "beryllium": {
-      "canonical_item": "content_registry.items.beryllium",
-      "color": "3a8f64",
-      "field": "beryllium",
-      "id": "beryllium",
-      "implementation": "Item",
-      "properties": {
-        "cost": 1.2,
-        "hardness": 3,
-        "healthScaling": 0.6
-      },
-      "texture": "res://assets/core/assets-raw/sprites/items/item-beryllium.png"
+      "texture": "res://assets/core/assets-raw/sprites/items/item-titanium.png"
     },
     "tungsten": {
       "canonical_item": "content_registry.items.tungsten",
@@ -227,54 +275,6 @@
         "healthScaling": 0.8
       },
       "texture": "res://assets/core/assets-raw/sprites/items/item-tungsten.png"
-    },
-    "oxide": {
-      "canonical_item": "content_registry.items.oxide",
-      "color": "e4ffd6",
-      "field": "oxide",
-      "id": "oxide",
-      "implementation": "Item",
-      "properties": {
-        "cost": 1.2,
-        "healthScaling": 0.5
-      },
-      "texture": "res://assets/core/assets-raw/sprites/items/item-oxide.png"
-    },
-    "carbide": {
-      "canonical_item": "content_registry.items.carbide",
-      "color": "89769a",
-      "field": "carbide",
-      "id": "carbide",
-      "implementation": "Item",
-      "properties": {
-        "cost": 1.4,
-        "healthScaling": 1.1
-      },
-      "texture": "res://assets/core/assets-raw/sprites/items/item-carbide.png"
-    },
-    "fissile-matter": {
-      "canonical_item": "content_registry.items.fissile-matter",
-      "color": "5e988d",
-      "field": "fissileMatter",
-      "id": "fissile-matter",
-      "implementation": "Item",
-      "properties": {
-        "hidden": true,
-        "radioactivity": 1.5
-      },
-      "texture": "res://assets/core/assets-raw/sprites/items/item-fissile-matter.png"
-    },
-    "dormant-cyst": {
-      "canonical_item": "content_registry.items.dormant-cyst",
-      "color": "df824d",
-      "field": "dormantCyst",
-      "id": "dormant-cyst",
-      "implementation": "Item",
-      "properties": {
-        "flammability": 0.1,
-        "hidden": true
-      },
-      "texture": "res://assets/core/assets-raw/sprites/items/item-dormant-cyst.png"
     }
   }
 }

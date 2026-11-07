@@ -35,8 +35,10 @@ static func source_initialize_building_liquids_state(sprite: Object, has_liquids
 	return {"liquids": existing_liquids}
 
 const source_world_grid := preload("res://src/game/SourceWorldGrid.gd")
+const source_block_defaults := preload("res://src/game/SourceBlockDefaults.gd")
 const source_block_metadata_state := preload("res://src/game/SourceBlockMetadataState.gd")
 const source_texture_runtime_state := preload("res://src/game/SourceTextureRuntimeState.gd")
+const source_time_defaults := preload("res://src/game/SourceTimeDefaults.gd")
 
 const SOURCE_BLOCK_ID_META_KEY := "source_block_id"
 const SOURCE_BLOCK_MAX_HEALTH_META_KEY := "source_block_max_health"
@@ -66,6 +68,12 @@ static func runtime_method_name(method_names: Dictionary, key: String, fallback_
 static func properties(block) -> Dictionary:
 	return source_block_metadata_state.block_properties(block)
 
+static func game_default_time_scale(_game: Object) -> float:
+	return source_block_defaults.TIME_SCALE_DEFAULT
+
+static func game_source_delta(_game: Object, seconds: float) -> float:
+	return seconds * source_time_defaults.TICK_RATE
+
 static func initialize_sprite(sprite: Sprite2D, block, cell: Vector2i, occupied_cell_keys: Array[String], _default_health: float, default_time_scale: float) -> void:
 	if not is_instance_valid(sprite):
 		return
@@ -81,6 +89,9 @@ static func initialize_sprite(sprite: Sprite2D, block, cell: Vector2i, occupied_
 	sprite.set_meta("occupied_cells", occupied_cell_keys)
 	sprite.set_meta("origin_cell", cell)
 	sprite.set_meta(SOURCE_BLOCK_CELL_KEY_META_KEY, source_world_grid.cell_key(cell))
+
+static func game_initialize_sprite(game: Object, sprite: Sprite2D, block, cell: Vector2i, occupied_cell_keys: Array[String]) -> void:
+	initialize_sprite(sprite, block, cell, occupied_cell_keys, source_block_metadata_state.SOURCE_BLOCK_HEALTH_DEFAULT, game_default_time_scale(game))
 
 static func health(sprite) -> float:
 	if not is_instance_valid(sprite):
@@ -119,9 +130,9 @@ static func time_scale(sprite, default_time_scale: float) -> float:
 		return default_time_scale
 	return float(sprite.get_meta(SOURCE_BLOCK_TIME_SCALE_META_KEY, default_time_scale))
 
-static func game_time_scale_at_cell(game: Object, x: int, y: int, default_time_scale: float) -> float:
+static func game_time_scale_at_cell(game: Object, x: int, y: int) -> float:
 	var sprite = source_texture_runtime_state.game_sprite_at_cell(game, x, y)
-	return time_scale(sprite, default_time_scale)
+	return time_scale(sprite, game_default_time_scale(game))
 
 static func time_scale_duration(sprite) -> float:
 	if not is_instance_valid(sprite):
@@ -146,9 +157,15 @@ static func decay_time_scale_sprite(game: Object, sprite, source_delta: float, d
 	var result: Dictionary = game.call(decay_method, time_scale(sprite, default_time_scale), time_scale_duration(sprite), source_delta)
 	apply_time_scale_decay(sprite, result, default_time_scale)
 
+static func game_decay_time_scale_sprite(game: Object, sprite, source_delta: float) -> void:
+	decay_time_scale_sprite(game, sprite, source_delta, game_default_time_scale(game))
+
 static func simulate_time_scales(game: Object, source_delta: float, default_time_scale: float) -> void:
 	for sprite in source_unique_buildings_state(game)["buildings"]:
 		decay_time_scale_sprite(game, sprite, source_delta, default_time_scale)
+
+static func game_simulate_time_scales(game: Object, delta: float) -> void:
+	simulate_time_scales(game, game_source_delta(game, delta), game_default_time_scale(game))
 
 static func step_time_scales(game: Object, seconds: float, tick_rate: float, default_time_scale: float) -> Dictionary:
 	var source_delta := seconds * tick_rate
@@ -163,3 +180,6 @@ static func step_time_scales(game: Object, seconds: float, tick_rate: float, def
 		"time_scale": game.call(time_scale_method, boosted_cell.x, boosted_cell.y),
 		"time_scale_duration": game.call(duration_method, boosted_cell.x, boosted_cell.y),
 	}
+
+static func game_step_time_scales(game: Object, seconds: float) -> Dictionary:
+	return step_time_scales(game, seconds, source_time_defaults.TICK_RATE, game_default_time_scale(game))

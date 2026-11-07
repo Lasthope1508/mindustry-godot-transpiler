@@ -3,7 +3,10 @@
   "contracts": {
     "PortGame.source_angle_distance": {
       "canonical_contract": "source_api_contracts.PortGame.source_angle_distance",
+      "status": "active",
+      "source_slice": "N486",
       "java_source": "arc-core/src/arc/math/Angles.java",
+      "source_method": "angleDist(float a, float b)",
       "params": [
         {
           "name": "current_degrees",
@@ -21,19 +24,19 @@
         "targetMod",
         "angleDistance"
       ],
-      "rule": "Public runtime contract for Arc Angles.angleDist-backed angle distance helper.",
-      "runtime_proof": "/root/Main.source_angle_distance",
-      "source_method": "angleDist(float a, float b)",
-      "source_slice": "N486",
-      "status": "active",
       "tests": [
         "test_arc_angles_angle_distance_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_turret_rotation_and_shoot_cone"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_angle_distance",
+      "rule": "Public runtime contract for Arc Angles.angleDist-backed angle distance helper."
     },
     "PortGame.source_angles_angle_dist": {
       "canonical_contract": "source_api_contracts.PortGame.source_angles_angle_dist",
+      "status": "active",
+      "source_slice": "N488",
       "java_source": "arc-core/src/arc/math/Angles.java",
+      "source_method": "angleDist(float a, float b)",
       "params": [
         {
           "name": "a",
@@ -51,19 +54,19 @@
         "a",
         "b"
       ],
-      "rule": "Public runtime contract for source weapon cone angle distance wrapper backed by Arc Angles.angleDist.",
-      "runtime_proof": "/root/Main.source_angles_angle_dist",
-      "source_method": "angleDist(float a, float b)",
-      "source_slice": "N488",
-      "status": "active",
       "tests": [
         "test_source_angles_angle_dist_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_weapon_update_cone_gate_state"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_angles_angle_dist",
+      "rule": "Public runtime contract for source weapon cone angle distance wrapper backed by Arc Angles.angleDist."
     },
     "PortGame.source_arc_angles_angle": {
       "canonical_contract": "source_api_contracts.PortGame.source_arc_angles_angle",
+      "status": "active",
+      "source_slice": "N491",
       "java_source": "arc-core/src/arc/math/Angles.java",
+      "source_method": "angle(float x, float y, float x2, float y2)",
       "params": [
         {
           "name": "from_x",
@@ -95,19 +98,19 @@
         "toX",
         "toY"
       ],
-      "rule": "Public runtime contract for Arc Angles.angle helper.",
-      "runtime_proof": "/root/Main.source_arc_angles_angle",
-      "source_method": "angle(float x, float y, float x2, float y2)",
-      "source_slice": "N491",
-      "status": "active",
       "tests": [
         "test_arc_angles_angle_symbols_are_registered_with_source_backing",
         "test_arc_position_angle_to_target_symbols_are_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_arc_angles_angle",
+      "rule": "Public runtime contract for Arc Angles.angle helper."
     },
     "PortGame.source_arc_angles_angle_dist": {
       "canonical_contract": "source_api_contracts.PortGame.source_arc_angles_angle_dist",
+      "status": "active",
+      "source_slice": "N492",
       "java_source": "arc-core/src/arc/math/Angles.java",
+      "source_method": "angleDist(float a, float b)",
       "params": [
         {
           "name": "angle_a",
@@ -127,19 +130,19 @@
         "angleA",
         "angleB"
       ],
-      "rule": "Public runtime contract for canonical Arc Angles.angleDist helper.",
-      "runtime_proof": "/root/Main.source_arc_angles_angle_dist",
-      "source_method": "angleDist(float a, float b)",
-      "source_slice": "N492",
-      "status": "active",
       "tests": [
         "test_arc_angles_angle_dist_canonical_symbols_are_registered_with_source_backing",
         "test_source_angles_angle_dist_symbols_are_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_arc_angles_angle_dist",
+      "rule": "Public runtime contract for canonical Arc Angles.angleDist helper."
     },
     "PortGame.source_arc_angles_backward_distance": {
       "canonical_contract": "source_api_contracts.PortGame.source_arc_angles_backward_distance",
+      "status": "active",
+      "source_slice": "N493",
       "java_source": "arc-core/src/arc/math/Angles.java",
+      "source_method": "backwardDistance(float angle1, float angle2)",
       "params": [
         {
           "name": "angle1",
@@ -157,18 +160,18 @@
         "angle1",
         "angle2"
       ],
-      "rule": "Public runtime contract for canonical Arc Angles.backwardDistance helper.",
-      "runtime_proof": "/root/Main.source_arc_angles_backward_distance",
-      "source_method": "backwardDistance(float angle1, float angle2)",
-      "source_slice": "N493",
-      "status": "active",
       "tests": [
         "test_arc_angles_backward_distance_symbols_are_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_arc_angles_backward_distance",
+      "rule": "Public runtime contract for canonical Arc Angles.backwardDistance helper."
     },
     "PortGame.source_arc_angles_forward_distance": {
       "canonical_contract": "source_api_contracts.PortGame.source_arc_angles_forward_distance",
+      "status": "active",
+      "source_slice": "N494",
       "java_source": "arc-core/src/arc/math/Angles.java",
+      "source_method": "forwardDistance(float angle1, float angle2)",
       "params": [
         {
           "name": "angle1",
@@ -186,18 +189,18 @@
         "angle1",
         "angle2"
       ],
-      "rule": "Public runtime contract for canonical Arc Angles.forwardDistance helper.",
-      "runtime_proof": "/root/Main.source_arc_angles_forward_distance",
-      "source_method": "forwardDistance(float angle1, float angle2)",
-      "source_slice": "N494",
-      "status": "active",
       "tests": [
         "test_arc_angles_forward_distance_symbols_are_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_arc_angles_forward_distance",
+      "rule": "Public runtime contract for canonical Arc Angles.forwardDistance helper."
     },
     "PortGame.source_arc_angles_move_toward": {
       "canonical_contract": "source_api_contracts.PortGame.source_arc_angles_move_toward",
+      "status": "active",
+      "source_slice": "N495",
       "java_source": "arc-core/src/arc/math/Angles.java",
+      "source_method": "moveToward(float angle, float to, float speed)",
       "params": [
         {
           "name": "angle",
@@ -227,18 +230,18 @@
         "to",
         "speed"
       ],
-      "rule": "Public runtime contract for canonical Arc Angles.moveToward helper.",
-      "runtime_proof": "/root/Main.source_arc_angles_move_toward",
-      "source_method": "moveToward(float angle, float to, float speed)",
-      "source_slice": "N495",
-      "status": "active",
       "tests": [
         "test_arc_angles_move_toward_symbols_are_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_arc_angles_move_toward",
+      "rule": "Public runtime contract for canonical Arc Angles.moveToward helper."
     },
     "PortGame.source_arc_angles_trns_vec": {
       "canonical_contract": "source_api_contracts.PortGame.source_arc_angles_trns_vec",
+      "status": "active",
+      "source_slice": "N496",
       "java_source": "arc-core/src/arc/math/Angles.java",
+      "source_method": "trnsx/trnsy(float angle, float x, float y)",
       "params": [
         {
           "name": "angle_degrees",
@@ -263,18 +266,18 @@
         "source",
         "vec2RotateSource"
       ],
-      "rule": "Public runtime contract for canonical Arc Angles.trnsx/trnsy vector rotation helper.",
-      "runtime_proof": "/root/Main.source_arc_angles_trns_vec",
-      "source_method": "trnsx/trnsy(float angle, float x, float y)",
-      "source_slice": "N496",
-      "status": "active",
       "tests": [
         "test_arc_angles_trns_vec_symbols_are_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_arc_angles_trns_vec",
+      "rule": "Public runtime contract for canonical Arc Angles.trnsx/trnsy vector rotation helper."
     },
     "PortGame.source_move_angle_toward": {
       "canonical_contract": "source_api_contracts.PortGame.source_move_angle_toward",
+      "status": "active",
+      "source_slice": "N720",
       "java_source": "arc-core/src/arc/math/Angles.java",
+      "source_method": "moveToward(float angle, float to, float speed)",
       "params": [
         {
           "name": "current_degrees",
@@ -298,15 +301,12 @@
         "targetDegrees",
         "maxDelta"
       ],
-      "rule": "Public runtime contract for legacy turret move angle helper backed by canonical Arc Angles.moveToward.",
-      "runtime_proof": "/root/Main.source_move_angle_toward",
-      "source_method": "moveToward(float angle, float to, float speed)",
-      "source_slice": "N720",
-      "status": "active",
       "tests": [
         "test_source_move_angle_toward_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_turret_rotation_and_shoot_cone"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_move_angle_toward",
+      "rule": "Public runtime contract for legacy turret move angle helper backed by canonical Arc Angles.moveToward."
     }
   }
 }

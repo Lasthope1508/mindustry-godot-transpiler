@@ -1,9 +1,11 @@
 extends RefCounted
 class_name SourceBlockFootprint
 
-const SOURCE_BLOCK_SIZE_OFFSET_EXPR := "sizeOffset = -((size - 1) / 2);"
-const SOURCE_BLOCK_ITERATE_TAKEN_OFFSET_EXPR := "int offsetx = -(size - 1) / 2;"
-const SOURCE_BLOCK_ITERATE_TAKEN_LOOP_EXPR := "placer.get(dx + offsetx + x, dy + offsety + y);"
+const source_block_footprint_source_text_state := preload("res://src/game/SourceBlockFootprintSourceTextState.gd")
+
+const SOURCE_BLOCK_SIZE_OFFSET_EXPR := source_block_footprint_source_text_state.SOURCE_BLOCK_SIZE_OFFSET_EXPR
+const SOURCE_BLOCK_ITERATE_TAKEN_OFFSET_EXPR := source_block_footprint_source_text_state.SOURCE_BLOCK_ITERATE_TAKEN_OFFSET_EXPR
+const SOURCE_BLOCK_ITERATE_TAKEN_LOOP_EXPR := source_block_footprint_source_text_state.SOURCE_BLOCK_ITERATE_TAKEN_LOOP_EXPR
 
 static func occupied_cell_count(block_size: int) -> int:
 	return max(block_size, 0) * max(block_size, 0)

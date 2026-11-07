@@ -3,6 +3,61 @@ class_name SourceBlockInitBuildTimeState
 
 const source_generated_class_runtime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
+const source_block_source_text_state := preload("res://src/game/SourceBlockSourceTextState.gd")
+const source_block_init_build_time_source_text_state := preload("res://src/game/SourceBlockInitBuildTimeSourceTextState.gd")
+
+const SOURCE_BLOCK_GENERATED_CLASS := source_block_source_text_state.SOURCE_BLOCK_GENERATED_CLASS
+const SOURCE_BLOCK_INIT_BUILD_TIME_SOURCE := source_block_init_build_time_source_text_state.SOURCE_BLOCK_INIT_BUILD_TIME_SOURCE
+const SOURCE_BLOCK_INIT_BUILD_TIME_ITEM_SOURCE := source_block_init_build_time_source_text_state.SOURCE_BLOCK_INIT_BUILD_TIME_ITEM_SOURCE
+const SOURCE_BLOCK_INIT_BUILD_TIME_ITEM_STACK_SOURCE := source_block_init_build_time_source_text_state.SOURCE_BLOCK_INIT_BUILD_TIME_ITEM_STACK_SOURCE
+const SOURCE_BLOCK_INIT_BUILD_TIME_JAVA_METHOD_INIT_123 := source_block_init_build_time_source_text_state.SOURCE_BLOCK_INIT_BUILD_TIME_JAVA_METHOD_INIT_123
+const SOURCE_BLOCK_INIT_BUILD_TIME_BRIDGE_MODE_KEY := source_block_init_build_time_source_text_state.SOURCE_BLOCK_INIT_BUILD_TIME_BRIDGE_MODE_KEY
+const SOURCE_BLOCK_INIT_BUILD_TIME_BUILD_TIME_REQUIREMENTS_MODE := source_block_init_build_time_source_text_state.SOURCE_BLOCK_INIT_BUILD_TIME_BUILD_TIME_REQUIREMENTS_MODE
+const SOURCE_BLOCK_INIT_BUILD_TIME_BUILD_TIME_DEFAULT_MODE := source_block_init_build_time_source_text_state.SOURCE_BLOCK_INIT_BUILD_TIME_BUILD_TIME_DEFAULT_MODE
+const SOURCE_BLOCK_INIT_BUILD_TIME_BUILD_TIME_MULTIPLIER_MODE := source_block_init_build_time_source_text_state.SOURCE_BLOCK_INIT_BUILD_TIME_BUILD_TIME_MULTIPLIER_MODE
+const SOURCE_BLOCK_INIT_BUILD_TIME_GENERATED_OWNER := source_block_init_build_time_source_text_state.SOURCE_BLOCK_INIT_BUILD_TIME_GENERATED_OWNER
+const SOURCE_BLOCK_INIT_BUILD_TIME_SOURCE_OWNER_KEY := source_block_init_build_time_source_text_state.SOURCE_BLOCK_INIT_BUILD_TIME_SOURCE_OWNER_KEY
+const SOURCE_BLOCK_INIT_BUILD_TIME_GENERATED_OWNER_KEY := source_block_init_build_time_source_text_state.SOURCE_BLOCK_INIT_BUILD_TIME_GENERATED_OWNER_KEY
+const SOURCE_BLOCK_INIT_BUILD_TIME_RESULT_KEY := source_block_init_build_time_source_text_state.SOURCE_BLOCK_INIT_BUILD_TIME_RESULT_KEY
+const SOURCE_BLOCK_INIT_BUILD_TIME_CANONICAL_KEY := source_block_init_build_time_source_text_state.SOURCE_BLOCK_INIT_BUILD_TIME_CANONICAL_KEY
+const SOURCE_BLOCK_INIT_BUILD_TIME_MATCHES_KEY := source_block_init_build_time_source_text_state.SOURCE_BLOCK_INIT_BUILD_TIME_MATCHES_KEY
+const SOURCE_BLOCK_INIT_BUILD_TIME_SOURCE_KEY := source_block_init_build_time_source_text_state.SOURCE_BLOCK_INIT_BUILD_TIME_SOURCE_KEY
+const SOURCE_BLOCK_INIT_BUILD_TIME_ITEM_SOURCE_KEY := source_block_init_build_time_source_text_state.SOURCE_BLOCK_INIT_BUILD_TIME_ITEM_SOURCE_KEY
+const SOURCE_BLOCK_INIT_BUILD_TIME_ITEM_STACK_SOURCE_KEY := source_block_init_build_time_source_text_state.SOURCE_BLOCK_INIT_BUILD_TIME_ITEM_STACK_SOURCE_KEY
+const SOURCE_BLOCK_INIT_BUILD_TIME_METHOD_KEY := source_block_init_build_time_source_text_state.SOURCE_BLOCK_INIT_BUILD_TIME_METHOD_KEY
+const SOURCE_BLOCK_INIT_BUILD_TIME_SUPER_INIT_EXPR_KEY := source_block_init_build_time_source_text_state.SOURCE_BLOCK_INIT_BUILD_TIME_SUPER_INIT_EXPR_KEY
+const SOURCE_BLOCK_INIT_BUILD_TIME_BUILD_TIME_GUARD_EXPR_KEY := source_block_init_build_time_source_text_state.SOURCE_BLOCK_INIT_BUILD_TIME_BUILD_TIME_GUARD_EXPR_KEY
+const SOURCE_BLOCK_INIT_BUILD_TIME_BUILD_TIME_ZERO_EXPR_KEY := source_block_init_build_time_source_text_state.SOURCE_BLOCK_INIT_BUILD_TIME_BUILD_TIME_ZERO_EXPR_KEY
+const SOURCE_BLOCK_INIT_BUILD_TIME_REQUIREMENTS_LOOP_EXPR_KEY := source_block_init_build_time_source_text_state.SOURCE_BLOCK_INIT_BUILD_TIME_REQUIREMENTS_LOOP_EXPR_KEY
+const SOURCE_BLOCK_INIT_BUILD_TIME_BUILD_TIME_ADD_EXPR_KEY := source_block_init_build_time_source_text_state.SOURCE_BLOCK_INIT_BUILD_TIME_BUILD_TIME_ADD_EXPR_KEY
+const SOURCE_BLOCK_INIT_BUILD_TIME_ITEM_COST_FIELD_EXPR_KEY := source_block_init_build_time_source_text_state.SOURCE_BLOCK_INIT_BUILD_TIME_ITEM_COST_FIELD_EXPR_KEY
+const SOURCE_BLOCK_INIT_BUILD_TIME_ITEMSTACK_AMOUNT_FIELD_EXPR_KEY := source_block_init_build_time_source_text_state.SOURCE_BLOCK_INIT_BUILD_TIME_ITEMSTACK_AMOUNT_FIELD_EXPR_KEY
+const SOURCE_BLOCK_INIT_BUILD_TIME_BUILD_TIME_DEFAULT_EXPR_KEY := source_block_init_build_time_source_text_state.SOURCE_BLOCK_INIT_BUILD_TIME_BUILD_TIME_DEFAULT_EXPR_KEY
+const SOURCE_BLOCK_INIT_BUILD_TIME_BUILD_COST_MULTIPLIER_FIELD_EXPR_KEY := source_block_init_build_time_source_text_state.SOURCE_BLOCK_INIT_BUILD_TIME_BUILD_COST_MULTIPLIER_FIELD_EXPR_KEY
+const SOURCE_BLOCK_INIT_BUILD_TIME_BUILD_TIME_MULTIPLIER_EXPR_KEY := source_block_init_build_time_source_text_state.SOURCE_BLOCK_INIT_BUILD_TIME_BUILD_TIME_MULTIPLIER_EXPR_KEY
+const SOURCE_BLOCK_INIT_BUILD_TIME_BUILD_TIME_BEFORE_KEY := source_block_init_build_time_source_text_state.SOURCE_BLOCK_INIT_BUILD_TIME_BUILD_TIME_BEFORE_KEY
+const SOURCE_BLOCK_INIT_BUILD_TIME_REQUIREMENT_STACKS_KEY := source_block_init_build_time_source_text_state.SOURCE_BLOCK_INIT_BUILD_TIME_REQUIREMENT_STACKS_KEY
+const SOURCE_BLOCK_INIT_BUILD_TIME_REQUIREMENTS_LENGTH_KEY := source_block_init_build_time_source_text_state.SOURCE_BLOCK_INIT_BUILD_TIME_REQUIREMENTS_LENGTH_KEY
+const SOURCE_BLOCK_INIT_BUILD_TIME_BUILD_TIME_ASSIGNED_KEY := source_block_init_build_time_source_text_state.SOURCE_BLOCK_INIT_BUILD_TIME_BUILD_TIME_ASSIGNED_KEY
+const SOURCE_BLOCK_INIT_BUILD_TIME_BUILD_TIME_AFTER_KEY := source_block_init_build_time_source_text_state.SOURCE_BLOCK_INIT_BUILD_TIME_BUILD_TIME_AFTER_KEY
+const SOURCE_BLOCK_INIT_BUILD_TIME_BUILD_COST_MULTIPLIER_KEY := source_block_init_build_time_source_text_state.SOURCE_BLOCK_INIT_BUILD_TIME_BUILD_COST_MULTIPLIER_KEY
+const SOURCE_BLOCK_INIT_BUILD_TIME_METHOD := source_block_init_build_time_source_text_state.SOURCE_BLOCK_INIT_BUILD_TIME_METHOD
+const SOURCE_BLOCK_INIT_BUILD_TIME_SUPER_INIT_EXPR := source_block_init_build_time_source_text_state.SOURCE_BLOCK_INIT_BUILD_TIME_SUPER_INIT_EXPR
+const SOURCE_BLOCK_INIT_BUILD_TIME_REQUIREMENTS_GUARD_EXPR := source_block_init_build_time_source_text_state.SOURCE_BLOCK_INIT_BUILD_TIME_REQUIREMENTS_GUARD_EXPR
+const SOURCE_BLOCK_INIT_BUILD_TIME_ZERO_EXPR := source_block_init_build_time_source_text_state.SOURCE_BLOCK_INIT_BUILD_TIME_ZERO_EXPR
+const SOURCE_BLOCK_INIT_BUILD_TIME_REQUIREMENTS_LOOP_EXPR := source_block_init_build_time_source_text_state.SOURCE_BLOCK_INIT_BUILD_TIME_REQUIREMENTS_LOOP_EXPR
+const SOURCE_BLOCK_INIT_BUILD_TIME_ADD_EXPR := source_block_init_build_time_source_text_state.SOURCE_BLOCK_INIT_BUILD_TIME_ADD_EXPR
+const SOURCE_BLOCK_INIT_BUILD_TIME_ITEM_COST_FIELD_EXPR := source_block_init_build_time_source_text_state.SOURCE_BLOCK_INIT_BUILD_TIME_ITEM_COST_FIELD_EXPR
+const SOURCE_BLOCK_INIT_BUILD_TIME_ITEMSTACK_AMOUNT_FIELD_EXPR := source_block_init_build_time_source_text_state.SOURCE_BLOCK_INIT_BUILD_TIME_ITEMSTACK_AMOUNT_FIELD_EXPR
+const SOURCE_BLOCK_INIT_BUILD_TIME_DEFAULT_BUILD_TIME_GUARD_EXPR := source_block_init_build_time_source_text_state.SOURCE_BLOCK_INIT_BUILD_TIME_DEFAULT_BUILD_TIME_GUARD_EXPR
+const SOURCE_BLOCK_INIT_BUILD_TIME_DEFAULT_BUILD_TIME_EXPR := source_block_init_build_time_source_text_state.SOURCE_BLOCK_INIT_BUILD_TIME_DEFAULT_BUILD_TIME_EXPR
+const SOURCE_BLOCK_INIT_BUILD_TIME_MULTIPLIER_BUILD_COST_MULTIPLIER_FIELD_EXPR := source_block_init_build_time_source_text_state.SOURCE_BLOCK_INIT_BUILD_TIME_MULTIPLIER_BUILD_COST_MULTIPLIER_FIELD_EXPR
+const SOURCE_BLOCK_INIT_BUILD_TIME_MULTIPLIER_BUILD_TIME_EXPR := source_block_init_build_time_source_text_state.SOURCE_BLOCK_INIT_BUILD_TIME_MULTIPLIER_BUILD_TIME_EXPR
+
+static func _block_call(generated_method: String, generated_args: Array, metadata: Variant = null) -> Variant:
+	if metadata == null:
+		return source_generated_class_runtime.call_java_method(SOURCE_BLOCK_GENERATED_CLASS, generated_method, generated_args, null)
+	return source_generated_class_runtime.call_java_method(SOURCE_BLOCK_GENERATED_CLASS, generated_method, generated_args, null, metadata)
 
 static func requirements_state(build_time_before: float, requirement_stacks: Array) -> Dictionary:
 	var requirements_length: int = requirement_stacks.size()
@@ -12,52 +67,61 @@ static func requirements_state(build_time_before: float, requirement_stacks: Arr
 		for stack in requirement_stacks:
 			if stack is Dictionary:
 				build_time_after += float(stack.get("amount", 0)) * float(stack.get("cost", 1.0))
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_BUILD_TIME_REQUIREMENTS_STATE, "source": "core/src/mindustry/world/Block.java", "item_source": "core/src/mindustry/type/Item.java", "item_stack_source": "core/src/mindustry/type/ItemStack.java", "method": "public void init(){", "super_init_expr": "super.init();", "build_time_guard_expr": "if(requirements.length > 0 && buildTime < 0){", "build_time_zero_expr": "buildTime = 0f;", "requirements_loop_expr": "for(ItemStack stack : requirements){", "build_time_add_expr": "buildTime += stack.amount * stack.item.cost;", "item_cost_field_expr": "public float cost = 1f;", "itemstack_amount_field_expr": "public int amount = 0;", "build_time_before": build_time_before, "requirement_stacks": requirement_stacks, "requirements_length": requirements_length, "build_time_assigned": build_time_assigned, "build_time_after": build_time_after}
+	return {SOURCE_BLOCK_INIT_BUILD_TIME_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_BUILD_TIME_REQUIREMENTS_STATE, SOURCE_BLOCK_INIT_BUILD_TIME_SOURCE_KEY: SOURCE_BLOCK_INIT_BUILD_TIME_SOURCE, SOURCE_BLOCK_INIT_BUILD_TIME_ITEM_SOURCE_KEY: SOURCE_BLOCK_INIT_BUILD_TIME_ITEM_SOURCE, SOURCE_BLOCK_INIT_BUILD_TIME_ITEM_STACK_SOURCE_KEY: SOURCE_BLOCK_INIT_BUILD_TIME_ITEM_STACK_SOURCE, SOURCE_BLOCK_INIT_BUILD_TIME_METHOD_KEY: SOURCE_BLOCK_INIT_BUILD_TIME_METHOD, SOURCE_BLOCK_INIT_BUILD_TIME_SUPER_INIT_EXPR_KEY: SOURCE_BLOCK_INIT_BUILD_TIME_SUPER_INIT_EXPR, SOURCE_BLOCK_INIT_BUILD_TIME_BUILD_TIME_GUARD_EXPR_KEY: SOURCE_BLOCK_INIT_BUILD_TIME_REQUIREMENTS_GUARD_EXPR, SOURCE_BLOCK_INIT_BUILD_TIME_BUILD_TIME_ZERO_EXPR_KEY: SOURCE_BLOCK_INIT_BUILD_TIME_ZERO_EXPR, SOURCE_BLOCK_INIT_BUILD_TIME_REQUIREMENTS_LOOP_EXPR_KEY: SOURCE_BLOCK_INIT_BUILD_TIME_REQUIREMENTS_LOOP_EXPR, SOURCE_BLOCK_INIT_BUILD_TIME_BUILD_TIME_ADD_EXPR_KEY: SOURCE_BLOCK_INIT_BUILD_TIME_ADD_EXPR, SOURCE_BLOCK_INIT_BUILD_TIME_ITEM_COST_FIELD_EXPR_KEY: SOURCE_BLOCK_INIT_BUILD_TIME_ITEM_COST_FIELD_EXPR, SOURCE_BLOCK_INIT_BUILD_TIME_ITEMSTACK_AMOUNT_FIELD_EXPR_KEY: SOURCE_BLOCK_INIT_BUILD_TIME_ITEMSTACK_AMOUNT_FIELD_EXPR, SOURCE_BLOCK_INIT_BUILD_TIME_BUILD_TIME_BEFORE_KEY: build_time_before, SOURCE_BLOCK_INIT_BUILD_TIME_REQUIREMENT_STACKS_KEY: requirement_stacks, SOURCE_BLOCK_INIT_BUILD_TIME_REQUIREMENTS_LENGTH_KEY: requirements_length, SOURCE_BLOCK_INIT_BUILD_TIME_BUILD_TIME_ASSIGNED_KEY: build_time_assigned, SOURCE_BLOCK_INIT_BUILD_TIME_BUILD_TIME_AFTER_KEY: build_time_after}
+
+static func generated_requirements_result_state(build_time_before: float, requirement_stacks: Array) -> Dictionary:
+	return requirements_state(build_time_before, requirement_stacks)
 
 static func generated_requirements_bridge_state(build_time_before: float, requirement_stacks: Array) -> Dictionary:
-	var metadata := {"mindustry_init_bridge_mode": "build_time_requirements"}
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [build_time_before, requirement_stacks], null, metadata)
+	var metadata := {SOURCE_BLOCK_INIT_BUILD_TIME_BRIDGE_MODE_KEY: SOURCE_BLOCK_INIT_BUILD_TIME_BUILD_TIME_REQUIREMENTS_MODE}
+	var result = _block_call(SOURCE_BLOCK_INIT_BUILD_TIME_JAVA_METHOD_INIT_123, [build_time_before, requirement_stacks], metadata)
 	var canonical = requirements_state(build_time_before, requirement_stacks)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
 	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_BUILD_TIME_REQUIREMENTS_STATE,
-		"generated_owner": "block.java_method_init_123",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
+		SOURCE_BLOCK_INIT_BUILD_TIME_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_BUILD_TIME_REQUIREMENTS_STATE,
+		SOURCE_BLOCK_INIT_BUILD_TIME_GENERATED_OWNER_KEY: SOURCE_BLOCK_INIT_BUILD_TIME_GENERATED_OWNER,
+		SOURCE_BLOCK_INIT_BUILD_TIME_RESULT_KEY: result,
+		SOURCE_BLOCK_INIT_BUILD_TIME_CANONICAL_KEY: canonical,
+		SOURCE_BLOCK_INIT_BUILD_TIME_MATCHES_KEY: matches,
 	}
 
 static func default_state(build_time_before: float) -> Dictionary:
 	var build_time_assigned: bool = build_time_before < 0.0
 	var build_time_after: float = 20.0 if build_time_assigned else build_time_before
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_BUILD_TIME_DEFAULT_STATE, "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "build_time_guard_expr": "if(buildTime < 0){", "build_time_default_expr": "buildTime = 20f;", "build_time_before": build_time_before, "build_time_assigned": build_time_assigned, "build_time_after": build_time_after}
+	return {SOURCE_BLOCK_INIT_BUILD_TIME_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_BUILD_TIME_DEFAULT_STATE, SOURCE_BLOCK_INIT_BUILD_TIME_SOURCE_KEY: SOURCE_BLOCK_INIT_BUILD_TIME_SOURCE, SOURCE_BLOCK_INIT_BUILD_TIME_METHOD_KEY: SOURCE_BLOCK_INIT_BUILD_TIME_METHOD, SOURCE_BLOCK_INIT_BUILD_TIME_SUPER_INIT_EXPR_KEY: SOURCE_BLOCK_INIT_BUILD_TIME_SUPER_INIT_EXPR, SOURCE_BLOCK_INIT_BUILD_TIME_BUILD_TIME_GUARD_EXPR_KEY: SOURCE_BLOCK_INIT_BUILD_TIME_DEFAULT_BUILD_TIME_GUARD_EXPR, SOURCE_BLOCK_INIT_BUILD_TIME_BUILD_TIME_DEFAULT_EXPR_KEY: SOURCE_BLOCK_INIT_BUILD_TIME_DEFAULT_BUILD_TIME_EXPR, SOURCE_BLOCK_INIT_BUILD_TIME_BUILD_TIME_BEFORE_KEY: build_time_before, SOURCE_BLOCK_INIT_BUILD_TIME_BUILD_TIME_ASSIGNED_KEY: build_time_assigned, SOURCE_BLOCK_INIT_BUILD_TIME_BUILD_TIME_AFTER_KEY: build_time_after}
+
+static func generated_default_result_state(build_time_before: float) -> Dictionary:
+	return default_state(build_time_before)
 
 static func generated_default_bridge_state(build_time_before: float) -> Dictionary:
-	var metadata := {"mindustry_init_bridge_mode": "build_time_default"}
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [build_time_before], null, metadata)
+	var metadata := {SOURCE_BLOCK_INIT_BUILD_TIME_BRIDGE_MODE_KEY: SOURCE_BLOCK_INIT_BUILD_TIME_BUILD_TIME_DEFAULT_MODE}
+	var result = _block_call(SOURCE_BLOCK_INIT_BUILD_TIME_JAVA_METHOD_INIT_123, [build_time_before], metadata)
 	var canonical = default_state(build_time_before)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
 	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_BUILD_TIME_DEFAULT_STATE,
-		"generated_owner": "block.java_method_init_123",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
+		SOURCE_BLOCK_INIT_BUILD_TIME_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_BUILD_TIME_DEFAULT_STATE,
+		SOURCE_BLOCK_INIT_BUILD_TIME_GENERATED_OWNER_KEY: SOURCE_BLOCK_INIT_BUILD_TIME_GENERATED_OWNER,
+		SOURCE_BLOCK_INIT_BUILD_TIME_RESULT_KEY: result,
+		SOURCE_BLOCK_INIT_BUILD_TIME_CANONICAL_KEY: canonical,
+		SOURCE_BLOCK_INIT_BUILD_TIME_MATCHES_KEY: matches,
 	}
 
 static func multiplier_state(build_time_before: float, build_cost_multiplier: float) -> Dictionary:
 	var build_time_after: float = build_time_before * build_cost_multiplier
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_BUILD_TIME_MULTIPLIER_STATE, "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "build_cost_multiplier_field_expr": "public float buildCostMultiplier = 1f;", "build_time_multiplier_expr": "buildTime *= buildCostMultiplier;", "build_time_before": build_time_before, "build_cost_multiplier": build_cost_multiplier, "build_time_after": build_time_after}
+	return {SOURCE_BLOCK_INIT_BUILD_TIME_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_BUILD_TIME_MULTIPLIER_STATE, SOURCE_BLOCK_INIT_BUILD_TIME_SOURCE_KEY: SOURCE_BLOCK_INIT_BUILD_TIME_SOURCE, SOURCE_BLOCK_INIT_BUILD_TIME_METHOD_KEY: SOURCE_BLOCK_INIT_BUILD_TIME_METHOD, SOURCE_BLOCK_INIT_BUILD_TIME_SUPER_INIT_EXPR_KEY: SOURCE_BLOCK_INIT_BUILD_TIME_SUPER_INIT_EXPR, SOURCE_BLOCK_INIT_BUILD_TIME_BUILD_COST_MULTIPLIER_FIELD_EXPR_KEY: SOURCE_BLOCK_INIT_BUILD_TIME_MULTIPLIER_BUILD_COST_MULTIPLIER_FIELD_EXPR, SOURCE_BLOCK_INIT_BUILD_TIME_BUILD_TIME_MULTIPLIER_EXPR_KEY: SOURCE_BLOCK_INIT_BUILD_TIME_MULTIPLIER_BUILD_TIME_EXPR, SOURCE_BLOCK_INIT_BUILD_TIME_BUILD_TIME_BEFORE_KEY: build_time_before, SOURCE_BLOCK_INIT_BUILD_TIME_BUILD_COST_MULTIPLIER_KEY: build_cost_multiplier, SOURCE_BLOCK_INIT_BUILD_TIME_BUILD_TIME_AFTER_KEY: build_time_after}
+
+static func generated_multiplier_result_state(build_time_before: float, build_cost_multiplier: float) -> Dictionary:
+	return multiplier_state(build_time_before, build_cost_multiplier)
 
 static func generated_multiplier_bridge_state(build_time_before: float, build_cost_multiplier: float) -> Dictionary:
-	var metadata := {"mindustry_init_bridge_mode": "build_time_multiplier"}
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [build_time_before, build_cost_multiplier], null, metadata)
+	var metadata := {SOURCE_BLOCK_INIT_BUILD_TIME_BRIDGE_MODE_KEY: SOURCE_BLOCK_INIT_BUILD_TIME_BUILD_TIME_MULTIPLIER_MODE}
+	var result = _block_call(SOURCE_BLOCK_INIT_BUILD_TIME_JAVA_METHOD_INIT_123, [build_time_before, build_cost_multiplier], metadata)
 	var canonical = multiplier_state(build_time_before, build_cost_multiplier)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
 	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_BUILD_TIME_MULTIPLIER_STATE,
-		"generated_owner": "block.java_method_init_123",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
+		SOURCE_BLOCK_INIT_BUILD_TIME_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_BUILD_TIME_MULTIPLIER_STATE,
+		SOURCE_BLOCK_INIT_BUILD_TIME_GENERATED_OWNER_KEY: SOURCE_BLOCK_INIT_BUILD_TIME_GENERATED_OWNER,
+		SOURCE_BLOCK_INIT_BUILD_TIME_RESULT_KEY: result,
+		SOURCE_BLOCK_INIT_BUILD_TIME_CANONICAL_KEY: canonical,
+		SOURCE_BLOCK_INIT_BUILD_TIME_MATCHES_KEY: matches,
 	}

@@ -2,7 +2,6 @@ extends RefCounted
 class_name SourceBulletTypeInitRangeState
 
 const source_bullet_defaults := preload("res://src/game/SourceBulletDefaults.gd")
-const source_bullet_runtime := preload("res://src/game/SourceBulletRuntime.gd")
 const SOURCE_BULLET_DRAG_DEFAULT := 0.0
 const SOURCE_BULLET_RANGE_ZERO_DRAG_EPSILON := 0.000001
 const SOURCE_BULLET_CONTINUOUS_DAMAGE_DEFAULT := -1.0
@@ -168,12 +167,14 @@ static func calculate_range_override_state(bullet_type_state: Dictionary) -> Dic
 	var resolved_range: Variant = null
 	if gate_passed:
 		resolved_range = range_override
-	var runtime_state := source_bullet_runtime.calculate_range_override_state(bullet_type_state)
-	if gate_passed:
-		runtime_state["range"] = resolved_range
-	var source_trace := {"rangeOverrideReturnSource": "if(rangeOverride > 0) return rangeOverride"}
-	runtime_state["rangeOverrideReturnSource"] = source_trace.get("rangeOverrideReturnSource", "")
-	return runtime_state
+	return {
+		"bulletType": update_type_state,
+		"rangeOverride": range_override,
+		"rangeOverrideGatePassed": gate_passed,
+		"returnEarly": gate_passed,
+		"range": resolved_range,
+		"rangeOverrideReturnSource": "if(rangeOverride > 0) return rangeOverride",
+	}
 
 static func calculate_range_spawn_unit_state(override_state: Dictionary) -> Dictionary:
 	var update_type_state: Dictionary = override_state.get("bulletType", {}).duplicate(true)
@@ -189,13 +190,14 @@ static func calculate_range_spawn_unit_state(override_state: Dictionary) -> Dict
 	var returned_spawn_unit: Variant = null
 	if gate_passed:
 		returned_spawn_unit = spawn_unit_state
-	var runtime_state := source_bullet_runtime.calculate_range_spawn_unit_state(override_state)
-	if gate_passed:
-		runtime_state["range"] = resolved_range
-		runtime_state["spawnUnit"] = returned_spawn_unit
-	var source_trace := {"spawnUnitReturnSource": "if(spawnUnit != null) return spawnUnit.lifetime * spawnUnit.speed"}
-	runtime_state["spawnUnitReturnSource"] = source_trace.get("spawnUnitReturnSource", "")
-	return runtime_state
+	return {
+		"bulletType": update_type_state,
+		"spawnUnitRangeGatePassed": gate_passed,
+		"returnEarly": prior_return or gate_passed,
+		"range": resolved_range,
+		"spawnUnit": returned_spawn_unit,
+		"spawnUnitReturnSource": "if(spawnUnit != null) return spawnUnit.lifetime * spawnUnit.speed",
+	}
 
 static func calculate_range_despawn_unit_state(spawn_unit_state: Dictionary) -> Dictionary:
 	var update_type_state: Dictionary = spawn_unit_state.get("bulletType", {}).duplicate(true)
@@ -205,19 +207,20 @@ static func calculate_range_despawn_unit_state(spawn_unit_state: Dictionary) -> 
 	var despawn_unit_state: Dictionary = {}
 	if gate_passed:
 		despawn_unit_state = (despawn_unit_value as Dictionary).duplicate(true)
-	var resolved_range := 0.0
+	var resolved_range: Variant = spawn_unit_state.get("range", null)
 	if gate_passed:
 		resolved_range = float(despawn_unit_state.get("lifetime", 0.0)) * float(despawn_unit_state.get("speed", 0.0))
 	var returned_despawn_unit: Variant = null
 	if gate_passed:
 		returned_despawn_unit = despawn_unit_state
-	var runtime_state := source_bullet_runtime.calculate_range_despawn_unit_state(spawn_unit_state)
-	if gate_passed:
-		runtime_state["range"] = resolved_range
-		runtime_state["despawnUnit"] = returned_despawn_unit
-	var source_trace := {"despawnUnitReturnSource": "if(despawnUnit != null) return despawnUnit.lifetime * despawnUnit.speed"}
-	runtime_state["despawnUnitReturnSource"] = source_trace.get("despawnUnitReturnSource", "")
-	return runtime_state
+	return {
+		"bulletType": update_type_state,
+		"despawnUnitRangeGatePassed": gate_passed,
+		"returnEarly": prior_return or gate_passed,
+		"range": resolved_range,
+		"despawnUnit": returned_despawn_unit,
+		"despawnUnitReturnSource": "if(despawnUnit != null) return despawnUnit.lifetime * despawnUnit.speed",
+	}
 
 static func calculate_range_fallback_state(despawn_unit_state: Dictionary) -> Dictionary:
 	var update_type_state: Dictionary = despawn_unit_state.get("bulletType", {}).duplicate(true)
@@ -236,25 +239,22 @@ static func calculate_range_fallback_state(despawn_unit_state: Dictionary) -> Di
 		else:
 			fallback_range = speed * (1.0 - pow(1.0 - drag, lifetime)) / drag
 		resolved_range = max(fallback_range, max_range)
-	var runtime_state := source_bullet_runtime.calculate_range_fallback_state(despawn_unit_state)
-	if fallback_gate_passed:
-		runtime_state["range"] = resolved_range
-		runtime_state["fallbackRange"] = fallback_range
-		runtime_state["zeroDrag"] = zero_drag
-		runtime_state["drag"] = drag
-		runtime_state["maxRange"] = max_range
-	var source_trace := {"fallbackReturnSource": "return Math.max(Mathf.zero(drag) ? speed * lifetime : speed * (1f - Mathf.pow(1f - drag, lifetime)) / drag, maxRange)"}
-	runtime_state["fallbackReturnSource"] = source_trace.get("fallbackReturnSource", "")
-	return runtime_state
+	return {
+		"bulletType": update_type_state,
+		"fallbackRangeGatePassed": fallback_gate_passed,
+		"returnEarly": prior_return or fallback_gate_passed,
+		"range": resolved_range,
+		"fallbackRange": fallback_range,
+		"zeroDrag": zero_drag,
+		"drag": drag,
+		"maxRange": max_range,
+		"fallbackReturnSource": "return Math.max(Mathf.zero(drag) ? speed * lifetime : speed * (1f - Mathf.pow(1f - drag, lifetime)) / drag, maxRange)",
+	}
 
 static func continuous_damage_default_state(bullet_type_state: Dictionary) -> Dictionary:
 	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
-	var runtime_state := source_bullet_runtime.continuous_damage_default_state(bullet_type_state)
-	runtime_state["bulletType"] = update_type_state
-	var source_trace := {
+	return {
+		"bulletType": update_type_state,
 		"continuousDamage": SOURCE_BULLET_CONTINUOUS_DAMAGE_DEFAULT,
 		"continuousDamageReturnSource": "return -1f",
 	}
-	runtime_state["continuousDamage"] = source_trace.get("continuousDamage", SOURCE_BULLET_CONTINUOUS_DAMAGE_DEFAULT)
-	runtime_state["continuousDamageReturnSource"] = source_trace.get("continuousDamageReturnSource", "")
-	return runtime_state

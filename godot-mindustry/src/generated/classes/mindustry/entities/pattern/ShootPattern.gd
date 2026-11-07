@@ -70,7 +70,7 @@ func java_method_shoot_1(_args: Array = []) -> Variant:
 
 func java_method_flip_2(_args: Array = []) -> Variant:
 	return {
-		"source_owner": "shoot_pattern.flip",
+		"source_owner": "ShootPattern.flip",
 		"generated_owner": "shoot_pattern.java_method_flip_2",
 		"source": "core/src/mindustry/entities/pattern/ShootPattern.java",
 		"method": "public void flip(){",
@@ -89,7 +89,7 @@ func java_method_copy_3(_args: Array = []) -> Variant:
 		"shotDelay": shot_delay,
 	}
 	return {
-		"source_owner": "shoot_pattern.copy",
+		"source_owner": "ShootPattern.copy",
 		"generated_owner": "shoot_pattern.java_method_copy_3",
 		"source": "core/src/mindustry/entities/pattern/ShootPattern.java",
 		"method": "public ShootPattern copy(){",

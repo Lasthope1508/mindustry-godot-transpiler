@@ -4,6 +4,7 @@ class_name SourcePlacedPowerGraphState
 const source_building_power_state := preload("res://src/game/SourceBuildingPowerState.gd")
 const source_power_graph_state := preload("res://src/game/SourcePowerGraphState.gd")
 const source_texture_runtime_state := preload("res://src/game/SourceTextureRuntimeState.gd")
+const source_time_defaults := preload("res://src/game/SourceTimeDefaults.gd")
 
 static func default_callbacks_state(game: Object) -> Dictionary:
 	return {
@@ -15,21 +16,24 @@ static func game_role_counts_state(game: Object) -> Dictionary:
 	var callbacks := default_callbacks_state(game)
 	return role_counts_state(game.get("placed_block_origins"), callbacks.get("block_from_sprite", Callable()), callbacks.get("role_for_block", Callable()))
 
-static func game_needed_state(game: Object, source_delta: float) -> Dictionary:
-	var callbacks := default_callbacks_state(game)
-	return needed_state(game.get("placed_block_origins"), callbacks.get("block_from_sprite", Callable()), callbacks.get("role_for_block", Callable()), source_delta)
+static func game_source_delta(_game: Object) -> float:
+	return source_time_defaults.TICK_RATE
 
-static func game_produced_state(game: Object, source_delta: float) -> Dictionary:
+static func game_needed_state(game: Object) -> Dictionary:
 	var callbacks := default_callbacks_state(game)
-	return produced_state(game.get("placed_block_origins"), callbacks.get("block_from_sprite", Callable()), callbacks.get("role_for_block", Callable()), source_delta)
+	return needed_state(game.get("placed_block_origins"), callbacks.get("block_from_sprite", Callable()), callbacks.get("role_for_block", Callable()), game_source_delta(game))
+
+static func game_produced_state(game: Object) -> Dictionary:
+	var callbacks := default_callbacks_state(game)
+	return produced_state(game.get("placed_block_origins"), callbacks.get("block_from_sprite", Callable()), callbacks.get("role_for_block", Callable()), game_source_delta(game))
 
 static func game_battery_state(game: Object) -> Dictionary:
 	var callbacks := default_callbacks_state(game)
 	return battery_state(game.get("placed_block_origins"), callbacks.get("block_from_sprite", Callable()), callbacks.get("role_for_block", Callable()))
 
-static func game_runtime_state(game: Object, source_delta: float) -> Dictionary:
+static func game_runtime_state(game: Object) -> Dictionary:
 	var callbacks := default_callbacks_state(game)
-	return runtime_state(game.get("placed_block_origins"), callbacks.get("block_from_sprite", Callable()), callbacks.get("role_for_block", Callable()), source_delta)
+	return runtime_state(game.get("placed_block_origins"), callbacks.get("block_from_sprite", Callable()), callbacks.get("role_for_block", Callable()), game_source_delta(game))
 
 static func _group_state(placed_block_origins: Dictionary, block_from_sprite_fn: Callable, power_graph_role_for_block_fn: Callable, source_delta: float) -> Dictionary:
 	var counts := {"all": 0, "producers": 0, "consumers": 0, "batteries": 0}

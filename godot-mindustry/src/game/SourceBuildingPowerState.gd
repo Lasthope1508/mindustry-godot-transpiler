@@ -3,20 +3,154 @@ class_name SourceBuildingPowerState
 
 const source_block_defaults := preload("res://src/game/SourceBlockDefaults.gd")
 const source_block_metadata_state := preload("res://src/game/SourceBlockMetadataState.gd")
+const source_building_power_source_text_state := preload("res://src/game/SourceBuildingPowerSourceTextState.gd")
 const source_power_graph_state := preload("res://src/game/SourcePowerGraphState.gd")
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
+
+const SOURCE_BUILDING_POWER_HAS_POWER_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_HAS_POWER_KEY
+const SOURCE_BUILDING_POWER_OUTPUTS_POWER_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_OUTPUTS_POWER_KEY
+const SOURCE_BUILDING_POWER_CONSUMES_POWER_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_CONSUMES_POWER_KEY
+const SOURCE_BUILDING_POWER_POWER_BUFFERED_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_POWER_BUFFERED_KEY
+const SOURCE_BUILDING_POWER_POWER_USAGE_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_POWER_USAGE_KEY
+const SOURCE_BUILDING_POWER_POWER_CAPACITY_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_POWER_CAPACITY_KEY
+const SOURCE_BUILDING_POWER_POWER_PRODUCTION_SOURCE_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_POWER_PRODUCTION_SOURCE_KEY
+const SOURCE_BUILDING_POWER_SOURCE_OWNER_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_SOURCE_OWNER_KEY
+const SOURCE_BUILDING_POWER_BLOCK_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_BLOCK_KEY
+const SOURCE_BUILDING_POWER_PROPERTIES_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_PROPERTIES_KEY
+const SOURCE_BUILDING_POWER_BUFFERED_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_BUFFERED_KEY
+const SOURCE_BUILDING_POWER_USAGE_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_USAGE_KEY
+const SOURCE_BUILDING_POWER_CAPACITY_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_CAPACITY_KEY
+const SOURCE_BUILDING_POWER_POWER_STATUS_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_POWER_STATUS_KEY
+const SOURCE_BUILDING_POWER_SHOULD_CONSUME_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_SHOULD_CONSUME_KEY
+const SOURCE_BUILDING_POWER_SHOULD_CONSUME_POWER_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_SHOULD_CONSUME_POWER_KEY
+const SOURCE_BUILDING_POWER_DELTA_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_DELTA_KEY
+const SOURCE_BUILDING_POWER_POWER_PRODUCTION_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_POWER_PRODUCTION_KEY
+const SOURCE_BUILDING_POWER_OUTPUTS_POWER_STATE_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_OUTPUTS_POWER_STATE_KEY
+const SOURCE_BUILDING_POWER_HAS_POWER_STATE_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_HAS_POWER_STATE_KEY
+const SOURCE_BUILDING_POWER_ENABLED_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_ENABLED_KEY
+const SOURCE_BUILDING_POWER_METHOD_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_METHOD_KEY
+const SOURCE_BUILDING_POWER_COMMENT_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_COMMENT_KEY
+const SOURCE_BUILDING_POWER_TODO_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_TODO_KEY
+const SOURCE_BUILDING_POWER_POWER_GUARD_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_POWER_GUARD_KEY
+const SOURCE_BUILDING_POWER_POWER_PRESENT_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_POWER_PRESENT_KEY
+const SOURCE_BUILDING_POWER_POWER_GRAPH_REMOVED_CALL_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_POWER_GRAPH_REMOVED_CALL_KEY
+const SOURCE_BUILDING_POWER_POWER_GRAPH_REMOVED_CALLED_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_POWER_GRAPH_REMOVED_CALLED_KEY
+const SOURCE_BUILDING_POWER_UPDATE_POWER_GRAPH_CALL_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_UPDATE_POWER_GRAPH_CALL_KEY
+const SOURCE_BUILDING_POWER_UPDATE_POWER_GRAPH_CALLED_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_UPDATE_POWER_GRAPH_CALLED_KEY
+const SOURCE_BUILDING_POWER_NO_SLEEP_CALL_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_NO_SLEEP_CALL_KEY
+const SOURCE_BUILDING_POWER_NO_SLEEP_CALLED_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_NO_SLEEP_CALLED_KEY
+const SOURCE_BUILDING_POWER_CONNECTION_LOOP_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_CONNECTION_LOOP_KEY
+const SOURCE_BUILDING_POWER_ADD_GRAPH_CALL_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_ADD_GRAPH_CALL_KEY
+const SOURCE_BUILDING_POWER_OTHER_POWER_PRESENT_BY_INDEX_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_OTHER_POWER_PRESENT_BY_INDEX_KEY
+const SOURCE_BUILDING_POWER_CONNECTION_COUNT_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_CONNECTION_COUNT_KEY
+const SOURCE_BUILDING_POWER_ADD_GRAPH_CALLED_INDICES_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_ADD_GRAPH_CALLED_INDICES_KEY
+const SOURCE_BUILDING_POWER_ADD_GRAPH_CALL_COUNT_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_ADD_GRAPH_CALL_COUNT_KEY
+const SOURCE_BUILDING_POWER_GRAPH_REMOVE_CALLED_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_GRAPH_REMOVE_CALLED_KEY
+const SOURCE_BUILDING_POWER_LINKED_BUILD_PRESENT_BY_INDEX_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_LINKED_BUILD_PRESENT_BY_INDEX_KEY
+const SOURCE_BUILDING_POWER_LINKED_BUILD_POWER_PRESENT_BY_INDEX_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_LINKED_BUILD_POWER_PRESENT_BY_INDEX_KEY
+const SOURCE_BUILDING_POWER_LINK_LOOP_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_LINK_LOOP_KEY
+const SOURCE_BUILDING_POWER_LINK_TILE_LOOKUP_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_LINK_TILE_LOOKUP_KEY
+const SOURCE_BUILDING_POWER_LINK_GUARD_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_LINK_GUARD_KEY
+const SOURCE_BUILDING_POWER_LINK_REMOVE_CALL_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_LINK_REMOVE_CALL_KEY
+const SOURCE_BUILDING_POWER_LINKED_REMOVE_INDICES_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_LINKED_REMOVE_INDICES_KEY
+const SOURCE_BUILDING_POWER_LINKED_REMOVE_COUNT_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_LINKED_REMOVE_COUNT_KEY
+const SOURCE_BUILDING_POWER_LINKS_CLEAR_CALL_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_LINKS_CLEAR_CALL_KEY
+const SOURCE_BUILDING_POWER_LINKS_CLEARED_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_LINKS_CLEARED_KEY
+const SOURCE_BUILDING_POWER_RETURN_NOT_INSULATED_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_RETURN_NOT_INSULATED_KEY
+const SOURCE_BUILDING_POWER_CONDUCTS_TO_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_CONDUCTS_TO_KEY
+const SOURCE_BUILDING_POWER_BLOCK_INSULATED_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_BLOCK_INSULATED_KEY
+const SOURCE_BUILDING_POWER_ON_PROXIMITY_REMOVED_METHOD := source_building_power_source_text_state.SOURCE_BUILDING_POWER_ON_PROXIMITY_REMOVED_METHOD
+const SOURCE_BUILDING_POWER_POWER_PRESENT_GUARD := source_building_power_source_text_state.SOURCE_BUILDING_POWER_POWER_PRESENT_GUARD
+const SOURCE_BUILDING_POWER_POWER_GRAPH_REMOVED_CALL := source_building_power_source_text_state.SOURCE_BUILDING_POWER_POWER_GRAPH_REMOVED_CALL
+const SOURCE_BUILDING_POWER_ON_PROXIMITY_ADDED_COMMENT := source_building_power_source_text_state.SOURCE_BUILDING_POWER_ON_PROXIMITY_ADDED_COMMENT
+const SOURCE_BUILDING_POWER_ON_PROXIMITY_ADDED_TODO := source_building_power_source_text_state.SOURCE_BUILDING_POWER_ON_PROXIMITY_ADDED_TODO
+const SOURCE_BUILDING_POWER_ON_PROXIMITY_ADDED_METHOD := source_building_power_source_text_state.SOURCE_BUILDING_POWER_ON_PROXIMITY_ADDED_METHOD
+const SOURCE_BUILDING_POWER_UPDATE_POWER_GRAPH_CALL := source_building_power_source_text_state.SOURCE_BUILDING_POWER_UPDATE_POWER_GRAPH_CALL
+const SOURCE_BUILDING_POWER_ON_PROXIMITY_UPDATE_METHOD := source_building_power_source_text_state.SOURCE_BUILDING_POWER_ON_PROXIMITY_UPDATE_METHOD
+const SOURCE_BUILDING_POWER_NO_SLEEP_CALL := source_building_power_source_text_state.SOURCE_BUILDING_POWER_NO_SLEEP_CALL
+const SOURCE_BUILDING_POWER_UPDATE_POWER_GRAPH_METHOD := source_building_power_source_text_state.SOURCE_BUILDING_POWER_UPDATE_POWER_GRAPH_METHOD
+const SOURCE_BUILDING_POWER_UPDATE_POWER_GRAPH_LOOP := source_building_power_source_text_state.SOURCE_BUILDING_POWER_UPDATE_POWER_GRAPH_LOOP
+const SOURCE_BUILDING_POWER_OTHER_POWER_GUARD := source_building_power_source_text_state.SOURCE_BUILDING_POWER_OTHER_POWER_GUARD
+const SOURCE_BUILDING_POWER_ADD_GRAPH_CALL := source_building_power_source_text_state.SOURCE_BUILDING_POWER_ADD_GRAPH_CALL
+const SOURCE_BUILDING_POWER_GRAPH_REMOVED_METHOD := source_building_power_source_text_state.SOURCE_BUILDING_POWER_GRAPH_REMOVED_METHOD
+const SOURCE_BUILDING_POWER_GRAPH_NULL_GUARD := source_building_power_source_text_state.SOURCE_BUILDING_POWER_GRAPH_NULL_GUARD
+const SOURCE_BUILDING_POWER_GRAPH_REMOVE_CALL := source_building_power_source_text_state.SOURCE_BUILDING_POWER_GRAPH_REMOVE_CALL
+const SOURCE_BUILDING_POWER_GRAPH_REMOVED_LOOP := source_building_power_source_text_state.SOURCE_BUILDING_POWER_GRAPH_REMOVED_LOOP
+const SOURCE_BUILDING_POWER_GRAPH_LINK_TILE_LOOKUP := source_building_power_source_text_state.SOURCE_BUILDING_POWER_GRAPH_LINK_TILE_LOOKUP
+const SOURCE_BUILDING_POWER_GRAPH_LINK_GUARD := source_building_power_source_text_state.SOURCE_BUILDING_POWER_GRAPH_LINK_GUARD
+const SOURCE_BUILDING_POWER_GRAPH_LINK_REMOVE_CALL := source_building_power_source_text_state.SOURCE_BUILDING_POWER_GRAPH_LINK_REMOVE_CALL
+const SOURCE_BUILDING_POWER_GRAPH_LINKS_CLEAR_CALL := source_building_power_source_text_state.SOURCE_BUILDING_POWER_GRAPH_LINKS_CLEAR_CALL
+const SOURCE_BUILDING_POWER_CONDUCTS_TO_METHOD := source_building_power_source_text_state.SOURCE_BUILDING_POWER_CONDUCTS_TO_METHOD
+const SOURCE_BUILDING_POWER_RETURN_NOT_INSULATED_EXPR := source_building_power_source_text_state.SOURCE_BUILDING_POWER_RETURN_NOT_INSULATED_EXPR
+const SOURCE_BUILDING_POWER_GET_POWER_CONNECTIONS_METHOD := source_building_power_source_text_state.SOURCE_BUILDING_POWER_GET_POWER_CONNECTIONS_METHOD
+const SOURCE_BUILDING_POWER_CLEAR_OUT := source_building_power_source_text_state.SOURCE_BUILDING_POWER_CLEAR_OUT
+const SOURCE_BUILDING_POWER_POWER_NULL_GUARD := source_building_power_source_text_state.SOURCE_BUILDING_POWER_POWER_NULL_GUARD
+const SOURCE_BUILDING_POWER_PREVIOUS_OUT_COUNT_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_PREVIOUS_OUT_COUNT_KEY
+const SOURCE_BUILDING_POWER_OUT_COUNT_AFTER_CLEAR_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_OUT_COUNT_AFTER_CLEAR_KEY
+const SOURCE_BUILDING_POWER_RETURNED_OUT_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_RETURNED_OUT_KEY
+const SOURCE_BUILDING_POWER_PROXIMITY_LOOP := source_building_power_source_text_state.SOURCE_BUILDING_POWER_PROXIMITY_LOOP
+const SOURCE_BUILDING_POWER_PROXIMITY_OTHER_POWER_GUARD := source_building_power_source_text_state.SOURCE_BUILDING_POWER_PROXIMITY_OTHER_POWER_GUARD
+const SOURCE_BUILDING_POWER_OTHER_PRESENT_BY_INDEX_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_OTHER_PRESENT_BY_INDEX_KEY
+const SOURCE_BUILDING_POWER_OTHER_SAME_TEAM_BY_INDEX_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_OTHER_SAME_TEAM_BY_INDEX_KEY
+const SOURCE_BUILDING_POWER_SAME_TEAM_GUARD := source_building_power_source_text_state.SOURCE_BUILDING_POWER_SAME_TEAM_GUARD
+const SOURCE_BUILDING_POWER_PROXIMITY_GUARD_PASS_INDICES_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_PROXIMITY_GUARD_PASS_INDICES_KEY
+const SOURCE_BUILDING_POWER_PROXIMITY_GUARD_PASS_COUNT_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_PROXIMITY_GUARD_PASS_COUNT_KEY
+const SOURCE_BUILDING_POWER_DEFERRED_MANUAL_LINKS_LOOP_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_DEFERRED_MANUAL_LINKS_LOOP_KEY
+const SOURCE_BUILDING_POWER_POWER_COMPATIBILITY_GUARD := source_building_power_source_text_state.SOURCE_BUILDING_POWER_POWER_COMPATIBILITY_GUARD
+const SOURCE_BUILDING_POWER_BLOCK_CONSUMES_POWER_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_BLOCK_CONSUMES_POWER_KEY
+const SOURCE_BUILDING_POWER_BLOCK_OUTPUTS_POWER_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_BLOCK_OUTPUTS_POWER_KEY
+const SOURCE_BUILDING_POWER_BLOCK_CONDUCTIVE_POWER_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_BLOCK_CONDUCTIVE_POWER_KEY
+const SOURCE_BUILDING_POWER_OTHER_BLOCK_CONSUMES_POWER_BY_INDEX_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_OTHER_BLOCK_CONSUMES_POWER_BY_INDEX_KEY
+const SOURCE_BUILDING_POWER_OTHER_BLOCK_OUTPUTS_POWER_BY_INDEX_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_OTHER_BLOCK_OUTPUTS_POWER_BY_INDEX_KEY
+const SOURCE_BUILDING_POWER_OTHER_BLOCK_CONDUCTIVE_POWER_BY_INDEX_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_OTHER_BLOCK_CONDUCTIVE_POWER_BY_INDEX_KEY
+const SOURCE_BUILDING_POWER_POWER_COMPATIBILITY_PASS_INDICES_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_POWER_COMPATIBILITY_PASS_INDICES_KEY
+const SOURCE_BUILDING_POWER_POWER_COMPATIBILITY_PASS_COUNT_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_POWER_COMPATIBILITY_PASS_COUNT_KEY
+const SOURCE_BUILDING_POWER_CONDUCTS_TO_OTHER_GUARD := source_building_power_source_text_state.SOURCE_BUILDING_POWER_CONDUCTS_TO_OTHER_GUARD
+const SOURCE_BUILDING_POWER_OTHER_CONDUCTS_TO_SELF_GUARD := source_building_power_source_text_state.SOURCE_BUILDING_POWER_OTHER_CONDUCTS_TO_SELF_GUARD
+const SOURCE_BUILDING_POWER_DUPLICATE_LINK_GUARD := source_building_power_source_text_state.SOURCE_BUILDING_POWER_DUPLICATE_LINK_GUARD
+const SOURCE_BUILDING_POWER_CONDUCTS_TO_OTHER_BY_INDEX_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_CONDUCTS_TO_OTHER_BY_INDEX_KEY
+const SOURCE_BUILDING_POWER_OTHER_CONDUCTS_TO_SELF_BY_INDEX_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_OTHER_CONDUCTS_TO_SELF_BY_INDEX_KEY
+const SOURCE_BUILDING_POWER_POWER_LINK_CONTAINS_OTHER_POS_BY_INDEX_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_POWER_LINK_CONTAINS_OTHER_POS_BY_INDEX_KEY
+const SOURCE_BUILDING_POWER_CONDUCTS_LINK_GUARD_PASS_INDICES_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_CONDUCTS_LINK_GUARD_PASS_INDICES_KEY
+const SOURCE_BUILDING_POWER_CONDUCTS_LINK_GUARD_PASS_COUNT_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_CONDUCTS_LINK_GUARD_PASS_COUNT_KEY
+const SOURCE_BUILDING_POWER_OUT_ADD_OTHER := source_building_power_source_text_state.SOURCE_BUILDING_POWER_OUT_ADD_OTHER
+const SOURCE_BUILDING_POWER_ADDED_INDICES_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_ADDED_INDICES_KEY
+const SOURCE_BUILDING_POWER_ADDED_COUNT_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_ADDED_COUNT_KEY
+const SOURCE_BUILDING_POWER_OUT_COUNT_AFTER_ADDS_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_OUT_COUNT_AFTER_ADDS_KEY
+const SOURCE_BUILDING_POWER_MANUAL_LINKS_LOOP := source_building_power_source_text_state.SOURCE_BUILDING_POWER_MANUAL_LINKS_LOOP
+const SOURCE_BUILDING_POWER_MANUAL_LINK_TILE_LOOKUP := source_building_power_source_text_state.SOURCE_BUILDING_POWER_MANUAL_LINK_TILE_LOOKUP
+const SOURCE_BUILDING_POWER_MANUAL_LINK_ADD_GUARD := source_building_power_source_text_state.SOURCE_BUILDING_POWER_MANUAL_LINK_ADD_GUARD
+const SOURCE_BUILDING_POWER_RETURN_OUT := source_building_power_source_text_state.SOURCE_BUILDING_POWER_RETURN_OUT
+const SOURCE_BUILDING_POWER_LINK_PRESENT_BY_INDEX_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_LINK_PRESENT_BY_INDEX_KEY
+const SOURCE_BUILDING_POWER_LINK_BUILD_PRESENT_BY_INDEX_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_LINK_BUILD_PRESENT_BY_INDEX_KEY
+const SOURCE_BUILDING_POWER_LINK_BUILD_POWER_PRESENT_BY_INDEX_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_LINK_BUILD_POWER_PRESENT_BY_INDEX_KEY
+const SOURCE_BUILDING_POWER_LINK_BUILD_SAME_TEAM_BY_INDEX_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_LINK_BUILD_SAME_TEAM_BY_INDEX_KEY
+const SOURCE_BUILDING_POWER_MANUAL_LINK_ADDED_INDICES_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_MANUAL_LINK_ADDED_INDICES_KEY
+const SOURCE_BUILDING_POWER_MANUAL_LINK_ADDED_COUNT_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_MANUAL_LINK_ADDED_COUNT_KEY
+const SOURCE_BUILDING_POWER_MANUAL_LINK_COUNT_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_MANUAL_LINK_COUNT_KEY
+const SOURCE_BUILDING_POWER_OUT_COUNT_AFTER_MANUAL_LINKS_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_OUT_COUNT_AFTER_MANUAL_LINKS_KEY
+const SOURCE_BUILDING_POWER_GET_POWER_CONNECTIONS_PHASES_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_GET_POWER_CONNECTIONS_PHASES_KEY
+const SOURCE_BUILDING_POWER_GET_POWER_CONNECTIONS_RESULT_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_GET_POWER_CONNECTIONS_RESULT_KEY
+const SOURCE_BUILDING_POWER_GET_POWER_CONNECTIONS_AGGREGATE_METHOD := source_building_power_source_text_state.SOURCE_BUILDING_POWER_GET_POWER_CONNECTIONS_AGGREGATE_METHOD
+const SOURCE_BUILDING_POWER_GET_POWER_CONNECTIONS_EMPTY_PHASE_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_GET_POWER_CONNECTIONS_EMPTY_PHASE_KEY
+const SOURCE_BUILDING_POWER_GET_POWER_CONNECTIONS_PROXIMITY_PHASE_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_GET_POWER_CONNECTIONS_PROXIMITY_PHASE_KEY
+const SOURCE_BUILDING_POWER_GET_POWER_CONNECTIONS_COMPATIBILITY_PHASE_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_GET_POWER_CONNECTIONS_COMPATIBILITY_PHASE_KEY
+const SOURCE_BUILDING_POWER_GET_POWER_CONNECTIONS_CONDUCTS_PHASE_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_GET_POWER_CONNECTIONS_CONDUCTS_PHASE_KEY
+const SOURCE_BUILDING_POWER_GET_POWER_CONNECTIONS_AUTOMATIC_PHASE_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_GET_POWER_CONNECTIONS_AUTOMATIC_PHASE_KEY
+const SOURCE_BUILDING_POWER_GET_POWER_CONNECTIONS_MANUAL_PHASE_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_GET_POWER_CONNECTIONS_MANUAL_PHASE_KEY
+const SOURCE_BUILDING_POWER_GET_POWER_CONNECTIONS_RETURNED_OUT_KEY := source_building_power_source_text_state.SOURCE_BUILDING_POWER_GET_POWER_CONNECTIONS_RETURNED_OUT_KEY
 
 static func block_properties(block) -> Dictionary:
 	return source_block_metadata_state.block_properties(block)
 
 static func block_power_role_state(block) -> Dictionary:
 	var properties := block_properties(block)
-	var has_power := bool(properties.get("hasPower", source_block_defaults.HAS_POWER_DEFAULT))
-	var outputs_power := bool(properties.get("outputsPower", source_block_defaults.OUTPUTS_POWER_DEFAULT))
-	var consumes_power := bool(properties.get("consumesPower", source_block_defaults.CONSUMES_POWER_DEFAULT))
-	var power_buffered := bool(properties.get("powerBuffered", source_block_defaults.POWER_BUFFERED_DEFAULT))
-	var power_usage := float(properties.get("powerUsage", source_block_defaults.POWER_USAGE_DEFAULT))
-	var power_capacity := float(properties.get("powerCapacity", source_block_defaults.POWER_CAPACITY_DEFAULT))
+	var has_power := bool(properties.get(SOURCE_BUILDING_POWER_HAS_POWER_KEY, source_block_defaults.HAS_POWER_DEFAULT))
+	var outputs_power := bool(properties.get(SOURCE_BUILDING_POWER_OUTPUTS_POWER_KEY, source_block_defaults.OUTPUTS_POWER_DEFAULT))
+	var consumes_power := bool(properties.get(SOURCE_BUILDING_POWER_CONSUMES_POWER_KEY, source_block_defaults.CONSUMES_POWER_DEFAULT))
+	var power_buffered := bool(properties.get(SOURCE_BUILDING_POWER_POWER_BUFFERED_KEY, source_block_defaults.POWER_BUFFERED_DEFAULT))
+	var power_usage := float(properties.get(SOURCE_BUILDING_POWER_POWER_USAGE_KEY, source_block_defaults.POWER_USAGE_DEFAULT))
+	var power_capacity := float(properties.get(SOURCE_BUILDING_POWER_POWER_CAPACITY_KEY, source_block_defaults.POWER_CAPACITY_DEFAULT))
 	var has_cons_power := has_power and (consumes_power or power_buffered or power_usage > 0.0 or power_capacity > 0.0)
 	return source_power_graph_state.add_role_state(
 		true,
@@ -34,81 +168,81 @@ static func block_power_role_state(block) -> Dictionary:
 
 static func block_consumer_state(block, source_delta: float) -> Dictionary:
 	var properties := block_properties(block)
-	var has_power := bool(properties.get("hasPower", source_block_defaults.HAS_POWER_DEFAULT))
-	var consumes_power := bool(properties.get("consumesPower", source_block_defaults.CONSUMES_POWER_DEFAULT))
-	var power_buffered := bool(properties.get("powerBuffered", source_block_defaults.POWER_BUFFERED_DEFAULT))
-	var power_usage := float(properties.get("powerUsage", source_block_defaults.POWER_USAGE_DEFAULT))
-	var power_capacity := float(properties.get("powerCapacity", source_block_defaults.POWER_CAPACITY_DEFAULT))
+	var has_power := bool(properties.get(SOURCE_BUILDING_POWER_HAS_POWER_KEY, source_block_defaults.HAS_POWER_DEFAULT))
+	var consumes_power := bool(properties.get(SOURCE_BUILDING_POWER_CONSUMES_POWER_KEY, source_block_defaults.CONSUMES_POWER_DEFAULT))
+	var power_buffered := bool(properties.get(SOURCE_BUILDING_POWER_POWER_BUFFERED_KEY, source_block_defaults.POWER_BUFFERED_DEFAULT))
+	var power_usage := float(properties.get(SOURCE_BUILDING_POWER_POWER_USAGE_KEY, source_block_defaults.POWER_USAGE_DEFAULT))
+	var power_capacity := float(properties.get(SOURCE_BUILDING_POWER_POWER_CAPACITY_KEY, source_block_defaults.POWER_CAPACITY_DEFAULT))
 	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_POWER_BLOCK_CONSUMER_STATE,
-		"block": block,
-		"properties": properties.duplicate(true),
-		"buffered": power_buffered,
-		"usage": power_usage,
-		"capacity": power_capacity,
-		"power_status": 0.0,
-		"should_consume": has_power and consumes_power,
-		"shouldConsumePower": has_power and consumes_power,
-		"delta": source_delta,
+		SOURCE_BUILDING_POWER_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_POWER_BLOCK_CONSUMER_STATE,
+		SOURCE_BUILDING_POWER_BLOCK_KEY: block,
+		SOURCE_BUILDING_POWER_PROPERTIES_KEY: properties.duplicate(true),
+		SOURCE_BUILDING_POWER_BUFFERED_KEY: power_buffered,
+		SOURCE_BUILDING_POWER_USAGE_KEY: power_usage,
+		SOURCE_BUILDING_POWER_CAPACITY_KEY: power_capacity,
+		SOURCE_BUILDING_POWER_POWER_STATUS_KEY: 0.0,
+		SOURCE_BUILDING_POWER_SHOULD_CONSUME_KEY: has_power and consumes_power,
+		SOURCE_BUILDING_POWER_SHOULD_CONSUME_POWER_KEY: has_power and consumes_power,
+		SOURCE_BUILDING_POWER_DELTA_KEY: source_delta,
 	}
 
 static func block_producer_state(block, source_delta: float) -> Dictionary:
 	var properties := block_properties(block)
-	var has_power := bool(properties.get("hasPower", source_block_defaults.HAS_POWER_DEFAULT))
-	var outputs_power := bool(properties.get("outputsPower", source_block_defaults.OUTPUTS_POWER_DEFAULT))
-	var power_production := float(properties.get("powerProduction", source_block_defaults.POWER_PRODUCTION_DEFAULT))
+	var has_power := bool(properties.get(SOURCE_BUILDING_POWER_HAS_POWER_KEY, source_block_defaults.HAS_POWER_DEFAULT))
+	var outputs_power := bool(properties.get(SOURCE_BUILDING_POWER_OUTPUTS_POWER_KEY, source_block_defaults.OUTPUTS_POWER_DEFAULT))
+	var power_production := float(properties.get(SOURCE_BUILDING_POWER_POWER_PRODUCTION_SOURCE_KEY, source_block_defaults.POWER_PRODUCTION_DEFAULT))
 	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_POWER_BLOCK_PRODUCER_STATE,
-		"block": block,
-		"properties": properties.duplicate(true),
-		"power_production": power_production,
-		"outputs_power": outputs_power,
-		"has_power": has_power or outputs_power,
-		"delta": source_delta,
+		SOURCE_BUILDING_POWER_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_POWER_BLOCK_PRODUCER_STATE,
+		SOURCE_BUILDING_POWER_BLOCK_KEY: block,
+		SOURCE_BUILDING_POWER_PROPERTIES_KEY: properties.duplicate(true),
+		SOURCE_BUILDING_POWER_POWER_PRODUCTION_KEY: power_production,
+		SOURCE_BUILDING_POWER_OUTPUTS_POWER_STATE_KEY: outputs_power,
+		SOURCE_BUILDING_POWER_HAS_POWER_STATE_KEY: has_power or outputs_power,
+		SOURCE_BUILDING_POWER_DELTA_KEY: source_delta,
 	}
 
 static func block_battery_state(block) -> Dictionary:
 	var properties := block_properties(block)
-	var has_power := bool(properties.get("hasPower", source_block_defaults.HAS_POWER_DEFAULT))
-	var outputs_power := bool(properties.get("outputsPower", source_block_defaults.OUTPUTS_POWER_DEFAULT))
-	var consumes_power := bool(properties.get("consumesPower", source_block_defaults.CONSUMES_POWER_DEFAULT))
-	var power_buffered := bool(properties.get("powerBuffered", source_block_defaults.POWER_BUFFERED_DEFAULT))
-	var power_capacity := float(properties.get("powerCapacity", source_block_defaults.POWER_CAPACITY_DEFAULT))
+	var has_power := bool(properties.get(SOURCE_BUILDING_POWER_HAS_POWER_KEY, source_block_defaults.HAS_POWER_DEFAULT))
+	var outputs_power := bool(properties.get(SOURCE_BUILDING_POWER_OUTPUTS_POWER_KEY, source_block_defaults.OUTPUTS_POWER_DEFAULT))
+	var consumes_power := bool(properties.get(SOURCE_BUILDING_POWER_CONSUMES_POWER_KEY, source_block_defaults.CONSUMES_POWER_DEFAULT))
+	var power_buffered := bool(properties.get(SOURCE_BUILDING_POWER_POWER_BUFFERED_KEY, source_block_defaults.POWER_BUFFERED_DEFAULT))
+	var power_capacity := float(properties.get(SOURCE_BUILDING_POWER_POWER_CAPACITY_KEY, source_block_defaults.POWER_CAPACITY_DEFAULT))
 	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_POWER_BLOCK_BATTERY_STATE,
-		"block": block,
-		"properties": properties.duplicate(true),
-		"enabled": has_power or outputs_power or consumes_power or power_buffered,
-		"power_status": 0.0,
-		"capacity": power_capacity,
-		"buffered": true,
+		SOURCE_BUILDING_POWER_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_POWER_BLOCK_BATTERY_STATE,
+		SOURCE_BUILDING_POWER_BLOCK_KEY: block,
+		SOURCE_BUILDING_POWER_PROPERTIES_KEY: properties.duplicate(true),
+		SOURCE_BUILDING_POWER_ENABLED_KEY: has_power or outputs_power or consumes_power or power_buffered,
+		SOURCE_BUILDING_POWER_POWER_STATUS_KEY: 0.0,
+		SOURCE_BUILDING_POWER_CAPACITY_KEY: power_capacity,
+		SOURCE_BUILDING_POWER_BUFFERED_KEY: true,
 	}
 
 static func on_proximity_removed_state(power_present: bool) -> Dictionary:
 	return {
-		"method": "public void onProximityRemoved(){",
-		"power_guard": "if(power != null){",
-		"power_graph_removed_call": "powerGraphRemoved();",
-		"power_present": power_present,
-		"power_graph_removed_called": power_present,
+		SOURCE_BUILDING_POWER_METHOD_KEY: SOURCE_BUILDING_POWER_ON_PROXIMITY_REMOVED_METHOD,
+		SOURCE_BUILDING_POWER_POWER_GUARD_KEY: SOURCE_BUILDING_POWER_POWER_PRESENT_GUARD,
+		SOURCE_BUILDING_POWER_POWER_GRAPH_REMOVED_CALL_KEY: SOURCE_BUILDING_POWER_POWER_GRAPH_REMOVED_CALL,
+		SOURCE_BUILDING_POWER_POWER_PRESENT_KEY: power_present,
+		SOURCE_BUILDING_POWER_POWER_GRAPH_REMOVED_CALLED_KEY: power_present,
 	}
 
 static func on_proximity_added_state(power_present: bool) -> Dictionary:
 	return {
-		"comment": "/** Called after this building is created in the world. May be called multiple times, or when adjacent buildings change. */",
-		"todo": "//TODO ??? this is just onProximityUpdate ?",
-		"method": "public void onProximityAdded(){",
-		"power_guard": "if(power != null){",
-		"update_power_graph_call": "updatePowerGraph();",
-		"power_present": power_present,
-		"update_power_graph_called": power_present,
+		SOURCE_BUILDING_POWER_COMMENT_KEY: SOURCE_BUILDING_POWER_ON_PROXIMITY_ADDED_COMMENT,
+		SOURCE_BUILDING_POWER_TODO_KEY: SOURCE_BUILDING_POWER_ON_PROXIMITY_ADDED_TODO,
+		SOURCE_BUILDING_POWER_METHOD_KEY: SOURCE_BUILDING_POWER_ON_PROXIMITY_ADDED_METHOD,
+		SOURCE_BUILDING_POWER_POWER_GUARD_KEY: SOURCE_BUILDING_POWER_POWER_PRESENT_GUARD,
+		SOURCE_BUILDING_POWER_UPDATE_POWER_GRAPH_CALL_KEY: SOURCE_BUILDING_POWER_UPDATE_POWER_GRAPH_CALL,
+		SOURCE_BUILDING_POWER_POWER_PRESENT_KEY: power_present,
+		SOURCE_BUILDING_POWER_UPDATE_POWER_GRAPH_CALLED_KEY: power_present,
 	}
 
 static func on_proximity_update_state() -> Dictionary:
 	return {
-		"method": "public void onProximityUpdate(){",
-		"no_sleep_call": "noSleep();",
-		"no_sleep_called": true,
+		SOURCE_BUILDING_POWER_METHOD_KEY: SOURCE_BUILDING_POWER_ON_PROXIMITY_UPDATE_METHOD,
+		SOURCE_BUILDING_POWER_NO_SLEEP_CALL_KEY: SOURCE_BUILDING_POWER_NO_SLEEP_CALL,
+		SOURCE_BUILDING_POWER_NO_SLEEP_CALLED_KEY: true,
 	}
 
 static func update_power_graph_state(other_power_present_by_index: Array) -> Dictionary:
@@ -117,33 +251,58 @@ static func update_power_graph_state(other_power_present_by_index: Array) -> Dic
 		if bool(other_power_present_by_index[index]):
 			add_graph_called_indices.append(index)
 	return {
-		"method": "public void updatePowerGraph(){",
-		"connection_loop": "for(Building other : getPowerConnections(tempBuilds)){",
-		"power_guard": "if(other.power != null){",
-		"add_graph_call": "other.power.graph.addGraph(power.graph);",
-		"other_power_present_by_index": other_power_present_by_index.duplicate(true),
-		"connection_count": other_power_present_by_index.size(),
-		"add_graph_called_indices": add_graph_called_indices,
-		"add_graph_call_count": add_graph_called_indices.size(),
+		SOURCE_BUILDING_POWER_METHOD_KEY: SOURCE_BUILDING_POWER_UPDATE_POWER_GRAPH_METHOD,
+		SOURCE_BUILDING_POWER_CONNECTION_LOOP_KEY: SOURCE_BUILDING_POWER_UPDATE_POWER_GRAPH_LOOP,
+		SOURCE_BUILDING_POWER_POWER_GUARD_KEY: SOURCE_BUILDING_POWER_OTHER_POWER_GUARD,
+		SOURCE_BUILDING_POWER_ADD_GRAPH_CALL_KEY: SOURCE_BUILDING_POWER_ADD_GRAPH_CALL,
+		SOURCE_BUILDING_POWER_OTHER_POWER_PRESENT_BY_INDEX_KEY: other_power_present_by_index.duplicate(true),
+		SOURCE_BUILDING_POWER_CONNECTION_COUNT_KEY: other_power_present_by_index.size(),
+		SOURCE_BUILDING_POWER_ADD_GRAPH_CALLED_INDICES_KEY: add_graph_called_indices,
+		SOURCE_BUILDING_POWER_ADD_GRAPH_CALL_COUNT_KEY: add_graph_called_indices.size(),
+	}
+
+static func power_graph_removed_state(power_present: bool, linked_build_present_by_index: Array, linked_build_power_present_by_index: Array) -> Dictionary:
+	var linked_remove_indices: Array = []
+	for index in range(linked_build_present_by_index.size()):
+		var linked_build_present := bool(linked_build_present_by_index[index])
+		var linked_power_present := index < linked_build_power_present_by_index.size() and bool(linked_build_power_present_by_index[index])
+		if linked_build_present and linked_power_present:
+			linked_remove_indices.append(index)
+	return {
+		SOURCE_BUILDING_POWER_METHOD_KEY: SOURCE_BUILDING_POWER_GRAPH_REMOVED_METHOD,
+		SOURCE_BUILDING_POWER_GRAPH_NULL_GUARD: SOURCE_BUILDING_POWER_GRAPH_NULL_GUARD,
+		SOURCE_BUILDING_POWER_GRAPH_REMOVE_CALL: SOURCE_BUILDING_POWER_GRAPH_REMOVE_CALL,
+		SOURCE_BUILDING_POWER_POWER_PRESENT_KEY: power_present,
+		SOURCE_BUILDING_POWER_GRAPH_REMOVE_CALLED_KEY: power_present,
+		SOURCE_BUILDING_POWER_LINKED_BUILD_PRESENT_BY_INDEX_KEY: linked_build_present_by_index.duplicate(true),
+		SOURCE_BUILDING_POWER_LINKED_BUILD_POWER_PRESENT_BY_INDEX_KEY: linked_build_power_present_by_index.duplicate(true),
+		SOURCE_BUILDING_POWER_LINK_LOOP_KEY: SOURCE_BUILDING_POWER_GRAPH_REMOVED_LOOP,
+		SOURCE_BUILDING_POWER_LINK_TILE_LOOKUP_KEY: SOURCE_BUILDING_POWER_GRAPH_LINK_TILE_LOOKUP,
+		SOURCE_BUILDING_POWER_LINK_GUARD_KEY: SOURCE_BUILDING_POWER_GRAPH_LINK_GUARD,
+		SOURCE_BUILDING_POWER_LINK_REMOVE_CALL_KEY: SOURCE_BUILDING_POWER_GRAPH_LINK_REMOVE_CALL,
+		SOURCE_BUILDING_POWER_LINKED_REMOVE_INDICES_KEY: linked_remove_indices,
+		SOURCE_BUILDING_POWER_LINKED_REMOVE_COUNT_KEY: linked_remove_indices.size(),
+		SOURCE_BUILDING_POWER_LINKS_CLEAR_CALL_KEY: SOURCE_BUILDING_POWER_GRAPH_LINKS_CLEAR_CALL,
+		SOURCE_BUILDING_POWER_LINKS_CLEARED_KEY: power_present,
 	}
 
 static func conducts_to_state(block_insulated: bool) -> Dictionary:
 	return {
-		"method": "public boolean conductsTo(Building other){",
-		"return_not_insulated": "return !block.insulated;",
-		"conducts_to": not block_insulated,
-		"block_insulated": block_insulated,
+		SOURCE_BUILDING_POWER_METHOD_KEY: SOURCE_BUILDING_POWER_CONDUCTS_TO_METHOD,
+		SOURCE_BUILDING_POWER_RETURN_NOT_INSULATED_KEY: SOURCE_BUILDING_POWER_RETURN_NOT_INSULATED_EXPR,
+		SOURCE_BUILDING_POWER_CONDUCTS_TO_KEY: not block_insulated,
+		SOURCE_BUILDING_POWER_BLOCK_INSULATED_KEY: block_insulated,
 	}
 
 static func get_power_connections_empty_guard_state(power_present: bool, previous_out_count: int) -> Dictionary:
 	return {
-		"method": "public Seq<Building> getPowerConnections(Seq<Building> out){",
-		"clear_out": "out.clear();",
-		"power_null_guard": "if(power == null) return out;",
-		"power_present": power_present,
-		"previous_out_count": previous_out_count,
-		"out_count_after_clear": 0,
-		"returned_out": not power_present,
+		SOURCE_BUILDING_POWER_METHOD_KEY: SOURCE_BUILDING_POWER_GET_POWER_CONNECTIONS_METHOD,
+		SOURCE_BUILDING_POWER_CLEAR_OUT: SOURCE_BUILDING_POWER_CLEAR_OUT,
+		SOURCE_BUILDING_POWER_POWER_NULL_GUARD: SOURCE_BUILDING_POWER_POWER_NULL_GUARD,
+		SOURCE_BUILDING_POWER_POWER_PRESENT_KEY: power_present,
+		SOURCE_BUILDING_POWER_PREVIOUS_OUT_COUNT_KEY: previous_out_count,
+		SOURCE_BUILDING_POWER_OUT_COUNT_AFTER_CLEAR_KEY: 0,
+		SOURCE_BUILDING_POWER_RETURNED_OUT_KEY: not power_present,
 	}
 
 static func get_power_connections_proximity_guard_state(other_present_by_index: Array, other_power_present_by_index: Array, other_same_team_by_index: Array) -> Dictionary:
@@ -155,17 +314,17 @@ static func get_power_connections_proximity_guard_state(other_present_by_index: 
 		if other_present and other_power_present and other_same_team:
 			proximity_guard_pass_indices.append(index)
 	return {
-		"method": "public Seq<Building> getPowerConnections(Seq<Building> out){",
-		"proximity_loop": "for(Building other : proximity){",
-		"other_power_guard": "if(other != null && other.power != null",
-		"same_team_guard": "&& other.team == team",
-		"other_present_by_index": other_present_by_index.duplicate(true),
-		"other_power_present_by_index": other_power_present_by_index.duplicate(true),
-		"other_same_team_by_index": other_same_team_by_index.duplicate(true),
-		"proximity_guard_pass_indices": proximity_guard_pass_indices,
-		"proximity_guard_pass_count": proximity_guard_pass_indices.size(),
-		"connection_count": other_present_by_index.size(),
-		"deferred_manual_links_loop": true,
+		SOURCE_BUILDING_POWER_METHOD_KEY: SOURCE_BUILDING_POWER_GET_POWER_CONNECTIONS_METHOD,
+		SOURCE_BUILDING_POWER_PROXIMITY_LOOP: SOURCE_BUILDING_POWER_PROXIMITY_LOOP,
+		SOURCE_BUILDING_POWER_PROXIMITY_OTHER_POWER_GUARD: SOURCE_BUILDING_POWER_PROXIMITY_OTHER_POWER_GUARD,
+		SOURCE_BUILDING_POWER_SAME_TEAM_GUARD: SOURCE_BUILDING_POWER_SAME_TEAM_GUARD,
+		SOURCE_BUILDING_POWER_OTHER_PRESENT_BY_INDEX_KEY: other_present_by_index.duplicate(true),
+		SOURCE_BUILDING_POWER_OTHER_POWER_PRESENT_BY_INDEX_KEY: other_power_present_by_index.duplicate(true),
+		SOURCE_BUILDING_POWER_OTHER_SAME_TEAM_BY_INDEX_KEY: other_same_team_by_index.duplicate(true),
+		SOURCE_BUILDING_POWER_PROXIMITY_GUARD_PASS_INDICES_KEY: proximity_guard_pass_indices,
+		SOURCE_BUILDING_POWER_PROXIMITY_GUARD_PASS_COUNT_KEY: proximity_guard_pass_indices.size(),
+		SOURCE_BUILDING_POWER_CONNECTION_COUNT_KEY: other_present_by_index.size(),
+		SOURCE_BUILDING_POWER_DEFERRED_MANUAL_LINKS_LOOP_KEY: true,
 	}
 
 static func get_power_connections_power_compatibility_guard_state(block_consumes_power: bool, block_outputs_power: bool, block_conductive_power: bool, other_block_consumes_power_by_index: Array, other_block_outputs_power_by_index: Array, other_block_conductive_power_by_index: Array) -> Dictionary:
@@ -178,18 +337,18 @@ static func get_power_connections_power_compatibility_guard_state(block_consumes
 		if compatible:
 			power_compatibility_pass_indices.append(index)
 	return {
-		"method": "public Seq<Building> getPowerConnections(Seq<Building> out){",
-		"power_compatibility_guard": "&& !(block.consumesPower && other.block.consumesPower && !block.outputsPower && !other.block.outputsPower && !block.conductivePower && !other.block.conductivePower)",
-		"block_consumes_power": block_consumes_power,
-		"block_outputs_power": block_outputs_power,
-		"block_conductive_power": block_conductive_power,
-		"other_block_consumes_power_by_index": other_block_consumes_power_by_index.duplicate(true),
-		"other_block_outputs_power_by_index": other_block_outputs_power_by_index.duplicate(true),
-		"other_block_conductive_power_by_index": other_block_conductive_power_by_index.duplicate(true),
-		"power_compatibility_pass_indices": power_compatibility_pass_indices,
-		"power_compatibility_pass_count": power_compatibility_pass_indices.size(),
-		"connection_count": other_block_consumes_power_by_index.size(),
-		"deferred_manual_links_loop": true,
+		SOURCE_BUILDING_POWER_METHOD_KEY: SOURCE_BUILDING_POWER_GET_POWER_CONNECTIONS_METHOD,
+		SOURCE_BUILDING_POWER_POWER_COMPATIBILITY_GUARD: SOURCE_BUILDING_POWER_POWER_COMPATIBILITY_GUARD,
+		SOURCE_BUILDING_POWER_BLOCK_CONSUMES_POWER_KEY: block_consumes_power,
+		SOURCE_BUILDING_POWER_BLOCK_OUTPUTS_POWER_KEY: block_outputs_power,
+		SOURCE_BUILDING_POWER_BLOCK_CONDUCTIVE_POWER_KEY: block_conductive_power,
+		SOURCE_BUILDING_POWER_OTHER_BLOCK_CONSUMES_POWER_BY_INDEX_KEY: other_block_consumes_power_by_index.duplicate(true),
+		SOURCE_BUILDING_POWER_OTHER_BLOCK_OUTPUTS_POWER_BY_INDEX_KEY: other_block_outputs_power_by_index.duplicate(true),
+		SOURCE_BUILDING_POWER_OTHER_BLOCK_CONDUCTIVE_POWER_BY_INDEX_KEY: other_block_conductive_power_by_index.duplicate(true),
+		SOURCE_BUILDING_POWER_POWER_COMPATIBILITY_PASS_INDICES_KEY: power_compatibility_pass_indices,
+		SOURCE_BUILDING_POWER_POWER_COMPATIBILITY_PASS_COUNT_KEY: power_compatibility_pass_indices.size(),
+		SOURCE_BUILDING_POWER_CONNECTION_COUNT_KEY: other_block_consumes_power_by_index.size(),
+		SOURCE_BUILDING_POWER_DEFERRED_MANUAL_LINKS_LOOP_KEY: true,
 	}
 
 static func get_power_connections_conducts_link_guard_state(conducts_to_other_by_index: Array, other_conducts_to_self_by_index: Array, power_link_contains_other_pos_by_index: Array) -> Dictionary:
@@ -201,29 +360,29 @@ static func get_power_connections_conducts_link_guard_state(conducts_to_other_by
 		if conducts_to_other and other_conducts_to_self and not link_contains_other:
 			conducts_link_guard_pass_indices.append(index)
 	return {
-		"method": "public Seq<Building> getPowerConnections(Seq<Building> out){",
-		"conducts_to_other_guard": "&& conductsTo(other)",
-		"other_conducts_to_self_guard": "&& other.conductsTo(self())",
-		"duplicate_link_guard": "&& !power.links.contains(other.pos())){",
-		"conducts_to_other_by_index": conducts_to_other_by_index.duplicate(true),
-		"other_conducts_to_self_by_index": other_conducts_to_self_by_index.duplicate(true),
-		"power_link_contains_other_pos_by_index": power_link_contains_other_pos_by_index.duplicate(true),
-		"conducts_link_guard_pass_indices": conducts_link_guard_pass_indices,
-		"conducts_link_guard_pass_count": conducts_link_guard_pass_indices.size(),
-		"connection_count": conducts_to_other_by_index.size(),
-		"deferred_manual_links_loop": true,
+		SOURCE_BUILDING_POWER_METHOD_KEY: SOURCE_BUILDING_POWER_GET_POWER_CONNECTIONS_METHOD,
+		SOURCE_BUILDING_POWER_CONDUCTS_TO_OTHER_GUARD: SOURCE_BUILDING_POWER_CONDUCTS_TO_OTHER_GUARD,
+		SOURCE_BUILDING_POWER_OTHER_CONDUCTS_TO_SELF_GUARD: SOURCE_BUILDING_POWER_OTHER_CONDUCTS_TO_SELF_GUARD,
+		SOURCE_BUILDING_POWER_DUPLICATE_LINK_GUARD: SOURCE_BUILDING_POWER_DUPLICATE_LINK_GUARD,
+		SOURCE_BUILDING_POWER_CONDUCTS_TO_OTHER_BY_INDEX_KEY: conducts_to_other_by_index.duplicate(true),
+		SOURCE_BUILDING_POWER_OTHER_CONDUCTS_TO_SELF_BY_INDEX_KEY: other_conducts_to_self_by_index.duplicate(true),
+		SOURCE_BUILDING_POWER_POWER_LINK_CONTAINS_OTHER_POS_BY_INDEX_KEY: power_link_contains_other_pos_by_index.duplicate(true),
+		SOURCE_BUILDING_POWER_CONDUCTS_LINK_GUARD_PASS_INDICES_KEY: conducts_link_guard_pass_indices,
+		SOURCE_BUILDING_POWER_CONDUCTS_LINK_GUARD_PASS_COUNT_KEY: conducts_link_guard_pass_indices.size(),
+		SOURCE_BUILDING_POWER_CONNECTION_COUNT_KEY: conducts_to_other_by_index.size(),
+		SOURCE_BUILDING_POWER_DEFERRED_MANUAL_LINKS_LOOP_KEY: true,
 	}
 
 static func get_power_connections_automatic_add_state(conducts_link_guard_pass_indices: Array, previous_out_count: int) -> Dictionary:
 	return {
-		"method": "public Seq<Building> getPowerConnections(Seq<Building> out){",
-		"out_add_other": "out.add(other);",
-		"conducts_link_guard_pass_indices": conducts_link_guard_pass_indices.duplicate(),
-		"added_indices": conducts_link_guard_pass_indices.duplicate(),
-		"added_count": conducts_link_guard_pass_indices.size(),
-		"previous_out_count": previous_out_count,
-		"out_count_after_adds": previous_out_count + conducts_link_guard_pass_indices.size(),
-		"deferred_manual_links_loop": true,
+		SOURCE_BUILDING_POWER_METHOD_KEY: SOURCE_BUILDING_POWER_GET_POWER_CONNECTIONS_METHOD,
+		SOURCE_BUILDING_POWER_OUT_ADD_OTHER: SOURCE_BUILDING_POWER_OUT_ADD_OTHER,
+		SOURCE_BUILDING_POWER_CONDUCTS_LINK_GUARD_PASS_INDICES_KEY: conducts_link_guard_pass_indices.duplicate(),
+		SOURCE_BUILDING_POWER_ADDED_INDICES_KEY: conducts_link_guard_pass_indices.duplicate(),
+		SOURCE_BUILDING_POWER_ADDED_COUNT_KEY: conducts_link_guard_pass_indices.size(),
+		SOURCE_BUILDING_POWER_PREVIOUS_OUT_COUNT_KEY: previous_out_count,
+		SOURCE_BUILDING_POWER_OUT_COUNT_AFTER_ADDS_KEY: previous_out_count + conducts_link_guard_pass_indices.size(),
+		SOURCE_BUILDING_POWER_DEFERRED_MANUAL_LINKS_LOOP_KEY: true,
 	}
 
 static func get_power_connections_manual_links_loop_state(link_present_by_index: Array, link_build_present_by_index: Array, link_build_power_present_by_index: Array, link_build_same_team_by_index: Array, previous_out_count: int) -> Dictionary:
@@ -236,18 +395,78 @@ static func get_power_connections_manual_links_loop_state(link_present_by_index:
 		if link_present and link_build_present and link_build_power_present and link_build_same_team:
 			manual_link_added_indices.append(index)
 	return {
-		"method": "public Seq<Building> getPowerConnections(Seq<Building> out){",
-		"manual_links_loop": "for(int i = 0; i < power.links.size; i++){",
-		"manual_link_tile_lookup": "Tile link = world.tile(power.links.get(i));",
-		"manual_link_add_guard": "if(link != null && link.build != null && link.build.power != null && link.build.team == team) out.add(link.build);",
-		"return_out": "return out;",
-		"link_present_by_index": link_present_by_index.duplicate(true),
-		"link_build_present_by_index": link_build_present_by_index.duplicate(true),
-		"link_build_power_present_by_index": link_build_power_present_by_index.duplicate(true),
-		"link_build_same_team_by_index": link_build_same_team_by_index.duplicate(true),
-		"previous_out_count": previous_out_count,
-		"manual_link_added_indices": manual_link_added_indices,
-		"manual_link_added_count": manual_link_added_indices.size(),
-		"manual_link_count": link_present_by_index.size(),
-		"out_count_after_manual_links": previous_out_count + manual_link_added_indices.size(),
+		SOURCE_BUILDING_POWER_METHOD_KEY: SOURCE_BUILDING_POWER_GET_POWER_CONNECTIONS_METHOD,
+		SOURCE_BUILDING_POWER_MANUAL_LINKS_LOOP: SOURCE_BUILDING_POWER_MANUAL_LINKS_LOOP,
+		SOURCE_BUILDING_POWER_MANUAL_LINK_TILE_LOOKUP: SOURCE_BUILDING_POWER_MANUAL_LINK_TILE_LOOKUP,
+		SOURCE_BUILDING_POWER_MANUAL_LINK_ADD_GUARD: SOURCE_BUILDING_POWER_MANUAL_LINK_ADD_GUARD,
+		SOURCE_BUILDING_POWER_RETURN_OUT: SOURCE_BUILDING_POWER_RETURN_OUT,
+		SOURCE_BUILDING_POWER_LINK_PRESENT_BY_INDEX_KEY: link_present_by_index.duplicate(true),
+		SOURCE_BUILDING_POWER_LINK_BUILD_PRESENT_BY_INDEX_KEY: link_build_present_by_index.duplicate(true),
+		SOURCE_BUILDING_POWER_LINK_BUILD_POWER_PRESENT_BY_INDEX_KEY: link_build_power_present_by_index.duplicate(true),
+		SOURCE_BUILDING_POWER_LINK_BUILD_SAME_TEAM_BY_INDEX_KEY: link_build_same_team_by_index.duplicate(true),
+		SOURCE_BUILDING_POWER_PREVIOUS_OUT_COUNT_KEY: previous_out_count,
+		SOURCE_BUILDING_POWER_MANUAL_LINK_ADDED_INDICES_KEY: manual_link_added_indices,
+		SOURCE_BUILDING_POWER_MANUAL_LINK_ADDED_COUNT_KEY: manual_link_added_indices.size(),
+		SOURCE_BUILDING_POWER_MANUAL_LINK_COUNT_KEY: link_present_by_index.size(),
+		SOURCE_BUILDING_POWER_OUT_COUNT_AFTER_MANUAL_LINKS_KEY: previous_out_count + manual_link_added_indices.size(),
+	}
+
+static func get_power_connections_state(
+	power_present: bool,
+	previous_out_count: int,
+	other_present_by_index: Array,
+	other_power_present_by_index: Array,
+	other_same_team_by_index: Array,
+	block_consumes_power: bool,
+	block_outputs_power: bool,
+	block_conductive_power: bool,
+	other_block_consumes_power_by_index: Array,
+	other_block_outputs_power_by_index: Array,
+	other_block_conductive_power_by_index: Array,
+	conducts_to_other_by_index: Array,
+	other_conducts_to_self_by_index: Array,
+	power_link_contains_other_pos_by_index: Array,
+	link_present_by_index: Array,
+	link_build_present_by_index: Array,
+	link_build_power_present_by_index: Array,
+	link_build_same_team_by_index: Array
+) -> Dictionary:
+	var empty_guard := get_power_connections_empty_guard_state(power_present, previous_out_count)
+	var phases := {SOURCE_BUILDING_POWER_GET_POWER_CONNECTIONS_EMPTY_PHASE_KEY: empty_guard}
+	if not power_present:
+		return {
+			SOURCE_BUILDING_POWER_METHOD_KEY: SOURCE_BUILDING_POWER_GET_POWER_CONNECTIONS_AGGREGATE_METHOD,
+			SOURCE_BUILDING_POWER_POWER_PRESENT_KEY: power_present,
+			SOURCE_BUILDING_POWER_PREVIOUS_OUT_COUNT_KEY: previous_out_count,
+			SOURCE_BUILDING_POWER_GET_POWER_CONNECTIONS_PHASES_KEY: phases,
+			SOURCE_BUILDING_POWER_GET_POWER_CONNECTIONS_RESULT_KEY: empty_guard,
+			SOURCE_BUILDING_POWER_GET_POWER_CONNECTIONS_RETURNED_OUT_KEY: true,
+		}
+	var proximity_guard := get_power_connections_proximity_guard_state(other_present_by_index, other_power_present_by_index, other_same_team_by_index)
+	var compatibility_guard := get_power_connections_power_compatibility_guard_state(block_consumes_power, block_outputs_power, block_conductive_power, other_block_consumes_power_by_index, other_block_outputs_power_by_index, other_block_conductive_power_by_index)
+	var conducts_guard := get_power_connections_conducts_link_guard_state(conducts_to_other_by_index, other_conducts_to_self_by_index, power_link_contains_other_pos_by_index)
+	var connection_indices: Array = []
+	var proximity_indices: Array = proximity_guard.get(SOURCE_BUILDING_POWER_PROXIMITY_GUARD_PASS_INDICES_KEY, [])
+	var compatibility_indices: Array = compatibility_guard.get(SOURCE_BUILDING_POWER_POWER_COMPATIBILITY_PASS_INDICES_KEY, [])
+	var conducts_indices: Array = conducts_guard.get(SOURCE_BUILDING_POWER_CONDUCTS_LINK_GUARD_PASS_INDICES_KEY, [])
+	for index in range(other_present_by_index.size()):
+		if proximity_indices.has(index) and compatibility_indices.has(index) and conducts_indices.has(index):
+			connection_indices.append(index)
+	var automatic_add := get_power_connections_automatic_add_state(connection_indices, 0)
+	var manual_links := get_power_connections_manual_links_loop_state(link_present_by_index, link_build_present_by_index, link_build_power_present_by_index, link_build_same_team_by_index, int(automatic_add.get(SOURCE_BUILDING_POWER_OUT_COUNT_AFTER_ADDS_KEY, 0)))
+	phases = {
+		SOURCE_BUILDING_POWER_GET_POWER_CONNECTIONS_EMPTY_PHASE_KEY: empty_guard,
+		SOURCE_BUILDING_POWER_GET_POWER_CONNECTIONS_PROXIMITY_PHASE_KEY: proximity_guard,
+		SOURCE_BUILDING_POWER_GET_POWER_CONNECTIONS_COMPATIBILITY_PHASE_KEY: compatibility_guard,
+		SOURCE_BUILDING_POWER_GET_POWER_CONNECTIONS_CONDUCTS_PHASE_KEY: conducts_guard,
+		SOURCE_BUILDING_POWER_GET_POWER_CONNECTIONS_AUTOMATIC_PHASE_KEY: automatic_add,
+		SOURCE_BUILDING_POWER_GET_POWER_CONNECTIONS_MANUAL_PHASE_KEY: manual_links,
+	}
+	return {
+		SOURCE_BUILDING_POWER_METHOD_KEY: SOURCE_BUILDING_POWER_GET_POWER_CONNECTIONS_AGGREGATE_METHOD,
+		SOURCE_BUILDING_POWER_POWER_PRESENT_KEY: power_present,
+		SOURCE_BUILDING_POWER_PREVIOUS_OUT_COUNT_KEY: previous_out_count,
+		SOURCE_BUILDING_POWER_GET_POWER_CONNECTIONS_PHASES_KEY: phases,
+		SOURCE_BUILDING_POWER_GET_POWER_CONNECTIONS_RESULT_KEY: manual_links,
+		SOURCE_BUILDING_POWER_GET_POWER_CONNECTIONS_RETURNED_OUT_KEY: not power_present or manual_links.has(SOURCE_BUILDING_POWER_RETURN_OUT),
 	}

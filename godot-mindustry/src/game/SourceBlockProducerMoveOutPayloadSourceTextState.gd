@@ -1,0 +1,20 @@
+extends RefCounted
+class_name SourceBlockProducerMoveOutPayloadSourceTextState
+
+const SOURCE_PAYLOAD_BLOCK_MOVE_OUT_PAYLOAD_ARC_SOURCE := "arc-core/src/arc/math/Angles.java; arc-core/src/arc/math/geom/Vec2.java; arc-core/src/arc/math/geom/Position.java"
+const SOURCE_BLOCK_PRODUCER_BUILD_UPDATE_TILE_MOVE_OUT_PAYLOAD_EXPR := "moveOutPayload();"
+const SOURCE_PAYLOAD_BLOCK_MOVE_OUT_PAYLOAD_METHOD := "public void moveOutPayload(){"
+const SOURCE_PAYLOAD_BLOCK_MOVE_OUT_PAYLOAD_NULL_GUARD := "if(payload == null) return;"
+const SOURCE_PAYLOAD_BLOCK_MOVE_OUT_PAYLOAD_UPDATE_PAYLOAD_EXPR := "updatePayload();"
+const SOURCE_PAYLOAD_BLOCK_MOVE_OUT_PAYLOAD_DEST_EXPR := "Vec2 dest = Tmp.v1.trns(rotdeg(), size * tilesize/2f);"
+const SOURCE_PAYLOAD_BLOCK_MOVE_OUT_PAYLOAD_PAY_ROTATION_EXPR := "payRotation = Angles.moveToward(payRotation, rotdeg(), payloadRotateSpeed * delta());"
+const SOURCE_PAYLOAD_BLOCK_MOVE_OUT_PAYLOAD_PAY_VECTOR_EXPR := "payVector.approach(dest, payloadSpeed * delta());"
+const SOURCE_PAYLOAD_BLOCK_MOVE_OUT_PAYLOAD_FRONT_EXPR := "Building front = front();"
+const SOURCE_PAYLOAD_BLOCK_MOVE_OUT_PAYLOAD_CAN_DUMP_EXPR := "boolean canDump = front == null || !front.tile.solid();"
+const SOURCE_PAYLOAD_BLOCK_MOVE_OUT_PAYLOAD_CAN_MOVE_EXPR := "boolean canMove = front != null && (front.block.outputsPayload || front.block.acceptsPayload);"
+const SOURCE_PAYLOAD_BLOCK_MOVE_OUT_PAYLOAD_PUSH_OUTPUT_EXPR := "pushOutput(payload, 1f - (payVector.dst(dest) / (size * tilesize / 2f)));"
+const SOURCE_PAYLOAD_BLOCK_MOVE_OUT_PAYLOAD_ARRIVED_GUARD := "if(payVector.within(dest, 0.001f)){"
+const SOURCE_PAYLOAD_BLOCK_MOVE_OUT_PAYLOAD_CLAMP_EXPR := "payVector.clamp(-size * tilesize / 2f, -size * tilesize / 2f, size * tilesize / 2f, size * tilesize / 2f);"
+const SOURCE_PAYLOAD_BLOCK_MOVE_OUT_PAYLOAD_MOVE_PAYLOAD_EXPR := "if(movePayload(payload)){"
+const SOURCE_PAYLOAD_BLOCK_MOVE_OUT_PAYLOAD_PAYLOAD_CLEAR_EXPR := "payload = null;"
+const SOURCE_PAYLOAD_BLOCK_MOVE_OUT_PAYLOAD_DUMP_PAYLOAD_EXPR := "dumpPayload();"

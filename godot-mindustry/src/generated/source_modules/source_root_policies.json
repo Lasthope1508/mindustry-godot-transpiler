@@ -1,0 +1,97 @@
+{
+  "version": 1,
+  "policies": {
+    "registry": {
+      "canonicalOwnerAliases": {
+        "port_game.source_building_back_state": "port_game.source_building_navigation_state",
+        "port_game.source_building_find_closest_edge_state": "port_game.source_building_navigation_state",
+        "port_game.source_building_front_state": "port_game.source_building_navigation_state",
+        "port_game.source_building_left_state": "port_game.source_building_navigation_state",
+        "port_game.source_building_nearby_delta_state": "port_game.source_building_navigation_state",
+        "port_game.source_building_nearby_rotation_state": "port_game.source_building_navigation_state",
+        "port_game.source_building_read_hook_noop_state": "port_game.source_building_serialization_hook_state",
+        "port_game.source_building_relative_to_building_state": "port_game.source_building_navigation_state",
+        "port_game.source_building_relative_to_coordinates_state": "port_game.source_building_navigation_state",
+        "port_game.source_building_relative_to_edge_state": "port_game.source_building_navigation_state",
+        "port_game.source_building_relative_to_tile_state": "port_game.source_building_navigation_state",
+        "port_game.source_building_right_state": "port_game.source_building_navigation_state",
+        "port_game.source_building_write_hook_noop_state": "port_game.source_building_serialization_hook_state",
+        "port_game.source_building_recently_healed_state": "port_game.source_building_health_recent_state",
+        "port_game.source_building_was_recently_healed_state": "port_game.source_building_health_recent_state",
+        "port_game.source_building_was_recently_damaged_state": "port_game.source_building_health_recent_state",
+        "port_game.source_building_each_edge_state": "port_game.source_building_navigation_state"
+      },
+      "exemptSourceOwners": [
+        "port_game.source_symbol_registry_state",
+        "port_game.source_symbol_audit_state",
+        "port_game.source_root_policy_state",
+        "port_game.source_slice_ledger_state",
+        "port_game.source_api_contract_state",
+        "port_game.source_state_schema_state",
+        "port_game.source_manifest_state",
+        "port_game.source_manifest_file_state"
+      ],
+      "legacyBackfillStatus": "tracked",
+      "newSourceOwnerRequiresRegistry": true
+    },
+    "audit_report": {
+      "newSourceOwnerRequiresRegistry": true,
+      "legacyBackfillStatus": "tracked",
+      "canonicalOwnerAliases": {
+        "port_game.source_building_back_state": "port_game.source_building_navigation_state",
+        "port_game.source_building_find_closest_edge_state": "port_game.source_building_navigation_state",
+        "port_game.source_building_front_state": "port_game.source_building_navigation_state",
+        "port_game.source_building_left_state": "port_game.source_building_navigation_state",
+        "port_game.source_building_nearby_delta_state": "port_game.source_building_navigation_state",
+        "port_game.source_building_nearby_rotation_state": "port_game.source_building_navigation_state",
+        "port_game.source_building_read_hook_noop_state": "port_game.source_building_serialization_hook_state",
+        "port_game.source_building_relative_to_building_state": "port_game.source_building_navigation_state",
+        "port_game.source_building_relative_to_coordinates_state": "port_game.source_building_navigation_state",
+        "port_game.source_building_relative_to_edge_state": "port_game.source_building_navigation_state",
+        "port_game.source_building_relative_to_tile_state": "port_game.source_building_navigation_state",
+        "port_game.source_building_right_state": "port_game.source_building_navigation_state",
+        "port_game.source_building_write_hook_noop_state": "port_game.source_building_serialization_hook_state",
+        "port_game.source_building_recently_healed_state": "port_game.source_building_health_recent_state",
+        "port_game.source_building_was_recently_healed_state": "port_game.source_building_health_recent_state",
+        "port_game.source_building_was_recently_damaged_state": "port_game.source_building_health_recent_state",
+        "port_game.source_building_each_edge_state": "port_game.source_building_navigation_state"
+      }
+    },
+    "slice_ledger": {
+      "newSliceRequiresLedger": true,
+      "resumeMustRead": [
+        "docs/superpowers/specs/2026-06-23-mindustry-godot-gdscript-transpiler-design.md",
+        "godot-mindustry/src/generated/source_symbol_registry.json",
+        "godot-mindustry/src/generated/source_symbol_audit_report.json",
+        "godot-mindustry/src/generated/source_slice_ledger.json",
+        "godot-mindustry/src/generated/source_api_contracts.json",
+        "godot-mindustry/src/generated/source_state_schema.json",
+        "godot-mindustry/src/generated/source_ssot_modules.json",
+        "godot-mindustry/src/generated/source_modules/consumer_slices.json"
+      ]
+    },
+    "state_schema": {
+      "newDictionaryKeyRequiresSchema": true,
+      "runtimeKeyMayUseCamelCaseWhenCanonicalOrAlias": true
+    },
+    "module_manifest": {
+      "canonicalAliases": {
+        "content_registry.blocks": [
+          "block content registry",
+          "content registry blocks"
+        ],
+        "registry": [
+          "source symbols",
+          "source symbol registry",
+          "source.symbol.registry"
+        ]
+      },
+      "canonicalHeadquarters": {
+        "registry": "source_symbol_registry"
+      },
+      "extensionModuleRequiresRootKey": true,
+      "extensionModuleRoot": "src/generated/source_modules",
+      "newJsonShardRequiresManifestEntry": true
+    }
+  }
+}

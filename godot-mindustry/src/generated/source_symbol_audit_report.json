@@ -6884,13 +6884,13 @@
     {
       "owner": "port_game.source_world_tile",
       "function": "source_world_tile",
-      "gdscript_path": "src/game/PortGame.gd",
+      "gdscript_path": "src/game/SourcePlayableWorldRuntimePortBridge.gd",
       "canonical_owner": "port_game.source_world_tile"
     },
     {
       "owner": "port_game.source_world_linked_ore_tiles_state",
       "function": "source_world_linked_ore_tiles_state",
-      "gdscript_path": "src/game/PortGame.gd",
+      "gdscript_path": "src/game/SourcePlayableWorldRuntimePortBridge.gd",
       "canonical_owner": "port_game.source_world_linked_ore_tiles_state"
     },
     {

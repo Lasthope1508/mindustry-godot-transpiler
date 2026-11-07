@@ -2,7 +2,8 @@ extends Node
 
 const PortGameScript := preload("res://src/game/PortGame.gd")
 const source_build_payload_lifecycle_state := preload("res://src/game/SourceBuildPayloadLifecycleState.gd")
-const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const source_ssot_accessor_runtime_state := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
+const runtime_proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")
 
 func _ready() -> void:
 	var game := PortGameScript.new()
@@ -16,7 +17,7 @@ func _ready() -> void:
 	var build_block_always_update_in_units := false
 	var unit_holder := "unit"
 	var building_holder := "building"
-	var registry_state := source_ssot_catalog.canonical_headquarter_registry_state()
+	var registry_state := source_ssot_accessor_runtime_state.canonical_headquarter_registry_state()
 	var place_default_bridge := game.generated_build_payload_place_default_bridge_state(tile, build_block, build_team)
 	var place_bridge := game.generated_build_payload_place_bridge_state(tile, build_block, build_team, rotation_value)
 	var update_bridge := game.generated_build_payload_update_bridge_state(unit_holder_present, build_block_update_in_units, unit_payload_update, build_block_always_update_in_units, unit_holder, building_holder)
@@ -43,12 +44,9 @@ func _ready() -> void:
 		"one_headquarter_per_ssot": bool(registry_state.get("one_headquarter_per_ssot", false)),
 	}
 	proof["matches"] = bool(place_default_bridge.get("matches", false)) and bool(place_bridge.get("matches", false)) and bool(update_bridge.get("matches", false)) and bool(destroyed_bridge.get("matches", false)) and bool(remove_bridge.get("matches", false)) and proof["place_default_bridge_matches"] and proof["place_bridge_matches"] and proof["update_bridge_matches"] and proof["destroyed_bridge_matches"] and proof["remove_bridge_matches"] and proof["one_headquarter_per_ssot"] and proof["registry_valid"]
-	var proof_json := JSON.stringify(proof)
-	print("BUILD_PAYLOAD_LIFECYCLE_MODULE_PROOF " + proof_json)
-	var proof_path := ProjectSettings.globalize_path("res://tools/runtime_proofs/BuildPayloadLifecycleModuleProof.json")
-	var proof_file := FileAccess.open(proof_path, FileAccess.WRITE)
-	if proof_file != null:
-		proof_file.store_string(proof_json)
+	print("BUILD_PAYLOAD_LIFECYCLE_MODULE_PROOF " + JSON.stringify(proof))
+	runtime_proof_state.write_proof("BuildPayloadLifecycleModuleProof", proof)
 	game.free()
-	await get_tree().create_timer(60.0).timeout
-	get_tree().quit(0)
+	await get_tree().process_frame
+	get_tree().quit(runtime_proof_state.exit_code(proof))
+

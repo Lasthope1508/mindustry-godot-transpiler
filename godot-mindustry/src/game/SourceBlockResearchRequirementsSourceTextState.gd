@@ -1,0 +1,23 @@
+extends RefCounted
+class_name SourceBlockResearchRequirementsSourceTextState
+
+const SOURCE_BLOCK_RESEARCH_REQUIREMENTS_SOURCE := "core/src/mindustry/world/Block.java"
+const SOURCE_BLOCK_RESEARCH_REQUIREMENTS_UI_SOURCE := "core/src/mindustry/core/UI.java"
+const SOURCE_BLOCK_RESEARCH_REQUIREMENTS_METHOD := "public ItemStack[] researchRequirements(){"
+const SOURCE_BLOCK_RESEARCH_REQUIREMENTS_OVERRIDE_EXPR := "@Override"
+const SOURCE_BLOCK_RESEARCH_REQUIREMENTS_RESEARCH_COST_GUARD_EXPR := "if(researchCost != null) return researchCost;"
+const SOURCE_BLOCK_RESEARCH_REQUIREMENTS_RESEARCH_COST_RETURN_EXPR := "return researchCost;"
+const SOURCE_BLOCK_RESEARCH_REQUIREMENTS_EMPTY_GUARD_EXPR := "if(researchCostMultiplier <= 0f) return ItemStack.empty;"
+const SOURCE_BLOCK_RESEARCH_REQUIREMENTS_EMPTY_RETURN_EXPR := "return ItemStack.empty;"
+const SOURCE_BLOCK_RESEARCH_REQUIREMENTS_OUT_ALLOC_EXPR := "ItemStack[] out = new ItemStack[requirements.length];"
+const SOURCE_BLOCK_RESEARCH_REQUIREMENTS_LOOP_EXPR := "for(int i = 0; i < out.length; i++){"
+const SOURCE_BLOCK_RESEARCH_REQUIREMENTS_RETURN_OUT_EXPR := "return out;"
+const SOURCE_BLOCK_RESEARCH_REQUIREMENTS_QUANTITY_EXPR := "int quantity = Mathf.round(60 * researchCostMultiplier + Mathf.pow(requirements[i].amount, 1.11f) * 20 * researchCostMultiplier * researchCostMultipliers.get(requirements[i].item, 1f), 10);"
+const SOURCE_BLOCK_RESEARCH_REQUIREMENTS_MATHF_ROUND_EXPR := "Mathf.round(value, 10)"
+const SOURCE_BLOCK_RESEARCH_REQUIREMENTS_MATHF_ROUND_STEP_EXPR := "return (int)(value / step) * step;"
+const SOURCE_BLOCK_RESEARCH_REQUIREMENTS_ROUND_AMOUNT_EXPR := "UI.roundAmount(quantity)"
+const SOURCE_BLOCK_RESEARCH_REQUIREMENTS_UI_ROUND_AMOUNT_METHOD := "public static int roundAmount(int number){"
+const SOURCE_BLOCK_RESEARCH_REQUIREMENTS_MATHF_ROUND_INT_STEP_EXPR := "return (value / step) * step;"
+const SOURCE_BLOCK_RESEARCH_REQUIREMENTS_ITEMSTACK_FILL_EXPR := "out[i] = new ItemStack(requirements[i].item, UI.roundAmount(quantity));"
+const SOURCE_BLOCK_RESEARCH_REQUIREMENTS_JAVA_METHOD_RESEARCH_REQUIREMENTS_118 := "java_method_researchRequirements_118"
+const SOURCE_BLOCK_RESEARCH_REQUIREMENTS_GENERATED_OWNER := "block.java_method_researchRequirements_118"

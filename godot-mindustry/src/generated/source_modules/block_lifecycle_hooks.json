@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "block_lifecycle_hooks": {
+    "owner": "SourceBlockLifecycleHookState",
+    "source": "core/src/mindustry/world/Block.java",
+    "methods": [
+      "PortGame.generated_block_build_editor_config_bridge_state",
+      "PortGame.generated_block_on_picked_bridge_state",
+      "PortGame.generated_block_get_config_bridge_state",
+      "PortGame.generated_block_changed_bridge_state",
+      "PortGame.generated_block_place_began_bridge_state",
+      "PortGame.generated_block_place_began_builder_bridge_state",
+      "PortGame.generated_block_place_ended_bridge_state",
+      "PortGame.generated_block_before_place_began_bridge_state",
+      "PortGame.generated_block_editor_picked_bridge_state"
+    ],
+    "generated_methods": [
+      "java_method_buildEditorConfig_79",
+      "java_method_onPicked_80",
+      "java_method_getConfig_81",
+      "java_method_blockChanged_82",
+      "java_method_placeBegan_83",
+      "java_method_placeBegan_84",
+      "java_method_placeEnded_85",
+      "java_method_beforePlaceBegan_86",
+      "java_method_editorPicked_87"
+    ]
+  }
+}

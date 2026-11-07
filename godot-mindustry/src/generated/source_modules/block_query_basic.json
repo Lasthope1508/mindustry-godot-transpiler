@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "block_query_basic": {
+    "owner": "SourceBlockQueryBasicState",
+    "source": "core/src/mindustry/world/Block.java",
+    "methods": [
+      "PortGame.generated_block_has_building_bridge_state",
+      "PortGame.generated_block_is_multiblock_bridge_state",
+      "PortGame.generated_block_is_floor_bridge_state",
+      "PortGame.generated_block_is_overlay_bridge_state",
+      "PortGame.generated_block_as_floor_bridge_state",
+      "PortGame.generated_block_is_air_bridge_state",
+      "PortGame.generated_block_can_be_built_bridge_state",
+      "PortGame.generated_block_environment_buildable_bridge_state",
+      "PortGame.generated_block_is_static_bridge_state",
+      "PortGame.generated_block_is_banned_bridge_state",
+      "PortGame.generated_block_supports_env_bridge_state"
+    ],
+    "generated_methods": [
+      "java_method_hasBuilding_70",
+      "java_method_isMultiblock_74",
+      "java_method_isFloor_88",
+      "java_method_isOverlay_89",
+      "java_method_asFloor_90",
+      "java_method_isAir_91",
+      "java_method_canBeBuilt_92",
+      "java_method_environmentBuildable_93",
+      "java_method_isStatic_94",
+      "java_method_isBanned_77",
+      "java_method_supportsEnv_78"
+    ]
+  }
+}

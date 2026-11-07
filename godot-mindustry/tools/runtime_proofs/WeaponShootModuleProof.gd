@@ -1,9 +1,10 @@
 extends Node
 
+const runtime_proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")
 const PortGameScript := preload("res://src/game/PortGame.gd")
 const source_math_defaults := preload("res://src/game/SourceMathDefaults.gd")
 const source_weapons_state := preload("res://src/game/SourceWeaponsState.gd")
-const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const source_ssot_accessor_runtime_state := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
 
 func _weapons_state_method_names() -> Dictionary:
 	return {
@@ -122,7 +123,7 @@ func _ready() -> void:
 	var continuous_wrapper := game.source_weapon_update_continuous_live_state(continuous_mount_state, continuous_weapon_state, continuous_unit_state, continuous_bullet_state, 1.0, 2.0, 3.0, 15.0)
 	var continuous_module_bridge := source_weapons_state.game_update_continuous_live_state(game, continuous_mount_state, continuous_weapon_state, continuous_unit_state, continuous_bullet_state, 1.0, 2.0, 3.0, 15.0)
 	var continuous_module := source_weapons_state.update_continuous_live_state(continuous_mount_state, continuous_weapon_state, continuous_unit_state, continuous_bullet_state, 1.0, 2.0, 3.0, 15.0, callbacks.get(source_weapons_state.SOURCE_WEAPONS_TRNS_VEC_KEY, Callable()))
-	var registry_state := source_ssot_catalog.canonical_headquarter_registry_state()
+	var registry_state := source_ssot_accessor_runtime_state.canonical_headquarter_registry_state()
 	var proof := {
 		"module": "SourceWeaponsState",
 		"charge_start_matches": charge_wrapper == charge_module,
@@ -139,10 +140,12 @@ func _ready() -> void:
 		"registry_valid": bool(registry_state.get("errors", []).is_empty()),
 		"registry_headquarter_count": int(registry_state.get("headquarter_count", 0)),
 	}
+	proof["matches"] = proof["charge_start_matches"] and proof["charge_start_bridge_matches"] and proof["default_events_matches"] and proof["default_dispatch_matches"] and proof["rotation_limit_full_circle_guard_matches"] and proof["recoil_half_circle_matches"] and proof["continuous_live_quarter_circle_matches"] and proof["default_callbacks_match"] and proof["override_callbacks_match"] and proof["module_matches"] and proof["one_headquarter_per_ssot"] and proof["registry_valid"]
 	print("WEAPON_SHOOT_MODULE_PROOF " + JSON.stringify(proof))
+	runtime_proof_state.write_proof("WeaponShootModuleProof", proof)
 	game.free()
-	await get_tree().create_timer(60.0).timeout
-	get_tree().quit(0)
+	await get_tree().process_frame
+	get_tree().quit(runtime_proof_state.exit_code(proof))
 
 func _proof_approach_delta(from_value: float, to_value: float, delta: float) -> float:
 	if from_value < to_value:
@@ -150,3 +153,4 @@ func _proof_approach_delta(from_value: float, to_value: float, delta: float) -> 
 	if from_value > to_value:
 		return maxf(from_value - delta, to_value)
 	return to_value
+

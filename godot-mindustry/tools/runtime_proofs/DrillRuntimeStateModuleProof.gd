@@ -1,8 +1,10 @@
 extends Node
 
+const runtime_proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")
 const PortGameScript := preload("res://src/game/PortGame.gd")
 const source_drill_runtime_state_script := preload("res://src/game/SourceDrillRuntimeState.gd")
-const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const source_drill_runtime_shell_state := preload("res://src/game/SourceDrillRuntimeShellState.gd")
+const source_ssot_accessor_runtime_state := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
 
 func _ready() -> void:
 	var game := PortGameScript.new()
@@ -46,6 +48,7 @@ func _ready() -> void:
 	)
 	var drill_context := source_drill_runtime_state_script.runtime_context(game, 1.0, Vector2i(0, 0), "mechanical-drill", "copper", 2, 60.0)
 	var drill_result := source_drill_runtime_state_script.runtime_state(drill_context, runtime_callbacks)
+	var drill_shell_result := source_drill_runtime_shell_state.runtime_state(drill_context, runtime_callbacks, source_drill_runtime_state_script.runtime_shell_schema())
 	var context_schema_constants_valid := (
 		drill_context.has(source_drill_runtime_state_script.SOURCE_DRILL_CONTEXT_ACTIVE_KEY)
 		and drill_context.has(source_drill_runtime_state_script.SOURCE_DRILL_CONTEXT_CELL_X_KEY)
@@ -89,14 +92,18 @@ func _ready() -> void:
 		"method_key_constants_valid": method_key_constants_valid,
 		"context_schema_constants_valid": context_schema_constants_valid,
 		"result_schema_constants_valid": result_schema_constants_valid,
+		"runtime_shell_matches": drill_shell_result == drill_result,
 		"warmup_matches": warmup_wrapper == warmup_module,
 		"time_drilled_matches": time_drilled_wrapper == time_drilled_module,
 		"last_speed_for_cell_matches": last_speed_wrapper == last_speed_module and last_speed_module == 0.0,
 		"output_delta_for_cell_matches": output_delta_wrapper == output_delta_module and output_delta_module == 0.0,
-		"one_headquarter_per_ssot": bool(source_ssot_catalog.canonical_headquarter_registry_state().get("one_headquarter_per_ssot", false)),
-		"registry_valid": bool(source_ssot_catalog.canonical_headquarter_registry_state().get("errors", []).is_empty()),
+		"one_headquarter_per_ssot": bool(source_ssot_accessor_runtime_state.canonical_headquarter_registry_state().get("one_headquarter_per_ssot", false)),
+		"registry_valid": bool(source_ssot_accessor_runtime_state.canonical_headquarter_registry_state().get("errors", []).is_empty()),
 	}
+	proof["matches"] = proof["default_callbacks_match"] and proof["runtime_callbacks_match"] and proof["direct_method_constants_valid"] and proof["method_key_constants_valid"] and proof["context_schema_constants_valid"] and proof["result_schema_constants_valid"] and proof["runtime_shell_matches"] and proof["warmup_matches"] and proof["time_drilled_matches"] and proof["last_speed_for_cell_matches"] and proof["output_delta_for_cell_matches"] and proof["one_headquarter_per_ssot"] and proof["registry_valid"]
 	print("DRILL_RUNTIME_STATE_MODULE_PROOF " + JSON.stringify(proof))
 	game.free()
-	await get_tree().create_timer(60.0).timeout
-	get_tree().quit(0)
+	runtime_proof_state.write_proof("DrillRuntimeStateModuleProof", proof)
+	await get_tree().process_frame
+	get_tree().quit(runtime_proof_state.exit_code(proof))
+

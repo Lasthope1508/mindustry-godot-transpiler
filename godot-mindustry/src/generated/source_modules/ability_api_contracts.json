@@ -3,7 +3,10 @@
   "contracts": {
     "PortGame.source_ability_ability_stat_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_ability_ability_stat_state",
+      "status": "source-backed",
+      "source_slice": "N1269",
       "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "source_method": "Ability.abilityStat(String stat, Object... values)",
       "params": [
         {
           "java_expr": "String stat",
@@ -37,22 +40,22 @@
         "return_expr",
         "return_value"
       ],
-      "rule": "Public runtime contract for Ability.abilityStat source-backed bundle-format return.",
-      "runtime_proof": "/root/Main.source_ability_ability_stat_state",
-      "source_method": "Ability.abilityStat(String stat, Object... values)",
-      "source_slice": "N1269",
-      "status": "source-backed",
       "tests": [
         "test_emit_bridges_ability_ability_stat_to_source_state",
         "test_port_game_exposes_source_ability_ability_stat_state",
         "test_port_game_exposes_generated_ability_ability_stat_bridge_state",
         "test_ability_ability_stat_matches_upstream_source",
         "test_generated_ability_ability_stat_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_ability_ability_stat_state",
+      "rule": "Public runtime contract for Ability.abilityStat source-backed bundle-format return."
     },
     "PortGame.source_ability_add_stats_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_ability_add_stats_state",
+      "status": "source-backed",
+      "source_slice": "N1268",
       "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "source_method": "Ability.addStats(Table t)",
       "params": [
         {
           "java_expr": "Table t",
@@ -96,22 +99,22 @@
         "add_description_call",
         "row_call"
       ],
-      "rule": "Public runtime contract for Ability.addStats(Table t) source-backed description operation plan.",
-      "runtime_proof": "/root/Main.source_ability_add_stats_state",
-      "source_method": "Ability.addStats(Table t)",
-      "source_slice": "N1268",
-      "status": "source-backed",
       "tests": [
         "test_emit_bridges_ability_add_stats_to_source_state",
         "test_port_game_exposes_source_ability_add_stats_state",
         "test_port_game_exposes_generated_ability_add_stats_bridge_state",
         "test_ability_add_stats_matches_upstream_source",
         "test_generated_ability_add_stats_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_ability_add_stats_state",
+      "rule": "Public runtime contract for Ability.addStats(Table t) source-backed description operation plan."
     },
     "PortGame.source_ability_copy_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_ability_copy_state",
+      "status": "source-backed",
+      "source_slice": "N1270",
       "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "source_method": "Ability.copy()",
       "params": [
         {
           "java_expr": "try{ return (Ability)clone(); }catch(CloneNotSupportedException e){ ... }",
@@ -147,22 +150,22 @@
         "return_value",
         "thrown_exception"
       ],
-      "rule": "Public runtime contract for Ability.copy source-backed clone operation plan.",
-      "runtime_proof": "/root/Main.source_ability_copy_state",
-      "source_method": "Ability.copy()",
-      "source_slice": "N1270",
-      "status": "source-backed",
       "tests": [
         "test_emit_bridges_ability_copy_to_source_state",
         "test_port_game_exposes_source_ability_copy_state",
         "test_port_game_exposes_generated_ability_copy_bridge_state",
         "test_ability_copy_matches_upstream_source",
         "test_generated_ability_copy_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_ability_copy_state",
+      "rule": "Public runtime contract for Ability.copy source-backed clone operation plan."
     },
     "PortGame.source_ability_created_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_ability_created_state",
+      "status": "source-backed",
+      "source_slice": "N1264",
       "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "source_method": "Ability.created(Unit unit)",
       "params": [
         {
           "java_expr": "Unit unit",
@@ -178,22 +181,22 @@
         "unit",
         "no_op"
       ],
-      "rule": "Public runtime contract for Ability.created(Unit unit) default no-op.",
-      "runtime_proof": "/root/Main.source_ability_created_state",
-      "source_method": "Ability.created(Unit unit)",
-      "source_slice": "N1264",
-      "status": "source-backed",
       "tests": [
         "test_emit_bridges_ability_created_to_source_state",
         "test_port_game_exposes_source_ability_created_state",
         "test_port_game_exposes_generated_ability_created_bridge_state",
         "test_ability_created_matches_upstream_source",
         "test_generated_ability_created_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_ability_created_state",
+      "rule": "Public runtime contract for Ability.created(Unit unit) default no-op."
     },
     "PortGame.source_ability_death_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_ability_death_state",
+      "status": "source-backed",
+      "source_slice": "N1263",
       "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "source_method": "Ability.death(Unit unit)",
       "params": [
         {
           "java_expr": "Unit unit",
@@ -209,22 +212,22 @@
         "unit",
         "no_op"
       ],
-      "rule": "Public runtime contract for Ability.death(Unit unit) default no-op.",
-      "runtime_proof": "/root/Main.source_ability_death_state",
-      "source_method": "Ability.death(Unit unit)",
-      "source_slice": "N1263",
-      "status": "source-backed",
       "tests": [
         "test_emit_bridges_ability_death_to_source_state",
         "test_port_game_exposes_source_ability_death_state",
         "test_port_game_exposes_generated_ability_death_bridge_state",
         "test_ability_death_matches_upstream_source",
         "test_generated_ability_death_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_ability_death_state",
+      "rule": "Public runtime contract for Ability.death(Unit unit) default no-op."
     },
     "PortGame.source_ability_display_bars_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_ability_display_bars_state",
+      "status": "source-backed",
+      "source_slice": "N1266",
       "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "source_method": "Ability.displayBars(Unit unit, Table bars)",
       "params": [
         {
           "java_expr": "Unit unit",
@@ -247,22 +250,22 @@
         "bars",
         "no_op"
       ],
-      "rule": "Public runtime contract for Ability.displayBars(Unit unit, Table bars) default no-op.",
-      "runtime_proof": "/root/Main.source_ability_display_bars_state",
-      "source_method": "Ability.displayBars(Unit unit, Table bars)",
-      "source_slice": "N1266",
-      "status": "source-backed",
       "tests": [
         "test_emit_bridges_ability_display_bars_to_source_state",
         "test_port_game_exposes_source_ability_display_bars_state",
         "test_port_game_exposes_generated_ability_display_bars_bridge_state",
         "test_ability_display_bars_matches_upstream_source",
         "test_generated_ability_display_bars_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_ability_display_bars_state",
+      "rule": "Public runtime contract for Ability.displayBars(Unit unit, Table bars) default no-op."
     },
     "PortGame.source_ability_display_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_ability_display_state",
+      "status": "source-backed",
+      "source_slice": "N1267",
       "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "source_method": "Ability.display(Table t)",
       "params": [
         {
           "java_expr": "Table t",
@@ -295,22 +298,22 @@
         "outer_chain",
         "table_mutation"
       ],
-      "rule": "Public runtime contract for Ability.display(Table t) source-backed UI operation plan.",
-      "runtime_proof": "/root/Main.source_ability_display_state",
-      "source_method": "Ability.display(Table t)",
-      "source_slice": "N1267",
-      "status": "source-backed",
       "tests": [
         "test_emit_bridges_ability_display_to_source_state",
         "test_port_game_exposes_source_ability_display_state",
         "test_port_game_exposes_generated_ability_display_bridge_state",
         "test_ability_display_matches_upstream_source",
         "test_generated_ability_display_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_ability_display_state",
+      "rule": "Public runtime contract for Ability.display(Table t) source-backed UI operation plan."
     },
     "PortGame.source_ability_draw_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_ability_draw_state",
+      "status": "source-backed",
+      "source_slice": "N1262",
       "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "source_method": "Ability.draw(Unit unit)",
       "params": [
         {
           "java_expr": "Unit unit",
@@ -326,22 +329,22 @@
         "unit",
         "no_op"
       ],
-      "rule": "Public runtime contract for Ability.draw(Unit unit) default no-op.",
-      "runtime_proof": "/root/Main.source_ability_draw_state",
-      "source_method": "Ability.draw(Unit unit)",
-      "source_slice": "N1262",
-      "status": "source-backed",
       "tests": [
         "test_emit_bridges_ability_draw_to_source_state",
         "test_port_game_exposes_source_ability_draw_state",
         "test_port_game_exposes_generated_ability_draw_bridge_state",
         "test_ability_draw_matches_upstream_source",
         "test_generated_ability_draw_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_ability_draw_state",
+      "rule": "Public runtime contract for Ability.draw(Unit unit) default no-op."
     },
     "PortGame.source_ability_get_bundle_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_ability_get_bundle_state",
+      "status": "source-backed",
+      "source_slice": "N1272",
       "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "source_method": "Ability.getBundle()",
       "params": [
         {
           "java_expr": "type.getSimpleName()",
@@ -378,22 +381,22 @@
         "return_expr",
         "return_value"
       ],
-      "rule": "Public runtime contract for Ability.getBundle source-backed bundle key formula.",
-      "runtime_proof": "/root/Main.source_ability_get_bundle_state",
-      "source_method": "Ability.getBundle()",
-      "source_slice": "N1272",
-      "status": "source-backed",
       "tests": [
         "test_emit_bridges_ability_get_bundle_to_source_state",
         "test_port_game_exposes_source_ability_get_bundle_state",
         "test_port_game_exposes_generated_ability_get_bundle_bridge_state",
         "test_ability_get_bundle_matches_upstream_source",
         "test_generated_ability_get_bundle_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_ability_get_bundle_state",
+      "rule": "Public runtime contract for Ability.getBundle source-backed bundle key formula."
     },
     "PortGame.source_ability_init_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_ability_init_state",
+      "status": "source-backed",
+      "source_slice": "N1265",
       "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "source_method": "Ability.init(UnitType type)",
       "params": [
         {
           "java_expr": "UnitType type",
@@ -409,22 +412,22 @@
         "type",
         "no_op"
       ],
-      "rule": "Public runtime contract for Ability.init(UnitType type) default no-op.",
-      "runtime_proof": "/root/Main.source_ability_init_state",
-      "source_method": "Ability.init(UnitType type)",
-      "source_slice": "N1265",
-      "status": "source-backed",
       "tests": [
         "test_emit_bridges_ability_init_to_source_state",
         "test_port_game_exposes_source_ability_init_state",
         "test_port_game_exposes_generated_ability_init_bridge_state",
         "test_ability_init_matches_upstream_source",
         "test_generated_ability_init_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_ability_init_state",
+      "rule": "Public runtime contract for Ability.init(UnitType type) default no-op."
     },
     "PortGame.source_ability_localized_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_ability_localized_state",
+      "status": "source-backed",
+      "source_slice": "N1271",
       "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "source_method": "Ability.localized()",
       "params": [
         {
           "java_expr": "getBundle()",
@@ -450,22 +453,22 @@
         "return_expr",
         "return_value"
       ],
-      "rule": "Public runtime contract for Ability.localized source-backed bundle lookup operation plan.",
-      "runtime_proof": "/root/Main.source_ability_localized_state",
-      "source_method": "Ability.localized()",
-      "source_slice": "N1271",
-      "status": "source-backed",
       "tests": [
         "test_emit_bridges_ability_localized_to_source_state",
         "test_port_game_exposes_source_ability_localized_state",
         "test_port_game_exposes_generated_ability_localized_bridge_state",
         "test_ability_localized_matches_upstream_source",
         "test_generated_ability_localized_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_ability_localized_state",
+      "rule": "Public runtime contract for Ability.localized source-backed bundle lookup operation plan."
     },
     "PortGame.source_ability_update_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_ability_update_state",
+      "status": "source-backed",
+      "source_slice": "N1261",
       "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "source_method": "Ability.update(Unit unit)",
       "params": [
         {
           "java_expr": "Unit unit",
@@ -481,18 +484,15 @@
         "unit",
         "no_op"
       ],
-      "rule": "Public runtime contract for Ability.update(Unit unit) default no-op.",
-      "runtime_proof": "/root/Main.source_ability_update_state",
-      "source_method": "Ability.update(Unit unit)",
-      "source_slice": "N1261",
-      "status": "source-backed",
       "tests": [
         "test_emit_bridges_ability_update_to_source_state",
         "test_port_game_exposes_source_ability_update_state",
         "test_port_game_exposes_generated_ability_update_bridge_state",
         "test_ability_update_matches_upstream_source",
         "test_generated_ability_update_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_ability_update_state",
+      "rule": "Public runtime contract for Ability.update(Unit unit) default no-op."
     }
   }
 }

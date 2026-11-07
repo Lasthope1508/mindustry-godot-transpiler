@@ -4,40 +4,139 @@ class_name SourceBlockInitClipState
 const source_generated_class_runtime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
 const source_block_defaults := preload("res://src/game/SourceBlockDefaults.gd")
+const source_block_source_text_state := preload("res://src/game/SourceBlockSourceTextState.gd")
+const source_block_init_clip_source_text_state := preload("res://src/game/SourceBlockInitClipSourceTextState.gd")
+const SOURCE_BLOCK_GENERATED_CLASS := source_block_source_text_state.SOURCE_BLOCK_GENERATED_CLASS
+const SOURCE_BLOCK_INIT_CLIP_SIZE_SOURCE := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_CLIP_SIZE_SOURCE
+const SOURCE_BLOCK_INIT_CLIP_SIZE_VARS_SOURCE := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_CLIP_SIZE_VARS_SOURCE
+const SOURCE_BLOCK_INIT_CLIP_JAVA_METHOD_INIT_123 := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_CLIP_JAVA_METHOD_INIT_123
+const SOURCE_BLOCK_INIT_CLIP_BRIDGE_MODE_KEY := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_CLIP_BRIDGE_MODE_KEY
+const SOURCE_BLOCK_INIT_CLIP_SIZE_MODE := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_CLIP_SIZE_MODE
+const SOURCE_BLOCK_INIT_LIGHT_CLIP_SIZE_MODE := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_LIGHT_CLIP_SIZE_MODE
+const SOURCE_BLOCK_INIT_LIQUID_LIGHT_MODE := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_LIQUID_LIGHT_MODE
+const SOURCE_BLOCK_INIT_LIQUID_CAPACITY_DEFAULT_MODE := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_LIQUID_CAPACITY_DEFAULT_MODE
+const SOURCE_BLOCK_INIT_EMIT_LIGHT_RADIUS_MODE := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_EMIT_LIGHT_RADIUS_MODE
+const SOURCE_BLOCK_INIT_CLIP_GENERATED_OWNER := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_CLIP_GENERATED_OWNER
+const SOURCE_BLOCK_INIT_CLIP_SOURCE_OWNER_KEY := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_CLIP_SOURCE_OWNER_KEY
+const SOURCE_BLOCK_INIT_CLIP_GENERATED_OWNER_KEY := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_CLIP_GENERATED_OWNER_KEY
+const SOURCE_BLOCK_INIT_CLIP_RESULT_KEY := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_CLIP_RESULT_KEY
+const SOURCE_BLOCK_INIT_CLIP_CANONICAL_KEY := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_CLIP_CANONICAL_KEY
+const SOURCE_BLOCK_INIT_CLIP_MATCHES_KEY := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_CLIP_MATCHES_KEY
+const SOURCE_BLOCK_INIT_CLIP_SOURCE_KEY := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_CLIP_SOURCE_KEY
+const SOURCE_BLOCK_INIT_CLIP_VARS_SOURCE_KEY := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_CLIP_VARS_SOURCE_KEY
+const SOURCE_BLOCK_INIT_CLIP_ARC_MATHF_SOURCE_KEY := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_CLIP_ARC_MATHF_SOURCE_KEY
+const SOURCE_BLOCK_INIT_CLIP_METHOD_KEY := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_CLIP_METHOD_KEY
+const SOURCE_BLOCK_INIT_CLIP_SUPER_INIT_EXPR_KEY := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_CLIP_SUPER_INIT_EXPR_KEY
+const SOURCE_BLOCK_INIT_CLIP_CLIP_SIZE_EXPR_KEY := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_CLIP_CLIP_SIZE_EXPR_KEY
+const SOURCE_BLOCK_INIT_CLIP_TILESIZE_COMMENT_KEY := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_CLIP_TILESIZE_COMMENT_KEY
+const SOURCE_BLOCK_INIT_CLIP_TILESIZE_FIELD_EXPR_KEY := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_CLIP_TILESIZE_FIELD_EXPR_KEY
+const SOURCE_BLOCK_INIT_CLIP_CLIP_SIZE_BEFORE_KEY := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_CLIP_CLIP_SIZE_BEFORE_KEY
+const SOURCE_BLOCK_INIT_CLIP_SIZE_KEY := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_CLIP_SIZE_KEY
+const SOURCE_BLOCK_INIT_CLIP_SOURCE_TILESIZE_KEY := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_CLIP_SOURCE_TILESIZE_KEY
+const SOURCE_BLOCK_INIT_CLIP_SIZE_TILESIZE_KEY := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_CLIP_SIZE_TILESIZE_KEY
+const SOURCE_BLOCK_INIT_CLIP_CLIP_SIZE_AFTER_KEY := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_CLIP_CLIP_SIZE_AFTER_KEY
+const SOURCE_BLOCK_INIT_CLIP_LIGHT_CLIP_SIZE_EXPR_KEY := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_CLIP_LIGHT_CLIP_SIZE_EXPR_KEY
+const SOURCE_BLOCK_INIT_CLIP_LIGHT_CLIP_SIZE_BEFORE_KEY := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_CLIP_LIGHT_CLIP_SIZE_BEFORE_KEY
+const SOURCE_BLOCK_INIT_CLIP_CLIP_SIZE_KEY := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_CLIP_CLIP_SIZE_KEY
+const SOURCE_BLOCK_INIT_CLIP_LIGHT_CLIP_SIZE_AFTER_KEY := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_CLIP_LIGHT_CLIP_SIZE_AFTER_KEY
+const SOURCE_BLOCK_INIT_CLIP_HAS_LIQUIDS_KEY := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_CLIP_HAS_LIQUIDS_KEY
+const SOURCE_BLOCK_INIT_CLIP_DRAW_LIQUID_LIGHT_KEY := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_CLIP_DRAW_LIQUID_LIGHT_KEY
+const SOURCE_BLOCK_INIT_CLIP_EMIT_LIGHT_BEFORE_KEY := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_CLIP_EMIT_LIGHT_BEFORE_KEY
+const SOURCE_BLOCK_INIT_CLIP_LIQUID_LIGHT_GUARD_EXPR_KEY := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_CLIP_LIQUID_LIGHT_GUARD_EXPR_KEY
+const SOURCE_BLOCK_INIT_CLIP_EMIT_LIGHT_ASSIGN_EXPR_KEY := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_CLIP_EMIT_LIGHT_ASSIGN_EXPR_KEY
+const SOURCE_BLOCK_INIT_CLIP_LIQUID_LIGHT_GATE_KEY := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_CLIP_LIQUID_LIGHT_GATE_KEY
+const SOURCE_BLOCK_INIT_CLIP_LIQUID_LIGHT_CLIP_SIZE_KEY := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_CLIP_LIQUID_LIGHT_CLIP_SIZE_KEY
+const SOURCE_BLOCK_INIT_CLIP_EMIT_LIGHT_AFTER_KEY := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_CLIP_EMIT_LIGHT_AFTER_KEY
+const SOURCE_BLOCK_INIT_CLIP_LIQUID_CAPACITY_COMMENT_KEY := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_CLIP_LIQUID_CAPACITY_COMMENT_KEY
+const SOURCE_BLOCK_INIT_CLIP_LIQUID_CAPACITY_GUARD_EXPR_KEY := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_CLIP_LIQUID_CAPACITY_GUARD_EXPR_KEY
+const SOURCE_BLOCK_INIT_CLIP_CONSUME_AMOUNT_DEFAULT_EXPR_KEY := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_CLIP_CONSUME_AMOUNT_DEFAULT_EXPR_KEY
+const SOURCE_BLOCK_INIT_CLIP_CONSUME_BUILDER_LOOP_EXPR_KEY := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_CLIP_CONSUME_BUILDER_LOOP_EXPR_KEY
+const SOURCE_BLOCK_INIT_CLIP_LIQUID_CAPACITY_ASSIGN_EXPR_KEY := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_CLIP_LIQUID_CAPACITY_ASSIGN_EXPR_KEY
+const SOURCE_BLOCK_INIT_CLIP_MATHF_ROUND_EXPR_KEY := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_CLIP_MATHF_ROUND_EXPR_KEY
+const SOURCE_BLOCK_INIT_CLIP_LIQUID_CAPACITY_BEFORE_KEY := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_CLIP_LIQUID_CAPACITY_BEFORE_KEY
+const SOURCE_BLOCK_INIT_CLIP_CONSUME_AMOUNT_KEY := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_CLIP_CONSUME_AMOUNT_KEY
+const SOURCE_BLOCK_INIT_CLIP_LIQUID_CAPACITY_ASSIGNED_KEY := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_CLIP_LIQUID_CAPACITY_ASSIGNED_KEY
+const SOURCE_BLOCK_INIT_CLIP_LIQUID_CAPACITY_AFTER_KEY := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_CLIP_LIQUID_CAPACITY_AFTER_KEY
+const SOURCE_BLOCK_INIT_CLIP_EMIT_LIGHT_GUARD_EXPR_KEY := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_CLIP_EMIT_LIGHT_GUARD_EXPR_KEY
+const SOURCE_BLOCK_INIT_CLIP_EMIT_LIGHT_KEY := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_CLIP_EMIT_LIGHT_KEY
+const SOURCE_BLOCK_INIT_CLIP_LIGHT_RADIUS_KEY := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_CLIP_LIGHT_RADIUS_KEY
+const SOURCE_BLOCK_INIT_CLIP_LIGHT_RADIUS_CLIP_SIZE_KEY := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_CLIP_LIGHT_RADIUS_CLIP_SIZE_KEY
+const SOURCE_BLOCK_INIT_CLIP_SIZE_METHOD := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_CLIP_SIZE_METHOD
+const SOURCE_BLOCK_INIT_CLIP_SIZE_SUPER_INIT_EXPR := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_CLIP_SIZE_SUPER_INIT_EXPR
+const SOURCE_BLOCK_INIT_CLIP_SIZE_CLIP_SIZE_EXPR := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_CLIP_SIZE_CLIP_SIZE_EXPR
+const SOURCE_BLOCK_INIT_CLIP_SIZE_TILESIZE_COMMENT := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_CLIP_SIZE_TILESIZE_COMMENT
+const SOURCE_BLOCK_INIT_CLIP_SIZE_TILESIZE_FIELD_EXPR := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_CLIP_SIZE_TILESIZE_FIELD_EXPR
+const SOURCE_BLOCK_INIT_LIGHT_CLIP_SIZE_SOURCE := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_LIGHT_CLIP_SIZE_SOURCE
+const SOURCE_BLOCK_INIT_LIGHT_CLIP_SIZE_METHOD := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_LIGHT_CLIP_SIZE_METHOD
+const SOURCE_BLOCK_INIT_LIGHT_CLIP_SIZE_SUPER_INIT_EXPR := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_LIGHT_CLIP_SIZE_SUPER_INIT_EXPR
+const SOURCE_BLOCK_INIT_LIGHT_CLIP_SIZE_CLIP_SIZE_EXPR := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_LIGHT_CLIP_SIZE_CLIP_SIZE_EXPR
+const SOURCE_BLOCK_INIT_LIGHT_CLIP_SIZE_LIGHT_CLIP_SIZE_EXPR := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_LIGHT_CLIP_SIZE_LIGHT_CLIP_SIZE_EXPR
+const SOURCE_BLOCK_INIT_LIQUID_LIGHT_SOURCE := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_LIQUID_LIGHT_SOURCE
+const SOURCE_BLOCK_INIT_LIQUID_LIGHT_METHOD := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_LIQUID_LIGHT_METHOD
+const SOURCE_BLOCK_INIT_LIQUID_LIGHT_SUPER_INIT_EXPR := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_LIQUID_LIGHT_SUPER_INIT_EXPR
+const SOURCE_BLOCK_INIT_LIQUID_LIGHT_GUARD_EXPR := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_LIQUID_LIGHT_GUARD_EXPR
+const SOURCE_BLOCK_INIT_LIQUID_LIGHT_EMIT_LIGHT_ASSIGN_EXPR := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_LIQUID_LIGHT_EMIT_LIGHT_ASSIGN_EXPR
+const SOURCE_BLOCK_INIT_LIQUID_LIGHT_CLIP_SIZE_EXPR := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_LIQUID_LIGHT_CLIP_SIZE_EXPR
+const SOURCE_BLOCK_INIT_LIQUID_CAPACITY_DEFAULT_SOURCE := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_LIQUID_CAPACITY_DEFAULT_SOURCE
+const SOURCE_BLOCK_INIT_LIQUID_CAPACITY_ARC_MATHF_SOURCE := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_LIQUID_CAPACITY_ARC_MATHF_SOURCE
+const SOURCE_BLOCK_INIT_LIQUID_CAPACITY_METHOD := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_LIQUID_CAPACITY_METHOD
+const SOURCE_BLOCK_INIT_LIQUID_CAPACITY_SUPER_INIT_EXPR := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_LIQUID_CAPACITY_SUPER_INIT_EXPR
+const SOURCE_BLOCK_INIT_LIQUID_CAPACITY_COMMENT := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_LIQUID_CAPACITY_COMMENT
+const SOURCE_BLOCK_INIT_LIQUID_CAPACITY_GUARD_EXPR := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_LIQUID_CAPACITY_GUARD_EXPR
+const SOURCE_BLOCK_INIT_LIQUID_CAPACITY_CONSUME_AMOUNT_DEFAULT_EXPR := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_LIQUID_CAPACITY_CONSUME_AMOUNT_DEFAULT_EXPR
+const SOURCE_BLOCK_INIT_LIQUID_CAPACITY_CONSUME_BUILDER_LOOP_EXPR := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_LIQUID_CAPACITY_CONSUME_BUILDER_LOOP_EXPR
+const SOURCE_BLOCK_INIT_LIQUID_CAPACITY_ASSIGN_EXPR := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_LIQUID_CAPACITY_ASSIGN_EXPR
+const SOURCE_BLOCK_INIT_LIQUID_CAPACITY_MATHF_ROUND_EXPR := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_LIQUID_CAPACITY_MATHF_ROUND_EXPR
+const SOURCE_BLOCK_INIT_EMIT_LIGHT_RADIUS_SOURCE := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_EMIT_LIGHT_RADIUS_SOURCE
+const SOURCE_BLOCK_INIT_EMIT_LIGHT_RADIUS_METHOD := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_EMIT_LIGHT_RADIUS_METHOD
+const SOURCE_BLOCK_INIT_EMIT_LIGHT_RADIUS_SUPER_INIT_EXPR := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_EMIT_LIGHT_RADIUS_SUPER_INIT_EXPR
+const SOURCE_BLOCK_INIT_EMIT_LIGHT_RADIUS_GUARD_EXPR := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_EMIT_LIGHT_RADIUS_GUARD_EXPR
+const SOURCE_BLOCK_INIT_EMIT_LIGHT_RADIUS_CLIP_SIZE_EXPR := source_block_init_clip_source_text_state.SOURCE_BLOCK_INIT_EMIT_LIGHT_RADIUS_CLIP_SIZE_EXPR
+
+static func _block_call(generated_method: String, generated_args: Array, metadata: Variant = null) -> Variant:
+	if metadata == null:
+		return source_generated_class_runtime.call_java_method(SOURCE_BLOCK_GENERATED_CLASS, generated_method, generated_args, null)
+	return source_generated_class_runtime.call_java_method(SOURCE_BLOCK_GENERATED_CLASS, generated_method, generated_args, null, metadata)
 
 static func clip_size_state(clip_size_before: float, size_value: int, source_tilesize: float) -> Dictionary:
 	var size_tilesize: float = float(size_value) * source_tilesize
 	var clip_size_after: float = max(clip_size_before, size_tilesize)
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_CLIP_SIZE_STATE, "source": "core/src/mindustry/world/Block.java", "vars_source": "core/src/mindustry/Vars.java", "method": "public void init(){", "super_init_expr": "super.init();", "clip_size_expr": "clipSize = Math.max(clipSize, size * tilesize);", "tilesize_comment": "/** size of tiles in units */", "tilesize_field_expr": "public static final int tilesize = 8;", "clip_size_before": clip_size_before, "size": size_value, "source_tilesize": source_tilesize, "size_tilesize": size_tilesize, "clip_size_after": clip_size_after}
+	return {SOURCE_BLOCK_INIT_CLIP_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_CLIP_SIZE_STATE, SOURCE_BLOCK_INIT_CLIP_SOURCE_KEY: SOURCE_BLOCK_INIT_CLIP_SIZE_SOURCE, SOURCE_BLOCK_INIT_CLIP_VARS_SOURCE_KEY: SOURCE_BLOCK_INIT_CLIP_SIZE_VARS_SOURCE, SOURCE_BLOCK_INIT_CLIP_METHOD_KEY: SOURCE_BLOCK_INIT_CLIP_SIZE_METHOD, SOURCE_BLOCK_INIT_CLIP_SUPER_INIT_EXPR_KEY: SOURCE_BLOCK_INIT_CLIP_SIZE_SUPER_INIT_EXPR, SOURCE_BLOCK_INIT_CLIP_CLIP_SIZE_EXPR_KEY: SOURCE_BLOCK_INIT_CLIP_SIZE_CLIP_SIZE_EXPR, SOURCE_BLOCK_INIT_CLIP_TILESIZE_COMMENT_KEY: SOURCE_BLOCK_INIT_CLIP_SIZE_TILESIZE_COMMENT, SOURCE_BLOCK_INIT_CLIP_TILESIZE_FIELD_EXPR_KEY: SOURCE_BLOCK_INIT_CLIP_SIZE_TILESIZE_FIELD_EXPR, SOURCE_BLOCK_INIT_CLIP_CLIP_SIZE_BEFORE_KEY: clip_size_before, SOURCE_BLOCK_INIT_CLIP_SIZE_KEY: size_value, SOURCE_BLOCK_INIT_CLIP_SOURCE_TILESIZE_KEY: source_tilesize, SOURCE_BLOCK_INIT_CLIP_SIZE_TILESIZE_KEY: size_tilesize, SOURCE_BLOCK_INIT_CLIP_CLIP_SIZE_AFTER_KEY: clip_size_after}
+
+static func generated_clip_size_result_state(clip_size_before: float, size_value: int, source_tilesize: float) -> Dictionary:
+	return clip_size_state(clip_size_before, size_value, source_tilesize)
 
 static func generated_clip_size_bridge_state(clip_size_before: float, size_value: int, source_tilesize: float) -> Dictionary:
-	var metadata := {"mindustry_init_bridge_mode": "clip_size"}
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [clip_size_before, size_value, source_tilesize], null, metadata)
+	var metadata := {SOURCE_BLOCK_INIT_CLIP_BRIDGE_MODE_KEY: SOURCE_BLOCK_INIT_CLIP_SIZE_MODE}
+	var result = _block_call(SOURCE_BLOCK_INIT_CLIP_JAVA_METHOD_INIT_123, [clip_size_before, size_value, source_tilesize], metadata)
 	var canonical = clip_size_state(clip_size_before, size_value, source_tilesize)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
 	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_CLIP_SIZE_STATE,
-		"generated_owner": "block.java_method_init_123",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
+		SOURCE_BLOCK_INIT_CLIP_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_CLIP_SIZE_STATE,
+		SOURCE_BLOCK_INIT_CLIP_GENERATED_OWNER_KEY: SOURCE_BLOCK_INIT_CLIP_GENERATED_OWNER,
+		SOURCE_BLOCK_INIT_CLIP_RESULT_KEY: result,
+		SOURCE_BLOCK_INIT_CLIP_CANONICAL_KEY: canonical,
+		SOURCE_BLOCK_INIT_CLIP_MATCHES_KEY: matches,
 	}
 
 static func light_clip_size_state(light_clip_size_before: float, clip_size: float) -> Dictionary:
 	var light_clip_size_after: float = max(light_clip_size_before, clip_size)
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_LIGHT_CLIP_SIZE_STATE, "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "clip_size_expr": "clipSize = Math.max(clipSize, size * tilesize);", "light_clip_size_expr": "lightClipSize = Math.max(lightClipSize, clipSize);", "light_clip_size_before": light_clip_size_before, "clip_size": clip_size, "light_clip_size_after": light_clip_size_after}
+	return {SOURCE_BLOCK_INIT_CLIP_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_LIGHT_CLIP_SIZE_STATE, SOURCE_BLOCK_INIT_CLIP_SOURCE_KEY: SOURCE_BLOCK_INIT_LIGHT_CLIP_SIZE_SOURCE, SOURCE_BLOCK_INIT_CLIP_METHOD_KEY: SOURCE_BLOCK_INIT_LIGHT_CLIP_SIZE_METHOD, SOURCE_BLOCK_INIT_CLIP_SUPER_INIT_EXPR_KEY: SOURCE_BLOCK_INIT_LIGHT_CLIP_SIZE_SUPER_INIT_EXPR, SOURCE_BLOCK_INIT_CLIP_CLIP_SIZE_EXPR_KEY: SOURCE_BLOCK_INIT_LIGHT_CLIP_SIZE_CLIP_SIZE_EXPR, SOURCE_BLOCK_INIT_CLIP_LIGHT_CLIP_SIZE_EXPR_KEY: SOURCE_BLOCK_INIT_LIGHT_CLIP_SIZE_LIGHT_CLIP_SIZE_EXPR, SOURCE_BLOCK_INIT_CLIP_LIGHT_CLIP_SIZE_BEFORE_KEY: light_clip_size_before, SOURCE_BLOCK_INIT_CLIP_CLIP_SIZE_KEY: clip_size, SOURCE_BLOCK_INIT_CLIP_LIGHT_CLIP_SIZE_AFTER_KEY: light_clip_size_after}
+
+static func generated_light_clip_size_result_state(light_clip_size_before: float, clip_size: float) -> Dictionary:
+	return light_clip_size_state(light_clip_size_before, clip_size)
 
 static func generated_light_clip_size_bridge_state(light_clip_size_before: float, clip_size: float) -> Dictionary:
-	var metadata := {"mindustry_init_bridge_mode": "light_clip_size"}
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [light_clip_size_before, clip_size], null, metadata)
+	var metadata := {SOURCE_BLOCK_INIT_CLIP_BRIDGE_MODE_KEY: SOURCE_BLOCK_INIT_LIGHT_CLIP_SIZE_MODE}
+	var result = _block_call(SOURCE_BLOCK_INIT_CLIP_JAVA_METHOD_INIT_123, [light_clip_size_before, clip_size], metadata)
 	var canonical = light_clip_size_state(light_clip_size_before, clip_size)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
 	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_LIGHT_CLIP_SIZE_STATE,
-		"generated_owner": "block.java_method_init_123",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
+		SOURCE_BLOCK_INIT_CLIP_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_LIGHT_CLIP_SIZE_STATE,
+		SOURCE_BLOCK_INIT_CLIP_GENERATED_OWNER_KEY: SOURCE_BLOCK_INIT_CLIP_GENERATED_OWNER,
+		SOURCE_BLOCK_INIT_CLIP_RESULT_KEY: result,
+		SOURCE_BLOCK_INIT_CLIP_CANONICAL_KEY: canonical,
+		SOURCE_BLOCK_INIT_CLIP_MATCHES_KEY: matches,
 	}
 
 static func liquid_light_state(has_liquids: bool, draw_liquid_light: bool, emit_light_before: bool, light_clip_size_before: float, size_value: int) -> Dictionary:
@@ -45,54 +144,63 @@ static func liquid_light_state(has_liquids: bool, draw_liquid_light: bool, emit_
 	var liquid_light_clip_size: float = float(size_value) * source_block_defaults.INIT_LIQUID_LIGHT_RADIUS_SCALE * source_block_defaults.INIT_LIGHT_CLIP_DIAMETER_SCALE
 	var emit_light_after: bool = true if liquid_light_gate else emit_light_before
 	var light_clip_size_after: float = max(light_clip_size_before, liquid_light_clip_size) if liquid_light_gate else light_clip_size_before
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_LIQUID_LIGHT_STATE, "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "liquid_light_guard_expr": "if(hasLiquids && drawLiquidLight){", "emit_light_assign_expr": "emitLight = true;", "light_clip_size_expr": "lightClipSize = Math.max(lightClipSize, size * 30f * 2f);", "has_liquids": has_liquids, "draw_liquid_light": draw_liquid_light, "emit_light_before": emit_light_before, "light_clip_size_before": light_clip_size_before, "size": size_value, "liquid_light_gate": liquid_light_gate, "liquid_light_clip_size": liquid_light_clip_size, "emit_light_after": emit_light_after, "light_clip_size_after": light_clip_size_after}
+	return {SOURCE_BLOCK_INIT_CLIP_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_LIQUID_LIGHT_STATE, SOURCE_BLOCK_INIT_CLIP_SOURCE_KEY: SOURCE_BLOCK_INIT_LIQUID_LIGHT_SOURCE, SOURCE_BLOCK_INIT_CLIP_METHOD_KEY: SOURCE_BLOCK_INIT_LIQUID_LIGHT_METHOD, SOURCE_BLOCK_INIT_CLIP_SUPER_INIT_EXPR_KEY: SOURCE_BLOCK_INIT_LIQUID_LIGHT_SUPER_INIT_EXPR, SOURCE_BLOCK_INIT_CLIP_LIQUID_LIGHT_GUARD_EXPR_KEY: SOURCE_BLOCK_INIT_LIQUID_LIGHT_GUARD_EXPR, SOURCE_BLOCK_INIT_CLIP_EMIT_LIGHT_ASSIGN_EXPR_KEY: SOURCE_BLOCK_INIT_LIQUID_LIGHT_EMIT_LIGHT_ASSIGN_EXPR, SOURCE_BLOCK_INIT_CLIP_LIGHT_CLIP_SIZE_EXPR_KEY: SOURCE_BLOCK_INIT_LIQUID_LIGHT_CLIP_SIZE_EXPR, SOURCE_BLOCK_INIT_CLIP_HAS_LIQUIDS_KEY: has_liquids, SOURCE_BLOCK_INIT_CLIP_DRAW_LIQUID_LIGHT_KEY: draw_liquid_light, SOURCE_BLOCK_INIT_CLIP_EMIT_LIGHT_BEFORE_KEY: emit_light_before, SOURCE_BLOCK_INIT_CLIP_LIGHT_CLIP_SIZE_BEFORE_KEY: light_clip_size_before, SOURCE_BLOCK_INIT_CLIP_SIZE_KEY: size_value, SOURCE_BLOCK_INIT_CLIP_LIQUID_LIGHT_GATE_KEY: liquid_light_gate, SOURCE_BLOCK_INIT_CLIP_LIQUID_LIGHT_CLIP_SIZE_KEY: liquid_light_clip_size, SOURCE_BLOCK_INIT_CLIP_EMIT_LIGHT_AFTER_KEY: emit_light_after, SOURCE_BLOCK_INIT_CLIP_LIGHT_CLIP_SIZE_AFTER_KEY: light_clip_size_after}
+
+static func generated_liquid_light_result_state(has_liquids: bool, draw_liquid_light: bool, emit_light_before: bool, light_clip_size_before: float, size_value: int) -> Dictionary:
+	return liquid_light_state(has_liquids, draw_liquid_light, emit_light_before, light_clip_size_before, size_value)
 
 static func generated_liquid_light_bridge_state(has_liquids: bool, draw_liquid_light: bool, emit_light_before: bool, light_clip_size_before: float, size_value: int) -> Dictionary:
-	var metadata := {"mindustry_init_bridge_mode": "liquid_light"}
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [has_liquids, draw_liquid_light, emit_light_before, light_clip_size_before, size_value], null, metadata)
+	var metadata := {SOURCE_BLOCK_INIT_CLIP_BRIDGE_MODE_KEY: SOURCE_BLOCK_INIT_LIQUID_LIGHT_MODE}
+	var result = _block_call(SOURCE_BLOCK_INIT_CLIP_JAVA_METHOD_INIT_123, [has_liquids, draw_liquid_light, emit_light_before, light_clip_size_before, size_value], metadata)
 	var canonical = liquid_light_state(has_liquids, draw_liquid_light, emit_light_before, light_clip_size_before, size_value)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
 	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_LIQUID_LIGHT_STATE,
-		"generated_owner": "block.java_method_init_123",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
+		SOURCE_BLOCK_INIT_CLIP_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_LIQUID_LIGHT_STATE,
+		SOURCE_BLOCK_INIT_CLIP_GENERATED_OWNER_KEY: SOURCE_BLOCK_INIT_CLIP_GENERATED_OWNER,
+		SOURCE_BLOCK_INIT_CLIP_RESULT_KEY: result,
+		SOURCE_BLOCK_INIT_CLIP_CANONICAL_KEY: canonical,
+		SOURCE_BLOCK_INIT_CLIP_MATCHES_KEY: matches,
 	}
 
 static func liquid_capacity_default_state(liquid_capacity_before: float) -> Dictionary:
 	var liquid_capacity_assigned: bool = liquid_capacity_before < 0.0
 	var consume_amount: float = source_block_defaults.INIT_LIQUID_CONSUME_AMOUNT_DEFAULT
 	var liquid_capacity_after: float = float(int(source_block_defaults.INIT_LIQUID_CAPACITY_SCALE * consume_amount + source_block_defaults.INIT_LIQUID_CAPACITY_ROUND_BIAS) - source_block_defaults.INIT_LIQUID_CAPACITY_ROUND_OFFSET) if liquid_capacity_assigned else liquid_capacity_before
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_LIQUID_CAPACITY_DEFAULT_STATE, "source": "core/src/mindustry/world/Block.java", "arc_mathf_source": "arc-core/src/arc/math/Mathf.java", "method": "public void init(){", "super_init_expr": "super.init();", "liquid_capacity_comment": "//some blocks don't have hasLiquids, but have liquid consumers/liquid capacity", "liquid_capacity_guard_expr": "if(liquidCapacity < 0){", "consume_amount_default_expr": "float consumeAmount = 1f;", "consume_builder_loop_expr": "for(var cons : consumeBuilder){", "liquid_capacity_assign_expr": "liquidCapacity = Mathf.round(10f * consumeAmount);", "mathf_round_expr": "return (int)(value + BIG_ENOUGH_ROUND) - BIG_ENOUGH_INT;", "liquid_capacity_before": liquid_capacity_before, "consume_amount": consume_amount, "liquid_capacity_assigned": liquid_capacity_assigned, "liquid_capacity_after": liquid_capacity_after}
+	return {SOURCE_BLOCK_INIT_CLIP_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_LIQUID_CAPACITY_DEFAULT_STATE, SOURCE_BLOCK_INIT_CLIP_SOURCE_KEY: SOURCE_BLOCK_INIT_LIQUID_CAPACITY_DEFAULT_SOURCE, SOURCE_BLOCK_INIT_CLIP_ARC_MATHF_SOURCE_KEY: SOURCE_BLOCK_INIT_LIQUID_CAPACITY_ARC_MATHF_SOURCE, SOURCE_BLOCK_INIT_CLIP_METHOD_KEY: SOURCE_BLOCK_INIT_LIQUID_CAPACITY_METHOD, SOURCE_BLOCK_INIT_CLIP_SUPER_INIT_EXPR_KEY: SOURCE_BLOCK_INIT_LIQUID_CAPACITY_SUPER_INIT_EXPR, SOURCE_BLOCK_INIT_CLIP_LIQUID_CAPACITY_COMMENT_KEY: SOURCE_BLOCK_INIT_LIQUID_CAPACITY_COMMENT, SOURCE_BLOCK_INIT_CLIP_LIQUID_CAPACITY_GUARD_EXPR_KEY: SOURCE_BLOCK_INIT_LIQUID_CAPACITY_GUARD_EXPR, SOURCE_BLOCK_INIT_CLIP_CONSUME_AMOUNT_DEFAULT_EXPR_KEY: SOURCE_BLOCK_INIT_LIQUID_CAPACITY_CONSUME_AMOUNT_DEFAULT_EXPR, SOURCE_BLOCK_INIT_CLIP_CONSUME_BUILDER_LOOP_EXPR_KEY: SOURCE_BLOCK_INIT_LIQUID_CAPACITY_CONSUME_BUILDER_LOOP_EXPR, SOURCE_BLOCK_INIT_CLIP_LIQUID_CAPACITY_ASSIGN_EXPR_KEY: SOURCE_BLOCK_INIT_LIQUID_CAPACITY_ASSIGN_EXPR, SOURCE_BLOCK_INIT_CLIP_MATHF_ROUND_EXPR_KEY: SOURCE_BLOCK_INIT_LIQUID_CAPACITY_MATHF_ROUND_EXPR, SOURCE_BLOCK_INIT_CLIP_LIQUID_CAPACITY_BEFORE_KEY: liquid_capacity_before, SOURCE_BLOCK_INIT_CLIP_CONSUME_AMOUNT_KEY: consume_amount, SOURCE_BLOCK_INIT_CLIP_LIQUID_CAPACITY_ASSIGNED_KEY: liquid_capacity_assigned, SOURCE_BLOCK_INIT_CLIP_LIQUID_CAPACITY_AFTER_KEY: liquid_capacity_after}
+
+static func generated_liquid_capacity_default_result_state(liquid_capacity_before: float) -> Dictionary:
+	return liquid_capacity_default_state(liquid_capacity_before)
 
 static func generated_liquid_capacity_default_bridge_state(liquid_capacity_before: float) -> Dictionary:
-	var metadata := {"mindustry_init_bridge_mode": "liquid_capacity_default"}
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [liquid_capacity_before], null, metadata)
+	var metadata := {SOURCE_BLOCK_INIT_CLIP_BRIDGE_MODE_KEY: SOURCE_BLOCK_INIT_LIQUID_CAPACITY_DEFAULT_MODE}
+	var result = _block_call(SOURCE_BLOCK_INIT_CLIP_JAVA_METHOD_INIT_123, [liquid_capacity_before], metadata)
 	var canonical = liquid_capacity_default_state(liquid_capacity_before)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
 	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_LIQUID_CAPACITY_DEFAULT_STATE,
-		"generated_owner": "block.java_method_init_123",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
+		SOURCE_BLOCK_INIT_CLIP_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_LIQUID_CAPACITY_DEFAULT_STATE,
+		SOURCE_BLOCK_INIT_CLIP_GENERATED_OWNER_KEY: SOURCE_BLOCK_INIT_CLIP_GENERATED_OWNER,
+		SOURCE_BLOCK_INIT_CLIP_RESULT_KEY: result,
+		SOURCE_BLOCK_INIT_CLIP_CANONICAL_KEY: canonical,
+		SOURCE_BLOCK_INIT_CLIP_MATCHES_KEY: matches,
 	}
 
 static func emit_light_radius_state(emit_light: bool, light_clip_size_before: float, light_radius: float) -> Dictionary:
 	var light_radius_clip_size: float = light_radius * source_block_defaults.INIT_LIGHT_CLIP_DIAMETER_SCALE
 	var light_clip_size_after: float = max(light_clip_size_before, light_radius_clip_size) if emit_light else light_clip_size_before
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_EMIT_LIGHT_RADIUS_STATE, "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "emit_light_guard_expr": "if(emitLight){", "light_clip_size_expr": "lightClipSize = Math.max(lightClipSize, lightRadius * 2f);", "emit_light": emit_light, "light_clip_size_before": light_clip_size_before, "light_radius": light_radius, "light_radius_clip_size": light_radius_clip_size, "light_clip_size_after": light_clip_size_after}
+	return {SOURCE_BLOCK_INIT_CLIP_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_EMIT_LIGHT_RADIUS_STATE, SOURCE_BLOCK_INIT_CLIP_SOURCE_KEY: SOURCE_BLOCK_INIT_EMIT_LIGHT_RADIUS_SOURCE, SOURCE_BLOCK_INIT_CLIP_METHOD_KEY: SOURCE_BLOCK_INIT_EMIT_LIGHT_RADIUS_METHOD, SOURCE_BLOCK_INIT_CLIP_SUPER_INIT_EXPR_KEY: SOURCE_BLOCK_INIT_EMIT_LIGHT_RADIUS_SUPER_INIT_EXPR, SOURCE_BLOCK_INIT_CLIP_EMIT_LIGHT_GUARD_EXPR_KEY: SOURCE_BLOCK_INIT_EMIT_LIGHT_RADIUS_GUARD_EXPR, SOURCE_BLOCK_INIT_CLIP_LIGHT_CLIP_SIZE_EXPR_KEY: SOURCE_BLOCK_INIT_EMIT_LIGHT_RADIUS_CLIP_SIZE_EXPR, SOURCE_BLOCK_INIT_CLIP_EMIT_LIGHT_KEY: emit_light, SOURCE_BLOCK_INIT_CLIP_LIGHT_CLIP_SIZE_BEFORE_KEY: light_clip_size_before, SOURCE_BLOCK_INIT_CLIP_LIGHT_RADIUS_KEY: light_radius, SOURCE_BLOCK_INIT_CLIP_LIGHT_RADIUS_CLIP_SIZE_KEY: light_radius_clip_size, SOURCE_BLOCK_INIT_CLIP_LIGHT_CLIP_SIZE_AFTER_KEY: light_clip_size_after}
+
+static func generated_emit_light_radius_result_state(emit_light: bool, light_clip_size_before: float, light_radius: float) -> Dictionary:
+	return emit_light_radius_state(emit_light, light_clip_size_before, light_radius)
 
 static func generated_emit_light_radius_bridge_state(emit_light: bool, light_clip_size_before: float, light_radius: float) -> Dictionary:
-	var metadata := {"mindustry_init_bridge_mode": "emit_light_radius"}
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [emit_light, light_clip_size_before, light_radius], null, metadata)
+	var metadata := {SOURCE_BLOCK_INIT_CLIP_BRIDGE_MODE_KEY: SOURCE_BLOCK_INIT_EMIT_LIGHT_RADIUS_MODE}
+	var result = _block_call(SOURCE_BLOCK_INIT_CLIP_JAVA_METHOD_INIT_123, [emit_light, light_clip_size_before, light_radius], metadata)
 	var canonical = emit_light_radius_state(emit_light, light_clip_size_before, light_radius)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
 	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_EMIT_LIGHT_RADIUS_STATE,
-		"generated_owner": "block.java_method_init_123",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
+		SOURCE_BLOCK_INIT_CLIP_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_EMIT_LIGHT_RADIUS_STATE,
+		SOURCE_BLOCK_INIT_CLIP_GENERATED_OWNER_KEY: SOURCE_BLOCK_INIT_CLIP_GENERATED_OWNER,
+		SOURCE_BLOCK_INIT_CLIP_RESULT_KEY: result,
+		SOURCE_BLOCK_INIT_CLIP_CANONICAL_KEY: canonical,
+		SOURCE_BLOCK_INIT_CLIP_MATCHES_KEY: matches,
 	}

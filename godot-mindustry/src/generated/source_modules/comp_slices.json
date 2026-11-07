@@ -5185,6 +5185,76 @@
       ],
       "runtime_proof": "/root/Main.BuildingConsumptionCanonicalProof"
     },
+    "N2001": {
+      "canonical_ledger": "source_slice_ledger.N2001",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "create(Block block, Team team)",
+      "godot_owner": "SourcePlacedBlockState.source_initialize_building_liquids_state",
+      "source_symbols": [
+        "initialize_building_liquids.sprite",
+        "initialize_building_liquids.has_liquids",
+        "initialize_building_liquids.content_catalog",
+        "initialize_building_liquids.liquids"
+      ],
+      "tests": [
+        "test_explicit_liquid_flags_follow_constructor_inheritance_and_initializer",
+        "test_real_registry_drill_liquid_flag_and_registered_owner_contracts",
+        "test_liquid_owner_is_bound_on_real_placement_path",
+        "test_live_building_storage_and_typed_catalog_runtime"
+      ],
+      "runtime_proof": "/root/Main.PlacedLiquidOwnershipProof"
+    },
+    "N2026": {
+      "canonical_ledger": "source_slice_ledger.N2026",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "removeFromProximity",
+      "godot_owner": "SourceBuildingLifecycleProximityState.source_apply_remove_from_proximity",
+      "source_symbols": [
+        "source_apply_remove_from_proximity_input.building",
+        "source_apply_remove_from_proximity_input.block_size",
+        "source_apply_remove_from_proximity_input.tile_x",
+        "source_apply_remove_from_proximity_input.tile_y",
+        "source_apply_remove_from_proximity_input.world_build",
+        "source_apply_remove_from_proximity_input.proximity_for",
+        "source_apply_remove_from_proximity_input.on_proximity_removed",
+        "source_apply_remove_from_proximity_input.on_proximity_update"
+      ],
+      "tests": [
+        "test_executable_lifecycle_registration",
+        "test_all_lifecycle_input_evidence_is_exact",
+        "test_reference_graph_and_actual_tile_pre_change"
+      ],
+      "runtime_proof": "/root/BuildingProximityMutationProof"
+    },
+    "N2027": {
+      "canonical_ledger": "source_slice_ledger.N2027",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateProximity",
+      "godot_owner": "SourceBuildingLifecycleProximityState.source_apply_update_proximity",
+      "source_symbols": [
+        "source_apply_update_proximity_input.building",
+        "source_apply_update_proximity_input.block_size",
+        "source_apply_update_proximity_input.tile_x",
+        "source_apply_update_proximity_input.tile_y",
+        "source_apply_update_proximity_input.world_build",
+        "source_apply_update_proximity_input.proximity_for",
+        "source_apply_update_proximity_input.team_for",
+        "source_apply_update_proximity_input.on_proximity_added",
+        "source_apply_update_proximity_input.on_proximity_update",
+        "source_apply_update_proximity_input.recache",
+        "source_apply_update_proximity_input.headless",
+        "source_apply_update_proximity_input.draw_cached"
+      ],
+      "tests": [
+        "test_executable_lifecycle_registration",
+        "test_all_lifecycle_input_evidence_is_exact",
+        "test_reference_graph_and_actual_tile_pre_change"
+      ],
+      "runtime_proof": "/root/BuildingProximityMutationProof"
+    },
     "N514": {
       "canonical_ledger": "source_slice_ledger.N514",
       "status": "done",
@@ -12210,76 +12280,6 @@
         "test_building_proximity_power_slice"
       ],
       "runtime_proof": "/root/Main.source_building_get_power_connections_state"
-    },
-    "N2001": {
-      "canonical_ledger": "source_slice_ledger.N2001",
-      "status": "done",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "java_method": "create(Block block, Team team)",
-      "godot_owner": "SourcePlacedBlockState.source_initialize_building_liquids_state",
-      "source_symbols": [
-        "initialize_building_liquids.sprite",
-        "initialize_building_liquids.has_liquids",
-        "initialize_building_liquids.content_catalog",
-        "initialize_building_liquids.liquids"
-      ],
-      "tests": [
-        "test_explicit_liquid_flags_follow_constructor_inheritance_and_initializer",
-        "test_real_registry_drill_liquid_flag_and_registered_owner_contracts",
-        "test_liquid_owner_is_bound_on_real_placement_path",
-        "test_live_building_storage_and_typed_catalog_runtime"
-      ],
-      "runtime_proof": "/root/Main.PlacedLiquidOwnershipProof"
-    },
-    "N2026": {
-      "canonical_ledger": "source_slice_ledger.N2026",
-      "status": "done",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "java_method": "removeFromProximity",
-      "godot_owner": "SourceBuildingLifecycleProximityState.source_apply_remove_from_proximity",
-      "source_symbols": [
-        "source_apply_remove_from_proximity_input.building",
-        "source_apply_remove_from_proximity_input.block_size",
-        "source_apply_remove_from_proximity_input.tile_x",
-        "source_apply_remove_from_proximity_input.tile_y",
-        "source_apply_remove_from_proximity_input.world_build",
-        "source_apply_remove_from_proximity_input.proximity_for",
-        "source_apply_remove_from_proximity_input.on_proximity_removed",
-        "source_apply_remove_from_proximity_input.on_proximity_update"
-      ],
-      "tests": [
-        "test_executable_lifecycle_registration",
-        "test_all_lifecycle_input_evidence_is_exact",
-        "test_reference_graph_and_actual_tile_pre_change"
-      ],
-      "runtime_proof": "/root/BuildingProximityMutationProof"
-    },
-    "N2027": {
-      "canonical_ledger": "source_slice_ledger.N2027",
-      "status": "done",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "java_method": "updateProximity",
-      "godot_owner": "SourceBuildingLifecycleProximityState.source_apply_update_proximity",
-      "source_symbols": [
-        "source_apply_update_proximity_input.building",
-        "source_apply_update_proximity_input.block_size",
-        "source_apply_update_proximity_input.tile_x",
-        "source_apply_update_proximity_input.tile_y",
-        "source_apply_update_proximity_input.world_build",
-        "source_apply_update_proximity_input.proximity_for",
-        "source_apply_update_proximity_input.team_for",
-        "source_apply_update_proximity_input.on_proximity_added",
-        "source_apply_update_proximity_input.on_proximity_update",
-        "source_apply_update_proximity_input.recache",
-        "source_apply_update_proximity_input.headless",
-        "source_apply_update_proximity_input.draw_cached"
-      ],
-      "tests": [
-        "test_executable_lifecycle_registration",
-        "test_all_lifecycle_input_evidence_is_exact",
-        "test_reference_graph_and_actual_tile_pre_change"
-      ],
-      "runtime_proof": "/root/BuildingProximityMutationProof"
     }
   }
 }

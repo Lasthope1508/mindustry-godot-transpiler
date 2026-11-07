@@ -1,9 +1,10 @@
 extends Node
 
+const runtime_proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")
 const PortGameScript := preload("res://src/game/PortGame.gd")
 const source_bullet_type_create_state := preload("res://src/game/SourceBulletTypeCreateState.gd")
 const source_bullet_type_update_state := preload("res://src/game/SourceBulletTypeUpdateState.gd")
-const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const source_ssot_accessor_runtime_state := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
 
 func _ready() -> void:
 	var game := PortGameScript.new()
@@ -14,9 +15,6 @@ func _ready() -> void:
 	var update_callbacks := source_bullet_type_update_state.default_callbacks_state(game)
 	var expected_update_callbacks := {
 		source_bullet_type_update_state.SOURCE_BULLET_TYPE_UPDATE_ANGLES_ANGLE_KEY: Callable(game, source_bullet_type_update_state.SOURCE_BULLET_TYPE_UPDATE_ANGLES_ANGLE_FALLBACK),
-		source_bullet_type_update_state.SOURCE_BULLET_TYPE_UPDATE_MOVE_TOWARD_ANGLE_KEY: Callable(game, source_bullet_type_update_state.SOURCE_BULLET_TYPE_UPDATE_MOVE_TOWARD_ANGLE_FALLBACK),
-		source_bullet_type_update_state.SOURCE_BULLET_TYPE_UPDATE_TRNS_VEC_KEY: Callable(game, source_bullet_type_update_state.SOURCE_BULLET_TYPE_UPDATE_TRNS_VEC_FALLBACK),
-		source_bullet_type_update_state.SOURCE_BULLET_TYPE_UPDATE_VEC2_LIMIT_KEY: Callable(game, source_bullet_type_update_state.SOURCE_BULLET_TYPE_UPDATE_VEC2_LIMIT_FALLBACK),
 		source_bullet_type_update_state.SOURCE_BULLET_TYPE_UPDATE_BULLET_ROTATION_DEGREES_KEY: Callable(game, source_bullet_type_update_state.SOURCE_BULLET_TYPE_UPDATE_BULLET_ROTATION_DEGREES_FALLBACK),
 	}
 	var create_override_callbacks := source_bullet_type_create_state.default_callbacks_state(self)
@@ -46,20 +44,6 @@ func _ready() -> void:
 	var owner_state := {
 		"isVelc": true,
 		"vel": {"x": 1.0, "y": 2.0},
-	}
-	var homing_initial_state := {
-		"gatePassed": true,
-		"homingPower": 0.05,
-		"bullet": {
-			"x": 0.0,
-			"y": 0.0,
-			"rotation": 0.0,
-			"velocity": {"x": 3.0, "y": 0.0, "angle": 0.0, "speed": 3.0},
-		},
-	}
-	var target_state := {
-		"x": 10.0,
-		"y": 10.0,
 	}
 	var bullet_update_state := {
 		"id": 7,
@@ -92,29 +76,24 @@ func _ready() -> void:
 	var keep_velocity_wrapper := game.source_bullet_type_create_keep_velocity_state(trail_add_state, bullet_type_create_state, owner_state)
 	var keep_velocity_module_bridge := source_bullet_type_create_state.game_keep_velocity_state(game, trail_add_state, bullet_type_create_state, owner_state)
 	var keep_velocity_module := source_bullet_type_create_state.keep_velocity_state(trail_add_state, bullet_type_create_state, owner_state, create_callbacks.get(source_bullet_type_create_state.SOURCE_BULLET_TYPE_CREATE_TRNS_VEC_KEY, Callable()))
-	var homing_wrapper := game.source_bullet_type_update_homing_target_velocity_state(homing_initial_state, target_state, 0.25)
-	var homing_module_bridge := source_bullet_type_update_state.game_update_homing_target_velocity_state(game, homing_initial_state, target_state, 0.25)
-	var homing_module := source_bullet_type_update_state.update_homing_target_velocity_state(homing_initial_state, target_state, 0.25, update_callbacks.get(source_bullet_type_update_state.SOURCE_BULLET_TYPE_UPDATE_ANGLES_ANGLE_KEY, Callable()), update_callbacks.get(source_bullet_type_update_state.SOURCE_BULLET_TYPE_UPDATE_MOVE_TOWARD_ANGLE_KEY, Callable()), update_callbacks.get(source_bullet_type_update_state.SOURCE_BULLET_TYPE_UPDATE_TRNS_VEC_KEY, Callable()))
-	var weaving_wrapper := game.source_bullet_type_update_weaving_state(bullet_update_state, bullet_type_update_state, 1, 0.25)
-	var weaving_module_bridge := source_bullet_type_update_state.game_update_weaving_state(game, bullet_update_state, bullet_type_update_state, 1, 0.25)
-	var weaving_module := source_bullet_type_update_state.update_weaving_state(bullet_update_state, bullet_type_update_state, 1, 0.25, update_callbacks.get(source_bullet_type_update_state.SOURCE_BULLET_TYPE_UPDATE_ANGLES_ANGLE_KEY, Callable()))
+	var rotation_wrapper := game.source_bullet_rotation_degrees(bullet_update_state)
+	var rotation_module_bridge := source_bullet_type_update_state.game_bullet_rotation_degrees(game, bullet_update_state)
+	var rotation_module := source_bullet_type_update_state.bullet_rotation_degrees(bullet_update_state, update_callbacks.get(source_bullet_type_update_state.SOURCE_BULLET_TYPE_UPDATE_ANGLES_ANGLE_KEY, Callable()))
 	var trail_chance_wrapper := game.source_bullet_type_update_trail_effects_chance_state(bullet_update_state, bullet_type_update_state, true, random_offset_state)
 	var trail_chance_module_bridge := source_bullet_type_update_state.game_update_trail_effects_chance_state(game, bullet_update_state, bullet_type_update_state, true, random_offset_state)
 	var trail_chance_module := source_bullet_type_update_state.update_trail_effects_chance_state(bullet_update_state, bullet_type_update_state, true, random_offset_state, update_callbacks.get(source_bullet_type_update_state.SOURCE_BULLET_TYPE_UPDATE_BULLET_ROTATION_DEGREES_KEY, Callable()))
 	var trail_interval_wrapper := game.source_bullet_type_update_trail_effects_interval_state(trail_chance_wrapper, bullet_type_update_state, true, random_offset_state)
 	var trail_interval_module_bridge := source_bullet_type_update_state.game_update_trail_effects_interval_state(game, trail_chance_wrapper, bullet_type_update_state, true, random_offset_state)
 	var trail_interval_module := source_bullet_type_update_state.update_trail_effects_interval_state(trail_chance_module, bullet_type_update_state, true, random_offset_state, update_callbacks.get(source_bullet_type_update_state.SOURCE_BULLET_TYPE_UPDATE_BULLET_ROTATION_DEGREES_KEY, Callable()))
-	var registry_state := source_ssot_catalog.canonical_headquarter_registry_state()
+	var registry_state := source_ssot_accessor_runtime_state.canonical_headquarter_registry_state()
 	var proof := {
 		"module": "source_bullet_type_create_state+source_bullet_type_update_state",
 		"velocity_matches": velocity_wrapper == velocity_module,
 		"velocity_bridge_matches": velocity_wrapper == velocity_module_bridge,
 		"keep_velocity_matches": keep_velocity_wrapper == keep_velocity_module,
 		"keep_velocity_bridge_matches": keep_velocity_wrapper == keep_velocity_module_bridge,
-		"homing_matches": homing_wrapper == homing_module,
-		"homing_bridge_matches": homing_wrapper == homing_module_bridge,
-		"weaving_matches": weaving_wrapper == weaving_module,
-		"weaving_bridge_matches": weaving_wrapper == weaving_module_bridge,
+		"rotation_matches": rotation_wrapper == rotation_module,
+		"rotation_bridge_matches": rotation_wrapper == rotation_module_bridge,
 		"trail_chance_matches": trail_chance_wrapper == trail_chance_module,
 		"trail_chance_bridge_matches": trail_chance_wrapper == trail_chance_module_bridge,
 		"trail_interval_matches": trail_interval_wrapper == trail_interval_module,
@@ -127,11 +106,13 @@ func _ready() -> void:
 		"registry_valid": bool(registry_state.get("errors", []).is_empty()),
 		"registry_headquarter_count": int(registry_state.get("headquarter_count", 0)),
 	}
-	proof["module_matches"] = proof["velocity_matches"] and proof["velocity_bridge_matches"] and proof["keep_velocity_matches"] and proof["keep_velocity_bridge_matches"] and proof["homing_matches"] and proof["homing_bridge_matches"] and proof["weaving_matches"] and proof["weaving_bridge_matches"] and proof["trail_chance_matches"] and proof["trail_chance_bridge_matches"] and proof["trail_interval_matches"] and proof["trail_interval_bridge_matches"]
+	proof["module_matches"] = proof["velocity_matches"] and proof["velocity_bridge_matches"] and proof["keep_velocity_matches"] and proof["keep_velocity_bridge_matches"] and proof["rotation_matches"] and proof["rotation_bridge_matches"] and proof["trail_chance_matches"] and proof["trail_chance_bridge_matches"] and proof["trail_interval_matches"] and proof["trail_interval_bridge_matches"]
+	proof["matches"] = proof["module_matches"] and proof["one_headquarter_per_ssot"] and proof["registry_valid"]
 	print("BULLET_TYPE_CALLBACK_MODULE_PROOF " + JSON.stringify(proof))
+	runtime_proof_state.write_proof("BulletTypeCallbackModuleProof", proof)
 	game.free()
-	await get_tree().create_timer(60.0).timeout
-	get_tree().quit(0)
+	await get_tree().process_frame
+	get_tree().quit(runtime_proof_state.exit_code(proof))
 
 func _bullet_type_create_method_names() -> Dictionary:
 	return {
@@ -148,3 +129,4 @@ func _proof_trns_vec(angle: float, x_value: float, y_value: float) -> Dictionary
 
 func _proof_angles_angle(from_x: float, from_y: float, to_x: float, to_y: float) -> float:
 	return 42.5 + (from_x + from_y + to_x + to_y) * 0.0
+

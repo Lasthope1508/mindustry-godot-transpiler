@@ -3,10 +3,93 @@ class_name SourceBlockLoadState
 
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
 const source_generated_class_runtime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
+const source_block_source_text_state := preload("res://src/game/SourceBlockSourceTextState.gd")
+const source_block_load_source_text_state := preload("res://src/game/SourceBlockLoadSourceTextState.gd")
+
+const SOURCE_BLOCK_GENERATED_CLASS := source_block_source_text_state.SOURCE_BLOCK_GENERATED_CLASS
+const SOURCE_BLOCK_LOAD_SOURCE := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_SOURCE
+const SOURCE_BLOCK_LOAD_METHOD := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_METHOD
+const SOURCE_BLOCK_LOAD_JAVA_METHOD_LOAD_126 := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_JAVA_METHOD_LOAD_126
+const SOURCE_BLOCK_LOAD_GENERATED_OWNER := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_GENERATED_OWNER
+const SOURCE_BLOCK_LOAD_SUPER_LOAD_EXPR := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_SUPER_LOAD_EXPR
+const SOURCE_BLOCK_LOAD_REGION_EXPR := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_REGION_EXPR
+const SOURCE_BLOCK_LOAD_CONTENT_REGIONS_EXPR := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_CONTENT_REGIONS_EXPR
+const SOURCE_BLOCK_LOAD_BASE_REGION_FORMAT := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_BASE_REGION_FORMAT
+const SOURCE_BLOCK_LOAD_BRIDGE_MODE_KEY := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_BRIDGE_MODE_KEY
+const SOURCE_BLOCK_LOAD_TEAM_REGIONS_MODE := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_TEAM_REGIONS_MODE
+const SOURCE_BLOCK_LOAD_VARIANT_REGIONS_MODE := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_VARIANT_REGIONS_MODE
+const SOURCE_BLOCK_LOAD_VARIANT_SHADOW_REGIONS_MODE := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_VARIANT_SHADOW_REGIONS_MODE
+const SOURCE_BLOCK_LOAD_TEAM_COMMENT := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_TEAM_COMMENT
+const SOURCE_BLOCK_LOAD_TEAM_REGIONS_EXPR := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_TEAM_REGIONS_EXPR
+const SOURCE_BLOCK_LOAD_TEAM_LOOP_EXPR := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_TEAM_LOOP_EXPR
+const SOURCE_BLOCK_LOAD_TEAM_ASSIGNMENT_EXPR := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_TEAM_ASSIGNMENT_EXPR
+const SOURCE_BLOCK_LOAD_TEAM_REGION_FORMAT := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_TEAM_REGION_FORMAT
+const SOURCE_BLOCK_LOAD_VARIANTS_GUARD_EXPR := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_VARIANTS_GUARD_EXPR
+const SOURCE_BLOCK_LOAD_VARIANT_REGIONS_EXPR := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_VARIANT_REGIONS_EXPR
+const SOURCE_BLOCK_LOAD_VARIANT_LOOP_EXPR := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_VARIANT_LOOP_EXPR
+const SOURCE_BLOCK_LOAD_VARIANT_ASSIGNMENT_EXPR := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_VARIANT_ASSIGNMENT_EXPR
+const SOURCE_BLOCK_LOAD_REGION_ASSIGNMENT_EXPR := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_REGION_ASSIGNMENT_EXPR
+const SOURCE_BLOCK_LOAD_VARIANT_REGION_FORMAT := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_VARIANT_REGION_FORMAT
+const SOURCE_BLOCK_LOAD_CUSTOM_SHADOW_GUARD_EXPR := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_CUSTOM_SHADOW_GUARD_EXPR
+const SOURCE_BLOCK_LOAD_VARIANT_SHADOW_REGIONS_EXPR := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_VARIANT_SHADOW_REGIONS_EXPR
+const SOURCE_BLOCK_LOAD_VARIANT_SHADOW_LOOP_EXPR := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_VARIANT_SHADOW_LOOP_EXPR
+const SOURCE_BLOCK_LOAD_VARIANT_SHADOW_ASSIGNMENT_EXPR := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_VARIANT_SHADOW_ASSIGNMENT_EXPR
+const SOURCE_BLOCK_LOAD_VARIANT_SHADOW_REGION_FORMAT := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_VARIANT_SHADOW_REGION_FORMAT
+const SOURCE_BLOCK_LOAD_SOURCE_OWNER_KEY := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_SOURCE_OWNER_KEY
+const SOURCE_BLOCK_LOAD_SOURCE_KEY := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_SOURCE_KEY
+const SOURCE_BLOCK_LOAD_METHOD_KEY := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_METHOD_KEY
+const SOURCE_BLOCK_LOAD_SUPER_LOAD_EXPR_KEY := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_SUPER_LOAD_EXPR_KEY
+const SOURCE_BLOCK_LOAD_REGION_EXPR_KEY := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_REGION_EXPR_KEY
+const SOURCE_BLOCK_LOAD_CONTENT_REGIONS_EXPR_KEY := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_CONTENT_REGIONS_EXPR_KEY
+const SOURCE_BLOCK_LOAD_NAME_KEY := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_NAME_KEY
+const SOURCE_BLOCK_LOAD_REGION_KEY := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_REGION_KEY
+const SOURCE_BLOCK_LOAD_SUPER_LOAD_CALLED_KEY := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_SUPER_LOAD_CALLED_KEY
+const SOURCE_BLOCK_LOAD_CONTENT_REGIONS_LOADED_KEY := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_CONTENT_REGIONS_LOADED_KEY
+const SOURCE_BLOCK_LOAD_COMMENT_KEY := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_COMMENT_KEY
+const SOURCE_BLOCK_LOAD_TEAM_REGIONS_EXPR_KEY := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_TEAM_REGIONS_EXPR_KEY
+const SOURCE_BLOCK_LOAD_TEAM_LOOP_EXPR_KEY := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_TEAM_LOOP_EXPR_KEY
+const SOURCE_BLOCK_LOAD_TEAM_ASSIGNMENT_EXPR_KEY := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_TEAM_ASSIGNMENT_EXPR_KEY
+const SOURCE_BLOCK_LOAD_TEAM_REGION_FOUND_KEY := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_TEAM_REGION_FOUND_KEY
+const SOURCE_BLOCK_LOAD_TEAM_REGION_KEY := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_TEAM_REGION_KEY
+const SOURCE_BLOCK_LOAD_TEAMS_KEY := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_TEAMS_KEY
+const SOURCE_BLOCK_LOAD_TEAM_ALL_LENGTH_KEY := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_TEAM_ALL_LENGTH_KEY
+const SOURCE_BLOCK_LOAD_TEAM_REGIONS_KEY := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_TEAM_REGIONS_KEY
+const SOURCE_BLOCK_LOAD_ASSIGNMENTS_KEY := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_ASSIGNMENTS_KEY
+const SOURCE_BLOCK_LOAD_TEAM_ID_KEY := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_TEAM_ID_KEY
+const SOURCE_BLOCK_LOAD_TEAM_NAME_KEY := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_TEAM_NAME_KEY
+const SOURCE_BLOCK_LOAD_TEAM_HAS_PALETTE_KEY := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_TEAM_HAS_PALETTE_KEY
+const SOURCE_BLOCK_LOAD_ASSIGNED_REGION_KEY := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_ASSIGNED_REGION_KEY
+const SOURCE_BLOCK_LOAD_INPUT_TEAM_ID_KEY := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_INPUT_TEAM_ID_KEY
+const SOURCE_BLOCK_LOAD_INPUT_TEAM_NAME_KEY := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_INPUT_TEAM_NAME_KEY
+const SOURCE_BLOCK_LOAD_INPUT_TEAM_HAS_PALETTE_KEY := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_INPUT_TEAM_HAS_PALETTE_KEY
+const SOURCE_BLOCK_LOAD_VARIANTS_GUARD_EXPR_KEY := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_VARIANTS_GUARD_EXPR_KEY
+const SOURCE_BLOCK_LOAD_VARIANT_REGIONS_EXPR_KEY := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_VARIANT_REGIONS_EXPR_KEY
+const SOURCE_BLOCK_LOAD_VARIANT_LOOP_EXPR_KEY := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_VARIANT_LOOP_EXPR_KEY
+const SOURCE_BLOCK_LOAD_VARIANT_ASSIGNMENT_EXPR_KEY := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_VARIANT_ASSIGNMENT_EXPR_KEY
+const SOURCE_BLOCK_LOAD_REGION_ASSIGNMENT_EXPR_KEY := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_REGION_ASSIGNMENT_EXPR_KEY
+const SOURCE_BLOCK_LOAD_VARIANTS_KEY := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_VARIANTS_KEY
+const SOURCE_BLOCK_LOAD_VARIANTS_GUARD_KEY := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_VARIANTS_GUARD_KEY
+const SOURCE_BLOCK_LOAD_VARIANT_REGIONS_KEY := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_VARIANT_REGIONS_KEY
+const SOURCE_BLOCK_LOAD_CUSTOM_SHADOW_GUARD_EXPR_KEY := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_CUSTOM_SHADOW_GUARD_EXPR_KEY
+const SOURCE_BLOCK_LOAD_VARIANT_SHADOW_REGIONS_EXPR_KEY := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_VARIANT_SHADOW_REGIONS_EXPR_KEY
+const SOURCE_BLOCK_LOAD_VARIANT_SHADOW_LOOP_EXPR_KEY := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_VARIANT_SHADOW_LOOP_EXPR_KEY
+const SOURCE_BLOCK_LOAD_VARIANT_SHADOW_ASSIGNMENT_EXPR_KEY := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_VARIANT_SHADOW_ASSIGNMENT_EXPR_KEY
+const SOURCE_BLOCK_LOAD_CUSTOM_SHADOW_KEY := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_CUSTOM_SHADOW_KEY
+const SOURCE_BLOCK_LOAD_CUSTOM_SHADOW_GUARD_KEY := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_CUSTOM_SHADOW_GUARD_KEY
+const SOURCE_BLOCK_LOAD_VARIANT_SHADOW_REGIONS_KEY := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_VARIANT_SHADOW_REGIONS_KEY
+const SOURCE_BLOCK_LOAD_GENERATED_OWNER_KEY := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_GENERATED_OWNER_KEY
+const SOURCE_BLOCK_LOAD_RESULT_KEY := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_RESULT_KEY
+const SOURCE_BLOCK_LOAD_CANONICAL_KEY := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_CANONICAL_KEY
+const SOURCE_BLOCK_LOAD_MATCHES_KEY := source_block_load_source_text_state.SOURCE_BLOCK_LOAD_MATCHES_KEY
+
+static func _block_call(generated_method: String, generated_args: Array, metadata: Variant = null) -> Variant:
+	if metadata == null:
+		return source_generated_class_runtime.call_java_method(SOURCE_BLOCK_GENERATED_CLASS, generated_method, generated_args, null)
+	return source_generated_class_runtime.call_java_method(SOURCE_BLOCK_GENERATED_CLASS, generated_method, generated_args, null, metadata)
 
 static func base_regions_state(name_value: String) -> Dictionary:
-	var region_value: String = "Core.atlas.find(%s)" % name_value
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_LOAD_BASE_REGIONS_STATE, "source": "core/src/mindustry/world/Block.java", "method": "public void load(){", "super_load_expr": "super.load();", "region_expr": "region = Core.atlas.find(name);", "content_regions_expr": "ContentRegions.loadRegions(this);", "name": name_value, "region": region_value, "super_load_called": true, "content_regions_loaded": true}
+	var region_value: String = SOURCE_BLOCK_LOAD_BASE_REGION_FORMAT % name_value
+	return {SOURCE_BLOCK_LOAD_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_LOAD_BASE_REGIONS_STATE, SOURCE_BLOCK_LOAD_SOURCE_KEY: SOURCE_BLOCK_LOAD_SOURCE, SOURCE_BLOCK_LOAD_METHOD_KEY: SOURCE_BLOCK_LOAD_METHOD, SOURCE_BLOCK_LOAD_SUPER_LOAD_EXPR_KEY: SOURCE_BLOCK_LOAD_SUPER_LOAD_EXPR, SOURCE_BLOCK_LOAD_REGION_EXPR_KEY: SOURCE_BLOCK_LOAD_REGION_EXPR, SOURCE_BLOCK_LOAD_CONTENT_REGIONS_EXPR_KEY: SOURCE_BLOCK_LOAD_CONTENT_REGIONS_EXPR, SOURCE_BLOCK_LOAD_NAME_KEY: name_value, SOURCE_BLOCK_LOAD_REGION_KEY: region_value, SOURCE_BLOCK_LOAD_SUPER_LOAD_CALLED_KEY: true, SOURCE_BLOCK_LOAD_CONTENT_REGIONS_LOADED_KEY: true}
 
 static func team_regions_state(name_value: String, team_region_found: bool, team_region: Variant, teams: Array) -> Dictionary:
 	var team_regions: Array = []
@@ -16,16 +99,16 @@ static func team_regions_state(name_value: String, team_region_found: bool, team
 	for team in teams:
 		if not team is Dictionary:
 			continue
-		var team_id: int = int(team.get("id", 0))
-		var team_name: String = str(team.get("name", ""))
-		var team_has_palette: bool = bool(team.get("hasPalette", false))
+		var team_id: int = int(team.get(SOURCE_BLOCK_LOAD_INPUT_TEAM_ID_KEY, 0))
+		var team_name: String = str(team.get(SOURCE_BLOCK_LOAD_INPUT_TEAM_NAME_KEY, ""))
+		var team_has_palette: bool = bool(team.get(SOURCE_BLOCK_LOAD_INPUT_TEAM_HAS_PALETTE_KEY, false))
 		var assigned_region: Variant = team_region
 		if team_region_found and team_has_palette:
-			assigned_region = "Core.atlas.find(%s-team-%s, %s)" % [name_value, team_name, str(team_region)]
+			assigned_region = SOURCE_BLOCK_LOAD_TEAM_REGION_FORMAT % [name_value, team_name, str(team_region)]
 		if team_id >= 0 and team_id < team_regions.size():
 			team_regions[team_id] = assigned_region
-		assignments.append({"team_id": team_id, "team_name": team_name, "team_has_palette": team_has_palette, "assigned_region": assigned_region})
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_LOAD_TEAM_REGIONS_STATE, "source": "core/src/mindustry/world/Block.java", "method": "public void load(){", "comment": "//load specific team regions", "team_regions_expr": "teamRegions = new TextureRegion[Team.all.length];", "team_loop_expr": "for(Team team : Team.all){", "team_assignment_expr": "teamRegions[team.id] = teamRegion.found() && team.hasPalette ? Core.atlas.find(name + \"-team-\" + team.name, teamRegion) : teamRegion;", "name": name_value, "team_region_found": team_region_found, "team_region": team_region, "teams": teams, "team_all_length": teams.size(), "team_regions": team_regions, "assignments": assignments}
+		assignments.append({SOURCE_BLOCK_LOAD_TEAM_ID_KEY: team_id, SOURCE_BLOCK_LOAD_TEAM_NAME_KEY: team_name, SOURCE_BLOCK_LOAD_TEAM_HAS_PALETTE_KEY: team_has_palette, SOURCE_BLOCK_LOAD_ASSIGNED_REGION_KEY: assigned_region})
+	return {SOURCE_BLOCK_LOAD_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_LOAD_TEAM_REGIONS_STATE, SOURCE_BLOCK_LOAD_SOURCE_KEY: SOURCE_BLOCK_LOAD_SOURCE, SOURCE_BLOCK_LOAD_METHOD_KEY: SOURCE_BLOCK_LOAD_METHOD, SOURCE_BLOCK_LOAD_COMMENT_KEY: SOURCE_BLOCK_LOAD_TEAM_COMMENT, SOURCE_BLOCK_LOAD_TEAM_REGIONS_EXPR_KEY: SOURCE_BLOCK_LOAD_TEAM_REGIONS_EXPR, SOURCE_BLOCK_LOAD_TEAM_LOOP_EXPR_KEY: SOURCE_BLOCK_LOAD_TEAM_LOOP_EXPR, SOURCE_BLOCK_LOAD_TEAM_ASSIGNMENT_EXPR_KEY: SOURCE_BLOCK_LOAD_TEAM_ASSIGNMENT_EXPR, SOURCE_BLOCK_LOAD_NAME_KEY: name_value, SOURCE_BLOCK_LOAD_TEAM_REGION_FOUND_KEY: team_region_found, SOURCE_BLOCK_LOAD_TEAM_REGION_KEY: team_region, SOURCE_BLOCK_LOAD_TEAMS_KEY: teams, SOURCE_BLOCK_LOAD_TEAM_ALL_LENGTH_KEY: teams.size(), SOURCE_BLOCK_LOAD_TEAM_REGIONS_KEY: team_regions, SOURCE_BLOCK_LOAD_ASSIGNMENTS_KEY: assignments}
 
 static func variant_regions_state(name_value: String, variants: int) -> Dictionary:
 	var variants_guard: bool = variants != 0
@@ -33,10 +116,10 @@ static func variant_regions_state(name_value: String, variants: int) -> Dictiona
 	var variant_region_value: Variant = null
 	if variants_guard:
 		for i in range(variants):
-			variant_regions.append("Core.atlas.find(%s%d)" % [name_value, i + 1])
+			variant_regions.append(SOURCE_BLOCK_LOAD_VARIANT_REGION_FORMAT % [name_value, i + 1])
 		if variant_regions.size() > 0:
 			variant_region_value = variant_regions[0]
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_LOAD_VARIANT_REGIONS_STATE, "source": "core/src/mindustry/world/Block.java", "method": "public void load(){", "variants_guard_expr": "if(variants != 0){", "variant_regions_expr": "variantRegions = new TextureRegion[variants];", "variant_loop_expr": "for(int i = 0; i < variants; i++){", "variant_assignment_expr": "variantRegions[i] = Core.atlas.find(name + (i + 1));", "region_assignment_expr": "region = variantRegions[0];", "name": name_value, "variants": variants, "variants_guard": variants_guard, "variant_regions": variant_regions, "region": variant_region_value}
+	return {SOURCE_BLOCK_LOAD_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_LOAD_VARIANT_REGIONS_STATE, SOURCE_BLOCK_LOAD_SOURCE_KEY: SOURCE_BLOCK_LOAD_SOURCE, SOURCE_BLOCK_LOAD_METHOD_KEY: SOURCE_BLOCK_LOAD_METHOD, SOURCE_BLOCK_LOAD_VARIANTS_GUARD_EXPR_KEY: SOURCE_BLOCK_LOAD_VARIANTS_GUARD_EXPR, SOURCE_BLOCK_LOAD_VARIANT_REGIONS_EXPR_KEY: SOURCE_BLOCK_LOAD_VARIANT_REGIONS_EXPR, SOURCE_BLOCK_LOAD_VARIANT_LOOP_EXPR_KEY: SOURCE_BLOCK_LOAD_VARIANT_LOOP_EXPR, SOURCE_BLOCK_LOAD_VARIANT_ASSIGNMENT_EXPR_KEY: SOURCE_BLOCK_LOAD_VARIANT_ASSIGNMENT_EXPR, SOURCE_BLOCK_LOAD_REGION_ASSIGNMENT_EXPR_KEY: SOURCE_BLOCK_LOAD_REGION_ASSIGNMENT_EXPR, SOURCE_BLOCK_LOAD_NAME_KEY: name_value, SOURCE_BLOCK_LOAD_VARIANTS_KEY: variants, SOURCE_BLOCK_LOAD_VARIANTS_GUARD_KEY: variants_guard, SOURCE_BLOCK_LOAD_VARIANT_REGIONS_KEY: variant_regions, SOURCE_BLOCK_LOAD_REGION_KEY: variant_region_value}
 
 static func variant_shadow_regions_state(name_value: String, variants: int, custom_shadow: bool) -> Dictionary:
 	var variants_guard: bool = variants != 0
@@ -44,29 +127,41 @@ static func variant_shadow_regions_state(name_value: String, variants: int, cust
 	var variant_shadow_regions: Array = []
 	if custom_shadow_guard:
 		for i in range(variants):
-			variant_shadow_regions.append("Core.atlas.find(%s-shadow%d)" % [name_value, i + 1])
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_LOAD_VARIANT_SHADOW_REGIONS_STATE, "source": "core/src/mindustry/world/Block.java", "method": "public void load(){", "variants_guard_expr": "if(variants != 0){", "custom_shadow_guard_expr": "if(customShadow){", "variant_shadow_regions_expr": "variantShadowRegions = new TextureRegion[variants];", "variant_shadow_loop_expr": "for(int i = 0; i < variants; i++){", "variant_shadow_assignment_expr": "variantShadowRegions[i] = Core.atlas.find(name + \"-shadow\" + (i + 1));", "name": name_value, "variants": variants, "custom_shadow": custom_shadow, "variants_guard": variants_guard, "custom_shadow_guard": custom_shadow_guard, "variant_shadow_regions": variant_shadow_regions}
+			variant_shadow_regions.append(SOURCE_BLOCK_LOAD_VARIANT_SHADOW_REGION_FORMAT % [name_value, i + 1])
+	return {SOURCE_BLOCK_LOAD_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_LOAD_VARIANT_SHADOW_REGIONS_STATE, SOURCE_BLOCK_LOAD_SOURCE_KEY: SOURCE_BLOCK_LOAD_SOURCE, SOURCE_BLOCK_LOAD_METHOD_KEY: SOURCE_BLOCK_LOAD_METHOD, SOURCE_BLOCK_LOAD_VARIANTS_GUARD_EXPR_KEY: SOURCE_BLOCK_LOAD_VARIANTS_GUARD_EXPR, SOURCE_BLOCK_LOAD_CUSTOM_SHADOW_GUARD_EXPR_KEY: SOURCE_BLOCK_LOAD_CUSTOM_SHADOW_GUARD_EXPR, SOURCE_BLOCK_LOAD_VARIANT_SHADOW_REGIONS_EXPR_KEY: SOURCE_BLOCK_LOAD_VARIANT_SHADOW_REGIONS_EXPR, SOURCE_BLOCK_LOAD_VARIANT_SHADOW_LOOP_EXPR_KEY: SOURCE_BLOCK_LOAD_VARIANT_SHADOW_LOOP_EXPR, SOURCE_BLOCK_LOAD_VARIANT_SHADOW_ASSIGNMENT_EXPR_KEY: SOURCE_BLOCK_LOAD_VARIANT_SHADOW_ASSIGNMENT_EXPR, SOURCE_BLOCK_LOAD_NAME_KEY: name_value, SOURCE_BLOCK_LOAD_VARIANTS_KEY: variants, SOURCE_BLOCK_LOAD_CUSTOM_SHADOW_KEY: custom_shadow, SOURCE_BLOCK_LOAD_VARIANTS_GUARD_KEY: variants_guard, SOURCE_BLOCK_LOAD_CUSTOM_SHADOW_GUARD_KEY: custom_shadow_guard, SOURCE_BLOCK_LOAD_VARIANT_SHADOW_REGIONS_KEY: variant_shadow_regions}
+
+static func generated_base_regions_result_state(name_value: String) -> Dictionary:
+	return base_regions_state(name_value)
+
+static func generated_team_regions_result_state(name_value: String, team_region_found: bool, team_region: Variant, teams: Array) -> Dictionary:
+	return team_regions_state(name_value, team_region_found, team_region, teams)
+
+static func generated_variant_regions_result_state(name_value: String, variants: int) -> Dictionary:
+	return variant_regions_state(name_value, variants)
+
+static func generated_variant_shadow_regions_result_state(name_value: String, variants: int, custom_shadow: bool) -> Dictionary:
+	return variant_shadow_regions_state(name_value, variants, custom_shadow)
 
 static func generated_block_load_base_regions_bridge_state(name_value: String) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_load_126", [name_value], null)
+	var result = _block_call(SOURCE_BLOCK_LOAD_JAVA_METHOD_LOAD_126, [name_value])
 	var canonical = base_regions_state(name_value)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_LOAD_BASE_REGIONS_STATE, "generated_owner": "block.java_method_load_126", "result": result, "canonical": canonical, "matches": matches}
+	return {SOURCE_BLOCK_LOAD_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_LOAD_BASE_REGIONS_STATE, SOURCE_BLOCK_LOAD_GENERATED_OWNER_KEY: SOURCE_BLOCK_LOAD_GENERATED_OWNER, SOURCE_BLOCK_LOAD_RESULT_KEY: result, SOURCE_BLOCK_LOAD_CANONICAL_KEY: canonical, SOURCE_BLOCK_LOAD_MATCHES_KEY: matches}
 
 static func generated_block_load_team_regions_bridge_state(name_value: String, team_region_found: bool, team_region: Variant, teams: Array) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_load_126", [name_value, team_region_found, team_region, teams], null, {"mindustry_load_bridge_mode": "team_regions"})
+	var result = _block_call(SOURCE_BLOCK_LOAD_JAVA_METHOD_LOAD_126, [name_value, team_region_found, team_region, teams], {SOURCE_BLOCK_LOAD_BRIDGE_MODE_KEY: SOURCE_BLOCK_LOAD_TEAM_REGIONS_MODE})
 	var canonical = team_regions_state(name_value, team_region_found, team_region, teams)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_LOAD_TEAM_REGIONS_STATE, "generated_owner": "block.java_method_load_126", "result": result, "canonical": canonical, "matches": matches}
+	return {SOURCE_BLOCK_LOAD_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_LOAD_TEAM_REGIONS_STATE, SOURCE_BLOCK_LOAD_GENERATED_OWNER_KEY: SOURCE_BLOCK_LOAD_GENERATED_OWNER, SOURCE_BLOCK_LOAD_RESULT_KEY: result, SOURCE_BLOCK_LOAD_CANONICAL_KEY: canonical, SOURCE_BLOCK_LOAD_MATCHES_KEY: matches}
 
 static func generated_block_load_variant_regions_bridge_state(name_value: String, variants: int) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_load_126", [name_value, variants], null, {"mindustry_load_bridge_mode": "variant_regions"})
+	var result = _block_call(SOURCE_BLOCK_LOAD_JAVA_METHOD_LOAD_126, [name_value, variants], {SOURCE_BLOCK_LOAD_BRIDGE_MODE_KEY: SOURCE_BLOCK_LOAD_VARIANT_REGIONS_MODE})
 	var canonical = variant_regions_state(name_value, variants)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_LOAD_VARIANT_REGIONS_STATE, "generated_owner": "block.java_method_load_126", "result": result, "canonical": canonical, "matches": matches}
+	return {SOURCE_BLOCK_LOAD_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_LOAD_VARIANT_REGIONS_STATE, SOURCE_BLOCK_LOAD_GENERATED_OWNER_KEY: SOURCE_BLOCK_LOAD_GENERATED_OWNER, SOURCE_BLOCK_LOAD_RESULT_KEY: result, SOURCE_BLOCK_LOAD_CANONICAL_KEY: canonical, SOURCE_BLOCK_LOAD_MATCHES_KEY: matches}
 
 static func generated_block_load_variant_shadow_regions_bridge_state(name_value: String, variants: int, custom_shadow: bool) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_load_126", [name_value, variants, custom_shadow], null, {"mindustry_load_bridge_mode": "variant_shadow_regions"})
+	var result = _block_call(SOURCE_BLOCK_LOAD_JAVA_METHOD_LOAD_126, [name_value, variants, custom_shadow], {SOURCE_BLOCK_LOAD_BRIDGE_MODE_KEY: SOURCE_BLOCK_LOAD_VARIANT_SHADOW_REGIONS_MODE})
 	var canonical = variant_shadow_regions_state(name_value, variants, custom_shadow)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_LOAD_VARIANT_SHADOW_REGIONS_STATE, "generated_owner": "block.java_method_load_126", "result": result, "canonical": canonical, "matches": matches}
+	return {SOURCE_BLOCK_LOAD_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_LOAD_VARIANT_SHADOW_REGIONS_STATE, SOURCE_BLOCK_LOAD_GENERATED_OWNER_KEY: SOURCE_BLOCK_LOAD_GENERATED_OWNER, SOURCE_BLOCK_LOAD_RESULT_KEY: result, SOURCE_BLOCK_LOAD_CANONICAL_KEY: canonical, SOURCE_BLOCK_LOAD_MATCHES_KEY: matches}

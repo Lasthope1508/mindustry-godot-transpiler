@@ -3,6 +3,11 @@ class_name SourceItemEntryState
 
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
 const source_generated_class_runtime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
+const source_turret_source_text_state := preload("res://src/game/SourceTurretSourceTextState.gd")
+const SOURCE_ITEM_TURRET_GENERATED_CLASS := source_turret_source_text_state.SOURCE_ITEM_TURRET_GENERATED_CLASS
+
+static func _item_turret_call(generated_method: String, generated_args: Array) -> Variant:
+	return source_generated_class_runtime.call_java_method(SOURCE_ITEM_TURRET_GENERATED_CLASS, generated_method, generated_args, null)
 
 static func constructor_state(item: Variant, amount: int) -> Dictionary:
 	return {
@@ -47,7 +52,7 @@ static func to_string_state(item_string: String, amount: int) -> Dictionary:
 	}
 
 static func generated_constructor_bridge_state(item: Variant, amount: int) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd", "java_inner_class_ItemEntry_constructor_ItemEntry_0", [item, amount], null)
+	var result = _item_turret_call("java_inner_class_ItemEntry_constructor_ItemEntry_0", [item, amount])
 	var canonical = constructor_state(item, amount)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_ITEM_ENTRY_CONSTRUCTOR_STATE,
@@ -58,7 +63,7 @@ static func generated_constructor_bridge_state(item: Variant, amount: int) -> Di
 	}
 
 static func generated_type_bridge_state(item: Variant, ammo_type: Variant) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd", "java_inner_class_ItemEntry_method_type_0", [item, ammo_type], null)
+	var result = _item_turret_call("java_inner_class_ItemEntry_method_type_0", [item, ammo_type])
 	var canonical = type_state(item, ammo_type)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_ITEM_ENTRY_TYPE_STATE,
@@ -69,7 +74,7 @@ static func generated_type_bridge_state(item: Variant, ammo_type: Variant) -> Di
 	}
 
 static func generated_to_string_bridge_state(item_string: String, amount: int) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd", "java_inner_class_ItemEntry_method_toString_1", [item_string, amount], null)
+	var result = _item_turret_call("java_inner_class_ItemEntry_method_toString_1", [item_string, amount])
 	var canonical = to_string_state(item_string, amount)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_ITEM_ENTRY_TO_STRING_STATE,

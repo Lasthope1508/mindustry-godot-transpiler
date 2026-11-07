@@ -4,11 +4,11 @@ class_name SourceStatusApplyState
 const source_status_defaults := preload("res://src/game/SourceStatusDefaults.gd")
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
 
-const SOURCE_STATUS_APPLY_RESULT_METHOD := "public void apply(StatusEffect effect, float duration){"
-const SOURCE_STATUS_APPLY_RESULT_GUARD := "if(effect == StatusEffects.none || effect == null || isImmune(effect)) return;"
-const SOURCE_STATUS_APPLY_RESULT_WEAPON_SHOOT_STATUS_FIELD := "public StatusEffect shootStatus = StatusEffects.none;"
-const SOURCE_STATUS_APPLY_RESULT_WEAPON_DURATION_FIELD := "public float shootStatusDuration = 60f * 5f;"
-const SOURCE_STATUS_APPLY_RESULT_WEAPON_CALL := "unit.apply(shootStatus, shootStatusDuration);"
+const SOURCE_STATUS_APPLY_RESULT_METHOD := source_status_defaults.STATUS_APPLY_RESULT_METHOD
+const SOURCE_STATUS_APPLY_RESULT_GUARD := source_status_defaults.STATUS_APPLY_RESULT_GUARD
+const SOURCE_STATUS_APPLY_RESULT_WEAPON_SHOOT_STATUS_FIELD := source_status_defaults.STATUS_APPLY_RESULT_WEAPON_SHOOT_STATUS_FIELD
+const SOURCE_STATUS_APPLY_RESULT_WEAPON_DURATION_FIELD := source_status_defaults.STATUS_APPLY_RESULT_WEAPON_DURATION_FIELD
+const SOURCE_STATUS_APPLY_RESULT_WEAPON_CALL := source_status_defaults.STATUS_APPLY_RESULT_WEAPON_CALL
 
 static func apply_result_state(status_effect: String, duration: float, status_immune: bool) -> Dictionary:
 	var status_applied := status_effect != "none" and status_effect != "" and status_effect != source_status_defaults.STATUS_EFFECT_NONE and not status_immune

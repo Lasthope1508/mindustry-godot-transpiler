@@ -14,6 +14,11 @@ class GodotMcpRuntimeTests(unittest.TestCase):
         self.assertTrue((runtime_dir / "godot_mcp_runtime.gd").exists())
         self.assertTrue((runtime_dir / "mcp_runtime_autoload.gd").exists())
         self.assertIn('"res://addons/godot_mcp_runtime/plugin.cfg"', project_config)
+        autoload_uid = (runtime_dir / "mcp_runtime_autoload.gd.uid").read_text(encoding="utf-8").strip()
+        self.assertTrue(
+            'MCPRuntime="*res://addons/godot_mcp_runtime/mcp_runtime_autoload.gd"' in project_config
+            or f'MCPRuntime="*{autoload_uid}"' in project_config
+        )
         self.assertIn('config/icon="res://assets/core/assets/icons/icon_64.png"', project_config)
         self.assertTrue((PROJECT / "assets" / "core" / "assets" / "icons" / "icon_64.png").exists())
 
@@ -26,13 +31,18 @@ class GodotMcpRuntimeTests(unittest.TestCase):
         self.assertIn('return float(float_value)', source)
 
     def test_input_and_display_runtime_proofs_emit_aggregate_matches_json(self):
-        for proof_name in ["ControlInputModuleProof", "DisplayProfileRuntimeModuleProof"]:
-            proof_source = (PROJECT / "tools" / "runtime_proofs" / f"{proof_name}.gd").read_text(encoding="utf-8")
+        control_proof_source = (PROJECT / "tools" / "runtime_proofs" / "ControlInputModuleProof.gd").read_text(encoding="utf-8")
+        display_proof_source = (PROJECT / "tools" / "runtime_proofs" / "DisplayProfileRuntimeModuleProof.gd").read_text(encoding="utf-8")
 
-            self.assertIn('proof["matches"] =', proof_source)
-            self.assertIn(f'res://tools/runtime_proofs/{proof_name}.json', proof_source)
-            self.assertIn("proof_file.store_string(proof_json)", proof_source)
-            self.assertIn("proof_file.flush()", proof_source)
+        self.assertIn('proof["matches"] =', control_proof_source)
+        self.assertIn('const runtime_proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")', control_proof_source)
+        self.assertIn('runtime_proof_state.write_proof("ControlInputModuleProof", proof)', control_proof_source)
+        self.assertIn("get_tree().quit(runtime_proof_state.exit_code(proof))", control_proof_source)
+
+        self.assertIn('proof["matches"] =', display_proof_source)
+        self.assertIn('const runtime_proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")', display_proof_source)
+        self.assertIn('runtime_proof_state.write_proof("DisplayProfileRuntimeModuleProof", proof)', display_proof_source)
+        self.assertIn("get_tree().quit(runtime_proof_state.exit_code(proof))", display_proof_source)
 
 
 if __name__ == "__main__":

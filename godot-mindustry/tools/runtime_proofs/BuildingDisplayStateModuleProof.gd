@@ -2,7 +2,8 @@ extends Node
 
 const PortGameScript := preload("res://src/game/PortGame.gd")
 const source_building_display_state := preload("res://src/game/SourceBuildingDisplayState.gd")
-const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const source_ssot_accessor_runtime_state := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
+const runtime_proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")
 
 func _ready() -> void:
 	var game := PortGameScript.new()
@@ -23,6 +24,8 @@ func _ready() -> void:
 	var primitive_override_flow_label := source_building_display_state.display_flow_rate_label(12.34, "/sec", Callable(self, "proof_fixed_one_decimal"))
 	var flow_items_source: Variant = game.source_building_flow_items_state({"name": "copper"})
 	var flow_items_module: Variant = source_building_display_state.flow_items_state({"name": "copper"})
+	var display_icon_source: Variant = game.source_building_display_icon_state("copper-icon")
+	var display_icon_module: Variant = source_building_display_state.display_icon_state("copper-icon")
 	var display_consumption_source := game.source_building_display_consumption_state([
 		{"optional": true, "booster": true, "name": "skip"},
 		{"optional": false, "booster": true, "name": "keep"},
@@ -38,6 +41,8 @@ func _ready() -> void:
 	var bridge_name_module := source_building_display_state.generated_building_comp_get_display_name_bridge_state("Copper Wall", false, true, "?", "Derelict")
 	var bridge_flow_source := game.generated_building_comp_flow_items_bridge_state({"name": "copper"})
 	var bridge_flow_module := source_building_display_state.generated_building_comp_flow_items_bridge_state({"name": "copper"})
+	var bridge_icon_source := game.generated_building_comp_get_display_icon_bridge_state("copper-icon")
+	var bridge_icon_module := source_building_display_state.generated_building_comp_get_display_icon_bridge_state("copper-icon")
 	var bridge_consumption_source := game.generated_building_comp_display_consumption_bridge_state([
 		{"optional": true, "booster": true, "name": "skip"},
 		{"optional": false, "booster": true, "name": "keep"},
@@ -49,7 +54,7 @@ func _ready() -> void:
 	var bridge_bars_source := game.generated_building_comp_display_bars_bridge_state([null, {"bar": "ok"}])
 	var bridge_bars_module := source_building_display_state.generated_building_comp_display_bars_bridge_state([null, {"bar": "ok"}])
 
-	var registry_state := source_ssot_catalog.canonical_headquarter_registry_state()
+	var registry_state := source_ssot_accessor_runtime_state.canonical_headquarter_registry_state()
 	var proof := {
 		"module": "SourceBuildingDisplayState",
 		"default_callbacks_match": callbacks == expected_callbacks,
@@ -59,26 +64,24 @@ func _ready() -> void:
 		"flow_label_matches": flow_label_source == flow_label_module,
 		"override_flow_label_matches": override_flow_label == primitive_override_flow_label,
 		"flow_items_matches": flow_items_source == flow_items_module,
+		"display_icon_matches": display_icon_source == display_icon_module and display_icon_module == "copper-icon",
 		"display_consumption_matches": display_consumption_source == display_consumption_module,
 		"display_bars_matches": display_bars_source == display_bars_module,
 		"bridge_name_matches": bridge_name_source == bridge_name_module,
 		"bridge_flow_matches": bridge_flow_source == bridge_flow_module,
+		"bridge_icon_matches": bridge_icon_source == bridge_icon_module and bool(bridge_icon_source.get("matches", false)) and bridge_icon_source.get("result") == "copper-icon",
 		"bridge_consumption_matches": bridge_consumption_source == bridge_consumption_module,
 		"bridge_bars_matches": bridge_bars_source == bridge_bars_module,
 		"one_headquarter_per_ssot": bool(registry_state.get("one_headquarter_per_ssot", false)),
 		"registry_valid": bool(registry_state.get("errors", []).is_empty()),
 		"registry_headquarter_count": int(registry_state.get("headquarter_count", 0)),
 	}
-	proof["matches"] = proof["default_callbacks_match"] and proof["override_callbacks_match"] and proof["fixed_one_decimal_matches"] and proof["display_name_matches"] and proof["flow_label_matches"] and proof["override_flow_label_matches"] and proof["flow_items_matches"] and proof["display_consumption_matches"] and proof["display_bars_matches"] and proof["bridge_name_matches"] and proof["bridge_flow_matches"] and proof["bridge_consumption_matches"] and proof["bridge_bars_matches"] and proof["one_headquarter_per_ssot"] and proof["registry_valid"]
-	var proof_json := JSON.stringify(proof)
-	print("BUILDING_DISPLAY_STATE_MODULE_PROOF " + proof_json)
-	var proof_path := ProjectSettings.globalize_path("res://tools/runtime_proofs/BuildingDisplayStateModuleProof.json")
-	var proof_file := FileAccess.open(proof_path, FileAccess.WRITE)
-	if proof_file != null:
-		proof_file.store_string(proof_json)
+	proof["matches"] = proof["default_callbacks_match"] and proof["override_callbacks_match"] and proof["fixed_one_decimal_matches"] and proof["display_name_matches"] and proof["flow_label_matches"] and proof["override_flow_label_matches"] and proof["flow_items_matches"] and proof["display_icon_matches"] and proof["display_consumption_matches"] and proof["display_bars_matches"] and proof["bridge_name_matches"] and proof["bridge_flow_matches"] and proof["bridge_icon_matches"] and proof["bridge_consumption_matches"] and proof["bridge_bars_matches"] and proof["one_headquarter_per_ssot"] and proof["registry_valid"]
+	print("BUILDING_DISPLAY_STATE_MODULE_PROOF " + JSON.stringify(proof))
+	runtime_proof_state.write_proof("BuildingDisplayStateModuleProof", proof)
 	game.free()
-	await get_tree().create_timer(60.0).timeout
-	get_tree().quit(0)
+	await get_tree().process_frame
+	get_tree().quit(runtime_proof_state.exit_code(proof))
 
 func proof_fixed_one_decimal(value: float) -> String:
 	return source_building_display_state.fixed_one_decimal(value)

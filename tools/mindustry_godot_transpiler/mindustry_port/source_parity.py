@@ -60,6 +60,7 @@ CORE_BLOCK_SOURCE = "core/src/mindustry/world/blocks/storage/CoreBlock.java"
 ITEM_MODULE_SOURCE = "core/src/mindustry/world/modules/ItemModule.java"
 WORLD_SOURCE = "core/src/mindustry/core/World.java"
 FLOOR_SOURCE = "core/src/mindustry/world/blocks/environment/Floor.java"
+TILE_SOURCE = "core/src/mindustry/world/Tile.java"
 UNIT_TYPE_SOURCE = "core/src/mindustry/type/UnitType.java"
 UNIT_CONTROLLER_SOURCE = "core/src/mindustry/entities/units/UnitController.java"
 AI_CONTROLLER_SOURCE = "core/src/mindustry/entities/units/AIController.java"
@@ -77,6 +78,34 @@ ARC_TIME_SOURCE = "arc-core/src/arc/util/Time.java"
 ARC_TMP_SOURCE = "arc-core/src/arc/util/Tmp.java"
 ARC_COLOR_SOURCE = "arc-core/src/arc/graphics/Color.java"
 DRAWF_SOURCE = "core/src/mindustry/graphics/Drawf.java"
+
+
+def verify_building_calculate_heat_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    expressions = [
+        "public float calculateHeat(float[] sideHeat){",
+        "return calculateHeat(sideHeat, null);",
+        "public float calculateHeat(float[] sideHeat, @Nullable IntSet cameFrom){",
+        "Arrays.fill(sideHeat, 0f);",
+        "if(cameFrom != null) cameFrom.clear();",
+        "for(var build : proximity){",
+        "build instanceof HeatBlock heater",
+        "boolean split = build.block instanceof HeatConductor cond && cond.splitHeat;",
+        "if(!(build instanceof HeatConductorBuild hc && hc.cameFrom.contains(id()))){",
+        "int contactPoints = Math.min",
+        "add /= 3f;",
+        "sideHeat[Mathf.mod(relativeTo(build), 4)] += add;",
+        "cameFrom.addAll(hc.cameFrom);",
+        "cond.updateHeat();",
+        "return heat;",
+    ]
+    missing = [expression for expression in expressions if expression not in source]
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": expressions,
+        "missing": missing,
+    }
 
 def verify_overdrive_projector_params_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     blocks_path = Path(upstream_root) / DUO_SOURCE
@@ -2428,6 +2457,99 @@ def verify_power_generator_displayed_power_production_source(upstream_root: Path
         "checked": checked,
         "missing": missing,
     }
+
+def verify_power_generator_outputs_items_source(upstream_root: Path) -> dict[str, Any]:
+    source = (Path(upstream_root) / POWER_GENERATOR_SOURCE).read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public boolean outputsItems(){",
+        "return_false": "return false;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": POWER_GENERATOR_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_power_generator_set_stats_source(upstream_root: Path) -> dict[str, Any]:
+    source = (Path(upstream_root) / POWER_GENERATOR_SOURCE).read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void setStats(){",
+        "super_set_stats": "super.setStats();",
+        "generation_stat": "stats.add(generationType, powerProduction * 60.0f, StatUnit.powerSecond);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": POWER_GENERATOR_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_power_generator_load_source(upstream_root: Path) -> dict[str, Any]:
+    source = (Path(upstream_root) / POWER_GENERATOR_SOURCE).read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void load(){",
+        "super_load": "super.load();",
+        "drawer_load": "drawer.load(this);",
+    }
+    return {"source": POWER_GENERATOR_SOURCE, "checked": checked, "missing": [snippet for snippet in checked.values() if snippet not in source]}
+
+def verify_power_generator_icons_source(upstream_root: Path) -> dict[str, Any]:
+    source = (Path(upstream_root) / POWER_GENERATOR_SOURCE).read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public TextureRegion[] icons(){",
+        "drawer_final_icons": "return drawer.finalIcons(this);",
+    }
+    return {"source": POWER_GENERATOR_SOURCE, "checked": checked, "missing": [snippet for snippet in checked.values() if snippet not in source]}
+
+def verify_power_generator_set_bars_source(upstream_root: Path) -> dict[str, Any]:
+    source = (Path(upstream_root) / POWER_GENERATOR_SOURCE).read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void setBars(){",
+        "super_set_bars": "super.setBars();",
+        "guard": "if(hasPower && outputsPower){",
+        "add_bar": 'addBar("power", (GeneratorBuild entity) -> new Bar(() ->',
+        "format": 'Core.bundle.format("bar.poweroutput",',
+        "value": "Strings.fixed(entity.getPowerProduction() * 60 * entity.timeScale(), 1)",
+        "color": "() -> Pal.powerBar,",
+        "progress": "() -> entity.productionEfficiency));",
+    }
+    return {"source": POWER_GENERATOR_SOURCE, "checked": checked, "missing": [snippet for snippet in checked.values() if snippet not in source]}
+
+def verify_power_node_set_stats_source(upstream_root: Path) -> dict[str, Any]:
+    source = (Path(upstream_root) / POWER_NODE_SOURCE).read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void setStats(){",
+        "super_set_stats": "super.setStats();",
+        "power_range": "stats.add(Stat.powerRange, laserRange, StatUnit.blocks);",
+        "power_connections": "stats.add(Stat.powerConnections, maxNodes, StatUnit.none);",
+    }
+    return {"source": POWER_NODE_SOURCE, "checked": checked, "missing": [snippet for snippet in checked.values() if snippet not in source]}
+
+def verify_power_node_init_source(upstream_root: Path) -> dict[str, Any]:
+    source = (Path(upstream_root) / POWER_NODE_SOURCE).read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void init(){",
+        "super_init": "super.init();",
+        "clip_size": "clipSize = Math.max(clipSize, laserRange * tilesize);",
+    }
+    return {"source": POWER_NODE_SOURCE, "checked": checked, "missing": [snippet for snippet in checked.values() if snippet not in source]}
+
+def verify_power_node_plan_config_clip_size_source(upstream_root: Path) -> dict[str, Any]:
+    source = (Path(upstream_root) / POWER_NODE_SOURCE).read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public float planConfigClipSize(){",
+        "return": "return laserRange * tilesize * 2f + size * tilesize;",
+    }
+    return {"source": POWER_NODE_SOURCE, "checked": checked, "missing": [snippet for snippet in checked.values() if snippet not in source]}
+
+def verify_power_generator_draw_plan_region_source(upstream_root: Path) -> dict[str, Any]:
+    source = (Path(upstream_root) / POWER_GENERATOR_SOURCE).read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){",
+        "drawer_draw_plan": "drawer.drawPlan(this, plan, list);",
+    }
+    return {"source": POWER_GENERATOR_SOURCE, "checked": checked, "missing": [snippet for snippet in checked.values() if snippet not in source]}
 
 def verify_power_generator_build_serialization_source(upstream_root: Path) -> dict[str, Any]:
     power_generator_path = Path(upstream_root) / POWER_GENERATOR_SOURCE
@@ -7533,6 +7655,185 @@ def verify_power_graph_get_id_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_power_graph_getID_source(upstream_root: Path) -> dict[str, Any]:
+    power_graph_path = Path(upstream_root) / POWER_GRAPH_SOURCE
+    power_graph_source = power_graph_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public int getID(){",
+        "return_graph_id": "return graphID;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in power_graph_source]
+    return {
+        "source": POWER_GRAPH_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_power_graph_get_last_scaled_power_in_source(upstream_root: Path) -> dict[str, Any]:
+    power_graph_path = Path(upstream_root) / POWER_GRAPH_SOURCE
+    power_graph_source = power_graph_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "field": "private float lastScaledPowerIn, lastScaledPowerOut, lastCapacity;",
+        "method": "public float getLastScaledPowerIn(){",
+        "return_last_scaled_power_in": "return lastScaledPowerIn;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in power_graph_source]
+    return {
+        "source": POWER_GRAPH_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_power_graph_get_last_scaled_power_out_source(upstream_root: Path) -> dict[str, Any]:
+    power_graph_path = Path(upstream_root) / POWER_GRAPH_SOURCE
+    power_graph_source = power_graph_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "field": "private float lastScaledPowerIn, lastScaledPowerOut, lastCapacity;",
+        "method": "public float getLastScaledPowerOut(){",
+        "return_last_scaled_power_out": "return lastScaledPowerOut;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in power_graph_source]
+    return {
+        "source": POWER_GRAPH_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_power_graph_get_last_capacity_source(upstream_root: Path) -> dict[str, Any]:
+    power_graph_path = Path(upstream_root) / POWER_GRAPH_SOURCE
+    power_graph_source = power_graph_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "field": "private float lastScaledPowerIn, lastScaledPowerOut, lastCapacity;",
+        "method": "public float getLastCapacity(){",
+        "return_last_capacity": "return lastCapacity;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in power_graph_source]
+    return {
+        "source": POWER_GRAPH_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_power_graph_get_power_balance_source(upstream_root: Path) -> dict[str, Any]:
+    power_graph_path = Path(upstream_root) / POWER_GRAPH_SOURCE
+    power_graph_source = power_graph_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "field": "private final WindowedMean powerBalance = new WindowedMean(60);",
+        "method": "public float getPowerBalance(){",
+        "return_power_balance_raw_mean": "return powerBalance.rawMean();",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in power_graph_source]
+    return {
+        "source": POWER_GRAPH_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_power_graph_has_power_balance_samples_source(upstream_root: Path) -> dict[str, Any]:
+    power_graph_path = Path(upstream_root) / POWER_GRAPH_SOURCE
+    power_graph_source = power_graph_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "field": "private final WindowedMean powerBalance = new WindowedMean(60);",
+        "method": "public boolean hasPowerBalanceSamples(){",
+        "return_has_power_balance_samples": "return powerBalance.hasEnoughData();",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in power_graph_source]
+    return {
+        "source": POWER_GRAPH_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_power_graph_get_last_power_needed_source(upstream_root: Path) -> dict[str, Any]:
+    power_graph_path = Path(upstream_root) / POWER_GRAPH_SOURCE
+    power_graph_source = power_graph_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "field": "private float lastPowerProduced, lastPowerNeeded, lastPowerStored;",
+        "method": "public float getLastPowerNeeded(){",
+        "return_last_power_needed": "return lastPowerNeeded;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in power_graph_source]
+    return {
+        "source": POWER_GRAPH_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_power_graph_get_last_power_produced_source(upstream_root: Path) -> dict[str, Any]:
+    power_graph_path = Path(upstream_root) / POWER_GRAPH_SOURCE
+    power_graph_source = power_graph_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "field": "private float lastPowerProduced, lastPowerNeeded, lastPowerStored;",
+        "method": "public float getLastPowerProduced(){",
+        "return_last_power_produced": "return lastPowerProduced;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in power_graph_source]
+    return {
+        "source": POWER_GRAPH_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_power_graph_get_last_power_stored_source(upstream_root: Path) -> dict[str, Any]:
+    power_graph_path = Path(upstream_root) / POWER_GRAPH_SOURCE
+    power_graph_source = power_graph_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "field": "private float lastPowerProduced, lastPowerNeeded, lastPowerStored;",
+        "method": "public float getLastPowerStored(){",
+        "return_last_power_stored": "return lastPowerStored;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in power_graph_source]
+    return {
+        "source": POWER_GRAPH_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_power_graph_transfer_power_source(upstream_root: Path) -> dict[str, Any]:
+    power_graph_path = Path(upstream_root) / POWER_GRAPH_SOURCE
+    power_graph_source = power_graph_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "field": "private float energyDelta = 0f;",
+        "method": "public void transferPower(float amount){",
+        "positive_guard": "if(amount > 0){",
+        "charge_call": "chargeBatteries(amount);",
+        "else_branch": "}else{",
+        "use_call": "useBatteries(-amount);",
+        "energy_delta_add": "energyDelta += amount;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in power_graph_source]
+    return {
+        "source": POWER_GRAPH_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_power_graph_get_satisfaction_source(upstream_root: Path) -> dict[str, Any]:
+    power_graph_path = Path(upstream_root) / POWER_GRAPH_SOURCE
+    power_graph_source = power_graph_path.read_text(encoding="utf-8", errors="replace")
+    arc_mathf_path = Path(upstream_root).parent / "arc-upstream" / ARC_MATHF_SOURCE
+    arc_mathf_source = arc_mathf_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "field": "private float lastPowerProduced, lastPowerNeeded, lastPowerStored;",
+        "method": "public float getSatisfaction(){",
+        "produced_zero_guard": "if(Mathf.zero(lastPowerProduced)){",
+        "return_zero": "return 0f;",
+        "needed_zero_guard": "}else if(Mathf.zero(lastPowerNeeded)){",
+        "return_one": "return 1f;",
+        "return_clamp": "return Mathf.clamp(lastPowerProduced / lastPowerNeeded);",
+        "mathf_zero": "public static boolean zero(float value){",
+        "mathf_zero_body": "return Math.abs(value) <= FLOAT_ROUNDING_ERROR;",
+        "mathf_clamp": "public static float clamp(float value){",
+        "mathf_clamp_body": "return Math.max(Math.min(value, 1f), 0f);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in power_graph_source and snippet not in arc_mathf_source]
+    return {
+        "source": POWER_GRAPH_SOURCE,
+        "sources": [POWER_GRAPH_SOURCE, ARC_MATHF_SOURCE],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_power_graph_to_string_source(upstream_root: Path) -> dict[str, Any]:
     power_graph_path = Path(upstream_root) / POWER_GRAPH_SOURCE
     power_graph_source = power_graph_path.read_text(encoding="utf-8", errors="replace")
@@ -11196,6 +11497,48 @@ def verify_building_update_tile_gate_source(upstream_root: Path) -> dict[str, An
         "missing": missing,
     }
 
+
+def verify_building_update_payload_and_tile_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "update_payload_method": "public void updatePayload(@Nullable Unit unitHolder, @Nullable Building buildingHolder){",
+        "update_payload_delegate": "update();",
+        "update_tile_method": "public void updateTile(){",
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
+
+def verify_building_navigation_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "nearby_delta_method": "public Building nearby(int dx, int dy){",
+        "nearby_delta_return": "return world.build(tile.x + dx, tile.y + dy);",
+        "nearby_rotation_method": "public Building nearby(int rotation){",
+        "relative_tile_method": "public byte relativeTo(Tile tile){",
+        "relative_building_method": "public byte relativeTo(Building build){",
+        "relative_edge_method": "public byte relativeToEdge(Tile other){",
+        "relative_edge_return": "return relativeTo(Edges.getFacingEdge(other, tile));",
+        "relative_coordinates_method": "public byte relativeTo(int cx, int cy){",
+        "relative_coordinates_return": "return tile.absoluteRelativeTo(cx, cy);",
+        "front_method": "public @Nullable Building front(){",
+        "back_method": "public @Nullable Building back(){",
+        "left_method": "public @Nullable Building left(){",
+        "right_method": "public @Nullable Building right(){",
+        "multiblock_distance": "int trns = block.size/2 + 1;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {"source": BUILDING_COMP_SOURCE, "checked": checked, "missing": missing}
+
 def verify_building_update_fog_visibility_source(upstream_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
     source = source_path.read_text(encoding="utf-8", errors="replace")
@@ -13576,6 +13919,38 @@ def verify_block_post_init_shown_planets_source(upstream_root: Path) -> dict[str
         "missing": missing,
     }
 
+def verify_building_payload_access_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "can_withdraw_method": "public boolean canWithdraw(){",
+        "can_withdraw_return": "return true;",
+        "can_unload_method": "public boolean canUnload(){",
+        "can_unload_return": "return block.unloadable;",
+        "can_resupply_method": "public boolean canResupply(){",
+        "can_resupply_return": "return block.allowResupply;",
+        "payload_check_method": "public boolean payloadCheck(int conveyorRotation){",
+        "payload_check_return": "return block.rotate && (rotation + 2) % 4 == conveyorRotation;",
+        "allow_deposit_method": "public boolean allowDeposit(){",
+        "allow_deposit_return": "return block.alwaysAllowDeposit || !state.rules.onlyDepositCore;",
+    }
+    return {"source": BUILDING_COMP_SOURCE, "checked": checked, "missing": [expr for expr in checked.values() if expr not in source]}
+
+
+def verify_building_consumption_predicates_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "should_consume_method": "public boolean shouldConsume(){",
+        "should_consume_return": "return enabled;",
+        "production_valid_method": "public boolean productionValid(){",
+        "production_valid_return": "return true;",
+        "consume_trigger_valid_method": "public boolean consumeTriggerValid(){",
+        "consume_trigger_valid_return": "return false;",
+    }
+    return {"source": BUILDING_COMP_SOURCE, "checked": checked, "missing": [expr for expr in checked.values() if expr not in source]}
+
+
 def verify_block_init_destroy_sound_source(upstream_root: Path) -> dict[str, Any]:
     block_path = Path(upstream_root) / BLOCK_SOURCE
     source = block_path.read_text(encoding="utf-8", errors="replace")
@@ -14004,6 +14379,79 @@ def verify_block_init_consumer_arrays_source(upstream_root: Path) -> dict[str, A
         "checked": checked,
         "missing": missing,
     }
+
+
+def verify_building_is_discovered_source(upstream_root: Path) -> dict[str, Any]:
+    building_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = building_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public boolean isDiscovered(Team viewer){",
+        "map_darkness_guard": "if(state.rules.limitMapArea && world.getDarkness(tile.x, tile.y) >= 3){",
+        "map_darkness_return": "return false;",
+        "early_visible_guard": "if(viewer == null || !state.rules.staticFog || !state.rules.fog){",
+        "early_visible_return": "return true;",
+        "small_block_guard": "if(block.size <= 2){",
+        "center_probe": "return fogControl.isDiscovered(viewer, tile.x, tile.y);",
+        "large_block_half_size": "int s = block.size / 2;",
+        "large_block_probe": "fogControl.isDiscovered(viewer, tile.x + s, tile.y - s);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {"source": BUILDING_COMP_SOURCE, "checked": checked, "missing": missing}
+
+
+def verify_building_add_plan_source(upstream_root: Path) -> dict[str, Any]:
+    building_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = building_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "default_method": "public void addPlan(boolean checkPrevious){",
+        "default_delegate": "addPlan(checkPrevious, false);",
+        "method": "public void addPlan(boolean checkPrevious, boolean ignoreConditions){",
+        "eligibility_guard": "if(!ignoreConditions && (!block.rebuildable || (team == state.rules.defaultTeam && state.isCampaign() && !block.isVisible()))) return;",
+        "construct_guard": "if(self() instanceof ConstructBuild entity){",
+        "construct_resume_guard": "if(entity.current != null && entity.current.synthetic() && entity.wasConstructing){",
+        "construct_config": "overrideConfig = entity.lastConfig;",
+        "replace_guard": "if(checkPrevious){",
+        "replace_remove": "data.plans.removeIndex(i);",
+        "prepend": "data.plans.addFirst(new BlockPlan(tile.x, tile.y, (short)rotation, toAdd, overrideConfig == null ? config() : overrideConfig));",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {"source": BUILDING_COMP_SOURCE, "checked": checked, "missing": missing}
+
+def verify_building_find_closest_edge_source(upstream_root: Path) -> dict[str, Any]:
+    building_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    edges_path = Path(upstream_root) / "core/src/mindustry/world/Edges.java"
+    source = building_path.read_text(encoding="utf-8", errors="replace")
+    edges_source = edges_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public @Nullable Tile findClosestEdge(Position to, Boolf<Tile> solid){",
+        "null_guard": "if(to == null) return null;",
+        "edges_loop": "for(var point : Edges.getEdges(block.size)){",
+        "tile_lookup": "Tile other = Vars.world.tile(tile.x + point.x, tile.y + point.y);",
+        "selection_guard": "if(other != null && !solid.get(other) && (best == null || to.dst2(other) < mindst)){",
+        "distance_assignment": "mindst = other.dst2(to);",
+        "edges_method": "public static Point2[] getEdges(int size){",
+    }
+    source_by_key = {"edges_method": edges_source}
+    missing = [snippet for key, snippet in checked.items() if snippet not in source_by_key.get(key, source)]
+    return {"source": BUILDING_COMP_SOURCE, "edges_source": "core/src/mindustry/world/Edges.java", "checked": checked, "missing": missing}
+
+def verify_building_configure_entry_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "configure_method": "public void configure(Object value){",
+        "configure_last_config": "block.lastConfig = value;",
+        "configure_call": "Call.tileConfig(player, self(), value);",
+        "configure_any_method": "public void configureAny(Object value){",
+        "configure_any_call": "Call.tileConfig(null, self(), value);",
+        "deselect_method": "public void deselect(){",
+        "deselect_guard": "if(!headless && control.input.config.getSelected() == self()){",
+        "deselect_hide": "control.input.config.hideConfig();",
+        "config_tapped_method": "public boolean configTapped(){",
+        "config_tapped_return": "return true;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {"source": BUILDING_COMP_SOURCE, "checked": checked, "missing": missing}
 
 def verify_block_reinitialize_consumers_arrays_source(upstream_root: Path) -> dict[str, Any]:
     block_path = Path(upstream_root) / BLOCK_SOURCE
@@ -22807,6 +23255,749 @@ def verify_unit_move_pref_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_floor_edge_cluster_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / FLOOR_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "real_blend_id_method": "public int realBlendId(Tile tile){",
+        "real_blend_id_guard": "if(tile.floor().isLiquid && !tile.overlay().isAir() && !(tile.overlay() instanceof OreBlock)){",
+        "real_blend_id_return": "return -((tile.overlay().blendId) | (tile.floor().blendId << 15));",
+        "real_blend_id_fallback": "return blendId;",
+        "edges_method": "protected TextureRegion[][] edges(int x, int y){",
+        "edges_return": "return blendGroup.asFloor().edges;",
+        "edge_method": "protected TextureRegion edge(int x, int y, int rx, int ry){",
+        "edge_return": "return edges(x, y)[rx][2 - ry];",
+        "do_edge_method": "protected boolean doEdge(Tile tile, Tile otherTile, Floor other){",
+        "do_edge_return": "return (other.realBlendId(otherTile) > realBlendId(tile) || edges(tile.x, tile.y) == null);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {"source": FLOOR_SOURCE, "checked": checked, "missing": missing}
+
+
+def verify_floor_render_cluster_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / FLOOR_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "draw_non_layer_method": "public void drawNonLayer(Tile tile, CacheLayer layer){",
+        "draw_non_layer_clear_dirs": "Arrays.fill(dirs, 0);",
+        "draw_non_layer_clear_blenders": "blenders.clear();",
+        "draw_non_layer_clear_blended": "blended.clear();",
+        "draw_non_layer_loop": "for(int i = 0; i < 8; i++){",
+        "draw_non_layer_guard": "if(other != null && other.floor().drawEdgeOut && other.floor().cacheLayer == layer && other.floor().edges(tile.x, tile.y) != null){",
+        "draw_non_layer_call": "drawBlended(tile, false);",
+        "draw_blended_method": "protected void drawBlended(Tile tile, boolean checkId){",
+        "draw_blended_sort": "blenders.sort(a -> a.id + (tile.floor() != this && a == tile.floor() ? 99999 : 0));",
+        "draw_blended_loop": "for(Floor block : blenders){",
+        "draw_blended_resolve": "Floor ob = (this == tile.floor() || other.overlay() == Blocks.air ? other.floor() : other.overlay());",
+        "draw_blended_guard": "if(ob == block && (!checkId || dirs[i] == block.id)){",
+        "draw_blended_call": "Draw.rect(region, tile.worldx(), tile.worldy());",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {"source": FLOOR_SOURCE, "checked": checked, "missing": missing}
+
+
+def verify_floor_draw_edges_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / FLOOR_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "protected void drawEdges(Tile tile){",
+        "clear_blenders": "blenders.clear();",
+        "clear_blended": "blended.clear();",
+        "clear_dirs": "Arrays.fill(dirs, 0);",
+        "real_cache": "CacheLayer realCache = tile.floor().cacheLayer;",
+        "loop": "for(int i = 0; i < 8; i++){",
+        "null_guard": "if(other == null) continue;",
+        "resolve": "Floor ob = (this == tile.floor() || other.overlay() == Blocks.air ? other.floor() : other.overlay());",
+        "guard": "if(ob.drawEdgeOut && doEdge(tile, other, ob) && other.floor().cacheLayer == realCache && ob.edges(tile.x, tile.y) != null){",
+        "call": "drawBlended(tile, true);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {"source": FLOOR_SOURCE, "checked": checked, "missing": missing}
+
+
+def verify_floor_draw_base_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / FLOOR_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void drawBase(Tile tile){",
+        "main_call": "drawMain(tile);",
+        "edge_guard": "if(drawEdgeIn){",
+        "edges_call": "drawEdges(tile);",
+        "overlay_call": "drawOverlay(tile);",
+        "liquid_overlay_guard": "if(tile.overlay() != Blocks.air && tile.floor() == this && isLiquid){",
+        "alpha_call": "Draw.alpha(1f - overlayAlpha);",
+        "color_call": "Draw.color();",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {"source": FLOOR_SOURCE, "checked": checked, "missing": missing}
+
+
+def verify_floor_draw_overlay_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / FLOOR_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void drawOverlay(Tile tile){",
+        "guard": "if(floor != Blocks.air && floor != this){",
+        "call": "floor.drawBase(tile);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {"source": FLOOR_SOURCE, "checked": checked, "missing": missing}
+
+
+def verify_floor_variant_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / FLOOR_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "variant_method": "public int variant(int x, int y){",
+        "variant_delegate": "return variant(x, y, variantRegions.length);",
+        "variant_max_method": "public int variant(int x, int y, int max){",
+        "variant_return": "return Mathf.randomSeed(Point2.pack(x, y), 0, Math.max(0, max - 1));",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {"source": FLOOR_SOURCE, "checked": checked, "missing": missing}
+
+
+def verify_floor_check_autotile_same_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / FLOOR_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public boolean checkAutotileSame(Tile tile, @Nullable Tile other){",
+        "return": "return other != null && (this == tile.floor() ? other.floor() : other.overlay()).blendGroup == blendGroup;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {"source": FLOOR_SOURCE, "checked": checked, "missing": missing}
+
+
+def verify_floor_icons_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / FLOOR_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public TextureRegion[] icons(){",
+        "return": "return new TextureRegion[]{Core.atlas.find(Core.atlas.has(name) ? name : name + \"1\")};",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {"source": FLOOR_SOURCE, "checked": checked, "missing": missing}
+
+
+def verify_floor_changed_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / FLOOR_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void floorChanged(Tile tile){}",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {"source": FLOOR_SOURCE, "checked": checked, "missing": missing}
+
+
+def verify_floor_display_queries_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / FLOOR_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "icon_method": "public TextureRegion getDisplayIcon(Tile tile){",
+        "icon_return": "return liquidDrop == null ? super.getDisplayIcon(tile) : liquidDrop.uiIcon;",
+        "name_method": "public String getDisplayName(Tile tile){",
+        "name_return": "return liquidDrop == null ? super.getDisplayName(tile) : liquidDrop.localizedName;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {"source": FLOOR_SOURCE, "checked": checked, "missing": missing}
+
+
+def verify_floor_draw_main_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / FLOOR_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void drawMain(Tile tile){",
+        "tiling_guard": "if(tilingVariants > 0){",
+        "tiling_index": "int index = Mathf.randomSeed(Point2.pack(tile.x / tilingSize, tile.y / tilingSize), 0, tilingVariants - 1);",
+        "tiling_call": "Draw.rect(regions[tile.x % tilingSize][tilingSize - 1 - tile.y % tilingSize], tile.worldx(), tile.worldy());",
+        "autotile_guard": "}else if(autotile){",
+        "bits_init": "int bits = 0;",
+        "autotile_regions": "TextureRegion[] regions = autotileVariants > 1 ? autotileVariantRegions[variant(tile.x, tile.y, autotileVariantRegions.length)] : autotileRegions;",
+        "autotile_bit": "bits |= (1 << i);",
+        "bitmask_lookup": "int bit = TileBitmask.values[bits];",
+        "autotile_region": "TextureRegion region = bit == 13 && autotileMidVariants > 1 ? autotileMidRegions[variant(tile.x, tile.y, autotileMidRegions.length)] : regions[bit];",
+        "variant_call": "Draw.rect(variantRegions[variant(tile.x, tile.y)], tile.worldx(), tile.worldy());",
+        "alpha_reset": "Draw.alpha(1f);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {"source": FLOOR_SOURCE, "checked": checked, "missing": missing}
+
+
+def verify_tile_in_map_area_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / TILE_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public boolean inMapArea(){",
+        "return": "return !state.rules.limitMapArea || Rect.contains(state.rules.limitX , state.rules.limitY , state.rules.limitWidth, state.rules.limitHeight, x, y);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {"source": TILE_SOURCE, "checked": checked, "missing": missing}
+
+
+def verify_tile_is_center_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / TILE_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public boolean isCenter(){",
+        "return": "return build == null || build.tile == this;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {"source": TILE_SOURCE, "checked": checked, "missing": missing}
+
+
+def verify_tile_center_coordinates_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / TILE_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "center_x_method": "public int centerX(){",
+        "center_x_return": "return build == null ? x : build.tile.x;",
+        "center_y_method": "public int centerY(){",
+        "center_y_return": "return build == null ? y : build.tile.y;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {"source": TILE_SOURCE, "checked": checked, "missing": missing}
+
+
+def verify_tile_get_team_id_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / TILE_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public int getTeamID(){",
+        "team_return": "return team().id;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {"source": TILE_SOURCE, "checked": checked, "missing": missing}
+
+
+def verify_tile_flammability_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / TILE_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public float getFlammability(){",
+        "air_liquid_return": "if(floor.liquidDrop != null) return floor.liquidDrop.flammability;",
+        "item_formula": "result += build.items.sum((item, amount) -> item.flammability * amount) / Math.max(block.itemCapacity, 1) * Mathf.clamp(block.itemCapacity / 2.4f, 1f, 3f);",
+        "liquid_formula": "result += build.liquids.sum((liquid, amount) -> liquid.flammability * amount / 1.6f) / Math.max(block.liquidCapacity, 1) * Mathf.clamp(block.liquidCapacity / 30f, 1f, 2f);",
+        "result_return": "return result;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {"source": TILE_SOURCE, "checked": checked, "missing": missing}
+
+
+def verify_tile_getter_references_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / TILE_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "floor_return": "return floor;",
+        "block_return": "return block;",
+        "overlay_return": "return overlay;",
+        "cblock_return": "return (T)block;",
+        "team_return": "return build == null ? Team.derelict : build.team;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {"source": TILE_SOURCE, "checked": checked, "missing": missing}
+
+
+def verify_tile_is_darkened_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / TILE_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public boolean isDarkened(){",
+        "return": "return block.isDarkened(this);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {"source": TILE_SOURCE, "checked": checked, "missing": missing}
+
+
+def verify_tile_set_team_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / TILE_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void setTeam(Team team){",
+        "build_guard": "if(build != null){",
+        "team_call": "build.team(team);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {"source": TILE_SOURCE, "checked": checked, "missing": missing}
+
+
+def verify_tile_id_getters_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / TILE_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "overlay_method": "public short overlayID(){",
+        "overlay_return": "return overlay.id;",
+        "block_method": "public short blockID(){",
+        "block_return": "return block.id;",
+        "floor_method": "public short floorID(){",
+        "floor_return": "return floor.id;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {"source": TILE_SOURCE, "checked": checked, "missing": missing}
+
+
+def verify_tile_boolean_getters_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / TILE_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "passable_return": "return !((floor.solid && (block == Blocks.air || block.solidifes)) || (block.solid && (!block.destructible && !block.update)));",
+        "synthetic_return": "return block.update || block.destructible;",
+        "solid_return": "return block.solid || floor.solid || (build != null && build.checkSolid());",
+        "breakable_return": "return block.destructible || block.breakable || block.update;",
+        "dangerous_return": "return !block.solid && (floor.isDeep() || floor.damages());",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {"source": TILE_SOURCE, "checked": checked, "missing": missing}
+
+
+def verify_tile_linked_tiles_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / TILE_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "cons_method": "public void getLinkedTiles(Cons<Tile> cons){",
+        "multiblock_guard": "if(block.isMultiblock()){",
+        "size_offset": "int size = block.size, o = block.sizeOffset;",
+        "dx_loop": "for(int dx = 0; dx < size; dx++)",
+        "dy_loop": "for(int dy = 0; dy < size; dy++)",
+        "world_lookup": "Tile other = world.tile(x + dx + o, y + dy + o);",
+        "null_guard": "if(other != null) cons.get(other);",
+        "self_fallback": "cons.get(this);",
+        "seq_clear": "tmpArray.clear();",
+        "seq_return": "return tmpArray;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {"source": TILE_SOURCE, "checked": checked, "missing": missing}
+
+
+def verify_tile_rect_geometry_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / TILE_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "hitbox_method": "public Rect getHitbox(Rect rect){",
+        "hitbox_return": "return rect.setCentered(drawx(), drawy(), block.size * tilesize, block.size * tilesize);",
+        "bounds_method": "public Rect getBounds(Rect rect){",
+        "bounds_return": "return rect.set(x * tilesize - tilesize/2f, y * tilesize - tilesize/2f, tilesize, tilesize);",
+        "hitbox_override": "public void hitbox(Rect rect){",
+        "hitbox_delegate": "getHitbox(rect);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {"source": TILE_SOURCE, "checked": checked, "missing": missing}
+
+
+def verify_tile_nearby_queries_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / TILE_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "relative_lookup": "return world.tile(x + relative.x, y + relative.y);",
+        "delta_lookup": "return world.tile(x + dx, y + dy);",
+        "rotation_case_zero": "case 0 -> world.tile(x + 1, y);",
+        "rotation_case_one": "case 1 -> world.tile(x, y + 1);",
+        "rotation_case_two": "case 2 -> world.tile(x - 1, y);",
+        "rotation_case_three": "case 3 -> world.tile(x, y - 1);",
+        "rotation_default": "default -> null;",
+        "build_rotation_zero": "case 0 -> world.build(x + 1, y);",
+        "build_rotation_default": "default -> null;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {"source": TILE_SOURCE, "checked": checked, "missing": missing}
+
+
+def verify_tile_interaction_and_drops_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / TILE_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "interactable_method": "public boolean interactable(Team team){",
+        "interactable_return": "return state.teams.canInteract(team, team());",
+        "drop_method": "public @Nullable Item drop(){",
+        "drop_return": "return overlay == Blocks.air || overlay.itemDrop == null ? floor.itemDrop : overlay.itemDrop;",
+        "wall_drop_method": "public @Nullable Item wallDrop(){",
+        "wall_drop_solid_guard": "return block.solid ?",
+        "wall_drop_block_item": "block.itemDrop != null ? block.itemDrop :",
+        "wall_drop_overlay_ore": "overlay.wallOre && !block.synthetic() ? overlay.itemDrop :",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {"source": TILE_SOURCE, "checked": checked, "missing": missing}
+
+
+def verify_tile_state_predicates_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / TILE_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "save_data_method": "public boolean shouldSaveData(){",
+        "save_data_return": "return floor.saveData || overlay.saveData || block.saveData;",
+        "static_darkness_method": "public int staticDarkness(){",
+        "static_darkness_return": "return block.solid && block.fillsTile && !block.synthetic() ? data : 0;",
+        "leg_solid_method": "public boolean legSolid(){",
+        "leg_solid_return": "return staticDarkness() >= 2 || (floor.solid && block == Blocks.air);",
+        "adjacent_method": "public boolean adjacentTo(Tile tile){",
+        "adjacent_return": "return relativeTo(tile) != -1;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {"source": TILE_SOURCE, "checked": checked, "missing": missing}
+
+
+def verify_tile_packed_data_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / TILE_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    struct_source = (Path(upstream_root) / "annotations/src/main/java/mindustry/annotations/impl/StructProcess.java").read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "get_method": "public long getPackedData(){",
+        "get_return": "return PackedTileData.get(extraData, data, floorData, overlayData);",
+        "set_method": "public void setPackedData(long packed){",
+        "set_extra": "extraData = PackedTileData.extraData(packed);",
+        "set_data": "data = PackedTileData.data(packed);",
+        "set_floor_data": "floorData = PackedTileData.floorData(packed);",
+        "set_overlay_data": "overlayData = PackedTileData.overlayData(packed);",
+        "struct_fields": "int extraData;\n        byte data, floorData, overlayData;",
+        "struct_bit_width": "int structTotalSize = (structSize <= 8 ? 8 : structSize <= 16 ? 16 : structSize <= 32 ? 32 : 64);",
+    }
+    missing = []
+    for key, snippet in checked.items():
+        haystack = struct_source if key == "struct_bit_width" else source
+        if snippet not in haystack:
+            missing.append(snippet)
+    return {"source": TILE_SOURCE, "checked": checked, "missing": missing}
+
+
+def verify_tile_display_identity_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / TILE_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "get_x_method": "public float getX(){",
+        "get_x_return": "return drawx();",
+        "get_y_method": "public float getY(){",
+        "get_y_return": "return drawy();",
+        "to_string_method": "public String toString(){",
+        "to_string_return": "return floor.name + \":\" + block.name + \":\" + overlay + \"[\" + x + \",\" + y + \"] \" + \"entity=\" + (build == null ? \"null\" : (build.getClass().getSimpleName())) + \":\" + team();",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {"source": TILE_SOURCE, "checked": checked, "missing": missing}
+
+
+def verify_tile_change_events_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / TILE_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "changed_method": "protected void fireChanged(){",
+        "pre_changed_method": "protected void firePreChanged(){",
+        "generating_guard": "if(!world.isGenerating()){",
+        "changed_event": "Events.fire(tileChange.set(this));",
+        "pre_changed_event": "Events.fire(preChange.set(this));",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {"source": TILE_SOURCE, "checked": checked, "missing": missing}
+
+
+def verify_tile_changed_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / TILE_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "protected void changed(){",
+        "generating_guard": "if(!world.isGenerating()){",
+        "build_proximity": "build.updateProximity();",
+        "neighbor_loop": "for(Point2 p : Geometry.d4){",
+        "neighbor_guard": "if(tile != null && !tile.tile.changing){",
+        "neighbor_proximity": "tile.onProximityUpdate();",
+        "fire_changed": "fireChanged();",
+        "static_guard": "if(block.isStatic()){",
+        "recache": "recache();",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {"source": TILE_SOURCE, "checked": checked, "missing": missing}
+
+
+def verify_tile_pre_changed_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / TILE_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "protected void preChanged(){",
+        "pre_event": "firePreChanged();",
+        "build_guard": "if(build != null){",
+        "removed": "build.onRemoved();",
+        "remove_proximity": "build.removeFromProximity();",
+        "multiblock_guard": "if(build.block.isMultiblock()){",
+        "self_guard": "if(other != this){",
+        "reset_build": "other.build = null;",
+        "reset_block": "other.block = Blocks.air;",
+        "other_pre_event": "other.firePreChanged();",
+        "other_changed_event": "other.fireChanged();",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {"source": TILE_SOURCE, "checked": checked, "missing": missing}
+
+
+def verify_tile_change_build_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / TILE_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "protected void changeBuild(Team team, Prov<Building> entityprov, int rotation){",
+        "old_build_guard": "if(build != null){",
+        "old_build_size": "int size = build.block.size;",
+        "old_build_remove": "build.remove();",
+        "tile_set_clear": "tileSet.clear();",
+        "edge_loop": "for(Point2 edge : Edges.getEdges(size)){",
+        "edge_lookup": "Building other = world.build(x + edge.x, y + edge.y);",
+        "edge_add": "tileSet.add(other);",
+        "proximity_loop": "for(Building t : tileSet){",
+        "proximity_update": "t.updateProximity();",
+        "new_build_guard": "if(block.hasBuilding()){",
+        "new_build_init": "build = entityprov.get().init(this, team, block.update && !state.isEditor(), rotation);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {"source": TILE_SOURCE, "checked": checked, "missing": missing}
+
+
+def verify_tile_set_block_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / TILE_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "default_method": "public void setBlock(Block type, Team team, int rotation){",
+        "default_delegate": "setBlock(type, team, rotation, type::newBuilding);",
+        "method": "public void setBlock(Block type, Team team, int rotation, Prov<Building> entityprov){",
+        "changing": "changing = true;",
+        "static_guard": "if(type.isStatic() || this.block.isStatic()){",
+        "recache": "recache();",
+        "recache_wall": "recacheWall();",
+        "force_team": "if(type.forceTeam != null) team = type.forceTeam;",
+        "pre_changed": "preChanged();",
+        "assign_block": "this.block = type;",
+        "change_build": "changeBuild(team, entityprov, (byte)Mathf.mod(rotation, 4));",
+        "build_team": "build.team(team);",
+        "multiblock": "if(block.isMultiblock()){",
+        "first_pass": "other.setBlock(Blocks.air);",
+        "second_pass_build": "other.build = entity;",
+        "second_pass_block": "other.block = block;",
+        "changed": "changed();",
+        "reset_changing": "changing = false;",
+        "block_changed": "block.blockChanged(this);",
+        "team_delegate": "setBlock(type, team, 0);",
+        "type_delegate": "setBlock(type, Team.derelict, 0);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {"source": TILE_SOURCE, "checked": checked, "missing": missing}
+
+
+def verify_tile_set_floor_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / TILE_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void setFloor(Floor type){",
+        "same_guard": "if(this.floor == type) return;",
+        "previous_floor": "var prev = this.floor;",
+        "assign_floor": "this.floor = type;",
+        "remove_index_guard": "if(!headless && !world.isGenerating() && !isEditorTile()){",
+        "remove_index": "renderer.blocks.removeFloorIndex(this);",
+        "recache": "recache();",
+        "build_proximity": "build.onProximityUpdate();",
+        "pathfinder_guard": "if(!world.isGenerating() && pathfinder != null && !state.isEditor()){",
+        "pathfinder": "pathfinder.updateTile(this);",
+        "event_guard": "if(!world.isGenerating()){",
+        "event": "Events.fire(floorChange.set(this, prev, type));",
+        "changed_guard": "if(this.floor != prev){",
+        "changed": "this.floor.floorChanged(this);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {"source": TILE_SOURCE, "checked": checked, "missing": missing}
+
+
+def verify_tile_set_air_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / TILE_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "comment": "/** Sets the block to air. */",
+        "method": "public void setAir(){",
+        "delegate": "setBlock(Blocks.air);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {"source": TILE_SOURCE, "checked": checked, "missing": missing}
+
+
+def verify_tile_remove_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / TILE_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void remove(){",
+        "delegate": "setBlock(Blocks.air);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {"source": TILE_SOURCE, "checked": checked, "missing": missing}
+
+
+def verify_tile_network_mutation_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / TILE_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "remove_net_method": "public void removeNet(){",
+        "remove_net": "Call.removeTile(this);",
+        "set_net_method": "public void setNet(Block block){",
+        "set_net_default": "Call.setTile(this, block, Team.derelict, 0);",
+        "set_net_rotated_method": "public void setNet(Block block, Team team, int rotation){",
+        "set_net_rotated": "Call.setTile(this, block, team, rotation);",
+        "set_floor_net_method": "public void setFloorNet(Block floor, Block overlay){",
+        "set_floor_net": "Call.setFloor(this, floor, overlay);",
+        "set_floor_net_default_method": "public void setFloorNet(Block floor){",
+        "set_floor_net_default": "setFloorNet(floor, Blocks.air);",
+        "set_overlay_net_method": "public void setOverlayNet(Block overlay){",
+        "set_overlay_net": "Call.setOverlay(this, overlay);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {"source": TILE_SOURCE, "checked": checked, "missing": missing}
+
+
+def verify_tile_overlay_mutation_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / TILE_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "set_overlay_method": "public void setOverlay(Block block){",
+        "set_overlay_guard": "if(this.overlay == block) return;",
+        "set_overlay_assign": "this.overlay = (Floor)block;",
+        "set_overlay_recache": "recache();",
+        "set_overlay_event": "Events.fire(overlayChange.set(this, prev, this.overlay));",
+        "set_overlay_proximity": "build.onProximityUpdate();",
+        "set_overlay_quiet_method": "public void setOverlayQuiet(Block block){",
+        "set_overlay_quiet_assign": "this.overlay = (Floor)block;",
+        "clear_overlay_method": "public void clearOverlay(){",
+        "clear_overlay_delegate": "setOverlay(Blocks.air);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {"source": TILE_SOURCE, "checked": checked, "missing": missing}
+
+
+def verify_tile_circle_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / TILE_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "int_method": "public void circle(int radius, Intc2 cons){",
+        "int_delegate": "Geometry.circle(x, y, world.width(), world.height(), radius, cons);",
+        "tile_method": "public void circle(int radius, Cons<Tile> cons){",
+        "tile_delegate": "circle(radius, (x, y) -> cons.get(world.rawTile(x, y)));",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {"source": TILE_SOURCE, "checked": checked, "missing": missing}
+
+
+def verify_tile_editor_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / TILE_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public boolean isEditorTile(){",
+        "return": "return false;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {"source": TILE_SOURCE, "checked": checked, "missing": missing}
+
+
+def verify_tile_floor_color_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / TILE_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public Color getFloorColor(){",
+        "return": "return floor.getColor(this);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {"source": TILE_SOURCE, "checked": checked, "missing": missing}
+
+
+def verify_tile_recache_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / TILE_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "recache_wall_method": "public void recacheWall(){",
+        "recache_method": "public void recache(){",
+        "guard": "if(!headless && !world.isGenerating()){",
+        "recache_wall": "renderer.blocks.recacheWall(this);",
+        "floor_recache": "renderer.blocks.floor.recacheTile(this);",
+        "minimap": "renderer.minimap.update(this);",
+        "invalidate": "renderer.blocks.invalidateTile(this);",
+        "add_floor_index": "renderer.blocks.addFloorIndex(this);",
+        "neighbor_loop": "for(int i = 0; i < 8; i++){",
+        "neighbor_lookup": "Tile other = world.tile(x + Geometry.d8[i].x, y + Geometry.d8[i].y);",
+        "neighbor_guard": "if(other != null){",
+        "neighbor_floor": "renderer.blocks.floor.recacheTile(other);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {"source": TILE_SOURCE, "checked": checked, "missing": missing}
+
+
+def verify_tile_display_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / TILE_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void display(Table table){",
+        "block_choice": "block.itemDrop != null ? block :",
+        "overlay_choice": "overlay.itemDrop != null || wallDrop() != null ? overlay :",
+        "floor_choice": "floor;",
+        "table_call": "table.table(t -> {",
+        "left_call": "t.left();",
+        "icon_call": "t.add(new Image(toDisplay.getDisplayIcon(this))).scaling(Scaling.fit).size(8 * 4);",
+        "name_call": "t.labelWrap(toDisplay.getDisplayName(this)).left().width(190f).padLeft(5);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {"source": TILE_SOURCE, "checked": checked, "missing": missing}
+
+
+def verify_tile_bulk_mutation_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / TILE_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "set_blocks": "public static void setTileBlocks(Block block, Team team, int[] positions){",
+        "set_blocks_guard": "if(block == null || positions == null) return;",
+        "set_blocks_call": "tile.setBlock(block, team, 0);",
+        "set_floors": "public static void setTileFloors(Block block, int[] positions){",
+        "set_floors_guard": "if(positions == null || !(block instanceof Floor floor)) return;",
+        "set_floors_call": "tile.setFloor(floor);",
+        "set_overlays": "public static void setTileOverlays(Block block, int[] positions){",
+        "set_overlays_guard": "if(positions == null || !(block instanceof OverlayFloor floor)) return;",
+        "set_overlays_call": "tile.setOverlay(floor);",
+        "lookup": "Tile tile = world.tile(pos);",
+        "tile_guard": "if(tile != null){",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {"source": TILE_SOURCE, "checked": checked, "missing": missing}
+
+
+def verify_tile_single_mutation_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / TILE_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "set_floor": "public static void setFloor(Tile tile, Block floor, Block overlay){",
+        "set_floor_call": "tile.setFloor(floor.asFloor());",
+        "set_floor_overlay": "tile.setOverlay(overlay);",
+        "set_overlay": "public static void setOverlay(Tile tile, Block overlay){",
+        "remove_tile": "public static void removeTile(Tile tile){",
+        "remove_call": "tile.remove();",
+        "set_tile": "public static void setTile(Tile tile, Block block, Team team, int rotation){",
+        "set_tile_guard": "if(tile == null) return;",
+        "set_tile_call": "tile.setBlock(block, team, rotation);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {"source": TILE_SOURCE, "checked": checked, "missing": missing}
+
+
+def verify_tile_static_callbacks_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / TILE_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "set_team": "public static void setTeam(Building build, Team team){",
+        "set_team_guard": "if(build != null){",
+        "set_team_call": "build.changeTeam(team);",
+        "set_teams": "public static void setTeams(int[] positions, Team team){",
+        "set_teams_guard": "if(positions == null) return;",
+        "stale_graphs_clear": "staleGraphs.clear();",
+        "set_teams_first_pass": "build.changeTeam(team, false);",
+        "set_teams_reflow": "new PowerGraph().reflow(build);",
+        "set_teams_update_graph": "build.updatePowerGraph();",
+        "build_destroyed": "public static void buildDestroyed(Building build){",
+        "build_destroyed_guard": "if(build == null) return;",
+        "build_destroyed_call": "build.killed();",
+        "build_health_update": "public static void buildHealthUpdate(IntSeq buildings){",
+        "health_update_lookup": "var build = world.build(pos);",
+        "health_update_assignment": "build.health = health;",
+        "health_update_notify": "indexer.notifyHealthChanged(build);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {"source": TILE_SOURCE, "checked": checked, "missing": missing}
+
+
 def verify_unit_floor_speed_multiplier_source(upstream_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / UNIT_COMP_SOURCE
     floor_path = Path(upstream_root) / FLOOR_SOURCE
@@ -22858,6 +24049,175 @@ def verify_unit_unloaded_noop_source(upstream_root: Path) -> dict[str, Any]:
         "checked": checked,
         "missing": missing,
     }
+
+def verify_unit_sync_hidden_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "is_sync_hidden_method": "public boolean isSyncHidden(Player player){",
+        "is_sync_hidden_comment": "//shooting reveals position so bullets can be seen",
+        "is_sync_hidden_return": "return !isShooting() && inFogTo(player.team());",
+        "handle_sync_hidden_method": "public void handleSyncHidden(){",
+        "handle_sync_hidden_remove": "remove();",
+        "handle_sync_hidden_clear_removed_entity": "netClient.clearRemovedEntity(id);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_unit_in_fog_to_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "in_fog_method": "public boolean inFogTo(Team viewer){",
+        "in_fog_initial_gate": "if(this.team == viewer || !state.rules.fog) return false;",
+        "in_fog_small_hit_size_gate": "if(hitSize <= 16f){",
+        "in_fog_center_visibility": "return !fogControl.isVisible(viewer, x, y);",
+        "in_fog_large_comment": "//for large hitsizes, check around the unit instead",
+        "in_fog_translation": "float trns = hitSize / 2f;",
+        "in_fog_d8_loop": "for(var p : Geometry.d8){",
+        "in_fog_visible_point": "if(fogControl.isVisible(viewer, x + p.x * trns, y + p.y * trns)){",
+        "in_fog_final_return": "return true;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "geometry_source": "arc-core/src/arc/math/geom/Geometry.java",
+        "checked": checked,
+        "missing": missing,
+    }
+
+
+def verify_unit_range_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "range_method": "public float range(){",
+        "range_return": "return type.maxRange;",
+    }
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "checked": checked,
+        "missing": [snippet for snippet in checked.values() if snippet not in source],
+    }
+
+def verify_unit_clip_size_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "clip_size_method": "public float clipSize(){",
+        "clip_size_building_gate": "if(isBuilding()){",
+        "clip_size_building_return": "return state.rules.infiniteResources ? Float.MAX_VALUE : Math.max(type.clipSize, type.region.width) + type.buildRange + tilesize*4f;",
+        "clip_size_mining_gate": "if(mining()){",
+        "clip_size_mining_return": "return type.clipSize + type.mineRange;",
+        "clip_size_return": "return type.clipSize;",
+    }
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "checked": checked,
+        "missing": [snippet for snippet in checked.values() if snippet not in source],
+    }
+
+def verify_unit_sense_laccess_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public double sense(LAccess sensor){",
+        "switch": "return switch(sensor){",
+        "total_items": "case totalItems -> stack().amount;",
+        "velocity_x": "case velocityX -> vel.x * 60f / tilesize;",
+        "controlled": "case controlled -> !isValid() ? 0 :",
+        "payload_capacity": "case payloadCapacity -> type.payloadCapacity / tilePayload;",
+        "ping_x": "case pingX -> controller instanceof Player p && p.isPinging() ? World.conv(p.pingX) : Float.NaN;",
+        "default": "default -> Float.NaN;",
+    }
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "checked": checked,
+        "missing": [snippet for snippet in checked.values() if snippet not in source],
+    }
+
+def verify_unit_sense_object_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public Object senseObject(LAccess sensor){",
+        "type": "case type -> type;",
+        "controller": "case controller -> !isValid() ? null : controller instanceof LogicAI log ? log.controller : this;",
+        "payload_type": "case payloadType -> ((Object)this) instanceof Payloadc pay ?",
+        "default": "default -> noSensed;",
+    }
+    return {"source": UNIT_COMP_SOURCE, "checked": checked, "missing": [snippet for snippet in checked.values() if snippet not in source]}
+
+def verify_unit_sense_content_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public double sense(Content content){",
+        "stack": "if(content == stack().item) return stack().amount;",
+        "unit_payload": "p instanceof UnitPayload up && up.unit.type == u",
+        "block_payload": "p instanceof BuildPayload bp && bp.build.block == b",
+        "default": "return Float.NaN;",
+    }
+    return {"source": UNIT_COMP_SOURCE, "checked": checked, "missing": [snippet for snippet in checked.values() if snippet not in source]}
+
+def verify_unit_set_prop_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "double_method": "public void setProp(LAccess prop, double value){",
+        "double_switch": "switch(prop){",
+        "health": "health = (float)Mathf.clamp(value, 0, maxHealth);",
+        "velocity_x": "case velocityX -> vel.x = (float)(value * tilesize / 60d);",
+        "object_method": "public void setProp(LAccess prop, Object value){",
+        "payload_type": "case payloadType -> {",
+        "content_method": "public void setProp(UnlockableContent content, double value){",
+        "item": "stack.item = item;",
+    }
+    return {"source": UNIT_COMP_SOURCE, "checked": checked, "missing": [snippet for snippet in checked.values() if snippet not in source]}
+
+def verify_unit_combat_metadata_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "can_shoot_method": "public boolean canShoot(){",
+        "can_shoot_return": "return !disarmed && !(type.canBoost && isFlying());",
+        "is_enemy_method": "public boolean isEnemy(){",
+        "is_enemy_return": "return type.isEnemy;",
+        "collides_method": "public boolean collides(Hitboxc other){",
+        "collides_return": "return hittable();",
+        "item_capacity_method": "public int itemCapacity(){",
+        "item_capacity_return": "return type.itemCapacity;",
+        "bounds_method": "public float bounds(){",
+        "bounds_return": "return hitSize *  2f;",
+    }
+    return {"source": UNIT_COMP_SOURCE, "checked": checked, "missing": [snippet for snippet in checked.values() if snippet not in source]}
+
+def verify_unit_controller_block_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "collision_method": "public void collision(Hitboxc other, float x, float y){",
+        "collision_bullet_guard": "if(other instanceof Bullet bullet){",
+        "collision_controller_hit": "controller.hit(bullet);",
+        "controller_set_method": "public void controller(UnitController next){",
+        "controller_assign": "this.controller = next;",
+        "controller_unit_sync_guard": "if(controller.unit() != self()) controller.unit(self());",
+        "controller_get_method": "public UnitController controller(){",
+        "controller_get_return": "return controller;",
+        "reset_controller_method": "public void resetController(){",
+        "reset_controller_create": "controller(type.createController(self()));",
+        "set_method": "public void set(UnitType def, UnitController controller){",
+        "set_type_guard": "if(this.type != def){",
+        "set_type_call": "setType(def);",
+        "set_controller_call": "controller(controller);",
+        "collision_layer_method": "public int collisionLayer(){",
+        "collision_layer_return": "return type.allowLegStep && type.legPhysicsLayer ? PhysicsProcess.layerLegs : isGrounded() ? PhysicsProcess.layerGround : PhysicsProcess.layerFlying;",
+    }
+    return {"source": UNIT_COMP_SOURCE, "checked": checked, "missing": [snippet for snippet in checked.values() if snippet not in source]}
 
 def verify_unit_update_boosting_default_event_source(upstream_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / UNIT_COMP_SOURCE

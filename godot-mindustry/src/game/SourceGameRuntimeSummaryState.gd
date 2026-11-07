@@ -3,6 +3,10 @@ class_name SourceGameRuntimeSummaryState
 
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
 const source_selected_build_state := preload("res://src/game/SourceSelectedBuildState.gd")
+const source_game_runtime_summary_source_text_state := preload("res://src/game/SourceGameRuntimeSummarySourceTextState.gd")
+
+const SOURCE_GAME_RUNTIME_SUMMARY_SOURCE := source_game_runtime_summary_source_text_state.SOURCE_GAME_RUNTIME_SUMMARY_SOURCE
+const SOURCE_GAME_RUNTIME_SUMMARY_UPDATE_METHOD := source_game_runtime_summary_source_text_state.SOURCE_GAME_RUNTIME_SUMMARY_UPDATE_METHOD
 
 
 static func playthrough_state(game: Object) -> Dictionary:
@@ -30,8 +34,8 @@ static func playthrough_state(game: Object) -> Dictionary:
 	var selected = source_selected_build_state.selected_build(_array_field(game, "build_palette"), selected_build_index)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_GET_RUNTIME_SUMMARY,
-		"source_update_owner": "core/src/mindustry/core/Logic.java",
-		"source_update_method": "public void update(){",
+		"source_update_owner": SOURCE_GAME_RUNTIME_SUMMARY_SOURCE,
+		"source_update_method": SOURCE_GAME_RUNTIME_SUMMARY_UPDATE_METHOD,
 		"generated_class_count": generated_class_count,
 		"loaded_generated_class_names": loaded_generated_class_names.duplicate(),
 		"loaded_generated_instance_names": loaded_generated_instance_names.duplicate(),

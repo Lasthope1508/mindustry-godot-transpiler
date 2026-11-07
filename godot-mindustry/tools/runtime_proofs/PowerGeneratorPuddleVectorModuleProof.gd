@@ -2,14 +2,15 @@ extends Node
 
 const source_power_generator_state := preload("res://src/game/SourcePowerGeneratorState.gd")
 const source_math_defaults := preload("res://src/game/SourceMathDefaults.gd")
-const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const source_ssot_accessor_runtime_state := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
+const runtime_proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")
 
 func _ready() -> void:
 	var random_angle_units := [0.25, 0.75]
 	var random_range_units := [0.5, 1.0]
 	var canonical := source_power_generator_state.create_explosion_puddle_vector_state(true, "water", 2, 16.0, random_angle_units, random_range_units)
 	var result := source_power_generator_state.create_explosion_puddle_vector_state(true, "water", 2, 16.0, random_angle_units, random_range_units)
-	var registry_state := source_ssot_catalog.canonical_headquarter_registry_state()
+	var registry_state := source_ssot_accessor_runtime_state.canonical_headquarter_registry_state()
 	var proof := {
 		"module": "SourcePowerGeneratorState",
 		"puddle_vector_matches": result == canonical and bool(result.get("tmp_v1_vectors", []).size() == 2),
@@ -19,11 +20,7 @@ func _ready() -> void:
 	}
 	proof["matches"] = proof["puddle_vector_matches"] and proof["full_circle_matches"] and proof["one_headquarter_per_ssot"] and proof["registry_valid"]
 	print("POWER_GENERATOR_PUDDLE_VECTOR_MODULE_PROOF " + JSON.stringify(proof))
-	var proof_json := JSON.stringify(proof)
-	var proof_path := ProjectSettings.globalize_path("res://tools/runtime_proofs/PowerGeneratorPuddleVectorModuleProof.json")
-	var proof_file := FileAccess.open(proof_path, FileAccess.WRITE)
-	if proof_file != null:
-		proof_file.store_string(proof_json)
-		proof_file.close()
-	await get_tree().create_timer(60.0).timeout
-	get_tree().quit(0)
+	runtime_proof_state.write_proof("PowerGeneratorPuddleVectorModuleProof", proof)
+	await get_tree().process_frame
+	get_tree().quit(runtime_proof_state.exit_code(proof))
+

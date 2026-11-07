@@ -1,5 +1,6 @@
 extends Node
 
+const runtime_proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")
 const PortGameScript := preload("res://src/game/PortGame.gd")
 
 func _ready() -> void:
@@ -25,13 +26,8 @@ func _ready() -> void:
 	}
 	proof["registry_valid"] = bool(registry_state.get("valid", false))
 	proof["matches"] = proof["one_headquarter_per_ssot"] and proof["headquarter_count_matches_canonical_keys"] and proof["source_symbols_matches"] and proof["source_symbol_registry_matches"] and bool(block_content_registry_lookup.get("valid", false)) and proof["registry_valid"]
-	var proof_json := JSON.stringify(proof)
-	print("SSOT_HEADQUARTER_REGISTRY_PROOF " + proof_json)
-	var proof_path := ProjectSettings.globalize_path("res://tools/runtime_proofs/SsotHeadquarterRegistryProof.json")
-	var proof_file := FileAccess.open(proof_path, FileAccess.WRITE)
-	if proof_file != null:
-		proof_file.store_string(proof_json)
-		proof_file.flush()
+	print("SSOT_HEADQUARTER_REGISTRY_PROOF " + JSON.stringify(proof))
+	runtime_proof_state.write_proof("SsotHeadquarterRegistryProof", proof)
 	game.free()
-	await get_tree().create_timer(60.0).timeout
-	get_tree().quit(0)
+	await get_tree().process_frame
+	get_tree().quit(runtime_proof_state.exit_code(proof))

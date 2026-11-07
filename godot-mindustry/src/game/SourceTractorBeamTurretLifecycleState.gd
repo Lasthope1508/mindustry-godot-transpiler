@@ -4,14 +4,30 @@ class_name SourceTractorBeamTurretLifecycleState
 const source_time_defaults := preload("res://src/game/SourceTimeDefaults.gd")
 const source_generated_class_runtime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
+const source_turret_source_text_state := preload("res://src/game/SourceTurretSourceTextState.gd")
+const SOURCE_TRACTOR_BEAM_TURRET_GENERATED_CLASS := source_turret_source_text_state.SOURCE_TRACTOR_BEAM_TURRET_GENERATED_CLASS
+const SOURCE_TRACTOR_BEAM_TURRET_ICONS_METHOD := source_turret_source_text_state.SOURCE_TRACTOR_BEAM_TURRET_ICONS_METHOD
+const SOURCE_TRACTOR_BEAM_TURRET_ICONS_JAVA_METHOD := source_turret_source_text_state.SOURCE_TRACTOR_BEAM_TURRET_ICONS_JAVA_METHOD
+const SOURCE_TRACTOR_BEAM_TURRET_ICONS_GENERATED_OWNER := source_turret_source_text_state.SOURCE_TRACTOR_BEAM_TURRET_ICONS_GENERATED_OWNER
+const SOURCE_TRACTOR_BEAM_TURRET_ICONS_OVERRIDE_EXPR := source_turret_source_text_state.SOURCE_TRACTOR_BEAM_TURRET_ICONS_OVERRIDE_EXPR
+const SOURCE_TRACTOR_BEAM_TURRET_ICONS_RETURN_EXPR := source_turret_source_text_state.SOURCE_TRACTOR_BEAM_TURRET_ICONS_RETURN_EXPR
+const SOURCE_TRACTOR_BEAM_TURRET_INIT_METHOD := source_turret_source_text_state.SOURCE_TRACTOR_BEAM_TURRET_INIT_METHOD
+const SOURCE_TRACTOR_BEAM_TURRET_INIT_JAVA_METHOD := source_turret_source_text_state.SOURCE_TRACTOR_BEAM_TURRET_INIT_JAVA_METHOD
+const SOURCE_TRACTOR_BEAM_TURRET_INIT_GENERATED_OWNER := source_turret_source_text_state.SOURCE_TRACTOR_BEAM_TURRET_INIT_GENERATED_OWNER
+const SOURCE_TRACTOR_BEAM_TURRET_INIT_OVERRIDE_EXPR := source_turret_source_text_state.SOURCE_TRACTOR_BEAM_TURRET_INIT_OVERRIDE_EXPR
+const SOURCE_TRACTOR_BEAM_TURRET_INIT_SUPER_EXPR := source_turret_source_text_state.SOURCE_TRACTOR_BEAM_TURRET_INIT_SUPER_EXPR
+const SOURCE_TRACTOR_BEAM_TURRET_INIT_UPDATE_CLIP_RADIUS_EXPR := source_turret_source_text_state.SOURCE_TRACTOR_BEAM_TURRET_INIT_UPDATE_CLIP_RADIUS_EXPR
+
+static func _tractor_beam_turret_call(generated_method: String, generated_args: Array) -> Variant:
+	return source_generated_class_runtime.call_java_method(SOURCE_TRACTOR_BEAM_TURRET_GENERATED_CLASS, generated_method, generated_args, null)
 
 static func icons_state(base_region: Variant, region: Variant) -> Dictionary:
 	var icons: Array = [base_region, region]
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_TRACTOR_BEAM_TURRET_ICONS_STATE,
-		"method": "public TextureRegion[] icons(){",
-		"override_expr": "@Override",
-		"return_expr": "return new TextureRegion[]{baseRegion, region};",
+		"method": SOURCE_TRACTOR_BEAM_TURRET_ICONS_METHOD,
+		"override_expr": SOURCE_TRACTOR_BEAM_TURRET_ICONS_OVERRIDE_EXPR,
+		"return_expr": SOURCE_TRACTOR_BEAM_TURRET_ICONS_RETURN_EXPR,
 		"base_region": base_region,
 		"region": region,
 		"icons": icons,
@@ -19,11 +35,11 @@ static func icons_state(base_region: Variant, region: Variant) -> Dictionary:
 
 
 static func generated_icons_bridge_state(base_region: Variant, region: Variant) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd", "java_method_icons_0", [base_region, region], null)
+	var result = _tractor_beam_turret_call(SOURCE_TRACTOR_BEAM_TURRET_ICONS_JAVA_METHOD, [base_region, region])
 	var canonical = icons_state(base_region, region)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_TRACTOR_BEAM_TURRET_ICONS_STATE,
-		"generated_owner": "tractor_beam_turret.java_method_icons_0",
+		"generated_owner": SOURCE_TRACTOR_BEAM_TURRET_ICONS_GENERATED_OWNER,
 		"result": result,
 		"canonical": canonical,
 		"matches": source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical),
@@ -31,13 +47,13 @@ static func generated_icons_bridge_state(base_region: Variant, region: Variant) 
 
 static func init_state(range_value: float, source_tilesize: float) -> Dictionary:
 	var clip_radius: float = range_value + source_tilesize
-	var update_clip_radius_call: Dictionary = {"call": "updateClipRadius(range + tilesize);", "radius": clip_radius}
+	var update_clip_radius_call: Dictionary = {"call": SOURCE_TRACTOR_BEAM_TURRET_INIT_UPDATE_CLIP_RADIUS_EXPR, "radius": clip_radius}
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_TRACTOR_BEAM_TURRET_INIT_STATE,
-		"method": "public void init(){",
-		"override_expr": "@Override",
-		"super_init_expr": "super.init();",
-		"update_clip_radius_expr": "updateClipRadius(range + tilesize);",
+		"method": SOURCE_TRACTOR_BEAM_TURRET_INIT_METHOD,
+		"override_expr": SOURCE_TRACTOR_BEAM_TURRET_INIT_OVERRIDE_EXPR,
+		"super_init_expr": SOURCE_TRACTOR_BEAM_TURRET_INIT_SUPER_EXPR,
+		"update_clip_radius_expr": SOURCE_TRACTOR_BEAM_TURRET_INIT_UPDATE_CLIP_RADIUS_EXPR,
 		"range": range_value,
 		"tilesize": source_tilesize,
 		"clip_radius": clip_radius,
@@ -48,11 +64,11 @@ static func init_state(range_value: float, source_tilesize: float) -> Dictionary
 
 
 static func generated_init_bridge_state(range_value: float, source_tilesize: float) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd", "java_method_init_2", [range_value, source_tilesize], null)
+	var result = _tractor_beam_turret_call(SOURCE_TRACTOR_BEAM_TURRET_INIT_JAVA_METHOD, [range_value, source_tilesize])
 	var canonical = init_state(range_value, source_tilesize)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_TRACTOR_BEAM_TURRET_INIT_STATE,
-		"generated_owner": "tractor_beam_turret.java_method_init_2",
+		"generated_owner": SOURCE_TRACTOR_BEAM_TURRET_INIT_GENERATED_OWNER,
 		"result": result,
 		"canonical": canonical,
 		"matches": source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical),
@@ -76,7 +92,7 @@ static func build_should_consume_state(super_should_consume: bool, target: Varia
 
 
 static func generated_build_should_consume_bridge_state(super_should_consume: bool, target: Variant) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd", "java_inner_class_TractorBeamBuild_method_shouldConsume_1", [super_should_consume, target], null)
+	var result = _tractor_beam_turret_call("java_inner_class_TractorBeamBuild_method_shouldConsume_1", [super_should_consume, target])
 	var canonical = build_should_consume_state(super_should_consume, target)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_TRACTOR_BEAM_TURRET_BUILD_SHOULD_CONSUME_STATE,
@@ -106,7 +122,7 @@ static func build_estimate_dps_state(any_state: bool, damage: float, efficiency:
 
 
 static func generated_build_estimate_dps_bridge_state(any_state: bool, damage: float, efficiency: float, coolant_multiplier: float) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd", "java_inner_class_TractorBeamBuild_method_estimateDps_2", [any_state, damage, efficiency, coolant_multiplier, source_time_defaults.TICK_RATE], null)
+	var result = _tractor_beam_turret_call("java_inner_class_TractorBeamBuild_method_estimateDps_2", [any_state, damage, efficiency, coolant_multiplier, source_time_defaults.TICK_RATE])
 	var canonical = build_estimate_dps_state(any_state, damage, efficiency, coolant_multiplier)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_TRACTOR_BEAM_TURRET_BUILD_ESTIMATE_DPS_STATE,
@@ -132,7 +148,7 @@ static func build_write_state(rotation_value: float) -> Dictionary:
 
 
 static func generated_build_write_bridge_state(rotation_value: float) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd", "java_inner_class_TractorBeamBuild_method_write_4", [rotation_value], null)
+	var result = _tractor_beam_turret_call("java_inner_class_TractorBeamBuild_method_write_4", [rotation_value])
 	var canonical = build_write_state(rotation_value)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_TRACTOR_BEAM_TURRET_BUILD_WRITE_STATE,
@@ -162,7 +178,7 @@ static func build_read_state(read_f_value: float, revision_value: int) -> Dictio
 
 
 static func generated_build_read_bridge_state(read_f_value: float, revision_value: int) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd", "java_inner_class_TractorBeamBuild_method_read_5", [read_f_value, revision_value], null)
+	var result = _tractor_beam_turret_call("java_inner_class_TractorBeamBuild_method_read_5", [read_f_value, revision_value])
 	var canonical = build_read_state(read_f_value, revision_value)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_TRACTOR_BEAM_TURRET_BUILD_READ_STATE,

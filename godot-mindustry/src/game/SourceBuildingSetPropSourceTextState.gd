@@ -1,0 +1,9 @@
+extends RefCounted
+class_name SourceBuildingSetPropSourceTextState
+
+const SOURCE_BUILDING_SET_PROP_211_JAVA_METHOD := "java_method_setProp_211"
+const SOURCE_BUILDING_SET_PROP_211_GENERATED_OWNER := "building_comp.java_method_setProp_211"
+const SOURCE_BUILDING_SET_PROP_212_JAVA_METHOD := "java_method_setProp_212"
+const SOURCE_BUILDING_SET_PROP_212_GENERATED_OWNER := "building_comp.java_method_setProp_212"
+const SOURCE_BUILDING_SET_PROP_213_JAVA_METHOD := "java_method_setProp_213"
+const SOURCE_BUILDING_SET_PROP_213_GENERATED_OWNER := "building_comp.java_method_setProp_213"

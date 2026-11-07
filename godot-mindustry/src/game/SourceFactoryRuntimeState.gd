@@ -9,49 +9,55 @@ const source_drill_production_runtime_state_script := preload("res://src/game/So
 const source_item_transport_runtime_state_script := preload("res://src/game/SourceItemTransportRuntimeState.gd")
 const source_factory_simulation_runtime_state_script := preload("res://src/game/SourceFactorySimulationRuntimeState.gd")
 const source_factory_simulation_apply_state_script := preload("res://src/game/SourceFactorySimulationApplyState.gd")
+const source_factory_source_text_state := preload("res://src/game/SourceFactorySourceTextState.gd")
+const source_playable_scenario_defaults := preload("res://src/game/SourcePlayableScenarioDefaults.gd")
+const source_time_defaults := preload("res://src/game/SourceTimeDefaults.gd")
 
-const SOURCE_FACTORY_DRILL_RUNTIME_STATE_METHOD_FALLBACK := "source_drill_runtime_state"
-const SOURCE_FACTORY_DRILL_DUMP_RUNTIME_STATE_METHOD_FALLBACK := "factory_drill_dump_preview_state"
-const SOURCE_FACTORY_DRILL_DUMP_PREVIEW_RUNTIME_STATE_METHOD_FALLBACK := "source_drill_dump_runtime_state"
-const SOURCE_FACTORY_DUMP_DRILL_ITEM_TO_CORE_METHOD_FALLBACK := "source_dump_drill_item_to_core"
-const SOURCE_FACTORY_ITEM_TRANSPORT_RUNTIME_STATE_METHOD_FALLBACK := "source_item_transport_runtime_state"
-const SOURCE_FACTORY_CONVEYOR_PROGRESS_DELTA_FOR_CELL_METHOD_FALLBACK := "source_conveyor_path_progress_delta_for_cell"
-const SOURCE_FACTORY_DRILL_DELAY_METHOD_FALLBACK := "source_drill_delay"
-const SOURCE_FACTORY_DRILL_OUTPUT_DELTA_FOR_CELL_METHOD_FALLBACK := "source_drill_output_delta_for_cell"
-const SOURCE_FACTORY_BLOCK_TIME_SCALE_AT_CELL_METHOD_FALLBACK := "source_block_time_scale_at_cell"
-const SOURCE_FACTORY_SIMULATE_FACTORY_METHOD_FALLBACK := "simulate_factory"
-const SOURCE_FACTORY_DRILL_DUMP_INTERVAL_METHOD_FALLBACK := "source_drill_dump_interval"
-const SOURCE_FACTORY_SUMMARY_DRILL_BLOCK_ID_KEY := "drill_block_id"
-const SOURCE_FACTORY_SUMMARY_CONVEYOR_BLOCK_ID_KEY := "conveyor_block_id"
-const SOURCE_FACTORY_SUMMARY_DRILL_OUTPUT_ITEM_ID_KEY := "drill_output_item_id"
-const SOURCE_FACTORY_SUMMARY_DRILL_ORE_CELL_COUNT_KEY := "drill_ore_cell_count"
-const SOURCE_FACTORY_SUMMARY_DRILL_WARMUP_KEY := "drill_warmup"
-const SOURCE_FACTORY_SUMMARY_DRILL_OUTPUT_RATE_KEY := "drill_output_rate"
-const SOURCE_FACTORY_SUMMARY_CORE_INVENTORY_KEY := "core_inventory"
-const SOURCE_FACTORY_SUMMARY_PRODUCED_TOTAL_KEY := "produced_total"
-const SOURCE_FACTORY_SUMMARY_CONVEYOR_WORLD_SPEED_KEY := "conveyor_world_speed"
-const SOURCE_FACTORY_SUMMARY_CONVEYOR_PATH_PROGRESS_RATE_KEY := "conveyor_path_progress_rate"
-const SOURCE_FACTORY_SUMMARY_DRILL_DELAY_KEY := "drill_delay"
-const SOURCE_FACTORY_SUMMARY_DRILL_OUTPUT_DELTA_FOR_CELL_CALLBACK_KEY := "drill_output_delta_for_cell"
-const SOURCE_FACTORY_SUMMARY_CONVEYOR_PROGRESS_DELTA_FOR_CELL_CALLBACK_KEY := "conveyor_progress_delta_for_cell"
-const SOURCE_FACTORY_SUMMARY_DRILL_OUTPUT_DELTA_PER_SECOND_KEY := "drill_output_delta_per_second"
-const SOURCE_FACTORY_SUMMARY_CONVEYOR_PROGRESS_DELTA_PER_SECOND_KEY := "conveyor_progress_delta_per_second"
-const SOURCE_FACTORY_SUMMARY_SOURCE_OWNER_KEY := "source_owner"
-const SOURCE_FACTORY_STEP_CONVEYOR_PROGRESS_DELTA_FOR_CELL_CALLBACK_KEY := "conveyor_progress_delta_for_cell"
-const SOURCE_FACTORY_STEP_SIMULATE_FACTORY_CALLBACK_KEY := "simulate_factory"
-const SOURCE_FACTORY_STEP_BLOCK_TIME_SCALE_AT_CELL_CALLBACK_KEY := "block_time_scale_at_cell"
-const SOURCE_FACTORY_STEP_TRANSPORT_PROGRESS_BEFORE_KEY := "transport_progress_before"
-const SOURCE_FACTORY_STEP_TRANSPORT_PROGRESS_DELTA_KEY := "transport_progress_delta"
-const SOURCE_FACTORY_STEP_CONVEYOR_PROGRESS_DELTA_KEY := "conveyor_progress_delta"
-const SOURCE_FACTORY_STEP_TRANSPORT_PROGRESS_KEY := "transport_progress"
-const SOURCE_FACTORY_STEP_CONVEYOR_TIME_SCALE_KEY := "conveyor_time_scale"
-const SOURCE_FACTORY_STEP_ITEM_PROGRESS_BEFORE_KEY := "item_progress_before"
-const SOURCE_FACTORY_STEP_DRILL_WARMUP_BEFORE_KEY := "drill_warmup_before"
-const SOURCE_FACTORY_STEP_DRILL_OUTPUT_DELTA_KEY := "drill_output_delta"
+const SOURCE_FACTORY_DRILL_RUNTIME_STATE_METHOD_FALLBACK := source_factory_source_text_state.SOURCE_FACTORY_DRILL_RUNTIME_STATE_METHOD_FALLBACK
+const SOURCE_FACTORY_DRILL_DUMP_RUNTIME_STATE_METHOD_FALLBACK := source_factory_source_text_state.SOURCE_FACTORY_DRILL_DUMP_RUNTIME_STATE_METHOD_FALLBACK
+const SOURCE_FACTORY_DRILL_DUMP_PREVIEW_RUNTIME_STATE_METHOD_FALLBACK := source_factory_source_text_state.SOURCE_FACTORY_DRILL_DUMP_PREVIEW_RUNTIME_STATE_METHOD_FALLBACK
+const SOURCE_FACTORY_DUMP_DRILL_ITEM_TO_CORE_METHOD_FALLBACK := source_factory_source_text_state.SOURCE_FACTORY_DUMP_DRILL_ITEM_TO_CORE_METHOD_FALLBACK
+const SOURCE_FACTORY_ITEM_TRANSPORT_RUNTIME_STATE_METHOD_FALLBACK := source_factory_source_text_state.SOURCE_FACTORY_ITEM_TRANSPORT_RUNTIME_STATE_METHOD_FALLBACK
+const SOURCE_FACTORY_CONVEYOR_PROGRESS_DELTA_FOR_CELL_METHOD_FALLBACK := source_factory_source_text_state.SOURCE_FACTORY_CONVEYOR_PROGRESS_DELTA_FOR_CELL_METHOD_FALLBACK
+const SOURCE_FACTORY_DRILL_DELAY_METHOD_FALLBACK := source_factory_source_text_state.SOURCE_FACTORY_DRILL_DELAY_METHOD_FALLBACK
+const SOURCE_FACTORY_DRILL_OUTPUT_DELTA_FOR_CELL_METHOD_FALLBACK := source_factory_source_text_state.SOURCE_FACTORY_DRILL_OUTPUT_DELTA_FOR_CELL_METHOD_FALLBACK
+const SOURCE_FACTORY_BLOCK_TIME_SCALE_AT_CELL_METHOD_FALLBACK := source_factory_source_text_state.SOURCE_FACTORY_BLOCK_TIME_SCALE_AT_CELL_METHOD_FALLBACK
+const SOURCE_FACTORY_SIMULATE_FACTORY_METHOD_FALLBACK := source_factory_source_text_state.SOURCE_FACTORY_SIMULATE_FACTORY_METHOD_FALLBACK
+const SOURCE_FACTORY_DRILL_DUMP_INTERVAL_METHOD_FALLBACK := source_factory_source_text_state.SOURCE_FACTORY_DRILL_DUMP_INTERVAL_METHOD_FALLBACK
+const SOURCE_FACTORY_SUMMARY_DRILL_BLOCK_ID_KEY := source_factory_source_text_state.SOURCE_FACTORY_SUMMARY_DRILL_BLOCK_ID_KEY
+const SOURCE_FACTORY_SUMMARY_CONVEYOR_BLOCK_ID_KEY := source_factory_source_text_state.SOURCE_FACTORY_SUMMARY_CONVEYOR_BLOCK_ID_KEY
+const SOURCE_FACTORY_SUMMARY_DRILL_OUTPUT_ITEM_ID_KEY := source_factory_source_text_state.SOURCE_FACTORY_SUMMARY_DRILL_OUTPUT_ITEM_ID_KEY
+const SOURCE_FACTORY_SUMMARY_DRILL_ORE_CELL_COUNT_KEY := source_factory_source_text_state.SOURCE_FACTORY_SUMMARY_DRILL_ORE_CELL_COUNT_KEY
+const SOURCE_FACTORY_SUMMARY_DRILL_WARMUP_KEY := source_factory_source_text_state.SOURCE_FACTORY_SUMMARY_DRILL_WARMUP_KEY
+const SOURCE_FACTORY_SUMMARY_DRILL_OUTPUT_RATE_KEY := source_factory_source_text_state.SOURCE_FACTORY_SUMMARY_DRILL_OUTPUT_RATE_KEY
+const SOURCE_FACTORY_SUMMARY_CORE_INVENTORY_KEY := source_factory_source_text_state.SOURCE_FACTORY_SUMMARY_CORE_INVENTORY_KEY
+const SOURCE_FACTORY_SUMMARY_PRODUCED_TOTAL_KEY := source_factory_source_text_state.SOURCE_FACTORY_SUMMARY_PRODUCED_TOTAL_KEY
+const SOURCE_FACTORY_SUMMARY_CONVEYOR_WORLD_SPEED_KEY := source_factory_source_text_state.SOURCE_FACTORY_SUMMARY_CONVEYOR_WORLD_SPEED_KEY
+const SOURCE_FACTORY_SUMMARY_CONVEYOR_PATH_PROGRESS_RATE_KEY := source_factory_source_text_state.SOURCE_FACTORY_SUMMARY_CONVEYOR_PATH_PROGRESS_RATE_KEY
+const SOURCE_FACTORY_SUMMARY_DRILL_DELAY_KEY := source_factory_source_text_state.SOURCE_FACTORY_SUMMARY_DRILL_DELAY_KEY
+const SOURCE_FACTORY_SUMMARY_DRILL_OUTPUT_DELTA_FOR_CELL_CALLBACK_KEY := source_factory_source_text_state.SOURCE_FACTORY_SUMMARY_DRILL_OUTPUT_DELTA_FOR_CELL_CALLBACK_KEY
+const SOURCE_FACTORY_SUMMARY_CONVEYOR_PROGRESS_DELTA_FOR_CELL_CALLBACK_KEY := source_factory_source_text_state.SOURCE_FACTORY_SUMMARY_CONVEYOR_PROGRESS_DELTA_FOR_CELL_CALLBACK_KEY
+const SOURCE_FACTORY_SUMMARY_DRILL_OUTPUT_DELTA_PER_SECOND_KEY := source_factory_source_text_state.SOURCE_FACTORY_SUMMARY_DRILL_OUTPUT_DELTA_PER_SECOND_KEY
+const SOURCE_FACTORY_SUMMARY_CONVEYOR_PROGRESS_DELTA_PER_SECOND_KEY := source_factory_source_text_state.SOURCE_FACTORY_SUMMARY_CONVEYOR_PROGRESS_DELTA_PER_SECOND_KEY
+const SOURCE_FACTORY_SUMMARY_SOURCE_OWNER_KEY := source_factory_source_text_state.SOURCE_FACTORY_SUMMARY_SOURCE_OWNER_KEY
+const SOURCE_FACTORY_STEP_CONVEYOR_PROGRESS_DELTA_FOR_CELL_CALLBACK_KEY := source_factory_source_text_state.SOURCE_FACTORY_STEP_CONVEYOR_PROGRESS_DELTA_FOR_CELL_CALLBACK_KEY
+const SOURCE_FACTORY_STEP_SIMULATE_FACTORY_CALLBACK_KEY := source_factory_source_text_state.SOURCE_FACTORY_STEP_SIMULATE_FACTORY_CALLBACK_KEY
+const SOURCE_FACTORY_STEP_BLOCK_TIME_SCALE_AT_CELL_CALLBACK_KEY := source_factory_source_text_state.SOURCE_FACTORY_STEP_BLOCK_TIME_SCALE_AT_CELL_CALLBACK_KEY
+const SOURCE_FACTORY_STEP_TRANSPORT_PROGRESS_BEFORE_KEY := source_factory_source_text_state.SOURCE_FACTORY_STEP_TRANSPORT_PROGRESS_BEFORE_KEY
+const SOURCE_FACTORY_STEP_TRANSPORT_PROGRESS_DELTA_KEY := source_factory_source_text_state.SOURCE_FACTORY_STEP_TRANSPORT_PROGRESS_DELTA_KEY
+const SOURCE_FACTORY_STEP_CONVEYOR_PROGRESS_DELTA_KEY := source_factory_source_text_state.SOURCE_FACTORY_STEP_CONVEYOR_PROGRESS_DELTA_KEY
+const SOURCE_FACTORY_STEP_TRANSPORT_PROGRESS_KEY := source_factory_source_text_state.SOURCE_FACTORY_STEP_TRANSPORT_PROGRESS_KEY
+const SOURCE_FACTORY_STEP_CONVEYOR_TIME_SCALE_KEY := source_factory_source_text_state.SOURCE_FACTORY_STEP_CONVEYOR_TIME_SCALE_KEY
+const SOURCE_FACTORY_STEP_ITEM_PROGRESS_BEFORE_KEY := source_factory_source_text_state.SOURCE_FACTORY_STEP_ITEM_PROGRESS_BEFORE_KEY
+const SOURCE_FACTORY_STEP_DRILL_WARMUP_BEFORE_KEY := source_factory_source_text_state.SOURCE_FACTORY_STEP_DRILL_WARMUP_BEFORE_KEY
+const SOURCE_FACTORY_STEP_DRILL_OUTPUT_DELTA_KEY := source_factory_source_text_state.SOURCE_FACTORY_STEP_DRILL_OUTPUT_DELTA_KEY
 
 static func game_summary_state(game: Object, drill_block_id: String, conveyor_block_id: String) -> Dictionary:
-	var factory_context: Dictionary = summary_context(game, game.call("factory_cell_context"), game.get("drill_pos"), drill_block_id, conveyor_block_id)
+	var factory_context: Dictionary = summary_context(game, game_factory_cell_context(game), game.get("drill_pos"), drill_block_id, conveyor_block_id)
 	return summary_state(factory_context, summary_callbacks(game))
+
+static func game_playable_summary_state(game: Object) -> Dictionary:
+	return game_summary_state(game, source_playable_scenario_defaults.BLOCK_MECHANICAL_DRILL, source_playable_scenario_defaults.BLOCK_CONVEYOR)
 
 static func apply_drill_dump(game: Object, delta: float) -> void:
 	var dump_state: Dictionary = game.call(SOURCE_FACTORY_DRILL_DUMP_RUNTIME_STATE_METHOD_FALLBACK, delta)
@@ -84,6 +90,9 @@ static func cell_context(drill_cell: Vector2i, conveyor_cells: Array[Vector2i]) 
 	}
 
 
+static func game_factory_cell_context(game: Object) -> Dictionary:
+	return cell_context(game.get("drill_pos"), source_playable_scenario_defaults.conveyor_cells())
+
 static func simulation_context(seconds: float, transport_progress: float, factory_cells: Dictionary, fallback_cell: Vector2i) -> Dictionary:
 	return {
 		source_factory_simulation_runtime_state_script.SOURCE_FACTORY_SIMULATION_SECONDS_KEY: seconds,
@@ -108,7 +117,7 @@ static func simulation_callbacks(game: Object) -> Dictionary:
 
 
 static func simulation_runtime_state(game: Object, seconds: float) -> Dictionary:
-	var factory_context: Dictionary = simulation_context(seconds, game.get(source_factory_simulation_runtime_state_script.SOURCE_FACTORY_SIMULATION_TRANSPORT_PROGRESS_KEY), game.call("factory_cell_context"), game.get("drill_pos"))
+	var factory_context: Dictionary = simulation_context(seconds, game.get(source_factory_simulation_runtime_state_script.SOURCE_FACTORY_SIMULATION_TRANSPORT_PROGRESS_KEY), game_factory_cell_context(game), game.get("drill_pos"))
 	return source_factory_simulation_runtime_state_script.simulation_state(factory_context, simulation_callbacks(game))
 
 static func simulate_factory(game: Object, delta: float) -> void:
@@ -235,6 +244,9 @@ static func transport_step_state(step_context: Dictionary) -> Dictionary:
 	}
 
 
+static func game_transport_step_state(game: Object, seconds: float) -> Dictionary:
+	return transport_step_state(transport_step_context(game, seconds, game_factory_cell_context(game), game.get("drill_pos")))
+
 static func drill_step_context(game: Object, seconds: float, drill_cell: Vector2i) -> Dictionary:
 	var method_names := runtime_method_names(game)
 	var drill_output_delta_method := runtime_method_name(method_names, SOURCE_FACTORY_SUMMARY_DRILL_OUTPUT_DELTA_FOR_CELL_CALLBACK_KEY, SOURCE_FACTORY_DRILL_OUTPUT_DELTA_FOR_CELL_METHOD_FALLBACK)
@@ -265,6 +277,9 @@ static func drill_step_state(step_context: Dictionary) -> Dictionary:
 	}
 
 
+static func game_drill_step_state(game: Object, seconds: float) -> Dictionary:
+	return drill_step_state(drill_step_context(game, seconds, game.get("drill_pos")))
+
 static func drill_dump_preview_context(game: Object, seconds: float, drill_cell: Vector2i, block_id: String, source_tick_rate: float) -> Dictionary:
 	var method_names := runtime_method_names(game)
 	var block_time_scale_method := runtime_method_name(method_names, SOURCE_FACTORY_STEP_BLOCK_TIME_SCALE_AT_CELL_CALLBACK_KEY, SOURCE_FACTORY_BLOCK_TIME_SCALE_AT_CELL_METHOD_FALLBACK)
@@ -287,3 +302,6 @@ static func drill_dump_preview_state(game: Object, preview_context: Dictionary) 
 	var dump_interval := float(preview_context.get(source_drill_dump_runtime_state_script.SOURCE_DRILL_DUMP_INTERVAL_KEY, 0.0))
 	var drill_dump_runtime_state_method := str(preview_context.get(source_drill_dump_runtime_state_script.SOURCE_DRILL_DUMP_RUNTIME_STATE_METHOD_KEY, SOURCE_FACTORY_DRILL_DUMP_PREVIEW_RUNTIME_STATE_METHOD_FALLBACK))
 	return game.call(drill_dump_runtime_state_method, current_timer, source_delta, dump_interval)
+
+static func game_drill_dump_preview_state(game: Object, seconds: float) -> Dictionary:
+	return drill_dump_preview_state(game, drill_dump_preview_context(game, seconds, game.get("drill_pos"), source_playable_scenario_defaults.BLOCK_MECHANICAL_DRILL, source_time_defaults.TICK_RATE))

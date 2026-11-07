@@ -2,6 +2,7 @@ extends RefCounted
 class_name SourceMathDefaults
 
 const FLOAT_ROUNDING_ERROR := 0.000001
+const FLOAT_MAX_VALUE := 3.4028234663852886e38
 const PI2 := PI * 2.0
 const ARC_PI := 3.1415927
 const ARC_RAD_FULL := ARC_PI * 2.0

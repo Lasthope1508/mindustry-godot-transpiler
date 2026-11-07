@@ -1,8 +1,9 @@
 extends Node
 
+const runtime_proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")
 const PortGameScript := preload("res://src/game/PortGame.gd")
 const source_bullet_type_create_frags_state := preload("res://src/game/SourceBulletTypeCreateFragsState.gd")
-const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const source_ssot_accessor_runtime_state := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
 
 func _ready() -> void:
 	var game := PortGameScript.new()
@@ -23,7 +24,7 @@ func _ready() -> void:
 	var override_module := source_bullet_type_create_frags_state.game_create_call_state(self, bullet_type_state, bullet_state, create_frags_random_geometry_state, frag_random_state)
 	var override_calls: Array = override_module.get("fragmentCreateCalls", [])
 	var override_call: Dictionary = override_calls[0] if not override_calls.is_empty() else {}
-	var registry_state := source_ssot_catalog.canonical_headquarter_registry_state()
+	var registry_state := source_ssot_accessor_runtime_state.canonical_headquarter_registry_state()
 	var proof := {
 		"module": "SourceBulletTypeCreateFragsState",
 		"game_create_call_matches": wrapper == module,
@@ -35,9 +36,10 @@ func _ready() -> void:
 	}
 	proof["matches"] = proof["game_create_call_matches"] and proof["default_callbacks_match"] and proof["override_callbacks_match"] and proof["override_trns_vec_matches"] and proof["one_headquarter_per_ssot"] and proof["registry_valid"]
 	print("BULLET_TYPE_CREATE_FRAGS_STATE_MODULE_PROOF " + JSON.stringify(proof))
+	runtime_proof_state.write_proof("BulletTypeCreateFragsStateModuleProof", proof)
 	game.free()
-	await get_tree().create_timer(60.0).timeout
-	get_tree().quit(0)
+	await get_tree().process_frame
+	get_tree().quit(runtime_proof_state.exit_code(proof))
 
 func proof_trns_vec(_angle_degrees: float, _x_value: float, _y_value: float) -> Dictionary:
 	return {"x": 12.0, "y": 13.0}
@@ -46,3 +48,4 @@ func _bullet_type_create_frags_method_names() -> Dictionary:
 	return {
 		source_bullet_type_create_frags_state.SOURCE_BULLET_TYPE_CREATE_FRAGS_TRNS_VEC_KEY: "proof_trns_vec",
 	}
+

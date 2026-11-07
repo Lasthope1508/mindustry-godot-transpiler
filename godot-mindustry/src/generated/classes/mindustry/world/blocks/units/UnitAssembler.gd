@@ -51,3 +51,11 @@ func java_method_assemblerUnitSpawned_11(_args: Array = []) -> Variant:
 
 func java_method_assemblerDroneSpawned_12(_args: Array = []) -> Variant:
 	return null
+
+func java_inner_class_UnitAssemblerBuild_method_getCommandPosition_24(_args: Array = []) -> Variant:
+	var command_position: Variant = _args[0] if _args.size() > 0 else null
+	return {"source_owner": "port_game.source_unit_building_get_command_position_state", "source": "core/src/mindustry/world/blocks/units/UnitAssembler.java", "inner_class": "public class UnitAssemblerBuild extends PayloadBlockBuild<Payload>{", "method": "public Vec2 getCommandPosition(){", "return_expr": "return commandPos;", "command_position": command_position}
+
+func java_inner_class_UnitAssemblerBuild_method_onCommand_25(_args: Array = []) -> Variant:
+	var target: Variant = _args[0] if _args.size() > 0 else null
+	return {"source_owner": "port_game.source_unit_building_on_command_state", "source": "core/src/mindustry/world/blocks/units/UnitAssembler.java", "inner_class": "public class UnitAssemblerBuild extends PayloadBlockBuild<Payload>{", "method": "public void onCommand(Vec2 target){", "assignment_expr": "commandPos = target;", "target": target, "command_position": target}

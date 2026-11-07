@@ -1,7 +1,8 @@
 extends Node
 
+const runtime_proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")
 const source_enemy_unit_runtime_state := preload("res://src/game/SourceEnemyUnitRuntimeState.gd")
-const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const source_ssot_accessor_runtime_state := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
 
 class FakeContentCatalog:
 	func get_by_id(id: String):
@@ -40,7 +41,7 @@ func _ready() -> void:
 	var wave_state := source_enemy_unit_runtime_state.spawn_wave_state(wave_index, "dagger")
 	source_enemy_unit_runtime_state.spawn_wave(self)
 	var summary := source_enemy_unit_runtime_state.runtime_summary_state(self)
-	var registry_state := source_ssot_catalog.canonical_headquarter_registry_state()
+	var registry_state := source_ssot_accessor_runtime_state.canonical_headquarter_registry_state()
 	var proof := {
 		"module": "SourceEnemyUnitRuntimeState",
 		"enemy_count_after": enemy_units.size(),
@@ -62,9 +63,24 @@ func _ready() -> void:
 		"one_headquarter_per_ssot": bool(registry_state.get("one_headquarter_per_ssot", false)),
 		"registry_valid": bool(registry_state.get("errors", []).is_empty()),
 	}
-	print("ENEMY_UNIT_RUNTIME_MODULE_PROOF " + JSON.stringify(proof))
-	await get_tree().create_timer(20.0).timeout
-	get_tree().quit(0)
+	proof["matches"] = (
+		int(proof.get("enemy_count_after", -1)) == 5
+		and int(proof.get("spawn_calls", -1)) == 1
+		and int(proof.get("last_spawned_wave_count", -1)) == 2
+		and int(proof.get("last_spawned_wave_index", -1)) == 1
+		and int(proof.get("unit_layer_child_count", -1)) == 3
+		and int(proof.get("summary_enemy_count", -1)) == 5
+		and is_equal_approx(float(proof.get("spawn_health", 0.0)), 20.0)
+		and is_equal_approx(float(proof.get("summary_selected_enemy_weapon_damage", 0.0)), 8.0)
+		and str(proof.get("spawn_source_owner", "")) == "port_game.source_enemy_unit_runtime_spawn_unit_state"
+		and str(proof.get("wave_source_owner", "")) == "port_game.source_enemy_unit_runtime_spawn_wave_state"
+		and str(proof.get("summary_source_owner", "")) == "port_game.source_enemy_unit_runtime_runtime_summary_state"
+		and bool(proof.get("one_headquarter_per_ssot", false))
+		and bool(proof.get("registry_valid", false))
+	)
+	runtime_proof_state.write_proof("EnemyUnitRuntimeModuleProof", proof)
+	await get_tree().process_frame
+	get_tree().quit(runtime_proof_state.exit_code(proof))
 
 func grid_to_world(cell: Vector2i) -> Vector2:
 	return Vector2(float(cell.x) * tile_size, float(cell.y) * tile_size)
@@ -75,17 +91,32 @@ func selected_enemy_unit():
 func proof_unit_world_speed(unit_type) -> float:
 	return 6.0
 
+func source_unit_world_speed(unit_type) -> float:
+	return proof_unit_world_speed(unit_type)
+
 func proof_unit_weapon_damage(unit_type) -> float:
 	return 8.0
+
+func source_unit_weapon_damage(unit_type) -> float:
+	return proof_unit_weapon_damage(unit_type)
 
 func proof_unit_hit_size(unit_type) -> float:
 	return 10.0
 
+func source_unit_hit_size(unit_type) -> float:
+	return proof_unit_hit_size(unit_type)
+
 func proof_unit_health(unit_type) -> float:
 	return 20.0
 
+func source_unit_health(unit_type) -> float:
+	return proof_unit_health(unit_type)
+
 func proof_wave_timing_runtime_state(seconds: float) -> Dictionary:
 	return {"wavetime": 1.5, "should_spawn": true}
+
+func source_wave_timing_runtime_state(seconds: float) -> Dictionary:
+	return proof_wave_timing_runtime_state(seconds)
 
 func apply_core_damage(amount: float) -> Dictionary:
 	last_applied_damage = amount
@@ -103,3 +134,4 @@ func _make_sprite(position: Vector2) -> Sprite2D:
 	var sprite := Sprite2D.new()
 	sprite.position = position
 	return sprite
+

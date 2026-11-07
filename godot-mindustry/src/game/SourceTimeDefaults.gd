@@ -2,6 +2,7 @@ extends RefCounted
 class_name SourceTimeDefaults
 
 const TICK_RATE := 60.0
+const SOURCE_TIME_TO_SECONDS_FIELD := "public static final float toSeconds = 60f"
 
 var catalog: Variant
 var profile: Dictionary = {}

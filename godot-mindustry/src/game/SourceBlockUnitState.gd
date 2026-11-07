@@ -5,55 +5,173 @@ const source_block_geometry := preload("res://src/game/SourceBlockGeometry.gd")
 const source_generated_class_runtime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
 const source_world_defaults := preload("res://src/game/SourceWorldDefaults.gd")
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
+const source_entity_comp_source_text_state := preload("res://src/game/SourceEntityCompSourceTextState.gd")
+const source_block_unit_source_text_state := preload("res://src/game/SourceBlockUnitSourceTextState.gd")
+const SOURCE_BLOCK_UNIT_COMP_GENERATED_CLASS := source_entity_comp_source_text_state.SOURCE_BLOCK_UNIT_COMP_GENERATED_CLASS
+const SOURCE_BLOCK_UNIT_TILE_JAVA_METHOD := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_TILE_JAVA_METHOD
+const SOURCE_BLOCK_UNIT_TILE_GENERATED_OWNER := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_TILE_GENERATED_OWNER
+const SOURCE_BLOCK_UNIT_ADD_JAVA_METHOD := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_ADD_JAVA_METHOD
+const SOURCE_BLOCK_UNIT_ADD_GENERATED_OWNER := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_ADD_GENERATED_OWNER
+const SOURCE_BLOCK_UNIT_UPDATE_JAVA_METHOD := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_UPDATE_JAVA_METHOD
+const SOURCE_BLOCK_UNIT_UPDATE_GENERATED_OWNER := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_UPDATE_GENERATED_OWNER
+const SOURCE_BLOCK_UNIT_ICON_JAVA_METHOD := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_ICON_JAVA_METHOD
+const SOURCE_BLOCK_UNIT_ICON_GENERATED_OWNER := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_ICON_GENERATED_OWNER
+const SOURCE_BLOCK_UNIT_AMMOF_JAVA_METHOD := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_AMMOF_JAVA_METHOD
+const SOURCE_BLOCK_UNIT_AMMOF_GENERATED_OWNER := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_AMMOF_GENERATED_OWNER
+const SOURCE_BLOCK_UNIT_KILLED_JAVA_METHOD := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_KILLED_JAVA_METHOD
+const SOURCE_BLOCK_UNIT_KILLED_GENERATED_OWNER := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_KILLED_GENERATED_OWNER
+const SOURCE_BLOCK_UNIT_DAMAGE_JAVA_METHOD := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_DAMAGE_JAVA_METHOD
+const SOURCE_BLOCK_UNIT_DAMAGE_GENERATED_OWNER := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_DAMAGE_GENERATED_OWNER
+const SOURCE_BLOCK_UNIT_DEAD_JAVA_METHOD := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_DEAD_JAVA_METHOD
+const SOURCE_BLOCK_UNIT_DEAD_GENERATED_OWNER := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_DEAD_GENERATED_OWNER
+const SOURCE_BLOCK_UNIT_IS_VALID_JAVA_METHOD := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_IS_VALID_JAVA_METHOD
+const SOURCE_BLOCK_UNIT_IS_VALID_GENERATED_OWNER := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_IS_VALID_GENERATED_OWNER
+const SOURCE_BLOCK_UNIT_IS_ADDED_JAVA_METHOD := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_IS_ADDED_JAVA_METHOD
+const SOURCE_BLOCK_UNIT_IS_ADDED_GENERATED_OWNER := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_IS_ADDED_GENERATED_OWNER
+const SOURCE_BLOCK_UNIT_TEAM_JAVA_METHOD := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_TEAM_JAVA_METHOD
+const SOURCE_BLOCK_UNIT_TEAM_GENERATED_OWNER := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_TEAM_GENERATED_OWNER
+const SOURCE_BLOCK_UNIT_TILE_METHOD := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_TILE_METHOD
+const SOURCE_BLOCK_UNIT_TILE_ASSIGNMENT_EXPR := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_TILE_ASSIGNMENT_EXPR
+const SOURCE_BLOCK_UNIT_TILE_COMMENT := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_TILE_COMMENT
+const SOURCE_BLOCK_UNIT_TILE_MAX_HEALTH_CALL_EXPR := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_TILE_MAX_HEALTH_CALL_EXPR
+const SOURCE_BLOCK_UNIT_TILE_HEALTH_CALL_EXPR := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_TILE_HEALTH_CALL_EXPR
+const SOURCE_BLOCK_UNIT_TILE_HIT_SIZE_CALL_EXPR := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_TILE_HIT_SIZE_CALL_EXPR
+const SOURCE_BLOCK_UNIT_TILE_SET_CALL_EXPR := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_TILE_SET_CALL_EXPR
+const SOURCE_BLOCK_UNIT_ADD_METHOD := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_ADD_METHOD
+const SOURCE_BLOCK_UNIT_ADD_GUARD_EXPR := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_ADD_GUARD_EXPR
+const SOURCE_BLOCK_UNIT_ADD_THROW_EXPR := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_ADD_THROW_EXPR
+const SOURCE_BLOCK_UNIT_ADD_RUNTIME_EXCEPTION_MESSAGE := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_ADD_RUNTIME_EXCEPTION_MESSAGE
+const SOURCE_BLOCK_UNIT_UPDATE_METHOD := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_UPDATE_METHOD
+const SOURCE_BLOCK_UNIT_UPDATE_GUARD_EXPR := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_UPDATE_GUARD_EXPR
+const SOURCE_BLOCK_UNIT_UPDATE_TEAM_ASSIGNMENT_EXPR := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_UPDATE_TEAM_ASSIGNMENT_EXPR
+const SOURCE_BLOCK_UNIT_ICON_METHOD := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_ICON_METHOD
+const SOURCE_BLOCK_UNIT_ICON_RETURN_EXPR := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_ICON_RETURN_EXPR
+const SOURCE_BLOCK_UNIT_AMMOF_METHOD := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_AMMOF_METHOD
+const SOURCE_BLOCK_UNIT_AMMOF_RETURN_EXPR := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_AMMOF_RETURN_EXPR
+const SOURCE_BLOCK_UNIT_KILLED_METHOD := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_KILLED_METHOD
+const SOURCE_BLOCK_UNIT_KILLED_TILE_KILL_CALL_EXPR := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_KILLED_TILE_KILL_CALL_EXPR
+const SOURCE_BLOCK_UNIT_DAMAGE_METHOD := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_DAMAGE_METHOD
+const SOURCE_BLOCK_UNIT_DAMAGE_TILE_DAMAGE_CALL_EXPR := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_DAMAGE_TILE_DAMAGE_CALL_EXPR
+const SOURCE_BLOCK_UNIT_DEAD_METHOD := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_DEAD_METHOD
+const SOURCE_BLOCK_UNIT_DEAD_RETURN_EXPR := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_DEAD_RETURN_EXPR
+const SOURCE_BLOCK_UNIT_IS_VALID_METHOD := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_IS_VALID_METHOD
+const SOURCE_BLOCK_UNIT_IS_ADDED_METHOD := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_IS_ADDED_METHOD
+const SOURCE_BLOCK_UNIT_VALID_RETURN_EXPR := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_VALID_RETURN_EXPR
+const SOURCE_BLOCK_UNIT_TEAM_METHOD := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_TEAM_METHOD
+const SOURCE_BLOCK_UNIT_TEAM_OUTER_GUARD_EXPR := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_TEAM_OUTER_GUARD_EXPR
+const SOURCE_BLOCK_UNIT_TEAM_THIS_TEAM_ASSIGNMENT_EXPR := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_TEAM_THIS_TEAM_ASSIGNMENT_EXPR
+const SOURCE_BLOCK_UNIT_TEAM_INNER_GUARD_EXPR := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_TEAM_INNER_GUARD_EXPR
+const SOURCE_BLOCK_UNIT_TEAM_TILE_CHANGE_TEAM_CALL_EXPR := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_TEAM_TILE_CHANGE_TEAM_CALL_EXPR
+const SOURCE_BLOCK_UNIT_SOURCE_OWNER_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_SOURCE_OWNER_KEY
+const SOURCE_BLOCK_UNIT_SOURCE_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_SOURCE_KEY
+const SOURCE_BLOCK_UNIT_METHOD_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_METHOD_KEY
+const SOURCE_BLOCK_UNIT_COMMENT_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_COMMENT_KEY
+const SOURCE_BLOCK_UNIT_RESULT_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_RESULT_KEY
+const SOURCE_BLOCK_UNIT_CANONICAL_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_CANONICAL_KEY
+const SOURCE_BLOCK_UNIT_MATCHES_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_MATCHES_KEY
+const SOURCE_BLOCK_UNIT_GENERATED_OWNER_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_GENERATED_OWNER_KEY
+const SOURCE_BLOCK_UNIT_CALL_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_CALL_KEY
+const SOURCE_BLOCK_UNIT_VALUE_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_VALUE_KEY
+const SOURCE_BLOCK_UNIT_TILE_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_TILE_KEY
+const SOURCE_BLOCK_UNIT_TILE_BLOCK_HEALTH_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_TILE_BLOCK_HEALTH_KEY
+const SOURCE_BLOCK_UNIT_TILE_HEALTH_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_TILE_HEALTH_KEY
+const SOURCE_BLOCK_UNIT_TILE_BLOCK_SIZE_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_TILE_BLOCK_SIZE_KEY
+const SOURCE_BLOCK_UNIT_TILESIZE_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_TILESIZE_KEY
+const SOURCE_BLOCK_UNIT_THIS_TILE_AFTER_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_THIS_TILE_AFTER_KEY
+const SOURCE_BLOCK_UNIT_HIT_SIZE_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_HIT_SIZE_KEY
+const SOURCE_BLOCK_UNIT_MAX_HEALTH_CALL_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_MAX_HEALTH_CALL_KEY
+const SOURCE_BLOCK_UNIT_HEALTH_CALL_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_HEALTH_CALL_KEY
+const SOURCE_BLOCK_UNIT_HIT_SIZE_CALL_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_HIT_SIZE_CALL_KEY
+const SOURCE_BLOCK_UNIT_SET_CALL_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_SET_CALL_KEY
+const SOURCE_BLOCK_UNIT_GUARD_EXPR_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_GUARD_EXPR_KEY
+const SOURCE_BLOCK_UNIT_THROW_EXPR_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_THROW_EXPR_KEY
+const SOURCE_BLOCK_UNIT_TILE_NULL_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_TILE_NULL_KEY
+const SOURCE_BLOCK_UNIT_RUNTIME_EXCEPTION_THROWN_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_RUNTIME_EXCEPTION_THROWN_KEY
+const SOURCE_BLOCK_UNIT_RUNTIME_EXCEPTION_MESSAGE_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_RUNTIME_EXCEPTION_MESSAGE_KEY
+const SOURCE_BLOCK_UNIT_TEAM_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_TEAM_KEY
+const SOURCE_BLOCK_UNIT_TILE_TEAM_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_TILE_TEAM_KEY
+const SOURCE_BLOCK_UNIT_TILE_GUARD_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_TILE_GUARD_KEY
+const SOURCE_BLOCK_UNIT_TEAM_AFTER_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_TEAM_AFTER_KEY
+const SOURCE_BLOCK_UNIT_RETURN_EXPR_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_RETURN_EXPR_KEY
+const SOURCE_BLOCK_UNIT_TILE_BLOCK_UI_ICON_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_TILE_BLOCK_UI_ICON_KEY
+const SOURCE_BLOCK_UNIT_AMMO_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_AMMO_KEY
+const SOURCE_BLOCK_UNIT_TILE_KILL_CALL_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_TILE_KILL_CALL_KEY
+const SOURCE_BLOCK_UNIT_TILE_KILL_CALLED_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_TILE_KILL_CALLED_KEY
+const SOURCE_BLOCK_UNIT_TILE_DAMAGE_CALL_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_TILE_DAMAGE_CALL_KEY
+const SOURCE_BLOCK_UNIT_TILE_DAMAGE_CALLED_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_TILE_DAMAGE_CALLED_KEY
+const SOURCE_BLOCK_UNIT_V_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_V_KEY
+const SOURCE_BLOCK_UNIT_B_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_B_KEY
+const SOURCE_BLOCK_UNIT_TILE_DEAD_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_TILE_DEAD_KEY
+const SOURCE_BLOCK_UNIT_DEAD_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_DEAD_KEY
+const SOURCE_BLOCK_UNIT_TILE_EXISTS_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_TILE_EXISTS_KEY
+const SOURCE_BLOCK_UNIT_TILE_IS_VALID_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_TILE_IS_VALID_KEY
+const SOURCE_BLOCK_UNIT_IS_VALID_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_IS_VALID_KEY
+const SOURCE_BLOCK_UNIT_IS_ADDED_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_IS_ADDED_KEY
+const SOURCE_BLOCK_UNIT_OUTER_GUARD_EXPR_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_OUTER_GUARD_EXPR_KEY
+const SOURCE_BLOCK_UNIT_THIS_TEAM_ASSIGNMENT_EXPR_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_THIS_TEAM_ASSIGNMENT_EXPR_KEY
+const SOURCE_BLOCK_UNIT_INNER_GUARD_EXPR_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_INNER_GUARD_EXPR_KEY
+const SOURCE_BLOCK_UNIT_TILE_CHANGE_TEAM_CALL_EXPR_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_TILE_CHANGE_TEAM_CALL_EXPR_KEY
+const SOURCE_BLOCK_UNIT_TILE_ASSIGNMENT_EXPR_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_TILE_ASSIGNMENT_EXPR_KEY
+const SOURCE_BLOCK_UNIT_TEAM_ASSIGNMENT_EXPR_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_TEAM_ASSIGNMENT_EXPR_KEY
+const SOURCE_BLOCK_UNIT_THIS_TEAM_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_THIS_TEAM_KEY
+const SOURCE_BLOCK_UNIT_OUTER_GUARD_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_OUTER_GUARD_KEY
+const SOURCE_BLOCK_UNIT_INNER_GUARD_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_INNER_GUARD_KEY
+const SOURCE_BLOCK_UNIT_THIS_TEAM_AFTER_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_THIS_TEAM_AFTER_KEY
+const SOURCE_BLOCK_UNIT_TILE_CHANGE_TEAM_CALL_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_TILE_CHANGE_TEAM_CALL_KEY
+const SOURCE_BLOCK_UNIT_TILE_CHANGE_TEAM_CALLED_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_TILE_CHANGE_TEAM_CALLED_KEY
+const SOURCE_BLOCK_UNIT_DEFAULTED_ARG_KEY := source_block_unit_source_text_state.SOURCE_BLOCK_UNIT_DEFAULTED_ARG_KEY
+
+static func _block_unit_comp_call(generated_method: String, generated_args: Array) -> Variant:
+	return source_generated_class_runtime.call_java_method(SOURCE_BLOCK_UNIT_COMP_GENERATED_CLASS, generated_method, generated_args, null)
 
 static func tile_state(tile: Variant, tile_block_health: float, tile_health: float, tile_block_size: float, tilesize: float) -> Dictionary:
 	var this_tile_after: Variant = tile
-	var max_health_call: Dictionary = {"call": "maxHealth(tile.block.health);", "value": tile_block_health}
-	var health_call: Dictionary = {"call": "health(tile.health);", "value": tile_health}
+	var max_health_call: Dictionary = {SOURCE_BLOCK_UNIT_CALL_KEY: SOURCE_BLOCK_UNIT_TILE_MAX_HEALTH_CALL_EXPR, SOURCE_BLOCK_UNIT_VALUE_KEY: tile_block_health}
+	var health_call: Dictionary = {SOURCE_BLOCK_UNIT_CALL_KEY: SOURCE_BLOCK_UNIT_TILE_HEALTH_CALL_EXPR, SOURCE_BLOCK_UNIT_VALUE_KEY: tile_health}
 	var hit_size: float = source_block_geometry.block_unit_tile_hit_size(tile_block_size, tilesize)
-	var hit_size_call: Dictionary = {"call": "hitSize(tile.block.size * tilesize * 0.7f);", "value": hit_size}
-	var set_call: Dictionary = {"call": "set(tile);", "tile": tile}
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_UNIT_TILE_STATE, "method": "public void tile(Building tile){", "tile_assignment_expr": "this.tile = tile;", "comment": "//sets up block stats", "max_health_call": max_health_call, "health_call": health_call, "hit_size_call": hit_size_call, "set_call": set_call, "tile": tile, "tile_block_health": tile_block_health, "tile_health": tile_health, "tile_block_size": tile_block_size, "tilesize": tilesize, "this_tile_after": this_tile_after, "hit_size": hit_size}
+	var hit_size_call: Dictionary = {SOURCE_BLOCK_UNIT_CALL_KEY: SOURCE_BLOCK_UNIT_TILE_HIT_SIZE_CALL_EXPR, SOURCE_BLOCK_UNIT_VALUE_KEY: hit_size}
+	var set_call: Dictionary = {SOURCE_BLOCK_UNIT_CALL_KEY: SOURCE_BLOCK_UNIT_TILE_SET_CALL_EXPR, SOURCE_BLOCK_UNIT_TILE_KEY: tile}
+	return {SOURCE_BLOCK_UNIT_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_UNIT_TILE_STATE, SOURCE_BLOCK_UNIT_METHOD_KEY: SOURCE_BLOCK_UNIT_TILE_METHOD, SOURCE_BLOCK_UNIT_TILE_ASSIGNMENT_EXPR_KEY: SOURCE_BLOCK_UNIT_TILE_ASSIGNMENT_EXPR, SOURCE_BLOCK_UNIT_COMMENT_KEY: SOURCE_BLOCK_UNIT_TILE_COMMENT, SOURCE_BLOCK_UNIT_MAX_HEALTH_CALL_KEY: max_health_call, SOURCE_BLOCK_UNIT_HEALTH_CALL_KEY: health_call, SOURCE_BLOCK_UNIT_HIT_SIZE_CALL_KEY: hit_size_call, SOURCE_BLOCK_UNIT_SET_CALL_KEY: set_call, SOURCE_BLOCK_UNIT_TILE_KEY: tile, SOURCE_BLOCK_UNIT_TILE_BLOCK_HEALTH_KEY: tile_block_health, SOURCE_BLOCK_UNIT_TILE_HEALTH_KEY: tile_health, SOURCE_BLOCK_UNIT_TILE_BLOCK_SIZE_KEY: tile_block_size, SOURCE_BLOCK_UNIT_TILESIZE_KEY: tilesize, SOURCE_BLOCK_UNIT_THIS_TILE_AFTER_KEY: this_tile_after, SOURCE_BLOCK_UNIT_HIT_SIZE_KEY: hit_size}
 
 static func add_state(tile_null: bool) -> Dictionary:
 	var runtime_exception_thrown: bool = tile_null
-	var runtime_exception_message: String = "Do not add BlockUnit entities to the game, they will simply crash. Internal use only." if runtime_exception_thrown else ""
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_UNIT_ADD_STATE, "method": "public void add(){", "guard_expr": "if(tile == null){", "throw_expr": "throw new RuntimeException(\"Do not add BlockUnit entities to the game, they will simply crash. Internal use only.\");", "tile_null": tile_null, "runtime_exception_thrown": runtime_exception_thrown, "runtime_exception_message": runtime_exception_message}
+	var runtime_exception_message: String = SOURCE_BLOCK_UNIT_ADD_RUNTIME_EXCEPTION_MESSAGE if runtime_exception_thrown else ""
+	return {SOURCE_BLOCK_UNIT_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_UNIT_ADD_STATE, SOURCE_BLOCK_UNIT_METHOD_KEY: SOURCE_BLOCK_UNIT_ADD_METHOD, SOURCE_BLOCK_UNIT_GUARD_EXPR_KEY: SOURCE_BLOCK_UNIT_ADD_GUARD_EXPR, SOURCE_BLOCK_UNIT_THROW_EXPR_KEY: SOURCE_BLOCK_UNIT_ADD_THROW_EXPR, SOURCE_BLOCK_UNIT_TILE_NULL_KEY: tile_null, SOURCE_BLOCK_UNIT_RUNTIME_EXCEPTION_THROWN_KEY: runtime_exception_thrown, SOURCE_BLOCK_UNIT_RUNTIME_EXCEPTION_MESSAGE_KEY: runtime_exception_message}
 
 static func update_state(tile_exists: bool, team: Variant, tile_team: Variant) -> Dictionary:
 	var tile_guard: bool = tile_exists
 	var team_after: Variant = team
 	if tile_guard:
 		team_after = tile_team
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_UNIT_UPDATE_STATE, "method": "public void update(){", "guard_expr": "if(tile != null){", "team_assignment_expr": "team = tile.team;", "tile_exists": tile_exists, "team": team, "tile_team": tile_team, "tile_guard": tile_guard, "team_after": team_after}
+	return {SOURCE_BLOCK_UNIT_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_UNIT_UPDATE_STATE, SOURCE_BLOCK_UNIT_METHOD_KEY: SOURCE_BLOCK_UNIT_UPDATE_METHOD, SOURCE_BLOCK_UNIT_GUARD_EXPR_KEY: SOURCE_BLOCK_UNIT_UPDATE_GUARD_EXPR, SOURCE_BLOCK_UNIT_TEAM_ASSIGNMENT_EXPR_KEY: SOURCE_BLOCK_UNIT_UPDATE_TEAM_ASSIGNMENT_EXPR, SOURCE_BLOCK_UNIT_TILE_EXISTS_KEY: tile_exists, SOURCE_BLOCK_UNIT_TEAM_KEY: team, SOURCE_BLOCK_UNIT_TILE_TEAM_KEY: tile_team, SOURCE_BLOCK_UNIT_TILE_GUARD_KEY: tile_guard, SOURCE_BLOCK_UNIT_TEAM_AFTER_KEY: team_after}
 
 static func icon_state(tile_block_ui_icon: Variant) -> Dictionary:
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_UNIT_ICON_STATE, "method": "public TextureRegion icon(){", "return_expr": "return tile.block.uiIcon;", "tile_block_ui_icon": tile_block_ui_icon}
+	return {SOURCE_BLOCK_UNIT_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_UNIT_ICON_STATE, SOURCE_BLOCK_UNIT_METHOD_KEY: SOURCE_BLOCK_UNIT_ICON_METHOD, SOURCE_BLOCK_UNIT_RETURN_EXPR_KEY: SOURCE_BLOCK_UNIT_ICON_RETURN_EXPR, SOURCE_BLOCK_UNIT_TILE_BLOCK_UI_ICON_KEY: tile_block_ui_icon}
 
 static func ammof_state(ammo: float) -> Dictionary:
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_UNIT_AMMOF_STATE, "method": "public float ammof(){", "return_expr": "return ammo;", "ammo": ammo}
+	return {SOURCE_BLOCK_UNIT_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_UNIT_AMMOF_STATE, SOURCE_BLOCK_UNIT_METHOD_KEY: SOURCE_BLOCK_UNIT_AMMOF_METHOD, SOURCE_BLOCK_UNIT_RETURN_EXPR_KEY: SOURCE_BLOCK_UNIT_AMMOF_RETURN_EXPR, SOURCE_BLOCK_UNIT_AMMO_KEY: ammo}
 
 static func killed_state() -> Dictionary:
-	var tile_kill_call: String = "tile.kill();"
+	var tile_kill_call: String = SOURCE_BLOCK_UNIT_KILLED_TILE_KILL_CALL_EXPR
 	var tile_kill_called: bool = true
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_UNIT_KILLED_STATE, "method": "public void killed(){", "tile_kill_call": tile_kill_call, "tile_kill_called": tile_kill_called}
+	return {SOURCE_BLOCK_UNIT_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_UNIT_KILLED_STATE, SOURCE_BLOCK_UNIT_METHOD_KEY: SOURCE_BLOCK_UNIT_KILLED_METHOD, SOURCE_BLOCK_UNIT_TILE_KILL_CALL_KEY: tile_kill_call, SOURCE_BLOCK_UNIT_TILE_KILL_CALLED_KEY: tile_kill_called}
 
 static func damage_state(v: float, b: bool) -> Dictionary:
-	var tile_damage_call: String = "tile.damage(v, b);"
+	var tile_damage_call: String = SOURCE_BLOCK_UNIT_DAMAGE_TILE_DAMAGE_CALL_EXPR
 	var tile_damage_called: bool = true
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_UNIT_DAMAGE_STATE, "method": "public void damage(float v, boolean b){", "tile_damage_call": tile_damage_call, "tile_damage_called": tile_damage_called, "v": v, "b": b}
+	return {SOURCE_BLOCK_UNIT_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_UNIT_DAMAGE_STATE, SOURCE_BLOCK_UNIT_METHOD_KEY: SOURCE_BLOCK_UNIT_DAMAGE_METHOD, SOURCE_BLOCK_UNIT_TILE_DAMAGE_CALL_KEY: tile_damage_call, SOURCE_BLOCK_UNIT_TILE_DAMAGE_CALLED_KEY: tile_damage_called, SOURCE_BLOCK_UNIT_V_KEY: v, SOURCE_BLOCK_UNIT_B_KEY: b}
 
 static func dead_state(tile_null: bool, tile_dead: bool) -> Dictionary:
 	var dead: bool = tile_null or tile_dead
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_UNIT_DEAD_STATE, "method": "public boolean dead(){", "return_expr": "return tile == null || tile.dead();", "tile_null": tile_null, "tile_dead": tile_dead, "dead": dead}
+	return {SOURCE_BLOCK_UNIT_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_UNIT_DEAD_STATE, SOURCE_BLOCK_UNIT_METHOD_KEY: SOURCE_BLOCK_UNIT_DEAD_METHOD, SOURCE_BLOCK_UNIT_RETURN_EXPR_KEY: SOURCE_BLOCK_UNIT_DEAD_RETURN_EXPR, SOURCE_BLOCK_UNIT_TILE_NULL_KEY: tile_null, SOURCE_BLOCK_UNIT_TILE_DEAD_KEY: tile_dead, SOURCE_BLOCK_UNIT_DEAD_KEY: dead}
 
 static func is_valid_state(tile_exists: bool, tile_is_valid: bool) -> Dictionary:
 	var is_valid: bool = tile_exists and tile_is_valid
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_UNIT_IS_VALID_STATE, "method": "public boolean isValid(){", "return_expr": "return tile != null && tile.isValid();", "tile_exists": tile_exists, "tile_is_valid": tile_is_valid, "is_valid": is_valid}
+	return {SOURCE_BLOCK_UNIT_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_UNIT_IS_VALID_STATE, SOURCE_BLOCK_UNIT_METHOD_KEY: SOURCE_BLOCK_UNIT_IS_VALID_METHOD, SOURCE_BLOCK_UNIT_RETURN_EXPR_KEY: SOURCE_BLOCK_UNIT_VALID_RETURN_EXPR, SOURCE_BLOCK_UNIT_TILE_EXISTS_KEY: tile_exists, SOURCE_BLOCK_UNIT_TILE_IS_VALID_KEY: tile_is_valid, SOURCE_BLOCK_UNIT_IS_VALID_KEY: is_valid}
 
 static func is_added_state(tile_exists: bool, tile_is_valid: bool) -> Dictionary:
 	var is_added: bool = tile_exists and tile_is_valid
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_UNIT_IS_ADDED_STATE, "method": "public boolean isAdded(){", "return_expr": "return tile != null && tile.isValid();", "tile_exists": tile_exists, "tile_is_valid": tile_is_valid, "is_added": is_added}
+	return {SOURCE_BLOCK_UNIT_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_UNIT_IS_ADDED_STATE, SOURCE_BLOCK_UNIT_METHOD_KEY: SOURCE_BLOCK_UNIT_IS_ADDED_METHOD, SOURCE_BLOCK_UNIT_RETURN_EXPR_KEY: SOURCE_BLOCK_UNIT_VALID_RETURN_EXPR, SOURCE_BLOCK_UNIT_TILE_EXISTS_KEY: tile_exists, SOURCE_BLOCK_UNIT_TILE_IS_VALID_KEY: tile_is_valid, SOURCE_BLOCK_UNIT_IS_ADDED_KEY: is_added}
 
 static func team_state(tile_exists: bool, this_team: Variant, team: Variant, tile_team: Variant) -> Dictionary:
 	var outer_guard: bool = tile_exists and this_team != team
@@ -65,66 +183,66 @@ static func team_state(tile_exists: bool, this_team: Variant, team: Variant, til
 		this_team_after = team
 		inner_guard = tile_team != team
 		if inner_guard:
-			tile_change_team_call = {"call": "tile.changeTeam(team);", "team": team}
+			tile_change_team_call = {SOURCE_BLOCK_UNIT_CALL_KEY: SOURCE_BLOCK_UNIT_TEAM_TILE_CHANGE_TEAM_CALL_EXPR, SOURCE_BLOCK_UNIT_TEAM_KEY: team}
 			tile_change_team_called = true
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_UNIT_TEAM_STATE, "method": "public void team(Team team){", "outer_guard_expr": "if(tile != null && this.team != team){", "this_team_assignment_expr": "this.team = team;", "inner_guard_expr": "if(tile.team != team){", "tile_change_team_call_expr": "tile.changeTeam(team);", "tile_exists": tile_exists, "this_team": this_team, "team": team, "tile_team": tile_team, "outer_guard": outer_guard, "inner_guard": inner_guard, "this_team_after": this_team_after, "tile_change_team_call": tile_change_team_call, "tile_change_team_called": tile_change_team_called}
+	return {SOURCE_BLOCK_UNIT_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_UNIT_TEAM_STATE, SOURCE_BLOCK_UNIT_METHOD_KEY: SOURCE_BLOCK_UNIT_TEAM_METHOD, SOURCE_BLOCK_UNIT_OUTER_GUARD_EXPR_KEY: SOURCE_BLOCK_UNIT_TEAM_OUTER_GUARD_EXPR, SOURCE_BLOCK_UNIT_THIS_TEAM_ASSIGNMENT_EXPR_KEY: SOURCE_BLOCK_UNIT_TEAM_THIS_TEAM_ASSIGNMENT_EXPR, SOURCE_BLOCK_UNIT_INNER_GUARD_EXPR_KEY: SOURCE_BLOCK_UNIT_TEAM_INNER_GUARD_EXPR, SOURCE_BLOCK_UNIT_TILE_CHANGE_TEAM_CALL_EXPR_KEY: SOURCE_BLOCK_UNIT_TEAM_TILE_CHANGE_TEAM_CALL_EXPR, SOURCE_BLOCK_UNIT_TILE_EXISTS_KEY: tile_exists, SOURCE_BLOCK_UNIT_THIS_TEAM_KEY: this_team, SOURCE_BLOCK_UNIT_TEAM_KEY: team, SOURCE_BLOCK_UNIT_TILE_TEAM_KEY: tile_team, SOURCE_BLOCK_UNIT_OUTER_GUARD_KEY: outer_guard, SOURCE_BLOCK_UNIT_INNER_GUARD_KEY: inner_guard, SOURCE_BLOCK_UNIT_THIS_TEAM_AFTER_KEY: this_team_after, SOURCE_BLOCK_UNIT_TILE_CHANGE_TEAM_CALL_KEY: tile_change_team_call, SOURCE_BLOCK_UNIT_TILE_CHANGE_TEAM_CALLED_KEY: tile_change_team_called}
 
 static func generated_block_unit_comp_ammof_bridge_state(ammo: float) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd", "java_method_ammof_4", [ammo], null)
+	var result = _block_unit_comp_call(SOURCE_BLOCK_UNIT_AMMOF_JAVA_METHOD, [ammo])
 	var canonical = ammof_state(ammo)
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_UNIT_AMMOF_STATE, "generated_owner": "block_unit_comp.java_method_ammof_4", "result": result, "canonical": canonical, "matches": result.get("ammo", null) == canonical.get("ammo", null) and result.get("return_expr", null) == canonical.get("return_expr", null)}
+	return {SOURCE_BLOCK_UNIT_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_UNIT_AMMOF_STATE, SOURCE_BLOCK_UNIT_GENERATED_OWNER_KEY: SOURCE_BLOCK_UNIT_AMMOF_GENERATED_OWNER, SOURCE_BLOCK_UNIT_RESULT_KEY: result, SOURCE_BLOCK_UNIT_CANONICAL_KEY: canonical, SOURCE_BLOCK_UNIT_MATCHES_KEY: result.get(SOURCE_BLOCK_UNIT_AMMO_KEY, null) == canonical.get(SOURCE_BLOCK_UNIT_AMMO_KEY, null) and result.get(SOURCE_BLOCK_UNIT_RETURN_EXPR_KEY, null) == canonical.get(SOURCE_BLOCK_UNIT_RETURN_EXPR_KEY, null)}
 
 static func generated_block_unit_comp_icon_bridge_state(tile_block_ui_icon: Variant) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd", "java_method_icon_3", [tile_block_ui_icon], null)
+	var result = _block_unit_comp_call(SOURCE_BLOCK_UNIT_ICON_JAVA_METHOD, [tile_block_ui_icon])
 	var canonical = icon_state(tile_block_ui_icon)
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_UNIT_ICON_STATE, "generated_owner": "block_unit_comp.java_method_icon_3", "result": result, "canonical": canonical, "matches": result.get("tile_block_ui_icon", null) == canonical.get("tile_block_ui_icon", null) and result.get("return_expr", null) == canonical.get("return_expr", null)}
+	return {SOURCE_BLOCK_UNIT_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_UNIT_ICON_STATE, SOURCE_BLOCK_UNIT_GENERATED_OWNER_KEY: SOURCE_BLOCK_UNIT_ICON_GENERATED_OWNER, SOURCE_BLOCK_UNIT_RESULT_KEY: result, SOURCE_BLOCK_UNIT_CANONICAL_KEY: canonical, SOURCE_BLOCK_UNIT_MATCHES_KEY: result.get(SOURCE_BLOCK_UNIT_TILE_BLOCK_UI_ICON_KEY, null) == canonical.get(SOURCE_BLOCK_UNIT_TILE_BLOCK_UI_ICON_KEY, null) and result.get(SOURCE_BLOCK_UNIT_RETURN_EXPR_KEY, null) == canonical.get(SOURCE_BLOCK_UNIT_RETURN_EXPR_KEY, null)}
 
 static func generated_block_unit_comp_tile_bridge_state(tile: Variant, tile_block_health: float, tile_health: float, tile_block_size: float, tilesize: float) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd", "java_method_tile_0", [tile, tile_block_health, tile_health, tile_block_size, tilesize], null)
+	var result = _block_unit_comp_call(SOURCE_BLOCK_UNIT_TILE_JAVA_METHOD, [tile, tile_block_health, tile_health, tile_block_size, tilesize])
 	var canonical = tile_state(tile, tile_block_health, tile_health, tile_block_size, tilesize)
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_UNIT_TILE_STATE, "generated_owner": "block_unit_comp.java_method_tile_0", "result": result, "canonical": canonical, "matches": result.get("this_tile_after", null) == canonical.get("this_tile_after", null) and result.get("hit_size", null) == canonical.get("hit_size", null) and result.get("max_health_call", null) == canonical.get("max_health_call", null) and result.get("health_call", null) == canonical.get("health_call", null) and result.get("set_call", null) == canonical.get("set_call", null)}
+	return {SOURCE_BLOCK_UNIT_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_UNIT_TILE_STATE, SOURCE_BLOCK_UNIT_GENERATED_OWNER_KEY: SOURCE_BLOCK_UNIT_TILE_GENERATED_OWNER, SOURCE_BLOCK_UNIT_RESULT_KEY: result, SOURCE_BLOCK_UNIT_CANONICAL_KEY: canonical, SOURCE_BLOCK_UNIT_MATCHES_KEY: result.get(SOURCE_BLOCK_UNIT_THIS_TILE_AFTER_KEY, null) == canonical.get(SOURCE_BLOCK_UNIT_THIS_TILE_AFTER_KEY, null) and result.get(SOURCE_BLOCK_UNIT_HIT_SIZE_KEY, null) == canonical.get(SOURCE_BLOCK_UNIT_HIT_SIZE_KEY, null) and result.get(SOURCE_BLOCK_UNIT_MAX_HEALTH_CALL_KEY, null) == canonical.get(SOURCE_BLOCK_UNIT_MAX_HEALTH_CALL_KEY, null) and result.get(SOURCE_BLOCK_UNIT_HEALTH_CALL_KEY, null) == canonical.get(SOURCE_BLOCK_UNIT_HEALTH_CALL_KEY, null) and result.get(SOURCE_BLOCK_UNIT_SET_CALL_KEY, null) == canonical.get(SOURCE_BLOCK_UNIT_SET_CALL_KEY, null)}
 
 static func generated_block_unit_comp_tile_source_tilesize_default_bridge_state(tile: Variant, tile_block_health: float, tile_health: float, tile_block_size: float) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd", "java_method_tile_0", [tile, tile_block_health, tile_health, tile_block_size], null)
+	var result = _block_unit_comp_call(SOURCE_BLOCK_UNIT_TILE_JAVA_METHOD, [tile, tile_block_health, tile_health, tile_block_size])
 	var canonical = tile_state(tile, tile_block_health, tile_health, tile_block_size, source_world_defaults.TILESIZE)
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_UNIT_TILE_STATE, "generated_owner": "block_unit_comp.java_method_tile_0", "defaulted_arg": "tilesize", "tilesize": source_world_defaults.TILESIZE, "result": result, "canonical": canonical, "matches": result.get("this_tile_after", null) == canonical.get("this_tile_after", null) and result.get("hit_size", null) == canonical.get("hit_size", null) and result.get("max_health_call", null) == canonical.get("max_health_call", null) and result.get("health_call", null) == canonical.get("health_call", null) and result.get("set_call", null) == canonical.get("set_call", null)}
+	return {SOURCE_BLOCK_UNIT_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_UNIT_TILE_STATE, SOURCE_BLOCK_UNIT_GENERATED_OWNER_KEY: SOURCE_BLOCK_UNIT_TILE_GENERATED_OWNER, SOURCE_BLOCK_UNIT_DEFAULTED_ARG_KEY: SOURCE_BLOCK_UNIT_TILESIZE_KEY, SOURCE_BLOCK_UNIT_TILESIZE_KEY: source_world_defaults.TILESIZE, SOURCE_BLOCK_UNIT_RESULT_KEY: result, SOURCE_BLOCK_UNIT_CANONICAL_KEY: canonical, SOURCE_BLOCK_UNIT_MATCHES_KEY: result.get(SOURCE_BLOCK_UNIT_THIS_TILE_AFTER_KEY, null) == canonical.get(SOURCE_BLOCK_UNIT_THIS_TILE_AFTER_KEY, null) and result.get(SOURCE_BLOCK_UNIT_HIT_SIZE_KEY, null) == canonical.get(SOURCE_BLOCK_UNIT_HIT_SIZE_KEY, null) and result.get(SOURCE_BLOCK_UNIT_MAX_HEALTH_CALL_KEY, null) == canonical.get(SOURCE_BLOCK_UNIT_MAX_HEALTH_CALL_KEY, null) and result.get(SOURCE_BLOCK_UNIT_HEALTH_CALL_KEY, null) == canonical.get(SOURCE_BLOCK_UNIT_HEALTH_CALL_KEY, null) and result.get(SOURCE_BLOCK_UNIT_SET_CALL_KEY, null) == canonical.get(SOURCE_BLOCK_UNIT_SET_CALL_KEY, null)}
 
 static func generated_block_unit_comp_add_bridge_state(tile_null: bool) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd", "java_method_add_1", [tile_null], null)
+	var result = _block_unit_comp_call(SOURCE_BLOCK_UNIT_ADD_JAVA_METHOD, [tile_null])
 	var canonical = add_state(tile_null)
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_UNIT_ADD_STATE, "generated_owner": "block_unit_comp.java_method_add_1", "result": result, "canonical": canonical, "matches": result.get("runtime_exception_thrown", null) == canonical.get("runtime_exception_thrown", null) and result.get("runtime_exception_message", null) == canonical.get("runtime_exception_message", null)}
+	return {SOURCE_BLOCK_UNIT_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_UNIT_ADD_STATE, SOURCE_BLOCK_UNIT_GENERATED_OWNER_KEY: SOURCE_BLOCK_UNIT_ADD_GENERATED_OWNER, SOURCE_BLOCK_UNIT_RESULT_KEY: result, SOURCE_BLOCK_UNIT_CANONICAL_KEY: canonical, SOURCE_BLOCK_UNIT_MATCHES_KEY: result.get(SOURCE_BLOCK_UNIT_RUNTIME_EXCEPTION_THROWN_KEY, null) == canonical.get(SOURCE_BLOCK_UNIT_RUNTIME_EXCEPTION_THROWN_KEY, null) and result.get(SOURCE_BLOCK_UNIT_RUNTIME_EXCEPTION_MESSAGE_KEY, null) == canonical.get(SOURCE_BLOCK_UNIT_RUNTIME_EXCEPTION_MESSAGE_KEY, null)}
 
 static func generated_block_unit_comp_update_bridge_state(tile_exists: bool, team: Variant, tile_team: Variant) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd", "java_method_update_2", [tile_exists, team, tile_team], null)
+	var result = _block_unit_comp_call(SOURCE_BLOCK_UNIT_UPDATE_JAVA_METHOD, [tile_exists, team, tile_team])
 	var canonical = update_state(tile_exists, team, tile_team)
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_UNIT_UPDATE_STATE, "generated_owner": "block_unit_comp.java_method_update_2", "result": result, "canonical": canonical, "matches": result.get("tile_guard", null) == canonical.get("tile_guard", null) and result.get("team_after", null) == canonical.get("team_after", null)}
+	return {SOURCE_BLOCK_UNIT_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_UNIT_UPDATE_STATE, SOURCE_BLOCK_UNIT_GENERATED_OWNER_KEY: SOURCE_BLOCK_UNIT_UPDATE_GENERATED_OWNER, SOURCE_BLOCK_UNIT_RESULT_KEY: result, SOURCE_BLOCK_UNIT_CANONICAL_KEY: canonical, SOURCE_BLOCK_UNIT_MATCHES_KEY: result.get(SOURCE_BLOCK_UNIT_TILE_GUARD_KEY, null) == canonical.get(SOURCE_BLOCK_UNIT_TILE_GUARD_KEY, null) and result.get(SOURCE_BLOCK_UNIT_TEAM_AFTER_KEY, null) == canonical.get(SOURCE_BLOCK_UNIT_TEAM_AFTER_KEY, null)}
 
 static func generated_block_unit_comp_killed_bridge_state() -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd", "java_method_killed_5", [], null)
+	var result = _block_unit_comp_call(SOURCE_BLOCK_UNIT_KILLED_JAVA_METHOD, [])
 	var canonical = killed_state()
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_UNIT_KILLED_STATE, "generated_owner": "block_unit_comp.java_method_killed_5", "result": result, "canonical": canonical, "matches": result.get("tile_kill_call", null) == canonical.get("tile_kill_call", null) and result.get("tile_kill_called", null) == canonical.get("tile_kill_called", null)}
+	return {SOURCE_BLOCK_UNIT_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_UNIT_KILLED_STATE, SOURCE_BLOCK_UNIT_GENERATED_OWNER_KEY: SOURCE_BLOCK_UNIT_KILLED_GENERATED_OWNER, SOURCE_BLOCK_UNIT_RESULT_KEY: result, SOURCE_BLOCK_UNIT_CANONICAL_KEY: canonical, SOURCE_BLOCK_UNIT_MATCHES_KEY: result.get(SOURCE_BLOCK_UNIT_TILE_KILL_CALL_KEY, null) == canonical.get(SOURCE_BLOCK_UNIT_TILE_KILL_CALL_KEY, null) and result.get(SOURCE_BLOCK_UNIT_TILE_KILL_CALLED_KEY, null) == canonical.get(SOURCE_BLOCK_UNIT_TILE_KILL_CALLED_KEY, null)}
 
 static func generated_block_unit_comp_damage_bridge_state(v: float, b: bool) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd", "java_method_damage_6", [v, b], null)
+	var result = _block_unit_comp_call(SOURCE_BLOCK_UNIT_DAMAGE_JAVA_METHOD, [v, b])
 	var canonical = damage_state(v, b)
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_UNIT_DAMAGE_STATE, "generated_owner": "block_unit_comp.java_method_damage_6", "result": result, "canonical": canonical, "matches": result.get("tile_damage_call", null) == canonical.get("tile_damage_call", null) and result.get("tile_damage_called", null) == canonical.get("tile_damage_called", null) and result.get("v", null) == canonical.get("v", null) and result.get("b", null) == canonical.get("b", null)}
+	return {SOURCE_BLOCK_UNIT_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_UNIT_DAMAGE_STATE, SOURCE_BLOCK_UNIT_GENERATED_OWNER_KEY: SOURCE_BLOCK_UNIT_DAMAGE_GENERATED_OWNER, SOURCE_BLOCK_UNIT_RESULT_KEY: result, SOURCE_BLOCK_UNIT_CANONICAL_KEY: canonical, SOURCE_BLOCK_UNIT_MATCHES_KEY: result.get(SOURCE_BLOCK_UNIT_TILE_DAMAGE_CALL_KEY, null) == canonical.get(SOURCE_BLOCK_UNIT_TILE_DAMAGE_CALL_KEY, null) and result.get(SOURCE_BLOCK_UNIT_TILE_DAMAGE_CALLED_KEY, null) == canonical.get(SOURCE_BLOCK_UNIT_TILE_DAMAGE_CALLED_KEY, null) and result.get(SOURCE_BLOCK_UNIT_V_KEY, null) == canonical.get(SOURCE_BLOCK_UNIT_V_KEY, null) and result.get(SOURCE_BLOCK_UNIT_B_KEY, null) == canonical.get(SOURCE_BLOCK_UNIT_B_KEY, null)}
 
 static func generated_block_unit_comp_team_bridge_state(tile_exists: bool, this_team: Variant, team: Variant, tile_team: Variant) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd", "java_method_team_10", [tile_exists, this_team, team, tile_team], null)
+	var result = _block_unit_comp_call(SOURCE_BLOCK_UNIT_TEAM_JAVA_METHOD, [tile_exists, this_team, team, tile_team])
 	var canonical = team_state(tile_exists, this_team, team, tile_team)
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_UNIT_TEAM_STATE, "generated_owner": "block_unit_comp.java_method_team_10", "result": result, "canonical": canonical, "matches": result.get("outer_guard", null) == canonical.get("outer_guard", null) and result.get("inner_guard", null) == canonical.get("inner_guard", null) and result.get("this_team_after", null) == canonical.get("this_team_after", null) and result.get("tile_change_team_called", null) == canonical.get("tile_change_team_called", null)}
+	return {SOURCE_BLOCK_UNIT_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_UNIT_TEAM_STATE, SOURCE_BLOCK_UNIT_GENERATED_OWNER_KEY: SOURCE_BLOCK_UNIT_TEAM_GENERATED_OWNER, SOURCE_BLOCK_UNIT_RESULT_KEY: result, SOURCE_BLOCK_UNIT_CANONICAL_KEY: canonical, SOURCE_BLOCK_UNIT_MATCHES_KEY: result.get(SOURCE_BLOCK_UNIT_OUTER_GUARD_KEY, null) == canonical.get(SOURCE_BLOCK_UNIT_OUTER_GUARD_KEY, null) and result.get(SOURCE_BLOCK_UNIT_INNER_GUARD_KEY, null) == canonical.get(SOURCE_BLOCK_UNIT_INNER_GUARD_KEY, null) and result.get(SOURCE_BLOCK_UNIT_THIS_TEAM_AFTER_KEY, null) == canonical.get(SOURCE_BLOCK_UNIT_THIS_TEAM_AFTER_KEY, null) and result.get(SOURCE_BLOCK_UNIT_TILE_CHANGE_TEAM_CALLED_KEY, null) == canonical.get(SOURCE_BLOCK_UNIT_TILE_CHANGE_TEAM_CALLED_KEY, null)}
 
 static func generated_block_unit_comp_dead_bridge_state(tile_null: bool, tile_dead: bool) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd", "java_method_dead_7", [tile_null, tile_dead], null)
+	var result = _block_unit_comp_call(SOURCE_BLOCK_UNIT_DEAD_JAVA_METHOD, [tile_null, tile_dead])
 	var canonical = dead_state(tile_null, tile_dead)
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_UNIT_DEAD_STATE, "generated_owner": "block_unit_comp.java_method_dead_7", "result": result, "canonical": canonical, "matches": result.get("dead", null) == canonical.get("dead", null) and result.get("return_expr", null) == canonical.get("return_expr", null)}
+	return {SOURCE_BLOCK_UNIT_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_UNIT_DEAD_STATE, SOURCE_BLOCK_UNIT_GENERATED_OWNER_KEY: SOURCE_BLOCK_UNIT_DEAD_GENERATED_OWNER, SOURCE_BLOCK_UNIT_RESULT_KEY: result, SOURCE_BLOCK_UNIT_CANONICAL_KEY: canonical, SOURCE_BLOCK_UNIT_MATCHES_KEY: result.get(SOURCE_BLOCK_UNIT_DEAD_KEY, null) == canonical.get(SOURCE_BLOCK_UNIT_DEAD_KEY, null) and result.get(SOURCE_BLOCK_UNIT_RETURN_EXPR_KEY, null) == canonical.get(SOURCE_BLOCK_UNIT_RETURN_EXPR_KEY, null)}
 
 static func generated_block_unit_comp_is_valid_bridge_state(tile_exists: bool, tile_is_valid: bool) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd", "java_method_isValid_8", [tile_exists, tile_is_valid], null)
+	var result = _block_unit_comp_call(SOURCE_BLOCK_UNIT_IS_VALID_JAVA_METHOD, [tile_exists, tile_is_valid])
 	var canonical = is_valid_state(tile_exists, tile_is_valid)
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_UNIT_IS_VALID_STATE, "generated_owner": "block_unit_comp.java_method_isValid_8", "result": result, "canonical": canonical, "matches": result.get("is_valid", null) == canonical.get("is_valid", null) and result.get("return_expr", null) == canonical.get("return_expr", null)}
+	return {SOURCE_BLOCK_UNIT_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_UNIT_IS_VALID_STATE, SOURCE_BLOCK_UNIT_GENERATED_OWNER_KEY: SOURCE_BLOCK_UNIT_IS_VALID_GENERATED_OWNER, SOURCE_BLOCK_UNIT_RESULT_KEY: result, SOURCE_BLOCK_UNIT_CANONICAL_KEY: canonical, SOURCE_BLOCK_UNIT_MATCHES_KEY: result.get(SOURCE_BLOCK_UNIT_IS_VALID_KEY, null) == canonical.get(SOURCE_BLOCK_UNIT_IS_VALID_KEY, null) and result.get(SOURCE_BLOCK_UNIT_RETURN_EXPR_KEY, null) == canonical.get(SOURCE_BLOCK_UNIT_RETURN_EXPR_KEY, null)}
 
 static func generated_block_unit_comp_is_added_bridge_state(tile_exists: bool, tile_is_valid: bool) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd", "java_method_isAdded_9", [tile_exists, tile_is_valid], null)
+	var result = _block_unit_comp_call(SOURCE_BLOCK_UNIT_IS_ADDED_JAVA_METHOD, [tile_exists, tile_is_valid])
 	var canonical = is_added_state(tile_exists, tile_is_valid)
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_UNIT_IS_ADDED_STATE, "generated_owner": "block_unit_comp.java_method_isAdded_9", "result": result, "canonical": canonical, "matches": result.get("is_added", null) == canonical.get("is_added", null) and result.get("return_expr", null) == canonical.get("return_expr", null)}
+	return {SOURCE_BLOCK_UNIT_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_UNIT_IS_ADDED_STATE, SOURCE_BLOCK_UNIT_GENERATED_OWNER_KEY: SOURCE_BLOCK_UNIT_IS_ADDED_GENERATED_OWNER, SOURCE_BLOCK_UNIT_RESULT_KEY: result, SOURCE_BLOCK_UNIT_CANONICAL_KEY: canonical, SOURCE_BLOCK_UNIT_MATCHES_KEY: result.get(SOURCE_BLOCK_UNIT_IS_ADDED_KEY, null) == canonical.get(SOURCE_BLOCK_UNIT_IS_ADDED_KEY, null) and result.get(SOURCE_BLOCK_UNIT_RETURN_EXPR_KEY, null) == canonical.get(SOURCE_BLOCK_UNIT_RETURN_EXPR_KEY, null)}

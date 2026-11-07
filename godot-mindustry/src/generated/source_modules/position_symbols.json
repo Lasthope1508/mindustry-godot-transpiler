@@ -1,19 +1,6 @@
 {
   "version": 1,
   "symbols": {
-    "arc_position_angle_to.other_method": {
-      "canonical_symbol": "source_symbol_registry.arc_position_angle_to.other_method",
-      "status": "source-backed",
-      "java_expr": "default float angleTo(Position other){\n        return Angles.angle(getX(), getY(), other.getX(), other.getY());\n    }",
-      "godot_symbol": "source_angle_to_target_result.targetAngle",
-      "godot_owner": "PortGame.source_angle_to_target",
-      "rule": "Position.angleTo(Position) delegates to Angles.angle using this and other coordinates.",
-      "tests": [
-        "test_arc_position_angle_to_target_symbols_are_registered_with_source_backing",
-        "test_port_game_uses_source_turret_rotation_and_shoot_cone"
-      ],
-      "runtime_proof": "/root/Main.source_angle_to_target"
-    },
     "arc_position_angle_to.angles_angle": {
       "canonical_symbol": "source_symbol_registry.arc_position_angle_to.angles_angle",
       "status": "source-backed",
@@ -53,6 +40,32 @@
       ],
       "runtime_proof": "/root/Main.source_angle_to_target"
     },
+    "arc_position_angle_to.other_method": {
+      "canonical_symbol": "source_symbol_registry.arc_position_angle_to.other_method",
+      "status": "source-backed",
+      "java_expr": "default float angleTo(Position other){\n        return Angles.angle(getX(), getY(), other.getX(), other.getY());\n    }",
+      "godot_symbol": "source_angle_to_target_result.targetAngle",
+      "godot_owner": "PortGame.source_angle_to_target",
+      "rule": "Position.angleTo(Position) delegates to Angles.angle using this and other coordinates.",
+      "tests": [
+        "test_arc_position_angle_to_target_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_rotation_and_shoot_cone"
+      ],
+      "runtime_proof": "/root/Main.source_angle_to_target"
+    },
+    "arc_position_angle_to.target_input": {
+      "canonical_symbol": "source_symbol_registry.arc_position_angle_to.target_input",
+      "status": "explicit-input",
+      "java_expr": "other",
+      "godot_symbol": "source_angle_to_target_input.target",
+      "godot_owner": "PortGame.source_angle_to_target",
+      "rule": "Runtime target object represents Java Position other.",
+      "tests": [
+        "test_arc_position_angle_to_target_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_rotation_and_shoot_cone"
+      ],
+      "runtime_proof": "/root/Main.source_angle_to_target"
+    },
     "arc_position_angle_to.target_x_input": {
       "canonical_symbol": "source_symbol_registry.arc_position_angle_to.target_x_input",
       "status": "explicit-input",
@@ -73,19 +86,6 @@
       "godot_symbol": "source_angle_to_target_input.targetY",
       "godot_owner": "PortGame.source_angle_to_target",
       "rule": "Target y maps to other.getY().",
-      "tests": [
-        "test_arc_position_angle_to_target_symbols_are_registered_with_source_backing",
-        "test_port_game_uses_source_turret_rotation_and_shoot_cone"
-      ],
-      "runtime_proof": "/root/Main.source_angle_to_target"
-    },
-    "arc_position_angle_to.target_input": {
-      "canonical_symbol": "source_symbol_registry.arc_position_angle_to.target_input",
-      "status": "explicit-input",
-      "java_expr": "other",
-      "godot_symbol": "source_angle_to_target_input.target",
-      "godot_owner": "PortGame.source_angle_to_target",
-      "rule": "Runtime target object represents Java Position other.",
       "tests": [
         "test_arc_position_angle_to_target_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_turret_rotation_and_shoot_cone"

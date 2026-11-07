@@ -8,6 +8,12 @@ const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwne
 const source_payload_source_text_state := preload("res://src/game/SourcePayloadSourceTextState.gd")
 
 const SOURCE_UNIT_PAYLOAD_GENERATED_CLASS := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_GENERATED_CLASS
+const SOURCE_UNIT_PAYLOAD_DRAW_SHADOW_JAVA_METHOD := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_DRAW_SHADOW_JAVA_METHOD
+const SOURCE_UNIT_PAYLOAD_DRAW_SHADOW_GENERATED_OWNER := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_DRAW_SHADOW_GENERATED_OWNER
+const SOURCE_UNIT_PAYLOAD_DRAW_JAVA_METHOD := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_DRAW_JAVA_METHOD
+const SOURCE_UNIT_PAYLOAD_DRAW_GENERATED_OWNER := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_DRAW_GENERATED_OWNER
+const SOURCE_UNIT_PAYLOAD_ICON_JAVA_METHOD := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_ICON_JAVA_METHOD
+const SOURCE_UNIT_PAYLOAD_ICON_GENERATED_OWNER := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_ICON_GENERATED_OWNER
 
 static func _unit_payload_call(generated_method: String, generated_args: Array) -> Variant:
 	return source_generated_class_runtime.call_java_method(SOURCE_UNIT_PAYLOAD_GENERATED_CLASS, generated_method, generated_args, null)
@@ -196,60 +202,60 @@ static func icon_state(unit_type_full_icon: Variant) -> Dictionary:
 	}
 
 static func generated_shadow_type_null_bridge_state(unit_type_null: bool, alpha: float, unit_id: Variant) -> Dictionary:
-	var result = _unit_payload_call("java_method_drawShadow_14", [unit_type_null, alpha, unit_id])
+	var result = _unit_payload_call(SOURCE_UNIT_PAYLOAD_DRAW_SHADOW_JAVA_METHOD, [unit_type_null, alpha, unit_id])
 	var canonical = draw_shadow_type_null_state(unit_type_null, alpha, unit_id)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_PAYLOAD_DRAW_SHADOW_TYPE_NULL_STATE,
-		"generated_owner": "unit_payload.java_method_drawShadow_14",
+		"generated_owner": SOURCE_UNIT_PAYLOAD_DRAW_SHADOW_GENERATED_OWNER,
 		"result": result,
 		"canonical": canonical,
 		"matches": matches,
 	}
 
 static func generated_type_null_bridge_state(unit_type_null: bool) -> Dictionary:
-	var result = _unit_payload_call("java_method_draw_15", [unit_type_null])
+	var result = _unit_payload_call(SOURCE_UNIT_PAYLOAD_DRAW_JAVA_METHOD, [unit_type_null])
 	var canonical = draw_type_null_state(unit_type_null)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_PAYLOAD_DRAW_TYPE_NULL_STATE,
-		"generated_owner": "unit_payload.java_method_draw_15",
+		"generated_owner": SOURCE_UNIT_PAYLOAD_DRAW_GENERATED_OWNER,
 		"result": result,
 		"canonical": canonical,
 		"matches": matches,
 	}
 
 static func generated_elevation_setup_bridge_state(unit_type_null: bool, unit_elevation: float, unit_id: Variant) -> Dictionary:
-	var result = _unit_payload_call("java_method_draw_15", [unit_type_null, unit_elevation, unit_id])
+	var result = _unit_payload_call(SOURCE_UNIT_PAYLOAD_DRAW_JAVA_METHOD, [unit_type_null, unit_elevation, unit_id])
 	var canonical = draw_elevation_setup_state(unit_type_null, unit_elevation, unit_id)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_PAYLOAD_DRAW_ELEVATION_SETUP_STATE,
-		"generated_owner": "unit_payload.java_method_draw_15",
+		"generated_owner": SOURCE_UNIT_PAYLOAD_DRAW_GENERATED_OWNER,
 		"result": result,
 		"canonical": canonical,
 		"matches": matches,
 	}
 
 static func generated_overlay_warning_bridge_state(unit_type_null: bool, unit_elevation: float, unit_id: Variant, overlay_time: float, overlay_region: Variant, unit_x: float, unit_y: float, time_delta: float, draw_z_before: float, interp_exp5_out_overlay_time: float) -> Dictionary:
-	var result = _unit_payload_call("java_method_draw_15", [unit_type_null, unit_elevation, unit_id, overlay_time, overlay_region, unit_x, unit_y, time_delta, draw_z_before, interp_exp5_out_overlay_time])
+	var result = _unit_payload_call(SOURCE_UNIT_PAYLOAD_DRAW_JAVA_METHOD, [unit_type_null, unit_elevation, unit_id, overlay_time, overlay_region, unit_x, unit_y, time_delta, draw_z_before, interp_exp5_out_overlay_time])
 	var canonical = draw_overlay_warning_state(unit_type_null, unit_elevation, unit_id, overlay_time, overlay_region, unit_x, unit_y, time_delta, draw_z_before, interp_exp5_out_overlay_time)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_PAYLOAD_DRAW_OVERLAY_WARNING_STATE,
-		"generated_owner": "unit_payload.java_method_draw_15",
+		"generated_owner": SOURCE_UNIT_PAYLOAD_DRAW_GENERATED_OWNER,
 		"result": result,
 		"canonical": canonical,
 		"matches": matches,
 	}
 
 static func generated_icon_bridge_state(unit_type_full_icon: Variant) -> Dictionary:
-	var result = _unit_payload_call("java_method_icon_16", [unit_type_full_icon])
+	var result = _unit_payload_call(SOURCE_UNIT_PAYLOAD_ICON_JAVA_METHOD, [unit_type_full_icon])
 	var canonical = icon_state(unit_type_full_icon)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_PAYLOAD_ICON_STATE,
-		"generated_owner": "unit_payload.java_method_icon_16",
+		"generated_owner": SOURCE_UNIT_PAYLOAD_ICON_GENERATED_OWNER,
 		"result": result,
 		"canonical": canonical,
 		"matches": matches,

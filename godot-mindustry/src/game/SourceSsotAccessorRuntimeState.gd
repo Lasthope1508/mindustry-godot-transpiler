@@ -6,6 +6,12 @@ const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
 static func lookup_state(module_name: String, key_value: String = "") -> Dictionary:
 	return source_ssot_catalog.lookup_state(module_name, key_value)
 
+static func document_data(module_name: String) -> Dictionary:
+	return source_ssot_catalog.document_data(module_name)
+
+static func document_root_data(module_name: String, root_key: String) -> Dictionary:
+	return source_ssot_catalog.document_root_data(module_name, root_key)
+
 static func audit_summary_state() -> Dictionary:
 	return source_ssot_catalog.audit_summary_state()
 
@@ -27,6 +33,9 @@ static func collection_summary_state(module_name: String, string_fields: Array, 
 static func array_summary_state(module_name: String, int_fields: Array, string_fields: Array, array_keys: Array, first_keys: Array) -> Dictionary:
 	return source_ssot_catalog.array_summary_state(module_name, int_fields, string_fields, array_keys, first_keys)
 
+static func playable_content_document_state() -> Dictionary:
+	return source_ssot_catalog.load_document("playable_content")
+
 static func playable_content_block_state(block_id: String = "") -> Dictionary:
 	return source_ssot_catalog.lookup_state("playable_content_blocks", block_id)
 
@@ -38,6 +47,9 @@ static func playable_content_skin_override_state(skin_id: String = "") -> Dictio
 
 static func source_symbol_registry_state(symbol: String = "") -> Dictionary:
 	return source_ssot_catalog.lookup_state("registry", symbol)
+
+static func source_root_policy_state(policy_name: String = "") -> Dictionary:
+	return source_ssot_catalog.lookup_state("source_root_policies", policy_name)
 
 static func ssot_symbol_registry_symbol_state(symbol: String = "") -> Dictionary:
 	return source_ssot_catalog.lookup_state("source_symbol_registry_symbols", symbol)

@@ -1,10 +1,189 @@
 {
-  "policy": {
-    "canonicalOwner": "source_slice_ledger",
-    "newTypeSliceRequiresSourceBackedLedgerMirror": true,
-    "source": "Derived from canonical source_slice_ledger entries whose java_source contains /type/."
-  },
+  "version": 1,
   "slices": {
+    "N1871": {
+      "canonical_ledger": "source_slice_ledger.N1871",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "java_method": "UnitType.createController(Unit)",
+      "godot_owner": "PortGame.source_unit_type_create_controller_state",
+      "source_symbols": [
+        "unit_type_create_controller.method",
+        "unit_type_create_controller.call"
+      ],
+      "tests": [
+        "test_unit_type_core_slice.py"
+      ],
+      "runtime_proof": "/root/Main.UnitTypeCoreModuleProof"
+    },
+    "N1872": {
+      "canonical_ledger": "source_slice_ledger.N1872",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "java_method": "UnitType.hasWeapons()",
+      "godot_owner": "PortGame.source_unit_type_has_weapons_state",
+      "source_symbols": [
+        "unit_type_has_weapons.method",
+        "unit_type_has_weapons.return"
+      ],
+      "tests": [
+        "test_unit_type_core_slice.py"
+      ],
+      "runtime_proof": "/root/Main.UnitTypeCoreModuleProof"
+    },
+    "N1873": {
+      "canonical_ledger": "source_slice_ledger.N1873",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "java_method": "UnitType.targetable(Unit,Team)",
+      "godot_owner": "PortGame.source_unit_type_targetable_state",
+      "source_symbols": [
+        "unit_type_targetable.method",
+        "unit_type_targetable.return"
+      ],
+      "tests": [
+        "test_unit_type_core_slice.py"
+      ],
+      "runtime_proof": "/root/Main.UnitTypeCoreModuleProof"
+    },
+    "N1874": {
+      "canonical_ledger": "source_slice_ledger.N1874",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "java_method": "UnitType.killable(Unit)",
+      "godot_owner": "PortGame.source_unit_type_killable_state",
+      "source_symbols": [
+        "unit_type_killable.method",
+        "unit_type_killable.return"
+      ],
+      "tests": [
+        "test_unit_type_core_slice.py"
+      ],
+      "runtime_proof": "/root/Main.UnitTypeCoreModuleProof"
+    },
+    "N1875": {
+      "canonical_ledger": "source_slice_ledger.N1875",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "java_method": "UnitType.hittable(Unit)",
+      "godot_owner": "PortGame.source_unit_type_hittable_state",
+      "source_symbols": [
+        "unit_type_hittable.method",
+        "unit_type_hittable.return"
+      ],
+      "tests": [
+        "test_unit_type_core_slice.py"
+      ],
+      "runtime_proof": "/root/Main.UnitTypeCoreModuleProof"
+    },
+    "N1876": {
+      "canonical_ledger": "source_slice_ledger.N1876",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "java_method": "UnitType.getUnitStances(Unit,Seq)",
+      "godot_owner": "PortGame.source_unit_type_get_unit_stances_state",
+      "source_symbols": [
+        "unit_type_get_unit_stances.method",
+        "unit_type_get_unit_stances.command_guard",
+        "unit_type_get_unit_stances.mine_auto",
+        "unit_type_get_unit_stances.extra"
+      ],
+      "tests": [
+        "test_unit_type_stance_command_slice"
+      ],
+      "runtime_proof": "/root/Main.UnitTypeCoreModuleProof"
+    },
+    "N1877": {
+      "canonical_ledger": "source_slice_ledger.N1877",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "java_method": "UnitType.allowStance(Unit,UnitStance)",
+      "godot_owner": "PortGame.source_unit_type_allow_stance_state",
+      "source_symbols": [
+        "unit_type_allow_stance.method",
+        "unit_type_allow_stance.stop_guard",
+        "unit_type_allow_stance.return"
+      ],
+      "tests": [
+        "test_unit_type_stance_command_slice"
+      ],
+      "runtime_proof": "/root/Main.UnitTypeCoreModuleProof"
+    },
+    "N1878": {
+      "canonical_ledger": "source_slice_ledger.N1878",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "java_method": "UnitType.allowCommand(Unit,UnitCommand)",
+      "godot_owner": "PortGame.source_unit_type_allow_command_state",
+      "source_symbols": [
+        "unit_type_allow_command.method",
+        "unit_type_allow_command.return"
+      ],
+      "tests": [
+        "test_unit_type_stance_command_slice"
+      ],
+      "runtime_proof": "/root/Main.UnitTypeCoreModuleProof"
+    },
+    "N1879": {
+      "canonical_ledger": "source_slice_ledger.N1879",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "java_method": "UnitType.update(Unit)",
+      "godot_owner": "PortGame.source_unit_type_update_state",
+      "source_symbols": [
+        "unit_type_update.method",
+        "unit_type_update.no_op"
+      ],
+      "tests": [
+        "test_unit_type_hooks_slice"
+      ],
+      "runtime_proof": "/root/Main.UnitTypeCoreModuleProof"
+    },
+    "N1880": {
+      "canonical_ledger": "source_slice_ledger.N1880",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "java_method": "UnitType.updatePayload(Unit,Unit,Building)",
+      "godot_owner": "PortGame.source_unit_type_update_payload_state",
+      "source_symbols": [
+        "unit_type_updatePayload.method",
+        "unit_type_updatePayload.no_op"
+      ],
+      "tests": [
+        "test_unit_type_hooks_slice"
+      ],
+      "runtime_proof": "/root/Main.UnitTypeCoreModuleProof"
+    },
+    "N1881": {
+      "canonical_ledger": "source_slice_ledger.N1881",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "java_method": "UnitType.killed(Unit)",
+      "godot_owner": "PortGame.source_unit_type_killed_state",
+      "source_symbols": [
+        "unit_type_killed.method",
+        "unit_type_killed.no_op"
+      ],
+      "tests": [
+        "test_unit_type_hooks_slice"
+      ],
+      "runtime_proof": "/root/Main.UnitTypeCoreModuleProof"
+    },
+    "N1882": {
+      "canonical_ledger": "source_slice_ledger.N1882",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "java_method": "UnitType.landed(Unit)",
+      "godot_owner": "PortGame.source_unit_type_landed_state",
+      "source_symbols": [
+        "unit_type_landed.method",
+        "unit_type_landed.no_op"
+      ],
+      "tests": [
+        "test_unit_type_hooks_slice"
+      ],
+      "runtime_proof": "/root/Main.UnitTypeCoreModuleProof"
+    },
     "N779": {
       "canonical_ledger": "source_slice_ledger.N779",
       "status": "done",

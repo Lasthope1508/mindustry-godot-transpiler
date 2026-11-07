@@ -1,158 +1,6 @@
 {
   "modules": {
-    "control_profile": {
-      "path": "src/generated/source_modules/control_profile.json",
-      "root_key": "actions",
-      "label": "action",
-      "status": "active",
-      "rule": "Canonical cross-platform input profile for playable runtime controls; Godot, web, Android, iOS, and Roblox adapters must read action names and bindings from this shard instead of hardcoding platform keys in gameplay code.",
-      "canonical_module": "",
-      "canonical_reference_key": "",
-      "canonical_reference_prefix": "",
-      "mirror_fields": []
-    },
-    "display_profile": {
-      "path": "src/generated/source_modules/display_profile.json",
-      "root_key": "playfield",
-      "label": "playfield",
-      "status": "active",
-      "rule": "Canonical playable display and world profile; gameplay code must read viewport, camera, tile size, and world tile dimensions from this shard instead of hardcoding playfield size.",
-      "canonical_module": "",
-      "canonical_reference_key": "",
-      "canonical_reference_prefix": "",
-      "mirror_fields": []
-    },
-    "ui_profile": {
-      "path": "src/generated/source_modules/ui_profile.json",
-      "root_key": "ui",
-      "label": "ui",
-      "status": "active",
-      "rule": "Canonical source UI size and spacing profile; generated consumer bridge code must read icon and padding defaults from this shard instead of hardcoding source UI constants.",
-      "canonical_module": "",
-      "canonical_reference_key": "",
-      "canonical_reference_prefix": "",
-      "mirror_fields": []
-    },
-    "gameplay_profile": {
-      "path": "src/generated/source_modules/gameplay_profile.json",
-      "root_key": "gameplay",
-      "label": "gameplay",
-      "status": "active",
-      "rule": "Canonical playable gameplay defaults profile; runtime code must read unit bounds and builder range defaults from this shard instead of hardcoding source constants in gameplay code.",
-      "canonical_module": "",
-      "canonical_reference_key": "",
-      "canonical_reference_prefix": "",
-      "mirror_fields": []
-    },
-    "construction_profile": {
-      "path": "src/generated/source_modules/construction_profile.json",
-      "root_key": "construction",
-      "label": "construction",
-      "status": "active",
-      "rule": "Canonical playable construction defaults profile; runtime code must read builder speed, block build-time fallback, and deconstruction defaults from this shard instead of hardcoding source constants in gameplay code.",
-      "canonical_module": "",
-      "canonical_reference_key": "",
-      "canonical_reference_prefix": "",
-      "mirror_fields": []
-    },
-    "block_profile": {
-      "path": "src/generated/source_modules/block_profile.json",
-      "root_key": "block",
-      "label": "block",
-      "status": "active",
-      "rule": "Canonical playable block defaults profile; runtime code must read Block boolean defaults from this shard instead of hardcoding source constants in gameplay code.",
-      "canonical_module": "",
-      "canonical_reference_key": "",
-      "canonical_reference_prefix": "",
-      "mirror_fields": []
-    },
-    "turret_profile": {
-      "path": "src/generated/source_modules/turret_profile.json",
-      "root_key": "turret",
-      "label": "turret",
-      "status": "active",
-      "rule": "Canonical playable turret defaults profile; runtime code must read turret reload, range, rotation, shoot cone, and recoil defaults from this shard instead of hardcoding source constants in gameplay code.",
-      "canonical_module": "",
-      "canonical_reference_key": "",
-      "canonical_reference_prefix": "",
-      "mirror_fields": []
-    },
-    "bullet_profile": {
-      "path": "src/generated/source_modules/bullet_profile.json",
-      "root_key": "bullet",
-      "label": "bullet",
-      "status": "active",
-      "rule": "Canonical playable bullet defaults profile; runtime code must read BulletType and BasicBulletType numeric defaults from this shard instead of hardcoding source constants in gameplay code.",
-      "canonical_module": "",
-      "canonical_reference_key": "",
-      "canonical_reference_prefix": "",
-      "mirror_fields": []
-    },
-    "unit_profile": {
-      "path": "src/generated/source_modules/unit_profile.json",
-      "root_key": "unit",
-      "label": "unit",
-      "status": "active",
-      "rule": "Canonical playable unit defaults profile; runtime code must read UnitType numeric defaults from this shard instead of hardcoding source constants in gameplay code.",
-      "canonical_module": "",
-      "canonical_reference_key": "",
-      "canonical_reference_prefix": "",
-      "mirror_fields": []
-    },
-    "factory_profile": {
-      "path": "src/generated/source_modules/factory_profile.json",
-      "root_key": "factory",
-      "label": "factory",
-      "status": "active",
-      "rule": "Canonical playable factory defaults profile; runtime code must read drill, block dump, and conveyor default factors from this shard instead of hardcoding source constants in gameplay code.",
-      "canonical_module": "",
-      "canonical_reference_key": "",
-      "canonical_reference_prefix": "",
-      "mirror_fields": []
-    },
-    "time_profile": {
-      "path": "src/generated/source_modules/time_profile.json",
-      "root_key": "time",
-      "label": "time",
-      "status": "active",
-      "rule": "Canonical Arc time conversion profile; runtime code must read tick-rate conversion from this shard instead of hardcoding Time.toSeconds in gameplay code.",
-      "canonical_module": "",
-      "canonical_reference_key": "",
-      "canonical_reference_prefix": "",
-      "mirror_fields": []
-    },
-    "math_profile": {
-      "path": "src/generated/source_modules/math_profile.json",
-      "root_key": "math",
-      "label": "math",
-      "status": "active",
-      "rule": "Canonical Arc math and Rand constants profile; runtime code must read PI, sine lookup, and Rand long normalization/hash constants from this shard instead of hardcoding Arc values in gameplay code.",
-      "canonical_module": "",
-      "canonical_reference_key": "",
-      "canonical_reference_prefix": "",
-      "mirror_fields": []
-    },
-    "consumer_slices": {
-      "canonical_module": "slice_ledger",
-      "canonical_reference_key": "canonical_ledger",
-      "canonical_reference_prefix": "source_slice_ledger.",
-      "label": "sliceId",
-      "mirror_fields": [
-        "status",
-        "java_source",
-        "java_method",
-        "godot_owner",
-        "generated_owner",
-        "source_symbols",
-        "tests",
-        "runtime_proof"
-      ],
-      "path": "src/generated/source_modules/consumer_slices.json",
-      "root_key": "slices",
-      "rule": "Extension shard for new consumer-related slice metadata; canonical slice IDs and keys must remain mirrored through the SSOT gate before use.",
-      "status": "active"
-    },
-    "consumer_api_contracts": {
+    "ability_api_contracts": {
       "canonical_module": "api_contracts",
       "canonical_reference_key": "canonical_contract",
       "canonical_reference_prefix": "source_api_contracts.",
@@ -168,12 +16,18 @@
         "runtime_proof",
         "rule"
       ],
-      "path": "src/generated/source_modules/consumer_api_contracts.json",
+      "path": "src/generated/source_modules/ability_api_contracts.json",
       "root_key": "contracts",
-      "rule": "Extension shard for consumer source API contracts; canonical owners and public contract fields remain mirrored through source_api_contracts before use.",
-      "status": "active"
+      "rule": "Extension shard for Ability.java source API contracts; canonical owners come from ability_slices.godot_owner and public contract fields remain mirrored through source_api_contracts before use.",
+      "status": "active",
+      "selection": {
+        "kind": "referenced_values",
+        "module": "ability_slices",
+        "collection_key": "slices",
+        "field": "godot_owner"
+      }
     },
-    "bullet_slices": {
+    "ability_slices": {
       "canonical_module": "slice_ledger",
       "canonical_reference_key": "canonical_ledger",
       "canonical_reference_prefix": "source_slice_ledger.",
@@ -187,193 +41,18 @@
         "tests",
         "runtime_proof"
       ],
-      "path": "src/generated/source_modules/bullet_slices.json",
+      "path": "src/generated/source_modules/ability_slices.json",
       "root_key": "slices",
-      "rule": "Extension shard for bullet source slice metadata; canonical slice IDs are selected from source_slice_ledger java_source paths under /entities/bullet/ and mirrored through the SSOT gate before use.",
-      "status": "active"
+      "rule": "Extension shard for Ability.java slice metadata; canonical slice IDs are selected from source_slice_ledger java_source exactly core/src/mindustry/entities/abilities/Ability.java and mirrored through the SSOT gate before use.",
+      "status": "active",
+      "selection": {
+        "kind": "entry_field",
+        "field": "java_source",
+        "operator": "equals",
+        "value": "core/src/mindustry/entities/abilities/Ability.java"
+      }
     },
-    "bullet_api_contracts": {
-      "canonical_module": "api_contracts",
-      "canonical_reference_key": "canonical_contract",
-      "canonical_reference_prefix": "source_api_contracts.",
-      "label": "owner",
-      "mirror_fields": [
-        "status",
-        "source_slice",
-        "java_source",
-        "source_method",
-        "params",
-        "return_keys",
-        "tests",
-        "runtime_proof",
-        "rule"
-      ],
-      "path": "src/generated/source_modules/bullet_api_contracts.json",
-      "root_key": "contracts",
-      "rule": "Extension shard for bullet source API contracts; canonical owners come from bullet_slices.godot_owner and public contract fields remain mirrored through source_api_contracts before use.",
-      "status": "active"
-    },
-    "power_slices": {
-      "canonical_module": "slice_ledger",
-      "canonical_reference_key": "canonical_ledger",
-      "canonical_reference_prefix": "source_slice_ledger.",
-      "label": "sliceId",
-      "mirror_fields": [
-        "status",
-        "java_source",
-        "java_method",
-        "godot_owner",
-        "source_symbols",
-        "tests",
-        "runtime_proof"
-      ],
-      "path": "src/generated/source_modules/power_slices.json",
-      "root_key": "slices",
-      "rule": "Extension shard for power-block slice metadata; canonical slice IDs are selected from source_slice_ledger java_source paths under /world/blocks/power/ and mirrored through the SSOT gate before use.",
-      "status": "active"
-    },
-    "power_api_contracts": {
-      "canonical_module": "api_contracts",
-      "canonical_reference_key": "canonical_contract",
-      "canonical_reference_prefix": "source_api_contracts.",
-      "label": "owner",
-      "mirror_fields": [
-        "status",
-        "source_slice",
-        "java_source",
-        "source_method",
-        "params",
-        "return_keys",
-        "tests",
-        "runtime_proof",
-        "rule"
-      ],
-      "path": "src/generated/source_modules/power_api_contracts.json",
-      "root_key": "contracts",
-      "rule": "Extension shard for power-block source API contracts; canonical owners come from power_slices.godot_owner and public contract fields remain mirrored through source_api_contracts before use.",
-      "status": "active"
-    },
-    "defense_slices": {
-      "canonical_module": "slice_ledger",
-      "canonical_reference_key": "canonical_ledger",
-      "canonical_reference_prefix": "source_slice_ledger.",
-      "label": "sliceId",
-      "mirror_fields": [
-        "status",
-        "java_source",
-        "java_method",
-        "godot_owner",
-        "source_symbols",
-        "tests",
-        "runtime_proof"
-      ],
-      "path": "src/generated/source_modules/defense_slices.json",
-      "root_key": "slices",
-      "rule": "Extension shard for defense-block slice metadata; canonical slice IDs are selected from source_slice_ledger java_source paths under /world/blocks/defense/ and mirrored through the SSOT gate before use.",
-      "status": "active"
-    },
-    "defense_api_contracts": {
-      "canonical_module": "api_contracts",
-      "canonical_reference_key": "canonical_contract",
-      "canonical_reference_prefix": "source_api_contracts.",
-      "label": "owner",
-      "mirror_fields": [
-        "status",
-        "source_slice",
-        "java_source",
-        "source_method",
-        "params",
-        "return_keys",
-        "tests",
-        "runtime_proof",
-        "rule"
-      ],
-      "path": "src/generated/source_modules/defense_api_contracts.json",
-      "root_key": "contracts",
-      "rule": "Extension shard for defense-block source API contracts; canonical owners come from defense_slices.godot_owner and public contract fields remain mirrored through source_api_contracts before use.",
-      "status": "active"
-    },
-    "payload_slices": {
-      "canonical_module": "slice_ledger",
-      "canonical_reference_key": "canonical_ledger",
-      "canonical_reference_prefix": "source_slice_ledger.",
-      "label": "sliceId",
-      "mirror_fields": [
-        "status",
-        "java_source",
-        "java_method",
-        "godot_owner",
-        "source_symbols",
-        "tests",
-        "runtime_proof"
-      ],
-      "path": "src/generated/source_modules/payload_slices.json",
-      "root_key": "slices",
-      "rule": "Extension shard for payload-block slice metadata; canonical slice IDs are selected from source_slice_ledger java_source paths under /world/blocks/payloads/ and mirrored through the SSOT gate before use.",
-      "status": "active"
-    },
-    "payload_api_contracts": {
-      "canonical_module": "api_contracts",
-      "canonical_reference_key": "canonical_contract",
-      "canonical_reference_prefix": "source_api_contracts.",
-      "label": "owner",
-      "mirror_fields": [
-        "status",
-        "source_slice",
-        "java_source",
-        "source_method",
-        "params",
-        "return_keys",
-        "tests",
-        "runtime_proof",
-        "rule"
-      ],
-      "path": "src/generated/source_modules/payload_api_contracts.json",
-      "root_key": "contracts",
-      "rule": "Extension shard for payload-block source API contracts; canonical owners come from payload_slices.godot_owner and public contract fields remain mirrored through source_api_contracts before use.",
-      "status": "active"
-    },
-    "production_slices": {
-      "canonical_module": "slice_ledger",
-      "canonical_reference_key": "canonical_ledger",
-      "canonical_reference_prefix": "source_slice_ledger.",
-      "label": "sliceId",
-      "mirror_fields": [
-        "status",
-        "java_source",
-        "java_method",
-        "godot_owner",
-        "source_symbols",
-        "tests",
-        "runtime_proof"
-      ],
-      "path": "src/generated/source_modules/production_slices.json",
-      "root_key": "slices",
-      "rule": "Extension shard for production-block slice metadata; canonical slice IDs are selected from source_slice_ledger java_source paths under /world/blocks/production/ and mirrored through the SSOT gate before use.",
-      "status": "active"
-    },
-    "production_api_contracts": {
-      "canonical_module": "api_contracts",
-      "canonical_reference_key": "canonical_contract",
-      "canonical_reference_prefix": "source_api_contracts.",
-      "label": "owner",
-      "mirror_fields": [
-        "status",
-        "source_slice",
-        "java_source",
-        "source_method",
-        "params",
-        "return_keys",
-        "tests",
-        "runtime_proof",
-        "rule"
-      ],
-      "path": "src/generated/source_modules/production_api_contracts.json",
-      "root_key": "contracts",
-      "rule": "Extension shard for production-block source API contracts; canonical owners come from production_slices.godot_owner and public contract fields remain mirrored through source_api_contracts before use.",
-      "status": "active"
-    },
-    "production_state_schema": {
+    "ability_state_schema": {
       "canonical_module": "state_schema",
       "canonical_reference_key": "canonical_schema",
       "canonical_reference_prefix": "source_state_schema.",
@@ -381,12 +60,16 @@
       "mirror_fields": [
         "keys"
       ],
-      "path": "src/generated/source_modules/production_state_schema.json",
+      "path": "src/generated/source_modules/ability_state_schema.json",
       "root_key": "schemas",
-      "rule": "Extension shard for production-block source state schemas; schema names are derived from production_api_contracts params and existing canonical result schemas, then mirrored through source_state_schema before use.",
-      "status": "active"
+      "rule": "Extension shard for Ability.java source state schemas; schema names are derived from ability_api_contracts params and existing canonical result schemas, then mirrored through source_state_schema before use.",
+      "status": "active",
+      "selection": {
+        "kind": "contract_schemas",
+        "module": "ability_api_contracts"
+      }
     },
-    "production_symbols": {
+    "ability_symbols": {
       "canonical_module": "registry",
       "canonical_reference_key": "canonical_symbol",
       "canonical_reference_prefix": "source_symbol_registry.",
@@ -400,95 +83,47 @@
         "tests",
         "runtime_proof"
       ],
-      "path": "src/generated/source_modules/production_symbols.json",
+      "path": "src/generated/source_modules/ability_symbols.json",
       "root_key": "symbols",
-      "rule": "Extension shard for production-block source symbols; canonical symbol names come from production_slices.source_symbols and mirrored fields remain sourced from source_symbol_registry before use.",
-      "status": "active"
-    },
-    "type_slices": {
-      "canonical_module": "slice_ledger",
-      "canonical_reference_key": "canonical_ledger",
-      "canonical_reference_prefix": "source_slice_ledger.",
-      "label": "sliceId",
-      "mirror_fields": [
-        "status",
-        "java_source",
-        "java_method",
-        "godot_owner",
-        "source_symbols",
-        "tests",
-        "runtime_proof"
-      ],
-      "path": "src/generated/source_modules/type_slices.json",
-      "root_key": "slices",
-      "rule": "Extension shard for type-system slice metadata; canonical slice IDs are selected from source_slice_ledger java_source paths under /type/ and mirrored through the SSOT gate before use.",
-      "status": "active"
-    },
-    "type_api_contracts": {
-      "canonical_module": "api_contracts",
-      "canonical_reference_key": "canonical_contract",
-      "canonical_reference_prefix": "source_api_contracts.",
-      "label": "owner",
-      "mirror_fields": [
-        "status",
-        "source_slice",
-        "java_source",
-        "source_method",
-        "params",
-        "return_keys",
-        "tests",
-        "runtime_proof",
-        "rule"
-      ],
-      "path": "src/generated/source_modules/type_api_contracts.json",
-      "root_key": "contracts",
-      "rule": "Extension shard for type-system source API contracts; canonical owners come from type_slices.godot_owner and public contract fields remain mirrored through source_api_contracts before use.",
-      "status": "active"
-    },
-    "comp_slices": {
-      "canonical_module": "slice_ledger",
-      "canonical_reference_key": "canonical_ledger",
-      "canonical_reference_prefix": "source_slice_ledger.",
-      "label": "sliceId",
-      "mirror_fields": [
-        "status",
-        "java_source",
-        "java_method",
-        "godot_owner",
-        "source_symbols",
-        "tests",
-        "runtime_proof"
-      ],
-      "path": "src/generated/source_modules/comp_slices.json",
-      "root_key": "slices",
-      "rule": "Extension shard for entity-component slice metadata; canonical slice IDs are selected from source_slice_ledger java_source paths under /entities/comp/ and mirrored through the SSOT gate before use.",
-      "status": "active"
-    },
-    "comp_api_contracts": {
-      "canonical_module": "api_contracts",
-      "canonical_reference_key": "canonical_contract",
-      "canonical_reference_prefix": "source_api_contracts.",
-      "label": "owner",
-      "mirror_fields": [
-        "status",
-        "source_slice",
-        "java_source",
-        "source_method",
-        "params",
-        "return_keys",
-        "tests",
-        "runtime_proof",
-        "rule"
-      ],
-      "path": "src/generated/source_modules/comp_api_contracts.json",
-      "root_key": "contracts",
-      "rule": "Extension shard for entity-component source API contracts; canonical owners come from comp_slices.godot_owner and public contract fields remain mirrored through source_api_contracts before use.",
+      "rule": "Extension shard for Ability.java source symbols; canonical symbol names come from ability_slices.source_symbols and mirrored fields remain sourced from source_symbol_registry before use.",
       "status": "active",
-      "optional_mirror_fields": [
-        "return_type"
-      ]
+      "selection": {
+        "kind": "slice_symbols",
+        "module": "ability_slices",
+        "collection_key": "slices",
+        "field": "source_symbols",
+        "contract_module": "ability_api_contracts",
+        "include_contract_owner_symbols": false
+      }
     },
-    "block_slices": {
+    "angles_api_contracts": {
+      "canonical_module": "api_contracts",
+      "canonical_reference_key": "canonical_contract",
+      "canonical_reference_prefix": "source_api_contracts.",
+      "label": "owner",
+      "mirror_fields": [
+        "status",
+        "source_slice",
+        "java_source",
+        "source_method",
+        "params",
+        "return_keys",
+        "tests",
+        "runtime_proof",
+        "rule"
+      ],
+      "path": "src/generated/source_modules/angles_api_contracts.json",
+      "root_key": "contracts",
+      "rule": "Extension shard for Angles.java source API contracts; canonical owners come from angles_slices.godot_owner and public contract fields remain mirrored through source_api_contracts before use.",
+      "status": "active",
+      "selection": {
+        "kind": "referenced_values",
+        "module": "angles_slices",
+        "collection_key": "slices",
+        "field": "godot_owner"
+      }
+    },
+    "angles_slices": {
       "canonical_module": "slice_ledger",
       "canonical_reference_key": "canonical_ledger",
       "canonical_reference_prefix": "source_slice_ledger.",
@@ -502,9 +137,94 @@
         "tests",
         "runtime_proof"
       ],
-      "path": "src/generated/source_modules/block_slices.json",
+      "path": "src/generated/source_modules/angles_slices.json",
       "root_key": "slices",
-      "rule": "Extension shard for Block.java slice metadata; canonical slice IDs are selected from source_slice_ledger java_source exactly core/src/mindustry/world/Block.java and mirrored through the SSOT gate before use.",
+      "rule": "Extension shard for Angles.java slice metadata; canonical slice IDs are selected from source_slice_ledger java_source exactly arc-core/src/arc/math/Angles.java and mirrored through the SSOT gate before use.",
+      "status": "active",
+      "selection": {
+        "kind": "entry_field",
+        "field": "java_source",
+        "operator": "equals",
+        "value": "arc-core/src/arc/math/Angles.java"
+      }
+    },
+    "angles_state_schema": {
+      "canonical_module": "state_schema",
+      "canonical_reference_key": "canonical_schema",
+      "canonical_reference_prefix": "source_state_schema.",
+      "label": "schemaName",
+      "mirror_fields": [
+        "keys"
+      ],
+      "path": "src/generated/source_modules/angles_state_schema.json",
+      "root_key": "schemas",
+      "rule": "Extension shard for Angles.java source state schemas; schema names are derived from angles_api_contracts params and existing canonical result schemas, then mirrored through source_state_schema before use.",
+      "status": "active",
+      "selection": {
+        "kind": "contract_schemas",
+        "module": "angles_api_contracts"
+      }
+    },
+    "angles_symbols": {
+      "canonical_module": "registry",
+      "canonical_reference_key": "canonical_symbol",
+      "canonical_reference_prefix": "source_symbol_registry.",
+      "label": "symbol",
+      "mirror_fields": [
+        "status",
+        "java_expr",
+        "godot_symbol",
+        "godot_owner",
+        "rule",
+        "tests",
+        "runtime_proof"
+      ],
+      "path": "src/generated/source_modules/angles_symbols.json",
+      "root_key": "symbols",
+      "rule": "Extension shard for Angles.java source symbols; canonical symbol names come from angles_slices.source_symbols and mirrored fields remain sourced from source_symbol_registry before use.",
+      "status": "active",
+      "selection": {
+        "kind": "slice_symbols",
+        "module": "angles_slices",
+        "collection_key": "slices",
+        "field": "source_symbols",
+        "contract_module": "angles_api_contracts",
+        "include_contract_owner_symbols": false
+      }
+    },
+    "ast_manifest_failures": {
+      "canonical_collection_key": "failures",
+      "canonical_key_field": "path",
+      "canonical_module": "ast_manifest",
+      "canonical_reference_key": "canonical_failure",
+      "canonical_reference_prefix": "ast_manifest.failures.",
+      "label": "path",
+      "mirror_fields": [
+        "error",
+        "error_type",
+        "path"
+      ],
+      "path": "src/generated/source_modules/ast_manifest_failures.json",
+      "root_key": "failures",
+      "rule": "Extension shard for ast_manifest.json parser failures; canonical parser failure metadata remains mirrored from ast_manifest.failures before use.",
+      "status": "active"
+    },
+    "ast_manifest_files": {
+      "canonical_collection_key": "files",
+      "canonical_key_field": "path",
+      "canonical_module": "ast_manifest",
+      "canonical_reference_key": "canonical_file",
+      "canonical_reference_prefix": "ast_manifest.files.",
+      "label": "path",
+      "mirror_fields": [
+        "imports",
+        "package",
+        "path",
+        "types"
+      ],
+      "path": "src/generated/source_modules/ast_manifest_files.json",
+      "root_key": "files",
+      "rule": "Extension shard for ast_manifest.json parsed files; canonical parsed AST metadata remains mirrored from ast_manifest.files before use.",
       "status": "active"
     },
     "block_api_contracts": {
@@ -526,9 +246,109 @@
       "path": "src/generated/source_modules/block_api_contracts.json",
       "root_key": "contracts",
       "rule": "Extension shard for Block.java source API contracts; canonical owners come from block_slices.godot_owner and public contract fields remain mirrored through source_api_contracts before use.",
+      "status": "active",
+      "selection": {
+        "kind": "referenced_values",
+        "module": "block_slices",
+        "collection_key": "slices",
+        "field": "godot_owner"
+      }
+    },
+    "block_draw": {
+      "canonical_module": "",
+      "canonical_reference_key": "",
+      "canonical_reference_prefix": "",
+      "label": "method",
+      "mirror_fields": [],
+      "path": "src/generated/source_modules/block_draw.json",
+      "root_key": "block_draw",
+      "rule": "Canonical Block default visual draw bridge registry; drawBase/drawBaseCached/drawShadow/drawEnvironmentLight/drawPlace/drawOverlay/displayShadow ownership must stay in SourceBlockDrawState and not be duplicated by plan, icon, display query, or subclass modules.",
       "status": "active"
     },
-    "mathf_slices": {
+    "block_stats_bars": {
+      "canonical_module": "",
+      "canonical_reference_key": "",
+      "canonical_reference_prefix": "",
+      "label": "method",
+      "mirror_fields": [],
+      "path": "src/generated/source_modules/block_stats_bars.json",
+      "root_key": "block_stats_bars",
+      "rule": "Canonical Block stats/bars/afterPatch bridge registry; setStats/addBar/removeBar/listBars/addLiquidBar/setBars/afterPatch ownership must stay in SourceBlockStatsBarsState and not be duplicated by init, draw, display, or subclass modules.",
+      "status": "active"
+    },
+    "block_icon": {
+      "canonical_collection_key": "",
+      "canonical_key_field": "",
+      "canonical_module": "",
+      "canonical_reference_key": "",
+      "canonical_reference_prefix": "",
+      "canonical_value_field": "",
+      "label": "blockIcon",
+      "mirror_fields": [],
+      "path": "src/generated/source_modules/block_icon.json",
+      "root_key": "block_icon",
+      "rule": "Canonical registry shard for Block icon/cache accessor ownership; runtime code must route Block icon region, generated icon cache, and variant region cache behavior through SourceBlockIconState instead of duplicating it in load or plan modules.",
+      "status": "active"
+    },
+    "block_lifecycle_hooks": {
+      "canonical_module": "",
+      "canonical_reference_key": "",
+      "canonical_reference_prefix": "",
+      "label": "method",
+      "mirror_fields": [],
+      "path": "src/generated/source_modules/block_lifecycle_hooks.json",
+      "root_key": "block_lifecycle_hooks",
+      "rule": "Canonical Block base editor and placement lifecycle hook registry; default hook ownership must live in SourceBlockLifecycleHookState, while concrete block overrides get separate owner modules.",
+      "status": "active"
+    },
+    "block_placement": {
+      "canonical_collection_key": "",
+      "canonical_key_field": "",
+      "canonical_module": "",
+      "canonical_reference_key": "",
+      "canonical_reference_prefix": "",
+      "canonical_value_field": "",
+      "label": "blockPlacement",
+      "mirror_fields": [],
+      "path": "src/generated/source_modules/block_placement.json",
+      "root_key": "block_placement",
+      "rule": "Canonical registry shard for block placement state; runtime code must route selected-block placement state through SourceBlockPlacement instead of duplicating placement guards in port_game.",
+      "status": "active"
+    },
+    "block_profile": {
+      "canonical_module": "",
+      "canonical_reference_key": "",
+      "canonical_reference_prefix": "",
+      "label": "block",
+      "mirror_fields": [],
+      "path": "src/generated/source_modules/block_profile.json",
+      "root_key": "block",
+      "rule": "Canonical playable block defaults profile; runtime code must read Block boolean defaults from this shard instead of hardcoding source constants in gameplay code.",
+      "status": "active"
+    },
+    "block_query_basic": {
+      "canonical_module": "",
+      "canonical_reference_key": "",
+      "canonical_reference_prefix": "",
+      "label": "method",
+      "mirror_fields": [],
+      "path": "src/generated/source_modules/block_query_basic.json",
+      "root_key": "block_query_basic",
+      "rule": "Canonical Block simple query/cast bridge registry; hasBuilding/isMultiblock/isFloor/isOverlay/asFloor/isAir/canBeBuilt/isStatic/isBanned/supportsEnv ownership must stay in SourceBlockQueryBasicState and not be duplicated by display, placement, floor, or lifecycle modules.",
+      "status": "active"
+    },
+    "block_runtime_geometry": {
+      "canonical_module": "",
+      "canonical_reference_key": "",
+      "canonical_reference_prefix": "",
+      "label": "method",
+      "mirror_fields": [],
+      "path": "src/generated/source_modules/block_runtime_geometry.json",
+      "root_key": "block_runtime_geometry",
+      "rule": "Canonical Block runtime construction and geometry bridge registry; Block.newBuilding/updateClipRadius/bounds ownership must live in SourceBlockRuntimeGeometryState and this shard, not duplicated in query, plan, payload, or load modules.",
+      "status": "active"
+    },
+    "block_slices": {
       "canonical_module": "slice_ledger",
       "canonical_reference_key": "canonical_ledger",
       "canonical_reference_prefix": "source_slice_ledger.",
@@ -542,12 +362,18 @@
         "tests",
         "runtime_proof"
       ],
-      "path": "src/generated/source_modules/mathf_slices.json",
+      "path": "src/generated/source_modules/block_slices.json",
       "root_key": "slices",
-      "rule": "Extension shard for Arc Mathf slice metadata; canonical slice IDs are selected from source_slice_ledger java_source exactly arc-core/src/arc/math/Mathf.java and mirrored through the SSOT gate before use.",
-      "status": "active"
+      "rule": "Extension shard for Block.java slice metadata; canonical slice IDs are selected from source_slice_ledger java_source exactly core/src/mindustry/world/Block.java and mirrored through the SSOT gate before use.",
+      "status": "active",
+      "selection": {
+        "kind": "entry_field",
+        "field": "java_source",
+        "operator": "equals",
+        "value": "core/src/mindustry/world/Block.java"
+      }
     },
-    "mathf_api_contracts": {
+    "bullet_api_contracts": {
       "canonical_module": "api_contracts",
       "canonical_reference_key": "canonical_contract",
       "canonical_reference_prefix": "source_api_contracts.",
@@ -563,44 +389,29 @@
         "runtime_proof",
         "rule"
       ],
-      "path": "src/generated/source_modules/mathf_api_contracts.json",
+      "path": "src/generated/source_modules/bullet_api_contracts.json",
       "root_key": "contracts",
-      "rule": "Extension shard for Arc Mathf source API contracts; canonical owners come from mathf_slices.godot_owner and public contract fields remain mirrored through source_api_contracts before use.",
+      "rule": "Extension shard for bullet source API contracts; canonical owners come from bullet_slices.godot_owner and public contract fields remain mirrored through source_api_contracts before use.",
+      "status": "active",
+      "selection": {
+        "kind": "referenced_values",
+        "module": "bullet_slices",
+        "collection_key": "slices",
+        "field": "godot_owner"
+      }
+    },
+    "bullet_profile": {
+      "canonical_module": "",
+      "canonical_reference_key": "",
+      "canonical_reference_prefix": "",
+      "label": "bullet",
+      "mirror_fields": [],
+      "path": "src/generated/source_modules/bullet_profile.json",
+      "root_key": "bullet",
+      "rule": "Canonical playable bullet defaults profile; runtime code must read BulletType and BasicBulletType numeric defaults from this shard instead of hardcoding source constants in gameplay code.",
       "status": "active"
     },
-    "mathf_state_schema": {
-      "canonical_module": "state_schema",
-      "canonical_reference_key": "canonical_schema",
-      "canonical_reference_prefix": "source_state_schema.",
-      "label": "schemaName",
-      "mirror_fields": [
-        "keys"
-      ],
-      "path": "src/generated/source_modules/mathf_state_schema.json",
-      "root_key": "schemas",
-      "rule": "Extension shard for Arc Mathf source state schemas; schema names are derived from mathf_api_contracts params and existing canonical result schemas, then mirrored through source_state_schema before use.",
-      "status": "active"
-    },
-    "mathf_symbols": {
-      "canonical_module": "registry",
-      "canonical_reference_key": "canonical_symbol",
-      "canonical_reference_prefix": "source_symbol_registry.",
-      "label": "symbol",
-      "mirror_fields": [
-        "status",
-        "java_expr",
-        "godot_symbol",
-        "godot_owner",
-        "rule",
-        "tests",
-        "runtime_proof"
-      ],
-      "path": "src/generated/source_modules/mathf_symbols.json",
-      "root_key": "symbols",
-      "rule": "Extension shard for Arc Mathf source symbols; canonical symbol names come from mathf_slices.source_symbols and mirrored fields remain sourced from source_symbol_registry before use.",
-      "status": "active"
-    },
-    "ability_slices": {
+    "bullet_slices": {
       "canonical_module": "slice_ledger",
       "canonical_reference_key": "canonical_ledger",
       "canonical_reference_prefix": "source_slice_ledger.",
@@ -614,12 +425,18 @@
         "tests",
         "runtime_proof"
       ],
-      "path": "src/generated/source_modules/ability_slices.json",
+      "path": "src/generated/source_modules/bullet_slices.json",
       "root_key": "slices",
-      "rule": "Extension shard for Ability.java slice metadata; canonical slice IDs are selected from source_slice_ledger java_source exactly core/src/mindustry/entities/abilities/Ability.java and mirrored through the SSOT gate before use.",
-      "status": "active"
+      "rule": "Extension shard for bullet source slice metadata; canonical slice IDs are selected from source_slice_ledger java_source paths under /entities/bullet/ and mirrored through the SSOT gate before use.",
+      "status": "active",
+      "selection": {
+        "kind": "entry_field",
+        "field": "java_source",
+        "operator": "contains",
+        "value": "/entities/bullet/"
+      }
     },
-    "ability_api_contracts": {
+    "comp_api_contracts": {
       "canonical_module": "api_contracts",
       "canonical_reference_key": "canonical_contract",
       "canonical_reference_prefix": "source_api_contracts.",
@@ -635,44 +452,21 @@
         "runtime_proof",
         "rule"
       ],
-      "path": "src/generated/source_modules/ability_api_contracts.json",
+      "path": "src/generated/source_modules/comp_api_contracts.json",
       "root_key": "contracts",
-      "rule": "Extension shard for Ability.java source API contracts; canonical owners come from ability_slices.godot_owner and public contract fields remain mirrored through source_api_contracts before use.",
-      "status": "active"
+      "rule": "Extension shard for entity-component source API contracts; canonical owners come from comp_slices.godot_owner and public contract fields remain mirrored through source_api_contracts before use.",
+      "status": "active",
+      "selection": {
+        "kind": "referenced_values",
+        "module": "comp_slices",
+        "collection_key": "slices",
+        "field": "godot_owner"
+      },
+      "optional_mirror_fields": [
+        "return_type"
+      ]
     },
-    "ability_state_schema": {
-      "canonical_module": "state_schema",
-      "canonical_reference_key": "canonical_schema",
-      "canonical_reference_prefix": "source_state_schema.",
-      "label": "schemaName",
-      "mirror_fields": [
-        "keys"
-      ],
-      "path": "src/generated/source_modules/ability_state_schema.json",
-      "root_key": "schemas",
-      "rule": "Extension shard for Ability.java source state schemas; schema names are derived from ability_api_contracts params and existing canonical result schemas, then mirrored through source_state_schema before use.",
-      "status": "active"
-    },
-    "ability_symbols": {
-      "canonical_module": "registry",
-      "canonical_reference_key": "canonical_symbol",
-      "canonical_reference_prefix": "source_symbol_registry.",
-      "label": "symbol",
-      "mirror_fields": [
-        "status",
-        "java_expr",
-        "godot_symbol",
-        "godot_owner",
-        "rule",
-        "tests",
-        "runtime_proof"
-      ],
-      "path": "src/generated/source_modules/ability_symbols.json",
-      "root_key": "symbols",
-      "rule": "Extension shard for Ability.java source symbols; canonical symbol names come from ability_slices.source_symbols and mirrored fields remain sourced from source_symbol_registry before use.",
-      "status": "active"
-    },
-    "angles_slices": {
+    "comp_slices": {
       "canonical_module": "slice_ledger",
       "canonical_reference_key": "canonical_ledger",
       "canonical_reference_prefix": "source_slice_ledger.",
@@ -686,12 +480,29 @@
         "tests",
         "runtime_proof"
       ],
-      "path": "src/generated/source_modules/angles_slices.json",
+      "path": "src/generated/source_modules/comp_slices.json",
       "root_key": "slices",
-      "rule": "Extension shard for Angles.java slice metadata; canonical slice IDs are selected from source_slice_ledger java_source exactly arc-core/src/arc/math/Angles.java and mirrored through the SSOT gate before use.",
+      "rule": "Extension shard for entity-component slice metadata; canonical slice IDs are selected from source_slice_ledger java_source paths under /entities/comp/ and mirrored through the SSOT gate before use.",
+      "status": "active",
+      "selection": {
+        "kind": "entry_field",
+        "field": "java_source",
+        "operator": "contains",
+        "value": "/entities/comp/"
+      }
+    },
+    "construction_profile": {
+      "canonical_module": "",
+      "canonical_reference_key": "",
+      "canonical_reference_prefix": "",
+      "label": "construction",
+      "mirror_fields": [],
+      "path": "src/generated/source_modules/construction_profile.json",
+      "root_key": "construction",
+      "rule": "Canonical playable construction defaults profile; runtime code must read builder speed, block build-time fallback, and deconstruction defaults from this shard instead of hardcoding source constants in gameplay code.",
       "status": "active"
     },
-    "angles_api_contracts": {
+    "consumer_api_contracts": {
       "canonical_module": "api_contracts",
       "canonical_reference_key": "canonical_contract",
       "canonical_reference_prefix": "source_api_contracts.",
@@ -707,44 +518,18 @@
         "runtime_proof",
         "rule"
       ],
-      "path": "src/generated/source_modules/angles_api_contracts.json",
+      "path": "src/generated/source_modules/consumer_api_contracts.json",
       "root_key": "contracts",
-      "rule": "Extension shard for Angles.java source API contracts; canonical owners come from angles_slices.godot_owner and public contract fields remain mirrored through source_api_contracts before use.",
-      "status": "active"
+      "rule": "Extension shard for consumer source API contracts; canonical owners and public contract fields remain mirrored through source_api_contracts before use.",
+      "status": "active",
+      "selection": {
+        "kind": "referenced_values",
+        "module": "consumer_slices",
+        "collection_key": "slices",
+        "field": "godot_owner"
+      }
     },
-    "angles_state_schema": {
-      "canonical_module": "state_schema",
-      "canonical_reference_key": "canonical_schema",
-      "canonical_reference_prefix": "source_state_schema.",
-      "label": "schemaName",
-      "mirror_fields": [
-        "keys"
-      ],
-      "path": "src/generated/source_modules/angles_state_schema.json",
-      "root_key": "schemas",
-      "rule": "Extension shard for Angles.java source state schemas; schema names are derived from angles_api_contracts params and existing canonical result schemas, then mirrored through source_state_schema before use.",
-      "status": "active"
-    },
-    "angles_symbols": {
-      "canonical_module": "registry",
-      "canonical_reference_key": "canonical_symbol",
-      "canonical_reference_prefix": "source_symbol_registry.",
-      "label": "symbol",
-      "mirror_fields": [
-        "status",
-        "java_expr",
-        "godot_symbol",
-        "godot_owner",
-        "rule",
-        "tests",
-        "runtime_proof"
-      ],
-      "path": "src/generated/source_modules/angles_symbols.json",
-      "root_key": "symbols",
-      "rule": "Extension shard for Angles.java source symbols; canonical symbol names come from angles_slices.source_symbols and mirrored fields remain sourced from source_symbol_registry before use.",
-      "status": "active"
-    },
-    "vec2_slices": {
+    "consumer_slices": {
       "canonical_module": "slice_ledger",
       "canonical_reference_key": "canonical_ledger",
       "canonical_reference_prefix": "source_slice_ledger.",
@@ -754,85 +539,157 @@
         "java_source",
         "java_method",
         "godot_owner",
+        "generated_owner",
         "source_symbols",
         "tests",
         "runtime_proof"
       ],
-      "path": "src/generated/source_modules/vec2_slices.json",
+      "path": "src/generated/source_modules/consumer_slices.json",
       "root_key": "slices",
-      "rule": "Extension shard for Arc Vec2.java slice metadata; canonical slice IDs are selected from source_slice_ledger java_source exactly arc-core/src/arc/math/geom/Vec2.java and mirrored through the SSOT gate before use.",
+      "rule": "Extension shard for new consumer-related slice metadata; canonical slice IDs and keys must remain mirrored through the SSOT gate before use.",
+      "status": "active",
+      "selection": {
+        "kind": "entry_field",
+        "field": "java_source",
+        "operator": "contains",
+        "value": "/world/consumers/"
+      }
+    },
+    "content_registry_blocks": {
+      "canonical_collection_key": "blocks",
+      "canonical_key_field": "id",
+      "canonical_module": "content_registry",
+      "canonical_reference_key": "canonical_block",
+      "canonical_reference_prefix": "content_registry.blocks.",
+      "label": "id",
+      "mirror_fields": [
+        "field",
+        "id",
+        "implementation",
+        "properties",
+        "texture"
+      ],
+      "path": "src/generated/source_modules/content_registry_blocks.json",
+      "root_key": "blocks",
+      "rule": "Extension shard for content_registry.json blocks; canonical block metadata remains mirrored from content_registry.blocks before use.",
       "status": "active"
     },
-    "vec2_api_contracts": {
-      "canonical_module": "api_contracts",
-      "canonical_reference_key": "canonical_contract",
-      "canonical_reference_prefix": "source_api_contracts.",
-      "label": "owner",
+    "content_registry_counts": {
+      "canonical_collection_key": "counts",
+      "canonical_module": "content_registry",
+      "canonical_reference_key": "canonical_count",
+      "canonical_reference_prefix": "content_registry.counts.",
+      "canonical_value_field": "count",
+      "label": "countName",
       "mirror_fields": [
-        "status",
-        "source_slice",
-        "java_source",
-        "source_method",
-        "params",
-        "return_keys",
-        "tests",
-        "runtime_proof",
-        "rule"
+        "count"
       ],
-      "path": "src/generated/source_modules/vec2_api_contracts.json",
-      "root_key": "contracts",
-      "rule": "Extension shard for Arc Vec2.java source API contracts; canonical owners come from vec2_slices.godot_owner and public contract fields remain mirrored through source_api_contracts before use.",
+      "path": "src/generated/source_modules/content_registry_counts.json",
+      "root_key": "counts",
+      "rule": "Extension shard for content_registry.json counts; canonical content collection counts remain mirrored from content_registry.counts before use.",
       "status": "active"
     },
-    "vec2_state_schema": {
-      "canonical_module": "state_schema",
-      "canonical_reference_key": "canonical_schema",
-      "canonical_reference_prefix": "source_state_schema.",
-      "label": "schemaName",
+    "content_registry_items": {
+      "canonical_collection_key": "items",
+      "canonical_key_field": "id",
+      "canonical_module": "content_registry",
+      "canonical_reference_key": "canonical_item",
+      "canonical_reference_prefix": "content_registry.items.",
+      "label": "id",
       "mirror_fields": [
-        "keys"
+        "color",
+        "field",
+        "id",
+        "implementation",
+        "properties",
+        "texture"
       ],
-      "path": "src/generated/source_modules/vec2_state_schema.json",
-      "root_key": "schemas",
-      "rule": "Extension shard for Arc Vec2.java source state schemas; schema names are derived from vec2_api_contracts params and existing canonical result schemas, then mirrored through source_state_schema before use.",
+      "path": "src/generated/source_modules/content_registry_items.json",
+      "root_key": "items",
+      "rule": "Extension shard for content_registry.json items; canonical item metadata remains mirrored from content_registry.items before use.",
       "status": "active"
     },
-    "vec2_symbols": {
-      "canonical_module": "registry",
-      "canonical_reference_key": "canonical_symbol",
-      "canonical_reference_prefix": "source_symbol_registry.",
-      "label": "symbol",
+    "content_registry_liquids": {
+      "canonical_collection_key": "liquids",
+      "canonical_key_field": "id",
+      "canonical_module": "content_registry",
+      "canonical_reference_key": "canonical_liquid",
+      "canonical_reference_prefix": "content_registry.liquids.",
+      "label": "id",
       "mirror_fields": [
-        "status",
-        "java_expr",
-        "godot_symbol",
-        "godot_owner",
-        "rule",
-        "tests",
-        "runtime_proof"
+        "color",
+        "field",
+        "id",
+        "implementation",
+        "properties",
+        "texture"
       ],
-      "path": "src/generated/source_modules/vec2_symbols.json",
-      "root_key": "symbols",
-      "rule": "Extension shard for Arc Vec2.java source symbols; canonical symbol names come from vec2_slices.source_symbols and mirrored fields remain sourced from source_symbol_registry before use.",
+      "path": "src/generated/source_modules/content_registry_liquids.json",
+      "root_key": "liquids",
+      "rule": "Extension shard for content_registry.json liquids; canonical liquid metadata remains mirrored from content_registry.liquids before use.",
       "status": "active"
     },
-    "conveyor_slices": {
-      "canonical_module": "slice_ledger",
-      "canonical_reference_key": "canonical_ledger",
-      "canonical_reference_prefix": "source_slice_ledger.",
-      "label": "sliceId",
+    "content_registry_units": {
+      "canonical_collection_key": "units",
+      "canonical_key_field": "id",
+      "canonical_module": "content_registry",
+      "canonical_reference_key": "canonical_unit",
+      "canonical_reference_prefix": "content_registry.units.",
+      "label": "id",
       "mirror_fields": [
-        "status",
-        "java_source",
-        "java_method",
-        "godot_owner",
-        "source_symbols",
-        "tests",
-        "runtime_proof"
+        "field",
+        "id",
+        "implementation",
+        "properties",
+        "texture"
       ],
-      "path": "src/generated/source_modules/conveyor_slices.json",
-      "root_key": "slices",
-      "rule": "Extension shard for Conveyor.java slice metadata; canonical slice IDs are selected from source_slice_ledger java_source exactly core/src/mindustry/world/blocks/distribution/Conveyor.java and mirrored through the SSOT gate before use.",
+      "path": "src/generated/source_modules/content_registry_units.json",
+      "root_key": "units",
+      "rule": "Extension shard for content_registry.json units; canonical unit metadata remains mirrored from content_registry.units before use.",
+      "status": "active"
+    },
+    "content_registry_wave_groups": {
+      "canonical_collection_key": "waves.groups",
+      "canonical_key_field": "@index",
+      "canonical_module": "content_registry",
+      "canonical_reference_key": "canonical_group",
+      "canonical_reference_prefix": "content_registry.waves.groups.",
+      "canonical_value_field": "group",
+      "label": "waveGroup",
+      "mirror_fields": [
+        "index",
+        "group"
+      ],
+      "path": "src/generated/source_modules/content_registry_wave_groups.json",
+      "root_key": "groups",
+      "rule": "Extension shard for content_registry.json waves.groups; canonical wave group metadata remains mirrored from content_registry.waves.groups before use.",
+      "status": "active"
+    },
+    "content_registry_wave_metadata": {
+      "canonical_collection_key": "waves.version",
+      "canonical_key_field": "@scalar",
+      "canonical_module": "content_registry",
+      "canonical_reference_key": "canonical_metadata",
+      "canonical_reference_prefix": "content_registry.waves.",
+      "canonical_value_field": "value",
+      "label": "metadataKey",
+      "mirror_fields": [
+        "value"
+      ],
+      "path": "src/generated/source_modules/content_registry_wave_metadata.json",
+      "root_key": "metadata",
+      "rule": "Extension shard for content_registry.json waves metadata; canonical wave metadata remains mirrored from content_registry.waves.version before use.",
+      "status": "active"
+    },
+    "control_profile": {
+      "canonical_module": "",
+      "canonical_reference_key": "",
+      "canonical_reference_prefix": "",
+      "label": "action",
+      "mirror_fields": [],
+      "path": "src/generated/source_modules/control_profile.json",
+      "root_key": "actions",
+      "rule": "Canonical cross-platform input profile for playable runtime controls; Godot, web, Android, iOS, and Roblox adapters must read action names and bindings from this shard instead of hardcoding platform keys in gameplay code.",
       "status": "active"
     },
     "conveyor_api_contracts": {
@@ -854,7 +711,38 @@
       "path": "src/generated/source_modules/conveyor_api_contracts.json",
       "root_key": "contracts",
       "rule": "Extension shard for Conveyor.java source API contracts; canonical owners come from conveyor_slices.godot_owner and public contract fields remain mirrored through source_api_contracts before use.",
-      "status": "active"
+      "status": "active",
+      "selection": {
+        "kind": "referenced_values",
+        "module": "conveyor_slices",
+        "collection_key": "slices",
+        "field": "godot_owner"
+      }
+    },
+    "conveyor_slices": {
+      "canonical_module": "slice_ledger",
+      "canonical_reference_key": "canonical_ledger",
+      "canonical_reference_prefix": "source_slice_ledger.",
+      "label": "sliceId",
+      "mirror_fields": [
+        "status",
+        "java_source",
+        "java_method",
+        "godot_owner",
+        "source_symbols",
+        "tests",
+        "runtime_proof"
+      ],
+      "path": "src/generated/source_modules/conveyor_slices.json",
+      "root_key": "slices",
+      "rule": "Extension shard for Conveyor.java slice metadata; canonical slice IDs are selected from source_slice_ledger java_source exactly core/src/mindustry/world/blocks/distribution/Conveyor.java and mirrored through the SSOT gate before use.",
+      "status": "active",
+      "selection": {
+        "kind": "entry_field",
+        "field": "java_source",
+        "operator": "equals",
+        "value": "core/src/mindustry/world/blocks/distribution/Conveyor.java"
+      }
     },
     "conveyor_state_schema": {
       "canonical_module": "state_schema",
@@ -867,7 +755,11 @@
       "path": "src/generated/source_modules/conveyor_state_schema.json",
       "root_key": "schemas",
       "rule": "Extension shard for Conveyor.java source state schemas; schema names are derived from conveyor_api_contracts params and existing canonical result schemas, then mirrored through source_state_schema before use.",
-      "status": "active"
+      "status": "active",
+      "selection": {
+        "kind": "contract_schemas",
+        "module": "conveyor_api_contracts"
+      }
     },
     "conveyor_symbols": {
       "canonical_module": "registry",
@@ -886,108 +778,131 @@
       "path": "src/generated/source_modules/conveyor_symbols.json",
       "root_key": "symbols",
       "rule": "Extension shard for Conveyor.java source symbols; canonical symbol names come from conveyor_slices.source_symbols and mirrored fields remain sourced from source_symbol_registry before use.",
-      "status": "active"
-    },
-    "core_block_slices": {
-      "path": "src/generated/source_modules/core_block_slices.json",
-      "root_key": "slices",
-      "label": "sliceId",
       "status": "active",
-      "rule": "Extension shard for CoreBlock.java slice metadata; canonical slice IDs are selected from source_slice_ledger java_source exactly core/src/mindustry/world/blocks/storage/CoreBlock.java and mirrored through the SSOT gate before use.",
-      "canonical_module": "slice_ledger",
-      "canonical_reference_key": "canonical_ledger",
-      "canonical_reference_prefix": "source_slice_ledger.",
-      "mirror_fields": [
-        "status",
-        "java_source",
-        "java_method",
-        "godot_owner",
-        "source_symbols",
-        "tests",
-        "runtime_proof"
-      ]
+      "selection": {
+        "kind": "slice_symbols",
+        "module": "conveyor_slices",
+        "collection_key": "slices",
+        "field": "source_symbols",
+        "contract_module": "conveyor_api_contracts",
+        "include_contract_owner_symbols": false
+      }
     },
     "core_block_api_contracts": {
+      "canonical_module": "api_contracts",
+      "canonical_reference_key": "canonical_contract",
+      "canonical_reference_prefix": "source_api_contracts.",
+      "label": "owner",
+      "mirror_fields": [
+        "status",
+        "source_slice",
+        "java_source",
+        "source_method",
+        "params",
+        "return_keys",
+        "tests",
+        "runtime_proof",
+        "rule"
+      ],
       "path": "src/generated/source_modules/core_block_api_contracts.json",
       "root_key": "contracts",
-      "label": "owner",
-      "status": "active",
       "rule": "Extension shard for CoreBlock.java source API contracts; canonical owners come from core_block_slices.godot_owner and public contract fields remain mirrored through source_api_contracts before use.",
-      "canonical_module": "api_contracts",
-      "canonical_reference_key": "canonical_contract",
-      "canonical_reference_prefix": "source_api_contracts.",
+      "status": "active",
+      "selection": {
+        "kind": "referenced_values",
+        "module": "core_block_slices",
+        "collection_key": "slices",
+        "field": "godot_owner"
+      }
+    },
+    "core_block_slices": {
+      "canonical_module": "slice_ledger",
+      "canonical_reference_key": "canonical_ledger",
+      "canonical_reference_prefix": "source_slice_ledger.",
+      "label": "sliceId",
       "mirror_fields": [
         "status",
-        "source_slice",
         "java_source",
-        "source_method",
-        "params",
-        "return_keys",
+        "java_method",
+        "godot_owner",
+        "source_symbols",
         "tests",
-        "runtime_proof",
-        "rule"
-      ]
+        "runtime_proof"
+      ],
+      "path": "src/generated/source_modules/core_block_slices.json",
+      "root_key": "slices",
+      "rule": "Extension shard for CoreBlock.java slice metadata; canonical slice IDs are selected from source_slice_ledger java_source exactly core/src/mindustry/world/blocks/storage/CoreBlock.java and mirrored through the SSOT gate before use.",
+      "status": "active",
+      "selection": {
+        "kind": "entry_field",
+        "field": "java_source",
+        "operator": "equals",
+        "value": "core/src/mindustry/world/blocks/storage/CoreBlock.java"
+      }
     },
     "core_block_state_schema": {
+      "canonical_module": "state_schema",
+      "canonical_reference_key": "canonical_schema",
+      "canonical_reference_prefix": "source_state_schema.",
+      "label": "schemaName",
+      "mirror_fields": [
+        "keys"
+      ],
       "path": "src/generated/source_modules/core_block_state_schema.json",
       "root_key": "schemas",
-      "label": "schemaName",
-      "status": "active",
       "rule": "Extension shard for CoreBlock.java source state schemas; schema names are derived from core_block_api_contracts params and existing canonical result schemas, then mirrored through source_state_schema before use.",
-      "canonical_module": "state_schema",
-      "canonical_reference_key": "canonical_schema",
-      "canonical_reference_prefix": "source_state_schema.",
-      "mirror_fields": [
-        "keys"
-      ]
+      "status": "active",
+      "selection": {
+        "kind": "contract_schemas",
+        "module": "core_block_api_contracts"
+      }
     },
     "core_block_symbols": {
+      "canonical_module": "registry",
+      "canonical_reference_key": "canonical_symbol",
+      "canonical_reference_prefix": "source_symbol_registry.",
+      "label": "symbol",
+      "mirror_fields": [
+        "status",
+        "java_expr",
+        "godot_symbol",
+        "godot_owner",
+        "rule",
+        "tests",
+        "runtime_proof"
+      ],
       "path": "src/generated/source_modules/core_block_symbols.json",
       "root_key": "symbols",
-      "label": "symbol",
-      "status": "active",
       "rule": "Extension shard for CoreBlock.java source symbols; canonical symbol names come from core_block_slices.source_symbols and mirrored fields remain sourced from source_symbol_registry before use.",
-      "canonical_module": "registry",
-      "canonical_reference_key": "canonical_symbol",
-      "canonical_reference_prefix": "source_symbol_registry.",
-      "mirror_fields": [
-        "status",
-        "java_expr",
-        "godot_symbol",
-        "godot_owner",
-        "rule",
-        "tests",
-        "runtime_proof"
-      ]
-    },
-    "position_slices": {
-      "path": "src/generated/source_modules/position_slices.json",
-      "root_key": "slices",
-      "label": "sliceId",
       "status": "active",
-      "rule": "Extension shard for Arc Position.java slice metadata; canonical slice IDs are selected from source_slice_ledger java_source exactly arc-core/src/arc/math/geom/Position.java and mirrored through the SSOT gate before use.",
-      "canonical_module": "slice_ledger",
-      "canonical_reference_key": "canonical_ledger",
-      "canonical_reference_prefix": "source_slice_ledger.",
-      "mirror_fields": [
-        "status",
-        "java_source",
-        "java_method",
-        "godot_owner",
-        "source_symbols",
-        "tests",
-        "runtime_proof"
-      ]
+      "selection": {
+        "kind": "slice_symbols",
+        "module": "core_block_slices",
+        "collection_key": "slices",
+        "field": "source_symbols",
+        "contract_module": "core_block_api_contracts",
+        "include_contract_owner_symbols": false
+      }
     },
-    "position_api_contracts": {
-      "path": "src/generated/source_modules/position_api_contracts.json",
-      "root_key": "contracts",
-      "label": "owner",
-      "status": "active",
-      "rule": "Extension shard for Arc Position.java source API contracts; canonical owners come from position_slices.godot_owner and public contract fields remain mirrored through source_api_contracts before use.",
+    "core_damage_runtime": {
+      "canonical_collection_key": "",
+      "canonical_key_field": "",
+      "canonical_module": "",
+      "canonical_reference_key": "",
+      "canonical_reference_prefix": "",
+      "canonical_value_field": "",
+      "label": "coreDamageRuntime",
+      "mirror_fields": [],
+      "path": "src/generated/source_modules/core_damage_runtime.json",
+      "root_key": "core_damage_runtime",
+      "rule": "Canonical registry shard for core damage runtime state; runtime code must route core-health clamp and game-over winner updates through SourceCoreDamageRuntimeState instead of duplicating them in PortGame.",
+      "status": "active"
+    },
+    "defense_api_contracts": {
       "canonical_module": "api_contracts",
       "canonical_reference_key": "canonical_contract",
       "canonical_reference_prefix": "source_api_contracts.",
+      "label": "owner",
       "mirror_fields": [
         "status",
         "source_slice",
@@ -998,49 +913,23 @@
         "tests",
         "runtime_proof",
         "rule"
-      ]
-    },
-    "position_state_schema": {
-      "path": "src/generated/source_modules/position_state_schema.json",
-      "root_key": "schemas",
-      "label": "schemaName",
+      ],
+      "path": "src/generated/source_modules/defense_api_contracts.json",
+      "root_key": "contracts",
+      "rule": "Extension shard for defense-block source API contracts; canonical owners come from defense_slices.godot_owner and public contract fields remain mirrored through source_api_contracts before use.",
       "status": "active",
-      "rule": "Extension shard for Arc Position.java source state schemas; schema names are derived from position_api_contracts params and existing canonical result schemas, then mirrored through source_state_schema before use.",
-      "canonical_module": "state_schema",
-      "canonical_reference_key": "canonical_schema",
-      "canonical_reference_prefix": "source_state_schema.",
-      "mirror_fields": [
-        "keys"
-      ]
+      "selection": {
+        "kind": "referenced_values",
+        "module": "defense_slices",
+        "collection_key": "slices",
+        "field": "godot_owner"
+      }
     },
-    "position_symbols": {
-      "path": "src/generated/source_modules/position_symbols.json",
-      "root_key": "symbols",
-      "label": "symbol",
-      "status": "active",
-      "rule": "Extension shard for Arc Position.java source symbols; canonical symbol names come from position_slices.source_symbols and mirrored fields remain sourced from source_symbol_registry before use.",
-      "canonical_module": "registry",
-      "canonical_reference_key": "canonical_symbol",
-      "canonical_reference_prefix": "source_symbol_registry.",
-      "mirror_fields": [
-        "status",
-        "java_expr",
-        "godot_symbol",
-        "godot_owner",
-        "rule",
-        "tests",
-        "runtime_proof"
-      ]
-    },
-    "strings_slices": {
-      "path": "src/generated/source_modules/strings_slices.json",
-      "root_key": "slices",
-      "label": "sliceId",
-      "status": "active",
-      "rule": "Extension shard for Arc Strings.java slice metadata; canonical slice IDs are selected from source_slice_ledger java_source exactly arc-core/src/arc/util/Strings.java and mirrored through the SSOT gate before use.",
+    "defense_slices": {
       "canonical_module": "slice_ledger",
       "canonical_reference_key": "canonical_ledger",
       "canonical_reference_prefix": "source_slice_ledger.",
+      "label": "sliceId",
       "mirror_fields": [
         "status",
         "java_source",
@@ -1049,415 +938,1137 @@
         "source_symbols",
         "tests",
         "runtime_proof"
-      ]
-    },
-    "strings_api_contracts": {
-      "path": "src/generated/source_modules/strings_api_contracts.json",
-      "root_key": "contracts",
-      "label": "owner",
-      "status": "active",
-      "rule": "Extension shard for Arc Strings.java source API contracts; canonical owners come from strings_slices.godot_owner and public contract fields remain mirrored through source_api_contracts before use.",
-      "canonical_module": "api_contracts",
-      "canonical_reference_key": "canonical_contract",
-      "canonical_reference_prefix": "source_api_contracts.",
-      "mirror_fields": [
-        "status",
-        "source_slice",
-        "java_source",
-        "source_method",
-        "params",
-        "return_keys",
-        "tests",
-        "runtime_proof",
-        "rule"
-      ]
-    },
-    "strings_state_schema": {
-      "path": "src/generated/source_modules/strings_state_schema.json",
-      "root_key": "schemas",
-      "label": "schemaName",
-      "status": "active",
-      "rule": "Extension shard for Arc Strings.java source state schemas; schema names are derived from strings_api_contracts params and existing canonical result schemas, then mirrored through source_state_schema before use.",
-      "canonical_module": "state_schema",
-      "canonical_reference_key": "canonical_schema",
-      "canonical_reference_prefix": "source_state_schema.",
-      "mirror_fields": [
-        "keys"
-      ]
-    },
-    "strings_symbols": {
-      "path": "src/generated/source_modules/strings_symbols.json",
-      "root_key": "symbols",
-      "label": "symbol",
-      "status": "active",
-      "rule": "Extension shard for Arc Strings.java source symbols; canonical symbol names come from strings_slices.source_symbols and mirrored fields remain sourced from source_symbol_registry before use.",
-      "canonical_module": "registry",
-      "canonical_reference_key": "canonical_symbol",
-      "canonical_reference_prefix": "source_symbol_registry.",
-      "mirror_fields": [
-        "status",
-        "java_expr",
-        "godot_symbol",
-        "godot_owner",
-        "rule",
-        "tests",
-        "runtime_proof"
-      ]
-    },
-    "shoot_pattern_slices": {
-      "path": "src/generated/source_modules/shoot_pattern_slices.json",
+      ],
+      "path": "src/generated/source_modules/defense_slices.json",
       "root_key": "slices",
-      "label": "sliceId",
+      "rule": "Extension shard for defense-block slice metadata; canonical slice IDs are selected from source_slice_ledger java_source paths under /world/blocks/defense/ and mirrored through the SSOT gate before use.",
       "status": "active",
-      "rule": "Extension shard for ShootPattern.java slice metadata; canonical slice IDs are selected from source_slice_ledger java_source exactly core/src/mindustry/entities/pattern/ShootPattern.java and mirrored through the SSOT gate before use.",
-      "canonical_module": "slice_ledger",
-      "canonical_reference_key": "canonical_ledger",
-      "canonical_reference_prefix": "source_slice_ledger.",
-      "mirror_fields": [
-        "status",
-        "java_source",
-        "java_method",
-        "godot_owner",
-        "source_symbols",
-        "tests",
-        "runtime_proof"
-      ]
+      "selection": {
+        "kind": "entry_field",
+        "field": "java_source",
+        "operator": "contains",
+        "value": "/world/blocks/defense/"
+      }
     },
-    "shoot_pattern_api_contracts": {
-      "path": "src/generated/source_modules/shoot_pattern_api_contracts.json",
-      "root_key": "contracts",
-      "label": "owner",
-      "status": "active",
-      "rule": "Extension shard for ShootPattern.java source API contracts; canonical owners come from shoot_pattern_slices.godot_owner and public contract fields remain mirrored through source_api_contracts before use.",
-      "canonical_module": "api_contracts",
-      "canonical_reference_key": "canonical_contract",
-      "canonical_reference_prefix": "source_api_contracts.",
-      "mirror_fields": [
-        "status",
-        "source_slice",
-        "java_source",
-        "source_method",
-        "params",
-        "return_keys",
-        "tests",
-        "runtime_proof",
-        "rule"
-      ]
-    },
-    "shoot_pattern_state_schema": {
-      "path": "src/generated/source_modules/shoot_pattern_state_schema.json",
-      "root_key": "schemas",
-      "label": "schemaName",
-      "status": "active",
-      "rule": "Extension shard for ShootPattern.java source state schemas; schema names are derived from shoot_pattern_api_contracts params and existing canonical result schemas, then mirrored through source_state_schema before use.",
-      "canonical_module": "state_schema",
-      "canonical_reference_key": "canonical_schema",
-      "canonical_reference_prefix": "source_state_schema.",
-      "mirror_fields": [
-        "keys"
-      ]
-    },
-    "shoot_pattern_symbols": {
-      "path": "src/generated/source_modules/shoot_pattern_symbols.json",
-      "root_key": "symbols",
-      "label": "symbol",
-      "status": "active",
-      "rule": "Extension shard for ShootPattern.java source symbols; canonical symbol names come from shoot_pattern_slices.source_symbols and mirrored fields remain sourced from source_symbol_registry before use.",
-      "canonical_module": "registry",
-      "canonical_reference_key": "canonical_symbol",
-      "canonical_reference_prefix": "source_symbol_registry.",
-      "mirror_fields": [
-        "status",
-        "java_expr",
-        "godot_symbol",
-        "godot_owner",
-        "rule",
-        "tests",
-        "runtime_proof"
-      ]
+    "display_profile": {
+      "canonical_module": "",
+      "canonical_reference_key": "",
+      "canonical_reference_prefix": "",
+      "label": "playfield",
+      "mirror_fields": [],
+      "path": "src/generated/source_modules/display_profile.json",
+      "root_key": "playfield",
+      "rule": "Canonical playable display and world profile; gameplay code must read viewport, camera, tile size, and world tile dimensions from this shard instead of hardcoding playfield size.",
+      "status": "active"
     },
     "emitted_class_files": {
-      "path": "src/generated/source_modules/emitted_class_files.json",
-      "root_key": "files",
-      "label": "file",
-      "status": "active",
-      "rule": "Extension shard for emitted_classes.json files; canonical file paths remain mirrored from emitted_classes.files before use.",
-      "canonical_module": "emitted_classes",
       "canonical_collection_key": "files",
+      "canonical_module": "emitted_classes",
       "canonical_reference_key": "canonical_file",
       "canonical_reference_prefix": "emitted_classes.files.",
+      "label": "file",
       "mirror_fields": [
         "file"
-      ]
-    },
-    "ast_manifest_files": {
-      "path": "src/generated/source_modules/ast_manifest_files.json",
+      ],
+      "path": "src/generated/source_modules/emitted_class_files.json",
       "root_key": "files",
-      "label": "path",
-      "status": "active",
-      "rule": "Extension shard for ast_manifest.json parsed files; canonical parsed AST metadata remains mirrored from ast_manifest.files before use.",
-      "canonical_module": "ast_manifest",
-      "canonical_collection_key": "files",
-      "canonical_key_field": "path",
-      "canonical_reference_key": "canonical_file",
-      "canonical_reference_prefix": "ast_manifest.files.",
-      "mirror_fields": [
-        "imports",
-        "package",
-        "path",
-        "types"
-      ]
+      "rule": "Extension shard for emitted_classes.json files; canonical file paths remain mirrored from emitted_classes.files before use.",
+      "status": "active"
     },
-    "ast_manifest_failures": {
-      "path": "src/generated/source_modules/ast_manifest_failures.json",
-      "root_key": "failures",
-      "label": "path",
-      "status": "active",
-      "rule": "Extension shard for ast_manifest.json parser failures; canonical parser failure metadata remains mirrored from ast_manifest.failures before use.",
-      "canonical_module": "ast_manifest",
-      "canonical_collection_key": "failures",
-      "canonical_key_field": "path",
-      "canonical_reference_key": "canonical_failure",
-      "canonical_reference_prefix": "ast_manifest.failures.",
-      "mirror_fields": [
-        "error",
-        "error_type",
-        "path"
-      ]
+    "enemy_runtime": {
+      "canonical_collection_key": "",
+      "canonical_key_field": "",
+      "canonical_module": "",
+      "canonical_reference_key": "",
+      "canonical_reference_prefix": "",
+      "canonical_value_field": "",
+      "label": "enemyRuntime",
+      "mirror_fields": [],
+      "path": "src/generated/source_modules/enemy_runtime.json",
+      "root_key": "enemy_runtime",
+      "rule": "Canonical registry shard for enemy unit runtime state; runtime code must route enemy movement, impact, wave spawn timing, unit spawn assembly, wave orchestration, and runtime summary assembly through SourceEnemyUnitRuntimeState instead of duplicating them in PortGame.",
+      "status": "active"
     },
-    "playable_content_items": {
-      "path": "src/generated/source_modules/playable_content_items.json",
-      "root_key": "items",
-      "label": "item",
-      "status": "active",
-      "rule": "Extension shard for playable_content.json item; canonical playable item asset metadata remains mirrored from playable_content.item before use.",
-      "canonical_module": "playable_content",
-      "canonical_collection_key": "item",
-      "canonical_key_field": "id",
-      "canonical_value_field": "item",
-      "canonical_reference_key": "canonical_item",
-      "canonical_reference_prefix": "playable_content.item.",
+    "factory_profile": {
+      "canonical_module": "",
+      "canonical_reference_key": "",
+      "canonical_reference_prefix": "",
+      "label": "factory",
+      "mirror_fields": [],
+      "path": "src/generated/source_modules/factory_profile.json",
+      "root_key": "factory",
+      "rule": "Canonical playable factory defaults profile; runtime code must read drill, block dump, and conveyor default factors from this shard instead of hardcoding source constants in gameplay code.",
+      "status": "active"
+    },
+    "gameplay_profile": {
+      "canonical_module": "",
+      "canonical_reference_key": "",
+      "canonical_reference_prefix": "",
+      "label": "gameplay",
+      "mirror_fields": [],
+      "path": "src/generated/source_modules/gameplay_profile.json",
+      "root_key": "gameplay",
+      "rule": "Canonical playable gameplay defaults profile; runtime code must read unit bounds and builder range defaults from this shard instead of hardcoding source constants in gameplay code.",
+      "status": "active"
+    },
+    "math_profile": {
+      "canonical_module": "",
+      "canonical_reference_key": "",
+      "canonical_reference_prefix": "",
+      "label": "math",
+      "mirror_fields": [],
+      "path": "src/generated/source_modules/math_profile.json",
+      "root_key": "math",
+      "rule": "Canonical Arc math and Rand constants profile; runtime code must read PI, sine lookup, and Rand long normalization/hash constants from this shard instead of hardcoding Arc values in gameplay code.",
+      "status": "active"
+    },
+    "mathf_api_contracts": {
+      "canonical_module": "api_contracts",
+      "canonical_reference_key": "canonical_contract",
+      "canonical_reference_prefix": "source_api_contracts.",
+      "label": "owner",
       "mirror_fields": [
-        "id",
-        "source",
-        "texture",
-        "item"
-      ]
+        "status",
+        "source_slice",
+        "java_source",
+        "source_method",
+        "params",
+        "return_keys",
+        "tests",
+        "runtime_proof",
+        "rule"
+      ],
+      "path": "src/generated/source_modules/mathf_api_contracts.json",
+      "root_key": "contracts",
+      "rule": "Extension shard for Arc Mathf source API contracts; canonical owners come from mathf_slices.godot_owner and public contract fields remain mirrored through source_api_contracts before use.",
+      "status": "active",
+      "selection": {
+        "kind": "referenced_values",
+        "module": "mathf_slices",
+        "collection_key": "slices",
+        "field": "godot_owner"
+      }
+    },
+    "mathf_slices": {
+      "canonical_module": "slice_ledger",
+      "canonical_reference_key": "canonical_ledger",
+      "canonical_reference_prefix": "source_slice_ledger.",
+      "label": "sliceId",
+      "mirror_fields": [
+        "status",
+        "java_source",
+        "java_method",
+        "godot_owner",
+        "source_symbols",
+        "tests",
+        "runtime_proof"
+      ],
+      "path": "src/generated/source_modules/mathf_slices.json",
+      "root_key": "slices",
+      "rule": "Extension shard for Arc Mathf slice metadata; canonical slice IDs are selected from source_slice_ledger java_source exactly arc-core/src/arc/math/Mathf.java and mirrored through the SSOT gate before use.",
+      "status": "active",
+      "selection": {
+        "kind": "entry_field",
+        "field": "java_source",
+        "operator": "equals",
+        "value": "arc-core/src/arc/math/Mathf.java"
+      }
+    },
+    "mathf_state_schema": {
+      "canonical_module": "state_schema",
+      "canonical_reference_key": "canonical_schema",
+      "canonical_reference_prefix": "source_state_schema.",
+      "label": "schemaName",
+      "mirror_fields": [
+        "keys"
+      ],
+      "path": "src/generated/source_modules/mathf_state_schema.json",
+      "root_key": "schemas",
+      "rule": "Extension shard for Arc Mathf source state schemas; schema names are derived from mathf_api_contracts params and existing canonical result schemas, then mirrored through source_state_schema before use.",
+      "status": "active",
+      "selection": {
+        "kind": "contract_schemas",
+        "module": "mathf_api_contracts"
+      }
+    },
+    "mathf_symbols": {
+      "canonical_module": "registry",
+      "canonical_reference_key": "canonical_symbol",
+      "canonical_reference_prefix": "source_symbol_registry.",
+      "label": "symbol",
+      "mirror_fields": [
+        "status",
+        "java_expr",
+        "godot_symbol",
+        "godot_owner",
+        "rule",
+        "tests",
+        "runtime_proof"
+      ],
+      "path": "src/generated/source_modules/mathf_symbols.json",
+      "root_key": "symbols",
+      "rule": "Extension shard for Arc Mathf source symbols; canonical symbol names come from mathf_slices.source_symbols and mirrored fields remain sourced from source_symbol_registry before use.",
+      "status": "active",
+      "selection": {
+        "kind": "slice_symbols",
+        "module": "mathf_slices",
+        "collection_key": "slices",
+        "field": "source_symbols",
+        "contract_module": "mathf_api_contracts",
+        "include_contract_owner_symbols": false
+      }
+    },
+    "payload_api_contracts": {
+      "canonical_module": "api_contracts",
+      "canonical_reference_key": "canonical_contract",
+      "canonical_reference_prefix": "source_api_contracts.",
+      "label": "owner",
+      "mirror_fields": [
+        "status",
+        "source_slice",
+        "java_source",
+        "source_method",
+        "params",
+        "return_keys",
+        "tests",
+        "runtime_proof",
+        "rule"
+      ],
+      "path": "src/generated/source_modules/payload_api_contracts.json",
+      "root_key": "contracts",
+      "rule": "Extension shard for payload-block source API contracts; canonical owners come from payload_slices.godot_owner and public contract fields remain mirrored through source_api_contracts before use.",
+      "status": "active",
+      "selection": {
+        "kind": "referenced_values",
+        "module": "payload_slices",
+        "collection_key": "slices",
+        "field": "godot_owner"
+      }
+    },
+    "payload_slices": {
+      "canonical_module": "slice_ledger",
+      "canonical_reference_key": "canonical_ledger",
+      "canonical_reference_prefix": "source_slice_ledger.",
+      "label": "sliceId",
+      "mirror_fields": [
+        "status",
+        "java_source",
+        "java_method",
+        "godot_owner",
+        "source_symbols",
+        "tests",
+        "runtime_proof"
+      ],
+      "path": "src/generated/source_modules/payload_slices.json",
+      "root_key": "slices",
+      "rule": "Extension shard for payload-block slice metadata; canonical slice IDs are selected from source_slice_ledger java_source paths under /world/blocks/payloads/ and mirrored through the SSOT gate before use.",
+      "status": "active",
+      "selection": {
+        "kind": "entry_field",
+        "field": "java_source",
+        "operator": "contains",
+        "value": "/world/blocks/payloads/"
+      }
+    },
+    "placed_power_graph": {
+      "canonical_collection_key": "",
+      "canonical_key_field": "",
+      "canonical_module": "",
+      "canonical_reference_key": "",
+      "canonical_reference_prefix": "",
+      "canonical_value_field": "",
+      "label": "placedPowerGraph",
+      "mirror_fields": [],
+      "path": "src/generated/source_modules/placed_power_graph.json",
+      "root_key": "placed_power_graph",
+      "rule": "Canonical registry shard for placed power graph aggregation; runtime code must route placed power graph ownership through SourcePlacedPowerGraphState instead of duplicating the counting and summary loops in PortGame.",
+      "status": "active"
     },
     "playable_content_blocks": {
-      "path": "src/generated/source_modules/playable_content_blocks.json",
-      "root_key": "blocks",
-      "label": "block",
-      "status": "active",
-      "rule": "Extension shard for playable_content.json blocks; canonical playable block asset metadata remains mirrored from playable_content.blocks before use.",
-      "canonical_module": "playable_content",
       "canonical_collection_key": "blocks",
-      "canonical_value_field": "block",
+      "canonical_module": "playable_content",
       "canonical_reference_key": "canonical_block",
       "canonical_reference_prefix": "playable_content.blocks.",
+      "canonical_value_field": "block",
+      "label": "block",
       "mirror_fields": [
         "id",
         "source",
         "texture",
         "block"
-      ]
+      ],
+      "path": "src/generated/source_modules/playable_content_blocks.json",
+      "root_key": "blocks",
+      "rule": "Extension shard for playable_content.json blocks; canonical playable block asset metadata remains mirrored from playable_content.blocks before use.",
+      "status": "active"
+    },
+    "playable_content_items": {
+      "canonical_collection_key": "item",
+      "canonical_key_field": "id",
+      "canonical_module": "playable_content",
+      "canonical_reference_key": "canonical_item",
+      "canonical_reference_prefix": "playable_content.item.",
+      "canonical_value_field": "item",
+      "label": "item",
+      "mirror_fields": [
+        "id",
+        "source",
+        "texture",
+        "item"
+      ],
+      "path": "src/generated/source_modules/playable_content_items.json",
+      "root_key": "items",
+      "rule": "Extension shard for playable_content.json item; canonical playable item asset metadata remains mirrored from playable_content.item before use.",
+      "status": "active"
     },
     "playable_content_skin_overrides": {
-      "path": "src/generated/source_modules/playable_content_skin_overrides.json",
-      "root_key": "skin_overrides",
-      "label": "skinOverride",
-      "status": "active",
-      "rule": "Extension shard for playable_content.json skin_overrides; canonical playable skin override metadata remains mirrored from playable_content.skin_overrides before use.",
-      "canonical_module": "playable_content",
       "canonical_collection_key": "skin_overrides",
-      "canonical_value_field": "skin_override",
+      "canonical_module": "playable_content",
       "canonical_reference_key": "canonical_skin_override",
       "canonical_reference_prefix": "playable_content.skin_overrides.",
+      "canonical_value_field": "skin_override",
+      "label": "skinOverride",
       "mirror_fields": [
         "skin_override"
-      ]
+      ],
+      "path": "src/generated/source_modules/playable_content_skin_overrides.json",
+      "root_key": "skin_overrides",
+      "rule": "Extension shard for playable_content.json skin_overrides; canonical playable skin override metadata remains mirrored from playable_content.skin_overrides before use.",
+      "status": "active"
     },
-    "content_registry_items": {
-      "path": "src/generated/source_modules/content_registry_items.json",
-      "root_key": "items",
-      "label": "id",
-      "status": "active",
-      "rule": "Extension shard for content_registry.json items; canonical item metadata remains mirrored from content_registry.items before use.",
-      "canonical_module": "content_registry",
-      "canonical_collection_key": "items",
-      "canonical_key_field": "id",
-      "canonical_reference_key": "canonical_item",
-      "canonical_reference_prefix": "content_registry.items.",
+    "position_api_contracts": {
+      "canonical_module": "api_contracts",
+      "canonical_reference_key": "canonical_contract",
+      "canonical_reference_prefix": "source_api_contracts.",
+      "label": "owner",
       "mirror_fields": [
-        "color",
-        "field",
-        "id",
-        "implementation",
-        "properties",
-        "texture"
-      ]
-    },
-    "content_registry_liquids": {
-      "path": "src/generated/source_modules/content_registry_liquids.json",
-      "root_key": "liquids",
-      "label": "id",
+        "status",
+        "source_slice",
+        "java_source",
+        "source_method",
+        "params",
+        "return_keys",
+        "tests",
+        "runtime_proof",
+        "rule"
+      ],
+      "path": "src/generated/source_modules/position_api_contracts.json",
+      "root_key": "contracts",
+      "rule": "Extension shard for Arc Position.java source API contracts; canonical owners come from position_slices.godot_owner and public contract fields remain mirrored through source_api_contracts before use.",
       "status": "active",
-      "rule": "Extension shard for content_registry.json liquids; canonical liquid metadata remains mirrored from content_registry.liquids before use.",
-      "canonical_module": "content_registry",
-      "canonical_collection_key": "liquids",
-      "canonical_key_field": "id",
-      "canonical_reference_key": "canonical_liquid",
-      "canonical_reference_prefix": "content_registry.liquids.",
+      "selection": {
+        "kind": "referenced_values",
+        "module": "position_slices",
+        "collection_key": "slices",
+        "field": "godot_owner"
+      }
+    },
+    "position_slices": {
+      "canonical_module": "slice_ledger",
+      "canonical_reference_key": "canonical_ledger",
+      "canonical_reference_prefix": "source_slice_ledger.",
+      "label": "sliceId",
       "mirror_fields": [
-        "color",
-        "field",
-        "id",
-        "implementation",
-        "properties",
-        "texture"
-      ]
-    },
-    "content_registry_units": {
-      "path": "src/generated/source_modules/content_registry_units.json",
-      "root_key": "units",
-      "label": "id",
+        "status",
+        "java_source",
+        "java_method",
+        "godot_owner",
+        "source_symbols",
+        "tests",
+        "runtime_proof"
+      ],
+      "path": "src/generated/source_modules/position_slices.json",
+      "root_key": "slices",
+      "rule": "Extension shard for Arc Position.java slice metadata; canonical slice IDs are selected from source_slice_ledger java_source exactly arc-core/src/arc/math/geom/Position.java and mirrored through the SSOT gate before use.",
       "status": "active",
-      "rule": "Extension shard for content_registry.json units; canonical unit metadata remains mirrored from content_registry.units before use.",
-      "canonical_module": "content_registry",
-      "canonical_collection_key": "units",
-      "canonical_key_field": "id",
-      "canonical_reference_key": "canonical_unit",
-      "canonical_reference_prefix": "content_registry.units.",
+      "selection": {
+        "kind": "entry_field",
+        "field": "java_source",
+        "operator": "equals",
+        "value": "arc-core/src/arc/math/geom/Position.java"
+      }
+    },
+    "position_state_schema": {
+      "canonical_module": "state_schema",
+      "canonical_reference_key": "canonical_schema",
+      "canonical_reference_prefix": "source_state_schema.",
+      "label": "schemaName",
       "mirror_fields": [
-        "field",
-        "id",
-        "implementation",
-        "properties",
-        "texture"
-      ]
-    },
-    "content_registry_blocks": {
-      "path": "src/generated/source_modules/content_registry_blocks.json",
-      "root_key": "blocks",
-      "label": "id",
+        "keys"
+      ],
+      "path": "src/generated/source_modules/position_state_schema.json",
+      "root_key": "schemas",
+      "rule": "Extension shard for Arc Position.java source state schemas; schema names are derived from position_api_contracts params and existing canonical result schemas, then mirrored through source_state_schema before use.",
       "status": "active",
-      "rule": "Extension shard for content_registry.json blocks; canonical block metadata remains mirrored from content_registry.blocks before use.",
-      "canonical_module": "content_registry",
-      "canonical_collection_key": "blocks",
-      "canonical_key_field": "id",
-      "canonical_reference_key": "canonical_block",
-      "canonical_reference_prefix": "content_registry.blocks.",
+      "selection": {
+        "kind": "contract_schemas",
+        "module": "position_api_contracts"
+      }
+    },
+    "position_symbols": {
+      "canonical_module": "registry",
+      "canonical_reference_key": "canonical_symbol",
+      "canonical_reference_prefix": "source_symbol_registry.",
+      "label": "symbol",
       "mirror_fields": [
-        "field",
-        "id",
-        "implementation",
-        "properties",
-        "texture"
-      ]
-    },
-    "content_registry_counts": {
-      "path": "src/generated/source_modules/content_registry_counts.json",
-      "root_key": "counts",
-      "label": "countName",
+        "status",
+        "java_expr",
+        "godot_symbol",
+        "godot_owner",
+        "rule",
+        "tests",
+        "runtime_proof"
+      ],
+      "path": "src/generated/source_modules/position_symbols.json",
+      "root_key": "symbols",
+      "rule": "Extension shard for Arc Position.java source symbols; canonical symbol names come from position_slices.source_symbols and mirrored fields remain sourced from source_symbol_registry before use.",
       "status": "active",
-      "rule": "Extension shard for content_registry.json counts; canonical content collection counts remain mirrored from content_registry.counts before use.",
-      "canonical_module": "content_registry",
-      "canonical_collection_key": "counts",
-      "canonical_value_field": "count",
-      "canonical_reference_key": "canonical_count",
-      "canonical_reference_prefix": "content_registry.counts.",
+      "selection": {
+        "kind": "slice_symbols",
+        "module": "position_slices",
+        "collection_key": "slices",
+        "field": "source_symbols",
+        "contract_module": "position_api_contracts",
+        "include_contract_owner_symbols": false
+      }
+    },
+    "power_api_contracts": {
+      "canonical_module": "api_contracts",
+      "canonical_reference_key": "canonical_contract",
+      "canonical_reference_prefix": "source_api_contracts.",
+      "label": "owner",
       "mirror_fields": [
-        "count"
-      ]
-    },
-    "content_registry_wave_groups": {
-      "path": "src/generated/source_modules/content_registry_wave_groups.json",
-      "root_key": "groups",
-      "label": "waveGroup",
+        "status",
+        "source_slice",
+        "java_source",
+        "source_method",
+        "params",
+        "return_keys",
+        "tests",
+        "runtime_proof",
+        "rule"
+      ],
+      "path": "src/generated/source_modules/power_api_contracts.json",
+      "root_key": "contracts",
+      "rule": "Extension shard for power-block source API contracts; canonical owners come from power_slices.godot_owner and public contract fields remain mirrored through source_api_contracts before use.",
       "status": "active",
-      "rule": "Extension shard for content_registry.json waves.groups; canonical wave group metadata remains mirrored from content_registry.waves.groups before use.",
-      "canonical_module": "content_registry",
-      "canonical_collection_key": "waves.groups",
-      "canonical_key_field": "@index",
-      "canonical_value_field": "group",
-      "canonical_reference_key": "canonical_group",
-      "canonical_reference_prefix": "content_registry.waves.groups.",
+      "selection": {
+        "kind": "referenced_values",
+        "module": "power_slices",
+        "collection_key": "slices",
+        "field": "godot_owner"
+      }
+    },
+    "power_slices": {
+      "canonical_module": "slice_ledger",
+      "canonical_reference_key": "canonical_ledger",
+      "canonical_reference_prefix": "source_slice_ledger.",
+      "label": "sliceId",
       "mirror_fields": [
-        "index",
-        "group"
-      ]
-    },
-    "content_registry_wave_metadata": {
-      "path": "src/generated/source_modules/content_registry_wave_metadata.json",
-      "root_key": "metadata",
-      "label": "metadataKey",
+        "status",
+        "java_source",
+        "java_method",
+        "godot_owner",
+        "source_symbols",
+        "tests",
+        "runtime_proof"
+      ],
+      "path": "src/generated/source_modules/power_slices.json",
+      "root_key": "slices",
+      "rule": "Extension shard for power-block slice metadata; canonical slice IDs are selected from source_slice_ledger java_source paths under /world/blocks/power/ and mirrored through the SSOT gate before use.",
       "status": "active",
-      "rule": "Extension shard for content_registry.json waves metadata; canonical wave metadata remains mirrored from content_registry.waves.version before use.",
-      "canonical_module": "content_registry",
-      "canonical_collection_key": "waves.version",
-      "canonical_key_field": "@scalar",
-      "canonical_value_field": "value",
-      "canonical_reference_key": "canonical_metadata",
-      "canonical_reference_prefix": "content_registry.waves.",
+      "selection": {
+        "kind": "entry_field",
+        "field": "java_source",
+        "operator": "contains",
+        "value": "/world/blocks/power/"
+      }
+    },
+    "production_api_contracts": {
+      "canonical_module": "api_contracts",
+      "canonical_reference_key": "canonical_contract",
+      "canonical_reference_prefix": "source_api_contracts.",
+      "label": "owner",
       "mirror_fields": [
-        "value"
-      ]
-    },
-    "block_placement": {
-      "path": "src/generated/source_modules/block_placement.json",
-      "root_key": "block_placement",
-      "label": "blockPlacement",
+        "status",
+        "source_slice",
+        "java_source",
+        "source_method",
+        "params",
+        "return_keys",
+        "tests",
+        "runtime_proof",
+        "rule"
+      ],
+      "path": "src/generated/source_modules/production_api_contracts.json",
+      "root_key": "contracts",
+      "rule": "Extension shard for production-block source API contracts; canonical owners come from production_slices.godot_owner and public contract fields remain mirrored through source_api_contracts before use.",
       "status": "active",
-      "rule": "Canonical registry shard for block placement state; runtime code must route selected-block placement state through SourceBlockPlacement instead of duplicating placement guards in port_game.",
-      "canonical_module": "",
+      "selection": {
+        "kind": "referenced_values",
+        "module": "production_slices",
+        "collection_key": "slices",
+        "field": "godot_owner"
+      }
+    },
+    "production_slices": {
+      "canonical_module": "slice_ledger",
+      "canonical_reference_key": "canonical_ledger",
+      "canonical_reference_prefix": "source_slice_ledger.",
+      "label": "sliceId",
+      "mirror_fields": [
+        "status",
+        "java_source",
+        "java_method",
+        "godot_owner",
+        "source_symbols",
+        "tests",
+        "runtime_proof"
+      ],
+      "path": "src/generated/source_modules/production_slices.json",
+      "root_key": "slices",
+      "rule": "Extension shard for production-block slice metadata; canonical slice IDs are selected from source_slice_ledger java_source paths under /world/blocks/production/ and mirrored through the SSOT gate before use.",
+      "status": "active",
+      "selection": {
+        "kind": "entry_field",
+        "field": "java_source",
+        "operator": "contains",
+        "value": "/world/blocks/production/"
+      }
+    },
+    "production_state_schema": {
+      "canonical_module": "state_schema",
+      "canonical_reference_key": "canonical_schema",
+      "canonical_reference_prefix": "source_state_schema.",
+      "label": "schemaName",
+      "mirror_fields": [
+        "keys"
+      ],
+      "path": "src/generated/source_modules/production_state_schema.json",
+      "root_key": "schemas",
+      "rule": "Extension shard for production-block source state schemas; schema names are derived from production_api_contracts params and existing canonical result schemas, then mirrored through source_state_schema before use.",
+      "status": "active",
+      "selection": {
+        "kind": "contract_schemas",
+        "module": "production_api_contracts"
+      }
+    },
+    "production_symbols": {
+      "canonical_module": "registry",
+      "canonical_reference_key": "canonical_symbol",
+      "canonical_reference_prefix": "source_symbol_registry.",
+      "label": "symbol",
+      "mirror_fields": [
+        "status",
+        "java_expr",
+        "godot_symbol",
+        "godot_owner",
+        "rule",
+        "tests",
+        "runtime_proof"
+      ],
+      "path": "src/generated/source_modules/production_symbols.json",
+      "root_key": "symbols",
+      "rule": "Extension shard for production-block source symbols; canonical symbol names come from production_slices.source_symbols and mirrored fields remain sourced from source_symbol_registry before use.",
+      "status": "active",
+      "selection": {
+        "kind": "slice_symbols",
+        "module": "production_slices",
+        "collection_key": "slices",
+        "field": "source_symbols",
+        "contract_module": "production_api_contracts",
+        "include_contract_owner_symbols": false
+      }
+    },
+    "shoot_pattern_api_contracts": {
+      "canonical_module": "api_contracts",
+      "canonical_reference_key": "canonical_contract",
+      "canonical_reference_prefix": "source_api_contracts.",
+      "label": "owner",
+      "mirror_fields": [
+        "status",
+        "source_slice",
+        "java_source",
+        "source_method",
+        "params",
+        "return_keys",
+        "tests",
+        "runtime_proof",
+        "rule"
+      ],
+      "path": "src/generated/source_modules/shoot_pattern_api_contracts.json",
+      "root_key": "contracts",
+      "rule": "Extension shard for ShootPattern.java source API contracts; canonical owners come from shoot_pattern_slices.godot_owner and public contract fields remain mirrored through source_api_contracts before use.",
+      "status": "active",
+      "selection": {
+        "kind": "referenced_values",
+        "module": "shoot_pattern_slices",
+        "collection_key": "slices",
+        "field": "godot_owner"
+      }
+    },
+    "shoot_pattern_slices": {
+      "canonical_module": "slice_ledger",
+      "canonical_reference_key": "canonical_ledger",
+      "canonical_reference_prefix": "source_slice_ledger.",
+      "label": "sliceId",
+      "mirror_fields": [
+        "status",
+        "java_source",
+        "java_method",
+        "godot_owner",
+        "source_symbols",
+        "tests",
+        "runtime_proof"
+      ],
+      "path": "src/generated/source_modules/shoot_pattern_slices.json",
+      "root_key": "slices",
+      "rule": "Extension shard for ShootPattern.java slice metadata; canonical slice IDs are selected from source_slice_ledger java_source exactly core/src/mindustry/entities/pattern/ShootPattern.java and mirrored through the SSOT gate before use.",
+      "status": "active",
+      "selection": {
+        "kind": "entry_field",
+        "field": "java_source",
+        "operator": "equals",
+        "value": "core/src/mindustry/entities/pattern/ShootPattern.java"
+      }
+    },
+    "shoot_pattern_state_schema": {
+      "canonical_module": "state_schema",
+      "canonical_reference_key": "canonical_schema",
+      "canonical_reference_prefix": "source_state_schema.",
+      "label": "schemaName",
+      "mirror_fields": [
+        "keys"
+      ],
+      "path": "src/generated/source_modules/shoot_pattern_state_schema.json",
+      "root_key": "schemas",
+      "rule": "Extension shard for ShootPattern.java source state schemas; schema names are derived from shoot_pattern_api_contracts params and existing canonical result schemas, then mirrored through source_state_schema before use.",
+      "status": "active",
+      "selection": {
+        "kind": "contract_schemas",
+        "module": "shoot_pattern_api_contracts"
+      }
+    },
+    "shoot_pattern_symbols": {
+      "canonical_module": "registry",
+      "canonical_reference_key": "canonical_symbol",
+      "canonical_reference_prefix": "source_symbol_registry.",
+      "label": "symbol",
+      "mirror_fields": [
+        "status",
+        "java_expr",
+        "godot_symbol",
+        "godot_owner",
+        "rule",
+        "tests",
+        "runtime_proof"
+      ],
+      "path": "src/generated/source_modules/shoot_pattern_symbols.json",
+      "root_key": "symbols",
+      "rule": "Extension shard for ShootPattern.java source symbols; canonical symbol names come from shoot_pattern_slices.source_symbols and mirrored fields remain sourced from source_symbol_registry before use.",
+      "status": "active",
+      "selection": {
+        "kind": "slice_symbols",
+        "module": "shoot_pattern_slices",
+        "collection_key": "slices",
+        "field": "source_symbols",
+        "contract_module": "shoot_pattern_api_contracts",
+        "include_contract_owner_symbols": false
+      }
+    },
+    "source_root_policies": {
       "canonical_collection_key": "",
       "canonical_key_field": "",
-      "canonical_value_field": "",
-      "canonical_reference_key": "",
-      "canonical_reference_prefix": "",
-      "mirror_fields": []
-    },
-    "core_damage_runtime": {
-      "path": "src/generated/source_modules/core_damage_runtime.json",
-      "root_key": "core_damage_runtime",
-      "label": "coreDamageRuntime",
-      "status": "active",
-      "rule": "Canonical registry shard for core damage runtime state; runtime code must route core-health clamp and game-over winner updates through SourceCoreDamageRuntimeState instead of duplicating them in PortGame.",
       "canonical_module": "",
-      "canonical_collection_key": "",
-      "canonical_key_field": "",
-      "canonical_value_field": "",
       "canonical_reference_key": "",
       "canonical_reference_prefix": "",
-      "mirror_fields": []
+      "canonical_value_field": "",
+      "label": "policyName",
+      "mirror_fields": [],
+      "path": "src/generated/source_modules/source_root_policies.json",
+      "root_key": "policies",
+      "rule": "Canonical root policy dictionaries shard; runtime code should read SSOT policy dictionaries from this shard instead of hardcoding governance flags across generated JSON documents.",
+      "status": "active"
     },
-    "enemy_runtime": {
-      "path": "src/generated/source_modules/enemy_runtime.json",
-      "root_key": "enemy_runtime",
-      "label": "enemyRuntime",
+    "strings_api_contracts": {
+      "canonical_module": "api_contracts",
+      "canonical_reference_key": "canonical_contract",
+      "canonical_reference_prefix": "source_api_contracts.",
+      "label": "owner",
+      "mirror_fields": [
+        "status",
+        "source_slice",
+        "java_source",
+        "source_method",
+        "params",
+        "return_keys",
+        "tests",
+        "runtime_proof",
+        "rule"
+      ],
+      "path": "src/generated/source_modules/strings_api_contracts.json",
+      "root_key": "contracts",
+      "rule": "Extension shard for Arc Strings.java source API contracts; canonical owners come from strings_slices.godot_owner and public contract fields remain mirrored through source_api_contracts before use.",
       "status": "active",
-      "rule": "Canonical registry shard for enemy unit runtime state; runtime code must route enemy movement, impact, wave spawn timing, unit spawn assembly, wave orchestration, and runtime summary assembly through SourceEnemyUnitRuntimeState instead of duplicating them in PortGame.",
-      "canonical_module": "",
-      "canonical_collection_key": "",
-      "canonical_key_field": "",
-      "canonical_value_field": "",
-      "canonical_reference_key": "",
-      "canonical_reference_prefix": "",
-      "mirror_fields": []
+      "selection": {
+        "kind": "referenced_values",
+        "module": "strings_slices",
+        "collection_key": "slices",
+        "field": "godot_owner"
+      }
     },
-    "placed_power_graph": {
-      "path": "src/generated/source_modules/placed_power_graph.json",
-      "root_key": "placed_power_graph",
-      "label": "placedPowerGraph",
+    "strings_slices": {
+      "canonical_module": "slice_ledger",
+      "canonical_reference_key": "canonical_ledger",
+      "canonical_reference_prefix": "source_slice_ledger.",
+      "label": "sliceId",
+      "mirror_fields": [
+        "status",
+        "java_source",
+        "java_method",
+        "godot_owner",
+        "source_symbols",
+        "tests",
+        "runtime_proof"
+      ],
+      "path": "src/generated/source_modules/strings_slices.json",
+      "root_key": "slices",
+      "rule": "Extension shard for Arc Strings.java slice metadata; canonical slice IDs are selected from source_slice_ledger java_source exactly arc-core/src/arc/util/Strings.java and mirrored through the SSOT gate before use.",
       "status": "active",
-      "rule": "Canonical registry shard for placed power graph aggregation; runtime code must route placed power graph ownership through SourcePlacedPowerGraphState instead of duplicating the counting and summary loops in PortGame.",
+      "selection": {
+        "kind": "entry_field",
+        "field": "java_source",
+        "operator": "equals",
+        "value": "arc-core/src/arc/util/Strings.java"
+      }
+    },
+    "strings_state_schema": {
+      "canonical_module": "state_schema",
+      "canonical_reference_key": "canonical_schema",
+      "canonical_reference_prefix": "source_state_schema.",
+      "label": "schemaName",
+      "mirror_fields": [
+        "keys"
+      ],
+      "path": "src/generated/source_modules/strings_state_schema.json",
+      "root_key": "schemas",
+      "rule": "Extension shard for Arc Strings.java source state schemas; schema names are derived from strings_api_contracts params and existing canonical result schemas, then mirrored through source_state_schema before use.",
+      "status": "active",
+      "selection": {
+        "kind": "contract_schemas",
+        "module": "strings_api_contracts"
+      }
+    },
+    "strings_symbols": {
+      "canonical_module": "registry",
+      "canonical_reference_key": "canonical_symbol",
+      "canonical_reference_prefix": "source_symbol_registry.",
+      "label": "symbol",
+      "mirror_fields": [
+        "status",
+        "java_expr",
+        "godot_symbol",
+        "godot_owner",
+        "rule",
+        "tests",
+        "runtime_proof"
+      ],
+      "path": "src/generated/source_modules/strings_symbols.json",
+      "root_key": "symbols",
+      "rule": "Extension shard for Arc Strings.java source symbols; canonical symbol names come from strings_slices.source_symbols and mirrored fields remain sourced from source_symbol_registry before use.",
+      "status": "active",
+      "selection": {
+        "kind": "slice_symbols",
+        "module": "strings_slices",
+        "collection_key": "slices",
+        "field": "source_symbols",
+        "contract_module": "strings_api_contracts",
+        "include_contract_owner_symbols": false
+      }
+    },
+    "time_profile": {
       "canonical_module": "",
-      "canonical_collection_key": "",
-      "canonical_key_field": "",
-      "canonical_value_field": "",
       "canonical_reference_key": "",
       "canonical_reference_prefix": "",
-      "mirror_fields": []
+      "label": "time",
+      "mirror_fields": [],
+      "path": "src/generated/source_modules/time_profile.json",
+      "root_key": "time",
+      "rule": "Canonical Arc time conversion profile; runtime code must read tick-rate conversion from this shard instead of hardcoding Time.toSeconds in gameplay code.",
+      "status": "active"
+    },
+    "turret_profile": {
+      "canonical_module": "",
+      "canonical_reference_key": "",
+      "canonical_reference_prefix": "",
+      "label": "turret",
+      "mirror_fields": [],
+      "path": "src/generated/source_modules/turret_profile.json",
+      "root_key": "turret",
+      "rule": "Canonical playable turret defaults profile; runtime code must read turret reload, range, rotation, shoot cone, and recoil defaults from this shard instead of hardcoding source constants in gameplay code.",
+      "status": "active"
+    },
+    "type_api_contracts": {
+      "canonical_module": "api_contracts",
+      "canonical_reference_key": "canonical_contract",
+      "canonical_reference_prefix": "source_api_contracts.",
+      "label": "owner",
+      "mirror_fields": [
+        "status",
+        "source_slice",
+        "java_source",
+        "source_method",
+        "params",
+        "return_keys",
+        "tests",
+        "runtime_proof",
+        "rule"
+      ],
+      "path": "src/generated/source_modules/type_api_contracts.json",
+      "root_key": "contracts",
+      "rule": "Extension shard for type-system source API contracts; canonical owners come from type_slices.godot_owner and public contract fields remain mirrored through source_api_contracts before use.",
+      "status": "active",
+      "selection": {
+        "kind": "referenced_values",
+        "module": "type_slices",
+        "collection_key": "slices",
+        "field": "godot_owner"
+      }
+    },
+    "type_slices": {
+      "canonical_module": "slice_ledger",
+      "canonical_reference_key": "canonical_ledger",
+      "canonical_reference_prefix": "source_slice_ledger.",
+      "label": "sliceId",
+      "mirror_fields": [
+        "status",
+        "java_source",
+        "java_method",
+        "godot_owner",
+        "source_symbols",
+        "tests",
+        "runtime_proof"
+      ],
+      "path": "src/generated/source_modules/type_slices.json",
+      "root_key": "slices",
+      "rule": "Extension shard for type-system slice metadata; canonical slice IDs are selected from source_slice_ledger java_source paths under /type/ and mirrored through the SSOT gate before use.",
+      "status": "active",
+      "selection": {
+        "kind": "entry_field",
+        "field": "java_source",
+        "operator": "contains",
+        "value": "/type/"
+      }
+    },
+    "ui_profile": {
+      "canonical_module": "",
+      "canonical_reference_key": "",
+      "canonical_reference_prefix": "",
+      "label": "ui",
+      "mirror_fields": [],
+      "path": "src/generated/source_modules/ui_profile.json",
+      "root_key": "ui",
+      "rule": "Canonical source UI size and spacing profile; generated consumer bridge code must read icon and padding defaults from this shard instead of hardcoding source UI constants.",
+      "status": "active"
+    },
+    "unit_profile": {
+      "canonical_module": "",
+      "canonical_reference_key": "",
+      "canonical_reference_prefix": "",
+      "label": "unit",
+      "mirror_fields": [],
+      "path": "src/generated/source_modules/unit_profile.json",
+      "root_key": "unit",
+      "rule": "Canonical playable unit defaults profile; runtime code must read UnitType numeric defaults from this shard instead of hardcoding source constants in gameplay code.",
+      "status": "active"
+    },
+    "vec2_api_contracts": {
+      "canonical_module": "api_contracts",
+      "canonical_reference_key": "canonical_contract",
+      "canonical_reference_prefix": "source_api_contracts.",
+      "label": "owner",
+      "mirror_fields": [
+        "status",
+        "source_slice",
+        "java_source",
+        "source_method",
+        "params",
+        "return_keys",
+        "tests",
+        "runtime_proof",
+        "rule"
+      ],
+      "path": "src/generated/source_modules/vec2_api_contracts.json",
+      "root_key": "contracts",
+      "rule": "Extension shard for Arc Vec2.java source API contracts; canonical owners come from vec2_slices.godot_owner and public contract fields remain mirrored through source_api_contracts before use.",
+      "status": "active",
+      "selection": {
+        "kind": "referenced_values",
+        "module": "vec2_slices",
+        "collection_key": "slices",
+        "field": "godot_owner"
+      }
+    },
+    "vec2_slices": {
+      "canonical_module": "slice_ledger",
+      "canonical_reference_key": "canonical_ledger",
+      "canonical_reference_prefix": "source_slice_ledger.",
+      "label": "sliceId",
+      "mirror_fields": [
+        "status",
+        "java_source",
+        "java_method",
+        "godot_owner",
+        "source_symbols",
+        "tests",
+        "runtime_proof"
+      ],
+      "path": "src/generated/source_modules/vec2_slices.json",
+      "root_key": "slices",
+      "rule": "Extension shard for Arc Vec2.java slice metadata; canonical slice IDs are selected from source_slice_ledger java_source exactly arc-core/src/arc/math/geom/Vec2.java and mirrored through the SSOT gate before use.",
+      "status": "active",
+      "selection": {
+        "kind": "entry_field",
+        "field": "java_source",
+        "operator": "equals",
+        "value": "arc-core/src/arc/math/geom/Vec2.java"
+      }
+    },
+    "vec2_state_schema": {
+      "canonical_module": "state_schema",
+      "canonical_reference_key": "canonical_schema",
+      "canonical_reference_prefix": "source_state_schema.",
+      "label": "schemaName",
+      "mirror_fields": [
+        "keys"
+      ],
+      "path": "src/generated/source_modules/vec2_state_schema.json",
+      "root_key": "schemas",
+      "rule": "Extension shard for Arc Vec2.java source state schemas; schema names are derived from vec2_api_contracts params and existing canonical result schemas, then mirrored through source_state_schema before use.",
+      "status": "active",
+      "selection": {
+        "kind": "contract_schemas",
+        "module": "vec2_api_contracts"
+      }
+    },
+    "vec2_symbols": {
+      "canonical_module": "registry",
+      "canonical_reference_key": "canonical_symbol",
+      "canonical_reference_prefix": "source_symbol_registry.",
+      "label": "symbol",
+      "mirror_fields": [
+        "status",
+        "java_expr",
+        "godot_symbol",
+        "godot_owner",
+        "rule",
+        "tests",
+        "runtime_proof"
+      ],
+      "path": "src/generated/source_modules/vec2_symbols.json",
+      "root_key": "symbols",
+      "rule": "Extension shard for Arc Vec2.java source symbols; canonical symbol names come from vec2_slices.source_symbols and mirrored fields remain sourced from source_symbol_registry before use.",
+      "status": "active",
+      "selection": {
+        "kind": "slice_symbols",
+        "module": "vec2_slices",
+        "collection_key": "slices",
+        "field": "source_symbols",
+        "contract_module": "vec2_api_contracts",
+        "include_contract_owner_symbols": false
+      }
+    },
+    "unit_building_slices": {
+      "canonical_module": "slice_ledger",
+      "canonical_reference_key": "canonical_ledger",
+      "canonical_reference_prefix": "source_slice_ledger.",
+      "label": "sliceId",
+      "mirror_fields": [
+        "status",
+        "java_source",
+        "java_method",
+        "godot_owner",
+        "source_symbols",
+        "tests",
+        "runtime_proof"
+      ],
+      "path": "src/generated/source_modules/unit_building_slices.json",
+      "root_key": "slices",
+      "rule": "Extension shard for unit-building source slice metadata; canonical entries are selected by exact unit-building source paths and mirrored through the SSOT gate.",
+      "status": "active",
+      "selection": {
+        "kind": "entry_field",
+        "field": "java_source",
+        "operator": "equals",
+        "value": "core/src/mindustry/world/blocks/units/UnitFactory.java"
+      }
+    },
+    "unit_building_api_contracts": {
+      "canonical_module": "api_contracts",
+      "canonical_reference_key": "canonical_contract",
+      "canonical_reference_prefix": "source_api_contracts.",
+      "label": "owner",
+      "mirror_fields": [
+        "status",
+        "source_slice",
+        "java_source",
+        "source_method",
+        "params",
+        "return_keys",
+        "tests",
+        "runtime_proof",
+        "rule"
+      ],
+      "path": "src/generated/source_modules/unit_building_api_contracts.json",
+      "root_key": "contracts",
+      "rule": "Extension shard for unit-building source API contracts; canonical owners come from unit_building_slices.godot_owner and fields remain mirrored through source_api_contracts.",
+      "status": "active",
+      "selection": {
+        "kind": "referenced_values",
+        "module": "unit_building_slices",
+        "collection_key": "slices",
+        "field": "godot_owner"
+      }
+    },
+    "unit_building_state_schema": {
+      "canonical_module": "state_schema",
+      "canonical_reference_key": "canonical_schema",
+      "canonical_reference_prefix": "source_state_schema.",
+      "label": "schemaName",
+      "mirror_fields": [
+        "keys"
+      ],
+      "path": "src/generated/source_modules/unit_building_state_schema.json",
+      "root_key": "schemas",
+      "rule": "Extension shard for unit-building source state schemas; names are selected from unit_building_api_contracts and mirrored through source_state_schema.",
+      "status": "active",
+      "selection": {
+        "kind": "contract_schemas",
+        "module": "unit_building_api_contracts"
+      }
+    },
+    "unit_building_symbols": {
+      "canonical_module": "registry",
+      "canonical_reference_key": "canonical_symbol",
+      "canonical_reference_prefix": "source_symbol_registry.",
+      "label": "symbol",
+      "mirror_fields": [
+        "status",
+        "java_expr",
+        "godot_symbol",
+        "godot_owner",
+        "rule",
+        "tests",
+        "runtime_proof"
+      ],
+      "path": "src/generated/source_modules/unit_building_symbols.json",
+      "root_key": "symbols",
+      "rule": "Extension shard for unit-building source symbols; canonical names come from unit_building_slices.source_symbols and fields remain mirrored through source_symbol_registry.",
+      "status": "active",
+      "selection": {
+        "kind": "slice_symbols",
+        "module": "unit_building_slices",
+        "collection_key": "slices",
+        "field": "source_symbols",
+        "contract_module": "unit_building_api_contracts",
+        "include_contract_owner_symbols": false
+      }
+    },
+    "unit_comp_slices": {
+      "canonical_module": "slice_ledger",
+      "canonical_reference_key": "canonical_ledger",
+      "canonical_reference_prefix": "source_slice_ledger.",
+      "label": "sliceId",
+      "mirror_fields": [
+        "status",
+        "java_source",
+        "java_method",
+        "godot_owner",
+        "source_symbols",
+        "tests",
+        "runtime_proof"
+      ],
+      "path": "src/generated/source_modules/unit_comp_slices.json",
+      "root_key": "slices",
+      "rule": "Extension shard for UnitComp.java slice metadata; canonical entries are selected by the exact upstream source path and mirrored through the SSOT gate.",
+      "status": "active",
+      "selection": {
+        "kind": "entry_field",
+        "field": "java_source",
+        "operator": "equals",
+        "value": "core/src/mindustry/entities/comp/UnitComp.java"
+      }
+    },
+    "unit_comp_api_contracts": {
+      "canonical_module": "api_contracts",
+      "canonical_reference_key": "canonical_contract",
+      "canonical_reference_prefix": "source_api_contracts.",
+      "label": "owner",
+      "mirror_fields": [
+        "status",
+        "source_slice",
+        "java_source",
+        "source_method",
+        "params",
+        "return_keys",
+        "tests",
+        "runtime_proof",
+        "rule"
+      ],
+      "path": "src/generated/source_modules/unit_comp_api_contracts.json",
+      "root_key": "contracts",
+      "rule": "Extension shard for UnitComp.java API contracts; canonical owners are selected from unit_comp_slices and mirrored through source_api_contracts.",
+      "status": "active",
+      "selection": {
+        "kind": "referenced_values",
+        "module": "unit_comp_slices",
+        "collection_key": "slices",
+        "field": "godot_owner"
+      }
+    },
+    "unit_comp_state_schema": {
+      "canonical_module": "state_schema",
+      "canonical_reference_key": "canonical_schema",
+      "canonical_reference_prefix": "source_state_schema.",
+      "label": "schemaName",
+      "mirror_fields": [
+        "keys"
+      ],
+      "path": "src/generated/source_modules/unit_comp_state_schema.json",
+      "root_key": "schemas",
+      "rule": "Extension shard for UnitComp.java state schemas; schema names are selected from unit_comp_api_contracts and mirrored through source_state_schema.",
+      "status": "active",
+      "selection": {
+        "kind": "contract_schemas",
+        "module": "unit_comp_api_contracts"
+      }
+    },
+    "unit_comp_symbols": {
+      "canonical_module": "registry",
+      "canonical_reference_key": "canonical_symbol",
+      "canonical_reference_prefix": "source_symbol_registry.",
+      "label": "symbol",
+      "mirror_fields": [
+        "status",
+        "java_expr",
+        "godot_symbol",
+        "godot_owner",
+        "rule",
+        "tests",
+        "runtime_proof"
+      ],
+      "path": "src/generated/source_modules/unit_comp_symbols.json",
+      "root_key": "symbols",
+      "rule": "Extension shard for UnitComp.java source symbols; canonical names come from unit_comp_slices and fields remain mirrored through source_symbol_registry.",
+      "status": "active",
+      "selection": {
+        "kind": "slice_symbols",
+        "module": "unit_comp_slices",
+        "collection_key": "slices",
+        "field": "source_symbols",
+        "contract_module": "unit_comp_api_contracts",
+        "include_contract_owner_symbols": true
+      }
     }
   },
   "policy": {

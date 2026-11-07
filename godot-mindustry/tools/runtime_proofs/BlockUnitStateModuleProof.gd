@@ -2,7 +2,8 @@ extends Node
 
 const PortGameScript := preload("res://src/game/PortGame.gd")
 const source_block_unit_state := preload("res://src/game/SourceBlockUnitState.gd")
-const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const source_ssot_accessor_runtime_state := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
+const runtime_proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")
 
 func _ready() -> void:
 	var game := PortGameScript.new()
@@ -11,7 +12,7 @@ func _ready() -> void:
 	var tile_bridge := game.generated_block_unit_comp_tile_bridge_state(tile, 100.0, 64.0, 2.0, 8.0)
 	var add_bridge := game.generated_block_unit_comp_add_bridge_state(true)
 	var team_bridge := game.generated_block_unit_comp_team_bridge_state(true, "blue", "red", "green")
-	var registry_state := source_ssot_catalog.canonical_headquarter_registry_state()
+	var registry_state := source_ssot_accessor_runtime_state.canonical_headquarter_registry_state()
 	var proof := {
 		"module": "BLOCK_UNIT_STATE_MODULE_PROOF",
 		"ammof_bridge": ammof_bridge,
@@ -26,12 +27,9 @@ func _ready() -> void:
 		"one_headquarter_per_ssot": bool(registry_state.get("one_headquarter_per_ssot", false)),
 	}
 	proof["matches"] = proof["ammof_bridge_matches"] and proof["tile_bridge_matches"] and proof["add_bridge_matches"] and proof["team_bridge_matches"] and proof["one_headquarter_per_ssot"] and proof["registry_valid"]
-	var proof_json := JSON.stringify(proof)
-	print("BLOCK_UNIT_STATE_MODULE_PROOF " + proof_json)
-	var proof_path := ProjectSettings.globalize_path("res://tools/runtime_proofs/BlockUnitStateModuleProof.json")
-	var proof_file := FileAccess.open(proof_path, FileAccess.WRITE)
-	if proof_file != null:
-		proof_file.store_string(proof_json)
+	print("BLOCK_UNIT_STATE_MODULE_PROOF " + JSON.stringify(proof))
+	runtime_proof_state.write_proof("BlockUnitStateModuleProof", proof)
 	game.free()
-	await get_tree().create_timer(60.0).timeout
-	get_tree().quit(0)
+	await get_tree().process_frame
+	get_tree().quit(runtime_proof_state.exit_code(proof))
+

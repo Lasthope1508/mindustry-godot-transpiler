@@ -2,29 +2,30 @@ extends RefCounted
 class_name SourceDrillProductionRuntimeState
 
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
+const source_drill_production_source_text_state := preload("res://src/game/SourceDrillProductionSourceTextState.gd")
 
-const SOURCE_DRILL_OUTPUT_BATCH_CALLBACK_KEY := "output_batch"
-const SOURCE_DRILL_OUTPUT_BATCH_CALLBACK_FALLBACK := "source_drill_output_batch"
-const SOURCE_DRILL_PROGRESS_FRACTION_CALLBACK_KEY := "progress_fraction"
-const SOURCE_DRILL_PROGRESS_FRACTION_CALLBACK_FALLBACK := "source_drill_progress_fraction"
-const SOURCE_DRILL_OUTPUT_BATCH_AMOUNT_KEY := "amount"
-const SOURCE_DRILL_OUTPUT_BATCH_PROGRESS_KEY := "progress"
-const SOURCE_DRILL_PRODUCTION_RAW_PROGRESS_BEFORE_DELTA_KEY := "raw_progress_before_delta"
-const SOURCE_DRILL_PRODUCTION_RAW_PROGRESS_KEY := "raw_progress"
-const SOURCE_DRILL_PRODUCTION_OUTPUT_BATCH_KEY := "output_batch"
-const SOURCE_DRILL_PRODUCTION_OFFLOAD_AMOUNT_KEY := "offload_amount"
-const SOURCE_DRILL_PRODUCTION_PRODUCED_DELTA_KEY := "produced_delta"
-const SOURCE_DRILL_PRODUCTION_ITEM_PROGRESS_KEY := "item_progress"
-const SOURCE_DRILL_PRODUCTION_SOURCE_OWNER_KEY := "source_owner"
+const SOURCE_DRILL_OUTPUT_BATCH_CALLBACK_KEY := source_drill_production_source_text_state.SOURCE_DRILL_OUTPUT_BATCH_CALLBACK_KEY
+const SOURCE_DRILL_OUTPUT_BATCH_CALLBACK_FALLBACK := source_drill_production_source_text_state.SOURCE_DRILL_OUTPUT_BATCH_CALLBACK_FALLBACK
+const SOURCE_DRILL_PROGRESS_FRACTION_CALLBACK_KEY := source_drill_production_source_text_state.SOURCE_DRILL_PROGRESS_FRACTION_CALLBACK_KEY
+const SOURCE_DRILL_PROGRESS_FRACTION_CALLBACK_FALLBACK := source_drill_production_source_text_state.SOURCE_DRILL_PROGRESS_FRACTION_CALLBACK_FALLBACK
+const SOURCE_DRILL_OUTPUT_BATCH_AMOUNT_KEY := source_drill_production_source_text_state.SOURCE_DRILL_OUTPUT_BATCH_AMOUNT_KEY
+const SOURCE_DRILL_OUTPUT_BATCH_PROGRESS_KEY := source_drill_production_source_text_state.SOURCE_DRILL_OUTPUT_BATCH_PROGRESS_KEY
+const SOURCE_DRILL_PRODUCTION_RAW_PROGRESS_BEFORE_DELTA_KEY := source_drill_production_source_text_state.SOURCE_DRILL_PRODUCTION_RAW_PROGRESS_BEFORE_DELTA_KEY
+const SOURCE_DRILL_PRODUCTION_RAW_PROGRESS_KEY := source_drill_production_source_text_state.SOURCE_DRILL_PRODUCTION_RAW_PROGRESS_KEY
+const SOURCE_DRILL_PRODUCTION_OUTPUT_BATCH_KEY := source_drill_production_source_text_state.SOURCE_DRILL_PRODUCTION_OUTPUT_BATCH_KEY
+const SOURCE_DRILL_PRODUCTION_OFFLOAD_AMOUNT_KEY := source_drill_production_source_text_state.SOURCE_DRILL_PRODUCTION_OFFLOAD_AMOUNT_KEY
+const SOURCE_DRILL_PRODUCTION_PRODUCED_DELTA_KEY := source_drill_production_source_text_state.SOURCE_DRILL_PRODUCTION_PRODUCED_DELTA_KEY
+const SOURCE_DRILL_PRODUCTION_ITEM_PROGRESS_KEY := source_drill_production_source_text_state.SOURCE_DRILL_PRODUCTION_ITEM_PROGRESS_KEY
+const SOURCE_DRILL_PRODUCTION_SOURCE_OWNER_KEY := source_drill_production_source_text_state.SOURCE_DRILL_PRODUCTION_SOURCE_OWNER_KEY
 
-const SOURCE_DRILL_OUTPUT_BATCH_GATE := "if(dominantItems > 0 && progress >= delay && items.total() < itemCapacity){"
-const SOURCE_DRILL_OUTPUT_BATCH_AMOUNT := "int amount = (int)(progress / delay);"
-const SOURCE_DRILL_OUTPUT_BATCH_PROGRESS_MOD := "progress %= delay;"
-const SOURCE_DRILL_PROGRESS_FRACTION_METHOD := "public float progress(){"
-const SOURCE_DRILL_PROGRESS_FRACTION_RETURN := "return dominantItem == null ? 0f : Mathf.clamp(progress / getDrillTime(dominantItem));"
-const SOURCE_DRILL_PROGRESS_FRACTION_DOMINANT_ITEM_NULL := "dominantItem == null"
-const SOURCE_DRILL_PROGRESS_FRACTION_PROGRESS_RATIO := "progress / getDrillTime(dominantItem)"
-const SOURCE_DRILL_PROGRESS_FRACTION_MATHF_CLAMP := "return Math.max(Math.min(value, 1f), 0f);"
+const SOURCE_DRILL_OUTPUT_BATCH_GATE := source_drill_production_source_text_state.SOURCE_DRILL_OUTPUT_BATCH_GATE
+const SOURCE_DRILL_OUTPUT_BATCH_AMOUNT := source_drill_production_source_text_state.SOURCE_DRILL_OUTPUT_BATCH_AMOUNT
+const SOURCE_DRILL_OUTPUT_BATCH_PROGRESS_MOD := source_drill_production_source_text_state.SOURCE_DRILL_OUTPUT_BATCH_PROGRESS_MOD
+const SOURCE_DRILL_PROGRESS_FRACTION_METHOD := source_drill_production_source_text_state.SOURCE_DRILL_PROGRESS_FRACTION_METHOD
+const SOURCE_DRILL_PROGRESS_FRACTION_RETURN := source_drill_production_source_text_state.SOURCE_DRILL_PROGRESS_FRACTION_RETURN
+const SOURCE_DRILL_PROGRESS_FRACTION_DOMINANT_ITEM_NULL := source_drill_production_source_text_state.SOURCE_DRILL_PROGRESS_FRACTION_DOMINANT_ITEM_NULL
+const SOURCE_DRILL_PROGRESS_FRACTION_PROGRESS_RATIO := source_drill_production_source_text_state.SOURCE_DRILL_PROGRESS_FRACTION_PROGRESS_RATIO
+const SOURCE_DRILL_PROGRESS_FRACTION_MATHF_CLAMP := source_drill_production_source_text_state.SOURCE_DRILL_PROGRESS_FRACTION_MATHF_CLAMP
 
 static func production_state(current_progress_fraction: float, drill_delay: float, output_delta: float, dominant_items: int, items_total: int, item_capacity: int, output_batch_fn: Callable, progress_fraction_fn: Callable) -> Dictionary:
 	var raw_progress_before_delta := current_progress_fraction * drill_delay

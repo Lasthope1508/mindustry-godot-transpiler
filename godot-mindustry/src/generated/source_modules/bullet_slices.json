@@ -1,9 +1,5 @@
 {
   "version": 1,
-  "policy": {
-    "canonicalOwner": "source_slice_ledger",
-    "selector": "java_source contains /entities/bullet/"
-  },
   "slices": {
     "N399": {
       "canonical_ledger": "source_slice_ledger.N399",

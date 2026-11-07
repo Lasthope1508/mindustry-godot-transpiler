@@ -5,6 +5,12 @@ const source_generated_class_runtime := preload("res://src/game/SourceGeneratedC
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
 const source_payload_source_text_state := preload("res://src/game/SourcePayloadSourceTextState.gd")
 const SOURCE_UNIT_PAYLOAD_GENERATED_CLASS := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_GENERATED_CLASS
+const SOURCE_UNIT_PAYLOAD_CONSTRUCTOR_JAVA_METHOD := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_CONSTRUCTOR_JAVA_METHOD
+const SOURCE_UNIT_PAYLOAD_CONSTRUCTOR_GENERATED_OWNER := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_CONSTRUCTOR_GENERATED_OWNER
+const SOURCE_UNIT_PAYLOAD_SHOW_OVERLAY_TEXTURE_REGION_JAVA_METHOD := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_SHOW_OVERLAY_TEXTURE_REGION_JAVA_METHOD
+const SOURCE_UNIT_PAYLOAD_SHOW_OVERLAY_TEXTURE_REGION_GENERATED_OWNER := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_SHOW_OVERLAY_TEXTURE_REGION_GENERATED_OWNER
+const SOURCE_UNIT_PAYLOAD_SHOW_OVERLAY_DRAWABLE_JAVA_METHOD := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_SHOW_OVERLAY_DRAWABLE_JAVA_METHOD
+const SOURCE_UNIT_PAYLOAD_SHOW_OVERLAY_DRAWABLE_GENERATED_OWNER := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_SHOW_OVERLAY_DRAWABLE_GENERATED_OWNER
 
 static func _unit_payload_call(generated_method: String, generated_args: Array) -> Variant:
 	return source_generated_class_runtime.call_java_method(SOURCE_UNIT_PAYLOAD_GENERATED_CLASS, generated_method, generated_args, null)
@@ -43,12 +49,12 @@ static func constructor_state(unit: Variant) -> Dictionary:
 	}
 
 static func generated_constructor_bridge_state(unit: Variant) -> Dictionary:
-	var result = _unit_payload_call("java_constructor_UnitPayload_0", [unit])
+	var result = _unit_payload_call(SOURCE_UNIT_PAYLOAD_CONSTRUCTOR_JAVA_METHOD, [unit])
 	var canonical = constructor_state(unit)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_PAYLOAD_CONSTRUCTOR_STATE,
-		"generated_owner": "unit_payload.java_constructor_UnitPayload_0",
+		"generated_owner": SOURCE_UNIT_PAYLOAD_CONSTRUCTOR_GENERATED_OWNER,
 		"result": result,
 		"canonical": canonical,
 		"matches": matches,
@@ -70,12 +76,12 @@ static func show_overlay_texture_region_state(icon: Variant) -> Dictionary:
 	}
 
 static func generated_show_overlay_texture_region_bridge_state(icon: Variant) -> Dictionary:
-	var result = _unit_payload_call("java_method_showOverlay_0", [icon])
+	var result = _unit_payload_call(SOURCE_UNIT_PAYLOAD_SHOW_OVERLAY_TEXTURE_REGION_JAVA_METHOD, [icon])
 	var canonical = show_overlay_texture_region_state(icon)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_PAYLOAD_SHOW_OVERLAY_TEXTURE_REGION_STATE,
-		"generated_owner": "unit_payload.java_method_showOverlay_0",
+		"generated_owner": SOURCE_UNIT_PAYLOAD_SHOW_OVERLAY_TEXTURE_REGION_GENERATED_OWNER,
 		"result": result,
 		"canonical": canonical,
 		"matches": matches,
@@ -110,12 +116,12 @@ static func show_overlay_drawable_state(icon_null: bool, headless: bool, region:
 	}
 
 static func generated_show_overlay_drawable_bridge_state(icon_null: bool, headless: bool, region: Variant) -> Dictionary:
-	var result = _unit_payload_call("java_method_showOverlay_1", [icon_null, headless, region])
+	var result = _unit_payload_call(SOURCE_UNIT_PAYLOAD_SHOW_OVERLAY_DRAWABLE_JAVA_METHOD, [icon_null, headless, region])
 	var canonical = show_overlay_drawable_state(icon_null, headless, region)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_PAYLOAD_SHOW_OVERLAY_DRAWABLE_STATE,
-		"generated_owner": "unit_payload.java_method_showOverlay_1",
+		"generated_owner": SOURCE_UNIT_PAYLOAD_SHOW_OVERLAY_DRAWABLE_GENERATED_OWNER,
 		"result": result,
 		"canonical": canonical,
 		"matches": matches,

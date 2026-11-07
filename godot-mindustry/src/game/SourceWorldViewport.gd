@@ -1,7 +1,8 @@
 extends RefCounted
 class_name SourceWorldViewport
 
-const CAMERA_ZOOM_MIN_COMPONENT := 0.001
+const source_display_profile_source_text_state := preload("res://src/game/SourceDisplayProfileSourceTextState.gd")
+const CAMERA_ZOOM_MIN_COMPONENT := source_display_profile_source_text_state.CAMERA_ZOOM_MIN_COMPONENT
 
 static func safe_camera_zoom(camera_zoom: Vector2) -> Vector2:
 	return Vector2(float(max(camera_zoom.x, CAMERA_ZOOM_MIN_COMPONENT)), float(max(camera_zoom.y, CAMERA_ZOOM_MIN_COMPONENT)))
@@ -25,6 +26,15 @@ static func cover_zoom(viewport_size: Vector2, world_cells: Vector2i, tile_size:
 		return Vector2.ONE
 	var zoom_value: float = max(viewport_size.x / world_pixels.x, viewport_size.y / world_pixels.y)
 	return Vector2(zoom_value, zoom_value)
+
+static func viewport_coverage_state(world_cells: Vector2i, tile_size: int, viewport_size: Vector2, camera_zoom: Vector2) -> Dictionary:
+	var world_pixels := world_pixel_size(world_cells, tile_size)
+	var visible_size := visible_world_size(viewport_size, camera_zoom)
+	return {
+		"world_pixel_size": {"x": world_pixels.x, "y": world_pixels.y},
+		"visible_world_size": {"x": visible_size.x, "y": visible_size.y},
+		"viewport_fully_covered": world_pixels.x >= visible_size.x and world_pixels.y >= visible_size.y,
+	}
 
 
 static func camera_bounds_state(world_cells: Vector2i, tile_size: int, viewport_size: Vector2, camera_zoom: Vector2) -> Dictionary:
@@ -67,8 +77,11 @@ static func fit_state(world_cells: Vector2i, tile_size: int, viewport_size: Vect
 
 static func fit_state_with_zoom(world_cells: Vector2i, tile_size: int, viewport_size: Vector2, camera_zoom: Vector2) -> Dictionary:
 	var center := world_center(world_cells, tile_size)
+	var coverage := viewport_coverage_state(world_cells, tile_size, viewport_size, camera_zoom)
 	return {
 		"camera_position": {"x": center.x, "y": center.y},
 		"camera_zoom": {"x": camera_zoom.x, "y": camera_zoom.y},
 		"camera_bounds": camera_bounds_state(world_cells, tile_size, viewport_size, camera_zoom),
+		"viewport_coverage": coverage,
+		"viewport_fully_covered": bool(coverage.get("viewport_fully_covered", false)),
 	}

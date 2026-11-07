@@ -2,7 +2,6 @@ extends RefCounted
 class_name SourceBulletTypeHitTileState
 
 const source_bullet_defaults := preload("res://src/game/SourceBulletDefaults.gd")
-const source_bullet_runtime := preload("res://src/game/SourceBulletRuntime.gd")
 
 const SOURCE_BULLET_HEAL_SOUND_PITCH_RANGE := source_bullet_defaults.HEAL_SOUND_PITCH_RANGE
 

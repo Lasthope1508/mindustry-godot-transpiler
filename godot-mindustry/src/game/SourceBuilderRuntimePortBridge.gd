@@ -1,4 +1,4 @@
-extends "res://src/game/SourceAbilityPortBridge.gd"
+extends "res://src/game/SourceBuilderDrawPortBridge.gd"
 
 const source_builder_runtime_state := preload("res://src/game/SourceBuilderRuntimeState.gd")
 

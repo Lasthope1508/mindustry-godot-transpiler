@@ -1,11 +1,95 @@
 {
   "version": 1,
-  "policy": {
-    "canonicalOwner": "source_state_schema",
-    "newProductionStateSchemaRequiresCanonicalMirror": true,
-    "source": "Derived from production_api_contracts params and canonical result schemas."
-  },
   "schemas": {
+    "source_block_has_liquids_input": {
+      "canonical_schema": "source_state_schema.source_block_has_liquids_input",
+      "keys": {
+        "block": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public @NoPatch boolean hasLiquids;",
+          "rule": "Hydrated source-explicit constructor/initializer flag. Missing flags remain unresolved; this API has no false fallback."
+        }
+      }
+    },
+    "source_block_has_liquids_result": {
+      "canonical_schema": "source_state_schema.source_block_has_liquids_result",
+      "keys": {
+        "has_liquids": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "hasLiquids = true;",
+          "rule": "Source-explicit flags follow constructor inheritance and initializer overrides. Consumer.apply-only flags and absent flags remain deferred.",
+          "used_by": [
+            "SourcePlacedBlockState.source_block_has_liquids_state"
+          ]
+        }
+      }
+    },
+    "source_drill_bind_ore_items_input": {
+      "canonical_schema": "source_state_schema.source_drill_bind_ore_items_input",
+      "keys": {
+        "block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public void init(){",
+          "rule": "Actual Block with both source-backed definition keys present. Missing/unresolved definitions assert instead of assuming null.",
+          "schema": "source_drill_blocked_definition",
+          "used_by": [
+            "SourceDrillRuntimeState.source_bind_ore_items_state"
+          ]
+        },
+        "item_catalog": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/ctype/Content.java",
+          "java_expr": "this.id = (short)Vars.content.getBy(getContentType()).size;",
+          "rule": "Transient typed item view from source_item_catalog_state; Java field resolves to canonical numeric Item.id.",
+          "schema": "source_item_catalog_result",
+          "used_by": [
+            "SourceDrillRuntimeState.source_bind_ore_items_state"
+          ]
+        }
+      }
+    },
+    "source_drill_count_ore_input": {
+      "canonical_schema": "source_state_schema.source_drill_count_ore_input",
+      "keys": {
+        "linked_tiles": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "for(Tile other : tile.getLinkedTilesAs(this, tempTiles)){",
+          "rule": "Explicit complete linked footprint in caller order; Tile projection uses source_drill_ore_tile. No live-world lookup or proximity invalidation is fabricated.",
+          "used_by": [
+            "SourceDrillRuntimeState.source_count_ore_state"
+          ]
+        },
+        "tier": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public int tier;",
+          "rule": "Explicit source Drill tier; no fallback.",
+          "used_by": [
+            "SourceDrillRuntimeState.source_count_ore_state"
+          ]
+        },
+        "blocked_items": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "(blockedItems == null || !blockedItems.contains(drops))",
+          "rule": "Nullable Array of canonical numeric Item IDs, not names or slugs. Caller supplies initialized blockedItems; blockedItem compatibility initialization remains in Drill.init.",
+          "used_by": [
+            "SourceDrillRuntimeState.source_count_ore_state"
+          ]
+        }
+      }
+    },
     "source_drill_delay_input": {
       "canonical_schema": "source_state_schema.source_drill_delay_input",
       "keys": {
@@ -31,6 +115,31 @@
           "type": "String",
           "used_by": [
             "port_game.source_drill_delay"
+          ]
+        }
+      }
+    },
+    "source_drill_dominant_item_name_input": {
+      "canonical_schema": "source_state_schema.source_drill_dominant_item_name_input",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "build.onProximityUpdate();",
+          "rule": "Actual game world containing canonical Tile store, placement index and readonly typed Item view.",
+          "used_by": [
+            "SourceDrillConsumptionRuntimeState.source_dominant_item_name_state"
+          ]
+        },
+        "sprite": {
+          "type": "Sprite2D",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public class DrillBuild extends Building{",
+          "rule": "Actual placed Building identity and existing frame metadata; nullable only for output name lookup.",
+          "used_by": [
+            "SourceDrillConsumptionRuntimeState.source_dominant_item_name_state"
           ]
         }
       }
@@ -176,6 +285,31 @@
         }
       }
     },
+    "source_drill_init_blocked_items_input": {
+      "canonical_schema": "source_state_schema.source_drill_init_blocked_items_input",
+      "keys": {
+        "blocked_items": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public @Nullable Seq<Item> blockedItems;",
+          "rule": "Explicit nullable Array of canonical numeric Item IDs. Existing empty/nonempty sequence is authoritative.",
+          "used_by": [
+            "SourceDrillRuntimeState.source_init_blocked_items_state"
+          ]
+        },
+        "blocked_item": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public @Nullable Item blockedItem;",
+          "rule": "Explicit nullable legacy Item numeric ID; Java reference field starts null.",
+          "used_by": [
+            "SourceDrillRuntimeState.source_init_blocked_items_state"
+          ]
+        }
+      }
+    },
     "source_drill_last_speed_input": {
       "canonical_schema": "source_state_schema.source_drill_last_speed_input",
       "keys": {
@@ -237,6 +371,67 @@
           "type": "float",
           "used_by": [
             "port_game.source_drill_last_speed"
+          ]
+        }
+      }
+    },
+    "source_drill_live_proximity_input": {
+      "canonical_schema": "source_state_schema.source_drill_live_proximity_input",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "build.onProximityUpdate();",
+          "rule": "Actual game world containing canonical Tile store, placement index and readonly typed Item view.",
+          "used_by": [
+            "SourceDrillConsumptionRuntimeState.source_on_proximity_update_state"
+          ]
+        },
+        "sprite": {
+          "type": "Sprite2D",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public class DrillBuild extends Building{",
+          "rule": "Actual placed Building identity and existing frame metadata; nullable only for output name lookup.",
+          "used_by": [
+            "SourceDrillConsumptionRuntimeState.source_on_proximity_update_state"
+          ]
+        },
+        "block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "countOre(tile);",
+          "rule": "Actual typed Drill ancestry definition, identified by source-exported blockedItems metadata; separate overrides remain unsupported.",
+          "schema": "source_terrain_block_definition",
+          "used_by": [
+            "SourceDrillConsumptionRuntimeState.source_on_proximity_update_state"
+          ]
+        }
+      }
+    },
+    "source_drill_live_tick_input": {
+      "canonical_schema": "source_state_schema.source_drill_live_tick_input",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/Logic.java",
+          "java_expr": "Groups.build.update();",
+          "rule": "Current loaded gameplay owner; traversal resolves actual instances through the canonical occupied-cell placement map.",
+          "used_by": [
+            "SourceDrillConsumptionRuntimeState.source_tick_state"
+          ]
+        },
+        "seconds": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "timeScaleDuration -= Time.delta",
+          "rule": "Godot seconds are converted once through the canonical source tick rate.",
+          "used_by": [
+            "SourceDrillConsumptionRuntimeState.source_tick_state"
           ]
         }
       }
@@ -494,6 +689,42 @@
         }
       }
     },
+    "source_drill_proximity_assignment_input": {
+      "canonical_schema": "source_state_schema.source_drill_proximity_assignment_input",
+      "keys": {
+        "linked_tiles": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "for(Tile other : tile.getLinkedTilesAs(this, tempTiles)){",
+          "rule": "Source linked order/bounds from existing Tile provider.",
+          "schema": "source_drill_ore_tile",
+          "used_by": [
+            "SourceDrillRuntimeState.source_on_proximity_update_state"
+          ]
+        },
+        "tier": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "drops.hardness <= tier",
+          "rule": "Actual resolved Block tier; no guessed default.",
+          "used_by": [
+            "SourceDrillRuntimeState.source_on_proximity_update_state"
+          ]
+        },
+        "blocked_items": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "(blockedItems == null || !blockedItems.contains(drops))",
+          "rule": "Canonical nullable numeric Item identities from existing Drill.init/bind owner.",
+          "used_by": [
+            "SourceDrillRuntimeState.source_on_proximity_update_state"
+          ]
+        }
+      }
+    },
     "source_drill_time_drilled_delta_input": {
       "canonical_schema": "source_state_schema.source_drill_time_drilled_delta_input",
       "keys": {
@@ -601,242 +832,6 @@
           "type": "float",
           "used_by": [
             "port_game.source_drill_warmup_state"
-          ]
-        }
-      }
-    },
-    "source_block_has_liquids_input": {
-      "canonical_schema": "source_state_schema.source_block_has_liquids_input",
-      "keys": {
-        "block": {
-          "type": "Variant",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/Block.java",
-          "java_expr": "public @NoPatch boolean hasLiquids;",
-          "rule": "Hydrated source-explicit constructor/initializer flag. Missing flags remain unresolved; this API has no false fallback."
-        }
-      }
-    },
-    "source_block_has_liquids_result": {
-      "canonical_schema": "source_state_schema.source_block_has_liquids_result",
-      "keys": {
-        "has_liquids": {
-          "type": "bool",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
-          "java_expr": "hasLiquids = true;",
-          "rule": "Source-explicit flags follow constructor inheritance and initializer overrides. Consumer.apply-only flags and absent flags remain deferred.",
-          "used_by": [
-            "SourcePlacedBlockState.source_block_has_liquids_state"
-          ]
-        }
-      }
-    },
-    "source_drill_live_tick_input": {
-      "canonical_schema": "source_state_schema.source_drill_live_tick_input",
-      "keys": {
-        "game": {
-          "type": "Object",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/core/Logic.java",
-          "java_expr": "Groups.build.update();",
-          "rule": "Current loaded gameplay owner; traversal resolves actual instances through the canonical occupied-cell placement map.",
-          "used_by": [
-            "SourceDrillConsumptionRuntimeState.source_tick_state"
-          ]
-        },
-        "seconds": {
-          "type": "float",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-          "java_expr": "timeScaleDuration -= Time.delta",
-          "rule": "Godot seconds are converted once through the canonical source tick rate.",
-          "used_by": [
-            "SourceDrillConsumptionRuntimeState.source_tick_state"
-          ]
-        }
-      }
-    },
-    "source_drill_count_ore_input": {
-      "canonical_schema": "source_state_schema.source_drill_count_ore_input",
-      "keys": {
-        "linked_tiles": {
-          "type": "Array",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
-          "java_expr": "for(Tile other : tile.getLinkedTilesAs(this, tempTiles)){",
-          "rule": "Explicit complete linked footprint in caller order; Tile projection uses source_drill_ore_tile. No live-world lookup or proximity invalidation is fabricated.",
-          "used_by": [
-            "SourceDrillRuntimeState.source_count_ore_state"
-          ]
-        },
-        "tier": {
-          "type": "int",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
-          "java_expr": "public int tier;",
-          "rule": "Explicit source Drill tier; no fallback.",
-          "used_by": [
-            "SourceDrillRuntimeState.source_count_ore_state"
-          ]
-        },
-        "blocked_items": {
-          "type": "Variant",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
-          "java_expr": "(blockedItems == null || !blockedItems.contains(drops))",
-          "rule": "Nullable Array of canonical numeric Item IDs, not names or slugs. Caller supplies initialized blockedItems; blockedItem compatibility initialization remains in Drill.init.",
-          "used_by": [
-            "SourceDrillRuntimeState.source_count_ore_state"
-          ]
-        }
-      }
-    },
-    "source_drill_bind_ore_items_input": {
-      "canonical_schema": "source_state_schema.source_drill_bind_ore_items_input",
-      "keys": {
-        "block": {
-          "type": "Object",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
-          "java_expr": "public void init(){",
-          "rule": "Actual Block with both source-backed definition keys present. Missing/unresolved definitions assert instead of assuming null.",
-          "schema": "source_drill_blocked_definition",
-          "used_by": [
-            "SourceDrillRuntimeState.source_bind_ore_items_state"
-          ]
-        },
-        "item_catalog": {
-          "type": "Dictionary",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/ctype/Content.java",
-          "java_expr": "this.id = (short)Vars.content.getBy(getContentType()).size;",
-          "rule": "Transient typed item view from source_item_catalog_state; Java field resolves to canonical numeric Item.id.",
-          "schema": "source_item_catalog_result",
-          "used_by": [
-            "SourceDrillRuntimeState.source_bind_ore_items_state"
-          ]
-        }
-      }
-    },
-    "source_drill_init_blocked_items_input": {
-      "canonical_schema": "source_state_schema.source_drill_init_blocked_items_input",
-      "keys": {
-        "blocked_items": {
-          "type": "Variant",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
-          "java_expr": "public @Nullable Seq<Item> blockedItems;",
-          "rule": "Explicit nullable Array of canonical numeric Item IDs. Existing empty/nonempty sequence is authoritative.",
-          "used_by": [
-            "SourceDrillRuntimeState.source_init_blocked_items_state"
-          ]
-        },
-        "blocked_item": {
-          "type": "Variant",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
-          "java_expr": "public @Nullable Item blockedItem;",
-          "rule": "Explicit nullable legacy Item numeric ID; Java reference field starts null.",
-          "used_by": [
-            "SourceDrillRuntimeState.source_init_blocked_items_state"
-          ]
-        }
-      }
-    },
-    "source_drill_dominant_item_name_input": {
-      "canonical_schema": "source_state_schema.source_drill_dominant_item_name_input",
-      "keys": {
-        "game": {
-          "type": "Object",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/Tile.java",
-          "java_expr": "build.onProximityUpdate();",
-          "rule": "Actual game world containing canonical Tile store, placement index and readonly typed Item view.",
-          "used_by": [
-            "SourceDrillConsumptionRuntimeState.source_dominant_item_name_state"
-          ]
-        },
-        "sprite": {
-          "type": "Sprite2D",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
-          "java_expr": "public class DrillBuild extends Building{",
-          "rule": "Actual placed Building identity and existing frame metadata; nullable only for output name lookup.",
-          "used_by": [
-            "SourceDrillConsumptionRuntimeState.source_dominant_item_name_state"
-          ]
-        }
-      }
-    },
-    "source_drill_live_proximity_input": {
-      "canonical_schema": "source_state_schema.source_drill_live_proximity_input",
-      "keys": {
-        "game": {
-          "type": "Object",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/Tile.java",
-          "java_expr": "build.onProximityUpdate();",
-          "rule": "Actual game world containing canonical Tile store, placement index and readonly typed Item view.",
-          "used_by": [
-            "SourceDrillConsumptionRuntimeState.source_on_proximity_update_state"
-          ]
-        },
-        "sprite": {
-          "type": "Sprite2D",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
-          "java_expr": "public class DrillBuild extends Building{",
-          "rule": "Actual placed Building identity and existing frame metadata; nullable only for output name lookup.",
-          "used_by": [
-            "SourceDrillConsumptionRuntimeState.source_on_proximity_update_state"
-          ]
-        },
-        "block": {
-          "type": "Object",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
-          "java_expr": "countOre(tile);",
-          "rule": "Actual typed Drill ancestry definition, identified by source-exported blockedItems metadata; separate overrides remain unsupported.",
-          "schema": "source_terrain_block_definition",
-          "used_by": [
-            "SourceDrillConsumptionRuntimeState.source_on_proximity_update_state"
-          ]
-        }
-      }
-    },
-    "source_drill_proximity_assignment_input": {
-      "canonical_schema": "source_state_schema.source_drill_proximity_assignment_input",
-      "keys": {
-        "linked_tiles": {
-          "type": "Array",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
-          "java_expr": "for(Tile other : tile.getLinkedTilesAs(this, tempTiles)){",
-          "rule": "Source linked order/bounds from existing Tile provider.",
-          "schema": "source_drill_ore_tile",
-          "used_by": [
-            "SourceDrillRuntimeState.source_on_proximity_update_state"
-          ]
-        },
-        "tier": {
-          "type": "int",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
-          "java_expr": "drops.hardness <= tier",
-          "rule": "Actual resolved Block tier; no guessed default.",
-          "used_by": [
-            "SourceDrillRuntimeState.source_on_proximity_update_state"
-          ]
-        },
-        "blocked_items": {
-          "type": "Variant",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
-          "java_expr": "(blockedItems == null || !blockedItems.contains(drops))",
-          "rule": "Canonical nullable numeric Item identities from existing Drill.init/bind owner.",
-          "used_by": [
-            "SourceDrillRuntimeState.source_on_proximity_update_state"
           ]
         }
       }

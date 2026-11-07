@@ -1,8 +1,9 @@
 extends Node
 
 const PortGameScript := preload("res://src/game/PortGame.gd")
-const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const source_ssot_accessor_runtime_state := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
 const source_building_interaction_state := preload("res://src/game/SourceBuildingInteractionState.gd")
+const runtime_proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")
 
 func _ready() -> void:
 	var game: PortGame = PortGameScript.new()
@@ -29,7 +30,7 @@ func _ready() -> void:
 	var generated_unit_removed: Dictionary = game.generated_building_comp_unit_removed_bridge_state(unit_state)
 	var generated_puddle_on: Dictionary = game.generated_building_comp_puddle_on_bridge_state(puddle_state)
 	var generated_tapped: Dictionary = game.generated_building_comp_tapped_bridge_state(tapped_state)
-	var registry_state: Dictionary = source_ssot_catalog.canonical_headquarter_registry_state()
+	var registry_state: Dictionary = source_ssot_accessor_runtime_state.canonical_headquarter_registry_state()
 	var generated_bridge_matches: Array[bool] = [
 		bool(generated_is_commandable.get("matches", false)),
 		bool(generated_is_payload.get("matches", false)),
@@ -61,14 +62,9 @@ func _ready() -> void:
 	var proof_label := get_node_or_null("ProofCanvas/ProofLabel") as Label
 	if proof_label != null:
 		proof_label.text = "BUILDING_INTERACTION_MODULE_PROOF matches=%s registry_valid=%s" % [str(proof["matches"]), str(proof["registry_valid"])]
-	var proof_json := JSON.stringify(proof)
-	print("BUILDING_INTERACTION_MODULE_PROOF " + proof_json)
-	var proof_path := ProjectSettings.globalize_path("res://tools/runtime_proofs/BuildingInteractionModuleProof.json")
-	var proof_file := FileAccess.open(proof_path, FileAccess.WRITE)
-	if proof_file != null:
-		proof_file.store_string(proof_json)
-		proof_file.flush()
-		proof_file.close()
+	print("BUILDING_INTERACTION_MODULE_PROOF " + JSON.stringify(proof))
+	runtime_proof_state.write_proof("BuildingInteractionModuleProof", proof)
 	game.free()
-	await get_tree().create_timer(60.0).timeout
-	get_tree().quit(0)
+	await get_tree().process_frame
+	get_tree().quit(runtime_proof_state.exit_code(proof))
+

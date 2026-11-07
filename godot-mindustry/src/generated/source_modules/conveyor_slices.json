@@ -3,24 +3,10 @@
   "slices": {
     "N684": {
       "canonical_ledger": "source_slice_ledger.N684",
-      "exact_exprs": [
-        "public float speed = 0f;",
-        "float moved = speed * edelta();",
-        "float maxmove = Mathf.clamp(nextpos - ys[i], 0, moved);",
-        "ys[i] += maxmove;",
-        "public float edelta(){",
-        "return efficiency * delta();",
-        "Block block",
-        "Time.delta",
-        "timeScale",
-        "efficiency",
-        "speed * edelta()"
-      ],
-      "godot_owner": "PortGame.source_conveyor_path_progress_delta",
-      "java_class": "ConveyorBuild",
-      "java_method": "updateTile()",
+      "status": "done",
       "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
-      "runtime_proof": "/root/Main.source_conveyor_path_progress_delta",
+      "java_method": "updateTile()",
+      "godot_owner": "PortGame.source_conveyor_path_progress_delta",
       "source_symbols": [
         "conveyor_path_progress_delta.block_id",
         "conveyor_path_progress_delta.edelta_method",
@@ -34,28 +20,18 @@
         "conveyor_path_progress_delta.time_scale",
         "conveyor_path_progress_delta.ys_add"
       ],
-      "status": "done",
       "tests": [
         "test_conveyor_path_progress_delta_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_conveyor_speed_for_item_motion"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_conveyor_path_progress_delta"
     },
     "N686": {
       "canonical_ledger": "source_slice_ledger.N686",
-      "exact_exprs": [
-        "public float speed = 0f;",
-        "float mspeed = speed * tilesize * 55f;",
-        "public float[] xs = new float[capacity], ys = new float[capacity];",
-        "float moved = speed * edelta();",
-        "ys[i] += maxmove;",
-        "if(ys[i] >= 1f && pass(ids[i])){",
-        "Block block"
-      ],
-      "godot_owner": "PortGame.source_conveyor_path_progress_rate",
-      "java_class": "Conveyor/ConveyorBuild",
-      "java_method": "unitOn(Unit unit)/ConveyorBuild.updateTile()",
+      "status": "done",
       "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
-      "runtime_proof": "/root/Main.source_conveyor_path_progress_rate",
+      "java_method": "unitOn(Unit unit)/ConveyorBuild.updateTile()",
+      "godot_owner": "PortGame.source_conveyor_path_progress_rate",
       "source_symbols": [
         "conveyor_path_progress_rate.block_id",
         "conveyor_path_progress_rate.item_positions",
@@ -67,27 +43,18 @@
         "conveyor_path_progress_rate.unit_world_speed",
         "conveyor_path_progress_rate.ys_add"
       ],
-      "status": "done",
       "tests": [
         "test_conveyor_path_progress_rate_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_conveyor_speed_for_item_motion"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_conveyor_path_progress_rate"
     },
     "N687": {
       "canonical_ledger": "source_slice_ledger.N687",
-      "exact_exprs": [
-        "public float speed = 0f;",
-        "float mspeed = speed * tilesize * 55f;",
-        "unit.impulse((tx * mspeed + centerx) * delta(), (ty * mspeed + centery) * delta());",
-        "/** size of tiles in units */",
-        "public static final int tilesize = 8;",
-        "Block block"
-      ],
-      "godot_owner": "PortGame.source_conveyor_world_speed",
-      "java_class": "Conveyor/Vars",
-      "java_method": "unitOn(Unit unit)",
+      "status": "done",
       "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
-      "runtime_proof": "/root/Main.source_conveyor_world_speed",
+      "java_method": "unitOn(Unit unit)",
+      "godot_owner": "PortGame.source_conveyor_world_speed",
       "source_symbols": [
         "conveyor_world_speed.block_id",
         "conveyor_world_speed.result",
@@ -99,11 +66,11 @@
         "conveyor_world_speed.unit_impulse",
         "conveyor_world_speed.unit_world_speed"
       ],
-      "status": "done",
       "tests": [
         "test_conveyor_world_speed_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_conveyor_speed_for_item_motion"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_conveyor_world_speed"
     }
   }
 }

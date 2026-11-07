@@ -1,0 +1,27 @@
+{
+  "block_stats_bars": {
+    "generated_methods": [
+      "java_method_setStats_25",
+      "java_method_addBar_26",
+      "java_method_removeBar_27",
+      "java_method_listBars_28",
+      "java_method_addLiquidBar_29",
+      "java_method_addLiquidBar_30",
+      "java_method_setBars_31",
+      "java_method_afterPatch_32"
+    ],
+    "methods": [
+      "PortGame.source_block_set_stats_state",
+      "PortGame.source_block_add_bar_state",
+      "PortGame.source_block_remove_bar_state",
+      "PortGame.source_block_list_bars_state",
+      "PortGame.source_block_add_liquid_bar_static_state",
+      "PortGame.source_block_add_liquid_bar_dynamic_state",
+      "PortGame.source_block_set_bars_state",
+      "PortGame.source_block_after_patch_stats_bars_state"
+    ],
+    "owner": "SourceBlockStatsBarsState",
+    "source": "core/src/mindustry/world/Block.java"
+  },
+  "version": 1
+}

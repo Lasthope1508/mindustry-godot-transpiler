@@ -24,9 +24,13 @@ static func source_liquid_catalog_state(content_catalog: Object) -> Dictionary:
 		liquid_id_by_name[liquids[index].id] = index
 	return {"content_liquid_ids": content_liquid_ids, "liquid_id_by_name": liquid_id_by_name}
 
-const content_catalog_script := preload("res://src/mindustry/content/ContentCatalog.gd")
-const ContentRegistry := preload("res://src/generated/MindustryContentRegistry.gd")
-const generated_class_registry := preload("res://src/generated/GeneratedClassRegistry.gd")
+const source_content_registry_source_text_state := preload("res://src/game/SourceContentRegistrySourceTextState.gd")
+const CONTENT_CATALOG_SCRIPT := source_content_registry_source_text_state.CONTENT_CATALOG_SCRIPT
+const CONTENT_REGISTRY := source_content_registry_source_text_state.CONTENT_REGISTRY
+const GENERATED_CLASS_REGISTRY := source_content_registry_source_text_state.GENERATED_CLASS_REGISTRY
+static var content_catalog_script := load(CONTENT_CATALOG_SCRIPT)
+static var ContentRegistry := load(CONTENT_REGISTRY)
+static var generated_class_registry := load(GENERATED_CLASS_REGISTRY)
 const source_generated_class_runtime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
 const source_playable_scenario_defaults := preload("res://src/game/SourcePlayableScenarioDefaults.gd")
 

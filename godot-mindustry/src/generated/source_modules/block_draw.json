@@ -1,0 +1,25 @@
+{
+  "block_draw": {
+    "generated_methods": [
+      "java_method_drawBase_0",
+      "java_method_drawBaseCached_1",
+      "java_method_drawShadow_2",
+      "java_method_drawEnvironmentLight_4",
+      "java_method_drawPlace_5",
+      "java_method_drawOverlay_10",
+      "java_method_displayShadow_11"
+    ],
+    "methods": [
+      "PortGame.generated_block_draw_base_bridge_state",
+      "PortGame.generated_block_draw_base_cached_bridge_state",
+      "PortGame.generated_block_draw_shadow_bridge_state",
+      "PortGame.generated_block_draw_environment_light_bridge_state",
+      "PortGame.generated_block_draw_place_bridge_state",
+      "PortGame.generated_block_draw_overlay_bridge_state",
+      "PortGame.generated_block_display_shadow_bridge_state"
+    ],
+    "owner": "SourceBlockDrawState",
+    "source": "core/src/mindustry/world/Block.java"
+  },
+  "version": 1
+}

@@ -1,0 +1,179 @@
+extends RefCounted
+class_name SourceBlockPlanPlacementState
+
+const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
+const source_generated_class_runtime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
+const source_block_source_text_state := preload("res://src/game/SourceBlockSourceTextState.gd")
+const source_block_plan_source_text_state := preload("res://src/game/SourceBlockPlanSourceTextState.gd")
+const SOURCE_BLOCK_GENERATED_CLASS := source_block_source_text_state.SOURCE_BLOCK_GENERATED_CLASS
+const SOURCE_BLOCK_PLAN_ASSIGNMENT_EXPR_KEY := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_ASSIGNMENT_EXPR_KEY
+const SOURCE_BLOCK_PLAN_COMMENT_KEY := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_COMMENT_KEY
+const SOURCE_BLOCK_PLAN_CANONICAL_KEY := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_CANONICAL_KEY
+const SOURCE_BLOCK_PLAN_DELEGATE_CALL_KEY := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_DELEGATE_CALL_KEY
+const SOURCE_BLOCK_PLAN_DELEGATES_TO_TWO_ARG_KEY := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_DELEGATES_TO_TWO_ARG_KEY
+const SOURCE_BLOCK_PLAN_DIAGONAL_ON_KEY := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_DIAGONAL_ON_KEY
+const SOURCE_BLOCK_PLAN_FLIP_GUARD_KEY := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_FLIP_GUARD_KEY
+const SOURCE_BLOCK_PLAN_GENERATED_OWNER_KEY := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_GENERATED_OWNER_KEY
+const SOURCE_BLOCK_PLAN_GUARD_EXPR_KEY := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_GUARD_EXPR_KEY
+const SOURCE_BLOCK_PLAN_INVERT_FLIP_KEY := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_INVERT_FLIP_KEY
+const SOURCE_BLOCK_PLAN_METHOD_KEY := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_METHOD_KEY
+const SOURCE_BLOCK_PLAN_MATCHES_KEY := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_MATCHES_KEY
+const SOURCE_BLOCK_PLAN_MOD_FLOAT_FALLBACK := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_MOD_FLOAT_FALLBACK
+const SOURCE_BLOCK_PLAN_MOD_FLOAT_KEY := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_MOD_FLOAT_KEY
+const SOURCE_BLOCK_PLAN_MOD_INPUT_KEY := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_MOD_INPUT_KEY
+const SOURCE_BLOCK_PLAN_MOD_VALUE_KEY := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_MOD_VALUE_KEY
+const SOURCE_BLOCK_PLAN_NOOP_KEY := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_NOOP_KEY
+const SOURCE_BLOCK_PLAN_PLAN_KEY := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_PLAN_KEY
+const SOURCE_BLOCK_PLAN_REPLACEMENT_KEY := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_REPLACEMENT_KEY
+const SOURCE_BLOCK_PLAN_REQ_KEY := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_REQ_KEY
+const SOURCE_BLOCK_PLAN_PLAN_ROTATION_STATE_KEY := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_PLAN_ROTATION_STATE_KEY
+const SOURCE_BLOCK_PLAN_PLAN_ROTATION_METHOD := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_PLAN_ROTATION_METHOD
+const SOURCE_BLOCK_PLAN_PLAN_ROTATION_RETURN_EXPR := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_PLAN_ROTATION_RETURN_EXPR
+const SOURCE_BLOCK_PLAN_PLAN_ROTATION_JAVA_METHOD := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_PLAN_ROTATION_JAVA_METHOD
+const SOURCE_BLOCK_PLAN_PLAN_ROTATION_GENERATED_OWNER := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_PLAN_ROTATION_GENERATED_OWNER
+const SOURCE_BLOCK_PLAN_PLANS_KEY := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_PLANS_KEY
+const SOURCE_BLOCK_PLAN_POINTS_KEY := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_POINTS_KEY
+const SOURCE_BLOCK_PLAN_RESULT_KEY := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_RESULT_KEY
+const SOURCE_BLOCK_PLAN_RETURN_EXPR_KEY := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_RETURN_EXPR_KEY
+const SOURCE_BLOCK_PLAN_ROTATE_KEY := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_ROTATE_KEY
+const SOURCE_BLOCK_PLAN_ROTATION_AFTER_KEY := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_ROTATION_AFTER_KEY
+const SOURCE_BLOCK_PLAN_ROTATION_BEFORE_KEY := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_ROTATION_BEFORE_KEY
+const SOURCE_BLOCK_PLAN_ROTATION_EVEN_KEY := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_ROTATION_EVEN_KEY
+const SOURCE_BLOCK_PLAN_ROTATION_FALLBACK := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_ROTATION_FALLBACK
+const SOURCE_BLOCK_PLAN_ROTATION_KEY := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_ROTATION_KEY
+const SOURCE_BLOCK_PLAN_ROTATION_2_KEY := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_ROTATION_2_KEY
+const SOURCE_BLOCK_PLAN_ROT_KEY := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_ROT_KEY
+const SOURCE_BLOCK_PLAN_SOURCE_KEY := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_SOURCE_KEY
+const SOURCE_BLOCK_PLAN_SOURCE_OWNER_KEY := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_SOURCE_OWNER_KEY
+const SOURCE_BLOCK_PLAN_SOURCE := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_SOURCE
+const SOURCE_BLOCK_PLAN_X_KEY := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_X_KEY
+const SOURCE_BLOCK_PLAN_LOCK_ROTATION_KEY := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_LOCK_ROTATION_KEY
+const SOURCE_BLOCK_PLAN_CHANGE_PLACEMENT_PATH_COMMENT := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_CHANGE_PLACEMENT_PATH_COMMENT
+const SOURCE_BLOCK_PLAN_CHANGE_PLACEMENT_PATH_DIAGONAL_METHOD := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_CHANGE_PLACEMENT_PATH_DIAGONAL_METHOD
+const SOURCE_BLOCK_PLAN_CHANGE_PLACEMENT_PATH_DELEGATE_CALL := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_CHANGE_PLACEMENT_PATH_DELEGATE_CALL
+const SOURCE_BLOCK_PLAN_CHANGE_PLACEMENT_PATH_METHOD := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_CHANGE_PLACEMENT_PATH_METHOD
+const SOURCE_BLOCK_PLAN_CHANGE_PLACEMENT_PATH_DIAGONAL_JAVA_METHOD := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_CHANGE_PLACEMENT_PATH_DIAGONAL_JAVA_METHOD
+const SOURCE_BLOCK_PLAN_CHANGE_PLACEMENT_PATH_DIAGONAL_GENERATED_OWNER := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_CHANGE_PLACEMENT_PATH_DIAGONAL_GENERATED_OWNER
+const SOURCE_BLOCK_PLAN_CHANGE_PLACEMENT_PATH_JAVA_METHOD := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_CHANGE_PLACEMENT_PATH_JAVA_METHOD
+const SOURCE_BLOCK_PLAN_CHANGE_PLACEMENT_PATH_GENERATED_OWNER := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_CHANGE_PLACEMENT_PATH_GENERATED_OWNER
+const SOURCE_BLOCK_PLAN_HANDLE_PLACEMENT_LINE_COMMENT := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_HANDLE_PLACEMENT_LINE_COMMENT
+const SOURCE_BLOCK_PLAN_HANDLE_PLACEMENT_LINE_METHOD := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_HANDLE_PLACEMENT_LINE_METHOD
+const SOURCE_BLOCK_PLAN_HANDLE_PLACEMENT_LINE_JAVA_METHOD := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_HANDLE_PLACEMENT_LINE_JAVA_METHOD
+const SOURCE_BLOCK_PLAN_HANDLE_PLACEMENT_LINE_GENERATED_OWNER := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_HANDLE_PLACEMENT_LINE_GENERATED_OWNER
+const SOURCE_BLOCK_PLAN_ON_NEW_PLAN_COMMENT := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_ON_NEW_PLAN_COMMENT
+const SOURCE_BLOCK_PLAN_ON_NEW_PLAN_METHOD := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_ON_NEW_PLAN_METHOD
+const SOURCE_BLOCK_PLAN_ON_NEW_PLAN_JAVA_METHOD := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_ON_NEW_PLAN_JAVA_METHOD
+const SOURCE_BLOCK_PLAN_ON_NEW_PLAN_GENERATED_OWNER := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_ON_NEW_PLAN_GENERATED_OWNER
+const SOURCE_BLOCK_PLAN_GET_REPLACEMENT_COMMENT := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_GET_REPLACEMENT_COMMENT
+const SOURCE_BLOCK_PLAN_GET_REPLACEMENT_METHOD := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_GET_REPLACEMENT_METHOD
+const SOURCE_BLOCK_PLAN_GET_REPLACEMENT_RETURN_EXPR := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_GET_REPLACEMENT_RETURN_EXPR
+const SOURCE_BLOCK_PLAN_GET_REPLACEMENT_JAVA_METHOD := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_GET_REPLACEMENT_JAVA_METHOD
+const SOURCE_BLOCK_PLAN_GET_REPLACEMENT_GENERATED_OWNER := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_GET_REPLACEMENT_GENERATED_OWNER
+const SOURCE_BLOCK_PLAN_FLIP_ROTATION_METHOD := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_FLIP_ROTATION_METHOD
+const SOURCE_BLOCK_PLAN_FLIP_ROTATION_GUARD_EXPR := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_FLIP_ROTATION_GUARD_EXPR
+const SOURCE_BLOCK_PLAN_FLIP_ROTATION_ASSIGNMENT_EXPR := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_FLIP_ROTATION_ASSIGNMENT_EXPR
+const SOURCE_BLOCK_PLAN_FLIP_ROTATION_JAVA_METHOD := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_FLIP_ROTATION_JAVA_METHOD
+const SOURCE_BLOCK_PLAN_FLIP_ROTATION_GENERATED_OWNER := source_block_plan_source_text_state.SOURCE_BLOCK_PLAN_FLIP_ROTATION_GENERATED_OWNER
+
+static func _block_call(generated_method: String, generated_args: Array) -> Variant:
+	return source_generated_class_runtime.call_java_method(SOURCE_BLOCK_GENERATED_CLASS, generated_method, generated_args, null)
+
+static func _source_mod_float(value: float, mod: float) -> float:
+	return fmod(fmod(value, mod) + mod, mod)
+
+static func runtime_method_names(game: Object) -> Dictionary:
+	if game.has_method("_block_plan_method_names"):
+		var names = game.call("_block_plan_method_names")
+		if names is Dictionary:
+			return names
+	return {}
+
+static func runtime_method_name(method_names: Dictionary, key: String, fallback_name: String) -> String:
+	var method_name = method_names.get(key, fallback_name)
+	return str(method_name) if method_name != null and str(method_name) != "" else fallback_name
+
+static func default_callbacks_state(game: Object) -> Dictionary:
+	var method_names := runtime_method_names(game)
+	return {
+		SOURCE_BLOCK_PLAN_MOD_FLOAT_KEY: Callable(game, runtime_method_name(method_names, SOURCE_BLOCK_PLAN_MOD_FLOAT_KEY, SOURCE_BLOCK_PLAN_MOD_FLOAT_FALLBACK)),
+		SOURCE_BLOCK_PLAN_ROTATION_KEY: Callable(game, runtime_method_name(method_names, SOURCE_BLOCK_PLAN_ROTATION_KEY, SOURCE_BLOCK_PLAN_ROTATION_FALLBACK)),
+	}
+
+static func plan_rotation_state(rotate_value: bool, lock_rotation: bool, rot: int) -> Dictionary:
+	var plan_rotation_value: int = 0 if ((not rotate_value) and lock_rotation) else rot
+	return {SOURCE_BLOCK_PLAN_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_PLAN_ROTATION_STATE, SOURCE_BLOCK_PLAN_SOURCE_KEY: SOURCE_BLOCK_PLAN_SOURCE, SOURCE_BLOCK_PLAN_METHOD_KEY: SOURCE_BLOCK_PLAN_PLAN_ROTATION_METHOD, SOURCE_BLOCK_PLAN_RETURN_EXPR_KEY: SOURCE_BLOCK_PLAN_PLAN_ROTATION_RETURN_EXPR, SOURCE_BLOCK_PLAN_ROTATE_KEY: rotate_value, SOURCE_BLOCK_PLAN_LOCK_ROTATION_KEY: lock_rotation, SOURCE_BLOCK_PLAN_ROT_KEY: rot, SOURCE_BLOCK_PLAN_ROTATION_KEY: plan_rotation_value}
+
+static func generated_plan_rotation_result_state(rotate_value: bool, lock_rotation: bool, rot: int) -> Dictionary:
+	return plan_rotation_state(rotate_value, lock_rotation, rot)
+
+static func flip_rotation_state(rotation_before: int, x_value: bool, invert_flip: bool, rotate_value: bool, lock_rotation: bool, mod_fn: Callable, plan_rotation_fn: Callable) -> Dictionary:
+	var rotation_even: bool = rotation_before % 2 == 0
+	var flip_guard: bool = (x_value == rotation_even) != invert_flip
+	var mod_value: int = int(mod_fn.call(float(rotation_before + 2), 4.0))
+	var rotation_plan_state: Dictionary = plan_rotation_fn.call(rotate_value, lock_rotation, mod_value)
+	var rotation_after: int = int(rotation_plan_state["plan_rotation"]) if flip_guard else rotation_before
+	return {SOURCE_BLOCK_PLAN_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_FLIP_ROTATION_STATE, SOURCE_BLOCK_PLAN_SOURCE_KEY: SOURCE_BLOCK_PLAN_SOURCE, SOURCE_BLOCK_PLAN_METHOD_KEY: SOURCE_BLOCK_PLAN_FLIP_ROTATION_METHOD, SOURCE_BLOCK_PLAN_GUARD_EXPR_KEY: SOURCE_BLOCK_PLAN_FLIP_ROTATION_GUARD_EXPR, SOURCE_BLOCK_PLAN_ASSIGNMENT_EXPR_KEY: SOURCE_BLOCK_PLAN_FLIP_ROTATION_ASSIGNMENT_EXPR, SOURCE_BLOCK_PLAN_ROTATION_BEFORE_KEY: rotation_before, SOURCE_BLOCK_PLAN_X_KEY: x_value, SOURCE_BLOCK_PLAN_INVERT_FLIP_KEY: invert_flip, SOURCE_BLOCK_PLAN_ROTATE_KEY: rotate_value, SOURCE_BLOCK_PLAN_LOCK_ROTATION_KEY: lock_rotation, SOURCE_BLOCK_PLAN_ROTATION_EVEN_KEY: rotation_even, SOURCE_BLOCK_PLAN_FLIP_GUARD_KEY: flip_guard, SOURCE_BLOCK_PLAN_MOD_INPUT_KEY: rotation_before + 2, SOURCE_BLOCK_PLAN_MOD_VALUE_KEY: mod_value, SOURCE_BLOCK_PLAN_PLAN_ROTATION_STATE_KEY: rotation_plan_state, SOURCE_BLOCK_PLAN_ROTATION_AFTER_KEY: rotation_after}
+
+static func game_flip_rotation_state(game: Object, rotation_before: int, x_value: bool, invert_flip: bool, rotate_value: bool, lock_rotation: bool) -> Dictionary:
+	var callbacks := default_callbacks_state(game)
+	return flip_rotation_state(rotation_before, x_value, invert_flip, rotate_value, lock_rotation, callbacks.get(SOURCE_BLOCK_PLAN_MOD_FLOAT_KEY, Callable()), callbacks.get(SOURCE_BLOCK_PLAN_ROTATION_KEY, Callable()))
+
+static func generated_flip_rotation_result_state(rotation_before: int, x_value: bool, invert_flip: bool, rotate_value: bool, lock_rotation: bool) -> Dictionary:
+	return flip_rotation_state(rotation_before, x_value, invert_flip, rotate_value, lock_rotation, Callable(SourceBlockPlanPlacementState, "_source_mod_float"), Callable(SourceBlockPlanPlacementState, "plan_rotation_state"))
+
+static func generated_block_plan_rotation_bridge_state(rotate_value: bool, lock_rotation: bool, rot: int) -> Dictionary:
+	var result = _block_call(SOURCE_BLOCK_PLAN_PLAN_ROTATION_JAVA_METHOD, [rotate_value, lock_rotation, rot])
+	var canonical = plan_rotation_state(rotate_value, lock_rotation, rot)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return {SOURCE_BLOCK_PLAN_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_PLAN_ROTATION_STATE, SOURCE_BLOCK_PLAN_GENERATED_OWNER_KEY: SOURCE_BLOCK_PLAN_PLAN_ROTATION_GENERATED_OWNER, SOURCE_BLOCK_PLAN_RESULT_KEY: result, SOURCE_BLOCK_PLAN_CANONICAL_KEY: canonical, SOURCE_BLOCK_PLAN_MATCHES_KEY: matches}
+
+static func generated_block_flip_rotation_bridge_state(rotation_before: int, x_value: bool, invert_flip: bool, rotate_value: bool, lock_rotation: bool) -> Dictionary:
+	var result = _block_call(SOURCE_BLOCK_PLAN_FLIP_ROTATION_JAVA_METHOD, [rotation_before, x_value, invert_flip, rotate_value, lock_rotation])
+	var canonical = flip_rotation_state(rotation_before, x_value, invert_flip, rotate_value, lock_rotation, Callable(SourceBlockPlanPlacementState, "_source_mod_float"), Callable(SourceBlockPlanPlacementState, "plan_rotation_state"))
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return {SOURCE_BLOCK_PLAN_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_FLIP_ROTATION_STATE, SOURCE_BLOCK_PLAN_GENERATED_OWNER_KEY: SOURCE_BLOCK_PLAN_FLIP_ROTATION_GENERATED_OWNER, SOURCE_BLOCK_PLAN_RESULT_KEY: result, SOURCE_BLOCK_PLAN_CANONICAL_KEY: canonical, SOURCE_BLOCK_PLAN_MATCHES_KEY: matches}
+
+static func change_placement_path_diagonal_state(points: Variant, rotation: int, diagonal_on: bool) -> Dictionary:
+	return {SOURCE_BLOCK_PLAN_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CHANGE_PLACEMENT_PATH_DIAGONAL_STATE, SOURCE_BLOCK_PLAN_SOURCE_KEY: SOURCE_BLOCK_PLAN_SOURCE, SOURCE_BLOCK_PLAN_COMMENT_KEY: SOURCE_BLOCK_PLAN_CHANGE_PLACEMENT_PATH_COMMENT, SOURCE_BLOCK_PLAN_METHOD_KEY: SOURCE_BLOCK_PLAN_CHANGE_PLACEMENT_PATH_DIAGONAL_METHOD, SOURCE_BLOCK_PLAN_DELEGATE_CALL_KEY: SOURCE_BLOCK_PLAN_CHANGE_PLACEMENT_PATH_DELEGATE_CALL, SOURCE_BLOCK_PLAN_POINTS_KEY: points, SOURCE_BLOCK_PLAN_ROTATION_2_KEY: rotation, SOURCE_BLOCK_PLAN_DIAGONAL_ON_KEY: diagonal_on, SOURCE_BLOCK_PLAN_DELEGATES_TO_TWO_ARG_KEY: true}
+
+static func change_placement_path_state(points: Variant, rotation: int) -> Dictionary:
+	return {SOURCE_BLOCK_PLAN_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CHANGE_PLACEMENT_PATH_STATE, SOURCE_BLOCK_PLAN_SOURCE_KEY: SOURCE_BLOCK_PLAN_SOURCE, SOURCE_BLOCK_PLAN_COMMENT_KEY: SOURCE_BLOCK_PLAN_CHANGE_PLACEMENT_PATH_COMMENT, SOURCE_BLOCK_PLAN_METHOD_KEY: SOURCE_BLOCK_PLAN_CHANGE_PLACEMENT_PATH_METHOD, SOURCE_BLOCK_PLAN_POINTS_KEY: points, SOURCE_BLOCK_PLAN_ROTATION_2_KEY: rotation, SOURCE_BLOCK_PLAN_NOOP_KEY: true}
+
+static func handle_placement_line_state(plans: Variant) -> Dictionary:
+	return {SOURCE_BLOCK_PLAN_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_HANDLE_PLACEMENT_LINE_STATE, SOURCE_BLOCK_PLAN_SOURCE_KEY: SOURCE_BLOCK_PLAN_SOURCE, SOURCE_BLOCK_PLAN_COMMENT_KEY: SOURCE_BLOCK_PLAN_HANDLE_PLACEMENT_LINE_COMMENT, SOURCE_BLOCK_PLAN_METHOD_KEY: SOURCE_BLOCK_PLAN_HANDLE_PLACEMENT_LINE_METHOD, SOURCE_BLOCK_PLAN_PLANS_KEY: plans, SOURCE_BLOCK_PLAN_NOOP_KEY: true}
+
+static func on_new_plan_state(plan: Variant) -> Dictionary:
+	return {SOURCE_BLOCK_PLAN_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_ON_NEW_PLAN_STATE, SOURCE_BLOCK_PLAN_SOURCE_KEY: SOURCE_BLOCK_PLAN_SOURCE, SOURCE_BLOCK_PLAN_COMMENT_KEY: SOURCE_BLOCK_PLAN_ON_NEW_PLAN_COMMENT, SOURCE_BLOCK_PLAN_METHOD_KEY: SOURCE_BLOCK_PLAN_ON_NEW_PLAN_METHOD, SOURCE_BLOCK_PLAN_PLAN_KEY: plan, SOURCE_BLOCK_PLAN_NOOP_KEY: true}
+
+static func get_replacement_state(req: Variant, plans: Variant, self_block: Variant) -> Dictionary:
+	return {SOURCE_BLOCK_PLAN_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_GET_REPLACEMENT_STATE, SOURCE_BLOCK_PLAN_SOURCE_KEY: SOURCE_BLOCK_PLAN_SOURCE, SOURCE_BLOCK_PLAN_COMMENT_KEY: SOURCE_BLOCK_PLAN_GET_REPLACEMENT_COMMENT, SOURCE_BLOCK_PLAN_METHOD_KEY: SOURCE_BLOCK_PLAN_GET_REPLACEMENT_METHOD, SOURCE_BLOCK_PLAN_RETURN_EXPR_KEY: SOURCE_BLOCK_PLAN_GET_REPLACEMENT_RETURN_EXPR, SOURCE_BLOCK_PLAN_REQ_KEY: req, SOURCE_BLOCK_PLAN_PLANS_KEY: plans, SOURCE_BLOCK_PLAN_REPLACEMENT_KEY: self_block}
+
+static func generated_block_get_replacement_bridge_state(req: Variant, plans: Variant, self_block: Variant) -> Dictionary:
+	var result = _block_call(SOURCE_BLOCK_PLAN_GET_REPLACEMENT_JAVA_METHOD, [req, plans, self_block])
+	var canonical = get_replacement_state(req, plans, self_block)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return {SOURCE_BLOCK_PLAN_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_GET_REPLACEMENT_STATE, SOURCE_BLOCK_PLAN_GENERATED_OWNER_KEY: SOURCE_BLOCK_PLAN_GET_REPLACEMENT_GENERATED_OWNER, SOURCE_BLOCK_PLAN_RESULT_KEY: result, SOURCE_BLOCK_PLAN_CANONICAL_KEY: canonical, SOURCE_BLOCK_PLAN_MATCHES_KEY: matches}
+
+static func generated_block_change_placement_path_diagonal_bridge_state(points: Variant, rotation: int, diagonal_on: bool) -> Dictionary:
+	var result = _block_call(SOURCE_BLOCK_PLAN_CHANGE_PLACEMENT_PATH_DIAGONAL_JAVA_METHOD, [points, rotation, diagonal_on])
+	var canonical = change_placement_path_diagonal_state(points, rotation, diagonal_on)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return {SOURCE_BLOCK_PLAN_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CHANGE_PLACEMENT_PATH_DIAGONAL_STATE, SOURCE_BLOCK_PLAN_GENERATED_OWNER_KEY: SOURCE_BLOCK_PLAN_CHANGE_PLACEMENT_PATH_DIAGONAL_GENERATED_OWNER, SOURCE_BLOCK_PLAN_RESULT_KEY: result, SOURCE_BLOCK_PLAN_CANONICAL_KEY: canonical, SOURCE_BLOCK_PLAN_MATCHES_KEY: matches}
+
+static func generated_block_change_placement_path_bridge_state(points: Variant, rotation: int) -> Dictionary:
+	var result = _block_call(SOURCE_BLOCK_PLAN_CHANGE_PLACEMENT_PATH_JAVA_METHOD, [points, rotation])
+	var canonical = change_placement_path_state(points, rotation)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return {SOURCE_BLOCK_PLAN_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_CHANGE_PLACEMENT_PATH_STATE, SOURCE_BLOCK_PLAN_GENERATED_OWNER_KEY: SOURCE_BLOCK_PLAN_CHANGE_PLACEMENT_PATH_GENERATED_OWNER, SOURCE_BLOCK_PLAN_RESULT_KEY: result, SOURCE_BLOCK_PLAN_CANONICAL_KEY: canonical, SOURCE_BLOCK_PLAN_MATCHES_KEY: matches}
+
+static func generated_block_handle_placement_line_bridge_state(plans: Variant) -> Dictionary:
+	var result = _block_call(SOURCE_BLOCK_PLAN_HANDLE_PLACEMENT_LINE_JAVA_METHOD, [plans])
+	var canonical = handle_placement_line_state(plans)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return {SOURCE_BLOCK_PLAN_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_HANDLE_PLACEMENT_LINE_STATE, SOURCE_BLOCK_PLAN_GENERATED_OWNER_KEY: SOURCE_BLOCK_PLAN_HANDLE_PLACEMENT_LINE_GENERATED_OWNER, SOURCE_BLOCK_PLAN_RESULT_KEY: result, SOURCE_BLOCK_PLAN_CANONICAL_KEY: canonical, SOURCE_BLOCK_PLAN_MATCHES_KEY: matches}
+
+static func generated_block_on_new_plan_bridge_state(plan: Variant) -> Dictionary:
+	var result = _block_call(SOURCE_BLOCK_PLAN_ON_NEW_PLAN_JAVA_METHOD, [plan])
+	var canonical = on_new_plan_state(plan)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return {SOURCE_BLOCK_PLAN_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_ON_NEW_PLAN_STATE, SOURCE_BLOCK_PLAN_GENERATED_OWNER_KEY: SOURCE_BLOCK_PLAN_ON_NEW_PLAN_GENERATED_OWNER, SOURCE_BLOCK_PLAN_RESULT_KEY: result, SOURCE_BLOCK_PLAN_CANONICAL_KEY: canonical, SOURCE_BLOCK_PLAN_MATCHES_KEY: matches}

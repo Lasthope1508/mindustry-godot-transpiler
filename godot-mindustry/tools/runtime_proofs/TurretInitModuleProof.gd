@@ -1,12 +1,13 @@
 extends Node
 
 const PortGameScript := preload("res://src/game/PortGame.gd")
-const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const source_ssot_accessor_runtime_state := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
 const source_turret_init_state_script := preload("res://src/game/SourceTurretInitState.gd")
+const runtime_proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")
 
 func _ready() -> void:
 	var game := PortGameScript.new()
-	var registry_state := source_ssot_catalog.canonical_headquarter_registry_state()
+	var registry_state := source_ssot_accessor_runtime_state.canonical_headquarter_registry_state()
 	var shoot_y := 3.0
 	var shoot_y_is_negative_infinity := true
 	var size := 2.0
@@ -58,12 +59,9 @@ func _ready() -> void:
 		"one_headquarter_per_ssot": bool(registry_state.get("one_headquarter_per_ssot", false)),
 	}
 	proof["matches"] = bool(generated_turret_init_bridge_state.get("matches", false)) and bool(generated_turret_init_source_tilesize_default_bridge_state.get("matches", false)) and bool(generated_turret_init_size_default_bridge_state.get("matches", false)) and bool(generated_turret_init_disable_overlap_check_default_bridge_state.get("matches", false)) and bool(generated_turret_init_range_default_bridge_state.get("matches", false)) and bool(generated_turret_init_tracking_range_default_bridge_state.get("matches", false)) and bool(generated_base_turret_init_bridge_state.get("matches", false)) and bool(generated_base_turret_reinitialize_consumers_bridge_state.get("matches", false)) and bool(generated_base_turret_check_init_coolant_bridge_state.get("matches", false)) and proof["source_turret_init_matches"] and proof["turret_init_bridge_matches"] and proof["turret_init_source_tilesize_default_bridge_matches"] and proof["turret_init_size_default_bridge_matches"] and proof["turret_init_disable_overlap_check_default_bridge_matches"] and proof["turret_init_range_default_bridge_matches"] and proof["turret_init_tracking_range_default_bridge_matches"] and proof["source_base_turret_init_matches"] and proof["base_turret_init_bridge_matches"] and proof["base_turret_reinitialize_consumers_bridge_matches"] and proof["source_base_turret_check_init_coolant_matches"] and proof["base_turret_check_init_coolant_bridge_matches"] and proof["one_headquarter_per_ssot"] and proof["registry_valid"]
-	var proof_json := JSON.stringify(proof)
 	print("TURRET_INIT_MODULE_PROOF " + JSON.stringify(proof))
-	var proof_path := ProjectSettings.globalize_path("res://tools/runtime_proofs/TurretInitModuleProof.json")
-	var proof_file := FileAccess.open(proof_path, FileAccess.WRITE)
-	if proof_file != null:
-		proof_file.store_string(proof_json)
+	runtime_proof_state.write_proof("TurretInitModuleProof", proof)
 	game.free()
-	await get_tree().create_timer(60.0).timeout
-	get_tree().quit(0)
+	await get_tree().process_frame
+	get_tree().quit(runtime_proof_state.exit_code(proof))
+

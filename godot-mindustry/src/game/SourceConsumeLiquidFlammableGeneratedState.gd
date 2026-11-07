@@ -1,0 +1,49 @@
+extends RefCounted
+class_name SourceConsumeLiquidFlammableGeneratedState
+
+const source_generated_class_runtime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
+const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
+const source_consume_source_text_state := preload("res://src/game/SourceConsumeSourceTextState.gd")
+const source_consume_liquid_flammable_state := preload("res://src/game/SourceConsumeLiquidFlammableState.gd")
+
+const SOURCE_CONSUME_LIQUID_FLAMMABLE_GENERATED_CLASS := source_consume_source_text_state.SOURCE_CONSUME_LIQUID_FLAMMABLE_GENERATED_CLASS
+const SOURCE_CONSUME_LIQUID_FLAMMABLE_DISPLAY_JAVA_METHOD := source_consume_source_text_state.SOURCE_CONSUME_LIQUID_FLAMMABLE_DISPLAY_JAVA_METHOD
+const SOURCE_CONSUME_LIQUID_FLAMMABLE_LIQUID_EFFICIENCY_MULTIPLIER_JAVA_METHOD := source_consume_source_text_state.SOURCE_CONSUME_LIQUID_FLAMMABLE_LIQUID_EFFICIENCY_MULTIPLIER_JAVA_METHOD
+const SOURCE_CONSUME_LIQUID_FLAMMABLE_CONSTRUCTOR_JAVA_METHOD := source_consume_source_text_state.SOURCE_CONSUME_LIQUID_FLAMMABLE_CONSTRUCTOR_JAVA_METHOD
+const SOURCE_CONSUME_LIQUID_FLAMMABLE_AMOUNT_CONSTRUCTOR_JAVA_METHOD := source_consume_source_text_state.SOURCE_CONSUME_LIQUID_FLAMMABLE_AMOUNT_CONSTRUCTOR_JAVA_METHOD
+const SOURCE_CONSUME_LIQUID_FLAMMABLE_DEFAULT_CONSTRUCTOR_JAVA_METHOD := source_consume_source_text_state.SOURCE_CONSUME_LIQUID_FLAMMABLE_DEFAULT_CONSTRUCTOR_JAVA_METHOD
+const SOURCE_CONSUME_LIQUID_FLAMMABLE_DISPLAY_GENERATED_OWNER := source_consume_source_text_state.SOURCE_CONSUME_LIQUID_FLAMMABLE_DISPLAY_GENERATED_OWNER
+const SOURCE_CONSUME_LIQUID_FLAMMABLE_LIQUID_EFFICIENCY_MULTIPLIER_GENERATED_OWNER := source_consume_source_text_state.SOURCE_CONSUME_LIQUID_FLAMMABLE_LIQUID_EFFICIENCY_MULTIPLIER_GENERATED_OWNER
+const SOURCE_CONSUME_LIQUID_FLAMMABLE_CONSTRUCTOR_GENERATED_OWNER := source_consume_source_text_state.SOURCE_CONSUME_LIQUID_FLAMMABLE_CONSTRUCTOR_GENERATED_OWNER
+const SOURCE_CONSUME_LIQUID_FLAMMABLE_AMOUNT_CONSTRUCTOR_GENERATED_OWNER := source_consume_source_text_state.SOURCE_CONSUME_LIQUID_FLAMMABLE_AMOUNT_CONSTRUCTOR_GENERATED_OWNER
+const SOURCE_CONSUME_LIQUID_FLAMMABLE_DEFAULT_CONSTRUCTOR_GENERATED_OWNER := source_consume_source_text_state.SOURCE_CONSUME_LIQUID_FLAMMABLE_DEFAULT_CONSTRUCTOR_GENERATED_OWNER
+
+static func generated_display_bridge_state(booster: bool, amount: float, filtered_liquid_ids: Array, liquid_efficiency_values: Array, table_has_cells: bool, source_tick_rate: float) -> Dictionary:
+	var result = source_generated_class_runtime.call_java_method(SOURCE_CONSUME_LIQUID_FLAMMABLE_GENERATED_CLASS, SOURCE_CONSUME_LIQUID_FLAMMABLE_DISPLAY_JAVA_METHOD, [booster, amount, filtered_liquid_ids, liquid_efficiency_values, table_has_cells, source_tick_rate], null)
+	var canonical = source_consume_liquid_flammable_state.display_state(booster, amount, filtered_liquid_ids, liquid_efficiency_values, table_has_cells, source_tick_rate)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_CONSUME_LIQUID_FLAMMABLE_DISPLAY_STATE, "generated_owner": SOURCE_CONSUME_LIQUID_FLAMMABLE_DISPLAY_GENERATED_OWNER, "result": result, "canonical": canonical, "matches": matches}
+
+static func generated_liquid_efficiency_multiplier_bridge_state(liquid_flammability: float) -> Dictionary:
+	var result = source_generated_class_runtime.call_java_method(SOURCE_CONSUME_LIQUID_FLAMMABLE_GENERATED_CLASS, SOURCE_CONSUME_LIQUID_FLAMMABLE_LIQUID_EFFICIENCY_MULTIPLIER_JAVA_METHOD, [liquid_flammability], null)
+	var canonical = source_consume_liquid_flammable_state.liquid_efficiency_multiplier_state(liquid_flammability)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_CONSUME_LIQUID_FLAMMABLE_LIQUID_EFFICIENCY_MULTIPLIER_STATE, "generated_owner": SOURCE_CONSUME_LIQUID_FLAMMABLE_LIQUID_EFFICIENCY_MULTIPLIER_GENERATED_OWNER, "result": result, "canonical": canonical, "matches": matches}
+
+static func generated_constructor_bridge_state(min_flammability: float, amount: float) -> Dictionary:
+	var result = source_generated_class_runtime.call_java_method(SOURCE_CONSUME_LIQUID_FLAMMABLE_GENERATED_CLASS, SOURCE_CONSUME_LIQUID_FLAMMABLE_CONSTRUCTOR_JAVA_METHOD, [min_flammability, amount], null)
+	var canonical = source_consume_liquid_flammable_state.constructor_state(min_flammability, amount)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_CONSUME_LIQUID_FLAMMABLE_CONSTRUCTOR_STATE, "generated_owner": SOURCE_CONSUME_LIQUID_FLAMMABLE_CONSTRUCTOR_GENERATED_OWNER, "result": result, "canonical": canonical, "matches": matches}
+
+static func generated_amount_constructor_bridge_state(amount: float, default_min_flammability: float) -> Dictionary:
+	var result = source_generated_class_runtime.call_java_method(SOURCE_CONSUME_LIQUID_FLAMMABLE_GENERATED_CLASS, SOURCE_CONSUME_LIQUID_FLAMMABLE_AMOUNT_CONSTRUCTOR_JAVA_METHOD, [amount], null)
+	var canonical = source_consume_liquid_flammable_state.amount_constructor_state(amount, default_min_flammability)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_CONSUME_LIQUID_FLAMMABLE_AMOUNT_CONSTRUCTOR_STATE, "generated_owner": SOURCE_CONSUME_LIQUID_FLAMMABLE_AMOUNT_CONSTRUCTOR_GENERATED_OWNER, "result": result, "canonical": canonical, "matches": matches}
+
+static func generated_default_constructor_bridge_state(default_amount: float, default_min_flammability: float) -> Dictionary:
+	var result = source_generated_class_runtime.call_java_method(SOURCE_CONSUME_LIQUID_FLAMMABLE_GENERATED_CLASS, SOURCE_CONSUME_LIQUID_FLAMMABLE_DEFAULT_CONSTRUCTOR_JAVA_METHOD, [], null)
+	var canonical = source_consume_liquid_flammable_state.default_constructor_state(default_amount, default_min_flammability)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_CONSUME_LIQUID_FLAMMABLE_DEFAULT_CONSTRUCTOR_STATE, "generated_owner": SOURCE_CONSUME_LIQUID_FLAMMABLE_DEFAULT_CONSTRUCTOR_GENERATED_OWNER, "result": result, "canonical": canonical, "matches": matches}

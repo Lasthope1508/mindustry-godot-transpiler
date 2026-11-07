@@ -1,0 +1,39 @@
+extends "res://src/game/SourceBlockProducerPortBridge.gd"
+
+const source_block_research_requirements_state := preload("res://src/game/SourceBlockResearchRequirementsState.gd")
+
+func source_block_research_requirements_research_cost_state(research_cost: Variant) -> Dictionary:
+	return source_block_research_requirements_state.research_cost_state(research_cost)
+
+func generated_block_research_requirements_research_cost_bridge_state(research_cost: Variant) -> Dictionary:
+	return source_block_research_requirements_state.generated_block_research_requirements_research_cost_bridge_state(research_cost)
+
+func source_block_research_requirements_empty_state(research_cost: Variant, research_cost_multiplier: float) -> Dictionary:
+	return source_block_research_requirements_state.empty_state(research_cost, research_cost_multiplier)
+
+func generated_block_research_requirements_empty_bridge_state(research_cost: Variant, research_cost_multiplier: float) -> Dictionary:
+	return source_block_research_requirements_state.generated_block_research_requirements_empty_bridge_state(research_cost, research_cost_multiplier)
+
+func source_block_research_requirements_loop_shape_state(research_cost: Variant, research_cost_multiplier: float, requirements: Array) -> Dictionary:
+	return source_block_research_requirements_state.loop_shape_state(research_cost, research_cost_multiplier, requirements)
+
+func generated_block_research_requirements_loop_shape_bridge_state(research_cost: Variant, research_cost_multiplier: float, requirements: Array) -> Dictionary:
+	return source_block_research_requirements_state.generated_block_research_requirements_loop_shape_bridge_state(research_cost, research_cost_multiplier, requirements)
+
+func source_block_research_requirements_quantity_formula_state(research_cost: Variant, research_cost_multiplier: float, requirements: Array, research_cost_multipliers: Dictionary) -> Dictionary:
+	return source_block_research_requirements_state.quantity_formula_state(research_cost, research_cost_multiplier, requirements, research_cost_multipliers)
+
+func generated_block_research_requirements_quantity_formula_bridge_state(research_cost: Variant, research_cost_multiplier: float, requirements: Array, research_cost_multipliers: Dictionary) -> Dictionary:
+	return source_block_research_requirements_state.generated_block_research_requirements_quantity_formula_bridge_state(research_cost, research_cost_multiplier, requirements, research_cost_multipliers)
+
+func source_block_research_requirements_round_amount_state(research_cost: Variant, research_cost_multiplier: float, requirements: Array, research_cost_multipliers: Dictionary) -> Dictionary:
+	return source_block_research_requirements_state.round_amount_state(research_cost, research_cost_multiplier, requirements, research_cost_multipliers)
+
+func generated_block_research_requirements_round_amount_bridge_state(research_cost: Variant, research_cost_multiplier: float, requirements: Array, research_cost_multipliers: Dictionary) -> Dictionary:
+	return source_block_research_requirements_state.generated_block_research_requirements_round_amount_bridge_state(research_cost, research_cost_multiplier, requirements, research_cost_multipliers)
+
+func source_block_research_requirements_output_fill_state(research_cost: Variant, research_cost_multiplier: float, requirements: Array, research_cost_multipliers: Dictionary) -> Dictionary:
+	return source_block_research_requirements_state.output_fill_state(research_cost, research_cost_multiplier, requirements, research_cost_multipliers)
+
+func generated_block_research_requirements_output_fill_bridge_state(research_cost: Variant, research_cost_multiplier: float, requirements: Array, research_cost_multipliers: Dictionary) -> Dictionary:
+	return source_block_research_requirements_state.generated_block_research_requirements_output_fill_bridge_state(research_cost, research_cost_multiplier, requirements, research_cost_multipliers)

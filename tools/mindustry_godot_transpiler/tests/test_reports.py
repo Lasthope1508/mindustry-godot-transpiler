@@ -82,6 +82,42 @@ class ReportTests(unittest.TestCase):
         self.assertEqual(footprint["generated_bridge_function_count"], 1)
         self.assertEqual(footprint["max_function_lines"], 3)
 
+    def test_scan_port_game_footprint_follows_port_bridge_chain(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            godot_root = Path(tmp) / "godot"
+            game_dir = godot_root / "src" / "game"
+            game_dir.mkdir(parents=True)
+            (game_dir / "PortGame.gd").write_text(
+                'extends "res://src/game/FacadePortBridge.gd"\nclass_name PortGame\n',
+                encoding="utf-8",
+            )
+            (game_dir / "FacadePortBridge.gd").write_text(
+                'extends "res://src/game/RootPortBridge.gd"\nfunc source_facade_state() -> Dictionary:\n\treturn {}\n',
+                encoding="utf-8",
+            )
+            (game_dir / "RootPortBridge.gd").write_text(
+                'const source_runtime := preload("res://src/game/SourceRuntime.gd")\nfunc generated_root_bridge_state() -> Dictionary:\n\treturn source_runtime.bridge_state()\n',
+                encoding="utf-8",
+            )
+
+            footprint = scan_port_game_footprint(godot_root)
+            surface = scan_port_game_bridge_surface(godot_root)
+
+        self.assertEqual(footprint["line_count"], 8)
+        self.assertEqual(footprint["chain_depth"], 3)
+        self.assertEqual(footprint["chain_paths"], [
+            "src/game/PortGame.gd",
+            "src/game/FacadePortBridge.gd",
+            "src/game/RootPortBridge.gd",
+        ])
+        self.assertEqual(footprint["function_count"], 2)
+        self.assertEqual(footprint["source_function_count"], 1)
+        self.assertEqual(footprint["generated_bridge_function_count"], 1)
+        self.assertEqual(surface["delegating_function_count"], 1)
+        self.assertEqual(surface["chain_depth"], 3)
+        self.assertEqual(surface["source_delegating_function_count"], 0)
+        self.assertEqual(surface["generated_bridge_delegating_function_count"], 1)
+
     def test_write_report_persists_port_game_footprint(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -146,6 +182,45 @@ class ReportTests(unittest.TestCase):
         self.assertEqual(surface["top_delegate_modules"][1]["module"], "source_beta_runtime_state")
         self.assertEqual(surface["top_delegate_modules"][1]["function_count"], 1)
         self.assertEqual(surface["largest_delegate_module"]["module"], "source_alpha_state_module")
+
+    def test_scan_port_game_bridge_surface_resolves_thin_facade_owner(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            godot_root = Path(tmp) / "godot"
+            game_dir = godot_root / "src" / "game"
+            game_dir.mkdir(parents=True)
+            (game_dir / "PortGame.gd").write_text(
+                "\n".join([
+                    "extends Node2D",
+                    'const source_facade_state := preload("res://src/game/SourceFacadeState.gd")',
+                    "",
+                    "func source_alpha_state() -> Dictionary:",
+                    "\treturn source_facade_state.alpha_state()",
+                    "",
+                ]),
+                encoding="utf-8",
+            )
+            (game_dir / "SourceFacadeState.gd").write_text(
+                "\n".join([
+                    "extends RefCounted",
+                    'const source_alpha_owner := preload("res://src/game/SourceAlphaOwner.gd")',
+                    "",
+                    "static func alpha_state() -> Dictionary:",
+                    "\treturn source_alpha_owner.alpha_state()",
+                    "",
+                ]),
+                encoding="utf-8",
+            )
+            (game_dir / "SourceAlphaOwner.gd").write_text(
+                "extends RefCounted\nclass_name SourceAlphaOwner\nstatic func alpha_state() -> Dictionary:\n\treturn {}\n",
+                encoding="utf-8",
+            )
+
+            surface = scan_port_game_bridge_surface(godot_root)
+
+        self.assertEqual(surface["delegate_module_count"], 1)
+        self.assertEqual(surface["largest_delegate_module"]["module"], "source_alpha_owner")
+        self.assertEqual(surface["top_delegate_modules"][0]["module_path"], "res://src/game/SourceAlphaOwner.gd")
+        self.assertEqual(surface["top_delegate_modules"][0]["class_name"], "SourceAlphaOwner")
 
     def test_write_report_persists_port_game_bridge_surface(self):
         with tempfile.TemporaryDirectory() as tmp:

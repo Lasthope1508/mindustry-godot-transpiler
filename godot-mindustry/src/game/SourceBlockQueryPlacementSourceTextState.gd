@@ -1,0 +1,21 @@
+class_name SourceBlockQueryPlacementSourceTextState
+extends RefCounted
+
+const SOURCE_BLOCK_QUERY_PLACEMENT_SOURCE := "core/src/mindustry/world/Block.java"
+const SOURCE_BLOCK_QUERY_PLACEMENT_CAN_PLACE_ON_COMMENT := "/** @return whether this block can be placed on the specified tile. */"
+const SOURCE_BLOCK_QUERY_PLACEMENT_CAN_PLACE_ON_RETURN_EXPR := "return true;"
+const SOURCE_BLOCK_QUERY_PLACEMENT_CAN_PLACE_ON_JAVA_METHOD_CAN_PLACE_ON_18 := "java_method_canPlaceOn_18"
+const SOURCE_BLOCK_QUERY_PLACEMENT_CAN_PLACE_ON_GENERATED_OWNER := "block.java_method_canPlaceOn_18"
+const SOURCE_BLOCK_QUERY_PLACEMENT_CAN_BREAK_COMMENT := "/** @return whether this block can be broken on the specified tile. */"
+const SOURCE_BLOCK_QUERY_PLACEMENT_CAN_BREAK_RETURN_EXPR := "return true;"
+const SOURCE_BLOCK_QUERY_PLACEMENT_CAN_BREAK_JAVA_METHOD_CAN_BREAK_19 := "java_method_canBreak_19"
+const SOURCE_BLOCK_QUERY_PLACEMENT_CAN_BREAK_GENERATED_OWNER := "block.java_method_canBreak_19"
+const SOURCE_BLOCK_QUERY_PLACEMENT_ROTATED_OUTPUT_FIELD_COMMENT := "/** whether this is rotatable */"
+const SOURCE_BLOCK_QUERY_PLACEMENT_ROTATED_OUTPUT_FIELD_EXPR := "public boolean rotate;"
+const SOURCE_BLOCK_QUERY_PLACEMENT_ROTATED_OUTPUT_RETURN_EXPR := "return rotate;"
+const SOURCE_BLOCK_QUERY_PLACEMENT_ROTATED_OUTPUT_JAVA_METHOD_ROTATED_OUTPUT_20 := "java_method_rotatedOutput_20"
+const SOURCE_BLOCK_QUERY_PLACEMENT_ROTATED_OUTPUT_GENERATED_OWNER := "block.java_method_rotatedOutput_20"
+const SOURCE_BLOCK_QUERY_PLACEMENT_ROTATED_OUTPUT_TILE_DELEGATE_CALL := "rotatedOutput(fromX, fromY)"
+const SOURCE_BLOCK_QUERY_PLACEMENT_ROTATED_OUTPUT_TILE_RETURN_EXPR := "return rotatedOutput(fromX, fromY);"
+const SOURCE_BLOCK_QUERY_PLACEMENT_ROTATED_OUTPUT_TILE_JAVA_METHOD_ROTATED_OUTPUT_21 := "java_method_rotatedOutput_21"
+const SOURCE_BLOCK_QUERY_PLACEMENT_ROTATED_OUTPUT_TILE_GENERATED_OWNER := "block.java_method_rotatedOutput_21"

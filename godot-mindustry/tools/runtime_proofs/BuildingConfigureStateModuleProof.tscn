@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://tools/runtime_proofs/BuildingConfigureStateModuleProof.gd" id="1_buildingconfigureproof"]
+
+[node name="BuildingConfigureStateModuleProof" type="Node"]
+script = ExtResource("1_buildingconfigureproof")
+
+[node name="ProofCanvas" type="CanvasLayer" parent="."]
+
+[node name="ProofLabel" type="Label" parent="ProofCanvas"]
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 960.0
+offset_bottom = 48.0
+text = "BUILDING_CONFIGURE_STATE_MODULE_PROOF pending"

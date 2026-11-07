@@ -1,0 +1,14 @@
+extends RefCounted
+class_name SourceTractorBeamCallbackRegistry
+
+const source_geometry_callback_registry := preload("res://src/game/SourceGeometryCallbackRegistry.gd")
+const source_math_callback_registry := preload("res://src/game/SourceMathCallbackRegistry.gd")
+# Canonical callback identifiers shared by TractorBeamBuild.updateTile leaf states.
+const SOURCE_TRACTOR_BEAM_STRENGTH_LERP_DELTA_KEY := source_math_callback_registry.LERP_DELTA_KEY
+const SOURCE_TRACTOR_BEAM_STRENGTH_LERP_DELTA_FALLBACK := source_math_callback_registry.MATHF_LERP_DELTA_FALLBACK
+const SOURCE_TRACTOR_BEAM_ANGLE_TO_TARGET_KEY := "angle_to_target"
+const SOURCE_TRACTOR_BEAM_ANGLE_TO_TARGET_FALLBACK := "source_angle_to_target"
+const SOURCE_TRACTOR_BEAM_ROTATION_MOVE_TOWARD_ANGLE_KEY := source_geometry_callback_registry.MOVE_TOWARD_ANGLE_KEY
+const SOURCE_TRACTOR_BEAM_ROTATION_MOVE_TOWARD_ANGLE_FALLBACK := source_geometry_callback_registry.MOVE_TOWARD_ANGLE_FALLBACK
+const SOURCE_TRACTOR_BEAM_SHOOT_GUARD_ANGLE_DIST_KEY := source_geometry_callback_registry.ANGLE_DIST_KEY
+const SOURCE_TRACTOR_BEAM_SHOOT_GUARD_ANGLE_DIST_FALLBACK := source_geometry_callback_registry.ANGLE_DIST_FALLBACK

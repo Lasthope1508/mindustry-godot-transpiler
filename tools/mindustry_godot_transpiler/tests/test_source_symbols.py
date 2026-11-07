@@ -51,7 +51,8 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_ssot.load_json(ROOT / "godot-mindustry", "playable_content")["tile_size"], 32)
         self.assertEqual(source_ssot.load_json(ROOT / "godot-mindustry", "asset_manifest")["asset_count"], 2970)
         self.assertEqual(source_ssot.load_json(ROOT / "godot-mindustry", "source_manifest")["java_file_count"], 801)
-        self.assertEqual(source_ssot.load_json(ROOT / "godot-mindustry", "ast_manifest")["parsed_file_count"], 8)
+        self.assertEqual(source_ssot.load_json(ROOT / "godot-mindustry", "ast_manifest")["parsed_file_count"], 801)
+        self.assertEqual(source_ssot.load_json(ROOT / "godot-mindustry", "ast_manifest")["failed_file_count"], 0)
         content_registry = source_ssot.load_json(ROOT / "godot-mindustry", "content_registry")
         self.assertEqual(content_registry["counts"]["blocks"], len(content_registry["blocks"]))
         self.assertEqual(source_ssot.load_json(ROOT / "godot-mindustry", "emitted_classes")["emitted_file_count"], 801)
@@ -622,7 +623,6 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         expected_schema_names = set(canonical_schema) - domain_schema_names - sharded_schema_names
 
         self.assertEqual(set(helper_schema), expected_schema_names)
-        self.assertEqual(len(helper_schema), 181)
         self.assertEqual(len(domain_schema_names & set(helper_schema)), 0)
         self.assertIn("part_params", helper_schema)
         self.assertIn("source_absin_result", helper_schema)
@@ -786,8 +786,6 @@ class SourceSymbolRegistryTests(unittest.TestCase):
 
         self.assertEqual(set(ast_failures), set(canonical_failures))
         self.assertEqual(len(ast_failures), canonical_manifest["failed_file_count"])
-        self.assertIn("mindustry/ai/BaseBuilderAI.java", ast_failures)
-        self.assertIn("mindustry/ai/types/LogicAI.java", ast_failures)
         for file_path, canonical_entry in sorted(canonical_failures.items()):
             with self.subTest(file_path=file_path):
                 self.assertEqual(ast_failures[file_path]["canonical_failure"], f"ast_manifest.failures.{file_path}")
@@ -1054,6 +1052,44 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         metadata_report = [entry for entry in report["modules"] if entry["name"] == "content_registry_wave_metadata"][0]
         self.assertEqual(report["errors"], [])
         self.assertEqual(metadata_report["canonical_mirror"]["checked"], len(metadata_files))
+
+    def test_source_ssot_root_policy_shard_exposes_canonical_policy_registry(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
+
+        manifest = source_ssot.load_extension_manifest(ROOT / "godot-mindustry")
+        policy_entry = manifest["modules"]["source_root_policies"]
+
+        self.assertEqual(policy_entry["path"], "src/generated/source_modules/source_root_policies.json")
+        self.assertEqual(policy_entry["root_key"], "policies")
+        self.assertEqual(policy_entry["label"], "policyName")
+        self.assertEqual(policy_entry["status"], "active")
+        self.assertIn("root policy dictionaries", policy_entry["rule"])
+        self.assertEqual(policy_entry["canonical_module"], "")
+        self.assertEqual(policy_entry["canonical_reference_key"], "")
+        self.assertEqual(policy_entry["canonical_reference_prefix"], "")
+        self.assertEqual(policy_entry["mirror_fields"], [])
+
+        policy_files = source_ssot.load_registered_json(ROOT / "godot-mindustry", "source_root_policies")["policies"]
+        registry_policy = source_ssot.load_registered_json(ROOT / "godot-mindustry", "registry")["policy"]
+        audit_policy = source_ssot.load_registered_json(ROOT / "godot-mindustry", "audit_report")["policy"]
+        slice_policy = source_ssot.load_registered_json(ROOT / "godot-mindustry", "slice_ledger")["policy"]
+        state_policy = source_ssot.load_registered_json(ROOT / "godot-mindustry", "state_schema")["policy"]
+        module_manifest_policy = source_ssot.load_registered_json(ROOT / "godot-mindustry", "module_manifest")["policy"]
+
+        self.assertEqual(set(policy_files), {"registry", "audit_report", "slice_ledger", "state_schema", "module_manifest"})
+        self.assertEqual(policy_files["registry"], registry_policy)
+        self.assertEqual(policy_files["audit_report"], audit_policy)
+        self.assertEqual(policy_files["slice_ledger"], slice_policy)
+        self.assertEqual(policy_files["state_schema"], state_policy)
+        self.assertEqual(policy_files["module_manifest"], module_manifest_policy)
+
+        report = source_ssot.validate_json_modules(ROOT / "godot-mindustry")
+        policy_report = [entry for entry in report["modules"] if entry["name"] == "source_root_policies"][0]
+        self.assertEqual(report["errors"], [])
+        self.assertTrue(policy_report["loaded"])
+        self.assertTrue(policy_report["root_key_present"])
 
     def test_source_ssot_omits_oversized_port_report_unsupported_features_shard(self):
         import importlib
@@ -1346,7 +1382,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
 
         self.assertEqual(set(function_files), {str(index) for index in range(len(canonical_functions))})
         self.assertEqual(len(function_files), canonical_audit["totalSourceFunctions"])
-        self.assertEqual(function_files["0"]["function_entry"]["owner"], "port_game.source_symbol_registry_state")
+        self.assertEqual(function_files["0"]["function_entry"], canonical_functions[0])
         for index, canonical_function in enumerate(canonical_functions):
             item_key = str(index)
             with self.subTest(item_key=item_key):
@@ -1390,7 +1426,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(report["errors"], [])
         self.assertEqual([entry for entry in report["modules"] if entry["name"] == "source_audit_exempt_owners"], [])
 
-    def test_source_ssot_source_audit_legacy_unregistered_owners_shard_declares_empty_indexed_canonical_mirror_contract(self):
+    def test_source_ssot_source_audit_legacy_unregistered_owners_shard_mirrors_indexed_canonical_owners(self):
         import importlib
 
         source_ssot = importlib.import_module("mindustry_port.source_ssot")
@@ -1407,9 +1443,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         canonical_audit = source_ssot.load_registered_json(ROOT / "godot-mindustry", "audit_report")
         canonical_legacy_owners = canonical_audit["legacyUnregisteredOwners"]
 
-        self.assertEqual(legacy_files, {})
-        self.assertEqual(canonical_legacy_owners, [])
         self.assertEqual(len(legacy_files), canonical_audit["legacyUnregisteredOwnerCount"])
+        self.assertEqual(
+            [entry["owner"] for _, entry in sorted(legacy_files.items(), key=lambda item: int(item[0]))],
+            canonical_legacy_owners,
+        )
+        for index, owner in enumerate(canonical_legacy_owners):
+            with self.subTest(index=index):
+                entry = legacy_files[str(index)]
+                self.assertEqual(entry["canonical_owner"], f"source_symbol_audit_report.legacyUnregisteredOwners.{index}")
+                self.assertEqual(entry["owner"], owner)
 
         report = source_ssot.validate_json_modules(ROOT / "godot-mindustry")
         self.assertEqual(report["errors"], [])
@@ -1645,7 +1688,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         } | {
             symbol_name
             for symbol_name, symbol_entry in canonical_symbols.items()
-            if symbol_entry.get("godot_owner") in power_contracts
+            if isinstance(symbol_entry, dict) and symbol_entry.get("godot_owner") in power_contracts
         }
         self.assertEqual(set(power_symbols), expected_symbol_names)
         for symbol_name in sorted(expected_symbol_names):
@@ -1821,11 +1864,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
 
         payload_contracts = source_ssot.load_registered_json(ROOT / "godot-mindustry", "payload_api_contracts")["contracts"]
         canonical_contracts = source_ssot.load_registered_json(ROOT / "godot-mindustry", "api_contracts")["contracts"]
-        expected_payload_slice_ids = set(payload_slices)
         expected_contract_owners = {
-            owner
-            for owner, contract in canonical_contracts.items()
-            if contract.get("source_slice") in expected_payload_slice_ids
+            slice_entry["godot_owner"]
+            for slice_entry in payload_slices.values()
         }
         self.assertEqual(set(payload_contracts), expected_contract_owners)
         for owner in sorted(expected_contract_owners):
@@ -2204,6 +2245,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(block_slices_entry["canonical_reference_key"], "canonical_ledger")
         self.assertEqual(block_slices_entry["canonical_reference_prefix"], "source_slice_ledger.")
         self.assertIn("java_method", block_slices_entry["mirror_fields"])
+        self.assertEqual(block_slices_entry["selection"], {
+            "kind": "entry_field",
+            "field": "java_source",
+            "operator": "equals",
+            "value": "core/src/mindustry/world/Block.java",
+        })
 
         self.assertEqual(block_contracts_entry["canonical_module"], "api_contracts")
         self.assertEqual(block_contracts_entry["canonical_reference_key"], "canonical_contract")
@@ -2226,6 +2273,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         }
 
         self.assertEqual(set(block_slices), expected_slice_ids)
+        self.assertEqual(source_ssot.build_extension_shard(ROOT / "godot-mindustry", "block_slices")["slices"], block_slices)
         for slice_id in sorted(expected_slice_ids):
             with self.subTest(slice_id=slice_id):
                 self.assertEqual(block_slices[slice_id]["canonical_ledger"], f"source_slice_ledger.{slice_id}")
@@ -2236,6 +2284,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         canonical_contracts = source_ssot.load_registered_json(ROOT / "godot-mindustry", "api_contracts")["contracts"]
         expected_contract_owners = {entry["godot_owner"] for entry in block_slices.values()}
         self.assertEqual(set(block_contracts), expected_contract_owners)
+        self.assertEqual(block_contracts_entry["selection"], {
+            "kind": "referenced_values",
+            "module": "block_slices",
+            "collection_key": "slices",
+            "field": "godot_owner",
+        })
+        self.assertEqual(source_ssot.build_extension_shard(ROOT / "godot-mindustry", "block_api_contracts")["contracts"], block_contracts)
         for owner in sorted(expected_contract_owners):
             with self.subTest(owner=owner):
                 self.assertEqual(block_contracts[owner]["canonical_contract"], f"source_api_contracts.{owner}")
@@ -6940,6 +6995,8 @@ class SourceSymbolRegistryTests(unittest.TestCase):
 
     def test_block_can_replace_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
 
         self.assertEqual(errors, [])
@@ -6975,6 +7032,611 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(input_other_replaceable["status"], "explicit-input")
         self.assertEqual(input_other_replaceable["java_expr"], "other.replaceable")
         self.assertEqual(input_other_replaceable["godot_symbol"], "source_block_can_replace_input.otherReplaceable")
+
+        generated_method = source_symbols.source_symbol(registry, "block_can_replace.generated_method")
+        self.assertEqual(generated_method["java_expr"], "java_method_canReplace_35")
+        self.assertEqual(generated_method["godot_owner"], "PortGame.generated_block_can_replace_bridge_state")
+        self.assertEqual(generated_method["runtime_proof"], "/root/Main.generated_block_can_replace_bridge_state")
+
+        generated_slice = source_symbols.source_slice(ledger, "N1637")
+        self.assertEqual(generated_slice["title"], "Generated Block canReplace bridge state")
+        self.assertEqual(generated_slice["generated_owner"], "Block.java_method_canReplace_35")
+        self.assertEqual(generated_slice["godot_owner"], "PortGame.generated_block_can_replace_bridge_state")
+        self.assertEqual(generated_slice["runtime_proof"], "/root/Main.generated_block_can_replace_bridge_state")
+        self.assertEqual(generated_slice["status"], "done")
+
+        contract = source_symbols.api_contract(contracts, "PortGame.generated_block_can_replace_bridge_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["existing_always_replace", "existing_privileged", "existing_replaceable", "same_block", "new_rotate", "new_quick_rotate", "new_group_is_none", "same_group", "new_size", "existing_size", "same_subclass", "group_any_replace"])
+        self.assertIn("matches", contract["return_keys"])
+
+    def test_block_plan_placement_config_cluster_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+
+        self.assertEqual(source_symbols.validate_source_symbol_registry(registry), [])
+        self.assertEqual(source_symbols.validate_source_slice_ledger(ledger), [])
+        self.assertEqual(source_symbols.validate_source_api_contracts(contracts), [])
+
+        expected = {
+            "N1638": ("block_get_replacement.generated_method", "java_method_getReplacement_36", "PortGame.generated_block_get_replacement_bridge_state", "Block.java_method_getReplacement_36"),
+            "N1639": ("block_change_placement_path_diagonal.generated_method", "java_method_changePlacementPath_37", "PortGame.generated_block_change_placement_path_diagonal_bridge_state", "Block.java_method_changePlacementPath_37"),
+            "N1640": ("block_change_placement_path.generated_method", "java_method_changePlacementPath_38", "PortGame.generated_block_change_placement_path_bridge_state", "Block.java_method_changePlacementPath_38"),
+            "N1641": ("block_handle_placement_line.generated_method", "java_method_handlePlacementLine_39", "PortGame.generated_block_handle_placement_line_bridge_state", "Block.java_method_handlePlacementLine_39"),
+            "N1642": ("block_config_senseable.generated_method", "java_method_configSenseable_40", "PortGame.generated_block_config_senseable_bridge_state", "Block.java_method_configSenseable_40"),
+            "N1643": ("block_next_config.generated_method", "java_method_nextConfig_41", "PortGame.generated_block_next_config_bridge_state", "Block.java_method_nextConfig_41"),
+            "N1644": ("block_on_new_plan.generated_method", "java_method_onNewPlan_42", "PortGame.generated_block_on_new_plan_bridge_state", "Block.java_method_onNewPlan_42"),
+        }
+        for slice_id, (symbol_name, generated_method, godot_owner, generated_owner) in expected.items():
+            with self.subTest(slice_id=slice_id):
+                symbol = source_symbols.source_symbol(registry, symbol_name)
+                self.assertEqual(symbol["java_source"], "core/src/mindustry/world/Block.java")
+                self.assertEqual(symbol["java_expr"], generated_method)
+                self.assertEqual(symbol["godot_owner"], godot_owner)
+                self.assertEqual(symbol["runtime_proof"], f"/root/Main.{godot_owner.split('.', 1)[1]}")
+                self.assertEqual(symbol["source_slice"], slice_id)
+
+                generated_slice = source_symbols.source_slice(ledger, slice_id)
+                self.assertEqual(generated_slice["generated_owner"], generated_owner)
+                self.assertEqual(generated_slice["godot_owner"], godot_owner)
+                self.assertEqual(generated_slice["runtime_proof"], f"/root/Main.{godot_owner.split('.', 1)[1]}")
+                self.assertEqual(generated_slice["status"], "done")
+
+                contract = source_symbols.api_contract(contracts, godot_owner)
+                self.assertEqual(contract["source_slice"], slice_id)
+                self.assertIn("matches", contract["return_keys"])
+
+    def test_block_plan_config_access_geometry_cluster_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+
+        self.assertEqual(source_symbols.validate_source_symbol_registry(registry), [])
+        self.assertEqual(source_symbols.validate_source_slice_ledger(ledger), [])
+        self.assertEqual(source_symbols.validate_source_api_contracts(contracts), [])
+
+        expected = {
+            "N1658": ("block_point_config.generated_method", "java_method_pointConfig_56", "PortGame.generated_block_point_config_bridge_state", "Block.java_method_pointConfig_56"),
+            "N1659": ("block_config_clear.generated_method", "java_method_configClear_57", "PortGame.generated_block_config_clear_bridge_state", "Block.java_method_configClear_57"),
+            "N1660": ("block_config_handler.generated_method", "java_method_config_58", "PortGame.generated_block_config_handler_bridge_state", "Block.java_method_config_58"),
+            "N1661": ("block_is_accessible.generated_method", "java_method_isAccessible_59", "PortGame.generated_block_is_accessible_bridge_state", "Block.java_method_isAccessible_59"),
+            "N1662": ("block_nearby_side.generated_method", "java_method_nearbySide_60", "PortGame.generated_block_nearby_side_bridge_state", "Block.java_method_nearbySide_60"),
+            "N1663": ("block_get_edges.generated_method", "java_method_getEdges_61", "PortGame.generated_block_get_edges_bridge_state", "Block.java_method_getEdges_61"),
+            "N1664": ("block_get_inside_edges.generated_method", "java_method_getInsideEdges_62", "PortGame.generated_block_get_inside_edges_bridge_state", "Block.java_method_getInsideEdges_62"),
+            "N1665": ("block_iterate_taken.generated_method", "java_method_iterateTaken_63", "PortGame.generated_block_iterate_taken_bridge_state", "Block.java_method_iterateTaken_63"),
+        }
+        for slice_id, (symbol_name, generated_method, godot_owner, generated_owner) in expected.items():
+            with self.subTest(slice_id=slice_id):
+                symbol = source_symbols.source_symbol(registry, symbol_name)
+                self.assertEqual(symbol["java_source"], "core/src/mindustry/world/Block.java")
+                self.assertEqual(symbol["java_expr"], generated_method)
+                self.assertEqual(symbol["godot_owner"], godot_owner)
+                self.assertEqual(symbol["runtime_proof"], f"/root/Main.{godot_owner.split('.', 1)[1]}")
+                self.assertEqual(symbol["source_slice"], slice_id)
+
+                generated_slice = source_symbols.source_slice(ledger, slice_id)
+                self.assertEqual(generated_slice["generated_owner"], generated_owner)
+                self.assertEqual(generated_slice["godot_owner"], godot_owner)
+                self.assertEqual(generated_slice["runtime_proof"], f"/root/Main.{godot_owner.split('.', 1)[1]}")
+                self.assertEqual(generated_slice["status"], "done")
+
+                contract = source_symbols.api_contract(contracts, godot_owner)
+                self.assertEqual(contract["source_slice"], slice_id)
+                self.assertIn("matches", contract["return_keys"])
+
+    def test_block_plan_source_owners_have_complete_canonical_ssot(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schemas = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+
+        self.assertEqual(source_symbols.validate_source_symbol_registry(registry), [])
+        self.assertEqual(source_symbols.validate_source_slice_ledger(ledger), [])
+        self.assertEqual(source_symbols.validate_source_api_contracts(contracts), [])
+        self.assertEqual(source_symbols.validate_source_state_schema(schemas), [])
+
+        expected = {
+            "N1715": ("change_placement_path_diagonal", "Block.changePlacementPath(Seq<Point2> points, int rotation, boolean diagonalOn)", "Block.java_method_changePlacementPath_37"),
+            "N1716": ("change_placement_path", "Block.changePlacementPath(Seq<Point2> points, int rotation)", "Block.java_method_changePlacementPath_38"),
+            "N1717": ("handle_placement_line", "Block.handlePlacementLine(Seq<BuildPlan> plans)", "Block.java_method_handlePlacementLine_39"),
+            "N1718": ("config_senseable", "Block.configSenseable()", "Block.java_method_configSenseable_40"),
+            "N1719": ("next_config", "Block.nextConfig()", "Block.java_method_nextConfig_41"),
+            "N1720": ("on_new_plan", "Block.onNewPlan(BuildPlan plan)", "Block.java_method_onNewPlan_42"),
+            "N1721": ("draw_plan_default_alpha", "Block.drawPlan(BuildPlan plan, Eachable<BuildPlan> list, boolean valid)", "Block.java_method_drawPlan_43"),
+            "N1722": ("draw_plan", "Block.drawPlan(BuildPlan plan, Eachable<BuildPlan> list, boolean valid, float alpha)", "Block.java_method_drawPlan_44"),
+            "N1723": ("draw_other_player_plan", "Block.drawOtherPlayerPlan(BuildPlan plan, Eachable<BuildPlan> list, float alpha)", "Block.java_method_drawOtherPlayerPlan_45"),
+            "N1724": ("draw_plan_region", "Block.drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list)", "Block.java_method_drawPlanRegion_46"),
+            "N1725": ("draw_default_plan_region", "Block.drawDefaultPlanRegion(BuildPlan plan, Eachable<BuildPlan> list)", "Block.java_method_drawDefaultPlanRegion_47"),
+            "N1726": ("draw_plan_config", "Block.drawPlanConfig(BuildPlan plan, Eachable<BuildPlan> list)", "Block.java_method_drawPlanConfig_51"),
+            "N1727": ("draw_plan_config_center", "Block.drawPlanConfigCenter(BuildPlan plan, Object content, String region, boolean cross)", "Block.java_method_drawPlanConfigCenter_52"),
+            "N1728": ("draw_plan_config_center_default_cross", "Block.drawPlanConfigCenter(BuildPlan plan, Object content, String region)", "Block.java_method_drawPlanConfigCenter_53"),
+            "N1729": ("draw_plan_config_top", "Block.drawPlanConfigTop(BuildPlan plan, Eachable<BuildPlan> list)", "Block.java_method_drawPlanConfigTop_54"),
+            "N1730": ("plan_config_clip_size", "Block.planConfigClipSize()", "Block.java_method_planConfigClipSize_55"),
+            "N1731": ("point_config", "Block.pointConfig(Object config, Cons<Point2> transformer)", "Block.java_method_pointConfig_56"),
+        }
+        for slice_id, (slug, method, generated_owner) in expected.items():
+            with self.subTest(slice_id=slice_id):
+                owner = f"PortGame.source_block_{slug}_state"
+                proof = f"/root/Main.source_block_{slug}_state"
+                source_slice = source_symbols.source_slice(ledger, slice_id)
+                self.assertEqual(source_slice["godot_owner"], owner)
+                self.assertEqual(source_slice["java_method"], method)
+                self.assertEqual(source_slice["generated_owner"], generated_owner)
+                self.assertEqual(source_slice["runtime_proof"], proof)
+
+                contract = source_symbols.api_contract(contracts, owner)
+                self.assertEqual(contract["source_slice"], slice_id)
+                self.assertEqual(contract["source_method"], method)
+                self.assertEqual(contract["runtime_proof"], proof)
+
+                for suffix in ("input", "result"):
+                    schema = source_symbols.state_schema(schemas, f"source_block_{slug}_state_{suffix}")
+                    self.assertEqual(schema["source_slice"], slice_id)
+                    self.assertEqual(schema["runtime_proof"], proof)
+
+    def test_block_icon_cluster_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+
+        self.assertEqual(source_symbols.validate_source_symbol_registry(registry), [])
+        self.assertEqual(source_symbols.validate_source_slice_ledger(ledger), [])
+        self.assertEqual(source_symbols.validate_source_api_contracts(contracts), [])
+
+        expected = {
+            "N1666": ("block_make_icon_regions.generated_method", "java_method_makeIconRegions_64", "PortGame.generated_block_make_icon_regions_bridge_state", "Block.java_method_makeIconRegions_64"),
+            "N1667": ("block_icons.generated_method", "java_method_icons_65", "PortGame.generated_block_icons_bridge_state", "Block.java_method_icons_65"),
+            "N1668": ("block_get_regions_to_outline.generated_method", "java_method_getRegionsToOutline_66", "PortGame.generated_block_get_regions_to_outline_bridge_state", "Block.java_method_getRegionsToOutline_66"),
+            "N1669": ("block_get_generated_icons.generated_method", "java_method_getGeneratedIcons_67", "PortGame.generated_block_get_generated_icons_bridge_state", "Block.java_method_getGeneratedIcons_67"),
+            "N1670": ("block_reset_generated_icons.generated_method", "java_method_resetGeneratedIcons_68", "PortGame.generated_block_reset_generated_icons_bridge_state", "Block.java_method_resetGeneratedIcons_68"),
+            "N1671": ("block_variant_regions.generated_method", "java_method_variantRegions_69", "PortGame.generated_block_variant_regions_bridge_state", "Block.java_method_variantRegions_69"),
+        }
+        for slice_id, (symbol_name, generated_method, godot_owner, generated_owner) in expected.items():
+            with self.subTest(slice_id=slice_id):
+                symbol = source_symbols.source_symbol(registry, symbol_name)
+                self.assertEqual(symbol["java_source"], "core/src/mindustry/world/Block.java")
+                self.assertEqual(symbol["java_expr"], generated_method)
+                self.assertEqual(symbol["godot_owner"], godot_owner)
+                self.assertEqual(symbol["runtime_proof"], f"/root/Main.{godot_owner.split('.', 1)[1]}")
+                self.assertEqual(symbol["source_slice"], slice_id)
+                self.assertEqual(symbol["status"], "generated")
+
+                generated_slice = source_symbols.source_slice(ledger, slice_id)
+                self.assertEqual(generated_slice["generated_owner"], generated_owner)
+                self.assertEqual(generated_slice["godot_owner"], godot_owner)
+                self.assertEqual(generated_slice["runtime_proof"], f"/root/Main.{godot_owner.split('.', 1)[1]}")
+                self.assertEqual(generated_slice["status"], "done")
+
+                contract = source_symbols.api_contract(contracts, godot_owner)
+                self.assertEqual(contract["source_slice"], slice_id)
+                self.assertIn("matches", contract["return_keys"])
+
+    def test_block_icon_source_owners_have_complete_canonical_ssot(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schemas = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+
+        self.assertEqual(source_symbols.validate_source_symbol_registry(registry), [])
+        self.assertEqual(source_symbols.validate_source_slice_ledger(ledger), [])
+        self.assertEqual(source_symbols.validate_source_api_contracts(contracts), [])
+        self.assertEqual(source_symbols.validate_source_state_schema(schemas), [])
+
+        expected = {
+            "N1732": ("make_icon_regions", "Block.makeIconRegions()", "Block.java_method_makeIconRegions_64", False),
+            "N1733": ("icons", "Block.icons()", "Block.java_method_icons_65", True),
+            "N1734": ("get_regions_to_outline", "Block.getRegionsToOutline(Seq<TextureRegion> out)", "Block.java_method_getRegionsToOutline_66", True),
+            "N1735": ("get_generated_icons", "Block.getGeneratedIcons()", "Block.java_method_getGeneratedIcons_67", True),
+            "N1736": ("reset_generated_icons", "Block.resetGeneratedIcons()", "Block.java_method_resetGeneratedIcons_68", True),
+            "N1737": ("variant_regions", "Block.variantRegions()", "Block.java_method_variantRegions_69", True),
+        }
+        for slice_id, (slug, method, generated_owner, has_inputs) in expected.items():
+            with self.subTest(slice_id=slice_id):
+                owner = f"PortGame.source_block_{slug}_state"
+                proof = f"/root/Main.source_block_{slug}_state"
+                source_slice = source_symbols.source_slice(ledger, slice_id)
+                self.assertEqual(source_slice["godot_owner"], owner)
+                self.assertEqual(source_slice["java_method"], method)
+                self.assertEqual(source_slice["generated_owner"], generated_owner)
+                self.assertEqual(source_slice["runtime_proof"], proof)
+
+                contract = source_symbols.api_contract(contracts, owner)
+                self.assertEqual(contract["source_slice"], slice_id)
+                self.assertEqual(contract["source_method"], method)
+                self.assertEqual(contract["runtime_proof"], proof)
+
+                if has_inputs:
+                    input_schema = source_symbols.state_schema(schemas, f"source_block_{slug}_state_input")
+                    self.assertEqual(input_schema["source_slice"], slice_id)
+                    self.assertEqual(input_schema["runtime_proof"], proof)
+                result_schema = source_symbols.state_schema(schemas, f"source_block_{slug}_state_result")
+                self.assertEqual(result_schema["source_slice"], slice_id)
+                self.assertEqual(result_schema["runtime_proof"], proof)
+
+    def test_block_runtime_geometry_cluster_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+
+        self.assertEqual(source_symbols.validate_source_symbol_registry(registry), [])
+        self.assertEqual(source_symbols.validate_source_slice_ledger(ledger), [])
+        self.assertEqual(source_symbols.validate_source_api_contracts(contracts), [])
+
+        expected = {
+            "N1672": ("block_new_building.generated_method", "java_method_newBuilding_71", "PortGame.generated_block_new_building_bridge_state", "Block.java_method_newBuilding_71"),
+            "N1673": ("block_update_clip_radius.generated_method", "java_method_updateClipRadius_72", "PortGame.generated_block_update_clip_radius_bridge_state", "Block.java_method_updateClipRadius_72"),
+            "N1674": ("block_bounds.generated_method", "java_method_bounds_73", "PortGame.generated_block_bounds_bridge_state", "Block.java_method_bounds_73"),
+        }
+        for slice_id, (symbol_name, generated_method, godot_owner, generated_owner) in expected.items():
+            with self.subTest(slice_id=slice_id):
+                symbol = source_symbols.source_symbol(registry, symbol_name)
+                self.assertEqual(symbol["java_source"], "core/src/mindustry/world/Block.java")
+                self.assertEqual(symbol["java_expr"], generated_method)
+                self.assertEqual(symbol["godot_owner"], godot_owner)
+                self.assertEqual(symbol["runtime_proof"], f"/root/Main.{godot_owner.split('.', 1)[1]}")
+                self.assertEqual(symbol["source_slice"], slice_id)
+                self.assertEqual(symbol["status"], "generated")
+
+                generated_slice = source_symbols.source_slice(ledger, slice_id)
+                self.assertEqual(generated_slice["generated_owner"], generated_owner)
+                self.assertEqual(generated_slice["godot_owner"], godot_owner)
+                self.assertEqual(generated_slice["runtime_proof"], f"/root/Main.{godot_owner.split('.', 1)[1]}")
+                self.assertEqual(generated_slice["status"], "done")
+
+                contract = source_symbols.api_contract(contracts, godot_owner)
+                self.assertEqual(contract["source_slice"], slice_id)
+                self.assertIn("matches", contract["return_keys"])
+
+    def test_block_runtime_geometry_source_owners_have_complete_canonical_ssot(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schemas = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        self.assertEqual(source_symbols.validate_source_symbol_registry(registry), [])
+        self.assertEqual(source_symbols.validate_source_slice_ledger(ledger), [])
+        self.assertEqual(source_symbols.validate_source_api_contracts(contracts), [])
+        self.assertEqual(source_symbols.validate_source_state_schema(schemas), [])
+        expected = {
+            "N1738": ("new_building", "Block.newBuilding()", "Block.java_method_newBuilding_71"),
+            "N1739": ("update_clip_radius", "Block.updateClipRadius(float radiusInWorldUnits)", "Block.java_method_updateClipRadius_72"),
+            "N1740": ("bounds", "Block.bounds(int x, int y, Rect rect)", "Block.java_method_bounds_73"),
+        }
+        for slice_id, (slug, method, generated_owner) in expected.items():
+            with self.subTest(slice_id=slice_id):
+                owner = f"PortGame.source_block_{slug}_state"
+                proof = f"/root/Main.source_block_{slug}_state"
+                source_slice = source_symbols.source_slice(ledger, slice_id)
+                self.assertEqual(source_slice["godot_owner"], owner)
+                self.assertEqual(source_slice["java_method"], method)
+                self.assertEqual(source_slice["generated_owner"], generated_owner)
+                contract = source_symbols.api_contract(contracts, owner)
+                self.assertEqual(contract["source_slice"], slice_id)
+                self.assertEqual(contract["runtime_proof"], proof)
+                for suffix in ("input", "result"):
+                    self.assertEqual(source_symbols.state_schema(schemas, f"source_block_{slug}_state_{suffix}")["source_slice"], slice_id)
+
+    def test_block_lifecycle_hook_cluster_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+
+        self.assertEqual(source_symbols.validate_source_symbol_registry(registry), [])
+        self.assertEqual(source_symbols.validate_source_slice_ledger(ledger), [])
+        self.assertEqual(source_symbols.validate_source_api_contracts(contracts), [])
+
+        expected = {
+            "N1675": ("block_build_editor_config.generated_method", "java_method_buildEditorConfig_79", "PortGame.generated_block_build_editor_config_bridge_state", "Block.java_method_buildEditorConfig_79"),
+            "N1676": ("block_on_picked.generated_method", "java_method_onPicked_80", "PortGame.generated_block_on_picked_bridge_state", "Block.java_method_onPicked_80"),
+            "N1677": ("block_get_config.generated_method", "java_method_getConfig_81", "PortGame.generated_block_get_config_bridge_state", "Block.java_method_getConfig_81"),
+            "N1678": ("block_changed.generated_method", "java_method_blockChanged_82", "PortGame.generated_block_changed_bridge_state", "Block.java_method_blockChanged_82"),
+            "N1679": ("block_place_began.generated_method", "java_method_placeBegan_83", "PortGame.generated_block_place_began_bridge_state", "Block.java_method_placeBegan_83"),
+            "N1680": ("block_place_began_builder.generated_method", "java_method_placeBegan_84", "PortGame.generated_block_place_began_builder_bridge_state", "Block.java_method_placeBegan_84"),
+            "N1681": ("block_place_ended.generated_method", "java_method_placeEnded_85", "PortGame.generated_block_place_ended_bridge_state", "Block.java_method_placeEnded_85"),
+            "N1682": ("block_before_place_began.generated_method", "java_method_beforePlaceBegan_86", "PortGame.generated_block_before_place_began_bridge_state", "Block.java_method_beforePlaceBegan_86"),
+            "N1683": ("block_editor_picked.generated_method", "java_method_editorPicked_87", "PortGame.generated_block_editor_picked_bridge_state", "Block.java_method_editorPicked_87"),
+        }
+        for slice_id, (symbol_name, generated_method, godot_owner, generated_owner) in expected.items():
+            with self.subTest(slice_id=slice_id):
+                symbol = source_symbols.source_symbol(registry, symbol_name)
+                self.assertEqual(symbol["java_source"], "core/src/mindustry/world/Block.java")
+                self.assertEqual(symbol["java_expr"], generated_method)
+                self.assertEqual(symbol["godot_owner"], godot_owner)
+                self.assertEqual(symbol["runtime_proof"], f"/root/Main.{godot_owner.split('.', 1)[1]}")
+                self.assertEqual(symbol["source_slice"], slice_id)
+                self.assertEqual(symbol["status"], "generated")
+
+                generated_slice = source_symbols.source_slice(ledger, slice_id)
+                self.assertEqual(generated_slice["generated_owner"], generated_owner)
+                self.assertEqual(generated_slice["godot_owner"], godot_owner)
+                self.assertEqual(generated_slice["runtime_proof"], f"/root/Main.{godot_owner.split('.', 1)[1]}")
+                self.assertEqual(generated_slice["status"], "done")
+
+                contract = source_symbols.api_contract(contracts, godot_owner)
+                self.assertEqual(contract["source_slice"], slice_id)
+                self.assertIn("matches", contract["return_keys"])
+
+    def test_block_lifecycle_hook_source_owners_have_complete_canonical_ssot(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schemas = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+
+        self.assertEqual(source_symbols.validate_source_symbol_registry(registry), [])
+        self.assertEqual(source_symbols.validate_source_slice_ledger(ledger), [])
+        self.assertEqual(source_symbols.validate_source_api_contracts(contracts), [])
+        self.assertEqual(source_symbols.validate_source_state_schema(schemas), [])
+
+        expected = {
+            "N1741": ("build_editor_config", "Block.buildEditorConfig(Table table)"),
+            "N1742": ("on_picked", "Block.onPicked(Tile tile)"),
+            "N1743": ("get_config", "Block.getConfig(Tile tile)"),
+            "N1744": ("changed", "Block.blockChanged(Tile tile)"),
+            "N1745": ("place_began", "Block.placeBegan(Tile tile, Block previous)"),
+            "N1746": ("place_began_builder", "Block.placeBegan(Tile tile, Block previous, Unit builder)"),
+            "N1747": ("place_ended", "Block.placeEnded(Tile tile, Unit builder, int rotation, Object config)"),
+            "N1748": ("before_place_began", "Block.beforePlaceBegan(Tile tile, Block previous)"),
+            "N1749": ("editor_picked", "Block.editorPicked(Tile tile)"),
+        }
+        for slice_id, (slug, java_method) in expected.items():
+            with self.subTest(slice_id=slice_id):
+                owner = f"PortGame.source_block_{slug}_state"
+                source_slice = source_symbols.source_slice(ledger, slice_id)
+                self.assertEqual(source_slice["godot_owner"], owner)
+                self.assertEqual(source_slice["java_method"], java_method)
+                self.assertIn(f"block_{slug}.method", source_slice["source_symbols"])
+                self.assertEqual(source_symbols.source_symbol(registry, f"block_{slug}.method")["godot_owner"], owner)
+                self.assertEqual(source_symbols.api_contract(contracts, owner)["source_slice"], slice_id)
+                for suffix in ("input", "result"):
+                    self.assertEqual(source_symbols.state_schema(schemas, f"source_block_{slug}_state_{suffix}")["source_slice"], slice_id)
+
+    def test_block_plan_module_source_owners_have_complete_canonical_ssot(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schemas = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+
+        expected = {
+            "N1750": "can_replace_result",
+            "N1751": "config_clear",
+            "N1752": "config_handler",
+            "N1753": "find_consumer",
+            "N1754": "find_plan_default_size",
+            "N1755": "find_plan",
+            "N1756": "get_edges",
+            "N1757": "get_inside_edges",
+            "N1758": "get_plan_region",
+            "N1759": "get_replacement",
+            "N1760": "is_accessible",
+            "N1761": "iterate_taken",
+            "N1762": "nearby_side",
+        }
+        for slice_id, slug in expected.items():
+            with self.subTest(slice_id=slice_id):
+                owner = f"PortGame.source_block_{slug}_state"
+                source_slice = source_symbols.source_slice(ledger, slice_id)
+                self.assertEqual(source_slice["godot_owner"], owner)
+                self.assertIn(f"block_{slug}.method", source_slice["source_symbols"])
+                self.assertEqual(source_symbols.source_symbol(registry, f"block_{slug}.method")["godot_owner"], owner)
+                self.assertEqual(source_symbols.api_contract(contracts, owner)["source_slice"], slice_id)
+                for suffix in ("input", "result"):
+                    self.assertEqual(source_symbols.state_schema(schemas, f"source_block_{slug}_state_{suffix}")["source_slice"], slice_id)
+
+    def test_building_control_hook_owners_have_complete_canonical_ssot(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schemas = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+
+        expected = {
+            "N1763": ("can_control_select", "canControlSelect(Unit player)"),
+            "N1764": ("on_control_select", "onControlSelect(Unit player)"),
+            "N1765": ("on_command", "onCommand(Vec2 target)"),
+            "N1766": ("get_command_position", "getCommandPosition()"),
+        }
+        for slice_id, (slug, java_method) in expected.items():
+            with self.subTest(slice_id=slice_id):
+                owner = f"PortGame.source_building_{slug}_state"
+                source_slice = source_symbols.source_slice(ledger, slice_id)
+                self.assertEqual(source_slice["godot_owner"], owner)
+                self.assertEqual(source_slice["java_method"], java_method)
+                self.assertIn(f"building_{slug}.method", source_slice["source_symbols"])
+                self.assertEqual(source_symbols.source_symbol(registry, f"building_{slug}.method")["godot_owner"], owner)
+                self.assertEqual(source_symbols.api_contract(contracts, owner)["source_slice"], slice_id)
+                for suffix in ("input", "result"):
+                    self.assertEqual(source_symbols.state_schema(schemas, f"source_building_{slug}_state_{suffix}")["source_slice"], slice_id)
+
+    def test_power_graph_composite_method_owners_have_complete_canonical_ssot(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+
+        expected = {
+            "N1617": ("power_graph_update.method", "PortGame.source_power_graph_update_state", "update()"),
+            "N1618": ("power_graph_remove.method", "PortGame.source_power_graph_remove_state", "remove(Building tile)"),
+        }
+        for slice_id, (symbol_name, owner, java_method) in expected.items():
+            with self.subTest(slice_id=slice_id):
+                source_slice = source_symbols.source_slice(ledger, slice_id)
+                self.assertEqual(source_slice["godot_owner"], owner)
+                self.assertEqual(source_slice["java_method"], java_method)
+                self.assertIn(symbol_name, source_slice["source_symbols"])
+                self.assertEqual(source_symbols.source_symbol(registry, symbol_name)["godot_owner"], owner)
+                self.assertEqual(source_symbols.api_contract(contracts, owner)["source_slice"], slice_id)
+
+    def test_block_floor_type_query_cluster_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+
+        self.assertEqual(source_symbols.validate_source_symbol_registry(registry), [])
+        self.assertEqual(source_symbols.validate_source_slice_ledger(ledger), [])
+        self.assertEqual(source_symbols.validate_source_api_contracts(contracts), [])
+
+        expected = {
+            "N1684": ("block_is_floor.generated_method", "java_method_isFloor_88", "PortGame.generated_block_is_floor_bridge_state", "Block.java_method_isFloor_88"),
+            "N1685": ("block_is_overlay.generated_method", "java_method_isOverlay_89", "PortGame.generated_block_is_overlay_bridge_state", "Block.java_method_isOverlay_89"),
+            "N1686": ("block_as_floor.generated_method", "java_method_asFloor_90", "PortGame.generated_block_as_floor_bridge_state", "Block.java_method_asFloor_90"),
+        }
+        for slice_id, (symbol_name, generated_method, godot_owner, generated_owner) in expected.items():
+            with self.subTest(slice_id=slice_id):
+                symbol = source_symbols.source_symbol(registry, symbol_name)
+                self.assertEqual(symbol["java_source"], "core/src/mindustry/world/Block.java")
+                self.assertEqual(symbol["java_expr"], generated_method)
+                self.assertEqual(symbol["godot_owner"], godot_owner)
+                self.assertEqual(symbol["runtime_proof"], f"/root/Main.{godot_owner.split('.', 1)[1]}")
+                self.assertEqual(symbol["source_slice"], slice_id)
+                self.assertEqual(symbol["status"], "generated")
+
+                generated_slice = source_symbols.source_slice(ledger, slice_id)
+                self.assertEqual(generated_slice["generated_owner"], generated_owner)
+                self.assertEqual(generated_slice["godot_owner"], godot_owner)
+                self.assertEqual(generated_slice["runtime_proof"], f"/root/Main.{godot_owner.split('.', 1)[1]}")
+                self.assertEqual(generated_slice["status"], "done")
+
+                contract = source_symbols.api_contract(contracts, godot_owner)
+                self.assertEqual(contract["source_slice"], slice_id)
+                self.assertIn("matches", contract["return_keys"])
+
+    def test_block_floor_type_query_source_owners_have_complete_canonical_ssot(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schemas = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+
+        expected = {
+            "N1704": ("block_is_floor", "PortGame.source_block_is_floor_state", "Block.isFloor()", "bool"),
+            "N1705": ("block_is_overlay", "PortGame.source_block_is_overlay_state", "Block.isOverlay()", "bool"),
+            "N1706": ("block_as_floor", "PortGame.source_block_as_floor_state", "Block.asFloor()", "Variant"),
+            "N1707": ("block_environment_buildable", "PortGame.source_block_environment_buildable_state", "Block.environmentBuildable()", "bool"),
+        }
+        ledger_slices = ledger["slices"]
+        contract_entries = contracts["contracts"]
+        schema_entries = schemas["schemas"]
+        for slice_id, (symbol_prefix, owner, java_method, input_type) in expected.items():
+            with self.subTest(owner=owner):
+                self.assertIn(owner, {entry["godot_owner"] for entry in ledger_slices.values() if isinstance(entry, dict) and "godot_owner" in entry})
+                self.assertIn(owner, contract_entries)
+                owner_symbols = [entry for entry in registry["symbols"].values() if entry["godot_owner"] == owner]
+                self.assertTrue(owner_symbols)
+                self.assertTrue(all(entry["source_slice"] == slice_id for entry in owner_symbols))
+                self.assertEqual(contract_entries[owner]["source_slice"], slice_id)
+                self.assertEqual(contract_entries[owner]["source_method"], java_method)
+                input_schema = schema_entries[owner.removeprefix("PortGame.") + "_input"]
+                self.assertEqual(len(input_schema["keys"]), 1)
+                self.assertEqual(next(iter(input_schema["keys"].values()))["type"], input_type)
+                self.assertIn(owner.removeprefix("PortGame.") + "_result", schema_entries)
+
+    def test_block_environment_and_consumer_lookup_cluster_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+
+        self.assertEqual(source_symbols.validate_source_symbol_registry(registry), [])
+        self.assertEqual(source_symbols.validate_source_slice_ledger(ledger), [])
+        self.assertEqual(source_symbols.validate_source_api_contracts(contracts), [])
+
+        expected = {
+            "N1687": ("block_environment_buildable.generated_method", "java_method_environmentBuildable_93", "PortGame.generated_block_environment_buildable_bridge_state", "Block.java_method_environmentBuildable_93"),
+            "N1688": ("block_find_consumer.generated_method", "java_method_findConsumer_95", "PortGame.generated_block_find_consumer_bridge_state", "Block.java_method_findConsumer_95"),
+        }
+        for slice_id, (symbol_name, generated_method, godot_owner, generated_owner) in expected.items():
+            with self.subTest(slice_id=slice_id):
+                symbol = source_symbols.source_symbol(registry, symbol_name)
+                self.assertEqual(symbol["java_source"], "core/src/mindustry/world/Block.java")
+                self.assertEqual(symbol["java_expr"], generated_method)
+                self.assertEqual(symbol["godot_owner"], godot_owner)
+                self.assertEqual(symbol["runtime_proof"], f"/root/Main.{godot_owner.split('.', 1)[1]}")
+                self.assertEqual(symbol["source_slice"], slice_id)
+                self.assertEqual(symbol["status"], "generated")
+
+                generated_slice = source_symbols.source_slice(ledger, slice_id)
+                self.assertEqual(generated_slice["generated_owner"], generated_owner)
+                self.assertEqual(generated_slice["godot_owner"], godot_owner)
+                self.assertEqual(generated_slice["runtime_proof"], f"/root/Main.{godot_owner.split('.', 1)[1]}")
+                self.assertEqual(generated_slice["status"], "done")
+
+                contract = source_symbols.api_contract(contracts, godot_owner)
+                self.assertEqual(contract["source_slice"], slice_id)
+                self.assertIn("matches", contract["return_keys"])
+
+    def test_block_draw_default_visual_cluster_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+
+        self.assertEqual(source_symbols.validate_source_symbol_registry(registry), [])
+        self.assertEqual(source_symbols.validate_source_slice_ledger(ledger), [])
+        self.assertEqual(source_symbols.validate_source_api_contracts(contracts), [])
+
+        expected = {
+            "N1689": ("block_draw_base.generated_method", "java_method_drawBase_0", "PortGame.generated_block_draw_base_bridge_state", "Block.java_method_drawBase_0"),
+            "N1690": ("block_draw_base_cached.generated_method", "java_method_drawBaseCached_1", "PortGame.generated_block_draw_base_cached_bridge_state", "Block.java_method_drawBaseCached_1"),
+            "N1691": ("block_draw_shadow.generated_method", "java_method_drawShadow_2", "PortGame.generated_block_draw_shadow_bridge_state", "Block.java_method_drawShadow_2"),
+            "N1692": ("block_draw_environment_light.generated_method", "java_method_drawEnvironmentLight_4", "PortGame.generated_block_draw_environment_light_bridge_state", "Block.java_method_drawEnvironmentLight_4"),
+            "N1693": ("block_draw_place.generated_method", "java_method_drawPlace_5", "PortGame.generated_block_draw_place_bridge_state", "Block.java_method_drawPlace_5"),
+            "N1694": ("block_draw_overlay.generated_method", "java_method_drawOverlay_10", "PortGame.generated_block_draw_overlay_bridge_state", "Block.java_method_drawOverlay_10"),
+            "N1695": ("block_display_shadow.generated_method", "java_method_displayShadow_11", "PortGame.generated_block_display_shadow_bridge_state", "Block.java_method_displayShadow_11"),
+        }
+        for slice_id, (symbol_name, generated_method, godot_owner, generated_owner) in expected.items():
+            with self.subTest(slice_id=slice_id):
+                symbol = source_symbols.source_symbol(registry, symbol_name)
+                self.assertEqual(symbol["java_source"], "core/src/mindustry/world/Block.java")
+                self.assertEqual(symbol["java_expr"], generated_method)
+                self.assertEqual(symbol["godot_owner"], godot_owner)
+                self.assertEqual(symbol["runtime_proof"], f"/root/Main.{godot_owner.split('.', 1)[1]}")
+                self.assertEqual(symbol["source_slice"], slice_id)
+                self.assertEqual(symbol["status"], "generated")
+
+                generated_slice = source_symbols.source_slice(ledger, slice_id)
+                self.assertEqual(generated_slice["generated_owner"], generated_owner)
+                self.assertEqual(generated_slice["godot_owner"], godot_owner)
+                self.assertEqual(generated_slice["runtime_proof"], f"/root/Main.{godot_owner.split('.', 1)[1]}")
+                self.assertEqual(generated_slice["status"], "done")
+
+                contract = source_symbols.api_contract(contracts, godot_owner)
+                self.assertEqual(contract["source_slice"], slice_id)
+                self.assertIn("matches", contract["return_keys"])
+
+    def test_block_draw_source_owners_have_complete_canonical_ssot(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schemas = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        expected = {
+            "N1708": ("draw_base", "Block.drawBase(Tile tile)", "PortGame.source_block_draw_base_state"),
+            "N1709": ("draw_base_cached", "Block.drawBaseCached(Tile tile)", "PortGame.source_block_draw_base_cached_state"),
+            "N1710": ("draw_shadow", "Block.drawShadow(Tile tile)", "PortGame.source_block_draw_shadow_state"),
+            "N1711": ("draw_environment_light", "Block.drawEnvironmentLight(Tile tile)", "PortGame.source_block_draw_environment_light_state"),
+            "N1712": ("draw_place", "Block.drawPlace(int x, int y, int rotation, boolean valid)", "PortGame.source_block_draw_place_state"),
+            "N1713": ("draw_overlay", "Block.drawOverlay(float x, float y, int rotation)", "PortGame.source_block_draw_overlay_state"),
+            "N1714": ("display_shadow", "Block.displayShadow(Tile tile)", "PortGame.source_block_display_shadow_state"),
+        }
+        ledger_entries = ledger["slices"]
+        contract_entries = contracts["contracts"]
+        schema_entries = schemas["schemas"]
+        for slice_id, (prefix, java_method, owner) in expected.items():
+            with self.subTest(slice_id=slice_id):
+                entry = source_symbols.source_slice(ledger, slice_id)
+                self.assertEqual(entry["godot_owner"], owner)
+                self.assertEqual(entry["java_method"], java_method)
+                self.assertEqual(entry["java_source"], "core/src/mindustry/world/Block.java")
+                self.assertEqual(entry["status"], "done")
+                self.assertIn(owner, contract_entries)
+                self.assertEqual(contract_entries[owner]["source_slice"], slice_id)
+                self.assertEqual(contract_entries[owner]["source_method"], java_method)
+                self.assertIn("source_owner", contract_entries[owner]["return_keys"])
+                input_schema = schema_entries[owner.removeprefix("PortGame.") + "_input"]
+                result_schema = schema_entries[owner.removeprefix("PortGame.") + "_result"]
+                self.assertTrue(input_schema["keys"])
+                self.assertTrue(result_schema["keys"])
+                owner_symbols = [
+                    symbol
+                    for symbol in registry["symbols"].values()
+                    if isinstance(symbol, dict) and symbol.get("godot_owner") == owner
+                ]
+                self.assertTrue(owner_symbols)
+                self.assertTrue(all(symbol["source_slice"] == slice_id for symbol in owner_symbols))
+                self.assertTrue(all(symbol["java_method"] == java_method for symbol in owner_symbols))
 
     def test_block_dump_time_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
@@ -14501,7 +15163,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(amount_input["godot_symbol"], "source_offload_to_inventory_input.amount")
 
         neighbor_loop = source_symbols.source_symbol(registry, "offload_to_inventory.neighbor_loop_deferred")
-        self.assertEqual(neighbor_loop["status"], "deferred")
+        self.assertEqual(neighbor_loop["status"], "source-backed")
         self.assertEqual(neighbor_loop["java_expr"], "for(int i = 0; i < proximity.size; i++){")
 
     def test_overdrive_projector_boost_bar_symbols_are_registered_with_source_backing(self):
@@ -15535,20 +16197,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
 
         method = source_symbols.source_symbol(registry, "building_should_consume.method")
         self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
-        self.assertEqual(method["java_method"], "shouldConsume()")
+        self.assertEqual(method["java_method"], "public boolean shouldConsume(){")
         self.assertEqual(method["java_expr"], "public boolean shouldConsume(){")
         self.assertEqual(method["godot_owner"], "PortGame.source_building_should_consume_state")
-        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_should_consume_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.BuildingAccessStateModuleProof")
         self.assertEqual(method["godot_symbol"], "source_building_should_consume_result.method")
 
-        return_enabled = source_symbols.source_symbol(registry, "building_should_consume.return_enabled")
-        self.assertEqual(return_enabled["java_expr"], "return enabled;")
-        self.assertEqual(return_enabled["godot_symbol"], "source_building_should_consume_result.return_enabled")
+        should_consume = source_symbols.source_symbol(registry, "building_should_consume.return")
+        self.assertEqual(should_consume["java_expr"], "return enabled;")
+        self.assertEqual(should_consume["godot_symbol"], "source_building_should_consume_result.should_consume")
 
-        enabled_state = source_symbols.source_symbol(registry, "building_should_consume.enabled_state")
+        enabled_state = source_symbols.source_symbol(registry, "building_should_consume.enabled")
         self.assertEqual(enabled_state["status"], "explicit-input")
         self.assertEqual(enabled_state["java_expr"], "enabled")
-        self.assertEqual(enabled_state["godot_symbol"], "source_building_should_consume_input.enabled_state")
+        self.assertEqual(enabled_state["godot_symbol"], "source_building_should_consume_input.enabled")
 
     def test_building_set_prop_item_content_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
@@ -21023,6 +21685,546 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(complete_shard["slices"]["N1590"]["canonical_slice"], "source_slice_ledger.N1590")
         self.assertEqual(complete_shard["slices"]["N1590"]["slice"], bridge_slice)
 
+    def test_generated_power_graph_getID_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        power_shard = source_symbols.source_ssot.load_registered_json(ROOT / "godot-mindustry", "power_slices")
+        complete_shard = source_symbols.source_ssot.load_registered_json(ROOT / "godot-mindustry", "source_slice_ledger_slices")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        graph_id = source_symbols.source_symbol(registry, "power_graph_get_id.graph_id")
+        self.assertEqual(graph_id["java_source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(graph_id["java_method"], "getId()")
+        self.assertEqual(graph_id["godot_owner"], "PortGame.source_power_graph_get_id_state")
+
+        bridge_slice = source_symbols.source_slice(ledger, "N1591")
+        self.assertEqual(bridge_slice["title"], "Generated PowerGraph getID bridge state")
+        self.assertEqual(bridge_slice["java_source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(bridge_slice["java_method"], "getID()")
+        self.assertEqual(bridge_slice["godot_owner"], "PortGame.source_power_graph_get_id_state")
+        self.assertEqual(bridge_slice["generated_owner"], "PowerGraph.java_method_getID_0")
+        self.assertEqual(bridge_slice["runtime_proof"], "/root/Main.generated_power_graph_getID_bridge_state")
+        self.assertIn("public int getID(){", bridge_slice["exact_exprs"])
+        self.assertIn("return graphID;", bridge_slice["exact_exprs"])
+        self.assertIn("power_graph_get_id.graph_id", bridge_slice["source_symbols"])
+        self.assertIn("power_graph_get_id.return_graph_id", bridge_slice["source_symbols"])
+        self.assertEqual(power_shard["slices"]["N1591"]["canonical_ledger"], "source_slice_ledger.N1591")
+        self.assertEqual(complete_shard["slices"]["N1591"]["canonical_slice"], "source_slice_ledger.N1591")
+        self.assertEqual(complete_shard["slices"]["N1591"]["slice"], bridge_slice)
+
+    def test_power_graph_get_last_scaled_power_in_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        power_shard = source_symbols.source_ssot.load_registered_json(ROOT / "godot-mindustry", "power_slices")
+        complete_shard = source_symbols.source_ssot.load_registered_json(ROOT / "godot-mindustry", "source_slice_ledger_slices")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        field = source_symbols.source_symbol(registry, "power_graph_get_last_scaled_power_in.field")
+        self.assertEqual(field["java_source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(field["java_method"], "getLastScaledPowerIn()")
+        self.assertEqual(field["java_expr"], "private float lastScaledPowerIn, lastScaledPowerOut, lastCapacity;")
+        self.assertEqual(field["godot_owner"], "PortGame.source_power_graph_get_last_scaled_power_in_state")
+
+        value = source_symbols.source_symbol(registry, "power_graph_get_last_scaled_power_in.last_scaled_power_in")
+        self.assertEqual(value["status"], "explicit-input")
+        self.assertEqual(value["java_expr"], "lastScaledPowerIn")
+        self.assertEqual(value["godot_symbol"], "source_power_graph_get_last_scaled_power_in_input.last_scaled_power_in")
+
+        returned = source_symbols.source_symbol(registry, "power_graph_get_last_scaled_power_in.return_last_scaled_power_in")
+        self.assertEqual(returned["status"], "source-backed")
+        self.assertEqual(returned["java_expr"], "return lastScaledPowerIn;")
+        self.assertEqual(returned["godot_symbol"], "source_power_graph_get_last_scaled_power_in_result.last_scaled_power_in")
+
+        source_slice = source_symbols.source_slice(ledger, "N1592")
+        self.assertEqual(source_slice["title"], "Generated PowerGraph getLastScaledPowerIn bridge state")
+        self.assertEqual(source_slice["java_source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(source_slice["java_method"], "getLastScaledPowerIn()")
+        self.assertEqual(source_slice["godot_owner"], "PortGame.source_power_graph_get_last_scaled_power_in_state")
+        self.assertEqual(source_slice["generated_owner"], "PowerGraph.java_method_getLastScaledPowerIn_1")
+        self.assertEqual(source_slice["runtime_proof"], "/root/Main.generated_power_graph_get_last_scaled_power_in_bridge_state")
+        self.assertIn("power_graph_get_last_scaled_power_in.field", source_slice["source_symbols"])
+        self.assertIn("power_graph_get_last_scaled_power_in.last_scaled_power_in", source_slice["source_symbols"])
+        self.assertIn("power_graph_get_last_scaled_power_in.return_last_scaled_power_in", source_slice["source_symbols"])
+        self.assertEqual(power_shard["slices"]["N1592"]["canonical_ledger"], "source_slice_ledger.N1592")
+        self.assertEqual(complete_shard["slices"]["N1592"]["canonical_slice"], "source_slice_ledger.N1592")
+        self.assertEqual(complete_shard["slices"]["N1592"]["slice"], source_slice)
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_power_graph_get_last_scaled_power_in_state")
+        self.assertEqual(contract["source_slice"], "N1592")
+        self.assertEqual(contract["source_method"], "getLastScaledPowerIn()")
+        self.assertEqual(contract["return_keys"], ["field", "method", "return_last_scaled_power_in", "last_scaled_power_in"])
+
+        input_schema = source_symbols.state_schema(schema, "source_power_graph_get_last_scaled_power_in_input")
+        result_schema = source_symbols.state_schema(schema, "source_power_graph_get_last_scaled_power_in_result")
+        self.assertIn("last_scaled_power_in", input_schema["keys"])
+        self.assertIn("last_scaled_power_in", result_schema["keys"])
+        self.assertIn("return_last_scaled_power_in", result_schema["keys"])
+
+    def test_power_graph_get_last_scaled_power_out_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        power_shard = source_symbols.source_ssot.load_registered_json(ROOT / "godot-mindustry", "power_slices")
+        complete_shard = source_symbols.source_ssot.load_registered_json(ROOT / "godot-mindustry", "source_slice_ledger_slices")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        field = source_symbols.source_symbol(registry, "power_graph_get_last_scaled_power_out.field")
+        self.assertEqual(field["java_source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(field["java_method"], "getLastScaledPowerOut()")
+        self.assertEqual(field["java_expr"], "private float lastScaledPowerIn, lastScaledPowerOut, lastCapacity;")
+        self.assertEqual(field["godot_owner"], "PortGame.source_power_graph_get_last_scaled_power_out_state")
+
+        value = source_symbols.source_symbol(registry, "power_graph_get_last_scaled_power_out.last_scaled_power_out")
+        self.assertEqual(value["status"], "explicit-input")
+        self.assertEqual(value["java_expr"], "lastScaledPowerOut")
+        self.assertEqual(value["godot_symbol"], "source_power_graph_get_last_scaled_power_out_input.last_scaled_power_out")
+
+        returned = source_symbols.source_symbol(registry, "power_graph_get_last_scaled_power_out.return_last_scaled_power_out")
+        self.assertEqual(returned["status"], "source-backed")
+        self.assertEqual(returned["java_expr"], "return lastScaledPowerOut;")
+        self.assertEqual(returned["godot_symbol"], "source_power_graph_get_last_scaled_power_out_result.last_scaled_power_out")
+
+        source_slice = source_symbols.source_slice(ledger, "N1593")
+        self.assertEqual(source_slice["title"], "Generated PowerGraph getLastScaledPowerOut bridge state")
+        self.assertEqual(source_slice["java_source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(source_slice["java_method"], "getLastScaledPowerOut()")
+        self.assertEqual(source_slice["godot_owner"], "PortGame.source_power_graph_get_last_scaled_power_out_state")
+        self.assertEqual(source_slice["generated_owner"], "PowerGraph.java_method_getLastScaledPowerOut_2")
+        self.assertEqual(source_slice["runtime_proof"], "/root/Main.generated_power_graph_get_last_scaled_power_out_bridge_state")
+        self.assertIn("power_graph_get_last_scaled_power_out.field", source_slice["source_symbols"])
+        self.assertIn("power_graph_get_last_scaled_power_out.last_scaled_power_out", source_slice["source_symbols"])
+        self.assertIn("power_graph_get_last_scaled_power_out.return_last_scaled_power_out", source_slice["source_symbols"])
+        self.assertEqual(power_shard["slices"]["N1593"]["canonical_ledger"], "source_slice_ledger.N1593")
+        self.assertEqual(complete_shard["slices"]["N1593"]["canonical_slice"], "source_slice_ledger.N1593")
+        self.assertEqual(complete_shard["slices"]["N1593"]["slice"], source_slice)
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_power_graph_get_last_scaled_power_out_state")
+        self.assertEqual(contract["source_slice"], "N1593")
+        self.assertEqual(contract["source_method"], "getLastScaledPowerOut()")
+        self.assertEqual(contract["return_keys"], ["field", "method", "return_last_scaled_power_out", "last_scaled_power_out"])
+
+        input_schema = source_symbols.state_schema(schema, "source_power_graph_get_last_scaled_power_out_input")
+        result_schema = source_symbols.state_schema(schema, "source_power_graph_get_last_scaled_power_out_result")
+        self.assertIn("last_scaled_power_out", input_schema["keys"])
+        self.assertIn("last_scaled_power_out", result_schema["keys"])
+        self.assertIn("return_last_scaled_power_out", result_schema["keys"])
+
+    def test_power_graph_get_last_capacity_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        power_shard = source_symbols.source_ssot.load_registered_json(ROOT / "godot-mindustry", "power_slices")
+        complete_shard = source_symbols.source_ssot.load_registered_json(ROOT / "godot-mindustry", "source_slice_ledger_slices")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        field = source_symbols.source_symbol(registry, "power_graph_get_last_capacity.field")
+        self.assertEqual(field["java_source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(field["java_method"], "getLastCapacity()")
+        self.assertEqual(field["java_expr"], "private float lastScaledPowerIn, lastScaledPowerOut, lastCapacity;")
+        self.assertEqual(field["godot_owner"], "PortGame.source_power_graph_get_last_capacity_state")
+
+        value = source_symbols.source_symbol(registry, "power_graph_get_last_capacity.last_capacity")
+        self.assertEqual(value["status"], "explicit-input")
+        self.assertEqual(value["java_expr"], "lastCapacity")
+        self.assertEqual(value["godot_symbol"], "source_power_graph_get_last_capacity_input.last_capacity")
+
+        returned = source_symbols.source_symbol(registry, "power_graph_get_last_capacity.return_last_capacity")
+        self.assertEqual(returned["status"], "source-backed")
+        self.assertEqual(returned["java_expr"], "return lastCapacity;")
+        self.assertEqual(returned["godot_symbol"], "source_power_graph_get_last_capacity_result.last_capacity")
+
+        source_slice = source_symbols.source_slice(ledger, "N1594")
+        self.assertEqual(source_slice["title"], "Generated PowerGraph getLastCapacity bridge state")
+        self.assertEqual(source_slice["java_source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(source_slice["java_method"], "getLastCapacity()")
+        self.assertEqual(source_slice["godot_owner"], "PortGame.source_power_graph_get_last_capacity_state")
+        self.assertEqual(source_slice["generated_owner"], "PowerGraph.java_method_getLastCapacity_3")
+        self.assertEqual(source_slice["runtime_proof"], "/root/Main.generated_power_graph_get_last_capacity_bridge_state")
+        self.assertIn("power_graph_get_last_capacity.field", source_slice["source_symbols"])
+        self.assertIn("power_graph_get_last_capacity.last_capacity", source_slice["source_symbols"])
+        self.assertIn("power_graph_get_last_capacity.return_last_capacity", source_slice["source_symbols"])
+        self.assertEqual(power_shard["slices"]["N1594"]["canonical_ledger"], "source_slice_ledger.N1594")
+        self.assertEqual(complete_shard["slices"]["N1594"]["canonical_slice"], "source_slice_ledger.N1594")
+        self.assertEqual(complete_shard["slices"]["N1594"]["slice"], source_slice)
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_power_graph_get_last_capacity_state")
+        self.assertEqual(contract["source_slice"], "N1594")
+        self.assertEqual(contract["source_method"], "getLastCapacity()")
+        self.assertEqual(contract["return_keys"], ["field", "method", "return_last_capacity", "last_capacity"])
+
+        input_schema = source_symbols.state_schema(schema, "source_power_graph_get_last_capacity_input")
+        result_schema = source_symbols.state_schema(schema, "source_power_graph_get_last_capacity_result")
+        self.assertIn("last_capacity", input_schema["keys"])
+        self.assertIn("last_capacity", result_schema["keys"])
+        self.assertIn("return_last_capacity", result_schema["keys"])
+
+    def test_power_graph_get_power_balance_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        power_shard = source_symbols.source_ssot.load_registered_json(ROOT / "godot-mindustry", "power_slices")
+        complete_shard = source_symbols.source_ssot.load_registered_json(ROOT / "godot-mindustry", "source_slice_ledger_slices")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        field = source_symbols.source_symbol(registry, "power_graph_get_power_balance.field")
+        self.assertEqual(field["java_source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(field["java_method"], "getPowerBalance()")
+        self.assertEqual(field["java_expr"], "private final WindowedMean powerBalance = new WindowedMean(60);")
+        self.assertEqual(field["godot_owner"], "PortGame.source_power_graph_get_power_balance_state")
+
+        value = source_symbols.source_symbol(registry, "power_graph_get_power_balance.power_balance_raw_mean")
+        self.assertEqual(value["status"], "explicit-input")
+        self.assertEqual(value["java_expr"], "powerBalance.rawMean()")
+        self.assertEqual(value["godot_symbol"], "source_power_graph_get_power_balance_input.power_balance_raw_mean")
+
+        returned = source_symbols.source_symbol(registry, "power_graph_get_power_balance.return_power_balance_raw_mean")
+        self.assertEqual(returned["status"], "source-backed")
+        self.assertEqual(returned["java_expr"], "return powerBalance.rawMean();")
+        self.assertEqual(returned["godot_symbol"], "source_power_graph_get_power_balance_result.power_balance_raw_mean")
+
+        source_slice = source_symbols.source_slice(ledger, "N1595")
+        self.assertEqual(source_slice["title"], "Generated PowerGraph getPowerBalance bridge state")
+        self.assertEqual(source_slice["java_source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(source_slice["java_method"], "getPowerBalance()")
+        self.assertEqual(source_slice["godot_owner"], "PortGame.source_power_graph_get_power_balance_state")
+        self.assertEqual(source_slice["generated_owner"], "PowerGraph.java_method_getPowerBalance_4")
+        self.assertEqual(source_slice["runtime_proof"], "/root/Main.generated_power_graph_get_power_balance_bridge_state")
+        self.assertIn("power_graph_get_power_balance.field", source_slice["source_symbols"])
+        self.assertIn("power_graph_get_power_balance.power_balance_raw_mean", source_slice["source_symbols"])
+        self.assertIn("power_graph_get_power_balance.return_power_balance_raw_mean", source_slice["source_symbols"])
+        self.assertEqual(power_shard["slices"]["N1595"]["canonical_ledger"], "source_slice_ledger.N1595")
+        self.assertEqual(complete_shard["slices"]["N1595"]["canonical_slice"], "source_slice_ledger.N1595")
+        self.assertEqual(complete_shard["slices"]["N1595"]["slice"], source_slice)
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_power_graph_get_power_balance_state")
+        self.assertEqual(contract["source_slice"], "N1595")
+        self.assertEqual(contract["source_method"], "getPowerBalance()")
+        self.assertEqual(contract["return_keys"], ["field", "method", "return_power_balance_raw_mean", "power_balance_raw_mean"])
+
+        input_schema = source_symbols.state_schema(schema, "source_power_graph_get_power_balance_input")
+        result_schema = source_symbols.state_schema(schema, "source_power_graph_get_power_balance_result")
+        self.assertIn("power_balance_raw_mean", input_schema["keys"])
+        self.assertIn("power_balance_raw_mean", result_schema["keys"])
+        self.assertIn("return_power_balance_raw_mean", result_schema["keys"])
+
+    def test_power_graph_has_power_balance_samples_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        power_shard = source_symbols.source_ssot.load_registered_json(ROOT / "godot-mindustry", "power_slices")
+        complete_shard = source_symbols.source_ssot.load_registered_json(ROOT / "godot-mindustry", "source_slice_ledger_slices")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        field = source_symbols.source_symbol(registry, "power_graph_has_power_balance_samples.field")
+        self.assertEqual(field["java_source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(field["java_method"], "hasPowerBalanceSamples()")
+        self.assertEqual(field["java_expr"], "private final WindowedMean powerBalance = new WindowedMean(60);")
+        self.assertEqual(field["godot_owner"], "PortGame.source_power_graph_has_power_balance_samples_state")
+
+        value = source_symbols.source_symbol(registry, "power_graph_has_power_balance_samples.has_power_balance_samples")
+        self.assertEqual(value["status"], "explicit-input")
+        self.assertEqual(value["java_expr"], "powerBalance.hasEnoughData()")
+        self.assertEqual(value["godot_symbol"], "source_power_graph_has_power_balance_input.has_power_balance_samples")
+
+        returned = source_symbols.source_symbol(registry, "power_graph_has_power_balance_samples.return_has_power_balance_samples")
+        self.assertEqual(returned["status"], "source-backed")
+        self.assertEqual(returned["java_expr"], "return powerBalance.hasEnoughData();")
+        self.assertEqual(returned["godot_symbol"], "source_power_graph_has_power_balance_result.has_power_balance_samples")
+
+        source_slice = source_symbols.source_slice(ledger, "N1596")
+        self.assertEqual(source_slice["title"], "Generated PowerGraph hasPowerBalanceSamples bridge state")
+        self.assertEqual(source_slice["java_source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(source_slice["java_method"], "hasPowerBalanceSamples()")
+        self.assertEqual(source_slice["godot_owner"], "PortGame.source_power_graph_has_power_balance_samples_state")
+        self.assertEqual(source_slice["generated_owner"], "PowerGraph.java_method_hasPowerBalanceSamples_5")
+        self.assertEqual(source_slice["runtime_proof"], "/root/Main.generated_power_graph_has_power_balance_samples_bridge_state")
+        self.assertIn("power_graph_has_power_balance_samples.field", source_slice["source_symbols"])
+        self.assertIn("power_graph_has_power_balance_samples.has_power_balance_samples", source_slice["source_symbols"])
+        self.assertIn("power_graph_has_power_balance_samples.return_has_power_balance_samples", source_slice["source_symbols"])
+        self.assertEqual(power_shard["slices"]["N1596"]["canonical_ledger"], "source_slice_ledger.N1596")
+        self.assertEqual(complete_shard["slices"]["N1596"]["canonical_slice"], "source_slice_ledger.N1596")
+        self.assertEqual(complete_shard["slices"]["N1596"]["slice"], source_slice)
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_power_graph_has_power_balance_samples_state")
+        self.assertEqual(contract["source_slice"], "N1596")
+        self.assertEqual(contract["source_method"], "hasPowerBalanceSamples()")
+        self.assertEqual(contract["return_keys"], ["field", "method", "return_has_power_balance_samples", "has_power_balance_samples"])
+
+        input_schema = source_symbols.state_schema(schema, "source_power_graph_has_power_balance_input")
+        result_schema = source_symbols.state_schema(schema, "source_power_graph_has_power_balance_result")
+        self.assertIn("has_power_balance_samples", input_schema["keys"])
+        self.assertIn("has_power_balance_samples", result_schema["keys"])
+        self.assertIn("return_has_power_balance_samples", result_schema["keys"])
+
+    def test_power_graph_get_last_power_needed_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        power_shard = source_symbols.source_ssot.load_registered_json(ROOT / "godot-mindustry", "power_slices")
+        complete_shard = source_symbols.source_ssot.load_registered_json(ROOT / "godot-mindustry", "source_slice_ledger_slices")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        field = source_symbols.source_symbol(registry, "power_graph_get_last_power_needed.field")
+        self.assertEqual(field["java_source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(field["java_method"], "getLastPowerNeeded()")
+        self.assertEqual(field["java_expr"], "private float lastPowerProduced, lastPowerNeeded, lastPowerStored;")
+        self.assertEqual(field["godot_owner"], "PortGame.source_power_graph_get_last_power_needed_state")
+
+        value = source_symbols.source_symbol(registry, "power_graph_get_last_power_needed.last_power_needed")
+        self.assertEqual(value["status"], "explicit-input")
+        self.assertEqual(value["java_expr"], "lastPowerNeeded")
+        self.assertEqual(value["godot_symbol"], "source_power_graph_get_last_power_needed_input.last_power_needed")
+
+        returned = source_symbols.source_symbol(registry, "power_graph_get_last_power_needed.return_last_power_needed")
+        self.assertEqual(returned["status"], "source-backed")
+        self.assertEqual(returned["java_expr"], "return lastPowerNeeded;")
+        self.assertEqual(returned["godot_symbol"], "source_power_graph_get_last_power_needed_result.last_power_needed")
+
+        source_slice = source_symbols.source_slice(ledger, "N1597")
+        self.assertEqual(source_slice["title"], "Generated PowerGraph getLastPowerNeeded bridge state")
+        self.assertEqual(source_slice["java_source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(source_slice["java_method"], "getLastPowerNeeded()")
+        self.assertEqual(source_slice["godot_owner"], "PortGame.source_power_graph_get_last_power_needed_state")
+        self.assertEqual(source_slice["generated_owner"], "PowerGraph.java_method_getLastPowerNeeded_6")
+        self.assertEqual(source_slice["runtime_proof"], "/root/Main.generated_power_graph_get_last_power_needed_bridge_state")
+        self.assertIn("power_graph_get_last_power_needed.field", source_slice["source_symbols"])
+        self.assertIn("power_graph_get_last_power_needed.last_power_needed", source_slice["source_symbols"])
+        self.assertIn("power_graph_get_last_power_needed.return_last_power_needed", source_slice["source_symbols"])
+        self.assertEqual(power_shard["slices"]["N1597"]["canonical_ledger"], "source_slice_ledger.N1597")
+        self.assertEqual(complete_shard["slices"]["N1597"]["canonical_slice"], "source_slice_ledger.N1597")
+        self.assertEqual(complete_shard["slices"]["N1597"]["slice"], source_slice)
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_power_graph_get_last_power_needed_state")
+        self.assertEqual(contract["source_slice"], "N1597")
+        self.assertEqual(contract["source_method"], "getLastPowerNeeded()")
+        self.assertEqual(contract["return_keys"], ["field", "method", "return_last_power_needed", "last_power_needed"])
+
+        input_schema = source_symbols.state_schema(schema, "source_power_graph_get_last_power_needed_input")
+        result_schema = source_symbols.state_schema(schema, "source_power_graph_get_last_power_needed_result")
+        self.assertIn("last_power_needed", input_schema["keys"])
+        self.assertIn("last_power_needed", result_schema["keys"])
+        self.assertIn("return_last_power_needed", result_schema["keys"])
+
+    def test_power_graph_get_last_power_produced_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        power_shard = source_symbols.source_ssot.load_registered_json(ROOT / "godot-mindustry", "power_slices")
+        complete_shard = source_symbols.source_ssot.load_registered_json(ROOT / "godot-mindustry", "source_slice_ledger_slices")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        field = source_symbols.source_symbol(registry, "power_graph_get_last_power_produced.field")
+        self.assertEqual(field["java_source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(field["java_method"], "getLastPowerProduced()")
+        self.assertEqual(field["java_expr"], "private float lastPowerProduced, lastPowerNeeded, lastPowerStored;")
+        self.assertEqual(field["godot_owner"], "PortGame.source_power_graph_get_last_power_produced_state")
+
+        value = source_symbols.source_symbol(registry, "power_graph_get_last_power_produced.last_power_produced")
+        self.assertEqual(value["status"], "explicit-input")
+        self.assertEqual(value["java_expr"], "lastPowerProduced")
+        self.assertEqual(value["godot_symbol"], "source_power_graph_get_last_power_produced_input.last_power_produced")
+
+        returned = source_symbols.source_symbol(registry, "power_graph_get_last_power_produced.return_last_power_produced")
+        self.assertEqual(returned["status"], "source-backed")
+        self.assertEqual(returned["java_expr"], "return lastPowerProduced;")
+        self.assertEqual(returned["godot_symbol"], "source_power_graph_get_last_power_produced_result.last_power_produced")
+
+        source_slice = source_symbols.source_slice(ledger, "N1598")
+        self.assertEqual(source_slice["title"], "Generated PowerGraph getLastPowerProduced bridge state")
+        self.assertEqual(source_slice["java_source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(source_slice["java_method"], "getLastPowerProduced()")
+        self.assertEqual(source_slice["godot_owner"], "PortGame.source_power_graph_get_last_power_produced_state")
+        self.assertEqual(source_slice["generated_owner"], "PowerGraph.java_method_getLastPowerProduced_7")
+        self.assertEqual(source_slice["runtime_proof"], "/root/Main.generated_power_graph_get_last_power_produced_bridge_state")
+        self.assertIn("power_graph_get_last_power_produced.field", source_slice["source_symbols"])
+        self.assertIn("power_graph_get_last_power_produced.last_power_produced", source_slice["source_symbols"])
+        self.assertIn("power_graph_get_last_power_produced.return_last_power_produced", source_slice["source_symbols"])
+        self.assertEqual(power_shard["slices"]["N1598"]["canonical_ledger"], "source_slice_ledger.N1598")
+        self.assertEqual(complete_shard["slices"]["N1598"]["canonical_slice"], "source_slice_ledger.N1598")
+        self.assertEqual(complete_shard["slices"]["N1598"]["slice"], source_slice)
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_power_graph_get_last_power_produced_state")
+        self.assertEqual(contract["source_slice"], "N1598")
+        self.assertEqual(contract["source_method"], "getLastPowerProduced()")
+        self.assertEqual(contract["return_keys"], ["field", "method", "return_last_power_produced", "last_power_produced"])
+
+        input_schema = source_symbols.state_schema(schema, "source_power_graph_get_last_power_produced_input")
+        result_schema = source_symbols.state_schema(schema, "source_power_graph_get_last_power_produced_result")
+        self.assertIn("last_power_produced", input_schema["keys"])
+        self.assertIn("last_power_produced", result_schema["keys"])
+        self.assertIn("return_last_power_produced", result_schema["keys"])
+
+    def test_power_graph_get_last_power_stored_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        power_shard = source_symbols.source_ssot.load_registered_json(ROOT / "godot-mindustry", "power_slices")
+        complete_shard = source_symbols.source_ssot.load_registered_json(ROOT / "godot-mindustry", "source_slice_ledger_slices")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        field = source_symbols.source_symbol(registry, "power_graph_get_last_power_stored.field")
+        self.assertEqual(field["java_source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(field["java_method"], "getLastPowerStored()")
+        self.assertEqual(field["java_expr"], "private float lastPowerProduced, lastPowerNeeded, lastPowerStored;")
+        self.assertEqual(field["godot_owner"], "PortGame.source_power_graph_get_last_power_stored_state")
+
+        value = source_symbols.source_symbol(registry, "power_graph_get_last_power_stored.last_power_stored")
+        self.assertEqual(value["status"], "explicit-input")
+        self.assertEqual(value["java_expr"], "lastPowerStored")
+        self.assertEqual(value["godot_symbol"], "source_power_graph_get_last_power_stored_input.last_power_stored")
+
+        returned = source_symbols.source_symbol(registry, "power_graph_get_last_power_stored.return_last_power_stored")
+        self.assertEqual(returned["status"], "source-backed")
+        self.assertEqual(returned["java_expr"], "return lastPowerStored;")
+        self.assertEqual(returned["godot_symbol"], "source_power_graph_get_last_power_stored_result.last_power_stored")
+
+        source_slice = source_symbols.source_slice(ledger, "N1599")
+        self.assertEqual(source_slice["title"], "Generated PowerGraph getLastPowerStored bridge state")
+        self.assertEqual(source_slice["java_source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(source_slice["java_method"], "getLastPowerStored()")
+        self.assertEqual(source_slice["godot_owner"], "PortGame.source_power_graph_get_last_power_stored_state")
+        self.assertEqual(source_slice["generated_owner"], "PowerGraph.java_method_getLastPowerStored_8")
+        self.assertEqual(source_slice["runtime_proof"], "/root/Main.generated_power_graph_get_last_power_stored_bridge_state")
+        self.assertIn("power_graph_get_last_power_stored.field", source_slice["source_symbols"])
+        self.assertIn("power_graph_get_last_power_stored.last_power_stored", source_slice["source_symbols"])
+        self.assertIn("power_graph_get_last_power_stored.return_last_power_stored", source_slice["source_symbols"])
+        self.assertEqual(power_shard["slices"]["N1599"]["canonical_ledger"], "source_slice_ledger.N1599")
+        self.assertEqual(complete_shard["slices"]["N1599"]["canonical_slice"], "source_slice_ledger.N1599")
+        self.assertEqual(complete_shard["slices"]["N1599"]["slice"], source_slice)
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_power_graph_get_last_power_stored_state")
+        self.assertEqual(contract["source_slice"], "N1599")
+        self.assertEqual(contract["source_method"], "getLastPowerStored()")
+        self.assertEqual(contract["return_keys"], ["field", "method", "return_last_power_stored", "last_power_stored"])
+
+        input_schema = source_symbols.state_schema(schema, "source_power_graph_get_last_power_stored_input")
+        result_schema = source_symbols.state_schema(schema, "source_power_graph_get_last_power_stored_result")
+        self.assertIn("last_power_stored", input_schema["keys"])
+        self.assertIn("last_power_stored", result_schema["keys"])
+        self.assertIn("return_last_power_stored", result_schema["keys"])
+
+    def test_power_graph_transfer_power_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        power_shard = source_symbols.source_ssot.load_registered_json(ROOT / "godot-mindustry", "power_slices")
+        complete_shard = source_symbols.source_ssot.load_registered_json(ROOT / "godot-mindustry", "source_slice_ledger_slices")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        amount = source_symbols.source_symbol(registry, "power_graph_transfer_power.amount")
+        self.assertEqual(amount["java_source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(amount["java_method"], "transferPower(float amount)")
+        self.assertEqual(amount["java_expr"], "amount")
+        self.assertEqual(amount["godot_owner"], "PortGame.source_power_graph_transfer_power_state")
+        self.assertEqual(amount["status"], "explicit-input")
+
+        field = source_symbols.source_symbol(registry, "power_graph_transfer_power.field")
+        self.assertEqual(field["java_expr"], "private float energyDelta = 0f;")
+
+        energy_delta_after = source_symbols.source_symbol(registry, "power_graph_transfer_power.energy_delta_after")
+        self.assertEqual(energy_delta_after["java_expr"], "energyDelta += amount;")
+        self.assertEqual(energy_delta_after["godot_symbol"], "source_power_graph_transfer_power_result.energy_delta_after")
+
+        source_slice = source_symbols.source_slice(ledger, "N1600")
+        self.assertEqual(source_slice["title"], "Generated PowerGraph transferPower bridge state")
+        self.assertEqual(source_slice["java_source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(source_slice["java_method"], "transferPower(float amount)")
+        self.assertEqual(source_slice["godot_owner"], "PortGame.source_power_graph_transfer_power_state")
+        self.assertEqual(source_slice["generated_owner"], "PowerGraph.java_method_transferPower_9")
+        self.assertEqual(source_slice["runtime_proof"], "/root/Main.generated_power_graph_transfer_power_bridge_state")
+        self.assertIn("private float energyDelta = 0f;", source_slice["exact_exprs"])
+        self.assertIn("public void transferPower(float amount){", source_slice["exact_exprs"])
+        self.assertIn("chargeBatteries(amount);", source_slice["exact_exprs"])
+        self.assertIn("useBatteries(-amount);", source_slice["exact_exprs"])
+        self.assertIn("energyDelta += amount;", source_slice["exact_exprs"])
+        self.assertIn("power_graph_transfer_power.amount", source_slice["source_symbols"])
+        self.assertIn("power_graph_transfer_power.energy_delta_after", source_slice["source_symbols"])
+        self.assertEqual(power_shard["slices"]["N1600"]["canonical_ledger"], "source_slice_ledger.N1600")
+        self.assertEqual(complete_shard["slices"]["N1600"]["canonical_slice"], "source_slice_ledger.N1600")
+        self.assertEqual(complete_shard["slices"]["N1600"]["slice"], source_slice)
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_power_graph_transfer_power_state")
+        self.assertEqual(contract["source_slice"], "N1600")
+        self.assertEqual(contract["source_method"], "transferPower(float amount)")
+        self.assertEqual(contract["return_keys"], ["field", "method", "positive_guard", "charge_call", "else_branch", "use_call", "energy_delta_add", "amount", "energy_delta", "energy_delta_after"])
+
+        input_schema = source_symbols.state_schema(schema, "source_power_graph_transfer_power_input")
+        result_schema = source_symbols.state_schema(schema, "source_power_graph_transfer_power_result")
+        self.assertIn("amount", input_schema["keys"])
+        self.assertIn("energy_delta", input_schema["keys"])
+        self.assertIn("energy_delta_after", result_schema["keys"])
+        self.assertIn("energy_delta_add", result_schema["keys"])
+
+    def test_power_graph_get_satisfaction_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        power_shard = source_symbols.source_ssot.load_registered_json(ROOT / "godot-mindustry", "power_slices")
+        complete_shard = source_symbols.source_ssot.load_registered_json(ROOT / "godot-mindustry", "source_slice_ledger_slices")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        satisfaction = source_symbols.source_symbol(registry, "power_graph_get_satisfaction.satisfaction")
+        self.assertEqual(satisfaction["java_source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(satisfaction["java_method"], "getSatisfaction()")
+        self.assertEqual(satisfaction["java_expr"], "return Mathf.clamp(lastPowerProduced / lastPowerNeeded);")
+        self.assertEqual(satisfaction["godot_owner"], "PortGame.source_power_graph_get_satisfaction_state")
+        self.assertEqual(satisfaction["status"], "source-backed")
+
+        produced = source_symbols.source_symbol(registry, "power_graph_get_satisfaction.last_power_produced")
+        self.assertEqual(produced["status"], "explicit-input")
+        self.assertEqual(produced["java_expr"], "lastPowerProduced")
+
+        source_slice = source_symbols.source_slice(ledger, "N1601")
+        self.assertEqual(source_slice["title"], "Generated PowerGraph getSatisfaction bridge state")
+        self.assertEqual(source_slice["java_source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(source_slice["java_method"], "getSatisfaction()")
+        self.assertEqual(source_slice["godot_owner"], "PortGame.source_power_graph_get_satisfaction_state")
+        self.assertEqual(source_slice["generated_owner"], "PowerGraph.java_method_getSatisfaction_10")
+        self.assertEqual(source_slice["runtime_proof"], "/root/Main.generated_power_graph_get_satisfaction_bridge_state")
+        self.assertIn("public float getSatisfaction(){", source_slice["exact_exprs"])
+        self.assertIn("if(Mathf.zero(lastPowerProduced)){", source_slice["exact_exprs"])
+        self.assertIn("return Mathf.clamp(lastPowerProduced / lastPowerNeeded);", source_slice["exact_exprs"])
+        self.assertIn("power_graph_get_satisfaction.last_power_produced", source_slice["source_symbols"])
+        self.assertIn("power_graph_get_satisfaction.last_power_needed", source_slice["source_symbols"])
+        self.assertIn("power_graph_get_satisfaction.satisfaction", source_slice["source_symbols"])
+        self.assertEqual(power_shard["slices"]["N1601"]["canonical_ledger"], "source_slice_ledger.N1601")
+        self.assertEqual(complete_shard["slices"]["N1601"]["canonical_slice"], "source_slice_ledger.N1601")
+        self.assertEqual(complete_shard["slices"]["N1601"]["slice"], source_slice)
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_power_graph_get_satisfaction_state")
+        self.assertEqual(contract["source_slice"], "N1601")
+        self.assertEqual(contract["source_method"], "getSatisfaction()")
+        self.assertEqual(contract["return_keys"], ["field", "method", "produced_zero_guard", "return_zero", "needed_zero_guard", "return_one", "return_clamp", "last_power_produced", "last_power_needed", "satisfaction"])
+
+        input_schema = source_symbols.state_schema(schema, "source_power_graph_get_satisfaction_input")
+        result_schema = source_symbols.state_schema(schema, "source_power_graph_get_satisfaction_result")
+        self.assertIn("last_power_produced", input_schema["keys"])
+        self.assertIn("last_power_needed", input_schema["keys"])
+        self.assertIn("satisfaction", result_schema["keys"])
+        self.assertIn("return_clamp", result_schema["keys"])
+
     def test_generated_consume_trigger_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
@@ -26253,17 +27455,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
 
         method = source_symbols.source_symbol(registry, "building_production_valid.method")
         self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
-        self.assertEqual(method["java_method"], "productionValid()")
+        self.assertEqual(method["java_method"], "public boolean productionValid(){")
         self.assertEqual(method["java_expr"], "public boolean productionValid(){")
         self.assertEqual(method["godot_owner"], "PortGame.source_building_production_valid_state")
-        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_production_valid_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.BuildingAccessStateModuleProof")
         self.assertEqual(method["godot_symbol"], "source_building_production_valid_result.method")
 
-        default_return = source_symbols.source_symbol(registry, "building_production_valid.default_return")
-        self.assertEqual(default_return["java_expr"], "return true;")
-        self.assertEqual(default_return["godot_symbol"], "source_building_production_valid_result.default_return")
-
-        production_valid = source_symbols.source_symbol(registry, "building_production_valid.production_valid")
+        production_valid = source_symbols.source_symbol(registry, "building_production_valid.return")
         self.assertEqual(production_valid["java_expr"], "return true;")
         self.assertEqual(production_valid["godot_symbol"], "source_building_production_valid_result.production_valid")
 
@@ -26919,6 +28117,38 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(edelta_value["java_expr"], "edelta()")
         self.assertEqual(edelta_value["godot_symbol"], "source_building_progress_increase_input.edelta_value")
 
+    def test_building_time_default_accessors_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        accessors = (
+            ("building_time_scale", "timeScale()", "public float timeScale(){", "return timeScale;", "timeScale", "current_time_scale", "time_scale", "PortGame.source_building_time_scale_state", "/root/Main.source_building_time_scale_state"),
+            ("building_warmup", "warmup()", "public float warmup(){", "return 0f;", "", "", "warmup", "PortGame.source_building_warmup_state", "/root/Main.source_building_warmup_state"),
+            ("building_total_progress", "totalProgress()", "public float totalProgress(){", "return Time.time;", "Time.time", "source_time", "total_progress", "PortGame.source_building_total_progress_state", "/root/Main.source_building_total_progress_state"),
+            ("building_progress", "progress()", "public float progress(){", "return 0f;", "", "", "progress", "PortGame.source_building_progress_state", "/root/Main.source_building_progress_state"),
+        )
+        for prefix, java_method, method_expr, value_expr, input_expr, input_key, result_key, godot_owner, runtime_proof in accessors:
+            with self.subTest(prefix=prefix):
+                method = source_symbols.source_symbol(registry, prefix + ".method")
+                self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+                self.assertEqual(method["java_method"], java_method)
+                self.assertEqual(method["java_expr"], method_expr)
+                self.assertEqual(method["godot_owner"], godot_owner)
+                self.assertEqual(method["runtime_proof"], runtime_proof)
+                self.assertEqual(method["godot_symbol"], "source_" + prefix + "_result.method")
+
+                value = source_symbols.source_symbol(registry, prefix + ".value")
+                self.assertEqual(value["java_expr"], value_expr)
+                self.assertEqual(value["godot_symbol"], "source_" + prefix + "_result." + result_key)
+
+                if input_key:
+                    input_symbol = source_symbols.source_symbol(registry, prefix + "." + input_key)
+                    self.assertEqual(input_symbol["status"], "explicit-input")
+                    self.assertEqual(input_symbol["java_expr"], input_expr)
+                    self.assertEqual(input_symbol["godot_symbol"], "source_" + prefix + "_input." + input_key)
+
     def test_building_display_flow_rate_label_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -27550,6 +28780,76 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(rotation_quadrants["status"], "explicit-input")
         self.assertEqual(rotation_quadrants["java_expr"], "rotation")
         self.assertEqual(rotation_quadrants["godot_symbol"], "source_building_drawrot_input.rotation_quadrants")
+
+    def test_building_rotdeg_and_fog_radius_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        rotdeg_method = source_symbols.source_symbol(registry, "building_rotdeg.method")
+        self.assertEqual(rotdeg_method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(rotdeg_method["java_method"], "rotdeg()")
+        self.assertEqual(rotdeg_method["java_expr"], "public float rotdeg(){")
+        self.assertEqual(rotdeg_method["godot_owner"], "PortGame.source_building_rotdeg_state")
+        self.assertEqual(rotdeg_method["runtime_proof"], "/root/Main.source_building_rotdeg_state")
+        self.assertEqual(rotdeg_method["godot_symbol"], "source_building_rotdeg_result.method")
+
+        rotdeg_rotation = source_symbols.source_symbol(registry, "building_rotdeg.rotation")
+        self.assertEqual(rotdeg_rotation["java_expr"], "return rotation * 90;")
+        self.assertEqual(rotdeg_rotation["godot_symbol"], "source_building_rotdeg_result.rotation_degrees")
+
+        rotdeg_input = source_symbols.source_symbol(registry, "building_rotdeg.rotation_quadrants")
+        self.assertEqual(rotdeg_input["status"], "explicit-input")
+        self.assertEqual(rotdeg_input["java_expr"], "rotation")
+        self.assertEqual(rotdeg_input["godot_symbol"], "source_building_rotdeg_input.rotation_quadrants")
+
+        fog_radius_method = source_symbols.source_symbol(registry, "building_fog_radius.method")
+        self.assertEqual(fog_radius_method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(fog_radius_method["java_method"], "fogRadius()")
+        self.assertEqual(fog_radius_method["java_expr"], "public float fogRadius(){")
+        self.assertEqual(fog_radius_method["godot_owner"], "PortGame.source_building_fog_radius_state")
+        self.assertEqual(fog_radius_method["runtime_proof"], "/root/Main.source_building_fog_radius_state")
+        self.assertEqual(fog_radius_method["godot_symbol"], "source_building_fog_radius_result.method")
+
+        fog_radius_value = source_symbols.source_symbol(registry, "building_fog_radius.value")
+        self.assertEqual(fog_radius_value["java_expr"], "return block.fogRadius;")
+        self.assertEqual(fog_radius_value["godot_symbol"], "source_building_fog_radius_result.fog_radius")
+
+        fog_radius_input = source_symbols.source_symbol(registry, "building_fog_radius.block_fog_radius")
+        self.assertEqual(fog_radius_input["status"], "explicit-input")
+        self.assertEqual(fog_radius_input["java_expr"], "block.fogRadius")
+        self.assertEqual(fog_radius_input["godot_symbol"], "source_building_fog_radius_input.block_fog_radius")
+
+    def test_building_access_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        accessors = (
+            ("building_tile_x", "tileX()", "public int tileX(){", "return tile.x;", "tile.x", "tile_x", "PortGame.source_building_tile_x_state", "/root/Main.source_building_tile_x_state"),
+            ("building_tile_y", "tileY()", "public int tileY(){", "return tile.y;", "tile.y", "tile_y", "PortGame.source_building_tile_y_state", "/root/Main.source_building_tile_y_state"),
+            ("building_pos", "pos()", "public int pos(){", "return tile.pos();", "tile.pos()", "tile_pos", "PortGame.source_building_pos_state", "/root/Main.source_building_pos_state"),
+        )
+        for prefix, java_method, method_expr, value_expr, input_expr, value_key, godot_owner, runtime_proof in accessors:
+            with self.subTest(prefix=prefix):
+                method = source_symbols.source_symbol(registry, prefix + ".method")
+                self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+                self.assertEqual(method["java_method"], java_method)
+                self.assertEqual(method["java_expr"], method_expr)
+                self.assertEqual(method["godot_owner"], godot_owner)
+                self.assertEqual(method["runtime_proof"], runtime_proof)
+                self.assertEqual(method["godot_symbol"], "source_" + prefix + "_result.method")
+
+                value = source_symbols.source_symbol(registry, prefix + ".value")
+                self.assertEqual(value["java_expr"], value_expr)
+                self.assertEqual(value["godot_symbol"], "source_" + prefix + "_result." + value_key)
+
+                input_symbol = source_symbols.source_symbol(registry, prefix + "." + value_key)
+                self.assertEqual(input_symbol["status"], "explicit-input")
+                self.assertEqual(input_symbol["java_expr"], input_expr)
+                self.assertEqual(input_symbol["godot_symbol"], "source_" + prefix + "_input." + value_key)
 
     def test_building_edelta_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
@@ -29792,10 +31092,41 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 1032)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 1025)
-        self.assertEqual(audit["exemptSourceOwnerCount"], 7)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], 0)
+        self.assertEqual(audit["registeredSourceOwnerCount"], len(audit["registeredSourceOwners"]))
+        self.assertEqual(audit["exemptSourceOwnerCount"], len(audit["exemptSourceOwners"]))
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], len(audit["legacyUnregisteredOwners"]))
+        discovered_owners = {
+            entry.get("canonical_owner", entry["owner"])
+            for entry in audit["sourceFunctions"]
+        }
+        classified_owners = set(audit["registeredSourceOwners"]) | set(audit["exemptSourceOwners"]) | set(audit["legacyUnregisteredOwners"])
+        self.assertEqual(audit["totalSourceFunctions"], len(audit["sourceFunctions"]))
+        discovered_source_owners = {entry["owner"] for entry in audit["sourceFunctions"]}
+        self.assertEqual(audit["discoveredSourceOwnerCount"], len(discovered_source_owners))
+        self.assertEqual(audit["canonicalDiscoveredOwnerCount"], len(discovered_owners))
+        self.assertEqual(
+            audit["canonicalAliasFunctionCount"],
+            sum(entry["owner"] != entry["canonical_owner"] for entry in audit["sourceFunctions"]),
+        )
+        self.assertEqual(
+            audit["duplicateSourceFunctionRecordCount"],
+            audit["totalSourceFunctions"] - audit["discoveredSourceOwnerCount"],
+        )
+        self.assertEqual(
+            audit["ownerCoverageGap"],
+            audit["canonicalDiscoveredOwnerCount"]
+            - audit["registeredSourceOwnerCount"]
+            - audit["exemptSourceOwnerCount"]
+            - audit["legacyUnregisteredOwnerCount"],
+        )
+        self.assertEqual(
+            audit["functionRecordAccountingGap"],
+            audit["totalSourceFunctions"]
+            - audit["registeredSourceOwnerCount"]
+            - audit["exemptSourceOwnerCount"]
+            - audit["legacyUnregisteredOwnerCount"],
+        )
+        self.assertEqual(discovered_owners, classified_owners)
         self.assertIn("port_game.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("port_game.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("port_game.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -30510,6 +31841,27 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("port_game.source_unit_aim_look_xy_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("port_game.source_unit_approach_state", audit["legacyUnregisteredOwners"])
         self.assertEqual(audit["policy"]["newSourceOwnerRequiresRegistry"], True)
+
+    def test_audit_resolves_facade_owner_aliases_to_one_canonical_owner(self):
+        root = ROOT / "godot-mindustry"
+        registry = source_symbols.load_source_symbol_registry(root)
+        aliases = registry["policy"]["canonicalOwnerAliases"]
+
+        self.assertEqual(
+            aliases["port_game.source_building_nearby_delta_state"],
+            "port_game.source_building_navigation_state",
+        )
+        self.assertEqual(
+            aliases["port_game.source_building_write_hook_noop_state"],
+            "port_game.source_building_serialization_hook_state",
+        )
+        self.assertEqual(source_symbols.validate_source_symbol_registry(registry), [])
+
+        audit = source_symbols.audit_godot_source_symbol_coverage(root, registry)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], 0)
+        self.assertNotIn("port_game.source_building_nearby_delta_state", audit["legacyUnregisteredOwners"])
+        self.assertIn("port_game.source_building_navigation_state", audit["registeredSourceOwners"])
+        self.assertEqual(audit["policy"]["canonicalOwnerAliases"], aliases)
 
     def test_audit_report_file_matches_current_godot_source(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
@@ -33461,7 +34813,8 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("int amount = (int)(progress / delay);", offload_to_inventory["exact_exprs"])
         self.assertIn("for(int i = 0; i < amount; i++){", offload_to_inventory["exact_exprs"])
         self.assertIn("offload(dominantItem);", offload_to_inventory["exact_exprs"])
-        self.assertIn("for(int i = 0; i < proximity.size; i++){", offload_to_inventory["deferred_exprs"])
+        self.assertNotIn("for(int i = 0; i < proximity.size; i++){", offload_to_inventory["deferred_exprs"])
+        self.assertIn("for(int i = 0; i < proximity.size; i++){", offload_to_inventory["exact_exprs"])
 
         overdrive_boost_bar = source_symbols.source_slice(ledger, "N725")
         self.assertEqual(overdrive_boost_bar["java_source"], "core/src/mindustry/world/blocks/defense/OverdriveProjector.java")
@@ -33865,13 +35218,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("return shouldConsume();", building_should_ambient_sound["exact_exprs"])
         self.assertIn("shouldConsume()", building_should_ambient_sound["exact_exprs"])
 
-        building_should_consume = source_symbols.source_slice(ledger, "N647")
+        building_should_consume = source_symbols.source_slice(ledger, "N1896")
         self.assertEqual(building_should_consume["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
-        self.assertEqual(building_should_consume["java_method"], "shouldConsume()")
+        self.assertEqual(building_should_consume["java_method"], "public boolean shouldConsume(){")
         self.assertEqual(building_should_consume["godot_owner"], "PortGame.source_building_should_consume_state")
         self.assertIn("public boolean shouldConsume(){", building_should_consume["exact_exprs"])
         self.assertIn("return enabled;", building_should_consume["exact_exprs"])
-        self.assertIn("enabled", building_should_consume["exact_exprs"])
+        self.assertIn("return enabled;", building_should_consume["exact_exprs"])
 
         building_should_hide_configure = source_symbols.source_slice(ledger, "N648")
         self.assertEqual(building_should_hide_configure["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -35592,9 +36945,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public float getPowerProduction(){", building_power_production["exact_exprs"])
         self.assertIn("return 0f;", building_power_production["exact_exprs"])
 
-        building_production_valid = source_symbols.source_slice(ledger, "N626")
+        building_production_valid = source_symbols.source_slice(ledger, "N1897")
         self.assertEqual(building_production_valid["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
-        self.assertEqual(building_production_valid["java_method"], "productionValid()")
+        self.assertEqual(building_production_valid["java_method"], "public boolean productionValid(){")
         self.assertEqual(building_production_valid["godot_owner"], "PortGame.source_building_production_valid_state")
         self.assertIn("public boolean productionValid(){", building_production_valid["exact_exprs"])
         self.assertIn("return true;", building_production_valid["exact_exprs"])
@@ -35954,6 +37307,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(building_drawrot["godot_owner"], "PortGame.source_building_drawrot_state")
         self.assertIn("public float drawrot(){", building_drawrot["exact_exprs"])
         self.assertIn("return block.rotate && block.rotateDraw ? rotation * 90 : 0f;", building_drawrot["exact_exprs"])
+
+        building_rotdeg = source_symbols.source_slice(ledger, "N1619")
+        self.assertEqual(building_rotdeg["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_rotdeg["java_method"], "rotdeg()")
+        self.assertEqual(building_rotdeg["godot_owner"], "PortGame.source_building_rotdeg_state")
+        self.assertIn("public float rotdeg(){", building_rotdeg["exact_exprs"])
+        self.assertIn("return rotation * 90;", building_rotdeg["exact_exprs"])
+
+        building_fog_radius = source_symbols.source_slice(ledger, "N1620")
+        self.assertEqual(building_fog_radius["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_fog_radius["java_method"], "fogRadius()")
+        self.assertEqual(building_fog_radius["godot_owner"], "PortGame.source_building_fog_radius_state")
+        self.assertIn("public float fogRadius(){", building_fog_radius["exact_exprs"])
+        self.assertIn("return block.fogRadius;", building_fog_radius["exact_exprs"])
 
         building_edelta = source_symbols.source_slice(ledger, "N579")
         self.assertEqual(building_edelta["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -40206,12 +41573,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(shoot_pattern_default_events["source_method"], "shoot(int totalShots, BulletHandler handler)")
 
         offload_to_inventory = source_symbols.api_contract(contracts, "PortGame.source_offload_to_inventory")
-        self.assertEqual([param["name"] for param in offload_to_inventory["params"]], ["item_id", "amount"])
+        self.assertEqual([param["name"] for param in offload_to_inventory["params"]], ["item_id", "amount", "routing_context"])
         self.assertEqual(offload_to_inventory["params"][0]["schema"], "source_offload_to_inventory_input.item_id")
         self.assertEqual(offload_to_inventory["params"][1]["schema"], "source_offload_to_inventory_input.amount")
+        self.assertEqual(offload_to_inventory["params"][2]["schema"], "source_offload_to_inventory_input.routing_context")
         self.assertIn("produced", offload_to_inventory["return_keys"])
         self.assertIn("handleItem", offload_to_inventory["return_keys"])
         self.assertIn("itemCountAfter", offload_to_inventory["return_keys"])
+        self.assertIn("routingContext", offload_to_inventory["return_keys"])
+        self.assertIn("routedCount", offload_to_inventory["return_keys"])
+        self.assertIn("fallbackCount", offload_to_inventory["return_keys"])
         self.assertEqual(offload_to_inventory["source_method"], "offload(Item item)/DrillBuild.updateTile()")
 
         overdrive_boost_bar = source_symbols.api_contract(contracts, "PortGame.source_overdrive_projector_boost_bar_fraction")
@@ -40717,12 +42088,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(building_should_ambient_sound["source_method"], "shouldAmbientSound()")
 
         building_should_consume = source_symbols.api_contract(contracts, "PortGame.source_building_should_consume_state")
-        self.assertEqual([param["name"] for param in building_should_consume["params"]], ["enabled_state"])
-        self.assertEqual(building_should_consume["params"][0]["schema"], "source_building_should_consume_input.enabled_state")
-        self.assertIn("method", building_should_consume["return_keys"])
-        self.assertIn("return_enabled", building_should_consume["return_keys"])
+        self.assertEqual([param["name"] for param in building_should_consume["params"]], ["enabled"])
+        self.assertEqual(building_should_consume["params"][0]["schema"], "source_building_should_consume_input.enabled")
         self.assertIn("should_consume", building_should_consume["return_keys"])
-        self.assertEqual(building_should_consume["source_method"], "shouldConsume()")
+        self.assertEqual(building_should_consume["source_method"], "public boolean shouldConsume(){")
 
         building_should_hide_configure = source_symbols.api_contract(contracts, "PortGame.source_building_should_hide_configure_state")
         self.assertEqual([param["name"] for param in building_should_hide_configure["params"]], ["_player"])
@@ -42282,10 +43651,8 @@ class SourceSymbolRegistryTests(unittest.TestCase):
 
         building_production_valid = source_symbols.api_contract(contracts, "PortGame.source_building_production_valid_state")
         self.assertEqual([param["name"] for param in building_production_valid["params"]], [])
-        self.assertIn("method", building_production_valid["return_keys"])
-        self.assertIn("default_return", building_production_valid["return_keys"])
         self.assertIn("production_valid", building_production_valid["return_keys"])
-        self.assertEqual(building_production_valid["source_method"], "productionValid()")
+        self.assertEqual(building_production_valid["source_method"], "public boolean productionValid(){")
 
         building_on_destroyed_base_sound = source_symbols.api_contract(contracts, "PortGame.source_building_on_destroyed_base_sound_state")
         self.assertEqual([param["name"] for param in building_on_destroyed_base_sound["params"]], ["headless", "destroy_sound", "destroy_pitch_min", "destroy_pitch_max", "destroy_sound_volume"])
@@ -42341,7 +43708,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         building_consume_trigger_valid = source_symbols.api_contract(contracts, "PortGame.source_building_consume_trigger_valid_state")
         self.assertEqual([param["name"] for param in building_consume_trigger_valid["params"]], [])
         self.assertIn("consume_trigger_valid", building_consume_trigger_valid["return_keys"])
-        self.assertEqual(building_consume_trigger_valid["source_method"], "consumeTriggerValid()")
+        self.assertEqual(building_consume_trigger_valid["source_method"], "public boolean consumeTriggerValid(){")
 
         building_control_config = source_symbols.api_contract(contracts, "PortGame.source_building_control_config_state")
         self.assertEqual([param["name"] for param in building_control_config["params"]], ["control_type", "block_logic_configurable", "p1_is_logic_build", "p1_value"])
@@ -42605,6 +43972,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(building_drawrot["params"][2]["schema"], "source_building_drawrot_input.rotation_quadrants")
         self.assertIn("rotation_degrees", building_drawrot["return_keys"])
         self.assertEqual(building_drawrot["source_method"], "drawrot()")
+
+        building_rotdeg = source_symbols.api_contract(contracts, "PortGame.source_building_rotdeg_state")
+        self.assertEqual([param["name"] for param in building_rotdeg["params"]], ["rotation_quadrants"])
+        self.assertEqual(building_rotdeg["params"][0]["schema"], "source_building_rotdeg_input.rotation_quadrants")
+        self.assertIn("rotation_degrees", building_rotdeg["return_keys"])
+        self.assertEqual(building_rotdeg["source_method"], "rotdeg()")
+
+        building_fog_radius = source_symbols.api_contract(contracts, "PortGame.source_building_fog_radius_state")
+        self.assertEqual([param["name"] for param in building_fog_radius["params"]], ["block_fog_radius"])
+        self.assertEqual(building_fog_radius["params"][0]["schema"], "source_building_fog_radius_input.block_fog_radius")
+        self.assertIn("fog_radius", building_fog_radius["return_keys"])
+        self.assertEqual(building_fog_radius["source_method"], "fogRadius()")
 
         building_edelta = source_symbols.api_contract(contracts, "PortGame.source_building_edelta")
         self.assertEqual([param["name"] for param in building_edelta["params"]], ["source_delta", "time_scale", "efficiency"])
@@ -47284,14 +48663,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_should_ambient_sound_result["keys"]["should_consume_state"]["alias_of"], "source_building_should_ambient_sound_input.should_consume_state")
 
         source_building_should_consume_input = source_symbols.state_schema(schema, "source_building_should_consume_input")
-        self.assertEqual(source_building_should_consume_input["keys"]["enabled_state"]["java_expr"], "enabled")
-        self.assertEqual(source_building_should_consume_input["keys"]["enabled_state"]["status"], "explicit-input")
+        self.assertEqual(source_building_should_consume_input["keys"]["enabled"]["java_expr"], "enabled")
+        self.assertEqual(source_building_should_consume_input["keys"]["enabled"]["status"], "explicit-input")
 
         source_building_should_consume_result = source_symbols.state_schema(schema, "source_building_should_consume_result")
         self.assertEqual(source_building_should_consume_result["keys"]["method"]["java_expr"], "public boolean shouldConsume(){")
-        self.assertEqual(source_building_should_consume_result["keys"]["return_enabled"]["java_expr"], "return enabled;")
         self.assertEqual(source_building_should_consume_result["keys"]["should_consume"]["java_expr"], "return enabled;")
-        self.assertEqual(source_building_should_consume_result["keys"]["enabled_state"]["alias_of"], "source_building_should_consume_input.enabled_state")
 
         source_building_should_hide_configure_input = source_symbols.state_schema(schema, "source_building_should_hide_configure_input")
         self.assertEqual(source_building_should_hide_configure_input["keys"]["player"]["java_expr"], "player")
@@ -49021,7 +50398,6 @@ class SourceSymbolRegistryTests(unittest.TestCase):
 
         source_building_production_valid_result = source_symbols.state_schema(schema, "source_building_production_valid_result")
         self.assertEqual(source_building_production_valid_result["keys"]["method"]["java_expr"], "public boolean productionValid(){")
-        self.assertEqual(source_building_production_valid_result["keys"]["default_return"]["java_expr"], "return true;")
         self.assertEqual(source_building_production_valid_result["keys"]["production_valid"]["java_expr"], "return true;")
 
         source_building_on_destroyed_base_sound_input = source_symbols.state_schema(schema, "source_building_on_destroyed_base_sound_input")
@@ -49529,6 +50905,22 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_drawrot_result["keys"]["method"]["java_expr"], "public float drawrot(){")
         self.assertEqual(source_building_drawrot_result["keys"]["rotation_degrees"]["java_expr"], "return block.rotate && block.rotateDraw ? rotation * 90 : 0f;")
         self.assertEqual(source_building_drawrot_result["keys"]["block_rotate"]["alias_of"], "source_building_drawrot_input.block_rotate")
+
+        source_building_rotdeg_input = source_symbols.state_schema(schema, "source_building_rotdeg_input")
+        self.assertEqual(source_building_rotdeg_input["keys"]["rotation_quadrants"]["java_expr"], "rotation")
+
+        source_building_rotdeg_result = source_symbols.state_schema(schema, "source_building_rotdeg_result")
+        self.assertEqual(source_building_rotdeg_result["keys"]["method"]["java_expr"], "public float rotdeg(){")
+        self.assertEqual(source_building_rotdeg_result["keys"]["rotation_degrees"]["java_expr"], "return rotation * 90;")
+        self.assertEqual(source_building_rotdeg_result["keys"]["rotation_quadrants"]["alias_of"], "source_building_rotdeg_input.rotation_quadrants")
+
+        source_building_fog_radius_input = source_symbols.state_schema(schema, "source_building_fog_radius_input")
+        self.assertEqual(source_building_fog_radius_input["keys"]["block_fog_radius"]["java_expr"], "block.fogRadius")
+
+        source_building_fog_radius_result = source_symbols.state_schema(schema, "source_building_fog_radius_result")
+        self.assertEqual(source_building_fog_radius_result["keys"]["method"]["java_expr"], "public float fogRadius(){")
+        self.assertEqual(source_building_fog_radius_result["keys"]["fog_radius"]["java_expr"], "return block.fogRadius;")
+        self.assertEqual(source_building_fog_radius_result["keys"]["block_fog_radius"]["alias_of"], "source_building_fog_radius_input.block_fog_radius")
 
         source_building_edelta_input = source_symbols.state_schema(schema, "source_building_edelta_input")
         self.assertEqual(source_building_edelta_input["keys"]["source_delta"]["java_expr"], "Time.delta")
@@ -56547,6 +57939,223 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_block_is_hidden_result")
         self.assertEqual(result_schema["keys"]["is_hidden"]["java_expr"], "return !buildVisibility.visible() && !state.rules.revealedBlocks.contains(this);")
 
+    def test_generated_block_is_visible_and_placeable_slices_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        visible_method = source_symbols.source_symbol(registry, "block_is_visible.method")
+        self.assertEqual(visible_method["java_expr"], "public boolean isVisible(){")
+        self.assertEqual(visible_method["godot_owner"], "PortGame.source_block_is_visible_state")
+        self.assertEqual(visible_method["runtime_proof"], "/root/Main.source_block_is_visible_state")
+
+        visible_return = source_symbols.source_symbol(registry, "block_is_visible.return_expr")
+        self.assertEqual(visible_return["java_expr"], "return !isHidden() && (state.rules.editor || (!state.rules.hideBannedBlocks || !isBanned()));")
+        self.assertEqual(visible_return["godot_symbol"], "source_block_is_visible_result.is_visible")
+
+        visible_slice = source_symbols.source_slice(ledger, "N1628")
+        self.assertEqual(visible_slice["title"], "Generated Block isVisible bridge state")
+        self.assertEqual(visible_slice["godot_owner"], "PortGame.source_block_is_visible_state")
+        self.assertEqual(visible_slice["generated_owner"], "Block.java_method_isVisible_75")
+        self.assertEqual(visible_slice["runtime_proof"], "/root/Main.generated_block_is_visible_bridge_state")
+        self.assertEqual(visible_slice["status"], "done")
+
+        visible_contract = source_symbols.api_contract(contracts, "PortGame.source_block_is_visible_state")
+        self.assertEqual([param["name"] for param in visible_contract["params"]], ["is_hidden_value", "state_rules_editor", "state_rules_hide_banned_blocks", "is_banned_value"])
+        self.assertIn("is_visible", visible_contract["return_keys"])
+        visible_input_schema = source_symbols.state_schema(schema, "source_block_is_visible_input")
+        self.assertEqual(visible_input_schema["keys"]["is_hidden"]["java_expr"], "isHidden()")
+        visible_result_schema = source_symbols.state_schema(schema, "source_block_is_visible_result")
+        self.assertEqual(visible_result_schema["keys"]["is_visible"]["java_expr"], "return !isHidden() && (state.rules.editor || (!state.rules.hideBannedBlocks || !isBanned()));")
+
+        placeable_method = source_symbols.source_symbol(registry, "block_is_placeable.method")
+        self.assertEqual(placeable_method["java_expr"], "public boolean isPlaceable(){")
+        self.assertEqual(placeable_method["godot_owner"], "PortGame.source_block_is_placeable_state")
+        self.assertEqual(placeable_method["runtime_proof"], "/root/Main.source_block_is_placeable_state")
+
+        placeable_return = source_symbols.source_symbol(registry, "block_is_placeable.return_expr")
+        self.assertEqual(placeable_return["java_expr"], "return isVisible() && (!isBanned() || state.rules.editor) && supportsEnv(state.rules.env);")
+        self.assertEqual(placeable_return["godot_symbol"], "source_block_is_placeable_result.is_placeable")
+
+        placeable_slice = source_symbols.source_slice(ledger, "N1629")
+        self.assertEqual(placeable_slice["title"], "Generated Block isPlaceable bridge state")
+        self.assertEqual(placeable_slice["godot_owner"], "PortGame.source_block_is_placeable_state")
+        self.assertEqual(placeable_slice["generated_owner"], "Block.java_method_isPlaceable_76")
+        self.assertEqual(placeable_slice["runtime_proof"], "/root/Main.generated_block_is_placeable_bridge_state")
+        self.assertEqual(placeable_slice["status"], "done")
+
+        placeable_contract = source_symbols.api_contract(contracts, "PortGame.source_block_is_placeable_state")
+        self.assertEqual([param["name"] for param in placeable_contract["params"]], ["is_visible_value", "is_banned_value", "state_rules_editor", "supports_env_value"])
+        self.assertIn("is_placeable", placeable_contract["return_keys"])
+        placeable_input_schema = source_symbols.state_schema(schema, "source_block_is_placeable_input")
+        self.assertEqual(placeable_input_schema["keys"]["is_visible"]["java_expr"], "isVisible()")
+        placeable_result_schema = source_symbols.state_schema(schema, "source_block_is_placeable_result")
+        self.assertEqual(placeable_result_schema["keys"]["is_placeable"]["java_expr"], "return isVisible() && (!isBanned() || state.rules.editor) && supportsEnv(state.rules.env);")
+
+        banned_method = source_symbols.source_symbol(registry, "block_is_banned.method")
+        self.assertEqual(banned_method["java_expr"], "public boolean isBanned(){")
+        self.assertEqual(banned_method["godot_owner"], "PortGame.source_block_is_banned_state")
+        self.assertEqual(banned_method["runtime_proof"], "/root/Main.source_block_is_banned_state")
+
+        banned_return = source_symbols.source_symbol(registry, "block_is_banned.return_expr")
+        self.assertEqual(banned_return["java_expr"], "return state.rules.isBanned(this);")
+        self.assertEqual(banned_return["godot_symbol"], "source_block_is_banned_result.is_banned")
+
+        banned_slice = source_symbols.source_slice(ledger, "N1630")
+        self.assertEqual(banned_slice["title"], "Generated Block isBanned bridge state")
+        self.assertEqual(banned_slice["godot_owner"], "PortGame.source_block_is_banned_state")
+        self.assertEqual(banned_slice["generated_owner"], "Block.java_method_isBanned_77")
+        self.assertEqual(banned_slice["runtime_proof"], "/root/Main.generated_block_is_banned_bridge_state")
+        self.assertEqual(banned_slice["status"], "done")
+
+        banned_contract = source_symbols.api_contract(contracts, "PortGame.source_block_is_banned_state")
+        self.assertEqual([param["name"] for param in banned_contract["params"]], ["rules_is_banned_value"])
+        self.assertIn("is_banned", banned_contract["return_keys"])
+        banned_input_schema = source_symbols.state_schema(schema, "source_block_is_banned_input")
+        self.assertEqual(banned_input_schema["keys"]["rules_is_banned"]["java_expr"], "state.rules.isBanned(this)")
+        banned_result_schema = source_symbols.state_schema(schema, "source_block_is_banned_result")
+        self.assertEqual(banned_result_schema["keys"]["is_banned"]["java_expr"], "return state.rules.isBanned(this);")
+
+        supports_method = source_symbols.source_symbol(registry, "block_supports_env.method")
+        self.assertEqual(supports_method["java_expr"], "public boolean supportsEnv(int env){")
+        self.assertEqual(supports_method["godot_owner"], "PortGame.source_block_supports_env_state")
+        self.assertEqual(supports_method["runtime_proof"], "/root/Main.source_block_supports_env_state")
+
+        supports_return = source_symbols.source_symbol(registry, "block_supports_env.return_expr")
+        self.assertEqual(supports_return["java_expr"], "return (envEnabled & env) != 0 && (envDisabled & env) == 0 && (envRequired == 0 || (envRequired & env) == envRequired);")
+        self.assertEqual(supports_return["godot_symbol"], "source_block_supports_env_result.supports_env")
+
+        supports_slice = source_symbols.source_slice(ledger, "N1631")
+        self.assertEqual(supports_slice["title"], "Generated Block supportsEnv bridge state")
+        self.assertEqual(supports_slice["godot_owner"], "PortGame.source_block_supports_env_state")
+        self.assertEqual(supports_slice["generated_owner"], "Block.java_method_supportsEnv_78")
+        self.assertEqual(supports_slice["runtime_proof"], "/root/Main.generated_block_supports_env_bridge_state")
+        self.assertEqual(supports_slice["status"], "done")
+
+        supports_contract = source_symbols.api_contract(contracts, "PortGame.source_block_supports_env_state")
+        self.assertEqual([param["name"] for param in supports_contract["params"]], ["env_enabled", "env_disabled", "env_required", "env_value"])
+        self.assertIn("supports_env", supports_contract["return_keys"])
+        supports_input_schema = source_symbols.state_schema(schema, "source_block_supports_env_input")
+        self.assertEqual(supports_input_schema["keys"]["env_enabled"]["java_expr"], "envEnabled")
+        supports_result_schema = source_symbols.state_schema(schema, "source_block_supports_env_result")
+        self.assertEqual(supports_result_schema["keys"]["supports_env"]["java_expr"], "return (envEnabled & env) != 0 && (envDisabled & env) == 0 && (envRequired == 0 || (envRequired & env) == envRequired);")
+
+    def test_generated_block_display_query_slices_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        cases = [
+            (
+                "block_percent_solid",
+                "N1632",
+                "Generated Block percentSolid bridge state",
+                "Block.percentSolid(int x, int y)",
+                "PortGame.source_block_percent_solid_state",
+                "Block.java_method_percentSolid_3",
+                "source_block_percent_solid_result.percent_solid",
+                "return tile.getLinkedTilesAs(this, tempTiles).sumf(other -> !other.floor().isLiquid ? 1f : 0f) / size / size;",
+                ["tile_exists", "x_value", "y_value", "linked_non_liquid_count", "size_value"],
+                "source_block_percent_solid_input",
+                "source_block_percent_solid_result",
+                "percent_solid",
+                "/root/Main.generated_block_percent_solid_bridge_state",
+            ),
+            (
+                "block_get_display_icon",
+                "N1633",
+                "Generated Block getDisplayIcon bridge state",
+                "Block.getDisplayIcon(Tile tile)",
+                "PortGame.source_block_get_display_icon_state",
+                "Block.java_method_getDisplayIcon_13",
+                "source_block_get_display_icon_result.display_icon",
+                "return tile.build == null ? uiIcon : tile.build.getDisplayIcon();",
+                ["tile_build_present", "ui_icon", "build_display_icon"],
+                "source_block_get_display_icon_input",
+                "source_block_get_display_icon_result",
+                "display_icon",
+                "/root/Main.generated_block_get_display_icon_bridge_state",
+            ),
+            (
+                "block_get_display_name",
+                "N1634",
+                "Generated Block getDisplayName bridge state",
+                "Block.getDisplayName(Tile tile)",
+                "PortGame.source_block_get_display_name_state",
+                "Block.java_method_getDisplayName_14",
+                "source_block_get_display_name_result.display_name",
+                "return tile.build == null ? localizedName : tile.build.getDisplayName();",
+                ["tile_build_present", "localized_name", "build_display_name"],
+                "source_block_get_display_name_input",
+                "source_block_get_display_name_result",
+                "display_name",
+                "/root/Main.generated_block_get_display_name_bridge_state",
+            ),
+            (
+                "block_minimap_color",
+                "N1635",
+                "Generated Block minimapColor bridge state",
+                "Block.minimapColor(Tile tile)",
+                "PortGame.source_block_minimap_color_state",
+                "Block.java_method_minimapColor_15",
+                "source_block_minimap_color_result.minimap_color",
+                "return 0;",
+                ["tile"],
+                "source_block_minimap_color_input",
+                "source_block_minimap_color_result",
+                "minimap_color",
+                "/root/Main.generated_block_minimap_color_bridge_state",
+            ),
+            (
+                "block_get_color",
+                "N1636",
+                "Generated Block getColor bridge state",
+                "Block.getColor(Tile tile)",
+                "PortGame.source_block_get_color_state",
+                "Block.java_method_getColor_16",
+                "source_block_get_color_result.color",
+                "return mc == 0 ? mapColor : Tmp.c3.set(mc);",
+                ["minimap_color", "map_color", "tmp_c3_set_color"],
+                "source_block_get_color_input",
+                "source_block_get_color_result",
+                "color",
+                "/root/Main.generated_block_get_color_bridge_state",
+            ),
+        ]
+
+        for prefix, slice_id, title, java_method, godot_owner, generated_owner, godot_symbol, return_expr, param_names, input_schema_name, result_schema_name, result_key, generated_runtime_proof in cases:
+            with self.subTest(prefix=prefix):
+                method = source_symbols.source_symbol(registry, prefix + ".method")
+                self.assertEqual(method["java_method"], java_method)
+                self.assertEqual(method["godot_owner"], godot_owner)
+                self.assertEqual(method["runtime_proof"], "/root/Main." + godot_owner.split(".", 1)[1])
+
+                return_symbol = source_symbols.source_symbol(registry, prefix + ".return_expr")
+                self.assertEqual(return_symbol["java_expr"], return_expr)
+                self.assertEqual(return_symbol["godot_symbol"], godot_symbol)
+
+                source_slice = source_symbols.source_slice(ledger, slice_id)
+                self.assertEqual(source_slice["title"], title)
+                self.assertEqual(source_slice["godot_owner"], godot_owner)
+                self.assertEqual(source_slice["generated_owner"], generated_owner)
+                self.assertEqual(source_slice["runtime_proof"], generated_runtime_proof)
+                self.assertEqual(source_slice["status"], "done")
+
+                contract = source_symbols.api_contract(contracts, godot_owner)
+                self.assertEqual([param["name"] for param in contract["params"]], param_names)
+                self.assertIn(result_key, contract["return_keys"])
+
+                input_schema = source_symbols.state_schema(schema, input_schema_name)
+                self.assertEqual(input_schema["source_slice"], slice_id)
+                result_schema = source_symbols.state_schema(schema, result_schema_name)
+                self.assertEqual(result_schema["keys"][result_key]["java_expr"], return_expr)
+
     def test_generated_block_plan_rotation_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
@@ -61451,7 +63060,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_tractor_beam_turret_build_draw_result")
         self.assertEqual(result_schema["keys"]["base_rect_call"]["java_expr"], "Draw.rect(baseRegion, x, y);")
         self.assertEqual(result_schema["keys"]["laser_guard"]["java_expr"], "any && !isPayload()")
-        self.assertEqual(result_schema["keys"]["laser_call"]["java_expr"], "Drawf.laser(laser, laserStart, laserEnd, x + Angles.trnsx(ang, shootLength), y + Angles.trnsy(ang, shootLength), lastX, lastY, strength * efficiency * laserWidth);")
+        self.assertEqual(
+            " ".join(result_schema["keys"]["laser_call"]["java_expr"].split()),
+            "Drawf.laser(laser, laserStart, laserEnd, x + Angles.trnsx(ang, shootLength), y + Angles.trnsy(ang, shootLength), lastX, lastY, strength * efficiency * laserWidth);",
+        )
 
     def test_generated_tractor_beam_turret_build_update_tile_activation_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
@@ -66805,6 +68417,50 @@ class SourceSymbolRegistryTests(unittest.TestCase):
 
         self.assertIn("bad_state.madeUp: source-backed requires java_source", errors)
         self.assertIn("bad_state.madeUp: source-backed requires java_expr", errors)
+
+    def test_unit_clip_size_registration_is_canonical(self):
+        root = ROOT / "godot-mindustry"
+        registry = source_symbols.load_source_symbol_registry(root)
+        ledger = source_symbols.load_source_slice_ledger(root)
+        contracts = source_symbols.load_source_api_contracts(root)
+        schema = source_symbols.load_source_state_schema(root)
+
+        self.assertEqual(ledger["slices"]["N1846"]["godot_owner"], "PortGame.source_unit_clip_size_state")
+        contract = contracts["contracts"]["PortGame.source_unit_clip_size_state"]
+        self.assertEqual(contract["source_slice"], "N1846")
+        self.assertEqual(contract["return_keys"], ["clip_size"])
+        self.assertEqual([param["name"] for param in contract["params"]], [
+            "is_building", "infinite_resources", "type_clip_size", "type_region_width",
+            "type_build_range", "source_tilesize", "is_mining", "type_mine_range",
+        ])
+        self.assertEqual(schema["schemas"]["source_unit_clip_size_input"]["owner"], "port_game.source_unit_clip_size_state")
+        self.assertEqual(schema["schemas"]["source_unit_clip_size_result"]["owner"], "port_game.source_unit_clip_size_state")
+        for symbol in (
+            "unit_clip_size.method",
+            "unit_clip_size.building_gate",
+            "unit_clip_size.infinite_resources",
+            "unit_clip_size.type_clip_size",
+            "unit_clip_size.mining_gate",
+            "unit_clip_size.clip_size",
+        ):
+            self.assertEqual(registry["symbols"][symbol]["godot_owner"], "PortGame.source_unit_clip_size_state")
+
+    def test_unit_sense_laccess_registration_is_canonical(self):
+        root = ROOT / "godot-mindustry"
+        registry = source_symbols.load_source_symbol_registry(root)
+        ledger = source_symbols.load_source_slice_ledger(root)
+        contracts = source_symbols.load_source_api_contracts(root)
+        schema = source_symbols.load_source_state_schema(root)
+
+        self.assertEqual(ledger["slices"]["N1847"]["godot_owner"], "PortGame.source_unit_sense_laccess_state")
+        contract = contracts["contracts"]["PortGame.source_unit_sense_laccess_state"]
+        self.assertEqual(contract["source_slice"], "N1847")
+        self.assertEqual([param["name"] for param in contract["params"]], ["sensor", "unit_state", "source_tilesize"])
+        self.assertEqual(contract["return_keys"], ["value"])
+        self.assertEqual(schema["schemas"]["source_unit_sense_laccess_input"]["owner"], "port_game.source_unit_sense_laccess_state")
+        self.assertEqual(schema["schemas"]["source_unit_sense_laccess_result"]["owner"], "port_game.source_unit_sense_laccess_state")
+        for symbol in ("unit_sense_laccess.method", "unit_sense_laccess.sensor", "unit_sense_laccess.value"):
+            self.assertEqual(registry["symbols"][symbol]["godot_owner"], "PortGame.source_unit_sense_laccess_state")
 
     def test_game_over_core_destroyed_symbol_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

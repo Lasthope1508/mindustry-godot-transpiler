@@ -3,7 +3,7 @@ extends Node
 const PortGameScript := preload("res://src/game/PortGame.gd")
 const source_core_damage_runtime_state := preload("res://src/game/SourceCoreDamageRuntimeState.gd")
 const source_game_over_core_destroyed_state_script := preload("res://src/game/SourceGameOverCoreDestroyedState.gd")
-const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const source_ssot_accessor_runtime_state := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
 
 func _ready() -> void:
 	var game_over_state := source_game_over_core_destroyed_state_script.core_destroyed_state(10.0, true, false)
@@ -22,7 +22,7 @@ func _ready() -> void:
 	module_game.game_over = true
 	module_game.last_game_over_winner = ""
 	var module_wrapper := source_core_damage_runtime_state.game_apply_core_damage(module_game, 15.0)
-	var registry_state := source_ssot_catalog.canonical_headquarter_registry_state()
+	var registry_state := source_ssot_accessor_runtime_state.canonical_headquarter_registry_state()
 	var proof := {
 		"module": "CORE_DAMAGE_RUNTIME_MODULE_PROOF",
 		"wrapper_matches": wrapper == module,
@@ -41,3 +41,4 @@ func _ready() -> void:
 	module_game.free()
 	await get_tree().create_timer(20.0).timeout
 	get_tree().quit(0)
+

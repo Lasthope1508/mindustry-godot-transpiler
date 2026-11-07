@@ -52,12 +52,7 @@
             "port_game.source_ability_ability_stat_state"
           ]
         }
-      },
-      "owner": "port_game.source_ability_ability_stat_state",
-      "rule": "Inputs for port_game.source_ability_ability_stat_state.",
-      "runtime_proof": "/root/Main.source_ability_ability_stat_state",
-      "source_slice": "N1269",
-      "status": "source-backed"
+      }
     },
     "source_ability_ability_stat_result": {
       "canonical_schema": "source_state_schema.source_ability_ability_stat_result",
@@ -250,12 +245,7 @@
             "port_game.source_ability_ability_stat_state"
           ]
         }
-      },
-      "owner": "port_game.source_ability_ability_stat_state",
-      "rule": "Dictionary returned by port_game.source_ability_ability_stat_state.",
-      "runtime_proof": "/root/Main.source_ability_ability_stat_state",
-      "source_slice": "N1269",
-      "status": "source-backed"
+      }
     },
     "source_ability_add_stats_input": {
       "canonical_schema": "source_state_schema.source_ability_add_stats_input",
@@ -324,12 +314,7 @@
             "port_game.source_ability_add_stats_state"
           ]
         }
-      },
-      "owner": "port_game.source_ability_add_stats_state",
-      "rule": "Inputs for port_game.source_ability_add_stats_state.",
-      "runtime_proof": "/root/Main.source_ability_add_stats_state",
-      "source_slice": "N1268",
-      "status": "source-backed"
+      }
     },
     "source_ability_add_stats_result": {
       "canonical_schema": "source_state_schema.source_ability_add_stats_result",
@@ -586,12 +571,7 @@
             "port_game.source_ability_add_stats_state"
           ]
         }
-      },
-      "owner": "port_game.source_ability_add_stats_state",
-      "rule": "Dictionary returned by port_game.source_ability_add_stats_state.",
-      "runtime_proof": "/root/Main.source_ability_add_stats_state",
-      "source_slice": "N1268",
-      "status": "source-backed"
+      }
     },
     "source_ability_copy_input": {
       "canonical_schema": "source_state_schema.source_ability_copy_input",
@@ -644,12 +624,7 @@
             "port_game.source_ability_copy_state"
           ]
         }
-      },
-      "owner": "port_game.source_ability_copy_state",
-      "rule": "Inputs for port_game.source_ability_copy_state.",
-      "runtime_proof": "/root/Main.source_ability_copy_state",
-      "source_slice": "N1270",
-      "status": "source-backed"
+      }
     },
     "source_ability_copy_result": {
       "canonical_schema": "source_state_schema.source_ability_copy_result",
@@ -876,12 +851,7 @@
             "port_game.source_ability_copy_state"
           ]
         }
-      },
-      "owner": "port_game.source_ability_copy_state",
-      "rule": "Dictionary returned by port_game.source_ability_copy_state.",
-      "runtime_proof": "/root/Main.source_ability_copy_state",
-      "source_slice": "N1270",
-      "status": "source-backed"
+      }
     },
     "source_ability_created_input": {
       "canonical_schema": "source_state_schema.source_ability_created_input",
@@ -904,12 +874,7 @@
             "port_game.source_ability_created_state"
           ]
         }
-      },
-      "owner": "port_game.source_ability_created_state",
-      "rule": "Inputs for port_game.source_ability_created_state.",
-      "runtime_proof": "/root/Main.source_ability_created_state",
-      "source_slice": "N1264",
-      "status": "source-backed"
+      }
     },
     "source_ability_created_result": {
       "canonical_schema": "source_state_schema.source_ability_created_result",
@@ -1000,12 +965,7 @@
             "port_game.source_ability_created_state"
           ]
         }
-      },
-      "owner": "port_game.source_ability_created_state",
-      "rule": "Dictionary returned by port_game.source_ability_created_state.",
-      "runtime_proof": "/root/Main.source_ability_created_state",
-      "source_slice": "N1264",
-      "status": "source-backed"
+      }
     },
     "source_ability_death_input": {
       "canonical_schema": "source_state_schema.source_ability_death_input",
@@ -1028,12 +988,7 @@
             "port_game.source_ability_death_state"
           ]
         }
-      },
-      "owner": "port_game.source_ability_death_state",
-      "rule": "Inputs for port_game.source_ability_death_state.",
-      "runtime_proof": "/root/Main.source_ability_death_state",
-      "source_slice": "N1263",
-      "status": "source-backed"
+      }
     },
     "source_ability_death_result": {
       "canonical_schema": "source_state_schema.source_ability_death_result",
@@ -1124,12 +1079,7 @@
             "port_game.source_ability_death_state"
           ]
         }
-      },
-      "owner": "port_game.source_ability_death_state",
-      "rule": "Dictionary returned by port_game.source_ability_death_state.",
-      "runtime_proof": "/root/Main.source_ability_death_state",
-      "source_slice": "N1263",
-      "status": "source-backed"
+      }
     },
     "source_ability_display_bars_input": {
       "canonical_schema": "source_state_schema.source_ability_display_bars_input",
@@ -1170,12 +1120,7 @@
             "port_game.source_ability_display_bars_state"
           ]
         }
-      },
-      "owner": "port_game.source_ability_display_bars_state",
-      "rule": "Inputs for port_game.source_ability_display_bars_state.",
-      "runtime_proof": "/root/Main.source_ability_display_bars_state",
-      "source_slice": "N1266",
-      "status": "source-backed"
+      }
     },
     "source_ability_display_bars_result": {
       "canonical_schema": "source_state_schema.source_ability_display_bars_result",
@@ -1284,12 +1229,7 @@
             "port_game.source_ability_display_bars_state"
           ]
         }
-      },
-      "owner": "port_game.source_ability_display_bars_state",
-      "rule": "Dictionary returned by port_game.source_ability_display_bars_state.",
-      "runtime_proof": "/root/Main.source_ability_display_bars_state",
-      "source_slice": "N1266",
-      "status": "source-backed"
+      }
     },
     "source_ability_display_input": {
       "canonical_schema": "source_state_schema.source_ability_display_input",
@@ -1330,12 +1270,7 @@
             "port_game.source_ability_display_state"
           ]
         }
-      },
-      "owner": "port_game.source_ability_display_state",
-      "rule": "Inputs for port_game.source_ability_display_state.",
-      "runtime_proof": "/root/Main.source_ability_display_state",
-      "source_slice": "N1267",
-      "status": "source-backed"
+      }
     },
     "source_ability_display_result": {
       "canonical_schema": "source_state_schema.source_ability_display_result",
@@ -1614,12 +1549,7 @@
             "port_game.source_ability_display_state"
           ]
         }
-      },
-      "owner": "port_game.source_ability_display_state",
-      "rule": "Dictionary returned by port_game.source_ability_display_state.",
-      "runtime_proof": "/root/Main.source_ability_display_state",
-      "source_slice": "N1267",
-      "status": "source-backed"
+      }
     },
     "source_ability_draw_input": {
       "canonical_schema": "source_state_schema.source_ability_draw_input",
@@ -1642,12 +1572,7 @@
             "port_game.source_ability_draw_state"
           ]
         }
-      },
-      "owner": "port_game.source_ability_draw_state",
-      "rule": "Inputs for port_game.source_ability_draw_state.",
-      "runtime_proof": "/root/Main.source_ability_draw_state",
-      "source_slice": "N1262",
-      "status": "source-backed"
+      }
     },
     "source_ability_draw_result": {
       "canonical_schema": "source_state_schema.source_ability_draw_result",
@@ -1738,12 +1663,7 @@
             "port_game.source_ability_draw_state"
           ]
         }
-      },
-      "owner": "port_game.source_ability_draw_state",
-      "rule": "Dictionary returned by port_game.source_ability_draw_state.",
-      "runtime_proof": "/root/Main.source_ability_draw_state",
-      "source_slice": "N1262",
-      "status": "source-backed"
+      }
     },
     "source_ability_get_bundle_input": {
       "canonical_schema": "source_state_schema.source_ability_get_bundle_input",
@@ -1796,12 +1716,7 @@
             "port_game.source_ability_get_bundle_state"
           ]
         }
-      },
-      "owner": "port_game.source_ability_get_bundle_state",
-      "rule": "Inputs for port_game.source_ability_get_bundle_state.",
-      "runtime_proof": "/root/Main.source_ability_get_bundle_state",
-      "source_slice": "N1272",
-      "status": "source-backed"
+      }
     },
     "source_ability_get_bundle_result": {
       "canonical_schema": "source_state_schema.source_ability_get_bundle_result",
@@ -2042,12 +1957,7 @@
             "port_game.source_ability_get_bundle_state"
           ]
         }
-      },
-      "owner": "port_game.source_ability_get_bundle_state",
-      "rule": "Dictionary returned by port_game.source_ability_get_bundle_state.",
-      "runtime_proof": "/root/Main.source_ability_get_bundle_state",
-      "source_slice": "N1272",
-      "status": "source-backed"
+      }
     },
     "source_ability_init_input": {
       "canonical_schema": "source_state_schema.source_ability_init_input",
@@ -2070,12 +1980,7 @@
             "port_game.source_ability_init_state"
           ]
         }
-      },
-      "owner": "port_game.source_ability_init_state",
-      "rule": "Inputs for port_game.source_ability_init_state.",
-      "runtime_proof": "/root/Main.source_ability_init_state",
-      "source_slice": "N1265",
-      "status": "source-backed"
+      }
     },
     "source_ability_init_result": {
       "canonical_schema": "source_state_schema.source_ability_init_result",
@@ -2166,12 +2071,7 @@
             "port_game.source_ability_init_state"
           ]
         }
-      },
-      "owner": "port_game.source_ability_init_state",
-      "rule": "Dictionary returned by port_game.source_ability_init_state.",
-      "runtime_proof": "/root/Main.source_ability_init_state",
-      "source_slice": "N1265",
-      "status": "source-backed"
+      }
     },
     "source_ability_localized_input": {
       "canonical_schema": "source_state_schema.source_ability_localized_input",
@@ -2208,12 +2108,7 @@
             "port_game.source_ability_localized_state"
           ]
         }
-      },
-      "owner": "port_game.source_ability_localized_state",
-      "rule": "Inputs for port_game.source_ability_localized_state.",
-      "runtime_proof": "/root/Main.source_ability_localized_state",
-      "source_slice": "N1271",
-      "status": "source-backed"
+      }
     },
     "source_ability_localized_result": {
       "canonical_schema": "source_state_schema.source_ability_localized_result",
@@ -2374,12 +2269,7 @@
             "port_game.source_ability_localized_state"
           ]
         }
-      },
-      "owner": "port_game.source_ability_localized_state",
-      "rule": "Dictionary returned by port_game.source_ability_localized_state.",
-      "runtime_proof": "/root/Main.source_ability_localized_state",
-      "source_slice": "N1271",
-      "status": "source-backed"
+      }
     },
     "source_ability_update_input": {
       "canonical_schema": "source_state_schema.source_ability_update_input",
@@ -2402,12 +2292,7 @@
             "port_game.source_ability_update_state"
           ]
         }
-      },
-      "owner": "port_game.source_ability_update_state",
-      "rule": "Inputs for port_game.source_ability_update_state.",
-      "runtime_proof": "/root/Main.source_ability_update_state",
-      "source_slice": "N1261",
-      "status": "source-backed"
+      }
     },
     "source_ability_update_result": {
       "canonical_schema": "source_state_schema.source_ability_update_result",
@@ -2498,12 +2383,7 @@
             "port_game.source_ability_update_state"
           ]
         }
-      },
-      "owner": "port_game.source_ability_update_state",
-      "rule": "Dictionary returned by port_game.source_ability_update_state.",
-      "runtime_proof": "/root/Main.source_ability_update_state",
-      "source_slice": "N1261",
-      "status": "source-backed"
+      }
     }
   }
 }

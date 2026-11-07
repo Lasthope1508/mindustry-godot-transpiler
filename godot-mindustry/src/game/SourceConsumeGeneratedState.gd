@@ -1,0 +1,102 @@
+extends RefCounted
+class_name SourceConsumeGeneratedState
+
+const source_generated_class_runtime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
+const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
+const source_consume_state := preload("res://src/game/SourceConsumeState.gd")
+const source_consume_base_source_text_state := preload("res://src/game/SourceConsumeBaseSourceTextState.gd")
+
+const SOURCE_CONSUME_GENERATED_CLASS := source_consume_base_source_text_state.SOURCE_CONSUME_GENERATED_CLASS
+const SOURCE_CONSUME_OPTIONAL_JAVA_METHOD := source_consume_base_source_text_state.SOURCE_CONSUME_OPTIONAL_JAVA_METHOD
+const SOURCE_CONSUME_BOOST_JAVA_METHOD := source_consume_base_source_text_state.SOURCE_CONSUME_BOOST_JAVA_METHOD
+const SOURCE_CONSUME_UPDATE_FLAG_JAVA_METHOD := source_consume_base_source_text_state.SOURCE_CONSUME_UPDATE_FLAG_JAVA_METHOD
+const SOURCE_CONSUME_IGNORE_JAVA_METHOD := source_consume_base_source_text_state.SOURCE_CONSUME_IGNORE_JAVA_METHOD
+const SOURCE_CONSUME_BUILD_JAVA_METHOD := source_consume_base_source_text_state.SOURCE_CONSUME_BUILD_JAVA_METHOD
+const SOURCE_CONSUME_APPLY_JAVA_METHOD := source_consume_base_source_text_state.SOURCE_CONSUME_APPLY_JAVA_METHOD
+const SOURCE_CONSUME_TRIGGER_JAVA_METHOD := source_consume_base_source_text_state.SOURCE_CONSUME_TRIGGER_JAVA_METHOD
+const SOURCE_CONSUME_UPDATE_BUILD_JAVA_METHOD := source_consume_base_source_text_state.SOURCE_CONSUME_UPDATE_BUILD_JAVA_METHOD
+const SOURCE_CONSUME_DISPLAY_JAVA_METHOD := source_consume_base_source_text_state.SOURCE_CONSUME_DISPLAY_JAVA_METHOD
+const SOURCE_CONSUME_EFFICIENCY_JAVA_METHOD := source_consume_base_source_text_state.SOURCE_CONSUME_EFFICIENCY_JAVA_METHOD
+const SOURCE_CONSUME_EFFICIENCY_MULTIPLIER_JAVA_METHOD := source_consume_base_source_text_state.SOURCE_CONSUME_EFFICIENCY_MULTIPLIER_JAVA_METHOD
+const SOURCE_CONSUME_OPTIONAL_GENERATED_OWNER := source_consume_base_source_text_state.SOURCE_CONSUME_OPTIONAL_GENERATED_OWNER
+const SOURCE_CONSUME_BOOST_GENERATED_OWNER := source_consume_base_source_text_state.SOURCE_CONSUME_BOOST_GENERATED_OWNER
+const SOURCE_CONSUME_UPDATE_FLAG_GENERATED_OWNER := source_consume_base_source_text_state.SOURCE_CONSUME_UPDATE_FLAG_GENERATED_OWNER
+const SOURCE_CONSUME_IGNORE_GENERATED_OWNER := source_consume_base_source_text_state.SOURCE_CONSUME_IGNORE_GENERATED_OWNER
+const SOURCE_CONSUME_BUILD_GENERATED_OWNER := source_consume_base_source_text_state.SOURCE_CONSUME_BUILD_GENERATED_OWNER
+const SOURCE_CONSUME_APPLY_GENERATED_OWNER := source_consume_base_source_text_state.SOURCE_CONSUME_APPLY_GENERATED_OWNER
+const SOURCE_CONSUME_TRIGGER_GENERATED_OWNER := source_consume_base_source_text_state.SOURCE_CONSUME_TRIGGER_GENERATED_OWNER
+const SOURCE_CONSUME_UPDATE_BUILD_GENERATED_OWNER := source_consume_base_source_text_state.SOURCE_CONSUME_UPDATE_BUILD_GENERATED_OWNER
+const SOURCE_CONSUME_DISPLAY_GENERATED_OWNER := source_consume_base_source_text_state.SOURCE_CONSUME_DISPLAY_GENERATED_OWNER
+const SOURCE_CONSUME_EFFICIENCY_GENERATED_OWNER := source_consume_base_source_text_state.SOURCE_CONSUME_EFFICIENCY_GENERATED_OWNER
+const SOURCE_CONSUME_EFFICIENCY_MULTIPLIER_GENERATED_OWNER := source_consume_base_source_text_state.SOURCE_CONSUME_EFFICIENCY_MULTIPLIER_GENERATED_OWNER
+const SOURCE_CONSUME_SOURCE_OWNER_KEY := source_consume_base_source_text_state.SOURCE_CONSUME_SOURCE_OWNER_KEY
+const SOURCE_CONSUME_GENERATED_OWNER_KEY := source_consume_base_source_text_state.SOURCE_CONSUME_GENERATED_OWNER_KEY
+const SOURCE_CONSUME_RESULT_KEY := source_consume_base_source_text_state.SOURCE_CONSUME_RESULT_KEY
+const SOURCE_CONSUME_CANONICAL_KEY := source_consume_base_source_text_state.SOURCE_CONSUME_CANONICAL_KEY
+const SOURCE_CONSUME_MATCHES_KEY := source_consume_base_source_text_state.SOURCE_CONSUME_MATCHES_KEY
+
+static func generated_optional_bridge_state(optional_value: bool, boost_value: bool) -> Dictionary:
+	var result = source_generated_class_runtime.call_java_method(SOURCE_CONSUME_GENERATED_CLASS, SOURCE_CONSUME_OPTIONAL_JAVA_METHOD, [optional_value, boost_value], null)
+	var canonical = source_consume_state.optional_state(optional_value, boost_value)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return {SOURCE_CONSUME_SOURCE_OWNER_KEY: source_runtime_owner_registry.SOURCE_CONSUME_STATE_OPTIONAL_STATE, SOURCE_CONSUME_GENERATED_OWNER_KEY: SOURCE_CONSUME_OPTIONAL_GENERATED_OWNER, SOURCE_CONSUME_RESULT_KEY: result, SOURCE_CONSUME_CANONICAL_KEY: canonical, SOURCE_CONSUME_MATCHES_KEY: matches}
+
+static func generated_boost_bridge_state() -> Dictionary:
+	var result = source_generated_class_runtime.call_java_method(SOURCE_CONSUME_GENERATED_CLASS, SOURCE_CONSUME_BOOST_JAVA_METHOD, [], null)
+	var canonical = source_consume_state.boost_state()
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return {SOURCE_CONSUME_SOURCE_OWNER_KEY: source_runtime_owner_registry.SOURCE_CONSUME_STATE_BOOST_STATE, SOURCE_CONSUME_GENERATED_OWNER_KEY: SOURCE_CONSUME_BOOST_GENERATED_OWNER, SOURCE_CONSUME_RESULT_KEY: result, SOURCE_CONSUME_CANONICAL_KEY: canonical, SOURCE_CONSUME_MATCHES_KEY: matches}
+
+static func generated_update_flag_bridge_state(update_value: bool) -> Dictionary:
+	var result = source_generated_class_runtime.call_java_method(SOURCE_CONSUME_GENERATED_CLASS, SOURCE_CONSUME_UPDATE_FLAG_JAVA_METHOD, [update_value], null)
+	var canonical = source_consume_state.update_flag_state(update_value)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return {SOURCE_CONSUME_SOURCE_OWNER_KEY: source_runtime_owner_registry.SOURCE_CONSUME_STATE_UPDATE_FLAG_STATE, SOURCE_CONSUME_GENERATED_OWNER_KEY: SOURCE_CONSUME_UPDATE_FLAG_GENERATED_OWNER, SOURCE_CONSUME_RESULT_KEY: result, SOURCE_CONSUME_CANONICAL_KEY: canonical, SOURCE_CONSUME_MATCHES_KEY: matches}
+
+static func generated_ignore_bridge_state() -> Dictionary:
+	var result = source_generated_class_runtime.call_java_method(SOURCE_CONSUME_GENERATED_CLASS, SOURCE_CONSUME_IGNORE_JAVA_METHOD, [], null)
+	var canonical = source_consume_state.ignore_state()
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return {SOURCE_CONSUME_SOURCE_OWNER_KEY: source_runtime_owner_registry.SOURCE_CONSUME_STATE_IGNORE_STATE, SOURCE_CONSUME_GENERATED_OWNER_KEY: SOURCE_CONSUME_IGNORE_GENERATED_OWNER, SOURCE_CONSUME_RESULT_KEY: result, SOURCE_CONSUME_CANONICAL_KEY: canonical, SOURCE_CONSUME_MATCHES_KEY: matches}
+
+static func generated_build_bridge_state(build: Variant, table: Variant) -> Dictionary:
+	var result = source_generated_class_runtime.call_java_method(SOURCE_CONSUME_GENERATED_CLASS, SOURCE_CONSUME_BUILD_JAVA_METHOD, [build, table], null)
+	var canonical = source_consume_state.build_state(build, table)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return {SOURCE_CONSUME_SOURCE_OWNER_KEY: source_runtime_owner_registry.SOURCE_CONSUME_STATE_BUILD_STATE, SOURCE_CONSUME_GENERATED_OWNER_KEY: SOURCE_CONSUME_BUILD_GENERATED_OWNER, SOURCE_CONSUME_RESULT_KEY: result, SOURCE_CONSUME_CANONICAL_KEY: canonical, SOURCE_CONSUME_MATCHES_KEY: matches}
+
+static func generated_apply_bridge_state(block: Variant) -> Dictionary:
+	var result = source_generated_class_runtime.call_java_method(SOURCE_CONSUME_GENERATED_CLASS, SOURCE_CONSUME_APPLY_JAVA_METHOD, [block], null)
+	var canonical = source_consume_state.apply_state(block)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return {SOURCE_CONSUME_SOURCE_OWNER_KEY: source_runtime_owner_registry.SOURCE_CONSUME_STATE_APPLY_STATE, SOURCE_CONSUME_GENERATED_OWNER_KEY: SOURCE_CONSUME_APPLY_GENERATED_OWNER, SOURCE_CONSUME_RESULT_KEY: result, SOURCE_CONSUME_CANONICAL_KEY: canonical, SOURCE_CONSUME_MATCHES_KEY: matches}
+
+static func generated_trigger_bridge_state(build: Variant) -> Dictionary:
+	var result = source_generated_class_runtime.call_java_method(SOURCE_CONSUME_GENERATED_CLASS, SOURCE_CONSUME_TRIGGER_JAVA_METHOD, [build], null)
+	var canonical = source_consume_state.trigger_state(build)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return {SOURCE_CONSUME_SOURCE_OWNER_KEY: source_runtime_owner_registry.SOURCE_CONSUME_STATE_TRIGGER_STATE, SOURCE_CONSUME_GENERATED_OWNER_KEY: SOURCE_CONSUME_TRIGGER_GENERATED_OWNER, SOURCE_CONSUME_RESULT_KEY: result, SOURCE_CONSUME_CANONICAL_KEY: canonical, SOURCE_CONSUME_MATCHES_KEY: matches}
+
+static func generated_update_build_bridge_state(build: Variant) -> Dictionary:
+	var result = source_generated_class_runtime.call_java_method(SOURCE_CONSUME_GENERATED_CLASS, SOURCE_CONSUME_UPDATE_BUILD_JAVA_METHOD, [build], null)
+	var canonical = source_consume_state.update_build_state(build)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return {SOURCE_CONSUME_SOURCE_OWNER_KEY: source_runtime_owner_registry.SOURCE_CONSUME_STATE_UPDATE_BUILD_STATE, SOURCE_CONSUME_GENERATED_OWNER_KEY: SOURCE_CONSUME_UPDATE_BUILD_GENERATED_OWNER, SOURCE_CONSUME_RESULT_KEY: result, SOURCE_CONSUME_CANONICAL_KEY: canonical, SOURCE_CONSUME_MATCHES_KEY: matches}
+
+static func generated_display_bridge_state(stats: Variant) -> Dictionary:
+	var result = source_generated_class_runtime.call_java_method(SOURCE_CONSUME_GENERATED_CLASS, SOURCE_CONSUME_DISPLAY_JAVA_METHOD, [stats], null)
+	var canonical = source_consume_state.display_state(stats)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return {SOURCE_CONSUME_SOURCE_OWNER_KEY: source_runtime_owner_registry.SOURCE_CONSUME_STATE_DISPLAY_STATE, SOURCE_CONSUME_GENERATED_OWNER_KEY: SOURCE_CONSUME_DISPLAY_GENERATED_OWNER, SOURCE_CONSUME_RESULT_KEY: result, SOURCE_CONSUME_CANONICAL_KEY: canonical, SOURCE_CONSUME_MATCHES_KEY: matches}
+
+static func generated_efficiency_bridge_state() -> Dictionary:
+	var result = source_generated_class_runtime.call_java_method(SOURCE_CONSUME_GENERATED_CLASS, SOURCE_CONSUME_EFFICIENCY_JAVA_METHOD, [], null)
+	var canonical = source_consume_state.efficiency_state()
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return {SOURCE_CONSUME_SOURCE_OWNER_KEY: source_runtime_owner_registry.SOURCE_CONSUME_STATE_EFFICIENCY_STATE, SOURCE_CONSUME_GENERATED_OWNER_KEY: SOURCE_CONSUME_EFFICIENCY_GENERATED_OWNER, SOURCE_CONSUME_RESULT_KEY: result, SOURCE_CONSUME_CANONICAL_KEY: canonical, SOURCE_CONSUME_MATCHES_KEY: matches}
+
+static func generated_efficiency_multiplier_bridge_state() -> Dictionary:
+	var result = source_generated_class_runtime.call_java_method(SOURCE_CONSUME_GENERATED_CLASS, SOURCE_CONSUME_EFFICIENCY_MULTIPLIER_JAVA_METHOD, [], null)
+	var canonical = source_consume_state.efficiency_multiplier_state()
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return {SOURCE_CONSUME_SOURCE_OWNER_KEY: source_runtime_owner_registry.SOURCE_CONSUME_STATE_EFFICIENCY_MULTIPLIER_STATE, SOURCE_CONSUME_GENERATED_OWNER_KEY: SOURCE_CONSUME_EFFICIENCY_MULTIPLIER_GENERATED_OWNER, SOURCE_CONSUME_RESULT_KEY: result, SOURCE_CONSUME_CANONICAL_KEY: canonical, SOURCE_CONSUME_MATCHES_KEY: matches}

@@ -19,7 +19,7 @@ config/icon="res://assets/core/assets/icons/icon_64.png"
 
 [autoload]
 
-MCPRuntime="*res://addons/godot_mcp_runtime/mcp_runtime_autoload.gd"
+MCPRuntime="*uid://csajjlruh8jey"
 
 [debug]
 

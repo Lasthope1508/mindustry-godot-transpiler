@@ -1,0 +1,86 @@
+{
+  "version": 1,
+  "contracts": {
+    "PortGame.source_unit_building_get_command_position_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_building_get_command_position_state",
+      "status": "source-backed",
+      "source_slice": "N1767",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+      "source_method": "UnitFactoryBuild.getCommandPosition()",
+      "params": [
+        {
+          "java_expr": "nested Build class selector",
+          "name": "class_name_value",
+          "schema": "source_unit_building_get_command_position_state_input.class_name_value",
+          "type": "String"
+        },
+        {
+          "java_expr": "canonical source path selector",
+          "name": "source_path",
+          "schema": "source_unit_building_get_command_position_state_input.source_path",
+          "type": "String"
+        },
+        {
+          "java_expr": "commandPos",
+          "name": "command_position",
+          "schema": "source_unit_building_get_command_position_state_input.command_position",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "inner_class",
+        "method",
+        "return_expr",
+        "command_position"
+      ],
+      "tests": [
+        "test_unit_build_command_slice"
+      ],
+      "runtime_proof": "/root/Main.generated_unit_building_get_command_position_bridge_state",
+      "rule": "Public runtime contract for the shared source-backed getCommandPosition bridge across three unit-building classes."
+    },
+    "PortGame.source_unit_building_on_command_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_building_on_command_state",
+      "status": "source-backed",
+      "source_slice": "N1768",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+      "source_method": "UnitFactoryBuild.onCommand(Vec2 target)",
+      "params": [
+        {
+          "java_expr": "nested Build class selector",
+          "name": "class_name_value",
+          "schema": "source_unit_building_on_command_state_input.class_name_value",
+          "type": "String"
+        },
+        {
+          "java_expr": "canonical source path selector",
+          "name": "source_path",
+          "schema": "source_unit_building_on_command_state_input.source_path",
+          "type": "String"
+        },
+        {
+          "java_expr": "target",
+          "name": "target",
+          "schema": "source_unit_building_on_command_state_input.target",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "inner_class",
+        "method",
+        "assignment_expr",
+        "target",
+        "command_position"
+      ],
+      "tests": [
+        "test_unit_build_command_slice"
+      ],
+      "runtime_proof": "/root/Main.generated_unit_building_on_command_bridge_state",
+      "rule": "Public runtime contract for the shared source-backed onCommand bridge across three unit-building classes."
+    }
+  }
+}

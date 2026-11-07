@@ -3,54 +3,123 @@ class_name SourceSyncState
 
 const source_generated_class_runtime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
+const source_entity_comp_source_text_state := preload("res://src/game/SourceEntityCompSourceTextState.gd")
+const source_sync_source_text_state := preload("res://src/game/SourceSyncSourceTextState.gd")
+const SOURCE_SYNC_COMP_GENERATED_CLASS := source_entity_comp_source_text_state.SOURCE_SYNC_COMP_GENERATED_CLASS
+const SOURCE_SYNC_SNAP_SYNC_JAVA_METHOD := source_sync_source_text_state.SOURCE_SYNC_SNAP_SYNC_JAVA_METHOD
+const SOURCE_SYNC_SNAP_SYNC_GENERATED_OWNER := source_sync_source_text_state.SOURCE_SYNC_SNAP_SYNC_GENERATED_OWNER
+const SOURCE_SYNC_SNAP_INTERPOLATION_JAVA_METHOD := source_sync_source_text_state.SOURCE_SYNC_SNAP_INTERPOLATION_JAVA_METHOD
+const SOURCE_SYNC_SNAP_INTERPOLATION_GENERATED_OWNER := source_sync_source_text_state.SOURCE_SYNC_SNAP_INTERPOLATION_GENERATED_OWNER
+const SOURCE_SYNC_READ_SYNC_JAVA_METHOD := source_sync_source_text_state.SOURCE_SYNC_READ_SYNC_JAVA_METHOD
+const SOURCE_SYNC_READ_SYNC_GENERATED_OWNER := source_sync_source_text_state.SOURCE_SYNC_READ_SYNC_GENERATED_OWNER
+const SOURCE_SYNC_WRITE_SYNC_JAVA_METHOD := source_sync_source_text_state.SOURCE_SYNC_WRITE_SYNC_JAVA_METHOD
+const SOURCE_SYNC_WRITE_SYNC_GENERATED_OWNER := source_sync_source_text_state.SOURCE_SYNC_WRITE_SYNC_GENERATED_OWNER
+const SOURCE_SYNC_READ_SYNC_MANUAL_JAVA_METHOD := source_sync_source_text_state.SOURCE_SYNC_READ_SYNC_MANUAL_JAVA_METHOD
+const SOURCE_SYNC_READ_SYNC_MANUAL_GENERATED_OWNER := source_sync_source_text_state.SOURCE_SYNC_READ_SYNC_MANUAL_GENERATED_OWNER
+const SOURCE_SYNC_WRITE_SYNC_MANUAL_JAVA_METHOD := source_sync_source_text_state.SOURCE_SYNC_WRITE_SYNC_MANUAL_JAVA_METHOD
+const SOURCE_SYNC_WRITE_SYNC_MANUAL_GENERATED_OWNER := source_sync_source_text_state.SOURCE_SYNC_WRITE_SYNC_MANUAL_GENERATED_OWNER
+const SOURCE_SYNC_AFTER_SYNC_JAVA_METHOD := source_sync_source_text_state.SOURCE_SYNC_AFTER_SYNC_JAVA_METHOD
+const SOURCE_SYNC_AFTER_SYNC_GENERATED_OWNER := source_sync_source_text_state.SOURCE_SYNC_AFTER_SYNC_GENERATED_OWNER
+const SOURCE_SYNC_INTERPOLATE_JAVA_METHOD := source_sync_source_text_state.SOURCE_SYNC_INTERPOLATE_JAVA_METHOD
+const SOURCE_SYNC_INTERPOLATE_GENERATED_OWNER := source_sync_source_text_state.SOURCE_SYNC_INTERPOLATE_GENERATED_OWNER
+const SOURCE_SYNC_IS_SYNC_HIDDEN_JAVA_METHOD := source_sync_source_text_state.SOURCE_SYNC_IS_SYNC_HIDDEN_JAVA_METHOD
+const SOURCE_SYNC_IS_SYNC_HIDDEN_GENERATED_OWNER := source_sync_source_text_state.SOURCE_SYNC_IS_SYNC_HIDDEN_GENERATED_OWNER
+const SOURCE_SYNC_HANDLE_SYNC_HIDDEN_JAVA_METHOD := source_sync_source_text_state.SOURCE_SYNC_HANDLE_SYNC_HIDDEN_JAVA_METHOD
+const SOURCE_SYNC_HANDLE_SYNC_HIDDEN_GENERATED_OWNER := source_sync_source_text_state.SOURCE_SYNC_HANDLE_SYNC_HIDDEN_GENERATED_OWNER
+const SOURCE_SYNC_UPDATE_INTERPOLATE_JAVA_METHOD := source_sync_source_text_state.SOURCE_SYNC_UPDATE_INTERPOLATE_JAVA_METHOD
+const SOURCE_SYNC_UPDATE_INTERPOLATE_GENERATED_OWNER := source_sync_source_text_state.SOURCE_SYNC_UPDATE_INTERPOLATE_GENERATED_OWNER
+const SOURCE_SYNC_REMOVE_CLIENT_REMOVED_ENTITY_JAVA_METHOD := source_sync_source_text_state.SOURCE_SYNC_REMOVE_CLIENT_REMOVED_ENTITY_JAVA_METHOD
+const SOURCE_SYNC_REMOVE_CLIENT_REMOVED_ENTITY_GENERATED_OWNER := source_sync_source_text_state.SOURCE_SYNC_REMOVE_CLIENT_REMOVED_ENTITY_GENERATED_OWNER
+const SOURCE_SYNC_SNAP_SYNC_METHOD := source_sync_source_text_state.SOURCE_SYNC_SNAP_SYNC_METHOD
+const SOURCE_SYNC_SNAP_INTERPOLATION_METHOD := source_sync_source_text_state.SOURCE_SYNC_SNAP_INTERPOLATION_METHOD
+const SOURCE_SYNC_READ_SYNC_METHOD := source_sync_source_text_state.SOURCE_SYNC_READ_SYNC_METHOD
+const SOURCE_SYNC_WRITE_SYNC_METHOD := source_sync_source_text_state.SOURCE_SYNC_WRITE_SYNC_METHOD
+const SOURCE_SYNC_READ_SYNC_MANUAL_METHOD := source_sync_source_text_state.SOURCE_SYNC_READ_SYNC_MANUAL_METHOD
+const SOURCE_SYNC_WRITE_SYNC_MANUAL_METHOD := source_sync_source_text_state.SOURCE_SYNC_WRITE_SYNC_MANUAL_METHOD
+const SOURCE_SYNC_AFTER_SYNC_METHOD := source_sync_source_text_state.SOURCE_SYNC_AFTER_SYNC_METHOD
+const SOURCE_SYNC_INTERPOLATE_METHOD := source_sync_source_text_state.SOURCE_SYNC_INTERPOLATE_METHOD
+const SOURCE_SYNC_IS_SYNC_HIDDEN_METHOD := source_sync_source_text_state.SOURCE_SYNC_IS_SYNC_HIDDEN_METHOD
+const SOURCE_SYNC_HANDLE_SYNC_HIDDEN_METHOD := source_sync_source_text_state.SOURCE_SYNC_HANDLE_SYNC_HIDDEN_METHOD
+const SOURCE_SYNC_UPDATE_METHOD := source_sync_source_text_state.SOURCE_SYNC_UPDATE_METHOD
+const SOURCE_SYNC_REMOVE_METHOD := source_sync_source_text_state.SOURCE_SYNC_REMOVE_METHOD
+const SOURCE_SYNC_UPDATE_CONDITION := source_sync_source_text_state.SOURCE_SYNC_UPDATE_CONDITION
+const SOURCE_SYNC_UPDATE_INTERPOLATE_CALL := source_sync_source_text_state.SOURCE_SYNC_UPDATE_INTERPOLATE_CALL
+const SOURCE_SYNC_REMOVE_CONDITION := source_sync_source_text_state.SOURCE_SYNC_REMOVE_CONDITION
+const SOURCE_SYNC_REMOVE_CALL := source_sync_source_text_state.SOURCE_SYNC_REMOVE_CALL
+const SOURCE_SYNC_ID_CALL := source_sync_source_text_state.SOURCE_SYNC_ID_CALL
+const SOURCE_SYNC_EMPTY_BODY_KEY := source_sync_source_text_state.SOURCE_SYNC_EMPTY_BODY_KEY
+const SOURCE_SYNC_NO_OP_KEY := source_sync_source_text_state.SOURCE_SYNC_NO_OP_KEY
+const SOURCE_SYNC_CALL_KEY := source_sync_source_text_state.SOURCE_SYNC_CALL_KEY
+const SOURCE_SYNC_METHOD_KEY := source_sync_source_text_state.SOURCE_SYNC_METHOD_KEY
+const SOURCE_SYNC_SOURCE_OWNER_KEY := source_sync_source_text_state.SOURCE_SYNC_SOURCE_OWNER_KEY
+const SOURCE_SYNC_PLAYER_KEY := source_sync_source_text_state.SOURCE_SYNC_PLAYER_KEY
+const SOURCE_SYNC_RETURN_EXPR_KEY := source_sync_source_text_state.SOURCE_SYNC_RETURN_EXPR_KEY
+const SOURCE_SYNC_IS_SYNC_HIDDEN_KEY := source_sync_source_text_state.SOURCE_SYNC_IS_SYNC_HIDDEN_KEY
+const SOURCE_SYNC_CONDITION_KEY := source_sync_source_text_state.SOURCE_SYNC_CONDITION_KEY
+const SOURCE_SYNC_INTERPOLATE_CALL_KEY := source_sync_source_text_state.SOURCE_SYNC_INTERPOLATE_CALL_KEY
+const SOURCE_SYNC_NET_CLIENT_KEY := source_sync_source_text_state.SOURCE_SYNC_NET_CLIENT_KEY
+const SOURCE_SYNC_IS_LOCAL_KEY := source_sync_source_text_state.SOURCE_SYNC_IS_LOCAL_KEY
+const SOURCE_SYNC_IS_REMOTE_KEY := source_sync_source_text_state.SOURCE_SYNC_IS_REMOTE_KEY
+const SOURCE_SYNC_INTERPOLATE_CALLED_KEY := source_sync_source_text_state.SOURCE_SYNC_INTERPOLATE_CALLED_KEY
+const SOURCE_SYNC_INTERPOLATE_KEY := source_sync_source_text_state.SOURCE_SYNC_INTERPOLATE_KEY
+const SOURCE_SYNC_ADD_REMOVED_ENTITY_CALL_KEY := source_sync_source_text_state.SOURCE_SYNC_ADD_REMOVED_ENTITY_CALL_KEY
+const SOURCE_SYNC_ID_CALL_KEY := source_sync_source_text_state.SOURCE_SYNC_ID_CALL_KEY
+const SOURCE_SYNC_ENTITY_ID_KEY := source_sync_source_text_state.SOURCE_SYNC_ENTITY_ID_KEY
+const SOURCE_SYNC_RESULT_KEY := source_sync_source_text_state.SOURCE_SYNC_RESULT_KEY
+const SOURCE_SYNC_CANONICAL_KEY := source_sync_source_text_state.SOURCE_SYNC_CANONICAL_KEY
+const SOURCE_SYNC_GENERATED_OWNER_KEY := source_sync_source_text_state.SOURCE_SYNC_GENERATED_OWNER_KEY
+const SOURCE_SYNC_MATCHES_KEY := source_sync_source_text_state.SOURCE_SYNC_MATCHES_KEY
+
+static func _sync_comp_call(generated_method: String, generated_args: Array) -> Variant:
+	return source_generated_class_runtime.call_java_method(SOURCE_SYNC_COMP_GENERATED_CLASS, generated_method, generated_args, null)
 
 static func _noop_state(source_owner: String, method: String) -> Dictionary:
 	return {
-		"source_owner": source_owner,
-		"method": method,
-		"empty_body": method,
-		"no_op": true,
+		SOURCE_SYNC_SOURCE_OWNER_KEY: source_owner,
+		SOURCE_SYNC_METHOD_KEY: method,
+		SOURCE_SYNC_EMPTY_BODY_KEY: method,
+		SOURCE_SYNC_NO_OP_KEY: true,
 	}
 
 static func snap_sync_state() -> Dictionary:
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_SYNC_SNAP_SYNC_STATE, "method": "void snapSync(){}", "empty_body": "void snapSync(){}", "no_op": true}
+	return {SOURCE_SYNC_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_SYNC_SNAP_SYNC_STATE, SOURCE_SYNC_METHOD_KEY: SOURCE_SYNC_SNAP_SYNC_METHOD, SOURCE_SYNC_EMPTY_BODY_KEY: SOURCE_SYNC_SNAP_SYNC_METHOD, SOURCE_SYNC_NO_OP_KEY: true}
 
 static func snap_interpolation_state() -> Dictionary:
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_SYNC_SNAP_INTERPOLATION_STATE, "method": "void snapInterpolation(){}", "empty_body": "void snapInterpolation(){}", "no_op": true}
+	return {SOURCE_SYNC_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_SYNC_SNAP_INTERPOLATION_STATE, SOURCE_SYNC_METHOD_KEY: SOURCE_SYNC_SNAP_INTERPOLATION_METHOD, SOURCE_SYNC_EMPTY_BODY_KEY: SOURCE_SYNC_SNAP_INTERPOLATION_METHOD, SOURCE_SYNC_NO_OP_KEY: true}
 
 static func read_sync_state() -> Dictionary:
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_SYNC_READ_SYNC_STATE, "method": "void readSync(Reads read){}", "empty_body": "void readSync(Reads read){}", "no_op": true}
+	return {SOURCE_SYNC_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_SYNC_READ_SYNC_STATE, SOURCE_SYNC_METHOD_KEY: SOURCE_SYNC_READ_SYNC_METHOD, SOURCE_SYNC_EMPTY_BODY_KEY: SOURCE_SYNC_READ_SYNC_METHOD, SOURCE_SYNC_NO_OP_KEY: true}
 
 static func write_sync_state() -> Dictionary:
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_SYNC_WRITE_SYNC_STATE, "method": "void writeSync(Writes write){}", "empty_body": "void writeSync(Writes write){}", "no_op": true}
+	return {SOURCE_SYNC_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_SYNC_WRITE_SYNC_STATE, SOURCE_SYNC_METHOD_KEY: SOURCE_SYNC_WRITE_SYNC_METHOD, SOURCE_SYNC_EMPTY_BODY_KEY: SOURCE_SYNC_WRITE_SYNC_METHOD, SOURCE_SYNC_NO_OP_KEY: true}
 
 static func read_sync_manual_state() -> Dictionary:
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_SYNC_READ_SYNC_MANUAL_STATE, "method": "void readSyncManual(FloatBuffer buffer){}", "empty_body": "void readSyncManual(FloatBuffer buffer){}", "no_op": true}
+	return {SOURCE_SYNC_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_SYNC_READ_SYNC_MANUAL_STATE, SOURCE_SYNC_METHOD_KEY: SOURCE_SYNC_READ_SYNC_MANUAL_METHOD, SOURCE_SYNC_EMPTY_BODY_KEY: SOURCE_SYNC_READ_SYNC_MANUAL_METHOD, SOURCE_SYNC_NO_OP_KEY: true}
 
 static func write_sync_manual_state() -> Dictionary:
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_SYNC_WRITE_SYNC_MANUAL_STATE, "method": "void writeSyncManual(FloatBuffer buffer){}", "empty_body": "void writeSyncManual(FloatBuffer buffer){}", "no_op": true}
+	return {SOURCE_SYNC_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_SYNC_WRITE_SYNC_MANUAL_STATE, SOURCE_SYNC_METHOD_KEY: SOURCE_SYNC_WRITE_SYNC_MANUAL_METHOD, SOURCE_SYNC_EMPTY_BODY_KEY: SOURCE_SYNC_WRITE_SYNC_MANUAL_METHOD, SOURCE_SYNC_NO_OP_KEY: true}
 
 static func after_sync_state() -> Dictionary:
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_SYNC_AFTER_SYNC_STATE, "method": "void afterSync(){}", "empty_body": "void afterSync(){}", "no_op": true}
+	return {SOURCE_SYNC_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_SYNC_AFTER_SYNC_STATE, SOURCE_SYNC_METHOD_KEY: SOURCE_SYNC_AFTER_SYNC_METHOD, SOURCE_SYNC_EMPTY_BODY_KEY: SOURCE_SYNC_AFTER_SYNC_METHOD, SOURCE_SYNC_NO_OP_KEY: true}
 
 static func interpolate_state() -> Dictionary:
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_SYNC_INTERPOLATE_STATE, "method": "void interpolate(){}", "empty_body": "void interpolate(){}", "no_op": true}
+	return {SOURCE_SYNC_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_SYNC_INTERPOLATE_STATE, SOURCE_SYNC_METHOD_KEY: SOURCE_SYNC_INTERPOLATE_METHOD, SOURCE_SYNC_EMPTY_BODY_KEY: SOURCE_SYNC_INTERPOLATE_METHOD, SOURCE_SYNC_NO_OP_KEY: true}
 
 static func is_sync_hidden_state(player: Variant = null) -> Dictionary:
 	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_SYNC_IS_SYNC_HIDDEN_STATE,
-		"method": "boolean isSyncHidden(Player player){",
-		"player": player,
-		"return_expr": "return false;",
-		"is_sync_hidden": false,
+		SOURCE_SYNC_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_SYNC_IS_SYNC_HIDDEN_STATE,
+		SOURCE_SYNC_METHOD_KEY: SOURCE_SYNC_IS_SYNC_HIDDEN_METHOD,
+		SOURCE_SYNC_PLAYER_KEY: player,
+		SOURCE_SYNC_RETURN_EXPR_KEY: "return false;",
+		SOURCE_SYNC_IS_SYNC_HIDDEN_KEY: false,
 	}
 
 static func handle_sync_hidden_state() -> Dictionary:
 	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_SYNC_HANDLE_SYNC_HIDDEN_STATE,
-		"method": "void handleSyncHidden(){",
-		"empty_body": "void handleSyncHidden(){\n\n}",
-		"no_op": true,
+		SOURCE_SYNC_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_SYNC_HANDLE_SYNC_HIDDEN_STATE,
+		SOURCE_SYNC_METHOD_KEY: SOURCE_SYNC_HANDLE_SYNC_HIDDEN_METHOD,
+		SOURCE_SYNC_EMPTY_BODY_KEY: "void handleSyncHidden(){\n\n}",
+		SOURCE_SYNC_NO_OP_KEY: true,
 	}
 
 static func update_interpolate_state(net_client: bool, is_local: bool, is_remote: bool) -> Dictionary:
@@ -59,159 +128,159 @@ static func update_interpolate_state(net_client: bool, is_local: bool, is_remote
 	if interpolate_called:
 		interpolate_result = interpolate_state()
 	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_SYNC_UPDATE_INTERPOLATE_STATE,
-		"method": "public void update(){",
-		"condition": "if((Vars.net.client() && !isLocal()) || isRemote()){",
-		"interpolate_call": "interpolate();",
-		"net_client": net_client,
-		"is_local": is_local,
-		"is_remote": is_remote,
-		"interpolate_called": interpolate_called,
-		"interpolate": interpolate_result,
+		SOURCE_SYNC_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_SYNC_UPDATE_INTERPOLATE_STATE,
+		SOURCE_SYNC_METHOD_KEY: SOURCE_SYNC_UPDATE_METHOD,
+		SOURCE_SYNC_CONDITION_KEY: SOURCE_SYNC_UPDATE_CONDITION,
+		SOURCE_SYNC_INTERPOLATE_CALL_KEY: SOURCE_SYNC_UPDATE_INTERPOLATE_CALL,
+		SOURCE_SYNC_NET_CLIENT_KEY: net_client,
+		SOURCE_SYNC_IS_LOCAL_KEY: is_local,
+		SOURCE_SYNC_IS_REMOTE_KEY: is_remote,
+		SOURCE_SYNC_INTERPOLATE_CALLED_KEY: interpolate_called,
+		SOURCE_SYNC_INTERPOLATE_KEY: interpolate_result,
 	}
 
 static func remove_client_removed_entity_state(net_client: bool, entity_id: int) -> Dictionary:
 	var add_removed_entity_call: Variant = null
 	if net_client:
-		add_removed_entity_call = {"call": "Vars.netClient.addRemovedEntity(id());", "entity_id": entity_id}
+		add_removed_entity_call = {SOURCE_SYNC_CALL_KEY: SOURCE_SYNC_REMOVE_CALL, SOURCE_SYNC_ENTITY_ID_KEY: entity_id}
 	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_SYNC_REMOVE_CLIENT_REMOVED_ENTITY_STATE,
-		"method": "public void remove(){",
-		"condition": "if(Vars.net.client()){",
-		"add_removed_entity_call": add_removed_entity_call,
-		"id_call": "id()",
-		"net_client": net_client,
-		"entity_id": entity_id,
+		SOURCE_SYNC_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_SYNC_REMOVE_CLIENT_REMOVED_ENTITY_STATE,
+		SOURCE_SYNC_METHOD_KEY: SOURCE_SYNC_REMOVE_METHOD,
+		SOURCE_SYNC_CONDITION_KEY: SOURCE_SYNC_REMOVE_CONDITION,
+		SOURCE_SYNC_ADD_REMOVED_ENTITY_CALL_KEY: add_removed_entity_call,
+		SOURCE_SYNC_ID_CALL_KEY: SOURCE_SYNC_ID_CALL,
+		SOURCE_SYNC_NET_CLIENT_KEY: net_client,
+		SOURCE_SYNC_ENTITY_ID_KEY: entity_id,
 	}
 
 static func generated_snap_sync_bridge_state() -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd", "java_method_snapSync_0", [], null)
+	var result = _sync_comp_call(SOURCE_SYNC_SNAP_SYNC_JAVA_METHOD, [])
 	var canonical = snap_sync_state()
 	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_SYNC_SNAP_SYNC_STATE,
-		"generated_owner": "sync_comp.java_method_snapSync_0",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("empty_body", null) == canonical.get("empty_body", null) and result.get("no_op", null) == canonical.get("no_op", null),
+		SOURCE_SYNC_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_SYNC_SNAP_SYNC_STATE,
+		SOURCE_SYNC_GENERATED_OWNER_KEY: SOURCE_SYNC_SNAP_SYNC_GENERATED_OWNER,
+		SOURCE_SYNC_RESULT_KEY: result,
+		SOURCE_SYNC_CANONICAL_KEY: canonical,
+		SOURCE_SYNC_MATCHES_KEY: result.get(SOURCE_SYNC_EMPTY_BODY_KEY, null) == canonical.get(SOURCE_SYNC_EMPTY_BODY_KEY, null) and result.get(SOURCE_SYNC_NO_OP_KEY, null) == canonical.get(SOURCE_SYNC_NO_OP_KEY, null),
 	}
 
 static func generated_snap_interpolation_bridge_state() -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd", "java_method_snapInterpolation_1", [], null)
+	var result = _sync_comp_call(SOURCE_SYNC_SNAP_INTERPOLATION_JAVA_METHOD, [])
 	var canonical = snap_interpolation_state()
 	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_SYNC_SNAP_INTERPOLATION_STATE,
-		"generated_owner": "sync_comp.java_method_snapInterpolation_1",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("empty_body", null) == canonical.get("empty_body", null) and result.get("no_op", null) == canonical.get("no_op", null),
+		SOURCE_SYNC_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_SYNC_SNAP_INTERPOLATION_STATE,
+		SOURCE_SYNC_GENERATED_OWNER_KEY: SOURCE_SYNC_SNAP_INTERPOLATION_GENERATED_OWNER,
+		SOURCE_SYNC_RESULT_KEY: result,
+		SOURCE_SYNC_CANONICAL_KEY: canonical,
+		SOURCE_SYNC_MATCHES_KEY: result.get(SOURCE_SYNC_EMPTY_BODY_KEY, null) == canonical.get(SOURCE_SYNC_EMPTY_BODY_KEY, null) and result.get(SOURCE_SYNC_NO_OP_KEY, null) == canonical.get(SOURCE_SYNC_NO_OP_KEY, null),
 	}
 
 static func generated_read_sync_bridge_state() -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd", "java_method_readSync_2", [], null)
+	var result = _sync_comp_call(SOURCE_SYNC_READ_SYNC_JAVA_METHOD, [])
 	var canonical = read_sync_state()
 	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_SYNC_READ_SYNC_STATE,
-		"generated_owner": "sync_comp.java_method_readSync_2",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("empty_body", null) == canonical.get("empty_body", null) and result.get("no_op", null) == canonical.get("no_op", null),
+		SOURCE_SYNC_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_SYNC_READ_SYNC_STATE,
+		SOURCE_SYNC_GENERATED_OWNER_KEY: SOURCE_SYNC_READ_SYNC_GENERATED_OWNER,
+		SOURCE_SYNC_RESULT_KEY: result,
+		SOURCE_SYNC_CANONICAL_KEY: canonical,
+		SOURCE_SYNC_MATCHES_KEY: result.get(SOURCE_SYNC_EMPTY_BODY_KEY, null) == canonical.get(SOURCE_SYNC_EMPTY_BODY_KEY, null) and result.get(SOURCE_SYNC_NO_OP_KEY, null) == canonical.get(SOURCE_SYNC_NO_OP_KEY, null),
 	}
 
 static func generated_write_sync_bridge_state() -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd", "java_method_writeSync_3", [], null)
+	var result = _sync_comp_call(SOURCE_SYNC_WRITE_SYNC_JAVA_METHOD, [])
 	var canonical = write_sync_state()
 	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_SYNC_WRITE_SYNC_STATE,
-		"generated_owner": "sync_comp.java_method_writeSync_3",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("empty_body", null) == canonical.get("empty_body", null) and result.get("no_op", null) == canonical.get("no_op", null),
+		SOURCE_SYNC_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_SYNC_WRITE_SYNC_STATE,
+		SOURCE_SYNC_GENERATED_OWNER_KEY: SOURCE_SYNC_WRITE_SYNC_GENERATED_OWNER,
+		SOURCE_SYNC_RESULT_KEY: result,
+		SOURCE_SYNC_CANONICAL_KEY: canonical,
+		SOURCE_SYNC_MATCHES_KEY: result.get(SOURCE_SYNC_EMPTY_BODY_KEY, null) == canonical.get(SOURCE_SYNC_EMPTY_BODY_KEY, null) and result.get(SOURCE_SYNC_NO_OP_KEY, null) == canonical.get(SOURCE_SYNC_NO_OP_KEY, null),
 	}
 
 static func generated_read_sync_manual_bridge_state() -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd", "java_method_readSyncManual_4", [], null)
+	var result = _sync_comp_call(SOURCE_SYNC_READ_SYNC_MANUAL_JAVA_METHOD, [])
 	var canonical = read_sync_manual_state()
 	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_SYNC_READ_SYNC_MANUAL_STATE,
-		"generated_owner": "sync_comp.java_method_readSyncManual_4",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("empty_body", null) == canonical.get("empty_body", null) and result.get("no_op", null) == canonical.get("no_op", null),
+		SOURCE_SYNC_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_SYNC_READ_SYNC_MANUAL_STATE,
+		SOURCE_SYNC_GENERATED_OWNER_KEY: SOURCE_SYNC_READ_SYNC_MANUAL_GENERATED_OWNER,
+		SOURCE_SYNC_RESULT_KEY: result,
+		SOURCE_SYNC_CANONICAL_KEY: canonical,
+		SOURCE_SYNC_MATCHES_KEY: result.get(SOURCE_SYNC_EMPTY_BODY_KEY, null) == canonical.get(SOURCE_SYNC_EMPTY_BODY_KEY, null) and result.get(SOURCE_SYNC_NO_OP_KEY, null) == canonical.get(SOURCE_SYNC_NO_OP_KEY, null),
 	}
 
 static func generated_write_sync_manual_bridge_state() -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd", "java_method_writeSyncManual_5", [], null)
+	var result = _sync_comp_call(SOURCE_SYNC_WRITE_SYNC_MANUAL_JAVA_METHOD, [])
 	var canonical = write_sync_manual_state()
 	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_SYNC_WRITE_SYNC_MANUAL_STATE,
-		"generated_owner": "sync_comp.java_method_writeSyncManual_5",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("empty_body", null) == canonical.get("empty_body", null) and result.get("no_op", null) == canonical.get("no_op", null),
+		SOURCE_SYNC_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_SYNC_WRITE_SYNC_MANUAL_STATE,
+		SOURCE_SYNC_GENERATED_OWNER_KEY: SOURCE_SYNC_WRITE_SYNC_MANUAL_GENERATED_OWNER,
+		SOURCE_SYNC_RESULT_KEY: result,
+		SOURCE_SYNC_CANONICAL_KEY: canonical,
+		SOURCE_SYNC_MATCHES_KEY: result.get(SOURCE_SYNC_EMPTY_BODY_KEY, null) == canonical.get(SOURCE_SYNC_EMPTY_BODY_KEY, null) and result.get(SOURCE_SYNC_NO_OP_KEY, null) == canonical.get(SOURCE_SYNC_NO_OP_KEY, null),
 	}
 
 static func generated_after_sync_bridge_state() -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd", "java_method_afterSync_6", [], null)
+	var result = _sync_comp_call(SOURCE_SYNC_AFTER_SYNC_JAVA_METHOD, [])
 	var canonical = after_sync_state()
 	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_SYNC_AFTER_SYNC_STATE,
-		"generated_owner": "sync_comp.java_method_afterSync_6",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("empty_body", null) == canonical.get("empty_body", null) and result.get("no_op", null) == canonical.get("no_op", null),
+		SOURCE_SYNC_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_SYNC_AFTER_SYNC_STATE,
+		SOURCE_SYNC_GENERATED_OWNER_KEY: SOURCE_SYNC_AFTER_SYNC_GENERATED_OWNER,
+		SOURCE_SYNC_RESULT_KEY: result,
+		SOURCE_SYNC_CANONICAL_KEY: canonical,
+		SOURCE_SYNC_MATCHES_KEY: result.get(SOURCE_SYNC_EMPTY_BODY_KEY, null) == canonical.get(SOURCE_SYNC_EMPTY_BODY_KEY, null) and result.get(SOURCE_SYNC_NO_OP_KEY, null) == canonical.get(SOURCE_SYNC_NO_OP_KEY, null),
 	}
 
 static func generated_interpolate_bridge_state() -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd", "java_method_interpolate_7", [], null)
+	var result = _sync_comp_call(SOURCE_SYNC_INTERPOLATE_JAVA_METHOD, [])
 	var canonical = interpolate_state()
 	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_SYNC_INTERPOLATE_STATE,
-		"generated_owner": "sync_comp.java_method_interpolate_7",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("empty_body", null) == canonical.get("empty_body", null) and result.get("no_op", null) == canonical.get("no_op", null),
+		SOURCE_SYNC_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_SYNC_INTERPOLATE_STATE,
+		SOURCE_SYNC_GENERATED_OWNER_KEY: SOURCE_SYNC_INTERPOLATE_GENERATED_OWNER,
+		SOURCE_SYNC_RESULT_KEY: result,
+		SOURCE_SYNC_CANONICAL_KEY: canonical,
+		SOURCE_SYNC_MATCHES_KEY: result.get(SOURCE_SYNC_EMPTY_BODY_KEY, null) == canonical.get(SOURCE_SYNC_EMPTY_BODY_KEY, null) and result.get(SOURCE_SYNC_NO_OP_KEY, null) == canonical.get(SOURCE_SYNC_NO_OP_KEY, null),
 	}
 
 static func generated_is_sync_hidden_bridge_state(player: Variant = null) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd", "java_method_isSyncHidden_8", [player], null)
+	var result = _sync_comp_call(SOURCE_SYNC_IS_SYNC_HIDDEN_JAVA_METHOD, [player])
 	var canonical = is_sync_hidden_state(player)
 	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_SYNC_IS_SYNC_HIDDEN_STATE,
-		"generated_owner": "sync_comp.java_method_isSyncHidden_8",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("is_sync_hidden", null) == canonical.get("is_sync_hidden", null) and result.get("return_expr", null) == canonical.get("return_expr", null),
+		SOURCE_SYNC_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_SYNC_IS_SYNC_HIDDEN_STATE,
+		SOURCE_SYNC_GENERATED_OWNER_KEY: SOURCE_SYNC_IS_SYNC_HIDDEN_GENERATED_OWNER,
+		SOURCE_SYNC_RESULT_KEY: result,
+		SOURCE_SYNC_CANONICAL_KEY: canonical,
+		SOURCE_SYNC_MATCHES_KEY: result.get(SOURCE_SYNC_IS_SYNC_HIDDEN_KEY, null) == canonical.get(SOURCE_SYNC_IS_SYNC_HIDDEN_KEY, null) and result.get(SOURCE_SYNC_RETURN_EXPR_KEY, null) == canonical.get(SOURCE_SYNC_RETURN_EXPR_KEY, null),
 	}
 
 static func generated_handle_sync_hidden_bridge_state() -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd", "java_method_handleSyncHidden_9", [], null)
+	var result = _sync_comp_call(SOURCE_SYNC_HANDLE_SYNC_HIDDEN_JAVA_METHOD, [])
 	var canonical = handle_sync_hidden_state()
 	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_SYNC_HANDLE_SYNC_HIDDEN_STATE,
-		"generated_owner": "sync_comp.java_method_handleSyncHidden_9",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("empty_body", null) == canonical.get("empty_body", null) and result.get("no_op", null) == canonical.get("no_op", null),
+		SOURCE_SYNC_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_SYNC_HANDLE_SYNC_HIDDEN_STATE,
+		SOURCE_SYNC_GENERATED_OWNER_KEY: SOURCE_SYNC_HANDLE_SYNC_HIDDEN_GENERATED_OWNER,
+		SOURCE_SYNC_RESULT_KEY: result,
+		SOURCE_SYNC_CANONICAL_KEY: canonical,
+		SOURCE_SYNC_MATCHES_KEY: result.get(SOURCE_SYNC_EMPTY_BODY_KEY, null) == canonical.get(SOURCE_SYNC_EMPTY_BODY_KEY, null) and result.get(SOURCE_SYNC_NO_OP_KEY, null) == canonical.get(SOURCE_SYNC_NO_OP_KEY, null),
 	}
 
 static func generated_update_interpolate_bridge_state(net_client: bool, is_local: bool, is_remote: bool) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd", "java_method_update_10", [net_client, is_local, is_remote], null)
+	var result = _sync_comp_call(SOURCE_SYNC_UPDATE_INTERPOLATE_JAVA_METHOD, [net_client, is_local, is_remote])
 	var canonical = update_interpolate_state(net_client, is_local, is_remote)
 	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_SYNC_UPDATE_INTERPOLATE_STATE,
-		"generated_owner": "sync_comp.java_method_update_10",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("interpolate_called", null) == canonical.get("interpolate_called", null) and result.get("condition", null) == canonical.get("condition", null),
+		SOURCE_SYNC_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_SYNC_UPDATE_INTERPOLATE_STATE,
+		SOURCE_SYNC_GENERATED_OWNER_KEY: SOURCE_SYNC_UPDATE_INTERPOLATE_GENERATED_OWNER,
+		SOURCE_SYNC_RESULT_KEY: result,
+		SOURCE_SYNC_CANONICAL_KEY: canonical,
+		SOURCE_SYNC_MATCHES_KEY: result.get(SOURCE_SYNC_INTERPOLATE_CALLED_KEY, null) == canonical.get(SOURCE_SYNC_INTERPOLATE_CALLED_KEY, null) and result.get(SOURCE_SYNC_CONDITION_KEY, null) == canonical.get(SOURCE_SYNC_CONDITION_KEY, null),
 	}
 
 static func generated_remove_client_removed_entity_bridge_state(net_client: bool, entity_id: int) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd", "java_method_remove_11", [net_client, entity_id], null)
+	var result = _sync_comp_call(SOURCE_SYNC_REMOVE_CLIENT_REMOVED_ENTITY_JAVA_METHOD, [net_client, entity_id])
 	var canonical = remove_client_removed_entity_state(net_client, entity_id)
 	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_SYNC_REMOVE_CLIENT_REMOVED_ENTITY_STATE,
-		"generated_owner": "sync_comp.java_method_remove_11",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("add_removed_entity_call", null) == canonical.get("add_removed_entity_call", null) and result.get("condition", null) == canonical.get("condition", null),
+		SOURCE_SYNC_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_SYNC_REMOVE_CLIENT_REMOVED_ENTITY_STATE,
+		SOURCE_SYNC_GENERATED_OWNER_KEY: SOURCE_SYNC_REMOVE_CLIENT_REMOVED_ENTITY_GENERATED_OWNER,
+		SOURCE_SYNC_RESULT_KEY: result,
+		SOURCE_SYNC_CANONICAL_KEY: canonical,
+		SOURCE_SYNC_MATCHES_KEY: result.get(SOURCE_SYNC_ADD_REMOVED_ENTITY_CALL_KEY, null) == canonical.get(SOURCE_SYNC_ADD_REMOVED_ENTITY_CALL_KEY, null) and result.get(SOURCE_SYNC_CONDITION_KEY, null) == canonical.get(SOURCE_SYNC_CONDITION_KEY, null),
 	}

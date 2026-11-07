@@ -4,41 +4,111 @@ class_name SourceBlockInitFlagsState
 const source_generated_class_runtime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
 const source_block_defaults := preload("res://src/game/SourceBlockDefaults.gd")
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
+const source_block_source_text_state := preload("res://src/game/SourceBlockSourceTextState.gd")
+const source_block_init_flags_source_text_state := preload("res://src/game/SourceBlockInitFlagsSourceTextState.gd")
+
+const SOURCE_BLOCK_GENERATED_CLASS := source_block_source_text_state.SOURCE_BLOCK_GENERATED_CLASS
+const SOURCE_BLOCK_INIT_FLAGS_SOURCE := source_block_init_flags_source_text_state.SOURCE_BLOCK_INIT_FLAGS_SOURCE
+const SOURCE_BLOCK_INIT_FLAGS_JAVA_METHOD_INIT_123 := source_block_init_flags_source_text_state.SOURCE_BLOCK_INIT_FLAGS_JAVA_METHOD_INIT_123
+const SOURCE_BLOCK_INIT_FLAGS_BRIDGE_MODE_KEY := source_block_init_flags_source_text_state.SOURCE_BLOCK_INIT_FLAGS_BRIDGE_MODE_KEY
+const SOURCE_BLOCK_INIT_FLAGS_CUSTOM_SHADOW_MODE := source_block_init_flags_source_text_state.SOURCE_BLOCK_INIT_FLAGS_CUSTOM_SHADOW_MODE
+const SOURCE_BLOCK_INIT_FLAGS_UNDER_BULLETS_MODE := source_block_init_flags_source_text_state.SOURCE_BLOCK_INIT_FLAGS_UNDER_BULLETS_MODE
+const SOURCE_BLOCK_INIT_FLAGS_FOG_RADIUS_FLAG_MODE := source_block_init_flags_source_text_state.SOURCE_BLOCK_INIT_FLAGS_FOG_RADIUS_FLAG_MODE
+const SOURCE_BLOCK_INIT_FLAGS_SYNC_FLAG_MODE := source_block_init_flags_source_text_state.SOURCE_BLOCK_INIT_FLAGS_SYNC_FLAG_MODE
+const SOURCE_BLOCK_INIT_FLAGS_GENERATED_OWNER := source_block_init_flags_source_text_state.SOURCE_BLOCK_INIT_FLAGS_GENERATED_OWNER
+const SOURCE_BLOCK_INIT_FLAGS_SOURCE_OWNER_KEY := source_block_init_flags_source_text_state.SOURCE_BLOCK_INIT_FLAGS_SOURCE_OWNER_KEY
+const SOURCE_BLOCK_INIT_FLAGS_GENERATED_OWNER_KEY := source_block_init_flags_source_text_state.SOURCE_BLOCK_INIT_FLAGS_GENERATED_OWNER_KEY
+const SOURCE_BLOCK_INIT_FLAGS_RESULT_KEY := source_block_init_flags_source_text_state.SOURCE_BLOCK_INIT_FLAGS_RESULT_KEY
+const SOURCE_BLOCK_INIT_FLAGS_CANONICAL_KEY := source_block_init_flags_source_text_state.SOURCE_BLOCK_INIT_FLAGS_CANONICAL_KEY
+const SOURCE_BLOCK_INIT_FLAGS_MATCHES_KEY := source_block_init_flags_source_text_state.SOURCE_BLOCK_INIT_FLAGS_MATCHES_KEY
+const SOURCE_BLOCK_INIT_FLAGS_METHOD := source_block_init_flags_source_text_state.SOURCE_BLOCK_INIT_FLAGS_METHOD
+const SOURCE_BLOCK_INIT_FLAGS_SUPER_INIT_EXPR := source_block_init_flags_source_text_state.SOURCE_BLOCK_INIT_FLAGS_SUPER_INIT_EXPR
+const SOURCE_BLOCK_INIT_FLAGS_CUSTOM_SHADOW_COMMENT := source_block_init_flags_source_text_state.SOURCE_BLOCK_INIT_FLAGS_CUSTOM_SHADOW_COMMENT
+const SOURCE_BLOCK_INIT_FLAGS_CUSTOM_SHADOW_GUARD_EXPR := source_block_init_flags_source_text_state.SOURCE_BLOCK_INIT_FLAGS_CUSTOM_SHADOW_GUARD_EXPR
+const SOURCE_BLOCK_INIT_FLAGS_HAS_SHADOW_ASSIGN_EXPR := source_block_init_flags_source_text_state.SOURCE_BLOCK_INIT_FLAGS_HAS_SHADOW_ASSIGN_EXPR
+const SOURCE_BLOCK_INIT_FLAGS_UNDER_BULLETS_GUARD_EXPR := source_block_init_flags_source_text_state.SOURCE_BLOCK_INIT_FLAGS_UNDER_BULLETS_GUARD_EXPR
+const SOURCE_BLOCK_INIT_FLAGS_PRIORITY_ASSIGN_EXPR := source_block_init_flags_source_text_state.SOURCE_BLOCK_INIT_FLAGS_PRIORITY_ASSIGN_EXPR
+const SOURCE_BLOCK_INIT_FLAGS_TARGET_PRIORITY_UNDER_EXPR := source_block_init_flags_source_text_state.SOURCE_BLOCK_INIT_FLAGS_TARGET_PRIORITY_UNDER_EXPR
+const SOURCE_BLOCK_INIT_FLAGS_FOG_RADIUS_GUARD_EXPR := source_block_init_flags_source_text_state.SOURCE_BLOCK_INIT_FLAGS_FOG_RADIUS_GUARD_EXPR
+const SOURCE_BLOCK_INIT_FLAGS_FOG_RADIUS_FLAGS_ASSIGN_EXPR := source_block_init_flags_source_text_state.SOURCE_BLOCK_INIT_FLAGS_FOG_RADIUS_FLAGS_ASSIGN_EXPR
+const SOURCE_BLOCK_INIT_FLAGS_BLOCK_FLAG_HAS_FOG_RADIUS_EXPR := source_block_init_flags_source_text_state.SOURCE_BLOCK_INIT_FLAGS_BLOCK_FLAG_HAS_FOG_RADIUS_EXPR
+const SOURCE_BLOCK_INIT_FLAGS_SYNC_GUARD_EXPR := source_block_init_flags_source_text_state.SOURCE_BLOCK_INIT_FLAGS_SYNC_GUARD_EXPR
+const SOURCE_BLOCK_INIT_FLAGS_SYNC_FLAGS_ASSIGN_EXPR := source_block_init_flags_source_text_state.SOURCE_BLOCK_INIT_FLAGS_SYNC_FLAGS_ASSIGN_EXPR
+const SOURCE_BLOCK_INIT_FLAGS_BLOCK_FLAG_SYNCED_EXPR := source_block_init_flags_source_text_state.SOURCE_BLOCK_INIT_FLAGS_BLOCK_FLAG_SYNCED_EXPR
+const SOURCE_BLOCK_INIT_FLAGS_CUSTOM_SHADOW_COMMENT_KEY := source_block_init_flags_source_text_state.SOURCE_BLOCK_INIT_FLAGS_CUSTOM_SHADOW_COMMENT_KEY
+const SOURCE_BLOCK_INIT_FLAGS_CUSTOM_SHADOW_GUARD_EXPR_KEY := source_block_init_flags_source_text_state.SOURCE_BLOCK_INIT_FLAGS_CUSTOM_SHADOW_GUARD_EXPR_KEY
+const SOURCE_BLOCK_INIT_FLAGS_HAS_SHADOW_ASSIGN_EXPR_KEY := source_block_init_flags_source_text_state.SOURCE_BLOCK_INIT_FLAGS_HAS_SHADOW_ASSIGN_EXPR_KEY
+const SOURCE_BLOCK_INIT_FLAGS_CUSTOM_SHADOW_KEY := source_block_init_flags_source_text_state.SOURCE_BLOCK_INIT_FLAGS_CUSTOM_SHADOW_KEY
+const SOURCE_BLOCK_INIT_FLAGS_HAS_SHADOW_BEFORE_KEY := source_block_init_flags_source_text_state.SOURCE_BLOCK_INIT_FLAGS_HAS_SHADOW_BEFORE_KEY
+const SOURCE_BLOCK_INIT_FLAGS_HAS_SHADOW_AFTER_KEY := source_block_init_flags_source_text_state.SOURCE_BLOCK_INIT_FLAGS_HAS_SHADOW_AFTER_KEY
+const SOURCE_BLOCK_INIT_FLAGS_HAS_SHADOW_ASSIGNED_KEY := source_block_init_flags_source_text_state.SOURCE_BLOCK_INIT_FLAGS_HAS_SHADOW_ASSIGNED_KEY
+const SOURCE_BLOCK_INIT_FLAGS_SOURCE_KEY := source_block_init_flags_source_text_state.SOURCE_BLOCK_INIT_FLAGS_SOURCE_KEY
+const SOURCE_BLOCK_INIT_FLAGS_METHOD_KEY := source_block_init_flags_source_text_state.SOURCE_BLOCK_INIT_FLAGS_METHOD_KEY
+const SOURCE_BLOCK_INIT_FLAGS_SUPER_INIT_EXPR_KEY := source_block_init_flags_source_text_state.SOURCE_BLOCK_INIT_FLAGS_SUPER_INIT_EXPR_KEY
+const SOURCE_BLOCK_INIT_FLAGS_UNDER_BULLETS_GUARD_EXPR_KEY := source_block_init_flags_source_text_state.SOURCE_BLOCK_INIT_FLAGS_UNDER_BULLETS_GUARD_EXPR_KEY
+const SOURCE_BLOCK_INIT_FLAGS_PRIORITY_ASSIGN_EXPR_KEY := source_block_init_flags_source_text_state.SOURCE_BLOCK_INIT_FLAGS_PRIORITY_ASSIGN_EXPR_KEY
+const SOURCE_BLOCK_INIT_FLAGS_TARGET_PRIORITY_UNDER_EXPR_KEY := source_block_init_flags_source_text_state.SOURCE_BLOCK_INIT_FLAGS_TARGET_PRIORITY_UNDER_EXPR_KEY
+const SOURCE_BLOCK_INIT_FLAGS_UNDER_BULLETS_KEY := source_block_init_flags_source_text_state.SOURCE_BLOCK_INIT_FLAGS_UNDER_BULLETS_KEY
+const SOURCE_BLOCK_INIT_FLAGS_PRIORITY_BEFORE_KEY := source_block_init_flags_source_text_state.SOURCE_BLOCK_INIT_FLAGS_PRIORITY_BEFORE_KEY
+const SOURCE_BLOCK_INIT_FLAGS_PRIORITY_AFTER_KEY := source_block_init_flags_source_text_state.SOURCE_BLOCK_INIT_FLAGS_PRIORITY_AFTER_KEY
+const SOURCE_BLOCK_INIT_FLAGS_PRIORITY_ASSIGNED_KEY := source_block_init_flags_source_text_state.SOURCE_BLOCK_INIT_FLAGS_PRIORITY_ASSIGNED_KEY
+const SOURCE_BLOCK_INIT_FLAGS_FOG_RADIUS_GUARD_EXPR_KEY := source_block_init_flags_source_text_state.SOURCE_BLOCK_INIT_FLAGS_FOG_RADIUS_GUARD_EXPR_KEY
+const SOURCE_BLOCK_INIT_FLAGS_FLAGS_ASSIGN_EXPR_KEY := source_block_init_flags_source_text_state.SOURCE_BLOCK_INIT_FLAGS_FLAGS_ASSIGN_EXPR_KEY
+const SOURCE_BLOCK_INIT_FLAGS_BLOCK_FLAG_HAS_FOG_RADIUS_EXPR_KEY := source_block_init_flags_source_text_state.SOURCE_BLOCK_INIT_FLAGS_BLOCK_FLAG_HAS_FOG_RADIUS_EXPR_KEY
+const SOURCE_BLOCK_INIT_FLAGS_FOG_RADIUS_KEY := source_block_init_flags_source_text_state.SOURCE_BLOCK_INIT_FLAGS_FOG_RADIUS_KEY
+const SOURCE_BLOCK_INIT_FLAGS_FLAGS_BEFORE_KEY := source_block_init_flags_source_text_state.SOURCE_BLOCK_INIT_FLAGS_FLAGS_BEFORE_KEY
+const SOURCE_BLOCK_INIT_FLAGS_FLAGS_AFTER_KEY := source_block_init_flags_source_text_state.SOURCE_BLOCK_INIT_FLAGS_FLAGS_AFTER_KEY
+const SOURCE_BLOCK_INIT_FLAGS_HAS_FOG_RADIUS_FLAG_ADDED_KEY := source_block_init_flags_source_text_state.SOURCE_BLOCK_INIT_FLAGS_HAS_FOG_RADIUS_FLAG_ADDED_KEY
+const SOURCE_BLOCK_INIT_FLAGS_SYNC_GUARD_EXPR_KEY := source_block_init_flags_source_text_state.SOURCE_BLOCK_INIT_FLAGS_SYNC_GUARD_EXPR_KEY
+const SOURCE_BLOCK_INIT_FLAGS_BLOCK_FLAG_SYNCED_EXPR_KEY := source_block_init_flags_source_text_state.SOURCE_BLOCK_INIT_FLAGS_BLOCK_FLAG_SYNCED_EXPR_KEY
+const SOURCE_BLOCK_INIT_FLAGS_SYNC_KEY := source_block_init_flags_source_text_state.SOURCE_BLOCK_INIT_FLAGS_SYNC_KEY
+const SOURCE_BLOCK_INIT_FLAGS_SYNCED_FLAG_ADDED_KEY := source_block_init_flags_source_text_state.SOURCE_BLOCK_INIT_FLAGS_SYNCED_FLAG_ADDED_KEY
+
+static func _block_call(generated_method: String, generated_args: Array, metadata: Variant = null) -> Variant:
+	if metadata == null:
+		return source_generated_class_runtime.call_java_method(SOURCE_BLOCK_GENERATED_CLASS, generated_method, generated_args, null)
+	return source_generated_class_runtime.call_java_method(SOURCE_BLOCK_GENERATED_CLASS, generated_method, generated_args, null, metadata)
 
 static func custom_shadow_state(custom_shadow: bool, has_shadow_before: bool) -> Dictionary:
 	var has_shadow_assigned: bool = custom_shadow
 	var has_shadow_after: bool = false if has_shadow_assigned else has_shadow_before
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_CUSTOM_SHADOW_STATE, "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "custom_shadow_comment": "//disable standard shadow", "custom_shadow_guard_expr": "if(customShadow){", "has_shadow_assign_expr": "hasShadow = false;", "custom_shadow": custom_shadow, "has_shadow_before": has_shadow_before, "has_shadow_after": has_shadow_after, "has_shadow_assigned": has_shadow_assigned}
+	return {SOURCE_BLOCK_INIT_FLAGS_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_CUSTOM_SHADOW_STATE, SOURCE_BLOCK_INIT_FLAGS_SOURCE_KEY: SOURCE_BLOCK_INIT_FLAGS_SOURCE, SOURCE_BLOCK_INIT_FLAGS_METHOD_KEY: SOURCE_BLOCK_INIT_FLAGS_METHOD, SOURCE_BLOCK_INIT_FLAGS_SUPER_INIT_EXPR_KEY: SOURCE_BLOCK_INIT_FLAGS_SUPER_INIT_EXPR, SOURCE_BLOCK_INIT_FLAGS_CUSTOM_SHADOW_COMMENT_KEY: SOURCE_BLOCK_INIT_FLAGS_CUSTOM_SHADOW_COMMENT, SOURCE_BLOCK_INIT_FLAGS_CUSTOM_SHADOW_GUARD_EXPR_KEY: SOURCE_BLOCK_INIT_FLAGS_CUSTOM_SHADOW_GUARD_EXPR, SOURCE_BLOCK_INIT_FLAGS_HAS_SHADOW_ASSIGN_EXPR_KEY: SOURCE_BLOCK_INIT_FLAGS_HAS_SHADOW_ASSIGN_EXPR, SOURCE_BLOCK_INIT_FLAGS_CUSTOM_SHADOW_KEY: custom_shadow, SOURCE_BLOCK_INIT_FLAGS_HAS_SHADOW_BEFORE_KEY: has_shadow_before, SOURCE_BLOCK_INIT_FLAGS_HAS_SHADOW_AFTER_KEY: has_shadow_after, SOURCE_BLOCK_INIT_FLAGS_HAS_SHADOW_ASSIGNED_KEY: has_shadow_assigned}
+
+static func generated_custom_shadow_result_state(custom_shadow: bool, has_shadow_before: bool) -> Dictionary:
+	return custom_shadow_state(custom_shadow, has_shadow_before)
 
 static func generated_custom_shadow_bridge_state(custom_shadow: bool, has_shadow_before: bool) -> Dictionary:
-	var metadata := {"mindustry_init_bridge_mode": "custom_shadow"}
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [custom_shadow, has_shadow_before], null, metadata)
+	var metadata := {SOURCE_BLOCK_INIT_FLAGS_BRIDGE_MODE_KEY: SOURCE_BLOCK_INIT_FLAGS_CUSTOM_SHADOW_MODE}
+	var result = _block_call(SOURCE_BLOCK_INIT_FLAGS_JAVA_METHOD_INIT_123, [custom_shadow, has_shadow_before], metadata)
 	var canonical = custom_shadow_state(custom_shadow, has_shadow_before)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
 	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_CUSTOM_SHADOW_STATE,
-		"generated_owner": "block.java_method_init_123",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
+		SOURCE_BLOCK_INIT_FLAGS_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_CUSTOM_SHADOW_STATE,
+		SOURCE_BLOCK_INIT_FLAGS_GENERATED_OWNER_KEY: SOURCE_BLOCK_INIT_FLAGS_GENERATED_OWNER,
+		SOURCE_BLOCK_INIT_FLAGS_RESULT_KEY: result,
+		SOURCE_BLOCK_INIT_FLAGS_CANONICAL_KEY: canonical,
+		SOURCE_BLOCK_INIT_FLAGS_MATCHES_KEY: matches,
 	}
 
 static func under_bullets_state(under_bullets: bool, priority_before: Variant) -> Dictionary:
 	var priority_assigned: bool = under_bullets
 	var priority_after: Variant = source_block_defaults.INIT_TARGET_PRIORITY_UNDER if priority_assigned else priority_before
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_UNDER_BULLETS_STATE, "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "under_bullets_guard_expr": "if(underBullets){", "priority_assign_expr": "priority = TargetPriority.under;", "target_priority_under_expr": "TargetPriority.under", "under_bullets": under_bullets, "priority_before": priority_before, "priority_after": priority_after, "priority_assigned": priority_assigned}
+	return {SOURCE_BLOCK_INIT_FLAGS_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_UNDER_BULLETS_STATE, SOURCE_BLOCK_INIT_FLAGS_SOURCE_KEY: SOURCE_BLOCK_INIT_FLAGS_SOURCE, SOURCE_BLOCK_INIT_FLAGS_METHOD_KEY: SOURCE_BLOCK_INIT_FLAGS_METHOD, SOURCE_BLOCK_INIT_FLAGS_SUPER_INIT_EXPR_KEY: SOURCE_BLOCK_INIT_FLAGS_SUPER_INIT_EXPR, SOURCE_BLOCK_INIT_FLAGS_UNDER_BULLETS_GUARD_EXPR_KEY: SOURCE_BLOCK_INIT_FLAGS_UNDER_BULLETS_GUARD_EXPR, SOURCE_BLOCK_INIT_FLAGS_PRIORITY_ASSIGN_EXPR_KEY: SOURCE_BLOCK_INIT_FLAGS_PRIORITY_ASSIGN_EXPR, SOURCE_BLOCK_INIT_FLAGS_TARGET_PRIORITY_UNDER_EXPR_KEY: SOURCE_BLOCK_INIT_FLAGS_TARGET_PRIORITY_UNDER_EXPR, SOURCE_BLOCK_INIT_FLAGS_UNDER_BULLETS_KEY: under_bullets, SOURCE_BLOCK_INIT_FLAGS_PRIORITY_BEFORE_KEY: priority_before, SOURCE_BLOCK_INIT_FLAGS_PRIORITY_AFTER_KEY: priority_after, SOURCE_BLOCK_INIT_FLAGS_PRIORITY_ASSIGNED_KEY: priority_assigned}
+
+static func generated_under_bullets_result_state(under_bullets: bool, priority_before: Variant) -> Dictionary:
+	return under_bullets_state(under_bullets, priority_before)
 
 static func generated_under_bullets_bridge_state(under_bullets: bool, priority_before: Variant) -> Dictionary:
-	var metadata := {"mindustry_init_bridge_mode": "under_bullets"}
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [under_bullets, priority_before], null, metadata)
+	var metadata := {SOURCE_BLOCK_INIT_FLAGS_BRIDGE_MODE_KEY: SOURCE_BLOCK_INIT_FLAGS_UNDER_BULLETS_MODE}
+	var result = _block_call(SOURCE_BLOCK_INIT_FLAGS_JAVA_METHOD_INIT_123, [under_bullets, priority_before], metadata)
 	var canonical = under_bullets_state(under_bullets, priority_before)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
 	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_UNDER_BULLETS_STATE,
-		"generated_owner": "block.java_method_init_123",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
+		SOURCE_BLOCK_INIT_FLAGS_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_UNDER_BULLETS_STATE,
+		SOURCE_BLOCK_INIT_FLAGS_GENERATED_OWNER_KEY: SOURCE_BLOCK_INIT_FLAGS_GENERATED_OWNER,
+		SOURCE_BLOCK_INIT_FLAGS_RESULT_KEY: result,
+		SOURCE_BLOCK_INIT_FLAGS_CANONICAL_KEY: canonical,
+		SOURCE_BLOCK_INIT_FLAGS_MATCHES_KEY: matches,
 	}
 
 static func fog_radius_flag_state(fog_radius: int, flags_before: Array) -> Dictionary:
@@ -46,19 +116,22 @@ static func fog_radius_flag_state(fog_radius: int, flags_before: Array) -> Dicti
 	var has_fog_radius_flag_added: bool = fog_radius > 0
 	if has_fog_radius_flag_added and not flags_after.has(source_block_defaults.INIT_BLOCK_FLAG_HAS_FOG_RADIUS):
 		flags_after.append(source_block_defaults.INIT_BLOCK_FLAG_HAS_FOG_RADIUS)
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_FOG_RADIUS_FLAG_STATE, "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "fog_radius_guard_expr": "if(fogRadius > 0){", "flags_assign_expr": "flags = flags.with(BlockFlag.hasFogRadius);", "block_flag_has_fog_radius_expr": "BlockFlag.hasFogRadius", "fog_radius": fog_radius, "flags_before": flags_before, "flags_after": flags_after, "has_fog_radius_flag_added": has_fog_radius_flag_added}
+	return {SOURCE_BLOCK_INIT_FLAGS_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_FOG_RADIUS_FLAG_STATE, SOURCE_BLOCK_INIT_FLAGS_SOURCE_KEY: SOURCE_BLOCK_INIT_FLAGS_SOURCE, SOURCE_BLOCK_INIT_FLAGS_METHOD_KEY: SOURCE_BLOCK_INIT_FLAGS_METHOD, SOURCE_BLOCK_INIT_FLAGS_SUPER_INIT_EXPR_KEY: SOURCE_BLOCK_INIT_FLAGS_SUPER_INIT_EXPR, SOURCE_BLOCK_INIT_FLAGS_FOG_RADIUS_GUARD_EXPR_KEY: SOURCE_BLOCK_INIT_FLAGS_FOG_RADIUS_GUARD_EXPR, SOURCE_BLOCK_INIT_FLAGS_FLAGS_ASSIGN_EXPR_KEY: SOURCE_BLOCK_INIT_FLAGS_FOG_RADIUS_FLAGS_ASSIGN_EXPR, SOURCE_BLOCK_INIT_FLAGS_BLOCK_FLAG_HAS_FOG_RADIUS_EXPR_KEY: SOURCE_BLOCK_INIT_FLAGS_BLOCK_FLAG_HAS_FOG_RADIUS_EXPR, SOURCE_BLOCK_INIT_FLAGS_FOG_RADIUS_KEY: fog_radius, SOURCE_BLOCK_INIT_FLAGS_FLAGS_BEFORE_KEY: flags_before, SOURCE_BLOCK_INIT_FLAGS_FLAGS_AFTER_KEY: flags_after, SOURCE_BLOCK_INIT_FLAGS_HAS_FOG_RADIUS_FLAG_ADDED_KEY: has_fog_radius_flag_added}
+
+static func generated_fog_radius_flag_result_state(fog_radius: int, flags_before: Array) -> Dictionary:
+	return fog_radius_flag_state(fog_radius, flags_before)
 
 static func generated_fog_radius_flag_bridge_state(fog_radius: int, flags_before: Array) -> Dictionary:
-	var metadata := {"mindustry_init_bridge_mode": "fog_radius_flag"}
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [fog_radius, flags_before], null, metadata)
+	var metadata := {SOURCE_BLOCK_INIT_FLAGS_BRIDGE_MODE_KEY: SOURCE_BLOCK_INIT_FLAGS_FOG_RADIUS_FLAG_MODE}
+	var result = _block_call(SOURCE_BLOCK_INIT_FLAGS_JAVA_METHOD_INIT_123, [fog_radius, flags_before], metadata)
 	var canonical = fog_radius_flag_state(fog_radius, flags_before)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
 	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_FOG_RADIUS_FLAG_STATE,
-		"generated_owner": "block.java_method_init_123",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
+		SOURCE_BLOCK_INIT_FLAGS_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_FOG_RADIUS_FLAG_STATE,
+		SOURCE_BLOCK_INIT_FLAGS_GENERATED_OWNER_KEY: SOURCE_BLOCK_INIT_FLAGS_GENERATED_OWNER,
+		SOURCE_BLOCK_INIT_FLAGS_RESULT_KEY: result,
+		SOURCE_BLOCK_INIT_FLAGS_CANONICAL_KEY: canonical,
+		SOURCE_BLOCK_INIT_FLAGS_MATCHES_KEY: matches,
 	}
 
 static func sync_flag_state(sync_value: bool, flags_before: Array) -> Dictionary:
@@ -66,17 +139,20 @@ static func sync_flag_state(sync_value: bool, flags_before: Array) -> Dictionary
 	var synced_flag_added: bool = sync_value
 	if synced_flag_added and not flags_after.has(source_block_defaults.INIT_BLOCK_FLAG_SYNCED):
 		flags_after.append(source_block_defaults.INIT_BLOCK_FLAG_SYNCED)
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_SYNC_FLAG_STATE, "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "sync_guard_expr": "if(sync){", "flags_assign_expr": "flags = flags.with(BlockFlag.synced);", "block_flag_synced_expr": "BlockFlag.synced", "sync": sync_value, "flags_before": flags_before, "flags_after": flags_after, "synced_flag_added": synced_flag_added}
+	return {SOURCE_BLOCK_INIT_FLAGS_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_SYNC_FLAG_STATE, SOURCE_BLOCK_INIT_FLAGS_SOURCE_KEY: SOURCE_BLOCK_INIT_FLAGS_SOURCE, SOURCE_BLOCK_INIT_FLAGS_METHOD_KEY: SOURCE_BLOCK_INIT_FLAGS_METHOD, SOURCE_BLOCK_INIT_FLAGS_SUPER_INIT_EXPR_KEY: SOURCE_BLOCK_INIT_FLAGS_SUPER_INIT_EXPR, SOURCE_BLOCK_INIT_FLAGS_SYNC_GUARD_EXPR_KEY: SOURCE_BLOCK_INIT_FLAGS_SYNC_GUARD_EXPR, SOURCE_BLOCK_INIT_FLAGS_FLAGS_ASSIGN_EXPR_KEY: SOURCE_BLOCK_INIT_FLAGS_SYNC_FLAGS_ASSIGN_EXPR, SOURCE_BLOCK_INIT_FLAGS_BLOCK_FLAG_SYNCED_EXPR_KEY: SOURCE_BLOCK_INIT_FLAGS_BLOCK_FLAG_SYNCED_EXPR, SOURCE_BLOCK_INIT_FLAGS_SYNC_KEY: sync_value, SOURCE_BLOCK_INIT_FLAGS_FLAGS_BEFORE_KEY: flags_before, SOURCE_BLOCK_INIT_FLAGS_FLAGS_AFTER_KEY: flags_after, SOURCE_BLOCK_INIT_FLAGS_SYNCED_FLAG_ADDED_KEY: synced_flag_added}
+
+static func generated_sync_flag_result_state(sync_value: bool, flags_before: Array) -> Dictionary:
+	return sync_flag_state(sync_value, flags_before)
 
 static func generated_sync_flag_bridge_state(sync_value: bool, flags_before: Array) -> Dictionary:
-	var metadata := {"mindustry_init_bridge_mode": "sync_flag"}
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [sync_value, flags_before], null, metadata)
+	var metadata := {SOURCE_BLOCK_INIT_FLAGS_BRIDGE_MODE_KEY: SOURCE_BLOCK_INIT_FLAGS_SYNC_FLAG_MODE}
+	var result = _block_call(SOURCE_BLOCK_INIT_FLAGS_JAVA_METHOD_INIT_123, [sync_value, flags_before], metadata)
 	var canonical = sync_flag_state(sync_value, flags_before)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
 	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_SYNC_FLAG_STATE,
-		"generated_owner": "block.java_method_init_123",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
+		SOURCE_BLOCK_INIT_FLAGS_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_SYNC_FLAG_STATE,
+		SOURCE_BLOCK_INIT_FLAGS_GENERATED_OWNER_KEY: SOURCE_BLOCK_INIT_FLAGS_GENERATED_OWNER,
+		SOURCE_BLOCK_INIT_FLAGS_RESULT_KEY: result,
+		SOURCE_BLOCK_INIT_FLAGS_CANONICAL_KEY: canonical,
+		SOURCE_BLOCK_INIT_FLAGS_MATCHES_KEY: matches,
 	}

@@ -2,12 +2,13 @@ extends Node
 
 const PortGameScript := preload("res://src/game/PortGame.gd")
 const source_tractor_beam_turret_build_update_tile_flow_state := preload("res://src/game/SourceTractorBeamTurretBuildUpdateTileFlowState.gd")
-const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const source_ssot_accessor_runtime_state := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
+const runtime_proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")
 
 func _ready() -> void:
 	var game := PortGameScript.new()
 	game.load_content_registry()
-	var registry_state := source_ssot_catalog.canonical_headquarter_registry_state()
+	var registry_state := source_ssot_accessor_runtime_state.canonical_headquarter_registry_state()
 	var activation_timer := 0.0
 	var time_delta := 1.0
 	var efficiency := 0.75
@@ -61,14 +62,9 @@ func _ready() -> void:
 	var proof_label := get_node_or_null("ProofCanvas/ProofLabel") as Label
 	if proof_label != null:
 		proof_label.text = "TRACTOR_BEAM_UPDATE_TILE_FLOW_MODULE_PROOF matches=%s registry_valid=%s" % [str(proof["matches"]), str(proof["registry_valid"])]
-	var proof_json := JSON.stringify(proof)
-	print("TRACTOR_BEAM_UPDATE_TILE_FLOW_MODULE_PROOF " + proof_json)
-	var proof_path := ProjectSettings.globalize_path("res://tools/runtime_proofs/TractorBeamUpdateTileFlowModuleProof.json")
-	var proof_file := FileAccess.open(proof_path, FileAccess.WRITE)
-	if proof_file != null:
-		proof_file.store_string(proof_json)
-		proof_file.flush()
-		proof_file.close()
+	print("TRACTOR_BEAM_UPDATE_TILE_FLOW_MODULE_PROOF " + JSON.stringify(proof))
+	runtime_proof_state.write_proof("TractorBeamUpdateTileFlowModuleProof", proof)
 	game.free()
-	await get_tree().create_timer(60.0).timeout
-	get_tree().quit(0)
+	await get_tree().process_frame
+	get_tree().quit(runtime_proof_state.exit_code(proof))
+

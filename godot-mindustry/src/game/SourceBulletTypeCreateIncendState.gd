@@ -2,7 +2,6 @@ extends RefCounted
 class_name SourceBulletTypeCreateIncendState
 
 const source_bullet_defaults := preload("res://src/game/SourceBulletDefaults.gd")
-const source_bullet_runtime := preload("res://src/game/SourceBulletRuntime.gd")
 
 static func create_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_incend_state: Dictionary, incend_random_state: Dictionary) -> Dictionary:
 	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
@@ -26,21 +25,21 @@ static func create_state(bullet_type_state: Dictionary, bullet_state: Dictionary
 			"incendAmount": incend_amount,
 			"called": true,
 		}
-	var runtime_state := source_bullet_runtime.create_incend_state(bullet_type_state, bullet_state, create_incend_state, incend_random_state)
-	runtime_state["bulletType"] = update_type_state
-	runtime_state["bullet"] = update_bullet_state
-	runtime_state["createIncendState"] = update_create_incend_state
-	runtime_state["incendRandom"] = update_random_state
-	runtime_state["incendChance"] = incend_chance
-	runtime_state["incendSpread"] = incend_spread
-	runtime_state["incendAmount"] = incend_amount
-	runtime_state["chancePassed"] = chance_passed
-	runtime_state["incendGatePassed"] = incend_gate_passed
-	runtime_state["createIncendCall"] = create_incend_call
-	var source_trace := {
+	return {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"createIncend": update_create_incend_state,
+		"createIncendState": update_create_incend_state,
+		"incendRandom": update_random_state,
+		"x": incend_x,
+		"y": incend_y,
+		"incendChance": incend_chance,
+		"incendSpread": incend_spread,
+		"incendAmount": incend_amount,
+		"chancePassed": chance_passed,
+		"chancePassedProvided": chance_passed != null,
+		"incendGatePassed": incend_gate_passed,
+		"createIncendCall": create_incend_call,
 		"chanceSource": "Mathf.chance(incendChance)",
 		"createIncendSource": "Damage.createIncend(x, y, incendSpread, incendAmount);",
 	}
-	runtime_state["chanceSource"] = source_trace.get("chanceSource", "")
-	runtime_state["createIncendSource"] = source_trace.get("createIncendSource", "")
-	return runtime_state

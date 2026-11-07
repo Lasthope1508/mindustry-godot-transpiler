@@ -2,10 +2,10 @@ extends RefCounted
 class_name SourceBulletTypeCreateFragsState
 
 const source_bullet_defaults := preload("res://src/game/SourceBulletDefaults.gd")
-const source_bullet_runtime := preload("res://src/game/SourceBulletRuntime.gd")
 const source_math_defaults := preload("res://src/game/SourceMathDefaults.gd")
-const SOURCE_BULLET_TYPE_CREATE_FRAGS_TRNS_VEC_KEY := "trns_vec"
-const SOURCE_BULLET_TYPE_CREATE_FRAGS_TRNS_VEC_FALLBACK := "source_arc_angles_trns_vec"
+const source_geometry_callback_registry := preload("res://src/game/SourceGeometryCallbackRegistry.gd")
+const SOURCE_BULLET_TYPE_CREATE_FRAGS_TRNS_VEC_KEY := source_geometry_callback_registry.TRNS_VEC_KEY
+const SOURCE_BULLET_TYPE_CREATE_FRAGS_TRNS_VEC_FALLBACK := source_geometry_callback_registry.TRNS_VEC_FALLBACK
 
 static func runtime_method_names(game: Object) -> Dictionary:
 	if game.has_method("_bullet_type_create_frags_method_names"):
@@ -30,14 +30,29 @@ static func initial_state(bullet_type_state: Dictionary, bullet_state: Dictionar
 	var update_create_frags_state: Dictionary = create_frags_state.duplicate(true)
 	var frag_bullet: Variant = update_type_state.get("fragBullet", null)
 	var frag_bullet_exists := frag_bullet != null
-	var frag_on_absorb := bool(update_type_state.get("fragOnAbsorb", false))
+	var frag_on_absorb := bool(update_type_state.get("fragOnAbsorb", true))
 	var bullet_absorbed := bool(update_bullet_state.get("absorbed", false))
 	var pierce_frag_cap := int(update_type_state.get("pierceFragCap", -1))
 	var bullet_frags := int(update_bullet_state.get("frags", 0))
 	var frag_gate_passed := frag_bullet_exists and (frag_on_absorb or not bullet_absorbed) and (pierce_frag_cap < 0 or bullet_frags < pierce_frag_cap)
 	var frag_bullets := int(update_type_state.get("fragBullets", update_create_frags_state.get("fragBullets", 9)))
 	var loop_iterations := frag_bullets if frag_gate_passed else 0
-	var runtime_state := source_bullet_runtime.create_frags_initial_state(bullet_type_state, bullet_state, create_frags_state)
+	var runtime_state := {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"createFrags": update_create_frags_state,
+		"x": float(update_create_frags_state.get("x", 0.0)),
+		"y": float(update_create_frags_state.get("y", 0.0)),
+		"fragBullet": frag_bullet,
+		"fragBulletExists": frag_bullet_exists,
+		"fragOnAbsorb": frag_on_absorb,
+		"bulletAbsorbed": bullet_absorbed,
+		"pierceFragCap": pierce_frag_cap,
+		"bulletFrags": bullet_frags,
+		"fragBullets": frag_bullets,
+		"fragGatePassed": frag_gate_passed,
+		"loopIterations": loop_iterations,
+	}
 	runtime_state["bulletType"] = update_type_state
 	runtime_state["bullet"] = update_bullet_state
 	runtime_state["createFragsState"] = update_create_frags_state
@@ -96,7 +111,21 @@ static func random_geometry_state(bullet_type_state: Dictionary, bullet_state: D
 				"fragAngle": frag_angle,
 				"spreadOffset": frag_spread * float(i) - (float(frag_bullets) - 1.0) * frag_spread / 2.0,
 			})
-	var runtime_state := source_bullet_runtime.create_frags_random_geometry_state(bullet_type_state, bullet_state, create_frags_initial_state, frag_random_state)
+	var runtime_state := {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"createFragsInitial": update_initial_state,
+		"fragRandom": update_random_state,
+		"fragGatePassed": frag_gate_passed,
+		"loopIterations": loop_iterations,
+		"fragOffsetMin": frag_offset_min,
+		"fragOffsetMax": frag_offset_max,
+		"fragRandomSpread": frag_random_spread,
+		"fragAngle": frag_angle,
+		"fragSpread": frag_spread,
+		"rotation": rotation_value,
+		"fragmentPlans": fragment_plans,
+	}
 	runtime_state["bulletType"] = update_type_state
 	runtime_state["bullet"] = update_bullet_state
 	runtime_state["createFragsInitial"] = update_initial_state
@@ -176,7 +205,19 @@ static func create_call_state(bullet_type_state: Dictionary, bullet_state: Dicti
 				"lifeRandomCall": {"call": "Mathf.random(fragLifeMin, fragLifeMax)", "min": frag_life_min, "max": frag_life_max, "value": life_sample},
 				"call": "fragBullet.create(b, x + Angles.trnsx(a, len), y + Angles.trnsy(a, len), a, Mathf.random(fragVelocityMin, fragVelocityMax), Mathf.random(fragLifeMin, fragLifeMax))",
 			})
-	var runtime_state := source_bullet_runtime.create_frags_create_call_state(bullet_type_state, bullet_state, create_frags_random_geometry_state, frag_random_state)
+	var runtime_state := {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"createFragsRandomGeometry": update_geometry_state,
+		"fragRandom": update_random_state,
+		"fragGatePassed": frag_gate_passed,
+		"fragBullet": frag_bullet,
+		"fragVelocityMin": frag_velocity_min,
+		"fragVelocityMax": frag_velocity_max,
+		"fragLifeMin": frag_life_min,
+		"fragLifeMax": frag_life_max,
+		"fragmentCreateCalls": fragment_create_calls,
+	}
 	runtime_state["bulletType"] = update_type_state
 	runtime_state["bullet"] = update_bullet_state
 	runtime_state["createFragsRandomGeometry"] = update_geometry_state
@@ -217,7 +258,14 @@ static func increment_state(bullet_state: Dictionary, create_frags_create_call_s
 	if frags_incremented:
 		bullet_frags_after = bullet_frags_before + 1
 	update_bullet_state["frags"] = bullet_frags_after
-	var runtime_state := source_bullet_runtime.create_frags_increment_state(bullet_state, create_frags_create_call_state)
+	var runtime_state := {
+		"bullet": update_bullet_state,
+		"createFragsCreateCall": update_create_call_state,
+		"fragGatePassed": frag_gate_passed,
+		"bulletFragsBefore": bullet_frags_before,
+		"bulletFragsAfter": bullet_frags_after,
+		"fragsIncremented": frags_incremented,
+	}
 	runtime_state["bullet"] = update_bullet_state
 	runtime_state["createFragsCreateCall"] = update_create_call_state
 	runtime_state["fragGatePassed"] = frag_gate_passed

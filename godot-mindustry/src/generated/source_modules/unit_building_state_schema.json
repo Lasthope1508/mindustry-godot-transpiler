@@ -1,0 +1,81 @@
+{
+  "version": 1,
+  "schemas": {
+    "source_unit_building_get_command_position_state_input": {
+      "canonical_schema": "source_state_schema.source_unit_building_get_command_position_state_input",
+      "keys": {
+        "class_name_value": {
+          "godot_symbol": "source_unit_building_get_command_position_state_input.class_name_value",
+          "java_expr": "nested Build class selector",
+          "java_method": "UnitFactoryBuild.getCommandPosition()",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+          "owners": [
+            "port_game.source_unit_building_get_command_position_state"
+          ],
+          "status": "explicit-input",
+          "type": "String"
+        },
+        "command_position": {
+          "godot_symbol": "source_unit_building_get_command_position_state_input.command_position",
+          "java_expr": "commandPos",
+          "java_method": "UnitFactoryBuild.getCommandPosition()",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+          "owners": [
+            "port_game.source_unit_building_get_command_position_state"
+          ],
+          "status": "explicit-input",
+          "type": "Variant"
+        },
+        "source_path": {
+          "godot_symbol": "source_unit_building_get_command_position_state_input.source_path",
+          "java_expr": "canonical source path selector",
+          "java_method": "UnitFactoryBuild.getCommandPosition()",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+          "owners": [
+            "port_game.source_unit_building_get_command_position_state"
+          ],
+          "status": "explicit-input",
+          "type": "String"
+        }
+      }
+    },
+    "source_unit_building_on_command_state_input": {
+      "canonical_schema": "source_state_schema.source_unit_building_on_command_state_input",
+      "keys": {
+        "class_name_value": {
+          "godot_symbol": "source_unit_building_on_command_state_input.class_name_value",
+          "java_expr": "nested Build class selector",
+          "java_method": "UnitFactoryBuild.onCommand(Vec2 target)",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+          "owners": [
+            "port_game.source_unit_building_on_command_state"
+          ],
+          "status": "explicit-input",
+          "type": "String"
+        },
+        "source_path": {
+          "godot_symbol": "source_unit_building_on_command_state_input.source_path",
+          "java_expr": "canonical source path selector",
+          "java_method": "UnitFactoryBuild.onCommand(Vec2 target)",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+          "owners": [
+            "port_game.source_unit_building_on_command_state"
+          ],
+          "status": "explicit-input",
+          "type": "String"
+        },
+        "target": {
+          "godot_symbol": "source_unit_building_on_command_state_input.target",
+          "java_expr": "target",
+          "java_method": "UnitFactoryBuild.onCommand(Vec2 target)",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+          "owners": [
+            "port_game.source_unit_building_on_command_state"
+          ],
+          "status": "explicit-input",
+          "type": "Variant"
+        }
+      }
+    }
+  }
+}

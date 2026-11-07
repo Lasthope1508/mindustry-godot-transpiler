@@ -3,6 +3,12 @@ class_name SourcePowerTurretBuildState
 
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
 const source_generated_class_runtime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
+const source_turret_source_text_state := preload("res://src/game/SourceTurretSourceTextState.gd")
+
+const SOURCE_POWER_TURRET_GENERATED_CLASS := source_turret_source_text_state.SOURCE_POWER_TURRET_GENERATED_CLASS
+
+static func _power_turret_call(generated_method: String, generated_args: Array) -> Variant:
+	return source_generated_class_runtime.call_java_method(SOURCE_POWER_TURRET_GENERATED_CLASS, generated_method, generated_args, null)
 
 static func get_ammo_fraction_state(power_null: bool, power_status: float) -> Dictionary:
 	var ammo_fraction: float = 0.0 if power_null else power_status
@@ -19,7 +25,7 @@ static func get_ammo_fraction_state(power_null: bool, power_status: float) -> Di
 
 
 static func generated_get_ammo_fraction_bridge_state(power_null: bool, power_status: float) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/PowerTurret.gd", "java_inner_class_PowerTurretBuild_method_getAmmoFraction_0", [power_null, power_status], null)
+	var result = _power_turret_call("java_inner_class_PowerTurretBuild_method_getAmmoFraction_0", [power_null, power_status])
 	var canonical = get_ammo_fraction_state(power_null, power_status)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_POWER_TURRET_BUILD_GET_AMMO_FRACTION_STATE,
@@ -56,7 +62,7 @@ static func sense_state(sensor: String, power_null: bool, power_status: float, s
 
 
 static func generated_sense_bridge_state(sensor: String, power_null: bool, power_status: float, super_sense_value: float) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/PowerTurret.gd", "java_inner_class_PowerTurretBuild_method_sense_1", [sensor, power_null, power_status, super_sense_value], null)
+	var result = _power_turret_call("java_inner_class_PowerTurretBuild_method_sense_1", [sensor, power_null, power_status, super_sense_value])
 	var canonical = sense_state(sensor, power_null, power_status, super_sense_value)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_POWER_TURRET_BUILD_SENSE_STATE,
@@ -80,7 +86,7 @@ static func use_ammo_state(shoot_type: Variant) -> Dictionary:
 
 
 static func generated_use_ammo_bridge_state(shoot_type: Variant) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/PowerTurret.gd", "java_inner_class_PowerTurretBuild_method_useAmmo_2", [shoot_type], null)
+	var result = _power_turret_call("java_inner_class_PowerTurretBuild_method_useAmmo_2", [shoot_type])
 	var canonical = use_ammo_state(shoot_type)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_POWER_TURRET_BUILD_USE_AMMO_STATE,
@@ -104,7 +110,7 @@ static func has_ammo_state() -> Dictionary:
 
 
 static func generated_has_ammo_bridge_state() -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/PowerTurret.gd", "java_inner_class_PowerTurretBuild_method_hasAmmo_3", [], null)
+	var result = _power_turret_call("java_inner_class_PowerTurretBuild_method_hasAmmo_3", [])
 	var canonical = has_ammo_state()
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_POWER_TURRET_BUILD_HAS_AMMO_STATE,
@@ -127,7 +133,7 @@ static func peek_ammo_state(shoot_type: Variant) -> Dictionary:
 
 
 static func generated_peek_ammo_bridge_state(shoot_type: Variant) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/PowerTurret.gd", "java_inner_class_PowerTurretBuild_method_peekAmmo_4", [shoot_type], null)
+	var result = _power_turret_call("java_inner_class_PowerTurretBuild_method_peekAmmo_4", [shoot_type])
 	var canonical = peek_ammo_state(shoot_type)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_POWER_TURRET_BUILD_PEEK_AMMO_STATE,

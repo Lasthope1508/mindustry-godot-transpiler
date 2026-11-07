@@ -2,75 +2,87 @@ extends RefCounted
 class_name SourceTurretRuntime
 
 const source_turret_defaults := preload("res://src/game/SourceTurretDefaults.gd")
+const source_turret_source_text_state := preload("res://src/game/SourceTurretSourceTextState.gd")
+const source_turret_accuracy_state := preload("res://src/game/SourceTurretAccuracyState.gd")
+const source_turret_recoil_state := preload("res://src/game/SourceTurretRecoilState.gd")
+const source_turret_bullet_origin_state := preload("res://src/game/SourceTurretBulletOriginState.gd")
+const source_time_defaults := preload("res://src/game/SourceTimeDefaults.gd")
+const source_turret_runtime_property_stats_state := preload("res://src/game/SourceTurretRuntimePropertyStatsState.gd")
 
-const SOURCE_TURRET_RELOAD_FIELD := "public float reload = 10f;"
-const SOURCE_TURRET_RELOAD_KEY := "reload"
-const SOURCE_TURRET_RELOAD_DUO_VALUE := "reload = 20f;"
-const SOURCE_TIME_TO_SECONDS_FIELD := "public static final float toSeconds = 60f"
-const SOURCE_TURRET_RELOAD_SECONDS_FOR_AMMO_UPDATE_RELOAD := "reloadCounter += delta() * ammoReloadMultiplier() * baseReloadSpeed();"
-const SOURCE_TURRET_RELOAD_SECONDS_FOR_AMMO_METHOD := "protected float ammoReloadMultiplier(){"
-const SOURCE_TURRET_RELOAD_SECONDS_FOR_AMMO_RETURN := "return hasAmmo() ? peekAmmo().reloadMultiplier : 1f;"
-const SOURCE_TURRET_RELOAD_SECONDS_FOR_AMMO_FORMULA := "source_turret_reload_seconds(turret) / source_bullet_reload_multiplier(data)"
+const SOURCE_TURRET_RELOAD_FIELD := source_turret_source_text_state.SOURCE_TURRET_RELOAD_FIELD
+const SOURCE_TURRET_RELOAD_KEY := source_turret_source_text_state.SOURCE_TURRET_RELOAD_KEY
+const SOURCE_TURRET_RELOAD_DUO_VALUE := source_turret_source_text_state.SOURCE_TURRET_RELOAD_DUO_VALUE
+const SOURCE_TIME_TO_SECONDS_FIELD := source_time_defaults.SOURCE_TIME_TO_SECONDS_FIELD
+const SOURCE_TURRET_RELOAD_SECONDS_FOR_AMMO_UPDATE_RELOAD := source_turret_runtime_property_stats_state.SOURCE_TURRET_RELOAD_SECONDS_FOR_AMMO_UPDATE_RELOAD
+const SOURCE_TURRET_RELOAD_SECONDS_FOR_AMMO_METHOD := source_turret_runtime_property_stats_state.SOURCE_TURRET_RELOAD_SECONDS_FOR_AMMO_METHOD
+const SOURCE_TURRET_RELOAD_SECONDS_FOR_AMMO_RETURN := source_turret_runtime_property_stats_state.SOURCE_TURRET_RELOAD_SECONDS_FOR_AMMO_RETURN
+const SOURCE_TURRET_RELOAD_SECONDS_FOR_AMMO_FORMULA := source_turret_runtime_property_stats_state.SOURCE_TURRET_RELOAD_SECONDS_FOR_AMMO_FORMULA
 
-const SOURCE_TURRET_RANGE_FIELD := "public float range = 80f;"
-const SOURCE_TURRET_RANGE_METHOD := "public float range(){\n            return range;\n        }"
-const SOURCE_TURRET_RANGE_KEY := "range"
-const SOURCE_TURRET_RANGE_DUO_VALUE := "range = 160;"
-const SOURCE_TURRET_RANGE_FOR_AMMO_METHOD := "public float range(){\n            if(peekAmmo() != null){\n                return range + peekAmmo().rangeChange;\n            }\n            return range;\n        }"
-const SOURCE_TURRET_RANGE_FOR_AMMO_GATE := "if(peekAmmo() != null){"
-const SOURCE_TURRET_RANGE_FOR_AMMO_AMMO_RESULT := "return range + peekAmmo().rangeChange;"
-const SOURCE_TURRET_RANGE_FOR_AMMO_FALLBACK_RESULT := "return range;"
+const SOURCE_TURRET_RANGE_FIELD := source_turret_source_text_state.SOURCE_TURRET_RANGE_FIELD
+const SOURCE_TURRET_RANGE_METHOD := source_turret_source_text_state.SOURCE_TURRET_RANGE_METHOD
+const SOURCE_TURRET_RANGE_KEY := source_turret_source_text_state.SOURCE_TURRET_RANGE_KEY
+const SOURCE_TURRET_RANGE_DUO_VALUE := source_turret_source_text_state.SOURCE_TURRET_RANGE_DUO_VALUE
+const SOURCE_TURRET_RANGE_FOR_AMMO_METHOD := source_turret_runtime_property_stats_state.SOURCE_TURRET_RANGE_FOR_AMMO_METHOD
+const SOURCE_TURRET_RANGE_FOR_AMMO_GATE := source_turret_runtime_property_stats_state.SOURCE_TURRET_RANGE_FOR_AMMO_GATE
+const SOURCE_TURRET_RANGE_FOR_AMMO_AMMO_RESULT := source_turret_runtime_property_stats_state.SOURCE_TURRET_RANGE_FOR_AMMO_AMMO_RESULT
+const SOURCE_TURRET_RANGE_FOR_AMMO_FALLBACK_RESULT := source_turret_runtime_property_stats_state.SOURCE_TURRET_RANGE_FOR_AMMO_FALLBACK_RESULT
 
-const SOURCE_TURRET_SHOOT_Y_COMMENT := "/** Turret shoot point. */"
-const SOURCE_TURRET_SHOOT_Y_FIELD := "public float shootX = 0f, shootY = Float.NEGATIVE_INFINITY;"
-const SOURCE_TURRET_SHOOT_Y_KEY := "shootY"
-const SOURCE_TURRET_SHOOT_Y_SENTINEL := "Float.NEGATIVE_INFINITY"
-const SOURCE_TURRET_SHOOT_Y_INIT_DEFAULT := "if(shootY == Float.NEGATIVE_INFINITY) shootY = size * tilesize / 2f;"
-const SOURCE_TURRET_SHOOT_Y_DUO_VALUE := "shootY = 3f;"
+const SOURCE_TURRET_SHOOT_Y_COMMENT := source_turret_source_text_state.SOURCE_TURRET_SHOOT_Y_COMMENT
+const SOURCE_TURRET_SHOOT_Y_FIELD := source_turret_source_text_state.SOURCE_TURRET_SHOOT_Y_FIELD
+const SOURCE_TURRET_SHOOT_Y_KEY := source_turret_source_text_state.SOURCE_TURRET_SHOOT_Y_KEY
+const SOURCE_TURRET_SHOOT_Y_SENTINEL := source_turret_source_text_state.SOURCE_TURRET_SHOOT_Y_SENTINEL
+const SOURCE_TURRET_SHOOT_Y_INIT_DEFAULT := source_turret_source_text_state.SOURCE_TURRET_SHOOT_Y_INIT_DEFAULT
+const SOURCE_TURRET_SHOOT_Y_DUO_VALUE := source_turret_source_text_state.SOURCE_TURRET_SHOOT_Y_DUO_VALUE
 
-const SOURCE_TURRET_INACCURACY_COMMENT := "/** Bullet angle randomness in degrees. */"
-const SOURCE_TURRET_INACCURACY_FIELD := "public float inaccuracy = 0f;"
-const SOURCE_TURRET_INACCURACY_KEY := "inaccuracy"
-const SOURCE_TURRET_INACCURACY_DUO_VALUE := "inaccuracy = 2f;"
-const SOURCE_TURRET_INACCURACY_SHOOT_ANGLE := "shootAngle = rotation + angleOffset + Mathf.range(inaccuracy + type.inaccuracy);"
-const SOURCE_TURRET_TOTAL_INACCURACY_EXPR := "inaccuracy + type.inaccuracy"
-const SOURCE_TURRET_TOTAL_INACCURACY_SHOOT_ANGLE := "shootAngle = rotation + angleOffset + Mathf.range(inaccuracy + type.inaccuracy);"
+const SOURCE_TURRET_INACCURACY_COMMENT := source_turret_source_text_state.SOURCE_TURRET_INACCURACY_COMMENT
+const SOURCE_TURRET_INACCURACY_FIELD := source_turret_source_text_state.SOURCE_TURRET_INACCURACY_FIELD
+const SOURCE_TURRET_INACCURACY_KEY := source_turret_source_text_state.SOURCE_TURRET_INACCURACY_KEY
+const SOURCE_TURRET_INACCURACY_DUO_VALUE := source_turret_source_text_state.SOURCE_TURRET_INACCURACY_DUO_VALUE
+const SOURCE_TURRET_INACCURACY_SHOOT_ANGLE := source_turret_source_text_state.SOURCE_TURRET_INACCURACY_SHOOT_ANGLE
+const SOURCE_TURRET_TOTAL_INACCURACY_EXPR := source_turret_accuracy_state.SOURCE_TURRET_TOTAL_INACCURACY_EXPR
+const SOURCE_TURRET_TOTAL_INACCURACY_SHOOT_ANGLE := source_turret_source_text_state.SOURCE_TURRET_INACCURACY_SHOOT_ANGLE
 
-const SOURCE_TURRET_ROTATE_SPEED_FIELD := "public float rotateSpeed = 5;"
-const SOURCE_TURRET_ROTATE_SPEED_KEY := "rotateSpeed"
-const SOURCE_TURRET_ROTATE_SPEED_DUO_VALUE := "rotateSpeed = 10f;"
-const SOURCE_TURRET_ROTATE_SPEED_TURN_TO_TARGET := "rotation = Angles.moveToward(rotation, targetRot, rotateSpeed * delta() * potentialEfficiency);"
+const SOURCE_TURRET_ROTATE_SPEED_FIELD := source_turret_source_text_state.SOURCE_TURRET_ROTATE_SPEED_FIELD
+const SOURCE_TURRET_ROTATE_SPEED_KEY := source_turret_source_text_state.SOURCE_TURRET_ROTATE_SPEED_KEY
+const SOURCE_TURRET_ROTATE_SPEED_DUO_VALUE := source_turret_source_text_state.SOURCE_TURRET_ROTATE_SPEED_DUO_VALUE
+const SOURCE_TURRET_ROTATE_SPEED_TURN_TO_TARGET := source_turret_source_text_state.SOURCE_TURRET_ROTATE_SPEED_TURN_TO_TARGET
 
-const SOURCE_TURRET_SHOOT_CONE_COMMENT := "/** Maximum angle difference in degrees at which turret will still try to shoot. */"
-const SOURCE_TURRET_SHOOT_CONE_FIELD := "public float shootCone = 8f;"
-const SOURCE_TURRET_SHOOT_CONE_KEY := "shootCone"
-const SOURCE_TURRET_SHOOT_CONE_DUO_VALUE := "shootCone = 15f;"
-const SOURCE_TURRET_SHOOT_CONE_CAN_SHOOT_GATE := "if(!alwaysShooting && Angles.angleDist(rotation, targetRot) < shootCone && canShoot){"
+const SOURCE_TURRET_SHOOT_CONE_COMMENT := source_turret_source_text_state.SOURCE_TURRET_SHOOT_CONE_COMMENT
+const SOURCE_TURRET_SHOOT_CONE_FIELD := source_turret_source_text_state.SOURCE_TURRET_SHOOT_CONE_FIELD
+const SOURCE_TURRET_SHOOT_CONE_KEY := source_turret_source_text_state.SOURCE_TURRET_SHOOT_CONE_KEY
+const SOURCE_TURRET_SHOOT_CONE_DUO_VALUE := source_turret_source_text_state.SOURCE_TURRET_SHOOT_CONE_DUO_VALUE
+const SOURCE_TURRET_SHOOT_CONE_CAN_SHOOT_GATE := source_turret_source_text_state.SOURCE_TURRET_SHOOT_CONE_CAN_SHOOT_GATE
 
-const SOURCE_TURRET_RECOIL_COMMENT := "/** Visual amount by which the turret recoils back per shot. */"
-const SOURCE_TURRET_RECOIL_FIELD := "public float recoil = 1f;"
-const SOURCE_TURRET_RECOIL_KEY := "recoil"
-const SOURCE_TURRET_RECOIL_DUO_VALUE := "recoil = 0.5f;"
-const SOURCE_TURRET_RECOILS_COMMENT := "/** Number of additional counters for recoil. */"
-const SOURCE_TURRET_RECOILS_FIELD := "public int recoils = -1;"
-const SOURCE_TURRET_RECOILS_KEY := "recoils"
-const SOURCE_TURRET_RECOILS_DUO_VALUE := "recoils = 2;"
-const SOURCE_TURRET_RECOIL_TIME_COMMENT := "/** ticks taken for turret to return to starting position in ticks. uses reload time by default  */"
-const SOURCE_TURRET_RECOIL_TIME_FIELD := "public float recoilTime = -1f;"
-const SOURCE_TURRET_RECOIL_TIME_KEY := "recoilTime"
-const SOURCE_TURRET_RECOIL_TIME_INIT_FALLBACK := "if(recoilTime < 0f) recoilTime = reload;"
-const SOURCE_TURRET_RECOIL_TIME_DECAY_USE := "curRecoil = Mathf.approachDelta(curRecoil, 0, 1 / recoilTime);"
-const SOURCE_TURRET_RECOIL_OFFSET_COMMENT := "/** Turret sprite offset, based on recoil. Updated every frame. */"
-const SOURCE_TURRET_RECOIL_OFFSET_FIELD := "public Vec2 recoilOffset = new Vec2();"
-const SOURCE_TURRET_RECOIL_OFFSET_RECOIL_POW_FIELD := "public float recoilPow = 1.8f;"
-const SOURCE_TURRET_RECOIL_OFFSET_CUR_RECOIL_FIELD := "public float curRecoil, heat, logicControlTime = -1;"
-const SOURCE_TURRET_RECOIL_OFFSET_FORMULA := "recoilOffset.trns(rotation, -Mathf.pow(curRecoil, recoilPow) * recoil);"
+const SOURCE_TURRET_RECOIL_COMMENT := source_turret_source_text_state.SOURCE_TURRET_RECOIL_COMMENT
+const SOURCE_TURRET_RECOIL_FIELD := source_turret_source_text_state.SOURCE_TURRET_RECOIL_FIELD
+const SOURCE_TURRET_RECOIL_KEY := source_turret_source_text_state.SOURCE_TURRET_RECOIL_KEY
+const SOURCE_TURRET_RECOIL_DUO_VALUE := source_turret_source_text_state.SOURCE_TURRET_RECOIL_DUO_VALUE
+const SOURCE_TURRET_RECOILS_COMMENT := source_turret_source_text_state.SOURCE_TURRET_RECOILS_COMMENT
+const SOURCE_TURRET_RECOILS_FIELD := source_turret_source_text_state.SOURCE_TURRET_RECOILS_FIELD
+const SOURCE_TURRET_RECOILS_KEY := source_turret_source_text_state.SOURCE_TURRET_RECOILS_KEY
+const SOURCE_TURRET_RECOILS_DUO_VALUE := source_turret_source_text_state.SOURCE_TURRET_RECOILS_DUO_VALUE
+const SOURCE_TURRET_RECOIL_TIME_COMMENT := source_turret_source_text_state.SOURCE_TURRET_RECOIL_TIME_COMMENT
+const SOURCE_TURRET_RECOIL_TIME_FIELD := source_turret_source_text_state.SOURCE_TURRET_RECOIL_TIME_FIELD
+const SOURCE_TURRET_RECOIL_TIME_KEY := source_turret_source_text_state.SOURCE_TURRET_RECOIL_TIME_KEY
+const SOURCE_TURRET_RECOIL_TIME_INIT_FALLBACK := source_turret_recoil_state.SOURCE_TURRET_RECOIL_TIME_INIT_FALLBACK
+const SOURCE_TURRET_RECOIL_TIME_DECAY_USE := source_turret_recoil_state.SOURCE_TURRET_RECOIL_TIME_DECAY_USE
+const SOURCE_TURRET_RECOIL_OFFSET_COMMENT := source_turret_source_text_state.SOURCE_TURRET_RECOIL_OFFSET_COMMENT
+const SOURCE_TURRET_RECOIL_OFFSET_FIELD := source_turret_source_text_state.SOURCE_TURRET_RECOIL_OFFSET_FIELD
+const SOURCE_TURRET_RECOIL_OFFSET_RECOIL_POW_FIELD := source_turret_source_text_state.SOURCE_TURRET_RECOIL_OFFSET_RECOIL_POW_FIELD
+const SOURCE_TURRET_RECOIL_OFFSET_CUR_RECOIL_FIELD := source_turret_source_text_state.SOURCE_TURRET_RECOIL_OFFSET_CUR_RECOIL_FIELD
+const SOURCE_TURRET_RECOIL_OFFSET_FORMULA := source_turret_recoil_state.SOURCE_TURRET_RECOIL_OFFSET_FORMULA
 
-const SOURCE_TURRET_BULLET_ORIGIN_SHOOT_POINT_FIELD := "public float shootX = 0f, shootY = Float.NEGATIVE_INFINITY;"
-const SOURCE_TURRET_BULLET_ORIGIN_SHOOT_Y_DEFAULT := "if(shootY == Float.NEGATIVE_INFINITY) shootY = size * tilesize / 2f;"
-const SOURCE_TURRET_BULLET_ORIGIN_X_SPREAD := "xSpread = Mathf.range(xRand)"
-const SOURCE_TURRET_BULLET_ORIGIN_BULLET_X := "bulletX = x + Angles.trnsx(rotation - 90, shootX + xOffset + xSpread, shootY + yOffset)"
-const SOURCE_TURRET_BULLET_ORIGIN_BULLET_Y := "bulletY = y + Angles.trnsy(rotation - 90, shootX + xOffset + xSpread, shootY + yOffset)"
+const SOURCE_TURRET_SHOOT_PATTERN_FIELD := source_turret_source_text_state.SOURCE_TURRET_SHOOT_PATTERN_FIELD
+const SOURCE_TURRET_SHOOT_PATTERN_KEY := source_turret_source_text_state.SOURCE_TURRET_SHOOT_PATTERN_KEY
+const SOURCE_TURRET_SHOOT_PATTERN_DUO_ASSIGNMENT := source_turret_source_text_state.SOURCE_TURRET_SHOOT_PATTERN_DUO_ASSIGNMENT
+const SOURCE_TURRET_SHOOT_PATTERN_SELECTION := source_turret_source_text_state.SOURCE_TURRET_SHOOT_PATTERN_SELECTION
+const SOURCE_TURRET_SHOOT_PATTERN_DISPATCH := source_turret_source_text_state.SOURCE_TURRET_SHOOT_PATTERN_DISPATCH
+
+const SOURCE_TURRET_BULLET_ORIGIN_SHOOT_POINT_FIELD := source_turret_source_text_state.SOURCE_TURRET_BULLET_ORIGIN_SHOOT_POINT_FIELD
+const SOURCE_TURRET_BULLET_ORIGIN_SHOOT_Y_DEFAULT := source_turret_source_text_state.SOURCE_TURRET_BULLET_ORIGIN_SHOOT_Y_DEFAULT
+const SOURCE_TURRET_BULLET_ORIGIN_X_SPREAD := source_turret_bullet_origin_state.SOURCE_TURRET_BULLET_ORIGIN_X_SPREAD
+const SOURCE_TURRET_BULLET_ORIGIN_BULLET_X := source_turret_bullet_origin_state.SOURCE_TURRET_BULLET_ORIGIN_BULLET_X
+const SOURCE_TURRET_BULLET_ORIGIN_BULLET_Y := source_turret_bullet_origin_state.SOURCE_TURRET_BULLET_ORIGIN_BULLET_Y
 
 static func _properties(turret) -> Dictionary:
 	if turret == null:

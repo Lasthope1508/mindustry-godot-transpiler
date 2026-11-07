@@ -4,6 +4,18 @@ class_name SourceBuildingSenseState
 const source_generated_class_runtime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
 const source_time_defaults := preload("res://src/game/SourceTimeDefaults.gd")
+const source_building_source_text_state := preload("res://src/game/SourceBuildingSourceTextState.gd")
+
+const SOURCE_BUILDING_COMP_GENERATED_CLASS := source_building_source_text_state.SOURCE_BUILDING_COMP_GENERATED_CLASS
+const SOURCE_BUILDING_SENSE_JAVA_METHOD := source_building_source_text_state.SOURCE_BUILDING_SENSE_JAVA_METHOD
+const SOURCE_BUILDING_SENSE_GENERATED_OWNER := source_building_source_text_state.SOURCE_BUILDING_SENSE_GENERATED_OWNER
+const SOURCE_BUILDING_SENSE_OBJECT_JAVA_METHOD := source_building_source_text_state.SOURCE_BUILDING_SENSE_OBJECT_JAVA_METHOD
+const SOURCE_BUILDING_SENSE_OBJECT_GENERATED_OWNER := source_building_source_text_state.SOURCE_BUILDING_SENSE_OBJECT_GENERATED_OWNER
+const SOURCE_BUILDING_SENSE_CONTENT_JAVA_METHOD := source_building_source_text_state.SOURCE_BUILDING_SENSE_CONTENT_JAVA_METHOD
+const SOURCE_BUILDING_SENSE_CONTENT_GENERATED_OWNER := source_building_source_text_state.SOURCE_BUILDING_SENSE_CONTENT_GENERATED_OWNER
+
+static func _building_comp_call(generated_method: String, generated_args: Array) -> Variant:
+	return source_generated_class_runtime.call_java_method(SOURCE_BUILDING_COMP_GENERATED_CLASS, generated_method, generated_args, null)
 
 static func _sense_method_state() -> Dictionary:
 	return {
@@ -173,91 +185,91 @@ static func sense_content_state(content_type: String, has_items_module: bool, it
 	return source_state
 
 static func generated_building_comp_sense_position_bridge_state(world_x: float, world_y: float, source_tilesize: float) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_sense_206", [world_x, world_y, source_tilesize], null)
+	var result = _building_comp_call(SOURCE_BUILDING_SENSE_JAVA_METHOD, [world_x, world_y, source_tilesize])
 	var canonical = sense_position_state(world_x, world_y, source_tilesize)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_SENSE_POSITION_STATE,
-		"generated_owner": "building_comp.java_method_sense_206",
+		"generated_owner": SOURCE_BUILDING_SENSE_GENERATED_OWNER,
 		"result": result,
 		"canonical": canonical,
 	}
 
 static func generated_building_comp_sense_health_process_bridge_state(world_x: float, world_y: float, health: float, max_health: float, efficiency: float, time_scale: float, ranged_range: float, source_tilesize: float, has_range: bool, rotation_value: float) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_sense_206", [world_x, world_y, source_tilesize, health, max_health, efficiency, time_scale, ranged_range, has_range, rotation_value], null)
+	var result = _building_comp_call(SOURCE_BUILDING_SENSE_JAVA_METHOD, [world_x, world_y, source_tilesize, health, max_health, efficiency, time_scale, ranged_range, has_range, rotation_value])
 	var canonical = sense_health_process_state(health, max_health, efficiency, time_scale, ranged_range, source_tilesize, has_range, rotation_value)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_SENSE_HEALTH_PROCESS_STATE,
-		"generated_owner": "building_comp.java_method_sense_206",
+		"generated_owner": SOURCE_BUILDING_SENSE_GENERATED_OWNER,
 		"result": result,
 		"canonical": canonical,
 	}
 
 static func generated_building_comp_sense_totals_bridge_state(world_x: float, world_y: float, total_items: float, total_liquids: float, total_power: float, source_tilesize: float) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_sense_206", [world_x, world_y, source_tilesize, 0.0, 0.0, 0.0, 0.0, 0.0, false, 0.0, total_items, total_liquids, total_power], null)
+	var result = _building_comp_call(SOURCE_BUILDING_SENSE_JAVA_METHOD, [world_x, world_y, source_tilesize, 0.0, 0.0, 0.0, 0.0, 0.0, false, 0.0, total_items, total_liquids, total_power])
 	var canonical = sense_totals_state(total_items, total_liquids, total_power)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_SENSE_TOTALS_STATE,
-		"generated_owner": "building_comp.java_method_sense_206",
+		"generated_owner": SOURCE_BUILDING_SENSE_GENERATED_OWNER,
 		"result": result,
 		"canonical": canonical,
 	}
 
 static func generated_building_comp_sense_capacity_power_net_bridge_state(world_x: float, world_y: float, block_has_items: bool, block_item_capacity: float, block_has_liquids: bool, block_liquid_capacity: float, has_cons_power: bool, cons_power_capacity: float, has_power_module: bool, last_scaled_power_in: float, last_scaled_power_out: float, last_power_stored: float, last_power_capacity: float, source_tilesize: float) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_sense_206", [world_x, world_y, source_tilesize, 0.0, 0.0, 0.0, 0.0, 0.0, false, 0.0, 0.0, 0.0, 0.0, block_has_items, block_item_capacity, block_has_liquids, block_liquid_capacity, has_cons_power, cons_power_capacity, has_power_module, last_scaled_power_in, last_scaled_power_out, last_power_stored, last_power_capacity, false, false, false, 0.0, false, 0.0, false, 0.0, false, 0.0, 0.0, 0.0, 0.0, source_time_defaults.TICK_RATE], null)
+	var result = _building_comp_call(SOURCE_BUILDING_SENSE_JAVA_METHOD, [world_x, world_y, source_tilesize, 0.0, 0.0, 0.0, 0.0, 0.0, false, 0.0, 0.0, 0.0, 0.0, block_has_items, block_item_capacity, block_has_liquids, block_liquid_capacity, has_cons_power, cons_power_capacity, has_power_module, last_scaled_power_in, last_scaled_power_out, last_power_stored, last_power_capacity, false, false, false, 0.0, false, 0.0, false, 0.0, false, 0.0, 0.0, 0.0, 0.0, source_time_defaults.TICK_RATE])
 	var canonical = sense_capacity_power_net_state(block_has_items, block_item_capacity, block_has_liquids, block_liquid_capacity, has_cons_power, cons_power_capacity, has_power_module, last_scaled_power_in, last_scaled_power_out, last_power_stored, last_power_capacity, source_time_defaults.TICK_RATE)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_SENSE_CAPACITY_POWER_NET_STATE,
-		"generated_owner": "building_comp.java_method_sense_206",
+		"generated_owner": SOURCE_BUILDING_SENSE_GENERATED_OWNER,
 		"result": result,
 		"canonical": canonical,
 	}
 
 static func generated_building_comp_sense_enabled_controlled_bridge_state(world_x: float, world_y: float, enabled_state: bool, is_control_block: bool, is_controlled: bool, ctrl_player_value: float, source_tilesize: float) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_sense_206", [world_x, world_y, source_tilesize, 0.0, 0.0, 0.0, 0.0, 0.0, false, 0.0, 0.0, 0.0, 0.0, false, 0.0, false, 0.0, false, 0.0, false, 0.0, 0.0, 0.0, 0.0, enabled_state, is_control_block, is_controlled, ctrl_player_value], null)
+	var result = _building_comp_call(SOURCE_BUILDING_SENSE_JAVA_METHOD, [world_x, world_y, source_tilesize, 0.0, 0.0, 0.0, 0.0, 0.0, false, 0.0, 0.0, 0.0, 0.0, false, 0.0, false, 0.0, false, 0.0, false, 0.0, 0.0, 0.0, 0.0, enabled_state, is_control_block, is_controlled, ctrl_player_value])
 	var canonical = sense_enabled_controlled_state(enabled_state, is_control_block, is_controlled, ctrl_player_value)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_SENSE_ENABLED_CONTROLLED_STATE,
-		"generated_owner": "building_comp.java_method_sense_206",
+		"generated_owner": SOURCE_BUILDING_SENSE_GENERATED_OWNER,
 		"result": result,
 		"canonical": canonical,
 	}
 
 static func generated_building_comp_sense_payload_size_bridge_state(world_x: float, world_y: float, has_payload_seq: bool, payload_seq_total: float, has_single_payload: bool, block_size_value: float, source_tilesize: float) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_sense_206", [world_x, world_y, source_tilesize, 0.0, 0.0, 0.0, 0.0, 0.0, false, 0.0, 0.0, 0.0, 0.0, false, 0.0, false, 0.0, false, 0.0, false, 0.0, 0.0, 0.0, 0.0, false, false, false, 0.0, has_payload_seq, payload_seq_total, has_single_payload, block_size_value], null)
+	var result = _building_comp_call(SOURCE_BUILDING_SENSE_JAVA_METHOD, [world_x, world_y, source_tilesize, 0.0, 0.0, 0.0, 0.0, 0.0, false, 0.0, 0.0, 0.0, 0.0, false, 0.0, false, 0.0, false, 0.0, false, 0.0, 0.0, 0.0, 0.0, false, false, false, 0.0, has_payload_seq, payload_seq_total, has_single_payload, block_size_value])
 	var canonical = sense_payload_size_state(has_payload_seq, payload_seq_total, has_single_payload, block_size_value)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_SENSE_PAYLOAD_SIZE_STATE,
-		"generated_owner": "building_comp.java_method_sense_206",
+		"generated_owner": SOURCE_BUILDING_SENSE_GENERATED_OWNER,
 		"result": result,
 		"canonical": canonical,
 	}
 
 static func generated_building_comp_sense_camera_default_bridge_state(world_x: float, world_y: float, is_control_block: bool, unit_camera_x: float, unit_camera_y: float, unit_camera_width: float, unit_camera_height: float, source_tilesize: float) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_sense_206", [world_x, world_y, source_tilesize, 0.0, 0.0, 0.0, 0.0, 0.0, false, 0.0, 0.0, 0.0, 0.0, false, 0.0, false, 0.0, false, 0.0, false, 0.0, 0.0, 0.0, 0.0, false, false, false, 0.0, false, 0.0, false, 0.0, is_control_block, unit_camera_x, unit_camera_y, unit_camera_width, unit_camera_height], null)
+	var result = _building_comp_call(SOURCE_BUILDING_SENSE_JAVA_METHOD, [world_x, world_y, source_tilesize, 0.0, 0.0, 0.0, 0.0, 0.0, false, 0.0, 0.0, 0.0, 0.0, false, 0.0, false, 0.0, false, 0.0, false, 0.0, 0.0, 0.0, 0.0, false, false, false, 0.0, false, 0.0, false, 0.0, is_control_block, unit_camera_x, unit_camera_y, unit_camera_width, unit_camera_height])
 	var canonical = sense_camera_default_state(is_control_block, unit_camera_x, unit_camera_y, unit_camera_width, unit_camera_height)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_SENSE_CAMERA_DEFAULT_STATE,
-		"generated_owner": "building_comp.java_method_sense_206",
+		"generated_owner": SOURCE_BUILDING_SENSE_GENERATED_OWNER,
 		"result": result,
 		"canonical": canonical,
 	}
 
 static func generated_building_comp_sense_object_bridge_state(sensor: String, block_value: Variant, has_items_module: bool, first_item_value: Variant, config_senseable: bool, config_value: Variant, single_payload_kind: String, single_payload_content: Variant) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_senseObject_207", [sensor, block_value, has_items_module, first_item_value, config_senseable, config_value, single_payload_kind, single_payload_content], null)
+	var result = _building_comp_call(SOURCE_BUILDING_SENSE_OBJECT_JAVA_METHOD, [sensor, block_value, has_items_module, first_item_value, config_senseable, config_value, single_payload_kind, single_payload_content])
 	var canonical = sense_object_state(sensor, block_value, has_items_module, first_item_value, config_senseable, config_value, single_payload_kind, single_payload_content)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_SENSE_OBJECT_STATE,
-		"generated_owner": "building_comp.java_method_senseObject_207",
+		"generated_owner": SOURCE_BUILDING_SENSE_OBJECT_GENERATED_OWNER,
 		"result": result,
 		"canonical": canonical,
 	}
 
 static func generated_building_comp_sense_content_bridge_state(content_type: String, has_items_module: bool, item_amount: float, has_liquids_module: bool, liquid_amount: float, has_payloads: bool, payload_amount: float) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_sense_208", [content_type, has_items_module, item_amount, has_liquids_module, liquid_amount, has_payloads, payload_amount], null)
+	var result = _building_comp_call(SOURCE_BUILDING_SENSE_CONTENT_JAVA_METHOD, [content_type, has_items_module, item_amount, has_liquids_module, liquid_amount, has_payloads, payload_amount])
 	var canonical = sense_content_state(content_type, has_items_module, item_amount, has_liquids_module, liquid_amount, has_payloads, payload_amount)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_SENSE_CONTENT_STATE,
-		"generated_owner": "building_comp.java_method_sense_208",
+		"generated_owner": SOURCE_BUILDING_SENSE_CONTENT_GENERATED_OWNER,
 		"result": result,
 		"canonical": canonical,
 	}

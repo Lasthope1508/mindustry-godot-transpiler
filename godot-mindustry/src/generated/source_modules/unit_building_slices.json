@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "slices": {
+    "N1767": {
+      "canonical_ledger": "source_slice_ledger.N1767",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+      "java_method": "UnitFactoryBuild.getCommandPosition()",
+      "godot_owner": "PortGame.source_unit_building_get_command_position_state",
+      "source_symbols": [
+        "unit_building_command_position.method",
+        "unit_building_command_position.return",
+        "unit_building_command_position.inner_class",
+        "unit_building_command_position.command_position"
+      ],
+      "tests": [
+        "test_unit_build_command_slice"
+      ],
+      "runtime_proof": "/root/Main.generated_unit_building_get_command_position_bridge_state"
+    },
+    "N1768": {
+      "canonical_ledger": "source_slice_ledger.N1768",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+      "java_method": "UnitFactoryBuild.onCommand(Vec2 target)",
+      "godot_owner": "PortGame.source_unit_building_on_command_state",
+      "source_symbols": [
+        "unit_building_on_command.method",
+        "unit_building_on_command.assignment",
+        "unit_building_on_command.inner_class",
+        "unit_building_on_command.target"
+      ],
+      "tests": [
+        "test_unit_build_command_slice"
+      ],
+      "runtime_proof": "/root/Main.generated_unit_building_on_command_bridge_state"
+    }
+  }
+}

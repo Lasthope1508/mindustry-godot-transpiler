@@ -30,7 +30,7 @@ func java_method_deconstructFinish_1(_args: Array = []) -> Variant:
 	var calc_pitch_down: float = float(_args[5] if _args.size() > 5 else 1.0)
 	var block_size: int = int(_args[6] if _args.size() > 6 else source_block_defaults.SIZE_DEFAULT)
 	var block_map_color: Variant = _args[7] if _args.size() > 7 else null
-	return source_building_destruction_state.construct_block_deconstruct_finish_state(tile_present, headless, visible_tile, should_play, break_pitch_change, calc_pitch_down, block_size, block_map_color)
+	return source_construct_block_state.construct_block_deconstruct_finish_state(tile_present, headless, visible_tile, should_play, break_pitch_change, calc_pitch_down, block_size, block_map_color)
 
 func java_method_constructFinish_2(_args: Array = []) -> Variant:
 	var tile_present: bool = bool(_args[0] if _args.size() > 0 else false)
@@ -54,7 +54,7 @@ func java_method_constructFinish_2(_args: Array = []) -> Variant:
 	var block_health: float = float(_args[18] if _args.size() > 18 else source_block_defaults.HEALTH_DEFAULT)
 	var rotation: int = int(_args[19] if _args.size() > 19 else 0)
 	var config_state: Variant = _args[20] if _args.size() > 20 else null
-	return source_building_destruction_state.construct_block_construct_finish_state(tile_present, block_kind, tile_has_building, tile_build_matches_block, healthf, prev_build_count, floor_supports_overlay, current_overlay_is_overlay_floor, config_present, builder_has_controller_name, controller_name, headless, builder_is_player_unit, visible_tile, should_play, place_pitch_change, calc_pitch_up, block_size, block_health, rotation, config_state)
+	return source_construct_block_state.construct_block_construct_finish_state(tile_present, block_kind, tile_has_building, tile_build_matches_block, healthf, prev_build_count, floor_supports_overlay, current_overlay_is_overlay_floor, config_present, builder_has_controller_name, controller_name, headless, builder_is_player_unit, visible_tile, should_play, place_pitch_change, calc_pitch_up, block_size, block_health, rotation, config_state)
 
 func java_method_shouldPlay_3(_args: Array = []) -> Variant:
 	var time_since_last_played_ms: int = int(_args[0] if _args.size() > 0 else 0)
@@ -99,7 +99,7 @@ func java_method_constructed_6(_args: Array = []) -> Variant:
 	var rotation: int = int(_args[19] if _args.size() > 19 else 0)
 	var config_state: Variant = _args[20] if _args.size() > 20 else null
 	var tile_has_building_after_construct_finish: bool = bool(_args[21] if _args.size() > 21 else false)
-	return source_building_destruction_state.construct_block_constructed_state(tile_present, block_kind, tile_has_building, tile_build_matches_block, healthf, prev_build_count, floor_supports_overlay, current_overlay_is_overlay_floor, config_present, builder_has_controller_name, controller_name, headless, builder_is_player_unit, visible_tile, should_play, place_pitch_change, calc_pitch_up, block_size, block_health, rotation, config_state, tile_has_building_after_construct_finish)
+	return source_construct_block_state.construct_block_constructed_state(tile_present, block_kind, tile_has_building, tile_build_matches_block, healthf, prev_build_count, floor_supports_overlay, current_overlay_is_overlay_floor, config_present, builder_has_controller_name, controller_name, headless, builder_is_player_unit, visible_tile, should_play, place_pitch_change, calc_pitch_up, block_size, block_health, rotation, config_state, tile_has_building_after_construct_finish)
 
 func java_method_isHidden_7(_args: Array = []) -> Variant:
 	return source_construct_block_state.is_hidden_state()

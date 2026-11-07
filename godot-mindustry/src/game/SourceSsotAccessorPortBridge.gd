@@ -14,6 +14,9 @@ func playable_content_skin_override_state(skin_id: String = "") -> Dictionary:
 func source_symbol_registry_state(symbol: String = "") -> Dictionary:
 	return source_ssot_accessor_runtime_state.source_symbol_registry_state(symbol)
 
+func source_root_policy_state(policy_name: String = "") -> Dictionary:
+	return source_ssot_accessor_runtime_state.source_root_policy_state(policy_name)
+
 func ssot_symbol_registry_symbol_state(symbol: String = "") -> Dictionary:
 	return source_ssot_accessor_runtime_state.ssot_symbol_registry_symbol_state(symbol)
 

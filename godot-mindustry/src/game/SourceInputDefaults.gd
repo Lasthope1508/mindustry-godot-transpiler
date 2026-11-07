@@ -1,7 +1,7 @@
 extends RefCounted
 class_name SourceInputDefaults
 
-const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const source_ssot_accessor_runtime_state := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
 const control_input_script := preload("res://src/game/ControlInput.gd")
 
 
@@ -71,4 +71,4 @@ static func runtime_summary() -> Dictionary:
 	}
 
 static func control_input() -> RefCounted:
-	return control_input_script.new(source_ssot_catalog)
+	return control_input_script.new(source_ssot_accessor_runtime_state)

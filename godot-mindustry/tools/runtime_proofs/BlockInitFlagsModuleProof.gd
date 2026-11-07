@@ -2,7 +2,8 @@ extends Node
 
 const PortGameScript := preload("res://src/game/PortGame.gd")
 const source_block_init_flags_state := preload("res://src/game/SourceBlockInitFlagsState.gd")
-const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const source_ssot_accessor_runtime_state := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
+const runtime_proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")
 
 func _ready() -> void:
 	var game := PortGameScript.new()
@@ -10,7 +11,7 @@ func _ready() -> void:
 	var under_bullets_bridge := game.generated_block_init_under_bullets_bridge_state(true, "TargetPriority.base")
 	var fog_radius_bridge := game.generated_block_init_fog_radius_flag_bridge_state(4, [])
 	var sync_bridge := game.generated_block_init_sync_flag_bridge_state(true, [])
-	var registry_state := source_ssot_catalog.canonical_headquarter_registry_state()
+	var registry_state := source_ssot_accessor_runtime_state.canonical_headquarter_registry_state()
 	var proof := {
 		"module": "BLOCK_INIT_FLAGS_MODULE_PROOF",
 		"custom_shadow_bridge": custom_shadow_bridge,
@@ -25,13 +26,8 @@ func _ready() -> void:
 		"registry_valid": bool(registry_state.get("errors", []).is_empty()),
 	}
 	proof["matches"] = bool(custom_shadow_bridge.get("matches", false)) and bool(under_bullets_bridge.get("matches", false)) and bool(fog_radius_bridge.get("matches", false)) and bool(sync_bridge.get("matches", false)) and proof["custom_shadow_bridge_matches"] and proof["under_bullets_bridge_matches"] and proof["fog_radius_bridge_matches"] and proof["sync_bridge_matches"] and proof["one_headquarter_per_ssot"] and proof["registry_valid"]
-	var proof_json := JSON.stringify(proof)
-	print("BLOCK_INIT_FLAGS_MODULE_PROOF " + proof_json)
-	var proof_path := ProjectSettings.globalize_path("res://tools/runtime_proofs/BlockInitFlagsModuleProof.json")
-	var proof_file := FileAccess.open(proof_path, FileAccess.WRITE)
-	if proof_file != null:
-		proof_file.store_string(proof_json)
-		proof_file.flush()
+	runtime_proof_state.write_proof("BlockInitFlagsModuleProof", proof)
 	game.free()
-	await get_tree().create_timer(60.0).timeout
-	get_tree().quit(0)
+	await get_tree().process_frame
+	get_tree().quit(runtime_proof_state.exit_code(proof))
+

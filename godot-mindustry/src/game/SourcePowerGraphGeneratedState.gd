@@ -1,0 +1,306 @@
+extends RefCounted
+class_name SourcePowerGraphGeneratedState
+
+const source_generated_class_runtime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
+const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
+const source_power_graph_state := preload("res://src/game/SourcePowerGraphState.gd")
+const source_power_source_text_state := preload("res://src/game/SourcePowerSourceTextState.gd")
+const source_power_graph_source_text_state := preload("res://src/game/SourcePowerGraphSourceTextState.gd")
+
+const SOURCE_POWER_GRAPH_GENERATED_CLASS := source_power_source_text_state.SOURCE_POWER_GRAPH_GENERATED_CLASS
+const SOURCE_POWER_GRAPH_GET_ID_JAVA_METHOD_GET_ID_27 := source_power_source_text_state.SOURCE_POWER_GRAPH_GET_ID_JAVA_METHOD_GET_ID_27
+const SOURCE_POWER_GRAPH_GET_ID_GENERATED_OWNER := source_power_source_text_state.SOURCE_POWER_GRAPH_GET_ID_GENERATED_OWNER
+const SOURCE_POWER_GRAPH_GET_ID_JAVA_METHOD_GETID_0 := source_power_source_text_state.SOURCE_POWER_GRAPH_GET_ID_JAVA_METHOD_GETID_0
+const SOURCE_POWER_GRAPH_GET_ID_GENERATED_OWNER_GETID := source_power_source_text_state.SOURCE_POWER_GRAPH_GET_ID_GENERATED_OWNER_GETID
+const SOURCE_POWER_GRAPH_GET_LAST_SCALED_POWER_IN_METHOD := source_power_graph_source_text_state.SOURCE_POWER_GRAPH_GET_LAST_SCALED_POWER_IN_METHOD
+const SOURCE_POWER_GRAPH_GET_LAST_SCALED_POWER_IN_JAVA_METHOD := source_power_source_text_state.SOURCE_POWER_GRAPH_GET_LAST_SCALED_POWER_IN_JAVA_METHOD
+const SOURCE_POWER_GRAPH_GET_LAST_SCALED_POWER_IN_GENERATED_OWNER := source_power_source_text_state.SOURCE_POWER_GRAPH_GET_LAST_SCALED_POWER_IN_GENERATED_OWNER
+const SOURCE_POWER_GRAPH_GET_LAST_SCALED_POWER_OUT_METHOD := source_power_graph_source_text_state.SOURCE_POWER_GRAPH_GET_LAST_SCALED_POWER_OUT_METHOD
+const SOURCE_POWER_GRAPH_GET_LAST_SCALED_POWER_OUT_JAVA_METHOD := source_power_source_text_state.SOURCE_POWER_GRAPH_GET_LAST_SCALED_POWER_OUT_JAVA_METHOD
+const SOURCE_POWER_GRAPH_GET_LAST_SCALED_POWER_OUT_GENERATED_OWNER := source_power_source_text_state.SOURCE_POWER_GRAPH_GET_LAST_SCALED_POWER_OUT_GENERATED_OWNER
+const SOURCE_POWER_GRAPH_GET_LAST_CAPACITY_METHOD := source_power_graph_source_text_state.SOURCE_POWER_GRAPH_GET_LAST_CAPACITY_METHOD
+const SOURCE_POWER_GRAPH_GET_LAST_CAPACITY_JAVA_METHOD := source_power_source_text_state.SOURCE_POWER_GRAPH_GET_LAST_CAPACITY_JAVA_METHOD
+const SOURCE_POWER_GRAPH_GET_LAST_CAPACITY_GENERATED_OWNER := source_power_source_text_state.SOURCE_POWER_GRAPH_GET_LAST_CAPACITY_GENERATED_OWNER
+const SOURCE_POWER_GRAPH_GET_POWER_BALANCE_METHOD := source_power_graph_source_text_state.SOURCE_POWER_GRAPH_GET_POWER_BALANCE_METHOD
+const SOURCE_POWER_GRAPH_GET_POWER_BALANCE_JAVA_METHOD := source_power_source_text_state.SOURCE_POWER_GRAPH_GET_POWER_BALANCE_JAVA_METHOD
+const SOURCE_POWER_GRAPH_GET_POWER_BALANCE_GENERATED_OWNER := source_power_source_text_state.SOURCE_POWER_GRAPH_GET_POWER_BALANCE_GENERATED_OWNER
+const SOURCE_POWER_GRAPH_HAS_POWER_BALANCE_SAMPLES_METHOD := source_power_graph_source_text_state.SOURCE_POWER_GRAPH_HAS_POWER_BALANCE_SAMPLES_METHOD
+const SOURCE_POWER_GRAPH_HAS_POWER_BALANCE_SAMPLES_JAVA_METHOD := source_power_source_text_state.SOURCE_POWER_GRAPH_HAS_POWER_BALANCE_SAMPLES_JAVA_METHOD
+const SOURCE_POWER_GRAPH_HAS_POWER_BALANCE_SAMPLES_GENERATED_OWNER := source_power_source_text_state.SOURCE_POWER_GRAPH_HAS_POWER_BALANCE_SAMPLES_GENERATED_OWNER
+const SOURCE_POWER_GRAPH_GET_LAST_POWER_NEEDED_METHOD := source_power_graph_source_text_state.SOURCE_POWER_GRAPH_GET_LAST_POWER_NEEDED_METHOD
+const SOURCE_POWER_GRAPH_GET_LAST_POWER_NEEDED_JAVA_METHOD := source_power_source_text_state.SOURCE_POWER_GRAPH_GET_LAST_POWER_NEEDED_JAVA_METHOD
+const SOURCE_POWER_GRAPH_GET_LAST_POWER_NEEDED_GENERATED_OWNER := source_power_source_text_state.SOURCE_POWER_GRAPH_GET_LAST_POWER_NEEDED_GENERATED_OWNER
+const SOURCE_POWER_GRAPH_GET_LAST_POWER_PRODUCED_METHOD := source_power_graph_source_text_state.SOURCE_POWER_GRAPH_GET_LAST_POWER_PRODUCED_METHOD
+const SOURCE_POWER_GRAPH_GET_LAST_POWER_PRODUCED_JAVA_METHOD := source_power_source_text_state.SOURCE_POWER_GRAPH_GET_LAST_POWER_PRODUCED_JAVA_METHOD
+const SOURCE_POWER_GRAPH_GET_LAST_POWER_PRODUCED_GENERATED_OWNER := source_power_source_text_state.SOURCE_POWER_GRAPH_GET_LAST_POWER_PRODUCED_GENERATED_OWNER
+const SOURCE_POWER_GRAPH_GET_LAST_POWER_STORED_METHOD := source_power_graph_source_text_state.SOURCE_POWER_GRAPH_GET_LAST_POWER_STORED_METHOD
+const SOURCE_POWER_GRAPH_GET_LAST_POWER_STORED_JAVA_METHOD := source_power_source_text_state.SOURCE_POWER_GRAPH_GET_LAST_POWER_STORED_JAVA_METHOD
+const SOURCE_POWER_GRAPH_GET_LAST_POWER_STORED_GENERATED_OWNER := source_power_source_text_state.SOURCE_POWER_GRAPH_GET_LAST_POWER_STORED_GENERATED_OWNER
+const SOURCE_POWER_GRAPH_TRANSFER_POWER_METHOD := source_power_graph_source_text_state.SOURCE_POWER_GRAPH_TRANSFER_POWER_METHOD
+const SOURCE_POWER_GRAPH_TRANSFER_POWER_JAVA_METHOD := source_power_source_text_state.SOURCE_POWER_GRAPH_TRANSFER_POWER_JAVA_METHOD
+const SOURCE_POWER_GRAPH_TRANSFER_POWER_GENERATED_OWNER := source_power_source_text_state.SOURCE_POWER_GRAPH_TRANSFER_POWER_GENERATED_OWNER
+const SOURCE_POWER_GRAPH_GET_SATISFACTION_METHOD := source_power_graph_source_text_state.SOURCE_POWER_GRAPH_GET_SATISFACTION_METHOD
+const SOURCE_POWER_GRAPH_GET_SATISFACTION_JAVA_METHOD := source_power_source_text_state.SOURCE_POWER_GRAPH_GET_SATISFACTION_JAVA_METHOD
+const SOURCE_POWER_GRAPH_GET_SATISFACTION_GENERATED_OWNER := source_power_source_text_state.SOURCE_POWER_GRAPH_GET_SATISFACTION_GENERATED_OWNER
+const SOURCE_POWER_GRAPH_POWER_PRODUCED_JAVA_METHOD := source_power_source_text_state.SOURCE_POWER_GRAPH_POWER_PRODUCED_JAVA_METHOD
+const SOURCE_POWER_GRAPH_POWER_PRODUCED_GENERATED_OWNER := source_power_source_text_state.SOURCE_POWER_GRAPH_POWER_PRODUCED_GENERATED_OWNER
+const SOURCE_POWER_GRAPH_POWER_NEEDED_JAVA_METHOD := source_power_source_text_state.SOURCE_POWER_GRAPH_POWER_NEEDED_JAVA_METHOD
+const SOURCE_POWER_GRAPH_POWER_NEEDED_GENERATED_OWNER := source_power_source_text_state.SOURCE_POWER_GRAPH_POWER_NEEDED_GENERATED_OWNER
+const SOURCE_POWER_GRAPH_BATTERY_STORED_JAVA_METHOD := source_power_source_text_state.SOURCE_POWER_GRAPH_BATTERY_STORED_JAVA_METHOD
+const SOURCE_POWER_GRAPH_BATTERY_STORED_GENERATED_OWNER := source_power_source_text_state.SOURCE_POWER_GRAPH_BATTERY_STORED_GENERATED_OWNER
+const SOURCE_POWER_GRAPH_BATTERY_CAPACITY_JAVA_METHOD := source_power_source_text_state.SOURCE_POWER_GRAPH_BATTERY_CAPACITY_JAVA_METHOD
+const SOURCE_POWER_GRAPH_BATTERY_CAPACITY_GENERATED_OWNER := source_power_source_text_state.SOURCE_POWER_GRAPH_BATTERY_CAPACITY_GENERATED_OWNER
+const SOURCE_POWER_GRAPH_TOTAL_BATTERY_CAPACITY_JAVA_METHOD := source_power_source_text_state.SOURCE_POWER_GRAPH_TOTAL_BATTERY_CAPACITY_JAVA_METHOD
+const SOURCE_POWER_GRAPH_TOTAL_BATTERY_CAPACITY_GENERATED_OWNER := source_power_source_text_state.SOURCE_POWER_GRAPH_TOTAL_BATTERY_CAPACITY_GENERATED_OWNER
+const SOURCE_POWER_GRAPH_USE_BATTERIES_JAVA_METHOD := source_power_source_text_state.SOURCE_POWER_GRAPH_USE_BATTERIES_JAVA_METHOD
+const SOURCE_POWER_GRAPH_USE_BATTERIES_GENERATED_OWNER := source_power_source_text_state.SOURCE_POWER_GRAPH_USE_BATTERIES_GENERATED_OWNER
+const SOURCE_POWER_GRAPH_CHARGE_BATTERIES_JAVA_METHOD := source_power_source_text_state.SOURCE_POWER_GRAPH_CHARGE_BATTERIES_JAVA_METHOD
+const SOURCE_POWER_GRAPH_CHARGE_BATTERIES_GENERATED_OWNER := source_power_source_text_state.SOURCE_POWER_GRAPH_CHARGE_BATTERIES_GENERATED_OWNER
+const SOURCE_POWER_GRAPH_DISTRIBUTE_POWER_JAVA_METHOD := source_power_source_text_state.SOURCE_POWER_GRAPH_DISTRIBUTE_POWER_JAVA_METHOD
+const SOURCE_POWER_GRAPH_DISTRIBUTE_POWER_GENERATED_OWNER := source_power_source_text_state.SOURCE_POWER_GRAPH_DISTRIBUTE_POWER_GENERATED_OWNER
+const SOURCE_POWER_GRAPH_UPDATE_JAVA_METHOD := source_power_source_text_state.SOURCE_POWER_GRAPH_UPDATE_JAVA_METHOD
+const SOURCE_POWER_GRAPH_UPDATE_GENERATED_OWNER := source_power_source_text_state.SOURCE_POWER_GRAPH_UPDATE_GENERATED_OWNER
+const SOURCE_POWER_GRAPH_ADD_GRAPH_JAVA_METHOD := source_power_source_text_state.SOURCE_POWER_GRAPH_ADD_GRAPH_JAVA_METHOD
+const SOURCE_POWER_GRAPH_ADD_GRAPH_GENERATED_OWNER := source_power_source_text_state.SOURCE_POWER_GRAPH_ADD_GRAPH_GENERATED_OWNER
+const SOURCE_POWER_GRAPH_ADD_JAVA_METHOD := source_power_source_text_state.SOURCE_POWER_GRAPH_ADD_JAVA_METHOD
+const SOURCE_POWER_GRAPH_ADD_GENERATED_OWNER := source_power_source_text_state.SOURCE_POWER_GRAPH_ADD_GENERATED_OWNER
+const SOURCE_POWER_GRAPH_CHECK_ADD_JAVA_METHOD := source_power_source_text_state.SOURCE_POWER_GRAPH_CHECK_ADD_JAVA_METHOD
+const SOURCE_POWER_GRAPH_CHECK_ADD_GENERATED_OWNER := source_power_source_text_state.SOURCE_POWER_GRAPH_CHECK_ADD_GENERATED_OWNER
+const SOURCE_POWER_GRAPH_CLEAR_JAVA_METHOD := source_power_source_text_state.SOURCE_POWER_GRAPH_CLEAR_JAVA_METHOD
+const SOURCE_POWER_GRAPH_CLEAR_GENERATED_OWNER := source_power_source_text_state.SOURCE_POWER_GRAPH_CLEAR_GENERATED_OWNER
+const SOURCE_POWER_GRAPH_REFLOW_JAVA_METHOD := source_power_source_text_state.SOURCE_POWER_GRAPH_REFLOW_JAVA_METHOD
+const SOURCE_POWER_GRAPH_REFLOW_GENERATED_OWNER := source_power_source_text_state.SOURCE_POWER_GRAPH_REFLOW_GENERATED_OWNER
+const SOURCE_POWER_GRAPH_REMOVE_LIST_JAVA_METHOD := source_power_source_text_state.SOURCE_POWER_GRAPH_REMOVE_LIST_JAVA_METHOD
+const SOURCE_POWER_GRAPH_REMOVE_LIST_GENERATED_OWNER := source_power_source_text_state.SOURCE_POWER_GRAPH_REMOVE_LIST_GENERATED_OWNER
+const SOURCE_POWER_GRAPH_REMOVE_JAVA_METHOD := source_power_source_text_state.SOURCE_POWER_GRAPH_REMOVE_JAVA_METHOD
+const SOURCE_POWER_GRAPH_REMOVE_GENERATED_OWNER := source_power_source_text_state.SOURCE_POWER_GRAPH_REMOVE_GENERATED_OWNER
+const SOURCE_POWER_GRAPH_TO_STRING_JAVA_METHOD := source_power_source_text_state.SOURCE_POWER_GRAPH_TO_STRING_JAVA_METHOD
+const SOURCE_POWER_GRAPH_TO_STRING_GENERATED_OWNER := source_power_source_text_state.SOURCE_POWER_GRAPH_TO_STRING_GENERATED_OWNER
+const SOURCE_POWER_GRAPH_BRIDGE_SOURCE_OWNER_KEY := source_power_graph_source_text_state.SOURCE_POWER_GRAPH_BRIDGE_SOURCE_OWNER_KEY
+const SOURCE_POWER_GRAPH_BRIDGE_GENERATED_OWNER_KEY := source_power_graph_source_text_state.SOURCE_POWER_GRAPH_BRIDGE_GENERATED_OWNER_KEY
+const SOURCE_POWER_GRAPH_BRIDGE_RESULT_KEY := source_power_graph_source_text_state.SOURCE_POWER_GRAPH_BRIDGE_RESULT_KEY
+const SOURCE_POWER_GRAPH_BRIDGE_CANONICAL_KEY := source_power_graph_source_text_state.SOURCE_POWER_GRAPH_BRIDGE_CANONICAL_KEY
+const SOURCE_POWER_GRAPH_BRIDGE_MATCHES_KEY := source_power_graph_source_text_state.SOURCE_POWER_GRAPH_BRIDGE_MATCHES_KEY
+
+static func _generated_bridge_state(source_owner: String, generated_owner: String, result: Variant, canonical: Variant, matches: bool) -> Dictionary:
+	return {
+		SOURCE_POWER_GRAPH_BRIDGE_SOURCE_OWNER_KEY: source_owner,
+		SOURCE_POWER_GRAPH_BRIDGE_GENERATED_OWNER_KEY: generated_owner,
+		SOURCE_POWER_GRAPH_BRIDGE_RESULT_KEY: result,
+		SOURCE_POWER_GRAPH_BRIDGE_CANONICAL_KEY: canonical,
+		SOURCE_POWER_GRAPH_BRIDGE_MATCHES_KEY: matches,
+	}
+
+static func generated_get_id_bridge_state(graph_id: int) -> Dictionary:
+	var result = source_generated_class_runtime.call_java_method(SOURCE_POWER_GRAPH_GENERATED_CLASS, SOURCE_POWER_GRAPH_GET_ID_JAVA_METHOD_GET_ID_27, [graph_id], null)
+	var canonical = source_power_graph_state.get_id_state(graph_id)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return _generated_bridge_state(source_runtime_owner_registry.PORT_GAME_SOURCE_POWER_GRAPH_GET_ID_STATE, SOURCE_POWER_GRAPH_GET_ID_GENERATED_OWNER, result, canonical, matches)
+
+
+static func generated_getID_bridge_state(graph_id: int) -> Dictionary:
+	var result = source_generated_class_runtime.call_java_method(SOURCE_POWER_GRAPH_GENERATED_CLASS, SOURCE_POWER_GRAPH_GET_ID_JAVA_METHOD_GETID_0, [graph_id], null)
+	var canonical = source_power_graph_state.get_id_state(graph_id)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical, ["method"])
+	return _generated_bridge_state(source_runtime_owner_registry.PORT_GAME_SOURCE_POWER_GRAPH_GET_ID_STATE, SOURCE_POWER_GRAPH_GET_ID_GENERATED_OWNER_GETID, result, canonical, matches)
+
+
+static func generated_get_last_scaled_power_in_bridge_state(last_scaled_power_in: float) -> Dictionary:
+	var result = source_generated_class_runtime.call_java_method(SOURCE_POWER_GRAPH_GENERATED_CLASS, SOURCE_POWER_GRAPH_GET_LAST_SCALED_POWER_IN_JAVA_METHOD, [last_scaled_power_in], null)
+	var canonical = source_power_graph_state.get_last_scaled_power_in_state(last_scaled_power_in)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return _generated_bridge_state(source_runtime_owner_registry.PORT_GAME_SOURCE_POWER_GRAPH_GET_LAST_SCALED_POWER_IN_STATE, SOURCE_POWER_GRAPH_GET_LAST_SCALED_POWER_IN_GENERATED_OWNER, result, canonical, matches)
+
+
+static func generated_get_last_scaled_power_out_bridge_state(last_scaled_power_out: float) -> Dictionary:
+	var result = source_generated_class_runtime.call_java_method(SOURCE_POWER_GRAPH_GENERATED_CLASS, SOURCE_POWER_GRAPH_GET_LAST_SCALED_POWER_OUT_JAVA_METHOD, [last_scaled_power_out], null)
+	var canonical = source_power_graph_state.get_last_scaled_power_out_state(last_scaled_power_out)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return _generated_bridge_state(source_runtime_owner_registry.PORT_GAME_SOURCE_POWER_GRAPH_GET_LAST_SCALED_POWER_OUT_STATE, SOURCE_POWER_GRAPH_GET_LAST_SCALED_POWER_OUT_GENERATED_OWNER, result, canonical, matches)
+
+
+static func generated_get_last_capacity_bridge_state(last_capacity: float) -> Dictionary:
+	var result = source_generated_class_runtime.call_java_method(SOURCE_POWER_GRAPH_GENERATED_CLASS, SOURCE_POWER_GRAPH_GET_LAST_CAPACITY_JAVA_METHOD, [last_capacity], null)
+	var canonical = source_power_graph_state.get_last_capacity_state(last_capacity)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return _generated_bridge_state(source_runtime_owner_registry.PORT_GAME_SOURCE_POWER_GRAPH_GET_LAST_CAPACITY_STATE, SOURCE_POWER_GRAPH_GET_LAST_CAPACITY_GENERATED_OWNER, result, canonical, matches)
+
+
+static func generated_get_power_balance_bridge_state(power_balance_raw_mean: float) -> Dictionary:
+	var result = source_generated_class_runtime.call_java_method(SOURCE_POWER_GRAPH_GENERATED_CLASS, SOURCE_POWER_GRAPH_GET_POWER_BALANCE_JAVA_METHOD, [power_balance_raw_mean], null)
+	var canonical = source_power_graph_state.get_power_balance_state(power_balance_raw_mean)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return _generated_bridge_state(source_runtime_owner_registry.PORT_GAME_SOURCE_POWER_GRAPH_GET_POWER_BALANCE_STATE, SOURCE_POWER_GRAPH_GET_POWER_BALANCE_GENERATED_OWNER, result, canonical, matches)
+
+
+static func generated_has_power_balance_samples_bridge_state(has_power_balance_samples: bool) -> Dictionary:
+	var result = source_generated_class_runtime.call_java_method(SOURCE_POWER_GRAPH_GENERATED_CLASS, SOURCE_POWER_GRAPH_HAS_POWER_BALANCE_SAMPLES_JAVA_METHOD, [has_power_balance_samples], null)
+	var canonical = source_power_graph_state.has_power_balance_samples_state(has_power_balance_samples)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return _generated_bridge_state(source_runtime_owner_registry.PORT_GAME_SOURCE_POWER_GRAPH_HAS_POWER_BALANCE_SAMPLES_STATE, SOURCE_POWER_GRAPH_HAS_POWER_BALANCE_SAMPLES_GENERATED_OWNER, result, canonical, matches)
+
+
+static func generated_get_last_power_needed_bridge_state(last_power_needed: float) -> Dictionary:
+	var result = source_generated_class_runtime.call_java_method(SOURCE_POWER_GRAPH_GENERATED_CLASS, SOURCE_POWER_GRAPH_GET_LAST_POWER_NEEDED_JAVA_METHOD, [last_power_needed], null)
+	var canonical = source_power_graph_state.get_last_power_needed_state(last_power_needed)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return _generated_bridge_state(source_runtime_owner_registry.PORT_GAME_SOURCE_POWER_GRAPH_GET_LAST_POWER_NEEDED_STATE, SOURCE_POWER_GRAPH_GET_LAST_POWER_NEEDED_GENERATED_OWNER, result, canonical, matches)
+
+
+static func generated_get_last_power_produced_bridge_state(last_power_produced: float) -> Dictionary:
+	var result = source_generated_class_runtime.call_java_method(SOURCE_POWER_GRAPH_GENERATED_CLASS, SOURCE_POWER_GRAPH_GET_LAST_POWER_PRODUCED_JAVA_METHOD, [last_power_produced], null)
+	var canonical = source_power_graph_state.get_last_power_produced_state(last_power_produced)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return _generated_bridge_state(source_runtime_owner_registry.PORT_GAME_SOURCE_POWER_GRAPH_GET_LAST_POWER_PRODUCED_STATE, SOURCE_POWER_GRAPH_GET_LAST_POWER_PRODUCED_GENERATED_OWNER, result, canonical, matches)
+
+
+static func generated_get_last_power_stored_bridge_state(last_power_stored: float) -> Dictionary:
+	var result = source_generated_class_runtime.call_java_method(SOURCE_POWER_GRAPH_GENERATED_CLASS, SOURCE_POWER_GRAPH_GET_LAST_POWER_STORED_JAVA_METHOD, [last_power_stored], null)
+	var canonical = source_power_graph_state.get_last_power_stored_state(last_power_stored)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return _generated_bridge_state(source_runtime_owner_registry.PORT_GAME_SOURCE_POWER_GRAPH_GET_LAST_POWER_STORED_STATE, SOURCE_POWER_GRAPH_GET_LAST_POWER_STORED_GENERATED_OWNER, result, canonical, matches)
+
+
+static func generated_transfer_power_bridge_state(amount: float, energy_delta: float) -> Dictionary:
+	var result = source_generated_class_runtime.call_java_method(SOURCE_POWER_GRAPH_GENERATED_CLASS, SOURCE_POWER_GRAPH_TRANSFER_POWER_JAVA_METHOD, [amount, energy_delta], null)
+	var canonical = source_power_graph_state.transfer_power_state(amount, energy_delta)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return _generated_bridge_state(source_runtime_owner_registry.PORT_GAME_SOURCE_POWER_GRAPH_TRANSFER_POWER_STATE, SOURCE_POWER_GRAPH_TRANSFER_POWER_GENERATED_OWNER, result, canonical, matches)
+
+
+static func generated_get_satisfaction_bridge_state(last_power_produced: float, last_power_needed: float) -> Dictionary:
+	var result = source_generated_class_runtime.call_java_method(SOURCE_POWER_GRAPH_GENERATED_CLASS, SOURCE_POWER_GRAPH_GET_SATISFACTION_JAVA_METHOD, [last_power_produced, last_power_needed], null)
+	var canonical = source_power_graph_state.get_satisfaction_state(last_power_produced, last_power_needed)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return _generated_bridge_state(source_runtime_owner_registry.PORT_GAME_SOURCE_POWER_GRAPH_GET_SATISFACTION_STATE, SOURCE_POWER_GRAPH_GET_SATISFACTION_GENERATED_OWNER, result, canonical, matches)
+
+
+static func generated_power_produced_bridge_state(producers: Array) -> Dictionary:
+	var result = source_generated_class_runtime.call_java_method(SOURCE_POWER_GRAPH_GENERATED_CLASS, SOURCE_POWER_GRAPH_POWER_PRODUCED_JAVA_METHOD, [producers], null)
+	var canonical = source_power_graph_state.power_produced_state(producers)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return _generated_bridge_state(source_runtime_owner_registry.PORT_GAME_SOURCE_POWER_GRAPH_POWER_PRODUCED_STATE, SOURCE_POWER_GRAPH_POWER_PRODUCED_GENERATED_OWNER, result, canonical, matches)
+
+
+static func generated_power_needed_bridge_state(consumers: Array) -> Dictionary:
+	var result = source_generated_class_runtime.call_java_method(SOURCE_POWER_GRAPH_GENERATED_CLASS, SOURCE_POWER_GRAPH_POWER_NEEDED_JAVA_METHOD, [consumers], null)
+	var canonical = source_power_graph_state.power_needed_state(consumers)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return _generated_bridge_state(source_runtime_owner_registry.PORT_GAME_SOURCE_POWER_GRAPH_POWER_NEEDED_STATE, SOURCE_POWER_GRAPH_POWER_NEEDED_GENERATED_OWNER, result, canonical, matches)
+
+
+static func generated_battery_stored_bridge_state(batteries: Array) -> Dictionary:
+	var result = source_generated_class_runtime.call_java_method(SOURCE_POWER_GRAPH_GENERATED_CLASS, SOURCE_POWER_GRAPH_BATTERY_STORED_JAVA_METHOD, [batteries], null)
+	var canonical = source_power_graph_state.battery_state(batteries)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return _generated_bridge_state(source_runtime_owner_registry.PORT_GAME_SOURCE_POWER_GRAPH_BATTERY_STATE, SOURCE_POWER_GRAPH_BATTERY_STORED_GENERATED_OWNER, result, canonical, matches)
+
+
+static func generated_battery_capacity_bridge_state(batteries: Array) -> Dictionary:
+	var result = source_generated_class_runtime.call_java_method(SOURCE_POWER_GRAPH_GENERATED_CLASS, SOURCE_POWER_GRAPH_BATTERY_CAPACITY_JAVA_METHOD, [batteries], null)
+	var canonical = source_power_graph_state.battery_state(batteries)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return _generated_bridge_state(source_runtime_owner_registry.PORT_GAME_SOURCE_POWER_GRAPH_BATTERY_STATE, SOURCE_POWER_GRAPH_BATTERY_CAPACITY_GENERATED_OWNER, result, canonical, matches)
+
+
+static func generated_total_battery_capacity_bridge_state(batteries: Array) -> Dictionary:
+	var result = source_generated_class_runtime.call_java_method(SOURCE_POWER_GRAPH_GENERATED_CLASS, SOURCE_POWER_GRAPH_TOTAL_BATTERY_CAPACITY_JAVA_METHOD, [batteries], null)
+	var canonical = source_power_graph_state.battery_state(batteries)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return _generated_bridge_state(source_runtime_owner_registry.PORT_GAME_SOURCE_POWER_GRAPH_BATTERY_STATE, SOURCE_POWER_GRAPH_TOTAL_BATTERY_CAPACITY_GENERATED_OWNER, result, canonical, matches)
+
+
+static func generated_use_batteries_bridge_state(batteries: Array, needed: float) -> Dictionary:
+	var result = source_generated_class_runtime.call_java_method(SOURCE_POWER_GRAPH_GENERATED_CLASS, SOURCE_POWER_GRAPH_USE_BATTERIES_JAVA_METHOD, [batteries, needed], null)
+	var canonical = source_power_graph_state.use_batteries_state(batteries, needed)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return _generated_bridge_state(source_runtime_owner_registry.PORT_GAME_SOURCE_POWER_GRAPH_USE_BATTERIES_STATE, SOURCE_POWER_GRAPH_USE_BATTERIES_GENERATED_OWNER, result, canonical, matches)
+
+
+static func generated_charge_batteries_bridge_state(batteries: Array, excess: float) -> Dictionary:
+	var result = source_generated_class_runtime.call_java_method(SOURCE_POWER_GRAPH_GENERATED_CLASS, SOURCE_POWER_GRAPH_CHARGE_BATTERIES_JAVA_METHOD, [batteries, excess], null)
+	var canonical = source_power_graph_state.charge_batteries_state(batteries, excess)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return _generated_bridge_state(source_runtime_owner_registry.PORT_GAME_SOURCE_POWER_GRAPH_CHARGE_BATTERIES_STATE, SOURCE_POWER_GRAPH_CHARGE_BATTERIES_GENERATED_OWNER, result, canonical, matches)
+
+
+static func generated_distribute_power_bridge_state(consumers: Array, needed: float, produced: float, charged: bool, last_power_stored: float) -> Dictionary:
+	var result = source_generated_class_runtime.call_java_method(SOURCE_POWER_GRAPH_GENERATED_CLASS, SOURCE_POWER_GRAPH_DISTRIBUTE_POWER_JAVA_METHOD, [consumers, needed, produced, charged, last_power_stored], null)
+	var canonical = source_power_graph_state.distribute_power_state(consumers, needed, produced, charged, last_power_stored)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return _generated_bridge_state(source_runtime_owner_registry.PORT_GAME_SOURCE_POWER_GRAPH_DISTRIBUTE_POWER_STATE, SOURCE_POWER_GRAPH_DISTRIBUTE_POWER_GENERATED_OWNER, result, canonical, matches)
+
+
+static func generated_update_bridge_state(consumers: Array, producers: Array, batteries: Array, energy_delta: float, source_delta: float, power_balance_samples: Array = []) -> Dictionary:
+	var result = source_generated_class_runtime.call_java_method(SOURCE_POWER_GRAPH_GENERATED_CLASS, SOURCE_POWER_GRAPH_UPDATE_JAVA_METHOD, [consumers, producers, batteries, energy_delta, source_delta, power_balance_samples], null)
+	var canonical = source_power_graph_state.update_state(consumers, producers, batteries, energy_delta, source_delta, power_balance_samples)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return _generated_bridge_state(source_runtime_owner_registry.PORT_GAME_SOURCE_POWER_GRAPH_UPDATE_STATE, SOURCE_POWER_GRAPH_UPDATE_GENERATED_OWNER, result, canonical, matches)
+
+
+static func generated_add_graph_bridge_state(graph_is_self: bool, graph_all_size: int, all_size: int, graph_has_entity: bool, graph_tiles: Array) -> Dictionary:
+	var result = source_generated_class_runtime.call_java_method(SOURCE_POWER_GRAPH_GENERATED_CLASS, SOURCE_POWER_GRAPH_ADD_GRAPH_JAVA_METHOD, [graph_is_self, graph_all_size, all_size, graph_has_entity, graph_tiles], null)
+	var canonical = source_power_graph_state.add_graph_state(graph_is_self, graph_all_size, all_size, graph_has_entity, graph_tiles)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical, ["tile_add_states"])
+	return _generated_bridge_state(source_runtime_owner_registry.PORT_GAME_SOURCE_POWER_GRAPH_ADD_GRAPH_STATE, SOURCE_POWER_GRAPH_ADD_GRAPH_GENERATED_OWNER, result, canonical, matches)
+
+
+static func generated_add_role_bridge_state(build_present: bool, power_present: bool, graph_matches: bool, power_init: bool, old_graph_present: bool, old_graph_is_self: bool, old_graph_has_entity: bool, outputs_power: bool, consumes_power: bool, has_cons_power: bool, cons_power_buffered: bool) -> Dictionary:
+	var result = source_generated_class_runtime.call_java_method(SOURCE_POWER_GRAPH_GENERATED_CLASS, SOURCE_POWER_GRAPH_ADD_JAVA_METHOD, [{
+		"build_present": build_present,
+		"power_present": power_present,
+		"graph_matches": graph_matches,
+		"power_init": power_init,
+		"old_graph_present": old_graph_present,
+		"old_graph_is_self": old_graph_is_self,
+		"old_graph_has_entity": old_graph_has_entity,
+		"outputs_power": outputs_power,
+		"consumes_power": consumes_power,
+		"has_cons_power": has_cons_power,
+		"cons_power_buffered": cons_power_buffered,
+	}], null)
+	var canonical = source_power_graph_state.add_role_state(build_present, power_present, graph_matches, power_init, old_graph_present, old_graph_is_self, old_graph_has_entity, outputs_power, consumes_power, has_cons_power, cons_power_buffered)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return _generated_bridge_state(source_runtime_owner_registry.PORT_GAME_SOURCE_POWER_GRAPH_ADD_ROLE_STATE, SOURCE_POWER_GRAPH_ADD_GENERATED_OWNER, result, canonical, matches)
+
+
+static func generated_check_add_bridge_state(entity_present: bool) -> Dictionary:
+	var result = source_generated_class_runtime.call_java_method(SOURCE_POWER_GRAPH_GENERATED_CLASS, SOURCE_POWER_GRAPH_CHECK_ADD_JAVA_METHOD, [entity_present], null)
+	var canonical = source_power_graph_state.check_add_state(entity_present)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return _generated_bridge_state(source_runtime_owner_registry.PORT_GAME_SOURCE_POWER_GRAPH_CHECK_ADD_STATE, SOURCE_POWER_GRAPH_CHECK_ADD_GENERATED_OWNER, result, canonical, matches)
+
+
+static func generated_clear_bridge_state(all: Array, producers: Array, consumers: Array, batteries: Array, entity_present: bool) -> Dictionary:
+	var result = source_generated_class_runtime.call_java_method(SOURCE_POWER_GRAPH_GENERATED_CLASS, SOURCE_POWER_GRAPH_CLEAR_JAVA_METHOD, [all, producers, consumers, batteries, entity_present], null)
+	var canonical = source_power_graph_state.clear_state(all, producers, consumers, batteries, entity_present)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return _generated_bridge_state(source_runtime_owner_registry.PORT_GAME_SOURCE_POWER_GRAPH_CLEAR_STATE, SOURCE_POWER_GRAPH_CLEAR_GENERATED_OWNER, result, canonical, matches)
+
+
+static func generated_reflow_bridge_state(tile: Dictionary) -> Dictionary:
+	var result = source_generated_class_runtime.call_java_method(SOURCE_POWER_GRAPH_GENERATED_CLASS, SOURCE_POWER_GRAPH_REFLOW_JAVA_METHOD, [tile], null)
+	var canonical = source_power_graph_state.reflow_state(tile)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return _generated_bridge_state(source_runtime_owner_registry.PORT_GAME_SOURCE_POWER_GRAPH_REFLOW_STATE, SOURCE_POWER_GRAPH_REFLOW_GENERATED_OWNER, result, canonical, matches)
+
+
+static func generated_remove_bridge_state(tile: Dictionary, entity_present: bool) -> Dictionary:
+	var result = source_generated_class_runtime.call_java_method(SOURCE_POWER_GRAPH_GENERATED_CLASS, SOURCE_POWER_GRAPH_REMOVE_JAVA_METHOD, [tile, entity_present], null)
+	var canonical = source_power_graph_state.remove_state(tile, entity_present)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return _generated_bridge_state(source_runtime_owner_registry.PORT_GAME_SOURCE_POWER_GRAPH_REMOVE_STATE, SOURCE_POWER_GRAPH_REMOVE_GENERATED_OWNER, result, canonical, matches)
+
+
+static func generated_remove_list_bridge_state(all: Array, producers: Array, consumers: Array, batteries: Array, build) -> Dictionary:
+	var result = source_generated_class_runtime.call_java_method(SOURCE_POWER_GRAPH_GENERATED_CLASS, SOURCE_POWER_GRAPH_REMOVE_LIST_JAVA_METHOD, [all, producers, consumers, batteries, build], null)
+	var canonical = source_power_graph_state.remove_list_state(all, producers, consumers, batteries, build)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
+	return _generated_bridge_state(source_runtime_owner_registry.PORT_GAME_SOURCE_POWER_GRAPH_REMOVE_LIST_STATE, SOURCE_POWER_GRAPH_REMOVE_LIST_GENERATED_OWNER, result, canonical, matches)
+
+
+static func generated_to_string_bridge_state(producers: String, consumers: String, batteries: String, all: String, graph_id: int) -> Dictionary:
+	var result = source_generated_class_runtime.call_java_method(SOURCE_POWER_GRAPH_GENERATED_CLASS, SOURCE_POWER_GRAPH_TO_STRING_JAVA_METHOD, [producers, consumers, batteries, all, graph_id], "")
+	var canonical = source_power_graph_state.to_string_state(producers, consumers, batteries, all, graph_id)
+	return _generated_bridge_state(source_runtime_owner_registry.PORT_GAME_SOURCE_POWER_GRAPH_TO_STRING_STATE, SOURCE_POWER_GRAPH_TO_STRING_GENERATED_OWNER, result, canonical, result == canonical)
+

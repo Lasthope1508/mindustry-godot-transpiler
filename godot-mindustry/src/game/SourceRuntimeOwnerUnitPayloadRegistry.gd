@@ -1,5 +1,7 @@
 extends "res://src/game/SourceRuntimeOwnerBuildPayloadRegistry.gd"
 
+const source_payload_source_text_state := preload("res://src/game/SourcePayloadSourceTextState.gd")
+
 const PORT_GAME_SOURCE_UNIT_PAYLOAD_CONSTRUCTOR_STATE := "port_game.source_unit_payload_constructor_state"
 const PORT_GAME_SOURCE_UNIT_PAYLOAD_SHOW_OVERLAY_TEXTURE_REGION_STATE := "port_game.source_unit_payload_show_overlay_texture_region_state"
 const PORT_GAME_SOURCE_UNIT_PAYLOAD_SHOW_OVERLAY_DRAWABLE_STATE := "port_game.source_unit_payload_show_overlay_drawable_state"
@@ -20,8 +22,8 @@ const PORT_GAME_SOURCE_UNIT_PAYLOAD_DUMP_SOLIDITY_GUARD_STATE := "port_game.sour
 const PORT_GAME_SOURCE_UNIT_PAYLOAD_DUMP_OVERLAP_GUARD_STATE := "port_game.source_unit_payload_dump_overlap_guard_state"
 const PORT_GAME_SOURCE_UNIT_PAYLOAD_DUMP_NO_CLIENT_GUARD_STATE := "port_game.source_unit_payload_dump_no_client_guard_state"
 const PORT_GAME_SOURCE_UNIT_PAYLOAD_DUMP_SPAWN_SIDE_EFFECTS_STATE := "port_game.source_unit_payload_dump_spawn_side_effects_state"
-const SOURCE_UNIT_PAYLOAD_DUMP_GENERATED_METHOD := "java_method_dump_13"
-const SOURCE_UNIT_PAYLOAD_DUMP_GENERATED_OWNER := "unit_payload.java_method_dump_13"
+const SOURCE_UNIT_PAYLOAD_DUMP_GENERATED_METHOD := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_GENERATED_METHOD
+const SOURCE_UNIT_PAYLOAD_DUMP_GENERATED_OWNER := source_payload_source_text_state.SOURCE_UNIT_PAYLOAD_DUMP_GENERATED_OWNER
 const PORT_GAME_SOURCE_UNIT_PAYLOAD_CONTENT_EQUALS_STATE := "port_game.source_unit_payload_content_equals_state"
 const PORT_GAME_SOURCE_UNIT_PAYLOAD_UPDATE_STATE := "port_game.source_unit_payload_update_state"
 const PORT_GAME_SOURCE_UNIT_PAYLOAD_CONTENT_STATE := "port_game.source_unit_payload_content_state"

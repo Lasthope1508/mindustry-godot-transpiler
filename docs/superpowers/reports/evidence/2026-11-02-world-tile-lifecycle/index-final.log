@@ -8,4 +8,4 @@ Shared build_world receives one canonical Tile materializer call; terrain preloa
 Full/native/inspect/stop/editor/replay/catalog gates accepted on working tree; no clean-checkout claim
 Exact staged allowlist PASS; content/manifest/project/UID/arc/unrelated dirty work excluded
 Staged whitespace PASS
-Staged files at audit: 40
+Staged files at audit: 41

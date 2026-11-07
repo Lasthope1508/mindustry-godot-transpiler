@@ -2,7 +2,8 @@ extends Node
 
 const PortGameScript := preload("res://src/game/PortGame.gd")
 const source_builder_draw_state := preload("res://src/game/SourceBuilderDrawState.gd")
-const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const source_ssot_accessor_runtime_state := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
+const runtime_proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")
 
 func _ready() -> void:
 	var game := PortGameScript.new()
@@ -11,7 +12,7 @@ func _ready() -> void:
 	var draw_building_bridge := game.generated_builder_comp_draw_building_bridge_state(true, null, {"id": "build"}, true, true, true, false, 8.0, true, false, false, true, 1.0, 0.3, 10.0, 20.0, 30.0, 0.0, 0.0)
 	var draw_building_beam_bridge := game.generated_builder_comp_draw_building_beam_bridge_state(1.0, 2.0, true, null, {"id": "beam"}, true, true, false, 8.0, false, 2, 3, 4, 5.0, 6.0, 0.7, true, 8.0, 0.1, 45.0)
 	var draw_building_beam_default_bridge := game.generated_builder_comp_draw_building_beam_source_tilesize_default_bridge_state(1.0, 2.0, true, null, {"id": "beam"}, true, true, false, 8.0, false, 2, 3, 4, 5.0, 6.0, 0.7, true)
-	var registry_state := source_ssot_catalog.canonical_headquarter_registry_state()
+	var registry_state := source_ssot_accessor_runtime_state.canonical_headquarter_registry_state()
 	var proof := {
 		"module": "BUILDER_DRAW_STATE_MODULE_PROOF",
 		"draw_plan_top_bridge": draw_plan_top_bridge,
@@ -28,12 +29,9 @@ func _ready() -> void:
 		"one_headquarter_per_ssot": bool(registry_state.get("one_headquarter_per_ssot", false)),
 	}
 	proof["matches"] = proof["draw_plan_top_bridge_matches"] and proof["draw_plan_bridge_matches"] and proof["draw_building_bridge_matches"] and proof["draw_building_beam_bridge_matches"] and proof["draw_building_beam_default_bridge_matches"] and proof["one_headquarter_per_ssot"] and proof["registry_valid"]
-	var proof_json := JSON.stringify(proof)
-	print("BUILDER_DRAW_STATE_MODULE_PROOF " + proof_json)
-	var proof_path := ProjectSettings.globalize_path("res://tools/runtime_proofs/BuilderDrawStateModuleProof.json")
-	var proof_file := FileAccess.open(proof_path, FileAccess.WRITE)
-	if proof_file != null:
-		proof_file.store_string(proof_json)
+	print("BUILDER_DRAW_STATE_MODULE_PROOF " + JSON.stringify(proof))
+	runtime_proof_state.write_proof("BuilderDrawStateModuleProof", proof)
 	game.free()
-	await get_tree().create_timer(60.0).timeout
-	get_tree().quit(0)
+	await get_tree().process_frame
+	get_tree().quit(runtime_proof_state.exit_code(proof))
+

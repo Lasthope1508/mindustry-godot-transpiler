@@ -1,13 +1,15 @@
 extends Node
 
-const ContentRegistry := preload("res://src/generated/MindustryContentRegistry.gd")
+const source_content_registry_source_text_state := preload("res://src/game/SourceContentRegistrySourceTextState.gd")
+const CONTENT_REGISTRY := source_content_registry_source_text_state.CONTENT_REGISTRY
+var ContentRegistry := load(CONTENT_REGISTRY)
 const port_game := preload("res://src/game/PortGame.gd")
-const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const source_ssot_accessor_runtime_state := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
 
 func _ready() -> void:
 	var game := port_game.new()
 	game.load_content_registry()
-	var registry_state := source_ssot_catalog.canonical_headquarter_registry_state()
+	var registry_state := source_ssot_accessor_runtime_state.canonical_headquarter_registry_state()
 	var proof := {
 		"module": "SourceContentRegistryRuntimeState",
 		"content_catalog_loaded": game.content_catalog != null,
@@ -23,3 +25,4 @@ func _ready() -> void:
 	}
 	print("CONTENT_REGISTRY_RUNTIME_MODULE_PROOF " + JSON.stringify(proof))
 	await get_tree().create_timer(20.0).timeout
+

@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "block_runtime_geometry": {
+    "owner": "SourceBlockRuntimeGeometryState",
+    "source": "core/src/mindustry/world/Block.java",
+    "methods": [
+      "PortGame.generated_block_new_building_bridge_state",
+      "PortGame.generated_block_update_clip_radius_bridge_state",
+      "PortGame.generated_block_bounds_bridge_state"
+    ],
+    "generated_methods": [
+      "java_method_newBuilding_71",
+      "java_method_updateClipRadius_72",
+      "java_method_bounds_73"
+    ]
+  }
+}

@@ -3,7 +3,8 @@ extends Node
 const PortGameScript := preload("res://src/game/PortGame.gd")
 const source_turret_runtime_state := preload("res://src/game/SourceTurretRuntimeState.gd")
 const source_playable_scenario_defaults := preload("res://src/game/SourcePlayableScenarioDefaults.gd")
-const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const source_ssot_accessor_runtime_state := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
+const runtime_proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")
 
 func _ready() -> void:
 	var game := PortGameScript.new()
@@ -60,7 +61,7 @@ func _ready() -> void:
 	var selected_stack_count_module := source_turret_runtime_state.selected_ammo_stack_count_for_game(game)
 	var selected_loaded_item_wrapper := game.selected_turret_loaded_ammo_item()
 	var selected_loaded_item_module := source_turret_runtime_state.selected_loaded_ammo_item_for_game(game)
-	var registry_state := source_ssot_catalog.canonical_headquarter_registry_state()
+	var registry_state := source_ssot_accessor_runtime_state.canonical_headquarter_registry_state()
 	var proof := {
 		"module": "SourceTurretRuntimeState",
 		"selected_turret_ready": selected_turret != null,
@@ -86,15 +87,12 @@ func _ready() -> void:
 	}
 	proof["module_matches"] = proof["lifetime_matches"] and proof["world_speed_matches"] and proof["dimensions_matches"] and proof["hit_size_matches"] and proof["damage_matches"] and proof["ammo_multiplier_matches"] and proof["reload_multiplier_matches"] and proof["range_change_matches"]
 	proof["selected_playable_turret_matches"] = selected_playable_turret_wrapper == selected_playable_turret_module
-	var proof_json := JSON.stringify(proof)
-	print("TURRET_RUNTIME_CALLBACK_MODULE_PROOF " + proof_json)
-	var proof_path := ProjectSettings.globalize_path("res://tools/runtime_proofs/TurretRuntimeCallbackModuleProof.json")
-	var proof_file := FileAccess.open(proof_path, FileAccess.WRITE)
-	if proof_file != null:
-		proof_file.store_string(proof_json)
+	proof["matches"] = proof["module_matches"] and proof["selected_playable_turret_matches"] and proof["selected_runtime_storage_matches"] and proof["default_callbacks_match"] and proof["override_callbacks_match"] and proof["one_headquarter_per_ssot"] and proof["registry_valid"]
+	print("TURRET_RUNTIME_CALLBACK_MODULE_PROOF " + JSON.stringify(proof))
+	runtime_proof_state.write_proof("TurretRuntimeCallbackModuleProof", proof)
 	game.free()
-	await get_tree().create_timer(60.0).timeout
-	get_tree().quit(0)
+	await get_tree().process_frame
+	get_tree().quit(runtime_proof_state.exit_code(proof))
 
 func _turret_runtime_method_names() -> Dictionary:
 	return {
@@ -103,3 +101,4 @@ func _turret_runtime_method_names() -> Dictionary:
 
 func _proof_lifetime_seconds(data: Dictionary) -> float:
 	return float(data.get("proof_lifetime_seconds", 0.0))
+

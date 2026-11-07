@@ -1,7 +1,8 @@
 extends Node
 
 const source_power_graph_state := preload("res://src/game/SourcePowerGraphState.gd")
-const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const source_ssot_accessor_runtime_state := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
+const runtime_proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")
 
 func _ready() -> void:
 	var consumers: Array = [
@@ -37,7 +38,7 @@ func _ready() -> void:
 	var batteries: Array = [{"enabled": true, "power_status": 0.5, "capacity": 40.0}]
 	var needed: Dictionary = source_power_graph_state.power_needed_state(consumers)
 	var balance: Dictionary = source_power_graph_state.update_balance_state(consumers, producers, batteries, 3.0, 1.0, [])
-	var registry: Dictionary = source_ssot_catalog.canonical_headquarter_registry_state()
+	var registry: Dictionary = source_ssot_accessor_runtime_state.canonical_headquarter_registry_state()
 	var proof: Dictionary = {
 		"module": "SourcePowerGraphState",
 		"default_power_needed": float(needed.get("power_needed", 0.0)),
@@ -50,6 +51,9 @@ func _ready() -> void:
 		"one_headquarter_per_ssot": bool(registry.get("one_headquarter_per_ssot", false)),
 		"registry_valid": bool(registry.get("errors", []).is_empty()),
 	}
+	proof["matches"] = proof["default_callback_matches"] and proof["balance_uses_default_callback"] and proof["registry_valid"] and proof["one_headquarter_per_ssot"]
 	print("POWER_GRAPH_DEFAULT_REQUESTED_POWER_PROOF " + JSON.stringify(proof))
-	await get_tree().create_timer(60.0).timeout
-	get_tree().quit(0)
+	runtime_proof_state.write_proof("PowerGraphDefaultRequestedPowerProof", proof)
+	await get_tree().process_frame
+	get_tree().quit(runtime_proof_state.exit_code(proof))
+

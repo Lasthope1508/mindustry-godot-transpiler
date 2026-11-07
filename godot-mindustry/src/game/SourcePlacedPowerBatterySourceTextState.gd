@@ -1,0 +1,16 @@
+extends RefCounted
+class_name SourcePlacedPowerBatterySourceTextState
+
+const SOURCE_PLACED_POWER_BATTERY_BLOCK_FROM_SPRITE_KEY := "block_from_sprite"
+const SOURCE_PLACED_POWER_BATTERY_ROLE_FOR_BLOCK_KEY := "role_for_block"
+const SOURCE_PLACED_POWER_BATTERY_ROLE_FOR_BLOCK_FALLBACK := "power_graph_role_for_block"
+const SOURCE_PLACED_POWER_BATTERY_POWER_NEEDED_KEY := "power_needed"
+const SOURCE_PLACED_POWER_BATTERY_POWER_NEEDED_FALLBACK := "placed_power_needed_state"
+const SOURCE_PLACED_POWER_BATTERY_POWER_PRODUCED_KEY := "power_produced"
+const SOURCE_PLACED_POWER_BATTERY_POWER_PRODUCED_FALLBACK := "placed_power_produced_state"
+const SOURCE_PLACED_POWER_BATTERY_BATTERY_STATE_KEY := "battery_state"
+const SOURCE_PLACED_POWER_BATTERY_BATTERY_STATE_FALLBACK := "source_power_graph_battery_state"
+const SOURCE_PLACED_POWER_BATTERY_CHARGE_BATTERIES_KEY := "charge_batteries"
+const SOURCE_PLACED_POWER_BATTERY_CHARGE_BATTERIES_FALLBACK := "source_power_graph_charge_batteries_state"
+const SOURCE_PLACED_POWER_BATTERY_USE_BATTERIES_KEY := "use_batteries"
+const SOURCE_PLACED_POWER_BATTERY_USE_BATTERIES_FALLBACK := "source_power_graph_use_batteries_state"

@@ -3,9 +3,18 @@ extends "res://src/game/SourceBuildingLifecyclePortBridge.gd"
 const source_turret_runtime_state := preload("res://src/game/SourceTurretRuntimeState.gd")
 const source_turret_runtime_port_bridge_bullet_state := preload("res://src/game/SourceBulletRuntimeState.gd")
 const source_turret_runtime_port_bridge_defaults := preload("res://src/game/SourceTurretDefaults.gd")
+const source_power_turret_build_state := preload("res://src/game/SourcePowerTurretBuildState.gd")
+const source_turret_range_state := preload("res://src/game/SourceTurretRangeState.gd")
+const source_turret_presentation_state := preload("res://src/game/SourceTurretPresentationState.gd")
+const source_turret_placement_state := preload("res://src/game/SourceTurretPlacementState.gd")
+const source_turret_combat_state := preload("res://src/game/SourceTurretCombatState.gd")
+const source_turret_recoil_state := preload("res://src/game/SourceTurretRecoilState.gd")
+const source_tractor_beam_turret_lifecycle_state := preload("res://src/game/SourceTractorBeamTurretLifecycleState.gd")
+const source_item_turret_init_state := preload("res://src/game/SourceItemTurretInitState.gd")
 const source_turret_runtime_port_bridge_property_state := preload("res://src/game/SourceTurretPropertyState.gd")
 const source_turret_runtime_port_bridge_scenario_defaults := preload("res://src/game/SourcePlayableScenarioDefaults.gd")
 const source_turret_runtime_port_bridge_time_defaults := preload("res://src/game/SourceTimeDefaults.gd")
+const source_turret_runtime_port_bridge_world_defaults := preload("res://src/game/SourceWorldDefaults.gd")
 
 func selected_playable_turret():
 	return source_turret_runtime_state.selected_playable_turret(get("content_catalog"), source_turret_runtime_port_bridge_scenario_defaults.BLOCK_DUO)
@@ -132,3 +141,181 @@ func source_turret_shoot_pattern(turret) -> Dictionary:
 
 func source_turret_range_for_ammo(turret, data: Dictionary) -> float:
 	return source_turret_runtime_state.turret_range_for_ammo(source_turret_range(turret), data, source_turret_runtime_port_bridge_bullet_state.range_change(data))
+
+func source_turret_load_state() -> Dictionary:
+	return source_turret_presentation_state.load_state()
+
+func generated_turret_load_bridge_state() -> Dictionary:
+	return source_turret_presentation_state.generated_turret_load_bridge_state()
+
+func source_turret_draw_plan_region_state(plan: Variant, list: Variant) -> Dictionary:
+	return source_turret_presentation_state.draw_plan_region_state(plan, list)
+
+func generated_turret_draw_plan_region_bridge_state(plan: Variant, list: Variant) -> Dictionary:
+	return source_turret_presentation_state.generated_turret_draw_plan_region_bridge_state(plan, list)
+
+func source_turret_icons_state() -> Dictionary:
+	return source_turret_presentation_state.icons_state()
+
+func generated_turret_icons_bridge_state() -> Dictionary:
+	return source_turret_presentation_state.generated_turret_icons_bridge_state()
+
+func source_turret_get_regions_to_outline_state(out: Variant) -> Dictionary:
+	return source_turret_presentation_state.get_regions_to_outline_state(out)
+
+func generated_turret_get_regions_to_outline_bridge_state(out: Variant) -> Dictionary:
+	return source_turret_presentation_state.generated_get_regions_to_outline_bridge_state(out)
+
+@warning_ignore("shadowed_variable_base_class")
+func source_turret_draw_place_state(tile_x: int, tile_y: int, rotation: int, valid: bool, draw_min_range: bool, source_tilesize: float, block_offset: float, min_range: float) -> Dictionary:
+	return source_turret_placement_state.draw_place_state(tile_x, tile_y, rotation, valid, draw_min_range, source_tilesize, block_offset, min_range)
+
+@warning_ignore("shadowed_variable_base_class")
+func generated_turret_draw_place_bridge_state(tile_x: int, tile_y: int, rotation: int, valid: bool, draw_min_range: bool, source_tilesize: float, block_offset: float, min_range: float) -> Dictionary:
+	return source_turret_placement_state.generated_draw_place_bridge_state(tile_x, tile_y, rotation, valid, draw_min_range, source_tilesize, block_offset, min_range)
+
+@warning_ignore("shadowed_variable_base_class")
+func generated_turret_draw_place_source_tilesize_default_bridge_state(tile_x: int, tile_y: int, rotation: int, valid: bool, draw_min_range: bool) -> Dictionary:
+	return source_turret_placement_state.generated_draw_place_source_tilesize_default_bridge_state(tile_x, tile_y, rotation, valid, draw_min_range, source_turret_runtime_port_bridge_world_defaults.TILESIZE)
+
+func source_turret_rotated_output_state(tile_x: int, tile_y: int) -> Dictionary:
+	return source_turret_placement_state.rotated_output_state(tile_x, tile_y)
+
+func generated_turret_rotated_output_bridge_state(tile_x: int, tile_y: int) -> Dictionary:
+	return source_turret_placement_state.generated_rotated_output_bridge_state(tile_x, tile_y)
+
+@warning_ignore("shadowed_variable_base_class")
+@warning_ignore("shadowed_variable")
+func source_turret_place_ended_state(tile: Variant, builder: Variant, rotation: int, config: Variant, rotate: bool, tile_build_is_turret_build: bool, turret_rotation: float, tile_build_rotdeg: float) -> Dictionary:
+	return source_turret_placement_state.place_ended_state(tile, builder, rotation, config, rotate, tile_build_is_turret_build, turret_rotation, tile_build_rotdeg)
+
+@warning_ignore("shadowed_variable_base_class")
+@warning_ignore("shadowed_variable")
+func generated_turret_place_ended_bridge_state(tile: Variant, builder: Variant, rotation: int, config: Variant, rotate: bool, tile_build_is_turret_build: bool, turret_rotation: float, tile_build_rotdeg: float) -> Dictionary:
+	return source_turret_placement_state.generated_place_ended_bridge_state(tile, builder, rotation, config, rotate, tile_build_is_turret_build, turret_rotation, tile_build_rotdeg)
+
+func source_tractor_beam_turret_icons_state(base_region: Variant, region: Variant) -> Dictionary:
+	return source_tractor_beam_turret_lifecycle_state.icons_state(base_region, region)
+
+func generated_tractor_beam_turret_icons_bridge_state(base_region: Variant, region: Variant) -> Dictionary:
+	return source_tractor_beam_turret_lifecycle_state.generated_icons_bridge_state(base_region, region)
+
+func source_tractor_beam_turret_init_state(range_value: float, source_tilesize: float) -> Dictionary:
+	return source_tractor_beam_turret_lifecycle_state.init_state(range_value, source_tilesize)
+
+func generated_tractor_beam_turret_init_bridge_state(range_value: float, source_tilesize: float) -> Dictionary:
+	return source_tractor_beam_turret_lifecycle_state.generated_init_bridge_state(range_value, source_tilesize)
+
+func source_tractor_beam_turret_build_should_consume_state(super_should_consume: bool, target: Variant) -> Dictionary:
+	return source_tractor_beam_turret_lifecycle_state.build_should_consume_state(super_should_consume, target)
+
+func generated_tractor_beam_turret_build_should_consume_bridge_state(super_should_consume: bool, target: Variant) -> Dictionary:
+	return source_tractor_beam_turret_lifecycle_state.generated_build_should_consume_bridge_state(super_should_consume, target)
+
+func source_tractor_beam_turret_build_estimate_dps_state(any_state: bool, damage: float, efficiency: float, coolant_multiplier: float) -> Dictionary:
+	return source_tractor_beam_turret_lifecycle_state.build_estimate_dps_state(any_state, damage, efficiency, coolant_multiplier)
+
+func generated_tractor_beam_turret_build_estimate_dps_bridge_state(any_state: bool, damage: float, efficiency: float, coolant_multiplier: float) -> Dictionary:
+	return source_tractor_beam_turret_lifecycle_state.generated_build_estimate_dps_bridge_state(any_state, damage, efficiency, coolant_multiplier)
+
+func source_tractor_beam_turret_build_write_state(rotation_value: float) -> Dictionary:
+	return source_tractor_beam_turret_lifecycle_state.build_write_state(rotation_value)
+
+func generated_tractor_beam_turret_build_write_bridge_state(rotation_value: float) -> Dictionary:
+	return source_tractor_beam_turret_lifecycle_state.generated_build_write_bridge_state(rotation_value)
+
+func source_tractor_beam_turret_build_read_state(read_f_value: float, revision_value: int) -> Dictionary:
+	return source_tractor_beam_turret_lifecycle_state.build_read_state(read_f_value, revision_value)
+
+func generated_tractor_beam_turret_build_read_bridge_state(read_f_value: float, revision_value: int) -> Dictionary:
+	return source_tractor_beam_turret_lifecycle_state.generated_build_read_bridge_state(read_f_value, revision_value)
+
+func source_turret_limit_range_state(bullet: Dictionary, margin: float, turret_range: float) -> Dictionary:
+	return source_turret_range_state.game_limit_range_state(self, bullet, margin, turret_range)
+
+func generated_turret_limit_range_bridge_state(bullet: Dictionary, margin: float, turret_range: float) -> Dictionary:
+	return source_turret_range_state.game_generated_limit_range_bridge_state(self, bullet, margin, turret_range)
+
+func source_power_turret_limit_range_state(shoot_type: Variant, margin: float) -> Dictionary:
+	return source_turret_range_state.power_turret_limit_range_state(shoot_type, margin)
+
+func generated_power_turret_limit_range_bridge_state(shoot_type: Variant, margin: float) -> Dictionary:
+	return source_turret_range_state.generated_power_turret_limit_range_bridge_state(shoot_type, margin)
+
+func source_item_turret_limit_range_default_state() -> Dictionary:
+	return source_turret_range_state.item_turret_limit_range_default_state()
+
+func generated_item_turret_limit_range_default_bridge_state() -> Dictionary:
+	return source_turret_range_state.generated_item_turret_limit_range_default_bridge_state()
+
+func source_item_turret_limit_range_entries_state(margin: float, ammo_entries: Array) -> Dictionary:
+	return source_turret_range_state.item_turret_limit_range_entries_state(margin, ammo_entries)
+
+func generated_item_turret_limit_range_entries_bridge_state(margin: float, ammo_entries: Array) -> Dictionary:
+	return source_turret_range_state.generated_item_turret_limit_range_entries_bridge_state(margin, ammo_entries)
+
+func source_item_turret_init_ground_overlap_state(target_ground: bool, place_overlap_range: float, range_value: float, place_overlap_margin: float, ammo_entries: Array) -> Dictionary:
+	return source_item_turret_init_state.ground_overlap_state(target_ground, place_overlap_range, range_value, place_overlap_margin, ammo_entries)
+
+func generated_item_turret_init_ground_overlap_bridge_state(target_ground: bool, place_overlap_range: float, range_value: float, place_overlap_margin: float, ammo_entries: Array) -> Dictionary:
+	return source_item_turret_init_state.generated_item_turret_init_ground_overlap_bridge_state(target_ground, place_overlap_range, range_value, place_overlap_margin, ammo_entries)
+
+func generated_item_turret_init_ground_overlap_default_bridge_state() -> Dictionary:
+	return source_item_turret_init_state.generated_item_turret_init_ground_overlap_default_bridge_state()
+
+func source_power_turret_build_get_ammo_fraction_state(power_null: bool, power_status: float) -> Dictionary:
+	return source_power_turret_build_state.get_ammo_fraction_state(power_null, power_status)
+
+func generated_power_turret_build_get_ammo_fraction_bridge_state(power_null: bool, power_status: float) -> Dictionary:
+	return source_power_turret_build_state.generated_get_ammo_fraction_bridge_state(power_null, power_status)
+
+func source_power_turret_build_sense_state(sensor: String, power_null: bool, power_status: float, super_sense_value: float) -> Dictionary:
+	return source_power_turret_build_state.sense_state(sensor, power_null, power_status, super_sense_value)
+
+func generated_power_turret_build_sense_bridge_state(sensor: String, power_null: bool, power_status: float, super_sense_value: float) -> Dictionary:
+	return source_power_turret_build_state.generated_sense_bridge_state(sensor, power_null, power_status, super_sense_value)
+
+func source_power_turret_build_use_ammo_state(shoot_type: Variant) -> Dictionary:
+	return source_power_turret_build_state.use_ammo_state(shoot_type)
+
+func generated_power_turret_build_use_ammo_bridge_state(shoot_type: Variant) -> Dictionary:
+	return source_power_turret_build_state.generated_use_ammo_bridge_state(shoot_type)
+
+func source_power_turret_build_has_ammo_state() -> Dictionary:
+	return source_power_turret_build_state.has_ammo_state()
+
+func generated_power_turret_build_has_ammo_bridge_state() -> Dictionary:
+	return source_power_turret_build_state.generated_has_ammo_bridge_state()
+
+func source_power_turret_build_peek_ammo_state(shoot_type: Variant) -> Dictionary:
+	return source_power_turret_build_state.peek_ammo_state(shoot_type)
+
+func generated_power_turret_build_peek_ammo_bridge_state(shoot_type: Variant) -> Dictionary:
+	return source_power_turret_build_state.generated_peek_ammo_bridge_state(shoot_type)
+
+func source_turret_recoil_offset(turret, recoil_rotation_degrees: float, cur_recoil: float) -> Vector2:
+	return source_turret_combat_state.recoil_offset(recoil_rotation_degrees, cur_recoil, source_turret_recoil_state.SOURCE_TURRET_RECOIL_OFFSET_RECOIL_POW_DEFAULT, source_turret_recoil(turret))
+
+func update_turret_recoil(cell: Vector2i, turret, delta: float, recoil_rotation_degrees: float) -> void:
+	source_turret_combat_state.update_turret_recoil(self, cell, turret, delta, recoil_rotation_degrees)
+
+func apply_turret_recoil_offset(cell: Vector2i, turret, offset: Vector2) -> void:
+	source_turret_combat_state.apply_turret_recoil_offset(self, cell, turret, offset)
+
+func use_turret_shoot_x_offset(cell: Vector2i, turret) -> float:
+	return source_turret_combat_state.use_turret_shoot_x_offset(self, cell, turret)
+
+func source_turret_bullet_origin(origin_x: float, origin_y: float, turret_rotation_degrees: float, turret, shoot_x_offset := 0.0, y_offset := 0.0, x_spread := 0.0) -> Dictionary:
+	return source_turret_combat_state.game_turret_bullet_origin_state(self, origin_x, origin_y, turret_rotation_degrees, turret, shoot_x_offset, y_offset, x_spread)
+
+func source_angle_to_target(origin, target) -> float:
+	return source_turret_combat_state.game_angle_to_target(self, origin, target)
+
+func source_turret_total_inaccuracy(turret, data: Dictionary) -> float:
+	var bullet_inaccuracy := float(call("source_bullet_inaccuracy", data))
+	return source_turret_combat_state.total_inaccuracy(source_turret_inaccuracy(turret), bullet_inaccuracy)
+
+func find_enemy_target(origin: Vector2, range_pixels: float):
+	var runtime_enemy_units = get("enemy_units")
+	var target_state := source_turret_combat_state.enemy_target_state(origin, range_pixels, runtime_enemy_units if runtime_enemy_units is Array else [])
+	return target_state.get("target", null)

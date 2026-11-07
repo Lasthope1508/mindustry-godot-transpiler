@@ -1,0 +1,16 @@
+Godot Engine v4.6.2.stable.official.71f334935 - https://godotengine.org
+
+ERROR: [MCP Runtime] Failed to start server on port 7777: 22
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _start_server (res://addons/godot_mcp_runtime/mcp_runtime_autoload.gd:67)
+       [1] _ready (res://addons/godot_mcp_runtime/mcp_runtime_autoload.gd:23)
+[MCP Runtime] Autoload ready, server starting on port 7777
+UNIT_COMP_GENERATED_RUNTIME_MODULE_PROOF {"aim_position_matches":true,"aim_position_owner_matches":true,"aim_xy_matches":true,"aim_xy_owner_matches":true,"approach_matches":true,"approach_owner_matches":true,"boosting_default_matches":true,"boosting_default_owner_matches":true,"boosting_guard_matches":true,"boosting_guard_owner_matches":true,"boosting_matches":true,"boosting_owner_matches":true,"can_drown_matches":true,"can_drown_owner_matches":true,"check_target_matches":true,"check_target_owner_matches":true,"drown_floor_matches":true,"drown_floor_owner_matches":true,"floor_speed_matches":true,"floor_speed_owner_matches":true,"flying_matches":true,"flying_owner_matches":true,"generated_registry_valid":true,"grounded_matches":true,"grounded_owner_matches":true,"matches":true,"module":"UnitCompGeneratedRuntimeModuleProof","move_at_default_matches":true,"move_at_default_owner_matches":true,"move_at_matches":true,"move_at_owner_matches":true,"move_pref_matches":true,"move_pref_owner_matches":true,"one_headquarter_per_ssot":true,"registry_valid":true,"rotate_move_matches":true,"rotate_move_owner_matches":true,"unloaded_matches":true,"unloaded_owner_matches":true,"wobble_matches":true,"wobble_owner_matches":true}
+UNIT_COMP_GENERATED_RUNTIME_MODULE_PROOF {"aim_position_matches":true,"aim_position_owner_matches":true,"aim_xy_matches":true,"aim_xy_owner_matches":true,"approach_matches":true,"approach_owner_matches":true,"boosting_default_matches":true,"boosting_default_owner_matches":true,"boosting_guard_matches":true,"boosting_guard_owner_matches":true,"boosting_matches":true,"boosting_owner_matches":true,"can_drown_matches":true,"can_drown_owner_matches":true,"check_target_matches":true,"check_target_owner_matches":true,"drown_floor_matches":true,"drown_floor_owner_matches":true,"floor_speed_matches":true,"floor_speed_owner_matches":true,"flying_matches":true,"flying_owner_matches":true,"generated_registry_valid":true,"grounded_matches":true,"grounded_owner_matches":true,"matches":true,"module":"UnitCompGeneratedRuntimeModuleProof","move_at_default_matches":true,"move_at_default_owner_matches":true,"move_at_matches":true,"move_at_owner_matches":true,"move_pref_matches":true,"move_pref_owner_matches":true,"one_headquarter_per_ssot":true,"registry_valid":true,"rotate_move_matches":true,"rotate_move_owner_matches":true,"unloaded_matches":true,"unloaded_owner_matches":true,"wobble_matches":true,"wobble_owner_matches":true}
+WARNING: 1 RID of type "CanvasItem" was leaked.
+   at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2690)
+WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+   at: cleanup (core/object/object.cpp:2641)
+ERROR: 91 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:810)

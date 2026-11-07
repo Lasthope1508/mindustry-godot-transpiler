@@ -4,20 +4,22 @@ class_name SourcePlacedPowerBatteryRuntimeState
 const source_placed_block_state := preload("res://src/game/SourcePlacedBlockState.gd")
 const source_block_defaults := preload("res://src/game/SourceBlockDefaults.gd")
 const source_texture_runtime_state := preload("res://src/game/SourceTextureRuntimeState.gd")
+const source_placed_power_battery_source_text_state := preload("res://src/game/SourcePlacedPowerBatterySourceTextState.gd")
+const source_time_defaults := preload("res://src/game/SourceTimeDefaults.gd")
 
-const SOURCE_PLACED_POWER_BATTERY_BLOCK_FROM_SPRITE_KEY := "block_from_sprite"
-const SOURCE_PLACED_POWER_BATTERY_ROLE_FOR_BLOCK_KEY := "role_for_block"
-const SOURCE_PLACED_POWER_BATTERY_ROLE_FOR_BLOCK_FALLBACK := "power_graph_role_for_block"
-const SOURCE_PLACED_POWER_BATTERY_POWER_NEEDED_KEY := "power_needed"
-const SOURCE_PLACED_POWER_BATTERY_POWER_NEEDED_FALLBACK := "placed_power_needed_state"
-const SOURCE_PLACED_POWER_BATTERY_POWER_PRODUCED_KEY := "power_produced"
-const SOURCE_PLACED_POWER_BATTERY_POWER_PRODUCED_FALLBACK := "placed_power_produced_state"
-const SOURCE_PLACED_POWER_BATTERY_BATTERY_STATE_KEY := "battery_state"
-const SOURCE_PLACED_POWER_BATTERY_BATTERY_STATE_FALLBACK := "source_power_graph_battery_state"
-const SOURCE_PLACED_POWER_BATTERY_CHARGE_BATTERIES_KEY := "charge_batteries"
-const SOURCE_PLACED_POWER_BATTERY_CHARGE_BATTERIES_FALLBACK := "source_power_graph_charge_batteries_state"
-const SOURCE_PLACED_POWER_BATTERY_USE_BATTERIES_KEY := "use_batteries"
-const SOURCE_PLACED_POWER_BATTERY_USE_BATTERIES_FALLBACK := "source_power_graph_use_batteries_state"
+const SOURCE_PLACED_POWER_BATTERY_BLOCK_FROM_SPRITE_KEY := source_placed_power_battery_source_text_state.SOURCE_PLACED_POWER_BATTERY_BLOCK_FROM_SPRITE_KEY
+const SOURCE_PLACED_POWER_BATTERY_ROLE_FOR_BLOCK_KEY := source_placed_power_battery_source_text_state.SOURCE_PLACED_POWER_BATTERY_ROLE_FOR_BLOCK_KEY
+const SOURCE_PLACED_POWER_BATTERY_ROLE_FOR_BLOCK_FALLBACK := source_placed_power_battery_source_text_state.SOURCE_PLACED_POWER_BATTERY_ROLE_FOR_BLOCK_FALLBACK
+const SOURCE_PLACED_POWER_BATTERY_POWER_NEEDED_KEY := source_placed_power_battery_source_text_state.SOURCE_PLACED_POWER_BATTERY_POWER_NEEDED_KEY
+const SOURCE_PLACED_POWER_BATTERY_POWER_NEEDED_FALLBACK := source_placed_power_battery_source_text_state.SOURCE_PLACED_POWER_BATTERY_POWER_NEEDED_FALLBACK
+const SOURCE_PLACED_POWER_BATTERY_POWER_PRODUCED_KEY := source_placed_power_battery_source_text_state.SOURCE_PLACED_POWER_BATTERY_POWER_PRODUCED_KEY
+const SOURCE_PLACED_POWER_BATTERY_POWER_PRODUCED_FALLBACK := source_placed_power_battery_source_text_state.SOURCE_PLACED_POWER_BATTERY_POWER_PRODUCED_FALLBACK
+const SOURCE_PLACED_POWER_BATTERY_BATTERY_STATE_KEY := source_placed_power_battery_source_text_state.SOURCE_PLACED_POWER_BATTERY_BATTERY_STATE_KEY
+const SOURCE_PLACED_POWER_BATTERY_BATTERY_STATE_FALLBACK := source_placed_power_battery_source_text_state.SOURCE_PLACED_POWER_BATTERY_BATTERY_STATE_FALLBACK
+const SOURCE_PLACED_POWER_BATTERY_CHARGE_BATTERIES_KEY := source_placed_power_battery_source_text_state.SOURCE_PLACED_POWER_BATTERY_CHARGE_BATTERIES_KEY
+const SOURCE_PLACED_POWER_BATTERY_CHARGE_BATTERIES_FALLBACK := source_placed_power_battery_source_text_state.SOURCE_PLACED_POWER_BATTERY_CHARGE_BATTERIES_FALLBACK
+const SOURCE_PLACED_POWER_BATTERY_USE_BATTERIES_KEY := source_placed_power_battery_source_text_state.SOURCE_PLACED_POWER_BATTERY_USE_BATTERIES_KEY
+const SOURCE_PLACED_POWER_BATTERY_USE_BATTERIES_FALLBACK := source_placed_power_battery_source_text_state.SOURCE_PLACED_POWER_BATTERY_USE_BATTERIES_FALLBACK
 
 static func runtime_method_names(game: Object) -> Dictionary:
 	if game.has_method("_placed_power_battery_method_names"):
@@ -42,8 +44,11 @@ static func default_callbacks_state(game: Object) -> Dictionary:
 		SOURCE_PLACED_POWER_BATTERY_USE_BATTERIES_KEY: Callable(game, runtime_method_name(method_names, SOURCE_PLACED_POWER_BATTERY_USE_BATTERIES_KEY, SOURCE_PLACED_POWER_BATTERY_USE_BATTERIES_FALLBACK)),
 	}
 
-static func game_summary_state(game: Object, tick_rate: float) -> Dictionary:
-	return summary_state(game.get("placed_block_origins"), default_callbacks_state(game), {"power_capacity": source_block_defaults.SOURCE_BLOCK_POWER_CAPACITY_DEFAULT}, tick_rate)
+static func game_tick_rate(_game: Object) -> float:
+	return source_time_defaults.TICK_RATE
+
+static func game_summary_state(game: Object) -> Dictionary:
+	return summary_state(game.get("placed_block_origins"), default_callbacks_state(game), {"power_capacity": source_block_defaults.SOURCE_BLOCK_POWER_CAPACITY_DEFAULT}, game_tick_rate(game))
 
 static func summary_state(placed_block_origins: Dictionary, callbacks: Dictionary, defaults: Dictionary, tick_rate: float) -> Dictionary:
 	var block_from_sprite_fn: Callable = callbacks.get(SOURCE_PLACED_POWER_BATTERY_BLOCK_FROM_SPRITE_KEY, Callable())

@@ -1,13 +1,15 @@
 extends RefCounted
 class_name DisplayProfileRuntime
 
+const source_display_profile_source_text_state := preload("res://src/game/SourceDisplayProfileSourceTextState.gd")
+
 const MODULE_NAME := "display_profile"
-const SOURCE_CAMERA_CLAMP_EXPR := "camera.position.clamp(-camera.width/4f, -camera.height/4f, world.unitWidth() + camera.width/4f, world.unitHeight() + camera.height/4f);"
-const SOURCE_CAMERA_CLAMP_VISIBLE_PADDING_EXPR := "camera.width/4f clamp slack + camera.width/2f viewport half extent"
-const SOURCE_RENDERER_CAMERA_WIDTH_EXPR := "camera.width = graphics.getWidth() / camerascale;"
-const SOURCE_RENDERER_CAMERA_HEIGHT_EXPR := "camera.height = graphics.getHeight() / camerascale;"
-const SOURCE_RENDERER_MIN_SCALE_EXPR := "public float minScale(){\n        if(control.input.logicCutscene) return Scl.scl(minZoom);\n        return Scl.scl(minZoomInGame);\n    }"
-const SOURCE_RENDERER_MAX_SCALE_EXPR := "public float maxScale(){\n        if(control.input.logicCutscene) return Mathf.round(Scl.scl(maxZoom));\n        return Mathf.round(Scl.scl(maxZoomInGame));\n    }"
+const SOURCE_CAMERA_CLAMP_EXPR := source_display_profile_source_text_state.SOURCE_CAMERA_CLAMP_EXPR
+const SOURCE_CAMERA_CLAMP_VISIBLE_PADDING_EXPR := source_display_profile_source_text_state.SOURCE_CAMERA_CLAMP_VISIBLE_PADDING_EXPR
+const SOURCE_RENDERER_CAMERA_WIDTH_EXPR := source_display_profile_source_text_state.SOURCE_RENDERER_CAMERA_WIDTH_EXPR
+const SOURCE_RENDERER_CAMERA_HEIGHT_EXPR := source_display_profile_source_text_state.SOURCE_RENDERER_CAMERA_HEIGHT_EXPR
+const SOURCE_RENDERER_MIN_SCALE_EXPR := source_display_profile_source_text_state.SOURCE_RENDERER_MIN_SCALE_EXPR
+const SOURCE_RENDERER_MAX_SCALE_EXPR := source_display_profile_source_text_state.SOURCE_RENDERER_MAX_SCALE_EXPR
 
 var catalog: Variant
 var profile: Dictionary = {}

@@ -2,6 +2,8 @@ extends RefCounted
 class_name SourceWaveTimingRuntimeState
 
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
+const source_playable_scenario_defaults := preload("res://src/game/SourcePlayableScenarioDefaults.gd")
+const source_time_defaults := preload("res://src/game/SourceTimeDefaults.gd")
 const SOURCE_RULES_WAVE_SPACING_DEFAULT_EXPR := "public float waveSpacing = 2 * Time.toMinutes;"
 const SOURCE_LOGIC_WAVETIME_COUNTDOWN_EXPR := "state.wavetime = Math.max(state.wavetime - Time.delta, 0);"
 const SOURCE_LOGIC_RUN_WAVE_GATE_EXPR := "if(!net.client() && state.wavetime <= 0 && state.rules.waves){"
@@ -20,3 +22,15 @@ static func wave_timer_state(current_wavetime: float, source_delta: float, wave_
 		"logic_wavetime_countdown_expr": SOURCE_LOGIC_WAVETIME_COUNTDOWN_EXPR,
 		"logic_run_wave_gate_expr": SOURCE_LOGIC_RUN_WAVE_GATE_EXPR,
 	}
+
+static func game_wave_timer_state(game: Object, seconds: float) -> Dictionary:
+	var enemy_units = game.get("enemy_units")
+	var enemy_count := 0
+	if enemy_units is Array:
+		enemy_count = enemy_units.size()
+	return wave_timer_state(
+		float(game.get("wave_cooldown")),
+		seconds * source_time_defaults.TICK_RATE,
+		source_playable_scenario_defaults.PLAYABLE_WAVE_SPACING_SECONDS * source_time_defaults.TICK_RATE,
+		enemy_count
+	)

@@ -2,7 +2,6 @@ extends RefCounted
 class_name SourceBulletTypeCreatePuddlesState
 
 const source_bullet_defaults := preload("res://src/game/SourceBulletDefaults.gd")
-const source_bullet_runtime := preload("res://src/game/SourceBulletRuntime.gd")
 
 static func initial_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_puddles_state: Dictionary) -> Dictionary:
 	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
@@ -16,29 +15,23 @@ static func initial_state(bullet_type_state: Dictionary, bullet_state: Dictionar
 	var puddle_amount := float(update_type_state.get("puddleAmount", source_bullet_defaults.PUDDLE_AMOUNT_DEFAULT))
 	var puddle_gate_passed := puddle_liquid != null and puddles > 0
 	var loop_iterations := puddles if puddle_gate_passed else 0
-	var runtime_state := source_bullet_runtime.create_puddles_initial_state(bullet_type_state, bullet_state, create_puddles_state)
-	runtime_state["bulletType"] = update_type_state
-	runtime_state["bullet"] = update_bullet_state
-	runtime_state["createPuddles"] = update_create_puddles_state
-	runtime_state["x"] = puddle_x
-	runtime_state["y"] = puddle_y
-	runtime_state["puddleLiquid"] = puddle_liquid
-	runtime_state["puddles"] = puddles
-	runtime_state["puddleRange"] = puddle_range
-	runtime_state["puddleAmount"] = puddle_amount
-	runtime_state["puddleGatePassed"] = puddle_gate_passed
-	runtime_state["loopIterations"] = loop_iterations
-	var source_trace := {
+	return {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"createPuddles": update_create_puddles_state,
+		"x": puddle_x,
+		"y": puddle_y,
+		"puddleLiquid": puddle_liquid,
+		"puddles": puddles,
+		"puddleRange": puddle_range,
+		"puddleAmount": puddle_amount,
+		"puddleGatePassed": puddle_gate_passed,
+		"loopIterations": loop_iterations,
 		"puddleGateSource": "if(puddleLiquid != null && puddles > 0){",
 		"loopBoundarySource": "for(int i = 0; i < puddles; i++){",
 		"tileBoundarySource": "Tile tile = world.tileWorld(x + Mathf.range(puddleRange), y + Mathf.range(puddleRange));",
 		"depositBoundarySource": "Puddles.deposit(tile, puddleLiquid, puddleAmount);",
 	}
-	runtime_state["puddleGateSource"] = source_trace.get("puddleGateSource", "")
-	runtime_state["loopBoundarySource"] = source_trace.get("loopBoundarySource", "")
-	runtime_state["tileBoundarySource"] = source_trace.get("tileBoundarySource", "")
-	runtime_state["depositBoundarySource"] = source_trace.get("depositBoundarySource", "")
-	return runtime_state
 
 static func tile_world_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_puddles_initial_state: Dictionary, puddle_random_state: Dictionary) -> Dictionary:
 	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
@@ -77,24 +70,22 @@ static func tile_world_state(bullet_type_state: Dictionary, bullet_state: Dictio
 				"tileWorldY": tile_y,
 				"call": "world.tileWorld(x + Mathf.range(puddleRange), y + Mathf.range(puddleRange))",
 			})
-	var runtime_state := source_bullet_runtime.create_puddles_tile_world_state(bullet_type_state, bullet_state, create_puddles_initial_state, puddle_random_state)
-	runtime_state["bulletType"] = update_type_state
-	runtime_state["bullet"] = update_bullet_state
-	runtime_state["createPuddlesInitial"] = update_initial_state
-	runtime_state["puddleRandom"] = update_random_state
-	runtime_state["puddleGatePassed"] = puddle_gate_passed
-	runtime_state["loopIterations"] = loop_iterations
-	runtime_state["puddleRange"] = puddle_range
-	runtime_state["x"] = base_x
-	runtime_state["y"] = base_y
-	runtime_state["tileWorldCalls"] = tile_world_calls
-	var source_trace := {
+	return {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"createPuddlesInitial": update_initial_state,
+		"puddleRandom": update_random_state,
+		"puddleGatePassed": puddle_gate_passed,
+		"loopIterations": loop_iterations,
+		"puddleRange": puddle_range,
+		"x": base_x,
+		"y": base_y,
+		"tileWorldCalls": tile_world_calls,
+		"xRangeSource": "Mathf.range(puddleRange)",
+		"yRangeSource": "Mathf.range(puddleRange)",
 		"tileWorldSource": "Tile tile = world.tileWorld(x + Mathf.range(puddleRange), y + Mathf.range(puddleRange));",
 		"depositBoundarySource": "Puddles.deposit(tile, puddleLiquid, puddleAmount);",
 	}
-	runtime_state["tileWorldSource"] = source_trace.get("tileWorldSource", "")
-	runtime_state["depositBoundarySource"] = source_trace.get("depositBoundarySource", "")
-	return runtime_state
 
 static func deposit_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_puddles_tile_world_state: Dictionary) -> Dictionary:
 	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
@@ -115,15 +106,14 @@ static func deposit_state(bullet_type_state: Dictionary, bullet_state: Dictionar
 				"puddleAmount": puddle_amount,
 				"call": "Puddles.deposit(tile, puddleLiquid, puddleAmount)",
 			})
-	var runtime_state := source_bullet_runtime.create_puddles_deposit_state(bullet_type_state, bullet_state, create_puddles_tile_world_state)
-	runtime_state["bulletType"] = update_type_state
-	runtime_state["bullet"] = update_bullet_state
-	runtime_state["createPuddlesTileWorld"] = update_tile_world_state
-	runtime_state["puddleGatePassed"] = puddle_gate_passed
-	runtime_state["puddleLiquid"] = puddle_liquid
-	runtime_state["puddleAmount"] = puddle_amount
-	runtime_state["tileWorldCalls"] = tile_world_calls
-	runtime_state["depositCalls"] = deposit_calls
-	var source_trace := {"depositSource": "Puddles.deposit(tile, puddleLiquid, puddleAmount);"}
-	runtime_state["depositSource"] = source_trace.get("depositSource", "")
-	return runtime_state
+	return {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"createPuddlesTileWorld": update_tile_world_state,
+		"puddleGatePassed": puddle_gate_passed,
+		"puddleLiquid": puddle_liquid,
+		"puddleAmount": puddle_amount,
+		"tileWorldCalls": tile_world_calls,
+		"depositCalls": deposit_calls,
+		"depositSource": "Puddles.deposit(tile, puddleLiquid, puddleAmount);",
+	}

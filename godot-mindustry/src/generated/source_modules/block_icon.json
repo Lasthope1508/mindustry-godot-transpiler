@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "block_icon": {
+    "owner": "SourceBlockIconState",
+    "source": "core/src/mindustry/world/Block.java",
+    "methods": [
+      "PortGame.generated_block_make_icon_regions_bridge_state",
+      "PortGame.generated_block_icons_bridge_state",
+      "PortGame.generated_block_get_regions_to_outline_bridge_state",
+      "PortGame.generated_block_get_generated_icons_bridge_state",
+      "PortGame.generated_block_reset_generated_icons_bridge_state",
+      "PortGame.generated_block_variant_regions_bridge_state"
+    ],
+    "generated_methods": [
+      "java_method_makeIconRegions_64",
+      "java_method_icons_65",
+      "java_method_getRegionsToOutline_66",
+      "java_method_getGeneratedIcons_67",
+      "java_method_resetGeneratedIcons_68",
+      "java_method_variantRegions_69"
+    ]
+  }
+}

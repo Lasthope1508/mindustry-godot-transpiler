@@ -1,9 +1,10 @@
 extends Node
 
 const PortGameScript := preload("res://src/game/PortGame.gd")
-const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const source_ssot_accessor_runtime_state := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
 const source_building_sense_state := preload("res://src/game/SourceBuildingSenseState.gd")
 const source_time_defaults := preload("res://src/game/SourceTimeDefaults.gd")
+const runtime_proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")
 
 func _ready() -> void:
 	var game: PortGame = PortGameScript.new()
@@ -42,7 +43,7 @@ func _ready() -> void:
 	var generated_object: Dictionary = game.generated_building_comp_sense_object_bridge_state("payloadType", block_value, true, first_item_value, true, config_value, "unit", single_payload_content)
 	var generated_content: Dictionary = game.generated_building_comp_sense_content_bridge_state("item", true, 6.0, false, 0.0, false, 0.0)
 	var generated_camera_default: Dictionary = game.generated_building_comp_sense_camera_default_bridge_state(world_x, world_y, true, 1.0, 2.0, 3.0, 4.0, source_tilesize)
-	var registry_state: Dictionary = source_ssot_catalog.canonical_headquarter_registry_state()
+	var registry_state: Dictionary = source_ssot_accessor_runtime_state.canonical_headquarter_registry_state()
 	var source_matches: Array[bool] = [
 		position == source_building_sense_state.sense_position_state(world_x, world_y, source_tilesize),
 		health_process == source_building_sense_state.sense_health_process_state(health, max_health, efficiency, time_scale, ranged_range, source_tilesize, has_range, rotation_value),
@@ -86,14 +87,9 @@ func _ready() -> void:
 	var proof_label := get_node_or_null("ProofCanvas/ProofLabel") as Label
 	if proof_label != null:
 		proof_label.text = "BUILDING_SENSE_MODULE_PROOF matches=%s registry_valid=%s" % [str(proof["matches"]), str(proof["registry_valid"])]
-	var proof_json := JSON.stringify(proof)
-	print("BUILDING_SENSE_MODULE_PROOF " + proof_json)
-	var proof_path := ProjectSettings.globalize_path("res://tools/runtime_proofs/BuildingSenseModuleProof.json")
-	var proof_file := FileAccess.open(proof_path, FileAccess.WRITE)
-	if proof_file != null:
-		proof_file.store_string(proof_json)
-		proof_file.flush()
-		proof_file.close()
+	print("BUILDING_SENSE_MODULE_PROOF " + JSON.stringify(proof))
+	runtime_proof_state.write_proof("BuildingSenseModuleProof", proof)
 	game.free()
-	await get_tree().create_timer(60.0).timeout
-	get_tree().quit(0)
+	await get_tree().process_frame
+	get_tree().quit(runtime_proof_state.exit_code(proof))
+

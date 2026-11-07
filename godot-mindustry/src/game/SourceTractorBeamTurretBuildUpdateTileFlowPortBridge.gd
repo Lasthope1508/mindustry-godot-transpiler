@@ -1,4 +1,4 @@
-extends "res://src/game/SourceBuildingSensePortBridge.gd"
+extends "res://src/game/SourceTractorBeamTurretPortBridge.gd"
 
 const source_tractor_beam_turret_build_update_tile_flow_state := preload("res://src/game/SourceTractorBeamTurretBuildUpdateTileFlowState.gd")
 

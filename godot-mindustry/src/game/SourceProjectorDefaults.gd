@@ -1,6 +1,8 @@
 extends RefCounted
 class_name SourceProjectorDefaults
 
+const source_range_defaults := preload("res://src/game/SourceRangeDefaults.gd")
+
 const PROJECTOR_LIGHT_OPACITY_DEFAULT := 0.7
 const PROJECTOR_HEAT_LERP_PROGRESS := 0.08
 const PROJECTOR_PHASE_HEAT_LERP_PROGRESS := 0.1
@@ -8,7 +10,7 @@ const PROJECTOR_HEAL_PERCENT_DIVISOR := 100.0
 const PROJECTOR_TIME_LOOP_PERIOD := 100.0
 const BUILD_BOOSTER_USE_TIME_DEFAULT := 0.0
 
-const OVERDRIVE_RANGE_DEFAULT := 80.0
+const OVERDRIVE_RANGE_DEFAULT := source_range_defaults.DEFAULT_BLOCK_RANGE
 const OVERDRIVE_PHASE_RANGE_BOOST_DEFAULT := 20.0
 const OVERDRIVE_EMIT_LIGHT_DEFAULT := true
 const OVERDRIVE_LIGHT_RADIUS_DEFAULT := 50.0

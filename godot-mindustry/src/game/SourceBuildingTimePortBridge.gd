@@ -6,6 +6,15 @@ const source_building_time_port_bridge_block_defaults := preload("res://src/game
 func source_building_apply_boost_state(current_time_scale: float, current_duration: float, intensity: float, duration: float, can_overdrive := true) -> Dictionary:
 	return source_building_time_state.apply_boost_state(current_time_scale, current_duration, intensity, duration, can_overdrive, source_building_time_port_bridge_block_defaults.TIME_SCALE_BOOST_EPSILON)
 
+func generated_building_comp_apply_boost_bridge_state(current_time_scale: float, current_duration: float, intensity: float, duration: float, can_overdrive := true) -> Dictionary:
+	return source_building_time_state.generated_apply_boost_bridge_state(current_time_scale, current_duration, intensity, duration, can_overdrive)
+
+func source_building_apply_slowdown_state(current_time_scale: float, current_duration: float, intensity: float, duration: float) -> Dictionary:
+	return source_building_time_state.apply_slowdown_state(current_time_scale, current_duration, intensity, duration, source_building_time_port_bridge_block_defaults.TIME_SCALE_BOOST_EPSILON)
+
+func generated_building_comp_apply_slowdown_bridge_state(current_time_scale: float, current_duration: float, intensity: float, duration: float) -> Dictionary:
+	return source_building_time_state.generated_apply_slowdown_bridge_state(current_time_scale, current_duration, intensity, duration)
+
 func source_building_time_scale_decay_state(current_time_scale: float, current_duration: float, source_delta: float) -> Dictionary:
 	return source_building_time_state.time_scale_decay_state(current_time_scale, current_duration, source_delta, source_building_time_port_bridge_block_defaults.TIME_SCALE_DEFAULT)
 
@@ -14,6 +23,30 @@ func source_building_delta(source_delta: float, time_scale: float) -> float:
 
 func source_building_edelta(source_delta: float, time_scale: float, efficiency: float) -> float:
 	return source_building_time_state.edelta(source_delta, time_scale, efficiency)
+
+func source_building_time_scale_state(current_time_scale: float) -> float:
+	return source_building_time_state.time_scale_state(current_time_scale)
+
+func source_building_warmup_state() -> float:
+	return source_building_time_state.warmup_state()
+
+func source_building_total_progress_state(source_time: float) -> float:
+	return source_building_time_state.total_progress_state(source_time)
+
+func source_building_progress_state() -> float:
+	return source_building_time_state.progress_state()
+
+func generated_building_comp_time_scale_bridge_state(current_time_scale: float) -> Dictionary:
+	return source_building_time_state.generated_time_scale_bridge_state(current_time_scale)
+
+func generated_building_comp_warmup_bridge_state() -> Dictionary:
+	return source_building_time_state.generated_warmup_bridge_state()
+
+func generated_building_comp_total_progress_bridge_state(source_time: float) -> Dictionary:
+	return source_building_time_state.generated_total_progress_bridge_state(source_time)
+
+func generated_building_comp_progress_bridge_state() -> Dictionary:
+	return source_building_time_state.generated_progress_bridge_state()
 
 func source_building_progress_increase(base_time: float, edelta_value: float) -> float:
 	return source_building_time_state.progress_increase(base_time, edelta_value)

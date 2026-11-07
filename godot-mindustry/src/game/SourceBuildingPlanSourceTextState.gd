@@ -1,0 +1,21 @@
+extends RefCounted
+class_name SourceBuildingPlanSourceTextState
+
+const SOURCE := "core/src/mindustry/entities/comp/BuildingComp.java"
+const ADD_PLAN_DEFAULT_METHOD := "public void addPlan(boolean checkPrevious){"
+const ADD_PLAN_DEFAULT_DELEGATE := "addPlan(checkPrevious, false);"
+const ADD_PLAN_METHOD := "public void addPlan(boolean checkPrevious, boolean ignoreConditions){"
+const ADD_PLAN_ELIGIBILITY_GUARD := "if(!ignoreConditions && (!block.rebuildable || (team == state.rules.defaultTeam && state.isCampaign() && !block.isVisible()))) return;"
+const ADD_PLAN_CONSTRUCT_GUARD := "if(self() instanceof ConstructBuild entity){"
+const ADD_PLAN_CONSTRUCT_RESUME_GUARD := "if(entity.current != null && entity.current.synthetic() && entity.wasConstructing){"
+const ADD_PLAN_CONSTRUCT_BLOCK_ASSIGN := "toAdd = entity.current;"
+const ADD_PLAN_CONSTRUCT_CONFIG_ASSIGN := "overrideConfig = entity.lastConfig;"
+const ADD_PLAN_CONSTRUCT_RETURN := "return;"
+const ADD_PLAN_REPLACE_GUARD := "if(checkPrevious){"
+const ADD_PLAN_REPLACE_MATCH := "if(b.x == tile.x && b.y == tile.y){"
+const ADD_PLAN_REPLACE_REMOVE := "data.plans.removeIndex(i);"
+const ADD_PLAN_PREPEND := "data.plans.addFirst(new BlockPlan(tile.x, tile.y, (short)rotation, toAdd, overrideConfig == null ? config() : overrideConfig));"
+const ADD_PLAN_DEFAULT_JAVA_METHOD := "java_method_addPlan_15"
+const ADD_PLAN_JAVA_METHOD := "java_method_addPlan_16"
+const ADD_PLAN_DEFAULT_GENERATED_OWNER := "building_comp.java_method_addPlan_15"
+const ADD_PLAN_GENERATED_OWNER := "building_comp.java_method_addPlan_16"

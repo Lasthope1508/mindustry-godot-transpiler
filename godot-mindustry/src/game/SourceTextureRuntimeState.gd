@@ -46,6 +46,44 @@ static func add_sprite(parent: Node, textures: Dictionary, key: String, pos: Vec
 	parent.add_child(sprite)
 	return sprite
 
+static func add_source_tile_batch(parent: Node, textures: Dictionary, key: String, cells: Array, tile_size: int) -> Node:
+	if parent == null or cells.is_empty():
+		return null
+	var batch := MultiMeshInstance2D.new()
+	batch.name = "Batch_" + key.replace("-", "_")
+	batch.texture = textures.get(key)
+	if batch.texture == null:
+		return null
+	var texture_size := batch.texture.get_size()
+	if texture_size.x <= 0.0 or texture_size.y <= 0.0:
+		return null
+	var batch_scale := Vector2.ONE
+	batch_scale = source_world_grid.sprite_tile_scale(texture_size, tile_size)
+	var multimesh := MultiMesh.new()
+	multimesh.transform_format = MultiMesh.TRANSFORM_2D
+	var mesh := QuadMesh.new()
+	mesh.size = texture_size
+	multimesh.mesh = mesh
+	multimesh.instance_count = cells.size()
+	for i in range(cells.size()):
+		var cell := _cell_value(cells[i])
+		var batch_position := source_world_grid.grid_to_world(cell, tile_size)
+		var transform := Transform2D(0.0, batch_position)
+		transform.x *= batch_scale.x
+		transform.y *= batch_scale.y
+		multimesh.set_instance_transform_2d(i, transform)
+	batch.multimesh = multimesh
+	batch.set_meta("source_tile_batch_key", key)
+	batch.set_meta("source_tile_batch_cell_count", cells.size())
+	parent.add_child(batch)
+	return batch
+
+static func add_ore_cell(game: Object, parent: Node, key: String, item_id: String, cell: Vector2i) -> Sprite2D:
+	var ore_items_by_cell: Dictionary = game.get("ore_items_by_cell")
+	ore_items_by_cell[source_world_grid.cell_key(cell)] = item_id
+	game.set("ore_items_by_cell", ore_items_by_cell)
+	return add_sprite(parent, game.get("textures"), key, game.call("grid_to_world", cell), int(game.get("tile_size")))
+
 static func block_texture(game: Object, block) -> Texture2D:
 	var block_texture_cache: Dictionary = game.get("block_texture_cache")
 	if block_texture_cache.has(block.id):
@@ -78,3 +116,10 @@ static func load_png_texture(path: String) -> Texture2D:
 		push_error("Could not load texture: " + path)
 		return null
 	return ImageTexture.create_from_image(image)
+
+static func _cell_value(value) -> Vector2i:
+	if value is Vector2i:
+		return value
+	if value is Dictionary:
+		return Vector2i(int(value.get("x", 0)), int(value.get("y", 0)))
+	return Vector2i.ZERO

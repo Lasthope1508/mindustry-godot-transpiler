@@ -1,0 +1,42 @@
+extends RefCounted
+class_name SourceBlockSourceTextState
+
+const source_world_source_text_state := preload("res://src/game/SourceWorldSourceTextState.gd")
+
+const SOURCE_BLOCK_GENERATED_CLASS := "res://src/generated/classes/mindustry/world/Block.gd"
+const SOURCE_BUILD_GENERATED_CLASS := "res://src/generated/classes/mindustry/world/Build.gd"
+const SOURCE_CONSTRUCT_BLOCK_GENERATED_CLASS := "res://src/generated/classes/mindustry/world/blocks/ConstructBlock.gd"
+const SOURCE_BLOCK_VARS_SOURCE := source_world_source_text_state.SOURCE_VARS_SOURCE
+const SOURCE_BLOCK_TILESIZE_FIELD_EXPR := source_world_source_text_state.SOURCE_TILESIZE_FIELD
+const SOURCE_BLOCK_DRAW_BASE_METHOD := "public void drawBase(Tile tile){"
+const SOURCE_BLOCK_DRAW_BASE_CACHED_METHOD := "public void drawBaseCached(Tile tile){"
+const SOURCE_BLOCK_DRAW_SHADOW_METHOD := "public void drawShadow(Tile tile){"
+const SOURCE_BLOCK_DRAW_ENVIRONMENT_LIGHT_METHOD := "public void drawEnvironmentLight(Tile tile){"
+const SOURCE_BLOCK_DRAW_PLACE_METHOD := "public void drawPlace(int x, int y, int rotation, boolean valid){"
+const SOURCE_BLOCK_DRAW_OVERLAY_METHOD := "public void drawOverlay(float x, float y, int rotation){"
+const SOURCE_BLOCK_DISPLAY_SHADOW_METHOD := "public boolean displayShadow(Tile tile){"
+const SOURCE_BLOCK_HAS_BUILDING_METHOD := "public boolean hasBuilding(){"
+const SOURCE_BLOCK_IS_MULTIBLOCK_METHOD := "public boolean isMultiblock(){"
+const SOURCE_BLOCK_IS_FLOOR_METHOD := "public boolean isFloor(){"
+const SOURCE_BLOCK_IS_OVERLAY_METHOD := "public boolean isOverlay(){"
+const SOURCE_BLOCK_AS_FLOOR_METHOD := "public Floor asFloor(){"
+const SOURCE_BLOCK_IS_AIR_METHOD := "public boolean isAir(){"
+const SOURCE_BLOCK_CAN_BE_BUILT_METHOD := "public boolean canBeBuilt(){"
+const SOURCE_BLOCK_ENVIRONMENT_BUILDABLE_METHOD := "public boolean environmentBuildable(){"
+const SOURCE_BLOCK_IS_STATIC_METHOD := "public boolean isStatic(){"
+const SOURCE_BLOCK_FIND_CONSUMER_METHOD := "public <T extends Consume> T findConsumer(Boolf<Consume> filter){"
+const SOURCE_BLOCK_HAS_CONSUMER_METHOD := "public boolean hasConsumer(Consume cons){"
+const SOURCE_BLOCK_REMOVE_CONSUMER_METHOD := "public void removeConsumer(Consume cons){"
+const SOURCE_BLOCK_REMOVE_CONSUMERS_METHOD := "public void removeConsumers(Boolf<Consume> b){"
+const SOURCE_BLOCK_CAN_PLACE_ON_METHOD := "public boolean canPlaceOn(Tile tile, Team team, int rotation){"
+const SOURCE_BLOCK_CAN_BREAK_METHOD := "public boolean canBreak(Tile tile){"
+const SOURCE_BLOCK_ROTATED_OUTPUT_METHOD := "public boolean rotatedOutput(int x, int y){"
+const SOURCE_BLOCK_ROTATED_OUTPUT_TILE_METHOD := "public boolean rotatedOutput(int fromX, int fromY, Tile destination){"
+const SOURCE_BLOCK_SYNTHETIC_METHOD := "public boolean synthetic(){"
+const SOURCE_BLOCK_CHECK_FORCE_DARK_METHOD := "public boolean checkForceDark(Tile tile){"
+const SOURCE_BLOCK_IS_DARKENED_METHOD := "public boolean isDarkened(Tile tile){"
+const SOURCE_BLOCK_CONSUMES_ITEM_METHOD := "public boolean consumesItem(Item item){"
+const SOURCE_BLOCK_CONSUMES_LIQUID_METHOD := "public boolean consumesLiquid(Liquid liq){"
+const SOURCE_BLOCK_CAN_REPLACE_METHOD := "public boolean canReplace(Block other){"
+const SOURCE_BLOCK_CAN_REPLACE_JAVA_METHOD_CAN_REPLACE_35 := "java_method_canReplace_35"
+const SOURCE_BLOCK_CAN_REPLACE_GENERATED_OWNER := "block.java_method_canReplace_35"

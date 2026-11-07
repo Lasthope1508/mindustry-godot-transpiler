@@ -1,0 +1,21 @@
+extends RefCounted
+class_name SourceDrillDumpSourceTextState
+
+const SOURCE_DRILL_DUMP_INTERVAL_CALLBACK_KEY := "drill_dump_interval"
+const SOURCE_DRILL_DUMP_PREVIEW_RUNTIME_STATE_CALLBACK_KEY := "drill_dump_preview_runtime_state"
+const SOURCE_DRILL_DUMP_BLOCK_DUMP_TIME_CALLBACK_KEY := "block_dump_time"
+const SOURCE_DRILL_DUMP_BLOCK_DUMP_TIME_METHOD_FALLBACK := "source_block_dump_time"
+const SOURCE_DRILL_DUMP_CURRENT_TIMER_KEY := "current_timer"
+const SOURCE_DRILL_DUMP_SOURCE_DELTA_KEY := "source_delta"
+const SOURCE_DRILL_DUMP_INTERVAL_KEY := "dump_interval"
+const SOURCE_DRILL_DUMP_RUNTIME_STATE_METHOD_KEY := "drill_dump_runtime_state_method"
+const SOURCE_DRILL_DUMP_TIMER_BEFORE_KEY := "drill_dump_timer_before"
+const SOURCE_DRILL_DUMP_TIMER_KEY := "drill_dump_timer"
+const SOURCE_DRILL_DUMP_SHOULD_DUMP_KEY := "should_dump"
+const SOURCE_DRILL_DUMP_ATTEMPTS_KEY := "dump_attempts"
+const SOURCE_DRILL_DUMP_INTERVAL_TIMER_GATE := "if(timer(timerDump, dumpTime / timeScale)){"
+const SOURCE_DRILL_DUMP_INTERVAL_DUMP_CALL := "dump(dominantItem != null && items.has(dominantItem) ? dominantItem : null);"
+const SOURCE_DRILL_DUMP_INTERVAL_TIMER_DUMP_COMMENT := "Dump timer ID."
+const SOURCE_DRILL_DUMP_INTERVAL_TIMER_DUMP_FIELD := "protected final int timerDump = timers++;"
+const SOURCE_DRILL_DUMP_INTERVAL_DUMP_TIME_COMMENT := "How often to try dumping items in ticks, e.g. 5 = 12 times/sec"
+const SOURCE_DRILL_DUMP_INTERVAL_DUMP_TIME_FIELD := "public int dumpTime = 5;"

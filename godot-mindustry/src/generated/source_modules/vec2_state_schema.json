@@ -28,8 +28,7 @@
             "port_game.source_arc_vec2_limit"
           ]
         }
-      },
-      "status": "active"
+      }
     },
     "source_unit_vec2_angle_input": {
       "canonical_schema": "source_state_schema.source_unit_vec2_angle_input",
@@ -58,8 +57,7 @@
             "port_game.source_unit_vec2_angle"
           ]
         }
-      },
-      "status": "active"
+      }
     },
     "source_vec2_limit_input": {
       "canonical_schema": "source_state_schema.source_vec2_limit_input",
@@ -88,8 +86,7 @@
             "port_game.source_vec2_limit"
           ]
         }
-      },
-      "status": "active"
+      }
     }
   }
 }

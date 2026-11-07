@@ -1,6 +1,14 @@
 {
   "version": 1,
   "files": {
+    "mindustry/ClientLauncher.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/ClientLauncher.gd",
+      "file": "mindustry/ClientLauncher.gd"
+    },
+    "mindustry/Vars.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/Vars.gd",
+      "file": "mindustry/Vars.gd"
+    },
     "mindustry/ai/Astar.gd": {
       "canonical_file": "emitted_classes.files.mindustry/ai/Astar.gd",
       "file": "mindustry/ai/Astar.gd"
@@ -25,17 +33,33 @@
       "canonical_file": "emitted_classes.files.mindustry/ai/ItemUnitStance.gd",
       "file": "mindustry/ai/ItemUnitStance.gd"
     },
-    "mindustry/ai/Pathfinder.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/ai/Pathfinder.gd",
-      "file": "mindustry/ai/Pathfinder.gd"
-    },
     "mindustry/ai/PathfindQueue.gd": {
       "canonical_file": "emitted_classes.files.mindustry/ai/PathfindQueue.gd",
       "file": "mindustry/ai/PathfindQueue.gd"
     },
+    "mindustry/ai/Pathfinder.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/ai/Pathfinder.gd",
+      "file": "mindustry/ai/Pathfinder.gd"
+    },
     "mindustry/ai/RtsAI.gd": {
       "canonical_file": "emitted_classes.files.mindustry/ai/RtsAI.gd",
       "file": "mindustry/ai/RtsAI.gd"
+    },
+    "mindustry/ai/UnitCommand.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/ai/UnitCommand.gd",
+      "file": "mindustry/ai/UnitCommand.gd"
+    },
+    "mindustry/ai/UnitGroup.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/ai/UnitGroup.gd",
+      "file": "mindustry/ai/UnitGroup.gd"
+    },
+    "mindustry/ai/UnitStance.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/ai/UnitStance.gd",
+      "file": "mindustry/ai/UnitStance.gd"
+    },
+    "mindustry/ai/WaveSpawner.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/ai/WaveSpawner.gd",
+      "file": "mindustry/ai/WaveSpawner.gd"
     },
     "mindustry/ai/types/AssemblerAI.gd": {
       "canonical_file": "emitted_classes.files.mindustry/ai/types/AssemblerAI.gd",
@@ -101,22 +125,6 @@
       "canonical_file": "emitted_classes.files.mindustry/ai/types/SuicideAI.gd",
       "file": "mindustry/ai/types/SuicideAI.gd"
     },
-    "mindustry/ai/UnitCommand.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/ai/UnitCommand.gd",
-      "file": "mindustry/ai/UnitCommand.gd"
-    },
-    "mindustry/ai/UnitGroup.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/ai/UnitGroup.gd",
-      "file": "mindustry/ai/UnitGroup.gd"
-    },
-    "mindustry/ai/UnitStance.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/ai/UnitStance.gd",
-      "file": "mindustry/ai/UnitStance.gd"
-    },
-    "mindustry/ai/WaveSpawner.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/ai/WaveSpawner.gd",
-      "file": "mindustry/ai/WaveSpawner.gd"
-    },
     "mindustry/async/AsyncCore.gd": {
       "canonical_file": "emitted_classes.files.mindustry/async/AsyncCore.gd",
       "file": "mindustry/async/AsyncCore.gd"
@@ -148,10 +156,6 @@
     "mindustry/audio/SoundPriority.gd": {
       "canonical_file": "emitted_classes.files.mindustry/audio/SoundPriority.gd",
       "file": "mindustry/audio/SoundPriority.gd"
-    },
-    "mindustry/ClientLauncher.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/ClientLauncher.gd",
-      "file": "mindustry/ClientLauncher.gd"
     },
     "mindustry/content/Blocks.gd": {
       "canonical_file": "emitted_classes.files.mindustry/content/Blocks.gd",
@@ -285,34 +289,6 @@
       "canonical_file": "emitted_classes.files.mindustry/editor/BannedContentDialog.gd",
       "file": "mindustry/editor/BannedContentDialog.gd"
     },
-    "mindustry/editor/data/AssetView.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/editor/data/AssetView.gd",
-      "file": "mindustry/editor/data/AssetView.gd"
-    },
-    "mindustry/editor/data/MapAssetsDialog.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/editor/data/MapAssetsDialog.gd",
-      "file": "mindustry/editor/data/MapAssetsDialog.gd"
-    },
-    "mindustry/editor/data/MapAudioView.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/editor/data/MapAudioView.gd",
-      "file": "mindustry/editor/data/MapAudioView.gd"
-    },
-    "mindustry/editor/data/MapBundlesView.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/editor/data/MapBundlesView.gd",
-      "file": "mindustry/editor/data/MapBundlesView.gd"
-    },
-    "mindustry/editor/data/MapContentView.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/editor/data/MapContentView.gd",
-      "file": "mindustry/editor/data/MapContentView.gd"
-    },
-    "mindustry/editor/data/MapImagesView.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/editor/data/MapImagesView.gd",
-      "file": "mindustry/editor/data/MapImagesView.gd"
-    },
-    "mindustry/editor/data/MapPatchesView.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/editor/data/MapPatchesView.gd",
-      "file": "mindustry/editor/data/MapPatchesView.gd"
-    },
     "mindustry/editor/DrawOperation.gd": {
       "canonical_file": "emitted_classes.files.mindustry/editor/DrawOperation.gd",
       "file": "mindustry/editor/DrawOperation.gd"
@@ -392,6 +368,102 @@
     "mindustry/editor/WaveInfoDialog.gd": {
       "canonical_file": "emitted_classes.files.mindustry/editor/WaveInfoDialog.gd",
       "file": "mindustry/editor/WaveInfoDialog.gd"
+    },
+    "mindustry/editor/data/AssetView.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/editor/data/AssetView.gd",
+      "file": "mindustry/editor/data/AssetView.gd"
+    },
+    "mindustry/editor/data/MapAssetsDialog.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/editor/data/MapAssetsDialog.gd",
+      "file": "mindustry/editor/data/MapAssetsDialog.gd"
+    },
+    "mindustry/editor/data/MapAudioView.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/editor/data/MapAudioView.gd",
+      "file": "mindustry/editor/data/MapAudioView.gd"
+    },
+    "mindustry/editor/data/MapBundlesView.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/editor/data/MapBundlesView.gd",
+      "file": "mindustry/editor/data/MapBundlesView.gd"
+    },
+    "mindustry/editor/data/MapContentView.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/editor/data/MapContentView.gd",
+      "file": "mindustry/editor/data/MapContentView.gd"
+    },
+    "mindustry/editor/data/MapImagesView.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/editor/data/MapImagesView.gd",
+      "file": "mindustry/editor/data/MapImagesView.gd"
+    },
+    "mindustry/editor/data/MapPatchesView.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/editor/data/MapPatchesView.gd",
+      "file": "mindustry/editor/data/MapPatchesView.gd"
+    },
+    "mindustry/entities/Damage.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/entities/Damage.gd",
+      "file": "mindustry/entities/Damage.gd"
+    },
+    "mindustry/entities/Effect.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/entities/Effect.gd",
+      "file": "mindustry/entities/Effect.gd"
+    },
+    "mindustry/entities/EntityCollisions.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/entities/EntityCollisions.gd",
+      "file": "mindustry/entities/EntityCollisions.gd"
+    },
+    "mindustry/entities/EntityGroup.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/entities/EntityGroup.gd",
+      "file": "mindustry/entities/EntityGroup.gd"
+    },
+    "mindustry/entities/EntityIndexer.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/entities/EntityIndexer.gd",
+      "file": "mindustry/entities/EntityIndexer.gd"
+    },
+    "mindustry/entities/Fires.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/entities/Fires.gd",
+      "file": "mindustry/entities/Fires.gd"
+    },
+    "mindustry/entities/GroupDefs.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/entities/GroupDefs.gd",
+      "file": "mindustry/entities/GroupDefs.gd"
+    },
+    "mindustry/entities/Leg.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/entities/Leg.gd",
+      "file": "mindustry/entities/Leg.gd"
+    },
+    "mindustry/entities/LegDestroyData.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/entities/LegDestroyData.gd",
+      "file": "mindustry/entities/LegDestroyData.gd"
+    },
+    "mindustry/entities/Lightning.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/entities/Lightning.gd",
+      "file": "mindustry/entities/Lightning.gd"
+    },
+    "mindustry/entities/Mover.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/entities/Mover.gd",
+      "file": "mindustry/entities/Mover.gd"
+    },
+    "mindustry/entities/Predict.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/entities/Predict.gd",
+      "file": "mindustry/entities/Predict.gd"
+    },
+    "mindustry/entities/Puddles.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/entities/Puddles.gd",
+      "file": "mindustry/entities/Puddles.gd"
+    },
+    "mindustry/entities/Sized.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/entities/Sized.gd",
+      "file": "mindustry/entities/Sized.gd"
+    },
+    "mindustry/entities/TargetPriority.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/entities/TargetPriority.gd",
+      "file": "mindustry/entities/TargetPriority.gd"
+    },
+    "mindustry/entities/UnitSorts.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/entities/UnitSorts.gd",
+      "file": "mindustry/entities/UnitSorts.gd"
+    },
+    "mindustry/entities/Units.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/entities/Units.gd",
+      "file": "mindustry/entities/Units.gd"
     },
     "mindustry/entities/abilities/Ability.gd": {
       "canonical_file": "emitted_classes.files.mindustry/entities/abilities/Ability.gd",
@@ -757,10 +829,6 @@
       "canonical_file": "emitted_classes.files.mindustry/entities/comp/WorldLabelComp.gd",
       "file": "mindustry/entities/comp/WorldLabelComp.gd"
     },
-    "mindustry/entities/Damage.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/entities/Damage.gd",
-      "file": "mindustry/entities/Damage.gd"
-    },
     "mindustry/entities/effect/ExplosionEffect.gd": {
       "canonical_file": "emitted_classes.files.mindustry/entities/effect/ExplosionEffect.gd",
       "file": "mindustry/entities/effect/ExplosionEffect.gd"
@@ -792,46 +860,6 @@
     "mindustry/entities/effect/WrapEffect.gd": {
       "canonical_file": "emitted_classes.files.mindustry/entities/effect/WrapEffect.gd",
       "file": "mindustry/entities/effect/WrapEffect.gd"
-    },
-    "mindustry/entities/Effect.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/entities/Effect.gd",
-      "file": "mindustry/entities/Effect.gd"
-    },
-    "mindustry/entities/EntityCollisions.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/entities/EntityCollisions.gd",
-      "file": "mindustry/entities/EntityCollisions.gd"
-    },
-    "mindustry/entities/EntityGroup.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/entities/EntityGroup.gd",
-      "file": "mindustry/entities/EntityGroup.gd"
-    },
-    "mindustry/entities/EntityIndexer.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/entities/EntityIndexer.gd",
-      "file": "mindustry/entities/EntityIndexer.gd"
-    },
-    "mindustry/entities/Fires.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/entities/Fires.gd",
-      "file": "mindustry/entities/Fires.gd"
-    },
-    "mindustry/entities/GroupDefs.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/entities/GroupDefs.gd",
-      "file": "mindustry/entities/GroupDefs.gd"
-    },
-    "mindustry/entities/Leg.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/entities/Leg.gd",
-      "file": "mindustry/entities/Leg.gd"
-    },
-    "mindustry/entities/LegDestroyData.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/entities/LegDestroyData.gd",
-      "file": "mindustry/entities/LegDestroyData.gd"
-    },
-    "mindustry/entities/Lightning.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/entities/Lightning.gd",
-      "file": "mindustry/entities/Lightning.gd"
-    },
-    "mindustry/entities/Mover.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/entities/Mover.gd",
-      "file": "mindustry/entities/Mover.gd"
     },
     "mindustry/entities/part/DrawPart.gd": {
       "canonical_file": "emitted_classes.files.mindustry/entities/part/DrawPart.gd",
@@ -893,22 +921,6 @@
       "canonical_file": "emitted_classes.files.mindustry/entities/pattern/ShootSummon.gd",
       "file": "mindustry/entities/pattern/ShootSummon.gd"
     },
-    "mindustry/entities/Predict.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/entities/Predict.gd",
-      "file": "mindustry/entities/Predict.gd"
-    },
-    "mindustry/entities/Puddles.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/entities/Puddles.gd",
-      "file": "mindustry/entities/Puddles.gd"
-    },
-    "mindustry/entities/Sized.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/entities/Sized.gd",
-      "file": "mindustry/entities/Sized.gd"
-    },
-    "mindustry/entities/TargetPriority.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/entities/TargetPriority.gd",
-      "file": "mindustry/entities/TargetPriority.gd"
-    },
     "mindustry/entities/units/AIController.gd": {
       "canonical_file": "emitted_classes.files.mindustry/entities/units/AIController.gd",
       "file": "mindustry/entities/units/AIController.gd"
@@ -928,14 +940,6 @@
     "mindustry/entities/units/WeaponMount.gd": {
       "canonical_file": "emitted_classes.files.mindustry/entities/units/WeaponMount.gd",
       "file": "mindustry/entities/units/WeaponMount.gd"
-    },
-    "mindustry/entities/Units.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/entities/Units.gd",
-      "file": "mindustry/entities/Units.gd"
-    },
-    "mindustry/entities/UnitSorts.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/entities/UnitSorts.gd",
-      "file": "mindustry/entities/UnitSorts.gd"
     },
     "mindustry/game/AttackIndicators.gd": {
       "canonical_file": "emitted_classes.files.mindustry/game/AttackIndicators.gd",
@@ -961,13 +965,13 @@
       "canonical_file": "emitted_classes.files.mindustry/game/FogControl.gd",
       "file": "mindustry/game/FogControl.gd"
     },
-    "mindustry/game/Gamemode.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/game/Gamemode.gd",
-      "file": "mindustry/game/Gamemode.gd"
-    },
     "mindustry/game/GameStats.gd": {
       "canonical_file": "emitted_classes.files.mindustry/game/GameStats.gd",
       "file": "mindustry/game/GameStats.gd"
+    },
+    "mindustry/game/Gamemode.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/game/Gamemode.gd",
+      "file": "mindustry/game/Gamemode.gd"
     },
     "mindustry/game/MapMarkers.gd": {
       "canonical_file": "emitted_classes.files.mindustry/game/MapMarkers.gd",
@@ -1057,62 +1061,6 @@
       "canonical_file": "emitted_classes.files.mindustry/graphics/FogRenderer.gd",
       "file": "mindustry/graphics/FogRenderer.gd"
     },
-    "mindustry/graphics/g3d/GenericMesh.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/graphics/g3d/GenericMesh.gd",
-      "file": "mindustry/graphics/g3d/GenericMesh.gd"
-    },
-    "mindustry/graphics/g3d/HexMesh.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/graphics/g3d/HexMesh.gd",
-      "file": "mindustry/graphics/g3d/HexMesh.gd"
-    },
-    "mindustry/graphics/g3d/HexMesher.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/graphics/g3d/HexMesher.gd",
-      "file": "mindustry/graphics/g3d/HexMesher.gd"
-    },
-    "mindustry/graphics/g3d/HexSkyMesh.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/graphics/g3d/HexSkyMesh.gd",
-      "file": "mindustry/graphics/g3d/HexSkyMesh.gd"
-    },
-    "mindustry/graphics/g3d/MatMesh.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/graphics/g3d/MatMesh.gd",
-      "file": "mindustry/graphics/g3d/MatMesh.gd"
-    },
-    "mindustry/graphics/g3d/MeshBuilder.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/graphics/g3d/MeshBuilder.gd",
-      "file": "mindustry/graphics/g3d/MeshBuilder.gd"
-    },
-    "mindustry/graphics/g3d/MultiMesh.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/graphics/g3d/MultiMesh.gd",
-      "file": "mindustry/graphics/g3d/MultiMesh.gd"
-    },
-    "mindustry/graphics/g3d/NoiseMesh.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/graphics/g3d/NoiseMesh.gd",
-      "file": "mindustry/graphics/g3d/NoiseMesh.gd"
-    },
-    "mindustry/graphics/g3d/PlanetGrid.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/graphics/g3d/PlanetGrid.gd",
-      "file": "mindustry/graphics/g3d/PlanetGrid.gd"
-    },
-    "mindustry/graphics/g3d/PlanetMesh.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/graphics/g3d/PlanetMesh.gd",
-      "file": "mindustry/graphics/g3d/PlanetMesh.gd"
-    },
-    "mindustry/graphics/g3d/PlanetParams.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/graphics/g3d/PlanetParams.gd",
-      "file": "mindustry/graphics/g3d/PlanetParams.gd"
-    },
-    "mindustry/graphics/g3d/PlanetRenderer.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/graphics/g3d/PlanetRenderer.gd",
-      "file": "mindustry/graphics/g3d/PlanetRenderer.gd"
-    },
-    "mindustry/graphics/g3d/ShaderSphereMesh.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/graphics/g3d/ShaderSphereMesh.gd",
-      "file": "mindustry/graphics/g3d/ShaderSphereMesh.gd"
-    },
-    "mindustry/graphics/g3d/SunMesh.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/graphics/g3d/SunMesh.gd",
-      "file": "mindustry/graphics/g3d/SunMesh.gd"
-    },
     "mindustry/graphics/IntelGpuCheck.gd": {
       "canonical_file": "emitted_classes.files.mindustry/graphics/IntelGpuCheck.gd",
       "file": "mindustry/graphics/IntelGpuCheck.gd"
@@ -1181,6 +1129,62 @@
       "canonical_file": "emitted_classes.files.mindustry/graphics/Voronoi.gd",
       "file": "mindustry/graphics/Voronoi.gd"
     },
+    "mindustry/graphics/g3d/GenericMesh.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/graphics/g3d/GenericMesh.gd",
+      "file": "mindustry/graphics/g3d/GenericMesh.gd"
+    },
+    "mindustry/graphics/g3d/HexMesh.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/graphics/g3d/HexMesh.gd",
+      "file": "mindustry/graphics/g3d/HexMesh.gd"
+    },
+    "mindustry/graphics/g3d/HexMesher.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/graphics/g3d/HexMesher.gd",
+      "file": "mindustry/graphics/g3d/HexMesher.gd"
+    },
+    "mindustry/graphics/g3d/HexSkyMesh.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/graphics/g3d/HexSkyMesh.gd",
+      "file": "mindustry/graphics/g3d/HexSkyMesh.gd"
+    },
+    "mindustry/graphics/g3d/MatMesh.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/graphics/g3d/MatMesh.gd",
+      "file": "mindustry/graphics/g3d/MatMesh.gd"
+    },
+    "mindustry/graphics/g3d/MeshBuilder.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/graphics/g3d/MeshBuilder.gd",
+      "file": "mindustry/graphics/g3d/MeshBuilder.gd"
+    },
+    "mindustry/graphics/g3d/MultiMesh.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/graphics/g3d/MultiMesh.gd",
+      "file": "mindustry/graphics/g3d/MultiMesh.gd"
+    },
+    "mindustry/graphics/g3d/NoiseMesh.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/graphics/g3d/NoiseMesh.gd",
+      "file": "mindustry/graphics/g3d/NoiseMesh.gd"
+    },
+    "mindustry/graphics/g3d/PlanetGrid.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/graphics/g3d/PlanetGrid.gd",
+      "file": "mindustry/graphics/g3d/PlanetGrid.gd"
+    },
+    "mindustry/graphics/g3d/PlanetMesh.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/graphics/g3d/PlanetMesh.gd",
+      "file": "mindustry/graphics/g3d/PlanetMesh.gd"
+    },
+    "mindustry/graphics/g3d/PlanetParams.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/graphics/g3d/PlanetParams.gd",
+      "file": "mindustry/graphics/g3d/PlanetParams.gd"
+    },
+    "mindustry/graphics/g3d/PlanetRenderer.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/graphics/g3d/PlanetRenderer.gd",
+      "file": "mindustry/graphics/g3d/PlanetRenderer.gd"
+    },
+    "mindustry/graphics/g3d/ShaderSphereMesh.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/graphics/g3d/ShaderSphereMesh.gd",
+      "file": "mindustry/graphics/g3d/ShaderSphereMesh.gd"
+    },
+    "mindustry/graphics/g3d/SunMesh.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/graphics/g3d/SunMesh.gd",
+      "file": "mindustry/graphics/g3d/SunMesh.gd"
+    },
     "mindustry/input/Binding.gd": {
       "canonical_file": "emitted_classes.files.mindustry/input/Binding.gd",
       "file": "mindustry/input/Binding.gd"
@@ -1197,13 +1201,13 @@
       "canonical_file": "emitted_classes.files.mindustry/input/MobileInput.gd",
       "file": "mindustry/input/MobileInput.gd"
     },
-    "mindustry/input/Placement.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/input/Placement.gd",
-      "file": "mindustry/input/Placement.gd"
-    },
     "mindustry/input/PlaceMode.gd": {
       "canonical_file": "emitted_classes.files.mindustry/input/PlaceMode.gd",
       "file": "mindustry/input/PlaceMode.gd"
+    },
+    "mindustry/input/Placement.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/input/Placement.gd",
+      "file": "mindustry/input/Placement.gd"
     },
     "mindustry/io/JsonIO.gd": {
       "canonical_file": "emitted_classes.files.mindustry/io/JsonIO.gd",
@@ -1365,26 +1369,6 @@
       "canonical_file": "emitted_classes.files.mindustry/logic/LMarkerControl.gd",
       "file": "mindustry/logic/LMarkerControl.gd"
     },
-    "mindustry/logic/LogicDialog.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/logic/LogicDialog.gd",
-      "file": "mindustry/logic/LogicDialog.gd"
-    },
-    "mindustry/logic/LogicFx.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/logic/LogicFx.gd",
-      "file": "mindustry/logic/LogicFx.gd"
-    },
-    "mindustry/logic/LogicOp.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/logic/LogicOp.gd",
-      "file": "mindustry/logic/LogicOp.gd"
-    },
-    "mindustry/logic/LogicRule.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/logic/LogicRule.gd",
-      "file": "mindustry/logic/LogicRule.gd"
-    },
-    "mindustry/logic/LogicScript.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/logic/LogicScript.gd",
-      "file": "mindustry/logic/LogicScript.gd"
-    },
     "mindustry/logic/LParser.gd": {
       "canonical_file": "emitted_classes.files.mindustry/logic/LParser.gd",
       "file": "mindustry/logic/LParser.gd"
@@ -1412,6 +1396,26 @@
     "mindustry/logic/LWritable.gd": {
       "canonical_file": "emitted_classes.files.mindustry/logic/LWritable.gd",
       "file": "mindustry/logic/LWritable.gd"
+    },
+    "mindustry/logic/LogicDialog.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/logic/LogicDialog.gd",
+      "file": "mindustry/logic/LogicDialog.gd"
+    },
+    "mindustry/logic/LogicFx.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/logic/LogicFx.gd",
+      "file": "mindustry/logic/LogicFx.gd"
+    },
+    "mindustry/logic/LogicOp.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/logic/LogicOp.gd",
+      "file": "mindustry/logic/LogicOp.gd"
+    },
+    "mindustry/logic/LogicRule.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/logic/LogicRule.gd",
+      "file": "mindustry/logic/LogicRule.gd"
+    },
+    "mindustry/logic/LogicScript.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/logic/LogicScript.gd",
+      "file": "mindustry/logic/LogicScript.gd"
     },
     "mindustry/logic/MessageType.gd": {
       "canonical_file": "emitted_classes.files.mindustry/logic/MessageType.gd",
@@ -1448,6 +1452,30 @@
     "mindustry/logic/TileLayer.gd": {
       "canonical_file": "emitted_classes.files.mindustry/logic/TileLayer.gd",
       "file": "mindustry/logic/TileLayer.gd"
+    },
+    "mindustry/maps/Map.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/maps/Map.gd",
+      "file": "mindustry/maps/Map.gd"
+    },
+    "mindustry/maps/MapException.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/maps/MapException.gd",
+      "file": "mindustry/maps/MapException.gd"
+    },
+    "mindustry/maps/MapPreviewLoader.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/maps/MapPreviewLoader.gd",
+      "file": "mindustry/maps/MapPreviewLoader.gd"
+    },
+    "mindustry/maps/Maps.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/maps/Maps.gd",
+      "file": "mindustry/maps/Maps.gd"
+    },
+    "mindustry/maps/SectorDamage.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/maps/SectorDamage.gd",
+      "file": "mindustry/maps/SectorDamage.gd"
+    },
+    "mindustry/maps/SectorSubmissions.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/maps/SectorSubmissions.gd",
+      "file": "mindustry/maps/SectorSubmissions.gd"
     },
     "mindustry/maps/filters/BlendFilter.gd": {
       "canonical_file": "emitted_classes.files.mindustry/maps/filters/BlendFilter.gd",
@@ -1545,22 +1573,6 @@
       "canonical_file": "emitted_classes.files.mindustry/maps/generators/WorldGenerator.gd",
       "file": "mindustry/maps/generators/WorldGenerator.gd"
     },
-    "mindustry/maps/Map.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/maps/Map.gd",
-      "file": "mindustry/maps/Map.gd"
-    },
-    "mindustry/maps/MapException.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/maps/MapException.gd",
-      "file": "mindustry/maps/MapException.gd"
-    },
-    "mindustry/maps/MapPreviewLoader.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/maps/MapPreviewLoader.gd",
-      "file": "mindustry/maps/MapPreviewLoader.gd"
-    },
-    "mindustry/maps/Maps.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/maps/Maps.gd",
-      "file": "mindustry/maps/Maps.gd"
-    },
     "mindustry/maps/planet/AsteroidGenerator.gd": {
       "canonical_file": "emitted_classes.files.mindustry/maps/planet/AsteroidGenerator.gd",
       "file": "mindustry/maps/planet/AsteroidGenerator.gd"
@@ -1577,14 +1589,6 @@
       "canonical_file": "emitted_classes.files.mindustry/maps/planet/TantrosPlanetGenerator.gd",
       "file": "mindustry/maps/planet/TantrosPlanetGenerator.gd"
     },
-    "mindustry/maps/SectorDamage.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/maps/SectorDamage.gd",
-      "file": "mindustry/maps/SectorDamage.gd"
-    },
-    "mindustry/maps/SectorSubmissions.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/maps/SectorSubmissions.gd",
-      "file": "mindustry/maps/SectorSubmissions.gd"
-    },
     "mindustry/mod/ClassLoaderCloser.gd": {
       "canonical_file": "emitted_classes.files.mindustry/mod/ClassLoaderCloser.gd",
       "file": "mindustry/mod/ClassLoaderCloser.gd"
@@ -1596,38 +1600,6 @@
     "mindustry/mod/ContentParser.gd": {
       "canonical_file": "emitted_classes.files.mindustry/mod/ContentParser.gd",
       "file": "mindustry/mod/ContentParser.gd"
-    },
-    "mindustry/mod/data/BundleAsset.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/mod/data/BundleAsset.gd",
-      "file": "mindustry/mod/data/BundleAsset.gd"
-    },
-    "mindustry/mod/data/ContentAsset.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/mod/data/ContentAsset.gd",
-      "file": "mindustry/mod/data/ContentAsset.gd"
-    },
-    "mindustry/mod/data/DataAsset.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/mod/data/DataAsset.gd",
-      "file": "mindustry/mod/data/DataAsset.gd"
-    },
-    "mindustry/mod/data/DataAssetType.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/mod/data/DataAssetType.gd",
-      "file": "mindustry/mod/data/DataAssetType.gd"
-    },
-    "mindustry/mod/data/ImageAsset.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/mod/data/ImageAsset.gd",
-      "file": "mindustry/mod/data/ImageAsset.gd"
-    },
-    "mindustry/mod/data/MusicAsset.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/mod/data/MusicAsset.gd",
-      "file": "mindustry/mod/data/MusicAsset.gd"
-    },
-    "mindustry/mod/data/PatchAsset.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/mod/data/PatchAsset.gd",
-      "file": "mindustry/mod/data/PatchAsset.gd"
-    },
-    "mindustry/mod/data/SoundAsset.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/mod/data/SoundAsset.gd",
-      "file": "mindustry/mod/data/SoundAsset.gd"
     },
     "mindustry/mod/DataAssetCache.gd": {
       "canonical_file": "emitted_classes.files.mindustry/mod/DataAssetCache.gd",
@@ -1680,6 +1652,38 @@
     "mindustry/mod/Scripts.gd": {
       "canonical_file": "emitted_classes.files.mindustry/mod/Scripts.gd",
       "file": "mindustry/mod/Scripts.gd"
+    },
+    "mindustry/mod/data/BundleAsset.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/mod/data/BundleAsset.gd",
+      "file": "mindustry/mod/data/BundleAsset.gd"
+    },
+    "mindustry/mod/data/ContentAsset.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/mod/data/ContentAsset.gd",
+      "file": "mindustry/mod/data/ContentAsset.gd"
+    },
+    "mindustry/mod/data/DataAsset.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/mod/data/DataAsset.gd",
+      "file": "mindustry/mod/data/DataAsset.gd"
+    },
+    "mindustry/mod/data/DataAssetType.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/mod/data/DataAssetType.gd",
+      "file": "mindustry/mod/data/DataAssetType.gd"
+    },
+    "mindustry/mod/data/ImageAsset.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/mod/data/ImageAsset.gd",
+      "file": "mindustry/mod/data/ImageAsset.gd"
+    },
+    "mindustry/mod/data/MusicAsset.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/mod/data/MusicAsset.gd",
+      "file": "mindustry/mod/data/MusicAsset.gd"
+    },
+    "mindustry/mod/data/PatchAsset.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/mod/data/PatchAsset.gd",
+      "file": "mindustry/mod/data/PatchAsset.gd"
+    },
+    "mindustry/mod/data/SoundAsset.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/mod/data/SoundAsset.gd",
+      "file": "mindustry/mod/data/SoundAsset.gd"
     },
     "mindustry/net/Administration.gd": {
       "canonical_file": "emitted_classes.files.mindustry/net/Administration.gd",
@@ -1821,6 +1825,18 @@
       "canonical_file": "emitted_classes.files.mindustry/type/TeamEntry.gd",
       "file": "mindustry/type/TeamEntry.gd"
     },
+    "mindustry/type/UnitType.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/type/UnitType.gd",
+      "file": "mindustry/type/UnitType.gd"
+    },
+    "mindustry/type/Weapon.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/type/Weapon.gd",
+      "file": "mindustry/type/Weapon.gd"
+    },
+    "mindustry/type/Weather.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/type/Weather.gd",
+      "file": "mindustry/type/Weather.gd"
+    },
     "mindustry/type/unit/ErekirUnitType.gd": {
       "canonical_file": "emitted_classes.files.mindustry/type/unit/ErekirUnitType.gd",
       "file": "mindustry/type/unit/ErekirUnitType.gd"
@@ -1836,14 +1852,6 @@
     "mindustry/type/unit/TankUnitType.gd": {
       "canonical_file": "emitted_classes.files.mindustry/type/unit/TankUnitType.gd",
       "file": "mindustry/type/unit/TankUnitType.gd"
-    },
-    "mindustry/type/UnitType.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/type/UnitType.gd",
-      "file": "mindustry/type/UnitType.gd"
-    },
-    "mindustry/type/Weapon.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/type/Weapon.gd",
-      "file": "mindustry/type/Weapon.gd"
     },
     "mindustry/type/weapons/BuildWeapon.gd": {
       "canonical_file": "emitted_classes.files.mindustry/type/weapons/BuildWeapon.gd",
@@ -1881,10 +1889,6 @@
       "canonical_file": "emitted_classes.files.mindustry/type/weather/SolarFlare.gd",
       "file": "mindustry/type/weather/SolarFlare.gd"
     },
-    "mindustry/type/Weather.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/type/Weather.gd",
-      "file": "mindustry/type/Weather.gd"
-    },
     "mindustry/ui/Bar.gd": {
       "canonical_file": "emitted_classes.files.mindustry/ui/Bar.gd",
       "file": "mindustry/ui/Bar.gd"
@@ -1896,6 +1900,62 @@
     "mindustry/ui/CoreItemsDisplay.gd": {
       "canonical_file": "emitted_classes.files.mindustry/ui/CoreItemsDisplay.gd",
       "file": "mindustry/ui/CoreItemsDisplay.gd"
+    },
+    "mindustry/ui/Displayable.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/ui/Displayable.gd",
+      "file": "mindustry/ui/Displayable.gd"
+    },
+    "mindustry/ui/FileChooser.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/ui/FileChooser.gd",
+      "file": "mindustry/ui/FileChooser.gd"
+    },
+    "mindustry/ui/Fonts.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/ui/Fonts.gd",
+      "file": "mindustry/ui/Fonts.gd"
+    },
+    "mindustry/ui/GridImage.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/ui/GridImage.gd",
+      "file": "mindustry/ui/GridImage.gd"
+    },
+    "mindustry/ui/IntFormat.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/ui/IntFormat.gd",
+      "file": "mindustry/ui/IntFormat.gd"
+    },
+    "mindustry/ui/ItemsDisplay.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/ui/ItemsDisplay.gd",
+      "file": "mindustry/ui/ItemsDisplay.gd"
+    },
+    "mindustry/ui/Links.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/ui/Links.gd",
+      "file": "mindustry/ui/Links.gd"
+    },
+    "mindustry/ui/Menus.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/ui/Menus.gd",
+      "file": "mindustry/ui/Menus.gd"
+    },
+    "mindustry/ui/Minimap.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/ui/Minimap.gd",
+      "file": "mindustry/ui/Minimap.gd"
+    },
+    "mindustry/ui/MobileButton.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/ui/MobileButton.gd",
+      "file": "mindustry/ui/MobileButton.gd"
+    },
+    "mindustry/ui/MultiReqImage.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/ui/MultiReqImage.gd",
+      "file": "mindustry/ui/MultiReqImage.gd"
+    },
+    "mindustry/ui/ReqImage.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/ui/ReqImage.gd",
+      "file": "mindustry/ui/ReqImage.gd"
+    },
+    "mindustry/ui/Styles.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/ui/Styles.gd",
+      "file": "mindustry/ui/Styles.gd"
+    },
+    "mindustry/ui/WarningBar.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/ui/WarningBar.gd",
+      "file": "mindustry/ui/WarningBar.gd"
     },
     "mindustry/ui/dialogs/AboutDialog.gd": {
       "canonical_file": "emitted_classes.files.mindustry/ui/dialogs/AboutDialog.gd",
@@ -2049,18 +2109,6 @@
       "canonical_file": "emitted_classes.files.mindustry/ui/dialogs/TraceDialog.gd",
       "file": "mindustry/ui/dialogs/TraceDialog.gd"
     },
-    "mindustry/ui/Displayable.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/ui/Displayable.gd",
-      "file": "mindustry/ui/Displayable.gd"
-    },
-    "mindustry/ui/FileChooser.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/ui/FileChooser.gd",
-      "file": "mindustry/ui/FileChooser.gd"
-    },
-    "mindustry/ui/Fonts.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/ui/Fonts.gd",
-      "file": "mindustry/ui/Fonts.gd"
-    },
     "mindustry/ui/fragments/BlockConfigFragment.gd": {
       "canonical_file": "emitted_classes.files.mindustry/ui/fragments/BlockConfigFragment.gd",
       "file": "mindustry/ui/fragments/BlockConfigFragment.gd"
@@ -2113,18 +2161,6 @@
       "canonical_file": "emitted_classes.files.mindustry/ui/fragments/PlayerListFragment.gd",
       "file": "mindustry/ui/fragments/PlayerListFragment.gd"
     },
-    "mindustry/ui/GridImage.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/ui/GridImage.gd",
-      "file": "mindustry/ui/GridImage.gd"
-    },
-    "mindustry/ui/IntFormat.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/ui/IntFormat.gd",
-      "file": "mindustry/ui/IntFormat.gd"
-    },
-    "mindustry/ui/ItemsDisplay.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/ui/ItemsDisplay.gd",
-      "file": "mindustry/ui/ItemsDisplay.gd"
-    },
     "mindustry/ui/layout/BranchTreeLayout.gd": {
       "canonical_file": "emitted_classes.files.mindustry/ui/layout/BranchTreeLayout.gd",
       "file": "mindustry/ui/layout/BranchTreeLayout.gd"
@@ -2141,45 +2177,53 @@
       "canonical_file": "emitted_classes.files.mindustry/ui/layout/TreeLayout.gd",
       "file": "mindustry/ui/layout/TreeLayout.gd"
     },
-    "mindustry/ui/Links.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/ui/Links.gd",
-      "file": "mindustry/ui/Links.gd"
-    },
-    "mindustry/ui/Menus.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/ui/Menus.gd",
-      "file": "mindustry/ui/Menus.gd"
-    },
-    "mindustry/ui/Minimap.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/ui/Minimap.gd",
-      "file": "mindustry/ui/Minimap.gd"
-    },
-    "mindustry/ui/MobileButton.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/ui/MobileButton.gd",
-      "file": "mindustry/ui/MobileButton.gd"
-    },
-    "mindustry/ui/MultiReqImage.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/ui/MultiReqImage.gd",
-      "file": "mindustry/ui/MultiReqImage.gd"
-    },
-    "mindustry/ui/ReqImage.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/ui/ReqImage.gd",
-      "file": "mindustry/ui/ReqImage.gd"
-    },
-    "mindustry/ui/Styles.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/ui/Styles.gd",
-      "file": "mindustry/ui/Styles.gd"
-    },
-    "mindustry/ui/WarningBar.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/ui/WarningBar.gd",
-      "file": "mindustry/ui/WarningBar.gd"
-    },
-    "mindustry/Vars.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/Vars.gd",
-      "file": "mindustry/Vars.gd"
-    },
     "mindustry/world/Block.gd": {
       "canonical_file": "emitted_classes.files.mindustry/world/Block.gd",
       "file": "mindustry/world/Block.gd"
+    },
+    "mindustry/world/Build.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/world/Build.gd",
+      "file": "mindustry/world/Build.gd"
+    },
+    "mindustry/world/CachedTile.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/world/CachedTile.gd",
+      "file": "mindustry/world/CachedTile.gd"
+    },
+    "mindustry/world/ColorMapper.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/world/ColorMapper.gd",
+      "file": "mindustry/world/ColorMapper.gd"
+    },
+    "mindustry/world/DirectionalItemBuffer.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/world/DirectionalItemBuffer.gd",
+      "file": "mindustry/world/DirectionalItemBuffer.gd"
+    },
+    "mindustry/world/Edges.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/world/Edges.gd",
+      "file": "mindustry/world/Edges.gd"
+    },
+    "mindustry/world/ItemBuffer.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/world/ItemBuffer.gd",
+      "file": "mindustry/world/ItemBuffer.gd"
+    },
+    "mindustry/world/Tile.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/world/Tile.gd",
+      "file": "mindustry/world/Tile.gd"
+    },
+    "mindustry/world/TileGen.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/world/TileGen.gd",
+      "file": "mindustry/world/TileGen.gd"
+    },
+    "mindustry/world/Tiles.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/world/Tiles.gd",
+      "file": "mindustry/world/Tiles.gd"
+    },
+    "mindustry/world/WorldContext.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/world/WorldContext.gd",
+      "file": "mindustry/world/WorldContext.gd"
+    },
+    "mindustry/world/WorldParams.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/world/WorldParams.gd",
+      "file": "mindustry/world/WorldParams.gd"
     },
     "mindustry/world/blocks/Attributes.gd": {
       "canonical_file": "emitted_classes.files.mindustry/world/blocks/Attributes.gd",
@@ -2188,6 +2232,38 @@
     "mindustry/world/blocks/Autotiler.gd": {
       "canonical_file": "emitted_classes.files.mindustry/world/blocks/Autotiler.gd",
       "file": "mindustry/world/blocks/Autotiler.gd"
+    },
+    "mindustry/world/blocks/ConstructBlock.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/world/blocks/ConstructBlock.gd",
+      "file": "mindustry/world/blocks/ConstructBlock.gd"
+    },
+    "mindustry/world/blocks/ControlBlock.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/world/blocks/ControlBlock.gd",
+      "file": "mindustry/world/blocks/ControlBlock.gd"
+    },
+    "mindustry/world/blocks/ExplosionShield.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/world/blocks/ExplosionShield.gd",
+      "file": "mindustry/world/blocks/ExplosionShield.gd"
+    },
+    "mindustry/world/blocks/ItemSelection.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/world/blocks/ItemSelection.gd",
+      "file": "mindustry/world/blocks/ItemSelection.gd"
+    },
+    "mindustry/world/blocks/LaunchAnimator.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/world/blocks/LaunchAnimator.gd",
+      "file": "mindustry/world/blocks/LaunchAnimator.gd"
+    },
+    "mindustry/world/blocks/RotBlock.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/world/blocks/RotBlock.gd",
+      "file": "mindustry/world/blocks/RotBlock.gd"
+    },
+    "mindustry/world/blocks/TileBitmask.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/world/blocks/TileBitmask.gd",
+      "file": "mindustry/world/blocks/TileBitmask.gd"
+    },
+    "mindustry/world/blocks/UnitTetherBlock.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/world/blocks/UnitTetherBlock.gd",
+      "file": "mindustry/world/blocks/UnitTetherBlock.gd"
     },
     "mindustry/world/blocks/campaign/Accelerator.gd": {
       "canonical_file": "emitted_classes.files.mindustry/world/blocks/campaign/Accelerator.gd",
@@ -2200,14 +2276,6 @@
     "mindustry/world/blocks/campaign/LaunchPad.gd": {
       "canonical_file": "emitted_classes.files.mindustry/world/blocks/campaign/LaunchPad.gd",
       "file": "mindustry/world/blocks/campaign/LaunchPad.gd"
-    },
-    "mindustry/world/blocks/ConstructBlock.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/world/blocks/ConstructBlock.gd",
-      "file": "mindustry/world/blocks/ConstructBlock.gd"
-    },
-    "mindustry/world/blocks/ControlBlock.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/world/blocks/ControlBlock.gd",
-      "file": "mindustry/world/blocks/ControlBlock.gd"
     },
     "mindustry/world/blocks/defense/AutoDoor.gd": {
       "canonical_file": "emitted_classes.files.mindustry/world/blocks/defense/AutoDoor.gd",
@@ -2261,6 +2329,10 @@
       "canonical_file": "emitted_classes.files.mindustry/world/blocks/defense/Thruster.gd",
       "file": "mindustry/world/blocks/defense/Thruster.gd"
     },
+    "mindustry/world/blocks/defense/Wall.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/world/blocks/defense/Wall.gd",
+      "file": "mindustry/world/blocks/defense/Wall.gd"
+    },
     "mindustry/world/blocks/defense/turrets/BaseTurret.gd": {
       "canonical_file": "emitted_classes.files.mindustry/world/blocks/defense/turrets/BaseTurret.gd",
       "file": "mindustry/world/blocks/defense/turrets/BaseTurret.gd"
@@ -2309,10 +2381,6 @@
       "canonical_file": "emitted_classes.files.mindustry/world/blocks/defense/turrets/Turret.gd",
       "file": "mindustry/world/blocks/defense/turrets/Turret.gd"
     },
-    "mindustry/world/blocks/defense/Wall.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/world/blocks/defense/Wall.gd",
-      "file": "mindustry/world/blocks/defense/Wall.gd"
-    },
     "mindustry/world/blocks/distribution/ArmoredConveyor.gd": {
       "canonical_file": "emitted_classes.files.mindustry/world/blocks/distribution/ArmoredConveyor.gd",
       "file": "mindustry/world/blocks/distribution/ArmoredConveyor.gd"
@@ -2329,10 +2397,6 @@
       "canonical_file": "emitted_classes.files.mindustry/world/blocks/distribution/Conveyor.gd",
       "file": "mindustry/world/blocks/distribution/Conveyor.gd"
     },
-    "mindustry/world/blocks/distribution/DirectionalUnloader.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/world/blocks/distribution/DirectionalUnloader.gd",
-      "file": "mindustry/world/blocks/distribution/DirectionalUnloader.gd"
-    },
     "mindustry/world/blocks/distribution/DirectionBridge.gd": {
       "canonical_file": "emitted_classes.files.mindustry/world/blocks/distribution/DirectionBridge.gd",
       "file": "mindustry/world/blocks/distribution/DirectionBridge.gd"
@@ -2340,6 +2404,10 @@
     "mindustry/world/blocks/distribution/DirectionLiquidBridge.gd": {
       "canonical_file": "emitted_classes.files.mindustry/world/blocks/distribution/DirectionLiquidBridge.gd",
       "file": "mindustry/world/blocks/distribution/DirectionLiquidBridge.gd"
+    },
+    "mindustry/world/blocks/distribution/DirectionalUnloader.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/world/blocks/distribution/DirectionalUnloader.gd",
+      "file": "mindustry/world/blocks/distribution/DirectionalUnloader.gd"
     },
     "mindustry/world/blocks/distribution/Duct.gd": {
       "canonical_file": "emitted_classes.files.mindustry/world/blocks/distribution/Duct.gd",
@@ -2497,10 +2565,6 @@
       "canonical_file": "emitted_classes.files.mindustry/world/blocks/environment/WobbleProp.gd",
       "file": "mindustry/world/blocks/environment/WobbleProp.gd"
     },
-    "mindustry/world/blocks/ExplosionShield.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/world/blocks/ExplosionShield.gd",
-      "file": "mindustry/world/blocks/ExplosionShield.gd"
-    },
     "mindustry/world/blocks/heat/HeatBlock.gd": {
       "canonical_file": "emitted_classes.files.mindustry/world/blocks/heat/HeatBlock.gd",
       "file": "mindustry/world/blocks/heat/HeatBlock.gd"
@@ -2516,14 +2580,6 @@
     "mindustry/world/blocks/heat/HeatProducer.gd": {
       "canonical_file": "emitted_classes.files.mindustry/world/blocks/heat/HeatProducer.gd",
       "file": "mindustry/world/blocks/heat/HeatProducer.gd"
-    },
-    "mindustry/world/blocks/ItemSelection.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/world/blocks/ItemSelection.gd",
-      "file": "mindustry/world/blocks/ItemSelection.gd"
-    },
-    "mindustry/world/blocks/LaunchAnimator.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/world/blocks/LaunchAnimator.gd",
-      "file": "mindustry/world/blocks/LaunchAnimator.gd"
     },
     "mindustry/world/blocks/legacy/LegacyBlock.gd": {
       "canonical_file": "emitted_classes.files.mindustry/world/blocks/legacy/LegacyBlock.gd",
@@ -2773,10 +2829,6 @@
       "canonical_file": "emitted_classes.files.mindustry/world/blocks/production/WallCrafter.gd",
       "file": "mindustry/world/blocks/production/WallCrafter.gd"
     },
-    "mindustry/world/blocks/RotBlock.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/world/blocks/RotBlock.gd",
-      "file": "mindustry/world/blocks/RotBlock.gd"
-    },
     "mindustry/world/blocks/sandbox/ItemSource.gd": {
       "canonical_file": "emitted_classes.files.mindustry/world/blocks/sandbox/ItemSource.gd",
       "file": "mindustry/world/blocks/sandbox/ItemSource.gd"
@@ -2813,10 +2865,6 @@
       "canonical_file": "emitted_classes.files.mindustry/world/blocks/storage/Unloader.gd",
       "file": "mindustry/world/blocks/storage/Unloader.gd"
     },
-    "mindustry/world/blocks/TileBitmask.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/world/blocks/TileBitmask.gd",
-      "file": "mindustry/world/blocks/TileBitmask.gd"
-    },
     "mindustry/world/blocks/units/Reconstructor.gd": {
       "canonical_file": "emitted_classes.files.mindustry/world/blocks/units/Reconstructor.gd",
       "file": "mindustry/world/blocks/units/Reconstructor.gd"
@@ -2852,22 +2900,6 @@
     "mindustry/world/blocks/units/UnitFactory.gd": {
       "canonical_file": "emitted_classes.files.mindustry/world/blocks/units/UnitFactory.gd",
       "file": "mindustry/world/blocks/units/UnitFactory.gd"
-    },
-    "mindustry/world/blocks/UnitTetherBlock.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/world/blocks/UnitTetherBlock.gd",
-      "file": "mindustry/world/blocks/UnitTetherBlock.gd"
-    },
-    "mindustry/world/Build.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/world/Build.gd",
-      "file": "mindustry/world/Build.gd"
-    },
-    "mindustry/world/CachedTile.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/world/CachedTile.gd",
-      "file": "mindustry/world/CachedTile.gd"
-    },
-    "mindustry/world/ColorMapper.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/world/ColorMapper.gd",
-      "file": "mindustry/world/ColorMapper.gd"
     },
     "mindustry/world/consumers/Consume.gd": {
       "canonical_file": "emitted_classes.files.mindustry/world/consumers/Consume.gd",
@@ -2964,10 +2996,6 @@
     "mindustry/world/consumers/ConsumePowerDynamic.gd": {
       "canonical_file": "emitted_classes.files.mindustry/world/consumers/ConsumePowerDynamic.gd",
       "file": "mindustry/world/consumers/ConsumePowerDynamic.gd"
-    },
-    "mindustry/world/DirectionalItemBuffer.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/world/DirectionalItemBuffer.gd",
-      "file": "mindustry/world/DirectionalItemBuffer.gd"
     },
     "mindustry/world/draw/DrawArcSmelt.gd": {
       "canonical_file": "emitted_classes.files.mindustry/world/draw/DrawArcSmelt.gd",
@@ -3113,14 +3141,6 @@
       "canonical_file": "emitted_classes.files.mindustry/world/draw/DrawWeave.gd",
       "file": "mindustry/world/draw/DrawWeave.gd"
     },
-    "mindustry/world/Edges.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/world/Edges.gd",
-      "file": "mindustry/world/Edges.gd"
-    },
-    "mindustry/world/ItemBuffer.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/world/ItemBuffer.gd",
-      "file": "mindustry/world/ItemBuffer.gd"
-    },
     "mindustry/world/meta/Attribute.gd": {
       "canonical_file": "emitted_classes.files.mindustry/world/meta/Attribute.gd",
       "file": "mindustry/world/meta/Attribute.gd"
@@ -3153,10 +3173,6 @@
       "canonical_file": "emitted_classes.files.mindustry/world/meta/StatCat.gd",
       "file": "mindustry/world/meta/StatCat.gd"
     },
-    "mindustry/world/meta/Stats.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/world/meta/Stats.gd",
-      "file": "mindustry/world/meta/Stats.gd"
-    },
     "mindustry/world/meta/StatUnit.gd": {
       "canonical_file": "emitted_classes.files.mindustry/world/meta/StatUnit.gd",
       "file": "mindustry/world/meta/StatUnit.gd"
@@ -3168,6 +3184,10 @@
     "mindustry/world/meta/StatValues.gd": {
       "canonical_file": "emitted_classes.files.mindustry/world/meta/StatValues.gd",
       "file": "mindustry/world/meta/StatValues.gd"
+    },
+    "mindustry/world/meta/Stats.gd": {
+      "canonical_file": "emitted_classes.files.mindustry/world/meta/Stats.gd",
+      "file": "mindustry/world/meta/Stats.gd"
     },
     "mindustry/world/modules/BlockModule.gd": {
       "canonical_file": "emitted_classes.files.mindustry/world/modules/BlockModule.gd",
@@ -3184,33 +3204,6 @@
     "mindustry/world/modules/PowerModule.gd": {
       "canonical_file": "emitted_classes.files.mindustry/world/modules/PowerModule.gd",
       "file": "mindustry/world/modules/PowerModule.gd"
-    },
-    "mindustry/world/Tile.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/world/Tile.gd",
-      "file": "mindustry/world/Tile.gd"
-    },
-    "mindustry/world/TileGen.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/world/TileGen.gd",
-      "file": "mindustry/world/TileGen.gd"
-    },
-    "mindustry/world/Tiles.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/world/Tiles.gd",
-      "file": "mindustry/world/Tiles.gd"
-    },
-    "mindustry/world/WorldContext.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/world/WorldContext.gd",
-      "file": "mindustry/world/WorldContext.gd"
-    },
-    "mindustry/world/WorldParams.gd": {
-      "canonical_file": "emitted_classes.files.mindustry/world/WorldParams.gd",
-      "file": "mindustry/world/WorldParams.gd"
     }
-  },
-  "policy": {
-    "canonicalOwner": "emitted_classes.files",
-    "rootRemainsCanonical": "emitted_classes.json",
-    "mirrorFields": [
-      "file"
-    ]
   }
 }

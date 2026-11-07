@@ -2,7 +2,8 @@ extends Node
 
 const PortGameScript := preload("res://src/game/PortGame.gd")
 const source_consume_liquid_state := preload("res://src/game/SourceConsumeLiquidState.gd")
-const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const source_consume_liquid_generated_state := preload("res://src/game/SourceConsumeLiquidGeneratedState.gd")
+const source_ssot_accessor_runtime_state := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
 
 func _ready() -> void:
 	var game := PortGameScript.new()
@@ -17,8 +18,8 @@ func _ready() -> void:
 	var module := source_consume_liquid_state.game_apply_state(game, true, [false, false], 1)
 	var override_module := source_consume_liquid_state.game_apply_state(self, false, [false], 0)
 	var bridge_wrapper := game.generated_consume_liquid_apply_bridge_state(true, [false, false], 1)
-	var bridge_module := source_consume_liquid_state.game_generated_apply_bridge_state(game, true, [false, false], 1)
-	var registry_state := source_ssot_catalog.canonical_headquarter_registry_state()
+	var bridge_module := source_consume_liquid_generated_state.game_generated_apply_bridge_state(game, true, [false, false], 1)
+	var registry_state := source_ssot_accessor_runtime_state.canonical_headquarter_registry_state()
 	var proof := {
 		"module": "SourceConsumeLiquidState",
 		"matches": wrapper == module,
@@ -33,7 +34,7 @@ func _ready() -> void:
 	proof["matches"] = proof["game_apply_matches"] and proof["game_generated_apply_matches"] and proof["default_callbacks_match"] and proof["override_callbacks_match"] and proof["override_apply_matches"] and proof["one_headquarter_per_ssot"] and proof["registry_valid"]
 	print("CONSUME_LIQUID_APPLY_RUNTIME_STATE_MODULE_PROOF " + JSON.stringify(proof))
 	game.free()
-	await get_tree().create_timer(60.0).timeout
+	await get_tree().process_frame
 	get_tree().quit(0)
 
 func proof_base_apply_state(block_has_liquids_before: bool) -> Dictionary:
@@ -47,3 +48,4 @@ func _consume_liquid_method_names() -> Dictionary:
 	return {
 		source_consume_liquid_state.SOURCE_CONSUME_LIQUID_BASE_APPLY_STATE_KEY: "proof_base_apply_state",
 	}
+

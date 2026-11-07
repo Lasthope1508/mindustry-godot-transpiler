@@ -2,12 +2,13 @@ extends Node
 
 const PortGameScript := preload("res://src/game/PortGame.gd")
 const source_base_turret_draw_state := preload("res://src/game/SourceBaseTurretDrawState.gd")
-const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const source_ssot_accessor_runtime_state := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
+const runtime_proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")
 
 func _ready() -> void:
 	var game := PortGameScript.new()
 	game.load_content_registry()
-	var registry_state := source_ssot_catalog.canonical_headquarter_registry_state()
+	var registry_state := source_ssot_accessor_runtime_state.canonical_headquarter_registry_state()
 	var source := game.source_base_turret_draw_place_state(4, 7, 1, true, 8.0, 0.0, 80.0, 1.0, false)
 	var generated := game.generated_base_turret_draw_place_bridge_state(4, 7, 1, true, 8.0, 0.0, 80.0, 1.0, false)
 	var defaulted := game.generated_base_turret_draw_place_source_tilesize_default_bridge_state(4, 7, 1, true)
@@ -22,12 +23,9 @@ func _ready() -> void:
 		"one_headquarter_per_ssot": bool(registry_state.get("one_headquarter_per_ssot", false)),
 	}
 	proof["matches"] = proof["generated"] == proof["module_generated"] and proof["defaulted"] == proof["module_defaulted"] and proof["one_headquarter_per_ssot"] and proof["registry_valid"]
-	var proof_json := JSON.stringify(proof)
-	print("BASE_TURRET_DRAW_MODULE_PROOF " + proof_json)
-	var proof_path := ProjectSettings.globalize_path("res://tools/runtime_proofs/BaseTurretDrawModuleProof.json")
-	var proof_file := FileAccess.open(proof_path, FileAccess.WRITE)
-	if proof_file != null:
-		proof_file.store_string(proof_json)
+	print("BASE_TURRET_DRAW_MODULE_PROOF " + JSON.stringify(proof))
+	runtime_proof_state.write_proof("BaseTurretDrawModuleProof", proof)
 	game.free()
-	await get_tree().create_timer(60.0).timeout
-	get_tree().quit(0)
+	await get_tree().process_frame
+	get_tree().quit(runtime_proof_state.exit_code(proof))
+

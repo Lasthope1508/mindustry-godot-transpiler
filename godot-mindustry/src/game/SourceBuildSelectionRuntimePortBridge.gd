@@ -2,6 +2,7 @@ extends "res://src/game/SourceBuildingDestructionPortBridge.gd"
 
 const source_build_selection_runtime_state := preload("res://src/game/SourceBuildSelectionRuntimeState.gd")
 const source_build_selection_runtime_port_bridge_world_defaults := preload("res://src/game/SourceWorldDefaults.gd")
+const source_build_selection_runtime_port_bridge_selected_build_state := preload("res://src/game/SourceSelectedBuildState.gd")
 
 func build_block_palette() -> void:
 	source_build_selection_runtime_state.build_block_palette(self)
@@ -17,6 +18,9 @@ func select_previous_build_slot() -> void:
 
 func select_build_block_by_id(block_id: String) -> bool:
 	return source_build_selection_runtime_state.select_build_block_by_id(self, block_id)
+
+func selected_build_properties(selected) -> Dictionary:
+	return source_build_selection_runtime_port_bridge_selected_build_state.properties(selected)
 
 func selected_build_health() -> float:
 	return source_build_selection_runtime_state.selected_build_health(self)

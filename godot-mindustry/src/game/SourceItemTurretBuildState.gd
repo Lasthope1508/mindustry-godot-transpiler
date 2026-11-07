@@ -3,10 +3,42 @@ class_name SourceItemTurretBuildState
 
 const source_turret_ammo_state := preload("res://src/game/SourceTurretAmmoState.gd")
 const source_turret_defaults := preload("res://src/game/SourceTurretDefaults.gd")
+const source_item_turret_build_io_state := preload("res://src/game/SourceItemTurretBuildIoState.gd")
 const source_generated_class_runtime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
+const source_turret_source_text_state := preload("res://src/game/SourceTurretSourceTextState.gd")
 
-const SOURCE_ITEM_TURRET_BOOTSTRAP_FIRST_AMMO := "handleItem(this, ammoTypes.keys().next());"
+const SOURCE_ITEM_TURRET_BOOTSTRAP_FIRST_AMMO := source_turret_source_text_state.SOURCE_ITEM_TURRET_BOOTSTRAP_FIRST_AMMO
+const SOURCE_ITEM_TURRET_GENERATED_CLASS := source_turret_source_text_state.SOURCE_ITEM_TURRET_GENERATED_CLASS
+const SOURCE_ITEM_TURRET_CURRENT_AMMO_TYPE_SENSOR := source_turret_source_text_state.SOURCE_ITEM_TURRET_CURRENT_AMMO_TYPE_SENSOR
+const SOURCE_ITEM_TURRET_BUILD_INNER_CLASS := source_turret_source_text_state.SOURCE_ITEM_TURRET_BUILD_INNER_CLASS
+const SOURCE_TURRET_PRESENTATION_OVERRIDE_EXPR := source_turret_source_text_state.SOURCE_TURRET_PRESENTATION_OVERRIDE_EXPR
+const SOURCE_ITEM_TURRET_ON_PROXIMITY_ADDED_METHOD := source_turret_source_text_state.SOURCE_ITEM_TURRET_ON_PROXIMITY_ADDED_METHOD
+const SOURCE_ITEM_TURRET_ON_PROXIMITY_ADDED_SUPER_EXPR := source_turret_source_text_state.SOURCE_ITEM_TURRET_ON_PROXIMITY_ADDED_SUPER_EXPR
+const SOURCE_ITEM_TURRET_ON_PROXIMITY_ADDED_COMMENT := source_turret_source_text_state.SOURCE_ITEM_TURRET_ON_PROXIMITY_ADDED_COMMENT
+const SOURCE_ITEM_TURRET_ON_PROXIMITY_ADDED_GUARD_EXPR := source_turret_source_text_state.SOURCE_ITEM_TURRET_ON_PROXIMITY_ADDED_GUARD_EXPR
+const SOURCE_ITEM_TURRET_ON_PROXIMITY_ADDED_HANDLE_ITEM_EXPR := source_turret_source_text_state.SOURCE_ITEM_TURRET_ON_PROXIMITY_ADDED_HANDLE_ITEM_EXPR
+const SOURCE_ITEM_TURRET_SENSE_OBJECT_METHOD := source_turret_source_text_state.SOURCE_ITEM_TURRET_SENSE_OBJECT_METHOD
+const SOURCE_ITEM_TURRET_SENSE_OBJECT_SWITCH_RETURN := source_turret_source_text_state.SOURCE_ITEM_TURRET_SENSE_OBJECT_SWITCH_RETURN
+const SOURCE_ITEM_TURRET_SENSE_OBJECT_CURRENT_AMMO_TYPE_CASE := source_turret_source_text_state.SOURCE_ITEM_TURRET_SENSE_OBJECT_CURRENT_AMMO_TYPE_CASE
+const SOURCE_ITEM_TURRET_SENSE_OBJECT_DEFAULT_CASE := source_turret_source_text_state.SOURCE_ITEM_TURRET_SENSE_OBJECT_DEFAULT_CASE
+const SOURCE_ITEM_TURRET_GET_AMMO_CONTENT_METHOD := source_turret_source_text_state.SOURCE_ITEM_TURRET_GET_AMMO_CONTENT_METHOD
+const SOURCE_ITEM_TURRET_GET_AMMO_CONTENT_RETURN_EXPR := source_turret_source_text_state.SOURCE_ITEM_TURRET_GET_AMMO_CONTENT_RETURN_EXPR
+const SOURCE_ITEM_TURRET_GET_AMMO_FRACTION_METHOD := source_turret_source_text_state.SOURCE_ITEM_TURRET_GET_AMMO_FRACTION_METHOD
+const SOURCE_ITEM_TURRET_GET_AMMO_FRACTION_RETURN_EXPR := source_turret_source_text_state.SOURCE_ITEM_TURRET_GET_AMMO_FRACTION_RETURN_EXPR
+const SOURCE_ITEM_TURRET_ACCEPT_STACK_METHOD := source_turret_source_text_state.SOURCE_ITEM_TURRET_ACCEPT_STACK_METHOD
+const SOURCE_ITEM_TURRET_ACCEPT_STACK_TYPE_LOOKUP := source_turret_source_text_state.SOURCE_ITEM_TURRET_ACCEPT_STACK_TYPE_LOOKUP
+const SOURCE_ITEM_TURRET_ACCEPT_STACK_NULL_GUARD := source_turret_source_text_state.SOURCE_ITEM_TURRET_ACCEPT_STACK_NULL_GUARD
+const SOURCE_ITEM_TURRET_ACCEPT_STACK_RETURN_EXPR := source_turret_source_text_state.SOURCE_ITEM_TURRET_ACCEPT_STACK_RETURN_EXPR
+const SOURCE_ITEM_TURRET_HANDLE_STACK_METHOD := source_turret_source_text_state.SOURCE_ITEM_TURRET_HANDLE_STACK_METHOD
+const SOURCE_ITEM_TURRET_HANDLE_STACK_LOOP_EXPR := source_turret_source_text_state.SOURCE_ITEM_TURRET_HANDLE_STACK_LOOP_EXPR
+const SOURCE_ITEM_TURRET_HANDLE_STACK_HANDLE_ITEM_EXPR := source_turret_source_text_state.SOURCE_ITEM_TURRET_HANDLE_STACK_HANDLE_ITEM_EXPR
+const SOURCE_ITEM_TURRET_REMOVE_STACK_METHOD := source_turret_source_text_state.SOURCE_ITEM_TURRET_REMOVE_STACK_METHOD
+const SOURCE_ITEM_TURRET_REMOVE_STACK_COMMENT := source_turret_source_text_state.SOURCE_ITEM_TURRET_REMOVE_STACK_COMMENT
+const SOURCE_ITEM_TURRET_REMOVE_STACK_RETURN_EXPR := source_turret_source_text_state.SOURCE_ITEM_TURRET_REMOVE_STACK_RETURN_EXPR
+
+static func _item_turret_call(generated_method: String, generated_args: Array) -> Variant:
+	return source_generated_class_runtime.call_java_method(SOURCE_ITEM_TURRET_GENERATED_CLASS, generated_method, generated_args, null)
 
 static func on_proximity_added_state(has_ammo: bool, cheating: bool, ammo_types_size: int, first_ammo_item: Variant) -> Dictionary:
 	var should_handle_first_ammo: bool = (not has_ammo) and cheating and ammo_types_size > 0
@@ -15,13 +47,13 @@ static func on_proximity_added_state(has_ammo: bool, cheating: bool, ammo_types_
 		handle_item_call = {"call": SOURCE_ITEM_TURRET_BOOTSTRAP_FIRST_AMMO, "source": "this", "item": first_ammo_item}
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_ITEM_TURRET_BUILD_ON_PROXIMITY_ADDED_STATE,
-		"inner_class": "public class ItemTurretBuild extends TurretBuild{",
-		"method": "public void onProximityAdded(){",
-		"override_expr": "@Override",
-		"super_on_proximity_added_expr": "super.onProximityAdded();",
-		"comment": "//add first ammo item to cheaty blocks so they can shoot properly",
-		"guard_expr": "if(!hasAmmo() && cheating() && ammoTypes.size > 0){",
-		"handle_item_expr": SOURCE_ITEM_TURRET_BOOTSTRAP_FIRST_AMMO,
+		"inner_class": SOURCE_ITEM_TURRET_BUILD_INNER_CLASS,
+		"method": SOURCE_ITEM_TURRET_ON_PROXIMITY_ADDED_METHOD,
+		"override_expr": SOURCE_TURRET_PRESENTATION_OVERRIDE_EXPR,
+		"super_on_proximity_added_expr": SOURCE_ITEM_TURRET_ON_PROXIMITY_ADDED_SUPER_EXPR,
+		"comment": SOURCE_ITEM_TURRET_ON_PROXIMITY_ADDED_COMMENT,
+		"guard_expr": SOURCE_ITEM_TURRET_ON_PROXIMITY_ADDED_GUARD_EXPR,
+		"handle_item_expr": SOURCE_ITEM_TURRET_ON_PROXIMITY_ADDED_HANDLE_ITEM_EXPR,
 		"has_ammo": has_ammo,
 		"cheating": cheating,
 		"ammo_types_size": ammo_types_size,
@@ -32,7 +64,7 @@ static func on_proximity_added_state(has_ammo: bool, cheating: bool, ammo_types_
 	}
 
 static func generated_item_turret_build_on_proximity_added_bridge_state(has_ammo: bool, cheating: bool, ammo_types_size: int, first_ammo_item: Variant) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd", "java_inner_class_ItemTurretBuild_method_onProximityAdded_0", [has_ammo, cheating, ammo_types_size, first_ammo_item], null)
+	var result = _item_turret_call("java_inner_class_ItemTurretBuild_method_onProximityAdded_0", [has_ammo, cheating, ammo_types_size, first_ammo_item])
 	var canonical = on_proximity_added_state(has_ammo, cheating, ammo_types_size, first_ammo_item)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_ITEM_TURRET_BUILD_ON_PROXIMITY_ADDED_STATE,
@@ -44,18 +76,18 @@ static func generated_item_turret_build_on_proximity_added_bridge_state(has_ammo
 
 static func sense_object_state(sensor: String, ammo_size: int, peek_item: Variant, super_sense_object_value: Variant) -> Dictionary:
 	var sense_object_value: Variant = null
-	if sensor == "currentAmmoType":
+	if sensor == SOURCE_ITEM_TURRET_CURRENT_AMMO_TYPE_SENSOR:
 		sense_object_value = peek_item if ammo_size > 0 else null
 	else:
 		sense_object_value = super_sense_object_value
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_ITEM_TURRET_BUILD_SENSE_OBJECT_STATE,
-		"inner_class": "public class ItemTurretBuild extends TurretBuild{",
-		"method": "public Object senseObject(LAccess sensor){",
-		"override_expr": "@Override",
-		"switch_return_expr": "return switch(sensor){",
-		"current_ammo_type_case": "case currentAmmoType -> ammo.size > 0 ? ((ItemEntry)ammo.peek()).item : null;",
-		"default_case": "default -> super.senseObject(sensor);",
+		"inner_class": SOURCE_ITEM_TURRET_BUILD_INNER_CLASS,
+		"method": SOURCE_ITEM_TURRET_SENSE_OBJECT_METHOD,
+		"override_expr": SOURCE_TURRET_PRESENTATION_OVERRIDE_EXPR,
+		"switch_return_expr": SOURCE_ITEM_TURRET_SENSE_OBJECT_SWITCH_RETURN,
+		"current_ammo_type_case": SOURCE_ITEM_TURRET_SENSE_OBJECT_CURRENT_AMMO_TYPE_CASE,
+		"default_case": SOURCE_ITEM_TURRET_SENSE_OBJECT_DEFAULT_CASE,
 		"sensor": sensor,
 		"ammo_size": ammo_size,
 		"peek_item": peek_item,
@@ -64,7 +96,7 @@ static func sense_object_state(sensor: String, ammo_size: int, peek_item: Varian
 	}
 
 static func generated_item_turret_build_sense_object_bridge_state(sensor: String, ammo_size: int, peek_item: Variant, super_sense_object_value: Variant) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd", "java_inner_class_ItemTurretBuild_method_senseObject_1", [sensor, ammo_size, peek_item, super_sense_object_value], null)
+	var result = _item_turret_call("java_inner_class_ItemTurretBuild_method_senseObject_1", [sensor, ammo_size, peek_item, super_sense_object_value])
 	var canonical = sense_object_state(sensor, ammo_size, peek_item, super_sense_object_value)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_ITEM_TURRET_BUILD_SENSE_OBJECT_STATE,
@@ -78,17 +110,17 @@ static func get_ammo_content_state(ammo_size: int, peek_item: Variant) -> Dictio
 	var ammo_content: Variant = peek_item if ammo_size > 0 else null
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_ITEM_TURRET_BUILD_GET_AMMO_CONTENT_STATE,
-		"inner_class": "public class ItemTurretBuild extends TurretBuild{",
-		"method": "public UnlockableContent getAmmoContent(){",
-		"override_expr": "@Override",
-		"return_expr": "return ammo.size > 0 ? ((ItemEntry)ammo.peek()).item : null;",
+		"inner_class": SOURCE_ITEM_TURRET_BUILD_INNER_CLASS,
+		"method": SOURCE_ITEM_TURRET_GET_AMMO_CONTENT_METHOD,
+		"override_expr": SOURCE_TURRET_PRESENTATION_OVERRIDE_EXPR,
+		"return_expr": SOURCE_ITEM_TURRET_GET_AMMO_CONTENT_RETURN_EXPR,
 		"ammo_size": ammo_size,
 		"peek_item": peek_item,
 		"ammo_content": ammo_content,
 	}
 
 static func generated_item_turret_build_get_ammo_content_bridge_state(ammo_size: int, peek_item: Variant) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd", "java_inner_class_ItemTurretBuild_method_getAmmoContent_2", [ammo_size, peek_item], null)
+	var result = _item_turret_call("java_inner_class_ItemTurretBuild_method_getAmmoContent_2", [ammo_size, peek_item])
 	var canonical = get_ammo_content_state(ammo_size, peek_item)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_ITEM_TURRET_BUILD_GET_AMMO_CONTENT_STATE,
@@ -102,10 +134,10 @@ static func get_ammo_fraction_state(total_ammo: float, max_ammo: float) -> Dicti
 	var ammo_fraction: float = total_ammo / max_ammo
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_ITEM_TURRET_BUILD_GET_AMMO_FRACTION_STATE,
-		"inner_class": "public class ItemTurretBuild extends TurretBuild{",
-		"method": "public float getAmmoFraction(){",
-		"override_expr": "@Override",
-		"return_expr": "return (float)totalAmmo / maxAmmo;",
+		"inner_class": SOURCE_ITEM_TURRET_BUILD_INNER_CLASS,
+		"method": SOURCE_ITEM_TURRET_GET_AMMO_FRACTION_METHOD,
+		"override_expr": SOURCE_TURRET_PRESENTATION_OVERRIDE_EXPR,
+		"return_expr": SOURCE_ITEM_TURRET_GET_AMMO_FRACTION_RETURN_EXPR,
 		"total_ammo": total_ammo,
 		"max_ammo": max_ammo,
 		"ammo_fraction": ammo_fraction,
@@ -115,12 +147,12 @@ static func accept_stack_state(item: Variant, amount: int, max_ammo: float, tota
 	var accept_stack: int = 0 if ammo_type_null else min(int((max_ammo - total_ammo) / ammo_multiplier), amount)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_ITEM_TURRET_BUILD_ACCEPT_STACK_STATE,
-		"inner_class": "public class ItemTurretBuild extends TurretBuild{",
-		"method": "public int acceptStack(Item item, int amount, Teamc source){",
-		"override_expr": "@Override",
-		"type_lookup": "BulletType type = ammoTypes.get(item);",
-		"null_guard": "if(type == null) return 0;",
-		"return_expr": "return Math.min((int)((maxAmmo - totalAmmo) / ammoTypes.get(item).ammoMultiplier), amount);",
+		"inner_class": SOURCE_ITEM_TURRET_BUILD_INNER_CLASS,
+		"method": SOURCE_ITEM_TURRET_ACCEPT_STACK_METHOD,
+		"override_expr": SOURCE_TURRET_PRESENTATION_OVERRIDE_EXPR,
+		"type_lookup": SOURCE_ITEM_TURRET_ACCEPT_STACK_TYPE_LOOKUP,
+		"null_guard": SOURCE_ITEM_TURRET_ACCEPT_STACK_NULL_GUARD,
+		"return_expr": SOURCE_ITEM_TURRET_ACCEPT_STACK_RETURN_EXPR,
 		"item": item,
 		"amount": amount,
 		"max_ammo": max_ammo,
@@ -133,14 +165,14 @@ static func accept_stack_state(item: Variant, amount: int, max_ammo: float, tota
 static func handle_stack_state(item: Variant, amount: int) -> Dictionary:
 	var handle_item_calls: Array = []
 	for _i in range(amount):
-		handle_item_calls.append({"call": "handleItem(null, item);", "source": null, "item": item})
+		handle_item_calls.append({"call": SOURCE_ITEM_TURRET_HANDLE_STACK_HANDLE_ITEM_EXPR, "source": null, "item": item})
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_ITEM_TURRET_BUILD_HANDLE_STACK_STATE,
-		"inner_class": "public class ItemTurretBuild extends TurretBuild{",
-		"method": "public void handleStack(Item item, int amount, Teamc source){",
-		"override_expr": "@Override",
-		"loop_expr": "for(int i = 0; i < amount; i++){",
-		"handle_item_expr": "handleItem(null, item);",
+		"inner_class": SOURCE_ITEM_TURRET_BUILD_INNER_CLASS,
+		"method": SOURCE_ITEM_TURRET_HANDLE_STACK_METHOD,
+		"override_expr": SOURCE_TURRET_PRESENTATION_OVERRIDE_EXPR,
+		"loop_expr": SOURCE_ITEM_TURRET_HANDLE_STACK_LOOP_EXPR,
+		"handle_item_expr": SOURCE_ITEM_TURRET_HANDLE_STACK_HANDLE_ITEM_EXPR,
 		"item": item,
 		"amount": amount,
 		"handle_item_calls": handle_item_calls,
@@ -151,11 +183,11 @@ static func remove_stack_state(item: Variant, amount: int) -> Dictionary:
 	var removed_stack: int = 0
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_ITEM_TURRET_BUILD_REMOVE_STACK_STATE,
-		"inner_class": "public class ItemTurretBuild extends TurretBuild{",
-		"comment": "//currently can't remove items from turrets.",
-		"method": "public int removeStack(Item item, int amount){",
-		"override_expr": "@Override",
-		"return_expr": "return 0;",
+		"inner_class": SOURCE_ITEM_TURRET_BUILD_INNER_CLASS,
+		"comment": SOURCE_ITEM_TURRET_REMOVE_STACK_COMMENT,
+		"method": SOURCE_ITEM_TURRET_REMOVE_STACK_METHOD,
+		"override_expr": SOURCE_TURRET_PRESENTATION_OVERRIDE_EXPR,
+		"return_expr": SOURCE_ITEM_TURRET_REMOVE_STACK_RETURN_EXPR,
 		"item": item,
 		"amount": amount,
 		"removed_stack": removed_stack,
@@ -168,7 +200,7 @@ static func accept_item_state(item: Variant, total_ammo: int, max_ammo_value: fl
 	return source_turret_ammo_state.item_turret_build_accept_item_state(item, total_ammo, max_ammo_value, ammo_multiplier, ammo_type_null)
 
 static func generated_item_turret_build_get_ammo_fraction_bridge_state(total_ammo: float, max_ammo: float) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd", "java_inner_class_ItemTurretBuild_method_getAmmoFraction_3", [total_ammo, max_ammo], null)
+	var result = _item_turret_call("java_inner_class_ItemTurretBuild_method_getAmmoFraction_3", [total_ammo, max_ammo])
 	var canonical = get_ammo_fraction_state(total_ammo, max_ammo)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_ITEM_TURRET_BUILD_GET_AMMO_FRACTION_STATE,
@@ -179,7 +211,7 @@ static func generated_item_turret_build_get_ammo_fraction_bridge_state(total_amm
 	}
 
 static func generated_item_turret_build_get_ammo_fraction_default_bridge_state(total_ammo: float) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd", "java_inner_class_ItemTurretBuild_method_getAmmoFraction_3", [total_ammo], null)
+	var result = _item_turret_call("java_inner_class_ItemTurretBuild_method_getAmmoFraction_3", [total_ammo])
 	var canonical = get_ammo_fraction_state(total_ammo, source_turret_defaults.MAX_AMMO_DEFAULT)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_ITEM_TURRET_BUILD_GET_AMMO_FRACTION_STATE,
@@ -193,7 +225,7 @@ static func generated_item_turret_build_get_ammo_fraction_default_bridge_state(t
 	}
 
 static func generated_item_turret_build_accept_stack_bridge_state(item: Variant, amount: int, max_ammo: float, total_ammo: float, ammo_multiplier: float, ammo_type_null: bool) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd", "java_inner_class_ItemTurretBuild_method_acceptStack_4", [item, amount, max_ammo, total_ammo, ammo_multiplier, ammo_type_null], null)
+	var result = _item_turret_call("java_inner_class_ItemTurretBuild_method_acceptStack_4", [item, amount, max_ammo, total_ammo, ammo_multiplier, ammo_type_null])
 	var canonical = accept_stack_state(item, amount, max_ammo, total_ammo, ammo_multiplier, ammo_type_null)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_ITEM_TURRET_BUILD_ACCEPT_STACK_STATE,
@@ -204,7 +236,7 @@ static func generated_item_turret_build_accept_stack_bridge_state(item: Variant,
 	}
 
 static func generated_item_turret_build_accept_stack_default_bridge_state(item: Variant, amount: int) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd", "java_inner_class_ItemTurretBuild_method_acceptStack_4", [item, amount], null)
+	var result = _item_turret_call("java_inner_class_ItemTurretBuild_method_acceptStack_4", [item, amount])
 	var canonical = accept_stack_state(item, amount, source_turret_defaults.MAX_AMMO_DEFAULT, 0.0, 1.0, false)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_ITEM_TURRET_BUILD_ACCEPT_STACK_STATE,
@@ -218,7 +250,7 @@ static func generated_item_turret_build_accept_stack_default_bridge_state(item: 
 	}
 
 static func generated_item_turret_build_handle_stack_bridge_state(item: Variant, amount: int) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd", "java_inner_class_ItemTurretBuild_method_handleStack_5", [item, amount], null)
+	var result = _item_turret_call("java_inner_class_ItemTurretBuild_method_handleStack_5", [item, amount])
 	var canonical = handle_stack_state(item, amount)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_ITEM_TURRET_BUILD_HANDLE_STACK_STATE,
@@ -229,7 +261,7 @@ static func generated_item_turret_build_handle_stack_bridge_state(item: Variant,
 	}
 
 static func generated_item_turret_build_remove_stack_bridge_state(item: Variant, amount: int) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd", "java_inner_class_ItemTurretBuild_method_removeStack_6", [item, amount], null)
+	var result = _item_turret_call("java_inner_class_ItemTurretBuild_method_removeStack_6", [item, amount])
 	var canonical = remove_stack_state(item, amount)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_ITEM_TURRET_BUILD_REMOVE_STACK_STATE,
@@ -240,7 +272,7 @@ static func generated_item_turret_build_remove_stack_bridge_state(item: Variant,
 	}
 
 static func generated_item_turret_build_handle_item_bridge_state(item: Variant, item_is_pyratite: bool, total_ammo: int, ammo_multiplier: float, ammo_type_null: bool, ammo_entries: Array) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd", "java_inner_class_ItemTurretBuild_method_handleItem_7", [item, item_is_pyratite, total_ammo, ammo_multiplier, ammo_type_null, ammo_entries], null)
+	var result = _item_turret_call("java_inner_class_ItemTurretBuild_method_handleItem_7", [item, item_is_pyratite, total_ammo, ammo_multiplier, ammo_type_null, ammo_entries])
 	var canonical = handle_item_state(item, item_is_pyratite, total_ammo, ammo_multiplier, ammo_type_null, ammo_entries)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_ITEM_TURRET_BUILD_HANDLE_ITEM_STATE,
@@ -258,7 +290,7 @@ static func generated_item_turret_build_handle_item_bridge_state(item: Variant, 
 	}
 
 static func generated_item_turret_build_accept_item_bridge_state(item: Variant, total_ammo: int, max_ammo: float, ammo_multiplier: float, ammo_type_null: bool) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd", "java_inner_class_ItemTurretBuild_method_acceptItem_8", [item, total_ammo, max_ammo, ammo_multiplier, ammo_type_null], null)
+	var result = _item_turret_call("java_inner_class_ItemTurretBuild_method_acceptItem_8", [item, total_ammo, max_ammo, ammo_multiplier, ammo_type_null])
 	var canonical = accept_item_state(item, total_ammo, max_ammo, ammo_multiplier, ammo_type_null)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_ITEM_TURRET_BUILD_ACCEPT_ITEM_STATE,
@@ -269,7 +301,7 @@ static func generated_item_turret_build_accept_item_bridge_state(item: Variant, 
 	}
 
 static func generated_item_turret_build_accept_item_default_bridge_state(item: Variant) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd", "java_inner_class_ItemTurretBuild_method_acceptItem_8", [item], null)
+	var result = _item_turret_call("java_inner_class_ItemTurretBuild_method_acceptItem_8", [item])
 	var canonical = accept_item_state(item, 0, source_turret_defaults.MAX_AMMO_DEFAULT, 0.0, false)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_ITEM_TURRET_BUILD_ACCEPT_ITEM_STATE,
@@ -283,114 +315,19 @@ static func generated_item_turret_build_accept_item_default_bridge_state(item: V
 	}
 
 static func version_state() -> Dictionary:
-	var version_value: int = 2
-	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_ITEM_TURRET_BUILD_VERSION_STATE,
-		"inner_class": "public class ItemTurretBuild extends TurretBuild{",
-		"method": "public byte version(){",
-		"override_expr": "@Override",
-		"return_expr": "return 2;",
-		"version": version_value,
-	}
+	return source_item_turret_build_io_state.version_state()
 
 static func write_state(ammo_entries: Array) -> Dictionary:
-	var write_calls: Array = []
-	var entry_writes: Array = []
-	write_calls.append({"call": "super.write(write);"})
-	write_calls.append({"call": "write.b(ammo.size);", "value": ammo_entries.size()})
-	for entry in ammo_entries:
-		var entry_copy: Dictionary = entry.duplicate(true) if entry is Dictionary else {}
-		entry_writes.append({"item_id": int(entry_copy.get("item_id", 0)), "amount": int(entry_copy.get("amount", 0))})
-		write_calls.append({"call": "write.s(i.item.id);", "value": int(entry_copy.get("item_id", 0))})
-		write_calls.append({"call": "write.s(i.amount);", "value": int(entry_copy.get("amount", 0))})
-	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_ITEM_TURRET_BUILD_WRITE_STATE,
-		"inner_class": "public class ItemTurretBuild extends TurretBuild{",
-		"method": "public void write(Writes write){",
-		"override_expr": "@Override",
-		"super_write_expr": "super.write(write);",
-		"write_size_expr": "write.b(ammo.size);",
-		"loop_expr": "for(AmmoEntry entry : ammo){",
-		"entry_cast": "ItemEntry i = (ItemEntry)entry;",
-		"write_item_id_expr": "write.s(i.item.id);",
-		"write_amount_expr": "write.s(i.amount);",
-		"ammo_size": ammo_entries.size(),
-		"entry_writes": entry_writes,
-		"write_calls": write_calls,
-	}
+	return source_item_turret_build_io_state.write_state(ammo_entries)
 
 static func read_state(revision: int, max_ammo: int, read_entries: Array) -> Dictionary:
-	var read_calls: Array = []
-	var ammo_entries_after: Array = []
-	var total_ammo_after: int = 0
-	read_calls.append({"call": "super.read(read, revision);", "revision": revision})
-	read_calls.append({"call": "ammo.clear();"})
-	read_calls.append({"call": "totalAmmo = 0;", "value": 0})
-	read_calls.append({"call": "read.ub();", "target": "amount", "value": read_entries.size()})
-	for entry in read_entries:
-		var entry_copy: Dictionary = entry.duplicate(true) if entry is Dictionary else {}
-		var item: Variant = entry_copy.get("item", null)
-		var ammo_type_valid: bool = bool(entry_copy.get("ammo_type_valid", false))
-		var item_read_call: String = "read.ub();" if revision < 2 else "read.s();"
-		read_calls.append({"call": item_read_call, "target": "item", "item": item})
-		var item_amount: int = min(int(entry_copy.get("amount", 0)), max_ammo)
-		read_calls.append({"call": "read.s();", "target": "itemAmount", "value": item_amount})
-		if item != null and ammo_type_valid:
-			total_ammo_after += item_amount
-			ammo_entries_after.append({"item": item, "amount": item_amount})
-			read_calls.append({"call": "totalAmmo += itemAmount;", "value": total_ammo_after})
-			read_calls.append({"call": "ammo.add(new ItemEntry(item, itemAmount));", "item": item, "amount": item_amount})
-	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_ITEM_TURRET_BUILD_READ_STATE,
-		"inner_class": "public class ItemTurretBuild extends TurretBuild{",
-		"method": "public void read(Reads read, byte revision){",
-		"override_expr": "@Override",
-		"super_read_expr": "super.read(read, revision);",
-		"clear_expr": "ammo.clear();",
-		"total_reset_expr": "totalAmmo = 0;",
-		"amount_expr": "int amount = read.ub();",
-		"loop_expr": "for(int i = 0; i < amount; i++){",
-		"item_lookup_expr": "Item item = Vars.content.item(revision < 2 ? read.ub() : read.s());",
-		"item_amount_expr": "int itemAmount = Math.min(read.s(), maxAmmo);",
-		"valid_comment": "//only add ammo if this is a valid ammo type",
-		"valid_ammo_guard": "if(item != null && ammoTypes.containsKey(item)){",
-		"total_add_expr": "totalAmmo += itemAmount;",
-		"ammo_add_expr": "ammo.add(new ItemEntry(item, itemAmount));",
-		"read_count": read_entries.size(),
-		"total_ammo_after": total_ammo_after,
-		"ammo_entries_after": ammo_entries_after,
-		"read_calls": read_calls,
-	}
+	return source_item_turret_build_io_state.read_state(revision, max_ammo, read_entries)
 
 static func generated_version_bridge_state() -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd", "java_inner_class_ItemTurretBuild_method_version_9", [], null)
-	var canonical = version_state()
-	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_ITEM_TURRET_BUILD_VERSION_STATE,
-		"generated_owner": "item_turret.ItemTurretBuild.version",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("version", null) == canonical.get("version", null),
-	}
+	return source_item_turret_build_io_state.generated_version_bridge_state()
 
 static func generated_write_bridge_state(ammo_entries: Array) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd", "java_inner_class_ItemTurretBuild_method_write_10", [ammo_entries], null)
-	var canonical = write_state(ammo_entries)
-	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_ITEM_TURRET_BUILD_WRITE_STATE,
-		"generated_owner": "item_turret.ItemTurretBuild.write",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("write_calls", []) == canonical.get("write_calls", []),
-	}
+	return source_item_turret_build_io_state.generated_write_bridge_state(ammo_entries)
 
 static func generated_read_bridge_state(revision: int, max_ammo: int, read_entries: Array) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd", "java_inner_class_ItemTurretBuild_method_read_11", [revision, max_ammo, read_entries], null)
-	var canonical = read_state(revision, max_ammo, read_entries)
-	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_ITEM_TURRET_BUILD_READ_STATE,
-		"generated_owner": "item_turret.ItemTurretBuild.read",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("read_calls", []) == canonical.get("read_calls", []),
-	}
+	return source_item_turret_build_io_state.generated_read_bridge_state(revision, max_ammo, read_entries)

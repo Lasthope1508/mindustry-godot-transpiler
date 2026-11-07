@@ -1,0 +1,23 @@
+extends RefCounted
+class_name SourceBlockProducerBuildUpdateSourceTextState
+
+const SOURCE_PAYLOAD_BLOCK_SOURCE := "core/src/mindustry/world/blocks/payloads/PayloadBlock.java"
+const SOURCE_ARC_MATHF_SOURCE := "arc-core/src/arc/math/Mathf.java"
+const SOURCE_BUILDING_COMP_SOURCE := "core/src/mindustry/entities/comp/BuildingComp.java"
+const SOURCE_BUILDING_DELTA_METHOD := "public float delta(){"
+const SOURCE_BLOCK_PRODUCER_BUILD_UPDATE_TILE_METHOD := "public void updateTile(){"
+const SOURCE_BLOCK_PRODUCER_BUILD_UPDATE_TILE_SUPER_CALL := "super.updateTile();"
+const SOURCE_BLOCK_PRODUCER_BUILD_UPDATE_TILE_RECIPE_ASSIGNMENT := "var recipe = recipe();"
+const SOURCE_BLOCK_PRODUCER_BUILD_UPDATE_TILE_PRODUCE_EXPR := "boolean produce = recipe != null && efficiency > 0 && payload == null;"
+const SOURCE_BLOCK_PRODUCER_BUILD_UPDATE_TILE_IF_PRODUCE_EXPR := "if(produce){"
+const SOURCE_BLOCK_PRODUCER_BUILD_UPDATE_TILE_PROGRESS_EXPR := "progress += buildSpeed * edelta();"
+const SOURCE_BLOCK_PRODUCER_BUILD_UPDATE_TILE_COMPLETION_GUARD_EXPR := "if(progress >= recipe.buildTime){"
+const SOURCE_BLOCK_PRODUCER_BUILD_UPDATE_TILE_CONSUME_EXPR := "consume();"
+const SOURCE_BLOCK_PRODUCER_BUILD_UPDATE_TILE_PAYLOAD_EXPR := "payload = new BuildPayload(recipe, team);"
+const SOURCE_BLOCK_PRODUCER_BUILD_UPDATE_TILE_PLACE_EFFECT_EXPR := "payload.block().placeEffect.at(x, y, payload.size() / tilesize);"
+const SOURCE_BLOCK_PRODUCER_BUILD_PAY_VECTOR_FIELD := "public Vec2 payVector = new Vec2();"
+const SOURCE_BLOCK_PRODUCER_BUILD_PROGRESS_TIME_HEAT_FIELD := "public float progress, time, heat;"
+const SOURCE_BLOCK_PRODUCER_BUILD_UPDATE_TILE_PAY_VECTOR_SET_ZERO_EXPR := "payVector.setZero();"
+const SOURCE_BLOCK_PRODUCER_BUILD_UPDATE_TILE_PROGRESS_MODULO_EXPR := "progress %= 1f;"
+const SOURCE_BLOCK_PRODUCER_BUILD_UPDATE_TILE_HEAT_EXPR := "heat = Mathf.lerpDelta(heat, Mathf.num(produce), 0.15f);"
+const SOURCE_BLOCK_PRODUCER_BUILD_UPDATE_TILE_TIME_EXPR := "time += heat * delta();"

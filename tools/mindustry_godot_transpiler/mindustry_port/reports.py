@@ -14,6 +14,32 @@ def load_json(path: Path) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
+def _port_game_chain(godot_root: Path) -> list[tuple[str, str]]:
+    godot_root = Path(godot_root)
+    relative_path = Path("src/game/PortGame.gd")
+    chain: list[tuple[str, str]] = []
+    visited: set[str] = set()
+    extends_pattern = re.compile(r'^extends\s+"res://([^"]+)"')
+    while True:
+        resource_path = relative_path.as_posix()
+        if resource_path in visited:
+            break
+        visited.add(resource_path)
+        script_path = godot_root / resource_path
+        if not script_path.exists():
+            break
+        source = script_path.read_text(encoding="utf-8")
+        chain.append((resource_path, source))
+        parent = next(
+            (match.group(1) for match in (extends_pattern.match(line.strip()) for line in source.splitlines()) if match),
+            None,
+        )
+        if parent is None:
+            break
+        relative_path = Path(parent)
+    return chain
+
+
 def scan_unsupported_features(source_root: Path) -> list[dict]:
     source_root = Path(source_root)
     if not source_root.exists():
@@ -47,7 +73,20 @@ def scan_port_game_footprint(godot_root: Path) -> dict:
             "generated_bridge_function_count": 0,
             "max_function_lines": 0,
         }
-    source = port_game.read_text(encoding="utf-8")
+    chain = _port_game_chain(godot_root)
+    if not chain:
+        return {
+            "path": "src/game/PortGame.gd",
+            "exists": True,
+            "byte_count": 0,
+            "line_count": 0,
+            "preload_count": 0,
+            "function_count": 0,
+            "source_function_count": 0,
+            "generated_bridge_function_count": 0,
+            "max_function_lines": 0,
+        }
+    source = "\n".join(item_source.rstrip("\n") for _, item_source in chain)
     lines = source.splitlines()
     function_starts = [
         index
@@ -61,6 +100,8 @@ def scan_port_game_footprint(godot_root: Path) -> dict:
     return {
         "path": "src/game/PortGame.gd",
         "exists": True,
+        "chain_depth": len(chain),
+        "chain_paths": [path for path, _ in chain],
         "byte_count": len(source.encode("utf-8")),
         "line_count": len(lines),
         "preload_count": sum(1 for line in lines if "preload(" in line),
@@ -84,13 +125,15 @@ def scan_port_game_bridge_surface(godot_root: Path) -> dict:
             "largest_delegate_module": {},
         }
     godot_root = Path(godot_root)
-    lines = port_game.read_text(encoding="utf-8").splitlines()
+    chain = _port_game_chain(godot_root)
+    lines = "\n".join(item_source.rstrip("\n") for _, item_source in chain).splitlines()
     preload_paths: dict[str, str] = {}
     preload_pattern = re.compile(r"^const\s+([A-Za-z_][A-Za-z0-9_]*)\s*:=\s*preload\(\"([^\"]+)\"\)")
     for line in lines:
         match = preload_pattern.match(line.strip())
         if match:
             preload_paths[match.group(1)] = match.group(2)
+    delegate_resolution_cache: dict[tuple[str, str], tuple[str, str]] = {}
     function_starts = [
         (index, line.strip())
         for index, line in enumerate(lines, start=1)
@@ -109,13 +152,24 @@ def scan_port_game_bridge_surface(godot_root: Path) -> dict:
             if line.strip() and not line.strip().startswith("#")
         ]
         delegate_module = ""
+        delegated_function = ""
         for body_line in body_lines:
             match = delegate_pattern.match(body_line)
             if match:
                 delegate_module = match.group(1)
+                call_match = re.match(r"^(?:return\s+)?([A-Za-z_][A-Za-z0-9_]*)\.([A-Za-z_][A-Za-z0-9_]*)\(", body_line)
+                if call_match:
+                    delegated_function = call_match.group(2)
                 break
         if not delegate_module:
             continue
+        delegate_module, delegated_function = _resolve_delegate_target(
+            godot_root,
+            preload_paths,
+            delegate_module,
+            delegated_function,
+            delegate_resolution_cache,
+        )
         delegating_function_count += 1
         function_name = signature.split("(", 1)[0].replace("func ", "")
         if function_name.startswith("source_"):
@@ -155,6 +209,8 @@ def scan_port_game_bridge_surface(godot_root: Path) -> dict:
     return {
         "path": "src/game/PortGame.gd",
         "exists": True,
+        "chain_depth": len(chain),
+        "chain_paths": [path for path, _ in chain],
         "delegating_function_count": delegating_function_count,
         "source_delegating_function_count": source_delegating_function_count,
         "generated_bridge_delegating_function_count": generated_bridge_delegating_function_count,
@@ -162,6 +218,67 @@ def scan_port_game_bridge_surface(godot_root: Path) -> dict:
         "top_delegate_modules": top_delegate_modules,
         "largest_delegate_module": largest_delegate_module,
     }
+
+
+def _resolve_delegate_target(
+    godot_root: Path,
+    preload_paths: dict[str, str],
+    module_name: str,
+    function_name: str,
+    cache: dict[tuple[str, str], tuple[str, str]],
+) -> tuple[str, str]:
+    """Follow thin facade wrappers so reports name the effective owner module."""
+    if not function_name:
+        return module_name, function_name
+    cache_key = (module_name, function_name)
+    if cache_key in cache:
+        return cache[cache_key]
+    module_path = preload_paths.get(module_name, "")
+    if not module_path.startswith("res://"):
+        cache[cache_key] = (module_name, function_name)
+        return cache[cache_key]
+    script_path = Path(godot_root) / module_path.replace("res://", "")
+    if not script_path.exists():
+        cache[cache_key] = (module_name, function_name)
+        return cache[cache_key]
+    source_lines = script_path.read_text(encoding="utf-8").splitlines()
+    function_start = next(
+        (index for index, line in enumerate(source_lines) if re.match(rf"^static func\s+{re.escape(function_name)}\s*\(", line.strip())),
+        None,
+    )
+    if function_start is None:
+        cache[cache_key] = (module_name, function_name)
+        return cache[cache_key]
+    function_lines = []
+    for line in source_lines[function_start + 1:]:
+        if re.match(r"^static func\s+", line.strip()):
+            break
+        function_lines.append(line.strip())
+    nested_preloads: dict[str, str] = {}
+    for line in source_lines:
+        match = re.match(r"^const\s+([A-Za-z_][A-Za-z0-9_]*)\s*:=\s*preload\(\"([^\"]+)\"\)", line.strip())
+        if match:
+            nested_preloads[match.group(1)] = match.group(2)
+    nested_pattern = re.compile(r"^(?:return\s+)?([A-Za-z_][A-Za-z0-9_]*)\.([A-Za-z_][A-Za-z0-9_]*)\(")
+    for line in function_lines:
+        match = nested_pattern.match(line)
+        if not match:
+            continue
+        nested_module, nested_function = match.group(1), match.group(2)
+        nested_path = nested_preloads.get(nested_module, "")
+        if nested_path.startswith("res://"):
+            preload_paths.setdefault(nested_module, nested_path)
+        result = _resolve_delegate_target(
+            godot_root,
+            preload_paths,
+            nested_module,
+            nested_function,
+            cache,
+        )
+        cache[cache_key] = result
+        return result
+    cache[cache_key] = (module_name, function_name)
+    return cache[cache_key]
 
 def _gdscript_class_name(godot_root: Path, resource_path: str) -> str:
     if not resource_path.startswith("res://"):

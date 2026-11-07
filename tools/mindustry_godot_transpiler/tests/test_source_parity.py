@@ -11,6 +11,288 @@ from mindustry_port import source_parity
 
 
 class SourceParityTests(unittest.TestCase):
+    def test_building_is_discovered_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_is_discovered_source"))
+        report = source_parity.verify_building_is_discovered_source(ROOT / "mindustry-upstream")
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["missing"], [])
+
+    def test_building_add_plan_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_add_plan_source"))
+        report = source_parity.verify_building_add_plan_source(ROOT / "mindustry-upstream")
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["missing"], [])
+
+    def test_building_find_closest_edge_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_find_closest_edge_source"))
+        report = source_parity.verify_building_find_closest_edge_source(ROOT / "mindustry-upstream")
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["edges_source"], "core/src/mindustry/world/Edges.java")
+        self.assertEqual(report["missing"], [])
+
+    def test_building_configure_entry_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_configure_entry_source"))
+        report = source_parity.verify_building_configure_entry_source(ROOT / "mindustry-upstream")
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["missing"], [])
+
+    def test_building_navigation_matches_upstream_source(self):
+        report = source_parity.verify_building_navigation_source(ROOT / "mindustry-upstream")
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["missing"], [])
+
+    def test_tile_center_coordinates_match_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_tile_center_coordinates_source"))
+        report = source_parity.verify_tile_center_coordinates_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/Tile.java")
+        self.assertEqual(report["checked"], {
+            "center_x_method": "public int centerX(){",
+            "center_x_return": "return build == null ? x : build.tile.x;",
+            "center_y_method": "public int centerY(){",
+            "center_y_return": "return build == null ? y : build.tile.y;",
+        })
+        self.assertEqual(report["missing"], [])
+
+    def test_tile_get_team_id_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_tile_get_team_id_source"))
+        report = source_parity.verify_tile_get_team_id_source(ROOT / "mindustry-upstream")
+        self.assertEqual(report["source"], "core/src/mindustry/world/Tile.java")
+        self.assertEqual(report["checked"], {
+            "method": "public int getTeamID(){",
+            "team_return": "return team().id;",
+        })
+        self.assertEqual(report["missing"], [])
+
+    def test_tile_flammability_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_tile_flammability_source"))
+        report = source_parity.verify_tile_flammability_source(ROOT / "mindustry-upstream")
+        self.assertEqual(report["source"], "core/src/mindustry/world/Tile.java")
+        self.assertEqual(report["checked"], {
+            "method": "public float getFlammability(){",
+            "air_liquid_return": "if(floor.liquidDrop != null) return floor.liquidDrop.flammability;",
+            "item_formula": "result += build.items.sum((item, amount) -> item.flammability * amount) / Math.max(block.itemCapacity, 1) * Mathf.clamp(block.itemCapacity / 2.4f, 1f, 3f);",
+            "liquid_formula": "result += build.liquids.sum((liquid, amount) -> liquid.flammability * amount / 1.6f) / Math.max(block.liquidCapacity, 1) * Mathf.clamp(block.liquidCapacity / 30f, 1f, 2f);",
+            "result_return": "return result;",
+        })
+        self.assertEqual(report["missing"], [])
+
+    def test_tile_getter_references_match_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_tile_getter_references_source"))
+        report = source_parity.verify_tile_getter_references_source(ROOT / "mindustry-upstream")
+        self.assertEqual(report["source"], "core/src/mindustry/world/Tile.java")
+        self.assertEqual(report["checked"], {
+            "floor_return": "return floor;",
+            "block_return": "return block;",
+            "overlay_return": "return overlay;",
+            "cblock_return": "return (T)block;",
+            "team_return": "return build == null ? Team.derelict : build.team;",
+        })
+        self.assertEqual(report["missing"], [])
+
+    def test_tile_is_darkened_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_tile_is_darkened_source"))
+        report = source_parity.verify_tile_is_darkened_source(ROOT / "mindustry-upstream")
+        self.assertEqual(report["source"], "core/src/mindustry/world/Tile.java")
+        self.assertEqual(report["checked"], {
+            "method": "public boolean isDarkened(){",
+            "return": "return block.isDarkened(this);",
+        })
+        self.assertEqual(report["missing"], [])
+
+    def test_tile_set_team_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_tile_set_team_source"))
+        report = source_parity.verify_tile_set_team_source(ROOT / "mindustry-upstream")
+        self.assertEqual(report["source"], "core/src/mindustry/world/Tile.java")
+        self.assertEqual(report["checked"], {
+            "method": "public void setTeam(Team team){",
+            "build_guard": "if(build != null){",
+            "team_call": "build.team(team);",
+        })
+        self.assertEqual(report["missing"], [])
+
+    def test_tile_id_getters_match_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_tile_id_getters_source"))
+        report = source_parity.verify_tile_id_getters_source(ROOT / "mindustry-upstream")
+        self.assertEqual(report["source"], "core/src/mindustry/world/Tile.java")
+        self.assertEqual(report["missing"], [])
+
+    def test_tile_boolean_getters_match_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_tile_boolean_getters_source"))
+        report = source_parity.verify_tile_boolean_getters_source(ROOT / "mindustry-upstream")
+        self.assertEqual(report["source"], "core/src/mindustry/world/Tile.java")
+        self.assertEqual(report["missing"], [])
+
+    def test_tile_linked_tiles_match_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_tile_linked_tiles_source"))
+        report = source_parity.verify_tile_linked_tiles_source(ROOT / "mindustry-upstream")
+        self.assertEqual(report["source"], "core/src/mindustry/world/Tile.java")
+        self.assertEqual(report["missing"], [])
+
+    def test_tile_rect_geometry_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_tile_rect_geometry_source"))
+        report = source_parity.verify_tile_rect_geometry_source(ROOT / "mindustry-upstream")
+        self.assertEqual(report["source"], "core/src/mindustry/world/Tile.java")
+        self.assertEqual(report["missing"], [])
+
+    def test_tile_nearby_queries_match_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_tile_nearby_queries_source"))
+        report = source_parity.verify_tile_nearby_queries_source(ROOT / "mindustry-upstream")
+        self.assertEqual(report["source"], "core/src/mindustry/world/Tile.java")
+        self.assertEqual(report["missing"], [])
+
+    def test_tile_interaction_and_drops_match_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_tile_interaction_and_drops_source"))
+        report = source_parity.verify_tile_interaction_and_drops_source(ROOT / "mindustry-upstream")
+        self.assertEqual(report["source"], "core/src/mindustry/world/Tile.java")
+        self.assertEqual(report["missing"], [])
+
+    def test_tile_state_predicates_match_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_tile_state_predicates_source"))
+        report = source_parity.verify_tile_state_predicates_source(ROOT / "mindustry-upstream")
+        self.assertEqual(report["source"], "core/src/mindustry/world/Tile.java")
+        self.assertEqual(report["missing"], [])
+
+    def test_tile_packed_data_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_tile_packed_data_source"))
+        report = source_parity.verify_tile_packed_data_source(ROOT / "mindustry-upstream")
+        self.assertEqual(report["source"], "core/src/mindustry/world/Tile.java")
+        self.assertEqual(report["missing"], [])
+
+    def test_tile_display_identity_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_tile_display_identity_source"))
+        report = source_parity.verify_tile_display_identity_source(ROOT / "mindustry-upstream")
+        self.assertEqual(report["source"], "core/src/mindustry/world/Tile.java")
+        self.assertEqual(report["missing"], [])
+
+    def test_tile_change_events_match_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_tile_change_events_source"))
+        report = source_parity.verify_tile_change_events_source(ROOT / "mindustry-upstream")
+        self.assertEqual(report["source"], "core/src/mindustry/world/Tile.java")
+        self.assertEqual(report["missing"], [])
+
+    def test_tile_changed_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_tile_changed_source"))
+        report = source_parity.verify_tile_changed_source(ROOT / "mindustry-upstream")
+        self.assertEqual(report["source"], "core/src/mindustry/world/Tile.java")
+        self.assertEqual(report["missing"], [])
+
+    def test_tile_pre_changed_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_tile_pre_changed_source"))
+        report = source_parity.verify_tile_pre_changed_source(ROOT / "mindustry-upstream")
+        self.assertEqual(report["source"], "core/src/mindustry/world/Tile.java")
+        self.assertEqual(report["missing"], [])
+
+    def test_tile_change_build_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_tile_change_build_source"))
+        report = source_parity.verify_tile_change_build_source(ROOT / "mindustry-upstream")
+        self.assertEqual(report["source"], "core/src/mindustry/world/Tile.java")
+        self.assertEqual(report["missing"], [])
+
+    def test_tile_set_block_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_tile_set_block_source"))
+        report = source_parity.verify_tile_set_block_source(ROOT / "mindustry-upstream")
+        self.assertEqual(report["source"], "core/src/mindustry/world/Tile.java")
+        self.assertEqual(report["missing"], [])
+
+    def test_tile_set_floor_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_tile_set_floor_source"))
+        report = source_parity.verify_tile_set_floor_source(ROOT / "mindustry-upstream")
+        self.assertEqual(report["source"], "core/src/mindustry/world/Tile.java")
+        self.assertEqual(report["missing"], [])
+
+    def test_tile_set_air_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_tile_set_air_source"))
+        report = source_parity.verify_tile_set_air_source(ROOT / "mindustry-upstream")
+        self.assertEqual(report["source"], "core/src/mindustry/world/Tile.java")
+        self.assertEqual(report["missing"], [])
+
+    def test_tile_remove_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_tile_remove_source"))
+        report = source_parity.verify_tile_remove_source(ROOT / "mindustry-upstream")
+        self.assertEqual(report["source"], "core/src/mindustry/world/Tile.java")
+        self.assertEqual(report["missing"], [])
+
+    def test_tile_network_mutation_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_tile_network_mutation_source"))
+        report = source_parity.verify_tile_network_mutation_source(ROOT / "mindustry-upstream")
+        self.assertEqual(report["source"], "core/src/mindustry/world/Tile.java")
+        self.assertEqual(report["missing"], [])
+
+    def test_tile_overlay_mutation_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_tile_overlay_mutation_source"))
+        report = source_parity.verify_tile_overlay_mutation_source(ROOT / "mindustry-upstream")
+        self.assertEqual(report["source"], "core/src/mindustry/world/Tile.java")
+        self.assertEqual(report["missing"], [])
+
+    def test_tile_circle_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_tile_circle_source"))
+        report = source_parity.verify_tile_circle_source(ROOT / "mindustry-upstream")
+        self.assertEqual(report["source"], "core/src/mindustry/world/Tile.java")
+        self.assertEqual(report["missing"], [])
+
+    def test_tile_editor_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_tile_editor_source"))
+        report = source_parity.verify_tile_editor_source(ROOT / "mindustry-upstream")
+        self.assertEqual(report["source"], "core/src/mindustry/world/Tile.java")
+        self.assertEqual(report["missing"], [])
+
+    def test_tile_floor_color_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_tile_floor_color_source"))
+        report = source_parity.verify_tile_floor_color_source(ROOT / "mindustry-upstream")
+        self.assertEqual(report["source"], "core/src/mindustry/world/Tile.java")
+        self.assertEqual(report["missing"], [])
+
+    def test_tile_recache_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_tile_recache_source"))
+        report = source_parity.verify_tile_recache_source(ROOT / "mindustry-upstream")
+        self.assertEqual(report["source"], "core/src/mindustry/world/Tile.java")
+        self.assertEqual(report["missing"], [])
+
+    def test_tile_display_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_tile_display_source"))
+        report = source_parity.verify_tile_display_source(ROOT / "mindustry-upstream")
+        self.assertEqual(report["source"], "core/src/mindustry/world/Tile.java")
+        self.assertEqual(report["missing"], [])
+
+    def test_tile_bulk_mutation_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_tile_bulk_mutation_source"))
+        report = source_parity.verify_tile_bulk_mutation_source(ROOT / "mindustry-upstream")
+        self.assertEqual(report["source"], "core/src/mindustry/world/Tile.java")
+        self.assertEqual(report["missing"], [])
+
+    def test_tile_single_mutation_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_tile_single_mutation_source"))
+        report = source_parity.verify_tile_single_mutation_source(ROOT / "mindustry-upstream")
+        self.assertEqual(report["source"], "core/src/mindustry/world/Tile.java")
+        self.assertEqual(report["missing"], [])
+
+    def test_tile_static_callbacks_match_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_tile_static_callbacks_source"))
+        report = source_parity.verify_tile_static_callbacks_source(ROOT / "mindustry-upstream")
+        self.assertEqual(report["source"], "core/src/mindustry/world/Tile.java")
+        self.assertEqual(report["missing"], [])
+    def test_tile_is_center_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_tile_is_center_source"))
+        report = source_parity.verify_tile_is_center_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/Tile.java")
+        self.assertEqual(report["checked"], {
+            "method": "public boolean isCenter(){",
+            "return": "return build == null || build.tile == this;",
+        })
+        self.assertEqual(report["missing"], [])
+    def test_tile_in_map_area_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_tile_in_map_area_source"))
+        report = source_parity.verify_tile_in_map_area_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/Tile.java")
+        self.assertEqual(report["checked"], {
+            "method": "public boolean inMapArea(){",
+            "return": "return !state.rules.limitMapArea || Rect.contains(state.rules.limitX , state.rules.limitY , state.rules.limitWidth, state.rules.limitHeight, x, y);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_generated_duo_values_match_upstream_blocks_source(self):
         report = verify_duo_source_parity(ROOT / "mindustry-upstream", ROOT / "godot-mindustry")
 
@@ -2875,6 +3157,150 @@ class SourceParityTests(unittest.TestCase):
         self.assertEqual(report["checked"], {
             "method": "public int getId(){",
             "return_graph_id": "return graphID;",
+        })
+        self.assertEqual(report["missing"], [])
+
+    def test_power_graph_getID_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_power_graph_getID_source"))
+        report = source_parity.verify_power_graph_getID_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(report["checked"], {
+            "method": "public int getID(){",
+            "return_graph_id": "return graphID;",
+        })
+        self.assertEqual(report["missing"], [])
+
+    def test_power_graph_get_last_scaled_power_in_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_power_graph_get_last_scaled_power_in_source"))
+        report = source_parity.verify_power_graph_get_last_scaled_power_in_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(report["checked"], {
+            "field": "private float lastScaledPowerIn, lastScaledPowerOut, lastCapacity;",
+            "method": "public float getLastScaledPowerIn(){",
+            "return_last_scaled_power_in": "return lastScaledPowerIn;",
+        })
+        self.assertEqual(report["missing"], [])
+
+    def test_power_graph_get_last_scaled_power_out_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_power_graph_get_last_scaled_power_out_source"))
+        report = source_parity.verify_power_graph_get_last_scaled_power_out_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(report["checked"], {
+            "field": "private float lastScaledPowerIn, lastScaledPowerOut, lastCapacity;",
+            "method": "public float getLastScaledPowerOut(){",
+            "return_last_scaled_power_out": "return lastScaledPowerOut;",
+        })
+        self.assertEqual(report["missing"], [])
+
+    def test_power_graph_get_last_capacity_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_power_graph_get_last_capacity_source"))
+        report = source_parity.verify_power_graph_get_last_capacity_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(report["checked"], {
+            "field": "private float lastScaledPowerIn, lastScaledPowerOut, lastCapacity;",
+            "method": "public float getLastCapacity(){",
+            "return_last_capacity": "return lastCapacity;",
+        })
+        self.assertEqual(report["missing"], [])
+
+    def test_power_graph_get_power_balance_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_power_graph_get_power_balance_source"))
+        report = source_parity.verify_power_graph_get_power_balance_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(report["checked"], {
+            "field": "private final WindowedMean powerBalance = new WindowedMean(60);",
+            "method": "public float getPowerBalance(){",
+            "return_power_balance_raw_mean": "return powerBalance.rawMean();",
+        })
+        self.assertEqual(report["missing"], [])
+
+    def test_power_graph_has_power_balance_samples_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_power_graph_has_power_balance_samples_source"))
+        report = source_parity.verify_power_graph_has_power_balance_samples_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(report["checked"], {
+            "field": "private final WindowedMean powerBalance = new WindowedMean(60);",
+            "method": "public boolean hasPowerBalanceSamples(){",
+            "return_has_power_balance_samples": "return powerBalance.hasEnoughData();",
+        })
+        self.assertEqual(report["missing"], [])
+
+    def test_power_graph_get_last_power_needed_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_power_graph_get_last_power_needed_source"))
+        report = source_parity.verify_power_graph_get_last_power_needed_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(report["checked"], {
+            "field": "private float lastPowerProduced, lastPowerNeeded, lastPowerStored;",
+            "method": "public float getLastPowerNeeded(){",
+            "return_last_power_needed": "return lastPowerNeeded;",
+        })
+        self.assertEqual(report["missing"], [])
+
+    def test_power_graph_get_last_power_produced_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_power_graph_get_last_power_produced_source"))
+        report = source_parity.verify_power_graph_get_last_power_produced_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(report["checked"], {
+            "field": "private float lastPowerProduced, lastPowerNeeded, lastPowerStored;",
+            "method": "public float getLastPowerProduced(){",
+            "return_last_power_produced": "return lastPowerProduced;",
+        })
+        self.assertEqual(report["missing"], [])
+
+    def test_power_graph_get_last_power_stored_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_power_graph_get_last_power_stored_source"))
+        report = source_parity.verify_power_graph_get_last_power_stored_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(report["checked"], {
+            "field": "private float lastPowerProduced, lastPowerNeeded, lastPowerStored;",
+            "method": "public float getLastPowerStored(){",
+            "return_last_power_stored": "return lastPowerStored;",
+        })
+        self.assertEqual(report["missing"], [])
+
+    def test_power_graph_transfer_power_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_power_graph_transfer_power_source"))
+        report = source_parity.verify_power_graph_transfer_power_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(report["checked"], {
+            "field": "private float energyDelta = 0f;",
+            "method": "public void transferPower(float amount){",
+            "positive_guard": "if(amount > 0){",
+            "charge_call": "chargeBatteries(amount);",
+            "else_branch": "}else{",
+            "use_call": "useBatteries(-amount);",
+            "energy_delta_add": "energyDelta += amount;",
+        })
+        self.assertEqual(report["missing"], [])
+
+    def test_power_graph_get_satisfaction_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_power_graph_get_satisfaction_source"))
+        report = source_parity.verify_power_graph_get_satisfaction_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertIn("arc-core/src/arc/math/Mathf.java", report["sources"])
+        self.assertEqual(report["checked"], {
+            "field": "private float lastPowerProduced, lastPowerNeeded, lastPowerStored;",
+            "method": "public float getSatisfaction(){",
+            "produced_zero_guard": "if(Mathf.zero(lastPowerProduced)){",
+            "return_zero": "return 0f;",
+            "needed_zero_guard": "}else if(Mathf.zero(lastPowerNeeded)){",
+            "return_one": "return 1f;",
+            "return_clamp": "return Mathf.clamp(lastPowerProduced / lastPowerNeeded);",
+            "mathf_zero": "public static boolean zero(float value){",
+            "mathf_zero_body": "return Math.abs(value) <= FLOAT_ROUNDING_ERROR;",
+            "mathf_clamp": "public static float clamp(float value){",
+            "mathf_clamp_body": "return Math.max(Math.min(value, 1f), 0f);",
         })
         self.assertEqual(report["missing"], [])
 
@@ -6456,6 +6882,18 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_update_payload_and_tile_match_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_update_payload_and_tile_source"))
+        report = source_parity.verify_building_update_payload_and_tile_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "update_payload_method": "public void updatePayload(@Nullable Unit unitHolder, @Nullable Building buildingHolder){",
+            "update_payload_delegate": "update();",
+            "update_tile_method": "public void updateTile(){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_ability_update_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_ability_update_source"))
         report = source_parity.verify_ability_update_source(ROOT / "mindustry-upstream")
@@ -7281,6 +7719,25 @@ class SourceParityTests(unittest.TestCase):
             "planet_landable_guard_expr": "if(planet.isLandable()){",
             "structs_contains_guard_expr": "if(!Structs.contains(requirements, s -> !s.item.isOnPlanet(planet))){",
             "shown_planets_add_expr": "shownPlanets.add(planet);",
+        })
+        self.assertEqual(report["missing"], [])
+
+    def test_building_payload_access_predicates_match_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_payload_access_source"))
+        report = source_parity.verify_building_payload_access_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "can_withdraw_method": "public boolean canWithdraw(){",
+            "can_withdraw_return": "return true;",
+            "can_unload_method": "public boolean canUnload(){",
+            "can_unload_return": "return block.unloadable;",
+            "can_resupply_method": "public boolean canResupply(){",
+            "can_resupply_return": "return block.allowResupply;",
+            "payload_check_method": "public boolean payloadCheck(int conveyorRotation){",
+            "payload_check_return": "return block.rotate && (rotation + 2) % 4 == conveyorRotation;",
+            "allow_deposit_method": "public boolean allowDeposit(){",
+            "allow_deposit_return": "return block.alwaysAllowDeposit || !state.rules.onlyDepositCore;",
         })
         self.assertEqual(report["missing"], [])
 
@@ -11236,6 +11693,54 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_floor_edge_cluster_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_floor_edge_cluster_source"))
+        report = source_parity.verify_floor_edge_cluster_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/environment/Floor.java")
+        self.assertEqual(report["missing"], [])
+
+    def test_unit_controller_block_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_controller_block_source"))
+        report = source_parity.verify_unit_controller_block_source(ROOT / "mindustry-upstream")
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["missing"], [])
+
+    def test_floor_render_cluster_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_floor_render_cluster_source"))
+        report = source_parity.verify_floor_render_cluster_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/environment/Floor.java")
+        self.assertEqual(report["missing"], [])
+
+    def test_floor_draw_edges_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_floor_draw_edges_source"))
+        report = source_parity.verify_floor_draw_edges_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/environment/Floor.java")
+        self.assertEqual(report["missing"], [])
+
+    def test_floor_draw_base_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_floor_draw_base_source"))
+        report = source_parity.verify_floor_draw_base_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/environment/Floor.java")
+        self.assertEqual(report["missing"], [])
+
+    def test_floor_draw_overlay_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_floor_draw_overlay_source"))
+        report = source_parity.verify_floor_draw_overlay_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/environment/Floor.java")
+        self.assertEqual(report["missing"], [])
+
+    def test_floor_icons_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_floor_icons_source"))
+        report = source_parity.verify_floor_icons_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/environment/Floor.java")
+        self.assertEqual(report["missing"], [])
+
     def test_unit_floor_speed_multiplier_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_floor_speed_multiplier_source"))
         report = source_parity.verify_unit_floor_speed_multiplier_source(ROOT / "mindustry-upstream")
@@ -11326,6 +11831,89 @@ class SourceParityTests(unittest.TestCase):
             "trigger_enum": "public enum Trigger{",
             "unit_command_boost": "unitCommandBoost,",
         })
+        self.assertEqual(report["missing"], [])
+
+    def test_unit_sync_hidden_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_sync_hidden_source"))
+        report = source_parity.verify_unit_sync_hidden_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["checked"], {
+            "is_sync_hidden_method": "public boolean isSyncHidden(Player player){",
+            "is_sync_hidden_comment": "//shooting reveals position so bullets can be seen",
+            "is_sync_hidden_return": "return !isShooting() && inFogTo(player.team());",
+            "handle_sync_hidden_method": "public void handleSyncHidden(){",
+            "handle_sync_hidden_remove": "remove();",
+            "handle_sync_hidden_clear_removed_entity": "netClient.clearRemovedEntity(id);",
+        })
+        self.assertEqual(report["missing"], [])
+
+    def test_unit_in_fog_to_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_in_fog_to_source"))
+        report = source_parity.verify_unit_in_fog_to_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["geometry_source"], "arc-core/src/arc/math/geom/Geometry.java")
+        self.assertEqual(report["checked"], {
+            "in_fog_method": "public boolean inFogTo(Team viewer){",
+            "in_fog_initial_gate": "if(this.team == viewer || !state.rules.fog) return false;",
+            "in_fog_small_hit_size_gate": "if(hitSize <= 16f){",
+            "in_fog_center_visibility": "return !fogControl.isVisible(viewer, x, y);",
+            "in_fog_large_comment": "//for large hitsizes, check around the unit instead",
+            "in_fog_translation": "float trns = hitSize / 2f;",
+            "in_fog_d8_loop": "for(var p : Geometry.d8){",
+            "in_fog_visible_point": "if(fogControl.isVisible(viewer, x + p.x * trns, y + p.y * trns)){",
+            "in_fog_final_return": "return true;",
+        })
+        self.assertEqual(report["missing"], [])
+
+    def test_unit_range_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_range_source"))
+        report = source_parity.verify_unit_range_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["checked"], {
+            "range_method": "public float range(){",
+            "range_return": "return type.maxRange;",
+        })
+        self.assertEqual(report["missing"], [])
+
+    def test_unit_clip_size_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_clip_size_source"))
+        report = source_parity.verify_unit_clip_size_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["checked"], {
+            "clip_size_method": "public float clipSize(){",
+            "clip_size_building_gate": "if(isBuilding()){",
+            "clip_size_building_return": "return state.rules.infiniteResources ? Float.MAX_VALUE : Math.max(type.clipSize, type.region.width) + type.buildRange + tilesize*4f;",
+            "clip_size_mining_gate": "if(mining()){",
+            "clip_size_mining_return": "return type.clipSize + type.mineRange;",
+            "clip_size_return": "return type.clipSize;",
+        })
+        self.assertEqual(report["missing"], [])
+
+    def test_unit_sense_laccess_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_sense_laccess_source"))
+        report = source_parity.verify_unit_sense_laccess_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["missing"], [])
+
+    def test_unit_sense_object_matches_upstream_source(self):
+        report = source_parity.verify_unit_sense_object_source(ROOT / "mindustry-upstream")
+        self.assertEqual(report["missing"], [])
+
+    def test_unit_sense_content_matches_upstream_source(self):
+        report = source_parity.verify_unit_sense_content_source(ROOT / "mindustry-upstream")
+        self.assertEqual(report["missing"], [])
+
+    def test_unit_set_prop_matches_upstream_source(self):
+        report = source_parity.verify_unit_set_prop_source(ROOT / "mindustry-upstream")
+        self.assertEqual(report["missing"], [])
+
+    def test_unit_combat_metadata_matches_upstream_source(self):
+        report = source_parity.verify_unit_combat_metadata_source(ROOT / "mindustry-upstream")
         self.assertEqual(report["missing"], [])
 
     def test_builder_actively_building_matches_upstream_source(self):

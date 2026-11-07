@@ -2,7 +2,8 @@ extends Node
 
 const PortGameScript := preload("res://src/game/PortGame.gd")
 const source_building_set_prop_state := preload("res://src/game/SourceBuildingSetPropState.gd")
-const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const source_ssot_accessor_runtime_state := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
+const runtime_proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")
 
 func _ready() -> void:
 	var game := PortGameScript.new()
@@ -12,7 +13,7 @@ func _ready() -> void:
 	var team_object_bridge := game.generated_building_comp_set_prop_team_object_bridge_state("team", 7, true, 9)
 	var item_content_bridge := game.generated_building_comp_set_prop_item_content_bridge_state("item", true, "copper", 2, 5.0, 3)
 	var liquid_content_bridge := game.generated_building_comp_set_prop_liquid_content_bridge_state("liquid", true, "water", 0.25, 0.5, 1.0, true, true, 0.25, true)
-	var registry_state := source_ssot_catalog.canonical_headquarter_registry_state()
+	var registry_state := source_ssot_accessor_runtime_state.canonical_headquarter_registry_state()
 	var proof := {
 		"module": "BUILDING_SET_PROP_STATE_MODULE_PROOF",
 		"health_bridge_matches": health_bridge == source_building_set_prop_state.generated_health_bridge_state("health", 10.0, 20.0, -5.0, false, "self"),
@@ -31,12 +32,9 @@ func _ready() -> void:
 		"liquid_content_bridge": liquid_content_bridge,
 	}
 	proof["matches"] = proof["health_bridge_matches"] and proof["team_double_bridge_matches"] and proof["total_power_bridge_matches"] and proof["team_object_bridge_matches"] and proof["item_content_bridge_matches"] and proof["liquid_content_bridge_matches"] and proof["one_headquarter_per_ssot"] and proof["registry_valid"]
-	var proof_json := JSON.stringify(proof)
-	print("BUILDING_SET_PROP_STATE_MODULE_PROOF " + proof_json)
-	var proof_path := ProjectSettings.globalize_path("res://tools/runtime_proofs/BuildingSetPropStateModuleProof.json")
-	var proof_file := FileAccess.open(proof_path, FileAccess.WRITE)
-	if proof_file != null:
-		proof_file.store_string(proof_json)
+	print("BUILDING_SET_PROP_STATE_MODULE_PROOF " + JSON.stringify(proof))
+	runtime_proof_state.write_proof("BuildingSetPropStateModuleProof", proof)
 	game.free()
-	await get_tree().create_timer(60.0).timeout
-	get_tree().quit(0)
+	await get_tree().process_frame
+	get_tree().quit(runtime_proof_state.exit_code(proof))
+

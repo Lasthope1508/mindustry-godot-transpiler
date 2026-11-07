@@ -3,839 +3,707 @@
   "symbols": {
     "ability_ability_stat.bundle_key": {
       "canonical_symbol": "source_symbol_registry.ability_ability_stat.bundle_key",
-      "godot_owner": "PortGame.source_ability_ability_stat_state",
-      "godot_symbol": "source_ability_ability_stat_result.bundle_key",
-      "java_expr": "\"ability.stat.\" + stat",
-      "java_method": "Ability.abilityStat(String stat, Object... values)",
-      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
-      "rule": "Bundle key expression for ability stat localization.",
-      "runtime_proof": "/root/Main.source_ability_ability_stat_state",
-      "source_slice": "N1269",
       "status": "source-backed",
+      "java_expr": "\"ability.stat.\" + stat",
+      "godot_symbol": "source_ability_ability_stat_result.bundle_key",
+      "godot_owner": "PortGame.source_ability_ability_stat_state",
+      "rule": "Bundle key expression for ability stat localization.",
       "tests": [
         "test_emit_bridges_ability_ability_stat_to_source_state",
         "test_port_game_exposes_source_ability_ability_stat_state",
         "test_port_game_exposes_generated_ability_ability_stat_bridge_state",
         "test_ability_ability_stat_matches_upstream_source",
         "test_generated_ability_ability_stat_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_ability_ability_stat_state"
     },
     "ability_ability_stat.format_call": {
       "canonical_symbol": "source_symbol_registry.ability_ability_stat.format_call",
-      "godot_owner": "PortGame.source_ability_ability_stat_state",
-      "godot_symbol": "source_ability_ability_stat_result.format_call",
-      "java_expr": "Core.bundle.format(\"ability.stat.\" + stat, values)",
-      "java_method": "Ability.abilityStat(String stat, Object... values)",
-      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
-      "rule": "Core.bundle.format call uses ability.stat prefix and varargs values.",
-      "runtime_proof": "/root/Main.source_ability_ability_stat_state",
-      "source_slice": "N1269",
       "status": "source-backed",
+      "java_expr": "Core.bundle.format(\"ability.stat.\" + stat, values)",
+      "godot_symbol": "source_ability_ability_stat_result.format_call",
+      "godot_owner": "PortGame.source_ability_ability_stat_state",
+      "rule": "Core.bundle.format call uses ability.stat prefix and varargs values.",
       "tests": [
         "test_emit_bridges_ability_ability_stat_to_source_state",
         "test_port_game_exposes_source_ability_ability_stat_state",
         "test_port_game_exposes_generated_ability_ability_stat_bridge_state",
         "test_ability_ability_stat_matches_upstream_source",
         "test_generated_ability_ability_stat_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_ability_ability_stat_state"
     },
     "ability_ability_stat.method": {
       "canonical_symbol": "source_symbol_registry.ability_ability_stat.method",
-      "godot_owner": "PortGame.source_ability_ability_stat_state",
-      "godot_symbol": "source_ability_ability_stat_result.method",
-      "java_expr": "public String abilityStat(String stat, Object... values){",
-      "java_method": "Ability.abilityStat(String stat, Object... values)",
-      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
-      "rule": "Ability.abilityStat method boundary.",
-      "runtime_proof": "/root/Main.source_ability_ability_stat_state",
-      "source_slice": "N1269",
       "status": "source-backed",
+      "java_expr": "public String abilityStat(String stat, Object... values){",
+      "godot_symbol": "source_ability_ability_stat_result.method",
+      "godot_owner": "PortGame.source_ability_ability_stat_state",
+      "rule": "Ability.abilityStat method boundary.",
       "tests": [
         "test_emit_bridges_ability_ability_stat_to_source_state",
         "test_port_game_exposes_source_ability_ability_stat_state",
         "test_port_game_exposes_generated_ability_ability_stat_bridge_state",
         "test_ability_ability_stat_matches_upstream_source",
         "test_generated_ability_ability_stat_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_ability_ability_stat_state"
     },
     "ability_ability_stat.return_value": {
       "canonical_symbol": "source_symbol_registry.ability_ability_stat.return_value",
-      "godot_owner": "PortGame.source_ability_ability_stat_state",
-      "godot_symbol": "source_ability_ability_stat_result.return_value",
-      "java_expr": "return Core.bundle.format(\"ability.stat.\" + stat, values);",
-      "java_method": "Ability.abilityStat(String stat, Object... values)",
-      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
-      "rule": "Return value is supplied as formatted_value, preserving Core.bundle.format result without inventing bundle lookup.",
-      "runtime_proof": "/root/Main.source_ability_ability_stat_state",
-      "source_slice": "N1269",
       "status": "explicit-input",
+      "java_expr": "return Core.bundle.format(\"ability.stat.\" + stat, values);",
+      "godot_symbol": "source_ability_ability_stat_result.return_value",
+      "godot_owner": "PortGame.source_ability_ability_stat_state",
+      "rule": "Return value is supplied as formatted_value, preserving Core.bundle.format result without inventing bundle lookup.",
       "tests": [
         "test_emit_bridges_ability_ability_stat_to_source_state",
         "test_port_game_exposes_source_ability_ability_stat_state",
         "test_port_game_exposes_generated_ability_ability_stat_bridge_state",
         "test_ability_ability_stat_matches_upstream_source",
         "test_generated_ability_ability_stat_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_ability_ability_stat_state"
     },
     "ability_add_stats.add_description": {
       "canonical_symbol": "source_symbol_registry.ability_add_stats.add_description",
-      "godot_owner": "PortGame.source_ability_add_stats_state",
-      "godot_symbol": "source_ability_add_stats_result.add_description_call",
-      "java_expr": "t.add(Core.bundle.get(getBundle() + \".description\")).wrap().width(descriptionWidth);",
-      "java_method": "Ability.addStats(Table t)",
-      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
-      "rule": "Description add/wrap/width call emitted only when guard passes.",
-      "runtime_proof": "/root/Main.source_ability_add_stats_state",
-      "source_slice": "N1268",
       "status": "source-backed",
+      "java_expr": "t.add(Core.bundle.get(getBundle() + \".description\")).wrap().width(descriptionWidth);",
+      "godot_symbol": "source_ability_add_stats_result.add_description_call",
+      "godot_owner": "PortGame.source_ability_add_stats_state",
+      "rule": "Description add/wrap/width call emitted only when guard passes.",
       "tests": [
         "test_emit_bridges_ability_add_stats_to_source_state",
         "test_port_game_exposes_source_ability_add_stats_state",
         "test_port_game_exposes_generated_ability_add_stats_bridge_state",
         "test_ability_add_stats_matches_upstream_source",
         "test_generated_ability_add_stats_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_ability_add_stats_state"
     },
     "ability_add_stats.description_width": {
       "canonical_symbol": "source_symbol_registry.ability_add_stats.description_width",
-      "godot_owner": "PortGame.source_ability_add_stats_state",
-      "godot_symbol": "source_ability_add_stats_result.description_width",
-      "java_expr": "protected static final float descriptionWidth = 350f;",
-      "java_method": "Ability.addStats(Table t)",
-      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
-      "rule": "descriptionWidth constant used by width(descriptionWidth).",
-      "runtime_proof": "/root/Main.source_ability_add_stats_state",
-      "source_slice": "N1268",
       "status": "source-backed",
+      "java_expr": "protected static final float descriptionWidth = 350f;",
+      "godot_symbol": "source_ability_add_stats_result.description_width",
+      "godot_owner": "PortGame.source_ability_add_stats_state",
+      "rule": "descriptionWidth constant used by width(descriptionWidth).",
       "tests": [
         "test_emit_bridges_ability_add_stats_to_source_state",
         "test_port_game_exposes_source_ability_add_stats_state",
         "test_port_game_exposes_generated_ability_add_stats_bridge_state",
         "test_ability_add_stats_matches_upstream_source",
         "test_generated_ability_add_stats_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_ability_add_stats_state"
     },
     "ability_add_stats.guard": {
       "canonical_symbol": "source_symbol_registry.ability_add_stats.guard",
-      "godot_owner": "PortGame.source_ability_add_stats_state",
-      "godot_symbol": "source_ability_add_stats_result.guard_expr",
-      "java_expr": "if(Core.bundle.has(getBundle() + \".description\")){",
-      "java_method": "Ability.addStats(Table t)",
-      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
-      "rule": "Core.bundle.has(getBundle() + \".description\") guards description row mutation.",
-      "runtime_proof": "/root/Main.source_ability_add_stats_state",
-      "source_slice": "N1268",
       "status": "source-backed",
+      "java_expr": "if(Core.bundle.has(getBundle() + \".description\")){",
+      "godot_symbol": "source_ability_add_stats_result.guard_expr",
+      "godot_owner": "PortGame.source_ability_add_stats_state",
+      "rule": "Core.bundle.has(getBundle() + \".description\") guards description row mutation.",
       "tests": [
         "test_emit_bridges_ability_add_stats_to_source_state",
         "test_port_game_exposes_source_ability_add_stats_state",
         "test_port_game_exposes_generated_ability_add_stats_bridge_state",
         "test_ability_add_stats_matches_upstream_source",
         "test_generated_ability_add_stats_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_ability_add_stats_state"
     },
     "ability_add_stats.method": {
       "canonical_symbol": "source_symbol_registry.ability_add_stats.method",
-      "godot_owner": "PortGame.source_ability_add_stats_state",
-      "godot_symbol": "source_ability_add_stats_result.method",
-      "java_expr": "public void addStats(Table t){",
-      "java_method": "Ability.addStats(Table t)",
-      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
-      "rule": "Ability.addStats(Table t) method boundary.",
-      "runtime_proof": "/root/Main.source_ability_add_stats_state",
-      "source_slice": "N1268",
       "status": "source-backed",
+      "java_expr": "public void addStats(Table t){",
+      "godot_symbol": "source_ability_add_stats_result.method",
+      "godot_owner": "PortGame.source_ability_add_stats_state",
+      "rule": "Ability.addStats(Table t) method boundary.",
       "tests": [
         "test_emit_bridges_ability_add_stats_to_source_state",
         "test_port_game_exposes_source_ability_add_stats_state",
         "test_port_game_exposes_generated_ability_add_stats_bridge_state",
         "test_ability_add_stats_matches_upstream_source",
         "test_generated_ability_add_stats_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_ability_add_stats_state"
     },
     "ability_copy.catch": {
       "canonical_symbol": "source_symbol_registry.ability_copy.catch",
-      "godot_owner": "PortGame.source_ability_copy_state",
-      "godot_symbol": "source_ability_copy_result.catch_expr",
-      "java_expr": "}catch(CloneNotSupportedException e){",
-      "java_method": "Ability.copy()",
-      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
-      "rule": "Catch branch for clone failure.",
-      "runtime_proof": "/root/Main.source_ability_copy_state",
-      "source_slice": "N1270",
       "status": "source-backed",
+      "java_expr": "}catch(CloneNotSupportedException e){",
+      "godot_symbol": "source_ability_copy_result.catch_expr",
+      "godot_owner": "PortGame.source_ability_copy_state",
+      "rule": "Catch branch for clone failure.",
       "tests": [
         "test_emit_bridges_ability_copy_to_source_state",
         "test_port_game_exposes_source_ability_copy_state",
         "test_port_game_exposes_generated_ability_copy_bridge_state",
         "test_ability_copy_matches_upstream_source",
         "test_generated_ability_copy_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_ability_copy_state"
     },
     "ability_copy.clone_return": {
       "canonical_symbol": "source_symbol_registry.ability_copy.clone_return",
-      "godot_owner": "PortGame.source_ability_copy_state",
-      "godot_symbol": "source_ability_copy_result.return_value",
-      "java_expr": "return (Ability)clone();",
-      "java_method": "Ability.copy()",
-      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
-      "rule": "Successful clone return is supplied as explicit clone_value.",
-      "runtime_proof": "/root/Main.source_ability_copy_state",
-      "source_slice": "N1270",
       "status": "explicit-input",
+      "java_expr": "return (Ability)clone();",
+      "godot_symbol": "source_ability_copy_result.return_value",
+      "godot_owner": "PortGame.source_ability_copy_state",
+      "rule": "Successful clone return is supplied as explicit clone_value.",
       "tests": [
         "test_emit_bridges_ability_copy_to_source_state",
         "test_port_game_exposes_source_ability_copy_state",
         "test_port_game_exposes_generated_ability_copy_bridge_state",
         "test_ability_copy_matches_upstream_source",
         "test_generated_ability_copy_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_ability_copy_state"
     },
     "ability_copy.method": {
       "canonical_symbol": "source_symbol_registry.ability_copy.method",
-      "godot_owner": "PortGame.source_ability_copy_state",
-      "godot_symbol": "source_ability_copy_result.method",
-      "java_expr": "public Ability copy(){",
-      "java_method": "Ability.copy()",
-      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
-      "rule": "Ability.copy method boundary.",
-      "runtime_proof": "/root/Main.source_ability_copy_state",
-      "source_slice": "N1270",
       "status": "source-backed",
+      "java_expr": "public Ability copy(){",
+      "godot_symbol": "source_ability_copy_result.method",
+      "godot_owner": "PortGame.source_ability_copy_state",
+      "rule": "Ability.copy method boundary.",
       "tests": [
         "test_emit_bridges_ability_copy_to_source_state",
         "test_port_game_exposes_source_ability_copy_state",
         "test_port_game_exposes_generated_ability_copy_bridge_state",
         "test_ability_copy_matches_upstream_source",
         "test_generated_ability_copy_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_ability_copy_state"
     },
     "ability_copy.runtime_exception": {
       "canonical_symbol": "source_symbol_registry.ability_copy.runtime_exception",
-      "godot_owner": "PortGame.source_ability_copy_state",
-      "godot_symbol": "source_ability_copy_result.thrown_exception",
-      "java_expr": "throw new RuntimeException(\"java sucks\", e);",
-      "java_method": "Ability.copy()",
-      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
-      "rule": "RuntimeException wrapper for CloneNotSupportedException branch.",
-      "runtime_proof": "/root/Main.source_ability_copy_state",
-      "source_slice": "N1270",
       "status": "source-backed",
+      "java_expr": "throw new RuntimeException(\"java sucks\", e);",
+      "godot_symbol": "source_ability_copy_result.thrown_exception",
+      "godot_owner": "PortGame.source_ability_copy_state",
+      "rule": "RuntimeException wrapper for CloneNotSupportedException branch.",
       "tests": [
         "test_emit_bridges_ability_copy_to_source_state",
         "test_port_game_exposes_source_ability_copy_state",
         "test_port_game_exposes_generated_ability_copy_bridge_state",
         "test_ability_copy_matches_upstream_source",
         "test_generated_ability_copy_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_ability_copy_state"
     },
     "ability_created.method": {
       "canonical_symbol": "source_symbol_registry.ability_created.method",
-      "godot_owner": "PortGame.source_ability_created_state",
-      "godot_symbol": "source_ability_created_result.method",
-      "java_expr": "public void created(Unit unit){}",
-      "java_method": "Ability.created(Unit unit)",
-      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
-      "rule": "Ability.created(Unit unit) default method identity from upstream Ability.java.",
-      "runtime_proof": "/root/Main.source_ability_created_state",
-      "source_slice": "N1264",
       "status": "source-backed",
+      "java_expr": "public void created(Unit unit){}",
+      "godot_symbol": "source_ability_created_result.method",
+      "godot_owner": "PortGame.source_ability_created_state",
+      "rule": "Ability.created(Unit unit) default method identity from upstream Ability.java.",
       "tests": [
         "test_emit_bridges_ability_created_to_source_state",
         "test_port_game_exposes_source_ability_created_state",
         "test_port_game_exposes_generated_ability_created_bridge_state",
         "test_ability_created_matches_upstream_source",
         "test_generated_ability_created_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_ability_created_state"
     },
     "ability_created.no_op": {
       "canonical_symbol": "source_symbol_registry.ability_created.no_op",
-      "godot_owner": "PortGame.source_ability_created_state",
-      "godot_symbol": "source_ability_created_result.no_op",
-      "java_expr": "public void created(Unit unit){}",
-      "java_method": "Ability.created(Unit unit)",
-      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
-      "rule": "Empty upstream Ability.created body produces no side effects.",
-      "runtime_proof": "/root/Main.source_ability_created_state",
-      "source_slice": "N1264",
       "status": "source-backed",
+      "java_expr": "public void created(Unit unit){}",
+      "godot_symbol": "source_ability_created_result.no_op",
+      "godot_owner": "PortGame.source_ability_created_state",
+      "rule": "Empty upstream Ability.created body produces no side effects.",
       "tests": [
         "test_emit_bridges_ability_created_to_source_state",
         "test_port_game_exposes_source_ability_created_state",
         "test_port_game_exposes_generated_ability_created_bridge_state",
         "test_ability_created_matches_upstream_source",
         "test_generated_ability_created_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_ability_created_state"
     },
     "ability_created.unit": {
       "canonical_symbol": "source_symbol_registry.ability_created.unit",
-      "godot_owner": "PortGame.source_ability_created_state",
-      "godot_symbol": "source_ability_created_input.unit",
-      "java_expr": "Unit unit",
-      "java_method": "Ability.created(Unit unit)",
-      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
-      "rule": "Explicit Unit unit argument passed through unchanged.",
-      "runtime_proof": "/root/Main.source_ability_created_state",
-      "source_slice": "N1264",
       "status": "explicit-input",
+      "java_expr": "Unit unit",
+      "godot_symbol": "source_ability_created_input.unit",
+      "godot_owner": "PortGame.source_ability_created_state",
+      "rule": "Explicit Unit unit argument passed through unchanged.",
       "tests": [
         "test_emit_bridges_ability_created_to_source_state",
         "test_port_game_exposes_source_ability_created_state",
         "test_port_game_exposes_generated_ability_created_bridge_state",
         "test_ability_created_matches_upstream_source",
         "test_generated_ability_created_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_ability_created_state"
     },
     "ability_death.method": {
       "canonical_symbol": "source_symbol_registry.ability_death.method",
-      "godot_owner": "PortGame.source_ability_death_state",
-      "godot_symbol": "source_ability_death_result.method",
-      "java_expr": "public void death(Unit unit){}",
-      "java_method": "Ability.death(Unit unit)",
-      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
-      "rule": "Ability.death(Unit unit) default method identity from upstream Ability.java.",
-      "runtime_proof": "/root/Main.source_ability_death_state",
-      "source_slice": "N1263",
       "status": "source-backed",
+      "java_expr": "public void death(Unit unit){}",
+      "godot_symbol": "source_ability_death_result.method",
+      "godot_owner": "PortGame.source_ability_death_state",
+      "rule": "Ability.death(Unit unit) default method identity from upstream Ability.java.",
       "tests": [
         "test_emit_bridges_ability_death_to_source_state",
         "test_port_game_exposes_source_ability_death_state",
         "test_port_game_exposes_generated_ability_death_bridge_state",
         "test_ability_death_matches_upstream_source",
         "test_generated_ability_death_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_ability_death_state"
     },
     "ability_death.no_op": {
       "canonical_symbol": "source_symbol_registry.ability_death.no_op",
-      "godot_owner": "PortGame.source_ability_death_state",
-      "godot_symbol": "source_ability_death_result.no_op",
-      "java_expr": "public void death(Unit unit){}",
-      "java_method": "Ability.death(Unit unit)",
-      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
-      "rule": "Empty upstream Ability.death body produces no side effects.",
-      "runtime_proof": "/root/Main.source_ability_death_state",
-      "source_slice": "N1263",
       "status": "source-backed",
+      "java_expr": "public void death(Unit unit){}",
+      "godot_symbol": "source_ability_death_result.no_op",
+      "godot_owner": "PortGame.source_ability_death_state",
+      "rule": "Empty upstream Ability.death body produces no side effects.",
       "tests": [
         "test_emit_bridges_ability_death_to_source_state",
         "test_port_game_exposes_source_ability_death_state",
         "test_port_game_exposes_generated_ability_death_bridge_state",
         "test_ability_death_matches_upstream_source",
         "test_generated_ability_death_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_ability_death_state"
     },
     "ability_death.unit": {
       "canonical_symbol": "source_symbol_registry.ability_death.unit",
-      "godot_owner": "PortGame.source_ability_death_state",
-      "godot_symbol": "source_ability_death_input.unit",
-      "java_expr": "Unit unit",
-      "java_method": "Ability.death(Unit unit)",
-      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
-      "rule": "Explicit Unit unit argument passed through unchanged.",
-      "runtime_proof": "/root/Main.source_ability_death_state",
-      "source_slice": "N1263",
       "status": "explicit-input",
+      "java_expr": "Unit unit",
+      "godot_symbol": "source_ability_death_input.unit",
+      "godot_owner": "PortGame.source_ability_death_state",
+      "rule": "Explicit Unit unit argument passed through unchanged.",
       "tests": [
         "test_emit_bridges_ability_death_to_source_state",
         "test_port_game_exposes_source_ability_death_state",
         "test_port_game_exposes_generated_ability_death_bridge_state",
         "test_ability_death_matches_upstream_source",
         "test_generated_ability_death_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_ability_death_state"
     },
     "ability_display.add_stats_call": {
       "canonical_symbol": "source_symbol_registry.ability_display.add_stats_call",
-      "godot_owner": "PortGame.source_ability_display_state",
-      "godot_symbol": "source_ability_display_result.add_stats_call",
-      "java_expr": "addStats(a);",
-      "java_method": "Ability.display(Table t)",
-      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
-      "rule": "Ability.display delegates stats population to addStats(a).",
-      "runtime_proof": "/root/Main.source_ability_display_state",
-      "source_slice": "N1267",
       "status": "source-backed",
+      "java_expr": "addStats(a);",
+      "godot_symbol": "source_ability_display_result.add_stats_call",
+      "godot_owner": "PortGame.source_ability_display_state",
+      "rule": "Ability.display delegates stats population to addStats(a).",
       "tests": [
         "test_emit_bridges_ability_display_to_source_state",
         "test_port_game_exposes_source_ability_display_state",
         "test_port_game_exposes_generated_ability_display_bridge_state",
         "test_ability_display_matches_upstream_source",
         "test_generated_ability_display_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_ability_display_state"
     },
     "ability_display.localized_call": {
       "canonical_symbol": "source_symbol_registry.ability_display.localized_call",
-      "godot_owner": "PortGame.source_ability_display_state",
-      "godot_symbol": "source_ability_display_input.localized_value",
-      "java_expr": "localized()",
-      "java_method": "Ability.display(Table t)",
-      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
-      "rule": "Explicit localized() result supplied as localized_value.",
-      "runtime_proof": "/root/Main.source_ability_display_state",
-      "source_slice": "N1267",
       "status": "explicit-input",
+      "java_expr": "localized()",
+      "godot_symbol": "source_ability_display_input.localized_value",
+      "godot_owner": "PortGame.source_ability_display_state",
+      "rule": "Explicit localized() result supplied as localized_value.",
       "tests": [
         "test_emit_bridges_ability_display_to_source_state",
         "test_port_game_exposes_source_ability_display_state",
         "test_port_game_exposes_generated_ability_display_bridge_state",
         "test_ability_display_matches_upstream_source",
         "test_generated_ability_display_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_ability_display_state"
     },
     "ability_display.method": {
       "canonical_symbol": "source_symbol_registry.ability_display.method",
-      "godot_owner": "PortGame.source_ability_display_state",
-      "godot_symbol": "source_ability_display_result.method",
-      "java_expr": "public void display(Table t){",
-      "java_method": "Ability.display(Table t)",
-      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
-      "rule": "Ability.display(Table t) method boundary.",
-      "runtime_proof": "/root/Main.source_ability_display_state",
-      "source_slice": "N1267",
       "status": "source-backed",
+      "java_expr": "public void display(Table t){",
+      "godot_symbol": "source_ability_display_result.method",
+      "godot_owner": "PortGame.source_ability_display_state",
+      "rule": "Ability.display(Table t) method boundary.",
       "tests": [
         "test_emit_bridges_ability_display_to_source_state",
         "test_port_game_exposes_source_ability_display_state",
         "test_port_game_exposes_generated_ability_display_bridge_state",
         "test_ability_display_matches_upstream_source",
         "test_generated_ability_display_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_ability_display_state"
     },
     "ability_display.outer_chain": {
       "canonical_symbol": "source_symbol_registry.ability_display.outer_chain",
-      "godot_owner": "PortGame.source_ability_display_state",
-      "godot_symbol": "source_ability_display_result.outer_chain",
-      "java_expr": "}).pad(5).margin(10).growX().top().uniformX();",
-      "java_method": "Ability.display(Table t)",
-      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
-      "rule": "Outer table layout chain.",
-      "runtime_proof": "/root/Main.source_ability_display_state",
-      "source_slice": "N1267",
       "status": "source-backed",
+      "java_expr": "}).pad(5).margin(10).growX().top().uniformX();",
+      "godot_symbol": "source_ability_display_result.outer_chain",
+      "godot_owner": "PortGame.source_ability_display_state",
+      "rule": "Outer table layout chain.",
       "tests": [
         "test_emit_bridges_ability_display_to_source_state",
         "test_port_game_exposes_source_ability_display_state",
         "test_port_game_exposes_generated_ability_display_bridge_state",
         "test_ability_display_matches_upstream_source",
         "test_generated_ability_display_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_ability_display_state"
     },
     "ability_display.style_expr": {
       "canonical_symbol": "source_symbol_registry.ability_display.style_expr",
-      "godot_owner": "PortGame.source_ability_display_state",
-      "godot_symbol": "source_ability_display_result.style_expr",
-      "java_expr": "Styles.grayPanel",
-      "java_method": "Ability.display(Table t)",
-      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
-      "rule": "Panel style passed to t.table.",
-      "runtime_proof": "/root/Main.source_ability_display_state",
-      "source_slice": "N1267",
       "status": "source-backed",
+      "java_expr": "Styles.grayPanel",
+      "godot_symbol": "source_ability_display_result.style_expr",
+      "godot_owner": "PortGame.source_ability_display_state",
+      "rule": "Panel style passed to t.table.",
       "tests": [
         "test_emit_bridges_ability_display_to_source_state",
         "test_port_game_exposes_source_ability_display_state",
         "test_port_game_exposes_generated_ability_display_bridge_state",
         "test_ability_display_matches_upstream_source",
         "test_generated_ability_display_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_ability_display_state"
     },
     "ability_display.table": {
       "canonical_symbol": "source_symbol_registry.ability_display.table",
-      "godot_owner": "PortGame.source_ability_display_state",
-      "godot_symbol": "source_ability_display_input.table",
-      "java_expr": "Table t",
-      "java_method": "Ability.display(Table t)",
-      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
-      "rule": "Explicit Table t argument passed through unchanged.",
-      "runtime_proof": "/root/Main.source_ability_display_state",
-      "source_slice": "N1267",
       "status": "explicit-input",
+      "java_expr": "Table t",
+      "godot_symbol": "source_ability_display_input.table",
+      "godot_owner": "PortGame.source_ability_display_state",
+      "rule": "Explicit Table t argument passed through unchanged.",
       "tests": [
         "test_emit_bridges_ability_display_to_source_state",
         "test_port_game_exposes_source_ability_display_state",
         "test_port_game_exposes_generated_ability_display_bridge_state",
         "test_ability_display_matches_upstream_source",
         "test_generated_ability_display_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_ability_display_state"
     },
     "ability_display.title_expr": {
       "canonical_symbol": "source_symbol_registry.ability_display.title_expr",
-      "godot_owner": "PortGame.source_ability_display_state",
-      "godot_symbol": "source_ability_display_result.title_expr",
-      "java_expr": "\"[accent]\" + localized()",
-      "java_method": "Ability.display(Table t)",
-      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
-      "rule": "Title expression passed to a.add.",
-      "runtime_proof": "/root/Main.source_ability_display_state",
-      "source_slice": "N1267",
       "status": "source-backed",
+      "java_expr": "\"[accent]\" + localized()",
+      "godot_symbol": "source_ability_display_result.title_expr",
+      "godot_owner": "PortGame.source_ability_display_state",
+      "rule": "Title expression passed to a.add.",
       "tests": [
         "test_emit_bridges_ability_display_to_source_state",
         "test_port_game_exposes_source_ability_display_state",
         "test_port_game_exposes_generated_ability_display_bridge_state",
         "test_ability_display_matches_upstream_source",
         "test_generated_ability_display_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_ability_display_state"
     },
     "ability_display_bars.bars": {
       "canonical_symbol": "source_symbol_registry.ability_display_bars.bars",
-      "godot_owner": "PortGame.source_ability_display_bars_state",
-      "godot_symbol": "source_ability_display_bars_input.bars",
-      "java_expr": "Table bars",
-      "java_method": "Ability.displayBars(Unit unit, Table bars)",
-      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
-      "rule": "Explicit Table bars argument passed through unchanged.",
-      "runtime_proof": "/root/Main.source_ability_display_bars_state",
-      "source_slice": "N1266",
       "status": "explicit-input",
+      "java_expr": "Table bars",
+      "godot_symbol": "source_ability_display_bars_input.bars",
+      "godot_owner": "PortGame.source_ability_display_bars_state",
+      "rule": "Explicit Table bars argument passed through unchanged.",
       "tests": [
         "test_emit_bridges_ability_display_bars_to_source_state",
         "test_port_game_exposes_source_ability_display_bars_state",
         "test_port_game_exposes_generated_ability_display_bars_bridge_state",
         "test_ability_display_bars_matches_upstream_source",
         "test_generated_ability_display_bars_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_ability_display_bars_state"
     },
     "ability_display_bars.method": {
       "canonical_symbol": "source_symbol_registry.ability_display_bars.method",
-      "godot_owner": "PortGame.source_ability_display_bars_state",
-      "godot_symbol": "source_ability_display_bars_result.method",
-      "java_expr": "public void displayBars(Unit unit, Table bars){}",
-      "java_method": "Ability.displayBars(Unit unit, Table bars)",
-      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
-      "rule": "Ability.displayBars(Unit unit, Table bars) default method identity from upstream Ability.java.",
-      "runtime_proof": "/root/Main.source_ability_display_bars_state",
-      "source_slice": "N1266",
       "status": "source-backed",
+      "java_expr": "public void displayBars(Unit unit, Table bars){}",
+      "godot_symbol": "source_ability_display_bars_result.method",
+      "godot_owner": "PortGame.source_ability_display_bars_state",
+      "rule": "Ability.displayBars(Unit unit, Table bars) default method identity from upstream Ability.java.",
       "tests": [
         "test_emit_bridges_ability_display_bars_to_source_state",
         "test_port_game_exposes_source_ability_display_bars_state",
         "test_port_game_exposes_generated_ability_display_bars_bridge_state",
         "test_ability_display_bars_matches_upstream_source",
         "test_generated_ability_display_bars_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_ability_display_bars_state"
     },
     "ability_display_bars.no_op": {
       "canonical_symbol": "source_symbol_registry.ability_display_bars.no_op",
-      "godot_owner": "PortGame.source_ability_display_bars_state",
-      "godot_symbol": "source_ability_display_bars_result.no_op",
-      "java_expr": "public void displayBars(Unit unit, Table bars){}",
-      "java_method": "Ability.displayBars(Unit unit, Table bars)",
-      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
-      "rule": "Empty upstream Ability.displayBars body produces no side effects.",
-      "runtime_proof": "/root/Main.source_ability_display_bars_state",
-      "source_slice": "N1266",
       "status": "source-backed",
+      "java_expr": "public void displayBars(Unit unit, Table bars){}",
+      "godot_symbol": "source_ability_display_bars_result.no_op",
+      "godot_owner": "PortGame.source_ability_display_bars_state",
+      "rule": "Empty upstream Ability.displayBars body produces no side effects.",
       "tests": [
         "test_emit_bridges_ability_display_bars_to_source_state",
         "test_port_game_exposes_source_ability_display_bars_state",
         "test_port_game_exposes_generated_ability_display_bars_bridge_state",
         "test_ability_display_bars_matches_upstream_source",
         "test_generated_ability_display_bars_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_ability_display_bars_state"
     },
     "ability_display_bars.unit": {
       "canonical_symbol": "source_symbol_registry.ability_display_bars.unit",
-      "godot_owner": "PortGame.source_ability_display_bars_state",
-      "godot_symbol": "source_ability_display_bars_input.unit",
-      "java_expr": "Unit unit",
-      "java_method": "Ability.displayBars(Unit unit, Table bars)",
-      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
-      "rule": "Explicit Unit unit argument passed through unchanged.",
-      "runtime_proof": "/root/Main.source_ability_display_bars_state",
-      "source_slice": "N1266",
       "status": "explicit-input",
+      "java_expr": "Unit unit",
+      "godot_symbol": "source_ability_display_bars_input.unit",
+      "godot_owner": "PortGame.source_ability_display_bars_state",
+      "rule": "Explicit Unit unit argument passed through unchanged.",
       "tests": [
         "test_emit_bridges_ability_display_bars_to_source_state",
         "test_port_game_exposes_source_ability_display_bars_state",
         "test_port_game_exposes_generated_ability_display_bars_bridge_state",
         "test_ability_display_bars_matches_upstream_source",
         "test_generated_ability_display_bars_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_ability_display_bars_state"
     },
     "ability_draw.method": {
       "canonical_symbol": "source_symbol_registry.ability_draw.method",
-      "godot_owner": "PortGame.source_ability_draw_state",
-      "godot_symbol": "source_ability_draw_result.method",
-      "java_expr": "public void draw(Unit unit){}",
-      "java_method": "Ability.draw(Unit unit)",
-      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
-      "rule": "Ability.draw(Unit unit) default method identity from upstream Ability.java.",
-      "runtime_proof": "/root/Main.source_ability_draw_state",
-      "source_slice": "N1262",
       "status": "source-backed",
+      "java_expr": "public void draw(Unit unit){}",
+      "godot_symbol": "source_ability_draw_result.method",
+      "godot_owner": "PortGame.source_ability_draw_state",
+      "rule": "Ability.draw(Unit unit) default method identity from upstream Ability.java.",
       "tests": [
         "test_emit_bridges_ability_draw_to_source_state",
         "test_port_game_exposes_source_ability_draw_state",
         "test_port_game_exposes_generated_ability_draw_bridge_state",
         "test_ability_draw_matches_upstream_source",
         "test_generated_ability_draw_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_ability_draw_state"
     },
     "ability_draw.no_op": {
       "canonical_symbol": "source_symbol_registry.ability_draw.no_op",
-      "godot_owner": "PortGame.source_ability_draw_state",
-      "godot_symbol": "source_ability_draw_result.no_op",
-      "java_expr": "public void draw(Unit unit){}",
-      "java_method": "Ability.draw(Unit unit)",
-      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
-      "rule": "Empty upstream Ability.draw body produces no side effects.",
-      "runtime_proof": "/root/Main.source_ability_draw_state",
-      "source_slice": "N1262",
       "status": "source-backed",
+      "java_expr": "public void draw(Unit unit){}",
+      "godot_symbol": "source_ability_draw_result.no_op",
+      "godot_owner": "PortGame.source_ability_draw_state",
+      "rule": "Empty upstream Ability.draw body produces no side effects.",
       "tests": [
         "test_emit_bridges_ability_draw_to_source_state",
         "test_port_game_exposes_source_ability_draw_state",
         "test_port_game_exposes_generated_ability_draw_bridge_state",
         "test_ability_draw_matches_upstream_source",
         "test_generated_ability_draw_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_ability_draw_state"
     },
     "ability_draw.unit": {
       "canonical_symbol": "source_symbol_registry.ability_draw.unit",
-      "godot_owner": "PortGame.source_ability_draw_state",
-      "godot_symbol": "source_ability_draw_input.unit",
-      "java_expr": "Unit unit",
-      "java_method": "Ability.draw(Unit unit)",
-      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
-      "rule": "Explicit Unit unit argument passed through unchanged.",
-      "runtime_proof": "/root/Main.source_ability_draw_state",
-      "source_slice": "N1262",
       "status": "explicit-input",
+      "java_expr": "Unit unit",
+      "godot_symbol": "source_ability_draw_input.unit",
+      "godot_owner": "PortGame.source_ability_draw_state",
+      "rule": "Explicit Unit unit argument passed through unchanged.",
       "tests": [
         "test_emit_bridges_ability_draw_to_source_state",
         "test_port_game_exposes_source_ability_draw_state",
         "test_port_game_exposes_generated_ability_draw_bridge_state",
         "test_ability_draw_matches_upstream_source",
         "test_generated_ability_draw_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_ability_draw_state"
     },
     "ability_get_bundle.method": {
       "canonical_symbol": "source_symbol_registry.ability_get_bundle.method",
-      "godot_owner": "PortGame.source_ability_get_bundle_state",
-      "godot_symbol": "source_ability_get_bundle_result.method",
-      "java_expr": "public String getBundle(){",
-      "java_method": "Ability.getBundle()",
-      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
-      "rule": "Ability.getBundle method boundary.",
-      "runtime_proof": "/root/Main.source_ability_get_bundle_state",
-      "source_slice": "N1272",
       "status": "source-backed",
+      "java_expr": "public String getBundle(){",
+      "godot_symbol": "source_ability_get_bundle_result.method",
+      "godot_owner": "PortGame.source_ability_get_bundle_state",
+      "rule": "Ability.getBundle method boundary.",
       "tests": [
         "test_emit_bridges_ability_get_bundle_to_source_state",
         "test_port_game_exposes_source_ability_get_bundle_state",
         "test_port_game_exposes_generated_ability_get_bundle_bridge_state",
         "test_ability_get_bundle_matches_upstream_source",
         "test_generated_ability_get_bundle_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_ability_get_bundle_state"
     },
     "ability_get_bundle.return_expr": {
       "canonical_symbol": "source_symbol_registry.ability_get_bundle.return_expr",
-      "godot_owner": "PortGame.source_ability_get_bundle_state",
-      "godot_symbol": "source_ability_get_bundle_result.return_value",
-      "java_expr": "return \"ability.\" + (type.isAnonymousClass() ? type.getSuperclass() : type).getSimpleName().replace(\"Ability\", \"\").toLowerCase();",
-      "java_method": "Ability.getBundle()",
-      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
-      "rule": "Ability.getBundle source return expression.",
-      "runtime_proof": "/root/Main.source_ability_get_bundle_state",
-      "source_slice": "N1272",
       "status": "source-backed",
+      "java_expr": "return \"ability.\" + (type.isAnonymousClass() ? type.getSuperclass() : type).getSimpleName().replace(\"Ability\", \"\").toLowerCase();",
+      "godot_symbol": "source_ability_get_bundle_result.return_value",
+      "godot_owner": "PortGame.source_ability_get_bundle_state",
+      "rule": "Ability.getBundle source return expression.",
       "tests": [
         "test_emit_bridges_ability_get_bundle_to_source_state",
         "test_port_game_exposes_source_ability_get_bundle_state",
         "test_port_game_exposes_generated_ability_get_bundle_bridge_state",
         "test_ability_get_bundle_matches_upstream_source",
         "test_generated_ability_get_bundle_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_ability_get_bundle_state"
     },
     "ability_get_bundle.type_assignment": {
       "canonical_symbol": "source_symbol_registry.ability_get_bundle.type_assignment",
-      "godot_owner": "PortGame.source_ability_get_bundle_state",
-      "godot_symbol": "source_ability_get_bundle_result.type_assignment",
-      "java_expr": "var type = getClass();",
-      "java_method": "Ability.getBundle()",
-      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
-      "rule": "Ability.getBundle source type assignment.",
-      "runtime_proof": "/root/Main.source_ability_get_bundle_state",
-      "source_slice": "N1272",
       "status": "source-backed",
+      "java_expr": "var type = getClass();",
+      "godot_symbol": "source_ability_get_bundle_result.type_assignment",
+      "godot_owner": "PortGame.source_ability_get_bundle_state",
+      "rule": "Ability.getBundle source type assignment.",
       "tests": [
         "test_emit_bridges_ability_get_bundle_to_source_state",
         "test_port_game_exposes_source_ability_get_bundle_state",
         "test_port_game_exposes_generated_ability_get_bundle_bridge_state",
         "test_ability_get_bundle_matches_upstream_source",
         "test_generated_ability_get_bundle_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_ability_get_bundle_state"
     },
     "ability_init.method": {
       "canonical_symbol": "source_symbol_registry.ability_init.method",
-      "godot_owner": "PortGame.source_ability_init_state",
-      "godot_symbol": "source_ability_init_result.method",
-      "java_expr": "public void init(UnitType type){}",
-      "java_method": "Ability.init(UnitType type)",
-      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
-      "rule": "Ability.init(UnitType type) default method identity from upstream Ability.java.",
-      "runtime_proof": "/root/Main.source_ability_init_state",
-      "source_slice": "N1265",
       "status": "source-backed",
+      "java_expr": "public void init(UnitType type){}",
+      "godot_symbol": "source_ability_init_result.method",
+      "godot_owner": "PortGame.source_ability_init_state",
+      "rule": "Ability.init(UnitType type) default method identity from upstream Ability.java.",
       "tests": [
         "test_emit_bridges_ability_init_to_source_state",
         "test_port_game_exposes_source_ability_init_state",
         "test_port_game_exposes_generated_ability_init_bridge_state",
         "test_ability_init_matches_upstream_source",
         "test_generated_ability_init_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_ability_init_state"
     },
     "ability_init.no_op": {
       "canonical_symbol": "source_symbol_registry.ability_init.no_op",
-      "godot_owner": "PortGame.source_ability_init_state",
-      "godot_symbol": "source_ability_init_result.no_op",
-      "java_expr": "public void init(UnitType type){}",
-      "java_method": "Ability.init(UnitType type)",
-      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
-      "rule": "Empty upstream Ability.init body produces no side effects.",
-      "runtime_proof": "/root/Main.source_ability_init_state",
-      "source_slice": "N1265",
       "status": "source-backed",
+      "java_expr": "public void init(UnitType type){}",
+      "godot_symbol": "source_ability_init_result.no_op",
+      "godot_owner": "PortGame.source_ability_init_state",
+      "rule": "Empty upstream Ability.init body produces no side effects.",
       "tests": [
         "test_emit_bridges_ability_init_to_source_state",
         "test_port_game_exposes_source_ability_init_state",
         "test_port_game_exposes_generated_ability_init_bridge_state",
         "test_ability_init_matches_upstream_source",
         "test_generated_ability_init_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_ability_init_state"
     },
     "ability_init.type": {
       "canonical_symbol": "source_symbol_registry.ability_init.type",
-      "godot_owner": "PortGame.source_ability_init_state",
-      "godot_symbol": "source_ability_init_input.type",
-      "java_expr": "UnitType type",
-      "java_method": "Ability.init(UnitType type)",
-      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
-      "rule": "Explicit UnitType type argument passed through unchanged.",
-      "runtime_proof": "/root/Main.source_ability_init_state",
-      "source_slice": "N1265",
       "status": "explicit-input",
+      "java_expr": "UnitType type",
+      "godot_symbol": "source_ability_init_input.type",
+      "godot_owner": "PortGame.source_ability_init_state",
+      "rule": "Explicit UnitType type argument passed through unchanged.",
       "tests": [
         "test_emit_bridges_ability_init_to_source_state",
         "test_port_game_exposes_source_ability_init_state",
         "test_port_game_exposes_generated_ability_init_bridge_state",
         "test_ability_init_matches_upstream_source",
         "test_generated_ability_init_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_ability_init_state"
     },
     "ability_localized.bundle_get": {
       "canonical_symbol": "source_symbol_registry.ability_localized.bundle_get",
-      "godot_owner": "PortGame.source_ability_localized_state",
-      "godot_symbol": "source_ability_localized_result.return_value",
-      "java_expr": "Core.bundle.get(getBundle())",
-      "java_method": "Ability.localized()",
-      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
-      "rule": "Ability.localized returns Core.bundle.get(getBundle()).",
-      "runtime_proof": "/root/Main.source_ability_localized_state",
-      "source_slice": "N1271",
       "status": "source-backed",
+      "java_expr": "Core.bundle.get(getBundle())",
+      "godot_symbol": "source_ability_localized_result.return_value",
+      "godot_owner": "PortGame.source_ability_localized_state",
+      "rule": "Ability.localized returns Core.bundle.get(getBundle()).",
       "tests": [
         "test_emit_bridges_ability_localized_to_source_state",
         "test_port_game_exposes_source_ability_localized_state",
         "test_port_game_exposes_generated_ability_localized_bridge_state",
         "test_ability_localized_matches_upstream_source",
         "test_generated_ability_localized_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_ability_localized_state"
     },
     "ability_localized.get_bundle_call": {
       "canonical_symbol": "source_symbol_registry.ability_localized.get_bundle_call",
-      "godot_owner": "PortGame.source_ability_localized_state",
-      "godot_symbol": "source_ability_localized_result.get_bundle_value",
-      "java_expr": "getBundle()",
-      "java_method": "Ability.localized()",
-      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
-      "rule": "Ability.localized delegates bundle key to getBundle().",
-      "runtime_proof": "/root/Main.source_ability_localized_state",
-      "source_slice": "N1271",
       "status": "source-backed",
+      "java_expr": "getBundle()",
+      "godot_symbol": "source_ability_localized_result.get_bundle_value",
+      "godot_owner": "PortGame.source_ability_localized_state",
+      "rule": "Ability.localized delegates bundle key to getBundle().",
       "tests": [
         "test_emit_bridges_ability_localized_to_source_state",
         "test_port_game_exposes_source_ability_localized_state",
         "test_port_game_exposes_generated_ability_localized_bridge_state",
         "test_ability_localized_matches_upstream_source",
         "test_generated_ability_localized_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_ability_localized_state"
     },
     "ability_localized.method": {
       "canonical_symbol": "source_symbol_registry.ability_localized.method",
-      "godot_owner": "PortGame.source_ability_localized_state",
-      "godot_symbol": "source_ability_localized_result.method",
-      "java_expr": "public String localized(){",
-      "java_method": "Ability.localized()",
-      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
-      "rule": "Ability.localized method boundary.",
-      "runtime_proof": "/root/Main.source_ability_localized_state",
-      "source_slice": "N1271",
       "status": "source-backed",
+      "java_expr": "public String localized(){",
+      "godot_symbol": "source_ability_localized_result.method",
+      "godot_owner": "PortGame.source_ability_localized_state",
+      "rule": "Ability.localized method boundary.",
       "tests": [
         "test_emit_bridges_ability_localized_to_source_state",
         "test_port_game_exposes_source_ability_localized_state",
         "test_port_game_exposes_generated_ability_localized_bridge_state",
         "test_ability_localized_matches_upstream_source",
         "test_generated_ability_localized_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_ability_localized_state"
     },
     "ability_update.method": {
       "canonical_symbol": "source_symbol_registry.ability_update.method",
-      "godot_owner": "PortGame.source_ability_update_state",
-      "godot_symbol": "source_ability_update_result.method",
-      "java_expr": "public void update(Unit unit){}",
-      "java_method": "Ability.update(Unit unit)",
-      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
-      "rule": "Ability.update(Unit unit) default method identity from upstream Ability.java.",
-      "runtime_proof": "/root/Main.source_ability_update_state",
-      "source_slice": "N1261",
       "status": "source-backed",
+      "java_expr": "public void update(Unit unit){}",
+      "godot_symbol": "source_ability_update_result.method",
+      "godot_owner": "PortGame.source_ability_update_state",
+      "rule": "Ability.update(Unit unit) default method identity from upstream Ability.java.",
       "tests": [
         "test_emit_bridges_ability_update_to_source_state",
         "test_port_game_exposes_source_ability_update_state",
         "test_port_game_exposes_generated_ability_update_bridge_state",
         "test_ability_update_matches_upstream_source",
         "test_generated_ability_update_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_ability_update_state"
     },
     "ability_update.no_op": {
       "canonical_symbol": "source_symbol_registry.ability_update.no_op",
-      "godot_owner": "PortGame.source_ability_update_state",
-      "godot_symbol": "source_ability_update_result.no_op",
-      "java_expr": "public void update(Unit unit){}",
-      "java_method": "Ability.update(Unit unit)",
-      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
-      "rule": "Empty upstream Ability.update body produces no side effects.",
-      "runtime_proof": "/root/Main.source_ability_update_state",
-      "source_slice": "N1261",
       "status": "source-backed",
+      "java_expr": "public void update(Unit unit){}",
+      "godot_symbol": "source_ability_update_result.no_op",
+      "godot_owner": "PortGame.source_ability_update_state",
+      "rule": "Empty upstream Ability.update body produces no side effects.",
       "tests": [
         "test_emit_bridges_ability_update_to_source_state",
         "test_port_game_exposes_source_ability_update_state",
         "test_port_game_exposes_generated_ability_update_bridge_state",
         "test_ability_update_matches_upstream_source",
         "test_generated_ability_update_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_ability_update_state"
     },
     "ability_update.unit": {
       "canonical_symbol": "source_symbol_registry.ability_update.unit",
-      "godot_owner": "PortGame.source_ability_update_state",
-      "godot_symbol": "source_ability_update_input.unit",
-      "java_expr": "Unit unit",
-      "java_method": "Ability.update(Unit unit)",
-      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
-      "rule": "Explicit Unit unit argument passed through unchanged.",
-      "runtime_proof": "/root/Main.source_ability_update_state",
-      "source_slice": "N1261",
       "status": "explicit-input",
+      "java_expr": "Unit unit",
+      "godot_symbol": "source_ability_update_input.unit",
+      "godot_owner": "PortGame.source_ability_update_state",
+      "rule": "Explicit Unit unit argument passed through unchanged.",
       "tests": [
         "test_emit_bridges_ability_update_to_source_state",
         "test_port_game_exposes_source_ability_update_state",
         "test_port_game_exposes_generated_ability_update_bridge_state",
         "test_ability_update_matches_upstream_source",
         "test_generated_ability_update_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_ability_update_state"
     }
   }
 }

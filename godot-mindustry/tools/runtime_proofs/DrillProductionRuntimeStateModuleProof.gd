@@ -1,8 +1,9 @@
 extends Node
 
+const runtime_proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")
 const PortGameScript := preload("res://src/game/PortGame.gd")
 const source_drill_production_runtime_state_script := preload("res://src/game/SourceDrillProductionRuntimeState.gd")
-const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const source_ssot_accessor_runtime_state := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
 
 func _ready() -> void:
 	var game := PortGameScript.new()
@@ -24,7 +25,7 @@ func _ready() -> void:
 		callbacks.get("progress_fraction", Callable())
 	)
 	var module := source_drill_production_runtime_state_script.game_production_state(game, 0.25, 2.0, 1.5, 3, 8, 10)
-	var registry_state := source_ssot_catalog.canonical_headquarter_registry_state()
+	var registry_state := source_ssot_accessor_runtime_state.canonical_headquarter_registry_state()
 	var proof := {
 		"module": "SourceDrillProductionRuntimeState",
 		"matches": wrapper == module,
@@ -34,10 +35,12 @@ func _ready() -> void:
 		"one_headquarter_per_ssot": bool(registry_state.get("one_headquarter_per_ssot", false)),
 		"registry_valid": bool(registry_state.get("errors", []).is_empty()),
 	}
+	proof["matches"] = proof["module_matches"] and proof["default_callbacks_match"] and proof["override_callbacks_match"] and proof["one_headquarter_per_ssot"] and proof["registry_valid"]
 	print("DRILL_PRODUCTION_RUNTIME_STATE_MODULE_PROOF " + JSON.stringify(proof))
 	game.free()
-	await get_tree().create_timer(60.0).timeout
-	get_tree().quit(0)
+	runtime_proof_state.write_proof("DrillProductionRuntimeStateModuleProof", proof)
+	await get_tree().process_frame
+	get_tree().quit(runtime_proof_state.exit_code(proof))
 
 func proof_drill_output_batch(progress: float, delay: float, dominant_items: int, items_total: int, item_capacity: int) -> Dictionary:
 	return source_drill_production_runtime_state_script.output_batch(progress, delay, dominant_items, items_total, item_capacity)
@@ -50,3 +53,4 @@ func _drill_production_method_names() -> Dictionary:
 		source_drill_production_runtime_state_script.SOURCE_DRILL_OUTPUT_BATCH_CALLBACK_KEY: "proof_drill_output_batch",
 		source_drill_production_runtime_state_script.SOURCE_DRILL_PROGRESS_FRACTION_CALLBACK_KEY: "proof_drill_progress_fraction",
 	}
+

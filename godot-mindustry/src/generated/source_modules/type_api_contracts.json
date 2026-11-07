@@ -1,10 +1,5 @@
 {
   "version": 1,
-  "policy": {
-    "canonicalOwner": "source_api_contracts",
-    "newTypeApiContractRequiresCanonicalMirror": true,
-    "source": "Derived from type_slices.godot_owner and canonical source_api_contracts."
-  },
   "contracts": {
     "PortGame.source_unit_health": {
       "canonical_contract": "source_api_contracts.PortGame.source_unit_health",
@@ -51,6 +46,494 @@
       ],
       "runtime_proof": "/root/Main.source_unit_hit_size",
       "rule": "Public scalar runtime contract for source UnitType.hitSize lookup used by spawned enemy sprite scale."
+    },
+    "PortGame.source_unit_type_allow_command_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_type_allow_command_state",
+      "status": "active",
+      "source_slice": "N1878",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "source_method": "UnitType.allowCommand(Unit,UnitCommand)",
+      "params": [
+        {
+          "name": "commands",
+          "type": "Array",
+          "schema": "source_unit_type_allow_command_input.commands"
+        },
+        {
+          "name": "command",
+          "type": "Variant",
+          "schema": "source_unit_type_allow_command_input.command"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "return_expr",
+        "commands",
+        "command",
+        "allowed"
+      ],
+      "tests": [
+        "test_unit_type_stance_command_slice"
+      ],
+      "runtime_proof": "/root/Main.UnitTypeCoreModuleProof",
+      "rule": "Canonical UnitType runtime contract for UnitType.allowCommand(Unit,UnitCommand); dependencies are explicit."
+    },
+    "PortGame.source_unit_type_allow_stance_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_type_allow_stance_state",
+      "status": "active",
+      "source_slice": "N1877",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "source_method": "UnitType.allowStance(Unit,UnitStance)",
+      "params": [
+        {
+          "name": "stance",
+          "type": "Variant",
+          "schema": "source_unit_type_allow_stance_input.stance"
+        },
+        {
+          "name": "controller_is_command_ai",
+          "type": "bool",
+          "schema": "source_unit_type_allow_stance_input.controller_is_command_ai"
+        },
+        {
+          "name": "command_is_mine",
+          "type": "bool",
+          "schema": "source_unit_type_allow_stance_input.command_is_mine"
+        },
+        {
+          "name": "mine_floor",
+          "type": "bool",
+          "schema": "source_unit_type_allow_stance_input.mine_floor"
+        },
+        {
+          "name": "mine_walls",
+          "type": "bool",
+          "schema": "source_unit_type_allow_stance_input.mine_walls"
+        },
+        {
+          "name": "present_ores",
+          "type": "Array",
+          "schema": "source_unit_type_allow_stance_input.present_ores"
+        },
+        {
+          "name": "stances",
+          "type": "Array",
+          "schema": "source_unit_type_allow_stance_input.stances"
+        },
+        {
+          "name": "extra_stances",
+          "type": "Array",
+          "schema": "source_unit_type_allow_stance_input.extra_stances"
+        },
+        {
+          "name": "out",
+          "type": "Array",
+          "schema": "source_unit_type_allow_stance_input.out"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "stop_guard",
+        "return_expr",
+        "stance",
+        "stopped",
+        "allowed",
+        "stances_state"
+      ],
+      "tests": [
+        "test_unit_type_stance_command_slice"
+      ],
+      "runtime_proof": "/root/Main.UnitTypeCoreModuleProof",
+      "rule": "Canonical UnitType runtime contract for UnitType.allowStance(Unit,UnitStance); dependencies are explicit."
+    },
+    "PortGame.source_unit_type_create_controller_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_type_create_controller_state",
+      "status": "active",
+      "source_slice": "N1871",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "source_method": "UnitType.createController(Unit)",
+      "params": [
+        {
+          "name": "controller_get",
+          "type": "Callable",
+          "schema": "source_unit_type_create_controller_input.controller_get"
+        },
+        {
+          "name": "unit",
+          "type": "Variant",
+          "schema": "source_unit_type_create_controller_input.unit"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "call",
+        "unit",
+        "controller",
+        "deferred",
+        "missing_dependencies",
+        "generated_owner",
+        "generated_method"
+      ],
+      "tests": [
+        "test_unit_type_core_slice.py"
+      ],
+      "runtime_proof": "/root/Main.UnitTypeCoreModuleProof",
+      "rule": "Canonical UnitType runtime contract for UnitType.createController(Unit); dependencies are explicit."
+    },
+    "PortGame.source_unit_type_get_unit_stances_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_type_get_unit_stances_state",
+      "status": "active",
+      "source_slice": "N1876",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "source_method": "UnitType.getUnitStances(Unit,Seq)",
+      "params": [
+        {
+          "name": "controller_is_command_ai",
+          "type": "bool",
+          "schema": "source_unit_type_get_unit_stances_input.controller_is_command_ai"
+        },
+        {
+          "name": "command_is_mine",
+          "type": "bool",
+          "schema": "source_unit_type_get_unit_stances_input.command_is_mine"
+        },
+        {
+          "name": "mine_floor",
+          "type": "bool",
+          "schema": "source_unit_type_get_unit_stances_input.mine_floor"
+        },
+        {
+          "name": "mine_walls",
+          "type": "bool",
+          "schema": "source_unit_type_get_unit_stances_input.mine_walls"
+        },
+        {
+          "name": "present_ores",
+          "type": "Array",
+          "schema": "source_unit_type_get_unit_stances_input.present_ores"
+        },
+        {
+          "name": "stances",
+          "type": "Array",
+          "schema": "source_unit_type_get_unit_stances_input.stances"
+        },
+        {
+          "name": "extra_stances",
+          "type": "Array",
+          "schema": "source_unit_type_get_unit_stances_input.extra_stances"
+        },
+        {
+          "name": "out",
+          "type": "Array",
+          "schema": "source_unit_type_get_unit_stances_input.out"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "command_guard",
+        "mine_command_guard",
+        "mine_auto",
+        "extra_stances_call",
+        "out",
+        "returned_early",
+        "branch"
+      ],
+      "tests": [
+        "test_unit_type_stance_command_slice"
+      ],
+      "runtime_proof": "/root/Main.UnitTypeCoreModuleProof",
+      "rule": "Canonical UnitType runtime contract for UnitType.getUnitStances(Unit,Seq); dependencies are explicit."
+    },
+    "PortGame.source_unit_type_has_weapons_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_type_has_weapons_state",
+      "status": "active",
+      "source_slice": "N1872",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "source_method": "UnitType.hasWeapons()",
+      "params": [
+        {
+          "name": "weapons",
+          "type": "Array",
+          "schema": "source_unit_type_has_weapons_input.weapons"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "call",
+        "weapons",
+        "has_weapons",
+        "generated_owner",
+        "generated_method"
+      ],
+      "tests": [
+        "test_unit_type_core_slice.py"
+      ],
+      "runtime_proof": "/root/Main.UnitTypeCoreModuleProof",
+      "rule": "Canonical UnitType runtime contract for UnitType.hasWeapons(); dependencies are explicit."
+    },
+    "PortGame.source_unit_type_hittable_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_type_hittable_state",
+      "status": "active",
+      "source_slice": "N1875",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "source_method": "UnitType.hittable(Unit)",
+      "params": [
+        {
+          "name": "type_hittable",
+          "type": "bool",
+          "schema": "source_unit_type_hittable_input.type_hittable"
+        },
+        {
+          "name": "vulnerable_with_payloads",
+          "type": "bool",
+          "schema": "source_unit_type_hittable_input.vulnerable_with_payloads"
+        },
+        {
+          "name": "unit_is_payloadc",
+          "type": "bool",
+          "schema": "source_unit_type_hittable_input.unit_is_payloadc"
+        },
+        {
+          "name": "unit_has_payload",
+          "type": "bool",
+          "schema": "source_unit_type_hittable_input.unit_has_payload"
+        },
+        {
+          "name": "unit",
+          "type": "Variant",
+          "schema": "source_unit_type_hittable_input.unit"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "call",
+        "hittable",
+        "payload_hittable",
+        "unit",
+        "generated_owner",
+        "generated_method"
+      ],
+      "tests": [
+        "test_unit_type_core_slice.py"
+      ],
+      "runtime_proof": "/root/Main.UnitTypeCoreModuleProof",
+      "rule": "Canonical UnitType runtime contract for UnitType.hittable(Unit); dependencies are explicit."
+    },
+    "PortGame.source_unit_type_killable_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_type_killable_state",
+      "status": "active",
+      "source_slice": "N1874",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "source_method": "UnitType.killable(Unit)",
+      "params": [
+        {
+          "name": "type_killable",
+          "type": "bool",
+          "schema": "source_unit_type_killable_input.type_killable"
+        },
+        {
+          "name": "unit",
+          "type": "Variant",
+          "schema": "source_unit_type_killable_input.unit"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "call",
+        "killable",
+        "unit",
+        "generated_owner",
+        "generated_method"
+      ],
+      "tests": [
+        "test_unit_type_core_slice.py"
+      ],
+      "runtime_proof": "/root/Main.UnitTypeCoreModuleProof",
+      "rule": "Canonical UnitType runtime contract for UnitType.killable(Unit); dependencies are explicit."
+    },
+    "PortGame.source_unit_type_killed_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_type_killed_state",
+      "status": "active",
+      "source_slice": "N1881",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "source_method": "UnitType.killed(Unit)",
+      "params": [
+        {
+          "name": "unit",
+          "type": "Variant",
+          "schema": "source_unit_type_killed_result_input.unit"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "no_op",
+        "body"
+      ],
+      "tests": [
+        "test_unit_type_hooks_slice"
+      ],
+      "runtime_proof": "/root/Main.UnitTypeCoreModuleProof",
+      "rule": "Canonical source-backed no-op contract for UnitType.killed(Unit); no behavior is invented."
+    },
+    "PortGame.source_unit_type_landed_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_type_landed_state",
+      "status": "active",
+      "source_slice": "N1882",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "source_method": "UnitType.landed(Unit)",
+      "params": [
+        {
+          "name": "unit",
+          "type": "Variant",
+          "schema": "source_unit_type_landed_result_input.unit"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "no_op",
+        "body"
+      ],
+      "tests": [
+        "test_unit_type_hooks_slice"
+      ],
+      "runtime_proof": "/root/Main.UnitTypeCoreModuleProof",
+      "rule": "Canonical source-backed no-op contract for UnitType.landed(Unit); no behavior is invented."
+    },
+    "PortGame.source_unit_type_targetable_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_type_targetable_state",
+      "status": "active",
+      "source_slice": "N1873",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "source_method": "UnitType.targetable(Unit,Team)",
+      "params": [
+        {
+          "name": "type_targetable",
+          "type": "bool",
+          "schema": "source_unit_type_targetable_input.type_targetable"
+        },
+        {
+          "name": "vulnerable_with_payloads",
+          "type": "bool",
+          "schema": "source_unit_type_targetable_input.vulnerable_with_payloads"
+        },
+        {
+          "name": "unit_is_payloadc",
+          "type": "bool",
+          "schema": "source_unit_type_targetable_input.unit_is_payloadc"
+        },
+        {
+          "name": "unit_has_payload",
+          "type": "bool",
+          "schema": "source_unit_type_targetable_input.unit_has_payload"
+        },
+        {
+          "name": "unit",
+          "type": "Variant",
+          "schema": "source_unit_type_targetable_input.unit"
+        },
+        {
+          "name": "targeter",
+          "type": "Variant",
+          "schema": "source_unit_type_targetable_input.targeter"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "call",
+        "targetable",
+        "payload_targetable",
+        "unit",
+        "targeter",
+        "generated_owner",
+        "generated_method"
+      ],
+      "tests": [
+        "test_unit_type_core_slice.py"
+      ],
+      "runtime_proof": "/root/Main.UnitTypeCoreModuleProof",
+      "rule": "Canonical UnitType runtime contract for UnitType.targetable(Unit,Team); dependencies are explicit."
+    },
+    "PortGame.source_unit_type_update_payload_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_type_update_payload_state",
+      "status": "active",
+      "source_slice": "N1880",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "source_method": "UnitType.updatePayload(Unit,Unit,Building)",
+      "params": [
+        {
+          "name": "unit",
+          "type": "Variant",
+          "schema": "source_unit_type_update_payload_result_input.unit"
+        },
+        {
+          "name": "unit_holder",
+          "type": "Variant",
+          "schema": "source_unit_type_update_payload_result_input.unit_holder"
+        },
+        {
+          "name": "building_holder",
+          "type": "Variant",
+          "schema": "source_unit_type_update_payload_result_input.building_holder"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "no_op",
+        "body"
+      ],
+      "tests": [
+        "test_unit_type_hooks_slice"
+      ],
+      "runtime_proof": "/root/Main.UnitTypeCoreModuleProof",
+      "rule": "Canonical source-backed no-op contract for UnitType.updatePayload(Unit,Unit,Building); no behavior is invented."
+    },
+    "PortGame.source_unit_type_update_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_type_update_state",
+      "status": "active",
+      "source_slice": "N1879",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "source_method": "UnitType.update(Unit)",
+      "params": [
+        {
+          "name": "unit",
+          "type": "Variant",
+          "schema": "source_unit_type_update_result_input.unit"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "no_op",
+        "body"
+      ],
+      "tests": [
+        "test_unit_type_hooks_slice"
+      ],
+      "runtime_proof": "/root/Main.UnitTypeCoreModuleProof",
+      "rule": "Canonical source-backed no-op contract for UnitType.update(Unit); no behavior is invented."
     },
     "PortGame.source_unit_weapon_damage": {
       "canonical_contract": "source_api_contracts.PortGame.source_unit_weapon_damage",

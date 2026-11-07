@@ -3,7 +3,10 @@
   "contracts": {
     "PortGame.source_arc_vec2_limit": {
       "canonical_contract": "source_api_contracts.PortGame.source_arc_vec2_limit",
+      "status": "active",
+      "source_slice": "N510",
       "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "source_method": "limit(float limit)",
       "params": [
         {
           "name": "vec",
@@ -30,18 +33,18 @@
         "vec",
         "limit"
       ],
-      "rule": "Public runtime contract for Arc Vec2.limit(float) helper.",
-      "runtime_proof": "/root/Main.source_arc_vec2_limit",
-      "source_method": "limit(float limit)",
-      "source_slice": "N510",
-      "status": "active",
       "tests": [
         "test_arc_vec2_limit_symbols_are_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_arc_vec2_limit",
+      "rule": "Public runtime contract for Arc Vec2.limit(float) helper."
     },
     "PortGame.source_unit_vec2_angle": {
       "canonical_contract": "source_api_contracts.PortGame.source_unit_vec2_angle",
+      "status": "active",
+      "source_slice": "N833",
       "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "source_method": "Vec2.angle()",
       "params": [
         {
           "name": "vec_x",
@@ -59,20 +62,20 @@
         "negativeWrap",
         "angle"
       ],
-      "rule": "Public runtime contract for Arc Vec2.angle helper used by UnitComp.rotateMove.",
-      "runtime_proof": "/root/Main.source_unit_vec2_angle",
-      "source_method": "Vec2.angle()",
-      "source_slice": "N833",
-      "status": "active",
       "tests": [
         "test_unit_vec2_angle_symbols_are_registered_with_source_backing",
         "test_unit_vec2_angle_matches_upstream_source",
         "test_port_game_exposes_source_unit_rotate_move_rotation_state"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_unit_vec2_angle",
+      "rule": "Public runtime contract for Arc Vec2.angle helper used by UnitComp.rotateMove."
     },
     "PortGame.source_vec2_limit": {
       "canonical_contract": "source_api_contracts.PortGame.source_vec2_limit",
+      "status": "active",
+      "source_slice": "N837",
       "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "source_method": "limit(float limit)",
       "params": [
         {
           "name": "vector_state",
@@ -99,15 +102,12 @@
         "vector_state",
         "limit"
       ],
-      "rule": "Public runtime contract for dictionary Vec2.limit(float) wrapper used by bullet weaving circle shooter state.",
-      "runtime_proof": "/root/Main.source_vec2_limit",
-      "source_method": "limit(float limit)",
-      "source_slice": "N837",
-      "status": "active",
       "tests": [
         "test_source_vec2_limit_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_bullet_type_update_weaving_circle_shooter_state"
-      ]
+      ],
+      "runtime_proof": "/root/Main.source_vec2_limit",
+      "rule": "Public runtime contract for dictionary Vec2.limit(float) wrapper used by bullet weaving circle shooter state."
     }
   }
 }

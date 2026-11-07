@@ -1,9 +1,5 @@
 {
-  "policy": {
-    "canonicalOwner": "source_slice_ledger",
-    "newDefenseSliceRequiresSourceBackedLedgerMirror": true,
-    "source": "Derived from canonical source_slice_ledger entries whose java_source contains /world/blocks/defense/."
-  },
+  "version": 1,
   "slices": {
     "N1155": {
       "canonical_ledger": "source_slice_ledger.N1155",

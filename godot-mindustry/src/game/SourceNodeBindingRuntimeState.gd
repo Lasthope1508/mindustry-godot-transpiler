@@ -2,6 +2,7 @@ extends RefCounted
 class_name SourceNodeBindingRuntimeState
 
 const source_ui_defaults := preload("res://src/game/SourceUiDefaults.gd")
+const source_campaign_shell_ui_state := preload("res://src/game/SourceCampaignShellUiState.gd")
 
 static func bind_nodes(game: Node) -> void:
 	var camera := game.get_node_or_null(source_ui_defaults.CAMERA_NODE_PATH)
@@ -19,3 +20,4 @@ static func bind_nodes(game: Node) -> void:
 	var hud := game.get_node_or_null(source_ui_defaults.HUD_NODE_PATH)
 	if hud:
 		hud.add_child(hud_label)
+	source_campaign_shell_ui_state.bind_campaign_shell_root(game)

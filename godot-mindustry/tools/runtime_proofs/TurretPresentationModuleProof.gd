@@ -2,7 +2,8 @@ extends Node
 
 const PortGameScript := preload("res://src/game/PortGame.gd")
 const source_turret_presentation_state := preload("res://src/game/SourceTurretPresentationState.gd")
-const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const source_ssot_accessor_runtime_state := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
+const runtime_proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")
 
 func _ready() -> void:
 	var game := PortGameScript.new()
@@ -11,7 +12,7 @@ func _ready() -> void:
 	var draw_plan := game.source_turret_draw_plan_region_state([], [])
 	var icons := game.source_turret_icons_state()
 	var outline := game.source_turret_get_regions_to_outline_state([])
-	var registry_state := source_ssot_catalog.canonical_headquarter_registry_state()
+	var registry_state := source_ssot_accessor_runtime_state.canonical_headquarter_registry_state()
 	var module_load := source_turret_presentation_state.generated_turret_load_bridge_state()
 	var module_draw_plan := source_turret_presentation_state.generated_turret_draw_plan_region_bridge_state([], [])
 	var module_icons := source_turret_presentation_state.generated_turret_icons_bridge_state()
@@ -32,12 +33,9 @@ func _ready() -> void:
 	}
 	proof["module_matches"] = proof["load_matches"] and proof["draw_plan_matches"] and proof["icons_matches"] and proof["outline_matches"] and proof["module_load_bridge_matches"] and proof["module_draw_plan_matches"] and proof["module_icons_matches"] and proof["module_outline_bridge_matches"]
 	proof["matches"] = proof["module_matches"] and proof["one_headquarter_per_ssot"] and proof["registry_valid"]
-	var proof_json := JSON.stringify(proof)
-	print("TURRET_PRESENTATION_MODULE_PROOF " + proof_json)
-	var proof_path := ProjectSettings.globalize_path("res://tools/runtime_proofs/TurretPresentationModuleProof.json")
-	var proof_file := FileAccess.open(proof_path, FileAccess.WRITE)
-	if proof_file != null:
-		proof_file.store_string(proof_json)
+	print("TURRET_PRESENTATION_MODULE_PROOF " + JSON.stringify(proof))
+	runtime_proof_state.write_proof("TurretPresentationModuleProof", proof)
 	game.free()
-	await get_tree().create_timer(60.0).timeout
-	get_tree().quit(0)
+	await get_tree().process_frame
+	get_tree().quit(runtime_proof_state.exit_code(proof))
+

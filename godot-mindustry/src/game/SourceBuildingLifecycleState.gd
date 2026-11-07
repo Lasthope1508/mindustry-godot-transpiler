@@ -1,15 +1,171 @@
 extends RefCounted
 class_name SourceBuildingLifecycleState
 
-const source_generated_class_runtime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
 const source_block_defaults := preload("res://src/game/SourceBlockDefaults.gd")
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
-const SOURCE_BUILDING_COMP_GENERATED_CLASS := "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd"
-const SOURCE_BUILDING_UPDATE_TILE_GATE_METHOD := "public void update(){"
-const SOURCE_BUILDING_UPDATE_TILE_GATE_GUARD := "if(enabled || !block.noUpdateDisabled){"
-const SOURCE_BUILDING_UPDATE_TILE_GATE_CALL := "updateTile();"
-const SOURCE_BUILDING_LIFECYCLE_CHANCE_DELTA_THRESHOLD_KEY := "chance_delta_threshold"
-const SOURCE_BUILDING_LIFECYCLE_CHANCE_DELTA_THRESHOLD_FALLBACK := "source_arc_chance_delta_threshold"
+const source_building_lifecycle_proximity_state := preload("res://src/game/SourceBuildingLifecycleProximityState.gd")
+const source_building_lifecycle_team_state := preload("res://src/game/SourceBuildingLifecycleTeamState.gd")
+const source_building_lifecycle_pickup_state := preload("res://src/game/SourceBuildingLifecyclePickupState.gd")
+const source_building_lifecycle_callback_registry := preload("res://src/game/SourceBuildingLifecycleCallbackRegistry.gd")
+const source_building_source_text_state := preload("res://src/game/SourceBuildingSourceTextState.gd")
+const source_building_lifecycle_source_text_state := preload("res://src/game/SourceBuildingLifecycleSourceTextState.gd")
+const source_generated_class_runtime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
+const SOURCE_BUILDING_COMP_GENERATED_CLASS := source_building_source_text_state.SOURCE_BUILDING_COMP_GENERATED_CLASS
+const SOURCE_BUILDING_UPDATE_TILE_GATE_METHOD := source_building_source_text_state.SOURCE_BUILDING_UPDATE_TILE_GATE_METHOD
+const SOURCE_BUILDING_UPDATE_TILE_GATE_GUARD := source_building_source_text_state.SOURCE_BUILDING_UPDATE_TILE_GATE_GUARD
+const SOURCE_BUILDING_UPDATE_TILE_GATE_CALL := source_building_source_text_state.SOURCE_BUILDING_UPDATE_TILE_GATE_CALL
+const SOURCE_BUILDING_LIFECYCLE_CHECK_SUPPRESSION_JAVA_METHOD := source_building_lifecycle_source_text_state.SOURCE_BUILDING_LIFECYCLE_CHECK_SUPPRESSION_JAVA_METHOD
+const SOURCE_BUILDING_HEAL_SUPPRESSION_DEFAULT_COLOR := source_building_lifecycle_source_text_state.HEAL_SUPPRESSION_DEFAULT_COLOR
+const SOURCE_BUILDING_LIFECYCLE_CHECK_SUPPRESSION_GENERATED_OWNER := source_building_lifecycle_source_text_state.SOURCE_BUILDING_LIFECYCLE_CHECK_SUPPRESSION_GENERATED_OWNER
+const SOURCE_BUILDING_LIFECYCLE_IS_HEAL_SUPPRESSED_JAVA_METHOD := source_building_lifecycle_source_text_state.SOURCE_BUILDING_LIFECYCLE_IS_HEAL_SUPPRESSED_JAVA_METHOD
+const SOURCE_BUILDING_LIFECYCLE_IS_HEAL_SUPPRESSED_GENERATED_OWNER := source_building_lifecycle_source_text_state.SOURCE_BUILDING_LIFECYCLE_IS_HEAL_SUPPRESSED_GENERATED_OWNER
+const SOURCE_BUILDING_LIFECYCLE_RECENTLY_HEALED_JAVA_METHOD := source_building_lifecycle_source_text_state.SOURCE_BUILDING_LIFECYCLE_RECENTLY_HEALED_JAVA_METHOD
+const SOURCE_BUILDING_LIFECYCLE_WAS_RECENTLY_HEALED_JAVA_METHOD := source_building_lifecycle_source_text_state.SOURCE_BUILDING_LIFECYCLE_WAS_RECENTLY_HEALED_JAVA_METHOD
+const SOURCE_BUILDING_LIFECYCLE_WAS_RECENTLY_DAMAGED_JAVA_METHOD := source_building_lifecycle_source_text_state.SOURCE_BUILDING_LIFECYCLE_WAS_RECENTLY_DAMAGED_JAVA_METHOD
+const SOURCE_BUILDING_LIFECYCLE_PLAYER_PLACED_JAVA_METHOD := source_building_lifecycle_source_text_state.SOURCE_BUILDING_LIFECYCLE_PLAYER_PLACED_JAVA_METHOD
+const SOURCE_BUILDING_LIFECYCLE_PLAYER_PLACED_GENERATED_OWNER := source_building_lifecycle_source_text_state.SOURCE_BUILDING_LIFECYCLE_PLAYER_PLACED_GENERATED_OWNER
+const SOURCE_BUILDING_LIFECYCLE_PLACED_JAVA_METHOD := source_building_lifecycle_source_text_state.SOURCE_BUILDING_LIFECYCLE_PLACED_JAVA_METHOD
+const SOURCE_BUILDING_LIFECYCLE_PLACED_GENERATED_OWNER := source_building_lifecycle_source_text_state.SOURCE_BUILDING_LIFECYCLE_PLACED_GENERATED_OWNER
+const SOURCE_BUILDING_LIFECYCLE_ON_REPAIRED_JAVA_METHOD := source_building_lifecycle_source_text_state.SOURCE_BUILDING_LIFECYCLE_ON_REPAIRED_JAVA_METHOD
+const SOURCE_BUILDING_LIFECYCLE_ON_REPAIRED_GENERATED_OWNER := source_building_lifecycle_source_text_state.SOURCE_BUILDING_LIFECYCLE_ON_REPAIRED_GENERATED_OWNER
+const SOURCE_BUILDING_LIFECYCLE_CAN_PICKUP_JAVA_METHOD := source_building_lifecycle_source_text_state.SOURCE_BUILDING_LIFECYCLE_CAN_PICKUP_JAVA_METHOD
+const SOURCE_BUILDING_LIFECYCLE_CAN_PICKUP_GENERATED_OWNER := source_building_lifecycle_source_text_state.SOURCE_BUILDING_LIFECYCLE_CAN_PICKUP_GENERATED_OWNER
+const SOURCE_BUILDING_LIFECYCLE_PICKED_UP_JAVA_METHOD := source_building_lifecycle_source_text_state.SOURCE_BUILDING_LIFECYCLE_PICKED_UP_JAVA_METHOD
+const SOURCE_BUILDING_LIFECYCLE_PICKED_UP_GENERATED_OWNER := source_building_lifecycle_source_text_state.SOURCE_BUILDING_LIFECYCLE_PICKED_UP_GENERATED_OWNER
+const SOURCE_BUILDING_LIFECYCLE_AFTER_PICKED_UP_JAVA_METHOD := source_building_lifecycle_source_text_state.SOURCE_BUILDING_LIFECYCLE_AFTER_PICKED_UP_JAVA_METHOD
+const SOURCE_BUILDING_LIFECYCLE_AFTER_PICKED_UP_GENERATED_OWNER := source_building_lifecycle_source_text_state.SOURCE_BUILDING_LIFECYCLE_AFTER_PICKED_UP_GENERATED_OWNER
+const SOURCE_BUILDING_LIFECYCLE_CONFIG_DEFAULT_JAVA_METHOD := source_building_lifecycle_source_text_state.SOURCE_BUILDING_LIFECYCLE_CONFIG_DEFAULT_JAVA_METHOD
+const SOURCE_BUILDING_LIFECYCLE_CONFIG_DEFAULT_GENERATED_OWNER := source_building_lifecycle_source_text_state.SOURCE_BUILDING_LIFECYCLE_CONFIG_DEFAULT_GENERATED_OWNER
+const SOURCE_BUILDING_LIFECYCLE_IS_VALID_JAVA_METHOD := source_building_lifecycle_source_text_state.SOURCE_BUILDING_LIFECYCLE_IS_VALID_JAVA_METHOD
+const SOURCE_BUILDING_LIFECYCLE_IS_VALID_GENERATED_OWNER := source_building_lifecycle_source_text_state.SOURCE_BUILDING_LIFECYCLE_IS_VALID_GENERATED_OWNER
+const SOURCE_BUILDING_LIFECYCLE_HEAL_NO_ARG_JAVA_METHOD := source_building_lifecycle_source_text_state.SOURCE_BUILDING_LIFECYCLE_HEAL_NO_ARG_JAVA_METHOD
+const SOURCE_BUILDING_LIFECYCLE_HEAL_NO_ARG_GENERATED_OWNER := source_building_lifecycle_source_text_state.SOURCE_BUILDING_LIFECYCLE_HEAL_NO_ARG_GENERATED_OWNER
+const SOURCE_BUILDING_LIFECYCLE_HEAL_AMOUNT_JAVA_METHOD := source_building_lifecycle_source_text_state.SOURCE_BUILDING_LIFECYCLE_HEAL_AMOUNT_JAVA_METHOD
+const SOURCE_BUILDING_LIFECYCLE_HEAL_AMOUNT_GENERATED_OWNER := source_building_lifecycle_source_text_state.SOURCE_BUILDING_LIFECYCLE_HEAL_AMOUNT_GENERATED_OWNER
+const SOURCE_BUILDING_LIFECYCLE_KILL_JAVA_METHOD := source_building_lifecycle_source_text_state.SOURCE_BUILDING_LIFECYCLE_KILL_JAVA_METHOD
+const SOURCE_BUILDING_LIFECYCLE_KILL_GENERATED_OWNER := source_building_lifecycle_source_text_state.SOURCE_BUILDING_LIFECYCLE_KILL_GENERATED_OWNER
+const SOURCE_BUILDING_LIFECYCLE_KILLED_JAVA_METHOD := source_building_lifecycle_source_text_state.SOURCE_BUILDING_LIFECYCLE_KILLED_JAVA_METHOD
+const SOURCE_BUILDING_LIFECYCLE_KILLED_GENERATED_OWNER := source_building_lifecycle_source_text_state.SOURCE_BUILDING_LIFECYCLE_KILLED_GENERATED_OWNER
+const SOURCE_BUILDING_LIFECYCLE_CHECK_ALLOW_UPDATE_JAVA_METHOD := source_building_lifecycle_source_text_state.SOURCE_BUILDING_LIFECYCLE_CHECK_ALLOW_UPDATE_JAVA_METHOD
+const SOURCE_BUILDING_LIFECYCLE_CHECK_ALLOW_UPDATE_GENERATED_OWNER := source_building_lifecycle_source_text_state.SOURCE_BUILDING_LIFECYCLE_CHECK_ALLOW_UPDATE_GENERATED_OWNER
+const SOURCE_BUILDING_LIFECYCLE_UPDATE_TILE_GATE_JAVA_METHOD := source_building_lifecycle_source_text_state.SOURCE_BUILDING_LIFECYCLE_UPDATE_TILE_GATE_JAVA_METHOD
+const SOURCE_BUILDING_LIFECYCLE_UPDATE_TILE_GATE_GENERATED_OWNER := source_building_lifecycle_source_text_state.SOURCE_BUILDING_LIFECYCLE_UPDATE_TILE_GATE_GENERATED_OWNER
+const SOURCE_BUILDING_LIFECYCLE_UPDATE_PAYLOAD_METHOD := source_building_lifecycle_source_text_state.SOURCE_BUILDING_LIFECYCLE_UPDATE_PAYLOAD_METHOD
+const SOURCE_BUILDING_LIFECYCLE_UPDATE_PAYLOAD_UPDATE_EXPR := source_building_lifecycle_source_text_state.SOURCE_BUILDING_LIFECYCLE_UPDATE_PAYLOAD_UPDATE_EXPR
+const SOURCE_BUILDING_LIFECYCLE_UPDATE_PAYLOAD_JAVA_METHOD := source_building_lifecycle_source_text_state.SOURCE_BUILDING_LIFECYCLE_UPDATE_PAYLOAD_JAVA_METHOD
+const SOURCE_BUILDING_LIFECYCLE_UPDATE_PAYLOAD_GENERATED_OWNER := source_building_lifecycle_source_text_state.SOURCE_BUILDING_LIFECYCLE_UPDATE_PAYLOAD_GENERATED_OWNER
+const SOURCE_BUILDING_LIFECYCLE_UPDATE_TILE_METHOD := source_building_lifecycle_source_text_state.SOURCE_BUILDING_LIFECYCLE_UPDATE_TILE_METHOD
+const SOURCE_BUILDING_LIFECYCLE_UPDATE_TILE_JAVA_METHOD := source_building_lifecycle_source_text_state.SOURCE_BUILDING_LIFECYCLE_UPDATE_TILE_JAVA_METHOD
+const SOURCE_BUILDING_LIFECYCLE_UPDATE_TILE_GENERATED_OWNER := source_building_lifecycle_source_text_state.SOURCE_BUILDING_LIFECYCLE_UPDATE_TILE_GENERATED_OWNER
+const SOURCE_BUILDING_LIFECYCLE_CHANCE_DELTA_THRESHOLD_KEY := source_building_lifecycle_callback_registry.SOURCE_BUILDING_LIFECYCLE_CHANCE_DELTA_THRESHOLD_KEY
+const SOURCE_BUILDING_LIFECYCLE_CHANCE_DELTA_THRESHOLD_FALLBACK := source_building_lifecycle_callback_registry.SOURCE_BUILDING_LIFECYCLE_CHANCE_DELTA_THRESHOLD_FALLBACK
+const SOURCE_BUILDING_INIT_SOURCE := source_building_lifecycle_source_text_state.SOURCE_BUILDING_INIT_SOURCE
+const SOURCE_BUILDING_INIT_METHOD := source_building_lifecycle_source_text_state.SOURCE_BUILDING_INIT_METHOD
+const SOURCE_BUILDING_INIT_INITIALIZED_GUARD := source_building_lifecycle_source_text_state.SOURCE_BUILDING_INIT_INITIALIZED_GUARD
+const SOURCE_BUILDING_INIT_CREATE_CALL := source_building_lifecycle_source_text_state.SOURCE_BUILDING_INIT_CREATE_CALL
+const SOURCE_BUILDING_INIT_POWER_REINIT_GUARD := source_building_lifecycle_source_text_state.SOURCE_BUILDING_INIT_POWER_REINIT_GUARD
+const SOURCE_BUILDING_INIT_POWER_INIT_ASSIGN := source_building_lifecycle_source_text_state.SOURCE_BUILDING_INIT_POWER_INIT_ASSIGN
+const SOURCE_BUILDING_INIT_POWER_GRAPH_ADD := source_building_lifecycle_source_text_state.SOURCE_BUILDING_INIT_POWER_GRAPH_ADD
+const SOURCE_BUILDING_INIT_PROXIMITY_CLEAR := source_building_lifecycle_source_text_state.SOURCE_BUILDING_INIT_PROXIMITY_CLEAR
+const SOURCE_BUILDING_INIT_ROTATION_ASSIGN := source_building_lifecycle_source_text_state.SOURCE_BUILDING_INIT_ROTATION_ASSIGN
+const SOURCE_BUILDING_INIT_TILE_ASSIGN := source_building_lifecycle_source_text_state.SOURCE_BUILDING_INIT_TILE_ASSIGN
+const SOURCE_BUILDING_INIT_SET_POSITION := source_building_lifecycle_source_text_state.SOURCE_BUILDING_INIT_SET_POSITION
+const SOURCE_BUILDING_INIT_ADD_GUARD := source_building_lifecycle_source_text_state.SOURCE_BUILDING_INIT_ADD_GUARD
+const SOURCE_BUILDING_INIT_ADD_CALL := source_building_lifecycle_source_text_state.SOURCE_BUILDING_INIT_ADD_CALL
+const SOURCE_BUILDING_INIT_CHECK_ALLOW_UPDATE := source_building_lifecycle_source_text_state.SOURCE_BUILDING_INIT_CHECK_ALLOW_UPDATE
+const SOURCE_BUILDING_INIT_CREATED_CALL := source_building_lifecycle_source_text_state.SOURCE_BUILDING_INIT_CREATED_CALL
+const SOURCE_BUILDING_INIT_RETURN := source_building_lifecycle_source_text_state.SOURCE_BUILDING_INIT_RETURN
+const SOURCE_BUILDING_CREATE_METHOD := source_building_lifecycle_source_text_state.SOURCE_BUILDING_CREATE_METHOD
+const SOURCE_BUILDING_CREATE_BLOCK_ASSIGN := source_building_lifecycle_source_text_state.SOURCE_BUILDING_CREATE_BLOCK_ASSIGN
+const SOURCE_BUILDING_CREATE_TEAM_ASSIGN := source_building_lifecycle_source_text_state.SOURCE_BUILDING_CREATE_TEAM_ASSIGN
+const SOURCE_BUILDING_CREATE_HEALTH_ASSIGN := source_building_lifecycle_source_text_state.SOURCE_BUILDING_CREATE_HEALTH_ASSIGN
+const SOURCE_BUILDING_CREATE_MAX_HEALTH_CALL := source_building_lifecycle_source_text_state.SOURCE_BUILDING_CREATE_MAX_HEALTH_CALL
+const SOURCE_BUILDING_CREATE_TIMER_CALL := source_building_lifecycle_source_text_state.SOURCE_BUILDING_CREATE_TIMER_CALL
+const SOURCE_BUILDING_CREATE_ITEMS_GUARD := source_building_lifecycle_source_text_state.SOURCE_BUILDING_CREATE_ITEMS_GUARD
+const SOURCE_BUILDING_CREATE_ITEMS_CALL := source_building_lifecycle_source_text_state.SOURCE_BUILDING_CREATE_ITEMS_CALL
+const SOURCE_BUILDING_CREATE_LIQUIDS_GUARD := source_building_lifecycle_source_text_state.SOURCE_BUILDING_CREATE_LIQUIDS_GUARD
+const SOURCE_BUILDING_CREATE_LIQUIDS_CALL := source_building_lifecycle_source_text_state.SOURCE_BUILDING_CREATE_LIQUIDS_CALL
+const SOURCE_BUILDING_CREATE_POWER_GUARD := source_building_lifecycle_source_text_state.SOURCE_BUILDING_CREATE_POWER_GUARD
+const SOURCE_BUILDING_CREATE_POWER_CALL := source_building_lifecycle_source_text_state.SOURCE_BUILDING_CREATE_POWER_CALL
+const SOURCE_BUILDING_CREATE_POWER_GRAPH_ADD := source_building_lifecycle_source_text_state.SOURCE_BUILDING_CREATE_POWER_GRAPH_ADD
+const SOURCE_BUILDING_CREATE_INITIALIZED_ASSIGN := source_building_lifecycle_source_text_state.SOURCE_BUILDING_CREATE_INITIALIZED_ASSIGN
+const SOURCE_BUILDING_CREATE_RETURN := source_building_lifecycle_source_text_state.SOURCE_BUILDING_CREATE_RETURN
+const SOURCE_BUILDING_ADD_METHOD := source_building_lifecycle_source_text_state.SOURCE_BUILDING_ADD_METHOD
+const SOURCE_BUILDING_ADD_POWER_GUARD := source_building_lifecycle_source_text_state.SOURCE_BUILDING_ADD_POWER_GUARD
+const SOURCE_BUILDING_ADD_POWER_GRAPH_CHECK := source_building_lifecycle_source_text_state.SOURCE_BUILDING_ADD_POWER_GRAPH_CHECK
+const SOURCE_BUILDING_INIT_CREATE_JAVA_METHOD := source_building_lifecycle_source_text_state.SOURCE_BUILDING_INIT_CREATE_JAVA_METHOD
+const SOURCE_BUILDING_INIT_CREATE_GENERATED_OWNER := source_building_lifecycle_source_text_state.SOURCE_BUILDING_INIT_CREATE_GENERATED_OWNER
+const SOURCE_BUILDING_CREATE_JAVA_METHOD := source_building_lifecycle_source_text_state.SOURCE_BUILDING_CREATE_JAVA_METHOD
+const SOURCE_BUILDING_CREATE_GENERATED_OWNER := source_building_lifecycle_source_text_state.SOURCE_BUILDING_CREATE_GENERATED_OWNER
+const SOURCE_BUILDING_ADD_JAVA_METHOD := source_building_lifecycle_source_text_state.SOURCE_BUILDING_ADD_JAVA_METHOD
+const SOURCE_BUILDING_ADD_GENERATED_OWNER := source_building_lifecycle_source_text_state.SOURCE_BUILDING_ADD_GENERATED_OWNER
+
+static func init_state(initialized: bool, block_has_power: bool, should_add: bool, tile_state: Variant, team_state: Variant, rotation: int, draw_x: float, draw_y: float) -> Dictionary:
+	var create_called := not initialized
+	var reinit_power := initialized and block_has_power
+	return {
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_INIT_STATE,
+		"source": SOURCE_BUILDING_INIT_SOURCE,
+		"method": SOURCE_BUILDING_INIT_METHOD,
+		"initialized": initialized,
+		"block_has_power": block_has_power,
+		"should_add": should_add,
+		"tile": tile_state,
+		"team": team_state,
+		"rotation": rotation,
+		"draw_x": draw_x,
+		"draw_y": draw_y,
+		"create_called": create_called,
+		"power_reinit": reinit_power,
+		"proximity_cleared": true,
+		"position_set": true,
+		"add_called": should_add,
+		"check_allow_update_called": true,
+		"created_called": true,
+		"returned_self": true,
+	}
+
+static func create_state(block_state: Variant, team_state: Variant, block_health: float, block_timers: int, has_items: bool, has_liquids: bool, has_power: bool) -> Dictionary:
+	return {
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_CREATE_STATE,
+		"source": SOURCE_BUILDING_INIT_SOURCE,
+		"method": SOURCE_BUILDING_CREATE_METHOD,
+		"block": block_state,
+		"team": team_state,
+		"health": block_health,
+		"max_health": block_health,
+		"timers": block_timers,
+		"items_created": has_items,
+		"liquids_created": has_liquids,
+		"power_created": has_power,
+		"power_graph_add_called": has_power,
+		"initialized": true,
+		"returned_self": true,
+	}
+
+static func add_state(power_present: bool) -> Dictionary:
+	return {
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_ADD_STATE,
+		"source": SOURCE_BUILDING_INIT_SOURCE,
+		"method": SOURCE_BUILDING_ADD_METHOD,
+		"power_present": power_present,
+		"power_graph_check_add_called": power_present,
+	}
+
+static func generated_init_bridge_state(initialized: bool, block_has_power: bool, should_add: bool, tile_state: Variant, team_state: Variant, rotation: int, draw_x: float, draw_y: float) -> Dictionary:
+	var result = _building_comp_call(SOURCE_BUILDING_INIT_CREATE_JAVA_METHOD, [initialized, block_has_power, should_add, tile_state, team_state, rotation, draw_x, draw_y])
+	var canonical := init_state(initialized, block_has_power, should_add, tile_state, team_state, rotation, draw_x, draw_y)
+	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_INIT_STATE, "generated_owner": SOURCE_BUILDING_INIT_CREATE_GENERATED_OWNER, "result": result, "canonical": canonical, "matches": source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)}
+
+static func generated_create_bridge_state(block_state: Variant, team_state: Variant, block_health: float, block_timers: int, has_items: bool, has_liquids: bool, has_power: bool) -> Dictionary:
+	var result = _building_comp_call(SOURCE_BUILDING_CREATE_JAVA_METHOD, [block_state, team_state, block_health, block_timers, has_items, has_liquids, has_power])
+	var canonical := create_state(block_state, team_state, block_health, block_timers, has_items, has_liquids, has_power)
+	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_CREATE_STATE, "generated_owner": SOURCE_BUILDING_CREATE_GENERATED_OWNER, "result": result, "canonical": canonical, "matches": source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)}
+
+static func generated_add_bridge_state(power_present: bool) -> Dictionary:
+	var result = _building_comp_call(SOURCE_BUILDING_ADD_JAVA_METHOD, [power_present])
+	var canonical := add_state(power_present)
+	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_ADD_STATE, "generated_owner": SOURCE_BUILDING_ADD_GENERATED_OWNER, "result": result, "canonical": canonical, "matches": source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)}
 
 static func _building_comp_call(generated_method: String, generated_args: Array) -> Variant:
 	return source_generated_class_runtime.call_java_method(SOURCE_BUILDING_COMP_GENERATED_CLASS, generated_method, generated_args, null)
@@ -53,34 +209,34 @@ static func kill_state(self_state := {}) -> Dictionary:
 	}
 
 static func generated_config_default_bridge_state() -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_config_198", [], null)
+	var result = _building_comp_call(SOURCE_BUILDING_LIFECYCLE_CONFIG_DEFAULT_JAVA_METHOD, [])
 	var canonical = config_default()
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_CONFIG_DEFAULT,
-		"generated_owner": "building_comp.java_method_config_198",
+		"generated_owner": SOURCE_BUILDING_LIFECYCLE_CONFIG_DEFAULT_GENERATED_OWNER,
 		"result": result,
 		"canonical": canonical,
 	}
 
 static func generated_is_valid_bridge_state(tile_build_matches_self: bool, dead_state: bool) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_isValid_199", [tile_build_matches_self, dead_state], null)
+	var result = _building_comp_call(SOURCE_BUILDING_LIFECYCLE_IS_VALID_JAVA_METHOD, [tile_build_matches_self, dead_state])
 	var canonical = is_valid(tile_build_matches_self, dead_state)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_IS_VALID,
-		"generated_owner": "building_comp.java_method_isValid_199",
+		"generated_owner": SOURCE_BUILDING_LIFECYCLE_IS_VALID_GENERATED_OWNER,
 		"result": result,
 		"canonical": canonical,
 	}
 
 static func generated_heal_bridge_state(amount: Variant = null) -> Dictionary:
-	var result_no_arg = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_heal_200", [], null)
-	var result_amount = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_heal_201", [amount], null)
+	var result_no_arg = _building_comp_call(SOURCE_BUILDING_LIFECYCLE_HEAL_NO_ARG_JAVA_METHOD, [])
+	var result_amount = _building_comp_call(SOURCE_BUILDING_LIFECYCLE_HEAL_AMOUNT_JAVA_METHOD, [amount])
 	var canonical_no_arg = heal_state()
 	var canonical_amount = heal_state(amount)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_HEAL_STATE,
-		"generated_owner_no_arg": "building_comp.java_method_heal_200",
-		"generated_owner_amount": "building_comp.java_method_heal_201",
+		"generated_owner_no_arg": SOURCE_BUILDING_LIFECYCLE_HEAL_NO_ARG_GENERATED_OWNER,
+		"generated_owner_amount": SOURCE_BUILDING_LIFECYCLE_HEAL_AMOUNT_GENERATED_OWNER,
 		"result_no_arg": result_no_arg,
 		"result_amount": result_amount,
 		"canonical_no_arg": canonical_no_arg,
@@ -88,11 +244,11 @@ static func generated_heal_bridge_state(amount: Variant = null) -> Dictionary:
 	}
 
 static func generated_kill_bridge_state(self_state := {}) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_kill_203", [self_state], null)
+	var result = _building_comp_call(SOURCE_BUILDING_LIFECYCLE_KILL_JAVA_METHOD, [self_state])
 	var canonical = kill_state(self_state)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_KILL_STATE,
-		"generated_owner": "building_comp.java_method_kill_203",
+		"generated_owner": SOURCE_BUILDING_LIFECYCLE_KILL_GENERATED_OWNER,
 		"result": result,
 		"canonical": canonical,
 	}
@@ -108,11 +264,11 @@ static func killed_initial_side_effects_state(tile_value: Variant) -> Dictionary
 	}
 
 static func generated_killed_initial_side_effects_bridge_state(tile_value: Variant) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_killed_215", [tile_value], null)
+	var result = _building_comp_call(SOURCE_BUILDING_LIFECYCLE_KILLED_JAVA_METHOD, [tile_value])
 	var canonical = killed_initial_side_effects_state(tile_value)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_KILLED_INITIAL_SIDE_EFFECTS_STATE,
-		"generated_owner": "building_comp.java_method_killed_215",
+		"generated_owner": SOURCE_BUILDING_LIFECYCLE_KILLED_GENERATED_OWNER,
 		"result": result,
 		"canonical": canonical,
 	}
@@ -128,115 +284,38 @@ static func killed_removal_side_effects_state(tile_not_empty_tile: bool) -> Dict
 	}
 
 static func generated_killed_removal_side_effects_bridge_state(tile_value: Variant, tile_not_empty_tile: bool) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_killed_215", [tile_value, tile_not_empty_tile], null)
+	var result = _building_comp_call(SOURCE_BUILDING_LIFECYCLE_KILLED_JAVA_METHOD, [tile_value, tile_not_empty_tile])
 	var canonical = killed_removal_side_effects_state(tile_not_empty_tile)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_KILLED_REMOVAL_SIDE_EFFECTS_STATE,
-		"generated_owner": "building_comp.java_method_killed_215",
+		"generated_owner": SOURCE_BUILDING_LIFECYCLE_KILLED_GENERATED_OWNER,
 		"result": result,
 		"canonical": canonical,
 	}
 
 static func change_team_delegate_state(next_team: Variant) -> Dictionary:
-	return {
-		"next_team": next_team,
-		"delegates_to_change_team": true,
-		"update_power": true,
-	}
+	return source_building_lifecycle_team_state.change_team_delegate_state(next_team)
 
 static func change_team_initial_state(current_team: Variant, next_team: Variant, force_team: Variant, was_valid: bool) -> Dictionary:
-	if current_team == next_team:
-		return {
-			"team": current_team,
-			"last_team": current_team,
-			"returned": true,
-			"remove_index": false,
-			"assign_next": false,
-		}
-	var team_after_force = force_team if force_team != null else current_team
-	var last_team = team_after_force
-	if last_team == next_team:
-		return {
-			"team": team_after_force,
-			"last_team": last_team,
-			"returned": true,
-			"remove_index": false,
-			"assign_next": false,
-		}
-	return {
-		"team": next_team,
-		"last_team": last_team,
-		"returned": false,
-		"remove_index": was_valid,
-		"assign_next": true,
-	}
+	return source_building_lifecycle_team_state.change_team_initial_state(current_team, next_team, force_team, was_valid)
 
 static func change_team_power_proximity_state(power_present: bool, update_power: bool, old_graph: Variant, team: Variant) -> Dictionary:
-	if power_present and update_power:
-		return {
-			"old_graph": old_graph,
-			"team": team,
-			"proximity_reflow": true,
-		}
-	return {
-		"old_graph": old_graph,
-		"team": team,
-		"proximity_reflow": false,
-	}
+	return source_building_lifecycle_team_state.change_team_power_proximity_state(power_present, update_power, old_graph, team)
 
 static func change_team_power_links_state(link_count: int, team: Variant, old_graph: Variant) -> Dictionary:
-	if link_count <= 0:
-		return {
-			"link_count": link_count,
-			"team": team,
-			"old_graph": old_graph,
-			"remove_index": false,
-			"reflow_self": false,
-			"update_power_graph": false,
-		}
-	return {
-		"link_count": link_count,
-		"team": team,
-		"old_graph": old_graph,
-		"remove_index": true,
-		"reflow_self": true,
-		"update_power_graph": true,
-	}
+	return source_building_lifecycle_team_state.change_team_power_links_state(link_count, team, old_graph)
 
 static func change_team_final_state(was: bool, last_team: Variant) -> Dictionary:
-	return {
-		"was": was,
-		"add_index": was,
-		"team_change_event": was,
-		"event_last": last_team,
-		"check_allow_update": true,
-	}
+	return source_building_lifecycle_team_state.change_team_final_state(was, last_team)
 
 static func can_pickup_state(block_can_pickup: bool) -> bool:
-	return block_can_pickup
+	return source_building_lifecycle_pickup_state.can_pickup_state(block_can_pickup)
 
 static func picked_up_state(previous_state: Variant) -> Dictionary:
-	return {
-		"method": "public void pickedUp(){",
-		"comment": "Called right before this building is picked up.",
-		"no_op": true,
-		"previous_state": previous_state,
-	}
+	return source_building_lifecycle_pickup_state.picked_up_state(previous_state)
 
 static func after_picked_up_state(power_present: bool, has_cons_power: bool, cons_power_buffered: bool, current_status: float) -> Dictionary:
-	if power_present and has_cons_power and not cons_power_buffered:
-		return {
-			"power_present": power_present,
-			"new_power_graph": power_present,
-			"clear_links": power_present,
-			"status": 0.0,
-		}
-	return {
-		"power_present": power_present,
-		"new_power_graph": power_present,
-		"clear_links": power_present,
-		"status": current_status,
-	}
+	return source_building_lifecycle_pickup_state.after_picked_up_state(power_present, has_cons_power, cons_power_buffered, current_status)
 
 static func check_allow_update_state(current_enabled: bool, allow_update_result: bool) -> Dictionary:
 	if not allow_update_result:
@@ -244,11 +323,11 @@ static func check_allow_update_state(current_enabled: bool, allow_update_result:
 	return {"enabled": current_enabled, "changed": false}
 
 static func generated_check_allow_update_bridge_state(current_enabled: bool, allow_update_result: bool) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_checkAllowUpdate_216", [current_enabled, allow_update_result], null)
+	var result = _building_comp_call(SOURCE_BUILDING_LIFECYCLE_CHECK_ALLOW_UPDATE_JAVA_METHOD, [current_enabled, allow_update_result])
 	var canonical = check_allow_update_state(current_enabled, allow_update_result)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_CHECK_ALLOW_UPDATE_STATE,
-		"generated_owner": "building_comp.java_method_checkAllowUpdate_216",
+		"generated_owner": SOURCE_BUILDING_LIFECYCLE_CHECK_ALLOW_UPDATE_GENERATED_OWNER,
 		"result": result,
 		"canonical": canonical,
 	}
@@ -258,17 +337,128 @@ static func update_tile_gate_state(enabled_state: bool, block_no_update_disabled
 	return {"update_tile_called": update_tile_called}
 
 static func generated_update_tile_gate_bridge_state(enabled_state: bool, block_no_update_disabled: bool) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_update_217", [source_block_defaults.TIME_SCALE_DEFAULT, 0.0, 0.0, false, null, null, false, 0.0, 0.0, enabled_state, block_no_update_disabled], null)
+	var result = _building_comp_call(SOURCE_BUILDING_LIFECYCLE_UPDATE_TILE_GATE_JAVA_METHOD, [source_block_defaults.TIME_SCALE_DEFAULT, 0.0, 0.0, false, null, null, false, 0.0, 0.0, enabled_state, block_no_update_disabled])
 	var canonical = update_tile_gate_state(enabled_state, block_no_update_disabled)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_UPDATE_TILE_GATE_STATE,
-		"generated_owner": "building_comp.java_method_update_217",
+		"generated_owner": SOURCE_BUILDING_LIFECYCLE_UPDATE_TILE_GATE_GENERATED_OWNER,
 		"result": result,
 		"canonical": canonical,
 	}
 
+static func update_payload_state(update_state: Variant, unit_holder: Variant, building_holder: Variant) -> Dictionary:
+	return {
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_UPDATE_PAYLOAD_STATE,
+		"method": SOURCE_BUILDING_LIFECYCLE_UPDATE_PAYLOAD_METHOD,
+		"update_call": SOURCE_BUILDING_LIFECYCLE_UPDATE_PAYLOAD_UPDATE_EXPR,
+		"unit_holder": unit_holder,
+		"building_holder": building_holder,
+		"update_called": true,
+		"update_state": update_state,
+	}
+
+static func generated_update_payload_bridge_state(unit_holder: Variant, building_holder: Variant) -> Dictionary:
+	var result = _building_comp_call(SOURCE_BUILDING_LIFECYCLE_UPDATE_PAYLOAD_JAVA_METHOD, [unit_holder, building_holder])
+	var canonical = update_payload_state(result.get("update_state", null) if result is Dictionary else null, unit_holder, building_holder)
+	return {
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_UPDATE_PAYLOAD_STATE,
+		"generated_owner": SOURCE_BUILDING_LIFECYCLE_UPDATE_PAYLOAD_GENERATED_OWNER,
+		"result": result,
+		"canonical": canonical,
+		"matches": source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical),
+	}
+
+static func empty_lifecycle_callback_state(generated_method: String) -> Dictionary:
+	assert(source_building_lifecycle_source_text_state.EMPTY_LIFECYCLE_METHODS.has(generated_method))
+	return {
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_EMPTY_LIFECYCLE_CALLBACKS_STATE,
+		"method": source_building_lifecycle_source_text_state.EMPTY_LIFECYCLE_METHODS[generated_method],
+		"no_op": true,
+	}
+
+static func generated_empty_lifecycle_callbacks_bridge_state(generated_method: String, args: Array) -> Dictionary:
+	# Validate the source boundary before allowing dynamic generated-method dispatch.
+	var canonical := empty_lifecycle_callback_state(generated_method)
+	var result = _building_comp_call(generated_method, args)
+	return {
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_EMPTY_LIFECYCLE_CALLBACKS_STATE,
+		"result": result,
+		"canonical": canonical,
+		"matches": result is Dictionary and result == canonical,
+	}
+
+static func update_tile_noop_state() -> Dictionary:
+	return {
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_UPDATE_TILE_NOOP_STATE,
+		"method": SOURCE_BUILDING_LIFECYCLE_UPDATE_TILE_METHOD,
+		"no_op": true,
+	}
+
+static func generated_update_tile_noop_bridge_state() -> Dictionary:
+	var result = _building_comp_call(SOURCE_BUILDING_LIFECYCLE_UPDATE_TILE_JAVA_METHOD, [])
+	var canonical = update_tile_noop_state()
+	return {
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_UPDATE_TILE_NOOP_STATE,
+		"generated_owner": SOURCE_BUILDING_LIFECYCLE_UPDATE_TILE_GENERATED_OWNER,
+		"result": result,
+		"canonical": canonical,
+		"matches": source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical),
+	}
+
 static func is_heal_suppressed_state(block_suppressable: bool, source_time: float, heal_suppression_time: float) -> bool:
 	return block_suppressable and source_time <= heal_suppression_time
+
+static func apply_heal_suppression_state(heal_suppression_time: float, source_time: float, amount: float, suppress_color: Variant) -> Dictionary:
+	var updated_time := maxf(heal_suppression_time, source_time + amount)
+	return {
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_HEAL_SUPPRESSION_STATE,
+		"method": source_building_lifecycle_source_text_state.SOURCE_BUILDING_LIFECYCLE_APPLY_HEAL_SUPPRESSION_METHOD,
+		"heal_suppression_time_before": heal_suppression_time,
+		"source_time": source_time,
+		"amount": amount,
+		"heal_suppression_time_after": updated_time,
+		"suppress_color": suppress_color,
+		"updated": true,
+	}
+
+static func generated_apply_heal_suppression_bridge_state(heal_suppression_time: float, source_time: float, amount: float, suppress_color: Variant, use_color_overload: bool) -> Dictionary:
+	var method := source_building_lifecycle_source_text_state.SOURCE_BUILDING_LIFECYCLE_APPLY_HEAL_SUPPRESSION_COLOR_JAVA_METHOD if use_color_overload else source_building_lifecycle_source_text_state.SOURCE_BUILDING_LIFECYCLE_APPLY_HEAL_SUPPRESSION_NO_COLOR_JAVA_METHOD
+	var args := [heal_suppression_time, source_time, amount, suppress_color] if use_color_overload else [heal_suppression_time, source_time, amount]
+	var result = _building_comp_call(method, args)
+	var canonical := apply_heal_suppression_state(heal_suppression_time, source_time, amount, suppress_color if use_color_overload else source_building_lifecycle_source_text_state.HEAL_SUPPRESSION_DEFAULT_COLOR)
+	return {"generated_owner": source_building_lifecycle_source_text_state.SOURCE_BUILDING_LIFECYCLE_APPLY_HEAL_SUPPRESSION_COLOR_GENERATED_OWNER if use_color_overload else source_building_lifecycle_source_text_state.SOURCE_BUILDING_LIFECYCLE_APPLY_HEAL_SUPPRESSION_NO_COLOR_GENERATED_OWNER, "result": result, "canonical": canonical, "matches": source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)}
+
+static func is_heal_suppressed_result_state(block_suppressable: bool, source_time: float, heal_suppression_time: float) -> Dictionary:
+	return {"block_suppressable": block_suppressable, "source_time": source_time, "heal_suppression_time": heal_suppression_time, "method": "public boolean isHealSuppressed(){", "suppressed": is_heal_suppressed_state(block_suppressable, source_time, heal_suppression_time)}
+
+static func recently_healed_state(source_time: float) -> Dictionary:
+	return {"source_time": source_time, "last_heal_time": source_time, "updated": true}
+
+static func was_recently_healed_state(last_heal_time: float, duration: float, source_time: float) -> Dictionary:
+	return {"last_heal_time": last_heal_time, "duration": duration, "source_time": source_time, "recent": last_heal_time + duration >= source_time}
+
+static func was_recently_damaged_state(last_damage_time: float, recent_damage_time: float, source_time: float) -> Dictionary:
+	return {"last_damage_time": last_damage_time, "recent_damage_time": recent_damage_time, "source_time": source_time, "recent": last_damage_time + recent_damage_time >= source_time}
+
+static func generated_recently_healed_bridge_state(source_time: float) -> Dictionary:
+	var result = _building_comp_call(SOURCE_BUILDING_LIFECYCLE_RECENTLY_HEALED_JAVA_METHOD, [source_time])
+	var canonical := recently_healed_state(source_time)
+	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_HEALTH_RECENT_STATE, "result": result, "canonical": canonical, "matches": source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)}
+
+static func generated_was_recently_healed_bridge_state(last_heal_time: float, duration: float, source_time: float) -> Dictionary:
+	var result = _building_comp_call(SOURCE_BUILDING_LIFECYCLE_WAS_RECENTLY_HEALED_JAVA_METHOD, [last_heal_time, duration, source_time])
+	var canonical := was_recently_healed_state(last_heal_time, duration, source_time)
+	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_HEALTH_RECENT_STATE, "result": result, "canonical": canonical, "matches": source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)}
+
+static func generated_was_recently_damaged_bridge_state(last_damage_time: float, recent_damage_time: float, source_time: float) -> Dictionary:
+	var result = _building_comp_call(SOURCE_BUILDING_LIFECYCLE_WAS_RECENTLY_DAMAGED_JAVA_METHOD, [last_damage_time, recent_damage_time, source_time])
+	var canonical := was_recently_damaged_state(last_damage_time, recent_damage_time, source_time)
+	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_HEALTH_RECENT_STATE, "result": result, "canonical": canonical, "matches": source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)}
+
+static func generated_is_heal_suppressed_bridge_state(block_suppressable: bool, source_time: float, heal_suppression_time: float) -> Dictionary:
+	var result = _building_comp_call(SOURCE_BUILDING_LIFECYCLE_IS_HEAL_SUPPRESSED_JAVA_METHOD, [block_suppressable, source_time, heal_suppression_time])
+	var canonical := is_heal_suppressed_result_state(block_suppressable, source_time, heal_suppression_time)
+	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_IS_HEAL_SUPPRESSED_STATE, "generated_owner": SOURCE_BUILDING_LIFECYCLE_IS_HEAL_SUPPRESSED_GENERATED_OWNER, "result": result, "canonical": canonical, "matches": source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)}
 
 static func check_suppression_state(block_suppressable: bool, source_time: float, heal_suppression_time: float, source_delta: float, source_x: float, source_y: float, block_size_value: int, source_tilesize: float, suppress_color: String, chance_delta_threshold: Callable) -> Dictionary:
 	var suppressed := is_heal_suppressed_state(block_suppressable, source_time, heal_suppression_time)
@@ -283,10 +473,10 @@ static func game_check_suppression_state(game: Object, block_suppressable: bool,
 	return check_suppression_state(block_suppressable, source_time, heal_suppression_time, source_delta, source_x, source_y, block_size_value, source_tilesize, suppress_color, callbacks.get(SOURCE_BUILDING_LIFECYCLE_CHANCE_DELTA_THRESHOLD_KEY, Callable()))
 
 static func generated_check_suppression_bridge_state(block_suppressable: bool, source_time: float, heal_suppression_time: float, source_delta: float, source_x: float, source_y: float, block_size_value: int, source_tilesize: float, suppress_color: String) -> Dictionary:
-	var result = _building_comp_call("java_method_checkSuppression_136", [block_suppressable, source_time, heal_suppression_time, source_delta, source_x, source_y, block_size_value, source_tilesize, suppress_color])
+	var result = _building_comp_call(SOURCE_BUILDING_LIFECYCLE_CHECK_SUPPRESSION_JAVA_METHOD, [block_suppressable, source_time, heal_suppression_time, source_delta, source_x, source_y, block_size_value, source_tilesize, suppress_color])
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_CHECK_SUPPRESSION_STATE,
-		"generated_owner": "building_comp.java_method_checkSuppression_136",
+		"generated_owner": SOURCE_BUILDING_LIFECYCLE_CHECK_SUPPRESSION_GENERATED_OWNER,
 		"result": result,
 	}
 
@@ -300,10 +490,10 @@ static func player_placed_state(config_state: Variant) -> Dictionary:
 	}
 
 static func generated_player_placed_bridge_state(config_state: Variant) -> Dictionary:
-	var result = _building_comp_call("java_method_playerPlaced_137", [config_state])
+	var result = _building_comp_call(SOURCE_BUILDING_LIFECYCLE_PLAYER_PLACED_JAVA_METHOD, [config_state])
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_PLAYER_PLACED_STATE,
-		"generated_owner": "building_comp.java_method_playerPlaced_137",
+		"generated_owner": SOURCE_BUILDING_LIFECYCLE_PLAYER_PLACED_GENERATED_OWNER,
 		"result": result,
 	}
 
@@ -317,10 +507,10 @@ static func placed_state(net_client: bool, consumes_power: bool, outputs_power: 
 	return {"method": "public void placed(){", "comment": "Called after the block is placed by anyone.", "call_super": "@CallSuper", "client_guard": "if(net.client()) return;" if net_client else "", "power_gate": "if((block.consumesPower || block.outputsPower) && block.hasPower && block.connectedPower){" if should_link_power else "", "power_node_scan": "PowerNode.getNodeLinks(tile, block, team, other -> {" if should_link_power else "", "link_guard": "if(!other.power.links.contains(pos())){" if should_link_power else "", "configure_call": "other.configureAny(pos());" if configure else "", "returned": false, "power_link_scan": true, "configure": configure, "configure_pos": source_pos if configure else -1}
 
 static func generated_placed_bridge_state(net_client: bool, consumes_power: bool, outputs_power: bool, has_power: bool, connected_power: bool, linked_to_self: bool, source_pos: int) -> Dictionary:
-	var result = _building_comp_call("java_method_placed_138", [net_client, consumes_power, outputs_power, has_power, connected_power, linked_to_self, source_pos])
+	var result = _building_comp_call(SOURCE_BUILDING_LIFECYCLE_PLACED_JAVA_METHOD, [net_client, consumes_power, outputs_power, has_power, connected_power, linked_to_self, source_pos])
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_PLACED_STATE,
-		"generated_owner": "building_comp.java_method_placed_138",
+		"generated_owner": SOURCE_BUILDING_LIFECYCLE_PLACED_GENERATED_OWNER,
 		"result": result,
 	}
 
@@ -337,183 +527,51 @@ static func on_repaired_state(has_fog_radius: bool) -> Dictionary:
 	}
 
 static func generated_on_repaired_bridge_state(has_fog_radius: bool) -> Dictionary:
-	var result = _building_comp_call("java_method_onRepaired_139", [has_fog_radius])
+	var result = _building_comp_call(SOURCE_BUILDING_LIFECYCLE_ON_REPAIRED_JAVA_METHOD, [has_fog_radius])
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_ON_REPAIRED_STATE,
-		"generated_owner": "building_comp.java_method_onRepaired_139",
+		"generated_owner": SOURCE_BUILDING_LIFECYCLE_ON_REPAIRED_GENERATED_OWNER,
 		"result": result,
 	}
 
 static func generated_change_team_delegate_bridge_state(next_team: Variant) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_changeTeam_180", [next_team], null)
-	var canonical = change_team_delegate_state(next_team)
-	canonical["comment"] = "/** Changes this building's team in a safe manner. */"
-	canonical["method"] = "public void changeTeam(Team next){"
-	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_CHANGE_TEAM_DELEGATE_STATE,
-		"generated_owner": "building_comp.java_method_changeTeam_180",
-		"result": result,
-		"canonical": canonical,
-	}
+	return source_building_lifecycle_team_state.generated_change_team_delegate_bridge_state(next_team)
 
 static func generated_change_team_initial_bridge_state(current_team: Variant, next_team: Variant, force_team: Variant, was_valid: bool) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_changeTeam_181", [current_team, next_team, force_team, was_valid], null)
-	var canonical = change_team_initial_state(current_team, next_team, force_team, was_valid)
-	canonical["comment"] = "/** Changes this building's team in a safe manner. */"
-	canonical["method"] = "public void changeTeam(Team next, boolean updatePower){"
-	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_CHANGE_TEAM_INITIAL_STATE,
-		"generated_owner": "building_comp.java_method_changeTeam_181",
-		"result": result,
-		"canonical": canonical,
-	}
+	return source_building_lifecycle_team_state.generated_change_team_initial_bridge_state(current_team, next_team, force_team, was_valid)
 
 static func generated_change_team_power_proximity_bridge_state(current_team: Variant, next_team: Variant, force_team: Variant, was_valid: bool, power_present: bool, update_power: bool, old_graph: Variant) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_changeTeam_181", [current_team, next_team, force_team, was_valid, power_present, update_power, old_graph], null)
-	var canonical = change_team_power_proximity_state(power_present, update_power, old_graph, next_team)
-	canonical["gate"] = "if(power != null && updatePower){"
-	canonical["method"] = "public void changeTeam(Team next, boolean updatePower){"
-	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_CHANGE_TEAM_POWER_PROXIMITY_STATE,
-		"generated_owner": "building_comp.java_method_changeTeam_181",
-		"result": result,
-		"canonical": canonical,
-	}
+	return source_building_lifecycle_team_state.generated_change_team_power_proximity_bridge_state(current_team, next_team, force_team, was_valid, power_present, update_power, old_graph)
 
 static func generated_change_team_power_links_bridge_state(current_team: Variant, next_team: Variant, force_team: Variant, was_valid: bool, power_present: bool, update_power: bool, old_graph: Variant, link_count: int) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_changeTeam_181", [current_team, next_team, force_team, was_valid, power_present, update_power, old_graph, link_count], null)
-	var canonical = change_team_power_links_state(link_count if power_present and update_power else 0, next_team, old_graph)
-	canonical["loop"] = "for(int i = 0; i < power.links.size; i++){"
-	canonical["method"] = "public void changeTeam(Team next, boolean updatePower){"
-	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_CHANGE_TEAM_POWER_LINKS_STATE,
-		"generated_owner": "building_comp.java_method_changeTeam_181",
-		"result": result,
-		"canonical": canonical,
-	}
+	return source_building_lifecycle_team_state.generated_change_team_power_links_bridge_state(current_team, next_team, force_team, was_valid, power_present, update_power, old_graph, link_count)
 
 static func generated_change_team_final_bridge_state(current_team: Variant, next_team: Variant, force_team: Variant, was_valid: bool, power_present: bool, update_power: bool, old_graph: Variant, link_count: int) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_changeTeam_181", [current_team, next_team, force_team, was_valid, power_present, update_power, old_graph, link_count], null)
-	var team_after_force = force_team if force_team != null else current_team
-	var last_team = team_after_force
-	var canonical = change_team_final_state(was_valid, last_team)
-	canonical["method"] = "public void changeTeam(Team next, boolean updatePower){"
-	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_CHANGE_TEAM_FINAL_STATE,
-		"generated_owner": "building_comp.java_method_changeTeam_181",
-		"result": result,
-		"canonical": canonical,
-	}
+	return source_building_lifecycle_team_state.generated_change_team_final_bridge_state(current_team, next_team, force_team, was_valid, power_present, update_power, old_graph, link_count)
 
 static func generated_can_pickup_bridge_state(block_can_pickup: bool) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_canPickup_182", [block_can_pickup], null)
-	var canonical = can_pickup_state(block_can_pickup)
-	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_CAN_PICKUP_STATE,
-		"generated_owner": "building_comp.java_method_canPickup_182",
-		"result": result,
-		"canonical": canonical,
-	}
+	return source_building_lifecycle_pickup_state.generated_can_pickup_bridge_state(block_can_pickup)
 
 static func generated_picked_up_bridge_state(previous_state: Variant) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_pickedUp_183", [previous_state], null)
-	var canonical = picked_up_state(previous_state)
-	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_PICKED_UP_STATE,
-		"generated_owner": "building_comp.java_method_pickedUp_183",
-		"result": result,
-		"canonical": canonical,
-	}
+	return source_building_lifecycle_pickup_state.generated_picked_up_bridge_state(previous_state)
 
 static func generated_after_picked_up_bridge_state(power_present: bool, has_cons_power: bool, cons_power_buffered: bool, current_status: float) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_afterPickedUp_184", [power_present, has_cons_power, cons_power_buffered, current_status], null)
-	var canonical = after_picked_up_state(power_present, has_cons_power, cons_power_buffered, current_status)
-	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_AFTER_PICKED_UP_STATE,
-		"generated_owner": "building_comp.java_method_afterPickedUp_184",
-		"result": result,
-		"canonical": canonical,
-	}
+	return source_building_lifecycle_pickup_state.generated_after_picked_up_bridge_state(power_present, has_cons_power, cons_power_buffered, current_status)
 
 static func generated_remove_from_proximity_bridge_state(nearby_count: int, removable_count: int) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_removeFromProximity_185", [nearby_count, removable_count], null)
-	var canonical = remove_from_proximity_state(nearby_count, removable_count)
-	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_REMOVE_FROM_PROXIMITY_STATE,
-		"generated_owner": "building_comp.java_method_removeFromProximity_185",
-		"result": result,
-		"canonical": canonical,
-	}
+	return source_building_lifecycle_proximity_state.generated_remove_from_proximity_bridge_state(nearby_count, removable_count)
 
 static func generated_update_proximity_bridge_state(nearby_count: int, same_team_count: int, headless: bool, draw_cached: bool) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_updateProximity_186", [nearby_count, same_team_count, headless, draw_cached], null)
-	var canonical = update_proximity_state(nearby_count, same_team_count, headless, draw_cached)
-	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_UPDATE_PROXIMITY_STATE,
-		"generated_owner": "building_comp.java_method_updateProximity_186",
-		"result": result,
-		"canonical": canonical,
-	}
+	return source_building_lifecycle_proximity_state.generated_update_proximity_bridge_state(nearby_count, same_team_count, headless, draw_cached)
 
 static func generated_on_nearby_build_added_bridge_state(other_state: Variant) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_onNearbyBuildAdded_187", [other_state], null)
-	var canonical = on_nearby_build_added_state(other_state)
-	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_ON_NEARBY_BUILD_ADDED_STATE,
-		"generated_owner": "building_comp.java_method_onNearbyBuildAdded_187",
-		"result": result,
-		"canonical": canonical,
-	}
-
-const SOURCE_BUILDING_UPDATE_PROXIMITY_METHOD := "public void updateProximity(){"
-const SOURCE_BUILDING_UPDATE_PROXIMITY_TMP_CLEAR := "tmpTiles.clear();"
-const SOURCE_BUILDING_UPDATE_PROXIMITY_PROXIMITY_CLEAR := "proximity.clear();"
-const SOURCE_BUILDING_UPDATE_PROXIMITY_EDGES := "Point2[] nearby = Edges.getEdges(block.size);"
-const SOURCE_BUILDING_UPDATE_PROXIMITY_WORLD_BUILD := "Building other = world.build(tile.x + point.x, tile.y + point.y);"
-const SOURCE_BUILDING_UPDATE_PROXIMITY_TEAM_GUARD := "if(other == null || other.team != team) continue;"
-const SOURCE_BUILDING_UPDATE_PROXIMITY_ADD_UNIQUE := "other.proximity.addUnique(self());"
-const SOURCE_BUILDING_UPDATE_PROXIMITY_TMP_ADD := "tmpTiles.add(other);"
-const SOURCE_BUILDING_UPDATE_PROXIMITY_ADD_SELF := "proximity.add(tile);"
-const SOURCE_BUILDING_UPDATE_PROXIMITY_ADDED := "onProximityAdded();"
-const SOURCE_BUILDING_UPDATE_PROXIMITY_UPDATE := "onProximityUpdate();"
-const SOURCE_BUILDING_UPDATE_PROXIMITY_OTHER_UPDATE := "other.onProximityUpdate();"
-const SOURCE_BUILDING_UPDATE_PROXIMITY_RECACHE := "if(!headless && block.drawCached) recache();"
+	return source_building_lifecycle_proximity_state.generated_on_nearby_build_added_bridge_state(other_state)
 
 static func remove_from_proximity_state(nearby_count: int, removable_count: int) -> Dictionary:
-	return {
-		"method": "public void removeFromProximity(){",
-		"on_proximity_removed_call": "onProximityRemoved();",
-		"tmp_tiles_clear_call": "tmpTiles.clear();",
-		"edges_get_call": "Point2[] nearby = Edges.getEdges(block.size);",
-		"world_build_call": "Building other = world.build(tile.x + point.x, tile.y + point.y);",
-		"tmp_tiles_add_call": "tmpTiles.add(other);",
-		"remove_self_call": "other.proximity.remove(self(), true);",
-		"other_update_call": "other.onProximityUpdate();",
-		"proximity_clear_call": "proximity.clear();",
-		"on_proximity_removed": true,
-		"tmp_tiles_cleared": true,
-		"nearby_count": nearby_count,
-		"queued_removals": clampi(removable_count, 0, nearby_count),
-		"proximity_updates": clampi(removable_count, 0, nearby_count),
-		"proximity_cleared": true,
-	}
+	return source_building_lifecycle_proximity_state.remove_from_proximity_state(nearby_count, removable_count)
 
 static func update_proximity_state(nearby_count: int, same_team_count: int, headless: bool, draw_cached: bool) -> Dictionary:
-	return {
-		"tmp_tiles_cleared": true,
-		"proximity_cleared": true,
-		"nearby_count": nearby_count,
-		"same_team_count": clampi(same_team_count, 0, nearby_count),
-		"add_unique_calls": clampi(same_team_count, 0, nearby_count),
-		"on_proximity_added": true,
-		"self_proximity_update": true,
-		"other_proximity_updates": clampi(same_team_count, 0, nearby_count),
-		"recache": (not headless) and draw_cached,
-	}
+	return source_building_lifecycle_proximity_state.update_proximity_state(nearby_count, same_team_count, headless, draw_cached)
 
 static func on_nearby_build_added_state(other_state: Variant) -> Dictionary:
-	return {
-		"method": "public void onNearbyBuildAdded(Building other){}",
-		"no_op": true,
-		"other_state": other_state,
-	}
+	return source_building_lifecycle_proximity_state.on_nearby_build_added_state(other_state)

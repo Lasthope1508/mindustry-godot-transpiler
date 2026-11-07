@@ -1,0 +1,5 @@
+extends RefCounted
+class_name SourceBuildingLifecycleCallbackRegistry
+
+const SOURCE_BUILDING_LIFECYCLE_CHANCE_DELTA_THRESHOLD_KEY := "chance_delta_threshold"
+const SOURCE_BUILDING_LIFECYCLE_CHANCE_DELTA_THRESHOLD_FALLBACK := "source_arc_chance_delta_threshold"

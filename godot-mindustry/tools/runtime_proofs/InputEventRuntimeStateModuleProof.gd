@@ -2,7 +2,10 @@ extends Node
 
 const source_input_event_runtime_state := preload("res://src/game/SourceInputEventRuntimeState.gd")
 const source_input_defaults := preload("res://src/game/SourceInputDefaults.gd")
-const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const source_ssot_accessor_runtime_state := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
+const runtime_proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")
+
+const PROOF_LABEL := "INPUT_EVENT_RUNTIME_STATE_MODULE_PROOF"
 
 class FakeInputGame:
 	extends RefCounted
@@ -52,11 +55,11 @@ func _ready() -> void:
 	source_input_event_runtime_state.handle_unhandled_input(fake, mouse_press)
 
 	var pointer_world := source_input_event_runtime_state.pointer_world_position_state(fake, Vector2(7.0, 8.0))
-	var registry_state := source_ssot_catalog.canonical_headquarter_registry_state()
+	var registry_state := source_ssot_accessor_runtime_state.canonical_headquarter_registry_state()
 	var first_place: Vector2 = fake.placed_positions[0] if fake.placed_positions.size() > 0 else Vector2.ZERO
 	var second_place: Vector2 = fake.placed_positions[1] if fake.placed_positions.size() > 1 else Vector2.ZERO
 	var proof := {
-		"module": "SourceInputEventRuntimeState",
+		"module": PROOF_LABEL,
 		"key_event_selected_action": fake.selected_action == "build.slot.3",
 		"drag_axis_matches": drag_axis == Vector2(1.0, 0.0),
 		"touch_release_clears": fake.touch_axis == Vector2.ZERO,
@@ -67,12 +70,7 @@ func _ready() -> void:
 		"registry_valid": bool(registry_state.get("errors", []).is_empty()),
 	}
 	proof["matches"] = proof["key_event_selected_action"] and proof["drag_axis_matches"] and proof["touch_release_clears"] and proof["touch_press_places"] and proof["mouse_place_matches"] and proof["pointer_world_position_matches"] and proof["one_headquarter_per_ssot"] and proof["registry_valid"]
-	var proof_json := JSON.stringify(proof)
-	print("INPUT_EVENT_RUNTIME_STATE_MODULE_PROOF " + proof_json)
-	var proof_path := ProjectSettings.globalize_path("res://tools/runtime_proofs/InputEventRuntimeStateModuleProof.json")
-	var proof_file := FileAccess.open(proof_path, FileAccess.WRITE)
-	if proof_file != null:
-		proof_file.store_string(proof_json)
-		proof_file.flush()
-	await get_tree().create_timer(60.0).timeout
-	get_tree().quit(0)
+	runtime_proof_state.write_proof("InputEventRuntimeStateModuleProof", proof)
+	await get_tree().process_frame
+	get_tree().quit(runtime_proof_state.exit_code(proof))
+

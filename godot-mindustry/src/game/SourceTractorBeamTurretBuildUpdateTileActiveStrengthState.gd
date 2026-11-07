@@ -5,9 +5,11 @@ const source_generated_class_runtime := preload("res://src/game/SourceGeneratedC
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
 const source_math_defaults := preload("res://src/game/SourceMathDefaults.gd")
 const source_turret_defaults := preload("res://src/game/SourceTurretDefaults.gd")
-const SOURCE_TRACTOR_BEAM_TURRET_GENERATED_CLASS := "res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd"
-const SOURCE_TRACTOR_BEAM_STRENGTH_LERP_DELTA_KEY := "lerp_delta"
-const SOURCE_TRACTOR_BEAM_STRENGTH_LERP_DELTA_FALLBACK := "source_mathf_lerp_delta"
+const source_turret_source_text_state := preload("res://src/game/SourceTurretSourceTextState.gd")
+const source_tractor_beam_callback_registry := preload("res://src/game/SourceTractorBeamCallbackRegistry.gd")
+const SOURCE_TRACTOR_BEAM_TURRET_GENERATED_CLASS := source_turret_source_text_state.SOURCE_TRACTOR_BEAM_TURRET_GENERATED_CLASS
+const SOURCE_TRACTOR_BEAM_STRENGTH_LERP_DELTA_KEY := source_tractor_beam_callback_registry.SOURCE_TRACTOR_BEAM_STRENGTH_LERP_DELTA_KEY
+const SOURCE_TRACTOR_BEAM_STRENGTH_LERP_DELTA_FALLBACK := source_tractor_beam_callback_registry.SOURCE_TRACTOR_BEAM_STRENGTH_LERP_DELTA_FALLBACK
 
 static func _tractor_beam_turret_call(generated_method: String, generated_args: Array) -> Variant:
 	return source_generated_class_runtime.call_java_method(SOURCE_TRACTOR_BEAM_TURRET_GENERATED_CLASS, generated_method, generated_args, null)

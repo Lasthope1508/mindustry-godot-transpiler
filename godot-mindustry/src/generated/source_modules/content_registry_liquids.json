@@ -1,52 +1,17 @@
 {
   "version": 1,
   "liquids": {
-    "water": {
-      "canonical_liquid": "content_registry.liquids.water",
-      "color": "596ab8",
-      "field": "water",
-      "id": "water",
+    "arkycite": {
+      "canonical_liquid": "content_registry.liquids.arkycite",
+      "color": "84a94b",
+      "field": "arkycite",
+      "id": "arkycite",
       "implementation": "Liquid",
       "properties": {
-        "alwaysUnlocked": true,
-        "boilPoint": 0.5,
-        "effect": "StatusEffects.wet",
-        "gasColor": "Color.grays",
-        "heatCapacity": 0.4
-      },
-      "texture": "res://assets/core/assets-raw/sprites/items/liquid-water.png"
-    },
-    "slag": {
-      "canonical_liquid": "content_registry.liquids.slag",
-      "color": "ffa166",
-      "field": "slag",
-      "id": "slag",
-      "implementation": "Liquid",
-      "properties": {
-        "effect": "StatusEffects.melting",
-        "lightColor": "f0511d",
-        "temperature": 1,
+        "flammability": 0.4,
         "viscosity": 0.7
       },
-      "texture": "res://assets/core/assets-raw/sprites/items/liquid-slag.png"
-    },
-    "oil": {
-      "canonical_liquid": "content_registry.liquids.oil",
-      "color": "313131",
-      "field": "oil",
-      "id": "oil",
-      "implementation": "Liquid",
-      "properties": {
-        "barColor": "6b675f",
-        "boilPoint": 0.65,
-        "effect": "StatusEffects.tarred",
-        "explosiveness": 1.2,
-        "flammability": 1.2,
-        "gasColor": "Color.grays",
-        "heatCapacity": 0.7,
-        "viscosity": 0.75
-      },
-      "texture": "res://assets/core/assets-raw/sprites/items/liquid-oil.png"
+      "texture": "res://assets/core/assets-raw/sprites/items/liquid-arkycite.png"
     },
     "cryofluid": {
       "canonical_liquid": "content_registry.liquids.cryofluid",
@@ -63,6 +28,42 @@
         "temperature": 0.25
       },
       "texture": "res://assets/core/assets-raw/sprites/items/liquid-cryofluid.png"
+    },
+    "cyanogen": {
+      "canonical_liquid": "content_registry.liquids.cyanogen",
+      "color": "89e8b6",
+      "field": "cyanogen",
+      "id": "cyanogen",
+      "implementation": "Liquid",
+      "properties": {
+        "flammability": 2,
+        "gas": true
+      },
+      "texture": "res://assets/core/assets-raw/sprites/items/liquid-cyanogen.png"
+    },
+    "gallium": {
+      "canonical_liquid": "content_registry.liquids.gallium",
+      "color": "9a9dbf",
+      "field": "gallium",
+      "id": "gallium",
+      "implementation": "Liquid",
+      "properties": {
+        "coolant": false,
+        "hidden": true
+      },
+      "texture": "res://assets/core/assets-raw/sprites/items/liquid-gallium.png"
+    },
+    "hydrogen": {
+      "canonical_liquid": "content_registry.liquids.hydrogen",
+      "color": "9eabf7",
+      "field": "hydrogen",
+      "id": "hydrogen",
+      "implementation": "Liquid",
+      "properties": {
+        "flammability": 1,
+        "gas": true
+      },
+      "texture": "res://assets/core/assets-raw/sprites/items/liquid-hydrogen.png"
     },
     "neoplasm": {
       "canonical_liquid": "content_registry.liquids.neoplasm",
@@ -85,29 +86,34 @@
       },
       "texture": "res://assets/core/assets-raw/sprites/items/liquid-neoplasm.png"
     },
-    "arkycite": {
-      "canonical_liquid": "content_registry.liquids.arkycite",
-      "color": "84a94b",
-      "field": "arkycite",
-      "id": "arkycite",
+    "nitrogen": {
+      "canonical_liquid": "content_registry.liquids.nitrogen",
+      "color": "efe3ff",
+      "field": "nitrogen",
+      "id": "nitrogen",
       "implementation": "Liquid",
       "properties": {
-        "flammability": 0.4,
-        "viscosity": 0.7
+        "gas": true
       },
-      "texture": "res://assets/core/assets-raw/sprites/items/liquid-arkycite.png"
+      "texture": "res://assets/core/assets-raw/sprites/items/liquid-nitrogen.png"
     },
-    "gallium": {
-      "canonical_liquid": "content_registry.liquids.gallium",
-      "color": "9a9dbf",
-      "field": "gallium",
-      "id": "gallium",
+    "oil": {
+      "canonical_liquid": "content_registry.liquids.oil",
+      "color": "313131",
+      "field": "oil",
+      "id": "oil",
       "implementation": "Liquid",
       "properties": {
-        "coolant": false,
-        "hidden": true
+        "barColor": "6b675f",
+        "boilPoint": 0.65,
+        "effect": "StatusEffects.tarred",
+        "explosiveness": 1.2,
+        "flammability": 1.2,
+        "gasColor": "Color.grays",
+        "heatCapacity": 0.7,
+        "viscosity": 0.75
       },
-      "texture": "res://assets/core/assets-raw/sprites/items/liquid-gallium.png"
+      "texture": "res://assets/core/assets-raw/sprites/items/liquid-oil.png"
     },
     "ozone": {
       "canonical_liquid": "content_registry.liquids.ozone",
@@ -123,40 +129,34 @@
       },
       "texture": "res://assets/core/assets-raw/sprites/items/liquid-ozone.png"
     },
-    "hydrogen": {
-      "canonical_liquid": "content_registry.liquids.hydrogen",
-      "color": "9eabf7",
-      "field": "hydrogen",
-      "id": "hydrogen",
+    "slag": {
+      "canonical_liquid": "content_registry.liquids.slag",
+      "color": "ffa166",
+      "field": "slag",
+      "id": "slag",
       "implementation": "Liquid",
       "properties": {
-        "flammability": 1,
-        "gas": true
+        "effect": "StatusEffects.melting",
+        "lightColor": "f0511d",
+        "temperature": 1,
+        "viscosity": 0.7
       },
-      "texture": "res://assets/core/assets-raw/sprites/items/liquid-hydrogen.png"
+      "texture": "res://assets/core/assets-raw/sprites/items/liquid-slag.png"
     },
-    "nitrogen": {
-      "canonical_liquid": "content_registry.liquids.nitrogen",
-      "color": "efe3ff",
-      "field": "nitrogen",
-      "id": "nitrogen",
+    "water": {
+      "canonical_liquid": "content_registry.liquids.water",
+      "color": "596ab8",
+      "field": "water",
+      "id": "water",
       "implementation": "Liquid",
       "properties": {
-        "gas": true
+        "alwaysUnlocked": true,
+        "boilPoint": 0.5,
+        "effect": "StatusEffects.wet",
+        "gasColor": "Color.grays",
+        "heatCapacity": 0.4
       },
-      "texture": "res://assets/core/assets-raw/sprites/items/liquid-nitrogen.png"
-    },
-    "cyanogen": {
-      "canonical_liquid": "content_registry.liquids.cyanogen",
-      "color": "89e8b6",
-      "field": "cyanogen",
-      "id": "cyanogen",
-      "implementation": "Liquid",
-      "properties": {
-        "flammability": 2,
-        "gas": true
-      },
-      "texture": "res://assets/core/assets-raw/sprites/items/liquid-cyanogen.png"
+      "texture": "res://assets/core/assets-raw/sprites/items/liquid-water.png"
     }
   }
 }

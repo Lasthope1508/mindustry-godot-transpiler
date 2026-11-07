@@ -1,9 +1,5 @@
 {
-  "policy": {
-    "canonicalOwner": "source_slice_ledger",
-    "newProductionSliceRequiresSourceBackedLedgerMirror": true,
-    "source": "Derived from canonical source_slice_ledger entries whose java_source contains /world/blocks/production/."
-  },
+  "version": 1,
   "slices": {
     "N1367": {
       "canonical_ledger": "source_slice_ledger.N1367",
@@ -29,6 +25,209 @@
         "test_generated_drill_get_drill_time_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.generated_drill_get_drill_time_bridge_state"
+    },
+    "N2000": {
+      "canonical_ledger": "source_slice_ledger.N2000",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "Drill(String name)",
+      "godot_owner": "SourcePlacedBlockState.source_block_has_liquids_state",
+      "source_symbols": [
+        "block_has_liquids.block",
+        "block_has_liquids.has_liquids"
+      ],
+      "tests": [
+        "test_explicit_liquid_flags_follow_constructor_inheritance_and_initializer",
+        "test_real_registry_drill_liquid_flag_and_registered_owner_contracts",
+        "test_liquid_owner_is_bound_on_real_placement_path",
+        "test_live_building_storage_and_typed_catalog_runtime"
+      ],
+      "runtime_proof": "/root/Main.PlacedLiquidOwnershipProof"
+    },
+    "N2009": {
+      "canonical_ledger": "source_slice_ledger.N2009",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "update(); updateConsumption(); updateTile()",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_tick_state",
+      "source_symbols": [
+        "drill_live_tick.game",
+        "drill_live_tick.seconds",
+        "drill_live_tick.drill_states",
+        "drill_live_factory.game",
+        "drill_live_factory.seconds",
+        "drill_live_factory.drill_state",
+        "drill_live_factory.dump_state",
+        "drill_live_factory.transport_state",
+        "drill_live_factory.transport_progress",
+        "drill_live_factory.source_owner",
+        "drill_live_frame.enabled",
+        "drill_live_frame.cheating",
+        "drill_live_frame.items",
+        "drill_live_frame.item_progress",
+        "drill_live_frame.warmup",
+        "drill_live_frame.time_drilled",
+        "drill_live_frame.last_drill_speed",
+        "drill_live_frame.dominant_item",
+        "drill_live_frame.dominant_items",
+        "drill_live_frame.consumers",
+        "drill_live_frame.efficiency",
+        "drill_live_frame.optional_efficiency",
+        "drill_live_frame.potential_efficiency",
+        "drill_live_frame.should_consume_power",
+        "drill_live_frame.efficiency_scale",
+        "drill_live_frame.speed",
+        "drill_live.metadata_key",
+        "drill_live.liquid_boost_intensity",
+        "drill_live.unboosted_speed"
+      ],
+      "tests": [
+        "test_same_batch_contracts_cover_adapter_unique_traversal_and_live_ticks",
+        "test_factory_uses_live_tick_owner_and_timescale_uses_unique_buildings",
+        "test_real_process_drives_two_multicell_drills_and_concrete_adapter"
+      ],
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
+    },
+    "N2010": {
+      "canonical_ledger": "source_slice_ledger.N2010",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "canMine(Tile tile); countOre(Tile tile)",
+      "godot_owner": "SourceDrillRuntimeState.source_count_ore_state",
+      "source_symbols": [
+        "source_drill_ore_item.id",
+        "source_drill_ore_item.hardness",
+        "source_drill_ore_item.low_priority",
+        "source_drill_ore_tile.is_static",
+        "source_drill_ore_tile.drop",
+        "source_drill_can_mine_input.tile",
+        "source_drill_can_mine_input.tier",
+        "source_drill_can_mine_input.blocked_items",
+        "source_drill_can_mine_result.can_mine",
+        "source_drill_count_ore_input.linked_tiles",
+        "source_drill_count_ore_input.tier",
+        "source_drill_count_ore_input.blocked_items",
+        "source_drill_count_ore_result.returnItem",
+        "source_drill_count_ore_result.returnCount",
+        "source_drill_count_ore_result.oreCount",
+        "source_drill_count_ore_result.itemArray"
+      ],
+      "tests": [
+        "test_ore_selection_contracts_and_source_evidence",
+        "test_independent_ore_selection_matrix_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreSelectionProof"
+    },
+    "N2012": {
+      "canonical_ledger": "source_slice_ledger.N2012",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "init()",
+      "godot_owner": "SourceDrillRuntimeState.source_init_blocked_items_state",
+      "source_symbols": [
+        "source_drill_init_blocked_items_input.blocked_items",
+        "source_drill_init_blocked_items_input.blocked_item",
+        "source_drill_init_blocked_items_result.blocked_items",
+        "source_drill_blocked_definition.blockedItem",
+        "source_drill_blocked_definition.blockedItems"
+      ],
+      "tests": [
+        "test_blocked_item_parser_preserves_fields_null_and_order",
+        "test_ancestry_constructor_overrides_and_unresolved_descendants",
+        "test_real_registry_exports_drill_ancestry_and_blocked_fields",
+        "test_item_registration_order_and_source_priority_survive_export",
+        "test_ore_binding_contracts_are_registered_in_own_slices",
+        "test_real_catalog_drill_binding_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreBindingProof"
+    },
+    "N2013": {
+      "canonical_ledger": "source_slice_ledger.N2013",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "init(); canMine(Tile tile)",
+      "godot_owner": "SourceDrillRuntimeState.source_bind_ore_items_state",
+      "source_symbols": [
+        "source_drill_bind_ore_items_input.block",
+        "source_drill_bind_ore_items_input.item_catalog",
+        "source_drill_bind_ore_items_result.blocked_items"
+      ],
+      "tests": [
+        "test_blocked_item_parser_preserves_fields_null_and_order",
+        "test_ancestry_constructor_overrides_and_unresolved_descendants",
+        "test_real_registry_exports_drill_ancestry_and_blocked_fields",
+        "test_item_registration_order_and_source_priority_survive_export",
+        "test_ore_binding_contracts_are_registered_in_own_slices",
+        "test_real_catalog_drill_binding_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreBindingProof"
+    },
+    "N2020": {
+      "canonical_ledger": "source_slice_ledger.N2020",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "getDrop(Tile); DrillBuild.onProximityUpdate(); pickedUp()",
+      "godot_owner": "SourceDrillRuntimeState.source_on_proximity_update_state",
+      "source_symbols": [
+        "source_drill_get_drop_input.tile",
+        "source_drill_get_drop_result.drop",
+        "source_drill_proximity_assignment_input.linked_tiles",
+        "source_drill_proximity_assignment_input.tier",
+        "source_drill_proximity_assignment_input.blocked_items",
+        "source_drill_proximity_assignment_result.dominant_item",
+        "source_drill_proximity_assignment_result.dominant_items",
+        "source_drill_pickup_assignment_input.frame",
+        "source_drill_pickup_assignment_result.dominant_item"
+      ],
+      "tests": [
+        "test_proximity_lifecycle_contracts",
+        "test_actual_proximity_mutation_and_dominant_production"
+      ],
+      "runtime_proof": "/root/DrillProximityLifecycleProof"
+    },
+    "N2021": {
+      "canonical_ledger": "source_slice_ledger.N2021",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.onProximityUpdate()",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_on_proximity_update_state",
+      "source_symbols": [
+        "source_drill_live_proximity_input.game",
+        "source_drill_live_proximity_input.sprite",
+        "source_drill_live_proximity_input.block",
+        "source_drill_live_proximity_result.applied",
+        "source_drill_live_pickup_input.sprite",
+        "source_world_drill_overlay_input.game",
+        "source_world_drill_overlay_input.x",
+        "source_world_drill_overlay_input.y",
+        "source_world_drill_overlay_input.block",
+        "source_world_drill_overlay_input.generating",
+        "source_world_drill_overlay_result.changed",
+        "source_world_drill_overlay_result.proximity_updated",
+        "drill_proximity.world_item_catalog"
+      ],
+      "tests": [
+        "test_proximity_lifecycle_contracts",
+        "test_actual_proximity_mutation_and_dominant_production"
+      ],
+      "runtime_proof": "/root/DrillProximityLifecycleProof"
+    },
+    "N2022": {
+      "canonical_ledger": "source_slice_ledger.N2022",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.updateTile()",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_dominant_item_name_state",
+      "source_symbols": [
+        "source_drill_dominant_item_name_input.game",
+        "source_drill_dominant_item_name_input.sprite",
+        "source_drill_dominant_item_name_result.item_id"
+      ],
+      "tests": [
+        "test_proximity_lifecycle_contracts",
+        "test_actual_proximity_mutation_and_dominant_production"
+      ],
+      "runtime_proof": "/root/DrillProximityLifecycleProof"
     },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",
@@ -294,209 +493,6 @@
         "test_port_game_applies_source_drill_warmup_to_output_delta"
       ],
       "runtime_proof": "/root/Main.source_drill_warmup_state"
-    },
-    "N2000": {
-      "canonical_ledger": "source_slice_ledger.N2000",
-      "status": "done",
-      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
-      "java_method": "Drill(String name)",
-      "godot_owner": "SourcePlacedBlockState.source_block_has_liquids_state",
-      "source_symbols": [
-        "block_has_liquids.block",
-        "block_has_liquids.has_liquids"
-      ],
-      "tests": [
-        "test_explicit_liquid_flags_follow_constructor_inheritance_and_initializer",
-        "test_real_registry_drill_liquid_flag_and_registered_owner_contracts",
-        "test_liquid_owner_is_bound_on_real_placement_path",
-        "test_live_building_storage_and_typed_catalog_runtime"
-      ],
-      "runtime_proof": "/root/Main.PlacedLiquidOwnershipProof"
-    },
-    "N2009": {
-      "canonical_ledger": "source_slice_ledger.N2009",
-      "status": "done",
-      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
-      "java_method": "update(); updateConsumption(); updateTile()",
-      "godot_owner": "SourceDrillConsumptionRuntimeState.source_tick_state",
-      "source_symbols": [
-        "drill_live_tick.game",
-        "drill_live_tick.seconds",
-        "drill_live_tick.drill_states",
-        "drill_live_factory.game",
-        "drill_live_factory.seconds",
-        "drill_live_factory.drill_state",
-        "drill_live_factory.dump_state",
-        "drill_live_factory.transport_state",
-        "drill_live_factory.transport_progress",
-        "drill_live_factory.source_owner",
-        "drill_live_frame.enabled",
-        "drill_live_frame.cheating",
-        "drill_live_frame.items",
-        "drill_live_frame.item_progress",
-        "drill_live_frame.warmup",
-        "drill_live_frame.time_drilled",
-        "drill_live_frame.last_drill_speed",
-        "drill_live_frame.dominant_item",
-        "drill_live_frame.dominant_items",
-        "drill_live_frame.consumers",
-        "drill_live_frame.efficiency",
-        "drill_live_frame.optional_efficiency",
-        "drill_live_frame.potential_efficiency",
-        "drill_live_frame.should_consume_power",
-        "drill_live_frame.efficiency_scale",
-        "drill_live_frame.speed",
-        "drill_live.metadata_key",
-        "drill_live.liquid_boost_intensity",
-        "drill_live.unboosted_speed"
-      ],
-      "tests": [
-        "test_same_batch_contracts_cover_adapter_unique_traversal_and_live_ticks",
-        "test_factory_uses_live_tick_owner_and_timescale_uses_unique_buildings",
-        "test_real_process_drives_two_multicell_drills_and_concrete_adapter"
-      ],
-      "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
-    },
-    "N2010": {
-      "canonical_ledger": "source_slice_ledger.N2010",
-      "status": "done",
-      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
-      "java_method": "canMine(Tile tile); countOre(Tile tile)",
-      "godot_owner": "SourceDrillRuntimeState.source_count_ore_state",
-      "source_symbols": [
-        "source_drill_ore_item.id",
-        "source_drill_ore_item.hardness",
-        "source_drill_ore_item.low_priority",
-        "source_drill_ore_tile.is_static",
-        "source_drill_ore_tile.drop",
-        "source_drill_can_mine_input.tile",
-        "source_drill_can_mine_input.tier",
-        "source_drill_can_mine_input.blocked_items",
-        "source_drill_can_mine_result.can_mine",
-        "source_drill_count_ore_input.linked_tiles",
-        "source_drill_count_ore_input.tier",
-        "source_drill_count_ore_input.blocked_items",
-        "source_drill_count_ore_result.returnItem",
-        "source_drill_count_ore_result.returnCount",
-        "source_drill_count_ore_result.oreCount",
-        "source_drill_count_ore_result.itemArray"
-      ],
-      "tests": [
-        "test_ore_selection_contracts_and_source_evidence",
-        "test_independent_ore_selection_matrix_in_godot"
-      ],
-      "runtime_proof": "/root/DrillOreSelectionProof"
-    },
-    "N2012": {
-      "canonical_ledger": "source_slice_ledger.N2012",
-      "status": "done",
-      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
-      "java_method": "init()",
-      "godot_owner": "SourceDrillRuntimeState.source_init_blocked_items_state",
-      "source_symbols": [
-        "source_drill_init_blocked_items_input.blocked_items",
-        "source_drill_init_blocked_items_input.blocked_item",
-        "source_drill_init_blocked_items_result.blocked_items",
-        "source_drill_blocked_definition.blockedItem",
-        "source_drill_blocked_definition.blockedItems"
-      ],
-      "tests": [
-        "test_blocked_item_parser_preserves_fields_null_and_order",
-        "test_ancestry_constructor_overrides_and_unresolved_descendants",
-        "test_real_registry_exports_drill_ancestry_and_blocked_fields",
-        "test_item_registration_order_and_source_priority_survive_export",
-        "test_ore_binding_contracts_are_registered_in_own_slices",
-        "test_real_catalog_drill_binding_in_godot"
-      ],
-      "runtime_proof": "/root/DrillOreBindingProof"
-    },
-    "N2013": {
-      "canonical_ledger": "source_slice_ledger.N2013",
-      "status": "done",
-      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
-      "java_method": "init(); canMine(Tile tile)",
-      "godot_owner": "SourceDrillRuntimeState.source_bind_ore_items_state",
-      "source_symbols": [
-        "source_drill_bind_ore_items_input.block",
-        "source_drill_bind_ore_items_input.item_catalog",
-        "source_drill_bind_ore_items_result.blocked_items"
-      ],
-      "tests": [
-        "test_blocked_item_parser_preserves_fields_null_and_order",
-        "test_ancestry_constructor_overrides_and_unresolved_descendants",
-        "test_real_registry_exports_drill_ancestry_and_blocked_fields",
-        "test_item_registration_order_and_source_priority_survive_export",
-        "test_ore_binding_contracts_are_registered_in_own_slices",
-        "test_real_catalog_drill_binding_in_godot"
-      ],
-      "runtime_proof": "/root/DrillOreBindingProof"
-    },
-    "N2020": {
-      "canonical_ledger": "source_slice_ledger.N2020",
-      "status": "done",
-      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
-      "java_method": "getDrop(Tile); DrillBuild.onProximityUpdate(); pickedUp()",
-      "godot_owner": "SourceDrillRuntimeState.source_on_proximity_update_state",
-      "source_symbols": [
-        "source_drill_get_drop_input.tile",
-        "source_drill_get_drop_result.drop",
-        "source_drill_proximity_assignment_input.linked_tiles",
-        "source_drill_proximity_assignment_input.tier",
-        "source_drill_proximity_assignment_input.blocked_items",
-        "source_drill_proximity_assignment_result.dominant_item",
-        "source_drill_proximity_assignment_result.dominant_items",
-        "source_drill_pickup_assignment_input.frame",
-        "source_drill_pickup_assignment_result.dominant_item"
-      ],
-      "tests": [
-        "test_proximity_lifecycle_contracts",
-        "test_actual_proximity_mutation_and_dominant_production"
-      ],
-      "runtime_proof": "/root/DrillProximityLifecycleProof"
-    },
-    "N2021": {
-      "canonical_ledger": "source_slice_ledger.N2021",
-      "status": "done",
-      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
-      "java_method": "DrillBuild.onProximityUpdate()",
-      "godot_owner": "SourceDrillConsumptionRuntimeState.source_on_proximity_update_state",
-      "source_symbols": [
-        "source_drill_live_proximity_input.game",
-        "source_drill_live_proximity_input.sprite",
-        "source_drill_live_proximity_input.block",
-        "source_drill_live_proximity_result.applied",
-        "source_drill_live_pickup_input.sprite",
-        "source_world_drill_overlay_input.game",
-        "source_world_drill_overlay_input.x",
-        "source_world_drill_overlay_input.y",
-        "source_world_drill_overlay_input.block",
-        "source_world_drill_overlay_input.generating",
-        "source_world_drill_overlay_result.changed",
-        "source_world_drill_overlay_result.proximity_updated",
-        "drill_proximity.world_item_catalog"
-      ],
-      "tests": [
-        "test_proximity_lifecycle_contracts",
-        "test_actual_proximity_mutation_and_dominant_production"
-      ],
-      "runtime_proof": "/root/DrillProximityLifecycleProof"
-    },
-    "N2022": {
-      "canonical_ledger": "source_slice_ledger.N2022",
-      "status": "done",
-      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
-      "java_method": "DrillBuild.updateTile()",
-      "godot_owner": "SourceDrillConsumptionRuntimeState.source_dominant_item_name_state",
-      "source_symbols": [
-        "source_drill_dominant_item_name_input.game",
-        "source_drill_dominant_item_name_input.sprite",
-        "source_drill_dominant_item_name_result.item_id"
-      ],
-      "tests": [
-        "test_proximity_lifecycle_contracts",
-        "test_actual_proximity_mutation_and_dominant_production"
-      ],
-      "runtime_proof": "/root/DrillProximityLifecycleProof"
     }
   }
 }

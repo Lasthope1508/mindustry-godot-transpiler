@@ -1,0 +1,22 @@
+class_name SourceBlockQueryConsumerSourceTextState
+extends RefCounted
+
+const SOURCE_BLOCK_QUERY_CONSUMER_SOURCE := "core/src/mindustry/world/Block.java"
+const SOURCE_BLOCK_QUERY_CONSUMER_HAS_CONSUMER_RETURN_EXPR := "return consumeBuilder.contains(cons);"
+const SOURCE_BLOCK_QUERY_CONSUMER_FIND_CONSUMER_RETURN_EXPR := "return consumers.length == 0 ? (T)consumeBuilder.find(filter) : (T)Structs.find(consumers, filter);"
+const SOURCE_BLOCK_QUERY_CONSUMER_REMOVE_CONSUMER_GUARD_EXPR := "if(consumers.length > 0){"
+const SOURCE_BLOCK_QUERY_CONSUMER_REMOVE_CONSUMER_EXCEPTION_EXPR := "throw new IllegalStateException(\"You can only remove consumers before init(). After init(), all consumers have already been initialized.\");"
+const SOURCE_BLOCK_QUERY_CONSUMER_REMOVE_CONSUMER_REMOVE_EXPR := "consumeBuilder.remove(cons);"
+const SOURCE_BLOCK_QUERY_CONSUMER_HAS_CONSUMER_JAVA_METHOD_HAS_CONSUMER_96 := "java_method_hasConsumer_96"
+const SOURCE_BLOCK_QUERY_CONSUMER_HAS_CONSUMER_GENERATED_OWNER := "block.java_method_hasConsumer_96"
+const SOURCE_BLOCK_QUERY_CONSUMER_FIND_CONSUMER_JAVA_METHOD_FIND_CONSUMER_95 := "java_method_findConsumer_95"
+const SOURCE_BLOCK_QUERY_CONSUMER_FIND_CONSUMER_GENERATED_OWNER := "block.java_method_findConsumer_95"
+const SOURCE_BLOCK_QUERY_CONSUMER_REMOVE_CONSUMER_JAVA_METHOD_REMOVE_CONSUMER_97 := "java_method_removeConsumer_97"
+const SOURCE_BLOCK_QUERY_CONSUMER_REMOVE_CONSUMER_GENERATED_OWNER := "block.java_method_removeConsumer_97"
+const SOURCE_BLOCK_QUERY_CONSUMER_REMOVE_CONSUMERS_RETURN_EXPR := "return;"
+const SOURCE_BLOCK_QUERY_CONSUMER_REMOVE_CONSUMERS_REMOVE_ALL_EXPR := "consumeBuilder.removeAll(b);"
+const SOURCE_BLOCK_QUERY_CONSUMER_REMOVE_CONSUMERS_COMMENT := "//the power was removed, unassign it"
+const SOURCE_BLOCK_QUERY_CONSUMER_REMOVE_CONSUMERS_POWER_GUARD_EXPR := "if(!consumeBuilder.contains(c -> c instanceof ConsumePower)){"
+const SOURCE_BLOCK_QUERY_CONSUMER_REMOVE_CONSUMERS_CONS_POWER_EXPR := "consPower = null;"
+const SOURCE_BLOCK_QUERY_CONSUMER_REMOVE_CONSUMERS_JAVA_METHOD_REMOVE_CONSUMERS_98 := "java_method_removeConsumers_98"
+const SOURCE_BLOCK_QUERY_CONSUMER_REMOVE_CONSUMERS_GENERATED_OWNER := "block.java_method_removeConsumers_98"

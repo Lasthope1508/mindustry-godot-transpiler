@@ -3,6 +3,42 @@ class_name SourceBlockSenseState
 
 const source_generated_class_runtime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
+const source_block_source_text_state := preload("res://src/game/SourceBlockSourceTextState.gd")
+const source_block_sense_source_text_state := preload("res://src/game/SourceBlockSenseSourceTextState.gd")
+
+const SOURCE_BLOCK_GENERATED_CLASS := source_block_source_text_state.SOURCE_BLOCK_GENERATED_CLASS
+const SOURCE_BLOCK_SENSE_SOURCE := source_block_sense_source_text_state.SOURCE_BLOCK_SENSE_SOURCE
+const SOURCE_BLOCK_SENSE_LACCESS_METHOD := source_block_sense_source_text_state.SOURCE_BLOCK_SENSE_LACCESS_METHOD
+const SOURCE_BLOCK_SENSE_LACCESS_JAVA_METHOD := source_block_sense_source_text_state.SOURCE_BLOCK_SENSE_LACCESS_JAVA_METHOD
+const SOURCE_BLOCK_SENSE_LACCESS_GENERATED_OWNER := source_block_sense_source_text_state.SOURCE_BLOCK_SENSE_LACCESS_GENERATED_OWNER
+const SOURCE_BLOCK_SENSE_LACCESS_SWITCH_EXPR := source_block_sense_source_text_state.SOURCE_BLOCK_SENSE_LACCESS_SWITCH_EXPR
+const SOURCE_BLOCK_SENSE_LACCESS_COLOR_CASE := source_block_sense_source_text_state.SOURCE_BLOCK_SENSE_LACCESS_COLOR_CASE
+const SOURCE_BLOCK_SENSE_LACCESS_HEALTH_CASE := source_block_sense_source_text_state.SOURCE_BLOCK_SENSE_LACCESS_HEALTH_CASE
+const SOURCE_BLOCK_SENSE_LACCESS_SOLID_CASE := source_block_sense_source_text_state.SOURCE_BLOCK_SENSE_LACCESS_SOLID_CASE
+const SOURCE_BLOCK_SENSE_LACCESS_SIZE_CASE := source_block_sense_source_text_state.SOURCE_BLOCK_SENSE_LACCESS_SIZE_CASE
+const SOURCE_BLOCK_SENSE_LACCESS_ITEM_CAPACITY_CASE := source_block_sense_source_text_state.SOURCE_BLOCK_SENSE_LACCESS_ITEM_CAPACITY_CASE
+const SOURCE_BLOCK_SENSE_LACCESS_LIQUID_CAPACITY_CASE := source_block_sense_source_text_state.SOURCE_BLOCK_SENSE_LACCESS_LIQUID_CAPACITY_CASE
+const SOURCE_BLOCK_SENSE_LACCESS_POWER_CAPACITY_CASE := source_block_sense_source_text_state.SOURCE_BLOCK_SENSE_LACCESS_POWER_CAPACITY_CASE
+const SOURCE_BLOCK_SENSE_LACCESS_ID_CASE := source_block_sense_source_text_state.SOURCE_BLOCK_SENSE_LACCESS_ID_CASE
+const SOURCE_BLOCK_SENSE_LACCESS_DEFAULT_EXPR := source_block_sense_source_text_state.SOURCE_BLOCK_SENSE_LACCESS_DEFAULT_EXPR
+const SOURCE_BLOCK_SENSE_CONTENT_METHOD := source_block_sense_source_text_state.SOURCE_BLOCK_SENSE_CONTENT_METHOD
+const SOURCE_BLOCK_SENSE_CONTENT_JAVA_METHOD := source_block_sense_source_text_state.SOURCE_BLOCK_SENSE_CONTENT_JAVA_METHOD
+const SOURCE_BLOCK_SENSE_CONTENT_GENERATED_OWNER := source_block_sense_source_text_state.SOURCE_BLOCK_SENSE_CONTENT_GENERATED_OWNER
+const SOURCE_BLOCK_SENSE_CONTENT_ITEM_INSTANCEOF_EXPR := source_block_sense_source_text_state.SOURCE_BLOCK_SENSE_CONTENT_ITEM_INSTANCEOF_EXPR
+const SOURCE_BLOCK_SENSE_CONTENT_INFINITE_RESOURCES_RETURN_EXPR := source_block_sense_source_text_state.SOURCE_BLOCK_SENSE_CONTENT_INFINITE_RESOURCES_RETURN_EXPR
+const SOURCE_BLOCK_SENSE_CONTENT_REQUIREMENTS_LOOP_EXPR := source_block_sense_source_text_state.SOURCE_BLOCK_SENSE_CONTENT_REQUIREMENTS_LOOP_EXPR
+const SOURCE_BLOCK_SENSE_CONTENT_ITEM_MATCH_GUARD_EXPR := source_block_sense_source_text_state.SOURCE_BLOCK_SENSE_CONTENT_ITEM_MATCH_GUARD_EXPR
+const SOURCE_BLOCK_SENSE_CONTENT_AMOUNT_RETURN_EXPR := source_block_sense_source_text_state.SOURCE_BLOCK_SENSE_CONTENT_AMOUNT_RETURN_EXPR
+const SOURCE_BLOCK_SENSE_CONTENT_MISSING_ITEM_RETURN_EXPR := source_block_sense_source_text_state.SOURCE_BLOCK_SENSE_CONTENT_MISSING_ITEM_RETURN_EXPR
+const SOURCE_BLOCK_SENSE_CONTENT_INVALID_RETURN_EXPR := source_block_sense_source_text_state.SOURCE_BLOCK_SENSE_CONTENT_INVALID_RETURN_EXPR
+const SOURCE_BLOCK_SENSE_OBJECT_METHOD := source_block_sense_source_text_state.SOURCE_BLOCK_SENSE_OBJECT_METHOD
+const SOURCE_BLOCK_SENSE_OBJECT_JAVA_METHOD := source_block_sense_source_text_state.SOURCE_BLOCK_SENSE_OBJECT_JAVA_METHOD
+const SOURCE_BLOCK_SENSE_OBJECT_GENERATED_OWNER := source_block_sense_source_text_state.SOURCE_BLOCK_SENSE_OBJECT_GENERATED_OWNER
+const SOURCE_BLOCK_SENSE_OBJECT_NAME_GUARD_EXPR := source_block_sense_source_text_state.SOURCE_BLOCK_SENSE_OBJECT_NAME_GUARD_EXPR
+const SOURCE_BLOCK_SENSE_OBJECT_DEFAULT_RETURN_EXPR := source_block_sense_source_text_state.SOURCE_BLOCK_SENSE_OBJECT_DEFAULT_RETURN_EXPR
+
+static func _block_call(generated_method: String, generated_args: Array) -> Variant:
+	return source_generated_class_runtime.call_java_method(SOURCE_BLOCK_GENERATED_CLASS, generated_method, generated_args, null)
 
 static func laccess_state(sensor: String, map_color_double_bits: float, health_value: float, solid_value: bool, size_value: int, item_capacity: int, liquid_capacity: float, has_cons_power: bool, cons_power_buffered: bool, cons_power_capacity: float, logic_id: int) -> Dictionary:
 	var sense_value: float = NAN
@@ -28,7 +64,10 @@ static func laccess_state(sensor: String, map_color_double_bits: float, health_v
 	var sense_value_wire: Variant = sense_value
 	if is_nan(sense_value):
 		sense_value_wire = null
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_SENSE_LACCESS_STATE, "source": "core/src/mindustry/world/Block.java", "override_expr": "@Override", "method": "public double sense(LAccess sensor){", "switch_expr": "return switch(sensor){", "color_case": "case color -> mapColor.toDoubleBits();", "health_case": "case health, maxHealth -> health;", "solid_case": "case solid -> solid ? 1 : 0;", "size_case": "case size -> size;", "item_capacity_case": "case itemCapacity -> itemCapacity;", "liquid_capacity_case": "case liquidCapacity -> liquidCapacity;", "power_capacity_case": "case powerCapacity -> consPower != null && consPower.buffered ? consPower.capacity : 0f;", "id_case": "case id -> getLogicId();", "default_expr": "default -> Double.NaN;", "sensor": sensor, "map_color_double_bits": map_color_double_bits, "health": health_value, "solid": solid_value, "size": size_value, "itemCapacity": item_capacity, "liquidCapacity": liquid_capacity, "has_cons_power": has_cons_power, "cons_power_buffered": cons_power_buffered, "cons_power_capacity": cons_power_capacity, "logic_id": logic_id, "sense_value": sense_value_wire, "sense_value_is_nan": is_nan(sense_value)}
+	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_SENSE_LACCESS_STATE, "source": SOURCE_BLOCK_SENSE_SOURCE, "override_expr": "@Override", "method": SOURCE_BLOCK_SENSE_LACCESS_METHOD, "switch_expr": SOURCE_BLOCK_SENSE_LACCESS_SWITCH_EXPR, "color_case": SOURCE_BLOCK_SENSE_LACCESS_COLOR_CASE, "health_case": SOURCE_BLOCK_SENSE_LACCESS_HEALTH_CASE, "solid_case": SOURCE_BLOCK_SENSE_LACCESS_SOLID_CASE, "size_case": SOURCE_BLOCK_SENSE_LACCESS_SIZE_CASE, "item_capacity_case": SOURCE_BLOCK_SENSE_LACCESS_ITEM_CAPACITY_CASE, "liquid_capacity_case": SOURCE_BLOCK_SENSE_LACCESS_LIQUID_CAPACITY_CASE, "power_capacity_case": SOURCE_BLOCK_SENSE_LACCESS_POWER_CAPACITY_CASE, "id_case": SOURCE_BLOCK_SENSE_LACCESS_ID_CASE, "default_expr": SOURCE_BLOCK_SENSE_LACCESS_DEFAULT_EXPR, "sensor": sensor, "map_color_double_bits": map_color_double_bits, "health": health_value, "solid": solid_value, "size": size_value, "itemCapacity": item_capacity, "liquidCapacity": liquid_capacity, "has_cons_power": has_cons_power, "cons_power_buffered": cons_power_buffered, "cons_power_capacity": cons_power_capacity, "logic_id": logic_id, "sense_value": sense_value_wire, "sense_value_is_nan": is_nan(sense_value)}
+
+static func generated_laccess_result_state(sensor: String, map_color_double_bits: float, health_value: float, solid_value: bool, size_value: int, item_capacity: int, liquid_capacity: float, has_cons_power: bool, cons_power_buffered: bool, cons_power_capacity: float, logic_id: int) -> Dictionary:
+	return laccess_state(sensor, map_color_double_bits, health_value, solid_value, size_value, item_capacity, liquid_capacity, has_cons_power, cons_power_buffered, cons_power_capacity, logic_id)
 
 static func content_state(content_type: String, content_item: Variant, state_rules_infinite_resources: bool, requirements: Array, build_cost_multiplier: float) -> Dictionary:
 	var sense_value: float = NAN
@@ -53,28 +92,34 @@ static func content_state(content_type: String, content_item: Variant, state_rul
 	var sense_value_wire: Variant = sense_value
 	if is_nan(sense_value):
 		sense_value_wire = null
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_SENSE_CONTENT_STATE, "source": "core/src/mindustry/world/Block.java", "override_expr": "@Override", "method": "public double sense(Content content){", "item_instanceof_expr": "if(content instanceof Item item){", "infinite_resources_return_expr": "if(state.rules.infiniteResources) return 0;", "requirements_loop_expr": "for(ItemStack r : requirements){", "item_match_guard_expr": "if(r.item == item){", "amount_return_expr": "return Math.round(r.amount * state.rules.buildCostMultiplier);", "missing_item_return_expr": "return 0f;", "invalid_return_expr": "return Double.NaN;", "content_type": content_type, "content_item": content_item, "state_rules_infinite_resources": state_rules_infinite_resources, "requirements": requirements, "build_cost_multiplier": build_cost_multiplier, "matched_requirement_index": matched_requirement_index, "matched_requirement": matched_requirement, "matched_amount": matched_amount, "sense_value": sense_value_wire, "sense_value_is_nan": is_nan(sense_value)}
+	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_SENSE_CONTENT_STATE, "source": SOURCE_BLOCK_SENSE_SOURCE, "override_expr": "@Override", "method": SOURCE_BLOCK_SENSE_CONTENT_METHOD, "item_instanceof_expr": SOURCE_BLOCK_SENSE_CONTENT_ITEM_INSTANCEOF_EXPR, "infinite_resources_return_expr": SOURCE_BLOCK_SENSE_CONTENT_INFINITE_RESOURCES_RETURN_EXPR, "requirements_loop_expr": SOURCE_BLOCK_SENSE_CONTENT_REQUIREMENTS_LOOP_EXPR, "item_match_guard_expr": SOURCE_BLOCK_SENSE_CONTENT_ITEM_MATCH_GUARD_EXPR, "amount_return_expr": SOURCE_BLOCK_SENSE_CONTENT_AMOUNT_RETURN_EXPR, "missing_item_return_expr": SOURCE_BLOCK_SENSE_CONTENT_MISSING_ITEM_RETURN_EXPR, "invalid_return_expr": SOURCE_BLOCK_SENSE_CONTENT_INVALID_RETURN_EXPR, "content_type": content_type, "content_item": content_item, "state_rules_infinite_resources": state_rules_infinite_resources, "requirements": requirements, "build_cost_multiplier": build_cost_multiplier, "matched_requirement_index": matched_requirement_index, "matched_requirement": matched_requirement, "matched_amount": matched_amount, "sense_value": sense_value_wire, "sense_value_is_nan": is_nan(sense_value)}
+
+static func generated_content_result_state(content_type: String, content_item: Variant, state_rules_infinite_resources: bool, requirements: Array, build_cost_multiplier: float) -> Dictionary:
+	return content_state(content_type, content_item, state_rules_infinite_resources, requirements, build_cost_multiplier)
 
 static func object_state(sensor: String, block_name: Variant, no_sensed: Variant) -> Dictionary:
 	var sense_object_value: Variant = no_sensed
 	if sensor == "name":
 		sense_object_value = block_name
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_SENSE_OBJECT_STATE, "source": "core/src/mindustry/world/Block.java", "override_expr": "@Override", "method": "public Object senseObject(LAccess sensor){", "name_guard_expr": "if(sensor == LAccess.name) return name;", "default_return_expr": "return noSensed;", "sensor": sensor, "block_name": block_name, "no_sensed": no_sensed, "sense_object_value": sense_object_value}
+	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_SENSE_OBJECT_STATE, "source": SOURCE_BLOCK_SENSE_SOURCE, "override_expr": "@Override", "method": SOURCE_BLOCK_SENSE_OBJECT_METHOD, "name_guard_expr": SOURCE_BLOCK_SENSE_OBJECT_NAME_GUARD_EXPR, "default_return_expr": SOURCE_BLOCK_SENSE_OBJECT_DEFAULT_RETURN_EXPR, "sensor": sensor, "block_name": block_name, "no_sensed": no_sensed, "sense_object_value": sense_object_value}
+
+static func generated_object_result_state(sensor: String, block_name: Variant, no_sensed: Variant) -> Dictionary:
+	return object_state(sensor, block_name, no_sensed)
 
 static func generated_block_sense_laccess_bridge_state(sensor: String, map_color_double_bits: float, health_value: float, solid_value: bool, size_value: int, item_capacity: int, liquid_capacity: float, has_cons_power: bool, cons_power_buffered: bool, cons_power_capacity: float, logic_id: int) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_sense_132", [sensor, map_color_double_bits, health_value, solid_value, size_value, item_capacity, liquid_capacity, has_cons_power, cons_power_buffered, cons_power_capacity, logic_id], null)
+	var result = _block_call(SOURCE_BLOCK_SENSE_LACCESS_JAVA_METHOD, [sensor, map_color_double_bits, health_value, solid_value, size_value, item_capacity, liquid_capacity, has_cons_power, cons_power_buffered, cons_power_capacity, logic_id])
 	var canonical = laccess_state(sensor, map_color_double_bits, health_value, solid_value, size_value, item_capacity, liquid_capacity, has_cons_power, cons_power_buffered, cons_power_capacity, logic_id)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset_or_nan(result, canonical, "sense_value_is_nan", "sensor")
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_SENSE_LACCESS_STATE, "generated_owner": "block.java_method_sense_132", "result": result, "canonical": canonical, "matches": matches}
+	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_SENSE_LACCESS_STATE, "generated_owner": SOURCE_BLOCK_SENSE_LACCESS_GENERATED_OWNER, "result": result, "canonical": canonical, "matches": matches}
 
 static func generated_block_sense_content_bridge_state(content_type: String, content_item: Variant, state_rules_infinite_resources: bool, requirements: Array, build_cost_multiplier: float) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_sense_133", [content_type, content_item, state_rules_infinite_resources, requirements, build_cost_multiplier], null)
+	var result = _block_call(SOURCE_BLOCK_SENSE_CONTENT_JAVA_METHOD, [content_type, content_item, state_rules_infinite_resources, requirements, build_cost_multiplier])
 	var canonical = content_state(content_type, content_item, state_rules_infinite_resources, requirements, build_cost_multiplier)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset_or_nan(result, canonical, "sense_value_is_nan", "content_type")
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_SENSE_CONTENT_STATE, "generated_owner": "block.java_method_sense_133", "result": result, "canonical": canonical, "matches": matches}
+	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_SENSE_CONTENT_STATE, "generated_owner": SOURCE_BLOCK_SENSE_CONTENT_GENERATED_OWNER, "result": result, "canonical": canonical, "matches": matches}
 
 static func generated_block_sense_object_bridge_state(sensor: String, block_name: Variant, no_sensed: Variant) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_senseObject_134", [sensor, block_name, no_sensed], null)
+	var result = _block_call(SOURCE_BLOCK_SENSE_OBJECT_JAVA_METHOD, [sensor, block_name, no_sensed])
 	var canonical = object_state(sensor, block_name, no_sensed)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_SENSE_OBJECT_STATE, "generated_owner": "block.java_method_senseObject_134", "result": result, "canonical": canonical, "matches": matches}
+	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_SENSE_OBJECT_STATE, "generated_owner": SOURCE_BLOCK_SENSE_OBJECT_GENERATED_OWNER, "result": result, "canonical": canonical, "matches": matches}

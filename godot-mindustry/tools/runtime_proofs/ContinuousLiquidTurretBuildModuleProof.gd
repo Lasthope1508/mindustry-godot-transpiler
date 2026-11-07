@@ -1,8 +1,9 @@
 extends Node
 
 const PortGameScript := preload("res://src/game/PortGame.gd")
-const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const source_ssot_accessor_runtime_state := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
 const source_continuous_liquid_turret_build_state := preload("res://src/game/SourceContinuousLiquidTurretBuildState.gd")
+const runtime_proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")
 
 func _ready() -> void:
 	var game := PortGameScript.new()
@@ -42,7 +43,7 @@ func _ready() -> void:
 	var has_correct_ammo_bridge := game.generated_continuous_liquid_turret_build_has_correct_ammo_bridge_state(bullets_any, first_bullet_type, peek_ammo)
 	var accept_item_bridge := game.generated_continuous_liquid_turret_build_accept_item_bridge_state(source_building, item)
 	var accept_liquid_bridge := game.generated_continuous_liquid_turret_build_accept_liquid_bridge_state(source_building, current_liquid, ammo_type, current_liquid, current_liquid_ammo_type_present, current_liquid_amount, current_ammo_multiplier)
-	var registry_state := source_ssot_catalog.canonical_headquarter_registry_state()
+	var registry_state := source_ssot_accessor_runtime_state.canonical_headquarter_registry_state()
 	var proof := {
 		"module": "CONTINUOUS_LIQUID_TURRET_BUILD_MODULE_PROOF",
 		"active_sound_bridge": active_sound_bridge,
@@ -75,12 +76,9 @@ func _ready() -> void:
 		"registry_valid": bool(registry_state.get("errors", []).is_empty()),
 	}
 	proof["matches"] = bool(active_sound_bridge.get("matches", false)) and bool(ammo_content_bridge.get("matches", false)) and bool(ammo_fraction_bridge.get("matches", false)) and bool(update_tile_bridge.get("matches", false)) and bool(sense_object_bridge.get("matches", false)) and bool(can_consume_bridge.get("matches", false)) and bool(should_consume_bridge.get("matches", false)) and bool(use_ammo_bridge.get("matches", false)) and bool(peek_ammo_bridge.get("matches", false)) and bool(has_ammo_bridge.get("matches", false)) and bool(has_correct_ammo_bridge.get("matches", false)) and bool(accept_item_bridge.get("matches", false)) and bool(accept_liquid_bridge.get("matches", false)) and proof["active_sound_bridge_matches"] and proof["ammo_content_bridge_matches"] and proof["ammo_fraction_bridge_matches"] and proof["update_tile_bridge_matches"] and proof["sense_object_bridge_matches"] and proof["can_consume_bridge_matches"] and proof["should_consume_bridge_matches"] and proof["use_ammo_bridge_matches"] and proof["peek_ammo_bridge_matches"] and proof["has_ammo_bridge_matches"] and proof["has_correct_ammo_bridge_matches"] and proof["accept_item_bridge_matches"] and proof["accept_liquid_bridge_matches"] and proof["one_headquarter_per_ssot"] and proof["registry_valid"]
-	var proof_json := JSON.stringify(proof)
-	print("CONTINUOUS_LIQUID_TURRET_BUILD_MODULE_PROOF " + proof_json)
-	var proof_path := ProjectSettings.globalize_path("res://tools/runtime_proofs/ContinuousLiquidTurretBuildModuleProof.json")
-	var proof_file := FileAccess.open(proof_path, FileAccess.WRITE)
-	if proof_file != null:
-		proof_file.store_string(proof_json)
+	print("CONTINUOUS_LIQUID_TURRET_BUILD_MODULE_PROOF " + JSON.stringify(proof))
+	runtime_proof_state.write_proof("ContinuousLiquidTurretBuildModuleProof", proof)
 	game.free()
-	await get_tree().create_timer(60.0).timeout
-	get_tree().quit(0)
+	await get_tree().process_frame
+	get_tree().quit(runtime_proof_state.exit_code(proof))
+

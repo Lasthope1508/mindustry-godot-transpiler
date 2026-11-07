@@ -1,9 +1,5 @@
 {
-  "policy": {
-    "canonicalOwner": "source_slice_ledger",
-    "newPayloadSliceRequiresSourceBackedLedgerMirror": true,
-    "source": "Derived from canonical source_slice_ledger entries whose java_source contains /world/blocks/payloads/."
-  },
+  "version": 1,
   "slices": {
     "N1366": {
       "canonical_ledger": "source_slice_ledger.N1366",

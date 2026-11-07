@@ -1,7 +1,7 @@
 extends RefCounted
 class_name SourcePlayableScenarioDefaults
 
-const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const source_ssot_accessor_runtime_state := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
 const display_profile_runtime_script := preload("res://src/game/DisplayProfileRuntime.gd")
 const source_playable_world_layout_defaults := preload("res://src/game/SourcePlayableWorldLayoutDefaults.gd")
 const source_playable_content_defaults := preload("res://src/game/SourcePlayableContentDefaults.gd")
@@ -32,14 +32,17 @@ const INITIAL_BUILD_ROLE_DUO := "duo"
 const PLAYABLE_WAVE_SPACING_SECONDS := 3.0
 const ENEMY_CORE_IMPACT_RADIUS_TILE_FRACTION := 0.35
 
+static func world_size() -> Vector2i:
+	return WORLD_SIZE
+
+static func game_world_size(_game: Object) -> Vector2i:
+	return world_size()
+
 static func selected_generated_class_names() -> Array[String]:
 	return source_playable_content_defaults.selected_generated_class_names()
 
 static func pinned_build_block_ids() -> Array[String]:
 	return source_playable_content_defaults.pinned_build_block_ids()
-
-static func world_size() -> Vector2i:
-	return WORLD_SIZE
 
 static func world_cells() -> Array[Vector2i]:
 	var cells: Array[Vector2i] = []
@@ -65,7 +68,7 @@ static func background_cells() -> Array[Vector2i]:
 	return display_profile_runtime_for_viewport(Vector2i.ZERO).background_cells()
 
 static func display_profile_runtime_for_viewport(viewport_size: Vector2i) -> RefCounted:
-	var runtime := display_profile_runtime_script.new(source_ssot_catalog)
+	var runtime := display_profile_runtime_script.new(source_ssot_accessor_runtime_state)
 	if runtime.load():
 		runtime.sync_runtime_viewport_size(viewport_size)
 		runtime.sync_runtime_camera_zoom(Vector2(runtime.camera_initial_zoom, runtime.camera_initial_zoom))

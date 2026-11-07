@@ -2,7 +2,8 @@ extends Node
 
 const PortGameScript := preload("res://src/game/PortGame.gd")
 const source_turret_placement_state := preload("res://src/game/SourceTurretPlacementState.gd")
-const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const source_ssot_accessor_runtime_state := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
+const runtime_proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")
 
 func _ready() -> void:
 	var game := PortGameScript.new()
@@ -17,7 +18,7 @@ func _ready() -> void:
 	var rotated_output_bridge_module := source_turret_placement_state.generated_rotated_output_bridge_state(1, 2)
 	var place_ended_bridge := game.generated_turret_place_ended_bridge_state(null, null, 0, null, true, true, 90.0, 45.0)
 	var place_ended_bridge_module := source_turret_placement_state.generated_place_ended_bridge_state(null, null, 0, null, true, true, 90.0, 45.0)
-	var registry_state := source_ssot_catalog.canonical_headquarter_registry_state()
+	var registry_state := source_ssot_accessor_runtime_state.canonical_headquarter_registry_state()
 	var proof := {
 		"module": "SourceTurretPlacementState",
 		"draw_place_matches": draw_place.get("dash_circle_called", false),
@@ -34,6 +35,8 @@ func _ready() -> void:
 	proof["module_matches"] = proof["draw_place_matches"] and proof["rotated_output_matches"] and proof["place_ended_matches"]
 	proof["matches"] = proof["module_matches"] and proof["draw_place_bridge_matches"] and proof["draw_place_default_bridge_matches"] and proof["rotated_output_bridge_matches"] and proof["place_ended_bridge_matches"] and proof["one_headquarter_per_ssot"] and proof["registry_valid"]
 	print("TURRET_PLACEMENT_MODULE_PROOF " + JSON.stringify(proof))
+	runtime_proof_state.write_proof("TurretPlacementModuleProof", proof)
 	game.free()
-	await get_tree().create_timer(60.0).timeout
-	get_tree().quit(0)
+	await get_tree().process_frame
+	get_tree().quit(runtime_proof_state.exit_code(proof))
+

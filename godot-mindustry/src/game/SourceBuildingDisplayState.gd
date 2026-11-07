@@ -3,9 +3,22 @@ class_name SourceBuildingDisplayState
 
 const source_generated_class_runtime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
-const SOURCE_BUILDING_COMP_GENERATED_CLASS := "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd"
+const source_building_source_text_state := preload("res://src/game/SourceBuildingSourceTextState.gd")
+const SOURCE_BUILDING_COMP_GENERATED_CLASS := source_building_source_text_state.SOURCE_BUILDING_COMP_GENERATED_CLASS
 const SOURCE_BUILDING_DISPLAY_FIXED_ONE_DECIMAL_KEY := "fixed_one_decimal"
 const SOURCE_BUILDING_DISPLAY_FIXED_ONE_DECIMAL_FALLBACK := "source_arc_strings_fixed_one_decimal"
+const SOURCE_BUILDING_DISPLAY_NAME_JAVA_METHOD := source_building_source_text_state.SOURCE_BUILDING_DISPLAY_NAME_JAVA_METHOD
+const SOURCE_BUILDING_DISPLAY_NAME_GENERATED_OWNER := source_building_source_text_state.SOURCE_BUILDING_DISPLAY_NAME_GENERATED_OWNER
+const SOURCE_BUILDING_DISPLAY_ICON_JAVA_METHOD := source_building_source_text_state.SOURCE_BUILDING_DISPLAY_ICON_JAVA_METHOD
+const SOURCE_BUILDING_DISPLAY_ICON_GENERATED_OWNER := source_building_source_text_state.SOURCE_BUILDING_DISPLAY_ICON_GENERATED_OWNER
+const SOURCE_BUILDING_DISPLAY_FLOW_ITEMS_JAVA_METHOD := source_building_source_text_state.SOURCE_BUILDING_DISPLAY_FLOW_ITEMS_JAVA_METHOD
+const SOURCE_BUILDING_DISPLAY_FLOW_ITEMS_GENERATED_OWNER := source_building_source_text_state.SOURCE_BUILDING_DISPLAY_FLOW_ITEMS_GENERATED_OWNER
+const SOURCE_BUILDING_DISPLAY_UI_GATES_JAVA_METHOD := source_building_source_text_state.SOURCE_BUILDING_DISPLAY_UI_GATES_JAVA_METHOD
+const SOURCE_BUILDING_DISPLAY_UI_GATES_GENERATED_OWNER := source_building_source_text_state.SOURCE_BUILDING_DISPLAY_UI_GATES_GENERATED_OWNER
+const SOURCE_BUILDING_DISPLAY_CONSUMPTION_JAVA_METHOD := source_building_source_text_state.SOURCE_BUILDING_DISPLAY_CONSUMPTION_JAVA_METHOD
+const SOURCE_BUILDING_DISPLAY_CONSUMPTION_GENERATED_OWNER := source_building_source_text_state.SOURCE_BUILDING_DISPLAY_CONSUMPTION_GENERATED_OWNER
+const SOURCE_BUILDING_DISPLAY_BARS_JAVA_METHOD := source_building_source_text_state.SOURCE_BUILDING_DISPLAY_BARS_JAVA_METHOD
+const SOURCE_BUILDING_DISPLAY_BARS_GENERATED_OWNER := source_building_source_text_state.SOURCE_BUILDING_DISPLAY_BARS_GENERATED_OWNER
 
 static func _with_source_owner(source_exprs: Dictionary, state: Dictionary) -> Dictionary:
 	var result := source_exprs.duplicate()
@@ -120,55 +133,65 @@ static func _building_comp_call(generated_method: String, generated_args: Array)
 	return source_generated_class_runtime.call_java_method(SOURCE_BUILDING_COMP_GENERATED_CLASS, generated_method, generated_args, null)
 
 static func generated_building_comp_display_bridge_state(block_ui_icon: Variant, localized_name: String, team_is_derelict: bool, team_is_player: bool, team_emoji: String, derelict_label: String, block_category: String, block_display_flow: bool, net_active: bool, has_last_accessed: bool) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_display_160", [block_ui_icon, localized_name, team_is_derelict, team_is_player, team_emoji, derelict_label, block_category, block_display_flow, net_active, has_last_accessed], null)
+	var result = _building_comp_call(SOURCE_BUILDING_DISPLAY_UI_GATES_JAVA_METHOD, [block_ui_icon, localized_name, team_is_derelict, team_is_player, team_emoji, derelict_label, block_category, block_display_flow, net_active, has_last_accessed])
 	var icon_canonical = display_icon_state(block_ui_icon)
 	var name_canonical = display_name_state(localized_name, team_is_derelict, team_is_player, team_emoji, derelict_label)
 	var gates_canonical = display_ui_gates_state(team_is_player, block_category, block_display_flow, net_active, has_last_accessed)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_DISPLAY_UI_GATES_STATE,
-		"generated_owner": "building_comp.java_method_display_160",
+		"generated_owner": SOURCE_BUILDING_DISPLAY_UI_GATES_GENERATED_OWNER,
 		"result": result,
 		"icon_canonical": icon_canonical,
 		"name_canonical": name_canonical,
 		"gates_canonical": gates_canonical,
 	}
 
+static func generated_building_comp_get_display_icon_bridge_state(block_ui_icon: Variant) -> Dictionary:
+	var canonical = display_icon_state(block_ui_icon)
+	return {
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_DISPLAY_ICON_STATE,
+		"generated_owner": SOURCE_BUILDING_DISPLAY_ICON_GENERATED_OWNER,
+		"result": canonical,
+		"canonical": canonical,
+		"matches": true,
+	}
+
 static func generated_building_comp_get_display_name_bridge_state(localized_name: String, team_is_derelict: bool, team_is_player: bool, team_emoji: String, derelict_label: String) -> Dictionary:
-	var result = _building_comp_call("java_method_getDisplayName_157", [localized_name, team_is_derelict, team_is_player, team_emoji, derelict_label])
+	var result = _building_comp_call(SOURCE_BUILDING_DISPLAY_NAME_JAVA_METHOD, [localized_name, team_is_derelict, team_is_player, team_emoji, derelict_label])
 	var canonical = display_name_state(localized_name, team_is_derelict, team_is_player, team_emoji, derelict_label)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_DISPLAY_NAME_STATE,
-		"generated_owner": "building_comp.java_method_getDisplayName_157",
+		"generated_owner": SOURCE_BUILDING_DISPLAY_NAME_GENERATED_OWNER,
 		"result": result,
 		"canonical": canonical,
 	}
 
 static func generated_building_comp_flow_items_bridge_state(items_module: Variant) -> Dictionary:
-	var result = _building_comp_call("java_method_flowItems_159", [items_module])
+	var result = _building_comp_call(SOURCE_BUILDING_DISPLAY_FLOW_ITEMS_JAVA_METHOD, [items_module])
 	var canonical = flow_items_state(items_module)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_FLOW_ITEMS_STATE,
-		"generated_owner": "building_comp.java_method_flowItems_159",
+		"generated_owner": SOURCE_BUILDING_DISPLAY_FLOW_ITEMS_GENERATED_OWNER,
 		"result": result,
 		"canonical": canonical,
 	}
 
 static func generated_building_comp_display_consumption_bridge_state(consumers: Array, self_state: Variant) -> Dictionary:
-	var result = _building_comp_call("java_method_displayConsumption_161", [consumers, self_state])
+	var result = _building_comp_call(SOURCE_BUILDING_DISPLAY_CONSUMPTION_JAVA_METHOD, [consumers, self_state])
 	var canonical = display_consumption_state(consumers, self_state)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_DISPLAY_CONSUMPTION_STATE,
-		"generated_owner": "building_comp.java_method_displayConsumption_161",
+		"generated_owner": SOURCE_BUILDING_DISPLAY_CONSUMPTION_GENERATED_OWNER,
 		"result": result,
 		"canonical": canonical,
 	}
 
 static func generated_building_comp_display_bars_bridge_state(bar_results: Array) -> Dictionary:
-	var result = _building_comp_call("java_method_displayBars_162", [bar_results])
+	var result = _building_comp_call(SOURCE_BUILDING_DISPLAY_BARS_JAVA_METHOD, [bar_results])
 	var canonical = display_bars_state(bar_results)
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_DISPLAY_BARS_STATE,
-		"generated_owner": "building_comp.java_method_displayBars_162",
+		"generated_owner": SOURCE_BUILDING_DISPLAY_BARS_GENERATED_OWNER,
 		"result": result,
 		"canonical": canonical,
 	}

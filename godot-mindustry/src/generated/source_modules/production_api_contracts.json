@@ -1,10 +1,5 @@
 {
   "version": 1,
-  "policy": {
-    "canonicalOwner": "source_api_contracts",
-    "newProductionApiContractRequiresCanonicalMirror": true,
-    "source": "Derived from production_slices.godot_owner and canonical source_api_contracts."
-  },
   "contracts": {
     "PortGame.source_drill_delay": {
       "canonical_contract": "source_api_contracts.PortGame.source_drill_delay",
@@ -446,160 +441,6 @@
       "runtime_proof": "/root/Main.source_drill_warmup_state",
       "rule": "Public runtime contract for DrillBuild active warmup approach state."
     },
-    "SourcePlacedBlockState.source_block_has_liquids_state": {
-      "canonical_contract": "source_api_contracts.SourcePlacedBlockState.source_block_has_liquids_state",
-      "status": "active",
-      "source_slice": "N2000",
-      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
-      "source_method": "Drill(String name)",
-      "params": [
-        {
-          "name": "block",
-          "type": "Variant",
-          "schema": "source_block_has_liquids_input.block"
-        }
-      ],
-      "return_keys": [
-        "has_liquids"
-      ],
-      "tests": [
-        "test_explicit_liquid_flags_follow_constructor_inheritance_and_initializer",
-        "test_real_registry_drill_liquid_flag_and_registered_owner_contracts",
-        "test_liquid_owner_is_bound_on_real_placement_path",
-        "test_live_building_storage_and_typed_catalog_runtime"
-      ],
-      "runtime_proof": "/root/Main.PlacedLiquidOwnershipProof",
-      "rule": "Typed source catalog and one persistent canonical frame per placed instance; no duplicated resource formulas or guessed liquid IDs."
-    },
-    "SourceDrillConsumptionRuntimeState.source_tick_state": {
-      "canonical_contract": "source_api_contracts.SourceDrillConsumptionRuntimeState.source_tick_state",
-      "status": "active",
-      "source_slice": "N2009",
-      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
-      "source_method": "update(Building build); efficiency(Building build); updateTile()",
-      "params": [
-        {
-          "name": "game",
-          "type": "Object",
-          "schema": "source_drill_live_tick_input.game"
-        },
-        {
-          "name": "seconds",
-          "type": "float",
-          "schema": "source_drill_live_tick_input.seconds"
-        }
-      ],
-      "return_keys": [
-        "drill_states"
-      ],
-      "tests": [
-        "test_same_batch_contracts_cover_adapter_unique_traversal_and_live_ticks",
-        "test_factory_uses_live_tick_owner_and_timescale_uses_unique_buildings",
-        "test_real_process_drives_two_multicell_drills_and_concrete_adapter"
-      ],
-      "runtime_proof": "/root/Main.DrillLiveConsumptionProof",
-      "rule": "Source-backed concrete adapter and live base-Drill gameplay integration. Power consumers, mixed ore, flow binding, reload and secondary output routing are explicitly outside this checkpoint."
-    },
-    "SourceDrillRuntimeState.source_count_ore_state": {
-      "canonical_contract": "source_api_contracts.SourceDrillRuntimeState.source_count_ore_state",
-      "status": "active",
-      "source_slice": "N2010",
-      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
-      "source_method": "countOre(Tile tile)",
-      "params": [
-        {
-          "name": "linked_tiles",
-          "type": "Array",
-          "schema": "source_drill_count_ore_input.linked_tiles"
-        },
-        {
-          "name": "tier",
-          "type": "int",
-          "schema": "source_drill_count_ore_input.tier"
-        },
-        {
-          "name": "blocked_items",
-          "type": "Variant",
-          "schema": "source_drill_count_ore_input.blocked_items"
-        }
-      ],
-      "return_keys": [
-        "returnItem",
-        "returnCount",
-        "oreCount",
-        "itemArray"
-      ],
-      "tests": [
-        "test_ore_selection_contracts_and_source_evidence",
-        "test_independent_ore_selection_matrix_in_godot"
-      ],
-      "runtime_proof": "/root/DrillOreSelectionProof",
-      "rule": "Canonical source state over explicit initialized source facts. Existing selected-item ore_count preview remains a bounded map counter; live mixed-ore binding/proximity integration is deferred."
-    },
-    "SourceDrillRuntimeState.source_bind_ore_items_state": {
-      "canonical_contract": "source_api_contracts.SourceDrillRuntimeState.source_bind_ore_items_state",
-      "status": "active",
-      "source_slice": "N2013",
-      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
-      "source_method": "init(); canMine(Tile tile)",
-      "params": [
-        {
-          "name": "block",
-          "type": "Object",
-          "schema": "source_drill_bind_ore_items_input.block"
-        },
-        {
-          "name": "item_catalog",
-          "type": "Dictionary",
-          "schema": "source_drill_bind_ore_items_input.item_catalog"
-        }
-      ],
-      "return_keys": [
-        "blocked_items"
-      ],
-      "tests": [
-        "test_blocked_item_parser_preserves_fields_null_and_order",
-        "test_ancestry_constructor_overrides_and_unresolved_descendants",
-        "test_real_registry_exports_drill_ancestry_and_blocked_fields",
-        "test_item_registration_order_and_source_priority_survive_export",
-        "test_ore_binding_contracts_are_registered_in_own_slices",
-        "test_real_catalog_drill_binding_in_godot"
-      ],
-      "runtime_proof": "/root/DrillOreBindingProof",
-      "rule": "Canonical typed/source initialization prerequisite for live Drill ore selection. Actual Tile.drop/static/world proximity and dominant-item output remain deferred."
-    },
-    "SourceDrillRuntimeState.source_init_blocked_items_state": {
-      "canonical_contract": "source_api_contracts.SourceDrillRuntimeState.source_init_blocked_items_state",
-      "status": "active",
-      "source_slice": "N2012",
-      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
-      "source_method": "init()",
-      "params": [
-        {
-          "name": "blocked_items",
-          "type": "Variant",
-          "schema": "source_drill_init_blocked_items_input.blocked_items"
-        },
-        {
-          "name": "blocked_item",
-          "type": "Variant",
-          "schema": "source_drill_init_blocked_items_input.blocked_item"
-        }
-      ],
-      "return_keys": [
-        "blocked_items"
-      ],
-      "tests": [
-        "test_blocked_item_parser_preserves_fields_null_and_order",
-        "test_ancestry_constructor_overrides_and_unresolved_descendants",
-        "test_real_registry_exports_drill_ancestry_and_blocked_fields",
-        "test_item_registration_order_and_source_priority_survive_export",
-        "test_ore_binding_contracts_are_registered_in_own_slices",
-        "test_real_catalog_drill_binding_in_godot"
-      ],
-      "runtime_proof": "/root/DrillOreBindingProof",
-      "rule": "Canonical typed/source initialization prerequisite for live Drill ore selection. Actual Tile.drop/static/world proximity and dominant-item output remain deferred."
-    },
     "SourceDrillConsumptionRuntimeState.source_dominant_item_name_state": {
       "canonical_contract": "source_api_contracts.SourceDrillConsumptionRuntimeState.source_dominant_item_name_state",
       "status": "active",
@@ -661,6 +502,135 @@
       "runtime_proof": "/root/DrillProximityLifecycleProof",
       "rule": "One world-scoped typed Item view; reuse canonical countOre/drop/Tile mutation and existing per-Building frame. No per-tick ore re-selection. Only stated partial lifecycle/production scope; deferred behaviors are recorded in ledger."
     },
+    "SourceDrillConsumptionRuntimeState.source_tick_state": {
+      "canonical_contract": "source_api_contracts.SourceDrillConsumptionRuntimeState.source_tick_state",
+      "status": "active",
+      "source_slice": "N2009",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "update(Building build); efficiency(Building build); updateTile()",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_drill_live_tick_input.game"
+        },
+        {
+          "name": "seconds",
+          "type": "float",
+          "schema": "source_drill_live_tick_input.seconds"
+        }
+      ],
+      "return_keys": [
+        "drill_states"
+      ],
+      "tests": [
+        "test_same_batch_contracts_cover_adapter_unique_traversal_and_live_ticks",
+        "test_factory_uses_live_tick_owner_and_timescale_uses_unique_buildings",
+        "test_real_process_drives_two_multicell_drills_and_concrete_adapter"
+      ],
+      "runtime_proof": "/root/Main.DrillLiveConsumptionProof",
+      "rule": "Source-backed concrete adapter and live base-Drill gameplay integration. Power consumers, mixed ore, flow binding, reload and secondary output routing are explicitly outside this checkpoint."
+    },
+    "SourceDrillRuntimeState.source_bind_ore_items_state": {
+      "canonical_contract": "source_api_contracts.SourceDrillRuntimeState.source_bind_ore_items_state",
+      "status": "active",
+      "source_slice": "N2013",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "init(); canMine(Tile tile)",
+      "params": [
+        {
+          "name": "block",
+          "type": "Object",
+          "schema": "source_drill_bind_ore_items_input.block"
+        },
+        {
+          "name": "item_catalog",
+          "type": "Dictionary",
+          "schema": "source_drill_bind_ore_items_input.item_catalog"
+        }
+      ],
+      "return_keys": [
+        "blocked_items"
+      ],
+      "tests": [
+        "test_blocked_item_parser_preserves_fields_null_and_order",
+        "test_ancestry_constructor_overrides_and_unresolved_descendants",
+        "test_real_registry_exports_drill_ancestry_and_blocked_fields",
+        "test_item_registration_order_and_source_priority_survive_export",
+        "test_ore_binding_contracts_are_registered_in_own_slices",
+        "test_real_catalog_drill_binding_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreBindingProof",
+      "rule": "Canonical typed/source initialization prerequisite for live Drill ore selection. Actual Tile.drop/static/world proximity and dominant-item output remain deferred."
+    },
+    "SourceDrillRuntimeState.source_count_ore_state": {
+      "canonical_contract": "source_api_contracts.SourceDrillRuntimeState.source_count_ore_state",
+      "status": "active",
+      "source_slice": "N2010",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "countOre(Tile tile)",
+      "params": [
+        {
+          "name": "linked_tiles",
+          "type": "Array",
+          "schema": "source_drill_count_ore_input.linked_tiles"
+        },
+        {
+          "name": "tier",
+          "type": "int",
+          "schema": "source_drill_count_ore_input.tier"
+        },
+        {
+          "name": "blocked_items",
+          "type": "Variant",
+          "schema": "source_drill_count_ore_input.blocked_items"
+        }
+      ],
+      "return_keys": [
+        "returnItem",
+        "returnCount",
+        "oreCount",
+        "itemArray"
+      ],
+      "tests": [
+        "test_ore_selection_contracts_and_source_evidence",
+        "test_independent_ore_selection_matrix_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreSelectionProof",
+      "rule": "Canonical source state over explicit initialized source facts. Existing selected-item ore_count preview remains a bounded map counter; live mixed-ore binding/proximity integration is deferred."
+    },
+    "SourceDrillRuntimeState.source_init_blocked_items_state": {
+      "canonical_contract": "source_api_contracts.SourceDrillRuntimeState.source_init_blocked_items_state",
+      "status": "active",
+      "source_slice": "N2012",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "init()",
+      "params": [
+        {
+          "name": "blocked_items",
+          "type": "Variant",
+          "schema": "source_drill_init_blocked_items_input.blocked_items"
+        },
+        {
+          "name": "blocked_item",
+          "type": "Variant",
+          "schema": "source_drill_init_blocked_items_input.blocked_item"
+        }
+      ],
+      "return_keys": [
+        "blocked_items"
+      ],
+      "tests": [
+        "test_blocked_item_parser_preserves_fields_null_and_order",
+        "test_ancestry_constructor_overrides_and_unresolved_descendants",
+        "test_real_registry_exports_drill_ancestry_and_blocked_fields",
+        "test_item_registration_order_and_source_priority_survive_export",
+        "test_ore_binding_contracts_are_registered_in_own_slices",
+        "test_real_catalog_drill_binding_in_godot"
+      ],
+      "runtime_proof": "/root/DrillOreBindingProof",
+      "rule": "Canonical typed/source initialization prerequisite for live Drill ore selection. Actual Tile.drop/static/world proximity and dominant-item output remain deferred."
+    },
     "SourceDrillRuntimeState.source_on_proximity_update_state": {
       "canonical_contract": "source_api_contracts.SourceDrillRuntimeState.source_on_proximity_update_state",
       "status": "active",
@@ -694,6 +664,31 @@
       ],
       "runtime_proof": "/root/DrillProximityLifecycleProof",
       "rule": "One world-scoped typed Item view; reuse canonical countOre/drop/Tile mutation and existing per-Building frame. No per-tick ore re-selection. Only stated partial lifecycle/production scope; deferred behaviors are recorded in ledger."
+    },
+    "SourcePlacedBlockState.source_block_has_liquids_state": {
+      "canonical_contract": "source_api_contracts.SourcePlacedBlockState.source_block_has_liquids_state",
+      "status": "active",
+      "source_slice": "N2000",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "Drill(String name)",
+      "params": [
+        {
+          "name": "block",
+          "type": "Variant",
+          "schema": "source_block_has_liquids_input.block"
+        }
+      ],
+      "return_keys": [
+        "has_liquids"
+      ],
+      "tests": [
+        "test_explicit_liquid_flags_follow_constructor_inheritance_and_initializer",
+        "test_real_registry_drill_liquid_flag_and_registered_owner_contracts",
+        "test_liquid_owner_is_bound_on_real_placement_path",
+        "test_live_building_storage_and_typed_catalog_runtime"
+      ],
+      "runtime_proof": "/root/Main.PlacedLiquidOwnershipProof",
+      "rule": "Typed source catalog and one persistent canonical frame per placed instance; no duplicated resource formulas or guessed liquid IDs."
     }
   }
 }

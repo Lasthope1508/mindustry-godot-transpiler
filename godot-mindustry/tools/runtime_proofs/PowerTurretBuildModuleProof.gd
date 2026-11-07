@@ -1,7 +1,8 @@
 extends Node
 
 const PortGameScript := preload("res://src/game/PortGame.gd")
-const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const source_ssot_accessor_runtime_state := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
+const runtime_proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")
 
 
 func _ready() -> void:
@@ -11,7 +12,7 @@ func _ready() -> void:
 	var use_ammo := game.source_power_turret_build_use_ammo_state({"id": "lancer"})
 	var has_ammo := game.source_power_turret_build_has_ammo_state()
 	var peek_ammo := game.source_power_turret_build_peek_ammo_state({"id": "lancer"})
-	var registry_state := source_ssot_catalog.canonical_headquarter_registry_state()
+	var registry_state := source_ssot_accessor_runtime_state.canonical_headquarter_registry_state()
 	var proof := {
 		"module": "SourcePowerTurretBuildState",
 		"ammo_fraction_matches": ammo_fraction.get("ammo_fraction", null) == 0.75,
@@ -24,7 +25,10 @@ func _ready() -> void:
 		"registry_headquarter_count": int(registry_state.get("headquarter_count", 0)),
 	}
 	proof["module_matches"] = proof["ammo_fraction_matches"] and proof["sense_matches"] and proof["use_ammo_matches"] and proof["has_ammo_matches"] and proof["peek_ammo_matches"]
+	proof["matches"] = proof["module_matches"] and proof["registry_valid"] and proof["one_headquarter_per_ssot"]
 	print("POWER_TURRET_BUILD_MODULE_PROOF " + JSON.stringify(proof))
+	runtime_proof_state.write_proof("PowerTurretBuildModuleProof", proof)
 	game.free()
-	await get_tree().create_timer(60.0).timeout
-	get_tree().quit(0)
+	await get_tree().process_frame
+	get_tree().quit(runtime_proof_state.exit_code(proof))
+

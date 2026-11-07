@@ -64,148 +64,87 @@ const source_generated_class_runtime := preload("res://src/game/SourceGeneratedC
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
 const source_placed_block_state := preload("res://src/game/SourcePlacedBlockState.gd")
 const source_drill_production_runtime_state_script := preload("res://src/game/SourceDrillProductionRuntimeState.gd")
+const source_drill_runtime_shell_state := preload("res://src/game/SourceDrillRuntimeShellState.gd")
+const source_drill_runtime_source_text_state := preload("res://src/game/SourceDrillRuntimeSourceTextState.gd")
 const source_world_initial_build_runtime_state_script := preload("res://src/game/SourceWorldInitialBuildRuntimeState.gd")
 const source_time_defaults := preload("res://src/game/SourceTimeDefaults.gd")
 const source_texture_runtime_state := preload("res://src/game/SourceTextureRuntimeState.gd")
 
-const SOURCE_DRILL_OCCUPIED_CELLS_CALLBACK_KEY := "occupied_cells"
-const SOURCE_DRILL_CELL_KEY_CALLBACK_KEY := "cell_key"
-const SOURCE_DRILL_DELAY_CALLBACK_KEY := "delay"
-const SOURCE_DRILL_APPROACH_DELTA_CALLBACK_KEY := "approach_delta"
-const SOURCE_DRILL_BUILDING_DELTA_CALLBACK_KEY := "building_delta"
-const SOURCE_DRILL_WARMUP_SPEED_CALLBACK_KEY := "warmup_speed"
-const SOURCE_DRILL_WARMUP_STATE_CALLBACK_KEY := "warmup_state"
-const SOURCE_DRILL_INACTIVE_WARMUP_STATE_CALLBACK_KEY := "inactive_warmup_state"
-const SOURCE_DRILL_TIME_DRILLED_DELTA_CALLBACK_KEY := "time_drilled_delta"
-const SOURCE_DRILL_LAST_SPEED_FOR_CELL_CALLBACK_KEY := "last_speed_for_cell"
-const SOURCE_DRILL_OUTPUT_DELTA_FOR_CELL_CALLBACK_KEY := "output_delta_for_cell"
-const SOURCE_DRILL_PRODUCTION_STATE_CALLBACK_KEY := "production_state"
+const SOURCE_DRILL_GENERATED_CLASS := source_drill_runtime_source_text_state.SOURCE_DRILL_GENERATED_CLASS
+const SOURCE_DRILL_OCCUPIED_CELLS_CALLBACK_KEY := source_drill_runtime_source_text_state.SOURCE_DRILL_OCCUPIED_CELLS_CALLBACK_KEY
+const SOURCE_DRILL_CELL_KEY_CALLBACK_KEY := source_drill_runtime_source_text_state.SOURCE_DRILL_CELL_KEY_CALLBACK_KEY
+const SOURCE_DRILL_DELAY_CALLBACK_KEY := source_drill_runtime_source_text_state.SOURCE_DRILL_DELAY_CALLBACK_KEY
+const SOURCE_DRILL_APPROACH_DELTA_CALLBACK_KEY := source_drill_runtime_source_text_state.SOURCE_DRILL_APPROACH_DELTA_CALLBACK_KEY
+const SOURCE_DRILL_BUILDING_DELTA_CALLBACK_KEY := source_drill_runtime_source_text_state.SOURCE_DRILL_BUILDING_DELTA_CALLBACK_KEY
+const SOURCE_DRILL_WARMUP_SPEED_CALLBACK_KEY := source_drill_runtime_source_text_state.SOURCE_DRILL_WARMUP_SPEED_CALLBACK_KEY
+const SOURCE_DRILL_WARMUP_STATE_CALLBACK_KEY := source_drill_runtime_source_text_state.SOURCE_DRILL_WARMUP_STATE_CALLBACK_KEY
+const SOURCE_DRILL_INACTIVE_WARMUP_STATE_CALLBACK_KEY := source_drill_runtime_source_text_state.SOURCE_DRILL_INACTIVE_WARMUP_STATE_CALLBACK_KEY
+const SOURCE_DRILL_TIME_DRILLED_DELTA_CALLBACK_KEY := source_drill_runtime_source_text_state.SOURCE_DRILL_TIME_DRILLED_DELTA_CALLBACK_KEY
+const SOURCE_DRILL_LAST_SPEED_FOR_CELL_CALLBACK_KEY := source_drill_runtime_source_text_state.SOURCE_DRILL_LAST_SPEED_FOR_CELL_CALLBACK_KEY
+const SOURCE_DRILL_OUTPUT_DELTA_FOR_CELL_CALLBACK_KEY := source_drill_runtime_source_text_state.SOURCE_DRILL_OUTPUT_DELTA_FOR_CELL_CALLBACK_KEY
+const SOURCE_DRILL_PRODUCTION_STATE_CALLBACK_KEY := source_drill_runtime_source_text_state.SOURCE_DRILL_PRODUCTION_STATE_CALLBACK_KEY
 
-const SOURCE_DRILL_BLOCK_ITEM_CAPACITY_METHOD_KEY := "block_item_capacity"
-const SOURCE_DRILL_BLOCK_TIME_SCALE_AT_CELL_METHOD_KEY := "block_time_scale_at_cell"
-const SOURCE_DRILL_WARMUP_SPEED_METHOD_KEY := "drill_warmup_speed"
-const SOURCE_DRILL_WARMUP_STATE_METHOD_KEY := "drill_warmup_state"
-const SOURCE_DRILL_INACTIVE_WARMUP_STATE_METHOD_KEY := "drill_inactive_warmup_state"
-const SOURCE_DRILL_TIME_DRILLED_DELTA_METHOD_KEY := "drill_time_drilled_delta"
-const SOURCE_DRILL_LAST_SPEED_FOR_CELL_METHOD_KEY := "drill_last_speed_for_cell"
-const SOURCE_DRILL_DELAY_METHOD_KEY := "drill_delay"
-const SOURCE_DRILL_OUTPUT_DELTA_FOR_CELL_METHOD_KEY := "drill_output_delta_for_cell"
-const SOURCE_DRILL_PRODUCTION_RUNTIME_STATE_METHOD_KEY := "drill_production_runtime_state"
+const SOURCE_DRILL_BLOCK_ITEM_CAPACITY_METHOD_KEY := source_drill_runtime_source_text_state.SOURCE_DRILL_BLOCK_ITEM_CAPACITY_METHOD_KEY
+const SOURCE_DRILL_BLOCK_TIME_SCALE_AT_CELL_METHOD_KEY := source_drill_runtime_source_text_state.SOURCE_DRILL_BLOCK_TIME_SCALE_AT_CELL_METHOD_KEY
+const SOURCE_DRILL_WARMUP_SPEED_METHOD_KEY := source_drill_runtime_source_text_state.SOURCE_DRILL_WARMUP_SPEED_METHOD_KEY
+const SOURCE_DRILL_WARMUP_STATE_METHOD_KEY := source_drill_runtime_source_text_state.SOURCE_DRILL_WARMUP_STATE_METHOD_KEY
+const SOURCE_DRILL_INACTIVE_WARMUP_STATE_METHOD_KEY := source_drill_runtime_source_text_state.SOURCE_DRILL_INACTIVE_WARMUP_STATE_METHOD_KEY
+const SOURCE_DRILL_TIME_DRILLED_DELTA_METHOD_KEY := source_drill_runtime_source_text_state.SOURCE_DRILL_TIME_DRILLED_DELTA_METHOD_KEY
+const SOURCE_DRILL_LAST_SPEED_FOR_CELL_METHOD_KEY := source_drill_runtime_source_text_state.SOURCE_DRILL_LAST_SPEED_FOR_CELL_METHOD_KEY
+const SOURCE_DRILL_DELAY_METHOD_KEY := source_drill_runtime_source_text_state.SOURCE_DRILL_DELAY_METHOD_KEY
+const SOURCE_DRILL_OUTPUT_DELTA_FOR_CELL_METHOD_KEY := source_drill_runtime_source_text_state.SOURCE_DRILL_OUTPUT_DELTA_FOR_CELL_METHOD_KEY
+const SOURCE_DRILL_PRODUCTION_RUNTIME_STATE_METHOD_KEY := source_drill_runtime_source_text_state.SOURCE_DRILL_PRODUCTION_RUNTIME_STATE_METHOD_KEY
 
-const SOURCE_DRILL_BLOCK_ITEM_CAPACITY_METHOD_FALLBACK := "source_block_item_capacity"
-const SOURCE_DRILL_BLOCK_TIME_SCALE_AT_CELL_METHOD_FALLBACK := "source_block_time_scale_at_cell"
-const SOURCE_DRILL_WARMUP_SPEED_METHOD_FALLBACK := "source_drill_warmup_speed"
-const SOURCE_DRILL_WARMUP_STATE_METHOD_FALLBACK := "source_drill_warmup_state"
-const SOURCE_DRILL_INACTIVE_WARMUP_STATE_METHOD_FALLBACK := "source_drill_inactive_warmup_state"
-const SOURCE_DRILL_TIME_DRILLED_DELTA_METHOD_FALLBACK := "source_drill_time_drilled_delta"
-const SOURCE_DRILL_LAST_SPEED_FOR_CELL_METHOD_FALLBACK := "source_drill_last_speed_for_cell"
-const SOURCE_DRILL_DELAY_METHOD_FALLBACK := "source_drill_delay"
-const SOURCE_DRILL_OUTPUT_DELTA_FOR_CELL_METHOD_FALLBACK := "source_drill_output_delta_for_cell"
-const SOURCE_DRILL_PRODUCTION_RUNTIME_STATE_METHOD_FALLBACK := "source_drill_production_runtime_state"
-const SOURCE_DRILL_APPROACH_DELTA_METHOD := "source_approach_delta"
-const SOURCE_DRILL_BUILDING_DELTA_METHOD := "source_building_delta"
-const SOURCE_DRILL_LAST_SPEED_METHOD := "source_drill_last_speed"
-const SOURCE_DRILL_OUTPUT_DELTA_METHOD := "source_drill_output_delta"
-const SOURCE_DRILL_ITEMS_TOTAL_METHOD := "drill_items_total"
-const SOURCE_DRILL_WARMUP_AT_CELL_METHOD := "drill_warmup_at_cell"
-const SOURCE_DRILL_TIME_DRILLED_AT_CELL_METHOD := "drill_time_drilled_at_cell"
-const SOURCE_DRILL_LAST_SPEED_AT_CELL_METHOD := "drill_last_speed_at_cell"
+const SOURCE_DRILL_BLOCK_ITEM_CAPACITY_METHOD_FALLBACK := source_drill_runtime_source_text_state.SOURCE_DRILL_BLOCK_ITEM_CAPACITY_METHOD_FALLBACK
+const SOURCE_DRILL_BLOCK_TIME_SCALE_AT_CELL_METHOD_FALLBACK := source_drill_runtime_source_text_state.SOURCE_DRILL_BLOCK_TIME_SCALE_AT_CELL_METHOD_FALLBACK
+const SOURCE_DRILL_WARMUP_SPEED_METHOD_FALLBACK := source_drill_runtime_source_text_state.SOURCE_DRILL_WARMUP_SPEED_METHOD_FALLBACK
+const SOURCE_DRILL_WARMUP_STATE_METHOD_FALLBACK := source_drill_runtime_source_text_state.SOURCE_DRILL_WARMUP_STATE_METHOD_FALLBACK
+const SOURCE_DRILL_INACTIVE_WARMUP_STATE_METHOD_FALLBACK := source_drill_runtime_source_text_state.SOURCE_DRILL_INACTIVE_WARMUP_STATE_METHOD_FALLBACK
+const SOURCE_DRILL_TIME_DRILLED_DELTA_METHOD_FALLBACK := source_drill_runtime_source_text_state.SOURCE_DRILL_TIME_DRILLED_DELTA_METHOD_FALLBACK
+const SOURCE_DRILL_LAST_SPEED_FOR_CELL_METHOD_FALLBACK := source_drill_runtime_source_text_state.SOURCE_DRILL_LAST_SPEED_FOR_CELL_METHOD_FALLBACK
+const SOURCE_DRILL_DELAY_METHOD_FALLBACK := source_drill_runtime_source_text_state.SOURCE_DRILL_DELAY_METHOD_FALLBACK
+const SOURCE_DRILL_OUTPUT_DELTA_FOR_CELL_METHOD_FALLBACK := source_drill_runtime_source_text_state.SOURCE_DRILL_OUTPUT_DELTA_FOR_CELL_METHOD_FALLBACK
+const SOURCE_DRILL_PRODUCTION_RUNTIME_STATE_METHOD_FALLBACK := source_drill_runtime_source_text_state.SOURCE_DRILL_PRODUCTION_RUNTIME_STATE_METHOD_FALLBACK
+const SOURCE_DRILL_APPROACH_DELTA_METHOD := source_drill_runtime_source_text_state.SOURCE_DRILL_APPROACH_DELTA_METHOD
+const SOURCE_DRILL_BUILDING_DELTA_METHOD := source_drill_runtime_source_text_state.SOURCE_DRILL_BUILDING_DELTA_METHOD
+const SOURCE_DRILL_LAST_SPEED_METHOD := source_drill_runtime_source_text_state.SOURCE_DRILL_LAST_SPEED_METHOD
+const SOURCE_DRILL_OUTPUT_DELTA_METHOD := source_drill_runtime_source_text_state.SOURCE_DRILL_OUTPUT_DELTA_METHOD
+const SOURCE_DRILL_ITEMS_TOTAL_METHOD := source_drill_runtime_source_text_state.SOURCE_DRILL_ITEMS_TOTAL_METHOD
+const SOURCE_DRILL_WARMUP_AT_CELL_METHOD := source_drill_runtime_source_text_state.SOURCE_DRILL_WARMUP_AT_CELL_METHOD
+const SOURCE_DRILL_TIME_DRILLED_AT_CELL_METHOD := source_drill_runtime_source_text_state.SOURCE_DRILL_TIME_DRILLED_AT_CELL_METHOD
+const SOURCE_DRILL_LAST_SPEED_AT_CELL_METHOD := source_drill_runtime_source_text_state.SOURCE_DRILL_LAST_SPEED_AT_CELL_METHOD
+const SOURCE_DRILL_GET_DRILL_TIME_JAVA_METHOD_GET_DRILL_TIME_6 := source_drill_runtime_source_text_state.SOURCE_DRILL_GET_DRILL_TIME_JAVA_METHOD_GET_DRILL_TIME_6
+const SOURCE_DRILL_GET_DRILL_TIME_GENERATED_OWNER := source_drill_runtime_source_text_state.SOURCE_DRILL_GET_DRILL_TIME_GENERATED_OWNER
 
-const SOURCE_DRILL_CONTEXT_ACTIVE_KEY := "active"
-const SOURCE_DRILL_CONTEXT_CELL_X_KEY := "cell_x"
-const SOURCE_DRILL_CONTEXT_CELL_Y_KEY := "cell_y"
-const SOURCE_DRILL_CONTEXT_BLOCK_ID_KEY := "block_id"
-const SOURCE_DRILL_CONTEXT_ITEM_ID_KEY := "item_id"
-const SOURCE_DRILL_CONTEXT_DOMINANT_ITEMS_KEY := "dominant_items"
-const SOURCE_DRILL_CONTEXT_ITEMS_TOTAL_KEY := "items_total"
-const SOURCE_DRILL_CONTEXT_ITEM_CAPACITY_KEY := "item_capacity"
-const SOURCE_DRILL_CONTEXT_CURRENT_WARMUP_KEY := "current_warmup"
-const SOURCE_DRILL_CONTEXT_CURRENT_TIME_DRILLED_KEY := "current_time_drilled"
-const SOURCE_DRILL_CONTEXT_CURRENT_LAST_SPEED_KEY := "current_last_speed"
-const SOURCE_DRILL_CONTEXT_CURRENT_PROGRESS_FRACTION_KEY := "current_progress_fraction"
-const SOURCE_DRILL_CONTEXT_SECONDS_KEY := "seconds"
-const SOURCE_DRILL_CONTEXT_SOURCE_DELTA_KEY := "source_delta"
-const SOURCE_DRILL_CONTEXT_TIME_SCALE_KEY := "time_scale"
-const SOURCE_DRILL_CONTEXT_SPEED_KEY := "speed"
+const SOURCE_DRILL_CONTEXT_ACTIVE_KEY := source_drill_runtime_source_text_state.SOURCE_DRILL_CONTEXT_ACTIVE_KEY
+const SOURCE_DRILL_CONTEXT_CELL_X_KEY := source_drill_runtime_source_text_state.SOURCE_DRILL_CONTEXT_CELL_X_KEY
+const SOURCE_DRILL_CONTEXT_CELL_Y_KEY := source_drill_runtime_source_text_state.SOURCE_DRILL_CONTEXT_CELL_Y_KEY
+const SOURCE_DRILL_CONTEXT_BLOCK_ID_KEY := source_drill_runtime_source_text_state.SOURCE_DRILL_CONTEXT_BLOCK_ID_KEY
+const SOURCE_DRILL_CONTEXT_ITEM_ID_KEY := source_drill_runtime_source_text_state.SOURCE_DRILL_CONTEXT_ITEM_ID_KEY
+const SOURCE_DRILL_CONTEXT_DOMINANT_ITEMS_KEY := source_drill_runtime_source_text_state.SOURCE_DRILL_CONTEXT_DOMINANT_ITEMS_KEY
+const SOURCE_DRILL_CONTEXT_ITEMS_TOTAL_KEY := source_drill_runtime_source_text_state.SOURCE_DRILL_CONTEXT_ITEMS_TOTAL_KEY
+const SOURCE_DRILL_CONTEXT_ITEM_CAPACITY_KEY := source_drill_runtime_source_text_state.SOURCE_DRILL_CONTEXT_ITEM_CAPACITY_KEY
+const SOURCE_DRILL_CONTEXT_CURRENT_WARMUP_KEY := source_drill_runtime_source_text_state.SOURCE_DRILL_CONTEXT_CURRENT_WARMUP_KEY
+const SOURCE_DRILL_CONTEXT_CURRENT_TIME_DRILLED_KEY := source_drill_runtime_source_text_state.SOURCE_DRILL_CONTEXT_CURRENT_TIME_DRILLED_KEY
+const SOURCE_DRILL_CONTEXT_CURRENT_LAST_SPEED_KEY := source_drill_runtime_source_text_state.SOURCE_DRILL_CONTEXT_CURRENT_LAST_SPEED_KEY
+const SOURCE_DRILL_CONTEXT_CURRENT_PROGRESS_FRACTION_KEY := source_drill_runtime_source_text_state.SOURCE_DRILL_CONTEXT_CURRENT_PROGRESS_FRACTION_KEY
+const SOURCE_DRILL_CONTEXT_SECONDS_KEY := source_drill_runtime_source_text_state.SOURCE_DRILL_CONTEXT_SECONDS_KEY
+const SOURCE_DRILL_CONTEXT_SOURCE_DELTA_KEY := source_drill_runtime_source_text_state.SOURCE_DRILL_CONTEXT_SOURCE_DELTA_KEY
+const SOURCE_DRILL_CONTEXT_TIME_SCALE_KEY := source_drill_runtime_source_text_state.SOURCE_DRILL_CONTEXT_TIME_SCALE_KEY
+const SOURCE_DRILL_CONTEXT_SPEED_KEY := source_drill_runtime_source_text_state.SOURCE_DRILL_CONTEXT_SPEED_KEY
 
-const SOURCE_DRILL_RESULT_ACTIVE_KEY := "drill_active"
-const SOURCE_DRILL_RESULT_WARMUP_BEFORE_KEY := "drill_warmup_before"
-const SOURCE_DRILL_RESULT_WARMUP_KEY := "drill_warmup"
-const SOURCE_DRILL_RESULT_LAST_SPEED_BEFORE_KEY := "drill_last_speed_before"
-const SOURCE_DRILL_RESULT_LAST_SPEED_KEY := "drill_last_speed"
-const SOURCE_DRILL_RESULT_TIME_DRILLED_BEFORE_KEY := "drill_time_drilled_before"
-const SOURCE_DRILL_RESULT_TIME_DRILLED_DELTA_KEY := "drill_time_drilled_delta"
-const SOURCE_DRILL_RESULT_TIME_DRILLED_KEY := "drill_time_drilled"
-const SOURCE_DRILL_RESULT_DELAY_KEY := "drill_delay"
-const SOURCE_DRILL_RESULT_OUTPUT_DELTA_KEY := "drill_output_delta"
-const SOURCE_DRILL_RESULT_PRODUCTION_STATE_KEY := "production_state"
-const SOURCE_DRILL_RESULT_SOURCE_OWNER_KEY := "source_owner"
-
-const SOURCE_DRILL_ORE_COUNT_METHOD := "protected void countOre(Tile tile){"
-const SOURCE_DRILL_ORE_COUNT_RETURN_ITEM_RESET := "returnItem = null;"
-const SOURCE_DRILL_ORE_COUNT_RETURN_COUNT_RESET := "returnCount = 0;"
-const SOURCE_DRILL_ORE_COUNT_LINKED_TILES_LOOP := "for(Tile other : tile.getLinkedTilesAs(this, tempTiles)){"
-const SOURCE_DRILL_ORE_COUNT_CAN_MINE_GATE := "if(canMine(other)){"
-const SOURCE_DRILL_ORE_COUNT_INCREMENT := "oreCount.increment(getDrop(other), 0, 1);"
-const SOURCE_DRILL_ORE_COUNT_RETURN_ITEM := "returnItem = itemArray.peek();"
-const SOURCE_DRILL_ORE_COUNT_RETURN_COUNT := "returnCount = oreCount.get(itemArray.peek(), 0);"
-
-const SOURCE_DRILL_DELAY_METHOD := "public float getDrillTime(Item item){"
-const SOURCE_DRILL_DELAY_RESULT := "return (drillTime + hardnessDrillMultiplier * item.hardness) / drillMultipliers.get(item, 1f);"
-const SOURCE_DRILL_DELAY_HARDNESS_MULTIPLIER_FIELD := "public float hardnessDrillMultiplier = 50f;"
-const SOURCE_DRILL_DELAY_DRILL_TIME_COMMENT := "Base time to drill one ore, in frames."
-const SOURCE_DRILL_DELAY_DRILL_TIME_FIELD := "public float drillTime = 300;"
-const SOURCE_DRILL_DELAY_DRILL_MULTIPLIERS_COMMENT := "Multipliers of drill speed for each item. Defaults to 1."
-const SOURCE_DRILL_DELAY_DRILL_MULTIPLIERS_FIELD := "public ObjectFloatMap<Item> drillMultipliers = new ObjectFloatMap<>();"
-const SOURCE_DRILL_DELAY_ITEM_HARDNESS_COMMENT := "drill hardness of the item"
-const SOURCE_DRILL_DELAY_ITEM_HARDNESS_FIELD := "public int hardness = 0;"
-
-const SOURCE_DRILL_OUTPUT_RATE_DRAW_PLACE := "float width = drawPlaceText(Core.bundle.formatFloat(\"bar.drillspeed\", 60f / getDrillTime(returnItem) * returnCount, 2), x, y, valid);"
-const SOURCE_DRILL_OUTPUT_RATE_RATE_EXPR := "60f / getDrillTime(returnItem) * returnCount"
-const SOURCE_DRILL_OUTPUT_RATE_RETURN_ITEM := "returnItem"
-const SOURCE_DRILL_OUTPUT_RATE_RETURN_COUNT := "returnCount"
-
-const SOURCE_DRILL_OUTPUT_DELTA_PROGRESS_INCREMENT := "progress += delta() * dominantItems * speed * warmup;"
-const SOURCE_DRILL_OUTPUT_DELTA_SOURCE_DELTA := "delta()"
-const SOURCE_DRILL_OUTPUT_DELTA_DOMINANT_ITEMS := "dominantItems"
-const SOURCE_DRILL_OUTPUT_DELTA_SPEED := "speed"
-const SOURCE_DRILL_OUTPUT_DELTA_WARMUP := "warmup"
-
-const SOURCE_DRILL_OUTPUT_DELTA_FOR_CELL_TILE_FIELD := "transient Tile tile;"
-const SOURCE_DRILL_OUTPUT_DELTA_FOR_CELL_BLOCK_FIELD := "transient Block block;"
-const SOURCE_DRILL_OUTPUT_DELTA_FOR_CELL_TILE_X := "return tile.x;"
-const SOURCE_DRILL_OUTPUT_DELTA_FOR_CELL_TILE_Y := "return tile.y;"
-const SOURCE_DRILL_OUTPUT_DELTA_FOR_CELL_TIME_SCALE_FIELD := "private transient float timeScale = 1f, timeScaleDuration;"
-const SOURCE_DRILL_OUTPUT_DELTA_FOR_CELL_TIME_SCALE_METHOD := "public float timeScale(){"
-const SOURCE_DRILL_OUTPUT_DELTA_FOR_CELL_TIME_SCALE_RETURN := "return timeScale;"
-const SOURCE_DRILL_OUTPUT_DELTA_FOR_CELL_DELEGATE := "progress += delta() * dominantItems * speed * warmup;"
-
-const SOURCE_DRILL_INACTIVE_WARMUP_LAST_SPEED_RESET := "lastDrillSpeed = 0f;"
-const SOURCE_DRILL_INACTIVE_WARMUP_WARMUP_DECAY := "warmup = Mathf.approachDelta(warmup, 0f, warmupSpeed);"
-const SOURCE_DRILL_INACTIVE_WARMUP_WARMUP_SPEED_COMMENT := "Speed at which the drill speeds up."
-const SOURCE_DRILL_INACTIVE_WARMUP_WARMUP_SPEED_FIELD := "public float warmupSpeed = 0.015f;"
-
-const SOURCE_DRILL_WARMUP_STATE_ACTIVE_WARMUP := "warmup = Mathf.approachDelta(warmup, speed, warmupSpeed);"
-const SOURCE_DRILL_WARMUP_STATE_CURRENT_WARMUP := "warmup"
-const SOURCE_DRILL_WARMUP_STATE_SPEED := "speed"
-const SOURCE_DRILL_WARMUP_STATE_WARMUP_SPEED := "warmupSpeed"
-const SOURCE_DRILL_WARMUP_STATE_SOURCE_DELTA := "Time.delta"
-
-const SOURCE_DRILL_TIME_DRILLED_FIELD := "public float timeDrilled;"
-const SOURCE_DRILL_TIME_DRILLED_INCREMENT := "timeDrilled += warmup * delta();"
-const SOURCE_DRILL_TIME_DRILLED_WARMUP := "warmup"
-const SOURCE_DRILL_TIME_DRILLED_SOURCE_DELTA := "delta()"
-const SOURCE_DRILL_TIME_DRILLED_DELTA_RETURN := "return Time.delta * timeScale;"
-
-const SOURCE_DRILL_LAST_SPEED_DELAY := "float delay = getDrillTime(dominantItem);"
-const SOURCE_DRILL_LAST_SPEED_SPEED_EXPR := "float speed = Mathf.lerp(1f, liquidBoostIntensity, optionalEfficiency) * efficiency;"
-const SOURCE_DRILL_LAST_SPEED_ASSIGNMENT := "lastDrillSpeed = (speed * dominantItems * warmup) / delay;"
-const SOURCE_DRILL_LAST_SPEED_LIQUID_BOOST_FIELD := "public float liquidBoostIntensity = 1.6f;"
-const SOURCE_DRILL_LAST_SPEED_FOR_CELL_TILE_FIELD := "transient Tile tile;"
-const SOURCE_DRILL_LAST_SPEED_FOR_CELL_BLOCK_FIELD := "transient Block block;"
-const SOURCE_DRILL_LAST_SPEED_FOR_CELL_TILE_X := "return tile.x;"
-const SOURCE_DRILL_LAST_SPEED_FOR_CELL_TILE_Y := "return tile.y;"
-const SOURCE_DRILL_LAST_SPEED_FOR_CELL_DELEGATE := "lastDrillSpeed = (speed * dominantItems * warmup) / delay;"
+const SOURCE_DRILL_RESULT_ACTIVE_KEY := source_drill_runtime_source_text_state.SOURCE_DRILL_RESULT_ACTIVE_KEY
+const SOURCE_DRILL_RESULT_WARMUP_BEFORE_KEY := source_drill_runtime_source_text_state.SOURCE_DRILL_RESULT_WARMUP_BEFORE_KEY
+const SOURCE_DRILL_RESULT_WARMUP_KEY := source_drill_runtime_source_text_state.SOURCE_DRILL_RESULT_WARMUP_KEY
+const SOURCE_DRILL_RESULT_LAST_SPEED_BEFORE_KEY := source_drill_runtime_source_text_state.SOURCE_DRILL_RESULT_LAST_SPEED_BEFORE_KEY
+const SOURCE_DRILL_RESULT_LAST_SPEED_KEY := source_drill_runtime_source_text_state.SOURCE_DRILL_RESULT_LAST_SPEED_KEY
+const SOURCE_DRILL_RESULT_TIME_DRILLED_BEFORE_KEY := source_drill_runtime_source_text_state.SOURCE_DRILL_RESULT_TIME_DRILLED_BEFORE_KEY
+const SOURCE_DRILL_RESULT_TIME_DRILLED_DELTA_KEY := source_drill_runtime_source_text_state.SOURCE_DRILL_RESULT_TIME_DRILLED_DELTA_KEY
+const SOURCE_DRILL_RESULT_TIME_DRILLED_KEY := source_drill_runtime_source_text_state.SOURCE_DRILL_RESULT_TIME_DRILLED_KEY
+const SOURCE_DRILL_RESULT_DELAY_KEY := source_drill_runtime_source_text_state.SOURCE_DRILL_RESULT_DELAY_KEY
+const SOURCE_DRILL_RESULT_OUTPUT_DELTA_KEY := source_drill_runtime_source_text_state.SOURCE_DRILL_RESULT_OUTPUT_DELTA_KEY
+const SOURCE_DRILL_RESULT_PRODUCTION_STATE_KEY := source_drill_runtime_source_text_state.SOURCE_DRILL_RESULT_PRODUCTION_STATE_KEY
+const SOURCE_DRILL_RESULT_SOURCE_OWNER_KEY := source_drill_runtime_source_text_state.SOURCE_DRILL_RESULT_SOURCE_OWNER_KEY
 
 static func drill_delay(block_id: String, item_id: String, content_catalog, hardness_multiplier: float) -> float:
 	if content_catalog == null:
@@ -223,7 +162,7 @@ static func generated_get_drill_time_bridge_state(block_id: String, item_id: Str
 	if block == null or item == null:
 		return {
 			"source_owner": source_runtime_owner_registry.SOURCE_DRILL_RUNTIME_STATE_DRILL_DELAY,
-			"generated_owner": "drill.java_method_getDrillTime_6",
+			"generated_owner": SOURCE_DRILL_GET_DRILL_TIME_GENERATED_OWNER,
 			"result": {},
 			"canonical": drill_delay(block_id, item_id, content_catalog, hardness_multiplier),
 			"matches": false,
@@ -232,11 +171,11 @@ static func generated_get_drill_time_bridge_state(block_id: String, item_id: Str
 	var drill_time := float(delay_state.get("drill_time", source_block_metadata_state.SOURCE_DRILL_DELAY_DRILL_TIME_DEFAULT))
 	var item_hardness := float(delay_state.get("item_hardness", source_block_metadata_state.SOURCE_DRILL_DELAY_ITEM_HARDNESS_DEFAULT))
 	var drill_multiplier := float(delay_state.get("drill_multiplier", 1.0))
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/production/Drill.gd", "java_method_getDrillTime_6", [drill_time, hardness_multiplier, item_hardness, drill_multiplier], null)
+	var result = source_generated_class_runtime.call_java_method(SOURCE_DRILL_GENERATED_CLASS, SOURCE_DRILL_GET_DRILL_TIME_JAVA_METHOD_GET_DRILL_TIME_6, [drill_time, hardness_multiplier, item_hardness, drill_multiplier], null)
 	var canonical := drill_delay(block_id, item_id, content_catalog, hardness_multiplier)
 	return {
 		"source_owner": source_runtime_owner_registry.SOURCE_DRILL_RUNTIME_STATE_DRILL_DELAY,
-		"generated_owner": "drill.java_method_getDrillTime_6",
+		"generated_owner": SOURCE_DRILL_GET_DRILL_TIME_GENERATED_OWNER,
 		"result": result,
 		"canonical": canonical,
 		"matches": is_equal_approx(float(result.get("drillTime", 0.0)), canonical),
@@ -408,74 +347,49 @@ static func runtime_callbacks(game: Object) -> Dictionary:
 		SOURCE_DRILL_PRODUCTION_STATE_CALLBACK_KEY: Callable(game, production_state_method),
 	}
 
-static func runtime_state(drill_context: Dictionary, drill_callbacks: Dictionary) -> Dictionary:
-	var active := bool(drill_context.get(SOURCE_DRILL_CONTEXT_ACTIVE_KEY, false))
-	var cell_x := int(drill_context.get(SOURCE_DRILL_CONTEXT_CELL_X_KEY, 0))
-	var cell_y := int(drill_context.get(SOURCE_DRILL_CONTEXT_CELL_Y_KEY, 0))
-	var block_id := str(drill_context.get(SOURCE_DRILL_CONTEXT_BLOCK_ID_KEY, ""))
-	var item_id := str(drill_context.get(SOURCE_DRILL_CONTEXT_ITEM_ID_KEY, ""))
-	var dominant_items := int(drill_context.get(SOURCE_DRILL_CONTEXT_DOMINANT_ITEMS_KEY, 0))
-	var items_total := int(drill_context.get(SOURCE_DRILL_CONTEXT_ITEMS_TOTAL_KEY, 0))
-	var item_capacity := int(drill_context.get(SOURCE_DRILL_CONTEXT_ITEM_CAPACITY_KEY, 0))
-	var current_warmup := float(drill_context.get(SOURCE_DRILL_CONTEXT_CURRENT_WARMUP_KEY, 0.0))
-	var current_time_drilled := float(drill_context.get(SOURCE_DRILL_CONTEXT_CURRENT_TIME_DRILLED_KEY, 0.0))
-	var current_last_speed := float(drill_context.get(SOURCE_DRILL_CONTEXT_CURRENT_LAST_SPEED_KEY, 0.0))
-	var current_progress_fraction := float(drill_context.get(SOURCE_DRILL_CONTEXT_CURRENT_PROGRESS_FRACTION_KEY, 0.0))
-	var seconds := float(drill_context.get(SOURCE_DRILL_CONTEXT_SECONDS_KEY, 0.0))
-	var source_delta := float(drill_context.get(SOURCE_DRILL_CONTEXT_SOURCE_DELTA_KEY, 0.0))
-	var time_scale := float(drill_context.get(SOURCE_DRILL_CONTEXT_TIME_SCALE_KEY, 1.0))
-	var speed := float(drill_context.get(SOURCE_DRILL_CONTEXT_SPEED_KEY, 1.0))
-	var warmup_speed_fn: Callable = drill_callbacks.get(SOURCE_DRILL_WARMUP_SPEED_CALLBACK_KEY, Callable())
-	var warmup_state_fn: Callable = drill_callbacks.get(SOURCE_DRILL_WARMUP_STATE_CALLBACK_KEY, Callable())
-	var inactive_warmup_state_fn: Callable = drill_callbacks.get(SOURCE_DRILL_INACTIVE_WARMUP_STATE_CALLBACK_KEY, Callable())
-	var time_drilled_delta_fn: Callable = drill_callbacks.get(SOURCE_DRILL_TIME_DRILLED_DELTA_CALLBACK_KEY, Callable())
-	var last_speed_for_cell_fn: Callable = drill_callbacks.get(SOURCE_DRILL_LAST_SPEED_FOR_CELL_CALLBACK_KEY, Callable())
-	var delay_fn: Callable = drill_callbacks.get(SOURCE_DRILL_DELAY_CALLBACK_KEY, Callable())
-	var output_delta_for_cell_fn: Callable = drill_callbacks.get(SOURCE_DRILL_OUTPUT_DELTA_FOR_CELL_CALLBACK_KEY, Callable())
-	var production_state_fn: Callable = drill_callbacks.get(SOURCE_DRILL_PRODUCTION_STATE_CALLBACK_KEY, Callable())
-	var warmup_speed := float(warmup_speed_fn.call(block_id))
-	@warning_ignore("shadowed_variable")
-	var time_drilled_delta := 0.0
-	var drill_time_drilled := current_time_drilled
-	var drill_last_speed := current_last_speed
-	var drill_warmup := current_warmup
-	@warning_ignore("shadowed_variable")
-	var drill_delay := 0.0
-	@warning_ignore("shadowed_variable")
-	var output_delta := 0.0
-	var production_state: Dictionary = {}
-	var offload_amount := 0
-	var produced_delta := 0
-	var item_progress := current_progress_fraction
-	if active:
-		time_drilled_delta = float(time_drilled_delta_fn.call(current_warmup, seconds, time_scale))
-		drill_time_drilled = current_time_drilled + time_drilled_delta
-		drill_last_speed = float(last_speed_for_cell_fn.call(cell_x, cell_y, item_id, dominant_items, current_warmup, speed))
-		drill_warmup = float(warmup_state_fn.call(current_warmup, speed, warmup_speed, source_delta))
-		drill_delay = float(delay_fn.call(block_id, item_id))
-		output_delta = float(output_delta_for_cell_fn.call(cell_x, cell_y, dominant_items, seconds, drill_warmup, speed))
-		production_state = production_state_fn.call(current_progress_fraction, drill_delay, output_delta, dominant_items, items_total, item_capacity)
-		offload_amount = int(production_state.get(source_drill_production_runtime_state_script.SOURCE_DRILL_PRODUCTION_OFFLOAD_AMOUNT_KEY, 0))
-		produced_delta = int(production_state.get(source_drill_production_runtime_state_script.SOURCE_DRILL_PRODUCTION_PRODUCED_DELTA_KEY, offload_amount))
-		item_progress = float(production_state.get(source_drill_production_runtime_state_script.SOURCE_DRILL_PRODUCTION_ITEM_PROGRESS_KEY, current_progress_fraction))
-	else:
-		var inactive_warmup := float(inactive_warmup_state_fn.call(current_warmup, warmup_speed, source_delta))
-		drill_last_speed = 0.0
-		drill_warmup = inactive_warmup
+static func runtime_shell_schema() -> Dictionary:
 	return {
-		SOURCE_DRILL_RESULT_ACTIVE_KEY: active,
-		SOURCE_DRILL_RESULT_WARMUP_BEFORE_KEY: current_warmup,
-		SOURCE_DRILL_RESULT_WARMUP_KEY: drill_warmup,
-		SOURCE_DRILL_RESULT_LAST_SPEED_BEFORE_KEY: current_last_speed,
-		SOURCE_DRILL_RESULT_LAST_SPEED_KEY: drill_last_speed,
-		SOURCE_DRILL_RESULT_TIME_DRILLED_BEFORE_KEY: current_time_drilled,
-		SOURCE_DRILL_RESULT_TIME_DRILLED_DELTA_KEY: time_drilled_delta,
-		SOURCE_DRILL_RESULT_TIME_DRILLED_KEY: drill_time_drilled,
-		SOURCE_DRILL_RESULT_DELAY_KEY: drill_delay,
-		SOURCE_DRILL_RESULT_OUTPUT_DELTA_KEY: output_delta,
-		SOURCE_DRILL_RESULT_PRODUCTION_STATE_KEY: production_state,
-		source_drill_production_runtime_state_script.SOURCE_DRILL_PRODUCTION_OFFLOAD_AMOUNT_KEY: offload_amount,
-		source_drill_production_runtime_state_script.SOURCE_DRILL_PRODUCTION_PRODUCED_DELTA_KEY: produced_delta,
-		source_drill_production_runtime_state_script.SOURCE_DRILL_PRODUCTION_ITEM_PROGRESS_KEY: item_progress,
-		SOURCE_DRILL_RESULT_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_DRILL_RUNTIME_STATE,
+		"context_active": SOURCE_DRILL_CONTEXT_ACTIVE_KEY,
+		"context_cell_x": SOURCE_DRILL_CONTEXT_CELL_X_KEY,
+		"context_cell_y": SOURCE_DRILL_CONTEXT_CELL_Y_KEY,
+		"context_block_id": SOURCE_DRILL_CONTEXT_BLOCK_ID_KEY,
+		"context_item_id": SOURCE_DRILL_CONTEXT_ITEM_ID_KEY,
+		"context_dominant_items": SOURCE_DRILL_CONTEXT_DOMINANT_ITEMS_KEY,
+		"context_items_total": SOURCE_DRILL_CONTEXT_ITEMS_TOTAL_KEY,
+		"context_item_capacity": SOURCE_DRILL_CONTEXT_ITEM_CAPACITY_KEY,
+		"context_current_warmup": SOURCE_DRILL_CONTEXT_CURRENT_WARMUP_KEY,
+		"context_current_time_drilled": SOURCE_DRILL_CONTEXT_CURRENT_TIME_DRILLED_KEY,
+		"context_current_last_speed": SOURCE_DRILL_CONTEXT_CURRENT_LAST_SPEED_KEY,
+		"context_current_progress_fraction": SOURCE_DRILL_CONTEXT_CURRENT_PROGRESS_FRACTION_KEY,
+		"context_seconds": SOURCE_DRILL_CONTEXT_SECONDS_KEY,
+		"context_source_delta": SOURCE_DRILL_CONTEXT_SOURCE_DELTA_KEY,
+		"context_time_scale": SOURCE_DRILL_CONTEXT_TIME_SCALE_KEY,
+		"context_speed": SOURCE_DRILL_CONTEXT_SPEED_KEY,
+		"callback_warmup_speed": SOURCE_DRILL_WARMUP_SPEED_CALLBACK_KEY,
+		"callback_warmup_state": SOURCE_DRILL_WARMUP_STATE_CALLBACK_KEY,
+		"callback_inactive_warmup_state": SOURCE_DRILL_INACTIVE_WARMUP_STATE_CALLBACK_KEY,
+		"callback_time_drilled_delta": SOURCE_DRILL_TIME_DRILLED_DELTA_CALLBACK_KEY,
+		"callback_last_speed_for_cell": SOURCE_DRILL_LAST_SPEED_FOR_CELL_CALLBACK_KEY,
+		"callback_delay": SOURCE_DRILL_DELAY_CALLBACK_KEY,
+		"callback_output_delta_for_cell": SOURCE_DRILL_OUTPUT_DELTA_FOR_CELL_CALLBACK_KEY,
+		"callback_production_state": SOURCE_DRILL_PRODUCTION_STATE_CALLBACK_KEY,
+		"result_active": SOURCE_DRILL_RESULT_ACTIVE_KEY,
+		"result_warmup_before": SOURCE_DRILL_RESULT_WARMUP_BEFORE_KEY,
+		"result_warmup": SOURCE_DRILL_RESULT_WARMUP_KEY,
+		"result_last_speed_before": SOURCE_DRILL_RESULT_LAST_SPEED_BEFORE_KEY,
+		"result_last_speed": SOURCE_DRILL_RESULT_LAST_SPEED_KEY,
+		"result_time_drilled_before": SOURCE_DRILL_RESULT_TIME_DRILLED_BEFORE_KEY,
+		"result_time_drilled_delta": SOURCE_DRILL_RESULT_TIME_DRILLED_DELTA_KEY,
+		"result_time_drilled": SOURCE_DRILL_RESULT_TIME_DRILLED_KEY,
+		"result_delay": SOURCE_DRILL_RESULT_DELAY_KEY,
+		"result_output_delta": SOURCE_DRILL_RESULT_OUTPUT_DELTA_KEY,
+		"result_production_state": SOURCE_DRILL_RESULT_PRODUCTION_STATE_KEY,
+		"production_offload_amount": source_drill_production_runtime_state_script.SOURCE_DRILL_PRODUCTION_OFFLOAD_AMOUNT_KEY,
+		"production_produced_delta": source_drill_production_runtime_state_script.SOURCE_DRILL_PRODUCTION_PRODUCED_DELTA_KEY,
+		"production_item_progress": source_drill_production_runtime_state_script.SOURCE_DRILL_PRODUCTION_ITEM_PROGRESS_KEY,
+		"result_source_owner": SOURCE_DRILL_RESULT_SOURCE_OWNER_KEY,
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_DRILL_RUNTIME_STATE,
 	}
+
+static func runtime_state(drill_context: Dictionary, drill_callbacks: Dictionary) -> Dictionary:
+	return source_drill_runtime_shell_state.runtime_state(drill_context, drill_callbacks, runtime_shell_schema())

@@ -12,12 +12,19 @@ const JAVA_FIELDS := [{"modifiers": ["final", "public", "static"], "name": "shad
 const JAVA_CONSTRUCTORS := [{"modifiers": ["public"], "name": "UnitType", "parameters": [{"name": "name", "type": "String", "varargs": false}]}]
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "postInit", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "createController", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": "UnitController"}, {"modifiers": ["public"], "name": "create", "parameters": [{"name": "team", "type": "Team", "varargs": false}], "return_type": "Unit"}, {"modifiers": ["public"], "name": "spawn", "parameters": [{"name": "team", "type": "Team", "varargs": false}, {"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "rotation", "type": "float", "varargs": false}, {"name": "cons", "type": "Cons", "varargs": false}], "return_type": "Unit"}, {"modifiers": ["public"], "name": "spawn", "parameters": [{"name": "team", "type": "Team", "varargs": false}, {"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "rotation", "type": "float", "varargs": false}], "return_type": "Unit"}, {"modifiers": ["public"], "name": "spawn", "parameters": [{"name": "team", "type": "Team", "varargs": false}, {"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}], "return_type": "Unit"}, {"modifiers": ["public"], "name": "spawn", "parameters": [{"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}], "return_type": "Unit"}, {"modifiers": ["public"], "name": "spawn", "parameters": [{"name": "team", "type": "Team", "varargs": false}, {"name": "pos", "type": "Position", "varargs": false}], "return_type": "Unit"}, {"modifiers": ["public"], "name": "spawn", "parameters": [{"name": "pos", "type": "Position", "varargs": false}], "return_type": "Unit"}, {"modifiers": ["public"], "name": "spawn", "parameters": [{"name": "pos", "type": "Position", "varargs": false}, {"name": "team", "type": "Team", "varargs": false}], "return_type": "Unit"}, {"modifiers": ["public"], "name": "hasWeapons", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "targetable", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}, {"name": "targeter", "type": "Team", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "killable", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "hittable", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "getUnitStances", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}, {"name": "out", "type": "Seq", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "allowStance", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}, {"name": "stance", "type": "UnitStance", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "allowCommand", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}, {"name": "command", "type": "UnitCommand", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "update", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "updatePayload", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}, {"name": "unitHolder", "type": "Unit", "varargs": false}, {"name": "buildingHolder", "type": "Building", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "killed", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "landed", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "display", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}, {"name": "table", "type": "Table", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "supportsEnv", "parameters": [{"name": "env", "type": "int", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "isBanned", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "getDependencies", "parameters": [{"name": "cons", "type": "Cons", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "isHidden", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "setStats", "parameters": [], "return_type": ""}, {"modifiers": ["protected"], "name": "checkEntityMapping", "parameters": [{"name": "example", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": [], "name": "initPathType", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "init", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "estimateDps", "parameters": [], "return_type": "float"}, {"modifiers": ["public"], "name": "load", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "getRegionsToOutline", "parameters": [{"name": "out", "type": "Seq", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "needsBodyOutline", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "createIcons", "parameters": [{"name": "packer", "type": "MultiPacker", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "afterPatch", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "beforeParse", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "getBuildTime", "parameters": [], "return_type": "float"}, {"modifiers": ["public"], "name": "getTotalRequirements", "parameters": [], "return_type": "ItemStack"}, {"modifiers": ["public"], "name": "getRequirements", "parameters": [{"name": "prevReturn", "type": "UnitType", "varargs": false}, {"name": "timeReturn", "type": "float", "varargs": false}], "return_type": "ItemStack"}, {"modifiers": ["public"], "name": "getFirstRequirements", "parameters": [], "return_type": "ItemStack"}, {"modifiers": ["public"], "name": "researchRequirements", "parameters": [], "return_type": "ItemStack"}, {"modifiers": ["public"], "name": "sense", "parameters": [{"name": "sensor", "type": "LAccess", "varargs": false}], "return_type": "double"}, {"modifiers": ["public"], "name": "senseObject", "parameters": [{"name": "sensor", "type": "LAccess", "varargs": false}], "return_type": "Object"}, {"modifiers": ["public"], "name": "getContentType", "parameters": [], "return_type": "ContentType"}, {"modifiers": ["public"], "name": "setEnginesMirror", "parameters": [{"name": "array", "type": "UnitEngine", "varargs": true}], "return_type": ""}, {"modifiers": ["public"], "name": "draw", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "shieldColor", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": "Color"}, {"modifiers": ["public"], "name": "drawMining", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawMiningBeam", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}, {"name": "px", "type": "float", "varargs": false}, {"name": "py", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawPayload", "parameters": [{"name": "unit", "type": "T", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawShield", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawShadow", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawSoftShadow", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawSoftShadow", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}, {"name": "alpha", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawSoftShadow", "parameters": [{"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}, {"name": "rotation", "type": "float", "varargs": false}, {"name": "alpha", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawItems", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawTrail", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawEngines", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawWeapons", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawWeaponOutlines", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawOutline", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawBody", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawCell", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "cellColor", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": "Color"}, {"modifiers": ["public"], "name": "drawLight", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawTank", "parameters": [{"name": "unit", "type": "T", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawLegs", "parameters": [{"name": "unit", "type": "T", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawCrawl", "parameters": [{"name": "crawl", "type": "Crawlc", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawMech", "parameters": [{"name": "mech", "type": "Mechc", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "applyOutlineColor", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "applyColor", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+const source_unit_type_state := preload("res://src/game/SourceUnitTypeState.gd")
+const source_unit_type_source_text_state := preload("res://src/game/SourceUnitTypeSourceTextState.gd")
 
 func java_method_postInit_0(_args: Array = []) -> Variant:
 	return null
 
 func java_method_createController_1(_args: Array = []) -> Variant:
-	return null
+	var controller_get: Callable = _args[0] if _args.size() > 0 and _args[0] is Callable else Callable()
+	var unit: Variant = _args[1] if _args.size() > 1 else null
+	var result := source_unit_type_state.create_controller_state(controller_get, unit)
+	result["generated_owner"] = source_unit_type_source_text_state.SOURCE_UNIT_TYPE_CREATE_CONTROLLER_GENERATED_OWNER
+	result["generated_method"] = source_unit_type_source_text_state.SOURCE_UNIT_TYPE_CREATE_CONTROLLER_GENERATED_METHOD
+	return result
 
 func java_method_create_2(_args: Array = []) -> Variant:
 	return null
@@ -44,37 +51,109 @@ func java_method_spawn_9(_args: Array = []) -> Variant:
 	return null
 
 func java_method_hasWeapons_10(_args: Array = []) -> Variant:
-	return null
+	var weapons: Array = _args[0] if _args.size() > 0 and _args[0] is Array else []
+	var result := source_unit_type_state.has_weapons_state(weapons)
+	result["generated_owner"] = source_unit_type_source_text_state.SOURCE_UNIT_TYPE_HAS_WEAPONS_GENERATED_OWNER
+	result["generated_method"] = source_unit_type_source_text_state.SOURCE_UNIT_TYPE_HAS_WEAPONS_GENERATED_METHOD
+	return result
 
 func java_method_targetable_11(_args: Array = []) -> Variant:
-	return null
+	var type_targetable: bool = bool(_args[0] if _args.size() > 0 else false)
+	var vulnerable_with_payloads: bool = bool(_args[1] if _args.size() > 1 else false)
+	var unit_is_payloadc: bool = bool(_args[2] if _args.size() > 2 else false)
+	var unit_has_payload: bool = bool(_args[3] if _args.size() > 3 else false)
+	var unit: Variant = _args[4] if _args.size() > 4 else null
+	var targeter: Variant = _args[5] if _args.size() > 5 else null
+	var result := source_unit_type_state.targetable_state(type_targetable, vulnerable_with_payloads, unit_is_payloadc, unit_has_payload, unit, targeter)
+	result["generated_owner"] = source_unit_type_source_text_state.SOURCE_UNIT_TYPE_TARGETABLE_GENERATED_OWNER
+	result["generated_method"] = source_unit_type_source_text_state.SOURCE_UNIT_TYPE_TARGETABLE_GENERATED_METHOD
+	return result
 
 func java_method_killable_12(_args: Array = []) -> Variant:
-	return null
+	var type_killable: bool = bool(_args[0] if _args.size() > 0 else false)
+	var unit: Variant = _args[1] if _args.size() > 1 else null
+	var result := source_unit_type_state.killable_state(type_killable, unit)
+	result["generated_owner"] = source_unit_type_source_text_state.SOURCE_UNIT_TYPE_KILLABLE_GENERATED_OWNER
+	result["generated_method"] = source_unit_type_source_text_state.SOURCE_UNIT_TYPE_KILLABLE_GENERATED_METHOD
+	return result
 
 func java_method_hittable_13(_args: Array = []) -> Variant:
-	return null
+	var type_hittable: bool = bool(_args[0] if _args.size() > 0 else false)
+	var vulnerable_with_payloads: bool = bool(_args[1] if _args.size() > 1 else false)
+	var unit_is_payloadc: bool = bool(_args[2] if _args.size() > 2 else false)
+	var unit_has_payload: bool = bool(_args[3] if _args.size() > 3 else false)
+	var unit: Variant = _args[4] if _args.size() > 4 else null
+	var result := source_unit_type_state.hittable_state(type_hittable, vulnerable_with_payloads, unit_is_payloadc, unit_has_payload, unit)
+	result["generated_owner"] = source_unit_type_source_text_state.SOURCE_UNIT_TYPE_HITTABLE_GENERATED_OWNER
+	result["generated_method"] = source_unit_type_source_text_state.SOURCE_UNIT_TYPE_HITTABLE_GENERATED_METHOD
+	return result
 
 func java_method_getUnitStances_14(_args: Array = []) -> Variant:
-	return null
+	var controller_is_command_ai: bool = bool(_args[0] if _args.size() > 0 else false)
+	var command_is_mine: bool = bool(_args[1] if _args.size() > 1 else false)
+	var mine_floor: bool = bool(_args[2] if _args.size() > 2 else false)
+	var mine_walls: bool = bool(_args[3] if _args.size() > 3 else false)
+	var present_ores: Array = _args[4] if _args.size() > 4 and _args[4] is Array else []
+	var stances: Array = _args[5] if _args.size() > 5 and _args[5] is Array else []
+	var extra_stances: Array = _args[6] if _args.size() > 6 and _args[6] is Array else []
+	var out: Array = _args[7] if _args.size() > 7 and _args[7] is Array else []
+	var result := source_unit_type_state.get_unit_stances_state(controller_is_command_ai, command_is_mine, mine_floor, mine_walls, present_ores, stances, extra_stances, out)
+	result["generated_owner"] = source_unit_type_source_text_state.SOURCE_UNIT_TYPE_GET_UNIT_STANCES_GENERATED_OWNER
+	result["generated_method"] = source_unit_type_source_text_state.SOURCE_UNIT_TYPE_GET_UNIT_STANCES_GENERATED_METHOD
+	return result
 
 func java_method_allowStance_15(_args: Array = []) -> Variant:
-	return null
+	var stance: Variant = _args[0] if _args.size() > 0 else null
+	var controller_is_command_ai: bool = bool(_args[1] if _args.size() > 1 else false)
+	var command_is_mine: bool = bool(_args[2] if _args.size() > 2 else false)
+	var mine_floor: bool = bool(_args[3] if _args.size() > 3 else false)
+	var mine_walls: bool = bool(_args[4] if _args.size() > 4 else false)
+	var present_ores: Array = _args[5] if _args.size() > 5 and _args[5] is Array else []
+	var stances: Array = _args[6] if _args.size() > 6 and _args[6] is Array else []
+	var extra_stances: Array = _args[7] if _args.size() > 7 and _args[7] is Array else []
+	var out: Array = _args[8] if _args.size() > 8 and _args[8] is Array else []
+	var result := source_unit_type_state.allow_stance_state(stance, controller_is_command_ai, command_is_mine, mine_floor, mine_walls, present_ores, stances, extra_stances, out)
+	result["generated_owner"] = source_unit_type_source_text_state.SOURCE_UNIT_TYPE_ALLOW_STANCE_GENERATED_OWNER
+	result["generated_method"] = source_unit_type_source_text_state.SOURCE_UNIT_TYPE_ALLOW_STANCE_GENERATED_METHOD
+	return result
 
 func java_method_allowCommand_16(_args: Array = []) -> Variant:
-	return null
+	var commands: Array = _args[0] if _args.size() > 0 and _args[0] is Array else []
+	var command: Variant = _args[1] if _args.size() > 1 else null
+	var result := source_unit_type_state.allow_command_state(commands, command)
+	result["generated_owner"] = source_unit_type_source_text_state.SOURCE_UNIT_TYPE_ALLOW_COMMAND_GENERATED_OWNER
+	result["generated_method"] = source_unit_type_source_text_state.SOURCE_UNIT_TYPE_ALLOW_COMMAND_GENERATED_METHOD
+	return result
 
 func java_method_update_17(_args: Array = []) -> Variant:
-	return null
+	var unit: Variant = _args[0] if _args.size() > 0 else null
+	var result := source_unit_type_state.update_state(unit)
+	result["generated_owner"] = source_unit_type_source_text_state.SOURCE_UNIT_TYPE_UPDATE_GENERATED_OWNER
+	result["generated_method"] = source_unit_type_source_text_state.SOURCE_UNIT_TYPE_UPDATE_GENERATED_METHOD
+	return result
 
 func java_method_updatePayload_18(_args: Array = []) -> Variant:
-	return null
+	var unit: Variant = _args[0] if _args.size() > 0 else null
+	var unit_holder: Variant = _args[1] if _args.size() > 1 else null
+	var building_holder: Variant = _args[2] if _args.size() > 2 else null
+	var result := source_unit_type_state.update_payload_state(unit, unit_holder, building_holder)
+	result["generated_owner"] = source_unit_type_source_text_state.SOURCE_UNIT_TYPE_UPDATE_PAYLOAD_GENERATED_OWNER
+	result["generated_method"] = source_unit_type_source_text_state.SOURCE_UNIT_TYPE_UPDATE_PAYLOAD_GENERATED_METHOD
+	return result
 
 func java_method_killed_19(_args: Array = []) -> Variant:
-	return null
+	var unit: Variant = _args[0] if _args.size() > 0 else null
+	var result := source_unit_type_state.killed_state(unit)
+	result["generated_owner"] = source_unit_type_source_text_state.SOURCE_UNIT_TYPE_KILLED_GENERATED_OWNER
+	result["generated_method"] = source_unit_type_source_text_state.SOURCE_UNIT_TYPE_KILLED_GENERATED_METHOD
+	return result
 
 func java_method_landed_20(_args: Array = []) -> Variant:
-	return null
+	var unit: Variant = _args[0] if _args.size() > 0 else null
+	var result := source_unit_type_state.landed_state(unit)
+	result["generated_owner"] = source_unit_type_source_text_state.SOURCE_UNIT_TYPE_LANDED_GENERATED_OWNER
+	result["generated_method"] = source_unit_type_source_text_state.SOURCE_UNIT_TYPE_LANDED_GENERATED_METHOD
+	return result
 
 func java_method_display_21(_args: Array = []) -> Variant:
 	return null

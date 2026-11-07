@@ -1,6 +1,8 @@
 extends RefCounted
 class_name SourceUnitPayloadDumpSourceTextState
 
+const source_world_source_text_state := preload("res://src/game/SourceWorldSourceTextState.gd")
+
 const SOURCE_UNIT_PAYLOAD_DUMP_METHOD := "public boolean dump(){"
 const SOURCE_UNIT_PAYLOAD_DUMP_TYPE_NULL_GUARD_EXPR := "if(unit.type == null) return true;"
 const SOURCE_UNIT_PAYLOAD_DUMP_RETURN_TRUE_EXPR := "return true"
@@ -10,7 +12,7 @@ const SOURCE_UNIT_PAYLOAD_DUMP_OVERLAY_REGION_ASSIGN_EXPR := "overlayRegion = nu
 const SOURCE_UNIT_PAYLOAD_DUMP_RETURN_FALSE_EXPR := "return false;"
 const SOURCE_UNIT_PAYLOAD_DUMP_ARC_VEC2_SOURCE := "arc-core/src/arc/math/geom/Vec2.java"
 const SOURCE_UNIT_PAYLOAD_DUMP_WORLD_SOURCE := "core/src/mindustry/core/World.java"
-const SOURCE_UNIT_PAYLOAD_DUMP_VARS_SOURCE := "core/src/mindustry/Vars.java"
+const SOURCE_UNIT_PAYLOAD_DUMP_VARS_SOURCE := source_world_source_text_state.SOURCE_VARS_SOURCE
 const SOURCE_UNIT_PAYLOAD_DUMP_SOLIDITY_COMMENT_EXPR := "//check if unit can be dumped here"
 const SOURCE_UNIT_PAYLOAD_DUMP_SOLID_ASSIGN_EXPR := "SolidPred solid = unit.solidity();"
 const SOURCE_UNIT_PAYLOAD_DUMP_SOLID_GUARD_EXPR := "if(solid != null){"
@@ -21,7 +23,7 @@ const SOURCE_UNIT_PAYLOAD_DUMP_VEC2_ROTATE_RAD_EXPR := "float newX = this.x * co
 const SOURCE_UNIT_PAYLOAD_DUMP_TILE_ASSIGN_EXPR := "int tx = World.toTile(unit.x + Tmp.v1.x), ty = World.toTile(unit.y + Tmp.v1.y);"
 const SOURCE_UNIT_PAYLOAD_DUMP_WORLD_TO_TILE_METHOD := "public static int toTile(float coord){"
 const SOURCE_UNIT_PAYLOAD_DUMP_WORLD_TO_TILE_RETURN := "return Math.round(coord / tilesize);"
-const SOURCE_UNIT_PAYLOAD_DUMP_VARS_TILESIZE_FIELD := "public static final int tilesize = 8;"
+const SOURCE_UNIT_PAYLOAD_DUMP_VARS_TILESIZE_FIELD := source_world_source_text_state.SOURCE_TILESIZE_FIELD
 const SOURCE_UNIT_PAYLOAD_DUMP_SOLID_BLOCK_COMMENT_EXPR := "//cannot dump on solid blocks"
 const SOURCE_UNIT_PAYLOAD_DUMP_SOLID_SOLID_GUARD_EXPR := "if(solid.solid(tx, ty)) return false;"
 const SOURCE_UNIT_PAYLOAD_DUMP_SOLID_SOLID_CALL_EXPR := "solid.solid(tx, ty)"

@@ -3,25 +3,98 @@ class_name SourceBlockInitHealthState
 
 const source_generated_class_runtime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
+const source_block_source_text_state := preload("res://src/game/SourceBlockSourceTextState.gd")
+const source_block_init_health_source_text_state := preload("res://src/game/SourceBlockInitHealthSourceTextState.gd")
+
+const SOURCE_BLOCK_GENERATED_CLASS := source_block_source_text_state.SOURCE_BLOCK_GENERATED_CLASS
+const SOURCE_BLOCK_INIT_HEALTH_SOURCE := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_SOURCE
+const SOURCE_BLOCK_INIT_HEALTH_JAVA_METHOD_INIT_123 := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_JAVA_METHOD_INIT_123
+const SOURCE_BLOCK_INIT_HEALTH_BRIDGE_MODE_KEY := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_BRIDGE_MODE_KEY
+const SOURCE_BLOCK_INIT_HEALTH_SCALED_MODE := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_SCALED_MODE
+const SOURCE_BLOCK_INIT_HEALTH_REQUIREMENTS_SCALING_MODE := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_REQUIREMENTS_SCALING_MODE
+const SOURCE_BLOCK_INIT_HEALTH_GENERATED_OWNER := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_GENERATED_OWNER
+const SOURCE_BLOCK_INIT_HEALTH_SOURCE_OWNER_KEY := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_SOURCE_OWNER_KEY
+const SOURCE_BLOCK_INIT_HEALTH_GENERATED_OWNER_KEY := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_GENERATED_OWNER_KEY
+const SOURCE_BLOCK_INIT_HEALTH_RESULT_KEY := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_RESULT_KEY
+const SOURCE_BLOCK_INIT_HEALTH_CANONICAL_KEY := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_CANONICAL_KEY
+const SOURCE_BLOCK_INIT_HEALTH_MATCHES_KEY := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_MATCHES_KEY
+const SOURCE_BLOCK_INIT_HEALTH_METHOD := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_METHOD
+const SOURCE_BLOCK_INIT_HEALTH_SUPER_INIT_EXPR := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_SUPER_INIT_EXPR
+const SOURCE_BLOCK_INIT_HEALTH_HEALTH_COMMENT := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_HEALTH_COMMENT
+const SOURCE_BLOCK_INIT_HEALTH_HEALTH_GUARD_EXPR := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_HEALTH_GUARD_EXPR
+const SOURCE_BLOCK_INIT_HEALTH_ROUND_INIT_EXPR := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_ROUND_INIT_EXPR
+const SOURCE_BLOCK_INIT_HEALTH_SCALING_NEGATIVE_GUARD_EXPR := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_SCALING_NEGATIVE_GUARD_EXPR
+const SOURCE_BLOCK_INIT_HEALTH_HEALTH_ASSIGN_EXPR := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_HEALTH_ASSIGN_EXPR
+const SOURCE_BLOCK_INIT_HEALTH_INT_CAST_EXPR := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_INT_CAST_EXPR
+const SOURCE_BLOCK_INIT_HEALTH_REQUIREMENTS_SOURCE := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_REQUIREMENTS_SOURCE
+const SOURCE_BLOCK_INIT_HEALTH_ITEM_SOURCE := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_ITEM_SOURCE
+const SOURCE_BLOCK_INIT_HEALTH_ARC_MATHF_SOURCE := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_ARC_MATHF_SOURCE
+const SOURCE_BLOCK_INIT_HEALTH_SCALING_DEFAULT_EXPR := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_SCALING_DEFAULT_EXPR
+const SOURCE_BLOCK_INIT_HEALTH_SCALING_INIT_EXPR := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_SCALING_INIT_EXPR
+const SOURCE_BLOCK_INIT_HEALTH_REQUIREMENTS_LOOP_EXPR := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_REQUIREMENTS_LOOP_EXPR
+const SOURCE_BLOCK_INIT_HEALTH_HEALTH_SCALING_ADD_EXPR := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_HEALTH_SCALING_ADD_EXPR
+const SOURCE_BLOCK_INIT_HEALTH_ITEM_HEALTH_SCALING_FIELD_EXPR := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_ITEM_HEALTH_SCALING_FIELD_EXPR
+const SOURCE_BLOCK_INIT_HEALTH_SCALING_MULTIPLY_EXPR := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_SCALING_MULTIPLY_EXPR
+const SOURCE_BLOCK_INIT_HEALTH_ROUND_TRUE_EXPR := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_ROUND_TRUE_EXPR
+const SOURCE_BLOCK_INIT_HEALTH_MATHF_ROUND_EXPR := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_MATHF_ROUND_EXPR
+const SOURCE_BLOCK_INIT_HEALTH_MATHF_ROUND_STEP_EXPR := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_MATHF_ROUND_STEP_EXPR
+const SOURCE_BLOCK_INIT_HEALTH_SOURCE_KEY := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_SOURCE_KEY
+const SOURCE_BLOCK_INIT_HEALTH_ITEM_SOURCE_KEY := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_ITEM_SOURCE_KEY
+const SOURCE_BLOCK_INIT_HEALTH_ARC_MATHF_SOURCE_KEY := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_ARC_MATHF_SOURCE_KEY
+const SOURCE_BLOCK_INIT_HEALTH_METHOD_KEY := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_METHOD_KEY
+const SOURCE_BLOCK_INIT_HEALTH_SUPER_INIT_EXPR_KEY := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_SUPER_INIT_EXPR_KEY
+const SOURCE_BLOCK_INIT_HEALTH_HEALTH_COMMENT_KEY := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_HEALTH_COMMENT_KEY
+const SOURCE_BLOCK_INIT_HEALTH_HEALTH_GUARD_EXPR_KEY := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_HEALTH_GUARD_EXPR_KEY
+const SOURCE_BLOCK_INIT_HEALTH_ROUND_INIT_EXPR_KEY := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_ROUND_INIT_EXPR_KEY
+const SOURCE_BLOCK_INIT_HEALTH_SCALED_HEALTH_NEGATIVE_GUARD_EXPR_KEY := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_SCALED_HEALTH_NEGATIVE_GUARD_EXPR_KEY
+const SOURCE_BLOCK_INIT_HEALTH_HEALTH_ASSIGN_EXPR_KEY := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_HEALTH_ASSIGN_EXPR_KEY
+const SOURCE_BLOCK_INIT_HEALTH_INT_CAST_EXPR_KEY := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_INT_CAST_EXPR_KEY
+const SOURCE_BLOCK_INIT_HEALTH_HEALTH_BEFORE_KEY := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_HEALTH_BEFORE_KEY
+const SOURCE_BLOCK_INIT_HEALTH_SIZE_KEY := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_SIZE_KEY
+const SOURCE_BLOCK_INIT_HEALTH_SCALED_HEALTH_KEY := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_SCALED_HEALTH_KEY
+const SOURCE_BLOCK_INIT_HEALTH_ROUND_KEY := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_ROUND_KEY
+const SOURCE_BLOCK_INIT_HEALTH_HEALTH_AFTER_KEY := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_HEALTH_AFTER_KEY
+const SOURCE_BLOCK_INIT_HEALTH_HEALTH_ASSIGNED_KEY := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_HEALTH_ASSIGNED_KEY
+const SOURCE_BLOCK_INIT_HEALTH_SCALED_HEALTH_DEFAULT_EXPR_KEY := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_SCALED_HEALTH_DEFAULT_EXPR_KEY
+const SOURCE_BLOCK_INIT_HEALTH_SCALING_INIT_EXPR_KEY := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_SCALING_INIT_EXPR_KEY
+const SOURCE_BLOCK_INIT_HEALTH_REQUIREMENTS_LOOP_EXPR_KEY := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_REQUIREMENTS_LOOP_EXPR_KEY
+const SOURCE_BLOCK_INIT_HEALTH_HEALTH_SCALING_ADD_EXPR_KEY := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_HEALTH_SCALING_ADD_EXPR_KEY
+const SOURCE_BLOCK_INIT_HEALTH_ITEM_HEALTH_SCALING_FIELD_EXPR_KEY := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_ITEM_HEALTH_SCALING_FIELD_EXPR_KEY
+const SOURCE_BLOCK_INIT_HEALTH_SCALED_HEALTH_MULTIPLY_EXPR_KEY := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_SCALED_HEALTH_MULTIPLY_EXPR_KEY
+const SOURCE_BLOCK_INIT_HEALTH_ROUND_TRUE_EXPR_KEY := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_ROUND_TRUE_EXPR_KEY
+const SOURCE_BLOCK_INIT_HEALTH_MATHF_ROUND_EXPR_KEY := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_MATHF_ROUND_EXPR_KEY
+const SOURCE_BLOCK_INIT_HEALTH_MATHF_ROUND_STEP_EXPR_KEY := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_MATHF_ROUND_STEP_EXPR_KEY
+const SOURCE_BLOCK_INIT_HEALTH_SCALED_HEALTH_BEFORE_KEY := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_SCALED_HEALTH_BEFORE_KEY
+const SOURCE_BLOCK_INIT_HEALTH_REQUIREMENT_HEALTH_SCALINGS_KEY := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_REQUIREMENT_HEALTH_SCALINGS_KEY
+const SOURCE_BLOCK_INIT_HEALTH_SCALING_KEY := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_SCALING_KEY
+const SOURCE_BLOCK_INIT_HEALTH_SCALED_HEALTH_AFTER_KEY := source_block_init_health_source_text_state.SOURCE_BLOCK_INIT_HEALTH_SCALED_HEALTH_AFTER_KEY
+
+static func _block_call(generated_method: String, generated_args: Array, metadata: Variant = null) -> Variant:
+	if metadata == null:
+		return source_generated_class_runtime.call_java_method(SOURCE_BLOCK_GENERATED_CLASS, generated_method, generated_args, null)
+	return source_generated_class_runtime.call_java_method(SOURCE_BLOCK_GENERATED_CLASS, generated_method, generated_args, null, metadata)
 
 static func health_scaled_state(health_before: int, size_value: int, scaled_health: float) -> Dictionary:
 	var health_after: int = health_before
 	var health_assigned: bool = health_before == -1 and scaled_health >= 0.0
 	if health_assigned:
 		health_after = int(size_value * size_value * scaled_health)
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_HEALTH_SCALED_STATE, "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "health_comment": "//initialize default health based on size", "health_guard_expr": "if(health == -1){", "round_init_expr": "boolean round = false;", "scaled_health_negative_guard_expr": "if(scaledHealth < 0){", "health_assign_expr": "health = round ? Mathf.round(size * size * scaledHealth, 5) : (int)(size * size * scaledHealth);", "int_cast_expr": "(int)(size * size * scaledHealth)", "health_before": health_before, "size": size_value, "scaled_health": scaled_health, "round": false, "health_after": health_after, "health_assigned": health_assigned}
+	return {SOURCE_BLOCK_INIT_HEALTH_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_HEALTH_SCALED_STATE, SOURCE_BLOCK_INIT_HEALTH_SOURCE_KEY: SOURCE_BLOCK_INIT_HEALTH_SOURCE, SOURCE_BLOCK_INIT_HEALTH_METHOD_KEY: SOURCE_BLOCK_INIT_HEALTH_METHOD, SOURCE_BLOCK_INIT_HEALTH_SUPER_INIT_EXPR_KEY: SOURCE_BLOCK_INIT_HEALTH_SUPER_INIT_EXPR, SOURCE_BLOCK_INIT_HEALTH_HEALTH_COMMENT_KEY: SOURCE_BLOCK_INIT_HEALTH_HEALTH_COMMENT, SOURCE_BLOCK_INIT_HEALTH_HEALTH_GUARD_EXPR_KEY: SOURCE_BLOCK_INIT_HEALTH_HEALTH_GUARD_EXPR, SOURCE_BLOCK_INIT_HEALTH_ROUND_INIT_EXPR_KEY: SOURCE_BLOCK_INIT_HEALTH_ROUND_INIT_EXPR, SOURCE_BLOCK_INIT_HEALTH_SCALED_HEALTH_NEGATIVE_GUARD_EXPR_KEY: SOURCE_BLOCK_INIT_HEALTH_SCALING_NEGATIVE_GUARD_EXPR, SOURCE_BLOCK_INIT_HEALTH_HEALTH_ASSIGN_EXPR_KEY: SOURCE_BLOCK_INIT_HEALTH_HEALTH_ASSIGN_EXPR, SOURCE_BLOCK_INIT_HEALTH_INT_CAST_EXPR_KEY: SOURCE_BLOCK_INIT_HEALTH_INT_CAST_EXPR, SOURCE_BLOCK_INIT_HEALTH_HEALTH_BEFORE_KEY: health_before, SOURCE_BLOCK_INIT_HEALTH_SIZE_KEY: size_value, SOURCE_BLOCK_INIT_HEALTH_SCALED_HEALTH_KEY: scaled_health, SOURCE_BLOCK_INIT_HEALTH_ROUND_KEY: false, SOURCE_BLOCK_INIT_HEALTH_HEALTH_AFTER_KEY: health_after, SOURCE_BLOCK_INIT_HEALTH_HEALTH_ASSIGNED_KEY: health_assigned}
+
+static func generated_health_scaled_result_state(health_before: int, size_value: int, scaled_health: float) -> Dictionary:
+	return health_scaled_state(health_before, size_value, scaled_health)
 
 static func generated_health_scaled_bridge_state(health_before: int, size_value: int, scaled_health: float) -> Dictionary:
-	var metadata := {"mindustry_init_bridge_mode": "health_scaled"}
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [health_before, size_value, scaled_health], null, metadata)
+	var metadata := {SOURCE_BLOCK_INIT_HEALTH_BRIDGE_MODE_KEY: SOURCE_BLOCK_INIT_HEALTH_SCALED_MODE}
+	var result = _block_call(SOURCE_BLOCK_INIT_HEALTH_JAVA_METHOD_INIT_123, [health_before, size_value, scaled_health], metadata)
 	var canonical = health_scaled_state(health_before, size_value, scaled_health)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
 	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_HEALTH_SCALED_STATE,
-		"generated_owner": "block.java_method_init_123",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
+		SOURCE_BLOCK_INIT_HEALTH_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_HEALTH_SCALED_STATE,
+		SOURCE_BLOCK_INIT_HEALTH_GENERATED_OWNER_KEY: SOURCE_BLOCK_INIT_HEALTH_GENERATED_OWNER,
+		SOURCE_BLOCK_INIT_HEALTH_RESULT_KEY: result,
+		SOURCE_BLOCK_INIT_HEALTH_CANONICAL_KEY: canonical,
+		SOURCE_BLOCK_INIT_HEALTH_MATCHES_KEY: matches,
 	}
 
 static func health_requirements_scaling_state(health_before: int, size_value: int, scaled_health_before: float, requirement_health_scalings: Array) -> Dictionary:
@@ -33,17 +106,20 @@ static func health_requirements_scaling_state(health_before: int, size_value: in
 	var health_after: int = health_before
 	if health_assigned:
 		health_after = int(float(size_value * size_value) * scaled_health_after / 5.0) * 5
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_HEALTH_REQUIREMENTS_SCALING_STATE, "source": "core/src/mindustry/world/Block.java", "item_source": "core/src/mindustry/type/Item.java", "arc_mathf_source": "arc-core/src/arc/math/Mathf.java", "method": "public void init(){", "super_init_expr": "super.init();", "health_comment": "//initialize default health based on size", "health_guard_expr": "if(health == -1){", "scaled_health_negative_guard_expr": "if(scaledHealth < 0){", "scaled_health_default_expr": "scaledHealth = 40;", "scaling_init_expr": "float scaling = 1f;", "requirements_loop_expr": "for(var stack : requirements){", "health_scaling_add_expr": "scaling += stack.item.healthScaling;", "item_health_scaling_field_expr": "public float healthScaling = 0f;", "scaled_health_multiply_expr": "scaledHealth *= scaling;", "round_true_expr": "round = true;", "mathf_round_expr": "Mathf.round(size * size * scaledHealth, 5)", "mathf_round_step_expr": "return (int)(value / step) * step;", "health_before": health_before, "size": size_value, "scaled_health_before": scaled_health_before, "requirement_health_scalings": requirement_health_scalings, "scaling": scaling, "scaled_health_after": scaled_health_after, "round": health_assigned, "health_after": health_after, "health_assigned": health_assigned}
+	return {SOURCE_BLOCK_INIT_HEALTH_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_HEALTH_REQUIREMENTS_SCALING_STATE, SOURCE_BLOCK_INIT_HEALTH_SOURCE_KEY: SOURCE_BLOCK_INIT_HEALTH_REQUIREMENTS_SOURCE, SOURCE_BLOCK_INIT_HEALTH_ITEM_SOURCE_KEY: SOURCE_BLOCK_INIT_HEALTH_ITEM_SOURCE, SOURCE_BLOCK_INIT_HEALTH_ARC_MATHF_SOURCE_KEY: SOURCE_BLOCK_INIT_HEALTH_ARC_MATHF_SOURCE, SOURCE_BLOCK_INIT_HEALTH_METHOD_KEY: SOURCE_BLOCK_INIT_HEALTH_METHOD, SOURCE_BLOCK_INIT_HEALTH_SUPER_INIT_EXPR_KEY: SOURCE_BLOCK_INIT_HEALTH_SUPER_INIT_EXPR, SOURCE_BLOCK_INIT_HEALTH_HEALTH_COMMENT_KEY: SOURCE_BLOCK_INIT_HEALTH_HEALTH_COMMENT, SOURCE_BLOCK_INIT_HEALTH_HEALTH_GUARD_EXPR_KEY: SOURCE_BLOCK_INIT_HEALTH_HEALTH_GUARD_EXPR, SOURCE_BLOCK_INIT_HEALTH_SCALED_HEALTH_NEGATIVE_GUARD_EXPR_KEY: SOURCE_BLOCK_INIT_HEALTH_SCALING_NEGATIVE_GUARD_EXPR, SOURCE_BLOCK_INIT_HEALTH_SCALED_HEALTH_DEFAULT_EXPR_KEY: SOURCE_BLOCK_INIT_HEALTH_SCALING_DEFAULT_EXPR, SOURCE_BLOCK_INIT_HEALTH_SCALING_INIT_EXPR_KEY: SOURCE_BLOCK_INIT_HEALTH_SCALING_INIT_EXPR, SOURCE_BLOCK_INIT_HEALTH_REQUIREMENTS_LOOP_EXPR_KEY: SOURCE_BLOCK_INIT_HEALTH_REQUIREMENTS_LOOP_EXPR, SOURCE_BLOCK_INIT_HEALTH_HEALTH_SCALING_ADD_EXPR_KEY: SOURCE_BLOCK_INIT_HEALTH_HEALTH_SCALING_ADD_EXPR, SOURCE_BLOCK_INIT_HEALTH_ITEM_HEALTH_SCALING_FIELD_EXPR_KEY: SOURCE_BLOCK_INIT_HEALTH_ITEM_HEALTH_SCALING_FIELD_EXPR, SOURCE_BLOCK_INIT_HEALTH_SCALED_HEALTH_MULTIPLY_EXPR_KEY: SOURCE_BLOCK_INIT_HEALTH_SCALING_MULTIPLY_EXPR, SOURCE_BLOCK_INIT_HEALTH_ROUND_TRUE_EXPR_KEY: SOURCE_BLOCK_INIT_HEALTH_ROUND_TRUE_EXPR, SOURCE_BLOCK_INIT_HEALTH_MATHF_ROUND_EXPR_KEY: SOURCE_BLOCK_INIT_HEALTH_MATHF_ROUND_EXPR, SOURCE_BLOCK_INIT_HEALTH_MATHF_ROUND_STEP_EXPR_KEY: SOURCE_BLOCK_INIT_HEALTH_MATHF_ROUND_STEP_EXPR, SOURCE_BLOCK_INIT_HEALTH_HEALTH_BEFORE_KEY: health_before, SOURCE_BLOCK_INIT_HEALTH_SIZE_KEY: size_value, SOURCE_BLOCK_INIT_HEALTH_SCALED_HEALTH_BEFORE_KEY: scaled_health_before, SOURCE_BLOCK_INIT_HEALTH_REQUIREMENT_HEALTH_SCALINGS_KEY: requirement_health_scalings, SOURCE_BLOCK_INIT_HEALTH_SCALING_KEY: scaling, SOURCE_BLOCK_INIT_HEALTH_SCALED_HEALTH_AFTER_KEY: scaled_health_after, SOURCE_BLOCK_INIT_HEALTH_ROUND_KEY: health_assigned, SOURCE_BLOCK_INIT_HEALTH_HEALTH_AFTER_KEY: health_after, SOURCE_BLOCK_INIT_HEALTH_HEALTH_ASSIGNED_KEY: health_assigned}
+
+static func generated_health_requirements_scaling_result_state(health_before: int, size_value: int, scaled_health_before: float, requirement_health_scalings: Array) -> Dictionary:
+	return health_requirements_scaling_state(health_before, size_value, scaled_health_before, requirement_health_scalings)
 
 static func generated_health_requirements_scaling_bridge_state(health_before: int, size_value: int, scaled_health_before: float, requirement_health_scalings: Array) -> Dictionary:
-	var metadata := {"mindustry_init_bridge_mode": "health_requirements_scaling"}
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [health_before, size_value, scaled_health_before, requirement_health_scalings], null, metadata)
+	var metadata := {SOURCE_BLOCK_INIT_HEALTH_BRIDGE_MODE_KEY: SOURCE_BLOCK_INIT_HEALTH_REQUIREMENTS_SCALING_MODE}
+	var result = _block_call(SOURCE_BLOCK_INIT_HEALTH_JAVA_METHOD_INIT_123, [health_before, size_value, scaled_health_before, requirement_health_scalings], metadata)
 	var canonical = health_requirements_scaling_state(health_before, size_value, scaled_health_before, requirement_health_scalings)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
 	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_HEALTH_REQUIREMENTS_SCALING_STATE,
-		"generated_owner": "block.java_method_init_123",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
+		SOURCE_BLOCK_INIT_HEALTH_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_HEALTH_REQUIREMENTS_SCALING_STATE,
+		SOURCE_BLOCK_INIT_HEALTH_GENERATED_OWNER_KEY: SOURCE_BLOCK_INIT_HEALTH_GENERATED_OWNER,
+		SOURCE_BLOCK_INIT_HEALTH_RESULT_KEY: result,
+		SOURCE_BLOCK_INIT_HEALTH_CANONICAL_KEY: canonical,
+		SOURCE_BLOCK_INIT_HEALTH_MATCHES_KEY: matches,
 	}

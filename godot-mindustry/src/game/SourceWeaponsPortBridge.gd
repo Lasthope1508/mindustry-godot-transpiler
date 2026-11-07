@@ -1,4 +1,4 @@
-extends "res://src/game/SourceUnitUpdatePortBridge.gd"
+extends "res://src/game/SourceUnitTypePortBridge.gd"
 
 const source_weapons_state := preload("res://src/game/SourceWeaponsState.gd")
 

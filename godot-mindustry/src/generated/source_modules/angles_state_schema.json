@@ -28,8 +28,7 @@
             "port_game.source_angle_distance"
           ]
         }
-      },
-      "status": "active"
+      }
     },
     "source_angles_angle_dist_input": {
       "canonical_schema": "source_state_schema.source_angles_angle_dist_input",
@@ -58,8 +57,7 @@
             "port_game.source_angles_angle_dist"
           ]
         }
-      },
-      "status": "active"
+      }
     },
     "source_arc_angles_angle_dist_input": {
       "canonical_schema": "source_state_schema.source_arc_angles_angle_dist_input",
@@ -88,8 +86,7 @@
             "port_game.source_arc_angles_angle_dist"
           ]
         }
-      },
-      "status": "active"
+      }
     },
     "source_arc_angles_angle_input": {
       "canonical_schema": "source_state_schema.source_arc_angles_angle_input",
@@ -142,8 +139,7 @@
             "port_game.source_arc_angles_angle"
           ]
         }
-      },
-      "status": "active"
+      }
     },
     "source_arc_angles_backward_distance_input": {
       "canonical_schema": "source_state_schema.source_arc_angles_backward_distance_input",
@@ -172,8 +168,7 @@
             "port_game.source_arc_angles_backward_distance"
           ]
         }
-      },
-      "status": "active"
+      }
     },
     "source_arc_angles_forward_distance_input": {
       "canonical_schema": "source_state_schema.source_arc_angles_forward_distance_input",
@@ -202,8 +197,7 @@
             "port_game.source_arc_angles_forward_distance"
           ]
         }
-      },
-      "status": "active"
+      }
     },
     "source_arc_angles_move_toward_input": {
       "canonical_schema": "source_state_schema.source_arc_angles_move_toward_input",
@@ -244,8 +238,7 @@
             "port_game.source_arc_angles_move_toward"
           ]
         }
-      },
-      "status": "active"
+      }
     },
     "source_arc_angles_trns_vec_input": {
       "canonical_schema": "source_state_schema.source_arc_angles_trns_vec_input",
@@ -286,8 +279,7 @@
             "port_game.source_arc_angles_trns_vec"
           ]
         }
-      },
-      "status": "active"
+      }
     },
     "source_move_angle_toward_input": {
       "canonical_schema": "source_state_schema.source_move_angle_toward_input",
@@ -328,8 +320,7 @@
             "port_game.source_move_angle_toward"
           ]
         }
-      },
-      "status": "active"
+      }
     }
   }
 }

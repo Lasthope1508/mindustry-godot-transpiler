@@ -3,59 +3,147 @@ class_name SourceBlockInitSoundState
 
 const source_generated_class_runtime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
+const source_block_source_text_state := preload("res://src/game/SourceBlockSourceTextState.gd")
+const source_block_init_sound_source_text_state := preload("res://src/game/SourceBlockInitSoundSourceTextState.gd")
+const SOURCE_BLOCK_GENERATED_CLASS := source_block_source_text_state.SOURCE_BLOCK_GENERATED_CLASS
+const SOURCE_BLOCK_INIT_SOUND_SOURCE := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_SOURCE
+const SOURCE_BLOCK_INIT_SOUND_JAVA_METHOD_INIT_123 := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_JAVA_METHOD_INIT_123
+const SOURCE_BLOCK_INIT_SOUND_BRIDGE_MODE_KEY := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_BRIDGE_MODE_KEY
+const SOURCE_BLOCK_INIT_SOUND_DESTROY_SOUND_MODE := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_DESTROY_SOUND_MODE
+const SOURCE_BLOCK_INIT_SOUND_PLACE_SOUND_MODE := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_PLACE_SOUND_MODE
+const SOURCE_BLOCK_INIT_SOUND_BREAK_SOUND_MODE := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_BREAK_SOUND_MODE
+const SOURCE_BLOCK_INIT_SOUND_GENERATED_OWNER := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_GENERATED_OWNER
+const SOURCE_BLOCK_INIT_SOUND_SOURCE_OWNER_KEY := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_SOURCE_OWNER_KEY
+const SOURCE_BLOCK_INIT_SOUND_GENERATED_OWNER_KEY := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_GENERATED_OWNER_KEY
+const SOURCE_BLOCK_INIT_SOUND_RESULT_KEY := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_RESULT_KEY
+const SOURCE_BLOCK_INIT_SOUND_CANONICAL_KEY := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_CANONICAL_KEY
+const SOURCE_BLOCK_INIT_SOUND_MATCHES_KEY := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_MATCHES_KEY
+const SOURCE_BLOCK_INIT_SOUND_SOURCE_KEY := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_SOURCE_KEY
+const SOURCE_BLOCK_INIT_SOUND_METHOD_KEY := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_METHOD_KEY
+const SOURCE_BLOCK_INIT_SOUND_SUPER_INIT_EXPR_KEY := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_SUPER_INIT_EXPR_KEY
+const SOURCE_BLOCK_INIT_SOUND_DESTROY_GUARD_EXPR_KEY := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_DESTROY_GUARD_EXPR_KEY
+const SOURCE_BLOCK_INIT_SOUND_DESTROY_ASSIGN_EXPR_KEY := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_DESTROY_ASSIGN_EXPR_KEY
+const SOURCE_BLOCK_INIT_SOUND_DESTROY_SIZE_3_EXPR_KEY := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_DESTROY_SIZE_3_EXPR_KEY
+const SOURCE_BLOCK_INIT_SOUND_DESTROY_SIZE_2_EXPR_KEY := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_DESTROY_SIZE_2_EXPR_KEY
+const SOURCE_BLOCK_INIT_SOUND_DESTROY_SIZE_1_EXPR_KEY := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_DESTROY_SIZE_1_EXPR_KEY
+const SOURCE_BLOCK_INIT_SOUND_DESTROY_BEFORE_KEY := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_DESTROY_BEFORE_KEY
+const SOURCE_BLOCK_INIT_SOUND_DESTROY_AFTER_KEY := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_DESTROY_AFTER_KEY
+const SOURCE_BLOCK_INIT_SOUND_DESTROY_ASSIGNED_KEY := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_DESTROY_ASSIGNED_KEY
+const SOURCE_BLOCK_INIT_SOUND_PLACE_GUARD_EXPR_KEY := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_PLACE_GUARD_EXPR_KEY
+const SOURCE_BLOCK_INIT_SOUND_PLACE_ASSIGN_EXPR_KEY := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_PLACE_ASSIGN_EXPR_KEY
+const SOURCE_BLOCK_INIT_SOUND_PLACE_SIZE_3_EXPR_KEY := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_PLACE_SIZE_3_EXPR_KEY
+const SOURCE_BLOCK_INIT_SOUND_PLACE_SIZE_2_EXPR_KEY := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_PLACE_SIZE_2_EXPR_KEY
+const SOURCE_BLOCK_INIT_SOUND_PLACE_SIZE_1_EXPR_KEY := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_PLACE_SIZE_1_EXPR_KEY
+const SOURCE_BLOCK_INIT_SOUND_PLACE_BEFORE_KEY := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_PLACE_BEFORE_KEY
+const SOURCE_BLOCK_INIT_SOUND_PLACE_AFTER_KEY := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_PLACE_AFTER_KEY
+const SOURCE_BLOCK_INIT_SOUND_PLACE_ASSIGNED_KEY := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_PLACE_ASSIGNED_KEY
+const SOURCE_BLOCK_INIT_SOUND_BREAK_GUARD_EXPR_KEY := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_BREAK_GUARD_EXPR_KEY
+const SOURCE_BLOCK_INIT_SOUND_BREAK_ASSIGN_EXPR_KEY := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_BREAK_ASSIGN_EXPR_KEY
+const SOURCE_BLOCK_INIT_SOUND_BREAK_SIZE_3_EXPR_KEY := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_BREAK_SIZE_3_EXPR_KEY
+const SOURCE_BLOCK_INIT_SOUND_BREAK_SIZE_2_EXPR_KEY := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_BREAK_SIZE_2_EXPR_KEY
+const SOURCE_BLOCK_INIT_SOUND_BREAK_SIZE_1_EXPR_KEY := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_BREAK_SIZE_1_EXPR_KEY
+const SOURCE_BLOCK_INIT_SOUND_BREAK_BEFORE_KEY := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_BREAK_BEFORE_KEY
+const SOURCE_BLOCK_INIT_SOUND_BREAK_AFTER_KEY := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_BREAK_AFTER_KEY
+const SOURCE_BLOCK_INIT_SOUND_BREAK_ASSIGNED_KEY := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_BREAK_ASSIGNED_KEY
+const SOURCE_BLOCK_INIT_SOUND_SIZE_KEY := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_SIZE_KEY
+const SOURCE_BLOCK_INIT_SOUND_METHOD := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_METHOD
+const SOURCE_BLOCK_INIT_SOUND_SUPER_INIT_EXPR := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_SUPER_INIT_EXPR
+const SOURCE_BLOCK_INIT_SOUND_UNSET := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_UNSET
+const SOURCE_BLOCK_INIT_SOUND_DESTROY_GUARD_EXPR := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_DESTROY_GUARD_EXPR
+const SOURCE_BLOCK_INIT_SOUND_DESTROY_ASSIGN_EXPR := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_DESTROY_ASSIGN_EXPR
+const SOURCE_BLOCK_INIT_SOUND_DESTROY_SIZE_3_EXPR := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_DESTROY_SIZE_3_EXPR
+const SOURCE_BLOCK_INIT_SOUND_DESTROY_SIZE_2_EXPR := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_DESTROY_SIZE_2_EXPR
+const SOURCE_BLOCK_INIT_SOUND_DESTROY_SIZE_1_EXPR := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_DESTROY_SIZE_1_EXPR
+const SOURCE_BLOCK_INIT_SOUND_BLOCK_EXPLODE_3 := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_BLOCK_EXPLODE_3
+const SOURCE_BLOCK_INIT_SOUND_BLOCK_EXPLODE_2 := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_BLOCK_EXPLODE_2
+const SOURCE_BLOCK_INIT_SOUND_BLOCK_EXPLODE_2_ALT := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_BLOCK_EXPLODE_2_ALT
+const SOURCE_BLOCK_INIT_SOUND_BLOCK_EXPLODE_1 := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_BLOCK_EXPLODE_1
+const SOURCE_BLOCK_INIT_SOUND_BLOCK_EXPLODE_1_ALT := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_BLOCK_EXPLODE_1_ALT
+const SOURCE_BLOCK_INIT_SOUND_PLACE_GUARD_EXPR := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_PLACE_GUARD_EXPR
+const SOURCE_BLOCK_INIT_SOUND_PLACE_ASSIGN_EXPR := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_PLACE_ASSIGN_EXPR
+const SOURCE_BLOCK_INIT_SOUND_PLACE_SIZE_3_EXPR := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_PLACE_SIZE_3_EXPR
+const SOURCE_BLOCK_INIT_SOUND_PLACE_SIZE_2_EXPR := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_PLACE_SIZE_2_EXPR
+const SOURCE_BLOCK_INIT_SOUND_PLACE_SIZE_1_EXPR := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_PLACE_SIZE_1_EXPR
+const SOURCE_BLOCK_INIT_SOUND_BLOCK_PLACE_3 := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_BLOCK_PLACE_3
+const SOURCE_BLOCK_INIT_SOUND_BLOCK_PLACE_2 := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_BLOCK_PLACE_2
+const SOURCE_BLOCK_INIT_SOUND_BLOCK_PLACE_1 := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_BLOCK_PLACE_1
+const SOURCE_BLOCK_INIT_SOUND_BREAK_GUARD_EXPR := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_BREAK_GUARD_EXPR
+const SOURCE_BLOCK_INIT_SOUND_BREAK_ASSIGN_EXPR := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_BREAK_ASSIGN_EXPR
+const SOURCE_BLOCK_INIT_SOUND_BREAK_SIZE_3_EXPR := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_BREAK_SIZE_3_EXPR
+const SOURCE_BLOCK_INIT_SOUND_BREAK_SIZE_2_EXPR := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_BREAK_SIZE_2_EXPR
+const SOURCE_BLOCK_INIT_SOUND_BREAK_SIZE_1_EXPR := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_BREAK_SIZE_1_EXPR
+const SOURCE_BLOCK_INIT_SOUND_BLOCK_BREAK_3 := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_BLOCK_BREAK_3
+const SOURCE_BLOCK_INIT_SOUND_BLOCK_BREAK_2 := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_BLOCK_BREAK_2
+const SOURCE_BLOCK_INIT_SOUND_BLOCK_BREAK_1 := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_BLOCK_BREAK_1
+const SOURCE_BLOCK_INIT_SOUND_RANDOM_SOUND_TYPE := source_block_init_sound_source_text_state.SOURCE_BLOCK_INIT_SOUND_RANDOM_SOUND_TYPE
+
+static func _block_call(generated_method: String, generated_args: Array, metadata: Variant = null) -> Variant:
+	if metadata == null:
+		return source_generated_class_runtime.call_java_method(SOURCE_BLOCK_GENERATED_CLASS, generated_method, generated_args, null)
+	return source_generated_class_runtime.call_java_method(SOURCE_BLOCK_GENERATED_CLASS, generated_method, generated_args, null, metadata)
 
 static func destroy_sound_state(destroy_sound_before: Variant, size_value: int) -> Dictionary:
 	var destroy_sound_after: Variant = destroy_sound_before
-	var destroy_sound_assigned: bool = destroy_sound_before == "Sounds.unset"
+	var destroy_sound_assigned: bool = destroy_sound_before == SOURCE_BLOCK_INIT_SOUND_UNSET
 	if destroy_sound_assigned:
 		if size_value >= 3:
-			destroy_sound_after = "Sounds.blockExplode3"
+			destroy_sound_after = SOURCE_BLOCK_INIT_SOUND_BLOCK_EXPLODE_3
 		elif size_value >= 2:
-			destroy_sound_after = {"type": "RandomSound", "sounds": ["Sounds.blockExplode2", "Sounds.blockExplode2Alt"]}
+			destroy_sound_after = {"type": SOURCE_BLOCK_INIT_SOUND_RANDOM_SOUND_TYPE, "sounds": [SOURCE_BLOCK_INIT_SOUND_BLOCK_EXPLODE_2, SOURCE_BLOCK_INIT_SOUND_BLOCK_EXPLODE_2_ALT]}
 		else:
-			destroy_sound_after = {"type": "RandomSound", "sounds": ["Sounds.blockExplode1", "Sounds.blockExplode1Alt"]}
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_DESTROY_SOUND_STATE, "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "destroy_sound_guard_expr": "if(destroySound == Sounds.unset){", "destroy_sound_assign_expr": "destroySound =", "destroy_sound_size_3_expr": "size >= 3 ? Sounds.blockExplode3 :", "destroy_sound_size_2_expr": "size >= 2 ? new RandomSound(Sounds.blockExplode2, Sounds.blockExplode2Alt) :", "destroy_sound_size_1_expr": "new RandomSound(Sounds.blockExplode1, Sounds.blockExplode1Alt);", "destroy_sound_before": destroy_sound_before, "size": size_value, "destroy_sound_after": destroy_sound_after, "destroy_sound_assigned": destroy_sound_assigned}
+			destroy_sound_after = {"type": SOURCE_BLOCK_INIT_SOUND_RANDOM_SOUND_TYPE, "sounds": [SOURCE_BLOCK_INIT_SOUND_BLOCK_EXPLODE_1, SOURCE_BLOCK_INIT_SOUND_BLOCK_EXPLODE_1_ALT]}
+	return {SOURCE_BLOCK_INIT_SOUND_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_DESTROY_SOUND_STATE, SOURCE_BLOCK_INIT_SOUND_SOURCE_KEY: SOURCE_BLOCK_INIT_SOUND_SOURCE, SOURCE_BLOCK_INIT_SOUND_METHOD_KEY: SOURCE_BLOCK_INIT_SOUND_METHOD, SOURCE_BLOCK_INIT_SOUND_SUPER_INIT_EXPR_KEY: SOURCE_BLOCK_INIT_SOUND_SUPER_INIT_EXPR, SOURCE_BLOCK_INIT_SOUND_DESTROY_GUARD_EXPR_KEY: SOURCE_BLOCK_INIT_SOUND_DESTROY_GUARD_EXPR, SOURCE_BLOCK_INIT_SOUND_DESTROY_ASSIGN_EXPR_KEY: SOURCE_BLOCK_INIT_SOUND_DESTROY_ASSIGN_EXPR, SOURCE_BLOCK_INIT_SOUND_DESTROY_SIZE_3_EXPR_KEY: SOURCE_BLOCK_INIT_SOUND_DESTROY_SIZE_3_EXPR, SOURCE_BLOCK_INIT_SOUND_DESTROY_SIZE_2_EXPR_KEY: SOURCE_BLOCK_INIT_SOUND_DESTROY_SIZE_2_EXPR, SOURCE_BLOCK_INIT_SOUND_DESTROY_SIZE_1_EXPR_KEY: SOURCE_BLOCK_INIT_SOUND_DESTROY_SIZE_1_EXPR, SOURCE_BLOCK_INIT_SOUND_DESTROY_BEFORE_KEY: destroy_sound_before, SOURCE_BLOCK_INIT_SOUND_SIZE_KEY: size_value, SOURCE_BLOCK_INIT_SOUND_DESTROY_AFTER_KEY: destroy_sound_after, SOURCE_BLOCK_INIT_SOUND_DESTROY_ASSIGNED_KEY: destroy_sound_assigned}
+
+static func generated_destroy_sound_result_state(destroy_sound_before: Variant, size_value: int) -> Dictionary:
+	return destroy_sound_state(destroy_sound_before, size_value)
 
 static func place_sound_state(place_sound_before: Variant, size_value: int) -> Dictionary:
 	var place_sound_after: Variant = place_sound_before
-	var place_sound_assigned: bool = place_sound_before == "Sounds.unset"
+	var place_sound_assigned: bool = place_sound_before == SOURCE_BLOCK_INIT_SOUND_UNSET
 	if place_sound_assigned:
 		if size_value >= 3:
-			place_sound_after = "Sounds.blockPlace3"
+			place_sound_after = SOURCE_BLOCK_INIT_SOUND_BLOCK_PLACE_3
 		elif size_value >= 2:
-			place_sound_after = "Sounds.blockPlace2"
+			place_sound_after = SOURCE_BLOCK_INIT_SOUND_BLOCK_PLACE_2
 		else:
-			place_sound_after = "Sounds.blockPlace1"
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_PLACE_SOUND_STATE, "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "place_sound_guard_expr": "if(placeSound == Sounds.unset){", "place_sound_assign_expr": "placeSound =", "place_sound_size_3_expr": "size >= 3 ? Sounds.blockPlace3 :", "place_sound_size_2_expr": "size >= 2 ? Sounds.blockPlace2 :", "place_sound_size_1_expr": "Sounds.blockPlace1;", "place_sound_before": place_sound_before, "size": size_value, "place_sound_after": place_sound_after, "place_sound_assigned": place_sound_assigned}
+			place_sound_after = SOURCE_BLOCK_INIT_SOUND_BLOCK_PLACE_1
+	return {SOURCE_BLOCK_INIT_SOUND_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_PLACE_SOUND_STATE, SOURCE_BLOCK_INIT_SOUND_SOURCE_KEY: SOURCE_BLOCK_INIT_SOUND_SOURCE, SOURCE_BLOCK_INIT_SOUND_METHOD_KEY: SOURCE_BLOCK_INIT_SOUND_METHOD, SOURCE_BLOCK_INIT_SOUND_SUPER_INIT_EXPR_KEY: SOURCE_BLOCK_INIT_SOUND_SUPER_INIT_EXPR, SOURCE_BLOCK_INIT_SOUND_PLACE_GUARD_EXPR_KEY: SOURCE_BLOCK_INIT_SOUND_PLACE_GUARD_EXPR, SOURCE_BLOCK_INIT_SOUND_PLACE_ASSIGN_EXPR_KEY: SOURCE_BLOCK_INIT_SOUND_PLACE_ASSIGN_EXPR, SOURCE_BLOCK_INIT_SOUND_PLACE_SIZE_3_EXPR_KEY: SOURCE_BLOCK_INIT_SOUND_PLACE_SIZE_3_EXPR, SOURCE_BLOCK_INIT_SOUND_PLACE_SIZE_2_EXPR_KEY: SOURCE_BLOCK_INIT_SOUND_PLACE_SIZE_2_EXPR, SOURCE_BLOCK_INIT_SOUND_PLACE_SIZE_1_EXPR_KEY: SOURCE_BLOCK_INIT_SOUND_PLACE_SIZE_1_EXPR, SOURCE_BLOCK_INIT_SOUND_PLACE_BEFORE_KEY: place_sound_before, SOURCE_BLOCK_INIT_SOUND_SIZE_KEY: size_value, SOURCE_BLOCK_INIT_SOUND_PLACE_AFTER_KEY: place_sound_after, SOURCE_BLOCK_INIT_SOUND_PLACE_ASSIGNED_KEY: place_sound_assigned}
+
+static func generated_place_sound_result_state(place_sound_before: Variant, size_value: int) -> Dictionary:
+	return place_sound_state(place_sound_before, size_value)
 
 static func break_sound_state(break_sound_before: Variant, size_value: int) -> Dictionary:
 	var break_sound_after: Variant = break_sound_before
-	var break_sound_assigned: bool = break_sound_before == "Sounds.unset"
+	var break_sound_assigned: bool = break_sound_before == SOURCE_BLOCK_INIT_SOUND_UNSET
 	if break_sound_assigned:
 		if size_value >= 3:
-			break_sound_after = "Sounds.blockBreak3"
+			break_sound_after = SOURCE_BLOCK_INIT_SOUND_BLOCK_BREAK_3
 		elif size_value >= 2:
-			break_sound_after = "Sounds.blockBreak2"
+			break_sound_after = SOURCE_BLOCK_INIT_SOUND_BLOCK_BREAK_2
 		else:
-			break_sound_after = "Sounds.blockBreak1"
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_BREAK_SOUND_STATE, "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "break_sound_guard_expr": "if(breakSound == Sounds.unset){", "break_sound_assign_expr": "breakSound =", "break_sound_size_3_expr": "size >= 3 ? Sounds.blockBreak3 :", "break_sound_size_2_expr": "size >= 2 ? Sounds.blockBreak2 :", "break_sound_size_1_expr": "Sounds.blockBreak1;", "break_sound_before": break_sound_before, "size": size_value, "break_sound_after": break_sound_after, "break_sound_assigned": break_sound_assigned}
+			break_sound_after = SOURCE_BLOCK_INIT_SOUND_BLOCK_BREAK_1
+	return {SOURCE_BLOCK_INIT_SOUND_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_BREAK_SOUND_STATE, SOURCE_BLOCK_INIT_SOUND_SOURCE_KEY: SOURCE_BLOCK_INIT_SOUND_SOURCE, SOURCE_BLOCK_INIT_SOUND_METHOD_KEY: SOURCE_BLOCK_INIT_SOUND_METHOD, SOURCE_BLOCK_INIT_SOUND_SUPER_INIT_EXPR_KEY: SOURCE_BLOCK_INIT_SOUND_SUPER_INIT_EXPR, SOURCE_BLOCK_INIT_SOUND_BREAK_GUARD_EXPR_KEY: SOURCE_BLOCK_INIT_SOUND_BREAK_GUARD_EXPR, SOURCE_BLOCK_INIT_SOUND_BREAK_ASSIGN_EXPR_KEY: SOURCE_BLOCK_INIT_SOUND_BREAK_ASSIGN_EXPR, SOURCE_BLOCK_INIT_SOUND_BREAK_SIZE_3_EXPR_KEY: SOURCE_BLOCK_INIT_SOUND_BREAK_SIZE_3_EXPR, SOURCE_BLOCK_INIT_SOUND_BREAK_SIZE_2_EXPR_KEY: SOURCE_BLOCK_INIT_SOUND_BREAK_SIZE_2_EXPR, SOURCE_BLOCK_INIT_SOUND_BREAK_SIZE_1_EXPR_KEY: SOURCE_BLOCK_INIT_SOUND_BREAK_SIZE_1_EXPR, SOURCE_BLOCK_INIT_SOUND_BREAK_BEFORE_KEY: break_sound_before, SOURCE_BLOCK_INIT_SOUND_SIZE_KEY: size_value, SOURCE_BLOCK_INIT_SOUND_BREAK_AFTER_KEY: break_sound_after, SOURCE_BLOCK_INIT_SOUND_BREAK_ASSIGNED_KEY: break_sound_assigned}
+
+static func generated_break_sound_result_state(break_sound_before: Variant, size_value: int) -> Dictionary:
+	return break_sound_state(break_sound_before, size_value)
 
 static func generated_block_init_destroy_sound_bridge_state(destroy_sound_before: Variant, size_value: int) -> Dictionary:
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [destroy_sound_before, size_value], null)
+	var metadata := {SOURCE_BLOCK_INIT_SOUND_BRIDGE_MODE_KEY: SOURCE_BLOCK_INIT_SOUND_DESTROY_SOUND_MODE}
+	var result = _block_call(SOURCE_BLOCK_INIT_SOUND_JAVA_METHOD_INIT_123, [destroy_sound_before, size_value], metadata)
 	var canonical = destroy_sound_state(destroy_sound_before, size_value)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_DESTROY_SOUND_STATE, "generated_owner": "block.java_method_init_123", "result": result, "canonical": canonical, "matches": matches}
+	return {SOURCE_BLOCK_INIT_SOUND_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_DESTROY_SOUND_STATE, SOURCE_BLOCK_INIT_SOUND_GENERATED_OWNER_KEY: SOURCE_BLOCK_INIT_SOUND_GENERATED_OWNER, SOURCE_BLOCK_INIT_SOUND_RESULT_KEY: result, SOURCE_BLOCK_INIT_SOUND_CANONICAL_KEY: canonical, SOURCE_BLOCK_INIT_SOUND_MATCHES_KEY: matches}
 
 static func generated_block_init_place_sound_bridge_state(place_sound_before: Variant, size_value: int) -> Dictionary:
-	var metadata := {"mindustry_init_bridge_mode": "place_sound"}
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [place_sound_before, size_value], null, metadata)
+	var metadata := {SOURCE_BLOCK_INIT_SOUND_BRIDGE_MODE_KEY: SOURCE_BLOCK_INIT_SOUND_PLACE_SOUND_MODE}
+	var result = _block_call(SOURCE_BLOCK_INIT_SOUND_JAVA_METHOD_INIT_123, [place_sound_before, size_value], metadata)
 	var canonical = place_sound_state(place_sound_before, size_value)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_PLACE_SOUND_STATE, "generated_owner": "block.java_method_init_123", "result": result, "canonical": canonical, "matches": matches}
+	return {SOURCE_BLOCK_INIT_SOUND_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_PLACE_SOUND_STATE, SOURCE_BLOCK_INIT_SOUND_GENERATED_OWNER_KEY: SOURCE_BLOCK_INIT_SOUND_GENERATED_OWNER, SOURCE_BLOCK_INIT_SOUND_RESULT_KEY: result, SOURCE_BLOCK_INIT_SOUND_CANONICAL_KEY: canonical, SOURCE_BLOCK_INIT_SOUND_MATCHES_KEY: matches}
 
 static func generated_block_init_break_sound_bridge_state(break_sound_before: Variant, size_value: int) -> Dictionary:
-	var metadata := {"mindustry_init_bridge_mode": "break_sound"}
-	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [break_sound_before, size_value], null, metadata)
+	var metadata := {SOURCE_BLOCK_INIT_SOUND_BRIDGE_MODE_KEY: SOURCE_BLOCK_INIT_SOUND_BREAK_SOUND_MODE}
+	var result = _block_call(SOURCE_BLOCK_INIT_SOUND_JAVA_METHOD_INIT_123, [break_sound_before, size_value], metadata)
 	var canonical = break_sound_state(break_sound_before, size_value)
 	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical)
-	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_BREAK_SOUND_STATE, "generated_owner": "block.java_method_init_123", "result": result, "canonical": canonical, "matches": matches}
+	return {SOURCE_BLOCK_INIT_SOUND_SOURCE_OWNER_KEY: source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_INIT_BREAK_SOUND_STATE, SOURCE_BLOCK_INIT_SOUND_GENERATED_OWNER_KEY: SOURCE_BLOCK_INIT_SOUND_GENERATED_OWNER, SOURCE_BLOCK_INIT_SOUND_RESULT_KEY: result, SOURCE_BLOCK_INIT_SOUND_CANONICAL_KEY: canonical, SOURCE_BLOCK_INIT_SOUND_MATCHES_KEY: matches}
