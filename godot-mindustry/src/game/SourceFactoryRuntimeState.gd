@@ -598,7 +598,21 @@ static func source_factory_update_power_graph_state(game: Object, delta: float) 
 	var consumers: Array = grouped.get("consumers", [])
 	var producers: Array = grouped.get("producers", [])
 	var batteries: Array = grouped.get("batteries", [])
+	# Load each battery's stored power_status (PowerGraph.java: the
+	# status persists on the building across frames; the port stores
+	# it on the battery sprite's meta). block_battery_state rebuilds
+	# the status as 0.0 every frame, so without this the charge never
+	# persists and the discharge path can never trigger live.
+	for battery in batteries:
+		if battery is Dictionary and battery.get("origin_cell", null) is Vector2i:
+			var stored: Dictionary = source_placed_power_graph_state.source_battery_power_status_for_cell_state(game, battery.get("origin_cell"))
+			battery["power_status"] = float(stored.get("status", 0.0))
 	var update: Dictionary = source_power_graph_state.update_state(consumers, producers, batteries, 0.0, delta, [])
+	# Write the resulting status back so the next frame reads it.
+	var updated_batteries: Array = update.get("battery_distribute_state", {}).get("batteries", [])
+	for battery in updated_batteries:
+		if battery is Dictionary and battery.get("origin_cell", null) is Vector2i:
+			source_placed_power_graph_state.source_battery_set_power_status_for_cell_state(game, battery.get("origin_cell"), float(battery.get("power_status", 0.0)))
 	return {
 		"power_needed": float(update.get("power_needed", 0.0)),
 		"power_produced": float(update.get("power_produced", 0.0)),

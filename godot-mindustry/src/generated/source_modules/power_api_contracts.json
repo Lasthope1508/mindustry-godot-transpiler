@@ -3652,6 +3652,74 @@
       "rule": "Source-backed live-loop power graph update; each frame the placed graph runs PowerGraph.update().",
       "return_type": "Dictionary"
     },
+    "SourcePlacedPowerGraphState.source_battery_power_status_for_cell_state": {
+      "canonical_contract": "source_api_contracts.SourcePlacedPowerGraphState.source_battery_power_status_for_cell_state",
+      "status": "active",
+      "source_slice": "N2082",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "source_method": "getBatteryStored",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_battery_power_status_for_cell_state_input.game"
+        },
+        {
+          "name": "cell",
+          "type": "Vector2i",
+          "schema": "source_battery_power_status_for_cell_state_input.cell"
+        }
+      ],
+      "return_keys": [
+        "status",
+        "found",
+        "reason"
+      ],
+      "tests": [
+        "test_battery_power_status_binding_registration",
+        "test_all_battery_power_status_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_battery_power_status"
+      ],
+      "runtime_proof": "/root/BatteryPowerStatusProof",
+      "rule": "Source-backed battery power_status read; the status persists on the building in Java.",
+      "return_type": "Dictionary"
+    },
+    "SourcePlacedPowerGraphState.source_battery_set_power_status_for_cell_state": {
+      "canonical_contract": "source_api_contracts.SourcePlacedPowerGraphState.source_battery_set_power_status_for_cell_state",
+      "status": "active",
+      "source_slice": "N2083",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "source_method": "useBatteries",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_battery_set_power_status_for_cell_state_input.game"
+        },
+        {
+          "name": "cell",
+          "type": "Vector2i",
+          "schema": "source_battery_set_power_status_for_cell_state_input.cell"
+        },
+        {
+          "name": "status",
+          "type": "float",
+          "schema": "source_battery_set_power_status_for_cell_state_input.status"
+        }
+      ],
+      "return_keys": [
+        "stored",
+        "reason"
+      ],
+      "tests": [
+        "test_battery_power_status_binding_registration",
+        "test_all_battery_power_status_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_battery_power_status"
+      ],
+      "runtime_proof": "/root/BatteryPowerStatusProof",
+      "rule": "Source-backed battery power_status write; the live-loop step uses it to persist the status after each update.",
+      "return_type": "Dictionary"
+    },
     "SourcePlacedPowerGraphState.source_group_buildings_by_origin_state": {
       "canonical_contract": "source_api_contracts.SourcePlacedPowerGraphState.source_group_buildings_by_origin_state",
       "status": "active",

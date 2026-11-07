@@ -52659,6 +52659,60 @@
         "The battery discharge path (a charged battery covering a deficit) and the full-power case (coverage 1.0); the C03 gate needs those.",
         "C04-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2082": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_class": "mindustry.world.blocks.power.PowerGraph",
+      "java_method": "getBatteryStored",
+      "godot_owner": "SourcePlacedPowerGraphState.source_battery_power_status_for_cell_state",
+      "exact_exprs": [
+        "totalAccumulator += battery.power.status * battery.block.consPower.capacity;"
+      ],
+      "source_symbols": [
+        "source_battery_power_status_for_cell_state_input.game",
+        "source_battery_power_status_for_cell_state_input.cell",
+        "source_battery_power_status_for_cell_state_result.status",
+        "source_battery_power_status_for_cell_state_result.found",
+        "source_battery_power_status_for_cell_state_result.reason"
+      ],
+      "tests": [
+        "test_battery_power_status_binding_registration",
+        "test_all_battery_power_status_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_battery_power_status"
+      ],
+      "runtime_proof": "/root/BatteryPowerStatusProof",
+      "deferred_exprs": [
+        "The live-loop wiring that reads the stored status into the battery dicts and writes it back after the update (N2083), and the discharge path it enables.",
+        "The full-power case (coverage 1.0 with produced >= needed); C04-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
+    },
+    "N2083": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_class": "mindustry.world.blocks.power.PowerGraph",
+      "java_method": "useBatteries",
+      "godot_owner": "SourcePlacedPowerGraphState.source_battery_set_power_status_for_cell_state",
+      "exact_exprs": [
+        "battery.power.status *= (1f-consumedPowerPercentage);",
+        "battery.power.status += (1f - battery.power.status) * chargedPercent;"
+      ],
+      "source_symbols": [
+        "source_battery_set_power_status_for_cell_state_input.game",
+        "source_battery_set_power_status_for_cell_state_input.cell",
+        "source_battery_set_power_status_for_cell_state_input.status",
+        "source_battery_set_power_status_for_cell_state_result.stored",
+        "source_battery_set_power_status_for_cell_state_result.reason"
+      ],
+      "tests": [
+        "test_battery_power_status_binding_registration",
+        "test_all_battery_power_status_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_battery_power_status"
+      ],
+      "runtime_proof": "/root/BatteryPowerStatusProof",
+      "deferred_exprs": [
+        "The full-power case (coverage 1.0 with produced >= needed); C04-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1

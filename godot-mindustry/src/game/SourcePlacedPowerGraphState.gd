@@ -35,6 +35,30 @@ static func game_runtime_state(game: Object) -> Dictionary:
 	var callbacks := default_callbacks_state(game)
 	return runtime_state(game.get("placed_block_origins"), callbacks.get("block_from_sprite", Callable()), callbacks.get("role_for_block", Callable()), game_source_delta(game))
 
+const SOURCE_BATTERY_POWER_STATUS_META_KEY := "source_battery_power_status"
+
+static func source_battery_power_status_for_cell_state(game: Object, cell: Vector2i) -> Dictionary:
+	# PowerGraph.java:124 getBatteryStored reads battery.power.status
+	# * capacity: the status is a field on the building that persists
+	# across frames. The Godot port stores it on the battery sprite's
+	# meta (the per-building persistent state, as the conveyor queue
+	# is stored on the conveyor sprite). A sprite with no stored
+	# status reads 0.0.
+	var sprite: Variant = game.call("block_sprite_at_cell", cell)
+	if sprite == null:
+		return {"status": 0.0, "found": false, "reason": "no_sprite"}
+	return {"status": float(sprite.get_meta(SOURCE_BATTERY_POWER_STATUS_META_KEY, 0.0)), "found": true, "reason": "stored"}
+
+static func source_battery_set_power_status_for_cell_state(game: Object, cell: Vector2i, status: float) -> Dictionary:
+	# PowerGraph.java:164 useBatteries multiplies battery.power.status;
+	# :181 chargeBatteries adds to it. The live-loop step writes the
+	# result back here so the next frame reads it.
+	var sprite: Variant = game.call("block_sprite_at_cell", cell)
+	if sprite == null:
+		return {"stored": false, "reason": "no_sprite"}
+	sprite.set_meta(SOURCE_BATTERY_POWER_STATUS_META_KEY, status)
+	return {"stored": true, "reason": "stored"}
+
 static func source_group_buildings_by_origin_state(placed_block_origins: Dictionary) -> Dictionary:
 	# PowerGraph.java:277-301 add(Building): each building is added
 	# once to the graph (guarded by build.power.graph != this ||
@@ -77,7 +101,9 @@ static func _group_state(placed_block_origins: Dictionary, block_from_sprite_fn:
 			producers.append(source_building_power_state.block_producer_state(block, source_delta))
 			counts["producers"] += 1
 		if bool(role_state.get("add_battery", false)):
-			batteries.append(source_building_power_state.block_battery_state(block))
+			var battery_state := source_building_power_state.block_battery_state(block)
+			battery_state["origin_cell"] = origin
+			batteries.append(battery_state)
 			counts["batteries"] += 1
 	return {
 		"counts": counts,

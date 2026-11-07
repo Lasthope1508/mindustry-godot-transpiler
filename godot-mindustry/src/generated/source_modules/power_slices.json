@@ -978,6 +978,46 @@
       ],
       "runtime_proof": "/root/PlacedPowerGraphGroupingProof"
     },
+    "N2082": {
+      "canonical_ledger": "source_slice_ledger.N2082",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "getBatteryStored",
+      "godot_owner": "SourcePlacedPowerGraphState.source_battery_power_status_for_cell_state",
+      "source_symbols": [
+        "source_battery_power_status_for_cell_state_input.game",
+        "source_battery_power_status_for_cell_state_input.cell",
+        "source_battery_power_status_for_cell_state_result.status",
+        "source_battery_power_status_for_cell_state_result.found",
+        "source_battery_power_status_for_cell_state_result.reason"
+      ],
+      "tests": [
+        "test_battery_power_status_binding_registration",
+        "test_all_battery_power_status_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_battery_power_status"
+      ],
+      "runtime_proof": "/root/BatteryPowerStatusProof"
+    },
+    "N2083": {
+      "canonical_ledger": "source_slice_ledger.N2083",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "useBatteries",
+      "godot_owner": "SourcePlacedPowerGraphState.source_battery_set_power_status_for_cell_state",
+      "source_symbols": [
+        "source_battery_set_power_status_for_cell_state_input.game",
+        "source_battery_set_power_status_for_cell_state_input.cell",
+        "source_battery_set_power_status_for_cell_state_input.status",
+        "source_battery_set_power_status_for_cell_state_result.stored",
+        "source_battery_set_power_status_for_cell_state_result.reason"
+      ],
+      "tests": [
+        "test_battery_power_status_binding_registration",
+        "test_all_battery_power_status_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_battery_power_status"
+      ],
+      "runtime_proof": "/root/BatteryPowerStatusProof"
+    },
     "N888": {
       "canonical_ledger": "source_slice_ledger.N888",
       "status": "done",

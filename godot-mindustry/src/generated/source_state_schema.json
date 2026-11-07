@@ -219952,6 +219952,142 @@
       },
       "runtime_proof": "/root/PlacedPowerGraphGroupingProof",
       "rule": "Source-backed per-building grouping of the placed power graph."
+    },
+    "source_battery_power_status_for_cell_state_input": {
+      "status": "active",
+      "owner": "SourcePlacedPowerGraphState.source_battery_power_status_for_cell_state",
+      "source_slice": "N2082",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "totalAccumulator += battery.power.status * battery.block.consPower.capacity;",
+          "rule": "The game, used to resolve the battery sprite at the cell.",
+          "used_by": [
+            "SourcePlacedPowerGraphState.source_battery_power_status_for_cell_state"
+          ]
+        },
+        "cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "totalAccumulator += battery.power.status * battery.block.consPower.capacity;",
+          "rule": "The battery origin cell.",
+          "used_by": [
+            "SourcePlacedPowerGraphState.source_battery_power_status_for_cell_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/BatteryPowerStatusProof",
+      "rule": "Source-backed battery power_status storage on the sprite meta."
+    },
+    "source_battery_power_status_for_cell_state_result": {
+      "status": "active",
+      "owner": "SourcePlacedPowerGraphState.source_battery_power_status_for_cell_state",
+      "source_slice": "N2082",
+      "keys": {
+        "status": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "totalAccumulator += battery.power.status * battery.block.consPower.capacity;",
+          "rule": "The stored power_status (0.0 when the sprite has none).",
+          "used_by": [
+            "SourcePlacedPowerGraphState.source_battery_power_status_for_cell_state"
+          ]
+        },
+        "found": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "totalAccumulator += battery.power.status * battery.block.consPower.capacity;",
+          "rule": "Whether a battery sprite exists at the cell.",
+          "used_by": [
+            "SourcePlacedPowerGraphState.source_battery_power_status_for_cell_state"
+          ]
+        },
+        "reason": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "totalAccumulator += battery.power.status * battery.block.consPower.capacity;",
+          "rule": "Why the read succeeded or failed.",
+          "used_by": [
+            "SourcePlacedPowerGraphState.source_battery_power_status_for_cell_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/BatteryPowerStatusProof",
+      "rule": "Source-backed battery power_status storage on the sprite meta."
+    },
+    "source_battery_set_power_status_for_cell_state_input": {
+      "status": "active",
+      "owner": "SourcePlacedPowerGraphState.source_battery_set_power_status_for_cell_state",
+      "source_slice": "N2083",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "battery.power.status *= (1f-consumedPowerPercentage);",
+          "rule": "The game, used to resolve the battery sprite at the cell.",
+          "used_by": [
+            "SourcePlacedPowerGraphState.source_battery_set_power_status_for_cell_state"
+          ]
+        },
+        "cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "battery.power.status *= (1f-consumedPowerPercentage);",
+          "rule": "The battery origin cell.",
+          "used_by": [
+            "SourcePlacedPowerGraphState.source_battery_set_power_status_for_cell_state"
+          ]
+        },
+        "status": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "battery.power.status += (1f - battery.power.status) * chargedPercent;",
+          "rule": "The power_status to store.",
+          "used_by": [
+            "SourcePlacedPowerGraphState.source_battery_set_power_status_for_cell_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/BatteryPowerStatusProof",
+      "rule": "Source-backed battery power_status write on the sprite meta."
+    },
+    "source_battery_set_power_status_for_cell_state_result": {
+      "status": "active",
+      "owner": "SourcePlacedPowerGraphState.source_battery_set_power_status_for_cell_state",
+      "source_slice": "N2083",
+      "keys": {
+        "stored": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "battery.power.status *= (1f-consumedPowerPercentage);",
+          "rule": "Whether the status was stored on a battery sprite.",
+          "used_by": [
+            "SourcePlacedPowerGraphState.source_battery_set_power_status_for_cell_state"
+          ]
+        },
+        "reason": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "battery.power.status += (1f - battery.power.status) * chargedPercent;",
+          "rule": "Why the write succeeded or failed.",
+          "used_by": [
+            "SourcePlacedPowerGraphState.source_battery_set_power_status_for_cell_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/BatteryPowerStatusProof",
+      "rule": "Source-backed battery power_status write on the sprite meta."
     }
   },
   "version": 1
