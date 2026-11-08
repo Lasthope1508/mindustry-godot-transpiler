@@ -15,6 +15,33 @@ const SOURCE_DRILL_BUILDING_META_KEY := "source_drill_building"
 static func _initial_frame() -> Dictionary:
 	return {"enabled": true, "cheating": false, "items": {}, "item_progress": 0.0, "warmup": 0.0, "time_drilled": 0.0, "last_drill_speed": 0.0, "dominant_item": null, "dominant_items": 0, "consumers": []}
 
+static func source_drill_booster_state(game: Object, cell: Vector2i) -> Dictionary:
+	# Drill.java:38 liquidBoostIntensity = 1.6f; Drill.java:301 the
+	# drill's updateTile speed is lerp(1f, liquidBoostIntensity,
+	# optionalEfficiency) * efficiency. The mechanical drill consumes
+	# water 0.05f as an optional booster (Blocks.java:2873,
+	# consumeLiquid(Liquids.water, 0.05f).boost()), and the tick
+	# state (source_tick_state) already computes frame["speed"] from
+	# frame["optional_efficiency"] — this slice reads that booster
+	# state back, so the C04 gate can prove the drill runs 1.6x
+	# faster when water reaches it.
+	var sprite: Variant = game.call("block_sprite_at_cell", cell)
+	if sprite == null:
+		return {"water": 0.0, "optional_efficiency": 0.0, "speed": 1.0, "boosted": false}
+	var liquids: Variant = sprite.get_meta(placed.SOURCE_BUILDING_LIQUIDS_META_KEY, null)
+	var water := 0.0
+	if liquids != null:
+		var content_registry_state := load("res://src/game/SourceContentRegistryRuntimeState.gd")
+		var catalog: Dictionary = content_registry_state.source_liquid_catalog_state(game.get("content_catalog"))
+		var water_id: int = int(catalog["liquid_id_by_name"].get("water", -1))
+		if water_id >= 0:
+			water = float(liquid.source_runtime_storage.source_get_state(liquids, water_id).get("amount", 0.0))
+	var frame: Dictionary = sprite.get_meta(SOURCE_DRILL_BUILDING_META_KEY, {})
+	var optional_efficiency: float = float(frame.get("optional_efficiency", 0.0))
+	var speed: float = float(frame.get("speed", defaults.DRILL_UNBOOSTED_SPEED))
+	return {"water": water, "optional_efficiency": optional_efficiency, "speed": speed, "boosted": optional_efficiency > 0.0}
+
+
 static func source_on_proximity_update_state(game: Object, sprite: Sprite2D, block: Object) -> Dictionary:
 	# These fields are exported through Drill ancestry. Separate implementations retain their own lifecycle.
 	if not block.properties.has("blockedItems"):

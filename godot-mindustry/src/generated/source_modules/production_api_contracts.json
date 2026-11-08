@@ -508,6 +508,39 @@
       "runtime_proof": "/root/DrillProximityLifecycleProof",
       "rule": "One world-scoped typed Item view; reuse canonical countOre/drop/Tile mutation and existing per-Building frame. No per-tick ore re-selection. Only stated partial lifecycle/production scope; deferred behaviors are recorded in ledger."
     },
+    "SourceDrillConsumptionRuntimeState.source_drill_booster_state": {
+      "canonical_contract": "source_api_contracts.SourceDrillConsumptionRuntimeState.source_drill_booster_state",
+      "status": "active",
+      "source_slice": "N2093",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "updateTile()",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_drill_booster_state_input.game"
+        },
+        {
+          "name": "cell",
+          "type": "Vector2i",
+          "schema": "source_drill_booster_state_input.cell"
+        }
+      ],
+      "return_keys": [
+        "water",
+        "optional_efficiency",
+        "speed",
+        "boosted"
+      ],
+      "tests": [
+        "test_drill_booster_binding_registration",
+        "test_all_drill_booster_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_booster"
+      ],
+      "runtime_proof": "/root/DrillBoosterProof",
+      "rule": "Source-backed drill water booster; the drill runs 1.6x faster when water reaches it.",
+      "return_type": "Dictionary"
+    },
     "SourceDrillConsumptionRuntimeState.source_on_proximity_update_state": {
       "canonical_contract": "source_api_contracts.SourceDrillConsumptionRuntimeState.source_on_proximity_update_state",
       "status": "active",

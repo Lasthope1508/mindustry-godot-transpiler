@@ -220780,6 +220780,84 @@
       },
       "runtime_proof": "/root/ConduitUpdateProof",
       "rule": "Source-backed conduit rotation and updateTile."
+    },
+    "source_drill_booster_state_input": {
+      "status": "active",
+      "owner": "SourceDrillConsumptionRuntimeState.source_drill_booster_state",
+      "source_slice": "N2093",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "float speed = Mathf.lerp(1f, liquidBoostIntensity, optionalEfficiency) * efficiency;",
+          "rule": "The game, for the drill sprite, its liquid module and its drill frame.",
+          "used_by": [
+            "SourceDrillConsumptionRuntimeState.source_drill_booster_state"
+          ]
+        },
+        "cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "float speed = Mathf.lerp(1f, liquidBoostIntensity, optionalEfficiency) * efficiency;",
+          "rule": "The drill cell to read.",
+          "used_by": [
+            "SourceDrillConsumptionRuntimeState.source_drill_booster_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/DrillBoosterProof",
+      "rule": "Source-backed drill water booster."
+    },
+    "source_drill_booster_state_result": {
+      "status": "active",
+      "owner": "SourceDrillConsumptionRuntimeState.source_drill_booster_state",
+      "source_slice": "N2093",
+      "keys": {
+        "water": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "consumeLiquid(Liquids.water, 0.05f).boost();",
+          "rule": "The drill water amount.",
+          "used_by": [
+            "SourceDrillConsumptionRuntimeState.source_drill_booster_state"
+          ]
+        },
+        "optional_efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "float speed = Mathf.lerp(1f, liquidBoostIntensity, optionalEfficiency) * efficiency;",
+          "rule": "The drill optional (booster) efficiency.",
+          "used_by": [
+            "SourceDrillConsumptionRuntimeState.source_drill_booster_state"
+          ]
+        },
+        "speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "float speed = Mathf.lerp(1f, liquidBoostIntensity, optionalEfficiency) * efficiency;",
+          "rule": "The drill speed multiplier (1.0 without water, 1.6 with water).",
+          "used_by": [
+            "SourceDrillConsumptionRuntimeState.source_drill_booster_state"
+          ]
+        },
+        "boosted": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public float liquidBoostIntensity = 1.6f;",
+          "rule": "Whether the booster is engaged (optional_efficiency > 0).",
+          "used_by": [
+            "SourceDrillConsumptionRuntimeState.source_drill_booster_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/DrillBoosterProof",
+      "rule": "Source-backed drill water booster."
     }
   },
   "version": 1

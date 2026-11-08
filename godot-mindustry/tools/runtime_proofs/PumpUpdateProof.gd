@@ -32,13 +32,15 @@ func _ready() -> void:
 	var before_warmup: float = float(frame_before.get("warmup", 0.0))
 	var before_progress: float = float(frame_before.get("total_progress", 0.0))
 
-	# --- the pump update (Pump.java:160-176): one second of pumping
-	# fills 7/60 water (amount 1.0 * pumpAmount 7/60 * delta 1.0),
-	# warms up by warmupSpeed 0.019 and advances totalProgress. ---
-	var update: Dictionary = pump_state.source_pump_update_state(game, Vector2i(5, 14), 1.0)
+	# --- the pump update (Pump.java:160-176): one frame of pumping
+	# fills 7/60 water (amount 1.0 * pumpAmount 7/60 * edelta 1.0,
+	# where edelta is the tick delta — Arc Time.delta is in ticks,
+	# so a frame is delta 1/60s), warms up by warmupSpeed 0.019 and
+	# advances totalProgress by warmup * edelta. ---
+	var update: Dictionary = pump_state.source_pump_update_state(game, Vector2i(5, 14), 1.0 / 60.0)
 	proof["pump_update_produces"] = str(update.get("liquid_drop", "")) == "water" and is_equal_approx(float(update.get("amount_pumped", -1.0)), 7.0 / 60.0) and is_equal_approx(float(update.get("liquid_amount", -1.0)), before_amount + 7.0 / 60.0)
 	proof["pump_update_warmup"] = is_equal_approx(float(update.get("warmup", -1.0)), before_warmup + 0.019) and is_equal_approx(float(update.get("total_progress", -1.0)), before_progress + float(update.get("warmup", 0.0)) * 1.0)
-	var second: Dictionary = pump_state.source_pump_update_state(game, Vector2i(5, 14), 1.0)
+	var second: Dictionary = pump_state.source_pump_update_state(game, Vector2i(5, 14), 1.0 / 60.0)
 	proof["pump_update_second_frame"] = is_equal_approx(float(second.get("amount_pumped", -1.0)), 7.0 / 60.0) and is_equal_approx(float(second.get("liquid_amount", -1.0)), float(update.get("liquid_amount", 0.0)) + 7.0 / 60.0)
 
 	# --- the conduit line (Blocks.java:2322-2327): 7 conduits from the

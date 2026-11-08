@@ -55,6 +55,31 @@
         }
       }
     },
+    "source_drill_booster_state_input": {
+      "canonical_schema": "source_state_schema.source_drill_booster_state_input",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "float speed = Mathf.lerp(1f, liquidBoostIntensity, optionalEfficiency) * efficiency;",
+          "rule": "The game, for the drill sprite, its liquid module and its drill frame.",
+          "used_by": [
+            "SourceDrillConsumptionRuntimeState.source_drill_booster_state"
+          ]
+        },
+        "cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "float speed = Mathf.lerp(1f, liquidBoostIntensity, optionalEfficiency) * efficiency;",
+          "rule": "The drill cell to read.",
+          "used_by": [
+            "SourceDrillConsumptionRuntimeState.source_drill_booster_state"
+          ]
+        }
+      }
+    },
     "source_drill_count_ore_input": {
       "canonical_schema": "source_state_schema.source_drill_count_ore_input",
       "keys": {

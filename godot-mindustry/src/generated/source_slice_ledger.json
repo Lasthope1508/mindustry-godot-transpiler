@@ -52995,6 +52995,36 @@
         "The drill water booster (the mechanical drill consumes water 0.05f as a booster, 1.6x speed), then the live-loop liquid flow (the C04 gate: pump -> conduit -> Drill uses water as a booster).",
         "C05-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2093": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_class": "mindustry.world.blocks.production.Drill$DrillBuild",
+      "java_method": "updateTile()",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_drill_booster_state",
+      "exact_exprs": [
+        "public float liquidBoostIntensity = 1.6f;",
+        "float speed = Mathf.lerp(1f, liquidBoostIntensity, optionalEfficiency) * efficiency;",
+        "consumeLiquid(Liquids.water, 0.05f).boost();"
+      ],
+      "source_symbols": [
+        "source_drill_booster_state_input.game",
+        "source_drill_booster_state_input.cell",
+        "source_drill_booster_state_result.water",
+        "source_drill_booster_state_result.optional_efficiency",
+        "source_drill_booster_state_result.speed",
+        "source_drill_booster_state_result.boosted"
+      ],
+      "tests": [
+        "test_drill_booster_binding_registration",
+        "test_all_drill_booster_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_booster"
+      ],
+      "runtime_proof": "/root/DrillBoosterProof",
+      "deferred_exprs": [
+        "The live-loop liquid flow (the C04 gate: pump -> conduit -> Drill uses water as a booster) is proven by this slice; the drill runs 1.6x faster when water reaches it.",
+        "C05-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1

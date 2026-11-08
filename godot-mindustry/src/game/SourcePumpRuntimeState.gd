@@ -12,6 +12,14 @@ const source_building_item_dump_state := preload("res://src/game/SourceBuildingI
 
 const SOURCE_PUMP_BUILDING_META_KEY := "source_pump_building"
 
+# Arc Time.delta is in ticks (Time.java:26: delta = getDeltaTime() * 60f,
+# so 1.0 per frame at 60fps), and Java edelta() is efficiency * delta()
+# (BuildingComp.java:1927-1929). The live loop passes the Godot delta
+# in seconds, so the pump's tick-edelta is delta * TICK_RATE. The pump
+# produces amount * pumpAmount * edelta() per frame (Pump.java:163),
+# i.e. 7/60 per frame (7.0 per second), not 7/60 per second.
+const TICK_RATE := 60.0
+
 # Blocks.java:2298-2302: mechanicalPump = new Pump("mechanical-pump")
 # with pumpAmount = 7f / 60f and liquidCapacity = 20f.
 # Pump.java:23: warmupSpeed = 0.019f.
@@ -56,9 +64,10 @@ static func source_pump_update_state(game: Object, cell: Vector2i, delta: float)
 	# amount * pumpAmount * edelta()) into its liquids, warms up toward 1
 	# when it pumped, and advances totalProgress. The dumpLiquid step
 	# (Pump.java:180-182) is a later slice. The pump is enabled and
-	# consumes no power, so efficiency is 1.0 and edelta() is delta.
-	# The warmup/totalProgress live on the pump building frame (like
-	# liquidDrop/amount), so they persist across frames.
+	# consumes no power, so efficiency is 1.0 and edelta() is the tick
+	# delta (delta * TICK_RATE). The warmup/totalProgress live on the
+	# pump building frame (like liquidDrop/amount), so they persist
+	# across frames.
 	var sprite: Variant = game.call("block_sprite_at_cell", cell)
 	if sprite == null:
 		return {"liquid_drop": null, "amount_pumped": 0.0, "warmup": 0.0, "total_progress": 0.0, "liquid_amount": 0.0}
@@ -79,13 +88,14 @@ static func source_pump_update_state(game: Object, cell: Vector2i, delta: float)
 	if water_id < 0:
 		return {"liquid_drop": liquid_drop, "amount_pumped": 0.0, "warmup": warmup, "total_progress": total_progress, "liquid_amount": 0.0}
 	var current: float = float(source_liquid_module_state.source_get_state(liquids, water_id).get("amount", 0.0))
-	var max_pump: float = minf(PUMP_LIQUID_CAPACITY - current, float(frame.get("amount", 0.0)) * PUMP_AMOUNT * delta)
+	var edelta: float = delta * TICK_RATE
+	var max_pump: float = minf(PUMP_LIQUID_CAPACITY - current, float(frame.get("amount", 0.0)) * PUMP_AMOUNT * edelta)
 	var cache_sums: Array = []
 	cache_sums.resize(catalog["content_liquid_ids"].size())
 	cache_sums.fill(0.0)
 	source_liquid_module_state.source_add_state(liquids, water_id, max_pump, cache_sums)
-	warmup = move_toward(warmup, 1.0 if max_pump > 0.001 else 0.0, PUMP_WARMUP_SPEED * delta)
-	total_progress += warmup * delta
+	warmup = move_toward(warmup, 1.0 if max_pump > 0.001 else 0.0, PUMP_WARMUP_SPEED * edelta)
+	total_progress += warmup * edelta
 	frame["warmup"] = warmup
 	frame["total_progress"] = total_progress
 	sprite.set_meta(SOURCE_PUMP_BUILDING_META_KEY, frame)

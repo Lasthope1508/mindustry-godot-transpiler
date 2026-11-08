@@ -39,7 +39,7 @@ func _ready() -> void:
 	proof["conduit_rotations_live"] = live_rotations_ok
 
 	# --- the conduit update (Conduit.java:249-255): one second of
-	# pumping fills 7/60 water, the pump dumps half to (5,13), and
+	# pumping fills 7.0 water, the pump dumps half to (5,13), and
 	# the conduit's flow timer (1s) then pushes (pump - next) to
 	# (5,12), so the two conduits swap amounts. ---
 	var update: Dictionary = pump_state.source_pump_update_state(game, Vector2i(5, 14), 1.0)

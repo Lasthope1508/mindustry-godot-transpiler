@@ -30,9 +30,9 @@ func _ready() -> void:
 	var conduit_liquids: Dictionary = conduit.get_meta("source_building_liquids", {})
 
 	# --- the pump dump (Pump.java:180-182, BuildingComp.java:877-878):
-	# one second of pumping fills 7/60 water; the dump then moves
-	# (pump - conduit) / 2 to the conduit (fract - ofract) * 20 / 2,
-	# so both end at the average. ---
+	# one second of pumping fills 7.0 water (7/60 per frame over 60
+	# frames); the dump then moves (pump - conduit) / 2 to the
+	# conduit (fract - ofract) * 20 / 2, so both end at the average. ---
 	var update: Dictionary = pump_state.source_pump_update_state(game, Vector2i(5, 14), 1.0)
 	var pump_before: float = float(update.get("liquid_amount", 0.0))
 	var conduit_before: float = float(liquid_module_state.source_get_state(conduit_liquids, water_id).get("amount", 0.0))

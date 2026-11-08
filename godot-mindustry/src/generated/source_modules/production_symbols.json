@@ -1663,6 +1663,90 @@
       ],
       "runtime_proof": "/root/DrillOreBindingProof"
     },
+    "source_drill_booster_state_input.cell": {
+      "canonical_symbol": "source_symbol_registry.source_drill_booster_state_input.cell",
+      "status": "source-backed",
+      "java_expr": "float speed = Mathf.lerp(1f, liquidBoostIntensity, optionalEfficiency) * efficiency;",
+      "godot_symbol": "source_drill_booster_state_input.cell",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_drill_booster_state",
+      "rule": "The drill cell to read.",
+      "tests": [
+        "test_drill_booster_binding_registration",
+        "test_all_drill_booster_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_booster"
+      ],
+      "runtime_proof": "/root/DrillBoosterProof"
+    },
+    "source_drill_booster_state_input.game": {
+      "canonical_symbol": "source_symbol_registry.source_drill_booster_state_input.game",
+      "status": "source-backed",
+      "java_expr": "float speed = Mathf.lerp(1f, liquidBoostIntensity, optionalEfficiency) * efficiency;",
+      "godot_symbol": "source_drill_booster_state_input.game",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_drill_booster_state",
+      "rule": "The game, for the drill sprite, its liquid module and its drill frame.",
+      "tests": [
+        "test_drill_booster_binding_registration",
+        "test_all_drill_booster_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_booster"
+      ],
+      "runtime_proof": "/root/DrillBoosterProof"
+    },
+    "source_drill_booster_state_result.boosted": {
+      "canonical_symbol": "source_symbol_registry.source_drill_booster_state_result.boosted",
+      "status": "source-backed",
+      "java_expr": "public float liquidBoostIntensity = 1.6f;",
+      "godot_symbol": "source_drill_booster_state_result.boosted",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_drill_booster_state",
+      "rule": "Whether the booster is engaged (optional_efficiency > 0).",
+      "tests": [
+        "test_drill_booster_binding_registration",
+        "test_all_drill_booster_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_booster"
+      ],
+      "runtime_proof": "/root/DrillBoosterProof"
+    },
+    "source_drill_booster_state_result.optional_efficiency": {
+      "canonical_symbol": "source_symbol_registry.source_drill_booster_state_result.optional_efficiency",
+      "status": "source-backed",
+      "java_expr": "float speed = Mathf.lerp(1f, liquidBoostIntensity, optionalEfficiency) * efficiency;",
+      "godot_symbol": "source_drill_booster_state_result.optional_efficiency",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_drill_booster_state",
+      "rule": "The drill optional (booster) efficiency.",
+      "tests": [
+        "test_drill_booster_binding_registration",
+        "test_all_drill_booster_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_booster"
+      ],
+      "runtime_proof": "/root/DrillBoosterProof"
+    },
+    "source_drill_booster_state_result.speed": {
+      "canonical_symbol": "source_symbol_registry.source_drill_booster_state_result.speed",
+      "status": "source-backed",
+      "java_expr": "float speed = Mathf.lerp(1f, liquidBoostIntensity, optionalEfficiency) * efficiency;",
+      "godot_symbol": "source_drill_booster_state_result.speed",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_drill_booster_state",
+      "rule": "The drill speed multiplier (1.0 without water, 1.6 with water).",
+      "tests": [
+        "test_drill_booster_binding_registration",
+        "test_all_drill_booster_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_booster"
+      ],
+      "runtime_proof": "/root/DrillBoosterProof"
+    },
+    "source_drill_booster_state_result.water": {
+      "canonical_symbol": "source_symbol_registry.source_drill_booster_state_result.water",
+      "status": "source-backed",
+      "java_expr": "consumeLiquid(Liquids.water, 0.05f).boost();",
+      "godot_symbol": "source_drill_booster_state_result.water",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_drill_booster_state",
+      "rule": "The drill water amount.",
+      "tests": [
+        "test_drill_booster_binding_registration",
+        "test_all_drill_booster_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_booster"
+      ],
+      "runtime_proof": "/root/DrillBoosterProof"
+    },
     "source_drill_can_mine_input.blocked_items": {
       "canonical_symbol": "source_symbol_registry.source_drill_can_mine_input.blocked_items",
       "status": "source-backed",

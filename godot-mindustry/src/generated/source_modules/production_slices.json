@@ -402,6 +402,27 @@
       ],
       "runtime_proof": "/root/PumpDumpLiquidProof"
     },
+    "N2093": {
+      "canonical_ledger": "source_slice_ledger.N2093",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "updateTile()",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_drill_booster_state",
+      "source_symbols": [
+        "source_drill_booster_state_input.game",
+        "source_drill_booster_state_input.cell",
+        "source_drill_booster_state_result.water",
+        "source_drill_booster_state_result.optional_efficiency",
+        "source_drill_booster_state_result.speed",
+        "source_drill_booster_state_result.boosted"
+      ],
+      "tests": [
+        "test_drill_booster_binding_registration",
+        "test_all_drill_booster_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_drill_booster"
+      ],
+      "runtime_proof": "/root/DrillBoosterProof"
+    },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",
       "status": "done",
