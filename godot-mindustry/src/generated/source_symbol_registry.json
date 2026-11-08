@@ -163668,6 +163668,96 @@
         "test_reference_graph_and_actual_pump_update"
       ],
       "runtime_proof": "/root/PumpUpdateProof"
+    },
+    "source_pump_dump_liquid_state_input.game": {
+      "status": "source-backed",
+      "godot_owner": "SourcePumpRuntimeState.source_pump_dump_liquid_state",
+      "godot_symbol": "source_pump_dump_liquid_state_input.game",
+      "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+      "java_method": "updateTile()",
+      "java_expr": "dumpLiquid(liquidDrop);",
+      "rule": "The game, for the pump sprite, its liquid module and its liquid neighbors.",
+      "tests": [
+        "test_pump_dump_liquid_binding_registration",
+        "test_all_pump_dump_liquid_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_pump_dump_liquid"
+      ],
+      "runtime_proof": "/root/PumpDumpLiquidProof"
+    },
+    "source_pump_dump_liquid_state_input.cell": {
+      "status": "source-backed",
+      "godot_owner": "SourcePumpRuntimeState.source_pump_dump_liquid_state",
+      "godot_symbol": "source_pump_dump_liquid_state_input.cell",
+      "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+      "java_method": "updateTile()",
+      "java_expr": "dumpLiquid(liquidDrop);",
+      "rule": "The pump cell to dump from.",
+      "tests": [
+        "test_pump_dump_liquid_binding_registration",
+        "test_all_pump_dump_liquid_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_pump_dump_liquid"
+      ],
+      "runtime_proof": "/root/PumpDumpLiquidProof"
+    },
+    "source_pump_dump_liquid_state_result.liquid_drop": {
+      "status": "source-backed",
+      "godot_owner": "SourcePumpRuntimeState.source_pump_dump_liquid_state",
+      "godot_symbol": "source_pump_dump_liquid_state_result.liquid_drop",
+      "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+      "java_method": "updateTile()",
+      "java_expr": "if(liquidDrop != null){",
+      "rule": "The pump liquidDrop id, or null when no linked tile is pumpable.",
+      "tests": [
+        "test_pump_dump_liquid_binding_registration",
+        "test_all_pump_dump_liquid_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_pump_dump_liquid"
+      ],
+      "runtime_proof": "/root/PumpDumpLiquidProof"
+    },
+    "source_pump_dump_liquid_state_result.amount_dumped": {
+      "status": "source-backed",
+      "godot_owner": "SourcePumpRuntimeState.source_pump_dump_liquid_state",
+      "godot_symbol": "source_pump_dump_liquid_state_result.amount_dumped",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateTile()",
+      "java_expr": "if(ofract < fract) transferLiquid(other, (fract - ofract) * block.liquidCapacity / scaling, liquid);",
+      "rule": "The water dumped from the pump liquids to its liquid neighbors.",
+      "tests": [
+        "test_pump_dump_liquid_binding_registration",
+        "test_all_pump_dump_liquid_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_pump_dump_liquid"
+      ],
+      "runtime_proof": "/root/PumpDumpLiquidProof"
+    },
+    "source_pump_dump_liquid_state_result.liquid_amount": {
+      "status": "source-backed",
+      "godot_owner": "SourcePumpRuntimeState.source_pump_dump_liquid_state",
+      "godot_symbol": "source_pump_dump_liquid_state_result.liquid_amount",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateTile()",
+      "java_expr": "if(liquids.get(liquid) <= 0.0001f) return;",
+      "rule": "The water left in the pump liquids after the dump.",
+      "tests": [
+        "test_pump_dump_liquid_binding_registration",
+        "test_all_pump_dump_liquid_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_pump_dump_liquid"
+      ],
+      "runtime_proof": "/root/PumpDumpLiquidProof"
+    },
+    "source_pump_dump_liquid_state_result.dump_cursor": {
+      "status": "source-backed",
+      "godot_owner": "SourcePumpRuntimeState.source_pump_dump_liquid_state",
+      "godot_symbol": "source_pump_dump_liquid_state_result.dump_cursor",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateTile()",
+      "java_expr": "dumpLiquid(liquid, 2f);",
+      "rule": "The pump dump cursor (cdump) after the dump.",
+      "tests": [
+        "test_pump_dump_liquid_binding_registration",
+        "test_all_pump_dump_liquid_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_pump_dump_liquid"
+      ],
+      "runtime_proof": "/root/PumpDumpLiquidProof"
     }
   },
   "version": 1

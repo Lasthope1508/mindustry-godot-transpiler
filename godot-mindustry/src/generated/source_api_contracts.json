@@ -61333,6 +61333,38 @@
       ],
       "runtime_proof": "/root/PumpUpdateProof",
       "rule": "Source-backed pump update and conduit line; the pump fills its liquids and the conduits link it to the drill."
+    },
+    "SourcePumpRuntimeState.source_pump_dump_liquid_state": {
+      "status": "active",
+      "source_slice": "N2090",
+      "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+      "source_method": "updateTile()",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_pump_dump_liquid_state_input.game"
+        },
+        {
+          "name": "cell",
+          "type": "Vector2i",
+          "schema": "source_pump_dump_liquid_state_input.cell"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "liquid_drop",
+        "amount_dumped",
+        "liquid_amount",
+        "dump_cursor"
+      ],
+      "tests": [
+        "test_pump_dump_liquid_binding_registration",
+        "test_all_pump_dump_liquid_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_pump_dump_liquid"
+      ],
+      "runtime_proof": "/root/PumpDumpLiquidProof",
+      "rule": "Source-backed pump dumpLiquid step; the pump drains its water into its liquid neighbors."
     }
   },
   "policy": {

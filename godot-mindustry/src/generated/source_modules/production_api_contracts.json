@@ -851,6 +851,39 @@
       "runtime_proof": "/root/Main.PlacedLiquidOwnershipProof",
       "rule": "Typed source catalog and one persistent canonical frame per placed instance; no duplicated resource formulas or guessed liquid IDs."
     },
+    "SourcePumpRuntimeState.source_pump_dump_liquid_state": {
+      "canonical_contract": "source_api_contracts.SourcePumpRuntimeState.source_pump_dump_liquid_state",
+      "status": "active",
+      "source_slice": "N2090",
+      "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+      "source_method": "updateTile()",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_pump_dump_liquid_state_input.game"
+        },
+        {
+          "name": "cell",
+          "type": "Vector2i",
+          "schema": "source_pump_dump_liquid_state_input.cell"
+        }
+      ],
+      "return_keys": [
+        "liquid_drop",
+        "amount_dumped",
+        "liquid_amount",
+        "dump_cursor"
+      ],
+      "tests": [
+        "test_pump_dump_liquid_binding_registration",
+        "test_all_pump_dump_liquid_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_pump_dump_liquid"
+      ],
+      "runtime_proof": "/root/PumpDumpLiquidProof",
+      "rule": "Source-backed pump dumpLiquid step; the pump drains its water into its liquid neighbors.",
+      "return_type": "Dictionary"
+    },
     "SourcePumpRuntimeState.source_pump_proximity_state": {
       "canonical_contract": "source_api_contracts.SourcePumpRuntimeState.source_pump_proximity_state",
       "status": "active",

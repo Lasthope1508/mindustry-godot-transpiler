@@ -381,6 +381,27 @@
       ],
       "runtime_proof": "/root/PumpUpdateProof"
     },
+    "N2090": {
+      "canonical_ledger": "source_slice_ledger.N2090",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+      "java_method": "updateTile()",
+      "godot_owner": "SourcePumpRuntimeState.source_pump_dump_liquid_state",
+      "source_symbols": [
+        "source_pump_dump_liquid_state_input.game",
+        "source_pump_dump_liquid_state_input.cell",
+        "source_pump_dump_liquid_state_result.liquid_drop",
+        "source_pump_dump_liquid_state_result.amount_dumped",
+        "source_pump_dump_liquid_state_result.liquid_amount",
+        "source_pump_dump_liquid_state_result.dump_cursor"
+      ],
+      "tests": [
+        "test_pump_dump_liquid_binding_registration",
+        "test_all_pump_dump_liquid_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_pump_dump_liquid"
+      ],
+      "runtime_proof": "/root/PumpDumpLiquidProof"
+    },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",
       "status": "done",

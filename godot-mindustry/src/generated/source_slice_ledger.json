@@ -52901,6 +52901,39 @@
         "The pump dumpLiquid step (Pump.java:180-182) and the conduit liquid movement, then the live-loop liquid flow (the C04 gate: pump -> conduit -> Drill uses water as a booster).",
         "C05-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2090": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+      "java_class": "mindustry.world.blocks.production.Pump$PumpBuild",
+      "java_method": "updateTile()",
+      "godot_owner": "SourcePumpRuntimeState.source_pump_dump_liquid_state",
+      "exact_exprs": [
+        "if(liquidDrop != null){",
+        "dumpLiquid(liquidDrop);",
+        "dumpLiquid(liquid, 2f);",
+        "if(liquids.get(liquid) <= 0.0001f) return;",
+        "float ofract = other.liquids.get(liquid) / other.block.liquidCapacity;",
+        "if(ofract < fract) transferLiquid(other, (fract - ofract) * block.liquidCapacity / scaling, liquid);"
+      ],
+      "source_symbols": [
+        "source_pump_dump_liquid_state_input.game",
+        "source_pump_dump_liquid_state_input.cell",
+        "source_pump_dump_liquid_state_result.liquid_drop",
+        "source_pump_dump_liquid_state_result.amount_dumped",
+        "source_pump_dump_liquid_state_result.liquid_amount",
+        "source_pump_dump_liquid_state_result.dump_cursor"
+      ],
+      "tests": [
+        "test_pump_dump_liquid_binding_registration",
+        "test_all_pump_dump_liquid_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_pump_dump_liquid"
+      ],
+      "runtime_proof": "/root/PumpDumpLiquidProof",
+      "deferred_exprs": [
+        "The conduit liquid movement (moveLiquidForward) and the drill water booster, then the live-loop liquid flow (the C04 gate: pump -> conduit -> Drill uses water as a booster).",
+        "C05-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1

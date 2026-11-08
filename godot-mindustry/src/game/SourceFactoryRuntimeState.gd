@@ -152,6 +152,7 @@ static func simulate_factory(game: Object, delta: float) -> void:
 	source_factory_advance_conveyors_state(game, advance_cells, delta)
 	source_factory_update_power_graph_state(game, delta)
 	source_pump_runtime_state.source_pump_update_state(game, source_playable_scenario_defaults.PUMP_POS, delta)
+	source_pump_runtime_state.source_pump_dump_liquid_state(game, source_playable_scenario_defaults.PUMP_POS)
 	game.set(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_TRANSPORT_PROGRESS_KEY, float(apply_state.get(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_TRANSPORT_PROGRESS_KEY, game.get(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_TRANSPORT_PROGRESS_KEY))))
 	var item_sprites_value = game.get(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_ITEM_SPRITES_KEY)
 	if not (item_sprites_value is Array):

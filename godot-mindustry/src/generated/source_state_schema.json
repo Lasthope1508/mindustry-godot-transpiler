@@ -220556,6 +220556,84 @@
       },
       "runtime_proof": "/root/PumpUpdateProof",
       "rule": "Source-backed pump update and conduit line."
+    },
+    "source_pump_dump_liquid_state_input": {
+      "status": "active",
+      "owner": "SourcePumpRuntimeState.source_pump_dump_liquid_state",
+      "source_slice": "N2090",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+          "java_expr": "dumpLiquid(liquidDrop);",
+          "rule": "The game, for the pump sprite, its liquid module and its liquid neighbors.",
+          "used_by": [
+            "SourcePumpRuntimeState.source_pump_dump_liquid_state"
+          ]
+        },
+        "cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+          "java_expr": "dumpLiquid(liquidDrop);",
+          "rule": "The pump cell to dump from.",
+          "used_by": [
+            "SourcePumpRuntimeState.source_pump_dump_liquid_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/PumpDumpLiquidProof",
+      "rule": "Source-backed pump dumpLiquid step."
+    },
+    "source_pump_dump_liquid_state_result": {
+      "status": "active",
+      "owner": "SourcePumpRuntimeState.source_pump_dump_liquid_state",
+      "source_slice": "N2090",
+      "keys": {
+        "liquid_drop": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+          "java_expr": "if(liquidDrop != null){",
+          "rule": "The pump liquidDrop id, or null when no linked tile is pumpable.",
+          "used_by": [
+            "SourcePumpRuntimeState.source_pump_dump_liquid_state"
+          ]
+        },
+        "amount_dumped": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(ofract < fract) transferLiquid(other, (fract - ofract) * block.liquidCapacity / scaling, liquid);",
+          "rule": "The water dumped from the pump liquids to its liquid neighbors.",
+          "used_by": [
+            "SourcePumpRuntimeState.source_pump_dump_liquid_state"
+          ]
+        },
+        "liquid_amount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(liquids.get(liquid) <= 0.0001f) return;",
+          "rule": "The water left in the pump liquids after the dump.",
+          "used_by": [
+            "SourcePumpRuntimeState.source_pump_dump_liquid_state"
+          ]
+        },
+        "dump_cursor": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "dumpLiquid(liquid, 2f);",
+          "rule": "The pump dump cursor (cdump) after the dump.",
+          "used_by": [
+            "SourcePumpRuntimeState.source_pump_dump_liquid_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/PumpDumpLiquidProof",
+      "rule": "Source-backed pump dumpLiquid step."
     }
   },
   "version": 1

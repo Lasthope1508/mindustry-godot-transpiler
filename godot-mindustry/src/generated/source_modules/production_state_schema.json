@@ -946,6 +946,31 @@
         }
       }
     },
+    "source_pump_dump_liquid_state_input": {
+      "canonical_schema": "source_state_schema.source_pump_dump_liquid_state_input",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+          "java_expr": "dumpLiquid(liquidDrop);",
+          "rule": "The game, for the pump sprite, its liquid module and its liquid neighbors.",
+          "used_by": [
+            "SourcePumpRuntimeState.source_pump_dump_liquid_state"
+          ]
+        },
+        "cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+          "java_expr": "dumpLiquid(liquidDrop);",
+          "rule": "The pump cell to dump from.",
+          "used_by": [
+            "SourcePumpRuntimeState.source_pump_dump_liquid_state"
+          ]
+        }
+      }
+    },
     "source_pump_proximity_state_input": {
       "canonical_schema": "source_state_schema.source_pump_proximity_state_input",
       "keys": {
