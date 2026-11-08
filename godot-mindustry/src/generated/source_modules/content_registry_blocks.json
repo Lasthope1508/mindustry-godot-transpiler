@@ -11,6 +11,16 @@
         "canOverdrive": true,
         "category": "units",
         "connectedPower": true,
+        "consumeItem": [
+          {
+            "amount": 40,
+            "item": "silicon"
+          },
+          {
+            "amount": 40,
+            "item": "graphite"
+          }
+        ],
         "consumePower": 3.0,
         "consumesPower": true,
         "hasPower": true,
@@ -860,6 +870,16 @@
         "canOverdrive": true,
         "category": "crafting",
         "connectedPower": true,
+        "consumeItem": [
+          {
+            "amount": 1,
+            "item": "pyratite"
+          },
+          {
+            "amount": 1,
+            "item": "spore-pod"
+          }
+        ],
         "consumePower": 0.4,
         "consumesPower": true,
         "hasItems": true,
@@ -1141,6 +1161,16 @@
         "canOverdrive": true,
         "category": "crafting",
         "connectedPower": true,
+        "consumeItem": [
+          {
+            "amount": 2,
+            "item": "tungsten"
+          },
+          {
+            "amount": 3,
+            "item": "graphite"
+          }
+        ],
         "consumePower": 2.0,
         "consumesPower": true,
         "hasItems": true,
@@ -1941,6 +1971,12 @@
         "canOverdrive": true,
         "category": "crafting",
         "connectedPower": true,
+        "consumeItem": [
+          {
+            "amount": 1,
+            "item": "titanium"
+          }
+        ],
         "consumeLiquid": [
           {
             "amount": 0.2,
@@ -2159,6 +2195,12 @@
         "canOverdrive": true,
         "category": "crafting",
         "connectedPower": true,
+        "consumeItem": [
+          {
+            "amount": 1,
+            "item": "graphite"
+          }
+        ],
         "consumeLiquid": [
           {
             "amount": 2.6666666666666665,
@@ -2548,6 +2590,12 @@
         "canOverdrive": true,
         "category": "power",
         "connectedPower": true,
+        "consumeItem": [
+          {
+            "amount": 1,
+            "item": "pyratite"
+          }
+        ],
         "consumeLiquid": [
           {
             "amount": 0.1,
@@ -2748,6 +2796,12 @@
         "canOverdrive": true,
         "category": "crafting",
         "connectedPower": true,
+        "consumeItem": [
+          {
+            "amount": 1,
+            "item": "scrap"
+          }
+        ],
         "consumeLiquid": [
           {
             "amount": 0.12,
@@ -3290,6 +3344,20 @@
         "canOverdrive": true,
         "category": "units",
         "connectedPower": true,
+        "consumeItem": [
+          {
+            "amount": 850,
+            "item": "silicon"
+          },
+          {
+            "amount": 750,
+            "item": "titanium"
+          },
+          {
+            "amount": 650,
+            "item": "plastanium"
+          }
+        ],
         "consumeLiquid": [
           {
             "amount": 1.0,
@@ -3593,6 +3661,12 @@
         "canOverdrive": true,
         "category": "crafting",
         "connectedPower": true,
+        "consumeItem": [
+          {
+            "amount": 2,
+            "item": "coal"
+          }
+        ],
         "consumesPower": true,
         "hasItems": true,
         "hasPower": true,
@@ -3731,6 +3805,12 @@
         "canOverdrive": false,
         "category": "crafting",
         "connectedPower": true,
+        "consumeItem": [
+          {
+            "amount": 3,
+            "item": "thorium"
+          }
+        ],
         "consumeLiquid": [
           {
             "amount": 0.016666666666666666,
@@ -4046,6 +4126,12 @@
         "canOverdrive": true,
         "category": "power",
         "connectedPower": true,
+        "consumeItem": [
+          {
+            "amount": 1,
+            "item": "blast-compound"
+          }
+        ],
         "consumeLiquid": [
           {
             "amount": 0.25,
@@ -4324,6 +4410,16 @@
         "canOverdrive": true,
         "category": "crafting",
         "connectedPower": true,
+        "consumeItem": [
+          {
+            "amount": 1,
+            "item": "lead"
+          },
+          {
+            "amount": 1,
+            "item": "sand"
+          }
+        ],
         "consumePower": 0.6,
         "consumesPower": true,
         "hasItems": true,
@@ -5294,6 +5390,16 @@
         "canOverdrive": true,
         "category": "units",
         "connectedPower": true,
+        "consumeItem": [
+          {
+            "amount": 50,
+            "item": "silicon"
+          },
+          {
+            "amount": 40,
+            "item": "tungsten"
+          }
+        ],
         "consumeLiquid": [
           {
             "amount": 0.05,
@@ -5453,6 +5559,12 @@
         "canOverdrive": true,
         "category": "crafting",
         "connectedPower": true,
+        "consumeItem": [
+          {
+            "amount": 1,
+            "item": "scrap"
+          }
+        ],
         "consumePower": 1.0,
         "consumesPower": true,
         "hasItems": true,
@@ -5561,6 +5673,14 @@
         "canOverdrive": true,
         "category": "effect",
         "connectedPower": true,
+        "consumeItem": [
+          {
+            "amount": 1,
+            "booster": true,
+            "item": "phase-fabric",
+            "optional": true
+          }
+        ],
         "consumePower": 1.5,
         "consumesPower": true,
         "emitLight": true,
@@ -5615,6 +5735,14 @@
         "canOverdrive": true,
         "category": "effect",
         "connectedPower": true,
+        "consumeItem": [
+          {
+            "amount": 1,
+            "booster": true,
+            "item": "silicon",
+            "optional": true
+          }
+        ],
         "consumePower": 0.3,
         "consumesPower": true,
         "emitLight": true,
@@ -6122,6 +6250,12 @@
         "canOverdrive": true,
         "category": "crafting",
         "connectedPower": true,
+        "consumeItem": [
+          {
+            "amount": 3,
+            "item": "coal"
+          }
+        ],
         "consumeLiquid": [
           {
             "amount": 0.1,
@@ -6171,6 +6305,20 @@
         "canOverdrive": true,
         "category": "units",
         "connectedPower": true,
+        "consumeItem": [
+          {
+            "amount": 130,
+            "item": "silicon"
+          },
+          {
+            "amount": 80,
+            "item": "titanium"
+          },
+          {
+            "amount": 40,
+            "item": "metaglass"
+          }
+        ],
         "consumePower": 6.0,
         "consumesPower": true,
         "hasPower": true,
@@ -6249,6 +6397,12 @@
         "canOverdrive": false,
         "category": "power",
         "connectedPower": true,
+        "consumeItem": [
+          {
+            "amount": 1,
+            "item": "phase-fabric"
+          }
+        ],
         "consumeLiquid": [
           {
             "amount": 1.3333333333333333,
@@ -6306,6 +6460,12 @@
         "canOverdrive": true,
         "category": "production",
         "connectedPower": true,
+        "consumeItem": [
+          {
+            "amount": 1,
+            "item": "sand"
+          }
+        ],
         "consumeLiquid": [
           {
             "amount": 0.15,
@@ -6568,6 +6728,16 @@
         "canOverdrive": false,
         "category": "effect",
         "connectedPower": true,
+        "consumeItem": [
+          {
+            "amount": 1,
+            "item": "phase-fabric"
+          },
+          {
+            "amount": 1,
+            "item": "silicon"
+          }
+        ],
         "consumePower": 10.0,
         "consumesPower": true,
         "emitLight": true,
@@ -6627,6 +6797,14 @@
         "canOverdrive": false,
         "category": "effect",
         "connectedPower": true,
+        "consumeItem": [
+          {
+            "amount": 1,
+            "booster": true,
+            "item": "phase-fabric",
+            "optional": true
+          }
+        ],
         "consumePower": 3.5,
         "consumesPower": true,
         "emitLight": true,
@@ -6739,6 +6917,12 @@
         "canOverdrive": false,
         "category": "crafting",
         "connectedPower": true,
+        "consumeItem": [
+          {
+            "amount": 1,
+            "item": "beryllium"
+          }
+        ],
         "consumeLiquid": [
           {
             "amount": 0.03333333333333333,
@@ -7129,6 +7313,12 @@
         "canOverdrive": false,
         "category": "crafting",
         "connectedPower": true,
+        "consumeItem": [
+          {
+            "amount": 1,
+            "item": "phase-fabric"
+          }
+        ],
         "consumesPower": true,
         "hasPower": true,
         "itemDrop": null,
@@ -7161,6 +7351,16 @@
         "canOverdrive": true,
         "category": "crafting",
         "connectedPower": true,
+        "consumeItem": [
+          {
+            "amount": 2,
+            "item": "thorium"
+          },
+          {
+            "amount": 6,
+            "item": "sand"
+          }
+        ],
         "consumeLiquid": [
           {
             "amount": 0.13333333333333333,
@@ -7250,6 +7450,16 @@
         "canOverdrive": true,
         "category": "crafting",
         "connectedPower": true,
+        "consumeItem": [
+          {
+            "amount": 4,
+            "item": "thorium"
+          },
+          {
+            "amount": 10,
+            "item": "sand"
+          }
+        ],
         "consumePower": 5.0,
         "consumesPower": true,
         "hasItems": true,
@@ -7345,6 +7555,12 @@
         "canOverdrive": true,
         "category": "crafting",
         "connectedPower": true,
+        "consumeItem": [
+          {
+            "amount": 2,
+            "item": "titanium"
+          }
+        ],
         "consumeLiquid": [
           {
             "amount": 0.25,
@@ -7665,6 +7881,16 @@
         "canOverdrive": true,
         "category": "units",
         "connectedPower": true,
+        "consumeItem": [
+          {
+            "amount": 80,
+            "item": "thorium"
+          },
+          {
+            "amount": 100,
+            "item": "silicon"
+          }
+        ],
         "consumeLiquid": [
           {
             "amount": 0.16666666666666666,
@@ -7740,6 +7966,12 @@
         "canOverdrive": true,
         "category": "crafting",
         "connectedPower": true,
+        "consumeItem": [
+          {
+            "amount": 1,
+            "item": "scrap"
+          }
+        ],
         "consumePower": 0.5,
         "consumesPower": true,
         "hasItems": true,
@@ -7790,6 +8022,20 @@
         "canOverdrive": true,
         "category": "crafting",
         "connectedPower": true,
+        "consumeItem": [
+          {
+            "amount": 1,
+            "item": "coal"
+          },
+          {
+            "amount": 2,
+            "item": "lead"
+          },
+          {
+            "amount": 2,
+            "item": "sand"
+          }
+        ],
         "consumePower": 0.2,
         "consumesPower": true,
         "hasItems": true,
@@ -8056,6 +8302,14 @@
         "canOverdrive": true,
         "category": "effect",
         "connectedPower": true,
+        "consumeItem": [
+          {
+            "amount": 1,
+            "booster": true,
+            "item": "phase-fabric",
+            "optional": true
+          }
+        ],
         "consumeLiquid": [
           {
             "amount": 0.016666666666666666,
@@ -9606,6 +9860,16 @@
         "canOverdrive": true,
         "category": "units",
         "connectedPower": true,
+        "consumeItem": [
+          {
+            "amount": 60,
+            "item": "silicon"
+          },
+          {
+            "amount": 40,
+            "item": "tungsten"
+          }
+        ],
         "consumeLiquid": [
           {
             "amount": 0.05,
@@ -9738,6 +10002,16 @@
         "canOverdrive": true,
         "category": "crafting",
         "connectedPower": true,
+        "consumeItem": [
+          {
+            "amount": 1,
+            "item": "graphite"
+          },
+          {
+            "amount": 4,
+            "item": "sand"
+          }
+        ],
         "consumePower": 5.0,
         "consumesPower": true,
         "hasItems": true,
@@ -9773,6 +10047,20 @@
         "canOverdrive": true,
         "category": "crafting",
         "connectedPower": true,
+        "consumeItem": [
+          {
+            "amount": 4,
+            "item": "coal"
+          },
+          {
+            "amount": 6,
+            "item": "sand"
+          },
+          {
+            "amount": 1,
+            "item": "pyratite"
+          }
+        ],
         "consumePower": 4.0,
         "consumesPower": true,
         "hasLiquids": false,
@@ -9815,6 +10103,16 @@
         "canOverdrive": true,
         "category": "crafting",
         "connectedPower": true,
+        "consumeItem": [
+          {
+            "amount": 1,
+            "item": "coal"
+          },
+          {
+            "amount": 2,
+            "item": "sand"
+          }
+        ],
         "consumePower": 0.5,
         "consumesPower": true,
         "hasItems": true,
@@ -9850,6 +10148,12 @@
         "canOverdrive": true,
         "category": "crafting",
         "connectedPower": true,
+        "consumeItem": [
+          {
+            "amount": 1,
+            "item": "sand"
+          }
+        ],
         "consumeLiquid": [
           {
             "amount": 0.6666666666666666,
@@ -10428,6 +10732,12 @@
         "canOverdrive": true,
         "category": "crafting",
         "connectedPower": true,
+        "consumeItem": [
+          {
+            "amount": 1,
+            "item": "spore-pod"
+          }
+        ],
         "consumePower": 0.7,
         "consumesPower": true,
         "hasItems": true,
@@ -10649,6 +10959,12 @@
         "canOverdrive": true,
         "category": "crafting",
         "connectedPower": true,
+        "consumeItem": [
+          {
+            "amount": 3,
+            "item": "silicon"
+          }
+        ],
         "consumeLiquid": [
           {
             "amount": 2.6666666666666665,
@@ -10729,6 +11045,24 @@
         "canOverdrive": true,
         "category": "crafting",
         "connectedPower": true,
+        "consumeItem": [
+          {
+            "amount": 3,
+            "item": "copper"
+          },
+          {
+            "amount": 4,
+            "item": "lead"
+          },
+          {
+            "amount": 2,
+            "item": "titanium"
+          },
+          {
+            "amount": 3,
+            "item": "silicon"
+          }
+        ],
         "consumePower": 4.0,
         "consumesPower": true,
         "hasItems": true,
@@ -11017,6 +11351,16 @@
         "canOverdrive": true,
         "category": "units",
         "connectedPower": true,
+        "consumeItem": [
+          {
+            "amount": 40,
+            "item": "silicon"
+          },
+          {
+            "amount": 30,
+            "item": "tungsten"
+          }
+        ],
         "consumeLiquid": [
           {
             "amount": 0.05,
@@ -11091,6 +11435,24 @@
         "canOverdrive": true,
         "category": "units",
         "connectedPower": true,
+        "consumeItem": [
+          {
+            "amount": 1000,
+            "item": "silicon"
+          },
+          {
+            "amount": 600,
+            "item": "plastanium"
+          },
+          {
+            "amount": 500,
+            "item": "surge-alloy"
+          },
+          {
+            "amount": 350,
+            "item": "phase-fabric"
+          }
+        ],
         "consumeLiquid": [
           {
             "amount": 3.0,
@@ -11186,6 +11548,19 @@
         "canOverdrive": true,
         "category": "power",
         "connectedPower": true,
+        "consumeItem": [
+          {
+            "amount": 1,
+            "item": "thorium"
+          }
+        ],
+        "consumeLiquid": [
+          {
+            "amount": 0.04,
+            "liquid": "cryofluid",
+            "update": false
+          }
+        ],
         "consumesPower": false,
         "hasItems": true,
         "hasLiquids": true,

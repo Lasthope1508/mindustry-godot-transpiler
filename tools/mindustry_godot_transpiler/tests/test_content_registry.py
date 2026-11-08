@@ -301,6 +301,86 @@ public class Blocks{
         self.assertEqual(registry["blocks"][0]["properties"].get("emitLight"), True)
         self.assertEqual(registry["blocks"][0]["properties"].get("lightRadius"), 50.0)
 
+    def test_block_registry_resolves_thorium_reactor_consumers(self):
+        # N2094: the thorium reactor's cryofluid amount is the field expression
+        # `heating / coolantPower` (Blocks.java:2629) — `heating` is assigned in
+        # the block initializer (0.02f) and `coolantPower` is a NuclearReactor
+        # field default (0.5f), so the amount is 0.04. The consumer is
+        # `.update(false)` (not an update consumer). N2095: the thorium item
+        # consumer `consumeItem(Items.thorium)` (Blocks.java:2628) is extracted
+        # with its default amount of 1.
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source = root / "upstream" / "core" / "src" / "mindustry" / "content"
+            source.mkdir(parents=True)
+            self._write_block_base(root)
+            power_source = root / "upstream" / "core" / "src" / "mindustry" / "world" / "blocks" / "power"
+            power_source.mkdir(parents=True, exist_ok=True)
+            (power_source / "NuclearReactor.java").write_text(
+                """
+package mindustry.world.blocks.power;
+public class NuclearReactor extends Block{
+    public float coolantPower = 0.5f;
+    public NuclearReactor(String name){
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            (source / "Items.java").write_text(
+                """
+package mindustry.content;
+public class Items{
+    public static Item lead, thorium;
+    public static void load(){
+        lead = new Item("lead", Color.valueOf("8c7fa9"));
+        thorium = new Item("thorium", Color.valueOf("f9a3ff"));
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            (source / "Liquids.java").write_text(
+                """
+package mindustry.content;
+public class Liquids{
+    public static Liquid cryofluid;
+    public static void load(){
+        cryofluid = new Liquid("cryofluid", Color.valueOf("6f7ed9"));
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            (source / "Blocks.java").write_text(
+                """
+package mindustry.content;
+public class Blocks{
+    public static Block thoriumReactor;
+    public static void load(){
+        thoriumReactor = new NuclearReactor("thorium-reactor"){{
+            requirements(Category.power, with(Items.lead, 300));
+            size = 3;
+            health = 700;
+            itemDuration = 360f;
+            powerProduction = 15f;
+            heating = 0.02f;
+            consumeItem(Items.thorium);
+            consumeLiquid(Liquids.cryofluid, heating / coolantPower).update(false);
+        }};
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            registry = build_content_registry(root / "upstream", root / "godot")
+
+        block = registry["blocks"][0]
+        self.assertEqual(block["field"], "thoriumReactor")
+        self.assertEqual(block["properties"].get("consumeLiquid"), [{"liquid": "cryofluid", "amount": 0.04, "update": False}])
+        self.assertEqual(block["properties"].get("consumeItem"), [{"item": "thorium", "amount": 1}])
+
     def test_block_registry_extracts_overdrive_projector_source_params(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

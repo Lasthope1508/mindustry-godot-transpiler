@@ -237,6 +237,7 @@ def extract_blocks(upstream_root: Path, godot_root: Path | None = None) -> list[
     power_defaults = _power_defaults(upstream_root)
     has_items_defaults = _has_items_defaults(upstream_root)
     default_item_capacity = _block_item_capacity_default(upstream_root)
+    class_sources = _class_sources(upstream_root)
     drill_blocked_defaults = _drill_blocked_defaults(upstream_root)
     item_source = _source_content_dir(upstream_root) / 'Items.java'
     terrain = TerrainContentResolver(upstream_root, _extract_creators(item_source, {'Item'}) if item_source.exists() else [])
@@ -251,7 +252,7 @@ def extract_blocks(upstream_root: Path, godot_root: Path | None = None) -> list[
         first_argument = javalang.parse.parse_expression('new ' + implementation + '(' + arguments + ')').arguments[0]
         content_id = _literal_value(first_argument) if isinstance(first_argument, Literal) and first_argument.value.startswith('"') else definitions.get('name')
         if not isinstance(content_id, str) or not content_id: continue
-        properties = _block_properties(source, assignment_end, implementation, can_overdrive_defaults, has_items_defaults, default_item_capacity, power_defaults)
+        properties = _block_properties(source, assignment_end, implementation, can_overdrive_defaults, has_items_defaults, default_item_capacity, power_defaults, class_sources)
         overrides = terrain.overrides(anonymous_body(source, assignment_end))
         for key in ('itemDrop', 'cacheLayer'):
             value = overrides.get(key, definitions.get(key, UNKNOWN))
@@ -404,7 +405,7 @@ def _power_defaults(upstream_root: Path) -> dict[str, dict[str, bool]]:
         resolved(class_name)
     return defaults
 
-def _block_properties(source: str, assignment_end: int, implementation: str = "", can_overdrive_defaults: dict[str, bool] | None = None, has_items_defaults: dict[str, bool] | None = None, default_item_capacity: int | None = None, power_defaults: dict[str, dict[str, bool]] | None = None) -> dict[str, Any]:
+def _block_properties(source: str, assignment_end: int, implementation: str = "", can_overdrive_defaults: dict[str, bool] | None = None, has_items_defaults: dict[str, bool] | None = None, default_item_capacity: int | None = None, power_defaults: dict[str, dict[str, bool]] | None = None, class_sources: dict[str, str] | None = None) -> dict[str, Any]:
     initializer = _initializer_body(source, assignment_end)
     properties: dict[str, Any] = {}
     if can_overdrive_defaults is not None:
@@ -484,20 +485,35 @@ def _block_properties(source: str, assignment_end: int, implementation: str = ""
             properties["limitRangeMargin"] = limit_range_margin
             _apply_limit_range_to_ammo(properties, ammo, limit_range_margin)
         properties["ammo"] = ammo
-    liquid_consumers = _consume_liquid_descriptors(initializer)
+    # Field values for consumer amount expressions: the implementation class's
+    # field defaults first, then the block initializer's own assignments (which
+    # override the class defaults, e.g. thorium-reactor's `heating = 0.02f`).
+    field_values: dict[str, int | float] = {}
+    if class_sources and implementation in class_sources:
+        field_values.update(_numeric_field_values(class_sources[implementation]))
+    field_values.update(_numeric_assignments(initializer))
+    liquid_consumers = _consume_liquid_descriptors(initializer, field_values)
     if liquid_consumers:
         properties["consumeLiquid"] = liquid_consumers
+    item_consumers = _consume_item_descriptors(initializer)
+    if item_consumers:
+        properties["consumeItem"] = item_consumers
     if implementation == "ItemTurret":
         _apply_item_turret_ammo_defaults(properties, initializer)
     return properties
 
-def _consume_liquid_descriptors(initializer: str) -> list[dict[str, Any]] | None:
+def _consume_liquid_descriptors(initializer: str, field_values: dict[str, int | float] | None = None) -> list[dict[str, Any]] | None:
     """Resolve standalone literal calls; None leaves the whole block unresolved.
 
     Keep Java field identity for typed runtime resolution. Omitted flags belong
     to canonical Consume classification defaults. Tokenization removes comments
     and rejects nested/assigned calls rather than making them unconditional.
+    Field references in the amount expression (e.g. `heating / coolantPower`)
+    resolve through `field_values` (initializer assignments, then class field
+    defaults); an unresolvable field leaves the whole block unresolved.
     """
+    field_values = field_values or {}
+
     def number(node):
         if isinstance(node, Literal):
             value = _number_literal(node.value)
@@ -509,6 +525,8 @@ def _consume_liquid_descriptors(initializer: str) -> list[dict[str, Any]] | None
         if isinstance(node, javalang.tree.BinaryOperation) and node.operator == '/':
             left, right = number(node.operandl), number(node.operandr)
             return int(left / right) if isinstance(left, int) and isinstance(right, int) else left / right
+        if isinstance(node, javalang.tree.MemberReference) and not node.qualifier and not node.selectors and node.member in field_values:
+            return field_values[node.member]
         raise ValueError('Unresolved amount expression')
 
     try:
@@ -553,6 +571,102 @@ def _consume_liquid_descriptors(initializer: str) -> list[dict[str, Any]] | None
                 else:
                     return None
             result.append(descriptor)
+        return result
+    except (ValueError, TypeError, StopIteration, ZeroDivisionError, javalang.parser.JavaSyntaxError, javalang.tokenizer.LexerError):
+        return None
+
+
+def _consume_item_descriptors(initializer: str) -> list[dict[str, Any]] | None:
+    """Resolve standalone literal consumeItem/consumeItems calls; None leaves the whole block unresolved.
+
+    `consumeItem(Items.<name>)` defaults the amount to 1 (Block.java:1167-1173);
+    `consumeItems(with(Items.<a>, <n>, ...))` expands to one descriptor per stack.
+    Assigned calls (`itemConsumer = consumeItem(...)`) are the booster item, already
+    captured by `_boost_item`, so they are skipped rather than resolved here.
+    Selector flags (boost/optional/update) mirror `_consume_liquid_descriptors`.
+    """
+    def number(node):
+        if isinstance(node, Literal):
+            value = _number_literal(node.value)
+            for operator in reversed(node.prefix_operators or []):
+                if operator not in ('+', '-'):
+                    raise ValueError('Unsupported numeric prefix')
+                value = -value if operator == '-' else value
+            return value
+        raise ValueError('Unresolved amount expression')
+
+    def selector_flags(expression):
+        flags: dict[str, Any] = {}
+        for selector in expression.selectors or []:
+            if not isinstance(selector, MethodInvocation):
+                return None
+            arguments = selector.arguments
+            if selector.member == 'boost' and not arguments:
+                # Consume.boost(): return optional(true, true).
+                flags.update(optional=True, booster=True)
+            elif selector.member in ('optional', 'update'):
+                count = 2 if selector.member == 'optional' else 1
+                if len(arguments) != count or any(not isinstance(a, Literal) or a.value not in ('true', 'false') or a.prefix_operators for a in arguments):
+                    return None
+                values = [a.value == 'true' for a in arguments]
+                if selector.member == 'optional':
+                    flags.update(optional=values[0], booster=values[1])
+                else:
+                    flags['update'] = values[0]
+            else:
+                return None
+        return flags
+
+    try:
+        tokens = list(javalang.tokenizer.tokenize(initializer))
+        if any(t.value in ('consumeBuilder', 'findConsumer', 'removeConsumer', 'removeConsumers') for t in tokens):
+            return None
+        result = []
+        depth = 0
+        for index, token in enumerate(tokens):
+            if token.value == '{':
+                depth += 1
+            elif token.value == '}':
+                depth -= 1
+            if token.value not in ('consumeItem', 'consumeItems') or index + 1 >= len(tokens) or tokens[index + 1].value != '(':
+                continue
+            if depth != 2 or index == 0 or tokens[index - 1].value not in ('{', ';', '}'):
+                if index > 0 and tokens[index - 1].value == '=':
+                    continue
+                return None
+            end = next(i for i in range(index, len(tokens)) if tokens[i].value == ';')
+            expression = javalang.parse.parse_expression(' '.join(t.value for t in tokens[index:end]))
+            if not isinstance(expression, MethodInvocation) or expression.qualifier:
+                return None
+            flags = selector_flags(expression)
+            if flags is None:
+                return None
+            if expression.member == 'consumeItem':
+                if len(expression.arguments) not in (1, 2):
+                    return None
+                item = expression.arguments[0]
+                if not isinstance(item, javalang.tree.MemberReference) or item.qualifier != 'Items' or item.selectors:
+                    return None
+                amount = int(number(expression.arguments[1])) if len(expression.arguments) == 2 else 1
+                descriptor = {'item': _camel_to_kebab(item.member), 'amount': amount}
+                descriptor.update(flags)
+                result.append(descriptor)
+            else:
+                if len(expression.arguments) != 1:
+                    return None
+                with_call = expression.arguments[0]
+                if not isinstance(with_call, MethodInvocation) or with_call.member != 'with' or with_call.qualifier:
+                    return None
+                args = with_call.arguments
+                if len(args) % 2 != 0:
+                    return None
+                for i in range(0, len(args), 2):
+                    item, amount = args[i], args[i + 1]
+                    if not isinstance(item, javalang.tree.MemberReference) or item.qualifier != 'Items' or item.selectors:
+                        return None
+                    descriptor = {'item': _camel_to_kebab(item.member), 'amount': int(number(amount))}
+                    descriptor.update(flags)
+                    result.append(descriptor)
         return result
     except (ValueError, TypeError, StopIteration, ZeroDivisionError, javalang.parser.JavaSyntaxError, javalang.tokenizer.LexerError):
         return None
@@ -629,6 +743,35 @@ def _color_value_assignment(source: str, key: str) -> str | None:
 def _numeric_assignment(source: str, key: str) -> int | float | None:
     match = re.search(rf"\b{key}\s*=\s*([0-9_]+(?:\.[0-9_]+)?[fFdDlL]?)\s*;", source)
     return _number_literal(match.group(1)) if match else None
+
+
+def _class_sources(upstream_root: Path) -> dict[str, str]:
+    """Map block implementation class name -> source text."""
+    sources: dict[str, str] = {}
+    blocks_root = _source_world_dir(upstream_root) / "blocks"
+    if blocks_root.exists():
+        for source_path in blocks_root.rglob("*.java"):
+            source = source_path.read_text(encoding="utf-8", errors="replace")
+            class_match = re.search(r"\bclass\s+([A-Za-z_]\w*)", source)
+            if class_match:
+                sources[class_match.group(1)] = source
+    return sources
+
+
+def _numeric_field_values(source: str) -> dict[str, int | float]:
+    """Numeric field defaults from a class source (`public float x = 0.5f;`)."""
+    values: dict[str, int | float] = {}
+    for match in re.finditer(r"\b(?:public|protected|private)\s+(?:static\s+)?(?:final\s+)?(?:float|int|double|long)\s+([A-Za-z_]\w*)\s*=\s*([0-9_]+(?:\.[0-9_]+)?[fFdDlL]?)\s*;", source):
+        values[match.group(1)] = _number_literal(match.group(2))
+    return values
+
+
+def _numeric_assignments(source: str) -> dict[str, int | float]:
+    """Numeric assignments in an initializer block (`heating = 0.02f;`)."""
+    values: dict[str, int | float] = {}
+    for match in re.finditer(r"\b([A-Za-z_]\w*)\s*=\s*([0-9_]+(?:\.[0-9_]+)?[fFdDlL]?)\s*;", source):
+        values[match.group(1)] = _number_literal(match.group(2))
+    return values
 
 def _shoot_alternate_pattern(source: str) -> dict[str, Any] | None:
     match = re.search(r"\bshoot\s*=\s*new\s+ShootAlternate\s*\(\s*([0-9_]+(?:\.[0-9_]+)?[fFdD]?)\s*\)", source)

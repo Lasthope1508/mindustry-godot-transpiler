@@ -41,6 +41,11 @@ class LiquidConsumerHydrationTests(unittest.TestCase):
         blocks = {b['id']: b for b in data['blocks']}
         self.assertEqual(blocks['mechanical-drill']['properties']['consumeLiquid'], [{'liquid': 'water', 'amount': 0.05, 'optional': True, 'booster': True}])
         self.assertAlmostEqual(blocks['pneumatic-drill']['properties']['consumeLiquid'][0]['amount'], 3.5 / 60)
+        # N2094/N2095: the thorium reactor's consumers — the cryofluid amount is
+        # the field expression `heating / coolantPower` (0.02 / 0.5 = 0.04) with
+        # `.update(false)`, and the thorium item consumer defaults to amount 1.
+        self.assertEqual(blocks['thorium-reactor']['properties']['consumeLiquid'], [{'liquid': 'cryofluid', 'amount': 0.04, 'update': False}])
+        self.assertEqual(blocks['thorium-reactor']['properties']['consumeItem'], [{'item': 'thorium', 'amount': 1}])
         self.assertNotIn('consumeLiquid', blocks['air']['properties'])
         self.assertGreater(sum('consumeLiquid' in b['properties'] for b in blocks.values()), 20)
 
