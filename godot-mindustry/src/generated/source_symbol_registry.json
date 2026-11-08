@@ -163458,6 +163458,216 @@
         "test_reference_graph_and_actual_pump_proximity"
       ],
       "runtime_proof": "/root/PumpProximityProof"
+    },
+    "source_pump_update_state_input.game": {
+      "status": "source-backed",
+      "godot_owner": "SourcePumpRuntimeState.source_pump_update_state",
+      "godot_symbol": "source_pump_update_state_input.game",
+      "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+      "java_method": "updateTile()",
+      "java_expr": "float maxPump = Math.min(liquidCapacity - liquids.get(liquidDrop), amount * pumpAmount * edelta());",
+      "rule": "The game, for the pump sprite and its liquid module.",
+      "tests": [
+        "test_pump_update_binding_registration",
+        "test_all_pump_update_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_pump_update"
+      ],
+      "runtime_proof": "/root/PumpUpdateProof"
+    },
+    "source_pump_update_state_input.cell": {
+      "status": "source-backed",
+      "godot_owner": "SourcePumpRuntimeState.source_pump_update_state",
+      "godot_symbol": "source_pump_update_state_input.cell",
+      "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+      "java_method": "updateTile()",
+      "java_expr": "float maxPump = Math.min(liquidCapacity - liquids.get(liquidDrop), amount * pumpAmount * edelta());",
+      "rule": "The pump cell to update.",
+      "tests": [
+        "test_pump_update_binding_registration",
+        "test_all_pump_update_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_pump_update"
+      ],
+      "runtime_proof": "/root/PumpUpdateProof"
+    },
+    "source_pump_update_state_input.delta": {
+      "status": "source-backed",
+      "godot_owner": "SourcePumpRuntimeState.source_pump_update_state",
+      "godot_symbol": "source_pump_update_state_input.delta",
+      "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+      "java_method": "updateTile()",
+      "java_expr": "totalProgress += warmup * Time.delta;",
+      "rule": "The frame delta in seconds.",
+      "tests": [
+        "test_pump_update_binding_registration",
+        "test_all_pump_update_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_pump_update"
+      ],
+      "runtime_proof": "/root/PumpUpdateProof"
+    },
+    "source_pump_update_state_result.liquid_drop": {
+      "status": "source-backed",
+      "godot_owner": "SourcePumpRuntimeState.source_pump_update_state",
+      "godot_symbol": "source_pump_update_state_result.liquid_drop",
+      "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+      "java_method": "updateTile()",
+      "java_expr": "liquids.add(liquidDrop, maxPump);",
+      "rule": "The pump liquidDrop id, or null when no linked tile is pumpable.",
+      "tests": [
+        "test_pump_update_binding_registration",
+        "test_all_pump_update_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_pump_update"
+      ],
+      "runtime_proof": "/root/PumpUpdateProof"
+    },
+    "source_pump_update_state_result.amount_pumped": {
+      "status": "source-backed",
+      "godot_owner": "SourcePumpRuntimeState.source_pump_update_state",
+      "godot_symbol": "source_pump_update_state_result.amount_pumped",
+      "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+      "java_method": "updateTile()",
+      "java_expr": "float maxPump = Math.min(liquidCapacity - liquids.get(liquidDrop), amount * pumpAmount * edelta());",
+      "rule": "The water pumped into the pump liquids this frame.",
+      "tests": [
+        "test_pump_update_binding_registration",
+        "test_all_pump_update_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_pump_update"
+      ],
+      "runtime_proof": "/root/PumpUpdateProof"
+    },
+    "source_pump_update_state_result.warmup": {
+      "status": "source-backed",
+      "godot_owner": "SourcePumpRuntimeState.source_pump_update_state",
+      "godot_symbol": "source_pump_update_state_result.warmup",
+      "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+      "java_method": "updateTile()",
+      "java_expr": "warmup = Mathf.approachDelta(warmup, maxPump > 0.001f ? 1f : 0f, warmupSpeed);",
+      "rule": "The pump warmup after this frame (approaches 1 while pumping).",
+      "tests": [
+        "test_pump_update_binding_registration",
+        "test_all_pump_update_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_pump_update"
+      ],
+      "runtime_proof": "/root/PumpUpdateProof"
+    },
+    "source_pump_update_state_result.total_progress": {
+      "status": "source-backed",
+      "godot_owner": "SourcePumpRuntimeState.source_pump_update_state",
+      "godot_symbol": "source_pump_update_state_result.total_progress",
+      "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+      "java_method": "updateTile()",
+      "java_expr": "totalProgress += warmup * Time.delta;",
+      "rule": "The pump totalProgress after this frame.",
+      "tests": [
+        "test_pump_update_binding_registration",
+        "test_all_pump_update_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_pump_update"
+      ],
+      "runtime_proof": "/root/PumpUpdateProof"
+    },
+    "source_pump_update_state_result.liquid_amount": {
+      "status": "source-backed",
+      "godot_owner": "SourcePumpRuntimeState.source_pump_update_state",
+      "godot_symbol": "source_pump_update_state_result.liquid_amount",
+      "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+      "java_method": "updateTile()",
+      "java_expr": "liquids.add(liquidDrop, maxPump);",
+      "rule": "The water now in the pump liquids.",
+      "tests": [
+        "test_pump_update_binding_registration",
+        "test_all_pump_update_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_pump_update"
+      ],
+      "runtime_proof": "/root/PumpUpdateProof"
+    },
+    "source_conduit_line_placement_state_input.tile_size": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldInitialBuildRuntimeState.source_conduit_line_placement_state",
+      "godot_symbol": "source_conduit_line_placement_state_input.tile_size",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "conduit",
+      "java_expr": "conduit = new Conduit(\"conduit\"){{",
+      "rule": "The world tile size in pixels.",
+      "tests": [
+        "test_pump_update_binding_registration",
+        "test_all_pump_update_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_pump_update"
+      ],
+      "runtime_proof": "/root/PumpUpdateProof"
+    },
+    "source_conduit_line_placement_state_result.block_id": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldInitialBuildRuntimeState.source_conduit_line_placement_state",
+      "godot_symbol": "source_conduit_line_placement_state_result.block_id",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "conduit",
+      "java_expr": "conduit = new Conduit(\"conduit\"){{",
+      "rule": "The conduit block id.",
+      "tests": [
+        "test_pump_update_binding_registration",
+        "test_all_pump_update_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_pump_update"
+      ],
+      "runtime_proof": "/root/PumpUpdateProof"
+    },
+    "source_conduit_line_placement_state_result.role": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldInitialBuildRuntimeState.source_conduit_line_placement_state",
+      "godot_symbol": "source_conduit_line_placement_state_result.role",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "conduit",
+      "java_expr": "conduit = new Conduit(\"conduit\"){{",
+      "rule": "The initial-build role for the conduit line.",
+      "tests": [
+        "test_pump_update_binding_registration",
+        "test_all_pump_update_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_pump_update"
+      ],
+      "runtime_proof": "/root/PumpUpdateProof"
+    },
+    "source_conduit_line_placement_state_result.cells": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldInitialBuildRuntimeState.source_conduit_line_placement_state",
+      "godot_symbol": "source_conduit_line_placement_state_result.cells",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "conduit",
+      "java_expr": "conduit = new Conduit(\"conduit\"){{",
+      "rule": "The 7 conduit cells from the pump to the drill.",
+      "tests": [
+        "test_pump_update_binding_registration",
+        "test_all_pump_update_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_pump_update"
+      ],
+      "runtime_proof": "/root/PumpUpdateProof"
+    },
+    "source_conduit_line_placement_state_result.count": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldInitialBuildRuntimeState.source_conduit_line_placement_state",
+      "godot_symbol": "source_conduit_line_placement_state_result.count",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "conduit",
+      "java_expr": "conduit = new Conduit(\"conduit\"){{",
+      "rule": "The number of conduits placed (7).",
+      "tests": [
+        "test_pump_update_binding_registration",
+        "test_all_pump_update_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_pump_update"
+      ],
+      "runtime_proof": "/root/PumpUpdateProof"
+    },
+    "source_conduit_line_placement_state_result.liquid_capacity": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldInitialBuildRuntimeState.source_conduit_line_placement_state",
+      "godot_symbol": "source_conduit_line_placement_state_result.liquid_capacity",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "conduit",
+      "java_expr": "liquidCapacity = 20f;",
+      "rule": "The conduit liquidCapacity (20).",
+      "tests": [
+        "test_pump_update_binding_registration",
+        "test_all_pump_update_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_pump_update"
+      ],
+      "runtime_proof": "/root/PumpUpdateProof"
     }
   },
   "version": 1

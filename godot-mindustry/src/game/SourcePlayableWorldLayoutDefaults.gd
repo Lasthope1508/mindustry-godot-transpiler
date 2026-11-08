@@ -22,3 +22,8 @@ const LANCER_POS := Vector2i(25, 7)
 # On the water region (5,14)-(8,17) from N2084; the north-west corner,
 # so the pump's linked tiles include water tiles it can pump from (C04).
 const PUMP_POS := Vector2i(5, 14)
+# The conduit line from the pump to the drill (C04): north from the pump
+# along x = 5, then east to (6, 8), adjacent to the drill's west edge at
+# (7, 8). The cells sit on the copper ore region, which is fine — the ore
+# is an overlay, not a block.
+const CONDUIT_CELLS: Array[Vector2i] = [Vector2i(5, 13), Vector2i(5, 12), Vector2i(5, 11), Vector2i(5, 10), Vector2i(5, 9), Vector2i(5, 8), Vector2i(6, 8)]

@@ -29,12 +29,12 @@ func _ready() -> void:
 	proof["solar_panel_placement_live_sprite"] = panel != null and str(panel.get_meta("source_block_id", "")) == "solar-panel"
 
 	# --- the placed power graph now has one producer, producing 0.12/delta.
-	# The 12 consumers are the placed buildings (drill, core, 7
-	# conveyors, duo, lancer, pump); the lancer needs 6.0/delta (counted
+	# The 19 consumers are the placed buildings (drill, core, 7
+	# conveyors, duo, lancer, pump, 7 conduits); the lancer needs 6.0/delta (counted
 	# once per building, N2081), the others' usage is 0, so the graph
 	# needs 0.1. ---
 	var step: Dictionary = factory_state.source_factory_update_power_graph_state(game, 1.0 / 60.0)
-	proof["solar_panel_placement_live_graph"] = int(step.get("producer_count", -1)) == 1 and int(step.get("consumer_count", -1)) == 12 and is_equal_approx(float(step.get("power_produced", -1.0)), 0.12 / 60.0) and is_equal_approx(float(step.get("power_needed", -1.0)), 6.0 / 60.0)
+	proof["solar_panel_placement_live_graph"] = int(step.get("producer_count", -1)) == 1 and int(step.get("consumer_count", -1)) == 19 and is_equal_approx(float(step.get("power_produced", -1.0)), 0.12 / 60.0) and is_equal_approx(float(step.get("power_needed", -1.0)), 6.0 / 60.0)
 
 	var state_registry := registry.canonical_headquarter_registry_state()
 	proof["registry_valid"] = state_registry.get("errors", []).is_empty()

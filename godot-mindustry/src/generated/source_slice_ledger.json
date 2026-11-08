@@ -52838,6 +52838,69 @@
         "The live-loop pump update (updateTile: pumping into liquids, then dumpLiquid to the conduits) and the conduit line from the pump to the drill (the C04 gate).",
         "C05-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2088": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+      "java_class": "mindustry.world.blocks.production.Pump$PumpBuild",
+      "java_method": "updateTile()",
+      "godot_owner": "SourcePumpRuntimeState.source_pump_update_state",
+      "exact_exprs": [
+        "float maxPump = Math.min(liquidCapacity - liquids.get(liquidDrop), amount * pumpAmount * edelta());",
+        "liquids.add(liquidDrop, maxPump);",
+        "warmup = Mathf.approachDelta(warmup, maxPump > 0.001f ? 1f : 0f, warmupSpeed);",
+        "totalProgress += warmup * Time.delta;"
+      ],
+      "source_symbols": [
+        "source_pump_update_state_input.game",
+        "source_pump_update_state_input.cell",
+        "source_pump_update_state_input.delta",
+        "source_pump_update_state_result.liquid_drop",
+        "source_pump_update_state_result.amount_pumped",
+        "source_pump_update_state_result.warmup",
+        "source_pump_update_state_result.total_progress",
+        "source_pump_update_state_result.liquid_amount"
+      ],
+      "tests": [
+        "test_pump_update_binding_registration",
+        "test_all_pump_update_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_pump_update"
+      ],
+      "runtime_proof": "/root/PumpUpdateProof",
+      "deferred_exprs": [
+        "The pump dumpLiquid step (Pump.java:180-182) and the conduit liquid movement, then the live-loop liquid flow (the C04 gate: pump -> conduit -> Drill uses water as a booster).",
+        "C05-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
+    },
+    "N2089": {
+      "status": "done",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_class": "mindustry.content.Blocks",
+      "java_method": "conduit",
+      "godot_owner": "SourceWorldInitialBuildRuntimeState.source_conduit_line_placement_state",
+      "exact_exprs": [
+        "conduit = new Conduit(\"conduit\"){{",
+        "liquidCapacity = 20f;",
+        "health = 45;"
+      ],
+      "source_symbols": [
+        "source_conduit_line_placement_state_input.tile_size",
+        "source_conduit_line_placement_state_result.block_id",
+        "source_conduit_line_placement_state_result.role",
+        "source_conduit_line_placement_state_result.cells",
+        "source_conduit_line_placement_state_result.count",
+        "source_conduit_line_placement_state_result.liquid_capacity"
+      ],
+      "tests": [
+        "test_pump_update_binding_registration",
+        "test_all_pump_update_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_pump_update"
+      ],
+      "runtime_proof": "/root/PumpUpdateProof",
+      "deferred_exprs": [
+        "The pump dumpLiquid step (Pump.java:180-182) and the conduit liquid movement, then the live-loop liquid flow (the C04 gate: pump -> conduit -> Drill uses water as a booster).",
+        "C05-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1

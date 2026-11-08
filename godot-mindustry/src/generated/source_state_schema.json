@@ -220380,6 +220380,182 @@
       },
       "runtime_proof": "/root/PumpProximityProof",
       "rule": "Source-backed pump proximity scan."
+    },
+    "source_pump_update_state_input": {
+      "status": "active",
+      "owner": "SourcePumpRuntimeState.source_pump_update_state",
+      "source_slice": "N2088",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+          "java_expr": "float maxPump = Math.min(liquidCapacity - liquids.get(liquidDrop), amount * pumpAmount * edelta());",
+          "rule": "The game, for the pump sprite and its liquid module.",
+          "used_by": [
+            "SourcePumpRuntimeState.source_pump_update_state"
+          ]
+        },
+        "cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+          "java_expr": "float maxPump = Math.min(liquidCapacity - liquids.get(liquidDrop), amount * pumpAmount * edelta());",
+          "rule": "The pump cell to update.",
+          "used_by": [
+            "SourcePumpRuntimeState.source_pump_update_state"
+          ]
+        },
+        "delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+          "java_expr": "totalProgress += warmup * Time.delta;",
+          "rule": "The frame delta in seconds.",
+          "used_by": [
+            "SourcePumpRuntimeState.source_pump_update_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/PumpUpdateProof",
+      "rule": "Source-backed pump update and conduit line."
+    },
+    "source_pump_update_state_result": {
+      "status": "active",
+      "owner": "SourcePumpRuntimeState.source_pump_update_state",
+      "source_slice": "N2088",
+      "keys": {
+        "liquid_drop": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+          "java_expr": "liquids.add(liquidDrop, maxPump);",
+          "rule": "The pump liquidDrop id, or null when no linked tile is pumpable.",
+          "used_by": [
+            "SourcePumpRuntimeState.source_pump_update_state"
+          ]
+        },
+        "amount_pumped": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+          "java_expr": "float maxPump = Math.min(liquidCapacity - liquids.get(liquidDrop), amount * pumpAmount * edelta());",
+          "rule": "The water pumped into the pump liquids this frame.",
+          "used_by": [
+            "SourcePumpRuntimeState.source_pump_update_state"
+          ]
+        },
+        "warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+          "java_expr": "warmup = Mathf.approachDelta(warmup, maxPump > 0.001f ? 1f : 0f, warmupSpeed);",
+          "rule": "The pump warmup after this frame (approaches 1 while pumping).",
+          "used_by": [
+            "SourcePumpRuntimeState.source_pump_update_state"
+          ]
+        },
+        "total_progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+          "java_expr": "totalProgress += warmup * Time.delta;",
+          "rule": "The pump totalProgress after this frame.",
+          "used_by": [
+            "SourcePumpRuntimeState.source_pump_update_state"
+          ]
+        },
+        "liquid_amount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+          "java_expr": "liquids.add(liquidDrop, maxPump);",
+          "rule": "The water now in the pump liquids.",
+          "used_by": [
+            "SourcePumpRuntimeState.source_pump_update_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/PumpUpdateProof",
+      "rule": "Source-backed pump update and conduit line."
+    },
+    "source_conduit_line_placement_state_input": {
+      "status": "active",
+      "owner": "SourceWorldInitialBuildRuntimeState.source_conduit_line_placement_state",
+      "source_slice": "N2089",
+      "keys": {
+        "tile_size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "conduit = new Conduit(\"conduit\"){{",
+          "rule": "The world tile size in pixels.",
+          "used_by": [
+            "SourceWorldInitialBuildRuntimeState.source_conduit_line_placement_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/PumpUpdateProof",
+      "rule": "Source-backed pump update and conduit line."
+    },
+    "source_conduit_line_placement_state_result": {
+      "status": "active",
+      "owner": "SourceWorldInitialBuildRuntimeState.source_conduit_line_placement_state",
+      "source_slice": "N2089",
+      "keys": {
+        "block_id": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "conduit = new Conduit(\"conduit\"){{",
+          "rule": "The conduit block id.",
+          "used_by": [
+            "SourceWorldInitialBuildRuntimeState.source_conduit_line_placement_state"
+          ]
+        },
+        "role": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "conduit = new Conduit(\"conduit\"){{",
+          "rule": "The initial-build role for the conduit line.",
+          "used_by": [
+            "SourceWorldInitialBuildRuntimeState.source_conduit_line_placement_state"
+          ]
+        },
+        "cells": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "conduit = new Conduit(\"conduit\"){{",
+          "rule": "The 7 conduit cells from the pump to the drill.",
+          "used_by": [
+            "SourceWorldInitialBuildRuntimeState.source_conduit_line_placement_state"
+          ]
+        },
+        "count": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "conduit = new Conduit(\"conduit\"){{",
+          "rule": "The number of conduits placed (7).",
+          "used_by": [
+            "SourceWorldInitialBuildRuntimeState.source_conduit_line_placement_state"
+          ]
+        },
+        "liquid_capacity": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "liquidCapacity = 20f;",
+          "rule": "The conduit liquidCapacity (20).",
+          "used_by": [
+            "SourceWorldInitialBuildRuntimeState.source_conduit_line_placement_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/PumpUpdateProof",
+      "rule": "Source-backed pump update and conduit line."
     }
   },
   "version": 1

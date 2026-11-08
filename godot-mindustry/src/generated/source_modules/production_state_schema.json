@@ -970,6 +970,41 @@
           ]
         }
       }
+    },
+    "source_pump_update_state_input": {
+      "canonical_schema": "source_state_schema.source_pump_update_state_input",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+          "java_expr": "float maxPump = Math.min(liquidCapacity - liquids.get(liquidDrop), amount * pumpAmount * edelta());",
+          "rule": "The game, for the pump sprite and its liquid module.",
+          "used_by": [
+            "SourcePumpRuntimeState.source_pump_update_state"
+          ]
+        },
+        "cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+          "java_expr": "float maxPump = Math.min(liquidCapacity - liquids.get(liquidDrop), amount * pumpAmount * edelta());",
+          "rule": "The pump cell to update.",
+          "used_by": [
+            "SourcePumpRuntimeState.source_pump_update_state"
+          ]
+        },
+        "delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+          "java_expr": "totalProgress += warmup * Time.delta;",
+          "rule": "The frame delta in seconds.",
+          "used_by": [
+            "SourcePumpRuntimeState.source_pump_update_state"
+          ]
+        }
+      }
     }
   }
 }

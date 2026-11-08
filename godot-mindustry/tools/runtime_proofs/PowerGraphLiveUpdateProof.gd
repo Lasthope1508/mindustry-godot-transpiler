@@ -22,18 +22,18 @@ func _ready() -> void:
 	# (21, 7), N2078), one battery (at (23, 7), N2079) and one real
 	# consumer (the lancer at (25, 7), N2080), so the update produces
 	# 0.12/delta and needs 6.0/delta (the lancer's usage counted once
-	# per building, N2081). The 12 consumers are the placed buildings
-	# (drill, core, 7 conveyors, duo, lancer, pump); the other blocks'
+	# per building, N2081). The 19 consumers are the placed buildings
+	# (drill, core, 7 conveyors, duo, lancer, pump, 7 conduits); the other blocks'
 	# usage is 0. ---
 	var step: Dictionary = factory_state.source_factory_update_power_graph_state(game, 1.0 / 60.0)
-	proof["power_graph_live_update_grouped_by_building"] = is_equal_approx(float(step.get("power_needed", -1.0)), 6.0 / 60.0) and is_equal_approx(float(step.get("power_produced", -1.0)), 0.12 / 60.0) and int(step.get("consumer_count", -1)) == 12 and int(step.get("producer_count", -1)) == 1 and int(step.get("battery_count", -1)) == 1
+	proof["power_graph_live_update_grouped_by_building"] = is_equal_approx(float(step.get("power_needed", -1.0)), 6.0 / 60.0) and is_equal_approx(float(step.get("power_produced", -1.0)), 0.12 / 60.0) and int(step.get("consumer_count", -1)) == 19 and int(step.get("producer_count", -1)) == 1 and int(step.get("battery_count", -1)) == 1
 	var update: Dictionary = step.get("update", {})
 	proof["power_graph_live_update_states"] = update.has("cheat_state") and update.has("balance_state") and update.has("battery_distribute_state") and is_equal_approx(float(update.get("power_needed", -1.0)), 6.0 / 60.0) and is_equal_approx(float(update.get("power_produced", -1.0)), 0.12 / 60.0)
 
 	# --- the live loop runs the step each frame without error. ---
 	factory_state.simulate_factory(game, 1.0 / 60.0)
 	var after_live: Dictionary = factory_state.source_factory_update_power_graph_state(game, 1.0 / 60.0)
-	proof["power_graph_live_update_live_loop"] = is_equal_approx(float(after_live.get("power_needed", -1.0)), 6.0 / 60.0) and is_equal_approx(float(after_live.get("power_produced", -1.0)), 0.12 / 60.0) and int(after_live.get("consumer_count", -1)) == 12 and int(after_live.get("producer_count", -1)) == 1
+	proof["power_graph_live_update_live_loop"] = is_equal_approx(float(after_live.get("power_needed", -1.0)), 6.0 / 60.0) and is_equal_approx(float(after_live.get("power_produced", -1.0)), 0.12 / 60.0) and int(after_live.get("consumer_count", -1)) == 19 and int(after_live.get("producer_count", -1)) == 1
 
 	var state_registry := registry.canonical_headquarter_registry_state()
 	proof["registry_valid"] = state_registry.get("errors", []).is_empty()

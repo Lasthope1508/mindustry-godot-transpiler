@@ -36,13 +36,17 @@ func _ready() -> void:
 	var read_missing_after: Dictionary = conveyor_state.source_conveyor_queue_for_cell_state(game, Vector2i(7, 7))
 	proof["queue_storage_write_missing"] = write_missing.get("stored") == false and write_missing.get("reason") == "no_sprite" and read_missing_after.get("found") == false and read_missing_after.get("reason") == "no_sprite"
 
-	# --- resolve the drill's ring plus a second belt, and the all-air case. ---
+	# --- resolve the drill's ring plus a second belt, and the all-air case.
+	# The ring (Java angle order) is (7,7), (8,7), (9,8), (9,9), (8,10),
+	# (7,10), (6,9), (6,8): the belt at (9,8) and, since N2089, the
+	# conduit at (6,8) (found with an empty queue, reason "no_queue").
+	# The all-air case uses (7,7) and (6,9), both still air. ---
 	var ring: Array = geometry_state.source_block_proximity_cells_state(2, 7, 8).get("cells", [])
 	conveyor_state.source_conveyor_set_queue_for_cell_state(game, Vector2i(10, 8), {"ids": [], "xs": [], "ys": [], "len": 0})
 	var resolved: Dictionary = conveyor_state.source_conveyor_queues_for_cells_state(game, ring + [Vector2i(10, 8)])
 	var queues_by_cell: Dictionary = resolved.get("queues_by_cell", {})
-	proof["queue_storage_resolve_ring"] = resolved.get("found_count") == 2 and resolved.get("reason") == "resolved" and queues_by_cell.keys() == [Vector2i(9, 8), Vector2i(10, 8)] and queues_by_cell[Vector2i(9, 8)]["ids"] == ["lead"] and queues_by_cell[Vector2i(9, 8)]["len"] == 1 and queues_by_cell[Vector2i(10, 8)]["len"] == 0
-	var resolved_none: Dictionary = conveyor_state.source_conveyor_queues_for_cells_state(game, [Vector2i(7, 7), Vector2i(6, 8)])
+	proof["queue_storage_resolve_ring"] = resolved.get("found_count") == 3 and resolved.get("reason") == "resolved" and queues_by_cell.keys() == [Vector2i(9, 8), Vector2i(6, 8), Vector2i(10, 8)] and queues_by_cell[Vector2i(9, 8)]["ids"] == ["lead"] and queues_by_cell[Vector2i(9, 8)]["len"] == 1 and queues_by_cell[Vector2i(6, 8)]["len"] == 0 and queues_by_cell[Vector2i(10, 8)]["len"] == 0
+	var resolved_none: Dictionary = conveyor_state.source_conveyor_queues_for_cells_state(game, [Vector2i(7, 7), Vector2i(6, 9)])
 	proof["queue_storage_resolve_none"] = resolved_none.get("queues_by_cell") == {} and resolved_none.get("found_count") == 0 and resolved_none.get("reason") == "none_found"
 
 	# --- round trip: resolve the ring, run the dump step, write the belt back. ---

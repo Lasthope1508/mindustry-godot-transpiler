@@ -882,6 +882,45 @@
       "runtime_proof": "/root/PumpProximityProof",
       "rule": "Source-backed pump proximity scan; the pump scans its linked tiles for a liquidDrop.",
       "return_type": "Dictionary"
+    },
+    "SourcePumpRuntimeState.source_pump_update_state": {
+      "canonical_contract": "source_api_contracts.SourcePumpRuntimeState.source_pump_update_state",
+      "status": "active",
+      "source_slice": "N2088",
+      "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+      "source_method": "updateTile()",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_pump_update_state_input.game"
+        },
+        {
+          "name": "cell",
+          "type": "Vector2i",
+          "schema": "source_pump_update_state_input.cell"
+        },
+        {
+          "name": "delta",
+          "type": "float",
+          "schema": "source_pump_update_state_input.delta"
+        }
+      ],
+      "return_keys": [
+        "liquid_drop",
+        "amount_pumped",
+        "warmup",
+        "total_progress",
+        "liquid_amount"
+      ],
+      "tests": [
+        "test_pump_update_binding_registration",
+        "test_all_pump_update_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_pump_update"
+      ],
+      "runtime_proof": "/root/PumpUpdateProof",
+      "rule": "Source-backed pump update and conduit line; the pump fills its liquids and the conduits link it to the drill.",
+      "return_type": "Dictionary"
     }
   }
 }

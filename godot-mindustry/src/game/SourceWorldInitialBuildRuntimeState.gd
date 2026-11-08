@@ -156,6 +156,23 @@ static func source_mechanical_pump_placement_state(tile_size: int) -> Dictionary
 	}
 
 
+static func source_conduit_line_placement_state(tile_size: int) -> Dictionary:
+	# Blocks.java:2322-2327: conduit = new Conduit("conduit") with
+	# liquidCapacity = 20f and health = 45. The conduit line is the
+	# bootstrap world's liquid path (C04): 7 conduits from the pump at
+	# (5,14) north along x = 5, then east to (6,8), adjacent to the
+	# drill's west edge at (7,8), so the pump's water can reach the
+	# drill's booster.
+	var cells: Array[Vector2i] = source_playable_scenario_defaults.conduit_cells()
+	return {
+		"block_id": source_playable_scenario_defaults.BLOCK_CONDUIT,
+		"role": source_playable_scenario_defaults.INITIAL_BUILD_ROLE_CONDUIT,
+		"cells": cells,
+		"count": cells.size(),
+		"liquid_capacity": 20.0,
+	}
+
+
 static func initial_build_plan_state(drill_cell: Vector2i, conveyor_cells: Array[Vector2i], core_cell: Vector2i, duo_cell: Vector2i, drill_block_id: String, conveyor_block_id: String, core_block_id: String, duo_block_id: String, path_points_input: Array[Vector2], tile_size: int) -> Dictionary:
 	var block_placements: Array[Dictionary] = []
 	var path_points: Array[Dictionary] = []
@@ -172,6 +189,9 @@ static func initial_build_plan_state(drill_cell: Vector2i, conveyor_cells: Array
 	block_placements.append(block_placement_state(str(lancer.get("block_id", "")), str(lancer.get("role", "")), lancer.get("cell", Vector2i.ZERO), tile_size))
 	var pump := source_mechanical_pump_placement_state(tile_size)
 	block_placements.append(block_placement_state(str(pump.get("block_id", "")), str(pump.get("role", "")), pump.get("cell", Vector2i.ZERO), tile_size))
+	var conduit_line := source_conduit_line_placement_state(tile_size)
+	for conduit_cell in conduit_line.get("cells", []):
+		block_placements.append(block_placement_state(str(conduit_line.get("block_id", "")), str(conduit_line.get("role", "")), conduit_cell, tile_size))
 	for point in path_points_input:
 		var path_point := {}
 		path_point[KEY_X] = point.x
