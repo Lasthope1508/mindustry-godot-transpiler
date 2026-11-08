@@ -52742,6 +52742,39 @@
         "The pump placement on the water (mechanical-pump, pumpAmount 7/60), the conduit line to the drill, and the live-loop liquid flow (C04 gate).",
         "C05-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2085": {
+      "status": "done",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_class": "mindustry.content.Blocks",
+      "java_method": "mechanicalPump",
+      "godot_owner": "SourceWorldInitialBuildRuntimeState.source_mechanical_pump_placement_state",
+      "exact_exprs": [
+        "mechanicalPump = new Pump(\"mechanical-pump\"){{",
+        "pumpAmount = 7f / 60f;",
+        "liquidCapacity = 20f;"
+      ],
+      "source_symbols": [
+        "source_mechanical_pump_placement_state_input.tile_size",
+        "source_mechanical_pump_placement_state_result.block_id",
+        "source_mechanical_pump_placement_state_result.role",
+        "source_mechanical_pump_placement_state_result.cell",
+        "source_mechanical_pump_placement_state_result.x",
+        "source_mechanical_pump_placement_state_result.y",
+        "source_mechanical_pump_placement_state_result.pump_amount",
+        "source_mechanical_pump_placement_state_result.liquid_capacity"
+      ],
+      "tests": [
+        "test_mechanical_pump_placement_binding_registration",
+        "test_all_mechanical_pump_placement_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_mechanical_pump_placement"
+      ],
+      "runtime_proof": "/root/MechanicalPumpPlacementProof",
+      "deferred_exprs": [
+        "The pump proximity scan (onProximityUpdate: amount and liquidDrop from the linked water tiles) and the live-loop pump update (updateTile: pumping into liquids, then dumpLiquid to the conduits).",
+        "The conduit line from the pump to the drill and the live-loop liquid flow (the C04 gate).",
+        "C05-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1

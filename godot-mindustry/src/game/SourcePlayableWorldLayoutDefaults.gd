@@ -19,3 +19,6 @@ const DUO_POS := Vector2i(19, 7)
 const SOLAR_PANEL_POS := Vector2i(21, 7)
 const BATTERY_POS := Vector2i(23, 7)
 const LANCER_POS := Vector2i(25, 7)
+# On the water region (5,14)-(8,17) from N2084; the north-west corner,
+# so the pump's linked tiles include water tiles it can pump from (C04).
+const PUMP_POS := Vector2i(5, 14)

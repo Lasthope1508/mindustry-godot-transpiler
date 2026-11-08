@@ -61180,6 +61180,36 @@
       ],
       "runtime_proof": "/root/WaterRegionProof",
       "rule": "Source-backed water region; the shallow-water floor drops water for a pump."
+    },
+    "SourceWorldInitialBuildRuntimeState.source_mechanical_pump_placement_state": {
+      "status": "active",
+      "source_slice": "N2085",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "source_method": "mechanicalPump",
+      "params": [
+        {
+          "name": "tile_size",
+          "type": "int",
+          "schema": "source_mechanical_pump_placement_state_input.tile_size"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "block_id",
+        "role",
+        "cell",
+        "x",
+        "y",
+        "pump_amount",
+        "liquid_capacity"
+      ],
+      "tests": [
+        "test_mechanical_pump_placement_binding_registration",
+        "test_all_mechanical_pump_placement_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_mechanical_pump_placement"
+      ],
+      "runtime_proof": "/root/MechanicalPumpPlacementProof",
+      "rule": "Source-backed mechanical pump placement; the pump extracts water from the shallow-water floor."
     }
   },
   "policy": {

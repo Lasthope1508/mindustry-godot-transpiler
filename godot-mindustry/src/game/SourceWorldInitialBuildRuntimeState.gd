@@ -137,6 +137,25 @@ static func source_lancer_placement_state(tile_size: int) -> Dictionary:
 	}
 
 
+static func source_mechanical_pump_placement_state(tile_size: int) -> Dictionary:
+	# Blocks.java:2298-2302: mechanicalPump = new Pump("mechanical-pump")
+	# with pumpAmount = 7f / 60f and liquidCapacity = 20f. The pump is
+	# the bootstrap world's water source (C04): it extracts water from
+	# the shallow-water floor (N2084) — size 1 and floating, placed on
+	# the water region's north-west corner (5, 14), so its linked tiles
+	# include water tiles it can pump from.
+	var world_position := source_world_grid.grid_to_world(source_playable_scenario_defaults.PUMP_POS, tile_size)
+	return {
+		"block_id": source_playable_scenario_defaults.BLOCK_MECHANICAL_PUMP,
+		"role": source_playable_scenario_defaults.INITIAL_BUILD_ROLE_MECHANICAL_PUMP,
+		"cell": source_playable_scenario_defaults.PUMP_POS,
+		"x": world_position.x,
+		"y": world_position.y,
+		"pump_amount": 7.0 / 60.0,
+		"liquid_capacity": 20.0,
+	}
+
+
 static func initial_build_plan_state(drill_cell: Vector2i, conveyor_cells: Array[Vector2i], core_cell: Vector2i, duo_cell: Vector2i, drill_block_id: String, conveyor_block_id: String, core_block_id: String, duo_block_id: String, path_points_input: Array[Vector2], tile_size: int) -> Dictionary:
 	var block_placements: Array[Dictionary] = []
 	var path_points: Array[Dictionary] = []
@@ -151,6 +170,8 @@ static func initial_build_plan_state(drill_cell: Vector2i, conveyor_cells: Array
 	block_placements.append(block_placement_state(str(battery.get("block_id", "")), str(battery.get("role", "")), battery.get("cell", Vector2i.ZERO), tile_size))
 	var lancer := source_lancer_placement_state(tile_size)
 	block_placements.append(block_placement_state(str(lancer.get("block_id", "")), str(lancer.get("role", "")), lancer.get("cell", Vector2i.ZERO), tile_size))
+	var pump := source_mechanical_pump_placement_state(tile_size)
+	block_placements.append(block_placement_state(str(pump.get("block_id", "")), str(pump.get("role", "")), pump.get("cell", Vector2i.ZERO), tile_size))
 	for point in path_points_input:
 		var path_point := {}
 		path_point[KEY_X] = point.x

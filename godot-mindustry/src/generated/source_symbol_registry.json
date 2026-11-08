@@ -163203,6 +163203,126 @@
         "test_reference_graph_and_actual_water_region"
       ],
       "runtime_proof": "/root/WaterRegionProof"
+    },
+    "source_mechanical_pump_placement_state_input.tile_size": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldInitialBuildRuntimeState.source_mechanical_pump_placement_state",
+      "godot_symbol": "source_mechanical_pump_placement_state_input.tile_size",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "mechanicalPump",
+      "java_expr": "mechanicalPump = new Pump(\"mechanical-pump\"){{",
+      "rule": "The world units per tile, for the placement world position.",
+      "tests": [
+        "test_mechanical_pump_placement_binding_registration",
+        "test_all_mechanical_pump_placement_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_mechanical_pump_placement"
+      ],
+      "runtime_proof": "/root/MechanicalPumpPlacementProof"
+    },
+    "source_mechanical_pump_placement_state_result.block_id": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldInitialBuildRuntimeState.source_mechanical_pump_placement_state",
+      "godot_symbol": "source_mechanical_pump_placement_state_result.block_id",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "mechanicalPump",
+      "java_expr": "mechanicalPump = new Pump(\"mechanical-pump\"){{",
+      "rule": "The placed block id: mechanical-pump.",
+      "tests": [
+        "test_mechanical_pump_placement_binding_registration",
+        "test_all_mechanical_pump_placement_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_mechanical_pump_placement"
+      ],
+      "runtime_proof": "/root/MechanicalPumpPlacementProof"
+    },
+    "source_mechanical_pump_placement_state_result.role": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldInitialBuildRuntimeState.source_mechanical_pump_placement_state",
+      "godot_symbol": "source_mechanical_pump_placement_state_result.role",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "mechanicalPump",
+      "java_expr": "mechanicalPump = new Pump(\"mechanical-pump\"){{",
+      "rule": "The initial-build role: mechanical-pump.",
+      "tests": [
+        "test_mechanical_pump_placement_binding_registration",
+        "test_all_mechanical_pump_placement_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_mechanical_pump_placement"
+      ],
+      "runtime_proof": "/root/MechanicalPumpPlacementProof"
+    },
+    "source_mechanical_pump_placement_state_result.cell": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldInitialBuildRuntimeState.source_mechanical_pump_placement_state",
+      "godot_symbol": "source_mechanical_pump_placement_state_result.cell",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "mechanicalPump",
+      "java_expr": "mechanicalPump = new Pump(\"mechanical-pump\"){{",
+      "rule": "The placement cell: (5, 14), on the water region.",
+      "tests": [
+        "test_mechanical_pump_placement_binding_registration",
+        "test_all_mechanical_pump_placement_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_mechanical_pump_placement"
+      ],
+      "runtime_proof": "/root/MechanicalPumpPlacementProof"
+    },
+    "source_mechanical_pump_placement_state_result.x": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldInitialBuildRuntimeState.source_mechanical_pump_placement_state",
+      "godot_symbol": "source_mechanical_pump_placement_state_result.x",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "mechanicalPump",
+      "java_expr": "mechanicalPump = new Pump(\"mechanical-pump\"){{",
+      "rule": "The placement world x.",
+      "tests": [
+        "test_mechanical_pump_placement_binding_registration",
+        "test_all_mechanical_pump_placement_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_mechanical_pump_placement"
+      ],
+      "runtime_proof": "/root/MechanicalPumpPlacementProof"
+    },
+    "source_mechanical_pump_placement_state_result.y": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldInitialBuildRuntimeState.source_mechanical_pump_placement_state",
+      "godot_symbol": "source_mechanical_pump_placement_state_result.y",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "mechanicalPump",
+      "java_expr": "mechanicalPump = new Pump(\"mechanical-pump\"){{",
+      "rule": "The placement world y.",
+      "tests": [
+        "test_mechanical_pump_placement_binding_registration",
+        "test_all_mechanical_pump_placement_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_mechanical_pump_placement"
+      ],
+      "runtime_proof": "/root/MechanicalPumpPlacementProof"
+    },
+    "source_mechanical_pump_placement_state_result.pump_amount": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldInitialBuildRuntimeState.source_mechanical_pump_placement_state",
+      "godot_symbol": "source_mechanical_pump_placement_state_result.pump_amount",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "mechanicalPump",
+      "java_expr": "pumpAmount = 7f / 60f;",
+      "rule": "The pump amount per tile: 7/60.",
+      "tests": [
+        "test_mechanical_pump_placement_binding_registration",
+        "test_all_mechanical_pump_placement_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_mechanical_pump_placement"
+      ],
+      "runtime_proof": "/root/MechanicalPumpPlacementProof"
+    },
+    "source_mechanical_pump_placement_state_result.liquid_capacity": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldInitialBuildRuntimeState.source_mechanical_pump_placement_state",
+      "godot_symbol": "source_mechanical_pump_placement_state_result.liquid_capacity",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "mechanicalPump",
+      "java_expr": "liquidCapacity = 20f;",
+      "rule": "The pump liquid capacity: 20.",
+      "tests": [
+        "test_mechanical_pump_placement_binding_registration",
+        "test_all_mechanical_pump_placement_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_mechanical_pump_placement"
+      ],
+      "runtime_proof": "/root/MechanicalPumpPlacementProof"
     }
   },
   "version": 1

@@ -13,6 +13,7 @@ const BLOCK_DUO := "duo"
 const BLOCK_SOLAR_PANEL := "solar-panel"
 const BLOCK_BATTERY := "battery"
 const BLOCK_LANCER := "lancer"
+const BLOCK_MECHANICAL_PUMP := "mechanical-pump"
 const BLOCK_COPPER_WALL := "copper-wall"
 
 static func selected_generated_class_names() -> Array[String]:
