@@ -230,6 +230,33 @@ static func source_campaign_world_tiles_state(campaign_map_tile_state: Dictionar
 		source_record_world_block(world_tiles, block, placement["cell"]["x"], placement["cell"]["y"], source_tilesize)
 	return world_tiles
 
+static func source_floor_liquid_drop_state(floor_id: String) -> Dictionary:
+	# Blocks.java floor liquidDrop definitions: deep-water /
+	# shallow-water / tainted-water / deep-tainted-water drop water
+	# (deep-water and deep-tainted-water have liquidMultiplier 1.5);
+	# tar drops oil; pooled-cryofluid drops cryofluid (multiplier
+	# 0.5); molten-slag drops slag; arkycite-floor drops arkycite.
+	# Any other floor drops nothing (Floor.java default liquidDrop
+	# null, liquidMultiplier 1.0). The pump's canPump is exactly
+	# this: tile != null && tile.floor().liquidDrop != null
+	# (Pump.java:106-108).
+	match floor_id:
+		"deep-water":
+			return {"liquid_drop": "water", "liquid_multiplier": 1.5, "is_liquid": true}
+		"shallow-water", "tainted-water":
+			return {"liquid_drop": "water", "liquid_multiplier": 1.0, "is_liquid": true}
+		"deep-tainted-water":
+			return {"liquid_drop": "water", "liquid_multiplier": 1.5, "is_liquid": true}
+		"tar":
+			return {"liquid_drop": "oil", "liquid_multiplier": 1.0, "is_liquid": true}
+		"pooled-cryofluid":
+			return {"liquid_drop": "cryofluid", "liquid_multiplier": 0.5, "is_liquid": true}
+		"molten-slag":
+			return {"liquid_drop": "slag", "liquid_multiplier": 1.0, "is_liquid": true}
+		"arkycite-floor":
+			return {"liquid_drop": "arkycite", "liquid_multiplier": 1.0, "is_liquid": true}
+	return {"liquid_drop": null, "liquid_multiplier": 0.0, "is_liquid": false}
+
 static func source_water_region_state(world_tiles: Dictionary, water_block: Object) -> Dictionary:
 	# Blocks.java:224-234 water = new Floor("shallow-water") with
 	# liquidDrop = Liquids.water and isLiquid = true. The bootstrap

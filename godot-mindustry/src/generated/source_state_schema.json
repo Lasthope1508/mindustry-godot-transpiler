@@ -220254,6 +220254,132 @@
       },
       "runtime_proof": "/root/MechanicalPumpPlacementProof",
       "rule": "Source-backed mechanical pump placement in the bootstrap world."
+    },
+    "source_floor_liquid_drop_state_input": {
+      "status": "active",
+      "owner": "SourceWorldTerrainRuntimeState.source_floor_liquid_drop_state",
+      "source_slice": "N2086",
+      "keys": {
+        "floor_id": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "water = new Floor(\"shallow-water\"){{",
+          "rule": "The floor block id to resolve.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_floor_liquid_drop_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/PumpProximityProof",
+      "rule": "Source-backed pump proximity scan."
+    },
+    "source_floor_liquid_drop_state_result": {
+      "status": "active",
+      "owner": "SourceWorldTerrainRuntimeState.source_floor_liquid_drop_state",
+      "source_slice": "N2086",
+      "keys": {
+        "liquid_drop": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "liquidDrop = Liquids.water;",
+          "rule": "The floor liquidDrop id, or null when the floor drops nothing.",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_floor_liquid_drop_state"
+          ]
+        },
+        "liquid_multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "liquidMultiplier = 1.5f;",
+          "rule": "The floor liquidMultiplier (1.5 for deep water, 0.5 for pooled cryofluid, 1.0 otherwise).",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_floor_liquid_drop_state"
+          ]
+        },
+        "is_liquid": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "water = new Floor(\"shallow-water\"){{",
+          "rule": "Whether the floor is a liquid floor (has a liquidDrop).",
+          "used_by": [
+            "SourceWorldTerrainRuntimeState.source_floor_liquid_drop_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/PumpProximityProof",
+      "rule": "Source-backed pump proximity scan."
+    },
+    "source_pump_proximity_state_input": {
+      "status": "active",
+      "owner": "SourcePumpRuntimeState.source_pump_proximity_state",
+      "source_slice": "N2087",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+          "java_expr": "for(Tile other : tile.getLinkedTiles(tempTiles)){",
+          "rule": "The game, for the world tiles and the pump sprite.",
+          "used_by": [
+            "SourcePumpRuntimeState.source_pump_proximity_state"
+          ]
+        },
+        "cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+          "java_expr": "for(Tile other : tile.getLinkedTiles(tempTiles)){",
+          "rule": "The pump cell to scan from.",
+          "used_by": [
+            "SourcePumpRuntimeState.source_pump_proximity_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/PumpProximityProof",
+      "rule": "Source-backed pump proximity scan."
+    },
+    "source_pump_proximity_state_result": {
+      "status": "active",
+      "owner": "SourcePumpRuntimeState.source_pump_proximity_state",
+      "source_slice": "N2087",
+      "keys": {
+        "liquid_drop": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+          "java_expr": "liquidDrop = other.floor().liquidDrop;",
+          "rule": "The pump liquidDrop id, or null when no linked tile is pumpable.",
+          "used_by": [
+            "SourcePumpRuntimeState.source_pump_proximity_state"
+          ]
+        },
+        "amount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+          "java_expr": "amount += other.floor().liquidMultiplier;",
+          "rule": "The summed liquidMultiplier of the pumpable linked tiles.",
+          "used_by": [
+            "SourcePumpRuntimeState.source_pump_proximity_state"
+          ]
+        },
+        "stored": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+          "java_expr": "liquidDrop = other.floor().liquidDrop;",
+          "rule": "Whether the result was stored on the pump sprite frame.",
+          "used_by": [
+            "SourcePumpRuntimeState.source_pump_proximity_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/PumpProximityProof",
+      "rule": "Source-backed pump proximity scan."
     }
   },
   "version": 1

@@ -2829,6 +2829,76 @@
       ],
       "runtime_proof": "/root/FactoryDumpSwapProof"
     },
+    "source_pump_proximity_state_input.cell": {
+      "canonical_symbol": "source_symbol_registry.source_pump_proximity_state_input.cell",
+      "status": "source-backed",
+      "java_expr": "for(Tile other : tile.getLinkedTiles(tempTiles)){",
+      "godot_symbol": "source_pump_proximity_state_input.cell",
+      "godot_owner": "SourcePumpRuntimeState.source_pump_proximity_state",
+      "rule": "The pump cell to scan from.",
+      "tests": [
+        "test_pump_proximity_binding_registration",
+        "test_all_pump_proximity_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_pump_proximity"
+      ],
+      "runtime_proof": "/root/PumpProximityProof"
+    },
+    "source_pump_proximity_state_input.game": {
+      "canonical_symbol": "source_symbol_registry.source_pump_proximity_state_input.game",
+      "status": "source-backed",
+      "java_expr": "for(Tile other : tile.getLinkedTiles(tempTiles)){",
+      "godot_symbol": "source_pump_proximity_state_input.game",
+      "godot_owner": "SourcePumpRuntimeState.source_pump_proximity_state",
+      "rule": "The game, for the world tiles and the pump sprite.",
+      "tests": [
+        "test_pump_proximity_binding_registration",
+        "test_all_pump_proximity_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_pump_proximity"
+      ],
+      "runtime_proof": "/root/PumpProximityProof"
+    },
+    "source_pump_proximity_state_result.amount": {
+      "canonical_symbol": "source_symbol_registry.source_pump_proximity_state_result.amount",
+      "status": "source-backed",
+      "java_expr": "amount += other.floor().liquidMultiplier;",
+      "godot_symbol": "source_pump_proximity_state_result.amount",
+      "godot_owner": "SourcePumpRuntimeState.source_pump_proximity_state",
+      "rule": "The summed liquidMultiplier of the pumpable linked tiles.",
+      "tests": [
+        "test_pump_proximity_binding_registration",
+        "test_all_pump_proximity_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_pump_proximity"
+      ],
+      "runtime_proof": "/root/PumpProximityProof"
+    },
+    "source_pump_proximity_state_result.liquid_drop": {
+      "canonical_symbol": "source_symbol_registry.source_pump_proximity_state_result.liquid_drop",
+      "status": "source-backed",
+      "java_expr": "liquidDrop = other.floor().liquidDrop;",
+      "godot_symbol": "source_pump_proximity_state_result.liquid_drop",
+      "godot_owner": "SourcePumpRuntimeState.source_pump_proximity_state",
+      "rule": "The pump liquidDrop id, or null when no linked tile is pumpable.",
+      "tests": [
+        "test_pump_proximity_binding_registration",
+        "test_all_pump_proximity_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_pump_proximity"
+      ],
+      "runtime_proof": "/root/PumpProximityProof"
+    },
+    "source_pump_proximity_state_result.stored": {
+      "canonical_symbol": "source_symbol_registry.source_pump_proximity_state_result.stored",
+      "status": "source-backed",
+      "java_expr": "liquidDrop = other.floor().liquidDrop;",
+      "godot_symbol": "source_pump_proximity_state_result.stored",
+      "godot_owner": "SourcePumpRuntimeState.source_pump_proximity_state",
+      "rule": "Whether the result was stored on the pump sprite frame.",
+      "tests": [
+        "test_pump_proximity_binding_registration",
+        "test_all_pump_proximity_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_pump_proximity"
+      ],
+      "runtime_proof": "/root/PumpProximityProof"
+    },
     "source_world_drill_overlay_input.block": {
       "canonical_symbol": "source_symbol_registry.source_world_drill_overlay_input.block",
       "status": "source-backed",

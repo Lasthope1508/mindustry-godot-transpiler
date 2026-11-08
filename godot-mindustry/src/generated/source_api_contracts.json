@@ -61210,6 +61210,63 @@
       ],
       "runtime_proof": "/root/MechanicalPumpPlacementProof",
       "rule": "Source-backed mechanical pump placement; the pump extracts water from the shallow-water floor."
+    },
+    "SourceWorldTerrainRuntimeState.source_floor_liquid_drop_state": {
+      "status": "active",
+      "source_slice": "N2086",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "source_method": "water",
+      "params": [
+        {
+          "name": "floor_id",
+          "type": "String",
+          "schema": "source_floor_liquid_drop_state_input.floor_id"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "liquid_drop",
+        "liquid_multiplier",
+        "is_liquid"
+      ],
+      "tests": [
+        "test_pump_proximity_binding_registration",
+        "test_all_pump_proximity_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_pump_proximity"
+      ],
+      "runtime_proof": "/root/PumpProximityProof",
+      "rule": "Source-backed pump proximity scan; the pump scans its linked tiles for a liquidDrop."
+    },
+    "SourcePumpRuntimeState.source_pump_proximity_state": {
+      "status": "active",
+      "source_slice": "N2087",
+      "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+      "source_method": "onProximityUpdate()",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_pump_proximity_state_input.game"
+        },
+        {
+          "name": "cell",
+          "type": "Vector2i",
+          "schema": "source_pump_proximity_state_input.cell"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "liquid_drop",
+        "amount",
+        "stored"
+      ],
+      "tests": [
+        "test_pump_proximity_binding_registration",
+        "test_all_pump_proximity_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_pump_proximity"
+      ],
+      "runtime_proof": "/root/PumpProximityProof",
+      "rule": "Source-backed pump proximity scan; the pump scans its linked tiles for a liquidDrop."
     }
   },
   "policy": {

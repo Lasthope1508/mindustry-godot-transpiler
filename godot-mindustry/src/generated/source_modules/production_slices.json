@@ -338,6 +338,26 @@
       ],
       "runtime_proof": "/root/TwoDrillGateProof"
     },
+    "N2087": {
+      "canonical_ledger": "source_slice_ledger.N2087",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+      "java_method": "onProximityUpdate()",
+      "godot_owner": "SourcePumpRuntimeState.source_pump_proximity_state",
+      "source_symbols": [
+        "source_pump_proximity_state_input.game",
+        "source_pump_proximity_state_input.cell",
+        "source_pump_proximity_state_result.liquid_drop",
+        "source_pump_proximity_state_result.amount",
+        "source_pump_proximity_state_result.stored"
+      ],
+      "tests": [
+        "test_pump_proximity_binding_registration",
+        "test_all_pump_proximity_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_pump_proximity"
+      ],
+      "runtime_proof": "/root/PumpProximityProof"
+    },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",
       "status": "done",

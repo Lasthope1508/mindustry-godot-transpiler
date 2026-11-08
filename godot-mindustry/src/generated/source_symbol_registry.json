@@ -163323,6 +163323,141 @@
         "test_reference_graph_and_actual_mechanical_pump_placement"
       ],
       "runtime_proof": "/root/MechanicalPumpPlacementProof"
+    },
+    "source_floor_liquid_drop_state_input.floor_id": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_floor_liquid_drop_state",
+      "godot_symbol": "source_floor_liquid_drop_state_input.floor_id",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "water",
+      "java_expr": "water = new Floor(\"shallow-water\"){{",
+      "rule": "The floor block id to resolve.",
+      "tests": [
+        "test_pump_proximity_binding_registration",
+        "test_all_pump_proximity_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_pump_proximity"
+      ],
+      "runtime_proof": "/root/PumpProximityProof"
+    },
+    "source_floor_liquid_drop_state_result.liquid_drop": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_floor_liquid_drop_state",
+      "godot_symbol": "source_floor_liquid_drop_state_result.liquid_drop",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "water",
+      "java_expr": "liquidDrop = Liquids.water;",
+      "rule": "The floor liquidDrop id, or null when the floor drops nothing.",
+      "tests": [
+        "test_pump_proximity_binding_registration",
+        "test_all_pump_proximity_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_pump_proximity"
+      ],
+      "runtime_proof": "/root/PumpProximityProof"
+    },
+    "source_floor_liquid_drop_state_result.liquid_multiplier": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_floor_liquid_drop_state",
+      "godot_symbol": "source_floor_liquid_drop_state_result.liquid_multiplier",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "water",
+      "java_expr": "liquidMultiplier = 1.5f;",
+      "rule": "The floor liquidMultiplier (1.5 for deep water, 0.5 for pooled cryofluid, 1.0 otherwise).",
+      "tests": [
+        "test_pump_proximity_binding_registration",
+        "test_all_pump_proximity_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_pump_proximity"
+      ],
+      "runtime_proof": "/root/PumpProximityProof"
+    },
+    "source_floor_liquid_drop_state_result.is_liquid": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_floor_liquid_drop_state",
+      "godot_symbol": "source_floor_liquid_drop_state_result.is_liquid",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "water",
+      "java_expr": "water = new Floor(\"shallow-water\"){{",
+      "rule": "Whether the floor is a liquid floor (has a liquidDrop).",
+      "tests": [
+        "test_pump_proximity_binding_registration",
+        "test_all_pump_proximity_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_pump_proximity"
+      ],
+      "runtime_proof": "/root/PumpProximityProof"
+    },
+    "source_pump_proximity_state_input.game": {
+      "status": "source-backed",
+      "godot_owner": "SourcePumpRuntimeState.source_pump_proximity_state",
+      "godot_symbol": "source_pump_proximity_state_input.game",
+      "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+      "java_method": "onProximityUpdate()",
+      "java_expr": "for(Tile other : tile.getLinkedTiles(tempTiles)){",
+      "rule": "The game, for the world tiles and the pump sprite.",
+      "tests": [
+        "test_pump_proximity_binding_registration",
+        "test_all_pump_proximity_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_pump_proximity"
+      ],
+      "runtime_proof": "/root/PumpProximityProof"
+    },
+    "source_pump_proximity_state_input.cell": {
+      "status": "source-backed",
+      "godot_owner": "SourcePumpRuntimeState.source_pump_proximity_state",
+      "godot_symbol": "source_pump_proximity_state_input.cell",
+      "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+      "java_method": "onProximityUpdate()",
+      "java_expr": "for(Tile other : tile.getLinkedTiles(tempTiles)){",
+      "rule": "The pump cell to scan from.",
+      "tests": [
+        "test_pump_proximity_binding_registration",
+        "test_all_pump_proximity_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_pump_proximity"
+      ],
+      "runtime_proof": "/root/PumpProximityProof"
+    },
+    "source_pump_proximity_state_result.liquid_drop": {
+      "status": "source-backed",
+      "godot_owner": "SourcePumpRuntimeState.source_pump_proximity_state",
+      "godot_symbol": "source_pump_proximity_state_result.liquid_drop",
+      "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+      "java_method": "onProximityUpdate()",
+      "java_expr": "liquidDrop = other.floor().liquidDrop;",
+      "rule": "The pump liquidDrop id, or null when no linked tile is pumpable.",
+      "tests": [
+        "test_pump_proximity_binding_registration",
+        "test_all_pump_proximity_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_pump_proximity"
+      ],
+      "runtime_proof": "/root/PumpProximityProof"
+    },
+    "source_pump_proximity_state_result.amount": {
+      "status": "source-backed",
+      "godot_owner": "SourcePumpRuntimeState.source_pump_proximity_state",
+      "godot_symbol": "source_pump_proximity_state_result.amount",
+      "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+      "java_method": "onProximityUpdate()",
+      "java_expr": "amount += other.floor().liquidMultiplier;",
+      "rule": "The summed liquidMultiplier of the pumpable linked tiles.",
+      "tests": [
+        "test_pump_proximity_binding_registration",
+        "test_all_pump_proximity_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_pump_proximity"
+      ],
+      "runtime_proof": "/root/PumpProximityProof"
+    },
+    "source_pump_proximity_state_result.stored": {
+      "status": "source-backed",
+      "godot_owner": "SourcePumpRuntimeState.source_pump_proximity_state",
+      "godot_symbol": "source_pump_proximity_state_result.stored",
+      "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+      "java_method": "onProximityUpdate()",
+      "java_expr": "liquidDrop = other.floor().liquidDrop;",
+      "rule": "Whether the result was stored on the pump sprite frame.",
+      "tests": [
+        "test_pump_proximity_binding_registration",
+        "test_all_pump_proximity_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_pump_proximity"
+      ],
+      "runtime_proof": "/root/PumpProximityProof"
     }
   },
   "version": 1

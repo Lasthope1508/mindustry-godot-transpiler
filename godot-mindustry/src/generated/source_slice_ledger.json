@@ -52775,6 +52775,69 @@
         "The conduit line from the pump to the drill and the live-loop liquid flow (the C04 gate).",
         "C05-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2086": {
+      "status": "done",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_class": "mindustry.content.Blocks",
+      "java_method": "water",
+      "godot_owner": "SourceWorldTerrainRuntimeState.source_floor_liquid_drop_state",
+      "exact_exprs": [
+        "water = new Floor(\"shallow-water\"){{",
+        "liquidDrop = Liquids.water;",
+        "liquidDrop = Liquids.oil;",
+        "liquidDrop = Liquids.cryofluid;",
+        "liquidDrop = Liquids.slag;",
+        "liquidDrop = Liquids.arkycite;",
+        "liquidMultiplier = 1.5f;",
+        "liquidMultiplier = 0.5f;"
+      ],
+      "source_symbols": [
+        "source_floor_liquid_drop_state_input.floor_id",
+        "source_floor_liquid_drop_state_result.liquid_drop",
+        "source_floor_liquid_drop_state_result.liquid_multiplier",
+        "source_floor_liquid_drop_state_result.is_liquid"
+      ],
+      "tests": [
+        "test_pump_proximity_binding_registration",
+        "test_all_pump_proximity_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_pump_proximity"
+      ],
+      "runtime_proof": "/root/PumpProximityProof",
+      "deferred_exprs": [
+        "The live-loop pump update (updateTile: pumping into liquids, then dumpLiquid to the conduits) and the conduit line from the pump to the drill (the C04 gate).",
+        "C05-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
+    },
+    "N2087": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+      "java_class": "mindustry.world.blocks.production.Pump$PumpBuild",
+      "java_method": "onProximityUpdate()",
+      "godot_owner": "SourcePumpRuntimeState.source_pump_proximity_state",
+      "exact_exprs": [
+        "for(Tile other : tile.getLinkedTiles(tempTiles)){",
+        "return tile != null && tile.floor().liquidDrop != null;",
+        "liquidDrop = other.floor().liquidDrop;",
+        "amount += other.floor().liquidMultiplier;"
+      ],
+      "source_symbols": [
+        "source_pump_proximity_state_input.game",
+        "source_pump_proximity_state_input.cell",
+        "source_pump_proximity_state_result.liquid_drop",
+        "source_pump_proximity_state_result.amount",
+        "source_pump_proximity_state_result.stored"
+      ],
+      "tests": [
+        "test_pump_proximity_binding_registration",
+        "test_all_pump_proximity_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_pump_proximity"
+      ],
+      "runtime_proof": "/root/PumpProximityProof",
+      "deferred_exprs": [
+        "The live-loop pump update (updateTile: pumping into liquids, then dumpLiquid to the conduits) and the conduit line from the pump to the drill (the C04 gate).",
+        "C05-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1

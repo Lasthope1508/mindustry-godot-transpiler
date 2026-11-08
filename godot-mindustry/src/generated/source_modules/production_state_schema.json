@@ -945,6 +945,31 @@
           ]
         }
       }
+    },
+    "source_pump_proximity_state_input": {
+      "canonical_schema": "source_state_schema.source_pump_proximity_state_input",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+          "java_expr": "for(Tile other : tile.getLinkedTiles(tempTiles)){",
+          "rule": "The game, for the world tiles and the pump sprite.",
+          "used_by": [
+            "SourcePumpRuntimeState.source_pump_proximity_state"
+          ]
+        },
+        "cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+          "java_expr": "for(Tile other : tile.getLinkedTiles(tempTiles)){",
+          "rule": "The pump cell to scan from.",
+          "used_by": [
+            "SourcePumpRuntimeState.source_pump_proximity_state"
+          ]
+        }
+      }
     }
   }
 }
