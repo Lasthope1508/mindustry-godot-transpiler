@@ -18,7 +18,6 @@ The registry now carries, for the thorium reactor, `consumeLiquid: [{cryofluid, 
 - Runtime binding verified with a throwaway Godot scene on the real Main scene: the bound consumer is liquid id 3 (cryofluid), amount 0.04, update=false — classified as a required non-update consumer (update_consumers 0, non_optional_consumers 1). The live `LiquidConsumerHydrationProof` still passes.
 - Targeted gate: the content-registry + hydration + emitter + parity + symbols + playable + drill-booster tests — **4958 tests OK in 722.238s, exit=0** (log `~/workspace/logs/targeted-n2094b.log`). The first run had 89 failures, all in `test_source_symbols`: the regenerated registry changed 42 blocks' `properties`, so the `content_registry_blocks` SSOT shard mirror was stale (the shard's `properties` must equal the registry's). Rebuilding the shard with `source_ssot.build_extension_shard` fixed it (only `content_registry_blocks.json` changed; the other content-registry shards were already in sync).
 - Full Python suite: **5484 tests OK in 1365.723s, exit=0** (log `~/workspace/logs/full-suite-n2094.log`).
-- Full Python suite: **5484 tests OK in 1365.723s, exit=0** (log `~/workspace/logs/full-suite-n2094.log`).
 
 ## SSOT delta
 

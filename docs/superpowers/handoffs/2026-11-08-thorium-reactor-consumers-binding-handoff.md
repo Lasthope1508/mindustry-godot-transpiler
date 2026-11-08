@@ -1,6 +1,6 @@
 # Handoff — C05 thorium reactor consumers (N2094–N2095)
 
-Date: 2026-11-08. Commit: pending (targeted gate running).
+Date: 2026-11-08. Commit: `380b1a5` (pushed `45a0567..380b1a5`).
 
 ## Done
 
@@ -15,7 +15,6 @@ Date: 2026-11-08. Commit: pending (targeted gate running).
 
 - Targeted gate: **4958 tests OK in 722.238s, exit=0** (log `~/workspace/logs/targeted-n2094b.log`). The first run had 89 failures, all in `test_source_symbols` — the regenerated registry changed 42 blocks' `properties`, so the `content_registry_blocks` SSOT shard mirror was stale. Rebuilding the shard with `source_ssot.build_extension_shard` fixed it.
 - Full Python suite: 5484 tests OK in 1365.723s, exit=0 (log `~/workspace/logs/full-suite-n2094.log`).
-- Full Python suite: running (log `~/workspace/logs/full-suite-n2094.log`).
 
 ## Next
 
