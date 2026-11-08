@@ -173,6 +173,28 @@ static func source_conduit_line_placement_state(tile_size: int) -> Dictionary:
 	}
 
 
+static func source_conduit_rotation_state(tile_size: int) -> Dictionary:
+	# Conduit.java:48: rotate = true — conduits are rotatable, and
+	# moveLiquidForward pushes liquid to tile.nearby(rotation)
+	# (BuildingComp.java:924). The bootstrap line needs each conduit
+	# pointing at the next cell toward the drill: the 5 north-running
+	# conduits (5,13)-(5,9) point north (rotation 1) and the 2
+	# east-running conduits (5,8), (6,8) point east (rotation 0).
+	# Rotation convention (Java): 0 east, 1 north, 2 west, 3 south;
+	# in the runtime's y-down coordinates north is (0,-1).
+	var cells: Array[Vector2i] = source_playable_scenario_defaults.conduit_cells()
+	var rotations := {}
+	var direction_to_rotation := {Vector2i(1, 0): 0, Vector2i(0, -1): 1, Vector2i(-1, 0): 2, Vector2i(0, 1): 3}
+	for i in range(cells.size()):
+		var target: Vector2i = source_playable_scenario_defaults.DRILL_POS if i == cells.size() - 1 else cells[i + 1]
+		rotations[cells[i]] = int(direction_to_rotation.get(target - cells[i], 0))
+	return {
+		"block_id": source_playable_scenario_defaults.BLOCK_CONDUIT,
+		"rotations": rotations,
+		"count": cells.size(),
+	}
+
+
 static func initial_build_plan_state(drill_cell: Vector2i, conveyor_cells: Array[Vector2i], core_cell: Vector2i, duo_cell: Vector2i, drill_block_id: String, conveyor_block_id: String, core_block_id: String, duo_block_id: String, path_points_input: Array[Vector2], tile_size: int) -> Dictionary:
 	var block_placements: Array[Dictionary] = []
 	var path_points: Array[Dictionary] = []
@@ -297,6 +319,14 @@ static func build_world(game) -> void:
 	game.set("source_item_catalog", SourceContentRegistryRuntimeState.source_item_catalog_state(game.get("content_catalog")))
 	game.set("source_world_tiles", source_world_terrain_runtime_state.source_game_world_tiles_state(game, initial_build_state))
 	build_block_layer(game, blocks, initial_build_state)
+	# N2091: the conduit rotations point each conduit at the next cell
+	# toward the drill, so moveLiquidForward reaches it. The rotation
+	# lives on the conduit sprite's "rotation" meta (0 by default).
+	var conduit_rotations: Dictionary = source_conduit_rotation_state(8).get("rotations", {})
+	for conduit_cell in conduit_rotations:
+		var conduit_sprite: Variant = game.call("block_sprite_at_cell", conduit_cell)
+		if conduit_sprite != null:
+			conduit_sprite.set_meta("rotation", int(conduit_rotations[conduit_cell]))
 	path_points.clear()
 	for path_point in initial_build_state.get(KEY_PATH_POINTS, []):
 		path_points.append(Vector2(float(path_point.get(KEY_X, 0.0)), float(path_point.get(KEY_Y, 0.0))))

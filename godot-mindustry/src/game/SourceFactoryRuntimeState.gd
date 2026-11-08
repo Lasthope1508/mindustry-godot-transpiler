@@ -9,6 +9,7 @@ const source_placed_block_state := preload("res://src/game/SourcePlacedBlockStat
 const source_placed_power_graph_state := preload("res://src/game/SourcePlacedPowerGraphState.gd")
 const source_power_graph_state := preload("res://src/game/SourcePowerGraphState.gd")
 const source_pump_runtime_state := preload("res://src/game/SourcePumpRuntimeState.gd")
+const source_conduit_runtime_state := preload("res://src/game/SourceConduitRuntimeState.gd")
 
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
 const source_drill_dump_runtime_state_script := preload("res://src/game/SourceDrillDumpRuntimeState.gd")
@@ -153,6 +154,8 @@ static func simulate_factory(game: Object, delta: float) -> void:
 	source_factory_update_power_graph_state(game, delta)
 	source_pump_runtime_state.source_pump_update_state(game, source_playable_scenario_defaults.PUMP_POS, delta)
 	source_pump_runtime_state.source_pump_dump_liquid_state(game, source_playable_scenario_defaults.PUMP_POS)
+	for conduit_cell in source_playable_scenario_defaults.conduit_cells():
+		source_conduit_runtime_state.source_conduit_update_state(game, conduit_cell, delta)
 	game.set(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_TRANSPORT_PROGRESS_KEY, float(apply_state.get(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_TRANSPORT_PROGRESS_KEY, game.get(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_TRANSPORT_PROGRESS_KEY))))
 	var item_sprites_value = game.get(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_ITEM_SPRITES_KEY)
 	if not (item_sprites_value is Array):

@@ -61365,6 +61365,69 @@
       ],
       "runtime_proof": "/root/PumpDumpLiquidProof",
       "rule": "Source-backed pump dumpLiquid step; the pump drains its water into its liquid neighbors."
+    },
+    "SourceWorldInitialBuildRuntimeState.source_conduit_rotation_state": {
+      "status": "active",
+      "source_slice": "N2091",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "source_method": "conduit",
+      "params": [
+        {
+          "name": "tile_size",
+          "type": "int",
+          "schema": "source_conduit_rotation_state_input.tile_size"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "block_id",
+        "rotations",
+        "count"
+      ],
+      "tests": [
+        "test_conduit_update_binding_registration",
+        "test_all_conduit_update_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conduit_update"
+      ],
+      "runtime_proof": "/root/ConduitUpdateProof",
+      "rule": "Source-backed conduit rotation and updateTile; the conduits point at the drill and push water forward once per second."
+    },
+    "SourceConduitRuntimeState.source_conduit_update_state": {
+      "status": "active",
+      "source_slice": "N2092",
+      "java_source": "core/src/mindustry/world/blocks/liquid/Conduit.java",
+      "source_method": "updateTile()",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_conduit_update_state_input.game"
+        },
+        {
+          "name": "cell",
+          "type": "Vector2i",
+          "schema": "source_conduit_update_state_input.cell"
+        },
+        {
+          "name": "delta",
+          "type": "float",
+          "schema": "source_conduit_update_state_input.delta"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "liquid",
+        "flowed",
+        "smooth_liquid",
+        "flow_timer"
+      ],
+      "tests": [
+        "test_conduit_update_binding_registration",
+        "test_all_conduit_update_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conduit_update"
+      ],
+      "runtime_proof": "/root/ConduitUpdateProof",
+      "rule": "Source-backed conduit rotation and updateTile; the conduits point at the drill and push water forward once per second."
     }
   },
   "policy": {

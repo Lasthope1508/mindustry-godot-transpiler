@@ -52934,6 +52934,67 @@
         "The conduit liquid movement (moveLiquidForward) and the drill water booster, then the live-loop liquid flow (the C04 gate: pump -> conduit -> Drill uses water as a booster).",
         "C05-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2091": {
+      "status": "done",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_class": "mindustry.content.Blocks",
+      "java_method": "conduit",
+      "godot_owner": "SourceWorldInitialBuildRuntimeState.source_conduit_rotation_state",
+      "exact_exprs": [
+        "conduit = new Conduit(\"conduit\"){{",
+        "liquidCapacity = 20f;",
+        "rotate = true;"
+      ],
+      "source_symbols": [
+        "source_conduit_rotation_state_input.tile_size",
+        "source_conduit_rotation_state_result.block_id",
+        "source_conduit_rotation_state_result.rotations",
+        "source_conduit_rotation_state_result.count"
+      ],
+      "tests": [
+        "test_conduit_update_binding_registration",
+        "test_all_conduit_update_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conduit_update"
+      ],
+      "runtime_proof": "/root/ConduitUpdateProof",
+      "deferred_exprs": [
+        "The drill water booster (the mechanical drill consumes water 0.05f as a booster, 1.6x speed), then the live-loop liquid flow (the C04 gate: pump -> conduit -> Drill uses water as a booster).",
+        "C05-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
+    },
+    "N2092": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/liquid/Conduit.java",
+      "java_class": "mindustry.world.blocks.liquid.Conduit$ConduitBuild",
+      "java_method": "updateTile()",
+      "godot_owner": "SourceConduitRuntimeState.source_conduit_update_state",
+      "exact_exprs": [
+        "smoothLiquid = Mathf.lerpDelta(smoothLiquid, liquids.currentAmount() / liquidCapacity, 0.05f);",
+        "if(liquids.currentAmount() > 0.0001f && timer(timerFlow, 1)){",
+        "moveLiquidForward(leaks, liquids.current());",
+        "float leakAmount = liquids.get(liquid) / 1.5f;",
+        "float flow = Math.min(Mathf.clamp((fract - ofract)) * (block.liquidCapacity), liquids.get(liquid));"
+      ],
+      "source_symbols": [
+        "source_conduit_update_state_input.game",
+        "source_conduit_update_state_input.cell",
+        "source_conduit_update_state_input.delta",
+        "source_conduit_update_state_result.liquid",
+        "source_conduit_update_state_result.flowed",
+        "source_conduit_update_state_result.smooth_liquid",
+        "source_conduit_update_state_result.flow_timer"
+      ],
+      "tests": [
+        "test_conduit_update_binding_registration",
+        "test_all_conduit_update_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conduit_update"
+      ],
+      "runtime_proof": "/root/ConduitUpdateProof",
+      "deferred_exprs": [
+        "The drill water booster (the mechanical drill consumes water 0.05f as a booster, 1.6x speed), then the live-loop liquid flow (the C04 gate: pump -> conduit -> Drill uses water as a booster).",
+        "C05-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1

@@ -163758,6 +163758,171 @@
         "test_reference_graph_and_actual_pump_dump_liquid"
       ],
       "runtime_proof": "/root/PumpDumpLiquidProof"
+    },
+    "source_conduit_rotation_state_input.tile_size": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldInitialBuildRuntimeState.source_conduit_rotation_state",
+      "godot_symbol": "source_conduit_rotation_state_input.tile_size",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "conduit",
+      "java_expr": "conduit = new Conduit(\"conduit\"){{",
+      "rule": "The world tile size in pixels.",
+      "tests": [
+        "test_conduit_update_binding_registration",
+        "test_all_conduit_update_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conduit_update"
+      ],
+      "runtime_proof": "/root/ConduitUpdateProof"
+    },
+    "source_conduit_rotation_state_result.block_id": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldInitialBuildRuntimeState.source_conduit_rotation_state",
+      "godot_symbol": "source_conduit_rotation_state_result.block_id",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "conduit",
+      "java_expr": "conduit = new Conduit(\"conduit\"){{",
+      "rule": "The conduit block id.",
+      "tests": [
+        "test_conduit_update_binding_registration",
+        "test_all_conduit_update_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conduit_update"
+      ],
+      "runtime_proof": "/root/ConduitUpdateProof"
+    },
+    "source_conduit_rotation_state_result.rotations": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldInitialBuildRuntimeState.source_conduit_rotation_state",
+      "godot_symbol": "source_conduit_rotation_state_result.rotations",
+      "java_source": "core/src/mindustry/world/blocks/liquid/Conduit.java",
+      "java_method": "conduit",
+      "java_expr": "rotate = true;",
+      "rule": "The rotation per conduit cell (1 north, 0 east), keyed by cell.",
+      "tests": [
+        "test_conduit_update_binding_registration",
+        "test_all_conduit_update_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conduit_update"
+      ],
+      "runtime_proof": "/root/ConduitUpdateProof"
+    },
+    "source_conduit_rotation_state_result.count": {
+      "status": "source-backed",
+      "godot_owner": "SourceWorldInitialBuildRuntimeState.source_conduit_rotation_state",
+      "godot_symbol": "source_conduit_rotation_state_result.count",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "conduit",
+      "java_expr": "conduit = new Conduit(\"conduit\"){{",
+      "rule": "The number of conduits (7).",
+      "tests": [
+        "test_conduit_update_binding_registration",
+        "test_all_conduit_update_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conduit_update"
+      ],
+      "runtime_proof": "/root/ConduitUpdateProof"
+    },
+    "source_conduit_update_state_input.game": {
+      "status": "source-backed",
+      "godot_owner": "SourceConduitRuntimeState.source_conduit_update_state",
+      "godot_symbol": "source_conduit_update_state_input.game",
+      "java_source": "core/src/mindustry/world/blocks/liquid/Conduit.java",
+      "java_method": "updateTile()",
+      "java_expr": "moveLiquidForward(leaks, liquids.current());",
+      "rule": "The game, for the conduit sprite, its liquid module and its forward neighbor.",
+      "tests": [
+        "test_conduit_update_binding_registration",
+        "test_all_conduit_update_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conduit_update"
+      ],
+      "runtime_proof": "/root/ConduitUpdateProof"
+    },
+    "source_conduit_update_state_input.cell": {
+      "status": "source-backed",
+      "godot_owner": "SourceConduitRuntimeState.source_conduit_update_state",
+      "godot_symbol": "source_conduit_update_state_input.cell",
+      "java_source": "core/src/mindustry/world/blocks/liquid/Conduit.java",
+      "java_method": "updateTile()",
+      "java_expr": "moveLiquidForward(leaks, liquids.current());",
+      "rule": "The conduit cell to update.",
+      "tests": [
+        "test_conduit_update_binding_registration",
+        "test_all_conduit_update_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conduit_update"
+      ],
+      "runtime_proof": "/root/ConduitUpdateProof"
+    },
+    "source_conduit_update_state_input.delta": {
+      "status": "source-backed",
+      "godot_owner": "SourceConduitRuntimeState.source_conduit_update_state",
+      "godot_symbol": "source_conduit_update_state_input.delta",
+      "java_source": "core/src/mindustry/world/blocks/liquid/Conduit.java",
+      "java_method": "updateTile()",
+      "java_expr": "smoothLiquid = Mathf.lerpDelta(smoothLiquid, liquids.currentAmount() / liquidCapacity, 0.05f);",
+      "rule": "The frame delta in seconds.",
+      "tests": [
+        "test_conduit_update_binding_registration",
+        "test_all_conduit_update_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conduit_update"
+      ],
+      "runtime_proof": "/root/ConduitUpdateProof"
+    },
+    "source_conduit_update_state_result.liquid": {
+      "status": "source-backed",
+      "godot_owner": "SourceConduitRuntimeState.source_conduit_update_state",
+      "godot_symbol": "source_conduit_update_state_result.liquid",
+      "java_source": "core/src/mindustry/world/blocks/liquid/Conduit.java",
+      "java_method": "updateTile()",
+      "java_expr": "moveLiquidForward(leaks, liquids.current());",
+      "rule": "The conduit current liquid id, or null when it holds none.",
+      "tests": [
+        "test_conduit_update_binding_registration",
+        "test_all_conduit_update_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conduit_update"
+      ],
+      "runtime_proof": "/root/ConduitUpdateProof"
+    },
+    "source_conduit_update_state_result.flowed": {
+      "status": "source-backed",
+      "godot_owner": "SourceConduitRuntimeState.source_conduit_update_state",
+      "godot_symbol": "source_conduit_update_state_result.flowed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateTile()",
+      "java_expr": "float flow = Math.min(Mathf.clamp((fract - ofract)) * (block.liquidCapacity), liquids.get(liquid));",
+      "rule": "The water moved forward this frame (0 when the flow timer has not fired).",
+      "tests": [
+        "test_conduit_update_binding_registration",
+        "test_all_conduit_update_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conduit_update"
+      ],
+      "runtime_proof": "/root/ConduitUpdateProof"
+    },
+    "source_conduit_update_state_result.smooth_liquid": {
+      "status": "source-backed",
+      "godot_owner": "SourceConduitRuntimeState.source_conduit_update_state",
+      "godot_symbol": "source_conduit_update_state_result.smooth_liquid",
+      "java_source": "core/src/mindustry/world/blocks/liquid/Conduit.java",
+      "java_method": "updateTile()",
+      "java_expr": "smoothLiquid = Mathf.lerpDelta(smoothLiquid, liquids.currentAmount() / liquidCapacity, 0.05f);",
+      "rule": "The conduit smoothLiquid after this frame.",
+      "tests": [
+        "test_conduit_update_binding_registration",
+        "test_all_conduit_update_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conduit_update"
+      ],
+      "runtime_proof": "/root/ConduitUpdateProof"
+    },
+    "source_conduit_update_state_result.flow_timer": {
+      "status": "source-backed",
+      "godot_owner": "SourceConduitRuntimeState.source_conduit_update_state",
+      "godot_symbol": "source_conduit_update_state_result.flow_timer",
+      "java_source": "core/src/mindustry/world/blocks/liquid/Conduit.java",
+      "java_method": "updateTile()",
+      "java_expr": "if(liquids.currentAmount() > 0.0001f && timer(timerFlow, 1)){",
+      "rule": "The conduit flow timer after this frame.",
+      "tests": [
+        "test_conduit_update_binding_registration",
+        "test_all_conduit_update_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_conduit_update"
+      ],
+      "runtime_proof": "/root/ConduitUpdateProof"
     }
   },
   "version": 1
