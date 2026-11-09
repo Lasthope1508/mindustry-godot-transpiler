@@ -1,6 +1,34 @@
 {
   "version": 1,
   "symbols": {
+    "source_cost_multiplier_for_block_state_input.build": {
+      "canonical_symbol": "source_symbol_registry.source_cost_multiplier_for_block_state_input.build",
+      "status": "source-backed",
+      "java_expr": "consumeBuilder.each(c -> c.multiplier = b -> state.rules.unitCost(b.team));",
+      "godot_symbol": "source_cost_multiplier_for_block_state_input.build",
+      "godot_owner": "SourceConsumeState.source_cost_multiplier_for_block_state",
+      "rule": "The building frame: block_implementation, team_id and rules_state.",
+      "tests": [
+        "test_cost_multiplier_for_block_binding_registration",
+        "test_all_cost_multiplier_for_block_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_cost_multiplier_for_block"
+      ],
+      "runtime_proof": "/root/CostMultiplierForBlockProof"
+    },
+    "source_cost_multiplier_for_block_state_result.multiplier": {
+      "canonical_symbol": "source_symbol_registry.source_cost_multiplier_for_block_state_result.multiplier",
+      "status": "source-backed",
+      "java_expr": "public Floatf<Building> multiplier = b -> 1f;",
+      "godot_symbol": "source_cost_multiplier_for_block_state_result.multiplier",
+      "godot_owner": "SourceConsumeState.source_cost_multiplier_for_block_state",
+      "rule": "The cost multiplier the block pays: Rules.unitCost for unit factories, 1.0 otherwise.",
+      "tests": [
+        "test_cost_multiplier_for_block_binding_registration",
+        "test_all_cost_multiplier_for_block_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_cost_multiplier_for_block"
+      ],
+      "runtime_proof": "/root/CostMultiplierForBlockProof"
+    },
     "unit_building_command_position.command_position": {
       "canonical_symbol": "source_symbol_registry.unit_building_command_position.command_position",
       "status": "source-backed",

@@ -61489,6 +61489,30 @@
       ],
       "runtime_proof": "/root/RulesUnitCostProof",
       "rule": "Source-backed rules unit cost; unit factories pay this multiplier on every consumer."
+    },
+    "SourceConsumeState.source_cost_multiplier_for_block_state": {
+      "status": "active",
+      "source_slice": "N2097",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+      "source_method": "init()",
+      "params": [
+        {
+          "name": "build",
+          "type": "Variant",
+          "schema": "source_cost_multiplier_for_block_state_input.build"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "multiplier"
+      ],
+      "tests": [
+        "test_cost_multiplier_for_block_binding_registration",
+        "test_all_cost_multiplier_for_block_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_cost_multiplier_for_block"
+      ],
+      "runtime_proof": "/root/CostMultiplierForBlockProof",
+      "rule": "Source-backed per-block cost multiplier; unit factories pay Rules.unitCost, other blocks pay the 1.0 default."
     }
   },
   "policy": {

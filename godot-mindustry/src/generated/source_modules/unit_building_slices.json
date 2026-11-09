@@ -34,6 +34,23 @@
         "test_unit_build_command_slice"
       ],
       "runtime_proof": "/root/Main.generated_unit_building_on_command_bridge_state"
+    },
+    "N2097": {
+      "canonical_ledger": "source_slice_ledger.N2097",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+      "java_method": "init()",
+      "godot_owner": "SourceConsumeState.source_cost_multiplier_for_block_state",
+      "source_symbols": [
+        "source_cost_multiplier_for_block_state_input.build",
+        "source_cost_multiplier_for_block_state_result.multiplier"
+      ],
+      "tests": [
+        "test_cost_multiplier_for_block_binding_registration",
+        "test_all_cost_multiplier_for_block_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_cost_multiplier_for_block"
+      ],
+      "runtime_proof": "/root/CostMultiplierForBlockProof"
     }
   }
 }

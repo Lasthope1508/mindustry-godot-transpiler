@@ -81,6 +81,30 @@
       ],
       "runtime_proof": "/root/Main.generated_unit_building_on_command_bridge_state",
       "rule": "Public runtime contract for the shared source-backed onCommand bridge across three unit-building classes."
+    },
+    "SourceConsumeState.source_cost_multiplier_for_block_state": {
+      "canonical_contract": "source_api_contracts.SourceConsumeState.source_cost_multiplier_for_block_state",
+      "status": "active",
+      "source_slice": "N2097",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+      "source_method": "init()",
+      "params": [
+        {
+          "name": "build",
+          "type": "Variant",
+          "schema": "source_cost_multiplier_for_block_state_input.build"
+        }
+      ],
+      "return_keys": [
+        "multiplier"
+      ],
+      "tests": [
+        "test_cost_multiplier_for_block_binding_registration",
+        "test_all_cost_multiplier_for_block_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_cost_multiplier_for_block"
+      ],
+      "runtime_proof": "/root/CostMultiplierForBlockProof",
+      "rule": "Source-backed per-block cost multiplier; unit factories pay Rules.unitCost, other blocks pay the 1.0 default."
     }
   }
 }

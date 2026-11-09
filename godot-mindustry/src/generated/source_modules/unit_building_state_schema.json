@@ -1,6 +1,21 @@
 {
   "version": 1,
   "schemas": {
+    "source_cost_multiplier_for_block_state_input": {
+      "canonical_schema": "source_state_schema.source_cost_multiplier_for_block_state_input",
+      "keys": {
+        "build": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+          "java_expr": "consumeBuilder.each(c -> c.multiplier = b -> state.rules.unitCost(b.team));",
+          "rule": "The building frame: block_implementation, team_id and rules_state.",
+          "used_by": [
+            "SourceConsumeState.source_cost_multiplier_for_block_state"
+          ]
+        }
+      }
+    },
     "source_unit_building_get_command_position_state_input": {
       "canonical_schema": "source_state_schema.source_unit_building_get_command_position_state_input",
       "keys": {

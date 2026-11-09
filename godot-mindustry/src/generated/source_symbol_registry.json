@@ -164058,6 +164058,36 @@
         "test_reference_graph_and_actual_rules_unit_cost"
       ],
       "runtime_proof": "/root/RulesUnitCostProof"
+    },
+    "source_cost_multiplier_for_block_state_input.build": {
+      "status": "source-backed",
+      "godot_owner": "SourceConsumeState.source_cost_multiplier_for_block_state",
+      "godot_symbol": "source_cost_multiplier_for_block_state_input.build",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+      "java_method": "init()",
+      "java_expr": "consumeBuilder.each(c -> c.multiplier = b -> state.rules.unitCost(b.team));",
+      "rule": "The building frame: block_implementation, team_id and rules_state.",
+      "tests": [
+        "test_cost_multiplier_for_block_binding_registration",
+        "test_all_cost_multiplier_for_block_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_cost_multiplier_for_block"
+      ],
+      "runtime_proof": "/root/CostMultiplierForBlockProof"
+    },
+    "source_cost_multiplier_for_block_state_result.multiplier": {
+      "status": "source-backed",
+      "godot_owner": "SourceConsumeState.source_cost_multiplier_for_block_state",
+      "godot_symbol": "source_cost_multiplier_for_block_state_result.multiplier",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "java_method": "init()",
+      "java_expr": "public Floatf<Building> multiplier = b -> 1f;",
+      "rule": "The cost multiplier the block pays: Rules.unitCost for unit factories, 1.0 otherwise.",
+      "tests": [
+        "test_cost_multiplier_for_block_binding_registration",
+        "test_all_cost_multiplier_for_block_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_cost_multiplier_for_block"
+      ],
+      "runtime_proof": "/root/CostMultiplierForBlockProof"
     }
   },
   "version": 1

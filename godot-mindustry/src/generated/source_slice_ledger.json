@@ -53054,6 +53054,34 @@
         "C05 cache invalidation on Block reinit/reload is a later slice.",
         "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2097": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+      "java_class": "mindustry.world.blocks.units.UnitFactory",
+      "java_method": "init()",
+      "godot_owner": "SourceConsumeState.source_cost_multiplier_for_block_state",
+      "exact_exprs": [
+        "public Floatf<Building> multiplier = b -> 1f;",
+        "consumeBuilder.each(c -> c.multiplier = b -> state.rules.unitCost(b.team));",
+        "return unitCostMultiplier * teams.get(team).unitCostMultiplier;"
+      ],
+      "source_symbols": [
+        "source_cost_multiplier_for_block_state_input.build",
+        "source_cost_multiplier_for_block_state_result.multiplier"
+      ],
+      "tests": [
+        "test_cost_multiplier_for_block_binding_registration",
+        "test_all_cost_multiplier_for_block_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_cost_multiplier_for_block"
+      ],
+      "runtime_proof": "/root/CostMultiplierForBlockProof",
+      "deferred_exprs": [
+        "The game rules state itself (a live, mutable rules dict on the game, read by the tick) is a later slice; the tick currently passes an empty rules state, so unitCost reads the 1.0 defaults until then.",
+        "Live TeamRules cheating (consumers do not consume while cheating) is a later C05 slice.",
+        "C05 cache invalidation on Block reinit/reload is a later slice.",
+        "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1

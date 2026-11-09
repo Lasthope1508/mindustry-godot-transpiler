@@ -220906,6 +220906,44 @@
       },
       "runtime_proof": "/root/RulesUnitCostProof",
       "rule": "Source-backed rules unit cost."
+    },
+    "source_cost_multiplier_for_block_state_input": {
+      "status": "active",
+      "owner": "SourceConsumeState.source_cost_multiplier_for_block_state",
+      "source_slice": "N2097",
+      "keys": {
+        "build": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+          "java_expr": "consumeBuilder.each(c -> c.multiplier = b -> state.rules.unitCost(b.team));",
+          "rule": "The building frame: block_implementation, team_id and rules_state.",
+          "used_by": [
+            "SourceConsumeState.source_cost_multiplier_for_block_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/CostMultiplierForBlockProof",
+      "rule": "Source-backed per-block cost multiplier."
+    },
+    "source_cost_multiplier_for_block_state_result": {
+      "status": "active",
+      "owner": "SourceConsumeState.source_cost_multiplier_for_block_state",
+      "source_slice": "N2097",
+      "keys": {
+        "multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "public Floatf<Building> multiplier = b -> 1f;",
+          "rule": "The cost multiplier the block pays: Rules.unitCost for unit factories, 1.0 otherwise.",
+          "used_by": [
+            "SourceConsumeState.source_cost_multiplier_for_block_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/CostMultiplierForBlockProof",
+      "rule": "Source-backed per-block cost multiplier."
     }
   },
   "version": 1

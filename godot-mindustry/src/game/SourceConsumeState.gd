@@ -1,8 +1,36 @@
 extends RefCounted
 class_name SourceConsumeState
 
+const source_rules_state := preload("res://src/game/SourceRulesRuntimeState.gd")
+
+# The block implementations whose consumers pay Rules.unitCost instead
+# of the default 1.0: UnitFactory.java:109, Reconstructor.java:149 and
+# UnitAssembler.java:175 all set every consumer's multiplier to
+# b -> state.rules.unitCost(b.team). The same line appears in all
+# three files; 17 registry blocks carry one of these implementations.
+const SOURCE_UNIT_FACTORY_IMPLEMENTATIONS := ["UnitFactory", "Reconstructor", "UnitAssembler"]
+
 static func source_cost_multiplier_state(_build: Variant) -> Dictionary:
 	return {"multiplier": 1.0}
+
+static func source_cost_multiplier_for_block_state(build: Variant) -> Dictionary:
+	# Consume.multiplier is a per-consumer callback (Consume.java:18,
+	# default b -> 1f). Unit factories override it with
+	# b -> state.rules.unitCost(b.team) (UnitFactory.java:109,
+	# Reconstructor.java:149, UnitAssembler.java:175). The build dict
+	# is the building frame: it carries block_implementation,
+	# team_id and rules_state (set by the tick before the consumers
+	# are created); a build without those keys keeps the 1.0 default.
+	if not build is Dictionary:
+		return {"multiplier": 1.0}
+	var block_implementation: String = String(build.get("block_implementation", ""))
+	if block_implementation == "" or not SOURCE_UNIT_FACTORY_IMPLEMENTATIONS.has(block_implementation):
+		return {"multiplier": 1.0}
+	var rules_state: Dictionary = build.get("rules_state", {})
+	if not rules_state is Dictionary:
+		rules_state = {}
+	var team_id: int = int(build.get("team_id", 1))
+	return {"multiplier": float(source_rules_state.source_unit_cost_state(rules_state, team_id).get("unit_cost", 1.0))}
 
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
 const source_consume_base_source_text_state := preload("res://src/game/SourceConsumeBaseSourceTextState.gd")
