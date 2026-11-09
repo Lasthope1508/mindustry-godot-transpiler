@@ -4,6 +4,7 @@ class_name SourceContinuousLiquidTurretBuildState
 const source_turret_defaults := preload("res://src/game/SourceTurretDefaults.gd")
 const source_generated_class_runtime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
+const source_liquid_module_state := preload("res://src/game/SourceLiquidModuleState.gd")
 const source_turret_source_text_state := preload("res://src/game/SourceTurretSourceTextState.gd")
 const SOURCE_CONTINUOUS_LIQUID_TURRET_GENERATED_CLASS := source_turret_source_text_state.SOURCE_CONTINUOUS_LIQUID_TURRET_GENERATED_CLASS
 const SOURCE_CONTINUOUS_LIQUID_TURRET_BUILD_INNER_CLASS := source_turret_source_text_state.SOURCE_CONTINUOUS_LIQUID_TURRET_BUILD_INNER_CLASS
@@ -63,6 +64,31 @@ static func update_tile_state(current_amount: float, liquid_consumed: float, act
 	elif current_amount < liquid_consumed:
 		activated_after = false
 	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_CONTINUOUS_LIQUID_TURRET_BUILD_UPDATE_TILE_STATE, "inner_class": SOURCE_CONTINUOUS_LIQUID_TURRET_BUILD_INNER_CLASS, "method": SOURCE_CONTINUOUS_LIQUID_TURRET_UPDATE_TILE_METHOD, "comment": SOURCE_CONTINUOUS_LIQUID_TURRET_UPDATE_TILE_COMMENT, "activate_guard_expr": SOURCE_CONTINUOUS_LIQUID_TURRET_UPDATE_TILE_ACTIVATE_GUARD_EXPR, "deactivate_guard_expr": SOURCE_CONTINUOUS_LIQUID_TURRET_UPDATE_TILE_DEACTIVATE_GUARD_EXPR, "activated_after": activated_after, "current_amount": current_amount, "liquid_consumed": liquid_consumed, "activated_before": activated_before, "super_update_tile_called": true}
+
+static func source_tick_frame_state(frame: Dictionary, block_implementation: String, liquids: Dictionary, liquid_names_by_id: Array, ammo_types: Dictionary) -> Dictionary:
+	# The turret tick wires the frame keys the cost multiplier reads
+	# (N2101) before the consumers run: current_liquid is
+	# b.liquids.current() — the last received/loaded liquid
+	# (LiquidModule.java:80-83) — read in the port from the liquid
+	# module's "current" via SourceLiquidModuleState
+	# .source_current_state and resolved to its content name (Java
+	# resolves a liquid by id through content.liquid(id);
+	# LiquidModule.java:24 seeds current with content.liquid(0));
+	# ammo_types is the block's ammoTypes (ObjectMap<Liquid,
+	# BulletType>, ContinuousLiquidTurret.java:14) in port form; and
+	# block_implementation is set like the drill tick sets it (N2097),
+	# so the N2101 branch dispatches. A module without a current id,
+	# or an id with no content name, leaves current_liquid null and
+	# the multiplier keeps its 1.0 default.
+	frame["block_implementation"] = block_implementation
+	var current_liquid: Variant = null
+	if liquids.has("current") and liquids["current"] is int:
+		var current_id: int = int(source_liquid_module_state.source_current_state(liquids).get("current", -1))
+		if current_id >= 0 and current_id < liquid_names_by_id.size():
+			current_liquid = liquid_names_by_id[current_id]
+	frame["current_liquid"] = current_liquid
+	frame["ammo_types"] = ammo_types
+	return frame
 
 static func sense_object_state(sensor: String, current_liquid: Variant, super_sense_object_value: Variant) -> Dictionary:
 	var sense_object_value: Variant = super_sense_object_value

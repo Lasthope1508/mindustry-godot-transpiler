@@ -221128,6 +221128,104 @@
       },
       "runtime_proof": "/root/ConsumerCacheInvalidationProof",
       "rule": "Source-backed consumer cache invalidation on Block reinit/reload."
+    },
+    "source_tick_frame_state_input": {
+      "status": "active",
+      "owner": "SourceContinuousLiquidTurretBuildState.source_tick_frame_state",
+      "source_slice": "N2102",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "java_expr": "var ammo = ammoTypes.get(b.liquids.current());",
+          "rule": "The building frame (the b of the multiplier lambda); the tick wires its block_implementation, current_liquid and ammo_types keys in place and returns it.",
+          "used_by": [
+            "SourceContinuousLiquidTurretBuildState.source_tick_frame_state"
+          ]
+        },
+        "block_implementation": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "java_expr": "public class ContinuousLiquidTurret extends ContinuousTurret{",
+          "rule": "The block implementation name, from block.implementation like the drill tick sets it (N2097); the N2101 branch dispatches on ContinuousLiquidTurret.",
+          "used_by": [
+            "SourceContinuousLiquidTurretBuildState.source_tick_frame_state"
+          ]
+        },
+        "liquids": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+          "java_expr": "public Liquid current(){",
+          "rule": "The building liquid module state (b.liquids); current() is the last received/loaded liquid (LiquidModule.java:80-83), read in the port from the module's \"current\" via SourceLiquidModuleState.source_current_state.",
+          "used_by": [
+            "SourceContinuousLiquidTurretBuildState.source_tick_frame_state"
+          ]
+        },
+        "liquid_names_by_id": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+          "java_expr": "private Liquid current = content.liquid(0);",
+          "rule": "Content liquid names indexed by liquid id; Java resolves a liquid by id through content.liquid(id), which seeds the module current at LiquidModule.java:24.",
+          "used_by": [
+            "SourceContinuousLiquidTurretBuildState.source_tick_frame_state"
+          ]
+        },
+        "ammo_types": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "java_expr": "public ObjectMap<Liquid, BulletType> ammoTypes = new ObjectMap<>();",
+          "rule": "The block ammoTypes in port form, liquid name to the bullet type dict carrying ammoMultiplier (BulletType.java:95, default 2f); sublimate maps ozone to 1.2f and cyanogen to the 2f default (Blocks.java:4604-4631).",
+          "used_by": [
+            "SourceContinuousLiquidTurretBuildState.source_tick_frame_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/ContinuousLiquidTurretTickFrameProof",
+      "rule": "Source-backed ContinuousLiquidTurret tick frame wiring."
+    },
+    "source_tick_frame_state_result": {
+      "status": "active",
+      "owner": "SourceContinuousLiquidTurretBuildState.source_tick_frame_state",
+      "source_slice": "N2102",
+      "keys": {
+        "block_implementation": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "java_expr": "public class ContinuousLiquidTurret extends ContinuousTurret{",
+          "rule": "The implementation name set on the frame, so the N2101 branch dispatches.",
+          "used_by": [
+            "SourceContinuousLiquidTurretBuildState.source_tick_frame_state"
+          ]
+        },
+        "current_liquid": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "java_expr": "var ammo = ammoTypes.get(b.liquids.current());",
+          "rule": "The content name of the module current liquid, or null when the module has no current id or the id has no content name; the multiplier keeps its 1.0 default then.",
+          "used_by": [
+            "SourceContinuousLiquidTurretBuildState.source_tick_frame_state"
+          ]
+        },
+        "ammo_types": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "java_expr": "public ObjectMap<Liquid, BulletType> ammoTypes = new ObjectMap<>();",
+          "rule": "The block ammoTypes in port form, set on the frame for the multiplier lookup.",
+          "used_by": [
+            "SourceContinuousLiquidTurretBuildState.source_tick_frame_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/ContinuousLiquidTurretTickFrameProof",
+      "rule": "Source-backed ContinuousLiquidTurret tick frame wiring."
     }
   },
   "version": 1

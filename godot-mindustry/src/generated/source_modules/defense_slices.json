@@ -2581,6 +2581,29 @@
       ],
       "runtime_proof": "/root/ContinuousLiquidTurretCostMultiplierProof"
     },
+    "N2102": {
+      "canonical_ledger": "source_slice_ledger.N2102",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "java_method": "ContinuousLiquidTurretBuild.updateTile()",
+      "godot_owner": "SourceContinuousLiquidTurretBuildState.source_tick_frame_state",
+      "source_symbols": [
+        "source_tick_frame_state_input.frame",
+        "source_tick_frame_state_input.block_implementation",
+        "source_tick_frame_state_input.liquids",
+        "source_tick_frame_state_input.liquid_names_by_id",
+        "source_tick_frame_state_input.ammo_types",
+        "source_tick_frame_state_result.block_implementation",
+        "source_tick_frame_state_result.current_liquid",
+        "source_tick_frame_state_result.ammo_types"
+      ],
+      "tests": [
+        "test_continuous_liquid_turret_tick_frame_registration",
+        "test_all_continuous_liquid_turret_tick_frame_input_evidence_is_exact",
+        "test_reference_graph_and_actual_continuous_liquid_turret_tick_frame"
+      ],
+      "runtime_proof": "/root/ContinuousLiquidTurretTickFrameProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

@@ -6516,6 +6516,52 @@
       ],
       "runtime_proof": "/root/CostMultiplierForBlockProof",
       "rule": "Source-backed per-block cost multiplier; unit factories pay Rules.unitCost, other blocks pay the 1.0 default; a ContinuousLiquidTurret pays 1 / ammoMultiplier for its current liquid, 1.0 when the liquid has no ammo type."
+    },
+    "SourceContinuousLiquidTurretBuildState.source_tick_frame_state": {
+      "canonical_contract": "source_api_contracts.SourceContinuousLiquidTurretBuildState.source_tick_frame_state",
+      "status": "active",
+      "source_slice": "N2102",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "source_method": "ContinuousLiquidTurretBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_tick_frame_state_input.frame"
+        },
+        {
+          "name": "block_implementation",
+          "type": "String",
+          "schema": "source_tick_frame_state_input.block_implementation"
+        },
+        {
+          "name": "liquids",
+          "type": "Dictionary",
+          "schema": "source_tick_frame_state_input.liquids"
+        },
+        {
+          "name": "liquid_names_by_id",
+          "type": "Array",
+          "schema": "source_tick_frame_state_input.liquid_names_by_id"
+        },
+        {
+          "name": "ammo_types",
+          "type": "Dictionary",
+          "schema": "source_tick_frame_state_input.ammo_types"
+        }
+      ],
+      "return_keys": [
+        "block_implementation",
+        "current_liquid",
+        "ammo_types"
+      ],
+      "tests": [
+        "test_continuous_liquid_turret_tick_frame_registration",
+        "test_all_continuous_liquid_turret_tick_frame_input_evidence_is_exact",
+        "test_reference_graph_and_actual_continuous_liquid_turret_tick_frame"
+      ],
+      "runtime_proof": "/root/ContinuousLiquidTurretTickFrameProof",
+      "rule": "Source-backed ContinuousLiquidTurret tick frame wiring; the tick sets the frame keys the N2101 cost multiplier reads (current_liquid from the liquid module, ammo_types from the block), so the multiplier is paid live."
     }
   }
 }

@@ -53200,6 +53200,41 @@
         "Wiring the turret tick to set the frame keys (current_liquid from the liquid module, ammo_types from the block) is a later slice; the proof passes frame dicts directly.",
         "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2102": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "java_class": "mindustry.world.blocks.defense.turrets.ContinuousLiquidTurret.ContinuousLiquidTurretBuild",
+      "java_method": "ContinuousLiquidTurretBuild.updateTile()",
+      "godot_owner": "SourceContinuousLiquidTurretBuildState.source_tick_frame_state",
+      "exact_exprs": [
+        "public ObjectMap<Liquid, BulletType> ammoTypes = new ObjectMap<>();",
+        "var ammo = ammoTypes.get(b.liquids.current());",
+        "return ammo == null ? 1f : 1f / ammo.ammoMultiplier;",
+        "public Liquid current(){",
+        "private Liquid current = content.liquid(0);"
+      ],
+      "source_symbols": [
+        "source_tick_frame_state_input.frame",
+        "source_tick_frame_state_input.block_implementation",
+        "source_tick_frame_state_input.liquids",
+        "source_tick_frame_state_input.liquid_names_by_id",
+        "source_tick_frame_state_input.ammo_types",
+        "source_tick_frame_state_result.block_implementation",
+        "source_tick_frame_state_result.current_liquid",
+        "source_tick_frame_state_result.ammo_types"
+      ],
+      "tests": [
+        "test_continuous_liquid_turret_tick_frame_registration",
+        "test_all_continuous_liquid_turret_tick_frame_input_evidence_is_exact",
+        "test_reference_graph_and_actual_continuous_liquid_turret_tick_frame"
+      ],
+      "runtime_proof": "/root/ContinuousLiquidTurretTickFrameProof",
+      "deferred_exprs": [
+        "Calling the tick wiring from the live loop (simulate_factory) every tick and binding the turret frame on placement are later slices; the proof wires a placed turret frame directly.",
+        "Capturing ammoTypes into the content registry (emitter) so the tick can read the ammo map off the block instead of taking it as a parameter is a later slice; sublimate carries no consumeLiquid or ammoTypes in the registry yet, so no RuntimeConsumer can be bound for it either.",
+        "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1
