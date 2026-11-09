@@ -1,6 +1,6 @@
 # Handoff — C05 ContinuousLiquidTurret tick frame wiring (N2102)
 
-Date: 2026-11-09. Batch: N2102 (single slice). Commit: (pending — fill in after push).
+Date: 2026-11-09. Batch: N2102 (single slice). Commit: c6ce831.
 
 ## Done
 
