@@ -1,6 +1,6 @@
 # Handoff — C05 consumer cache invalidation (N2100)
 
-Date: 2026-11-09. Batch: N2100 (single slice, sixth C05 batch). Commit: (pending — fill in after push).
+Date: 2026-11-09. Batch: N2100 (single slice, sixth C05 batch). Commit: f3ff3f1.
 
 ## Done
 
