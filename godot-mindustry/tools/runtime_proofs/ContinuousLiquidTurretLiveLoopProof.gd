@@ -76,6 +76,24 @@ func _ready() -> void:
 	proof["driver_frame_fresh_current"] = str(frame.get("current_liquid", "")) == str(liquid_names_by_id[int(module.get("current", -1))])
 	proof["driver_frame_fresh_multiplier"] = is_equal_approx(float(consume_state.source_cost_multiplier_for_block_state(frame).get("multiplier", -1.0)), 1.0)
 
+	# --- the tick reads the ammo map off the block's registry
+	# properties (ContinuousLiquidTurret.java:14 ammoTypes, captured
+	# into properties["ammoTypes"] by N2104), not a hardcoded map:
+	# the frame's ammo_types is the registry entry, so mutating the
+	# entry shows up in the frame after the next tick, and removing
+	# it restores the frame. ---
+	var registry_ammo: Dictionary = blocks_by_id["sublimate"].properties.get("ammoTypes", {})
+	var frame_ammo: Dictionary = frame.get("ammo_types", {})
+	proof["frame_ammo_types_matches_registry"] = frame_ammo.size() == registry_ammo.size() and is_equal_approx(float(Dictionary(frame_ammo.get("ozone", {})).get("ammoMultiplier", -1.0)), float(Dictionary(registry_ammo.get("ozone", {})).get("ammoMultiplier", -2.0))) and is_equal_approx(float(Dictionary(frame_ammo.get("cyanogen", {})).get("ammoMultiplier", -1.0)), float(Dictionary(registry_ammo.get("cyanogen", {})).get("ammoMultiplier", -2.0)))
+	registry_ammo["__n2105_probe__"] = {"ammoMultiplier": 9.0}
+	turret_build_state.source_tick_buildings_state(game)
+	frame = turret.get_meta(turret_build_state.SOURCE_CONTINUOUS_LIQUID_TURRET_BUILDING_META_KEY, {})
+	proof["frame_ammo_types_tracks_registry"] = Dictionary(frame.get("ammo_types", {})).has("__n2105_probe__")
+	registry_ammo.erase("__n2105_probe__")
+	turret_build_state.source_tick_buildings_state(game)
+	frame = turret.get_meta(turret_build_state.SOURCE_CONTINUOUS_LIQUID_TURRET_BUILDING_META_KEY, {})
+	proof["frame_ammo_types_tracks_registry_restore"] = not Dictionary(frame.get("ammo_types", {})).has("__n2105_probe__")
+
 	# --- the live loop itself refreshes the keys every tick:
 	# simulate_factory runs the turret tick with the drill, pump and
 	# conduits, and the fresh turret still pays 1.0. ---

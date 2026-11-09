@@ -45,12 +45,6 @@ const SOURCE_CONTINUOUS_LIQUID_TURRET_ACCEPT_LIQUID_RETURN_EXPR := source_turret
 
 const SOURCE_CONTINUOUS_LIQUID_TURRET_IMPLEMENTATION := "ContinuousLiquidTurret"
 const SOURCE_CONTINUOUS_LIQUID_TURRET_BUILDING_META_KEY := "source_continuous_liquid_turret_building"
-# Sublimate's ammo map (Blocks.java:4604-4631) in port form, until the
-# emitter captures ammoTypes into the content registry (later slice):
-# ozone fires a ContinuousFlameBulletType with ammoMultiplier = 1.2f
-# (Blocks.java:4608); cyanogen fires one with no ammoMultiplier set,
-# so it keeps the BulletType default 2f (BulletType.java:95).
-const SOURCE_CONTINUOUS_LIQUID_TURRET_AMMO_TYPES_BY_BLOCK := {"sublimate": {"ozone": {"ammoMultiplier": 1.2}, "cyanogen": {"ammoMultiplier": 2.0}}}
 
 static func _continuous_liquid_turret_call(generated_method: String, generated_args: Array) -> Variant:
 	return source_generated_class_runtime.call_java_method(SOURCE_CONTINUOUS_LIQUID_TURRET_GENERATED_CLASS, generated_method, generated_args, null)
@@ -129,8 +123,13 @@ static func source_tick_buildings_state(game: Object) -> Dictionary:
 	# N2101 multiplier is actually paid live. The frame is bound at
 	# placement (source_bind_frame_state); a sprite that somehow
 	# lacks one gets it bound here instead of crashing the loop.
-	# The ammo map is the source-backed sublimate map until the
-	# emitter captures ammoTypes into the content registry.
+	# The ammo map is the block's ammoTypes (ObjectMap<Liquid,
+	# BulletType>, ContinuousLiquidTurret.java:14) read off the
+	# block's registry properties (N2104 captured sublimate's
+	# Blocks.java:4604-4631 map — ozone 1.2f, cyanogen the BulletType
+	# 2f default — into properties["ammoTypes"]); a block that
+	# carries no ammoTypes keeps the {} default and the multiplier
+	# pays 1.0.
 	var results_by_cell := {}
 	var ticked_count := 0
 	if game == null:
@@ -156,7 +155,7 @@ static func source_tick_buildings_state(game: Object) -> Dictionary:
 		var bound: Dictionary = source_bind_frame_state(sprite, block)
 		var frame: Dictionary = bound.get("frame", {})
 		var liquids: Dictionary = sprite.get_meta(source_placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY, {})
-		var ammo_types: Dictionary = SOURCE_CONTINUOUS_LIQUID_TURRET_AMMO_TYPES_BY_BLOCK.get(block_id, {})
+		var ammo_types: Dictionary = block.properties.get("ammoTypes", {})
 		var wired: Dictionary = source_tick_frame_state(frame, str(block.implementation), liquids, liquid_names_by_id, ammo_types)
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		results_by_cell[game.call("cell_key", cell)] = wired
