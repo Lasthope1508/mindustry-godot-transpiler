@@ -221498,6 +221498,84 @@
       },
       "runtime_proof": "/root/ContinuousLiquidTurretLiveLoopProof",
       "rule": "Source-backed ContinuousLiquidTurret RuntimeConsumer binding."
+    },
+    "source_consumer_cheating_for_cell_state_input": {
+      "status": "active",
+      "owner": "SourcePlacedPowerGraphState.source_consumer_cheating_for_cell_state",
+      "source_slice": "N2107",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "public void update(){",
+          "rule": "The game whose placed buildings form the power graph (PowerGraph.update runs over its consumers).",
+          "used_by": [
+            "SourcePlacedPowerGraphState.source_consumer_cheating_for_cell_state"
+          ]
+        },
+        "cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "if(!consumers.isEmpty() && consumers.first().cheating()){",
+          "rule": "The origin cell of the placed building whose live team cheating the consumer dict carries (PowerGraph.add puts each placed building in the graph once).",
+          "used_by": [
+            "SourcePlacedPowerGraphState.source_consumer_cheating_for_cell_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/PowerGraphLiveUpdateProof",
+      "rule": "Source-backed power-graph consumer live cheating value."
+    },
+    "source_consumer_cheating_for_cell_state_result": {
+      "status": "active",
+      "owner": "SourcePlacedPowerGraphState.source_consumer_cheating_for_cell_state",
+      "source_slice": "N2107",
+      "keys": {
+        "cheating": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TeamComp.java",
+          "java_expr": "        return team.rules().cheat;",
+          "rule": "Whether the building's team cheats: its TeamRule cheat flag (false by default).",
+          "used_by": [
+            "SourcePlacedPowerGraphState.source_consumer_cheating_for_cell_state"
+          ]
+        },
+        "team_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Team.java",
+          "java_expr": "        return state.rules.teams.get(this);",
+          "rule": "The placed building's team id, read off the sprite (derelict 0 when the sprite carries none).",
+          "used_by": [
+            "SourcePlacedPowerGraphState.source_consumer_cheating_for_cell_state"
+          ]
+        },
+        "found": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "public void add(Building build){",
+          "rule": "Whether a placed building (a graph member) was found at the cell.",
+          "used_by": [
+            "SourcePlacedPowerGraphState.source_consumer_cheating_for_cell_state"
+          ]
+        },
+        "reason": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "public void update(){",
+          "rule": "Why the lookup resolved the way it did (no_sprite when the cell holds no building, live_rules otherwise).",
+          "used_by": [
+            "SourcePlacedPowerGraphState.source_consumer_cheating_for_cell_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/PowerGraphLiveUpdateProof",
+      "rule": "Source-backed power-graph consumer live cheating value."
     }
   },
   "version": 1

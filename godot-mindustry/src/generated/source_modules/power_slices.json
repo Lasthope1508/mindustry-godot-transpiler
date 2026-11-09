@@ -1018,6 +1018,28 @@
       ],
       "runtime_proof": "/root/BatteryPowerStatusProof"
     },
+    "N2107": {
+      "canonical_ledger": "source_slice_ledger.N2107",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "update",
+      "godot_owner": "SourceFactoryRuntimeState.source_factory_update_power_graph_state",
+      "source_symbols": [
+        "source_consumer_cheating_for_cell_state_input.cell",
+        "source_consumer_cheating_for_cell_state_input.game",
+        "source_consumer_cheating_for_cell_state_result.cheating",
+        "source_consumer_cheating_for_cell_state_result.found",
+        "source_consumer_cheating_for_cell_state_result.reason",
+        "source_consumer_cheating_for_cell_state_result.team_id"
+      ],
+      "tests": [
+        "test_power_graph_consumer_cheating_binding_registration",
+        "test_all_power_graph_consumer_cheating_input_evidence_is_exact",
+        "test_live_loop_stamps_consumers_with_live_cheating",
+        "test_reference_graph_and_actual_power_graph_consumer_cheating"
+      ],
+      "runtime_proof": "/root/PowerGraphLiveUpdateProof"
+    },
     "N888": {
       "canonical_ledger": "source_slice_ledger.N888",
       "status": "done",

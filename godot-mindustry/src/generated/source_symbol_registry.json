@@ -164716,6 +164716,102 @@
         "test_reference_graph_and_actual_continuous_liquid_turret_consumer_binding"
       ],
       "runtime_proof": "/root/ContinuousLiquidTurretLiveLoopProof"
+    },
+    "source_consumer_cheating_for_cell_state_input.game": {
+      "status": "source-backed",
+      "godot_owner": "SourcePlacedPowerGraphState.source_consumer_cheating_for_cell_state",
+      "godot_symbol": "source_consumer_cheating_for_cell_state_input.game",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "update",
+      "java_expr": "public void update(){",
+      "rule": "The game whose placed buildings form the power graph (PowerGraph.update runs over its consumers).",
+      "tests": [
+        "test_power_graph_consumer_cheating_binding_registration",
+        "test_all_power_graph_consumer_cheating_input_evidence_is_exact",
+        "test_live_loop_stamps_consumers_with_live_cheating",
+        "test_reference_graph_and_actual_power_graph_consumer_cheating"
+      ],
+      "runtime_proof": "/root/PowerGraphLiveUpdateProof"
+    },
+    "source_consumer_cheating_for_cell_state_input.cell": {
+      "status": "source-backed",
+      "godot_owner": "SourcePlacedPowerGraphState.source_consumer_cheating_for_cell_state",
+      "godot_symbol": "source_consumer_cheating_for_cell_state_input.cell",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "update",
+      "java_expr": "if(!consumers.isEmpty() && consumers.first().cheating()){",
+      "rule": "The origin cell of the placed building whose live team cheating the consumer dict carries (PowerGraph.add puts each placed building in the graph once).",
+      "tests": [
+        "test_power_graph_consumer_cheating_binding_registration",
+        "test_all_power_graph_consumer_cheating_input_evidence_is_exact",
+        "test_live_loop_stamps_consumers_with_live_cheating",
+        "test_reference_graph_and_actual_power_graph_consumer_cheating"
+      ],
+      "runtime_proof": "/root/PowerGraphLiveUpdateProof"
+    },
+    "source_consumer_cheating_for_cell_state_result.cheating": {
+      "status": "source-backed",
+      "godot_owner": "SourcePlacedPowerGraphState.source_consumer_cheating_for_cell_state",
+      "godot_symbol": "source_consumer_cheating_for_cell_state_result.cheating",
+      "java_source": "core/src/mindustry/entities/comp/TeamComp.java",
+      "java_method": "update",
+      "java_expr": "        return team.rules().cheat;",
+      "rule": "Whether the building's team cheats: its TeamRule cheat flag (false by default).",
+      "tests": [
+        "test_power_graph_consumer_cheating_binding_registration",
+        "test_all_power_graph_consumer_cheating_input_evidence_is_exact",
+        "test_live_loop_stamps_consumers_with_live_cheating",
+        "test_reference_graph_and_actual_power_graph_consumer_cheating"
+      ],
+      "runtime_proof": "/root/PowerGraphLiveUpdateProof"
+    },
+    "source_consumer_cheating_for_cell_state_result.team_id": {
+      "status": "source-backed",
+      "godot_owner": "SourcePlacedPowerGraphState.source_consumer_cheating_for_cell_state",
+      "godot_symbol": "source_consumer_cheating_for_cell_state_result.team_id",
+      "java_source": "core/src/mindustry/game/Team.java",
+      "java_method": "update",
+      "java_expr": "        return state.rules.teams.get(this);",
+      "rule": "The placed building's team id, read off the sprite (derelict 0 when the sprite carries none).",
+      "tests": [
+        "test_power_graph_consumer_cheating_binding_registration",
+        "test_all_power_graph_consumer_cheating_input_evidence_is_exact",
+        "test_live_loop_stamps_consumers_with_live_cheating",
+        "test_reference_graph_and_actual_power_graph_consumer_cheating"
+      ],
+      "runtime_proof": "/root/PowerGraphLiveUpdateProof"
+    },
+    "source_consumer_cheating_for_cell_state_result.found": {
+      "status": "source-backed",
+      "godot_owner": "SourcePlacedPowerGraphState.source_consumer_cheating_for_cell_state",
+      "godot_symbol": "source_consumer_cheating_for_cell_state_result.found",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "update",
+      "java_expr": "public void add(Building build){",
+      "rule": "Whether a placed building (a graph member) was found at the cell.",
+      "tests": [
+        "test_power_graph_consumer_cheating_binding_registration",
+        "test_all_power_graph_consumer_cheating_input_evidence_is_exact",
+        "test_live_loop_stamps_consumers_with_live_cheating",
+        "test_reference_graph_and_actual_power_graph_consumer_cheating"
+      ],
+      "runtime_proof": "/root/PowerGraphLiveUpdateProof"
+    },
+    "source_consumer_cheating_for_cell_state_result.reason": {
+      "status": "source-backed",
+      "godot_owner": "SourcePlacedPowerGraphState.source_consumer_cheating_for_cell_state",
+      "godot_symbol": "source_consumer_cheating_for_cell_state_result.reason",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "update",
+      "java_expr": "public void update(){",
+      "rule": "Why the lookup resolved the way it did (no_sprite when the cell holds no building, live_rules otherwise).",
+      "tests": [
+        "test_power_graph_consumer_cheating_binding_registration",
+        "test_all_power_graph_consumer_cheating_input_evidence_is_exact",
+        "test_live_loop_stamps_consumers_with_live_cheating",
+        "test_reference_graph_and_actual_power_graph_consumer_cheating"
+      ],
+      "runtime_proof": "/root/PowerGraphLiveUpdateProof"
     }
   },
   "version": 1

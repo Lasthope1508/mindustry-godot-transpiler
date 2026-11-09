@@ -5,6 +5,8 @@ const source_building_power_state := preload("res://src/game/SourceBuildingPower
 const source_power_graph_state := preload("res://src/game/SourcePowerGraphState.gd")
 const source_texture_runtime_state := preload("res://src/game/SourceTextureRuntimeState.gd")
 const source_time_defaults := preload("res://src/game/SourceTimeDefaults.gd")
+const source_block_geometry := preload("res://src/game/SourceBlockGeometry.gd")
+const source_rules_state := preload("res://src/game/SourceRulesRuntimeState.gd")
 
 static func default_callbacks_state(game: Object) -> Dictionary:
 	return {
@@ -59,6 +61,28 @@ static func source_battery_set_power_status_for_cell_state(game: Object, cell: V
 	sprite.set_meta(SOURCE_BATTERY_POWER_STATUS_META_KEY, status)
 	return {"stored": true, "reason": "stored"}
 
+static func source_consumer_cheating_for_cell_state(game: Object, cell: Vector2i) -> Dictionary:
+	# PowerGraph.java:217 update(): the cheat gate reads the first
+	# consumer's cheating() — TeamComp.java:17-19 returns
+	# team.rules().cheat — so a consumer dict only gates the graph
+	# when it carries the building's live team value. The drill and
+	# ContinuousLiquidTurret ticks refresh their frames from the live
+	# rules (N2099/N2106), but the graph's consumer dicts are rebuilt
+	# from the catalog every frame and never saw that value; this reads
+	# it live from the placed building's team and the game's rules
+	# (the same live-rules read the ticks use, through
+	# source_game_rules_state + source_team_cheating_state), so every
+	# power consumer — drill, lancer, duo, core, conduit — carries its
+	# team's current cheat flag. A cell with no sprite has no building
+	# and keeps the false default.
+	var sprite: Variant = game.call("block_sprite_at_cell", cell)
+	if sprite == null:
+		return {"cheating": false, "team_id": source_block_geometry.SOURCE_TEAM_DERELICT_ID, "found": false, "reason": "no_sprite"}
+	var team_id: int = int(sprite.get_meta(source_block_geometry.SOURCE_BUILD_TEAM_META_KEY, source_block_geometry.SOURCE_TEAM_DERELICT_ID))
+	var rules: Dictionary = source_rules_state.source_game_rules_state(game.get("rules_state")).get("rules", {})
+	var cheating: bool = bool(source_rules_state.source_team_cheating_state(rules, team_id).get("cheating", false))
+	return {"cheating": cheating, "team_id": team_id, "found": true, "reason": "live_rules"}
+
 static func source_group_buildings_by_origin_state(placed_block_origins: Dictionary) -> Dictionary:
 	# PowerGraph.java:277-301 add(Building): each building is added
 	# once to the graph (guarded by build.power.graph != this ||
@@ -95,7 +119,9 @@ static func _group_state(placed_block_origins: Dictionary, block_from_sprite_fn:
 		if block == null:
 			continue
 		if bool(role_state.get("add_consumer", false)):
-			consumers.append(source_building_power_state.block_consumer_state(block, source_delta))
+			var consumer_state := source_building_power_state.block_consumer_state(block, source_delta)
+			consumer_state["origin_cell"] = origin
+			consumers.append(consumer_state)
 			counts["consumers"] += 1
 		if bool(role_state.get("add_producer", false)):
 			producers.append(source_building_power_state.block_producer_state(block, source_delta))

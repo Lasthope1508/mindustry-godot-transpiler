@@ -619,6 +619,20 @@ static func source_factory_update_power_graph_state(game: Object, delta: float) 
 		if battery is Dictionary and battery.get("origin_cell", null) is Vector2i:
 			var stored: Dictionary = source_placed_power_graph_state.source_battery_power_status_for_cell_state(game, battery.get("origin_cell"))
 			battery["power_status"] = float(stored.get("status", 0.0))
+	# Load each consumer's live cheating value (PowerGraph.java:217
+	# update(): the cheat gate reads consumers.first().cheating() —
+	# the first consumer's live team value, TeamComp.cheating(),
+	# N2099). The grouped consumer dicts are rebuilt from the catalog
+	# every frame and carry no cheating key, so the gate could never
+	# fire live even for a cheating drill; stamp each consumer with
+	# its building's live value (the battery pattern above: per-building
+	# state loaded from the sprite into the grouped dict before the
+	# update runs). A consumer without a Vector2i origin keeps the
+	# false default.
+	for consumer in consumers:
+		if consumer is Dictionary and consumer.get("origin_cell", null) is Vector2i:
+			var cheat_state: Dictionary = source_placed_power_graph_state.source_consumer_cheating_for_cell_state(game, consumer.get("origin_cell"))
+			consumer["cheating"] = bool(cheat_state.get("cheating", false))
 	var update: Dictionary = source_power_graph_state.update_state(consumers, producers, batteries, 0.0, delta, [])
 	# Write the resulting status back so the next frame reads it.
 	var updated_batteries: Array = update.get("battery_distribute_state", {}).get("batteries", [])

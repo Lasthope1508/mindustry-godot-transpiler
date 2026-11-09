@@ -161,6 +161,50 @@ static func update_battery_distribute_state(consumers: Array, producers: Array, 
 
 static func update_state(consumers: Array, producers: Array, batteries: Array, energy_delta: float, source_delta: float, power_balance_samples: Array = []) -> Dictionary:
 	var cheat_state := update_cheat_state(consumers)
+	# PowerGraph.java:217-224 update(): when the first consumer
+	# cheats, every consumer's power.status is set to 1,
+	# lastPowerNeeded and lastPowerProduced are 1, and the update
+	# returns before getPowerNeeded/getPowerProduced and the battery
+	# distribution run. The cheat state above is computed on duplicated
+	# consumers, so the status is written here onto the real dicts; the
+	# port reports power_needed/power_produced 1.0 to match the 1.0
+	# lasts, and last_power_stored from the batteries' stored power
+	# (the distribution never runs on this branch, so the stored value
+	# is unchanged). The balance and battery-distribute states are
+	# empty on this branch because Java returns before computing them.
+	if bool(cheat_state.get("returned", false)):
+		for consumer in consumers:
+			if consumer is Dictionary:
+				consumer["power_status"] = 1.0
+		return {
+			"method": source_power_graph_source_text_state.SOURCE_POWER_GRAPH_UPDATE_METHOD,
+			"nonempty_guard": source_power_graph_source_text_state.SOURCE_POWER_GRAPH_UPDATE_NONEMPTY_GUARD,
+			"charged_init": source_power_graph_source_text_state.SOURCE_POWER_GRAPH_UPDATE_CHARGED_INIT,
+			"unequal_guard_expr": source_power_graph_source_text_state.SOURCE_POWER_GRAPH_UPDATE_UNEQUAL_GUARD,
+			"deficit_gate": source_power_graph_source_text_state.SOURCE_POWER_GRAPH_UPDATE_DEFICIT_GATE,
+			"power_battery_used_expr": source_power_graph_source_text_state.SOURCE_POWER_GRAPH_UPDATE_POWER_BATTERY_USED_EXPR,
+			"power_produced_battery_add_expr": source_power_graph_source_text_state.SOURCE_POWER_GRAPH_UPDATE_POWER_PRODUCED_BATTERY_ADD_EXPR,
+			"last_power_produced_battery_add_expr": source_power_graph_source_text_state.SOURCE_POWER_GRAPH_UPDATE_LAST_POWER_PRODUCED_BATTERY_ADD_EXPR,
+			"surplus_gate": source_power_graph_source_text_state.SOURCE_POWER_GRAPH_UPDATE_SURPLUS_GATE,
+			"charged_true_expr": source_power_graph_source_text_state.SOURCE_POWER_GRAPH_UPDATE_CHARGED_TRUE_EXPR,
+			"power_produced_charge_sub_expr": source_power_graph_source_text_state.SOURCE_POWER_GRAPH_UPDATE_POWER_PRODUCED_CHARGE_SUB_EXPR,
+			"distribute_power_expr": source_power_graph_source_text_state.SOURCE_POWER_GRAPH_UPDATE_DISTRIBUTE_POWER_EXPR,
+			"mathf_equal": source_power_graph_source_text_state.SOURCE_POWER_GRAPH_MATHF_EQUAL_EXPR,
+			"cheat_state": cheat_state,
+			"balance_state": {},
+			"battery_distribute_state": {},
+			"power_needed": 1.0,
+			"power_produced": 1.0,
+			"last_power_needed": 1.0,
+			"last_power_produced": 1.0,
+			"last_power_stored": float(source_power_graph_balance_state.battery_state(batteries).get("stored", 0.0)),
+			"consumers": consumers,
+			"producers": producers,
+			"batteries": batteries,
+			"energy_delta": energy_delta,
+			"source_delta": source_delta,
+			"power_balance_samples": power_balance_samples,
+		}
 	var balance_state := update_balance_state(consumers, producers, batteries, energy_delta, source_delta, power_balance_samples)
 	var power_needed: float = float(balance_state.get("power_needed", 0.0))
 	var power_produced: float = float(balance_state.get("power_produced", 0.0))

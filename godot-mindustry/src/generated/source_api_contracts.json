@@ -60965,12 +60965,16 @@
         "update"
       ],
       "tests": [
-        "test_power_graph_live_update_binding_registration",
+        "test_all_power_graph_consumer_cheating_input_evidence_is_exact",
         "test_all_power_graph_live_update_binding_input_evidence_is_exact",
+        "test_live_loop_stamps_consumers_with_live_cheating",
+        "test_power_graph_consumer_cheating_binding_registration",
+        "test_power_graph_live_update_binding_registration",
+        "test_reference_graph_and_actual_power_graph_consumer_cheating",
         "test_reference_graph_and_actual_power_graph_live_update"
       ],
       "runtime_proof": "/root/PowerGraphLiveUpdateProof",
-      "rule": "Source-backed live-loop power graph update; each frame the placed graph runs PowerGraph.update()."
+      "rule": "Source-backed live-loop power graph update; each frame the placed graph runs PowerGraph.update(). Each grouped consumer dict is stamped with its building's live cheating value (TeamComp.cheating() from the live rules) before the update runs, so the cheat gate fires when the first consumer's team cheats."
     },
     "SourceWorldInitialBuildRuntimeState.source_solar_panel_placement_state": {
       "status": "active",
@@ -61799,6 +61803,39 @@
       ],
       "runtime_proof": "/root/ContinuousLiquidTurretLiveLoopProof",
       "rule": "Source-backed ContinuousLiquidTurret RuntimeConsumer binding; the tick binds one RuntimeConsumer per consumeLiquid row and consumes only getConsumed each tick through updateConsumption."
+    },
+    "SourcePlacedPowerGraphState.source_consumer_cheating_for_cell_state": {
+      "status": "active",
+      "source_slice": "N2107",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "source_method": "update",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_consumer_cheating_for_cell_state_input.game"
+        },
+        {
+          "name": "cell",
+          "type": "Vector2i",
+          "schema": "source_consumer_cheating_for_cell_state_input.cell"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "cheating",
+        "team_id",
+        "found",
+        "reason"
+      ],
+      "tests": [
+        "test_power_graph_consumer_cheating_binding_registration",
+        "test_all_power_graph_consumer_cheating_input_evidence_is_exact",
+        "test_live_loop_stamps_consumers_with_live_cheating",
+        "test_reference_graph_and_actual_power_graph_consumer_cheating"
+      ],
+      "runtime_proof": "/root/PowerGraphLiveUpdateProof",
+      "rule": "Source-backed power-graph consumer live cheating value; the helper reads a placed building's live TeamRule cheat flag from its team and the game rules, so the grouped consumer dict carries what PowerGraph.update()'s cheat gate reads."
     }
   },
   "policy": {
