@@ -1,6 +1,6 @@
 # Handoff — C05 ContinuousLiquidTurret RuntimeConsumer binding (N2106)
 
-Date: 2026-11-10. Batch: N2106 (single slice, SSOT slice). Commit: pending (main turn commits after the full suite).
+Date: 2026-11-10. Batch: N2106 (single slice, SSOT slice). Commit: `9c3aef3`.
 
 ## Done
 
