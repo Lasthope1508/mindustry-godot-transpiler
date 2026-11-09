@@ -1,6 +1,6 @@
 # Handoff — C05 game rules state (N2098)
 
-Date: 2026-11-09. Batch: N2098 (single slice, fourth C05 batch). Commit: (pending — fill in after push).
+Date: 2026-11-09. Batch: N2098 (single slice, fourth C05 batch). Commit: c75344c.
 
 ## Done
 
