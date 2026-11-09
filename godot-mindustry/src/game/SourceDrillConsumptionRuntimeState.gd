@@ -117,6 +117,13 @@ static func source_tick_state(game: Object, seconds: float) -> Dictionary:
 		frame["block_implementation"] = block.implementation
 		frame["team_id"] = int(sprite.get_meta(source_block_geometry.SOURCE_BUILD_TEAM_META_KEY, source_block_geometry.SOURCE_TEAM_DERELICT_ID))
 		frame["rules_state"] = source_rules_state.source_game_rules_state(game.get("rules_state"))["rules"]
+		# Live TeamRules cheating (N2099): TeamComp.cheating() is
+		# team.rules().cheat (TeamComp.java:17-19), so the frame's
+		# cheating flag is refreshed from the live rules every tick
+		# instead of staying at the false the frame starts with. A
+		# cheating drill skips its consumers and counts everything as
+		# valid (BuildingComp.java:1944-1945).
+		frame["cheating"] = source_rules_state.source_team_cheating_state(frame["rules_state"], frame["team_id"])["cheating"]
 		if frame["consumers"].is_empty():
 			for row in rows:
 				frame["consumers"].append(liquid.source_runtime_consumer_state(row, amounts, [], consume.source_cost_multiplier_for_block_state)["consumer"])

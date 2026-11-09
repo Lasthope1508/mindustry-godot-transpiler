@@ -18406,6 +18406,36 @@
       ],
       "runtime_proof": "/root/Main.PlacedLiquidOwnershipProof",
       "rule": "Typed source catalog and one persistent canonical frame per placed instance; no duplicated resource formulas or guessed liquid IDs."
+    },
+    "SourceRulesRuntimeState.source_team_cheating_state": {
+      "canonical_contract": "source_api_contracts.SourceRulesRuntimeState.source_team_cheating_state",
+      "status": "active",
+      "source_slice": "N2099",
+      "java_source": "core/src/mindustry/entities/comp/TeamComp.java",
+      "source_method": "cheating()",
+      "params": [
+        {
+          "name": "rules_state",
+          "type": "Variant",
+          "schema": "source_team_cheating_state_input.rules_state"
+        },
+        {
+          "name": "team_id",
+          "type": "int",
+          "schema": "source_team_cheating_state_input.team_id"
+        }
+      ],
+      "return_keys": [
+        "cheating"
+      ],
+      "tests": [
+        "test_team_cheating_state_binding_registration",
+        "test_all_team_cheating_state_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_team_cheating_state"
+      ],
+      "runtime_proof": "/root/TeamCheatingStateProof",
+      "rule": "Source-backed live TeamRules cheating; a cheating team skips its consumers.",
+      "return_type": "Dictionary"
     }
   }
 }

@@ -45,3 +45,32 @@ static func source_game_rules_state(rules_state: Variant) -> Dictionary:
 	if rules_state is Dictionary and not (rules_state as Dictionary).is_empty():
 		return {"rules": rules_state}
 	return {"rules": {"unitCostMultiplier": source_rules_defaults.UNIT_COST_MULTIPLIER_DEFAULT, "teams": {}}}
+
+
+# TeamComp.cheating() — TeamComp.java:17-19:
+#     public boolean cheating(){
+#         return team.rules().cheat;
+#     }
+# Team.rules() (Team.java:88-90) returns state.rules.teams.get(this);
+# TeamRules.get (Rules.java:391-394) creates a fresh TeamRule when the
+# team has none, and TeamRule.cheat (Rules.java:328, "If true, blocks
+# don't require power or resources.") defaults to false. While a team
+# cheats, its buildings' consumers are skipped and everything counts
+# as valid (BuildingComp.java:1944-1945, "//everything is valid when
+# cheating", `if(!block.hasConsumers || cheating()){`).
+# rules_state shape: {"teams": {team_id: {"cheat": bool}}}.
+# Team keys may be ints (built in GDScript) or strings (from JSON).
+# A missing team or a missing/empty rules state means the Java fresh
+# TeamRule, so cheating is false.
+static func source_team_cheating_state(rules_state: Variant, team_id: int) -> Dictionary:
+	var cheat: bool = source_rules_defaults.TEAM_CHEAT_DEFAULT
+	if rules_state is Dictionary:
+		var teams: Dictionary = (rules_state as Dictionary).get("teams", {})
+		var team_rules: Dictionary = {}
+		if teams.has(team_id):
+			team_rules = teams[team_id]
+		elif teams.has(str(team_id)):
+			team_rules = teams[str(team_id)]
+		if not team_rules.is_empty():
+			cheat = bool(team_rules.get("cheat", source_rules_defaults.TEAM_CHEAT_DEFAULT))
+	return {"cheating": cheat}

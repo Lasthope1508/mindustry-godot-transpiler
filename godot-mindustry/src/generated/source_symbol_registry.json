@@ -164118,6 +164118,51 @@
         "test_reference_graph_and_actual_game_rules_state"
       ],
       "runtime_proof": "/root/GameRulesStateProof"
+    },
+    "source_team_cheating_state_input.rules_state": {
+      "status": "source-backed",
+      "godot_owner": "SourceRulesRuntimeState.source_team_cheating_state",
+      "godot_symbol": "source_team_cheating_state_input.rules_state",
+      "java_source": "core/src/mindustry/entities/comp/TeamComp.java",
+      "java_method": "cheating()",
+      "java_expr": "        return team.rules().cheat;",
+      "rule": "The live rules state: per-team cheat flags under \"teams\".",
+      "tests": [
+        "test_team_cheating_state_binding_registration",
+        "test_all_team_cheating_state_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_team_cheating_state"
+      ],
+      "runtime_proof": "/root/TeamCheatingStateProof"
+    },
+    "source_team_cheating_state_input.team_id": {
+      "status": "source-backed",
+      "godot_owner": "SourceRulesRuntimeState.source_team_cheating_state",
+      "godot_symbol": "source_team_cheating_state_input.team_id",
+      "java_source": "core/src/mindustry/entities/comp/TeamComp.java",
+      "java_method": "cheating()",
+      "java_expr": "        return team.rules().cheat;",
+      "rule": "The team whose TeamRule cheat flag to read.",
+      "tests": [
+        "test_team_cheating_state_binding_registration",
+        "test_all_team_cheating_state_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_team_cheating_state"
+      ],
+      "runtime_proof": "/root/TeamCheatingStateProof"
+    },
+    "source_team_cheating_state_result.cheating": {
+      "status": "source-backed",
+      "godot_owner": "SourceRulesRuntimeState.source_team_cheating_state",
+      "godot_symbol": "source_team_cheating_state_result.cheating",
+      "java_source": "core/src/mindustry/entities/comp/TeamComp.java",
+      "java_method": "cheating()",
+      "java_expr": "        return team.rules().cheat;",
+      "rule": "Whether the team cheats: its TeamRule cheat flag (false by default).",
+      "tests": [
+        "test_team_cheating_state_binding_registration",
+        "test_all_team_cheating_state_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_team_cheating_state"
+      ],
+      "runtime_proof": "/root/TeamCheatingStateProof"
     }
   },
   "version": 1

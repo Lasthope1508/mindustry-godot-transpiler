@@ -220982,6 +220982,54 @@
       },
       "runtime_proof": "/root/GameRulesStateProof",
       "rule": "Source-backed game rules state."
+    },
+    "source_team_cheating_state_input": {
+      "status": "active",
+      "owner": "SourceRulesRuntimeState.source_team_cheating_state",
+      "source_slice": "N2099",
+      "keys": {
+        "rules_state": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TeamComp.java",
+          "java_expr": "        return team.rules().cheat;",
+          "rule": "The live rules state: per-team cheat flags under \"teams\".",
+          "used_by": [
+            "SourceRulesRuntimeState.source_team_cheating_state"
+          ]
+        },
+        "team_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TeamComp.java",
+          "java_expr": "        return team.rules().cheat;",
+          "rule": "The team whose TeamRule cheat flag to read.",
+          "used_by": [
+            "SourceRulesRuntimeState.source_team_cheating_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/TeamCheatingStateProof",
+      "rule": "Source-backed live TeamRules cheating."
+    },
+    "source_team_cheating_state_result": {
+      "status": "active",
+      "owner": "SourceRulesRuntimeState.source_team_cheating_state",
+      "source_slice": "N2099",
+      "keys": {
+        "cheating": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TeamComp.java",
+          "java_expr": "        return team.rules().cheat;",
+          "rule": "Whether the team cheats: its TeamRule cheat flag (false by default).",
+          "used_by": [
+            "SourceRulesRuntimeState.source_team_cheating_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/TeamCheatingStateProof",
+      "rule": "Source-backed live TeamRules cheating."
     }
   },
   "version": 1

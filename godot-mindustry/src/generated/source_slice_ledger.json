@@ -53110,6 +53110,35 @@
         "C05 cache invalidation on Block reinit/reload is a later slice.",
         "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2099": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/TeamComp.java",
+      "java_class": "mindustry.entities.comp.TeamComp",
+      "java_method": "cheating()",
+      "godot_owner": "SourceRulesRuntimeState.source_team_cheating_state",
+      "exact_exprs": [
+        "        /** If true, blocks don't require power or resources. */\n        public boolean cheat;",
+        "        return team.rules().cheat;",
+        "        return state.rules.teams.get(this);",
+        "            return out == null ? (values[team.id] = new TeamRule(team)) : out;"
+      ],
+      "source_symbols": [
+        "source_team_cheating_state_input.rules_state",
+        "source_team_cheating_state_input.team_id",
+        "source_team_cheating_state_result.cheating"
+      ],
+      "tests": [
+        "test_team_cheating_state_binding_registration",
+        "test_all_team_cheating_state_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_team_cheating_state"
+      ],
+      "runtime_proof": "/root/TeamCheatingStateProof",
+      "deferred_exprs": [
+        "Wiring other buildings (turrets, factories) to the live cheating value is a later slice; this slice wires the drill tick.",
+        "C05 cache invalidation on Block reinit/reload is a later slice.",
+        "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1

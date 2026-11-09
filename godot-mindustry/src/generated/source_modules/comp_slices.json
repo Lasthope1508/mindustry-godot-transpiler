@@ -5518,6 +5518,24 @@
       ],
       "runtime_proof": "/root/DrillDumpStepProof"
     },
+    "N2099": {
+      "canonical_ledger": "source_slice_ledger.N2099",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/TeamComp.java",
+      "java_method": "cheating()",
+      "godot_owner": "SourceRulesRuntimeState.source_team_cheating_state",
+      "source_symbols": [
+        "source_team_cheating_state_input.rules_state",
+        "source_team_cheating_state_input.team_id",
+        "source_team_cheating_state_result.cheating"
+      ],
+      "tests": [
+        "test_team_cheating_state_binding_registration",
+        "test_all_team_cheating_state_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_team_cheating_state"
+      ],
+      "runtime_proof": "/root/TeamCheatingStateProof"
+    },
     "N514": {
       "canonical_ledger": "source_slice_ledger.N514",
       "status": "done",

@@ -32,6 +32,33 @@ func _ready() -> void:
 		await get_tree().process_frame
 	game.set_process(false)
 	game.set_physics_process(false)
+	# Drain the liquid network before the measured steps: setup runs
+	# the live loop on real (headless) frame deltas, so the pump may
+	# already have flooded the conduits and their 1s flow timers may
+	# be about to fire mid-proof, pushing water into the drill and
+	# breaking the exact liquid assertions below. Resetting each
+	# conduit's water to 0 and its flow timer to 0 (and the pump's
+	# water to 0) makes the measured ticks see an empty network, as
+	# the consumption steps assume; the pump refills conduit 1 at
+	# 7/60 per tick but its timer cannot fire within the ~10 ticks
+	# this proof runs, so nothing reaches the drill.
+	var conduit_state = preload("res://src/game/SourceConduitRuntimeState.gd")
+	var scenario_defaults = preload("res://src/game/SourcePlayableScenarioDefaults.gd")
+	for conduit_cell in scenario_defaults.conduit_cells():
+		var conduit_sprite: Variant = game.call("block_sprite_at_cell", conduit_cell)
+		if conduit_sprite == null:
+			continue
+		var conduit_liquids: Variant = conduit_sprite.get_meta(placed.SOURCE_BUILDING_LIQUIDS_META_KEY, null)
+		if conduit_liquids != null:
+			storage.source_reset_state(conduit_liquids, 0, 0.0)
+		var conduit_frame: Dictionary = conduit_sprite.get_meta(conduit_state.SOURCE_CONDUIT_BUILDING_META_KEY, {})
+		conduit_frame["flow_timer"] = 0.0
+		conduit_sprite.set_meta(conduit_state.SOURCE_CONDUIT_BUILDING_META_KEY, conduit_frame)
+	var pump_sprite: Variant = game.call("block_sprite_at_cell", scenario_defaults.PUMP_POS)
+	if pump_sprite != null:
+		var pump_liquids: Variant = pump_sprite.get_meta(placed.SOURCE_BUILDING_LIQUIDS_META_KEY, null)
+		if pump_liquids != null:
+			storage.source_reset_state(pump_liquids, 0, 0.0)
 	var cell: Vector2i = game.get("drill_pos")
 	var first: Sprite2D = game.call("block_sprite_at_cell", cell)
 	var catalog = game.get("content_catalog")
@@ -82,10 +109,13 @@ func _ready() -> void:
 	var no_ore_matches: bool = first_liquids["liquids"][0] == 1.0 and first_frame["efficiency"] == 0.0 and first_frame["dominant_item"] == null
 	for occupied in game.call("occupied_cells", cell, block):
 		terrain.source_set_world_overlay_state(game, occupied.x, occupied.y, catalog.get_by_id("ore-copper"), false)
-	game.set_process(true)
-	await get_tree().process_frame
-	await get_tree().process_frame
-	game.set_process(false)
+	# The autonomous drive is proven through the same _process entry
+	# with the controlled 1/60s delta every other step uses: real
+	# frames carry uncontrolled deltas, so the pump/conduit network
+	# can refill the drill faster than it drains and the check
+	# becomes a race on wall-clock frame time.
+	tick(game)
+	tick(game)
 	var autonomous_matches: bool = first_liquids["liquids"][0] < 1.0
 	var state := registry.canonical_headquarter_registry_state()
 	var proof := {"adapter_matches": adapter_matches, "unique_traversal_matches": unique_matches, "time_scale_matches": time_scale_matches, "two_building_consumption_matches": consumption_matches, "partial_optional_matches": partial_matches, "dry_base_drilling_matches": dry_matches, "disabled_matches": disabled_matches, "full_output_matches": full_matches, "no_ore_matches": no_ore_matches, "identity_matches": reused_matches, "autonomous_process_matches": autonomous_matches, "registry_valid": state.get("errors", []).is_empty(), "one_headquarter_per_ssot": state.get("one_headquarter_per_ssot", false)}

@@ -37,9 +37,26 @@ func _ready() -> void:
 	# where edelta is the tick delta — Arc Time.delta is in ticks,
 	# so a frame is delta 1/60s), warms up by warmupSpeed 0.019 and
 	# advances totalProgress by warmup * edelta. ---
+	# Reset warmup/totalProgress first: the live loop may already
+	# have saturated warmup at 1.0 during setup (headless frames can
+	# carry large real deltas, so edelta is not 1.0 there), and then
+	# move_toward clamps instead of adding 0.019. Resetting the frame
+	# makes the measured update exactly one frame from a known state;
+	# the liquid amount is still asserted as a delta.
+	var frame_reset: Dictionary = pump.get_meta(pump_state.SOURCE_PUMP_BUILDING_META_KEY, {})
+	frame_reset["warmup"] = 0.0
+	frame_reset["total_progress"] = 0.0
+	pump.set_meta(pump_state.SOURCE_PUMP_BUILDING_META_KEY, frame_reset)
+	before_warmup = 0.0
+	before_progress = 0.0
 	var update: Dictionary = pump_state.source_pump_update_state(game, Vector2i(5, 14), 1.0 / 60.0)
 	proof["pump_update_produces"] = str(update.get("liquid_drop", "")) == "water" and is_equal_approx(float(update.get("amount_pumped", -1.0)), 7.0 / 60.0) and is_equal_approx(float(update.get("liquid_amount", -1.0)), before_amount + 7.0 / 60.0)
-	proof["pump_update_warmup"] = is_equal_approx(float(update.get("warmup", -1.0)), before_warmup + 0.019) and is_equal_approx(float(update.get("total_progress", -1.0)), before_progress + float(update.get("warmup", 0.0)) * 1.0)
+	# The warmup step is capped at 1.0 by move_toward in
+	# source_pump_update_state, and the live loop ticks the pump
+	# during the proof's setup frames with the real wall-clock
+	# delta — on a slow frame that can already saturate warmup to
+	# 1.0 before this read, so the expected value is capped too.
+	proof["pump_update_warmup"] = is_equal_approx(float(update.get("warmup", -1.0)), minf(before_warmup + 0.019, 1.0)) and is_equal_approx(float(update.get("total_progress", -1.0)), before_progress + float(update.get("warmup", 0.0)) * 1.0)
 	var second: Dictionary = pump_state.source_pump_update_state(game, Vector2i(5, 14), 1.0 / 60.0)
 	proof["pump_update_second_frame"] = is_equal_approx(float(second.get("amount_pumped", -1.0)), 7.0 / 60.0) and is_equal_approx(float(second.get("liquid_amount", -1.0)), float(update.get("liquid_amount", 0.0)) + 7.0 / 60.0)
 
