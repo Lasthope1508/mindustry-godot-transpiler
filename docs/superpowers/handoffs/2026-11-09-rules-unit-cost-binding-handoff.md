@@ -1,6 +1,6 @@
 # Handoff — C05 rules unit cost (N2096)
 
-Date: 2026-11-09. Batch: N2096 (single slice, second C05 batch). Commit: (pending — fill in after push).
+Date: 2026-11-09. Batch: N2096 (single slice, second C05 batch). Commit: `5df753d` (pushed `1d3ee0b..5df753d main -> main`).
 
 ## Done
 
