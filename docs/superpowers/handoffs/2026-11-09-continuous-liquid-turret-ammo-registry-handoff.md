@@ -1,6 +1,6 @@
 # Handoff — C05 ContinuousLiquidTurret ammoTypes in the content registry (N2104)
 
-Date: 2026-11-09. Batch: N2104 (emitter slice, no SSOT slice). Commit: pending — the main turn fills it after the full suite + commit/push.
+Date: 2026-11-09. Batch: N2104 (emitter slice, no SSOT slice). Commit: 6ae9fb6.
 
 ## Done
 
