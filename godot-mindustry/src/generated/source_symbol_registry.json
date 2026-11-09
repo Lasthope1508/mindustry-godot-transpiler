@@ -164403,6 +164403,111 @@
         "test_reference_graph_and_actual_continuous_liquid_turret_tick_frame"
       ],
       "runtime_proof": "/root/ContinuousLiquidTurretTickFrameProof"
+    },
+    "source_bind_frame_state_input.sprite": {
+      "status": "source-backed",
+      "godot_owner": "SourceContinuousLiquidTurretBuildState.source_bind_frame_state",
+      "godot_symbol": "source_bind_frame_state_input.sprite",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "java_method": "Block.newBuilding()",
+      "java_expr": "public class ContinuousLiquidTurret extends ContinuousTurret{",
+      "rule": "The placed Building sprite; only a ContinuousLiquidTurret sprite gets a frame bound at placement.",
+      "tests": [
+        "test_continuous_liquid_turret_live_loop_registration",
+        "test_all_continuous_liquid_turret_live_loop_input_evidence_is_exact",
+        "test_reference_graph_and_actual_continuous_liquid_turret_live_loop"
+      ],
+      "runtime_proof": "/root/ContinuousLiquidTurretLiveLoopProof"
+    },
+    "source_bind_frame_state_input.block": {
+      "status": "source-backed",
+      "godot_owner": "SourceContinuousLiquidTurretBuildState.source_bind_frame_state",
+      "godot_symbol": "source_bind_frame_state_input.block",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "java_method": "Block.newBuilding()",
+      "java_expr": "public class ContinuousLiquidTurret extends ContinuousTurret{",
+      "rule": "The typed block definition; the frame binds only when its implementation is ContinuousLiquidTurret.",
+      "tests": [
+        "test_continuous_liquid_turret_live_loop_registration",
+        "test_all_continuous_liquid_turret_live_loop_input_evidence_is_exact",
+        "test_reference_graph_and_actual_continuous_liquid_turret_live_loop"
+      ],
+      "runtime_proof": "/root/ContinuousLiquidTurretLiveLoopProof"
+    },
+    "source_bind_frame_state_result.applied": {
+      "status": "source-backed",
+      "godot_owner": "SourceContinuousLiquidTurretBuildState.source_bind_frame_state",
+      "godot_symbol": "source_bind_frame_state_result.applied",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.newBuilding()",
+      "java_expr": "public final Building newBuilding(){",
+      "rule": "Whether the frame was actually bound at placement; false for any other block or an already-bound sprite.",
+      "tests": [
+        "test_continuous_liquid_turret_live_loop_registration",
+        "test_all_continuous_liquid_turret_live_loop_input_evidence_is_exact",
+        "test_reference_graph_and_actual_continuous_liquid_turret_live_loop"
+      ],
+      "runtime_proof": "/root/ContinuousLiquidTurretLiveLoopProof"
+    },
+    "source_bind_frame_state_result.frame": {
+      "status": "source-backed",
+      "godot_owner": "SourceContinuousLiquidTurretBuildState.source_bind_frame_state",
+      "godot_symbol": "source_bind_frame_state_result.frame",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.newBuilding()",
+      "java_expr": "public final Building newBuilding(){",
+      "rule": "The bound frame -- the port Building state created at placement (Block.newBuilding); empty until the live-loop tick fills its keys.",
+      "tests": [
+        "test_continuous_liquid_turret_live_loop_registration",
+        "test_all_continuous_liquid_turret_live_loop_input_evidence_is_exact",
+        "test_reference_graph_and_actual_continuous_liquid_turret_live_loop"
+      ],
+      "runtime_proof": "/root/ContinuousLiquidTurretLiveLoopProof"
+    },
+    "source_tick_buildings_state_input.game": {
+      "status": "source-backed",
+      "godot_owner": "SourceContinuousLiquidTurretBuildState.source_tick_buildings_state",
+      "godot_symbol": "source_tick_buildings_state_input.game",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "ContinuousLiquidTurretBuild.updateTile()",
+      "java_expr": "build.onProximityUpdate();",
+      "rule": "The live game world: the placed-building index, the content catalog and the liquid module state the tick reads every tick.",
+      "tests": [
+        "test_continuous_liquid_turret_live_loop_registration",
+        "test_all_continuous_liquid_turret_live_loop_input_evidence_is_exact",
+        "test_reference_graph_and_actual_continuous_liquid_turret_live_loop"
+      ],
+      "runtime_proof": "/root/ContinuousLiquidTurretLiveLoopProof"
+    },
+    "source_tick_buildings_state_result.ticked_count": {
+      "status": "source-backed",
+      "godot_owner": "SourceContinuousLiquidTurretBuildState.source_tick_buildings_state",
+      "godot_symbol": "source_tick_buildings_state_result.ticked_count",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "java_method": "ContinuousLiquidTurretBuild.updateTile()",
+      "java_expr": "public void updateTile(){",
+      "rule": "How many placed ContinuousLiquidTurret builds had their frame keys refreshed this tick.",
+      "tests": [
+        "test_continuous_liquid_turret_live_loop_registration",
+        "test_all_continuous_liquid_turret_live_loop_input_evidence_is_exact",
+        "test_reference_graph_and_actual_continuous_liquid_turret_live_loop"
+      ],
+      "runtime_proof": "/root/ContinuousLiquidTurretLiveLoopProof"
+    },
+    "source_tick_buildings_state_result.results_by_cell": {
+      "status": "source-backed",
+      "godot_owner": "SourceContinuousLiquidTurretBuildState.source_tick_buildings_state",
+      "godot_symbol": "source_tick_buildings_state_result.results_by_cell",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "java_method": "ContinuousLiquidTurretBuild.updateTile()",
+      "java_expr": "super.updateTile();",
+      "rule": "Per-cell wired frames, keyed by the game cell key like the drill tick results; a cell maps to its refreshed frame dict.",
+      "tests": [
+        "test_continuous_liquid_turret_live_loop_registration",
+        "test_all_continuous_liquid_turret_live_loop_input_evidence_is_exact",
+        "test_reference_graph_and_actual_continuous_liquid_turret_live_loop"
+      ],
+      "runtime_proof": "/root/ContinuousLiquidTurretLiveLoopProof"
     }
   },
   "version": 1

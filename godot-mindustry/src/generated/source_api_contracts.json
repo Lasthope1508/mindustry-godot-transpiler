@@ -61657,6 +61657,61 @@
       ],
       "runtime_proof": "/root/ContinuousLiquidTurretTickFrameProof",
       "rule": "Source-backed ContinuousLiquidTurret tick frame wiring; the tick sets the frame keys the N2101 cost multiplier reads (current_liquid from the liquid module, ammo_types from the block), so the multiplier is paid live."
+    },
+    "SourceContinuousLiquidTurretBuildState.source_bind_frame_state": {
+      "status": "active",
+      "source_slice": "N2103",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "source_method": "Block.newBuilding()",
+      "params": [
+        {
+          "name": "sprite",
+          "type": "Sprite2D",
+          "schema": "source_bind_frame_state_input.sprite"
+        },
+        {
+          "name": "block",
+          "type": "Object",
+          "schema": "source_bind_frame_state_input.block"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "applied",
+        "frame"
+      ],
+      "tests": [
+        "test_continuous_liquid_turret_live_loop_registration",
+        "test_all_continuous_liquid_turret_live_loop_input_evidence_is_exact",
+        "test_reference_graph_and_actual_continuous_liquid_turret_live_loop"
+      ],
+      "runtime_proof": "/root/ContinuousLiquidTurretLiveLoopProof",
+      "rule": "Source-backed ContinuousLiquidTurret live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live liquid module every simulate_factory tick, so the N2101 cost multiplier is paid live."
+    },
+    "SourceContinuousLiquidTurretBuildState.source_tick_buildings_state": {
+      "status": "active",
+      "source_slice": "N2103",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "source_method": "ContinuousLiquidTurretBuild.updateTile()",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_tick_buildings_state_input.game"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "ticked_count",
+        "results_by_cell"
+      ],
+      "tests": [
+        "test_continuous_liquid_turret_live_loop_registration",
+        "test_all_continuous_liquid_turret_live_loop_input_evidence_is_exact",
+        "test_reference_graph_and_actual_continuous_liquid_turret_live_loop"
+      ],
+      "runtime_proof": "/root/ContinuousLiquidTurretLiveLoopProof",
+      "rule": "Source-backed ContinuousLiquidTurret live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live liquid module every simulate_factory tick, so the N2101 cost multiplier is paid live."
     }
   },
   "policy": {

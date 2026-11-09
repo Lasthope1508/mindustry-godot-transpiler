@@ -6517,6 +6517,31 @@
       "runtime_proof": "/root/CostMultiplierForBlockProof",
       "rule": "Source-backed per-block cost multiplier; unit factories pay Rules.unitCost, other blocks pay the 1.0 default; a ContinuousLiquidTurret pays 1 / ammoMultiplier for its current liquid, 1.0 when the liquid has no ammo type."
     },
+    "SourceContinuousLiquidTurretBuildState.source_tick_buildings_state": {
+      "canonical_contract": "source_api_contracts.SourceContinuousLiquidTurretBuildState.source_tick_buildings_state",
+      "status": "active",
+      "source_slice": "N2103",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "source_method": "ContinuousLiquidTurretBuild.updateTile()",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_tick_buildings_state_input.game"
+        }
+      ],
+      "return_keys": [
+        "ticked_count",
+        "results_by_cell"
+      ],
+      "tests": [
+        "test_continuous_liquid_turret_live_loop_registration",
+        "test_all_continuous_liquid_turret_live_loop_input_evidence_is_exact",
+        "test_reference_graph_and_actual_continuous_liquid_turret_live_loop"
+      ],
+      "runtime_proof": "/root/ContinuousLiquidTurretLiveLoopProof",
+      "rule": "Source-backed ContinuousLiquidTurret live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live liquid module every simulate_factory tick, so the N2101 cost multiplier is paid live."
+    },
     "SourceContinuousLiquidTurretBuildState.source_tick_frame_state": {
       "canonical_contract": "source_api_contracts.SourceContinuousLiquidTurretBuildState.source_tick_frame_state",
       "status": "active",

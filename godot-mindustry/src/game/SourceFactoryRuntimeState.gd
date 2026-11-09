@@ -10,6 +10,7 @@ const source_placed_power_graph_state := preload("res://src/game/SourcePlacedPow
 const source_power_graph_state := preload("res://src/game/SourcePowerGraphState.gd")
 const source_pump_runtime_state := preload("res://src/game/SourcePumpRuntimeState.gd")
 const source_conduit_runtime_state := preload("res://src/game/SourceConduitRuntimeState.gd")
+const source_continuous_liquid_turret_build_state := preload("res://src/game/SourceContinuousLiquidTurretBuildState.gd")
 
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
 const source_drill_dump_runtime_state_script := preload("res://src/game/SourceDrillDumpRuntimeState.gd")
@@ -156,6 +157,11 @@ static func simulate_factory(game: Object, delta: float) -> void:
 	source_pump_runtime_state.source_pump_dump_liquid_state(game, source_playable_scenario_defaults.PUMP_POS)
 	for conduit_cell in source_playable_scenario_defaults.conduit_cells():
 		source_conduit_runtime_state.source_conduit_update_state(game, conduit_cell, delta)
+	# The turret tick runs every live-loop tick (N2103): each placed
+	# ContinuousLiquidTurret gets its frame keys refreshed from its
+	# live liquid module, so the N2101 cost multiplier is actually
+	# paid live (ContinuousLiquidTurretBuild.updateTile()).
+	source_continuous_liquid_turret_build_state.source_tick_buildings_state(game)
 	game.set(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_TRANSPORT_PROGRESS_KEY, float(apply_state.get(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_TRANSPORT_PROGRESS_KEY, game.get(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_TRANSPORT_PROGRESS_KEY))))
 	var item_sprites_value = game.get(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_ITEM_SPRITES_KEY)
 	if not (item_sprites_value is Array):

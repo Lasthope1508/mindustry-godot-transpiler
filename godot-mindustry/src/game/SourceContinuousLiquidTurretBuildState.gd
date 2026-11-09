@@ -5,6 +5,7 @@ const source_turret_defaults := preload("res://src/game/SourceTurretDefaults.gd"
 const source_generated_class_runtime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
 const source_liquid_module_state := preload("res://src/game/SourceLiquidModuleState.gd")
+const source_placed_block_state := preload("res://src/game/SourcePlacedBlockState.gd")
 const source_turret_source_text_state := preload("res://src/game/SourceTurretSourceTextState.gd")
 const SOURCE_CONTINUOUS_LIQUID_TURRET_GENERATED_CLASS := source_turret_source_text_state.SOURCE_CONTINUOUS_LIQUID_TURRET_GENERATED_CLASS
 const SOURCE_CONTINUOUS_LIQUID_TURRET_BUILD_INNER_CLASS := source_turret_source_text_state.SOURCE_CONTINUOUS_LIQUID_TURRET_BUILD_INNER_CLASS
@@ -41,6 +42,15 @@ const SOURCE_CONTINUOUS_LIQUID_TURRET_ACCEPT_ITEM_METHOD := source_turret_source
 const SOURCE_CONTINUOUS_LIQUID_TURRET_ACCEPT_ITEM_RETURN_EXPR := source_turret_source_text_state.SOURCE_CONTINUOUS_LIQUID_TURRET_ACCEPT_ITEM_RETURN_EXPR
 const SOURCE_CONTINUOUS_LIQUID_TURRET_ACCEPT_LIQUID_METHOD := source_turret_source_text_state.SOURCE_CONTINUOUS_LIQUID_TURRET_ACCEPT_LIQUID_METHOD
 const SOURCE_CONTINUOUS_LIQUID_TURRET_ACCEPT_LIQUID_RETURN_EXPR := source_turret_source_text_state.SOURCE_CONTINUOUS_LIQUID_TURRET_ACCEPT_LIQUID_RETURN_EXPR
+
+const SOURCE_CONTINUOUS_LIQUID_TURRET_IMPLEMENTATION := "ContinuousLiquidTurret"
+const SOURCE_CONTINUOUS_LIQUID_TURRET_BUILDING_META_KEY := "source_continuous_liquid_turret_building"
+# Sublimate's ammo map (Blocks.java:4604-4631) in port form, until the
+# emitter captures ammoTypes into the content registry (later slice):
+# ozone fires a ContinuousFlameBulletType with ammoMultiplier = 1.2f
+# (Blocks.java:4608); cyanogen fires one with no ammoMultiplier set,
+# so it keeps the BulletType default 2f (BulletType.java:95).
+const SOURCE_CONTINUOUS_LIQUID_TURRET_AMMO_TYPES_BY_BLOCK := {"sublimate": {"ozone": {"ammoMultiplier": 1.2}, "cyanogen": {"ammoMultiplier": 2.0}}}
 
 static func _continuous_liquid_turret_call(generated_method: String, generated_args: Array) -> Variant:
 	return source_generated_class_runtime.call_java_method(SOURCE_CONTINUOUS_LIQUID_TURRET_GENERATED_CLASS, generated_method, generated_args, null)
@@ -89,6 +99,69 @@ static func source_tick_frame_state(frame: Dictionary, block_implementation: Str
 	frame["current_liquid"] = current_liquid
 	frame["ammo_types"] = ammo_types
 	return frame
+
+static func _initial_frame() -> Dictionary:
+	return {}
+
+static func source_bind_frame_state(sprite: Sprite2D, block: Object) -> Dictionary:
+	# Placement creates the Building (Block.java:1002 newBuilding);
+	# the port's frame is that Building state, bound on the sprite
+	# at placement through the Tile.setBlock proximity path (the same
+	# path that binds the drill frame on proximity update). A
+	# ContinuousLiquidTurret sprite gets an empty frame bound; the
+	# live-loop tick fills its keys every tick (N2102). Any other
+	# block, or an already-bound sprite, binds nothing.
+	if block == null or str(block.implementation) != SOURCE_CONTINUOUS_LIQUID_TURRET_IMPLEMENTATION:
+		return {"applied": false, "frame": {}}
+	if sprite.has_meta(SOURCE_CONTINUOUS_LIQUID_TURRET_BUILDING_META_KEY):
+		return {"applied": false, "frame": sprite.get_meta(SOURCE_CONTINUOUS_LIQUID_TURRET_BUILDING_META_KEY)}
+	var frame: Dictionary = _initial_frame()
+	sprite.set_meta(SOURCE_CONTINUOUS_LIQUID_TURRET_BUILDING_META_KEY, frame)
+	return {"applied": true, "frame": frame}
+
+static func source_tick_buildings_state(game: Object) -> Dictionary:
+	# The live loop calls the turret tick wiring every tick
+	# (ContinuousLiquidTurretBuild.updateTile(), which calls
+	# super.updateTile(), ContinuousTurret.java:86-87, running
+	# updateConsumption and the multiplier lambda): each placed
+	# ContinuousLiquidTurret gets its frame keys refreshed from its
+	# live liquid module via N2102's source_tick_frame_state, so the
+	# N2101 multiplier is actually paid live. The frame is bound at
+	# placement (source_bind_frame_state); a sprite that somehow
+	# lacks one gets it bound here instead of crashing the loop.
+	# The ammo map is the source-backed sublimate map until the
+	# emitter captures ammoTypes into the content registry.
+	var results_by_cell := {}
+	var ticked_count := 0
+	if game == null:
+		return {"ticked_count": ticked_count, "results_by_cell": results_by_cell}
+	var catalog = game.get("content_catalog")
+	if catalog == null:
+		return {"ticked_count": ticked_count, "results_by_cell": results_by_cell}
+	var blocks_by_id: Dictionary = {}
+	for registered_block in catalog.get_many("block"):
+		blocks_by_id[registered_block.id] = registered_block
+	var liquid_names_by_id: Array = []
+	for liquid in catalog.get_many("liquid"):
+		liquid_names_by_id.append(String(liquid.id))
+	for sprite in source_placed_block_state.source_unique_buildings_state(game).get("buildings", []):
+		if not is_instance_valid(sprite) or not sprite is Sprite2D:
+			continue
+		var block_id: String = str(sprite.get_meta(source_placed_block_state.SOURCE_BLOCK_ID_META_KEY, ""))
+		if not blocks_by_id.has(block_id):
+			continue
+		var block = blocks_by_id[block_id]
+		if str(block.implementation) != SOURCE_CONTINUOUS_LIQUID_TURRET_IMPLEMENTATION:
+			continue
+		var bound: Dictionary = source_bind_frame_state(sprite, block)
+		var frame: Dictionary = bound.get("frame", {})
+		var liquids: Dictionary = sprite.get_meta(source_placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY, {})
+		var ammo_types: Dictionary = SOURCE_CONTINUOUS_LIQUID_TURRET_AMMO_TYPES_BY_BLOCK.get(block_id, {})
+		var wired: Dictionary = source_tick_frame_state(frame, str(block.implementation), liquids, liquid_names_by_id, ammo_types)
+		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
+		results_by_cell[game.call("cell_key", cell)] = wired
+		ticked_count += 1
+	return {"ticked_count": ticked_count, "results_by_cell": results_by_cell}
 
 static func sense_object_state(sensor: String, current_liquid: Variant, super_sense_object_value: Variant) -> Dictionary:
 	var sense_object_value: Variant = super_sense_object_value

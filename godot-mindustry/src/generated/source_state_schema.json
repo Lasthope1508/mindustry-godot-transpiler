@@ -221226,6 +221226,112 @@
       },
       "runtime_proof": "/root/ContinuousLiquidTurretTickFrameProof",
       "rule": "Source-backed ContinuousLiquidTurret tick frame wiring."
+    },
+    "source_bind_frame_state_input": {
+      "status": "active",
+      "owner": "SourceContinuousLiquidTurretBuildState.source_bind_frame_state",
+      "source_slice": "N2103",
+      "keys": {
+        "sprite": {
+          "type": "Sprite2D",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "java_expr": "public class ContinuousLiquidTurret extends ContinuousTurret{",
+          "rule": "The placed Building sprite; only a ContinuousLiquidTurret sprite gets a frame bound at placement.",
+          "used_by": [
+            "SourceContinuousLiquidTurretBuildState.source_bind_frame_state"
+          ]
+        },
+        "block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "java_expr": "public class ContinuousLiquidTurret extends ContinuousTurret{",
+          "rule": "The typed block definition; the frame binds only when its implementation is ContinuousLiquidTurret.",
+          "used_by": [
+            "SourceContinuousLiquidTurretBuildState.source_bind_frame_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/ContinuousLiquidTurretLiveLoopProof",
+      "rule": "Source-backed ContinuousLiquidTurret live-loop tick and placement frame binding."
+    },
+    "source_bind_frame_state_result": {
+      "status": "active",
+      "owner": "SourceContinuousLiquidTurretBuildState.source_bind_frame_state",
+      "source_slice": "N2103",
+      "keys": {
+        "applied": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public final Building newBuilding(){",
+          "rule": "Whether the frame was actually bound at placement; false for any other block or an already-bound sprite.",
+          "used_by": [
+            "SourceContinuousLiquidTurretBuildState.source_bind_frame_state"
+          ]
+        },
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public final Building newBuilding(){",
+          "rule": "The bound frame -- the port Building state created at placement (Block.newBuilding); empty until the live-loop tick fills its keys.",
+          "used_by": [
+            "SourceContinuousLiquidTurretBuildState.source_bind_frame_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/ContinuousLiquidTurretLiveLoopProof",
+      "rule": "Source-backed ContinuousLiquidTurret live-loop tick and placement frame binding."
+    },
+    "source_tick_buildings_state_input": {
+      "status": "active",
+      "owner": "SourceContinuousLiquidTurretBuildState.source_tick_buildings_state",
+      "source_slice": "N2103",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "build.onProximityUpdate();",
+          "rule": "The live game world: the placed-building index, the content catalog and the liquid module state the tick reads every tick.",
+          "used_by": [
+            "SourceContinuousLiquidTurretBuildState.source_tick_buildings_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/ContinuousLiquidTurretLiveLoopProof",
+      "rule": "Source-backed ContinuousLiquidTurret live-loop tick and placement frame binding."
+    },
+    "source_tick_buildings_state_result": {
+      "status": "active",
+      "owner": "SourceContinuousLiquidTurretBuildState.source_tick_buildings_state",
+      "source_slice": "N2103",
+      "keys": {
+        "ticked_count": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "java_expr": "public void updateTile(){",
+          "rule": "How many placed ContinuousLiquidTurret builds had their frame keys refreshed this tick.",
+          "used_by": [
+            "SourceContinuousLiquidTurretBuildState.source_tick_buildings_state"
+          ]
+        },
+        "results_by_cell": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "super.updateTile();",
+          "rule": "Per-cell wired frames, keyed by the game cell key like the drill tick results; a cell maps to its refreshed frame dict.",
+          "used_by": [
+            "SourceContinuousLiquidTurretBuildState.source_tick_buildings_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/ContinuousLiquidTurretLiveLoopProof",
+      "rule": "Source-backed ContinuousLiquidTurret live-loop tick and placement frame binding."
     }
   },
   "version": 1

@@ -2604,6 +2604,28 @@
       ],
       "runtime_proof": "/root/ContinuousLiquidTurretTickFrameProof"
     },
+    "N2103": {
+      "canonical_ledger": "source_slice_ledger.N2103",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "java_method": "ContinuousLiquidTurretBuild.updateTile(); Block.newBuilding()",
+      "godot_owner": "SourceContinuousLiquidTurretBuildState.source_tick_buildings_state",
+      "source_symbols": [
+        "source_bind_frame_state_input.sprite",
+        "source_bind_frame_state_input.block",
+        "source_bind_frame_state_result.applied",
+        "source_bind_frame_state_result.frame",
+        "source_tick_buildings_state_input.game",
+        "source_tick_buildings_state_result.ticked_count",
+        "source_tick_buildings_state_result.results_by_cell"
+      ],
+      "tests": [
+        "test_continuous_liquid_turret_live_loop_registration",
+        "test_all_continuous_liquid_turret_live_loop_input_evidence_is_exact",
+        "test_reference_graph_and_actual_continuous_liquid_turret_live_loop"
+      ],
+      "runtime_proof": "/root/ContinuousLiquidTurretLiveLoopProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",
