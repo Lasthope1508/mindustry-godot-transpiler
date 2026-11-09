@@ -1,6 +1,6 @@
 # Handoff — C05 per-block cost multiplier (N2097)
 
-Date: 2026-11-09. Batch: N2097 (single slice, third C05 batch). Commit: (pending — fill in after push).
+Date: 2026-11-09. Batch: N2097 (single slice, third C05 batch). Commit: `35d97d3`.
 
 ## Done
 
