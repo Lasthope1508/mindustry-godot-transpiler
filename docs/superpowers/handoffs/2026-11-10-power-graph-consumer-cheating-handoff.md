@@ -1,6 +1,6 @@
 # Handoff — C05 Power-graph consumer live cheating value (N2107)
 
-Date: 2026-11-10. Batch: N2107 (single slice, SSOT slice). Commit: `TBD`.
+Date: 2026-11-10. Batch: N2107 (single slice, SSOT slice). Commit: `7f65794`.
 
 ## Done
 
