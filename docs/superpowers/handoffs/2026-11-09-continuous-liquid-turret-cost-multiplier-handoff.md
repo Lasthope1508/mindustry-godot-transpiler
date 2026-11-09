@@ -1,6 +1,6 @@
 # Handoff — C05 ContinuousLiquidTurret cost multiplier (N2101)
 
-Date: 2026-11-09. Batch: N2101 (single slice). Commit: (pending — fill in after push).
+Date: 2026-11-09. Batch: N2101 (single slice). Commit: daa414f.
 
 ## Done
 
