@@ -498,6 +498,19 @@ def _block_properties(source: str, assignment_end: int, implementation: str = ""
     item_consumers = _consume_item_descriptors(initializer)
     if item_consumers:
         properties["consumeItem"] = item_consumers
+    if implementation == "ContinuousLiquidTurret":
+        turret_ammo = _liquid_turret_ammo_types(initializer)
+        if turret_ammo:
+            properties["ammoTypes"] = turret_ammo
+            # The class init consumes through a ConsumeLiquidFilter over
+            # exactly the ammo liquids (ContinuousLiquidTurret.java:40-51),
+            # so the filter is one consumeLiquid descriptor per ammo liquid
+            # at the filter amount; a block that already resolves its own
+            # consumeLiquid calls keeps those instead.
+            if "consumeLiquid" not in properties:
+                liquid_consumed = _liquid_turret_consumed(initializer, class_sources.get(implementation, "") if class_sources else "")
+                if liquid_consumed is not None:
+                    properties["consumeLiquid"] = [{"liquid": liquid, "amount": liquid_consumed} for liquid in turret_ammo]
     if implementation == "ItemTurret":
         _apply_item_turret_ammo_defaults(properties, initializer)
     return properties
@@ -574,6 +587,73 @@ def _consume_liquid_descriptors(initializer: str, field_values: dict[str, int | 
         return result
     except (ValueError, TypeError, StopIteration, ZeroDivisionError, javalang.parser.JavaSyntaxError, javalang.tokenizer.LexerError):
         return None
+
+
+def _liquid_turret_ammo_types(initializer: str) -> dict[str, Any]:
+    """Ammo map of a ContinuousLiquidTurret block from its `ammo(...)` call.
+
+    ContinuousLiquidTurret.ammo(Object...) (ContinuousLiquidTurret.java:28-30)
+    takes [liquid, bullet, liquid, bullet...] pairs; each bullet's
+    ammoMultiplier defaults to BulletType.ammoMultiplier (2f,
+    BulletType.java:95) when the bullet body does not set it. Returns {}
+    when the initializer carries no resolvable ammo call, or when any
+    liquid in the call has no matching bullet body, so the block stays
+    unresolved rather than half-captured.
+    """
+    match = re.search(r"\bammo\s*\(", initializer)
+    if not match:
+        return {}
+    start = match.end() - 1
+    depth = 0
+    end = -1
+    for index in range(start, len(initializer)):
+        char = initializer[index]
+        if char == "(":
+            depth += 1
+        elif char == ")":
+            depth -= 1
+            if depth == 0:
+                end = index
+                break
+    if end == -1:
+        return {}
+    call = initializer[start:end + 1]
+    liquids = re.findall(r"Liquids\.([A-Za-z_]\w*)", call)
+    if not liquids:
+        return {}
+    ammo: dict[str, Any] = {}
+    pair_pattern = re.compile(r"Liquids\.([A-Za-z_]\w*)\s*,\s*new\s+[A-Za-z_]\w*\s*\(\s*\)")
+    for pair in pair_pattern.finditer(call):
+        body = _initializer_body(call, pair.end())
+        if not body:
+            return {}
+        multiplier = _numeric_assignment(body, "ammoMultiplier")
+        ammo[pair.group(1)] = {"ammoMultiplier": float(multiplier) if multiplier is not None else 2.0}
+    if len(ammo) != len(liquids):
+        return {}
+    return ammo
+
+
+def _liquid_turret_consumed(initializer: str, class_source: str) -> float | None:
+    """Amount of a ContinuousLiquidTurret's liquid filter consumer.
+
+    ContinuousLiquidTurret.init() consumes through a ConsumeLiquidFilter
+    (ContinuousLiquidTurret.java:40-51) whose amount is the field passed
+    as the filter's second argument (`liquidConsumed`, 1f / 60f at :15);
+    the filter admits exactly the ammoTypes liquids. None when the class
+    source carries no such filter call or the amount does not resolve.
+    """
+    match = re.search(r"\bnew\s+ConsumeLiquidFilter\s*\([^,]+,\s*([A-Za-z_]\w*)\s*\)", class_source)
+    if not match:
+        return None
+    field = match.group(1)
+    value = _numeric_assignment(initializer, field)
+    if value is not None:
+        return float(value)
+    field_match = re.search(rf"\b{field}\s*=\s*([0-9_]+(?:\.[0-9_]+)?[fFdD]?(?:\s*/\s*[0-9_]+(?:\.[0-9_]+)?[fFdD]?)?)\s*;", class_source)
+    if not field_match:
+        return None
+    return _numeric_expression(field_match.group(1))
 
 
 def _consume_item_descriptors(initializer: str) -> list[dict[str, Any]] | None:
@@ -815,6 +895,7 @@ def _block_ammo(initializer: str) -> list[dict[str, Any]]:
             entry["inaccuracy"] = inaccuracy
         ammo.append(entry)
     return ammo
+
 
 def _limit_range_margin(source: str) -> float | None:
     match = re.search(r"\blimitRange\s*\(\s*(-?[0-9_]+(?:\.[0-9_]+)?[fFdD]?)?\s*\)\s*;", source)

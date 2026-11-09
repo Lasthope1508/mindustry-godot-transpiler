@@ -1,0 +1,26 @@
+# C05 ContinuousLiquidTurret ammoTypes in the content registry — N2104
+
+Date: 2026-11-09. Batch: N2104 (emitter slice, no SSOT slice). SSOT totals unchanged: 10852 / 1556 / 1444 / 2679; audit `totalSourceFunctions` stays 1335.
+
+## What changed
+
+N2103 left sublimate's ammo map as a source-backed constant in `SourceContinuousLiquidTurretBuildState.gd` because the registry carried no `ammoTypes` for it — and no `consumeLiquid` either, so no `RuntimeConsumer` could be bound for it. N2104 captures both into the content registry from the source, emitter-side (like N2094–N2095, not a register-script slice).
+
+- N2104 `mindustry_port/content_registry.py:_liquid_turret_ammo_types(initializer)` — parses the block's `ammo(...)` call (`ContinuousLiquidTurret.ammo(Object...)`, ContinuousLiquidTurret.java:28-30, `[liquid, bullet, liquid, bullet...]` pairs) into `properties["ammoTypes"]`, a dict keyed by liquid name to `{"ammoMultiplier": float}`. Each bullet's `ammoMultiplier` is read from its anonymous-class body; a bullet that does not set one takes the `BulletType.ammoMultiplier` default of 2f (BulletType.java:95). The function fails closed (returns `{}`) when the call is unparseable or any liquid in it has no matching bullet body, so a block stays unresolved rather than half-captured. Sublimate (Blocks.java:4604-4631): `{"ozone": {"ammoMultiplier": 1.2}, "cyanogen": {"ammoMultiplier": 2.0}}`.
+- N2104 `mindustry_port/content_registry.py:_liquid_turret_consumed(initializer, class_source)` — resolves the amount of the class init's liquid filter consumer: `ContinuousLiquidTurret.init()` consumes through a `ConsumeLiquidFilter(i -> ammoTypes.containsKey(i), liquidConsumed)` (ContinuousLiquidTurret.java:40-51) whose amount is the `liquidConsumed` field (1f / 60f, :15), read from the class field expression (division-aware) or a block-initializer override. The filter admits exactly the ammo liquids, so `_block_properties` emits one `consumeLiquid` descriptor per ammo liquid at that amount: sublimate gets `[{"liquid": "ozone", "amount": 1/60}, {"liquid": "cyanogen", "amount": 1/60}]` (no `optional`/`booster`/`update` flags — the filter consumer is a required update consumer, the `Consume` defaults). A block that already resolves its own `consumeLiquid` calls keeps those instead.
+- Registry regenerated via `transpile content` (425 blocks): blocks carrying `consumeLiquid` 50 → 51, blocks carrying `ammoTypes` 0 → 1 (sublimate, the only `ContinuousLiquidTurret` in Blocks.java); `consumeItem` stays 42. The `content_registry_blocks` SSOT shard mirror was rebuilt (`source_ssot.build_extension_shard` + `write_registered_json`) so the mirror carries the new keys — a stale mirror fails 89 tests in `test_source_symbols`.
+
+## Verification
+
+- New test `tools/mindustry_godot_transpiler/tests/test_content_registry.py::test_block_registry_captures_continuous_liquid_turret_ammo_types` (temp-dir fixture with a minimal ContinuousLiquidTurret class source + sublimate initializer): RED before the emitter change (`None != {'ozone': ...}`), GREEN after. Full `test_content_registry` module: 7 tests OK.
+- Godot proof `ContinuousLiquidTurretAmmoRegistryProof` **18/18 true** on the real Main scene: the catalog's sublimate is a ContinuousLiquidTurret whose registry properties carry the ammo map (ozone 1.2, cyanogen 2.0, 2 entries) and the two consumeLiquid descriptors (ozone and cyanogen at 1/60, exactly the ammo liquids); the consumer definitions read off the block, two consumers bind at 1/60 for the ozone/cyanogen liquid ids, and applying them sets the liquid filter for both liquids (ConsumeLiquidFilter.apply, ConsumeLiquidFilter.java:26-28).
+- Targeted gate (log `~/workspace/logs/targeted-n2104.log`): **5511 tests OK in 1532.986s, exit=0** (0 FAIL sections; exactly one summary line — a duplicate gate started by a cron worker at ~20:36 wrote to the same log for ~1 minute before being killed, so raw dot/F counts in the log are contaminated and only the summary line + FAIL sections were used).
+- Full Python suite (log `~/workspace/logs/full-suite-n2104.log`): **5510 tests OK in 1521.635s, exit=0** (0 FAIL sections; exactly one summary line). Note: 1 test fewer than the targeted gate's 5511 — both summaries OK, delta unexplained (likely module-list timing).
+
+## SSOT delta
+
+No SSOT slice delta — this is an emitter/registry batch like N2094–N2095: totals stay 10852 symbols / 1556 slices / 1444 contracts / 2679 schemas; audit `totalSourceFunctions` stays 1335. No shard mirrors a new owner (the registry content changed, not the slice ledger); the `content_registry_blocks` mirror was rebuilt for the new registry keys.
+
+## Still open
+
+- C05 next: the tick reads the ammo map off the block (`properties["ammoTypes"]`) instead of the source-backed sublimate constant in the build state (and the constant can then be removed); a `RuntimeConsumer` can now be bound for sublimate — wiring it into the live loop is the next slice. Wiring other buildings (turrets, factories) to the live cheating value. C06 factory→core→defense loop is next after C05 closes. C03 full-power live case deferred. C02 live-loop sprite wiring + clogHeat, C06–C12 still open. Editor parse, deterministic replay and native MCP proof still open.

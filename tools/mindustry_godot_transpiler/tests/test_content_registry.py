@@ -381,6 +381,99 @@ public class Blocks{
         self.assertEqual(block["properties"].get("consumeLiquid"), [{"liquid": "cryofluid", "amount": 0.04, "update": False}])
         self.assertEqual(block["properties"].get("consumeItem"), [{"item": "thorium", "amount": 1}])
 
+    def test_block_registry_captures_continuous_liquid_turret_ammo_types(self):
+        # N2104: sublimate's ammo map (Blocks.java:4604-4631) is the `ammo(...)`
+        # call on the ContinuousLiquidTurret initializer: ozone fires a
+        # ContinuousFlameBulletType with ammoMultiplier = 1.2f, cyanogen fires
+        # one with no ammoMultiplier set, so it takes the BulletType default
+        # of 2f (BulletType.java:95). The class init consumes through a
+        # ConsumeLiquidFilter over exactly the ammo liquids
+        # (ContinuousLiquidTurret.java:40-51) at `liquidConsumed` (1f / 60f,
+        # :15), so the registry carries one consumeLiquid descriptor per ammo
+        # liquid at that amount.
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source = root / "upstream" / "core" / "src" / "mindustry" / "content"
+            source.mkdir(parents=True)
+            self._write_block_base(root)
+            turret_source = root / "upstream" / "core" / "src" / "mindustry" / "world" / "blocks" / "defense" / "turrets"
+            turret_source.mkdir(parents=True, exist_ok=True)
+            (turret_source / "ContinuousLiquidTurret.java").write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+public class ContinuousLiquidTurret extends Block{
+    public float liquidConsumed = 1f / 60f;
+    public ContinuousLiquidTurret(String name){
+    }
+    public void init(){
+        consume(new ConsumeLiquidFilter(i -> ammoTypes.containsKey(i), liquidConsumed){
+        });
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            (source / "Items.java").write_text(
+                """
+package mindustry.content;
+public class Items{
+    public static Item tungsten;
+    public static void load(){
+        tungsten = new Item("tungsten", Color.valueOf("a6aeb5"));
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            (source / "Liquids.java").write_text(
+                """
+package mindustry.content;
+public class Liquids{
+    public static Liquid ozone, cyanogen;
+    public static void load(){
+        ozone = new Liquid("ozone", Color.valueOf("eb7abe"));
+        cyanogen = new Liquid("cyanogen", Color.valueOf("465ab8"));
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            (source / "Blocks.java").write_text(
+                """
+package mindustry.content;
+public class Blocks{
+    public static Block sublimate;
+    public static void load(){
+        sublimate = new ContinuousLiquidTurret("sublimate"){{
+            requirements(Category.turret, with(Items.tungsten, 400));
+            size = 3;
+            ammo(
+                Liquids.ozone, new ContinuousFlameBulletType(){{
+                    damage = 60f;
+                    ammoMultiplier = 1.2f;
+                }},
+                Liquids.cyanogen, new ContinuousFlameBulletType(){{
+                    damage = 130f;
+                }}
+            );
+        }};
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            registry = build_content_registry(root / "upstream", root / "godot")
+
+        block = registry["blocks"][0]
+        self.assertEqual(block["field"], "sublimate")
+        self.assertEqual(block["properties"].get("ammoTypes"), {"ozone": {"ammoMultiplier": 1.2}, "cyanogen": {"ammoMultiplier": 2.0}})
+        self.assertEqual(
+            block["properties"].get("consumeLiquid"),
+            [{"liquid": "ozone", "amount": 1 / 60}, {"liquid": "cyanogen", "amount": 1 / 60}],
+        )
+
+
     def test_block_registry_extracts_overdrive_projector_source_params(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

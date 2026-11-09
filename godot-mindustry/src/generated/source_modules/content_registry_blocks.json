@@ -10880,10 +10880,28 @@
       "id": "sublimate",
       "implementation": "ContinuousLiquidTurret",
       "properties": {
+        "ammoTypes": {
+          "cyanogen": {
+            "ammoMultiplier": 2.0
+          },
+          "ozone": {
+            "ammoMultiplier": 1.2
+          }
+        },
         "cacheLayer": "normal",
         "canOverdrive": true,
         "category": "turret",
         "connectedPower": true,
+        "consumeLiquid": [
+          {
+            "amount": 0.016666666666666666,
+            "liquid": "ozone"
+          },
+          {
+            "amount": 0.016666666666666666,
+            "liquid": "cyanogen"
+          }
+        ],
         "consumesPower": true,
         "hasLiquids": true,
         "hasPower": true,
