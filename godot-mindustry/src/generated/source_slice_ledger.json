@@ -53365,6 +53365,71 @@
         "Wiring the turret and factory families' own ticks to the live cheating value is a later slice; their ticks do not exist in the live loop yet, so only the power-graph consumer path reads the value live here.",
         "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2108": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_class": "mindustry.world.blocks.defense.turrets.Turret.TurretBuild",
+      "java_method": "TurretBuild.updateTile(); Block.newBuilding(); TurretBuild.useAmmo()",
+      "godot_owner": "SourceTurretBuildState.source_turret_tick_buildings_state",
+      "exact_exprs": [
+        "public class Turret extends ReloadTurret{",
+        "public class TurretBuild extends ReloadTurretBuild implements ControlBlock{",
+        "public void updateTile(){",
+        "if(cheating()) return peekAmmo();",
+        "AmmoEntry entry = ammo.peek();",
+        "entry.amount -= ammoPerShot;",
+        "if(entry.amount <= 0) ammo.pop();",
+        "totalAmmo -= ammoPerShot;",
+        "totalAmmo = Math.max(totalAmmo, 0);",
+        "return entry.type();",
+        "return ammo.size == 0 ? null : ammo.peek().type();",
+        "public final Building newBuilding(){",
+        "public boolean cheating(){",
+        "return team.rules().cheat;",
+        "public class ItemTurret extends Turret{",
+        "public class LiquidTurret extends Turret{",
+        "public class PowerTurret extends Turret{",
+        "public class LaserTurret extends PowerTurret{",
+        "public class ContinuousTurret extends Turret{",
+        "super.updateTile();"
+      ],
+      "source_symbols": [
+        "source_turret_tick_frame_state_input.frame",
+        "source_turret_tick_frame_state_input.block_implementation",
+        "source_turret_tick_frame_state_input.team_id",
+        "source_turret_tick_frame_state_input.rules_state",
+        "source_turret_tick_frame_state_result.frame",
+        "source_turret_bind_frame_state_input.sprite",
+        "source_turret_bind_frame_state_input.block",
+        "source_turret_bind_frame_state_result.applied",
+        "source_turret_bind_frame_state_result.frame",
+        "source_turret_tick_buildings_state_input.game",
+        "source_turret_tick_buildings_state_input.seconds",
+        "source_turret_tick_buildings_state_result.ticked_count",
+        "source_turret_tick_buildings_state_result.results_by_cell",
+        "source_turret_use_ammo_state_input.frame",
+        "source_turret_use_ammo_state_input.turret_properties",
+        "source_turret_use_ammo_state_input.stacks",
+        "source_turret_use_ammo_state_input.total_ammo",
+        "source_turret_use_ammo_state_result.cheating",
+        "source_turret_use_ammo_state_result.returned_ammo",
+        "source_turret_use_ammo_state_result.stacks_after",
+        "source_turret_use_ammo_state_result.total_ammo_after",
+        "source_turret_use_ammo_state_result.used"
+      ],
+      "tests": [
+        "test_turret_live_loop_registration",
+        "test_all_turret_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_use_ammo_reads_cheating",
+        "test_reference_graph_and_actual_turret_live_loop"
+      ],
+      "runtime_proof": "/root/TurretLiveLoopProof",
+      "deferred_exprs": [
+        "Threading the frame cheating flag into TurretBuild.hasAmmo() (Turret.java:712, `|| cheating()`) so a cheating turret counts as having ammo with less than ammoPerShot is a later slice; useAmmo is the consumption skip wired here.",
+        "Wiring the factory family tick to the live cheating value is a later slice.",
+        "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1

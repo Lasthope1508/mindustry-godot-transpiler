@@ -164812,6 +164812,358 @@
         "test_reference_graph_and_actual_power_graph_consumer_cheating"
       ],
       "runtime_proof": "/root/PowerGraphLiveUpdateProof"
+    },
+    "source_turret_tick_frame_state_input.frame": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_tick_frame_state",
+      "godot_symbol": "source_turret_tick_frame_state_input.frame",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "public class TurretBuild extends ReloadTurretBuild implements ControlBlock{",
+      "rule": "The turret frame (the port Building state) the tick wires every tick.",
+      "tests": [
+        "test_turret_live_loop_registration",
+        "test_all_turret_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_use_ammo_reads_cheating",
+        "test_reference_graph_and_actual_turret_live_loop"
+      ],
+      "runtime_proof": "/root/TurretLiveLoopProof"
+    },
+    "source_turret_tick_frame_state_input.block_implementation": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_tick_frame_state",
+      "godot_symbol": "source_turret_tick_frame_state_input.block_implementation",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "public class Turret extends ReloadTurret{",
+      "rule": "The block's implementation, from block.implementation like the drill tick sets it (N2097); the driver only ticks TurretBuild implementations.",
+      "tests": [
+        "test_turret_live_loop_registration",
+        "test_all_turret_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_use_ammo_reads_cheating",
+        "test_reference_graph_and_actual_turret_live_loop"
+      ],
+      "runtime_proof": "/root/TurretLiveLoopProof"
+    },
+    "source_turret_tick_frame_state_input.team_id": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_tick_frame_state",
+      "godot_symbol": "source_turret_tick_frame_state_input.team_id",
+      "java_source": "core/src/mindustry/entities/comp/TeamComp.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "public boolean cheating(){",
+      "rule": "The building's team id, from the sprite's team meta; cheating() reads this team's TeamRule.",
+      "tests": [
+        "test_turret_live_loop_registration",
+        "test_all_turret_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_use_ammo_reads_cheating",
+        "test_reference_graph_and_actual_turret_live_loop"
+      ],
+      "runtime_proof": "/root/TurretLiveLoopProof"
+    },
+    "source_turret_tick_frame_state_input.rules_state": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_tick_frame_state",
+      "godot_symbol": "source_turret_tick_frame_state_input.rules_state",
+      "java_source": "core/src/mindustry/entities/comp/TeamComp.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "return team.rules().cheat;",
+      "rule": "The live game rules (Vars.state.rules, N2098), returned as-is so the cheat read stays live.",
+      "tests": [
+        "test_turret_live_loop_registration",
+        "test_all_turret_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_use_ammo_reads_cheating",
+        "test_reference_graph_and_actual_turret_live_loop"
+      ],
+      "runtime_proof": "/root/TurretLiveLoopProof"
+    },
+    "source_turret_tick_frame_state_result.frame": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_tick_frame_state",
+      "godot_symbol": "source_turret_tick_frame_state_result.frame",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "public class TurretBuild extends ReloadTurretBuild implements ControlBlock{",
+      "rule": "The wired frame, with block_implementation, team_id, rules_state and the live cheating flag set.",
+      "tests": [
+        "test_turret_live_loop_registration",
+        "test_all_turret_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_use_ammo_reads_cheating",
+        "test_reference_graph_and_actual_turret_live_loop"
+      ],
+      "runtime_proof": "/root/TurretLiveLoopProof"
+    },
+    "source_turret_bind_frame_state_input.sprite": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_bind_frame_state",
+      "godot_symbol": "source_turret_bind_frame_state_input.sprite",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.newBuilding()",
+      "java_expr": "public final Building newBuilding(){",
+      "rule": "The placed Building sprite; only a Turret-family sprite gets a frame bound at placement.",
+      "tests": [
+        "test_turret_live_loop_registration",
+        "test_all_turret_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_use_ammo_reads_cheating",
+        "test_reference_graph_and_actual_turret_live_loop"
+      ],
+      "runtime_proof": "/root/TurretLiveLoopProof"
+    },
+    "source_turret_bind_frame_state_input.block": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_bind_frame_state",
+      "godot_symbol": "source_turret_bind_frame_state_input.block",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "Block.newBuilding()",
+      "java_expr": "public class ItemTurret extends Turret{",
+      "rule": "The typed block definition; the frame binds only when its implementation is a TurretBuild (ItemTurret, LiquidTurret, PowerTurret, LaserTurret, ContinuousTurret).",
+      "tests": [
+        "test_turret_live_loop_registration",
+        "test_all_turret_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_use_ammo_reads_cheating",
+        "test_reference_graph_and_actual_turret_live_loop"
+      ],
+      "runtime_proof": "/root/TurretLiveLoopProof"
+    },
+    "source_turret_bind_frame_state_result.applied": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_bind_frame_state",
+      "godot_symbol": "source_turret_bind_frame_state_result.applied",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.newBuilding()",
+      "java_expr": "public final Building newBuilding(){",
+      "rule": "Whether the frame was actually bound at placement; false for any other block or an already-bound sprite.",
+      "tests": [
+        "test_turret_live_loop_registration",
+        "test_all_turret_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_use_ammo_reads_cheating",
+        "test_reference_graph_and_actual_turret_live_loop"
+      ],
+      "runtime_proof": "/root/TurretLiveLoopProof"
+    },
+    "source_turret_bind_frame_state_result.frame": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_bind_frame_state",
+      "godot_symbol": "source_turret_bind_frame_state_result.frame",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.newBuilding()",
+      "java_expr": "public final Building newBuilding(){",
+      "rule": "The bound frame -- the port Building state created at placement (Block.newBuilding); empty until the live-loop tick fills its keys.",
+      "tests": [
+        "test_turret_live_loop_registration",
+        "test_all_turret_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_use_ammo_reads_cheating",
+        "test_reference_graph_and_actual_turret_live_loop"
+      ],
+      "runtime_proof": "/root/TurretLiveLoopProof"
+    },
+    "source_turret_tick_buildings_state_input.game": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_tick_buildings_state",
+      "godot_symbol": "source_turret_tick_buildings_state_input.game",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "build.onProximityUpdate();",
+      "rule": "The live game world: the placed-building index, the content catalog and the live rules the tick reads every tick.",
+      "tests": [
+        "test_turret_live_loop_registration",
+        "test_all_turret_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_use_ammo_reads_cheating",
+        "test_reference_graph_and_actual_turret_live_loop"
+      ],
+      "runtime_proof": "/root/TurretLiveLoopProof"
+    },
+    "source_turret_tick_buildings_state_input.seconds": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_tick_buildings_state",
+      "godot_symbol": "source_turret_tick_buildings_state_input.seconds",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "public void updateTile(){",
+      "rule": "The frame delta; the wiring itself only refreshes keys, so the delta is carried for the later shooting/consumption slices.",
+      "tests": [
+        "test_turret_live_loop_registration",
+        "test_all_turret_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_use_ammo_reads_cheating",
+        "test_reference_graph_and_actual_turret_live_loop"
+      ],
+      "runtime_proof": "/root/TurretLiveLoopProof"
+    },
+    "source_turret_tick_buildings_state_result.ticked_count": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_tick_buildings_state",
+      "godot_symbol": "source_turret_tick_buildings_state_result.ticked_count",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "public void updateTile(){",
+      "rule": "How many placed Turret-family builds had their frame keys refreshed this tick.",
+      "tests": [
+        "test_turret_live_loop_registration",
+        "test_all_turret_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_use_ammo_reads_cheating",
+        "test_reference_graph_and_actual_turret_live_loop"
+      ],
+      "runtime_proof": "/root/TurretLiveLoopProof"
+    },
+    "source_turret_tick_buildings_state_result.results_by_cell": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_tick_buildings_state",
+      "godot_symbol": "source_turret_tick_buildings_state_result.results_by_cell",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "public class TurretBuild extends ReloadTurretBuild implements ControlBlock{",
+      "rule": "Per-cell wired frames, keyed by the game cell key like the drill tick results; a cell maps to its refreshed frame dict.",
+      "tests": [
+        "test_turret_live_loop_registration",
+        "test_all_turret_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_use_ammo_reads_cheating",
+        "test_reference_graph_and_actual_turret_live_loop"
+      ],
+      "runtime_proof": "/root/TurretLiveLoopProof"
+    },
+    "source_turret_use_ammo_state_input.frame": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_use_ammo_state",
+      "godot_symbol": "source_turret_use_ammo_state_input.frame",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.useAmmo()",
+      "java_expr": "if(cheating()) return peekAmmo();",
+      "rule": "The turret frame; its cheating flag decides whether the shot consumes ammo.",
+      "tests": [
+        "test_turret_live_loop_registration",
+        "test_all_turret_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_use_ammo_reads_cheating",
+        "test_reference_graph_and_actual_turret_live_loop"
+      ],
+      "runtime_proof": "/root/TurretLiveLoopProof"
+    },
+    "source_turret_use_ammo_state_input.turret_properties": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_use_ammo_state",
+      "godot_symbol": "source_turret_use_ammo_state_input.turret_properties",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.useAmmo()",
+      "java_expr": "public BulletType useAmmo(){",
+      "rule": "The block's registry properties (ammoPerShot, the ammo entries) the peek and the consumption read.",
+      "tests": [
+        "test_turret_live_loop_registration",
+        "test_all_turret_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_use_ammo_reads_cheating",
+        "test_reference_graph_and_actual_turret_live_loop"
+      ],
+      "runtime_proof": "/root/TurretLiveLoopProof"
+    },
+    "source_turret_use_ammo_state_input.stacks": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_use_ammo_state",
+      "godot_symbol": "source_turret_use_ammo_state_input.stacks",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.useAmmo()",
+      "java_expr": "AmmoEntry entry = ammo.peek();",
+      "rule": "The ammo stacks (AmmoEntry list) the shot consumes from when not cheating.",
+      "tests": [
+        "test_turret_live_loop_registration",
+        "test_all_turret_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_use_ammo_reads_cheating",
+        "test_reference_graph_and_actual_turret_live_loop"
+      ],
+      "runtime_proof": "/root/TurretLiveLoopProof"
+    },
+    "source_turret_use_ammo_state_input.total_ammo": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_use_ammo_state",
+      "godot_symbol": "source_turret_use_ammo_state_input.total_ammo",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.useAmmo()",
+      "java_expr": "totalAmmo -= ammoPerShot;",
+      "rule": "The total ammo before the shot; decremented by ammoPerShot when the shot consumes, clamped at 0.",
+      "tests": [
+        "test_turret_live_loop_registration",
+        "test_all_turret_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_use_ammo_reads_cheating",
+        "test_reference_graph_and_actual_turret_live_loop"
+      ],
+      "runtime_proof": "/root/TurretLiveLoopProof"
+    },
+    "source_turret_use_ammo_state_result.cheating": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_use_ammo_state",
+      "godot_symbol": "source_turret_use_ammo_state_result.cheating",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.useAmmo()",
+      "java_expr": "if(cheating()) return peekAmmo();",
+      "rule": "Whether the frame cheated, so the shot returned peekAmmo without consuming.",
+      "tests": [
+        "test_turret_live_loop_registration",
+        "test_all_turret_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_use_ammo_reads_cheating",
+        "test_reference_graph_and_actual_turret_live_loop"
+      ],
+      "runtime_proof": "/root/TurretLiveLoopProof"
+    },
+    "source_turret_use_ammo_state_result.returned_ammo": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_use_ammo_state",
+      "godot_symbol": "source_turret_use_ammo_state_result.returned_ammo",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.useAmmo()",
+      "java_expr": "return entry.type();",
+      "rule": "The bullet type the shot returns (the peek ammo type when cheating).",
+      "tests": [
+        "test_turret_live_loop_registration",
+        "test_all_turret_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_use_ammo_reads_cheating",
+        "test_reference_graph_and_actual_turret_live_loop"
+      ],
+      "runtime_proof": "/root/TurretLiveLoopProof"
+    },
+    "source_turret_use_ammo_state_result.stacks_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_use_ammo_state",
+      "godot_symbol": "source_turret_use_ammo_state_result.stacks_after",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.useAmmo()",
+      "java_expr": "if(entry.amount <= 0) ammo.pop();",
+      "rule": "The ammo stacks after the shot; untouched when cheating, the peek entry decremented (and popped when empty) otherwise.",
+      "tests": [
+        "test_turret_live_loop_registration",
+        "test_all_turret_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_use_ammo_reads_cheating",
+        "test_reference_graph_and_actual_turret_live_loop"
+      ],
+      "runtime_proof": "/root/TurretLiveLoopProof"
+    },
+    "source_turret_use_ammo_state_result.total_ammo_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_use_ammo_state",
+      "godot_symbol": "source_turret_use_ammo_state_result.total_ammo_after",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.useAmmo()",
+      "java_expr": "totalAmmo = Math.max(totalAmmo, 0);",
+      "rule": "The total ammo after the shot; unchanged when cheating, totalAmmo - ammoPerShot clamped at 0 otherwise.",
+      "tests": [
+        "test_turret_live_loop_registration",
+        "test_all_turret_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_use_ammo_reads_cheating",
+        "test_reference_graph_and_actual_turret_live_loop"
+      ],
+      "runtime_proof": "/root/TurretLiveLoopProof"
+    },
+    "source_turret_use_ammo_state_result.used": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_use_ammo_state",
+      "godot_symbol": "source_turret_use_ammo_state_result.used",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.useAmmo()",
+      "java_expr": "return entry.type();",
+      "rule": "Whether the shot consumed ammo.",
+      "tests": [
+        "test_turret_live_loop_registration",
+        "test_all_turret_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_use_ammo_reads_cheating",
+        "test_reference_graph_and_actual_turret_live_loop"
+      ],
+      "runtime_proof": "/root/TurretLiveLoopProof"
     }
   },
   "version": 1

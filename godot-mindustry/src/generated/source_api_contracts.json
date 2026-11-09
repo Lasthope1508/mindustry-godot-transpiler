@@ -61836,6 +61836,152 @@
       ],
       "runtime_proof": "/root/PowerGraphLiveUpdateProof",
       "rule": "Source-backed power-graph consumer live cheating value; the helper reads a placed building's live TeamRule cheat flag from its team and the game rules, so the grouped consumer dict carries what PowerGraph.update()'s cheat gate reads."
+    },
+    "SourceTurretBuildState.source_turret_tick_frame_state": {
+      "status": "active",
+      "source_slice": "N2108",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_tick_frame_state_input.frame"
+        },
+        {
+          "name": "block_implementation",
+          "type": "String",
+          "schema": "source_turret_tick_frame_state_input.block_implementation"
+        },
+        {
+          "name": "team_id",
+          "type": "int",
+          "schema": "source_turret_tick_frame_state_input.team_id"
+        },
+        {
+          "name": "rules_state",
+          "type": "Dictionary",
+          "schema": "source_turret_tick_frame_state_input.rules_state"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "frame"
+      ],
+      "tests": [
+        "test_turret_live_loop_registration",
+        "test_all_turret_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_use_ammo_reads_cheating",
+        "test_reference_graph_and_actual_turret_live_loop"
+      ],
+      "runtime_proof": "/root/TurretLiveLoopProof",
+      "rule": "Source-backed Turret family live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live rules every simulate_factory tick, so TurretBuild.useAmmo() skips consumption for a cheating team."
+    },
+    "SourceTurretBuildState.source_turret_bind_frame_state": {
+      "status": "active",
+      "source_slice": "N2108",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "source_method": "Block.newBuilding()",
+      "params": [
+        {
+          "name": "sprite",
+          "type": "Sprite2D",
+          "schema": "source_turret_bind_frame_state_input.sprite"
+        },
+        {
+          "name": "block",
+          "type": "Object",
+          "schema": "source_turret_bind_frame_state_input.block"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "applied",
+        "frame"
+      ],
+      "tests": [
+        "test_turret_live_loop_registration",
+        "test_all_turret_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_use_ammo_reads_cheating",
+        "test_reference_graph_and_actual_turret_live_loop"
+      ],
+      "runtime_proof": "/root/TurretLiveLoopProof",
+      "rule": "Source-backed Turret family live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live rules every simulate_factory tick, so TurretBuild.useAmmo() skips consumption for a cheating team."
+    },
+    "SourceTurretBuildState.source_turret_tick_buildings_state": {
+      "status": "active",
+      "source_slice": "N2108",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.updateTile()",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_turret_tick_buildings_state_input.game"
+        },
+        {
+          "name": "seconds",
+          "type": "float",
+          "schema": "source_turret_tick_buildings_state_input.seconds"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "ticked_count",
+        "results_by_cell"
+      ],
+      "tests": [
+        "test_turret_live_loop_registration",
+        "test_all_turret_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_use_ammo_reads_cheating",
+        "test_reference_graph_and_actual_turret_live_loop"
+      ],
+      "runtime_proof": "/root/TurretLiveLoopProof",
+      "rule": "Source-backed Turret family live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live rules every simulate_factory tick, so TurretBuild.useAmmo() skips consumption for a cheating team."
+    },
+    "SourceTurretBuildState.source_turret_use_ammo_state": {
+      "status": "active",
+      "source_slice": "N2108",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.useAmmo()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_use_ammo_state_input.frame"
+        },
+        {
+          "name": "turret_properties",
+          "type": "Dictionary",
+          "schema": "source_turret_use_ammo_state_input.turret_properties"
+        },
+        {
+          "name": "stacks",
+          "type": "Array",
+          "schema": "source_turret_use_ammo_state_input.stacks"
+        },
+        {
+          "name": "total_ammo",
+          "type": "int",
+          "schema": "source_turret_use_ammo_state_input.total_ammo"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "cheating",
+        "returned_ammo",
+        "stacks_after",
+        "total_ammo_after",
+        "used"
+      ],
+      "tests": [
+        "test_turret_live_loop_registration",
+        "test_all_turret_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_use_ammo_reads_cheating",
+        "test_reference_graph_and_actual_turret_live_loop"
+      ],
+      "runtime_proof": "/root/TurretLiveLoopProof",
+      "rule": "Source-backed Turret family live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live rules every simulate_factory tick, so TurretBuild.useAmmo() skips consumption for a cheating team."
     }
   },
   "policy": {

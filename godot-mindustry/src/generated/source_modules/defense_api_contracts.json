@@ -6596,6 +6596,37 @@
       ],
       "runtime_proof": "/root/ContinuousLiquidTurretTickFrameProof",
       "rule": "Source-backed ContinuousLiquidTurret tick frame wiring; the tick sets the frame keys the N2101 cost multiplier reads (current_liquid from the liquid module, ammo_types from the block), so the multiplier is paid live."
+    },
+    "SourceTurretBuildState.source_turret_tick_buildings_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_tick_buildings_state",
+      "status": "active",
+      "source_slice": "N2108",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.updateTile()",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_turret_tick_buildings_state_input.game"
+        },
+        {
+          "name": "seconds",
+          "type": "float",
+          "schema": "source_turret_tick_buildings_state_input.seconds"
+        }
+      ],
+      "return_keys": [
+        "ticked_count",
+        "results_by_cell"
+      ],
+      "tests": [
+        "test_turret_live_loop_registration",
+        "test_all_turret_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_use_ammo_reads_cheating",
+        "test_reference_graph_and_actual_turret_live_loop"
+      ],
+      "runtime_proof": "/root/TurretLiveLoopProof",
+      "rule": "Source-backed Turret family live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live rules every simulate_factory tick, so TurretBuild.useAmmo() skips consumption for a cheating team."
     }
   }
 }

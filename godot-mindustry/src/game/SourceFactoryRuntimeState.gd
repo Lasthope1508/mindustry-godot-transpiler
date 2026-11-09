@@ -11,6 +11,7 @@ const source_power_graph_state := preload("res://src/game/SourcePowerGraphState.
 const source_pump_runtime_state := preload("res://src/game/SourcePumpRuntimeState.gd")
 const source_conduit_runtime_state := preload("res://src/game/SourceConduitRuntimeState.gd")
 const source_continuous_liquid_turret_build_state := preload("res://src/game/SourceContinuousLiquidTurretBuildState.gd")
+const source_turret_build_state := preload("res://src/game/SourceTurretBuildState.gd")
 
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
 const source_drill_dump_runtime_state_script := preload("res://src/game/SourceDrillDumpRuntimeState.gd")
@@ -162,6 +163,12 @@ static func simulate_factory(game: Object, delta: float) -> void:
 	# live liquid module, so the N2101 cost multiplier is actually
 	# paid live (ContinuousLiquidTurretBuild.updateTile()).
 	source_continuous_liquid_turret_build_state.source_tick_buildings_state(game, delta)
+	# The turret-family tick runs every live-loop tick (N2108): each
+	# placed Turret-family build (ItemTurret/LiquidTurret/PowerTurret
+	# and their subclasses) gets its frame keys refreshed from the
+	# live rules, so a cheating team's turret skips ammo consumption
+	# (TurretBuild.useAmmo(), Turret.java:682).
+	source_turret_build_state.source_turret_tick_buildings_state(game, delta)
 	game.set(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_TRANSPORT_PROGRESS_KEY, float(apply_state.get(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_TRANSPORT_PROGRESS_KEY, game.get(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_TRANSPORT_PROGRESS_KEY))))
 	var item_sprites_value = game.get(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_ITEM_SPRITES_KEY)
 	if not (item_sprites_value is Array):

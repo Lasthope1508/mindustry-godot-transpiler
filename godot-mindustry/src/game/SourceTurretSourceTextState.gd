@@ -331,6 +331,7 @@ const SOURCE_TURRET_SHOOT_PATTERN_DUO_ASSIGNMENT := "shoot = new ShootAlternate(
 const SOURCE_TURRET_SHOOT_PATTERN_SELECTION := "ShootPattern pattern = type.shootPattern != null ? type.shootPattern : shoot;"
 const SOURCE_TURRET_SHOOT_PATTERN_DISPATCH := "pattern.shoot(barrelCounter, (xOffset, yOffset, angle, delay, mover) -> {"
 
+const SOURCE_TURRET_BUILD_INNER_CLASS := "public class TurretBuild extends ReloadTurretBuild implements ControlBlock{"
 const SOURCE_TURRET_UPDATE_TILE_METHOD := "public void updateTile(){"
 const SOURCE_TURRET_UPDATE_RELOAD_EXPR := SOURCE_TURRET_RELOAD_SECONDS_FOR_AMMO_UPDATE_RELOAD
 const SOURCE_TURRET_RELOAD_CAP_EXPR := "reloadCounter = Math.min(reloadCounter, reload);"
