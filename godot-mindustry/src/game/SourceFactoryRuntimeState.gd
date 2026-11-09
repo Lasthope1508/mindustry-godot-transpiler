@@ -161,7 +161,7 @@ static func simulate_factory(game: Object, delta: float) -> void:
 	# ContinuousLiquidTurret gets its frame keys refreshed from its
 	# live liquid module, so the N2101 cost multiplier is actually
 	# paid live (ContinuousLiquidTurretBuild.updateTile()).
-	source_continuous_liquid_turret_build_state.source_tick_buildings_state(game)
+	source_continuous_liquid_turret_build_state.source_tick_buildings_state(game, delta)
 	game.set(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_TRANSPORT_PROGRESS_KEY, float(apply_state.get(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_TRANSPORT_PROGRESS_KEY, game.get(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_TRANSPORT_PROGRESS_KEY))))
 	var item_sprites_value = game.get(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_ITEM_SPRITES_KEY)
 	if not (item_sprites_value is Array):

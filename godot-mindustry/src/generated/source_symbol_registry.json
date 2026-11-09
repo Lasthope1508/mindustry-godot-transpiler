@@ -164508,6 +164508,214 @@
         "test_reference_graph_and_actual_continuous_liquid_turret_live_loop"
       ],
       "runtime_proof": "/root/ContinuousLiquidTurretLiveLoopProof"
+    },
+    "source_bind_consumer_state_input.frame": {
+      "status": "source-backed",
+      "godot_owner": "SourceContinuousLiquidTurretBuildState.source_bind_consumer_state",
+      "godot_symbol": "source_bind_consumer_state_input.frame",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "init()",
+      "java_expr": "public final Building newBuilding(){",
+      "rule": "The turret frame (the port Building state) the consumers bind onto; created at placement (Block.newBuilding).",
+      "tests": [
+        "test_continuous_liquid_turret_consumer_binding_registration",
+        "test_all_continuous_liquid_turret_consumer_binding_input_evidence_is_exact",
+        "test_tick_binds_a_runtime_consumer_for_sublimate",
+        "test_reference_graph_and_actual_continuous_liquid_turret_consumer_binding"
+      ],
+      "runtime_proof": "/root/ContinuousLiquidTurretLiveLoopProof"
+    },
+    "source_bind_consumer_state_input.block": {
+      "status": "source-backed",
+      "godot_owner": "SourceContinuousLiquidTurretBuildState.source_bind_consumer_state",
+      "godot_symbol": "source_bind_consumer_state_input.block",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "java_method": "init()",
+      "java_expr": "public class ContinuousLiquidTurret extends ContinuousTurret{",
+      "rule": "The typed block definition; only a block carrying consumeLiquid rows binds consumers.",
+      "tests": [
+        "test_continuous_liquid_turret_consumer_binding_registration",
+        "test_all_continuous_liquid_turret_consumer_binding_input_evidence_is_exact",
+        "test_tick_binds_a_runtime_consumer_for_sublimate",
+        "test_reference_graph_and_actual_continuous_liquid_turret_consumer_binding"
+      ],
+      "runtime_proof": "/root/ContinuousLiquidTurretLiveLoopProof"
+    },
+    "source_bind_consumer_state_input.catalog": {
+      "status": "source-backed",
+      "godot_owner": "SourceContinuousLiquidTurretBuildState.source_bind_consumer_state",
+      "godot_symbol": "source_bind_consumer_state_input.catalog",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_method": "init()",
+      "java_expr": "content.liquids().each(filter, item -> block.liquidFilter[item.id] = true);",
+      "rule": "The content catalog the bound rows resolve their liquid fields against (content.liquids()).",
+      "tests": [
+        "test_continuous_liquid_turret_consumer_binding_registration",
+        "test_all_continuous_liquid_turret_consumer_binding_input_evidence_is_exact",
+        "test_tick_binds_a_runtime_consumer_for_sublimate",
+        "test_reference_graph_and_actual_continuous_liquid_turret_consumer_binding"
+      ],
+      "runtime_proof": "/root/ContinuousLiquidTurretLiveLoopProof"
+    },
+    "source_bind_consumer_state_input.amounts": {
+      "status": "source-backed",
+      "godot_owner": "SourceContinuousLiquidTurretBuildState.source_bind_consumer_state",
+      "godot_symbol": "source_bind_consumer_state_input.amounts",
+      "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+      "java_method": "init()",
+      "java_expr": "public void remove(Liquid liquid, float amount){",
+      "rule": "The building's liquid module the actors remove from (LiquidModule.remove).",
+      "tests": [
+        "test_continuous_liquid_turret_consumer_binding_registration",
+        "test_all_continuous_liquid_turret_consumer_binding_input_evidence_is_exact",
+        "test_tick_binds_a_runtime_consumer_for_sublimate",
+        "test_reference_graph_and_actual_continuous_liquid_turret_consumer_binding"
+      ],
+      "runtime_proof": "/root/ContinuousLiquidTurretLiveLoopProof"
+    },
+    "source_bind_consumer_state_result.bound": {
+      "status": "source-backed",
+      "godot_owner": "SourceContinuousLiquidTurretBuildState.source_bind_consumer_state",
+      "godot_symbol": "source_bind_consumer_state_result.bound",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "java_method": "init()",
+      "java_expr": "consume(new ConsumeLiquidFilter(i -> ammoTypes.containsKey(i), liquidConsumed){",
+      "rule": "Whether RuntimeConsumer actors were created on this call; false when the frame already carries them.",
+      "tests": [
+        "test_continuous_liquid_turret_consumer_binding_registration",
+        "test_all_continuous_liquid_turret_consumer_binding_input_evidence_is_exact",
+        "test_tick_binds_a_runtime_consumer_for_sublimate",
+        "test_reference_graph_and_actual_continuous_liquid_turret_consumer_binding"
+      ],
+      "runtime_proof": "/root/ContinuousLiquidTurretLiveLoopProof"
+    },
+    "source_bind_consumer_state_result.consumers": {
+      "status": "source-backed",
+      "godot_owner": "SourceContinuousLiquidTurretBuildState.source_bind_consumer_state",
+      "godot_symbol": "source_bind_consumer_state_result.consumers",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_method": "init()",
+      "java_expr": "build.liquids.remove(liq, amount * build.edelta() * multiplier.get(build));",
+      "rule": "The RuntimeConsumer actors on the frame, one per bound consumeLiquid row.",
+      "tests": [
+        "test_continuous_liquid_turret_consumer_binding_registration",
+        "test_all_continuous_liquid_turret_consumer_binding_input_evidence_is_exact",
+        "test_tick_binds_a_runtime_consumer_for_sublimate",
+        "test_reference_graph_and_actual_continuous_liquid_turret_consumer_binding"
+      ],
+      "runtime_proof": "/root/ContinuousLiquidTurretLiveLoopProof"
+    },
+    "source_bind_consumer_state_result.rows": {
+      "status": "source-backed",
+      "godot_owner": "SourceContinuousLiquidTurretBuildState.source_bind_consumer_state",
+      "godot_symbol": "source_bind_consumer_state_result.rows",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "java_method": "init()",
+      "java_expr": "public float liquidConsumed = 1f / 60f;",
+      "rule": "The bound consumeLiquid rows (liquid id + amount at liquidConsumed 1/60).",
+      "tests": [
+        "test_continuous_liquid_turret_consumer_binding_registration",
+        "test_all_continuous_liquid_turret_consumer_binding_input_evidence_is_exact",
+        "test_tick_binds_a_runtime_consumer_for_sublimate",
+        "test_reference_graph_and_actual_continuous_liquid_turret_consumer_binding"
+      ],
+      "runtime_proof": "/root/ContinuousLiquidTurretLiveLoopProof"
+    },
+    "source_consumed_liquid_state_input.frame": {
+      "status": "source-backed",
+      "godot_owner": "SourceContinuousLiquidTurretBuildState.source_consumed_liquid_state",
+      "godot_symbol": "source_consumed_liquid_state_input.frame",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "java_method": "getConsumed(Building build)",
+      "java_expr": "public ObjectMap<Liquid, BulletType> ammoTypes = new ObjectMap<>();",
+      "rule": "The turret frame; carries current_liquid and ammo_types (the filter).",
+      "tests": [
+        "test_continuous_liquid_turret_consumer_binding_registration",
+        "test_all_continuous_liquid_turret_consumer_binding_input_evidence_is_exact",
+        "test_tick_binds_a_runtime_consumer_for_sublimate",
+        "test_reference_graph_and_actual_continuous_liquid_turret_consumer_binding"
+      ],
+      "runtime_proof": "/root/ContinuousLiquidTurretLiveLoopProof"
+    },
+    "source_consumed_liquid_state_input.liquids": {
+      "status": "source-backed",
+      "godot_owner": "SourceContinuousLiquidTurretBuildState.source_consumed_liquid_state",
+      "godot_symbol": "source_consumed_liquid_state_input.liquids",
+      "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+      "java_method": "getConsumed(Building build)",
+      "java_expr": "public Liquid current(){",
+      "rule": "The building's liquid module whose current liquid and amounts getConsumed reads.",
+      "tests": [
+        "test_continuous_liquid_turret_consumer_binding_registration",
+        "test_all_continuous_liquid_turret_consumer_binding_input_evidence_is_exact",
+        "test_tick_binds_a_runtime_consumer_for_sublimate",
+        "test_reference_graph_and_actual_continuous_liquid_turret_consumer_binding"
+      ],
+      "runtime_proof": "/root/ContinuousLiquidTurretLiveLoopProof"
+    },
+    "source_consumed_liquid_state_input.liquid_names_by_id": {
+      "status": "source-backed",
+      "godot_owner": "SourceContinuousLiquidTurretBuildState.source_consumed_liquid_state",
+      "godot_symbol": "source_consumed_liquid_state_input.liquid_names_by_id",
+      "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+      "java_method": "getConsumed(Building build)",
+      "java_expr": "public Liquid current(){",
+      "rule": "Content liquid names indexed by liquid id (Java resolves a liquid by id through content.liquid(id)).",
+      "tests": [
+        "test_continuous_liquid_turret_consumer_binding_registration",
+        "test_all_continuous_liquid_turret_consumer_binding_input_evidence_is_exact",
+        "test_tick_binds_a_runtime_consumer_for_sublimate",
+        "test_reference_graph_and_actual_continuous_liquid_turret_consumer_binding"
+      ],
+      "runtime_proof": "/root/ContinuousLiquidTurretLiveLoopProof"
+    },
+    "source_consumed_liquid_state_result.consumed_liquid": {
+      "status": "source-backed",
+      "godot_owner": "SourceContinuousLiquidTurretBuildState.source_consumed_liquid_state",
+      "godot_symbol": "source_consumed_liquid_state_result.consumed_liquid",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_method": "getConsumed(Building build)",
+      "java_expr": "public @Nullable Liquid getConsumed(Building build){",
+      "rule": "The liquid id getConsumed returns, null when no ammo liquid has amount left.",
+      "tests": [
+        "test_continuous_liquid_turret_consumer_binding_registration",
+        "test_all_continuous_liquid_turret_consumer_binding_input_evidence_is_exact",
+        "test_tick_binds_a_runtime_consumer_for_sublimate",
+        "test_reference_graph_and_actual_continuous_liquid_turret_consumer_binding"
+      ],
+      "runtime_proof": "/root/ContinuousLiquidTurretLiveLoopProof"
+    },
+    "source_consumed_liquid_state_result.consumed_index": {
+      "status": "source-backed",
+      "godot_owner": "SourceContinuousLiquidTurretBuildState.source_consumed_liquid_state",
+      "godot_symbol": "source_consumed_liquid_state_result.consumed_index",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_method": "getConsumed(Building build)",
+      "java_expr": "for(int i = 0; i < liqs.size; i++){",
+      "rule": "Its index in the content liquids, -1 when none.",
+      "tests": [
+        "test_continuous_liquid_turret_consumer_binding_registration",
+        "test_all_continuous_liquid_turret_consumer_binding_input_evidence_is_exact",
+        "test_tick_binds_a_runtime_consumer_for_sublimate",
+        "test_reference_graph_and_actual_continuous_liquid_turret_consumer_binding"
+      ],
+      "runtime_proof": "/root/ContinuousLiquidTurretLiveLoopProof"
+    },
+    "source_tick_buildings_state_input.seconds": {
+      "status": "source-backed",
+      "godot_owner": "SourceContinuousLiquidTurretBuildState.source_tick_buildings_state",
+      "godot_symbol": "source_tick_buildings_state_input.seconds",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "ContinuousLiquidTurretBuild.updateTile()",
+      "java_expr": "timeScaleDuration -= Time.delta",
+      "rule": "Frame delta in seconds driving the tick (Godot seconds are converted once through the canonical source tick rate).",
+      "tests": [
+        "test_continuous_liquid_turret_consumer_binding_registration",
+        "test_all_continuous_liquid_turret_consumer_binding_input_evidence_is_exact",
+        "test_tick_binds_a_runtime_consumer_for_sublimate",
+        "test_reference_graph_and_actual_continuous_liquid_turret_consumer_binding"
+      ],
+      "runtime_proof": "/root/ContinuousLiquidTurretLiveLoopProof"
     }
   },
   "version": 1

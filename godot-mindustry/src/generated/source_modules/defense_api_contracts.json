@@ -6528,6 +6528,11 @@
           "name": "game",
           "type": "Object",
           "schema": "source_tick_buildings_state_input.game"
+        },
+        {
+          "name": "seconds",
+          "type": "float",
+          "schema": "source_tick_buildings_state_input.seconds"
         }
       ],
       "return_keys": [
@@ -6535,12 +6540,16 @@
         "results_by_cell"
       ],
       "tests": [
-        "test_continuous_liquid_turret_live_loop_registration",
+        "test_all_continuous_liquid_turret_consumer_binding_input_evidence_is_exact",
         "test_all_continuous_liquid_turret_live_loop_input_evidence_is_exact",
-        "test_reference_graph_and_actual_continuous_liquid_turret_live_loop"
+        "test_continuous_liquid_turret_consumer_binding_registration",
+        "test_continuous_liquid_turret_live_loop_registration",
+        "test_reference_graph_and_actual_continuous_liquid_turret_consumer_binding",
+        "test_reference_graph_and_actual_continuous_liquid_turret_live_loop",
+        "test_tick_binds_a_runtime_consumer_for_sublimate"
       ],
       "runtime_proof": "/root/ContinuousLiquidTurretLiveLoopProof",
-      "rule": "Source-backed ContinuousLiquidTurret live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live liquid module every simulate_factory tick, so the N2101 cost multiplier is paid live."
+      "rule": "Source-backed ContinuousLiquidTurret live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live liquid module every simulate_factory tick, so the N2101 cost multiplier is paid live, and the tick runs the bound RuntimeConsumer actors through updateConsumption so the placed turret consumes its ammo liquid each tick."
     },
     "SourceContinuousLiquidTurretBuildState.source_tick_frame_state": {
       "canonical_contract": "source_api_contracts.SourceContinuousLiquidTurretBuildState.source_tick_frame_state",

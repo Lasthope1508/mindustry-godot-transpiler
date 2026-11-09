@@ -6,6 +6,14 @@ const source_generated_class_runtime := preload("res://src/game/SourceGeneratedC
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
 const source_liquid_module_state := preload("res://src/game/SourceLiquidModuleState.gd")
 const source_placed_block_state := preload("res://src/game/SourcePlacedBlockState.gd")
+const source_consume_liquid_state := preload("res://src/game/SourceConsumeLiquidState.gd")
+const source_consume_state := preload("res://src/game/SourceConsumeState.gd")
+const source_consume_liquid_filter_state := preload("res://src/game/SourceConsumeLiquidFilterState.gd")
+const source_building_efficiency_state := preload("res://src/game/SourceBuildingEfficiencyState.gd")
+const source_building_access_state := preload("res://src/game/SourceBuildingAccessState.gd")
+const source_rules_state := preload("res://src/game/SourceRulesRuntimeState.gd")
+const source_block_geometry := preload("res://src/game/SourceBlockGeometry.gd")
+const source_time_defaults := preload("res://src/game/SourceTimeDefaults.gd")
 const source_turret_source_text_state := preload("res://src/game/SourceTurretSourceTextState.gd")
 const SOURCE_CONTINUOUS_LIQUID_TURRET_GENERATED_CLASS := source_turret_source_text_state.SOURCE_CONTINUOUS_LIQUID_TURRET_GENERATED_CLASS
 const SOURCE_CONTINUOUS_LIQUID_TURRET_BUILD_INNER_CLASS := source_turret_source_text_state.SOURCE_CONTINUOUS_LIQUID_TURRET_BUILD_INNER_CLASS
@@ -113,7 +121,56 @@ static func source_bind_frame_state(sprite: Sprite2D, block: Object) -> Dictiona
 	sprite.set_meta(SOURCE_CONTINUOUS_LIQUID_TURRET_BUILDING_META_KEY, frame)
 	return {"applied": true, "frame": frame}
 
-static func source_tick_buildings_state(game: Object) -> Dictionary:
+static func source_consumed_liquid_state(frame: Dictionary, liquids: Dictionary, liquid_names_by_id: Array) -> Dictionary:
+	# ConsumeLiquidFilter.getConsumed (ConsumeLiquidFilter.java): the
+	# current liquid when the filter admits it and its amount is
+	# positive, else the first content liquid the filter admits with
+	# amount left; null when none has any. The filter is
+	# ammoTypes.containsKey (ContinuousLiquidTurret.java:40); the port
+	# reads it through the registered get_consumed_state, with liquid
+	# ids as identities so the result matches the bound consumer rows.
+	var ammo_types: Dictionary = frame.get("ammo_types", {})
+	var current_id: int = int(source_liquid_module_state.source_current_state(liquids).get("current", -1))
+	var current_liquid: Variant = null
+	if current_id >= 0 and current_id < liquid_names_by_id.size():
+		current_liquid = current_id
+	var current_filter := false
+	var current_amount := 0.0
+	if current_liquid != null:
+		current_filter = ammo_types.has(String(liquid_names_by_id[current_id]))
+		current_amount = float(source_liquid_module_state.source_get_state(liquids, current_id).get("amount", 0.0))
+	var content_liquids: Array = []
+	var filter_flags: Array = []
+	var build_amounts: Array = []
+	for index in range(liquid_names_by_id.size()):
+		content_liquids.append(index)
+		filter_flags.append(ammo_types.has(String(liquid_names_by_id[index])))
+		build_amounts.append(float(source_liquid_module_state.source_get_state(liquids, index).get("amount", 0.0)))
+	var consumed: Dictionary = source_consume_liquid_filter_state.get_consumed_state(current_liquid, current_filter, current_amount, content_liquids, filter_flags, build_amounts)
+	return {"consumed_liquid": consumed.get("consumed_liquid", null), "consumed_index": consumed.get("consumed_index", -1)}
+
+static func source_bind_consumer_state(frame: Dictionary, block: Object, catalog: Object, amounts: Dictionary) -> Dictionary:
+	# The block's consumeBuilder carries one ConsumeLiquidFilter row
+	# per ammo liquid (N2104 captured the class init's filter into
+	# consumeLiquid at liquidConsumed 1/60); the port binds one
+	# RuntimeConsumer actor per row (the drill model, N2097/N2100),
+	# each removing its own liquid at amount * edelta * multiplier
+	# through the N2101 cost-multiplier callback. Actors are bound
+	# once — a frame that already carries them binds nothing — and a
+	# block without consumeLiquid rows binds none.
+	var rows: Array = []
+	if block != null and block.properties.has("consumeLiquid"):
+		rows = source_consume_liquid_state.source_bind_liquid_consumers_state(block, catalog).get("consumers", [])
+	var consumers: Array = frame.get("consumers", [])
+	var bound := false
+	if consumers.is_empty() and not rows.is_empty():
+		for row in rows:
+			consumers.append(source_consume_liquid_state.source_runtime_consumer_state(row, amounts, [], source_consume_state.source_cost_multiplier_for_block_state).get("consumer"))
+		frame["consumers"] = consumers
+		bound = true
+	return {"bound": bound, "consumers": consumers, "rows": rows}
+
+static func source_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the turret tick wiring every tick
 	# (ContinuousLiquidTurretBuild.updateTile(), which calls
 	# super.updateTile(), ContinuousTurret.java:86-87, running
@@ -129,7 +186,15 @@ static func source_tick_buildings_state(game: Object) -> Dictionary:
 	# Blocks.java:4604-4631 map — ozone 1.2f, cyanogen the BulletType
 	# 2f default — into properties["ammoTypes"]); a block that
 	# carries no ammoTypes keeps the {} default and the multiplier
-	# pays 1.0.
+	# pays 1.0. The tick also runs the filter consumer
+	# (ContinuousLiquidTurret.java:40-51, liquidConsumed 1f/60f):
+	# RuntimeConsumer actors bound from the block's consumeLiquid
+	# rows (N2104) remove amount * edelta * multiplier from
+	# getConsumed each tick through BuildingComp.updateConsumption's
+	# second pass — only the consumed liquid's actor counts, so a
+	# second ammo liquid at rest neither blocks efficiency nor
+	# drains. The live flow cache stays unbound (the drill's
+	# lifecycle slice owns it).
 	var results_by_cell := {}
 	var ticked_count := 0
 	if game == null:
@@ -157,6 +222,74 @@ static func source_tick_buildings_state(game: Object) -> Dictionary:
 		var liquids: Dictionary = sprite.get_meta(source_placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY, {})
 		var ammo_types: Dictionary = block.properties.get("ammoTypes", {})
 		var wired: Dictionary = source_tick_frame_state(frame, str(block.implementation), liquids, liquid_names_by_id, ammo_types)
+		# The frame keys the consumer path reads (the drill pattern,
+		# N2097/N2099): the block implementation is set by the tick
+		# wiring above; the team and live rules let the multiplier
+		# callback and the cheating gate read what Java reads
+		# (b.team, state.rules).
+		frame["team_id"] = int(sprite.get_meta(source_block_geometry.SOURCE_BUILD_TEAM_META_KEY, source_block_geometry.SOURCE_TEAM_DERELICT_ID))
+		frame["rules_state"] = source_rules_state.source_game_rules_state(game.get("rules_state")).get("rules", {})
+		frame["cheating"] = bool(source_rules_state.source_team_cheating_state(frame["rules_state"], frame["team_id"]).get("cheating", false))
+		frame["enabled"] = bool(frame.get("enabled", true))
+		assert(liquids.get("flow", null) == null, "Live flow cache binding requires its own lifecycle slice")
+		var consumer_bound: Dictionary = source_bind_consumer_state(frame, block, catalog, liquids)
+		var rows: Array = consumer_bound.get("rows", [])
+		var consumers: Array = consumer_bound.get("consumers", [])
+		# updateConsumption (BuildingComp.java:1943-2004) runs inside
+		# super.updateTile(): the first pass takes the minimum
+		# efficiency of the non-optional consumers, the second pass
+		# updates each update consumer when update (shouldConsume
+		# && productionValid) and efficiency > 0. shouldConsume is
+		# super.shouldConsume() && activated — enabled (BuildingComp
+		# .java:755-757) and the hysteresis value from the previous
+		# tick (the hysteresis itself updates after this pass, as in
+		# Java's updateTile order).
+		var activated_before: bool = bool(frame.get("activated", false))
+		var should_consume: bool = bool(frame.get("enabled", true)) and activated_before
+		var valid: bool = source_building_access_state.production_valid_state()
+		var setup: Dictionary = source_building_efficiency_state.update_consumption_setup_state(should_consume, valid)
+		frame["efficiency"] = setup.get("efficiency", 1.0)
+		frame["efficiency_scale"] = source_building_efficiency_state.efficiency_scale_state()
+		var groups: Dictionary = source_consume_state.classify_consumer_arrays(rows, "ignored", "optional", "update")
+		var consumed: Dictionary = source_consumed_liquid_state(frame, liquids, liquid_names_by_id)
+		var consumed_id: Variant = consumed.get("consumed_liquid", null)
+		var consumed_actor: Variant = null
+		var consumed_row: Variant = null
+		for index in range(rows.size()):
+			if consumed_id != null and int(rows[index].get("liquid", -1)) == int(consumed_id):
+				if index < consumers.size():
+					consumed_actor = consumers[index]
+					consumed_row = rows[index]
+				break
+		var required_results: Array = []
+		var optional_results: Array = []
+		var updates: Array = []
+		if consumed_actor != null:
+			consumed_actor.source_delta = seconds * source_time_defaults.TICK_RATE
+			consumed_actor.time_scale = source_placed_block_state.time_scale(sprite, source_placed_block_state.game_default_time_scale(game))
+			if bool(frame.get("enabled", true)) and not bool(frame.get("cheating", false)):
+				if groups["non_optional_consumers"].has(consumed_row):
+					required_results.append({"result": consumed_actor.efficiency(frame), "is_power": false})
+				if groups["optional_consumers"].has(consumed_row):
+					optional_results.append({"result": consumed_actor.efficiency(frame)})
+			if groups["update_consumers"].has(consumed_row):
+				updates.append(consumed_actor)
+		elif bool(frame.get("enabled", true)) and not bool(frame.get("cheating", false)) and not groups["non_optional_consumers"].is_empty():
+			required_results.append({"result": 0.0, "is_power": false})
+		var consumption: Dictionary = source_building_efficiency_state.update_consumption_state(groups["has_consumers"], bool(frame.get("cheating", false)), bool(frame.get("enabled", true)), valid, should_consume, float(frame.get("efficiency_scale", 1.0)), required_results, optional_results, updates, frame)
+		source_building_efficiency_state.apply_update_consumption_state(consumption, frame)
+		# ContinuousLiquidTurretBuild.updateTile() runs
+		# super.updateTile() first and only then updates activated
+		# (ContinuousLiquidTurret.java:71-81): the hysteresis reads
+		# the current amount against liquidConsumed, so a turret
+		# that just received liquid starts consuming on the next
+		# tick, not this one.
+		if not rows.is_empty():
+			var current_id: int = int(source_liquid_module_state.source_current_state(liquids).get("current", -1))
+			var current_amount := 0.0
+			if current_id >= 0:
+				current_amount = float(source_liquid_module_state.source_get_state(liquids, current_id).get("amount", 0.0))
+			frame["activated"] = update_tile_state(current_amount, float(rows[0].get("amount", 0.0)), activated_before).get("activated_after", activated_before)
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1

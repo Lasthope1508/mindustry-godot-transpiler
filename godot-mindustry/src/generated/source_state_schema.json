@@ -221299,6 +221299,16 @@
           "used_by": [
             "SourceContinuousLiquidTurretBuildState.source_tick_buildings_state"
           ]
+        },
+        "seconds": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "timeScaleDuration -= Time.delta",
+          "rule": "Frame delta in seconds driving the tick (Godot seconds are converted once through the canonical source tick rate).",
+          "used_by": [
+            "SourceContinuousLiquidTurretBuildState.source_tick_buildings_state"
+          ]
         }
       },
       "runtime_proof": "/root/ContinuousLiquidTurretLiveLoopProof",
@@ -221332,6 +221342,162 @@
       },
       "runtime_proof": "/root/ContinuousLiquidTurretLiveLoopProof",
       "rule": "Source-backed ContinuousLiquidTurret live-loop tick and placement frame binding."
+    },
+    "source_bind_consumer_state_input": {
+      "status": "active",
+      "owner": "SourceContinuousLiquidTurretBuildState.source_bind_consumer_state",
+      "source_slice": "N2106",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public final Building newBuilding(){",
+          "rule": "The turret frame (the port Building state) the consumers bind onto; created at placement (Block.newBuilding).",
+          "used_by": [
+            "SourceContinuousLiquidTurretBuildState.source_bind_consumer_state"
+          ]
+        },
+        "block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "java_expr": "public class ContinuousLiquidTurret extends ContinuousTurret{",
+          "rule": "The typed block definition; only a block carrying consumeLiquid rows binds consumers.",
+          "used_by": [
+            "SourceContinuousLiquidTurretBuildState.source_bind_consumer_state"
+          ]
+        },
+        "catalog": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "content.liquids().each(filter, item -> block.liquidFilter[item.id] = true);",
+          "rule": "The content catalog the bound rows resolve their liquid fields against (content.liquids()).",
+          "used_by": [
+            "SourceContinuousLiquidTurretBuildState.source_bind_consumer_state"
+          ]
+        },
+        "amounts": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+          "java_expr": "public void remove(Liquid liquid, float amount){",
+          "rule": "The building's liquid module the actors remove from (LiquidModule.remove).",
+          "used_by": [
+            "SourceContinuousLiquidTurretBuildState.source_bind_consumer_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/ContinuousLiquidTurretLiveLoopProof",
+      "rule": "Source-backed ContinuousLiquidTurret RuntimeConsumer binding."
+    },
+    "source_bind_consumer_state_result": {
+      "status": "active",
+      "owner": "SourceContinuousLiquidTurretBuildState.source_bind_consumer_state",
+      "source_slice": "N2106",
+      "keys": {
+        "bound": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "java_expr": "consume(new ConsumeLiquidFilter(i -> ammoTypes.containsKey(i), liquidConsumed){",
+          "rule": "Whether RuntimeConsumer actors were created on this call; false when the frame already carries them.",
+          "used_by": [
+            "SourceContinuousLiquidTurretBuildState.source_bind_consumer_state"
+          ]
+        },
+        "consumers": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "build.liquids.remove(liq, amount * build.edelta() * multiplier.get(build));",
+          "rule": "The RuntimeConsumer actors on the frame, one per bound consumeLiquid row.",
+          "used_by": [
+            "SourceContinuousLiquidTurretBuildState.source_bind_consumer_state"
+          ]
+        },
+        "rows": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "java_expr": "public float liquidConsumed = 1f / 60f;",
+          "rule": "The bound consumeLiquid rows (liquid id + amount at liquidConsumed 1/60).",
+          "used_by": [
+            "SourceContinuousLiquidTurretBuildState.source_bind_consumer_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/ContinuousLiquidTurretLiveLoopProof",
+      "rule": "Source-backed ContinuousLiquidTurret RuntimeConsumer binding."
+    },
+    "source_consumed_liquid_state_input": {
+      "status": "active",
+      "owner": "SourceContinuousLiquidTurretBuildState.source_consumed_liquid_state",
+      "source_slice": "N2106",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "java_expr": "public ObjectMap<Liquid, BulletType> ammoTypes = new ObjectMap<>();",
+          "rule": "The turret frame; carries current_liquid and ammo_types (the filter).",
+          "used_by": [
+            "SourceContinuousLiquidTurretBuildState.source_consumed_liquid_state"
+          ]
+        },
+        "liquids": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+          "java_expr": "public Liquid current(){",
+          "rule": "The building's liquid module whose current liquid and amounts getConsumed reads.",
+          "used_by": [
+            "SourceContinuousLiquidTurretBuildState.source_consumed_liquid_state"
+          ]
+        },
+        "liquid_names_by_id": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+          "java_expr": "public Liquid current(){",
+          "rule": "Content liquid names indexed by liquid id (Java resolves a liquid by id through content.liquid(id)).",
+          "used_by": [
+            "SourceContinuousLiquidTurretBuildState.source_consumed_liquid_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/ContinuousLiquidTurretLiveLoopProof",
+      "rule": "Source-backed ContinuousLiquidTurret RuntimeConsumer binding."
+    },
+    "source_consumed_liquid_state_result": {
+      "status": "active",
+      "owner": "SourceContinuousLiquidTurretBuildState.source_consumed_liquid_state",
+      "source_slice": "N2106",
+      "keys": {
+        "consumed_liquid": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "public @Nullable Liquid getConsumed(Building build){",
+          "rule": "The liquid id getConsumed returns, null when no ammo liquid has amount left.",
+          "used_by": [
+            "SourceContinuousLiquidTurretBuildState.source_consumed_liquid_state"
+          ]
+        },
+        "consumed_index": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "for(int i = 0; i < liqs.size; i++){",
+          "rule": "Its index in the content liquids, -1 when none.",
+          "used_by": [
+            "SourceContinuousLiquidTurretBuildState.source_consumed_liquid_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/ContinuousLiquidTurretLiveLoopProof",
+      "rule": "Source-backed ContinuousLiquidTurret RuntimeConsumer binding."
     }
   },
   "version": 1
