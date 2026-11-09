@@ -61566,6 +61566,38 @@
       ],
       "runtime_proof": "/root/TeamCheatingStateProof",
       "rule": "Source-backed live TeamRules cheating; a cheating team skips its consumers."
+    },
+    "SourceConsumeLiquidState.source_invalidate_consumer_cache_state": {
+      "status": "active",
+      "source_slice": "N2100",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "source_method": "reinitializeConsumers()",
+      "params": [
+        {
+          "name": "block",
+          "type": "Variant",
+          "schema": "source_invalidate_consumer_cache_state_input.block"
+        },
+        {
+          "name": "frame",
+          "type": "Variant",
+          "schema": "source_invalidate_consumer_cache_state_input.frame"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "bound_rows_invalidated",
+        "apply_invalidated",
+        "frame_consumers_before",
+        "frame_consumers_invalidated"
+      ],
+      "tests": [
+        "test_consumer_cache_invalidation_binding_registration",
+        "test_all_consumer_cache_invalidation_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_consumer_cache_invalidation"
+      ],
+      "runtime_proof": "/root/ConsumerCacheInvalidationProof",
+      "rule": "Source-backed consumer cache invalidation on Block reinit/reload; the next tick rebinds from the current consumeBuilder."
     }
   },
   "policy": {

@@ -53139,6 +53139,40 @@
         "C05 cache invalidation on Block reinit/reload is a later slice.",
         "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2100": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_class": "mindustry.world.Block",
+      "java_method": "reinitializeConsumers()",
+      "godot_owner": "SourceConsumeLiquidState.source_invalidate_consumer_cache_state",
+      "exact_exprs": [
+        "    public void reinitializeConsumers(){",
+        "        consumers = consumeBuilder.toArray(Consume.class);",
+        "        consPower = (ConsumePower)Structs.find(consumers, c -> c instanceof ConsumePower);",
+        "        itemFilter = new boolean[content.items().size];",
+        "        liquidFilter = new boolean[content.liquids().size];",
+        "        for(Consume cons : consumers){",
+        "            cons.apply(this);"
+      ],
+      "source_symbols": [
+        "source_invalidate_consumer_cache_state_input.block",
+        "source_invalidate_consumer_cache_state_input.frame",
+        "source_invalidate_consumer_cache_state_result.bound_rows_invalidated",
+        "source_invalidate_consumer_cache_state_result.apply_invalidated",
+        "source_invalidate_consumer_cache_state_result.frame_consumers_before",
+        "source_invalidate_consumer_cache_state_result.frame_consumers_invalidated"
+      ],
+      "tests": [
+        "test_consumer_cache_invalidation_binding_registration",
+        "test_all_consumer_cache_invalidation_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_consumer_cache_invalidation"
+      ],
+      "runtime_proof": "/root/ConsumerCacheInvalidationProof",
+      "deferred_exprs": [
+        "Wiring other buildings (turrets, factories) to the live cheating value is a later slice; this slice wires the drill tick cache only.",
+        "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1

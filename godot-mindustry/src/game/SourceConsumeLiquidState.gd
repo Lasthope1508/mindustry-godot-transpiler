@@ -78,6 +78,49 @@ static func source_bind_liquid_consumers_state(block: Object, content_catalog: O
 	block.set_meta(SOURCE_BLOCK_LIQUID_CONSUMERS_META_KEY, consumers)
 	return {"consumers": consumers}
 
+static func source_invalidate_consumer_cache_state(block: Variant, frame: Variant) -> Dictionary:
+	# Block.reinitializeConsumers() (Block.java:1481-1497) rebuilds the
+	# consumer arrays from consumeBuilder, resets itemFilter/liquidFilter
+	# and re-applies each consumer; DataPatcher calls it when a block's
+	# "consumes" JSON is re-read on reload (DataPatcher.java:604, 615).
+	# Java's updateConsumption then reads block.nonOptionalConsumers,
+	# block.optionalConsumers and block.updateConsumers fresh every tick
+	# (BuildingComp.java:1969, 1980, 2000) — it keeps no cached actors.
+	# The port does cache: the bound rows on the block meta
+	# (source_block_liquid_consumers), the apply result derived from
+	# those rows (source_block_liquid_apply — ConsumeLiquid.apply sets
+	# block.liquidFilter[liquid.id] = true, ConsumeLiquid.java:26-28,
+	# after reinit rebuilds the filter at Block.java:1491), and the
+	# RuntimeConsumer actors in the building frame ("consumers", built
+	# once by the drill tick). All three go stale when the block is
+	# reinitialized, so this drops them; the next tick rebinds from the
+	# block's current consumeBuilder and rebuilds the actors through
+	# the tick's existing is_empty() path. A null block or a frame
+	# without cached actors invalidates nothing.
+	var bound_rows_invalidated := false
+	var apply_invalidated := false
+	if block is Object:
+		if block.has_meta(SOURCE_BLOCK_LIQUID_CONSUMERS_META_KEY):
+			block.remove_meta(SOURCE_BLOCK_LIQUID_CONSUMERS_META_KEY)
+			bound_rows_invalidated = true
+		if block.has_meta(SOURCE_BLOCK_LIQUID_APPLY_META_KEY):
+			block.remove_meta(SOURCE_BLOCK_LIQUID_APPLY_META_KEY)
+			apply_invalidated = true
+	var frame_consumers_before := 0
+	var frame_consumers_invalidated := false
+	if frame is Dictionary:
+		var cached: Array = frame.get("consumers", [])
+		frame_consumers_before = cached.size()
+		if frame_consumers_before > 0:
+			frame["consumers"] = []
+			frame_consumers_invalidated = true
+	return {
+		"bound_rows_invalidated": bound_rows_invalidated,
+		"apply_invalidated": apply_invalidated,
+		"frame_consumers_before": frame_consumers_before,
+		"frame_consumers_invalidated": frame_consumers_invalidated,
+	}
+
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
 const source_consumer_defaults := preload("res://src/game/SourceConsumerDefaults.gd")
 const source_time_defaults := preload("res://src/game/SourceTimeDefaults.gd")

@@ -221030,6 +221030,84 @@
       },
       "runtime_proof": "/root/TeamCheatingStateProof",
       "rule": "Source-backed live TeamRules cheating."
+    },
+    "source_invalidate_consumer_cache_state_input": {
+      "status": "active",
+      "owner": "SourceConsumeLiquidState.source_invalidate_consumer_cache_state",
+      "source_slice": "N2100",
+      "keys": {
+        "block": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "        consumers = consumeBuilder.toArray(Consume.class);",
+          "rule": "The registry block whose consumer arrays reinitializeConsumers() rebuilds from consumeBuilder; its bound-rows and apply caches are dropped.",
+          "used_by": [
+            "SourceConsumeLiquidState.source_invalidate_consumer_cache_state"
+          ]
+        },
+        "frame": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "        consumers = consumeBuilder.toArray(Consume.class);",
+          "rule": "The building frame holding the cached RuntimeConsumer actors; its consumers list is cleared so the next tick rebuilds from the rebound rows.",
+          "used_by": [
+            "SourceConsumeLiquidState.source_invalidate_consumer_cache_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/ConsumerCacheInvalidationProof",
+      "rule": "Source-backed consumer cache invalidation on Block reinit/reload."
+    },
+    "source_invalidate_consumer_cache_state_result": {
+      "status": "active",
+      "owner": "SourceConsumeLiquidState.source_invalidate_consumer_cache_state",
+      "source_slice": "N2100",
+      "keys": {
+        "bound_rows_invalidated": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "        consumers = consumeBuilder.toArray(Consume.class);",
+          "rule": "Whether the block held a bound-rows cache (source_block_liquid_consumers) that was dropped.",
+          "used_by": [
+            "SourceConsumeLiquidState.source_invalidate_consumer_cache_state"
+          ]
+        },
+        "apply_invalidated": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "        liquidFilter = new boolean[content.liquids().size];",
+          "rule": "Whether the block held an apply cache (source_block_liquid_apply) that was dropped; reinit rebuilds liquidFilter fresh before ConsumeLiquid.apply sets it.",
+          "used_by": [
+            "SourceConsumeLiquidState.source_invalidate_consumer_cache_state"
+          ]
+        },
+        "frame_consumers_before": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "        consumers = consumeBuilder.toArray(Consume.class);",
+          "rule": "How many cached RuntimeConsumer actors the frame held before invalidation.",
+          "used_by": [
+            "SourceConsumeLiquidState.source_invalidate_consumer_cache_state"
+          ]
+        },
+        "frame_consumers_invalidated": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "        consumers = consumeBuilder.toArray(Consume.class);",
+          "rule": "Whether the frame held cached actors that were cleared.",
+          "used_by": [
+            "SourceConsumeLiquidState.source_invalidate_consumer_cache_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/ConsumerCacheInvalidationProof",
+      "rule": "Source-backed consumer cache invalidation on Block reinit/reload."
     }
   },
   "version": 1

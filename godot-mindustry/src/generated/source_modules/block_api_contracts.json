@@ -11062,6 +11062,38 @@
       "runtime_proof": "/root/Main.LiquidConsumerHydrationProof",
       "rule": "Required source-resolved single-liquid definitions and shared typed Block descriptor view; no guessed flag, liquid identity, resource formula or post-init capability fallback."
     },
+    "SourceConsumeLiquidState.source_invalidate_consumer_cache_state": {
+      "canonical_contract": "source_api_contracts.SourceConsumeLiquidState.source_invalidate_consumer_cache_state",
+      "status": "active",
+      "source_slice": "N2100",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "source_method": "reinitializeConsumers()",
+      "params": [
+        {
+          "name": "block",
+          "type": "Variant",
+          "schema": "source_invalidate_consumer_cache_state_input.block"
+        },
+        {
+          "name": "frame",
+          "type": "Variant",
+          "schema": "source_invalidate_consumer_cache_state_input.frame"
+        }
+      ],
+      "return_keys": [
+        "bound_rows_invalidated",
+        "apply_invalidated",
+        "frame_consumers_before",
+        "frame_consumers_invalidated"
+      ],
+      "tests": [
+        "test_consumer_cache_invalidation_binding_registration",
+        "test_all_consumer_cache_invalidation_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_consumer_cache_invalidation"
+      ],
+      "runtime_proof": "/root/ConsumerCacheInvalidationProof",
+      "rule": "Source-backed consumer cache invalidation on Block reinit/reload; the next tick rebinds from the current consumeBuilder."
+    },
     "SourceWorldTerrainRuntimeState.source_block_geometry_state": {
       "canonical_contract": "source_api_contracts.SourceWorldTerrainRuntimeState.source_block_geometry_state",
       "status": "active",

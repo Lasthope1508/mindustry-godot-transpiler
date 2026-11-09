@@ -4934,6 +4934,27 @@
       ],
       "runtime_proof": "/root/WorldTileLifecycleProof"
     },
+    "N2100": {
+      "canonical_ledger": "source_slice_ledger.N2100",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "reinitializeConsumers()",
+      "godot_owner": "SourceConsumeLiquidState.source_invalidate_consumer_cache_state",
+      "source_symbols": [
+        "source_invalidate_consumer_cache_state_input.block",
+        "source_invalidate_consumer_cache_state_input.frame",
+        "source_invalidate_consumer_cache_state_result.bound_rows_invalidated",
+        "source_invalidate_consumer_cache_state_result.apply_invalidated",
+        "source_invalidate_consumer_cache_state_result.frame_consumers_before",
+        "source_invalidate_consumer_cache_state_result.frame_consumers_invalidated"
+      ],
+      "tests": [
+        "test_consumer_cache_invalidation_binding_registration",
+        "test_all_consumer_cache_invalidation_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_consumer_cache_invalidation"
+      ],
+      "runtime_proof": "/root/ConsumerCacheInvalidationProof"
+    },
     "N511": {
       "canonical_ledger": "source_slice_ledger.N511",
       "status": "done",
