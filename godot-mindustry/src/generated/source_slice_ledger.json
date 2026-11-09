@@ -53025,6 +53025,35 @@
         "The live-loop liquid flow (the C04 gate: pump -> conduit -> Drill uses water as a booster) is proven by this slice; the drill runs 1.6x faster when water reaches it.",
         "C05-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2096": {
+      "status": "done",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_class": "mindustry.game.Rules",
+      "java_method": "unitCost(Team team)",
+      "godot_owner": "SourceRulesRuntimeState.source_unit_cost_state",
+      "exact_exprs": [
+        "    /** Multiplier of resources that units take to build. */\n    public float unitCostMultiplier = 1f;",
+        "return unitCostMultiplier * teams.get(team).unitCostMultiplier;",
+        "        /** Multiplier of resources that units take to build. */\n        public float unitCostMultiplier = 1f;"
+      ],
+      "source_symbols": [
+        "source_unit_cost_state_input.rules_state",
+        "source_unit_cost_state_input.team_id",
+        "source_unit_cost_state_result.unit_cost"
+      ],
+      "tests": [
+        "test_rules_unit_cost_binding_registration",
+        "test_all_rules_unit_cost_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_rules_unit_cost"
+      ],
+      "runtime_proof": "/root/RulesUnitCostProof",
+      "deferred_exprs": [
+        "Wiring source_cost_multiplier_state to return unitCost for unit-producing blocks (UnitFactory/Reconstructor/UnitAssembler) is a later slice; this slice is the rules value it reads.",
+        "Live TeamRules cheating (consumers do not consume while cheating) is a later C05 slice.",
+        "C05 cache invalidation on Block reinit/reload is a later slice.",
+        "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1

@@ -164013,6 +164013,51 @@
         "test_reference_graph_and_actual_drill_booster"
       ],
       "runtime_proof": "/root/DrillBoosterProof"
+    },
+    "source_unit_cost_state_input.rules_state": {
+      "status": "source-backed",
+      "godot_owner": "SourceRulesRuntimeState.source_unit_cost_state",
+      "godot_symbol": "source_unit_cost_state_input.rules_state",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_method": "unitCost(Team team)",
+      "java_expr": "return unitCostMultiplier * teams.get(team).unitCostMultiplier;",
+      "rule": "The live rules state: global unitCostMultiplier and per-team multipliers.",
+      "tests": [
+        "test_rules_unit_cost_binding_registration",
+        "test_all_rules_unit_cost_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_rules_unit_cost"
+      ],
+      "runtime_proof": "/root/RulesUnitCostProof"
+    },
+    "source_unit_cost_state_input.team_id": {
+      "status": "source-backed",
+      "godot_owner": "SourceRulesRuntimeState.source_unit_cost_state",
+      "godot_symbol": "source_unit_cost_state_input.team_id",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_method": "unitCost(Team team)",
+      "java_expr": "return unitCostMultiplier * teams.get(team).unitCostMultiplier;",
+      "rule": "The team whose unit cost multiplier to read.",
+      "tests": [
+        "test_rules_unit_cost_binding_registration",
+        "test_all_rules_unit_cost_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_rules_unit_cost"
+      ],
+      "runtime_proof": "/root/RulesUnitCostProof"
+    },
+    "source_unit_cost_state_result.unit_cost": {
+      "status": "source-backed",
+      "godot_owner": "SourceRulesRuntimeState.source_unit_cost_state",
+      "godot_symbol": "source_unit_cost_state_result.unit_cost",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_method": "unitCost(Team team)",
+      "java_expr": "return unitCostMultiplier * teams.get(team).unitCostMultiplier;",
+      "rule": "The unit cost multiplier: global times the team multiplier (1.0 by default).",
+      "tests": [
+        "test_rules_unit_cost_binding_registration",
+        "test_all_rules_unit_cost_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_rules_unit_cost"
+      ],
+      "runtime_proof": "/root/RulesUnitCostProof"
     }
   },
   "version": 1
