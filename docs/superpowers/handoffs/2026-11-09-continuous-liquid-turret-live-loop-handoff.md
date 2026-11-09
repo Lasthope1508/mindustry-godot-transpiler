@@ -1,6 +1,6 @@
 # Handoff — C05 ContinuousLiquidTurret live-loop tick and placement frame binding (N2103)
 
-Date: 2026-11-09. Batch: N2103 (single slice). Commit: pending (main turn commits after the full suite).
+Date: 2026-11-09. Batch: N2103 (single slice). Commit: 4a875e9.
 
 ## Done
 
