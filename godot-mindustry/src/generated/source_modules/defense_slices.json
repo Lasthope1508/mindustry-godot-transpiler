@@ -2564,6 +2564,23 @@
       ],
       "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_inactive_strength_bridge_state"
     },
+    "N2101": {
+      "canonical_ledger": "source_slice_ledger.N2101",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "java_method": "init()",
+      "godot_owner": "SourceConsumeState.source_cost_multiplier_for_block_state",
+      "source_symbols": [
+        "source_cost_multiplier_for_block_state_input.ammo_types",
+        "source_cost_multiplier_for_block_state_input.current_liquid"
+      ],
+      "tests": [
+        "test_continuous_liquid_turret_cost_multiplier_registration",
+        "test_all_continuous_liquid_turret_cost_multiplier_input_evidence_is_exact",
+        "test_reference_graph_and_actual_continuous_liquid_turret_cost_multiplier"
+      ],
+      "runtime_proof": "/root/ContinuousLiquidTurretCostMultiplierProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

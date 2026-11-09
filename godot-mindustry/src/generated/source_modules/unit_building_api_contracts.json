@@ -93,18 +93,32 @@
           "name": "build",
           "type": "Variant",
           "schema": "source_cost_multiplier_for_block_state_input.build"
+        },
+        {
+          "name": "current_liquid",
+          "type": "Variant",
+          "schema": "source_cost_multiplier_for_block_state_input.current_liquid"
+        },
+        {
+          "name": "ammo_types",
+          "type": "Dictionary",
+          "schema": "source_cost_multiplier_for_block_state_input.ammo_types"
         }
       ],
       "return_keys": [
         "multiplier"
       ],
       "tests": [
-        "test_cost_multiplier_for_block_binding_registration",
+        "test_all_continuous_liquid_turret_cost_multiplier_input_evidence_is_exact",
         "test_all_cost_multiplier_for_block_binding_input_evidence_is_exact",
+        "test_continuous_liquid_turret_cost_multiplier_registration",
+        "test_cost_multiplier_for_block_binding_registration",
+        "test_reference_graph_and_actual_continuous_liquid_turret_cost_multiplier",
         "test_reference_graph_and_actual_cost_multiplier_for_block"
       ],
       "runtime_proof": "/root/CostMultiplierForBlockProof",
-      "rule": "Source-backed per-block cost multiplier; unit factories pay Rules.unitCost, other blocks pay the 1.0 default."
+      "rule": "Source-backed per-block cost multiplier; unit factories pay Rules.unitCost, other blocks pay the 1.0 default; a ContinuousLiquidTurret pays 1 / ammoMultiplier for its current liquid, 1.0 when the liquid has no ammo type.",
+      "return_type": "Dictionary"
     }
   }
 }

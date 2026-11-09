@@ -220921,6 +220921,26 @@
           "used_by": [
             "SourceConsumeState.source_cost_multiplier_for_block_state"
           ]
+        },
+        "current_liquid": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "java_expr": "ammoTypes.get(b.liquids.current())",
+          "rule": "The building's current liquid, b.liquids.current() \u2014 the last received/loaded liquid (LiquidModule.java:80-83); the port reads it from the liquid module's \"current\" via SourceLiquidModuleState.source_current_state and passes the liquid name on the frame.",
+          "used_by": [
+            "SourceConsumeState.source_cost_multiplier_for_block_state"
+          ]
+        },
+        "ammo_types": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "java_expr": "public ObjectMap<Liquid, BulletType> ammoTypes = new ObjectMap<>();",
+          "rule": "The turret ammo map, liquid name to the bullet type dict carrying ammoMultiplier (BulletType.java:95, default 2f); sublimate maps ozone to 1.2f and cyanogen to the 2f default (Blocks.java:4604-4631).",
+          "used_by": [
+            "SourceConsumeState.source_cost_multiplier_for_block_state"
+          ]
         }
       },
       "runtime_proof": "/root/CostMultiplierForBlockProof",

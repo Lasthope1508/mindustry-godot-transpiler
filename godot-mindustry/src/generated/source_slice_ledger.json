@@ -53173,6 +53173,33 @@
         "Wiring other buildings (turrets, factories) to the live cheating value is a later slice; this slice wires the drill tick cache only.",
         "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2101": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "java_class": "mindustry.world.blocks.defense.turrets.ContinuousLiquidTurret",
+      "java_method": "init()",
+      "godot_owner": "SourceConsumeState.source_cost_multiplier_for_block_state",
+      "exact_exprs": [
+        "public ObjectMap<Liquid, BulletType> ammoTypes = new ObjectMap<>();",
+        "multiplier = b -> {",
+        "var ammo = ammoTypes.get(b.liquids.current());",
+        "return ammo == null ? 1f : 1f / ammo.ammoMultiplier;"
+      ],
+      "source_symbols": [
+        "source_cost_multiplier_for_block_state_input.ammo_types",
+        "source_cost_multiplier_for_block_state_input.current_liquid"
+      ],
+      "tests": [
+        "test_continuous_liquid_turret_cost_multiplier_registration",
+        "test_all_continuous_liquid_turret_cost_multiplier_input_evidence_is_exact",
+        "test_reference_graph_and_actual_continuous_liquid_turret_cost_multiplier"
+      ],
+      "runtime_proof": "/root/ContinuousLiquidTurretCostMultiplierProof",
+      "deferred_exprs": [
+        "Wiring the turret tick to set the frame keys (current_liquid from the liquid module, ammo_types from the block) is a later slice; the proof passes frame dicts directly.",
+        "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1

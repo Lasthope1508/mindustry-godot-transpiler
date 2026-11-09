@@ -1937,7 +1937,10 @@
         "module": "unit_building_slices",
         "collection_key": "slices",
         "field": "godot_owner"
-      }
+      },
+      "optional_mirror_fields": [
+        "return_type"
+      ]
     },
     "unit_building_state_schema": {
       "canonical_module": "state_schema",

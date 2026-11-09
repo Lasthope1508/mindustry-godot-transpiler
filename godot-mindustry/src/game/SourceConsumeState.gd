@@ -10,6 +10,11 @@ const source_rules_state := preload("res://src/game/SourceRulesRuntimeState.gd")
 # three files; 17 registry blocks carry one of these implementations.
 const SOURCE_UNIT_FACTORY_IMPLEMENTATIONS := ["UnitFactory", "Reconstructor", "UnitAssembler"]
 
+# The one block implementation whose consumers pay the turret ammo
+# lookup instead of Rules.unitCost: ContinuousLiquidTurret.java:45-48
+# sets the ConsumeLiquidFilter multiplier to the ammo lookup in init().
+const SOURCE_CONTINUOUS_LIQUID_TURRET_IMPLEMENTATION := "ContinuousLiquidTurret"
+
 static func source_cost_multiplier_state(_build: Variant) -> Dictionary:
 	return {"multiplier": 1.0}
 
@@ -17,13 +22,37 @@ static func source_cost_multiplier_for_block_state(build: Variant) -> Dictionary
 	# Consume.multiplier is a per-consumer callback (Consume.java:18,
 	# default b -> 1f). Unit factories override it with
 	# b -> state.rules.unitCost(b.team) (UnitFactory.java:109,
-	# Reconstructor.java:149, UnitAssembler.java:175). The build dict
-	# is the building frame: it carries block_implementation,
-	# team_id and rules_state (set by the tick before the consumers
-	# are created); a build without those keys keeps the 1.0 default.
+	# Reconstructor.java:149, UnitAssembler.java:175). A
+	# ContinuousLiquidTurret overrides it with the ammo lookup
+	# (ContinuousLiquidTurret.java:45-48): var ammo =
+	# ammoTypes.get(b.liquids.current()); return ammo == null ? 1f :
+	# 1f / ammo.ammoMultiplier. The build dict is the building frame:
+	# it carries block_implementation, team_id and rules_state (set by
+	# the tick before the consumers are created); a turret frame also
+	# carries current_liquid (b.liquids.current(), the last
+	# received/loaded liquid, LiquidModule.java:80-83, read in the port
+	# from the liquid module's "current" via
+	# SourceLiquidModuleState.source_current_state) and ammo_types (the
+	# port form of ammoTypes, ObjectMap<Liquid, BulletType>,
+	# ContinuousLiquidTurret.java:14, mapping liquid name to the bullet
+	# type dict that carries ammoMultiplier, BulletType.java:95,
+	# default 2f; a missing ammoMultiplier in the dict reads that
+	# default). A build without the keys its branch needs keeps the
+	# 1.0 default.
 	if not build is Dictionary:
 		return {"multiplier": 1.0}
 	var block_implementation: String = String(build.get("block_implementation", ""))
+	if block_implementation == SOURCE_CONTINUOUS_LIQUID_TURRET_IMPLEMENTATION:
+		var ammo_types: Dictionary = build.get("ammo_types", {})
+		if not ammo_types is Dictionary:
+			return {"multiplier": 1.0}
+		var current_liquid: Variant = build.get("current_liquid", null)
+		if current_liquid == null:
+			return {"multiplier": 1.0}
+		var ammo: Variant = ammo_types.get(String(current_liquid), null)
+		if not ammo is Dictionary:
+			return {"multiplier": 1.0}
+		return {"multiplier": 1.0 / float(ammo.get("ammoMultiplier", 2.0))}
 	if block_implementation == "" or not SOURCE_UNIT_FACTORY_IMPLEMENTATIONS.has(block_implementation):
 		return {"multiplier": 1.0}
 	var rules_state: Dictionary = build.get("rules_state", {})
