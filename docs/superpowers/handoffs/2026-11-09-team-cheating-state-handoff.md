@@ -1,6 +1,6 @@
 # Handoff — C05 live TeamRules cheating (N2099)
 
-Date: 2026-11-09. Batch: N2099 (single slice, fifth C05 batch). Commit: (pending — fill in after push).
+Date: 2026-11-09. Batch: N2099 (single slice, fifth C05 batch). Commit: ed2aa3b.
 
 ## Done
 
