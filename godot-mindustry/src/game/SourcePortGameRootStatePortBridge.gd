@@ -16,6 +16,7 @@ const source_world_defaults := preload("res://src/game/SourceWorldDefaults.gd")
 const source_world_viewport := preload("res://src/game/SourceWorldViewport.gd")
 const source_input_defaults := preload("res://src/game/SourceInputDefaults.gd")
 const source_ui_defaults := preload("res://src/game/SourceUiDefaults.gd")
+const source_rules_state := preload("res://src/game/SourceRulesRuntimeState.gd")
 var content_catalog_script := load(CONTENT_CATALOG_SCRIPT)
 
 var tile_size := 0
@@ -41,6 +42,11 @@ var campaign_selected_sector_id := ""
 var campaign_launched_sector: Dictionary = {}
 var campaign_launch_context: Dictionary = {}
 var camera: Camera2D
+# The live game rules (Java: Vars.state.rules, GameState.java:35
+# `public Rules rules = new Rules()`). Created once per game with the
+# Rules defaults; the drill tick and the unit factories' multiplier
+# callbacks all read this same Dictionary, so mutations are live.
+var rules_state: Dictionary = source_rules_state.source_game_rules_state({})["rules"]
 var drill_pos := source_playable_scenario_defaults.DRILL_POS
 var core_pos := source_playable_scenario_defaults.CORE_POS
 var duo_pos := source_playable_scenario_defaults.DUO_POS

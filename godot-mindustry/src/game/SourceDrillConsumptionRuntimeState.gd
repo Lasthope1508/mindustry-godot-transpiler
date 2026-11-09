@@ -8,6 +8,7 @@ const efficiency := preload("res://src/game/SourceBuildingEfficiencyState.gd")
 const access := preload("res://src/game/SourceBuildingAccessState.gd")
 const drill := preload("res://src/game/SourceDrillRuntimeState.gd")
 const source_block_geometry := preload("res://src/game/SourceBlockGeometry.gd")
+const source_rules_state := preload("res://src/game/SourceRulesRuntimeState.gd")
 const inventory := preload("res://src/game/SourceDrillInventoryRuntimeState.gd")
 const defaults := preload("res://src/game/SourceFactoryDefaults.gd")
 const time_defaults := preload("res://src/game/SourceTimeDefaults.gd")
@@ -115,8 +116,7 @@ static func source_tick_state(game: Object, seconds: float) -> Dictionary:
 		# are created and persist on the frame.
 		frame["block_implementation"] = block.implementation
 		frame["team_id"] = int(sprite.get_meta(source_block_geometry.SOURCE_BUILD_TEAM_META_KEY, source_block_geometry.SOURCE_TEAM_DERELICT_ID))
-		var game_rules: Variant = game.get("rules_state")
-		frame["rules_state"] = game_rules if game_rules is Dictionary else {}
+		frame["rules_state"] = source_rules_state.source_game_rules_state(game.get("rules_state"))["rules"]
 		if frame["consumers"].is_empty():
 			for row in rows:
 				frame["consumers"].append(liquid.source_runtime_consumer_state(row, amounts, [], consume.source_cost_multiplier_for_block_state)["consumer"])

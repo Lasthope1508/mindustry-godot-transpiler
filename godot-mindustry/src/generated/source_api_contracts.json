@@ -61513,6 +61513,30 @@
       ],
       "runtime_proof": "/root/CostMultiplierForBlockProof",
       "rule": "Source-backed per-block cost multiplier; unit factories pay Rules.unitCost, other blocks pay the 1.0 default."
+    },
+    "SourceRulesRuntimeState.source_game_rules_state": {
+      "status": "active",
+      "source_slice": "N2098",
+      "java_source": "core/src/mindustry/core/GameState.java",
+      "source_method": "rules",
+      "params": [
+        {
+          "name": "rules_state",
+          "type": "Variant",
+          "schema": "source_game_rules_state_input.rules_state"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "rules"
+      ],
+      "tests": [
+        "test_game_rules_state_binding_registration",
+        "test_all_game_rules_state_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_game_rules_state"
+      ],
+      "runtime_proof": "/root/GameRulesStateProof",
+      "rule": "Source-backed game rules state; the live Rules object every multiplier callback reads."
     }
   },
   "policy": {

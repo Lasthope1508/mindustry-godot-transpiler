@@ -164088,6 +164088,36 @@
         "test_reference_graph_and_actual_cost_multiplier_for_block"
       ],
       "runtime_proof": "/root/CostMultiplierForBlockProof"
+    },
+    "source_game_rules_state_input.rules_state": {
+      "status": "source-backed",
+      "godot_owner": "SourceRulesRuntimeState.source_game_rules_state",
+      "godot_symbol": "source_game_rules_state_input.rules_state",
+      "java_source": "core/src/mindustry/core/GameState.java",
+      "java_method": "rules",
+      "java_expr": "    /** The current game rules. */\n    public Rules rules = new Rules();",
+      "rule": "The game's current rules state (Vars.state.rules): null, empty, or the live rules Dictionary.",
+      "tests": [
+        "test_game_rules_state_binding_registration",
+        "test_all_game_rules_state_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_game_rules_state"
+      ],
+      "runtime_proof": "/root/GameRulesStateProof"
+    },
+    "source_game_rules_state_result.rules": {
+      "status": "source-backed",
+      "godot_owner": "SourceRulesRuntimeState.source_game_rules_state",
+      "godot_symbol": "source_game_rules_state_result.rules",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_method": "rules",
+      "java_expr": "    /** Multiplier of resources that units take to build. */\n    public float unitCostMultiplier = 1f;",
+      "rule": "The live game rules: the existing rules state, or the Java `new Rules()` defaults.",
+      "tests": [
+        "test_game_rules_state_binding_registration",
+        "test_all_game_rules_state_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_game_rules_state"
+      ],
+      "runtime_proof": "/root/GameRulesStateProof"
     }
   },
   "version": 1

@@ -53082,6 +53082,34 @@
         "C05 cache invalidation on Block reinit/reload is a later slice.",
         "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2098": {
+      "status": "done",
+      "java_source": "core/src/mindustry/core/GameState.java",
+      "java_class": "mindustry.core.GameState",
+      "java_method": "rules",
+      "godot_owner": "SourceRulesRuntimeState.source_game_rules_state",
+      "exact_exprs": [
+        "    /** The current game rules. */\n    public Rules rules = new Rules();",
+        "    public static GameState state;",
+        "    /** Multiplier of resources that units take to build. */\n    public float unitCostMultiplier = 1f;",
+        "    public TeamRules teams = new TeamRules();"
+      ],
+      "source_symbols": [
+        "source_game_rules_state_input.rules_state",
+        "source_game_rules_state_result.rules"
+      ],
+      "tests": [
+        "test_game_rules_state_binding_registration",
+        "test_all_game_rules_state_binding_input_evidence_is_exact",
+        "test_reference_graph_and_actual_game_rules_state"
+      ],
+      "runtime_proof": "/root/GameRulesStateProof",
+      "deferred_exprs": [
+        "Live TeamRules cheating (consumers do not consume while cheating) is a later C05 slice.",
+        "C05 cache invalidation on Block reinit/reload is a later slice.",
+        "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1

@@ -220944,6 +220944,44 @@
       },
       "runtime_proof": "/root/CostMultiplierForBlockProof",
       "rule": "Source-backed per-block cost multiplier."
+    },
+    "source_game_rules_state_input": {
+      "status": "active",
+      "owner": "SourceRulesRuntimeState.source_game_rules_state",
+      "source_slice": "N2098",
+      "keys": {
+        "rules_state": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/GameState.java",
+          "java_expr": "    /** The current game rules. */\n    public Rules rules = new Rules();",
+          "rule": "The game's current rules state (Vars.state.rules): null, empty, or the live rules Dictionary.",
+          "used_by": [
+            "SourceRulesRuntimeState.source_game_rules_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/GameRulesStateProof",
+      "rule": "Source-backed game rules state."
+    },
+    "source_game_rules_state_result": {
+      "status": "active",
+      "owner": "SourceRulesRuntimeState.source_game_rules_state",
+      "source_slice": "N2098",
+      "keys": {
+        "rules": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Rules.java",
+          "java_expr": "    /** Multiplier of resources that units take to build. */\n    public float unitCostMultiplier = 1f;",
+          "rule": "The live game rules: the existing rules state, or the Java `new Rules()` defaults.",
+          "used_by": [
+            "SourceRulesRuntimeState.source_game_rules_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/GameRulesStateProof",
+      "rule": "Source-backed game rules state."
     }
   },
   "version": 1
