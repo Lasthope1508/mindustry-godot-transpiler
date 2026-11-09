@@ -1,6 +1,6 @@
 # Handoff — C05 Turret family live-loop tick (N2108)
 
-Date: 2026-11-10. Batch: N2108 (single slice, SSOT slice). Commit: `PENDING`.
+Date: 2026-11-10. Batch: N2108 (single slice, SSOT slice). Commit: `e4cbb80`.
 
 ## Done
 
