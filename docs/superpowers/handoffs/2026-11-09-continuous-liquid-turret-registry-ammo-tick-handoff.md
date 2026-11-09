@@ -1,6 +1,6 @@
 # Handoff — C05 ContinuousLiquidTurret tick reads ammoTypes from the registry (N2105)
 
-Date: 2026-11-09. Batch: N2105 (wiring slice, no SSOT slice). Commit: pending (main turn).
+Date: 2026-11-09. Batch: N2105 (wiring slice, no SSOT slice). Commit: af7288d.
 
 ## Done
 
