@@ -62077,21 +62077,25 @@
         "results_by_cell"
       ],
       "tests": [
+        "test_all_c05_gate_input_evidence_is_exact",
         "test_all_factory_consumer_binding_input_evidence_is_exact",
         "test_all_factory_live_loop_input_evidence_is_exact",
         "test_all_factory_should_consume_input_evidence_is_exact",
+        "test_c05_gate_registration",
         "test_factory_consumer_binding_registration",
         "test_factory_live_loop_registration",
         "test_factory_should_consume_registration",
+        "test_reference_graph_and_actual_c05_gate",
         "test_reference_graph_and_actual_factory_consumer_binding",
         "test_reference_graph_and_actual_factory_live_loop",
         "test_reference_graph_and_actual_factory_should_consume",
         "test_should_consume_reads_output_space",
         "test_tick_binds_runtime_consumers_for_factory",
+        "test_tick_reinitializes_consumers_on_block_replacement",
         "test_tick_wires_frame_and_driver_runs_from_live_loop"
       ],
       "runtime_proof": "/root/FactoryLiveLoopProof",
-      "rule": "Source-backed factory family live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live rules every simulate_factory tick, so a cheating team's factory counts everything as valid in updateConsumption, and the tick binds one RuntimeConsumer per consumeItem/consumeLiquid row and runs the bound actors through updateConsumption so the placed factory consumes its liquid rows each tick and gates efficiency on its item rows, with shouldConsume() read live from the output space every tick so a factory with a full output ticks at efficiency 0."
+      "rule": "Source-backed GenericCrafter family live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live rules every simulate_factory tick, so a cheating team's factory counts everything as valid in updateConsumption, the tick gates efficiency on the family's own shouldConsume() body, the tick binds one RuntimeConsumer per consumeItem/consumeLiquid row and runs the bound actors through updateConsumption so the placed factory consumes its liquid rows each tick and gates efficiency on its item rows, and a sprite re-recorded with a different block reinitializes its consumers from the new block's consumeBuilder."
     },
     "SourceUnitFactoryBuildState.source_unit_factory_tick_frame_state": {
       "status": "active",
@@ -62553,13 +62557,17 @@
         "test_adjacent_factory_live_loop_registration",
         "test_all_adjacent_factory_consumer_binding_input_evidence_is_exact",
         "test_all_adjacent_factory_live_loop_input_evidence_is_exact",
+        "test_all_c05_gate_input_evidence_is_exact",
+        "test_c05_gate_registration",
         "test_reference_graph_and_actual_adjacent_factory_consumer_binding",
         "test_reference_graph_and_actual_adjacent_factory_live_loop",
+        "test_reference_graph_and_actual_c05_gate",
         "test_tick_binds_runtime_consumers_for_adjacent_factory",
+        "test_tick_reinitializes_consumers_on_block_replacement",
         "test_tick_wires_frame_and_driver_runs_from_live_loop"
       ],
       "runtime_proof": "/root/AdjacentFactoryLiveLoopProof",
-      "rule": "Source-backed adjacent factory family live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live rules every simulate_factory tick, so a cheating team's adjacent factory counts everything as valid in updateConsumption, the tick gates efficiency on the family's own shouldConsume() body, and the tick binds one RuntimeConsumer per consumeItem/consumeLiquid row and runs the bound actors through updateConsumption so the placed adjacent factory consumes its liquid rows each tick and gates efficiency on its item rows."
+      "rule": "Source-backed adjacent factory family live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live rules every simulate_factory tick, so a cheating team's adjacent factory counts everything as valid in updateConsumption, the tick gates efficiency on the family's own shouldConsume() body, and the tick binds one RuntimeConsumer per consumeItem/consumeLiquid row and runs the bound actors through updateConsumption so the placed adjacent factory consumes its liquid rows each tick and gates efficiency on its item rows, and a sprite re-recorded with a different block reinitializes its consumers from the new block's consumeBuilder."
     },
     "SourceAdjacentFactoryBuildState.source_adjacent_factory_update_consumption_state": {
       "status": "active",
@@ -62689,6 +62697,92 @@
       ],
       "runtime_proof": "/root/AdjacentFactoryConsumerBindingProof",
       "rule": "Source-backed adjacent factory family RuntimeConsumer binding; the tick binds one RuntimeConsumer per consumeItem/consumeLiquid row and runs the bound actors through updateConsumption, so the placed adjacent factory consumes its liquid rows each tick and gates efficiency on its item rows."
+    },
+    "SourceFactoryBuildState.source_factory_reinitialize_consumers_state": {
+      "status": "active",
+      "source_slice": "N2116",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "source_method": "Tile.changeBuild(); Block.reinitializeConsumers(); BuildingComp.updateConsumption()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_factory_reinitialize_consumers_state_input.frame"
+        },
+        {
+          "name": "block",
+          "type": "Object",
+          "schema": "source_factory_reinitialize_consumers_state_input.block"
+        },
+        {
+          "name": "catalog",
+          "type": "Object",
+          "schema": "source_factory_reinitialize_consumers_state_input.catalog"
+        },
+        {
+          "name": "amounts",
+          "type": "Dictionary",
+          "schema": "source_factory_reinitialize_consumers_state_input.amounts"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "reinitialized",
+        "bound",
+        "consumers",
+        "rows"
+      ],
+      "tests": [
+        "test_c05_gate_registration",
+        "test_all_c05_gate_input_evidence_is_exact",
+        "test_tick_reinitializes_consumers_on_block_replacement",
+        "test_reference_graph_and_actual_c05_gate"
+      ],
+      "runtime_proof": "/root/C05GateProof",
+      "rule": "Source-backed C05 gate lifecycle replacement; a frame stamped for another block drops its old RuntimeConsumer actors, clears its item and liquid stores, and rebinds from the new block's consumeBuilder, so a replaced building consumes like a fresh Building."
+    },
+    "SourceAdjacentFactoryBuildState.source_adjacent_factory_reinitialize_consumers_state": {
+      "status": "active",
+      "source_slice": "N2116",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "source_method": "Tile.changeBuild(); Block.reinitializeConsumers(); BuildingComp.updateConsumption()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_adjacent_factory_reinitialize_consumers_state_input.frame"
+        },
+        {
+          "name": "block",
+          "type": "Object",
+          "schema": "source_adjacent_factory_reinitialize_consumers_state_input.block"
+        },
+        {
+          "name": "catalog",
+          "type": "Object",
+          "schema": "source_adjacent_factory_reinitialize_consumers_state_input.catalog"
+        },
+        {
+          "name": "amounts",
+          "type": "Dictionary",
+          "schema": "source_adjacent_factory_reinitialize_consumers_state_input.amounts"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "reinitialized",
+        "bound",
+        "consumers",
+        "rows"
+      ],
+      "tests": [
+        "test_c05_gate_registration",
+        "test_all_c05_gate_input_evidence_is_exact",
+        "test_tick_reinitializes_consumers_on_block_replacement",
+        "test_reference_graph_and_actual_c05_gate"
+      ],
+      "runtime_proof": "/root/C05GateProof",
+      "rule": "Source-backed C05 gate lifecycle replacement; a frame stamped for another block drops its old RuntimeConsumer actors, clears its item and liquid stores, and rebinds from the new block's consumeBuilder, so a replaced building consumes like a fresh Building."
     }
   },
   "policy": {

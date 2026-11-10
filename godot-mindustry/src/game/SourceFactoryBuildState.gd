@@ -83,7 +83,10 @@ static func source_bind_consumer_state(frame: Dictionary, block: Object, catalog
 	# none. amounts is the building's liquid module (the turret's
 	# shape); the item actors read the frame's item module
 	# (frame["items"], the Building.items ItemModule), created empty
-	# when the frame has none yet.
+	# when the frame has none yet. A bound frame records the block
+	# its actors belong to (frame["block_id"]), so the live-loop
+	# tick can tell a replaced building from the one its actors
+	# were bound for (N2116, Tile.changeBuild).
 	var rows: Array = []
 	if block != null and block.properties.has("consumeItem"):
 		rows.append_array(source_consume_item_state.source_bind_item_consumers_state(block, catalog).get("consumers", []))
@@ -101,8 +104,49 @@ static func source_bind_consumer_state(frame: Dictionary, block: Object, catalog
 			else:
 				consumers.append(source_consume_item_state.source_runtime_consumer_state(row, items, source_consume_state.source_cost_multiplier_for_block_state).get("consumer"))
 		frame["consumers"] = consumers
+		frame["block_id"] = str(block.id)
 		bound = true
 	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_FACTORY_BUILD_BIND_CONSUMER_STATE, "bound": bound, "consumers": consumers, "rows": rows}
+
+static func source_factory_reinitialize_consumers_state(frame: Dictionary, block: Object, catalog: Object, amounts: Dictionary) -> Dictionary:
+	# Tile.changeBuild (Tile.java:636-657) removes the old Building
+	# (`build.remove()`) and inits a brand-new one
+	# (`entityprov.get().init(...)`, Block.newBuilding(),
+	# Block.java:1002), so a replaced building gets fresh consumers
+	# from Block.reinitializeConsumers() (Block.java:1481-1497: the
+	# consumeBuilder is re-read, the optional / non-optional /
+	# update arrays are rebuilt, and each consumer is applied
+	# again). The port reuses the sprite node when the same sprite
+	# is re-recorded with a different block (initialize_sprite
+	# overwrites the block-id meta but keeps the family frame), so
+	# without this the tick keeps running the old block's actors
+	# against the new block's rows — and indexes past the end of
+	# the actor list when the new block has more rows. The tick
+	# therefore reinitializes through here instead of binding
+	# directly: a frame already on this block takes the normal
+	# once-only bind path; a frame stamped for another block drops
+	# its old RuntimeConsumer actors (N2100's invalidate, the
+	# cache-invalidation half of reinitializeConsumers), clears its
+	# item and liquid stores for the fresh Building's own empty
+	# ItemModule/LiquidModule (BuildingComp.java:145-146, init
+	# creates a fresh ItemModule/LiquidModule per Building), and
+	# rebinds from the new
+	# block's consumeBuilder, stamping the new block id. A null
+	# block reinitializes nothing.
+	if block == null:
+		return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_FACTORY_BUILD_REINITIALIZE_CONSUMERS_STATE, "reinitialized": false, "bound": false, "consumers": frame.get("consumers", []), "rows": []}
+	var block_id: String = str(block.id)
+	var stamped: String = str(frame.get("block_id", ""))
+	if stamped == block_id:
+		var bound: Dictionary = source_bind_consumer_state(frame, block, catalog, amounts)
+		return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_FACTORY_BUILD_REINITIALIZE_CONSUMERS_STATE, "reinitialized": false, "bound": bool(bound.get("bound", false)), "consumers": bound.get("consumers", []), "rows": bound.get("rows", [])}
+	if stamped != "":
+		source_consume_liquid_state.source_invalidate_consumer_cache_state(block, frame)
+		frame["items"] = {}
+		amounts.clear()
+	var rebound: Dictionary = source_bind_consumer_state(frame, block, catalog, amounts)
+	frame["block_id"] = block_id
+	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_FACTORY_BUILD_REINITIALIZE_CONSUMERS_STATE, "reinitialized": stamped != "", "bound": bool(rebound.get("bound", false)), "consumers": rebound.get("consumers", []), "rows": rebound.get("rows", [])}
 
 static func _liquid_amount_state(liquids: Dictionary, liquid_id: int) -> float:
 	# LiquidModule.get(Liquid) (LiquidModule.java:102) over the
@@ -255,15 +299,19 @@ static func source_factory_tick_buildings_state(game: Object, seconds: float) ->
 		# non-optional consumers) and second pass (update every
 		# update consumer when update, i.e. shouldConsume() &&
 		# productionValid(), and efficiency > 0) every tick, so a
-		# placed factory actually consumes. shouldConsume is the
-		# GenericCrafterBuild.shouldConsume() body (N2113,
+		# placed factory actually consumes. The binding goes through
+		# the N2116 reinitialize path, so a sprite re-recorded with
+		# a different block (Tile.changeBuild) drops the old block's
+		# actors and rebinds from the new block's consumeBuilder
+		# instead of running stale actors against new rows.
+		# shouldConsume is the GenericCrafterBuild.shouldConsume() body (N2113,
 		# GenericCrafter.java:203, output-space checks against the
 		# frame's held items and the building's liquid module); the
 		# power consumer stays the power graph's domain (N2080/N2107)
 		# and is not bound here.
 		frame["enabled"] = bool(frame.get("enabled", true))
 		var liquids: Dictionary = sprite.get_meta(source_placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY, {})
-		var consumer_bound: Dictionary = source_bind_consumer_state(frame, block, catalog, liquids)
+		var consumer_bound: Dictionary = source_factory_reinitialize_consumers_state(frame, block, catalog, liquids)
 		var rows: Array = consumer_bound.get("rows", [])
 		var consumers: Array = consumer_bound.get("consumers", [])
 		var should_consume: bool = bool(source_factory_should_consume_state(frame, block, liquids, liquid_id_by_name).get("should_consume", false))

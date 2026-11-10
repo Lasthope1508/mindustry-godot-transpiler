@@ -64,7 +64,7 @@ class FactoryConsumerBindingTests(unittest.TestCase):
         self.assertIn('static func source_bind_consumer_state(frame: Dictionary, block: Object, catalog: Object, amounts: Dictionary) -> Dictionary:', factory)
         self.assertIn('static func source_factory_tick_buildings_state(game: Object, seconds: float) -> Dictionary:', factory)
         tick = factory.split('static func source_factory_tick_buildings_state')[1]
-        self.assertIn('source_bind_consumer_state(frame, block, catalog, liquids)', tick)
+        self.assertIn('source_factory_reinitialize_consumers_state(frame, block, catalog, liquids)', tick)
         self.assertIn('update_consumption_state(', tick)
         self.assertIn('apply_update_consumption_state(', tick)
         self.assertIn('PORT_GAME_SOURCE_FACTORY_BUILD_BIND_CONSUMER_STATE', factory)

@@ -223282,6 +223282,202 @@
       },
       "runtime_proof": "/root/AdjacentFactoryConsumerBindingProof",
       "rule": "Source-backed adjacent factory family RuntimeConsumer binding."
+    },
+    "source_factory_reinitialize_consumers_state_input": {
+      "status": "active",
+      "owner": "SourceFactoryBuildState.source_factory_reinitialize_consumers_state",
+      "source_slice": "N2116",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public final Building newBuilding(){",
+          "rule": "The family frame (the port Building state) whose actors are reinitialized; created at placement (Block.newBuilding).",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_reinitialize_consumers_state"
+          ]
+        },
+        "block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "protected void changeBuild(Team team, Prov<Building> entityprov, int rotation){",
+          "rule": "The block the frame is (re)bound to; a frame stamped for another block is reinitialized from this block's consumeBuilder.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_reinitialize_consumers_state"
+          ]
+        },
+        "catalog": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "protected Seq<Consume> consumeBuilder = new Seq<>();",
+          "rule": "The content catalog the rebound rows resolve their item and liquid fields against (the block's consumeBuilder).",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_reinitialize_consumers_state"
+          ]
+        },
+        "amounts": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+          "java_expr": "public void remove(Liquid liquid, float amount){",
+          "rule": "The building's liquid module the liquid actors remove from (LiquidModule.remove); cleared on reinitialization, like a fresh Building's empty module.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_reinitialize_consumers_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C05GateProof",
+      "rule": "Source-backed C05 gate lifecycle replacement: the tick reinitializes a replaced building's consumers from the new block's consumeBuilder."
+    },
+    "source_factory_reinitialize_consumers_state_result": {
+      "status": "active",
+      "owner": "SourceFactoryBuildState.source_factory_reinitialize_consumers_state",
+      "source_slice": "N2116",
+      "keys": {
+        "reinitialized": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public void reinitializeConsumers(){",
+          "rule": "Whether the frame was stamped for another block and its old actors were dropped and rebound; false for a fresh frame or a frame already on this block.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_reinitialize_consumers_state"
+          ]
+        },
+        "bound": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public ConsumeItems consumeItem(Item item, int amount){",
+          "rule": "Whether RuntimeConsumer actors were created on this call; false when the frame already carries them for this block.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_reinitialize_consumers_state"
+          ]
+        },
+        "consumers": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "for(var cons : block.updateConsumers){",
+          "rule": "The RuntimeConsumer actors on the frame after the call, one per bound consumeItem/consumeLiquid row.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_reinitialize_consumers_state"
+          ]
+        },
+        "rows": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "protected Seq<Consume> consumeBuilder = new Seq<>();",
+          "rule": "The bound consume rows (item stacks + liquid descriptors) the actors were built from.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_reinitialize_consumers_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C05GateProof",
+      "rule": "Source-backed C05 gate lifecycle replacement: the tick reinitializes a replaced building's consumers from the new block's consumeBuilder."
+    },
+    "source_adjacent_factory_reinitialize_consumers_state_input": {
+      "status": "active",
+      "owner": "SourceAdjacentFactoryBuildState.source_adjacent_factory_reinitialize_consumers_state",
+      "source_slice": "N2116",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public final Building newBuilding(){",
+          "rule": "The family frame (the port Building state) whose actors are reinitialized; created at placement (Block.newBuilding).",
+          "used_by": [
+            "SourceAdjacentFactoryBuildState.source_adjacent_factory_reinitialize_consumers_state"
+          ]
+        },
+        "block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "protected void changeBuild(Team team, Prov<Building> entityprov, int rotation){",
+          "rule": "The block the frame is (re)bound to; a frame stamped for another block is reinitialized from this block's consumeBuilder.",
+          "used_by": [
+            "SourceAdjacentFactoryBuildState.source_adjacent_factory_reinitialize_consumers_state"
+          ]
+        },
+        "catalog": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "protected Seq<Consume> consumeBuilder = new Seq<>();",
+          "rule": "The content catalog the rebound rows resolve their item and liquid fields against (the block's consumeBuilder).",
+          "used_by": [
+            "SourceAdjacentFactoryBuildState.source_adjacent_factory_reinitialize_consumers_state"
+          ]
+        },
+        "amounts": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+          "java_expr": "public void remove(Liquid liquid, float amount){",
+          "rule": "The building's liquid module the liquid actors remove from (LiquidModule.remove); cleared on reinitialization, like a fresh Building's empty module.",
+          "used_by": [
+            "SourceAdjacentFactoryBuildState.source_adjacent_factory_reinitialize_consumers_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C05GateProof",
+      "rule": "Source-backed C05 gate lifecycle replacement: the tick reinitializes a replaced building's consumers from the new block's consumeBuilder."
+    },
+    "source_adjacent_factory_reinitialize_consumers_state_result": {
+      "status": "active",
+      "owner": "SourceAdjacentFactoryBuildState.source_adjacent_factory_reinitialize_consumers_state",
+      "source_slice": "N2116",
+      "keys": {
+        "reinitialized": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public void reinitializeConsumers(){",
+          "rule": "Whether the frame was stamped for another block and its old actors were dropped and rebound; false for a fresh frame or a frame already on this block.",
+          "used_by": [
+            "SourceAdjacentFactoryBuildState.source_adjacent_factory_reinitialize_consumers_state"
+          ]
+        },
+        "bound": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public ConsumeItems consumeItem(Item item, int amount){",
+          "rule": "Whether RuntimeConsumer actors were created on this call; false when the frame already carries them for this block.",
+          "used_by": [
+            "SourceAdjacentFactoryBuildState.source_adjacent_factory_reinitialize_consumers_state"
+          ]
+        },
+        "consumers": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "for(var cons : block.updateConsumers){",
+          "rule": "The RuntimeConsumer actors on the frame after the call, one per bound consumeItem/consumeLiquid row.",
+          "used_by": [
+            "SourceAdjacentFactoryBuildState.source_adjacent_factory_reinitialize_consumers_state"
+          ]
+        },
+        "rows": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "protected Seq<Consume> consumeBuilder = new Seq<>();",
+          "rule": "The bound consume rows (item stacks + liquid descriptors) the actors were built from.",
+          "used_by": [
+            "SourceAdjacentFactoryBuildState.source_adjacent_factory_reinitialize_consumers_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C05GateProof",
+      "rule": "Source-backed C05 gate lifecycle replacement: the tick reinitializes a replaced building's consumers from the new block's consumeBuilder."
     }
   },
   "version": 1

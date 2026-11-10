@@ -1,0 +1,98 @@
+import json
+import shutil
+import subprocess
+import unittest
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[3]
+FACTORY_STATE = ROOT / 'godot-mindustry/src/game/SourceFactoryBuildState.gd'
+ADJACENT_STATE = ROOT / 'godot-mindustry/src/game/SourceAdjacentFactoryBuildState.gd'
+
+
+class C05GateTests(unittest.TestCase):
+    def test_c05_gate_registration(self):
+        generated = ROOT / 'godot-mindustry/src/generated'
+        ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
+        schemas = json.loads((generated / 'source_state_schema.json').read_text(encoding='utf-8'))['schemas']
+        contracts = json.loads((generated / 'source_api_contracts.json').read_text(encoding='utf-8'))['contracts']
+        self.assertEqual(ledger['N2116']['godot_owner'], 'SourceFactoryBuildState.source_factory_tick_buildings_state')
+        for owner, schema, return_type, return_keys, source_slice in [
+            ('SourceFactoryBuildState.source_factory_reinitialize_consumers_state', 'source_factory_reinitialize_consumers_state_input', 'Dictionary', ['reinitialized', 'bound', 'consumers', 'rows'], 'N2116'),
+            ('SourceAdjacentFactoryBuildState.source_adjacent_factory_reinitialize_consumers_state', 'source_adjacent_factory_reinitialize_consumers_state_input', 'Dictionary', ['reinitialized', 'bound', 'consumers', 'rows'], 'N2116'),
+            ('SourceFactoryBuildState.source_factory_tick_buildings_state', 'source_factory_tick_buildings_state_input', 'Dictionary', ['ticked_count', 'results_by_cell'], 'N2110'),
+            ('SourceAdjacentFactoryBuildState.source_adjacent_factory_tick_buildings_state', 'source_adjacent_factory_tick_buildings_state_input', 'Dictionary', ['ticked_count', 'results_by_cell'], 'N2114'),
+        ]:
+            with self.subTest(owner=owner):
+                self.assertEqual(contracts[owner]['source_slice'], source_slice)
+                self.assertEqual(schemas[schema]['owner'], owner)
+                self.assertEqual(contracts[owner].get('return_type'), return_type)
+                self.assertEqual(contracts[owner]['return_keys'], return_keys)
+                self.assertEqual([param['name'] for param in contracts[owner]['params']], list(schemas[schema]['keys']))
+        self.assertEqual(
+            [param['name'] for param in contracts['SourceFactoryBuildState.source_factory_tick_buildings_state']['params']],
+            ['game', 'seconds'],
+        )
+        self.assertEqual(
+            [param['name'] for param in contracts['SourceAdjacentFactoryBuildState.source_adjacent_factory_tick_buildings_state']['params']],
+            ['game', 'seconds'],
+        )
+        self.assertEqual(len(ledger['N2116']['source_symbols']), 16)
+        self.assertTrue(ledger['N2116']['deferred_exprs'])
+
+    def test_all_c05_gate_input_evidence_is_exact(self):
+        generated = ROOT / 'godot-mindustry/src/generated'
+        ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
+        symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
+        for name in ledger['N2116']['source_symbols']:
+            with self.subTest(symbol=name):
+                symbol = symbols[name]
+                self.assertIn(symbol['java_expr'], (ROOT / 'mindustry-upstream' / symbol['java_source']).read_text(encoding='utf-8'))
+                self.assertIn(symbol['godot_owner'], ('SourceFactoryBuildState.source_factory_reinitialize_consumers_state', 'SourceAdjacentFactoryBuildState.source_adjacent_factory_reinitialize_consumers_state', 'SourceFactoryBuildState.source_factory_tick_buildings_state', 'SourceAdjacentFactoryBuildState.source_adjacent_factory_tick_buildings_state'))
+        slice_sources = {
+            'core/src/mindustry/world/Tile.java',
+            'core/src/mindustry/world/Block.java',
+            'core/src/mindustry/entities/comp/BuildingComp.java',
+            'core/src/mindustry/world/consumers/Consume.java',
+            'core/src/mindustry/world/consumers/ConsumeItems.java',
+            'core/src/mindustry/world/consumers/ConsumeLiquid.java',
+            'core/src/mindustry/content/Blocks.java',
+            'core/src/mindustry/world/blocks/production/GenericCrafter.java',
+            'core/src/mindustry/world/blocks/production/Separator.java',
+            'core/src/mindustry/world/modules/ItemModule.java',
+            'core/src/mindustry/world/modules/LiquidModule.java',
+        }
+        upstream = {source: (ROOT / 'mindustry-upstream' / source).read_text(encoding='utf-8') for source in slice_sources}
+        for expr in ledger['N2116']['exact_exprs']:
+            with self.subTest(expr=expr):
+                self.assertTrue(any(expr in text for text in upstream.values()), expr)
+
+    def test_tick_reinitializes_consumers_on_block_replacement(self):
+        factory = FACTORY_STATE.read_text(encoding='utf-8')
+        self.assertIn('static func source_factory_reinitialize_consumers_state(frame: Dictionary, block: Object, catalog: Object, amounts: Dictionary) -> Dictionary:', factory)
+        tick = factory.split('static func source_factory_tick_buildings_state')[1]
+        self.assertIn('source_factory_reinitialize_consumers_state(frame, block, catalog, liquids)', tick)
+        self.assertIn('source_invalidate_consumer_cache_state(block, frame)', factory)
+        self.assertIn('frame["block_id"]', factory)
+        self.assertIn('PORT_GAME_SOURCE_FACTORY_BUILD_REINITIALIZE_CONSUMERS_STATE', factory)
+        adjacent = ADJACENT_STATE.read_text(encoding='utf-8')
+        self.assertIn('static func source_adjacent_factory_reinitialize_consumers_state(frame: Dictionary, block: Object, catalog: Object, amounts: Dictionary) -> Dictionary:', adjacent)
+        adjacent_tick = adjacent.split('static func source_adjacent_factory_tick_buildings_state')[1]
+        self.assertIn('source_adjacent_factory_reinitialize_consumers_state(frame, block, catalog, liquids)', adjacent_tick)
+        self.assertIn('source_invalidate_consumer_cache_state(block, frame)', adjacent)
+        self.assertIn('frame["block_id"]', adjacent)
+        self.assertIn('PORT_GAME_SOURCE_ADJACENT_FACTORY_BUILD_REINITIALIZE_CONSUMERS_STATE', adjacent)
+
+    def test_reference_graph_and_actual_c05_gate(self):
+        godot = shutil.which('Godot_v4.6.2-stable_win64_console.exe') or shutil.which('godot')
+        self.assertIsNotNone(godot)
+        result = subprocess.run([godot, '--headless', '--path', str(ROOT / 'godot-mindustry'), '--scene', 'tools/runtime_proofs/C05GateProof.tscn', '--quit-after', '300'], capture_output=True, text=True, encoding='utf-8', errors='replace', timeout=180)
+        output = result.stdout + result.stderr
+        self.assertEqual(result.returncode, 0, output)
+        self.assertNotIn('ERROR:', output)
+        proofs = [json.loads(line.split(' ', 1)[1]) for line in output.splitlines() if line.startswith('C_05_GATE_PROOF ')]
+        self.assertEqual(len(proofs), 1, output)
+        self.assertTrue(proofs[0]['matches'], proofs[0])
+
+
+if __name__ == '__main__':
+    unittest.main()

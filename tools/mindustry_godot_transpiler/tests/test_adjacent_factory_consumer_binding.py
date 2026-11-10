@@ -67,7 +67,7 @@ class AdjacentFactoryConsumerBindingTests(unittest.TestCase):
         self.assertIn('static func source_bind_consumer_state(frame: Dictionary, block: Object, catalog: Object, amounts: Dictionary) -> Dictionary:', adjacent)
         self.assertIn('static func source_adjacent_factory_tick_buildings_state(game: Object, seconds: float) -> Dictionary:', adjacent)
         tick = adjacent.split('static func source_adjacent_factory_tick_buildings_state')[1]
-        self.assertIn('source_bind_consumer_state(frame, block, catalog, liquids)', tick)
+        self.assertIn('source_adjacent_factory_reinitialize_consumers_state(frame, block, catalog, liquids)', tick)
         self.assertIn('update_consumption_state(', tick)
         self.assertIn('apply_update_consumption_state(', tick)
         self.assertIn('PORT_GAME_SOURCE_ADJACENT_FACTORY_BUILD_BIND_CONSUMER_STATE', adjacent)
