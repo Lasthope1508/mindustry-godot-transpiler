@@ -1,6 +1,6 @@
 # Handoff — GenericCrafter progress + craft() in the live loop (N2117)
 
-Date: 2026-11-10. Batch: N2117 (single slice, hybrid: SSOT slice + registry emitter change). Commit: TBD (main turn commits after the full suite — full suite passed 5562 OK, see Verification).
+Date: 2026-11-10. Batch: N2117 (single slice, hybrid: SSOT slice + registry emitter change). Commit: 4d51531.
 
 ## Done
 
