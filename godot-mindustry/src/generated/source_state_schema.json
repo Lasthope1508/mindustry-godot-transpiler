@@ -222706,6 +222706,104 @@
       },
       "runtime_proof": "/root/FactoryConsumerBindingProof",
       "rule": "Source-backed GenericCrafter family RuntimeConsumer binding."
+    },
+    "source_factory_should_consume_state_input": {
+      "status": "active",
+      "owner": "SourceFactoryBuildState.source_factory_should_consume_state",
+      "source_slice": "N2113",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public final Building newBuilding(){",
+          "rule": "The factory frame (the port Building state) whose held items and enabled flag shouldConsume reads; created at placement (Block.newBuilding).",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_should_consume_state"
+          ]
+        },
+        "block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+          "java_expr": "public class GenericCrafter extends Block{",
+          "rule": "The typed block definition; its outputItems/outputLiquids and capacities are what shouldConsume checks.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_should_consume_state"
+          ]
+        },
+        "liquids": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+          "java_expr": "public float get(Liquid liquid){",
+          "rule": "The building's liquid module the output-liquid check reads (LiquidModule.get).",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_should_consume_state"
+          ]
+        },
+        "liquid_ids": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+          "java_expr": "private float[] liquids = new float[content.liquids().size];",
+          "rule": "The catalog name-to-id map for the output liquids: the liquid module is an id-indexed array, so output liquid names resolve to ids through it.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/FactoryShouldConsumeProof",
+      "rule": "Source-backed GenericCrafterBuild.shouldConsume() output-space checks."
+    },
+    "source_factory_should_consume_state_result": {
+      "status": "active",
+      "owner": "SourceFactoryBuildState.source_factory_should_consume_state",
+      "source_slice": "N2113",
+      "keys": {
+        "should_consume": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+          "java_expr": "public boolean shouldConsume(){",
+          "rule": "Whether the build may consume this tick: its outputs have room and it is enabled.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_should_consume_state"
+          ]
+        },
+        "item_blocked": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+          "java_expr": "if(items.get(output.item) + output.amount > itemCapacity){",
+          "rule": "Whether an output item is blocked: the held stack plus one output would exceed itemCapacity.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_should_consume_state"
+          ]
+        },
+        "liquid_blocked": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+          "java_expr": "if(liquids.get(output.liquid) >= liquidCapacity - 0.001f){",
+          "rule": "Whether an output liquid blocks: a held output liquid reaches liquidCapacity - 0.001f without dumpExtraLiquid, or every output liquid is full.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_should_consume_state"
+          ]
+        },
+        "all_liquids_full": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+          "java_expr": "boolean allFull = true;",
+          "rule": "Whether every output liquid is at liquidCapacity - 0.001f: with no space left for any liquid, the block cannot reproduce.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/FactoryShouldConsumeProof",
+      "rule": "Source-backed GenericCrafterBuild.shouldConsume() output-space checks."
     }
   },
   "version": 1

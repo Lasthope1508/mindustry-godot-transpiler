@@ -53650,6 +53650,56 @@
         "Wiring the remaining factory-adjacent families (Separator, Incinerator, WallCrafter, SingleBlockProducer -- Block/BlockProducer builds, not GenericCrafterBuild) to the live cheating value is a later slice.",
         "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2113": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+      "java_class": "mindustry.world.blocks.production.GenericCrafter.GenericCrafterBuild",
+      "java_method": "GenericCrafterBuild.shouldConsume()",
+      "godot_owner": "SourceFactoryBuildState.source_factory_should_consume_state",
+      "exact_exprs": [
+        "public class GenericCrafter extends Block{",
+        "public class GenericCrafterBuild extends Building{",
+        "public boolean shouldConsume(){",
+        "if(items.get(output.item) + output.amount > itemCapacity){",
+        "if(outputLiquids != null && !ignoreLiquidFullness){",
+        "boolean allFull = true;",
+        "if(liquids.get(output.liquid) >= liquidCapacity - 0.001f){",
+        "if(!dumpExtraLiquid){",
+        "if(allFull){",
+        "return enabled;",
+        "if(outputItems == null && outputItem != null){",
+        "outputItems = new ItemStack[]{outputItem};",
+        "if(outputLiquids == null && outputLiquid != null){",
+        "outputLiquids = new LiquidStack[]{outputLiquid};",
+        "public float liquidCapacity = -1f;",
+        "liquidCapacity = Mathf.round(10f * consumeAmount);",
+        "public int itemCapacity = 10;",
+        "public boolean dumpExtraLiquid = true;",
+        "public boolean ignoreLiquidFullness = false;"
+      ],
+      "source_symbols": [
+        "source_factory_should_consume_state_input.block",
+        "source_factory_should_consume_state_input.frame",
+        "source_factory_should_consume_state_input.liquid_ids",
+        "source_factory_should_consume_state_input.liquids",
+        "source_factory_should_consume_state_result.all_liquids_full",
+        "source_factory_should_consume_state_result.item_blocked",
+        "source_factory_should_consume_state_result.liquid_blocked",
+        "source_factory_should_consume_state_result.should_consume"
+      ],
+      "tests": [
+        "test_factory_should_consume_registration",
+        "test_all_factory_should_consume_input_evidence_is_exact",
+        "test_should_consume_reads_output_space",
+        "test_reference_graph_and_actual_factory_should_consume"
+      ],
+      "runtime_proof": "/root/FactoryShouldConsumeProof",
+      "deferred_exprs": [
+        "The craft/progress slice owns ConsumeItems.trigger at craft() (GenericCrafter.java:301-303); shouldConsume only gates the start of a craft.",
+        "Wiring the remaining factory-adjacent families (Separator, Incinerator, WallCrafter, SingleBlockProducer -- Block/BlockProducer builds, not GenericCrafterBuild) to the live cheating value is a later slice.",
+        "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1

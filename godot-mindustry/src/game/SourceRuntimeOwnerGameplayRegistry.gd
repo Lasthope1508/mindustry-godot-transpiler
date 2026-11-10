@@ -49,6 +49,7 @@ const PORT_GAME_SOURCE_FACTORY_SIMULATION_RUNTIME_STATE := "port_game.source_fac
 const PORT_GAME_SOURCE_FACTORY_SIMULATION_APPLY_STATE := "port_game.source_factory_simulation_apply_state"
 const PORT_GAME_SOURCE_FACTORY_BUILD_UPDATE_CONSUMPTION_STATE := "port_game.source_factory_build_update_consumption_state"
 const PORT_GAME_SOURCE_FACTORY_BUILD_BIND_CONSUMER_STATE := "port_game.source_factory_build_bind_consumer_state"
+const PORT_GAME_SOURCE_FACTORY_BUILD_SHOULD_CONSUME_STATE := "port_game.source_factory_build_should_consume_state"
 const PORT_GAME_SOURCE_CHILD_ADD_STATE := "port_game.source_child_add_state"
 const PORT_GAME_SOURCE_CHILD_UPDATE_STATE := "port_game.source_child_update_state"
 const PORT_GAME_SOURCE_SHOOT_PATTERN_DEFAULT_EVENTS := "port_game.source_shoot_pattern_default_events"

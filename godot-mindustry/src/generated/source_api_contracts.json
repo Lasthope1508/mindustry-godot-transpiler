@@ -62079,15 +62079,19 @@
       "tests": [
         "test_all_factory_consumer_binding_input_evidence_is_exact",
         "test_all_factory_live_loop_input_evidence_is_exact",
+        "test_all_factory_should_consume_input_evidence_is_exact",
         "test_factory_consumer_binding_registration",
         "test_factory_live_loop_registration",
+        "test_factory_should_consume_registration",
         "test_reference_graph_and_actual_factory_consumer_binding",
         "test_reference_graph_and_actual_factory_live_loop",
+        "test_reference_graph_and_actual_factory_should_consume",
+        "test_should_consume_reads_output_space",
         "test_tick_binds_runtime_consumers_for_factory",
         "test_tick_wires_frame_and_driver_runs_from_live_loop"
       ],
       "runtime_proof": "/root/FactoryLiveLoopProof",
-      "rule": "Source-backed factory family live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live rules every simulate_factory tick, so a cheating team's factory counts everything as valid in updateConsumption, and the tick binds one RuntimeConsumer per consumeItem/consumeLiquid row and runs the bound actors through updateConsumption so the placed factory consumes its liquid rows each tick and gates efficiency on its item rows."
+      "rule": "Source-backed factory family live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live rules every simulate_factory tick, so a cheating team's factory counts everything as valid in updateConsumption, and the tick binds one RuntimeConsumer per consumeItem/consumeLiquid row and runs the bound actors through updateConsumption so the placed factory consumes its liquid rows each tick and gates efficiency on its item rows, with shouldConsume() read live from the output space every tick so a factory with a full output ticks at efficiency 0."
     },
     "SourceUnitFactoryBuildState.source_unit_factory_tick_frame_state": {
       "status": "active",
@@ -62407,6 +62411,49 @@
       ],
       "runtime_proof": "/root/FactoryConsumerBindingProof",
       "rule": "Source-backed GenericCrafter family RuntimeConsumer binding; the tick binds one RuntimeConsumer per consumeItem/consumeLiquid row and runs the bound actors through updateConsumption, so the placed factory consumes its liquid rows each tick and gates efficiency on its item rows."
+    },
+    "SourceFactoryBuildState.source_factory_should_consume_state": {
+      "status": "active",
+      "source_slice": "N2113",
+      "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+      "source_method": "GenericCrafterBuild.shouldConsume()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_factory_should_consume_state_input.frame"
+        },
+        {
+          "name": "block",
+          "type": "Object",
+          "schema": "source_factory_should_consume_state_input.block"
+        },
+        {
+          "name": "liquids",
+          "type": "Dictionary",
+          "schema": "source_factory_should_consume_state_input.liquids"
+        },
+        {
+          "name": "liquid_ids",
+          "type": "Dictionary",
+          "schema": "source_factory_should_consume_state_input.liquid_ids"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "should_consume",
+        "item_blocked",
+        "liquid_blocked",
+        "all_liquids_full"
+      ],
+      "tests": [
+        "test_factory_should_consume_registration",
+        "test_all_factory_should_consume_input_evidence_is_exact",
+        "test_should_consume_reads_output_space",
+        "test_reference_graph_and_actual_factory_should_consume"
+      ],
+      "runtime_proof": "/root/FactoryShouldConsumeProof",
+      "rule": "Source-backed GenericCrafterBuild.shouldConsume(): an output item blocks when the held stack plus one output would exceed itemCapacity, an output liquid blocks when held at liquidCapacity - 0.001f without dumpExtraLiquid (or when every output liquid is full), unless ignoreLiquidFullness skips the liquid check; otherwise the build consumes when enabled."
     }
   },
   "policy": {

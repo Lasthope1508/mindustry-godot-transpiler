@@ -474,6 +474,92 @@ public class Blocks{
         )
 
 
+    def test_block_registry_captures_generic_crafter_outputs_and_liquid_capacity(self):
+        # N2113: GenericCrafterBuild.shouldConsume() (GenericCrafter.java:203)
+        # reads the block's outputItems/outputLiquids against itemCapacity /
+        # liquidCapacity, so the registry captures them: the singular
+        # outputItem/outputLiquid (written to the plural arrays by
+        # GenericCrafter.init(), GenericCrafter.java:120-124), the
+        # LiquidStack.with(...) plural form, and liquidCapacity -- the
+        # initializer's own assignment (last wins, e.g. `80f * 5`), else
+        # Block.init()'s computed default (Block.java:1407-1418:
+        # round(10 * consumeAmount)). A commented-out //outputItem must
+        # not resolve (slag-centrifuge's scrap line).
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source = root / "upstream" / "core" / "src" / "mindustry" / "content"
+            source.mkdir(parents=True)
+            self._write_block_base(root)
+            (source / "Items.java").write_text(
+                """
+package mindustry.content;
+public class Items{
+    public static Item silicon, titanium;
+    public static void load(){
+        silicon = new Item("silicon", Color.valueOf("a6aeb5"));
+        titanium = new Item("titanium", Color.valueOf("a6aeb5"));
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            (source / "Liquids.java").write_text(
+                """
+package mindustry.content;
+public class Liquids{
+    public static Liquid water, cryofluid, ozone, hydrogen;
+    public static void load(){
+        water = new Liquid("water", Color.valueOf("596ab8"));
+        cryofluid = new Liquid("cryofluid", Color.valueOf("596ab8"));
+        ozone = new Liquid("ozone", Color.valueOf("eb7abe"));
+        hydrogen = new Liquid("hydrogen", Color.valueOf("596ab8"));
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            (source / "Blocks.java").write_text(
+                """
+package mindustry.content;
+public class Blocks{
+    public static Block smelter, mixer, electrolyzer;
+    public static void load(){
+        smelter = new GenericCrafter("smelter"){{
+            requirements(Category.crafting, with(Items.silicon, 1));
+            outputItem = new ItemStack(Items.silicon, 1);
+            consumeLiquid(Liquids.water, 0.2f);
+        }};
+        mixer = new GenericCrafter("mixer"){{
+            requirements(Category.crafting, with(Items.titanium, 1));
+            outputLiquid = new LiquidStack(Liquids.cryofluid, 12f / 60f);
+            liquidCapacity = 36f;
+        }};
+        electrolyzer = new GenericCrafter("electrolyzer"){{
+            requirements(Category.crafting, with(Items.titanium, 1));
+            outputLiquids = LiquidStack.with(Liquids.ozone, 4f / 60, Liquids.hydrogen, 6f / 60);
+            liquidCapacity = 50f;
+            //outputItem = new ItemStack(Items.silicon, 1);
+        }};
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            registry = build_content_registry(root / "upstream", root / "godot")
+
+        by_id = {block["id"]: block for block in registry["blocks"]}
+        self.assertEqual(by_id["smelter"]["properties"].get("outputItems"), [{"item": "silicon", "amount": 1}])
+        self.assertEqual(by_id["smelter"]["properties"].get("liquidCapacity"), 120.0)
+        self.assertEqual(by_id["mixer"]["properties"].get("outputLiquids"), [{"liquid": "cryofluid", "amount": 12 / 60}])
+        self.assertEqual(by_id["mixer"]["properties"].get("liquidCapacity"), 36.0)
+        self.assertEqual(
+            by_id["electrolyzer"]["properties"].get("outputLiquids"),
+            [{"liquid": "ozone", "amount": 4 / 60}, {"liquid": "hydrogen", "amount": 6 / 60}],
+        )
+        self.assertEqual(by_id["electrolyzer"]["properties"].get("liquidCapacity"), 50.0)
+        self.assertNotIn("outputItems", by_id["electrolyzer"]["properties"])
+
     def test_block_registry_extracts_overdrive_projector_source_params(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

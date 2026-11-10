@@ -166188,6 +166188,134 @@
         "test_reference_graph_and_actual_factory_consumer_binding"
       ],
       "runtime_proof": "/root/FactoryConsumerBindingProof"
+    },
+    "source_factory_should_consume_state_input.frame": {
+      "status": "source-backed",
+      "godot_owner": "SourceFactoryBuildState.source_factory_should_consume_state",
+      "godot_symbol": "source_factory_should_consume_state_input.frame",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "GenericCrafterBuild.shouldConsume()",
+      "java_expr": "public final Building newBuilding(){",
+      "rule": "The factory frame (the port Building state) whose held items and enabled flag shouldConsume reads; created at placement (Block.newBuilding).",
+      "tests": [
+        "test_factory_should_consume_registration",
+        "test_all_factory_should_consume_input_evidence_is_exact",
+        "test_should_consume_reads_output_space",
+        "test_reference_graph_and_actual_factory_should_consume"
+      ],
+      "runtime_proof": "/root/FactoryShouldConsumeProof"
+    },
+    "source_factory_should_consume_state_input.block": {
+      "status": "source-backed",
+      "godot_owner": "SourceFactoryBuildState.source_factory_should_consume_state",
+      "godot_symbol": "source_factory_should_consume_state_input.block",
+      "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+      "java_method": "GenericCrafterBuild.shouldConsume()",
+      "java_expr": "public class GenericCrafter extends Block{",
+      "rule": "The typed block definition; its outputItems/outputLiquids and capacities are what shouldConsume checks.",
+      "tests": [
+        "test_factory_should_consume_registration",
+        "test_all_factory_should_consume_input_evidence_is_exact",
+        "test_should_consume_reads_output_space",
+        "test_reference_graph_and_actual_factory_should_consume"
+      ],
+      "runtime_proof": "/root/FactoryShouldConsumeProof"
+    },
+    "source_factory_should_consume_state_input.liquids": {
+      "status": "source-backed",
+      "godot_owner": "SourceFactoryBuildState.source_factory_should_consume_state",
+      "godot_symbol": "source_factory_should_consume_state_input.liquids",
+      "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+      "java_method": "GenericCrafterBuild.shouldConsume()",
+      "java_expr": "public float get(Liquid liquid){",
+      "rule": "The building's liquid module the output-liquid check reads (LiquidModule.get).",
+      "tests": [
+        "test_factory_should_consume_registration",
+        "test_all_factory_should_consume_input_evidence_is_exact",
+        "test_should_consume_reads_output_space",
+        "test_reference_graph_and_actual_factory_should_consume"
+      ],
+      "runtime_proof": "/root/FactoryShouldConsumeProof"
+    },
+    "source_factory_should_consume_state_input.liquid_ids": {
+      "status": "source-backed",
+      "godot_owner": "SourceFactoryBuildState.source_factory_should_consume_state",
+      "godot_symbol": "source_factory_should_consume_state_input.liquid_ids",
+      "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+      "java_method": "GenericCrafterBuild.shouldConsume()",
+      "java_expr": "private float[] liquids = new float[content.liquids().size];",
+      "rule": "The catalog name-to-id map for the output liquids: the liquid module is an id-indexed array, so output liquid names resolve to ids through it.",
+      "tests": [
+        "test_factory_should_consume_registration",
+        "test_all_factory_should_consume_input_evidence_is_exact",
+        "test_should_consume_reads_output_space",
+        "test_reference_graph_and_actual_factory_should_consume"
+      ],
+      "runtime_proof": "/root/FactoryShouldConsumeProof"
+    },
+    "source_factory_should_consume_state_result.should_consume": {
+      "status": "source-backed",
+      "godot_owner": "SourceFactoryBuildState.source_factory_should_consume_state",
+      "godot_symbol": "source_factory_should_consume_state_result.should_consume",
+      "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+      "java_method": "GenericCrafterBuild.shouldConsume()",
+      "java_expr": "public boolean shouldConsume(){",
+      "rule": "Whether the build may consume this tick: its outputs have room and it is enabled.",
+      "tests": [
+        "test_factory_should_consume_registration",
+        "test_all_factory_should_consume_input_evidence_is_exact",
+        "test_should_consume_reads_output_space",
+        "test_reference_graph_and_actual_factory_should_consume"
+      ],
+      "runtime_proof": "/root/FactoryShouldConsumeProof"
+    },
+    "source_factory_should_consume_state_result.item_blocked": {
+      "status": "source-backed",
+      "godot_owner": "SourceFactoryBuildState.source_factory_should_consume_state",
+      "godot_symbol": "source_factory_should_consume_state_result.item_blocked",
+      "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+      "java_method": "GenericCrafterBuild.shouldConsume()",
+      "java_expr": "if(items.get(output.item) + output.amount > itemCapacity){",
+      "rule": "Whether an output item is blocked: the held stack plus one output would exceed itemCapacity.",
+      "tests": [
+        "test_factory_should_consume_registration",
+        "test_all_factory_should_consume_input_evidence_is_exact",
+        "test_should_consume_reads_output_space",
+        "test_reference_graph_and_actual_factory_should_consume"
+      ],
+      "runtime_proof": "/root/FactoryShouldConsumeProof"
+    },
+    "source_factory_should_consume_state_result.liquid_blocked": {
+      "status": "source-backed",
+      "godot_owner": "SourceFactoryBuildState.source_factory_should_consume_state",
+      "godot_symbol": "source_factory_should_consume_state_result.liquid_blocked",
+      "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+      "java_method": "GenericCrafterBuild.shouldConsume()",
+      "java_expr": "if(liquids.get(output.liquid) >= liquidCapacity - 0.001f){",
+      "rule": "Whether an output liquid blocks: a held output liquid reaches liquidCapacity - 0.001f without dumpExtraLiquid, or every output liquid is full.",
+      "tests": [
+        "test_factory_should_consume_registration",
+        "test_all_factory_should_consume_input_evidence_is_exact",
+        "test_should_consume_reads_output_space",
+        "test_reference_graph_and_actual_factory_should_consume"
+      ],
+      "runtime_proof": "/root/FactoryShouldConsumeProof"
+    },
+    "source_factory_should_consume_state_result.all_liquids_full": {
+      "status": "source-backed",
+      "godot_owner": "SourceFactoryBuildState.source_factory_should_consume_state",
+      "godot_symbol": "source_factory_should_consume_state_result.all_liquids_full",
+      "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+      "java_method": "GenericCrafterBuild.shouldConsume()",
+      "java_expr": "boolean allFull = true;",
+      "rule": "Whether every output liquid is at liquidCapacity - 0.001f: with no space left for any liquid, the block cannot reproduce.",
+      "tests": [
+        "test_factory_should_consume_registration",
+        "test_all_factory_should_consume_input_evidence_is_exact",
+        "test_should_consume_reads_output_space",
+        "test_reference_graph_and_actual_factory_should_consume"
+      ],
+      "runtime_proof": "/root/FactoryShouldConsumeProof"
     }
   },
   "version": 1

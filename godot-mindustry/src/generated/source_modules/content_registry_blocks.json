@@ -398,6 +398,13 @@
         "hasPower": true,
         "itemCapacity": 0,
         "itemDrop": null,
+        "liquidCapacity": 60.0,
+        "outputLiquids": [
+          {
+            "amount": 0.26666666666666666,
+            "liquid": "nitrogen"
+          }
+        ],
         "outputsPower": false,
         "powerBuffered": false,
         "powerCapacity": 0.0,
@@ -886,6 +893,13 @@
         "hasPower": true,
         "itemCapacity": 10,
         "itemDrop": null,
+        "liquidCapacity": 10.0,
+        "outputItems": [
+          {
+            "amount": 1,
+            "item": "blast-compound"
+          }
+        ],
         "outputsPower": false,
         "powerBuffered": false,
         "powerCapacity": 0.0,
@@ -1177,6 +1191,13 @@
         "hasPower": true,
         "itemCapacity": 20,
         "itemDrop": null,
+        "liquidCapacity": 10.0,
+        "outputItems": [
+          {
+            "amount": 1,
+            "item": "carbide"
+          }
+        ],
         "outputsPower": false,
         "powerBuffered": false,
         "powerCapacity": 0.0,
@@ -1466,6 +1487,13 @@
         "hasPower": true,
         "itemCapacity": 10,
         "itemDrop": null,
+        "liquidCapacity": 60.0,
+        "outputItems": [
+          {
+            "amount": 1,
+            "item": "coal"
+          }
+        ],
         "outputsPower": false,
         "powerBuffered": false,
         "powerCapacity": 0.0,
@@ -1990,6 +2018,13 @@
         "hasPower": true,
         "itemCapacity": 10,
         "itemDrop": null,
+        "liquidCapacity": 36.0,
+        "outputLiquids": [
+          {
+            "amount": 0.2,
+            "liquid": "cryofluid"
+          }
+        ],
         "outputsPower": false,
         "powerBuffered": false,
         "powerCapacity": 0.0,
@@ -2163,6 +2198,13 @@
         "hasPower": true,
         "itemCapacity": 10,
         "itemDrop": null,
+        "liquidCapacity": 80.0,
+        "outputItems": [
+          {
+            "amount": 1,
+            "item": "spore-pod"
+          }
+        ],
         "outputsPower": false,
         "powerBuffered": false,
         "powerCapacity": 0.0,
@@ -2211,6 +2253,13 @@
         "consumesPower": true,
         "hasPower": true,
         "itemDrop": null,
+        "liquidCapacity": 80.0,
+        "outputLiquids": [
+          {
+            "amount": 0.2,
+            "liquid": "cyanogen"
+          }
+        ],
         "outputsPower": false,
         "powerBuffered": false,
         "powerCapacity": 0.0,
@@ -3190,6 +3239,7 @@
         "hasPower": true,
         "itemCapacity": 0,
         "itemDrop": null,
+        "liquidCapacity": 10.0,
         "outputsPower": false,
         "powerBuffered": false,
         "powerCapacity": 0.0,
@@ -3234,6 +3284,17 @@
         "hasPower": true,
         "itemCapacity": 0,
         "itemDrop": null,
+        "liquidCapacity": 50.0,
+        "outputLiquids": [
+          {
+            "amount": 0.06666666666666667,
+            "liquid": "ozone"
+          },
+          {
+            "amount": 0.1,
+            "liquid": "hydrogen"
+          }
+        ],
         "outputsPower": false,
         "powerBuffered": false,
         "powerCapacity": 0.0,
@@ -3672,6 +3733,13 @@
         "hasPower": true,
         "itemCapacity": 10,
         "itemDrop": null,
+        "liquidCapacity": 10.0,
+        "outputItems": [
+          {
+            "amount": 1,
+            "item": "graphite"
+          }
+        ],
         "outputsPower": false,
         "requirements": [
           {
@@ -3821,6 +3889,13 @@
         "hasPower": true,
         "itemCapacity": 20,
         "itemDrop": null,
+        "liquidCapacity": 10.0,
+        "outputItems": [
+          {
+            "amount": 1,
+            "item": "fissile-matter"
+          }
+        ],
         "outputsPower": false,
         "requirements": [
           {
@@ -3914,6 +3989,7 @@
         "hasPower": true,
         "itemCapacity": 0,
         "itemDrop": null,
+        "liquidCapacity": 10.0,
         "outputsPower": false,
         "size": 1
       },
@@ -4426,6 +4502,13 @@
         "hasPower": true,
         "itemCapacity": 10,
         "itemDrop": null,
+        "liquidCapacity": 10.0,
+        "outputItems": [
+          {
+            "amount": 1,
+            "item": "metaglass"
+          }
+        ],
         "outputsPower": false,
         "powerBuffered": false,
         "powerCapacity": 0.0,
@@ -5572,6 +5655,13 @@
         "health": 200,
         "itemCapacity": 10,
         "itemDrop": null,
+        "liquidCapacity": 10.0,
+        "outputLiquids": [
+          {
+            "amount": 0.2,
+            "liquid": "slag"
+          }
+        ],
         "outputsPower": false,
         "powerBuffered": false,
         "powerCapacity": 0.0,
@@ -6269,6 +6359,13 @@
         "hasPower": true,
         "itemCapacity": 20,
         "itemDrop": null,
+        "liquidCapacity": 60.0,
+        "outputItems": [
+          {
+            "amount": 2,
+            "item": "graphite"
+          }
+        ],
         "outputsPower": false,
         "powerBuffered": false,
         "powerCapacity": 0.0,
@@ -6933,6 +7030,13 @@
         "consumesPower": true,
         "hasPower": true,
         "itemDrop": null,
+        "liquidCapacity": 30.0,
+        "outputItems": [
+          {
+            "amount": 1,
+            "item": "oxide"
+          }
+        ],
         "outputsPower": false,
         "powerBuffered": false,
         "powerCapacity": 0.0,
@@ -7322,6 +7426,7 @@
         "consumesPower": true,
         "hasPower": true,
         "itemDrop": null,
+        "liquidCapacity": 10.0,
         "outputsPower": false,
         "requirements": [
           {
@@ -7372,6 +7477,13 @@
         "hasPower": true,
         "itemCapacity": 40,
         "itemDrop": null,
+        "liquidCapacity": 40.0,
+        "outputItems": [
+          {
+            "amount": 1,
+            "item": "phase-fabric"
+          }
+        ],
         "outputsPower": false,
         "powerBuffered": false,
         "powerCapacity": 0.0,
@@ -7466,6 +7578,13 @@
         "hasPower": true,
         "itemCapacity": 30,
         "itemDrop": null,
+        "liquidCapacity": 10.0,
+        "outputItems": [
+          {
+            "amount": 1,
+            "item": "phase-fabric"
+          }
+        ],
         "outputsPower": false,
         "powerBuffered": false,
         "powerCapacity": 0.0,
@@ -7575,6 +7694,13 @@
         "health": 320,
         "itemCapacity": 10,
         "itemDrop": null,
+        "liquidCapacity": 60.0,
+        "outputItems": [
+          {
+            "amount": 1,
+            "item": "plastanium"
+          }
+        ],
         "outputsPower": false,
         "powerBuffered": false,
         "powerCapacity": 0.0,
@@ -7978,6 +8104,13 @@
         "hasPower": true,
         "itemCapacity": 10,
         "itemDrop": null,
+        "liquidCapacity": 10.0,
+        "outputItems": [
+          {
+            "amount": 1,
+            "item": "sand"
+          }
+        ],
         "outputsPower": false,
         "powerBuffered": false,
         "powerCapacity": 0.0,
@@ -8042,6 +8175,13 @@
         "hasPower": true,
         "itemCapacity": 10,
         "itemDrop": null,
+        "liquidCapacity": 10.0,
+        "outputItems": [
+          {
+            "amount": 1,
+            "item": "pyratite"
+          }
+        ],
         "outputsPower": false,
         "powerBuffered": false,
         "powerCapacity": 0.0,
@@ -10019,6 +10159,13 @@
         "hasPower": true,
         "itemCapacity": 30,
         "itemDrop": null,
+        "liquidCapacity": 10.0,
+        "outputItems": [
+          {
+            "amount": 4,
+            "item": "silicon"
+          }
+        ],
         "outputsPower": false,
         "powerBuffered": false,
         "powerCapacity": 0.0,
@@ -10067,6 +10214,13 @@
         "hasPower": true,
         "itemCapacity": 30,
         "itemDrop": null,
+        "liquidCapacity": 10.0,
+        "outputItems": [
+          {
+            "amount": 8,
+            "item": "silicon"
+          }
+        ],
         "outputsPower": false,
         "powerBuffered": false,
         "powerCapacity": 0.0,
@@ -10120,6 +10274,13 @@
         "hasPower": true,
         "itemCapacity": 10,
         "itemDrop": null,
+        "liquidCapacity": 10.0,
+        "outputItems": [
+          {
+            "amount": 1,
+            "item": "silicon"
+          }
+        ],
         "outputsPower": false,
         "powerBuffered": false,
         "powerCapacity": 0.0,
@@ -10166,6 +10327,13 @@
         "hasPower": true,
         "itemCapacity": 10,
         "itemDrop": null,
+        "liquidCapacity": 80.0,
+        "outputLiquids": [
+          {
+            "amount": 0.016666666666666666,
+            "liquid": "gallium"
+          }
+        ],
         "outputsPower": false,
         "powerBuffered": false,
         "powerCapacity": 0.0,
@@ -10212,6 +10380,7 @@
         "hasPower": true,
         "itemCapacity": 0,
         "itemDrop": null,
+        "liquidCapacity": 120.0,
         "outputsPower": false,
         "requirements": [
           {
@@ -10746,6 +10915,13 @@
         "health": 320,
         "itemCapacity": 10,
         "itemDrop": null,
+        "liquidCapacity": 60.0,
+        "outputLiquids": [
+          {
+            "amount": 0.3,
+            "liquid": "oil"
+          }
+        ],
         "outputsPower": false,
         "powerBuffered": false,
         "powerCapacity": 0.0,
@@ -10994,6 +11170,13 @@
         "hasPower": true,
         "itemCapacity": 20,
         "itemDrop": null,
+        "liquidCapacity": 400.0,
+        "outputItems": [
+          {
+            "amount": 1,
+            "item": "surge-alloy"
+          }
+        ],
         "outputsPower": false,
         "powerBuffered": false,
         "powerCapacity": 0.0,
@@ -11087,6 +11270,13 @@
         "hasPower": true,
         "itemCapacity": 20,
         "itemDrop": null,
+        "liquidCapacity": 10.0,
+        "outputItems": [
+          {
+            "amount": 1,
+            "item": "surge-alloy"
+          }
+        ],
         "outputsPower": false,
         "powerBuffered": false,
         "powerCapacity": 0.0,
@@ -12209,6 +12399,13 @@
         "hasPower": true,
         "itemCapacity": 0,
         "itemDrop": null,
+        "liquidCapacity": 60.0,
+        "outputLiquids": [
+          {
+            "amount": 0.5,
+            "liquid": "water"
+          }
+        ],
         "outputsPower": false,
         "powerBuffered": false,
         "powerCapacity": 0.0,

@@ -513,6 +513,20 @@ def _block_properties(source: str, assignment_end: int, implementation: str = ""
                     properties["consumeLiquid"] = [{"liquid": liquid, "amount": liquid_consumed} for liquid in turret_ammo]
     if implementation == "ItemTurret":
         _apply_item_turret_ammo_defaults(properties, initializer)
+    if implementation in ("GenericCrafter", "AttributeCrafter", "HeatCrafter", "HeatProducer"):
+        output_items = _crafter_output_items(initializer)
+        if output_items:
+            properties["outputItems"] = output_items
+        output_liquids = _crafter_output_liquids(initializer)
+        if output_liquids:
+            properties["outputLiquids"] = output_liquids
+        liquid_capacity = _crafter_liquid_capacity(initializer, liquid_consumers)
+        if liquid_capacity is not None:
+            properties["liquidCapacity"] = liquid_capacity
+        for key in ("ignoreLiquidFullness", "dumpExtraLiquid"):
+            flag = _boolean_assignment(initializer, key)
+            if flag is not None:
+                properties[key] = flag
     return properties
 
 def _consume_liquid_descriptors(initializer: str, field_values: dict[str, int | float] | None = None) -> list[dict[str, Any]] | None:
@@ -750,6 +764,115 @@ def _consume_item_descriptors(initializer: str) -> list[dict[str, Any]] | None:
         return result
     except (ValueError, TypeError, StopIteration, ZeroDivisionError, javalang.parser.JavaSyntaxError, javalang.tokenizer.LexerError):
         return None
+
+
+def _strip_java_comments(source: str) -> str:
+    """Remove // line comments and /* */ block comments. Blocks.java
+    carries commented-out assignments (slag-centrifuge's //outputItem
+    for scrap) which must not resolve as an output."""
+    source = re.sub(r'/\*.*?\*/', '', source, flags=re.S)
+    return re.sub(r'//[^\n]*', '', source)
+
+
+def _numeric_expression_node(node) -> int | float | None:
+    """Value of a literal numeric expression of * and / (e.g. `12f / 60f`,
+    `80f * 5`); None when the node is not such an expression."""
+    if isinstance(node, Literal):
+        value = _number_literal(node.value)
+        for operator in reversed(node.prefix_operators or []):
+            if operator not in ('+', '-'):
+                return None
+            value = -value if operator == '-' else value
+        return value
+    if isinstance(node, javalang.tree.BinaryOperation) and node.operator in ('*', '/'):
+        left = _numeric_expression_node(node.operandl)
+        right = _numeric_expression_node(node.operandr)
+        if left is None or right is None:
+            return None
+        if node.operator == '*':
+            return left * right
+        if right == 0:
+            return None
+        return left / right
+    return None
+
+
+def _numeric_expression_value(text: str) -> int | float | None:
+    """Evaluate a literal numeric expression of * and /; None when the
+    text is not such an expression."""
+    try:
+        return _numeric_expression_node(javalang.parse.parse_expression(text.strip()))
+    except (javalang.parser.JavaSyntaxError, javalang.tokenizer.LexerError):
+        return None
+
+
+def _crafter_output_items(initializer: str) -> list[dict[str, Any]] | None:
+    """GenericCrafter outputItems from `outputItem = new ItemStack(...)`
+    (the singular, written to outputItems as a single-element array by
+    GenericCrafter.init(), GenericCrafter.java:120-121) or an
+    `outputItems = ...` array; None when the block sets no output item."""
+    code = _strip_java_comments(initializer)
+    assignments = re.findall(r'\boutputItems?\s*=\s*(.*?);', code, re.S)
+    if not assignments:
+        return None
+    stacks = []
+    for item, amount in re.findall(r'new\s+ItemStack\s*\(\s*Items\.([A-Za-z_]\w*)\s*,\s*([^)]+)\)', assignments[-1]):
+        value = _numeric_expression_value(amount)
+        if value is None:
+            return None
+        stacks.append({'item': _camel_to_kebab(item), 'amount': int(value)})
+    return stacks or None
+
+
+def _crafter_output_liquids(initializer: str) -> list[dict[str, Any]] | None:
+    """GenericCrafter outputLiquids from `outputLiquid = new
+    LiquidStack(...)` (singular, GenericCrafter.java:123-124) or
+    `outputLiquids = LiquidStack.with(...)` (electrolyzer's ozone +
+    hydrogen pair); None when the block sets no output liquid."""
+    code = _strip_java_comments(initializer)
+    assignments = re.findall(r'\boutputLiquids?\s*=\s*(.*?);', code, re.S)
+    if not assignments:
+        return None
+    rhs = assignments[-1]
+    stacks = []
+    for liquid, amount in re.findall(r'new\s+LiquidStack\s*\(\s*Liquids\.([A-Za-z_]\w*)\s*,\s*([^)]+)\)', rhs):
+        value = _numeric_expression_value(amount)
+        if value is None:
+            return None
+        stacks.append({'liquid': liquid, 'amount': float(value)})
+    if not stacks:
+        with_match = re.search(r'LiquidStack\.with\s*\((.*)\)', rhs, re.S)
+        if with_match:
+            pairs = re.findall(r'Liquids\.([A-Za-z_]\w*)\s*,\s*([^,)]+)', with_match.group(1))
+            if not pairs or len(pairs) != len(re.findall(r'Liquids\.', with_match.group(1))):
+                return None
+            for liquid, amount in pairs:
+                value = _numeric_expression_value(amount)
+                if value is None:
+                    return None
+                stacks.append({'liquid': liquid, 'amount': float(value)})
+    return stacks or None
+
+
+def _crafter_liquid_capacity(initializer: str, liquid_consumers: list[dict[str, Any]] | None) -> float | None:
+    """Block.liquidCapacity for a GenericCrafter-family block: the
+    initializer's own assignment (last wins, e.g. surge-crucible's
+    `80f * 5`), else Block.init()'s computed default
+    (Block.java:1407-1418: Mathf.round(10f * consumeAmount), where
+    consumeAmount is 1f, or the largest consumeLiquid amount * 60f).
+    None when neither resolves (an unresolved consumeLiquid list
+    leaves the capacity unresolved rather than guessed)."""
+    code = _strip_java_comments(initializer)
+    assignments = re.findall(r'\bliquidCapacity\s*=\s*([^;]+);', code)
+    if assignments:
+        value = _numeric_expression_value(assignments[-1])
+        return float(value) if value is not None else None
+    if liquid_consumers is None:
+        return None
+    consume_amount = 1.0
+    for row in liquid_consumers:
+        consume_amount = max(consume_amount, float(row.get('amount', 0.0)) * 60.0)
+    return float(round(10.0 * consume_amount))
 
 
 def _apply_item_turret_ammo_defaults(properties: dict[str, Any], initializer: str) -> None:

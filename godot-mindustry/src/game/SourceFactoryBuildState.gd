@@ -10,6 +10,7 @@ const source_consume_item_state := preload("res://src/game/SourceConsumeItemsSta
 const source_consume_liquid_state := preload("res://src/game/SourceConsumeLiquidState.gd")
 const source_consume_state := preload("res://src/game/SourceConsumeState.gd")
 const source_building_access_state := preload("res://src/game/SourceBuildingAccessState.gd")
+const source_content_registry_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
 const source_time_defaults := preload("res://src/game/SourceTimeDefaults.gd")
 
 # Every block whose build is a GenericCrafterBuild: the class itself
@@ -103,6 +104,82 @@ static func source_bind_consumer_state(frame: Dictionary, block: Object, catalog
 		bound = true
 	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_FACTORY_BUILD_BIND_CONSUMER_STATE, "bound": bound, "consumers": consumers, "rows": rows}
 
+static func _liquid_amount_state(liquids: Dictionary, liquid_id: int) -> float:
+	# LiquidModule.get(Liquid) (LiquidModule.java:102) over the
+	# port's liquid module: amounts live in the id-indexed array
+	# under "liquids" (LiquidModule.java:23 `private float[]
+	# liquids = new float[content.liquids().size];`); a bare
+	# id->amount map (the direct-call shape) reads straight
+	# through. An unknown id holds nothing.
+	if liquids.has("liquids") and liquids["liquids"] is Array:
+		var amounts: Array = liquids["liquids"]
+		if liquid_id >= 0 and liquid_id < amounts.size():
+			return float(amounts[liquid_id])
+		return 0.0
+	return float(liquids.get(liquid_id, 0.0))
+
+static func source_factory_should_consume_state(frame: Dictionary, block: Object, liquids: Dictionary, liquid_ids: Dictionary) -> Dictionary:
+	# GenericCrafterBuild.shouldConsume() (GenericCrafter.java:203-231):
+	# an output item blocks when the held stack plus one output would
+	# exceed itemCapacity (`if(items.get(output.item) + output.amount
+	# > itemCapacity){`, GenericCrafter.java:205); an output liquid
+	# blocks when the held amount reaches liquidCapacity - 0.001f
+	# and the block does not dump the extra (`if(liquids.get(
+	# output.liquid) >= liquidCapacity - 0.001f){`,
+	# GenericCrafter.java:216, `if(!dumpExtraLiquid){`,
+	# GenericCrafter.java:217), unless ignoreLiquidFullness skips
+	# the liquid check entirely (GenericCrafter.java:212); when
+	# every output liquid is full the block cannot reproduce
+	# either (`if(allFull){`, GenericCrafter.java:226). Otherwise
+	# the build consumes when enabled (`return enabled;`,
+	# GenericCrafter.java:230). The registry captures the block's
+	# outputItems/outputLiquids (the singular outputItem/
+	# outputLiquid written to the plural arrays by
+	# GenericCrafter.init(), GenericCrafter.java:120-124) and its
+	# liquidCapacity (the initializer's own assignment, else
+	# Block.init()'s round(10 * consumeAmount) default,
+	# Block.java:1407-1418 — 10.0 when the block consumes no
+	# liquid); itemCapacity is the block's own (Block.java:75,
+	# default 10); dumpExtraLiquid defaults true and
+	# ignoreLiquidFullness false (GenericCrafter.java:37-38).
+	# Owner: PORT_GAME_SOURCE_FACTORY_BUILD_SHOULD_CONSUME_STATE.
+	var enabled: bool = bool(frame.get("enabled", true))
+	var item_blocked := false
+	var liquid_blocked := false
+	var all_liquids_full := false
+	if block == null:
+		return {"should_consume": enabled, "item_blocked": item_blocked, "liquid_blocked": liquid_blocked, "all_liquids_full": all_liquids_full}
+	var properties: Dictionary = block.properties
+	var items: Dictionary = frame.get("items", {})
+	var item_capacity: int = int(properties.get("itemCapacity", 10))
+	for output in properties.get("outputItems", []):
+		if int(items.get(str(output.get("item", "")), 0)) + int(output.get("amount", 0)) > item_capacity:
+			item_blocked = true
+			break
+	var liquid_capacity: float = float(properties.get("liquidCapacity", 10.0))
+	var ignore_liquid_fullness: bool = bool(properties.get("ignoreLiquidFullness", false))
+	var dump_extra_liquid: bool = bool(properties.get("dumpExtraLiquid", true))
+	var output_liquids: Array = properties.get("outputLiquids", [])
+	if not output_liquids.is_empty() and not ignore_liquid_fullness:
+		var all_full := true
+		for output in output_liquids:
+			var liquid_id: int = int(liquid_ids.get(str(output.get("liquid", "")), -1))
+			var held: float = _liquid_amount_state(liquids, liquid_id)
+			if held >= liquid_capacity - 0.001:
+				if not dump_extra_liquid:
+					liquid_blocked = true
+			else:
+				all_full = false
+		all_liquids_full = all_full
+		if all_liquids_full:
+			liquid_blocked = true
+	return {
+		"should_consume": enabled and not item_blocked and not liquid_blocked,
+		"item_blocked": item_blocked,
+		"liquid_blocked": liquid_blocked,
+		"all_liquids_full": all_liquids_full,
+	}
+
 static func source_factory_update_consumption_state(frame: Dictionary, has_consumers: bool, enabled: bool, production_valid: bool, should_consume: bool, efficiency_scale: float) -> Dictionary:
 	# BuildingComp.updateConsumption() (BuildingComp.java:1943-1951):
 	# when cheating, everything is valid and consumption is skipped
@@ -158,6 +235,7 @@ static func source_factory_tick_buildings_state(game: Object, seconds: float) ->
 	var blocks_by_id: Dictionary = {}
 	for registered_block in catalog.get_many("block"):
 		blocks_by_id[registered_block.id] = registered_block
+	var liquid_id_by_name: Dictionary = source_content_registry_state.source_liquid_catalog_state(catalog).get("liquid_id_by_name", {})
 	for sprite in source_placed_block_state.source_unique_buildings_state(game).get("buildings", []):
 		if not is_instance_valid(sprite) or not sprite is Sprite2D:
 			continue
@@ -178,8 +256,9 @@ static func source_factory_tick_buildings_state(game: Object, seconds: float) ->
 		# update consumer when update, i.e. shouldConsume() &&
 		# productionValid(), and efficiency > 0) every tick, so a
 		# placed factory actually consumes. shouldConsume is the
-		# frame's enabled flag until the shouldConsume() body slice
-		# (GenericCrafter.java:203, output-space checks) lands; the
+		# GenericCrafterBuild.shouldConsume() body (N2113,
+		# GenericCrafter.java:203, output-space checks against the
+		# frame's held items and the building's liquid module); the
 		# power consumer stays the power graph's domain (N2080/N2107)
 		# and is not bound here.
 		frame["enabled"] = bool(frame.get("enabled", true))
@@ -187,7 +266,7 @@ static func source_factory_tick_buildings_state(game: Object, seconds: float) ->
 		var consumer_bound: Dictionary = source_bind_consumer_state(frame, block, catalog, liquids)
 		var rows: Array = consumer_bound.get("rows", [])
 		var consumers: Array = consumer_bound.get("consumers", [])
-		var should_consume: bool = bool(frame.get("enabled", true))
+		var should_consume: bool = bool(source_factory_should_consume_state(frame, block, liquids, liquid_id_by_name).get("should_consume", false))
 		var valid: bool = source_building_access_state.production_valid_state()
 		var setup: Dictionary = source_building_efficiency_state.update_consumption_setup_state(should_consume, valid)
 		frame["efficiency"] = setup.get("efficiency", 1.0)
