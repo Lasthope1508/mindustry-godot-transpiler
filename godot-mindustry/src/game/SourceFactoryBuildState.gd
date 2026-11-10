@@ -10,6 +10,8 @@ const source_consume_item_state := preload("res://src/game/SourceConsumeItemsSta
 const source_consume_liquid_state := preload("res://src/game/SourceConsumeLiquidState.gd")
 const source_consume_state := preload("res://src/game/SourceConsumeState.gd")
 const source_building_access_state := preload("res://src/game/SourceBuildingAccessState.gd")
+const source_building_item_dump_state := preload("res://src/game/SourceBuildingItemDumpState.gd")
+const source_conveyor_runtime_state := preload("res://src/game/SourceConveyorRuntimeState.gd")
 const source_content_registry_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
 const source_time_defaults := preload("res://src/game/SourceTimeDefaults.gd")
 
@@ -97,6 +99,12 @@ static func source_bind_consumer_state(frame: Dictionary, block: Object, catalog
 	var items: Dictionary = frame["items"]
 	var consumers: Array = frame.get("consumers", [])
 	var bound := false
+	# The bound rows live on the frame with the actors (the craft
+	# slice reads them back at craft() time, N2117): a frame that
+	# already carries actors still gets its rows refreshed from
+	# the block, so the craft trigger always runs the block's own
+	# rows.
+	frame["rows"] = rows
 	if consumers.is_empty() and not rows.is_empty():
 		for row in rows:
 			if row.has("liquid"):
@@ -254,6 +262,205 @@ static func source_factory_update_consumption_state(frame: Dictionary, has_consu
 		"should_consume_power": bool(consumption.get("should_consume_power", false)),
 	}
 
+static func source_factory_progress_increase_state(craft_time: float, efficiency: float, seconds: float, time_scale: float) -> Dictionary:
+	# BuildingComp.getProgressIncrease (BuildingComp.java:1203-1205):
+	# `return 1f / baseTime * edelta();` with edelta() = efficiency *
+	# delta() (BuildingComp.java:1927-1929) and delta() = Time.delta *
+	# timeScale (BuildingComp.java:1922-1924). The port's frame delta
+	# is in seconds and the port's edelta convention (the bound
+	# actors' source_delta, N2112) is seconds * TICK_RATE, so edelta
+	# here is seconds * TICK_RATE * time_scale * efficiency. A zero
+	# or negative craft time never advances (no GenericCrafter sets
+	# one; the class default is 80, GenericCrafter.java:40).
+	var edelta := float(seconds) * float(source_time_defaults.TICK_RATE) * float(time_scale) * float(efficiency)
+	var increase := 0.0
+	if craft_time > 0.0:
+		increase = edelta / float(craft_time)
+	return {
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_FACTORY_BUILD_PROGRESS_INCREASE_STATE,
+		"progress_increase": increase,
+		"edelta": edelta,
+	}
+
+static func source_factory_crafter_progress_increase_state(block: Object, liquids: Dictionary, liquid_ids: Dictionary, efficiency: float, seconds: float, time_scale: float) -> Dictionary:
+	# GenericCrafterBuild.getProgressIncrease override
+	# (GenericCrafter.java:266-285): ignoreLiquidFullness returns the
+	# base increase; otherwise each output liquid scales by
+	# (liquidCapacity - held) / (amount * edelta()), taking the
+	# minimum as `scaling` and the maximum as `max`, and the base
+	# increase is then multiplied by min(max, 1f) when
+	# dumpExtraLiquid, else by scaling. A block with no output
+	# liquids (silicon smelter, graphite press) takes the base
+	# increase unchanged; craftTime is the registry value, else the
+	# class default 80 (GenericCrafter.java:40). The tick only calls
+	# this while efficiency > 0, so edelta is positive here; a zero
+	# edelta still yields no progress rather than dividing by zero.
+	var craft_time := 80.0
+	if block != null:
+		craft_time = float(block.properties.get("craftTime", 80.0))
+	var base: Dictionary = source_factory_progress_increase_state(craft_time, efficiency, seconds, time_scale)
+	var edelta := float(base.get("edelta", 0.0))
+	var scaling := 1.0
+	if block != null and not bool(block.properties.get("ignoreLiquidFullness", false)):
+		var output_liquids: Array = block.properties.get("outputLiquids", [])
+		if not output_liquids.is_empty():
+			var liquid_capacity := float(block.properties.get("liquidCapacity", 10.0))
+			var min_scaling := 1.0
+			var max_value := 0.0
+			for output in output_liquids:
+				var liquid_id: int = int(liquid_ids.get(str(output.get("liquid", "")), -1))
+				var held: float = _liquid_amount_state(liquids, liquid_id)
+				var value := 0.0
+				if edelta > 0.0:
+					value = (liquid_capacity - held) / (float(output.get("amount", 0.0)) * edelta)
+				min_scaling = minf(min_scaling, value)
+				max_value = maxf(max_value, value)
+			if bool(block.properties.get("dumpExtraLiquid", true)):
+				scaling = minf(max_value, 1.0)
+			else:
+				scaling = min_scaling
+	return {
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_FACTORY_BUILD_CRAFTER_PROGRESS_INCREASE_STATE,
+		"progress_increase": float(base.get("progress_increase", 0.0)) * scaling,
+		"scaling": scaling,
+		"edelta": edelta,
+	}
+
+static func source_factory_consume_state(frame: Dictionary, consumers: Array, rows: Array) -> Dictionary:
+	# BuildingComp.consume() (BuildingComp.java:1911-1915): triggers
+	# every consumer (`for(Consume cons : block.consumers){
+	# cons.trigger(self()); }`). Consume.trigger is empty by default
+	# (Consume.java:50 `public void trigger(Building build){}`),
+	# ConsumeLiquid has no trigger override (its update drains per
+	# tick, N2112) and ConsumePower has none either, so only the item
+	# rows remove anything, through the RuntimeConsumer trigger
+	# (ConsumeItems.java:45-48, Math.round removal clamped at what
+	# the module holds). Liquid rows are skipped, not triggered:
+	# triggering a liquid actor would invent a removal Java never
+	# performs. The frame is the build dict the actors read (their
+	# items reference is the frame's own item module).
+	var triggered := 0
+	var removed := {}
+	var items: Dictionary = frame.get("items", {})
+	for index in range(rows.size()):
+		if index >= consumers.size():
+			continue
+		var row = rows[index]
+		if row is Dictionary and row.has("liquid"):
+			continue
+		var actor = consumers[index]
+		if actor == null or not actor.has_method("trigger"):
+			continue
+		var item_name := ""
+		if row is Dictionary:
+			item_name = str(row.get("item", ""))
+		var before := int(items.get(item_name, 0))
+		actor.trigger(frame)
+		removed[item_name] = before - int(items.get(item_name, 0))
+		triggered += 1
+	return {
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_FACTORY_BUILD_CONSUME_STATE,
+		"triggered": triggered,
+		"removed": removed,
+	}
+
+static func source_factory_offload_state(game: Object, frame: Dictionary, cell: Vector2i, block: Object, item: String) -> Dictionary:
+	# BuildingComp.offload (BuildingComp.java:1000-1016):
+	# produced(item, 1) is sector accounting only
+	# (Vars.state.rules.sector, null in the port's scenario, so
+	# nothing is recorded); the item is then offered to each
+	# proximity building in cdump order — acceptItem(self(), item)
+	# && canDump(other, item) -> handleItem — and kept in the
+	# building's own inventory when no neighbor takes it
+	# (handleItem(self(), item)). The port reuses the accepted drill
+	# dump composition
+	# (SourceBuildingItemDumpState.source_drill_dump_step_state, the
+	# dump(todump) body, BuildingComp.java:1071+): the produced item
+	# is a synthetic one-item inventory, so a dump is the offload
+	# and a refusal leaves the one item, which this step then adds
+	# to the frame's own items. Only the receiving belt's queue is
+	# written back (the N2068 rule); a core neighbor is not a dump
+	# receiver in this composition — the belt carries the item to
+	# the core (N2070) — so a factory with no belt neighbor keeps
+	# its output until the dumpOutputs slice lands.
+	var empty := {
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_FACTORY_BUILD_OFFLOAD_STATE,
+		"placed": false,
+		"destination": "none",
+		"receiver_cell": null,
+		"cdump_after": int(frame.get("cdump", 0)),
+		"items_after": frame.get("items", {}),
+	}
+	if game == null or block == null:
+		return empty
+	var size := int(block.properties.get("size", 1))
+	var cdump := int(frame.get("cdump", 0))
+	var ring := source_block_geometry.source_block_proximity_cells_state(size, cell.x, cell.y)
+	var ring_cells: Array = ring.get("cells", [])
+	var queues := source_conveyor_runtime_state.source_conveyor_queues_for_cells_state(game, ring_cells)
+	var queues_by_cell: Dictionary = queues.get("queues_by_cell", {})
+	var rotations := {}
+	for ring_cell in queues_by_cell.keys():
+		var conveyor_sprite: Variant = game.call("block_sprite_at_cell", ring_cell)
+		if conveyor_sprite != null:
+			rotations[ring_cell] = int(conveyor_sprite.get_meta(source_block_geometry.SOURCE_BUILD_ROTATION_META_KEY, 0))
+	var produced := {item: 1}
+	var result: Dictionary = source_building_item_dump_state.source_drill_dump_step_state(produced, ring_cells, item, cdump, true, queues_by_cell, 3, 0.4, rotations, false, false, cell, size)
+	var queues_after: Dictionary = result.get("queues_after", {})
+	if bool(result.get("dumped", false)):
+		var receiver_cell: Variant = result.get("receiver_cell")
+		if receiver_cell is Vector2i and queues_after.has(receiver_cell):
+			source_conveyor_runtime_state.source_conveyor_set_queue_for_cell_state(game, receiver_cell, queues_after[receiver_cell])
+	var items_after: Dictionary = frame.get("items", {})
+	if not bool(result.get("dumped", false)):
+		items_after[item] = int(items_after.get(item, 0)) + 1
+	frame["items"] = items_after
+	frame["cdump"] = int(result.get("cdump_after", cdump))
+	return {
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_FACTORY_BUILD_OFFLOAD_STATE,
+		"placed": bool(result.get("dumped", false)),
+		"destination": str(result.get("destination", "none")),
+		"receiver_cell": result.get("receiver_cell"),
+		"cdump_after": int(result.get("cdump_after", cdump)),
+		"items_after": items_after,
+	}
+
+static func source_factory_craft_state(game: Object, frame: Dictionary, cell: Vector2i, block: Object) -> Dictionary:
+	# GenericCrafterBuild.craft() (GenericCrafter.java:301-315):
+	# consume(); each output item is offloaded once per amount
+	# (`for(var output : outputItems){ for(int i = 0; i <
+	# output.amount; i++){ offload(output.item); } }`); craftEffect
+	# is visual and deferred; progress %= 1f. A null block crafts
+	# nothing. The consumers and rows are the frame's own bound
+	# actors and rows (N2112 binds them, N2116 reinitializes them),
+	# so craft needs no separate actor list. The continuous liquid
+	# output half of updateTile (GenericCrafter.java:241-246,
+	# handleLiquid per tick) is a later slice: a liquid-output
+	# crafter crafts its item rows here while its liquid output is
+	# still unwired.
+	if block == null:
+		return {
+			"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_FACTORY_BUILD_CRAFT_STATE,
+			"crafted": false,
+			"consumed": {"triggered": 0, "removed": {}},
+			"offloaded": [],
+			"progress_after": float(frame.get("progress", 0.0)),
+		}
+	var consumed: Dictionary = source_factory_consume_state(frame, frame.get("consumers", []), frame.get("rows", []))
+	var offloaded: Array = []
+	for output in block.properties.get("outputItems", []):
+		var output_item := str(output.get("item", ""))
+		for _index in range(int(output.get("amount", 0))):
+			offloaded.append(source_factory_offload_state(game, frame, cell, block, output_item))
+	frame["progress"] = fmod(float(frame.get("progress", 0.0)), 1.0)
+	return {
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_FACTORY_BUILD_CRAFT_STATE,
+		"crafted": true,
+		"consumed": consumed,
+		"offloaded": offloaded,
+		"progress_after": float(frame.get("progress", 0.0)),
+	}
+
 static func source_factory_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the factory tick wiring every tick
 	# (GenericCrafterBuild.updateTile(), GenericCrafter.java:235, runs
@@ -337,6 +544,22 @@ static func source_factory_tick_buildings_state(game: Object, seconds: float) ->
 		var consumption: Dictionary = source_building_efficiency_state.update_consumption_state(groups["has_consumers"], bool(frame.get("cheating", false)), bool(frame.get("enabled", true)), valid, should_consume, float(frame.get("efficiency_scale", 1.0)), required_results, optional_results, updates, frame)
 		source_building_efficiency_state.apply_update_consumption_state(consumption, frame)
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
+		# The production half of GenericCrafterBuild.updateTile()
+		# (GenericCrafter.java:235-266): with efficiency above zero
+		# the progress climbs by getProgressIncrease(craftTime) — the
+		# GenericCrafter override scales it when the block outputs
+		# liquids — and a completed progress crafts (consume +
+		# offload, N2117). updateConsumption already ran through
+		# Building.update() (BuildingComp.java:2262-2274), so the
+		# frame's efficiency is the live one; warmup/totalProgress
+		# and the continuous liquid output are later slices.
+		var time_scale := source_placed_block_state.time_scale(sprite, source_placed_block_state.game_default_time_scale(game))
+		var efficiency := float(frame.get("efficiency", 0.0))
+		if efficiency > 0.0:
+			var increase: Dictionary = source_factory_crafter_progress_increase_state(block, liquids, liquid_id_by_name, efficiency, seconds, time_scale)
+			frame["progress"] = float(frame.get("progress", 0.0)) + float(increase.get("progress_increase", 0.0))
+			if float(frame.get("progress", 0.0)) >= 1.0:
+				source_factory_craft_state(game, frame, cell, block)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
 	return {"ticked_count": ticked_count, "results_by_cell": results_by_cell}

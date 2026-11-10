@@ -223478,6 +223478,476 @@
       },
       "runtime_proof": "/root/C05GateProof",
       "rule": "Source-backed C05 gate lifecycle replacement: the tick reinitializes a replaced building's consumers from the new block's consumeBuilder."
+    },
+    "source_factory_progress_increase_state_input": {
+      "status": "active",
+      "owner": "SourceFactoryBuildState.source_factory_progress_increase_state",
+      "source_slice": "N2117",
+      "keys": {
+        "craft_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+          "java_expr": "public float craftTime = 80;",
+          "rule": "The block craft time (GenericCrafter.craftTime, default 80): the divisor of the progress increase.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_progress_increase_state"
+          ]
+        },
+        "efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return efficiency * delta();",
+          "rule": "The live efficiency; edelta is efficiency times delta.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_progress_increase_state"
+          ]
+        },
+        "seconds": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return Time.delta * timeScale;",
+          "rule": "The frame delta in seconds; the port edelta convention is seconds * TICK_RATE * timeScale * efficiency.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_progress_increase_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return Time.delta * timeScale;",
+          "rule": "The building time scale (BuildingComp.delta() = Time.delta * timeScale).",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_progress_increase_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06FactoryCraftProof",
+      "rule": "Source-backed GenericCrafter progress + craft() live-loop slice."
+    },
+    "source_factory_progress_increase_state_result": {
+      "status": "active",
+      "owner": "SourceFactoryBuildState.source_factory_progress_increase_state",
+      "source_slice": "N2117",
+      "keys": {
+        "progress_increase": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return 1f / baseTime * edelta();",
+          "rule": "The progress gained this tick: 1 / craftTime * edelta().",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_progress_increase_state"
+          ]
+        },
+        "edelta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return efficiency * delta();",
+          "rule": "The efficiency-scaled delta this tick (efficiency * Time.delta * timeScale).",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_progress_increase_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06FactoryCraftProof",
+      "rule": "Source-backed GenericCrafter progress + craft() live-loop slice."
+    },
+    "source_factory_crafter_progress_increase_state_input": {
+      "status": "active",
+      "owner": "SourceFactoryBuildState.source_factory_crafter_progress_increase_state",
+      "source_slice": "N2117",
+      "keys": {
+        "block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+          "java_expr": "public class GenericCrafter extends Block{",
+          "rule": "The typed block definition; its craftTime, outputLiquids, liquidCapacity and dump flags scale the increase.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_crafter_progress_increase_state"
+          ]
+        },
+        "liquids": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+          "java_expr": "float value = (liquidCapacity - liquids.get(s.liquid)) / (s.amount * edelta());",
+          "rule": "The building's liquid module the output-liquid scaling reads.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_crafter_progress_increase_state"
+          ]
+        },
+        "liquid_ids": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+          "java_expr": "for(var s : outputLiquids){",
+          "rule": "The catalog name-to-id map for the output liquids: the liquid module is id-indexed, so output liquid names resolve to ids through it.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_crafter_progress_increase_state"
+          ]
+        },
+        "efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+          "java_expr": "return super.getProgressIncrease(baseTime) * (dumpExtraLiquid ? Math.min(max, 1f) : scaling);",
+          "rule": "The live efficiency; the override scales the base increase, never the efficiency itself.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_crafter_progress_increase_state"
+          ]
+        },
+        "seconds": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+          "java_expr": "progress += getProgressIncrease(craftTime);",
+          "rule": "The frame delta in seconds; the progress increase is computed from it every tick.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_crafter_progress_increase_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+          "java_expr": "totalProgress += warmup * Time.delta;",
+          "rule": "The building time scale carried by the tick frame.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_crafter_progress_increase_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06FactoryCraftProof",
+      "rule": "Source-backed GenericCrafter progress + craft() live-loop slice."
+    },
+    "source_factory_crafter_progress_increase_state_result": {
+      "status": "active",
+      "owner": "SourceFactoryBuildState.source_factory_crafter_progress_increase_state",
+      "source_slice": "N2117",
+      "keys": {
+        "progress_increase": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+          "java_expr": "return super.getProgressIncrease(baseTime) * (dumpExtraLiquid ? Math.min(max, 1f) : scaling);",
+          "rule": "The scaled progress gained this tick: the base increase times min(max, 1f) when dumping excess, else scaling.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_crafter_progress_increase_state"
+          ]
+        },
+        "scaling": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+          "java_expr": "float scaling = 1f, max = 1f;",
+          "rule": "The liquid-output scaling factor applied to the base increase.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_crafter_progress_increase_state"
+          ]
+        },
+        "edelta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+          "java_expr": "float value = (liquidCapacity - liquids.get(s.liquid)) / (s.amount * edelta());",
+          "rule": "The efficiency-scaled delta this tick.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_crafter_progress_increase_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06FactoryCraftProof",
+      "rule": "Source-backed GenericCrafter progress + craft() live-loop slice."
+    },
+    "source_factory_consume_state_input": {
+      "status": "active",
+      "owner": "SourceFactoryBuildState.source_factory_consume_state",
+      "source_slice": "N2117",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public void consume(){",
+          "rule": "The factory frame (the port Building state) whose item module the triggers remove from.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_consume_state"
+          ]
+        },
+        "consumers": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "for(Consume cons : block.consumers){",
+          "rule": "The bound RuntimeConsumer actors, one per consume row.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_consume_state"
+          ]
+        },
+        "rows": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "cons.trigger(self());",
+          "rule": "The consume rows the actors were bound from; liquid rows are skipped, only item rows trigger.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06FactoryCraftProof",
+      "rule": "Source-backed GenericCrafter progress + craft() live-loop slice."
+    },
+    "source_factory_consume_state_result": {
+      "status": "active",
+      "owner": "SourceFactoryBuildState.source_factory_consume_state",
+      "source_slice": "N2117",
+      "keys": {
+        "triggered": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "cons.trigger(self());",
+          "rule": "How many item consumers triggered this craft.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_consume_state"
+          ]
+        },
+        "removed": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+          "java_expr": "build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));",
+          "rule": "What each item row removed: Math.round(amount * multiplier), clamped at what the module holds.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06FactoryCraftProof",
+      "rule": "Source-backed GenericCrafter progress + craft() live-loop slice."
+    },
+    "source_factory_offload_state_input": {
+      "status": "active",
+      "owner": "SourceFactoryBuildState.source_factory_offload_state",
+      "source_slice": "N2117",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public void offload(Item item){",
+          "rule": "The live game: the proximity ring and the conveyor queues are read from it.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_offload_state"
+          ]
+        },
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "produced(item, 1);",
+          "rule": "The factory frame; its cdump cursor advances and its items keep the produced item when no neighbor takes it.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_offload_state"
+          ]
+        },
+        "cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(other.acceptItem(self(), item) && canDump(other, item)){",
+          "rule": "The building's cell; the proximity ring is computed from it.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_offload_state"
+          ]
+        },
+        "block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+          "java_expr": "public class GenericCrafter extends Block{",
+          "rule": "The typed block definition; its size shapes the proximity ring.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_offload_state"
+          ]
+        },
+        "item": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public void offload(Item item){",
+          "rule": "The produced item to offer to the proximity neighbors.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_offload_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06FactoryCraftProof",
+      "rule": "Source-backed GenericCrafter progress + craft() live-loop slice."
+    },
+    "source_factory_offload_state_result": {
+      "status": "active",
+      "owner": "SourceFactoryBuildState.source_factory_offload_state",
+      "source_slice": "N2117",
+      "keys": {
+        "placed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "other.handleItem(self(), item);",
+          "rule": "Whether a neighbor took the produced item.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_offload_state"
+          ]
+        },
+        "destination": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(other.acceptItem(self(), item) && canDump(other, item)){",
+          "rule": "Where the item went: the accepting neighbor, or none when the frame keeps it.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_offload_state"
+          ]
+        },
+        "receiver_cell": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "other.handleItem(self(), item);",
+          "rule": "The cell of the neighbor that took the item, or null.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_offload_state"
+          ]
+        },
+        "cdump_after": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "int dump = this.cdump;",
+          "rule": "The frame cdump cursor after this offload.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_offload_state"
+          ]
+        },
+        "items_after": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "handleItem(self(), item);",
+          "rule": "The frame items after the offload: the produced item added when no neighbor took it.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_offload_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06FactoryCraftProof",
+      "rule": "Source-backed GenericCrafter progress + craft() live-loop slice."
+    },
+    "source_factory_craft_state_input": {
+      "status": "active",
+      "owner": "SourceFactoryBuildState.source_factory_craft_state",
+      "source_slice": "N2117",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+          "java_expr": "public void craft(){",
+          "rule": "The live game the craft offloads into.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_craft_state"
+          ]
+        },
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+          "java_expr": "consume();",
+          "rule": "The factory frame; its items are consumed and its progress wraps at 1.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_craft_state"
+          ]
+        },
+        "cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+          "java_expr": "if(progress >= 1f){",
+          "rule": "The building's cell; the craft offloads from it.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_craft_state"
+          ]
+        },
+        "block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+          "java_expr": "public class GenericCrafterBuild extends Building{",
+          "rule": "The typed block definition; its outputItems are what the craft offloads.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_craft_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06FactoryCraftProof",
+      "rule": "Source-backed GenericCrafter progress + craft() live-loop slice."
+    },
+    "source_factory_craft_state_result": {
+      "status": "active",
+      "owner": "SourceFactoryBuildState.source_factory_craft_state",
+      "source_slice": "N2117",
+      "keys": {
+        "crafted": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+          "java_expr": "public void craft(){",
+          "rule": "Whether the craft ran: false only for a null block.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_craft_state"
+          ]
+        },
+        "consumed": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+          "java_expr": "consume();",
+          "rule": "What the consume step removed per item row.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_craft_state"
+          ]
+        },
+        "offloaded": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+          "java_expr": "offload(output.item);",
+          "rule": "One offload result per output item per amount.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_craft_state"
+          ]
+        },
+        "progress_after": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+          "java_expr": "progress %= 1f;",
+          "rule": "The frame progress after the craft wraps.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_craft_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06FactoryCraftProof",
+      "rule": "Source-backed GenericCrafter progress + craft() live-loop slice."
     }
   },
   "version": 1

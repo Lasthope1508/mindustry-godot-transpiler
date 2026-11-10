@@ -846,23 +846,27 @@
       "tests": [
         "test_all_c05_gate_input_evidence_is_exact",
         "test_all_factory_consumer_binding_input_evidence_is_exact",
+        "test_all_factory_craft_input_evidence_is_exact",
         "test_all_factory_live_loop_input_evidence_is_exact",
         "test_all_factory_should_consume_input_evidence_is_exact",
         "test_c05_gate_registration",
         "test_factory_consumer_binding_registration",
+        "test_factory_craft_registration",
         "test_factory_live_loop_registration",
         "test_factory_should_consume_registration",
         "test_reference_graph_and_actual_c05_gate",
+        "test_reference_graph_and_actual_c06_factory_craft_gate",
         "test_reference_graph_and_actual_factory_consumer_binding",
         "test_reference_graph_and_actual_factory_live_loop",
         "test_reference_graph_and_actual_factory_should_consume",
         "test_should_consume_reads_output_space",
         "test_tick_binds_runtime_consumers_for_factory",
+        "test_tick_crafts_when_progress_completes",
         "test_tick_reinitializes_consumers_on_block_replacement",
         "test_tick_wires_frame_and_driver_runs_from_live_loop"
       ],
       "runtime_proof": "/root/FactoryLiveLoopProof",
-      "rule": "Source-backed GenericCrafter family live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live rules every simulate_factory tick, so a cheating team's factory counts everything as valid in updateConsumption, the tick gates efficiency on the family's own shouldConsume() body, the tick binds one RuntimeConsumer per consumeItem/consumeLiquid row and runs the bound actors through updateConsumption so the placed factory consumes its liquid rows each tick and gates efficiency on its item rows, and a sprite re-recorded with a different block reinitializes its consumers from the new block's consumeBuilder.",
+      "rule": "Source-backed factory family live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live rules every simulate_factory tick, so a cheating team's factory counts everything as valid in updateConsumption, and the tick binds one RuntimeConsumer per consumeItem/consumeLiquid row and runs the bound actors through updateConsumption so the placed factory consumes its liquid rows each tick and gates efficiency on its item rows, with shouldConsume() read live from the output space every tick so a factory with a full output ticks at efficiency 0, and with efficiency above zero the progress climbs by getProgressIncrease(craftTime) and a completed progress crafts (consume + offload).",
       "return_type": "Dictionary"
     },
     "SourceFactoryBuildState.source_factory_update_consumption_state": {

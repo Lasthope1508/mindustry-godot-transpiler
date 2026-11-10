@@ -34,6 +34,22 @@ class RuntimeConsumer extends RefCounted:
 		# the craft slice owns that trigger.
 		pass
 
+	func trigger(build: Dictionary) -> void:
+		# ConsumeItems.trigger (ConsumeItems.java:45-48): removes each
+		# stack once per craft — `build.items.remove(stack.item,
+		# Math.round(stack.amount * multiplier.get(build)));`. The
+		# removal clamps at what the module holds (ItemModule.java
+		# `amount = Math.min(amount, items[item.id]);`), so a cheating
+		# or empty module never goes negative; the multiplier is the
+		# N2097 cost-multiplier callback (1.0 for a GenericCrafter
+		# -family block). The craft slice owns this trigger (N2117):
+		# item stacks leave only at craft, through
+		# SourceFactoryBuildState.source_factory_consume_state.
+		var amount: int = int(round(float(definition.get("amount", 0)) * float(cost_multiplier.call(build).get("multiplier", 1.0))))
+		var item_name := String(definition.get("item", ""))
+		var held: int = SourceConsumeItemsState.source_inventory.item_count(items, item_name)
+		items[item_name] = maxi(held - mini(amount, held), 0)
+
 static func source_runtime_consumer_state(definition: Dictionary, items: Dictionary, cost_multiplier: Callable) -> Dictionary:
 	var consumer := RuntimeConsumer.new()
 	consumer.definition = definition

@@ -520,6 +520,17 @@ def _block_properties(source: str, assignment_end: int, implementation: str = ""
         output_liquids = _crafter_output_liquids(initializer)
         if output_liquids:
             properties["outputLiquids"] = output_liquids
+        # craftTime drives GenericCrafterBuild.updateTile progress
+        # (GenericCrafter.java:237 `progress +=
+        # getProgressIncrease(craftTime);`): the block initializer's
+        # own assignment, else the class default 80
+        # (GenericCrafter.java:40 `public float craftTime = 80;`),
+        # inherited by the whole family. N2117.
+        craft_time = _numeric_assignment(initializer, "craftTime")
+        if craft_time is None and class_sources:
+            craft_time = _numeric_assignment(class_sources.get("GenericCrafter", ""), "craftTime")
+        if craft_time is not None:
+            properties["craftTime"] = float(craft_time)
         liquid_capacity = _crafter_liquid_capacity(initializer, liquid_consumers)
         if liquid_capacity is not None:
             properties["liquidCapacity"] = liquid_capacity
