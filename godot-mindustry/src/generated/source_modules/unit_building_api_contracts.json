@@ -143,13 +143,17 @@
         "results_by_cell"
       ],
       "tests": [
-        "test_unit_factory_live_loop_registration",
+        "test_all_unit_factory_consumer_binding_input_evidence_is_exact",
         "test_all_unit_factory_live_loop_input_evidence_is_exact",
+        "test_reference_graph_and_actual_unit_factory_consumer_binding",
+        "test_reference_graph_and_actual_unit_factory_live_loop",
+        "test_tick_binds_runtime_consumers_for_unit_factory",
         "test_tick_wires_frame_and_update_consumption_reads_cheating",
-        "test_reference_graph_and_actual_unit_factory_live_loop"
+        "test_unit_factory_consumer_binding_registration",
+        "test_unit_factory_live_loop_registration"
       ],
       "runtime_proof": "/root/UnitFactoryLiveLoopProof",
-      "rule": "Source-backed factory family live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live rules every simulate_factory tick, so BuildingComp.updateConsumption() skips consumption for a cheating team.",
+      "rule": "Source-backed factory family live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live rules every simulate_factory tick, so a cheating team's factory counts everything as valid in updateConsumption, and the tick binds one RuntimeConsumer per consumeItem/consumeLiquid row and per current-plan requirement through the reinitialize path and runs the bound actors through updateConsumption so the placed factory consumes its liquid rows each tick and gates efficiency on its item rows.",
       "return_type": "Dictionary"
     }
   }

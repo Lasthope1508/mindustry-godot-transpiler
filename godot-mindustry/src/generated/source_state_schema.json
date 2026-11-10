@@ -224662,6 +224662,260 @@
       },
       "runtime_proof": "/root/C06FactoryDumpOutputsProof",
       "rule": "Source-backed GenericCrafter dumpOutputs() live-loop slice."
+    },
+    "source_unit_factory_bind_consumer_state_input": {
+      "status": "active",
+      "owner": "SourceUnitFactoryBuildState.source_bind_consumer_state",
+      "source_slice": "N2120",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public final Building newBuilding(){",
+          "rule": "The unit-factory frame (the port Building state) the consumers bind onto; created at placement (Block.newBuilding).",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_bind_consumer_state"
+          ]
+        },
+        "block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+          "java_expr": "public class UnitFactoryBuild extends UnitBuild{",
+          "rule": "The typed block definition; only a block carrying consumeItem/consumeLiquid rows, or a current plan with requirements, binds consumers.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_bind_consumer_state"
+          ]
+        },
+        "catalog": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "protected Seq<Consume> consumeBuilder = new Seq<>();",
+          "rule": "The content catalog the bound rows resolve their item and liquid fields against (the block's consumeBuilder).",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_bind_consumer_state"
+          ]
+        },
+        "amounts": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+          "java_expr": "public void remove(Liquid liquid, float amount){",
+          "rule": "The building's liquid module the liquid actors remove from (LiquidModule.remove).",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_bind_consumer_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/UnitFactoryConsumerBindingProof",
+      "rule": "Source-backed UnitFactory family RuntimeConsumer binding."
+    },
+    "source_unit_factory_bind_consumer_state_result": {
+      "status": "active",
+      "owner": "SourceUnitFactoryBuildState.source_bind_consumer_state",
+      "source_slice": "N2120",
+      "keys": {
+        "bound": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public ConsumeItems consumeItem(Item item, int amount){",
+          "rule": "Whether RuntimeConsumer actors were created on this call; false when the frame already carries them.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_bind_consumer_state"
+          ]
+        },
+        "consumers": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "for(var cons : block.updateConsumers){",
+          "rule": "The RuntimeConsumer actors on the frame, one per bound consumeItem/consumeLiquid row and per current-plan requirement.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_bind_consumer_state"
+          ]
+        },
+        "rows": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "protected Seq<Consume> consumeBuilder = new Seq<>();",
+          "rule": "The bound consume rows (item stacks + liquid descriptors + plan requirements) the actors were built from.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_bind_consumer_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/UnitFactoryConsumerBindingProof",
+      "rule": "Source-backed UnitFactory family RuntimeConsumer binding."
+    },
+    "source_unit_factory_plan_requirements_state_input": {
+      "status": "active",
+      "owner": "SourceUnitFactoryBuildState.source_unit_factory_plan_requirements_state",
+      "source_slice": "N2120",
+      "keys": {
+        "block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+          "java_expr": "public static class UnitPlan{",
+          "rule": "The typed block definition; its unitPlans are the plans the current plan's requirements come from (UnitPlan holds the unit, the build time and the ItemStack[] requirements).",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_plan_requirements_state"
+          ]
+        },
+        "plan_index": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+          "java_expr": "plans.get(Math.min(e.currentPlan, plans.size - 1)).requirements",
+          "rule": "The frame's current plan index (UnitFactoryBuild.currentPlan, -1 when no plan is set); the ConsumeItemDynamic reads plans.get(currentPlan).requirements, or ItemStack.empty when there is none.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_plan_requirements_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/UnitFactoryConsumerBindingProof",
+      "rule": "Source-backed UnitFactory family RuntimeConsumer binding."
+    },
+    "source_unit_factory_plan_requirements_state_result": {
+      "status": "active",
+      "owner": "SourceUnitFactoryBuildState.source_unit_factory_plan_requirements_state",
+      "source_slice": "N2120",
+      "keys": {
+        "unit": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+          "java_expr": "public UnitType unit;",
+          "rule": "The planned unit type (UnitPlan.unit), kebab-cased from UnitTypes.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_plan_requirements_state"
+          ]
+        },
+        "time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+          "java_expr": "public float time;",
+          "rule": "The planned build time in ticks (UnitPlan.time).",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_plan_requirements_state"
+          ]
+        },
+        "items": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+          "java_expr": "public ItemStack[] requirements;",
+          "rule": "The plan requirements as item stacks (UnitPlan.requirements), the ConsumeItemDynamic rows for the current plan.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_plan_requirements_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/UnitFactoryConsumerBindingProof",
+      "rule": "Source-backed UnitFactory family RuntimeConsumer binding."
+    },
+    "source_unit_factory_reinitialize_consumers_state_input": {
+      "status": "active",
+      "owner": "SourceUnitFactoryBuildState.source_unit_factory_reinitialize_consumers_state",
+      "source_slice": "N2120",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public final Building newBuilding(){",
+          "rule": "The unit-factory frame (the port Building state) the consumers bind onto; created at placement (Block.newBuilding).",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_reinitialize_consumers_state"
+          ]
+        },
+        "block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+          "java_expr": "public class UnitFactoryBuild extends UnitBuild{",
+          "rule": "The typed block definition; only a block carrying consumeItem/consumeLiquid rows, or a current plan with requirements, binds consumers.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_reinitialize_consumers_state"
+          ]
+        },
+        "catalog": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "protected Seq<Consume> consumeBuilder = new Seq<>();",
+          "rule": "The content catalog the bound rows resolve their item and liquid fields against (the block's consumeBuilder).",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_reinitialize_consumers_state"
+          ]
+        },
+        "amounts": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+          "java_expr": "public void remove(Liquid liquid, float amount){",
+          "rule": "The building's liquid module the liquid actors remove from (LiquidModule.remove).",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_reinitialize_consumers_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/UnitFactoryConsumerBindingProof",
+      "rule": "Source-backed UnitFactory family RuntimeConsumer binding."
+    },
+    "source_unit_factory_reinitialize_consumers_state_result": {
+      "status": "active",
+      "owner": "SourceUnitFactoryBuildState.source_unit_factory_reinitialize_consumers_state",
+      "source_slice": "N2120",
+      "keys": {
+        "reinitialized": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public void reinitializeConsumers(){",
+          "rule": "Whether the frame dropped stale RuntimeConsumer actors and rebound (a replaced block, or a changed plan with actors already bound).",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_reinitialize_consumers_state"
+          ]
+        },
+        "bound": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public ConsumeItems consumeItem(Item item, int amount){",
+          "rule": "Whether RuntimeConsumer actors were created on this call; false when the frame already carries them.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_reinitialize_consumers_state"
+          ]
+        },
+        "consumers": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "for(var cons : block.updateConsumers){",
+          "rule": "The RuntimeConsumer actors on the frame, one per bound consumeItem/consumeLiquid row and per current-plan requirement.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_reinitialize_consumers_state"
+          ]
+        },
+        "rows": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "protected Seq<Consume> consumeBuilder = new Seq<>();",
+          "rule": "The bound consume rows (item stacks + liquid descriptors + plan requirements) the actors were built from.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_reinitialize_consumers_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/UnitFactoryConsumerBindingProof",
+      "rule": "Source-backed UnitFactory family RuntimeConsumer binding."
     }
   },
   "version": 1

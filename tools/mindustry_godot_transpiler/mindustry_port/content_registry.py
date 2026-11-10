@@ -546,6 +546,14 @@ def _block_properties(source: str, assignment_end: int, implementation: str = ""
             flag = _boolean_assignment(initializer, key)
             if flag is not None:
                 properties[key] = flag
+    if implementation == "UnitFactory":
+        # unitPlans drives the ConsumeItemDynamic for the current
+        # plan (UnitFactory.java:84): the plan's requirements are
+        # the item stacks the factory gates efficiency on and
+        # removes at unit completion. N2120.
+        unit_plans = _unit_factory_plans(initializer)
+        if unit_plans:
+            properties["unitPlans"] = unit_plans
     if implementation == "WallCrafter":
         wall_output = _wall_crafter_output(initializer, class_sources.get(implementation, "") if class_sources else "")
         if wall_output is not None:
@@ -906,6 +914,103 @@ def _crafter_liquid_output_directions(initializer: str) -> list[int]:
     if match is None:
         return [-1]
     return [int(value) for value in match.group(1).split(',') if value.strip() != '']
+
+
+def _balanced_inner(text: str, open_index: int) -> str | None:
+    """Text inside the paren opened at open_index, or None when the
+    parens never balance."""
+    depth = 0
+    for index in range(open_index, len(text)):
+        char = text[index]
+        if char == '(':
+            depth += 1
+        elif char == ')':
+            depth -= 1
+            if depth == 0:
+                return text[open_index + 1:index]
+    return None
+
+
+def _split_top_level(text: str) -> list[str]:
+    """Split on top-level commas (paren/bracket/brace aware)."""
+    parts: list[str] = []
+    depth = 0
+    current: list[str] = []
+    for char in text:
+        if char in '([{':
+            depth += 1
+        elif char in ')]}':
+            depth -= 1
+        if char == ',' and depth == 0:
+            parts.append(''.join(current))
+            current = []
+        else:
+            current.append(char)
+    parts.append(''.join(current))
+    return [part.strip() for part in parts if part.strip() != '']
+
+
+def _unit_factory_plans(initializer: str) -> list[dict[str, Any]] | None:
+    """UnitFactory plans from `plans = Seq.with(new
+    UnitPlan(UnitTypes.<unit>, <time>, with(Items.<item>, <n>,
+    ...)), ...);` (Blocks.java: ground/air/naval-factory) and from
+    `plans.add(new UnitPlan(...))` (Blocks.java: the Erekir
+    tank/ship/mech-fabricators, one plan each, non-configurable).
+    Each plan is the unit, its build time and the ConsumeItemDynamic
+    requirements for the current plan (UnitFactory.java:84 `consume(new
+    ConsumeItemDynamic((UnitFactoryBuild e) -> e.currentPlan != -1 ?
+    plans.get(Math.min(e.currentPlan, plans.size -
+    1)).requirements : ItemStack.empty))`). None when the initializer
+    sets no plans, or when any plan fails to resolve."""
+    code = _strip_java_comments(initializer)
+
+    def parse_plan(plan_inner: str) -> dict[str, Any] | None:
+        args = _split_top_level(plan_inner)
+        if len(args) != 3:
+            return None
+        unit_match = re.match(r'UnitTypes\.([A-Za-z_]\w*)\s*$', args[0])
+        time_value = _numeric_expression_value(args[1])
+        with_match = re.search(r'\bwith\s*\(', args[2])
+        if unit_match is None or time_value is None or with_match is None:
+            return None
+        stacks_inner = _balanced_inner(args[2], with_match.end() - 1)
+        if stacks_inner is None:
+            return None
+        parts = [part.strip() for part in stacks_inner.replace('\n', ' ').split(',')]
+        requirements: list[dict[str, Any]] = []
+        index = 0
+        while index + 1 < len(parts):
+            item_match = re.match(r'Items\.([A-Za-z_]\w*)', parts[index])
+            amount_match = re.match(r'([0-9_]+)', parts[index + 1])
+            if item_match is None or amount_match is None:
+                return None
+            requirements.append({'item': _camel_to_kebab(item_match.group(1)), 'amount': int(amount_match.group(1).replace('_', ''))})
+            index += 2
+        return {'unit': _camel_to_kebab(unit_match.group(1)), 'time': float(time_value), 'requirements': requirements}
+
+    plans: list[dict[str, Any]] = []
+    match = re.search(r'\bplans\s*=\s*Seq\.with\s*\(', code)
+    if match is not None:
+        inner = _balanced_inner(code, match.end() - 1)
+        if inner is None:
+            return None
+        for plan_match in re.finditer(r'\bnew\s+UnitPlan\s*\(', inner):
+            plan_inner = _balanced_inner(inner, plan_match.end() - 1)
+            if plan_inner is None:
+                return None
+            plan = parse_plan(plan_inner)
+            if plan is None:
+                return None
+            plans.append(plan)
+    for add_match in re.finditer(r'\bplans\.add\s*\(\s*new\s+UnitPlan\s*\(', code):
+        plan_inner = _balanced_inner(code, add_match.end() - 1)
+        if plan_inner is None:
+            return None
+        plan = parse_plan(plan_inner)
+        if plan is None:
+            return None
+        plans.append(plan)
+    return plans or None
 
 
 def _crafter_liquid_capacity(initializer: str, liquid_consumers: list[dict[str, Any]] | None) -> float | None:

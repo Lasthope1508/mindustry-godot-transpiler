@@ -92,6 +92,42 @@
         "test_reference_graph_and_actual_unit_factory_live_loop"
       ],
       "runtime_proof": "/root/UnitFactoryLiveLoopProof"
+    },
+    "N2120": {
+      "canonical_ledger": "source_slice_ledger.N2120",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+      "java_method": "UnitFactoryBuild.updateTile(); BuildingComp.updateConsumption(); ConsumeItemDynamic.efficiency()",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_tick_buildings_state",
+      "source_symbols": [
+        "source_unit_factory_bind_consumer_state_input.amounts",
+        "source_unit_factory_bind_consumer_state_input.block",
+        "source_unit_factory_bind_consumer_state_input.catalog",
+        "source_unit_factory_bind_consumer_state_input.frame",
+        "source_unit_factory_bind_consumer_state_result.bound",
+        "source_unit_factory_bind_consumer_state_result.consumers",
+        "source_unit_factory_bind_consumer_state_result.rows",
+        "source_unit_factory_plan_requirements_state_input.block",
+        "source_unit_factory_plan_requirements_state_input.plan_index",
+        "source_unit_factory_plan_requirements_state_result.items",
+        "source_unit_factory_plan_requirements_state_result.time",
+        "source_unit_factory_plan_requirements_state_result.unit",
+        "source_unit_factory_reinitialize_consumers_state_input.amounts",
+        "source_unit_factory_reinitialize_consumers_state_input.block",
+        "source_unit_factory_reinitialize_consumers_state_input.catalog",
+        "source_unit_factory_reinitialize_consumers_state_input.frame",
+        "source_unit_factory_reinitialize_consumers_state_result.bound",
+        "source_unit_factory_reinitialize_consumers_state_result.consumers",
+        "source_unit_factory_reinitialize_consumers_state_result.reinitialized",
+        "source_unit_factory_reinitialize_consumers_state_result.rows"
+      ],
+      "tests": [
+        "test_unit_factory_consumer_binding_registration",
+        "test_all_unit_factory_consumer_binding_input_evidence_is_exact",
+        "test_tick_binds_runtime_consumers_for_unit_factory",
+        "test_reference_graph_and_actual_unit_factory_consumer_binding"
+      ],
+      "runtime_proof": "/root/UnitFactoryConsumerBindingProof"
     }
   }
 }

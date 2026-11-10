@@ -10253,7 +10253,55 @@
             "item": "silicon"
           }
         ],
-        "size": 3
+        "size": 3,
+        "unitPlans": [
+          {
+            "requirements": [
+              {
+                "amount": 10,
+                "item": "silicon"
+              },
+              {
+                "amount": 10,
+                "item": "lead"
+              }
+            ],
+            "time": 900.0,
+            "unit": "dagger"
+          },
+          {
+            "requirements": [
+              {
+                "amount": 8,
+                "item": "silicon"
+              },
+              {
+                "amount": 10,
+                "item": "coal"
+              }
+            ],
+            "time": 600.0,
+            "unit": "crawler"
+          },
+          {
+            "requirements": [
+              {
+                "amount": 30,
+                "item": "silicon"
+              },
+              {
+                "amount": 20,
+                "item": "lead"
+              },
+              {
+                "amount": 20,
+                "item": "titanium"
+              }
+            ],
+            "time": 2400.0,
+            "unit": "nova"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/units/ground-factory.png"
     },
@@ -10290,7 +10338,33 @@
             "item": "silicon"
           }
         ],
-        "size": 3
+        "size": 3,
+        "unitPlans": [
+          {
+            "requirements": [
+              {
+                "amount": 15,
+                "item": "silicon"
+              }
+            ],
+            "time": 900.0,
+            "unit": "flare"
+          },
+          {
+            "requirements": [
+              {
+                "amount": 30,
+                "item": "silicon"
+              },
+              {
+                "amount": 15,
+                "item": "lead"
+              }
+            ],
+            "time": 2100.0,
+            "unit": "mono"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/units/air-factory.png"
     },
@@ -10327,7 +10401,37 @@
             "item": "metaglass"
           }
         ],
-        "size": 3
+        "size": 3,
+        "unitPlans": [
+          {
+            "requirements": [
+              {
+                "amount": 20,
+                "item": "silicon"
+              },
+              {
+                "amount": 35,
+                "item": "metaglass"
+              }
+            ],
+            "time": 2700.0,
+            "unit": "risso"
+          },
+          {
+            "requirements": [
+              {
+                "amount": 15,
+                "item": "silicon"
+              },
+              {
+                "amount": 20,
+                "item": "titanium"
+              }
+            ],
+            "time": 2100.0,
+            "unit": "retusa"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/units/naval-factory.png"
     },
@@ -10657,7 +10761,23 @@
             "item": "beryllium"
           }
         ],
-        "size": 3
+        "size": 3,
+        "unitPlans": [
+          {
+            "requirements": [
+              {
+                "amount": 40,
+                "item": "beryllium"
+              },
+              {
+                "amount": 50,
+                "item": "silicon"
+              }
+            ],
+            "time": 2100.0,
+            "unit": "stell"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/units/tank-fabricator.png"
     },
@@ -10690,7 +10810,23 @@
             "item": "beryllium"
           }
         ],
-        "size": 3
+        "size": 3,
+        "unitPlans": [
+          {
+            "requirements": [
+              {
+                "amount": 50,
+                "item": "graphite"
+              },
+              {
+                "amount": 70,
+                "item": "silicon"
+              }
+            ],
+            "time": 2400.0,
+            "unit": "elude"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/units/ship-fabricator.png"
     },
@@ -10727,7 +10863,23 @@
             "item": "tungsten"
           }
         ],
-        "size": 3
+        "size": 3,
+        "unitPlans": [
+          {
+            "requirements": [
+              {
+                "amount": 50,
+                "item": "beryllium"
+              },
+              {
+                "amount": 70,
+                "item": "silicon"
+              }
+            ],
+            "time": 2400.0,
+            "unit": "merui"
+          }
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/units/mech-fabricator.png"
     },

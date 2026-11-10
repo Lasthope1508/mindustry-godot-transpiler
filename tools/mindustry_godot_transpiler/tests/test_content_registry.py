@@ -568,6 +568,98 @@ public class Blocks{
         self.assertEqual(by_id["mixer"]["properties"].get("liquidOutputDirections"), [-1])
         self.assertEqual(by_id["smelter"]["properties"].get("liquidOutputDirections"), [-1])
 
+    def test_block_registry_captures_unit_factory_plans(self):
+        # N2120: UnitFactory consumes through a ConsumeItemDynamic
+        # over the current plan's requirements (UnitFactory.java:84),
+        # so the registry captures each plan (unit, build time, item
+        # requirements) from `plans = Seq.with(new
+        # UnitPlan(...), ...)`; a block without plans captures none.
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source = root / "upstream" / "core" / "src" / "mindustry" / "content"
+            source.mkdir(parents=True)
+            self._write_block_base(root)
+            (source / "Items.java").write_text(
+                """
+package mindustry.content;
+public class Items{
+    public static Item silicon, lead, coal, titanium;
+    public static void load(){
+        silicon = new Item("silicon", Color.valueOf("a6aeb5"));
+        lead = new Item("lead", Color.valueOf("a6aeb5"));
+        coal = new Item("coal", Color.valueOf("a6aeb5"));
+        titanium = new Item("titanium", Color.valueOf("a6aeb5"));
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            (source / "Liquids.java").write_text(
+                """
+package mindustry.content;
+public class Liquids{
+    public static Liquid water;
+    public static void load(){
+        water = new Liquid("water", Color.valueOf("596ab8"));
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            (source / "Blocks.java").write_text(
+                """
+package mindustry.content;
+public class Blocks{
+    public static Block groundFactory, reconstructor, tankFabricator;
+    public static void load(){
+        groundFactory = new UnitFactory("ground-factory"){{
+            requirements(Category.units, with(Items.copper, 50, Items.lead, 120, Items.silicon, 80));
+            plans = Seq.with(
+                new UnitPlan(UnitTypes.dagger, 60f * 15, with(Items.silicon, 10, Items.lead, 10)),
+                new UnitPlan(UnitTypes.crawler, 60f * 10, with(Items.silicon, 8, Items.coal, 10)),
+                new UnitPlan(UnitTypes.nova, 60f * 40, with(Items.silicon, 30, Items.lead, 20, Items.titanium, 20))
+            );
+            size = 3;
+            consumePower(1.2f);
+        }};
+        reconstructor = new Reconstructor("additive-reconstructor"){{
+            requirements(Category.units, with(Items.copper, 200, Items.lead, 120, Items.silicon, 90));
+            size = 3;
+            consumePower(3f);
+            consumeItems(with(Items.silicon, 40, Items.graphite, 40));
+        }};
+        tankFabricator = new UnitFactory("tank-fabricator"){{
+            requirements(Category.units, with(Items.silicon, 200, Items.lead, 150));
+            size = 3;
+            configurable = false;
+            plans.add(new UnitPlan(UnitTypes.stell, 60f * 35, with(Items.silicon, 50, Items.lead, 40)));
+            consumePower(1.5f);
+        }};
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            registry = build_content_registry(root / "upstream", root / "godot")
+
+        by_id = {block["id"]: block for block in registry["blocks"]}
+        self.assertEqual(
+            by_id["ground-factory"]["properties"].get("unitPlans"),
+            [
+                {"unit": "dagger", "time": 900.0, "requirements": [{"item": "silicon", "amount": 10}, {"item": "lead", "amount": 10}]},
+                {"unit": "crawler", "time": 600.0, "requirements": [{"item": "silicon", "amount": 8}, {"item": "coal", "amount": 10}]},
+                {"unit": "nova", "time": 2400.0, "requirements": [{"item": "silicon", "amount": 30}, {"item": "lead", "amount": 20}, {"item": "titanium", "amount": 20}]},
+            ],
+        )
+        self.assertNotIn("unitPlans", by_id["additive-reconstructor"]["properties"])
+        self.assertEqual(
+            by_id["tank-fabricator"]["properties"].get("unitPlans"),
+            [
+                {"unit": "stell", "time": 2100.0, "requirements": [{"item": "silicon", "amount": 50}, {"item": "lead", "amount": 40}]},
+            ],
+        )
+
     def test_block_registry_captures_wall_crafter_output(self):
         # N2114: WallCrafterBuild.shouldConsume() (WallCrafter.java:246)
         # reads the block's output item against itemCapacity, so the

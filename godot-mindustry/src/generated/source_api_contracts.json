@@ -62203,13 +62203,17 @@
         "results_by_cell"
       ],
       "tests": [
-        "test_unit_factory_live_loop_registration",
+        "test_all_unit_factory_consumer_binding_input_evidence_is_exact",
         "test_all_unit_factory_live_loop_input_evidence_is_exact",
+        "test_reference_graph_and_actual_unit_factory_consumer_binding",
+        "test_reference_graph_and_actual_unit_factory_live_loop",
+        "test_tick_binds_runtime_consumers_for_unit_factory",
         "test_tick_wires_frame_and_update_consumption_reads_cheating",
-        "test_reference_graph_and_actual_unit_factory_live_loop"
+        "test_unit_factory_consumer_binding_registration",
+        "test_unit_factory_live_loop_registration"
       ],
       "runtime_proof": "/root/UnitFactoryLiveLoopProof",
-      "rule": "Source-backed factory family live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live rules every simulate_factory tick, so BuildingComp.updateConsumption() skips consumption for a cheating team."
+      "rule": "Source-backed factory family live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live rules every simulate_factory tick, so a cheating team's factory counts everything as valid in updateConsumption, and the tick binds one RuntimeConsumer per consumeItem/consumeLiquid row and per current-plan requirement through the reinitialize path and runs the bound actors through updateConsumption so the placed factory consumes its liquid rows each tick and gates efficiency on its item rows."
     },
     "SourceUnitFactoryBuildState.source_unit_factory_update_consumption_state": {
       "status": "active",
@@ -63365,6 +63369,123 @@
       ],
       "runtime_proof": "/root/C06FactoryDumpOutputsProof",
       "rule": "Source-backed GenericCrafter dumpOutputs() live-loop slice."
+    },
+    "SourceUnitFactoryBuildState.source_bind_consumer_state": {
+      "status": "active",
+      "source_slice": "N2120",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+      "source_method": "UnitFactoryBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_unit_factory_bind_consumer_state_input.frame"
+        },
+        {
+          "name": "block",
+          "type": "Object",
+          "schema": "source_unit_factory_bind_consumer_state_input.block"
+        },
+        {
+          "name": "catalog",
+          "type": "Object",
+          "schema": "source_unit_factory_bind_consumer_state_input.catalog"
+        },
+        {
+          "name": "amounts",
+          "type": "Dictionary",
+          "schema": "source_unit_factory_bind_consumer_state_input.amounts"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "bound",
+        "consumers",
+        "rows"
+      ],
+      "tests": [
+        "test_unit_factory_consumer_binding_registration",
+        "test_all_unit_factory_consumer_binding_input_evidence_is_exact",
+        "test_tick_binds_runtime_consumers_for_unit_factory",
+        "test_reference_graph_and_actual_unit_factory_consumer_binding"
+      ],
+      "runtime_proof": "/root/UnitFactoryConsumerBindingProof",
+      "rule": "Source-backed UnitFactory family RuntimeConsumer binding; the tick binds one RuntimeConsumer per consumeItem/consumeLiquid row and per current-plan requirement and runs the bound actors through updateConsumption, so the placed factory consumes its liquid rows each tick and gates efficiency on its item rows."
+    },
+    "SourceUnitFactoryBuildState.source_unit_factory_plan_requirements_state": {
+      "status": "active",
+      "source_slice": "N2120",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+      "source_method": "UnitFactoryBuild.unit()",
+      "params": [
+        {
+          "name": "block",
+          "type": "Object",
+          "schema": "source_unit_factory_plan_requirements_state_input.block"
+        },
+        {
+          "name": "plan_index",
+          "type": "int",
+          "schema": "source_unit_factory_plan_requirements_state_input.plan_index"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "unit",
+        "time",
+        "items"
+      ],
+      "tests": [
+        "test_unit_factory_consumer_binding_registration",
+        "test_all_unit_factory_consumer_binding_input_evidence_is_exact",
+        "test_tick_binds_runtime_consumers_for_unit_factory",
+        "test_reference_graph_and_actual_unit_factory_consumer_binding"
+      ],
+      "runtime_proof": "/root/UnitFactoryConsumerBindingProof",
+      "rule": "Source-backed UnitFactory family RuntimeConsumer binding; the tick binds one RuntimeConsumer per consumeItem/consumeLiquid row and per current-plan requirement and runs the bound actors through updateConsumption, so the placed factory consumes its liquid rows each tick and gates efficiency on its item rows."
+    },
+    "SourceUnitFactoryBuildState.source_unit_factory_reinitialize_consumers_state": {
+      "status": "active",
+      "source_slice": "N2120",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+      "source_method": "Block.reinitializeConsumers()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_unit_factory_reinitialize_consumers_state_input.frame"
+        },
+        {
+          "name": "block",
+          "type": "Object",
+          "schema": "source_unit_factory_reinitialize_consumers_state_input.block"
+        },
+        {
+          "name": "catalog",
+          "type": "Object",
+          "schema": "source_unit_factory_reinitialize_consumers_state_input.catalog"
+        },
+        {
+          "name": "amounts",
+          "type": "Dictionary",
+          "schema": "source_unit_factory_reinitialize_consumers_state_input.amounts"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "reinitialized",
+        "bound",
+        "consumers",
+        "rows"
+      ],
+      "tests": [
+        "test_unit_factory_consumer_binding_registration",
+        "test_all_unit_factory_consumer_binding_input_evidence_is_exact",
+        "test_tick_binds_runtime_consumers_for_unit_factory",
+        "test_reference_graph_and_actual_unit_factory_consumer_binding"
+      ],
+      "runtime_proof": "/root/UnitFactoryConsumerBindingProof",
+      "rule": "Source-backed UnitFactory family RuntimeConsumer binding; the tick binds one RuntimeConsumer per consumeItem/consumeLiquid row and per current-plan requirement and runs the bound actors through updateConsumption, so the placed factory consumes its liquid rows each tick and gates efficiency on its item rows."
     }
   },
   "policy": {
