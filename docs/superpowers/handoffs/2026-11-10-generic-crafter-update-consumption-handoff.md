@@ -1,6 +1,6 @@
 # Handoff — C05 GenericCrafter updateConsumption efficiency adapter (N2111)
 
-Date: 2026-11-10. Batch: N2111 (single slice, SSOT slice). Commit: TBD.
+Date: 2026-11-10. Batch: N2111 (single slice, SSOT slice). Commit: d203a60.
 
 ## Done
 
