@@ -1,6 +1,6 @@
 # Handoff — C05 GenericCrafter family live-loop tick (N2110)
 
-Date: 2026-11-10. Batch: N2110 (single slice, SSOT slice; part of batch N2109–N2110). Commit: `TBD`.
+Date: 2026-11-10. Batch: N2110 (single slice, SSOT slice; part of batch N2109–N2110). Commit: `8fdeb69`.
 
 ## Done
 
