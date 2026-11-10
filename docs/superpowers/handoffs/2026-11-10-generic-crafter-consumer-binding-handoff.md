@@ -1,6 +1,6 @@
 # Handoff — C05 GenericCrafter RuntimeConsumer binding (N2112)
 
-Date: 2026-11-10. Batch: N2112 (single slice, SSOT slice). Commit: TBD.
+Date: 2026-11-10. Batch: N2112 (single slice, SSOT slice). Commit: 073d4c9.
 
 ## Done
 
