@@ -53430,6 +53430,122 @@
         "Wiring the factory family tick to the live cheating value is a later slice.",
         "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2109": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+      "java_class": "mindustry.world.blocks.units.UnitFactory.UnitFactoryBuild",
+      "java_method": "UnitFactoryBuild.updateTile(); Block.newBuilding(); BuildingComp.updateConsumption()",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_tick_buildings_state",
+      "exact_exprs": [
+        "public class UnitFactoryBuild extends UnitBuild{",
+        "public class ReconstructorBuild extends UnitBuild{",
+        "public class UnitAssemblerBuild extends PayloadBlockBuild<Payload>{",
+        "public void updateTile(){",
+        "public void updateConsumption(){",
+        "if(!block.hasConsumers || cheating()){",
+        "potentialEfficiency = enabled && productionValid() ? 1f : 0f;",
+        "efficiency = optionalEfficiency = shouldConsume() ? potentialEfficiency : 0f;",
+        "consumeBuilder.each(c -> c.multiplier = b -> state.rules.unitCost(b.team));",
+        "public float efficiencyScale(){",
+        "public final Building newBuilding(){",
+        "public boolean cheating(){",
+        "return team.rules().cheat;"
+      ],
+      "source_symbols": [
+        "source_unit_factory_tick_frame_state_input.frame",
+        "source_unit_factory_tick_frame_state_input.block_implementation",
+        "source_unit_factory_tick_frame_state_input.team_id",
+        "source_unit_factory_tick_frame_state_input.rules_state",
+        "source_unit_factory_tick_frame_state_result.frame",
+        "source_unit_factory_bind_frame_state_input.sprite",
+        "source_unit_factory_bind_frame_state_input.block",
+        "source_unit_factory_bind_frame_state_result.applied",
+        "source_unit_factory_bind_frame_state_result.frame",
+        "source_unit_factory_tick_buildings_state_input.game",
+        "source_unit_factory_tick_buildings_state_input.seconds",
+        "source_unit_factory_tick_buildings_state_result.ticked_count",
+        "source_unit_factory_tick_buildings_state_result.results_by_cell",
+        "source_unit_factory_update_consumption_state_input.frame",
+        "source_unit_factory_update_consumption_state_input.has_consumers",
+        "source_unit_factory_update_consumption_state_input.enabled",
+        "source_unit_factory_update_consumption_state_input.production_valid",
+        "source_unit_factory_update_consumption_state_input.should_consume",
+        "source_unit_factory_update_consumption_state_input.efficiency_scale",
+        "source_unit_factory_update_consumption_state_result.cheating",
+        "source_unit_factory_update_consumption_state_result.skipped_consumption",
+        "source_unit_factory_update_consumption_state_result.potential_efficiency",
+        "source_unit_factory_update_consumption_state_result.efficiency",
+        "source_unit_factory_update_consumption_state_result.optional_efficiency",
+        "source_unit_factory_update_consumption_state_result.should_consume_power"
+      ],
+      "tests": [
+        "test_unit_factory_live_loop_registration",
+        "test_all_unit_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_update_consumption_reads_cheating",
+        "test_reference_graph_and_actual_unit_factory_live_loop"
+      ],
+      "runtime_proof": "/root/UnitFactoryLiveLoopProof",
+      "deferred_exprs": [
+        "Binding the factory family RuntimeConsumer actors (one per consumeLiquid/consumeItem row, the drill model, N2097/N2100) so the non-cheating consumption path actually consumes is a later slice; the adapter runs the shared updateConsumption machinery over an empty actor list until then.",
+        "The three per-class shouldConsume() bodies (UnitFactory.java:446, Reconstructor.java:368, UnitAssembler.java:389) are later slices; the adapter takes should_consume as an input.",
+        "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
+    },
+    "N2110": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+      "java_class": "mindustry.world.blocks.production.GenericCrafter.GenericCrafterBuild",
+      "java_method": "GenericCrafterBuild.updateTile(); Block.newBuilding()",
+      "godot_owner": "SourceFactoryBuildState.source_factory_tick_buildings_state",
+      "exact_exprs": [
+        "public class GenericCrafter extends Block{",
+        "public class GenericCrafterBuild extends Building{",
+        "public boolean shouldConsume(){",
+        "public void updateTile(){",
+        "progress += getProgressIncrease(craftTime);",
+        "if(progress >= 1f){",
+        "dumpOutputs();",
+        "public class AttributeCrafter extends GenericCrafter{",
+        "public class AttributeCrafterBuild extends GenericCrafterBuild{",
+        "public class HeatCrafter extends GenericCrafter{",
+        "public class HeatCrafterBuild extends GenericCrafterBuild implements HeatConsumer{",
+        "public class HeatProducer extends GenericCrafter{",
+        "public class HeatProducerBuild extends GenericCrafterBuild implements HeatBlock{",
+        "super.updateTile();",
+        "public final Building newBuilding(){",
+        "public boolean cheating(){",
+        "return team.rules().cheat;",
+        "if(!block.hasConsumers || cheating()){",
+        "updateConsumption();"
+      ],
+      "source_symbols": [
+        "source_factory_tick_frame_state_input.frame",
+        "source_factory_tick_frame_state_input.block_implementation",
+        "source_factory_tick_frame_state_input.team_id",
+        "source_factory_tick_frame_state_input.rules_state",
+        "source_factory_tick_frame_state_result.frame",
+        "source_factory_bind_frame_state_input.sprite",
+        "source_factory_bind_frame_state_input.block",
+        "source_factory_bind_frame_state_result.applied",
+        "source_factory_bind_frame_state_result.frame",
+        "source_factory_tick_buildings_state_input.game",
+        "source_factory_tick_buildings_state_input.seconds",
+        "source_factory_tick_buildings_state_result.ticked_count",
+        "source_factory_tick_buildings_state_result.results_by_cell"
+      ],
+      "tests": [
+        "test_factory_live_loop_registration",
+        "test_all_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_factory_live_loop"
+      ],
+      "runtime_proof": "/root/FactoryLiveLoopProof",
+      "deferred_exprs": [
+        "Threading the frame cheating flag into GenericCrafterBuild updateConsumption efficiency (BuildingComp.java:1944-1945, `if(!block.hasConsumers || cheating()){`) so a cheating factory actually skips consumption and keeps efficiency is a later slice; the tick wiring the flag live is what this slice does.",
+        "Wiring the remaining factory-adjacent families (Separator, Incinerator, WallCrafter, SingleBlockProducer -- Block/BlockProducer builds, not GenericCrafterBuild) to the live cheating value is a later slice.",
+        "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1

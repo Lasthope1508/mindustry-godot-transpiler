@@ -111,6 +111,31 @@
           "type": "Variant"
         }
       }
+    },
+    "source_unit_factory_tick_buildings_state_input": {
+      "canonical_schema": "source_state_schema.source_unit_factory_tick_buildings_state_input",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "build.onProximityUpdate();",
+          "rule": "The live game world: the placed-building index, the content catalog and the live rules the tick reads every tick.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_tick_buildings_state"
+          ]
+        },
+        "seconds": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+          "java_expr": "public void updateTile(){",
+          "rule": "The frame delta; the wiring itself only refreshes keys, so the delta is carried for the later production/consumption slices.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_tick_buildings_state"
+          ]
+        }
+      }
     }
   }
 }

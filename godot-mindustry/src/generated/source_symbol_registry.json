@@ -165164,6 +165164,614 @@
         "test_reference_graph_and_actual_turret_live_loop"
       ],
       "runtime_proof": "/root/TurretLiveLoopProof"
+    },
+    "source_factory_tick_frame_state_input.frame": {
+      "status": "source-backed",
+      "godot_owner": "SourceFactoryBuildState.source_factory_tick_frame_state",
+      "godot_symbol": "source_factory_tick_frame_state_input.frame",
+      "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+      "java_method": "GenericCrafterBuild.updateTile()",
+      "java_expr": "public class GenericCrafterBuild extends Building{",
+      "rule": "The factory frame (the port Building state) the tick wires every tick.",
+      "tests": [
+        "test_factory_live_loop_registration",
+        "test_all_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_factory_live_loop"
+      ],
+      "runtime_proof": "/root/FactoryLiveLoopProof"
+    },
+    "source_factory_tick_frame_state_input.block_implementation": {
+      "status": "source-backed",
+      "godot_owner": "SourceFactoryBuildState.source_factory_tick_frame_state",
+      "godot_symbol": "source_factory_tick_frame_state_input.block_implementation",
+      "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+      "java_method": "GenericCrafterBuild.updateTile()",
+      "java_expr": "public class GenericCrafter extends Block{",
+      "rule": "The block's implementation, from block.implementation like the turret tick sets it (N2108); the driver only ticks GenericCrafterBuild implementations.",
+      "tests": [
+        "test_factory_live_loop_registration",
+        "test_all_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_factory_live_loop"
+      ],
+      "runtime_proof": "/root/FactoryLiveLoopProof"
+    },
+    "source_factory_tick_frame_state_input.team_id": {
+      "status": "source-backed",
+      "godot_owner": "SourceFactoryBuildState.source_factory_tick_frame_state",
+      "godot_symbol": "source_factory_tick_frame_state_input.team_id",
+      "java_source": "core/src/mindustry/entities/comp/TeamComp.java",
+      "java_method": "GenericCrafterBuild.updateTile()",
+      "java_expr": "public boolean cheating(){",
+      "rule": "The building's team id, from the sprite's team meta; cheating() reads this team's TeamRule.",
+      "tests": [
+        "test_factory_live_loop_registration",
+        "test_all_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_factory_live_loop"
+      ],
+      "runtime_proof": "/root/FactoryLiveLoopProof"
+    },
+    "source_factory_tick_frame_state_input.rules_state": {
+      "status": "source-backed",
+      "godot_owner": "SourceFactoryBuildState.source_factory_tick_frame_state",
+      "godot_symbol": "source_factory_tick_frame_state_input.rules_state",
+      "java_source": "core/src/mindustry/entities/comp/TeamComp.java",
+      "java_method": "GenericCrafterBuild.updateTile()",
+      "java_expr": "return team.rules().cheat;",
+      "rule": "The live game rules (Vars.state.rules, N2098), returned as-is so the cheat read stays live.",
+      "tests": [
+        "test_factory_live_loop_registration",
+        "test_all_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_factory_live_loop"
+      ],
+      "runtime_proof": "/root/FactoryLiveLoopProof"
+    },
+    "source_factory_tick_frame_state_result.frame": {
+      "status": "source-backed",
+      "godot_owner": "SourceFactoryBuildState.source_factory_tick_frame_state",
+      "godot_symbol": "source_factory_tick_frame_state_result.frame",
+      "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+      "java_method": "GenericCrafterBuild.updateTile()",
+      "java_expr": "public class GenericCrafterBuild extends Building{",
+      "rule": "The wired frame, with block_implementation, team_id, rules_state and the live cheating flag set.",
+      "tests": [
+        "test_factory_live_loop_registration",
+        "test_all_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_factory_live_loop"
+      ],
+      "runtime_proof": "/root/FactoryLiveLoopProof"
+    },
+    "source_factory_bind_frame_state_input.sprite": {
+      "status": "source-backed",
+      "godot_owner": "SourceFactoryBuildState.source_factory_bind_frame_state",
+      "godot_symbol": "source_factory_bind_frame_state_input.sprite",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.newBuilding()",
+      "java_expr": "public final Building newBuilding(){",
+      "rule": "The placed Building sprite; only a factory-family sprite gets a frame bound at placement.",
+      "tests": [
+        "test_factory_live_loop_registration",
+        "test_all_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_factory_live_loop"
+      ],
+      "runtime_proof": "/root/FactoryLiveLoopProof"
+    },
+    "source_factory_bind_frame_state_input.block": {
+      "status": "source-backed",
+      "godot_owner": "SourceFactoryBuildState.source_factory_bind_frame_state",
+      "godot_symbol": "source_factory_bind_frame_state_input.block",
+      "java_source": "core/src/mindustry/world/blocks/production/AttributeCrafter.java",
+      "java_method": "Block.newBuilding()",
+      "java_expr": "public class AttributeCrafter extends GenericCrafter{",
+      "rule": "The typed block definition; the frame binds only when its implementation is a GenericCrafterBuild (GenericCrafter, AttributeCrafter, HeatCrafter, HeatProducer).",
+      "tests": [
+        "test_factory_live_loop_registration",
+        "test_all_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_factory_live_loop"
+      ],
+      "runtime_proof": "/root/FactoryLiveLoopProof"
+    },
+    "source_factory_bind_frame_state_result.applied": {
+      "status": "source-backed",
+      "godot_owner": "SourceFactoryBuildState.source_factory_bind_frame_state",
+      "godot_symbol": "source_factory_bind_frame_state_result.applied",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.newBuilding()",
+      "java_expr": "public final Building newBuilding(){",
+      "rule": "Whether the frame was actually bound at placement; false for any other block or an already-bound sprite.",
+      "tests": [
+        "test_factory_live_loop_registration",
+        "test_all_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_factory_live_loop"
+      ],
+      "runtime_proof": "/root/FactoryLiveLoopProof"
+    },
+    "source_factory_bind_frame_state_result.frame": {
+      "status": "source-backed",
+      "godot_owner": "SourceFactoryBuildState.source_factory_bind_frame_state",
+      "godot_symbol": "source_factory_bind_frame_state_result.frame",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.newBuilding()",
+      "java_expr": "public final Building newBuilding(){",
+      "rule": "The bound frame -- the port Building state created at placement (Block.newBuilding); empty until the live-loop tick fills its keys.",
+      "tests": [
+        "test_factory_live_loop_registration",
+        "test_all_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_factory_live_loop"
+      ],
+      "runtime_proof": "/root/FactoryLiveLoopProof"
+    },
+    "source_factory_tick_buildings_state_input.game": {
+      "status": "source-backed",
+      "godot_owner": "SourceFactoryBuildState.source_factory_tick_buildings_state",
+      "godot_symbol": "source_factory_tick_buildings_state_input.game",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "GenericCrafterBuild.updateTile()",
+      "java_expr": "build.onProximityUpdate();",
+      "rule": "The live game world: the placed-building index, the content catalog and the live rules the tick reads every tick.",
+      "tests": [
+        "test_factory_live_loop_registration",
+        "test_all_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_factory_live_loop"
+      ],
+      "runtime_proof": "/root/FactoryLiveLoopProof"
+    },
+    "source_factory_tick_buildings_state_input.seconds": {
+      "status": "source-backed",
+      "godot_owner": "SourceFactoryBuildState.source_factory_tick_buildings_state",
+      "godot_symbol": "source_factory_tick_buildings_state_input.seconds",
+      "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+      "java_method": "GenericCrafterBuild.updateTile()",
+      "java_expr": "public void updateTile(){",
+      "rule": "The frame delta; the wiring itself only refreshes keys, so the delta is carried for the later crafting/consumption slices.",
+      "tests": [
+        "test_factory_live_loop_registration",
+        "test_all_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_factory_live_loop"
+      ],
+      "runtime_proof": "/root/FactoryLiveLoopProof"
+    },
+    "source_factory_tick_buildings_state_result.ticked_count": {
+      "status": "source-backed",
+      "godot_owner": "SourceFactoryBuildState.source_factory_tick_buildings_state",
+      "godot_symbol": "source_factory_tick_buildings_state_result.ticked_count",
+      "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+      "java_method": "GenericCrafterBuild.updateTile()",
+      "java_expr": "public void updateTile(){",
+      "rule": "How many placed factory-family builds had their frame keys refreshed this tick.",
+      "tests": [
+        "test_factory_live_loop_registration",
+        "test_all_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_factory_live_loop"
+      ],
+      "runtime_proof": "/root/FactoryLiveLoopProof"
+    },
+    "source_factory_tick_buildings_state_result.results_by_cell": {
+      "status": "source-backed",
+      "godot_owner": "SourceFactoryBuildState.source_factory_tick_buildings_state",
+      "godot_symbol": "source_factory_tick_buildings_state_result.results_by_cell",
+      "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+      "java_method": "GenericCrafterBuild.updateTile()",
+      "java_expr": "public class GenericCrafterBuild extends Building{",
+      "rule": "Per-cell wired frames, keyed by the game cell key like the turret tick results; a cell maps to its refreshed frame dict.",
+      "tests": [
+        "test_factory_live_loop_registration",
+        "test_all_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_factory_live_loop"
+      ],
+      "runtime_proof": "/root/FactoryLiveLoopProof"
+    },
+    "source_unit_factory_tick_frame_state_input.frame": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_tick_frame_state",
+      "godot_symbol": "source_unit_factory_tick_frame_state_input.frame",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+      "java_method": "UnitFactoryBuild.updateTile()",
+      "java_expr": "public class UnitFactoryBuild extends UnitBuild{",
+      "rule": "The factory frame (the port Building state) the tick wires every tick.",
+      "tests": [
+        "test_unit_factory_live_loop_registration",
+        "test_all_unit_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_update_consumption_reads_cheating",
+        "test_reference_graph_and_actual_unit_factory_live_loop"
+      ],
+      "runtime_proof": "/root/UnitFactoryLiveLoopProof"
+    },
+    "source_unit_factory_tick_frame_state_input.block_implementation": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_tick_frame_state",
+      "godot_symbol": "source_unit_factory_tick_frame_state_input.block_implementation",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+      "java_method": "UnitFactoryBuild.updateTile()",
+      "java_expr": "public class UnitFactoryBuild extends UnitBuild{",
+      "rule": "The block's implementation, from block.implementation like the drill/turret ticks set it (N2097/N2108); the driver only ticks factory-family builds.",
+      "tests": [
+        "test_unit_factory_live_loop_registration",
+        "test_all_unit_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_update_consumption_reads_cheating",
+        "test_reference_graph_and_actual_unit_factory_live_loop"
+      ],
+      "runtime_proof": "/root/UnitFactoryLiveLoopProof"
+    },
+    "source_unit_factory_tick_frame_state_input.team_id": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_tick_frame_state",
+      "godot_symbol": "source_unit_factory_tick_frame_state_input.team_id",
+      "java_source": "core/src/mindustry/entities/comp/TeamComp.java",
+      "java_method": "UnitFactoryBuild.updateTile()",
+      "java_expr": "public boolean cheating(){",
+      "rule": "The building's team id, from the sprite's team meta; cheating() reads this team's TeamRule.",
+      "tests": [
+        "test_unit_factory_live_loop_registration",
+        "test_all_unit_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_update_consumption_reads_cheating",
+        "test_reference_graph_and_actual_unit_factory_live_loop"
+      ],
+      "runtime_proof": "/root/UnitFactoryLiveLoopProof"
+    },
+    "source_unit_factory_tick_frame_state_input.rules_state": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_tick_frame_state",
+      "godot_symbol": "source_unit_factory_tick_frame_state_input.rules_state",
+      "java_source": "core/src/mindustry/entities/comp/TeamComp.java",
+      "java_method": "UnitFactoryBuild.updateTile()",
+      "java_expr": "return team.rules().cheat;",
+      "rule": "The live game rules (Vars.state.rules, N2098), returned as-is so the cheat read stays live.",
+      "tests": [
+        "test_unit_factory_live_loop_registration",
+        "test_all_unit_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_update_consumption_reads_cheating",
+        "test_reference_graph_and_actual_unit_factory_live_loop"
+      ],
+      "runtime_proof": "/root/UnitFactoryLiveLoopProof"
+    },
+    "source_unit_factory_tick_frame_state_result.frame": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_tick_frame_state",
+      "godot_symbol": "source_unit_factory_tick_frame_state_result.frame",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+      "java_method": "UnitFactoryBuild.updateTile()",
+      "java_expr": "public class UnitFactoryBuild extends UnitBuild{",
+      "rule": "The wired frame, with block_implementation, team_id, rules_state and the live cheating flag set.",
+      "tests": [
+        "test_unit_factory_live_loop_registration",
+        "test_all_unit_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_update_consumption_reads_cheating",
+        "test_reference_graph_and_actual_unit_factory_live_loop"
+      ],
+      "runtime_proof": "/root/UnitFactoryLiveLoopProof"
+    },
+    "source_unit_factory_bind_frame_state_input.sprite": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_bind_frame_state",
+      "godot_symbol": "source_unit_factory_bind_frame_state_input.sprite",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.newBuilding()",
+      "java_expr": "public final Building newBuilding(){",
+      "rule": "The placed Building sprite; only a factory-family sprite gets a frame bound at placement.",
+      "tests": [
+        "test_unit_factory_live_loop_registration",
+        "test_all_unit_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_update_consumption_reads_cheating",
+        "test_reference_graph_and_actual_unit_factory_live_loop"
+      ],
+      "runtime_proof": "/root/UnitFactoryLiveLoopProof"
+    },
+    "source_unit_factory_bind_frame_state_input.block": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_bind_frame_state",
+      "godot_symbol": "source_unit_factory_bind_frame_state_input.block",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+      "java_method": "Block.newBuilding()",
+      "java_expr": "public class UnitFactoryBuild extends UnitBuild{",
+      "rule": "The typed block definition; the frame binds only when its implementation is a factory-family build (UnitFactory, Reconstructor, UnitAssembler).",
+      "tests": [
+        "test_unit_factory_live_loop_registration",
+        "test_all_unit_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_update_consumption_reads_cheating",
+        "test_reference_graph_and_actual_unit_factory_live_loop"
+      ],
+      "runtime_proof": "/root/UnitFactoryLiveLoopProof"
+    },
+    "source_unit_factory_bind_frame_state_result.applied": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_bind_frame_state",
+      "godot_symbol": "source_unit_factory_bind_frame_state_result.applied",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.newBuilding()",
+      "java_expr": "public final Building newBuilding(){",
+      "rule": "Whether the frame was actually bound at placement; false for any other block or an already-bound sprite.",
+      "tests": [
+        "test_unit_factory_live_loop_registration",
+        "test_all_unit_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_update_consumption_reads_cheating",
+        "test_reference_graph_and_actual_unit_factory_live_loop"
+      ],
+      "runtime_proof": "/root/UnitFactoryLiveLoopProof"
+    },
+    "source_unit_factory_bind_frame_state_result.frame": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_bind_frame_state",
+      "godot_symbol": "source_unit_factory_bind_frame_state_result.frame",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.newBuilding()",
+      "java_expr": "public final Building newBuilding(){",
+      "rule": "The bound frame -- the port Building state created at placement (Block.newBuilding); empty until the live-loop tick fills its keys.",
+      "tests": [
+        "test_unit_factory_live_loop_registration",
+        "test_all_unit_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_update_consumption_reads_cheating",
+        "test_reference_graph_and_actual_unit_factory_live_loop"
+      ],
+      "runtime_proof": "/root/UnitFactoryLiveLoopProof"
+    },
+    "source_unit_factory_tick_buildings_state_input.game": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_tick_buildings_state",
+      "godot_symbol": "source_unit_factory_tick_buildings_state_input.game",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "UnitFactoryBuild.updateTile()",
+      "java_expr": "build.onProximityUpdate();",
+      "rule": "The live game world: the placed-building index, the content catalog and the live rules the tick reads every tick.",
+      "tests": [
+        "test_unit_factory_live_loop_registration",
+        "test_all_unit_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_update_consumption_reads_cheating",
+        "test_reference_graph_and_actual_unit_factory_live_loop"
+      ],
+      "runtime_proof": "/root/UnitFactoryLiveLoopProof"
+    },
+    "source_unit_factory_tick_buildings_state_input.seconds": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_tick_buildings_state",
+      "godot_symbol": "source_unit_factory_tick_buildings_state_input.seconds",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+      "java_method": "UnitFactoryBuild.updateTile()",
+      "java_expr": "public void updateTile(){",
+      "rule": "The frame delta; the wiring itself only refreshes keys, so the delta is carried for the later production/consumption slices.",
+      "tests": [
+        "test_unit_factory_live_loop_registration",
+        "test_all_unit_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_update_consumption_reads_cheating",
+        "test_reference_graph_and_actual_unit_factory_live_loop"
+      ],
+      "runtime_proof": "/root/UnitFactoryLiveLoopProof"
+    },
+    "source_unit_factory_tick_buildings_state_result.ticked_count": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_tick_buildings_state",
+      "godot_symbol": "source_unit_factory_tick_buildings_state_result.ticked_count",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+      "java_method": "UnitFactoryBuild.updateTile()",
+      "java_expr": "public void updateTile(){",
+      "rule": "How many placed factory-family builds had their frame keys refreshed this tick.",
+      "tests": [
+        "test_unit_factory_live_loop_registration",
+        "test_all_unit_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_update_consumption_reads_cheating",
+        "test_reference_graph_and_actual_unit_factory_live_loop"
+      ],
+      "runtime_proof": "/root/UnitFactoryLiveLoopProof"
+    },
+    "source_unit_factory_tick_buildings_state_result.results_by_cell": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_tick_buildings_state",
+      "godot_symbol": "source_unit_factory_tick_buildings_state_result.results_by_cell",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+      "java_method": "UnitFactoryBuild.updateTile()",
+      "java_expr": "public class UnitFactoryBuild extends UnitBuild{",
+      "rule": "Per-cell wired frames, keyed by the game cell key like the drill/turret tick results; a cell maps to its refreshed frame dict.",
+      "tests": [
+        "test_unit_factory_live_loop_registration",
+        "test_all_unit_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_update_consumption_reads_cheating",
+        "test_reference_graph_and_actual_unit_factory_live_loop"
+      ],
+      "runtime_proof": "/root/UnitFactoryLiveLoopProof"
+    },
+    "source_unit_factory_update_consumption_state_input.frame": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_update_consumption_state",
+      "godot_symbol": "source_unit_factory_update_consumption_state_input.frame",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.updateConsumption()",
+      "java_expr": "if(!block.hasConsumers || cheating()){",
+      "rule": "The factory frame; its cheating flag decides whether updateConsumption takes the early return.",
+      "tests": [
+        "test_unit_factory_live_loop_registration",
+        "test_all_unit_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_update_consumption_reads_cheating",
+        "test_reference_graph_and_actual_unit_factory_live_loop"
+      ],
+      "runtime_proof": "/root/UnitFactoryLiveLoopProof"
+    },
+    "source_unit_factory_update_consumption_state_input.has_consumers": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_update_consumption_state",
+      "godot_symbol": "source_unit_factory_update_consumption_state_input.has_consumers",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.updateConsumption()",
+      "java_expr": "if(!block.hasConsumers || cheating()){",
+      "rule": "Whether the block has consumers (block.hasConsumers); with none, updateConsumption returns early just like when cheating.",
+      "tests": [
+        "test_unit_factory_live_loop_registration",
+        "test_all_unit_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_update_consumption_reads_cheating",
+        "test_reference_graph_and_actual_unit_factory_live_loop"
+      ],
+      "runtime_proof": "/root/UnitFactoryLiveLoopProof"
+    },
+    "source_unit_factory_update_consumption_state_input.enabled": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_update_consumption_state",
+      "godot_symbol": "source_unit_factory_update_consumption_state_input.enabled",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.updateConsumption()",
+      "java_expr": "potentialEfficiency = enabled && productionValid() ? 1f : 0f;",
+      "rule": "Whether the building is enabled; the cheating branch sets potentialEfficiency from enabled and productionValid.",
+      "tests": [
+        "test_unit_factory_live_loop_registration",
+        "test_all_unit_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_update_consumption_reads_cheating",
+        "test_reference_graph_and_actual_unit_factory_live_loop"
+      ],
+      "runtime_proof": "/root/UnitFactoryLiveLoopProof"
+    },
+    "source_unit_factory_update_consumption_state_input.production_valid": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_update_consumption_state",
+      "godot_symbol": "source_unit_factory_update_consumption_state_input.production_valid",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.updateConsumption()",
+      "java_expr": "potentialEfficiency = enabled && productionValid() ? 1f : 0f;",
+      "rule": "Whether production is valid (productionValid()); the cheating branch sets potentialEfficiency from enabled and productionValid.",
+      "tests": [
+        "test_unit_factory_live_loop_registration",
+        "test_all_unit_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_update_consumption_reads_cheating",
+        "test_reference_graph_and_actual_unit_factory_live_loop"
+      ],
+      "runtime_proof": "/root/UnitFactoryLiveLoopProof"
+    },
+    "source_unit_factory_update_consumption_state_input.should_consume": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_update_consumption_state",
+      "godot_symbol": "source_unit_factory_update_consumption_state_input.should_consume",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.updateConsumption()",
+      "java_expr": "efficiency = optionalEfficiency = shouldConsume() ? potentialEfficiency : 0f;",
+      "rule": "Whether the build should consume (shouldConsume()); the cheating branch sets efficiency from it.",
+      "tests": [
+        "test_unit_factory_live_loop_registration",
+        "test_all_unit_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_update_consumption_reads_cheating",
+        "test_reference_graph_and_actual_unit_factory_live_loop"
+      ],
+      "runtime_proof": "/root/UnitFactoryLiveLoopProof"
+    },
+    "source_unit_factory_update_consumption_state_input.efficiency_scale": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_update_consumption_state",
+      "godot_symbol": "source_unit_factory_update_consumption_state_input.efficiency_scale",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.updateConsumption()",
+      "java_expr": "public float efficiencyScale(){",
+      "rule": "The efficiency scale (BuildingComp.efficiencyScale(), default 1f) the machinery multiplies the result by.",
+      "tests": [
+        "test_unit_factory_live_loop_registration",
+        "test_all_unit_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_update_consumption_reads_cheating",
+        "test_reference_graph_and_actual_unit_factory_live_loop"
+      ],
+      "runtime_proof": "/root/UnitFactoryLiveLoopProof"
+    },
+    "source_unit_factory_update_consumption_state_result.cheating": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_update_consumption_state",
+      "godot_symbol": "source_unit_factory_update_consumption_state_result.cheating",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.updateConsumption()",
+      "java_expr": "if(!block.hasConsumers || cheating()){",
+      "rule": "Whether the frame cheated, so updateConsumption took the early return and skipped consumption.",
+      "tests": [
+        "test_unit_factory_live_loop_registration",
+        "test_all_unit_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_update_consumption_reads_cheating",
+        "test_reference_graph_and_actual_unit_factory_live_loop"
+      ],
+      "runtime_proof": "/root/UnitFactoryLiveLoopProof"
+    },
+    "source_unit_factory_update_consumption_state_result.skipped_consumption": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_update_consumption_state",
+      "godot_symbol": "source_unit_factory_update_consumption_state_result.skipped_consumption",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.updateConsumption()",
+      "java_expr": "if(!block.hasConsumers || cheating()){",
+      "rule": "Whether consumption was skipped: the Java early-return condition itself (no consumers, or cheating).",
+      "tests": [
+        "test_unit_factory_live_loop_registration",
+        "test_all_unit_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_update_consumption_reads_cheating",
+        "test_reference_graph_and_actual_unit_factory_live_loop"
+      ],
+      "runtime_proof": "/root/UnitFactoryLiveLoopProof"
+    },
+    "source_unit_factory_update_consumption_state_result.potential_efficiency": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_update_consumption_state",
+      "godot_symbol": "source_unit_factory_update_consumption_state_result.potential_efficiency",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.updateConsumption()",
+      "java_expr": "potentialEfficiency = enabled && productionValid() ? 1f : 0f;",
+      "rule": "The potential efficiency from the cheating branch (enabled and productionValid, else 0).",
+      "tests": [
+        "test_unit_factory_live_loop_registration",
+        "test_all_unit_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_update_consumption_reads_cheating",
+        "test_reference_graph_and_actual_unit_factory_live_loop"
+      ],
+      "runtime_proof": "/root/UnitFactoryLiveLoopProof"
+    },
+    "source_unit_factory_update_consumption_state_result.efficiency": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_update_consumption_state",
+      "godot_symbol": "source_unit_factory_update_consumption_state_result.efficiency",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.updateConsumption()",
+      "java_expr": "efficiency = optionalEfficiency = shouldConsume() ? potentialEfficiency : 0f;",
+      "rule": "The efficiency from the cheating branch (potential when shouldConsume, else 0).",
+      "tests": [
+        "test_unit_factory_live_loop_registration",
+        "test_all_unit_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_update_consumption_reads_cheating",
+        "test_reference_graph_and_actual_unit_factory_live_loop"
+      ],
+      "runtime_proof": "/root/UnitFactoryLiveLoopProof"
+    },
+    "source_unit_factory_update_consumption_state_result.optional_efficiency": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_update_consumption_state",
+      "godot_symbol": "source_unit_factory_update_consumption_state_result.optional_efficiency",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.updateConsumption()",
+      "java_expr": "efficiency = optionalEfficiency = shouldConsume() ? potentialEfficiency : 0f;",
+      "rule": "The optional efficiency from the cheating branch (same as efficiency here).",
+      "tests": [
+        "test_unit_factory_live_loop_registration",
+        "test_all_unit_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_update_consumption_reads_cheating",
+        "test_reference_graph_and_actual_unit_factory_live_loop"
+      ],
+      "runtime_proof": "/root/UnitFactoryLiveLoopProof"
+    },
+    "source_unit_factory_update_consumption_state_result.should_consume_power": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_update_consumption_state",
+      "godot_symbol": "source_unit_factory_update_consumption_state_result.should_consume_power",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.updateConsumption()",
+      "java_expr": "if(!block.hasConsumers || cheating()){",
+      "rule": "Whether the build should consume power; the cheating branch sets it true.",
+      "tests": [
+        "test_unit_factory_live_loop_registration",
+        "test_all_unit_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_update_consumption_reads_cheating",
+        "test_reference_graph_and_actual_unit_factory_live_loop"
+      ],
+      "runtime_proof": "/root/UnitFactoryLiveLoopProof"
     }
   },
   "version": 1

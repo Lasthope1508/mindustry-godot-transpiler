@@ -737,6 +737,38 @@
       "runtime_proof": "/root/DrillProximityLifecycleProof",
       "rule": "One world-scoped typed Item view; reuse canonical countOre/drop/Tile mutation and existing per-Building frame. No per-tick ore re-selection. Only stated partial lifecycle/production scope; deferred behaviors are recorded in ledger."
     },
+    "SourceFactoryBuildState.source_factory_tick_buildings_state": {
+      "canonical_contract": "source_api_contracts.SourceFactoryBuildState.source_factory_tick_buildings_state",
+      "status": "active",
+      "source_slice": "N2110",
+      "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+      "source_method": "GenericCrafterBuild.updateTile()",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_factory_tick_buildings_state_input.game"
+        },
+        {
+          "name": "seconds",
+          "type": "float",
+          "schema": "source_factory_tick_buildings_state_input.seconds"
+        }
+      ],
+      "return_keys": [
+        "ticked_count",
+        "results_by_cell"
+      ],
+      "tests": [
+        "test_factory_live_loop_registration",
+        "test_all_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_factory_live_loop"
+      ],
+      "runtime_proof": "/root/FactoryLiveLoopProof",
+      "rule": "Source-backed factory family live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live rules every simulate_factory tick, so a cheating team's factory counts everything as valid in updateConsumption.",
+      "return_type": "Dictionary"
+    },
     "SourceFactoryRuntimeState.source_factory_dump_all_drill_outputs_state": {
       "canonical_contract": "source_api_contracts.SourceFactoryRuntimeState.source_factory_dump_all_drill_outputs_state",
       "status": "active",

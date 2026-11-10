@@ -51,6 +51,47 @@
         "test_reference_graph_and_actual_cost_multiplier_for_block"
       ],
       "runtime_proof": "/root/CostMultiplierForBlockProof"
+    },
+    "N2109": {
+      "canonical_ledger": "source_slice_ledger.N2109",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+      "java_method": "UnitFactoryBuild.updateTile(); Block.newBuilding(); BuildingComp.updateConsumption()",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_tick_buildings_state",
+      "source_symbols": [
+        "source_unit_factory_tick_frame_state_input.frame",
+        "source_unit_factory_tick_frame_state_input.block_implementation",
+        "source_unit_factory_tick_frame_state_input.team_id",
+        "source_unit_factory_tick_frame_state_input.rules_state",
+        "source_unit_factory_tick_frame_state_result.frame",
+        "source_unit_factory_bind_frame_state_input.sprite",
+        "source_unit_factory_bind_frame_state_input.block",
+        "source_unit_factory_bind_frame_state_result.applied",
+        "source_unit_factory_bind_frame_state_result.frame",
+        "source_unit_factory_tick_buildings_state_input.game",
+        "source_unit_factory_tick_buildings_state_input.seconds",
+        "source_unit_factory_tick_buildings_state_result.ticked_count",
+        "source_unit_factory_tick_buildings_state_result.results_by_cell",
+        "source_unit_factory_update_consumption_state_input.frame",
+        "source_unit_factory_update_consumption_state_input.has_consumers",
+        "source_unit_factory_update_consumption_state_input.enabled",
+        "source_unit_factory_update_consumption_state_input.production_valid",
+        "source_unit_factory_update_consumption_state_input.should_consume",
+        "source_unit_factory_update_consumption_state_input.efficiency_scale",
+        "source_unit_factory_update_consumption_state_result.cheating",
+        "source_unit_factory_update_consumption_state_result.skipped_consumption",
+        "source_unit_factory_update_consumption_state_result.potential_efficiency",
+        "source_unit_factory_update_consumption_state_result.efficiency",
+        "source_unit_factory_update_consumption_state_result.optional_efficiency",
+        "source_unit_factory_update_consumption_state_result.should_consume_power"
+      ],
+      "tests": [
+        "test_unit_factory_live_loop_registration",
+        "test_all_unit_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_update_consumption_reads_cheating",
+        "test_reference_graph_and_actual_unit_factory_live_loop"
+      ],
+      "runtime_proof": "/root/UnitFactoryLiveLoopProof"
     }
   }
 }

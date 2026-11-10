@@ -119,6 +119,38 @@
       "runtime_proof": "/root/CostMultiplierForBlockProof",
       "rule": "Source-backed per-block cost multiplier; unit factories pay Rules.unitCost, other blocks pay the 1.0 default; a ContinuousLiquidTurret pays 1 / ammoMultiplier for its current liquid, 1.0 when the liquid has no ammo type.",
       "return_type": "Dictionary"
+    },
+    "SourceUnitFactoryBuildState.source_unit_factory_tick_buildings_state": {
+      "canonical_contract": "source_api_contracts.SourceUnitFactoryBuildState.source_unit_factory_tick_buildings_state",
+      "status": "active",
+      "source_slice": "N2109",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+      "source_method": "UnitFactoryBuild.updateTile()",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_unit_factory_tick_buildings_state_input.game"
+        },
+        {
+          "name": "seconds",
+          "type": "float",
+          "schema": "source_unit_factory_tick_buildings_state_input.seconds"
+        }
+      ],
+      "return_keys": [
+        "ticked_count",
+        "results_by_cell"
+      ],
+      "tests": [
+        "test_unit_factory_live_loop_registration",
+        "test_all_unit_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_update_consumption_reads_cheating",
+        "test_reference_graph_and_actual_unit_factory_live_loop"
+      ],
+      "runtime_proof": "/root/UnitFactoryLiveLoopProof",
+      "rule": "Source-backed factory family live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live rules every simulate_factory tick, so BuildingComp.updateConsumption() skips consumption for a cheating team.",
+      "return_type": "Dictionary"
     }
   }
 }

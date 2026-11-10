@@ -12,6 +12,8 @@ const source_pump_runtime_state := preload("res://src/game/SourcePumpRuntimeStat
 const source_conduit_runtime_state := preload("res://src/game/SourceConduitRuntimeState.gd")
 const source_continuous_liquid_turret_build_state := preload("res://src/game/SourceContinuousLiquidTurretBuildState.gd")
 const source_turret_build_state := preload("res://src/game/SourceTurretBuildState.gd")
+const source_factory_build_state := preload("res://src/game/SourceFactoryBuildState.gd")
+const source_unit_factory_build_state := preload("res://src/game/SourceUnitFactoryBuildState.gd")
 
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
 const source_drill_dump_runtime_state_script := preload("res://src/game/SourceDrillDumpRuntimeState.gd")
@@ -169,6 +171,20 @@ static func simulate_factory(game: Object, delta: float) -> void:
 	# live rules, so a cheating team's turret skips ammo consumption
 	# (TurretBuild.useAmmo(), Turret.java:682).
 	source_turret_build_state.source_turret_tick_buildings_state(game, delta)
+	# The factory-family tick runs every live-loop tick (N2109): each
+	# placed factory-family build (GenericCrafter/AttributeCrafter/
+	# HeatCrafter/HeatProducer, whose builds run
+	# GenericCrafterBuild.updateTile(), GenericCrafter.java:235) gets
+	# its frame keys refreshed from the live rules, so a cheating
+	# team's factory counts everything as valid
+	# (BuildingComp.updateConsumption(), BuildingComp.java:1944-1945).
+	source_factory_build_state.source_factory_tick_buildings_state(game, delta)
+	# The factory-family tick runs every live-loop tick (N2109): each
+	# placed factory-family build (UnitFactory/Reconstructor/
+	# UnitAssembler) gets its frame keys refreshed from the live
+	# rules, so a cheating team's factory skips consumption
+	# (BuildingComp.updateConsumption(), BuildingComp.java:1944).
+	source_unit_factory_build_state.source_unit_factory_tick_buildings_state(game, delta)
 	game.set(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_TRANSPORT_PROGRESS_KEY, float(apply_state.get(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_TRANSPORT_PROGRESS_KEY, game.get(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_TRANSPORT_PROGRESS_KEY))))
 	var item_sprites_value = game.get(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_ITEM_SPRITES_KEY)
 	if not (item_sprites_value is Array):

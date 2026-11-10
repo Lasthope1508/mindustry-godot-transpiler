@@ -2451,6 +2451,66 @@
       ],
       "runtime_proof": "/root/DrillBridgeDominantProof"
     },
+    "source_factory_bind_frame_state_input.block": {
+      "canonical_symbol": "source_symbol_registry.source_factory_bind_frame_state_input.block",
+      "status": "source-backed",
+      "java_expr": "public class AttributeCrafter extends GenericCrafter{",
+      "godot_symbol": "source_factory_bind_frame_state_input.block",
+      "godot_owner": "SourceFactoryBuildState.source_factory_bind_frame_state",
+      "rule": "The typed block definition; the frame binds only when its implementation is a GenericCrafterBuild (GenericCrafter, AttributeCrafter, HeatCrafter, HeatProducer).",
+      "tests": [
+        "test_factory_live_loop_registration",
+        "test_all_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_factory_live_loop"
+      ],
+      "runtime_proof": "/root/FactoryLiveLoopProof"
+    },
+    "source_factory_bind_frame_state_input.sprite": {
+      "canonical_symbol": "source_symbol_registry.source_factory_bind_frame_state_input.sprite",
+      "status": "source-backed",
+      "java_expr": "public final Building newBuilding(){",
+      "godot_symbol": "source_factory_bind_frame_state_input.sprite",
+      "godot_owner": "SourceFactoryBuildState.source_factory_bind_frame_state",
+      "rule": "The placed Building sprite; only a factory-family sprite gets a frame bound at placement.",
+      "tests": [
+        "test_factory_live_loop_registration",
+        "test_all_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_factory_live_loop"
+      ],
+      "runtime_proof": "/root/FactoryLiveLoopProof"
+    },
+    "source_factory_bind_frame_state_result.applied": {
+      "canonical_symbol": "source_symbol_registry.source_factory_bind_frame_state_result.applied",
+      "status": "source-backed",
+      "java_expr": "public final Building newBuilding(){",
+      "godot_symbol": "source_factory_bind_frame_state_result.applied",
+      "godot_owner": "SourceFactoryBuildState.source_factory_bind_frame_state",
+      "rule": "Whether the frame was actually bound at placement; false for any other block or an already-bound sprite.",
+      "tests": [
+        "test_factory_live_loop_registration",
+        "test_all_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_factory_live_loop"
+      ],
+      "runtime_proof": "/root/FactoryLiveLoopProof"
+    },
+    "source_factory_bind_frame_state_result.frame": {
+      "canonical_symbol": "source_symbol_registry.source_factory_bind_frame_state_result.frame",
+      "status": "source-backed",
+      "java_expr": "public final Building newBuilding(){",
+      "godot_symbol": "source_factory_bind_frame_state_result.frame",
+      "godot_owner": "SourceFactoryBuildState.source_factory_bind_frame_state",
+      "rule": "The bound frame -- the port Building state created at placement (Block.newBuilding); empty until the live-loop tick fills its keys.",
+      "tests": [
+        "test_factory_live_loop_registration",
+        "test_all_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_factory_live_loop"
+      ],
+      "runtime_proof": "/root/FactoryLiveLoopProof"
+    },
     "source_factory_dump_all_drill_outputs_state_input.game": {
       "canonical_symbol": "source_symbol_registry.source_factory_dump_all_drill_outputs_state_input.game",
       "status": "source-backed",
@@ -2912,6 +2972,141 @@
         "test_reference_graph_and_actual_factory_dump_swap"
       ],
       "runtime_proof": "/root/FactoryDumpSwapProof"
+    },
+    "source_factory_tick_buildings_state_input.game": {
+      "canonical_symbol": "source_symbol_registry.source_factory_tick_buildings_state_input.game",
+      "status": "source-backed",
+      "java_expr": "build.onProximityUpdate();",
+      "godot_symbol": "source_factory_tick_buildings_state_input.game",
+      "godot_owner": "SourceFactoryBuildState.source_factory_tick_buildings_state",
+      "rule": "The live game world: the placed-building index, the content catalog and the live rules the tick reads every tick.",
+      "tests": [
+        "test_factory_live_loop_registration",
+        "test_all_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_factory_live_loop"
+      ],
+      "runtime_proof": "/root/FactoryLiveLoopProof"
+    },
+    "source_factory_tick_buildings_state_input.seconds": {
+      "canonical_symbol": "source_symbol_registry.source_factory_tick_buildings_state_input.seconds",
+      "status": "source-backed",
+      "java_expr": "public void updateTile(){",
+      "godot_symbol": "source_factory_tick_buildings_state_input.seconds",
+      "godot_owner": "SourceFactoryBuildState.source_factory_tick_buildings_state",
+      "rule": "The frame delta; the wiring itself only refreshes keys, so the delta is carried for the later crafting/consumption slices.",
+      "tests": [
+        "test_factory_live_loop_registration",
+        "test_all_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_factory_live_loop"
+      ],
+      "runtime_proof": "/root/FactoryLiveLoopProof"
+    },
+    "source_factory_tick_buildings_state_result.results_by_cell": {
+      "canonical_symbol": "source_symbol_registry.source_factory_tick_buildings_state_result.results_by_cell",
+      "status": "source-backed",
+      "java_expr": "public class GenericCrafterBuild extends Building{",
+      "godot_symbol": "source_factory_tick_buildings_state_result.results_by_cell",
+      "godot_owner": "SourceFactoryBuildState.source_factory_tick_buildings_state",
+      "rule": "Per-cell wired frames, keyed by the game cell key like the turret tick results; a cell maps to its refreshed frame dict.",
+      "tests": [
+        "test_factory_live_loop_registration",
+        "test_all_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_factory_live_loop"
+      ],
+      "runtime_proof": "/root/FactoryLiveLoopProof"
+    },
+    "source_factory_tick_buildings_state_result.ticked_count": {
+      "canonical_symbol": "source_symbol_registry.source_factory_tick_buildings_state_result.ticked_count",
+      "status": "source-backed",
+      "java_expr": "public void updateTile(){",
+      "godot_symbol": "source_factory_tick_buildings_state_result.ticked_count",
+      "godot_owner": "SourceFactoryBuildState.source_factory_tick_buildings_state",
+      "rule": "How many placed factory-family builds had their frame keys refreshed this tick.",
+      "tests": [
+        "test_factory_live_loop_registration",
+        "test_all_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_factory_live_loop"
+      ],
+      "runtime_proof": "/root/FactoryLiveLoopProof"
+    },
+    "source_factory_tick_frame_state_input.block_implementation": {
+      "canonical_symbol": "source_symbol_registry.source_factory_tick_frame_state_input.block_implementation",
+      "status": "source-backed",
+      "java_expr": "public class GenericCrafter extends Block{",
+      "godot_symbol": "source_factory_tick_frame_state_input.block_implementation",
+      "godot_owner": "SourceFactoryBuildState.source_factory_tick_frame_state",
+      "rule": "The block's implementation, from block.implementation like the turret tick sets it (N2108); the driver only ticks GenericCrafterBuild implementations.",
+      "tests": [
+        "test_factory_live_loop_registration",
+        "test_all_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_factory_live_loop"
+      ],
+      "runtime_proof": "/root/FactoryLiveLoopProof"
+    },
+    "source_factory_tick_frame_state_input.frame": {
+      "canonical_symbol": "source_symbol_registry.source_factory_tick_frame_state_input.frame",
+      "status": "source-backed",
+      "java_expr": "public class GenericCrafterBuild extends Building{",
+      "godot_symbol": "source_factory_tick_frame_state_input.frame",
+      "godot_owner": "SourceFactoryBuildState.source_factory_tick_frame_state",
+      "rule": "The factory frame (the port Building state) the tick wires every tick.",
+      "tests": [
+        "test_factory_live_loop_registration",
+        "test_all_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_factory_live_loop"
+      ],
+      "runtime_proof": "/root/FactoryLiveLoopProof"
+    },
+    "source_factory_tick_frame_state_input.rules_state": {
+      "canonical_symbol": "source_symbol_registry.source_factory_tick_frame_state_input.rules_state",
+      "status": "source-backed",
+      "java_expr": "return team.rules().cheat;",
+      "godot_symbol": "source_factory_tick_frame_state_input.rules_state",
+      "godot_owner": "SourceFactoryBuildState.source_factory_tick_frame_state",
+      "rule": "The live game rules (Vars.state.rules, N2098), returned as-is so the cheat read stays live.",
+      "tests": [
+        "test_factory_live_loop_registration",
+        "test_all_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_factory_live_loop"
+      ],
+      "runtime_proof": "/root/FactoryLiveLoopProof"
+    },
+    "source_factory_tick_frame_state_input.team_id": {
+      "canonical_symbol": "source_symbol_registry.source_factory_tick_frame_state_input.team_id",
+      "status": "source-backed",
+      "java_expr": "public boolean cheating(){",
+      "godot_symbol": "source_factory_tick_frame_state_input.team_id",
+      "godot_owner": "SourceFactoryBuildState.source_factory_tick_frame_state",
+      "rule": "The building's team id, from the sprite's team meta; cheating() reads this team's TeamRule.",
+      "tests": [
+        "test_factory_live_loop_registration",
+        "test_all_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_factory_live_loop"
+      ],
+      "runtime_proof": "/root/FactoryLiveLoopProof"
+    },
+    "source_factory_tick_frame_state_result.frame": {
+      "canonical_symbol": "source_symbol_registry.source_factory_tick_frame_state_result.frame",
+      "status": "source-backed",
+      "java_expr": "public class GenericCrafterBuild extends Building{",
+      "godot_symbol": "source_factory_tick_frame_state_result.frame",
+      "godot_owner": "SourceFactoryBuildState.source_factory_tick_frame_state",
+      "rule": "The wired frame, with block_implementation, team_id, rules_state and the live cheating flag set.",
+      "tests": [
+        "test_factory_live_loop_registration",
+        "test_all_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_factory_live_loop"
+      ],
+      "runtime_proof": "/root/FactoryLiveLoopProof"
     },
     "source_pump_dump_liquid_state_input.cell": {
       "canonical_symbol": "source_symbol_registry.source_pump_dump_liquid_state_input.cell",

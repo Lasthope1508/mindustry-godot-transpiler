@@ -61982,6 +61982,265 @@
       ],
       "runtime_proof": "/root/TurretLiveLoopProof",
       "rule": "Source-backed Turret family live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live rules every simulate_factory tick, so TurretBuild.useAmmo() skips consumption for a cheating team."
+    },
+    "SourceFactoryBuildState.source_factory_tick_frame_state": {
+      "status": "active",
+      "source_slice": "N2110",
+      "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+      "source_method": "GenericCrafterBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_factory_tick_frame_state_input.frame"
+        },
+        {
+          "name": "block_implementation",
+          "type": "String",
+          "schema": "source_factory_tick_frame_state_input.block_implementation"
+        },
+        {
+          "name": "team_id",
+          "type": "int",
+          "schema": "source_factory_tick_frame_state_input.team_id"
+        },
+        {
+          "name": "rules_state",
+          "type": "Dictionary",
+          "schema": "source_factory_tick_frame_state_input.rules_state"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "frame"
+      ],
+      "tests": [
+        "test_factory_live_loop_registration",
+        "test_all_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_factory_live_loop"
+      ],
+      "runtime_proof": "/root/FactoryLiveLoopProof",
+      "rule": "Source-backed factory family live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live rules every simulate_factory tick, so a cheating team's factory counts everything as valid in updateConsumption."
+    },
+    "SourceFactoryBuildState.source_factory_bind_frame_state": {
+      "status": "active",
+      "source_slice": "N2110",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "source_method": "Block.newBuilding()",
+      "params": [
+        {
+          "name": "sprite",
+          "type": "Sprite2D",
+          "schema": "source_factory_bind_frame_state_input.sprite"
+        },
+        {
+          "name": "block",
+          "type": "Object",
+          "schema": "source_factory_bind_frame_state_input.block"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "applied",
+        "frame"
+      ],
+      "tests": [
+        "test_factory_live_loop_registration",
+        "test_all_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_factory_live_loop"
+      ],
+      "runtime_proof": "/root/FactoryLiveLoopProof",
+      "rule": "Source-backed factory family live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live rules every simulate_factory tick, so a cheating team's factory counts everything as valid in updateConsumption."
+    },
+    "SourceFactoryBuildState.source_factory_tick_buildings_state": {
+      "status": "active",
+      "source_slice": "N2110",
+      "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+      "source_method": "GenericCrafterBuild.updateTile()",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_factory_tick_buildings_state_input.game"
+        },
+        {
+          "name": "seconds",
+          "type": "float",
+          "schema": "source_factory_tick_buildings_state_input.seconds"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "ticked_count",
+        "results_by_cell"
+      ],
+      "tests": [
+        "test_factory_live_loop_registration",
+        "test_all_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_factory_live_loop"
+      ],
+      "runtime_proof": "/root/FactoryLiveLoopProof",
+      "rule": "Source-backed factory family live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live rules every simulate_factory tick, so a cheating team's factory counts everything as valid in updateConsumption."
+    },
+    "SourceUnitFactoryBuildState.source_unit_factory_tick_frame_state": {
+      "status": "active",
+      "source_slice": "N2109",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+      "source_method": "UnitFactoryBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_unit_factory_tick_frame_state_input.frame"
+        },
+        {
+          "name": "block_implementation",
+          "type": "String",
+          "schema": "source_unit_factory_tick_frame_state_input.block_implementation"
+        },
+        {
+          "name": "team_id",
+          "type": "int",
+          "schema": "source_unit_factory_tick_frame_state_input.team_id"
+        },
+        {
+          "name": "rules_state",
+          "type": "Dictionary",
+          "schema": "source_unit_factory_tick_frame_state_input.rules_state"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "frame"
+      ],
+      "tests": [
+        "test_unit_factory_live_loop_registration",
+        "test_all_unit_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_update_consumption_reads_cheating",
+        "test_reference_graph_and_actual_unit_factory_live_loop"
+      ],
+      "runtime_proof": "/root/UnitFactoryLiveLoopProof",
+      "rule": "Source-backed factory family live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live rules every simulate_factory tick, so BuildingComp.updateConsumption() skips consumption for a cheating team."
+    },
+    "SourceUnitFactoryBuildState.source_unit_factory_bind_frame_state": {
+      "status": "active",
+      "source_slice": "N2109",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "source_method": "Block.newBuilding()",
+      "params": [
+        {
+          "name": "sprite",
+          "type": "Sprite2D",
+          "schema": "source_unit_factory_bind_frame_state_input.sprite"
+        },
+        {
+          "name": "block",
+          "type": "Object",
+          "schema": "source_unit_factory_bind_frame_state_input.block"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "applied",
+        "frame"
+      ],
+      "tests": [
+        "test_unit_factory_live_loop_registration",
+        "test_all_unit_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_update_consumption_reads_cheating",
+        "test_reference_graph_and_actual_unit_factory_live_loop"
+      ],
+      "runtime_proof": "/root/UnitFactoryLiveLoopProof",
+      "rule": "Source-backed factory family live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live rules every simulate_factory tick, so BuildingComp.updateConsumption() skips consumption for a cheating team."
+    },
+    "SourceUnitFactoryBuildState.source_unit_factory_tick_buildings_state": {
+      "status": "active",
+      "source_slice": "N2109",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+      "source_method": "UnitFactoryBuild.updateTile()",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_unit_factory_tick_buildings_state_input.game"
+        },
+        {
+          "name": "seconds",
+          "type": "float",
+          "schema": "source_unit_factory_tick_buildings_state_input.seconds"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "ticked_count",
+        "results_by_cell"
+      ],
+      "tests": [
+        "test_unit_factory_live_loop_registration",
+        "test_all_unit_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_update_consumption_reads_cheating",
+        "test_reference_graph_and_actual_unit_factory_live_loop"
+      ],
+      "runtime_proof": "/root/UnitFactoryLiveLoopProof",
+      "rule": "Source-backed factory family live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live rules every simulate_factory tick, so BuildingComp.updateConsumption() skips consumption for a cheating team."
+    },
+    "SourceUnitFactoryBuildState.source_unit_factory_update_consumption_state": {
+      "status": "active",
+      "source_slice": "N2109",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "BuildingComp.updateConsumption()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_unit_factory_update_consumption_state_input.frame"
+        },
+        {
+          "name": "has_consumers",
+          "type": "bool",
+          "schema": "source_unit_factory_update_consumption_state_input.has_consumers"
+        },
+        {
+          "name": "enabled",
+          "type": "bool",
+          "schema": "source_unit_factory_update_consumption_state_input.enabled"
+        },
+        {
+          "name": "production_valid",
+          "type": "bool",
+          "schema": "source_unit_factory_update_consumption_state_input.production_valid"
+        },
+        {
+          "name": "should_consume",
+          "type": "bool",
+          "schema": "source_unit_factory_update_consumption_state_input.should_consume"
+        },
+        {
+          "name": "efficiency_scale",
+          "type": "float",
+          "schema": "source_unit_factory_update_consumption_state_input.efficiency_scale"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "cheating",
+        "skipped_consumption",
+        "potential_efficiency",
+        "efficiency",
+        "optional_efficiency",
+        "should_consume_power"
+      ],
+      "tests": [
+        "test_unit_factory_live_loop_registration",
+        "test_all_unit_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_update_consumption_reads_cheating",
+        "test_reference_graph_and_actual_unit_factory_live_loop"
+      ],
+      "runtime_proof": "/root/UnitFactoryLiveLoopProof",
+      "rule": "Source-backed factory family live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live rules every simulate_factory tick, so BuildingComp.updateConsumption() skips consumption for a cheating team."
     }
   },
   "policy": {
