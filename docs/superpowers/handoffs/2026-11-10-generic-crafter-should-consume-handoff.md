@@ -1,6 +1,6 @@
 # Handoff — C05 GenericCrafter shouldConsume() body (N2113)
 
-Date: 2026-11-10. Batch: N2113 (single slice, SSOT slice). Commit: (main turn fills in).
+Date: 2026-11-10. Batch: N2113 (single slice, SSOT slice). Commit: ca05555.
 
 ## Done
 
