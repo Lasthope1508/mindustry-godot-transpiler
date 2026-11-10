@@ -222374,6 +222374,144 @@
       },
       "runtime_proof": "/root/UnitFactoryLiveLoopProof",
       "rule": "Source-backed factory family live-loop tick and placement frame binding."
+    },
+    "source_factory_update_consumption_state_input": {
+      "status": "active",
+      "owner": "SourceFactoryBuildState.source_factory_update_consumption_state",
+      "source_slice": "N2111",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(!block.hasConsumers || cheating()){",
+          "rule": "The factory frame; its cheating flag decides whether updateConsumption takes the early return.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_update_consumption_state"
+          ]
+        },
+        "has_consumers": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(!block.hasConsumers || cheating()){",
+          "rule": "Whether the block has consumers (block.hasConsumers); with none, updateConsumption returns early just like when cheating.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_update_consumption_state"
+          ]
+        },
+        "enabled": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "potentialEfficiency = enabled && productionValid() ? 1f : 0f;",
+          "rule": "Whether the building is enabled; the cheating branch sets potentialEfficiency from enabled and productionValid.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_update_consumption_state"
+          ]
+        },
+        "production_valid": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "potentialEfficiency = enabled && productionValid() ? 1f : 0f;",
+          "rule": "Whether production is valid (productionValid()); the cheating branch sets potentialEfficiency from enabled and productionValid.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_update_consumption_state"
+          ]
+        },
+        "should_consume": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "efficiency = optionalEfficiency = shouldConsume() ? potentialEfficiency : 0f;",
+          "rule": "Whether the build should consume (shouldConsume()); the cheating branch sets efficiency from it.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_update_consumption_state"
+          ]
+        },
+        "efficiency_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public float efficiencyScale(){",
+          "rule": "The efficiency scale (BuildingComp.efficiencyScale(), default 1f) the machinery multiplies the result by.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_update_consumption_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/FactoryUpdateConsumptionProof",
+      "rule": "Source-backed GenericCrafter updateConsumption efficiency adapter; the frame cheating flag wired live by N2110 decides whether BuildingComp.updateConsumption() takes its early return."
+    },
+    "source_factory_update_consumption_state_result": {
+      "status": "active",
+      "owner": "SourceFactoryBuildState.source_factory_update_consumption_state",
+      "source_slice": "N2111",
+      "keys": {
+        "cheating": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(!block.hasConsumers || cheating()){",
+          "rule": "Whether the frame cheated, so updateConsumption took the early return and skipped consumption.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_update_consumption_state"
+          ]
+        },
+        "skipped_consumption": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(!block.hasConsumers || cheating()){",
+          "rule": "Whether consumption was skipped: the Java early-return condition itself (no consumers, or cheating).",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_update_consumption_state"
+          ]
+        },
+        "potential_efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "potentialEfficiency = enabled && productionValid() ? 1f : 0f;",
+          "rule": "The potential efficiency from the cheating branch (enabled and productionValid, else 0).",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_update_consumption_state"
+          ]
+        },
+        "efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "efficiency = optionalEfficiency = shouldConsume() ? potentialEfficiency : 0f;",
+          "rule": "The efficiency from the cheating branch (potential when shouldConsume, else 0).",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_update_consumption_state"
+          ]
+        },
+        "optional_efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "efficiency = optionalEfficiency = shouldConsume() ? potentialEfficiency : 0f;",
+          "rule": "The optional efficiency from the cheating branch (same as efficiency here).",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_update_consumption_state"
+          ]
+        },
+        "should_consume_power": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(!block.hasConsumers || cheating()){",
+          "rule": "Whether the build should consume power; the cheating branch sets it true.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_update_consumption_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/FactoryUpdateConsumptionProof",
+      "rule": "Source-backed GenericCrafter updateConsumption efficiency adapter; the frame cheating flag wired live by N2110 decides whether BuildingComp.updateConsumption() takes its early return."
     }
   },
   "version": 1

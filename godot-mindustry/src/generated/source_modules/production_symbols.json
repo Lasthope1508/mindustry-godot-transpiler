@@ -3108,6 +3108,186 @@
       ],
       "runtime_proof": "/root/FactoryLiveLoopProof"
     },
+    "source_factory_update_consumption_state_input.efficiency_scale": {
+      "canonical_symbol": "source_symbol_registry.source_factory_update_consumption_state_input.efficiency_scale",
+      "status": "source-backed",
+      "java_expr": "public float efficiencyScale(){",
+      "godot_symbol": "source_factory_update_consumption_state_input.efficiency_scale",
+      "godot_owner": "SourceFactoryBuildState.source_factory_update_consumption_state",
+      "rule": "The efficiency scale (BuildingComp.efficiencyScale(), default 1f) the machinery multiplies the result by.",
+      "tests": [
+        "test_factory_update_consumption_registration",
+        "test_all_factory_update_consumption_input_evidence_is_exact",
+        "test_update_consumption_reads_frame_cheating",
+        "test_reference_graph_and_actual_factory_update_consumption"
+      ],
+      "runtime_proof": "/root/FactoryUpdateConsumptionProof"
+    },
+    "source_factory_update_consumption_state_input.enabled": {
+      "canonical_symbol": "source_symbol_registry.source_factory_update_consumption_state_input.enabled",
+      "status": "source-backed",
+      "java_expr": "potentialEfficiency = enabled && productionValid() ? 1f : 0f;",
+      "godot_symbol": "source_factory_update_consumption_state_input.enabled",
+      "godot_owner": "SourceFactoryBuildState.source_factory_update_consumption_state",
+      "rule": "Whether the building is enabled; the cheating branch sets potentialEfficiency from enabled and productionValid.",
+      "tests": [
+        "test_factory_update_consumption_registration",
+        "test_all_factory_update_consumption_input_evidence_is_exact",
+        "test_update_consumption_reads_frame_cheating",
+        "test_reference_graph_and_actual_factory_update_consumption"
+      ],
+      "runtime_proof": "/root/FactoryUpdateConsumptionProof"
+    },
+    "source_factory_update_consumption_state_input.frame": {
+      "canonical_symbol": "source_symbol_registry.source_factory_update_consumption_state_input.frame",
+      "status": "source-backed",
+      "java_expr": "if(!block.hasConsumers || cheating()){",
+      "godot_symbol": "source_factory_update_consumption_state_input.frame",
+      "godot_owner": "SourceFactoryBuildState.source_factory_update_consumption_state",
+      "rule": "The factory frame; its cheating flag decides whether updateConsumption takes the early return.",
+      "tests": [
+        "test_factory_update_consumption_registration",
+        "test_all_factory_update_consumption_input_evidence_is_exact",
+        "test_update_consumption_reads_frame_cheating",
+        "test_reference_graph_and_actual_factory_update_consumption"
+      ],
+      "runtime_proof": "/root/FactoryUpdateConsumptionProof"
+    },
+    "source_factory_update_consumption_state_input.has_consumers": {
+      "canonical_symbol": "source_symbol_registry.source_factory_update_consumption_state_input.has_consumers",
+      "status": "source-backed",
+      "java_expr": "if(!block.hasConsumers || cheating()){",
+      "godot_symbol": "source_factory_update_consumption_state_input.has_consumers",
+      "godot_owner": "SourceFactoryBuildState.source_factory_update_consumption_state",
+      "rule": "Whether the block has consumers (block.hasConsumers); with none, updateConsumption returns early just like when cheating.",
+      "tests": [
+        "test_factory_update_consumption_registration",
+        "test_all_factory_update_consumption_input_evidence_is_exact",
+        "test_update_consumption_reads_frame_cheating",
+        "test_reference_graph_and_actual_factory_update_consumption"
+      ],
+      "runtime_proof": "/root/FactoryUpdateConsumptionProof"
+    },
+    "source_factory_update_consumption_state_input.production_valid": {
+      "canonical_symbol": "source_symbol_registry.source_factory_update_consumption_state_input.production_valid",
+      "status": "source-backed",
+      "java_expr": "potentialEfficiency = enabled && productionValid() ? 1f : 0f;",
+      "godot_symbol": "source_factory_update_consumption_state_input.production_valid",
+      "godot_owner": "SourceFactoryBuildState.source_factory_update_consumption_state",
+      "rule": "Whether production is valid (productionValid()); the cheating branch sets potentialEfficiency from enabled and productionValid.",
+      "tests": [
+        "test_factory_update_consumption_registration",
+        "test_all_factory_update_consumption_input_evidence_is_exact",
+        "test_update_consumption_reads_frame_cheating",
+        "test_reference_graph_and_actual_factory_update_consumption"
+      ],
+      "runtime_proof": "/root/FactoryUpdateConsumptionProof"
+    },
+    "source_factory_update_consumption_state_input.should_consume": {
+      "canonical_symbol": "source_symbol_registry.source_factory_update_consumption_state_input.should_consume",
+      "status": "source-backed",
+      "java_expr": "efficiency = optionalEfficiency = shouldConsume() ? potentialEfficiency : 0f;",
+      "godot_symbol": "source_factory_update_consumption_state_input.should_consume",
+      "godot_owner": "SourceFactoryBuildState.source_factory_update_consumption_state",
+      "rule": "Whether the build should consume (shouldConsume()); the cheating branch sets efficiency from it.",
+      "tests": [
+        "test_factory_update_consumption_registration",
+        "test_all_factory_update_consumption_input_evidence_is_exact",
+        "test_update_consumption_reads_frame_cheating",
+        "test_reference_graph_and_actual_factory_update_consumption"
+      ],
+      "runtime_proof": "/root/FactoryUpdateConsumptionProof"
+    },
+    "source_factory_update_consumption_state_result.cheating": {
+      "canonical_symbol": "source_symbol_registry.source_factory_update_consumption_state_result.cheating",
+      "status": "source-backed",
+      "java_expr": "if(!block.hasConsumers || cheating()){",
+      "godot_symbol": "source_factory_update_consumption_state_result.cheating",
+      "godot_owner": "SourceFactoryBuildState.source_factory_update_consumption_state",
+      "rule": "Whether the frame cheated, so updateConsumption took the early return and skipped consumption.",
+      "tests": [
+        "test_factory_update_consumption_registration",
+        "test_all_factory_update_consumption_input_evidence_is_exact",
+        "test_update_consumption_reads_frame_cheating",
+        "test_reference_graph_and_actual_factory_update_consumption"
+      ],
+      "runtime_proof": "/root/FactoryUpdateConsumptionProof"
+    },
+    "source_factory_update_consumption_state_result.efficiency": {
+      "canonical_symbol": "source_symbol_registry.source_factory_update_consumption_state_result.efficiency",
+      "status": "source-backed",
+      "java_expr": "efficiency = optionalEfficiency = shouldConsume() ? potentialEfficiency : 0f;",
+      "godot_symbol": "source_factory_update_consumption_state_result.efficiency",
+      "godot_owner": "SourceFactoryBuildState.source_factory_update_consumption_state",
+      "rule": "The efficiency from the cheating branch (potential when shouldConsume, else 0).",
+      "tests": [
+        "test_factory_update_consumption_registration",
+        "test_all_factory_update_consumption_input_evidence_is_exact",
+        "test_update_consumption_reads_frame_cheating",
+        "test_reference_graph_and_actual_factory_update_consumption"
+      ],
+      "runtime_proof": "/root/FactoryUpdateConsumptionProof"
+    },
+    "source_factory_update_consumption_state_result.optional_efficiency": {
+      "canonical_symbol": "source_symbol_registry.source_factory_update_consumption_state_result.optional_efficiency",
+      "status": "source-backed",
+      "java_expr": "efficiency = optionalEfficiency = shouldConsume() ? potentialEfficiency : 0f;",
+      "godot_symbol": "source_factory_update_consumption_state_result.optional_efficiency",
+      "godot_owner": "SourceFactoryBuildState.source_factory_update_consumption_state",
+      "rule": "The optional efficiency from the cheating branch (same as efficiency here).",
+      "tests": [
+        "test_factory_update_consumption_registration",
+        "test_all_factory_update_consumption_input_evidence_is_exact",
+        "test_update_consumption_reads_frame_cheating",
+        "test_reference_graph_and_actual_factory_update_consumption"
+      ],
+      "runtime_proof": "/root/FactoryUpdateConsumptionProof"
+    },
+    "source_factory_update_consumption_state_result.potential_efficiency": {
+      "canonical_symbol": "source_symbol_registry.source_factory_update_consumption_state_result.potential_efficiency",
+      "status": "source-backed",
+      "java_expr": "potentialEfficiency = enabled && productionValid() ? 1f : 0f;",
+      "godot_symbol": "source_factory_update_consumption_state_result.potential_efficiency",
+      "godot_owner": "SourceFactoryBuildState.source_factory_update_consumption_state",
+      "rule": "The potential efficiency from the cheating branch (enabled and productionValid, else 0).",
+      "tests": [
+        "test_factory_update_consumption_registration",
+        "test_all_factory_update_consumption_input_evidence_is_exact",
+        "test_update_consumption_reads_frame_cheating",
+        "test_reference_graph_and_actual_factory_update_consumption"
+      ],
+      "runtime_proof": "/root/FactoryUpdateConsumptionProof"
+    },
+    "source_factory_update_consumption_state_result.should_consume_power": {
+      "canonical_symbol": "source_symbol_registry.source_factory_update_consumption_state_result.should_consume_power",
+      "status": "source-backed",
+      "java_expr": "if(!block.hasConsumers || cheating()){",
+      "godot_symbol": "source_factory_update_consumption_state_result.should_consume_power",
+      "godot_owner": "SourceFactoryBuildState.source_factory_update_consumption_state",
+      "rule": "Whether the build should consume power; the cheating branch sets it true.",
+      "tests": [
+        "test_factory_update_consumption_registration",
+        "test_all_factory_update_consumption_input_evidence_is_exact",
+        "test_update_consumption_reads_frame_cheating",
+        "test_reference_graph_and_actual_factory_update_consumption"
+      ],
+      "runtime_proof": "/root/FactoryUpdateConsumptionProof"
+    },
+    "source_factory_update_consumption_state_result.skipped_consumption": {
+      "canonical_symbol": "source_symbol_registry.source_factory_update_consumption_state_result.skipped_consumption",
+      "status": "source-backed",
+      "java_expr": "if(!block.hasConsumers || cheating()){",
+      "godot_symbol": "source_factory_update_consumption_state_result.skipped_consumption",
+      "godot_owner": "SourceFactoryBuildState.source_factory_update_consumption_state",
+      "rule": "Whether consumption was skipped: the Java early-return condition itself (no consumers, or cheating).",
+      "tests": [
+        "test_factory_update_consumption_registration",
+        "test_all_factory_update_consumption_input_evidence_is_exact",
+        "test_update_consumption_reads_frame_cheating",
+        "test_reference_graph_and_actual_factory_update_consumption"
+      ],
+      "runtime_proof": "/root/FactoryUpdateConsumptionProof"
+    },
     "source_pump_dump_liquid_state_input.cell": {
       "canonical_symbol": "source_symbol_registry.source_pump_dump_liquid_state_input.cell",
       "status": "source-backed",

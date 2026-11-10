@@ -769,6 +769,62 @@
       "rule": "Source-backed factory family live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live rules every simulate_factory tick, so a cheating team's factory counts everything as valid in updateConsumption.",
       "return_type": "Dictionary"
     },
+    "SourceFactoryBuildState.source_factory_update_consumption_state": {
+      "canonical_contract": "source_api_contracts.SourceFactoryBuildState.source_factory_update_consumption_state",
+      "status": "active",
+      "source_slice": "N2111",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "BuildingComp.updateConsumption()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_factory_update_consumption_state_input.frame"
+        },
+        {
+          "name": "has_consumers",
+          "type": "bool",
+          "schema": "source_factory_update_consumption_state_input.has_consumers"
+        },
+        {
+          "name": "enabled",
+          "type": "bool",
+          "schema": "source_factory_update_consumption_state_input.enabled"
+        },
+        {
+          "name": "production_valid",
+          "type": "bool",
+          "schema": "source_factory_update_consumption_state_input.production_valid"
+        },
+        {
+          "name": "should_consume",
+          "type": "bool",
+          "schema": "source_factory_update_consumption_state_input.should_consume"
+        },
+        {
+          "name": "efficiency_scale",
+          "type": "float",
+          "schema": "source_factory_update_consumption_state_input.efficiency_scale"
+        }
+      ],
+      "return_keys": [
+        "cheating",
+        "skipped_consumption",
+        "potential_efficiency",
+        "efficiency",
+        "optional_efficiency",
+        "should_consume_power"
+      ],
+      "tests": [
+        "test_factory_update_consumption_registration",
+        "test_all_factory_update_consumption_input_evidence_is_exact",
+        "test_update_consumption_reads_frame_cheating",
+        "test_reference_graph_and_actual_factory_update_consumption"
+      ],
+      "runtime_proof": "/root/FactoryUpdateConsumptionProof",
+      "rule": "Source-backed GenericCrafter updateConsumption efficiency adapter; runs the shared updateConsumption machinery with the frame live cheating flag, so a cheating factory skips consumption at full efficiency.",
+      "return_type": "Dictionary"
+    },
     "SourceFactoryRuntimeState.source_factory_dump_all_drill_outputs_state": {
       "canonical_contract": "source_api_contracts.SourceFactoryRuntimeState.source_factory_dump_all_drill_outputs_state",
       "status": "active",

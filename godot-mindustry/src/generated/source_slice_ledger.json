@@ -53546,6 +53546,51 @@
         "Wiring the remaining factory-adjacent families (Separator, Incinerator, WallCrafter, SingleBlockProducer -- Block/BlockProducer builds, not GenericCrafterBuild) to the live cheating value is a later slice.",
         "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2111": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+      "java_class": "mindustry.world.blocks.production.GenericCrafter.GenericCrafterBuild",
+      "java_method": "GenericCrafterBuild.updateTile(); BuildingComp.updateConsumption()",
+      "godot_owner": "SourceFactoryBuildState.source_factory_update_consumption_state",
+      "exact_exprs": [
+        "public class GenericCrafterBuild extends Building{",
+        "public void updateTile(){",
+        "public boolean shouldConsume(){",
+        "public void updateConsumption(){",
+        "if(!block.hasConsumers || cheating()){",
+        "potentialEfficiency = enabled && productionValid() ? 1f : 0f;",
+        "efficiency = optionalEfficiency = shouldConsume() ? potentialEfficiency : 0f;",
+        "public float efficiencyScale(){",
+        "updateConsumption();"
+      ],
+      "source_symbols": [
+        "source_factory_update_consumption_state_input.frame",
+        "source_factory_update_consumption_state_input.has_consumers",
+        "source_factory_update_consumption_state_input.enabled",
+        "source_factory_update_consumption_state_input.production_valid",
+        "source_factory_update_consumption_state_input.should_consume",
+        "source_factory_update_consumption_state_input.efficiency_scale",
+        "source_factory_update_consumption_state_result.cheating",
+        "source_factory_update_consumption_state_result.skipped_consumption",
+        "source_factory_update_consumption_state_result.potential_efficiency",
+        "source_factory_update_consumption_state_result.efficiency",
+        "source_factory_update_consumption_state_result.optional_efficiency",
+        "source_factory_update_consumption_state_result.should_consume_power"
+      ],
+      "tests": [
+        "test_factory_update_consumption_registration",
+        "test_all_factory_update_consumption_input_evidence_is_exact",
+        "test_update_consumption_reads_frame_cheating",
+        "test_reference_graph_and_actual_factory_update_consumption"
+      ],
+      "runtime_proof": "/root/FactoryUpdateConsumptionProof",
+      "deferred_exprs": [
+        "Binding the GenericCrafter family RuntimeConsumer actors (one per consumeItem/consumeLiquid row, the drill model, N2097/N2100) so the non-cheating consumption path actually consumes is a later slice; the adapter runs the shared updateConsumption machinery over an empty actor list until then.",
+        "The GenericCrafterBuild.shouldConsume() body (GenericCrafter.java:203, output-space checks) is a later slice; the adapter takes should_consume as an input.",
+        "Wiring the remaining factory-adjacent families (Separator, Incinerator, WallCrafter, SingleBlockProducer -- Block/BlockProducer builds, not GenericCrafterBuild) to the live cheating value is a later slice.",
+        "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1

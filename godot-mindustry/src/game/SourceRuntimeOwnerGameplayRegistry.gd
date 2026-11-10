@@ -47,6 +47,7 @@ const SOURCE_DRILL_RUNTIME_STATE_DRILL_DELAY := "source_drill_runtime_state.dril
 const PORT_GAME_FACTORY_RUNTIME_STATE := "port_game.factory_runtime_state"
 const PORT_GAME_SOURCE_FACTORY_SIMULATION_RUNTIME_STATE := "port_game.source_factory_simulation_runtime_state"
 const PORT_GAME_SOURCE_FACTORY_SIMULATION_APPLY_STATE := "port_game.source_factory_simulation_apply_state"
+const PORT_GAME_SOURCE_FACTORY_BUILD_UPDATE_CONSUMPTION_STATE := "port_game.source_factory_build_update_consumption_state"
 const PORT_GAME_SOURCE_CHILD_ADD_STATE := "port_game.source_child_add_state"
 const PORT_GAME_SOURCE_CHILD_UPDATE_STATE := "port_game.source_child_update_state"
 const PORT_GAME_SOURCE_SHOOT_PATTERN_DEFAULT_EVENTS := "port_game.source_shoot_pattern_default_events"

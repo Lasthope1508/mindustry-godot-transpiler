@@ -4,6 +4,8 @@ class_name SourceFactoryBuildState
 const source_rules_state := preload("res://src/game/SourceRulesRuntimeState.gd")
 const source_placed_block_state := preload("res://src/game/SourcePlacedBlockState.gd")
 const source_block_geometry := preload("res://src/game/SourceBlockGeometry.gd")
+const source_building_efficiency_state := preload("res://src/game/SourceBuildingEfficiencyState.gd")
+const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
 
 # Every block whose build is a GenericCrafterBuild: the class itself
 # (GenericCrafter.java:23 `public class GenericCrafter extends
@@ -61,6 +63,37 @@ static func source_factory_bind_frame_state(sprite: Sprite2D, block: Object) -> 
 	var frame: Dictionary = _initial_frame()
 	sprite.set_meta(SOURCE_FACTORY_BUILDING_META_KEY, frame)
 	return {"applied": true, "frame": frame}
+
+static func source_factory_update_consumption_state(frame: Dictionary, has_consumers: bool, enabled: bool, production_valid: bool, should_consume: bool, efficiency_scale: float) -> Dictionary:
+	# BuildingComp.updateConsumption() (BuildingComp.java:1943-1951):
+	# when cheating, everything is valid and consumption is skipped
+	# (`if(!block.hasConsumers || cheating()){`, the early return
+	# sets potentialEfficiency from enabled and productionValid and
+	# efficiency from shouldConsume, with no consumer updated). The
+	# shared efficiency machinery already implements that method, so
+	# this adapter runs it with the frame's live cheating flag and
+	# no bound consumer actors yet (the factory's RuntimeConsumer
+	# actors are a later slice, like the ContinuousLiquidTurret
+	# binding in N2106): a cheating factory takes the early return
+	# and pays nothing, while a non-cheating one runs the machinery
+	# over its (still empty) actor list. skipped_consumption is the
+	# Java early-return condition itself. The frame's cheating flag
+	# is wired live by the N2110 tick, and the tick itself runs after
+	# updateConsumption through Building.update()
+	# (BuildingComp.java:2262-2274), so this adapter is the
+	# consumption half of GenericCrafterBuild.updateTile()
+	# (GenericCrafter.java:235).
+	var cheating := bool(frame.get("cheating", false))
+	var consumption: Dictionary = source_building_efficiency_state.update_consumption_state(has_consumers, cheating, enabled, production_valid, should_consume, efficiency_scale, [], [], [], frame)
+	return {
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_FACTORY_BUILD_UPDATE_CONSUMPTION_STATE,
+		"cheating": cheating,
+		"skipped_consumption": bool(not has_consumers or cheating),
+		"potential_efficiency": float(consumption.get("potential_efficiency", 0.0)),
+		"efficiency": float(consumption.get("efficiency", 0.0)),
+		"optional_efficiency": float(consumption.get("optional_efficiency", 0.0)),
+		"should_consume_power": bool(consumption.get("should_consume_power", false)),
+	}
 
 @warning_ignore("unused_parameter")
 static func source_factory_tick_buildings_state(game: Object, seconds: float) -> Dictionary:

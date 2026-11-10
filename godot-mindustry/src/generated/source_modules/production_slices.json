@@ -452,6 +452,34 @@
       ],
       "runtime_proof": "/root/FactoryLiveLoopProof"
     },
+    "N2111": {
+      "canonical_ledger": "source_slice_ledger.N2111",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+      "java_method": "GenericCrafterBuild.updateTile(); BuildingComp.updateConsumption()",
+      "godot_owner": "SourceFactoryBuildState.source_factory_update_consumption_state",
+      "source_symbols": [
+        "source_factory_update_consumption_state_input.frame",
+        "source_factory_update_consumption_state_input.has_consumers",
+        "source_factory_update_consumption_state_input.enabled",
+        "source_factory_update_consumption_state_input.production_valid",
+        "source_factory_update_consumption_state_input.should_consume",
+        "source_factory_update_consumption_state_input.efficiency_scale",
+        "source_factory_update_consumption_state_result.cheating",
+        "source_factory_update_consumption_state_result.skipped_consumption",
+        "source_factory_update_consumption_state_result.potential_efficiency",
+        "source_factory_update_consumption_state_result.efficiency",
+        "source_factory_update_consumption_state_result.optional_efficiency",
+        "source_factory_update_consumption_state_result.should_consume_power"
+      ],
+      "tests": [
+        "test_factory_update_consumption_registration",
+        "test_all_factory_update_consumption_input_evidence_is_exact",
+        "test_update_consumption_reads_frame_cheating",
+        "test_reference_graph_and_actual_factory_update_consumption"
+      ],
+      "runtime_proof": "/root/FactoryUpdateConsumptionProof"
+    },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",
       "status": "done",
