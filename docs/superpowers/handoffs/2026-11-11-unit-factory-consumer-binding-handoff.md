@@ -1,6 +1,6 @@
 # Handoff — UnitFactory-family RuntimeConsumer binding (N2120)
 
-Date: 2026-11-11. Batch: N2120 (single slice, SSOT slice, emitter change for `unitPlans`). Commit: TBD (targeted gate running; the main turn commits/pushes after the gate).
+Date: 2026-11-11. Batch: N2120 (single slice, SSOT slice, emitter change for `unitPlans`). Commit: feda887.
 
 ## Done
 
