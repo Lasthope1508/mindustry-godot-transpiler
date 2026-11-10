@@ -560,6 +560,66 @@ public class Blocks{
         self.assertEqual(by_id["electrolyzer"]["properties"].get("liquidCapacity"), 50.0)
         self.assertNotIn("outputItems", by_id["electrolyzer"]["properties"])
 
+    def test_block_registry_captures_wall_crafter_output(self):
+        # N2114: WallCrafterBuild.shouldConsume() (WallCrafter.java:246)
+        # reads the block's output item against itemCapacity, so the
+        # registry captures it: the initializer's `output = Items.sand;`
+        # (last wins); a commented-out //output must not resolve.
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source = root / "upstream" / "core" / "src" / "mindustry" / "content"
+            source.mkdir(parents=True)
+            self._write_block_base(root)
+            (source / "Items.java").write_text(
+                """
+package mindustry.content;
+public class Items{
+    public static Item sand, graphite;
+    public static void load(){
+        sand = new Item("sand", Color.valueOf("a6aeb5"));
+        graphite = new Item("graphite", Color.valueOf("a6aeb5"));
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            (source / "Liquids.java").write_text(
+                """
+package mindustry.content;
+public class Liquids{}
+""",
+                encoding="utf-8",
+            )
+            (source / "Blocks.java").write_text(
+                """
+package mindustry.content;
+public class Blocks{
+    public static Block crusher, plainCrusher, commentedCrusher;
+    public static void load(){
+        crusher = new WallCrafter("crusher"){{
+            requirements(Category.production, with(Items.graphite, 1));
+            output = Items.sand;
+        }};
+        plainCrusher = new WallCrafter("plain-crusher"){{
+            requirements(Category.production, with(Items.graphite, 1));
+        }};
+        commentedCrusher = new WallCrafter("commented-crusher"){{
+            requirements(Category.production, with(Items.graphite, 1));
+            //output = Items.sand;
+        }};
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            registry = build_content_registry(root / "upstream", root / "godot")
+
+        by_id = {block["id"]: block for block in registry["blocks"]}
+        self.assertEqual(by_id["crusher"]["properties"].get("output"), "sand")
+        self.assertNotIn("output", by_id["plain-crusher"]["properties"])
+        self.assertNotIn("output", by_id["commented-crusher"]["properties"])
+
     def test_block_registry_extracts_overdrive_projector_source_params(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

@@ -62454,6 +62454,195 @@
       ],
       "runtime_proof": "/root/FactoryShouldConsumeProof",
       "rule": "Source-backed GenericCrafterBuild.shouldConsume(): an output item blocks when the held stack plus one output would exceed itemCapacity, an output liquid blocks when held at liquidCapacity - 0.001f without dumpExtraLiquid (or when every output liquid is full), unless ignoreLiquidFullness skips the liquid check; otherwise the build consumes when enabled."
+    },
+    "SourceAdjacentFactoryBuildState.source_adjacent_factory_tick_frame_state": {
+      "status": "active",
+      "source_slice": "N2114",
+      "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+      "source_method": "SeparatorBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_adjacent_factory_tick_frame_state_input.frame"
+        },
+        {
+          "name": "block_implementation",
+          "type": "String",
+          "schema": "source_adjacent_factory_tick_frame_state_input.block_implementation"
+        },
+        {
+          "name": "team_id",
+          "type": "int",
+          "schema": "source_adjacent_factory_tick_frame_state_input.team_id"
+        },
+        {
+          "name": "rules_state",
+          "type": "Dictionary",
+          "schema": "source_adjacent_factory_tick_frame_state_input.rules_state"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "frame"
+      ],
+      "tests": [
+        "test_adjacent_factory_live_loop_registration",
+        "test_all_adjacent_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_adjacent_factory_live_loop"
+      ],
+      "runtime_proof": "/root/AdjacentFactoryLiveLoopProof",
+      "rule": "Source-backed adjacent factory family live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live rules every simulate_factory tick, so a cheating team's adjacent factory counts everything as valid in updateConsumption, and the tick gates efficiency on the family's own shouldConsume() body."
+    },
+    "SourceAdjacentFactoryBuildState.source_adjacent_factory_bind_frame_state": {
+      "status": "active",
+      "source_slice": "N2114",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "source_method": "Block.newBuilding()",
+      "params": [
+        {
+          "name": "sprite",
+          "type": "Sprite2D",
+          "schema": "source_adjacent_factory_bind_frame_state_input.sprite"
+        },
+        {
+          "name": "block",
+          "type": "Object",
+          "schema": "source_adjacent_factory_bind_frame_state_input.block"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "applied",
+        "frame"
+      ],
+      "tests": [
+        "test_adjacent_factory_live_loop_registration",
+        "test_all_adjacent_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_adjacent_factory_live_loop"
+      ],
+      "runtime_proof": "/root/AdjacentFactoryLiveLoopProof",
+      "rule": "Source-backed adjacent factory family live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live rules every simulate_factory tick, so a cheating team's adjacent factory counts everything as valid in updateConsumption, and the tick gates efficiency on the family's own shouldConsume() body."
+    },
+    "SourceAdjacentFactoryBuildState.source_adjacent_factory_tick_buildings_state": {
+      "status": "active",
+      "source_slice": "N2114",
+      "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+      "source_method": "SeparatorBuild.updateTile()",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_adjacent_factory_tick_buildings_state_input.game"
+        },
+        {
+          "name": "seconds",
+          "type": "float",
+          "schema": "source_adjacent_factory_tick_buildings_state_input.seconds"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "ticked_count",
+        "results_by_cell"
+      ],
+      "tests": [
+        "test_adjacent_factory_live_loop_registration",
+        "test_all_adjacent_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_adjacent_factory_live_loop"
+      ],
+      "runtime_proof": "/root/AdjacentFactoryLiveLoopProof",
+      "rule": "Source-backed adjacent factory family live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live rules every simulate_factory tick, so a cheating team's adjacent factory counts everything as valid in updateConsumption, and the tick gates efficiency on the family's own shouldConsume() body."
+    },
+    "SourceAdjacentFactoryBuildState.source_adjacent_factory_update_consumption_state": {
+      "status": "active",
+      "source_slice": "N2114",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "BuildingComp.updateConsumption()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_adjacent_factory_update_consumption_state_input.frame"
+        },
+        {
+          "name": "has_consumers",
+          "type": "bool",
+          "schema": "source_adjacent_factory_update_consumption_state_input.has_consumers"
+        },
+        {
+          "name": "enabled",
+          "type": "bool",
+          "schema": "source_adjacent_factory_update_consumption_state_input.enabled"
+        },
+        {
+          "name": "production_valid",
+          "type": "bool",
+          "schema": "source_adjacent_factory_update_consumption_state_input.production_valid"
+        },
+        {
+          "name": "should_consume",
+          "type": "bool",
+          "schema": "source_adjacent_factory_update_consumption_state_input.should_consume"
+        },
+        {
+          "name": "efficiency_scale",
+          "type": "float",
+          "schema": "source_adjacent_factory_update_consumption_state_input.efficiency_scale"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "cheating",
+        "skipped_consumption",
+        "potential_efficiency",
+        "efficiency",
+        "optional_efficiency",
+        "should_consume_power"
+      ],
+      "tests": [
+        "test_adjacent_factory_live_loop_registration",
+        "test_all_adjacent_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_adjacent_factory_live_loop"
+      ],
+      "runtime_proof": "/root/AdjacentFactoryLiveLoopProof",
+      "rule": "Source-backed adjacent factory family live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live rules every simulate_factory tick, so a cheating team's adjacent factory counts everything as valid in updateConsumption, and the tick gates efficiency on the family's own shouldConsume() body."
+    },
+    "SourceAdjacentFactoryBuildState.source_adjacent_factory_should_consume_state": {
+      "status": "active",
+      "source_slice": "N2114",
+      "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+      "source_method": "SeparatorBuild.shouldConsume()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_adjacent_factory_should_consume_state_input.frame"
+        },
+        {
+          "name": "block",
+          "type": "Object",
+          "schema": "source_adjacent_factory_should_consume_state_input.block"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "should_consume",
+        "output_blocked",
+        "buffer_full"
+      ],
+      "tests": [
+        "test_adjacent_factory_live_loop_registration",
+        "test_all_adjacent_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_adjacent_factory_live_loop"
+      ],
+      "runtime_proof": "/root/AdjacentFactoryLiveLoopProof",
+      "rule": "Source-backed adjacent factory family live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live rules every simulate_factory tick, so a cheating team's adjacent factory counts everything as valid in updateConsumption, and the tick gates efficiency on the family's own shouldConsume() body."
     }
   },
   "policy": {

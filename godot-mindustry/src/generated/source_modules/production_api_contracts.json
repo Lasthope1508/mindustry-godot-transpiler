@@ -480,6 +480,38 @@
       "runtime_proof": "/root/Main.source_drill_warmup_state",
       "rule": "Public runtime contract for DrillBuild active warmup approach state."
     },
+    "SourceAdjacentFactoryBuildState.source_adjacent_factory_tick_buildings_state": {
+      "canonical_contract": "source_api_contracts.SourceAdjacentFactoryBuildState.source_adjacent_factory_tick_buildings_state",
+      "status": "active",
+      "source_slice": "N2114",
+      "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+      "source_method": "SeparatorBuild.updateTile()",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_adjacent_factory_tick_buildings_state_input.game"
+        },
+        {
+          "name": "seconds",
+          "type": "float",
+          "schema": "source_adjacent_factory_tick_buildings_state_input.seconds"
+        }
+      ],
+      "return_keys": [
+        "ticked_count",
+        "results_by_cell"
+      ],
+      "tests": [
+        "test_adjacent_factory_live_loop_registration",
+        "test_all_adjacent_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_adjacent_factory_live_loop"
+      ],
+      "runtime_proof": "/root/AdjacentFactoryLiveLoopProof",
+      "rule": "Source-backed adjacent factory family live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live rules every simulate_factory tick, so a cheating team's adjacent factory counts everything as valid in updateConsumption, and the tick gates efficiency on the family's own shouldConsume() body.",
+      "return_type": "Dictionary"
+    },
     "SourceDrillConsumptionRuntimeState.source_dominant_item_name_state": {
       "canonical_contract": "source_api_contracts.SourceDrillConsumptionRuntimeState.source_dominant_item_name_state",
       "status": "active",

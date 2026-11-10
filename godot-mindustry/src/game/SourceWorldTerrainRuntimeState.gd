@@ -16,6 +16,7 @@ const source_continuous_liquid_turret_build_state := preload("res://src/game/Sou
 const source_turret_build_state := preload("res://src/game/SourceTurretBuildState.gd")
 const source_factory_build_state := preload("res://src/game/SourceFactoryBuildState.gd")
 const source_unit_factory_build_state := preload("res://src/game/SourceUnitFactoryBuildState.gd")
+const source_adjacent_factory_build_state := preload("res://src/game/SourceAdjacentFactoryBuildState.gd")
 
 static func source_block_geometry_state(block: Object, source_tilesize: float) -> Dictionary:
 	assert(block != null and block.content_type == "block", "World Tile block definition is unresolved")
@@ -140,6 +141,13 @@ static func source_apply_placed_tile_set_block_state(game: Object, block: Object
 		# Building state. The live-loop tick fills the frame keys
 		# every tick (N2109); other blocks bind nothing.
 		source_unit_factory_build_state.source_unit_factory_bind_frame_state(build, build_block)
+		# The adjacent-factory frame is bound at placement like the
+		# drill, ContinuousLiquidTurret, turret and factory frames:
+		# Block.newBuilding() creates the Building when the block is
+		# placed (Block.java:1002), and the port's frame is that
+		# Building state. The live-loop tick fills the frame keys
+		# every tick (N2114); other blocks bind nothing.
+		source_adjacent_factory_build_state.source_adjacent_factory_bind_frame_state(build, build_block)
 		if applied:
 			proximity_state["updated"] = int(proximity_state["updated"]) + 1
 		return applied

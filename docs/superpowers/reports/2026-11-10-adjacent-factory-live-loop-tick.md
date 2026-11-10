@@ -1,0 +1,29 @@
+# C05 Adjacent factory families live-loop tick — N2114
+
+Date: 2026-11-10. Batch: N2114 (single slice, SSOT slice). SSOT +30/+1/+5/+10 → 10995 / 1565 / 1468 / 2727; audit `totalSourceFunctions` stays 1335.
+
+## What changed
+
+N2110 wired the GenericCrafter family tick, but Separator, Incinerator, WallCrafter and SingleBlockProducer builds are not GenericCrafterBuilds, so they never had their frame keys refreshed and their cheating flag stayed at the false default. N2114 wires them with the same tick/bind/driver pattern, plus the updateConsumption adapter (N2111 pattern) and each family's own shouldConsume() body (N2113 pattern).
+
+- New `SourceAdjacentFactoryBuildState.gd`: `source_adjacent_factory_tick_frame_state(frame, block_implementation, team_id, rules_state)` sets the frame keys the consumption path reads, with `cheating` from the live rules (`TeamComp.cheating()`, TeamComp.java:17-19, through N2099's helper); `source_adjacent_factory_bind_frame_state(sprite, block)` binds an empty frame on an adjacent-family sprite at placement (Block.java:1002 `newBuilding()`, meta key `source_adjacent_factory_building`); `source_adjacent_factory_tick_buildings_state(game, seconds)` is called from `simulate_factory` every tick to refresh each placed adjacent-family build's frame keys (SeparatorBuild.updateTile(), Separator.java:130; IncineratorBuild.updateTile(), Incinerator.java:30; WallCrafterBuild.updateTile(), WallCrafter.java:187, super first; BlockProducerBuild.updateTile(), BlockProducer.java:107, super first) and runs the consumption half of updateTile with the family's shouldConsume body gating the shared machinery.
+- `source_adjacent_factory_update_consumption_state(frame, has_consumers, enabled, production_valid, should_consume, efficiency_scale)` runs the shared `SourceBuildingEfficiencyState.update_consumption_state` with the frame's live cheating flag (BuildingComp.java:1943-1951: cheating takes the early return, `potentialEfficiency` from `enabled` and `productionValid`, `efficiency` from `shouldConsume`, no consumer updated). New owner constant `PORT_GAME_SOURCE_ADJACENT_FACTORY_BUILD_UPDATE_CONSUMPTION_STATE` in `SourceRuntimeOwnerGameplayRegistry.gd`.
+- `source_adjacent_factory_should_consume_state(frame, block)` implements each family's own shouldConsume(): Separator counts held items minus the consumeItem inputs (consItems, found by init(), Separator.java:56) and consumes while the remainder fits itemCapacity (`return total < itemCapacity && enabled;`, Separator.java:100); WallCrafter consumes while the held output stack fits itemCapacity (`return items.get(output) < itemCapacity;`, WallCrafter.java:227, no enabled check — Building.updateConsumption handles enabled separately); Incinerator takes the Building default (`return enabled;`, BuildingComp.java:755-756); BlockProducer is the default plus a recipe (`return super.shouldConsume() && recipe() != null;`, BlockProducer.java:102-103), and SingleBlockProducerBuild.recipe() returns the block's result (SingleBlockProducer.java:19-20, default Blocks.router, SingleBlockProducer.java:9). New owner constant `PORT_GAME_SOURCE_ADJACENT_FACTORY_BUILD_SHOULD_CONSUME_STATE`.
+- The registry (`content_registry.py`) captures the WallCrafter `output` (`_wall_crafter_output` emitter): cliff-crusher and large-cliff-crusher now carry `output: "sand"`. New test `test_block_registry_captures_wall_crafter_output` in `test_content_registry.py`.
+- New test `tools/mindustry_godot_transpiler/tests/test_adjacent_factory_live_loop.py` (4 tests: registration, exact-evidence, source-text, proof run) and register script `tools/mindustry_godot_transpiler/register_adjacent_factory_live_loop.py` (5 functions, 30 symbols, 5 contracts, 10 schemas).
+
+## Verification
+
+- New test module: 4 tests OK.
+- Godot proof `AdjacentFactoryLiveLoopProof` **50/50 true** on the real Main scene (new proof): separator (30,7), incinerator (35,7) and cliff-crusher (40,7) placed live, frames bound on placement, driver ticks 3, live-loop cheat flip/uncheat restores, adapter cheating-skips / plain-runs-machinery branches, and every shouldConsume branch — separator room/full, disassembler consumeItem subtraction (scrap 10 held consumes, scrap 10 + sand 25 blocks), crusher sand 9 consumes / 10 blocked / disabled still consumes (no enabled check), incinerator enabled/disabled, SingleBlockProducer with a recipe / without one (stand-in block object — no vanilla block uses SingleBlockProducer), null block; live, a buffer-full separator ticks at efficiency 0.0 and room restores 1.0.
+- First proof run was 48/50: the crusher was placed at (50,7), outside the 48×32 world, so placement fell back to the legacy init (no frame bind, derelict team, cheat flip missed). Moved to (40,7); rerun 50/50. Lesson: proof placements must stay inside the 48×32 world.
+- Targeted gate (log `~/workspace/logs/targeted-n2114d.log`): 5550 tests OK in 1620.540s.
+- Full Python suite (log `~/workspace/logs/full-suite-n2114.log`): 5550 tests OK in 1622.198s.
+
+## SSOT delta
+
+SSOT +30/+1/+5/+10 → 10995 symbols / 1565 slices / 1468 contracts / 2727 schemas; audit `totalSourceFunctions` stays 1335. N2114 registers 30 symbols, 1 new slice row and 5 new contracts (tick frame, bind, tick driver, updateConsumption adapter, shouldConsume). Owner mirrors into the `production_*` shards.
+
+## Still open
+
+- C05 next: binding the adjacent families' RuntimeConsumer actors (one per consumeItem/consumeLiquid row, the drill model, N2097/N2100/N2112) so the non-cheating consumption path actually consumes, and the C05 gate (lifecycle replacement, storage independence, consumer classification). C06 factory→core→defense loop is next after C05 closes. C03 full-power live case deferred. C02 live-loop sprite wiring + clogHeat, C06–C12 still open. Editor parse, deterministic replay and native MCP proof still open.

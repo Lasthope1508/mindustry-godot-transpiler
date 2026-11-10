@@ -527,6 +527,10 @@ def _block_properties(source: str, assignment_end: int, implementation: str = ""
             flag = _boolean_assignment(initializer, key)
             if flag is not None:
                 properties[key] = flag
+    if implementation == "WallCrafter":
+        wall_output = _wall_crafter_output(initializer, class_sources.get(implementation, "") if class_sources else "")
+        if wall_output is not None:
+            properties["output"] = wall_output
     return properties
 
 def _consume_liquid_descriptors(initializer: str, field_values: dict[str, int | float] | None = None) -> list[dict[str, Any]] | None:
@@ -804,6 +808,25 @@ def _numeric_expression_value(text: str) -> int | float | None:
         return _numeric_expression_node(javalang.parse.parse_expression(text.strip()))
     except (javalang.parser.JavaSyntaxError, javalang.tokenizer.LexerError):
         return None
+
+
+def _wall_crafter_output(initializer: str, class_source: str = "") -> str | None:
+    """WallCrafter output item from `output = Items.xxx` (the item
+    WallCrafterBuild.shouldConsume() checks against itemCapacity,
+    WallCrafter.java:246-248 `return items.get(output) <
+    itemCapacity;`); the initializer's own assignment (last wins,
+    e.g. cliff-crusher's `output = Items.sand;`), else the class
+    default (WallCrafter.java: `public Item output = Items.sand;`).
+    None when neither resolves."""
+    code = _strip_java_comments(initializer)
+    assignments = re.findall(r'\boutput\s*=\s*Items\.([A-Za-z_]\w*)\s*;', code)
+    if assignments:
+        return _camel_to_kebab(assignments[-1])
+    if class_source:
+        class_assignments = re.findall(r'\boutput\s*=\s*Items\.([A-Za-z_]\w*)\s*;', _strip_java_comments(class_source))
+        if class_assignments:
+            return _camel_to_kebab(class_assignments[-1])
+    return None
 
 
 def _crafter_output_items(initializer: str) -> list[dict[str, Any]] | None:

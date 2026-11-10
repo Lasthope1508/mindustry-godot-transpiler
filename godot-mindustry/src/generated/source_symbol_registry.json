@@ -166316,6 +166316,486 @@
         "test_reference_graph_and_actual_factory_should_consume"
       ],
       "runtime_proof": "/root/FactoryShouldConsumeProof"
+    },
+    "source_adjacent_factory_tick_frame_state_input.frame": {
+      "status": "source-backed",
+      "godot_owner": "SourceAdjacentFactoryBuildState.source_adjacent_factory_tick_frame_state",
+      "godot_symbol": "source_adjacent_factory_tick_frame_state_input.frame",
+      "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+      "java_method": "SeparatorBuild.updateTile()",
+      "java_expr": "public class SeparatorBuild extends Building{",
+      "rule": "The adjacent-factory frame (the port Building state) the tick wires every tick.",
+      "tests": [
+        "test_adjacent_factory_live_loop_registration",
+        "test_all_adjacent_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_adjacent_factory_live_loop"
+      ],
+      "runtime_proof": "/root/AdjacentFactoryLiveLoopProof"
+    },
+    "source_adjacent_factory_tick_frame_state_input.block_implementation": {
+      "status": "source-backed",
+      "godot_owner": "SourceAdjacentFactoryBuildState.source_adjacent_factory_tick_frame_state",
+      "godot_symbol": "source_adjacent_factory_tick_frame_state_input.block_implementation",
+      "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+      "java_method": "SeparatorBuild.updateTile()",
+      "java_expr": "public class Separator extends Block{",
+      "rule": "The block's implementation, from block.implementation like the factory tick sets it (N2110); the driver only ticks Separator/Incinerator/WallCrafter/SingleBlockProducer builds.",
+      "tests": [
+        "test_adjacent_factory_live_loop_registration",
+        "test_all_adjacent_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_adjacent_factory_live_loop"
+      ],
+      "runtime_proof": "/root/AdjacentFactoryLiveLoopProof"
+    },
+    "source_adjacent_factory_tick_frame_state_input.team_id": {
+      "status": "source-backed",
+      "godot_owner": "SourceAdjacentFactoryBuildState.source_adjacent_factory_tick_frame_state",
+      "godot_symbol": "source_adjacent_factory_tick_frame_state_input.team_id",
+      "java_source": "core/src/mindustry/entities/comp/TeamComp.java",
+      "java_method": "SeparatorBuild.updateTile()",
+      "java_expr": "public boolean cheating(){",
+      "rule": "The building's team id, from the sprite's team meta; cheating() reads this team's TeamRule.",
+      "tests": [
+        "test_adjacent_factory_live_loop_registration",
+        "test_all_adjacent_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_adjacent_factory_live_loop"
+      ],
+      "runtime_proof": "/root/AdjacentFactoryLiveLoopProof"
+    },
+    "source_adjacent_factory_tick_frame_state_input.rules_state": {
+      "status": "source-backed",
+      "godot_owner": "SourceAdjacentFactoryBuildState.source_adjacent_factory_tick_frame_state",
+      "godot_symbol": "source_adjacent_factory_tick_frame_state_input.rules_state",
+      "java_source": "core/src/mindustry/entities/comp/TeamComp.java",
+      "java_method": "SeparatorBuild.updateTile()",
+      "java_expr": "return team.rules().cheat;",
+      "rule": "The live game rules (Vars.state.rules, N2098), returned as-is so the cheat read stays live.",
+      "tests": [
+        "test_adjacent_factory_live_loop_registration",
+        "test_all_adjacent_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_adjacent_factory_live_loop"
+      ],
+      "runtime_proof": "/root/AdjacentFactoryLiveLoopProof"
+    },
+    "source_adjacent_factory_tick_frame_state_result.frame": {
+      "status": "source-backed",
+      "godot_owner": "SourceAdjacentFactoryBuildState.source_adjacent_factory_tick_frame_state",
+      "godot_symbol": "source_adjacent_factory_tick_frame_state_result.frame",
+      "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+      "java_method": "SeparatorBuild.updateTile()",
+      "java_expr": "public class SeparatorBuild extends Building{",
+      "rule": "The wired frame, with block_implementation, team_id, rules_state and the live cheating flag set.",
+      "tests": [
+        "test_adjacent_factory_live_loop_registration",
+        "test_all_adjacent_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_adjacent_factory_live_loop"
+      ],
+      "runtime_proof": "/root/AdjacentFactoryLiveLoopProof"
+    },
+    "source_adjacent_factory_bind_frame_state_input.sprite": {
+      "status": "source-backed",
+      "godot_owner": "SourceAdjacentFactoryBuildState.source_adjacent_factory_bind_frame_state",
+      "godot_symbol": "source_adjacent_factory_bind_frame_state_input.sprite",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.newBuilding()",
+      "java_expr": "public final Building newBuilding(){",
+      "rule": "The placed Building sprite; only an adjacent-family sprite gets a frame bound at placement.",
+      "tests": [
+        "test_adjacent_factory_live_loop_registration",
+        "test_all_adjacent_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_adjacent_factory_live_loop"
+      ],
+      "runtime_proof": "/root/AdjacentFactoryLiveLoopProof"
+    },
+    "source_adjacent_factory_bind_frame_state_input.block": {
+      "status": "source-backed",
+      "godot_owner": "SourceAdjacentFactoryBuildState.source_adjacent_factory_bind_frame_state",
+      "godot_symbol": "source_adjacent_factory_bind_frame_state_input.block",
+      "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+      "java_method": "Block.newBuilding()",
+      "java_expr": "public class Separator extends Block{",
+      "rule": "The typed block definition; the frame binds only when its implementation is an adjacent-family build (Separator, Incinerator, WallCrafter, SingleBlockProducer).",
+      "tests": [
+        "test_adjacent_factory_live_loop_registration",
+        "test_all_adjacent_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_adjacent_factory_live_loop"
+      ],
+      "runtime_proof": "/root/AdjacentFactoryLiveLoopProof"
+    },
+    "source_adjacent_factory_bind_frame_state_result.applied": {
+      "status": "source-backed",
+      "godot_owner": "SourceAdjacentFactoryBuildState.source_adjacent_factory_bind_frame_state",
+      "godot_symbol": "source_adjacent_factory_bind_frame_state_result.applied",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.newBuilding()",
+      "java_expr": "public final Building newBuilding(){",
+      "rule": "Whether the frame was actually bound at placement; false for any other block or an already-bound sprite.",
+      "tests": [
+        "test_adjacent_factory_live_loop_registration",
+        "test_all_adjacent_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_adjacent_factory_live_loop"
+      ],
+      "runtime_proof": "/root/AdjacentFactoryLiveLoopProof"
+    },
+    "source_adjacent_factory_bind_frame_state_result.frame": {
+      "status": "source-backed",
+      "godot_owner": "SourceAdjacentFactoryBuildState.source_adjacent_factory_bind_frame_state",
+      "godot_symbol": "source_adjacent_factory_bind_frame_state_result.frame",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.newBuilding()",
+      "java_expr": "public final Building newBuilding(){",
+      "rule": "The bound frame -- the port Building state created at placement (Block.newBuilding); empty until the live-loop tick fills its keys.",
+      "tests": [
+        "test_adjacent_factory_live_loop_registration",
+        "test_all_adjacent_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_adjacent_factory_live_loop"
+      ],
+      "runtime_proof": "/root/AdjacentFactoryLiveLoopProof"
+    },
+    "source_adjacent_factory_tick_buildings_state_input.game": {
+      "status": "source-backed",
+      "godot_owner": "SourceAdjacentFactoryBuildState.source_adjacent_factory_tick_buildings_state",
+      "godot_symbol": "source_adjacent_factory_tick_buildings_state_input.game",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "SeparatorBuild.updateTile()",
+      "java_expr": "build.onProximityUpdate();",
+      "rule": "The live game world: the placed-building index, the content catalog and the live rules the tick reads every tick.",
+      "tests": [
+        "test_adjacent_factory_live_loop_registration",
+        "test_all_adjacent_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_adjacent_factory_live_loop"
+      ],
+      "runtime_proof": "/root/AdjacentFactoryLiveLoopProof"
+    },
+    "source_adjacent_factory_tick_buildings_state_input.seconds": {
+      "status": "source-backed",
+      "godot_owner": "SourceAdjacentFactoryBuildState.source_adjacent_factory_tick_buildings_state",
+      "godot_symbol": "source_adjacent_factory_tick_buildings_state_input.seconds",
+      "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+      "java_method": "SeparatorBuild.updateTile()",
+      "java_expr": "public void updateTile(){",
+      "rule": "The frame delta; the wiring itself only refreshes keys, so the delta is carried for the later consumption slices.",
+      "tests": [
+        "test_adjacent_factory_live_loop_registration",
+        "test_all_adjacent_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_adjacent_factory_live_loop"
+      ],
+      "runtime_proof": "/root/AdjacentFactoryLiveLoopProof"
+    },
+    "source_adjacent_factory_tick_buildings_state_result.ticked_count": {
+      "status": "source-backed",
+      "godot_owner": "SourceAdjacentFactoryBuildState.source_adjacent_factory_tick_buildings_state",
+      "godot_symbol": "source_adjacent_factory_tick_buildings_state_result.ticked_count",
+      "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+      "java_method": "SeparatorBuild.updateTile()",
+      "java_expr": "public void updateTile(){",
+      "rule": "How many placed adjacent-family builds had their frame keys refreshed this tick.",
+      "tests": [
+        "test_adjacent_factory_live_loop_registration",
+        "test_all_adjacent_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_adjacent_factory_live_loop"
+      ],
+      "runtime_proof": "/root/AdjacentFactoryLiveLoopProof"
+    },
+    "source_adjacent_factory_tick_buildings_state_result.results_by_cell": {
+      "status": "source-backed",
+      "godot_owner": "SourceAdjacentFactoryBuildState.source_adjacent_factory_tick_buildings_state",
+      "godot_symbol": "source_adjacent_factory_tick_buildings_state_result.results_by_cell",
+      "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+      "java_method": "SeparatorBuild.updateTile()",
+      "java_expr": "public class SeparatorBuild extends Building{",
+      "rule": "Per-cell wired frames, keyed by the game cell key like the factory tick results; a cell maps to its refreshed frame dict.",
+      "tests": [
+        "test_adjacent_factory_live_loop_registration",
+        "test_all_adjacent_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_adjacent_factory_live_loop"
+      ],
+      "runtime_proof": "/root/AdjacentFactoryLiveLoopProof"
+    },
+    "source_adjacent_factory_update_consumption_state_input.frame": {
+      "status": "source-backed",
+      "godot_owner": "SourceAdjacentFactoryBuildState.source_adjacent_factory_update_consumption_state",
+      "godot_symbol": "source_adjacent_factory_update_consumption_state_input.frame",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.updateConsumption()",
+      "java_expr": "if(!block.hasConsumers || cheating()){",
+      "rule": "The adjacent-factory frame; its cheating flag decides whether updateConsumption takes the early return.",
+      "tests": [
+        "test_adjacent_factory_live_loop_registration",
+        "test_all_adjacent_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_adjacent_factory_live_loop"
+      ],
+      "runtime_proof": "/root/AdjacentFactoryLiveLoopProof"
+    },
+    "source_adjacent_factory_update_consumption_state_input.has_consumers": {
+      "status": "source-backed",
+      "godot_owner": "SourceAdjacentFactoryBuildState.source_adjacent_factory_update_consumption_state",
+      "godot_symbol": "source_adjacent_factory_update_consumption_state_input.has_consumers",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.updateConsumption()",
+      "java_expr": "if(!block.hasConsumers || cheating()){",
+      "rule": "Whether the block has consumers (block.hasConsumers); with none, updateConsumption returns early just like when cheating.",
+      "tests": [
+        "test_adjacent_factory_live_loop_registration",
+        "test_all_adjacent_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_adjacent_factory_live_loop"
+      ],
+      "runtime_proof": "/root/AdjacentFactoryLiveLoopProof"
+    },
+    "source_adjacent_factory_update_consumption_state_input.enabled": {
+      "status": "source-backed",
+      "godot_owner": "SourceAdjacentFactoryBuildState.source_adjacent_factory_update_consumption_state",
+      "godot_symbol": "source_adjacent_factory_update_consumption_state_input.enabled",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.updateConsumption()",
+      "java_expr": "potentialEfficiency = enabled && productionValid() ? 1f : 0f;",
+      "rule": "Whether the building is enabled; the cheating branch sets potentialEfficiency from enabled and productionValid.",
+      "tests": [
+        "test_adjacent_factory_live_loop_registration",
+        "test_all_adjacent_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_adjacent_factory_live_loop"
+      ],
+      "runtime_proof": "/root/AdjacentFactoryLiveLoopProof"
+    },
+    "source_adjacent_factory_update_consumption_state_input.production_valid": {
+      "status": "source-backed",
+      "godot_owner": "SourceAdjacentFactoryBuildState.source_adjacent_factory_update_consumption_state",
+      "godot_symbol": "source_adjacent_factory_update_consumption_state_input.production_valid",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.updateConsumption()",
+      "java_expr": "potentialEfficiency = enabled && productionValid() ? 1f : 0f;",
+      "rule": "Whether production is valid (productionValid()); the cheating branch sets potentialEfficiency from enabled and productionValid.",
+      "tests": [
+        "test_adjacent_factory_live_loop_registration",
+        "test_all_adjacent_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_adjacent_factory_live_loop"
+      ],
+      "runtime_proof": "/root/AdjacentFactoryLiveLoopProof"
+    },
+    "source_adjacent_factory_update_consumption_state_input.should_consume": {
+      "status": "source-backed",
+      "godot_owner": "SourceAdjacentFactoryBuildState.source_adjacent_factory_update_consumption_state",
+      "godot_symbol": "source_adjacent_factory_update_consumption_state_input.should_consume",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.updateConsumption()",
+      "java_expr": "efficiency = optionalEfficiency = shouldConsume() ? potentialEfficiency : 0f;",
+      "rule": "Whether the build should consume (its family shouldConsume()); the cheating branch sets efficiency from it.",
+      "tests": [
+        "test_adjacent_factory_live_loop_registration",
+        "test_all_adjacent_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_adjacent_factory_live_loop"
+      ],
+      "runtime_proof": "/root/AdjacentFactoryLiveLoopProof"
+    },
+    "source_adjacent_factory_update_consumption_state_input.efficiency_scale": {
+      "status": "source-backed",
+      "godot_owner": "SourceAdjacentFactoryBuildState.source_adjacent_factory_update_consumption_state",
+      "godot_symbol": "source_adjacent_factory_update_consumption_state_input.efficiency_scale",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.updateConsumption()",
+      "java_expr": "public float efficiencyScale(){",
+      "rule": "The efficiency scale (BuildingComp.efficiencyScale(), default 1f) the machinery multiplies the result by.",
+      "tests": [
+        "test_adjacent_factory_live_loop_registration",
+        "test_all_adjacent_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_adjacent_factory_live_loop"
+      ],
+      "runtime_proof": "/root/AdjacentFactoryLiveLoopProof"
+    },
+    "source_adjacent_factory_update_consumption_state_result.cheating": {
+      "status": "source-backed",
+      "godot_owner": "SourceAdjacentFactoryBuildState.source_adjacent_factory_update_consumption_state",
+      "godot_symbol": "source_adjacent_factory_update_consumption_state_result.cheating",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.updateConsumption()",
+      "java_expr": "if(!block.hasConsumers || cheating()){",
+      "rule": "Whether the frame cheated, so updateConsumption took the early return and skipped consumption.",
+      "tests": [
+        "test_adjacent_factory_live_loop_registration",
+        "test_all_adjacent_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_adjacent_factory_live_loop"
+      ],
+      "runtime_proof": "/root/AdjacentFactoryLiveLoopProof"
+    },
+    "source_adjacent_factory_update_consumption_state_result.skipped_consumption": {
+      "status": "source-backed",
+      "godot_owner": "SourceAdjacentFactoryBuildState.source_adjacent_factory_update_consumption_state",
+      "godot_symbol": "source_adjacent_factory_update_consumption_state_result.skipped_consumption",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.updateConsumption()",
+      "java_expr": "if(!block.hasConsumers || cheating()){",
+      "rule": "Whether consumption was skipped: the Java early-return condition itself (no consumers, or cheating).",
+      "tests": [
+        "test_adjacent_factory_live_loop_registration",
+        "test_all_adjacent_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_adjacent_factory_live_loop"
+      ],
+      "runtime_proof": "/root/AdjacentFactoryLiveLoopProof"
+    },
+    "source_adjacent_factory_update_consumption_state_result.potential_efficiency": {
+      "status": "source-backed",
+      "godot_owner": "SourceAdjacentFactoryBuildState.source_adjacent_factory_update_consumption_state",
+      "godot_symbol": "source_adjacent_factory_update_consumption_state_result.potential_efficiency",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.updateConsumption()",
+      "java_expr": "potentialEfficiency = enabled && productionValid() ? 1f : 0f;",
+      "rule": "The potential efficiency from the cheating branch (enabled and productionValid, else 0).",
+      "tests": [
+        "test_adjacent_factory_live_loop_registration",
+        "test_all_adjacent_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_adjacent_factory_live_loop"
+      ],
+      "runtime_proof": "/root/AdjacentFactoryLiveLoopProof"
+    },
+    "source_adjacent_factory_update_consumption_state_result.efficiency": {
+      "status": "source-backed",
+      "godot_owner": "SourceAdjacentFactoryBuildState.source_adjacent_factory_update_consumption_state",
+      "godot_symbol": "source_adjacent_factory_update_consumption_state_result.efficiency",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.updateConsumption()",
+      "java_expr": "efficiency = optionalEfficiency = shouldConsume() ? potentialEfficiency : 0f;",
+      "rule": "The efficiency from the cheating branch (potential when shouldConsume, else 0).",
+      "tests": [
+        "test_adjacent_factory_live_loop_registration",
+        "test_all_adjacent_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_adjacent_factory_live_loop"
+      ],
+      "runtime_proof": "/root/AdjacentFactoryLiveLoopProof"
+    },
+    "source_adjacent_factory_update_consumption_state_result.optional_efficiency": {
+      "status": "source-backed",
+      "godot_owner": "SourceAdjacentFactoryBuildState.source_adjacent_factory_update_consumption_state",
+      "godot_symbol": "source_adjacent_factory_update_consumption_state_result.optional_efficiency",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.updateConsumption()",
+      "java_expr": "efficiency = optionalEfficiency = shouldConsume() ? potentialEfficiency : 0f;",
+      "rule": "The optional efficiency from the cheating branch (same as efficiency here).",
+      "tests": [
+        "test_adjacent_factory_live_loop_registration",
+        "test_all_adjacent_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_adjacent_factory_live_loop"
+      ],
+      "runtime_proof": "/root/AdjacentFactoryLiveLoopProof"
+    },
+    "source_adjacent_factory_update_consumption_state_result.should_consume_power": {
+      "status": "source-backed",
+      "godot_owner": "SourceAdjacentFactoryBuildState.source_adjacent_factory_update_consumption_state",
+      "godot_symbol": "source_adjacent_factory_update_consumption_state_result.should_consume_power",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.updateConsumption()",
+      "java_expr": "if(!block.hasConsumers || cheating()){",
+      "rule": "Whether the build should consume power; the cheating branch sets it true.",
+      "tests": [
+        "test_adjacent_factory_live_loop_registration",
+        "test_all_adjacent_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_adjacent_factory_live_loop"
+      ],
+      "runtime_proof": "/root/AdjacentFactoryLiveLoopProof"
+    },
+    "source_adjacent_factory_should_consume_state_input.frame": {
+      "status": "source-backed",
+      "godot_owner": "SourceAdjacentFactoryBuildState.source_adjacent_factory_should_consume_state",
+      "godot_symbol": "source_adjacent_factory_should_consume_state_input.frame",
+      "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+      "java_method": "SeparatorBuild.shouldConsume()",
+      "java_expr": "public boolean shouldConsume(){",
+      "rule": "The adjacent-factory frame; its held items and enabled flag are what each family's shouldConsume() reads.",
+      "tests": [
+        "test_adjacent_factory_live_loop_registration",
+        "test_all_adjacent_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_adjacent_factory_live_loop"
+      ],
+      "runtime_proof": "/root/AdjacentFactoryLiveLoopProof"
+    },
+    "source_adjacent_factory_should_consume_state_input.block": {
+      "status": "source-backed",
+      "godot_owner": "SourceAdjacentFactoryBuildState.source_adjacent_factory_should_consume_state",
+      "godot_symbol": "source_adjacent_factory_should_consume_state_input.block",
+      "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+      "java_method": "SeparatorBuild.shouldConsume()",
+      "java_expr": "public class Separator extends Block{",
+      "rule": "The typed block definition; its implementation picks the family's shouldConsume() body and its itemCapacity/output bound it.",
+      "tests": [
+        "test_adjacent_factory_live_loop_registration",
+        "test_all_adjacent_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_adjacent_factory_live_loop"
+      ],
+      "runtime_proof": "/root/AdjacentFactoryLiveLoopProof"
+    },
+    "source_adjacent_factory_should_consume_state_result.should_consume": {
+      "status": "source-backed",
+      "godot_owner": "SourceAdjacentFactoryBuildState.source_adjacent_factory_should_consume_state",
+      "godot_symbol": "source_adjacent_factory_should_consume_state_result.should_consume",
+      "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+      "java_method": "SeparatorBuild.shouldConsume()",
+      "java_expr": "return total < itemCapacity && enabled;",
+      "rule": "Whether the build may consume this tick: its outputs have room and it is enabled (Separator body; the other families return their own body).",
+      "tests": [
+        "test_adjacent_factory_live_loop_registration",
+        "test_all_adjacent_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_adjacent_factory_live_loop"
+      ],
+      "runtime_proof": "/root/AdjacentFactoryLiveLoopProof"
+    },
+    "source_adjacent_factory_should_consume_state_result.output_blocked": {
+      "status": "source-backed",
+      "godot_owner": "SourceAdjacentFactoryBuildState.source_adjacent_factory_should_consume_state",
+      "godot_symbol": "source_adjacent_factory_should_consume_state_result.output_blocked",
+      "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+      "java_method": "SeparatorBuild.shouldConsume()",
+      "java_expr": "return items.get(output) < itemCapacity;",
+      "rule": "Whether an output item is blocked: the held output stack reaches itemCapacity (WallCrafter body).",
+      "tests": [
+        "test_adjacent_factory_live_loop_registration",
+        "test_all_adjacent_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_adjacent_factory_live_loop"
+      ],
+      "runtime_proof": "/root/AdjacentFactoryLiveLoopProof"
+    },
+    "source_adjacent_factory_should_consume_state_result.buffer_full": {
+      "status": "source-backed",
+      "godot_owner": "SourceAdjacentFactoryBuildState.source_adjacent_factory_should_consume_state",
+      "godot_symbol": "source_adjacent_factory_should_consume_state_result.buffer_full",
+      "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+      "java_method": "SeparatorBuild.shouldConsume()",
+      "java_expr": "return total < itemCapacity && enabled;",
+      "rule": "Whether the held items minus the consumeItem inputs fill itemCapacity (Separator body).",
+      "tests": [
+        "test_adjacent_factory_live_loop_registration",
+        "test_all_adjacent_factory_live_loop_input_evidence_is_exact",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop",
+        "test_reference_graph_and_actual_adjacent_factory_live_loop"
+      ],
+      "runtime_proof": "/root/AdjacentFactoryLiveLoopProof"
     }
   },
   "version": 1

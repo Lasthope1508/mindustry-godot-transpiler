@@ -222804,6 +222804,396 @@
       },
       "runtime_proof": "/root/FactoryShouldConsumeProof",
       "rule": "Source-backed GenericCrafterBuild.shouldConsume() output-space checks."
+    },
+    "source_adjacent_factory_tick_frame_state_input": {
+      "status": "active",
+      "owner": "SourceAdjacentFactoryBuildState.source_adjacent_factory_tick_frame_state",
+      "source_slice": "N2114",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+          "java_expr": "public class SeparatorBuild extends Building{",
+          "rule": "The adjacent-factory frame (the port Building state) the tick wires every tick.",
+          "used_by": [
+            "SourceAdjacentFactoryBuildState.source_adjacent_factory_tick_frame_state"
+          ]
+        },
+        "block_implementation": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+          "java_expr": "public class Separator extends Block{",
+          "rule": "The block's implementation, from block.implementation like the factory tick sets it (N2110); the driver only ticks Separator/Incinerator/WallCrafter/SingleBlockProducer builds.",
+          "used_by": [
+            "SourceAdjacentFactoryBuildState.source_adjacent_factory_tick_frame_state"
+          ]
+        },
+        "team_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TeamComp.java",
+          "java_expr": "public boolean cheating(){",
+          "rule": "The building's team id, from the sprite's team meta; cheating() reads this team's TeamRule.",
+          "used_by": [
+            "SourceAdjacentFactoryBuildState.source_adjacent_factory_tick_frame_state"
+          ]
+        },
+        "rules_state": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TeamComp.java",
+          "java_expr": "return team.rules().cheat;",
+          "rule": "The live game rules (Vars.state.rules, N2098), returned as-is so the cheat read stays live.",
+          "used_by": [
+            "SourceAdjacentFactoryBuildState.source_adjacent_factory_tick_frame_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/AdjacentFactoryLiveLoopProof",
+      "rule": "Source-backed adjacent factory family live-loop tick, placement frame binding, updateConsumption adapter and per-family shouldConsume()."
+    },
+    "source_adjacent_factory_tick_frame_state_result": {
+      "status": "active",
+      "owner": "SourceAdjacentFactoryBuildState.source_adjacent_factory_tick_frame_state",
+      "source_slice": "N2114",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+          "java_expr": "public class SeparatorBuild extends Building{",
+          "rule": "The wired frame, with block_implementation, team_id, rules_state and the live cheating flag set.",
+          "used_by": [
+            "SourceAdjacentFactoryBuildState.source_adjacent_factory_tick_frame_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/AdjacentFactoryLiveLoopProof",
+      "rule": "Source-backed adjacent factory family live-loop tick, placement frame binding, updateConsumption adapter and per-family shouldConsume()."
+    },
+    "source_adjacent_factory_bind_frame_state_input": {
+      "status": "active",
+      "owner": "SourceAdjacentFactoryBuildState.source_adjacent_factory_bind_frame_state",
+      "source_slice": "N2114",
+      "keys": {
+        "sprite": {
+          "type": "Sprite2D",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public final Building newBuilding(){",
+          "rule": "The placed Building sprite; only an adjacent-family sprite gets a frame bound at placement.",
+          "used_by": [
+            "SourceAdjacentFactoryBuildState.source_adjacent_factory_bind_frame_state"
+          ]
+        },
+        "block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+          "java_expr": "public class Separator extends Block{",
+          "rule": "The typed block definition; the frame binds only when its implementation is an adjacent-family build (Separator, Incinerator, WallCrafter, SingleBlockProducer).",
+          "used_by": [
+            "SourceAdjacentFactoryBuildState.source_adjacent_factory_bind_frame_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/AdjacentFactoryLiveLoopProof",
+      "rule": "Source-backed adjacent factory family live-loop tick, placement frame binding, updateConsumption adapter and per-family shouldConsume()."
+    },
+    "source_adjacent_factory_bind_frame_state_result": {
+      "status": "active",
+      "owner": "SourceAdjacentFactoryBuildState.source_adjacent_factory_bind_frame_state",
+      "source_slice": "N2114",
+      "keys": {
+        "applied": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public final Building newBuilding(){",
+          "rule": "Whether the frame was actually bound at placement; false for any other block or an already-bound sprite.",
+          "used_by": [
+            "SourceAdjacentFactoryBuildState.source_adjacent_factory_bind_frame_state"
+          ]
+        },
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public final Building newBuilding(){",
+          "rule": "The bound frame -- the port Building state created at placement (Block.newBuilding); empty until the live-loop tick fills its keys.",
+          "used_by": [
+            "SourceAdjacentFactoryBuildState.source_adjacent_factory_bind_frame_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/AdjacentFactoryLiveLoopProof",
+      "rule": "Source-backed adjacent factory family live-loop tick, placement frame binding, updateConsumption adapter and per-family shouldConsume()."
+    },
+    "source_adjacent_factory_tick_buildings_state_input": {
+      "status": "active",
+      "owner": "SourceAdjacentFactoryBuildState.source_adjacent_factory_tick_buildings_state",
+      "source_slice": "N2114",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "build.onProximityUpdate();",
+          "rule": "The live game world: the placed-building index, the content catalog and the live rules the tick reads every tick.",
+          "used_by": [
+            "SourceAdjacentFactoryBuildState.source_adjacent_factory_tick_buildings_state"
+          ]
+        },
+        "seconds": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+          "java_expr": "public void updateTile(){",
+          "rule": "The frame delta; the wiring itself only refreshes keys, so the delta is carried for the later consumption slices.",
+          "used_by": [
+            "SourceAdjacentFactoryBuildState.source_adjacent_factory_tick_buildings_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/AdjacentFactoryLiveLoopProof",
+      "rule": "Source-backed adjacent factory family live-loop tick, placement frame binding, updateConsumption adapter and per-family shouldConsume()."
+    },
+    "source_adjacent_factory_tick_buildings_state_result": {
+      "status": "active",
+      "owner": "SourceAdjacentFactoryBuildState.source_adjacent_factory_tick_buildings_state",
+      "source_slice": "N2114",
+      "keys": {
+        "ticked_count": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+          "java_expr": "public void updateTile(){",
+          "rule": "How many placed adjacent-family builds had their frame keys refreshed this tick.",
+          "used_by": [
+            "SourceAdjacentFactoryBuildState.source_adjacent_factory_tick_buildings_state"
+          ]
+        },
+        "results_by_cell": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+          "java_expr": "public class SeparatorBuild extends Building{",
+          "rule": "Per-cell wired frames, keyed by the game cell key like the factory tick results; a cell maps to its refreshed frame dict.",
+          "used_by": [
+            "SourceAdjacentFactoryBuildState.source_adjacent_factory_tick_buildings_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/AdjacentFactoryLiveLoopProof",
+      "rule": "Source-backed adjacent factory family live-loop tick, placement frame binding, updateConsumption adapter and per-family shouldConsume()."
+    },
+    "source_adjacent_factory_update_consumption_state_input": {
+      "status": "active",
+      "owner": "SourceAdjacentFactoryBuildState.source_adjacent_factory_update_consumption_state",
+      "source_slice": "N2114",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(!block.hasConsumers || cheating()){",
+          "rule": "The adjacent-factory frame; its cheating flag decides whether updateConsumption takes the early return.",
+          "used_by": [
+            "SourceAdjacentFactoryBuildState.source_adjacent_factory_update_consumption_state"
+          ]
+        },
+        "has_consumers": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(!block.hasConsumers || cheating()){",
+          "rule": "Whether the block has consumers (block.hasConsumers); with none, updateConsumption returns early just like when cheating.",
+          "used_by": [
+            "SourceAdjacentFactoryBuildState.source_adjacent_factory_update_consumption_state"
+          ]
+        },
+        "enabled": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "potentialEfficiency = enabled && productionValid() ? 1f : 0f;",
+          "rule": "Whether the building is enabled; the cheating branch sets potentialEfficiency from enabled and productionValid.",
+          "used_by": [
+            "SourceAdjacentFactoryBuildState.source_adjacent_factory_update_consumption_state"
+          ]
+        },
+        "production_valid": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "potentialEfficiency = enabled && productionValid() ? 1f : 0f;",
+          "rule": "Whether production is valid (productionValid()); the cheating branch sets potentialEfficiency from enabled and productionValid.",
+          "used_by": [
+            "SourceAdjacentFactoryBuildState.source_adjacent_factory_update_consumption_state"
+          ]
+        },
+        "should_consume": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "efficiency = optionalEfficiency = shouldConsume() ? potentialEfficiency : 0f;",
+          "rule": "Whether the build should consume (its family shouldConsume()); the cheating branch sets efficiency from it.",
+          "used_by": [
+            "SourceAdjacentFactoryBuildState.source_adjacent_factory_update_consumption_state"
+          ]
+        },
+        "efficiency_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public float efficiencyScale(){",
+          "rule": "The efficiency scale (BuildingComp.efficiencyScale(), default 1f) the machinery multiplies the result by.",
+          "used_by": [
+            "SourceAdjacentFactoryBuildState.source_adjacent_factory_update_consumption_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/AdjacentFactoryLiveLoopProof",
+      "rule": "Source-backed adjacent factory family live-loop tick, placement frame binding, updateConsumption adapter and per-family shouldConsume()."
+    },
+    "source_adjacent_factory_update_consumption_state_result": {
+      "status": "active",
+      "owner": "SourceAdjacentFactoryBuildState.source_adjacent_factory_update_consumption_state",
+      "source_slice": "N2114",
+      "keys": {
+        "cheating": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(!block.hasConsumers || cheating()){",
+          "rule": "Whether the frame cheated, so updateConsumption took the early return and skipped consumption.",
+          "used_by": [
+            "SourceAdjacentFactoryBuildState.source_adjacent_factory_update_consumption_state"
+          ]
+        },
+        "skipped_consumption": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(!block.hasConsumers || cheating()){",
+          "rule": "Whether consumption was skipped: the Java early-return condition itself (no consumers, or cheating).",
+          "used_by": [
+            "SourceAdjacentFactoryBuildState.source_adjacent_factory_update_consumption_state"
+          ]
+        },
+        "potential_efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "potentialEfficiency = enabled && productionValid() ? 1f : 0f;",
+          "rule": "The potential efficiency from the cheating branch (enabled and productionValid, else 0).",
+          "used_by": [
+            "SourceAdjacentFactoryBuildState.source_adjacent_factory_update_consumption_state"
+          ]
+        },
+        "efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "efficiency = optionalEfficiency = shouldConsume() ? potentialEfficiency : 0f;",
+          "rule": "The efficiency from the cheating branch (potential when shouldConsume, else 0).",
+          "used_by": [
+            "SourceAdjacentFactoryBuildState.source_adjacent_factory_update_consumption_state"
+          ]
+        },
+        "optional_efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "efficiency = optionalEfficiency = shouldConsume() ? potentialEfficiency : 0f;",
+          "rule": "The optional efficiency from the cheating branch (same as efficiency here).",
+          "used_by": [
+            "SourceAdjacentFactoryBuildState.source_adjacent_factory_update_consumption_state"
+          ]
+        },
+        "should_consume_power": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(!block.hasConsumers || cheating()){",
+          "rule": "Whether the build should consume power; the cheating branch sets it true.",
+          "used_by": [
+            "SourceAdjacentFactoryBuildState.source_adjacent_factory_update_consumption_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/AdjacentFactoryLiveLoopProof",
+      "rule": "Source-backed adjacent factory family live-loop tick, placement frame binding, updateConsumption adapter and per-family shouldConsume()."
+    },
+    "source_adjacent_factory_should_consume_state_input": {
+      "status": "active",
+      "owner": "SourceAdjacentFactoryBuildState.source_adjacent_factory_should_consume_state",
+      "source_slice": "N2114",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+          "java_expr": "public boolean shouldConsume(){",
+          "rule": "The adjacent-factory frame; its held items and enabled flag are what each family's shouldConsume() reads.",
+          "used_by": [
+            "SourceAdjacentFactoryBuildState.source_adjacent_factory_should_consume_state"
+          ]
+        },
+        "block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+          "java_expr": "public class Separator extends Block{",
+          "rule": "The typed block definition; its implementation picks the family's shouldConsume() body and its itemCapacity/output bound it.",
+          "used_by": [
+            "SourceAdjacentFactoryBuildState.source_adjacent_factory_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/AdjacentFactoryLiveLoopProof",
+      "rule": "Source-backed adjacent factory family live-loop tick, placement frame binding, updateConsumption adapter and per-family shouldConsume()."
+    },
+    "source_adjacent_factory_should_consume_state_result": {
+      "status": "active",
+      "owner": "SourceAdjacentFactoryBuildState.source_adjacent_factory_should_consume_state",
+      "source_slice": "N2114",
+      "keys": {
+        "should_consume": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+          "java_expr": "return total < itemCapacity && enabled;",
+          "rule": "Whether the build may consume this tick: its outputs have room and it is enabled (Separator body; the other families return their own body).",
+          "used_by": [
+            "SourceAdjacentFactoryBuildState.source_adjacent_factory_should_consume_state"
+          ]
+        },
+        "output_blocked": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "return items.get(output) < itemCapacity;",
+          "rule": "Whether an output item is blocked: the held output stack reaches itemCapacity (WallCrafter body).",
+          "used_by": [
+            "SourceAdjacentFactoryBuildState.source_adjacent_factory_should_consume_state"
+          ]
+        },
+        "buffer_full": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+          "java_expr": "return total < itemCapacity && enabled;",
+          "rule": "Whether the held items minus the consumeItem inputs fill itemCapacity (Separator body).",
+          "used_by": [
+            "SourceAdjacentFactoryBuildState.source_adjacent_factory_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/AdjacentFactoryLiveLoopProof",
+      "rule": "Source-backed adjacent factory family live-loop tick, placement frame binding, updateConsumption adapter and per-family shouldConsume()."
     }
   },
   "version": 1
