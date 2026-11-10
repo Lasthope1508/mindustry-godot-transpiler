@@ -1,6 +1,6 @@
 # Handoff — C05 Adjacent factory families live-loop tick (N2114)
 
-Date: 2026-11-10. Batch: N2114 (single slice, SSOT slice). Commit: (main turn fills in).
+Date: 2026-11-10. Batch: N2114 (single slice, SSOT slice). Commit: 8604844.
 
 ## Done
 
