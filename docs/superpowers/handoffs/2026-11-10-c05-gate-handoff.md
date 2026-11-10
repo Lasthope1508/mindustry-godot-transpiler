@@ -1,6 +1,6 @@
 # Handoff — C05 gate: reinitialize_consumers for Factory + AdjacentFactory families (N2116)
 
-Date: 2026-11-10. Batch: N2116 (single slice, SSOT slice). Commit: (by the main turn).
+Date: 2026-11-10. Batch: N2116 (single slice, SSOT slice). Commit: 7adf7e4.
 
 ## Done
 
