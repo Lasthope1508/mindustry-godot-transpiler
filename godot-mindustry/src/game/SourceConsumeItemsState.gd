@@ -2,6 +2,67 @@ extends RefCounted
 class_name SourceConsumeItemsState
 
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
+const source_building_access_state := preload("res://src/game/SourceBuildingAccessState.gd")
+const source_inventory := preload("res://src/game/SourceDrillInventoryRuntimeState.gd")
+const source_consume_state := preload("res://src/game/SourceConsumeState.gd")
+
+class RuntimeConsumer extends RefCounted:
+	var definition: Dictionary
+	var items: Dictionary
+	var cost_multiplier: Callable
+	var source_delta: float
+	var time_scale: float
+
+	func efficiency(build: Dictionary) -> float:
+		# ConsumeItems.efficiency (ConsumeItems.java:52): the stack is
+		# valid when the building is burning a trigger consumer
+		# (consumeTriggerValid, false by default,
+		# BuildingComp.java:764-766) or its item module holds the
+		# stack amount times the cost multiplier, rounded the way the
+		# trigger removes it (Math.round, ConsumeItems.java:46).
+		var required: int = int(round(float(definition.get("amount", 0)) * float(cost_multiplier.call(build).get("multiplier", 1.0))))
+		var trigger_valid: bool = SourceConsumeItemsState.source_building_access_state.consume_trigger_valid_state()
+		var has_stack: bool = SourceConsumeItemsState.source_inventory.item_count(items, String(definition.get("item", ""))) >= required
+		return 1.0 if trigger_valid or has_stack else 0.0
+
+	func update(_build: Dictionary) -> void:
+		# ConsumeItems has no update body: Consume.update is empty
+		# (Consume.java:52), so the per-tick second pass removes
+		# nothing for items. The stacks leave only when craft() calls
+		# consume() -> trigger() (GenericCrafter.java:301-303,
+		# ConsumeItems.java:46 removes each stack once per craft);
+		# the craft slice owns that trigger.
+		pass
+
+static func source_runtime_consumer_state(definition: Dictionary, items: Dictionary, cost_multiplier: Callable) -> Dictionary:
+	var consumer := RuntimeConsumer.new()
+	consumer.definition = definition
+	consumer.items = items
+	consumer.cost_multiplier = cost_multiplier
+	return {"consumer": consumer}
+
+static func source_bind_item_consumers_state(block: Object, content_catalog: Object) -> Dictionary:
+	# Block.consumeItems (Block.java:1175-1177) registers one
+	# ConsumeItems per consumeItem(s) call; the registry captures
+	# each call's stacks into properties["consumeItem"] (N2095), so
+	# each stack is one row here, like each ConsumeLiquid row is one
+	# row in SourceConsumeLiquidState
+	# .source_bind_liquid_consumers_state. A row is the stack dict
+	# itself (item name + amount); the item module is keyed by item
+	# name, so no id resolution is needed, but the catalog must
+	# carry the item or the row is not a real consumer. Consume
+	# defaults apply (Consume.java:18 multiplier 1f, :43 ignore
+	# false, :52 update empty), so every row is a non-optional
+	# update consumer.
+	var catalog_items: Array = content_catalog.call("get_many", "item")
+	var consumers: Array = []
+	for definition in block.properties.get("consumeItem", []):
+		var matches := catalog_items.filter(func(item): return item.id == definition["item"])
+		assert(matches.size() == 1, "ConsumeItems Java field must resolve uniquely in the typed item catalog")
+		var consumer: Dictionary = definition.duplicate()
+		consumer["ignored"] = source_consume_state.ignore_state()["ignored"]
+		consumers.append(consumer)
+	return {"consumers": consumers}
 
 static func constructor_state(item_stacks: Array) -> Dictionary:
 	return {

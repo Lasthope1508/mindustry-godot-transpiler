@@ -53591,6 +53591,65 @@
         "Wiring the remaining factory-adjacent families (Separator, Incinerator, WallCrafter, SingleBlockProducer -- Block/BlockProducer builds, not GenericCrafterBuild) to the live cheating value is a later slice.",
         "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2112": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+      "java_class": "mindustry.world.blocks.production.GenericCrafter.GenericCrafterBuild",
+      "java_method": "GenericCrafterBuild.updateTile(); BuildingComp.updateConsumption(); ConsumeItems.efficiency()",
+      "godot_owner": "SourceFactoryBuildState.source_factory_tick_buildings_state",
+      "exact_exprs": [
+        "public class GenericCrafter extends Block{",
+        "public class GenericCrafterBuild extends Building{",
+        "public void updateTile(){",
+        "public void updateConsumption(){",
+        "if(!block.hasConsumers || cheating()){",
+        "for(var cons : block.updateConsumers){",
+        "cons.update(self());",
+        "public ConsumeItems consumeItems(ItemStack... items){",
+        "public ConsumeItems consumeItem(Item item, int amount){",
+        "return consume(new ConsumeItems(items));",
+        "return build.consumeTriggerValid() || build.items.has(items, multiplier.get(build)) ? 1f : 0f;",
+        "build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));",
+        "public void update(Building build){}",
+        "public Floatf<Building> multiplier = b -> 1f;",
+        "public boolean ignore(){",
+        "build.liquids.remove(liquid, amount * build.edelta() * multiplier.get(build));",
+        "public boolean consumeTriggerValid(){",
+        "protected Seq<Consume> consumeBuilder = new Seq<>();",
+        "public final Building newBuilding(){",
+        "public boolean has(Item item, int amount){",
+        "public void remove(Liquid liquid, float amount){"
+      ],
+      "source_symbols": [
+        "source_bind_item_consumers_state_input.block",
+        "source_bind_item_consumers_state_input.content_catalog",
+        "source_bind_item_consumers_state_result.consumers",
+        "source_factory_bind_consumer_state_input.amounts",
+        "source_factory_bind_consumer_state_input.block",
+        "source_factory_bind_consumer_state_input.catalog",
+        "source_factory_bind_consumer_state_input.frame",
+        "source_factory_bind_consumer_state_result.bound",
+        "source_factory_bind_consumer_state_result.consumers",
+        "source_factory_bind_consumer_state_result.rows",
+        "source_item_runtime_consumer_input.cost_multiplier",
+        "source_item_runtime_consumer_input.definition",
+        "source_item_runtime_consumer_input.items",
+        "source_item_runtime_consumer_result.consumer"
+      ],
+      "tests": [
+        "test_factory_consumer_binding_registration",
+        "test_all_factory_consumer_binding_input_evidence_is_exact",
+        "test_tick_binds_runtime_consumers_for_factory",
+        "test_reference_graph_and_actual_factory_consumer_binding"
+      ],
+      "runtime_proof": "/root/FactoryConsumerBindingProof",
+      "deferred_exprs": [
+        "The GenericCrafterBuild.shouldConsume() body (GenericCrafter.java:203, output-space checks) is a later slice; the tick passes the frame enabled flag as should_consume until then.",
+        "Item stacks leave only at craft() via ConsumeItems.trigger (GenericCrafter.java:301-303); the per-tick second pass removes nothing for items, so the craft/progress slice owns the trigger.",
+        "Wiring the remaining factory-adjacent families (Separator, Incinerator, WallCrafter, SingleBlockProducer -- Block/BlockProducer builds, not GenericCrafterBuild) to the live cheating value is a later slice.",
+        "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1

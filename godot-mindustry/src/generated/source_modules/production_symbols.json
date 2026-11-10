@@ -1578,6 +1578,51 @@
       ],
       "runtime_proof": "/root/Main.source_drill_warmup_state"
     },
+    "source_bind_item_consumers_state_input.block": {
+      "canonical_symbol": "source_symbol_registry.source_bind_item_consumers_state_input.block",
+      "status": "source-backed",
+      "java_expr": "public ConsumeItems consumeItems(ItemStack... items){",
+      "godot_symbol": "source_bind_item_consumers_state_input.block",
+      "godot_owner": "SourceConsumeItemsState.source_bind_item_consumers_state",
+      "rule": "The typed block definition; its consumeItem rows are the stacks to bind.",
+      "tests": [
+        "test_factory_consumer_binding_registration",
+        "test_all_factory_consumer_binding_input_evidence_is_exact",
+        "test_tick_binds_runtime_consumers_for_factory",
+        "test_reference_graph_and_actual_factory_consumer_binding"
+      ],
+      "runtime_proof": "/root/FactoryConsumerBindingProof"
+    },
+    "source_bind_item_consumers_state_input.content_catalog": {
+      "canonical_symbol": "source_symbol_registry.source_bind_item_consumers_state_input.content_catalog",
+      "status": "source-backed",
+      "java_expr": "public ConsumeItems consumeItems(ItemStack... items){",
+      "godot_symbol": "source_bind_item_consumers_state_input.content_catalog",
+      "godot_owner": "SourceConsumeItemsState.source_bind_item_consumers_state",
+      "rule": "The content catalog the bound rows resolve their item fields against (content.items()).",
+      "tests": [
+        "test_factory_consumer_binding_registration",
+        "test_all_factory_consumer_binding_input_evidence_is_exact",
+        "test_tick_binds_runtime_consumers_for_factory",
+        "test_reference_graph_and_actual_factory_consumer_binding"
+      ],
+      "runtime_proof": "/root/FactoryConsumerBindingProof"
+    },
+    "source_bind_item_consumers_state_result.consumers": {
+      "canonical_symbol": "source_symbol_registry.source_bind_item_consumers_state_result.consumers",
+      "status": "source-backed",
+      "java_expr": "return consume(new ConsumeItems(items));",
+      "godot_symbol": "source_bind_item_consumers_state_result.consumers",
+      "godot_owner": "SourceConsumeItemsState.source_bind_item_consumers_state",
+      "rule": "The bound consumeItem rows (one stack dict per row, with the Consume ignore default).",
+      "tests": [
+        "test_factory_consumer_binding_registration",
+        "test_all_factory_consumer_binding_input_evidence_is_exact",
+        "test_tick_binds_runtime_consumers_for_factory",
+        "test_reference_graph_and_actual_factory_consumer_binding"
+      ],
+      "runtime_proof": "/root/FactoryConsumerBindingProof"
+    },
     "source_drill_bind_ore_items_input.block": {
       "canonical_symbol": "source_symbol_registry.source_drill_bind_ore_items_input.block",
       "status": "source-backed",
@@ -2451,6 +2496,111 @@
       ],
       "runtime_proof": "/root/DrillBridgeDominantProof"
     },
+    "source_factory_bind_consumer_state_input.amounts": {
+      "canonical_symbol": "source_symbol_registry.source_factory_bind_consumer_state_input.amounts",
+      "status": "source-backed",
+      "java_expr": "public void remove(Liquid liquid, float amount){",
+      "godot_symbol": "source_factory_bind_consumer_state_input.amounts",
+      "godot_owner": "SourceFactoryBuildState.source_bind_consumer_state",
+      "rule": "The building's liquid module the liquid actors remove from (LiquidModule.remove).",
+      "tests": [
+        "test_factory_consumer_binding_registration",
+        "test_all_factory_consumer_binding_input_evidence_is_exact",
+        "test_tick_binds_runtime_consumers_for_factory",
+        "test_reference_graph_and_actual_factory_consumer_binding"
+      ],
+      "runtime_proof": "/root/FactoryConsumerBindingProof"
+    },
+    "source_factory_bind_consumer_state_input.block": {
+      "canonical_symbol": "source_symbol_registry.source_factory_bind_consumer_state_input.block",
+      "status": "source-backed",
+      "java_expr": "public class GenericCrafter extends Block{",
+      "godot_symbol": "source_factory_bind_consumer_state_input.block",
+      "godot_owner": "SourceFactoryBuildState.source_bind_consumer_state",
+      "rule": "The typed block definition; only a block carrying consumeItem/consumeLiquid rows binds consumers.",
+      "tests": [
+        "test_factory_consumer_binding_registration",
+        "test_all_factory_consumer_binding_input_evidence_is_exact",
+        "test_tick_binds_runtime_consumers_for_factory",
+        "test_reference_graph_and_actual_factory_consumer_binding"
+      ],
+      "runtime_proof": "/root/FactoryConsumerBindingProof"
+    },
+    "source_factory_bind_consumer_state_input.catalog": {
+      "canonical_symbol": "source_symbol_registry.source_factory_bind_consumer_state_input.catalog",
+      "status": "source-backed",
+      "java_expr": "protected Seq<Consume> consumeBuilder = new Seq<>();",
+      "godot_symbol": "source_factory_bind_consumer_state_input.catalog",
+      "godot_owner": "SourceFactoryBuildState.source_bind_consumer_state",
+      "rule": "The content catalog the bound rows resolve their item and liquid fields against (the block's consumeBuilder).",
+      "tests": [
+        "test_factory_consumer_binding_registration",
+        "test_all_factory_consumer_binding_input_evidence_is_exact",
+        "test_tick_binds_runtime_consumers_for_factory",
+        "test_reference_graph_and_actual_factory_consumer_binding"
+      ],
+      "runtime_proof": "/root/FactoryConsumerBindingProof"
+    },
+    "source_factory_bind_consumer_state_input.frame": {
+      "canonical_symbol": "source_symbol_registry.source_factory_bind_consumer_state_input.frame",
+      "status": "source-backed",
+      "java_expr": "public final Building newBuilding(){",
+      "godot_symbol": "source_factory_bind_consumer_state_input.frame",
+      "godot_owner": "SourceFactoryBuildState.source_bind_consumer_state",
+      "rule": "The factory frame (the port Building state) the consumers bind onto; created at placement (Block.newBuilding).",
+      "tests": [
+        "test_factory_consumer_binding_registration",
+        "test_all_factory_consumer_binding_input_evidence_is_exact",
+        "test_tick_binds_runtime_consumers_for_factory",
+        "test_reference_graph_and_actual_factory_consumer_binding"
+      ],
+      "runtime_proof": "/root/FactoryConsumerBindingProof"
+    },
+    "source_factory_bind_consumer_state_result.bound": {
+      "canonical_symbol": "source_symbol_registry.source_factory_bind_consumer_state_result.bound",
+      "status": "source-backed",
+      "java_expr": "public ConsumeItems consumeItem(Item item, int amount){",
+      "godot_symbol": "source_factory_bind_consumer_state_result.bound",
+      "godot_owner": "SourceFactoryBuildState.source_bind_consumer_state",
+      "rule": "Whether RuntimeConsumer actors were created on this call; false when the frame already carries them.",
+      "tests": [
+        "test_factory_consumer_binding_registration",
+        "test_all_factory_consumer_binding_input_evidence_is_exact",
+        "test_tick_binds_runtime_consumers_for_factory",
+        "test_reference_graph_and_actual_factory_consumer_binding"
+      ],
+      "runtime_proof": "/root/FactoryConsumerBindingProof"
+    },
+    "source_factory_bind_consumer_state_result.consumers": {
+      "canonical_symbol": "source_symbol_registry.source_factory_bind_consumer_state_result.consumers",
+      "status": "source-backed",
+      "java_expr": "for(var cons : block.updateConsumers){",
+      "godot_symbol": "source_factory_bind_consumer_state_result.consumers",
+      "godot_owner": "SourceFactoryBuildState.source_bind_consumer_state",
+      "rule": "The RuntimeConsumer actors on the frame, one per bound consumeItem/consumeLiquid row.",
+      "tests": [
+        "test_factory_consumer_binding_registration",
+        "test_all_factory_consumer_binding_input_evidence_is_exact",
+        "test_tick_binds_runtime_consumers_for_factory",
+        "test_reference_graph_and_actual_factory_consumer_binding"
+      ],
+      "runtime_proof": "/root/FactoryConsumerBindingProof"
+    },
+    "source_factory_bind_consumer_state_result.rows": {
+      "canonical_symbol": "source_symbol_registry.source_factory_bind_consumer_state_result.rows",
+      "status": "source-backed",
+      "java_expr": "protected Seq<Consume> consumeBuilder = new Seq<>();",
+      "godot_symbol": "source_factory_bind_consumer_state_result.rows",
+      "godot_owner": "SourceFactoryBuildState.source_bind_consumer_state",
+      "rule": "The bound consume rows (item stacks + liquid descriptors) the actors were built from.",
+      "tests": [
+        "test_factory_consumer_binding_registration",
+        "test_all_factory_consumer_binding_input_evidence_is_exact",
+        "test_tick_binds_runtime_consumers_for_factory",
+        "test_reference_graph_and_actual_factory_consumer_binding"
+      ],
+      "runtime_proof": "/root/FactoryConsumerBindingProof"
+    },
     "source_factory_bind_frame_state_input.block": {
       "canonical_symbol": "source_symbol_registry.source_factory_bind_frame_state_input.block",
       "status": "source-backed",
@@ -3287,6 +3437,66 @@
         "test_reference_graph_and_actual_factory_update_consumption"
       ],
       "runtime_proof": "/root/FactoryUpdateConsumptionProof"
+    },
+    "source_item_runtime_consumer_input.cost_multiplier": {
+      "canonical_symbol": "source_symbol_registry.source_item_runtime_consumer_input.cost_multiplier",
+      "status": "source-backed",
+      "java_expr": "public Floatf<Building> multiplier = b -> 1f;",
+      "godot_symbol": "source_item_runtime_consumer_input.cost_multiplier",
+      "godot_owner": "SourceConsumeItemsState.source_runtime_consumer_state",
+      "rule": "The per-consumer cost multiplier callback (Consume.multiplier, default 1f).",
+      "tests": [
+        "test_factory_consumer_binding_registration",
+        "test_all_factory_consumer_binding_input_evidence_is_exact",
+        "test_tick_binds_runtime_consumers_for_factory",
+        "test_reference_graph_and_actual_factory_consumer_binding"
+      ],
+      "runtime_proof": "/root/FactoryConsumerBindingProof"
+    },
+    "source_item_runtime_consumer_input.definition": {
+      "canonical_symbol": "source_symbol_registry.source_item_runtime_consumer_input.definition",
+      "status": "source-backed",
+      "java_expr": "public final ItemStack[] items;",
+      "godot_symbol": "source_item_runtime_consumer_input.definition",
+      "godot_owner": "SourceConsumeItemsState.source_runtime_consumer_state",
+      "rule": "The consumeItem stack the actor gates and (at craft) removes: one item name and amount.",
+      "tests": [
+        "test_factory_consumer_binding_registration",
+        "test_all_factory_consumer_binding_input_evidence_is_exact",
+        "test_tick_binds_runtime_consumers_for_factory",
+        "test_reference_graph_and_actual_factory_consumer_binding"
+      ],
+      "runtime_proof": "/root/FactoryConsumerBindingProof"
+    },
+    "source_item_runtime_consumer_input.items": {
+      "canonical_symbol": "source_symbol_registry.source_item_runtime_consumer_input.items",
+      "status": "source-backed",
+      "java_expr": "public boolean has(Item item, int amount){",
+      "godot_symbol": "source_item_runtime_consumer_input.items",
+      "godot_owner": "SourceConsumeItemsState.source_runtime_consumer_state",
+      "rule": "The building's item module the actor reads (ItemModule.has).",
+      "tests": [
+        "test_factory_consumer_binding_registration",
+        "test_all_factory_consumer_binding_input_evidence_is_exact",
+        "test_tick_binds_runtime_consumers_for_factory",
+        "test_reference_graph_and_actual_factory_consumer_binding"
+      ],
+      "runtime_proof": "/root/FactoryConsumerBindingProof"
+    },
+    "source_item_runtime_consumer_result.consumer": {
+      "canonical_symbol": "source_symbol_registry.source_item_runtime_consumer_result.consumer",
+      "status": "source-backed",
+      "java_expr": "return build.consumeTriggerValid() || build.items.has(items, multiplier.get(build)) ? 1f : 0f;",
+      "godot_symbol": "source_item_runtime_consumer_result.consumer",
+      "godot_owner": "SourceConsumeItemsState.source_runtime_consumer_state",
+      "rule": "The RuntimeConsumer actor: efficiency 1 when the stack is held (or a trigger is burning), else 0; update is the empty Consume default.",
+      "tests": [
+        "test_factory_consumer_binding_registration",
+        "test_all_factory_consumer_binding_input_evidence_is_exact",
+        "test_tick_binds_runtime_consumers_for_factory",
+        "test_reference_graph_and_actual_factory_consumer_binding"
+      ],
+      "runtime_proof": "/root/FactoryConsumerBindingProof"
     },
     "source_pump_dump_liquid_state_input.cell": {
       "canonical_symbol": "source_symbol_registry.source_pump_dump_liquid_state_input.cell",

@@ -222512,6 +222512,200 @@
       },
       "runtime_proof": "/root/FactoryUpdateConsumptionProof",
       "rule": "Source-backed GenericCrafter updateConsumption efficiency adapter; the frame cheating flag wired live by N2110 decides whether BuildingComp.updateConsumption() takes its early return."
+    },
+    "source_factory_bind_consumer_state_input": {
+      "status": "active",
+      "owner": "SourceFactoryBuildState.source_bind_consumer_state",
+      "source_slice": "N2112",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public final Building newBuilding(){",
+          "rule": "The factory frame (the port Building state) the consumers bind onto; created at placement (Block.newBuilding).",
+          "used_by": [
+            "SourceFactoryBuildState.source_bind_consumer_state"
+          ]
+        },
+        "block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+          "java_expr": "public class GenericCrafter extends Block{",
+          "rule": "The typed block definition; only a block carrying consumeItem/consumeLiquid rows binds consumers.",
+          "used_by": [
+            "SourceFactoryBuildState.source_bind_consumer_state"
+          ]
+        },
+        "catalog": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "protected Seq<Consume> consumeBuilder = new Seq<>();",
+          "rule": "The content catalog the bound rows resolve their item and liquid fields against (the block's consumeBuilder).",
+          "used_by": [
+            "SourceFactoryBuildState.source_bind_consumer_state"
+          ]
+        },
+        "amounts": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+          "java_expr": "public void remove(Liquid liquid, float amount){",
+          "rule": "The building's liquid module the liquid actors remove from (LiquidModule.remove).",
+          "used_by": [
+            "SourceFactoryBuildState.source_bind_consumer_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/FactoryConsumerBindingProof",
+      "rule": "Source-backed GenericCrafter family RuntimeConsumer binding."
+    },
+    "source_factory_bind_consumer_state_result": {
+      "status": "active",
+      "owner": "SourceFactoryBuildState.source_bind_consumer_state",
+      "source_slice": "N2112",
+      "keys": {
+        "bound": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public ConsumeItems consumeItem(Item item, int amount){",
+          "rule": "Whether RuntimeConsumer actors were created on this call; false when the frame already carries them.",
+          "used_by": [
+            "SourceFactoryBuildState.source_bind_consumer_state"
+          ]
+        },
+        "consumers": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "for(var cons : block.updateConsumers){",
+          "rule": "The RuntimeConsumer actors on the frame, one per bound consumeItem/consumeLiquid row.",
+          "used_by": [
+            "SourceFactoryBuildState.source_bind_consumer_state"
+          ]
+        },
+        "rows": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "protected Seq<Consume> consumeBuilder = new Seq<>();",
+          "rule": "The bound consume rows (item stacks + liquid descriptors) the actors were built from.",
+          "used_by": [
+            "SourceFactoryBuildState.source_bind_consumer_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/FactoryConsumerBindingProof",
+      "rule": "Source-backed GenericCrafter family RuntimeConsumer binding."
+    },
+    "source_bind_item_consumers_state_input": {
+      "status": "active",
+      "owner": "SourceConsumeItemsState.source_bind_item_consumers_state",
+      "source_slice": "N2112",
+      "keys": {
+        "block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public ConsumeItems consumeItems(ItemStack... items){",
+          "rule": "The typed block definition; its consumeItem rows are the stacks to bind.",
+          "used_by": [
+            "SourceConsumeItemsState.source_bind_item_consumers_state"
+          ]
+        },
+        "content_catalog": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public ConsumeItems consumeItems(ItemStack... items){",
+          "rule": "The content catalog the bound rows resolve their item fields against (content.items()).",
+          "used_by": [
+            "SourceConsumeItemsState.source_bind_item_consumers_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/FactoryConsumerBindingProof",
+      "rule": "Source-backed GenericCrafter family RuntimeConsumer binding."
+    },
+    "source_bind_item_consumers_state_result": {
+      "status": "active",
+      "owner": "SourceConsumeItemsState.source_bind_item_consumers_state",
+      "source_slice": "N2112",
+      "keys": {
+        "consumers": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "return consume(new ConsumeItems(items));",
+          "rule": "The bound consumeItem rows (one stack dict per row, with the Consume ignore default).",
+          "used_by": [
+            "SourceConsumeItemsState.source_bind_item_consumers_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/FactoryConsumerBindingProof",
+      "rule": "Source-backed GenericCrafter family RuntimeConsumer binding."
+    },
+    "source_item_runtime_consumer_input": {
+      "status": "active",
+      "owner": "SourceConsumeItemsState.source_runtime_consumer_state",
+      "source_slice": "N2112",
+      "keys": {
+        "definition": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+          "java_expr": "public final ItemStack[] items;",
+          "rule": "The consumeItem stack the actor gates and (at craft) removes: one item name and amount.",
+          "used_by": [
+            "SourceConsumeItemsState.source_runtime_consumer_state"
+          ]
+        },
+        "items": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/modules/ItemModule.java",
+          "java_expr": "public boolean has(Item item, int amount){",
+          "rule": "The building's item module the actor reads (ItemModule.has).",
+          "used_by": [
+            "SourceConsumeItemsState.source_runtime_consumer_state"
+          ]
+        },
+        "cost_multiplier": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "public Floatf<Building> multiplier = b -> 1f;",
+          "rule": "The per-consumer cost multiplier callback (Consume.multiplier, default 1f).",
+          "used_by": [
+            "SourceConsumeItemsState.source_runtime_consumer_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/FactoryConsumerBindingProof",
+      "rule": "Source-backed GenericCrafter family RuntimeConsumer binding."
+    },
+    "source_item_runtime_consumer_result": {
+      "status": "active",
+      "owner": "SourceConsumeItemsState.source_runtime_consumer_state",
+      "source_slice": "N2112",
+      "keys": {
+        "consumer": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+          "java_expr": "return build.consumeTriggerValid() || build.items.has(items, multiplier.get(build)) ? 1f : 0f;",
+          "rule": "The RuntimeConsumer actor: efficiency 1 when the stack is held (or a trigger is burning), else 0; update is the empty Consume default.",
+          "used_by": [
+            "SourceConsumeItemsState.source_runtime_consumer_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/FactoryConsumerBindingProof",
+      "rule": "Source-backed GenericCrafter family RuntimeConsumer binding."
     }
   },
   "version": 1
