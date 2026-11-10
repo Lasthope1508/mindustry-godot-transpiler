@@ -4008,6 +4008,141 @@
       ],
       "runtime_proof": "/root/FactoryDumpSwapProof"
     },
+    "source_factory_liquid_output_state_input.block": {
+      "canonical_symbol": "source_symbol_registry.source_factory_liquid_output_state_input.block",
+      "status": "source-backed",
+      "java_expr": "if(outputLiquids != null){",
+      "godot_symbol": "source_factory_liquid_output_state_input.block",
+      "godot_owner": "SourceFactoryBuildState.source_factory_liquid_output_state",
+      "rule": "The typed block definition; its outputLiquids rows are what the loop handles.",
+      "tests": [
+        "test_factory_liquid_output_registration",
+        "test_all_factory_liquid_output_input_evidence_is_exact",
+        "test_tick_outputs_liquid_when_efficient",
+        "test_reference_graph_and_actual_c06_factory_liquid_output_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryLiquidOutputProof"
+    },
+    "source_factory_liquid_output_state_input.efficiency": {
+      "canonical_symbol": "source_symbol_registry.source_factory_liquid_output_state_input.efficiency",
+      "status": "source-backed",
+      "java_expr": "if(efficiency > 0){",
+      "godot_symbol": "source_factory_liquid_output_state_input.efficiency",
+      "godot_owner": "SourceFactoryBuildState.source_factory_liquid_output_state",
+      "rule": "The live efficiency; the liquid loop only runs while it is above zero.",
+      "tests": [
+        "test_factory_liquid_output_registration",
+        "test_all_factory_liquid_output_input_evidence_is_exact",
+        "test_tick_outputs_liquid_when_efficient",
+        "test_reference_graph_and_actual_c06_factory_liquid_output_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryLiquidOutputProof"
+    },
+    "source_factory_liquid_output_state_input.liquid_ids": {
+      "canonical_symbol": "source_symbol_registry.source_factory_liquid_output_state_input.liquid_ids",
+      "status": "source-backed",
+      "java_expr": "outputLiquid = new LiquidStack(Liquids.cryofluid, 12f / 60f);",
+      "godot_symbol": "source_factory_liquid_output_state_input.liquid_ids",
+      "godot_owner": "SourceFactoryBuildState.source_factory_liquid_output_state",
+      "rule": "The catalog name-to-id map for the output liquids: the liquid module is id-indexed, so output liquid names resolve to ids through it.",
+      "tests": [
+        "test_factory_liquid_output_registration",
+        "test_all_factory_liquid_output_input_evidence_is_exact",
+        "test_tick_outputs_liquid_when_efficient",
+        "test_reference_graph_and_actual_c06_factory_liquid_output_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryLiquidOutputProof"
+    },
+    "source_factory_liquid_output_state_input.liquids": {
+      "canonical_symbol": "source_symbol_registry.source_factory_liquid_output_state_input.liquids",
+      "status": "source-backed",
+      "java_expr": "handleLiquid(this, output.liquid, Math.min(output.amount * inc, liquidCapacity - liquids.get(output.liquid)));",
+      "godot_symbol": "source_factory_liquid_output_state_input.liquids",
+      "godot_owner": "SourceFactoryBuildState.source_factory_liquid_output_state",
+      "rule": "The building's liquid module the produced liquid is handled into.",
+      "tests": [
+        "test_factory_liquid_output_registration",
+        "test_all_factory_liquid_output_input_evidence_is_exact",
+        "test_tick_outputs_liquid_when_efficient",
+        "test_reference_graph_and_actual_c06_factory_liquid_output_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryLiquidOutputProof"
+    },
+    "source_factory_liquid_output_state_input.seconds": {
+      "canonical_symbol": "source_symbol_registry.source_factory_liquid_output_state_input.seconds",
+      "status": "source-backed",
+      "java_expr": "float inc = getProgressIncrease(1f);",
+      "godot_symbol": "source_factory_liquid_output_state_input.seconds",
+      "godot_owner": "SourceFactoryBuildState.source_factory_liquid_output_state",
+      "rule": "The frame delta in seconds; inc is the GenericCrafter override at base time 1f.",
+      "tests": [
+        "test_factory_liquid_output_registration",
+        "test_all_factory_liquid_output_input_evidence_is_exact",
+        "test_tick_outputs_liquid_when_efficient",
+        "test_reference_graph_and_actual_c06_factory_liquid_output_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryLiquidOutputProof"
+    },
+    "source_factory_liquid_output_state_input.time_scale": {
+      "canonical_symbol": "source_symbol_registry.source_factory_liquid_output_state_input.time_scale",
+      "status": "source-backed",
+      "java_expr": "return Time.delta * timeScale;",
+      "godot_symbol": "source_factory_liquid_output_state_input.time_scale",
+      "godot_owner": "SourceFactoryBuildState.source_factory_liquid_output_state",
+      "rule": "The building time scale (BuildingComp.delta() = Time.delta * timeScale).",
+      "tests": [
+        "test_factory_liquid_output_registration",
+        "test_all_factory_liquid_output_input_evidence_is_exact",
+        "test_tick_outputs_liquid_when_efficient",
+        "test_reference_graph_and_actual_c06_factory_liquid_output_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryLiquidOutputProof"
+    },
+    "source_factory_liquid_output_state_result.added": {
+      "canonical_symbol": "source_symbol_registry.source_factory_liquid_output_state_result.added",
+      "status": "source-backed",
+      "java_expr": "handleLiquid(this, output.liquid, Math.min(output.amount * inc, liquidCapacity - liquids.get(output.liquid)));",
+      "godot_symbol": "source_factory_liquid_output_state_result.added",
+      "godot_owner": "SourceFactoryBuildState.source_factory_liquid_output_state",
+      "rule": "What each output liquid gained this tick: min(amount * inc, liquidCapacity - held).",
+      "tests": [
+        "test_factory_liquid_output_registration",
+        "test_all_factory_liquid_output_input_evidence_is_exact",
+        "test_tick_outputs_liquid_when_efficient",
+        "test_reference_graph_and_actual_c06_factory_liquid_output_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryLiquidOutputProof"
+    },
+    "source_factory_liquid_output_state_result.inc": {
+      "canonical_symbol": "source_symbol_registry.source_factory_liquid_output_state_result.inc",
+      "status": "source-backed",
+      "java_expr": "float inc = getProgressIncrease(1f);",
+      "godot_symbol": "source_factory_liquid_output_state_result.inc",
+      "godot_owner": "SourceFactoryBuildState.source_factory_liquid_output_state",
+      "rule": "The per-tick output increase: getProgressIncrease(1f), scaled to zero by a full output liquid.",
+      "tests": [
+        "test_factory_liquid_output_registration",
+        "test_all_factory_liquid_output_input_evidence_is_exact",
+        "test_tick_outputs_liquid_when_efficient",
+        "test_reference_graph_and_actual_c06_factory_liquid_output_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryLiquidOutputProof"
+    },
+    "source_factory_liquid_output_state_result.liquids_after": {
+      "canonical_symbol": "source_symbol_registry.source_factory_liquid_output_state_result.liquids_after",
+      "status": "source-backed",
+      "java_expr": "liquids.add(liquid, amount);",
+      "godot_symbol": "source_factory_liquid_output_state_result.liquids_after",
+      "godot_owner": "SourceFactoryBuildState.source_factory_liquid_output_state",
+      "rule": "The liquid module after the adds: liquids[id] += amount with current set to the liquid.",
+      "tests": [
+        "test_factory_liquid_output_registration",
+        "test_all_factory_liquid_output_input_evidence_is_exact",
+        "test_tick_outputs_liquid_when_efficient",
+        "test_reference_graph_and_actual_c06_factory_liquid_output_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryLiquidOutputProof"
+    },
     "source_factory_offload_state_input.block": {
       "canonical_symbol": "source_symbol_registry.source_factory_offload_state_input.block",
       "status": "source-backed",
@@ -4503,6 +4638,66 @@
       ],
       "runtime_proof": "/root/FactoryLiveLoopProof"
     },
+    "source_factory_total_progress_state_input.seconds": {
+      "canonical_symbol": "source_symbol_registry.source_factory_total_progress_state_input.seconds",
+      "status": "source-backed",
+      "java_expr": "totalProgress += warmup * Time.delta;",
+      "godot_symbol": "source_factory_total_progress_state_input.seconds",
+      "godot_owner": "SourceFactoryBuildState.source_factory_total_progress_state",
+      "rule": "The frame delta in seconds; Time.delta is in seconds, not ticks.",
+      "tests": [
+        "test_factory_liquid_output_registration",
+        "test_all_factory_liquid_output_input_evidence_is_exact",
+        "test_tick_outputs_liquid_when_efficient",
+        "test_reference_graph_and_actual_c06_factory_liquid_output_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryLiquidOutputProof"
+    },
+    "source_factory_total_progress_state_input.total_progress": {
+      "canonical_symbol": "source_symbol_registry.source_factory_total_progress_state_input.total_progress",
+      "status": "source-backed",
+      "java_expr": "totalProgress += warmup * Time.delta;",
+      "godot_symbol": "source_factory_total_progress_state_input.total_progress",
+      "godot_owner": "SourceFactoryBuildState.source_factory_total_progress_state",
+      "rule": "The banked total progress the warmup adds to.",
+      "tests": [
+        "test_factory_liquid_output_registration",
+        "test_all_factory_liquid_output_input_evidence_is_exact",
+        "test_tick_outputs_liquid_when_efficient",
+        "test_reference_graph_and_actual_c06_factory_liquid_output_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryLiquidOutputProof"
+    },
+    "source_factory_total_progress_state_input.warmup": {
+      "canonical_symbol": "source_symbol_registry.source_factory_total_progress_state_input.warmup",
+      "status": "source-backed",
+      "java_expr": "totalProgress += warmup * Time.delta;",
+      "godot_symbol": "source_factory_total_progress_state_input.warmup",
+      "godot_owner": "SourceFactoryBuildState.source_factory_total_progress_state",
+      "rule": "The current warmup; totalProgress banks warmup * Time.delta every tick.",
+      "tests": [
+        "test_factory_liquid_output_registration",
+        "test_all_factory_liquid_output_input_evidence_is_exact",
+        "test_tick_outputs_liquid_when_efficient",
+        "test_reference_graph_and_actual_c06_factory_liquid_output_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryLiquidOutputProof"
+    },
+    "source_factory_total_progress_state_result.total_progress": {
+      "canonical_symbol": "source_symbol_registry.source_factory_total_progress_state_result.total_progress",
+      "status": "source-backed",
+      "java_expr": "totalProgress += warmup * Time.delta;",
+      "godot_symbol": "source_factory_total_progress_state_result.total_progress",
+      "godot_owner": "SourceFactoryBuildState.source_factory_total_progress_state",
+      "rule": "The banked total progress after this tick.",
+      "tests": [
+        "test_factory_liquid_output_registration",
+        "test_all_factory_liquid_output_input_evidence_is_exact",
+        "test_tick_outputs_liquid_when_efficient",
+        "test_reference_graph_and_actual_c06_factory_liquid_output_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryLiquidOutputProof"
+    },
     "source_factory_update_consumption_state_input.efficiency_scale": {
       "canonical_symbol": "source_symbol_registry.source_factory_update_consumption_state_input.efficiency_scale",
       "status": "source-backed",
@@ -4682,6 +4877,126 @@
         "test_reference_graph_and_actual_factory_update_consumption"
       ],
       "runtime_proof": "/root/FactoryUpdateConsumptionProof"
+    },
+    "source_factory_warmup_state_input.seconds": {
+      "canonical_symbol": "source_symbol_registry.source_factory_warmup_state_input.seconds",
+      "status": "source-backed",
+      "java_expr": "warmup = Mathf.approachDelta(warmup, warmupTarget(), warmupSpeed);",
+      "godot_symbol": "source_factory_warmup_state_input.seconds",
+      "godot_owner": "SourceFactoryBuildState.source_factory_warmup_state",
+      "rule": "The frame delta in seconds; approachDelta steps by Time.delta * warmupSpeed.",
+      "tests": [
+        "test_factory_liquid_output_registration",
+        "test_all_factory_liquid_output_input_evidence_is_exact",
+        "test_tick_outputs_liquid_when_efficient",
+        "test_reference_graph_and_actual_c06_factory_liquid_output_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryLiquidOutputProof"
+    },
+    "source_factory_warmup_state_input.target": {
+      "canonical_symbol": "source_symbol_registry.source_factory_warmup_state_input.target",
+      "status": "source-backed",
+      "java_expr": "warmup = Mathf.approachDelta(warmup, 0f, warmupSpeed);",
+      "godot_symbol": "source_factory_warmup_state_input.target",
+      "godot_owner": "SourceFactoryBuildState.source_factory_warmup_state",
+      "rule": "The approach target: warmupTarget() while efficient, 0f when efficiency is zero.",
+      "tests": [
+        "test_factory_liquid_output_registration",
+        "test_all_factory_liquid_output_input_evidence_is_exact",
+        "test_tick_outputs_liquid_when_efficient",
+        "test_reference_graph_and_actual_c06_factory_liquid_output_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryLiquidOutputProof"
+    },
+    "source_factory_warmup_state_input.warmup": {
+      "canonical_symbol": "source_symbol_registry.source_factory_warmup_state_input.warmup",
+      "status": "source-backed",
+      "java_expr": "public float warmup;",
+      "godot_symbol": "source_factory_warmup_state_input.warmup",
+      "godot_owner": "SourceFactoryBuildState.source_factory_warmup_state",
+      "rule": "The current warmup the approach moves from.",
+      "tests": [
+        "test_factory_liquid_output_registration",
+        "test_all_factory_liquid_output_input_evidence_is_exact",
+        "test_tick_outputs_liquid_when_efficient",
+        "test_reference_graph_and_actual_c06_factory_liquid_output_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryLiquidOutputProof"
+    },
+    "source_factory_warmup_state_input.warmup_speed": {
+      "canonical_symbol": "source_symbol_registry.source_factory_warmup_state_input.warmup_speed",
+      "status": "source-backed",
+      "java_expr": "public float warmupSpeed = 0.019f;",
+      "godot_symbol": "source_factory_warmup_state_input.warmup_speed",
+      "godot_owner": "SourceFactoryBuildState.source_factory_warmup_state",
+      "rule": "The block's warmupSpeed, else the class default 0.019f.",
+      "tests": [
+        "test_factory_liquid_output_registration",
+        "test_all_factory_liquid_output_input_evidence_is_exact",
+        "test_tick_outputs_liquid_when_efficient",
+        "test_reference_graph_and_actual_c06_factory_liquid_output_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryLiquidOutputProof"
+    },
+    "source_factory_warmup_state_result.target": {
+      "canonical_symbol": "source_symbol_registry.source_factory_warmup_state_result.target",
+      "status": "source-backed",
+      "java_expr": "public float warmupTarget(){",
+      "godot_symbol": "source_factory_warmup_state_result.target",
+      "godot_owner": "SourceFactoryBuildState.source_factory_warmup_state",
+      "rule": "The target the warmup approached this tick.",
+      "tests": [
+        "test_factory_liquid_output_registration",
+        "test_all_factory_liquid_output_input_evidence_is_exact",
+        "test_tick_outputs_liquid_when_efficient",
+        "test_reference_graph_and_actual_c06_factory_liquid_output_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryLiquidOutputProof"
+    },
+    "source_factory_warmup_state_result.warmup": {
+      "canonical_symbol": "source_symbol_registry.source_factory_warmup_state_result.warmup",
+      "status": "source-backed",
+      "java_expr": "warmup = Mathf.approachDelta(warmup, warmupTarget(), warmupSpeed);",
+      "godot_symbol": "source_factory_warmup_state_result.warmup",
+      "godot_owner": "SourceFactoryBuildState.source_factory_warmup_state",
+      "rule": "The warmup after one approach step toward the target.",
+      "tests": [
+        "test_factory_liquid_output_registration",
+        "test_all_factory_liquid_output_input_evidence_is_exact",
+        "test_tick_outputs_liquid_when_efficient",
+        "test_reference_graph_and_actual_c06_factory_liquid_output_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryLiquidOutputProof"
+    },
+    "source_factory_warmup_target_state_input.block": {
+      "canonical_symbol": "source_symbol_registry.source_factory_warmup_target_state_input.block",
+      "status": "source-backed",
+      "java_expr": "warmup = Mathf.approachDelta(warmup, warmupTarget(), warmupSpeed);",
+      "godot_symbol": "source_factory_warmup_target_state_input.block",
+      "godot_owner": "SourceFactoryBuildState.source_factory_warmup_target_state",
+      "rule": "The typed block definition; its warmupTarget() is what the warmup approaches.",
+      "tests": [
+        "test_factory_liquid_output_registration",
+        "test_all_factory_liquid_output_input_evidence_is_exact",
+        "test_tick_outputs_liquid_when_efficient",
+        "test_reference_graph_and_actual_c06_factory_liquid_output_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryLiquidOutputProof"
+    },
+    "source_factory_warmup_target_state_result.warmup_target": {
+      "canonical_symbol": "source_symbol_registry.source_factory_warmup_target_state_result.warmup_target",
+      "status": "source-backed",
+      "java_expr": "public float warmupTarget(){",
+      "godot_symbol": "source_factory_warmup_target_state_result.warmup_target",
+      "godot_owner": "SourceFactoryBuildState.source_factory_warmup_target_state",
+      "rule": "The warmup target: 1f for a GenericCrafterBuild (the HeatCrafter override is deferred).",
+      "tests": [
+        "test_factory_liquid_output_registration",
+        "test_all_factory_liquid_output_input_evidence_is_exact",
+        "test_tick_outputs_liquid_when_efficient",
+        "test_reference_graph_and_actual_c06_factory_liquid_output_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryLiquidOutputProof"
     },
     "source_item_runtime_consumer_input.cost_multiplier": {
       "canonical_symbol": "source_symbol_registry.source_item_runtime_consumer_input.cost_multiplier",

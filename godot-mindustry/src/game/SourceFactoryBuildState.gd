@@ -282,23 +282,22 @@ static func source_factory_progress_increase_state(craft_time: float, efficiency
 		"edelta": edelta,
 	}
 
-static func source_factory_crafter_progress_increase_state(block: Object, liquids: Dictionary, liquid_ids: Dictionary, efficiency: float, seconds: float, time_scale: float) -> Dictionary:
-	# GenericCrafterBuild.getProgressIncrease override
-	# (GenericCrafter.java:266-285): ignoreLiquidFullness returns the
+static func _crafter_progress_increase_with_base_time(block: Object, liquids: Dictionary, liquid_ids: Dictionary, efficiency: float, seconds: float, time_scale: float, base_time: float) -> Dictionary:
+	# The GenericCrafterBuild.getProgressIncrease override
+	# (GenericCrafter.java:266-285) over an explicit base time: the
+	# public form passes craftTime (GenericCrafter.java:237
+	# `progress += getProgressIncrease(craftTime);`), the liquid
+	# output half passes 1f (GenericCrafter.java:242 `float inc =
+	# getProgressIncrease(1f);`). ignoreLiquidFullness returns the
 	# base increase; otherwise each output liquid scales by
 	# (liquidCapacity - held) / (amount * edelta()), taking the
 	# minimum as `scaling` and the maximum as `max`, and the base
 	# increase is then multiplied by min(max, 1f) when
 	# dumpExtraLiquid, else by scaling. A block with no output
-	# liquids (silicon smelter, graphite press) takes the base
-	# increase unchanged; craftTime is the registry value, else the
-	# class default 80 (GenericCrafter.java:40). The tick only calls
+	# liquids takes the base increase unchanged. The tick only calls
 	# this while efficiency > 0, so edelta is positive here; a zero
 	# edelta still yields no progress rather than dividing by zero.
-	var craft_time := 80.0
-	if block != null:
-		craft_time = float(block.properties.get("craftTime", 80.0))
-	var base: Dictionary = source_factory_progress_increase_state(craft_time, efficiency, seconds, time_scale)
+	var base: Dictionary = source_factory_progress_increase_state(base_time, efficiency, seconds, time_scale)
 	var edelta := float(base.get("edelta", 0.0))
 	var scaling := 1.0
 	if block != null and not bool(block.properties.get("ignoreLiquidFullness", false)):
@@ -320,10 +319,26 @@ static func source_factory_crafter_progress_increase_state(block: Object, liquid
 			else:
 				scaling = min_scaling
 	return {
-		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_FACTORY_BUILD_CRAFTER_PROGRESS_INCREASE_STATE,
 		"progress_increase": float(base.get("progress_increase", 0.0)) * scaling,
 		"scaling": scaling,
 		"edelta": edelta,
+	}
+
+static func source_factory_crafter_progress_increase_state(block: Object, liquids: Dictionary, liquid_ids: Dictionary, efficiency: float, seconds: float, time_scale: float) -> Dictionary:
+	# GenericCrafterBuild.getProgressIncrease override
+	# (GenericCrafter.java:266-285) at the block's craftTime: the
+	# tick's progress step (GenericCrafter.java:237). craftTime is
+	# the registry value, else the class default 80
+	# (GenericCrafter.java:40).
+	var craft_time := 80.0
+	if block != null:
+		craft_time = float(block.properties.get("craftTime", 80.0))
+	var increased: Dictionary = _crafter_progress_increase_with_base_time(block, liquids, liquid_ids, efficiency, seconds, time_scale, craft_time)
+	return {
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_FACTORY_BUILD_CRAFTER_PROGRESS_INCREASE_STATE,
+		"progress_increase": float(increased.get("progress_increase", 0.0)),
+		"scaling": float(increased.get("scaling", 1.0)),
+		"edelta": float(increased.get("edelta", 0.0)),
 	}
 
 static func source_factory_consume_state(frame: Dictionary, consumers: Array, rows: Array) -> Dictionary:
@@ -435,9 +450,9 @@ static func source_factory_craft_state(game: Object, frame: Dictionary, cell: Ve
 	# actors and rows (N2112 binds them, N2116 reinitializes them),
 	# so craft needs no separate actor list. The continuous liquid
 	# output half of updateTile (GenericCrafter.java:241-246,
-	# handleLiquid per tick) is a later slice: a liquid-output
-	# crafter crafts its item rows here while its liquid output is
-	# still unwired.
+	# handleLiquid per tick) is wired by N2118's
+	# source_factory_liquid_output_state, called from the tick
+	# driver before the craft check.
 	if block == null:
 		return {
 			"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_FACTORY_BUILD_CRAFT_STATE,
@@ -459,6 +474,119 @@ static func source_factory_craft_state(game: Object, frame: Dictionary, cell: Ve
 		"consumed": consumed,
 		"offloaded": offloaded,
 		"progress_after": float(frame.get("progress", 0.0)),
+	}
+
+static func source_factory_warmup_target_state(block: Object) -> Dictionary:
+	# GenericCrafterBuild.warmupTarget() (GenericCrafter.java:287-289)
+	# returns 1f. HeatCrafterBuild overrides it with
+	# Mathf.clamp(heat / heatRequirement) (HeatCrafter.java:70-72) —
+	# deferred: the frame carries no heat state yet, so a heat
+	# crafter takes the GenericCrafter default until the heat slice
+	# lands. A null block has no target.
+	var target := 1.0
+	if block == null:
+		target = 0.0
+	return {
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_FACTORY_BUILD_WARMUP_TARGET_STATE,
+		"warmup_target": target,
+	}
+
+static func source_factory_warmup_state(warmup: float, target: float, warmup_speed: float, seconds: float) -> Dictionary:
+	# Mathf.approachDelta(warmup, warmupTarget(), warmupSpeed)
+	# (GenericCrafter.java:239, efficiency above zero) and
+	# Mathf.approachDelta(warmup, 0f, warmupSpeed)
+	# (GenericCrafter.java:253, efficiency zero): approachDelta(from,
+	# to, speed) is approach(from, to, Time.delta * speed)
+	# (Mathf.java:420-422), approach(from, to, speed) is from +
+	# clamp(to - from, -speed, speed) (Mathf.java:415-417), and
+	# Time.delta is the frame delta in seconds. warmupSpeed is the
+	# block's own, else the class default 0.019f
+	# (GenericCrafter.java:45); no GenericCrafter-family block
+	# initializer overrides it.
+	var step := float(seconds) * float(warmup_speed)
+	var moved := float(warmup) + clampf(float(target) - float(warmup), -step, step)
+	return {
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_FACTORY_BUILD_WARMUP_STATE,
+		"warmup": moved,
+		"target": float(target),
+	}
+
+static func _liquid_add_amount_state(liquids: Dictionary, liquid_id: int, amount: float) -> void:
+	# LiquidModule.add (LiquidModule.java:110-112): liquids[liquid.id]
+	# += amount, current = liquid. The port's liquid module is the
+	# id-indexed array under "liquids" (LiquidModule.java:23); a bare
+	# id->amount map (the direct-call shape) adds straight through.
+	# An unknown id holds nothing and takes nothing.
+	if liquid_id < 0:
+		return
+	if liquids.has("liquids") and liquids["liquids"] is Array:
+		var amounts: Array = liquids["liquids"]
+		while amounts.size() <= liquid_id:
+			amounts.append(0.0)
+		amounts[liquid_id] = float(amounts[liquid_id]) + amount
+		liquids["current"] = liquid_id
+		return
+	liquids[liquid_id] = float(liquids.get(liquid_id, 0.0)) + amount
+
+static func source_factory_liquid_output_state(block: Object, liquids: Dictionary, liquid_ids: Dictionary, efficiency: float, seconds: float, time_scale: float) -> Dictionary:
+	# The continuous liquid output half of
+	# GenericCrafterBuild.updateTile() (GenericCrafter.java:241-246):
+	# `float inc = getProgressIncrease(1f);` — the GenericCrafter
+	# override at base time 1f, so a full output liquid scales inc
+	# to zero through the same headroom scaling N2117 registered —
+	# then each output liquid is handled once per tick,
+	# `handleLiquid(this, output.liquid, Math.min(output.amount *
+	# inc, liquidCapacity - liquids.get(output.liquid)))`, capped at
+	# the remaining capacity so the module never overfills.
+	# handleLiquid is liquids.add (BuildingComp.java:872-874).
+	# A block with no output liquids outputs nothing (inc 0); a null
+	# block outputs nothing. The tick only calls this while
+	# efficiency is above zero. The port edelta convention is the
+	# N2117 one (seconds * TICK_RATE), so one tick at efficiency 1.0
+	# is inc 1.0 for an empty mixer and it gains 0.2 cryofluid.
+	var added := {}
+	if block == null:
+		return {
+			"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_FACTORY_BUILD_LIQUID_OUTPUT_STATE,
+			"inc": 0.0,
+			"added": added,
+			"liquids_after": liquids,
+		}
+	var output_liquids: Array = block.properties.get("outputLiquids", [])
+	if output_liquids.is_empty():
+		return {
+			"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_FACTORY_BUILD_LIQUID_OUTPUT_STATE,
+			"inc": 0.0,
+			"added": added,
+			"liquids_after": liquids,
+		}
+	var inc := float(_crafter_progress_increase_with_base_time(block, liquids, liquid_ids, efficiency, seconds, time_scale, 1.0).get("progress_increase", 0.0))
+	var liquid_capacity := float(block.properties.get("liquidCapacity", 10.0))
+	for output in output_liquids:
+		var liquid_name := str(output.get("liquid", ""))
+		var liquid_id: int = int(liquid_ids.get(liquid_name, -1))
+		if liquid_id < 0:
+			continue
+		var held: float = _liquid_amount_state(liquids, liquid_id)
+		var amount := minf(float(output.get("amount", 0.0)) * inc, liquid_capacity - held)
+		_liquid_add_amount_state(liquids, liquid_id, amount)
+		added[liquid_name] = amount
+	return {
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_FACTORY_BUILD_LIQUID_OUTPUT_STATE,
+		"inc": inc,
+		"added": added,
+		"liquids_after": liquids,
+	}
+
+static func source_factory_total_progress_state(total_progress: float, warmup: float, seconds: float) -> Dictionary:
+	# totalProgress += warmup * Time.delta (GenericCrafter.java:259-260;
+	# the TODO notes it may look bad and revert to edelta()). This
+	# runs every tick, outside the efficiency branch — a factory at
+	# efficiency zero still banks the warmup it has left as it cools.
+	# Time.delta is the frame delta in seconds.
+	return {
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_FACTORY_BUILD_TOTAL_PROGRESS_STATE,
+		"total_progress": float(total_progress) + float(warmup) * float(seconds),
 	}
 
 static func source_factory_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
@@ -548,18 +676,33 @@ static func source_factory_tick_buildings_state(game: Object, seconds: float) ->
 		# (GenericCrafter.java:235-266): with efficiency above zero
 		# the progress climbs by getProgressIncrease(craftTime) — the
 		# GenericCrafter override scales it when the block outputs
-		# liquids — and a completed progress crafts (consume +
-		# offload, N2117). updateConsumption already ran through
-		# Building.update() (BuildingComp.java:2262-2274), so the
-		# frame's efficiency is the live one; warmup/totalProgress
-		# and the continuous liquid output are later slices.
+		# liquids — warmup approaches warmupTarget() at warmupSpeed
+		# (GenericCrafter.java:239) and each output liquid is handled
+		# once per tick (GenericCrafter.java:241-246); at efficiency
+		# zero warmup decays toward 0 (GenericCrafter.java:253).
+		# totalProgress banks warmup * Time.delta every tick
+		# (GenericCrafter.java:259-260), and a completed progress
+		# crafts (consume + offload, N2117). updateConsumption already
+		# ran through Building.update() (BuildingComp.java:2262-2274),
+		# so the frame's efficiency is the live one; dumpOutputs()
+		# (GenericCrafter.java:317+) is the next slice.
 		var time_scale := source_placed_block_state.time_scale(sprite, source_placed_block_state.game_default_time_scale(game))
 		var efficiency := float(frame.get("efficiency", 0.0))
+		var warmup_speed := float(block.properties.get("warmupSpeed", 0.019))
 		if efficiency > 0.0:
 			var increase: Dictionary = source_factory_crafter_progress_increase_state(block, liquids, liquid_id_by_name, efficiency, seconds, time_scale)
 			frame["progress"] = float(frame.get("progress", 0.0)) + float(increase.get("progress_increase", 0.0))
-			if float(frame.get("progress", 0.0)) >= 1.0:
-				source_factory_craft_state(game, frame, cell, block)
+			var target: Dictionary = source_factory_warmup_target_state(block)
+			var warmed: Dictionary = source_factory_warmup_state(float(frame.get("warmup", 0.0)), float(target.get("warmup_target", 1.0)), warmup_speed, seconds)
+			frame["warmup"] = float(warmed.get("warmup", 0.0))
+			source_factory_liquid_output_state(block, liquids, liquid_id_by_name, efficiency, seconds, time_scale)
+		else:
+			var cooled: Dictionary = source_factory_warmup_state(float(frame.get("warmup", 0.0)), 0.0, warmup_speed, seconds)
+			frame["warmup"] = float(cooled.get("warmup", 0.0))
+		var totalled: Dictionary = source_factory_total_progress_state(float(frame.get("totalProgress", 0.0)), float(frame.get("warmup", 0.0)), seconds)
+		frame["totalProgress"] = float(totalled.get("total_progress", 0.0))
+		if efficiency > 0.0 and float(frame.get("progress", 0.0)) >= 1.0:
+			source_factory_craft_state(game, frame, cell, block)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
 	return {"ticked_count": ticked_count, "results_by_cell": results_by_cell}

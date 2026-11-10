@@ -223948,6 +223948,288 @@
       },
       "runtime_proof": "/root/C06FactoryCraftProof",
       "rule": "Source-backed GenericCrafter progress + craft() live-loop slice."
+    },
+    "source_factory_warmup_target_state_input": {
+      "status": "active",
+      "owner": "SourceFactoryBuildState.source_factory_warmup_target_state",
+      "source_slice": "N2118",
+      "keys": {
+        "block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+          "java_expr": "warmup = Mathf.approachDelta(warmup, warmupTarget(), warmupSpeed);",
+          "rule": "The typed block definition; its warmupTarget() is what the warmup approaches.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_warmup_target_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06FactoryLiquidOutputProof",
+      "rule": "Source-backed GenericCrafter warmup / liquid-output / totalProgress live-loop slice."
+    },
+    "source_factory_warmup_target_state_result": {
+      "status": "active",
+      "owner": "SourceFactoryBuildState.source_factory_warmup_target_state",
+      "source_slice": "N2118",
+      "keys": {
+        "warmup_target": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+          "java_expr": "public float warmupTarget(){",
+          "rule": "The warmup target: 1f for a GenericCrafterBuild (the HeatCrafter override is deferred).",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_warmup_target_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06FactoryLiquidOutputProof",
+      "rule": "Source-backed GenericCrafter warmup / liquid-output / totalProgress live-loop slice."
+    },
+    "source_factory_warmup_state_input": {
+      "status": "active",
+      "owner": "SourceFactoryBuildState.source_factory_warmup_state",
+      "source_slice": "N2118",
+      "keys": {
+        "warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+          "java_expr": "public float warmup;",
+          "rule": "The current warmup the approach moves from.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_warmup_state"
+          ]
+        },
+        "target": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+          "java_expr": "warmup = Mathf.approachDelta(warmup, 0f, warmupSpeed);",
+          "rule": "The approach target: warmupTarget() while efficient, 0f when efficiency is zero.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_warmup_state"
+          ]
+        },
+        "warmup_speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+          "java_expr": "public float warmupSpeed = 0.019f;",
+          "rule": "The block's warmupSpeed, else the class default 0.019f.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_warmup_state"
+          ]
+        },
+        "seconds": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+          "java_expr": "warmup = Mathf.approachDelta(warmup, warmupTarget(), warmupSpeed);",
+          "rule": "The frame delta in seconds; approachDelta steps by Time.delta * warmupSpeed.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_warmup_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06FactoryLiquidOutputProof",
+      "rule": "Source-backed GenericCrafter warmup / liquid-output / totalProgress live-loop slice."
+    },
+    "source_factory_warmup_state_result": {
+      "status": "active",
+      "owner": "SourceFactoryBuildState.source_factory_warmup_state",
+      "source_slice": "N2118",
+      "keys": {
+        "warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+          "java_expr": "warmup = Mathf.approachDelta(warmup, warmupTarget(), warmupSpeed);",
+          "rule": "The warmup after one approach step toward the target.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_warmup_state"
+          ]
+        },
+        "target": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+          "java_expr": "public float warmupTarget(){",
+          "rule": "The target the warmup approached this tick.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_warmup_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06FactoryLiquidOutputProof",
+      "rule": "Source-backed GenericCrafter warmup / liquid-output / totalProgress live-loop slice."
+    },
+    "source_factory_liquid_output_state_input": {
+      "status": "active",
+      "owner": "SourceFactoryBuildState.source_factory_liquid_output_state",
+      "source_slice": "N2118",
+      "keys": {
+        "block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+          "java_expr": "if(outputLiquids != null){",
+          "rule": "The typed block definition; its outputLiquids rows are what the loop handles.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_liquid_output_state"
+          ]
+        },
+        "liquids": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+          "java_expr": "handleLiquid(this, output.liquid, Math.min(output.amount * inc, liquidCapacity - liquids.get(output.liquid)));",
+          "rule": "The building's liquid module the produced liquid is handled into.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_liquid_output_state"
+          ]
+        },
+        "liquid_ids": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "outputLiquid = new LiquidStack(Liquids.cryofluid, 12f / 60f);",
+          "rule": "The catalog name-to-id map for the output liquids: the liquid module is id-indexed, so output liquid names resolve to ids through it.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_liquid_output_state"
+          ]
+        },
+        "efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+          "java_expr": "if(efficiency > 0){",
+          "rule": "The live efficiency; the liquid loop only runs while it is above zero.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_liquid_output_state"
+          ]
+        },
+        "seconds": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+          "java_expr": "float inc = getProgressIncrease(1f);",
+          "rule": "The frame delta in seconds; inc is the GenericCrafter override at base time 1f.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_liquid_output_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return Time.delta * timeScale;",
+          "rule": "The building time scale (BuildingComp.delta() = Time.delta * timeScale).",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_liquid_output_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06FactoryLiquidOutputProof",
+      "rule": "Source-backed GenericCrafter warmup / liquid-output / totalProgress live-loop slice."
+    },
+    "source_factory_liquid_output_state_result": {
+      "status": "active",
+      "owner": "SourceFactoryBuildState.source_factory_liquid_output_state",
+      "source_slice": "N2118",
+      "keys": {
+        "inc": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+          "java_expr": "float inc = getProgressIncrease(1f);",
+          "rule": "The per-tick output increase: getProgressIncrease(1f), scaled to zero by a full output liquid.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_liquid_output_state"
+          ]
+        },
+        "added": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+          "java_expr": "handleLiquid(this, output.liquid, Math.min(output.amount * inc, liquidCapacity - liquids.get(output.liquid)));",
+          "rule": "What each output liquid gained this tick: min(amount * inc, liquidCapacity - held).",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_liquid_output_state"
+          ]
+        },
+        "liquids_after": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "liquids.add(liquid, amount);",
+          "rule": "The liquid module after the adds: liquids[id] += amount with current set to the liquid.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_liquid_output_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06FactoryLiquidOutputProof",
+      "rule": "Source-backed GenericCrafter warmup / liquid-output / totalProgress live-loop slice."
+    },
+    "source_factory_total_progress_state_input": {
+      "status": "active",
+      "owner": "SourceFactoryBuildState.source_factory_total_progress_state",
+      "source_slice": "N2118",
+      "keys": {
+        "total_progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+          "java_expr": "totalProgress += warmup * Time.delta;",
+          "rule": "The banked total progress the warmup adds to.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_total_progress_state"
+          ]
+        },
+        "warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+          "java_expr": "totalProgress += warmup * Time.delta;",
+          "rule": "The current warmup; totalProgress banks warmup * Time.delta every tick.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_total_progress_state"
+          ]
+        },
+        "seconds": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+          "java_expr": "totalProgress += warmup * Time.delta;",
+          "rule": "The frame delta in seconds; Time.delta is in seconds, not ticks.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_total_progress_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06FactoryLiquidOutputProof",
+      "rule": "Source-backed GenericCrafter warmup / liquid-output / totalProgress live-loop slice."
+    },
+    "source_factory_total_progress_state_result": {
+      "status": "active",
+      "owner": "SourceFactoryBuildState.source_factory_total_progress_state",
+      "source_slice": "N2118",
+      "keys": {
+        "total_progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+          "java_expr": "totalProgress += warmup * Time.delta;",
+          "rule": "The banked total progress after this tick.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_total_progress_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06FactoryLiquidOutputProof",
+      "rule": "Source-backed GenericCrafter warmup / liquid-output / totalProgress live-loop slice."
     }
   },
   "version": 1

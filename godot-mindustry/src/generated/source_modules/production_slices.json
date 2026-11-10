@@ -657,6 +657,43 @@
       ],
       "runtime_proof": "/root/C06FactoryCraftProof"
     },
+    "N2118": {
+      "canonical_ledger": "source_slice_ledger.N2118",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+      "java_method": "GenericCrafterBuild.updateTile(); GenericCrafterBuild.warmupTarget(); BuildingComp.handleLiquid(Building, Liquid, float); LiquidModule.add(Liquid, float)",
+      "godot_owner": "SourceFactoryBuildState.source_factory_tick_buildings_state",
+      "source_symbols": [
+        "source_factory_liquid_output_state_input.block",
+        "source_factory_liquid_output_state_input.efficiency",
+        "source_factory_liquid_output_state_input.liquid_ids",
+        "source_factory_liquid_output_state_input.liquids",
+        "source_factory_liquid_output_state_input.seconds",
+        "source_factory_liquid_output_state_input.time_scale",
+        "source_factory_liquid_output_state_result.added",
+        "source_factory_liquid_output_state_result.inc",
+        "source_factory_liquid_output_state_result.liquids_after",
+        "source_factory_total_progress_state_input.seconds",
+        "source_factory_total_progress_state_input.total_progress",
+        "source_factory_total_progress_state_input.warmup",
+        "source_factory_total_progress_state_result.total_progress",
+        "source_factory_warmup_state_input.seconds",
+        "source_factory_warmup_state_input.target",
+        "source_factory_warmup_state_input.warmup",
+        "source_factory_warmup_state_input.warmup_speed",
+        "source_factory_warmup_state_result.target",
+        "source_factory_warmup_state_result.warmup",
+        "source_factory_warmup_target_state_input.block",
+        "source_factory_warmup_target_state_result.warmup_target"
+      ],
+      "tests": [
+        "test_factory_liquid_output_registration",
+        "test_all_factory_liquid_output_input_evidence_is_exact",
+        "test_tick_outputs_liquid_when_efficient",
+        "test_reference_graph_and_actual_c06_factory_liquid_output_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryLiquidOutputProof"
+    },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",
       "status": "done",
