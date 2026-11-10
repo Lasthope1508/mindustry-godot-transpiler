@@ -1578,6 +1578,111 @@
       ],
       "runtime_proof": "/root/Main.source_drill_warmup_state"
     },
+    "source_adjacent_factory_bind_consumer_state_input.amounts": {
+      "canonical_symbol": "source_symbol_registry.source_adjacent_factory_bind_consumer_state_input.amounts",
+      "status": "source-backed",
+      "java_expr": "public void remove(Liquid liquid, float amount){",
+      "godot_symbol": "source_adjacent_factory_bind_consumer_state_input.amounts",
+      "godot_owner": "SourceAdjacentFactoryBuildState.source_bind_consumer_state",
+      "rule": "The building's liquid module the liquid actors remove from (LiquidModule.remove).",
+      "tests": [
+        "test_adjacent_factory_consumer_binding_registration",
+        "test_all_adjacent_factory_consumer_binding_input_evidence_is_exact",
+        "test_tick_binds_runtime_consumers_for_adjacent_factory",
+        "test_reference_graph_and_actual_adjacent_factory_consumer_binding"
+      ],
+      "runtime_proof": "/root/AdjacentFactoryConsumerBindingProof"
+    },
+    "source_adjacent_factory_bind_consumer_state_input.block": {
+      "canonical_symbol": "source_symbol_registry.source_adjacent_factory_bind_consumer_state_input.block",
+      "status": "source-backed",
+      "java_expr": "public class Separator extends Block{",
+      "godot_symbol": "source_adjacent_factory_bind_consumer_state_input.block",
+      "godot_owner": "SourceAdjacentFactoryBuildState.source_bind_consumer_state",
+      "rule": "The typed block definition; only a block carrying consumeItem/consumeLiquid rows binds consumers.",
+      "tests": [
+        "test_adjacent_factory_consumer_binding_registration",
+        "test_all_adjacent_factory_consumer_binding_input_evidence_is_exact",
+        "test_tick_binds_runtime_consumers_for_adjacent_factory",
+        "test_reference_graph_and_actual_adjacent_factory_consumer_binding"
+      ],
+      "runtime_proof": "/root/AdjacentFactoryConsumerBindingProof"
+    },
+    "source_adjacent_factory_bind_consumer_state_input.catalog": {
+      "canonical_symbol": "source_symbol_registry.source_adjacent_factory_bind_consumer_state_input.catalog",
+      "status": "source-backed",
+      "java_expr": "protected Seq<Consume> consumeBuilder = new Seq<>();",
+      "godot_symbol": "source_adjacent_factory_bind_consumer_state_input.catalog",
+      "godot_owner": "SourceAdjacentFactoryBuildState.source_bind_consumer_state",
+      "rule": "The content catalog the bound rows resolve their item and liquid fields against (the block's consumeBuilder).",
+      "tests": [
+        "test_adjacent_factory_consumer_binding_registration",
+        "test_all_adjacent_factory_consumer_binding_input_evidence_is_exact",
+        "test_tick_binds_runtime_consumers_for_adjacent_factory",
+        "test_reference_graph_and_actual_adjacent_factory_consumer_binding"
+      ],
+      "runtime_proof": "/root/AdjacentFactoryConsumerBindingProof"
+    },
+    "source_adjacent_factory_bind_consumer_state_input.frame": {
+      "canonical_symbol": "source_symbol_registry.source_adjacent_factory_bind_consumer_state_input.frame",
+      "status": "source-backed",
+      "java_expr": "public final Building newBuilding(){",
+      "godot_symbol": "source_adjacent_factory_bind_consumer_state_input.frame",
+      "godot_owner": "SourceAdjacentFactoryBuildState.source_bind_consumer_state",
+      "rule": "The adjacent-factory frame (the port Building state) the consumers bind onto; created at placement (Block.newBuilding).",
+      "tests": [
+        "test_adjacent_factory_consumer_binding_registration",
+        "test_all_adjacent_factory_consumer_binding_input_evidence_is_exact",
+        "test_tick_binds_runtime_consumers_for_adjacent_factory",
+        "test_reference_graph_and_actual_adjacent_factory_consumer_binding"
+      ],
+      "runtime_proof": "/root/AdjacentFactoryConsumerBindingProof"
+    },
+    "source_adjacent_factory_bind_consumer_state_result.bound": {
+      "canonical_symbol": "source_symbol_registry.source_adjacent_factory_bind_consumer_state_result.bound",
+      "status": "source-backed",
+      "java_expr": "public ConsumeItems consumeItem(Item item, int amount){",
+      "godot_symbol": "source_adjacent_factory_bind_consumer_state_result.bound",
+      "godot_owner": "SourceAdjacentFactoryBuildState.source_bind_consumer_state",
+      "rule": "Whether RuntimeConsumer actors were created on this call; false when the frame already carries them.",
+      "tests": [
+        "test_adjacent_factory_consumer_binding_registration",
+        "test_all_adjacent_factory_consumer_binding_input_evidence_is_exact",
+        "test_tick_binds_runtime_consumers_for_adjacent_factory",
+        "test_reference_graph_and_actual_adjacent_factory_consumer_binding"
+      ],
+      "runtime_proof": "/root/AdjacentFactoryConsumerBindingProof"
+    },
+    "source_adjacent_factory_bind_consumer_state_result.consumers": {
+      "canonical_symbol": "source_symbol_registry.source_adjacent_factory_bind_consumer_state_result.consumers",
+      "status": "source-backed",
+      "java_expr": "for(var cons : block.updateConsumers){",
+      "godot_symbol": "source_adjacent_factory_bind_consumer_state_result.consumers",
+      "godot_owner": "SourceAdjacentFactoryBuildState.source_bind_consumer_state",
+      "rule": "The RuntimeConsumer actors on the frame, one per bound consumeItem/consumeLiquid row.",
+      "tests": [
+        "test_adjacent_factory_consumer_binding_registration",
+        "test_all_adjacent_factory_consumer_binding_input_evidence_is_exact",
+        "test_tick_binds_runtime_consumers_for_adjacent_factory",
+        "test_reference_graph_and_actual_adjacent_factory_consumer_binding"
+      ],
+      "runtime_proof": "/root/AdjacentFactoryConsumerBindingProof"
+    },
+    "source_adjacent_factory_bind_consumer_state_result.rows": {
+      "canonical_symbol": "source_symbol_registry.source_adjacent_factory_bind_consumer_state_result.rows",
+      "status": "source-backed",
+      "java_expr": "protected Seq<Consume> consumeBuilder = new Seq<>();",
+      "godot_symbol": "source_adjacent_factory_bind_consumer_state_result.rows",
+      "godot_owner": "SourceAdjacentFactoryBuildState.source_bind_consumer_state",
+      "rule": "The bound consume rows (item stacks + liquid descriptors) the actors were built from.",
+      "tests": [
+        "test_adjacent_factory_consumer_binding_registration",
+        "test_all_adjacent_factory_consumer_binding_input_evidence_is_exact",
+        "test_tick_binds_runtime_consumers_for_adjacent_factory",
+        "test_reference_graph_and_actual_adjacent_factory_consumer_binding"
+      ],
+      "runtime_proof": "/root/AdjacentFactoryConsumerBindingProof"
+    },
     "source_adjacent_factory_bind_frame_state_input.block": {
       "canonical_symbol": "source_symbol_registry.source_adjacent_factory_bind_frame_state_input.block",
       "status": "source-backed",

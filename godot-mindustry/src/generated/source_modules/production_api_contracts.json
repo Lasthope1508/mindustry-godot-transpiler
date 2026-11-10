@@ -503,13 +503,17 @@
         "results_by_cell"
       ],
       "tests": [
+        "test_adjacent_factory_consumer_binding_registration",
         "test_adjacent_factory_live_loop_registration",
+        "test_all_adjacent_factory_consumer_binding_input_evidence_is_exact",
         "test_all_adjacent_factory_live_loop_input_evidence_is_exact",
-        "test_tick_wires_frame_and_driver_runs_from_live_loop",
-        "test_reference_graph_and_actual_adjacent_factory_live_loop"
+        "test_reference_graph_and_actual_adjacent_factory_consumer_binding",
+        "test_reference_graph_and_actual_adjacent_factory_live_loop",
+        "test_tick_binds_runtime_consumers_for_adjacent_factory",
+        "test_tick_wires_frame_and_driver_runs_from_live_loop"
       ],
       "runtime_proof": "/root/AdjacentFactoryLiveLoopProof",
-      "rule": "Source-backed adjacent factory family live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live rules every simulate_factory tick, so a cheating team's adjacent factory counts everything as valid in updateConsumption, and the tick gates efficiency on the family's own shouldConsume() body.",
+      "rule": "Source-backed adjacent factory family live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live rules every simulate_factory tick, so a cheating team's adjacent factory counts everything as valid in updateConsumption, the tick gates efficiency on the family's own shouldConsume() body, and the tick binds one RuntimeConsumer per consumeItem/consumeLiquid row and runs the bound actors through updateConsumption so the placed adjacent factory consumes its liquid rows each tick and gates efficiency on its item rows.",
       "return_type": "Dictionary"
     },
     "SourceDrillConsumptionRuntimeState.source_dominant_item_name_state": {

@@ -12,6 +12,8 @@ class FakeSingleBlockProducerBlock extends RefCounted:
 const main_scene := preload("res://scenes/Main.tscn")
 const adjacent_build_state := preload("res://src/game/SourceAdjacentFactoryBuildState.gd")
 const placed_state := preload("res://src/game/SourcePlacedBlockState.gd")
+const liquid_module_state := preload("res://src/game/SourceLiquidModuleState.gd")
+const content_registry_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
 const registry := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
 const proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")
 
@@ -50,6 +52,16 @@ func _ready() -> void:
 	var crusher := Sprite2D.new()
 	game.add_child(crusher)
 	game.call("record_placed_block", crusher, blocks_by_id["cliff-crusher"], crusher_cell)
+	# N2115 binds the separator's slag actor, so the live loop runs
+	# it through updateConsumption every tick: the separator needs
+	# slag held for its live-loop efficiency to read 1.0
+	# (ConsumeLiquid.efficiency, ConsumeLiquid.java:38-40 — with no
+	# slag the first pass reads 0). The incinerator and the crusher
+	# bind no actors and need nothing.
+	var liquid_catalog: Dictionary = content_registry_state.source_liquid_catalog_state(catalog)
+	var slag_id: int = int(liquid_catalog["liquid_id_by_name"].get("slag", -1))
+	var separator_module: Dictionary = separator.get_meta(placed_state.SOURCE_BUILDING_LIQUIDS_META_KEY, {})
+	liquid_module_state.source_add_state(separator_module, slag_id, 10.0, [])
 	proof["adjacent_separator_placed_live_sprite"] = str(separator.get_meta("source_block_id", "")) == "separator"
 	proof["adjacent_incinerator_placed_live_sprite"] = str(incinerator.get_meta("source_block_id", "")) == "incinerator"
 	proof["adjacent_crusher_placed_live_sprite"] = str(crusher.get_meta("source_block_id", "")) == "cliff-crusher"

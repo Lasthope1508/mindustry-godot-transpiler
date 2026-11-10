@@ -223194,6 +223194,94 @@
       },
       "runtime_proof": "/root/AdjacentFactoryLiveLoopProof",
       "rule": "Source-backed adjacent factory family live-loop tick, placement frame binding, updateConsumption adapter and per-family shouldConsume()."
+    },
+    "source_adjacent_factory_bind_consumer_state_input": {
+      "status": "active",
+      "owner": "SourceAdjacentFactoryBuildState.source_bind_consumer_state",
+      "source_slice": "N2115",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public final Building newBuilding(){",
+          "rule": "The adjacent-factory frame (the port Building state) the consumers bind onto; created at placement (Block.newBuilding).",
+          "used_by": [
+            "SourceAdjacentFactoryBuildState.source_bind_consumer_state"
+          ]
+        },
+        "block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+          "java_expr": "public class Separator extends Block{",
+          "rule": "The typed block definition; only a block carrying consumeItem/consumeLiquid rows binds consumers.",
+          "used_by": [
+            "SourceAdjacentFactoryBuildState.source_bind_consumer_state"
+          ]
+        },
+        "catalog": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "protected Seq<Consume> consumeBuilder = new Seq<>();",
+          "rule": "The content catalog the bound rows resolve their item and liquid fields against (the block's consumeBuilder).",
+          "used_by": [
+            "SourceAdjacentFactoryBuildState.source_bind_consumer_state"
+          ]
+        },
+        "amounts": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+          "java_expr": "public void remove(Liquid liquid, float amount){",
+          "rule": "The building's liquid module the liquid actors remove from (LiquidModule.remove).",
+          "used_by": [
+            "SourceAdjacentFactoryBuildState.source_bind_consumer_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/AdjacentFactoryConsumerBindingProof",
+      "rule": "Source-backed adjacent factory family RuntimeConsumer binding."
+    },
+    "source_adjacent_factory_bind_consumer_state_result": {
+      "status": "active",
+      "owner": "SourceAdjacentFactoryBuildState.source_bind_consumer_state",
+      "source_slice": "N2115",
+      "keys": {
+        "bound": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public ConsumeItems consumeItem(Item item, int amount){",
+          "rule": "Whether RuntimeConsumer actors were created on this call; false when the frame already carries them.",
+          "used_by": [
+            "SourceAdjacentFactoryBuildState.source_bind_consumer_state"
+          ]
+        },
+        "consumers": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "for(var cons : block.updateConsumers){",
+          "rule": "The RuntimeConsumer actors on the frame, one per bound consumeItem/consumeLiquid row.",
+          "used_by": [
+            "SourceAdjacentFactoryBuildState.source_bind_consumer_state"
+          ]
+        },
+        "rows": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "protected Seq<Consume> consumeBuilder = new Seq<>();",
+          "rule": "The bound consume rows (item stacks + liquid descriptors) the actors were built from.",
+          "used_by": [
+            "SourceAdjacentFactoryBuildState.source_bind_consumer_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/AdjacentFactoryConsumerBindingProof",
+      "rule": "Source-backed adjacent factory family RuntimeConsumer binding."
     }
   },
   "version": 1

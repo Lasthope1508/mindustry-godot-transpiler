@@ -53778,6 +53778,70 @@
         "The C05 gate (lifecycle replacement, storage independence, consumer classification) is a later slice; the adjacent families are the last factory-adjacent work before it.",
         "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2115": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+      "java_class": "mindustry.world.blocks.production.Separator.SeparatorBuild",
+      "java_method": "SeparatorBuild.updateTile(); BuildingComp.updateConsumption(); ConsumeItems.efficiency(); ConsumeLiquid.update()",
+      "godot_owner": "SourceAdjacentFactoryBuildState.source_adjacent_factory_tick_buildings_state",
+      "exact_exprs": [
+        "public class Separator extends Block{",
+        "public class SeparatorBuild extends Building{",
+        "public void updateTile(){",
+        "public class Incinerator extends Block{",
+        "public class WallCrafter extends Block{",
+        "public class SingleBlockProducer extends BlockProducer{",
+        "public class SingleBlockProducerBuild extends BlockProducerBuild{",
+        "consume(new ConsumeItemDynamic((BlockProducerBuild e) -> {",
+        "public void updateConsumption(){",
+        "if(!block.hasConsumers || cheating()){",
+        "for(var cons : block.updateConsumers){",
+        "cons.update(self());",
+        "public ConsumeItems consumeItems(ItemStack... items){",
+        "public ConsumeItems consumeItem(Item item, int amount){",
+        "return consume(new ConsumeItems(items));",
+        "return build.consumeTriggerValid() || build.items.has(items, multiplier.get(build)) ? 1f : 0f;",
+        "build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));",
+        "public void update(Building build){}",
+        "public Floatf<Building> multiplier = b -> 1f;",
+        "public boolean ignore(){",
+        "build.liquids.remove(liquid, amount * build.edelta() * multiplier.get(build));",
+        "public boolean consumeTriggerValid(){",
+        "protected Seq<Consume> consumeBuilder = new Seq<>();",
+        "public final Building newBuilding(){",
+        "public boolean has(Item item, int amount){",
+        "public void remove(Liquid liquid, float amount){",
+        "consumeLiquid(Liquids.slag, 4f / 60f);",
+        "consumeItem(Items.scrap);",
+        "consumeLiquid(Liquids.slag, 0.12f);",
+        "consumeLiquid(Liquids.hydrogen, 1f / 60f);",
+        "itemConsumer = consumeItem(Items.graphite).boost();",
+        "consumePower(0.50f);",
+        "consumePower(11 / 60f);"
+      ],
+      "source_symbols": [
+        "source_adjacent_factory_bind_consumer_state_input.amounts",
+        "source_adjacent_factory_bind_consumer_state_input.block",
+        "source_adjacent_factory_bind_consumer_state_input.catalog",
+        "source_adjacent_factory_bind_consumer_state_input.frame",
+        "source_adjacent_factory_bind_consumer_state_result.bound",
+        "source_adjacent_factory_bind_consumer_state_result.consumers",
+        "source_adjacent_factory_bind_consumer_state_result.rows"
+      ],
+      "tests": [
+        "test_adjacent_factory_consumer_binding_registration",
+        "test_all_adjacent_factory_consumer_binding_input_evidence_is_exact",
+        "test_tick_binds_runtime_consumers_for_adjacent_factory",
+        "test_reference_graph_and_actual_adjacent_factory_consumer_binding"
+      ],
+      "runtime_proof": "/root/AdjacentFactoryConsumerBindingProof",
+      "deferred_exprs": [
+        "Item stacks leave only at craft() via ConsumeItems.trigger (Separator.java:158, WallCrafter.java:208, BlockProducer.java:116); the per-tick second pass removes nothing for items, so the craft/progress slice owns the trigger.",
+        "SingleBlockProducer has no vanilla block, so its dynamic item consumer (BlockProducer.java:39-45, ConsumeItemDynamic, resolved per recipe at runtime) binds no actor; a mod block using it needs a dynamic-binding slice.",
+        "The C05 gate (lifecycle replacement, storage independence, consumer classification) is a later slice; the adjacent families are the last factory-adjacent work before it.",
+        "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1

@@ -580,6 +580,29 @@
       ],
       "runtime_proof": "/root/AdjacentFactoryLiveLoopProof"
     },
+    "N2115": {
+      "canonical_ledger": "source_slice_ledger.N2115",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+      "java_method": "SeparatorBuild.updateTile(); BuildingComp.updateConsumption(); ConsumeItems.efficiency(); ConsumeLiquid.update()",
+      "godot_owner": "SourceAdjacentFactoryBuildState.source_adjacent_factory_tick_buildings_state",
+      "source_symbols": [
+        "source_adjacent_factory_bind_consumer_state_input.amounts",
+        "source_adjacent_factory_bind_consumer_state_input.block",
+        "source_adjacent_factory_bind_consumer_state_input.catalog",
+        "source_adjacent_factory_bind_consumer_state_input.frame",
+        "source_adjacent_factory_bind_consumer_state_result.bound",
+        "source_adjacent_factory_bind_consumer_state_result.consumers",
+        "source_adjacent_factory_bind_consumer_state_result.rows"
+      ],
+      "tests": [
+        "test_adjacent_factory_consumer_binding_registration",
+        "test_all_adjacent_factory_consumer_binding_input_evidence_is_exact",
+        "test_tick_binds_runtime_consumers_for_adjacent_factory",
+        "test_reference_graph_and_actual_adjacent_factory_consumer_binding"
+      ],
+      "runtime_proof": "/root/AdjacentFactoryConsumerBindingProof"
+    },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",
       "status": "done",
