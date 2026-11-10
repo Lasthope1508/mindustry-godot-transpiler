@@ -1,6 +1,6 @@
 # Handoff — GenericCrafter warmup / liquid output / totalProgress in the live loop (N2118)
 
-Date: 2026-11-10. Batch: N2118 (single slice, SSOT slice, no emitter change). Commit: TBD (set after the full suite passes).
+Date: 2026-11-10. Batch: N2118 (single slice, SSOT slice, no emitter change). Commit: cbdbdcf.
 
 ## Done
 
