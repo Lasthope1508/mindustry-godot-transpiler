@@ -2506,6 +2506,9 @@
         "itemCapacity": 10,
         "itemDrop": null,
         "liquidCapacity": 10.0,
+        "liquidOutputDirections": [
+          -1
+        ],
         "outputItems": [
           {
             "amount": 1,
@@ -2557,6 +2560,9 @@
         "itemCapacity": 20,
         "itemDrop": null,
         "liquidCapacity": 60.0,
+        "liquidOutputDirections": [
+          -1
+        ],
         "outputItems": [
           {
             "amount": 2,
@@ -2617,6 +2623,9 @@
         "itemCapacity": 10,
         "itemDrop": null,
         "liquidCapacity": 10.0,
+        "liquidOutputDirections": [
+          -1
+        ],
         "outputItems": [
           {
             "amount": 1,
@@ -2672,6 +2681,9 @@
         "itemCapacity": 30,
         "itemDrop": null,
         "liquidCapacity": 10.0,
+        "liquidOutputDirections": [
+          -1
+        ],
         "outputItems": [
           {
             "amount": 8,
@@ -2731,6 +2743,9 @@
         "itemCapacity": 10,
         "itemDrop": null,
         "liquidCapacity": 10.0,
+        "liquidOutputDirections": [
+          -1
+        ],
         "outputItems": [
           {
             "amount": 1,
@@ -2790,6 +2805,9 @@
         "itemCapacity": 10,
         "itemDrop": null,
         "liquidCapacity": 60.0,
+        "liquidOutputDirections": [
+          -1
+        ],
         "outputItems": [
           {
             "amount": 1,
@@ -2849,6 +2867,9 @@
         "itemCapacity": 30,
         "itemDrop": null,
         "liquidCapacity": 10.0,
+        "liquidOutputDirections": [
+          -1
+        ],
         "outputItems": [
           {
             "amount": 1,
@@ -2912,6 +2933,9 @@
         "itemCapacity": 20,
         "itemDrop": null,
         "liquidCapacity": 10.0,
+        "liquidOutputDirections": [
+          -1
+        ],
         "outputItems": [
           {
             "amount": 1,
@@ -2970,6 +2994,9 @@
         "itemCapacity": 10,
         "itemDrop": null,
         "liquidCapacity": 36.0,
+        "liquidOutputDirections": [
+          -1
+        ],
         "outputLiquids": [
           {
             "amount": 0.2,
@@ -3029,6 +3056,9 @@
         "itemCapacity": 10,
         "itemDrop": null,
         "liquidCapacity": 10.0,
+        "liquidOutputDirections": [
+          -1
+        ],
         "outputItems": [
           {
             "amount": 1,
@@ -3080,6 +3110,9 @@
         "itemCapacity": 10,
         "itemDrop": null,
         "liquidCapacity": 10.0,
+        "liquidOutputDirections": [
+          -1
+        ],
         "outputItems": [
           {
             "amount": 1,
@@ -3128,6 +3161,9 @@
         "itemCapacity": 10,
         "itemDrop": null,
         "liquidCapacity": 10.0,
+        "liquidOutputDirections": [
+          -1
+        ],
         "outputLiquids": [
           {
             "amount": 0.2,
@@ -3274,6 +3310,9 @@
         "itemCapacity": 10,
         "itemDrop": null,
         "liquidCapacity": 60.0,
+        "liquidOutputDirections": [
+          -1
+        ],
         "outputLiquids": [
           {
             "amount": 0.3,
@@ -3321,6 +3360,9 @@
         "itemCapacity": 10,
         "itemDrop": null,
         "liquidCapacity": 10.0,
+        "liquidOutputDirections": [
+          -1
+        ],
         "outputItems": [
           {
             "amount": 1,
@@ -3369,6 +3411,9 @@
         "itemCapacity": 10,
         "itemDrop": null,
         "liquidCapacity": 60.0,
+        "liquidOutputDirections": [
+          -1
+        ],
         "outputItems": [
           {
             "amount": 1,
@@ -3457,6 +3502,9 @@
         "itemCapacity": 30,
         "itemDrop": null,
         "liquidCapacity": 10.0,
+        "liquidOutputDirections": [
+          -1
+        ],
         "outputItems": [
           {
             "amount": 4,
@@ -3504,6 +3552,10 @@
         "itemCapacity": 0,
         "itemDrop": null,
         "liquidCapacity": 50.0,
+        "liquidOutputDirections": [
+          1,
+          3
+        ],
         "outputLiquids": [
           {
             "amount": 0.06666666666666667,
@@ -3557,6 +3609,9 @@
         "itemCapacity": 0,
         "itemDrop": null,
         "liquidCapacity": 60.0,
+        "liquidOutputDirections": [
+          -1
+        ],
         "outputLiquids": [
           {
             "amount": 0.26666666666666666,
@@ -3612,6 +3667,9 @@
         "hasPower": true,
         "itemDrop": null,
         "liquidCapacity": 30.0,
+        "liquidOutputDirections": [
+          -1
+        ],
         "outputItems": [
           {
             "amount": 1,
@@ -3660,6 +3718,9 @@
         "itemCapacity": 0,
         "itemDrop": null,
         "liquidCapacity": 10.0,
+        "liquidOutputDirections": [
+          -1
+        ],
         "outputsPower": false,
         "powerBuffered": false,
         "powerCapacity": 0.0,
@@ -3703,6 +3764,9 @@
         "itemCapacity": 0,
         "itemDrop": null,
         "liquidCapacity": 120.0,
+        "liquidOutputDirections": [
+          -1
+        ],
         "outputsPower": false,
         "requirements": [
           {
@@ -3742,6 +3806,9 @@
         "hasPower": true,
         "itemDrop": null,
         "liquidCapacity": 10.0,
+        "liquidOutputDirections": [
+          -1
+        ],
         "outputsPower": false,
         "requirements": [
           {
@@ -3898,6 +3965,9 @@
         "itemCapacity": 20,
         "itemDrop": null,
         "liquidCapacity": 10.0,
+        "liquidOutputDirections": [
+          -1
+        ],
         "outputItems": [
           {
             "amount": 1,
@@ -3955,6 +4025,9 @@
         "itemCapacity": 10,
         "itemDrop": null,
         "liquidCapacity": 80.0,
+        "liquidOutputDirections": [
+          -1
+        ],
         "outputLiquids": [
           {
             "amount": 0.016666666666666666,
@@ -4015,6 +4088,9 @@
         "itemCapacity": 20,
         "itemDrop": null,
         "liquidCapacity": 400.0,
+        "liquidOutputDirections": [
+          -1
+        ],
         "outputItems": [
           {
             "amount": 1,
@@ -4074,6 +4150,9 @@
         "hasPower": true,
         "itemDrop": null,
         "liquidCapacity": 80.0,
+        "liquidOutputDirections": [
+          -1
+        ],
         "outputLiquids": [
           {
             "amount": 0.2,
@@ -4138,6 +4217,9 @@
         "itemCapacity": 40,
         "itemDrop": null,
         "liquidCapacity": 40.0,
+        "liquidOutputDirections": [
+          -1
+        ],
         "outputItems": [
           {
             "amount": 1,
@@ -4198,6 +4280,9 @@
         "itemCapacity": 20,
         "itemDrop": null,
         "liquidCapacity": 10.0,
+        "liquidOutputDirections": [
+          -1
+        ],
         "outputItems": [
           {
             "amount": 1,
@@ -7876,6 +7961,9 @@
         "itemCapacity": 10,
         "itemDrop": null,
         "liquidCapacity": 80.0,
+        "liquidOutputDirections": [
+          -1
+        ],
         "outputItems": [
           {
             "amount": 1,
@@ -7979,6 +8067,9 @@
         "itemCapacity": 0,
         "itemDrop": null,
         "liquidCapacity": 60.0,
+        "liquidOutputDirections": [
+          -1
+        ],
         "outputLiquids": [
           {
             "amount": 0.5,
@@ -11641,6 +11732,9 @@
         "itemCapacity": 0,
         "itemDrop": null,
         "liquidCapacity": 10.0,
+        "liquidOutputDirections": [
+          -1
+        ],
         "outputsPower": false,
         "size": 1
       },

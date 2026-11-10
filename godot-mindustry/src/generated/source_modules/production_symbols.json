@@ -4008,6 +4008,546 @@
       ],
       "runtime_proof": "/root/FactoryDumpSwapProof"
     },
+    "source_factory_dump_interval_state_input.dump_time": {
+      "canonical_symbol": "source_symbol_registry.source_factory_dump_interval_state_input.dump_time",
+      "status": "source-backed",
+      "java_expr": "public int dumpTime = 5;",
+      "godot_symbol": "source_factory_dump_interval_state_input.dump_time",
+      "godot_owner": "SourceFactoryBuildState.source_factory_dump_interval_state",
+      "rule": "Block.dumpTime, 5 unless the block overrides it (none does).",
+      "tests": [
+        "test_factory_dump_outputs_registration",
+        "test_all_factory_dump_outputs_input_evidence_is_exact",
+        "test_tick_dumps_outputs",
+        "test_reference_graph_and_actual_c06_factory_dump_outputs_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryDumpOutputsProof"
+    },
+    "source_factory_dump_interval_state_input.time_scale": {
+      "canonical_symbol": "source_symbol_registry.source_factory_dump_interval_state_input.time_scale",
+      "status": "source-backed",
+      "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+      "godot_symbol": "source_factory_dump_interval_state_input.time_scale",
+      "godot_owner": "SourceFactoryBuildState.source_factory_dump_interval_state",
+      "rule": "The building time scale, 1f by default.",
+      "tests": [
+        "test_factory_dump_outputs_registration",
+        "test_all_factory_dump_outputs_input_evidence_is_exact",
+        "test_tick_dumps_outputs",
+        "test_reference_graph_and_actual_c06_factory_dump_outputs_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryDumpOutputsProof"
+    },
+    "source_factory_dump_interval_state_result.dump_interval": {
+      "canonical_symbol": "source_symbol_registry.source_factory_dump_interval_state_result.dump_interval",
+      "status": "source-backed",
+      "java_expr": "if(outputItems != null && timer(timerDump, dumpTime / timeScale)){",
+      "godot_symbol": "source_factory_dump_interval_state_result.dump_interval",
+      "godot_owner": "SourceFactoryBuildState.source_factory_dump_interval_state",
+      "rule": "dumpTime / timeScale seconds between item dumps.",
+      "tests": [
+        "test_factory_dump_outputs_registration",
+        "test_all_factory_dump_outputs_input_evidence_is_exact",
+        "test_tick_dumps_outputs",
+        "test_reference_graph_and_actual_c06_factory_dump_outputs_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryDumpOutputsProof"
+    },
+    "source_factory_dump_liquid_state_input.block": {
+      "canonical_symbol": "source_symbol_registry.source_factory_dump_liquid_state_input.block",
+      "status": "source-backed",
+      "java_expr": "public void dumpLiquid(Liquid liquid, float scaling, int outputDir){",
+      "godot_symbol": "source_factory_dump_liquid_state_input.block",
+      "godot_owner": "SourceFactoryBuildState.source_factory_dump_liquid_state",
+      "rule": "The typed block definition; its liquidCapacity and liquidOutputDirections are what the dump routes by.",
+      "tests": [
+        "test_factory_dump_outputs_registration",
+        "test_all_factory_dump_outputs_input_evidence_is_exact",
+        "test_tick_dumps_outputs",
+        "test_reference_graph_and_actual_c06_factory_dump_outputs_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryDumpOutputsProof"
+    },
+    "source_factory_dump_liquid_state_input.cell": {
+      "canonical_symbol": "source_symbol_registry.source_factory_dump_liquid_state_input.cell",
+      "status": "source-backed",
+      "java_expr": "if(outputDir != -1 && (outputDir + rotation) % 4 != relativeTo(other)) continue;",
+      "godot_symbol": "source_factory_dump_liquid_state_input.cell",
+      "godot_owner": "SourceFactoryBuildState.source_factory_dump_liquid_state",
+      "rule": "The building's cell; the proximity ring is computed from it and relativeTo is read off it.",
+      "tests": [
+        "test_factory_dump_outputs_registration",
+        "test_all_factory_dump_outputs_input_evidence_is_exact",
+        "test_tick_dumps_outputs",
+        "test_reference_graph_and_actual_c06_factory_dump_outputs_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryDumpOutputsProof"
+    },
+    "source_factory_dump_liquid_state_input.game": {
+      "canonical_symbol": "source_symbol_registry.source_factory_dump_liquid_state_input.game",
+      "status": "source-backed",
+      "java_expr": "public void dumpLiquid(Liquid liquid, float scaling, int outputDir){",
+      "godot_symbol": "source_factory_dump_liquid_state_input.game",
+      "godot_owner": "SourceFactoryBuildState.source_factory_dump_liquid_state",
+      "rule": "The live game: the proximity ring and the conduit neighbors are read from it.",
+      "tests": [
+        "test_factory_dump_outputs_registration",
+        "test_all_factory_dump_outputs_input_evidence_is_exact",
+        "test_tick_dumps_outputs",
+        "test_reference_graph_and_actual_c06_factory_dump_outputs_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryDumpOutputsProof"
+    },
+    "source_factory_dump_liquid_state_input.liquid_ids": {
+      "canonical_symbol": "source_symbol_registry.source_factory_dump_liquid_state_input.liquid_ids",
+      "status": "source-backed",
+      "java_expr": "outputLiquid = new LiquidStack(Liquids.cryofluid, 12f / 60f);",
+      "godot_symbol": "source_factory_dump_liquid_state_input.liquid_ids",
+      "godot_owner": "SourceFactoryBuildState.source_factory_dump_liquid_state",
+      "rule": "The catalog name-to-id map: the liquid module is id-indexed, so the output liquid name resolves to an id through it.",
+      "tests": [
+        "test_factory_dump_outputs_registration",
+        "test_all_factory_dump_outputs_input_evidence_is_exact",
+        "test_tick_dumps_outputs",
+        "test_reference_graph_and_actual_c06_factory_dump_outputs_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryDumpOutputsProof"
+    },
+    "source_factory_dump_liquid_state_input.liquid_name": {
+      "canonical_symbol": "source_symbol_registry.source_factory_dump_liquid_state_input.liquid_name",
+      "status": "source-backed",
+      "java_expr": "dumpLiquid(outputLiquids[i].liquid, 2f, dir);",
+      "godot_symbol": "source_factory_dump_liquid_state_input.liquid_name",
+      "godot_owner": "SourceFactoryBuildState.source_factory_dump_liquid_state",
+      "rule": "The output liquid name, one row of outputLiquids per tick.",
+      "tests": [
+        "test_factory_dump_outputs_registration",
+        "test_all_factory_dump_outputs_input_evidence_is_exact",
+        "test_tick_dumps_outputs",
+        "test_reference_graph_and_actual_c06_factory_dump_outputs_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryDumpOutputsProof"
+    },
+    "source_factory_dump_liquid_state_input.liquids": {
+      "canonical_symbol": "source_symbol_registry.source_factory_dump_liquid_state_input.liquids",
+      "status": "source-backed",
+      "java_expr": "if(liquids.get(liquid) <= 0.0001f) return;",
+      "godot_symbol": "source_factory_dump_liquid_state_input.liquids",
+      "godot_owner": "SourceFactoryBuildState.source_factory_dump_liquid_state",
+      "rule": "The building's liquid module the dumped liquid is removed from.",
+      "tests": [
+        "test_factory_dump_outputs_registration",
+        "test_all_factory_dump_outputs_input_evidence_is_exact",
+        "test_tick_dumps_outputs",
+        "test_reference_graph_and_actual_c06_factory_dump_outputs_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryDumpOutputsProof"
+    },
+    "source_factory_dump_liquid_state_input.output_dir": {
+      "canonical_symbol": "source_symbol_registry.source_factory_dump_liquid_state_input.output_dir",
+      "status": "source-backed",
+      "java_expr": "int dir = liquidOutputDirections.length > i ? liquidOutputDirections[i] : -1;",
+      "godot_symbol": "source_factory_dump_liquid_state_input.output_dir",
+      "godot_owner": "SourceFactoryBuildState.source_factory_dump_liquid_state",
+      "rule": "The output direction for this liquid row, else -1 for any direction.",
+      "tests": [
+        "test_factory_dump_outputs_registration",
+        "test_all_factory_dump_outputs_input_evidence_is_exact",
+        "test_tick_dumps_outputs",
+        "test_reference_graph_and_actual_c06_factory_dump_outputs_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryDumpOutputsProof"
+    },
+    "source_factory_dump_liquid_state_result.amount_dumped": {
+      "canonical_symbol": "source_symbol_registry.source_factory_dump_liquid_state_result.amount_dumped",
+      "status": "source-backed",
+      "java_expr": "if(ofract < fract) transferLiquid(other, (fract - ofract) * block.liquidCapacity / scaling, liquid);",
+      "godot_symbol": "source_factory_dump_liquid_state_result.amount_dumped",
+      "godot_owner": "SourceFactoryBuildState.source_factory_dump_liquid_state",
+      "rule": "How much left the building module this tick.",
+      "tests": [
+        "test_factory_dump_outputs_registration",
+        "test_all_factory_dump_outputs_input_evidence_is_exact",
+        "test_tick_dumps_outputs",
+        "test_reference_graph_and_actual_c06_factory_dump_outputs_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryDumpOutputsProof"
+    },
+    "source_factory_dump_liquid_state_result.dump_cursor": {
+      "canonical_symbol": "source_symbol_registry.source_factory_dump_liquid_state_result.dump_cursor",
+      "status": "source-backed",
+      "java_expr": "int dump = this.cdump;",
+      "godot_symbol": "source_factory_dump_liquid_state_result.dump_cursor",
+      "godot_owner": "SourceFactoryBuildState.source_factory_dump_liquid_state",
+      "rule": "The dump cursor after the routing pass.",
+      "tests": [
+        "test_factory_dump_outputs_registration",
+        "test_all_factory_dump_outputs_input_evidence_is_exact",
+        "test_tick_dumps_outputs",
+        "test_reference_graph_and_actual_c06_factory_dump_outputs_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryDumpOutputsProof"
+    },
+    "source_factory_dump_liquid_state_result.liquid": {
+      "canonical_symbol": "source_symbol_registry.source_factory_dump_liquid_state_result.liquid",
+      "status": "source-backed",
+      "java_expr": "dumpLiquid(outputLiquids[i].liquid, 2f, dir);",
+      "godot_symbol": "source_factory_dump_liquid_state_result.liquid",
+      "godot_owner": "SourceFactoryBuildState.source_factory_dump_liquid_state",
+      "rule": "The liquid dumped.",
+      "tests": [
+        "test_factory_dump_outputs_registration",
+        "test_all_factory_dump_outputs_input_evidence_is_exact",
+        "test_tick_dumps_outputs",
+        "test_reference_graph_and_actual_c06_factory_dump_outputs_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryDumpOutputsProof"
+    },
+    "source_factory_dump_liquid_state_result.liquid_amount": {
+      "canonical_symbol": "source_symbol_registry.source_factory_dump_liquid_state_result.liquid_amount",
+      "status": "source-backed",
+      "java_expr": "float fract = liquids.get(liquid) / block.liquidCapacity;",
+      "godot_symbol": "source_factory_dump_liquid_state_result.liquid_amount",
+      "godot_owner": "SourceFactoryBuildState.source_factory_dump_liquid_state",
+      "rule": "What the building still holds after the dump.",
+      "tests": [
+        "test_factory_dump_outputs_registration",
+        "test_all_factory_dump_outputs_input_evidence_is_exact",
+        "test_tick_dumps_outputs",
+        "test_reference_graph_and_actual_c06_factory_dump_outputs_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryDumpOutputsProof"
+    },
+    "source_factory_dump_outputs_state_input.block": {
+      "canonical_symbol": "source_symbol_registry.source_factory_dump_outputs_state_input.block",
+      "status": "source-backed",
+      "java_expr": "if(outputItems != null && timer(timerDump, dumpTime / timeScale)){",
+      "godot_symbol": "source_factory_dump_outputs_state_input.block",
+      "godot_owner": "SourceFactoryBuildState.source_factory_dump_outputs_state",
+      "rule": "The typed block definition; its outputItems / outputLiquids rows are what the dump loops over.",
+      "tests": [
+        "test_factory_dump_outputs_registration",
+        "test_all_factory_dump_outputs_input_evidence_is_exact",
+        "test_tick_dumps_outputs",
+        "test_reference_graph_and_actual_c06_factory_dump_outputs_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryDumpOutputsProof"
+    },
+    "source_factory_dump_outputs_state_input.cell": {
+      "canonical_symbol": "source_symbol_registry.source_factory_dump_outputs_state_input.cell",
+      "status": "source-backed",
+      "java_expr": "dump(output.item);",
+      "godot_symbol": "source_factory_dump_outputs_state_input.cell",
+      "godot_owner": "SourceFactoryBuildState.source_factory_dump_outputs_state",
+      "rule": "The building's cell; the proximity ring is computed from it.",
+      "tests": [
+        "test_factory_dump_outputs_registration",
+        "test_all_factory_dump_outputs_input_evidence_is_exact",
+        "test_tick_dumps_outputs",
+        "test_reference_graph_and_actual_c06_factory_dump_outputs_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryDumpOutputsProof"
+    },
+    "source_factory_dump_outputs_state_input.frame": {
+      "canonical_symbol": "source_symbol_registry.source_factory_dump_outputs_state_input.frame",
+      "status": "source-backed",
+      "java_expr": "public void dumpOutputs(){",
+      "godot_symbol": "source_factory_dump_outputs_state_input.frame",
+      "godot_owner": "SourceFactoryBuildState.source_factory_dump_outputs_state",
+      "rule": "The factory frame; its dumpTimer accumulates, its cdump cursor advances, and its items lose what a neighbor takes.",
+      "tests": [
+        "test_factory_dump_outputs_registration",
+        "test_all_factory_dump_outputs_input_evidence_is_exact",
+        "test_tick_dumps_outputs",
+        "test_reference_graph_and_actual_c06_factory_dump_outputs_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryDumpOutputsProof"
+    },
+    "source_factory_dump_outputs_state_input.game": {
+      "canonical_symbol": "source_symbol_registry.source_factory_dump_outputs_state_input.game",
+      "status": "source-backed",
+      "java_expr": "public boolean dump(Item todump){",
+      "godot_symbol": "source_factory_dump_outputs_state_input.game",
+      "godot_owner": "SourceFactoryBuildState.source_factory_dump_outputs_state",
+      "rule": "The live game: the proximity ring and the conveyor queues are read from it.",
+      "tests": [
+        "test_factory_dump_outputs_registration",
+        "test_all_factory_dump_outputs_input_evidence_is_exact",
+        "test_tick_dumps_outputs",
+        "test_reference_graph_and_actual_c06_factory_dump_outputs_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryDumpOutputsProof"
+    },
+    "source_factory_dump_outputs_state_input.liquid_ids": {
+      "canonical_symbol": "source_symbol_registry.source_factory_dump_outputs_state_input.liquid_ids",
+      "status": "source-backed",
+      "java_expr": "outputLiquids = LiquidStack.with(Liquids.ozone, 4f / 60, Liquids.hydrogen, 6f / 60);",
+      "godot_symbol": "source_factory_dump_outputs_state_input.liquid_ids",
+      "godot_owner": "SourceFactoryBuildState.source_factory_dump_outputs_state",
+      "rule": "The catalog name-to-id map: the liquid module is id-indexed, so the output liquid names resolve to ids through it.",
+      "tests": [
+        "test_factory_dump_outputs_registration",
+        "test_all_factory_dump_outputs_input_evidence_is_exact",
+        "test_tick_dumps_outputs",
+        "test_reference_graph_and_actual_c06_factory_dump_outputs_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryDumpOutputsProof"
+    },
+    "source_factory_dump_outputs_state_input.liquids": {
+      "canonical_symbol": "source_symbol_registry.source_factory_dump_outputs_state_input.liquids",
+      "status": "source-backed",
+      "java_expr": "if(liquids.get(liquid) <= 0.0001f) return;",
+      "godot_symbol": "source_factory_dump_outputs_state_input.liquids",
+      "godot_owner": "SourceFactoryBuildState.source_factory_dump_outputs_state",
+      "rule": "The building's liquid module the dumped liquids are removed from.",
+      "tests": [
+        "test_factory_dump_outputs_registration",
+        "test_all_factory_dump_outputs_input_evidence_is_exact",
+        "test_tick_dumps_outputs",
+        "test_reference_graph_and_actual_c06_factory_dump_outputs_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryDumpOutputsProof"
+    },
+    "source_factory_dump_outputs_state_input.seconds": {
+      "canonical_symbol": "source_symbol_registry.source_factory_dump_outputs_state_input.seconds",
+      "status": "source-backed",
+      "java_expr": "public boolean timer(int index, float time){",
+      "godot_symbol": "source_factory_dump_outputs_state_input.seconds",
+      "godot_owner": "SourceFactoryBuildState.source_factory_dump_outputs_state",
+      "rule": "The frame delta in seconds; the dump timer accumulates Time.time seconds.",
+      "tests": [
+        "test_factory_dump_outputs_registration",
+        "test_all_factory_dump_outputs_input_evidence_is_exact",
+        "test_tick_dumps_outputs",
+        "test_reference_graph_and_actual_c06_factory_dump_outputs_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryDumpOutputsProof"
+    },
+    "source_factory_dump_outputs_state_input.time_scale": {
+      "canonical_symbol": "source_symbol_registry.source_factory_dump_outputs_state_input.time_scale",
+      "status": "source-backed",
+      "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+      "godot_symbol": "source_factory_dump_outputs_state_input.time_scale",
+      "godot_owner": "SourceFactoryBuildState.source_factory_dump_outputs_state",
+      "rule": "The building time scale; the dump interval is dumpTime / timeScale.",
+      "tests": [
+        "test_factory_dump_outputs_registration",
+        "test_all_factory_dump_outputs_input_evidence_is_exact",
+        "test_tick_dumps_outputs",
+        "test_reference_graph_and_actual_c06_factory_dump_outputs_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryDumpOutputsProof"
+    },
+    "source_factory_dump_outputs_state_result.cdump_after": {
+      "canonical_symbol": "source_symbol_registry.source_factory_dump_outputs_state_result.cdump_after",
+      "status": "source-backed",
+      "java_expr": "int dump = this.cdump;",
+      "godot_symbol": "source_factory_dump_outputs_state_result.cdump_after",
+      "godot_owner": "SourceFactoryBuildState.source_factory_dump_outputs_state",
+      "rule": "The dump cursor after the routing passes.",
+      "tests": [
+        "test_factory_dump_outputs_registration",
+        "test_all_factory_dump_outputs_input_evidence_is_exact",
+        "test_tick_dumps_outputs",
+        "test_reference_graph_and_actual_c06_factory_dump_outputs_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryDumpOutputsProof"
+    },
+    "source_factory_dump_outputs_state_result.dump_timer": {
+      "canonical_symbol": "source_symbol_registry.source_factory_dump_outputs_state_result.dump_timer",
+      "status": "source-backed",
+      "java_expr": "return timer.get(index, time);",
+      "godot_symbol": "source_factory_dump_outputs_state_result.dump_timer",
+      "godot_owner": "SourceFactoryBuildState.source_factory_dump_outputs_state",
+      "rule": "The dump timer after this tick: 0.0 when it fired, else the accumulated seconds.",
+      "tests": [
+        "test_factory_dump_outputs_registration",
+        "test_all_factory_dump_outputs_input_evidence_is_exact",
+        "test_tick_dumps_outputs",
+        "test_reference_graph_and_actual_c06_factory_dump_outputs_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryDumpOutputsProof"
+    },
+    "source_factory_dump_outputs_state_result.dumped_items": {
+      "canonical_symbol": "source_symbol_registry.source_factory_dump_outputs_state_result.dumped_items",
+      "status": "source-backed",
+      "java_expr": "dump(output.item);",
+      "godot_symbol": "source_factory_dump_outputs_state_result.dumped_items",
+      "godot_owner": "SourceFactoryBuildState.source_factory_dump_outputs_state",
+      "rule": "The output items dumped this tick, one per output row a neighbor took.",
+      "tests": [
+        "test_factory_dump_outputs_registration",
+        "test_all_factory_dump_outputs_input_evidence_is_exact",
+        "test_tick_dumps_outputs",
+        "test_reference_graph_and_actual_c06_factory_dump_outputs_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryDumpOutputsProof"
+    },
+    "source_factory_dump_outputs_state_result.dumped_liquids": {
+      "canonical_symbol": "source_symbol_registry.source_factory_dump_outputs_state_result.dumped_liquids",
+      "status": "source-backed",
+      "java_expr": "dumpLiquid(outputLiquids[i].liquid, 2f, dir);",
+      "godot_symbol": "source_factory_dump_outputs_state_result.dumped_liquids",
+      "godot_owner": "SourceFactoryBuildState.source_factory_dump_outputs_state",
+      "rule": "What each output liquid lost to its dump this tick.",
+      "tests": [
+        "test_factory_dump_outputs_registration",
+        "test_all_factory_dump_outputs_input_evidence_is_exact",
+        "test_tick_dumps_outputs",
+        "test_reference_graph_and_actual_c06_factory_dump_outputs_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryDumpOutputsProof"
+    },
+    "source_factory_dump_outputs_state_result.item_dump_fired": {
+      "canonical_symbol": "source_symbol_registry.source_factory_dump_outputs_state_result.item_dump_fired",
+      "status": "source-backed",
+      "java_expr": "if(outputItems != null && timer(timerDump, dumpTime / timeScale)){",
+      "godot_symbol": "source_factory_dump_outputs_state_result.item_dump_fired",
+      "godot_owner": "SourceFactoryBuildState.source_factory_dump_outputs_state",
+      "rule": "Whether the dump timer fired this tick.",
+      "tests": [
+        "test_factory_dump_outputs_registration",
+        "test_all_factory_dump_outputs_input_evidence_is_exact",
+        "test_tick_dumps_outputs",
+        "test_reference_graph_and_actual_c06_factory_dump_outputs_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryDumpOutputsProof"
+    },
+    "source_factory_dump_outputs_state_result.items_after": {
+      "canonical_symbol": "source_symbol_registry.source_factory_dump_outputs_state_result.items_after",
+      "status": "source-backed",
+      "java_expr": "if(!block.hasItems || items.total() == 0 || proximity.size == 0 || (todump != null && !items.has(todump))) return false;",
+      "godot_symbol": "source_factory_dump_outputs_state_result.items_after",
+      "godot_owner": "SourceFactoryBuildState.source_factory_dump_outputs_state",
+      "rule": "The frame's item module after the dumps.",
+      "tests": [
+        "test_factory_dump_outputs_registration",
+        "test_all_factory_dump_outputs_input_evidence_is_exact",
+        "test_tick_dumps_outputs",
+        "test_reference_graph_and_actual_c06_factory_dump_outputs_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryDumpOutputsProof"
+    },
+    "source_factory_dump_outputs_state_result.liquids_after": {
+      "canonical_symbol": "source_symbol_registry.source_factory_dump_outputs_state_result.liquids_after",
+      "status": "source-backed",
+      "java_expr": "if(liquids.get(liquid) <= 0.0001f) return;",
+      "godot_symbol": "source_factory_dump_outputs_state_result.liquids_after",
+      "godot_owner": "SourceFactoryBuildState.source_factory_dump_outputs_state",
+      "rule": "The liquid module after the dumps.",
+      "tests": [
+        "test_factory_dump_outputs_registration",
+        "test_all_factory_dump_outputs_input_evidence_is_exact",
+        "test_tick_dumps_outputs",
+        "test_reference_graph_and_actual_c06_factory_dump_outputs_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryDumpOutputsProof"
+    },
+    "source_factory_dump_timer_state_input.dump_time": {
+      "canonical_symbol": "source_symbol_registry.source_factory_dump_timer_state_input.dump_time",
+      "status": "source-backed",
+      "java_expr": "public int dumpTime = 5;",
+      "godot_symbol": "source_factory_dump_timer_state_input.dump_time",
+      "godot_owner": "SourceFactoryBuildState.source_factory_dump_timer_state",
+      "rule": "Block.dumpTime, 5 unless the block overrides it (none does).",
+      "tests": [
+        "test_factory_dump_outputs_registration",
+        "test_all_factory_dump_outputs_input_evidence_is_exact",
+        "test_tick_dumps_outputs",
+        "test_reference_graph_and_actual_c06_factory_dump_outputs_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryDumpOutputsProof"
+    },
+    "source_factory_dump_timer_state_input.dump_timer": {
+      "canonical_symbol": "source_symbol_registry.source_factory_dump_timer_state_input.dump_timer",
+      "status": "source-backed",
+      "java_expr": "return timer.get(index, time);",
+      "godot_symbol": "source_factory_dump_timer_state_input.dump_timer",
+      "godot_owner": "SourceFactoryBuildState.source_factory_dump_timer_state",
+      "rule": "The seconds since the dump timer last fired (Interval times[timerDump], Time.time - times[id]).",
+      "tests": [
+        "test_factory_dump_outputs_registration",
+        "test_all_factory_dump_outputs_input_evidence_is_exact",
+        "test_tick_dumps_outputs",
+        "test_reference_graph_and_actual_c06_factory_dump_outputs_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryDumpOutputsProof"
+    },
+    "source_factory_dump_timer_state_input.seconds": {
+      "canonical_symbol": "source_symbol_registry.source_factory_dump_timer_state_input.seconds",
+      "status": "source-backed",
+      "java_expr": "public boolean timer(int index, float time){",
+      "godot_symbol": "source_factory_dump_timer_state_input.seconds",
+      "godot_owner": "SourceFactoryBuildState.source_factory_dump_timer_state",
+      "rule": "The frame delta in seconds; Interval.get compares Time.time, which advances in seconds.",
+      "tests": [
+        "test_factory_dump_outputs_registration",
+        "test_all_factory_dump_outputs_input_evidence_is_exact",
+        "test_tick_dumps_outputs",
+        "test_reference_graph_and_actual_c06_factory_dump_outputs_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryDumpOutputsProof"
+    },
+    "source_factory_dump_timer_state_input.time_scale": {
+      "canonical_symbol": "source_symbol_registry.source_factory_dump_timer_state_input.time_scale",
+      "status": "source-backed",
+      "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+      "godot_symbol": "source_factory_dump_timer_state_input.time_scale",
+      "godot_owner": "SourceFactoryBuildState.source_factory_dump_timer_state",
+      "rule": "The building time scale, 1f by default.",
+      "tests": [
+        "test_factory_dump_outputs_registration",
+        "test_all_factory_dump_outputs_input_evidence_is_exact",
+        "test_tick_dumps_outputs",
+        "test_reference_graph_and_actual_c06_factory_dump_outputs_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryDumpOutputsProof"
+    },
+    "source_factory_dump_timer_state_result.dump_interval": {
+      "canonical_symbol": "source_symbol_registry.source_factory_dump_timer_state_result.dump_interval",
+      "status": "source-backed",
+      "java_expr": "if(outputItems != null && timer(timerDump, dumpTime / timeScale)){",
+      "godot_symbol": "source_factory_dump_timer_state_result.dump_interval",
+      "godot_owner": "SourceFactoryBuildState.source_factory_dump_timer_state",
+      "rule": "dumpTime / timeScale seconds between item dumps.",
+      "tests": [
+        "test_factory_dump_outputs_registration",
+        "test_all_factory_dump_outputs_input_evidence_is_exact",
+        "test_tick_dumps_outputs",
+        "test_reference_graph_and_actual_c06_factory_dump_outputs_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryDumpOutputsProof"
+    },
+    "source_factory_dump_timer_state_result.dump_timer": {
+      "canonical_symbol": "source_symbol_registry.source_factory_dump_timer_state_result.dump_timer",
+      "status": "source-backed",
+      "java_expr": "return timer.get(index, time);",
+      "godot_symbol": "source_factory_dump_timer_state_result.dump_timer",
+      "godot_owner": "SourceFactoryBuildState.source_factory_dump_timer_state",
+      "rule": "0.0 when the timer fired (Interval.get stamps times[id] = Time.time), else the accumulated seconds.",
+      "tests": [
+        "test_factory_dump_outputs_registration",
+        "test_all_factory_dump_outputs_input_evidence_is_exact",
+        "test_tick_dumps_outputs",
+        "test_reference_graph_and_actual_c06_factory_dump_outputs_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryDumpOutputsProof"
+    },
+    "source_factory_dump_timer_state_result.should_dump": {
+      "canonical_symbol": "source_symbol_registry.source_factory_dump_timer_state_result.should_dump",
+      "status": "source-backed",
+      "java_expr": "if(Float.isInfinite(time)) return false;",
+      "godot_symbol": "source_factory_dump_timer_state_result.should_dump",
+      "godot_owner": "SourceFactoryBuildState.source_factory_dump_timer_state",
+      "rule": "Whether the interval elapsed; an infinite interval never fires.",
+      "tests": [
+        "test_factory_dump_outputs_registration",
+        "test_all_factory_dump_outputs_input_evidence_is_exact",
+        "test_tick_dumps_outputs",
+        "test_reference_graph_and_actual_c06_factory_dump_outputs_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryDumpOutputsProof"
+    },
     "source_factory_liquid_output_state_input.block": {
       "canonical_symbol": "source_symbol_registry.source_factory_liquid_output_state_input.block",
       "status": "source-backed",

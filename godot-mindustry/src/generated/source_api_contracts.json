@@ -62080,17 +62080,20 @@
         "test_all_c05_gate_input_evidence_is_exact",
         "test_all_factory_consumer_binding_input_evidence_is_exact",
         "test_all_factory_craft_input_evidence_is_exact",
+        "test_all_factory_dump_outputs_input_evidence_is_exact",
         "test_all_factory_liquid_output_input_evidence_is_exact",
         "test_all_factory_live_loop_input_evidence_is_exact",
         "test_all_factory_should_consume_input_evidence_is_exact",
         "test_c05_gate_registration",
         "test_factory_consumer_binding_registration",
         "test_factory_craft_registration",
+        "test_factory_dump_outputs_registration",
         "test_factory_liquid_output_registration",
         "test_factory_live_loop_registration",
         "test_factory_should_consume_registration",
         "test_reference_graph_and_actual_c05_gate",
         "test_reference_graph_and_actual_c06_factory_craft_gate",
+        "test_reference_graph_and_actual_c06_factory_dump_outputs_gate",
         "test_reference_graph_and_actual_c06_factory_liquid_output_gate",
         "test_reference_graph_and_actual_factory_consumer_binding",
         "test_reference_graph_and_actual_factory_live_loop",
@@ -62098,12 +62101,13 @@
         "test_should_consume_reads_output_space",
         "test_tick_binds_runtime_consumers_for_factory",
         "test_tick_crafts_when_progress_completes",
+        "test_tick_dumps_outputs",
         "test_tick_outputs_liquid_when_efficient",
         "test_tick_reinitializes_consumers_on_block_replacement",
         "test_tick_wires_frame_and_driver_runs_from_live_loop"
       ],
       "runtime_proof": "/root/FactoryLiveLoopProof",
-      "rule": "Source-backed factory family live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live rules every simulate_factory tick, so a cheating team's factory counts everything as valid in updateConsumption, and the tick binds one RuntimeConsumer per consumeItem/consumeLiquid row and runs the bound actors through updateConsumption so the placed factory consumes its liquid rows each tick and gates efficiency on its item rows, with shouldConsume() read live from the output space every tick so a factory with a full output ticks at efficiency 0, and with efficiency above zero the progress climbs by getProgressIncrease(craftTime) and a completed progress crafts (consume + offload), and the tick also approaches warmup toward warmupTarget() at warmupSpeed, handles each output liquid once per tick at getProgressIncrease(1f) capped at the remaining liquid capacity, and banks warmup * Time.delta into totalProgress every tick before the craft check."
+      "rule": "Source-backed factory family live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live rules every simulate_factory tick, so a cheating team's factory counts everything as valid in updateConsumption, and the tick binds one RuntimeConsumer per consumeItem/consumeLiquid row and runs the bound actors through updateConsumption so the placed factory consumes its liquid rows each tick and gates efficiency on its item rows, with shouldConsume() read live from the output space every tick so a factory with a full output ticks at efficiency 0, and with efficiency above zero the progress climbs by getProgressIncrease(craftTime) and a completed progress crafts (consume + offload), and the tick also approaches warmup toward warmupTarget() at warmupSpeed, handles each output liquid once per tick at getProgressIncrease(1f) capped at the remaining liquid capacity, and banks warmup * Time.delta into totalProgress every tick before the craft check, and the tick ends by dumping outputs: the item rows dump to a belt neighbor when the dump timer (dumpTime / timeScale, 5 seconds by default) fires, and each output liquid dumps to its conduit neighbors at scaling 2 in its liquidOutputDirections direction every tick."
     },
     "SourceUnitFactoryBuildState.source_unit_factory_tick_frame_state": {
       "status": "active",
@@ -63165,6 +63169,202 @@
       ],
       "runtime_proof": "/root/C06FactoryLiquidOutputProof",
       "rule": "Source-backed GenericCrafter warmup / liquid-output / totalProgress live-loop slice."
+    },
+    "SourceFactoryBuildState.source_factory_dump_interval_state": {
+      "status": "active",
+      "source_slice": "N2119",
+      "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+      "source_method": "GenericCrafterBuild.dumpOutputs()",
+      "params": [
+        {
+          "name": "dump_time",
+          "type": "float",
+          "schema": "source_factory_dump_interval_state_input.dump_time"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_factory_dump_interval_state_input.time_scale"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "dump_interval"
+      ],
+      "tests": [
+        "test_factory_dump_outputs_registration",
+        "test_all_factory_dump_outputs_input_evidence_is_exact",
+        "test_tick_dumps_outputs",
+        "test_reference_graph_and_actual_c06_factory_dump_outputs_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryDumpOutputsProof",
+      "rule": "Source-backed GenericCrafter dumpOutputs() live-loop slice."
+    },
+    "SourceFactoryBuildState.source_factory_dump_timer_state": {
+      "status": "active",
+      "source_slice": "N2119",
+      "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+      "source_method": "GenericCrafterBuild.dumpOutputs()",
+      "params": [
+        {
+          "name": "dump_timer",
+          "type": "float",
+          "schema": "source_factory_dump_timer_state_input.dump_timer"
+        },
+        {
+          "name": "seconds",
+          "type": "float",
+          "schema": "source_factory_dump_timer_state_input.seconds"
+        },
+        {
+          "name": "dump_time",
+          "type": "float",
+          "schema": "source_factory_dump_timer_state_input.dump_time"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_factory_dump_timer_state_input.time_scale"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "dump_timer",
+        "should_dump",
+        "dump_interval"
+      ],
+      "tests": [
+        "test_factory_dump_outputs_registration",
+        "test_all_factory_dump_outputs_input_evidence_is_exact",
+        "test_tick_dumps_outputs",
+        "test_reference_graph_and_actual_c06_factory_dump_outputs_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryDumpOutputsProof",
+      "rule": "Source-backed GenericCrafter dumpOutputs() live-loop slice."
+    },
+    "SourceFactoryBuildState.source_factory_dump_liquid_state": {
+      "status": "active",
+      "source_slice": "N2119",
+      "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+      "source_method": "GenericCrafterBuild.dumpOutputs()",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_factory_dump_liquid_state_input.game"
+        },
+        {
+          "name": "cell",
+          "type": "Vector2i",
+          "schema": "source_factory_dump_liquid_state_input.cell"
+        },
+        {
+          "name": "block",
+          "type": "Object",
+          "schema": "source_factory_dump_liquid_state_input.block"
+        },
+        {
+          "name": "liquids",
+          "type": "Dictionary",
+          "schema": "source_factory_dump_liquid_state_input.liquids"
+        },
+        {
+          "name": "liquid_ids",
+          "type": "Dictionary",
+          "schema": "source_factory_dump_liquid_state_input.liquid_ids"
+        },
+        {
+          "name": "liquid_name",
+          "type": "String",
+          "schema": "source_factory_dump_liquid_state_input.liquid_name"
+        },
+        {
+          "name": "output_dir",
+          "type": "int",
+          "schema": "source_factory_dump_liquid_state_input.output_dir"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "liquid",
+        "amount_dumped",
+        "liquid_amount",
+        "dump_cursor"
+      ],
+      "tests": [
+        "test_factory_dump_outputs_registration",
+        "test_all_factory_dump_outputs_input_evidence_is_exact",
+        "test_tick_dumps_outputs",
+        "test_reference_graph_and_actual_c06_factory_dump_outputs_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryDumpOutputsProof",
+      "rule": "Source-backed GenericCrafter dumpOutputs() live-loop slice."
+    },
+    "SourceFactoryBuildState.source_factory_dump_outputs_state": {
+      "status": "active",
+      "source_slice": "N2119",
+      "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+      "source_method": "GenericCrafterBuild.dumpOutputs()",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_factory_dump_outputs_state_input.game"
+        },
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_factory_dump_outputs_state_input.frame"
+        },
+        {
+          "name": "cell",
+          "type": "Vector2i",
+          "schema": "source_factory_dump_outputs_state_input.cell"
+        },
+        {
+          "name": "block",
+          "type": "Object",
+          "schema": "source_factory_dump_outputs_state_input.block"
+        },
+        {
+          "name": "liquids",
+          "type": "Dictionary",
+          "schema": "source_factory_dump_outputs_state_input.liquids"
+        },
+        {
+          "name": "liquid_ids",
+          "type": "Dictionary",
+          "schema": "source_factory_dump_outputs_state_input.liquid_ids"
+        },
+        {
+          "name": "seconds",
+          "type": "float",
+          "schema": "source_factory_dump_outputs_state_input.seconds"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_factory_dump_outputs_state_input.time_scale"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "item_dump_fired",
+        "dumped_items",
+        "dumped_liquids",
+        "dump_timer",
+        "cdump_after",
+        "items_after",
+        "liquids_after"
+      ],
+      "tests": [
+        "test_factory_dump_outputs_registration",
+        "test_all_factory_dump_outputs_input_evidence_is_exact",
+        "test_tick_dumps_outputs",
+        "test_reference_graph_and_actual_c06_factory_dump_outputs_gate"
+      ],
+      "runtime_proof": "/root/C06FactoryDumpOutputsProof",
+      "rule": "Source-backed GenericCrafter dumpOutputs() live-loop slice."
     }
   },
   "policy": {

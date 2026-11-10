@@ -11,6 +11,8 @@ const source_consume_liquid_state := preload("res://src/game/SourceConsumeLiquid
 const source_consume_state := preload("res://src/game/SourceConsumeState.gd")
 const source_building_access_state := preload("res://src/game/SourceBuildingAccessState.gd")
 const source_building_item_dump_state := preload("res://src/game/SourceBuildingItemDumpState.gd")
+const source_building_liquid_state := preload("res://src/game/SourceBuildingLiquidState.gd")
+const source_liquid_module_state := preload("res://src/game/SourceLiquidModuleState.gd")
 const source_conveyor_runtime_state := preload("res://src/game/SourceConveyorRuntimeState.gd")
 const source_content_registry_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
 const source_time_defaults := preload("res://src/game/SourceTimeDefaults.gd")
@@ -589,6 +591,284 @@ static func source_factory_total_progress_state(total_progress: float, warmup: f
 		"total_progress": float(total_progress) + float(warmup) * float(seconds),
 	}
 
+static func source_factory_dump_interval_state(dump_time: float, time_scale: float) -> Dictionary:
+	# `timer(timerDump, dumpTime / timeScale)` (GenericCrafter.java:319):
+	# the dump interval is dumpTime over the building time scale.
+	# dumpTime is Block.dumpTime, 5 (Block.java:438; no factory
+	# initializer overrides it); timeScale is the building time
+	# scale, 1f by default (BuildingComp.java:98). A zero time scale
+	# makes the interval infinite, and TimerComp.timer
+	# (TimerComp.java:11) returns false for an infinite time, so
+	# the timer never fires.
+	return {
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_FACTORY_BUILD_DUMP_INTERVAL_STATE,
+		"dump_interval": float(dump_time) / float(time_scale),
+	}
+
+static func source_factory_dump_timer_state(dump_timer: float, seconds: float, dump_time: float, time_scale: float) -> Dictionary:
+	# TimerComp.timer (TimerComp.java:10-13) returns false for an
+	# infinite interval and otherwise timer.get(index, time):
+	# Interval.get fires when Time.time - times[id] >= time and
+	# stamps times[id] = Time.time, so the elapsed timer resets to
+	# 0.0. Time.time advances in seconds, so the port accumulates
+	# the Godot delta in seconds. (The drill port's dump_timer_state
+	# subtracts the interval on fire instead; the Interval source
+	# stamps Time.time, so this slice resets to 0.0 exactly.)
+	var interval := float(source_factory_dump_interval_state(dump_time, time_scale).get("dump_interval", INF))
+	var elapsed := float(dump_timer) + float(seconds)
+	var should_dump := interval != INF and elapsed >= interval
+	var next_timer := 0.0 if should_dump else elapsed
+	return {
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_FACTORY_BUILD_DUMP_TIMER_STATE,
+		"dump_timer": next_timer,
+		"should_dump": should_dump,
+		"dump_interval": interval,
+	}
+
+static func _factory_dump_liquid_relative_to(cell: Vector2i, neighbor_cell: Vector2i) -> int:
+	# Building.relativeTo(Building) (BuildingComp.java:530-540) is
+	# x-dominant: the other building is east (0) when it is further
+	# east than north/south, west (2) when further west, else north
+	# (1) when it is above, south (3) when below. The port's y
+	# grows downward (the pump's offsets map (0, -1) to north), so
+	# a neighbor above the origin cell is north. Coordinates are
+	# the buildings' origin cells, like Java's tile coordinates.
+	var dx := float(neighbor_cell.x - cell.x)
+	var dy := float(neighbor_cell.y - cell.y)
+	if absf(dx) > absf(dy):
+		return 0 if dx > 0.0 else 2
+	return 1 if dy < 0.0 else 3
+
+static func source_factory_dump_liquid_state(game: Object, cell: Vector2i, block: Object, liquids: Dictionary, liquid_ids: Dictionary, liquid_name: String, output_dir: int) -> Dictionary:
+	# dumpLiquid(outputLiquids[i].liquid, 2f, dir)
+	# (GenericCrafter.java:329): dumpLiquid(liquid, scaling,
+	# outputDir) (BuildingComp.java:886-908) returns when the
+	# building holds <= 0.0001, skips neighbors whose
+	# (outputDir + rotation) % 4 is not their relativeTo, and
+	# transfers (fract - ofract) * liquidCapacity / scaling to
+	# each neighbor whose fraction is lower, through transferLiquid
+	# (BuildingComp.java:916-926: flow = min(next capacity - held,
+	# amount), guarded by acceptLiquid). The port reuses
+	# SourceBuildingLiquidState.dump_liquid_state, the same
+	# composition the pump dump uses, over the factory's proximity
+	# ring (source_block_proximity_cells_state); the dump cursor is
+	# the frame's cdump, read from the sprite's frame and written
+	# back here. A conduit neighbor accepts by Conduit.java:241-244
+	# (its current liquid matches, or its current amount is under
+	# 0.2, and the factory is not on the side the conduit outputs
+	# to); a conduit's capacity is 20f (Blocks.java:2322-2327),
+	# which the registry does not emit, so it is read here like
+	# the pump's CONDUIT_LIQUID_CAPACITY instead of the registry
+	# liquidCapacity row; any other liquid-holding neighbor accepts by
+	# BuildingComp.acceptLiquid (BuildingComp.java:865-867:
+	# block.hasLiquids and block.consumesLiquid(liquid), read off
+	# the registry's consumeLiquid rows). canDumpLiquid is the
+	# Building default (true) and getLiquidDestination the default
+	# (self), so a building present on a ring cell is a destination.
+	var empty := {
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_FACTORY_BUILD_DUMP_LIQUID_STATE,
+		"liquid": liquid_name,
+		"amount_dumped": 0.0,
+		"liquid_amount": 0.0,
+		"dump_cursor": 0,
+	}
+	if game == null or block == null:
+		return empty
+	var liquid_id: int = int(liquid_ids.get(liquid_name, -1))
+	if liquid_id < 0:
+		return empty
+	var current := float(_liquid_amount_state(liquids, liquid_id))
+	if current <= 0.0001:
+		empty["liquid_amount"] = current
+		return empty
+	var sprite: Variant = game.call("block_sprite_at_cell", cell)
+	if sprite == null:
+		empty["liquid_amount"] = current
+		return empty
+	var frame: Dictionary = sprite.get_meta(SOURCE_FACTORY_BUILDING_META_KEY, {})
+	var dump_cursor := int(frame.get("cdump", 0))
+	var size := int(block.properties.get("size", 1))
+	var ring: Array = source_block_geometry.source_block_proximity_cells_state(size, cell.x, cell.y).get("cells", [])
+	var catalog = game.get("content_catalog")
+	var blocks_by_id := {}
+	if catalog != null:
+		for registered_block in catalog.get_many("block"):
+			blocks_by_id[registered_block.id] = registered_block
+	var rotation := int(sprite.get_meta(source_block_geometry.SOURCE_BUILD_ROTATION_META_KEY, 0))
+	var relative_to: Array = []
+	var destination_present: Array = []
+	var other_has_liquids: Array = []
+	var can_dump_liquid: Array = []
+	var other_liquids_present: Array = []
+	var other_amounts: Array = []
+	var other_capacities: Array = []
+	var other_accepts: Array = []
+	var neighbor_liquids: Array = []
+	for ring_cell in ring:
+		var nsprite: Variant = game.call("block_sprite_at_cell", ring_cell)
+		relative_to.append(_factory_dump_liquid_relative_to(cell, ring_cell))
+		if nsprite == null:
+			destination_present.append(false)
+			other_has_liquids.append(false)
+			can_dump_liquid.append(false)
+			other_liquids_present.append(false)
+			other_amounts.append(0.0)
+			other_capacities.append(0.0)
+			other_accepts.append(false)
+			neighbor_liquids.append(null)
+			continue
+		var nliquids: Variant = nsprite.get_meta(source_placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY, null)
+		var nblock_id := str(nsprite.get_meta(source_placed_block_state.SOURCE_BLOCK_ID_META_KEY, ""))
+		var nblock: Variant = blocks_by_id.get(nblock_id, null)
+		var ncapacity := 0.0
+		if nblock != null:
+			ncapacity = float(nblock.properties.get("liquidCapacity", 0.0))
+			if nblock_id == "conduit":
+				ncapacity = 20.0
+		if nliquids == null or ncapacity <= 0.0:
+			destination_present.append(true)
+			other_has_liquids.append(false)
+			can_dump_liquid.append(false)
+			other_liquids_present.append(false)
+			other_amounts.append(0.0)
+			other_capacities.append(0.0)
+			other_accepts.append(false)
+			neighbor_liquids.append(null)
+			continue
+		var ncurrent: Variant = nliquids.get("current", null)
+		var ncurrent_amount := 0.0
+		if ncurrent != null:
+			ncurrent_amount = float(source_liquid_module_state.source_get_state(nliquids, int(ncurrent)).get("amount", 0.0))
+		var nrotation := int(nsprite.get_meta("rotation", 0))
+		var rel := int(relative_to[relative_to.size() - 1])
+		var accepts := false
+		if nblock_id == "conduit":
+			accepts = (ncurrent == liquid_id or ncurrent_amount < 0.2) and (rel + 2) % 4 != nrotation
+		elif nblock != null:
+			for row in nblock.properties.get("consumeLiquid", []):
+				if str(row.get("liquid", "")) == liquid_name:
+					accepts = true
+		destination_present.append(true)
+		other_has_liquids.append(true)
+		can_dump_liquid.append(true)
+		other_liquids_present.append(true)
+		other_amounts.append(float(source_liquid_module_state.source_get_state(nliquids, liquid_id).get("amount", 0.0)))
+		other_capacities.append(ncapacity)
+		other_accepts.append(accepts)
+		neighbor_liquids.append(nliquids)
+	var liquid_capacity := float(block.properties.get("liquidCapacity", 10.0))
+	var dump: Dictionary = source_building_liquid_state.dump_liquid_state(liquid_name, 2.0, output_dir, current, false, true, true, ring.size(), dump_cursor, rotation, relative_to, destination_present, other_has_liquids, can_dump_liquid, other_liquids_present, other_amounts, other_capacities, other_accepts, liquid_capacity, Callable(source_building_item_dump_state, "increment_dump_cursor_state"))
+	var amount_after := float(dump.get("current_liquid_amount_after", current))
+	var other_after: Array = dump.get("other_liquid_amount_by_index_after", [])
+	for j in range(neighbor_liquids.size()):
+		if neighbor_liquids[j] == null:
+			continue
+		source_liquid_module_state.source_set_state(neighbor_liquids[j], liquid_id, float(other_after[j]))
+	source_liquid_module_state.source_set_state(liquids, liquid_id, amount_after)
+	var final_cdump := int(dump.get("final_cdump", dump_cursor))
+	frame["cdump"] = final_cdump
+	return {
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_FACTORY_BUILD_DUMP_LIQUID_STATE,
+		"liquid": liquid_name,
+		"amount_dumped": current - amount_after,
+		"liquid_amount": amount_after,
+		"dump_cursor": final_cdump,
+	}
+
+static func _factory_dump_item_state(game: Object, frame: Dictionary, cell: Vector2i, block: Object, item: String) -> Dictionary:
+	# BuildingComp.dump(Item) (BuildingComp.java:1072-1105) through
+	# the accepted drill dump composition (the N2117 offload's
+	# composition), with the frame's own item module: the item
+	# leaves the frame only when a belt neighbor takes it, and the
+	# frame's cdump cursor advances per neighbor checked.
+	var size := int(block.properties.get("size", 1))
+	var cdump := int(frame.get("cdump", 0))
+	var ring := source_block_geometry.source_block_proximity_cells_state(size, cell.x, cell.y)
+	var ring_cells: Array = ring.get("cells", [])
+	var queues := source_conveyor_runtime_state.source_conveyor_queues_for_cells_state(game, ring_cells)
+	var queues_by_cell: Dictionary = queues.get("queues_by_cell", {})
+	var rotations := {}
+	for ring_cell in queues_by_cell.keys():
+		var conveyor_sprite: Variant = game.call("block_sprite_at_cell", ring_cell)
+		if conveyor_sprite != null:
+			rotations[ring_cell] = int(conveyor_sprite.get_meta(source_block_geometry.SOURCE_BUILD_ROTATION_META_KEY, 0))
+	var items: Dictionary = frame.get("items", {})
+	var result: Dictionary = source_building_item_dump_state.source_drill_dump_step_state(items, ring_cells, item, cdump, true, queues_by_cell, 3, 0.4, rotations, false, false, cell, size)
+	var queues_after: Dictionary = result.get("queues_after", {})
+	if bool(result.get("dumped", false)):
+		var receiver_cell: Variant = result.get("receiver_cell")
+		if receiver_cell is Vector2i and queues_after.has(receiver_cell):
+			source_conveyor_runtime_state.source_conveyor_set_queue_for_cell_state(game, receiver_cell, queues_after[receiver_cell])
+	frame["items"] = result.get("items_after", items)
+	frame["cdump"] = int(result.get("cdump_after", cdump))
+	return result
+
+static func source_factory_dump_outputs_state(game: Object, frame: Dictionary, cell: Vector2i, block: Object, liquids: Dictionary, liquid_ids: Dictionary, seconds: float, time_scale: float) -> Dictionary:
+	# GenericCrafterBuild.dumpOutputs() (GenericCrafter.java:317-332),
+	# called unconditionally at the end of updateTile
+	# (GenericCrafter.java:263): the item rows dump to a proximity
+	# neighbor when the dump timer fires (dumpTime / timeScale),
+	# and each output liquid dumps to its conduit neighbors at
+	# scaling 2 in its liquidOutputDirections direction every tick.
+	# The timer lives on the frame (frame["dumpTimer"], seconds
+	# since the last fire); the item dump reuses the drill dump
+	# composition with the frame's own item module, so a dumped
+	# item leaves the frame and a refused one stays. The timer only
+	# runs when the block has output items: Java short-circuits
+	# `outputItems != null && timer(...)`, so a liquid-only block
+	# never starts its dump timer. A null block dumps nothing.
+	var empty := {
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_FACTORY_BUILD_DUMP_OUTPUTS_STATE,
+		"item_dump_fired": false,
+		"dumped_items": [],
+		"dumped_liquids": {},
+		"dump_timer": float(frame.get("dumpTimer", 0.0)),
+		"cdump_after": int(frame.get("cdump", 0)),
+		"items_after": frame.get("items", {}),
+		"liquids_after": liquids,
+	}
+	if game == null or block == null:
+		return empty
+	var output_items: Array = block.properties.get("outputItems", [])
+	var should_dump := false
+	if not output_items.is_empty():
+		var dump_time := float(block.properties.get("dumpTime", 5))
+		var timed: Dictionary = source_factory_dump_timer_state(float(frame.get("dumpTimer", 0.0)), seconds, dump_time, time_scale)
+		should_dump = bool(timed.get("should_dump", false))
+		frame["dumpTimer"] = float(timed.get("dump_timer", 0.0))
+	var dumped_items: Array = []
+	var items: Dictionary = frame.get("items", {})
+	if should_dump:
+		for output in output_items:
+			var item_name := str(output.get("item", ""))
+			if int(items.get(item_name, 0)) <= 0:
+				continue
+			var dumped := _factory_dump_item_state(game, frame, cell, block, item_name)
+			if bool(dumped.get("dumped", false)):
+				dumped_items.append(item_name)
+				items = dumped.get("items_after", items)
+		frame["items"] = items
+	var dumped_liquids := {}
+	var output_liquids: Array = block.properties.get("outputLiquids", [])
+	var directions: Array = block.properties.get("liquidOutputDirections", [-1])
+	for i in range(output_liquids.size()):
+		var liquid_name := str(output_liquids[i].get("liquid", ""))
+		var dir := -1
+		if i < directions.size():
+			dir = int(directions[i])
+		var dumped: Dictionary = source_factory_dump_liquid_state(game, cell, block, liquids, liquid_ids, liquid_name, dir)
+		dumped_liquids[liquid_name] = float(dumped.get("amount_dumped", 0.0))
+	return {
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_FACTORY_BUILD_DUMP_OUTPUTS_STATE,
+		"item_dump_fired": should_dump,
+		"dumped_items": dumped_items,
+		"dumped_liquids": dumped_liquids,
+		"dump_timer": float(frame.get("dumpTimer", 0.0)),
+		"cdump_after": int(frame.get("cdump", 0)),
+		"items_after": frame.get("items", {}),
+		"liquids_after": liquids,
+	}
+
 static func source_factory_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the factory tick wiring every tick
 	# (GenericCrafterBuild.updateTile(), GenericCrafter.java:235, runs
@@ -685,7 +965,8 @@ static func source_factory_tick_buildings_state(game: Object, seconds: float) ->
 		# crafts (consume + offload, N2117). updateConsumption already
 		# ran through Building.update() (BuildingComp.java:2262-2274),
 		# so the frame's efficiency is the live one; dumpOutputs()
-		# (GenericCrafter.java:317+) is the next slice.
+		# (GenericCrafter.java:263, 317+) runs at the end of
+		# updateTile every tick, after the craft check.
 		var time_scale := source_placed_block_state.time_scale(sprite, source_placed_block_state.game_default_time_scale(game))
 		var efficiency := float(frame.get("efficiency", 0.0))
 		var warmup_speed := float(block.properties.get("warmupSpeed", 0.019))
@@ -703,6 +984,11 @@ static func source_factory_tick_buildings_state(game: Object, seconds: float) ->
 		frame["totalProgress"] = float(totalled.get("total_progress", 0.0))
 		if efficiency > 0.0 and float(frame.get("progress", 0.0)) >= 1.0:
 			source_factory_craft_state(game, frame, cell, block)
+		# dumpOutputs() runs at the end of updateTile every tick,
+		# outside the efficiency branch: the item rows dump on the
+		# dump timer and each output liquid dumps to its conduit
+		# neighbors.
+		source_factory_dump_outputs_state(game, frame, cell, block, liquids, liquid_id_by_name, seconds, time_scale)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
 	return {"ticked_count": ticked_count, "results_by_cell": results_by_cell}

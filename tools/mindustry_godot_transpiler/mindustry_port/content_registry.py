@@ -520,6 +520,14 @@ def _block_properties(source: str, assignment_end: int, implementation: str = ""
         output_liquids = _crafter_output_liquids(initializer)
         if output_liquids:
             properties["outputLiquids"] = output_liquids
+        # liquidOutputDirections routes each output liquid's
+        # dumpLiquid call (GenericCrafter.java:327 `int dir =
+        # liquidOutputDirections.length > i ?
+        # liquidOutputDirections[i] : -1;`): the block initializer's
+        # own array (electrolyzer's {1, 3}, Blocks.java:1395), else
+        # the class default {-1} (GenericCrafter.java:34),
+        # inherited by the whole family. N2119.
+        properties["liquidOutputDirections"] = _crafter_liquid_output_directions(initializer)
         # craftTime drives GenericCrafterBuild.updateTile progress
         # (GenericCrafter.java:237 `progress +=
         # getProgressIncrease(craftTime);`): the block initializer's
@@ -886,6 +894,18 @@ def _crafter_output_liquids(initializer: str) -> list[dict[str, Any]] | None:
                     return None
                 stacks.append({'liquid': liquid, 'amount': float(value)})
     return stacks or None
+
+
+def _crafter_liquid_output_directions(initializer: str) -> list[int]:
+    """GenericCrafter liquidOutputDirections from
+    `liquidOutputDirections = new int[]{1, 3};` (the electrolyzer,
+    Blocks.java:1395); the class default {-1}
+    (GenericCrafter.java:34) when the block sets none."""
+    code = _strip_java_comments(initializer)
+    match = re.search(r'\bliquidOutputDirections\s*=\s*new\s+int\[\]\s*\{([^}]*)\}', code)
+    if match is None:
+        return [-1]
+    return [int(value) for value in match.group(1).split(',') if value.strip() != '']
 
 
 def _crafter_liquid_capacity(initializer: str, liquid_consumers: list[dict[str, Any]] | None) -> float | None:

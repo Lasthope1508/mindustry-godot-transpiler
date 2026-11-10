@@ -538,6 +538,7 @@ public class Blocks{
             requirements(Category.crafting, with(Items.titanium, 1));
             outputLiquids = LiquidStack.with(Liquids.ozone, 4f / 60, Liquids.hydrogen, 6f / 60);
             liquidCapacity = 50f;
+            liquidOutputDirections = new int[]{1, 3};
             //outputItem = new ItemStack(Items.silicon, 1);
         }};
     }
@@ -559,6 +560,13 @@ public class Blocks{
         )
         self.assertEqual(by_id["electrolyzer"]["properties"].get("liquidCapacity"), 50.0)
         self.assertNotIn("outputItems", by_id["electrolyzer"]["properties"])
+        # N2119: liquidOutputDirections routes each output liquid's
+        # dumpLiquid call (GenericCrafter.java:327): the fixture
+        # electrolyzer overrides the class default {-1} with {1, 3},
+        # while the smelter and mixer keep the default.
+        self.assertEqual(by_id["electrolyzer"]["properties"].get("liquidOutputDirections"), [1, 3])
+        self.assertEqual(by_id["mixer"]["properties"].get("liquidOutputDirections"), [-1])
+        self.assertEqual(by_id["smelter"]["properties"].get("liquidOutputDirections"), [-1])
 
     def test_block_registry_captures_wall_crafter_output(self):
         # N2114: WallCrafterBuild.shouldConsume() (WallCrafter.java:246)

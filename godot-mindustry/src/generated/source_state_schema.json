@@ -224230,6 +224230,438 @@
       },
       "runtime_proof": "/root/C06FactoryLiquidOutputProof",
       "rule": "Source-backed GenericCrafter warmup / liquid-output / totalProgress live-loop slice."
+    },
+    "source_factory_dump_interval_state_input": {
+      "status": "active",
+      "owner": "SourceFactoryBuildState.source_factory_dump_interval_state",
+      "source_slice": "N2119",
+      "keys": {
+        "dump_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public int dumpTime = 5;",
+          "rule": "Block.dumpTime, 5 unless the block overrides it (none does).",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_dump_interval_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The building time scale, 1f by default.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_dump_interval_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06FactoryDumpOutputsProof",
+      "rule": "Source-backed GenericCrafter dumpOutputs() live-loop slice."
+    },
+    "source_factory_dump_interval_state_result": {
+      "status": "active",
+      "owner": "SourceFactoryBuildState.source_factory_dump_interval_state",
+      "source_slice": "N2119",
+      "keys": {
+        "dump_interval": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+          "java_expr": "if(outputItems != null && timer(timerDump, dumpTime / timeScale)){",
+          "rule": "dumpTime / timeScale seconds between item dumps.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_dump_interval_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06FactoryDumpOutputsProof",
+      "rule": "Source-backed GenericCrafter dumpOutputs() live-loop slice."
+    },
+    "source_factory_dump_timer_state_input": {
+      "status": "active",
+      "owner": "SourceFactoryBuildState.source_factory_dump_timer_state",
+      "source_slice": "N2119",
+      "keys": {
+        "dump_timer": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+          "java_expr": "return timer.get(index, time);",
+          "rule": "The seconds since the dump timer last fired (Interval times[timerDump], Time.time - times[id]).",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_dump_timer_state"
+          ]
+        },
+        "seconds": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+          "java_expr": "public boolean timer(int index, float time){",
+          "rule": "The frame delta in seconds; Interval.get compares Time.time, which advances in seconds.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_dump_timer_state"
+          ]
+        },
+        "dump_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public int dumpTime = 5;",
+          "rule": "Block.dumpTime, 5 unless the block overrides it (none does).",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_dump_timer_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The building time scale, 1f by default.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_dump_timer_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06FactoryDumpOutputsProof",
+      "rule": "Source-backed GenericCrafter dumpOutputs() live-loop slice."
+    },
+    "source_factory_dump_timer_state_result": {
+      "status": "active",
+      "owner": "SourceFactoryBuildState.source_factory_dump_timer_state",
+      "source_slice": "N2119",
+      "keys": {
+        "dump_timer": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+          "java_expr": "return timer.get(index, time);",
+          "rule": "0.0 when the timer fired (Interval.get stamps times[id] = Time.time), else the accumulated seconds.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_dump_timer_state"
+          ]
+        },
+        "should_dump": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+          "java_expr": "if(Float.isInfinite(time)) return false;",
+          "rule": "Whether the interval elapsed; an infinite interval never fires.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_dump_timer_state"
+          ]
+        },
+        "dump_interval": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+          "java_expr": "if(outputItems != null && timer(timerDump, dumpTime / timeScale)){",
+          "rule": "dumpTime / timeScale seconds between item dumps.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_dump_timer_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06FactoryDumpOutputsProof",
+      "rule": "Source-backed GenericCrafter dumpOutputs() live-loop slice."
+    },
+    "source_factory_dump_liquid_state_input": {
+      "status": "active",
+      "owner": "SourceFactoryBuildState.source_factory_dump_liquid_state",
+      "source_slice": "N2119",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public void dumpLiquid(Liquid liquid, float scaling, int outputDir){",
+          "rule": "The live game: the proximity ring and the conduit neighbors are read from it.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_dump_liquid_state"
+          ]
+        },
+        "cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(outputDir != -1 && (outputDir + rotation) % 4 != relativeTo(other)) continue;",
+          "rule": "The building's cell; the proximity ring is computed from it and relativeTo is read off it.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_dump_liquid_state"
+          ]
+        },
+        "block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public void dumpLiquid(Liquid liquid, float scaling, int outputDir){",
+          "rule": "The typed block definition; its liquidCapacity and liquidOutputDirections are what the dump routes by.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_dump_liquid_state"
+          ]
+        },
+        "liquids": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(liquids.get(liquid) <= 0.0001f) return;",
+          "rule": "The building's liquid module the dumped liquid is removed from.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_dump_liquid_state"
+          ]
+        },
+        "liquid_ids": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "outputLiquid = new LiquidStack(Liquids.cryofluid, 12f / 60f);",
+          "rule": "The catalog name-to-id map: the liquid module is id-indexed, so the output liquid name resolves to an id through it.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_dump_liquid_state"
+          ]
+        },
+        "liquid_name": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+          "java_expr": "dumpLiquid(outputLiquids[i].liquid, 2f, dir);",
+          "rule": "The output liquid name, one row of outputLiquids per tick.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_dump_liquid_state"
+          ]
+        },
+        "output_dir": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+          "java_expr": "int dir = liquidOutputDirections.length > i ? liquidOutputDirections[i] : -1;",
+          "rule": "The output direction for this liquid row, else -1 for any direction.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_dump_liquid_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06FactoryDumpOutputsProof",
+      "rule": "Source-backed GenericCrafter dumpOutputs() live-loop slice."
+    },
+    "source_factory_dump_liquid_state_result": {
+      "status": "active",
+      "owner": "SourceFactoryBuildState.source_factory_dump_liquid_state",
+      "source_slice": "N2119",
+      "keys": {
+        "liquid": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+          "java_expr": "dumpLiquid(outputLiquids[i].liquid, 2f, dir);",
+          "rule": "The liquid dumped.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_dump_liquid_state"
+          ]
+        },
+        "amount_dumped": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(ofract < fract) transferLiquid(other, (fract - ofract) * block.liquidCapacity / scaling, liquid);",
+          "rule": "How much left the building module this tick.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_dump_liquid_state"
+          ]
+        },
+        "liquid_amount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "float fract = liquids.get(liquid) / block.liquidCapacity;",
+          "rule": "What the building still holds after the dump.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_dump_liquid_state"
+          ]
+        },
+        "dump_cursor": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "int dump = this.cdump;",
+          "rule": "The dump cursor after the routing pass.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_dump_liquid_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06FactoryDumpOutputsProof",
+      "rule": "Source-backed GenericCrafter dumpOutputs() live-loop slice."
+    },
+    "source_factory_dump_outputs_state_input": {
+      "status": "active",
+      "owner": "SourceFactoryBuildState.source_factory_dump_outputs_state",
+      "source_slice": "N2119",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public boolean dump(Item todump){",
+          "rule": "The live game: the proximity ring and the conveyor queues are read from it.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_dump_outputs_state"
+          ]
+        },
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+          "java_expr": "public void dumpOutputs(){",
+          "rule": "The factory frame; its dumpTimer accumulates, its cdump cursor advances, and its items lose what a neighbor takes.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_dump_outputs_state"
+          ]
+        },
+        "cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+          "java_expr": "dump(output.item);",
+          "rule": "The building's cell; the proximity ring is computed from it.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_dump_outputs_state"
+          ]
+        },
+        "block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+          "java_expr": "if(outputItems != null && timer(timerDump, dumpTime / timeScale)){",
+          "rule": "The typed block definition; its outputItems / outputLiquids rows are what the dump loops over.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_dump_outputs_state"
+          ]
+        },
+        "liquids": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(liquids.get(liquid) <= 0.0001f) return;",
+          "rule": "The building's liquid module the dumped liquids are removed from.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_dump_outputs_state"
+          ]
+        },
+        "liquid_ids": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "outputLiquids = LiquidStack.with(Liquids.ozone, 4f / 60, Liquids.hydrogen, 6f / 60);",
+          "rule": "The catalog name-to-id map: the liquid module is id-indexed, so the output liquid names resolve to ids through it.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_dump_outputs_state"
+          ]
+        },
+        "seconds": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+          "java_expr": "public boolean timer(int index, float time){",
+          "rule": "The frame delta in seconds; the dump timer accumulates Time.time seconds.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_dump_outputs_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The building time scale; the dump interval is dumpTime / timeScale.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_dump_outputs_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06FactoryDumpOutputsProof",
+      "rule": "Source-backed GenericCrafter dumpOutputs() live-loop slice."
+    },
+    "source_factory_dump_outputs_state_result": {
+      "status": "active",
+      "owner": "SourceFactoryBuildState.source_factory_dump_outputs_state",
+      "source_slice": "N2119",
+      "keys": {
+        "item_dump_fired": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+          "java_expr": "if(outputItems != null && timer(timerDump, dumpTime / timeScale)){",
+          "rule": "Whether the dump timer fired this tick.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_dump_outputs_state"
+          ]
+        },
+        "dumped_items": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+          "java_expr": "dump(output.item);",
+          "rule": "The output items dumped this tick, one per output row a neighbor took.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_dump_outputs_state"
+          ]
+        },
+        "dumped_liquids": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/GenericCrafter.java",
+          "java_expr": "dumpLiquid(outputLiquids[i].liquid, 2f, dir);",
+          "rule": "What each output liquid lost to its dump this tick.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_dump_outputs_state"
+          ]
+        },
+        "dump_timer": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+          "java_expr": "return timer.get(index, time);",
+          "rule": "The dump timer after this tick: 0.0 when it fired, else the accumulated seconds.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_dump_outputs_state"
+          ]
+        },
+        "cdump_after": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "int dump = this.cdump;",
+          "rule": "The dump cursor after the routing passes.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_dump_outputs_state"
+          ]
+        },
+        "items_after": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(!block.hasItems || items.total() == 0 || proximity.size == 0 || (todump != null && !items.has(todump))) return false;",
+          "rule": "The frame's item module after the dumps.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_dump_outputs_state"
+          ]
+        },
+        "liquids_after": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(liquids.get(liquid) <= 0.0001f) return;",
+          "rule": "The liquid module after the dumps.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_dump_outputs_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06FactoryDumpOutputsProof",
+      "rule": "Source-backed GenericCrafter dumpOutputs() live-loop slice."
     }
   },
   "version": 1
