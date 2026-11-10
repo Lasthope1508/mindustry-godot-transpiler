@@ -1,6 +1,6 @@
 # Handoff — GenericCrafter dumpOutputs() in the live loop (N2119)
 
-Date: 2026-11-11. Batch: N2119 (single slice, SSOT slice, emitter change for `liquidOutputDirections`). Commit: TBD.
+Date: 2026-11-11. Batch: N2119 (single slice, SSOT slice, emitter change for `liquidOutputDirections`). Commit: 47a470e.
 
 ## Done
 
