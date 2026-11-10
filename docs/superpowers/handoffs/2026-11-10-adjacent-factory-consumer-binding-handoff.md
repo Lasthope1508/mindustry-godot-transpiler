@@ -1,6 +1,6 @@
 # Handoff — C05 Adjacent factory families RuntimeConsumer binding (N2115)
 
-Date: 2026-11-10. Batch: N2115 (single slice, SSOT slice). Commit: (by the main turn).
+Date: 2026-11-10. Batch: N2115 (single slice, SSOT slice). Commit: b444d22.
 
 ## Done
 
