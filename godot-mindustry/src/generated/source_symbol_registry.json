@@ -169756,6 +169756,38 @@
         "test_reference_graph_and_actual_c06_defense_leg"
       ],
       "runtime_proof": "/root/C06DefenseProof"
+    },
+    "source_game_loop_paused_state_input.game": {
+      "status": "source-backed",
+      "godot_owner": "SourceGameLoopRuntimeState.source_game_loop_paused_state",
+      "godot_symbol": "source_game_loop_paused_state_input.game",
+      "java_source": "core/src/mindustry/core/GameState.java",
+      "java_method": "Logic.update(); GameState.isPaused()",
+      "java_expr": "public boolean isPaused(){",
+      "rule": "The live game: its GameState pause flag is read from it.",
+      "tests": [
+        "test_c06_pause_gate_registration",
+        "test_all_c06_pause_gate_input_evidence_is_exact",
+        "test_pause_gate_reads_live_game_state",
+        "test_reference_graph_and_actual_c06_pause_gate"
+      ],
+      "runtime_proof": "/root/C06PauseProof"
+    },
+    "source_game_loop_paused_state_result.paused": {
+      "status": "source-backed",
+      "godot_owner": "SourceGameLoopRuntimeState.source_game_loop_paused_state",
+      "godot_symbol": "source_game_loop_paused_state_result.paused",
+      "java_source": "core/src/mindustry/core/GameState.java",
+      "java_method": "Logic.update(); GameState.isPaused()",
+      "java_expr": "return state == State.paused;",
+      "rule": "True when the game state is State.paused; false while playing or in the menu, and false for a null game.",
+      "tests": [
+        "test_c06_pause_gate_registration",
+        "test_all_c06_pause_gate_input_evidence_is_exact",
+        "test_pause_gate_reads_live_game_state",
+        "test_reference_graph_and_actual_c06_pause_gate"
+      ],
+      "runtime_proof": "/root/C06PauseProof"
     }
   },
   "version": 1

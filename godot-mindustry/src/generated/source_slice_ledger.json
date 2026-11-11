@@ -54424,6 +54424,47 @@
         "Pause/timeScale/disable/removal and source-exhaustion/output-full acts are later C06 slices.",
         "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2123": {
+      "status": "done",
+      "java_source": "core/src/mindustry/core/Logic.java",
+      "java_class": "mindustry.core.Logic",
+      "java_method": "Logic.update(); GameState.isPaused()",
+      "godot_owner": "SourceGameLoopRuntimeState.source_game_loop_paused_state",
+      "exact_exprs": [
+        "public boolean isPaused(){",
+        "return state == State.paused;",
+        "paused, playing, menu",
+        "public void set(State astate){",
+        "if(!state.isPaused()){",
+        "Events.fire(Trigger.beforeGameUpdate);",
+        "state.tick += Float.isNaN(delta) || Float.isInfinite(delta) ? 0f : delta * 60f;",
+        "Time.update();",
+        "updateEntities();",
+        "Events.fire(Trigger.afterGameUpdate);"
+      ],
+      "source_symbols": [
+        "source_game_loop_paused_state_input.game",
+        "source_game_loop_paused_state_result.paused"
+      ],
+      "tests": [
+        "test_c06_pause_gate_registration",
+        "test_all_c06_pause_gate_input_evidence_is_exact",
+        "test_pause_gate_reads_live_game_state",
+        "test_reference_graph_and_actual_c06_pause_gate"
+      ],
+      "runtime_proof": "/root/C06PauseProof",
+      "deferred_exprs": [
+        "Per-building timeScale expiry is a later slice: BuildingComp.update (BuildingComp.java:2262-2266) decays timeScaleDuration by Time.delta and resets timeScale to 1f when it runs out, and simulate_block_time_scales already runs that decay each tick, but nothing ever sets a duration yet (no overdrive boost path writes it).",
+        "The disabled-building gate is a later slice: BuildingComp.update (BuildingComp.java:2275-2277) runs updateTile only when `enabled || !block.noUpdateDisabled`, and GenericCrafter leaves noUpdateDisabled false (Block.java:170), so a disabled factory still runs its updateTile half and only its zero efficiency stops progress; the tick driver does not skip the disabled frame yet.",
+        "Removal of destroyed buildings from the live loop is a later slice: the factory tick still visits every placed building frame, and a destroyed building has no removal path out of placed_blocks yet.",
+        "Source-exhaustion/output-full acts are later C06 slices: a drill on a depleted ore cell and a factory with a full output are not acted on yet.",
+        "The three per-class shouldConsume() bodies (UnitFactory.java:446, Reconstructor.java:368, UnitAssembler.java:389) are later slices; the tick passes the frame enabled flag as should_consume until then.",
+        "The plan stacks leave only at unit completion via ConsumeItemDynamic.trigger (ConsumeItemDynamic.java:53-56); the per-tick second pass removes nothing for items, so the production slice owns the trigger.",
+        "The UnitAssembler plan dynamics (ConsumePayloadDynamic, ConsumeItemDynamic over plan().itemReq, ConsumeLiquidsDynamic over plan().liquidReq, UnitAssembler.java:158-160) are later slices; the registry captures no assembler plans yet, so no dynamic rows bind for them.",
+        "Power graph shouldConsumePower from the live frame enabled flag is a later slice: Java ConsumePower.requestedPower gates on entity.shouldConsume(), but the port uses static catalog properties, so disabling a building does not change the power graph needed value and a disable -> battery-charges act is not possible yet.",
+        "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1

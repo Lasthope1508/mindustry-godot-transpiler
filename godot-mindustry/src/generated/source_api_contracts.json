@@ -63715,6 +63715,31 @@
       ],
       "runtime_proof": "/root/C06DefenseProof",
       "rule": "Source-backed C06 defense leg: the turret leads its shots at the intercept point and dead enemies are swept from the live list, so a dagger crossing the duo field of fire dies before it reaches the core."
+    },
+    "SourceGameLoopRuntimeState.source_game_loop_paused_state": {
+      "status": "active",
+      "source_slice": "N2123",
+      "java_source": "core/src/mindustry/core/Logic.java",
+      "source_method": "Logic.update(); GameState.isPaused()",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_game_loop_paused_state_input.game"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "paused"
+      ],
+      "tests": [
+        "test_c06_pause_gate_registration",
+        "test_all_c06_pause_gate_input_evidence_is_exact",
+        "test_pause_gate_reads_live_game_state",
+        "test_reference_graph_and_actual_c06_pause_gate"
+      ],
+      "runtime_proof": "/root/C06PauseProof",
+      "rule": "Source-backed C06 pause gate: process_tick returns before Time.update and before any sim while the game is paused, so a paused game advances nothing at all."
     }
   },
   "policy": {

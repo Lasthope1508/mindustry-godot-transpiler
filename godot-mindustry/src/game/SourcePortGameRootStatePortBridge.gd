@@ -38,6 +38,12 @@ var hud_label: Label
 var campaign_shell_root: Control
 var campaign_shell_visible := true
 var campaign_shell_entered_playable := false
+# Whether the game is paused (Java: GameState.state == State.paused,
+# GameState.java:93-95 `isPaused()`; the state is set with
+# GameState.set(State), GameState.java:60-62). Logic.update
+# (Logic.java:507) skips the whole game update while paused; the live
+# loop reads this flag at the top of every process_tick.
+var paused := false
 var campaign_selected_sector_id := ""
 var campaign_launched_sector: Dictionary = {}
 var campaign_launch_context: Dictionary = {}

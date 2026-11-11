@@ -225494,6 +225494,44 @@
       },
       "runtime_proof": "/root/C06DefenseProof",
       "rule": "Source-backed C06 defense leg: Predict.intercept lead targeting and the death sweep."
+    },
+    "source_game_loop_paused_state_input": {
+      "status": "active",
+      "owner": "SourceGameLoopRuntimeState.source_game_loop_paused_state",
+      "source_slice": "N2123",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/GameState.java",
+          "java_expr": "public boolean isPaused(){",
+          "rule": "The live game: its GameState pause flag is read from it.",
+          "used_by": [
+            "SourceGameLoopRuntimeState.source_game_loop_paused_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06PauseProof",
+      "rule": "Source-backed C06 pause gate: GameState.isPaused reads State.paused, and Logic.update runs the tick, Time.update and the entity update only while unpaused."
+    },
+    "source_game_loop_paused_state_result": {
+      "status": "active",
+      "owner": "SourceGameLoopRuntimeState.source_game_loop_paused_state",
+      "source_slice": "N2123",
+      "keys": {
+        "paused": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/GameState.java",
+          "java_expr": "return state == State.paused;",
+          "rule": "True when the game state is State.paused; false while playing or in the menu, and false for a null game.",
+          "used_by": [
+            "SourceGameLoopRuntimeState.source_game_loop_paused_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06PauseProof",
+      "rule": "Source-backed C06 pause gate: GameState.isPaused reads State.paused, and Logic.update runs the tick, Time.update and the entity update only while unpaused."
     }
   },
   "version": 1

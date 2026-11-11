@@ -70,6 +70,7 @@ const PORT_GAME_SOURCE_PREDICT_INTERCEPT_STATE := "port_game.source_predict_inte
 const PORT_GAME_SOURCE_PREDICT_QUAD_STATE := "port_game.source_predict_quad_state"
 const PORT_GAME_SOURCE_TURRET_TARGET_POSITION_STATE := "port_game.source_turret_target_position_state"
 const PORT_GAME_SOURCE_ENEMY_UNITS_SWEEP_DEAD_STATE := "port_game.source_enemy_units_sweep_dead_state"
+const PORT_GAME_SOURCE_GAME_LOOP_PAUSED_STATE := "port_game.source_game_loop_paused_state"
 const PORT_GAME_SOURCE_ADJACENT_FACTORY_BUILD_UPDATE_CONSUMPTION_STATE := "port_game.source_adjacent_factory_build_update_consumption_state"
 const PORT_GAME_SOURCE_ADJACENT_FACTORY_BUILD_SHOULD_CONSUME_STATE := "port_game.source_adjacent_factory_build_should_consume_state"
 const PORT_GAME_SOURCE_ADJACENT_FACTORY_BUILD_BIND_CONSUMER_STATE := "port_game.source_adjacent_factory_build_bind_consumer_state"
