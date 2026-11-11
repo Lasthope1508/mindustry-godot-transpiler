@@ -136,11 +136,61 @@ static func spawn_wave(game: Object) -> void:
 		spawned += 1
 	game.set("last_spawned_wave_count", spawned)
 
+# The death sweep for the live loop: HealthComp.damage kills an
+# enemy the moment its health reaches zero (HealthComp.java:76-77
+# `if(health <= 0 && !dead){ kill(); }`); HealthComp.kill clamps the
+# health, marks it dead and removes it (:33-41 `health =
+# Math.min(health, 0); dead = true; killed(); remove();`); a
+# non-flying unit's killed() destroys it (UnitComp.java:959-968
+# `if(!type.flying || !type.createWreck){ destroy(); }`) and remove()
+# drops it from its team (:603-608). The bullet step only lowers the
+# health, so this sweep — run at the top of simulate_units — frees
+# the dead sprite and drops the enemy from the live list, so it
+# stops moving, stops being targeted, and never reaches the core.
+static func source_enemy_units_sweep_dead_state(game: Object) -> Dictionary:
+	var result := {
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_ENEMY_UNITS_SWEEP_DEAD_STATE,
+		"swept_count": 0,
+		"swept_health": 0.0,
+		"remaining_count": 0,
+	}
+	if game == null:
+		return result
+	var enemy_units: Array = game.get("enemy_units")
+	var alive: Array = []
+	var swept := 0
+	var swept_health := 0.0
+	for enemy in enemy_units:
+		if not (enemy is Dictionary):
+			continue
+		var enemy_dict: Dictionary = enemy
+		if float(enemy_dict.get("health", 1.0)) <= 0.0:
+			var sprite = enemy_dict.get("sprite", null)
+			if is_instance_valid(sprite):
+				sprite.queue_free()
+			swept += 1
+			swept_health += float(enemy_dict.get("health", 0.0))
+			continue
+		alive.append(enemy)
+	game.set("enemy_units", alive)
+	result["swept_count"] = swept
+	result["swept_health"] = swept_health
+	result["remaining_count"] = alive.size()
+	return result
+
 static func simulate_units(game, delta: float) -> void:
 	if game == null:
 		return
 	if float(game.get("core_health")) <= 0.0:
 		return
+	# A bullet-killed enemy (health <= 0) is swept here, before it
+	# moves again: HealthComp.damage kills at health <= 0
+	# (HealthComp.java:76-77), HealthComp.kill marks it dead and
+	# removes it (:33-41), UnitComp.killed destroys a non-flying unit
+	# (:959-968) and UnitComp.remove drops it from its team
+	# (:603-608). The destroy effects (explosion, sound, event,
+	# wreck) live in SourceUnitDestroyState and stay deferred.
+	source_enemy_units_sweep_dead_state(game)
 	var enemy_units: Array = game.get("enemy_units")
 	var alive: Array = []
 	var target: Vector2 = game.call("grid_to_world", game.get("core_pos"))

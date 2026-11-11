@@ -169308,6 +169308,454 @@
         "test_reference_graph_and_actual_c06_session_snapshot"
       ],
       "runtime_proof": "/root/C06SessionProof"
+    },
+    "source_predict_intercept_state_input.src_x": {
+      "status": "source-backed",
+      "godot_owner": "SourcePredictState.source_predict_intercept_state",
+      "godot_symbol": "source_predict_intercept_state_input.src_x",
+      "java_source": "core/src/mindustry/entities/Predict.java",
+      "java_method": "Predict.intercept(float, float, float, float, float, float, float)",
+      "java_expr": "float srcx",
+      "rule": "The shooter X (the turret world x).",
+      "tests": [
+        "test_c06_defense_leg_registration",
+        "test_all_c06_defense_leg_input_evidence_is_exact",
+        "test_defense_leg_reads_live_turret_and_enemy_state",
+        "test_reference_graph_and_actual_c06_defense_leg"
+      ],
+      "runtime_proof": "/root/C06DefenseProof"
+    },
+    "source_predict_intercept_state_input.src_y": {
+      "status": "source-backed",
+      "godot_owner": "SourcePredictState.source_predict_intercept_state",
+      "godot_symbol": "source_predict_intercept_state_input.src_y",
+      "java_source": "core/src/mindustry/entities/Predict.java",
+      "java_method": "Predict.intercept(float, float, float, float, float, float, float)",
+      "java_expr": "float srcy",
+      "rule": "The shooter Y (the turret world y).",
+      "tests": [
+        "test_c06_defense_leg_registration",
+        "test_all_c06_defense_leg_input_evidence_is_exact",
+        "test_defense_leg_reads_live_turret_and_enemy_state",
+        "test_reference_graph_and_actual_c06_defense_leg"
+      ],
+      "runtime_proof": "/root/C06DefenseProof"
+    },
+    "source_predict_intercept_state_input.dst_x": {
+      "status": "source-backed",
+      "godot_owner": "SourcePredictState.source_predict_intercept_state",
+      "godot_symbol": "source_predict_intercept_state_input.dst_x",
+      "java_source": "core/src/mindustry/entities/Predict.java",
+      "java_method": "Predict.intercept(float, float, float, float, float, float, float)",
+      "java_expr": "float dstx",
+      "rule": "The target X at the call.",
+      "tests": [
+        "test_c06_defense_leg_registration",
+        "test_all_c06_defense_leg_input_evidence_is_exact",
+        "test_defense_leg_reads_live_turret_and_enemy_state",
+        "test_reference_graph_and_actual_c06_defense_leg"
+      ],
+      "runtime_proof": "/root/C06DefenseProof"
+    },
+    "source_predict_intercept_state_input.dst_y": {
+      "status": "source-backed",
+      "godot_owner": "SourcePredictState.source_predict_intercept_state",
+      "godot_symbol": "source_predict_intercept_state_input.dst_y",
+      "java_source": "core/src/mindustry/entities/Predict.java",
+      "java_method": "Predict.intercept(float, float, float, float, float, float, float)",
+      "java_expr": "float dsty",
+      "rule": "The target Y at the call.",
+      "tests": [
+        "test_c06_defense_leg_registration",
+        "test_all_c06_defense_leg_input_evidence_is_exact",
+        "test_defense_leg_reads_live_turret_and_enemy_state",
+        "test_reference_graph_and_actual_c06_defense_leg"
+      ],
+      "runtime_proof": "/root/C06DefenseProof"
+    },
+    "source_predict_intercept_state_input.dst_vx": {
+      "status": "source-backed",
+      "godot_owner": "SourcePredictState.source_predict_intercept_state",
+      "godot_symbol": "source_predict_intercept_state_input.dst_vx",
+      "java_source": "core/src/mindustry/entities/Predict.java",
+      "java_method": "Predict.intercept(float, float, float, float, float, float, float)",
+      "java_expr": "float dstvx",
+      "rule": "The target X velocity as a per-frame displacement (its Hitboxc deltaX); divided by Time.delta to a per-tick velocity.",
+      "tests": [
+        "test_c06_defense_leg_registration",
+        "test_all_c06_defense_leg_input_evidence_is_exact",
+        "test_defense_leg_reads_live_turret_and_enemy_state",
+        "test_reference_graph_and_actual_c06_defense_leg"
+      ],
+      "runtime_proof": "/root/C06DefenseProof"
+    },
+    "source_predict_intercept_state_input.dst_vy": {
+      "status": "source-backed",
+      "godot_owner": "SourcePredictState.source_predict_intercept_state",
+      "godot_symbol": "source_predict_intercept_state_input.dst_vy",
+      "java_source": "core/src/mindustry/entities/Predict.java",
+      "java_method": "Predict.intercept(float, float, float, float, float, float, float)",
+      "java_expr": "float dstvy",
+      "rule": "The target Y velocity as a per-frame displacement (its Hitboxc deltaY); divided by Time.delta to a per-tick velocity.",
+      "tests": [
+        "test_c06_defense_leg_registration",
+        "test_all_c06_defense_leg_input_evidence_is_exact",
+        "test_defense_leg_reads_live_turret_and_enemy_state",
+        "test_reference_graph_and_actual_c06_defense_leg"
+      ],
+      "runtime_proof": "/root/C06DefenseProof"
+    },
+    "source_predict_intercept_state_input.bullet_speed": {
+      "status": "source-backed",
+      "godot_owner": "SourcePredictState.source_predict_intercept_state",
+      "godot_symbol": "source_predict_intercept_state_input.bullet_speed",
+      "java_source": "core/src/mindustry/entities/Predict.java",
+      "java_method": "Predict.intercept(float, float, float, float, float, float, float)",
+      "java_expr": "float v){",
+      "rule": "The bullet speed per tick.",
+      "tests": [
+        "test_c06_defense_leg_registration",
+        "test_all_c06_defense_leg_input_evidence_is_exact",
+        "test_defense_leg_reads_live_turret_and_enemy_state",
+        "test_reference_graph_and_actual_c06_defense_leg"
+      ],
+      "runtime_proof": "/root/C06DefenseProof"
+    },
+    "source_predict_intercept_state_input.time_delta": {
+      "status": "source-backed",
+      "godot_owner": "SourcePredictState.source_predict_intercept_state",
+      "godot_symbol": "source_predict_intercept_state_input.time_delta",
+      "java_source": "core/src/mindustry/entities/Predict.java",
+      "java_method": "Predict.intercept(float, float, float, float, float, float, float)",
+      "java_expr": "dstvx /= Time.delta;",
+      "rule": "Time.delta in ticks: the frame delta scaled to 60fps ticks; the per-frame displacement is divided by it.",
+      "tests": [
+        "test_c06_defense_leg_registration",
+        "test_all_c06_defense_leg_input_evidence_is_exact",
+        "test_defense_leg_reads_live_turret_and_enemy_state",
+        "test_reference_graph_and_actual_c06_defense_leg"
+      ],
+      "runtime_proof": "/root/C06DefenseProof"
+    },
+    "source_predict_intercept_state_result.intercept_x": {
+      "status": "source-backed",
+      "godot_owner": "SourcePredictState.source_predict_intercept_state",
+      "godot_symbol": "source_predict_intercept_state_result.intercept_x",
+      "java_source": "core/src/mindustry/entities/Predict.java",
+      "java_method": "Predict.intercept(float, float, float, float, float, float, float)",
+      "java_expr": "sol.set(dstx + dstvx * t, dsty + dstvy * t);",
+      "rule": "The intercept X: where the target will be when the bullet arrives.",
+      "tests": [
+        "test_c06_defense_leg_registration",
+        "test_all_c06_defense_leg_input_evidence_is_exact",
+        "test_defense_leg_reads_live_turret_and_enemy_state",
+        "test_reference_graph_and_actual_c06_defense_leg"
+      ],
+      "runtime_proof": "/root/C06DefenseProof"
+    },
+    "source_predict_intercept_state_result.intercept_y": {
+      "status": "source-backed",
+      "godot_owner": "SourcePredictState.source_predict_intercept_state",
+      "godot_symbol": "source_predict_intercept_state_result.intercept_y",
+      "java_source": "core/src/mindustry/entities/Predict.java",
+      "java_method": "Predict.intercept(float, float, float, float, float, float, float)",
+      "java_expr": "sol.set(dstx + dstvx * t, dsty + dstvy * t);",
+      "rule": "The intercept Y: where the target will be when the bullet arrives.",
+      "tests": [
+        "test_c06_defense_leg_registration",
+        "test_all_c06_defense_leg_input_evidence_is_exact",
+        "test_defense_leg_reads_live_turret_and_enemy_state",
+        "test_reference_graph_and_actual_c06_defense_leg"
+      ],
+      "runtime_proof": "/root/C06DefenseProof"
+    },
+    "source_predict_intercept_state_result.intercept_time": {
+      "status": "source-backed",
+      "godot_owner": "SourcePredictState.source_predict_intercept_state",
+      "godot_symbol": "source_predict_intercept_state_result.intercept_time",
+      "java_source": "core/src/mindustry/entities/Predict.java",
+      "java_method": "Predict.intercept(float, float, float, float, float, float, float)",
+      "java_expr": "float t = Math.min(t0, t1);",
+      "rule": "The smallest positive root: the ticks until the bullet meets the target.",
+      "tests": [
+        "test_c06_defense_leg_registration",
+        "test_all_c06_defense_leg_input_evidence_is_exact",
+        "test_defense_leg_reads_live_turret_and_enemy_state",
+        "test_reference_graph_and_actual_c06_defense_leg"
+      ],
+      "runtime_proof": "/root/C06DefenseProof"
+    },
+    "source_predict_intercept_state_result.used_intercept": {
+      "status": "source-backed",
+      "godot_owner": "SourcePredictState.source_predict_intercept_state",
+      "godot_symbol": "source_predict_intercept_state_result.used_intercept",
+      "java_source": "core/src/mindustry/entities/Predict.java",
+      "java_method": "Predict.intercept(float, float, float, float, float, float, float)",
+      "java_expr": "if(t > 0){",
+      "rule": "True when a positive root exists and the intercept point is used; false falls back to the current position.",
+      "tests": [
+        "test_c06_defense_leg_registration",
+        "test_all_c06_defense_leg_input_evidence_is_exact",
+        "test_defense_leg_reads_live_turret_and_enemy_state",
+        "test_reference_graph_and_actual_c06_defense_leg"
+      ],
+      "runtime_proof": "/root/C06DefenseProof"
+    },
+    "source_predict_quad_state_input.a": {
+      "status": "source-backed",
+      "godot_owner": "SourcePredictState.source_predict_quad_state",
+      "godot_symbol": "source_predict_quad_state_input.a",
+      "java_source": "core/src/mindustry/entities/Predict.java",
+      "java_method": "Predict.quad(float, float, float)",
+      "java_expr": "float a,",
+      "rule": "The quadratic a term (dstv^2 - v^2).",
+      "tests": [
+        "test_c06_defense_leg_registration",
+        "test_all_c06_defense_leg_input_evidence_is_exact",
+        "test_defense_leg_reads_live_turret_and_enemy_state",
+        "test_reference_graph_and_actual_c06_defense_leg"
+      ],
+      "runtime_proof": "/root/C06DefenseProof"
+    },
+    "source_predict_quad_state_input.b": {
+      "status": "source-backed",
+      "godot_owner": "SourcePredictState.source_predict_quad_state",
+      "godot_symbol": "source_predict_quad_state_input.b",
+      "java_source": "core/src/mindustry/entities/Predict.java",
+      "java_method": "Predict.quad(float, float, float)",
+      "java_expr": "float b,",
+      "rule": "The quadratic b term (2 * (dstv . t)).",
+      "tests": [
+        "test_c06_defense_leg_registration",
+        "test_all_c06_defense_leg_input_evidence_is_exact",
+        "test_defense_leg_reads_live_turret_and_enemy_state",
+        "test_reference_graph_and_actual_c06_defense_leg"
+      ],
+      "runtime_proof": "/root/C06DefenseProof"
+    },
+    "source_predict_quad_state_input.c": {
+      "status": "source-backed",
+      "godot_owner": "SourcePredictState.source_predict_quad_state",
+      "godot_symbol": "source_predict_quad_state_input.c",
+      "java_source": "core/src/mindustry/entities/Predict.java",
+      "java_method": "Predict.quad(float, float, float)",
+      "java_expr": "float c){",
+      "rule": "The quadratic c term (t^2).",
+      "tests": [
+        "test_c06_defense_leg_registration",
+        "test_all_c06_defense_leg_input_evidence_is_exact",
+        "test_defense_leg_reads_live_turret_and_enemy_state",
+        "test_reference_graph_and_actual_c06_defense_leg"
+      ],
+      "runtime_proof": "/root/C06DefenseProof"
+    },
+    "source_predict_quad_state_result.has_roots": {
+      "status": "source-backed",
+      "godot_owner": "SourcePredictState.source_predict_quad_state",
+      "godot_symbol": "source_predict_quad_state_result.has_roots",
+      "java_source": "core/src/mindustry/entities/Predict.java",
+      "java_method": "Predict.quad(float, float, float)",
+      "java_expr": "if(disc >= 0){",
+      "rule": "True when the discriminant is non-negative and roots exist.",
+      "tests": [
+        "test_c06_defense_leg_registration",
+        "test_all_c06_defense_leg_input_evidence_is_exact",
+        "test_defense_leg_reads_live_turret_and_enemy_state",
+        "test_reference_graph_and_actual_c06_defense_leg"
+      ],
+      "runtime_proof": "/root/C06DefenseProof"
+    },
+    "source_predict_quad_state_result.root0": {
+      "status": "source-backed",
+      "godot_owner": "SourcePredictState.source_predict_quad_state",
+      "godot_symbol": "source_predict_quad_state_result.root0",
+      "java_source": "core/src/mindustry/entities/Predict.java",
+      "java_method": "Predict.quad(float, float, float)",
+      "java_expr": "sol = vec.set((-b - disc) / a, (-b + disc) / a);",
+      "rule": "The first root (-b - disc) / 2a.",
+      "tests": [
+        "test_c06_defense_leg_registration",
+        "test_all_c06_defense_leg_input_evidence_is_exact",
+        "test_defense_leg_reads_live_turret_and_enemy_state",
+        "test_reference_graph_and_actual_c06_defense_leg"
+      ],
+      "runtime_proof": "/root/C06DefenseProof"
+    },
+    "source_predict_quad_state_result.root1": {
+      "status": "source-backed",
+      "godot_owner": "SourcePredictState.source_predict_quad_state",
+      "godot_symbol": "source_predict_quad_state_result.root1",
+      "java_source": "core/src/mindustry/entities/Predict.java",
+      "java_method": "Predict.quad(float, float, float)",
+      "java_expr": "sol = vec.set((-b - disc) / a, (-b + disc) / a);",
+      "rule": "The second root (-b + disc) / 2a.",
+      "tests": [
+        "test_c06_defense_leg_registration",
+        "test_all_c06_defense_leg_input_evidence_is_exact",
+        "test_defense_leg_reads_live_turret_and_enemy_state",
+        "test_reference_graph_and_actual_c06_defense_leg"
+      ],
+      "runtime_proof": "/root/C06DefenseProof"
+    },
+    "source_turret_target_position_state_input.game": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretCombatState.source_turret_target_position_state",
+      "godot_symbol": "source_turret_target_position_state_input.game",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.targetPosition(Posc)",
+      "java_expr": "public void targetPosition(Posc pos){",
+      "rule": "The live game: the turret cell, its peeked ammo, the enemy type speed and the core position are read from it.",
+      "tests": [
+        "test_c06_defense_leg_registration",
+        "test_all_c06_defense_leg_input_evidence_is_exact",
+        "test_defense_leg_reads_live_turret_and_enemy_state",
+        "test_reference_graph_and_actual_c06_defense_leg"
+      ],
+      "runtime_proof": "/root/C06DefenseProof"
+    },
+    "source_turret_target_position_state_input.origin": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretCombatState.source_turret_target_position_state",
+      "godot_symbol": "source_turret_target_position_state_input.origin",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.targetPosition(Posc)",
+      "java_expr": "Predict.intercept(this, pos, offset.x, offset.y, bullet.speed)",
+      "rule": "The shooter: the turret build itself (`this`), passed as its grid cell and converted to its world position.",
+      "tests": [
+        "test_c06_defense_leg_registration",
+        "test_all_c06_defense_leg_input_evidence_is_exact",
+        "test_defense_leg_reads_live_turret_and_enemy_state",
+        "test_reference_graph_and_actual_c06_defense_leg"
+      ],
+      "runtime_proof": "/root/C06DefenseProof"
+    },
+    "source_turret_target_position_state_input.target": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretCombatState.source_turret_target_position_state",
+      "godot_symbol": "source_turret_target_position_state_input.target",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.targetPosition(Posc)",
+      "java_expr": "if(!hasAmmo() || pos == null) return;",
+      "rule": "The enemy target dict (sprite + type); null or ammo-less returns the current position.",
+      "tests": [
+        "test_c06_defense_leg_registration",
+        "test_all_c06_defense_leg_input_evidence_is_exact",
+        "test_defense_leg_reads_live_turret_and_enemy_state",
+        "test_reference_graph_and_actual_c06_defense_leg"
+      ],
+      "runtime_proof": "/root/C06DefenseProof"
+    },
+    "source_turret_target_position_state_result.target_position": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretCombatState.source_turret_target_position_state",
+      "godot_symbol": "source_turret_target_position_state_result.target_position",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.targetPosition(Posc)",
+      "java_expr": "targetPos.set(Predict.intercept(this, pos, offset.x, offset.y, bullet.speed));",
+      "rule": "The aim point: the intercept point when predictTarget holds, else the target current position.",
+      "tests": [
+        "test_c06_defense_leg_registration",
+        "test_all_c06_defense_leg_input_evidence_is_exact",
+        "test_defense_leg_reads_live_turret_and_enemy_state",
+        "test_reference_graph_and_actual_c06_defense_leg"
+      ],
+      "runtime_proof": "/root/C06DefenseProof"
+    },
+    "source_turret_target_position_state_result.used_intercept": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretCombatState.source_turret_target_position_state",
+      "godot_symbol": "source_turret_target_position_state_result.used_intercept",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.targetPosition(Posc)",
+      "java_expr": "if(predictTarget && bullet.speed >= 0.01f){",
+      "rule": "True when the intercept ran (predictTarget and bullet.speed >= 0.01).",
+      "tests": [
+        "test_c06_defense_leg_registration",
+        "test_all_c06_defense_leg_input_evidence_is_exact",
+        "test_defense_leg_reads_live_turret_and_enemy_state",
+        "test_reference_graph_and_actual_c06_defense_leg"
+      ],
+      "runtime_proof": "/root/C06DefenseProof"
+    },
+    "source_turret_target_position_state_result.bullet_speed": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretCombatState.source_turret_target_position_state",
+      "godot_symbol": "source_turret_target_position_state_result.bullet_speed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.targetPosition(Posc)",
+      "java_expr": "bullet.speed >= 0.01f",
+      "rule": "The peeked bullet speed per tick; below 0.01 the aim falls back to the current position.",
+      "tests": [
+        "test_c06_defense_leg_registration",
+        "test_all_c06_defense_leg_input_evidence_is_exact",
+        "test_defense_leg_reads_live_turret_and_enemy_state",
+        "test_reference_graph_and_actual_c06_defense_leg"
+      ],
+      "runtime_proof": "/root/C06DefenseProof"
+    },
+    "source_enemy_units_sweep_dead_state_input.game": {
+      "status": "source-backed",
+      "godot_owner": "SourceEnemyUnitRuntimeState.source_enemy_units_sweep_dead_state",
+      "godot_symbol": "source_enemy_units_sweep_dead_state_input.game",
+      "java_source": "core/src/mindustry/entities/comp/HealthComp.java",
+      "java_method": "HealthComp.damage(float); HealthComp.kill(); UnitComp.killed(); UnitComp.remove()",
+      "java_expr": "void kill(){",
+      "rule": "The live game: its enemy list is swept for dead units.",
+      "tests": [
+        "test_c06_defense_leg_registration",
+        "test_all_c06_defense_leg_input_evidence_is_exact",
+        "test_defense_leg_reads_live_turret_and_enemy_state",
+        "test_reference_graph_and_actual_c06_defense_leg"
+      ],
+      "runtime_proof": "/root/C06DefenseProof"
+    },
+    "source_enemy_units_sweep_dead_state_result.swept_count": {
+      "status": "source-backed",
+      "godot_owner": "SourceEnemyUnitRuntimeState.source_enemy_units_sweep_dead_state",
+      "godot_symbol": "source_enemy_units_sweep_dead_state_result.swept_count",
+      "java_source": "core/src/mindustry/entities/comp/HealthComp.java",
+      "java_method": "HealthComp.damage(float); HealthComp.kill(); UnitComp.killed(); UnitComp.remove()",
+      "java_expr": "if(health <= 0 && !dead){",
+      "rule": "How many enemies were swept this call (health <= 0 and not yet dead).",
+      "tests": [
+        "test_c06_defense_leg_registration",
+        "test_all_c06_defense_leg_input_evidence_is_exact",
+        "test_defense_leg_reads_live_turret_and_enemy_state",
+        "test_reference_graph_and_actual_c06_defense_leg"
+      ],
+      "runtime_proof": "/root/C06DefenseProof"
+    },
+    "source_enemy_units_sweep_dead_state_result.swept_health": {
+      "status": "source-backed",
+      "godot_owner": "SourceEnemyUnitRuntimeState.source_enemy_units_sweep_dead_state",
+      "godot_symbol": "source_enemy_units_sweep_dead_state_result.swept_health",
+      "java_source": "core/src/mindustry/entities/comp/HealthComp.java",
+      "java_method": "HealthComp.damage(float); HealthComp.kill(); UnitComp.killed(); UnitComp.remove()",
+      "java_expr": "health = Math.min(health, 0);",
+      "rule": "The summed clamped health of the swept enemies.",
+      "tests": [
+        "test_c06_defense_leg_registration",
+        "test_all_c06_defense_leg_input_evidence_is_exact",
+        "test_defense_leg_reads_live_turret_and_enemy_state",
+        "test_reference_graph_and_actual_c06_defense_leg"
+      ],
+      "runtime_proof": "/root/C06DefenseProof"
+    },
+    "source_enemy_units_sweep_dead_state_result.remaining_count": {
+      "status": "source-backed",
+      "godot_owner": "SourceEnemyUnitRuntimeState.source_enemy_units_sweep_dead_state",
+      "godot_symbol": "source_enemy_units_sweep_dead_state_result.remaining_count",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "HealthComp.damage(float); HealthComp.kill(); UnitComp.killed(); UnitComp.remove()",
+      "java_expr": "public void remove(){",
+      "rule": "How many enemies remain live after the sweep.",
+      "tests": [
+        "test_c06_defense_leg_registration",
+        "test_all_c06_defense_leg_input_evidence_is_exact",
+        "test_defense_leg_reads_live_turret_and_enemy_state",
+        "test_reference_graph_and_actual_c06_defense_leg"
+      ],
+      "runtime_proof": "/root/C06DefenseProof"
     }
   },
   "version": 1

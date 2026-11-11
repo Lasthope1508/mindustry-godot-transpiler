@@ -316,6 +316,11 @@ func source_turret_total_inaccuracy(turret, data: Dictionary) -> float:
 	return source_turret_combat_state.total_inaccuracy(source_turret_inaccuracy(turret), bullet_inaccuracy)
 
 func find_enemy_target(origin: Vector2, range_pixels: float):
+	# The live-loop sim passes the turret's grid cell as the origin;
+	# the range check runs from the turret's true world position
+	# (the building's x/y, Turret.targetPosition's `this`), so the
+	# cell is converted before the targeting state sees it.
+	origin = call("grid_to_world", Vector2i(origin))
 	var runtime_enemy_units = get("enemy_units")
 	var target_state := source_turret_combat_state.enemy_target_state(origin, range_pixels, runtime_enemy_units if runtime_enemy_units is Array else [])
 	return target_state.get("target", null)

@@ -22104,12 +22104,21 @@ class PlayableManifestTests(unittest.TestCase):
             "const SOURCE_TURRET_RECOIL_OFFSET_RECOIL_POW_DEFAULT := source_turret_defaults.RECOIL_OFFSET_RECOIL_POW_DEFAULT",
             "var offset_state := source_math_state.source_angles_trns_vec",
             "var recoil_state := recoil_step_state(",
-            "source_time_defaults.TICK_RATE",
             '"source_owner": source_runtime_owner_registry.PORT_GAME_UPDATE_TURRET_RECOIL',
         ]:
             with self.subTest(marker=marker):
                 self.assertIn(marker, recoil_source)
                 self.assertNotIn(marker, combat_source)
+
+        # N2122: the combat file also reads TICK_RATE, but only inside
+        # source_turret_target_position_state, where it converts the
+        # target's world speed per second into the per-frame
+        # displacement Predict.intercept takes (Turret.targetPosition).
+        self.assertIn("source_time_defaults.TICK_RATE", combat_source)
+        self.assertIn(
+            "source_time_defaults.TICK_RATE",
+            self._method_body(combat_source, "static func source_turret_target_position_state(game: Object, origin, target) -> Dictionary:"),
+        )
 
         delegates = {
             "static func recoil_offset(recoil_rotation_degrees: float, cur_recoil: float, recoil_pow: float, recoil: float) -> Vector2:": "return source_turret_recoil_state.recoil_offset(recoil_rotation_degrees, cur_recoil, recoil_pow, recoil)",

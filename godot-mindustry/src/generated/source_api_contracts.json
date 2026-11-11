@@ -63551,6 +63551,170 @@
       ],
       "runtime_proof": "/root/C06SessionProof",
       "rule": "Source-backed C06 session snapshot: one pure read of the live session inventory, health, production and energy, so the session proof verifies the factory -> core -> defense chain before/after a fixed number of deterministic live-loop ticks; and the live-loop belt tick conversion, so simulate_factory advances the belts by ticks (seconds * 60) and copper reaches the core."
+    },
+    "SourcePredictState.source_predict_intercept_state": {
+      "status": "active",
+      "source_slice": "N2122",
+      "java_source": "core/src/mindustry/entities/Predict.java",
+      "source_method": "Predict.intercept(float, float, float, float, float, float, float)",
+      "params": [
+        {
+          "name": "src_x",
+          "type": "float",
+          "schema": "source_predict_intercept_state_input.src_x"
+        },
+        {
+          "name": "src_y",
+          "type": "float",
+          "schema": "source_predict_intercept_state_input.src_y"
+        },
+        {
+          "name": "dst_x",
+          "type": "float",
+          "schema": "source_predict_intercept_state_input.dst_x"
+        },
+        {
+          "name": "dst_y",
+          "type": "float",
+          "schema": "source_predict_intercept_state_input.dst_y"
+        },
+        {
+          "name": "dst_vx",
+          "type": "float",
+          "schema": "source_predict_intercept_state_input.dst_vx"
+        },
+        {
+          "name": "dst_vy",
+          "type": "float",
+          "schema": "source_predict_intercept_state_input.dst_vy"
+        },
+        {
+          "name": "bullet_speed",
+          "type": "float",
+          "schema": "source_predict_intercept_state_input.bullet_speed"
+        },
+        {
+          "name": "time_delta",
+          "type": "float",
+          "schema": "source_predict_intercept_state_input.time_delta"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "intercept_x",
+        "intercept_y",
+        "intercept_time",
+        "used_intercept"
+      ],
+      "tests": [
+        "test_c06_defense_leg_registration",
+        "test_all_c06_defense_leg_input_evidence_is_exact",
+        "test_defense_leg_reads_live_turret_and_enemy_state",
+        "test_reference_graph_and_actual_c06_defense_leg"
+      ],
+      "runtime_proof": "/root/C06DefenseProof",
+      "rule": "Source-backed C06 defense leg: the turret leads its shots at the intercept point and dead enemies are swept from the live list, so a dagger crossing the duo field of fire dies before it reaches the core."
+    },
+    "SourcePredictState.source_predict_quad_state": {
+      "status": "active",
+      "source_slice": "N2122",
+      "java_source": "core/src/mindustry/entities/Predict.java",
+      "source_method": "Predict.quad(float, float, float)",
+      "params": [
+        {
+          "name": "a",
+          "type": "float",
+          "schema": "source_predict_quad_state_input.a"
+        },
+        {
+          "name": "b",
+          "type": "float",
+          "schema": "source_predict_quad_state_input.b"
+        },
+        {
+          "name": "c",
+          "type": "float",
+          "schema": "source_predict_quad_state_input.c"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "has_roots",
+        "root0",
+        "root1"
+      ],
+      "tests": [
+        "test_c06_defense_leg_registration",
+        "test_all_c06_defense_leg_input_evidence_is_exact",
+        "test_defense_leg_reads_live_turret_and_enemy_state",
+        "test_reference_graph_and_actual_c06_defense_leg"
+      ],
+      "runtime_proof": "/root/C06DefenseProof",
+      "rule": "Source-backed C06 defense leg: the turret leads its shots at the intercept point and dead enemies are swept from the live list, so a dagger crossing the duo field of fire dies before it reaches the core."
+    },
+    "SourceTurretCombatState.source_turret_target_position_state": {
+      "status": "active",
+      "source_slice": "N2122",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.targetPosition(Posc)",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_turret_target_position_state_input.game"
+        },
+        {
+          "name": "origin",
+          "type": "Vector2",
+          "schema": "source_turret_target_position_state_input.origin"
+        },
+        {
+          "name": "target",
+          "type": "Dictionary",
+          "schema": "source_turret_target_position_state_input.target"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "target_position",
+        "used_intercept",
+        "bullet_speed"
+      ],
+      "tests": [
+        "test_c06_defense_leg_registration",
+        "test_all_c06_defense_leg_input_evidence_is_exact",
+        "test_defense_leg_reads_live_turret_and_enemy_state",
+        "test_reference_graph_and_actual_c06_defense_leg"
+      ],
+      "runtime_proof": "/root/C06DefenseProof",
+      "rule": "Source-backed C06 defense leg: the turret leads its shots at the intercept point and dead enemies are swept from the live list, so a dagger crossing the duo field of fire dies before it reaches the core."
+    },
+    "SourceEnemyUnitRuntimeState.source_enemy_units_sweep_dead_state": {
+      "status": "active",
+      "source_slice": "N2122",
+      "java_source": "core/src/mindustry/entities/comp/HealthComp.java",
+      "source_method": "HealthComp.damage(float); HealthComp.kill(); UnitComp.killed(); UnitComp.remove()",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_enemy_units_sweep_dead_state_input.game"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "swept_count",
+        "swept_health",
+        "remaining_count"
+      ],
+      "tests": [
+        "test_c06_defense_leg_registration",
+        "test_all_c06_defense_leg_input_evidence_is_exact",
+        "test_defense_leg_reads_live_turret_and_enemy_state",
+        "test_reference_graph_and_actual_c06_defense_leg"
+      ],
+      "runtime_proof": "/root/C06DefenseProof",
+      "rule": "Source-backed C06 defense leg: the turret leads its shots at the intercept point and dead enemies are swept from the live list, so a dagger crossing the duo field of fire dies before it reaches the core."
     }
   },
   "policy": {

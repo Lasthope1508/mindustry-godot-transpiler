@@ -81,6 +81,31 @@ static func turret_fire_state(cell: Vector2i, delta: float, turret, current_rota
 	var range_pixels: float = float(range_for_ammo_fn.call(turret, data)) if range_for_ammo_fn.is_valid() else 0.0
 	var target = find_enemy_target_fn.call(origin, range_pixels) if find_enemy_target_fn.is_valid() else null
 	var target_rotation: float = float(angle_to_target_fn.call(origin, target)) if angle_to_target_fn.is_valid() else current_rotation
+	if target == null:
+		# Turret.updateTile (Turret.java:569-601): the aim, the turn
+		# and the shoot gate all run inside validateTarget(), so
+		# with no target the turret holds its rotation and never
+		# fires. A null target used to read as an aim at 0 degrees,
+		# so the duo burned its 30 copper rounds into empty air
+		# before the dagger entered range and the defense leg came
+		# down to a single hit.
+		var idle_cooldown: float = maxf(0.0, cooldown - delta)
+		var idle_fire_state := {
+			"cooldown_after_tick": idle_cooldown,
+			"cooldown_after_fire": idle_cooldown,
+			"next_rotation": current_rotation,
+			"angle_delta": 0.0,
+			"within_shoot_cone": false,
+			"should_fire": false,
+		}
+		var idle_decorated_fire_state := {
+			"cell": cell,
+			"target": target,
+			"target_rotation": current_rotation,
+			"range_pixels": range_pixels,
+		}
+		idle_fire_state.merge(idle_decorated_fire_state, true)
+		return idle_fire_state
 	var fire_state := source_turret_combat_state.fire_cycle_state(
 		current_rotation,
 		target_rotation,
@@ -162,7 +187,14 @@ static func turret_shot_application_state(shot_context: Dictionary, turret_step_
 	var reload_seconds_for_ammo_fn: Callable = callbacks.get(SOURCE_TURRET_SIMULATION_RELOAD_SECONDS_FOR_AMMO_KEY, Callable())
 	var use_ammo_fn: Callable = callbacks.get(SOURCE_TURRET_SIMULATION_USE_AMMO_KEY, Callable())
 	var shoot_x_offset := float(shoot_x_offset_fn.call(cell, turret)) if shoot_x_offset_fn.is_valid() else 0.0
+	# The bullet spawns at the turret's true world position (the
+	# building's x/y), not at its grid cell: the live loop carries
+	# the game on the shot context, so the cell is converted there;
+	# a context without a game (the module proof) keeps the cell.
+	var shot_game = shot_context.get("game", null)
 	var turret_origin := Vector2(cell)
+	if shot_game != null and shot_game.has_method("grid_to_world"):
+		turret_origin = shot_game.call("grid_to_world", cell)
 	var bullet_origin_state: Dictionary = bullet_origin_fn.call(turret_origin.x, turret_origin.y, current_rotation, turret, shoot_x_offset) if bullet_origin_fn.is_valid() else {}
 	var bullet_origin := Vector2(float(bullet_origin_state.get("bulletX", turret_origin.x)), float(bullet_origin_state.get("bulletY", turret_origin.y)))
 	var shot_application := {

@@ -225142,6 +225142,358 @@
       },
       "runtime_proof": "/root/C06SessionProof",
       "rule": "Source-backed C06 session snapshot and live-loop belt tick conversion."
+    },
+    "source_predict_intercept_state_input": {
+      "status": "active",
+      "owner": "SourcePredictState.source_predict_intercept_state",
+      "source_slice": "N2122",
+      "keys": {
+        "src_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/Predict.java",
+          "java_expr": "float srcx",
+          "rule": "The shooter X (the turret world x).",
+          "used_by": [
+            "SourcePredictState.source_predict_intercept_state"
+          ]
+        },
+        "src_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/Predict.java",
+          "java_expr": "float srcy",
+          "rule": "The shooter Y (the turret world y).",
+          "used_by": [
+            "SourcePredictState.source_predict_intercept_state"
+          ]
+        },
+        "dst_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/Predict.java",
+          "java_expr": "float dstx",
+          "rule": "The target X at the call.",
+          "used_by": [
+            "SourcePredictState.source_predict_intercept_state"
+          ]
+        },
+        "dst_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/Predict.java",
+          "java_expr": "float dsty",
+          "rule": "The target Y at the call.",
+          "used_by": [
+            "SourcePredictState.source_predict_intercept_state"
+          ]
+        },
+        "dst_vx": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/Predict.java",
+          "java_expr": "float dstvx",
+          "rule": "The target X velocity as a per-frame displacement (its Hitboxc deltaX); divided by Time.delta to a per-tick velocity.",
+          "used_by": [
+            "SourcePredictState.source_predict_intercept_state"
+          ]
+        },
+        "dst_vy": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/Predict.java",
+          "java_expr": "float dstvy",
+          "rule": "The target Y velocity as a per-frame displacement (its Hitboxc deltaY); divided by Time.delta to a per-tick velocity.",
+          "used_by": [
+            "SourcePredictState.source_predict_intercept_state"
+          ]
+        },
+        "bullet_speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/Predict.java",
+          "java_expr": "float v){",
+          "rule": "The bullet speed per tick.",
+          "used_by": [
+            "SourcePredictState.source_predict_intercept_state"
+          ]
+        },
+        "time_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/Predict.java",
+          "java_expr": "dstvx /= Time.delta;",
+          "rule": "Time.delta in ticks: the frame delta scaled to 60fps ticks; the per-frame displacement is divided by it.",
+          "used_by": [
+            "SourcePredictState.source_predict_intercept_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06DefenseProof",
+      "rule": "Source-backed C06 defense leg: Predict.intercept lead targeting and the death sweep."
+    },
+    "source_predict_intercept_state_result": {
+      "status": "active",
+      "owner": "SourcePredictState.source_predict_intercept_state",
+      "source_slice": "N2122",
+      "keys": {
+        "intercept_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/Predict.java",
+          "java_expr": "sol.set(dstx + dstvx * t, dsty + dstvy * t);",
+          "rule": "The intercept X: where the target will be when the bullet arrives.",
+          "used_by": [
+            "SourcePredictState.source_predict_intercept_state"
+          ]
+        },
+        "intercept_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/Predict.java",
+          "java_expr": "sol.set(dstx + dstvx * t, dsty + dstvy * t);",
+          "rule": "The intercept Y: where the target will be when the bullet arrives.",
+          "used_by": [
+            "SourcePredictState.source_predict_intercept_state"
+          ]
+        },
+        "intercept_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/Predict.java",
+          "java_expr": "float t = Math.min(t0, t1);",
+          "rule": "The smallest positive root: the ticks until the bullet meets the target.",
+          "used_by": [
+            "SourcePredictState.source_predict_intercept_state"
+          ]
+        },
+        "used_intercept": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/Predict.java",
+          "java_expr": "if(t > 0){",
+          "rule": "True when a positive root exists and the intercept point is used; false falls back to the current position.",
+          "used_by": [
+            "SourcePredictState.source_predict_intercept_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06DefenseProof",
+      "rule": "Source-backed C06 defense leg: Predict.intercept lead targeting and the death sweep."
+    },
+    "source_predict_quad_state_input": {
+      "status": "active",
+      "owner": "SourcePredictState.source_predict_quad_state",
+      "source_slice": "N2122",
+      "keys": {
+        "a": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/Predict.java",
+          "java_expr": "float a,",
+          "rule": "The quadratic a term (dstv^2 - v^2).",
+          "used_by": [
+            "SourcePredictState.source_predict_quad_state"
+          ]
+        },
+        "b": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/Predict.java",
+          "java_expr": "float b,",
+          "rule": "The quadratic b term (2 * (dstv . t)).",
+          "used_by": [
+            "SourcePredictState.source_predict_quad_state"
+          ]
+        },
+        "c": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/Predict.java",
+          "java_expr": "float c){",
+          "rule": "The quadratic c term (t^2).",
+          "used_by": [
+            "SourcePredictState.source_predict_quad_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06DefenseProof",
+      "rule": "Source-backed C06 defense leg: Predict.intercept lead targeting and the death sweep."
+    },
+    "source_predict_quad_state_result": {
+      "status": "active",
+      "owner": "SourcePredictState.source_predict_quad_state",
+      "source_slice": "N2122",
+      "keys": {
+        "has_roots": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/Predict.java",
+          "java_expr": "if(disc >= 0){",
+          "rule": "True when the discriminant is non-negative and roots exist.",
+          "used_by": [
+            "SourcePredictState.source_predict_quad_state"
+          ]
+        },
+        "root0": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/Predict.java",
+          "java_expr": "sol = vec.set((-b - disc) / a, (-b + disc) / a);",
+          "rule": "The first root (-b - disc) / 2a.",
+          "used_by": [
+            "SourcePredictState.source_predict_quad_state"
+          ]
+        },
+        "root1": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/Predict.java",
+          "java_expr": "sol = vec.set((-b - disc) / a, (-b + disc) / a);",
+          "rule": "The second root (-b + disc) / 2a.",
+          "used_by": [
+            "SourcePredictState.source_predict_quad_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06DefenseProof",
+      "rule": "Source-backed C06 defense leg: Predict.intercept lead targeting and the death sweep."
+    },
+    "source_turret_target_position_state_input": {
+      "status": "active",
+      "owner": "SourceTurretCombatState.source_turret_target_position_state",
+      "source_slice": "N2122",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public void targetPosition(Posc pos){",
+          "rule": "The live game: the turret cell, its peeked ammo, the enemy type speed and the core position are read from it.",
+          "used_by": [
+            "SourceTurretCombatState.source_turret_target_position_state"
+          ]
+        },
+        "origin": {
+          "type": "Vector2",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "Predict.intercept(this, pos, offset.x, offset.y, bullet.speed)",
+          "rule": "The shooter: the turret build itself (`this`), passed as its grid cell and converted to its world position.",
+          "used_by": [
+            "SourceTurretCombatState.source_turret_target_position_state"
+          ]
+        },
+        "target": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "if(!hasAmmo() || pos == null) return;",
+          "rule": "The enemy target dict (sprite + type); null or ammo-less returns the current position.",
+          "used_by": [
+            "SourceTurretCombatState.source_turret_target_position_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06DefenseProof",
+      "rule": "Source-backed C06 defense leg: Predict.intercept lead targeting and the death sweep."
+    },
+    "source_turret_target_position_state_result": {
+      "status": "active",
+      "owner": "SourceTurretCombatState.source_turret_target_position_state",
+      "source_slice": "N2122",
+      "keys": {
+        "target_position": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "targetPos.set(Predict.intercept(this, pos, offset.x, offset.y, bullet.speed));",
+          "rule": "The aim point: the intercept point when predictTarget holds, else the target current position.",
+          "used_by": [
+            "SourceTurretCombatState.source_turret_target_position_state"
+          ]
+        },
+        "used_intercept": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "if(predictTarget && bullet.speed >= 0.01f){",
+          "rule": "True when the intercept ran (predictTarget and bullet.speed >= 0.01).",
+          "used_by": [
+            "SourceTurretCombatState.source_turret_target_position_state"
+          ]
+        },
+        "bullet_speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "bullet.speed >= 0.01f",
+          "rule": "The peeked bullet speed per tick; below 0.01 the aim falls back to the current position.",
+          "used_by": [
+            "SourceTurretCombatState.source_turret_target_position_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06DefenseProof",
+      "rule": "Source-backed C06 defense leg: Predict.intercept lead targeting and the death sweep."
+    },
+    "source_enemy_units_sweep_dead_state_input": {
+      "status": "active",
+      "owner": "SourceEnemyUnitRuntimeState.source_enemy_units_sweep_dead_state",
+      "source_slice": "N2122",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/HealthComp.java",
+          "java_expr": "void kill(){",
+          "rule": "The live game: its enemy list is swept for dead units.",
+          "used_by": [
+            "SourceEnemyUnitRuntimeState.source_enemy_units_sweep_dead_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06DefenseProof",
+      "rule": "Source-backed C06 defense leg: Predict.intercept lead targeting and the death sweep."
+    },
+    "source_enemy_units_sweep_dead_state_result": {
+      "status": "active",
+      "owner": "SourceEnemyUnitRuntimeState.source_enemy_units_sweep_dead_state",
+      "source_slice": "N2122",
+      "keys": {
+        "swept_count": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/HealthComp.java",
+          "java_expr": "if(health <= 0 && !dead){",
+          "rule": "How many enemies were swept this call (health <= 0 and not yet dead).",
+          "used_by": [
+            "SourceEnemyUnitRuntimeState.source_enemy_units_sweep_dead_state"
+          ]
+        },
+        "swept_health": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/HealthComp.java",
+          "java_expr": "health = Math.min(health, 0);",
+          "rule": "The summed clamped health of the swept enemies.",
+          "used_by": [
+            "SourceEnemyUnitRuntimeState.source_enemy_units_sweep_dead_state"
+          ]
+        },
+        "remaining_count": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "java_expr": "public void remove(){",
+          "rule": "How many enemies remain live after the sweep.",
+          "used_by": [
+            "SourceEnemyUnitRuntimeState.source_enemy_units_sweep_dead_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06DefenseProof",
+      "rule": "Source-backed C06 defense leg: Predict.intercept lead targeting and the death sweep."
     }
   },
   "version": 1
