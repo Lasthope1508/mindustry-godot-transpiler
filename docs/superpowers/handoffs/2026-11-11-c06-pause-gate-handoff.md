@@ -1,6 +1,6 @@
 # Handoff — N2123: C06 pause gate
 
-Date: 2026-11-11. Batch: N2123 (single slice). Status: built, registered, proof 50/50 verified, test module 4/4 standalone. **Targeted gate 5593 tests OK** (log `~/workspace/logs/targeted-n2123-n2124.log`, 1831.774s); **full Python suite 5593 tests OK** (log `~/workspace/logs/full-suite-n2123-n2124.log`, 1846.009s). Gate history: the first targeted gate run was killed by the ~12:56 +07 VM restart; re-run green on both logs. Commit: pending (this handoff's commit step).
+Date: 2026-11-11. Batch: N2123 (single slice). Status: built, registered, proof 50/50 verified, test module 4/4 standalone. **Targeted gate 5593 tests OK** (log `~/workspace/logs/targeted-n2123-n2124.log`, 1831.774s); **full Python suite 5593 tests OK** (log `~/workspace/logs/full-suite-n2123-n2124.log`, 1846.009s). Gate history: the first targeted gate run was killed by the ~12:56 +07 VM restart; re-run green on both logs. Commit: c38826d (pushed).
 
 ## What this batch is
 
@@ -40,4 +40,4 @@ Per-class shouldConsume() bodies — built alongside this batch, committed right
 
 ## Commit
 
-Stage the exact slice files only (never `*.gd.uid`, `project.godot`, `arc-upstream/`, proof `.json`): `SourceGameLoopRuntimeState.gd`, `SourcePortGameRootStatePortBridge.gd`, `SourceRuntimeOwnerGameplayRegistry.gd`, the four SSOT JSONs, `test_c06_pause_gate.py`, `register_c06_pause_gate.py`, `C06PauseProof.gd` + `.tscn`, the design spec, the report + this handoff. Gates already green (targeted + full suite 5593 OK, logs `targeted-n2123-n2124.log` / `full-suite-n2123-n2124.log`). Commit: pending, then the MEMORY.md N2123 entry.
+Stage the exact slice files only (never `*.gd.uid`, `project.godot`, `arc-upstream/`, proof `.json`): `SourceGameLoopRuntimeState.gd`, `SourcePortGameRootStatePortBridge.gd`, `SourceRuntimeOwnerGameplayRegistry.gd`, the four SSOT JSONs, `test_c06_pause_gate.py`, `register_c06_pause_gate.py`, `C06PauseProof.gd` + `.tscn`, the design spec, the report + this handoff. Gates already green (targeted + full suite 5593 OK, logs `targeted-n2123-n2124.log` / `full-suite-n2123-n2124.log`). Commit: c38826d (pushed), then the MEMORY.md N2123 entry.

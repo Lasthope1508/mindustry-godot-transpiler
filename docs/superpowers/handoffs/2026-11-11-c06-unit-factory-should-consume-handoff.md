@@ -1,6 +1,6 @@
 # Handoff — N2124: per-class shouldConsume() bodies
 
-Date: 2026-11-11. Batch: N2124 (single slice). Status: built, registered, proof 42/42 verified, test module 4/4 standalone. **Targeted gate 5593 tests OK** (log `~/workspace/logs/targeted-n2123-n2124.log`, 1831.774s); **full Python suite 5593 tests OK** (log `~/workspace/logs/full-suite-n2123-n2124.log`, 1846.009s). Joint gate with N2123: the first gate run was killed by the ~12:56 +07 VM restart; re-run green on both logs. Commit: pending (this handoff's commit step).
+Date: 2026-11-11. Batch: N2124 (single slice). Status: built, registered, proof 42/42 verified, test module 4/4 standalone. **Targeted gate 5593 tests OK** (log `~/workspace/logs/targeted-n2123-n2124.log`, 1831.774s); **full Python suite 5593 tests OK** (log `~/workspace/logs/full-suite-n2123-n2124.log`, 1846.009s). Joint gate with N2123: the first gate run was killed by the ~12:56 +07 VM restart; re-run green on both logs. Commit: 7d28b6d (pushed).
 
 ## What this batch is
 
@@ -40,4 +40,4 @@ The remaining C06 work: `ConsumeItemDynamic.trigger` at unit completion, UnitAss
 
 ## Commit
 
-Stage the exact slice files only (never `*.gd.uid`, `project.godot`, `arc-upstream/`, proof `.json`): `SourceUnitFactoryBuildState.gd`, `SourceRulesDefaults.gd`, `SourceRuntimeOwnerUnitBuildingRegistry.gd`, `UnitFactoryConsumerBindingProof.gd`, `content_registry.py`, `test_content_registry.py`, `test_unit_factory_should_consume.py`, `register_unit_factory_should_consume.py`, `C06UnitFactoryShouldConsumeProof.gd` + `.tscn`, the generated SSOT JSONs + registry + shards, the design spec, the report + this handoff. Gates already green (targeted + full suite 5593 OK, logs `targeted-n2123-n2124.log` / `full-suite-n2123-n2124.log`). Commit: pending, then the MEMORY.md N2124 entry.
+Stage the exact slice files only (never `*.gd.uid`, `project.godot`, `arc-upstream/`, proof `.json`): `SourceUnitFactoryBuildState.gd`, `SourceRulesDefaults.gd`, `SourceRuntimeOwnerUnitBuildingRegistry.gd`, `UnitFactoryConsumerBindingProof.gd`, `content_registry.py`, `test_content_registry.py`, `test_unit_factory_should_consume.py`, `register_unit_factory_should_consume.py`, `C06UnitFactoryShouldConsumeProof.gd` + `.tscn`, the generated SSOT JSONs + registry + shards, the design spec, the report + this handoff. Gates already green (targeted + full suite 5593 OK, logs `targeted-n2123-n2124.log` / `full-suite-n2123-n2124.log`). Commit: 7d28b6d (pushed), then the MEMORY.md N2124 entry.
