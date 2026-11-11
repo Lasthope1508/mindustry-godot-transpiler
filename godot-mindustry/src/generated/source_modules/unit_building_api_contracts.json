@@ -145,15 +145,19 @@
       "tests": [
         "test_all_unit_factory_consumer_binding_input_evidence_is_exact",
         "test_all_unit_factory_live_loop_input_evidence_is_exact",
+        "test_all_unit_factory_should_consume_input_evidence_is_exact",
         "test_reference_graph_and_actual_unit_factory_consumer_binding",
         "test_reference_graph_and_actual_unit_factory_live_loop",
+        "test_reference_graph_and_actual_unit_factory_should_consume",
         "test_tick_binds_runtime_consumers_for_unit_factory",
+        "test_tick_uses_per_class_should_consume_for_unit_factory",
         "test_tick_wires_frame_and_update_consumption_reads_cheating",
         "test_unit_factory_consumer_binding_registration",
-        "test_unit_factory_live_loop_registration"
+        "test_unit_factory_live_loop_registration",
+        "test_unit_factory_should_consume_registration"
       ],
       "runtime_proof": "/root/UnitFactoryLiveLoopProof",
-      "rule": "Source-backed factory family live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live rules every simulate_factory tick, so a cheating team's factory counts everything as valid in updateConsumption, and the tick binds one RuntimeConsumer per consumeItem/consumeLiquid row and per current-plan requirement through the reinitialize path and runs the bound actors through updateConsumption so the placed factory consumes its liquid rows each tick and gates efficiency on its item rows.",
+      "rule": "Source-backed factory family live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live rules every simulate_factory tick, so a cheating team's factory counts everything as valid in updateConsumption, and the tick binds one RuntimeConsumer per consumeItem/consumeLiquid row and per current-plan requirement through the reinitialize path and runs the bound actors through updateConsumption so the placed factory consumes its liquid rows each tick and gates efficiency on its item rows, with shouldConsume now the per-class body (UnitFactory plan/payload/activation, Reconstructor constructing, UnitAssembler occupied/plan/can-create/payload/item) instead of the frame enabled flag.",
       "return_type": "Dictionary"
     }
   }

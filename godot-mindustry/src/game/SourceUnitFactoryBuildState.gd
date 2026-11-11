@@ -2,6 +2,9 @@ extends RefCounted
 class_name SourceUnitFactoryBuildState
 
 const source_rules_state := preload("res://src/game/SourceRulesRuntimeState.gd")
+const source_rules_defaults := preload("res://src/game/SourceRulesDefaults.gd")
+const source_mindustry_time := preload("res://src/runtime/Time.gd")
+const source_inventory := preload("res://src/game/SourceDrillInventoryRuntimeState.gd")
 const source_placed_block_state := preload("res://src/game/SourcePlacedBlockState.gd")
 const source_block_geometry := preload("res://src/game/SourceBlockGeometry.gd")
 const source_building_efficiency_state := preload("res://src/game/SourceBuildingEfficiencyState.gd")
@@ -90,6 +93,250 @@ static func source_unit_factory_update_consumption_state(frame: Dictionary, has_
 		"should_consume_power": bool(consumption.get("should_consume_power", false)),
 	}
 
+static func _team_rules_state(rules_state: Variant, team_id: int) -> Dictionary:
+	# TeamRules.get (Rules.java:391-394) creates a fresh TeamRule for
+	# a missing team; the N2099 cheating helper reads the same way
+	# (an int key, or a string key from JSON).
+	if not rules_state is Dictionary:
+		return {}
+	var teams: Dictionary = (rules_state as Dictionary).get("teams", {})
+	if teams.has(team_id):
+		return teams[team_id]
+	if teams.has(str(team_id)):
+		return teams[str(team_id)]
+	return {}
+
+static func source_unit_factory_activate_state(rules_state: Variant, team_id: int) -> Dictionary:
+	# Team.activateUnitFactories() (Team.java:127-129): the factory
+	# activates once the game tick reaches the activation delay,
+	# `state.tick >= state.rules.unitActivationDelay(this)`.
+	# unitActivationDelay (Rules.java:315-317) is the global delay
+	# (Rules.java:93, default 0f) plus the team's own
+	# (Rules.java:351, default 0f). The tick is the live game tick:
+	# MindustryTime.time accumulates seconds since the game started
+	# (Time.gd, updated every _process), so the tick is time * 60
+	# (Arc Time.delta is seconds * 60, arc Time.java:26). A null or
+	# empty rules state is the Java `new Rules()` default, so the
+	# delay is 0 and the factory activates from tick 0.
+	var delay: float = source_rules_defaults.UNIT_FACTORY_ACTIVATION_DELAY_DEFAULT
+	if rules_state is Dictionary:
+		delay = float((rules_state as Dictionary).get("unitFactoryActivationDelay", delay))
+		delay += float(_team_rules_state(rules_state, team_id).get("unitFactoryActivationDelay", source_rules_defaults.UNIT_FACTORY_ACTIVATION_DELAY_DEFAULT))
+	var tick: float = float(source_mindustry_time.time) * source_time_defaults.TICK_RATE
+	return {
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_FACTORY_BUILD_ACTIVATE_STATE,
+		"activate_unit_factories": tick >= delay,
+		"unit_activation_delay": delay,
+		"tick": tick,
+	}
+
+static func source_unit_factory_has_upgrade_state(block: Object, payload_unit: String, rules_state: Variant, team_id: int) -> Dictionary:
+	# ReconstructorBuild.hasUpgrade (Reconstructor.java:388-391):
+	# the held unit upgrades when the block's upgrade map holds a
+	# pair for it, the upgrade target is unlocked for this team (or
+	# the team is AI-controlled), and the held unit is not banned.
+	# upgrade() (Reconstructor.java:393-396) finds the pair whose
+	# from-unit is the held type; the registry captures the map as
+	# `upgrades` (N2124 emitter change, Blocks.java
+	# `upgrades.addAll(...)`). unlockedNowHost()
+	# (UnlockableContent.java:261-263) is `!state.isCampaign() ||
+	# unlockedHost()`; isCampaign is `rules.sector != null`
+	# (GameState.java:73-75), and the port has no persistent unlock
+	# store, so a campaign session reads the Rules.researched set
+	# (Rules.java:187) from the rules state (a unit there counts as
+	# unlocked for the host). isAI() (Team.java:111-114) is
+	# `(waves || attackMode || isCampaign) && team != defaultTeam
+	# && !pvp` (Rules.java:35, 49, 41, 205: waves, attackMode and
+	# pvp default false, defaultTeam is sharded, id 1). isBanned()
+	# (Rules.java:310-312) is `unitWhitelist !=
+	# bannedUnits.contains(unit)` (Rules.java:146-147, 183:
+	# whitelist false, banned set empty by default). The unlock is
+	# checked on the upgrade TARGET and the ban on the HELD type,
+	# exactly as Java writes them. A null block, an empty payload
+	# unit, or a payload unit with no pair has no upgrade.
+	var upgrade_unit := ""
+	if block != null and payload_unit != "":
+		var upgrades: Array = block.properties.get("upgrades", [])
+		for pair in upgrades:
+			if pair is Array and (pair as Array).size() == 2 and str(pair[0]) == payload_unit:
+				upgrade_unit = str(pair[1])
+				break
+	var rules: Dictionary = {}
+	if rules_state is Dictionary:
+		rules = rules_state
+	var is_campaign: bool = rules.get("sector", null) != null
+	var researched: Array = rules.get("researched", [])
+	var unlocked: bool = not is_campaign or researched.has(upgrade_unit)
+	var default_team: int = int(rules.get("defaultTeam", 1))
+	var is_ai: bool = (bool(rules.get("waves", false)) or bool(rules.get("attackMode", false)) or is_campaign) and team_id != default_team and not bool(rules.get("pvp", false))
+	var banned_units: Array = rules.get("bannedUnits", [])
+	var banned: bool = bool(rules.get("unitWhitelist", false)) != banned_units.has(payload_unit)
+	return {
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_FACTORY_BUILD_HAS_UPGRADE_STATE,
+		"has_upgrade": upgrade_unit != "" and (unlocked or is_ai) and not banned,
+		"upgrade_unit": upgrade_unit,
+		"unlocked": unlocked,
+		"is_ai": is_ai,
+		"banned": banned,
+	}
+
+static func source_unit_factory_assembler_plan_state(block: Object, tier: int) -> Dictionary:
+	# UnitAssemblerBuild.plan() (UnitAssembler.java:386-389):
+	# `plans.get(Math.min(currentTier, plans.size - 1))` — the
+	# current tier's plan, clamped to the last plan. The registry
+	# captures the block's plans as `assemblerPlans` (N2124 emitter
+	# change, Blocks.java `plans.add(new
+	# AssemblerUnitPlan(...))`): each plan is the unit, the build
+	# time and the ConsumePayloadDynamic requirements
+	# (AssemblerUnitPlan, UnitAssembler.java:276-290). The plan's
+	# itemReq/liquidReq are null in vanilla (only the 3-arg
+	# constructor is used, UnitAssembler.java:283-287), so they read
+	# as empty here; the dynamic consumers over them are a later
+	# slice. A null block or a block without plans has no plan. A
+	# negative tier clamps to 0 (Java's currentTier never goes
+	# negative; the clamp keeps a bad frame from wrapping to the
+	# last plan the way a GDScript negative index would).
+	if block == null:
+		return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_FACTORY_BUILD_ASSEMBLER_PLAN_STATE}
+	var plans: Array = block.properties.get("assemblerPlans", [])
+	if plans.is_empty():
+		return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_FACTORY_BUILD_ASSEMBLER_PLAN_STATE}
+	var index: int = mini(maxi(tier, 0), plans.size() - 1)
+	var plan: Dictionary = plans[index]
+	return {
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_FACTORY_BUILD_ASSEMBLER_PLAN_STATE,
+		"unit": str(plan.get("unit", "")),
+		"time": float(plan.get("time", 0.0)),
+		"requirements": Array(plan.get("requirements", [])),
+		"item_req": [],
+		"liquid_req": [],
+	}
+
+static func source_unit_factory_assembler_cons_item_efficiency_state(frame: Dictionary, plan: Dictionary) -> Dictionary:
+	# ConsumeItemDynamic.efficiency (ConsumeItemDynamic.java:57-59)
+	# for the assembler's consItem (UnitAssembler.java:159:
+	# `consume(consItem = new ConsumeItemDynamic((UnitAssemblerBuild
+	# build) -> build.plan().itemReq != null ? build.plan().itemReq
+	# : ItemStack.empty))`): `consumeTriggerValid() ||
+	# items.has(itemReq at multiplier)` — consumeTriggerValid() is
+	# false (BuildingComp.java:764-766), so this is the items.has
+	# check over the plan's itemReq at the family's Rules.unitCost
+	# multiplier (the N2097 callback). Vanilla assembler plans
+	# carry no itemReq, so the check is over ItemStack.empty and the
+	# efficiency is 1.0. A plan with itemReq gates on the frame's
+	# item module holding each stack at Math.round(amount *
+	# multiplier) (the drill's RuntimeConsumer model, N2097/N2120).
+	var item_req: Array = plan.get("item_req", [])
+	if item_req.is_empty():
+		return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_FACTORY_BUILD_ASSEMBLER_CONS_ITEM_EFFICIENCY_STATE, "item_efficiency": 1.0}
+	var items: Dictionary = frame.get("items", {})
+	var multiplier: float = float(source_consume_state.source_cost_multiplier_for_block_state(frame).get("multiplier", 1.0))
+	var trigger_valid: bool = source_building_access_state.consume_trigger_valid_state()
+	var efficiency := 1.0
+	for stack in item_req:
+		if not stack is Dictionary:
+			continue
+		var required: int = int(round(float(stack.get("amount", 0)) * multiplier))
+		if not trigger_valid and source_inventory.item_count(items, str(stack.get("item", ""))) < required:
+			efficiency = 0.0
+			break
+	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_FACTORY_BUILD_ASSEMBLER_CONS_ITEM_EFFICIENCY_STATE, "item_efficiency": efficiency}
+
+static func source_unit_factory_should_consume_state(frame: Dictionary, block: Object, game: Object) -> Dictionary:
+	# The per-class shouldConsume() bodies, wired into the live loop
+	# (N2124 — the N2120 tick passed the frame's enabled flag until
+	# they landed):
+	#   UnitFactoryBuild.shouldConsume() (UnitFactory.java:445-448):
+	#     `if(currentPlan == -1) return false; return enabled &&
+	#     payload == null && team.activateUnitFactories();`
+	#   ReconstructorBuild.shouldConsume() (Reconstructor.java:367-369):
+	#     `return constructing && enabled &&
+	#     team.activateUnitFactories();` with constructing()
+	#     (:383-385) `payload != null &&
+	#     hasUpgrade(payload.unit.type)` and hasUpgrade() (:388-391).
+	#   UnitAssemblerBuild.shouldConsume() (UnitAssembler.java:389-391):
+	#     `return enabled && !wasOccupied && Units.canCreate(team,
+	#     plan().unit) && consPayload.efficiency(this) > 0 &&
+	#     consItem.efficiency(this) > 0 &&
+	#     team.activateUnitFactories();`
+	# The frame carries the Building fields Java reads:
+	# current_plan (UnitFactoryBuild.currentPlan, -1 when no plan is
+	# set), payload (UnitFactoryBuild/ReconstructorBuild.payload, the
+	# held UnitPayload — null when the building holds none; the live
+	# loop holds none until the production slice creates one at unit
+	# completion), was_occupied (UnitAssemblerBuild.wasOccupied, set
+	# by updateTile's spawn check — the port does not model the
+	# spawn-solid check yet, so the frame defaults it false) and
+	# current_tier (UnitAssemblerBuild.currentTier). The tick driver
+	# calls this every tick and passes should_consume to
+	# updateConsumption, so a plan-less factory, a payload-less
+	# reconstructor, or an occupied assembler stops consuming
+	# exactly like Java. Two assembler conjuncts are deferred to
+	# their owning slices and read from the frame with permissive
+	# defaults that preserve the current live behavior until then:
+	# Units.canCreate (Units.java:115-117) needs live per-type unit
+	# counts and the unit cap (the unit-group system, C07) —
+	# frame["can_create"], default true; consPayload.efficiency
+	# (ConsumePayloadDynamic.java:24-32) needs the building's
+	# payload module (the payload stacks held, a later slice) —
+	# frame["payload_efficiency"], default 1.0. A null block, or an
+	# implementation outside the family, consumes nothing.
+	var enabled: bool = bool(frame.get("enabled", true))
+	var team_id: int = int(frame.get("team_id", 1))
+	var rules_state: Variant = {}
+	if game != null:
+		rules_state = source_rules_state.source_game_rules_state(game.get("rules_state")).get("rules", {})
+	var activated: Dictionary = source_unit_factory_activate_state(rules_state, team_id)
+	var activate: bool = bool(activated.get("activate_unit_factories", true))
+	var result := {
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_FACTORY_BUILD_SHOULD_CONSUME_STATE,
+		"should_consume": false,
+		"enabled": enabled,
+		"current_plan": int(frame.get("current_plan", -1)),
+		"has_payload": frame.get("payload", null) != null,
+		"activate_unit_factories": activate,
+		"unit_activation_delay": float(activated.get("unit_activation_delay", 0.0)),
+		"tick": float(activated.get("tick", 0.0)),
+		"constructing": false,
+		"has_upgrade": false,
+		"upgrade_unit": "",
+		"was_occupied": false,
+		"plan_unit": "",
+		"can_create": true,
+		"payload_efficiency": 1.0,
+		"item_efficiency": 1.0,
+	}
+	var implementation: String = ""
+	if block != null:
+		implementation = str(block.implementation)
+	if implementation == "":
+		implementation = str(frame.get("block_implementation", ""))
+	if implementation == "UnitFactory":
+		result["should_consume"] = int(result["current_plan"]) != -1 and enabled and not bool(result["has_payload"]) and activate
+		return result
+	if implementation == "Reconstructor":
+		var payload: Variant = frame.get("payload", null)
+		var payload_unit := ""
+		if payload is Dictionary:
+			payload_unit = str(payload.get("unit", ""))
+		var upgrade: Dictionary = source_unit_factory_has_upgrade_state(block, payload_unit, rules_state, team_id)
+		result["constructing"] = payload != null and bool(upgrade.get("has_upgrade", false))
+		result["has_upgrade"] = bool(upgrade.get("has_upgrade", false))
+		result["upgrade_unit"] = str(upgrade.get("upgrade_unit", ""))
+		result["should_consume"] = bool(result["constructing"]) and enabled and activate
+		return result
+	if implementation == "UnitAssembler":
+		result["was_occupied"] = bool(frame.get("was_occupied", false))
+		var plan: Dictionary = source_unit_factory_assembler_plan_state(block, int(frame.get("current_tier", 0)))
+		result["plan_unit"] = str(plan.get("unit", ""))
+		var item_eff: Dictionary = source_unit_factory_assembler_cons_item_efficiency_state(frame, plan)
+		result["item_efficiency"] = float(item_eff.get("item_efficiency", 1.0))
+		result["can_create"] = bool(frame.get("can_create", true))
+		result["payload_efficiency"] = float(frame.get("payload_efficiency", 1.0))
+		result["should_consume"] = enabled and not bool(result["was_occupied"]) and activate and float(result["item_efficiency"]) > 0.0 and bool(result["can_create"]) and float(result["payload_efficiency"]) > 0.0
+		return result
+	return result
+
 static func source_unit_factory_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the factory tick wiring every tick
 	# (UnitFactoryBuild.updateTile(), UnitFactory.java:392;
@@ -144,17 +391,21 @@ static func source_unit_factory_tick_buildings_state(game: Object, seconds: floa
 		# a different block (Tile.changeBuild) or a factory whose
 		# current plan changed (UnitFactory config) drops the old
 		# block's actors and rebinds from the new rows instead of
-		# running stale actors against new rows. shouldConsume is the
-		# frame's enabled flag until the families' own shouldConsume()
-		# bodies land (UnitFactory.java:446, Reconstructor.java:368,
-		# UnitAssembler.java:389); the power consumer stays the power
-		# graph's domain (N2080/N2107) and is not bound here.
+		# running stale actors against new rows. shouldConsume is
+		# the per-class body (N2124:
+		# source_unit_factory_should_consume_state — the UnitFactory
+		# plan/payload/activation gate, the Reconstructor
+		# constructing gate, the UnitAssembler
+		# occupied/plan/can-create/payload/item gate); the power
+		# consumer stays the power graph's domain (N2080/N2107) and
+		# is not bound here.
 		frame["enabled"] = bool(frame.get("enabled", true))
 		var liquids: Dictionary = sprite.get_meta(source_placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY, {})
 		var consumer_bound: Dictionary = source_unit_factory_reinitialize_consumers_state(frame, block, catalog, liquids)
 		var rows: Array = consumer_bound.get("rows", [])
 		var consumers: Array = consumer_bound.get("consumers", [])
-		var should_consume: bool = bool(frame.get("enabled", true))
+		var should: Dictionary = source_unit_factory_should_consume_state(frame, block, game)
+		var should_consume: bool = bool(should.get("should_consume", false))
 		var valid: bool = source_building_access_state.production_valid_state()
 		var setup: Dictionary = source_building_efficiency_state.update_consumption_setup_state(should_consume, valid)
 		frame["efficiency"] = setup.get("efficiency", 1.0)

@@ -225532,6 +225532,516 @@
       },
       "runtime_proof": "/root/C06PauseProof",
       "rule": "Source-backed C06 pause gate: GameState.isPaused reads State.paused, and Logic.update runs the tick, Time.update and the entity update only while unpaused."
+    },
+    "source_unit_factory_should_consume_state_input": {
+      "status": "active",
+      "owner": "SourceUnitFactoryBuildState.source_unit_factory_should_consume_state",
+      "source_slice": "N2124",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public final Building newBuilding(){",
+          "rule": "The unit-factory frame (the port Building state); carries current_plan, payload, was_occupied, current_tier and the deferred-term inputs the bodies read.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_should_consume_state"
+          ]
+        },
+        "block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+          "java_expr": "public class UnitFactoryBuild extends UnitBuild{",
+          "rule": "The typed block definition; its implementation selects the per-class body and its registry properties carry the upgrade map and the assembler plans.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_should_consume_state"
+          ]
+        },
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Team.java",
+          "java_expr": "public boolean activateUnitFactories(){",
+          "rule": "The live game; its rules_state is what Team.activateUnitFactories() reads as state.rules.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof",
+      "rule": "Source-backed per-class shouldConsume() bodies for the UnitFactory family."
+    },
+    "source_unit_factory_should_consume_state_result": {
+      "status": "active",
+      "owner": "SourceUnitFactoryBuildState.source_unit_factory_should_consume_state",
+      "source_slice": "N2124",
+      "keys": {
+        "should_consume": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+          "java_expr": "public boolean shouldConsume(){",
+          "rule": "The per-class body for this frame and block: the UnitFactory plan/payload/activation gate, the Reconstructor constructing gate, or the UnitAssembler occupied/plan/can-create/payload/item gate.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_should_consume_state"
+          ]
+        },
+        "enabled": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+          "java_expr": "return enabled && payload == null && team.activateUnitFactories();",
+          "rule": "The frame enabled flag (BuildingComp.enabled); every body ANDs it in.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_should_consume_state"
+          ]
+        },
+        "current_plan": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+          "java_expr": "if(currentPlan == -1) return false;",
+          "rule": "The frame current plan (UnitFactoryBuild.currentPlan, -1 when no plan is set); the UnitFactory body returns false at -1.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_should_consume_state"
+          ]
+        },
+        "has_payload": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/Reconstructor.java",
+          "java_expr": "return payload != null && hasUpgrade(payload.unit.type);",
+          "rule": "Whether the frame holds a payload (UnitFactoryBuild/ReconstructorBuild.payload); the UnitFactory body needs none held and the Reconstructor body needs one held.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_should_consume_state"
+          ]
+        },
+        "activate_unit_factories": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Team.java",
+          "java_expr": "return state.tick >= state.rules.unitActivationDelay(this);",
+          "rule": "Whether the team activates factories at the live tick (Team.activateUnitFactories()).",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_should_consume_state"
+          ]
+        },
+        "unit_activation_delay": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Rules.java",
+          "java_expr": "return unitFactoryActivationDelay + teams.get(team).unitFactoryActivationDelay;",
+          "rule": "The activation delay in ticks (Rules.unitActivationDelay).",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_should_consume_state"
+          ]
+        },
+        "tick": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Team.java",
+          "java_expr": "return state.tick >= state.rules.unitActivationDelay(this);",
+          "rule": "The live game tick (state.tick, time * 60).",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_should_consume_state"
+          ]
+        },
+        "constructing": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/Reconstructor.java",
+          "java_expr": "return payload != null && hasUpgrade(payload.unit.type);",
+          "rule": "Whether the reconstructor is constructing (ReconstructorBuild.constructing()).",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_should_consume_state"
+          ]
+        },
+        "has_upgrade": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/Reconstructor.java",
+          "java_expr": "return t != null && (t.unlockedNowHost() || team.isAI()) && !type.isBanned();",
+          "rule": "Whether the held unit upgrades (ReconstructorBuild.hasUpgrade()).",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_should_consume_state"
+          ]
+        },
+        "upgrade_unit": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/Reconstructor.java",
+          "java_expr": "public UnitType upgrade(UnitType type){",
+          "rule": "The upgrade target for the held unit, or empty when the map holds no pair for it.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_should_consume_state"
+          ]
+        },
+        "was_occupied": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "return enabled && !wasOccupied && Units.canCreate(team, plan().unit) && consPayload.efficiency(this) > 0 && consItem.efficiency(this) > 0 && team.activateUnitFactories();",
+          "rule": "Whether the assembler spawn is occupied (UnitAssemblerBuild.wasOccupied).",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_should_consume_state"
+          ]
+        },
+        "plan_unit": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "public AssemblerUnitPlan plan(){",
+          "rule": "The current tier plan unit (UnitAssemblerBuild.plan().unit).",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_should_consume_state"
+          ]
+        },
+        "can_create": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/Units.java",
+          "java_expr": "public static boolean canCreate(Team team, UnitType type){",
+          "rule": "Whether the team can create the plan unit (Units.canCreate); the port has no unit counts yet, so the frame input defaults true.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_should_consume_state"
+          ]
+        },
+        "payload_efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumePayloadDynamic.java",
+          "java_expr": "public float efficiency(Building build){",
+          "rule": "The payload-consumer efficiency (ConsumePayloadDynamic.efficiency); the port has no payload module yet, so the frame input defaults 1.0.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_should_consume_state"
+          ]
+        },
+        "item_efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+          "java_expr": "return build.consumeTriggerValid() || build.items.has(items.get(build), multiplier.get(build)) ? 1f : 0f;",
+          "rule": "The item-consumer efficiency (ConsumeItemDynamic.efficiency) over the plan itemReq.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof",
+      "rule": "Source-backed per-class shouldConsume() bodies for the UnitFactory family."
+    },
+    "source_unit_factory_activate_state_input": {
+      "status": "active",
+      "owner": "SourceUnitFactoryBuildState.source_unit_factory_activate_state",
+      "source_slice": "N2124",
+      "keys": {
+        "rules_state": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Rules.java",
+          "java_expr": "return unitFactoryActivationDelay + teams.get(team).unitFactoryActivationDelay;",
+          "rule": "The live rules state (state.rules); carries the global unitFactoryActivationDelay and the per-team TeamRule.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_activate_state"
+          ]
+        },
+        "team_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Team.java",
+          "java_expr": "public boolean activateUnitFactories(){",
+          "rule": "The building team id (b.team); selects the TeamRule whose delay adds to the global one.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_activate_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof",
+      "rule": "Source-backed per-class shouldConsume() bodies for the UnitFactory family."
+    },
+    "source_unit_factory_activate_state_result": {
+      "status": "active",
+      "owner": "SourceUnitFactoryBuildState.source_unit_factory_activate_state",
+      "source_slice": "N2124",
+      "keys": {
+        "activate_unit_factories": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Team.java",
+          "java_expr": "return state.tick >= state.rules.unitActivationDelay(this);",
+          "rule": "Whether the team activates factories at the live tick.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_activate_state"
+          ]
+        },
+        "unit_activation_delay": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Rules.java",
+          "java_expr": "return unitFactoryActivationDelay + teams.get(team).unitFactoryActivationDelay;",
+          "rule": "The activation delay in ticks.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_activate_state"
+          ]
+        },
+        "tick": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Team.java",
+          "java_expr": "return state.tick >= state.rules.unitActivationDelay(this);",
+          "rule": "The live game tick (state.tick, time * 60).",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_activate_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof",
+      "rule": "Source-backed per-class shouldConsume() bodies for the UnitFactory family."
+    },
+    "source_unit_factory_has_upgrade_state_input": {
+      "status": "active",
+      "owner": "SourceUnitFactoryBuildState.source_unit_factory_has_upgrade_state",
+      "source_slice": "N2124",
+      "keys": {
+        "block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/Reconstructor.java",
+          "java_expr": "public UnitType upgrade(UnitType type){",
+          "rule": "The typed block definition; its registry `upgrades` map is what hasUpgrade() reads.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_has_upgrade_state"
+          ]
+        },
+        "payload_unit": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/Reconstructor.java",
+          "java_expr": "return payload != null && hasUpgrade(payload.unit.type);",
+          "rule": "The held payload unit type (payload.unit.type); the map pair is found by its from-unit.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_has_upgrade_state"
+          ]
+        },
+        "rules_state": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Rules.java",
+          "java_expr": "public boolean isBanned(UnitType unit){",
+          "rule": "The live rules state (state.rules); carries sector, researched, waves, attackMode, pvp, defaultTeam, unitWhitelist and bannedUnits.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_has_upgrade_state"
+          ]
+        },
+        "team_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Team.java",
+          "java_expr": "public boolean isAI(){",
+          "rule": "The building team id (b.team); isAI() is false for the default team by definition.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_has_upgrade_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof",
+      "rule": "Source-backed per-class shouldConsume() bodies for the UnitFactory family."
+    },
+    "source_unit_factory_has_upgrade_state_result": {
+      "status": "active",
+      "owner": "SourceUnitFactoryBuildState.source_unit_factory_has_upgrade_state",
+      "source_slice": "N2124",
+      "keys": {
+        "has_upgrade": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/Reconstructor.java",
+          "java_expr": "return t != null && (t.unlockedNowHost() || team.isAI()) && !type.isBanned();",
+          "rule": "Whether the held unit upgrades (ReconstructorBuild.hasUpgrade()).",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_has_upgrade_state"
+          ]
+        },
+        "upgrade_unit": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/Reconstructor.java",
+          "java_expr": "public UnitType upgrade(UnitType type){",
+          "rule": "The upgrade target for the held unit, or empty when the map holds no pair for it.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_has_upgrade_state"
+          ]
+        },
+        "unlocked": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/ctype/UnlockableContent.java",
+          "java_expr": "return !state.isCampaign() || unlockedHost();",
+          "rule": "Whether the upgrade target is unlocked for the host (UnlockableContent.unlockedNowHost()).",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_has_upgrade_state"
+          ]
+        },
+        "is_ai": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Team.java",
+          "java_expr": "return (state.rules.waves || state.rules.attackMode || state.isCampaign()) && this != state.rules.defaultTeam && !state.rules.pvp;",
+          "rule": "Whether the team is AI-controlled (Team.isAI()).",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_has_upgrade_state"
+          ]
+        },
+        "banned": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Rules.java",
+          "java_expr": "return unitWhitelist != bannedUnits.contains(unit);",
+          "rule": "Whether the held unit type is banned (Rules.isBanned).",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_has_upgrade_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof",
+      "rule": "Source-backed per-class shouldConsume() bodies for the UnitFactory family."
+    },
+    "source_unit_factory_assembler_plan_state_input": {
+      "status": "active",
+      "owner": "SourceUnitFactoryBuildState.source_unit_factory_assembler_plan_state",
+      "source_slice": "N2124",
+      "keys": {
+        "block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "public AssemblerUnitPlan plan(){",
+          "rule": "The typed block definition; its registry `assemblerPlans` are the tier plans.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_assembler_plan_state"
+          ]
+        },
+        "tier": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "return plans.get(Math.min(currentTier, plans.size - 1));",
+          "rule": "The frame current tier (UnitAssemblerBuild.currentTier); clamped to the last plan.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_assembler_plan_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof",
+      "rule": "Source-backed per-class shouldConsume() bodies for the UnitFactory family."
+    },
+    "source_unit_factory_assembler_plan_state_result": {
+      "status": "active",
+      "owner": "SourceUnitFactoryBuildState.source_unit_factory_assembler_plan_state",
+      "source_slice": "N2124",
+      "keys": {
+        "unit": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "public UnitType unit;",
+          "rule": "The plan unit type (AssemblerUnitPlan.unit).",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_assembler_plan_state"
+          ]
+        },
+        "time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "public float time;",
+          "rule": "The plan build time in ticks (AssemblerUnitPlan.time).",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_assembler_plan_state"
+          ]
+        },
+        "requirements": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "public Seq<PayloadStack> requirements;",
+          "rule": "The plan payload requirements (AssemblerUnitPlan.requirements), the ConsumePayloadDynamic rows.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_assembler_plan_state"
+          ]
+        },
+        "item_req": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "public ItemStack[] itemReq;",
+          "rule": "The plan item requirements (AssemblerUnitPlan.itemReq); empty in vanilla, so the dynamic item check reads ItemStack.empty.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_assembler_plan_state"
+          ]
+        },
+        "liquid_req": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "public LiquidStack[] liquidReq;",
+          "rule": "The plan liquid requirements (AssemblerUnitPlan.liquidReq); empty in vanilla.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_assembler_plan_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof",
+      "rule": "Source-backed per-class shouldConsume() bodies for the UnitFactory family."
+    },
+    "source_unit_factory_assembler_cons_item_efficiency_state_input": {
+      "status": "active",
+      "owner": "SourceUnitFactoryBuildState.source_unit_factory_assembler_cons_item_efficiency_state",
+      "source_slice": "N2124",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public final Building newBuilding(){",
+          "rule": "The assembler frame; carries the item module and the block_implementation/team_id/rules_state the unitCost multiplier reads.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_assembler_cons_item_efficiency_state"
+          ]
+        },
+        "plan": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "public AssemblerUnitPlan plan(){",
+          "rule": "The current tier plan (AssemblerUnitPlan); its item_req is what the dynamic item check reads.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_assembler_cons_item_efficiency_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof",
+      "rule": "Source-backed per-class shouldConsume() bodies for the UnitFactory family."
+    },
+    "source_unit_factory_assembler_cons_item_efficiency_state_result": {
+      "status": "active",
+      "owner": "SourceUnitFactoryBuildState.source_unit_factory_assembler_cons_item_efficiency_state",
+      "source_slice": "N2124",
+      "keys": {
+        "item_efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+          "java_expr": "return build.consumeTriggerValid() || build.items.has(items.get(build), multiplier.get(build)) ? 1f : 0f;",
+          "rule": "The dynamic item efficiency (ConsumeItemDynamic.efficiency): 1.0 when the frame holds every itemReq stack at the unitCost multiplier, 0.0 otherwise; 1.0 for an empty itemReq.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_assembler_cons_item_efficiency_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof",
+      "rule": "Source-backed per-class shouldConsume() bodies for the UnitFactory family."
     }
   },
   "version": 1

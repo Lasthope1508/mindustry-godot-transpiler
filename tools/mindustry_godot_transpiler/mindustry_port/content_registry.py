@@ -554,6 +554,23 @@ def _block_properties(source: str, assignment_end: int, implementation: str = ""
         unit_plans = _unit_factory_plans(initializer)
         if unit_plans:
             properties["unitPlans"] = unit_plans
+    if implementation == "Reconstructor":
+        # upgrades drives ReconstructorBuild.hasUpgrade()
+        # (Reconstructor.java:388-391): the upgrade map the
+        # constructing check reads for the held payload's unit
+        # type. N2123.
+        upgrades = _reconstructor_upgrades(initializer)
+        if upgrades:
+            properties["upgrades"] = upgrades
+    if implementation == "UnitAssembler":
+        # assemblerPlans drives UnitAssemblerBuild.plan()
+        # (UnitAssembler.java:386-389): the current tier's unit,
+        # build time and payload requirements, read by
+        # shouldConsume() (UnitAssembler.java:389-391) through
+        # plan().unit and the plan dynamics. N2123.
+        assembler_plans = _assembler_plans(initializer)
+        if assembler_plans:
+            properties["assemblerPlans"] = assembler_plans
     if implementation == "WallCrafter":
         wall_output = _wall_crafter_output(initializer, class_sources.get(implementation, "") if class_sources else "")
         if wall_output is not None:
@@ -1010,6 +1027,95 @@ def _unit_factory_plans(initializer: str) -> list[dict[str, Any]] | None:
         if plan is None:
             return None
         plans.append(plan)
+    return plans or None
+
+
+def _reconstructor_upgrades(initializer: str) -> list[list[str]] | None:
+    """Reconstructor upgrade pairs from `upgrades.addAll(new
+    UnitType[]{UnitTypes.<from>, UnitTypes.<to>}, ...);`
+    (Blocks.java: all eight Reconstructor blocks). Each pair is the
+    from/to unit of Reconstructor.upgrades (Reconstructor.java:37,
+    `public Seq<UnitType[]> upgrades`), read by upgrade()
+    (Reconstructor.java:393-396, `upgrades.find(u -> u[0] ==
+    type)`) for hasUpgrade() (Reconstructor.java:388-391). None
+    when the initializer sets no upgrades, or when any pair fails
+    to resolve."""
+    code = _strip_java_comments(initializer)
+    match = re.search(r'\bupgrades\.addAll\s*\(', code)
+    if match is None:
+        return None
+    inner = _balanced_inner(code, match.end() - 1)
+    if inner is None:
+        return None
+    upgrades: list[list[str]] = []
+    for pair_match in re.finditer(r'\bnew\s+UnitType\[\]\s*\{([^}]*)\}', inner):
+        parts = [part.strip() for part in pair_match.group(1).split(',')]
+        if len(parts) != 2:
+            return None
+        names: list[str] = []
+        for part in parts:
+            unit_match = re.match(r'UnitTypes\.([A-Za-z_]\w*)\s*$', part)
+            if unit_match is None:
+                return None
+            names.append(_camel_to_kebab(unit_match.group(1)))
+        upgrades.append(names)
+    return upgrades or None
+
+
+def _assembler_plans(initializer: str) -> list[dict[str, Any]] | None:
+    """UnitAssembler plans from `plans.add(new
+    AssemblerUnitPlan(UnitTypes.<unit>, <time>,
+    PayloadStack.list(<content>, <n>, ...)), ...);`
+    (Blocks.java: the three assemblers, two plans each). Each plan
+    is the unit, its build time and the ConsumePayloadDynamic
+    requirements for the current tier (AssemblerUnitPlan holds the
+    unit, the build time and the PayloadStack requirements;
+    UnitAssemblerBuild.plan(), UnitAssembler.java:386-389, reads
+    plans.get(min(currentTier, plans.size - 1))). The plan's
+    itemReq/liquidReq are null in vanilla (only the 3-arg
+    constructor is used), so they resolve to empty. None when the
+    initializer sets no plans, or when any plan fails to resolve."""
+    code = _strip_java_comments(initializer)
+
+    def parse_plan(plan_inner: str) -> dict[str, Any] | None:
+        args = _split_top_level(plan_inner)
+        if len(args) != 3:
+            return None
+        unit_match = re.match(r'UnitTypes\.([A-Za-z_]\w*)\s*$', args[0])
+        time_value = _numeric_expression_value(args[1])
+        list_match = re.search(r'\bPayloadStack\.list\s*\(', args[2])
+        if unit_match is None or time_value is None or list_match is None:
+            return None
+        stacks_inner = _balanced_inner(args[2], list_match.end() - 1)
+        if stacks_inner is None:
+            return None
+        parts = _split_top_level(stacks_inner)
+        if len(parts) % 2 != 0:
+            return None
+        requirements: list[dict[str, Any]] = []
+        index = 0
+        while index + 1 < len(parts):
+            content_match = re.match(r'(?:UnitTypes|Blocks)\.([A-Za-z_]\w*)\s*$', parts[index])
+            amount_match = re.match(r'([0-9_]+)\s*$', parts[index + 1])
+            if content_match is None or amount_match is None:
+                return None
+            requirements.append({'item': _camel_to_kebab(content_match.group(1)), 'amount': int(amount_match.group(1).replace('_', ''))})
+            index += 2
+        return {'unit': _camel_to_kebab(unit_match.group(1)), 'time': float(time_value), 'requirements': requirements}
+
+    plans: list[dict[str, Any]] = []
+    for add_match in re.finditer(r'\bplans\.add\s*\(', code):
+        add_inner = _balanced_inner(code, add_match.end() - 1)
+        if add_inner is None:
+            return None
+        for plan_match in re.finditer(r'\bnew\s+AssemblerUnitPlan\s*\(', add_inner):
+            plan_inner = _balanced_inner(add_inner, plan_match.end() - 1)
+            if plan_inner is None:
+                return None
+            plan = parse_plan(plan_inner)
+            if plan is None:
+                return None
+            plans.append(plan)
     return plans or None
 
 

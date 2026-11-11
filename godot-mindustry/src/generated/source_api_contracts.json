@@ -62205,15 +62205,19 @@
       "tests": [
         "test_all_unit_factory_consumer_binding_input_evidence_is_exact",
         "test_all_unit_factory_live_loop_input_evidence_is_exact",
+        "test_all_unit_factory_should_consume_input_evidence_is_exact",
         "test_reference_graph_and_actual_unit_factory_consumer_binding",
         "test_reference_graph_and_actual_unit_factory_live_loop",
+        "test_reference_graph_and_actual_unit_factory_should_consume",
         "test_tick_binds_runtime_consumers_for_unit_factory",
+        "test_tick_uses_per_class_should_consume_for_unit_factory",
         "test_tick_wires_frame_and_update_consumption_reads_cheating",
         "test_unit_factory_consumer_binding_registration",
-        "test_unit_factory_live_loop_registration"
+        "test_unit_factory_live_loop_registration",
+        "test_unit_factory_should_consume_registration"
       ],
       "runtime_proof": "/root/UnitFactoryLiveLoopProof",
-      "rule": "Source-backed factory family live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live rules every simulate_factory tick, so a cheating team's factory counts everything as valid in updateConsumption, and the tick binds one RuntimeConsumer per consumeItem/consumeLiquid row and per current-plan requirement through the reinitialize path and runs the bound actors through updateConsumption so the placed factory consumes its liquid rows each tick and gates efficiency on its item rows."
+      "rule": "Source-backed factory family live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live rules every simulate_factory tick, so a cheating team's factory counts everything as valid in updateConsumption, and the tick binds one RuntimeConsumer per consumeItem/consumeLiquid row and per current-plan requirement through the reinitialize path and runs the bound actors through updateConsumption so the placed factory consumes its liquid rows each tick and gates efficiency on its item rows, with shouldConsume now the per-class body (UnitFactory plan/payload/activation, Reconstructor constructing, UnitAssembler occupied/plan/can-create/payload/item) instead of the frame enabled flag."
     },
     "SourceUnitFactoryBuildState.source_unit_factory_update_consumption_state": {
       "status": "active",
@@ -63740,6 +63744,195 @@
       ],
       "runtime_proof": "/root/C06PauseProof",
       "rule": "Source-backed C06 pause gate: process_tick returns before Time.update and before any sim while the game is paused, so a paused game advances nothing at all."
+    },
+    "SourceUnitFactoryBuildState.source_unit_factory_should_consume_state": {
+      "status": "active",
+      "source_slice": "N2124",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+      "source_method": "UnitFactoryBuild.shouldConsume(); ReconstructorBuild.shouldConsume(); UnitAssemblerBuild.shouldConsume()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_unit_factory_should_consume_state_input.frame"
+        },
+        {
+          "name": "block",
+          "type": "Object",
+          "schema": "source_unit_factory_should_consume_state_input.block"
+        },
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_unit_factory_should_consume_state_input.game"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "should_consume",
+        "enabled",
+        "current_plan",
+        "has_payload",
+        "activate_unit_factories",
+        "unit_activation_delay",
+        "tick",
+        "constructing",
+        "has_upgrade",
+        "upgrade_unit",
+        "was_occupied",
+        "plan_unit",
+        "can_create",
+        "payload_efficiency",
+        "item_efficiency"
+      ],
+      "tests": [
+        "test_unit_factory_should_consume_registration",
+        "test_all_unit_factory_should_consume_input_evidence_is_exact",
+        "test_tick_uses_per_class_should_consume_for_unit_factory",
+        "test_reference_graph_and_actual_unit_factory_should_consume"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof",
+      "rule": "Source-backed per-class shouldConsume() bodies for the UnitFactory family; the tick driver passes the per-class body to updateConsumption instead of the frame enabled flag."
+    },
+    "SourceUnitFactoryBuildState.source_unit_factory_activate_state": {
+      "status": "active",
+      "source_slice": "N2124",
+      "java_source": "core/src/mindustry/game/Team.java",
+      "source_method": "Team.activateUnitFactories()",
+      "params": [
+        {
+          "name": "rules_state",
+          "type": "Dictionary",
+          "schema": "source_unit_factory_activate_state_input.rules_state"
+        },
+        {
+          "name": "team_id",
+          "type": "int",
+          "schema": "source_unit_factory_activate_state_input.team_id"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "activate_unit_factories",
+        "unit_activation_delay",
+        "tick"
+      ],
+      "tests": [
+        "test_unit_factory_should_consume_registration",
+        "test_all_unit_factory_should_consume_input_evidence_is_exact",
+        "test_tick_uses_per_class_should_consume_for_unit_factory",
+        "test_reference_graph_and_actual_unit_factory_should_consume"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof",
+      "rule": "Source-backed per-class shouldConsume() bodies for the UnitFactory family; the tick driver passes the per-class body to updateConsumption instead of the frame enabled flag."
+    },
+    "SourceUnitFactoryBuildState.source_unit_factory_has_upgrade_state": {
+      "status": "active",
+      "source_slice": "N2124",
+      "java_source": "core/src/mindustry/world/blocks/units/Reconstructor.java",
+      "source_method": "ReconstructorBuild.hasUpgrade()",
+      "params": [
+        {
+          "name": "block",
+          "type": "Object",
+          "schema": "source_unit_factory_has_upgrade_state_input.block"
+        },
+        {
+          "name": "payload_unit",
+          "type": "String",
+          "schema": "source_unit_factory_has_upgrade_state_input.payload_unit"
+        },
+        {
+          "name": "rules_state",
+          "type": "Dictionary",
+          "schema": "source_unit_factory_has_upgrade_state_input.rules_state"
+        },
+        {
+          "name": "team_id",
+          "type": "int",
+          "schema": "source_unit_factory_has_upgrade_state_input.team_id"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "has_upgrade",
+        "upgrade_unit",
+        "unlocked",
+        "is_ai",
+        "banned"
+      ],
+      "tests": [
+        "test_unit_factory_should_consume_registration",
+        "test_all_unit_factory_should_consume_input_evidence_is_exact",
+        "test_tick_uses_per_class_should_consume_for_unit_factory",
+        "test_reference_graph_and_actual_unit_factory_should_consume"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof",
+      "rule": "Source-backed per-class shouldConsume() bodies for the UnitFactory family; the tick driver passes the per-class body to updateConsumption instead of the frame enabled flag."
+    },
+    "SourceUnitFactoryBuildState.source_unit_factory_assembler_plan_state": {
+      "status": "active",
+      "source_slice": "N2124",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "source_method": "UnitAssemblerBuild.plan()",
+      "params": [
+        {
+          "name": "block",
+          "type": "Object",
+          "schema": "source_unit_factory_assembler_plan_state_input.block"
+        },
+        {
+          "name": "tier",
+          "type": "int",
+          "schema": "source_unit_factory_assembler_plan_state_input.tier"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "unit",
+        "time",
+        "requirements",
+        "item_req",
+        "liquid_req"
+      ],
+      "tests": [
+        "test_unit_factory_should_consume_registration",
+        "test_all_unit_factory_should_consume_input_evidence_is_exact",
+        "test_tick_uses_per_class_should_consume_for_unit_factory",
+        "test_reference_graph_and_actual_unit_factory_should_consume"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof",
+      "rule": "Source-backed per-class shouldConsume() bodies for the UnitFactory family; the tick driver passes the per-class body to updateConsumption instead of the frame enabled flag."
+    },
+    "SourceUnitFactoryBuildState.source_unit_factory_assembler_cons_item_efficiency_state": {
+      "status": "active",
+      "source_slice": "N2124",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "source_method": "ConsumeItemDynamic.efficiency()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_unit_factory_assembler_cons_item_efficiency_state_input.frame"
+        },
+        {
+          "name": "plan",
+          "type": "Dictionary",
+          "schema": "source_unit_factory_assembler_cons_item_efficiency_state_input.plan"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "item_efficiency"
+      ],
+      "tests": [
+        "test_unit_factory_should_consume_registration",
+        "test_all_unit_factory_should_consume_input_evidence_is_exact",
+        "test_tick_uses_per_class_should_consume_for_unit_factory",
+        "test_reference_graph_and_actual_unit_factory_should_consume"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof",
+      "rule": "Source-backed per-class shouldConsume() bodies for the UnitFactory family; the tick driver passes the per-class body to updateConsumption instead of the frame enabled flag."
     }
   },
   "policy": {

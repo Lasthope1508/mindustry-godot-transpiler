@@ -89,6 +89,17 @@ func _ready() -> void:
 	proof["unit_reconstructor_bind_two_actors"] = bool(reconstructor_bind.get("bound", false)) == true and Array(reconstructor_bind.get("consumers", [])).size() == 2 and Array(reconstructor_bind.get("rows", [])).size() == 2 and str(Array(reconstructor_bind.get("rows", []))[0].get("item", "")) == "silicon" and str(Array(reconstructor_bind.get("rows", []))[1].get("item", "")) == "graphite"
 	var reconstructor_rebind: Dictionary = unit_factory_build_state.source_bind_consumer_state(reconstructor_frame, blocks_by_id["additive-reconstructor"], catalog, {})
 	proof["unit_reconstructor_rebind_no_duplicate"] = bool(reconstructor_rebind.get("bound", true)) == false and Array(reconstructor_frame.get("consumers", [])).size() == 2
+	# --- N2124: the reconstructor only consumes while constructing
+	# (ReconstructorBuild.shouldConsume(), Reconstructor.java:367-369:
+	# constructing && enabled && activateUnitFactories, with
+	# constructing() `payload != null &&
+	# hasUpgrade(payload.unit.type)`), so the live section below
+	# holds a dagger payload — the additive-reconstructor upgrades
+	# dagger to mace (Blocks.java:6311-6319) — instead of the
+	# payload-less frame the old enabled-flag tick consumed for.
+	# Without it the dispatcher reads should_consume false and every
+	# reconstructor efficiency key below reads 0.
+	reconstructor_frame["payload"] = {"unit": "dagger"}
 	var assembler_frame: Dictionary = assembler.get_meta(unit_factory_build_state.SOURCE_UNIT_FACTORY_BUILDING_META_KEY, {})
 	var assembler_module: Dictionary = assembler.get_meta(placed_state.SOURCE_BUILDING_LIQUIDS_META_KEY, {})
 	liquid_module_state.source_add_state(assembler_module, cyanogen_id, 10.0, [])

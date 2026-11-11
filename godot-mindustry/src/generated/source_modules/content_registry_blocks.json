@@ -43,7 +43,37 @@
             "item": "silicon"
           }
         ],
-        "size": 3
+        "size": 3,
+        "upgrades": [
+          [
+            "nova",
+            "pulsar"
+          ],
+          [
+            "dagger",
+            "mace"
+          ],
+          [
+            "crawler",
+            "atrax"
+          ],
+          [
+            "flare",
+            "horizon"
+          ],
+          [
+            "mono",
+            "poly"
+          ],
+          [
+            "risso",
+            "minke"
+          ],
+          [
+            "retusa",
+            "oxynoe"
+          ]
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/units/additive-reconstructor.png"
     },
@@ -3523,7 +3553,37 @@
             "item": "phase-fabric"
           }
         ],
-        "size": 7
+        "size": 7,
+        "upgrades": [
+          [
+            "zenith",
+            "antumbra"
+          ],
+          [
+            "spiroct",
+            "arkyid"
+          ],
+          [
+            "fortress",
+            "scepter"
+          ],
+          [
+            "bryde",
+            "sei"
+          ],
+          [
+            "mega",
+            "quad"
+          ],
+          [
+            "quasar",
+            "vela"
+          ],
+          [
+            "cyerce",
+            "aegires"
+          ]
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/units/exponential-reconstructor.png"
     },
@@ -5508,6 +5568,36 @@
       "id": "mech-assembler",
       "implementation": "UnitAssembler",
       "properties": {
+        "assemblerPlans": [
+          {
+            "requirements": [
+              {
+                "amount": 5,
+                "item": "merui"
+              },
+              {
+                "amount": 12,
+                "item": "tungsten-wall-large"
+              }
+            ],
+            "time": 4200.0,
+            "unit": "tecta"
+          },
+          {
+            "requirements": [
+              {
+                "amount": 6,
+                "item": "cleroi"
+              },
+              {
+                "amount": 20,
+                "item": "carbide-wall-large"
+              }
+            ],
+            "time": 10800.0,
+            "unit": "collaris"
+          }
+        ],
         "cacheLayer": "normal",
         "canOverdrive": true,
         "category": "units",
@@ -5656,7 +5746,13 @@
             "item": "silicon"
           }
         ],
-        "size": 3
+        "size": 3,
+        "upgrades": [
+          [
+            "merui",
+            "cleroi"
+          ]
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/units/mech-refabricator.png"
     },
@@ -6595,7 +6691,37 @@
             "item": "thorium"
           }
         ],
-        "size": 5
+        "size": 5,
+        "upgrades": [
+          [
+            "horizon",
+            "zenith"
+          ],
+          [
+            "mace",
+            "fortress"
+          ],
+          [
+            "poly",
+            "mega"
+          ],
+          [
+            "minke",
+            "bryde"
+          ],
+          [
+            "pulsar",
+            "quasar"
+          ],
+          [
+            "atrax",
+            "spiroct"
+          ],
+          [
+            "oxynoe",
+            "cyerce"
+          ]
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/units/multiplicative-reconstructor.png"
     },
@@ -8252,7 +8378,21 @@
             "item": "silicon"
           }
         ],
-        "size": 5
+        "size": 5,
+        "upgrades": [
+          [
+            "locus",
+            "precept"
+          ],
+          [
+            "cleroi",
+            "anthicus"
+          ],
+          [
+            "avert",
+            "obviate"
+          ]
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/units/prime-refabricator.png"
     },
@@ -10121,6 +10261,36 @@
       "id": "ship-assembler",
       "implementation": "UnitAssembler",
       "properties": {
+        "assemblerPlans": [
+          {
+            "requirements": [
+              {
+                "amount": 4,
+                "item": "elude"
+              },
+              {
+                "amount": 12,
+                "item": "beryllium-wall-large"
+              }
+            ],
+            "time": 3600.0,
+            "unit": "quell"
+          },
+          {
+            "requirements": [
+              {
+                "amount": 6,
+                "item": "avert"
+              },
+              {
+                "amount": 20,
+                "item": "carbide-wall-large"
+              }
+            ],
+            "time": 10800.0,
+            "unit": "disrupt"
+          }
+        ],
         "cacheLayer": "normal",
         "canOverdrive": true,
         "category": "units",
@@ -10269,7 +10439,13 @@
             "item": "oxide"
           }
         ],
-        "size": 3
+        "size": 3,
+        "upgrades": [
+          [
+            "elude",
+            "avert"
+          ]
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/units/ship-refabricator.png"
     },
@@ -11732,6 +11908,36 @@
       "id": "tank-assembler",
       "implementation": "UnitAssembler",
       "properties": {
+        "assemblerPlans": [
+          {
+            "requirements": [
+              {
+                "amount": 4,
+                "item": "stell"
+              },
+              {
+                "amount": 10,
+                "item": "tungsten-wall-large"
+              }
+            ],
+            "time": 3000.0,
+            "unit": "vanquish"
+          },
+          {
+            "requirements": [
+              {
+                "amount": 6,
+                "item": "locus"
+              },
+              {
+                "amount": 20,
+                "item": "carbide-wall-large"
+              }
+            ],
+            "time": 10800.0,
+            "unit": "conquer"
+          }
+        ],
         "cacheLayer": "normal",
         "canOverdrive": true,
         "category": "units",
@@ -11872,7 +12078,13 @@
             "item": "silicon"
           }
         ],
-        "size": 3
+        "size": 3,
+        "upgrades": [
+          [
+            "stell",
+            "locus"
+          ]
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/units/tank-refabricator.png"
     },
@@ -11976,7 +12188,37 @@
             "item": "surge-alloy"
           }
         ],
-        "size": 9
+        "size": 9,
+        "upgrades": [
+          [
+            "antumbra",
+            "eclipse"
+          ],
+          [
+            "arkyid",
+            "toxopid"
+          ],
+          [
+            "scepter",
+            "reign"
+          ],
+          [
+            "sei",
+            "omura"
+          ],
+          [
+            "quad",
+            "oct"
+          ],
+          [
+            "vela",
+            "corvus"
+          ],
+          [
+            "aegires",
+            "navanax"
+          ]
+        ]
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/units/tetrative-reconstructor.png"
     },

@@ -169788,6 +169788,678 @@
         "test_reference_graph_and_actual_c06_pause_gate"
       ],
       "runtime_proof": "/root/C06PauseProof"
+    },
+    "source_unit_factory_should_consume_state_input.frame": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_should_consume_state",
+      "godot_symbol": "source_unit_factory_should_consume_state_input.frame",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "UnitFactoryBuild.shouldConsume(); ReconstructorBuild.shouldConsume(); UnitAssemblerBuild.shouldConsume()",
+      "java_expr": "public final Building newBuilding(){",
+      "rule": "The unit-factory frame (the port Building state); carries current_plan, payload, was_occupied, current_tier and the deferred-term inputs the bodies read.",
+      "tests": [
+        "test_unit_factory_should_consume_registration",
+        "test_all_unit_factory_should_consume_input_evidence_is_exact",
+        "test_tick_uses_per_class_should_consume_for_unit_factory",
+        "test_reference_graph_and_actual_unit_factory_should_consume"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof"
+    },
+    "source_unit_factory_should_consume_state_input.block": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_should_consume_state",
+      "godot_symbol": "source_unit_factory_should_consume_state_input.block",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+      "java_method": "UnitFactoryBuild.shouldConsume(); ReconstructorBuild.shouldConsume(); UnitAssemblerBuild.shouldConsume()",
+      "java_expr": "public class UnitFactoryBuild extends UnitBuild{",
+      "rule": "The typed block definition; its implementation selects the per-class body and its registry properties carry the upgrade map and the assembler plans.",
+      "tests": [
+        "test_unit_factory_should_consume_registration",
+        "test_all_unit_factory_should_consume_input_evidence_is_exact",
+        "test_tick_uses_per_class_should_consume_for_unit_factory",
+        "test_reference_graph_and_actual_unit_factory_should_consume"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof"
+    },
+    "source_unit_factory_should_consume_state_input.game": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_should_consume_state",
+      "godot_symbol": "source_unit_factory_should_consume_state_input.game",
+      "java_source": "core/src/mindustry/game/Team.java",
+      "java_method": "UnitFactoryBuild.shouldConsume(); ReconstructorBuild.shouldConsume(); UnitAssemblerBuild.shouldConsume()",
+      "java_expr": "public boolean activateUnitFactories(){",
+      "rule": "The live game; its rules_state is what Team.activateUnitFactories() reads as state.rules.",
+      "tests": [
+        "test_unit_factory_should_consume_registration",
+        "test_all_unit_factory_should_consume_input_evidence_is_exact",
+        "test_tick_uses_per_class_should_consume_for_unit_factory",
+        "test_reference_graph_and_actual_unit_factory_should_consume"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof"
+    },
+    "source_unit_factory_should_consume_state_result.should_consume": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_should_consume_state",
+      "godot_symbol": "source_unit_factory_should_consume_state_result.should_consume",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+      "java_method": "UnitFactoryBuild.shouldConsume(); ReconstructorBuild.shouldConsume(); UnitAssemblerBuild.shouldConsume()",
+      "java_expr": "public boolean shouldConsume(){",
+      "rule": "The per-class body for this frame and block: the UnitFactory plan/payload/activation gate, the Reconstructor constructing gate, or the UnitAssembler occupied/plan/can-create/payload/item gate.",
+      "tests": [
+        "test_unit_factory_should_consume_registration",
+        "test_all_unit_factory_should_consume_input_evidence_is_exact",
+        "test_tick_uses_per_class_should_consume_for_unit_factory",
+        "test_reference_graph_and_actual_unit_factory_should_consume"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof"
+    },
+    "source_unit_factory_should_consume_state_result.enabled": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_should_consume_state",
+      "godot_symbol": "source_unit_factory_should_consume_state_result.enabled",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+      "java_method": "UnitFactoryBuild.shouldConsume(); ReconstructorBuild.shouldConsume(); UnitAssemblerBuild.shouldConsume()",
+      "java_expr": "return enabled && payload == null && team.activateUnitFactories();",
+      "rule": "The frame enabled flag (BuildingComp.enabled); every body ANDs it in.",
+      "tests": [
+        "test_unit_factory_should_consume_registration",
+        "test_all_unit_factory_should_consume_input_evidence_is_exact",
+        "test_tick_uses_per_class_should_consume_for_unit_factory",
+        "test_reference_graph_and_actual_unit_factory_should_consume"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof"
+    },
+    "source_unit_factory_should_consume_state_result.current_plan": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_should_consume_state",
+      "godot_symbol": "source_unit_factory_should_consume_state_result.current_plan",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+      "java_method": "UnitFactoryBuild.shouldConsume(); ReconstructorBuild.shouldConsume(); UnitAssemblerBuild.shouldConsume()",
+      "java_expr": "if(currentPlan == -1) return false;",
+      "rule": "The frame current plan (UnitFactoryBuild.currentPlan, -1 when no plan is set); the UnitFactory body returns false at -1.",
+      "tests": [
+        "test_unit_factory_should_consume_registration",
+        "test_all_unit_factory_should_consume_input_evidence_is_exact",
+        "test_tick_uses_per_class_should_consume_for_unit_factory",
+        "test_reference_graph_and_actual_unit_factory_should_consume"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof"
+    },
+    "source_unit_factory_should_consume_state_result.has_payload": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_should_consume_state",
+      "godot_symbol": "source_unit_factory_should_consume_state_result.has_payload",
+      "java_source": "core/src/mindustry/world/blocks/units/Reconstructor.java",
+      "java_method": "UnitFactoryBuild.shouldConsume(); ReconstructorBuild.shouldConsume(); UnitAssemblerBuild.shouldConsume()",
+      "java_expr": "return payload != null && hasUpgrade(payload.unit.type);",
+      "rule": "Whether the frame holds a payload (UnitFactoryBuild/ReconstructorBuild.payload); the UnitFactory body needs none held and the Reconstructor body needs one held.",
+      "tests": [
+        "test_unit_factory_should_consume_registration",
+        "test_all_unit_factory_should_consume_input_evidence_is_exact",
+        "test_tick_uses_per_class_should_consume_for_unit_factory",
+        "test_reference_graph_and_actual_unit_factory_should_consume"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof"
+    },
+    "source_unit_factory_should_consume_state_result.activate_unit_factories": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_should_consume_state",
+      "godot_symbol": "source_unit_factory_should_consume_state_result.activate_unit_factories",
+      "java_source": "core/src/mindustry/game/Team.java",
+      "java_method": "UnitFactoryBuild.shouldConsume(); ReconstructorBuild.shouldConsume(); UnitAssemblerBuild.shouldConsume()",
+      "java_expr": "return state.tick >= state.rules.unitActivationDelay(this);",
+      "rule": "Whether the team activates factories at the live tick (Team.activateUnitFactories()).",
+      "tests": [
+        "test_unit_factory_should_consume_registration",
+        "test_all_unit_factory_should_consume_input_evidence_is_exact",
+        "test_tick_uses_per_class_should_consume_for_unit_factory",
+        "test_reference_graph_and_actual_unit_factory_should_consume"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof"
+    },
+    "source_unit_factory_should_consume_state_result.unit_activation_delay": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_should_consume_state",
+      "godot_symbol": "source_unit_factory_should_consume_state_result.unit_activation_delay",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_method": "UnitFactoryBuild.shouldConsume(); ReconstructorBuild.shouldConsume(); UnitAssemblerBuild.shouldConsume()",
+      "java_expr": "return unitFactoryActivationDelay + teams.get(team).unitFactoryActivationDelay;",
+      "rule": "The activation delay in ticks (Rules.unitActivationDelay).",
+      "tests": [
+        "test_unit_factory_should_consume_registration",
+        "test_all_unit_factory_should_consume_input_evidence_is_exact",
+        "test_tick_uses_per_class_should_consume_for_unit_factory",
+        "test_reference_graph_and_actual_unit_factory_should_consume"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof"
+    },
+    "source_unit_factory_should_consume_state_result.tick": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_should_consume_state",
+      "godot_symbol": "source_unit_factory_should_consume_state_result.tick",
+      "java_source": "core/src/mindustry/game/Team.java",
+      "java_method": "UnitFactoryBuild.shouldConsume(); ReconstructorBuild.shouldConsume(); UnitAssemblerBuild.shouldConsume()",
+      "java_expr": "return state.tick >= state.rules.unitActivationDelay(this);",
+      "rule": "The live game tick (state.tick, time * 60).",
+      "tests": [
+        "test_unit_factory_should_consume_registration",
+        "test_all_unit_factory_should_consume_input_evidence_is_exact",
+        "test_tick_uses_per_class_should_consume_for_unit_factory",
+        "test_reference_graph_and_actual_unit_factory_should_consume"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof"
+    },
+    "source_unit_factory_should_consume_state_result.constructing": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_should_consume_state",
+      "godot_symbol": "source_unit_factory_should_consume_state_result.constructing",
+      "java_source": "core/src/mindustry/world/blocks/units/Reconstructor.java",
+      "java_method": "UnitFactoryBuild.shouldConsume(); ReconstructorBuild.shouldConsume(); UnitAssemblerBuild.shouldConsume()",
+      "java_expr": "return payload != null && hasUpgrade(payload.unit.type);",
+      "rule": "Whether the reconstructor is constructing (ReconstructorBuild.constructing()).",
+      "tests": [
+        "test_unit_factory_should_consume_registration",
+        "test_all_unit_factory_should_consume_input_evidence_is_exact",
+        "test_tick_uses_per_class_should_consume_for_unit_factory",
+        "test_reference_graph_and_actual_unit_factory_should_consume"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof"
+    },
+    "source_unit_factory_should_consume_state_result.has_upgrade": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_should_consume_state",
+      "godot_symbol": "source_unit_factory_should_consume_state_result.has_upgrade",
+      "java_source": "core/src/mindustry/world/blocks/units/Reconstructor.java",
+      "java_method": "UnitFactoryBuild.shouldConsume(); ReconstructorBuild.shouldConsume(); UnitAssemblerBuild.shouldConsume()",
+      "java_expr": "return t != null && (t.unlockedNowHost() || team.isAI()) && !type.isBanned();",
+      "rule": "Whether the held unit upgrades (ReconstructorBuild.hasUpgrade()).",
+      "tests": [
+        "test_unit_factory_should_consume_registration",
+        "test_all_unit_factory_should_consume_input_evidence_is_exact",
+        "test_tick_uses_per_class_should_consume_for_unit_factory",
+        "test_reference_graph_and_actual_unit_factory_should_consume"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof"
+    },
+    "source_unit_factory_should_consume_state_result.upgrade_unit": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_should_consume_state",
+      "godot_symbol": "source_unit_factory_should_consume_state_result.upgrade_unit",
+      "java_source": "core/src/mindustry/world/blocks/units/Reconstructor.java",
+      "java_method": "UnitFactoryBuild.shouldConsume(); ReconstructorBuild.shouldConsume(); UnitAssemblerBuild.shouldConsume()",
+      "java_expr": "public UnitType upgrade(UnitType type){",
+      "rule": "The upgrade target for the held unit, or empty when the map holds no pair for it.",
+      "tests": [
+        "test_unit_factory_should_consume_registration",
+        "test_all_unit_factory_should_consume_input_evidence_is_exact",
+        "test_tick_uses_per_class_should_consume_for_unit_factory",
+        "test_reference_graph_and_actual_unit_factory_should_consume"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof"
+    },
+    "source_unit_factory_should_consume_state_result.was_occupied": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_should_consume_state",
+      "godot_symbol": "source_unit_factory_should_consume_state_result.was_occupied",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "java_method": "UnitFactoryBuild.shouldConsume(); ReconstructorBuild.shouldConsume(); UnitAssemblerBuild.shouldConsume()",
+      "java_expr": "return enabled && !wasOccupied && Units.canCreate(team, plan().unit) && consPayload.efficiency(this) > 0 && consItem.efficiency(this) > 0 && team.activateUnitFactories();",
+      "rule": "Whether the assembler spawn is occupied (UnitAssemblerBuild.wasOccupied).",
+      "tests": [
+        "test_unit_factory_should_consume_registration",
+        "test_all_unit_factory_should_consume_input_evidence_is_exact",
+        "test_tick_uses_per_class_should_consume_for_unit_factory",
+        "test_reference_graph_and_actual_unit_factory_should_consume"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof"
+    },
+    "source_unit_factory_should_consume_state_result.plan_unit": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_should_consume_state",
+      "godot_symbol": "source_unit_factory_should_consume_state_result.plan_unit",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "java_method": "UnitFactoryBuild.shouldConsume(); ReconstructorBuild.shouldConsume(); UnitAssemblerBuild.shouldConsume()",
+      "java_expr": "public AssemblerUnitPlan plan(){",
+      "rule": "The current tier plan unit (UnitAssemblerBuild.plan().unit).",
+      "tests": [
+        "test_unit_factory_should_consume_registration",
+        "test_all_unit_factory_should_consume_input_evidence_is_exact",
+        "test_tick_uses_per_class_should_consume_for_unit_factory",
+        "test_reference_graph_and_actual_unit_factory_should_consume"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof"
+    },
+    "source_unit_factory_should_consume_state_result.can_create": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_should_consume_state",
+      "godot_symbol": "source_unit_factory_should_consume_state_result.can_create",
+      "java_source": "core/src/mindustry/entities/Units.java",
+      "java_method": "UnitFactoryBuild.shouldConsume(); ReconstructorBuild.shouldConsume(); UnitAssemblerBuild.shouldConsume()",
+      "java_expr": "public static boolean canCreate(Team team, UnitType type){",
+      "rule": "Whether the team can create the plan unit (Units.canCreate); the port has no unit counts yet, so the frame input defaults true.",
+      "tests": [
+        "test_unit_factory_should_consume_registration",
+        "test_all_unit_factory_should_consume_input_evidence_is_exact",
+        "test_tick_uses_per_class_should_consume_for_unit_factory",
+        "test_reference_graph_and_actual_unit_factory_should_consume"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof"
+    },
+    "source_unit_factory_should_consume_state_result.payload_efficiency": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_should_consume_state",
+      "godot_symbol": "source_unit_factory_should_consume_state_result.payload_efficiency",
+      "java_source": "core/src/mindustry/world/consumers/ConsumePayloadDynamic.java",
+      "java_method": "UnitFactoryBuild.shouldConsume(); ReconstructorBuild.shouldConsume(); UnitAssemblerBuild.shouldConsume()",
+      "java_expr": "public float efficiency(Building build){",
+      "rule": "The payload-consumer efficiency (ConsumePayloadDynamic.efficiency); the port has no payload module yet, so the frame input defaults 1.0.",
+      "tests": [
+        "test_unit_factory_should_consume_registration",
+        "test_all_unit_factory_should_consume_input_evidence_is_exact",
+        "test_tick_uses_per_class_should_consume_for_unit_factory",
+        "test_reference_graph_and_actual_unit_factory_should_consume"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof"
+    },
+    "source_unit_factory_should_consume_state_result.item_efficiency": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_should_consume_state",
+      "godot_symbol": "source_unit_factory_should_consume_state_result.item_efficiency",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "java_method": "UnitFactoryBuild.shouldConsume(); ReconstructorBuild.shouldConsume(); UnitAssemblerBuild.shouldConsume()",
+      "java_expr": "return build.consumeTriggerValid() || build.items.has(items.get(build), multiplier.get(build)) ? 1f : 0f;",
+      "rule": "The item-consumer efficiency (ConsumeItemDynamic.efficiency) over the plan itemReq.",
+      "tests": [
+        "test_unit_factory_should_consume_registration",
+        "test_all_unit_factory_should_consume_input_evidence_is_exact",
+        "test_tick_uses_per_class_should_consume_for_unit_factory",
+        "test_reference_graph_and_actual_unit_factory_should_consume"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof"
+    },
+    "source_unit_factory_activate_state_input.rules_state": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_activate_state",
+      "godot_symbol": "source_unit_factory_activate_state_input.rules_state",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_method": "Team.activateUnitFactories()",
+      "java_expr": "return unitFactoryActivationDelay + teams.get(team).unitFactoryActivationDelay;",
+      "rule": "The live rules state (state.rules); carries the global unitFactoryActivationDelay and the per-team TeamRule.",
+      "tests": [
+        "test_unit_factory_should_consume_registration",
+        "test_all_unit_factory_should_consume_input_evidence_is_exact",
+        "test_tick_uses_per_class_should_consume_for_unit_factory",
+        "test_reference_graph_and_actual_unit_factory_should_consume"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof"
+    },
+    "source_unit_factory_activate_state_input.team_id": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_activate_state",
+      "godot_symbol": "source_unit_factory_activate_state_input.team_id",
+      "java_source": "core/src/mindustry/game/Team.java",
+      "java_method": "Team.activateUnitFactories()",
+      "java_expr": "public boolean activateUnitFactories(){",
+      "rule": "The building team id (b.team); selects the TeamRule whose delay adds to the global one.",
+      "tests": [
+        "test_unit_factory_should_consume_registration",
+        "test_all_unit_factory_should_consume_input_evidence_is_exact",
+        "test_tick_uses_per_class_should_consume_for_unit_factory",
+        "test_reference_graph_and_actual_unit_factory_should_consume"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof"
+    },
+    "source_unit_factory_activate_state_result.activate_unit_factories": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_activate_state",
+      "godot_symbol": "source_unit_factory_activate_state_result.activate_unit_factories",
+      "java_source": "core/src/mindustry/game/Team.java",
+      "java_method": "Team.activateUnitFactories()",
+      "java_expr": "return state.tick >= state.rules.unitActivationDelay(this);",
+      "rule": "Whether the team activates factories at the live tick.",
+      "tests": [
+        "test_unit_factory_should_consume_registration",
+        "test_all_unit_factory_should_consume_input_evidence_is_exact",
+        "test_tick_uses_per_class_should_consume_for_unit_factory",
+        "test_reference_graph_and_actual_unit_factory_should_consume"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof"
+    },
+    "source_unit_factory_activate_state_result.unit_activation_delay": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_activate_state",
+      "godot_symbol": "source_unit_factory_activate_state_result.unit_activation_delay",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_method": "Team.activateUnitFactories()",
+      "java_expr": "return unitFactoryActivationDelay + teams.get(team).unitFactoryActivationDelay;",
+      "rule": "The activation delay in ticks.",
+      "tests": [
+        "test_unit_factory_should_consume_registration",
+        "test_all_unit_factory_should_consume_input_evidence_is_exact",
+        "test_tick_uses_per_class_should_consume_for_unit_factory",
+        "test_reference_graph_and_actual_unit_factory_should_consume"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof"
+    },
+    "source_unit_factory_activate_state_result.tick": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_activate_state",
+      "godot_symbol": "source_unit_factory_activate_state_result.tick",
+      "java_source": "core/src/mindustry/game/Team.java",
+      "java_method": "Team.activateUnitFactories()",
+      "java_expr": "return state.tick >= state.rules.unitActivationDelay(this);",
+      "rule": "The live game tick (state.tick, time * 60).",
+      "tests": [
+        "test_unit_factory_should_consume_registration",
+        "test_all_unit_factory_should_consume_input_evidence_is_exact",
+        "test_tick_uses_per_class_should_consume_for_unit_factory",
+        "test_reference_graph_and_actual_unit_factory_should_consume"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof"
+    },
+    "source_unit_factory_has_upgrade_state_input.block": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_has_upgrade_state",
+      "godot_symbol": "source_unit_factory_has_upgrade_state_input.block",
+      "java_source": "core/src/mindustry/world/blocks/units/Reconstructor.java",
+      "java_method": "ReconstructorBuild.hasUpgrade()",
+      "java_expr": "public UnitType upgrade(UnitType type){",
+      "rule": "The typed block definition; its registry `upgrades` map is what hasUpgrade() reads.",
+      "tests": [
+        "test_unit_factory_should_consume_registration",
+        "test_all_unit_factory_should_consume_input_evidence_is_exact",
+        "test_tick_uses_per_class_should_consume_for_unit_factory",
+        "test_reference_graph_and_actual_unit_factory_should_consume"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof"
+    },
+    "source_unit_factory_has_upgrade_state_input.payload_unit": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_has_upgrade_state",
+      "godot_symbol": "source_unit_factory_has_upgrade_state_input.payload_unit",
+      "java_source": "core/src/mindustry/world/blocks/units/Reconstructor.java",
+      "java_method": "ReconstructorBuild.hasUpgrade()",
+      "java_expr": "return payload != null && hasUpgrade(payload.unit.type);",
+      "rule": "The held payload unit type (payload.unit.type); the map pair is found by its from-unit.",
+      "tests": [
+        "test_unit_factory_should_consume_registration",
+        "test_all_unit_factory_should_consume_input_evidence_is_exact",
+        "test_tick_uses_per_class_should_consume_for_unit_factory",
+        "test_reference_graph_and_actual_unit_factory_should_consume"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof"
+    },
+    "source_unit_factory_has_upgrade_state_input.rules_state": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_has_upgrade_state",
+      "godot_symbol": "source_unit_factory_has_upgrade_state_input.rules_state",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_method": "ReconstructorBuild.hasUpgrade()",
+      "java_expr": "public boolean isBanned(UnitType unit){",
+      "rule": "The live rules state (state.rules); carries sector, researched, waves, attackMode, pvp, defaultTeam, unitWhitelist and bannedUnits.",
+      "tests": [
+        "test_unit_factory_should_consume_registration",
+        "test_all_unit_factory_should_consume_input_evidence_is_exact",
+        "test_tick_uses_per_class_should_consume_for_unit_factory",
+        "test_reference_graph_and_actual_unit_factory_should_consume"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof"
+    },
+    "source_unit_factory_has_upgrade_state_input.team_id": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_has_upgrade_state",
+      "godot_symbol": "source_unit_factory_has_upgrade_state_input.team_id",
+      "java_source": "core/src/mindustry/game/Team.java",
+      "java_method": "ReconstructorBuild.hasUpgrade()",
+      "java_expr": "public boolean isAI(){",
+      "rule": "The building team id (b.team); isAI() is false for the default team by definition.",
+      "tests": [
+        "test_unit_factory_should_consume_registration",
+        "test_all_unit_factory_should_consume_input_evidence_is_exact",
+        "test_tick_uses_per_class_should_consume_for_unit_factory",
+        "test_reference_graph_and_actual_unit_factory_should_consume"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof"
+    },
+    "source_unit_factory_has_upgrade_state_result.has_upgrade": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_has_upgrade_state",
+      "godot_symbol": "source_unit_factory_has_upgrade_state_result.has_upgrade",
+      "java_source": "core/src/mindustry/world/blocks/units/Reconstructor.java",
+      "java_method": "ReconstructorBuild.hasUpgrade()",
+      "java_expr": "return t != null && (t.unlockedNowHost() || team.isAI()) && !type.isBanned();",
+      "rule": "Whether the held unit upgrades (ReconstructorBuild.hasUpgrade()).",
+      "tests": [
+        "test_unit_factory_should_consume_registration",
+        "test_all_unit_factory_should_consume_input_evidence_is_exact",
+        "test_tick_uses_per_class_should_consume_for_unit_factory",
+        "test_reference_graph_and_actual_unit_factory_should_consume"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof"
+    },
+    "source_unit_factory_has_upgrade_state_result.upgrade_unit": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_has_upgrade_state",
+      "godot_symbol": "source_unit_factory_has_upgrade_state_result.upgrade_unit",
+      "java_source": "core/src/mindustry/world/blocks/units/Reconstructor.java",
+      "java_method": "ReconstructorBuild.hasUpgrade()",
+      "java_expr": "public UnitType upgrade(UnitType type){",
+      "rule": "The upgrade target for the held unit, or empty when the map holds no pair for it.",
+      "tests": [
+        "test_unit_factory_should_consume_registration",
+        "test_all_unit_factory_should_consume_input_evidence_is_exact",
+        "test_tick_uses_per_class_should_consume_for_unit_factory",
+        "test_reference_graph_and_actual_unit_factory_should_consume"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof"
+    },
+    "source_unit_factory_has_upgrade_state_result.unlocked": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_has_upgrade_state",
+      "godot_symbol": "source_unit_factory_has_upgrade_state_result.unlocked",
+      "java_source": "core/src/mindustry/ctype/UnlockableContent.java",
+      "java_method": "ReconstructorBuild.hasUpgrade()",
+      "java_expr": "return !state.isCampaign() || unlockedHost();",
+      "rule": "Whether the upgrade target is unlocked for the host (UnlockableContent.unlockedNowHost()).",
+      "tests": [
+        "test_unit_factory_should_consume_registration",
+        "test_all_unit_factory_should_consume_input_evidence_is_exact",
+        "test_tick_uses_per_class_should_consume_for_unit_factory",
+        "test_reference_graph_and_actual_unit_factory_should_consume"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof"
+    },
+    "source_unit_factory_has_upgrade_state_result.is_ai": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_has_upgrade_state",
+      "godot_symbol": "source_unit_factory_has_upgrade_state_result.is_ai",
+      "java_source": "core/src/mindustry/game/Team.java",
+      "java_method": "ReconstructorBuild.hasUpgrade()",
+      "java_expr": "return (state.rules.waves || state.rules.attackMode || state.isCampaign()) && this != state.rules.defaultTeam && !state.rules.pvp;",
+      "rule": "Whether the team is AI-controlled (Team.isAI()).",
+      "tests": [
+        "test_unit_factory_should_consume_registration",
+        "test_all_unit_factory_should_consume_input_evidence_is_exact",
+        "test_tick_uses_per_class_should_consume_for_unit_factory",
+        "test_reference_graph_and_actual_unit_factory_should_consume"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof"
+    },
+    "source_unit_factory_has_upgrade_state_result.banned": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_has_upgrade_state",
+      "godot_symbol": "source_unit_factory_has_upgrade_state_result.banned",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_method": "ReconstructorBuild.hasUpgrade()",
+      "java_expr": "return unitWhitelist != bannedUnits.contains(unit);",
+      "rule": "Whether the held unit type is banned (Rules.isBanned).",
+      "tests": [
+        "test_unit_factory_should_consume_registration",
+        "test_all_unit_factory_should_consume_input_evidence_is_exact",
+        "test_tick_uses_per_class_should_consume_for_unit_factory",
+        "test_reference_graph_and_actual_unit_factory_should_consume"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof"
+    },
+    "source_unit_factory_assembler_plan_state_input.block": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_assembler_plan_state",
+      "godot_symbol": "source_unit_factory_assembler_plan_state_input.block",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "java_method": "UnitAssemblerBuild.plan()",
+      "java_expr": "public AssemblerUnitPlan plan(){",
+      "rule": "The typed block definition; its registry `assemblerPlans` are the tier plans.",
+      "tests": [
+        "test_unit_factory_should_consume_registration",
+        "test_all_unit_factory_should_consume_input_evidence_is_exact",
+        "test_tick_uses_per_class_should_consume_for_unit_factory",
+        "test_reference_graph_and_actual_unit_factory_should_consume"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof"
+    },
+    "source_unit_factory_assembler_plan_state_input.tier": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_assembler_plan_state",
+      "godot_symbol": "source_unit_factory_assembler_plan_state_input.tier",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "java_method": "UnitAssemblerBuild.plan()",
+      "java_expr": "return plans.get(Math.min(currentTier, plans.size - 1));",
+      "rule": "The frame current tier (UnitAssemblerBuild.currentTier); clamped to the last plan.",
+      "tests": [
+        "test_unit_factory_should_consume_registration",
+        "test_all_unit_factory_should_consume_input_evidence_is_exact",
+        "test_tick_uses_per_class_should_consume_for_unit_factory",
+        "test_reference_graph_and_actual_unit_factory_should_consume"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof"
+    },
+    "source_unit_factory_assembler_plan_state_result.unit": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_assembler_plan_state",
+      "godot_symbol": "source_unit_factory_assembler_plan_state_result.unit",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "java_method": "UnitAssemblerBuild.plan()",
+      "java_expr": "public UnitType unit;",
+      "rule": "The plan unit type (AssemblerUnitPlan.unit).",
+      "tests": [
+        "test_unit_factory_should_consume_registration",
+        "test_all_unit_factory_should_consume_input_evidence_is_exact",
+        "test_tick_uses_per_class_should_consume_for_unit_factory",
+        "test_reference_graph_and_actual_unit_factory_should_consume"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof"
+    },
+    "source_unit_factory_assembler_plan_state_result.time": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_assembler_plan_state",
+      "godot_symbol": "source_unit_factory_assembler_plan_state_result.time",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "java_method": "UnitAssemblerBuild.plan()",
+      "java_expr": "public float time;",
+      "rule": "The plan build time in ticks (AssemblerUnitPlan.time).",
+      "tests": [
+        "test_unit_factory_should_consume_registration",
+        "test_all_unit_factory_should_consume_input_evidence_is_exact",
+        "test_tick_uses_per_class_should_consume_for_unit_factory",
+        "test_reference_graph_and_actual_unit_factory_should_consume"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof"
+    },
+    "source_unit_factory_assembler_plan_state_result.requirements": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_assembler_plan_state",
+      "godot_symbol": "source_unit_factory_assembler_plan_state_result.requirements",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "java_method": "UnitAssemblerBuild.plan()",
+      "java_expr": "public Seq<PayloadStack> requirements;",
+      "rule": "The plan payload requirements (AssemblerUnitPlan.requirements), the ConsumePayloadDynamic rows.",
+      "tests": [
+        "test_unit_factory_should_consume_registration",
+        "test_all_unit_factory_should_consume_input_evidence_is_exact",
+        "test_tick_uses_per_class_should_consume_for_unit_factory",
+        "test_reference_graph_and_actual_unit_factory_should_consume"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof"
+    },
+    "source_unit_factory_assembler_plan_state_result.item_req": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_assembler_plan_state",
+      "godot_symbol": "source_unit_factory_assembler_plan_state_result.item_req",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "java_method": "UnitAssemblerBuild.plan()",
+      "java_expr": "public ItemStack[] itemReq;",
+      "rule": "The plan item requirements (AssemblerUnitPlan.itemReq); empty in vanilla, so the dynamic item check reads ItemStack.empty.",
+      "tests": [
+        "test_unit_factory_should_consume_registration",
+        "test_all_unit_factory_should_consume_input_evidence_is_exact",
+        "test_tick_uses_per_class_should_consume_for_unit_factory",
+        "test_reference_graph_and_actual_unit_factory_should_consume"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof"
+    },
+    "source_unit_factory_assembler_plan_state_result.liquid_req": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_assembler_plan_state",
+      "godot_symbol": "source_unit_factory_assembler_plan_state_result.liquid_req",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "java_method": "UnitAssemblerBuild.plan()",
+      "java_expr": "public LiquidStack[] liquidReq;",
+      "rule": "The plan liquid requirements (AssemblerUnitPlan.liquidReq); empty in vanilla.",
+      "tests": [
+        "test_unit_factory_should_consume_registration",
+        "test_all_unit_factory_should_consume_input_evidence_is_exact",
+        "test_tick_uses_per_class_should_consume_for_unit_factory",
+        "test_reference_graph_and_actual_unit_factory_should_consume"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof"
+    },
+    "source_unit_factory_assembler_cons_item_efficiency_state_input.frame": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_assembler_cons_item_efficiency_state",
+      "godot_symbol": "source_unit_factory_assembler_cons_item_efficiency_state_input.frame",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "ConsumeItemDynamic.efficiency()",
+      "java_expr": "public final Building newBuilding(){",
+      "rule": "The assembler frame; carries the item module and the block_implementation/team_id/rules_state the unitCost multiplier reads.",
+      "tests": [
+        "test_unit_factory_should_consume_registration",
+        "test_all_unit_factory_should_consume_input_evidence_is_exact",
+        "test_tick_uses_per_class_should_consume_for_unit_factory",
+        "test_reference_graph_and_actual_unit_factory_should_consume"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof"
+    },
+    "source_unit_factory_assembler_cons_item_efficiency_state_input.plan": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_assembler_cons_item_efficiency_state",
+      "godot_symbol": "source_unit_factory_assembler_cons_item_efficiency_state_input.plan",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "java_method": "ConsumeItemDynamic.efficiency()",
+      "java_expr": "public AssemblerUnitPlan plan(){",
+      "rule": "The current tier plan (AssemblerUnitPlan); its item_req is what the dynamic item check reads.",
+      "tests": [
+        "test_unit_factory_should_consume_registration",
+        "test_all_unit_factory_should_consume_input_evidence_is_exact",
+        "test_tick_uses_per_class_should_consume_for_unit_factory",
+        "test_reference_graph_and_actual_unit_factory_should_consume"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof"
+    },
+    "source_unit_factory_assembler_cons_item_efficiency_state_result.item_efficiency": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_assembler_cons_item_efficiency_state",
+      "godot_symbol": "source_unit_factory_assembler_cons_item_efficiency_state_result.item_efficiency",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "java_method": "ConsumeItemDynamic.efficiency()",
+      "java_expr": "return build.consumeTriggerValid() || build.items.has(items.get(build), multiplier.get(build)) ? 1f : 0f;",
+      "rule": "The dynamic item efficiency (ConsumeItemDynamic.efficiency): 1.0 when the frame holds every itemReq stack at the unitCost multiplier, 0.0 otherwise; 1.0 for an empty itemReq.",
+      "tests": [
+        "test_unit_factory_should_consume_registration",
+        "test_all_unit_factory_should_consume_input_evidence_is_exact",
+        "test_tick_uses_per_class_should_consume_for_unit_factory",
+        "test_reference_graph_and_actual_unit_factory_should_consume"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof"
     }
   },
   "version": 1

@@ -660,6 +660,94 @@ public class Blocks{
             ],
         )
 
+    def test_block_registry_captures_reconstructor_upgrades_and_assembler_plans(self):
+        # N2123: ReconstructorBuild.hasUpgrade() (Reconstructor.java:
+        # 388-391) reads the block's upgrade map, and
+        # UnitAssemblerBuild.plan() (UnitAssembler.java:386-389)
+        # reads the current tier's plan, so the registry captures
+        # `upgrades.addAll(new UnitType[]{...}, ...)` for
+        # Reconstructors and `plans.add(new
+        # AssemblerUnitPlan(...))` for UnitAssemblers; a block of
+        # the other family captures neither key.
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source = root / "upstream" / "core" / "src" / "mindustry" / "content"
+            source.mkdir(parents=True)
+            self._write_block_base(root)
+            (source / "Items.java").write_text(
+                """
+package mindustry.content;
+public class Items{
+    public static Item silicon, graphite;
+    public static void load(){
+        silicon = new Item("silicon", Color.valueOf("a6aeb5"));
+        graphite = new Item("graphite", Color.valueOf("a6aeb5"));
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            (source / "Liquids.java").write_text(
+                """
+package mindustry.content;
+public class Liquids{
+    public static Liquid cyanogen;
+    public static void load(){
+        cyanogen = new Liquid("cyanogen", Color.valueOf("596ab8"));
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            (source / "Blocks.java").write_text(
+                """
+package mindustry.content;
+public class Blocks{
+    public static Block additiveReconstructor, tankAssembler;
+    public static void load(){
+        additiveReconstructor = new Reconstructor("additive-reconstructor"){{
+            requirements(Category.units, with(Items.silicon, 90));
+            size = 3;
+            consumePower(3f);
+            consumeItems(with(Items.silicon, 40, Items.graphite, 40));
+            upgrades.addAll(
+                new UnitType[]{UnitTypes.nova, UnitTypes.pulsar},
+                new UnitType[]{UnitTypes.dagger, UnitTypes.mace}
+            );
+        }};
+        tankAssembler = new UnitAssembler("tank-assembler"){{
+            requirements(Category.units, with(Items.silicon, 650));
+            size = 5;
+            plans.add(
+            new AssemblerUnitPlan(UnitTypes.vanquish, 60f * 50f, PayloadStack.list(UnitTypes.stell, 4, Blocks.tungstenWallLarge, 10)),
+            new AssemblerUnitPlan(UnitTypes.conquer, 60f * 60f * 3f, PayloadStack.list(UnitTypes.locus, 6, Blocks.carbideWallLarge, 20))
+            );
+            consumePower(2.5f);
+            consumeLiquid(Liquids.cyanogen, 9f / 60f);
+        }};
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            registry = build_content_registry(root / "upstream", root / "godot")
+
+        by_id = {block["id"]: block for block in registry["blocks"]}
+        self.assertEqual(
+            by_id["additive-reconstructor"]["properties"].get("upgrades"),
+            [["nova", "pulsar"], ["dagger", "mace"]],
+        )
+        self.assertNotIn("assemblerPlans", by_id["additive-reconstructor"]["properties"])
+        self.assertEqual(
+            by_id["tank-assembler"]["properties"].get("assemblerPlans"),
+            [
+                {"unit": "vanquish", "time": 3000.0, "requirements": [{"item": "stell", "amount": 4}, {"item": "tungsten-wall-large", "amount": 10}]},
+                {"unit": "conquer", "time": 10800.0, "requirements": [{"item": "locus", "amount": 6}, {"item": "carbide-wall-large", "amount": 20}]},
+            ],
+        )
+        self.assertNotIn("upgrades", by_id["tank-assembler"]["properties"])
+
     def test_block_registry_captures_wall_crafter_output(self):
         # N2114: WallCrafterBuild.shouldConsume() (WallCrafter.java:246)
         # reads the block's output item against itemCapacity, so the
