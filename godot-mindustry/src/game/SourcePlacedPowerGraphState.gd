@@ -83,6 +83,43 @@ static func source_consumer_cheating_for_cell_state(game: Object, cell: Vector2i
 	var cheating: bool = bool(source_rules_state.source_team_cheating_state(rules, team_id).get("cheating", false))
 	return {"cheating": cheating, "team_id": team_id, "found": true, "reason": "live_rules"}
 
+# The per-family building-frame meta keys, in the order the
+# should-consume read tries them (one frame per sprite: drill
+# SourceDrillConsumptionRuntimeState.gd:15, turret
+# SourceTurretBuildState.gd:30, factory SourceFactoryBuildState.gd:34,
+# adjacent factory SourceAdjacentFactoryBuildState.gd:28, unit factory
+# SourceUnitFactoryBuildState.gd:28, ContinuousLiquidTurret
+# SourceContinuousLiquidTurretBuildState.gd:55).
+const SOURCE_CONSUMER_FRAME_META_KEYS := ["source_drill_building", "source_turret_building", "source_factory_building", "source_adjacent_factory_building", "source_unit_factory_building", "source_continuous_liquid_turret_building"]
+
+static func source_consumer_should_consume_for_cell_state(game: Object, cell: Vector2i) -> Dictionary:
+	# ConsumePower.requestedPower (ConsumePower.java:60-63) charges an
+	# unbuffered consumer `usage * (entity.shouldConsume() ? 1f : 0f)`,
+	# and BuildingComp.shouldConsume() (BuildingComp.java:755-757) is
+	# just `return enabled;` — while updateConsumption's disabled
+	# branch (BuildingComp.java:1952-1956) clears shouldConsumePower
+	# outright. The graph's consumer dicts are rebuilt from the
+	# catalog every frame (SourceBuildingPowerState.block_consumer_state
+	# sets both keys from static has_power/consumes_power), so a
+	# disabled lancer kept charging its full 6.0/60; this reads the
+	# placed building's live frame `enabled` flag instead, so both
+	# keys follow the frame. A building with no tick frame (conduit,
+	# core) and a cell with no sprite keep the true default — the
+	# static behavior, since their usage is 0 either way.
+	if game == null:
+		return {"should_consume": true, "shouldConsumePower": true, "found": false, "reason": "no_game"}
+	var sprite: Variant = game.call("block_sprite_at_cell", cell)
+	if sprite == null:
+		return {"should_consume": true, "shouldConsumePower": true, "found": false, "reason": "no_sprite"}
+	for meta_key in SOURCE_CONSUMER_FRAME_META_KEYS:
+		if not sprite.has_meta(meta_key):
+			continue
+		var frame: Variant = sprite.get_meta(meta_key)
+		if frame is Dictionary:
+			var enabled: bool = bool(frame.get("enabled", true))
+			return {"should_consume": enabled, "shouldConsumePower": enabled, "found": true, "reason": "live_frame"}
+	return {"should_consume": true, "shouldConsumePower": true, "found": false, "reason": "no_frame"}
+
 static func source_group_buildings_by_origin_state(placed_block_origins: Dictionary) -> Dictionary:
 	# PowerGraph.java:277-301 add(Building): each building is added
 	# once to the graph (guarded by build.power.graph != this ||

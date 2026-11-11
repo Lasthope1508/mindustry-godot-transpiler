@@ -170460,6 +170460,102 @@
         "test_reference_graph_and_actual_unit_factory_should_consume"
       ],
       "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof"
+    },
+    "source_consumer_should_consume_for_cell_state_input.game": {
+      "status": "source-backed",
+      "godot_owner": "SourcePlacedPowerGraphState.source_consumer_should_consume_for_cell_state",
+      "godot_symbol": "source_consumer_should_consume_for_cell_state_input.game",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "update",
+      "java_expr": "public void update(){",
+      "rule": "The game whose placed buildings form the power graph (PowerGraph.update runs over its consumers).",
+      "tests": [
+        "test_c06_power_should_consume_registration",
+        "test_all_c06_power_should_consume_input_evidence_is_exact",
+        "test_live_loop_stamps_consumers_with_live_should_consume",
+        "test_reference_graph_and_actual_c06_power_should_consume"
+      ],
+      "runtime_proof": "/root/C06PowerShouldConsumeProof"
+    },
+    "source_consumer_should_consume_for_cell_state_input.cell": {
+      "status": "source-backed",
+      "godot_owner": "SourcePlacedPowerGraphState.source_consumer_should_consume_for_cell_state",
+      "godot_symbol": "source_consumer_should_consume_for_cell_state_input.cell",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "update",
+      "java_expr": "public void add(Building build){",
+      "rule": "The origin cell of the placed building whose live frame enabled flag the consumer dict carries (PowerGraph.add puts each placed building in the graph once).",
+      "tests": [
+        "test_c06_power_should_consume_registration",
+        "test_all_c06_power_should_consume_input_evidence_is_exact",
+        "test_live_loop_stamps_consumers_with_live_should_consume",
+        "test_reference_graph_and_actual_c06_power_should_consume"
+      ],
+      "runtime_proof": "/root/C06PowerShouldConsumeProof"
+    },
+    "source_consumer_should_consume_for_cell_state_result.should_consume": {
+      "status": "source-backed",
+      "godot_owner": "SourcePlacedPowerGraphState.source_consumer_should_consume_for_cell_state",
+      "godot_symbol": "source_consumer_should_consume_for_cell_state_result.should_consume",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "update",
+      "java_expr": "        return enabled;",
+      "rule": "Whether the building should consume: its live frame enabled flag (BuildingComp.shouldConsume() returns enabled).",
+      "tests": [
+        "test_c06_power_should_consume_registration",
+        "test_all_c06_power_should_consume_input_evidence_is_exact",
+        "test_live_loop_stamps_consumers_with_live_should_consume",
+        "test_reference_graph_and_actual_c06_power_should_consume"
+      ],
+      "runtime_proof": "/root/C06PowerShouldConsumeProof"
+    },
+    "source_consumer_should_consume_for_cell_state_result.shouldConsumePower": {
+      "status": "source-backed",
+      "godot_owner": "SourcePlacedPowerGraphState.source_consumer_should_consume_for_cell_state",
+      "godot_symbol": "source_consumer_should_consume_for_cell_state_result.shouldConsumePower",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "update",
+      "java_expr": "            shouldConsumePower = false;",
+      "rule": "Whether the building should consume power: false when its live frame is disabled (BuildingComp.updateConsumption clears it on the disabled branch).",
+      "tests": [
+        "test_c06_power_should_consume_registration",
+        "test_all_c06_power_should_consume_input_evidence_is_exact",
+        "test_live_loop_stamps_consumers_with_live_should_consume",
+        "test_reference_graph_and_actual_c06_power_should_consume"
+      ],
+      "runtime_proof": "/root/C06PowerShouldConsumeProof"
+    },
+    "source_consumer_should_consume_for_cell_state_result.found": {
+      "status": "source-backed",
+      "godot_owner": "SourcePlacedPowerGraphState.source_consumer_should_consume_for_cell_state",
+      "godot_symbol": "source_consumer_should_consume_for_cell_state_result.found",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "update",
+      "java_expr": "public void add(Building build){",
+      "rule": "Whether a placed building frame (a graph member with a tick frame) was found at the cell.",
+      "tests": [
+        "test_c06_power_should_consume_registration",
+        "test_all_c06_power_should_consume_input_evidence_is_exact",
+        "test_live_loop_stamps_consumers_with_live_should_consume",
+        "test_reference_graph_and_actual_c06_power_should_consume"
+      ],
+      "runtime_proof": "/root/C06PowerShouldConsumeProof"
+    },
+    "source_consumer_should_consume_for_cell_state_result.reason": {
+      "status": "source-backed",
+      "godot_owner": "SourcePlacedPowerGraphState.source_consumer_should_consume_for_cell_state",
+      "godot_symbol": "source_consumer_should_consume_for_cell_state_result.reason",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "update",
+      "java_expr": "public void update(){",
+      "rule": "Why the lookup resolved the way it did (no_game/no_sprite/no_frame when no live frame was found, live_frame otherwise).",
+      "tests": [
+        "test_c06_power_should_consume_registration",
+        "test_all_c06_power_should_consume_input_evidence_is_exact",
+        "test_live_loop_stamps_consumers_with_live_should_consume",
+        "test_reference_graph_and_actual_c06_power_should_consume"
+      ],
+      "runtime_proof": "/root/C06PowerShouldConsumeProof"
     }
   },
   "version": 1

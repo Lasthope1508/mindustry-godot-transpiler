@@ -54564,6 +54564,50 @@
         "The plan stacks leave only at unit completion via ConsumeItemDynamic.trigger (ConsumeItemDynamic.java:53-56); the per-tick second pass removes nothing for items, so the production slice owns the trigger.",
         "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2125": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_class": "mindustry.world.blocks.power.PowerGraph",
+      "java_method": "update",
+      "godot_owner": "SourceFactoryRuntimeState.source_factory_update_power_graph_state",
+      "exact_exprs": [
+        "    public boolean shouldConsume(){",
+        "        return enabled;",
+        "        //disabled -> nothing works",
+        "            shouldConsumePower = false;",
+        "    transient boolean enabled = true;",
+        "    public float requestedPower(Building entity){",
+        "            usage * (entity.shouldConsume() ? 1f : 0f);",
+        "    public float getPowerNeeded(){",
+        "            if(consumer.shouldConsumePower){",
+        "                powerNeeded += consumePower.requestedPower(consumer) * consumer.delta();",
+        "        float coverage = Mathf.zero(needed) && Mathf.zero(produced) && !charged && Mathf.zero(lastPowerStored) ? 0f : Mathf.zero(needed) ? 1f : Math.min(1, produced / needed);"
+      ],
+      "source_symbols": [
+        "source_consumer_should_consume_for_cell_state_input.cell",
+        "source_consumer_should_consume_for_cell_state_input.game",
+        "source_consumer_should_consume_for_cell_state_result.found",
+        "source_consumer_should_consume_for_cell_state_result.reason",
+        "source_consumer_should_consume_for_cell_state_result.shouldConsumePower",
+        "source_consumer_should_consume_for_cell_state_result.should_consume"
+      ],
+      "tests": [
+        "test_c06_power_should_consume_registration",
+        "test_all_c06_power_should_consume_input_evidence_is_exact",
+        "test_live_loop_stamps_consumers_with_live_should_consume",
+        "test_reference_graph_and_actual_c06_power_should_consume"
+      ],
+      "runtime_proof": "/root/C06PowerShouldConsumeProof",
+      "deferred_exprs": [
+        "PowerGraph.getBatteryStored gates on battery.enabled (PowerGraph.java:118-126), but the battery has no tick frame in the port, so its live enabled flag cannot be read yet; the battery dict keeps its static enabled value.",
+        "The shouldConsumePower half that clears when a non-power consumer fails (BuildingComp.java:1971-1974, first pass) is a later slice; this slice wires only the enabled half.",
+        "ConsumeItemDynamic.trigger at unit completion (ConsumeItemDynamic.java:53-56).",
+        "UnitAssembler plan dynamics (UnitAssembler.java:158-160).",
+        "Per-building timeScale expiry plus the disabled-building updateTile gate (BuildingComp.java:2262-2276); timeScaleDuration decay already runs in simulate_block_time_scales.",
+        "Source-exhaustion/output-full acts.",
+        "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1

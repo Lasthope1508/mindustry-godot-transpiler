@@ -688,6 +688,19 @@ static func source_factory_update_power_graph_state(game: Object, delta: float) 
 		if consumer is Dictionary and consumer.get("origin_cell", null) is Vector2i:
 			var cheat_state: Dictionary = source_placed_power_graph_state.source_consumer_cheating_for_cell_state(game, consumer.get("origin_cell"))
 			consumer["cheating"] = bool(cheat_state.get("cheating", false))
+	# Stamp each consumer's live should-consume value the same way
+	# (ConsumePower.requestedPower, ConsumePower.java:60-63, charges
+	# `usage * (entity.shouldConsume() ? 1f : 0f)`, and
+	# BuildingComp.updateConsumption's disabled branch,
+	# BuildingComp.java:1952-1956, clears shouldConsumePower): the
+	# grouped dicts carry static catalog values, so a disabled
+	# building kept requesting full power. A consumer without a
+	# Vector2i origin keeps the static defaults.
+	for consumer in consumers:
+		if consumer is Dictionary and consumer.get("origin_cell", null) is Vector2i:
+			var should_state: Dictionary = source_placed_power_graph_state.source_consumer_should_consume_for_cell_state(game, consumer.get("origin_cell"))
+			consumer["should_consume"] = bool(should_state.get("should_consume", true))
+			consumer["shouldConsumePower"] = bool(should_state.get("shouldConsumePower", true))
 	var update: Dictionary = source_power_graph_state.update_state(consumers, producers, batteries, 0.0, delta, [])
 	# Write the resulting status back so the next frame reads it.
 	var updated_batteries: Array = update.get("battery_distribute_state", {}).get("batteries", [])

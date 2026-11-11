@@ -60965,16 +60965,20 @@
         "update"
       ],
       "tests": [
+        "test_all_c06_power_should_consume_input_evidence_is_exact",
         "test_all_power_graph_consumer_cheating_input_evidence_is_exact",
         "test_all_power_graph_live_update_binding_input_evidence_is_exact",
+        "test_c06_power_should_consume_registration",
         "test_live_loop_stamps_consumers_with_live_cheating",
+        "test_live_loop_stamps_consumers_with_live_should_consume",
         "test_power_graph_consumer_cheating_binding_registration",
         "test_power_graph_live_update_binding_registration",
+        "test_reference_graph_and_actual_c06_power_should_consume",
         "test_reference_graph_and_actual_power_graph_consumer_cheating",
         "test_reference_graph_and_actual_power_graph_live_update"
       ],
       "runtime_proof": "/root/PowerGraphLiveUpdateProof",
-      "rule": "Source-backed live-loop power graph update; each frame the placed graph runs PowerGraph.update(). Each grouped consumer dict is stamped with its building's live cheating value (TeamComp.cheating() from the live rules) before the update runs, so the cheat gate fires when the first consumer's team cheats."
+      "rule": "Source-backed live-loop power graph update; each frame the placed graph runs PowerGraph.update(). Each grouped consumer dict is stamped with its building's live cheating value (TeamComp.cheating() from the live rules) and with its live should_consume / shouldConsumePower values (BuildingComp.shouldConsume() from the frame enabled flag) before the update runs, so the cheat gate fires when the first consumer's team cheats and a disabled building requests no power."
     },
     "SourceWorldInitialBuildRuntimeState.source_solar_panel_placement_state": {
       "status": "active",
@@ -61869,13 +61873,17 @@
         "frame"
       ],
       "tests": [
-        "test_turret_live_loop_registration",
+        "test_all_c06_power_should_consume_input_evidence_is_exact",
         "test_all_turret_live_loop_input_evidence_is_exact",
+        "test_c06_power_should_consume_registration",
+        "test_live_loop_stamps_consumers_with_live_should_consume",
+        "test_reference_graph_and_actual_c06_power_should_consume",
+        "test_reference_graph_and_actual_turret_live_loop",
         "test_tick_wires_frame_and_use_ammo_reads_cheating",
-        "test_reference_graph_and_actual_turret_live_loop"
+        "test_turret_live_loop_registration"
       ],
       "runtime_proof": "/root/TurretLiveLoopProof",
-      "rule": "Source-backed Turret family live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live rules every simulate_factory tick, so TurretBuild.useAmmo() skips consumption for a cheating team."
+      "rule": "Source-backed turret tick frame wiring; the tick refreshes the frame keys the ammo path reads (block_implementation, team_id, rules_state, cheating from TeamComp.cheating()) and preserves the frame's enabled flag (Building.enabled, BuildingComp.java:77 \u2014 what shouldConsume() returns), so a disabled turret stays disabled across ticks and the power graph reads it live."
     },
     "SourceTurretBuildState.source_turret_bind_frame_state": {
       "status": "active",
@@ -63933,6 +63941,39 @@
       ],
       "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof",
       "rule": "Source-backed per-class shouldConsume() bodies for the UnitFactory family; the tick driver passes the per-class body to updateConsumption instead of the frame enabled flag."
+    },
+    "SourcePlacedPowerGraphState.source_consumer_should_consume_for_cell_state": {
+      "status": "active",
+      "source_slice": "N2125",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "source_method": "update",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_consumer_should_consume_for_cell_state_input.game"
+        },
+        {
+          "name": "cell",
+          "type": "Vector2i",
+          "schema": "source_consumer_should_consume_for_cell_state_input.cell"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "should_consume",
+        "shouldConsumePower",
+        "found",
+        "reason"
+      ],
+      "tests": [
+        "test_c06_power_should_consume_registration",
+        "test_all_c06_power_should_consume_input_evidence_is_exact",
+        "test_live_loop_stamps_consumers_with_live_should_consume",
+        "test_reference_graph_and_actual_c06_power_should_consume"
+      ],
+      "runtime_proof": "/root/C06PowerShouldConsumeProof",
+      "rule": "Source-backed power-graph consumer live should-consume value; the helper reads a placed building's live frame enabled flag, so the grouped consumer dict carries what ConsumePower.requestedPower() and PowerGraph.getPowerNeeded() read."
     }
   },
   "policy": {

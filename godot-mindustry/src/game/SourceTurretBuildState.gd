@@ -48,6 +48,13 @@ static func source_turret_tick_frame_state(frame: Dictionary, block_implementati
 	frame["team_id"] = team_id
 	frame["rules_state"] = rules_state
 	frame["cheating"] = bool(source_rules_state.source_team_cheating_state(rules_state, team_id).get("cheating", false))
+	# Building.enabled (BuildingComp.java:77, `transient boolean
+	# enabled = true;`) is what shouldConsume() returns
+	# (BuildingComp.java:755-757), so the power graph reads it live
+	# for this turret (N2125); the tick preserves a disabled turret
+	# instead of resetting it, the factory pattern
+	# (SourceFactoryBuildState.gd:927).
+	frame["enabled"] = bool(frame.get("enabled", true))
 	return frame
 
 static func _initial_frame() -> Dictionary:

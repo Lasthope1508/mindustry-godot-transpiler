@@ -3644,16 +3644,20 @@
         "update"
       ],
       "tests": [
+        "test_all_c06_power_should_consume_input_evidence_is_exact",
         "test_all_power_graph_consumer_cheating_input_evidence_is_exact",
         "test_all_power_graph_live_update_binding_input_evidence_is_exact",
+        "test_c06_power_should_consume_registration",
         "test_live_loop_stamps_consumers_with_live_cheating",
+        "test_live_loop_stamps_consumers_with_live_should_consume",
         "test_power_graph_consumer_cheating_binding_registration",
         "test_power_graph_live_update_binding_registration",
+        "test_reference_graph_and_actual_c06_power_should_consume",
         "test_reference_graph_and_actual_power_graph_consumer_cheating",
         "test_reference_graph_and_actual_power_graph_live_update"
       ],
       "runtime_proof": "/root/PowerGraphLiveUpdateProof",
-      "rule": "Source-backed live-loop power graph update; each frame the placed graph runs PowerGraph.update(). Each grouped consumer dict is stamped with its building's live cheating value (TeamComp.cheating() from the live rules) before the update runs, so the cheat gate fires when the first consumer's team cheats.",
+      "rule": "Source-backed live-loop power graph update; each frame the placed graph runs PowerGraph.update(). Each grouped consumer dict is stamped with its building's live cheating value (TeamComp.cheating() from the live rules) and with its live should_consume / shouldConsumePower values (BuildingComp.shouldConsume() from the frame enabled flag) before the update runs, so the cheat gate fires when the first consumer's team cheats and a disabled building requests no power.",
       "return_type": "Dictionary"
     },
     "SourcePlacedPowerGraphState.source_battery_power_status_for_cell_state": {

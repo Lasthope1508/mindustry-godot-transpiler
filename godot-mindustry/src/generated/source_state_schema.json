@@ -226042,6 +226042,84 @@
       },
       "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof",
       "rule": "Source-backed per-class shouldConsume() bodies for the UnitFactory family."
+    },
+    "source_consumer_should_consume_for_cell_state_input": {
+      "status": "active",
+      "owner": "SourcePlacedPowerGraphState.source_consumer_should_consume_for_cell_state",
+      "source_slice": "N2125",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "public void update(){",
+          "rule": "The game whose placed buildings form the power graph (PowerGraph.update runs over its consumers).",
+          "used_by": [
+            "SourcePlacedPowerGraphState.source_consumer_should_consume_for_cell_state"
+          ]
+        },
+        "cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "public void add(Building build){",
+          "rule": "The origin cell of the placed building whose live frame enabled flag the consumer dict carries (PowerGraph.add puts each placed building in the graph once).",
+          "used_by": [
+            "SourcePlacedPowerGraphState.source_consumer_should_consume_for_cell_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06PowerShouldConsumeProof",
+      "rule": "Source-backed power-graph consumer live should-consume value."
+    },
+    "source_consumer_should_consume_for_cell_state_result": {
+      "status": "active",
+      "owner": "SourcePlacedPowerGraphState.source_consumer_should_consume_for_cell_state",
+      "source_slice": "N2125",
+      "keys": {
+        "should_consume": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "        return enabled;",
+          "rule": "Whether the building should consume: its live frame enabled flag (BuildingComp.shouldConsume() returns enabled).",
+          "used_by": [
+            "SourcePlacedPowerGraphState.source_consumer_should_consume_for_cell_state"
+          ]
+        },
+        "shouldConsumePower": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "            shouldConsumePower = false;",
+          "rule": "Whether the building should consume power: false when its live frame is disabled (BuildingComp.updateConsumption clears it on the disabled branch).",
+          "used_by": [
+            "SourcePlacedPowerGraphState.source_consumer_should_consume_for_cell_state"
+          ]
+        },
+        "found": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "public void add(Building build){",
+          "rule": "Whether a placed building frame (a graph member with a tick frame) was found at the cell.",
+          "used_by": [
+            "SourcePlacedPowerGraphState.source_consumer_should_consume_for_cell_state"
+          ]
+        },
+        "reason": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "public void update(){",
+          "rule": "Why the lookup resolved the way it did (no_game/no_sprite/no_frame when no live frame was found, live_frame otherwise).",
+          "used_by": [
+            "SourcePlacedPowerGraphState.source_consumer_should_consume_for_cell_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06PowerShouldConsumeProof",
+      "rule": "Source-backed power-graph consumer live should-consume value."
     }
   },
   "version": 1
