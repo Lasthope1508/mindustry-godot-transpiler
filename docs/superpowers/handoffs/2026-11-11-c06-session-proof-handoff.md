@@ -1,6 +1,6 @@
 # Handoff — N2121: C06 session proof
 
-Date: 2026-11-11. Batch: N2121 (single slice). Status: built, registered, proof 40/40 verified, test module 4/4 standalone. **Targeted gate 5579 tests OK in 1742.901s** (log `~/workspace/logs/targeted-n2121.log`, started 06:40 +07 on the overdue boot — uptime 2:49, the expected ~05:52 restart never came and the gate survived); **full Python suite 5579 tests OK in 1736.535s** (log `~/workspace/logs/full-suite-n2121.log`). Commit: TBD (set in the docs follow-up commit after the push).
+Date: 2026-11-11. Batch: N2121 (single slice). Status: built, registered, proof 40/40 verified, test module 4/4 standalone. **Targeted gate 5579 tests OK in 1742.901s** (log `~/workspace/logs/targeted-n2121.log`, started 06:40 +07 on the overdue boot — uptime 2:49, the expected ~05:52 restart never came and the gate survived); **full Python suite 5579 tests OK in 1736.535s** (log `~/workspace/logs/full-suite-n2121.log`). Commit: `f154f06`.
 
 ## What this batch is
 
