@@ -7,6 +7,10 @@ const source_texture_runtime_state := preload("res://src/game/SourceTextureRunti
 const source_time_defaults := preload("res://src/game/SourceTimeDefaults.gd")
 const source_block_geometry := preload("res://src/game/SourceBlockGeometry.gd")
 const source_rules_state := preload("res://src/game/SourceRulesRuntimeState.gd")
+const source_factory_build_state := preload("res://src/game/SourceFactoryBuildState.gd")
+const source_adjacent_factory_build_state := preload("res://src/game/SourceAdjacentFactoryBuildState.gd")
+const source_placed_block_state := preload("res://src/game/SourcePlacedBlockState.gd")
+const source_content_registry_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
 
 static func default_callbacks_state(game: Object) -> Dictionary:
 	return {
@@ -106,6 +110,26 @@ static func source_consumer_should_consume_for_cell_state(game: Object, cell: Ve
 	# keys follow the frame. A building with no tick frame (conduit,
 	# core) and a cell with no sprite keep the true default — the
 	# static behavior, since their usage is 0 either way.
+	# The factory families read further than `enabled`: a
+	# GenericCrafter's shouldConsume() is the output-full gate
+	# (GenericCrafter.java:203-231, an output item whose held stack
+	# plus one output would exceed itemCapacity, or every output
+	# liquid full at liquidCapacity - 0.001f, stops consumption),
+	# and the adjacent family's is its own body
+	# (Separator.java:99-108 counts held items minus consume inputs
+	# against itemCapacity, WallCrafter.java:246-248, BlockProducer.
+	# java:108-110, else the Building default), so the stamp calls
+	# the family's per-class shouldConsume for `should_consume` —
+	# that is the `entity.shouldConsume()` factor
+	# ConsumePower.requestedPower reads. `shouldConsumePower` is the
+	# live updateConsumption first-pass flag the tick stamps on the
+	# frame (BuildingComp.java:1971-1974: a non-power consumer whose
+	# efficiency is at most 0.0000001f clears it — a starved factory
+	# stops drawing power even while its outputs have room); before
+	# the first tick the frame carries no such key and the flag falls
+	# back to `enabled`. The other families keep the enabled-only
+	# read: their per-class shouldConsume bodies (UnitFactory
+	# plans, N2124) are not wired to the stamp yet.
 	if game == null:
 		return {"should_consume": true, "shouldConsumePower": true, "found": false, "reason": "no_game"}
 	var sprite: Variant = game.call("block_sprite_at_cell", cell)
@@ -117,6 +141,19 @@ static func source_consumer_should_consume_for_cell_state(game: Object, cell: Ve
 		var frame: Variant = sprite.get_meta(meta_key)
 		if frame is Dictionary:
 			var enabled: bool = bool(frame.get("enabled", true))
+			if meta_key == source_factory_build_state.SOURCE_FACTORY_BUILDING_META_KEY:
+				var block: Variant = default_callbacks_state(game).get("block_from_sprite", Callable()).call(sprite)
+				var liquids: Dictionary = sprite.get_meta(source_placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY, {})
+				var liquid_ids: Dictionary = {}
+				var catalog: Variant = game.get("content_catalog")
+				if catalog != null:
+					liquid_ids = source_content_registry_state.source_liquid_catalog_state(catalog).get("liquid_id_by_name", {})
+				var should: Dictionary = source_factory_build_state.source_factory_should_consume_state(frame, block, liquids, liquid_ids)
+				return {"should_consume": bool(should.get("should_consume", enabled)), "shouldConsumePower": bool(frame.get("should_consume_power", enabled)), "found": true, "reason": "live_frame"}
+			if meta_key == source_adjacent_factory_build_state.SOURCE_ADJACENT_FACTORY_BUILDING_META_KEY:
+				var block: Variant = default_callbacks_state(game).get("block_from_sprite", Callable()).call(sprite)
+				var should: Dictionary = source_adjacent_factory_build_state.source_adjacent_factory_should_consume_state(frame, block)
+				return {"should_consume": bool(should.get("should_consume", enabled)), "shouldConsumePower": bool(frame.get("should_consume_power", enabled)), "found": true, "reason": "live_frame"}
 			return {"should_consume": enabled, "shouldConsumePower": enabled, "found": true, "reason": "live_frame"}
 	return {"should_consume": true, "shouldConsumePower": true, "found": false, "reason": "no_frame"}
 

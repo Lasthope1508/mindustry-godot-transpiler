@@ -1097,6 +1097,28 @@
       ],
       "runtime_proof": "/root/C06PowerShouldConsumeProof"
     },
+    "N2127": {
+      "canonical_ledger": "source_slice_ledger.N2127",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "update",
+      "godot_owner": "SourceFactoryRuntimeState.source_factory_update_power_graph_state",
+      "source_symbols": [
+        "source_consumer_should_consume_for_cell_state_input.cell",
+        "source_consumer_should_consume_for_cell_state_input.game",
+        "source_consumer_should_consume_for_cell_state_result.found",
+        "source_consumer_should_consume_for_cell_state_result.reason",
+        "source_consumer_should_consume_for_cell_state_result.shouldConsumePower",
+        "source_consumer_should_consume_for_cell_state_result.should_consume"
+      ],
+      "tests": [
+        "test_c06_source_exhaustion_output_full_registration",
+        "test_all_c06_source_exhaustion_output_full_input_evidence_is_exact",
+        "test_stamp_reads_factory_should_consume_and_first_pass_flag",
+        "test_reference_graph_and_actual_c06_source_exhaustion_output_full"
+      ],
+      "runtime_proof": "/root/C06SourceExhaustionProof"
+    },
     "N888": {
       "canonical_ledger": "source_slice_ledger.N888",
       "status": "done",

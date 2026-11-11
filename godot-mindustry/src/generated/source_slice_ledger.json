@@ -54649,6 +54649,50 @@
         "Source-exhaustion/output-full acts.",
         "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2127": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_class": "mindustry.world.blocks.power.PowerGraph",
+      "java_method": "update",
+      "godot_owner": "SourceFactoryRuntimeState.source_factory_update_power_graph_state",
+      "exact_exprs": [
+        "            if(cons != block.consPower && result <= 0.0000001f){",
+        "                shouldConsumePower = false;",
+        "                    if(items.get(output.item) + output.amount > itemCapacity){",
+        "                    if(liquids.get(output.liquid) >= liquidCapacity - 0.001f){",
+        "                if(allFull){",
+        "            return enabled;",
+        "            usage * (entity.shouldConsume() ? 1f : 0f);",
+        "            if(consumer.shouldConsumePower){",
+        "                powerNeeded += consumePower.requestedPower(consumer) * consumer.delta();",
+        "        return build.consumeTriggerValid() || build.items.has(items, multiplier.get(build)) ? 1f : 0f;",
+        "        return Math.min(build.liquids.get(liquid) / (amount * ed * multiplier.get(build)), 1f);",
+        "            return total < itemCapacity && enabled;"
+      ],
+      "source_symbols": [
+        "source_consumer_should_consume_for_cell_state_input.cell",
+        "source_consumer_should_consume_for_cell_state_input.game",
+        "source_consumer_should_consume_for_cell_state_result.found",
+        "source_consumer_should_consume_for_cell_state_result.reason",
+        "source_consumer_should_consume_for_cell_state_result.shouldConsumePower",
+        "source_consumer_should_consume_for_cell_state_result.should_consume"
+      ],
+      "tests": [
+        "test_c06_source_exhaustion_output_full_registration",
+        "test_all_c06_source_exhaustion_output_full_input_evidence_is_exact",
+        "test_stamp_reads_factory_should_consume_and_first_pass_flag",
+        "test_reference_graph_and_actual_c06_source_exhaustion_output_full"
+      ],
+      "runtime_proof": "/root/C06SourceExhaustionProof",
+      "deferred_exprs": [
+        "The unit-factory frames keep the N2125 enabled-only stamp: their per-class shouldConsume bodies (UnitFactory.java:445-448, Reconstructor.java:367-369, UnitAssembler.java:389-391, N2124) are plan-gated, and wiring them to the power stamp needs a unit-factory proof setup of its own.",
+        "PowerGraph.getBatteryStored gates on battery.enabled (PowerGraph.java:118-126), but the battery has no tick frame in the port, so its live enabled flag cannot be read yet; the battery dict keeps its static enabled value.",
+        "A disabled conveyor reads efficiency 0 in Java (BuildingComp.java:1943-1948) but the port carries no per-belt efficiency yet, so a disabled belt still advances.",
+        "ConsumeItemDynamic.trigger at unit completion (ConsumeItemDynamic.java:53-56).",
+        "UnitAssembler plan dynamics (UnitAssembler.java:158-160).",
+        "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1

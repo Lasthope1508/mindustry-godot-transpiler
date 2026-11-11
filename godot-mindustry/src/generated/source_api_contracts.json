@@ -60974,19 +60974,23 @@
       ],
       "tests": [
         "test_all_c06_power_should_consume_input_evidence_is_exact",
+        "test_all_c06_source_exhaustion_output_full_input_evidence_is_exact",
         "test_all_power_graph_consumer_cheating_input_evidence_is_exact",
         "test_all_power_graph_live_update_binding_input_evidence_is_exact",
         "test_c06_power_should_consume_registration",
+        "test_c06_source_exhaustion_output_full_registration",
         "test_live_loop_stamps_consumers_with_live_cheating",
         "test_live_loop_stamps_consumers_with_live_should_consume",
         "test_power_graph_consumer_cheating_binding_registration",
         "test_power_graph_live_update_binding_registration",
         "test_reference_graph_and_actual_c06_power_should_consume",
+        "test_reference_graph_and_actual_c06_source_exhaustion_output_full",
         "test_reference_graph_and_actual_power_graph_consumer_cheating",
-        "test_reference_graph_and_actual_power_graph_live_update"
+        "test_reference_graph_and_actual_power_graph_live_update",
+        "test_stamp_reads_factory_should_consume_and_first_pass_flag"
       ],
       "runtime_proof": "/root/PowerGraphLiveUpdateProof",
-      "rule": "Source-backed live-loop power graph update; each frame the placed graph runs PowerGraph.update(). Each grouped consumer dict is stamped with its building's live cheating value (TeamComp.cheating() from the live rules) and with its live should_consume / shouldConsumePower values (BuildingComp.shouldConsume() from the frame enabled flag) before the update runs, so the cheat gate fires when the first consumer's team cheats and a disabled building requests no power."
+      "rule": "Source-backed live-loop power graph update; each frame the placed graph runs PowerGraph.update(). Each grouped consumer dict is stamped with its building's live cheating value (TeamComp.cheating() from the live rules) and with its live should_consume / shouldConsumePower values (BuildingComp.shouldConsume() from the frame enabled flag) before the update runs, so the cheat gate fires when the first consumer's team cheats and a disabled building requests no power. For a factory-family frame the stamp is the family's per-class shouldConsume() body (the output-full gate) and the frame's live updateConsumption first-pass should_consume_power flag (false when a non-power consumer fails), so a starved or output-full factory stops drawing power."
     },
     "SourceWorldInitialBuildRuntimeState.source_solar_panel_placement_state": {
       "status": "active",
@@ -63981,13 +63985,17 @@
         "reason"
       ],
       "tests": [
-        "test_c06_power_should_consume_registration",
         "test_all_c06_power_should_consume_input_evidence_is_exact",
+        "test_all_c06_source_exhaustion_output_full_input_evidence_is_exact",
+        "test_c06_power_should_consume_registration",
+        "test_c06_source_exhaustion_output_full_registration",
         "test_live_loop_stamps_consumers_with_live_should_consume",
-        "test_reference_graph_and_actual_c06_power_should_consume"
+        "test_reference_graph_and_actual_c06_power_should_consume",
+        "test_reference_graph_and_actual_c06_source_exhaustion_output_full",
+        "test_stamp_reads_factory_should_consume_and_first_pass_flag"
       ],
       "runtime_proof": "/root/C06PowerShouldConsumeProof",
-      "rule": "Source-backed power-graph consumer live should-consume value; the helper reads a placed building's live frame enabled flag, so the grouped consumer dict carries what ConsumePower.requestedPower() and PowerGraph.getPowerNeeded() read."
+      "rule": "Source-backed power-graph consumer live should-consume value; the helper reads a placed building's live frame enabled flag, so the grouped consumer dict carries what ConsumePower.requestedPower() and PowerGraph.getPowerNeeded() read. For a factory-family frame the should_consume value is the family's per-class shouldConsume() body \u2014 the GenericCrafter output-full gate (an output item over itemCapacity, or every output liquid full) or the adjacent family's own body \u2014 and shouldConsumePower is the frame's live updateConsumption first-pass flag, false when a non-power consumer fails (source exhaustion) and true when cheating or no consumer fails."
     }
   },
   "policy": {
