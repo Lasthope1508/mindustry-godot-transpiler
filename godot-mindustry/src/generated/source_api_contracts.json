@@ -63486,6 +63486,71 @@
       ],
       "runtime_proof": "/root/UnitFactoryConsumerBindingProof",
       "rule": "Source-backed UnitFactory family RuntimeConsumer binding; the tick binds one RuntimeConsumer per consumeItem/consumeLiquid row and per current-plan requirement and runs the bound actors through updateConsumption, so the placed factory consumes its liquid rows each tick and gates efficiency on its item rows."
+    },
+    "SourceSessionSnapshotState.source_session_snapshot_state": {
+      "status": "active",
+      "source_slice": "N2121",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "source_method": "PowerGraph.getBatteryStored(); PowerGraph.getPowerNeeded(); PowerGraph.getPowerProduced(); PowerGraph.distributePower(); ItemModule.get(Item); DrillBuild.updateTile(); PumpBuild.updateTile()",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_session_snapshot_state_input.game"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "core_copper",
+        "core_health",
+        "battery_stored",
+        "battery_capacity",
+        "power_needed",
+        "power_produced",
+        "power_coverage",
+        "drill_time_drilled",
+        "drill_warmup",
+        "drill_last_speed",
+        "drill_water",
+        "drill_produced_total",
+        "pump_warmup",
+        "pump_total_progress",
+        "pump_water",
+        "conduit_water"
+      ],
+      "tests": [
+        "test_c06_session_snapshot_registration",
+        "test_all_c06_session_snapshot_input_evidence_is_exact",
+        "test_snapshot_reads_live_session_state",
+        "test_reference_graph_and_actual_c06_session_snapshot"
+      ],
+      "runtime_proof": "/root/C06SessionProof",
+      "rule": "Source-backed C06 session snapshot: one pure read of the live session inventory, health, production and energy, so the session proof verifies the factory -> core -> defense chain before/after a fixed number of deterministic live-loop ticks; and the live-loop belt tick conversion, so simulate_factory advances the belts by ticks (seconds * 60) and copper reaches the core."
+    },
+    "SourceFactoryRuntimeState.source_factory_conveyor_tick_delta_state": {
+      "status": "active",
+      "source_slice": "N2121",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "source_method": "ConveyorBuild.updateTile()",
+      "params": [
+        {
+          "name": "seconds",
+          "type": "float",
+          "schema": "source_factory_conveyor_tick_delta_state_input.seconds"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "ticks"
+      ],
+      "tests": [
+        "test_c06_session_snapshot_registration",
+        "test_all_c06_session_snapshot_input_evidence_is_exact",
+        "test_snapshot_reads_live_session_state",
+        "test_reference_graph_and_actual_c06_session_snapshot"
+      ],
+      "runtime_proof": "/root/C06SessionProof",
+      "rule": "Source-backed C06 session snapshot: one pure read of the live session inventory, health, production and energy, so the session proof verifies the factory -> core -> defense chain before/after a fixed number of deterministic live-loop ticks; and the live-loop belt tick conversion, so simulate_factory advances the belts by ticks (seconds * 60) and copper reaches the core."
     }
   },
   "policy": {

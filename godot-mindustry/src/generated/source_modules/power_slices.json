@@ -1040,6 +1040,41 @@
       ],
       "runtime_proof": "/root/PowerGraphLiveUpdateProof"
     },
+    "N2121": {
+      "canonical_ledger": "source_slice_ledger.N2121",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "PowerGraph.getBatteryStored(); PowerGraph.getPowerNeeded(); PowerGraph.getPowerProduced(); PowerGraph.distributePower(); ItemModule.get(Item); DrillBuild.updateTile(); PumpBuild.updateTile(); ConveyorBuild.updateTile()",
+      "godot_owner": "SourceSessionSnapshotState.source_session_snapshot_state",
+      "source_symbols": [
+        "source_factory_conveyor_tick_delta_state_input.seconds",
+        "source_factory_conveyor_tick_delta_state_result.ticks",
+        "source_session_snapshot_state_input.game",
+        "source_session_snapshot_state_result.battery_capacity",
+        "source_session_snapshot_state_result.battery_stored",
+        "source_session_snapshot_state_result.conduit_water",
+        "source_session_snapshot_state_result.core_copper",
+        "source_session_snapshot_state_result.core_health",
+        "source_session_snapshot_state_result.drill_last_speed",
+        "source_session_snapshot_state_result.drill_produced_total",
+        "source_session_snapshot_state_result.drill_time_drilled",
+        "source_session_snapshot_state_result.drill_warmup",
+        "source_session_snapshot_state_result.drill_water",
+        "source_session_snapshot_state_result.power_coverage",
+        "source_session_snapshot_state_result.power_needed",
+        "source_session_snapshot_state_result.power_produced",
+        "source_session_snapshot_state_result.pump_total_progress",
+        "source_session_snapshot_state_result.pump_warmup",
+        "source_session_snapshot_state_result.pump_water"
+      ],
+      "tests": [
+        "test_c06_session_snapshot_registration",
+        "test_all_c06_session_snapshot_input_evidence_is_exact",
+        "test_snapshot_reads_live_session_state",
+        "test_reference_graph_and_actual_c06_session_snapshot"
+      ],
+      "runtime_proof": "/root/C06SessionProof"
+    },
     "N888": {
       "canonical_ledger": "source_slice_ledger.N888",
       "status": "done",

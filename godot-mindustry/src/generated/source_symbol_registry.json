@@ -169004,6 +169004,310 @@
         "test_reference_graph_and_actual_unit_factory_consumer_binding"
       ],
       "runtime_proof": "/root/UnitFactoryConsumerBindingProof"
+    },
+    "source_session_snapshot_state_input.game": {
+      "status": "source-backed",
+      "godot_owner": "SourceSessionSnapshotState.source_session_snapshot_state",
+      "godot_symbol": "source_session_snapshot_state_input.game",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "PowerGraph.getBatteryStored(); PowerGraph.getPowerNeeded(); PowerGraph.getPowerProduced(); PowerGraph.distributePower(); ItemModule.get(Item); DrillBuild.updateTile(); PumpBuild.updateTile()",
+      "java_expr": "public class PowerGraph{",
+      "rule": "The live game: its placed power graph, core inventory, drill/pump/conduit state are read from it.",
+      "tests": [
+        "test_c06_session_snapshot_registration",
+        "test_all_c06_session_snapshot_input_evidence_is_exact",
+        "test_snapshot_reads_live_session_state",
+        "test_reference_graph_and_actual_c06_session_snapshot"
+      ],
+      "runtime_proof": "/root/C06SessionProof"
+    },
+    "source_session_snapshot_state_result.core_copper": {
+      "status": "source-backed",
+      "godot_owner": "SourceSessionSnapshotState.source_session_snapshot_state",
+      "godot_symbol": "source_session_snapshot_state_result.core_copper",
+      "java_source": "core/src/mindustry/world/modules/ItemModule.java",
+      "java_method": "PowerGraph.getBatteryStored(); PowerGraph.getPowerNeeded(); PowerGraph.getPowerProduced(); PowerGraph.distributePower(); ItemModule.get(Item); DrillBuild.updateTile(); PumpBuild.updateTile()",
+      "java_expr": "public int get(Item item){",
+      "rule": "The core held copper (ItemModule.get), the drill output that reached the core through the belts.",
+      "tests": [
+        "test_c06_session_snapshot_registration",
+        "test_all_c06_session_snapshot_input_evidence_is_exact",
+        "test_snapshot_reads_live_session_state",
+        "test_reference_graph_and_actual_c06_session_snapshot"
+      ],
+      "runtime_proof": "/root/C06SessionProof"
+    },
+    "source_session_snapshot_state_result.core_health": {
+      "status": "source-backed",
+      "godot_owner": "SourceSessionSnapshotState.source_session_snapshot_state",
+      "godot_symbol": "source_session_snapshot_state_result.core_health",
+      "java_source": "core/src/mindustry/entities/comp/HealthComp.java",
+      "java_method": "PowerGraph.getBatteryStored(); PowerGraph.getPowerNeeded(); PowerGraph.getPowerProduced(); PowerGraph.distributePower(); ItemModule.get(Item); DrillBuild.updateTile(); PumpBuild.updateTile()",
+      "java_expr": "float health;",
+      "rule": "The core current health (HealthComp.health).",
+      "tests": [
+        "test_c06_session_snapshot_registration",
+        "test_all_c06_session_snapshot_input_evidence_is_exact",
+        "test_snapshot_reads_live_session_state",
+        "test_reference_graph_and_actual_c06_session_snapshot"
+      ],
+      "runtime_proof": "/root/C06SessionProof"
+    },
+    "source_session_snapshot_state_result.battery_stored": {
+      "status": "source-backed",
+      "godot_owner": "SourceSessionSnapshotState.source_session_snapshot_state",
+      "godot_symbol": "source_session_snapshot_state_result.battery_stored",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "PowerGraph.getBatteryStored(); PowerGraph.getPowerNeeded(); PowerGraph.getPowerProduced(); PowerGraph.distributePower(); ItemModule.get(Item); DrillBuild.updateTile(); PumpBuild.updateTile()",
+      "java_expr": "public float getBatteryStored(){",
+      "rule": "The charge stored across the enabled batteries (status * capacity).",
+      "tests": [
+        "test_c06_session_snapshot_registration",
+        "test_all_c06_session_snapshot_input_evidence_is_exact",
+        "test_snapshot_reads_live_session_state",
+        "test_reference_graph_and_actual_c06_session_snapshot"
+      ],
+      "runtime_proof": "/root/C06SessionProof"
+    },
+    "source_session_snapshot_state_result.battery_capacity": {
+      "status": "source-backed",
+      "godot_owner": "SourceSessionSnapshotState.source_session_snapshot_state",
+      "godot_symbol": "source_session_snapshot_state_result.battery_capacity",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "PowerGraph.getBatteryStored(); PowerGraph.getPowerNeeded(); PowerGraph.getPowerProduced(); PowerGraph.distributePower(); ItemModule.get(Item); DrillBuild.updateTile(); PumpBuild.updateTile()",
+      "java_expr": "public float getTotalBatteryCapacity(){",
+      "rule": "The total battery capacity of the placed graph.",
+      "tests": [
+        "test_c06_session_snapshot_registration",
+        "test_all_c06_session_snapshot_input_evidence_is_exact",
+        "test_snapshot_reads_live_session_state",
+        "test_reference_graph_and_actual_c06_session_snapshot"
+      ],
+      "runtime_proof": "/root/C06SessionProof"
+    },
+    "source_session_snapshot_state_result.power_needed": {
+      "status": "source-backed",
+      "godot_owner": "SourceSessionSnapshotState.source_session_snapshot_state",
+      "godot_symbol": "source_session_snapshot_state_result.power_needed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "PowerGraph.getBatteryStored(); PowerGraph.getPowerNeeded(); PowerGraph.getPowerProduced(); PowerGraph.distributePower(); ItemModule.get(Item); DrillBuild.updateTile(); PumpBuild.updateTile()",
+      "java_expr": "public float getPowerNeeded(){",
+      "rule": "The power the placed consumers need per tick (PowerGraph.getPowerNeeded).",
+      "tests": [
+        "test_c06_session_snapshot_registration",
+        "test_all_c06_session_snapshot_input_evidence_is_exact",
+        "test_snapshot_reads_live_session_state",
+        "test_reference_graph_and_actual_c06_session_snapshot"
+      ],
+      "runtime_proof": "/root/C06SessionProof"
+    },
+    "source_session_snapshot_state_result.power_produced": {
+      "status": "source-backed",
+      "godot_owner": "SourceSessionSnapshotState.source_session_snapshot_state",
+      "godot_symbol": "source_session_snapshot_state_result.power_produced",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "PowerGraph.getBatteryStored(); PowerGraph.getPowerNeeded(); PowerGraph.getPowerProduced(); PowerGraph.distributePower(); ItemModule.get(Item); DrillBuild.updateTile(); PumpBuild.updateTile()",
+      "java_expr": "public float getPowerProduced(){",
+      "rule": "The power the placed producers make per tick (PowerGraph.getPowerProduced).",
+      "tests": [
+        "test_c06_session_snapshot_registration",
+        "test_all_c06_session_snapshot_input_evidence_is_exact",
+        "test_snapshot_reads_live_session_state",
+        "test_reference_graph_and_actual_c06_session_snapshot"
+      ],
+      "runtime_proof": "/root/C06SessionProof"
+    },
+    "source_session_snapshot_state_result.power_coverage": {
+      "status": "source-backed",
+      "godot_owner": "SourceSessionSnapshotState.source_session_snapshot_state",
+      "godot_symbol": "source_session_snapshot_state_result.power_coverage",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "PowerGraph.getBatteryStored(); PowerGraph.getPowerNeeded(); PowerGraph.getPowerProduced(); PowerGraph.distributePower(); ItemModule.get(Item); DrillBuild.updateTile(); PumpBuild.updateTile()",
+      "java_expr": "float coverage = Mathf.zero(needed) && Mathf.zero(produced) && !charged && Mathf.zero(lastPowerStored) ? 0f : Mathf.zero(needed) ? 1f : Math.min(1, produced / needed);",
+      "rule": "The distributePower coverage: 0 when needed, produced and the stored charge are all zero and nothing charged, 1 when needed is zero, else min(1, produced / needed).",
+      "tests": [
+        "test_c06_session_snapshot_registration",
+        "test_all_c06_session_snapshot_input_evidence_is_exact",
+        "test_snapshot_reads_live_session_state",
+        "test_reference_graph_and_actual_c06_session_snapshot"
+      ],
+      "runtime_proof": "/root/C06SessionProof"
+    },
+    "source_session_snapshot_state_result.drill_time_drilled": {
+      "status": "source-backed",
+      "godot_owner": "SourceSessionSnapshotState.source_session_snapshot_state",
+      "godot_symbol": "source_session_snapshot_state_result.drill_time_drilled",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "PowerGraph.getBatteryStored(); PowerGraph.getPowerNeeded(); PowerGraph.getPowerProduced(); PowerGraph.distributePower(); ItemModule.get(Item); DrillBuild.updateTile(); PumpBuild.updateTile()",
+      "java_expr": "timeDrilled += warmup * delta();",
+      "rule": "The drill time drilled (DrillBuild.timeDrilled, warmup * delta per tick).",
+      "tests": [
+        "test_c06_session_snapshot_registration",
+        "test_all_c06_session_snapshot_input_evidence_is_exact",
+        "test_snapshot_reads_live_session_state",
+        "test_reference_graph_and_actual_c06_session_snapshot"
+      ],
+      "runtime_proof": "/root/C06SessionProof"
+    },
+    "source_session_snapshot_state_result.drill_warmup": {
+      "status": "source-backed",
+      "godot_owner": "SourceSessionSnapshotState.source_session_snapshot_state",
+      "godot_symbol": "source_session_snapshot_state_result.drill_warmup",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "PowerGraph.getBatteryStored(); PowerGraph.getPowerNeeded(); PowerGraph.getPowerProduced(); PowerGraph.distributePower(); ItemModule.get(Item); DrillBuild.updateTile(); PumpBuild.updateTile()",
+      "java_expr": "warmup = Mathf.approachDelta(warmup, speed, warmupSpeed);",
+      "rule": "The drill warmup, approaching the boosted speed 1.6 once water arrives.",
+      "tests": [
+        "test_c06_session_snapshot_registration",
+        "test_all_c06_session_snapshot_input_evidence_is_exact",
+        "test_snapshot_reads_live_session_state",
+        "test_reference_graph_and_actual_c06_session_snapshot"
+      ],
+      "runtime_proof": "/root/C06SessionProof"
+    },
+    "source_session_snapshot_state_result.drill_last_speed": {
+      "status": "source-backed",
+      "godot_owner": "SourceSessionSnapshotState.source_session_snapshot_state",
+      "godot_symbol": "source_session_snapshot_state_result.drill_last_speed",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "PowerGraph.getBatteryStored(); PowerGraph.getPowerNeeded(); PowerGraph.getPowerProduced(); PowerGraph.distributePower(); ItemModule.get(Item); DrillBuild.updateTile(); PumpBuild.updateTile()",
+      "java_expr": "lastDrillSpeed = (speed * dominantItems * warmup) / delay;",
+      "rule": "The drill last drill speed ((speed * dominantItems * warmup) / delay); 5.12/650 boosted, 2/650 unboosted.",
+      "tests": [
+        "test_c06_session_snapshot_registration",
+        "test_all_c06_session_snapshot_input_evidence_is_exact",
+        "test_snapshot_reads_live_session_state",
+        "test_reference_graph_and_actual_c06_session_snapshot"
+      ],
+      "runtime_proof": "/root/C06SessionProof"
+    },
+    "source_session_snapshot_state_result.drill_water": {
+      "status": "source-backed",
+      "godot_owner": "SourceSessionSnapshotState.source_session_snapshot_state",
+      "godot_symbol": "source_session_snapshot_state_result.drill_water",
+      "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+      "java_method": "PowerGraph.getBatteryStored(); PowerGraph.getPowerNeeded(); PowerGraph.getPowerProduced(); PowerGraph.distributePower(); ItemModule.get(Item); DrillBuild.updateTile(); PumpBuild.updateTile()",
+      "java_expr": "public float get(Liquid liquid){",
+      "rule": "The water held in the drill liquid module (LiquidModule.get).",
+      "tests": [
+        "test_c06_session_snapshot_registration",
+        "test_all_c06_session_snapshot_input_evidence_is_exact",
+        "test_snapshot_reads_live_session_state",
+        "test_reference_graph_and_actual_c06_session_snapshot"
+      ],
+      "runtime_proof": "/root/C06SessionProof"
+    },
+    "source_session_snapshot_state_result.drill_produced_total": {
+      "status": "source-backed",
+      "godot_owner": "SourceSessionSnapshotState.source_session_snapshot_state",
+      "godot_symbol": "source_session_snapshot_state_result.drill_produced_total",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "PowerGraph.getBatteryStored(); PowerGraph.getPowerNeeded(); PowerGraph.getPowerProduced(); PowerGraph.distributePower(); ItemModule.get(Item); DrillBuild.updateTile(); PumpBuild.updateTile()",
+      "java_expr": "offload(dominantItem);",
+      "rule": "The drill offloaded items (DrillBuild offload), the production count.",
+      "tests": [
+        "test_c06_session_snapshot_registration",
+        "test_all_c06_session_snapshot_input_evidence_is_exact",
+        "test_snapshot_reads_live_session_state",
+        "test_reference_graph_and_actual_c06_session_snapshot"
+      ],
+      "runtime_proof": "/root/C06SessionProof"
+    },
+    "source_session_snapshot_state_result.pump_warmup": {
+      "status": "source-backed",
+      "godot_owner": "SourceSessionSnapshotState.source_session_snapshot_state",
+      "godot_symbol": "source_session_snapshot_state_result.pump_warmup",
+      "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+      "java_method": "PowerGraph.getBatteryStored(); PowerGraph.getPowerNeeded(); PowerGraph.getPowerProduced(); PowerGraph.distributePower(); ItemModule.get(Item); DrillBuild.updateTile(); PumpBuild.updateTile()",
+      "java_expr": "public float warmup, totalProgress;",
+      "rule": "The pump warmup (PumpBuild.warmup).",
+      "tests": [
+        "test_c06_session_snapshot_registration",
+        "test_all_c06_session_snapshot_input_evidence_is_exact",
+        "test_snapshot_reads_live_session_state",
+        "test_reference_graph_and_actual_c06_session_snapshot"
+      ],
+      "runtime_proof": "/root/C06SessionProof"
+    },
+    "source_session_snapshot_state_result.pump_total_progress": {
+      "status": "source-backed",
+      "godot_owner": "SourceSessionSnapshotState.source_session_snapshot_state",
+      "godot_symbol": "source_session_snapshot_state_result.pump_total_progress",
+      "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+      "java_method": "PowerGraph.getBatteryStored(); PowerGraph.getPowerNeeded(); PowerGraph.getPowerProduced(); PowerGraph.distributePower(); ItemModule.get(Item); DrillBuild.updateTile(); PumpBuild.updateTile()",
+      "java_expr": "public float warmup, totalProgress;",
+      "rule": "The pump total progress (PumpBuild.totalProgress, warmup * delta per tick).",
+      "tests": [
+        "test_c06_session_snapshot_registration",
+        "test_all_c06_session_snapshot_input_evidence_is_exact",
+        "test_snapshot_reads_live_session_state",
+        "test_reference_graph_and_actual_c06_session_snapshot"
+      ],
+      "runtime_proof": "/root/C06SessionProof"
+    },
+    "source_session_snapshot_state_result.pump_water": {
+      "status": "source-backed",
+      "godot_owner": "SourceSessionSnapshotState.source_session_snapshot_state",
+      "godot_symbol": "source_session_snapshot_state_result.pump_water",
+      "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+      "java_method": "PowerGraph.getBatteryStored(); PowerGraph.getPowerNeeded(); PowerGraph.getPowerProduced(); PowerGraph.distributePower(); ItemModule.get(Item); DrillBuild.updateTile(); PumpBuild.updateTile()",
+      "java_expr": "public float get(Liquid liquid){",
+      "rule": "The water held in the pump liquid module (LiquidModule.get).",
+      "tests": [
+        "test_c06_session_snapshot_registration",
+        "test_all_c06_session_snapshot_input_evidence_is_exact",
+        "test_snapshot_reads_live_session_state",
+        "test_reference_graph_and_actual_c06_session_snapshot"
+      ],
+      "runtime_proof": "/root/C06SessionProof"
+    },
+    "source_session_snapshot_state_result.conduit_water": {
+      "status": "source-backed",
+      "godot_owner": "SourceSessionSnapshotState.source_session_snapshot_state",
+      "godot_symbol": "source_session_snapshot_state_result.conduit_water",
+      "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+      "java_method": "PowerGraph.getBatteryStored(); PowerGraph.getPowerNeeded(); PowerGraph.getPowerProduced(); PowerGraph.distributePower(); ItemModule.get(Item); DrillBuild.updateTile(); PumpBuild.updateTile()",
+      "java_expr": "public float get(Liquid liquid){",
+      "rule": "The water held across the whole conduit line (LiquidModule.get per conduit cell).",
+      "tests": [
+        "test_c06_session_snapshot_registration",
+        "test_all_c06_session_snapshot_input_evidence_is_exact",
+        "test_snapshot_reads_live_session_state",
+        "test_reference_graph_and_actual_c06_session_snapshot"
+      ],
+      "runtime_proof": "/root/C06SessionProof"
+    },
+    "source_factory_conveyor_tick_delta_state_input.seconds": {
+      "status": "source-backed",
+      "godot_owner": "SourceFactoryRuntimeState.source_factory_conveyor_tick_delta_state",
+      "godot_symbol": "source_factory_conveyor_tick_delta_state_input.seconds",
+      "java_source": "arc-core/src/arc/util/Time.java",
+      "java_method": "ConveyorBuild.updateTile()",
+      "java_expr": "private static Floatp deltaimpl = () -> Math.min(Core.graphics.getDeltaTime() * 60f, 3f);",
+      "rule": "The live-loop delta in seconds (the Godot _process delta); Time.delta is that real delta scaled to 60fps ticks.",
+      "tests": [
+        "test_c06_session_snapshot_registration",
+        "test_all_c06_session_snapshot_input_evidence_is_exact",
+        "test_snapshot_reads_live_session_state",
+        "test_reference_graph_and_actual_c06_session_snapshot"
+      ],
+      "runtime_proof": "/root/C06SessionProof"
+    },
+    "source_factory_conveyor_tick_delta_state_result.ticks": {
+      "status": "source-backed",
+      "godot_owner": "SourceFactoryRuntimeState.source_factory_conveyor_tick_delta_state",
+      "godot_symbol": "source_factory_conveyor_tick_delta_state_result.ticks",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_method": "ConveyorBuild.updateTile()",
+      "java_expr": "float moved = speed * edelta();",
+      "rule": "The same delta in ticks (seconds * 60), the units the belt advance moves items by.",
+      "tests": [
+        "test_c06_session_snapshot_registration",
+        "test_all_c06_session_snapshot_input_evidence_is_exact",
+        "test_snapshot_reads_live_session_state",
+        "test_reference_graph_and_actual_c06_session_snapshot"
+      ],
+      "runtime_proof": "/root/C06SessionProof"
     }
   },
   "version": 1

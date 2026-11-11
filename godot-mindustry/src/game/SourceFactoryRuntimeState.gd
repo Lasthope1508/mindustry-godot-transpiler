@@ -155,7 +155,11 @@ static func simulate_factory(game: Object, delta: float) -> void:
 	source_factory_dump_all_drill_outputs_state(game, bool(apply_state.get(source_factory_simulation_apply_state_script.SOURCE_FACTORY_APPLY_SHOULD_DUMP_KEY, false)))
 	var advance_cells: Array = source_playable_scenario_defaults.conveyor_cells()
 	advance_cells.reverse()
-	source_factory_advance_conveyors_state(game, advance_cells, delta)
+	# The advance wrapper takes its delta in ticks (the N2070 proof
+	# pins 1.0 == one tick of movement), while simulate_factory
+	# receives seconds — convert at the live-loop boundary.
+	var conveyor_tick_delta: Dictionary = source_factory_conveyor_tick_delta_state(delta)
+	source_factory_advance_conveyors_state(game, advance_cells, float(conveyor_tick_delta.get("ticks", 0.0)))
 	source_factory_update_power_graph_state(game, delta)
 	source_pump_runtime_state.source_pump_update_state(game, source_playable_scenario_defaults.PUMP_POS, delta)
 	source_pump_runtime_state.source_pump_dump_liquid_state(game, source_playable_scenario_defaults.PUMP_POS)
@@ -513,6 +517,25 @@ static func _factory_next_cell(cell: Vector2i, rotation: int) -> Vector2i:
 			return Vector2i(cell.x - 1, cell.y)
 		_:
 			return Vector2i(cell.x, cell.y + 1)
+
+
+static func source_factory_conveyor_tick_delta_state(seconds: float) -> Dictionary:
+	# The live-loop belt advance runs in ticks, not seconds.
+	# Conveyor.java:262 moves each item by `moved = speed * edelta()`,
+	# and edelta is in ticks: Time.delta is the real frame delta
+	# scaled to 60fps ticks (arc Time.java:26, `* 60f`), and
+	# BuildingComp.delta()/edelta() carry it unchanged apart from
+	# timeScale and efficiency (BuildingComp.java:1922-1929). The
+	# live loop passes the Godot _process delta in seconds, so the
+	# advance must be given seconds * 60 (the N2093 pump precedent);
+	# passing seconds straight through advances the belts 60x too
+	# slowly, and in a 900-tick session no copper ever reaches the
+	# core (the first item sits on the first belt cell, blocking
+	# every later dump on the 0.4 item spacing).
+	return {
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_FACTORY_CONVEYOR_TICK_DELTA_STATE,
+		"ticks": seconds * source_time_defaults.TICK_RATE,
+	}
 
 
 static func source_factory_advance_conveyors_state(game: Object, conveyor_cells: Array, delta: float) -> Dictionary:

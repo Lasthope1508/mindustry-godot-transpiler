@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://b3k7f2q9v5h1a"]
+
+[ext_resource type="Script" path="res://tools/runtime_proofs/C06SessionProof.gd" id="1"]
+
+[node name="C06SessionProof" type="Node"]
+script = ExtResource("1")

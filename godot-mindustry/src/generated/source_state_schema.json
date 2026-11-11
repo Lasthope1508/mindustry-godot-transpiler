@@ -224916,6 +224916,232 @@
       },
       "runtime_proof": "/root/UnitFactoryConsumerBindingProof",
       "rule": "Source-backed UnitFactory family RuntimeConsumer binding."
+    },
+    "source_session_snapshot_state_input": {
+      "status": "active",
+      "owner": "SourceSessionSnapshotState.source_session_snapshot_state",
+      "source_slice": "N2121",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "public class PowerGraph{",
+          "rule": "The live game: its placed power graph, core inventory, drill/pump/conduit state are read from it.",
+          "used_by": [
+            "SourceSessionSnapshotState.source_session_snapshot_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06SessionProof",
+      "rule": "Source-backed C06 session snapshot and live-loop belt tick conversion."
+    },
+    "source_session_snapshot_state_result": {
+      "status": "active",
+      "owner": "SourceSessionSnapshotState.source_session_snapshot_state",
+      "source_slice": "N2121",
+      "keys": {
+        "core_copper": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/modules/ItemModule.java",
+          "java_expr": "public int get(Item item){",
+          "rule": "The core held copper (ItemModule.get), the drill output that reached the core through the belts.",
+          "used_by": [
+            "SourceSessionSnapshotState.source_session_snapshot_state"
+          ]
+        },
+        "core_health": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/HealthComp.java",
+          "java_expr": "float health;",
+          "rule": "The core current health (HealthComp.health).",
+          "used_by": [
+            "SourceSessionSnapshotState.source_session_snapshot_state"
+          ]
+        },
+        "battery_stored": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "public float getBatteryStored(){",
+          "rule": "The charge stored across the enabled batteries (status * capacity).",
+          "used_by": [
+            "SourceSessionSnapshotState.source_session_snapshot_state"
+          ]
+        },
+        "battery_capacity": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "public float getTotalBatteryCapacity(){",
+          "rule": "The total battery capacity of the placed graph.",
+          "used_by": [
+            "SourceSessionSnapshotState.source_session_snapshot_state"
+          ]
+        },
+        "power_needed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "public float getPowerNeeded(){",
+          "rule": "The power the placed consumers need per tick (PowerGraph.getPowerNeeded).",
+          "used_by": [
+            "SourceSessionSnapshotState.source_session_snapshot_state"
+          ]
+        },
+        "power_produced": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "public float getPowerProduced(){",
+          "rule": "The power the placed producers make per tick (PowerGraph.getPowerProduced).",
+          "used_by": [
+            "SourceSessionSnapshotState.source_session_snapshot_state"
+          ]
+        },
+        "power_coverage": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "float coverage = Mathf.zero(needed) && Mathf.zero(produced) && !charged && Mathf.zero(lastPowerStored) ? 0f : Mathf.zero(needed) ? 1f : Math.min(1, produced / needed);",
+          "rule": "The distributePower coverage: 0 when needed, produced and the stored charge are all zero and nothing charged, 1 when needed is zero, else min(1, produced / needed).",
+          "used_by": [
+            "SourceSessionSnapshotState.source_session_snapshot_state"
+          ]
+        },
+        "drill_time_drilled": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "timeDrilled += warmup * delta();",
+          "rule": "The drill time drilled (DrillBuild.timeDrilled, warmup * delta per tick).",
+          "used_by": [
+            "SourceSessionSnapshotState.source_session_snapshot_state"
+          ]
+        },
+        "drill_warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "warmup = Mathf.approachDelta(warmup, speed, warmupSpeed);",
+          "rule": "The drill warmup, approaching the boosted speed 1.6 once water arrives.",
+          "used_by": [
+            "SourceSessionSnapshotState.source_session_snapshot_state"
+          ]
+        },
+        "drill_last_speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "lastDrillSpeed = (speed * dominantItems * warmup) / delay;",
+          "rule": "The drill last drill speed ((speed * dominantItems * warmup) / delay); 5.12/650 boosted, 2/650 unboosted.",
+          "used_by": [
+            "SourceSessionSnapshotState.source_session_snapshot_state"
+          ]
+        },
+        "drill_water": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+          "java_expr": "public float get(Liquid liquid){",
+          "rule": "The water held in the drill liquid module (LiquidModule.get).",
+          "used_by": [
+            "SourceSessionSnapshotState.source_session_snapshot_state"
+          ]
+        },
+        "drill_produced_total": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "offload(dominantItem);",
+          "rule": "The drill offloaded items (DrillBuild offload), the production count.",
+          "used_by": [
+            "SourceSessionSnapshotState.source_session_snapshot_state"
+          ]
+        },
+        "pump_warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+          "java_expr": "public float warmup, totalProgress;",
+          "rule": "The pump warmup (PumpBuild.warmup).",
+          "used_by": [
+            "SourceSessionSnapshotState.source_session_snapshot_state"
+          ]
+        },
+        "pump_total_progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+          "java_expr": "public float warmup, totalProgress;",
+          "rule": "The pump total progress (PumpBuild.totalProgress, warmup * delta per tick).",
+          "used_by": [
+            "SourceSessionSnapshotState.source_session_snapshot_state"
+          ]
+        },
+        "pump_water": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+          "java_expr": "public float get(Liquid liquid){",
+          "rule": "The water held in the pump liquid module (LiquidModule.get).",
+          "used_by": [
+            "SourceSessionSnapshotState.source_session_snapshot_state"
+          ]
+        },
+        "conduit_water": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+          "java_expr": "public float get(Liquid liquid){",
+          "rule": "The water held across the whole conduit line (LiquidModule.get per conduit cell).",
+          "used_by": [
+            "SourceSessionSnapshotState.source_session_snapshot_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06SessionProof",
+      "rule": "Source-backed C06 session snapshot and live-loop belt tick conversion."
+    },
+    "source_factory_conveyor_tick_delta_state_input": {
+      "status": "active",
+      "owner": "SourceFactoryRuntimeState.source_factory_conveyor_tick_delta_state",
+      "source_slice": "N2121",
+      "keys": {
+        "seconds": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/util/Time.java",
+          "java_expr": "private static Floatp deltaimpl = () -> Math.min(Core.graphics.getDeltaTime() * 60f, 3f);",
+          "rule": "The live-loop delta in seconds (the Godot _process delta); Time.delta is that real delta scaled to 60fps ticks.",
+          "used_by": [
+            "SourceFactoryRuntimeState.source_factory_conveyor_tick_delta_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06SessionProof",
+      "rule": "Source-backed C06 session snapshot and live-loop belt tick conversion."
+    },
+    "source_factory_conveyor_tick_delta_state_result": {
+      "status": "active",
+      "owner": "SourceFactoryRuntimeState.source_factory_conveyor_tick_delta_state",
+      "source_slice": "N2121",
+      "keys": {
+        "ticks": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "float moved = speed * edelta();",
+          "rule": "The same delta in ticks (seconds * 60), the units the belt advance moves items by.",
+          "used_by": [
+            "SourceFactoryRuntimeState.source_factory_conveyor_tick_delta_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06SessionProof",
+      "rule": "Source-backed C06 session snapshot and live-loop belt tick conversion."
     }
   },
   "version": 1

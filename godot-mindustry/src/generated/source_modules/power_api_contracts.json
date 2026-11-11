@@ -3749,6 +3749,47 @@
       "runtime_proof": "/root/PlacedPowerGraphGroupingProof",
       "rule": "Source-backed per-building grouping; each building is grouped once, as PowerGraph.add adds each building once.",
       "return_type": "Dictionary"
+    },
+    "SourceSessionSnapshotState.source_session_snapshot_state": {
+      "canonical_contract": "source_api_contracts.SourceSessionSnapshotState.source_session_snapshot_state",
+      "status": "active",
+      "source_slice": "N2121",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "source_method": "PowerGraph.getBatteryStored(); PowerGraph.getPowerNeeded(); PowerGraph.getPowerProduced(); PowerGraph.distributePower(); ItemModule.get(Item); DrillBuild.updateTile(); PumpBuild.updateTile()",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_session_snapshot_state_input.game"
+        }
+      ],
+      "return_keys": [
+        "core_copper",
+        "core_health",
+        "battery_stored",
+        "battery_capacity",
+        "power_needed",
+        "power_produced",
+        "power_coverage",
+        "drill_time_drilled",
+        "drill_warmup",
+        "drill_last_speed",
+        "drill_water",
+        "drill_produced_total",
+        "pump_warmup",
+        "pump_total_progress",
+        "pump_water",
+        "conduit_water"
+      ],
+      "tests": [
+        "test_c06_session_snapshot_registration",
+        "test_all_c06_session_snapshot_input_evidence_is_exact",
+        "test_snapshot_reads_live_session_state",
+        "test_reference_graph_and_actual_c06_session_snapshot"
+      ],
+      "runtime_proof": "/root/C06SessionProof",
+      "rule": "Source-backed C06 session snapshot: one pure read of the live session inventory, health, production and energy, so the session proof verifies the factory -> core -> defense chain before/after a fixed number of deterministic live-loop ticks; and the live-loop belt tick conversion, so simulate_factory advances the belts by ticks (seconds * 60) and copper reaches the core.",
+      "return_type": "Dictionary"
     }
   }
 }

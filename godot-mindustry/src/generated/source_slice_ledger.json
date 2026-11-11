@@ -54252,6 +54252,73 @@
         "The UnitAssembler plan dynamics (ConsumePayloadDynamic, ConsumeItemDynamic over plan().itemReq, ConsumeLiquidsDynamic over plan().liquidReq, UnitAssembler.java:158-160) are later slices; the registry captures no assembler plans yet, so no dynamic rows bind for them.",
         "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2121": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_class": "mindustry.world.blocks.power.PowerGraph",
+      "java_method": "PowerGraph.getBatteryStored(); PowerGraph.getPowerNeeded(); PowerGraph.getPowerProduced(); PowerGraph.distributePower(); ItemModule.get(Item); DrillBuild.updateTile(); PumpBuild.updateTile(); ConveyorBuild.updateTile()",
+      "godot_owner": "SourceSessionSnapshotState.source_session_snapshot_state",
+      "exact_exprs": [
+        "public class PowerGraph{",
+        "public float getPowerProduced(){",
+        "public float getPowerNeeded(){",
+        "public float getBatteryStored(){",
+        "public float getTotalBatteryCapacity(){",
+        "float coverage = Mathf.zero(needed) && Mathf.zero(produced) && !charged && Mathf.zero(lastPowerStored) ? 0f : Mathf.zero(needed) ? 1f : Math.min(1, produced / needed);",
+        "public int get(Item item){",
+        "float health;",
+        "public float get(Liquid liquid){",
+        "timeDrilled += warmup * delta();",
+        "warmup = Mathf.approachDelta(warmup, speed, warmupSpeed);",
+        "lastDrillSpeed = (speed * dominantItems * warmup) / delay;",
+        "offload(dominantItem);",
+        "public float getDrillTime(Item item){",
+        "public float hardnessDrillMultiplier = 50f;",
+        "public float warmup, totalProgress;",
+        "public class CoreBlock extends StorageBlock{",
+        "float moved = speed * edelta();",
+        "public float edelta(){",
+        "return efficiency * delta();",
+        "private static Floatp deltaimpl = () -> Math.min(Core.graphics.getDeltaTime() * 60f, 3f);"
+      ],
+      "source_symbols": [
+        "source_factory_conveyor_tick_delta_state_input.seconds",
+        "source_factory_conveyor_tick_delta_state_result.ticks",
+        "source_session_snapshot_state_input.game",
+        "source_session_snapshot_state_result.battery_capacity",
+        "source_session_snapshot_state_result.battery_stored",
+        "source_session_snapshot_state_result.conduit_water",
+        "source_session_snapshot_state_result.core_copper",
+        "source_session_snapshot_state_result.core_health",
+        "source_session_snapshot_state_result.drill_last_speed",
+        "source_session_snapshot_state_result.drill_produced_total",
+        "source_session_snapshot_state_result.drill_time_drilled",
+        "source_session_snapshot_state_result.drill_warmup",
+        "source_session_snapshot_state_result.drill_water",
+        "source_session_snapshot_state_result.power_coverage",
+        "source_session_snapshot_state_result.power_needed",
+        "source_session_snapshot_state_result.power_produced",
+        "source_session_snapshot_state_result.pump_total_progress",
+        "source_session_snapshot_state_result.pump_warmup",
+        "source_session_snapshot_state_result.pump_water"
+      ],
+      "tests": [
+        "test_c06_session_snapshot_registration",
+        "test_all_c06_session_snapshot_input_evidence_is_exact",
+        "test_snapshot_reads_live_session_state",
+        "test_reference_graph_and_actual_c06_session_snapshot"
+      ],
+      "runtime_proof": "/root/C06SessionProof",
+      "deferred_exprs": [
+        "The three per-class shouldConsume() bodies (UnitFactory.java:446, Reconstructor.java:368, UnitAssembler.java:389) are later slices; the tick passes the frame enabled flag as should_consume until then.",
+        "The plan stacks leave only at unit completion via ConsumeItemDynamic.trigger (ConsumeItemDynamic.java:53-56); the per-tick second pass removes nothing for items, so the production slice owns the trigger.",
+        "The UnitAssembler plan dynamics (ConsumePayloadDynamic, ConsumeItemDynamic over plan().itemReq, ConsumeLiquidsDynamic over plan().liquidReq, UnitAssembler.java:158-160) are later slices; the registry captures no assembler plans yet, so no dynamic rows bind for them.",
+        "Power graph shouldConsumePower from the live frame enabled flag is a later slice: Java ConsumePower.requestedPower gates on entity.shouldConsume(), but the port uses static catalog properties, so disabling a building does not change the power graph needed value and a disable -> battery-charges act is not possible yet.",
+        "Predict.intercept lead targeting and the death sweep (the defense leg) are later slices; the probe approach (spawn_enemy_unit + load_selected_turret_ammo + the four simulate calls per tick) is recorded in the N2121 handoff as the starting point.",
+        "Pause/timeScale/disable/removal and source-exhaustion/output-full acts are later C06 slices.",
+        "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1
