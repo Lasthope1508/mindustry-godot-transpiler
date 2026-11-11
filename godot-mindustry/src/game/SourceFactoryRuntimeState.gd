@@ -547,6 +547,7 @@ static func source_factory_advance_conveyors_state(game: Object, conveyor_cells:
 	var original_queues := {}
 	var rotations := {}
 	var speeds := {}
+	var time_scales := {}
 	var teams := {}
 	for cell in conveyor_cells:
 		var sprite: Variant = game.call("block_sprite_at_cell", cell)
@@ -560,6 +561,15 @@ static func source_factory_advance_conveyors_state(game: Object, conveyor_cells:
 		rotations[cell] = int(sprite.get_meta(source_block_geometry.SOURCE_BUILD_ROTATION_META_KEY, 0))
 		teams[cell] = int(sprite.get_meta(source_block_geometry.SOURCE_BUILD_TEAM_META_KEY, 1))
 		speeds[cell] = 0.03
+		# BuildingComp.update (BuildingComp.java:2262-2267) decays
+		# each building's timeScaleDuration per tick and resets its
+		# timeScale to 1f on expiry; simulate_block_time_scales runs
+		# that decay on every placed sprite before this step, so the
+		# belt advance reads the live per-building value here instead
+		# of a hardcoded 1.0 — ConveyorBuild.updateTile moves items
+		# by speed * edelta() (Conveyor.java:266), and edelta carries
+		# the building's own timeScale (BuildingComp.java:1922-1929).
+		time_scales[cell] = source_placed_block_state.time_scale(sprite, source_placed_block_state.game_default_time_scale(game))
 		var block_id := str(sprite.get_meta(source_placed_block_state.SOURCE_BLOCK_ID_META_KEY, ""))
 		if block_id != "":
 			var catalog = game.get("content_catalog")
@@ -593,7 +603,8 @@ static func source_factory_advance_conveyors_state(game: Object, conveyor_cells:
 		if next_is_conveyor and queues.has(next_cell):
 			var next_queue: Dictionary = queues[next_cell]
 			next_minitem = float(source_conveyor_runtime_state.source_conveyor_queue_scan_state(next_queue.get("ys", []), []).get("minitem", 1.0))
-		var advance := source_conveyor_runtime_state.source_conveyor_advance_state(queue.get("ids", []), queue.get("xs", []), queue.get("ys", []), int(queue.get("len", 0)), float(speeds[cell]), delta, 1.0, aligned, next_minitem, 0, 0.0)
+		var cell_time_scale: float = float(time_scales.get(cell, 1.0))
+		var advance := source_conveyor_runtime_state.source_conveyor_advance_state(queue.get("ids", []), queue.get("xs", []), queue.get("ys", []), int(queue.get("len", 0)), float(speeds[cell]), delta, cell_time_scale, aligned, next_minitem, 0, 0.0)
 		var cell_result := {
 			"ids_after": advance.get("ids_after", []),
 			"xs_after": advance.get("xs_after", []),

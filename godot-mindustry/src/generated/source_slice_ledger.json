@@ -54608,6 +54608,47 @@
         "Source-exhaustion/output-full acts.",
         "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2126": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "update",
+      "godot_owner": "SourceConduitRuntimeState.source_conduit_update_state",
+      "exact_exprs": [
+        "            float moved = speed * edelta();",
+        "        return Time.delta * timeScale;",
+        "        return efficiency * delta();",
+        "        if((timeScaleDuration -= Time.delta) <= 0f){",
+        "            timeScale = 1f;",
+        "    transient boolean enabled = true;",
+        "        if(enabled || !block.noUpdateDisabled){",
+        "            updateTile();",
+        "        noUpdateDisabled = true;",
+        "            smoothLiquid = Mathf.lerpDelta(smoothLiquid, liquids.currentAmount() / liquidCapacity, 0.05f);",
+        "            if(liquids.currentAmount() > 0.0001f && timer(timerFlow, 1)){",
+        "                moveLiquidForward(leaks, liquids.current());"
+      ],
+      "source_symbols": [
+        "source_conduit_update_state_result.enabled",
+        "source_conduit_update_state_result.update_tile_called"
+      ],
+      "tests": [
+        "test_c06_building_update_halves_registration",
+        "test_all_c06_building_update_halves_input_evidence_is_exact",
+        "test_live_loop_wires_building_update_halves",
+        "test_reference_graph_and_actual_c06_building_update_halves"
+      ],
+      "runtime_proof": "/root/C06BuildingUpdateProof",
+      "deferred_exprs": [
+        "The battery's live enabled stamp (PowerGraph.getBatteryStored gates on battery.enabled, but the battery has no tick frame).",
+        "The shouldConsumePower half that clears when a non-power consumer fails (BuildingComp.java:1971-1974, first pass).",
+        "A disabled conveyor reads efficiency 0 in Java (BuildingComp.java:1943-1948, consumerless branch: efficiency is 1 only when enabled and productionValid); the port carries no per-belt efficiency yet, so a disabled belt still advances \u2014 the updateConsumption disabled branch needs a per-belt efficiency first.",
+        "ConsumeItemDynamic.trigger at unit completion (ConsumeItemDynamic.java:53-56).",
+        "UnitAssembler plan dynamics (UnitAssembler.java:158-160).",
+        "Source-exhaustion/output-full acts.",
+        "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1

@@ -220776,6 +220776,26 @@
           "used_by": [
             "SourceConduitRuntimeState.source_conduit_update_state"
           ]
+        },
+        "update_tile_called": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "        if(enabled || !block.noUpdateDisabled){",
+          "rule": "Whether BuildingComp.update() ran updateTile this frame: false when the building is disabled and its block sets noUpdateDisabled (Conduit.java:53).",
+          "used_by": [
+            "SourceConduitRuntimeState.source_conduit_update_state"
+          ]
+        },
+        "enabled": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "    transient boolean enabled = true;",
+          "rule": "The conduit frame enabled flag (Building.enabled, BuildingComp.java:77): what the updateTile gate reads; true unless the frame was disabled.",
+          "used_by": [
+            "SourceConduitRuntimeState.source_conduit_update_state"
+          ]
         }
       },
       "runtime_proof": "/root/ConduitUpdateProof",

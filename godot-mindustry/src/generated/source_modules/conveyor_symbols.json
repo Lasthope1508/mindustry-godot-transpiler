@@ -929,10 +929,14 @@
       "java_expr": "if(len == 0 && Mathf.equal(timeScale, 1f)){",
       "godot_symbol": "source_conveyor_advance_state_input.time_scale",
       "godot_owner": "SourceConveyorRuntimeState.source_conveyor_advance_state",
-      "rule": "Block time scale; an empty belt sleeps when it is 1.",
+      "rule": "Block time scale; an empty belt sleeps when it is 1, and a loaded belt moves by speed * edelta() (speed * delta * timeScale), so a boosted belt moves faster until its duration expires (Conveyor.java:266, BuildingComp.java:1922-1929).",
       "tests": [
-        "test_conveyor_advance_binding_registration",
+        "test_all_c06_building_update_halves_input_evidence_is_exact",
         "test_all_conveyor_advance_binding_input_evidence_is_exact",
+        "test_c06_building_update_halves_registration",
+        "test_conveyor_advance_binding_registration",
+        "test_live_loop_wires_building_update_halves",
+        "test_reference_graph_and_actual_c06_building_update_halves",
         "test_reference_graph_and_actual_conveyor_advance"
       ],
       "runtime_proof": "/root/ConveyorAdvanceProof"

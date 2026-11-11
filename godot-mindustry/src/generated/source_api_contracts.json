@@ -60666,12 +60666,16 @@
         "reason"
       ],
       "tests": [
-        "test_conveyor_advance_binding_registration",
+        "test_all_c06_building_update_halves_input_evidence_is_exact",
         "test_all_conveyor_advance_binding_input_evidence_is_exact",
+        "test_c06_building_update_halves_registration",
+        "test_conveyor_advance_binding_registration",
+        "test_live_loop_wires_building_update_halves",
+        "test_reference_graph_and_actual_c06_building_update_halves",
         "test_reference_graph_and_actual_conveyor_advance"
       ],
       "runtime_proof": "/root/ConveyorAdvanceProof",
-      "rule": "Source-backed conveyor belt advance; the belt moves its items and hands the front item to the next belt or the core."
+      "rule": "Source-backed conveyor belt advance; the belt moves its items and hands the front item to the next belt or the core. Items move by speed * edelta() (Conveyor.java:266): the advance takes the building's live per-building timeScale (decayed each tick by BuildingComp.update, BuildingComp.java:2265-2267), so a boosted belt moves faster until its duration expires."
     },
     "SourceFactoryRuntimeState.source_factory_advance_conveyors_state": {
       "status": "active",
@@ -60702,12 +60706,16 @@
         "reason"
       ],
       "tests": [
-        "test_conveyor_advance_binding_registration",
+        "test_all_c06_building_update_halves_input_evidence_is_exact",
         "test_all_conveyor_advance_binding_input_evidence_is_exact",
+        "test_c06_building_update_halves_registration",
+        "test_conveyor_advance_binding_registration",
+        "test_live_loop_wires_building_update_halves",
+        "test_reference_graph_and_actual_c06_building_update_halves",
         "test_reference_graph_and_actual_conveyor_advance"
       ],
       "runtime_proof": "/root/ConveyorAdvanceProof",
-      "rule": "Source-backed conveyor belt advance; the belt moves its items and hands the front item to the next belt or the core."
+      "rule": "Source-backed conveyor belt advance; the belt moves its items and hands the front item to the next belt or the core. The wrapper reads each belt sprite's live per-building timeScale (decayed each tick by simulate_block_time_scales, BuildingComp.java:2265-2267) and passes it to the advance, so a boosted belt moves by speed * edelta() until its duration expires."
     },
     "PortGame.source_drill_runtime_state": {
       "status": "active",
@@ -61427,15 +61435,21 @@
         "liquid",
         "flowed",
         "smooth_liquid",
-        "flow_timer"
+        "flow_timer",
+        "update_tile_called",
+        "enabled"
       ],
       "tests": [
-        "test_conduit_update_binding_registration",
+        "test_all_c06_building_update_halves_input_evidence_is_exact",
         "test_all_conduit_update_binding_input_evidence_is_exact",
+        "test_c06_building_update_halves_registration",
+        "test_conduit_update_binding_registration",
+        "test_live_loop_wires_building_update_halves",
+        "test_reference_graph_and_actual_c06_building_update_halves",
         "test_reference_graph_and_actual_conduit_update"
       ],
       "runtime_proof": "/root/ConduitUpdateProof",
-      "rule": "Source-backed conduit rotation and updateTile; the conduits point at the drill and push water forward once per second."
+      "rule": "Source-backed conduit rotation and updateTile; the conduits point at the drill and push water forward once per second. A disabled conduit runs no updateTile at all: BuildingComp.update (BuildingComp.java:2276) runs updateTile only when `enabled || !block.noUpdateDisabled`, and the conduit sets noUpdateDisabled (Conduit.java:53), so the tick reads the frame enabled flag (Building.enabled, BuildingComp.java:77) and returns update_tile_called false with its liquid, smoothLiquid and flow timer untouched until it is enabled again."
     },
     "SourceDrillConsumptionRuntimeState.source_drill_booster_state": {
       "status": "active",

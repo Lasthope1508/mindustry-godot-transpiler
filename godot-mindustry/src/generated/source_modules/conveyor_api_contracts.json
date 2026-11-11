@@ -336,12 +336,16 @@
         "reason"
       ],
       "tests": [
-        "test_conveyor_advance_binding_registration",
+        "test_all_c06_building_update_halves_input_evidence_is_exact",
         "test_all_conveyor_advance_binding_input_evidence_is_exact",
+        "test_c06_building_update_halves_registration",
+        "test_conveyor_advance_binding_registration",
+        "test_live_loop_wires_building_update_halves",
+        "test_reference_graph_and_actual_c06_building_update_halves",
         "test_reference_graph_and_actual_conveyor_advance"
       ],
       "runtime_proof": "/root/ConveyorAdvanceProof",
-      "rule": "Source-backed conveyor belt advance; the belt moves its items and hands the front item to the next belt or the core.",
+      "rule": "Source-backed conveyor belt advance; the belt moves its items and hands the front item to the next belt or the core. Items move by speed * edelta() (Conveyor.java:266): the advance takes the building's live per-building timeScale (decayed each tick by BuildingComp.update, BuildingComp.java:2265-2267), so a boosted belt moves faster until its duration expires.",
       "return_type": "Dictionary"
     },
     "SourceConveyorRuntimeState.source_conveyor_handle_for_cell_state": {
@@ -969,12 +973,16 @@
         "reason"
       ],
       "tests": [
-        "test_conveyor_advance_binding_registration",
+        "test_all_c06_building_update_halves_input_evidence_is_exact",
         "test_all_conveyor_advance_binding_input_evidence_is_exact",
+        "test_c06_building_update_halves_registration",
+        "test_conveyor_advance_binding_registration",
+        "test_live_loop_wires_building_update_halves",
+        "test_reference_graph_and_actual_c06_building_update_halves",
         "test_reference_graph_and_actual_conveyor_advance"
       ],
       "runtime_proof": "/root/ConveyorAdvanceProof",
-      "rule": "Source-backed conveyor belt advance; the belt moves its items and hands the front item to the next belt or the core.",
+      "rule": "Source-backed conveyor belt advance; the belt moves its items and hands the front item to the next belt or the core. The wrapper reads each belt sprite's live per-building timeScale (decayed each tick by simulate_block_time_scales, BuildingComp.java:2265-2267) and passes it to the advance, so a boosted belt moves by speed * edelta() until its duration expires.",
       "return_type": "Dictionary"
     }
   }

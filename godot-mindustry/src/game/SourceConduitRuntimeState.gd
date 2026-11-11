@@ -5,9 +5,16 @@ const source_liquid_module_state := preload("res://src/game/SourceLiquidModuleSt
 const source_content_registry_runtime_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
 const source_placed_block_state := preload("res://src/game/SourcePlacedBlockState.gd")
 const source_building_liquid_state := preload("res://src/game/SourceBuildingLiquidState.gd")
+const source_building_lifecycle_state := preload("res://src/game/SourceBuildingLifecycleState.gd")
 const source_math_state := preload("res://src/game/SourceMathState.gd")
 
 const SOURCE_CONDUIT_BUILDING_META_KEY := "source_conduit_building"
+
+# Conduit.java:53: `noUpdateDisabled = true` — unlike the conveyor
+# (Conveyor.java:52 sets it false), a disabled conduit does not run
+# updateTile at all: BuildingComp.update (BuildingComp.java:2276)
+# runs updateTile only when `enabled || !block.noUpdateDisabled`.
+const CONDUIT_NO_UPDATE_DISABLED := true
 
 # Blocks.java:2322-2327: conduit = new Conduit("conduit") with
 # liquidCapacity = 20f and health = 45.
@@ -64,12 +71,29 @@ static func source_conduit_update_state(game: Object, cell: Vector2i, delta: flo
 	if liquids == null:
 		return {"liquid": null, "flowed": 0.0, "smooth_liquid": 0.0, "flow_timer": 0.0}
 	var frame: Dictionary = sprite.get_meta(SOURCE_CONDUIT_BUILDING_META_KEY, {})
+	# The frame carries the building's enabled flag (Building.enabled,
+	# BuildingComp.java:77 — what shouldConsume() returns), preserved
+	# across ticks like the factory/turret frames, so the updateTile
+	# gate below reads the live value and a disable survives the live
+	# loop.
+	var enabled: bool = bool(frame.get("enabled", true))
+	frame["enabled"] = enabled
 	var smooth_liquid: float = float(frame.get("smooth_liquid", 0.0))
 	var flow_timer: float = float(frame.get("flow_timer", 0.0))
 	var current_liquid: Variant = liquids.get("current", null)
 	var current_amount: float = 0.0
 	if current_liquid != null:
 		current_amount = float(source_liquid_module_state.source_get_state(liquids, int(current_liquid)).get("amount", 0.0))
+	# BuildingComp.update (BuildingComp.java:2276-2277) runs updateTile
+	# only when `enabled || !block.noUpdateDisabled`. A conduit sets
+	# noUpdateDisabled, so a disabled conduit runs no updateTile at
+	# all: no smoothLiquid lerp, no flow-timer advance, no forward
+	# move, no leak — its liquid and timers sit exactly as they were
+	# until it is enabled again.
+	var update_tile_gate: Dictionary = source_building_lifecycle_state.update_tile_gate_state(enabled, CONDUIT_NO_UPDATE_DISABLED)
+	if not bool(update_tile_gate.get("update_tile_called", true)):
+		sprite.set_meta(SOURCE_CONDUIT_BUILDING_META_KEY, frame)
+		return {"liquid": current_liquid, "flowed": 0.0, "smooth_liquid": smooth_liquid, "flow_timer": flow_timer, "update_tile_called": false, "enabled": enabled}
 	smooth_liquid = source_math_state.source_lerp_delta(smooth_liquid, current_amount / CONDUIT_LIQUID_CAPACITY, 0.05, delta)
 	var flowed := 0.0
 	flow_timer += delta
@@ -115,4 +139,4 @@ static func source_conduit_update_state(game: Object, cell: Vector2i, delta: flo
 	frame["flow_timer"] = flow_timer
 	sprite.set_meta(SOURCE_CONDUIT_BUILDING_META_KEY, frame)
 	var liquid_after: Variant = liquids.get("current", null)
-	return {"liquid": liquid_after, "flowed": flowed, "smooth_liquid": smooth_liquid, "flow_timer": flow_timer}
+	return {"liquid": liquid_after, "flowed": flowed, "smooth_liquid": smooth_liquid, "flow_timer": flow_timer, "update_tile_called": true, "enabled": enabled}

@@ -161321,10 +161321,14 @@
       "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
       "java_method": "updateTile",
       "java_expr": "if(len == 0 && Mathf.equal(timeScale, 1f)){",
-      "rule": "Block time scale; an empty belt sleeps when it is 1.",
+      "rule": "Block time scale; an empty belt sleeps when it is 1, and a loaded belt moves by speed * edelta() (speed * delta * timeScale), so a boosted belt moves faster until its duration expires (Conveyor.java:266, BuildingComp.java:1922-1929).",
       "tests": [
-        "test_conveyor_advance_binding_registration",
+        "test_all_c06_building_update_halves_input_evidence_is_exact",
         "test_all_conveyor_advance_binding_input_evidence_is_exact",
+        "test_c06_building_update_halves_registration",
+        "test_conveyor_advance_binding_registration",
+        "test_live_loop_wires_building_update_halves",
+        "test_reference_graph_and_actual_c06_building_update_halves",
         "test_reference_graph_and_actual_conveyor_advance"
       ],
       "runtime_proof": "/root/ConveyorAdvanceProof"
@@ -170556,6 +170560,38 @@
         "test_reference_graph_and_actual_c06_power_should_consume"
       ],
       "runtime_proof": "/root/C06PowerShouldConsumeProof"
+    },
+    "source_conduit_update_state_result.update_tile_called": {
+      "status": "source-backed",
+      "godot_owner": "SourceConduitRuntimeState.source_conduit_update_state",
+      "godot_symbol": "source_conduit_update_state_result.update_tile_called",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "update",
+      "java_expr": "        if(enabled || !block.noUpdateDisabled){",
+      "rule": "Whether BuildingComp.update() ran updateTile this frame: false when the building is disabled and its block sets noUpdateDisabled (Conduit.java:53).",
+      "tests": [
+        "test_c06_building_update_halves_registration",
+        "test_all_c06_building_update_halves_input_evidence_is_exact",
+        "test_live_loop_wires_building_update_halves",
+        "test_reference_graph_and_actual_c06_building_update_halves"
+      ],
+      "runtime_proof": "/root/C06BuildingUpdateProof"
+    },
+    "source_conduit_update_state_result.enabled": {
+      "status": "source-backed",
+      "godot_owner": "SourceConduitRuntimeState.source_conduit_update_state",
+      "godot_symbol": "source_conduit_update_state_result.enabled",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "update",
+      "java_expr": "    transient boolean enabled = true;",
+      "rule": "The conduit frame enabled flag (Building.enabled, BuildingComp.java:77): what the updateTile gate reads; true unless the frame was disabled.",
+      "tests": [
+        "test_c06_building_update_halves_registration",
+        "test_all_c06_building_update_halves_input_evidence_is_exact",
+        "test_live_loop_wires_building_update_halves",
+        "test_reference_graph_and_actual_c06_building_update_halves"
+      ],
+      "runtime_proof": "/root/C06BuildingUpdateProof"
     }
   },
   "version": 1

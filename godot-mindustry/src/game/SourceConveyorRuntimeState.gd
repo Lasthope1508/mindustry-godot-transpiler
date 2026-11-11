@@ -487,7 +487,19 @@ static func source_conveyor_advance_state(ids: Array, xs: Array, ys: Array, len:
 	var next_max := 1.0
 	if aligned:
 		next_max = 1.0 - maxf(0.4 - next_minitem, 0.0)
-	var moved := speed * delta
+	# Conveyor.java:266: `float moved = speed * edelta();`, and
+	# BuildingComp.java:1922-1929: `delta()` is `Time.delta *
+	# timeScale`, `edelta()` is `efficiency * delta()`. The belt's
+	# own timeScale is the caller's live per-building value (decayed
+	# each tick by BuildingComp.update, BuildingComp.java:2265-2267,
+	# via simulate_block_time_scales), so a boosted belt moves faster
+	# and returns to normal speed when its duration expires.
+	# Efficiency is 1 here: a conveyor carries no consumers, so
+	# updateConsumption (BuildingComp.java:1943-1948) sets efficiency
+	# to 1 when enabled. A disabled belt reads efficiency 0 in Java;
+	# the port carries no per-belt efficiency yet, so that half is
+	# deferred.
+	var moved := speed * delta * time_scale
 	var i := result_len - 1
 	while i >= 0:
 		var nextpos := 100.0 - 0.4

@@ -18372,6 +18372,50 @@
       "rule": "Source void mutation, verified against explicit GDScript -> void; input/owner/slice/proof checks remain mandatory. No result schema or fabricated wrapper.",
       "return_type": "void"
     },
+    "SourceConduitRuntimeState.source_conduit_update_state": {
+      "canonical_contract": "source_api_contracts.SourceConduitRuntimeState.source_conduit_update_state",
+      "status": "active",
+      "source_slice": "N2092",
+      "java_source": "core/src/mindustry/world/blocks/liquid/Conduit.java",
+      "source_method": "updateTile()",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_conduit_update_state_input.game"
+        },
+        {
+          "name": "cell",
+          "type": "Vector2i",
+          "schema": "source_conduit_update_state_input.cell"
+        },
+        {
+          "name": "delta",
+          "type": "float",
+          "schema": "source_conduit_update_state_input.delta"
+        }
+      ],
+      "return_keys": [
+        "liquid",
+        "flowed",
+        "smooth_liquid",
+        "flow_timer",
+        "update_tile_called",
+        "enabled"
+      ],
+      "tests": [
+        "test_all_c06_building_update_halves_input_evidence_is_exact",
+        "test_all_conduit_update_binding_input_evidence_is_exact",
+        "test_c06_building_update_halves_registration",
+        "test_conduit_update_binding_registration",
+        "test_live_loop_wires_building_update_halves",
+        "test_reference_graph_and_actual_c06_building_update_halves",
+        "test_reference_graph_and_actual_conduit_update"
+      ],
+      "runtime_proof": "/root/ConduitUpdateProof",
+      "rule": "Source-backed conduit rotation and updateTile; the conduits point at the drill and push water forward once per second. A disabled conduit runs no updateTile at all: BuildingComp.update (BuildingComp.java:2276) runs updateTile only when `enabled || !block.noUpdateDisabled`, and the conduit sets noUpdateDisabled (Conduit.java:53), so the tick reads the frame enabled flag (Building.enabled, BuildingComp.java:77) and returns update_tile_called false with its liquid, smoothLiquid and flow timer untouched until it is enabled again.",
+      "return_type": "Dictionary"
+    },
     "SourcePlacedBlockState.source_initialize_building_liquids_state": {
       "canonical_contract": "source_api_contracts.SourcePlacedBlockState.source_initialize_building_liquids_state",
       "status": "active",

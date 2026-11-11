@@ -5536,6 +5536,24 @@
       ],
       "runtime_proof": "/root/TeamCheatingStateProof"
     },
+    "N2126": {
+      "canonical_ledger": "source_slice_ledger.N2126",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "update",
+      "godot_owner": "SourceConduitRuntimeState.source_conduit_update_state",
+      "source_symbols": [
+        "source_conduit_update_state_result.enabled",
+        "source_conduit_update_state_result.update_tile_called"
+      ],
+      "tests": [
+        "test_c06_building_update_halves_registration",
+        "test_all_c06_building_update_halves_input_evidence_is_exact",
+        "test_live_loop_wires_building_update_halves",
+        "test_reference_graph_and_actual_c06_building_update_halves"
+      ],
+      "runtime_proof": "/root/C06BuildingUpdateProof"
+    },
     "N514": {
       "canonical_ledger": "source_slice_ledger.N514",
       "status": "done",

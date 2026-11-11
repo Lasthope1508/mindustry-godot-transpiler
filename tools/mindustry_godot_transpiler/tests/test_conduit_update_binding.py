@@ -15,7 +15,7 @@ class ConduitUpdateBindingTests(unittest.TestCase):
         contracts = json.loads((generated / 'source_api_contracts.json').read_text(encoding='utf-8'))['contracts']
         for sid, owner, schema, return_type, return_keys in [
             ('N2091', 'SourceWorldInitialBuildRuntimeState.source_conduit_rotation_state', 'source_conduit_rotation_state_input', 'Dictionary', ['block_id', 'rotations', 'count']),
-            ('N2092', 'SourceConduitRuntimeState.source_conduit_update_state', 'source_conduit_update_state_input', 'Dictionary', ['liquid', 'flowed', 'smooth_liquid', 'flow_timer']),
+            ('N2092', 'SourceConduitRuntimeState.source_conduit_update_state', 'source_conduit_update_state_input', 'Dictionary', ['liquid', 'flowed', 'smooth_liquid', 'flow_timer', 'update_tile_called', 'enabled']),
         ]:
             with self.subTest(slice=sid):
                 self.assertEqual(ledger[sid]['godot_owner'], owner)
