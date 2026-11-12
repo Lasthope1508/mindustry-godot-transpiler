@@ -54978,6 +54978,51 @@
         "Units.canCreate live evaluation (Units.java:115-117) needs live per-type unit counts and the unit cap (the unit-group system, C07); the assembler branch keeps reading frame[\"can_create\"], default true, until then.",
         "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2134": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_class": "mindustry.world.blocks.power.PowerGraph",
+      "java_method": "PowerGraph.getBatteryStored()",
+      "godot_owner": "SourceBuildingPowerState.source_building_power_battery_enabled_stamp_state",
+      "exact_exprs": [
+        "transient boolean enabled = true;",
+        "if(battery.enabled){",
+        "if(battery.enabled && battery.block.consPower.capacity > 0f){",
+        "var items = batteries.items;",
+        "for(int i = 0; i < batteries.size; i++){",
+        "var battery = items[i];",
+        "float totalAccumulator = 0f;",
+        "float totalCapacity = 0f;",
+        "totalAccumulator += battery.power.status * battery.block.consPower.capacity;",
+        "totalCapacity += (1f - battery.power.status) * battery.block.consPower.capacity;",
+        "totalCapacity += battery.block.consPower.capacity;",
+        "battery.power.status *= (1f-consumedPowerPercentage);",
+        "battery.power.status += (1f - battery.power.status) * chargedPercent;"
+      ],
+      "source_symbols": [
+        "source_building_power_battery_enabled_stamp_state_input.frame",
+        "source_building_power_battery_enabled_stamp_state_result.batteries",
+        "source_building_power_battery_enabled_stamp_state_result.disabled_count",
+        "source_building_power_battery_enabled_stamp_state_result.enabled_count"
+      ],
+      "tests": [
+        "test_c06_battery_enabled_stamp_registration",
+        "test_all_c06_battery_enabled_stamp_input_evidence_is_exact",
+        "test_battery_enabled_stamp_reads_live_building_enabled",
+        "test_reference_graph_and_actual_c06_battery_enabled_stamp"
+      ],
+      "runtime_proof": "/root/C06BatteryEnabledStampProof",
+      "deferred_exprs": [
+        "A disabled conveyor reads efficiency 0 in Java (BuildingComp.java:1943-1948) but the port carries no per-belt efficiency yet, so a disabled belt still advances.",
+        "The unit-factory frames keep the N2125 enabled-only power stamp: their per-class shouldConsume bodies (N2124) are plan-gated, and wiring them to the power stamp needs a unit-factory proof setup of its own.",
+        "Live production wiring: the tick driver advances no progress and calls no spawned() yet -- UnitFactory progress (UnitFactory.java:401-403), Reconstructor progress (Reconstructor.java:330-348) and UnitAssembler spawned() (UnitAssembler.java:544-571) are the production slice; the intake call site (moveInPayload() && !wasOccupied, UnitAssembler.java:500-503) is the wiring that calls the intake slice when a payload arrives.",
+        "Units.canCreate live evaluation (Units.java:115-117) needs live per-type unit counts and the unit cap (the unit-group system, C07); the assembler branch keeps reading frame[\"can_create\"], default true, until then.",
+        "lastTier tracking and the progress reset on a tier change (UnitAssembler.java:441-447, if(lastTier != currentTier){ if(lastTier >= 0f){ progress = 0f; } lastTier = lastTier == -2 ? -1 : currentTier; }) -- belongs to the live production/tick wiring, not the battery stamp.",
+        "The live-loop module link/unlink call sites: updateModules/removeModule are called from UnitAssemblerModuleBuild link/unlink (UnitAssemblerModule.java:80-83) -- the port has no live module-linking frame event yet, so the frame modules list is an input, not something the tick maintains.",
+        "The standalone SourcePlacedPowerGraphState.battery_state() query helper is not stamped -- only the live tick path (runtime_state) stamps. A query frame without a live building keeps its static enabled either way.",
+        "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1

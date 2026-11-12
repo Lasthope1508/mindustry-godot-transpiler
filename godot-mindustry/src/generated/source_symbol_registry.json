@@ -171044,6 +171044,70 @@
         "test_reference_graph_and_actual_c06_unit_assembler_check_tier"
       ],
       "runtime_proof": "/root/C06UnitAssemblerCheckTierProof"
+    },
+    "source_building_power_battery_enabled_stamp_state_input.frame": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingPowerState.source_building_power_battery_enabled_stamp_state",
+      "godot_symbol": "source_building_power_battery_enabled_stamp_state_input.frame",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "PowerGraph.getBatteryStored()",
+      "java_expr": "transient boolean enabled = true;",
+      "rule": "The tick frame; its batteries list is the battery dicts built by block_battery_state, each carrying its live building under the block key plus the statically derived enabled. The stamp overwrites each dict enabled with the live Building.enabled (BuildingComp.enabled, default true); a battery whose block carries no live enabled keeps its static value.",
+      "tests": [
+        "test_c06_battery_enabled_stamp_registration",
+        "test_all_c06_battery_enabled_stamp_input_evidence_is_exact",
+        "test_battery_enabled_stamp_reads_live_building_enabled",
+        "test_reference_graph_and_actual_c06_battery_enabled_stamp"
+      ],
+      "runtime_proof": "/root/C06BatteryEnabledStampProof"
+    },
+    "source_building_power_battery_enabled_stamp_state_result.batteries": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingPowerState.source_building_power_battery_enabled_stamp_state",
+      "godot_symbol": "source_building_power_battery_enabled_stamp_state_result.batteries",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "PowerGraph.getBatteryStored()",
+      "java_expr": "if(battery.enabled){",
+      "rule": "The stamped batteries -- the same dicts, each enabled now the live Building.enabled of its block, so the graph gates on the live flag on the next pass.",
+      "tests": [
+        "test_c06_battery_enabled_stamp_registration",
+        "test_all_c06_battery_enabled_stamp_input_evidence_is_exact",
+        "test_battery_enabled_stamp_reads_live_building_enabled",
+        "test_reference_graph_and_actual_c06_battery_enabled_stamp"
+      ],
+      "runtime_proof": "/root/C06BatteryEnabledStampProof"
+    },
+    "source_building_power_battery_enabled_stamp_state_result.enabled_count": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingPowerState.source_building_power_battery_enabled_stamp_state",
+      "godot_symbol": "source_building_power_battery_enabled_stamp_state_result.enabled_count",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "PowerGraph.getBatteryStored()",
+      "java_expr": "var battery = items[i];",
+      "rule": "How many stamped batteries are enabled -- the count of batteries the PowerGraph passes include (getBatteryStored / getBatteryCapacity / getTotalBatteryCapacity / useBatteries / chargeBatteries).",
+      "tests": [
+        "test_c06_battery_enabled_stamp_registration",
+        "test_all_c06_battery_enabled_stamp_input_evidence_is_exact",
+        "test_battery_enabled_stamp_reads_live_building_enabled",
+        "test_reference_graph_and_actual_c06_battery_enabled_stamp"
+      ],
+      "runtime_proof": "/root/C06BatteryEnabledStampProof"
+    },
+    "source_building_power_battery_enabled_stamp_state_result.disabled_count": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingPowerState.source_building_power_battery_enabled_stamp_state",
+      "godot_symbol": "source_building_power_battery_enabled_stamp_state_result.disabled_count",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "PowerGraph.getBatteryStored()",
+      "java_expr": "if(battery.enabled && battery.block.consPower.capacity > 0f){",
+      "rule": "How many stamped batteries are disabled -- the count the PowerGraph passes exclude.",
+      "tests": [
+        "test_c06_battery_enabled_stamp_registration",
+        "test_all_c06_battery_enabled_stamp_input_evidence_is_exact",
+        "test_battery_enabled_stamp_reads_live_building_enabled",
+        "test_reference_graph_and_actual_c06_battery_enabled_stamp"
+      ],
+      "runtime_proof": "/root/C06BatteryEnabledStampProof"
     }
   },
   "version": 1

@@ -1119,6 +1119,26 @@
       ],
       "runtime_proof": "/root/C06SourceExhaustionProof"
     },
+    "N2134": {
+      "canonical_ledger": "source_slice_ledger.N2134",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "PowerGraph.getBatteryStored()",
+      "godot_owner": "SourceBuildingPowerState.source_building_power_battery_enabled_stamp_state",
+      "source_symbols": [
+        "source_building_power_battery_enabled_stamp_state_input.frame",
+        "source_building_power_battery_enabled_stamp_state_result.batteries",
+        "source_building_power_battery_enabled_stamp_state_result.disabled_count",
+        "source_building_power_battery_enabled_stamp_state_result.enabled_count"
+      ],
+      "tests": [
+        "test_c06_battery_enabled_stamp_registration",
+        "test_all_c06_battery_enabled_stamp_input_evidence_is_exact",
+        "test_battery_enabled_stamp_reads_live_building_enabled",
+        "test_reference_graph_and_actual_c06_battery_enabled_stamp"
+      ],
+      "runtime_proof": "/root/C06BatteryEnabledStampProof"
+    },
     "N888": {
       "canonical_ledger": "source_slice_ledger.N888",
       "status": "done",

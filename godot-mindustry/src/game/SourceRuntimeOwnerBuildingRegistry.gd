@@ -34,6 +34,7 @@ const PORT_GAME_SOURCE_BUILDING_HEALTH_RECENT_STATE := "port_game.source_buildin
 const PORT_GAME_SOURCE_BUILDING_POWER_BLOCK_CONSUMER_STATE := "port_game.source_building_power_block_consumer_state"
 const PORT_GAME_SOURCE_BUILDING_POWER_BLOCK_PRODUCER_STATE := "port_game.source_building_power_block_producer_state"
 const PORT_GAME_SOURCE_BUILDING_POWER_BLOCK_BATTERY_STATE := "port_game.source_building_power_block_battery_state"
+const PORT_GAME_SOURCE_BUILDING_POWER_BATTERY_ENABLED_STAMP_STATE := "port_game.source_building_power_battery_enabled_stamp_state"
 const PORT_GAME_SOURCE_BUILDING_PLAYER_PLACED_STATE := "port_game.source_building_player_placed_state"
 const PORT_GAME_SOURCE_BUILDING_PLACED_STATE := "port_game.source_building_placed_state"
 const PORT_GAME_SOURCE_BUILDING_ON_REPAIRED_STATE := "port_game.source_building_on_repaired_state"

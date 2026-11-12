@@ -233,7 +233,12 @@ static func runtime_state(placed_block_origins: Dictionary, block_from_sprite_fn
 	var roles: Dictionary = grouped.get("counts", {"all": 0, "producers": 0, "consumers": 0, "batteries": 0})
 	var needed: Dictionary = source_power_graph_state.power_needed_state(grouped.get("consumers", []))
 	var produced: Dictionary = source_power_graph_state.power_produced_state(grouped.get("producers", []))
-	var battery: Dictionary = source_power_graph_state.battery_state(grouped.get("batteries", []))
+	# N2134: stamp the grouped batteries with the live
+	# Building.enabled before the graph reads them, so a disabled
+	# battery drops out of stored/capacity/use/charge on this tick
+	# (PowerGraph.java:123, 135, 147, 163, 180).
+	var stamped: Dictionary = source_building_power_state.source_building_power_battery_enabled_stamp_state({"batteries": grouped.get("batteries", [])})
+	var battery: Dictionary = source_power_graph_state.battery_state(stamped.get("batteries", []))
 	return {
 		"roles": roles,
 		"needed": needed,

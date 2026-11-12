@@ -64163,6 +64163,33 @@
       ],
       "runtime_proof": "/root/C06UnitAssemblerCheckTierProof",
       "rule": "Source-backed UnitAssembler checkTier from the module tiers."
+    },
+    "SourceBuildingPowerState.source_building_power_battery_enabled_stamp_state": {
+      "status": "active",
+      "source_slice": "N2134",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "source_method": "PowerGraph.getBatteryStored()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_building_power_battery_enabled_stamp_state_input.frame"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "batteries",
+        "enabled_count",
+        "disabled_count"
+      ],
+      "tests": [
+        "test_c06_battery_enabled_stamp_registration",
+        "test_all_c06_battery_enabled_stamp_input_evidence_is_exact",
+        "test_battery_enabled_stamp_reads_live_building_enabled",
+        "test_reference_graph_and_actual_c06_battery_enabled_stamp"
+      ],
+      "runtime_proof": "/root/C06BatteryEnabledStampProof",
+      "rule": "Source-backed battery live enabled stamp from PowerGraph."
     }
   },
   "policy": {

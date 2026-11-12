@@ -218,6 +218,44 @@ static func block_battery_state(block) -> Dictionary:
 		SOURCE_BUILDING_POWER_BUFFERED_KEY: true,
 	}
 
+static func source_building_power_battery_enabled_stamp_state(frame: Dictionary) -> Dictionary:
+	# PowerGraph reads the live Building.enabled on every battery
+	# pass -- `if(battery.enabled){` in getBatteryStored /
+	# getBatteryCapacity / getTotalBatteryCapacity / useBatteries
+	# (PowerGraph.java:123, 135, 147, 163) and `if(battery.enabled
+	# && battery.block.consPower.capacity > 0f){` in chargeBatteries
+	# (PowerGraph.java:180). The flag itself is BuildingComp's
+	# `transient boolean enabled = true;` (BuildingComp.java:77).
+	# The battery dicts built by block_battery_state carry the
+	# statically derived enabled, so the live tick stamps each
+	# dict's enabled with the live Building.enabled read through
+	# block_properties(block); a battery whose block carries no
+	# live enabled keeps its statically derived value (Java
+	# defaults enabled to true, and the static derivation is the
+	# port's standing default for a battery block -- the guard
+	# keeps existing proof frames unaffected). The function is
+	# pure: it duplicates each dict, stamps it, and returns the
+	# stamped batteries plus the enabled/disabled counts.
+	var batteries: Array = frame.get("batteries", [])
+	if not batteries is Array:
+		batteries = []
+	var stamped: Array = []
+	var enabled_count := 0
+	var disabled_count := 0
+	for battery in batteries:
+		if typeof(battery) != TYPE_DICTIONARY:
+			continue
+		var stamped_battery: Dictionary = battery.duplicate(true)
+		var properties := block_properties(battery.get(SOURCE_BUILDING_POWER_BLOCK_KEY))
+		if properties.has(SOURCE_BUILDING_POWER_ENABLED_KEY):
+			stamped_battery[SOURCE_BUILDING_POWER_ENABLED_KEY] = bool(properties.get(SOURCE_BUILDING_POWER_ENABLED_KEY))
+		if bool(stamped_battery.get(SOURCE_BUILDING_POWER_ENABLED_KEY, false)):
+			enabled_count += 1
+		else:
+			disabled_count += 1
+		stamped.append(stamped_battery)
+	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_POWER_BATTERY_ENABLED_STAMP_STATE, "batteries": stamped, "enabled_count": enabled_count, "disabled_count": disabled_count}
+
 static func on_proximity_removed_state(power_present: bool) -> Dictionary:
 	return {
 		SOURCE_BUILDING_POWER_METHOD_KEY: SOURCE_BUILDING_POWER_ON_PROXIMITY_REMOVED_METHOD,
