@@ -110,6 +110,12 @@ Composition, not re-implementation: `getCap` and `countType` already have port-b
 - `power.status` live read — the driver folds `frame["power_status"]` (null → 1.0) until a power-status slice lands.
 - C07–C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption.
 
+## Gate verified + commit (23:00 cron run, 2026-11-12 ~23:00-23:05 +07)
+
+- **Gate attempt 2 FINISHED ~23:00 +07** (setsid PID 13033, started ~22:45, main-thread launch): **Ran 5657 tests in 886.721s, FAILED (failures=91, skipped=5), 0 errors** — verified in this run: 91 `FAIL:` blocks, 0 `ERROR:` blocks, all 91 `unexpectedly None` (90 plain `assertIsNotNone(godot)` + 1 hydration proof), 0 non-Godot failures; the N2140 module shows no failure other than its Godot-proof test, the N2124/N2132 modules likewise. Attempt 1 (setsid PID 12440, ~22:41) died ~22:44 at session-end (log frozen at 4878 bytes, preserved as `full-suite-n2140-gate-attempt1.log`); attempt 2 finished clean. Log `tools/mindustry_godot_transpiler/full-suite-n2140-gate.log`.
+- Report `docs/superpowers/reports/2026-11-12-c07-units-can-create.md` written; design spec updated (N2140 checklist row + Status Summary 1590→1591 + changelog row).
+- Slice commit: 54b10e1. Docs commit: d277094.
+
 ## Commit
 
-Not yet — GREEN + neighbours done, full gate attempt 2 running (PID 13033, launched ~22:45). Commit + push only after the gate is verified clean except Godot.
+DONE + PUSHED 2026-11-12 ~23:05 +07 — slice commit 54b10e1 + docs commit d277094 (+ this handoff-hash commit) pushed to origin main (fork Lasthope1508). Gate verified clean except Godot.
