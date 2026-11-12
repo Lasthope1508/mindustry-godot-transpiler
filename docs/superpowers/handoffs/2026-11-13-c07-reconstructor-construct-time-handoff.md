@@ -21,7 +21,7 @@ Date: 2026-11-13. Batch: N2143 (single slice). Status: **DONE + PUSHED 2026-11-1
 ## Commits
 
 - Slice commit: d7a4ec8.
-- Docs commit: TBD (this run).
+- Docs commit: de00c8f.
 - Handoff-hash commit: TBD if needed (prior pattern).
 
 ## Next (next slice)
