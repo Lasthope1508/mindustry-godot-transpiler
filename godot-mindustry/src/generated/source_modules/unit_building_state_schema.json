@@ -172,6 +172,71 @@
         }
       }
     },
+    "source_unit_factory_production_tick_state_input": {
+      "canonical_schema": "source_state_schema.source_unit_factory_production_tick_state_input",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+          "java_expr": "public void updateTile(){",
+          "rule": "The factory frame; carries efficiency (default 1.0), current_plan (default -1), payload (default null), progress/time/speed_scl (defaults 0.0 -- UnitBuild float fields, Java default 0f), configurable (default true) and rules_state (bannedUnits, default empty).",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_production_tick_state"
+          ]
+        },
+        "plan": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+          "java_expr": "UnitPlan plan = plans.get(currentPlan);",
+          "rule": "The current plan dict from source_unit_factory_plan_requirements_state (unit + time); empty when the frame has no plan.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_production_tick_state"
+          ]
+        },
+        "plans_count": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+          "java_expr": "if(currentPlan < 0 || currentPlan >= plans.size){",
+          "rule": "block.properties.unitPlans.size() for the bounds check (updateTile forces plan 0 when the block is not configurable, then -1 when out of range).",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_production_tick_state"
+          ]
+        },
+        "edelta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return efficiency * delta();",
+          "rule": "efficiency * delta (BuildingComp.edelta(), BuildingComp.java:1927-1928).",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_production_tick_state"
+          ]
+        },
+        "unit_build_speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Rules.java",
+          "java_expr": "return unitBuildSpeedMultiplier * teams.get(team).unitBuildSpeedMultiplier;",
+          "rule": "Rules.unitBuildSpeed(team) (Rules.java:271-272): the global unitBuildSpeedMultiplier (default 1f) times the team multiplier (default 1f).",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_production_tick_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+          "java_expr": "speedScl = Mathf.lerpDelta(speedScl, 1f, 0.05f);",
+          "rule": "The tick delta for lerpDelta (SourceMathState.source_lerp_delta, Mathf.lerpDelta = lerp(from, to, clamp(progress * Time.delta))).",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_production_tick_state"
+          ]
+        }
+      }
+    },
     "source_unit_factory_tick_buildings_state_input": {
       "canonical_schema": "source_state_schema.source_unit_factory_tick_buildings_state_input",
       "keys": {

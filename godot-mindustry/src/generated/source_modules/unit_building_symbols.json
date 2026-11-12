@@ -704,6 +704,81 @@
       ],
       "runtime_proof": "/root/UnitFactoryConsumerBindingProof"
     },
+    "source_unit_factory_production_tick_state_result.completed": {
+      "canonical_symbol": "source_symbol_registry.source_unit_factory_production_tick_state_result.completed",
+      "status": "source-backed",
+      "java_expr": "if(progress >= plan.time){",
+      "godot_symbol": "source_unit_factory_production_tick_state_result.completed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_production_tick_state",
+      "rule": "True when progress reached plan.time this tick: the unit was created, the payload set, the N2128 consume state fired and the UnitCreateEvent recorded.",
+      "tests": [
+        "test_c06_unit_factory_production_tick_registration",
+        "test_all_c06_unit_factory_production_tick_input_evidence_is_exact",
+        "test_unit_factory_production_tick_state",
+        "test_reference_graph_and_actual_c06_unit_factory_production_tick"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryProductionProof"
+    },
+    "source_unit_factory_production_tick_state_result.current_plan": {
+      "canonical_symbol": "source_symbol_registry.source_unit_factory_production_tick_state_result.current_plan",
+      "status": "source-backed",
+      "java_expr": "if(currentPlan < 0 || currentPlan >= plans.size){",
+      "godot_symbol": "source_unit_factory_production_tick_state_result.current_plan",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_production_tick_state",
+      "rule": "The frame current_plan after the tick: forced to 0 when the block is not configurable, -1 when out of range or the plan unit is banned (Java returns from updateTile, skipping the clamp).",
+      "tests": [
+        "test_c06_unit_factory_production_tick_registration",
+        "test_all_c06_unit_factory_production_tick_input_evidence_is_exact",
+        "test_unit_factory_production_tick_state",
+        "test_reference_graph_and_actual_c06_unit_factory_production_tick"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryProductionProof"
+    },
+    "source_unit_factory_production_tick_state_result.progress": {
+      "canonical_symbol": "source_symbol_registry.source_unit_factory_production_tick_state_result.progress",
+      "status": "source-backed",
+      "java_expr": "progress += edelta() * Vars.state.rules.unitBuildSpeed(team);",
+      "godot_symbol": "source_unit_factory_production_tick_state_result.progress",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_production_tick_state",
+      "rule": "The frame progress after the tick: advanced by edelta * unit_build_speed while producing, fmod 1.0 then clamped to plan.time on completion, 0 when no plan or a payload is held.",
+      "tests": [
+        "test_c06_unit_factory_production_tick_registration",
+        "test_all_c06_unit_factory_production_tick_input_evidence_is_exact",
+        "test_unit_factory_production_tick_state",
+        "test_reference_graph_and_actual_c06_unit_factory_production_tick"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryProductionProof"
+    },
+    "source_unit_factory_production_tick_state_result.speed_scl": {
+      "canonical_symbol": "source_symbol_registry.source_unit_factory_production_tick_state_result.speed_scl",
+      "status": "source-backed",
+      "java_expr": "speedScl = Mathf.lerpDelta(speedScl, 1f, 0.05f);",
+      "godot_symbol": "source_unit_factory_production_tick_state_result.speed_scl",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_production_tick_state",
+      "rule": "The frame speed_scl after the tick: lerped toward 1.0 while producing, toward 0.0 otherwise (0.05 per tick).",
+      "tests": [
+        "test_c06_unit_factory_production_tick_registration",
+        "test_all_c06_unit_factory_production_tick_input_evidence_is_exact",
+        "test_unit_factory_production_tick_state",
+        "test_reference_graph_and_actual_c06_unit_factory_production_tick"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryProductionProof"
+    },
+    "source_unit_factory_production_tick_state_result.time": {
+      "canonical_symbol": "source_symbol_registry.source_unit_factory_production_tick_state_result.time",
+      "status": "source-backed",
+      "java_expr": "time += edelta() * speedScl * Vars.state.rules.unitBuildSpeed(team);",
+      "godot_symbol": "source_unit_factory_production_tick_state_result.time",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_production_tick_state",
+      "rule": "The frame time after the tick: advanced by edelta * speed_scl * unit_build_speed while producing.",
+      "tests": [
+        "test_c06_unit_factory_production_tick_registration",
+        "test_all_c06_unit_factory_production_tick_input_evidence_is_exact",
+        "test_unit_factory_production_tick_state",
+        "test_reference_graph_and_actual_c06_unit_factory_production_tick"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryProductionProof"
+    },
     "source_unit_factory_reinitialize_consumers_state_input.amounts": {
       "canonical_symbol": "source_symbol_registry.source_unit_factory_reinitialize_consumers_state_input.amounts",
       "status": "source-backed",

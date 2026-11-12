@@ -224,6 +224,27 @@
         "test_reference_graph_and_actual_c06_unit_factory_should_consume_power_stamp"
       ],
       "runtime_proof": "/root/C06PowerShouldConsumeProof"
+    },
+    "N2137": {
+      "canonical_ledger": "source_slice_ledger.N2137",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+      "java_method": "UnitFactoryBuild.updateTile()",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_production_tick_state",
+      "source_symbols": [
+        "source_unit_factory_production_tick_state_result.progress",
+        "source_unit_factory_production_tick_state_result.time",
+        "source_unit_factory_production_tick_state_result.speed_scl",
+        "source_unit_factory_production_tick_state_result.completed",
+        "source_unit_factory_production_tick_state_result.current_plan"
+      ],
+      "tests": [
+        "test_c06_unit_factory_production_tick_registration",
+        "test_all_c06_unit_factory_production_tick_input_evidence_is_exact",
+        "test_unit_factory_production_tick_state",
+        "test_reference_graph_and_actual_c06_unit_factory_production_tick"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryProductionProof"
     }
   }
 }

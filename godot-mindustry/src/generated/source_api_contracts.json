@@ -64199,6 +64199,60 @@
       ],
       "runtime_proof": "/root/C06BatteryEnabledStampProof",
       "rule": "Source-backed battery live enabled stamp from PowerGraph."
+    },
+    "SourceUnitFactoryBuildState.source_unit_factory_production_tick_state": {
+      "status": "active",
+      "source_slice": "N2137",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+      "source_method": "UnitFactoryBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_unit_factory_production_tick_state_input.frame"
+        },
+        {
+          "name": "plan",
+          "type": "Dictionary",
+          "schema": "source_unit_factory_production_tick_state_input.plan"
+        },
+        {
+          "name": "plans_count",
+          "type": "int",
+          "schema": "source_unit_factory_production_tick_state_input.plans_count"
+        },
+        {
+          "name": "edelta",
+          "type": "float",
+          "schema": "source_unit_factory_production_tick_state_input.edelta"
+        },
+        {
+          "name": "unit_build_speed",
+          "type": "float",
+          "schema": "source_unit_factory_production_tick_state_input.unit_build_speed"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_unit_factory_production_tick_state_input.source_delta"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "progress",
+        "time",
+        "speed_scl",
+        "completed",
+        "current_plan"
+      ],
+      "tests": [
+        "test_c06_unit_factory_production_tick_registration",
+        "test_all_c06_unit_factory_production_tick_input_evidence_is_exact",
+        "test_unit_factory_production_tick_state",
+        "test_reference_graph_and_actual_c06_unit_factory_production_tick"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryProductionProof",
+      "rule": "Source-backed UnitFactory live production tick from UnitFactoryBuild.updateTile()."
     }
   },
   "policy": {

@@ -14,6 +14,7 @@ const source_consume_liquid_state := preload("res://src/game/SourceConsumeLiquid
 const source_consume_state := preload("res://src/game/SourceConsumeState.gd")
 const source_building_access_state := preload("res://src/game/SourceBuildingAccessState.gd")
 const source_time_defaults := preload("res://src/game/SourceTimeDefaults.gd")
+const source_math_state := preload("res://src/game/SourceMathState.gd")
 
 # Every block whose build is a unit-factory build: the three classes
 # that set each consumer's multiplier to Rules.unitCost
@@ -614,8 +615,11 @@ static func source_unit_factory_tick_buildings_state(game: Object, seconds: floa
 	# updateConsumption's first and second passes every tick, so a
 	# placed unit factory actually consumes — the liquid rows drain
 	# per tick and the item rows gate efficiency on the stacks held.
-	# The frame delta is not consumed by the wiring itself beyond
-	# that; a later slice that ticks production reads it.
+	# The frame delta feeds the production tick too (N2137): a
+	# UnitFactory frame advances progress/time and fires the
+	# completion call through
+	# source_unit_factory_production_tick_state; Reconstructor and
+	# UnitAssembler still read the consumption half only.
 	var results_by_cell := {}
 	var ticked_count := 0
 	if game == null:
@@ -686,6 +690,25 @@ static func source_unit_factory_tick_buildings_state(game: Object, seconds: floa
 				updates.append(actor)
 		var consumption: Dictionary = source_building_efficiency_state.update_consumption_state(_has_consumers_state(block), bool(frame.get("cheating", false)), bool(frame.get("enabled", true)), valid, should_consume, float(frame.get("efficiency_scale", 1.0)), required_results, optional_results, updates, frame)
 		source_building_efficiency_state.apply_update_consumption_state(consumption, frame)
+		# Production (N2137): a UnitFactory frame advances
+		# progress/time and fires the completion call
+		# (source_unit_factory_production_tick_state —
+		# UnitFactoryBuild.updateTile(), UnitFactory.java:392-442);
+		# Reconstructor and UnitAssembler keep the consumption-only
+		# tick until their own production slices (N2138, N2139).
+		if str(block.implementation) == "UnitFactory":
+			var production_plan: Dictionary = source_unit_factory_plan_requirements_state(block, int(frame.get("current_plan", -1)))
+			var plans_count: int = Array(block.properties.get("unitPlans", [])).size()
+			var production: Dictionary = source_unit_factory_production_tick_state(frame, production_plan, plans_count, float(frame.get("efficiency", 1.0)) * seconds * source_time_defaults.TICK_RATE, _unit_build_speed_state(rules_state, team_id), seconds * source_time_defaults.TICK_RATE)
+			frame["current_plan"] = int(production.get("current_plan", -1))
+			frame["progress"] = float(production.get("progress", 0.0))
+			frame["time"] = float(production.get("time", 0.0))
+			frame["speed_scl"] = float(production.get("speed_scl", 0.0))
+			frame["payload"] = production.get("payload", null)
+			if bool(production.get("completed", false)):
+				var production_consume: Dictionary = source_unit_factory_consume_state(frame, consumers, rows)
+				frame["production_consumed"] = production_consume
+				frame["unit_created_event"] = bool(production.get("unit_created_event", false))
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
@@ -716,6 +739,126 @@ static func source_unit_factory_plan_requirements_state(block: Object, plan_inde
 		"unit": str(plan.get("unit", "")),
 		"time": float(plan.get("time", 0.0)),
 		"items": Array(plan.get("requirements", [])),
+	}
+
+static func _unit_build_speed_state(rules_state: Variant, team_id: int) -> float:
+	# Rules.unitBuildSpeed(team) (Rules.java:271-272,
+	# `return unitBuildSpeedMultiplier *
+	# teams.get(team).unitBuildSpeedMultiplier;`): the global
+	# unitBuildSpeedMultiplier (Rules.java:81, default 1f) times the
+	# team's own (Rules.java:353, default 1f); a rules state without
+	# either keeps the 1.0 default. The team rules read mirrors
+	# source_team_cheating_state (the teams dict, keyed by team id
+	# or its string form).
+	var global_multiplier := 1.0
+	var team_multiplier := 1.0
+	if rules_state is Dictionary:
+		var rules: Dictionary = rules_state
+		global_multiplier = float(rules.get("unitBuildSpeedMultiplier", 1.0))
+		var teams: Dictionary = rules.get("teams", {})
+		var team_rules: Dictionary = {}
+		if teams.has(team_id):
+			team_rules = teams[team_id]
+		elif teams.has(str(team_id)):
+			team_rules = teams[str(team_id)]
+		if not team_rules.is_empty():
+			team_multiplier = float(team_rules.get("unitBuildSpeedMultiplier", 1.0))
+	return global_multiplier * team_multiplier
+
+static func source_unit_factory_production_tick_state(frame: Dictionary, plan: Dictionary, plans_count: int, edelta: float, unit_build_speed: float, source_delta: float) -> Dictionary:
+	# One tick of UnitFactoryBuild.updateTile()
+	# (UnitFactory.java:392-442), UnitFactory only: the progress/time
+	# advance (`progress += edelta() * Vars.state.rules.unitBuildSpeed(team);`,
+	# `time += edelta() * speedScl * Vars.state.rules.unitBuildSpeed(team);`)
+	# and the completion call (`payload = new UnitPayload(unit);`
+	# then consume() and the UnitCreateEvent) when
+	# `progress >= plan.time`. The frame carries the Building fields
+	# Java reads: efficiency (default 1.0), current_plan (default
+	# -1), payload (default null), progress/time/speed_scl (defaults
+	# 0.0 — UnitBuild float fields, Java default 0f), configurable
+	# (default true) and rules_state (bannedUnits, default empty).
+	# edelta is efficiency * delta (BuildingComp.edelta(),
+	# BuildingComp.java:1927-1928); unit_build_speed is
+	# Rules.unitBuildSpeed(team) (Rules.java:271-272); source_delta
+	# is the tick delta for lerpDelta
+	# (SourceMathState.source_lerp_delta, Mathf.lerpDelta = lerp
+	# (from, to, clamp(progress * Time.delta))). moveOutPayload()
+	# is NOT modeled here — deferred (payload transport slice) — so
+	# a payload created last tick stays in the frame and the next
+	# tick's payload != null branch resets progress to 0 until the
+	# move-out slice lands. The commandable-unit branch
+	# (commandPos/command) and the create sound are presentation,
+	# not state — not modeled. The banned check reads
+	# Rules.isBanned (Rules.java:310-312, `unitWhitelist !=
+	# bannedUnits.contains(unit)`) through the frame's rules_state;
+	# a banned plan resets current_plan to -1 and returns early,
+	# skipping the clamp, exactly as Java returns from updateTile.
+	# The completion records the event as state (no live event bus —
+	# like the N2128 consume trigger); the tick driver performs the
+	# consume() call itself on completed and records the result.
+	var efficiency: float = float(frame.get("efficiency", 1.0))
+	var current_plan: int = int(frame.get("current_plan", -1))
+	var payload: Variant = frame.get("payload", null)
+	var progress: float = float(frame.get("progress", 0.0))
+	var time: float = float(frame.get("time", 0.0))
+	var speed_scl: float = float(frame.get("speed_scl", 0.0))
+	var configurable: bool = bool(frame.get("configurable", true))
+	var completed := false
+	var consumed := false
+	var unit_created_event := false
+	var banned := false
+	if not configurable:
+		current_plan = 0
+	if current_plan < 0 or current_plan >= plans_count:
+		current_plan = -1
+	if efficiency > 0.0 and current_plan != -1:
+		time += edelta * speed_scl * unit_build_speed
+		progress += edelta * unit_build_speed
+		speed_scl = source_math_state.source_lerp_delta(speed_scl, 1.0, 0.05, source_delta)
+	else:
+		speed_scl = source_math_state.source_lerp_delta(speed_scl, 0.0, 0.05, source_delta)
+	if current_plan != -1 and payload == null:
+		var rules: Dictionary = {}
+		if frame.get("rules_state", {}) is Dictionary:
+			rules = frame.get("rules_state", {})
+		var banned_units: Array = rules.get("bannedUnits", [])
+		var plan_unit: String = str(plan.get("unit", ""))
+		banned = bool(rules.get("unitWhitelist", false)) != banned_units.has(plan_unit)
+		if banned:
+			current_plan = -1
+			return {
+				"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_FACTORY_BUILD_PRODUCTION_TICK_STATE,
+				"current_plan": current_plan,
+				"progress": progress,
+				"time": time,
+				"speed_scl": speed_scl,
+				"completed": completed,
+				"payload": payload,
+				"consumed": consumed,
+				"unit_created_event": unit_created_event,
+				"banned": banned,
+			}
+		var plan_time: float = float(plan.get("time", 0.0))
+		if progress >= plan_time:
+			progress = fmod(progress, 1.0)
+			completed = true
+			payload = {"unit": plan_unit}
+			consumed = true
+			unit_created_event = true
+		progress = clampf(progress, 0.0, plan_time)
+	else:
+		progress = 0.0
+	return {
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_FACTORY_BUILD_PRODUCTION_TICK_STATE,
+		"current_plan": current_plan,
+		"progress": progress,
+		"time": time,
+		"speed_scl": speed_scl,
+		"completed": completed,
+		"payload": payload,
+		"consumed": consumed,
+		"unit_created_event": unit_created_event,
+		"banned": banned,
 	}
 
 static func source_bind_consumer_state(frame: Dictionary, block: Object, catalog: Object, amounts: Dictionary) -> Dictionary:
@@ -853,7 +996,7 @@ static func source_unit_factory_consume_state(frame: Dictionary, consumers: Arra
 	# frame's own item module).
 	# The completion sites that call this in Java are the unit
 	# completions, not the per-tick consumption passes — the tick
-	# driver never calls it:
+	# driver calls it only there, on a UnitFactory completion (N2137):
 	#   UnitFactoryBuild.updateTile() (UnitFactory.java:420-436):
 	#     `if(progress >= plan.time){ progress %= 1f; ... payload =
 	#     new UnitPayload(unit); ... consume(); }` — the plan's

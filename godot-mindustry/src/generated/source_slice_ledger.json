@@ -55102,6 +55102,65 @@
         "Live-loop belt enabled gate (sprite-enabled seam) -- the pure advance function takes efficiency since N2135; the caller is the missing half.",
         "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2137": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+      "java_class": "mindustry.world.blocks.units.UnitFactory.UnitFactoryBuild",
+      "java_method": "UnitFactoryBuild.updateTile()",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_production_tick_state",
+      "exact_exprs": [
+        "public void updateTile(){",
+        "if(!configurable){",
+        "currentPlan = 0;",
+        "if(currentPlan < 0 || currentPlan >= plans.size){",
+        "currentPlan = -1;",
+        "if(efficiency > 0 && currentPlan != -1){",
+        "time += edelta() * speedScl * Vars.state.rules.unitBuildSpeed(team);",
+        "progress += edelta() * Vars.state.rules.unitBuildSpeed(team);",
+        "speedScl = Mathf.lerpDelta(speedScl, 1f, 0.05f);",
+        "speedScl = Mathf.lerpDelta(speedScl, 0f, 0.05f);",
+        "moveOutPayload();",
+        "if(currentPlan != -1 && payload == null){",
+        "if(plan.unit.isBanned()){",
+        "if(progress >= plan.time){",
+        "progress %= 1f;",
+        "Unit unit = plan.unit.create(team);",
+        "payload = new UnitPayload(unit);",
+        "payVector.setZero();",
+        "consume();",
+        "Events.fire(new UnitCreateEvent(payload.unit, this));",
+        "progress = Mathf.clamp(progress, 0, plan.time);",
+        "progress = 0f;",
+        "return efficiency * delta();",
+        "return unitBuildSpeedMultiplier * teams.get(team).unitBuildSpeedMultiplier;",
+        "return state.rules.isBanned(this);"
+      ],
+      "source_symbols": [
+        "source_unit_factory_production_tick_state_result.progress",
+        "source_unit_factory_production_tick_state_result.time",
+        "source_unit_factory_production_tick_state_result.speed_scl",
+        "source_unit_factory_production_tick_state_result.completed",
+        "source_unit_factory_production_tick_state_result.current_plan"
+      ],
+      "tests": [
+        "test_c06_unit_factory_production_tick_registration",
+        "test_all_c06_unit_factory_production_tick_input_evidence_is_exact",
+        "test_unit_factory_production_tick_state",
+        "test_reference_graph_and_actual_c06_unit_factory_production_tick"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryProductionProof",
+      "deferred_exprs": [
+        "Reconstructor live production tick (Reconstructor.java:317-356 -- constructing cache, progress advance, upgrade on completion, progress %= 1f, consume(), UnitCreateEvent) -- N2138.",
+        "UnitAssembler live production tick + spawned() (UnitAssembler.java:429-571 -- progress advance, spawned() call at completion, drone progress, tier/lastTier reset) -- N2139.",
+        "The intake call site (moveInPayload() && !wasOccupied, UnitAssembler.java:500-503) -- belongs to the UnitAssembler production wiring.",
+        "moveOutPayload() transport -- the production tick does not move a completed payload out yet; a completed factory's next tick resets progress to 0 until the move-out slice lands.",
+        "Units.canCreate live evaluation (needs C07: live per-type unit counts and the unit cap); the assembler branch keeps reading frame[\"can_create\"], default true, until then.",
+        "lastTier tracking + progress reset on tier change (UnitAssembler.java:441-447) -- belongs to the UnitAssembler production/tick wiring.",
+        "The live-loop module link/unlink call sites: updateModules/removeModule are called from UnitAssemblerModuleBuild link/unlink (UnitAssemblerModule.java:80-83) -- the port has no live module-linking frame event yet.",
+        "Live-loop belt enabled gate (sprite-enabled seam) -- the pure advance function takes efficiency since N2135; the caller is the missing half.",
+        "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1
