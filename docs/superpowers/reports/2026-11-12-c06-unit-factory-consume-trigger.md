@@ -1,6 +1,6 @@
 # Report — N2128: ConsumeItemDynamic.trigger at unit completion
 
-Date: 2026-11-12. Batch: N2128 (single slice). Status: built, registered, test module 3/4 standalone (the 4th test is the Godot proof run, which cannot run in this VM — no Godot binary). **Godot proof NOT run here — pending a Windows Godot 4.6 run. Targeted gate TBD; full Python suite TBD.**
+Date: 2026-11-12. Batch: N2128 (single slice). Status: built, registered, test module **4/4 OK** (proof green, see below). **Godot proof GREEN 2026-11-12 ~08:52 +07: Godot 4.6.2-stable Linux (build 71f334935, identical to the Windows 4.6.2 build) ran `C06UnitFactoryConsumeProof.tscn` headless in this VM — 30 content keys, all true, `matches: true`. Inclusive full gate finished 08:22 +07: Ran 5617, FAILED (failures=81, skipped=5), 0 errors — all 81 Godot-proof failures (that run had no Godot binary; this proof test is among them and now passes with Godot present).**
 
 ## What changed
 
@@ -10,10 +10,10 @@ N2128 adds `SourceUnitFactoryBuildState.source_unit_factory_consume_state(frame,
 
 ## Verified numbers (measured in this VM)
 
-- Test module `test_c06_unit_factory_consume_trigger.py`: **3/4 OK standalone** — registration, exact-evidence (all 5 symbols' `java_expr` found verbatim in the pinned upstream checkout, all 14 exact exprs found), and the source-text test. The 4th test fails here only because no `godot` binary exists in this VM (`shutil.which('godot')` is None); it runs `C06UnitFactoryConsumeProof.tscn` headless and asserts its 30 content keys.
+- Test module `test_c06_unit_factory_consume_trigger.py`: **4/4 OK** — registration, exact-evidence (all 5 symbols' `java_expr` found verbatim in the pinned upstream checkout, all 14 exact exprs found), source-text, and the Godot proof test. The proof test runs `C06UnitFactoryConsumeProof.tscn` headless and asserts its 30 content keys; it passed 2026-11-12 ~08:52 +07 on Godot 4.6.2-stable Linux in this VM (joint run with the N2129/N2130 modules: 12/12 OK in 38.007s).
 - Neighbour modules, non-proof tests only (their proof tests fail the same way here): `test_unit_factory_should_consume`, `test_unit_factory_consumer_binding`, `test_unit_factory_live_loop` — 9/9 non-proof tests OK; `test_factory_craft` registration + exact-evidence + tick-text tests — 3/3 OK.
 - SSOT +5/+1/+1/+2 → **11237 / 1579 / 1501 / 2793**; audit stays 1335. Owner mirrors into the `unit_building_*` shards. `git diff --check` clean.
-- Proof `C06UnitFactoryConsumeProof`: **written, 30 content keys + `matches` (31 `proof[...]` assignments), NOT run** — it asserts a dagger-plan trigger (silicon 10 + lead 10 removed, 5/2 left), the clamp (held 5/3 removes 5/3, leaves 0/0), a plan-less trigger (0 rows, 0 removed), a reconstructor trigger (silicon 40 + graphite 40 removed, 10/10 left), unitCost 2.0 (20/20 removed), and an assembler liquid-row skip (cyanogen 10.0 unchanged, 0 triggered). Run it on Windows Godot 4.6 before committing.
+- Proof `C06UnitFactoryConsumeProof`: **30 content keys + `matches` (31 `proof[...]` assignments), ALL TRUE, `matches: true`** — run 2026-11-12 ~08:52 +07 on Godot 4.6.2-stable Linux (build 71f334935, identical to the Windows 4.6.2 build; binary downloaded to `~/workspace/godot-bin` after the MCP runtime channel proved unable to run proof scenes). It asserts a dagger-plan trigger (silicon 10 + lead 10 removed, 5/2 left), the clamp (held 5/3 removes 5/3, leaves 0/0), a plan-less trigger (0 rows, 0 removed), a reconstructor trigger (silicon 40 + graphite 40 removed, 10/10 left), unitCost 2.0 (20/20 removed), and an assembler liquid-row skip (cyanogen 10.0 unchanged, 0 triggered). Proof JSON written to `tools/runtime_proofs/C06UnitFactoryConsumeProof.json` (gitignored, never stage).
 
 ## Deferred
 
@@ -26,7 +26,7 @@ See `handoffs/2026-11-12-c06-unit-factory-consume-trigger-handoff.md` for the fu
 
 ## Gate / suite
 
-- Test module standalone (non-proof): 3/3 OK.
-- Godot proof: NOT run in this VM (no Godot binary). Pending Windows run.
-- Targeted gate: TBD (needs the Godot proof green first, then a ~30 min targeted run).
-- Full Python suite: TBD (5605 + 4 new tests = 5609 expected).
+- Test module standalone: 4/4 OK (proof green, see above).
+- Godot proof: **GREEN 2026-11-12 ~08:52 +07** — 30/30 content keys true, `matches: true`, on Godot 4.6.2-stable Linux in this VM (build 71f334935, identical to the Windows 4.6.2 build). The Windows live game was verified running via MCP at ~08:48 (welcome 4.6.2, project "Mindustry Godot Port", ping/pong OK on port 7777), but the MCP runtime channel cannot run proof scenes (no scene-run/script-eval command; the new functions aren't exposed on any node; editor MCP 6505 not reachable), so the proof ran headless here on the identical engine build. The Windows MCP channel dropped ~08:51 (proxy closed; Tailscale still Connected, admin-pc visible) — likely the game window closed.
+- Targeted gate: the three slice modules run together green (12/12 OK in 38.007s); neighbour non-proof tests 9/9 + 3/3 OK (see Verified numbers).
+- Full Python suite: inclusive gate with the N2130 module finished 08:22 +07 (log `tools/mindustry_godot_transpiler/full-suite-n2130-gate.log`, 208 modules, 917 s): **Ran 5617, FAILED (failures=81, skipped=5), 0 errors** — all 81 are `assertIsNotNone(godot)` proof tests from the run without a Godot binary; this slice's proof test is among them and now passes with Godot present. A full re-run with Godot present is planned as post-merge verification.

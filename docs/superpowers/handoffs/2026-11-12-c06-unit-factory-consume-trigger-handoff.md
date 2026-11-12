@@ -1,6 +1,6 @@
 # Handoff — N2128: ConsumeItemDynamic.trigger at unit completion
 
-Date: 2026-11-12. Batch: N2128 (single slice). Status: built, registered, test module 3/4 standalone (the 4th test is the Godot proof run). **Godot proof NOT run in this VM — no Godot binary. Targeted gate TBD; full Python suite TBD. Do NOT commit until the proof runs green on Windows Godot 4.6 and the gates re-run.**
+Date: 2026-11-12. Batch: N2128 (single slice). Status: built, registered, test module **4/4 OK** (proof green 2026-11-12 ~08:52 +07: Godot 4.6.2-stable Linux, 30 content keys all true, `matches: true`). **Committed on proof branch `c06-proof` (ab02c0a, joint with N2129+N2130, pushed to origin) — NOT on main yet; merge after the proof-results docs commit. Inclusive full gate finished 08:22 +07: Ran 5617, FAILED (failures=81, skipped=5), 0 errors — all 81 Godot-proof failures (that run had no Godot binary; this proof test now passes with Godot present).**
 
 ## What this batch is
 
@@ -14,21 +14,21 @@ The unit-completion consumption half of C06: `ConsumeItemDynamic.trigger` at uni
 - `godot-mindustry/src/generated/` (SSOT JSONs + `unit_building_*` shards): N2128 row, 5 symbols, 1 contract, 2 schemas.
 - `godot-mindustry/tools/runtime_proofs/C06UnitFactoryConsumeProof.gd` + `.tscn` (new, uid `uid://c6ufconsume12`). Proof JSON is gitignored, never stage it.
 - `docs/superpowers/specs/2026-06-23-mindustry-godot-gdscript-transpiler-design.md`: totals 1578 → 1579, N2128 checklist row, Current-cube sentence, Not Done C06 leg, migration-log row.
-- `docs/superpowers/reports/2026-11-12-c06-unit-factory-consume-trigger.md` (this batch's report; gate lines TBD — fill the real results after the Windows proof + gates).
+- `docs/superpowers/reports/2026-11-12-c06-unit-factory-consume-trigger.md` (this batch's report; proof + gate numbers filled 2026-11-12 ~08:52 +07).
 
 ## Verified numbers (do not re-derive, these are measured in this VM)
 
 - Test module standalone: **3/4 OK** (registration, exact-evidence, source-text). The 4th test fails here only because no `godot` binary exists in this VM.
 - Neighbour non-proof tests: unit-factory should-consume / consumer-binding / live-loop 9/9 OK; factory-craft registration + exact-evidence + tick-text 3/3 OK.
 - Suite size: 5605 + 4 new tests = **5609** expected (206 modules).
-- Proof (written, not run): 30 content keys — dagger plan removes silicon 10 + lead 10 (5/2 left), clamp removes only what is held (5/3 → 0/0), plan-less binds 0 rows, reconstructor removes silicon 40 + graphite 40 (10/10 left), unitCost 2.0 removes 20/20, assembler liquid row skipped (cyanogen 10.0 unchanged, 0 triggered), empty frame removes nothing.
+- Proof (run green 2026-11-12 ~08:52 +07 on Godot 4.6.2-stable Linux, build 71f334935, identical to the Windows 4.6.2 build): 30 content keys, all true, `matches: true` — dagger plan removes silicon 10 + lead 10 (5/2 left), clamp removes only what is held (5/3 → 0/0), plan-less binds 0 rows, reconstructor removes silicon 40 + graphite 40 (10/10 left), unitCost 2.0 removes 20/20, assembler liquid row skipped (cyanogen 10.0 unchanged, 0 triggered), empty frame removes nothing. Test module 4/4 OK (joint 12/12 in 38.007s with the N2129/N2130 modules).
 - `git diff --check` clean.
 
 ## How this VM differs from the builders' machine (read before the next step)
 
 - The full clone of the repo is ~98 MB and stalled on this VM's network, so the worktree here is a **sparse shallow clone** (`--depth 1 --filter=blob:none --sparse`) with only `godot-mindustry/src/game`, `godot-mindustry/src/generated`, `godot-mindustry/tools/runtime_proofs`, `tools/mindustry_godot_transpiler`, `docs/superpowers`, `AGENTS.md`, `README.md` checked out. Scenes, assets, `PortGame.gd` and most of `godot-mindustry` are NOT in this checkout — do not treat a missing file here as missing upstream.
 - `mindustry-upstream/` here is a sparse checkout at the pinned revision `2bdedfed25932ebf11330d3584092c50e2e26d96`, expanded to all of `core/src/mindustry` so the exact-evidence tests can read their sources. It is gitignored, never stage it.
-- There is **no Godot binary** in this VM and no Godot MCP (the builders used Windows Godot 4.6.2 + MCP port 7777). The proof file is written to the established pattern and its expected key values were checked against the registry data (dagger silicon 10 + lead 10, reconstructor silicon 40 + graphite 40, tank-assembler cyanogen 0.15), but it has not executed. The first Windows run may find a proof-only bug the way N2126/N2127 did — fix the proof, not the implementation, unless the failure is in the trigger itself.
+- Godot 4.6.2 is now installed in this VM (`~/workspace/godot-bin`, Linux build 71f334935 — identical to the Windows 4.6.2 build), downloaded 2026-11-12 ~08:50 +07 after the MCP runtime channel proved unable to run proof scenes. The proof ran green here 08:52 +07 (12/12 tests OK). The Windows live game was verified running via MCP at ~08:48 (welcome 4.6.2, ping/pong OK on port 7777), but the channel cannot run a proof scene (no scene-run/script-eval command; the new functions aren't exposed on any node; editor MCP 6505 not reachable) and it dropped ~08:51 (proxy closed; Tailscale still Connected). The proof file's expected key values were checked against the registry data (dagger silicon 10 + lead 10, reconstructor silicon 40 + graphite 40, tank-assembler cyanogen 0.15) and all 30 keys came back true — no proof-only bug on the first run.
 
 ## Deferred (not this slice)
 
@@ -45,4 +45,4 @@ The remaining C06 work, in the order the N2125–N2128 builders considered them:
 
 ## Commit (not done — gates pending)
 
-Stage the exact slice files only (never `*.gd.uid`, `project.godot`, `arc-upstream/`, `mindustry-upstream/`, proof `.json`): `SourceUnitFactoryBuildState.gd`, `SourceRuntimeOwnerUnitBuildingRegistry.gd`, the SSOT JSONs + `unit_building_*` shards, `test_c06_unit_factory_consume_trigger.py`, `register_c06_unit_factory_consume_trigger.py`, `C06UnitFactoryConsumeProof.gd` + `.tscn`, the design spec, the report + this handoff. Fill the real gate/suite results into the report, the handoff, the spec checklist/cube/migration rows, then commit + push, then the MEMORY.md N2128 entry. The worktree is a sparse checkout — commit from the user's full checkout, or expand the sparse checkout first and re-verify `git status` shows only these files.
+Stage the exact slice files only (never `*.gd.uid`, `project.godot`, `arc-upstream/`, `mindustry-upstream/`, proof `.json`): `SourceUnitFactoryBuildState.gd`, `SourceRuntimeOwnerUnitBuildingRegistry.gd`, the SSOT JSONs + `unit_building_*` shards, `test_c06_unit_factory_consume_trigger.py`, `register_c06_unit_factory_consume_trigger.py`, `C06UnitFactoryConsumeProof.gd` + `.tscn`, the design spec, the report + this handoff. Proof + gate results are filled in (report, handoff, spec checklist/cube/migration rows). Committed on proof branch `c06-proof` (ab02c0a, joint with N2129+N2130, pushed to origin); the proof-results docs go in as a second commit on `c06-proof`, then merge `c06-proof` to main (fast-forward) and push origin main. The worktree is a full checkout (expanded 2026-11-12 ~07:43 +07) — re-verify `git status` shows only the intended files before staging (the Godot import created untracked `*.gd.uid` files and a `.godot/` cache; never stage them).
