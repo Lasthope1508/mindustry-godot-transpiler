@@ -207,6 +207,23 @@
         "test_reference_graph_and_actual_c06_unit_factory_consume_trigger"
       ],
       "runtime_proof": "/root/C06UnitFactoryConsumeProof"
+    },
+    "N2136": {
+      "canonical_ledger": "source_slice_ledger.N2136",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+      "java_method": "UnitFactoryBuild.shouldConsume()",
+      "godot_owner": "SourcePlacedPowerGraphState.source_consumer_should_consume_for_cell_state",
+      "source_symbols": [
+        "source_unit_factory_should_consume_state_result.should_consume"
+      ],
+      "tests": [
+        "test_c06_unit_factory_should_consume_power_stamp_registration",
+        "test_all_c06_unit_factory_should_consume_power_stamp_input_evidence_is_exact",
+        "test_unit_factory_should_consume_wires_into_power_stamp",
+        "test_reference_graph_and_actual_c06_unit_factory_should_consume_power_stamp"
+      ],
+      "runtime_proof": "/root/C06PowerShouldConsumeProof"
     }
   }
 }

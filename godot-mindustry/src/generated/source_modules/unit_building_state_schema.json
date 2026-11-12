@@ -1,6 +1,31 @@
 {
   "version": 1,
   "schemas": {
+    "source_consumer_should_consume_for_cell_state_input": {
+      "canonical_schema": "source_state_schema.source_consumer_should_consume_for_cell_state_input",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "public void update(){",
+          "rule": "The game whose placed buildings form the power graph (PowerGraph.update runs over its consumers).",
+          "used_by": [
+            "SourcePlacedPowerGraphState.source_consumer_should_consume_for_cell_state"
+          ]
+        },
+        "cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "public void add(Building build){",
+          "rule": "The origin cell of the placed building whose live frame enabled flag the consumer dict carries (PowerGraph.add puts each placed building in the graph once).",
+          "used_by": [
+            "SourcePlacedPowerGraphState.source_consumer_should_consume_for_cell_state"
+          ]
+        }
+      }
+    },
     "source_cost_multiplier_for_block_state_input": {
       "canonical_schema": "source_state_schema.source_cost_multiplier_for_block_state_input",
       "keys": {

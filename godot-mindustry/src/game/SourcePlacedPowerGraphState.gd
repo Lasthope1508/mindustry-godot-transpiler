@@ -9,6 +9,7 @@ const source_block_geometry := preload("res://src/game/SourceBlockGeometry.gd")
 const source_rules_state := preload("res://src/game/SourceRulesRuntimeState.gd")
 const source_factory_build_state := preload("res://src/game/SourceFactoryBuildState.gd")
 const source_adjacent_factory_build_state := preload("res://src/game/SourceAdjacentFactoryBuildState.gd")
+const source_unit_factory_build_state := preload("res://src/game/SourceUnitFactoryBuildState.gd")
 const source_placed_block_state := preload("res://src/game/SourcePlacedBlockState.gd")
 const source_content_registry_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
 
@@ -127,9 +128,13 @@ static func source_consumer_should_consume_for_cell_state(game: Object, cell: Ve
 	# efficiency is at most 0.0000001f clears it — a starved factory
 	# stops drawing power even while its outputs have room); before
 	# the first tick the frame carries no such key and the flag falls
-	# back to `enabled`. The other families keep the enabled-only
-	# read: their per-class shouldConsume bodies (UnitFactory
-	# plans, N2124) are not wired to the stamp yet.
+	# back to `enabled`. The unit-factory family reads its per-class
+	# shouldConsume live (N2136, the branch below): a plan-less
+	# ground factory, a payload-less reconstructor, or a blocks-less
+	# assembler reads `should_consume == false` from the graph. The
+	# other families keep the enabled-only read because their
+	# shouldConsume IS the Building default (`return enabled;`,
+	# BuildingComp.java:755-757).
 	if game == null:
 		return {"should_consume": true, "shouldConsumePower": true, "found": false, "reason": "no_game"}
 	var sprite: Variant = game.call("block_sprite_at_cell", cell)
@@ -153,6 +158,10 @@ static func source_consumer_should_consume_for_cell_state(game: Object, cell: Ve
 			if meta_key == source_adjacent_factory_build_state.SOURCE_ADJACENT_FACTORY_BUILDING_META_KEY:
 				var block: Variant = default_callbacks_state(game).get("block_from_sprite", Callable()).call(sprite)
 				var should: Dictionary = source_adjacent_factory_build_state.source_adjacent_factory_should_consume_state(frame, block)
+				return {"should_consume": bool(should.get("should_consume", enabled)), "shouldConsumePower": bool(frame.get("should_consume_power", enabled)), "found": true, "reason": "live_frame"}
+			if meta_key == source_unit_factory_build_state.SOURCE_UNIT_FACTORY_BUILDING_META_KEY:
+				var block: Variant = default_callbacks_state(game).get("block_from_sprite", Callable()).call(sprite)
+				var should: Dictionary = source_unit_factory_build_state.source_unit_factory_should_consume_state(frame, block, game)
 				return {"should_consume": bool(should.get("should_consume", enabled)), "shouldConsumePower": bool(frame.get("should_consume_power", enabled)), "found": true, "reason": "live_frame"}
 			return {"should_consume": enabled, "shouldConsumePower": enabled, "found": true, "reason": "live_frame"}
 	return {"should_consume": true, "shouldConsumePower": true, "found": false, "reason": "no_frame"}

@@ -120,6 +120,44 @@
       "rule": "Source-backed per-block cost multiplier; unit factories pay Rules.unitCost, other blocks pay the 1.0 default; a ContinuousLiquidTurret pays 1 / ammoMultiplier for its current liquid, 1.0 when the liquid has no ammo type.",
       "return_type": "Dictionary"
     },
+    "SourcePlacedPowerGraphState.source_consumer_should_consume_for_cell_state": {
+      "canonical_contract": "source_api_contracts.SourcePlacedPowerGraphState.source_consumer_should_consume_for_cell_state",
+      "status": "active",
+      "source_slice": "N2125",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "source_method": "update",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_consumer_should_consume_for_cell_state_input.game"
+        },
+        {
+          "name": "cell",
+          "type": "Vector2i",
+          "schema": "source_consumer_should_consume_for_cell_state_input.cell"
+        }
+      ],
+      "return_keys": [
+        "should_consume",
+        "shouldConsumePower",
+        "found",
+        "reason"
+      ],
+      "tests": [
+        "test_all_c06_power_should_consume_input_evidence_is_exact",
+        "test_all_c06_source_exhaustion_output_full_input_evidence_is_exact",
+        "test_c06_power_should_consume_registration",
+        "test_c06_source_exhaustion_output_full_registration",
+        "test_live_loop_stamps_consumers_with_live_should_consume",
+        "test_reference_graph_and_actual_c06_power_should_consume",
+        "test_reference_graph_and_actual_c06_source_exhaustion_output_full",
+        "test_stamp_reads_factory_should_consume_and_first_pass_flag"
+      ],
+      "runtime_proof": "/root/C06PowerShouldConsumeProof",
+      "rule": "Source-backed power-graph consumer live should-consume value; the helper reads a placed building's live frame enabled flag, so the grouped consumer dict carries what ConsumePower.requestedPower() and PowerGraph.getPowerNeeded() read. For a factory-family frame the should_consume value is the family's per-class shouldConsume() body \u2014 the GenericCrafter output-full gate (an output item over itemCapacity, or every output liquid full) or the adjacent family's own body \u2014 and shouldConsumePower is the frame's live updateConsumption first-pass flag, false when a non-power consumer fails (source exhaustion) and true when cheating or no consumer fails.",
+      "return_type": "Dictionary"
+    },
     "SourceUnitFactoryBuildState.source_unit_factory_consume_state": {
       "canonical_contract": "source_api_contracts.SourceUnitFactoryBuildState.source_unit_factory_consume_state",
       "status": "active",

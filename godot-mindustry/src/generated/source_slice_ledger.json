@@ -55063,6 +55063,45 @@
         "The live-loop module link/unlink call sites: updateModules/removeModule are called from UnitAssemblerModuleBuild link/unlink (UnitAssemblerModule.java:80-83) -- the port has no live module-linking frame event yet, so the frame modules list is an input, not something the tick maintains.",
         "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2136": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+      "java_class": "mindustry.world.blocks.units.UnitFactory.UnitFactoryBuild",
+      "java_method": "UnitFactoryBuild.shouldConsume()",
+      "godot_owner": "SourcePlacedPowerGraphState.source_consumer_should_consume_for_cell_state",
+      "exact_exprs": [
+        "public boolean shouldConsume(){",
+        "if(currentPlan == -1) return false;",
+        "return enabled && payload == null && team.activateUnitFactories();",
+        "return constructing && enabled && team.activateUnitFactories();",
+        "return enabled && !wasOccupied && Units.canCreate(team, plan().unit) && consPayload.efficiency(this) > 0 && consItem.efficiency(this) > 0 && team.activateUnitFactories();",
+        "public float requestedPower(Building entity){",
+        "usage * (entity.shouldConsume() ? 1f : 0f)",
+        "return enabled;",
+        "if(!enabled){",
+        "potentialEfficiency = efficiency = optionalEfficiency = 0f;",
+        "shouldConsumePower = false;",
+        "if(cons != block.consPower && result <= 0.0000001f){"
+      ],
+      "source_symbols": [
+        "source_unit_factory_should_consume_state_result.should_consume"
+      ],
+      "tests": [
+        "test_c06_unit_factory_should_consume_power_stamp_registration",
+        "test_all_c06_unit_factory_should_consume_power_stamp_input_evidence_is_exact",
+        "test_unit_factory_should_consume_wires_into_power_stamp",
+        "test_reference_graph_and_actual_c06_unit_factory_should_consume_power_stamp"
+      ],
+      "runtime_proof": "/root/C06PowerShouldConsumeProof",
+      "deferred_exprs": [
+        "Live production wiring: the tick driver advances no progress and calls no spawned() yet -- UnitFactory progress (UnitFactory.java:401-403), Reconstructor progress (Reconstructor.java:330-348) and UnitAssembler spawned() (UnitAssembler.java:544-571) are the production slice; the intake call site (moveInPayload() && !wasOccupied, UnitAssembler.java:500-503) is the wiring that calls the intake slice when a payload arrives.",
+        "Units.canCreate live evaluation (needs C07: live per-type unit counts and the unit cap); the assembler branch keeps reading frame[\"can_create\"], default true, until then.",
+        "lastTier tracking + progress reset on tier change (UnitAssembler.java:441-447) -- belongs to the live production/tick wiring.",
+        "The live-loop module link/unlink call sites: updateModules/removeModule are called from UnitAssemblerModuleBuild link/unlink (UnitAssemblerModule.java:80-83) -- the port has no live module-linking frame event yet.",
+        "Live-loop belt enabled gate (sprite-enabled seam) -- the pure advance function takes efficiency since N2135; the caller is the missing half.",
+        "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1

@@ -4,6 +4,7 @@ const main_scene := preload("res://scenes/Main.tscn")
 const game_loop_state := preload("res://src/game/SourceGameLoopRuntimeState.gd")
 const mindustry_time := preload("res://src/runtime/Time.gd")
 const factory_state := preload("res://src/game/SourceFactoryRuntimeState.gd")
+const unit_factory_build_state := preload("res://src/game/SourceUnitFactoryBuildState.gd")
 const placed_power_graph_state := preload("res://src/game/SourcePlacedPowerGraphState.gd")
 const consume_power_state := preload("res://src/game/SourceConsumePowerState.gd")
 const scenario_defaults := preload("res://src/game/SourcePlayableScenarioDefaults.gd")
@@ -155,6 +156,50 @@ func _ready() -> void:
 	var stored_charged: float = _battery_stored(game)
 	_tick(game, 60)
 	proof["reenabled_battery_discharges"] = _battery_stored(game) < stored_charged
+
+	# --- N2136: the unit-factory family reads its per-class
+	# shouldConsume live from the stamp (UnitFactoryBuild.
+	# shouldConsume(), UnitFactory.java:445-448; ReconstructorBuild.
+	# shouldConsume(), Reconstructor.java:367-369; UnitAssemblerBuild.
+	# shouldConsume(), UnitAssembler.java:389-391): a plan-less
+	# ground factory, a payload-less reconstructor, or a blocks-less
+	# assembler reads should_consume == false from the graph. The
+	# three factories are placed live after the re-enabled section
+	# (the helper calls alone run no power step, so their power
+	# usage cannot leak into the earlier keys), on the same cells
+	# the should-consume proof uses on this Main scene.
+	var catalog = game.get("content_catalog")
+	var blocks_by_id: Dictionary = {}
+	for registered_block in catalog.get_many("block"):
+		blocks_by_id[registered_block.id] = registered_block
+	var factory_block = blocks_by_id["ground-factory"]
+	var reconstructor_block = blocks_by_id["additive-reconstructor"]
+	var assembler_block = blocks_by_id["tank-assembler"]
+	var factory_cell := Vector2i(30, 7)
+	var reconstructor_cell := Vector2i(35, 7)
+	var assembler_cell := Vector2i(40, 7)
+	var factory := Sprite2D.new()
+	game.add_child(factory)
+	game.call("record_placed_block", factory, factory_block, factory_cell)
+	var reconstructor := Sprite2D.new()
+	game.add_child(reconstructor)
+	game.call("record_placed_block", reconstructor, reconstructor_block, reconstructor_cell)
+	var assembler := Sprite2D.new()
+	game.add_child(assembler)
+	game.call("record_placed_block", assembler, assembler_block, assembler_cell)
+	var factory_frame: Dictionary = factory.get_meta(unit_factory_build_state.SOURCE_UNIT_FACTORY_BUILDING_META_KEY, {})
+	var factory_no_plan: Dictionary = placed_power_graph_state.source_consumer_should_consume_for_cell_state(game, factory_cell)
+	proof["stamp_unit_factory_no_plan_false"] = bool(factory_no_plan.get("should_consume", true)) == false and bool(factory_no_plan.get("found", false)) == true
+	factory_frame["current_plan"] = 0
+	var factory_plan: Dictionary = placed_power_graph_state.source_consumer_should_consume_for_cell_state(game, factory_cell)
+	proof["stamp_unit_factory_plan_true"] = bool(factory_plan.get("should_consume", false)) == true and bool(factory_plan.get("found", false)) == true
+	factory_frame["enabled"] = false
+	var factory_disabled: Dictionary = placed_power_graph_state.source_consumer_should_consume_for_cell_state(game, factory_cell)
+	proof["stamp_unit_factory_disabled_false"] = bool(factory_disabled.get("should_consume", true)) == false and bool(factory_disabled.get("found", false)) == true
+	var reconstructor_stamp: Dictionary = placed_power_graph_state.source_consumer_should_consume_for_cell_state(game, reconstructor_cell)
+	proof["stamp_unit_reconstructor_no_payload_false"] = bool(reconstructor_stamp.get("should_consume", true)) == false and bool(reconstructor_stamp.get("found", false)) == true
+	var assembler_stamp: Dictionary = placed_power_graph_state.source_consumer_should_consume_for_cell_state(game, assembler_cell)
+	proof["stamp_unit_assembler_default_false"] = bool(assembler_stamp.get("should_consume", true)) == false and bool(assembler_stamp.get("found", false)) == true
 
 	var state_registry := registry.canonical_headquarter_registry_state()
 	proof["registry_valid"] = state_registry.get("errors", []).is_empty()
