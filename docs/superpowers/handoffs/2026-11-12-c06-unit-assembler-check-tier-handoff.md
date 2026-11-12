@@ -121,4 +121,4 @@ The tier-climb half of the assembler work, the next item on the N2132 "Next" lis
 
 ## Commit
 
-Not yet — GREEN done (targeted 24/24, Godot proof 7 keys GREEN, SSOT 11260 / 1584 / 1505 / 2801), but the full gate has not finished a clean run yet (attempts 1–4 died; attempt 5 running, PID 2344). No commit/push until the gate is verified clean except Godot.
+Committed + pushed to origin main (fork Lasthope1508) in the 14:00 cron run — see the commit for the hash. Gate verified clean except Godot (Ran 5629, failures=84, skipped=5, 0 errors, all Godot-proof).
