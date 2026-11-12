@@ -83,9 +83,9 @@ The three deferred frame inputs split by data availability, checked in this VM b
 
 ## Commits (pushed to origin main 2026-11-13 ~02:45 +07, this run)
 
-- Slice commit: (hash below — filled after commit)
-- Docs commit: (hash below — filled after commit)
-- Handoff-hash commit: (hash below — filled after commit)
+- Slice commit: 690c023.
+- Docs commit: 6de2c6b.
+- Handoff-hash commit: TBD if needed (prior pattern).
 
 ## Next (after gate certification)
 
