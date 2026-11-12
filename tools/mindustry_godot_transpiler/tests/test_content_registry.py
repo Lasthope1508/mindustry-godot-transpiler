@@ -708,6 +708,7 @@ public class Blocks{
         additiveReconstructor = new Reconstructor("additive-reconstructor"){{
             requirements(Category.units, with(Items.silicon, 90));
             size = 3;
+            constructTime = 60f * 10f;
             consumePower(3f);
             consumeItems(with(Items.silicon, 40, Items.graphite, 40));
             upgrades.addAll(
@@ -737,6 +738,13 @@ public class Blocks{
         self.assertEqual(
             by_id["additive-reconstructor"]["properties"].get("upgrades"),
             [["nova", "pulsar"], ["dagger", "mace"]],
+        )
+        # N2143: the block initializer's own constructTime
+        # assignment (60f * 10f = 600.0) is captured; the class
+        # default (60 * 2 = 120.0) fills in when a block sets none.
+        self.assertEqual(
+            by_id["additive-reconstructor"]["properties"].get("constructTime"),
+            600.0,
         )
         self.assertNotIn("assemblerPlans", by_id["additive-reconstructor"]["properties"])
         self.assertEqual(

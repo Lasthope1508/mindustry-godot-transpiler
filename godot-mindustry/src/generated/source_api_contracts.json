@@ -64607,6 +64607,31 @@
       ],
       "runtime_proof": "/root/C07PowerStatusLiveProof",
       "rule": "Source-backed PowerGraph.distributePower consumer power.status read/write from PowerGraph.java."
+    },
+    "SourceUnitFactoryBuildState.source_reconstructor_construct_time_state": {
+      "status": "active",
+      "source_slice": "N2143",
+      "java_source": "core/src/mindustry/world/blocks/units/Reconstructor.java",
+      "source_method": "ReconstructorBuild.updateTile()",
+      "params": [
+        {
+          "name": "block",
+          "type": "Object",
+          "schema": "source_reconstructor_construct_time_state_input.block"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "construct_time"
+      ],
+      "tests": [
+        "test_c07_reconstructor_construct_time_registration",
+        "test_all_c07_reconstructor_construct_time_input_evidence_is_exact",
+        "test_reconstructor_construct_time_state",
+        "test_reference_graph_and_actual_c07_reconstructor_construct_time"
+      ],
+      "runtime_proof": "/root/C07ReconstructorConstructTimeProof",
+      "rule": "Source-backed Reconstructor constructTime read from Reconstructor.java."
     }
   },
   "policy": {

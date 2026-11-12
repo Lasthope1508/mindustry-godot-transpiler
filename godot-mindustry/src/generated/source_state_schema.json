@@ -227482,6 +227482,44 @@
       },
       "runtime_proof": "/root/C07PowerStatusLiveProof",
       "rule": "Source-backed PowerGraph.distributePower consumer power.status read/write from PowerGraph.java."
+    },
+    "source_reconstructor_construct_time_state_input": {
+      "status": "active",
+      "owner": "SourceUnitFactoryBuildState.source_reconstructor_construct_time_state",
+      "source_slice": "N2143",
+      "keys": {
+        "block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "additiveReconstructor = new Reconstructor(\"additive-reconstructor\"){{",
+          "rule": "The block definition the read resolves (Blocks.java:6302): the catalog block whose properties carry the per-block constructTime override, or the class default when it carries none.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_reconstructor_construct_time_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ReconstructorConstructTimeProof",
+      "rule": "Source-backed Reconstructor constructTime read from Reconstructor.java."
+    },
+    "source_reconstructor_construct_time_state_result": {
+      "status": "active",
+      "owner": "SourceUnitFactoryBuildState.source_reconstructor_construct_time_state",
+      "source_slice": "N2143",
+      "keys": {
+        "construct_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/Reconstructor.java",
+          "java_expr": "public float constructTime = 60 * 2;",
+          "rule": "The per-block build time the production tick completes against (Reconstructor.java:36, the class default the read returns when the catalog carries no override); 600.0 for additive-reconstructor (Blocks.java:6310), 1800.0 for multiplicative-reconstructor (Blocks.java:6330).",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_reconstructor_construct_time_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ReconstructorConstructTimeProof",
+      "rule": "Source-backed Reconstructor constructTime read from Reconstructor.java."
     }
   },
   "version": 1

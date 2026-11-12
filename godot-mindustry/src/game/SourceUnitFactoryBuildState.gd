@@ -769,7 +769,7 @@ static func source_unit_factory_tick_buildings_state(game: Object, seconds: floa
 				frame["production_consumed"] = production_consume
 				frame["unit_created_event"] = bool(production.get("unit_created_event", false))
 		if str(block.implementation) == "Reconstructor":
-			var construct_time: float = float(block.properties.get("constructTime", 120.0))
+			var construct_time: float = float(source_reconstructor_construct_time_state(block).get("construct_time", 120.0))
 			var reconstructor_payload_unit: String = ""
 			var reconstructor_payload: Variant = frame.get("payload", null)
 			if reconstructor_payload is Dictionary:
@@ -1005,6 +1005,25 @@ static func source_unit_factory_production_tick_state(frame: Dictionary, plan: D
 		"consumed": consumed,
 		"unit_created_event": unit_created_event,
 		"banned": banned,
+	}
+
+static func source_reconstructor_construct_time_state(block: Object) -> Dictionary:
+	# Reconstructor constructTime (Reconstructor.java:36,
+	# `public float constructTime = 60 * 2;`): the per-block build
+	# time the production tick completes against
+	# (`if(progress >= constructTime){`, Reconstructor.java:334).
+	# The catalog captures the block initializer's own assignment,
+	# else the class default: additive-reconstructor overrides to
+	# 600 (Blocks.java:6310, `constructTime = 60f * 10f;`) and
+	# multiplicative-reconstructor to 1800 (Blocks.java:6330,
+	# `constructTime = 60f * 30f;`). A null block, or a block whose
+	# catalog carries no override, reads the class default 120.0.
+	var construct_time := 120.0
+	if block != null:
+		construct_time = float(block.properties.get("constructTime", 120.0))
+	return {
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_RECONSTRUCTOR_CONSTRUCT_TIME_STATE,
+		"construct_time": construct_time,
 	}
 
 static func source_reconstructor_production_tick_state(frame: Dictionary, construct_time: float, has_upgrade: bool, upgrade_unit: String, payload_in_position: bool, edelta: float, unit_build_speed: float, source_delta: float) -> Dictionary:

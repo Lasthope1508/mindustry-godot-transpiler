@@ -55477,6 +55477,46 @@
         "power.status live read for the other consumer families (drill, turret, factory, adjacent) -- the write-back stamps every consumer's frame generically, but only the unit-factory driver reads frame[\"power_status\"] so far; the other families' consumption paths still fold their own defaults until their slices land.",
         "C07-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2143": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/units/Reconstructor.java",
+      "java_class": "mindustry.world.blocks.units.Reconstructor.ReconstructorBuild",
+      "java_method": "ReconstructorBuild.updateTile()",
+      "godot_owner": "SourceUnitFactoryBuildState.source_reconstructor_construct_time_state",
+      "exact_exprs": [
+        "public float constructTime = 60 * 2;",
+        "if(progress >= constructTime){",
+        "constructTime = 60f * 10f;",
+        "constructTime = 60f * 30f;",
+        "stats.timePeriod = constructTime;",
+        "stats.add(Stat.productionTime, constructTime / 60f, StatUnit.seconds);",
+        "return progress / constructTime;",
+        "additiveReconstructor = new Reconstructor(\"additive-reconstructor\"){{",
+        "multiplicativeReconstructor = new Reconstructor(\"multiplicative-reconstructor\"){{",
+        "public Reconstructor(String name){"
+      ],
+      "source_symbols": [
+        "source_reconstructor_construct_time_state_result.construct_time"
+      ],
+      "tests": [
+        "test_c07_reconstructor_construct_time_registration",
+        "test_all_c07_reconstructor_construct_time_input_evidence_is_exact",
+        "test_reconstructor_construct_time_state",
+        "test_reference_graph_and_actual_c07_reconstructor_construct_time"
+      ],
+      "runtime_proof": "/root/C07ReconstructorConstructTimeProof",
+      "deferred_exprs": [
+        "drones_in_position / spawn_occupied / spawn_visual_occupied / allow_update frame inputs -- the assembler driver still reads defaults (0 / false / false / true) until a drone-position / collision / allow-update slice lands.",
+        "moveOutPayload() modeling -- the assembler production tick still has no payload move-out.",
+        "Net readUnits / whenSyncedUnits drone sync -- presentation/net, not state.",
+        "Live UnitComp.add() / remove() lifecycle hooks (UnitComp.java:591-598, 603-604, 752) -- no live unit lifecycle in the port yet.",
+        "PayloadComp add/remove count hooks (PayloadComp.java:101, 200) -- same, payload lifecycle not ported yet.",
+        "Teams.updateTeamStats full multi-team rebuild (present/bosses/players/unitsByType/unitTree, Teams.java:182-245) -- N2141 rebuilds one team's counts only.",
+        "Units.notifyUnitSpawn / spawn path, Call.unitCapDeath / Call.unitEnvDeath net calls -- presentation/net, not state.",
+        "power.status live read for the other consumer families (drill, turret, factory, adjacent) -- the write-back stamps every consumer's frame generically, but only the unit-factory driver reads frame[\"power_status\"] so far; the other families' consumption paths still fold their own defaults until their slices land.",
+        "C07-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1

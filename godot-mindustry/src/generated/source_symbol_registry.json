@@ -171624,6 +171624,22 @@
         "test_reference_graph_and_actual_c07_power_status_live"
       ],
       "runtime_proof": "/root/C07PowerStatusLiveProof"
+    },
+    "source_reconstructor_construct_time_state_result.construct_time": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_reconstructor_construct_time_state",
+      "godot_symbol": "source_reconstructor_construct_time_state_result.construct_time",
+      "java_source": "core/src/mindustry/world/blocks/units/Reconstructor.java",
+      "java_method": "ReconstructorBuild.updateTile()",
+      "java_expr": "public float constructTime = 60 * 2;",
+      "rule": "The per-block build time the production tick completes against (Reconstructor.java:36, the class default the read returns when the catalog carries no override); 600.0 for additive-reconstructor (Blocks.java:6310), 1800.0 for multiplicative-reconstructor (Blocks.java:6330).",
+      "tests": [
+        "test_c07_reconstructor_construct_time_registration",
+        "test_all_c07_reconstructor_construct_time_input_evidence_is_exact",
+        "test_reconstructor_construct_time_state",
+        "test_reference_graph_and_actual_c07_reconstructor_construct_time"
+      ],
+      "runtime_proof": "/root/C07ReconstructorConstructTimeProof"
     }
   },
   "version": 1

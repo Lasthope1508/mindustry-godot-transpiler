@@ -562,6 +562,25 @@ def _block_properties(source: str, assignment_end: int, implementation: str = ""
         upgrades = _reconstructor_upgrades(initializer)
         if upgrades:
             properties["upgrades"] = upgrades
+        # constructTime drives ReconstructorBuild.updateTile
+        # completion (Reconstructor.java:334 `if(progress >=
+        # constructTime){`): the block initializer's own
+        # assignment, else the class default 120.0
+        # (Reconstructor.java:36 `public float constructTime = 60
+        # * 2;`), inherited by the whole family. Both sides are
+        # multiplication expressions (60f * 10f, 60f * 30f, 60 *
+        # 2), so the match is evaluated through
+        # _numeric_expression_value, not _numeric_assignment. N2143.
+        construct_time = None
+        construct_matches = re.findall(r"\bconstructTime\s*=\s*([^;]+);", _strip_java_comments(initializer))
+        if construct_matches:
+            construct_time = _numeric_expression_value(construct_matches[-1])
+        if construct_time is None and class_sources:
+            class_matches = re.findall(r"\bconstructTime\s*=\s*([^;]+);", _strip_java_comments(class_sources.get("Reconstructor", "")))
+            if class_matches:
+                construct_time = _numeric_expression_value(class_matches[-1])
+        if construct_time is not None:
+            properties["constructTime"] = float(construct_time)
     if implementation == "UnitAssembler":
         # assemblerPlans drives UnitAssemblerBuild.plan()
         # (UnitAssembler.java:386-389): the current tier's unit,

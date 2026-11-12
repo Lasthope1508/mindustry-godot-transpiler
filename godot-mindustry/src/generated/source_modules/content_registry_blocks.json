@@ -11,6 +11,7 @@
         "canOverdrive": true,
         "category": "units",
         "connectedPower": true,
+        "constructTime": 600.0,
         "consumeItem": [
           {
             "amount": 40,
@@ -3499,6 +3500,7 @@
         "canOverdrive": true,
         "category": "units",
         "connectedPower": true,
+        "constructTime": 5400.0,
         "consumeItem": [
           {
             "amount": 850,
@@ -5708,6 +5710,7 @@
         "canOverdrive": true,
         "category": "units",
         "connectedPower": true,
+        "constructTime": 2700.0,
         "consumeItem": [
           {
             "amount": 50,
@@ -6651,6 +6654,7 @@
         "canOverdrive": true,
         "category": "units",
         "connectedPower": true,
+        "constructTime": 1800.0,
         "consumeItem": [
           {
             "amount": 130,
@@ -8336,6 +8340,7 @@
         "canOverdrive": true,
         "category": "units",
         "connectedPower": true,
+        "constructTime": 3600.0,
         "consumeItem": [
           {
             "amount": 80,
@@ -10397,6 +10402,7 @@
         "canOverdrive": true,
         "category": "units",
         "connectedPower": true,
+        "constructTime": 3000.0,
         "consumeItem": [
           {
             "amount": 60,
@@ -12040,6 +12046,7 @@
         "canOverdrive": true,
         "category": "units",
         "connectedPower": true,
+        "constructTime": 1800.0,
         "consumeItem": [
           {
             "amount": 40,
@@ -12130,6 +12137,7 @@
         "canOverdrive": true,
         "category": "units",
         "connectedPower": true,
+        "constructTime": 14400.0,
         "consumeItem": [
           {
             "amount": 1000,
