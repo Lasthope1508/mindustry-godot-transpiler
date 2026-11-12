@@ -1,6 +1,6 @@
 # Handoff — N2141: Live per-type unit counts — TeamData.updateCount + updateTeamStats rebuild (unit-group system)
 
-Date: 2026-11-12. Batch: N2141 (single slice). Status: **DONE + PUSHED 2026-11-13 ~00:05 +07 (00:00 cron run). Gate certified clean except Godot (Ran 5661, failures=92, skipped=5, 0 errors — all 92 Godot-absent asserts). Slice commit <SLICE_HASH> + docs commit <DOCS_HASH> on origin main; see "Gate certification" below.**
+Date: 2026-11-12. Batch: N2141 (single slice). Status: **DONE + PUSHED 2026-11-13 ~00:05 +07 (00:00 cron run). Gate certified clean except Godot (Ran 5661, failures=92, skipped=5, 0 errors — all 92 Godot-absent asserts). Slice commit 3f580e7 + docs commit <DOCS_HASH> on origin main; see "Gate certification" below.**
 
 ## Gate certification (00:00 cron run)
 
