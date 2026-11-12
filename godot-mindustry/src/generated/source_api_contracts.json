@@ -60649,6 +60649,11 @@
           "name": "clog_heat_before",
           "type": "float",
           "schema": "source_conveyor_advance_state_input.clog_heat_before"
+        },
+        {
+          "name": "efficiency",
+          "type": "float",
+          "schema": "source_conveyor_advance_state_input.efficiency"
         }
       ],
       "return_type": "Dictionary",
@@ -60667,15 +60672,19 @@
       ],
       "tests": [
         "test_all_c06_building_update_halves_input_evidence_is_exact",
+        "test_all_c06_disabled_belt_efficiency_input_evidence_is_exact",
         "test_all_conveyor_advance_binding_input_evidence_is_exact",
         "test_c06_building_update_halves_registration",
+        "test_c06_disabled_belt_efficiency_registration",
         "test_conveyor_advance_binding_registration",
+        "test_disabled_belt_efficiency_reads_efficiency",
         "test_live_loop_wires_building_update_halves",
         "test_reference_graph_and_actual_c06_building_update_halves",
+        "test_reference_graph_and_actual_c06_disabled_belt_efficiency",
         "test_reference_graph_and_actual_conveyor_advance"
       ],
       "runtime_proof": "/root/ConveyorAdvanceProof",
-      "rule": "Source-backed conveyor belt advance; the belt moves its items and hands the front item to the next belt or the core. Items move by speed * edelta() (Conveyor.java:266): the advance takes the building's live per-building timeScale (decayed each tick by BuildingComp.update, BuildingComp.java:2265-2267), so a boosted belt moves faster until its duration expires."
+      "rule": "Source-backed conveyor belt advance; the belt moves its items and hands the front item to the next belt or the core. Items move by speed * edelta() (Conveyor.java:266): the advance takes the building's live per-building timeScale (decayed each tick by BuildingComp.update, BuildingComp.java:2265-2267), so a boosted belt moves faster until its duration expires; it also takes the belt's own efficiency (BuildingComp.java:1943-1948, 1 when enabled, 0 when disabled), so a disabled belt moves 0 and stays frozen."
     },
     "SourceFactoryRuntimeState.source_factory_advance_conveyors_state": {
       "status": "active",

@@ -348,6 +348,16 @@
           "used_by": [
             "SourceConveyorRuntimeState.source_conveyor_advance_state"
           ]
+        },
+        "efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "java_expr": "float moved = speed * edelta();",
+          "rule": "Per-belt efficiency (Building.efficiency, BuildingComp.java:1943-1948): 1 when the conveyor is enabled, 0 when disabled, so a disabled belt moves by speed * edelta() = 0 and stays frozen; a conveyor carries no consumers, so updateConsumption sets efficiency to 1 only when enabled and productionValid. Default 1.0 in the advance step, so the enabled belt and every existing caller are unaffected.",
+          "used_by": [
+            "SourceConveyorRuntimeState.source_conveyor_advance_state"
+          ]
         }
       }
     },

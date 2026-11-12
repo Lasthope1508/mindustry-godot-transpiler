@@ -867,6 +867,21 @@
       ],
       "runtime_proof": "/root/ConveyorAdvanceProof"
     },
+    "source_conveyor_advance_state_input.efficiency": {
+      "canonical_symbol": "source_symbol_registry.source_conveyor_advance_state_input.efficiency",
+      "status": "source-backed",
+      "java_expr": "float moved = speed * edelta();",
+      "godot_symbol": "source_conveyor_advance_state_input.efficiency",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_advance_state",
+      "rule": "Per-belt efficiency (Building.efficiency, BuildingComp.java:1943-1948): 1 when the conveyor is enabled, 0 when disabled, so a disabled belt moves by speed * edelta() = 0 and stays frozen; a conveyor carries no consumers, so updateConsumption sets efficiency to 1 only when enabled and productionValid. Default 1.0 in the advance step, so the enabled belt and every existing caller are unaffected.",
+      "tests": [
+        "test_c06_disabled_belt_efficiency_registration",
+        "test_all_c06_disabled_belt_efficiency_input_evidence_is_exact",
+        "test_disabled_belt_efficiency_reads_efficiency",
+        "test_reference_graph_and_actual_c06_disabled_belt_efficiency"
+      ],
+      "runtime_proof": "/root/C06DisabledBeltEfficiencyProof"
+    },
     "source_conveyor_advance_state_input.ids": {
       "canonical_symbol": "source_symbol_registry.source_conveyor_advance_state_input.ids",
       "status": "source-backed",

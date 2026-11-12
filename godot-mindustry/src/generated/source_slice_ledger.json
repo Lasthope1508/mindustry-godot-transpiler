@@ -55023,6 +55023,46 @@
         "The standalone SourcePlacedPowerGraphState.battery_state() query helper is not stamped -- only the live tick path (runtime_state) stamps. A query frame without a live building keeps its static enabled either way.",
         "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2135": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_class": "mindustry.world.blocks.distribution.Conveyor.ConveyorBuild",
+      "java_method": "ConveyorBuild.updateTile()",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_advance_state",
+      "exact_exprs": [
+        "float moved = speed * edelta();",
+        "public float edelta(){",
+        "return efficiency * delta();",
+        "public void updateConsumption(){",
+        "if(!block.hasConsumers || cheating()){",
+        "potentialEfficiency = enabled && productionValid() ? 1f : 0f;",
+        "efficiency = optionalEfficiency = shouldConsume() ? potentialEfficiency : 0f;",
+        "//disabled -> nothing works",
+        "if(!enabled){",
+        "potentialEfficiency = efficiency = optionalEfficiency = 0f;",
+        "shouldConsumePower = false;",
+        "noUpdateDisabled = false;"
+      ],
+      "source_symbols": [
+        "source_conveyor_advance_state_input.efficiency"
+      ],
+      "tests": [
+        "test_c06_disabled_belt_efficiency_registration",
+        "test_all_c06_disabled_belt_efficiency_input_evidence_is_exact",
+        "test_disabled_belt_efficiency_reads_efficiency",
+        "test_reference_graph_and_actual_c06_disabled_belt_efficiency"
+      ],
+      "runtime_proof": "/root/C06DisabledBeltEfficiencyProof",
+      "deferred_exprs": [
+        "The live-loop belt enabled gate: simulate_factory still advances a disabled belt's queue (it passes no efficiency, and reads no per-sprite enabled). In Java a disabled conveyor's updateTile never runs (noUpdateDisabled = false, Conveyor.java:52). Wiring the live loop to skip/freeze disabled belts needs a sprite-enabled seam (SourcePlacedBlockState has none) -- a follow-up slice, not this one.",
+        "The unit-factory frames keep the N2125 enabled-only power stamp: their per-class shouldConsume bodies (N2124) are plan-gated, and wiring them to the power stamp needs a unit-factory proof setup of its own.",
+        "Live production wiring: the tick driver advances no progress and calls no spawned() yet -- UnitFactory progress (UnitFactory.java:401-403), Reconstructor progress (Reconstructor.java:330-348) and UnitAssembler spawned() (UnitAssembler.java:544-571) are the production slice; the intake call site (moveInPayload() && !wasOccupied, UnitAssembler.java:500-503) is the wiring that calls the intake slice when a payload arrives.",
+        "Units.canCreate live evaluation (Units.java:115-117) needs live per-type unit counts and the unit cap (the unit-group system, C07); the assembler branch keeps reading frame[\"can_create\"], default true, until then.",
+        "lastTier tracking and the progress reset on a tier change (UnitAssembler.java:441-447, if(lastTier != currentTier){ if(lastTier >= 0f){ progress = 0f; } lastTier = lastTier == -2 ? -1 : currentTier; }) -- belongs to the live production/tick wiring, not the disabled-belt efficiency half.",
+        "The live-loop module link/unlink call sites: updateModules/removeModule are called from UnitAssemblerModuleBuild link/unlink (UnitAssemblerModule.java:80-83) -- the port has no live module-linking frame event yet, so the frame modules list is an input, not something the tick maintains.",
+        "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1

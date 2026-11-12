@@ -461,7 +461,7 @@ static func source_conveyor_queues_for_cells_state(game: Object, cells: Array) -
 	}
 
 
-static func source_conveyor_advance_state(ids: Array, xs: Array, ys: Array, len: int, speed: float, delta: float, time_scale: float, aligned: bool, next_minitem: float, blendbits: int, clog_heat_before: float) -> Dictionary:
+static func source_conveyor_advance_state(ids: Array, xs: Array, ys: Array, len: int, speed: float, delta: float, time_scale: float, aligned: bool, next_minitem: float, blendbits: int, clog_heat_before: float, efficiency := 1.0) -> Dictionary:
 	# Conveyor.java:27-28: itemSpace = 0.4f, capacity = 3.
 	var result_ids: Array = ids.duplicate()
 	var result_xs: Array = xs.duplicate()
@@ -494,12 +494,16 @@ static func source_conveyor_advance_state(ids: Array, xs: Array, ys: Array, len:
 	# each tick by BuildingComp.update, BuildingComp.java:2265-2267,
 	# via simulate_block_time_scales), so a boosted belt moves faster
 	# and returns to normal speed when its duration expires.
-	# Efficiency is 1 here: a conveyor carries no consumers, so
-	# updateConsumption (BuildingComp.java:1943-1948) sets efficiency
-	# to 1 when enabled. A disabled belt reads efficiency 0 in Java;
-	# the port carries no per-belt efficiency yet, so that half is
-	# deferred.
-	var moved := speed * delta * time_scale
+	# Efficiency is the belt's own per-belt value (BuildingComp.java:
+	# 1943-1948): a conveyor carries no consumers, so updateConsumption
+	# sets efficiency to 1 when enabled and to 0 when disabled, and
+	# edelta() is efficiency * delta() (BuildingComp.java:1927-1929).
+	# A disabled belt therefore moves 0 and stays frozen; the default
+	# 1.0 keeps the enabled belt and every existing caller unaffected.
+	# The live loop still passes no efficiency (no per-sprite enabled
+	# seam in the factory path), so freezing a disabled belt in the
+	# live loop is a deferred follow-up.
+	var moved := speed * delta * time_scale * efficiency
 	var i := result_len - 1
 	while i >= 0:
 		var nextpos := 100.0 - 0.4

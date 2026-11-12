@@ -171108,6 +171108,22 @@
         "test_reference_graph_and_actual_c06_battery_enabled_stamp"
       ],
       "runtime_proof": "/root/C06BatteryEnabledStampProof"
+    },
+    "source_conveyor_advance_state_input.efficiency": {
+      "status": "source-backed",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_advance_state",
+      "godot_symbol": "source_conveyor_advance_state_input.efficiency",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_method": "ConveyorBuild.updateTile()",
+      "java_expr": "float moved = speed * edelta();",
+      "rule": "Per-belt efficiency (Building.efficiency, BuildingComp.java:1943-1948): 1 when the conveyor is enabled, 0 when disabled, so a disabled belt moves by speed * edelta() = 0 and stays frozen; a conveyor carries no consumers, so updateConsumption sets efficiency to 1 only when enabled and productionValid. Default 1.0 in the advance step, so the enabled belt and every existing caller are unaffected.",
+      "tests": [
+        "test_c06_disabled_belt_efficiency_registration",
+        "test_all_c06_disabled_belt_efficiency_input_evidence_is_exact",
+        "test_disabled_belt_efficiency_reads_efficiency",
+        "test_reference_graph_and_actual_c06_disabled_belt_efficiency"
+      ],
+      "runtime_proof": "/root/C06DisabledBeltEfficiencyProof"
     }
   },
   "version": 1

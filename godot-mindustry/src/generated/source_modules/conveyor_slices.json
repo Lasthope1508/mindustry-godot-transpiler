@@ -448,6 +448,23 @@
       ],
       "runtime_proof": "/root/ConveyorDrawPositionsProof"
     },
+    "N2135": {
+      "canonical_ledger": "source_slice_ledger.N2135",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "java_method": "ConveyorBuild.updateTile()",
+      "godot_owner": "SourceConveyorRuntimeState.source_conveyor_advance_state",
+      "source_symbols": [
+        "source_conveyor_advance_state_input.efficiency"
+      ],
+      "tests": [
+        "test_c06_disabled_belt_efficiency_registration",
+        "test_all_c06_disabled_belt_efficiency_input_evidence_is_exact",
+        "test_disabled_belt_efficiency_reads_efficiency",
+        "test_reference_graph_and_actual_c06_disabled_belt_efficiency"
+      ],
+      "runtime_proof": "/root/C06DisabledBeltEfficiencyProof"
+    },
     "N684": {
       "canonical_ledger": "source_slice_ledger.N684",
       "status": "done",
