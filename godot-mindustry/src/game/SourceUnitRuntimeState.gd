@@ -3,6 +3,7 @@ class_name SourceUnitRuntimeState
 
 const source_unit_defaults := preload("res://src/game/SourceUnitDefaults.gd")
 const source_unit_update_source_text_state := preload("res://src/game/SourceUnitUpdateSourceTextState.gd")
+const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerGameplayRegistry.gd")
 
 const SOURCE_UNIT_DROWN_HIT_SIZE_DIVISOR := source_unit_defaults.DROWN_HIT_SIZE_DIVISOR
 const SOURCE_UNIT_DROWN_UPDATE_EFFECT_CHANCE := source_unit_defaults.DROWN_UPDATE_EFFECT_CHANCE
@@ -239,4 +240,25 @@ static func spawned_core_despawn_state(spawned_by_core_value: bool, is_player_va
 		"isPlayer": is_player_value,
 		"dead": dead_value,
 		"despawn": despawn_call,
+	}
+
+static func source_units_can_create_state(use_unit_cap: bool, count_type: int, unit_cap: int, is_banned: bool) -> Dictionary:
+	# Units.canCreate(team, type) (Units.java:115-117):
+	# `return !type.useUnitCap || (team.data().countType(type) < getCap(team) && !type.isBanned());`
+	# The cap is Units.getCap(team) (Units.java:118-125):
+	# `return Math.max(0, state.rules.unitCapVariable ? state.rules.unitCap + team.data().unitCap : state.rules.unitCap);`
+	# — computed by the caller through the existing cap bridge
+	# (SourceUnitUpdateState.cap_state), so the formula is not
+	# duplicated here; countType is TeamData.countType(type)
+	# (Teams.java:442-444) and isBanned is Rules.isBanned
+	# (Rules.java:311-313), both computed by the caller. This
+	# function only composes the three already-ported pieces with
+	# type.useUnitCap into the one predicate.
+	var can_create := not use_unit_cap or (count_type < unit_cap and not is_banned)
+	return {
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNITS_CAN_CREATE_STATE,
+		"can_create": can_create,
+		"unit_cap": unit_cap,
+		"count_type": count_type,
+		"is_banned": is_banned,
 	}

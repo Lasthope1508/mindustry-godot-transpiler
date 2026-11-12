@@ -15,6 +15,8 @@ const source_consume_state := preload("res://src/game/SourceConsumeState.gd")
 const source_building_access_state := preload("res://src/game/SourceBuildingAccessState.gd")
 const source_time_defaults := preload("res://src/game/SourceTimeDefaults.gd")
 const source_math_state := preload("res://src/game/SourceMathState.gd")
+const source_unit_runtime_state := preload("res://src/game/SourceUnitRuntimeState.gd")
+const source_unit_update_state := preload("res://src/game/SourceUnitUpdateState.gd")
 
 # Every block whose build is a unit-factory build: the three classes
 # that set each consumer's multiplier to Rules.unitCost
@@ -180,6 +182,45 @@ static func source_unit_factory_has_upgrade_state(block: Object, payload_unit: S
 		"is_ai": is_ai,
 		"banned": banned,
 	}
+
+static func source_unit_factory_can_create_state(frame: Dictionary, plan_unit: String, rules_state: Variant, team_id: int) -> Dictionary:
+	# Units.canCreate(team, type) (Units.java:115-117) for the
+	# assembler plan unit, composed from the already-ported
+	# pieces: the cap through SourceUnitUpdateState.cap_state
+	# (Units.getCap, Units.java:118-125), the per-type count
+	# from the frame, and the ban through Rules.isBanned
+	# (Rules.java:310-312) — the same read has_upgrade_state
+	# does. Three inputs have no live port source yet and read
+	# their Java defaults, flagged here until their owning
+	# slices land: type.useUnitCap (the unit catalog captures
+	# only health/hitSize/speed per unit type, so no per-type
+	# value exists; UnitType.java:205 defaults true);
+	# team.data().unitCap (no TeamData read site in the port;
+	# Teams.java:298 is a plain int, default 0); team.
+	# ignoreUnitCap (no Team read site; Team.java:22 defaults
+	# false). The frame records no per-type unit counts yet
+	# (the unit-group system, a later C07 slice), so the
+	# team_unit_counts map reads 0 for a missing unit — exactly
+	# TeamData.countType (Teams.java:442-444, `return typeCounts
+	# == null || typeCounts.length <= type.id ? 0 :
+	# typeCounts[type.id];`). The wave team is rules
+	# "wave_team" (SourceTeamsRuntimeState); a rules state
+	# without it reads -1, i.e. no team is the wave team.
+	var rules: Dictionary = {}
+	if rules_state is Dictionary:
+		rules = rules_state
+	var use_unit_cap := true
+	var team_ignore_unit_cap := false
+	var team_data_unit_cap := 0
+	var team_unit_counts: Dictionary = {}
+	if frame.get("team_unit_counts", {}) is Dictionary:
+		team_unit_counts = frame.get("team_unit_counts", {})
+	var count_type: int = int(team_unit_counts.get(plan_unit, 0))
+	var cap: Dictionary = source_unit_update_state.cap_state(team_id == int(rules.get("wave_team", -1)), bool(rules.get("pvp", false)), rules.get("sector", null) != null, bool(rules.get("disableUnitCap", false)), team_ignore_unit_cap, bool(rules.get("unitCapVariable", true)), int(rules.get("unitCap", 0)), team_data_unit_cap)
+	var unit_cap: int = int(cap.get("cap", 0))
+	var banned_units: Array = rules.get("bannedUnits", [])
+	var is_banned: bool = bool(rules.get("unitWhitelist", false)) != banned_units.has(plan_unit)
+	return source_unit_runtime_state.source_units_can_create_state(use_unit_cap, count_type, unit_cap, is_banned)
 
 static func source_unit_factory_assembler_plan_state(block: Object, tier: int) -> Dictionary:
 	# UnitAssemblerBuild.plan() (UnitAssembler.java:386-389):
@@ -521,12 +562,11 @@ static func source_unit_factory_should_consume_state(frame: Dictionary, block: O
 	# calls this every tick and passes should_consume to
 	# updateConsumption, so a plan-less factory, a payload-less
 	# reconstructor, or an occupied assembler stops consuming
-	# exactly like Java. One assembler conjunct is deferred to its
-	# owning slice and reads from the frame with a permissive
-	# default that preserves the current live behavior until then:
-	# Units.canCreate (Units.java:115-117) needs live per-type unit
-	# counts and the unit cap (the unit-group system, C07) —
-	# frame["can_create"], default true. consPayload.efficiency
+	# exactly like Java. The assembler canCreate conjunct is live
+	# since N2140: source_unit_factory_can_create_state evaluates
+	# Units.canCreate (Units.java:115-117) from the cap bridge,
+	# the frame's per-type counts and Rules.isBanned.
+	# consPayload.efficiency
 	# (ConsumePayloadDynamic.java:24-32) is live since N2132: the
 	# assembler branch reads it from the building's payload module
 	# through source_unit_factory_assembler_payload_state (N2129),
@@ -542,6 +582,14 @@ static func source_unit_factory_should_consume_state(frame: Dictionary, block: O
 	var rules_state: Variant = {}
 	if game != null:
 		rules_state = source_rules_state.source_game_rules_state(game.get("rules_state")).get("rules", {})
+	elif frame.get("rules_state", {}) is Dictionary:
+		# Direct calls (proofs) pass game null; the frame carries
+		# the rules there — the tick driver stamps
+		# frame["rules_state"] the same way, and the cons-item
+		# efficiency read already takes rules from the frame. A
+		# frame without rules keeps the empty rules, so the cap
+		# reads its Java default (Rules.unitCap 0).
+		rules_state = frame.get("rules_state", {})
 	var activated: Dictionary = source_unit_factory_activate_state(rules_state, team_id)
 	var activate: bool = bool(activated.get("activate_unit_factories", true))
 	var result := {
@@ -590,7 +638,8 @@ static func source_unit_factory_should_consume_state(frame: Dictionary, block: O
 		result["plan_unit"] = str(plan.get("unit", ""))
 		var item_eff: Dictionary = source_unit_factory_assembler_cons_item_efficiency_state(frame, plan)
 		result["item_efficiency"] = float(item_eff.get("item_efficiency", 1.0))
-		result["can_create"] = bool(frame.get("can_create", true))
+		var can_create_state: Dictionary = source_unit_factory_can_create_state(frame, str(plan.get("unit", "")), rules_state, team_id)
+		result["can_create"] = bool(can_create_state.get("can_create", true))
 		var payload_eff: Dictionary = source_unit_factory_assembler_payload_state(frame, plan)
 		result["payload_efficiency"] = float(payload_eff.get("payload_efficiency", 1.0))
 		result["should_consume"] = enabled and not bool(result["was_occupied"]) and activate and float(result["item_efficiency"]) > 0.0 and bool(result["can_create"]) and float(result["payload_efficiency"]) > 0.0
@@ -772,10 +821,13 @@ static func source_unit_factory_tick_buildings_state(game: Object, seconds: floa
 			# and no progress advances until a drone-position slice
 			# lands; allow_update defaults true (BuildingComp.
 			# allowUpdate is a team/environment gate with no frame
-			# yet); can_create keeps reading frame["can_create"]
-			# (default true, already read by the N2132 shouldConsume
-			# branch) until C07 evaluates Units.canCreate live.
-			var assembler_production: Dictionary = source_unit_assembler_production_tick_state(frame, assembler_plan, drones_created, drone_construct_time, assembler_payload_in_position, bool(frame.get("spawn_occupied", false)), bool(frame.get("spawn_visual_occupied", false)), int(frame.get("drones_in_position", 0)), bool(frame.get("allow_update", true)), bool(frame.get("can_create", true)), assembler_power_value, float(frame.get("efficiency", 1.0)) * seconds * source_time_defaults.TICK_RATE, _unit_build_speed_state(rules_state, team_id), seconds * source_time_defaults.TICK_RATE)
+			# yet); can_create is live since N2140 through
+			# source_unit_factory_can_create_state (Units.canCreate,
+			# Units.java:115-117) — the frame still records no
+			# per-type unit counts, so the count reads 0 until the
+			# unit-group slice lands.
+			var assembler_can_create: Dictionary = source_unit_factory_can_create_state(frame, str(assembler_plan.get("unit", "")), rules_state, team_id)
+			var assembler_production: Dictionary = source_unit_assembler_production_tick_state(frame, assembler_plan, drones_created, drone_construct_time, assembler_payload_in_position, bool(frame.get("spawn_occupied", false)), bool(frame.get("spawn_visual_occupied", false)), int(frame.get("drones_in_position", 0)), bool(frame.get("allow_update", true)), bool(assembler_can_create.get("can_create", true)), assembler_power_value, float(frame.get("efficiency", 1.0)) * seconds * source_time_defaults.TICK_RATE, _unit_build_speed_state(rules_state, team_id), seconds * source_time_defaults.TICK_RATE)
 			frame["progress"] = float(assembler_production.get("progress", 0.0))
 			frame["warmup"] = float(assembler_production.get("warmup", 0.0))
 			frame["drone_warmup"] = float(assembler_production.get("drone_warmup", 0.0))

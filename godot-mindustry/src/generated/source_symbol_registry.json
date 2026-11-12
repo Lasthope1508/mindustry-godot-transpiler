@@ -171400,6 +171400,70 @@
         "test_reference_graph_and_actual_c06_unit_assembler_production_tick"
       ],
       "runtime_proof": "/root/C06UnitAssemblerProductionProof"
+    },
+    "source_units_can_create_state_result.can_create": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitRuntimeState.source_units_can_create_state",
+      "godot_symbol": "source_units_can_create_state_result.can_create",
+      "java_source": "core/src/mindustry/entities/Units.java",
+      "java_method": "Units.canCreate(Team, UnitType)",
+      "java_expr": "return !type.useUnitCap || (team.data().countType(type) < getCap(team) && !type.isBanned());",
+      "rule": "Units.canCreate(team, type) (Units.java:115-117): true when the type opts out of the cap, or the live count is under the cap and the type is not banned.",
+      "tests": [
+        "test_c07_units_can_create_registration",
+        "test_all_c07_units_can_create_input_evidence_is_exact",
+        "test_units_can_create_state",
+        "test_reference_graph_and_actual_c07_units_can_create"
+      ],
+      "runtime_proof": "/root/C07UnitsCanCreateProof"
+    },
+    "source_units_can_create_state_result.unit_cap": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitRuntimeState.source_units_can_create_state",
+      "godot_symbol": "source_units_can_create_state_result.unit_cap",
+      "java_source": "core/src/mindustry/entities/Units.java",
+      "java_method": "Units.canCreate(Team, UnitType)",
+      "java_expr": "return Math.max(0, state.rules.unitCapVariable ? state.rules.unitCap + team.data().unitCap : state.rules.unitCap);",
+      "rule": "The evaluated Units.getCap(team) (Units.java:118-125) the predicate compared against.",
+      "tests": [
+        "test_c07_units_can_create_registration",
+        "test_all_c07_units_can_create_input_evidence_is_exact",
+        "test_units_can_create_state",
+        "test_reference_graph_and_actual_c07_units_can_create"
+      ],
+      "runtime_proof": "/root/C07UnitsCanCreateProof"
+    },
+    "source_units_can_create_state_result.count_type": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitRuntimeState.source_units_can_create_state",
+      "godot_symbol": "source_units_can_create_state_result.count_type",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "Units.canCreate(Team, UnitType)",
+      "java_expr": "return typeCounts == null || typeCounts.length <= type.id ? 0 : typeCounts[type.id];",
+      "rule": "The evaluated team.data().countType(type) (Teams.java:442-444) the predicate compared against.",
+      "tests": [
+        "test_c07_units_can_create_registration",
+        "test_all_c07_units_can_create_input_evidence_is_exact",
+        "test_units_can_create_state",
+        "test_reference_graph_and_actual_c07_units_can_create"
+      ],
+      "runtime_proof": "/root/C07UnitsCanCreateProof"
+    },
+    "source_units_can_create_state_result.is_banned": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitRuntimeState.source_units_can_create_state",
+      "godot_symbol": "source_units_can_create_state_result.is_banned",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_method": "Units.canCreate(Team, UnitType)",
+      "java_expr": "return unitWhitelist != bannedUnits.contains(unit);",
+      "rule": "The evaluated Rules.isBanned(unit) (Rules.java:311-313) the predicate compared against.",
+      "tests": [
+        "test_c07_units_can_create_registration",
+        "test_all_c07_units_can_create_input_evidence_is_exact",
+        "test_units_can_create_state",
+        "test_reference_graph_and_actual_c07_units_can_create"
+      ],
+      "runtime_proof": "/root/C07UnitsCanCreateProof"
     }
   },
   "version": 1

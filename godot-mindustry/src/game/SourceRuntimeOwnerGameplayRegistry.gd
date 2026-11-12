@@ -116,6 +116,7 @@ const PORT_GAME_SOURCE_UNIT_COMMAND_STATE := "port_game.source_unit_command_stat
 const PORT_GAME_SOURCE_UNIT_IS_MISSILE_STATE := "port_game.source_unit_is_missile_state"
 const PORT_GAME_SOURCE_UNIT_COUNT_STATE := "port_game.source_unit_count_state"
 const PORT_GAME_SOURCE_UNIT_CAP_STATE := "port_game.source_unit_cap_state"
+const PORT_GAME_SOURCE_UNITS_CAN_CREATE_STATE := "port_game.source_units_can_create_state"
 const PORT_GAME_SOURCE_UNIT_SET_TYPE_STATE := "port_game.source_unit_set_type_state"
 const PORT_GAME_SOURCE_UNIT_PLAYER_CONTROLLABLE_STATE := "port_game.source_unit_player_controllable_state"
 const PORT_GAME_SOURCE_UNIT_TARGETABLE_STATE := "port_game.source_unit_targetable_state"

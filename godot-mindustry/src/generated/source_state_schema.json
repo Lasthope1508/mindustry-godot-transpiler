@@ -227082,6 +227082,104 @@
       },
       "runtime_proof": "/root/C06UnitAssemblerProductionProof",
       "rule": "Source-backed UnitAssembler live production tick from UnitAssemblerBuild.updateTile()."
+    },
+    "source_units_can_create_state_input": {
+      "status": "active",
+      "owner": "SourceUnitRuntimeState.source_units_can_create_state",
+      "source_slice": "N2140",
+      "keys": {
+        "use_unit_cap": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/UnitType.java",
+          "java_expr": "useUnitCap = true,",
+          "rule": "type.useUnitCap (UnitType.java:205, default true); the unit catalog captures only health/hitSize/speed per unit type, so the wiring reads the Java default until a catalog slice lands.",
+          "used_by": [
+            "SourceUnitRuntimeState.source_units_can_create_state"
+          ]
+        },
+        "count_type": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "return typeCounts == null || typeCounts.length <= type.id ? 0 : typeCounts[type.id];",
+          "rule": "team.data().countType(type) (Teams.java:442-444); the frame reads team_unit_counts (default 0 for a missing unit) until the unit-group slice lands.",
+          "used_by": [
+            "SourceUnitRuntimeState.source_units_can_create_state"
+          ]
+        },
+        "unit_cap": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/Units.java",
+          "java_expr": "return Math.max(0, state.rules.unitCapVariable ? state.rules.unitCap + team.data().unitCap : state.rules.unitCap);",
+          "rule": "Units.getCap(team) (Units.java:118-125), computed by the caller through the existing SourceUnitUpdateState.cap_state bridge.",
+          "used_by": [
+            "SourceUnitRuntimeState.source_units_can_create_state"
+          ]
+        },
+        "is_banned": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Rules.java",
+          "java_expr": "return unitWhitelist != bannedUnits.contains(unit);",
+          "rule": "Rules.isBanned(unit) (Rules.java:311-313); the same read the factory has_upgrade state already does.",
+          "used_by": [
+            "SourceUnitRuntimeState.source_units_can_create_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07UnitsCanCreateProof",
+      "rule": "Source-backed Units.canCreate predicate from Units.canCreate(Team, UnitType)."
+    },
+    "source_units_can_create_state_result": {
+      "status": "active",
+      "owner": "SourceUnitRuntimeState.source_units_can_create_state",
+      "source_slice": "N2140",
+      "keys": {
+        "can_create": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/Units.java",
+          "java_expr": "return !type.useUnitCap || (team.data().countType(type) < getCap(team) && !type.isBanned());",
+          "rule": "Units.canCreate(team, type) (Units.java:115-117): true when the type opts out of the cap, or the live count is under the cap and the type is not banned.",
+          "used_by": [
+            "SourceUnitRuntimeState.source_units_can_create_state"
+          ]
+        },
+        "unit_cap": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/Units.java",
+          "java_expr": "return Math.max(0, state.rules.unitCapVariable ? state.rules.unitCap + team.data().unitCap : state.rules.unitCap);",
+          "rule": "The evaluated Units.getCap(team) (Units.java:118-125) the predicate compared against.",
+          "used_by": [
+            "SourceUnitRuntimeState.source_units_can_create_state"
+          ]
+        },
+        "count_type": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "return typeCounts == null || typeCounts.length <= type.id ? 0 : typeCounts[type.id];",
+          "rule": "The evaluated team.data().countType(type) (Teams.java:442-444) the predicate compared against.",
+          "used_by": [
+            "SourceUnitRuntimeState.source_units_can_create_state"
+          ]
+        },
+        "is_banned": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Rules.java",
+          "java_expr": "return unitWhitelist != bannedUnits.contains(unit);",
+          "rule": "The evaluated Rules.isBanned(unit) (Rules.java:311-313) the predicate compared against.",
+          "used_by": [
+            "SourceUnitRuntimeState.source_units_can_create_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07UnitsCanCreateProof",
+      "rule": "Source-backed Units.canCreate predicate from Units.canCreate(Team, UnitType)."
     }
   },
   "version": 1

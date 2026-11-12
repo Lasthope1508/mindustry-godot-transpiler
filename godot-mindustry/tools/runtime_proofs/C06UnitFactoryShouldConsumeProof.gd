@@ -119,11 +119,15 @@ func _ready() -> void:
 	proof["should_consume_assembler_default_false"] = bool(assembler_default.get("should_consume", true)) == false and str(assembler_default.get("plan_unit", "")) == "vanquish" and is_equal_approx(float(assembler_default.get("item_efficiency", -1.0)), 1.0) and is_equal_approx(float(assembler_default.get("payload_efficiency", -1.0)), 0.0)
 	var assembler_occupied: Dictionary = unit_factory_build_state.source_unit_factory_should_consume_state({"block_implementation": "UnitAssembler", "current_tier": 0, "was_occupied": true}, assembler_block, null)
 	proof["should_consume_assembler_occupied_false"] = bool(assembler_occupied.get("should_consume", true)) == false and bool(assembler_occupied.get("was_occupied", false)) == true
-	var assembler_no_create: Dictionary = unit_factory_build_state.source_unit_factory_should_consume_state({"block_implementation": "UnitAssembler", "current_tier": 0, "can_create": false}, assembler_block, null)
+	# Since N2140 the no-create case is a live canCreate false:
+	# unitCap 0 (the Rules default) caps the count at 0, so no
+	# vanquish can be created; the full-blocks case carries a
+	# rules_state that permits creation (unitCap 10, count 0).
+	var assembler_no_create: Dictionary = unit_factory_build_state.source_unit_factory_should_consume_state({"block_implementation": "UnitAssembler", "current_tier": 0, "rules_state": {"unitCap": 0}}, assembler_block, null)
 	proof["should_consume_assembler_no_create_false"] = bool(assembler_no_create.get("should_consume", true)) == false and bool(assembler_no_create.get("can_create", true)) == false
 	var assembler_short_blocks: Dictionary = unit_factory_build_state.source_unit_factory_should_consume_state({"block_implementation": "UnitAssembler", "current_tier": 0, "blocks": {"stell": 3, "tungsten-wall-large": 10}}, assembler_block, null)
 	proof["should_consume_assembler_short_blocks_false"] = bool(assembler_short_blocks.get("should_consume", true)) == false and is_equal_approx(float(assembler_short_blocks.get("payload_efficiency", -1.0)), 0.0)
-	var assembler_full_blocks: Dictionary = unit_factory_build_state.source_unit_factory_should_consume_state({"block_implementation": "UnitAssembler", "current_tier": 0, "blocks": {"stell": 4, "tungsten-wall-large": 10}}, assembler_block, null)
+	var assembler_full_blocks: Dictionary = unit_factory_build_state.source_unit_factory_should_consume_state({"block_implementation": "UnitAssembler", "current_tier": 0, "blocks": {"stell": 4, "tungsten-wall-large": 10}, "rules_state": {"unitCap": 10}}, assembler_block, null)
 	proof["should_consume_assembler_full_blocks_true"] = bool(assembler_full_blocks.get("should_consume", false)) == true and is_equal_approx(float(assembler_full_blocks.get("payload_efficiency", -1.0)), 1.0)
 	var null_block: Dictionary = unit_factory_build_state.source_unit_factory_should_consume_state({}, null, null)
 	proof["should_consume_null_block_false"] = bool(null_block.get("should_consume", true)) == false

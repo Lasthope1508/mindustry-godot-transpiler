@@ -55313,6 +55313,66 @@
         "power.status live read -- the driver folds frame[\"power_status\"] (null -> 1.0) until a power-status slice lands.",
         "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2140": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/Units.java",
+      "java_class": "mindustry.entities.Units",
+      "java_method": "Units.canCreate(Team, UnitType)",
+      "godot_owner": "SourceUnitRuntimeState.source_units_can_create_state",
+      "exact_exprs": [
+        "public static boolean canCreate(Team team, UnitType type){",
+        "return !type.useUnitCap || (team.data().countType(type) < getCap(team) && !type.isBanned());",
+        "public static int getCap(Team team){",
+        "if((team == state.rules.waveTeam && !state.rules.pvp) || (state.isCampaign() && team == state.rules.waveTeam) || state.rules.disableUnitCap || team.ignoreUnitCap){",
+        "return Integer.MAX_VALUE;",
+        "return Math.max(0, state.rules.unitCapVariable ? state.rules.unitCap + team.data().unitCap : state.rules.unitCap);",
+        "public int countType(UnitType type){",
+        "return typeCounts == null || typeCounts.length <= type.id ? 0 : typeCounts[type.id];",
+        "useUnitCap = true,",
+        "public boolean isBanned(){",
+        "return state.rules.isBanned(this);",
+        "public boolean pvp;",
+        "public boolean unitCapVariable = true;",
+        "public int unitCap = 0;",
+        "public boolean disableUnitCap;",
+        "public Team waveTeam = Team.crux;",
+        "public boolean isBanned(UnitType unit){",
+        "return unitWhitelist != bannedUnits.contains(unit);",
+        "public boolean ignoreUnitCap = false;",
+        "public boolean isCampaign(){",
+        "return enabled && !wasOccupied && Units.canCreate(team, plan().unit) && consPayload.efficiency(this) > 0 && consItem.efficiency(this) > 0 && team.activateUnitFactories();",
+        "if(!wasOccupied && efficiency > 0 && Units.canCreate(team, plan.unit)){"
+      ],
+      "source_symbols": [
+        "source_units_can_create_state_result.can_create",
+        "source_units_can_create_state_result.unit_cap",
+        "source_units_can_create_state_result.count_type",
+        "source_units_can_create_state_result.is_banned"
+      ],
+      "tests": [
+        "test_c07_units_can_create_registration",
+        "test_all_c07_units_can_create_input_evidence_is_exact",
+        "test_units_can_create_state",
+        "test_reference_graph_and_actual_c07_units_can_create"
+      ],
+      "runtime_proof": "/root/C07UnitsCanCreateProof",
+      "deferred_exprs": [
+        "Live per-type unit counts in the frame (team.data().typeCounts, Teams.java:430-444) -- the pure function takes count_type as an input; the frame reads team_unit_counts (default 0) until a unit-group slice lands.",
+        "Per-type useUnitCap in the unit catalog (UnitType.java:205) -- the catalog captures only health/hitSize/speed per unit type, so the wiring reads the Java default true until a catalog slice lands.",
+        "TeamData.unitCap live read (Teams.java:298) -- no TeamData read site in the port, so the cap bridge reads 0 until a teams slice lands.",
+        "Team.ignoreUnitCap live read (Team.java:22) -- no Team read site in the port, so the wiring reads the Java default false until a teams slice lands.",
+        "Net readUnits/whenSyncedUnits drone sync (UnitAssembler.java:430-460) -- client sync, needs the net slice.",
+        "units.removeAll(u -> !u.isAdded() || u.dead || !(u.controller() instanceof AssemblerAI)) (UnitAssembler.java:461) -- live unit list, no port frame for it yet.",
+        "AI perimeter arrangement (ai.targetPos.trns(...), ai.targetAngle, UnitAssembler.java:506-513) -- AssemblerAI presentation, not state.",
+        "Live-world spawn path in spawned() (unit.set, unit.add, unit.buildOn, acceptPayload/handlePayload, Units.notifyUnitSpawn, UnitAssembler.java:548-563) -- the pure tick records spawned/consumed/unit_created_event as state.",
+        "Commandable commandPos branch + createSound + Fx.unitAssemble (UnitAssembler.java:549-551, 564-566) -- presentation, not state.",
+        "Call.assemblerDroneSpawned net call (UnitAssembler.java:488) -- the pure tick records drone_spawned as state.",
+        "Drone controller-not-AssemblerAI bug guard (UnitAssembler.java:479-490) -- data-patch guard, deferred to a validation slice.",
+        "checkSolid live collision queries + getUnitSpawn geometry (UnitAssembler.java:332-336, 675-681) -- the pure tick takes occupancy as inputs.",
+        "power.status live read -- the driver folds frame[\"power_status\"] (null -> 1.0) until a power-status slice lands.",
+        "C07-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1

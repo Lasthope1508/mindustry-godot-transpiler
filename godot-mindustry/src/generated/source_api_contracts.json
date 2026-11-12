@@ -64413,6 +64413,49 @@
       ],
       "runtime_proof": "/root/C06UnitAssemblerProductionProof",
       "rule": "Source-backed UnitAssembler live production tick from UnitAssemblerBuild.updateTile()."
+    },
+    "SourceUnitRuntimeState.source_units_can_create_state": {
+      "status": "active",
+      "source_slice": "N2140",
+      "java_source": "core/src/mindustry/entities/Units.java",
+      "source_method": "Units.canCreate(Team, UnitType)",
+      "params": [
+        {
+          "name": "use_unit_cap",
+          "type": "bool",
+          "schema": "source_units_can_create_state_input.use_unit_cap"
+        },
+        {
+          "name": "count_type",
+          "type": "int",
+          "schema": "source_units_can_create_state_input.count_type"
+        },
+        {
+          "name": "unit_cap",
+          "type": "int",
+          "schema": "source_units_can_create_state_input.unit_cap"
+        },
+        {
+          "name": "is_banned",
+          "type": "bool",
+          "schema": "source_units_can_create_state_input.is_banned"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "can_create",
+        "unit_cap",
+        "count_type",
+        "is_banned"
+      ],
+      "tests": [
+        "test_c07_units_can_create_registration",
+        "test_all_c07_units_can_create_input_evidence_is_exact",
+        "test_units_can_create_state",
+        "test_reference_graph_and_actual_c07_units_can_create"
+      ],
+      "runtime_proof": "/root/C07UnitsCanCreateProof",
+      "rule": "Source-backed Units.canCreate predicate from Units.canCreate(Team, UnitType)."
     }
   },
   "policy": {
