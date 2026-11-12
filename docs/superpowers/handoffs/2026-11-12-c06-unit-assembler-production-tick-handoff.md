@@ -111,7 +111,7 @@ The UnitAssembler half of the live production wiring, the next item on the N2138
 
 - **Gate attempt 1 FINISHED ~21:35 +07** (setsid PID 2810, started ~21:20, main-thread launch): **Ran 5653 tests in 907.076s, FAILED (failures=90, skipped=5), 0 errors** — verified in this run: 90 `FAIL:` blocks, 0 `ERROR:` blocks, all 90 `unexpectedly None` (89 plain `assertIsNotNone(godot)` + 1 hydration proof `assertIsNotNone(godot, 'Godot required for hydration proof')`), 0 non-Godot failures; the N2139 module shows no failure other than its Godot-proof test, the N2128 module likewise. Single attempt, no session-end death, no real failure. Log `tools/mindustry_godot_transpiler/full-suite-n2139-gate.log`.
 - Report `docs/superpowers/reports/2026-11-12-c06-unit-assembler-production-tick.md` written; design spec updated (N2139 checklist row + Status Summary 1589→1590 + changelog row).
-- Slice commit: 7383149. Docs commit: <DOCS_COMMIT>.
+- Slice commit: 7383149. Docs commit: 8de64cb.
 
 ## Commit
 
