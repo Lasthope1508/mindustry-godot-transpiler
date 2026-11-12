@@ -718,6 +718,23 @@ static func source_factory_update_power_graph_state(game: Object, delta: float) 
 	for battery in updated_batteries:
 		if battery is Dictionary and battery.get("origin_cell", null) is Vector2i:
 			source_placed_power_graph_state.source_battery_set_power_status_for_cell_state(game, battery.get("origin_cell"), float(battery.get("power_status", 0.0)))
+	# Write each updated consumer's computed power.status back to its
+	# building frame (PowerGraph.java:203 `consumer.power.status =
+	# coverage;` — distributePower assigns the status on the
+	# consumer; the battery pattern above), so the factory driver
+	# running later in the same tick reads a live value instead of
+	# the null fold. The distribute state carries the updated
+	# consumers (duplicated, origin_cell preserved); on the cheat
+	# branch (PowerGraph.java:217-224) distributePower never runs
+	# and the distribute state is empty, so the top-level consumers
+	# — stamped 1.0 by update_state — are the source instead. A
+	# consumer without a Vector2i origin is not stamped.
+	var updated_consumers: Array = update.get("battery_distribute_state", {}).get("consumers", [])
+	if updated_consumers.is_empty():
+		updated_consumers = update.get("consumers", [])
+	for consumer in updated_consumers:
+		if consumer is Dictionary and consumer.get("origin_cell", null) is Vector2i:
+			source_placed_power_graph_state.source_consumer_set_power_status_for_cell_state(game, consumer.get("origin_cell"), float(consumer.get("power_status", 0.0)))
 	return {
 		"power_needed": float(update.get("power_needed", 0.0)),
 		"power_produced": float(update.get("power_produced", 0.0)),

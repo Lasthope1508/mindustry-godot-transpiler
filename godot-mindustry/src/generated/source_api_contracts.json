@@ -64539,6 +64539,74 @@
       ],
       "runtime_proof": "/root/C07UnitGroupCountsProof",
       "rule": "Source-backed TeamData.updateCount / Teams.updateTeamStats state from Teams.java."
+    },
+    "SourcePlacedPowerGraphState.source_consumer_power_status_for_cell_state": {
+      "status": "active",
+      "source_slice": "N2142",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "source_method": "PowerGraph.distributePower(float, float, boolean)",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_consumer_power_status_for_cell_state_input.game"
+        },
+        {
+          "name": "cell",
+          "type": "Vector2i",
+          "schema": "source_consumer_power_status_for_cell_state_input.cell"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "status",
+        "found",
+        "reason"
+      ],
+      "tests": [
+        "test_c07_power_status_live_registration",
+        "test_all_c07_power_status_live_input_evidence_is_exact",
+        "test_consumer_power_status_state",
+        "test_reference_graph_and_actual_c07_power_status_live"
+      ],
+      "runtime_proof": "/root/C07PowerStatusLiveProof",
+      "rule": "Source-backed PowerGraph.distributePower consumer power.status read/write from PowerGraph.java."
+    },
+    "SourcePlacedPowerGraphState.source_consumer_set_power_status_for_cell_state": {
+      "status": "active",
+      "source_slice": "N2142",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "source_method": "PowerGraph.distributePower(float, float, boolean)",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_consumer_set_power_status_for_cell_state_input.game"
+        },
+        {
+          "name": "cell",
+          "type": "Vector2i",
+          "schema": "source_consumer_set_power_status_for_cell_state_input.cell"
+        },
+        {
+          "name": "status",
+          "type": "float",
+          "schema": "source_consumer_set_power_status_for_cell_state_input.status"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "stored",
+        "reason"
+      ],
+      "tests": [
+        "test_c07_power_status_live_registration",
+        "test_all_c07_power_status_live_input_evidence_is_exact",
+        "test_consumer_power_status_state",
+        "test_reference_graph_and_actual_c07_power_status_live"
+      ],
+      "runtime_proof": "/root/C07PowerStatusLiveProof",
+      "rule": "Source-backed PowerGraph.distributePower consumer power.status read/write from PowerGraph.java."
     }
   },
   "policy": {

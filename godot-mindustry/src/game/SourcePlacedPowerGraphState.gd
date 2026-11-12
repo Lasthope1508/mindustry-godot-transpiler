@@ -66,6 +66,48 @@ static func source_battery_set_power_status_for_cell_state(game: Object, cell: V
 	sprite.set_meta(SOURCE_BATTERY_POWER_STATUS_META_KEY, status)
 	return {"stored": true, "reason": "stored"}
 
+static func source_consumer_power_status_for_cell_state(game: Object, cell: Vector2i) -> Dictionary:
+	# ConsumePower.java:39 `return build.power.status;` — the
+	# canonical power.status read: the status is a field on the
+	# building that persists across frames. The Godot port stores it
+	# on the placed building's family frame (the battery pattern,
+	# N2082/N2083: one frame per sprite, first of
+	# SOURCE_CONSUMER_FRAME_META_KEYS present). A building with no
+	# tick frame (conduit, core) and a cell with no sprite read the
+	# field default (PowerModule.java:13, `public float status = 0.0f;`).
+	var sprite: Variant = game.call("block_sprite_at_cell", cell)
+	if sprite == null:
+		return {"status": 0.0, "found": false, "reason": "no_sprite"}
+	for meta_key in SOURCE_CONSUMER_FRAME_META_KEYS:
+		if not sprite.has_meta(meta_key):
+			continue
+		var frame: Variant = sprite.get_meta(meta_key)
+		if frame is Dictionary:
+			return {"status": float(frame.get("power_status", 0.0)), "found": true, "reason": "live_frame"}
+	return {"status": 0.0, "found": false, "reason": "no_frame"}
+
+static func source_consumer_set_power_status_for_cell_state(game: Object, cell: Vector2i, status: float) -> Dictionary:
+	# PowerGraph.java:203 `consumer.power.status = coverage;` — the
+	# distributePower write-back: every tick the graph assigns each
+	# consumer its computed status. The port stores it on the placed
+	# building's family frame (first of
+	# SOURCE_CONSUMER_FRAME_META_KEYS present; set_meta back after
+	# mutating, the battery-write pattern), so the next frame — and
+	# the factory driver running later in the same tick — reads the
+	# live value instead of the null fold.
+	var sprite: Variant = game.call("block_sprite_at_cell", cell)
+	if sprite == null:
+		return {"stored": false, "reason": "no_sprite"}
+	for meta_key in SOURCE_CONSUMER_FRAME_META_KEYS:
+		if not sprite.has_meta(meta_key):
+			continue
+		var frame: Variant = sprite.get_meta(meta_key)
+		if frame is Dictionary:
+			frame["power_status"] = status
+			sprite.set_meta(meta_key, frame)
+			return {"stored": true, "reason": "live_frame"}
+	return {"stored": false, "reason": "no_frame"}
+
 static func source_consumer_cheating_for_cell_state(game: Object, cell: Vector2i) -> Dictionary:
 	# PowerGraph.java:217 update(): the cheat gate reads the first
 	# consumer's cheating() — TeamComp.java:17-19 returns

@@ -1139,6 +1139,27 @@
       ],
       "runtime_proof": "/root/C06BatteryEnabledStampProof"
     },
+    "N2142": {
+      "canonical_ledger": "source_slice_ledger.N2142",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "PowerGraph.distributePower(float, float, boolean)",
+      "godot_owner": "SourcePlacedPowerGraphState.source_consumer_power_status_for_cell_state",
+      "source_symbols": [
+        "source_consumer_power_status_for_cell_state_result.status",
+        "source_consumer_power_status_for_cell_state_result.found",
+        "source_consumer_power_status_for_cell_state_result.reason",
+        "source_consumer_set_power_status_for_cell_state_result.stored",
+        "source_consumer_set_power_status_for_cell_state_result.reason"
+      ],
+      "tests": [
+        "test_c07_power_status_live_registration",
+        "test_all_c07_power_status_live_input_evidence_is_exact",
+        "test_consumer_power_status_state",
+        "test_reference_graph_and_actual_c07_power_status_live"
+      ],
+      "runtime_proof": "/root/C07PowerStatusLiveProof"
+    },
     "N888": {
       "canonical_ledger": "source_slice_ledger.N888",
       "status": "done",

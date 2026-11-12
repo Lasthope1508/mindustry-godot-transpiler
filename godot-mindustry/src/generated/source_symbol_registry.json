@@ -171544,6 +171544,86 @@
         "test_reference_graph_and_actual_c07_unit_group_counts"
       ],
       "runtime_proof": "/root/C07UnitGroupCountsProof"
+    },
+    "source_consumer_power_status_for_cell_state_result.status": {
+      "status": "source-backed",
+      "godot_owner": "SourcePlacedPowerGraphState.source_consumer_power_status_for_cell_state",
+      "godot_symbol": "source_consumer_power_status_for_cell_state_result.status",
+      "java_source": "core/src/mindustry/world/consumers/ConsumePower.java",
+      "java_method": "PowerGraph.distributePower(float, float, boolean)",
+      "java_expr": "return build.power.status;",
+      "rule": "The frame's stored power.status (ConsumePower.java:39, the canonical power.status read); 0.0 when no frame carries one -- the PowerModule field default (PowerModule.java:13).",
+      "tests": [
+        "test_c07_power_status_live_registration",
+        "test_all_c07_power_status_live_input_evidence_is_exact",
+        "test_consumer_power_status_state",
+        "test_reference_graph_and_actual_c07_power_status_live"
+      ],
+      "runtime_proof": "/root/C07PowerStatusLiveProof"
+    },
+    "source_consumer_power_status_for_cell_state_result.found": {
+      "status": "source-backed",
+      "godot_owner": "SourcePlacedPowerGraphState.source_consumer_power_status_for_cell_state",
+      "godot_symbol": "source_consumer_power_status_for_cell_state_result.found",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "PowerGraph.distributePower(float, float, boolean)",
+      "java_expr": "public void add(Building build){",
+      "rule": "Whether a placed building frame was found at the cell (PowerGraph.java:277 add): false when there is no sprite or no family frame.",
+      "tests": [
+        "test_c07_power_status_live_registration",
+        "test_all_c07_power_status_live_input_evidence_is_exact",
+        "test_consumer_power_status_state",
+        "test_reference_graph_and_actual_c07_power_status_live"
+      ],
+      "runtime_proof": "/root/C07PowerStatusLiveProof"
+    },
+    "source_consumer_power_status_for_cell_state_result.reason": {
+      "status": "source-backed",
+      "godot_owner": "SourcePlacedPowerGraphState.source_consumer_power_status_for_cell_state",
+      "godot_symbol": "source_consumer_power_status_for_cell_state_result.reason",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "PowerGraph.distributePower(float, float, boolean)",
+      "java_expr": "public void update(){",
+      "rule": "Why the read resolved the way it did (PowerGraph.java:215 update()): live_frame, no_sprite, or no_frame.",
+      "tests": [
+        "test_c07_power_status_live_registration",
+        "test_all_c07_power_status_live_input_evidence_is_exact",
+        "test_consumer_power_status_state",
+        "test_reference_graph_and_actual_c07_power_status_live"
+      ],
+      "runtime_proof": "/root/C07PowerStatusLiveProof"
+    },
+    "source_consumer_set_power_status_for_cell_state_result.stored": {
+      "status": "source-backed",
+      "godot_owner": "SourcePlacedPowerGraphState.source_consumer_set_power_status_for_cell_state",
+      "godot_symbol": "source_consumer_set_power_status_for_cell_state_result.stored",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "PowerGraph.distributePower(float, float, boolean)",
+      "java_expr": "consumer.power.status = coverage;",
+      "rule": "Whether the status was stored on the placed building's frame (PowerGraph.java:203 consumer.power.status = coverage).",
+      "tests": [
+        "test_c07_power_status_live_registration",
+        "test_all_c07_power_status_live_input_evidence_is_exact",
+        "test_consumer_power_status_state",
+        "test_reference_graph_and_actual_c07_power_status_live"
+      ],
+      "runtime_proof": "/root/C07PowerStatusLiveProof"
+    },
+    "source_consumer_set_power_status_for_cell_state_result.reason": {
+      "status": "source-backed",
+      "godot_owner": "SourcePlacedPowerGraphState.source_consumer_set_power_status_for_cell_state",
+      "godot_symbol": "source_consumer_set_power_status_for_cell_state_result.reason",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "PowerGraph.distributePower(float, float, boolean)",
+      "java_expr": "public void update(){",
+      "rule": "Why the write resolved the way it did (PowerGraph.java:215 update()): live_frame, no_sprite, or no_frame.",
+      "tests": [
+        "test_c07_power_status_live_registration",
+        "test_all_c07_power_status_live_input_evidence_is_exact",
+        "test_consumer_power_status_state",
+        "test_reference_graph_and_actual_c07_power_status_live"
+      ],
+      "runtime_proof": "/root/C07PowerStatusLiveProof"
     }
   },
   "version": 1

@@ -810,9 +810,11 @@ static func source_unit_factory_tick_buildings_state(game: Object, seconds: floa
 			var assembler_payload_in_position: bool = Vector2(float(assembler_pay_vector.get("x", 0.0)), float(assembler_pay_vector.get("y", 0.0))).length() <= 0.01
 			# powerStatus (UnitAssembler.java:469, `float powerStatus =
 			# !enabled ? 0f : power == null ? 1f : power.status;`): the
-			# frame records no power_status yet, so null folds to 1.0
-			# and !enabled folds to 0.0 until a power-status slice
-			# lands.
+			# graph update stamps frame["power_status"] each tick
+			# before this branch runs (N2142, the live-loop
+			# write-back in SourceFactoryRuntimeState), so the fold
+			# reads a live value; null only fires before the first
+			# graph update.
 			var assembler_power_status: Variant = frame.get("power_status", null)
 			var assembler_power_value: float = 0.0 if not bool(frame.get("enabled", true)) else (1.0 if assembler_power_status == null else float(assembler_power_status))
 			# checkSolid has no port yet, so the frame records no

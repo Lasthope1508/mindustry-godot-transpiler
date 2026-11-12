@@ -227346,6 +227346,142 @@
       },
       "runtime_proof": "/root/C07UnitGroupCountsProof",
       "rule": "Source-backed TeamData.updateCount / Teams.updateTeamStats state from Teams.java."
+    },
+    "source_consumer_power_status_for_cell_state_input": {
+      "status": "active",
+      "owner": "SourcePlacedPowerGraphState.source_consumer_power_status_for_cell_state",
+      "source_slice": "N2142",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "public void update(){",
+          "rule": "The live game world (PowerGraph.java:215 update()): the placed-building index the read resolves the cell's sprite from.",
+          "used_by": [
+            "SourcePlacedPowerGraphState.source_consumer_power_status_for_cell_state"
+          ]
+        },
+        "cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "public void add(Building build){",
+          "rule": "The placed building's origin cell (PowerGraph.java:277 add): the graph-membership gate -- only a building added to the graph has a frame to read.",
+          "used_by": [
+            "SourcePlacedPowerGraphState.source_consumer_power_status_for_cell_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PowerStatusLiveProof",
+      "rule": "Source-backed PowerGraph.distributePower consumer power.status read/write from PowerGraph.java."
+    },
+    "source_consumer_power_status_for_cell_state_result": {
+      "status": "active",
+      "owner": "SourcePlacedPowerGraphState.source_consumer_power_status_for_cell_state",
+      "source_slice": "N2142",
+      "keys": {
+        "status": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumePower.java",
+          "java_expr": "return build.power.status;",
+          "rule": "The frame's stored power.status (ConsumePower.java:39, the canonical power.status read); 0.0 when no frame carries one -- the PowerModule field default (PowerModule.java:13).",
+          "used_by": [
+            "SourcePlacedPowerGraphState.source_consumer_power_status_for_cell_state"
+          ]
+        },
+        "found": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "public void add(Building build){",
+          "rule": "Whether a placed building frame was found at the cell (PowerGraph.java:277 add): false when there is no sprite or no family frame.",
+          "used_by": [
+            "SourcePlacedPowerGraphState.source_consumer_power_status_for_cell_state"
+          ]
+        },
+        "reason": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "public void update(){",
+          "rule": "Why the read resolved the way it did (PowerGraph.java:215 update()): live_frame, no_sprite, or no_frame.",
+          "used_by": [
+            "SourcePlacedPowerGraphState.source_consumer_power_status_for_cell_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PowerStatusLiveProof",
+      "rule": "Source-backed PowerGraph.distributePower consumer power.status read/write from PowerGraph.java."
+    },
+    "source_consumer_set_power_status_for_cell_state_input": {
+      "status": "active",
+      "owner": "SourcePlacedPowerGraphState.source_consumer_set_power_status_for_cell_state",
+      "source_slice": "N2142",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "public void update(){",
+          "rule": "The live game world (PowerGraph.java:215 update()): the placed-building index the write resolves the cell's sprite from.",
+          "used_by": [
+            "SourcePlacedPowerGraphState.source_consumer_set_power_status_for_cell_state"
+          ]
+        },
+        "cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "public void add(Building build){",
+          "rule": "The placed building's origin cell (PowerGraph.java:277 add): the graph-membership gate -- only a building added to the graph has a frame to write.",
+          "used_by": [
+            "SourcePlacedPowerGraphState.source_consumer_set_power_status_for_cell_state"
+          ]
+        },
+        "status": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "consumer.power.status = coverage;",
+          "rule": "The distributePower result to store (PowerGraph.java:203): the consumer's computed power.status for this tick.",
+          "used_by": [
+            "SourcePlacedPowerGraphState.source_consumer_set_power_status_for_cell_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PowerStatusLiveProof",
+      "rule": "Source-backed PowerGraph.distributePower consumer power.status read/write from PowerGraph.java."
+    },
+    "source_consumer_set_power_status_for_cell_state_result": {
+      "status": "active",
+      "owner": "SourcePlacedPowerGraphState.source_consumer_set_power_status_for_cell_state",
+      "source_slice": "N2142",
+      "keys": {
+        "stored": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "consumer.power.status = coverage;",
+          "rule": "Whether the status was stored on the placed building's frame (PowerGraph.java:203 consumer.power.status = coverage).",
+          "used_by": [
+            "SourcePlacedPowerGraphState.source_consumer_set_power_status_for_cell_state"
+          ]
+        },
+        "reason": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "public void update(){",
+          "rule": "Why the write resolved the way it did (PowerGraph.java:215 update()): live_frame, no_sprite, or no_frame.",
+          "used_by": [
+            "SourcePlacedPowerGraphState.source_consumer_set_power_status_for_cell_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PowerStatusLiveProof",
+      "rule": "Source-backed PowerGraph.distributePower consumer power.status read/write from PowerGraph.java."
     }
   },
   "version": 1

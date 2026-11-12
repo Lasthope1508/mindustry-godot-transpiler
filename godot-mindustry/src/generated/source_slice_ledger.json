@@ -55426,6 +55426,57 @@
         "power.status live read -- the driver folds frame[\"power_status\"] (null -> 1.0) until a power-status slice lands.",
         "C07-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2142": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_class": "mindustry.world.blocks.power.PowerGraph",
+      "java_method": "PowerGraph.distributePower(float, float, boolean)",
+      "godot_owner": "SourcePlacedPowerGraphState.source_consumer_power_status_for_cell_state",
+      "exact_exprs": [
+        "public void distributePower(float needed, float produced, boolean charged){",
+        "float coverage = Mathf.zero(needed) && Mathf.zero(produced) && !charged && Mathf.zero(lastPowerStored) ? 0f : Mathf.zero(needed) ? 1f : Math.min(1, produced / needed);",
+        "consumer.power.status = Mathf.clamp(consumer.power.status + maximumRate / cons.capacity);",
+        "consumer.power.status = coverage;",
+        "consumer.power.status = Math.min(1, produced / (needed + cons.usage * consumer.delta()));",
+        "if(Float.isNaN(consumer.power.status)){",
+        "consumer.power.status = 0f;",
+        "tile.power.status = 1f;",
+        "lastPowerNeeded = lastPowerProduced = 1f;",
+        "distributePower(powerNeeded, powerProduced, charged);",
+        "public float status = 0.0f;",
+        "float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;",
+        "return build.power.status;",
+        "(1f - entity.power.status) * capacity :",
+        "public void add(Building build){",
+        "public void update(){"
+      ],
+      "source_symbols": [
+        "source_consumer_power_status_for_cell_state_result.status",
+        "source_consumer_power_status_for_cell_state_result.found",
+        "source_consumer_power_status_for_cell_state_result.reason",
+        "source_consumer_set_power_status_for_cell_state_result.stored",
+        "source_consumer_set_power_status_for_cell_state_result.reason"
+      ],
+      "tests": [
+        "test_c07_power_status_live_registration",
+        "test_all_c07_power_status_live_input_evidence_is_exact",
+        "test_consumer_power_status_state",
+        "test_reference_graph_and_actual_c07_power_status_live"
+      ],
+      "runtime_proof": "/root/C07PowerStatusLiveProof",
+      "deferred_exprs": [
+        "drones_in_position / spawn_occupied / spawn_visual_occupied / allow_update frame inputs -- the assembler driver still reads defaults (0 / false / false / true) until a drone-position / collision / allow-update slice lands.",
+        "moveOutPayload() modeling -- the assembler production tick still has no payload move-out.",
+        "Reconstructor constructTime catalog capture -- the driver still uses default 120.0 instead of the real 600 for additive-reconstructor.",
+        "Net readUnits / whenSyncedUnits drone sync -- presentation/net, not state.",
+        "Live UnitComp.add() / remove() lifecycle hooks (UnitComp.java:591-598, 603-604, 752) -- no live unit lifecycle in the port yet.",
+        "PayloadComp add/remove count hooks (PayloadComp.java:101, 200) -- same, payload lifecycle not ported yet.",
+        "Teams.updateTeamStats full multi-team rebuild (present/bosses/players/unitsByType/unitTree, Teams.java:182-245) -- N2141 rebuilds one team's counts only.",
+        "Units.notifyUnitSpawn / spawn path, Call.unitCapDeath / Call.unitEnvDeath net calls -- presentation/net, not state.",
+        "power.status live read for the other consumer families (drill, turret, factory, adjacent) -- the write-back stamps every consumer's frame generically, but only the unit-factory driver reads frame[\"power_status\"] so far; the other families' consumption paths still fold their own defaults until their slices land.",
+        "C07-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1
