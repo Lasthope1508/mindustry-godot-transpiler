@@ -64253,6 +64253,71 @@
       ],
       "runtime_proof": "/root/C06UnitFactoryProductionProof",
       "rule": "Source-backed UnitFactory live production tick from UnitFactoryBuild.updateTile()."
+    },
+    "SourceUnitFactoryBuildState.source_reconstructor_production_tick_state": {
+      "status": "active",
+      "source_slice": "N2138",
+      "java_source": "core/src/mindustry/world/blocks/units/Reconstructor.java",
+      "source_method": "ReconstructorBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_reconstructor_production_tick_state_input.frame"
+        },
+        {
+          "name": "construct_time",
+          "type": "float",
+          "schema": "source_reconstructor_production_tick_state_input.construct_time"
+        },
+        {
+          "name": "has_upgrade",
+          "type": "bool",
+          "schema": "source_reconstructor_production_tick_state_input.has_upgrade"
+        },
+        {
+          "name": "upgrade_unit",
+          "type": "String",
+          "schema": "source_reconstructor_production_tick_state_input.upgrade_unit"
+        },
+        {
+          "name": "payload_in_position",
+          "type": "bool",
+          "schema": "source_reconstructor_production_tick_state_input.payload_in_position"
+        },
+        {
+          "name": "edelta",
+          "type": "float",
+          "schema": "source_reconstructor_production_tick_state_input.edelta"
+        },
+        {
+          "name": "unit_build_speed",
+          "type": "float",
+          "schema": "source_reconstructor_production_tick_state_input.unit_build_speed"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_reconstructor_production_tick_state_input.source_delta"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "progress",
+        "time",
+        "speed_scl",
+        "completed",
+        "constructing",
+        "payload_unit"
+      ],
+      "tests": [
+        "test_c06_reconstructor_production_tick_registration",
+        "test_all_c06_reconstructor_production_tick_input_evidence_is_exact",
+        "test_reconstructor_production_tick_state",
+        "test_reference_graph_and_actual_c06_reconstructor_production_tick"
+      ],
+      "runtime_proof": "/root/C06ReconstructorProductionProof",
+      "rule": "Source-backed Reconstructor live production tick from ReconstructorBuild.updateTile()."
     }
   },
   "policy": {

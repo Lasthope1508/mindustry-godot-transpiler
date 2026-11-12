@@ -615,11 +615,13 @@ static func source_unit_factory_tick_buildings_state(game: Object, seconds: floa
 	# updateConsumption's first and second passes every tick, so a
 	# placed unit factory actually consumes — the liquid rows drain
 	# per tick and the item rows gate efficiency on the stacks held.
-	# The frame delta feeds the production tick too (N2137): a
-	# UnitFactory frame advances progress/time and fires the
+	# The frame delta feeds the production tick too (N2137/N2138):
+	# a UnitFactory frame advances progress/time and fires the
 	# completion call through
-	# source_unit_factory_production_tick_state; Reconstructor and
-	# UnitAssembler still read the consumption half only.
+	# source_unit_factory_production_tick_state, and a Reconstructor
+	# frame advances progress/time and fires the upgrade call
+	# through source_reconstructor_production_tick_state;
+	# UnitAssembler still reads the consumption half only.
 	var results_by_cell := {}
 	var ticked_count := 0
 	if game == null:
@@ -690,12 +692,15 @@ static func source_unit_factory_tick_buildings_state(game: Object, seconds: floa
 				updates.append(actor)
 		var consumption: Dictionary = source_building_efficiency_state.update_consumption_state(_has_consumers_state(block), bool(frame.get("cheating", false)), bool(frame.get("enabled", true)), valid, should_consume, float(frame.get("efficiency_scale", 1.0)), required_results, optional_results, updates, frame)
 		source_building_efficiency_state.apply_update_consumption_state(consumption, frame)
-		# Production (N2137): a UnitFactory frame advances
+		# Production (N2137/N2138): a UnitFactory frame advances
 		# progress/time and fires the completion call
 		# (source_unit_factory_production_tick_state —
-		# UnitFactoryBuild.updateTile(), UnitFactory.java:392-442);
-		# Reconstructor and UnitAssembler keep the consumption-only
-		# tick until their own production slices (N2138, N2139).
+		# UnitFactoryBuild.updateTile(), UnitFactory.java:392-442),
+		# and a Reconstructor frame advances progress/time and fires
+		# the upgrade call (source_reconstructor_production_tick_state
+		# — ReconstructorBuild.updateTile(), Reconstructor.java:
+		# 317-356); UnitAssembler keeps the consumption-only tick
+		# until its own production slice (N2139).
 		if str(block.implementation) == "UnitFactory":
 			var production_plan: Dictionary = source_unit_factory_plan_requirements_state(block, int(frame.get("current_plan", -1)))
 			var plans_count: int = Array(block.properties.get("unitPlans", [])).size()
@@ -709,6 +714,30 @@ static func source_unit_factory_tick_buildings_state(game: Object, seconds: floa
 				var production_consume: Dictionary = source_unit_factory_consume_state(frame, consumers, rows)
 				frame["production_consumed"] = production_consume
 				frame["unit_created_event"] = bool(production.get("unit_created_event", false))
+		if str(block.implementation) == "Reconstructor":
+			var construct_time: float = float(block.properties.get("constructTime", 120.0))
+			var reconstructor_payload_unit: String = ""
+			var reconstructor_payload: Variant = frame.get("payload", null)
+			if reconstructor_payload is Dictionary:
+				reconstructor_payload_unit = str(reconstructor_payload.get("unit", ""))
+			var upgrade: Dictionary = source_unit_factory_has_upgrade_state(block, reconstructor_payload_unit, rules_state, team_id)
+			var pay_vector: Dictionary = {"x": 0.0, "y": 0.0}
+			var recorded_pay_vector: Variant = frame.get("pay_vector", {})
+			if recorded_pay_vector is Dictionary:
+				pay_vector = recorded_pay_vector
+			elif recorded_pay_vector is Vector2:
+				pay_vector = {"x": recorded_pay_vector.x, "y": recorded_pay_vector.y}
+			var payload_in_position: bool = Vector2(float(pay_vector.get("x", 0.0)), float(pay_vector.get("y", 0.0))).length() <= 0.01
+			var reconstructor_production: Dictionary = source_reconstructor_production_tick_state(frame, construct_time, bool(upgrade.get("has_upgrade", false)), str(upgrade.get("upgrade_unit", "")), payload_in_position, float(frame.get("efficiency", 1.0)) * seconds * source_time_defaults.TICK_RATE, _unit_build_speed_state(rules_state, team_id), seconds * source_time_defaults.TICK_RATE)
+			frame["constructing"] = bool(reconstructor_production.get("constructing", false))
+			frame["progress"] = float(reconstructor_production.get("progress", 0.0))
+			frame["time"] = float(reconstructor_production.get("time", 0.0))
+			frame["speed_scl"] = float(reconstructor_production.get("speed_scl", 0.0))
+			frame["payload"] = reconstructor_production.get("payload", null)
+			if bool(reconstructor_production.get("completed", false)):
+				var reconstructor_consume: Dictionary = source_unit_factory_consume_state(frame, consumers, rows)
+				frame["production_consumed"] = reconstructor_consume
+				frame["unit_created_event"] = bool(reconstructor_production.get("unit_created_event", false))
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
@@ -859,6 +888,90 @@ static func source_unit_factory_production_tick_state(frame: Dictionary, plan: D
 		"consumed": consumed,
 		"unit_created_event": unit_created_event,
 		"banned": banned,
+	}
+
+static func source_reconstructor_production_tick_state(frame: Dictionary, construct_time: float, has_upgrade: bool, upgrade_unit: String, payload_in_position: bool, edelta: float, unit_build_speed: float, source_delta: float) -> Dictionary:
+	# One tick of ReconstructorBuild.updateTile()
+	# (Reconstructor.java:317-356), Reconstructor only: the
+	# progress/time advance (`progress += edelta() * state.rules.unitBuildSpeed(team);`,
+	# `time += edelta() * speedScl * state.rules.unitBuildSpeed(team);`)
+	# and the upgrade call (`payload.unit = upgrade(payload.unit.type).create(payload.unit.team());`
+	# then consume() and the UnitCreateEvent) when
+	# `progress >= constructTime`. The frame carries the Building
+	# fields Java reads: efficiency (default 1.0), payload (default
+	# null), progress/time/speed_scl (defaults 0.0 — UnitBuild float
+	# fields, Java default 0f) and pay_vector (default (0, 0) —
+	# PayloadBlock.payVector, Java default new Vec2()).
+	# construct_time is block.properties.constructTime
+	# (Reconstructor.java:36, default 120.0 = 60 * 2;
+	# additive-reconstructor overrides to 600). has_upgrade /
+	# upgrade_unit come from the existing N2124 helper
+	# source_unit_factory_has_upgrade_state (Reconstructor.java:
+	# 388-396). payload_in_position is the moveInPayload() result
+	# (PayloadBlock.java:186-196 returns hasArrived(), i.e.
+	# payVector.isZero(0.01f)). edelta is efficiency * delta
+	# (BuildingComp.edelta(), BuildingComp.java:1927-1928);
+	# unit_build_speed is Rules.unitBuildSpeed(team)
+	# (Rules.java:271-272); source_delta is the tick delta for
+	# lerpDelta (SourceMathState.source_lerp_delta,
+	# Mathf.lerpDelta = lerp(from, to, clamp(progress *
+	# Time.delta))). moveOutPayload() is NOT modeled here —
+	# deferred (payload transport slice) — so a payload with no
+	# upgrade stays in the frame (moved_out recorded as state) and
+	# no progress advances. The commandable-unit branch
+	# (commandPos/command) and the create sound are presentation,
+	# not state — not modeled. The completion check sits inside
+	# moveInPayload() but outside the efficiency > 0 block, exactly
+	# as Java writes it: a frame whose progress already reached
+	# constructTime completes even on an efficiency-0 tick. The
+	# completion records the event as state (no live event bus —
+	# like the N2128 consume trigger); the tick driver performs the
+	# consume() call itself on completed and records the result.
+	# Unlike UnitFactory there is no clamp after the fmod (Java has
+	# none here) and time advances even with no payload, as long as
+	# speedScl > 0.
+	var efficiency: float = float(frame.get("efficiency", 1.0))
+	var payload: Variant = frame.get("payload", null)
+	var progress: float = float(frame.get("progress", 0.0))
+	var time: float = float(frame.get("time", 0.0))
+	var speed_scl: float = float(frame.get("speed_scl", 0.0))
+	var constructing: bool = payload != null and has_upgrade
+	var valid := false
+	var completed := false
+	var consumed := false
+	var unit_created_event := false
+	var moved_out := false
+	var payload_unit := ""
+	if payload is Dictionary:
+		payload_unit = str(payload.get("unit", ""))
+	if payload != null:
+		if not has_upgrade:
+			moved_out = true
+		elif payload_in_position:
+			if efficiency > 0.0:
+				valid = true
+				progress += edelta * unit_build_speed
+			if progress >= construct_time:
+				completed = true
+				payload = {"unit": upgrade_unit}
+				payload_unit = upgrade_unit
+				progress = fmod(progress, 1.0)
+				consumed = true
+				unit_created_event = true
+	speed_scl = source_math_state.source_lerp_delta(speed_scl, 1.0 if valid else 0.0, 0.05, source_delta)
+	time += edelta * speed_scl * unit_build_speed
+	return {
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_RECONSTRUCTOR_PRODUCTION_TICK_STATE,
+		"constructing": constructing,
+		"progress": progress,
+		"time": time,
+		"speed_scl": speed_scl,
+		"completed": completed,
+		"payload": payload,
+		"payload_unit": payload_unit,
+		"consumed": consumed,
+		"unit_created_event": unit_created_event,
+		"moved_out": moved_out,
 	}
 
 static func source_bind_consumer_state(frame: Dictionary, block: Object, catalog: Object, amounts: Dictionary) -> Dictionary:

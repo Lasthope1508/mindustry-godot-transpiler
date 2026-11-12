@@ -226706,6 +226706,164 @@
       },
       "runtime_proof": "/root/C06UnitFactoryProductionProof",
       "rule": "Source-backed UnitFactory live production tick from UnitFactoryBuild.updateTile()."
+    },
+    "source_reconstructor_production_tick_state_input": {
+      "status": "active",
+      "owner": "SourceUnitFactoryBuildState.source_reconstructor_production_tick_state",
+      "source_slice": "N2138",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/Reconstructor.java",
+          "java_expr": "public void updateTile(){",
+          "rule": "The reconstructor frame; carries efficiency (default 1.0), payload (default null), progress/time/speed_scl (defaults 0.0 -- UnitBuild float fields, Java default 0f) and pay_vector (default (0, 0) -- PayloadBlock.payVector, Java default new Vec2()).",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_reconstructor_production_tick_state"
+          ]
+        },
+        "construct_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/Reconstructor.java",
+          "java_expr": "public float constructTime = 60 * 2;",
+          "rule": "block.properties.constructTime (Reconstructor.java:36, default 120.0 = 60 * 2; additive-reconstructor overrides to 600).",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_reconstructor_production_tick_state"
+          ]
+        },
+        "has_upgrade": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/Reconstructor.java",
+          "java_expr": "return t != null && (t.unlockedNowHost() || team.isAI()) && !type.isBanned();",
+          "rule": "Whether the held unit upgrades, from the existing N2124 helper source_unit_factory_has_upgrade_state (Reconstructor.java:388-391).",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_reconstructor_production_tick_state"
+          ]
+        },
+        "upgrade_unit": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/Reconstructor.java",
+          "java_expr": "UnitType[] r =  upgrades.find(u -> u[0] == type);",
+          "rule": "The upgrade target from the existing N2124 helper source_unit_factory_has_upgrade_state (Reconstructor.java:393-396).",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_reconstructor_production_tick_state"
+          ]
+        },
+        "payload_in_position": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "return payVector.isZero(0.01f);",
+          "rule": "The moveInPayload() result (PayloadBlock.java:186-196 returns hasArrived(), i.e. payVector.isZero(0.01f)).",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_reconstructor_production_tick_state"
+          ]
+        },
+        "edelta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return efficiency * delta();",
+          "rule": "efficiency * delta (BuildingComp.edelta(), BuildingComp.java:1927-1928).",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_reconstructor_production_tick_state"
+          ]
+        },
+        "unit_build_speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Rules.java",
+          "java_expr": "return unitBuildSpeedMultiplier * teams.get(team).unitBuildSpeedMultiplier;",
+          "rule": "Rules.unitBuildSpeed(team) (Rules.java:271-272): the global unitBuildSpeedMultiplier (default 1f) times the team multiplier (default 1f).",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_reconstructor_production_tick_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/Reconstructor.java",
+          "java_expr": "speedScl = Mathf.lerpDelta(speedScl, Mathf.num(valid), 0.05f);",
+          "rule": "The tick delta for lerpDelta (SourceMathState.source_lerp_delta, Mathf.lerpDelta = lerp(from, to, clamp(progress * Time.delta))).",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_reconstructor_production_tick_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06ReconstructorProductionProof",
+      "rule": "Source-backed Reconstructor live production tick from ReconstructorBuild.updateTile()."
+    },
+    "source_reconstructor_production_tick_state_result": {
+      "status": "active",
+      "owner": "SourceUnitFactoryBuildState.source_reconstructor_production_tick_state",
+      "source_slice": "N2138",
+      "keys": {
+        "progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/Reconstructor.java",
+          "java_expr": "progress += edelta() * state.rules.unitBuildSpeed(team);",
+          "rule": "The frame progress after the tick: advanced by edelta * unit_build_speed while producing, fmod 1.0 on completion, unchanged when no payload, not in position, or no upgrade.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_reconstructor_production_tick_state"
+          ]
+        },
+        "time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/Reconstructor.java",
+          "java_expr": "time += edelta() * speedScl * state.rules.unitBuildSpeed(team);",
+          "rule": "The frame time after the tick: advanced by edelta * speed_scl (new value) * unit_build_speed, unconditionally at the end of the tick.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_reconstructor_production_tick_state"
+          ]
+        },
+        "speed_scl": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/Reconstructor.java",
+          "java_expr": "speedScl = Mathf.lerpDelta(speedScl, Mathf.num(valid), 0.05f);",
+          "rule": "The frame speed_scl after the tick: lerped toward 1.0 while producing (valid), toward 0.0 otherwise (0.05 per tick).",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_reconstructor_production_tick_state"
+          ]
+        },
+        "completed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/Reconstructor.java",
+          "java_expr": "if(progress >= constructTime){",
+          "rule": "True when progress reached construct_time this tick: the payload unit was upgraded, the N2128 consume state fired and the UnitCreateEvent recorded.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_reconstructor_production_tick_state"
+          ]
+        },
+        "constructing": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/Reconstructor.java",
+          "java_expr": "constructing = constructing();",
+          "rule": "The cached constructing value: payload != null and has_upgrade (Reconstructor.java:319 + 384-386).",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_reconstructor_production_tick_state"
+          ]
+        },
+        "payload_unit": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/Reconstructor.java",
+          "java_expr": "payload.unit = upgrade(payload.unit.type).create(payload.unit.team());",
+          "rule": "The payload unit after the tick: the upgrade target on completion, the held unit otherwise, empty when no payload.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_reconstructor_production_tick_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06ReconstructorProductionProof",
+      "rule": "Source-backed Reconstructor live production tick from ReconstructorBuild.updateTile()."
     }
   },
   "version": 1

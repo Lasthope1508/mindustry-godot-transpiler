@@ -75,15 +75,23 @@ class C06UnitFactoryConsumeTriggerTests(unittest.TestCase):
         # The trigger runs only at unit completion (UnitFactory /
         # Reconstructor updateTile, UnitAssembler spawned()), never
         # in the per-tick consumption passes: the tick driver must
-        # call it only under the production-completion guard (N2137:
+        # call it only under a production-completion guard (N2137:
         # UnitFactoryBuild.updateTile, UnitFactory.java:392-442 —
-        # consume() after payload = new UnitPayload(unit)).
+        # consume() after payload = new UnitPayload(unit); N2138:
+        # ReconstructorBuild.updateTile, Reconstructor.java:317-356
+        # — consume() after the upgrade call).
         tick = factory.split('static func source_unit_factory_tick_buildings_state')[1].split('static func source_unit_factory_plan_requirements_state')[0]
         guard = 'if bool(production.get("completed", false)):'
         self.assertIn(guard, tick)
         before_guard, after_guard = tick.split(guard, 1)
         self.assertNotIn('source_unit_factory_consume_state(', before_guard)
-        self.assertEqual(after_guard.count('source_unit_factory_consume_state('), 1)
+        # One completion-guarded call per live production branch:
+        # UnitFactory (N2137) + Reconstructor (N2138); UnitAssembler
+        # keeps the consumption-only tick until N2139. Each call
+        # site must sit under its own completion guard.
+        self.assertEqual(after_guard.count('source_unit_factory_consume_state('), 2)
+        segments = after_guard.split('source_unit_factory_consume_state(')
+        self.assertIn('get("completed", false)):', segments[1])
 
     def test_reference_graph_and_actual_c06_unit_factory_consume_trigger(self):
         godot = shutil.which('Godot_v4.6.2-stable_win64_console.exe') or shutil.which('godot')

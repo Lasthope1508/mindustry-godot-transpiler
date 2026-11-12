@@ -55161,6 +55161,76 @@
         "Live-loop belt enabled gate (sprite-enabled seam) -- the pure advance function takes efficiency since N2135; the caller is the missing half.",
         "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2138": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/units/Reconstructor.java",
+      "java_class": "mindustry.world.blocks.units.Reconstructor.ReconstructorBuild",
+      "java_method": "ReconstructorBuild.updateTile()",
+      "godot_owner": "SourceUnitFactoryBuildState.source_reconstructor_production_tick_state",
+      "exact_exprs": [
+        "public void updateTile(){",
+        "//cache value to prevent repeated calls and multithreading issues",
+        "constructing = constructing();",
+        "boolean valid = false;",
+        "if(payload != null){",
+        "if(!hasUpgrade(payload.unit.type)){",
+        "moveOutPayload();",
+        "if(moveInPayload()){",
+        "if(efficiency > 0){",
+        "valid = true;",
+        "progress += edelta() * state.rules.unitBuildSpeed(team);",
+        "if(progress >= constructTime){",
+        "payload.unit = upgrade(payload.unit.type).create(payload.unit.team());",
+        "if(payload.unit.isCommandable()){",
+        "payload.unit.command().commandPosition(commandPos);",
+        "createSound.at(this, 1f + Mathf.range(0.06f), createSoundVolume);",
+        "progress %= 1f;",
+        "Effect.shake(2f, 3f, this);",
+        "Fx.producesmoke.at(this);",
+        "consume();",
+        "Events.fire(new UnitCreateEvent(payload.unit, this));",
+        "speedScl = Mathf.lerpDelta(speedScl, Mathf.num(valid), 0.05f);",
+        "time += edelta() * speedScl * state.rules.unitBuildSpeed(team);",
+        "return payload != null && hasUpgrade(payload.unit.type);",
+        "public float constructTime = 60 * 2;",
+        "UnitType[] r =  upgrades.find(u -> u[0] == type);",
+        "return r == null ? null : r[1];",
+        "return t != null && (t.unlockedNowHost() || team.isAI()) && !type.isBanned();",
+        "public boolean moveInPayload(){",
+        "return moveInPayload(true);",
+        "return hasArrived();",
+        "return payVector.isZero(0.01f);",
+        "return efficiency * delta();",
+        "return unitBuildSpeedMultiplier * teams.get(team).unitBuildSpeedMultiplier;"
+      ],
+      "source_symbols": [
+        "source_reconstructor_production_tick_state_result.progress",
+        "source_reconstructor_production_tick_state_result.time",
+        "source_reconstructor_production_tick_state_result.speed_scl",
+        "source_reconstructor_production_tick_state_result.completed",
+        "source_reconstructor_production_tick_state_result.constructing",
+        "source_reconstructor_production_tick_state_result.payload_unit"
+      ],
+      "tests": [
+        "test_c06_reconstructor_production_tick_registration",
+        "test_all_c06_reconstructor_production_tick_input_evidence_is_exact",
+        "test_reconstructor_production_tick_state",
+        "test_reference_graph_and_actual_c06_reconstructor_production_tick"
+      ],
+      "runtime_proof": "/root/C06ReconstructorProductionProof",
+      "deferred_exprs": [
+        "UnitAssembler live production tick + spawned() (UnitAssembler.java:429-571 -- progress advance, spawned() call at completion, drone progress, tier/lastTier reset) -- N2139.",
+        "The intake call site (moveInPayload() && !wasOccupied, UnitAssembler.java:500-503) -- belongs to the UnitAssembler production wiring.",
+        "moveOutPayload() transport -- the production tick records moved_out as state but does not move a payload out; a no-upgrade payload stays in the frame until the move-out slice lands.",
+        "moveInPayload() approach animation (payVector.approach(Vec2.ZERO, payloadSpeed * delta()), payRotation moveToward, PayloadBlock.java:186-196) -- the pure tick takes payload_in_position as an input; the approach itself belongs to the payload transport slice.",
+        "The commandable-unit command branch (commandPos/command, Reconstructor.java:337-343) and createSound (Reconstructor.java:345) -- presentation, not state.",
+        "Units.canCreate live evaluation (needs C07: live per-type unit counts and the unit cap); the assembler branch keeps reading frame[\"can_create\"], default true, until then.",
+        "lastTier tracking + progress reset on tier change (UnitAssembler.java:441-447) -- belongs to the UnitAssembler production/tick wiring.",
+        "The live-loop module link/unlink call sites: updateModules/removeModule are called from UnitAssemblerModuleBuild link/unlink (UnitAssemblerModule.java:80-83) -- the port has no live module-linking frame event yet.",
+        "Live-loop belt enabled gate (sprite-enabled seam) -- the pure advance function takes efficiency since N2135; the caller is the missing half.",
+        "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1
