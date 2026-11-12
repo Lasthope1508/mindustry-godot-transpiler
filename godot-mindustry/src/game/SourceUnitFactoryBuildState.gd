@@ -819,10 +819,10 @@ static func source_unit_factory_tick_buildings_state(game: Object, seconds: floa
 			var assembler_power_value: float = 0.0 if not bool(frame.get("enabled", true)) else (1.0 if assembler_power_status == null else float(assembler_power_status))
 			# checkSolid has no port yet, so the frame records no
 			# spawn_occupied / spawn_visual_occupied — the driver
-			# reads "spawn free" until a collision slice lands; the
-			# frame records no drones_in_position either, so eff is 0
-			# and no progress advances until a drone-position slice
-			# lands; allow_update defaults true (BuildingComp.
+			# reads "spawn free" until a collision slice lands;
+			# drones_in_position is stamped live since N2144
+			# (source_assembler_drones_in_position_state over the
+			# frame's units list); allow_update defaults true (BuildingComp.
 			# allowUpdate is a team/environment gate with no frame
 			# yet); can_create is live since N2140 through
 			# source_unit_factory_can_create_state (Units.canCreate,
@@ -836,6 +836,11 @@ static func source_unit_factory_tick_buildings_state(game: Object, seconds: floa
 			var team_stats: Dictionary = source_teams_runtime_state.source_team_data_update_team_stats_state(frame.get("units", []), team_id, int(frame.get("content_unit_size", 0)))
 			frame["team_unit_counts"] = team_stats.get("team_unit_counts", {})
 			var assembler_can_create: Dictionary = source_unit_factory_can_create_state(frame, str(assembler_plan.get("unit", "")), rules_state, team_id)
+			# drones_in_position (UnitAssembler.java:516): the live
+			# count of AssemblerAI drones in position, stamped from
+			# the frame's units list (N2144) so the tick divides by
+			# dronesCreated instead of reading the 0 default.
+			frame["drones_in_position"] = int(source_assembler_drones_in_position_state(frame.get("units", [])).get("drones_in_position", 0))
 			var assembler_production: Dictionary = source_unit_assembler_production_tick_state(frame, assembler_plan, drones_created, drone_construct_time, assembler_payload_in_position, bool(frame.get("spawn_occupied", false)), bool(frame.get("spawn_visual_occupied", false)), int(frame.get("drones_in_position", 0)), bool(frame.get("allow_update", true)), bool(assembler_can_create.get("can_create", true)), assembler_power_value, float(frame.get("efficiency", 1.0)) * seconds * source_time_defaults.TICK_RATE, _unit_build_speed_state(rules_state, team_id), seconds * source_time_defaults.TICK_RATE)
 			frame["progress"] = float(assembler_production.get("progress", 0.0))
 			frame["warmup"] = float(assembler_production.get("warmup", 0.0))
@@ -1024,6 +1029,31 @@ static func source_reconstructor_construct_time_state(block: Object) -> Dictiona
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_RECONSTRUCTOR_CONSTRUCT_TIME_STATE,
 		"construct_time": construct_time,
+	}
+
+static func source_assembler_drones_in_position_state(units: Array) -> Dictionary:
+	# Assembler drone in-position count (UnitAssembler.java:516,
+	# `float eff = (units.count(u -> ((AssemblerAI)u.controller()).inPosition()) / (float)dronesCreated);`):
+	# the AssemblerAI-only drone list (UnitAssembler.java:460,
+	# `units.removeAll(u -> !u.isAdded() || u.dead || !(u.controller() instanceof AssemblerAI));`)
+	# counted through inPosition() (AssemblerAI.java,
+	# `return unit.within(targetPos, 10f) && Angles.within(unit.rotation, targetAngle, 15f);`).
+	# The frame's units list carries the recorded flag: the drone
+	# type is UnitTypes.assemblyDrone (UnitAssembler.java:47,
+	# `public UnitType droneType = UnitTypes.assemblyDrone;`) named
+	# "assembly-drone" (UnitTypes.java:4595). Flat count, no payload
+	# recursion — Java counts the flat assembler units Seq, not
+	# Groups.unit. Non-Dictionary entries are skipped, like the
+	# team-stats count (N2141).
+	var drones_in_position := 0
+	for unit in units:
+		if not unit is Dictionary:
+			continue
+		if str(unit.get("type_name", "")) == "assembly-drone" and bool(unit.get("in_position", false)):
+			drones_in_position += 1
+	return {
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_ASSEMBLER_DRONES_IN_POSITION_STATE,
+		"drones_in_position": drones_in_position,
 	}
 
 static func source_reconstructor_production_tick_state(frame: Dictionary, construct_time: float, has_upgrade: bool, upgrade_unit: String, payload_in_position: bool, edelta: float, unit_build_speed: float, source_delta: float) -> Dictionary:

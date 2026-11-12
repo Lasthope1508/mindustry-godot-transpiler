@@ -171640,6 +171640,22 @@
         "test_reference_graph_and_actual_c07_reconstructor_construct_time"
       ],
       "runtime_proof": "/root/C07ReconstructorConstructTimeProof"
+    },
+    "source_assembler_drones_in_position_state_result.drones_in_position": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_assembler_drones_in_position_state",
+      "godot_symbol": "source_assembler_drones_in_position_state_result.drones_in_position",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "java_method": "UnitAssemblerBuild.updateTile()",
+      "java_expr": "float eff = (units.count(u -> ((AssemblerAI)u.controller()).inPosition()) / (float)dronesCreated);",
+      "rule": "The count of AssemblerAI drones in position (UnitAssembler.java:516): the numerator the tick divides by dronesCreated for eff; 2 of 4 drones in position -> eff 0.5.",
+      "tests": [
+        "test_c07_assembler_drones_in_position_registration",
+        "test_all_c07_assembler_drones_in_position_input_evidence_is_exact",
+        "test_assembler_drones_in_position_state",
+        "test_reference_graph_and_actual_c07_assembler_drones_in_position"
+      ],
+      "runtime_proof": "/root/C07AssemblerDronesInPositionProof"
     }
   },
   "version": 1

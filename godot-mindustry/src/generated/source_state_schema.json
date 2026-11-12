@@ -227520,6 +227520,44 @@
       },
       "runtime_proof": "/root/C07ReconstructorConstructTimeProof",
       "rule": "Source-backed Reconstructor constructTime read from Reconstructor.java."
+    },
+    "source_assembler_drones_in_position_state_input": {
+      "status": "active",
+      "owner": "SourceUnitFactoryBuildState.source_assembler_drones_in_position_state",
+      "source_slice": "N2144",
+      "keys": {
+        "units": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "units.removeAll(u -> !u.isAdded() || u.dead || !(u.controller() instanceof AssemblerAI));",
+          "rule": "The AssemblerAI-only drone list the count runs over (UnitAssembler.java:460): the frame's units list, filtered in Java to added, live, AssemblerAI-controlled units; the count reads the recorded in_position flag per entry.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_assembler_drones_in_position_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07AssemblerDronesInPositionProof",
+      "rule": "Source-backed assembler drones_in_position count from UnitAssembler.java."
+    },
+    "source_assembler_drones_in_position_state_result": {
+      "status": "active",
+      "owner": "SourceUnitFactoryBuildState.source_assembler_drones_in_position_state",
+      "source_slice": "N2144",
+      "keys": {
+        "drones_in_position": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "float eff = (units.count(u -> ((AssemblerAI)u.controller()).inPosition()) / (float)dronesCreated);",
+          "rule": "The count of AssemblerAI drones in position (UnitAssembler.java:516): the numerator the tick divides by dronesCreated for eff; 2 of 4 drones in position -> eff 0.5.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_assembler_drones_in_position_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07AssemblerDronesInPositionProof",
+      "rule": "Source-backed assembler drones_in_position count from UnitAssembler.java."
     }
   },
   "version": 1
