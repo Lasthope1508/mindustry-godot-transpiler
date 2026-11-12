@@ -116,13 +116,15 @@ func _ready() -> void:
 	var recon_bad_payload: Dictionary = unit_factory_build_state.source_unit_factory_should_consume_state({"block_implementation": "Reconstructor", "payload": {"unit": "fortress"}}, reconstructor_block, null)
 	proof["should_consume_reconstructor_bad_payload_false"] = bool(recon_bad_payload.get("should_consume", true)) == false
 	var assembler_default: Dictionary = unit_factory_build_state.source_unit_factory_should_consume_state({"block_implementation": "UnitAssembler", "current_tier": 0}, assembler_block, null)
-	proof["should_consume_assembler_default_true"] = bool(assembler_default.get("should_consume", false)) == true and str(assembler_default.get("plan_unit", "")) == "vanquish" and is_equal_approx(float(assembler_default.get("item_efficiency", -1.0)), 1.0)
+	proof["should_consume_assembler_default_false"] = bool(assembler_default.get("should_consume", true)) == false and str(assembler_default.get("plan_unit", "")) == "vanquish" and is_equal_approx(float(assembler_default.get("item_efficiency", -1.0)), 1.0) and is_equal_approx(float(assembler_default.get("payload_efficiency", -1.0)), 0.0)
 	var assembler_occupied: Dictionary = unit_factory_build_state.source_unit_factory_should_consume_state({"block_implementation": "UnitAssembler", "current_tier": 0, "was_occupied": true}, assembler_block, null)
 	proof["should_consume_assembler_occupied_false"] = bool(assembler_occupied.get("should_consume", true)) == false and bool(assembler_occupied.get("was_occupied", false)) == true
 	var assembler_no_create: Dictionary = unit_factory_build_state.source_unit_factory_should_consume_state({"block_implementation": "UnitAssembler", "current_tier": 0, "can_create": false}, assembler_block, null)
 	proof["should_consume_assembler_no_create_false"] = bool(assembler_no_create.get("should_consume", true)) == false and bool(assembler_no_create.get("can_create", true)) == false
-	var assembler_no_payload_eff: Dictionary = unit_factory_build_state.source_unit_factory_should_consume_state({"block_implementation": "UnitAssembler", "current_tier": 0, "payload_efficiency": 0.0}, assembler_block, null)
-	proof["should_consume_assembler_no_payload_eff_false"] = bool(assembler_no_payload_eff.get("should_consume", true)) == false and is_equal_approx(float(assembler_no_payload_eff.get("payload_efficiency", -1.0)), 0.0)
+	var assembler_short_blocks: Dictionary = unit_factory_build_state.source_unit_factory_should_consume_state({"block_implementation": "UnitAssembler", "current_tier": 0, "blocks": {"stell": 3, "tungsten-wall-large": 10}}, assembler_block, null)
+	proof["should_consume_assembler_short_blocks_false"] = bool(assembler_short_blocks.get("should_consume", true)) == false and is_equal_approx(float(assembler_short_blocks.get("payload_efficiency", -1.0)), 0.0)
+	var assembler_full_blocks: Dictionary = unit_factory_build_state.source_unit_factory_should_consume_state({"block_implementation": "UnitAssembler", "current_tier": 0, "blocks": {"stell": 4, "tungsten-wall-large": 10}}, assembler_block, null)
+	proof["should_consume_assembler_full_blocks_true"] = bool(assembler_full_blocks.get("should_consume", false)) == true and is_equal_approx(float(assembler_full_blocks.get("payload_efficiency", -1.0)), 1.0)
 	var null_block: Dictionary = unit_factory_build_state.source_unit_factory_should_consume_state({}, null, null)
 	proof["should_consume_null_block_false"] = bool(null_block.get("should_consume", true)) == false
 
@@ -163,7 +165,7 @@ func _ready() -> void:
 	assembler_frame = assembler.get_meta(unit_factory_build_state.SOURCE_UNIT_FACTORY_BUILDING_META_KEY, {})
 	proof["should_consume_live_factory_efficiency_one"] = is_equal_approx(float(factory_frame.get("efficiency", -1.0)), 1.0)
 	proof["should_consume_live_reconstructor_efficiency_one"] = is_equal_approx(float(reconstructor_frame.get("efficiency", -1.0)), 1.0)
-	proof["should_consume_live_assembler_efficiency_one"] = is_equal_approx(float(assembler_frame.get("efficiency", -1.0)), 1.0)
+	proof["should_consume_live_assembler_efficiency_zero"] = is_equal_approx(float(assembler_frame.get("efficiency", -1.0)), 0.0)
 
 	# --- dropping the reconstructor's payload stops its consumption
 	# (constructing goes false); restoring it resumes. Dropping the
@@ -188,7 +190,7 @@ func _ready() -> void:
 	assembler_frame["was_occupied"] = false
 	game.call("simulate_factory", 1.0 / 60.0)
 	assembler_frame = assembler.get_meta(unit_factory_build_state.SOURCE_UNIT_FACTORY_BUILDING_META_KEY, {})
-	proof["should_consume_live_assembler_unoccupied_one"] = is_equal_approx(float(assembler_frame.get("efficiency", -1.0)), 1.0)
+	proof["should_consume_live_assembler_unoccupied_zero"] = is_equal_approx(float(assembler_frame.get("efficiency", -1.0)), 0.0)
 
 	var state_registry := registry.canonical_headquarter_registry_state()
 	proof["registry_valid"] = state_registry.get("errors", []).is_empty()

@@ -170056,12 +170056,16 @@
       "java_source": "core/src/mindustry/world/consumers/ConsumePayloadDynamic.java",
       "java_method": "UnitFactoryBuild.shouldConsume(); ReconstructorBuild.shouldConsume(); UnitAssemblerBuild.shouldConsume()",
       "java_expr": "public float efficiency(Building build){",
-      "rule": "The payload-consumer efficiency (ConsumePayloadDynamic.efficiency); the port has no payload module yet, so the frame input defaults 1.0.",
+      "rule": "The payload-consumer efficiency (ConsumePayloadDynamic.efficiency); the shouldConsume gate reads it live from the payload module through source_unit_factory_assembler_payload_state (N2132) instead of the frame default (1.0, N2124).",
       "tests": [
         "test_unit_factory_should_consume_registration",
         "test_all_unit_factory_should_consume_input_evidence_is_exact",
         "test_tick_uses_per_class_should_consume_for_unit_factory",
-        "test_reference_graph_and_actual_unit_factory_should_consume"
+        "test_reference_graph_and_actual_unit_factory_should_consume",
+        "test_c06_unit_assembler_payload_should_consume_registration",
+        "test_all_c06_unit_assembler_payload_should_consume_input_evidence_is_exact",
+        "test_assembler_payload_efficiency_gates_should_consume",
+        "test_reference_graph_and_actual_c06_unit_assembler_payload_should_consume"
       ],
       "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof"
     },

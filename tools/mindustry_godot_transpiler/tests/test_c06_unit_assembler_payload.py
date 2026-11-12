@@ -64,12 +64,12 @@ class C06UnitAssemblerPayloadTests(unittest.TestCase):
         self.assertIn('round(float(stack.get("amount", 0)) * multiplier)', payload)
         self.assertIn('Math.round(stack.amount * mult)', payload)
         self.assertIn('PORT_GAME_SOURCE_UNIT_FACTORY_BUILD_ASSEMBLER_PAYLOAD_STATE', factory)
-        # The payload efficiency is a pure function for now, like the
-        # N2128 trigger: the shouldConsume gate keeps reading the
-        # frame's payload_efficiency default (1.0) until the wiring
-        # slice lands it with the blocks the payload intake fills.
+        # The payload efficiency is wired into the shouldConsume gate
+        # since N2132: the assembler branch reads it live from the
+        # payload module through source_unit_factory_assembler_payload_state
+        # instead of the frame's payload_efficiency default (1.0).
         gate = factory.split('static func source_unit_factory_should_consume_state')[1].split('static func source_unit_factory_tick_buildings_state')[0]
-        self.assertNotIn('source_unit_factory_assembler_payload_state(', gate)
+        self.assertIn('source_unit_factory_assembler_payload_state(', gate)
 
     def test_reference_graph_and_actual_c06_unit_assembler_payload(self):
         godot = shutil.which('Godot_v4.6.2-stable_win64_console.exe') or shutil.which('godot')

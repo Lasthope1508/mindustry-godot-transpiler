@@ -54898,6 +54898,40 @@
         "A disabled conveyor reads efficiency 0 in Java (BuildingComp.java:1943-1948) but the port carries no per-belt efficiency yet, so a disabled belt still advances.",
         "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2132": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "java_class": "mindustry.world.blocks.units.UnitAssembler.UnitAssemblerBuild",
+      "java_method": "UnitAssemblerBuild.shouldConsume()",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_should_consume_state",
+      "exact_exprs": [
+        "return enabled && !wasOccupied && Units.canCreate(team, plan().unit) && consPayload.efficiency(this) > 0 && consItem.efficiency(this) > 0 && team.activateUnitFactories();",
+        "consume(consPayload = new ConsumePayloadDynamic((UnitAssemblerBuild build) -> build.plan().requirements));",
+        "public float efficiency(Building build){",
+        "for(PayloadStack stack : payloads.get(build)){",
+        "if(!build.getPayloads().contains(stack.item, Math.round(stack.amount * mult))){",
+        "return 0f;",
+        "return 1f;"
+      ],
+      "source_symbols": [
+        "source_unit_factory_should_consume_state_result.payload_efficiency"
+      ],
+      "tests": [
+        "test_c06_unit_assembler_payload_should_consume_registration",
+        "test_all_c06_unit_assembler_payload_should_consume_input_evidence_is_exact",
+        "test_assembler_payload_efficiency_gates_should_consume",
+        "test_reference_graph_and_actual_c06_unit_assembler_payload_should_consume"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof",
+      "deferred_exprs": [
+        "checkTier from the module tiers (UnitAssembler.java:360-376, modules sorted by tier, a tier gap stops the climb) -- plan() clamping is already in the port (N2124).",
+        "Live production wiring: the tick driver advances no progress and calls no spawned() yet -- UnitFactory progress (UnitFactory.java:401-403), Reconstructor progress (Reconstructor.java:330-348) and UnitAssembler spawned() (UnitAssembler.java:544-571) are the production slice; the intake call site (moveInPayload() && !wasOccupied, UnitAssembler.java:500-503) is the wiring that calls the intake slice when a payload arrives.",
+        "The unit-factory frames keep the N2125 enabled-only power stamp: their per-class shouldConsume bodies (N2124) are plan-gated, and wiring them to the power stamp needs a unit-factory proof setup of its own.",
+        "PowerGraph.getBatteryStored gates on battery.enabled (PowerGraph.java:118-126), but the battery has no tick frame in the port, so its live enabled flag cannot be read yet; the battery dict keeps its static enabled value.",
+        "A disabled conveyor reads efficiency 0 in Java (BuildingComp.java:1943-1948) but the port carries no per-belt efficiency yet, so a disabled belt still advances.",
+        "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1

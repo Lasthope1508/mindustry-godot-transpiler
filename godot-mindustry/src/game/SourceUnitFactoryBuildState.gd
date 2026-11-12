@@ -277,10 +277,10 @@ static func source_unit_factory_assembler_payload_state(frame: Dictionary, plan:
 	# 20), its itemReq/liquidReq are empty in vanilla. The function
 	# is pure: it reads the module and returns the efficiency, a
 	# snapshot of the module and its total (PayloadSeq.total(),
-	# PayloadSeq.java:22-24). It is not wired into the shouldConsume
-	# gate yet — the gate keeps reading the frame's
-	# payload_efficiency default (1.0, N2124) until the wiring slice
-	# lands it with the blocks the payload intake fills. The
+	# PayloadSeq.java:22-24). It is wired into the shouldConsume
+	# gate since N2132: the gate reads its payload_efficiency for
+	# the assembler branch instead of the frame's payload_efficiency
+	# default (1.0, N2124). The
 	# payload trigger (ConsumePayloadDynamic.trigger,
 	# ConsumePayloadDynamic.java:34-39, `build.getPayloads().remove
 	# (stack.item, Math.round(stack.amount * mult));`), the intake
@@ -472,15 +472,16 @@ static func source_unit_factory_should_consume_state(frame: Dictionary, block: O
 	# calls this every tick and passes should_consume to
 	# updateConsumption, so a plan-less factory, a payload-less
 	# reconstructor, or an occupied assembler stops consuming
-	# exactly like Java. Two assembler conjuncts are deferred to
-	# their owning slices and read from the frame with permissive
-	# defaults that preserve the current live behavior until then:
+	# exactly like Java. One assembler conjunct is deferred to its
+	# owning slice and reads from the frame with a permissive
+	# default that preserves the current live behavior until then:
 	# Units.canCreate (Units.java:115-117) needs live per-type unit
 	# counts and the unit cap (the unit-group system, C07) —
-	# frame["can_create"], default true; consPayload.efficiency
-	# (ConsumePayloadDynamic.java:24-32) needs the building's
-	# payload module (the payload stacks held, a later slice) —
-	# frame["payload_efficiency"], default 1.0. A null block, or an
+	# frame["can_create"], default true. consPayload.efficiency
+	# (ConsumePayloadDynamic.java:24-32) is live since N2132: the
+	# assembler branch reads it from the building's payload module
+	# through source_unit_factory_assembler_payload_state (N2129),
+	# so a blocks-less assembler reads 0.0. A null block, or an
 	# implementation outside the family, consumes nothing.
 	var enabled: bool = bool(frame.get("enabled", true))
 	var team_id: int = int(frame.get("team_id", 1))
@@ -533,7 +534,8 @@ static func source_unit_factory_should_consume_state(frame: Dictionary, block: O
 		var item_eff: Dictionary = source_unit_factory_assembler_cons_item_efficiency_state(frame, plan)
 		result["item_efficiency"] = float(item_eff.get("item_efficiency", 1.0))
 		result["can_create"] = bool(frame.get("can_create", true))
-		result["payload_efficiency"] = float(frame.get("payload_efficiency", 1.0))
+		var payload_eff: Dictionary = source_unit_factory_assembler_payload_state(frame, plan)
+		result["payload_efficiency"] = float(payload_eff.get("payload_efficiency", 1.0))
 		result["should_consume"] = enabled and not bool(result["was_occupied"]) and activate and float(result["item_efficiency"]) > 0.0 and bool(result["can_create"]) and float(result["payload_efficiency"]) > 0.0
 		return result
 	return result
