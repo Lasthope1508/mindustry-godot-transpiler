@@ -186,6 +186,27 @@
         "test_reference_graph_and_actual_unit_factory_should_consume"
       ],
       "runtime_proof": "/root/C06UnitFactoryShouldConsumeProof"
+    },
+    "N2128": {
+      "canonical_ledger": "source_slice_ledger.N2128",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+      "java_method": "UnitFactoryBuild.updateTile(); BuildingComp.consume(); ConsumeItemDynamic.trigger(Building)",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_consume_state",
+      "source_symbols": [
+        "source_unit_factory_consume_state_input.consumers",
+        "source_unit_factory_consume_state_input.frame",
+        "source_unit_factory_consume_state_input.rows",
+        "source_unit_factory_consume_state_result.removed",
+        "source_unit_factory_consume_state_result.triggered"
+      ],
+      "tests": [
+        "test_c06_unit_factory_consume_trigger_registration",
+        "test_all_c06_unit_factory_consume_trigger_input_evidence_is_exact",
+        "test_consume_trigger_removes_only_item_rows",
+        "test_reference_graph_and_actual_c06_unit_factory_consume_trigger"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryConsumeProof"
     }
   }
 }

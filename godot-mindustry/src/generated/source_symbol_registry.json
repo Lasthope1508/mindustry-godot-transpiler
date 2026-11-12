@@ -170592,6 +170592,278 @@
         "test_reference_graph_and_actual_c06_building_update_halves"
       ],
       "runtime_proof": "/root/C06BuildingUpdateProof"
+    },
+    "source_unit_factory_consume_state_input.frame": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_consume_state",
+      "godot_symbol": "source_unit_factory_consume_state_input.frame",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "UnitFactoryBuild.updateTile(); BuildingComp.consume(); ConsumeItemDynamic.trigger(Building)",
+      "java_expr": "public void consume(){",
+      "rule": "The unit-factory frame (the port Building state) whose item module the triggers remove from.",
+      "tests": [
+        "test_c06_unit_factory_consume_trigger_registration",
+        "test_all_c06_unit_factory_consume_trigger_input_evidence_is_exact",
+        "test_consume_trigger_removes_only_item_rows",
+        "test_reference_graph_and_actual_c06_unit_factory_consume_trigger"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryConsumeProof"
+    },
+    "source_unit_factory_consume_state_input.consumers": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_consume_state",
+      "godot_symbol": "source_unit_factory_consume_state_input.consumers",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "UnitFactoryBuild.updateTile(); BuildingComp.consume(); ConsumeItemDynamic.trigger(Building)",
+      "java_expr": "for(Consume cons : block.consumers){",
+      "rule": "The bound RuntimeConsumer actors, one per consume row (N2120).",
+      "tests": [
+        "test_c06_unit_factory_consume_trigger_registration",
+        "test_all_c06_unit_factory_consume_trigger_input_evidence_is_exact",
+        "test_consume_trigger_removes_only_item_rows",
+        "test_reference_graph_and_actual_c06_unit_factory_consume_trigger"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryConsumeProof"
+    },
+    "source_unit_factory_consume_state_input.rows": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_consume_state",
+      "godot_symbol": "source_unit_factory_consume_state_input.rows",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "UnitFactoryBuild.updateTile(); BuildingComp.consume(); ConsumeItemDynamic.trigger(Building)",
+      "java_expr": "cons.trigger(self());",
+      "rule": "The consume rows the actors were bound from; liquid rows are skipped, only item rows trigger.",
+      "tests": [
+        "test_c06_unit_factory_consume_trigger_registration",
+        "test_all_c06_unit_factory_consume_trigger_input_evidence_is_exact",
+        "test_consume_trigger_removes_only_item_rows",
+        "test_reference_graph_and_actual_c06_unit_factory_consume_trigger"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryConsumeProof"
+    },
+    "source_unit_factory_consume_state_result.triggered": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_consume_state",
+      "godot_symbol": "source_unit_factory_consume_state_result.triggered",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "UnitFactoryBuild.updateTile(); BuildingComp.consume(); ConsumeItemDynamic.trigger(Building)",
+      "java_expr": "cons.trigger(self());",
+      "rule": "How many item consumers triggered at unit completion.",
+      "tests": [
+        "test_c06_unit_factory_consume_trigger_registration",
+        "test_all_c06_unit_factory_consume_trigger_input_evidence_is_exact",
+        "test_consume_trigger_removes_only_item_rows",
+        "test_reference_graph_and_actual_c06_unit_factory_consume_trigger"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryConsumeProof"
+    },
+    "source_unit_factory_consume_state_result.removed": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_consume_state",
+      "godot_symbol": "source_unit_factory_consume_state_result.removed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "java_method": "UnitFactoryBuild.updateTile(); BuildingComp.consume(); ConsumeItemDynamic.trigger(Building)",
+      "java_expr": "build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));",
+      "rule": "What each item row removed: Math.round(amount * multiplier), clamped at what the module holds.",
+      "tests": [
+        "test_c06_unit_factory_consume_trigger_registration",
+        "test_all_c06_unit_factory_consume_trigger_input_evidence_is_exact",
+        "test_consume_trigger_removes_only_item_rows",
+        "test_reference_graph_and_actual_c06_unit_factory_consume_trigger"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryConsumeProof"
+    },
+    "source_unit_factory_assembler_payload_state_input.frame": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_assembler_payload_state",
+      "godot_symbol": "source_unit_factory_assembler_payload_state_input.frame",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "java_method": "UnitAssemblerBuild.plan(); ConsumePayloadDynamic.efficiency(Building)",
+      "java_expr": "public PayloadSeq blocks = new PayloadSeq();",
+      "rule": "The assembler frame; its blocks dict is the building payload module (UnitAssemblerBuild.blocks, a PayloadSeq), missing key reads as an empty module.",
+      "tests": [
+        "test_c06_unit_assembler_payload_registration",
+        "test_all_c06_unit_assembler_payload_input_evidence_is_exact",
+        "test_assembler_payload_reads_blocks_not_the_gate_default",
+        "test_reference_graph_and_actual_c06_unit_assembler_payload"
+      ],
+      "runtime_proof": "/root/C06UnitAssemblerPayloadProof"
+    },
+    "source_unit_factory_assembler_payload_state_input.plan": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_assembler_payload_state",
+      "godot_symbol": "source_unit_factory_assembler_payload_state_input.plan",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "java_method": "UnitAssemblerBuild.plan(); ConsumePayloadDynamic.efficiency(Building)",
+      "java_expr": "consume(consPayload = new ConsumePayloadDynamic((UnitAssemblerBuild build) -> build.plan().requirements));",
+      "rule": "The current tier plan (AssemblerUnitPlan); its requirements are what the payload efficiency reads.",
+      "tests": [
+        "test_c06_unit_assembler_payload_registration",
+        "test_all_c06_unit_assembler_payload_input_evidence_is_exact",
+        "test_assembler_payload_reads_blocks_not_the_gate_default",
+        "test_reference_graph_and_actual_c06_unit_assembler_payload"
+      ],
+      "runtime_proof": "/root/C06UnitAssemblerPayloadProof"
+    },
+    "source_unit_factory_assembler_payload_state_result.payload_efficiency": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_assembler_payload_state",
+      "godot_symbol": "source_unit_factory_assembler_payload_state_result.payload_efficiency",
+      "java_source": "core/src/mindustry/world/consumers/ConsumePayloadDynamic.java",
+      "java_method": "UnitAssemblerBuild.plan(); ConsumePayloadDynamic.efficiency(Building)",
+      "java_expr": "if(!build.getPayloads().contains(stack.item, Math.round(stack.amount * mult))){",
+      "rule": "ConsumePayloadDynamic.efficiency: 0.0 unless every requirement stack is held at Math.round(amount * multiplier), else 1.0.",
+      "tests": [
+        "test_c06_unit_assembler_payload_registration",
+        "test_all_c06_unit_assembler_payload_input_evidence_is_exact",
+        "test_assembler_payload_reads_blocks_not_the_gate_default",
+        "test_reference_graph_and_actual_c06_unit_assembler_payload"
+      ],
+      "runtime_proof": "/root/C06UnitAssemblerPayloadProof"
+    },
+    "source_unit_factory_assembler_payload_state_result.blocks": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_assembler_payload_state",
+      "godot_symbol": "source_unit_factory_assembler_payload_state_result.blocks",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "java_method": "UnitAssemblerBuild.plan(); ConsumePayloadDynamic.efficiency(Building)",
+      "java_expr": "public PayloadSeq blocks = new PayloadSeq();",
+      "rule": "The building payload module snapshot: content name to held count, the port form of PayloadSeq payloads.",
+      "tests": [
+        "test_c06_unit_assembler_payload_registration",
+        "test_all_c06_unit_assembler_payload_input_evidence_is_exact",
+        "test_assembler_payload_reads_blocks_not_the_gate_default",
+        "test_reference_graph_and_actual_c06_unit_assembler_payload"
+      ],
+      "runtime_proof": "/root/C06UnitAssemblerPayloadProof"
+    },
+    "source_unit_factory_assembler_payload_state_result.total": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_assembler_payload_state",
+      "godot_symbol": "source_unit_factory_assembler_payload_state_result.total",
+      "java_source": "core/src/mindustry/type/PayloadSeq.java",
+      "java_method": "UnitAssemblerBuild.plan(); ConsumePayloadDynamic.efficiency(Building)",
+      "java_expr": "public int total(){",
+      "rule": "PayloadSeq.total(): how many payloads the module holds in all.",
+      "tests": [
+        "test_c06_unit_assembler_payload_registration",
+        "test_all_c06_unit_assembler_payload_input_evidence_is_exact",
+        "test_assembler_payload_reads_blocks_not_the_gate_default",
+        "test_reference_graph_and_actual_c06_unit_assembler_payload"
+      ],
+      "runtime_proof": "/root/C06UnitAssemblerPayloadProof"
+    },
+    "source_unit_factory_assembler_payload_trigger_state_input.frame": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_assembler_payload_trigger_state",
+      "godot_symbol": "source_unit_factory_assembler_payload_trigger_state_input.frame",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "java_method": "UnitAssemblerBuild.spawned(); BuildingComp.consume(); ConsumePayloadDynamic.trigger(Building)",
+      "java_expr": "public PayloadSeq blocks = new PayloadSeq();",
+      "rule": "The assembler frame; its blocks dict is the building payload module (UnitAssemblerBuild.blocks, a PayloadSeq), missing key reads as an empty module.",
+      "tests": [
+        "test_c06_unit_assembler_payload_trigger_registration",
+        "test_all_c06_unit_assembler_payload_trigger_input_evidence_is_exact",
+        "test_assembler_payload_trigger_removes_plan_stacks_then_clears",
+        "test_reference_graph_and_actual_c06_unit_assembler_payload_trigger"
+      ],
+      "runtime_proof": "/root/C06UnitAssemblerPayloadTriggerProof"
+    },
+    "source_unit_factory_assembler_payload_trigger_state_input.plan": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_assembler_payload_trigger_state",
+      "godot_symbol": "source_unit_factory_assembler_payload_trigger_state_input.plan",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "java_method": "UnitAssemblerBuild.spawned(); BuildingComp.consume(); ConsumePayloadDynamic.trigger(Building)",
+      "java_expr": "consume(consPayload = new ConsumePayloadDynamic((UnitAssemblerBuild build) -> build.plan().requirements));",
+      "rule": "The current tier plan (AssemblerUnitPlan); its requirements are the ConsumePayloadDynamic rows the trigger removes.",
+      "tests": [
+        "test_c06_unit_assembler_payload_trigger_registration",
+        "test_all_c06_unit_assembler_payload_trigger_input_evidence_is_exact",
+        "test_assembler_payload_trigger_removes_plan_stacks_then_clears",
+        "test_reference_graph_and_actual_c06_unit_assembler_payload_trigger"
+      ],
+      "runtime_proof": "/root/C06UnitAssemblerPayloadTriggerProof"
+    },
+    "source_unit_factory_assembler_payload_trigger_state_result.triggered": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_assembler_payload_trigger_state",
+      "godot_symbol": "source_unit_factory_assembler_payload_trigger_state_result.triggered",
+      "java_source": "core/src/mindustry/world/consumers/ConsumePayloadDynamic.java",
+      "java_method": "UnitAssemblerBuild.spawned(); BuildingComp.consume(); ConsumePayloadDynamic.trigger(Building)",
+      "java_expr": "for(PayloadStack stack : payloads.get(build)){",
+      "rule": "How many requirement stacks the trigger removed at unit completion.",
+      "tests": [
+        "test_c06_unit_assembler_payload_trigger_registration",
+        "test_all_c06_unit_assembler_payload_trigger_input_evidence_is_exact",
+        "test_assembler_payload_trigger_removes_plan_stacks_then_clears",
+        "test_reference_graph_and_actual_c06_unit_assembler_payload_trigger"
+      ],
+      "runtime_proof": "/root/C06UnitAssemblerPayloadTriggerProof"
+    },
+    "source_unit_factory_assembler_payload_trigger_state_result.removed": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_assembler_payload_trigger_state",
+      "godot_symbol": "source_unit_factory_assembler_payload_trigger_state_result.removed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumePayloadDynamic.java",
+      "java_method": "UnitAssemblerBuild.spawned(); BuildingComp.consume(); ConsumePayloadDynamic.trigger(Building)",
+      "java_expr": "build.getPayloads().remove(stack.item, Math.round(stack.amount * mult));",
+      "rule": "What each requirement stack removed: Math.round(amount * multiplier), no clamp (PayloadSeq.remove is add(block, -amount)).",
+      "tests": [
+        "test_c06_unit_assembler_payload_trigger_registration",
+        "test_all_c06_unit_assembler_payload_trigger_input_evidence_is_exact",
+        "test_assembler_payload_trigger_removes_plan_stacks_then_clears",
+        "test_reference_graph_and_actual_c06_unit_assembler_payload_trigger"
+      ],
+      "runtime_proof": "/root/C06UnitAssemblerPayloadTriggerProof"
+    },
+    "source_unit_factory_assembler_payload_trigger_state_result.cleared": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_assembler_payload_trigger_state",
+      "godot_symbol": "source_unit_factory_assembler_payload_trigger_state_result.cleared",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "java_method": "UnitAssemblerBuild.spawned(); BuildingComp.consume(); ConsumePayloadDynamic.trigger(Building)",
+      "java_expr": "blocks.clear();",
+      "rule": "Whether spawned() cleared the payload module at the end (always true).",
+      "tests": [
+        "test_c06_unit_assembler_payload_trigger_registration",
+        "test_all_c06_unit_assembler_payload_trigger_input_evidence_is_exact",
+        "test_assembler_payload_trigger_removes_plan_stacks_then_clears",
+        "test_reference_graph_and_actual_c06_unit_assembler_payload_trigger"
+      ],
+      "runtime_proof": "/root/C06UnitAssemblerPayloadTriggerProof"
+    },
+    "source_unit_factory_assembler_payload_trigger_state_result.blocks": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_assembler_payload_trigger_state",
+      "godot_symbol": "source_unit_factory_assembler_payload_trigger_state_result.blocks",
+      "java_source": "core/src/mindustry/type/PayloadSeq.java",
+      "java_method": "UnitAssemblerBuild.spawned(); BuildingComp.consume(); ConsumePayloadDynamic.trigger(Building)",
+      "java_expr": "public void clear(){",
+      "rule": "The building payload module snapshot after the clear: always empty.",
+      "tests": [
+        "test_c06_unit_assembler_payload_trigger_registration",
+        "test_all_c06_unit_assembler_payload_trigger_input_evidence_is_exact",
+        "test_assembler_payload_trigger_removes_plan_stacks_then_clears",
+        "test_reference_graph_and_actual_c06_unit_assembler_payload_trigger"
+      ],
+      "runtime_proof": "/root/C06UnitAssemblerPayloadTriggerProof"
+    },
+    "source_unit_factory_assembler_payload_trigger_state_result.total": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_assembler_payload_trigger_state",
+      "godot_symbol": "source_unit_factory_assembler_payload_trigger_state_result.total",
+      "java_source": "core/src/mindustry/type/PayloadSeq.java",
+      "java_method": "UnitAssemblerBuild.spawned(); BuildingComp.consume(); ConsumePayloadDynamic.trigger(Building)",
+      "java_expr": "total = 0;",
+      "rule": "PayloadSeq.total() after the clear: always 0.",
+      "tests": [
+        "test_c06_unit_assembler_payload_trigger_registration",
+        "test_all_c06_unit_assembler_payload_trigger_input_evidence_is_exact",
+        "test_assembler_payload_trigger_removes_plan_stacks_then_clears",
+        "test_reference_graph_and_actual_c06_unit_assembler_payload_trigger"
+      ],
+      "runtime_proof": "/root/C06UnitAssemblerPayloadTriggerProof"
     }
   },
   "version": 1

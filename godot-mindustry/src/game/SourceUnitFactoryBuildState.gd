@@ -242,6 +242,124 @@ static func source_unit_factory_assembler_cons_item_efficiency_state(frame: Dict
 			break
 	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_FACTORY_BUILD_ASSEMBLER_CONS_ITEM_EFFICIENCY_STATE, "item_efficiency": efficiency}
 
+static func source_unit_factory_assembler_payload_state(frame: Dictionary, plan: Dictionary) -> Dictionary:
+	# ConsumePayloadDynamic.efficiency (ConsumePayloadDynamic.java:24-32)
+	# for the assembler's consPayload (UnitAssembler.java:158:
+	# `consume(consPayload = new ConsumePayloadDynamic((UnitAssemblerBuild
+	# build) -> build.plan().requirements));`): `float mult =
+	# multiplier.get(build); for(PayloadStack stack :
+	# payloads.get(build)){ if(!build.getPayloads().contains(stack.item,
+	# Math.round(stack.amount * mult))){ return 0f; } } return 1f;`
+	# — the payload half of UnitAssemblerBuild.shouldConsume()
+	# (UnitAssembler.java:389-391, `consPayload.efficiency(this) > 0`).
+	# The building's payload module is UnitAssemblerBuild.blocks
+	# (UnitAssembler.java:323, `public PayloadSeq blocks = new
+	# PayloadSeq();`), returned by getPayloads()
+	# (UnitAssembler.java:717-719, `return blocks;`): an
+	# ObjectIntMap<UnlockableContent> of held payload counts plus
+	# its total (PayloadSeq.java:10-14, 26-30, 60-64). The port
+	# carries it as the frame's `blocks` dict (content name to held
+	# count; a missing key reads as an empty module — Java constructs
+	# the field empty, never null). PayloadSeq.contains(block,
+	# amount) (PayloadSeq.java:71-73) is `get(block) >= amount`, so
+	# each requirement stack is held when blocks holds at least
+	# Math.round(amount * multiplier). The multiplier is the
+	# family's Rules.unitCost callback (UnitAssembler.java:175,
+	# `consumeBuilder.each(c -> c.multiplier = b ->
+	# state.rules.unitCost(b.team))`), read through the N2097
+	# callback like the assembler's cons-item efficiency (N2124);
+	# the Consume default (Consume.java:18, `public Floatf<Building>
+	# multiplier = b -> 1f;`) is what a frame outside the family
+	# keeps. The plan is the current tier's AssemblerUnitPlan from
+	# source_unit_factory_assembler_plan_state: its requirements are
+	# the ConsumePayloadDynamic rows (vanquish: stell 4 +
+	# tungsten-wall-large 10; conquer: locus 6 + carbide-wall-large
+	# 20), its itemReq/liquidReq are empty in vanilla. The function
+	# is pure: it reads the module and returns the efficiency, a
+	# snapshot of the module and its total (PayloadSeq.total(),
+	# PayloadSeq.java:22-24). It is not wired into the shouldConsume
+	# gate yet — the gate keeps reading the frame's
+	# payload_efficiency default (1.0, N2124) until the wiring slice
+	# lands it with the blocks the payload intake fills. The
+	# payload trigger (ConsumePayloadDynamic.trigger,
+	# ConsumePayloadDynamic.java:34-39, `build.getPayloads().remove
+	# (stack.item, Math.round(stack.amount * mult));`), the intake
+	# (yeetPayload, UnitAssembler.java:688-690, `blocks.add
+	# (payload.content(), 1);`, and acceptPayload,
+	# UnitAssembler.java:722-727, `blocks.get(payload.content()) <
+	# Mathf.round(b.amount * state.rules.unitCost(team))`), and the
+	# spawned() clear (UnitAssembler.java:544-571, `blocks.clear();`)
+	# are later slices.
+	var blocks: Dictionary = frame.get("blocks", {})
+	if not blocks is Dictionary:
+		blocks = {}
+	var requirements: Array = plan.get("requirements", [])
+	var multiplier: float = float(source_consume_state.source_cost_multiplier_for_block_state(frame).get("multiplier", 1.0))
+	var efficiency := 1.0
+	for stack in requirements:
+		if not stack is Dictionary:
+			continue
+		var required: int = int(round(float(stack.get("amount", 0)) * multiplier))
+		if int(blocks.get(str(stack.get("item", "")), 0)) < required:
+			efficiency = 0.0
+			break
+	var total := 0
+	for held in blocks.values():
+		total += int(held)
+	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_FACTORY_BUILD_ASSEMBLER_PAYLOAD_STATE, "payload_efficiency": efficiency, "blocks": blocks.duplicate(), "total": total}
+
+static func source_unit_factory_assembler_payload_trigger_state(frame: Dictionary, plan: Dictionary) -> Dictionary:
+	# ConsumePayloadDynamic.trigger (ConsumePayloadDynamic.java:34-39)
+	# for the assembler's consPayload (UnitAssembler.java:158:
+	# `consume(consPayload = new ConsumePayloadDynamic((UnitAssemblerBuild
+	# build) -> build.plan().requirements));`): `float mult =
+	# multiplier.get(build); for(PayloadStack stack :
+	# payloads.get(build)){ build.getPayloads().remove(stack.item, Math.round(stack.amount * mult)); }` — the payload row of the
+	# consume() call at unit completion (BuildingComp.consume(),
+	# BuildingComp.java:1911-1915, `public void consume(){
+	# for(Consume cons : block.consumers){ cons.trigger(self()); } }`).
+	# PayloadSeq.remove(block, amount) (PayloadSeq.java:40-42) is
+	# `add(block, -amount)` — no clamp: a short stack goes negative
+	# before the clear (unlike ItemModule.remove in N2128, which
+	# clamps), so the port records the requested removal per stack.
+	# UnitAssemblerBuild.spawned() (UnitAssembler.java:543-571) calls
+	# consume() first, then creates the unit, then `progress = 0f;
+	# ... blocks.clear();` at the end; PayloadSeq.clear()
+	# (PayloadSeq.java:61-64) is `payloads.clear(); total = 0;`, so
+	# the module is empty afterwards whatever it held — extra blocks
+	# beyond the plan and short or empty modules included. The
+	# multiplier is the family's Rules.unitCost callback
+	# (UnitAssembler.java:175, `consumeBuilder.each(c -> c.multiplier
+	# = b -> state.rules.unitCost(b.team))`), read through the N2097
+	# callback like the N2129 efficiency; the Consume default
+	# (Consume.java:18, `public Floatf<Building> multiplier = b ->
+	# 1f;`) is what a frame outside the family keeps. The function
+	# is pure apart from the frame's own module: it removes the
+	# requirement stacks from the frame's `blocks` dict, records the
+	# requested removal per item, then clears the module. It is not
+	# wired into the tick driver or the shouldConsume gate — the tick
+	# never calls it; the live production wiring (progress advance +
+	# the call at completion) is a later slice.
+	var blocks: Dictionary = frame.get("blocks", {})
+	if not blocks is Dictionary:
+		blocks = {}
+	var requirements: Array = plan.get("requirements", [])
+	var multiplier: float = float(source_consume_state.source_cost_multiplier_for_block_state(frame).get("multiplier", 1.0))
+	var triggered := 0
+	var removed := {}
+	for stack in requirements:
+		if not stack is Dictionary:
+			continue
+		var remove_amount: int = int(round(float(stack.get("amount", 0)) * multiplier))
+		if remove_amount == 0:
+			continue
+		var item_name: String = str(stack.get("item", ""))
+		blocks[item_name] = int(blocks.get(item_name, 0)) - remove_amount
+		removed[item_name] = int(removed.get(item_name, 0)) + remove_amount
+		triggered += 1
+	blocks.clear()
+	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_FACTORY_BUILD_ASSEMBLER_PAYLOAD_TRIGGER_STATE, "triggered": triggered, "removed": removed, "cleared": true, "blocks": blocks.duplicate(), "total": 0}
+
 static func source_unit_factory_should_consume_state(frame: Dictionary, block: Object, game: Object) -> Dictionary:
 	# The per-class shouldConsume() bodies, wired into the live loop
 	# (N2124 — the N2120 tick passed the frame's enabled flag until
@@ -577,6 +695,75 @@ static func source_unit_factory_reinitialize_consumers_state(frame: Dictionary, 
 	var rebound: Dictionary = source_bind_consumer_state(frame, block, catalog, amounts)
 	frame["block_id"] = block_id
 	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_FACTORY_BUILD_REINITIALIZE_CONSUMERS_STATE, "reinitialized": reinitialized, "bound": bool(rebound.get("bound", false)), "consumers": rebound.get("consumers", []), "rows": rebound.get("rows", [])}
+
+static func source_unit_factory_consume_state(frame: Dictionary, consumers: Array, rows: Array) -> Dictionary:
+	# BuildingComp.consume() (BuildingComp.java:1911-1915): triggers
+	# every consumer (`for(Consume cons : block.consumers){
+	# cons.trigger(self()); }`). Consume.trigger is empty by default
+	# (Consume.java:50 `public void trigger(Building build){}`),
+	# ConsumeLiquid has no trigger override (its update drains per
+	# tick, N2112) and ConsumePower has none either, so only the item
+	# rows remove anything, through the RuntimeConsumer trigger
+	# (ConsumeItems.java:45-48, Math.round(stack.amount * multiplier.get(build))
+	# removal clamped at what the module holds, ItemModule.java:258-259).
+	# Liquid rows are skipped, not triggered: triggering a liquid
+	# actor would invent a removal Java never performs. The frame is
+	# the build dict the actors read (their items reference is the
+	# frame's own item module).
+	# The completion sites that call this in Java are the unit
+	# completions, not the per-tick consumption passes — the tick
+	# driver never calls it:
+	#   UnitFactoryBuild.updateTile() (UnitFactory.java:420-436):
+	#     `if(progress >= plan.time){ progress %= 1f; ... payload =
+	#     new UnitPayload(unit); ... consume(); }` — the plan's
+	#     ConsumeItemDynamic stacks leave then
+	#     (ConsumeItemDynamic.java:53-56: `for(ItemStack stack :
+	#     items.get(build)){ build.items.remove(stack.item,
+	#     Math.round(stack.amount * multiplier.get(build))); }`),
+	#     one bound actor per plan requirement (N2120).
+	#   ReconstructorBuild.updateTile() (Reconstructor.java:340-349):
+	#     `if(progress >= constructTime){ payload.unit =
+	#     upgrade(...); ... progress %= 1f; ... consume(); }` — the
+	#     static consumeItem stacks leave then, through the same
+	#     ConsumeItems trigger.
+	#   UnitAssemblerBuild.spawned() (UnitAssembler.java:544-571):
+	#     `consume();` first, then the unit is created and
+	#     `blocks.clear();` — its ConsumePayloadDynamic over
+	#     plan().requirements (UnitAssembler.java:158) removes
+	#     payload stacks from the building's payload module, which
+	#     the port does not model yet, so the assembler payload
+	#     trigger is deferred to the plan-dynamics slice; its
+	#     ConsumeItemDynamic over plan().itemReq (UnitAssembler.java:159)
+	#     is empty in vanilla and its ConsumeLiquidsDynamic
+	#     (UnitAssembler.java:160) has no trigger, so no assembler
+	#     row removes anything here yet. The multiplier is the
+	#     family's Rules.unitCost callback (the N2097 callback the
+	#     actors already pay through, UnitFactory.java:109,
+	#     Reconstructor.java:149, UnitAssembler.java:175).
+	var triggered := 0
+	var removed := {}
+	var items: Dictionary = frame.get("items", {})
+	for index in range(rows.size()):
+		if index >= consumers.size():
+			continue
+		var row = rows[index]
+		if row is Dictionary and row.has("liquid"):
+			continue
+		var actor = consumers[index]
+		if actor == null or not actor.has_method("trigger"):
+			continue
+		var item_name := ""
+		if row is Dictionary:
+			item_name = str(row.get("item", ""))
+		var before := int(items.get(item_name, 0))
+		actor.trigger(frame)
+		removed[item_name] = before - int(items.get(item_name, 0))
+		triggered += 1
+	return {
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_FACTORY_BUILD_CONSUME_STATE,
+		"triggered": triggered,
+		"removed": removed,
+	}
 
 static func _has_consumers_state(block: Object) -> bool:
 	# Block.hasConsumers is set from the consumeBuilder size

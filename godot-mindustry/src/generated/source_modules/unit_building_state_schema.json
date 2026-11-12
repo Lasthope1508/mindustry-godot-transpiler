@@ -112,6 +112,41 @@
         }
       }
     },
+    "source_unit_factory_consume_state_input": {
+      "canonical_schema": "source_state_schema.source_unit_factory_consume_state_input",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public void consume(){",
+          "rule": "The unit-factory frame (the port Building state) whose item module the triggers remove from.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_consume_state"
+          ]
+        },
+        "consumers": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "for(Consume cons : block.consumers){",
+          "rule": "The bound RuntimeConsumer actors, one per consume row (N2120).",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_consume_state"
+          ]
+        },
+        "rows": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "cons.trigger(self());",
+          "rule": "The consume rows the actors were bound from; liquid rows are skipped, only item rows trigger.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_consume_state"
+          ]
+        }
+      }
+    },
     "source_unit_factory_tick_buildings_state_input": {
       "canonical_schema": "source_state_schema.source_unit_factory_tick_buildings_state_input",
       "keys": {

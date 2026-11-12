@@ -1,0 +1,55 @@
+# Handoff — N2129: UnitAssembler payload module + ConsumePayloadDynamic.efficiency
+
+Date: 2026-11-12. Batch: N2129 (single slice). Status: built, registered, test module 3/4 standalone (the 4th test is the Godot proof run). **Godot proof NOT run in this VM — no Godot binary. Full Python suite first run finished 07:46 +07: Ran 4930, FAILED (85 failures, 138 errors, 4 skipped), all 223 environmental, none by this slice (see report Gate / suite). Environment fixed the same morning; targeted re-run 3961 tests with only Godot-proof failures left; clean full re-run finished 08:07 +07: Ran 5613, FAILED (failures=80, skipped=5), 0 errors — all 80 Godot-proof failures. Gate clean except Godot. Do NOT commit until the proof runs green on Windows Godot 4.6. Inclusive gate with the N2130 module landed 08:22 +07: Ran 5617, FAILED (failures=81, skipped=5), 0 errors — all 81 Godot-proof failures. Gate clean except Godot.**
+
+## What this batch is
+
+The first half of the UnitAssembler plan dynamics on the N2127 "Next" list: the payload module the port was missing. One function, 5 symbols, SSOT +5/+1/+1/+2 → 11242 / 1580 / 1502 / 2795; audit 1335.
+
+## Files changed
+
+- `godot-mindustry/src/game/SourceUnitFactoryBuildState.gd` (+68): new `source_unit_factory_assembler_payload_state(frame, plan)` — the frame's `blocks` dict (content name to held count, the port form of `UnitAssemblerBuild.blocks`, a `PayloadSeq`) with the `ConsumePayloadDynamic.efficiency` read over the current tier plan's `requirements` (ConsumePayloadDynamic.java:24-32, 1.0 only when every stack is held at `Math.round(amount * multiplier)`; `PayloadSeq.contains` is `get >= amount`, PayloadSeq.java:71-73), at the family's `Rules.unitCost` multiplier (UnitAssembler.java:175, the N2097 callback). Returns the efficiency, a snapshot of the module, and its total (`PayloadSeq.total()`). The function is pure and is NOT wired into the `shouldConsume` gate — the gate keeps reading the frame's `payload_efficiency` default (1.0, N2124).
+- `godot-mindustry/src/game/SourceRuntimeOwnerUnitBuildingRegistry.gd` (+1): `PORT_GAME_SOURCE_UNIT_FACTORY_BUILD_ASSEMBLER_PAYLOAD_STATE`.
+- `tools/mindustry_godot_transpiler/tests/test_c06_unit_assembler_payload.py` (new, 4 tests) + `tools/mindustry_godot_transpiler/register_c06_unit_assembler_payload.py` (new).
+- `godot-mindustry/src/generated/` (SSOT JSONs + `unit_building_*` shards): N2129 row, 5 symbols, 1 contract, 2 schemas.
+- `godot-mindustry/tools/runtime_proofs/C06UnitAssemblerPayloadProof.gd` + `.tscn` (new, uid `uid://c6uapayload12`). Proof JSON is gitignored, never stage it.
+- `docs/superpowers/specs/2026-06-23-mindustry-godot-gdscript-transpiler-design.md`: totals 1579 → 1580, N2129 checklist row, Current-cube sentence, migration-log row.
+- `docs/superpowers/reports/2026-11-12-c06-unit-assembler-payload.md` (this batch's report; first-run + clean re-run gate numbers filled 2026-11-12 ~08:07 +07; inclusive gate with N2130 filled ~08:22 +07).
+
+## Verified numbers (do not re-derive, these are measured in this VM)
+
+- Test module standalone: **3/4 OK** (registration, exact-evidence, source-text). The 4th test fails here only because no `godot` binary exists in this VM.
+- Neighbour non-proof tests: unit-factory should-consume / consumer-binding / live-loop 9/9 OK. `git diff --check` clean.
+- Suite size: 207 modules hold 5630 collectable test methods (AST count; the 5609 + 4 = 5613 expectation was the earlier estimate). Full suite first run finished 07:46 +07 (log `tools/mindustry_godot_transpiler/full-suite-n2129.log`, 961 s): **Ran 4930 tests, FAILED (failures=85, errors=138, skipped=4)** — all 223 explained by this VM's environment (76 no-Godot, 21 missing javalang, 118 + 2 missing arc-upstream, 2 missing mindustry annotations, 6 mid-expansion timing); none by this slice. Environment fixed the same morning (see report Gate / suite). Targeted re-run of the failing modules: 3961 tests, 7 Godot failures + 1 bundle error, the error then fixed single-test OK. Clean full re-run finished 08:07 +07 (log `tools/mindustry_godot_transpiler/full-suite-n2129-clean.log`, 922 s): **Ran 5613, FAILED (failures=80, skipped=5), 0 errors** — all 80 Godot-proof failures. Inclusive full gate with the N2130 module finished 08:22 +07 (log `full-suite-n2130-gate.log`, 208 modules, 917 s): **Ran 5617, FAILED (failures=81, skipped=5), 0 errors** — all 81 failures are `assertIsNotNone(godot)` Godot-proof tests (including the N2128/N2129/N2130 proof tests; their 3 non-proof tests each passed). Zero errors, zero non-Godot failures: the gate is clean except Godot. (The 5618 AST estimate was one high; the run collected 5617.) Godot-proof tests are expected to fail in this VM (no binary); the non-Godot count must be clean.
+- Proof (written, not run): 16 content keys — vanquish met (stell 4 + tungsten-wall-large 10 → 1.0, total 14), stell 3 short → 0.0, empty/missing blocks → 0.0, conquer met (locus 6 + carbide-wall-large 20 → 1.0) / short (19 → 0.0), unitCost 2.0 (4/10 → 0.0, 8/20 → 1.0), extra blocks (1.0, total 205), empty requirements → 1.0, rounding at unitCost 1.5 (stell 5 → 0.0, stell 6 → 1.0), plan-less → 1.0.
+- `git diff --check` clean.
+
+## How this VM differs from the builders' machine (read before the next step)
+
+- The worktree here was a sparse shallow clone (`--depth 1 --filter=blob:none --sparse`) until 2026-11-12 ~07:43 +07, when the user asked for everything exactly from the original: `git sparse-checkout disable` fetched the missing 5581 files (~63 MB) and the checkout is now full (10695/10695 tracked files at df47a96, still shallow depth-1). The full clone had stalled on this VM's network before that.
+- `mindustry-upstream/` here is a sparse checkout at the pinned revision `2bdedfed25932ebf11330d3584092c50e2e26d96`, expanded to all of `core/src/mindustry` plus `annotations/src/main/java/mindustry/annotations` and `core/assets/bundles` (added 2026-11-12 ~07:50 +07 — the parity tests read `StructProcess.java` and `bundle.properties`). It is gitignored, never stage it.
+- `arc-upstream/` here is a sparse shallow checkout at the pinned revision `f30acd23ece4b626b755660d56c1b0d4aaf46aed` (only `arc-core/src/arc`, 4.9 MB), fetched 2026-11-12 ~07:50 +07. It is gitignored, never stage it.
+- `javalang==0.13.0` (from `tools/mindustry_godot_transpiler/requirements.txt`) was missing from this VM's Python and is now installed system-wide (`--break-system-packages`, PEP 668). Its absence had failed 15 test modules to import in the first full-suite run.
+- There is **no Godot binary** in this VM and no Godot MCP (the builders used Windows Godot 4.6.2 + MCP port 7777). The proof file is written to the established pattern and its expected key values were checked against the registry data (vanquish stell 4 + tungsten-wall-large 10, conquer locus 6 + carbide-wall-large 20), but it has not executed. The first Windows run may find a proof-only bug the way N2126/N2127 did — fix the proof, not the implementation, unless the failure is in the payload read itself.
+- Working repo is now the fork **Lasthope1508/mindustry-godot-transpiler** (public). Local remotes: `origin` = fork, `upstream` = duynguyen16689 repo. `gh` is logged in as Lasthope1508 with the git credential helper set up; push to the fork is verified. Push a slice only when it is solid (tests + Godot proof + gates green).
+- The 15-minute cron `mindustry-c06-15min-report` now also works the next C06 task on its own when idle (user confirmed 2026-11-12 07:22 +07).
+
+## Deferred (not this slice)
+
+- `ConsumePayloadDynamic.trigger` at completion (ConsumePayloadDynamic.java:34-39) + `spawned()` `blocks.clear()` (UnitAssembler.java:544-571) — the production slice.
+- Payload intake: `yeetPayload` (UnitAssembler.java:688-690, `blocks.add(payload.content(), 1)`) and `acceptPayload`/`acceptUnitPayload` (UnitAssembler.java:711-727, `blocks.get(payload.content()) < Mathf.round(b.amount * state.rules.unitCost(team))`).
+- Wiring the payload efficiency into the `shouldConsume` gate: the gate keeps the frame default 1.0 until then, and the N2124 proof's assembler-default/live keys (which read 1.0 for empty blocks: `should_consume_assembler_default_true`, `should_consume_live_assembler_efficiency_one`, `should_consume_live_assembler_unoccupied_one`) update with the wiring — a blocks-less assembler reads 0.0 once the gate is live, which is the Java behavior.
+- `checkTier` from the module tiers (UnitAssembler.java:360-376, modules sorted by tier, a tier gap stops the climb).
+- Live production wiring: progress advance + the call at completion (UnitFactory.java:401-403, Reconstructor.java:330-348, UnitAssembler.spawned()).
+- Unit-factory frames' per-class shouldConsume wiring to the power stamp (N2127 deliberately keeps them on the N2125 enabled-only stamp).
+- The battery's live `enabled` stamp (`PowerGraph.getBatteryStored` gates on `battery.enabled`, but the battery has no tick frame).
+- A disabled conveyor reads efficiency 0 in Java (BuildingComp.java:1943-1948) but the port carries no per-belt efficiency yet.
+- C06–C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption.
+
+## Next: N2130 (candidates)
+
+The remaining C06 work, in the order the N2125–N2129 builders considered them: the payload trigger at completion + `blocks.clear()`, the payload intake (`yeetPayload` + `acceptPayload` gates), wiring the payload efficiency into the `shouldConsume` gate (with the N2124 proof updates above), `checkTier` from the module tiers, the battery live `enabled` stamp, the disabled-belt efficiency half (needs a per-belt efficiency first), unit-factory frames' per-class shouldConsume wiring to the power stamp, then the live production wiring that calls the N2128 trigger and the N2129 read at completion. After C06 closes, C07 (units/waves/world/campaign) is next per the completion backlog.
+
+## Commit (not done — gates pending)
+
+Stage the exact slice files only (never `*.gd.uid`, `project.godot`, `arc-upstream/`, `mindustry-upstream/`, proof `.json`): `SourceUnitFactoryBuildState.gd`, `SourceRuntimeOwnerUnitBuildingRegistry.gd`, the SSOT JSONs + `unit_building_*` shards, `test_c06_unit_assembler_payload.py`, `register_c06_unit_assembler_payload.py`, `C06UnitAssemblerPayloadProof.gd` + `.tscn`, the design spec, the report + this handoff. Do NOT stage `full-suite-n2129.log`, `full-suite-n2129-clean.log`, `full-suite-n2130-gate.log`, or `targeted-env-fix.log` (working logs, not slice files). First-run + clean re-run + inclusive-gate numbers are filled in (report Gate / suite, inclusive gate landed 08:22 +07: Ran 5617, 81 Godot-only failures, 0 errors); commit + push to the fork origin once the Windows Godot proof runs green, then the MEMORY.md N2129 entry. The worktree is now a full checkout (expanded 2026-11-12 ~07:43 +07) — re-verify `git status` shows only these files before staging.

@@ -120,6 +120,43 @@
       "rule": "Source-backed per-block cost multiplier; unit factories pay Rules.unitCost, other blocks pay the 1.0 default; a ContinuousLiquidTurret pays 1 / ammoMultiplier for its current liquid, 1.0 when the liquid has no ammo type.",
       "return_type": "Dictionary"
     },
+    "SourceUnitFactoryBuildState.source_unit_factory_consume_state": {
+      "canonical_contract": "source_api_contracts.SourceUnitFactoryBuildState.source_unit_factory_consume_state",
+      "status": "active",
+      "source_slice": "N2128",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "UnitFactoryBuild.updateTile(); BuildingComp.consume(); ConsumeItemDynamic.trigger(Building)",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_unit_factory_consume_state_input.frame"
+        },
+        {
+          "name": "consumers",
+          "type": "Array",
+          "schema": "source_unit_factory_consume_state_input.consumers"
+        },
+        {
+          "name": "rows",
+          "type": "Array",
+          "schema": "source_unit_factory_consume_state_input.rows"
+        }
+      ],
+      "return_keys": [
+        "triggered",
+        "removed"
+      ],
+      "tests": [
+        "test_c06_unit_factory_consume_trigger_registration",
+        "test_all_c06_unit_factory_consume_trigger_input_evidence_is_exact",
+        "test_consume_trigger_removes_only_item_rows",
+        "test_reference_graph_and_actual_c06_unit_factory_consume_trigger"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryConsumeProof",
+      "rule": "Source-backed unit-factory consume() trigger at unit completion.",
+      "return_type": "Dictionary"
+    },
     "SourceUnitFactoryBuildState.source_unit_factory_tick_buildings_state": {
       "canonical_contract": "source_api_contracts.SourceUnitFactoryBuildState.source_unit_factory_tick_buildings_state",
       "status": "active",

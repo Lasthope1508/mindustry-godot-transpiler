@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://c6ufconsume12"]
+
+[ext_resource type="Script" path="res://tools/runtime_proofs/C06UnitFactoryConsumeProof.gd" id="1"]
+
+[node name="C06UnitFactoryConsumeProof" type="Node"]
+script = ExtResource("1")

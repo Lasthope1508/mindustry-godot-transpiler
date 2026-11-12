@@ -54693,6 +54693,154 @@
         "UnitAssembler plan dynamics (UnitAssembler.java:158-160).",
         "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2128": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+      "java_class": "mindustry.world.blocks.units.UnitFactory.UnitFactoryBuild",
+      "java_method": "UnitFactoryBuild.updateTile(); BuildingComp.consume(); ConsumeItemDynamic.trigger(Building)",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_consume_state",
+      "exact_exprs": [
+        "public void consume(){",
+        "for(Consume cons : block.consumers){",
+        "cons.trigger(self());",
+        "public void trigger(Building build){}",
+        "build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));",
+        "for(ItemStack stack : items.get(build)){",
+        "amount = Math.min(amount, items[item.id]);",
+        "payload = new UnitPayload(unit);",
+        "progress %= 1f;",
+        "if(progress >= plan.time){",
+        "if(progress >= constructTime){",
+        "public void spawned(){",
+        "blocks.clear();",
+        "public Floatf<Building> multiplier = b -> 1f;"
+      ],
+      "source_symbols": [
+        "source_unit_factory_consume_state_input.consumers",
+        "source_unit_factory_consume_state_input.frame",
+        "source_unit_factory_consume_state_input.rows",
+        "source_unit_factory_consume_state_result.removed",
+        "source_unit_factory_consume_state_result.triggered"
+      ],
+      "tests": [
+        "test_c06_unit_factory_consume_trigger_registration",
+        "test_all_c06_unit_factory_consume_trigger_input_evidence_is_exact",
+        "test_consume_trigger_removes_only_item_rows",
+        "test_reference_graph_and_actual_c06_unit_factory_consume_trigger"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryConsumeProof",
+      "deferred_exprs": [
+        "UnitAssembler plan dynamics (UnitAssembler.java:158-160): ConsumePayloadDynamic over plan().requirements removes payload stacks from the building's payload module (UnitAssemblerBuild.blocks), which the port does not model yet; ConsumeItemDynamic over plan().itemReq (empty in vanilla) and ConsumeLiquidsDynamic over plan().liquidReq (its trigger is empty; its update drains per tick).",
+        "Live production wiring: the tick driver advances no progress and calls no consume yet -- UnitFactory progress (UnitFactory.java:401-403), Reconstructor progress (Reconstructor.java:330-348) and UnitAssembler spawned() (UnitAssembler.java:544-571) are the production slice; this slice is the trigger body it calls at completion.",
+        "The unit-factory frames keep the N2125 enabled-only power stamp: their per-class shouldConsume bodies (N2124) are plan-gated, and wiring them to the power stamp needs a unit-factory proof setup of its own.",
+        "PowerGraph.getBatteryStored gates on battery.enabled (PowerGraph.java:118-126), but the battery has no tick frame in the port, so its live enabled flag cannot be read yet; the battery dict keeps its static enabled value.",
+        "A disabled conveyor reads efficiency 0 in Java (BuildingComp.java:1943-1948) but the port carries no per-belt efficiency yet, so a disabled belt still advances.",
+        "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
+    },
+    "N2129": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "java_class": "mindustry.world.blocks.units.UnitAssembler.UnitAssemblerBuild",
+      "java_method": "UnitAssemblerBuild.plan(); ConsumePayloadDynamic.efficiency(Building)",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_assembler_payload_state",
+      "exact_exprs": [
+        "consume(consPayload = new ConsumePayloadDynamic((UnitAssemblerBuild build) -> build.plan().requirements));",
+        "consumeBuilder.each(c -> c.multiplier = b -> state.rules.unitCost(b.team));",
+        "public PayloadSeq blocks = new PayloadSeq();",
+        "public PayloadSeq getPayloads(){",
+        "return blocks;",
+        "blocks.add(payload.content(), 1);",
+        "blocks.clear();",
+        "if(!build.getPayloads().contains(stack.item, Math.round(stack.amount * mult))){",
+        "float mult = multiplier.get(build);",
+        "build.getPayloads().remove(stack.item, Math.round(stack.amount * mult));",
+        "payloads.increment(block, amount);",
+        "public int get(UnlockableContent block){",
+        "return get(block) >= amount;",
+        "public void clear(){",
+        "public Floatf<Building> multiplier = b -> 1f;",
+        "public Seq<PayloadStack> requirements;",
+        "public int amount = 1;"
+      ],
+      "source_symbols": [
+        "source_unit_factory_assembler_payload_state_input.frame",
+        "source_unit_factory_assembler_payload_state_input.plan",
+        "source_unit_factory_assembler_payload_state_result.blocks",
+        "source_unit_factory_assembler_payload_state_result.payload_efficiency",
+        "source_unit_factory_assembler_payload_state_result.total"
+      ],
+      "tests": [
+        "test_c06_unit_assembler_payload_registration",
+        "test_all_c06_unit_assembler_payload_input_evidence_is_exact",
+        "test_assembler_payload_reads_blocks_not_the_gate_default",
+        "test_reference_graph_and_actual_c06_unit_assembler_payload"
+      ],
+      "runtime_proof": "/root/C06UnitAssemblerPayloadProof",
+      "deferred_exprs": [
+        "ConsumePayloadDynamic.trigger at unit completion (ConsumePayloadDynamic.java:34-39, build.getPayloads().remove(stack.item, Math.round(stack.amount * mult))) plus spawned() blocks.clear() (UnitAssembler.java:544-571) -- the production slice that calls consume() at completion.",
+        "Payload intake: yeetPayload (UnitAssembler.java:688-690, blocks.add(payload.content(), 1)) and acceptPayload/acceptUnitPayload (UnitAssembler.java:711-727, blocks.get(payload.content()) < Mathf.round(b.amount * state.rules.unitCost(team))) -- the slice that fills the module.",
+        "Wiring the payload efficiency into the shouldConsume gate: the gate keeps reading the frame payload_efficiency default (1.0, N2124) until then, and the N2124 proof assembler-default/live keys (empty blocks read 1.0 there) update with the wiring.",
+        "checkTier from the module tiers (UnitAssembler.java:360-376, modules sorted by tier, a tier gap stops the climb) -- plan() clamping is already in the port (N2124).",
+        "Live production wiring: the tick driver advances no progress and calls no spawned() yet -- UnitFactory progress (UnitFactory.java:401-403), Reconstructor progress (Reconstructor.java:330-348) and UnitAssembler spawned() (UnitAssembler.java:544-571) are the production slice.",
+        "The unit-factory frames keep the N2125 enabled-only power stamp: their per-class shouldConsume bodies (N2124) are plan-gated, and wiring them to the power stamp needs a unit-factory proof setup of its own.",
+        "PowerGraph.getBatteryStored gates on battery.enabled (PowerGraph.java:118-126), but the battery has no tick frame in the port, so its live enabled flag cannot be read yet; the battery dict keeps its static enabled value.",
+        "A disabled conveyor reads efficiency 0 in Java (BuildingComp.java:1943-1948) but the port carries no per-belt efficiency yet, so a disabled belt still advances.",
+        "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
+    },
+    "N2130": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "java_class": "mindustry.world.blocks.units.UnitAssembler.UnitAssemblerBuild",
+      "java_method": "UnitAssemblerBuild.spawned(); BuildingComp.consume(); ConsumePayloadDynamic.trigger(Building)",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_assembler_payload_trigger_state",
+      "exact_exprs": [
+        "public void trigger(Building build){",
+        "float mult = multiplier.get(build);",
+        "for(PayloadStack stack : payloads.get(build)){",
+        "build.getPayloads().remove(stack.item, Math.round(stack.amount * mult));",
+        "public void consume(){",
+        "for(Consume cons : block.consumers){",
+        "cons.trigger(self());",
+        "public Floatf<Building> multiplier = b -> 1f;",
+        "consumeBuilder.each(c -> c.multiplier = b -> state.rules.unitCost(b.team));",
+        "consume(consPayload = new ConsumePayloadDynamic((UnitAssemblerBuild build) -> build.plan().requirements));",
+        "public void spawned(){",
+        "blocks.clear();",
+        "public void remove(UnlockableContent block, int amount){",
+        "add(block, -amount);",
+        "public void clear(){",
+        "payloads.clear();",
+        "total = 0;"
+      ],
+      "source_symbols": [
+        "source_unit_factory_assembler_payload_trigger_state_input.frame",
+        "source_unit_factory_assembler_payload_trigger_state_input.plan",
+        "source_unit_factory_assembler_payload_trigger_state_result.blocks",
+        "source_unit_factory_assembler_payload_trigger_state_result.cleared",
+        "source_unit_factory_assembler_payload_trigger_state_result.removed",
+        "source_unit_factory_assembler_payload_trigger_state_result.total",
+        "source_unit_factory_assembler_payload_trigger_state_result.triggered"
+      ],
+      "tests": [
+        "test_c06_unit_assembler_payload_trigger_registration",
+        "test_all_c06_unit_assembler_payload_trigger_input_evidence_is_exact",
+        "test_assembler_payload_trigger_removes_plan_stacks_then_clears",
+        "test_reference_graph_and_actual_c06_unit_assembler_payload_trigger"
+      ],
+      "runtime_proof": "/root/C06UnitAssemblerPayloadTriggerProof",
+      "deferred_exprs": [
+        "Payload intake: yeetPayload (UnitAssembler.java:688-690, blocks.add(payload.content(), 1)) and acceptPayload/acceptUnitPayload (UnitAssembler.java:711-727, blocks.get(payload.content()) < Mathf.round(b.amount * state.rules.unitCost(team))) -- the slice that fills the module.",
+        "Wiring the payload efficiency into the shouldConsume gate: the gate keeps reading the frame payload_efficiency default (1.0, N2124) until then, and the N2124 proof assembler-default/live keys (empty blocks read 1.0 there) update with the wiring.",
+        "checkTier from the module tiers (UnitAssembler.java:360-376, modules sorted by tier, a tier gap stops the climb) -- plan() clamping is already in the port (N2124).",
+        "Live production wiring: the tick driver advances no progress and calls no spawned() yet -- UnitFactory progress (UnitFactory.java:401-403), Reconstructor progress (Reconstructor.java:330-348) and UnitAssembler spawned() (UnitAssembler.java:544-571) are the production slice; this slice is the trigger body it calls at completion.",
+        "The unit-factory frames keep the N2125 enabled-only power stamp: their per-class shouldConsume bodies (N2124) are plan-gated, and wiring them to the power stamp needs a unit-factory proof setup of its own.",
+        "PowerGraph.getBatteryStored gates on battery.enabled (PowerGraph.java:118-126), but the battery has no tick frame in the port, so its live enabled flag cannot be read yet; the battery dict keeps its static enabled value.",
+        "A disabled conveyor reads efficiency 0 in Java (BuildingComp.java:1943-1948) but the port carries no per-belt efficiency yet, so a disabled belt still advances.",
+        "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1

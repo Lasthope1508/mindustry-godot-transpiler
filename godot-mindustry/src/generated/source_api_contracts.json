@@ -63996,6 +63996,108 @@
       ],
       "runtime_proof": "/root/C06PowerShouldConsumeProof",
       "rule": "Source-backed power-graph consumer live should-consume value; the helper reads a placed building's live frame enabled flag, so the grouped consumer dict carries what ConsumePower.requestedPower() and PowerGraph.getPowerNeeded() read. For a factory-family frame the should_consume value is the family's per-class shouldConsume() body \u2014 the GenericCrafter output-full gate (an output item over itemCapacity, or every output liquid full) or the adjacent family's own body \u2014 and shouldConsumePower is the frame's live updateConsumption first-pass flag, false when a non-power consumer fails (source exhaustion) and true when cheating or no consumer fails."
+    },
+    "SourceUnitFactoryBuildState.source_unit_factory_consume_state": {
+      "status": "active",
+      "source_slice": "N2128",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "UnitFactoryBuild.updateTile(); BuildingComp.consume(); ConsumeItemDynamic.trigger(Building)",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_unit_factory_consume_state_input.frame"
+        },
+        {
+          "name": "consumers",
+          "type": "Array",
+          "schema": "source_unit_factory_consume_state_input.consumers"
+        },
+        {
+          "name": "rows",
+          "type": "Array",
+          "schema": "source_unit_factory_consume_state_input.rows"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "triggered",
+        "removed"
+      ],
+      "tests": [
+        "test_c06_unit_factory_consume_trigger_registration",
+        "test_all_c06_unit_factory_consume_trigger_input_evidence_is_exact",
+        "test_consume_trigger_removes_only_item_rows",
+        "test_reference_graph_and_actual_c06_unit_factory_consume_trigger"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryConsumeProof",
+      "rule": "Source-backed unit-factory consume() trigger at unit completion."
+    },
+    "SourceUnitFactoryBuildState.source_unit_factory_assembler_payload_state": {
+      "status": "active",
+      "source_slice": "N2129",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "source_method": "UnitAssemblerBuild.plan(); ConsumePayloadDynamic.efficiency(Building)",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_unit_factory_assembler_payload_state_input.frame"
+        },
+        {
+          "name": "plan",
+          "type": "Dictionary",
+          "schema": "source_unit_factory_assembler_payload_state_input.plan"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "payload_efficiency",
+        "blocks",
+        "total"
+      ],
+      "tests": [
+        "test_c06_unit_assembler_payload_registration",
+        "test_all_c06_unit_assembler_payload_input_evidence_is_exact",
+        "test_assembler_payload_reads_blocks_not_the_gate_default",
+        "test_reference_graph_and_actual_c06_unit_assembler_payload"
+      ],
+      "runtime_proof": "/root/C06UnitAssemblerPayloadProof",
+      "rule": "Source-backed UnitAssembler payload module and ConsumePayloadDynamic efficiency."
+    },
+    "SourceUnitFactoryBuildState.source_unit_factory_assembler_payload_trigger_state": {
+      "status": "active",
+      "source_slice": "N2130",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "source_method": "UnitAssemblerBuild.spawned(); BuildingComp.consume(); ConsumePayloadDynamic.trigger(Building)",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_unit_factory_assembler_payload_trigger_state_input.frame"
+        },
+        {
+          "name": "plan",
+          "type": "Dictionary",
+          "schema": "source_unit_factory_assembler_payload_trigger_state_input.plan"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "triggered",
+        "removed",
+        "cleared",
+        "blocks",
+        "total"
+      ],
+      "tests": [
+        "test_c06_unit_assembler_payload_trigger_registration",
+        "test_all_c06_unit_assembler_payload_trigger_input_evidence_is_exact",
+        "test_assembler_payload_trigger_removes_plan_stacks_then_clears",
+        "test_reference_graph_and_actual_c06_unit_assembler_payload_trigger"
+      ],
+      "runtime_proof": "/root/C06UnitAssemblerPayloadTriggerProof",
+      "rule": "Source-backed UnitAssembler payload trigger at unit completion + spawned() blocks.clear()."
     }
   },
   "policy": {

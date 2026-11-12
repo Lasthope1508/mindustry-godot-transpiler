@@ -419,6 +419,81 @@
       ],
       "runtime_proof": "/root/UnitFactoryLiveLoopProof"
     },
+    "source_unit_factory_consume_state_input.consumers": {
+      "canonical_symbol": "source_symbol_registry.source_unit_factory_consume_state_input.consumers",
+      "status": "source-backed",
+      "java_expr": "for(Consume cons : block.consumers){",
+      "godot_symbol": "source_unit_factory_consume_state_input.consumers",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_consume_state",
+      "rule": "The bound RuntimeConsumer actors, one per consume row (N2120).",
+      "tests": [
+        "test_c06_unit_factory_consume_trigger_registration",
+        "test_all_c06_unit_factory_consume_trigger_input_evidence_is_exact",
+        "test_consume_trigger_removes_only_item_rows",
+        "test_reference_graph_and_actual_c06_unit_factory_consume_trigger"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryConsumeProof"
+    },
+    "source_unit_factory_consume_state_input.frame": {
+      "canonical_symbol": "source_symbol_registry.source_unit_factory_consume_state_input.frame",
+      "status": "source-backed",
+      "java_expr": "public void consume(){",
+      "godot_symbol": "source_unit_factory_consume_state_input.frame",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_consume_state",
+      "rule": "The unit-factory frame (the port Building state) whose item module the triggers remove from.",
+      "tests": [
+        "test_c06_unit_factory_consume_trigger_registration",
+        "test_all_c06_unit_factory_consume_trigger_input_evidence_is_exact",
+        "test_consume_trigger_removes_only_item_rows",
+        "test_reference_graph_and_actual_c06_unit_factory_consume_trigger"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryConsumeProof"
+    },
+    "source_unit_factory_consume_state_input.rows": {
+      "canonical_symbol": "source_symbol_registry.source_unit_factory_consume_state_input.rows",
+      "status": "source-backed",
+      "java_expr": "cons.trigger(self());",
+      "godot_symbol": "source_unit_factory_consume_state_input.rows",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_consume_state",
+      "rule": "The consume rows the actors were bound from; liquid rows are skipped, only item rows trigger.",
+      "tests": [
+        "test_c06_unit_factory_consume_trigger_registration",
+        "test_all_c06_unit_factory_consume_trigger_input_evidence_is_exact",
+        "test_consume_trigger_removes_only_item_rows",
+        "test_reference_graph_and_actual_c06_unit_factory_consume_trigger"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryConsumeProof"
+    },
+    "source_unit_factory_consume_state_result.removed": {
+      "canonical_symbol": "source_symbol_registry.source_unit_factory_consume_state_result.removed",
+      "status": "source-backed",
+      "java_expr": "build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));",
+      "godot_symbol": "source_unit_factory_consume_state_result.removed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_consume_state",
+      "rule": "What each item row removed: Math.round(amount * multiplier), clamped at what the module holds.",
+      "tests": [
+        "test_c06_unit_factory_consume_trigger_registration",
+        "test_all_c06_unit_factory_consume_trigger_input_evidence_is_exact",
+        "test_consume_trigger_removes_only_item_rows",
+        "test_reference_graph_and_actual_c06_unit_factory_consume_trigger"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryConsumeProof"
+    },
+    "source_unit_factory_consume_state_result.triggered": {
+      "canonical_symbol": "source_symbol_registry.source_unit_factory_consume_state_result.triggered",
+      "status": "source-backed",
+      "java_expr": "cons.trigger(self());",
+      "godot_symbol": "source_unit_factory_consume_state_result.triggered",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_consume_state",
+      "rule": "How many item consumers triggered at unit completion.",
+      "tests": [
+        "test_c06_unit_factory_consume_trigger_registration",
+        "test_all_c06_unit_factory_consume_trigger_input_evidence_is_exact",
+        "test_consume_trigger_removes_only_item_rows",
+        "test_reference_graph_and_actual_c06_unit_factory_consume_trigger"
+      ],
+      "runtime_proof": "/root/C06UnitFactoryConsumeProof"
+    },
     "source_unit_factory_has_upgrade_state_input.block": {
       "canonical_symbol": "source_symbol_registry.source_unit_factory_has_upgrade_state_input.block",
       "status": "source-backed",
