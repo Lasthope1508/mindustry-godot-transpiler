@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://c07facpwrstatus"]
+
+[ext_resource type="Script" path="res://tools/runtime_proofs/C07FactoryPowerStatusProof.gd" id="1"]
+
+[node name="C07FactoryPowerStatusProof" type="Node"]
+script = ExtResource("1")

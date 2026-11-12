@@ -234,6 +234,26 @@ static func source_factory_should_consume_state(frame: Dictionary, block: Object
 		"all_liquids_full": all_liquids_full,
 	}
 
+static func source_factory_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
+	# ConsumePower.efficiency (ConsumePower.java:38-40,
+	# `return build.power.status;`): the power consumer's
+	# efficiency is the building's live power.status, and the
+	# first pass folds it into the min efficiency
+	# (BuildingComp.java:1969-1976, `for(var cons : block.
+	# nonOptionalConsumers){` / `minEfficiency = Math.min(
+	# minEfficiency, result);`). The graph update stamps
+	# frame["power_status"] each tick (N2142); a missing stamp
+	# folds to 1.0 before the first graph update, the assembler
+	# fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`).
+	# A block with no power consumer contributes no row.
+	# `!enabled` is handled by the machinery's disabled branch,
+	# not here.
+	if not has_power_consumer:
+		return {"has_power_row": false, "row": {}}
+	var stamped: Variant = frame.get("power_status", null)
+	var live: float = 1.0 if stamped == null else float(stamped)
+	return {"has_power_row": true, "row": {"result": live, "is_power": true}}
+
 static func source_factory_update_consumption_state(frame: Dictionary, has_consumers: bool, enabled: bool, production_valid: bool, should_consume: bool, efficiency_scale: float) -> Dictionary:
 	# BuildingComp.updateConsumption() (BuildingComp.java:1943-1951):
 	# when cheating, everything is valid and consumption is skipped
@@ -922,8 +942,9 @@ static func source_factory_tick_buildings_state(game: Object, seconds: float) ->
 		# shouldConsume is the GenericCrafterBuild.shouldConsume() body (N2113,
 		# GenericCrafter.java:203, output-space checks against the
 		# frame's held items and the building's liquid module); the
-		# power consumer stays the power graph's domain (N2080/N2107)
-		# and is not bound here.
+		# power consumer reads live since N2145 (ConsumePower.
+		# efficiency is build.power.status, ConsumePower.java:39)
+		# through the power row appended to the first pass below.
 		frame["enabled"] = bool(frame.get("enabled", true))
 		var liquids: Dictionary = sprite.get_meta(source_placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY, {})
 		var consumer_bound: Dictionary = source_factory_reinitialize_consumers_state(frame, block, catalog, liquids)
@@ -949,7 +970,20 @@ static func source_factory_tick_buildings_state(game: Object, seconds: float) ->
 					optional_results.append({"result": actor.efficiency(frame)})
 			if groups["update_consumers"].has(rows[index]):
 				updates.append(actor)
-		var consumption: Dictionary = source_building_efficiency_state.update_consumption_state(groups["has_consumers"], bool(frame.get("cheating", false)), bool(frame.get("enabled", true)), valid, should_consume, float(frame.get("efficiency_scale", 1.0)), required_results, optional_results, updates, frame)
+		# The power consumer reads live since N2145 (the graph
+		# update stamps frame["power_status"] each tick, N2142):
+		# a block with a power consumer appends the pure power row
+		# to the first pass, so ConsumePower.efficiency folds into
+		# the min efficiency like every other non-optional consumer.
+		# The power consumer counts toward hasConsumers
+		# (Block.java:1449, `hasConsumers = consumers.length > 0;`),
+		# so a power-only factory does not take the early return.
+		var has_power_consumer: bool = bool(block.properties.has("consumePower"))
+		if has_power_consumer and bool(frame.get("enabled", true)) and not bool(frame.get("cheating", false)):
+			var power_row: Dictionary = source_factory_power_status_row_state(frame, true)
+			if bool(power_row.get("has_power_row", false)):
+				required_results.append(power_row.get("row", {}))
+		var consumption: Dictionary = source_building_efficiency_state.update_consumption_state(bool(groups["has_consumers"]) or has_power_consumer, bool(frame.get("cheating", false)), bool(frame.get("enabled", true)), valid, should_consume, float(frame.get("efficiency_scale", 1.0)), required_results, optional_results, updates, frame)
 		source_building_efficiency_state.apply_update_consumption_state(consumption, frame)
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		# The production half of GenericCrafterBuild.updateTile()

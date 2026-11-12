@@ -64,6 +64,22 @@ func _ready() -> void:
 	var electrolyzer := Sprite2D.new()
 	game.add_child(electrolyzer)
 	game.call("record_placed_block", electrolyzer, blocks_by_id["electrolyzer"], electrolyzer_cell)
+	# The scene needs power since N2145: the factory tick driver
+	# reads the live power.status (ConsumePower.efficiency,
+	# ConsumePower.java:39, `return build.power.status;`), and
+	# the live loop's graph update stamps 0.0 when no producer
+	# feeds the graph (PowerGraph.java:203, coverage 0), so an
+	# unpowered factory ticks at efficiency 0 no matter what
+	# shouldConsume says. The campaign slice already carries 19
+	# other consumers, so one RTG (4.5) cannot cover the 2.5 the
+	# three factories need plus the scene's own draw; a thorium
+	# reactor (powerProduction 15.0, no fuel in the port's
+	# producer model) covers the whole graph, so the shouldConsume
+	# gating below is isolated from power.
+	var reactor_cell := Vector2i(45, 7)
+	var reactor := Sprite2D.new()
+	game.add_child(reactor)
+	game.call("record_placed_block", reactor, blocks_by_id["thorium-reactor"], reactor_cell)
 	proof["factory_smelter_frame_bound_on_placement"] = smelter.has_meta(factory_build_state.SOURCE_FACTORY_BUILDING_META_KEY)
 	proof["factory_mixer_frame_bound_on_placement"] = mixer.has_meta(factory_build_state.SOURCE_FACTORY_BUILDING_META_KEY)
 	proof["factory_electrolyzer_frame_bound_on_placement"] = electrolyzer.has_meta(factory_build_state.SOURCE_FACTORY_BUILDING_META_KEY)
@@ -147,6 +163,11 @@ func _ready() -> void:
 	smelter_frame = smelter.get_meta(factory_build_state.SOURCE_FACTORY_BUILDING_META_KEY, {})
 	mixer_frame = mixer.get_meta(factory_build_state.SOURCE_FACTORY_BUILDING_META_KEY, {})
 	proof["factory_mixer_blocked_water_unchanged"] = is_equal_approx(float(liquid_module_state.source_get_state(mixer_module, water_id).get("amount", -1.0)), water_while_blocked)
+	# The reactor covers the graph (15.0 produced vs ~8.5 needed
+	# across the scene's 22 consumers), so the live loop stamps
+	# power_status 1.0 on the factories -- the restore below is a
+	# shouldConsume effect, not a power one (N2145).
+	proof["factory_reactor_powers_scene"] = is_equal_approx(float(smelter_frame.get("power_status", -1.0)), 1.0) and is_equal_approx(float(mixer_frame.get("power_status", -1.0)), 1.0)
 	var smelter_items: Dictionary = smelter_frame.get("items", {})
 	smelter_items["silicon"] = 5
 	var mixer_liquids: Array = mixer_module["liquids"]

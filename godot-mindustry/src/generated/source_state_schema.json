@@ -227558,6 +227558,64 @@
       },
       "runtime_proof": "/root/C07AssemblerDronesInPositionProof",
       "rule": "Source-backed assembler drones_in_position count from UnitAssembler.java."
+    },
+    "source_factory_power_status_row_state_input": {
+      "status": "active",
+      "owner": "SourceFactoryBuildState.source_factory_power_status_row_state",
+      "source_slice": "N2145",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumePower.java",
+          "java_expr": "return build.power.status;",
+          "rule": "The building frame carrying the graph-stamped power_status (ConsumePower.java:39, the canonical power.status read): the live value the row folds; null before the first graph update, folding to 1.0.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_power_status_row_state"
+          ]
+        },
+        "has_power_consumer": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "hasConsumers = consumers.length > 0;",
+          "rule": "Whether the block has a power consumer (Block.java:1449): the driver gate -- the row joins the first pass only when the block consumes power, and the power consumer counts toward hasConsumers.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_power_status_row_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07FactoryPowerStatusProof",
+      "rule": "Source-backed factory power.status row from ConsumePower.java / BuildingComp.java."
+    },
+    "source_factory_power_status_row_state_result": {
+      "status": "active",
+      "owner": "SourceFactoryBuildState.source_factory_power_status_row_state",
+      "source_slice": "N2145",
+      "keys": {
+        "row": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumePower.java",
+          "java_expr": "return build.power.status;",
+          "rule": "The power row for the first pass (ConsumePower.java:39, the canonical power.status read): {\"result\": live power.status, \"is_power\": true}, folded by the non-optional pass into the min efficiency.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_power_status_row_state"
+          ]
+        },
+        "has_power_row": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "for(var cons : block.nonOptionalConsumers){",
+          "rule": "Whether the row joins the first pass (BuildingComp.java:1969): true when the block has a power consumer; the row is the power consumer's entry in the non-optional pass.",
+          "used_by": [
+            "SourceFactoryBuildState.source_factory_power_status_row_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07FactoryPowerStatusProof",
+      "rule": "Source-backed factory power.status row from ConsumePower.java / BuildingComp.java."
     }
   },
   "version": 1
