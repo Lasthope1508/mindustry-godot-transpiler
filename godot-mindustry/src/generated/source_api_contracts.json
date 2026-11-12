@@ -64318,6 +64318,101 @@
       ],
       "runtime_proof": "/root/C06ReconstructorProductionProof",
       "rule": "Source-backed Reconstructor live production tick from ReconstructorBuild.updateTile()."
+    },
+    "SourceUnitFactoryBuildState.source_unit_assembler_production_tick_state": {
+      "status": "active",
+      "source_slice": "N2139",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "source_method": "UnitAssemblerBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_unit_assembler_production_tick_state_input.frame"
+        },
+        {
+          "name": "plan",
+          "type": "Dictionary",
+          "schema": "source_unit_assembler_production_tick_state_input.plan"
+        },
+        {
+          "name": "drones_created",
+          "type": "int",
+          "schema": "source_unit_assembler_production_tick_state_input.drones_created"
+        },
+        {
+          "name": "drone_construct_time",
+          "type": "float",
+          "schema": "source_unit_assembler_production_tick_state_input.drone_construct_time"
+        },
+        {
+          "name": "payload_in_position",
+          "type": "bool",
+          "schema": "source_unit_assembler_production_tick_state_input.payload_in_position"
+        },
+        {
+          "name": "spawn_occupied",
+          "type": "bool",
+          "schema": "source_unit_assembler_production_tick_state_input.spawn_occupied"
+        },
+        {
+          "name": "spawn_visual_occupied",
+          "type": "bool",
+          "schema": "source_unit_assembler_production_tick_state_input.spawn_visual_occupied"
+        },
+        {
+          "name": "in_position_count",
+          "type": "int",
+          "schema": "source_unit_assembler_production_tick_state_input.in_position_count"
+        },
+        {
+          "name": "allow_update",
+          "type": "bool",
+          "schema": "source_unit_assembler_production_tick_state_input.allow_update"
+        },
+        {
+          "name": "can_create",
+          "type": "bool",
+          "schema": "source_unit_assembler_production_tick_state_input.can_create"
+        },
+        {
+          "name": "power_status",
+          "type": "Variant",
+          "schema": "source_unit_assembler_production_tick_state_input.power_status"
+        },
+        {
+          "name": "edelta",
+          "type": "float",
+          "schema": "source_unit_assembler_production_tick_state_input.edelta"
+        },
+        {
+          "name": "unit_build_speed",
+          "type": "float",
+          "schema": "source_unit_assembler_production_tick_state_input.unit_build_speed"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_unit_assembler_production_tick_state_input.source_delta"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "progress",
+        "warmup",
+        "drone_progress",
+        "total_drone_progress",
+        "completed",
+        "was_occupied"
+      ],
+      "tests": [
+        "test_c06_unit_assembler_production_tick_registration",
+        "test_all_c06_unit_assembler_production_tick_input_evidence_is_exact",
+        "test_unit_assembler_production_tick_state",
+        "test_reference_graph_and_actual_c06_unit_assembler_production_tick"
+      ],
+      "runtime_proof": "/root/C06UnitAssemblerProductionProof",
+      "rule": "Source-backed UnitAssembler live production tick from UnitAssemblerBuild.updateTile()."
     }
   },
   "policy": {

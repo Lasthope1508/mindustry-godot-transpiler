@@ -615,13 +615,15 @@ static func source_unit_factory_tick_buildings_state(game: Object, seconds: floa
 	# updateConsumption's first and second passes every tick, so a
 	# placed unit factory actually consumes — the liquid rows drain
 	# per tick and the item rows gate efficiency on the stacks held.
-	# The frame delta feeds the production tick too (N2137/N2138):
-	# a UnitFactory frame advances progress/time and fires the
-	# completion call through
-	# source_unit_factory_production_tick_state, and a Reconstructor
+	# The frame delta feeds the production tick too
+	# (N2137/N2138/N2139): a UnitFactory frame advances progress/time
+	# and fires the completion call through
+	# source_unit_factory_production_tick_state, a Reconstructor
 	# frame advances progress/time and fires the upgrade call
-	# through source_reconstructor_production_tick_state;
-	# UnitAssembler still reads the consumption half only.
+	# through source_reconstructor_production_tick_state, and a
+	# UnitAssembler frame advances progress/warmup/drones and fires
+	# the spawned() call through
+	# source_unit_assembler_production_tick_state.
 	var results_by_cell := {}
 	var ticked_count := 0
 	if game == null:
@@ -692,15 +694,17 @@ static func source_unit_factory_tick_buildings_state(game: Object, seconds: floa
 				updates.append(actor)
 		var consumption: Dictionary = source_building_efficiency_state.update_consumption_state(_has_consumers_state(block), bool(frame.get("cheating", false)), bool(frame.get("enabled", true)), valid, should_consume, float(frame.get("efficiency_scale", 1.0)), required_results, optional_results, updates, frame)
 		source_building_efficiency_state.apply_update_consumption_state(consumption, frame)
-		# Production (N2137/N2138): a UnitFactory frame advances
+		# Production (N2137/N2138/N2139): a UnitFactory frame advances
 		# progress/time and fires the completion call
 		# (source_unit_factory_production_tick_state —
 		# UnitFactoryBuild.updateTile(), UnitFactory.java:392-442),
-		# and a Reconstructor frame advances progress/time and fires
+		# a Reconstructor frame advances progress/time and fires
 		# the upgrade call (source_reconstructor_production_tick_state
 		# — ReconstructorBuild.updateTile(), Reconstructor.java:
-		# 317-356); UnitAssembler keeps the consumption-only tick
-		# until its own production slice (N2139).
+		# 317-356), and a UnitAssembler frame advances
+		# progress/warmup/drones and fires the spawned() call
+		# (source_unit_assembler_production_tick_state —
+		# UnitAssemblerBuild.updateTile(), UnitAssembler.java:429-571).
 		if str(block.implementation) == "UnitFactory":
 			var production_plan: Dictionary = source_unit_factory_plan_requirements_state(block, int(frame.get("current_plan", -1)))
 			var plans_count: int = Array(block.properties.get("unitPlans", [])).size()
@@ -738,6 +742,58 @@ static func source_unit_factory_tick_buildings_state(game: Object, seconds: floa
 				var reconstructor_consume: Dictionary = source_unit_factory_consume_state(frame, consumers, rows)
 				frame["production_consumed"] = reconstructor_consume
 				frame["unit_created_event"] = bool(reconstructor_production.get("unit_created_event", false))
+		if str(block.implementation) == "UnitAssembler":
+			var assembler_plan: Dictionary = source_unit_factory_assembler_plan_state(block, int(frame.get("current_tier", 0)))
+			# The catalog does not capture dronesCreated /
+			# droneConstructTime yet (UnitAssembler.java:45-46, `public
+			# float droneConstructTime = 60f * 4f;` / `public int
+			# dronesCreated = 4;`), so the driver reads the Java
+			# defaults until a catalog slice lands.
+			var drones_created: int = int(block.properties.get("dronesCreated", 4))
+			var drone_construct_time: float = float(block.properties.get("droneConstructTime", 240.0))
+			var assembler_pay_vector: Dictionary = {"x": 0.0, "y": 0.0}
+			var assembler_recorded_pay_vector: Variant = frame.get("pay_vector", {})
+			if assembler_recorded_pay_vector is Dictionary:
+				assembler_pay_vector = assembler_recorded_pay_vector
+			elif assembler_recorded_pay_vector is Vector2:
+				assembler_pay_vector = {"x": assembler_recorded_pay_vector.x, "y": assembler_recorded_pay_vector.y}
+			var assembler_payload_in_position: bool = Vector2(float(assembler_pay_vector.get("x", 0.0)), float(assembler_pay_vector.get("y", 0.0))).length() <= 0.01
+			# powerStatus (UnitAssembler.java:469, `float powerStatus =
+			# !enabled ? 0f : power == null ? 1f : power.status;`): the
+			# frame records no power_status yet, so null folds to 1.0
+			# and !enabled folds to 0.0 until a power-status slice
+			# lands.
+			var assembler_power_status: Variant = frame.get("power_status", null)
+			var assembler_power_value: float = 0.0 if not bool(frame.get("enabled", true)) else (1.0 if assembler_power_status == null else float(assembler_power_status))
+			# checkSolid has no port yet, so the frame records no
+			# spawn_occupied / spawn_visual_occupied — the driver
+			# reads "spawn free" until a collision slice lands; the
+			# frame records no drones_in_position either, so eff is 0
+			# and no progress advances until a drone-position slice
+			# lands; allow_update defaults true (BuildingComp.
+			# allowUpdate is a team/environment gate with no frame
+			# yet); can_create keeps reading frame["can_create"]
+			# (default true, already read by the N2132 shouldConsume
+			# branch) until C07 evaluates Units.canCreate live.
+			var assembler_production: Dictionary = source_unit_assembler_production_tick_state(frame, assembler_plan, drones_created, drone_construct_time, assembler_payload_in_position, bool(frame.get("spawn_occupied", false)), bool(frame.get("spawn_visual_occupied", false)), int(frame.get("drones_in_position", 0)), bool(frame.get("allow_update", true)), bool(frame.get("can_create", true)), assembler_power_value, float(frame.get("efficiency", 1.0)) * seconds * source_time_defaults.TICK_RATE, _unit_build_speed_state(rules_state, team_id), seconds * source_time_defaults.TICK_RATE)
+			frame["progress"] = float(assembler_production.get("progress", 0.0))
+			frame["warmup"] = float(assembler_production.get("warmup", 0.0))
+			frame["drone_warmup"] = float(assembler_production.get("drone_warmup", 0.0))
+			frame["power_warmup"] = float(assembler_production.get("power_warmup", 0.0))
+			frame["same_type_warmup"] = float(assembler_production.get("same_type_warmup", 0.0))
+			frame["invalid_warmup"] = float(assembler_production.get("invalid_warmup", 0.0))
+			frame["drone_progress"] = float(assembler_production.get("drone_progress", 0.0))
+			frame["total_drone_progress"] = float(assembler_production.get("total_drone_progress", 0.0))
+			frame["current_tier"] = int(assembler_production.get("current_tier", 0))
+			frame["last_tier"] = int(assembler_production.get("last_tier", -2))
+			frame["was_occupied"] = bool(assembler_production.get("was_occupied", false))
+			frame["units_count"] = int(assembler_production.get("units_count", 0))
+			frame["payload"] = assembler_production.get("payload", null)
+			frame["blocks"] = assembler_production.get("blocks", {})
+			if bool(assembler_production.get("completed", false)):
+				var assembler_consume: Dictionary = source_unit_factory_consume_state(frame, consumers, rows)
+				frame["production_consumed"] = assembler_consume
+				frame["unit_created_event"] = bool(assembler_production.get("unit_created_event", false))
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
@@ -972,6 +1028,189 @@ static func source_reconstructor_production_tick_state(frame: Dictionary, constr
 		"consumed": consumed,
 		"unit_created_event": unit_created_event,
 		"moved_out": moved_out,
+	}
+
+static func source_unit_assembler_production_tick_state(frame: Dictionary, plan: Dictionary, drones_created: int, drone_construct_time: float, payload_in_position: bool, spawn_occupied: bool, spawn_visual_occupied: bool, in_position_count: int, allow_update: bool, can_create: bool, power_status: Variant, edelta: float, unit_build_speed: float, source_delta: float) -> Dictionary:
+	# One tick of UnitAssemblerBuild.updateTile()
+	# (UnitAssembler.java:429-571), UnitAssembler only: the tier
+	# reset (`if(lastTier != currentTier){` ... `lastTier == -2 ? -1 : currentTier;`),
+	# the warmup/drone advance, the drone spawn, the
+	# `if(moveInPayload() && !wasOccupied){` intake call site, the
+	# spawn-occupancy warmups, the progress advance
+	# (`if((progress += edelta() * state.rules.unitBuildSpeed(team) * eff / plan.time) >= 1f){`)
+	# and the spawned() call (`Call.assemblerUnitSpawned(tile);` —
+	# consume() + blocks.clear() + the UnitCreateEvent) when
+	# `progress >= 1f`. The frame carries the Building fields Java
+	# reads: efficiency (default 1.0), payload (default null),
+	# blocks (default {} — UnitAssemblerBuild.blocks, the PayloadSeq
+	# module), progress/warmup/drone_warmup/power_warmup/
+	# same_type_warmup/invalid_warmup/drone_progress/
+	# total_drone_progress (defaults 0.0 — UnitAssemblerBuild float
+	# fields, Java default 0f), current_tier (default 0), last_tier
+	# (default -2), was_occupied (default false), units_count
+	# (default 0 — the live units list has no port frame yet, so
+	# the count is carried on the frame) and enabled (default
+	# true). plan is {unit, time} from the N2124
+	# source_unit_factory_assembler_plan_state(block, tier)
+	# (UnitAssembler.java:383-386). power_status is a Variant: null
+	# means no power consumer -> 1.0 (Java `power == null ? 1f :
+	# power.status`); the driver folds !enabled into 0.0 before
+	# passing it. edelta is efficiency * delta
+	# (BuildingComp.edelta(), BuildingComp.java:1927-1928);
+	# unit_build_speed is Rules.unitBuildSpeed(team)
+	# (Rules.java:271-272); source_delta is the tick delta for
+	# lerpDelta (SourceMathState.source_lerp_delta,
+	# Mathf.lerpDelta = lerp(from, to, clamp(progress *
+	# Time.delta))) and for the Java delta() calls (delta() ==
+	# source_delta here, as in N2138). The intake call site runs
+	# the N2131 intake state
+	# (source_unit_factory_assembler_payload_intake_state — the
+	# yeetPayload + acceptPayload gates) with a copy of the frame
+	# whose payload slot is cleared: the intake's frame["payload"]
+	# is the *separately held* payload (N2131 convention: a String
+	# content or null), while the payload being yeeted is the
+	# argument — at the updateTile call site the building holds
+	# only that one payload, so nothing else is held. The cap gate
+	# still runs, and a rejection leaves the payload in the frame
+	# (no yeet) — no bypass. The net readUnits/whenSyncedUnits
+	# sync, the units.removeAll dead/non-AssemblerAI filter, the AI
+	# perimeter arrangement, the drone controller-not-AssemblerAI
+	# bug guard and the Call.assemblerDroneSpawned net call are
+	# deferred (see the N2139 ledger entry); the vanilla
+	# assemblyDrone always has AssemblerAI, so the pure tick spawns
+	# on the gate. The commandable-unit branch (commandPos/command),
+	# the live-world spawn path (unit.set/add/buildOn/
+	# acceptPayload), createSound and Fx.unitAssemble are
+	# presentation/live-world, not state — not modeled, like
+	# N2137/N2138. The completion records the event as state (no
+	# live event bus — like the N2128 consume trigger); the tick
+	# driver performs the consume() call itself on completed and
+	# records the result.
+	var efficiency: float = float(frame.get("efficiency", 1.0))
+	var payload: Variant = frame.get("payload", null)
+	var blocks: Dictionary = frame.get("blocks", {})
+	if not blocks is Dictionary:
+		blocks = {}
+	var progress: float = float(frame.get("progress", 0.0))
+	var warmup: float = float(frame.get("warmup", 0.0))
+	var drone_warmup: float = float(frame.get("drone_warmup", 0.0))
+	var power_warmup: float = float(frame.get("power_warmup", 0.0))
+	var same_type_warmup: float = float(frame.get("same_type_warmup", 0.0))
+	var invalid_warmup: float = float(frame.get("invalid_warmup", 0.0))
+	var drone_progress: float = float(frame.get("drone_progress", 0.0))
+	var total_drone_progress: float = float(frame.get("total_drone_progress", 0.0))
+	var current_tier: int = int(frame.get("current_tier", 0))
+	var last_tier: int = int(frame.get("last_tier", -2))
+	var was_occupied: bool = bool(frame.get("was_occupied", false))
+	var units_count: int = int(frame.get("units_count", 0))
+	var enabled: bool = bool(frame.get("enabled", true))
+	var drone_spawned := false
+	var payload_yeeted := false
+	var completed := false
+	var spawned := false
+	var consumed := false
+	var unit_created_event := false
+	var unsupported := false
+	var units_killed := false
+	# Tier reset FIRST (UnitAssembler.java:441-448): on the first
+	# tick after placement lastTier goes -2 -> -1, NOT to
+	# currentTier; the next tick it catches up.
+	if last_tier != current_tier:
+		if last_tier >= 0:
+			progress = 0.0
+		last_tier = -1 if last_tier == -2 else current_tier
+	# Unsupported (UnitAssembler.java:463-467): progress resets
+	# and the units die, but execution CONTINUES (Java has no
+	# return here): the warmups still run with an empty unit list,
+	# exactly as Java does.
+	if not allow_update:
+		progress = 0.0
+		units_count = 0
+		unsupported = true
+		units_killed = true
+	# Warmups (UnitAssembler.java:469-472): powerWarmup lerps
+	# FROM the current powerStatus (Java passes powerStatus, not
+	# powerWarmup, as the lerp source); droneWarmup lerps toward
+	# powerStatus while a drone slot is free; totalDroneProgress
+	# advances with the NEW droneWarmup, and delta() (not edelta).
+	var power_status_value: float = 1.0 if power_status == null else float(power_status)
+	power_warmup = source_math_state.source_lerp_delta(power_status_value, 1.0 if power_status_value > 0.0001 else 0.0, 0.1, source_delta)
+	drone_warmup = source_math_state.source_lerp_delta(drone_warmup, power_status_value if units_count < drones_created else 0.0, 0.1, source_delta)
+	total_drone_progress += drone_warmup * source_delta
+	# Drone spawn (UnitAssembler.java:474-493): the accumulation
+	# runs only while a slot is free and the building is enabled
+	# (Java short-circuits the && chain); on the gate the drone
+	# spawns and droneProgress resets.
+	if units_count < drones_created and enabled:
+		drone_progress += source_delta * unit_build_speed * power_status_value / drone_construct_time
+		if drone_progress >= 1.0:
+			drone_spawned = true
+			drone_progress = 0.0
+			units_count += 1
+	if units_count >= drones_created:
+		drone_progress = 0.0
+	# Intake call site (UnitAssembler.java:500-503): the payload
+	# moves in and yeets when it has arrived and the spawn was
+	# free LAST tick (wasOccupied is reassigned below, so the gate
+	# reads the incoming value).
+	if payload_in_position and not was_occupied and payload is Dictionary:
+		var intake_frame: Dictionary = frame.duplicate()
+		intake_frame["payload"] = null
+		intake_frame["blocks"] = blocks.duplicate()
+		var intake: Dictionary = source_unit_factory_assembler_payload_intake_state(intake_frame, plan, payload)
+		if bool(intake.get("accepted", false)):
+			payload_yeeted = true
+			payload = null
+			blocks = intake.get("blocks", blocks)
+	# Occupancy + eff (UnitAssembler.java:514-516): wasOccupied is
+	# reassigned from the live checkSolid(spawn, false) input; eff
+	# is the in-position drones over the created drones.
+	was_occupied = spawn_occupied
+	var visual_occupied: bool = spawn_visual_occupied
+	var eff: float = float(in_position_count) / float(drones_created)
+	# Occupancy warmups (UnitAssembler.java:518-519).
+	same_type_warmup = source_math_state.source_lerp_delta(same_type_warmup, 0.0 if (was_occupied and not visual_occupied) else 1.0, 0.1, source_delta)
+	invalid_warmup = source_math_state.source_lerp_delta(invalid_warmup, 1.0 if visual_occupied else 0.0, 0.1, source_delta)
+	# Production gate (UnitAssembler.java:524-531): the gate reads
+	# the NEW wasOccupied; on completion spawned() runs (consume()
+	# + progress = 0f + blocks.clear() + the UnitCreateEvent) and
+	# the tick driver performs the consume() call.
+	if not was_occupied and efficiency > 0.0 and can_create:
+		warmup = source_math_state.source_lerp_delta(warmup, efficiency, 0.1, source_delta)
+		progress += edelta * unit_build_speed * eff / float(plan.get("time", 0.0))
+		if progress >= 1.0:
+			completed = true
+			spawned = true
+			consumed = true
+			unit_created_event = true
+			progress = 0.0
+			blocks = {}
+	else:
+		warmup = source_math_state.source_lerp_delta(warmup, 0.0, 0.1, source_delta)
+	return {
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_ASSEMBLER_PRODUCTION_TICK_STATE,
+		"progress": progress,
+		"warmup": warmup,
+		"drone_warmup": drone_warmup,
+		"power_warmup": power_warmup,
+		"same_type_warmup": same_type_warmup,
+		"invalid_warmup": invalid_warmup,
+		"drone_progress": drone_progress,
+		"total_drone_progress": total_drone_progress,
+		"current_tier": current_tier,
+		"last_tier": last_tier,
+		"was_occupied": was_occupied,
+		"units_count": units_count,
+		"drone_spawned": drone_spawned,
+		"payload_yeeted": payload_yeeted,
+		"completed": completed,
+		"spawned": spawned,
+		"payload": payload,
+		"blocks": blocks,
+		"consumed": consumed,
+		"unit_created_event": unit_created_event,
+		"unsupported": unsupported,
+		"units_killed": units_killed,
 	}
 
 static func source_bind_consumer_state(frame: Dictionary, block: Object, catalog: Object, amounts: Dictionary) -> Dictionary:

@@ -171304,6 +171304,102 @@
         "test_reference_graph_and_actual_c06_reconstructor_production_tick"
       ],
       "runtime_proof": "/root/C06ReconstructorProductionProof"
+    },
+    "source_unit_assembler_production_tick_state_result.progress": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_assembler_production_tick_state",
+      "godot_symbol": "source_unit_assembler_production_tick_state_result.progress",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "java_method": "UnitAssemblerBuild.updateTile()",
+      "java_expr": "if((progress += edelta() * state.rules.unitBuildSpeed(team) * eff / plan.time) >= 1f){",
+      "rule": "The frame progress after the tick: advanced by edelta * unit_build_speed * eff / plan.time while producing, reset to 0.0 on completion (spawned() sets progress = 0f) and on tier change, unchanged when occupied, efficiency 0, or can_create false.",
+      "tests": [
+        "test_c06_unit_assembler_production_tick_registration",
+        "test_all_c06_unit_assembler_production_tick_input_evidence_is_exact",
+        "test_unit_assembler_production_tick_state",
+        "test_reference_graph_and_actual_c06_unit_assembler_production_tick"
+      ],
+      "runtime_proof": "/root/C06UnitAssemblerProductionProof"
+    },
+    "source_unit_assembler_production_tick_state_result.warmup": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_assembler_production_tick_state",
+      "godot_symbol": "source_unit_assembler_production_tick_state_result.warmup",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "java_method": "UnitAssemblerBuild.updateTile()",
+      "java_expr": "warmup = Mathf.lerpDelta(warmup, efficiency, 0.1f);",
+      "rule": "The frame warmup after the tick: lerped toward efficiency while producing, toward 0.0 otherwise (0.1 per tick).",
+      "tests": [
+        "test_c06_unit_assembler_production_tick_registration",
+        "test_all_c06_unit_assembler_production_tick_input_evidence_is_exact",
+        "test_unit_assembler_production_tick_state",
+        "test_reference_graph_and_actual_c06_unit_assembler_production_tick"
+      ],
+      "runtime_proof": "/root/C06UnitAssemblerProductionProof"
+    },
+    "source_unit_assembler_production_tick_state_result.drone_progress": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_assembler_production_tick_state",
+      "godot_symbol": "source_unit_assembler_production_tick_state_result.drone_progress",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "java_method": "UnitAssemblerBuild.updateTile()",
+      "java_expr": "if(units.size < dronesCreated && enabled && (droneProgress += delta() * state.rules.unitBuildSpeed(team) * powerStatus / droneConstructTime) >= 1f){",
+      "rule": "The drone progress after the tick: advanced by source_delta * unit_build_speed * power_status / drone_construct_time while a drone slot is free, reset to 0.0 on spawn and when all slots are filled.",
+      "tests": [
+        "test_c06_unit_assembler_production_tick_registration",
+        "test_all_c06_unit_assembler_production_tick_input_evidence_is_exact",
+        "test_unit_assembler_production_tick_state",
+        "test_reference_graph_and_actual_c06_unit_assembler_production_tick"
+      ],
+      "runtime_proof": "/root/C06UnitAssemblerProductionProof"
+    },
+    "source_unit_assembler_production_tick_state_result.total_drone_progress": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_assembler_production_tick_state",
+      "godot_symbol": "source_unit_assembler_production_tick_state_result.total_drone_progress",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "java_method": "UnitAssemblerBuild.updateTile()",
+      "java_expr": "totalDroneProgress += droneWarmup * delta();",
+      "rule": "The total drone progress after the tick: advanced by the new drone_warmup * source_delta every tick.",
+      "tests": [
+        "test_c06_unit_assembler_production_tick_registration",
+        "test_all_c06_unit_assembler_production_tick_input_evidence_is_exact",
+        "test_unit_assembler_production_tick_state",
+        "test_reference_graph_and_actual_c06_unit_assembler_production_tick"
+      ],
+      "runtime_proof": "/root/C06UnitAssemblerProductionProof"
+    },
+    "source_unit_assembler_production_tick_state_result.completed": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_assembler_production_tick_state",
+      "godot_symbol": "source_unit_assembler_production_tick_state_result.completed",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "java_method": "UnitAssemblerBuild.updateTile()",
+      "java_expr": "Call.assemblerUnitSpawned(tile);",
+      "rule": "True when progress reached 1.0 this tick: spawned() fired (consume() + blocks.clear() + UnitCreateEvent) and the tick driver performs the N2128 consume call.",
+      "tests": [
+        "test_c06_unit_assembler_production_tick_registration",
+        "test_all_c06_unit_assembler_production_tick_input_evidence_is_exact",
+        "test_unit_assembler_production_tick_state",
+        "test_reference_graph_and_actual_c06_unit_assembler_production_tick"
+      ],
+      "runtime_proof": "/root/C06UnitAssemblerProductionProof"
+    },
+    "source_unit_assembler_production_tick_state_result.was_occupied": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_assembler_production_tick_state",
+      "godot_symbol": "source_unit_assembler_production_tick_state_result.was_occupied",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "java_method": "UnitAssemblerBuild.updateTile()",
+      "java_expr": "wasOccupied = checkSolid(spawn, false);",
+      "rule": "The spawn occupancy after the tick: the spawn_occupied input (live checkSolid(spawn, false)); the production gate reads the new value.",
+      "tests": [
+        "test_c06_unit_assembler_production_tick_registration",
+        "test_all_c06_unit_assembler_production_tick_input_evidence_is_exact",
+        "test_unit_assembler_production_tick_state",
+        "test_reference_graph_and_actual_c06_unit_assembler_production_tick"
+      ],
+      "runtime_proof": "/root/C06UnitAssemblerProductionProof"
     }
   },
   "version": 1

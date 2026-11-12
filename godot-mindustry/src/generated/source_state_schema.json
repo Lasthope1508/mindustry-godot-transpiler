@@ -226864,6 +226864,224 @@
       },
       "runtime_proof": "/root/C06ReconstructorProductionProof",
       "rule": "Source-backed Reconstructor live production tick from ReconstructorBuild.updateTile()."
+    },
+    "source_unit_assembler_production_tick_state_input": {
+      "status": "active",
+      "owner": "SourceUnitFactoryBuildState.source_unit_assembler_production_tick_state",
+      "source_slice": "N2139",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "public void updateTile(){",
+          "rule": "The assembler frame; carries efficiency (default 1.0), payload (default null), blocks (default {}), progress/warmup/drone_warmup/power_warmup/same_type_warmup/invalid_warmup/drone_progress/total_drone_progress (defaults 0.0 -- UnitAssemblerBuild float fields, Java default 0f), current_tier (default 0), last_tier (default -2), was_occupied (default false), units_count (default 0), enabled (default true).",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_assembler_production_tick_state"
+          ]
+        },
+        "plan": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "return plans.get(Math.min(currentTier, plans.size - 1));",
+          "rule": "The current tier plan {unit, time} from the N2124 source_unit_factory_assembler_plan_state(block, tier) (UnitAssembler.java:383-386).",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_assembler_production_tick_state"
+          ]
+        },
+        "drones_created": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "public int dronesCreated = 4;",
+          "rule": "block.properties.dronesCreated (UnitAssembler.java:46, default 4); the catalog does not capture it yet, so the driver reads the default until a catalog slice lands.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_assembler_production_tick_state"
+          ]
+        },
+        "drone_construct_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "public float droneConstructTime = 60f * 4f;",
+          "rule": "block.properties.droneConstructTime (UnitAssembler.java:45, default 240.0 = 60 * 4); the catalog does not capture it yet, so the driver reads the default until a catalog slice lands.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_assembler_production_tick_state"
+          ]
+        },
+        "payload_in_position": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "return payVector.isZero(0.01f);",
+          "rule": "The moveInPayload() result (PayloadBlock.java:186-196 returns hasArrived(), i.e. payVector.isZero(0.01f)), read from the frame pay_vector like the N2138 driver.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_assembler_production_tick_state"
+          ]
+        },
+        "spawn_occupied": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "wasOccupied = checkSolid(spawn, false);",
+          "rule": "The live checkSolid(spawn, false) result; the frame records no spawn_occupied yet, so the driver defaults false (\"spawn free\") until a collision slice lands.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_assembler_production_tick_state"
+          ]
+        },
+        "spawn_visual_occupied": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "boolean visualOccupied = checkSolid(spawn, true);",
+          "rule": "The live checkSolid(spawn, true) result; the frame records no spawn_visual_occupied yet, so the driver defaults false until a collision slice lands.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_assembler_production_tick_state"
+          ]
+        },
+        "in_position_count": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "float eff = (units.count(u -> ((AssemblerAI)u.controller()).inPosition()) / (float)dronesCreated);",
+          "rule": "Drones in position (AssemblerAI.inPosition()); the frame records no drones_in_position yet, so the driver defaults 0 -- eff 0 and no progress until a drone-position slice lands.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_assembler_production_tick_state"
+          ]
+        },
+        "allow_update": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "if(!allowUpdate()){",
+          "rule": "BuildingComp.allowUpdate() (BuildingComp.java:622-627, team/environment/map-area gate); the frame records no allow_update yet, so the driver defaults true.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_assembler_production_tick_state"
+          ]
+        },
+        "can_create": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "if(!wasOccupied && efficiency > 0 && Units.canCreate(team, plan.unit)){",
+          "rule": "Units.canCreate(team, plan.unit); the live evaluation needs C07, so the driver keeps reading frame[\"can_create\"], default true (already read by the N2132 shouldConsume branch).",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_assembler_production_tick_state"
+          ]
+        },
+        "power_status": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;",
+          "rule": "The power status: null means no power consumer -> 1.0 (Java power == null ? 1f : power.status); the driver folds !enabled into 0.0 before passing it.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_assembler_production_tick_state"
+          ]
+        },
+        "edelta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return efficiency * delta();",
+          "rule": "efficiency * delta (BuildingComp.edelta(), BuildingComp.java:1927-1928).",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_assembler_production_tick_state"
+          ]
+        },
+        "unit_build_speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Rules.java",
+          "java_expr": "return unitBuildSpeedMultiplier * teams.get(team).unitBuildSpeedMultiplier;",
+          "rule": "Rules.unitBuildSpeed(team) (Rules.java:271-272): the global unitBuildSpeedMultiplier (default 1f) times the team multiplier (default 1f).",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_assembler_production_tick_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "powerWarmup = Mathf.lerpDelta(powerStatus, powerStatus > 0.0001f ? 1f : 0f, 0.1f);",
+          "rule": "The tick delta for lerpDelta (SourceMathState.source_lerp_delta, Mathf.lerpDelta = lerp(from, to, clamp(progress * Time.delta))).",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_assembler_production_tick_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06UnitAssemblerProductionProof",
+      "rule": "Source-backed UnitAssembler live production tick from UnitAssemblerBuild.updateTile()."
+    },
+    "source_unit_assembler_production_tick_state_result": {
+      "status": "active",
+      "owner": "SourceUnitFactoryBuildState.source_unit_assembler_production_tick_state",
+      "source_slice": "N2139",
+      "keys": {
+        "progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "if((progress += edelta() * state.rules.unitBuildSpeed(team) * eff / plan.time) >= 1f){",
+          "rule": "The frame progress after the tick: advanced by edelta * unit_build_speed * eff / plan.time while producing, reset to 0.0 on completion (spawned() sets progress = 0f) and on tier change, unchanged when occupied, efficiency 0, or can_create false.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_assembler_production_tick_state"
+          ]
+        },
+        "warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "warmup = Mathf.lerpDelta(warmup, efficiency, 0.1f);",
+          "rule": "The frame warmup after the tick: lerped toward efficiency while producing, toward 0.0 otherwise (0.1 per tick).",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_assembler_production_tick_state"
+          ]
+        },
+        "drone_progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "if(units.size < dronesCreated && enabled && (droneProgress += delta() * state.rules.unitBuildSpeed(team) * powerStatus / droneConstructTime) >= 1f){",
+          "rule": "The drone progress after the tick: advanced by source_delta * unit_build_speed * power_status / drone_construct_time while a drone slot is free, reset to 0.0 on spawn and when all slots are filled.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_assembler_production_tick_state"
+          ]
+        },
+        "total_drone_progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "totalDroneProgress += droneWarmup * delta();",
+          "rule": "The total drone progress after the tick: advanced by the new drone_warmup * source_delta every tick.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_assembler_production_tick_state"
+          ]
+        },
+        "completed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "Call.assemblerUnitSpawned(tile);",
+          "rule": "True when progress reached 1.0 this tick: spawned() fired (consume() + blocks.clear() + UnitCreateEvent) and the tick driver performs the N2128 consume call.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_assembler_production_tick_state"
+          ]
+        },
+        "was_occupied": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "wasOccupied = checkSolid(spawn, false);",
+          "rule": "The spawn occupancy after the tick: the spawn_occupied input (live checkSolid(spawn, false)); the production gate reads the new value.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_assembler_production_tick_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06UnitAssemblerProductionProof",
+      "rule": "Source-backed UnitAssembler live production tick from UnitAssemblerBuild.updateTile()."
     }
   },
   "version": 1
