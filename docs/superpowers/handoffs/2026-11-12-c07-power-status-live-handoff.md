@@ -1,6 +1,6 @@
 # Handoff — N2142: power.status live read — PowerGraph.distributePower consumer write-back (C07)
 
-Date: 2026-11-13. Batch: N2142 (single slice). Status: **DONE + PUSHED 2026-11-13 ~01:15 +07 (01:00 cron run). Targeted 4/4 OK + neighbours 26/26 OK (independently re-verified this run), Godot proof GREEN, full gate verified clean except Godot (Ran 5665, failures=93, skipped=5, 0 errors — all 93 Godot-absent asserts). Slice commit bec3f30 + docs commit <TBD> on origin main; see "Gate certification" below.**
+Date: 2026-11-13. Batch: N2142 (single slice). Status: **DONE + PUSHED 2026-11-13 ~01:15 +07 (01:00 cron run). Targeted 4/4 OK + neighbours 26/26 OK (independently re-verified this run), Godot proof GREEN, full gate verified clean except Godot (Ran 5665, failures=93, skipped=5, 0 errors — all 93 Godot-absent asserts). Slice commit bec3f30 + docs commit 4a80651 on origin main; see "Gate certification" below.**
 
 ## RED progress (00:15 cron run)
 
@@ -72,7 +72,7 @@ Composition, not re-implementation: `distributePower` already has a pure functio
 - GREEN done 2026-11-13 ~00:30 +07 (00:30 cron run, timed out before logging; completed by main thread ~00:46): register script executed (SSOT actuals **11296/1593/1514/2819**, matching the RED expectation exactly); 2 pure functions `source_consumer_power_status_for_cell_state` + `source_consumer_set_power_status_for_cell_state` in `SourcePlacedPowerGraphState.gd`; write-back wired in `SourceFactoryRuntimeState.gd` after the battery write-back; stale comment in `SourceUnitFactoryBuildState.gd` replaced with the live-stamp comment; proof scene `C07PowerStatusLiveProof` (.gd + .tscn + .json, FakeGame, 7 keys). Targeted 4/4 OK + neighbours 26/26 OK **independently re-verified this run** (targeted 4/4 in 4.857s; neighbours 26/26 in 133.077s, sequential, Godot on PATH). `git diff --check` clean.
 - Full gate **attempt 1 (worker, PID 12393, detached) DIED session-end ~00:45** (log frozen 3453 bytes, preserved as `full-suite-n2142-gate-attempt1.log`).
 - Full gate **attempt 2 (main thread, PID 12741, setsid, SID 12741, launched ~00:46, javalang verified OK) FINISHED ~01:01 +07: Ran 5665 tests in 904.240s, FAILED (failures=93, skipped=5), 0 errors — CERTIFIED clean except Godot this run: 93 `FAIL:` blocks, every one `assertIsNotNone(godot)` / `unexpectedly None` (92 inherited + new N2142 proof test `test_reference_graph_and_actual_c07_power_status_live`, which passes with Godot present), 0 `ERROR:` blocks, 0 non-Godot failures; the N2142 module shows no failure other than its Godot-proof test.** Log: `tools/mindustry_godot_transpiler/full-suite-n2142-gate.log`.
-- Slice commits this run (01:00 cron run): slice commit bec3f30 + docs commit <TBD> on origin main. Report: `docs/superpowers/reports/2026-11-13-c07-power-status-live.md`. Design spec: Status Summary 1592→1593, N2142 checklist + changelog rows.
+- Slice commits this run (01:00 cron run): slice commit bec3f30 + docs commit 4a80651 on origin main. Report: `docs/superpowers/reports/2026-11-13-c07-power-status-live.md`. Design spec: Status Summary 1592→1593, N2142 checklist + changelog rows.
 
 ## Next (after N2142 lands)
 
