@@ -141,8 +141,7 @@ The Reconstructor half of the live production wiring, the next item on the N2137
 
 ## Commit
 
-- Slice commit: `8cab9ae` — "C06: N2138 Reconstructor live production tick (progress/time/speedScl advance + upgrade call; tick driver calls N2128 consume state on completed; N2128 test-only guard fix)" (11 files, +906/-11).
-- Docs commit: (hash filled after push — see below)
+DONE + PUSHED 2026-11-12 ~20:25 +07 (20:15 cron run): slice commit 8cab9ae (11 files, `git diff --check` clean) + docs commit e230921 (this handoff + report + design spec) on origin main. Gate verified clean except Godot (Ran 5649, failures=89, skipped=5, 0 errors — all 89 Godot-absent asserts).
 
 ## Next (after N2138 lands)
 
