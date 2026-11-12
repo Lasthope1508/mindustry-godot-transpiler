@@ -360,6 +360,89 @@ static func source_unit_factory_assembler_payload_trigger_state(frame: Dictionar
 	blocks.clear()
 	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_FACTORY_BUILD_ASSEMBLER_PAYLOAD_TRIGGER_STATE, "triggered": triggered, "removed": removed, "cleared": true, "blocks": blocks.duplicate(), "total": 0}
 
+static func source_unit_factory_assembler_payload_intake_state(frame: Dictionary, plan: Dictionary, payload: Dictionary) -> Dictionary:
+	# UnitAssemblerBuild.yeetPayload (UnitAssembler.java:688-690):
+	# `public void yeetPayload(Payload payload){ var spawn =
+	# getUnitSpawn(); blocks.add(payload.content(), 1); ... }` — the
+	# state half is the one blocks.add; the Fx/sound lines are
+	# presentation, not state. Called from updateTile at
+	# UnitAssembler.java:500-503: `if(moveInPayload() &&
+	# !wasOccupied){ yeetPayload(payload); payload = null; }`. The
+	# accept gates decide whether the payload fits the current plan:
+	# acceptUnitPayload (UnitAssembler.java:710-714): `public boolean
+	# acceptUnitPayload(Unit unit){ var plan = plan(); return
+	# plan.requirements.contains(b -> b.item == unit.type() &&
+	# blocks.get(unit.type()) < Mathf.round(b.amount *
+	# state.rules.unitCost(team))); }` — no held-payload
+	# precondition, no module adjustment; acceptPayload
+	# (UnitAssembler.java:722-727): `public boolean
+	# acceptPayload(Building source, Payload payload){ var plan =
+	# plan(); return (this.payload == null || (source instanceof UnitAssemblerModuleBuild))
+	# && plan.requirements.contains(b -> b.item == payload.content()
+	# && blocks.get(payload.content()) < Mathf.round(b.amount * state.rules.unitCost(team))
+	# - (source instanceof UnitAssemblerModuleBuild && (this.payload
+	# != null && this.payload.contentEquals(payload)) ? 1 : 0)); }`
+	# — the in-transit module payload already counts as one, so the
+	# cap drops by one when the source is a module and the frame
+	# still holds the same content (contentEquals(payload)).
+	# PayloadSeq.add
+	# (PayloadSeq.java:33-38) is `public void add(UnlockableContent
+	# block, int amount){ if(block == null) return;
+	# payloads.increment(block, amount); total += amount; }` —
+	# add(block) is add(block, 1); get(block) is payloads.get(block)
+	# (missing reads 0). A null/empty content can never pass a gate
+	# — no requirement row matches it — so the add null early-return
+	# needs no separate branch. The multiplier is the family's
+	# Rules.unitCost callback (UnitAssembler.java:175,
+	# `consumeBuilder.each(c -> c.multiplier = b ->
+	# state.rules.unitCost(b.team))`), read through the N2097
+	# callback like the N2129 efficiency; the Consume default
+	# (Consume.java:18, `public Floatf<Building> multiplier = b ->
+	# 1f;`) is what a frame outside the family keeps. The function
+	# is pure apart from the frame's own module: it gates the
+	# incoming payload, adds one of its content when accepted, and
+	# returns the module snapshot. It is not wired into the tick
+	# driver or the shouldConsume gate — the intake runs only when a
+	# payload arrives; the live-loop call site (moveInPayload() &&
+	# !wasOccupied, UnitAssembler.java:500-503) is a later wiring
+	# slice.
+	var blocks: Dictionary = frame.get("blocks", {})
+	if not blocks is Dictionary:
+		blocks = {}
+	var requirements: Array = plan.get("requirements", [])
+	var multiplier: float = float(source_consume_state.source_cost_multiplier_for_block_state(frame).get("multiplier", 1.0))
+	var content: String = str(payload.get("content", ""))
+	var kind: String = str(payload.get("kind", "block"))
+	var source_is_module: bool = bool(payload.get("source_is_module", false))
+	var held_payload: Variant = frame.get("payload", null)
+	var held_content: String = str(held_payload) if held_payload is String else ""
+	var accepted := false
+	for stack in requirements:
+		if not stack is Dictionary:
+			continue
+		if str(stack.get("item", "")) != content:
+			continue
+		var cap: int = int(round(float(stack.get("amount", 0)) * multiplier))
+		if kind == "unit":
+			if int(blocks.get(content, 0)) < cap:
+				accepted = true
+				break
+			continue
+		var adjustment := 0
+		if source_is_module and held_payload != null and held_content == content:
+			adjustment = 1
+		if (held_payload == null or source_is_module) and int(blocks.get(content, 0)) < cap - adjustment:
+			accepted = true
+			break
+	var added := 0
+	if accepted:
+		blocks[content] = int(blocks.get(content, 0)) + 1
+		added = 1
+	var total := 0
+	for held in blocks.values():
+		total += int(held)
+	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_FACTORY_BUILD_ASSEMBLER_PAYLOAD_INTAKE_STATE, "accepted": accepted, "added": added, "blocks": blocks.duplicate(), "total": total}
+
 static func source_unit_factory_should_consume_state(frame: Dictionary, block: Object, game: Object) -> Dictionary:
 	# The per-class shouldConsume() bodies, wired into the live loop
 	# (N2124 — the N2120 tick passed the frame's enabled flag until

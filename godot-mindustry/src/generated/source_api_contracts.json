@@ -64098,6 +64098,44 @@
       ],
       "runtime_proof": "/root/C06UnitAssemblerPayloadTriggerProof",
       "rule": "Source-backed UnitAssembler payload trigger at unit completion + spawned() blocks.clear()."
+    },
+    "SourceUnitFactoryBuildState.source_unit_factory_assembler_payload_intake_state": {
+      "status": "active",
+      "source_slice": "N2131",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "source_method": "UnitAssemblerBuild.yeetPayload(Payload); UnitAssemblerBuild.acceptPayload(Building, Payload); UnitAssemblerBuild.acceptUnitPayload(Unit)",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_unit_factory_assembler_payload_intake_state_input.frame"
+        },
+        {
+          "name": "plan",
+          "type": "Dictionary",
+          "schema": "source_unit_factory_assembler_payload_intake_state_input.plan"
+        },
+        {
+          "name": "payload",
+          "type": "Dictionary",
+          "schema": "source_unit_factory_assembler_payload_intake_state_input.payload"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "accepted",
+        "added",
+        "blocks",
+        "total"
+      ],
+      "tests": [
+        "test_c06_unit_assembler_payload_intake_registration",
+        "test_all_c06_unit_assembler_payload_intake_input_evidence_is_exact",
+        "test_assembler_payload_intake_gates_then_adds_one",
+        "test_reference_graph_and_actual_c06_unit_assembler_payload_intake"
+      ],
+      "runtime_proof": "/root/C06UnitAssemblerPayloadIntakeProof",
+      "rule": "Source-backed UnitAssembler payload intake: accept gates + yeetPayload blocks.add."
     }
   },
   "policy": {

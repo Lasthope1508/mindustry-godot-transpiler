@@ -170864,6 +170864,118 @@
         "test_reference_graph_and_actual_c06_unit_assembler_payload_trigger"
       ],
       "runtime_proof": "/root/C06UnitAssemblerPayloadTriggerProof"
+    },
+    "source_unit_factory_assembler_payload_intake_state_input.frame": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_assembler_payload_intake_state",
+      "godot_symbol": "source_unit_factory_assembler_payload_intake_state_input.frame",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "java_method": "UnitAssemblerBuild.yeetPayload(Payload); UnitAssemblerBuild.acceptPayload(Building, Payload); UnitAssemblerBuild.acceptUnitPayload(Unit)",
+      "java_expr": "public PayloadSeq blocks = new PayloadSeq();",
+      "rule": "The assembler frame; its blocks dict is the building payload module (UnitAssemblerBuild.blocks, a PayloadSeq), missing key reads as an empty module, and its payload key is the currently held single payload content name or null.",
+      "tests": [
+        "test_c06_unit_assembler_payload_intake_registration",
+        "test_all_c06_unit_assembler_payload_intake_input_evidence_is_exact",
+        "test_assembler_payload_intake_gates_then_adds_one",
+        "test_reference_graph_and_actual_c06_unit_assembler_payload_intake"
+      ],
+      "runtime_proof": "/root/C06UnitAssemblerPayloadIntakeProof"
+    },
+    "source_unit_factory_assembler_payload_intake_state_input.plan": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_assembler_payload_intake_state",
+      "godot_symbol": "source_unit_factory_assembler_payload_intake_state_input.plan",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "java_method": "UnitAssemblerBuild.yeetPayload(Payload); UnitAssemblerBuild.acceptPayload(Building, Payload); UnitAssemblerBuild.acceptUnitPayload(Unit)",
+      "java_expr": "consume(consPayload = new ConsumePayloadDynamic((UnitAssemblerBuild build) -> build.plan().requirements));",
+      "rule": "The current tier plan (AssemblerUnitPlan); its requirements are the accept-gate rows the intake checks the incoming payload against.",
+      "tests": [
+        "test_c06_unit_assembler_payload_intake_registration",
+        "test_all_c06_unit_assembler_payload_intake_input_evidence_is_exact",
+        "test_assembler_payload_intake_gates_then_adds_one",
+        "test_reference_graph_and_actual_c06_unit_assembler_payload_intake"
+      ],
+      "runtime_proof": "/root/C06UnitAssemblerPayloadIntakeProof"
+    },
+    "source_unit_factory_assembler_payload_intake_state_input.payload": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_assembler_payload_intake_state",
+      "godot_symbol": "source_unit_factory_assembler_payload_intake_state_input.payload",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "java_method": "UnitAssemblerBuild.yeetPayload(Payload); UnitAssemblerBuild.acceptPayload(Building, Payload); UnitAssemblerBuild.acceptUnitPayload(Unit)",
+      "java_expr": "public void yeetPayload(Payload payload){",
+      "rule": "The incoming payload descriptor: content name, kind \"block\" or \"unit\" (which gate it goes through), and source_is_module mirroring source instanceof UnitAssemblerModuleBuild.",
+      "tests": [
+        "test_c06_unit_assembler_payload_intake_registration",
+        "test_all_c06_unit_assembler_payload_intake_input_evidence_is_exact",
+        "test_assembler_payload_intake_gates_then_adds_one",
+        "test_reference_graph_and_actual_c06_unit_assembler_payload_intake"
+      ],
+      "runtime_proof": "/root/C06UnitAssemblerPayloadIntakeProof"
+    },
+    "source_unit_factory_assembler_payload_intake_state_result.accepted": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_assembler_payload_intake_state",
+      "godot_symbol": "source_unit_factory_assembler_payload_intake_state_result.accepted",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "java_method": "UnitAssemblerBuild.yeetPayload(Payload); UnitAssemblerBuild.acceptPayload(Building, Payload); UnitAssemblerBuild.acceptUnitPayload(Unit)",
+      "java_expr": "public boolean acceptPayload(Building source, Payload payload){",
+      "rule": "Whether the accept gate passed: (frame payload == null or source_is_module) and a plan requirement row has b.item == content and blocks.get(content) < round(amount * multiplier) minus the in-transit module adjustment; unit payloads go through acceptUnitPayload with no held-payload precondition and no adjustment.",
+      "tests": [
+        "test_c06_unit_assembler_payload_intake_registration",
+        "test_all_c06_unit_assembler_payload_intake_input_evidence_is_exact",
+        "test_assembler_payload_intake_gates_then_adds_one",
+        "test_reference_graph_and_actual_c06_unit_assembler_payload_intake"
+      ],
+      "runtime_proof": "/root/C06UnitAssemblerPayloadIntakeProof"
+    },
+    "source_unit_factory_assembler_payload_intake_state_result.added": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_assembler_payload_intake_state",
+      "godot_symbol": "source_unit_factory_assembler_payload_intake_state_result.added",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "java_method": "UnitAssemblerBuild.yeetPayload(Payload); UnitAssemblerBuild.acceptPayload(Building, Payload); UnitAssemblerBuild.acceptUnitPayload(Unit)",
+      "java_expr": "blocks.add(payload.content(), 1);",
+      "rule": "How many of the payload content yeetPayload added to the module: 1 when accepted, 0 when rejected.",
+      "tests": [
+        "test_c06_unit_assembler_payload_intake_registration",
+        "test_all_c06_unit_assembler_payload_intake_input_evidence_is_exact",
+        "test_assembler_payload_intake_gates_then_adds_one",
+        "test_reference_graph_and_actual_c06_unit_assembler_payload_intake"
+      ],
+      "runtime_proof": "/root/C06UnitAssemblerPayloadIntakeProof"
+    },
+    "source_unit_factory_assembler_payload_intake_state_result.blocks": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_assembler_payload_intake_state",
+      "godot_symbol": "source_unit_factory_assembler_payload_intake_state_result.blocks",
+      "java_source": "core/src/mindustry/type/PayloadSeq.java",
+      "java_method": "UnitAssemblerBuild.yeetPayload(Payload); UnitAssemblerBuild.acceptPayload(Building, Payload); UnitAssemblerBuild.acceptUnitPayload(Unit)",
+      "java_expr": "public void add(UnlockableContent block, int amount){",
+      "rule": "The building payload module snapshot after the intake: PayloadSeq.add increments the content count and the total.",
+      "tests": [
+        "test_c06_unit_assembler_payload_intake_registration",
+        "test_all_c06_unit_assembler_payload_intake_input_evidence_is_exact",
+        "test_assembler_payload_intake_gates_then_adds_one",
+        "test_reference_graph_and_actual_c06_unit_assembler_payload_intake"
+      ],
+      "runtime_proof": "/root/C06UnitAssemblerPayloadIntakeProof"
+    },
+    "source_unit_factory_assembler_payload_intake_state_result.total": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_assembler_payload_intake_state",
+      "godot_symbol": "source_unit_factory_assembler_payload_intake_state_result.total",
+      "java_source": "core/src/mindustry/type/PayloadSeq.java",
+      "java_method": "UnitAssemblerBuild.yeetPayload(Payload); UnitAssemblerBuild.acceptPayload(Building, Payload); UnitAssemblerBuild.acceptUnitPayload(Unit)",
+      "java_expr": "total += amount;",
+      "rule": "PayloadSeq.total() after the intake: the module total, up by one when accepted.",
+      "tests": [
+        "test_c06_unit_assembler_payload_intake_registration",
+        "test_all_c06_unit_assembler_payload_intake_input_evidence_is_exact",
+        "test_assembler_payload_intake_gates_then_adds_one",
+        "test_reference_graph_and_actual_c06_unit_assembler_payload_intake"
+      ],
+      "runtime_proof": "/root/C06UnitAssemblerPayloadIntakeProof"
     }
   },
   "version": 1

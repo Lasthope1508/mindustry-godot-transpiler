@@ -54841,6 +54841,63 @@
         "A disabled conveyor reads efficiency 0 in Java (BuildingComp.java:1943-1948) but the port carries no per-belt efficiency yet, so a disabled belt still advances.",
         "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2131": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "java_class": "mindustry.world.blocks.units.UnitAssembler.UnitAssemblerBuild",
+      "java_method": "UnitAssemblerBuild.yeetPayload(Payload); UnitAssemblerBuild.acceptPayload(Building, Payload); UnitAssemblerBuild.acceptUnitPayload(Unit)",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_assembler_payload_intake_state",
+      "exact_exprs": [
+        "public void yeetPayload(Payload payload){",
+        "blocks.add(payload.content(), 1);",
+        "public boolean acceptUnitPayload(Unit unit){",
+        "return plan.requirements.contains(b -> b.item == unit.type() &&",
+        "blocks.get(unit.type()) < Mathf.round(b.amount * state.rules.unitCost(team)));",
+        "public boolean acceptPayload(Building source, Payload payload){",
+        "return (this.payload == null || (source instanceof UnitAssemblerModuleBuild)) &&",
+        "plan.requirements.contains(b -> b.item == payload.content() &&",
+        "blocks.get(payload.content()) < Mathf.round(b.amount * state.rules.unitCost(team)) -",
+        "(source instanceof UnitAssemblerModuleBuild && (this.payload != null && this.payload.contentEquals(payload)) ? 1 : 0));",
+        "public PayloadSeq blocks = new PayloadSeq();",
+        "public PayloadSeq getPayloads(){",
+        "return blocks;",
+        "consumeBuilder.each(c -> c.multiplier = b -> state.rules.unitCost(b.team));",
+        "if(moveInPayload() && !wasOccupied){",
+        "yeetPayload(payload);",
+        "consume(consPayload = new ConsumePayloadDynamic((UnitAssemblerBuild build) -> build.plan().requirements));",
+        "public void add(UnlockableContent block, int amount){",
+        "if(block == null) return;",
+        "payloads.increment(block, amount);",
+        "total += amount;",
+        "public boolean moveInPayload(boolean rotate){",
+        "public Floatf<Building> multiplier = b -> 1f;"
+      ],
+      "source_symbols": [
+        "source_unit_factory_assembler_payload_intake_state_input.frame",
+        "source_unit_factory_assembler_payload_intake_state_input.payload",
+        "source_unit_factory_assembler_payload_intake_state_input.plan",
+        "source_unit_factory_assembler_payload_intake_state_result.accepted",
+        "source_unit_factory_assembler_payload_intake_state_result.added",
+        "source_unit_factory_assembler_payload_intake_state_result.blocks",
+        "source_unit_factory_assembler_payload_intake_state_result.total"
+      ],
+      "tests": [
+        "test_c06_unit_assembler_payload_intake_registration",
+        "test_all_c06_unit_assembler_payload_intake_input_evidence_is_exact",
+        "test_assembler_payload_intake_gates_then_adds_one",
+        "test_reference_graph_and_actual_c06_unit_assembler_payload_intake"
+      ],
+      "runtime_proof": "/root/C06UnitAssemblerPayloadIntakeProof",
+      "deferred_exprs": [
+        "Wiring the payload efficiency into the shouldConsume gate: the gate keeps reading the frame payload_efficiency default (1.0, N2124) until then, and the N2124 proof assembler-default/live keys (empty blocks read 1.0 there) update with the wiring.",
+        "checkTier from the module tiers (UnitAssembler.java:360-376, modules sorted by tier, a tier gap stops the climb) -- plan() clamping is already in the port (N2124).",
+        "Live production wiring: the tick driver advances no progress and calls no spawned() yet -- UnitFactory progress (UnitFactory.java:401-403), Reconstructor progress (Reconstructor.java:330-348) and UnitAssembler spawned() (UnitAssembler.java:544-571) are the production slice; the intake call site (moveInPayload() && !wasOccupied, UnitAssembler.java:500-503) is the wiring that calls this slice when a payload arrives.",
+        "The unit-factory frames keep the N2125 enabled-only power stamp: their per-class shouldConsume bodies (N2124) are plan-gated, and wiring them to the power stamp needs a unit-factory proof setup of its own.",
+        "PowerGraph.getBatteryStored gates on battery.enabled (PowerGraph.java:118-126), but the battery has no tick frame in the port, so its live enabled flag cannot be read yet; the battery dict keeps its static enabled value.",
+        "A disabled conveyor reads efficiency 0 in Java (BuildingComp.java:1943-1948) but the port carries no per-belt efficiency yet, so a disabled belt still advances.",
+        "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1
