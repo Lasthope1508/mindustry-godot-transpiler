@@ -171464,6 +171464,86 @@
         "test_reference_graph_and_actual_c07_units_can_create"
       ],
       "runtime_proof": "/root/C07UnitsCanCreateProof"
+    },
+    "source_team_data_update_count_state_result.type_counts": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_data_update_count_state",
+      "godot_symbol": "source_team_data_update_count_state_result.type_counts",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "TeamData.updateCount(UnitType, int)",
+      "java_expr": "typeCounts[type.id] = Math.max(amount + typeCounts[type.id], 0);",
+      "rule": "The updated TeamData.typeCounts (Teams.java:435): grown to the content unit count when null/short, the type slot clamped at 0.",
+      "tests": [
+        "test_c07_unit_group_counts_registration",
+        "test_all_c07_unit_group_counts_input_evidence_is_exact",
+        "test_team_data_update_count_state",
+        "test_reference_graph_and_actual_c07_unit_group_counts"
+      ],
+      "runtime_proof": "/root/C07UnitGroupCountsProof"
+    },
+    "source_team_data_update_count_state_result.unit_count": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_data_update_count_state",
+      "godot_symbol": "source_team_data_update_count_state_result.unit_count",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "TeamData.updateCount(UnitType, int)",
+      "java_expr": "unitCount = Math.max(amount + unitCount, 0);",
+      "rule": "The updated TeamData.unitCount (Teams.java:431): amount added, clamped at 0.",
+      "tests": [
+        "test_c07_unit_group_counts_registration",
+        "test_all_c07_unit_group_counts_input_evidence_is_exact",
+        "test_team_data_update_count_state",
+        "test_reference_graph_and_actual_c07_unit_group_counts"
+      ],
+      "runtime_proof": "/root/C07UnitGroupCountsProof"
+    },
+    "source_team_data_update_count_state_result.count_type": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_data_update_count_state",
+      "godot_symbol": "source_team_data_update_count_state_result.count_type",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "TeamData.updateCount(UnitType, int)",
+      "java_expr": "return typeCounts == null || typeCounts.length <= type.id ? 0 : typeCounts[type.id];",
+      "rule": "The updated per-type count read back through TeamData.countType (Teams.java:442-444).",
+      "tests": [
+        "test_c07_unit_group_counts_registration",
+        "test_all_c07_unit_group_counts_input_evidence_is_exact",
+        "test_team_data_update_count_state",
+        "test_reference_graph_and_actual_c07_unit_group_counts"
+      ],
+      "runtime_proof": "/root/C07UnitGroupCountsProof"
+    },
+    "source_team_data_update_team_stats_state_result.team_unit_counts": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_data_update_team_stats_state",
+      "godot_symbol": "source_team_data_update_team_stats_state_result.team_unit_counts",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "Teams.updateTeamStats()",
+      "java_expr": "count(unit);",
+      "rule": "The rebuilt name-keyed per-type counts (Teams.java:213-230): every live unit of the team counted via count(unit), payload units recursed into exactly as Teams.count (Teams.java:168-179); the map the N2140 can_create helper reads.",
+      "tests": [
+        "test_c07_unit_group_counts_registration",
+        "test_all_c07_unit_group_counts_input_evidence_is_exact",
+        "test_team_data_update_count_state",
+        "test_reference_graph_and_actual_c07_unit_group_counts"
+      ],
+      "runtime_proof": "/root/C07UnitGroupCountsProof"
+    },
+    "source_team_data_update_team_stats_state_result.unit_count": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_data_update_team_stats_state",
+      "godot_symbol": "source_team_data_update_team_stats_state_result.unit_count",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "Teams.updateTeamStats()",
+      "java_expr": "data.unitCount = 0;",
+      "rule": "The rebuilt TeamData.unitCount (Teams.java:187, reset then recount): the number of live units of the team, payload units included.",
+      "tests": [
+        "test_c07_unit_group_counts_registration",
+        "test_all_c07_unit_group_counts_input_evidence_is_exact",
+        "test_team_data_update_count_state",
+        "test_reference_graph_and_actual_c07_unit_group_counts"
+      ],
+      "runtime_proof": "/root/C07UnitGroupCountsProof"
     }
   },
   "version": 1

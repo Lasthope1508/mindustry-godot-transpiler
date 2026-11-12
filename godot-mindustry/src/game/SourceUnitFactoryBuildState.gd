@@ -17,6 +17,7 @@ const source_time_defaults := preload("res://src/game/SourceTimeDefaults.gd")
 const source_math_state := preload("res://src/game/SourceMathState.gd")
 const source_unit_runtime_state := preload("res://src/game/SourceUnitRuntimeState.gd")
 const source_unit_update_state := preload("res://src/game/SourceUnitUpdateState.gd")
+const source_teams_runtime_state := preload("res://src/game/SourceTeamsRuntimeState.gd")
 
 # Every block whose build is a unit-factory build: the three classes
 # that set each consumer's multiplier to Rules.unitCost
@@ -823,9 +824,15 @@ static func source_unit_factory_tick_buildings_state(game: Object, seconds: floa
 			# allowUpdate is a team/environment gate with no frame
 			# yet); can_create is live since N2140 through
 			# source_unit_factory_can_create_state (Units.canCreate,
-			# Units.java:115-117) — the frame still records no
-			# per-type unit counts, so the count reads 0 until the
-			# unit-group slice lands.
+			# Units.java:115-117), and since N2141 the frame's
+			# team_unit_counts is stamped from the live rebuild
+			# (Teams.updateTeamStats, Teams.java:182-245) before
+			# the can_create call, so the predicate reads live
+			# counts instead of the 0 default. The frame carries
+			# no live units list yet (frame.get("units", [])), so
+			# the counts stay 0 until a unit-list slice lands.
+			var team_stats: Dictionary = source_teams_runtime_state.source_team_data_update_team_stats_state(frame.get("units", []), team_id, int(frame.get("content_unit_size", 0)))
+			frame["team_unit_counts"] = team_stats.get("team_unit_counts", {})
 			var assembler_can_create: Dictionary = source_unit_factory_can_create_state(frame, str(assembler_plan.get("unit", "")), rules_state, team_id)
 			var assembler_production: Dictionary = source_unit_assembler_production_tick_state(frame, assembler_plan, drones_created, drone_construct_time, assembler_payload_in_position, bool(frame.get("spawn_occupied", false)), bool(frame.get("spawn_visual_occupied", false)), int(frame.get("drones_in_position", 0)), bool(frame.get("allow_update", true)), bool(assembler_can_create.get("can_create", true)), assembler_power_value, float(frame.get("efficiency", 1.0)) * seconds * source_time_defaults.TICK_RATE, _unit_build_speed_state(rules_state, team_id), seconds * source_time_defaults.TICK_RATE)
 			frame["progress"] = float(assembler_production.get("progress", 0.0))

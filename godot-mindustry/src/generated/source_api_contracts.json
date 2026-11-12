@@ -64456,6 +64456,89 @@
       ],
       "runtime_proof": "/root/C07UnitsCanCreateProof",
       "rule": "Source-backed Units.canCreate predicate from Units.canCreate(Team, UnitType)."
+    },
+    "SourceTeamsRuntimeState.source_team_data_update_count_state": {
+      "status": "active",
+      "source_slice": "N2141",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "source_method": "TeamData.updateCount(UnitType, int)",
+      "params": [
+        {
+          "name": "type_counts",
+          "type": "Array",
+          "schema": "source_team_data_update_count_state_input.type_counts"
+        },
+        {
+          "name": "type_id",
+          "type": "int",
+          "schema": "source_team_data_update_count_state_input.type_id"
+        },
+        {
+          "name": "amount",
+          "type": "int",
+          "schema": "source_team_data_update_count_state_input.amount"
+        },
+        {
+          "name": "unit_count",
+          "type": "int",
+          "schema": "source_team_data_update_count_state_input.unit_count"
+        },
+        {
+          "name": "content_unit_size",
+          "type": "int",
+          "schema": "source_team_data_update_count_state_input.content_unit_size"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "type_counts",
+        "unit_count",
+        "count_type"
+      ],
+      "tests": [
+        "test_c07_unit_group_counts_registration",
+        "test_all_c07_unit_group_counts_input_evidence_is_exact",
+        "test_team_data_update_count_state",
+        "test_reference_graph_and_actual_c07_unit_group_counts"
+      ],
+      "runtime_proof": "/root/C07UnitGroupCountsProof",
+      "rule": "Source-backed TeamData.updateCount / Teams.updateTeamStats state from Teams.java."
+    },
+    "SourceTeamsRuntimeState.source_team_data_update_team_stats_state": {
+      "status": "active",
+      "source_slice": "N2141",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "source_method": "Teams.updateTeamStats()",
+      "params": [
+        {
+          "name": "units",
+          "type": "Array",
+          "schema": "source_team_data_update_team_stats_state_input.units"
+        },
+        {
+          "name": "team_id",
+          "type": "int",
+          "schema": "source_team_data_update_team_stats_state_input.team_id"
+        },
+        {
+          "name": "content_unit_size",
+          "type": "int",
+          "schema": "source_team_data_update_team_stats_state_input.content_unit_size"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "team_unit_counts",
+        "unit_count"
+      ],
+      "tests": [
+        "test_c07_unit_group_counts_registration",
+        "test_all_c07_unit_group_counts_input_evidence_is_exact",
+        "test_team_data_update_count_state",
+        "test_reference_graph_and_actual_c07_unit_group_counts"
+      ],
+      "runtime_proof": "/root/C07UnitGroupCountsProof",
+      "rule": "Source-backed TeamData.updateCount / Teams.updateTeamStats state from Teams.java."
     }
   },
   "policy": {

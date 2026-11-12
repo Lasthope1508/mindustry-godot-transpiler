@@ -55373,6 +55373,59 @@
         "power.status live read -- the driver folds frame[\"power_status\"] (null -> 1.0) until a power-status slice lands.",
         "C07-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2141": {
+      "status": "done",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_class": "mindustry.game.Teams",
+      "java_method": "TeamData.updateCount(UnitType, int)",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_data_update_count_state",
+      "exact_exprs": [
+        "public @Nullable int[] typeCounts;",
+        "public void updateCount(UnitType type, int amount){",
+        "if(type == null) return;",
+        "unitCount = Math.max(amount + unitCount, 0);",
+        "if(typeCounts == null || typeCounts.length <= type.id){",
+        "typeCounts = typeCounts == null ? new int[Vars.content.units().size] : Arrays.copyOf(typeCounts, Vars.content.units().size);",
+        "typeCounts[type.id] = Math.max(amount + typeCounts[type.id], 0);",
+        "public int countType(UnitType type){",
+        "return typeCounts == null || typeCounts.length <= type.id ? 0 : typeCounts[type.id];",
+        "public void updateTeamStats(){",
+        "data.unitCount = 0;",
+        "if(data.typeCounts != null){",
+        "Arrays.fill(data.typeCounts, 0);",
+        "for(Unit unit : Groups.unit){",
+        "data.units.add(unit);",
+        "private void count(Unit unit){",
+        "unit.team.data().updateCount(unit.type, 1);",
+        "count(payload.unit);",
+        "team.data().updateCount(type, 1);",
+        "team.data().updateCount(type, -1);",
+        "if(unit.isAdded()) unit.team.data().updateCount(unit.type, 1);",
+        "if(!u.isAdded()) u.team.data().updateCount(u.type, -1);"
+      ],
+      "source_symbols": [
+        "source_team_data_update_count_state_result.type_counts",
+        "source_team_data_update_count_state_result.unit_count",
+        "source_team_data_update_count_state_result.count_type",
+        "source_team_data_update_team_stats_state_result.team_unit_counts",
+        "source_team_data_update_team_stats_state_result.unit_count"
+      ],
+      "tests": [
+        "test_c07_unit_group_counts_registration",
+        "test_all_c07_unit_group_counts_input_evidence_is_exact",
+        "test_team_data_update_count_state",
+        "test_reference_graph_and_actual_c07_unit_group_counts"
+      ],
+      "runtime_proof": "/root/C07UnitGroupCountsProof",
+      "deferred_exprs": [
+        "Live UnitComp.add() / remove() lifecycle hooks (UnitComp.java:591-598, 603-604, 752: cap-death and env-death updateCount(type, -1) calls) -- no live unit lifecycle in the port yet; the pure updateCount primitive is the state they will call, lifecycle wiring waits for a unit-lifecycle slice.",
+        "PayloadComp add/remove count hooks (PayloadComp.java:101, 200) -- same, payload lifecycle not ported yet.",
+        "Teams.updateTeamStats full multi-team rebuild (present/bosses/players/unitsByType/unitTree, Teams.java:182-245) -- N2141 rebuilds one team's counts only; presence/boss/player/tree state stays deferred.",
+        "Units.notifyUnitSpawn / spawn path, Call.unitCapDeath / Call.unitEnvDeath net calls -- presentation/net, not state.",
+        "power.status live read -- the driver folds frame[\"power_status\"] (null -> 1.0) until a power-status slice lands.",
+        "C07-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1
