@@ -64136,6 +64136,33 @@
       ],
       "runtime_proof": "/root/C06UnitAssemblerPayloadIntakeProof",
       "rule": "Source-backed UnitAssembler payload intake: accept gates + yeetPayload blocks.add."
+    },
+    "SourceUnitFactoryBuildState.source_unit_factory_assembler_check_tier_state": {
+      "status": "active",
+      "source_slice": "N2133",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "source_method": "UnitAssemblerBuild.checkTier()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_unit_factory_assembler_check_tier_state_input.frame"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "current_tier",
+        "module_tiers",
+        "tier_gap"
+      ],
+      "tests": [
+        "test_c06_unit_assembler_check_tier_registration",
+        "test_all_c06_unit_assembler_check_tier_input_evidence_is_exact",
+        "test_assembler_check_tier_reads_module_tiers",
+        "test_reference_graph_and_actual_c06_unit_assembler_check_tier"
+      ],
+      "runtime_proof": "/root/C06UnitAssemblerCheckTierProof",
+      "rule": "Source-backed UnitAssembler checkTier from the module tiers."
     }
   },
   "policy": {

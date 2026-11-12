@@ -443,6 +443,54 @@ static func source_unit_factory_assembler_payload_intake_state(frame: Dictionary
 		total += int(held)
 	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_FACTORY_BUILD_ASSEMBLER_PAYLOAD_INTAKE_STATE, "accepted": accepted, "added": added, "blocks": blocks.duplicate(), "total": total}
 
+static func source_unit_factory_assembler_check_tier_state(frame: Dictionary) -> Dictionary:
+	# UnitAssemblerBuild.checkTier() (UnitAssembler.java:363-377):
+	# `public void checkTier(){ modules.sort(b -> b.tier()); int max
+	# = 0; for(int i = 0; i < modules.size; i++){ var mod =
+	# modules.get(i); if(mod.tier() == max || mod.tier() == max +
+	# 1){ max = mod.tier(); }else{ //tier gap, TODO warning? break;
+	# } } currentTier = max; }` — sort the attached modules by tier,
+	# climb while each module is the current max or one above it,
+	# stop at the first gap, and store the result in currentTier
+	# (UnitAssembler.java:326, `public int currentTier = 0;`). The
+	# list it reads is UnitAssemblerBuild.modules
+	# (UnitAssembler.java:323, `public Seq<UnitAssemblerModuleBuild>
+	# modules = new Seq<>();`), and a module block's tier is
+	# content-defined (UnitAssemblerModule.java:22, `public int tier
+	# = 1;`, read through `public int tier(){ return tier; }`,
+	# UnitAssemblerModule.java:85-86). The tier only changes on a
+	# module event: updateModules (UnitAssembler.java:355,
+	# `modules.addUnique(build);` then `checkTier();`) and
+	# removeModule (UnitAssembler.java:360, `modules.remove(build);`
+	# then `checkTier();`) — never per tick. The consumer is plan()
+	# (UnitAssembler.java:383-385, `return plans.get(Math.min
+	# (currentTier, plans.size - 1));`), already in the port
+	# (N2124). The port carries the modules as the frame's `modules`
+	# list of ints, the same minimal-frame convention as the N2129
+	# `blocks` dict; a missing key reads as no modules, so the tier
+	# is 0. The function is pure: it sorts, climbs, records whether
+	# a gap stopped the climb, and returns the derived tier plus the
+	# sorted tiers. It is wired into the shouldConsume gate since
+	# N2133: the assembler branch derives the plan tier from the
+	# module tiers when the frame carries them, and keeps the stored
+	# current_tier otherwise (a module-less frame must not reset to
+	# 0 — Java only re-derives the tier on a module event).
+	var tiers: Array = frame.get("modules", [])
+	if not tiers is Array:
+		tiers = []
+	var sorted_tiers: Array = tiers.duplicate()
+	sorted_tiers.sort()
+	var max_tier := 0
+	var tier_gap := false
+	for tier in sorted_tiers:
+		var module_tier: int = int(tier)
+		if module_tier == max_tier or module_tier == max_tier + 1:
+			max_tier = module_tier
+		else:
+			tier_gap = true
+			break
+	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_FACTORY_BUILD_ASSEMBLER_CHECK_TIER_STATE, "current_tier": max_tier, "module_tiers": sorted_tiers, "tier_gap": tier_gap}
+
 static func source_unit_factory_should_consume_state(frame: Dictionary, block: Object, game: Object) -> Dictionary:
 	# The per-class shouldConsume() bodies, wired into the live loop
 	# (N2124 — the N2120 tick passed the frame's enabled flag until
@@ -481,7 +529,12 @@ static func source_unit_factory_should_consume_state(frame: Dictionary, block: O
 	# (ConsumePayloadDynamic.java:24-32) is live since N2132: the
 	# assembler branch reads it from the building's payload module
 	# through source_unit_factory_assembler_payload_state (N2129),
-	# so a blocks-less assembler reads 0.0. A null block, or an
+	# so a blocks-less assembler reads 0.0. The plan tier is derived
+	# from the frame's modules list through
+	# source_unit_factory_assembler_check_tier_state (N2133) when
+	# the frame carries one; a frame without a modules list keeps
+	# its stored current_tier (Java only re-derives the tier on a
+	# module event, updateModules/removeModule). A null block, or an
 	# implementation outside the family, consumes nothing.
 	var enabled: bool = bool(frame.get("enabled", true))
 	var team_id: int = int(frame.get("team_id", 1))
@@ -529,7 +582,10 @@ static func source_unit_factory_should_consume_state(frame: Dictionary, block: O
 		return result
 	if implementation == "UnitAssembler":
 		result["was_occupied"] = bool(frame.get("was_occupied", false))
-		var plan: Dictionary = source_unit_factory_assembler_plan_state(block, int(frame.get("current_tier", 0)))
+		var tier: int = int(frame.get("current_tier", 0))
+		if frame.has("modules"):
+			tier = int(source_unit_factory_assembler_check_tier_state(frame).get("current_tier", tier))
+		var plan: Dictionary = source_unit_factory_assembler_plan_state(block, tier)
 		result["plan_unit"] = str(plan.get("unit", ""))
 		var item_eff: Dictionary = source_unit_factory_assembler_cons_item_efficiency_state(frame, plan)
 		result["item_efficiency"] = float(item_eff.get("item_efficiency", 1.0))

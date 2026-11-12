@@ -54932,6 +54932,52 @@
         "A disabled conveyor reads efficiency 0 in Java (BuildingComp.java:1943-1948) but the port carries no per-belt efficiency yet, so a disabled belt still advances.",
         "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2133": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "java_class": "mindustry.world.blocks.units.UnitAssembler.UnitAssemblerBuild",
+      "java_method": "UnitAssemblerBuild.checkTier()",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_assembler_check_tier_state",
+      "exact_exprs": [
+        "public void checkTier(){",
+        "modules.sort(b -> b.tier());",
+        "int max = 0;",
+        "if(mod.tier() == max || mod.tier() == max + 1){",
+        "max = mod.tier();",
+        "currentTier = max;",
+        "//tier gap, TODO warning?",
+        "public int currentTier = 0;",
+        "public Seq<UnitAssemblerModuleBuild> modules = new Seq<>();",
+        "modules.addUnique(build);",
+        "modules.remove(build);",
+        "public int tier = 1;",
+        "public int tier(){",
+        "return tier;"
+      ],
+      "source_symbols": [
+        "source_unit_factory_assembler_check_tier_state_input.frame",
+        "source_unit_factory_assembler_check_tier_state_result.current_tier",
+        "source_unit_factory_assembler_check_tier_state_result.module_tiers",
+        "source_unit_factory_assembler_check_tier_state_result.tier_gap"
+      ],
+      "tests": [
+        "test_c06_unit_assembler_check_tier_registration",
+        "test_all_c06_unit_assembler_check_tier_input_evidence_is_exact",
+        "test_assembler_check_tier_reads_module_tiers",
+        "test_reference_graph_and_actual_c06_unit_assembler_check_tier"
+      ],
+      "runtime_proof": "/root/C06UnitAssemblerCheckTierProof",
+      "deferred_exprs": [
+        "lastTier tracking and the progress reset on a tier change (UnitAssembler.java:441-447, if(lastTier != currentTier){ if(lastTier >= 0f){ progress = 0f; } lastTier = lastTier == -2 ? -1 : currentTier; }) -- belongs to the live production/tick wiring, not checkTier itself.",
+        "The live-loop module link/unlink call sites: updateModules/removeModule are called from UnitAssemblerModuleBuild link/unlink (UnitAssemblerModule.java:80-83) -- the port has no live module-linking frame event yet, so the frame modules list is an input, not something the tick maintains.",
+        "Live production wiring: the tick driver advances no progress and calls no spawned() yet -- UnitFactory progress (UnitFactory.java:401-403), Reconstructor progress (Reconstructor.java:330-348) and UnitAssembler spawned() (UnitAssembler.java:544-571) are the production slice; the intake call site (moveInPayload() && !wasOccupied, UnitAssembler.java:500-503) is the wiring that calls the intake slice when a payload arrives.",
+        "The unit-factory frames keep the N2125 enabled-only power stamp: their per-class shouldConsume bodies (N2124) are plan-gated, and wiring them to the power stamp needs a unit-factory proof setup of its own.",
+        "PowerGraph.getBatteryStored gates on battery.enabled (PowerGraph.java:118-126), but the battery has no tick frame in the port, so its live enabled flag cannot be read yet; the battery dict keeps its static enabled value.",
+        "A disabled conveyor reads efficiency 0 in Java (BuildingComp.java:1943-1948) but the port carries no per-belt efficiency yet, so a disabled belt still advances.",
+        "Units.canCreate live evaluation (Units.java:115-117) needs live per-type unit counts and the unit cap (the unit-group system, C07); the assembler branch keeps reading frame[\"can_create\"], default true, until then.",
+        "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1

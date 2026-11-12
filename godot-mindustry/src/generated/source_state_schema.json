@@ -226452,6 +226452,64 @@
       },
       "runtime_proof": "/root/C06UnitAssemblerPayloadIntakeProof",
       "rule": "Source-backed UnitAssembler payload intake: accept gates + yeetPayload blocks.add."
+    },
+    "source_unit_factory_assembler_check_tier_state_input": {
+      "status": "active",
+      "owner": "SourceUnitFactoryBuildState.source_unit_factory_assembler_check_tier_state",
+      "source_slice": "N2133",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "public Seq<UnitAssemblerModuleBuild> modules = new Seq<>();",
+          "rule": "The assembler frame; its modules list is the attached module tiers (UnitAssemblerBuild.modules, a Seq<UnitAssemblerModuleBuild>), each entry a UnitAssemblerModuleBuild.tier() int; a missing key reads as no modules.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_assembler_check_tier_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06UnitAssemblerCheckTierProof",
+      "rule": "Source-backed UnitAssembler checkTier from the module tiers."
+    },
+    "source_unit_factory_assembler_check_tier_state_result": {
+      "status": "active",
+      "owner": "SourceUnitFactoryBuildState.source_unit_factory_assembler_check_tier_state",
+      "source_slice": "N2133",
+      "keys": {
+        "current_tier": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "currentTier = max;",
+          "rule": "checkTier: the climb result stored in currentTier -- 0 with no modules, else the highest tier reached before the first gap.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_assembler_check_tier_state"
+          ]
+        },
+        "module_tiers": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "modules.sort(b -> b.tier());",
+          "rule": "The module tiers sorted ascending, the order checkTier climbs in.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_assembler_check_tier_state"
+          ]
+        },
+        "tier_gap": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "//tier gap, TODO warning?",
+          "rule": "Whether a tier gap stopped the climb -- true when a module tier is neither the current max nor max + 1.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_assembler_check_tier_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C06UnitAssemblerCheckTierProof",
+      "rule": "Source-backed UnitAssembler checkTier from the module tiers."
     }
   },
   "version": 1
