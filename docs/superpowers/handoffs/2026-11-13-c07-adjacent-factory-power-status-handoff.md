@@ -35,9 +35,9 @@ Date: 2026-11-13. Batch: N2146 (single slice). Status: **DONE 2026-11-13 ~07:40 
 
 ## Commits
 
-- Slice commit: (hash below on commit)
-- Docs commit: (hash below on commit)
-- Handoff-hash commit: (hash below on commit)
+- Slice commit: `21a7e42` — C07: N2146 adjacent-factory power.status live read (pure power row + driver append; proof 6 keys), 15 files.
+- Docs commit: `417769f` — Docs: N2146 report + design spec + handoff (gate clean except Godot), 3 files.
+- Handoff-hash commit: (this commit, records the docs commit hash `417769f`).
 
 ## What this batch is
 
