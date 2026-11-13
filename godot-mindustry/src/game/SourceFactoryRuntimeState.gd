@@ -17,6 +17,7 @@ const source_solid_pump_build_state := preload("res://src/game/SourceSolidPumpBu
 const source_fracker_build_state := preload("res://src/game/SourceFrackerBuildState.gd")
 const source_mechanical_pump_build_state := preload("res://src/game/SourceMechanicalPumpBuildState.gd")
 const source_beam_drill_build_state := preload("res://src/game/SourceBeamDrillBuildState.gd")
+const source_mend_projector_build_state := preload("res://src/game/SourceMendProjectorBuildState.gd")
 const source_point_defense_turret_build_state := preload("res://src/game/SourcePointDefenseTurretBuildState.gd")
 const source_tractor_beam_turret_build_state := preload("res://src/game/SourceTractorBeamTurretBuildState.gd")
 const source_factory_build_state := preload("res://src/game/SourceFactoryBuildState.gd")
@@ -227,6 +228,15 @@ static func simulate_factory(game: Object, delta: float) -> void:
 	# blocks; a beam drill without a power consumer is excluded
 	# by the driver gate).
 	source_beam_drill_build_state.source_beam_drill_tick_buildings_state(game, delta)
+	# The mend-projector tick runs every live-loop tick (N2156): each
+	# placed MendProjector build (mender/mend-projector, whose build runs
+	# MendBuild.updateTile(), MendProjector.java:94) gets its frame keys
+	# refreshed from the live rules and folds its live power.status
+	# into the min efficiency, so the heal fold
+	# (MendProjector.java:113) follows power.status (no
+	# placed-buildings driver ticks MendProjector blocks; a mend
+	# projector without a power consumer is excluded by the driver gate).
+	source_mend_projector_build_state.source_mend_projector_tick_buildings_state(game, delta)
 	# The point-defense tick runs every live-loop tick (N2151): each
 	# placed PointDefenseTurret build (segment, whose build runs
 	# PointDefenseBuild.updateTile(), PointDefenseTurret.java:62)

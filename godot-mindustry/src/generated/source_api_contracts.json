@@ -64998,6 +64998,37 @@
       ],
       "runtime_proof": "/root/C07BeamDrillPowerStatusProof",
       "rule": "Source-backed BeamDrill power.status row from ConsumePower.java / BuildingComp.java."
+    },
+    "SourceMendProjectorBuildState.source_mend_projector_power_status_row_state": {
+      "status": "active",
+      "source_slice": "N2156",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "source_method": "MendBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_mend_projector_power_status_row_state_input.frame"
+        },
+        {
+          "name": "has_power_consumer",
+          "type": "bool",
+          "schema": "source_mend_projector_power_status_row_state_input.has_power_consumer"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "row",
+        "has_power_row"
+      ],
+      "tests": [
+        "test_c07_mend_projector_power_status_registration",
+        "test_all_c07_mend_projector_power_status_input_evidence_is_exact",
+        "test_mend_projector_power_status_row_state",
+        "test_reference_graph_and_actual_c07_mend_projector_power_status"
+      ],
+      "runtime_proof": "/root/C07MendProjectorPowerStatusProof",
+      "rule": "Source-backed MendProjector power.status row from ConsumePower.java / BuildingComp.java."
     }
   },
   "policy": {
