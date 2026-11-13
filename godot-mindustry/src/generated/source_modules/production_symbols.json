@@ -5658,6 +5658,36 @@
       ],
       "runtime_proof": "/root/C06FactoryLiquidOutputProof"
     },
+    "source_fracker_power_status_row_state_result.has_power_row": {
+      "canonical_symbol": "source_symbol_registry.source_fracker_power_status_row_state_result.has_power_row",
+      "status": "source-backed",
+      "java_expr": "for(var cons : block.nonOptionalConsumers){",
+      "godot_symbol": "source_fracker_power_status_row_state_result.has_power_row",
+      "godot_owner": "SourceFrackerBuildState.source_fracker_power_status_row_state",
+      "rule": "Whether the row joins the first pass (BuildingComp.java:1969): true when the block has a power consumer; the row is the power consumer's entry in the non-optional pass.",
+      "tests": [
+        "test_c07_fracker_power_status_registration",
+        "test_all_c07_fracker_power_status_input_evidence_is_exact",
+        "test_fracker_power_status_row_state",
+        "test_reference_graph_and_actual_c07_fracker_power_status"
+      ],
+      "runtime_proof": "/root/C07FrackerPowerStatusProof"
+    },
+    "source_fracker_power_status_row_state_result.row": {
+      "canonical_symbol": "source_symbol_registry.source_fracker_power_status_row_state_result.row",
+      "status": "source-backed",
+      "java_expr": "return build.power.status;",
+      "godot_symbol": "source_fracker_power_status_row_state_result.row",
+      "godot_owner": "SourceFrackerBuildState.source_fracker_power_status_row_state",
+      "rule": "The power row for the first pass (ConsumePower.java:39, the canonical power.status read): {\"result\": live power.status, \"is_power\": true}, folded by the non-optional pass into the min efficiency.",
+      "tests": [
+        "test_c07_fracker_power_status_registration",
+        "test_all_c07_fracker_power_status_input_evidence_is_exact",
+        "test_fracker_power_status_row_state",
+        "test_reference_graph_and_actual_c07_fracker_power_status"
+      ],
+      "runtime_proof": "/root/C07FrackerPowerStatusProof"
+    },
     "source_item_runtime_consumer_input.cost_multiplier": {
       "canonical_symbol": "source_symbol_registry.source_item_runtime_consumer_input.cost_multiplier",
       "status": "source-backed",

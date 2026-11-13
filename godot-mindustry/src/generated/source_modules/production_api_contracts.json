@@ -1183,6 +1183,38 @@
       "rule": "Source-backed live-loop drill dump; the drill dumps through the dump composition over the stored conveyor queues, and simulate_factory calls this step instead of dumping straight to the core.",
       "return_type": "Dictionary"
     },
+    "SourceFrackerBuildState.source_fracker_power_status_row_state": {
+      "canonical_contract": "source_api_contracts.SourceFrackerBuildState.source_fracker_power_status_row_state",
+      "status": "active",
+      "source_slice": "N2153",
+      "java_source": "core/src/mindustry/world/blocks/production/Fracker.java",
+      "source_method": "FrackerBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_fracker_power_status_row_state_input.frame"
+        },
+        {
+          "name": "has_power_consumer",
+          "type": "bool",
+          "schema": "source_fracker_power_status_row_state_input.has_power_consumer"
+        }
+      ],
+      "return_keys": [
+        "row",
+        "has_power_row"
+      ],
+      "tests": [
+        "test_c07_fracker_power_status_registration",
+        "test_all_c07_fracker_power_status_input_evidence_is_exact",
+        "test_fracker_power_status_row_state",
+        "test_reference_graph_and_actual_c07_fracker_power_status"
+      ],
+      "runtime_proof": "/root/C07FrackerPowerStatusProof",
+      "rule": "Source-backed Fracker power.status row from ConsumePower.java / BuildingComp.java.",
+      "return_type": "Dictionary"
+    },
     "SourcePlacedBlockState.source_block_has_liquids_state": {
       "canonical_contract": "source_api_contracts.SourcePlacedBlockState.source_block_has_liquids_state",
       "status": "active",

@@ -64905,6 +64905,37 @@
       ],
       "runtime_proof": "/root/C07TractorBeamTurretPowerStatusProof",
       "rule": "Source-backed TractorBeamTurret power.status row from ConsumePower.java / BuildingComp.java."
+    },
+    "SourceFrackerBuildState.source_fracker_power_status_row_state": {
+      "status": "active",
+      "source_slice": "N2153",
+      "java_source": "core/src/mindustry/world/blocks/production/Fracker.java",
+      "source_method": "FrackerBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_fracker_power_status_row_state_input.frame"
+        },
+        {
+          "name": "has_power_consumer",
+          "type": "bool",
+          "schema": "source_fracker_power_status_row_state_input.has_power_consumer"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "row",
+        "has_power_row"
+      ],
+      "tests": [
+        "test_c07_fracker_power_status_registration",
+        "test_all_c07_fracker_power_status_input_evidence_is_exact",
+        "test_fracker_power_status_row_state",
+        "test_reference_graph_and_actual_c07_fracker_power_status"
+      ],
+      "runtime_proof": "/root/C07FrackerPowerStatusProof",
+      "rule": "Source-backed Fracker power.status row from ConsumePower.java / BuildingComp.java."
     }
   },
   "policy": {

@@ -137,7 +137,7 @@ static func source_consumer_cheating_for_cell_state(game: Object, cell: Vector2i
 # adjacent factory SourceAdjacentFactoryBuildState.gd:28, unit factory
 # SourceUnitFactoryBuildState.gd:28, ContinuousLiquidTurret
 # SourceContinuousLiquidTurretBuildState.gd:55).
-const SOURCE_CONSUMER_FRAME_META_KEYS := ["source_drill_building", "source_turret_building", "source_factory_building", "source_adjacent_factory_building", "source_unit_factory_building", "source_continuous_liquid_turret_building", "source_solid_pump_building", "source_point_defense_turret_building", "source_tractor_beam_turret_building"]
+const SOURCE_CONSUMER_FRAME_META_KEYS := ["source_drill_building", "source_turret_building", "source_factory_building", "source_adjacent_factory_building", "source_unit_factory_building", "source_continuous_liquid_turret_building", "source_solid_pump_building", "source_point_defense_turret_building", "source_tractor_beam_turret_building", "source_fracker_building"]
 
 static func source_consumer_should_consume_for_cell_state(game: Object, cell: Vector2i) -> Dictionary:
 	# ConsumePower.requestedPower (ConsumePower.java:60-63) charges an
