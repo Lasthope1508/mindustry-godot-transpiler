@@ -52,7 +52,7 @@ Date: 2026-11-13. Batch: N2161 (single slice). Status: **DONE + PUSHED (2026-11-
 
 - Full gate attempt 1 **launched from the MAIN THREAD ~00:12 +07** by main thread: `cd tools/mindustry_godot_transpiler && python3 -c "import javalang" && setsid nohup python3 -m unittest discover -s tests > full-suite-n2161-gate.log 2>&1 < /dev/null &` — **PID 13149, SID 13149 (own session), PPID 13146 (background subshell), CPU ~94%**. No Godot on PATH. No proof scene ran while the gate ran (port-7777 rule). **FINISHED ~00:27 +07: Ran 5741 tests in 901.128s, FAILED (failures=112, skipped=5), 0 errors.** Verified by the 00:30 report run: 112 FAIL blocks, all 112 are `AssertionError: unexpectedly None` (111 plain `assertIsNotNone(godot)` + 1 hydration `test_live_block_shared_consumers_and_optional_efficiency_runtime` with 'Godot required for hydration proof'); 0 `ERROR:` lines; the new N2161 proof test `test_reference_graph_and_actual_c07_constructor_power_status` is among the 112 (expected — gate env has no Godot; the proof itself was verified GREEN headless at 00:05 with 9 keys). Exactly as predicted (Ran ~5741, failures=112, skipped=5, 0 errors). Slice committed + pushed after gate verification (see Commits).
 
-## Commits (PENDING — hashes to record after push)
+## Commits (DONE + PUSHED 2026-11-14 ~00:3x +07 — slice 9593f78, docs e64c7f9, GOAL 7e691e0, this handoff-hash commit)
 
 ## Deferred (NOT this slice)
 
