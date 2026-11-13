@@ -98,6 +98,9 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
   - [ ] N2158 `C07ForceProjectorPowerStatusProof` — Linux GREEN 21:15 (9 key).
     Scene tới Windows theo slice commit `5edf125` (pushed ~21:4x, main
     `1466f2c`). Chưa chạy trên Windows Godot.
+  - [ ] N2159 `C07BaseShieldPowerStatusProof` — Linux GREEN 22:00 (9 key).
+    Scene tới Windows theo slice commit `7fa573d` (pushed ~22:3x, main
+    `1bc71df`). Chưa chạy trên Windows Godot.
   - [ ] Mọi slice sau này: proof scene mới nào cũng ghi nợ Windows theo mẫu
     trên (ghi rõ commit đưa scene tới Windows).
   - [ ] Agent khác đang test các lỗi fail trên Windows Godot (PR #1 đã merge
