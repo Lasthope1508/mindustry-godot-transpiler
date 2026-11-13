@@ -14,6 +14,7 @@ const source_continuous_liquid_turret_build_state := preload("res://src/game/Sou
 const source_turret_build_state := preload("res://src/game/SourceTurretBuildState.gd")
 const source_burst_drill_build_state := preload("res://src/game/SourceBurstDrillBuildState.gd")
 const source_solid_pump_build_state := preload("res://src/game/SourceSolidPumpBuildState.gd")
+const source_point_defense_turret_build_state := preload("res://src/game/SourcePointDefenseTurretBuildState.gd")
 const source_factory_build_state := preload("res://src/game/SourceFactoryBuildState.gd")
 const source_unit_factory_build_state := preload("res://src/game/SourceUnitFactoryBuildState.gd")
 const source_adjacent_factory_build_state := preload("res://src/game/SourceAdjacentFactoryBuildState.gd")
@@ -194,6 +195,15 @@ static func simulate_factory(game: Object, delta: float) -> void:
 	# speed (SolidPump.java:121) follows power.status (the pump
 	# runtime never ticks SolidPump blocks).
 	source_solid_pump_build_state.source_solid_pump_tick_buildings_state(game, delta)
+	# The point-defense tick runs every live-loop tick (N2151): each
+	# placed PointDefenseTurret build (segment, whose build runs
+	# PointDefenseBuild.updateTile(), PointDefenseTurret.java:62)
+	# gets its frame keys refreshed from the live rules and folds
+	# its live power.status into the min efficiency, so the
+	# point-defense edelta fold (PointDefenseTurret.java:81-82)
+	# follows power.status (the turret driver never ticks
+	# PointDefenseTurret blocks).
+	source_point_defense_turret_build_state.source_point_defense_turret_tick_buildings_state(game, delta)
 	# The factory-family tick runs every live-loop tick (N2109): each
 	# placed factory-family build (GenericCrafter/AttributeCrafter/
 	# HeatCrafter/HeatProducer, whose builds run

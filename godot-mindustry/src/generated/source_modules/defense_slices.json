@@ -2711,6 +2711,24 @@
       ],
       "runtime_proof": "/root/C07TurretPowerStatusProof"
     },
+    "N2151": {
+      "canonical_ledger": "source_slice_ledger.N2151",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+      "java_method": "PointDefenseBuild.updateTile()",
+      "godot_owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_power_status_row_state",
+      "source_symbols": [
+        "source_point_defense_turret_power_status_row_state_result.row",
+        "source_point_defense_turret_power_status_row_state_result.has_power_row"
+      ],
+      "tests": [
+        "test_c07_point_defense_turret_power_status_registration",
+        "test_all_c07_point_defense_turret_power_status_input_evidence_is_exact",
+        "test_point_defense_turret_power_status_row_state",
+        "test_reference_graph_and_actual_c07_point_defense_turret_power_status"
+      ],
+      "runtime_proof": "/root/C07PointDefenseTurretPowerStatusProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",
