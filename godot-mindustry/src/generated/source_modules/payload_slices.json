@@ -1618,6 +1618,24 @@
         "test_generated_block_producer_build_update_tile_move_out_payload_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.generated_block_producer_build_update_tile_move_out_payload_bridge_state"
+    },
+    "N2161": {
+      "canonical_ledger": "source_slice_ledger.N2161",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/Constructor.java",
+      "java_method": "ConstructorBuild.updateTile()",
+      "godot_owner": "SourceConstructorBuildState.source_constructor_power_status_row_state",
+      "source_symbols": [
+        "source_constructor_power_status_row_state_result.row",
+        "source_constructor_power_status_row_state_result.has_power_row"
+      ],
+      "tests": [
+        "test_c07_constructor_power_status_registration",
+        "test_all_c07_constructor_power_status_input_evidence_is_exact",
+        "test_constructor_power_status_row_state",
+        "test_reference_graph_and_actual_c07_constructor_power_status"
+      ],
+      "runtime_proof": "/root/C07ConstructorPowerStatusProof"
     }
   }
 }

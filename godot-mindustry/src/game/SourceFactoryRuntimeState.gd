@@ -22,6 +22,7 @@ const source_overdrive_projector_build_state := preload("res://src/game/SourceOv
 const source_force_projector_build_state := preload("res://src/game/SourceForceProjectorBuildState.gd")
 const source_base_shield_build_state := preload("res://src/game/SourceBaseShieldBuildState.gd")
 const source_regen_projector_build_state := preload("res://src/game/SourceRegenProjectorBuildState.gd")
+const source_constructor_build_state := preload("res://src/game/SourceConstructorBuildState.gd")
 const source_point_defense_turret_build_state := preload("res://src/game/SourcePointDefenseTurretBuildState.gd")
 const source_tractor_beam_turret_build_state := preload("res://src/game/SourceTractorBeamTurretBuildState.gd")
 const source_factory_build_state := preload("res://src/game/SourceFactoryBuildState.gd")
@@ -277,6 +278,15 @@ static func simulate_factory(game: Object, delta: float) -> void:
 	# placed-buildings driver ticks RegenProjector blocks; a regen
 	# projector without a power consumer is excluded by the driver gate).
 	source_regen_projector_build_state.source_regen_projector_tick_buildings_state(game, delta)
+	# The constructor tick runs every live-loop tick (N2161): each
+	# placed Constructor build (constructor/large-constructor, whose build runs
+	# BlockProducerBuild.updateTile(), BlockProducer.java:109) gets its frame keys
+	# refreshed from the live rules and folds its live power.status
+	# into the min efficiency, so the produce gate
+	# (BlockProducer.java:110) follows power.status (no
+	# placed-buildings driver ticks Constructor blocks; a constructor
+	# without a power consumer is excluded by the driver gate).
+	source_constructor_build_state.source_constructor_tick_buildings_state(game, delta)
 	# The point-defense tick runs every live-loop tick (N2151): each
 	# placed PointDefenseTurret build (segment, whose build runs
 	# PointDefenseBuild.updateTile(), PointDefenseTurret.java:62)
