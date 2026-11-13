@@ -15,6 +15,7 @@ const source_turret_build_state := preload("res://src/game/SourceTurretBuildStat
 const source_burst_drill_build_state := preload("res://src/game/SourceBurstDrillBuildState.gd")
 const source_solid_pump_build_state := preload("res://src/game/SourceSolidPumpBuildState.gd")
 const source_fracker_build_state := preload("res://src/game/SourceFrackerBuildState.gd")
+const source_mechanical_pump_build_state := preload("res://src/game/SourceMechanicalPumpBuildState.gd")
 const source_point_defense_turret_build_state := preload("res://src/game/SourcePointDefenseTurretBuildState.gd")
 const source_tractor_beam_turret_build_state := preload("res://src/game/SourceTractorBeamTurretBuildState.gd")
 const source_factory_build_state := preload("res://src/game/SourceFactoryBuildState.gd")
@@ -206,6 +207,15 @@ static func simulate_factory(game: Object, delta: float) -> void:
 	# solid-pump speed (SolidPump.java:121) follow power.status
 	# (the solid-pump driver never ticks Fracker blocks).
 	source_fracker_build_state.source_fracker_tick_buildings_state(game, delta)
+	# The mechanical-pump tick runs every live-loop tick (N2154): each
+	# placed Pump build (rotary-pump/impulse-pump, whose build runs
+	# PumpBuild.updateTile(), Pump.java:159) gets its frame keys
+	# refreshed from the live rules and folds its live power.status
+	# into the min efficiency, so the pump maxPump fold
+	# (Pump.java:162) follows power.status (the pump runtime never
+	# ticks placed Pump blocks; the mechanical-pump without a power
+	# consumer is excluded by the driver gate).
+	source_mechanical_pump_build_state.source_mechanical_pump_tick_buildings_state(game, delta)
 	# The point-defense tick runs every live-loop tick (N2151): each
 	# placed PointDefenseTurret build (segment, whose build runs
 	# PointDefenseBuild.updateTile(), PointDefenseTurret.java:62)

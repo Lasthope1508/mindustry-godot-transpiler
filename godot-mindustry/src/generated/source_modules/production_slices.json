@@ -854,6 +854,24 @@
       ],
       "runtime_proof": "/root/C07FrackerPowerStatusProof"
     },
+    "N2154": {
+      "canonical_ledger": "source_slice_ledger.N2154",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+      "java_method": "PumpBuild.updateTile()",
+      "godot_owner": "SourceMechanicalPumpBuildState.source_mechanical_pump_power_status_row_state",
+      "source_symbols": [
+        "source_mechanical_pump_power_status_row_state_result.row",
+        "source_mechanical_pump_power_status_row_state_result.has_power_row"
+      ],
+      "tests": [
+        "test_c07_mechanical_pump_power_status_registration",
+        "test_all_c07_mechanical_pump_power_status_input_evidence_is_exact",
+        "test_mechanical_pump_power_status_row_state",
+        "test_reference_graph_and_actual_c07_mechanical_pump_power_status"
+      ],
+      "runtime_proof": "/root/C07MechanicalPumpPowerStatusProof"
+    },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",
       "status": "done",
