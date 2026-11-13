@@ -1,6 +1,6 @@
 # Handoff — N2148: turret power.status live read (ItemTurret / PowerTurret / LaserTurret / ContinuousTurret) (C07)
 
-Date: 2026-11-13. Batch: N2148 (single slice). Status: **DONE + PUSHED 2026-11-13 ~10:2x +07 (10:15 cron run). Targeted 4/4 OK (27.2s), neighbours 20/20 OK (108.9s), Godot proof GREEN (10 keys, all true, matches:true). SSOT 11306/1599/1520/2831, audit unchanged. Full gate FINISHED ~10:08 +07, VERIFIED clean except Godot (Ran 5689 in 1666.816s, failures=99, skipped=5, 0 errors — all 99 Godot-absent asserts, 98 plain + 1 hydration). Commits: slice 9917082 + docs <docs-hash> (see Gate result). Next after N2148: BurstDrill power (eruption/impact) / SolidPump power (water-extractor) per deferred list, or the next C07 item per backlog.**
+Date: 2026-11-13. Batch: N2148 (single slice). Status: **DONE + PUSHED 2026-11-13 ~10:2x +07 (10:15 cron run). Targeted 4/4 OK (27.2s), neighbours 20/20 OK (108.9s), Godot proof GREEN (10 keys, all true, matches:true). SSOT 11306/1599/1520/2831, audit unchanged. Full gate FINISHED ~10:08 +07, VERIFIED clean except Godot (Ran 5689 in 1666.816s, failures=99, skipped=5, 0 errors — all 99 Godot-absent asserts, 98 plain + 1 hydration). Commits: slice 9917082 + docs fe40a55 (see Gate result). Next after N2148: BurstDrill power (eruption/impact) / SolidPump power (water-extractor) per deferred list, or the next C07 item per backlog.**
 
 ## Scope (decided at RED)
 
