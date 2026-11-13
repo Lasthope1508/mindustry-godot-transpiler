@@ -613,6 +613,38 @@
       "rule": "Source-backed drill water booster; the drill runs 1.6x faster when water reaches it.",
       "return_type": "Dictionary"
     },
+    "SourceDrillConsumptionRuntimeState.source_drill_power_status_row_state": {
+      "canonical_contract": "source_api_contracts.SourceDrillConsumptionRuntimeState.source_drill_power_status_row_state",
+      "status": "active",
+      "source_slice": "N2147",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "DrillBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_drill_power_status_row_state_input.frame"
+        },
+        {
+          "name": "has_power_consumer",
+          "type": "bool",
+          "schema": "source_drill_power_status_row_state_input.has_power_consumer"
+        }
+      ],
+      "return_keys": [
+        "row",
+        "has_power_row"
+      ],
+      "tests": [
+        "test_c07_drill_power_status_registration",
+        "test_all_c07_drill_power_status_input_evidence_is_exact",
+        "test_drill_power_status_row_state",
+        "test_reference_graph_and_actual_c07_drill_power_status"
+      ],
+      "runtime_proof": "/root/C07DrillPowerStatusProof",
+      "rule": "Source-backed drill power.status row from ConsumePower.java / BuildingComp.java.",
+      "return_type": "Dictionary"
+    },
     "SourceDrillConsumptionRuntimeState.source_on_proximity_update_state": {
       "canonical_contract": "source_api_contracts.SourceDrillConsumptionRuntimeState.source_on_proximity_update_state",
       "status": "active",

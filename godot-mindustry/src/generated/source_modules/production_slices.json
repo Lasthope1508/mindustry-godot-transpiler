@@ -782,6 +782,24 @@
       ],
       "runtime_proof": "/root/C07AdjacentFactoryPowerStatusProof"
     },
+    "N2147": {
+      "canonical_ledger": "source_slice_ledger.N2147",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.updateTile()",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_drill_power_status_row_state",
+      "source_symbols": [
+        "source_drill_power_status_row_state_result.row",
+        "source_drill_power_status_row_state_result.has_power_row"
+      ],
+      "tests": [
+        "test_c07_drill_power_status_registration",
+        "test_all_c07_drill_power_status_input_evidence_is_exact",
+        "test_drill_power_status_row_state",
+        "test_reference_graph_and_actual_c07_drill_power_status"
+      ],
+      "runtime_proof": "/root/C07DrillPowerStatusProof"
+    },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",
       "status": "done",

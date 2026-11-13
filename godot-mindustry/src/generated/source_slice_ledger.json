@@ -55639,6 +55639,50 @@
         "Units.notifyUnitSpawn / spawn path, Call.unitCapDeath / Call.unitEnvDeath net calls -- presentation/net, not state.",
         "C07-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2147": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_class": "mindustry.world.blocks.production.Drill.DrillBuild",
+      "java_method": "DrillBuild.updateTile()",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_drill_power_status_row_state",
+      "exact_exprs": [
+        "return build.power.status;",
+        "float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;",
+        "hasConsumers = consumers.length > 0;",
+        "consumePower(1.10f);",
+        "consumePower(3f);",
+        "consumeLiquid(Liquids.water, 0.08f).boost();",
+        "consumeLiquid(Liquids.water, 0.1f).boost();",
+        "float speed = Mathf.lerp(1f, liquidBoostIntensity, optionalEfficiency) * efficiency;"
+      ],
+      "source_symbols": [
+        "source_drill_power_status_row_state_result.row",
+        "source_drill_power_status_row_state_result.has_power_row"
+      ],
+      "tests": [
+        "test_c07_drill_power_status_registration",
+        "test_all_c07_drill_power_status_input_evidence_is_exact",
+        "test_drill_power_status_row_state",
+        "test_reference_graph_and_actual_c07_drill_power_status"
+      ],
+      "runtime_proof": "/root/C07DrillPowerStatusProof",
+      "deferred_exprs": [
+        "power.status live read for the turret consumer family -- the write-back stamps every consumer's frame generically, and the drill driver now reads frame[\"power_status\"]; turret has four implementations, each its own wiring slice.",
+        "BurstDrill power (eruption-drill / impact-drill) -- BurstDrill has its own driver, out of scope for the base-Drill slice.",
+        "SolidPump power (water-extractor) -- SolidPump has its own driver, out of scope for the base-Drill slice.",
+        "Drill progress advance gated on the folded efficiency -- the N2147 proof carries no progress keys; needs its own slice.",
+        "spawn_occupied / spawn_visual_occupied frame inputs -- checkSolid(spawn, false/true) (UnitAssembler.java:675-680) needs tile solidity + a nearby-units query; the port's check_solid_state() is a no-arg stub returning false; waits for a collision/tile-solidity frame-data slice.",
+        "allow_update frame input -- the canonical allow_update_state exists (SourceBuildingAccessState, BuildingComp.java:622-627) but the driver cannot supply its inputs: rules_state carries only unitCostMultiplier + teams (no env, limitMapArea, limits), and the catalog carries no block env/privileged flags; waits for a rules-state capture slice.",
+        "Per-unit AssemblerAI.inPosition() evaluation from live unit pos/rotation/targetPos/targetAngle -- the count reads the recorded in_position flag; the units list carries no pos/rotation yet.",
+        "moveOutPayload() modeling -- the assembler production tick still has no payload move-out.",
+        "Net readUnits / whenSyncedUnits drone sync -- presentation/net, not state.",
+        "Live UnitComp.add() / remove() lifecycle hooks (UnitComp.java:591-598, 603-604, 752) -- no live unit lifecycle in the port yet.",
+        "PayloadComp add/remove count hooks (PayloadComp.java:101, 200) -- same, payload lifecycle not ported yet.",
+        "Teams.updateTeamStats full multi-team rebuild (present/bosses/players/unitsByType/unitTree, Teams.java:182-245) -- N2141 rebuilds one team's counts only.",
+        "Units.notifyUnitSpawn / spawn path, Call.unitCapDeath / Call.unitEnvDeath net calls -- presentation/net, not state.",
+        "C07-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1

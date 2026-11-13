@@ -86,6 +86,32 @@ static func _context(game: Object, seconds: float, cell: Vector2i, block: Object
 		context[drill.SOURCE_DRILL_CONTEXT_CURRENT_TIME_DRILLED_KEY] += drill.game_time_drilled_delta(game, frame["warmup"], seconds, context[drill.SOURCE_DRILL_CONTEXT_TIME_SCALE_KEY])
 	return context
 
+static func source_drill_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
+	# ConsumePower.efficiency (ConsumePower.java:38-40,
+	# `return build.power.status;`): the power consumer's
+	# efficiency is the building's live power.status, and the
+	# first pass folds it into the min efficiency
+	# (BuildingComp.java:1969-1976, `for(var cons : block.
+	# nonOptionalConsumers){` / `minEfficiency = Math.min(
+	# minEfficiency, result);`). The graph update stamps
+	# frame["power_status"] each tick (N2142); a missing stamp
+	# folds to 1.0 before the first graph update, the assembler
+	# fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`).
+	# A block with no power consumer contributes no row. The
+	# power consumer counts toward hasConsumers
+	# (Block.java:1449, `hasConsumers = consumers.length > 0;`),
+	# so a power drill does not take the early return; both
+	# power drills also have liquid rows. The drill speed
+	# follows the folded efficiency (Drill.java:301, `float
+	# speed = Mathf.lerp(1f, liquidBoostIntensity,
+	# optionalEfficiency) * efficiency;`). `!enabled` is handled
+	# by the machinery's disabled branch, not here.
+	if not has_power_consumer:
+		return {"has_power_row": false, "row": {}}
+	var stamped: Variant = frame.get("power_status", null)
+	var live: float = 1.0 if stamped == null else float(stamped)
+	return {"has_power_row": true, "row": {"result": live, "is_power": true}}
+
 static func source_tick_state(game: Object, seconds: float) -> Dictionary:
 	var results: Dictionary = {}
 	var catalog = game.get("content_catalog")
@@ -98,8 +124,12 @@ static func source_tick_state(game: Object, seconds: float) -> Dictionary:
 		if not blocks_by_id.has(block_id):
 			continue
 		var block = blocks_by_id[block_id]
-		# Current source base-Drill definitions with power consumers require the power domain.
-		if block.implementation != drill.SOURCE_DRILL_GENERATED_CLASS.get_file().get_basename() or not block.properties.has("consumeLiquid") or block.properties.has("consumePower"):
+		# Base-Drill definitions with power consumers tick since
+		# N2147: the pure power row folds the graph-stamped
+		# frame["power_status"] (N2142) into the first pass, so a
+		# laser/blast drill no longer runs as if power.status
+		# were 1.0.
+		if block.implementation != drill.SOURCE_DRILL_GENERATED_CLASS.get_file().get_basename() or not block.properties.has("consumeLiquid"):
 			continue
 		var cell: Vector2i = sprite.get_meta("origin_cell")
 		assert(sprite.has_meta(SOURCE_DRILL_BUILDING_META_KEY), "Drill proximity must bind the frame before ticking")
@@ -153,6 +183,21 @@ static func source_tick_state(game: Object, seconds: float) -> Dictionary:
 					optional_results.append({"result": actor.efficiency(frame)})
 			if groups["update_consumers"].has(rows[index]):
 				updates.append(actor)
+		# The power consumer reads live since N2147 (the graph
+		# update stamps frame["power_status"] each tick, N2142):
+		# a drill with a power consumer appends the pure power row
+		# to the first pass, so ConsumePower.efficiency folds into
+		# the min efficiency like every other non-optional consumer.
+		# The power consumer counts toward hasConsumers
+		# (Block.java:1449, `hasConsumers = consumers.length > 0;`),
+		# so a power drill does not take the early return; both
+		# power drills also have liquid rows, so
+		# groups["has_consumers"] is already true.
+		var has_power_consumer: bool = bool(block.properties.has("consumePower"))
+		if has_power_consumer and bool(frame.get("enabled", true)) and not bool(frame.get("cheating", false)):
+			var power_row: Dictionary = source_drill_power_status_row_state(frame, true)
+			if bool(power_row.get("has_power_row", false)):
+				required_results.append(power_row.get("row", {}))
 		var consumption := efficiency.update_consumption_state(groups["has_consumers"], frame["cheating"], frame["enabled"], valid, should_consume, frame["efficiency_scale"], required_results, optional_results, updates, frame)
 		efficiency.apply_update_consumption_state(consumption, frame)
 		frame["speed"] = lerpf(defaults.DRILL_UNBOOSTED_SPEED, defaults.DRILL_LIQUID_BOOST_INTENSITY, frame["optional_efficiency"]) * frame["efficiency"]
