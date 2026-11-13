@@ -1,0 +1,6 @@
+test_lifecycle_golden_runtime_and_initialized_consumption (tests.test_liquid_module_lifecycle.LiquidModuleLifecycleTests.test_lifecycle_golden_runtime_and_initialized_consumption) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 2.873s
+
+OK

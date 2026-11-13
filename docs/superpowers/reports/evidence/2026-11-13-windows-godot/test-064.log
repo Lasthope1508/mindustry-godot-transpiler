@@ -1,0 +1,6 @@
+test_reference_graph_and_actual_factory_should_consume (tests.test_factory_should_consume.FactoryShouldConsumeTests.test_reference_graph_and_actual_factory_should_consume) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 18.982s
+
+OK

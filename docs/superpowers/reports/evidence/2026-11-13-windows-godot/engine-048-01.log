@@ -1,0 +1,5 @@
+Godot Engine v4.6.2.stable.official.71f334935 - https://godotengine.org
+
+[MCP Runtime] Server listening on port 7777
+[MCP Runtime] Autoload ready, server starting on port 7777
+COST_MULTIPLIER_FOR_BLOCK_PROOF {"cost_multiplier_bare_build_default":true,"cost_multiplier_drill_default":true,"cost_multiplier_factory_defaults":true,"cost_multiplier_factory_is_unit_factory":true,"cost_multiplier_factory_unit_cost":true,"cost_multiplier_live_drill_one":true,"cost_multiplier_live_frame_keys":true,"cost_multiplier_live_has_consumers":true,"cost_multiplier_pump_default":true,"cost_multiplier_reconstructor_is_reconstructor":true,"cost_multiplier_reconstructor_team":true,"matches":true,"one_headquarter_per_ssot":true,"registry_valid":true}

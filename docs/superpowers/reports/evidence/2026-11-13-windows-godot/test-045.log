@@ -1,0 +1,6 @@
+test_reference_graph_and_actual_conveyor_queue (tests.test_conveyor_queue_binding.ConveyorQueueBindingTests.test_reference_graph_and_actual_conveyor_queue) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 19.634s
+
+OK

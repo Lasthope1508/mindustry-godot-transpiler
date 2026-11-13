@@ -1,0 +1,15 @@
+test_reference_graph_and_actual_c06_factory_dump_outputs_gate (tests.test_factory_dump_outputs.FactoryDumpOutputsTests.test_reference_graph_and_actual_c06_factory_dump_outputs_gate) ... FAIL
+
+======================================================================
+FAIL: test_reference_graph_and_actual_c06_factory_dump_outputs_gate (tests.test_factory_dump_outputs.FactoryDumpOutputsTests.test_reference_graph_and_actual_c06_factory_dump_outputs_gate)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Admin\.codex\worktrees\windows-godot-validation\mindustry-godot-c06-proof\tools\mindustry_godot_transpiler\tests\test_factory_dump_outputs.py", line 97, in test_reference_graph_and_actual_c06_factory_dump_outputs_gate
+    self.assertTrue(proofs[0]['matches'], proofs[0])
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : {'dump_electrolyzer_directions_north_south': True, 'dump_interval_doubled_at_half_scale': True, 'dump_interval_five_at_unit_scale': True, 'dump_interval_halved_at_double_scale': True, 'dump_interval_infinite_at_zero_scale': True, 'dump_liquid_conduit_after': True, 'dump_liquid_cursor_matches_frame': True, 'dump_liquid_empty_module_nothing': True, 'dump_liquid_mixer_after': True, 'dump_liquid_null_block_nothing': True, 'dump_liquid_null_game_nothing': True, 'dump_liquid_transfer_amount': True, 'dump_liquid_unknown_liquid_nothing': True, 'dump_live_conduit_gained': True, 'dump_live_mixer_cryofluid_dumped_some': True, 'dump_live_mixer_efficiency_one': False, 'dump_live_mixer_progress': False, 'dump_live_mixer_titanium_kept': True, 'dump_live_mixer_water': False, 'dump_mixer_directions_all': True, 'dump_mixer_output_cryofluid': True, 'dump_outputs_belt_queue_one_silicon': True, 'dump_outputs_electrolyzer_after': True, 'dump_outputs_electrolyzer_hydrogen': True, 'dump_outputs_electrolyzer_no_item_dump': True, 'dump_outputs_electrolyzer_ozone': True, 'dump_outputs_mixer_liquid_only_no_neighbor': True, 'dump_outputs_north_conduit_ozone': True, 'dump_outputs_null_block_nothing': True, 'dump_outputs_smelter_dumped_silicon': True, 'dump_outputs_smelter_fired_no_belt': True, 'dump_outputs_smelter_frame_silicon_four': True, 'dump_outputs_smelter_item_fired': True, 'dump_outputs_smelter_timer_cold': True, 'dump_outputs_south_conduit_hydrogen': True, 'dump_smelter_directions_all': True, 'dump_timer_cold_no_dump': True, 'dump_timer_fires_exact_five': True, 'dump_timer_fires_near_five': True, 'dump_timer_infinite_scale_no_dump': True, 'matches': False, 'one_headquarter_per_ssot': True, 'registry_valid': True}
+
+----------------------------------------------------------------------
+Ran 1 test in 19.993s
+
+FAILED (failures=1)

@@ -1,0 +1,10 @@
+Godot Engine v4.6.2.stable.official.71f334935 - https://godotengine.org
+
+[MCP Runtime] Server listening on port 7777
+[MCP Runtime] Autoload ready, server starting on port 7777
+
+SCRIPT ERROR: Assertion failed: World Tile floor runs must cover the map
+   at: source_campaign_world_tiles_state (res://src/game/SourceWorldTerrainRuntimeState.gd:266)
+   GDScript backtrace (most recent call first):
+       [0] source_campaign_world_tiles_state (res://src/game/SourceWorldTerrainRuntimeState.gd:266)
+       [1] _ready (res://tools/runtime_proofs/WorldTileLifecycleProof.gd:39)

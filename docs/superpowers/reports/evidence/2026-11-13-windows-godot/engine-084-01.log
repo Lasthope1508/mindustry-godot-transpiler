@@ -1,0 +1,5 @@
+Godot Engine v4.6.2.stable.official.71f334935 - https://godotengine.org
+
+[MCP Runtime] Server listening on port 7777
+[MCP Runtime] Autoload ready, server starting on port 7777
+SCHEMATIC_PLACE_PROOF {"matches":true,"one_headquarter_per_ssot":true,"registry_valid":true,"schematic_place_config_hook_receives_build_and_config":true,"schematic_place_no_overwrite_hook_rejects":true,"schematic_place_no_overwrite_no_hook_skips_all":true,"schematic_place_out_of_world_tile_skipped":true,"schematic_place_overwrite_replaces":true,"schematic_place_places_all_tiles":true,"schematic_place_team_is_sharded":true}

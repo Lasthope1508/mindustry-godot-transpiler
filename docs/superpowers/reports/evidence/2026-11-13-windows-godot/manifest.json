@@ -1,0 +1,608 @@
+[
+  {
+    "test": "tests.test_adjacent_factory_consumer_binding.AdjacentFactoryConsumerBindingTests.test_reference_graph_and_actual_adjacent_factory_consumer_binding",
+    "line": 79,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_adjacent_factory_live_loop.AdjacentFactoryLiveLoopTests.test_reference_graph_and_actual_adjacent_factory_live_loop",
+    "line": 91,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_battery_placement_binding.BatteryPlacementBindingTests.test_reference_graph_and_actual_battery_placement",
+    "line": 38,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_battery_power_status_binding.BatteryPowerStatusBindingTests.test_reference_graph_and_actual_battery_power_status",
+    "line": 39,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_building_dump_binding.BuildingDumpBindingTests.test_reference_graph_and_actual_building_dump",
+    "line": 41,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_building_proximity_mutation.BuildingProximityMutationTests.test_reference_graph_and_actual_tile_pre_change",
+    "line": 135,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_building_update_consumption_generated_delegate.BuildingUpdateConsumptionGeneratedDelegateTests.test_consumption_runtime_matrix_against_java_expectations",
+    "line": 23,
+    "direct_assert": false,
+    "optional_skip": true
+  },
+  {
+    "test": "tests.test_c05_gate.C05GateTests.test_reference_graph_and_actual_c05_gate",
+    "line": 85,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_c06_battery_enabled_stamp.C06BatteryEnabledStampTests.test_reference_graph_and_actual_c06_battery_enabled_stamp",
+    "line": 103,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_c06_building_update_halves.C06BuildingUpdateHalvesTests.test_reference_graph_and_actual_c06_building_update_halves",
+    "line": 81,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_c06_defense_leg.C06DefenseLegTests.test_reference_graph_and_actual_c06_defense_leg",
+    "line": 124,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_c06_disabled_belt_efficiency.C06DisabledBeltEfficiencyTests.test_reference_graph_and_actual_c06_disabled_belt_efficiency",
+    "line": 95,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_c06_pause_gate.C06PauseGateTests.test_reference_graph_and_actual_c06_pause_gate",
+    "line": 74,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_c06_power_should_consume.C06PowerShouldConsumeTests.test_reference_graph_and_actual_c06_power_should_consume",
+    "line": 81,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_c06_reconstructor_production_tick.C06ReconstructorProductionTickTests.test_reference_graph_and_actual_c06_reconstructor_production_tick",
+    "line": 97,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_c06_session_snapshot.C06SessionSnapshotTests.test_reference_graph_and_actual_c06_session_snapshot",
+    "line": 87,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_c06_source_exhaustion_output_full.C06SourceExhaustionOutputFullTests.test_reference_graph_and_actual_c06_source_exhaustion_output_full",
+    "line": 80,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_c06_unit_assembler_check_tier.C06UnitAssemblerCheckTierTests.test_reference_graph_and_actual_c06_unit_assembler_check_tier",
+    "line": 95,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_c06_unit_assembler_payload.C06UnitAssemblerPayloadTests.test_reference_graph_and_actual_c06_unit_assembler_payload",
+    "line": 74,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_c06_unit_assembler_payload_intake.C06UnitAssemblerPayloadIntakeTests.test_reference_graph_and_actual_c06_unit_assembler_payload_intake",
+    "line": 78,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_c06_unit_assembler_payload_should_consume.C06UnitAssemblerPayloadShouldConsumeTests.test_reference_graph_and_actual_c06_unit_assembler_payload_should_consume",
+    "line": 88,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_c06_unit_assembler_payload_trigger.C06UnitAssemblerPayloadTriggerTests.test_reference_graph_and_actual_c06_unit_assembler_payload_trigger",
+    "line": 78,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_c06_unit_assembler_production_tick.C06UnitAssemblerProductionTickTests.test_reference_graph_and_actual_c06_unit_assembler_production_tick",
+    "line": 98,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_c06_unit_factory_consume_trigger.C06UnitFactoryConsumeTriggerTests.test_reference_graph_and_actual_c06_unit_factory_consume_trigger",
+    "line": 100,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_c06_unit_factory_production_tick.C06UnitFactoryProductionTickTests.test_reference_graph_and_actual_c06_unit_factory_production_tick",
+    "line": 95,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_c06_unit_factory_should_consume_power_stamp.C06UnitFactoryShouldConsumePowerStampTests.test_reference_graph_and_actual_c06_unit_factory_should_consume_power_stamp",
+    "line": 85,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_c07_assembler_drones_in_position.C07AssemblerDronesInPositionTests.test_reference_graph_and_actual_c07_assembler_drones_in_position",
+    "line": 115,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_c07_factory_power_status.C07FactoryPowerStatusTests.test_reference_graph_and_actual_c07_factory_power_status",
+    "line": 129,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_c07_power_status_live.C07PowerStatusLiveTests.test_reference_graph_and_actual_c07_power_status_live",
+    "line": 141,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_c07_reconstructor_construct_time.C07ReconstructorConstructTimeTests.test_reference_graph_and_actual_c07_reconstructor_construct_time",
+    "line": 123,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_c07_unit_group_counts.C07UnitGroupCountsTests.test_reference_graph_and_actual_c07_unit_group_counts",
+    "line": 132,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_c07_units_can_create.C07UnitsCanCreateTests.test_reference_graph_and_actual_c07_units_can_create",
+    "line": 109,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_conduit_update_binding.ConduitUpdateBindingTests.test_reference_graph_and_actual_conduit_update",
+    "line": 39,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_consume_liquid_generated_delegate.ConsumeLiquidGeneratedDelegateTests.test_consume_liquid_golden_runtime_and_building_composition",
+    "line": 29,
+    "direct_assert": false,
+    "optional_skip": true
+  },
+  {
+    "test": "tests.test_consumer_cache_invalidation.ConsumerCacheInvalidationBindingTests.test_reference_graph_and_actual_consumer_cache_invalidation",
+    "line": 38,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_continuous_liquid_turret_ammo_registry.ContinuousLiquidTurretAmmoRegistryTests.test_reference_graph_and_actual_continuous_liquid_turret_ammo_registry",
+    "line": 11,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_continuous_liquid_turret_consumer_binding.ContinuousLiquidTurretConsumerBindingTests.test_reference_graph_and_actual_continuous_liquid_turret_consumer_binding",
+    "line": 68,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_continuous_liquid_turret_cost_multiplier.ContinuousLiquidTurretCostMultiplierTests.test_reference_graph_and_actual_continuous_liquid_turret_cost_multiplier",
+    "line": 38,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_continuous_liquid_turret_live_loop.ContinuousLiquidTurretLiveLoopTests.test_reference_graph_and_actual_continuous_liquid_turret_live_loop",
+    "line": 52,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_continuous_liquid_turret_registry_ammo_tick.ContinuousLiquidTurretRegistryAmmoTickTests.test_reference_graph_and_actual_continuous_liquid_turret_registry_ammo_tick",
+    "line": 18,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_continuous_liquid_turret_tick_frame.ContinuousLiquidTurretTickFrameTests.test_reference_graph_and_actual_continuous_liquid_turret_tick_frame",
+    "line": 38,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_conveyor_advance_binding.ConveyorAdvanceBindingTests.test_reference_graph_and_actual_conveyor_advance",
+    "line": 39,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_conveyor_draw_positions_binding.ConveyorDrawPositionsBindingTests.test_reference_graph_and_actual_conveyor_draw_positions",
+    "line": 38,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_conveyor_intake_binding.ConveyorIntakeBindingTests.test_reference_graph_and_actual_conveyor_intake",
+    "line": 40,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_conveyor_queue_binding.ConveyorQueueBindingTests.test_reference_graph_and_actual_conveyor_queue",
+    "line": 41,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_conveyor_queue_storage_binding.ConveyorQueueStorageBindingTests.test_reference_graph_and_actual_conveyor_queue_storage",
+    "line": 40,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_conveyor_stack_binding.ConveyorStackBindingTests.test_reference_graph_and_actual_conveyor_stack",
+    "line": 40,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_cost_multiplier_for_block_binding.CostMultiplierForBlockBindingTests.test_reference_graph_and_actual_cost_multiplier_for_block",
+    "line": 38,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_drill_booster_binding.DrillBoosterBindingTests.test_reference_graph_and_actual_drill_booster",
+    "line": 38,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_drill_bridge_dominant_binding.DrillBridgeDominantBindingTests.test_reference_graph_and_actual_drill_bridge_dominant",
+    "line": 38,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_drill_conveyor_dump_binding.DrillConveyorDumpBindingTests.test_reference_graph_and_actual_drill_conveyor_dump",
+    "line": 40,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_drill_dump_step_binding.DrillDumpStepBindingTests.test_reference_graph_and_actual_drill_dump_step",
+    "line": 40,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_drill_live_consumption.DrillLiveConsumptionTests.test_real_process_drives_two_multicell_drills_and_concrete_adapter",
+    "line": 32,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_drill_ore_binding.DrillOreBindingTests.test_real_catalog_drill_binding_in_godot",
+    "line": 69,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_drill_ore_selection.DrillOreSelectionTests.test_independent_ore_selection_matrix_in_godot",
+    "line": 22,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_drill_per_drill_dump_binding.DrillPerDrillDumpBindingTests.test_reference_graph_and_actual_drill_per_drill_dump",
+    "line": 38,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_drill_proximity_lifecycle.DrillProximityLifecycleTests.test_actual_proximity_mutation_and_dominant_production",
+    "line": 36,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_factory_consumer_binding.FactoryConsumerBindingTests.test_reference_graph_and_actual_factory_consumer_binding",
+    "line": 76,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_factory_craft.FactoryCraftTests.test_reference_graph_and_actual_c06_factory_craft_gate",
+    "line": 93,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_factory_dump_outputs.FactoryDumpOutputsTests.test_reference_graph_and_actual_c06_factory_dump_outputs_gate",
+    "line": 88,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_factory_dump_swap_binding.FactoryDumpSwapBindingTests.test_reference_graph_and_actual_factory_dump_swap",
+    "line": 38,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_factory_liquid_output.FactoryLiquidOutputTests.test_reference_graph_and_actual_c06_factory_liquid_output_gate",
+    "line": 99,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_factory_live_loop.FactoryLiveLoopTests.test_reference_graph_and_actual_factory_live_loop",
+    "line": 81,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_factory_should_consume.FactoryShouldConsumeTests.test_reference_graph_and_actual_factory_should_consume",
+    "line": 66,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_factory_update_consumption.FactoryUpdateConsumptionTests.test_reference_graph_and_actual_factory_update_consumption",
+    "line": 58,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_game_rules_state_binding.GameRulesStateBindingTests.test_reference_graph_and_actual_game_rules_state",
+    "line": 38,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_lancer_placement_binding.LancerPlacementBindingTests.test_reference_graph_and_actual_lancer_placement",
+    "line": 38,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_liquid_consumer_apply_hydration.LiquidConsumerApplyHydrationTests.test_live_partial_apply_filter_cache_and_real_placement",
+    "line": 30,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_liquid_consumer_hydration.LiquidConsumerHydrationTests.test_live_block_shared_consumers_and_optional_efficiency_runtime",
+    "line": 64,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_liquid_module_lifecycle.LiquidModuleLifecycleTests.test_lifecycle_golden_runtime_and_initialized_consumption",
+    "line": 39,
+    "direct_assert": false,
+    "optional_skip": true
+  },
+  {
+    "test": "tests.test_liquid_module_storage.LiquidModuleStorageTests.test_storage_golden_runtime_and_consumption_mutation",
+    "line": 38,
+    "direct_assert": false,
+    "optional_skip": true
+  },
+  {
+    "test": "tests.test_loadout_place_binding.LoadoutPlaceBindingTests.test_reference_graph_and_actual_loadout_place",
+    "line": 40,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_mechanical_pump_placement_binding.MechanicalPumpPlacementBindingTests.test_reference_graph_and_actual_mechanical_pump_placement",
+    "line": 38,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_no_sleep_wake_binding.NoSleepWakeBindingTests.test_reference_graph_and_actual_no_sleep_wake",
+    "line": 40,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_placed_liquid_ownership.PlacedLiquidOwnershipTests.test_live_building_storage_and_typed_catalog_runtime",
+    "line": 55,
+    "direct_assert": false,
+    "optional_skip": true
+  },
+  {
+    "test": "tests.test_placed_power_graph_grouping_binding.PlacedPowerGraphGroupingBindingTests.test_reference_graph_and_actual_placed_power_graph_grouping",
+    "line": 38,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_placed_tile_set_block_binding.PlacedTileSetBlockBindingTests.test_reference_graph_and_actual_placed_tile_set_block",
+    "line": 48,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_power_graph_consumer_cheating.PowerGraphConsumerCheatingTests.test_reference_graph_and_actual_power_graph_consumer_cheating",
+    "line": 76,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_power_graph_live_update_binding.PowerGraphLiveUpdateBindingTests.test_reference_graph_and_actual_power_graph_live_update",
+    "line": 38,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_pump_dump_liquid_binding.PumpDumpLiquidBindingTests.test_reference_graph_and_actual_pump_dump_liquid",
+    "line": 38,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_pump_proximity_binding.PumpProximityBindingTests.test_reference_graph_and_actual_pump_proximity",
+    "line": 39,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_pump_update_binding.PumpUpdateBindingTests.test_reference_graph_and_actual_pump_update",
+    "line": 39,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_rules_unit_cost_binding.RulesUnitCostBindingTests.test_reference_graph_and_actual_rules_unit_cost",
+    "line": 38,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_schematic_place_binding.SchematicPlaceBindingTests.test_reference_graph_and_actual_schematic_place",
+    "line": 50,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_solar_panel_placement_binding.SolarPanelPlacementBindingTests.test_reference_graph_and_actual_solar_panel_placement",
+    "line": 38,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_team_cheating_state.TeamCheatingStateBindingTests.test_reference_graph_and_actual_team_cheating_state",
+    "line": 38,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_teams_core_registration_binding.TeamsCoreRegistrationBindingTests.test_reference_graph_and_actual_teams_core_registration",
+    "line": 39,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_terrain_mutation_lifecycle.TerrainMutationLifecycleTests.test_live_terrain_notifications_and_ordered_mutations",
+    "line": 36,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_tile_change_build_set_block.TileChangeBuildSetBlockTests.test_reference_graph_and_actual_tile_set_block",
+    "line": 40,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_tile_ore_provider.TileOreProviderTests.test_actual_tile_and_linked_provider_in_godot",
+    "line": 85,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_tile_ore_provider.TileOreProviderTests.test_missing_tile_metadata_is_rejected",
+    "line": 96,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_turret_live_loop.TurretLiveLoopTests.test_reference_graph_and_actual_turret_live_loop",
+    "line": 89,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_two_drill_gate_binding.TwoDrillGateBindingTests.test_reference_graph_and_actual_two_drill_gate",
+    "line": 38,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_unit_factory_consumer_binding.UnitFactoryConsumerBindingTests.test_reference_graph_and_actual_unit_factory_consumer_binding",
+    "line": 84,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_unit_factory_live_loop.UnitFactoryLiveLoopTests.test_reference_graph_and_actual_unit_factory_live_loop",
+    "line": 86,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_unit_factory_should_consume.UnitFactoryShouldConsumeTests.test_reference_graph_and_actual_unit_factory_should_consume",
+    "line": 93,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_valid_place_binding.ValidPlaceBindingTests.test_reference_graph_and_actual_valid_place",
+    "line": 40,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_water_region_binding.WaterRegionBindingTests.test_reference_graph_and_actual_water_region",
+    "line": 38,
+    "direct_assert": true,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_world_tile_lifecycle.WorldTileLifecycleTests.test_actual_world_bootstrap_and_placement",
+    "line": 24,
+    "direct_assert": false,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_world_tile_lifecycle.WorldTileLifecycleTests.test_unknown_map_content_rejected",
+    "line": 32,
+    "direct_assert": false,
+    "optional_skip": false
+  },
+  {
+    "test": "tests.test_world_tile_lifecycle.WorldTileLifecycleTests.test_incomplete_map_terrain_rejected",
+    "line": 37,
+    "direct_assert": false,
+    "optional_skip": false
+  }
+]

@@ -1,0 +1,6 @@
+test_reference_graph_and_actual_power_graph_live_update (tests.test_power_graph_live_update_binding.PowerGraphLiveUpdateBindingTests.test_reference_graph_and_actual_power_graph_live_update) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 19.069s
+
+OK

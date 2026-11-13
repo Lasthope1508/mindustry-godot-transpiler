@@ -1,0 +1,6 @@
+test_live_partial_apply_filter_cache_and_real_placement (tests.test_liquid_consumer_apply_hydration.LiquidConsumerApplyHydrationTests.test_live_partial_apply_filter_cache_and_real_placement) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 19.172s
+
+OK

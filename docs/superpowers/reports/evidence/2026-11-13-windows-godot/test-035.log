@@ -1,0 +1,6 @@
+test_reference_graph_and_actual_consumer_cache_invalidation (tests.test_consumer_cache_invalidation.ConsumerCacheInvalidationBindingTests.test_reference_graph_and_actual_consumer_cache_invalidation) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 19.453s
+
+OK

@@ -1,0 +1,6 @@
+test_reference_graph_and_actual_drill_conveyor_dump (tests.test_drill_conveyor_dump_binding.DrillConveyorDumpBindingTests.test_reference_graph_and_actual_drill_conveyor_dump) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 19.356s
+
+OK

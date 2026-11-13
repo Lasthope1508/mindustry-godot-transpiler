@@ -1,0 +1,6 @@
+test_independent_ore_selection_matrix_in_godot (tests.test_drill_ore_selection.DrillOreSelectionTests.test_independent_ore_selection_matrix_in_godot) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 5.655s
+
+OK

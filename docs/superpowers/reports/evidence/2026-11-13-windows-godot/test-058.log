@@ -1,0 +1,15 @@
+test_reference_graph_and_actual_factory_consumer_binding (tests.test_factory_consumer_binding.FactoryConsumerBindingTests.test_reference_graph_and_actual_factory_consumer_binding) ... FAIL
+
+======================================================================
+FAIL: test_reference_graph_and_actual_factory_consumer_binding (tests.test_factory_consumer_binding.FactoryConsumerBindingTests.test_reference_graph_and_actual_factory_consumer_binding)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Admin\.codex\worktrees\windows-godot-validation\mindustry-godot-c06-proof\tools\mindustry_godot_transpiler\tests\test_factory_consumer_binding.py", line 85, in test_reference_graph_and_actual_factory_consumer_binding
+    self.assertTrue(proofs[0]['matches'], proofs[0])
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : {'factory_cheating_efficiency_one': True, 'factory_cheating_frames_true': True, 'factory_cheating_water_unchanged': True, 'factory_driver_ticked_three': True, 'factory_heater_bind_none': True, 'factory_heater_consumers_zero': True, 'factory_heater_efficiency_one': False, 'factory_heater_frame_bound_on_placement': True, 'factory_heater_is_heat_producer': True, 'factory_mixer_bind_two_actors': True, 'factory_mixer_consumers_still_two': True, 'factory_mixer_efficiency_one': False, 'factory_mixer_frame_bound_on_placement': True, 'factory_mixer_is_generic_crafter': True, 'factory_mixer_titanium_unchanged': True, 'factory_mixer_water_drops_four_ticks': False, 'factory_null_block_bind_none': True, 'factory_smelter_bind_two_actors': True, 'factory_smelter_consumers_still_two': True, 'factory_smelter_efficiency_one': False, 'factory_smelter_frame_bound_on_placement': True, 'factory_smelter_is_generic_crafter': True, 'factory_smelter_items_restored_efficiency_one': False, 'factory_smelter_items_unchanged': True, 'factory_smelter_no_items_efficiency_zero': True, 'factory_smelter_no_items_no_power': True, 'factory_smelter_rebind_no_duplicate': True, 'factory_team_known': True, 'factory_uncheat_restores': True, 'factory_uncheat_water_drops': False, 'matches': False, 'one_headquarter_per_ssot': True, 'registry_valid': True}
+
+----------------------------------------------------------------------
+Ran 1 test in 19.908s
+
+FAILED (failures=1)

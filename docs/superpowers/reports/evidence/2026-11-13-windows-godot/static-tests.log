@@ -1,0 +1,29 @@
+test_all_c07_factory_power_status_input_evidence_is_exact (tests.test_c07_factory_power_status.C07FactoryPowerStatusTests.test_all_c07_factory_power_status_input_evidence_is_exact) ... ok
+test_c07_factory_power_status_registration (tests.test_c07_factory_power_status.C07FactoryPowerStatusTests.test_c07_factory_power_status_registration) ... ok
+test_factory_power_status_row_state (tests.test_c07_factory_power_status.C07FactoryPowerStatusTests.test_factory_power_status_row_state) ... ok
+test_all_factory_consumer_binding_input_evidence_is_exact (tests.test_factory_consumer_binding.FactoryConsumerBindingTests.test_all_factory_consumer_binding_input_evidence_is_exact) ... ok
+test_factory_consumer_binding_registration (tests.test_factory_consumer_binding.FactoryConsumerBindingTests.test_factory_consumer_binding_registration) ... ok
+test_tick_binds_runtime_consumers_for_factory (tests.test_factory_consumer_binding.FactoryConsumerBindingTests.test_tick_binds_runtime_consumers_for_factory) ... ok
+test_all_factory_craft_input_evidence_is_exact (tests.test_factory_craft.FactoryCraftTests.test_all_factory_craft_input_evidence_is_exact) ... ok
+test_factory_craft_registration (tests.test_factory_craft.FactoryCraftTests.test_factory_craft_registration) ... ok
+test_tick_crafts_when_progress_completes (tests.test_factory_craft.FactoryCraftTests.test_tick_crafts_when_progress_completes) ... ok
+test_all_factory_dump_outputs_input_evidence_is_exact (tests.test_factory_dump_outputs.FactoryDumpOutputsTests.test_all_factory_dump_outputs_input_evidence_is_exact) ... ok
+test_factory_dump_outputs_registration (tests.test_factory_dump_outputs.FactoryDumpOutputsTests.test_factory_dump_outputs_registration) ... ok
+test_tick_dumps_outputs (tests.test_factory_dump_outputs.FactoryDumpOutputsTests.test_tick_dumps_outputs) ... ok
+test_all_factory_liquid_output_input_evidence_is_exact (tests.test_factory_liquid_output.FactoryLiquidOutputTests.test_all_factory_liquid_output_input_evidence_is_exact) ... ok
+test_factory_liquid_output_registration (tests.test_factory_liquid_output.FactoryLiquidOutputTests.test_factory_liquid_output_registration) ... ok
+test_tick_outputs_liquid_when_efficient (tests.test_factory_liquid_output.FactoryLiquidOutputTests.test_tick_outputs_liquid_when_efficient) ... ok
+test_all_factory_should_consume_input_evidence_is_exact (tests.test_factory_should_consume.FactoryShouldConsumeTests.test_all_factory_should_consume_input_evidence_is_exact) ... ok
+test_factory_should_consume_registration (tests.test_factory_should_consume.FactoryShouldConsumeTests.test_factory_should_consume_registration) ... ok
+test_should_consume_reads_output_space (tests.test_factory_should_consume.FactoryShouldConsumeTests.test_should_consume_reads_output_space) ... ok
+test_all_unit_factory_consumer_binding_input_evidence_is_exact (tests.test_unit_factory_consumer_binding.UnitFactoryConsumerBindingTests.test_all_unit_factory_consumer_binding_input_evidence_is_exact) ... ok
+test_tick_binds_runtime_consumers_for_unit_factory (tests.test_unit_factory_consumer_binding.UnitFactoryConsumerBindingTests.test_tick_binds_runtime_consumers_for_unit_factory) ... ok
+test_unit_factory_consumer_binding_registration (tests.test_unit_factory_consumer_binding.UnitFactoryConsumerBindingTests.test_unit_factory_consumer_binding_registration) ... ok
+test_all_unit_factory_should_consume_input_evidence_is_exact (tests.test_unit_factory_should_consume.UnitFactoryShouldConsumeTests.test_all_unit_factory_should_consume_input_evidence_is_exact) ... ok
+test_tick_uses_per_class_should_consume_for_unit_factory (tests.test_unit_factory_should_consume.UnitFactoryShouldConsumeTests.test_tick_uses_per_class_should_consume_for_unit_factory) ... ok
+test_unit_factory_should_consume_registration (tests.test_unit_factory_should_consume.UnitFactoryShouldConsumeTests.test_unit_factory_should_consume_registration) ... ok
+
+----------------------------------------------------------------------
+Ran 24 tests in 2.531s
+
+OK

@@ -1,0 +1,6 @@
+test_reference_graph_and_actual_factory_live_loop (tests.test_factory_live_loop.FactoryLiveLoopTests.test_reference_graph_and_actual_factory_live_loop) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 19.731s
+
+OK

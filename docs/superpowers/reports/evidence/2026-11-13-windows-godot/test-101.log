@@ -1,0 +1,6 @@
+test_incomplete_map_terrain_rejected (tests.test_world_tile_lifecycle.WorldTileLifecycleTests.test_incomplete_map_terrain_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 9.917s
+
+OK

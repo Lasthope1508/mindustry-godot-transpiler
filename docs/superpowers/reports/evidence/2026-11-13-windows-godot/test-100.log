@@ -1,0 +1,6 @@
+test_unknown_map_content_rejected (tests.test_world_tile_lifecycle.WorldTileLifecycleTests.test_unknown_map_content_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 10.372s
+
+OK

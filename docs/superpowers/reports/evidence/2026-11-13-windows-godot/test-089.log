@@ -1,0 +1,6 @@
+test_reference_graph_and_actual_tile_set_block (tests.test_tile_change_build_set_block.TileChangeBuildSetBlockTests.test_reference_graph_and_actual_tile_set_block) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 2.967s
+
+OK

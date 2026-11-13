@@ -1,0 +1,71 @@
+[
+  {
+    "number": 1,
+    "test": "tests.test_c06_defense_leg.C06DefenseLegTests.test_reference_graph_and_actual_c06_defense_leg",
+    "category": "required",
+    "engine_runs": [
+      {
+        "command": [
+          "C:\\Users\\Admin\\AppData\\Local\\Microsoft\\WinGet\\Packages\\GodotEngine.GodotEngine_Microsoft.Winget.Source_8wekyb3d8bbwe\\Godot_v4.6.2-stable_win64_console.exe",
+          "--headless",
+          "--path",
+          "C:\\Users\\Admin\\.codex\\worktrees\\windows-godot-validation\\mindustry-godot-c06-proof\\godot-mindustry",
+          "--scene",
+          "tools/runtime_proofs/C06DefenseProof.tscn",
+          "--quit-after",
+          "300"
+        ],
+        "timeout": 180,
+        "exit_code": 0,
+        "log": "engine-001-01.log",
+        "error_lines": [],
+        "proofs": [
+          {
+            "source": "C06DefenseProof.json",
+            "file": "engine-001-01-proof.json",
+            "data": {
+              "defense_ammo_spent": true,
+              "defense_core_unharmed": true,
+              "defense_core_world": true,
+              "defense_dagger_died": true,
+              "defense_dagger_entered_range": true,
+              "defense_dagger_placed_on_approach": true,
+              "defense_dagger_spawned": true,
+              "defense_dagger_swept": true,
+              "defense_death_before_core": true,
+              "defense_duo_loaded": true,
+              "defense_duo_world": true,
+              "defense_hits_landed": true,
+              "defense_lead_angle_matches_intercept": true,
+              "defense_lead_checked": true,
+              "defense_lead_point_ahead": true,
+              "defense_lead_used_intercept": true,
+              "defense_sweep_empty_stays_empty": true,
+              "defense_sweep_null_game_zeros": true,
+              "defense_sweep_removes_dead": true,
+              "defense_target_position_null_game": true,
+              "matches": true,
+              "one_headquarter_per_ssot": true,
+              "predict_intercept_lead": true,
+              "predict_intercept_outrun_falls_back": true,
+              "predict_intercept_stationary": true,
+              "predict_quad_degenerate_linear": true,
+              "predict_quad_no_roots": true,
+              "predict_quad_roots": true,
+              "predict_quad_zero": true,
+              "registry_valid": true
+            }
+          }
+        ],
+        "seconds": 35.082
+      }
+    ],
+    "tests_run": 1,
+    "passed": true,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "log": "test-001.log",
+    "seconds": 35.102
+  }
+]

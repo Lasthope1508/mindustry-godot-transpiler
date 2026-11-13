@@ -1,0 +1,5 @@
+Godot Engine v4.6.2.stable.official.71f334935 - https://godotengine.org
+
+[MCP Runtime] Server listening on port 7777
+[MCP Runtime] Autoload ready, server starting on port 7777
+BUILDING_DUMP_PROOF {"dump_any_content_order_first":true,"dump_any_no_receiver":true,"dump_any_per_item_accept":true,"dump_any_skips_unheld_item":true,"dump_entry_null_dispatches_any":true,"dump_entry_specific_dispatches":true,"dump_specific_can_dump_hook":true,"dump_specific_cdump_wraps":true,"dump_specific_empty_items":true,"dump_specific_first_accepting":true,"dump_specific_item_not_held":true,"dump_specific_no_items_block":true,"dump_specific_no_proximity":true,"dump_specific_no_receiver":true,"dump_specific_skips_rejecting":true,"matches":true,"one_headquarter_per_ssot":true,"registry_valid":true}

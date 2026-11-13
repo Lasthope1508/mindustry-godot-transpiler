@@ -1,0 +1,6 @@
+test_reference_graph_and_actual_c06_factory_dump_outputs_gate (tests.test_factory_dump_outputs.FactoryDumpOutputsTests.test_reference_graph_and_actual_c06_factory_dump_outputs_gate) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 19.629s
+
+OK

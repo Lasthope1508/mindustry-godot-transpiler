@@ -1,0 +1,5 @@
+Godot Engine v4.6.2.stable.official.71f334935 - https://godotengine.org
+
+[MCP Runtime] Server listening on port 7777
+[MCP Runtime] Autoload ready, server starting on port 7777
+CONDUIT_UPDATE_PROOF {"conduit_rotations":true,"conduit_rotations_live":true,"conduit_update_amount":true,"conduit_update_flows":true,"conduit_update_small_delta_no_flow":true,"conduit_update_timer":true,"matches":true,"one_headquarter_per_ssot":true,"registry_valid":true}

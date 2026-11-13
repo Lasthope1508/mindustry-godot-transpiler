@@ -1,0 +1,6 @@
+test_reference_graph_and_actual_conveyor_advance (tests.test_conveyor_advance_binding.ConveyorAdvanceBindingTests.test_reference_graph_and_actual_conveyor_advance) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 19.436s
+
+OK

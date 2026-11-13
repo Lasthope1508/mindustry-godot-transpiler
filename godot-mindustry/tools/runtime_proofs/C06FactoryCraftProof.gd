@@ -120,6 +120,11 @@ func _ready() -> void:
 	# consumes its inputs and keeps its output until a belt takes
 	# it (dumpOutputs is a later slice). ---
 	var smelter_cell := Vector2i(20, 7)
+	# N2145 reads live power.status (ConsumePower.java:39). The live
+	# crafting fixture needs a producer, as in FactoryShouldConsumeProof.
+	var reactor := Sprite2D.new()
+	game.add_child(reactor)
+	game.call("record_placed_block", reactor, blocks_by_id["thorium-reactor"], Vector2i(55, 7))
 	var smelter_sprite := Sprite2D.new()
 	game.add_child(smelter_sprite)
 	game.call("record_placed_block", smelter_sprite, blocks_by_id["silicon-smelter"], smelter_cell)

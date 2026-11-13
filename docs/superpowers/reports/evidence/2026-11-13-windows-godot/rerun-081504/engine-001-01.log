@@ -1,0 +1,5 @@
+Godot Engine v4.6.2.stable.official.71f334935 - https://godotengine.org
+
+[MCP Runtime] Server listening on port 7777
+[MCP Runtime] Autoload ready, server starting on port 7777
+C_06_DEFENSE_PROOF {"defense_ammo_spent":true,"defense_core_unharmed":true,"defense_core_world":true,"defense_dagger_died":true,"defense_dagger_entered_range":true,"defense_dagger_placed_on_approach":true,"defense_dagger_spawned":true,"defense_dagger_swept":true,"defense_death_before_core":true,"defense_duo_loaded":true,"defense_duo_world":true,"defense_hits_landed":true,"defense_lead_angle_matches_intercept":true,"defense_lead_checked":true,"defense_lead_point_ahead":true,"defense_lead_used_intercept":true,"defense_sweep_empty_stays_empty":true,"defense_sweep_null_game_zeros":true,"defense_sweep_removes_dead":true,"defense_target_position_null_game":true,"matches":true,"one_headquarter_per_ssot":true,"predict_intercept_lead":true,"predict_intercept_outrun_falls_back":true,"predict_intercept_stationary":true,"predict_quad_degenerate_linear":true,"predict_quad_no_roots":true,"predict_quad_roots":true,"predict_quad_zero":true,"registry_valid":true}

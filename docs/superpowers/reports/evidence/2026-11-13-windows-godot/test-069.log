@@ -1,0 +1,6 @@
+test_live_block_shared_consumers_and_optional_efficiency_runtime (tests.test_liquid_consumer_hydration.LiquidConsumerHydrationTests.test_live_block_shared_consumers_and_optional_efficiency_runtime) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 19.434s
+
+OK

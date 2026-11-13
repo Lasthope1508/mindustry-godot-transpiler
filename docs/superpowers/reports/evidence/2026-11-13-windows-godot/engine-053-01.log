@@ -1,0 +1,5 @@
+Godot Engine v4.6.2.stable.official.71f334935 - https://godotengine.org
+
+[MCP Runtime] Server listening on port 7777
+[MCP Runtime] Autoload ready, server starting on port 7777
+DRILL_LIVE_CONSUMPTION_PROOF {"adapter_matches":true,"autonomous_process_matches":true,"disabled_matches":true,"dry_base_drilling_matches":true,"full_output_matches":true,"identity_matches":true,"matches":true,"no_ore_matches":true,"one_headquarter_per_ssot":true,"partial_optional_matches":true,"registry_valid":true,"time_scale_matches":true,"two_building_consumption_matches":true,"unique_traversal_matches":true}

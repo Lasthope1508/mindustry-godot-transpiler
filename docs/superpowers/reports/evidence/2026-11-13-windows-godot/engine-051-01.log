@@ -1,0 +1,5 @@
+Godot Engine v4.6.2.stable.official.71f334935 - https://godotengine.org
+
+[MCP Runtime] Server listening on port 7777
+[MCP Runtime] Autoload ready, server starting on port 7777
+DRILL_CONVEYOR_DUMP_PROOF {"drill_conveyor_accept_full":true,"drill_conveyor_accept_loop":true,"drill_conveyor_accept_scene":true,"drill_conveyor_accept_side":true,"drill_conveyor_accept_straight":true,"drill_conveyor_accept_wrong":true,"drill_conveyor_edge_corner":true,"drill_conveyor_edge_east":true,"drill_conveyor_edge_north":true,"drill_conveyor_edge_single":true,"drill_conveyor_edge_size_three":true,"drill_conveyor_edge_west":true,"drill_conveyor_handle_full":true,"drill_conveyor_handle_scene":true,"drill_conveyor_handle_side":true,"drill_conveyor_handle_straight":true,"matches":true,"one_headquarter_per_ssot":true,"registry_valid":true}

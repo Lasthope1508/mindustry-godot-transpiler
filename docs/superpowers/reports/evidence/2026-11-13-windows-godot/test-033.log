@@ -1,0 +1,6 @@
+test_reference_graph_and_actual_conduit_update (tests.test_conduit_update_binding.ConduitUpdateBindingTests.test_reference_graph_and_actual_conduit_update) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 19.448s
+
+OK

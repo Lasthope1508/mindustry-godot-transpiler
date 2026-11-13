@@ -1,0 +1,6 @@
+test_reference_graph_and_actual_factory_dump_swap (tests.test_factory_dump_swap_binding.FactoryDumpSwapBindingTests.test_reference_graph_and_actual_factory_dump_swap) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 19.824s
+
+OK

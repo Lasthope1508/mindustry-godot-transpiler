@@ -1,0 +1,5 @@
+Godot Engine v4.6.2.stable.official.71f334935 - https://godotengine.org
+
+[MCP Runtime] Server listening on port 7777
+[MCP Runtime] Autoload ready, server starting on port 7777
+C_06_POWER_SHOULD_CONSUME_PROOF {"baseline_battery_empty":true,"baseline_coverage":true,"baseline_needed":true,"baseline_produced":true,"disabled_battery_charges":true,"disabled_coverage_one":true,"disabled_coverage_stays_one":true,"disabled_frame_preserved":true,"disabled_needed_stays_zero":true,"disabled_needed_zero":true,"disabled_produced":true,"helper_conduit_no_frame":true,"helper_drill_enabled":true,"helper_empty_no_sprite":true,"helper_lancer_enabled":true,"matches":true,"one_headquarter_per_ssot":true,"reenabled_battery_discharges":true,"reenabled_coverage_battery_covers":true,"reenabled_needed_restored":true,"registry_valid":true,"requested_power_disabled_zero":true,"requested_power_enabled_usage":true,"should_consume_null_game_default":true,"stamp_unit_assembler_default_false":true,"stamp_unit_factory_disabled_false":true,"stamp_unit_factory_no_plan_false":true,"stamp_unit_factory_plan_true":true,"stamp_unit_reconstructor_no_payload_false":true}

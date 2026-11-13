@@ -1,0 +1,6 @@
+test_reference_graph_and_actual_game_rules_state (tests.test_game_rules_state_binding.GameRulesStateBindingTests.test_reference_graph_and_actual_game_rules_state) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 19.810s
+
+OK

@@ -1,0 +1,6 @@
+test_reference_graph_and_actual_c06_unit_assembler_payload_should_consume (tests.test_c06_unit_assembler_payload_should_consume.C06UnitAssemblerPayloadShouldConsumeTests.test_reference_graph_and_actual_c06_unit_assembler_payload_should_consume) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 19.541s
+
+OK

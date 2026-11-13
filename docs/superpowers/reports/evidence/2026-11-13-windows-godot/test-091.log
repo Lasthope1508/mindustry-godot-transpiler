@@ -1,0 +1,6 @@
+test_missing_tile_metadata_is_rejected (tests.test_tile_ore_provider.TileOreProviderTests.test_missing_tile_metadata_is_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 3.428s
+
+OK

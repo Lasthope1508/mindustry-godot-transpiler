@@ -1,0 +1,6 @@
+test_storage_golden_runtime_and_consumption_mutation (tests.test_liquid_module_storage.LiquidModuleStorageTests.test_storage_golden_runtime_and_consumption_mutation) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 2.970s
+
+OK

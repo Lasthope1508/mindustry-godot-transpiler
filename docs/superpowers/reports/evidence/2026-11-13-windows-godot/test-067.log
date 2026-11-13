@@ -1,0 +1,6 @@
+test_reference_graph_and_actual_lancer_placement (tests.test_lancer_placement_binding.LancerPlacementBindingTests.test_reference_graph_and_actual_lancer_placement) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 19.635s
+
+OK

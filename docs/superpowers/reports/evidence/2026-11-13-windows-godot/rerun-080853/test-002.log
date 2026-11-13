@@ -1,0 +1,6 @@
+test_reference_graph_and_actual_factory_consumer_binding (tests.test_factory_consumer_binding.FactoryConsumerBindingTests.test_reference_graph_and_actual_factory_consumer_binding) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 19.167s
+
+OK
