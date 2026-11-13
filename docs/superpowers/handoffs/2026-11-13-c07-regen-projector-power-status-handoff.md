@@ -1,0 +1,71 @@
+# Handoff — N2160: RegenProjector power.status live read (regen-projector) (C07)
+
+Date: 2026-11-13. Batch: N2160 (single slice). Status: **DONE + PUSHED (2026-11-13 ~23:3x +07 — targeted 4/4 OK, neighbours 100/100 OK, proof JSON 9 keys all true, SSOT 11330/1611/1532/2855; full gate attempt 2 Ran 5737 in 907.244s, failures=111, skipped=5, 0 errors — all 111 verified Godot-absent asserts).**
+
+## Scope (decided at RED)
+
+- Family: the RegenProjector implementation — **regen-projector** only (consumePower 1f, size 3, range 28, Blocks.java:2009). hasPower=true, hasItems=true, suppressable=true, update=true, solid=true. Catalog confirms implementation RegenProjector + consumePower 1.0 (content_registry.json — to re-verify at GREEN; the Blocks.java def is the source of truth, see Exact exprs).
+- Why: RegenProjector (RegenProjector.java:29, `public class RegenProjector extends Block{`) has NO placed-buildings driver at all — regen-projector would heal as if power.status were 1.0. N2160 is the RegenProjector family's live read — the same proven N2145–N2159 pure-row pattern, one new file over. Last projector family: the deferred list in the N2159 handoff named RegenProjector as the remaining projector after BaseShield.
+- RegenProjector extends Block, NOT a drill or factory, so it cannot reuse an existing frame key; it gets its own family frame key (the mechanical-pump / beam-drill / mend-projector / overdrive-projector / force-projector / base-shield precedent).
+- The port has NO SourceRegenProjector* files at all yet — no display/runtime state to lean on. The efficiency fold this slice proves is the heal gate (RegenProjector.java:142, `if(efficiency > 0){`), with the heal amount (RegenProjector.java:148, `float healAmount = Mathf.lerp(1f, optionalMultiplier, optionalEfficiency) * healPercent;`).
+- Out of scope for this slice: payload producers (Constructor / PayloadLoader / Unloader / MassDriver / UnitCargoLoader / PayloadDeconstructor) stay deferred — the next family group after the projectors. RegenProjector has a liquid consumer (hydrogen 1f/60f) and an optional item booster (phaseFabric) besides power — those rows wait for their own slices.
+
+## Design (decided in scoping, to confirm at RED)
+
+- New file `godot-mindustry/src/game/SourceRegenProjectorBuildState.gd` (mirrors SourceBaseShieldBuildState.gd): pure `source_regen_projector_power_status_row_state(frame, has_power_consumer)` returning `{"has_power_row": false, "row": {}}` without a consumer, else `{"has_power_row": true, "row": {"result": <live>, "is_power": true}}` where live is the stamped frame value, null folding to 1.0 (the assembler convention, UnitAssembler.java:469); plus driver `source_regen_projector_tick_buildings_state(game, seconds)` mirroring the base-shield driver's shape — iterate placed RegenProjector buildings (`source_unique_buildings_state`), bind the frame if missing, refresh frame keys (block_implementation, team_id, rules_state, cheating, enabled), and when `block.properties.has("consumePower")` and enabled and not cheating, fold the pure row into frame["efficiency"] through the shared machinery (`update_consumption_setup_state` + `update_consumption_state` + `apply_update_consumption_state`, should_consume=true when enabled, production_valid=true) as the only first-pass row, so the heal gate (RegenProjector.java:142) follows power.status.
+- Frame key (DECIDED at RED 2026-11-13 ~22:45 +07): `"source_regen_projector_building"` — verified no collision: grep finds no `source_regen_projector_building` anywhere in the port. GREEN adds it to `SourcePlacedPowerGraphState.SOURCE_CONSUMER_FRAME_META_KEYS` (one line, same mechanism as the base-shield key).
+- Wiring: call the driver from `SourceFactoryRuntimeState.simulate_factory` (preload const + one call next to the base-shield tick, the production grouping).
+- Header comment quotes: `return build.power.status;` (ConsumePower.java:39), the null-fold line (UnitAssembler.java:469), `hasConsumers = consumers.length > 0;` (Block.java:1449), the heal gate `if(efficiency > 0){` (RegenProjector.java:142), the heal amount `float healAmount = Mathf.lerp(1f, optionalMultiplier, optionalEfficiency) * healPercent;` (RegenProjector.java:148), the shouldConsume default `public boolean shouldConsume(){` (BuildingComp.java:755), the anyTargets override `return anyTargets;` (RegenProjector.java:207), the regen-projector healPercent `healPercent = 4f / 60f;` (Blocks.java:2018) — keep each on ONE comment line (the N2148 shootWarmup lesson: a split line fails the source-text test).
+- Documented limits (GREEN must record in the pure function's comment, same discipline as N2148–N2159): (1) power-only first pass — RegenProjector has a liquid consumer (hydrogen 1f/60f, Blocks.java:2016) and an optional item booster (phaseFabric, Blocks.java:2017) besides power, so the folded efficiency is the min over the *modeled* consumers (power only) with those rows deferred. (2) shouldConsume gate deferred — RegenProjectorBuild overrides shouldConsume() to return anyTargets (RegenProjector.java:206-208); the targets computation (indexer range query over damaged buildings in range 28, RegenProjector.java:113-117) is not tracked yet, so the machinery runs with should_consume=true when enabled (the MendProjector suppression precedent). (3) Suppression gate deferred — checkSuppression() (RegenProjector.java:137; suppressable=true, RegenProjector.java:49) needs suppression state the tick does not track yet. (4) No updateTile advance — warmup / totalTime / optionalTimer / didRegen / anyTargets / mendMap / heal (RegenProjector.java:123-179) wait for their own slices; the proof carries no warmup/heal/target keys, the heal gate (RegenProjector.java:142) is what the efficiency keys prove.
+- Proof scene (new, modeled on the N2159 proof — Main scene, campaign playable slice, `RuntimeProofState`), prefix `C_07_REGEN_PROJECTOR_POWER_STATUS_PROOF `, 6 keys: `regen_has_power_consumer` (catalog regen-projector properties have consumePower), `power_row_half`, `power_row_absent_without_consumer`, `power_row_null_folds_one`, `efficiency_folds_power_min` (live tick — place regen-projector live, stamp frame["power_status"] = 0.5, call the driver directly so the graph update does not overwrite the stamp), `efficiency_zero_at_no_power`.
+
+## Exact exprs (13, all verified verbatim at scoping — grep 2026-11-13 ~22:45)
+
+- `return build.power.status;` (ConsumePower.java:39)
+- `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;` (UnitAssembler.java:469)
+- `hasConsumers = consumers.length > 0;` (Block.java:1449)
+- `consumePower(1f);` (Blocks.java:2016, regen-projector def 2009)
+- `public class RegenProjector extends Block{` (RegenProjector.java:29)
+- `hasPower = true;` (RegenProjector.java:45)
+- `if(efficiency > 0){` (RegenProjector.java:142)
+- `float healAmount = Mathf.lerp(1f, optionalMultiplier, optionalEfficiency) * healPercent;` (RegenProjector.java:148)
+- `public boolean shouldConsume(){` (BuildingComp.java:755)
+- `return anyTargets;` (RegenProjector.java:207)
+- `for(var cons : block.nonOptionalConsumers){` (BuildingComp.java:1969)
+- `minEfficiency = Math.min(minEfficiency, result);` (BuildingComp.java:1976)
+- `healPercent = 4f / 60f;` (Blocks.java:2018)
+
+## RED (DONE 2026-11-13 ~22:45 +07, 22:45 report run)
+
+- Test module `tools/mindustry_godot_transpiler/tests/test_c07_regen_projector_power_status.py` + register script `tools/mindustry_godot_transpiler/register_c07_regen_projector_power_status.py` written (modeled on N2159; frame key decided: `"source_regen_projector_building"`).
+- RED run: Ran 4 tests in 2.570s, FAILED (failures=1, errors=3) — exactly as expected: registration ERROR KeyError 'N2160', evidence ERROR KeyError 'N2160', source-text ERROR FileNotFoundError on `SourceRegenProjectorBuildState.gd` (file does not exist yet), proof FAIL returncode 1 (scene missing, Godot 4.6.2-stable Linux). Re-run confirmed the same breakdown (3 ERRORs + 1 FAIL). Port 7777 was FREE. 13/13 exact exprs verified verbatim at RED (grepped in the Java sources during scoping). SSOT baseline 11328/1610/1531/2853 (unchanged from N2159 — main at 086d354), audit 1335. javalang 0.13.0 reinstalled at this run (VM restart had wiped it).
+- Next: GREEN (new `SourceRegenProjectorBuildState.gd` pure row + driver, wiring in `SourceFactoryRuntimeState.simulate_factory`, key added to `SOURCE_CONSUMER_FRAME_META_KEYS`, proof scene `C07RegenProjectorPowerStatusProof` 6 keys, register script run → expected SSOT 11330/1611/1532/2855), then targeted 4/4 → neighbours → Godot proof → full gate (main thread) → commit + push only when all green.
+
+## GREEN (DONE 2026-11-13 ~23:05 +07, 23:00 report run)
+
+- New `godot-mindustry/src/game/SourceRegenProjectorBuildState.gd` (pure row + driver, modeled on SourceBaseShieldBuildState.gd) + proof scene `C07RegenProjectorPowerStatusProof` (.gd + .tscn, 6 keys) + wiring: preload const + tick call in `SourceFactoryRuntimeState.simulate_factory` next to the base-shield tick + `"source_regen_projector_building"` added to `SourcePlacedPowerGraphState.SOURCE_CONSUMER_FRAME_META_KEYS` (one line, :140). Register script run → SSOT 11330/1611/1532/2855 (was 11328/1610/1531/2853), audit 1335 — exactly as predicted.
+- Targeted: Ran 4 tests in 14.862s, OK (first run 3/4 — the proof test failed only because `godot` was not on PATH; re-run with PATH="$HOME/workspace/godot-bin:$PATH" 4/4 OK). Godot proof GREEN: 9 keys all true, `matches: true`, no ERROR (port 7777 was FREE). Neighbours: C07 power-status family 68/68 OK in 210.3s (17 modules incl. N2160) + wiring-sensitive modules 32/32 OK in 115.2s — factory live loop, power-graph grouping/live-update, battery binding/placement, adjacent/unit-factory live loops, turret live loop, consumer cheating. Total neighbours 100/100 OK in 325.5s. `git diff --check` clean.
+- Next: verify full gate → docs (report + design spec Status Summary 1610→1611 + N2160 row + GOAL.md §5 debt-line) → commit + push only when all green.
+
+## Gate (ATTEMPT 1 DIED — attempt 2 FINISHED CLEAN ~23:28 +07)
+
+- Attempt 1 launched from the 23:00 report run ~23:10 +07: `cd tools/mindustry_godot_transpiler && python3 -c "import javalang" && setsid nohup python3 -m unittest discover -s tests > full-suite-n2160-gate.log 2>&1 < /dev/null &` — **PID 6095, SID 6095 (own session), 94.1% CPU, log growing** (verified alive ~23:10). javalang 0.13.0 present (no reinstall needed). **DIED at session end — verified by main thread ~23:13: PID gone, log stopped at 3,536 bytes, no footer.** Same worker-launched-gate failure as N2146 PID 9699, N2147 PID 3427, N2149 PID 3798, N2151 PID 16626, N2154 PID 14878, N2157 PID 12581.
+- Attempt 2 **launched from the MAIN THREAD ~23:13 +07** by main thread (same command, same log file): **PID 6359, SID 6359 (own session), PPID 6356 (background subshell), CPU ~89%, log growing** (443 → 560 bytes in 3s, verified ~23:13). No Godot on PATH. No proof scene will run while the gate runs (port-7777 rule). **FINISHED ~23:28 +07 (verified by the 23:30 report run): Ran 5737 tests in 907.244s, FAILED (failures=111, skipped=5), 0 errors** — exactly as predicted. Verification: 111 FAIL blocks, all 111 mention godot, all 111 `AssertionError: unexpectedly None` (110 plain `assertIsNotNone(godot)` + 1 hydration `test_live_block_shared_consumers_and_optional_efficiency_runtime`, 'Godot required for hydration proof'); 0 `ERROR:` lines; the new N2160 proof test is among the 111 (expected — gate env has no Godot; the proof itself was verified GREEN headless at 23:05 with 9 keys). Slice committed + pushed after gate verification (see Commits).
+
+## Commits (PENDING — fill hashes after the 4-commit sequence)
+
+## Deferred (NOT this slice)
+
+- RegenProjector updateTile advance (warmup / totalTime / optionalTimer / didRegen / anyTargets / mendMap / heal, RegenProjector.java:123-179), RegenProjector shouldConsume gate (anyTargets, RegenProjector.java:206-208), RegenProjector suppression gate (checkSuppression(), RegenProjector.java:137), RegenProjector booster item row (phaseFabric, Blocks.java:2017), RegenProjector liquid row (hydrogen 1f/60f, Blocks.java:2016), RegenProjector range / heal rows (range 28, Blocks.java:2011; healPercent 4f/60f, Blocks.java:2018; optionalMultiplier 2f / optionalUseTime 60f * 8f, RegenProjector.java:36-37), RegenProjector mendMap / effect rows (mendMap, RegenProjector.java:29-31; Fx.regenParticle, effectChance 0.003f).
+- Payload producers (Constructor / PayloadLoader / PayloadUnloader / PayloadMassDriver / UnitCargoLoader / PayloadDeconstructor) — the next family group after the projectors.
+- BaseShield updateTile advance / drawShield rows / radius / sides rows / broken / hit rows; ForceProjector updateTile advance / booster item rows / coolant rows / phase-radius / phase-shield rows / broken / buildup rows; OverdriveProjector updateTile advance / booster item rows / range rows / useProgress rows; MendProjector updateTile advance / suppression gate / booster item rows / range rows; BeamDrill / Pump / Fracker / SolidPump updateTile advance / shouldConsume / liquid / proximity rows (see register script DEFERRED).
+- spawn_occupied / allow_update / moveOutPayload, net drone sync.
+- C07–C12 remain open.
+
+## Notes
+
+- Another agent is using Godot to test the fail errors (user, 08:05). Port 7777 was FREE at RED. Before any proof run, re-check `ss -ltnp | grep 7777` and run proof scenes sequentially — never while a gate runs (port-7777 rule).
+- Godot binary is at ~/workspace/godot-bin/godot (symlink to Godot_v4.6.2-stable_linux.x86_64) — NOT on PATH by default; targeted/neighbours ran with PATH="$HOME/workspace/godot-bin:$PATH".
+- Worktree at RED: main `086d354`, clean except untracked `*.gd.uid` (never stage). New uncommitted files: the N2160 test module + register script + this handoff.
+- VM restarts wipe the system-wide javalang install — reinstalled 0.13.0 at the N2160 RED run (22:45 run: `pip install --break-system-packages -r tools/mindustry_godot_transpiler/requirements.txt` from the repo root). After any VM restart, reinstall javalang first before any gate.
+- N2160 proof not yet run on Windows Godot (debt in GOAL.md §5 — to add at GREEN completion, scene reaches Windows with the slice commit).
