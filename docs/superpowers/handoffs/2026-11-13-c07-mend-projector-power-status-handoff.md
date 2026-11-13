@@ -57,7 +57,13 @@ Date: 2026-11-13. Batch: N2156 (single slice). Status: **GREEN DONE (2026-11-13 
 - Full gate attempt 1 **launched from the MAIN THREAD ~19:09 +07** by main thread: `cd tools/mindustry_godot_transpiler && python3 -c "import javalang" && setsid nohup python3 -m unittest discover -s tests > full-suite-n2156-gate.log 2>&1 < /dev/null &` — **PID 5359, SID 5359 (own session), PPID 5356 (background subshell)**. No Godot on PATH. No proof scene ran while the gate ran (port-7777 rule).
 - **FINISHED ~19:27 +07, verified by the 19:30 report run: Ran 5721 tests in 1083.854s, FAILED (failures=107, skipped=5), 0 errors** — exactly the expected outcome (106 inherited + 1 new N2156 proof test). Verification: 107 `FAIL:` lines, 0 `ERROR:` lines — all 107 `AssertionError: unexpectedly None` (106 plain assertIsNotNone(godot) + 1 hydration assertIsNotNone(godot, 'Godot required for hydration proof')), including the new N2156 proof test `test_reference_graph_and_actual_c07_mend_projector_power_status`. Gate clean except Godot. First-attempt finish. Note: VM restarted ~18:39 +07 (third restart today) and wiped javalang again — reinstalled 0.13.0 by the 18:45 run; import verified OK before this launch.
 
-## Commits (TODO)
+## Commits
+
+- Slice: `fbe08f1` — C07: N2156 MendProjector power.status live read (mender / mend-projector; pure power row + driver wiring; proof 6 keys) — 13 files, +900/−1.
+- Docs: `0bf8a84` — Docs: N2156 report + design spec + handoff (gate clean except Godot) — report + spec (Status Summary 1606→1607) + handoff.
+- GOAL.md debt line: `353c447` — Docs: GOAL.md names the N2156 slice commit (fbe08f1) that carries its proof to Windows.
+- This handoff-hash commit records the slice + docs hashes above. All four commits pushed to origin main (see push verification below).
+- Push: `git push origin main` from the 19:30 report run — main at this commit; `git log origin/main` confirms the four commits on the fork.
 
 ## Deferred (NOT this slice)
 
