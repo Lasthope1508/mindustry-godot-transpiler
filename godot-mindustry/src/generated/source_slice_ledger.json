@@ -56053,6 +56053,74 @@
         "Units.notifyUnitSpawn / spawn path, Call.unitCapDeath / Call.unitEnvDeath net calls -- presentation/net, not state.",
         "C07-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2155": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_class": "mindustry.world.blocks.production.BeamDrill.BeamDrillBuild",
+      "java_method": "BeamDrillBuild.updateTile()",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_power_status_row_state",
+      "exact_exprs": [
+        "return build.power.status;",
+        "float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;",
+        "hasConsumers = consumers.length > 0;",
+        "consumePower(0.15f);",
+        "consumePower(0.8f);",
+        "public class BeamDrill extends Block{",
+        "warmup = Mathf.approachDelta(warmup, Mathf.num(efficiency > 0), 1f / 60f);",
+        "float multiplier = Mathf.lerp(1f, optionalBoostIntensity, optionalEfficiency);",
+        "lastDrillSpeed = (facingAmount * multiplier * timeScale) / drillTime * efficiency;",
+        "time += edelta() * multiplier;",
+        "return items.total() < itemCapacity && facingAmount > 0 && enabled;",
+        "for(var cons : block.nonOptionalConsumers){",
+        "minEfficiency = Math.min(minEfficiency, result);"
+      ],
+      "source_symbols": [
+        "source_beam_drill_power_status_row_state_result.row",
+        "source_beam_drill_power_status_row_state_result.has_power_row"
+      ],
+      "tests": [
+        "test_c07_beam_drill_power_status_registration",
+        "test_all_c07_beam_drill_power_status_input_evidence_is_exact",
+        "test_beam_drill_power_status_row_state",
+        "test_reference_graph_and_actual_c07_beam_drill_power_status"
+      ],
+      "runtime_proof": "/root/C07BeamDrillPowerStatusProof",
+      "deferred_exprs": [
+        "BeamDrill updateTile advance (warmup / multiplier / lastDrillSpeed / time / dump, BeamDrill.java:237-263) -- the N2155 proof carries no progress keys; the lastDrillSpeed fold (BeamDrill.java:249) is what the efficiency keys prove; the advance waits for its own slice.",
+        "BeamDrill shouldConsume gate (items.total() < itemCapacity && facingAmount > 0 && enabled, BeamDrill.java:270-271) -- needs items/facing state the tick does not track yet.",
+        "BeamDrill liquid rows (plasma-bore hydrogen 0.25f/60f booster; large-plasma-bore hydrogen 0.5f/60f + nitrogen 3f/60f booster, Blocks.java:3049/3064-3065) -- the tick models no other consumers yet, so the folded efficiency is the min over the modeled consumers (power only); those rows wait for their own slices.",
+        "BeamDrill facing / laser binding (updateLasers / updateFacing, BeamDrill.java:368-411) -- needs tile/wall proximity state the tick does not track yet.",
+        "BeamDrill drillMultipliers / blockedItem rows (BeamDrill.java:36-40) -- drill-time multipliers wait for their own slice.",
+        "Pump updateTile advance (maxPump / liquids.add / warmup / totalProgress / consTimer item consume / dumpLiquid, Pump.java:161-182) -- the N2154 proof carries no progress keys; the maxPump fold (Pump.java:162) is what the efficiency keys prove; the advance waits for its own slice.",
+        "Pump shouldConsume gate (liquidDrop != null && liquids.get(liquidDrop) < liquidCapacity - 0.01f && enabled, Pump.java:155-156) -- needs liquid state the tick does not track yet.",
+        "Pump proximity amount / liquidDrop rows (Pump.java:141-152) -- needs tile / liquid proximity state the tick does not track yet.",
+        "Pump warmup / totalProgress rows (Pump.java:171-176) -- the tick models no warmup state yet; waits for its own slice.",
+        "Fracker updateTile advance (accumulator / itemUseTime consume / super.updateTile(), Fracker.java:30-44) -- the N2153 proof carries no progress keys; the accumulator fold (Fracker.java:38) and the solid-pump speed fold (SolidPump.java:121) are what the efficiency keys prove; the advance waits for its own slice.",
+        "Fracker shouldConsume gate (inherited SolidPumpBuild.shouldConsume(), liquids.get(result) < liquidCapacity - 0.01f, SolidPump.java:113-115) -- needs liquid state the tick does not track yet.",
+        "Fracker item / liquid rows (consumeItem sand, consumeLiquid water 0.15f, Blocks.java:2976-2978) -- the tick models no other consumers yet, so the folded efficiency is the min over the modeled consumers (power only); those rows wait for their own slices.",
+        "Fracker water-attribute / validTiles / boost fraction rows (SolidPump.java:118, 137-147, inherited via super.updateTile()) -- the tick models no other inputs yet; the attribute fraction waits for its own slice.",
+        "SolidPump updateTile advance (warmup / pumpTime / lastPump / validTiles / boost, SolidPump.java:118-133) -- the N2150 proof carries no progress keys; the speed fold (SolidPump.java:121) is what the efficiency keys prove; the advance waits for its own slice.",
+        "SolidPump shouldConsume gate (liquids.get(result) < liquidCapacity - 0.01f, SolidPump.java:113-115) -- needs liquid state the tick does not track yet.",
+        "SolidPump water-attribute / validTiles / boost fraction rows (SolidPump.java:118, 137-147) -- the tick models no other consumers yet, so the folded efficiency is the min over the modeled consumers (power only); the attribute fraction waits for its own slice.",
+        "Power.status live read for the projector families (MendProjector mender 0.3f / mend-projector 1.5f, OverdriveProjector 3.5f / overdrive-dome 10f, ForceProjector 4f, BaseShield shield-projector / large-shield-projector 5f) -- projector semantics (heal / overdrive / shield) are not a production-efficiency fold; each waits for its own slice.",
+        "Power.status live read for the payload-producer families (Constructor 2.5f / large-constructor 3f, PayloadLoader / PayloadUnloader / PayloadMassDriver / UnitCargoLoader / PayloadDeconstructor) -- separate family group; waits for its own slice.",
+        "PointDefenseTurret updateTile advance / shouldConsume gate; TractorBeamTurret updateTile advance / shouldConsume gate / coolant rows (see register script DEFERRED).",
+        "BurstDrill updateTile advance (progress / timeDrilled / offload / invertTime / speedCurve, BurstDrill.java:70-125) -- the N2149 proof carries no progress keys; the speed fold (BurstDrill.java:94) is what the efficiency keys prove; the advance waits for its own slice.",
+        "BurstDrill shouldConsume gate (items.total() <= itemCapacity - dominantItems && enabled, BurstDrill.java:129) -- needs items/dominant state the tick does not track yet.",
+        "BurstDrill liquid rows (eruption hydrogen + cyanogen booster, impact water + ozone booster) -- the tick models no other consumers yet, so the folded efficiency is the min over the modeled consumers (power only); those rows wait for their own slices.",
+        "BurstDrill ore / dominant-item binding -- the drill proximity path binds base-Drill frames; BurstDrill dominant selection waits for its own slice.",
+        "spawn_occupied / spawn_visual_occupied frame inputs -- checkSolid(spawn, false/true) (UnitAssembler.java:675-680) needs tile solidity + a nearby-units query; the port's check_solid_state() is a no-arg stub returning false; waits for a collision/tile-solidity frame-data slice.",
+        "allow_update frame input -- the canonical allow_update_state exists (SourceBuildingAccessState, BuildingComp.java:622-627) but the driver cannot supply its inputs: rules_state carries only unitCostMultiplier + teams (no env, limitMapArea, limits), and the catalog carries no block env/privileged flags; waits for a rules-state capture slice.",
+        "Per-unit AssemblerAI.inPosition() evaluation from live unit pos/rotation/targetPos/targetAngle -- the count reads the recorded in_position flag; the units list carries no pos/rotation yet.",
+        "moveOutPayload() modeling -- the assembler production tick still has no payload move-out.",
+        "Net readUnits / whenSyncedUnits drone sync -- presentation/net, not state.",
+        "Live UnitComp.add() / remove() lifecycle hooks (UnitComp.java:591-598, 603-604, 752) -- no live unit lifecycle in the port yet.",
+        "PayloadComp add/remove count hooks (PayloadComp.java:101, 200) -- same, payload lifecycle not ported yet.",
+        "Teams.updateTeamStats full multi-team rebuild (present/bosses/players/unitsByType/unitTree, Teams.java:182-245) -- N2141 rebuilds one team's counts only.",
+        "Units.notifyUnitSpawn / spawn path, Call.unitCapDeath / Call.unitEnvDeath net calls -- presentation/net, not state.",
+        "C07-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1
