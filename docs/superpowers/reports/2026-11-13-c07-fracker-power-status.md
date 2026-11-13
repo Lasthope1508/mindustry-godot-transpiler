@@ -1,0 +1,54 @@
+# Report — N2153: Fracker power.status live read (oil-extractor) (C07)
+
+Date: 2026-11-13. Batch: N2153 (single slice). Status: **DONE + PUSHED (targeted 4/4 OK, neighbours 67/67 OK, Godot proof GREEN, 9 keys, matches:true; full gate attempt 2 GREEN except Godot: Ran 5709, failures=104, skipped=5, 0 errors — all 104 Godot-absent asserts).**
+
+## What changed
+
+The next `power.status` consumer family after the N2152 tractor-beam slice: the Fracker implementation — **oil-extractor** (consumePower 3f, pumpAmount 0.25f, size 3, liquidCapacity 40f, attribute oil, itemUseTime 60f, result oil, consumeItem sand, consumeLiquid water 0.15f). The ONLY Fracker block in the game (Blocks.java:2964-2979). Fracker extends SolidPump (Fracker.java:7, `public class Fracker extends SolidPump{`), but the N2150 solid-pump driver only ticks the SolidPump implementation (`SOURCE_SOLID_PUMP_BUILD_IMPLEMENTATIONS` is `["SolidPump"]`), so the oil-extractor never ticked at all and would pump as if power.status were 1.0. N2153 is the Fracker family's live read — the same proven N2145–N2152 pure-row pattern, one new file over. The solid-pump driver is untouched — the Fracker driver is separate, like BurstDrill vs base Drill and SolidPump vs mechanical Pump.
+
+Composition, not re-implementation: the shared efficiency machinery (`SourceBuildingEfficiencyState.update_consumption_state` + `apply_update_consumption_state`, via `update_consumption_setup_state`) already folds `{"result": ..., "is_power": true}` rows into the min efficiency — the power consumer's `ConsumePower.efficiency` is `build.power.status` (ConsumePower.java:39). N2153 does not touch it. N2153 supplies the missing pure power row + wires it into the driver.
+
+Pure `SourceFrackerBuildState.source_fracker_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary` — `has_power_consumer` false → `{"has_power_row": false, "row": {}}`; true → `{"has_power_row": true, "row": {"result": <live>, "is_power": true}}` where live = 1.0 if `frame.get("power_status", null)` is null else `float(frame.get("power_status"))`. The null→1.0 fold is the assembler convention (UnitAssembler.java:469, before the first graph update).
+
+Driver wiring in `source_fracker_tick_buildings_state(game, seconds)`: iterate placed Fracker buildings, bind the frame if missing, refresh frame keys (block_implementation, team_id, rules_state, cheating, enabled), and when `block.properties.has("consumePower")` and enabled and not cheating, the pure row runs through the shared machinery (`update_consumption_setup_state` + `update_consumption_state` + `apply_update_consumption_state`, should_consume=true when enabled, production_valid=true) as the only first-pass row, so `frame["efficiency"]` follows power.status and the fracker accumulator fold (Fracker.java:38, `accumulator += delta() * efficiency;`) plus the `super.updateTile()` solid-pump speed fold (SolidPump.java:121, `float maxPump = Math.min(liquidCapacity - typeLiquid(), pumpAmount * delta() * fraction * efficiency);`) follow it. Live-loop wiring: the driver is called from `simulate_factory` in SourceFactoryRuntimeState.gd right after the solid-pump tick.
+
+Frame key (decided in RED): the driver uses its OWN family frame key `"source_fracker_building"` (the turret precedent — the solid-pump frame `source_solid_pump_building` stays untouched, the oil-extractor never binds it). N2142's stamp/write-back only reaches frames whose meta key is in `SourcePlacedPowerGraphState.SOURCE_CONSUMER_FRAME_META_KEYS`, and that list had NO fracker key — so GREEN added `"source_fracker_building"` to that list (one line, SourcePlacedPowerGraphState.gd:140, same mechanism as the solid-pump key).
+
+Scope decision (decided in RED): **the Fracker implementation only — oil-extractor**. Families considered and rejected, with reasons (catalog `content_registry.json`, verified against Java + drivers):
+- HeatCrafter (5 blocks) / AttributeCrafter (3 blocks): already covered — the N2145 factory driver lists both implementations and applies the power row whenever `consumePower` is present. Separator likewise already covered by the N2146 adjacent-factory driver. Not candidates.
+- LaserTurret (meltdown) / ContinuousTurret (lustre): already covered by N2148.
+- Mechanical Pump (rotary-pump 0.3f, impulse-pump 1.3f): the pump runtime ticks only the scenario mechanical pump at PUMP_POS with efficiency hardcoded 1.0; placed rotary/impulse pumps have NO placed-buildings driver at all, so they need a new general pump driver, not a one-file row — bigger slice, deferred to its own slice.
+- BeamDrill (plasma-bore 0.15f, large-plasma-bore 0.8f): no BeamDrill driver exists at all — new driver needed, deferred.
+- Projectors (MendProjector, OverdriveProjector, ForceProjector, BaseShield): heal/overdrive/shield semantics, not a production-efficiency fold — separate family group, deferred.
+- Payload producers (Constructor, PayloadLoader/Unloader/MassDriver, UnitCargoLoader, PayloadDeconstructor): separate family group, deferred.
+- Fracker wins: 1 block, driver pattern exists one level up (the SolidPump driver), direct `super.updateTile()` eff fold — the smallest, safest next family in the drill/pump group already half-done.
+
+Documented limits in the pure function's comment, same discipline as N2148–N2152: (1) power-only first pass — the item (sand) / liquid (water 0.15f) consumers and the water-attribute / validTiles / boost fraction (SolidPump.java:118, 137-147, inherited via `super.updateTile()`) wait for their own slices; the folded efficiency is the min over the *modeled* consumers (power only). (2) No shouldConsume gate — FrackerBuild inherits `SolidPumpBuild.shouldConsume()` (SolidPump.java:113-115, `return liquids.get(result) < liquidCapacity - 0.01f;`) which needs liquid state the tick does not track yet; the machinery runs with should_consume=true when enabled. (3) No updateTile advance — accumulator / itemUseTime consume / `super.updateTile()` (Fracker.java:30-44) and warmup / pumpTime / lastPump / validTiles / boost (SolidPump.java:118-133) wait for their own slices; the proof carries no progress keys, the accumulator/speed fold (Fracker.java:38, SolidPump.java:121) is what the efficiency keys prove.
+
+## Proof keys (new scene, 6 keys)
+
+New scene `C07FrackerPowerStatusProof` (modeled on the N2150 proof — Main scene, campaign playable slice, `RuntimeProofState`), prefix `C_07_FRACKER_POWER_STATUS_PROOF `:
+
+- `oil_extractor_has_power_consumer`: catalog `oil-extractor` properties has `consumePower` (grounds the driver gate).
+- `power_row_half`: pure row over frame `{"power_status": 0.5}`, has_power_consumer true → row result 0.5, `is_power` true.
+- `power_row_absent_without_consumer`: has_power_consumer false → `has_power_row` false.
+- `power_row_null_folds_one`: frame without `power_status` → row result 1.0.
+- `efficiency_folds_power_min`: live tick — place oil-extractor live, stamp `frame["power_status"] = 0.5`, call `source_fracker_tick_buildings_state` directly (as the N2147–N2152 proofs call their drivers directly, so the graph update does not overwrite the stamped power_status — the write-back itself is already proven by N2142) → frame efficiency 0.5.
+- `efficiency_zero_at_no_power`: same, `power_status` 0.0 → efficiency 0.0.
+
+## Verified numbers (measured in this VM)
+
+- Test module `test_c07_fracker_power_status.py`: **4/4 OK in 13.3s** — registration (ledger N2153, 2 new symbols, runtime proof, test names, deferred_exprs), exact-evidence (2 new symbols + 11 exprs over ConsumePower.java + BuildingComp.java + Fracker.java + SolidPump.java + Pump.java + Blocks.java + PowerModule.java + UnitAssembler.java + Block.java, all found verbatim), source-text (pure function exists + the quoted Java lines in its comment — the accumulator and maxPump lines each on ONE comment line, the N2148 shootWarmup lesson — + driver wires the pure row through the shared machinery; proof has the 6 new keys), and the Godot proof test (6 new keys, all true, `matches: true`).
+- RED run (~14:35 +07): 4 tests in 1.2s, FAILED (failures=1, errors=3), all expected — registration `KeyError: 'N2153'`, evidence errors on the missing ledger entry, source-text errors on the missing `SourceFrackerBuildState.gd`, proof returncode 1 (proof scene did not exist yet). 11/11 exact exprs verified verbatim at RED (grepped in the Java sources during scoping). SSOT baseline 11314/1603/1524/2839.
+- GREEN first targeted run 4/4 OK — no fix needed during the run (unlike N2152's mis-copied `edelta` line).
+- Neighbours (Godot on PATH, sequential): **67/67 OK in 206.3s** (C07 power family N2142/N2145–N2152 — 9 modules × 4 = 36 — + power-graph live-update binding + factory/adjacent/unit-factory consumer bindings + factory/adjacent/unit-factory/turret live loops). No port-7777 collision this time.
+- Godot proof: **GREEN ~14:40 +07** — proof JSON 9 keys, all true, `matches: true` (6 semantic keys + `registry_valid` + `one_headquarter_per_ssot` + `matches`), on Godot 4.6.2-stable Linux in this VM (build 71f334935, identical to the Windows 4.6.2 build); standalone proof re-run confirms the same 9 keys, all true, no `ERROR:` lines. Port 7777 was free before every proof run; no proof scene ran while a gate ran. Not yet run on Windows Godot — the scene/source reach Windows only with this slice's commit.
+- `git diff --check` clean.
+- SSOT +2/+1/+1/+2 → **11316 / 1604 / 1525 / 2841** (registry `symbols` 11316, ledger `slices` 1604, contracts 1525, schemas 2841); audit stays 1335 (audit report file unchanged by the register run).
+- Environment note: no VM restart in this run; javalang 0.13.0 verified OK at RED. Godot binary is at ~/workspace/godot-bin/godot (symlink to Godot_v4.6.2-stable_linux.x86_64) — NOT on PATH by default; targeted/neighbours ran with PATH="$HOME/workspace/godot-bin:$PATH".
+
+## Gate / suite
+
+- Full gate attempt 1 (PID 15276, main thread ~14:46) **DIED in a VM restart ~14:48 +07** (log stopped at 3,508 bytes, no footer; javalang wiped, reinstalled 0.13.0 by the 15:00 run). Attempt 2 launched from the MAIN THREAD ~15:02 +07 (PID 3721, setsid, own session) **finished ~15:17 +07: Ran 5709 tests in 892.858s, FAILED (failures=104, skipped=5), 0 errors** — exactly the expected outcome. Verified by the 15:30 report run: 104 `FAIL:` lines, 0 `ERROR:` lines, all 104 `AssertionError: unexpectedly None` (assertIsNotNone(godot) — Godot-absent asserts, gate runs with no Godot on PATH), including the new N2153 proof test. Gate clean except Godot.
+- Slice committed + pushed after the gate verification (see handoff Commits).
+- Next after gate + push: N2154 — the next power.status family per the deferred list: mechanical Pump (rotary-pump / impulse-pump, needs a new general pump driver) or BeamDrill (plasma-bore / large-plasma-bore, needs a new driver) — see handoff.
