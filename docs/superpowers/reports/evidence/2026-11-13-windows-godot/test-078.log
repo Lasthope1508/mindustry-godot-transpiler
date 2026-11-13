@@ -1,0 +1,6 @@
+test_reference_graph_and_actual_power_graph_consumer_cheating (tests.test_power_graph_consumer_cheating.PowerGraphConsumerCheatingTests.test_reference_graph_and_actual_power_graph_consumer_cheating) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 19.625s
+
+OK

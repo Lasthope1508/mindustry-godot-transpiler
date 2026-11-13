@@ -1,0 +1,15 @@
+test_reference_graph_and_actual_c06_factory_craft_gate (tests.test_factory_craft.FactoryCraftTests.test_reference_graph_and_actual_c06_factory_craft_gate) ... FAIL
+
+======================================================================
+FAIL: test_reference_graph_and_actual_c06_factory_craft_gate (tests.test_factory_craft.FactoryCraftTests.test_reference_graph_and_actual_c06_factory_craft_gate)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Admin\.codex\worktrees\windows-godot-validation\mindustry-godot-c06-proof\tools\mindustry_godot_transpiler\tests\test_factory_craft.py", line 102, in test_reference_graph_and_actual_c06_factory_craft_gate
+    self.assertTrue(proofs[0]['matches'], proofs[0])
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : {'craft_base_edelta_one': True, 'craft_base_half_efficiency': True, 'craft_base_increase_smelter': True, 'craft_base_zero_craft_time': True, 'craft_direct_consumed': True, 'craft_direct_crafted': True, 'craft_direct_offloaded_one': True, 'craft_direct_progress_wrapped': True, 'craft_direct_silicon_kept': True, 'craft_electrolyzer_dump_increase_base': True, 'craft_electrolyzer_dump_scaling_one': True, 'craft_electrolyzer_hold_increase_zero': True, 'craft_electrolyzer_hold_scaling_zero': True, 'craft_live_press_coal': True, 'craft_live_press_efficiency_one': True, 'craft_live_press_graphite': True, 'craft_live_smelter_first_coal': False, 'craft_live_smelter_first_progress_small': True, 'craft_live_smelter_first_sand': False, 'craft_live_smelter_first_silicon': False, 'craft_live_smelter_sand_out_efficiency_zero': True, 'craft_live_smelter_second_coal': False, 'craft_live_smelter_second_sand': False, 'craft_live_smelter_second_silicon': False, 'craft_mixer_binds_two_rows': True, 'craft_mixer_consume_removes_titanium': True, 'craft_mixer_consume_triggers_one': True, 'craft_mixer_craft_time_120': True, 'craft_mixer_empty_increase': True, 'craft_mixer_empty_scaling_one': True, 'craft_mixer_full_increase_zero': True, 'craft_mixer_full_scaling_zero': True, 'craft_mixer_titanium_left_two': True, 'craft_null_block_crafts_nothing': True, 'craft_press_craft_time_90': True, 'craft_smelter_craft_time_40': True, 'craft_smelter_is_generic_crafter': True, 'craft_smelter_override_increase': True, 'craft_smelter_override_scaling_one': True, 'matches': False, 'one_headquarter_per_ssot': True, 'registry_valid': True}
+
+----------------------------------------------------------------------
+Ran 1 test in 20.184s
+
+FAILED (failures=1)

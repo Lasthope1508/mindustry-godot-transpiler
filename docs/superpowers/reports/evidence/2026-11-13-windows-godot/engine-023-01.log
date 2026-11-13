@@ -1,0 +1,5 @@
+Godot Engine v4.6.2.stable.official.71f334935 - https://godotengine.org
+
+[MCP Runtime] Server listening on port 7777
+[MCP Runtime] Autoload ready, server starting on port 7777
+C_06_UNIT_ASSEMBLER_PRODUCTION_PROOF {"assembler_completes_spawn":true,"assembler_drone_spawns":true,"assembler_intake_yeets_payload":true,"assembler_occupied_no_progress":true,"assembler_progress_advances":true,"assembler_tier_change_resets_progress":true,"matches":true,"one_headquarter_per_ssot":true,"registry_valid":true}

@@ -1,0 +1,6 @@
+test_actual_world_bootstrap_and_placement (tests.test_world_tile_lifecycle.WorldTileLifecycleTests.test_actual_world_bootstrap_and_placement) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 19.554s
+
+OK

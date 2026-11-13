@@ -1,0 +1,6 @@
+test_reference_graph_and_actual_cost_multiplier_for_block (tests.test_cost_multiplier_for_block_binding.CostMultiplierForBlockBindingTests.test_reference_graph_and_actual_cost_multiplier_for_block) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 19.712s
+
+OK

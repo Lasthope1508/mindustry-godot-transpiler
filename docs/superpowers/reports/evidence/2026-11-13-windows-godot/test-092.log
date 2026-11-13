@@ -1,0 +1,6 @@
+test_reference_graph_and_actual_turret_live_loop (tests.test_turret_live_loop.TurretLiveLoopTests.test_reference_graph_and_actual_turret_live_loop) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 19.359s
+
+OK

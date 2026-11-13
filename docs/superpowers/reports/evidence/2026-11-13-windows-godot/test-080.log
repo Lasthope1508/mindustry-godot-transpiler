@@ -1,0 +1,6 @@
+test_reference_graph_and_actual_pump_dump_liquid (tests.test_pump_dump_liquid_binding.PumpDumpLiquidBindingTests.test_reference_graph_and_actual_pump_dump_liquid) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 19.718s
+
+OK

@@ -1,0 +1,6 @@
+test_reference_graph_and_actual_c07_units_can_create (tests.test_c07_units_can_create.C07UnitsCanCreateTests.test_reference_graph_and_actual_c07_units_can_create) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 19.565s
+
+OK

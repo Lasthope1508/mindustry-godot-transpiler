@@ -1,0 +1,6 @@
+test_live_terrain_notifications_and_ordered_mutations (tests.test_terrain_mutation_lifecycle.TerrainMutationLifecycleTests.test_live_terrain_notifications_and_ordered_mutations) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 19.436s
+
+OK

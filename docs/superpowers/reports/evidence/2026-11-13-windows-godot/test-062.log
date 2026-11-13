@@ -1,0 +1,15 @@
+test_reference_graph_and_actual_c06_factory_liquid_output_gate (tests.test_factory_liquid_output.FactoryLiquidOutputTests.test_reference_graph_and_actual_c06_factory_liquid_output_gate) ... FAIL
+
+======================================================================
+FAIL: test_reference_graph_and_actual_c06_factory_liquid_output_gate (tests.test_factory_liquid_output.FactoryLiquidOutputTests.test_reference_graph_and_actual_c06_factory_liquid_output_gate)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Admin\.codex\worktrees\windows-godot-validation\mindustry-godot-c06-proof\tools\mindustry_godot_transpiler\tests\test_factory_liquid_output.py", line 108, in test_reference_graph_and_actual_c06_factory_liquid_output_gate
+    self.assertTrue(proofs[0]['matches'], proofs[0])
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : {'liquid_electrolyzer_output_hydrogen': True, 'liquid_electrolyzer_output_ozone': True, 'liquid_electrolyzer_output_two_rows': True, 'liquid_live_electrolyzer_efficiency_one': False, 'liquid_live_electrolyzer_hydrogen': False, 'liquid_live_electrolyzer_ozone': False, 'liquid_live_electrolyzer_warmup': True, 'liquid_live_electrolyzer_water': False, 'liquid_live_mixer_cryofluid': False, 'liquid_live_mixer_current_cryofluid': True, 'liquid_live_mixer_efficiency_one': False, 'liquid_live_mixer_progress': False, 'liquid_live_mixer_titanium_kept': True, 'liquid_live_mixer_total_progress': True, 'liquid_live_mixer_warmup': True, 'liquid_live_mixer_water': False, 'liquid_mixer_craft_time_120': True, 'liquid_mixer_is_generic_crafter': True, 'liquid_mixer_liquid_capacity_36': True, 'liquid_mixer_output_cryofluid': True, 'liquid_output_electrolyzer_added': True, 'liquid_output_electrolyzer_inc_one': True, 'liquid_output_mixer_empty_added': True, 'liquid_output_mixer_empty_current': True, 'liquid_output_mixer_empty_inc_one': True, 'liquid_output_mixer_full_added_zero': True, 'liquid_output_mixer_full_inc_zero': True, 'liquid_output_mixer_near_full_added': True, 'liquid_output_mixer_near_full_inc_half': True, 'liquid_output_null_block_inc_zero': True, 'liquid_output_smelter_added_empty': True, 'liquid_output_smelter_inc_zero': True, 'liquid_total_progress_seconds': True, 'liquid_total_progress_tick': True, 'liquid_total_progress_zero_warmup': True, 'liquid_warmup_clamps_to_target': True, 'liquid_warmup_clamps_to_zero': True, 'liquid_warmup_cools_toward_zero': True, 'liquid_warmup_step_from_half': True, 'liquid_warmup_step_one_second': True, 'liquid_warmup_target_mixer_one': True, 'liquid_warmup_target_null_zero': True, 'liquid_warmup_zero_seconds_unchanged': True, 'matches': False, 'one_headquarter_per_ssot': True, 'registry_valid': True}
+
+----------------------------------------------------------------------
+Ran 1 test in 19.350s
+
+FAILED (failures=1)

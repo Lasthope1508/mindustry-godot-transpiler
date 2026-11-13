@@ -1,0 +1,5 @@
+Godot Engine v4.6.2.stable.official.71f334935 - https://godotengine.org
+
+[MCP Runtime] Server listening on port 7777
+[MCP Runtime] Autoload ready, server starting on port 7777
+CONSUMER_CACHE_INVALIDATION_PROOF {"block_apply_bound_at_placement":true,"block_rows_bound_at_placement":true,"drill_frame_consumer_built":true,"invalidate_clears_frame_consumers":true,"invalidate_drops_apply":true,"invalidate_drops_bound_rows":true,"invalidate_empty_frame_zero":true,"invalidate_null_block_frame_false":true,"matches":true,"one_headquarter_per_ssot":true,"rebuild_new_actor":true,"rebuild_rebinds_rows":true,"rebuild_uses_new_amount":true,"registry_valid":true,"stale_actor_keeps_old_amount":true,"stale_rows_keep_old_amount":true}

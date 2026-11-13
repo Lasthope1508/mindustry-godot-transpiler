@@ -1,0 +1,36 @@
+{
+  "baseline": {
+    "tests": 101,
+    "passed": 96,
+    "failures": 5,
+    "errors": 0,
+    "skipped": 0,
+    "engine_runs": 101
+  },
+  "final_targeted": {
+    "tests": 8,
+    "passed": 8,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "engine_runs": 8
+  },
+  "cumulative_distinct_passed": 101,
+  "static": {
+    "tests": 24,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "generated_json_parsed": 113,
+    "passed": true
+  },
+  "defense_passes_including_baseline": 3,
+  "final_directory": "rerun-080853",
+  "defense_directories": [
+    "rerun-081428",
+    "rerun-081504"
+  ],
+  "mcp_proofs": 2,
+  "visible_proofs": 1,
+  "full_suite_rerun": false
+}

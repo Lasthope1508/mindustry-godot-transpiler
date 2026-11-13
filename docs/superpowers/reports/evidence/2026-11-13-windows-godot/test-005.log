@@ -1,0 +1,6 @@
+test_reference_graph_and_actual_building_dump (tests.test_building_dump_binding.BuildingDumpBindingTests.test_reference_graph_and_actual_building_dump) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 18.988s
+
+OK

@@ -1,0 +1,5 @@
+Godot Engine v4.6.2.stable.official.71f334935 - https://godotengine.org
+
+[MCP Runtime] Server listening on port 7777
+[MCP Runtime] Autoload ready, server starting on port 7777
+C_07_UNITS_CAN_CREATE_PROOF {"can_create_at_cap":true,"can_create_banned_unit":true,"can_create_no_cap_type":true,"can_create_uncapped_wave_team":true,"can_create_under_cap":true,"can_create_variable_cap":true,"matches":true,"one_headquarter_per_ssot":true,"registry_valid":true}

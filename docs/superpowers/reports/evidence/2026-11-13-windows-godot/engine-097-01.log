@@ -1,0 +1,5 @@
+Godot Engine v4.6.2.stable.official.71f334935 - https://godotengine.org
+
+[MCP Runtime] Server listening on port 7777
+[MCP Runtime] Autoload ready, server starting on port 7777
+VALID_PLACE_PROOF {"matches":true,"one_headquarter_per_ssot":true,"registry_valid":true,"valid_place_conveyor_on_drill_rejects":true,"valid_place_deep_water_rejects":true,"valid_place_derelict_rejects":true,"valid_place_drill_on_conveyor_rejects":true,"valid_place_drill_on_ore_allows":true,"valid_place_drill_without_ore_rejects":true,"valid_place_empty_stone_allows_conveyor":true,"valid_place_enemy_core_radius_blocks":true,"valid_place_floor_already_rejects":true,"valid_place_no_shallows_rejects":true,"valid_place_other_floor_allows":true,"valid_place_out_of_world_rejects":true,"valid_place_own_core_radius_allows":true,"valid_place_polygon_core_blocks_enemy":true,"valid_place_same_block_other_rotation_allows":true,"valid_place_same_block_same_rotation_rejects":true,"valid_place_small_core_radius_allows_enemy":true,"valid_place_solid_unit_overlap_rejects":true}

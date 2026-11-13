@@ -1,0 +1,6 @@
+test_reference_graph_and_actual_drill_dump_step (tests.test_drill_dump_step_binding.DrillDumpStepBindingTests.test_reference_graph_and_actual_drill_dump_step) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 19.362s
+
+OK

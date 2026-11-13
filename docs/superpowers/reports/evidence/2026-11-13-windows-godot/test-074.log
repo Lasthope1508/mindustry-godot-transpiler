@@ -1,0 +1,6 @@
+test_reference_graph_and_actual_no_sleep_wake (tests.test_no_sleep_wake_binding.NoSleepWakeBindingTests.test_reference_graph_and_actual_no_sleep_wake) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 19.898s
+
+OK

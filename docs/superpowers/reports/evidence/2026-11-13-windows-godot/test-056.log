@@ -1,0 +1,6 @@
+test_reference_graph_and_actual_drill_per_drill_dump (tests.test_drill_per_drill_dump_binding.DrillPerDrillDumpBindingTests.test_reference_graph_and_actual_drill_per_drill_dump) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 19.718s
+
+OK

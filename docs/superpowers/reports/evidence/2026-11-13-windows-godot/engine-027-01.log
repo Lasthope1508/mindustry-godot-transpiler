@@ -1,0 +1,5 @@
+Godot Engine v4.6.2.stable.official.71f334935 - https://godotengine.org
+
+[MCP Runtime] Server listening on port 7777
+[MCP Runtime] Autoload ready, server starting on port 7777
+C_07_ASSEMBLER_DRONES_IN_POSITION_PROOF {"count_empty_0":true,"count_ignores_not_in_position":true,"count_ignores_other_types":true,"count_two_of_four":true,"matches":true,"one_headquarter_per_ssot":true,"registry_valid":true,"tick_eff_half":true,"tick_no_progress_zero_drones":true}

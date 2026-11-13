@@ -1,0 +1,6 @@
+test_reference_graph_and_actual_continuous_liquid_turret_live_loop (tests.test_continuous_liquid_turret_live_loop.ContinuousLiquidTurretLiveLoopTests.test_reference_graph_and_actual_continuous_liquid_turret_live_loop) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 20.074s
+
+OK

@@ -1,0 +1,6 @@
+test_consumption_runtime_matrix_against_java_expectations (tests.test_building_update_consumption_generated_delegate.BuildingUpdateConsumptionGeneratedDelegateTests.test_consumption_runtime_matrix_against_java_expectations) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 2.881s
+
+OK

@@ -1,0 +1,6 @@
+test_reference_graph_and_actual_placed_tile_set_block (tests.test_placed_tile_set_block_binding.PlacedTileSetBlockBindingTests.test_reference_graph_and_actual_placed_tile_set_block) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 19.446s
+
+OK

@@ -101,6 +101,15 @@ func _ready() -> void:
 	# reconstructor efficiency key below reads 0.
 	reconstructor_frame["payload"] = {"unit": "dagger"}
 	var assembler_frame: Dictionary = assembler.get_meta(unit_factory_build_state.SOURCE_UNIT_FACTORY_BUILDING_META_KEY, {})
+	# UnitAssembler.shouldConsume requires the current plan's payload
+	# stacks (UnitAssembler.java:389-391). Provide tier-zero tank inputs
+	# (Blocks.java:6526), as in C06UnitFactoryShouldConsumeProof,
+	# so this fixture isolates consumer binding and cyanogen consumption.
+	assembler_frame["blocks"] = {"stell": 4, "tungsten-wall-large": 10}
+	# Units.canCreate also requires room under the cap (Units.java:115-117).
+	# The bootstrap rules omit unitCap and therefore use its zero default.
+	var fixture_rules: Dictionary = game.get("rules_state")
+	fixture_rules["unitCap"] = 10
 	var assembler_module: Dictionary = assembler.get_meta(placed_state.SOURCE_BUILDING_LIQUIDS_META_KEY, {})
 	liquid_module_state.source_add_state(assembler_module, cyanogen_id, 10.0, [])
 	var assembler_bind: Dictionary = unit_factory_build_state.source_bind_consumer_state(assembler_frame, blocks_by_id["tank-assembler"], catalog, assembler_module)

@@ -1,0 +1,6 @@
+test_reference_graph_and_actual_c07_power_status_live (tests.test_c07_power_status_live.C07PowerStatusLiveTests.test_reference_graph_and_actual_c07_power_status_live) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 4.917s
+
+OK

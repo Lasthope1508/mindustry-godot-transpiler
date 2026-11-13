@@ -1,0 +1,6 @@
+test_reference_graph_and_actual_c06_unit_factory_should_consume_power_stamp (tests.test_c06_unit_factory_should_consume_power_stamp.C06UnitFactoryShouldConsumePowerStampTests.test_reference_graph_and_actual_c06_unit_factory_should_consume_power_stamp) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 82.020s
+
+OK

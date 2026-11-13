@@ -1,0 +1,10 @@
+Godot Engine v4.6.2.stable.official.71f334935 - https://godotengine.org
+
+[MCP Runtime] Server listening on port 7777
+[MCP Runtime] Autoload ready, server starting on port 7777
+PLACED_TILE_SET_BLOCK_PROOF {"assign_team_state_sets_meta":true,"bootstrap_frame_selects_copper":true,"bootstrap_team_is_sharded":true,"bootstrap_tile_build_is_first_sprite":true,"matches":true,"neighbour_proximity_recomputed_through_set_block":true,"one_headquarter_per_ssot":true,"placed_second_drill_team_and_frame":true,"placed_second_drill_tile_build_and_proxies":true,"raw_overlay_mutation_leaves_frame_stale":true,"registry_valid":true,"replacement_clears_old_proxies":true,"replacement_removes_old_build":true}
+
+WARNING: 1 RID of type "CanvasItem" was leaked.
+   at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2690)
+WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+   at: cleanup (core/object/object.cpp:2641)

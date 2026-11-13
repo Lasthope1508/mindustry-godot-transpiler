@@ -1,0 +1,6 @@
+test_reference_graph_and_actual_battery_placement (tests.test_battery_placement_binding.BatteryPlacementBindingTests.test_reference_graph_and_actual_battery_placement) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 19.719s
+
+OK

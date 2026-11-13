@@ -245,6 +245,11 @@ func _ready() -> void:
 	# on the true east ring cell (47,7) — (46,7) is inside the
 	# footprint and placing there replaces the mixer. ---
 	var live_mixer_cell := Vector2i(45, 7)
+	# N2145 reads live power.status (ConsumePower.java:39). Supply
+	# the live mixer through the graph, as in FactoryShouldConsumeProof.
+	var reactor := Sprite2D.new()
+	game.add_child(reactor)
+	game.call("record_placed_block", reactor, blocks_by_id["thorium-reactor"], Vector2i(55, 7))
 	var live_mixer_sprite := Sprite2D.new()
 	game.add_child(live_mixer_sprite)
 	game.call("record_placed_block", live_mixer_sprite, mixer, live_mixer_cell)

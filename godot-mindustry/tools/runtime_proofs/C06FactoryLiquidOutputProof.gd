@@ -140,6 +140,11 @@ func _ready() -> void:
 	# The electrolyzer drains 10/60 water per tick and gains 4/60
 	# ozone + 6/60 hydrogen per tick. ---
 	var mixer_cell := Vector2i(35, 7)
+	# N2145 reads live power.status (ConsumePower.java:39). Supply
+	# the graph so output checks run powered, as in FactoryShouldConsumeProof.
+	var reactor := Sprite2D.new()
+	game.add_child(reactor)
+	game.call("record_placed_block", reactor, blocks_by_id["thorium-reactor"], Vector2i(55, 7))
 	var mixer_sprite := Sprite2D.new()
 	game.add_child(mixer_sprite)
 	game.call("record_placed_block", mixer_sprite, mixer, mixer_cell)

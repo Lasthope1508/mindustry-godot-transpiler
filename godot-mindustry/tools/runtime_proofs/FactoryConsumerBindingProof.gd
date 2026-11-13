@@ -7,6 +7,8 @@ const liquid_module_state := preload("res://src/game/SourceLiquidModuleState.gd"
 const content_registry_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
 const registry := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
 const proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")
+const placed_power_state := preload("res://src/game/SourcePlacedPowerGraphState.gd")
+const scenario_defaults := preload("res://src/game/SourcePlayableScenarioDefaults.gd")
 
 
 func _ready() -> void:
@@ -30,6 +32,16 @@ func _ready() -> void:
 	proof["factory_heater_is_heat_producer"] = String(blocks_by_id["electric-heater"].implementation) == "HeatProducer"
 	var liquid_catalog: Dictionary = content_registry_state.source_liquid_catalog_state(catalog)
 	var water_id: int = int(liquid_catalog["liquid_id_by_name"].get("water", -1))
+	# N2145 reads live power.status (ConsumePower.java:39). Supply
+	# the graph so these consumer-binding checks exercise powered machines,
+	# as in FactoryShouldConsumeProof; do not override factory efficiency.
+	var reactor := Sprite2D.new()
+	game.add_child(reactor)
+	game.call("record_placed_block", reactor, blocks_by_id["thorium-reactor"], Vector2i(55, 7))
+	# Keep the background battery full: charging would consume the surplus
+	# before the idle smelter's activation estimate (PowerGraph.java:205-206),
+	# making its first restored tick legitimately less than efficiency 1.
+	placed_power_state.source_battery_set_power_status_for_cell_state(game, scenario_defaults.BATTERY_POS, 1.0)
 
 	# --- the three factories are placed live, and the N2110 frame is
 	# bound ON PLACEMENT (Block.newBuilding(), Block.java:1002). ---

@@ -1,0 +1,6 @@
+test_reference_graph_and_actual_mechanical_pump_placement (tests.test_mechanical_pump_placement_binding.MechanicalPumpPlacementBindingTests.test_reference_graph_and_actual_mechanical_pump_placement) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 19.812s
+
+OK

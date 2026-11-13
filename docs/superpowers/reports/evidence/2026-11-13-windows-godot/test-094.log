@@ -1,0 +1,15 @@
+test_reference_graph_and_actual_unit_factory_consumer_binding (tests.test_unit_factory_consumer_binding.UnitFactoryConsumerBindingTests.test_reference_graph_and_actual_unit_factory_consumer_binding) ... FAIL
+
+======================================================================
+FAIL: test_reference_graph_and_actual_unit_factory_consumer_binding (tests.test_unit_factory_consumer_binding.UnitFactoryConsumerBindingTests.test_reference_graph_and_actual_unit_factory_consumer_binding)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Admin\.codex\worktrees\windows-godot-validation\mindustry-godot-c06-proof\tools\mindustry_godot_transpiler\tests\test_unit_factory_consumer_binding.py", line 93, in test_reference_graph_and_actual_unit_factory_consumer_binding
+    self.assertTrue(proofs[0]['matches'], proofs[0])
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : {'matches': False, 'one_headquarter_per_ssot': True, 'registry_valid': True, 'unit_assembler_bind_one_actor': True, 'unit_assembler_consumers_still_one': True, 'unit_assembler_cyanogen_drops_four_ticks': False, 'unit_assembler_efficiency_one': False, 'unit_assembler_frame_bound_on_placement': True, 'unit_assembler_is_unit_assembler': True, 'unit_assembler_rebind_no_duplicate': True, 'unit_block_change_reinitializes': True, 'unit_cheating_cyanogen_unchanged': True, 'unit_cheating_efficiency_one': False, 'unit_cheating_frames_true': True, 'unit_cost_multiplier_one_efficiency_one': True, 'unit_cost_multiplier_two_efficiency_zero': True, 'unit_driver_ticked_three': True, 'unit_factory_bind_two_plan_actors': True, 'unit_factory_consumers_still_two': True, 'unit_factory_efficiency_one': True, 'unit_factory_frame_bound_on_placement': True, 'unit_factory_is_unit_factory': True, 'unit_factory_no_plan_bind_none': True, 'unit_factory_plan_dagger': True, 'unit_factory_plan_items_unchanged': True, 'unit_factory_plan_minus_one_none': True, 'unit_factory_plan_null_block_none': True, 'unit_factory_plan_out_of_range_none': True, 'unit_factory_rebind_no_duplicate': True, 'unit_null_block_bind_none': True, 'unit_plan_change_reinitializes': True, 'unit_reconstructor_bind_two_actors': True, 'unit_reconstructor_consumers_still_two': True, 'unit_reconstructor_efficiency_one': True, 'unit_reconstructor_frame_bound_on_placement': True, 'unit_reconstructor_is_reconstructor': True, 'unit_reconstructor_items_restored_efficiency_one': True, 'unit_reconstructor_items_unchanged': True, 'unit_reconstructor_no_items_efficiency_zero': True, 'unit_reconstructor_no_items_no_power': True, 'unit_reconstructor_rebind_no_duplicate': True, 'unit_reinitialize_same_block_noop': True, 'unit_team_known': True, 'unit_uncheat_cyanogen_drops': False, 'unit_uncheat_restores': True}
+
+----------------------------------------------------------------------
+Ran 1 test in 19.816s
+
+FAILED (failures=1)

@@ -1,0 +1,6 @@
+test_reference_graph_and_actual_battery_power_status (tests.test_battery_power_status_binding.BatteryPowerStatusBindingTests.test_reference_graph_and_actual_battery_power_status) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 19.529s
+
+OK

@@ -1,0 +1,6 @@
+test_reference_graph_and_actual_pump_update (tests.test_pump_update_binding.PumpUpdateBindingTests.test_reference_graph_and_actual_pump_update) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 19.538s
+
+OK

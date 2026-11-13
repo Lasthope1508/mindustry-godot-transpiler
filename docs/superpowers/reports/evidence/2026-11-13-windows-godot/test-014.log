@@ -1,0 +1,6 @@
+test_reference_graph_and_actual_c06_power_should_consume (tests.test_c06_power_should_consume.C06PowerShouldConsumeTests.test_reference_graph_and_actual_c06_power_should_consume) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 79.919s
+
+OK

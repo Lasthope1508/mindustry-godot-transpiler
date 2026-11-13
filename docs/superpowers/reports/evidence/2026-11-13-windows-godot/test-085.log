@@ -1,0 +1,6 @@
+test_reference_graph_and_actual_solar_panel_placement (tests.test_solar_panel_placement_binding.SolarPanelPlacementBindingTests.test_reference_graph_and_actual_solar_panel_placement) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 19.811s
+
+OK
