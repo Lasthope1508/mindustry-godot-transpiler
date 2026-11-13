@@ -1,6 +1,6 @@
 # Handoff — N2151: PointDefenseTurret power.status live read (segment) (C07)
 
-Date: 2026-11-13. Batch: N2151 (single slice). Status: **DONE + PUSHED 2026-11-13 ~13:3x +07 (13:30 cron run). Targeted 4/4 OK, neighbours 54/54 OK, Godot proof GREEN (9 keys, matches:true). Full gate attempt 3 finished ~13:17: Ran 5701 in 913.985s, failures=102, skipped=5, 0 errors — all 102 Godot-absent asserts. SSOT 11312/1602/1523/2837, audit 1335. Slice commit b92a4ff + docs commit (see Commits), pushed to origin main. Next: TractorBeamTurret power (parallax) — own driver, own slice (N2152).**
+Date: 2026-11-13. Batch: N2151 (single slice). Status: **DONE + PUSHED 2026-11-13 ~13:3x +07 (13:30 cron run). Targeted 4/4 OK, neighbours 54/54 OK, Godot proof GREEN (9 keys, matches:true). Full gate attempt 3 finished ~13:17: Ran 5701 in 913.985s, failures=102, skipped=5, 0 errors — all 102 Godot-absent asserts. SSOT 11312/1602/1523/2837, audit 1335. Slice commit b92a4ff + docs commit 62aef1d, pushed to origin main. Next: TractorBeamTurret power (parallax) — own driver, own slice (N2152).**
 
 ## Scope
 
@@ -48,8 +48,8 @@ Date: 2026-11-13. Batch: N2151 (single slice). Status: **DONE + PUSHED 2026-11-1
 ## Commits
 
 - Slice commit **b92a4ff** — `C07: N2151 point-defense-turret power.status live read (pure power row + driver wiring; proof 6 keys)` (13 files, +823/−1).
-- Docs commit **(this commit — hash filled in the handoff-hash commit)** — `Docs: N2151 report + design spec + handoff (gate clean except Godot)` (3 files: handoff + report + spec, Status Summary 1601→1602).
-- Pushed 2026-11-13 ~13:3x +07 by the 13:30 cron run (push range filled in the handoff-hash commit).
+- Docs commit **62aef1d** — `Docs: N2151 report + design spec + handoff (gate clean except Godot)` (3 files: handoff + report + spec, Status Summary 1601→1602).
+- Pushed 2026-11-13 ~13:3x +07 by the 13:30 cron run: `4d12bae..62aef1d main -> main` on origin (fork Lasthope1508). Verified: `git log --oneline -3` shows 62aef1d on top.
 
 ## Deferred (NOT this slice)
 
