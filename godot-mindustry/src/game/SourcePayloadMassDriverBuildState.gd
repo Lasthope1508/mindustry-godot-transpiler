@@ -1,0 +1,125 @@
+extends RefCounted
+class_name SourcePayloadMassDriverBuildState
+
+const source_rules_state := preload("res://src/game/SourceRulesRuntimeState.gd")
+const source_placed_block_state := preload("res://src/game/SourcePlacedBlockState.gd")
+const source_block_geometry := preload("res://src/game/SourceBlockGeometry.gd")
+const source_building_efficiency_state := preload("res://src/game/SourceBuildingEfficiencyState.gd")
+const source_building_access_state := preload("res://src/game/SourceBuildingAccessState.gd")
+
+# The PayloadMassDriver implementation (PayloadMassDriver.java:23, `public class PayloadMassDriver extends PayloadBlock{`): payload-mass-driver (hasPower = true;, consumePower(0.5f);, size 3, reload 130f, chargeTime 90f, range 700f, maxPayloadSize 2.5f, Blocks.java:6617-6627). PayloadMassDriver sets hasPower=true, update=true, solid=true, configurable=true, outputsPayload=true, rotate=true (PayloadMassDriver.java:54-67), range 100f / reload 30f / chargeTime 100f / maxPayloadSize 3 class defaults (PayloadMassDriver.java:24-30, `public float chargeTime = 100f;`). PayloadMassDriver extends PayloadBlock, NOT a drill or factory, so it cannot reuse an existing frame key; this driver uses its own family frame key ("source_payload_mass_driver_building", the mechanical-pump / beam-drill / mend-projector / overdrive-projector / force-projector / base-shield / regen-projector / constructor / payload-loader / payload-unloader precedent), and this slice adds the payload-mass-driver key to N2142's SOURCE_CONSUMER_FRAME_META_KEYS so the graph stamp/write-back finds it. The port has NO SourcePayloadMassDriver* files at all yet -- no display/runtime state to lean on -- so the missing piece is the live power.status -> efficiency driver, which is exactly this slice: the no-power skip (PayloadMassDriver.java:232, `if(efficiency <= 0f){`) follows the folded efficiency, with the efficiency-scaled rotation (PayloadMassDriver.java:248, `turretRotation = Angles.moveToward(turretRotation, angleTo(currentShooter()), rotateSpeed * efficiency);`) and the efficiency-scaled charge (PayloadMassDriver.java:289, `charge += edelta();`).
+const SOURCE_PAYLOAD_MASS_DRIVER_BUILD_IMPLEMENTATIONS := ["PayloadMassDriver"]
+const SOURCE_PAYLOAD_MASS_DRIVER_BUILDING_META_KEY := "source_payload_mass_driver_building"
+
+static func _is_payload_mass_driver_build_implementation(implementation: String) -> bool:
+	return SOURCE_PAYLOAD_MASS_DRIVER_BUILD_IMPLEMENTATIONS.has(implementation)
+
+static func source_payload_mass_driver_tick_frame_state(frame: Dictionary, block_implementation: String, team_id: int, rules_state: Variant) -> Dictionary:
+	# The payload-mass-driver tick wires the frame keys the
+	# consumption path reads (the N2148 turret pattern):
+	# block_implementation is the block's implementation
+	# (PayloadMassDriver.java:23, `public class PayloadMassDriver extends PayloadBlock{`),
+	# team_id and rules_state are what Java reads as b.team
+	# and state.rules, and cheating is the team's live
+	# TeamRule value (TeamComp.cheating(),
+	# TeamComp.java:17-19 `return team.rules().cheat;`, read
+	# through N2099's helper), so a cheating team's
+	# payload-mass-driver skips consumption like Java's updateConsumption
+	# (BuildingComp.java:1944-1945, "everything is valid when
+	# cheating"). A team with no rule keeps the false default
+	# (Rules.java:328 TeamRule.cheat, default false).
+	frame["block_implementation"] = block_implementation
+	frame["team_id"] = team_id
+	frame["rules_state"] = rules_state
+	frame["cheating"] = bool(source_rules_state.source_team_cheating_state(rules_state, team_id).get("cheating", false))
+	# Building.enabled (BuildingComp.java:77, `transient boolean
+	# enabled = true;`) is what shouldConsume() returns
+	# (BuildingComp.java:755-757), so the power graph reads it live
+	# for this payload-mass-driver (N2125); the tick preserves a disabled
+	# payload-mass-driver instead of resetting it, the factory pattern
+	# (SourceFactoryBuildState.gd:927).
+	frame["enabled"] = bool(frame.get("enabled", true))
+	return frame
+
+static func _initial_frame() -> Dictionary:
+	return {}
+
+static func source_payload_mass_driver_bind_frame_state(sprite: Sprite2D, block: Object) -> Dictionary:
+	# Placement creates the Building (Block.java:1002 newBuilding);
+	# the port's frame is that Building state, bound on the sprite
+	# at placement under the payload-mass-driver frame meta key
+	# ("source_payload_mass_driver_building"). A PayloadMassDriver sprite gets an
+	# empty frame bound; the live-loop tick fills its keys every
+	# tick. Any other block, or an already-bound sprite, binds
+	# nothing.
+	if block == null or not _is_payload_mass_driver_build_implementation(str(block.implementation)):
+		return {"applied": false, "frame": {}}
+	if sprite.has_meta(SOURCE_PAYLOAD_MASS_DRIVER_BUILDING_META_KEY):
+		return {"applied": false, "frame": sprite.get_meta(SOURCE_PAYLOAD_MASS_DRIVER_BUILDING_META_KEY)}
+	var frame: Dictionary = _initial_frame()
+	sprite.set_meta(SOURCE_PAYLOAD_MASS_DRIVER_BUILDING_META_KEY, frame)
+	return {"applied": true, "frame": frame}
+
+static func source_payload_mass_driver_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
+	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a payload-mass-driver does not take the early return. The no-power skip follows the folded efficiency (PayloadMassDriver.java:232, `if(efficiency <= 0f){`), with the efficiency-scaled rotation (PayloadMassDriver.java:248, `turretRotation = Angles.moveToward(turretRotation, angleTo(currentShooter()), rotateSpeed * efficiency);`) and the efficiency-scaled charge (PayloadMassDriver.java:289, `charge += edelta();`) and the shouldConsume default (BuildingComp.java:755, `public boolean shouldConsume(){`) -- PayloadDriverBuild has no shouldConsume override, so the default applies.
+	# Documented limits: (1) power-only first pass -- the payload-mass-driver power consumer is static (consumePower 0.5f, Blocks.java:6626; large 3f, Blocks.java:6637), so the folded efficiency is the min over the *modeled* consumers (power only); no dynamic consumer row is involved. (2) shouldConsume gate deferred -- PayloadDriverBuild has no shouldConsume override, so the BuildingComp default applies; the machinery runs with should_consume=true when enabled (the MendProjector suppression precedent). (3) No updateTile advance -- link/state-machine, charge/reload, waitingShooters, transfer, moveInPayload/moveOutPayload (PayloadMassDriver.java:160-350) wait for their own slices; the proof carries no link/state/charge keys, the no-power skip (PayloadMassDriver.java:232) is what the efficiency keys prove. (4) No link/config rows -- link -1, config Point2/Integer, onConfigureBuildTapped, linkValid (PayloadMassDriver.java:64-65, 321-350) are config, not tick state. (5) No acceptPayload rows -- acceptPayload fits maxPayloadSize (PayloadMassDriver.java:317-319) is payload acceptance, not tick state.
+	if not has_power_consumer:
+		return {"has_power_row": false, "row": {}}
+	var stamped: Variant = frame.get("power_status", null)
+	var live: float = 1.0 if stamped == null else float(stamped)
+	return {"has_power_row": true, "row": {"result": live, "is_power": true}}
+
+@warning_ignore("unused_parameter")
+static func source_payload_mass_driver_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
+	# The live loop calls the payload-mass-driver tick wiring every
+	# tick (PayloadDriverBuild.updateTile(), PayloadMassDriver.java:160,
+	# gates on the no-power skip (PayloadMassDriver.java:232, `if(efficiency <= 0f){`) with the efficiency-scaled rotation (PayloadMassDriver.java:248) and the efficiency-scaled charge (PayloadMassDriver.java:289, `charge += edelta();`), so the no-power skip follows the folded efficiency; no placed-buildings driver ticks PayloadMassDriver blocks, so this driver is the placed-payload-mass-driver tick): each placed PayloadMassDriver build gets its frame keys refreshed from the live rules, so the frame's cheating flag tracks team.rules().cheat and the consumption machinery skips consumption for a cheating team. The frame is bound at placement; a sprite that somehow lacks one gets it bound here instead of crashing the loop.
+	var results_by_cell := {}
+	var ticked_count := 0
+	if game == null:
+		return {"ticked_count": ticked_count, "results_by_cell": results_by_cell}
+	var catalog = game.get("content_catalog")
+	if catalog == null:
+		return {"ticked_count": ticked_count, "results_by_cell": results_by_cell}
+	var blocks_by_id: Dictionary = {}
+	for registered_block in catalog.get_many("block"):
+		blocks_by_id[registered_block.id] = registered_block
+	for sprite in source_placed_block_state.source_unique_buildings_state(game).get("buildings", []):
+		if not is_instance_valid(sprite) or not sprite is Sprite2D:
+			continue
+		var block_id: String = str(sprite.get_meta(source_placed_block_state.SOURCE_BLOCK_ID_META_KEY, ""))
+		if not blocks_by_id.has(block_id):
+			continue
+		var block = blocks_by_id[block_id]
+		if not _is_payload_mass_driver_build_implementation(str(block.implementation)):
+			continue
+		var bound: Dictionary = source_payload_mass_driver_bind_frame_state(sprite, block)
+		var frame: Dictionary = bound.get("frame", {})
+		var team_id: int = int(sprite.get_meta(source_block_geometry.SOURCE_BUILD_TEAM_META_KEY, source_block_geometry.SOURCE_TEAM_DERELICT_ID))
+		var rules_state: Variant = source_rules_state.source_game_rules_state(game.get("rules_state")).get("rules", {})
+		var wired: Dictionary = source_payload_mass_driver_tick_frame_state(frame, str(block.implementation), team_id, rules_state)
+		# The power consumer reads live since N2153 (the graph
+		# update stamps frame["power_status"] each tick, N2142):
+		# a payload-mass-driver with a power consumer folds the pure power
+		# row into the first pass, so ConsumePower.efficiency folds
+		# into the min efficiency like every other non-optional
+		# consumer, and the no-power skip (PayloadMassDriver.java:232)
+		# follows it. The power consumer counts toward
+		# hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a payload-mass-driver does not take the early return. A payload-mass-driver with no power consumer is untouched: the tick models no other consumers yet (the dynamic power consumer row waits for its own slice), and there is no shouldConsume gate yet (PayloadDriverBuild has no shouldConsume override, so the BuildingComp default, BuildingComp.java:755, applies, but payload/link state is not tracked yet), so the machinery runs with should_consume=true when enabled. productionValid is the canonical true default (SourceBuildingAccessState.production_valid_state()).
+		var has_power_consumer: bool = bool(block.properties.has("consumePower"))
+		if has_power_consumer and bool(frame.get("enabled", true)) and not bool(frame.get("cheating", false)):
+			var should_consume: bool = bool(frame.get("enabled", true))
+			var valid: bool = source_building_access_state.production_valid_state()
+			var setup: Dictionary = source_building_efficiency_state.update_consumption_setup_state(should_consume, valid)
+			frame["efficiency"] = setup.get("efficiency", 1.0)
+			frame["efficiency_scale"] = source_building_efficiency_state.efficiency_scale_state()
+			var power_row: Dictionary = source_payload_mass_driver_power_status_row_state(frame, true)
+			var required_results: Array = []
+			if bool(power_row.get("has_power_row", false)):
+				required_results.append(power_row.get("row", {}))
+			var consumption: Dictionary = source_building_efficiency_state.update_consumption_state(true, bool(frame.get("cheating", false)), bool(frame.get("enabled", true)), valid, should_consume, float(frame.get("efficiency_scale", 1.0)), required_results, [], [], frame)
+			source_building_efficiency_state.apply_update_consumption_state(consumption, frame)
+		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
+		results_by_cell[game.call("cell_key", cell)] = wired
+		ticked_count += 1
+	return {"ticked_count": ticked_count, "results_by_cell": results_by_cell}

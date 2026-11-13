@@ -25,6 +25,7 @@ const source_regen_projector_build_state := preload("res://src/game/SourceRegenP
 const source_constructor_build_state := preload("res://src/game/SourceConstructorBuildState.gd")
 const source_payload_loader_build_state := preload("res://src/game/SourcePayloadLoaderBuildState.gd")
 const source_payload_unloader_build_state := preload("res://src/game/SourcePayloadUnloaderBuildState.gd")
+const source_payload_mass_driver_build_state := preload("res://src/game/SourcePayloadMassDriverBuildState.gd")
 const source_point_defense_turret_build_state := preload("res://src/game/SourcePointDefenseTurretBuildState.gd")
 const source_tractor_beam_turret_build_state := preload("res://src/game/SourceTractorBeamTurretBuildState.gd")
 const source_factory_build_state := preload("res://src/game/SourceFactoryBuildState.gd")
@@ -307,6 +308,15 @@ static func simulate_factory(game: Object, delta: float) -> void:
 	# placed-buildings driver ticks PayloadUnloader blocks; a payload-unloader
 	# without a power consumer is excluded by the driver gate).
 	source_payload_unloader_build_state.source_payload_unloader_tick_buildings_state(game, delta)
+	# The payload-mass-driver tick runs every live-loop tick (N2164): each
+	# placed PayloadMassDriver build (payload-mass-driver, whose build runs
+	# PayloadDriverBuild.updateTile(), PayloadMassDriver.java:160) gets its frame keys
+	# refreshed from the live rules and folds its live power.status
+	# into the min efficiency, so the no-power skip
+	# (PayloadMassDriver.java:232) follows power.status (no
+	# placed-buildings driver ticks PayloadMassDriver blocks; a payload-mass-driver
+	# without a power consumer is excluded by the driver gate).
+	source_payload_mass_driver_build_state.source_payload_mass_driver_tick_buildings_state(game, delta)
 	# The point-defense tick runs every live-loop tick (N2151): each
 	# placed PointDefenseTurret build (segment, whose build runs
 	# PointDefenseBuild.updateTile(), PointDefenseTurret.java:62)
