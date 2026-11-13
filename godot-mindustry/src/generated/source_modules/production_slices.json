@@ -764,6 +764,24 @@
       ],
       "runtime_proof": "/root/C07FactoryPowerStatusProof"
     },
+    "N2146": {
+      "canonical_ledger": "source_slice_ledger.N2146",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+      "java_method": "SeparatorBuild.updateTile()",
+      "godot_owner": "SourceAdjacentFactoryBuildState.source_adjacent_factory_power_status_row_state",
+      "source_symbols": [
+        "source_adjacent_factory_power_status_row_state_result.row",
+        "source_adjacent_factory_power_status_row_state_result.has_power_row"
+      ],
+      "tests": [
+        "test_c07_adjacent_factory_power_status_registration",
+        "test_all_c07_adjacent_factory_power_status_input_evidence_is_exact",
+        "test_adjacent_factory_power_status_row_state",
+        "test_reference_graph_and_actual_c07_adjacent_factory_power_status"
+      ],
+      "runtime_proof": "/root/C07AdjacentFactoryPowerStatusProof"
+    },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",
       "status": "done",

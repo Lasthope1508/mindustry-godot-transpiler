@@ -57,6 +57,20 @@ func _ready() -> void:
 	var large_crusher := Sprite2D.new()
 	game.add_child(large_crusher)
 	game.call("record_placed_block", large_crusher, blocks_by_id["large-cliff-crusher"], large_crusher_cell)
+	# The scene needs power since N2146: the adjacent tick driver
+	# reads the live power.status (ConsumePower.efficiency,
+	# ConsumePower.java:39, `return build.power.status;`), and
+	# the live loop's graph update stamps 0.0 when no producer
+	# feeds the graph (PowerGraph.java:203, coverage 0), so an
+	# unpowered adjacent factory ticks at efficiency 0 no matter
+	# what shouldConsume says. A thorium reactor (powerProduction
+	# 15.0, no fuel in the port's producer model) covers the
+	# whole graph, so the efficiency keys below are isolated
+	# from power.
+	var reactor_cell := Vector2i(25, 7)
+	var reactor := Sprite2D.new()
+	game.add_child(reactor)
+	game.call("record_placed_block", reactor, blocks_by_id["thorium-reactor"], reactor_cell)
 	proof["adjacent_separator_frame_bound_on_placement"] = separator.has_meta(adjacent_build_state.SOURCE_ADJACENT_FACTORY_BUILDING_META_KEY)
 	proof["adjacent_disassembler_frame_bound_on_placement"] = disassembler.has_meta(adjacent_build_state.SOURCE_ADJACENT_FACTORY_BUILDING_META_KEY)
 	proof["adjacent_incinerator_frame_bound_on_placement"] = incinerator.has_meta(adjacent_build_state.SOURCE_ADJACENT_FACTORY_BUILDING_META_KEY)
@@ -142,6 +156,14 @@ func _ready() -> void:
 	proof["adjacent_disassembler_no_scrap_efficiency_zero"] = is_equal_approx(float(disassembler_frame.get("efficiency", -1.0)), 0.0)
 	proof["adjacent_disassembler_no_scrap_no_power"] = bool(disassembler_frame.get("should_consume_power", true)) == false
 	disassembler_items["scrap"] = 5
+	game.call("simulate_factory", 1.0 / 60.0)
+	# One more tick before asserting: the graph update runs before
+	# the driver re-stamps shouldConsumePower, so the first tick
+	# after the restore reads the distribute estimate for the
+	# power.status (the non-consuming branch, ~0.41 here) instead
+	# of the coverage; the second tick reads coverage 1.0 and the
+	# efficiency follows. Same one-tick settle Java's own
+	# shouldConsumePower flag carries.
 	game.call("simulate_factory", 1.0 / 60.0)
 	disassembler_frame = disassembler.get_meta(adjacent_build_state.SOURCE_ADJACENT_FACTORY_BUILDING_META_KEY, {})
 	proof["adjacent_disassembler_scrap_restored_efficiency_one"] = is_equal_approx(float(disassembler_frame.get("efficiency", -1.0)), 1.0)

@@ -52,6 +52,20 @@ func _ready() -> void:
 	var crusher := Sprite2D.new()
 	game.add_child(crusher)
 	game.call("record_placed_block", crusher, blocks_by_id["cliff-crusher"], crusher_cell)
+	# The scene needs power since N2146: the adjacent tick driver
+	# reads the live power.status (ConsumePower.efficiency,
+	# ConsumePower.java:39, `return build.power.status;`), and
+	# the live loop's graph update stamps 0.0 when no producer
+	# feeds the graph (PowerGraph.java:203, coverage 0), so an
+	# unpowered adjacent factory ticks at efficiency 0 no matter
+	# what shouldConsume says. A thorium reactor (powerProduction
+	# 15.0, no fuel in the port's producer model) covers the
+	# whole graph, so the efficiency keys below are isolated
+	# from power.
+	var reactor_cell := Vector2i(25, 7)
+	var reactor := Sprite2D.new()
+	game.add_child(reactor)
+	game.call("record_placed_block", reactor, blocks_by_id["thorium-reactor"], reactor_cell)
 	# N2115 binds the separator's slag actor, so the live loop runs
 	# it through updateConsumption every tick: the separator needs
 	# slag held for its live-loop efficiency to read 1.0
@@ -108,14 +122,20 @@ func _ready() -> void:
 	proof["adjacent_driver_crusher_frame_wired"] = str(crusher_frame.get("block_implementation", "")) == "WallCrafter" and int(crusher_frame.get("team_id", -1)) >= 0 and bool(crusher_frame.get("cheating", true)) == false
 
 	# --- the live loop itself refreshes the keys every tick, and a
-	# placed adjacent factory with room ticks at efficiency 1. ---
+	# placed adjacent factory with room ticks at efficiency 1. The
+	# efficiency here folds the live power.status (N2146), and the
+	# graph's coverage ratio carries float64 noise (produced /
+	# needed lands a hair under 1.0 even when the reactor covers
+	# the graph), so the exact == the proof used before N2146 is
+	# brittle now; is_equal_approx matches the binding proof's
+	# idiom for the same live efficiency. ---
 	for iteration in range(4):
 		game.call("simulate_factory", 1.0 / 60.0)
 	separator_frame = separator.get_meta(adjacent_build_state.SOURCE_ADJACENT_FACTORY_BUILDING_META_KEY, {})
 	incinerator_frame = incinerator.get_meta(adjacent_build_state.SOURCE_ADJACENT_FACTORY_BUILDING_META_KEY, {})
 	crusher_frame = crusher.get_meta(adjacent_build_state.SOURCE_ADJACENT_FACTORY_BUILDING_META_KEY, {})
 	proof["adjacent_live_loop_not_cheating_default"] = bool(separator_frame.get("cheating", true)) == false and bool(incinerator_frame.get("cheating", true)) == false and bool(crusher_frame.get("cheating", true)) == false
-	proof["adjacent_live_loop_efficiency_one"] = float(separator_frame.get("efficiency", -1.0)) == 1.0 and float(incinerator_frame.get("efficiency", -1.0)) == 1.0 and float(crusher_frame.get("efficiency", -1.0)) == 1.0
+	proof["adjacent_live_loop_efficiency_one"] = is_equal_approx(float(separator_frame.get("efficiency", -1.0)), 1.0) and is_equal_approx(float(incinerator_frame.get("efficiency", -1.0)), 1.0) and is_equal_approx(float(crusher_frame.get("efficiency", -1.0)), 1.0)
 
 	# --- each family's own shouldConsume() body, read live by the
 	# driver: Separator counts held items minus the consumeItem
@@ -163,7 +183,7 @@ func _ready() -> void:
 	for iteration in range(4):
 		game.call("simulate_factory", 1.0 / 60.0)
 	separator_frame = separator.get_meta(adjacent_build_state.SOURCE_ADJACENT_FACTORY_BUILDING_META_KEY, {})
-	proof["adjacent_live_loop_room_separator_restores"] = float(separator_frame.get("efficiency", -1.0)) == 1.0
+	proof["adjacent_live_loop_room_separator_restores"] = is_equal_approx(float(separator_frame.get("efficiency", -1.0)), 1.0)
 
 	# --- the adjacent tick reads the live cheat flag for its own
 	# team (TeamComp.cheating(), N2099): while the team cheats, the
