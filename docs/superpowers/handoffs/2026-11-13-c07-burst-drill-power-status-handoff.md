@@ -71,4 +71,6 @@ Date: 2026-11-13. Batch: N2149 (single slice). Status: **DONE + PUSHED 2026-11-1
 
 ## Commits
 
-- (pending)
+- Slice: `ded31ea` — C07: N2149 burst-drill power.status live read (pure power row + driver wiring; proof 6 keys) — 14 files, 877 insertions, 0 deletions.
+- Docs: `1ff78b1` — Docs: N2149 report + design spec + handoff (gate clean except Godot) — 3 files (report + spec + handoff).
+- Pushed to origin main (fork Lasthope1508) 2026-11-13 ~11:3x +07 (11:30 cron run): `0ac7f2d..1ff78b1 main -> main`.
