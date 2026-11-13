@@ -1,6 +1,6 @@
 # Handoff — N2150: SolidPump power.status live read (water-extractor) (C07)
 
-Date: 2026-11-13. Batch: N2150 (single slice). Status: **GREEN (run 11:45, verified by main thread). Targeted 4/4 OK, neighbours 36/36 OK (130.129s), Godot proof GREEN (9 keys, matches:true). SSOT 11310/1601/1522/2835, audit 1335. Full gate attempt 1 launched from the MAIN THREAD ~11:55 +07 (PID 10309, SID 10309, log full-suite-n2150-gate.log; expect Ran ~5697, failures=101, skipped=5, 0 errors). Next: verify gate when it finishes (~12:15-12:25), then report + spec + commit + push.**
+Date: 2026-11-13. Batch: N2150 (single slice). Status: **DONE + PUSHED 2026-11-13 ~12:2x +07 (12:15 cron run). Targeted 4/4 OK, neighbours 36/36 OK, Godot proof GREEN (9 keys, matches:true). Full gate finished ~12:13: Ran 5697 in 1075.735s, failures=101, skipped=5, 0 errors — all 101 Godot-absent asserts. SSOT 11310/1601/1522/2835, audit 1335. Slice commit 765c2f3 + docs commit 6f6ad13, pushed to origin main. Next: PointDefenseTurret power (segment) / TractorBeamTurret power (parallax) — own drivers, own slices.**
 
 ## Scope
 
@@ -53,7 +53,9 @@ Date: 2026-11-13. Batch: N2150 (single slice). Status: **GREEN (run 11:45, verif
 
 ## Commits
 
-- (pending — this run)
+- Slice commit **765c2f3** — `C07: N2150 solid-pump power.status live read (pure power row + driver wiring; proof 6 keys)` (15 files, +870/−1).
+- Docs commit **6f6ad13** — `Docs: N2150 report + design spec + handoff (gate clean except Godot)` (3 files: handoff + report + spec, Status Summary 1600→1601).
+- Pushed 2026-11-13 ~12:2x +07 by the 12:15 cron run: `0c06603..6f6ad13 main -> main` on origin (fork Lasthope1508). Verified: `git log --oneline -3` shows 6f6ad13 on top.
 
 ## Deferred (NOT this slice)
 
