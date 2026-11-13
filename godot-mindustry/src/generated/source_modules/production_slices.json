@@ -818,6 +818,24 @@
       ],
       "runtime_proof": "/root/C07BurstDrillPowerStatusProof"
     },
+    "N2150": {
+      "canonical_ledger": "source_slice_ledger.N2150",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+      "java_method": "SolidPumpBuild.updateTile()",
+      "godot_owner": "SourceSolidPumpBuildState.source_solid_pump_power_status_row_state",
+      "source_symbols": [
+        "source_solid_pump_power_status_row_state_result.row",
+        "source_solid_pump_power_status_row_state_result.has_power_row"
+      ],
+      "tests": [
+        "test_c07_solid_pump_power_status_registration",
+        "test_all_c07_solid_pump_power_status_input_evidence_is_exact",
+        "test_solid_pump_power_status_row_state",
+        "test_reference_graph_and_actual_c07_solid_pump_power_status"
+      ],
+      "runtime_proof": "/root/C07SolidPumpPowerStatusProof"
+    },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",
       "status": "done",

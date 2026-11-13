@@ -13,6 +13,7 @@ const source_conduit_runtime_state := preload("res://src/game/SourceConduitRunti
 const source_continuous_liquid_turret_build_state := preload("res://src/game/SourceContinuousLiquidTurretBuildState.gd")
 const source_turret_build_state := preload("res://src/game/SourceTurretBuildState.gd")
 const source_burst_drill_build_state := preload("res://src/game/SourceBurstDrillBuildState.gd")
+const source_solid_pump_build_state := preload("res://src/game/SourceSolidPumpBuildState.gd")
 const source_factory_build_state := preload("res://src/game/SourceFactoryBuildState.gd")
 const source_unit_factory_build_state := preload("res://src/game/SourceUnitFactoryBuildState.gd")
 const source_adjacent_factory_build_state := preload("res://src/game/SourceAdjacentFactoryBuildState.gd")
@@ -185,6 +186,14 @@ static func simulate_factory(game: Object, delta: float) -> void:
 	# burst-drill speed (BurstDrill.java:94) follows power.status
 	# (the base-Drill driver never ticks BurstDrill blocks).
 	source_burst_drill_build_state.source_burst_drill_tick_buildings_state(game, delta)
+	# The solid-pump tick runs every live-loop tick (N2150): each
+	# placed SolidPump build (water-extractor, whose build runs
+	# SolidPumpBuild.updateTile(), SolidPump.java:118) gets its
+	# frame keys refreshed from the live rules and folds its live
+	# power.status into the min efficiency, so the solid-pump
+	# speed (SolidPump.java:121) follows power.status (the pump
+	# runtime never ticks SolidPump blocks).
+	source_solid_pump_build_state.source_solid_pump_tick_buildings_state(game, delta)
 	# The factory-family tick runs every live-loop tick (N2109): each
 	# placed factory-family build (GenericCrafter/AttributeCrafter/
 	# HeatCrafter/HeatProducer, whose builds run

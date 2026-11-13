@@ -171816,6 +171816,38 @@
         "test_reference_graph_and_actual_c07_burst_drill_power_status"
       ],
       "runtime_proof": "/root/C07BurstDrillPowerStatusProof"
+    },
+    "source_solid_pump_power_status_row_state_result.row": {
+      "status": "source-backed",
+      "godot_owner": "SourceSolidPumpBuildState.source_solid_pump_power_status_row_state",
+      "godot_symbol": "source_solid_pump_power_status_row_state_result.row",
+      "java_source": "core/src/mindustry/world/consumers/ConsumePower.java",
+      "java_method": "SolidPumpBuild.updateTile()",
+      "java_expr": "return build.power.status;",
+      "rule": "The power row for the first pass (ConsumePower.java:39, the canonical power.status read): {\"result\": live power.status, \"is_power\": true}, folded by the non-optional pass into the min efficiency.",
+      "tests": [
+        "test_c07_solid_pump_power_status_registration",
+        "test_all_c07_solid_pump_power_status_input_evidence_is_exact",
+        "test_solid_pump_power_status_row_state",
+        "test_reference_graph_and_actual_c07_solid_pump_power_status"
+      ],
+      "runtime_proof": "/root/C07SolidPumpPowerStatusProof"
+    },
+    "source_solid_pump_power_status_row_state_result.has_power_row": {
+      "status": "source-backed",
+      "godot_owner": "SourceSolidPumpBuildState.source_solid_pump_power_status_row_state",
+      "godot_symbol": "source_solid_pump_power_status_row_state_result.has_power_row",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "SolidPumpBuild.updateTile()",
+      "java_expr": "for(var cons : block.nonOptionalConsumers){",
+      "rule": "Whether the row joins the first pass (BuildingComp.java:1969): true when the block has a power consumer; the row is the power consumer's entry in the non-optional pass.",
+      "tests": [
+        "test_c07_solid_pump_power_status_registration",
+        "test_all_c07_solid_pump_power_status_input_evidence_is_exact",
+        "test_solid_pump_power_status_row_state",
+        "test_reference_graph_and_actual_c07_solid_pump_power_status"
+      ],
+      "runtime_proof": "/root/C07SolidPumpPowerStatusProof"
     }
   },
   "version": 1
