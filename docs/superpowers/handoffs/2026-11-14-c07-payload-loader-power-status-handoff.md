@@ -54,7 +54,7 @@ Date: 2026-11-14. Batch: N2162 (single slice). Status: **DONE (2026-11-14 ~01:30
 - Full gate attempt 1 **launched from the MAIN THREAD ~01:12 +07** by main thread: `cd tools/mindustry_godot_transpiler && python3 -c "import javalang" && setsid nohup python3 -m unittest discover -s tests > full-suite-n2162-gate.log 2>&1 < /dev/null &` — **PID 20134, SID 20134 (own session), PPID 20131 (background subshell), CPU ~92%, log growing** (930 → 1,164 bytes in 3s, verified ~01:12). No Godot on PATH. No proof scene will run while the gate runs (port-7777 rule). Expect: Ran ~5745, failures=113 (112 inherited + 1 new N2162 proof test), skipped=5, 0 errors, all Godot-absent. Finish ~01:27–01:37 +07 (N2161 took 901s; recent gates 893–1722s).
 - **FINISHED ~01:27 +07: Ran 5745 tests in 922.543s, FAILED (failures=113, skipped=5), 0 errors.** Verified by the 01:30 report run: 113 FAIL blocks, 0 ERROR lines; 112 plain `assertIsNotNone(godot)` + 1 hydration `test_live_block_shared_consumers_and_optional_efficiency_runtime` ('Godot required for hydration proof'); the new N2162 proof test `test_reference_graph_and_actual_c07_payload_loader_power_status` is among the 113 (expected — gate env has no Godot; the proof itself was verified GREEN headless at 01:10 with 9 keys). Exactly as predicted. Gate clean except Godot — slice cleared to commit + push.
 
-## Commits (TODO)
+## Commits (DONE + PUSHED 2026-11-14 ~01:3x +07 — slice 01a948f, docs 1a31cbd, GOAL 2ce2347, this handoff-hash commit)
 
 ## Deferred (NOT this slice)
 
