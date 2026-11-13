@@ -1,0 +1,16 @@
+[
+  {
+    "prefix": "C_07_POINT_DEFENSE_TURRET_POWER_STATUS_PROOF",
+    "data": {
+      "efficiency_folds_power_min": true,
+      "efficiency_zero_at_no_power": true,
+      "matches": true,
+      "one_headquarter_per_ssot": true,
+      "power_row_absent_without_consumer": true,
+      "power_row_half": true,
+      "power_row_null_folds_one": true,
+      "registry_valid": true,
+      "segment_has_power_consumer": true
+    }
+  }
+]

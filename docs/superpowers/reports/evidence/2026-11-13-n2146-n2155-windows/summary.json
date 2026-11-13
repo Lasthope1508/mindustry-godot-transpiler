@@ -1,0 +1,17 @@
+{
+  "commit": "516ac38cab43729709f50b63016500c2a0e2babf",
+  "engine": "4.6.2.stable.official.71f334935",
+  "slice_range": "N2146-N2155",
+  "slice_tests": 40,
+  "neighbor_tests": 8,
+  "total_tests": 48,
+  "failures": 0,
+  "errors": 0,
+  "skips": 0,
+  "headless_proofs": 12,
+  "graphical_proofs": 10,
+  "mcp_proofs": 1,
+  "mcp_existing_warnings": 99,
+  "generated_json_parsed": 113,
+  "full_suite_rerun": false
+}

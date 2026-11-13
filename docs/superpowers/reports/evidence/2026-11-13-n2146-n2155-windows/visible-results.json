@@ -1,0 +1,383 @@
+[
+  {
+    "label": "2146",
+    "scene": "C07AdjacentFactoryPowerStatusProof",
+    "engine_runs": [
+      {
+        "command": [
+          "C:\\Users\\Admin\\AppData\\Local\\Microsoft\\WinGet\\Packages\\GodotEngine.GodotEngine_Microsoft.Winget.Source_8wekyb3d8bbwe\\Godot_v4.6.2-stable_win64_console.exe",
+          "--path",
+          "C:\\Users\\Admin\\.codex\\worktrees\\windows-godot-validation\\mindustry-godot-c06-proof\\godot-mindustry",
+          "--scene",
+          "res://tools/runtime_proofs/C07AdjacentFactoryPowerStatusProof.tscn",
+          "--quit-after",
+          "300"
+        ],
+        "exit_code": 0,
+        "seconds": 23.852,
+        "log": "visible-2146.log",
+        "errors": [],
+        "proofs": [
+          {
+            "prefix": "C_07_ADJACENT_FACTORY_POWER_STATUS_PROOF",
+            "data": {
+              "efficiency_folds_power_min": true,
+              "efficiency_zero_at_no_power": true,
+              "matches": true,
+              "one_headquarter_per_ssot": true,
+              "power_row_absent_without_consumer": true,
+              "power_row_half": true,
+              "power_row_null_folds_one": true,
+              "registry_valid": true,
+              "separator_has_power_consumer": true
+            }
+          }
+        ]
+      }
+    ],
+    "passed": true
+  },
+  {
+    "label": "2147",
+    "scene": "C07DrillPowerStatusProof",
+    "engine_runs": [
+      {
+        "command": [
+          "C:\\Users\\Admin\\AppData\\Local\\Microsoft\\WinGet\\Packages\\GodotEngine.GodotEngine_Microsoft.Winget.Source_8wekyb3d8bbwe\\Godot_v4.6.2-stable_win64_console.exe",
+          "--path",
+          "C:\\Users\\Admin\\.codex\\worktrees\\windows-godot-validation\\mindustry-godot-c06-proof\\godot-mindustry",
+          "--scene",
+          "res://tools/runtime_proofs/C07DrillPowerStatusProof.tscn",
+          "--quit-after",
+          "300"
+        ],
+        "exit_code": 0,
+        "seconds": 23.669,
+        "log": "visible-2147.log",
+        "errors": [],
+        "proofs": [
+          {
+            "prefix": "C_07_DRILL_POWER_STATUS_PROOF",
+            "data": {
+              "efficiency_folds_power_min": true,
+              "efficiency_zero_at_no_power": true,
+              "laser_has_power_consumer": true,
+              "matches": true,
+              "one_headquarter_per_ssot": true,
+              "power_row_absent_without_consumer": true,
+              "power_row_half": true,
+              "power_row_null_folds_one": true,
+              "registry_valid": true
+            }
+          }
+        ]
+      }
+    ],
+    "passed": true
+  },
+  {
+    "label": "2148",
+    "scene": "C07TurretPowerStatusProof",
+    "engine_runs": [
+      {
+        "command": [
+          "C:\\Users\\Admin\\AppData\\Local\\Microsoft\\WinGet\\Packages\\GodotEngine.GodotEngine_Microsoft.Winget.Source_8wekyb3d8bbwe\\Godot_v4.6.2-stable_win64_console.exe",
+          "--path",
+          "C:\\Users\\Admin\\.codex\\worktrees\\windows-godot-validation\\mindustry-godot-c06-proof\\godot-mindustry",
+          "--scene",
+          "res://tools/runtime_proofs/C07TurretPowerStatusProof.tscn",
+          "--quit-after",
+          "300"
+        ],
+        "exit_code": 0,
+        "seconds": 23.714,
+        "log": "visible-2148.log",
+        "errors": [],
+        "proofs": [
+          {
+            "prefix": "C_07_TURRET_POWER_STATUS_PROOF",
+            "data": {
+              "efficiency_folds_power_min": true,
+              "efficiency_zero_at_no_power": true,
+              "lancer_has_power_consumer": true,
+              "lancer_placed_live_sprite": true,
+              "matches": true,
+              "one_headquarter_per_ssot": true,
+              "power_row_absent_without_consumer": true,
+              "power_row_half": true,
+              "power_row_null_folds_one": true,
+              "registry_valid": true
+            }
+          }
+        ]
+      }
+    ],
+    "passed": true
+  },
+  {
+    "label": "2149",
+    "scene": "C07BurstDrillPowerStatusProof",
+    "engine_runs": [
+      {
+        "command": [
+          "C:\\Users\\Admin\\AppData\\Local\\Microsoft\\WinGet\\Packages\\GodotEngine.GodotEngine_Microsoft.Winget.Source_8wekyb3d8bbwe\\Godot_v4.6.2-stable_win64_console.exe",
+          "--path",
+          "C:\\Users\\Admin\\.codex\\worktrees\\windows-godot-validation\\mindustry-godot-c06-proof\\godot-mindustry",
+          "--scene",
+          "res://tools/runtime_proofs/C07BurstDrillPowerStatusProof.tscn",
+          "--quit-after",
+          "300"
+        ],
+        "exit_code": 0,
+        "seconds": 23.861,
+        "log": "visible-2149.log",
+        "errors": [],
+        "proofs": [
+          {
+            "prefix": "C_07_BURST_DRILL_POWER_STATUS_PROOF",
+            "data": {
+              "efficiency_folds_power_min": true,
+              "efficiency_zero_at_no_power": true,
+              "eruption_has_power_consumer": true,
+              "matches": true,
+              "one_headquarter_per_ssot": true,
+              "power_row_absent_without_consumer": true,
+              "power_row_half": true,
+              "power_row_null_folds_one": true,
+              "registry_valid": true
+            }
+          }
+        ]
+      }
+    ],
+    "passed": true
+  },
+  {
+    "label": "2150",
+    "scene": "C07SolidPumpPowerStatusProof",
+    "engine_runs": [
+      {
+        "command": [
+          "C:\\Users\\Admin\\AppData\\Local\\Microsoft\\WinGet\\Packages\\GodotEngine.GodotEngine_Microsoft.Winget.Source_8wekyb3d8bbwe\\Godot_v4.6.2-stable_win64_console.exe",
+          "--path",
+          "C:\\Users\\Admin\\.codex\\worktrees\\windows-godot-validation\\mindustry-godot-c06-proof\\godot-mindustry",
+          "--scene",
+          "res://tools/runtime_proofs/C07SolidPumpPowerStatusProof.tscn",
+          "--quit-after",
+          "300"
+        ],
+        "exit_code": 0,
+        "seconds": 23.791,
+        "log": "visible-2150.log",
+        "errors": [],
+        "proofs": [
+          {
+            "prefix": "C_07_SOLID_PUMP_POWER_STATUS_PROOF",
+            "data": {
+              "efficiency_folds_power_min": true,
+              "efficiency_zero_at_no_power": true,
+              "matches": true,
+              "one_headquarter_per_ssot": true,
+              "power_row_absent_without_consumer": true,
+              "power_row_half": true,
+              "power_row_null_folds_one": true,
+              "registry_valid": true,
+              "water_extractor_has_power_consumer": true
+            }
+          }
+        ]
+      }
+    ],
+    "passed": true
+  },
+  {
+    "label": "2151",
+    "scene": "C07PointDefenseTurretPowerStatusProof",
+    "engine_runs": [
+      {
+        "command": [
+          "C:\\Users\\Admin\\AppData\\Local\\Microsoft\\WinGet\\Packages\\GodotEngine.GodotEngine_Microsoft.Winget.Source_8wekyb3d8bbwe\\Godot_v4.6.2-stable_win64_console.exe",
+          "--path",
+          "C:\\Users\\Admin\\.codex\\worktrees\\windows-godot-validation\\mindustry-godot-c06-proof\\godot-mindustry",
+          "--scene",
+          "res://tools/runtime_proofs/C07PointDefenseTurretPowerStatusProof.tscn",
+          "--quit-after",
+          "300"
+        ],
+        "exit_code": 0,
+        "seconds": 23.425,
+        "log": "visible-2151.log",
+        "errors": [],
+        "proofs": [
+          {
+            "prefix": "C_07_POINT_DEFENSE_TURRET_POWER_STATUS_PROOF",
+            "data": {
+              "efficiency_folds_power_min": true,
+              "efficiency_zero_at_no_power": true,
+              "matches": true,
+              "one_headquarter_per_ssot": true,
+              "power_row_absent_without_consumer": true,
+              "power_row_half": true,
+              "power_row_null_folds_one": true,
+              "registry_valid": true,
+              "segment_has_power_consumer": true
+            }
+          }
+        ]
+      }
+    ],
+    "passed": true
+  },
+  {
+    "label": "2152",
+    "scene": "C07TractorBeamTurretPowerStatusProof",
+    "engine_runs": [
+      {
+        "command": [
+          "C:\\Users\\Admin\\AppData\\Local\\Microsoft\\WinGet\\Packages\\GodotEngine.GodotEngine_Microsoft.Winget.Source_8wekyb3d8bbwe\\Godot_v4.6.2-stable_win64_console.exe",
+          "--path",
+          "C:\\Users\\Admin\\.codex\\worktrees\\windows-godot-validation\\mindustry-godot-c06-proof\\godot-mindustry",
+          "--scene",
+          "res://tools/runtime_proofs/C07TractorBeamTurretPowerStatusProof.tscn",
+          "--quit-after",
+          "300"
+        ],
+        "exit_code": 0,
+        "seconds": 23.726,
+        "log": "visible-2152.log",
+        "errors": [],
+        "proofs": [
+          {
+            "prefix": "C_07_TRACTOR_BEAM_TURRET_POWER_STATUS_PROOF",
+            "data": {
+              "efficiency_folds_power_min": true,
+              "efficiency_zero_at_no_power": true,
+              "matches": true,
+              "one_headquarter_per_ssot": true,
+              "parallax_has_power_consumer": true,
+              "power_row_absent_without_consumer": true,
+              "power_row_half": true,
+              "power_row_null_folds_one": true,
+              "registry_valid": true
+            }
+          }
+        ]
+      }
+    ],
+    "passed": true
+  },
+  {
+    "label": "2153",
+    "scene": "C07FrackerPowerStatusProof",
+    "engine_runs": [
+      {
+        "command": [
+          "C:\\Users\\Admin\\AppData\\Local\\Microsoft\\WinGet\\Packages\\GodotEngine.GodotEngine_Microsoft.Winget.Source_8wekyb3d8bbwe\\Godot_v4.6.2-stable_win64_console.exe",
+          "--path",
+          "C:\\Users\\Admin\\.codex\\worktrees\\windows-godot-validation\\mindustry-godot-c06-proof\\godot-mindustry",
+          "--scene",
+          "res://tools/runtime_proofs/C07FrackerPowerStatusProof.tscn",
+          "--quit-after",
+          "300"
+        ],
+        "exit_code": 0,
+        "seconds": 23.78,
+        "log": "visible-2153.log",
+        "errors": [],
+        "proofs": [
+          {
+            "prefix": "C_07_FRACKER_POWER_STATUS_PROOF",
+            "data": {
+              "efficiency_folds_power_min": true,
+              "efficiency_zero_at_no_power": true,
+              "matches": true,
+              "oil_extractor_has_power_consumer": true,
+              "one_headquarter_per_ssot": true,
+              "power_row_absent_without_consumer": true,
+              "power_row_half": true,
+              "power_row_null_folds_one": true,
+              "registry_valid": true
+            }
+          }
+        ]
+      }
+    ],
+    "passed": true
+  },
+  {
+    "label": "2154",
+    "scene": "C07MechanicalPumpPowerStatusProof",
+    "engine_runs": [
+      {
+        "command": [
+          "C:\\Users\\Admin\\AppData\\Local\\Microsoft\\WinGet\\Packages\\GodotEngine.GodotEngine_Microsoft.Winget.Source_8wekyb3d8bbwe\\Godot_v4.6.2-stable_win64_console.exe",
+          "--path",
+          "C:\\Users\\Admin\\.codex\\worktrees\\windows-godot-validation\\mindustry-godot-c06-proof\\godot-mindustry",
+          "--scene",
+          "res://tools/runtime_proofs/C07MechanicalPumpPowerStatusProof.tscn",
+          "--quit-after",
+          "300"
+        ],
+        "exit_code": 0,
+        "seconds": 23.714,
+        "log": "visible-2154.log",
+        "errors": [],
+        "proofs": [
+          {
+            "prefix": "C_07_MECHANICAL_PUMP_POWER_STATUS_PROOF",
+            "data": {
+              "efficiency_folds_power_min": true,
+              "efficiency_zero_at_no_power": true,
+              "matches": true,
+              "one_headquarter_per_ssot": true,
+              "power_row_absent_without_consumer": true,
+              "power_row_half": true,
+              "power_row_null_folds_one": true,
+              "registry_valid": true,
+              "rotary_pump_has_power_consumer": true
+            }
+          }
+        ]
+      }
+    ],
+    "passed": true
+  },
+  {
+    "label": "2155",
+    "scene": "C07BeamDrillPowerStatusProof",
+    "engine_runs": [
+      {
+        "command": [
+          "C:\\Users\\Admin\\AppData\\Local\\Microsoft\\WinGet\\Packages\\GodotEngine.GodotEngine_Microsoft.Winget.Source_8wekyb3d8bbwe\\Godot_v4.6.2-stable_win64_console.exe",
+          "--path",
+          "C:\\Users\\Admin\\.codex\\worktrees\\windows-godot-validation\\mindustry-godot-c06-proof\\godot-mindustry",
+          "--scene",
+          "res://tools/runtime_proofs/C07BeamDrillPowerStatusProof.tscn",
+          "--quit-after",
+          "300"
+        ],
+        "exit_code": 0,
+        "seconds": 23.726,
+        "log": "visible-2155.log",
+        "errors": [],
+        "proofs": [
+          {
+            "prefix": "C_07_BEAM_DRILL_POWER_STATUS_PROOF",
+            "data": {
+              "efficiency_folds_power_min": true,
+              "efficiency_zero_at_no_power": true,
+              "matches": true,
+              "one_headquarter_per_ssot": true,
+              "plasma_bore_has_power_consumer": true,
+              "power_row_absent_without_consumer": true,
+              "power_row_half": true,
+              "power_row_null_folds_one": true,
+              "registry_valid": true
+            }
+          }
+        ]
+      }
+    ],
+    "passed": true
+  }
+]
