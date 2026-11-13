@@ -2783,6 +2783,24 @@
       ],
       "runtime_proof": "/root/C07OverdriveProjectorPowerStatusProof"
     },
+    "N2158": {
+      "canonical_ledger": "source_slice_ledger.N2158",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+      "java_method": "ForceBuild.updateTile()",
+      "godot_owner": "SourceForceProjectorBuildState.source_force_projector_power_status_row_state",
+      "source_symbols": [
+        "source_force_projector_power_status_row_state_result.row",
+        "source_force_projector_power_status_row_state_result.has_power_row"
+      ],
+      "tests": [
+        "test_c07_force_projector_power_status_registration",
+        "test_all_c07_force_projector_power_status_input_evidence_is_exact",
+        "test_force_projector_power_status_row_state",
+        "test_reference_graph_and_actual_c07_force_projector_power_status"
+      ],
+      "runtime_proof": "/root/C07ForceProjectorPowerStatusProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

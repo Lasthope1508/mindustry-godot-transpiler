@@ -19,6 +19,7 @@ const source_mechanical_pump_build_state := preload("res://src/game/SourceMechan
 const source_beam_drill_build_state := preload("res://src/game/SourceBeamDrillBuildState.gd")
 const source_mend_projector_build_state := preload("res://src/game/SourceMendProjectorBuildState.gd")
 const source_overdrive_projector_build_state := preload("res://src/game/SourceOverdriveProjectorBuildState.gd")
+const source_force_projector_build_state := preload("res://src/game/SourceForceProjectorBuildState.gd")
 const source_point_defense_turret_build_state := preload("res://src/game/SourcePointDefenseTurretBuildState.gd")
 const source_tractor_beam_turret_build_state := preload("res://src/game/SourceTractorBeamTurretBuildState.gd")
 const source_factory_build_state := preload("res://src/game/SourceFactoryBuildState.gd")
@@ -247,6 +248,15 @@ static func simulate_factory(game: Object, delta: float) -> void:
 	# placed-buildings driver ticks OverdriveProjector blocks; an overdrive
 	# projector without a power consumer is excluded by the driver gate).
 	source_overdrive_projector_build_state.source_overdrive_projector_tick_buildings_state(game, delta)
+	# The force-projector tick runs every live-loop tick (N2158): each
+	# placed ForceProjector build (force-projector, whose build runs
+	# ForceBuild.updateTile(), ForceProjector.java:207) gets its frame keys
+	# refreshed from the live rules and folds its live power.status
+	# into the min efficiency, so the warmup fold
+	# (ForceProjector.java:221) follows power.status (no
+	# placed-buildings driver ticks ForceProjector blocks; a force
+	# projector without a power consumer is excluded by the driver gate).
+	source_force_projector_build_state.source_force_projector_tick_buildings_state(game, delta)
 	# The point-defense tick runs every live-loop tick (N2151): each
 	# placed PointDefenseTurret build (segment, whose build runs
 	# PointDefenseBuild.updateTile(), PointDefenseTurret.java:62)
