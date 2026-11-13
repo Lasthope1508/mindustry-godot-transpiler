@@ -35,7 +35,7 @@ fidelity để lấy reusability.
 | C05 | Consumer initialization, rules và reload | Direct single-liquid subset đã nối; mixed/inherited/dynamic chưa đóng |
 | C06 | Vòng factory → core → defense chạy hoàn chỉnh | **ĐÓNG** (N2139) |
 | C07 | Units, waves, world và campaign | **ĐANG LÀM** — power.status live read, family by family |
-| C08 | Generated semantics / unsupported ledger | Chưa bắt đầu (5.390 hàm null-body chưa phân loại — xem §6) |
+| C08 | Generated semantics / unsupported ledger | Chưa bắt đầu (5.390 hàm null-body chưa phân loại — xem §7) |
 | C09 | Facade / bridge và SSOT quality | Chưa bắt đầu |
 | C10 | Save / load / network | Chưa bắt đầu |
 | C11 | Presentation, ổn định và hiệu năng | Chưa bắt đầu (có playable shell) |
@@ -59,7 +59,38 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
   (`origin` = fork, `upstream` = `duynguyen16689/mindustry-godot-transpiler`).
   Local worktree: `~/workspace/mindustry-godot-transpiler`.
 
-## 5. Quy trình slice (bắt buộc, theo `AGENTS.md`)
+## 5. Nợ test Godot (Windows) — agent khác test, báo hoàn công sau
+
+- **Nguyên tắc:** proof Godot của mỗi slice chạy trên Linux headless ở VM này
+  là đủ điều kiện để push (Godot 4.6.2-stable Linux, build 71f334935, giống
+  hệt build Windows 4.6.2). Chạy proof trên **Windows Godot là một track
+  kiểm chứng riêng**, do agent khác đảm nhiệm (máy Windows admin-pc) — không
+  chặn push, nhưng phải được ghi nợ ở đây và báo hoàn công sau.
+- **Nợ đang mở (2026-11-13 ~12:11 +07):**
+  - [ ] N2148 `C07TurretPowerStatusProof` — Linux GREEN 09:35 (10 key).
+    Scene tới Windows theo commit `9917082`. Chưa chạy trên Windows Godot.
+  - [ ] N2149 `C07BurstDrillPowerStatusProof` — Linux GREEN 10:50 (9 key).
+    Scene tới Windows theo commit `ded31ea`. Chưa chạy trên Windows Godot.
+  - [ ] N2150 `C07SolidPumpPowerStatusProof` — Linux GREEN 11:5x (9 key).
+    Scene tới Windows theo commit push N2150 (sau gate). Chưa chạy trên
+    Windows Godot.
+  - [ ] Mọi slice sau này: proof scene mới nào cũng ghi nợ Windows theo mẫu
+    trên (ghi rõ commit đưa scene tới Windows).
+  - [ ] Agent khác đang test các lỗi fail trên Windows Godot (PR #1 đã merge
+    08:31: 101 Godot-dependent methods, baseline 96 pass / 5 fail, sau 5
+    fixture repair thì 101/101 cumulative — xem
+    `docs/superpowers/reports/2026-11-13-windows-godot-validation.md`).
+    Kết quả test tiếp theo của họ cũng báo về đây.
+- **Báo hoàn công (khi agent khác test xong):** họ báo lại (qua user hoặc
+  PR) từng mục: scene nào, commit nào, chạy trên Windows Godot kết quả
+  pass/fail + bằng chứng (log/JSON). Ghi lại vào mục nợ này: đánh dấu `[x]`
+  kèm ngày + bằng chứng. Nếu phát hiện lỗi thật (không phải fixture cũ),
+  không đóng nợ âm thầm — mở slice/fix mới theo quy trình slice.
+- **Không phải nợ:** proof Linux headless (xong trước mỗi lần push); full
+  gate chạy không có Godot trên PATH theo thiết kế (các failure Godot-absent
+  trong gate là kỳ vọng, không phải nợ test).
+
+## 6. Quy trình slice (bắt buộc, theo `AGENTS.md`)
 
 Đọc design spec + 5 file SSOT + manifest/shards + upstream Java chính xác →
 RED tests → GREEN → targeted → neighbours → Godot proof → full gate → report
@@ -69,7 +100,7 @@ theo mẫu 3 commit (slice / docs / handoff-hash) → push lên origin main.
 Một slice chỉ được push khi **tests + Godot proof + gate đều xanh**. Không
 commit/push slice chưa đủ điều kiện.
 
-## 6. Những điều không được hiểu sai
+## 7. Những điều không được hiểu sai
 
 - **Ledger không phải tiến độ tổng.** Ledger chỉ đếm slice đã đăng ký
   (`Done 1600 / Not done 0` không liệt kê phương thức upstream chưa di cư).
@@ -102,7 +133,7 @@ commit/push slice chưa đủ điều kiện.
   kiểm chứng số liệu quyết định (ps, log tail/mtime, git log/status, SSOT,
   proof JSON, FAIL/ERROR counts) trên worktree thật trước khi báo cáo.
 
-## 7. Đọc trước khi làm
+## 8. Đọc trước khi làm
 
 - Tài liệu này (`docs/superpowers/GOAL.md`).
 - `AGENTS.md` (house rules).
