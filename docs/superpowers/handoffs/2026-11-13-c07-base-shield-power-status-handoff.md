@@ -51,7 +51,13 @@ Date: 2026-11-13. Batch: N2159 (single slice). Status: **DONE (2026-11-13 ~22:30
 
 - Full gate attempt 1 **launched from the MAIN THREAD ~22:10 +07** by main thread: `cd tools/mindustry_godot_transpiler && python3 -c "import javalang" && setsid nohup python3 -m unittest discover -s tests > full-suite-n2159-gate.log 2>&1 < /dev/null &` — **PID 13158, SID 13158 (own session), PPID 13155 (background subshell)**. **Finished ~22:25 +07 (log mtime 22:25:58 +07): Ran 5733 tests in 894.668s, FAILED (failures=110, skipped=5), 0 errors** — exactly the expected outcome (109 inherited + 1 new N2159 proof test). **Verified by the 22:30 cron run: 110 `FAIL:` lines, 0 `ERROR:` lines, all 110 FAIL blocks mention Godot (script check: non-Godot-cause blocks NONE) — 109 plain assertIsNotNone(godot) + 1 hydration assertIsNotNone(godot, 'Godot required for hydration proof'), including the new N2159 proof test (fails only on `assertIsNotNone(godot)` at test line 158 — the gate env has no Godot on PATH; the proof itself is GREEN headless). Gate clean except Godot. First-attempt finish.** No Godot on PATH. No proof scene ran while the gate ran (port-7777 rule).
 
-## Commits (PENDING)
+## Commits
+
+- Slice: `7fa573d` — C07: N2159 BaseShield power.status live read (shield-projector / large-shield-projector; pure power row + driver wiring; proof 6 keys), 13 files, +926/−1.
+- Docs: `1bc71df` — N2159 report + design spec + handoff (gate clean except Godot).
+- GOAL debt line: `e5c9045` — GOAL.md names the N2159 slice commit (7fa573d) that carries its proof to Windows.
+- Handoff-hash: this commit — N2159 handoff records the slice + docs + GOAL commit hashes (7fa573d, 1bc71df, e5c9045).
+- Pushed to origin main (fork Lasthope1508) after gate verification, 2026-11-13 ~22:3x +07.
 
 ## Deferred (NOT this slice)
 
