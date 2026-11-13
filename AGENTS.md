@@ -3,6 +3,7 @@
 This worktree ports `mindustry-upstream` Java behavior into `godot-mindustry` GDScript slice by slice.
 
 Before each slice:
+- Read `docs/superpowers/GOAL.md` — the ultimate goal (finish C01–C12, faithful port, release candidate) and the boundaries that keep this work on track.
 - Read `docs/superpowers/specs/2026-06-23-mindustry-godot-gdscript-transpiler-design.md`.
 - Read all five SSOT files under `godot-mindustry/src/generated/`:
   - `source_symbol_registry.json`
