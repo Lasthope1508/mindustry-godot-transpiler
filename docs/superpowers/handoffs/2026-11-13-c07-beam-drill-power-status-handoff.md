@@ -56,7 +56,14 @@ Date: 2026-11-13. Batch: N2155 (single slice). Status: **GREEN DONE + PUSHED (20
 - Full gate attempt 1 launched from the MAIN THREAD ~18:06 +07 (PID 13344, SID 13344, own session) **finished ~18:21 +07: Ran 5717 tests in 903.463s, FAILED (failures=106, skipped=5), 0 errors** — exactly the expected outcome. Verified by the 18:30 report run: 106 `FAIL:` lines, 0 `ERROR:` lines, all 106 `AssertionError: unexpectedly None` (105 plain assertIsNotNone(godot) + 1 hydration assertIsNotNone(godot, 'Godot required for hydration proof')), including the new N2155 proof test. Gate clean except Godot. First-attempt finish. Log: `tools/mindustry_godot_transpiler/full-suite-n2155-gate.log` (never stage).
 - Next: commit + push (slice → docs → GOAL.md debt line → handoff-hash), then N2156 — next power.status family, scoped from the consumePower catalog (projectors or payload producers per the deferred list).
 
-## Commits (TODO)
+## Commits
+
+- Slice: `ad1696f` — C07: N2155 BeamDrill power.status live read (plasma-bore / large-plasma-bore; pure power row + driver wiring; proof 6 keys)
+- Docs: `e4860fd` — Docs: N2155 report + design spec + handoff (gate clean except Godot)
+- GOAL.md debt line: `2fa3067` — Docs: GOAL.md names the N2155 slice commit (ad1696f) that carries its proof to Windows
+- Handoff-hash: (this commit) — Docs: N2155 handoff records the slice + docs commit hashes (ad1696f, e4860fd)
+
+All pushed to origin main (fork Lasthope1508/mindustry-godot-transpiler).
 
 ## Deferred (NOT this slice)
 
