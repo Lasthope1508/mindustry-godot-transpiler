@@ -59,9 +59,9 @@ Date: 2026-11-13. Batch: N2158 (single slice). Status: **DONE + PUSHED (gate att
 ## Commits
 
 - Slice: `5edf125` — C07: N2158 ForceProjector power.status live read (force-projector; pure power row + driver wiring; proof 6 keys), 13 files, +924/−1.
-- Docs: TBD (report + design spec + this handoff).
-- GOAL.md debt-line: TBD (names the N2158 slice commit `5edf125`; also checks off the N2148–N2155 Windows Godot debt entries — PR #2, commit `b0a989c`).
-- Handoff-hash: TBD.
+- Docs: `1466f2c` (report + design spec + this handoff).
+- GOAL.md debt-line: `5ecb42d` (names the N2158 slice commit `5edf125`; also checks off the N2148–N2155 Windows Godot debt entries — PR #2, commit `b0a989c`).
+- Handoff-hash: this commit.
 
 ## Deferred (NOT this slice)
 
