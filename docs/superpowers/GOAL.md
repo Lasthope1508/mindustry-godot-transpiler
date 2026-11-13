@@ -67,34 +67,37 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
   kiểm chứng riêng**, do agent khác đảm nhiệm (máy Windows admin-pc) — không
   chặn push, nhưng phải được ghi nợ ở đây và báo hoàn công sau.
 - **Nợ đang mở (2026-11-13 ~12:11 +07):**
-  - [ ] N2148 `C07TurretPowerStatusProof` — Linux GREEN 09:35 (10 key).
-    Scene tới Windows theo commit `9917082`. Chưa chạy trên Windows Godot.
-  - [ ] N2149 `C07BurstDrillPowerStatusProof` — Linux GREEN 10:50 (9 key).
-    Scene tới Windows theo commit `ded31ea`. Chưa chạy trên Windows Godot.
-  - [ ] N2150 `C07SolidPumpPowerStatusProof` — Linux GREEN 11:5x (9 key).
+  - [x] N2148 `C07TurretPowerStatusProof` — Linux GREEN 09:35 (10 key).
+    Scene tới Windows theo commit `9917082`. Đã chạy trên Windows Godot 2026-11-13 (PR #2, commit `b0a989c`): 48/48 test đạt, 10/10 scene matches=true — xem `docs/superpowers/reports/2026-11-13-windows-godot-n2146-n2155.md`.
+  - [x] N2149 `C07BurstDrillPowerStatusProof` — Linux GREEN 10:50 (9 key).
+    Scene tới Windows theo commit `ded31ea`. Đã chạy trên Windows Godot 2026-11-13 (PR #2, commit `b0a989c`): 48/48 test đạt, 10/10 scene matches=true — xem `docs/superpowers/reports/2026-11-13-windows-godot-n2146-n2155.md`.
+  - [x] N2150 `C07SolidPumpPowerStatusProof` — Linux GREEN 11:5x (9 key).
     Scene tới Windows theo slice commit `765c2f3` (pushed ~12:2x, main
-    `e605718`). Chưa chạy trên Windows Godot.
-  - [ ] N2151 `C07PointDefenseTurretPowerStatusProof` — Linux GREEN 12:45 (9 key).
+    `e605718`). Đã chạy trên Windows Godot 2026-11-13 (PR #2, commit `b0a989c`): 48/48 test đạt, 10/10 scene matches=true — xem `docs/superpowers/reports/2026-11-13-windows-godot-n2146-n2155.md`.
+  - [x] N2151 `C07PointDefenseTurretPowerStatusProof` — Linux GREEN 12:45 (9 key).
     Scene tới Windows theo slice commit `b92a4ff` (pushed ~13:3x, main
-    `4d23cd7`). Chưa chạy trên Windows Godot.
-  - [ ] N2152 `C07TractorBeamTurretPowerStatusProof` — Linux GREEN 13:55 (9 key).
+    `4d23cd7`). Đã chạy trên Windows Godot 2026-11-13 (PR #2, commit `b0a989c`): 48/48 test đạt, 10/10 scene matches=true — xem `docs/superpowers/reports/2026-11-13-windows-godot-n2146-n2155.md`.
+  - [x] N2152 `C07TractorBeamTurretPowerStatusProof` — Linux GREEN 13:55 (9 key).
     Scene tới Windows theo slice commit `4bba657` (pushed ~14:16, main
-    `9e36cc0`). Chưa chạy trên Windows Godot.
-  - [ ] N2153 `C07FrackerPowerStatusProof` — Linux GREEN 14:40 (9 key).
+    `9e36cc0`). Đã chạy trên Windows Godot 2026-11-13 (PR #2, commit `b0a989c`): 48/48 test đạt, 10/10 scene matches=true — xem `docs/superpowers/reports/2026-11-13-windows-godot-n2146-n2155.md`.
+  - [x] N2153 `C07FrackerPowerStatusProof` — Linux GREEN 14:40 (9 key).
     Scene tới Windows theo slice commit `07fa495` (pushed ~15:3x, main
-    `ecf2641`). Chưa chạy trên Windows Godot.
-  - [ ] N2154 `C07MechanicalPumpPowerStatusProof` — Linux GREEN 16:23 (9 key).
+    `ecf2641`). Đã chạy trên Windows Godot 2026-11-13 (PR #2, commit `b0a989c`): 48/48 test đạt, 10/10 scene matches=true — xem `docs/superpowers/reports/2026-11-13-windows-godot-n2146-n2155.md`.
+  - [x] N2154 `C07MechanicalPumpPowerStatusProof` — Linux GREEN 16:23 (9 key).
     Scene tới Windows theo slice commit `f97c030` (pushed ~17:2x, main
-    `4ff5936`). Chưa chạy trên Windows Godot.
-  - [ ] N2155 `C07BeamDrillPowerStatusProof` — Linux GREEN 17:45 (9 key).
+    `4ff5936`). Đã chạy trên Windows Godot 2026-11-13 (PR #2, commit `b0a989c`): 48/48 test đạt, 10/10 scene matches=true — xem `docs/superpowers/reports/2026-11-13-windows-godot-n2146-n2155.md`.
+  - [x] N2155 `C07BeamDrillPowerStatusProof` — Linux GREEN 17:45 (9 key).
     Scene tới Windows theo slice commit `ad1696f` (pushed ~18:3x, main
-    `e4860fd`). Chưa chạy trên Windows Godot.
+    `e4860fd`). Đã chạy trên Windows Godot 2026-11-13 (PR #2, commit `b0a989c`): 48/48 test đạt, 10/10 scene matches=true — xem `docs/superpowers/reports/2026-11-13-windows-godot-n2146-n2155.md`.
   - [ ] N2156 `C07MendProjectorPowerStatusProof` — Linux GREEN 19:09 (9 key).
     Scene tới Windows theo slice commit `fbe08f1` (pushed ~19:3x, main
     `0bf8a84`). Chưa chạy trên Windows Godot.
   - [ ] N2157 `C07OverdriveProjectorPowerStatusProof` — Linux GREEN 20:00 (9 key).
     Scene tới Windows theo slice commit `97f27f7` (pushed ~20:5x, main
     `d9ef566`). Chưa chạy trên Windows Godot.
+  - [ ] N2158 `C07ForceProjectorPowerStatusProof` — Linux GREEN 21:15 (9 key).
+    Scene tới Windows theo slice commit `5edf125` (pushed ~21:4x, main
+    `1466f2c`). Chưa chạy trên Windows Godot.
   - [ ] Mọi slice sau này: proof scene mới nào cũng ghi nợ Windows theo mẫu
     trên (ghi rõ commit đưa scene tới Windows).
   - [ ] Agent khác đang test các lỗi fail trên Windows Godot (PR #1 đã merge
