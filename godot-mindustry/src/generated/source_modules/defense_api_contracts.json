@@ -6760,6 +6760,38 @@
       "rule": "Source-backed PointDefenseTurret power.status row from ConsumePower.java / BuildingComp.java.",
       "return_type": "Dictionary"
     },
+    "SourceRegenProjectorBuildState.source_regen_projector_power_status_row_state": {
+      "canonical_contract": "source_api_contracts.SourceRegenProjectorBuildState.source_regen_projector_power_status_row_state",
+      "status": "active",
+      "source_slice": "N2160",
+      "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+      "source_method": "RegenProjectorBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_regen_projector_power_status_row_state_input.frame"
+        },
+        {
+          "name": "has_power_consumer",
+          "type": "bool",
+          "schema": "source_regen_projector_power_status_row_state_input.has_power_consumer"
+        }
+      ],
+      "return_keys": [
+        "row",
+        "has_power_row"
+      ],
+      "tests": [
+        "test_c07_regen_projector_power_status_registration",
+        "test_all_c07_regen_projector_power_status_input_evidence_is_exact",
+        "test_regen_projector_power_status_row_state",
+        "test_reference_graph_and_actual_c07_regen_projector_power_status"
+      ],
+      "runtime_proof": "/root/C07RegenProjectorPowerStatusProof",
+      "rule": "Source-backed RegenProjector power.status row from ConsumePower.java / BuildingComp.java.",
+      "return_type": "Dictionary"
+    },
     "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourceTractorBeamTurretBuildState.source_tractor_beam_turret_power_status_row_state",
       "status": "active",

@@ -2819,6 +2819,24 @@
       ],
       "runtime_proof": "/root/C07BaseShieldPowerStatusProof"
     },
+    "N2160": {
+      "canonical_ledger": "source_slice_ledger.N2160",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+      "java_method": "RegenProjectorBuild.updateTile()",
+      "godot_owner": "SourceRegenProjectorBuildState.source_regen_projector_power_status_row_state",
+      "source_symbols": [
+        "source_regen_projector_power_status_row_state_result.row",
+        "source_regen_projector_power_status_row_state_result.has_power_row"
+      ],
+      "tests": [
+        "test_c07_regen_projector_power_status_registration",
+        "test_all_c07_regen_projector_power_status_input_evidence_is_exact",
+        "test_regen_projector_power_status_row_state",
+        "test_reference_graph_and_actual_c07_regen_projector_power_status"
+      ],
+      "runtime_proof": "/root/C07RegenProjectorPowerStatusProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",
