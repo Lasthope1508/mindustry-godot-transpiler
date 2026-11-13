@@ -83,6 +83,9 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
   - [ ] N2153 `C07FrackerPowerStatusProof` — Linux GREEN 14:40 (9 key).
     Scene tới Windows theo slice commit `07fa495` (pushed ~15:3x, main
     `ecf2641`). Chưa chạy trên Windows Godot.
+  - [ ] N2154 `C07MechanicalPumpPowerStatusProof` — Linux GREEN 16:23 (9 key).
+    Scene tới Windows theo slice commit `f97c030` (pushed ~17:2x, main
+    `4ff5936`). Chưa chạy trên Windows Godot.
   - [ ] Mọi slice sau này: proof scene mới nào cũng ghi nợ Windows theo mẫu
     trên (ghi rõ commit đưa scene tới Windows).
   - [ ] Agent khác đang test các lỗi fail trên Windows Godot (PR #1 đã merge
