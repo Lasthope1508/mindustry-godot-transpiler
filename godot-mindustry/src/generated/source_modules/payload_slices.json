@@ -1690,6 +1690,24 @@
         "test_reference_graph_and_actual_c07_payload_mass_driver_power_status"
       ],
       "runtime_proof": "/root/C07PayloadMassDriverPowerStatusProof"
+    },
+    "N2166": {
+      "canonical_ledger": "source_slice_ledger.N2166",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "java_method": "PayloadDeconstructorBuild.updateTile()",
+      "godot_owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_power_status_row_state",
+      "source_symbols": [
+        "source_payload_deconstructor_power_status_row_state_result.row",
+        "source_payload_deconstructor_power_status_row_state_result.has_power_row"
+      ],
+      "tests": [
+        "test_c07_payload_deconstructor_power_status_registration",
+        "test_all_c07_payload_deconstructor_power_status_input_evidence_is_exact",
+        "test_payload_deconstructor_power_status_row_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_power_status"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorPowerStatusProof"
     }
   }
 }

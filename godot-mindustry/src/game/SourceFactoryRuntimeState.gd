@@ -27,6 +27,7 @@ const source_payload_loader_build_state := preload("res://src/game/SourcePayload
 const source_payload_unloader_build_state := preload("res://src/game/SourcePayloadUnloaderBuildState.gd")
 const source_payload_mass_driver_build_state := preload("res://src/game/SourcePayloadMassDriverBuildState.gd")
 const source_unit_cargo_loader_build_state := preload("res://src/game/SourceUnitCargoLoaderBuildState.gd")
+const source_payload_deconstructor_build_state := preload("res://src/game/SourcePayloadDeconstructorBuildState.gd")
 const source_point_defense_turret_build_state := preload("res://src/game/SourcePointDefenseTurretBuildState.gd")
 const source_tractor_beam_turret_build_state := preload("res://src/game/SourceTractorBeamTurretBuildState.gd")
 const source_factory_build_state := preload("res://src/game/SourceFactoryBuildState.gd")
@@ -327,6 +328,15 @@ static func simulate_factory(game: Object, delta: float) -> void:
 	# placed-buildings driver ticks UnitCargoLoader blocks; a unit-cargo-loader
 	# without a power consumer is excluded by the driver gate).
 	source_unit_cargo_loader_build_state.source_unit_cargo_loader_tick_buildings_state(game, delta)
+	# The payload-deconstructor tick runs every live-loop tick (N2166): each
+	# placed PayloadDeconstructor build (deconstructor, whose build runs
+	# PayloadDeconstructorBuild.updateTile(), PayloadDeconstructor.java:109) gets its frame keys
+	# refreshed from the live rules and folds its live power.status
+	# into the min efficiency, so the progress advance
+	# (PayloadDeconstructor.java:142) follows power.status (no
+	# placed-buildings driver ticks PayloadDeconstructor blocks; a payload-deconstructor
+	# without a power consumer is excluded by the driver gate).
+	source_payload_deconstructor_build_state.source_payload_deconstructor_tick_buildings_state(game, delta)
 	# The point-defense tick runs every live-loop tick (N2151): each
 	# placed PointDefenseTurret build (segment, whose build runs
 	# PointDefenseBuild.updateTile(), PointDefenseTurret.java:62)
