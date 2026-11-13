@@ -64874,6 +64874,37 @@
       ],
       "runtime_proof": "/root/C07PointDefenseTurretPowerStatusProof",
       "rule": "Source-backed PointDefenseTurret power.status row from ConsumePower.java / BuildingComp.java."
+    },
+    "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_power_status_row_state": {
+      "status": "active",
+      "source_slice": "N2152",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "source_method": "TractorBeamBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_tractor_beam_turret_power_status_row_state_input.frame"
+        },
+        {
+          "name": "has_power_consumer",
+          "type": "bool",
+          "schema": "source_tractor_beam_turret_power_status_row_state_input.has_power_consumer"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "row",
+        "has_power_row"
+      ],
+      "tests": [
+        "test_c07_tractor_beam_turret_power_status_registration",
+        "test_all_c07_tractor_beam_turret_power_status_input_evidence_is_exact",
+        "test_tractor_beam_turret_power_status_row_state",
+        "test_reference_graph_and_actual_c07_tractor_beam_turret_power_status"
+      ],
+      "runtime_proof": "/root/C07TractorBeamTurretPowerStatusProof",
+      "rule": "Source-backed TractorBeamTurret power.status row from ConsumePower.java / BuildingComp.java."
     }
   },
   "policy": {

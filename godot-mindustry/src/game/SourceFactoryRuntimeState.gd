@@ -15,6 +15,7 @@ const source_turret_build_state := preload("res://src/game/SourceTurretBuildStat
 const source_burst_drill_build_state := preload("res://src/game/SourceBurstDrillBuildState.gd")
 const source_solid_pump_build_state := preload("res://src/game/SourceSolidPumpBuildState.gd")
 const source_point_defense_turret_build_state := preload("res://src/game/SourcePointDefenseTurretBuildState.gd")
+const source_tractor_beam_turret_build_state := preload("res://src/game/SourceTractorBeamTurretBuildState.gd")
 const source_factory_build_state := preload("res://src/game/SourceFactoryBuildState.gd")
 const source_unit_factory_build_state := preload("res://src/game/SourceUnitFactoryBuildState.gd")
 const source_adjacent_factory_build_state := preload("res://src/game/SourceAdjacentFactoryBuildState.gd")
@@ -204,6 +205,15 @@ static func simulate_factory(game: Object, delta: float) -> void:
 	# follows power.status (the turret driver never ticks
 	# PointDefenseTurret blocks).
 	source_point_defense_turret_build_state.source_point_defense_turret_tick_buildings_state(game, delta)
+	# The tractor-beam tick runs every live-loop tick (N2152): each
+	# placed TractorBeamTurret build (parallax, whose build runs
+	# TractorBeamBuild.updateTile(), TractorBeamTurret.java:78)
+	# gets its frame keys refreshed from the live rules and folds
+	# its live power.status into the min efficiency, so the
+	# tractor-beam eff/edelta fold (TractorBeamTurret.java:84, 117)
+	# follows power.status (the turret driver never ticks
+	# TractorBeamTurret blocks).
+	source_tractor_beam_turret_build_state.source_tractor_beam_turret_tick_buildings_state(game, delta)
 	# The factory-family tick runs every live-loop tick (N2109): each
 	# placed factory-family build (GenericCrafter/AttributeCrafter/
 	# HeatCrafter/HeatProducer, whose builds run

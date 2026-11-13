@@ -6515,7 +6515,8 @@
         "test_reference_graph_and_actual_cost_multiplier_for_block"
       ],
       "runtime_proof": "/root/CostMultiplierForBlockProof",
-      "rule": "Source-backed per-block cost multiplier; unit factories pay Rules.unitCost, other blocks pay the 1.0 default; a ContinuousLiquidTurret pays 1 / ammoMultiplier for its current liquid, 1.0 when the liquid has no ammo type."
+      "rule": "Source-backed per-block cost multiplier; unit factories pay Rules.unitCost, other blocks pay the 1.0 default; a ContinuousLiquidTurret pays 1 / ammoMultiplier for its current liquid, 1.0 when the liquid has no ammo type.",
+      "return_type": "Dictionary"
     },
     "SourceContinuousLiquidTurretBuildState.source_tick_buildings_state": {
       "canonical_contract": "source_api_contracts.SourceContinuousLiquidTurretBuildState.source_tick_buildings_state",
@@ -6549,7 +6550,8 @@
         "test_tick_binds_a_runtime_consumer_for_sublimate"
       ],
       "runtime_proof": "/root/ContinuousLiquidTurretLiveLoopProof",
-      "rule": "Source-backed ContinuousLiquidTurret live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live liquid module every simulate_factory tick, so the N2101 cost multiplier is paid live, and the tick runs the bound RuntimeConsumer actors through updateConsumption so the placed turret consumes its ammo liquid each tick."
+      "rule": "Source-backed ContinuousLiquidTurret live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live liquid module every simulate_factory tick, so the N2101 cost multiplier is paid live, and the tick runs the bound RuntimeConsumer actors through updateConsumption so the placed turret consumes its ammo liquid each tick.",
+      "return_type": "Dictionary"
     },
     "SourceContinuousLiquidTurretBuildState.source_tick_frame_state": {
       "canonical_contract": "source_api_contracts.SourceContinuousLiquidTurretBuildState.source_tick_frame_state",
@@ -6595,7 +6597,8 @@
         "test_reference_graph_and_actual_continuous_liquid_turret_tick_frame"
       ],
       "runtime_proof": "/root/ContinuousLiquidTurretTickFrameProof",
-      "rule": "Source-backed ContinuousLiquidTurret tick frame wiring; the tick sets the frame keys the N2101 cost multiplier reads (current_liquid from the liquid module, ammo_types from the block), so the multiplier is paid live."
+      "rule": "Source-backed ContinuousLiquidTurret tick frame wiring; the tick sets the frame keys the N2101 cost multiplier reads (current_liquid from the liquid module, ammo_types from the block), so the multiplier is paid live.",
+      "return_type": "Dictionary"
     },
     "SourcePointDefenseTurretBuildState.source_point_defense_turret_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourcePointDefenseTurretBuildState.source_point_defense_turret_power_status_row_state",
@@ -6626,7 +6629,40 @@
         "test_reference_graph_and_actual_c07_point_defense_turret_power_status"
       ],
       "runtime_proof": "/root/C07PointDefenseTurretPowerStatusProof",
-      "rule": "Source-backed PointDefenseTurret power.status row from ConsumePower.java / BuildingComp.java."
+      "rule": "Source-backed PointDefenseTurret power.status row from ConsumePower.java / BuildingComp.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_power_status_row_state": {
+      "canonical_contract": "source_api_contracts.SourceTractorBeamTurretBuildState.source_tractor_beam_turret_power_status_row_state",
+      "status": "active",
+      "source_slice": "N2152",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "source_method": "TractorBeamBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_tractor_beam_turret_power_status_row_state_input.frame"
+        },
+        {
+          "name": "has_power_consumer",
+          "type": "bool",
+          "schema": "source_tractor_beam_turret_power_status_row_state_input.has_power_consumer"
+        }
+      ],
+      "return_keys": [
+        "row",
+        "has_power_row"
+      ],
+      "tests": [
+        "test_c07_tractor_beam_turret_power_status_registration",
+        "test_all_c07_tractor_beam_turret_power_status_input_evidence_is_exact",
+        "test_tractor_beam_turret_power_status_row_state",
+        "test_reference_graph_and_actual_c07_tractor_beam_turret_power_status"
+      ],
+      "runtime_proof": "/root/C07TractorBeamTurretPowerStatusProof",
+      "rule": "Source-backed TractorBeamTurret power.status row from ConsumePower.java / BuildingComp.java.",
+      "return_type": "Dictionary"
     },
     "SourceTurretBuildState.source_turret_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_power_status_row_state",
@@ -6657,7 +6693,8 @@
         "test_reference_graph_and_actual_c07_turret_power_status"
       ],
       "runtime_proof": "/root/C07TurretPowerStatusProof",
-      "rule": "Source-backed turret power.status row from ConsumePower.java / BuildingComp.java."
+      "rule": "Source-backed turret power.status row from ConsumePower.java / BuildingComp.java.",
+      "return_type": "Dictionary"
     },
     "SourceTurretBuildState.source_turret_tick_buildings_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_tick_buildings_state",
@@ -6688,7 +6725,8 @@
         "test_reference_graph_and_actual_turret_live_loop"
       ],
       "runtime_proof": "/root/TurretLiveLoopProof",
-      "rule": "Source-backed Turret family live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live rules every simulate_factory tick, so TurretBuild.useAmmo() skips consumption for a cheating team."
+      "rule": "Source-backed Turret family live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live rules every simulate_factory tick, so TurretBuild.useAmmo() skips consumption for a cheating team.",
+      "return_type": "Dictionary"
     }
   }
 }
