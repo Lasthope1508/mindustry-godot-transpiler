@@ -55,7 +55,13 @@ Date: 2026-11-13. Batch: N2157 (single slice). Status: **GREEN DONE (2026-11-13 
 - Full gate attempt 1 (PID 12581, launched by the 20:00 report worker ~20:12) **DIED at session end ~20:12 +07** — verified by main thread: PID gone, log stopped at 3,513 bytes, no footer. Same worker-launched-gate failure as N2146 PID 9699, N2147 PID 3427, N2149 PID 3798, N2151 PID 16626, N2154 PID 14878.
 - Full gate attempt 2 **launched from the MAIN THREAD ~20:13 +07** by main thread: `cd tools/mindustry_godot_transpiler && python3 -c "import javalang" && setsid nohup python3 -m unittest discover -s tests > full-suite-n2157-gate.log 2>&1 < /dev/null &` — **PID 12792, SID 12792 (own session), PPID 12789 (background subshell), CPU ~89%**. No Godot on PATH. No proof scene ran while the gate ran (port-7777 rule). **FINISHED ~20:31 +07: Ran 5725 tests in 1099.125s, FAILED (failures=108, skipped=5), 0 errors** — exactly the expected outcome (107 inherited + 1 new N2157 proof test). Verified by the 20:45 report run: 108 `FAIL:` lines, 0 `ERROR:` lines, all 108 `AssertionError: unexpectedly None` (107 plain assertIsNotNone(godot) + 1 hydration assertIsNotNone(godot, 'Godot required for hydration proof')), including the new N2157 proof test (fails only on assertIsNotNone(godot) at test line 160 — the gate env has no Godot; the proof itself is GREEN headless). Gate clean except Godot. Second-attempt finish.
 
-## Commits (TODO)
+## Commits
+
+- Slice: `97f27f7` — C07: N2157 OverdriveProjector power.status live read (overdrive-projector / overdrive-dome; pure power row + driver wiring; proof 6 keys) — 13 files, +913/−1.
+- Docs: `d9ef566` — Docs: N2157 report + design spec + handoff (gate clean except Godot) — report + spec (Status Summary 1607→1608) + handoff.
+- GOAL.md debt line: `fdc9296` — Docs: GOAL.md names the N2157 slice commit (97f27f7) that carries its proof to Windows.
+- This handoff-hash commit records the slice + docs hashes above. All four commits pushed to origin main (see push verification below).
+- Push: `git push origin main` from the 20:45 report run — main at this commit; `git log origin/main` confirms the four commits on the fork.
 
 ## Deferred (NOT this slice)
 
