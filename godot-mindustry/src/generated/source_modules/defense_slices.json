@@ -2765,6 +2765,24 @@
       ],
       "runtime_proof": "/root/C07MendProjectorPowerStatusProof"
     },
+    "N2157": {
+      "canonical_ledger": "source_slice_ledger.N2157",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "java_method": "OverdriveBuild.updateTile()",
+      "godot_owner": "SourceOverdriveProjectorBuildState.source_overdrive_projector_power_status_row_state",
+      "source_symbols": [
+        "source_overdrive_projector_power_status_row_state_result.row",
+        "source_overdrive_projector_power_status_row_state_result.has_power_row"
+      ],
+      "tests": [
+        "test_c07_overdrive_projector_power_status_registration",
+        "test_all_c07_overdrive_projector_power_status_input_evidence_is_exact",
+        "test_overdrive_projector_power_status_row_state",
+        "test_reference_graph_and_actual_c07_overdrive_projector_power_status"
+      ],
+      "runtime_proof": "/root/C07OverdriveProjectorPowerStatusProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",
