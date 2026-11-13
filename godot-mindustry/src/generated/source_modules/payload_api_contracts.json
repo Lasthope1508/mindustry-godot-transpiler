@@ -3475,6 +3475,37 @@
       ],
       "runtime_proof": "/root/C07PayloadLoaderPowerStatusProof",
       "rule": "Source-backed PayloadLoader power.status row from ConsumePower.java / BuildingComp.java."
+    },
+    "SourcePayloadUnloaderBuildState.source_payload_unloader_power_status_row_state": {
+      "canonical_contract": "source_api_contracts.SourcePayloadUnloaderBuildState.source_payload_unloader_power_status_row_state",
+      "status": "active",
+      "source_slice": "N2163",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadUnloader.java",
+      "source_method": "PayloadUnloaderBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_payload_unloader_power_status_row_state_input.frame"
+        },
+        {
+          "name": "has_power_consumer",
+          "type": "bool",
+          "schema": "source_payload_unloader_power_status_row_state_input.has_power_consumer"
+        }
+      ],
+      "return_keys": [
+        "row",
+        "has_power_row"
+      ],
+      "tests": [
+        "test_c07_payload_unloader_power_status_registration",
+        "test_all_c07_payload_unloader_power_status_input_evidence_is_exact",
+        "test_payload_unloader_power_status_row_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_power_status"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderPowerStatusProof",
+      "rule": "Source-backed PayloadUnloader power.status row from ConsumePower.java / BuildingComp.java."
     }
   }
 }
