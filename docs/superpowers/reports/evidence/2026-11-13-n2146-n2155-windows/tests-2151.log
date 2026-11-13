@@ -1,0 +1,5 @@
+Godot Engine v4.6.2.stable.official.71f334935 - https://godotengine.org
+
+[MCP Runtime] Server listening on port 7777
+[MCP Runtime] Autoload ready, server starting on port 7777
+C_07_POINT_DEFENSE_TURRET_POWER_STATUS_PROOF {"efficiency_folds_power_min":true,"efficiency_zero_at_no_power":true,"matches":true,"one_headquarter_per_ssot":true,"power_row_absent_without_consumer":true,"power_row_half":true,"power_row_null_folds_one":true,"registry_valid":true,"segment_has_power_consumer":true}

@@ -1,0 +1,604 @@
+[
+  {
+    "label": "2146",
+    "module": "tests.test_c07_adjacent_factory_power_status",
+    "engine_runs": [
+      {
+        "command": [
+          "C:\\Users\\Admin\\AppData\\Local\\Microsoft\\WinGet\\Packages\\GodotEngine.GodotEngine_Microsoft.Winget.Source_8wekyb3d8bbwe\\Godot_v4.6.2-stable_win64_console.exe",
+          "--headless",
+          "--path",
+          "C:\\Users\\Admin\\.codex\\worktrees\\windows-godot-validation\\mindustry-godot-c06-proof\\godot-mindustry",
+          "--scene",
+          "tools/runtime_proofs/C07AdjacentFactoryPowerStatusProof.tscn",
+          "--quit-after",
+          "300"
+        ],
+        "exit_code": 0,
+        "seconds": 42.683,
+        "log": "tests-2146.log",
+        "errors": [],
+        "proofs": [
+          {
+            "prefix": "C_07_ADJACENT_FACTORY_POWER_STATUS_PROOF",
+            "data": {
+              "efficiency_folds_power_min": true,
+              "efficiency_zero_at_no_power": true,
+              "matches": true,
+              "one_headquarter_per_ssot": true,
+              "power_row_absent_without_consumer": true,
+              "power_row_half": true,
+              "power_row_null_folds_one": true,
+              "registry_valid": true,
+              "separator_has_power_consumer": true
+            }
+          }
+        ]
+      }
+    ],
+    "tests": 4,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "passed": true,
+    "seconds": 44.094
+  },
+  {
+    "label": "2147",
+    "module": "tests.test_c07_drill_power_status",
+    "engine_runs": [
+      {
+        "command": [
+          "C:\\Users\\Admin\\AppData\\Local\\Microsoft\\WinGet\\Packages\\GodotEngine.GodotEngine_Microsoft.Winget.Source_8wekyb3d8bbwe\\Godot_v4.6.2-stable_win64_console.exe",
+          "--headless",
+          "--path",
+          "C:\\Users\\Admin\\.codex\\worktrees\\windows-godot-validation\\mindustry-godot-c06-proof\\godot-mindustry",
+          "--scene",
+          "tools/runtime_proofs/C07DrillPowerStatusProof.tscn",
+          "--quit-after",
+          "300"
+        ],
+        "exit_code": 0,
+        "seconds": 19.715,
+        "log": "tests-2147.log",
+        "errors": [],
+        "proofs": [
+          {
+            "prefix": "C_07_DRILL_POWER_STATUS_PROOF",
+            "data": {
+              "efficiency_folds_power_min": true,
+              "efficiency_zero_at_no_power": true,
+              "laser_has_power_consumer": true,
+              "matches": true,
+              "one_headquarter_per_ssot": true,
+              "power_row_absent_without_consumer": true,
+              "power_row_half": true,
+              "power_row_null_folds_one": true,
+              "registry_valid": true
+            }
+          }
+        ]
+      }
+    ],
+    "tests": 4,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "passed": true,
+    "seconds": 21.066
+  },
+  {
+    "label": "2148",
+    "module": "tests.test_c07_turret_power_status",
+    "engine_runs": [
+      {
+        "command": [
+          "C:\\Users\\Admin\\AppData\\Local\\Microsoft\\WinGet\\Packages\\GodotEngine.GodotEngine_Microsoft.Winget.Source_8wekyb3d8bbwe\\Godot_v4.6.2-stable_win64_console.exe",
+          "--headless",
+          "--path",
+          "C:\\Users\\Admin\\.codex\\worktrees\\windows-godot-validation\\mindustry-godot-c06-proof\\godot-mindustry",
+          "--scene",
+          "tools/runtime_proofs/C07TurretPowerStatusProof.tscn",
+          "--quit-after",
+          "300"
+        ],
+        "exit_code": 0,
+        "seconds": 19.157,
+        "log": "tests-2148.log",
+        "errors": [],
+        "proofs": [
+          {
+            "prefix": "C_07_TURRET_POWER_STATUS_PROOF",
+            "data": {
+              "efficiency_folds_power_min": true,
+              "efficiency_zero_at_no_power": true,
+              "lancer_has_power_consumer": true,
+              "lancer_placed_live_sprite": true,
+              "matches": true,
+              "one_headquarter_per_ssot": true,
+              "power_row_absent_without_consumer": true,
+              "power_row_half": true,
+              "power_row_null_folds_one": true,
+              "registry_valid": true
+            }
+          }
+        ]
+      }
+    ],
+    "tests": 4,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "passed": true,
+    "seconds": 20.488
+  },
+  {
+    "label": "2149",
+    "module": "tests.test_c07_burst_drill_power_status",
+    "engine_runs": [
+      {
+        "command": [
+          "C:\\Users\\Admin\\AppData\\Local\\Microsoft\\WinGet\\Packages\\GodotEngine.GodotEngine_Microsoft.Winget.Source_8wekyb3d8bbwe\\Godot_v4.6.2-stable_win64_console.exe",
+          "--headless",
+          "--path",
+          "C:\\Users\\Admin\\.codex\\worktrees\\windows-godot-validation\\mindustry-godot-c06-proof\\godot-mindustry",
+          "--scene",
+          "tools/runtime_proofs/C07BurstDrillPowerStatusProof.tscn",
+          "--quit-after",
+          "300"
+        ],
+        "exit_code": 0,
+        "seconds": 19.813,
+        "log": "tests-2149.log",
+        "errors": [],
+        "proofs": [
+          {
+            "prefix": "C_07_BURST_DRILL_POWER_STATUS_PROOF",
+            "data": {
+              "efficiency_folds_power_min": true,
+              "efficiency_zero_at_no_power": true,
+              "eruption_has_power_consumer": true,
+              "matches": true,
+              "one_headquarter_per_ssot": true,
+              "power_row_absent_without_consumer": true,
+              "power_row_half": true,
+              "power_row_null_folds_one": true,
+              "registry_valid": true
+            }
+          }
+        ]
+      }
+    ],
+    "tests": 4,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "passed": true,
+    "seconds": 21.093
+  },
+  {
+    "label": "2150",
+    "module": "tests.test_c07_solid_pump_power_status",
+    "engine_runs": [
+      {
+        "command": [
+          "C:\\Users\\Admin\\AppData\\Local\\Microsoft\\WinGet\\Packages\\GodotEngine.GodotEngine_Microsoft.Winget.Source_8wekyb3d8bbwe\\Godot_v4.6.2-stable_win64_console.exe",
+          "--headless",
+          "--path",
+          "C:\\Users\\Admin\\.codex\\worktrees\\windows-godot-validation\\mindustry-godot-c06-proof\\godot-mindustry",
+          "--scene",
+          "tools/runtime_proofs/C07SolidPumpPowerStatusProof.tscn",
+          "--quit-after",
+          "300"
+        ],
+        "exit_code": 0,
+        "seconds": 19.718,
+        "log": "tests-2150.log",
+        "errors": [],
+        "proofs": [
+          {
+            "prefix": "C_07_SOLID_PUMP_POWER_STATUS_PROOF",
+            "data": {
+              "efficiency_folds_power_min": true,
+              "efficiency_zero_at_no_power": true,
+              "matches": true,
+              "one_headquarter_per_ssot": true,
+              "power_row_absent_without_consumer": true,
+              "power_row_half": true,
+              "power_row_null_folds_one": true,
+              "registry_valid": true,
+              "water_extractor_has_power_consumer": true
+            }
+          }
+        ]
+      }
+    ],
+    "tests": 4,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "passed": true,
+    "seconds": 21.017
+  },
+  {
+    "label": "2151",
+    "module": "tests.test_c07_point_defense_turret_power_status",
+    "engine_runs": [
+      {
+        "command": [
+          "C:\\Users\\Admin\\AppData\\Local\\Microsoft\\WinGet\\Packages\\GodotEngine.GodotEngine_Microsoft.Winget.Source_8wekyb3d8bbwe\\Godot_v4.6.2-stable_win64_console.exe",
+          "--headless",
+          "--path",
+          "C:\\Users\\Admin\\.codex\\worktrees\\windows-godot-validation\\mindustry-godot-c06-proof\\godot-mindustry",
+          "--scene",
+          "tools/runtime_proofs/C07PointDefenseTurretPowerStatusProof.tscn",
+          "--quit-after",
+          "300"
+        ],
+        "exit_code": 0,
+        "seconds": 19.738,
+        "log": "tests-2151.log",
+        "errors": [],
+        "proofs": [
+          {
+            "prefix": "C_07_POINT_DEFENSE_TURRET_POWER_STATUS_PROOF",
+            "data": {
+              "efficiency_folds_power_min": true,
+              "efficiency_zero_at_no_power": true,
+              "matches": true,
+              "one_headquarter_per_ssot": true,
+              "power_row_absent_without_consumer": true,
+              "power_row_half": true,
+              "power_row_null_folds_one": true,
+              "registry_valid": true,
+              "segment_has_power_consumer": true
+            }
+          }
+        ]
+      }
+    ],
+    "tests": 4,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "passed": true,
+    "seconds": 21.029
+  },
+  {
+    "label": "2152",
+    "module": "tests.test_c07_tractor_beam_turret_power_status",
+    "engine_runs": [
+      {
+        "command": [
+          "C:\\Users\\Admin\\AppData\\Local\\Microsoft\\WinGet\\Packages\\GodotEngine.GodotEngine_Microsoft.Winget.Source_8wekyb3d8bbwe\\Godot_v4.6.2-stable_win64_console.exe",
+          "--headless",
+          "--path",
+          "C:\\Users\\Admin\\.codex\\worktrees\\windows-godot-validation\\mindustry-godot-c06-proof\\godot-mindustry",
+          "--scene",
+          "tools/runtime_proofs/C07TractorBeamTurretPowerStatusProof.tscn",
+          "--quit-after",
+          "300"
+        ],
+        "exit_code": 0,
+        "seconds": 19.536,
+        "log": "tests-2152.log",
+        "errors": [],
+        "proofs": [
+          {
+            "prefix": "C_07_TRACTOR_BEAM_TURRET_POWER_STATUS_PROOF",
+            "data": {
+              "efficiency_folds_power_min": true,
+              "efficiency_zero_at_no_power": true,
+              "matches": true,
+              "one_headquarter_per_ssot": true,
+              "parallax_has_power_consumer": true,
+              "power_row_absent_without_consumer": true,
+              "power_row_half": true,
+              "power_row_null_folds_one": true,
+              "registry_valid": true
+            }
+          }
+        ]
+      }
+    ],
+    "tests": 4,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "passed": true,
+    "seconds": 20.799
+  },
+  {
+    "label": "2153",
+    "module": "tests.test_c07_fracker_power_status",
+    "engine_runs": [
+      {
+        "command": [
+          "C:\\Users\\Admin\\AppData\\Local\\Microsoft\\WinGet\\Packages\\GodotEngine.GodotEngine_Microsoft.Winget.Source_8wekyb3d8bbwe\\Godot_v4.6.2-stable_win64_console.exe",
+          "--headless",
+          "--path",
+          "C:\\Users\\Admin\\.codex\\worktrees\\windows-godot-validation\\mindustry-godot-c06-proof\\godot-mindustry",
+          "--scene",
+          "tools/runtime_proofs/C07FrackerPowerStatusProof.tscn",
+          "--quit-after",
+          "300"
+        ],
+        "exit_code": 0,
+        "seconds": 19.457,
+        "log": "tests-2153.log",
+        "errors": [],
+        "proofs": [
+          {
+            "prefix": "C_07_FRACKER_POWER_STATUS_PROOF",
+            "data": {
+              "efficiency_folds_power_min": true,
+              "efficiency_zero_at_no_power": true,
+              "matches": true,
+              "oil_extractor_has_power_consumer": true,
+              "one_headquarter_per_ssot": true,
+              "power_row_absent_without_consumer": true,
+              "power_row_half": true,
+              "power_row_null_folds_one": true,
+              "registry_valid": true
+            }
+          }
+        ]
+      }
+    ],
+    "tests": 4,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "passed": true,
+    "seconds": 20.756
+  },
+  {
+    "label": "2154",
+    "module": "tests.test_c07_mechanical_pump_power_status",
+    "engine_runs": [
+      {
+        "command": [
+          "C:\\Users\\Admin\\AppData\\Local\\Microsoft\\WinGet\\Packages\\GodotEngine.GodotEngine_Microsoft.Winget.Source_8wekyb3d8bbwe\\Godot_v4.6.2-stable_win64_console.exe",
+          "--headless",
+          "--path",
+          "C:\\Users\\Admin\\.codex\\worktrees\\windows-godot-validation\\mindustry-godot-c06-proof\\godot-mindustry",
+          "--scene",
+          "tools/runtime_proofs/C07MechanicalPumpPowerStatusProof.tscn",
+          "--quit-after",
+          "300"
+        ],
+        "exit_code": 0,
+        "seconds": 19.612,
+        "log": "tests-2154.log",
+        "errors": [],
+        "proofs": [
+          {
+            "prefix": "C_07_MECHANICAL_PUMP_POWER_STATUS_PROOF",
+            "data": {
+              "efficiency_folds_power_min": true,
+              "efficiency_zero_at_no_power": true,
+              "matches": true,
+              "one_headquarter_per_ssot": true,
+              "power_row_absent_without_consumer": true,
+              "power_row_half": true,
+              "power_row_null_folds_one": true,
+              "registry_valid": true,
+              "rotary_pump_has_power_consumer": true
+            }
+          }
+        ]
+      }
+    ],
+    "tests": 4,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "passed": true,
+    "seconds": 20.905
+  },
+  {
+    "label": "2155",
+    "module": "tests.test_c07_beam_drill_power_status",
+    "engine_runs": [
+      {
+        "command": [
+          "C:\\Users\\Admin\\AppData\\Local\\Microsoft\\WinGet\\Packages\\GodotEngine.GodotEngine_Microsoft.Winget.Source_8wekyb3d8bbwe\\Godot_v4.6.2-stable_win64_console.exe",
+          "--headless",
+          "--path",
+          "C:\\Users\\Admin\\.codex\\worktrees\\windows-godot-validation\\mindustry-godot-c06-proof\\godot-mindustry",
+          "--scene",
+          "tools/runtime_proofs/C07BeamDrillPowerStatusProof.tscn",
+          "--quit-after",
+          "300"
+        ],
+        "exit_code": 0,
+        "seconds": 19.319,
+        "log": "tests-2155.log",
+        "errors": [],
+        "proofs": [
+          {
+            "prefix": "C_07_BEAM_DRILL_POWER_STATUS_PROOF",
+            "data": {
+              "efficiency_folds_power_min": true,
+              "efficiency_zero_at_no_power": true,
+              "matches": true,
+              "one_headquarter_per_ssot": true,
+              "plasma_bore_has_power_consumer": true,
+              "power_row_absent_without_consumer": true,
+              "power_row_half": true,
+              "power_row_null_folds_one": true,
+              "registry_valid": true
+            }
+          }
+        ]
+      }
+    ],
+    "tests": 4,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "passed": true,
+    "seconds": 20.586
+  },
+  {
+    "label": "adjacent-consumer-neighbor",
+    "module": "tests.test_adjacent_factory_consumer_binding",
+    "engine_runs": [
+      {
+        "command": [
+          "C:\\Users\\Admin\\AppData\\Local\\Microsoft\\WinGet\\Packages\\GodotEngine.GodotEngine_Microsoft.Winget.Source_8wekyb3d8bbwe\\Godot_v4.6.2-stable_win64_console.exe",
+          "--headless",
+          "--path",
+          "C:\\Users\\Admin\\.codex\\worktrees\\windows-godot-validation\\mindustry-godot-c06-proof\\godot-mindustry",
+          "--scene",
+          "tools/runtime_proofs/AdjacentFactoryConsumerBindingProof.tscn",
+          "--quit-after",
+          "300"
+        ],
+        "exit_code": 0,
+        "seconds": 20.37,
+        "log": "tests-adjacent-consumer-neighbor.log",
+        "errors": [],
+        "proofs": [
+          {
+            "prefix": "ADJACENT_FACTORY_CONSUMER_BINDING_PROOF",
+            "data": {
+              "adjacent_cheating_efficiency_one": true,
+              "adjacent_cheating_frames_true": true,
+              "adjacent_cheating_slag_unchanged": true,
+              "adjacent_crusher_bind_none": true,
+              "adjacent_crusher_frame_bound_on_placement": true,
+              "adjacent_crusher_is_wall_crafter": true,
+              "adjacent_disassembler_bind_two_actors": true,
+              "adjacent_disassembler_consumers_still_two": true,
+              "adjacent_disassembler_efficiency_one": true,
+              "adjacent_disassembler_frame_bound_on_placement": true,
+              "adjacent_disassembler_is_separator": true,
+              "adjacent_disassembler_no_scrap_efficiency_zero": true,
+              "adjacent_disassembler_no_scrap_no_power": true,
+              "adjacent_disassembler_scrap_restored_efficiency_one": true,
+              "adjacent_disassembler_scrap_unchanged": true,
+              "adjacent_disassembler_slag_drops_four_ticks": true,
+              "adjacent_driver_ticked_five": true,
+              "adjacent_incinerator_bind_none": true,
+              "adjacent_incinerator_frame_bound_on_placement": true,
+              "adjacent_incinerator_is_incinerator": true,
+              "adjacent_large_crusher_bind_one_actor": true,
+              "adjacent_large_crusher_consumers_still_one": true,
+              "adjacent_large_crusher_efficiency_one": true,
+              "adjacent_large_crusher_frame_bound_on_placement": true,
+              "adjacent_large_crusher_hydrogen_drops_four_ticks": true,
+              "adjacent_large_crusher_is_wall_crafter": true,
+              "adjacent_null_block_bind_none": true,
+              "adjacent_power_only_efficiency_one": true,
+              "adjacent_separator_bind_one_actor": true,
+              "adjacent_separator_consumers_still_one": true,
+              "adjacent_separator_efficiency_one": true,
+              "adjacent_separator_frame_bound_on_placement": true,
+              "adjacent_separator_is_separator": true,
+              "adjacent_separator_rebind_no_duplicate": true,
+              "adjacent_separator_slag_drops_four_ticks": true,
+              "adjacent_team_known": true,
+              "adjacent_uncheat_restores": true,
+              "adjacent_uncheat_slag_drops": true,
+              "matches": true,
+              "one_headquarter_per_ssot": true,
+              "registry_valid": true
+            }
+          }
+        ]
+      }
+    ],
+    "tests": 4,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "passed": true,
+    "seconds": 21.807
+  },
+  {
+    "label": "adjacent-loop-neighbor",
+    "module": "tests.test_adjacent_factory_live_loop",
+    "engine_runs": [
+      {
+        "command": [
+          "C:\\Users\\Admin\\AppData\\Local\\Microsoft\\WinGet\\Packages\\GodotEngine.GodotEngine_Microsoft.Winget.Source_8wekyb3d8bbwe\\Godot_v4.6.2-stable_win64_console.exe",
+          "--headless",
+          "--path",
+          "C:\\Users\\Admin\\.codex\\worktrees\\windows-godot-validation\\mindustry-godot-c06-proof\\godot-mindustry",
+          "--scene",
+          "tools/runtime_proofs/AdjacentFactoryLiveLoopProof.tscn",
+          "--quit-after",
+          "300"
+        ],
+        "exit_code": 0,
+        "seconds": 19.613,
+        "log": "tests-adjacent-loop-neighbor.log",
+        "errors": [],
+        "proofs": [
+          {
+            "prefix": "ADJACENT_FACTORY_LIVE_LOOP_PROOF",
+            "data": {
+              "adjacent_consumption_cheating_disabled_zero": true,
+              "adjacent_consumption_cheating_skips": true,
+              "adjacent_consumption_plain_no_consume_zero": true,
+              "adjacent_consumption_plain_no_consumers_skips": true,
+              "adjacent_consumption_plain_runs_machinery": true,
+              "adjacent_crusher_frame_bound_on_placement": true,
+              "adjacent_crusher_full_blocks": true,
+              "adjacent_crusher_is_wall_crafter": true,
+              "adjacent_crusher_no_enabled_check": true,
+              "adjacent_crusher_placed_live_sprite": true,
+              "adjacent_crusher_room_consumes": true,
+              "adjacent_disassembler_inputs_subtracted": true,
+              "adjacent_disassembler_is_separator": true,
+              "adjacent_disassembler_overflow_blocks": true,
+              "adjacent_drill_has_no_adjacent_frame": true,
+              "adjacent_driver_crusher_frame_wired": true,
+              "adjacent_driver_incinerator_frame_wired": true,
+              "adjacent_driver_separator_frame_wired": true,
+              "adjacent_driver_ticked_three": true,
+              "adjacent_duo_has_no_adjacent_frame": true,
+              "adjacent_frame_bound_on_placement": true,
+              "adjacent_frame_empty_before_tick": true,
+              "adjacent_incinerator_disabled_blocks": true,
+              "adjacent_incinerator_enabled_consumes": true,
+              "adjacent_incinerator_frame_bound_on_placement": true,
+              "adjacent_incinerator_is_incinerator": true,
+              "adjacent_incinerator_placed_live_sprite": true,
+              "adjacent_live_loop_crusher_frame_sees_cheat": true,
+              "adjacent_live_loop_efficiency_one": true,
+              "adjacent_live_loop_full_separator_zero": true,
+              "adjacent_live_loop_incinerator_frame_sees_cheat": true,
+              "adjacent_live_loop_not_cheating_default": true,
+              "adjacent_live_loop_room_separator_restores": true,
+              "adjacent_live_loop_separator_frame_sees_cheat": true,
+              "adjacent_live_loop_uncheat_restores": true,
+              "adjacent_non_adjacent_bind_false": true,
+              "adjacent_null_block_enabled_consumes": true,
+              "adjacent_producer_no_recipe_blocks": true,
+              "adjacent_producer_recipe_consumes": true,
+              "adjacent_separator_full_blocks": true,
+              "adjacent_separator_is_separator": true,
+              "adjacent_separator_placed_live_sprite": true,
+              "adjacent_separator_room_consumes": true,
+              "adjacent_team_known": true,
+              "adjacent_tick_frame_cheat_false": true,
+              "adjacent_tick_frame_cheat_true": true,
+              "adjacent_turret_bind_false": true,
+              "matches": true,
+              "one_headquarter_per_ssot": true,
+              "registry_valid": true
+            }
+          }
+        ]
+      }
+    ],
+    "tests": 4,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "passed": true,
+    "seconds": 20.916
+  }
+]

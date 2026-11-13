@@ -1,0 +1,9 @@
+test_adjacent_factory_consumer_binding_registration (tests.test_adjacent_factory_consumer_binding.AdjacentFactoryConsumerBindingTests.test_adjacent_factory_consumer_binding_registration) ... ok
+test_all_adjacent_factory_consumer_binding_input_evidence_is_exact (tests.test_adjacent_factory_consumer_binding.AdjacentFactoryConsumerBindingTests.test_all_adjacent_factory_consumer_binding_input_evidence_is_exact) ... ok
+test_reference_graph_and_actual_adjacent_factory_consumer_binding (tests.test_adjacent_factory_consumer_binding.AdjacentFactoryConsumerBindingTests.test_reference_graph_and_actual_adjacent_factory_consumer_binding) ... ok
+test_tick_binds_runtime_consumers_for_adjacent_factory (tests.test_adjacent_factory_consumer_binding.AdjacentFactoryConsumerBindingTests.test_tick_binds_runtime_consumers_for_adjacent_factory) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 21.804s
+
+OK
