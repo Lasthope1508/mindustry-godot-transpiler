@@ -1636,6 +1636,24 @@
         "test_reference_graph_and_actual_c07_constructor_power_status"
       ],
       "runtime_proof": "/root/C07ConstructorPowerStatusProof"
+    },
+    "N2162": {
+      "canonical_ledger": "source_slice_ledger.N2162",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+      "java_method": "PayloadLoaderBuild.updateTile()",
+      "godot_owner": "SourcePayloadLoaderBuildState.source_payload_loader_power_status_row_state",
+      "source_symbols": [
+        "source_payload_loader_power_status_row_state_result.row",
+        "source_payload_loader_power_status_row_state_result.has_power_row"
+      ],
+      "tests": [
+        "test_c07_payload_loader_power_status_registration",
+        "test_all_c07_payload_loader_power_status_input_evidence_is_exact",
+        "test_payload_loader_power_status_row_state",
+        "test_reference_graph_and_actual_c07_payload_loader_power_status"
+      ],
+      "runtime_proof": "/root/C07PayloadLoaderPowerStatusProof"
     }
   }
 }
