@@ -245,6 +245,24 @@
         "test_reference_graph_and_actual_c06_unit_factory_production_tick"
       ],
       "runtime_proof": "/root/C06UnitFactoryProductionProof"
+    },
+    "N2167": {
+      "canonical_ledger": "source_slice_ledger.N2167",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitFactory.java",
+      "java_method": "UnitFactoryBuild.updateTile()",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_power_status_row_state",
+      "source_symbols": [
+        "source_unit_factory_power_status_row_state_result.row",
+        "source_unit_factory_power_status_row_state_result.has_power_row"
+      ],
+      "tests": [
+        "test_c07_unit_factory_power_status_registration",
+        "test_all_c07_unit_factory_power_status_input_evidence_is_exact",
+        "test_unit_factory_power_status_row_state",
+        "test_reference_graph_and_actual_c07_unit_factory_power_status"
+      ],
+      "runtime_proof": "/root/C07UnitFactoryPowerStatusProof"
     }
   }
 }

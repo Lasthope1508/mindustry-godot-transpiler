@@ -647,6 +647,15 @@ static func source_unit_factory_should_consume_state(frame: Dictionary, block: O
 		return result
 	return result
 
+static func source_unit_factory_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
+	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a unit-factory build does not take the early return. The progress advance follows the folded efficiency (UnitFactory.java:400, `progress += edelta() * Vars.state.rules.unitBuildSpeed(team);`) with the per-class shouldConsume bodies already live (N2124: UnitFactory.java:446-449, Reconstructor.java:368-370, UnitAssembler.java:389-392; default BuildingComp.java:755, `public boolean shouldConsume(){`) -- the family covers UnitFactory (UnitFactory.java:36, `public class UnitFactory extends UnitBlock{`), Reconstructor (Reconstructor.java:35, `public class Reconstructor extends UnitBlock{`) and UnitAssembler (UnitAssembler.java:41, `public class UnitAssembler extends PayloadBlock{`): ground/air/naval-factory (consumePower 1.2f, Blocks.java:6276, `consumePower(1.2f);`), additive-reconstructor (consumePower 3f, Blocks.java:6306, `consumePower(3f);`) and tank-assembler (consumePower 2.5f, Blocks.java:6532, `consumePower(2.5f);`).
+	# Documented limits: (1) power-only first pass -- the tick models no liquid consumer row for this family, so the folded efficiency is the min over the modeled consumers (power only). (2) shouldConsume gate already live -- N2124 covers the per-class bodies; the row folds under that gate. (3) No updateTile advance beyond the existing production ticks -- N2137/N2138/N2139 already advance progress/time/speedScl from frame["efficiency"]; the proof carries no progress/plan/payload/drone keys, the progress advance (UnitFactory.java:400, `progress += edelta() * Vars.state.rules.unitBuildSpeed(team);`) is what the efficiency keys prove. (4) No UnitAssemblerModule row -- basic-assembler-module (consumePower 3.5f, Blocks.java:6569) extends PayloadBlock (UnitAssemblerModule.java:18) and waits for its own family row/driver. (5) No variant verification -- air/naval factories, multiplicative/exponential/tetrative reconstructors, ship/mech assemblers wait for their own verification slice.
+	if not has_power_consumer:
+		return {"has_power_row": false, "row": {}}
+	var stamped: Variant = frame.get("power_status", null)
+	var live: float = 1.0 if stamped == null else float(stamped)
+	return {"has_power_row": true, "row": {"result": live, "is_power": true}}
+
 static func source_unit_factory_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the factory tick wiring every tick
 	# (UnitFactoryBuild.updateTile(), UnitFactory.java:392;
@@ -713,9 +722,11 @@ static func source_unit_factory_tick_buildings_state(game: Object, seconds: floa
 		# source_unit_factory_should_consume_state — the UnitFactory
 		# plan/payload/activation gate, the Reconstructor
 		# constructing gate, the UnitAssembler
-		# occupied/plan/can-create/payload/item gate); the power
-		# consumer stays the power graph's domain (N2080/N2107) and
-		# is not bound here.
+		# occupied/plan/can-create/payload/item gate); the power row
+		# folds into the first pass since N2167
+		# (source_unit_factory_power_status_row_state over the
+		# graph-stamped frame value) — the power consumer's update
+		# stays the power graph's domain (N2080/N2107).
 		frame["enabled"] = bool(frame.get("enabled", true))
 		var liquids: Dictionary = sprite.get_meta(source_placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY, {})
 		var consumer_bound: Dictionary = source_unit_factory_reinitialize_consumers_state(frame, block, catalog, liquids)
@@ -742,6 +753,23 @@ static func source_unit_factory_tick_buildings_state(game: Object, seconds: floa
 					optional_results.append({"result": actor.efficiency(frame)})
 			if groups["update_consumers"].has(rows[index]):
 				updates.append(actor)
+		# The power consumer reads live since N2167 (the graph
+		# update stamps frame["power_status"] each tick, N2142):
+		# a unit-factory build with a power consumer folds the pure
+		# power row into the first pass, so ConsumePower.efficiency
+		# folds into the min efficiency like every other
+		# non-optional consumer, and the production ticks
+		# (N2137/N2138/N2139) follow it through frame["efficiency"].
+		# The power consumer counts toward hasConsumers
+		# (Block.java:1449, `hasConsumers = consumers.length > 0;`),
+		# so a power-only factory does not take the early return.
+		# The shouldConsume gate is already live (N2124), so the
+		# row folds under the live gate.
+		var has_power_consumer: bool = bool(block.properties.has("consumePower"))
+		if has_power_consumer and bool(frame.get("enabled", true)) and not bool(frame.get("cheating", false)):
+			var power_row: Dictionary = source_unit_factory_power_status_row_state(frame, true)
+			if bool(power_row.get("has_power_row", false)):
+				required_results.append(power_row.get("row", {}))
 		var consumption: Dictionary = source_building_efficiency_state.update_consumption_state(_has_consumers_state(block), bool(frame.get("cheating", false)), bool(frame.get("enabled", true)), valid, should_consume, float(frame.get("efficiency_scale", 1.0)), required_results, optional_results, updates, frame)
 		source_building_efficiency_state.apply_update_consumption_state(consumption, frame)
 		# Production (N2137/N2138/N2139): a UnitFactory frame advances
