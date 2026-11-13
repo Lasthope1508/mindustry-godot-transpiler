@@ -1,6 +1,6 @@
 # Report — N2146: adjacent-factory power.status live read (Separator/Incinerator/WallCrafter/SingleBlockProducer family) (C07)
 
-Date: 2026-11-13. Batch: N2146 (single slice). Status: **DONE + PUSHED 2026-11-13 ~07:40 +07 (07:30 cron run). Targeted tests 4/4 OK, neighbours 16/16 OK, Godot proof GREEN, full gate verified clean except Godot (Ran 5681, failures=97, skipped=5, 0 errors — all 97 Godot-absent asserts). Commit + push to origin main (fork Lasthope1508) this run — see handoff for the commit hashes.**
+Date: 2026-11-13. Batch: N2146 (single slice). Status: **DONE + PUSHED 2026-11-13 ~07:52 +07 (07:45 cron run). Targeted tests 4/4 OK, neighbours 16/16 OK, Godot proof GREEN, full gate verified clean except Godot (Ran 5681, failures=97, skipped=5, 0 errors — all 97 Godot-absent asserts). Commit + push to origin main (fork Lasthope1508) this run — see handoff for the commit hashes.**
 
 ## What changed
 
@@ -31,9 +31,9 @@ New scene `C07AdjacentFactoryPowerStatusProof` (modeled on `C07FactoryPowerStatu
 
 ## Verified numbers (measured in this VM)
 
-- Test module `test_c07_adjacent_factory_power_status.py`: **4/4 OK in 15.3s** (Godot on PATH, re-verified this run; 15.258s) — registration (ledger N2146, 2 new symbols, runtime proof, test names, deferred_exprs), exact-evidence (2 new symbols + 8 exprs over ConsumePower.java + BuildingComp.java + Separator.java + PowerModule.java + UnitAssembler.java + Block.java, all found verbatim), source-text (pure function exists + the three quoted Java lines in its comment + driver appends an `"is_power": true` row gated on `block.properties.has("consumePower")`; proof has the 6 new keys), and the Godot proof test (6 new keys, all true, `matches: true`).
+- Test module `test_c07_adjacent_factory_power_status.py`: **4/4 OK in 14.7s** (Godot on PATH, re-verified this run; 14.656s) — registration (ledger N2146, 2 new symbols, runtime proof, test names, deferred_exprs), exact-evidence (2 new symbols + 8 exprs over ConsumePower.java + BuildingComp.java + Separator.java + PowerModule.java + UnitAssembler.java + Block.java, all found verbatim), source-text (pure function exists + the three quoted Java lines in its comment + driver appends an `"is_power": true` row gated on `block.properties.has("consumePower")`; proof has the 6 new keys), and the Godot proof test (6 new keys, all true, `matches: true`).
 - RED run (04:00 cron run): 4 tests in 1.065s, FAILED (failures=2, errors=2), all expected — registration `KeyError: 'N2146'`, evidence errors on the missing ledger entry, source-text `AssertionError` (pure function did not exist yet), proof returncode 1 (proof scene did not exist yet).
-- Neighbours (Godot on PATH, sequential, re-verified this run): **16/16 OK in 45.9s** — `test_adjacent_factory_consumer_binding` 4/4 + `test_adjacent_factory_live_loop` 4/4 + N2142 `test_c07_power_status_live` 4/4 + N2145 `test_c07_factory_power_status` 4/4.
+- Neighbours (Godot on PATH, sequential, re-verified this run): **16/16 OK in 43.3s** — `test_adjacent_factory_consumer_binding` 4/4 + `test_adjacent_factory_live_loop` 4/4 + N2142 `test_c07_power_status_live` 4/4 + N2145 `test_c07_factory_power_status` 4/4.
 - Godot proof: **GREEN 2026-11-13 ~05:15 +07** (05:00 cron run) — proof JSON 9 keys, all true, `matches: true` (6 semantic keys + `registry_valid` + `one_headquarter_per_ssot` + `matches`), on Godot 4.6.2-stable Linux in this VM (build 71f334935, identical to the Windows 4.6.2 build). Not yet run on Windows Godot — the scene/source reach Windows only with this commit.
 - `git diff --check` clean.
 - SSOT +2/+1/+1/+2 → **11302 / 1597 / 1518 / 2827**; audit stays 1335.
