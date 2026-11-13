@@ -2801,6 +2801,24 @@
       ],
       "runtime_proof": "/root/C07ForceProjectorPowerStatusProof"
     },
+    "N2159": {
+      "canonical_ledger": "source_slice_ledger.N2159",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/BaseShield.java",
+      "java_method": "BaseShieldBuild.updateTile()",
+      "godot_owner": "SourceBaseShieldBuildState.source_base_shield_power_status_row_state",
+      "source_symbols": [
+        "source_base_shield_power_status_row_state_result.row",
+        "source_base_shield_power_status_row_state_result.has_power_row"
+      ],
+      "tests": [
+        "test_c07_base_shield_power_status_registration",
+        "test_all_c07_base_shield_power_status_input_evidence_is_exact",
+        "test_base_shield_power_status_row_state",
+        "test_reference_graph_and_actual_c07_base_shield_power_status"
+      ],
+      "runtime_proof": "/root/C07BaseShieldPowerStatusProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",
