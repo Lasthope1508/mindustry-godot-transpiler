@@ -7,6 +7,8 @@ const source_placed_block_state := preload("res://src/game/SourcePlacedBlockStat
 const source_block_geometry := preload("res://src/game/SourceBlockGeometry.gd")
 const source_turret_source_text_state := preload("res://src/game/SourceTurretSourceTextState.gd")
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
+const source_building_efficiency_state := preload("res://src/game/SourceBuildingEfficiencyState.gd")
+const source_building_access_state := preload("res://src/game/SourceBuildingAccessState.gd")
 
 const SOURCE_TURRET_BUILD_INNER_CLASS := source_turret_source_text_state.SOURCE_TURRET_BUILD_INNER_CLASS
 const SOURCE_TURRET_USE_AMMO_METHOD := source_turret_source_text_state.SOURCE_TURRET_USE_AMMO_METHOD
@@ -120,6 +122,40 @@ static func source_turret_use_ammo_state(frame: Dictionary, turret_properties: D
 		"used": bool(used.get("used", false)),
 	}
 
+static func source_turret_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
+	# ConsumePower.efficiency (ConsumePower.java:38-40,
+	# `return build.power.status;`): the power consumer's
+	# efficiency is the building's live power.status, and the
+	# first pass folds it into the min efficiency
+	# (BuildingComp.java:1969-1976, `for(var cons : block.
+	# nonOptionalConsumers){` / `minEfficiency = Math.min(
+	# minEfficiency, result);`). The graph update stamps
+	# frame["power_status"] each tick (N2142); a missing stamp
+	# folds to 1.0 before the first graph update, the assembler
+	# fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`).
+	# A block with no power consumer contributes no row. The
+	# power consumer counts toward hasConsumers
+	# (Block.java:1449, `hasConsumers = consumers.length > 0;`),
+	# so a power turret does not take the early return. PowerTurret's
+	# own live read is the same value (PowerTurret.java:30,
+	# `return power == null ? 0f : power.status;`), and the
+	# warmup fold is what the efficiency keys prove (Turret.java:512, `shootWarmup = Mathf.approachDelta(shootWarmup, warmupTarget, shootWarmupSpeed * (warmupTarget > 0 ? efficiency : 1f));`).
+	# Documented limits: (1) the tick models no other consumers --
+	# foreshadow's item ammo and lustre's liquid nitrogen are not
+	# first-pass rows in this driver yet, so the folded efficiency
+	# is the min over the *modeled* consumers (power only); those
+	# rows wait for their own slices. (2) No shouldConsume gate --
+	# TurretBuild.shouldConsume() (Turret.java:364-366, `return
+	# isShooting || reloadCounter < reload;`) needs targeting/reload
+	# state the tick does not track yet; the machinery runs with
+	# should_consume=true when enabled. `!enabled` is handled by
+	# the machinery's disabled branch, not here.
+	if not has_power_consumer:
+		return {"has_power_row": false, "row": {}}
+	var stamped: Variant = frame.get("power_status", null)
+	var live: float = 1.0 if stamped == null else float(stamped)
+	return {"has_power_row": true, "row": {"result": live, "is_power": true}}
+
 @warning_ignore("unused_parameter")
 static func source_turret_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the turret tick wiring every tick
@@ -163,6 +199,36 @@ static func source_turret_tick_buildings_state(game: Object, seconds: float) -> 
 		var team_id: int = int(sprite.get_meta(source_block_geometry.SOURCE_BUILD_TEAM_META_KEY, source_block_geometry.SOURCE_TEAM_DERELICT_ID))
 		var rules_state: Variant = source_rules_state.source_game_rules_state(game.get("rules_state")).get("rules", {})
 		var wired: Dictionary = source_turret_tick_frame_state(frame, str(block.implementation), team_id, rules_state)
+		# The power consumer reads live since N2148 (the graph
+		# update stamps frame["power_status"] each tick, N2142):
+		# a turret with a power consumer folds the pure power row
+		# into the first pass, so ConsumePower.efficiency folds
+		# into the min efficiency like every other non-optional
+		# consumer, and the warmup fold (Turret.java:512-514)
+		# follows it. The power consumer counts toward hasConsumers
+		# (Block.java:1449, `hasConsumers = consumers.length > 0;`),
+		# so a power turret does not take the early return. A
+		# turret with no power consumer is untouched: the tick
+		# models no other consumers yet (foreshadow's item ammo
+		# and lustre's liquid nitrogen wait for their own slices),
+		# and there is no shouldConsume gate yet (Turret.java:364-366
+		# needs targeting/reload state the tick does not track),
+		# so the machinery runs with should_consume=true when
+		# enabled. productionValid is the canonical true default
+		# (SourceBuildingAccessState.production_valid_state()).
+		var has_power_consumer: bool = bool(block.properties.has("consumePower"))
+		if has_power_consumer and bool(frame.get("enabled", true)) and not bool(frame.get("cheating", false)):
+			var should_consume: bool = bool(frame.get("enabled", true))
+			var valid: bool = source_building_access_state.production_valid_state()
+			var setup: Dictionary = source_building_efficiency_state.update_consumption_setup_state(should_consume, valid)
+			frame["efficiency"] = setup.get("efficiency", 1.0)
+			frame["efficiency_scale"] = source_building_efficiency_state.efficiency_scale_state()
+			var power_row: Dictionary = source_turret_power_status_row_state(frame, true)
+			var required_results: Array = []
+			if bool(power_row.get("has_power_row", false)):
+				required_results.append(power_row.get("row", {}))
+			var consumption: Dictionary = source_building_efficiency_state.update_consumption_state(true, bool(frame.get("cheating", false)), bool(frame.get("enabled", true)), valid, should_consume, float(frame.get("efficiency_scale", 1.0)), required_results, [], [], frame)
+			source_building_efficiency_state.apply_update_consumption_state(consumption, frame)
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1

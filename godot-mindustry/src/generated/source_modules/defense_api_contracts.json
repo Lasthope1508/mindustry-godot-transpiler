@@ -6597,6 +6597,37 @@
       "runtime_proof": "/root/ContinuousLiquidTurretTickFrameProof",
       "rule": "Source-backed ContinuousLiquidTurret tick frame wiring; the tick sets the frame keys the N2101 cost multiplier reads (current_liquid from the liquid module, ammo_types from the block), so the multiplier is paid live."
     },
+    "SourceTurretBuildState.source_turret_power_status_row_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_power_status_row_state",
+      "status": "active",
+      "source_slice": "N2148",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_power_status_row_state_input.frame"
+        },
+        {
+          "name": "has_power_consumer",
+          "type": "bool",
+          "schema": "source_turret_power_status_row_state_input.has_power_consumer"
+        }
+      ],
+      "return_keys": [
+        "row",
+        "has_power_row"
+      ],
+      "tests": [
+        "test_c07_turret_power_status_registration",
+        "test_all_c07_turret_power_status_input_evidence_is_exact",
+        "test_turret_power_status_row_state",
+        "test_reference_graph_and_actual_c07_turret_power_status"
+      ],
+      "runtime_proof": "/root/C07TurretPowerStatusProof",
+      "rule": "Source-backed turret power.status row from ConsumePower.java / BuildingComp.java."
+    },
     "SourceTurretBuildState.source_turret_tick_buildings_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_tick_buildings_state",
       "status": "active",
