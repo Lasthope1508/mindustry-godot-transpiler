@@ -74,6 +74,9 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
   - [ ] N2150 `C07SolidPumpPowerStatusProof` — Linux GREEN 11:5x (9 key).
     Scene tới Windows theo slice commit `765c2f3` (pushed ~12:2x, main
     `e605718`). Chưa chạy trên Windows Godot.
+  - [ ] N2151 `C07PointDefenseTurretPowerStatusProof` — Linux GREEN 12:45 (9 key).
+    Scene tới Windows theo slice commit `b92a4ff` (pushed ~13:3x, main
+    `4d23cd7`). Chưa chạy trên Windows Godot.
   - [ ] Mọi slice sau này: proof scene mới nào cũng ghi nợ Windows theo mẫu
     trên (ghi rõ commit đưa scene tới Windows).
   - [ ] Agent khác đang test các lỗi fail trên Windows Godot (PR #1 đã merge
