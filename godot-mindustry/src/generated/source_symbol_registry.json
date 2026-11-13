@@ -172296,6 +172296,38 @@
         "test_reference_graph_and_actual_c07_payload_mass_driver_power_status"
       ],
       "runtime_proof": "/root/C07PayloadMassDriverPowerStatusProof"
+    },
+    "source_unit_cargo_loader_power_status_row_state_result.row": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_power_status_row_state",
+      "godot_symbol": "source_unit_cargo_loader_power_status_row_state_result.row",
+      "java_source": "core/src/mindustry/world/consumers/ConsumePower.java",
+      "java_method": "UnitTransportSourceBuild.updateTile()",
+      "java_expr": "return build.power.status;",
+      "rule": "The power row for the first pass (ConsumePower.java:39, the canonical power.status read): {\"result\": live power.status, \"is_power\": true}, folded by the non-optional pass into the min efficiency.",
+      "tests": [
+        "test_c07_unit_cargo_loader_power_status_registration",
+        "test_all_c07_unit_cargo_loader_power_status_input_evidence_is_exact",
+        "test_unit_cargo_loader_power_status_row_state",
+        "test_reference_graph_and_actual_c07_unit_cargo_loader_power_status"
+      ],
+      "runtime_proof": "/root/C07UnitCargoLoaderPowerStatusProof"
+    },
+    "source_unit_cargo_loader_power_status_row_state_result.has_power_row": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_power_status_row_state",
+      "godot_symbol": "source_unit_cargo_loader_power_status_row_state_result.has_power_row",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "UnitTransportSourceBuild.updateTile()",
+      "java_expr": "for(var cons : block.nonOptionalConsumers){",
+      "rule": "Whether the row joins the first pass (BuildingComp.java:1969): true when the block has a power consumer; the row is the power consumer's entry in the non-optional pass.",
+      "tests": [
+        "test_c07_unit_cargo_loader_power_status_registration",
+        "test_all_c07_unit_cargo_loader_power_status_input_evidence_is_exact",
+        "test_unit_cargo_loader_power_status_row_state",
+        "test_reference_graph_and_actual_c07_unit_cargo_loader_power_status"
+      ],
+      "runtime_proof": "/root/C07UnitCargoLoaderPowerStatusProof"
     }
   },
   "version": 1
