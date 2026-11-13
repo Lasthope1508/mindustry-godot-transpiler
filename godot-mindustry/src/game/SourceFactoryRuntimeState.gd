@@ -12,6 +12,7 @@ const source_pump_runtime_state := preload("res://src/game/SourcePumpRuntimeStat
 const source_conduit_runtime_state := preload("res://src/game/SourceConduitRuntimeState.gd")
 const source_continuous_liquid_turret_build_state := preload("res://src/game/SourceContinuousLiquidTurretBuildState.gd")
 const source_turret_build_state := preload("res://src/game/SourceTurretBuildState.gd")
+const source_burst_drill_build_state := preload("res://src/game/SourceBurstDrillBuildState.gd")
 const source_factory_build_state := preload("res://src/game/SourceFactoryBuildState.gd")
 const source_unit_factory_build_state := preload("res://src/game/SourceUnitFactoryBuildState.gd")
 const source_adjacent_factory_build_state := preload("res://src/game/SourceAdjacentFactoryBuildState.gd")
@@ -176,6 +177,14 @@ static func simulate_factory(game: Object, delta: float) -> void:
 	# live rules, so a cheating team's turret skips ammo consumption
 	# (TurretBuild.useAmmo(), Turret.java:682).
 	source_turret_build_state.source_turret_tick_buildings_state(game, delta)
+	# The burst-drill tick runs every live-loop tick (N2149): each
+	# placed BurstDrill build (eruption-drill/impact-drill, whose
+	# builds run BurstDrillBuild.updateTile(), BurstDrill.java:70)
+	# gets its frame keys refreshed from the live rules and folds
+	# its live power.status into the min efficiency, so the
+	# burst-drill speed (BurstDrill.java:94) follows power.status
+	# (the base-Drill driver never ticks BurstDrill blocks).
+	source_burst_drill_build_state.source_burst_drill_tick_buildings_state(game, delta)
 	# The factory-family tick runs every live-loop tick (N2109): each
 	# placed factory-family build (GenericCrafter/AttributeCrafter/
 	# HeatCrafter/HeatProducer, whose builds run

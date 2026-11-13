@@ -55730,6 +55730,53 @@
         "Units.notifyUnitSpawn / spawn path, Call.unitCapDeath / Call.unitEnvDeath net calls -- presentation/net, not state.",
         "C07-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
       ]
+    },
+    "N2149": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "java_class": "mindustry.world.blocks.production.BurstDrill.BurstDrillBuild",
+      "java_method": "BurstDrillBuild.updateTile()",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_power_status_row_state",
+      "exact_exprs": [
+        "return build.power.status;",
+        "float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;",
+        "hasConsumers = consumers.length > 0;",
+        "consumePower(6f);",
+        "consumePower(160f / 60f);",
+        "float speed = Mathf.lerp(1f, liquidBoostIntensity, optionalEfficiency) * efficiency;",
+        "return items.total() <= itemCapacity - dominantItems && enabled;",
+        "for(var cons : block.nonOptionalConsumers){",
+        "minEfficiency = Math.min(minEfficiency, result);"
+      ],
+      "source_symbols": [
+        "source_burst_drill_power_status_row_state_result.row",
+        "source_burst_drill_power_status_row_state_result.has_power_row"
+      ],
+      "tests": [
+        "test_c07_burst_drill_power_status_registration",
+        "test_all_c07_burst_drill_power_status_input_evidence_is_exact",
+        "test_burst_drill_power_status_row_state",
+        "test_reference_graph_and_actual_c07_burst_drill_power_status"
+      ],
+      "runtime_proof": "/root/C07BurstDrillPowerStatusProof",
+      "deferred_exprs": [
+        "SolidPump power (water-extractor) -- SolidPump has its own driver, out of scope for the BurstDrill slice.",
+        "BurstDrill updateTile advance (progress / timeDrilled / offload / invertTime / speedCurve, BurstDrill.java:70-125) -- the N2149 proof carries no progress keys; the speed fold (BurstDrill.java:94) is what the efficiency keys prove; the advance waits for its own slice.",
+        "BurstDrill shouldConsume gate (items.total() <= itemCapacity - dominantItems && enabled, BurstDrill.java:129) -- needs items/dominant state the tick does not track yet.",
+        "BurstDrill liquid rows (eruption hydrogen + cyanogen booster, impact water + ozone booster) -- the tick models no other consumers yet, so the folded efficiency is the min over the modeled consumers (power only); those rows wait for their own slices.",
+        "BurstDrill ore / dominant-item binding -- the drill proximity path binds base-Drill frames; BurstDrill dominant selection waits for its own slice.",
+        "Power.status live read for the PointDefenseTurret (segment, consumePower 8f) and TractorBeamTurret (parallax, consumePower 3.3f) -- neither is a TurretBuild (they extend ReloadTurret / BaseTurret) and each keeps its own driver; each waits for its own slice.",
+        "spawn_occupied / spawn_visual_occupied frame inputs -- checkSolid(spawn, false/true) (UnitAssembler.java:675-680) needs tile solidity + a nearby-units query; the port's check_solid_state() is a no-arg stub returning false; waits for a collision/tile-solidity frame-data slice.",
+        "allow_update frame input -- the canonical allow_update_state exists (SourceBuildingAccessState, BuildingComp.java:622-627) but the driver cannot supply its inputs: rules_state carries only unitCostMultiplier + teams (no env, limitMapArea, limits), and the catalog carries no block env/privileged flags; waits for a rules-state capture slice.",
+        "Per-unit AssemblerAI.inPosition() evaluation from live unit pos/rotation/targetPos/targetAngle -- the count reads the recorded in_position flag; the units list carries no pos/rotation yet.",
+        "moveOutPayload() modeling -- the assembler production tick still has no payload move-out.",
+        "Net readUnits / whenSyncedUnits drone sync -- presentation/net, not state.",
+        "Live UnitComp.add() / remove() lifecycle hooks (UnitComp.java:591-598, 603-604, 752) -- no live unit lifecycle in the port yet.",
+        "PayloadComp add/remove count hooks (PayloadComp.java:101, 200) -- same, payload lifecycle not ported yet.",
+        "Teams.updateTeamStats full multi-team rebuild (present/bosses/players/unitsByType/unitTree, Teams.java:182-245) -- N2141 rebuilds one team's counts only.",
+        "Units.notifyUnitSpawn / spawn path, Call.unitCapDeath / Call.unitEnvDeath net calls -- presentation/net, not state.",
+        "C07-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption."
+      ]
     }
   },
   "version": 1
