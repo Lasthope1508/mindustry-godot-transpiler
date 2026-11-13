@@ -1,0 +1,63 @@
+# Handoff — N2152: TractorBeamTurret power.status live read (parallax) (C07)
+
+Date: 2026-11-13. Batch: N2152 (single slice). Status: **DONE + PUSHED (targeted 4/4 OK, neighbours 58/58 OK, Godot proof GREEN, 9 keys, matches:true — verified by main thread: targeted re-run 4/4 OK in 13.1s, proof JSON 9 keys all true, SSOT 11314/1603/1524/2839). Full gate attempt 1 finished ~14:15 +07: Ran 5705 in 904.715s, failures=103, skipped=5, 0 errors — all 103 verified Godot-absent asserts (103 assertIsNotNone(godot), 0 ERROR lines), including the new N2152 proof test. Slice committed + pushed (see Commits). Next: N2153 — the next power.status family per the backlog deferred list.**
+
+## Scope
+
+- Family: the TractorBeamTurret implementation — **parallax** (consumePower 3.3f, size 2, range 300f, force 16f, scaledForce 9f, damage 0.5f, rotateSpeed 12, hasPower true). The ONLY TractorBeamTurret block in the game (Blocks.java:3640-3653). Catalog confirms implementation TractorBeamTurret + consumePower 3.3 (content_registry.json, properties consumePower 3.3 / consumesPower true / hasPower true / connectedPower true).
+- Why: TractorBeamTurret extends BaseTurret, NOT Turret, so parallax is NOT a TurretBuild — the turret driver (SourceTurretBuildState.gd:27-28) explicitly excludes it and no driver ticks it at all, so it would rotate and pull as if power.status were 1.0. N2152 is the TractorBeamTurret family's live read — the same proven N2145/N2146/N2147/N2148/N2149/N2150/N2151 pure-row pattern, one new file over.
+- Base Turret tick untouched — the TractorBeam driver is separate, like BurstDrill vs base Drill and SolidPump vs mechanical Pump.
+
+## Design (decided in RED)
+
+- New file `godot-mindustry/src/game/SourceTractorBeamTurretBuildState.gd` (mirrors SourcePointDefenseTurretBuildState.gd): pure `source_tractor_beam_turret_power_status_row_state(frame, has_power_consumer)` returning `{"has_power_row": false, "row": {}}` without a consumer, else `{"has_power_row": true, "row": {"result": <live>, "is_power": true}}` where live is the stamped frame value, null folding to 1.0 (the assembler convention, UnitAssembler.java:469); plus driver `source_tractor_beam_turret_tick_buildings_state(game, seconds)` mirroring the point-defense driver's shape — iterate placed TractorBeamTurret buildings (`source_unique_buildings_state`), bind the frame if missing, refresh frame keys (block_implementation, team_id, rules_state, cheating, enabled), and when `block.properties.has("consumePower")` and enabled and not cheating, fold the pure row into frame["efficiency"] through the shared machinery (`update_consumption_setup_state` + `update_consumption_state` + `apply_update_consumption_state`, should_consume=true when enabled, production_valid=true) as the only first-pass row, so the tractor-beam eff/edelta fold (TractorBeamTurret.java:84, 117, BuildingComp.java:1928) follows power.status.
+- Frame key (decided in RED): the driver uses its OWN family frame key `"source_tractor_beam_turret_building"` (the turret precedent — the generic turret frame `source_turret_building` stays untouched, parallax never binds it). N2142's stamp/write-back only reaches frames whose meta key is in `SourcePlacedPowerGraphState.SOURCE_CONSUMER_FRAME_META_KEYS`, and that list has NO tractor-beam key — so GREEN must add `"source_tractor_beam_turret_building"` to that list (one line, same mechanism as the point-defense key).
+- Wiring: call the driver from `SourceFactoryRuntimeState.simulate_factory` (preload const + one call after the point-defense tick, N2151 precedent).
+- Header comment quotes: `return build.power.status;` (ConsumePower.java:39), the null-fold line (UnitAssembler.java:469), `hasConsumers = consumers.length > 0;` (Block.java:1449), the eff line `float eff = efficiency * coolantMultiplier, edelta = eff * delta();` (TractorBeamTurret.java:84), the edelta fold `return efficiency * delta();` (BuildingComp.java:1928) and `rotation = Angles.moveToward(rotation, dest, rotateSpeed * edelta);` (TractorBeamTurret.java:117) — **note the local `edelta` variable, NOT the `edelta()` method call as in PointDefenseTurret.java:81; the exact-evidence test caught the mis-copy during GREEN** — keep the moveToward line on ONE comment line (the N2148 shootWarmup lesson: a split line fails the source-text test).
+- Documented limits (GREEN must record in the pure function's comment, same discipline as N2148/N2149/N2150/N2151): (1) power-only first pass — parallax has no other modeled consumers (coolant rows wait for their own slice); the folded efficiency is the min over the *modeled* consumers (power only). (2) No shouldConsume gate — `TractorBeamBuild.shouldConsume()` (TractorBeamTurret.java:141-143, `return super.shouldConsume() && target != null;`) needs live unit-target state the tick does not track yet; the machinery runs with should_consume=true when enabled. (3) No updateTile advance — retarget / coolant consumption / rotation / strength / laser / impulse (TractorBeamTurret.java:78-139) wait for their own slice; the proof carries no progress keys, the eff/edelta fold (TractorBeamTurret.java:84, 117) is what the efficiency keys prove.
+- Proof scene (new, modeled on the N2151 proof — Main scene, campaign playable slice, `RuntimeProofState`), prefix `C_07_TRACTOR_BEAM_TURRET_POWER_STATUS_PROOF `, 6 keys: `parallax_has_power_consumer` (catalog parallax properties has consumePower), `power_row_half`, `power_row_absent_without_consumer`, `power_row_null_folds_one`, `efficiency_folds_power_min` (live tick — place parallax live, stamp frame["power_status"] = 0.5, call `source_tractor_beam_turret_tick_buildings_state` directly so the graph update does not overwrite the stamp), `efficiency_zero_at_no_power`.
+
+## Exact exprs (10, all verified verbatim at RED)
+
+- `return build.power.status;` (ConsumePower.java:39)
+- `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;` (UnitAssembler.java:469)
+- `hasConsumers = consumers.length > 0;` (Block.java:1449)
+- `consumePower(3.3f);` (Blocks.java:3652)
+- `return efficiency * delta();` (BuildingComp.java:1928)
+- `float eff = efficiency * coolantMultiplier, edelta = eff * delta();` (TractorBeamTurret.java:84)
+- `rotation = Angles.moveToward(rotation, dest, rotateSpeed * edelta);` (TractorBeamTurret.java:117 — local `edelta`, no call parens)
+- `return super.shouldConsume() && target != null;` (TractorBeamTurret.java:142)
+- `for(var cons : block.nonOptionalConsumers){` (BuildingComp.java:1969)
+- `minEfficiency = Math.min(minEfficiency, result);` (BuildingComp.java:1976)
+
+## RED
+
+- RED run (13:45 cron run, ~13:47 +07): test module `tools/mindustry_godot_transpiler/tests/test_c07_tractor_beam_turret_power_status.py`, Ran 4 tests in 2.702s, FAILED (failures=1, errors=3) — exactly as expected: registration ERROR KeyError 'N2152', evidence ERROR KeyError 'N2152', source-text ERROR FileNotFoundError on `SourceTractorBeamTurretBuildState.gd` (file does not exist yet), proof FAIL returncode 1 (scene missing, Godot 4.6.2-stable Linux). Port 7777 was FREE. 10/10 exact exprs verified verbatim at RED (grepped in the Java sources during scoping). SSOT baseline 11312/1602/1523/2837, audit 1335 (unchanged from N2151 — main at 533f1e9).
+- Register script written (not yet run): `tools/mindustry_godot_transpiler/register_c07_tractor_beam_turret_power_status.py` (modeled on the N2151 register script; N2152 + 2 symbols, SSOT +2/+1/+1/+2 expected).
+
+## GREEN
+
+- GREEN run (13:45 cron run, ~13:52 +07): register script run (SSOT 11312/1602/1523/2837 → **11314/1603/1524/2839**, audit 1335 — exactly +2/+1/+1/+2); new file `SourceTractorBeamTurretBuildState.gd` (pure row + driver, moveToward line on ONE comment line); `"source_tractor_beam_turret_building"` added to `SOURCE_CONSUMER_FRAME_META_KEYS` (SourcePlacedPowerGraphState.gd:140); driver wired into `SourceFactoryRuntimeState.simulate_factory` (preload + one call after the point-defense tick); proof scene `C07TractorBeamTurretPowerStatusProof.gd/.tscn` (6 keys). First targeted run 3/4 — the exact-evidence test caught a mis-copied expr (TractorBeamTurret.java:117 uses the local `edelta`, not `edelta()`); fixed in the register script (re-run to correct the ledger), the test assertion, and the driver comment; re-run **4/4 OK in 13.0s**; neighbours **58/58 OK in 182.4s** (C07 power family N2142/N2145–N2151 + power-graph binding + factory/adjacent/unit-factory/turret live loops). Godot proof GREEN (6 keys + registry keys, matches:true) — part of targeted test 4, on Godot 4.6.2-stable Linux; standalone proof re-run ~13:55 confirms proof JSON 9 keys, all true, `matches:true`. Port 7777 was FREE; no proof scene ran while a gate ran.
+
+## Gate result
+
+- Full gate attempt 1 **finished ~14:15 +07** (launched from the MAIN THREAD ~13:59 +07 by main thread: `cd tools/mindustry_godot_transpiler && python3 -c "import javalang" && setsid nohup python3 -m unittest discover -s tests > full-suite-n2152-gate.log 2>&1 < /dev/null &` — **PID 9212, SID 9212 (own session), PPID 9209 (background subshell), CPU ~90%**). First attempt — no worker-launch death, no VM restart. **Ran 5705 in 904.715s, FAILED (failures=103, skipped=5), 0 errors** — all 103 verified Godot-absent asserts: 103 `FAIL:` lines, 103 `assertIsNotNone` occurrences, 103 `AssertionError: unexpectedly None`, 0 `ERROR:` lines; the new N2152 proof test fails only on `assertIsNotNone(godot)` (the proof itself was run separately with Godot present and is green). Zero real failures. No proof scene ran while the gate ran (port-7777 rule).
+- Do NOT launch the gate from a scheduled worker run — worker-launched gates die at session end (N2146 PID 9699, N2147 PID 3427, N2149 PID 3798, N2151 PID 16626).
+
+## Commits
+
+- Slice commit: **4bba657** — `C07: N2152 tractor-beam-turret power.status live read (pure power row + driver wiring; proof 6 keys)` (14 files, 850 insertions, pushed to origin main ~14:16 +07 by the 14:15 cron run, after the gate was verified clean except Godot).
+- Files staged for the slice commit (when the gate is green): `godot-mindustry/src/game/SourceTractorBeamTurretBuildState.gd`, `godot-mindustry/src/game/SourceFactoryRuntimeState.gd`, `godot-mindustry/src/game/SourcePlacedPowerGraphState.gd`, `godot-mindustry/tools/runtime_proofs/C07TractorBeamTurretPowerStatusProof.gd`, `godot-mindustry/tools/runtime_proofs/C07TractorBeamTurretPowerStatusProof.tscn`, `godot-mindustry/src/generated/source_symbol_registry.json`, `source_slice_ledger.json`, `source_api_contracts.json`, `source_state_schema.json`, `source_ssot_modules.json`, `source_modules/defense_api_contracts.json`, `source_modules/defense_slices.json`, `tools/mindustry_godot_transpiler/register_c07_tractor_beam_turret_power_status.py`, `tools/mindustry_godot_transpiler/tests/test_c07_tractor_beam_turret_power_status.py` (14 files; `git diff --check` clean). Note: 14, not N2151's 13 — the register script also added `optional_mirror_fields: ["return_type"]` to the `defense_api_contracts` module in `source_ssot_modules.json` (the manifest loop in the register script; the other six `api_contracts` modules already carry it; verified the rebuilt defense shard contains the N2152 owner). Never stage `*.gd.uid`, `project.godot`, `arc-upstream/`, `mindustry-upstream/`, proof `.json`, or the untracked `full-suite-*.log` / `targeted-env-fix.log` noise.
+- Docs commit (report + design spec + handoff) follows the slice commit, same as N2151 (b92a4ff → 62aef1d). GOAL.md §5 debt line update follows the push (name the slice commit carrying the proof to Windows).
+
+## Deferred (NOT this slice)
+
+- TractorBeamTurret updateTile advance, TractorBeamTurret shouldConsume gate, TractorBeamTurret coolant rows (see register script DEFERRED).
+- PointDefenseTurret updateTile advance / shouldConsume gate; SolidPump updateTile advance / shouldConsume gate / water-attribute rows; BurstDrill updateTile advance / shouldConsume gate / liquid rows / ore-dominant binding.
+- spawn_occupied / allow_update / moveOutPayload, net drone sync (see register script DEFERRED).
+- C07–C12 remain open.
+
+## Notes
+
+- Another agent is using Godot to test the fail errors (user, 08:05). Port 7777 was FREE at RED and before the proof runs. Before any proof run, re-check `ss -ltnp | grep 7777` and run proof scenes sequentially — never while a gate runs (port-7777 rule).
+- Environment note: javalang 0.13.0 verified OK at RED (no VM restart in this run). Godot binary is at ~/workspace/godot-bin/godot (symlink to Godot_v4.6.2-stable_linux.x86_64) — NOT on PATH by default; targeted/neighbours ran with PATH="$HOME/workspace/godot-bin:$PATH".
