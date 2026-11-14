@@ -64,8 +64,8 @@ Date: 2026-11-14. Batch: N2170 (single slice). Status: **GREEN DONE (this run �
 - Slice: `c1a85e9` — C07: N2170 WallCrafter power.status live read (15 files: driver + 2 wiring files + 8 SSOT JSONs + proof .gd/.tscn + register script + test module).
 - Docs: `af82d58` — N2170 report + design spec (Status Summary 1620→1621 + N2170 row) + handoff (gate clean except Godot).
 - GOAL: `f4742ba` — GOAL.md §5 debt line names the N2170 slice commit `c1a85e9` that carries its proof to Windows.
-- Handoff-hash: (this commit) — handoff records the slice + docs + GOAL commit hashes (c1a85e9, af82d58, f4742ba).
-- Push-record: (next commit) — handoff records the push (main <handoff-hash>).
+- Handoff-hash: `e33c348` — handoff records the slice + docs + GOAL commit hashes (c1a85e9, af82d58, f4742ba).
+- Push-record: (this commit) — handoff records the push (main e33c348). Pushed to origin main ~10:2x +07; origin/main == local HEAD.
 
 ## Deferred (NOT this slice)
 
