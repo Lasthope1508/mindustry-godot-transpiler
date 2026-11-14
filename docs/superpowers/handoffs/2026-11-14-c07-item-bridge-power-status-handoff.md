@@ -1,6 +1,6 @@
 # Handoff — N2178 ItemBridge power.status live read
 
-Date: 2026-11-14. Batch: N2178 (single slice). Status: **DONE — push next (gate clean except Godot; slice committed 6b99e27).**
+Date: 2026-11-14. Batch: N2178 (single slice). Status: **DONE + PUSHED (slice 6b99e27, docs f3ebec5, GOAL fe7dd4c).**
 
 ## RED (DONE 2026-11-14 ~22:0x +07)
 
@@ -86,9 +86,9 @@ Date: 2026-11-14. Batch: N2178 (single slice). Status: **DONE — push next (gat
 ## Commits
 
 - Slice: `6b99e27` — C07: N2178 ItemBridge power.status live read (phase-conveyor; pure power row + driver wiring; proof 6 keys), 11 files.
-- Docs: (this commit) — Docs: N2178 report + design spec + handoff (gate clean except Godot).
-- GOAL: (next commit) — Docs: GOAL.md names the N2178 slice commit (6b99e27) that carries its proof to Windows.
-- Status: (final commit) — Docs: N2178 handoff Commits records DONE + PUSHED (slice 6b99e27, docs <hash>, GOAL <hash>).
+- Docs: `f3ebec5` — Docs: N2178 report + design spec + handoff (gate clean except Godot).
+- GOAL: `fe7dd4c` — Docs: GOAL.md names the N2178 slice commit (6b99e27) that carries its proof to Windows.
+- Status: this commit — Docs: N2178 handoff Commits records DONE + PUSHED (slice 6b99e27, docs f3ebec5, GOAL fe7dd4c).
 
 ## Gate (RUNNING — attempt 1, launched by main thread ~22:42 +07)
 
