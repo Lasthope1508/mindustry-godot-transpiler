@@ -158,6 +158,9 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
   - [ ] N2178 `C07ItemBridgePowerStatusProof` — Linux GREEN 22:40 (9 key).
     Scene tới Windows theo slice commit `6b99e27` (pushed ~23:1x, main
     `f3ebec5`). Chưa chạy trên Windows Godot.
+  - [ ] N2179 `C07LiquidBridgePowerStatusProof` — Linux GREEN 23:3x (9 key).
+    Scene tới Windows theo slice commit `901f181` (pushed ~00:4x, main
+    `a2d644e`). Chưa chạy trên Windows Godot.
   - [ ] Mọi slice sau này: proof scene mới nào cũng ghi nợ Windows theo mẫu
     trên (ghi rõ commit đưa scene tới Windows).
   - [ ] Agent khác đang test các lỗi fail trên Windows Godot (PR #1 đã merge
