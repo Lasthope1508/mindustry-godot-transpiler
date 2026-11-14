@@ -68,9 +68,9 @@ Date: 2026-11-14. Batch: N2169 (single slice). Status: **DONE + PUSHED (2026-11-
 ## Commits (DONE 2026-11-14 ~09:15 +07, this run)
 
 - Slice commit `0bcec1e` — C07: N2169 Separator power.status live read (separator / disassembler; pure power row + driver wiring; proof 6 keys).
-- Docs commit (report + design spec + handoff): TBD.
-- GOAL.md debt-line commit: TBD.
-- Handoff-hash commit: TBD.
+- Docs commit `05d2011` — N2169 report + design spec + handoff (gate clean except Godot).
+- GOAL.md debt-line commit `b6115b5` — GOAL.md names the N2169 slice commit (0bcec1e) that carries its proof to Windows.
+- Handoff-hash commit: this commit (records the slice + docs + GOAL commit hashes).
 
 ## Deferred (NOT this slice)
 
