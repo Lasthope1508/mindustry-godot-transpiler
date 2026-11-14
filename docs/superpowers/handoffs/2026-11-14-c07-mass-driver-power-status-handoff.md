@@ -66,8 +66,8 @@ Date: 2026-11-14. Batch: N2171 (single slice). Status: **DONE + PUSHED (2026-11-
 - Slice: `2451250` — C07: N2171 MassDriver power.status live read (11 files: driver + 2 wiring files + 4 SSOT JSONs + proof .gd/.tscn + register script + test module; no source_modules shard changed — no shard selection matches MassDriver.java).
 - Docs: `734e636` — N2171 report + design spec (Status Summary 1621→1622 + N2171 row) + handoff (gate clean except Godot).
 - GOAL: `aa0da16` — GOAL.md §5 debt line names the N2171 slice commit `2451250` that carries its proof to Windows.
-- Handoff-hash: (this commit) — handoff records the slice + docs + GOAL commit hashes (2451250, 734e636, aa0da16).
-- Push-record: (next commit) — handoff records the push (main <handoff-hash>).
+- Handoff-hash: `0ad7ef9` — handoff records the slice + docs + GOAL commit hashes (2451250, 734e636, aa0da16).
+- Push-record: (this commit) — handoff records the push (main 0ad7ef9). Pushed to origin main ~11:3x +07; origin/main == local HEAD.
 
 ## Deferred (NOT this slice)
 
