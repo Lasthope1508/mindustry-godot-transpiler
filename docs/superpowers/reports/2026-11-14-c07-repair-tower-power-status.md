@@ -1,6 +1,6 @@
 # Report — N2176: RepairTower power.status live read (unit-repair-tower) (C07)
 
-Date: 2026-11-14. Batch: N2176 (single slice). Status: **DONE + PUSHED (2026-11-14 ~19:5x +07 — targeted 4/4 OK, neighbours 160/160 OK, Godot proof GREEN 9 keys matches:true, full gate attempt 1 Ran 5801 in 1136.127s, failures=127, skipped=5, 0 errors — all 127 verified Godot-absent asserts). Slice commit `(see handoff Commits section)`.**
+Date: 2026-11-14. Batch: N2176 (single slice). Status: **DONE + PUSHED (2026-11-14 ~19:5x +07 — targeted 4/4 OK, neighbours 160/160 OK, Godot proof GREEN 9 keys matches:true, full gate attempt 1 Ran 5801 in 1136.127s, failures=127, skipped=5, 0 errors — all 127 verified Godot-absent asserts). Slice commit `5eadd36`.**
 
 ## What changed
 
@@ -60,9 +60,9 @@ Finished ~19:42 +07: **Ran 5801 tests in 1136.127s, FAILED (failures=127, skippe
 
 ## Commits
 
-- Slice: `(see handoff Commits section for hash)` — C07: N2176 RepairTower power.status live read (unit-repair-tower; pure power row + driver wiring; proof 6 keys), 11 files. Pushed 2026-11-14 ~19:5x +07 to the fork (Lasthope1508).
-- Docs: (see handoff Commits section for hash) — Docs: N2176 report + design spec + handoff (gate clean except Godot).
-- GOAL: (see handoff Commits section for hash) — Docs: GOAL.md names the N2176 slice commit that carries its proof to Windows (§5 debt line).
+- Slice: `5eadd36` — C07: N2176 RepairTower power.status live read (unit-repair-tower; pure power row + driver wiring; proof 6 keys), 11 files. Pushed 2026-11-14 ~19:5x +07 to the fork (Lasthope1508), 71a3281..5eadd36.
+- Docs: `a0cb7fb` — Docs: N2176 report + design spec + handoff (gate clean except Godot).
+- GOAL: `3ebad17` — Docs: GOAL.md names the N2176 slice commit (5eadd36) that carries its proof to Windows (§5 debt line).
 - Pushed 2026-11-14 ~19:5x +07 to the fork (Lasthope1508). See the handoff Commits section for the hashes.
 
 ## Deferred (NOT this slice)
