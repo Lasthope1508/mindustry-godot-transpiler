@@ -61,7 +61,13 @@ Date: 2026-11-14. Batch: N2171 (single slice). Status: **DONE + PUSHED (2026-11-
 - Full gate attempt 1 **launched from the MAIN THREAD ~11:04 +07** by main thread: `cd tools/mindustry_godot_transpiler && python3 -c "import javalang" && setsid nohup python3 -m unittest discover -s tests > full-suite-n2171-gate.log 2>&1 < /dev/null &` — **PID 4482, SID 4482 (own session), PPID 4479 (background subshell), CPU ~93% at launch, ~99% mid-run**. Single gate only — no collision. No Godot on PATH. No proof scene ran while the gate ran (port-7777 rule). **Finished ~11:34 +07: Ran 5781 tests in 1786.041s, FAILED (failures=122, skipped=5), 0 errors** — all 122 verified Godot-absent asserts from the log by main thread (121 plain `assertIsNotNone(godot)` bodies — 120 inherited + 1 new N2171 proof test `test_reference_graph_and_actual_c07_mass_driver_power_status` — + 1 hydration `test_live_block_shared_consumers_and_optional_efficiency_runtime`). No real failures. The gate took 1786s (~30 min) — the longest yet, ~2x the usual ~995s — because every run was ~2x slower after the ~10:36 VM restart (targeted/wiring modules ~25s instead of ~13s); the tail slowed like N2170's (117 F at ~11:34, ~18 tests left).
 - Neighbours (main-thread verification, ~11:04): targeted re-run **4/4 OK in 26.087s**; wiring-standard set **32/32 OK** (9 modules, discover per-module, no flake — but each module took ~25s instead of the usual ~13s, ~2x slower after the VM restart); family 108/108 from the worker's log. Total **140/140 OK**.
 
-## Commits (TODO)
+## Commits (DONE 2026-11-14 ~11:3x +07, main thread — all on origin main)
+
+- Slice: `2451250` — C07: N2171 MassDriver power.status live read (11 files: driver + 2 wiring files + 4 SSOT JSONs + proof .gd/.tscn + register script + test module; no source_modules shard changed — no shard selection matches MassDriver.java).
+- Docs: `734e636` — N2171 report + design spec (Status Summary 1621→1622 + N2171 row) + handoff (gate clean except Godot).
+- GOAL: `aa0da16` — GOAL.md §5 debt line names the N2171 slice commit `2451250` that carries its proof to Windows.
+- Handoff-hash: (this commit) — handoff records the slice + docs + GOAL commit hashes (2451250, 734e636, aa0da16).
+- Push-record: (next commit) — handoff records the push (main <handoff-hash>).
 
 ## Deferred (NOT this slice)
 
