@@ -1,6 +1,6 @@
 # Report — N2182: ImpactReactor power.status live read (impact-reactor) (C07)
 
-Date: 2026-11-15. Batch: N2182 (single slice). Status: **DONE (2026-11-15 ~04:4x +07 — targeted 4/4 OK, neighbours 188/188 OK, Godot proof GREEN 9 keys matches:true, full gate attempt 1 Ran 5825 in 988.761s, failures=133, skipped=5, 0 errors — all 133 verified Godot-absent asserts). Slice commit `<hash>`.**
+Date: 2026-11-15. Batch: N2182 (single slice). Status: **DONE + PUSHED (2026-11-15 ~04:5x +07 — targeted 4/4 OK, neighbours 188/188 OK, Godot proof GREEN 9 keys matches:true, full gate attempt 1 Ran 5825 in 988.761s, failures=133, skipped=5, 0 errors — all 133 verified Godot-absent asserts). Slice commit `c53013f`.**
 
 ## What changed
 
@@ -75,9 +75,9 @@ Finished ~04:36 +07 (log mtime 04:36 +07): **Ran 5825 tests in 988.761s, FAILED 
 
 ## Commits
 
-- Slice: `<hash>` — C07: N2182 ImpactReactor power.status live read (impact-reactor; pure power row + driver wiring; proof 6 keys), 13 files.
-- Docs: `<hash>` — Docs: N2182 report + design spec + handoff (gate clean except Godot).
-- GOAL: `<hash>` — Docs: GOAL.md names the N2182 slice commit that carries its proof to Windows (§5 debt line).
+- Slice: `c53013f` — C07: N2182 ImpactReactor power.status live read (impact-reactor; pure power row + driver wiring; proof 6 keys), 13 files.
+- Docs: `c2e182a` — Docs: N2182 report + design spec + handoff (gate clean except Godot).
+- GOAL: `aa05fce` — Docs: GOAL.md names the N2182 slice commit (c53013f) that carries its proof to Windows (§5 debt line).
 - Pushed 2026-11-15 ~04:5x +07 to the fork (Lasthope1508). See the handoff Commits section for the hashes.
 
 ## Deferred (NOT this slice)
