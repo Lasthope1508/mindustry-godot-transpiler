@@ -140,6 +140,9 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
   - [ ] N2172 `C07LaunchPadPowerStatusProof` — Linux GREEN 12:18 (9 key).
     Scene tới Windows theo slice commit `cf2dbbe` (pushed ~13:2x, main
     `decebb7`). Chưa chạy trên Windows Godot.
+  - [ ] N2173 `C07RadarPowerStatusProof` — Linux GREEN 13:5x (9 key).
+    Scene tới Windows theo slice commit `7690efd` (pushed ~15:2x, main
+    `fa58b0b`). Chưa chạy trên Windows Godot.
   - [ ] Mọi slice sau này: proof scene mới nào cũng ghi nợ Windows theo mẫu
     trên (ghi rõ commit đưa scene tới Windows).
   - [ ] Agent khác đang test các lỗi fail trên Windows Godot (PR #1 đã merge
