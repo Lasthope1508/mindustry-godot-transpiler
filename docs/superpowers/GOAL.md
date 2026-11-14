@@ -170,6 +170,9 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
   - [ ] N2182 `C07ImpactReactorPowerStatusProof` — Linux GREEN 03:5x (9 key).
     Scene tới Windows theo slice commit `c53013f` (pushed ~04:5x, main
     `c2e182a`). Chưa chạy trên Windows Godot.
+  - [ ] N2183 `C07AcceleratorPowerStatusProof` — Linux GREEN 05:2x (9 key).
+    Scene tới Windows theo slice commit `fc5b03a` (pushed ~06:1x, main
+    `e68facf`). Chưa chạy trên Windows Godot.
   - [ ] Mọi slice sau này: proof scene mới nào cũng ghi nợ Windows theo mẫu
     trên (ghi rõ commit đưa scene tới Windows).
   - [ ] Agent khác đang test các lỗi fail trên Windows Godot (PR #1 đã merge
