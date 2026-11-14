@@ -65525,6 +65525,37 @@
       ],
       "runtime_proof": "/root/C07LaunchPadPowerStatusProof",
       "rule": "Source-backed LaunchPad power.status row from ConsumePower.java / BuildingComp.java."
+    },
+    "SourceRadarBuildState.source_radar_power_status_row_state": {
+      "status": "active",
+      "source_slice": "N2173",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "source_method": "RadarBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_radar_power_status_row_state_input.frame"
+        },
+        {
+          "name": "has_power_consumer",
+          "type": "bool",
+          "schema": "source_radar_power_status_row_state_input.has_power_consumer"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "row",
+        "has_power_row"
+      ],
+      "tests": [
+        "test_c07_radar_power_status_registration",
+        "test_all_c07_radar_power_status_input_evidence_is_exact",
+        "test_radar_power_status_row_state",
+        "test_reference_graph_and_actual_c07_radar_power_status"
+      ],
+      "runtime_proof": "/root/C07RadarPowerStatusProof",
+      "rule": "Source-backed Radar power.status row from ConsumePower.java / BuildingComp.java."
     }
   },
   "policy": {
