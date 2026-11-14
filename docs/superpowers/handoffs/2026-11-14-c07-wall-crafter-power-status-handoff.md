@@ -59,7 +59,13 @@ Date: 2026-11-14. Batch: N2170 (single slice). Status: **GREEN DONE (this run �
 - Full gate attempt 1 **launched from the MAIN THREAD ~10:04 +07** by main thread: `cd tools/mindustry_godot_transpiler && python3 -c "import javalang" && setsid nohup python3 -m unittest discover -s tests > full-suite-n2170-gate.log 2>&1 < /dev/null &` — **PID 10690, SID 10690 (own session), PPID 10687 (background subshell), CPU ~93% at launch, ~99% mid-run**. Single gate only — no collision. No Godot on PATH. No proof scene ran while the gate ran (port-7777 rule). **Finished ~10:21 +07: Ran 5777 tests in 994.987s, FAILED (failures=121, skipped=5), 0 errors** — all 121 verified Godot-absent asserts from the log by main thread (120 plain `assertIsNotNone(godot)` bodies — 119 inherited + 1 new N2170 proof test `test_reference_graph_and_actual_c07_wall_crafter_power_status` — + 1 hydration `test_live_block_shared_consumers_and_optional_efficiency_runtime`). No real failures. The gate's tail slowed noticeably near the end (~92% at 10:15, only +2 dots in 20s) — the 10:19–10:29 estimate slipped to ~10:21, still within the usual 893–1722s range.
 - Neighbours (main-thread verification, ~10:04): targeted re-run **4/4 OK in 15.104s**; wiring-standard set **32/32 OK** (9 modules, discover per-module, no flake this time); family 104/104 from the worker's log. Total **136/136 OK**. The worker's own wiring run (different 9-module set) also finished **33/33 OK** (footer in n2170-wiring.log) — bonus coverage, not the standard set.
 
-## Commits (TODO)
+## Commits (DONE 2026-11-14 ~10:2x +07, main thread — all on origin main)
+
+- Slice: `c1a85e9` — C07: N2170 WallCrafter power.status live read (15 files: driver + 2 wiring files + 8 SSOT JSONs + proof .gd/.tscn + register script + test module).
+- Docs: `af82d58` — N2170 report + design spec (Status Summary 1620→1621 + N2170 row) + handoff (gate clean except Godot).
+- GOAL: `f4742ba` — GOAL.md §5 debt line names the N2170 slice commit `c1a85e9` that carries its proof to Windows.
+- Handoff-hash: (this commit) — handoff records the slice + docs + GOAL commit hashes (c1a85e9, af82d58, f4742ba).
+- Push-record: (next commit) — handoff records the push (main <handoff-hash>).
 
 ## Deferred (NOT this slice)
 
