@@ -1,6 +1,6 @@
 # Handoff — N2179 LiquidBridge power.status live read
 
-Date: 2026-11-14. Batch: N2179 (single slice). Status: **DONE — push next (gate clean except Godot; slice committed 901f181).**
+Date: 2026-11-14. Batch: N2179 (single slice). Status: **DONE + PUSHED (slice 901f181, docs a2d644e, GOAL 400a264).**
 
 ## RED (DONE 2026-11-14 ~23:2x +07)
 
@@ -109,9 +109,9 @@ Date: 2026-11-14. Batch: N2179 (single slice). Status: **DONE — push next (gat
 ## Commits
 
 - Slice: `901f181` — C07: N2179 LiquidBridge power.status live read (phase-conduit; pure power row + driver wiring; proof 6 keys), 11 files.
-- Docs: (this commit) — Docs: N2179 report + design spec + handoff (gate clean except Godot).
-- GOAL: (next commit) — Docs: GOAL.md names the N2179 slice commit (901f181) that carries its proof to Windows.
-- Status: (final commit) — Docs: N2179 handoff Commits records DONE + PUSHED (slice 901f181, docs <hash>, GOAL <hash>).
+- Docs: `a2d644e` — Docs: N2179 report + design spec + handoff (gate clean except Godot).
+- GOAL: `400a264` — Docs: GOAL.md names the N2179 slice commit (901f181) that carries its proof to Windows.
+- Status: this commit — Docs: N2179 handoff Commits records DONE + PUSHED (slice 901f181, docs a2d644e, GOAL 400a264).
 
 ## Gate (RUNNING — attempt 1, launched by main thread ~00:06 +07)
 
