@@ -1,6 +1,6 @@
 # Report — N2180: StackConveyor power.status live read (surge-conveyor) (C07)
 
-Date: 2026-11-15. Batch: N2180 (single slice). Status: **DONE (2026-11-15 ~02:0x +07 — targeted 4/4 OK, neighbours 180/180 OK, Godot proof GREEN 9 keys matches:true, full gate attempt 4 Ran 5817 in 972.474s, failures=131, skipped=5, 0 errors — all 131 verified Godot-absent asserts). Slice commit `<hash>`.**
+Date: 2026-11-15. Batch: N2180 (single slice). Status: **DONE + PUSHED (2026-11-15 ~02:1x +07 — targeted 4/4 OK, neighbours 180/180 OK, Godot proof GREEN 9 keys matches:true, full gate attempt 4 Ran 5817 in 972.474s, failures=131, skipped=5, 0 errors — all 131 verified Godot-absent asserts). Slice commit `7c3b67e`.**
 
 ## What changed
 
@@ -78,9 +78,9 @@ Finished ~01:49 +07 (log mtime 01:49 +07): **Ran 5817 tests in 972.474s, FAILED 
 
 ## Commits
 
-- Slice: `<hash>` — C07: N2180 StackConveyor power.status live read (surge-conveyor; pure power row + driver wiring; proof 6 keys), 11 files.
-- Docs: `<hash>` — Docs: N2180 report + design spec + handoff (gate clean except Godot).
-- GOAL: `<hash>` — Docs: GOAL.md names the N2180 slice commit that carries its proof to Windows (§5 debt line).
+- Slice: `7c3b67e` — C07: N2180 StackConveyor power.status live read (surge-conveyor; pure power row + driver wiring; proof 6 keys), 11 files.
+- Docs: `df55fef` — Docs: N2180 report + design spec + handoff (gate clean except Godot).
+- GOAL: `d48448e` — Docs: GOAL.md names the N2180 slice commit (7c3b67e) that carries its proof to Windows (§5 debt line).
 - Pushed 2026-11-15 ~02:1x +07 to the fork (Lasthope1508). See the handoff Commits section for the hashes.
 
 ## Deferred (NOT this slice)
