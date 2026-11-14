@@ -1,0 +1,76 @@
+# Report — N2176: RepairTower power.status live read (unit-repair-tower) (C07)
+
+Date: 2026-11-14. Batch: N2176 (single slice). Status: **DONE + PUSHED (2026-11-14 ~19:5x +07 — targeted 4/4 OK, neighbours 160/160 OK, Godot proof GREEN 9 keys matches:true, full gate attempt 1 Ran 5801 in 1136.127s, failures=127, skipped=5, 0 errors — all 127 verified Godot-absent asserts). Slice commit `(see handoff Commits section)`.**
+
+## What changed
+
+The next `power.status` consumer family after the N2175 shield-wall slice: the RepairTower implementation family — a SINGLE def, **unit-repair-tower** (`consumePower(1f)`, Blocks.java:6582; size 2, range 100f, healAmount 1.5f, Blocks.java:6575-6584). RepairTower extends Block (RepairTower.java:18, `public class RepairTower extends Block{`); its build extends Building implements Ranged (RepairTower.java:46, `public class RepairTowerBuild extends Building implements Ranged{`). Catalog confirms implementation RepairTower + hasPower true + consumesPower true + consumePower 1.0 + outputsPower false + powerUsage 1.0 + connectedPower true (content_registry_blocks.json, `content_registry.blocks.unit-repair-tower`). Blocks.java defs are the source of truth, see Exact exprs in the handoff.
+
+The repair tower had NO driver at all — no `SourceRepairTower*` file exists in godot-mindustry/src/game, no `"RepairTower"` entry in any `SOURCE_*_IMPLEMENTATIONS` list (grep for `"RepairTower"` in `godot-mindustry/src/game/` returns nothing; the only `RepairTower` mention anywhere in `godot-mindustry/` is the documented-limit comment in `SourceRepairTurretBuildState.gd:65` stating it is NOT covered by the repair-turret driver), and no frame key existed, so the N2142 stamp never reached a repair-tower frame. The Incinerator lesson was applied: the candidate was checked for an existing driver before scoping.
+
+**Naming trap (already recorded in the N2174 handoff and re-verified):** "RepairTower" is NOT the RepairTurret family (repair-point / repair-turret, N2174). It is a SEPARATE, unrelated class `RepairTower` (RepairTower.java:18) backing the single def **unit-repair-tower** (Blocks.java:6575) — a unit-carried repair block. Do not confuse the two.
+
+The efficiency coupling that makes this slice matter: `updateTile` heals by edelta (`target.heal(healAmount * edelta());`, RepairTower.java:78) inside `if(efficiency > 0)` (:75), and the target refresh itself is gated on `potentialEfficiency > 0` (`if(potentialEfficiency > 0 && (refresh += Time.delta) >= refreshInterval){`, RepairTower.java:59) — so a repair tower with no power never refreshes its target list and never heals, while the port without this slice would behave as if power.status were 1.0. `potentialEfficiency` is assigned the folded efficiency before the `if(!update)` zeroing (BuildingComp.java:1988-1994), so the refresh coupling follows the folded value. N2176 is the repair tower's live read — the same proven N2145–N2175 pure-row pattern, on the N2173 radar precedent (new family file + own driver + own frame key + simulate_factory wiring): one new pure function on a new state file + a driver fold + a new frame key + the wiring.
+
+**Power is STATIC here** — unlike RepairTurret's conditional draw: `consumePower(1f)` registers a plain ConsumePower, so the catalog `consumePower: 1.0` is present and the plain radar gate `block.properties.has("consumePower")` works — no RepairTurret-style `or consumesPower` adaptation needed. The pure row is the same ConsumePower read (`return build.power.status;`, ConsumePower.java:39).
+
+**shouldConsume override — target-gated, deferred per the N2174 precedent:** `RepairTowerBuild.shouldConsume()` returns `targets.size > 0;` (RepairTower.java:89-91). When the gate is false Java forces efficiency to 0 (BuildingComp.java:1960 + 1992-1994). Decided at scoping, per the N2174 precedent (fold power-only per PointDefenseTurret N2151): the driver runs with should_consume=true when enabled (the MendProjector suppression precedent) and the gate is DEFERRED — with no targets requestedPower is 0 so power.status reads 1.0 while Java efficiency is 0. The gap is recorded in the pure function's comment, not silently skipped.
+
+New file `godot-mindustry/src/game/SourceRepairTowerBuildState.gd`, class_name SourceRepairTowerBuildState, with `SOURCE_REPAIR_TOWER_BUILD_IMPLEMENTATIONS := ["RepairTower"]` and frame meta key `"source_repair_tower_building"`:
+
+- Pure `source_repair_tower_power_status_row_state(frame, has_power_consumer)` (mirrors `source_radar_power_status_row_state`): without a consumer → `{"has_power_row": false, "row": {}}`; else `{"has_power_row": true, "row": {"result": <live>, "is_power": true}}` where live is the stamped frame value, null folding to 1.0 (the assembler convention, UnitAssembler.java:469).
+- `source_repair_tower_tick_frame_state` (mirrors the radar tick-frame: block_implementation / team_id / rules_state / cheating via TeamComp.cheating(), preserve disabled frame).
+- `source_repair_tower_bind_frame_state` (mirrors the radar bind: empty frame under the repair-tower meta key, no-op for other blocks / already-bound sprites).
+- Driver `source_repair_tower_tick_buildings_state(game, seconds)` (mirrors the radar driver: iterate placed buildings, match implementation, bind frame, tick frame, when the block has the static power consumer and enabled and not cheating fold the pure row via `source_building_efficiency_state.update_consumption_state(true, ...)` with has_consumers=true — the power consumer counts toward hasConsumers, Block.java:1449 — and apply it; no consumer actors, no production tick, no updateTile heal advance).
+
+Header quotes all 26 exact exprs, each on ONE comment line. All 6 documented limits recorded in the pure function's comment.
+
+New frame key `"source_repair_tower_building"` added to `SourcePlacedPowerGraphState.SOURCE_CONSUMER_FRAME_META_KEYS` so the N2142 graph stamp/write-back finds the repair-tower frame. Wiring in `SourceFactoryRuntimeState.simulate_factory`: preload `source_repair_tower_build_state` + call `source_repair_tower_tick_buildings_state(game, delta)` (immediately after the shield-wall call, :419).
+
+Documented limits in the pure function's comment, same discipline as N2148–N2175: (1) power-only first pass — the folded efficiency is the min over the *modeled* consumers (power only); the ozone liquid consumer (`consumeLiquid(Liquids.ozone, 3f / 60f)`, Blocks.java:6583, 3f/60f = 0.05) waits for its own slice (the N2174 coolant precedent). (2) shouldConsume gate deferred — RepairTowerBuild overrides shouldConsume (`return targets.size > 0;`, RepairTower.java:89-91); when the gate is false Java forces efficiency to 0 (BuildingComp.java:1960 + 1992-1994); the driver runs with should_consume=true when enabled (the MendProjector suppression precedent) — with no targets power.status reads 1.0 while Java efficiency is 0. (3) No updateTile heal advance — target refresh / heal / warmup lerp / totalProgress advance (RepairTower.java:57-86) wait for their own slices; the proof carries no heal/warmup/target keys, the heal advance (RepairTower.java:78) is what the efficiency keys prove. (4) No suppression modeling — `suppressable = true` (RepairTower.java:31) and `checkSuppression()` zeroes warmup (RepairTower.java:69-72); the suppression coupling waits for its own slice. (5) Single def — unit-repair-tower only (size 2, range 100f, healAmount 1.5f, graphite 90 / silicon 90 / tungsten 80); per-def stat values wait for their own verification slice. (6) RepairTurret (repair-point / repair-turret) is a different class and NOT covered by this driver.
+
+## RED
+
+Test module `tools/mindustry_godot_transpiler/tests/test_c07_repair_tower_power_status.py` + register script `tools/mindustry_godot_transpiler/register_c07_repair_tower_power_status.py` written, modeled on the N2174 pair. Register script derived from the N2174 script by a mechanical transform script (`/tmp/derive_n2176_register.py`, kept out of the repo): segments split around the DEFERRED assignment, renames applied only outside DEFERRED (historical RepairTurret/N2174 entries stay verbatim — verified: `RepairPointBuild` ×1 and `N2174` ×1 remain, both inside DEFERRED), the stale final RepairTower entry replaced by 6 new RepairTower deferred entries, `CONSUME_POWER_CONDITION` dropped (0 occurrences remain), EXACT_EXPRS = the 26 handoff exprs (incl. the duplicated `public boolean shouldConsume(){` — RepairTower.java:89 and BuildingComp.java:755).
+
+RED run: Ran 4 tests in 4.204s, FAILED (failures=1, errors=3) — exactly as expected for a new-file slice: registration + exact-evidence error on missing N2176 ledger entry, row-state errors FileNotFoundError on the not-yet-existing `SourceRepairTowerBuildState.gd`, proof fails `Cannot open file 'res://tools/runtime_proofs/C07RepairTowerPowerStatusProof.tscn'` — all four fail for the expected missing-artifact reasons, none passes spuriously. Port 7777 was FREE before the run. 26/26 exact exprs verified verbatim at RED. SSOT baseline 11360/1626/1547/2885, audit 1335. `git diff --check` OK.
+
+**javalang was WIPED again** (ModuleNotFoundError at run start, ~18:45 — a VM restart happened between the ~18:30 scoping run and this run); reinstalled 0.13.0 (`pip install --break-system-packages -r tools/mindustry_godot_transpiler/requirements.txt`) and verified `import javalang` OK before the RED run.
+
+## GREEN
+
+- New `godot-mindustry/src/game/SourceRepairTowerBuildState.gd` (radar N2173 precedent): pure row + tick-frame + bind + driver, plain `block.properties.has("consumePower")` gate — static power, no RepairTurret-style adaptation; folds via `update_consumption_state` with has_consumers=true. Header quotes all 26 exact exprs, each on ONE comment line. All 6 documented limits recorded in the pure function's comment.
+- Frame key `"source_repair_tower_building"` appended to `SOURCE_CONSUMER_FRAME_META_KEYS` (SourcePlacedPowerGraphState.gd, after the shield-wall key). Wiring in `SourceFactoryRuntimeState.simulate_factory`: preload + call immediately after the shield-wall call (:419).
+- Proof scene `godot-mindustry/tools/runtime_proofs/C07RepairTowerPowerStatusProof.gd` + `.tscn` (N2174 model, prefix `C_07_REPAIR_TOWER_POWER_STATUS_PROOF `, 6 keys + registry_valid / one_headquarter_per_ssot / matches). Proof `.json` is gitignored (never stage, per AGENTS.md rule on proof .json).
+- Register script run: SSOT **11362/1627/1548/2887** — exactly the expected values (+2/+1/+1/+2); audit 1335 unchanged; ledger N2176 status done. No source_modules shard changed — no shard selection matches RepairTower.java (units block, the N2174 precedent).
+- Targeted: **Ran 4 tests, OK** — first run 3/4 (proof test failed only because `godot` was not on PATH in this shell; rerun with `PATH="$HOME/workspace/godot-bin:$PATH"` gave 4/4 OK in 16.802s, proof included). Main-thread re-run: **4/4 OK in 15.744s**. Port 7777 FREE before the run. `git diff --check` OK.
+- Godot proof (inside the targeted run, Linux headless 4.6.2): **9 keys all true, matches:true** — `repair_tower_has_power_consumer`, `power_row_half`, `power_row_absent_without_consumer`, `power_row_null_folds_one`, `efficiency_folds_power_min`, `efficiency_zero_at_no_power`, `registry_valid`, `one_headquarter_per_ssot`, `matches`. No ERROR in output.
+
+## Neighbours
+
+Main-thread verification, ~19:23 +07: targeted re-run **4/4 OK in 15.744s**; family **128/128 OK in 458.889s** (32 modules, log `tools/mindustry_godot_transpiler/n2176-neighbours.log`, FAMILY EXIT 0); wiring-standard set **32/32 OK** (9 modules, discover per-module, no flake — each module ~14-15s, back to normal speed). Total **160/160 OK**. (The worker's "neighbours 128/128" was only the family run, not the full set.)
+
+**VM is back to normal speed** (neighbours: family 459s vs N2175's 780s, targeted 15.7s vs 27.5s, wiring ~14-15s/module vs ~25s) — the N2175 slow mode is over, with no VM restart observed.
+
+## Gate
+
+Full gate attempt 1 **launched from the MAIN THREAD ~19:23 +07** by main thread: `cd tools/mindustry_godot_transpiler && python3 -c "import javalang" && setsid nohup python3 -m unittest discover -s tests > full-suite-n2176-gate.log 2>&1 < /dev/null &` — **PID 6719, SID 6719 (own session), PPID 6716 (background subshell), CPU ~92%, log growing**. Single gate only — no collision. No Godot on PATH. No proof scene ran while the gate ran (port-7777 rule).
+
+Finished ~19:42 +07: **Ran 5801 tests in 1136.127s, FAILED (failures=127, skipped=5)** — no errors field, 0 `ERROR:` lines. All 127 verified Godot-absent (grep on the log): **127 × `AssertionError: unexpectedly None`** (126 inherited + 1 new N2176 proof test `test_reference_graph_and_actual_c07_repair_tower_power_status`), including the hydration test `test_live_block_shared_consumers_and_optional_efficiency_runtime` — its body is also `self.assertIsNotNone(godot, 'Godot required for hydration proof')`, i.e. a Godot-absent assert with a message, not a real failure (the N2175 lesson: the plain-count awk undercounts by 1; the correct breakdown is 127 × AssertionError: unexpectedly None). The gate is back to normal speed too: 1136s vs N2175's 1774s. No VM restart during the gate.
+
+## Commits
+
+- Slice: `(see handoff Commits section for hash)` — C07: N2176 RepairTower power.status live read (unit-repair-tower; pure power row + driver wiring; proof 6 keys), 11 files. Pushed 2026-11-14 ~19:5x +07 to the fork (Lasthope1508).
+- Docs: (see handoff Commits section for hash) — Docs: N2176 report + design spec + handoff (gate clean except Godot).
+- GOAL: (see handoff Commits section for hash) — Docs: GOAL.md names the N2176 slice commit that carries its proof to Windows (§5 debt line).
+- Pushed 2026-11-14 ~19:5x +07 to the fork (Lasthope1508). See the handoff Commits section for the hashes.
+
+## Deferred (NOT this slice)
+
+- RepairTower updateTile advance (target refresh / heal / warmup lerp / totalProgress advance, RepairTower.java:57-86) — its own slice.
+- shouldConsume gate (`return targets.size > 0;`, RepairTower.java:89-91) — its own slice; observable gap efficiency 1.0 vs 0.0 with no target.
+- Ozone liquid consumer (`consumeLiquid(Liquids.ozone, 3f / 60f)`, Blocks.java:6583) — its own slice.
+- Suppression coupling (`suppressable = true`, RepairTower.java:31; `checkSuppression()` zeroes warmup, RepairTower.java:69-72) — its own slice.
+- Per-def stat values (size 2, range 100f, healAmount 1.5f, graphite 90 / silicon 90 / tungsten 80) — their own verification slice.
+- RepairTurret (repair-point / repair-turret) is a different class and NOT covered by this driver.
+- Next candidates (verified in the N2174 handoff, not yet scoped): ShockwaveTower (shockwave-tower, 100f/60f = 1.6667), ItemBridge (phase-conveyor, 0.30f), LiquidBridge (bridge-conduit: NO power def — but phase-conduit, same implementation, HAS consumePower 0.30f; family split needs care at scoping), StackConveyor (plastanium-conveyor: NO power def; surge-conveyor: 1f/60f = 0.0167), StackRouter (surge-router, 3f/60f = 0.05), ImpactReactor (impact-reactor, consumePower 25f BUT outputsPower true — generator, consume-vs-produce needs care at scoping), Accelerator (interplanetary-accelerator, 10f), BuildTurret (build-tower, 3f, Blocks.java:2005).
