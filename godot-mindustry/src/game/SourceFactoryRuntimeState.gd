@@ -29,6 +29,7 @@ const source_payload_mass_driver_build_state := preload("res://src/game/SourcePa
 const source_unit_cargo_loader_build_state := preload("res://src/game/SourceUnitCargoLoaderBuildState.gd")
 const source_payload_deconstructor_build_state := preload("res://src/game/SourcePayloadDeconstructorBuildState.gd")
 const source_unit_assembler_module_build_state := preload("res://src/game/SourceUnitAssemblerModuleBuildState.gd")
+const source_separator_build_state := preload("res://src/game/SourceSeparatorBuildState.gd")
 const source_point_defense_turret_build_state := preload("res://src/game/SourcePointDefenseTurretBuildState.gd")
 const source_tractor_beam_turret_build_state := preload("res://src/game/SourceTractorBeamTurretBuildState.gd")
 const source_factory_build_state := preload("res://src/game/SourceFactoryBuildState.gd")
@@ -347,6 +348,15 @@ static func simulate_factory(game: Object, delta: float) -> void:
 	# placed-buildings driver ticks UnitAssemblerModule blocks; a unit-assembler-module
 	# without a power consumer is excluded by the driver gate).
 	source_unit_assembler_module_build_state.source_unit_assembler_module_tick_buildings_state(game, delta)
+	# The separator tick runs every live-loop tick (N2169): each
+	# placed Separator build (separator, whose build runs
+	# SeparatorBuild.updateTile(), Separator.java:128) gets its frame keys
+	# refreshed from the live rules and folds its live power.status
+	# into the min efficiency, so the progress advance
+	# (Separator.java:133) follows power.status (no
+	# placed-buildings driver ticks Separator blocks; a separator
+	# without a power consumer is excluded by the driver gate).
+	source_separator_build_state.source_separator_tick_buildings_state(game, delta)
 	# The point-defense tick runs every live-loop tick (N2151): each
 	# placed PointDefenseTurret build (segment, whose build runs
 	# PointDefenseBuild.updateTile(), PointDefenseTurret.java:62)
