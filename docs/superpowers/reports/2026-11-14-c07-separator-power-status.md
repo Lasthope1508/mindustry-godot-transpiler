@@ -1,0 +1,52 @@
+# Report — N2169: Separator power.status live read (separator / disassembler) (C07)
+
+Date: 2026-11-14. Batch: N2169 (single slice). Status: **DONE + PUSHED (2026-11-14 ~09:15 +07 — targeted 4/4 OK, neighbours 132/132 OK, Godot proof GREEN 9 keys matches:true, full gate Ran 5773 failures=120 skipped=5 0 errors, all 120 verified Godot-absent asserts).**
+
+## What changed
+
+The next `power.status` consumer family after the N2168 unit-assembler-module slice: the Separator implementation family — two defs, **separator** (consumePower 1.1f, Blocks.java:1243; size 2, craftTime 35f, Blocks.java:1231-1246) and **disassembler** (consumePower 4f, Blocks.java:1262; size 3, craftTime 15f, itemCapacity 20, Blocks.java:1248-1266). Separator extends Block (Separator.java:19, `public class Separator extends Block{`); its build extends Building (Separator.java:75). Catalog confirms implementation Separator + consumePower 1.1 / 4.0 + hasPower true + consumesPower true + powerUsage 1.1 / 4.0 (source_modules/content_registry_blocks.json, separator / disassembler entries). Blocks.java defs are the source of truth, see Exact exprs.
+
+The separator has NO driver at all — it extends Block, not a factory or crafter, so no existing driver matches it, and no frame key exists for it, so the N2142 stamp never reaches a separator frame. Its updateTile progress advance (Separator.java:133) gates on `efficiency > 0`, so a separator with no power would advance progress as if power.status were 1.0. N2169 is the separator's live read — the same proven N2145–N2168 pure-row pattern, on the N2166 payload-deconstructor precedent (new family file + own driver + own frame key + simulate_factory wiring): one new pure function on a new state file + a driver fold + a new frame key + the wiring. The same driver covers both defs via the catalog consumePower; the disassembler def waits for its own verification slice.
+
+SeparatorBuild HAS a shouldConsume override (Separator.java:92-100, `return total < itemCapacity && enabled;`, where total = items.total() minus the consItems input stacks), so the BuildingComp default (BuildingComp.java:755, `public boolean shouldConsume(){`) does NOT apply here — the gate is deferred (items state is not tracked yet) and the machinery runs with should_consume=true when enabled (the MendProjector suppression precedent).
+
+The separator also consumes liquid slag (separator 4f/60f, Blocks.java:1244; disassembler 0.12f, Blocks.java:1264) — power-only first pass, the liquid row waits for its own slice, so the folded efficiency is the min over the modeled consumers (power only).
+
+New file `godot-mindustry/src/game/SourceSeparatorBuildState.gd`, class_name SourceSeparatorBuildState, with `SOURCE_SEPARATOR_BUILD_IMPLEMENTATIONS := ["Separator"]` and frame meta key `"source_separator_building"`:
+
+- Pure `source_separator_power_status_row_state(frame, has_power_consumer)` (mirrors `source_payload_deconstructor_power_status_row_state` / `source_unit_assembler_module_power_status_row_state`): without a consumer → `{"has_power_row": false, "row": {}}`; else `{"has_power_row": true, "row": {"result": <live>, "is_power": true}}` where live is the stamped frame value, null folding to 1.0 (the assembler convention, UnitAssembler.java:469).
+- `source_separator_tick_frame_state` (mirrors the deconstructor tick-frame: block_implementation / team_id / rules_state / cheating via TeamComp.cheating(), preserve disabled frame).
+- `source_separator_bind_frame_state` (mirrors the deconstructor bind: empty frame under the separator meta key, no-op for other blocks / already-bound sprites).
+- Driver `source_separator_tick_buildings_state(game, seconds)` (mirrors the deconstructor driver: iterate placed buildings, match implementation, bind frame, tick frame, when `block.properties.has("consumePower")` and enabled and not cheating fold the pure row via `source_building_efficiency_state.update_consumption_state(true, ...)` with has_consumers=true — the power consumer counts toward hasConsumers, Block.java:1449 — and apply it; no consumer actors, no production tick, no updateTile advance).
+
+New frame key `"source_separator_building"` added to `SourcePlacedPowerGraphState.SOURCE_CONSUMER_FRAME_META_KEYS` so the N2142 graph stamp/write-back finds the separator frame. Wiring in `SourceFactoryRuntimeState.simulate_factory`: preload `source_separator_build_state` + call `source_separator_tick_buildings_state(game, delta)` (next to the unit-assembler-module call).
+
+Documented limits in the pure function's comment, same discipline as N2148–N2168: (1) power-only first pass — the separator also consumes liquid slag (4f/60f separator / 0.12f disassembler), so the folded efficiency is the min over the *modeled* consumers (power only). (2) shouldConsume gate deferred — SeparatorBuild overrides shouldConsume() to return total < itemCapacity && enabled (Separator.java:92-100); items state is not tracked yet, so the machinery runs with should_consume=true when enabled (the MendProjector suppression precedent). (3) No updateTile advance — progress / warmup / totalProgress / consume() / offload / dump (Separator.java:128-166) wait for their own slices; the proof carries no progress/warmup/offload keys, the efficiency > 0 gate (Separator.java:133) is what the efficiency keys prove. (4) No sense/canDump/draw/icons/read-write/created rows — see DEFERRED. (5) Disassembler variant verification pending — the same driver covers both defs via the catalog consumePower.
+
+## Proof keys (new scene, 6 keys)
+
+New scene `C07SeparatorPowerStatusProof` (modeled on the N2166/N2167/N2168 proofs — Main scene, campaign playable slice, `RuntimeProofState`), prefix `C_07_SEPARATOR_POWER_STATUS_PROOF `:
+
+- `separator_has_power_consumer`: catalog `separator` properties have `consumePower` 1.1.
+- `power_row_half`: pure row over frame `{"power_status": 0.5}`, has_power_consumer true → row result 0.5, `is_power` true.
+- `power_row_absent_without_consumer`: has_power_consumer false → `has_power_row` false.
+- `power_row_null_folds_one`: frame without `power_status` → row result 1.0.
+- `efficiency_folds_power_min`: live tick — place separator live, stamp `frame["power_status"] = 0.5`, call the driver directly so the graph update does not overwrite the stamp → frame efficiency 0.5.
+- `efficiency_zero_at_no_power`: same, `power_status` 0.0 → efficiency 0.0.
+
+## Verified numbers (measured in this VM)
+
+- Test module `test_c07_separator_power_status.py`: **4/4 OK in 18.160s** (GREEN ~08:20; re-verified 4/4 OK in 14.105s by the main thread ~08:33). Godot on PATH via `PATH="$HOME/workspace/godot-bin:$PATH"`.
+- RED run (~08:05 +07, 2026-11-14): Ran 4 tests in 2.839s, FAILED (failures=1, errors=3), all expected — registration ERROR KeyError 'N2169', evidence ERROR KeyError 'N2169', source-text ERROR FileNotFoundError (new state file did not exist yet), proof FAIL returncode 1 (scene missing, Godot 4.6.2-stable Linux). Port 7777 was FREE. 13/13 exact exprs verified verbatim at RED. SSOT baseline 11346/1619/1540/2871 (unchanged from N2168 — main at 61755b7), audit 1335. javalang 0.13.0 REINSTALLED at RED (VM restarted since the N2168 reinstall).
+- GREEN targeted run 4/4 OK (08:20 run; re-verified 4/4 OK in 14.105s by the main thread ~08:33).
+- Neighbours: **132/132 OK** — C07 power-status family 25 modules / 100 tests in 328.218s (worker run, footer in `tools/mindustry_godot_transpiler/n2169-neighbours.log`) + wiring-sensitive 9 modules / 32 tests (main-thread re-run ~08:33, discover per-module). The worker's own wiring run (different 9-module set) also finished 33/33 OK (footer in `tools/mindustry_godot_transpiler/n2169-wiring.log`, PID 3791) — bonus coverage, not the standard set. NOTE: the first wiring launch failed instantly (9 errors, wrong module path — run from the tools dir with short names); relaunched from repo root with full dotted paths.
+- Godot proof: **GREEN ~08:20 +07** (2026-11-14) — proof JSON 9 keys, all true, `matches: true` (6 semantic keys + `registry_valid` + `one_headquarter_per_ssot` + `matches`), on Godot 4.6.2-stable Linux in this VM (build 71f334935, identical to the Windows 4.6.2 build). Not yet run on Windows Godot — the scene/source reach Windows only with this slice's commit.
+- `git diff --check` clean (verified 09:15 run).
+- SSOT +2/+1/+1/+2 → **11348 / 1620 / 1541 / 2873** (registry `symbols` 11348, ledger `slices` 1620, contracts 1541, schemas 2873); audit stays 1335.
+- Environment note: Godot binary is at ~/workspace/godot-bin/godot (symlink to Godot_v4.6.2-stable_linux.x86_64) — NOT on PATH by default; targeted ran with PATH="$HOME/workspace/godot-bin:$PATH". javalang 0.13.0 present at the 09:15 run (reinstalled by the 08:45 cron run after the ~08:40 VM restart wiped it).
+
+## Gate / suite
+
+- Full gate attempt 1 (main thread, PID 4767, log `tools/mindustry_godot_transpiler/full-suite-n2169-gate.log`) — **DIED ~08:40 +07 — VM restart** (verified by the 08:45 cron run: uptime 8 min at 08:48, PID 4767 gone, log frozen at 5407 bytes, mtime 01:40 UTC, all dots/Fs, no `Ran` footer — no result). javalang wiped by the restart and reinstalled by the 08:45 cron run.
+- Full gate attempt 2 (relaunch, main thread, ~08:52 +07, PID 2932, SID 2932, `python3 -m unittest discover -s tests` from `tools/mindustry_godot_transpiler`, same log truncated fresh, no Godot on PATH — the established gate env) — **GREEN (gate-clean) 2026-11-14 ~09:08 +07: Ran 5773 tests in 995.212s, FAILED (failures=120, skipped=5), 0 errors.** Verified from the log at the 09:15 run: 120 FAIL blocks (119 plain `assertIsNotNone(godot)` + 1 hydration `test_live_block_shared_consumers_and_optional_efficiency_runtime` with message 'Godot required for hydration proof'); 0 `ERROR:` lines; the new N2169 proof test among the 119 (expected — gate env has no Godot; the proof itself was verified GREEN headless at ~08:20 with 9 keys).
+- Next after gate + push: N2170 — next C07 power.status family; scope at the next run from the catalog (remaining consumePower families without a live read: WallCrafter / Incinerator / MassDriver / LaunchPad / Radar / RepairTower / ShieldWall / ShockwaveTower / ItemBridge / LiquidBridge / StackConveyor / StackRouter / ImpactReactor / Accelerator / BuildTurret). Design-spec Status Summary 1619→1620 + GOAL.md §5 debt line + handoff Commits section written at completion (09:15 run, after gate verification).
