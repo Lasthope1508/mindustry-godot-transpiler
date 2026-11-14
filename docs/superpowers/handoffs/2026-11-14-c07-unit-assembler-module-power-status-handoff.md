@@ -1,0 +1,99 @@
+# Handoff — N2168: UnitAssemblerModule power.status live read (basic-assembler-module) (C07)
+
+Date: 2026-11-14. Batch: N2168 (single slice). Status: **DONE + PUSHED (2026-11-14 ~07:45 +07 — targeted 4/4 OK, neighbours 128/128 OK, Godot proof GREEN 9 keys matches:true, full gate Ran 5769 failures=119 skipped=5 0 errors, all 119 verified Godot-absent asserts; commits in the Commits section).**
+
+## Scope (decided at RED)
+
+- Family: the UnitAssemblerModule implementation family — a single def, **basic-assembler-module** (consumePower 3.5f, Blocks.java:6568 — NOTE: the N2167 handoff said 6569; the consumePower line is 6568, the def opens at 6565), size 5, tier 1 (UnitAssemblerModule.java:22, `public int tier = 1;`). UnitAssemblerModule extends PayloadBlock (UnitAssemblerModule.java:18, `public class UnitAssemblerModule extends PayloadBlock{`); its build extends PayloadBlockBuild<Payload> (UnitAssemblerModule.java:71). Catalog confirms implementation UnitAssemblerModule + consumePower 3.5 + hasPower true + consumesPower true + powerUsage 3.5 (content_registry_blocks.json, basic-assembler-module entry). Blocks.java defs are the source of truth, see Exact exprs.
+- Why: the module has NO driver at all — it extends PayloadBlock, not UnitAssembler, so the unit-factory driver (implementations `["UnitFactory", "Reconstructor", "UnitAssembler"]`, SourceUnitFactoryBuildState.gd:31) never matches it, and no frame key exists for it, so the N2142 stamp never reaches a module frame. Its updateTile payload forward (UnitAssemblerModule.java:138) gates on `efficiency > 0`, so a module with no power would forward payloads as if power.status were 1.0. N2168 is the module's live read — the same proven N2145–N2167 pure-row pattern, on the N2166 payload-deconstructor precedent (new family file + own driver + own frame key + simulate_factory wiring): one new pure function on a new state file + a driver fold + a new frame key + the wiring. There is only one module def, so no variant verification is pending.
+- The module has NO shouldConsume override, so the BuildingComp default (BuildingComp.java:755, `public boolean shouldConsume(){`) applies — the row folds under the live default, not the MendProjector-suppression precedent, and no shouldConsume gate is deferred.
+- The updateTile forward (findLink on tileChanges / moveInPayload / yeetPayload to the linked assembler, UnitAssemblerModule.java:129-141) waits for its own slice — the proof carries no link/payload/tier keys; the efficiency > 0 gate (UnitAssemblerModule.java:138) is what the efficiency keys prove.
+- Out of scope for this slice: the updateTile advance / link-findLink rows / tier rows / canPlaceOn rows / draw-icons rows / acceptPayload rows / onRemoved-drawSelect rows — all deferred, see register script DEFERRED (101 entries = 94 carried from N2167 minus the module-row entry + 7 new N2168 entries).
+
+## Design (decided in scoping, to confirm at RED)
+
+- New file `godot-mindustry/src/game/SourceUnitAssemblerModuleBuildState.gd` (the N2166 deconstructor precedent — no existing file covers the module), class_name SourceUnitAssemblerModuleBuildState, with:
+  - `SOURCE_UNIT_ASSEMBLER_MODULE_BUILD_IMPLEMENTATIONS := ["UnitAssemblerModule"]` and frame meta key `"source_unit_assembler_module_building"`.
+  - New pure function `source_unit_assembler_module_power_status_row_state(frame, has_power_consumer)` (mirrors `source_payload_deconstructor_power_status_row_state` / `source_unit_factory_power_status_row_state`): returning `{"has_power_row": false, "row": {}}` without a consumer, else `{"has_power_row": true, "row": {"result": <live>, "is_power": true}}` where live is the stamped frame value, null folding to 1.0 (the assembler convention, UnitAssembler.java:469).
+  - `source_unit_assembler_module_tick_frame_state` (mirrors the deconstructor tick-frame: block_implementation / team_id / rules_state / cheating via TeamComp.cheating(), preserve disabled frame).
+  - `source_unit_assembler_module_bind_frame_state` (mirrors the deconstructor bind: empty frame under the module meta key, no-op for other blocks / already-bound sprites).
+  - Driver `source_unit_assembler_module_tick_buildings_state(game, seconds)` (mirrors the deconstructor driver: iterate placed buildings, match implementation, bind frame, tick frame, when `block.properties.has("consumePower")` and enabled and not cheating fold the pure row via `source_building_efficiency_state.update_consumption_state(true, ...)` with has_consumers=true — the power consumer counts toward hasConsumers, Block.java:1449 — and apply it; no consumer actors, no production tick, no updateTile advance).
+- New frame key `"source_unit_assembler_module_building"` added to `SourcePlacedPowerGraphState.SOURCE_CONSUMER_FRAME_META_KEYS` so the N2142 graph stamp/write-back finds the module frame.
+- Wiring in `SourceFactoryRuntimeState.simulate_factory`: preload `source_unit_assembler_module_build_state` + call `source_unit_assembler_module_tick_buildings_state(game, delta)` (the deconstructor call at line 339 is the model; place the call next to it).
+- Header comment quotes: `return build.power.status;` (ConsumePower.java:39), the null-fold line (UnitAssembler.java:469), `hasConsumers = consumers.length > 0;` (Block.java:1449), the forward gate `if(moveInPayload() && link != null && link.moduleFits(block, x, y, rotation) && !link.wasOccupied && link.acceptPayload(this, payload) && efficiency > 0){` (UnitAssemblerModule.java:138), the shouldConsume default `public boolean shouldConsume(){` (BuildingComp.java:755), the class lines `public class UnitAssemblerModule extends PayloadBlock{` (UnitAssemblerModule.java:18) and `public class UnitAssemblerModuleBuild extends PayloadBlockBuild<Payload>{` (UnitAssemblerModule.java:71), `public int tier = 1;` (UnitAssemblerModule.java:22), `link = getLink(team, tile.x, tile.y, rotation);` (UnitAssemblerModule.java:79), `acceptsPayload = true;` (UnitAssemblerModule.java:27), the consumePower def `consumePower(3.5f);` (Blocks.java:6568) — keep each on ONE comment line (the N2148 shootWarmup lesson: a split line fails the source-text test).
+- Documented limits (GREEN must record in the pure function's comment, same discipline as N2148–N2167): (1) power-only first pass — the module has no liquid/item consumer, so the folded efficiency is the min over the modeled consumers (power only). (2) shouldConsume default applies — the module has no override; the machinery runs with should_consume=true when enabled. (3) No updateTile advance — findLink / moveInPayload / yeetPayload (UnitAssemblerModule.java:129-141) wait for their own slices; the proof carries no link/payload/tier keys, the efficiency > 0 gate (UnitAssemblerModule.java:138) is what the efficiency keys prove. (4) No link/tier/canPlaceOn/draw/acceptPayload/onRemoved rows — see DEFERRED. (5) No variant verification — there is only one module def (basic-assembler-module).
+- Proof scene (new, modeled on the N2166/N2167 proofs — Main scene, campaign playable slice, `RuntimeProofState`), prefix `C_07_UNIT_ASSEMBLER_MODULE_POWER_STATUS_PROOF `, 6 keys: `unit_assembler_module_has_power_consumer` (catalog basic-assembler-module properties have consumePower 3.5), `power_row_half`, `power_row_absent_without_consumer`, `power_row_null_folds_one`, `efficiency_folds_power_min` (live tick — place basic-assembler-module live, stamp frame["power_status"] = 0.5, call the driver directly so the graph update does not overwrite the stamp), `efficiency_zero_at_no_power`.
+
+## Exact exprs (13, all verified verbatim at scoping — grep 2026-11-14 ~06:45)
+
+- `return build.power.status;` (ConsumePower.java:39)
+- `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;` (UnitAssembler.java:469)
+- `hasConsumers = consumers.length > 0;` (Block.java:1449)
+- `consumePower(3.5f);` (Blocks.java:6568)
+- `public class UnitAssemblerModule extends PayloadBlock{` (UnitAssemblerModule.java:18)
+- `public boolean shouldConsume(){` (BuildingComp.java:755)
+- `for(var cons : block.nonOptionalConsumers){` (BuildingComp.java:1969)
+- `minEfficiency = Math.min(minEfficiency, result);` (BuildingComp.java:1976)
+- `public int tier = 1;` (UnitAssemblerModule.java:22)
+- `public class UnitAssemblerModuleBuild extends PayloadBlockBuild<Payload>{` (UnitAssemblerModule.java:71)
+- `if(moveInPayload() && link != null && link.moduleFits(block, x, y, rotation) && !link.wasOccupied && link.acceptPayload(this, payload) && efficiency > 0){` (UnitAssemblerModule.java:138)
+- `link = getLink(team, tile.x, tile.y, rotation);` (UnitAssemblerModule.java:79)
+- `acceptsPayload = true;` (UnitAssemblerModule.java:27)
+
+## RED (DONE 2026-11-14 ~06:45 +07, this run)
+
+- Test module `tools/mindustry_godot_transpiler/tests/test_c07_unit_assembler_module_power_status.py` + register script `tools/mindustry_godot_transpiler/register_c07_unit_assembler_module_power_status.py` written (modeled on N2167; frame key decided: `"source_unit_assembler_module_building"` — NEW, must be added to SOURCE_CONSUMER_FRAME_META_KEYS at GREEN; register script DEFERRED 101 entries = 94 carried from N2167 minus the module-row entry + 7 new N2168 entries, derived from the N2167 script via AST, not retyped).
+- RED run: Ran 4 tests in 2.598s, FAILED (failures=1, errors=3) — exactly as expected for a new-file slice: registration ERROR KeyError 'N2168', evidence ERROR KeyError 'N2168', source-text ERROR FileNotFoundError (the new state file `SourceUnitAssemblerModuleBuildState.gd` does not exist yet), proof FAIL returncode 1 (scene missing, Godot 4.6.2-stable Linux, `ERROR: Cannot open file 'res://tools/runtime_proofs/C07UnitAssemblerModulePowerStatusProof.tscn'`). Port 7777 was FREE. 13/13 exact exprs verified verbatim at RED (grepped in the Java sources during scoping). SSOT baseline 11344/1618/1539/2869 (unchanged from N2167 — main at 69e4ef3; verified symbols 11344, slices 1618, contracts 1539, schemas 2869 from the generated JSONs), audit 1335. javalang 0.13.0 REINSTALLED at run start (VM restarted again since the N2166 reinstall — the system-wide pip install was wiped; `pip install --break-system-packages -q javalang==0.13.0`).
+- Next: GREEN (new `SourceUnitAssemblerModuleBuildState.gd` with pure row + tick-frame + bind + driver, frame key added to SOURCE_CONSUMER_FRAME_META_KEYS, simulate_factory wiring, proof scene `C07UnitAssemblerModulePowerStatusProof` 6 keys, register script run → expected SSOT 11346/1619/1540/2871), then targeted 4/4 → neighbours → Godot proof → full gate (main thread) → commit + push only when all green.
+
+## GREEN (DONE ~07:00–07:14 +07, verified by the 07:15 run)
+
+- New `SourceUnitAssemblerModuleBuildState.gd` (pure row `source_unit_assembler_module_power_status_row_state` + tick-frame + bind + driver `source_unit_assembler_module_tick_buildings_state`), frame key `"source_unit_assembler_module_building"` added to `SOURCE_CONSUMER_FRAME_META_KEYS` (SourcePlacedPowerGraphState.gd:140), simulate_factory wiring (preload line 31, driver call line 349), proof scene `C07UnitAssemblerModulePowerStatusProof` (.gd + .tscn, 6 keys). Register script run → SSOT exactly as expected: **11346/1619/1540/2871**, audit 1335. `git diff --check` clean.
+- Targeted: **4/4 OK in 17.418s** (re-verified by the 07:15 run with Godot on PATH).
+- Neighbours: **99/99 OK** from `n2168-neighbours.log` (family 96/96 in 305.276s + wiring 3/3 in 12.713s). Note: the wiring run covers only 3 tests, narrower than N2167's 32-test wiring run — command not recorded in the log; the full gate covers the wiring modules anyway.
+- Godot proof: **GREEN ~07:14 +07** — proof JSON 9 keys, all true, `matches: true`. The 07:15 run read the JSON and verified contents; it did NOT re-run the scene because port 7777 was BUSY at the 07:15 check (godot pid 5715, then 5795 — the other agent's Godot use) and the proof was already green.
+- Full gate attempt 1 launched ~07:18 +07 (PID 6019, main thread, log `tools/mindustry_godot_transpiler/full-suite-n2168-gate.log`, no Godot on PATH) — RUNNING at the 07:15 report; expected Ran 5769, failures=119, skipped=5, 0 errors, finishing ~07:33–07:35 +07.
+- Still to do at completion (after gate verification): design-spec Status Summary 1618→1619, report (written this run: `docs/superpowers/reports/2026-11-14-c07-unit-assembler-module-power-status.md`), GOAL.md §5 debt line (proof not yet run on Windows Godot), handoff Commits section, then commit + push only when the gate is verified green. Slice files to stage (never *.gd.uid, proof .json, gate/neighbours logs): `SourceUnitAssemblerModuleBuildState.gd`, `SourceFactoryRuntimeState.gd`, `SourcePlacedPowerGraphState.gd`, the 4 generated JSONs, `C07UnitAssemblerModulePowerStatusProof.gd/.tscn`, test module + register script, report + handoff.
+- Next: N2169 — next C07 power.status family, scope from catalog (Separator / WallCrafter / Incinerator / MassDriver / LaunchPad / Radar / RepairTower / ShieldWall / ShockwaveTower / ItemBridge / LiquidBridge / StackConveyor / StackRouter / ImpactReactor / Accelerator / BuildTurret).
+
+## GREEN (DONE 2026-11-14 ~07:15 +07, 07:00 report run; handoff section written by main thread ~07:18)
+
+- New `godot-mindustry/src/game/SourceUnitAssemblerModuleBuildState.gd` (pure power row + driver, modeled on the N2166 deconstructor precedent). Frame key `"source_unit_assembler_module_building"` added to `SourcePlacedPowerGraphState.SOURCE_CONSUMER_FRAME_META_KEYS`.
+- Wiring: preload const + one tick call `source_unit_assembler_module_tick_buildings_state(game, delta)` in `SourceFactoryRuntimeState.simulate_factory` after the deconstructor tick.
+- Proof scene `godot-mindustry/tools/runtime_proofs/C07UnitAssemblerModulePowerStatusProof.gd` + `.tscn` (6 keys). Register script run → SSOT 11346/1619/1540/2871 (+2/+1/+1/+2), audit 1335 (unchanged). Note: the register script's `slice_sources` needed `UnitAssembler.java` added before the targeted run passed (fixed during GREEN).
+- Targeted: Ran 4 tests, OK (07:00 run, includes the Godot proof test). Main thread re-ran targeted ~07:18: Ran 4 tests in 18.114s, OK. Godot proof GREEN standalone: proof JSON 9 keys all true, `matches: true`, no ERROR (port 7777 was FREE). `git diff --check` clean.
+- Neighbours: **128/128 OK** — C07 power-status family 24 modules / 96 tests in 305.276s (worker run, footer in `n2168-neighbours.log`) + wiring-sensitive 9 modules / 32 tests (main-thread re-run ~07:17, discover per-module; the worker's wiring run died at the 900s session timeout after 1 module — 3 tests OK — so main thread re-ran all 9). Transient flake noted: in the main-thread wiring loop, `test_continuous_liquid_turret_live_loop` failed once (1 failure) and passed twice on isolated re-run with port 7777 free — a port-7777/timing flake, same mechanism as the known proof flake; not a regression (the module passed in every neighbours run N2162–N2167).
+
+## Gate (GREEN — verified 2026-11-14 ~07:45 +07 by the 07:45 cron run)
+
+- Full gate attempt 1 **launched from the MAIN THREAD ~07:21 +07** by main thread (clean relaunch): `cd tools/mindustry_godot_transpiler && : > full-suite-n2168-gate.log && python3 -c "import javalang" && setsid nohup python3 -m unittest discover -s tests > full-suite-n2168-gate.log 2>&1 < /dev/null &` — **PID 6228, SID 6228 (own session), PPID 6225 (background subshell)**. No Godot on PATH. No proof scene ran while the gate ran (port-7777 rule). **Finished ~07:36 +07: Ran 5769 tests in 921.130s, FAILED (failures=119, skipped=5), 0 errors** — exactly as expected. Verified from the log: 119 `AssertionError: unexpectedly None` = 119 FAIL blocks (118 plain `assertIsNotNone(godot)` + 1 hydration `test_live_block_shared_consumers_and_optional_efficiency_runtime`, 'Godot required for hydration proof'); 0 `ERROR:` lines; the new N2168 proof test among the 118 (expected — gate env has no Godot; the proof itself was verified GREEN headless at ~07:14 with 9 keys). Gate-clean per the repo convention (all failures Godot-absent asserts, zero real failures).
+- Collision handled: the first launch (~07:20, PID 6123) collided with a second gate (PID 6019) launched ~1 min earlier by the 07:15 cron worker using `nohup ... & echo GATE_PID=$!` — both wrote to the same log, interleaving/corrupting it. Main thread killed BOTH gates (6019/6017 + 6123/6120), truncated the log, and relaunched this single clean gate. Lesson (again): workers must NOT launch gates; only the main thread launches, into a fresh log.
+
+## Commits
+
+- Slice: TBD (07:45 run)
+- Docs (report + design spec + handoff): TBD
+- GOAL.md §5 debt line: TBD
+- Handoff-hash record: TBD
+- Pushed to origin main: TBD
+
+## Deferred (NOT this slice)
+
+- UnitAssemblerModule updateTile advance (findLink on tileChanges / moveInPayload / yeetPayload to the linked assembler, UnitAssemblerModule.java:129-141) -- the N2168 proof carries no link/payload keys; the efficiency > 0 gate (UnitAssemblerModule.java:138) is what the efficiency keys prove; the advance waits for its own slice.
+- UnitAssemblerModule link / findLink rows (getLink over the flagged unitAssembler builds, UnitAssemblerModule.java:64-69; findLink / removeModule / updateModules, UnitAssemblerModule.java:75-83; moduleFits, UnitAssembler.java:323) -- link state waits for its own slice.
+- UnitAssemblerModule tier rows (tier = 1, UnitAssemblerModule.java:22; tier(), UnitAssemblerModule.java:85-86; setStats moduleTier, UnitAssemblerModule.java:30-35) -- tier is content-defined; the tier fold waits for its own slice.
+- UnitAssemblerModule canPlaceOn rows (getLink != null, UnitAssemblerModule.java:53-55) -- the placement gate waits for its own slice.
+- UnitAssemblerModule draw / drawPlace / drawPlanRegion / icons rows (draw side regions / payload / top region, UnitAssemblerModule.java:31-50, 59-63, 90-108; icons, UnitAssemblerModule.java:59-63) -- presentation, not tick state; waits for its own slice.
+- UnitAssemblerModule acceptPayload rows (link != null && payload == null && link.acceptPayload, UnitAssemblerModule.java:125-127) -- payload acceptance waits for its own slice.
+- UnitAssemblerModule onRemoved / drawSelect rows (removeModule on remove, UnitAssemblerModule.java:111-115; drawSelect link highlight, UnitAssemblerModule.java:118-123) -- lifecycle / presentation, not tick state; waits for its own slice.
+- UnitFactory / Reconstructor / UnitAssembler variant verification, Constructor / BlockProducer / RegenProjector / BaseShield / ForceProjector / OverdriveProjector / MendProjector / BeamDrill / Pump / Fracker / SolidPump / PointDefenseTurret / TractorBeamTurret / BurstDrill rows, PayloadDeconstructor / UnitCargoLoader / PayloadMassDriver / PayloadUnloader rows (see register script DEFERRED).
+- spawn_occupied / allow_update frame inputs, moveOutPayload(), net drone sync.
+- C07–C12 remain open.
+
+## Notes
+
+- Another agent is using Godot to test the fail errors (user, 08:05). Port 7777 was FREE at RED. Before any proof run, re-check `ss -ltnp | grep 7777` and run proof scenes sequentially — never while a gate runs (port-7777 rule).
+- Godot binary is at ~/workspace/godot-bin/godot (symlink to Godot_v4.6.2-stable_linux.x86_64) — NOT on PATH by default; targeted/neighbours ran with PATH="$HOME/workspace/godot-bin:$PATH".
+- Worktree at RED: main `69e4ef3`, clean except untracked `*.gd.uid` (never stage) + pre-existing untracked gate logs. New uncommitted files: the N2168 test module + register script + this handoff.
+- VM restarts wipe the system-wide javalang install — javalang 0.13.0 reinstalled at this RED run (VM restarted since the N2166 reinstall at ~04:45). After any VM restart, reinstall javalang first before any gate.
+- N2167 proof not yet run on Windows Godot (debt in GOAL.md §5 — scene reached Windows with 604323b); N2168 proof adds its own GOAL debt line at completion (see Commits).
