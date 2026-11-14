@@ -1,6 +1,6 @@
 # Handoff — N2182 ImpactReactor power.status live read
 
-Date: 2026-11-15. Batch: N2182 (single slice). Status: **DONE — push next (gate clean except Godot; slice c53013f committed, docs in progress).**
+Date: 2026-11-15. Batch: N2182 (single slice). Status: **DONE + PUSHED (slice c53013f, docs c2e182a, GOAL aa05fce).**
 
 ## Neighbours — VERIFIED 2026-11-15 ~04:15 +07 (04:15 worker)
 
@@ -77,9 +77,9 @@ Date: 2026-11-15. Batch: N2182 (single slice). Status: **DONE — push next (gat
 ## Commits
 
 - Slice: `c53013f` — C07: N2182 ImpactReactor power.status live read (impact-reactor; pure power row + driver wiring; proof 6 keys), 13 files.
-- Docs: (this commit) — Docs: N2182 report + design spec + handoff (gate clean except Godot).
-- GOAL: (next commit) — Docs: GOAL.md names the N2182 slice commit that carries its proof to Windows.
-- Status: (final commit) — Docs: N2182 handoff Commits records DONE + PUSHED (slice <hash>, docs <hash>, GOAL <hash>).
+- Docs: `c2e182a` — Docs: N2182 report + design spec + handoff (gate clean except Godot).
+- GOAL: `aa05fce` — Docs: GOAL.md names the N2182 slice commit (c53013f) that carries its proof to Windows.
+- Status: this commit — Docs: N2182 handoff Commits records DONE + PUSHED (slice c53013f, docs c2e182a, GOAL aa05fce).
 
 ## Neighbours (DONE 2026-11-15 ~04:1x +07, log `n2182-neighbours.log`)
 
