@@ -71,6 +71,13 @@ Date: 2026-11-14. Batch: N2175 (single slice). Status: **DONE + PUSHED.**
 - Godot proof (inside the targeted run, Linux headless 4.6.2): **9 keys all true, matches:true** — `shield_wall_has_power_consumer`, `power_row_half`, `power_row_absent_without_consumer`, `power_row_null_folds_one`, `efficiency_folds_power_min`, `efficiency_zero_at_no_power`, `registry_valid`, `one_headquarter_per_ssot`, `matches`. No ERROR in output.
 - **Full gate NOT launched by this run** — standing rule (N2174 handoff): workers must NOT launch gates; only the main thread launches, into a fresh log. No gate process running now. Next: full gate (main thread, `cd tools/mindustry_godot_transpiler && python3 -c "import javalang" && setsid nohup python3 -m unittest discover -s tests > full-suite-n2175-gate.log 2>&1 < /dev/null &`, Godot NOT on PATH so the N2175 proof test will fail as a Godot-absent assert like N2174's — expected, verify the count) → docs (report + design spec + handoff Status) → commit + push only when gate is clean except Godot. No commit/push done by this run.
 
+## Commits
+
+- Slice: `8eb09d5` — C07: N2175 ShieldWall power.status live read (shielded-wall; pure power row + driver wiring; proof 6 keys), 13 files. Pushed 2026-11-14 ~18:2x +07, c525639..8eb09d5.
+- Docs: `0b96491` — Docs: N2175 report + design spec + handoff (gate clean except Godot).
+- GOAL: `cc7e7be` — Docs: GOAL.md names the N2175 slice commit (8eb09d5) that carries its proof to Windows.
+- Status: this commit — Docs: N2175 handoff Commits records DONE + PUSHED (slice 8eb09d5, docs 0b96491, GOAL cc7e7be).
+
 ## Gate (RUNNING — attempt 1, launched by main thread ~17:39 +07)
 
 - Full gate attempt 1 **launched from the MAIN THREAD ~17:39 +07** by main thread: `cd tools/mindustry_godot_transpiler && python3 -c "import javalang" && setsid nohup python3 -m unittest discover -s tests > full-suite-n2175-gate.log 2>&1 < /dev/null &` — **PID 8846, SID 8846 (own session), PPID 8843 (background subshell), CPU ~94%, log growing** (287 bytes, dots + expected F's, verified ~17:39). Single gate only — no collision. No Godot on PATH. No proof scene will run while the gate runs (port-7777 rule). Expect: Ran ~5797, failures=126 (125 inherited + 1 new N2175 proof test), skipped=5, 0 errors, all Godot-absent. **VM is in slow mode again** (neighbours took ~2x N2174's time: family 780s vs 395s, wiring ~25s/module vs ~13s) — expect the gate to take ~1700–1800s, finish ~18:10–18:15 +07.
