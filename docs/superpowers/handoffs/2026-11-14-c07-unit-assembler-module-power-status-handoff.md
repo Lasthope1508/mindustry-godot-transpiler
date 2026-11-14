@@ -71,11 +71,11 @@ Date: 2026-11-14. Batch: N2168 (single slice). Status: **DONE + PUSHED (2026-11-
 
 ## Commits
 
-- Slice: TBD (07:45 run)
-- Docs (report + design spec + handoff): TBD
-- GOAL.md §5 debt line: TBD
-- Handoff-hash record: TBD
-- Pushed to origin main: TBD
+- Slice: `f4353a1` — C07: N2168 UnitAssemblerModule power.status live read (basic-assembler-module; pure power row + driver wiring; proof 6 keys)
+- Docs (report + design spec + handoff): `6eafa41` — Docs: N2168 report + design spec + handoff (gate clean except Godot)
+- GOAL.md §5 debt line: `6dcd61a` — Docs: GOAL.md names the N2168 slice commit (f4353a1) that carries its proof to Windows
+- Handoff-hash record: TBD (this commit)
+- Pushed to origin main: TBD (after this commit)
 
 ## Deferred (NOT this slice)
 
