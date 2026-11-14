@@ -1,6 +1,6 @@
 # Handoff — N2181 StackRouter power.status live read
 
-Date: 2026-11-15. Batch: N2181 (single slice). Status: **DONE — push next (gate clean except Godot; slice 73f7fc3 committed, docs in progress).**
+Date: 2026-11-15. Batch: N2181 (single slice). Status: **DONE + PUSHED (slice 73f7fc3, docs ec45a65, GOAL 4599516).**
 
 ## GREEN (DONE 2026-11-15 ~02:35 +07)
 
@@ -72,9 +72,9 @@ Date: 2026-11-15. Batch: N2181 (single slice). Status: **DONE — push next (gat
 ## Commits
 
 - Slice: `73f7fc3` — C07: N2181 StackRouter power.status live read (surge-router; pure power row + driver wiring; proof 6 keys), 11 files.
-- Docs: (this commit) — Docs: N2181 report + design spec + handoff (gate clean except Godot).
-- GOAL: (next commit) — Docs: GOAL.md names the N2181 slice commit that carries its proof to Windows.
-- Status: (final commit) — Docs: N2181 handoff Commits records DONE + PUSHED (slice <hash>, docs <hash>, GOAL <hash>).
+- Docs: `ec45a65` — Docs: N2181 report + design spec + handoff (gate clean except Godot).
+- GOAL: `4599516` — Docs: GOAL.md names the N2181 slice commit (73f7fc3) that carries its proof to Windows.
+- Status: this commit — Docs: N2181 handoff Commits records DONE + PUSHED (slice 73f7fc3, docs ec45a65, GOAL 4599516).
 
 ## Gate (DONE — attempt 1, launched by main thread ~02:48 +07)
 
