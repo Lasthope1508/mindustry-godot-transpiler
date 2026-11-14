@@ -1,6 +1,6 @@
 # Handoff — N2183 Accelerator power.status live read
 
-Date: 2026-11-15. Batch: N2183 (single slice). Status: **DONE — push next (gate clean except Godot; slice fc5b03a committed, docs in progress).**
+Date: 2026-11-15. Batch: N2183 (single slice). Status: **DONE + PUSHED (slice fc5b03a, docs e68facf, GOAL ff76b4f).**
 
 ## Neighbours (DONE 2026-11-15 ~05:2x +07, log `tools/mindustry_godot_transpiler/n2183-neighbours.log`)
 
@@ -86,6 +86,6 @@ Date: 2026-11-15. Batch: N2183 (single slice). Status: **DONE — push next (gat
 ## Commits
 
 - Slice: `fc5b03a` — C07: N2183 Accelerator power.status live read (interplanetary-accelerator; pure power row + driver wiring; proof 6 keys), 11 files.
-- Docs: (this commit) — Docs: N2183 report + design spec + handoff (gate clean except Godot).
-- GOAL: (next commit) — Docs: GOAL.md names the N2183 slice commit that carries its proof to Windows.
-- Status: (final commit) — Docs: N2183 handoff Commits records DONE + PUSHED (slice <hash>, docs <hash>, GOAL <hash>).
+- Docs: `e68facf` — Docs: N2183 report + design spec + handoff (gate clean except Godot).
+- GOAL: `ff76b4f` — Docs: GOAL.md names the N2183 slice commit (fc5b03a) that carries its proof to Windows.
+- Status: this commit — Docs: N2183 handoff Commits records DONE + PUSHED (slice fc5b03a, docs e68facf, GOAL ff76b4f).
