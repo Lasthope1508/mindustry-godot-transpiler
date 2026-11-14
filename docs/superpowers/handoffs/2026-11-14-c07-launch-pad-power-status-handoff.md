@@ -76,7 +76,7 @@ Date: 2026-11-14. Batch: N2172 (single slice). Status: **DONE + PUSHED (2026-11-
 - Docs: `decebb7` — N2172 report + design spec (Status Summary 1622→1623 + N2172 row) + handoff (gate clean except Godot).
 - GOAL: `536c0e0` — GOAL.md §5 debt line names the N2172 slice commit `cf2dbbe` that carries its proof to Windows.
 - Handoff-hash: (this commit) — handoff records the slice + docs + GOAL commit hashes (cf2dbbe, decebb7, 536c0e0).
-- Push-record: TODO — handoff records the push (main <handoff-hash commit>). Pushed to origin main ~13:2x +07; origin/main == local HEAD.
+- Push-record: (this commit) — handoff records the push (main 10ac2cc). Pushed to origin main ~13:2x +07; origin/main == local HEAD.
 
 ## Deferred (NOT this slice)
 
