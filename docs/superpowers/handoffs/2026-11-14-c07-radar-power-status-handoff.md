@@ -72,6 +72,7 @@ Date: 2026-11-14. Batch: N2173 (single slice). Status: **RED DONE (2026-11-14 ~1
 - Slice: `7690efd` — C07: N2173 Radar power.status live read (radar; pure power row + driver wiring; proof 6 keys), 13 files.
 - Docs: `fa58b0b` — Docs: N2173 report + design spec + handoff (gate clean except Godot).
 - GOAL: `7f9c276` — Docs: GOAL.md names the N2173 slice commit (7690efd) that carries its proof to Windows.
+- Handoff hashes: `6d5fabe` — Docs: N2173 handoff records the slice + docs + GOAL commit hashes (7690efd, fa58b0b, 7f9c276). Pushed to origin main ~15:2x +07 (163b5bd..6d5fabe).
 
 ## Deferred (NOT this slice)
 
