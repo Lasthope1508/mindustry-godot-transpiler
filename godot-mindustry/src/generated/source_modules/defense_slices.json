@@ -2873,6 +2873,24 @@
       ],
       "runtime_proof": "/root/C07ShieldWallPowerStatusProof"
     },
+    "N2177": {
+      "canonical_ledger": "source_slice_ledger.N2177",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "java_method": "ShockwaveTowerBuild.updateTile()",
+      "godot_owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_power_status_row_state",
+      "source_symbols": [
+        "source_shockwave_tower_power_status_row_state_result.row",
+        "source_shockwave_tower_power_status_row_state_result.has_power_row"
+      ],
+      "tests": [
+        "test_c07_shockwave_tower_power_status_registration",
+        "test_all_c07_shockwave_tower_power_status_input_evidence_is_exact",
+        "test_shockwave_tower_power_status_row_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_power_status"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerPowerStatusProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

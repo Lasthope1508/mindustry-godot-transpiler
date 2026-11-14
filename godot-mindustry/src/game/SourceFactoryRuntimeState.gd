@@ -36,6 +36,7 @@ const source_launch_pad_build_state := preload("res://src/game/SourceLaunchPadBu
 const source_radar_build_state := preload("res://src/game/SourceRadarBuildState.gd")
 const source_repair_turret_build_state := preload("res://src/game/SourceRepairTurretBuildState.gd")
 const source_repair_tower_build_state := preload("res://src/game/SourceRepairTowerBuildState.gd")
+const source_shockwave_tower_build_state := preload("res://src/game/SourceShockwaveTowerBuildState.gd")
 const source_shield_wall_build_state := preload("res://src/game/SourceShieldWallBuildState.gd")
 const source_point_defense_turret_build_state := preload("res://src/game/SourcePointDefenseTurretBuildState.gd")
 const source_tractor_beam_turret_build_state := preload("res://src/game/SourceTractorBeamTurretBuildState.gd")
@@ -427,6 +428,15 @@ static func simulate_factory(game: Object, delta: float) -> void:
 	# placed-buildings driver ticks RepairTower blocks; a repair tower
 	# without a power consumer is excluded by the driver gate).
 	source_repair_tower_build_state.source_repair_tower_tick_buildings_state(game, delta)
+	# The shockwave-tower tick runs every live-loop tick (N2177): each
+	# placed ShockwaveTower build (shockwave-tower, whose build runs
+	# ShockwaveTowerBuild.updateTile(), ShockwaveTower.java:73) gets its frame keys
+	# refreshed from the live rules and folds its live power.status
+	# into the min efficiency, so the reload charge
+	# (ShockwaveTower.java:73) follows power.status (no
+	# placed-buildings driver ticks ShockwaveTower blocks; a shockwave tower
+	# without a power consumer is excluded by the driver gate).
+	source_shockwave_tower_build_state.source_shockwave_tower_tick_buildings_state(game, delta)
 	# The point-defense tick runs every live-loop tick (N2151): each
 	# placed PointDefenseTurret build (segment, whose build runs
 	# PointDefenseBuild.updateTile(), PointDefenseTurret.java:62)
