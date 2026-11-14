@@ -1,6 +1,6 @@
 # Handoff — N2170: WallCrafter power.status live read (cliff-crusher / large-cliff-crusher) (C07)
 
-Date: 2026-11-14. Batch: N2170 (single slice). Status: **GREEN DONE (this run — targeted 4/4 OK, neighbours 137/137 OK, Godot proof GREEN). Full gate still to do (main thread launches the gate only).**
+Date: 2026-11-14. Batch: N2170 (single slice). Status: **DONE + PUSHED (2026-11-14 ~10:2x +07 — targeted 4/4 OK, neighbours 136/136 OK, Godot proof GREEN 9 keys matches:true, full gate attempt 1 Ran 5777 in 994.987s, failures=121, skipped=5, 0 errors — all 121 verified Godot-absent asserts).**
 
 ## Scope (decided at RED)
 
