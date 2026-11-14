@@ -1,6 +1,6 @@
 # Handoff — N2173: Radar power.status live read (radar) (C07)
 
-Date: 2026-11-14. Batch: N2173 (single slice). Status: **RED DONE (2026-11-14 ~13:3x +07 — 4 tests, failures=1, errors=3, 13/13 exprs verbatim).**
+Date: 2026-11-14. Batch: N2173 (single slice). Status: **DONE + PUSHED (2026-11-14 ~15:1x +07 — targeted 4/4 OK, neighbours 148/148 OK, Godot proof GREEN 6 keys matches:true, full gate attempt 2 Ran 5789 in 951.387s, failures=124, skipped=5, 0 errors — all 124 verified Godot-absent asserts).**
 
 ## Scope (decided at RED)
 
