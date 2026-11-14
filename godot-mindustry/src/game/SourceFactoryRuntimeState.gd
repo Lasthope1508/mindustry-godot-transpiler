@@ -40,6 +40,7 @@ const source_shockwave_tower_build_state := preload("res://src/game/SourceShockw
 const source_item_bridge_build_state := preload("res://src/game/SourceItemBridgeBuildState.gd")
 const source_liquid_bridge_build_state := preload("res://src/game/SourceLiquidBridgeBuildState.gd")
 const source_stack_conveyor_build_state := preload("res://src/game/SourceStackConveyorBuildState.gd")
+const source_stack_router_build_state := preload("res://src/game/SourceStackRouterBuildState.gd")
 const source_shield_wall_build_state := preload("res://src/game/SourceShieldWallBuildState.gd")
 const source_point_defense_turret_build_state := preload("res://src/game/SourcePointDefenseTurretBuildState.gd")
 const source_tractor_beam_turret_build_state := preload("res://src/game/SourceTractorBeamTurretBuildState.gd")
@@ -471,6 +472,17 @@ static func simulate_factory(game: Object, delta: float) -> void:
 	# placed-buildings driver ticks StackConveyor blocks; a stack conveyor
 	# without a power consumer is excluded by the driver gate).
 	source_stack_conveyor_build_state.source_stack_conveyor_tick_buildings_state(game, delta)
+	# The stack-router tick runs every live-loop tick (N2181): each
+	# placed StackRouter build (surge-router, whose build runs
+	# StackRouterBuild.updateTile(), StackRouter.java:28, and
+	# whose unload rate (StackRouter.java:29, `float eff = enabled ?
+	# (efficiency + baseEfficiency) : 0f;` with StackRouter.java:35)
+	# follows the folded efficiency) gets its frame keys
+	# refreshed from the live rules and folds its live power.status
+	# into the min efficiency, so the unload rate follows power.status (no
+	# placed-buildings driver ticks StackRouter blocks; a stack router
+	# without a power consumer is excluded by the driver gate).
+	source_stack_router_build_state.source_stack_router_tick_buildings_state(game, delta)
 	# The point-defense tick runs every live-loop tick (N2151): each
 	# placed PointDefenseTurret build (segment, whose build runs
 	# PointDefenseBuild.updateTile(), PointDefenseTurret.java:62)

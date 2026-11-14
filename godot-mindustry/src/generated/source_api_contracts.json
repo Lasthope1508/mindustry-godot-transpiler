@@ -65773,6 +65773,37 @@
       ],
       "runtime_proof": "/root/C07StackConveyorPowerStatusProof",
       "rule": "Source-backed StackConveyor power.status row from ConsumePower.java / BuildingComp.java."
+    },
+    "SourceStackRouterBuildState.source_stack_router_power_status_row_state": {
+      "status": "active",
+      "source_slice": "N2181",
+      "java_source": "core/src/mindustry/world/blocks/distribution/StackRouter.java",
+      "source_method": "StackRouterBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_stack_router_power_status_row_state_input.frame"
+        },
+        {
+          "name": "has_power_consumer",
+          "type": "bool",
+          "schema": "source_stack_router_power_status_row_state_input.has_power_consumer"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "row",
+        "has_power_row"
+      ],
+      "tests": [
+        "test_c07_stack_router_power_status_registration",
+        "test_all_c07_stack_router_power_status_input_evidence_is_exact",
+        "test_stack_router_power_status_row_state",
+        "test_reference_graph_and_actual_c07_stack_router_power_status"
+      ],
+      "runtime_proof": "/root/C07StackRouterPowerStatusProof",
+      "rule": "Source-backed StackRouter power.status row from ConsumePower.java / BuildingComp.java."
     }
   },
   "policy": {
