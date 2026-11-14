@@ -65370,6 +65370,37 @@
       ],
       "runtime_proof": "/root/C07UnitFactoryPowerStatusProof",
       "rule": "Source-backed UnitFactory power.status row from ConsumePower.java / BuildingComp.java."
+    },
+    "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_power_status_row_state": {
+      "status": "active",
+      "source_slice": "N2168",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+      "source_method": "UnitAssemblerModuleBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_unit_assembler_module_power_status_row_state_input.frame"
+        },
+        {
+          "name": "has_power_consumer",
+          "type": "bool",
+          "schema": "source_unit_assembler_module_power_status_row_state_input.has_power_consumer"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "row",
+        "has_power_row"
+      ],
+      "tests": [
+        "test_c07_unit_assembler_module_power_status_registration",
+        "test_all_c07_unit_assembler_module_power_status_input_evidence_is_exact",
+        "test_unit_assembler_module_power_status_row_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_module_power_status"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerModulePowerStatusProof",
+      "rule": "Source-backed UnitAssemblerModule power.status row from ConsumePower.java / BuildingComp.java."
     }
   },
   "policy": {

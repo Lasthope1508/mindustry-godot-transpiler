@@ -28,6 +28,7 @@ const source_payload_unloader_build_state := preload("res://src/game/SourcePaylo
 const source_payload_mass_driver_build_state := preload("res://src/game/SourcePayloadMassDriverBuildState.gd")
 const source_unit_cargo_loader_build_state := preload("res://src/game/SourceUnitCargoLoaderBuildState.gd")
 const source_payload_deconstructor_build_state := preload("res://src/game/SourcePayloadDeconstructorBuildState.gd")
+const source_unit_assembler_module_build_state := preload("res://src/game/SourceUnitAssemblerModuleBuildState.gd")
 const source_point_defense_turret_build_state := preload("res://src/game/SourcePointDefenseTurretBuildState.gd")
 const source_tractor_beam_turret_build_state := preload("res://src/game/SourceTractorBeamTurretBuildState.gd")
 const source_factory_build_state := preload("res://src/game/SourceFactoryBuildState.gd")
@@ -337,6 +338,15 @@ static func simulate_factory(game: Object, delta: float) -> void:
 	# placed-buildings driver ticks PayloadDeconstructor blocks; a payload-deconstructor
 	# without a power consumer is excluded by the driver gate).
 	source_payload_deconstructor_build_state.source_payload_deconstructor_tick_buildings_state(game, delta)
+	# The unit-assembler-module tick runs every live-loop tick (N2168): each
+	# placed UnitAssemblerModule build (basic-assembler-module, whose build runs
+	# UnitAssemblerModuleBuild.updateTile(), UnitAssemblerModule.java:132) gets its frame keys
+	# refreshed from the live rules and folds its live power.status
+	# into the min efficiency, so the forward gate
+	# (UnitAssemblerModule.java:138) follows power.status (no
+	# placed-buildings driver ticks UnitAssemblerModule blocks; a unit-assembler-module
+	# without a power consumer is excluded by the driver gate).
+	source_unit_assembler_module_build_state.source_unit_assembler_module_tick_buildings_state(game, delta)
 	# The point-defense tick runs every live-loop tick (N2151): each
 	# placed PointDefenseTurret build (segment, whose build runs
 	# PointDefenseBuild.updateTile(), PointDefenseTurret.java:62)
