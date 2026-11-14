@@ -65835,6 +65835,37 @@
       ],
       "runtime_proof": "/root/C07ImpactReactorPowerStatusProof",
       "rule": "Source-backed ImpactReactor power.status row from ConsumePower.java / BuildingComp.java."
+    },
+    "SourceAcceleratorBuildState.source_accelerator_power_status_row_state": {
+      "status": "active",
+      "source_slice": "N2183",
+      "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+      "source_method": "AcceleratorBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_accelerator_power_status_row_state_input.frame"
+        },
+        {
+          "name": "has_power_consumer",
+          "type": "bool",
+          "schema": "source_accelerator_power_status_row_state_input.has_power_consumer"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "row",
+        "has_power_row"
+      ],
+      "tests": [
+        "test_c07_accelerator_power_status_registration",
+        "test_all_c07_accelerator_power_status_input_evidence_is_exact",
+        "test_accelerator_power_status_row_state",
+        "test_reference_graph_and_actual_c07_accelerator_power_status"
+      ],
+      "runtime_proof": "/root/C07AcceleratorPowerStatusProof",
+      "rule": "Source-backed Accelerator power.status row from ConsumePower.java / BuildingComp.java."
     }
   },
   "policy": {

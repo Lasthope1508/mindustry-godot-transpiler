@@ -42,6 +42,7 @@ const source_liquid_bridge_build_state := preload("res://src/game/SourceLiquidBr
 const source_stack_conveyor_build_state := preload("res://src/game/SourceStackConveyorBuildState.gd")
 const source_stack_router_build_state := preload("res://src/game/SourceStackRouterBuildState.gd")
 const source_impact_reactor_build_state := preload("res://src/game/SourceImpactReactorBuildState.gd")
+const source_accelerator_build_state := preload("res://src/game/SourceAcceleratorBuildState.gd")
 const source_shield_wall_build_state := preload("res://src/game/SourceShieldWallBuildState.gd")
 const source_point_defense_turret_build_state := preload("res://src/game/SourcePointDefenseTurretBuildState.gd")
 const source_tractor_beam_turret_build_state := preload("res://src/game/SourceTractorBeamTurretBuildState.gd")
@@ -494,6 +495,16 @@ static func simulate_factory(game: Object, delta: float) -> void:
 	# placed-buildings driver ticks ImpactReactor blocks; an impact reactor
 	# without a power consumer is excluded by the driver gate).
 	source_impact_reactor_build_state.source_impact_reactor_tick_buildings_state(game, delta)
+	# The accelerator tick runs every live-loop tick (N2183): each
+	# placed Accelerator build (interplanetary-accelerator, whose build runs
+	# AcceleratorBuild.updateTile(), Accelerator.java:131-144, and
+	# whose progress (Accelerator.java:143, `progress += Time.delta * efficiency / buildDuration;`)
+	# follows the folded efficiency) gets its frame keys
+	# refreshed from the live rules and folds its live power.status
+	# into the min efficiency, so the progress advance follows power.status (no
+	# placed-buildings driver ticks Accelerator blocks; an accelerator
+	# without a power consumer is excluded by the driver gate).
+	source_accelerator_build_state.source_accelerator_tick_buildings_state(game, delta)
 	# The point-defense tick runs every live-loop tick (N2151): each
 	# placed PointDefenseTurret build (segment, whose build runs
 	# PointDefenseBuild.updateTile(), PointDefenseTurret.java:62)
