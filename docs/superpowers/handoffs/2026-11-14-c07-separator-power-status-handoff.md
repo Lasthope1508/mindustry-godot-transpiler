@@ -70,7 +70,8 @@ Date: 2026-11-14. Batch: N2169 (single slice). Status: **DONE + PUSHED (2026-11-
 - Slice commit `0bcec1e` — C07: N2169 Separator power.status live read (separator / disassembler; pure power row + driver wiring; proof 6 keys).
 - Docs commit `05d2011` — N2169 report + design spec + handoff (gate clean except Godot).
 - GOAL.md debt-line commit `b6115b5` — GOAL.md names the N2169 slice commit (0bcec1e) that carries its proof to Windows.
-- Handoff-hash commit: this commit (records the slice + docs + GOAL commit hashes).
+- Handoff-hash commit `2dd0066` — N2169 handoff records the slice + docs + GOAL commit hashes (0bcec1e, 05d2011, b6115b5).
+- Push: `git push origin main` 2026-11-14 ~09:2x +07, 61755b7..2dd0066, main at `2dd0066` (fork Lasthope1508).
 
 ## Deferred (NOT this slice)
 
