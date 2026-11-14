@@ -1,6 +1,6 @@
 # Report — N2181: StackRouter power.status live read (surge-router) (C07)
 
-Date: 2026-11-15. Batch: N2181 (single slice). Status: **DONE (2026-11-15 ~03:1x +07 — targeted 4/4 OK, neighbours 184/184 OK, Godot proof GREEN 9 keys matches:true, full gate attempt 1 Ran 5821 in 981.835s, failures=132, skipped=5, 0 errors — all 132 verified Godot-absent asserts). Slice commit `<hash>`.**
+Date: 2026-11-15. Batch: N2181 (single slice). Status: **DONE + PUSHED (2026-11-15 ~03:2x +07 — targeted 4/4 OK, neighbours 184/184 OK, Godot proof GREEN 9 keys matches:true, full gate attempt 1 Ran 5821 in 981.835s, failures=132, skipped=5, 0 errors — all 132 verified Godot-absent asserts). Slice commit `73f7fc3`.**
 
 ## What changed
 
@@ -74,9 +74,9 @@ Finished ~03:04 +07 (log mtime 03:04:16 +07): **Ran 5821 tests in 981.835s, FAIL
 
 ## Commits
 
-- Slice: `<hash>` — C07: N2181 StackRouter power.status live read (surge-router; pure power row + driver wiring; proof 6 keys), 11 files.
-- Docs: `<hash>` — Docs: N2181 report + design spec + handoff (gate clean except Godot).
-- GOAL: `<hash>` — Docs: GOAL.md names the N2181 slice commit that carries its proof to Windows (§5 debt line).
+- Slice: `73f7fc3` — C07: N2181 StackRouter power.status live read (surge-router; pure power row + driver wiring; proof 6 keys), 11 files.
+- Docs: `ec45a65` — Docs: N2181 report + design spec + handoff (gate clean except Godot).
+- GOAL: `4599516` — Docs: GOAL.md names the N2181 slice commit (73f7fc3) that carries its proof to Windows (§5 debt line).
 - Pushed 2026-11-15 ~03:2x +07 to the fork (Lasthope1508). See the handoff Commits section for the hashes.
 
 ## Deferred (NOT this slice)
