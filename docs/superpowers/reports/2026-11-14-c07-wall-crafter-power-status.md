@@ -1,0 +1,51 @@
+# Report — N2170: WallCrafter power.status live read (cliff-crusher / large-cliff-crusher) (C07)
+
+Date: 2026-11-14. Batch: N2170 (single slice). Status: **DONE + PUSHED (2026-11-14 ~10:2x +07 — targeted 4/4 OK, neighbours 136/136 OK, Godot proof GREEN 9 keys matches:true, full gate attempt 1 Ran 5777 in 994.987s, failures=121, skipped=5, 0 errors — all 121 verified Godot-absent asserts).**
+
+## What changed
+
+The next `power.status` consumer family after the N2169 separator slice: the WallCrafter implementation family — two defs, **cliff-crusher** (consumePower 11 / 60f, Blocks.java:3004; size 2, drillTime 110f, Blocks.java:3006-3007) and **large-cliff-crusher** (consumePower 1f, Blocks.java:3018; size 3, drillTime 48f, Blocks.java:3020-3021). WallCrafter extends Block (WallCrafter.java:25, `public class WallCrafter extends Block{`); its build extends Building (WallCrafter.java:183). Catalog confirms implementation WallCrafter + consumePower 0.1833... / 1.0 + hasPower true + consumesPower true (source_modules/content_registry_blocks.json, cliff-crusher / large-cliff-crusher entries). Blocks.java defs are the source of truth, see Exact exprs.
+
+The wall crafter has NO driver at all — it extends Block, not a factory or crafter, so no existing driver matches it, and no frame key exists for it, so the N2142 stamp never reaches a wall-crafter frame. Its updateTile warmup fold (WallCrafter.java:193) gates on `efficiency > 0`, so a wall crafter with no power would warm up as if power.status were 1.0. N2170 is the wall crafter's live read — the same proven N2145–N2169 pure-row pattern, on the N2169 separator precedent (new family file + own driver + own frame key + simulate_factory wiring): one new pure function on a new state file + a driver fold + a new frame key + the wiring. The same driver covers both defs via the catalog consumePower; the large-cliff-crusher def waits for its own verification slice.
+
+WallCrafterBuild HAS a shouldConsume override (WallCrafter.java:226-228, `return items.get(output) < itemCapacity;`), so the BuildingComp default (BuildingComp.java:755, `public boolean shouldConsume(){`) does NOT apply here — the gate is deferred (items state is not tracked yet) and the machinery runs with should_consume=true when enabled (the MendProjector suppression precedent).
+
+The large-cliff-crusher also consumes liquid hydrogen as a booster (1f/60f, Blocks.java:3028; liquidBoostIntensity 1.6f, WallCrafter.java:35) and a graphite item booster (Blocks.java:3030; itemBoostIntensity 1.6f, WallCrafter.java:47; boostItemUseTime 60f/0.75f, Blocks.java:3032) — power-only first pass, the booster rows wait for their own slices, so the folded efficiency is the min over the modeled consumers (power only).
+
+New file `godot-mindustry/src/game/SourceWallCrafterBuildState.gd`, class_name SourceWallCrafterBuildState, with `SOURCE_WALL_CRAFTER_BUILD_IMPLEMENTATIONS := ["WallCrafter"]` and frame meta key `"source_wall_crafter_building"`:
+
+- Pure `source_wall_crafter_power_status_row_state(frame, has_power_consumer)` (mirrors `source_separator_power_status_row_state`): without a consumer → `{"has_power_row": false, "row": {}}`; else `{"has_power_row": true, "row": {"result": <live>, "is_power": true}}` where live is the stamped frame value, null folding to 1.0 (the assembler convention, UnitAssembler.java:469).
+- `source_wall_crafter_tick_frame_state` (mirrors the separator tick-frame: block_implementation / team_id / rules_state / cheating via TeamComp.cheating(), preserve disabled frame).
+- `source_wall_crafter_bind_frame_state` (mirrors the separator bind: empty frame under the wall-crafter meta key, no-op for other blocks / already-bound sprites).
+- Driver `source_wall_crafter_tick_buildings_state(game, seconds)` (mirrors the separator driver: iterate placed buildings, match implementation, bind frame, tick frame, when `block.properties.has("consumePower")` and enabled and not cheating fold the pure row via `source_building_efficiency_state.update_consumption_state(true, ...)` with has_consumers=true — the power consumer counts toward hasConsumers, Block.java:1449 — and apply it; no consumer actors, no production tick, no updateTile advance).
+
+New frame key `"source_wall_crafter_building"` added to `SourcePlacedPowerGraphState.SOURCE_CONSUMER_FRAME_META_KEYS` so the N2142 graph stamp/write-back finds the wall-crafter frame. Wiring in `SourceFactoryRuntimeState.simulate_factory`: preload `source_wall_crafter_build_state` + call `source_wall_crafter_tick_buildings_state(game, delta)` (next to the separator call).
+
+Documented limits in the pure function's comment, same discipline as N2148–N2169: (1) power-only first pass — the large-cliff-crusher also consumes liquid hydrogen as a booster (1f/60f, Blocks.java:3028) and a graphite item booster (Blocks.java:3030), so the folded efficiency is the min over the *modeled* consumers (power only). (2) shouldConsume gate deferred — WallCrafterBuild overrides shouldConsume() to return items.get(output) < itemCapacity (WallCrafter.java:226-228); items state is not tracked yet, so the machinery runs with should_consume=true when enabled (the MendProjector suppression precedent). (3) No updateTile advance — warmup / lastEfficiency / time / offload / totalTime / dump (WallCrafter.java:187-223) wait for their own slices; the proof carries no warmup/time/offload keys, the warmup fold (WallCrafter.java:193) is what the efficiency keys prove. (4) No attribute-efficiency / setBars / draw / icons / drawPlanRegion / drawPlace rows — see DEFERRED. (5) Large-cliff-crusher variant verification pending — the same driver covers both defs via the catalog consumePower.
+
+## Proof keys (new scene, 6 keys)
+
+New scene `C07WallCrafterPowerStatusProof` (modeled on the N2169 proof — Main scene, campaign playable slice, `RuntimeProofState`), prefix `C_07_WALL_CRAFTER_POWER_STATUS_PROOF `:
+
+- `wall_crafter_has_power_consumer`: catalog `cliff-crusher` properties have `consumePower` 11 / 60f.
+- `power_row_half`: pure row over frame `{"power_status": 0.5}`, has_power_consumer true → row result 0.5, `is_power` true.
+- `power_row_absent_without_consumer`: has_power_consumer false → `has_power_row` false.
+- `power_row_null_folds_one`: frame without `power_status` → row result 1.0.
+- `efficiency_folds_power_min`: live tick — place cliff-crusher live, stamp `frame["power_status"] = 0.5`, call the driver directly so the graph update does not overwrite the stamp → frame efficiency 0.5.
+- `efficiency_zero_at_no_power`: same, `power_status` 0.0 → efficiency 0.0.
+
+## Verified numbers (measured in this VM)
+
+- Test module `test_c07_wall_crafter_power_status.py`: **4/4 OK in 15.473s** (GREEN ~09:50). Godot on PATH via `PATH="$HOME/workspace/godot-bin:$PATH"`.
+- RED run (~09:35 +07, 2026-11-14): Ran 4 tests in 2.977s, FAILED (failures=1, errors=3), all expected — registration ERROR KeyError 'N2170', evidence ERROR KeyError 'N2170', source-text ERROR FileNotFoundError (new state file did not exist yet), proof FAIL returncode 1 (scene missing, Godot 4.6.2-stable Linux). Port 7777 was FREE. 13/13 exact exprs verified verbatim at RED. SSOT baseline 11348/1620/1541/2873 (unchanged from N2169 — main at 3ea97c0), audit 1335. javalang 0.13.0 confirmed present at RED (no reinstall needed — no VM restart since the N2169 reinstall).
+- GREEN targeted run 4/4 OK (09:50 run).
+- Neighbours: **136/136 OK** — C07 power-status family 26 modules / 104 tests in 343.612s (log `tools/mindustry_godot_transpiler/n2170-neighbours.log`) + wiring-sensitive 9 modules / 32 tests re-run by main thread ~10:04 (discover per-module: factory_live_loop, power_graph_live_update_binding, battery_power_status_binding, battery_placement_binding, adjacent_factory_live_loop, unit_factory_live_loop, turret_live_loop, continuous_liquid_turret_live_loop, power_graph_consumer_cheating — no flake). The worker's own wiring run (a different 9-module set: factory_live_loop, c07_power_status_live, power_graph_live_update_binding, placed_power_graph_grouping_binding, power_graph_consumer_cheating, battery_power_status_binding, c06_power_should_consume, unit_factory_live_loop, adjacent_factory_live_loop) also finished 33/33 OK in 158.902s (log `tools/mindustry_godot_transpiler/n2170-wiring.log`) — bonus coverage, not the standard set.
+- Godot proof: **GREEN ~09:50 +07** (2026-11-14) — proof JSON 9 keys, all true, `matches: true` (6 semantic keys + `registry_valid` + `one_headquarter_per_ssot` + `matches`), verified by the passing proof test in the targeted run, on Godot 4.6.2-stable Linux in this VM (build 71f334935, identical to the Windows 4.6.2 build). Not yet run on Windows Godot — the scene/source reach Windows only with this slice's commit.
+- `git diff --check` clean (verified 09:50 run).
+- SSOT +2/+1/+1/+2 → **11350 / 1621 / 1542 / 2875** (registry `symbols` 11350, ledger `slices` 1621, contracts 1542, schemas 2875); audit stays 1335.
+- Environment note: Godot binary is at ~/workspace/godot-bin/godot (symlink to Godot_v4.6.2-stable_linux.x86_64) — NOT on PATH by default; targeted/neighbours ran with PATH="$HOME/workspace/godot-bin:$PATH". javalang 0.13.0 present (no reinstall needed this run).
+
+## Gate / suite
+
+- Full gate attempt 1 (main thread, PID 10690, ~10:04 +07) **finished ~10:21 +07: Ran 5777 tests in 994.987s, FAILED (failures=121, skipped=5), 0 errors** — all 121 verified Godot-absent asserts from the log by main thread (120 plain `assertIsNotNone(godot)` bodies — 119 inherited + 1 new N2170 proof test `test_reference_graph_and_actual_c07_wall_crafter_power_status` — + 1 hydration `test_live_block_shared_consumers_and_optional_efficiency_runtime`). No real failures. Log `tools/mindustry_godot_transpiler/full-suite-n2170-gate.log`.
+- Next after gate + push: N2171 — next C07 power.status family; scope at the next run from the catalog (remaining consumePower families without a live read: Incinerator / MassDriver / LaunchPad / Radar / RepairTower / ShieldWall / ShockwaveTower / ItemBridge / LiquidBridge / StackConveyor / StackRouter / ImpactReactor / Accelerator / BuildTurret). Design-spec Status Summary 1620→1621 + GOAL.md §5 debt line + handoff Commits section written at completion (after gate verification).
