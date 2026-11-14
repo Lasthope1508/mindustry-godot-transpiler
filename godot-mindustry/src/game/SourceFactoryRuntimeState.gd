@@ -39,6 +39,7 @@ const source_repair_tower_build_state := preload("res://src/game/SourceRepairTow
 const source_shockwave_tower_build_state := preload("res://src/game/SourceShockwaveTowerBuildState.gd")
 const source_item_bridge_build_state := preload("res://src/game/SourceItemBridgeBuildState.gd")
 const source_liquid_bridge_build_state := preload("res://src/game/SourceLiquidBridgeBuildState.gd")
+const source_stack_conveyor_build_state := preload("res://src/game/SourceStackConveyorBuildState.gd")
 const source_shield_wall_build_state := preload("res://src/game/SourceShieldWallBuildState.gd")
 const source_point_defense_turret_build_state := preload("res://src/game/SourcePointDefenseTurretBuildState.gd")
 const source_tractor_beam_turret_build_state := preload("res://src/game/SourceTractorBeamTurretBuildState.gd")
@@ -459,6 +460,17 @@ static func simulate_factory(game: Object, delta: float) -> void:
 	# placed-buildings driver ticks LiquidBridge blocks; a liquid bridge
 	# without a power consumer is excluded by the driver gate).
 	source_liquid_bridge_build_state.source_liquid_bridge_tick_buildings_state(game, delta)
+	# The stack-conveyor tick runs every live-loop tick (N2180): each
+	# placed StackConveyor build (surge-conveyor, whose build runs
+	# StackConveyorBuild.updateTile(), StackConveyor.java:268, and
+	# whose reel rate (StackConveyor.java:270, `float eff = enabled ?
+	# (efficiency + baseEfficiency) : 1f;` with StackConveyor.java:273)
+	# follows the folded efficiency) gets its frame keys
+	# refreshed from the live rules and folds its live power.status
+	# into the min efficiency, so the reel rate follows power.status (no
+	# placed-buildings driver ticks StackConveyor blocks; a stack conveyor
+	# without a power consumer is excluded by the driver gate).
+	source_stack_conveyor_build_state.source_stack_conveyor_tick_buildings_state(game, delta)
 	# The point-defense tick runs every live-loop tick (N2151): each
 	# placed PointDefenseTurret build (segment, whose build runs
 	# PointDefenseBuild.updateTile(), PointDefenseTurret.java:62)
