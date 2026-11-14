@@ -30,6 +30,7 @@ const source_unit_cargo_loader_build_state := preload("res://src/game/SourceUnit
 const source_payload_deconstructor_build_state := preload("res://src/game/SourcePayloadDeconstructorBuildState.gd")
 const source_unit_assembler_module_build_state := preload("res://src/game/SourceUnitAssemblerModuleBuildState.gd")
 const source_separator_build_state := preload("res://src/game/SourceSeparatorBuildState.gd")
+const source_wall_crafter_build_state := preload("res://src/game/SourceWallCrafterBuildState.gd")
 const source_point_defense_turret_build_state := preload("res://src/game/SourcePointDefenseTurretBuildState.gd")
 const source_tractor_beam_turret_build_state := preload("res://src/game/SourceTractorBeamTurretBuildState.gd")
 const source_factory_build_state := preload("res://src/game/SourceFactoryBuildState.gd")
@@ -357,6 +358,15 @@ static func simulate_factory(game: Object, delta: float) -> void:
 	# placed-buildings driver ticks Separator blocks; a separator
 	# without a power consumer is excluded by the driver gate).
 	source_separator_build_state.source_separator_tick_buildings_state(game, delta)
+	# The wall-crafter tick runs every live-loop tick (N2170): each
+	# placed WallCrafter build (cliff-crusher, whose build runs
+	# WallCrafterBuild.updateTile(), WallCrafter.java:187) gets its frame keys
+	# refreshed from the live rules and folds its live power.status
+	# into the min efficiency, so the warmup fold
+	# (WallCrafter.java:193) follows power.status (no
+	# placed-buildings driver ticks WallCrafter blocks; a wall crafter
+	# without a power consumer is excluded by the driver gate).
+	source_wall_crafter_build_state.source_wall_crafter_tick_buildings_state(game, delta)
 	# The point-defense tick runs every live-loop tick (N2151): each
 	# placed PointDefenseTurret build (segment, whose build runs
 	# PointDefenseBuild.updateTile(), PointDefenseTurret.java:62)
