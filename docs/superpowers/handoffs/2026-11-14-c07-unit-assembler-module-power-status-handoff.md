@@ -69,13 +69,13 @@ Date: 2026-11-14. Batch: N2168 (single slice). Status: **DONE + PUSHED (2026-11-
 - Full gate attempt 1 **launched from the MAIN THREAD ~07:21 +07** by main thread (clean relaunch): `cd tools/mindustry_godot_transpiler && : > full-suite-n2168-gate.log && python3 -c "import javalang" && setsid nohup python3 -m unittest discover -s tests > full-suite-n2168-gate.log 2>&1 < /dev/null &` — **PID 6228, SID 6228 (own session), PPID 6225 (background subshell)**. No Godot on PATH. No proof scene ran while the gate ran (port-7777 rule). **Finished ~07:36 +07: Ran 5769 tests in 921.130s, FAILED (failures=119, skipped=5), 0 errors** — exactly as expected. Verified from the log: 119 `AssertionError: unexpectedly None` = 119 FAIL blocks (118 plain `assertIsNotNone(godot)` + 1 hydration `test_live_block_shared_consumers_and_optional_efficiency_runtime`, 'Godot required for hydration proof'); 0 `ERROR:` lines; the new N2168 proof test among the 118 (expected — gate env has no Godot; the proof itself was verified GREEN headless at ~07:14 with 9 keys). Gate-clean per the repo convention (all failures Godot-absent asserts, zero real failures).
 - Collision handled: the first launch (~07:20, PID 6123) collided with a second gate (PID 6019) launched ~1 min earlier by the 07:15 cron worker using `nohup ... & echo GATE_PID=$!` — both wrote to the same log, interleaving/corrupting it. Main thread killed BOTH gates (6019/6017 + 6123/6120), truncated the log, and relaunched this single clean gate. Lesson (again): workers must NOT launch gates; only the main thread launches, into a fresh log.
 
-## Commits
+## Commits (DONE + PUSHED 2026-11-14 ~07:5x +07 — slice f4353a1, docs 6eafa41, GOAL 6dcd61a, handoff-hash 3fa2af9; main 69e4ef3..3fa2af9)
 
 - Slice: `f4353a1` — C07: N2168 UnitAssemblerModule power.status live read (basic-assembler-module; pure power row + driver wiring; proof 6 keys)
 - Docs (report + design spec + handoff): `6eafa41` — Docs: N2168 report + design spec + handoff (gate clean except Godot)
 - GOAL.md §5 debt line: `6dcd61a` — Docs: GOAL.md names the N2168 slice commit (f4353a1) that carries its proof to Windows
-- Handoff-hash record: TBD (this commit)
-- Pushed to origin main: TBD (after this commit)
+- Handoff-hash record: `3fa2af9` — Docs: N2168 handoff records the slice + docs + GOAL commit hashes (f4353a1, 6eafa41, 6dcd61a)
+- Pushed to origin main: `3fa2af9` pushed ~07:5x +07 (69e4ef3..3fa2af9)
 
 ## Deferred (NOT this slice)
 
