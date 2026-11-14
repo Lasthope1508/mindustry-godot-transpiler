@@ -1,6 +1,6 @@
 # Report — N2178: ItemBridge power.status live read (phase-conveyor) (C07)
 
-Date: 2026-11-14. Batch: N2178 (single slice). Status: **DONE — push next (gate clean except Godot; targeted 4/4 OK, neighbours 172/172 OK, Godot proof GREEN 9 keys matches:true, full gate attempt 1 Ran 5809 in 1041.850s, failures=129, skipped=5, 0 errors — all 129 verified Godot-absent asserts). Slice commit `6b99e27`.**
+Date: 2026-11-14. Batch: N2178 (single slice). Status: **DONE + PUSHED (2026-11-14 ~23:1x +07 — targeted 4/4 OK, neighbours 172/172 OK, Godot proof GREEN 9 keys matches:true, full gate attempt 1 Ran 5809 in 1041.850s, failures=129, skipped=5, 0 errors — all 129 verified Godot-absent asserts). Slice commit `6b99e27`.**
 
 ## What changed
 
@@ -65,10 +65,9 @@ Finished ~22:59 +07: **Ran 5809 tests in 1041.850s, FAILED (failures=129, skippe
 ## Commits
 
 - Slice: `6b99e27` — C07: N2178 ItemBridge power.status live read (phase-conveyor; pure power row + driver wiring; proof 6 keys), 11 files.
-- Docs: (this commit) — Docs: N2178 report + design spec + handoff (gate clean except Godot).
-- GOAL: (next commit) — Docs: GOAL.md names the N2178 slice commit (6b99e27) that carries its proof to Windows.
-- Status: (final commit) — Docs: N2178 handoff Commits records DONE + PUSHED (slice 6b99e27, docs <hash>, GOAL <hash>).
-- Pushed (pending) to the fork (Lasthope1508). See the handoff Commits section for the hashes.
+- Docs: `f3ebec5` — Docs: N2178 report + design spec + handoff (gate clean except Godot).
+- GOAL: `fe7dd4c` — Docs: GOAL.md names the N2178 slice commit (6b99e27) that carries its proof to Windows (§5 debt line).
+- Pushed 2026-11-14 ~23:1x +07 to the fork (Lasthope1508). See the handoff Commits section for the hashes.
 
 ## Deferred (NOT this slice)
 
