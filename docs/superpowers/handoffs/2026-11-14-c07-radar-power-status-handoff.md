@@ -67,7 +67,11 @@ Date: 2026-11-14. Batch: N2173 (single slice). Status: **RED DONE (2026-11-14 ~1
 - **Attempt 2 FINISHED ~15:02 +07 (verified by the 15:15 cron run): Ran 5789 tests in 951.387s, FAILED (failures=124, skipped=5), 0 errors** — exactly the expected pattern: 124 FAIL lines, 0 ERROR lines; 123 plain `assertIsNotNone(godot)` bodies (122 inherited + 1 new N2173 proof test `test_reference_graph_and_actual_c07_radar_power_status`, traceback verified) + 1 hydration `test_live_block_shared_consumers_and_optional_efficiency_runtime` ("Godot required for hydration proof"). All 124 Godot-absent, no real failures. Gate GREEN per the established pattern — N2173 cleared to commit + push. Log `tools/mindustry_godot_transpiler/full-suite-n2173-gate.log` (85,068 bytes). Gate took 951s (~16 min) — faster than N2172's 1735s.
 - Neighbours (main-thread verification, ~14:17): targeted re-run **4/4 OK in 24.823s**; family **116/116 OK in 716.087s** (29 modules, log `tools/mindustry_godot_transpiler/n2173-neighbours.log`, FAMILY EXIT 0); wiring-standard set **32/32 OK** (9 modules, discover per-module, no flake this time). Total **148/148 OK**.
 
-## Commits (TODO)
+## Commits
+
+- Slice: `7690efd` — C07: N2173 Radar power.status live read (radar; pure power row + driver wiring; proof 6 keys), 13 files.
+- Docs: `fa58b0b` — Docs: N2173 report + design spec + handoff (gate clean except Godot).
+- GOAL: `7f9c276` — Docs: GOAL.md names the N2173 slice commit (7690efd) that carries its proof to Windows.
 
 ## Deferred (NOT this slice)
 
