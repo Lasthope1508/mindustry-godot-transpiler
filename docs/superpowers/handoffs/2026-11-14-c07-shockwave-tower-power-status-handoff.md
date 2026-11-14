@@ -1,6 +1,6 @@
 # Handoff — N2177 ShockwaveTower power.status live read
 
-Date: 2026-11-14. Batch: N2177 (single slice). Status: **DONE — push next (gate clean except Godot; slice committed 444aa04).**
+Date: 2026-11-14. Batch: N2177 (single slice). Status: **DONE + PUSHED (slice 444aa04, docs 714544a, GOAL 827a6d5).**
 
 ## Scoping (DONE 2026-11-14 ~20:0x +07)
 
@@ -73,9 +73,9 @@ Date: 2026-11-14. Batch: N2177 (single slice). Status: **DONE — push next (gat
 ## Commits
 
 - Slice: `444aa04` — C07: N2177 ShockwaveTower power.status live read (shockwave-tower; pure power row + driver wiring; proof 6 keys), 13 files.
-- Docs: (this commit) — Docs: N2177 report + design spec + handoff (gate clean except Godot).
-- GOAL: (next commit) — Docs: GOAL.md names the N2177 slice commit (444aa04) that carries its proof to Windows.
-- Status: (final commit) — Docs: N2177 handoff Commits records DONE + PUSHED (slice 444aa04, docs <hash>, GOAL <hash>).
+- Docs: `714544a` — Docs: N2177 report + design spec + handoff (gate clean except Godot).
+- GOAL: `827a6d5` — Docs: GOAL.md names the N2177 slice commit (444aa04) that carries its proof to Windows.
+- Status: this commit — Docs: N2177 handoff Commits records DONE + PUSHED (slice 444aa04, docs 714544a, GOAL 827a6d5).
 
 ## GREEN (DONE 2026-11-14 ~20:40 +07, verified by main thread)
 
