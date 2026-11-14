@@ -1,6 +1,6 @@
 # Handoff — N2174: RepairTurret power.status live read (repair-point / repair-turret) (C07)
 
-Date: 2026-11-14. Batch: N2174 (single slice). Status: **RED DONE, chờ GREEN.**
+Date: 2026-11-14. Batch: N2174 (single slice). Status: **DONE + PUSHED.**
 
 ## Scope (decided at scoping)
 
@@ -97,7 +97,12 @@ Driver check method: grep `SOURCE_*_IMPLEMENTATIONS` in godot-mindustry/src/game
 - Neighbours (main-thread verification, ~16:13): targeted re-run **4/4 OK in 15.239s**; family **120/120 OK in 395.502s** (30 modules, log `tools/mindustry_godot_transpiler/n2174-neighbours.log`, FAMILY EXIT 0); wiring-standard set **32/32 OK** (9 modules, discover per-module, no flake — each module ~13s, back to normal speed). Total **152/152 OK**.
 - `git diff --check` clean (verified at GREEN and again at completion). Proof JSON re-verified at completion: 9 keys, all true, `matches: true`.
 
-## Commits (TODO)
+## Commits
+
+- Slice: `bbfb461` — C07: N2174 RepairTurret power.status live read (repair-point / repair-turret; pure power row + driver wiring; proof 6 keys), 11 files, 940 insertions.
+- Docs: `385f111` — Docs: N2174 report + design spec + handoff (gate clean except Godot).
+- GOAL: `844874b` — Docs: GOAL.md names the N2174 slice commit (bbfb461) that carries its proof to Windows (§5 debt line).
+- Pushed 2026-11-14 ~16:3x +07: `78a3eef..844874b main -> main` (fork Lasthope1508). This handoff commit records the hashes + Status DONE + PUSHED.
 
 ## Deferred (NOT this slice)
 
