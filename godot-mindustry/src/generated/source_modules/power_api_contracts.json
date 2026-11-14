@@ -3692,6 +3692,38 @@
       "rule": "Source-backed live-loop power graph update; each frame the placed graph runs PowerGraph.update(). Each grouped consumer dict is stamped with its building's live cheating value (TeamComp.cheating() from the live rules) and with its live should_consume / shouldConsumePower values (BuildingComp.shouldConsume() from the frame enabled flag) before the update runs, so the cheat gate fires when the first consumer's team cheats and a disabled building requests no power. For a factory-family frame the stamp is the family's per-class shouldConsume() body (the output-full gate) and the frame's live updateConsumption first-pass should_consume_power flag (false when a non-power consumer fails), so a starved or output-full factory stops drawing power.",
       "return_type": "Dictionary"
     },
+    "SourceImpactReactorBuildState.source_impact_reactor_power_status_row_state": {
+      "canonical_contract": "source_api_contracts.SourceImpactReactorBuildState.source_impact_reactor_power_status_row_state",
+      "status": "active",
+      "source_slice": "N2182",
+      "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+      "source_method": "ImpactReactorBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_impact_reactor_power_status_row_state_input.frame"
+        },
+        {
+          "name": "has_power_consumer",
+          "type": "bool",
+          "schema": "source_impact_reactor_power_status_row_state_input.has_power_consumer"
+        }
+      ],
+      "return_keys": [
+        "row",
+        "has_power_row"
+      ],
+      "tests": [
+        "test_c07_impact_reactor_power_status_registration",
+        "test_all_c07_impact_reactor_power_status_input_evidence_is_exact",
+        "test_impact_reactor_power_status_row_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_power_status"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorPowerStatusProof",
+      "rule": "Source-backed ImpactReactor power.status row from ConsumePower.java / BuildingComp.java.",
+      "return_type": "Dictionary"
+    },
     "SourcePlacedPowerGraphState.source_battery_power_status_for_cell_state": {
       "canonical_contract": "source_api_contracts.SourcePlacedPowerGraphState.source_battery_power_status_for_cell_state",
       "status": "active",
