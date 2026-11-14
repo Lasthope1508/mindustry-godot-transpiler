@@ -1,6 +1,6 @@
 # Handoff — N2176 RepairTower power.status live read
 
-Date: 2026-11-14. Batch: N2176 (single slice). Status: **DONE — push next (gate clean except Godot; slice committed 5eadd36).**
+Date: 2026-11-14. Batch: N2176 (single slice). Status: **DONE + PUSHED (slice 5eadd36, docs a0cb7fb, GOAL 3ebad17).**
 
 ## RED (DONE 2026-11-14 ~18:47 +07)
 
@@ -84,9 +84,9 @@ Date: 2026-11-14. Batch: N2176 (single slice). Status: **DONE — push next (gat
 ## Commits
 
 - Slice: `5eadd36` — C07: N2176 RepairTower power.status live read (unit-repair-tower; pure power row + driver wiring; proof 6 keys), 11 files.
-- Docs: (this commit) — Docs: N2176 report + design spec + handoff (gate clean except Godot).
-- GOAL: (next commit) — Docs: GOAL.md names the N2176 slice commit (5eadd36) that carries its proof to Windows.
-- Status: (final commit) — Docs: N2176 handoff Commits records DONE + PUSHED (slice 5eadd36, docs <hash>, GOAL <hash>).
+- Docs: `a0cb7fb` — Docs: N2176 report + design spec + handoff (gate clean except Godot).
+- GOAL: `3ebad17` — Docs: GOAL.md names the N2176 slice commit (5eadd36) that carries its proof to Windows.
+- Status: this commit — Docs: N2176 handoff Commits records DONE + PUSHED (slice 5eadd36, docs a0cb7fb, GOAL 3ebad17).
 
 ## Gate (FINISHED — attempt 1, launched by main thread ~19:23 +07)
 
