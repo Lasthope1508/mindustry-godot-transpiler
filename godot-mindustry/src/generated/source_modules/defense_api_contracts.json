@@ -6824,6 +6824,38 @@
       "rule": "Source-backed RegenProjector power.status row from ConsumePower.java / BuildingComp.java.",
       "return_type": "Dictionary"
     },
+    "SourceShieldWallBuildState.source_shield_wall_power_status_row_state": {
+      "canonical_contract": "source_api_contracts.SourceShieldWallBuildState.source_shield_wall_power_status_row_state",
+      "status": "active",
+      "source_slice": "N2175",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShieldWall.java",
+      "source_method": "ShieldWallBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_shield_wall_power_status_row_state_input.frame"
+        },
+        {
+          "name": "has_power_consumer",
+          "type": "bool",
+          "schema": "source_shield_wall_power_status_row_state_input.has_power_consumer"
+        }
+      ],
+      "return_keys": [
+        "row",
+        "has_power_row"
+      ],
+      "tests": [
+        "test_c07_shield_wall_power_status_registration",
+        "test_all_c07_shield_wall_power_status_input_evidence_is_exact",
+        "test_shield_wall_power_status_row_state",
+        "test_reference_graph_and_actual_c07_shield_wall_power_status"
+      ],
+      "runtime_proof": "/root/C07ShieldWallPowerStatusProof",
+      "rule": "Source-backed ShieldWall power.status row from ConsumePower.java / BuildingComp.java.",
+      "return_type": "Dictionary"
+    },
     "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourceTractorBeamTurretBuildState.source_tractor_beam_turret_power_status_row_state",
       "status": "active",

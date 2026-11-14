@@ -35,6 +35,7 @@ const source_mass_driver_build_state := preload("res://src/game/SourceMassDriver
 const source_launch_pad_build_state := preload("res://src/game/SourceLaunchPadBuildState.gd")
 const source_radar_build_state := preload("res://src/game/SourceRadarBuildState.gd")
 const source_repair_turret_build_state := preload("res://src/game/SourceRepairTurretBuildState.gd")
+const source_shield_wall_build_state := preload("res://src/game/SourceShieldWallBuildState.gd")
 const source_point_defense_turret_build_state := preload("res://src/game/SourcePointDefenseTurretBuildState.gd")
 const source_tractor_beam_turret_build_state := preload("res://src/game/SourceTractorBeamTurretBuildState.gd")
 const source_factory_build_state := preload("res://src/game/SourceFactoryBuildState.gd")
@@ -407,6 +408,15 @@ static func simulate_factory(game: Object, delta: float) -> void:
 	# placed-buildings driver ticks RepairTurret blocks; a repair turret
 	# without a power consumer is excluded by the driver gate).
 	source_repair_turret_build_state.source_repair_turret_tick_buildings_state(game, delta)
+	# The shield-wall tick runs every live-loop tick (N2175): each
+	# placed ShieldWall build (shielded-wall, whose build runs
+	# ShieldWallBuild.updateTile(), ShieldWall.java:74) gets its frame keys
+	# refreshed from the live rules and folds its live power.status
+	# into the min efficiency, so the regen advance
+	# (ShieldWall.java:80) follows power.status (no
+	# placed-buildings driver ticks ShieldWall blocks; a shield wall
+	# without a power consumer is excluded by the driver gate).
+	source_shield_wall_build_state.source_shield_wall_tick_buildings_state(game, delta)
 	# The point-defense tick runs every live-loop tick (N2151): each
 	# placed PointDefenseTurret build (segment, whose build runs
 	# PointDefenseBuild.updateTile(), PointDefenseTurret.java:62)
