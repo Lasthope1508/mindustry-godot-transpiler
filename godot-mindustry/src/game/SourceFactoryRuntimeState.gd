@@ -38,6 +38,7 @@ const source_repair_turret_build_state := preload("res://src/game/SourceRepairTu
 const source_repair_tower_build_state := preload("res://src/game/SourceRepairTowerBuildState.gd")
 const source_shockwave_tower_build_state := preload("res://src/game/SourceShockwaveTowerBuildState.gd")
 const source_item_bridge_build_state := preload("res://src/game/SourceItemBridgeBuildState.gd")
+const source_liquid_bridge_build_state := preload("res://src/game/SourceLiquidBridgeBuildState.gd")
 const source_shield_wall_build_state := preload("res://src/game/SourceShieldWallBuildState.gd")
 const source_point_defense_turret_build_state := preload("res://src/game/SourcePointDefenseTurretBuildState.gd")
 const source_tractor_beam_turret_build_state := preload("res://src/game/SourceTractorBeamTurretBuildState.gd")
@@ -447,6 +448,17 @@ static func simulate_factory(game: Object, delta: float) -> void:
 	# placed-buildings driver ticks ItemBridge blocks; an item bridge
 	# without a power consumer is excluded by the driver gate).
 	source_item_bridge_build_state.source_item_bridge_tick_buildings_state(game, delta)
+	# The liquid-bridge tick runs every live-loop tick (N2179): each
+	# placed LiquidBridge build (phase-conduit, whose build runs
+	# LiquidBridgeBuild.updateTransport(), LiquidBridge.java:22, and
+	# whose warmup gate (LiquidBridge.java:23, `if(warmup >= 0.25f){`)
+	# follows the folded efficiency through the inherited
+	# ItemBridgeBuild.updateTile(), ItemBridge.java:345) gets its frame keys
+	# refreshed from the live rules and folds its live power.status
+	# into the min efficiency, so the warmup gate follows power.status (no
+	# placed-buildings driver ticks LiquidBridge blocks; a liquid bridge
+	# without a power consumer is excluded by the driver gate).
+	source_liquid_bridge_build_state.source_liquid_bridge_tick_buildings_state(game, delta)
 	# The point-defense tick runs every live-loop tick (N2151): each
 	# placed PointDefenseTurret build (segment, whose build runs
 	# PointDefenseBuild.updateTile(), PointDefenseTurret.java:62)

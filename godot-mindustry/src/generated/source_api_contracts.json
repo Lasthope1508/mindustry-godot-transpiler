@@ -65711,6 +65711,37 @@
       ],
       "runtime_proof": "/root/C07ItemBridgePowerStatusProof",
       "rule": "Source-backed ItemBridge power.status row from ConsumePower.java / BuildingComp.java."
+    },
+    "SourceLiquidBridgeBuildState.source_liquid_bridge_power_status_row_state": {
+      "status": "active",
+      "source_slice": "N2179",
+      "java_source": "core/src/mindustry/world/blocks/liquid/LiquidBridge.java",
+      "source_method": "LiquidBridgeBuild.updateTransport()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_liquid_bridge_power_status_row_state_input.frame"
+        },
+        {
+          "name": "has_power_consumer",
+          "type": "bool",
+          "schema": "source_liquid_bridge_power_status_row_state_input.has_power_consumer"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "row",
+        "has_power_row"
+      ],
+      "tests": [
+        "test_c07_liquid_bridge_power_status_registration",
+        "test_all_c07_liquid_bridge_power_status_input_evidence_is_exact",
+        "test_liquid_bridge_power_status_row_state",
+        "test_reference_graph_and_actual_c07_liquid_bridge_power_status"
+      ],
+      "runtime_proof": "/root/C07LiquidBridgePowerStatusProof",
+      "rule": "Source-backed LiquidBridge power.status row from ConsumePower.java / BuildingComp.java."
     }
   },
   "policy": {
