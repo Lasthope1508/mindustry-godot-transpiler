@@ -131,6 +131,9 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
   - [ ] N2169 `C07SeparatorPowerStatusProof` — Linux GREEN 08:20 (9 key).
     Scene tới Windows theo slice commit `0bcec1e` (pushed ~09:2x, main
     `05d2011`). Chưa chạy trên Windows Godot.
+  - [ ] N2170 `C07WallCrafterPowerStatusProof` — Linux GREEN 09:50 (9 key).
+    Scene tới Windows theo slice commit `c1a85e9` (pushed ~10:2x, main
+    `af82d58`). Chưa chạy trên Windows Godot.
   - [ ] Mọi slice sau này: proof scene mới nào cũng ghi nợ Windows theo mẫu
     trên (ghi rõ commit đưa scene tới Windows).
   - [ ] Agent khác đang test các lỗi fail trên Windows Godot (PR #1 đã merge
