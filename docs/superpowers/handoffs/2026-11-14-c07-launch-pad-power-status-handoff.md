@@ -70,7 +70,13 @@ Date: 2026-11-14. Batch: N2172 (single slice). Status: **DONE + PUSHED (2026-11-
 - **Attempt 2 LAUNCHED by main thread ~12:47 +07**: `cd tools/mindustry_godot_transpiler && python3 -c "import javalang" && setsid nohup python3 -m unittest discover -s tests > full-suite-n2172-gate.log 2>&1 < /dev/null &` — **PID 2561, SID 2561 (own session), PPID 2558 (background subshell), CPU ~90%, log growing** (290 bytes, dots + expected F's, verified ~12:47; fresh log — attempt 1's dead log was 5,444 bytes). Single gate only — no collision. No Godot on PATH. No proof scene will run while the gate runs (port-7777 rule). Expect: Ran ~5785, failures=123, skipped=5, 0 errors, all Godot-absent. Finish ~13:05–13:20 +07 (N2171 took 1786s; runs are still ~2x slower after the VM restarts).
 - **Attempt 2 FINISHED ~13:17 +07 — GREEN (gate clean except Godot)**: **Ran 5785 tests in 1735.379s, FAILED (failures=123, skipped=5), 0 errors** — all 123 verified Godot-absent asserts from the log by the 13:15 cron run (122 plain `assertIsNotNone(godot)` bodies — 121 inherited + 1 new N2172 proof test `test_reference_graph_and_actual_c07_launch_pad_power_status` — + 1 hydration `test_live_block_shared_consumers_and_optional_efficiency_runtime`). No real failures. Attempt 1's dead log was overwritten by the fresh attempt-2 log (same filename). SSOT 11354/1623/1544/2879 confirmed from the generated JSONs; audit 1335. Report + design spec (Status Summary 1622→1623) + GOAL.md debt line written at completion; slice committed + pushed by the 13:15 cron run (see Commits).
 
-## Commits (TODO)
+## Commits (DONE 2026-11-14 ~13:2x +07, 13:15 cron run — all on origin main)
+
+- Slice: `cf2dbbe` — C07: N2172 LaunchPad power.status live read (11 files: driver + 2 wiring files + 4 SSOT JSONs + proof .gd/.tscn + register script + test module; no source_modules shard changed — no shard selection matches LaunchPad.java).
+- Docs: `decebb7` — N2172 report + design spec (Status Summary 1622→1623 + N2172 row) + handoff (gate clean except Godot).
+- GOAL: `536c0e0` — GOAL.md §5 debt line names the N2172 slice commit `cf2dbbe` that carries its proof to Windows.
+- Handoff-hash: (this commit) — handoff records the slice + docs + GOAL commit hashes (cf2dbbe, decebb7, 536c0e0).
+- Push-record: TODO — handoff records the push (main <handoff-hash commit>). Pushed to origin main ~13:2x +07; origin/main == local HEAD.
 
 ## Deferred (NOT this slice)
 
