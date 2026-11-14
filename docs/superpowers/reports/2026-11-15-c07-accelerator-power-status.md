@@ -1,6 +1,6 @@
 # Report — N2183: Accelerator power.status live read (interplanetary-accelerator) (C07)
 
-Date: 2026-11-15. Batch: N2183 (single slice). Status: **DONE (2026-11-15 ~06:0x +07 — targeted 4/4 OK, neighbours 192/192 OK, Godot proof GREEN 9 keys matches:true, full gate attempt 1 Ran 5829 in 1181.043s, failures=134, skipped=5, 0 errors — all 134 verified Godot-absent asserts). Slice commit `<hash>`.**
+Date: 2026-11-15. Batch: N2183 (single slice). Status: **DONE + PUSHED (2026-11-15 ~06:1x +07 — targeted 4/4 OK, neighbours 192/192 OK, Godot proof GREEN 9 keys matches:true, full gate attempt 1 Ran 5829 in 1181.043s, failures=134, skipped=5, 0 errors — all 134 verified Godot-absent asserts). Slice commit `fc5b03a`.**
 
 ## What changed
 
@@ -74,9 +74,9 @@ Finished ~05:58 +07 (log mtime 05:58:30 +07): **Ran 5829 tests in 1181.043s, FAI
 
 ## Commits
 
-- Slice: `<hash>` — C07: N2183 Accelerator power.status live read (interplanetary-accelerator; pure power row + driver wiring; proof 6 keys), 11 files.
-- Docs: `<hash>` — Docs: N2183 report + design spec + handoff (gate clean except Godot).
-- GOAL: `<hash>` — Docs: GOAL.md names the N2183 slice commit that carries its proof to Windows (§5 debt line).
+- Slice: `fc5b03a` — C07: N2183 Accelerator power.status live read (interplanetary-accelerator; pure power row + driver wiring; proof 6 keys), 11 files.
+- Docs: `e68facf` — Docs: N2183 report + design spec + handoff (gate clean except Godot).
+- GOAL: `ff76b4f` — Docs: GOAL.md names the N2183 slice commit that carries its proof to Windows (§5 debt line).
 - Pushed 2026-11-15 ~06:1x +07 to the fork (Lasthope1508). See the handoff Commits section for the hashes.
 
 ## Deferred (NOT this slice)
