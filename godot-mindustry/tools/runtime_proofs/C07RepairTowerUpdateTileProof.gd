@@ -4,6 +4,9 @@ const main_scene := preload("res://scenes/Main.tscn")
 const repair_tower_build_state := preload("res://src/game/SourceRepairTowerBuildState.gd")
 const registry := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
 const proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")
+const liquid_module_state := preload("res://src/game/SourceLiquidModuleState.gd")
+const content_registry_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
+const placed_block_state := preload("res://src/game/SourcePlacedBlockState.gd")
 
 
 func _ready() -> void:
@@ -97,10 +100,19 @@ func _ready() -> void:
 	# itself is already proven by N2142. Half power with one
 	# damaged target in range: efficiency folds the power min
 	# 0.5 (the N2176 power fold preserved, the N2213 gate
-	# open), and the live advance follows it: warmup 0 ->
-	# 0.04 toward 0.5, totalProgress 0 -> 1/120, heal amounts
-	# [0.75] (healAmount 1.5f * edelta 0.5).
+	# open) -- and the N2250 ozone liquid row (consumeLiquid
+	# ozone 3f/60f, Blocks.java:6583) folds the liquid min
+	# beside it, so the sprite liquids meta is seeded with
+	# ozone 0.1 (the N2250 Tower B fill, N2306 pattern) --
+	# without the seed the empty store would fold
+	# efficiency to 0 and the live advance would stall.
+	# With the seed the liquid row folds 1.0, eff =
+	# min(0.5, 1.0) = 0.5, and the live advance follows it:
+	# warmup 0 -> 0.04 toward 0.5, totalProgress 0 -> 1/120,
+	# heal amounts [0.75] (healAmount 1.5f * edelta 0.5).
 	var catalog = game.get("content_catalog")
+	var liquid_catalog: Dictionary = content_registry_state.source_liquid_catalog_state(catalog)
+	var ozone_id: int = int(liquid_catalog["liquid_id_by_name"].get("ozone", -1))
 	var blocks_by_id: Dictionary = {}
 	for registered_block in catalog.get_many("block"):
 		blocks_by_id[registered_block.id] = registered_block
@@ -115,6 +127,8 @@ func _ready() -> void:
 	# the targets on it).
 	repair_tower_build_state.source_repair_tower_bind_frame_state(repair_tower, blocks_by_id["unit-repair-tower"])
 	var repair_tower_frame: Dictionary = repair_tower.get_meta(repair_tower_build_state.SOURCE_REPAIR_TOWER_BUILDING_META_KEY, {})
+	var repair_tower_liquids: Dictionary = repair_tower.get_meta(placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY, {})
+	liquid_module_state.source_set_state(repair_tower_liquids, ozone_id, 0.1)
 
 	repair_tower_frame["targets"] = [{"type": "dart"}]
 	repair_tower_frame["power_status"] = 0.5
