@@ -73,9 +73,13 @@ func _ready() -> void:
 	# the sprite liquids meta store (the live LiquidModule),
 	# which the driver syncs into the frame each tick before
 	# the fold (the Fracker proof precedent); the graphite
-	# and efficiency_factor are seeded on the frame directly
-	# (no live intake fills them yet, like the N2223 proof
-	# seeds efficiency_factor).
+	# is seeded on the frame directly (no live intake fills
+	# it yet) and the efficiency comes from seeded
+	# wall_edge_tiles -- since N2301 the tick stamps
+	# efficiency_factor from the edge each enabled tick
+	# (WallCrafter.java:141-180), so a seeded
+	# efficiency_factor would be overwritten with 0.0 on an
+	# empty edge; the edge tiles now SUPPLY the 1.0.
 	var catalog = game.get("content_catalog")
 	var liquid_catalog: Dictionary = content_registry_state.source_liquid_catalog_state(catalog)
 	var liquid_id_by_name: Dictionary = liquid_catalog.get("liquid_id_by_name", {})
@@ -85,8 +89,9 @@ func _ready() -> void:
 		blocks_by_id[registered_block.id] = registered_block
 
 	# A: large crusher, hydrogen-full at full power, graphite
-	# held, efficiency_factor 1.0, timer at the 80f
-	# threshold: the tick accumulates one more tick (1.0/60.0s
+	# held, three solid edge tiles summing to 1.0 (the N2301
+	# stamp fills efficiency_factor 1.0 from them), timer at
+	# the 80f threshold: the tick accumulates one more tick (1.0/60.0s
 	# = 1 tick), the timer fires, consume() removes 1 graphite
 	# and the elapsed clock resets to 0.0.
 	var fire_cell := Vector2i(28, 20)
@@ -103,7 +108,11 @@ func _ready() -> void:
 	liquid_module_state.source_set_state(fire_store, hydrogen_id, 1.0)
 	fire_frame["items"] = {"graphite": 2}
 	fire_frame["power_status"] = 1.0
-	fire_frame["efficiency_factor"] = 1.0
+	fire_frame["wall_edge_tiles"] = [
+		{"solid": true, "attribute_value": 0.5},
+		{"solid": true, "attribute_value": 0.25},
+		{"solid": true, "attribute_value": 0.25},
+	]
 	fire_frame["timer_use_elapsed"] = 80.0
 
 	# B: large crusher, hydrogen-full at full power, NO
@@ -122,13 +131,17 @@ func _ready() -> void:
 	liquid_module_state.source_set_state(no_graphite_store, hydrogen_id, 1.0)
 	no_graphite_frame["items"] = {}
 	no_graphite_frame["power_status"] = 1.0
-	no_graphite_frame["efficiency_factor"] = 1.0
+	no_graphite_frame["wall_edge_tiles"] = [
+		{"solid": true, "attribute_value": 0.5},
+		{"solid": true, "attribute_value": 0.25},
+		{"solid": true, "attribute_value": 0.25},
+	]
 	no_graphite_frame["timer_use_elapsed"] = 80.0
 
 	# C: large crusher, hydrogen-full at full power, graphite
-	# held, timer at the threshold, but efficiency_factor 0.0
-	# (the default -- the live getEfficiency fill is still
-	# deferred): eff is 0, so eff * efficiency is not
+	# held, timer at the threshold, but NO edge tiles seeded
+	# -- the N2301 stamp fills efficiency_factor 0.0 from
+	# the empty edge: eff is 0, so eff * efficiency is not
 	# positive and the gate is closed -- no removal and NO
 	# elapsed reset.
 	var zero_eff_cell := Vector2i(16, 20)
