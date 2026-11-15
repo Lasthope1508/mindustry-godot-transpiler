@@ -173000,6 +173000,70 @@
         "test_reference_graph_and_actual_c07_item_bridge_link_frame_state"
       ],
       "runtime_proof": "/root/C07ItemBridgeLinkFrameStateProof"
+    },
+    "source_item_bridge_should_consume_state_result.should_consume": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemBridgeBuildState.source_item_bridge_should_consume_state",
+      "godot_symbol": "source_item_bridge_should_consume_state_result.should_consume",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "java_method": "ItemBridgeBuild.shouldConsume()",
+      "java_expr": "return hadValidLink && enabled;",
+      "rule": "The shouldConsume gate (ItemBridge.java:495-496): true while the link is valid AND the bridge is enabled; when false, updateConsumption forces efficiency to zero (BuildingComp.java:1960 + 1992-1994). The gate reads the previous tick had_valid_link -- the N2197 recompute runs after the consumption fold, the Java order (BuildingComp.java:2274-2277).",
+      "tests": [
+        "test_c07_item_bridge_should_consume_registration",
+        "test_all_c07_item_bridge_should_consume_input_evidence_is_exact",
+        "test_item_bridge_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_item_bridge_should_consume"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeShouldConsumeProof"
+    },
+    "source_item_bridge_should_consume_state_result.had_valid_link": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemBridgeBuildState.source_item_bridge_should_consume_state",
+      "godot_symbol": "source_item_bridge_should_consume_state_result.had_valid_link",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "java_method": "ItemBridgeBuild.shouldConsume()",
+      "java_expr": "hadValidLink = linkValid(tile, other);",
+      "rule": "The frame link validity the gate read (ItemBridge.java:333): recomputed by the N2197 driver every tick after the consumption fold, only when enabled (ItemBridge.java:54, noUpdateDisabled); a disabled bridge freezes its had_valid_link instead of clearing it.",
+      "tests": [
+        "test_c07_item_bridge_should_consume_registration",
+        "test_all_c07_item_bridge_should_consume_input_evidence_is_exact",
+        "test_item_bridge_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_item_bridge_should_consume"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeShouldConsumeProof"
+    },
+    "source_liquid_bridge_should_consume_state_result.should_consume": {
+      "status": "source-backed",
+      "godot_owner": "SourceLiquidBridgeBuildState.source_liquid_bridge_should_consume_state",
+      "godot_symbol": "source_liquid_bridge_should_consume_state_result.should_consume",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "java_method": "ItemBridgeBuild.shouldConsume()",
+      "java_expr": "return hadValidLink && enabled;",
+      "rule": "The shouldConsume gate (ItemBridge.java:495-496), inherited verbatim by LiquidBridgeBuild (LiquidBridge.java:7/:19): true while the link is valid and the bridge is enabled; when false, updateConsumption forces efficiency to zero (BuildingComp.java:1960 + 1992-1994).",
+      "tests": [
+        "test_c07_liquid_bridge_should_consume_registration",
+        "test_all_c07_liquid_bridge_should_consume_input_evidence_is_exact",
+        "test_liquid_bridge_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_liquid_bridge_should_consume"
+      ],
+      "runtime_proof": "/root/C07LiquidBridgeShouldConsumeProof"
+    },
+    "source_liquid_bridge_should_consume_state_result.had_valid_link": {
+      "status": "source-backed",
+      "godot_owner": "SourceLiquidBridgeBuildState.source_liquid_bridge_should_consume_state",
+      "godot_symbol": "source_liquid_bridge_should_consume_state_result.had_valid_link",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "java_method": "ItemBridgeBuild.shouldConsume()",
+      "java_expr": "hadValidLink = linkValid(tile, other);",
+      "rule": "The frame link validity the gate read (ItemBridge.java:333): recomputed by the driver every tick after the consumption fold, only when enabled (ItemBridge.java:54, noUpdateDisabled, inherited through the super constructor), through N2197 pure linkValid (SourceItemBridgeBuildState.source_item_bridge_link_valid_state).",
+      "tests": [
+        "test_c07_liquid_bridge_should_consume_registration",
+        "test_all_c07_liquid_bridge_should_consume_input_evidence_is_exact",
+        "test_liquid_bridge_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_liquid_bridge_should_consume"
+      ],
+      "runtime_proof": "/root/C07LiquidBridgeShouldConsumeProof"
     }
   },
   "version": 1

@@ -66004,6 +66004,58 @@
       ],
       "runtime_proof": "/root/C07ItemBridgeLinkFrameStateProof",
       "rule": "Source-backed ItemBridge link frame state from ItemBridge.java / BuildingComp.java / arc Point2.java."
+    },
+    "SourceItemBridgeBuildState.source_item_bridge_should_consume_state": {
+      "status": "active",
+      "source_slice": "N2188",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "source_method": "ItemBridgeBuild.shouldConsume()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_item_bridge_should_consume_state_input.frame"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "should_consume",
+        "had_valid_link"
+      ],
+      "tests": [
+        "test_c07_item_bridge_should_consume_registration",
+        "test_all_c07_item_bridge_should_consume_input_evidence_is_exact",
+        "test_item_bridge_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_item_bridge_should_consume"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeShouldConsumeProof",
+      "rule": "Source-backed ItemBridge shouldConsume gate from ItemBridge.java / BuildingComp.java."
+    },
+    "SourceLiquidBridgeBuildState.source_liquid_bridge_should_consume_state": {
+      "status": "active",
+      "source_slice": "N2198",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "source_method": "ItemBridgeBuild.shouldConsume()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_liquid_bridge_should_consume_state_input.frame"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "should_consume",
+        "had_valid_link"
+      ],
+      "tests": [
+        "test_c07_liquid_bridge_should_consume_registration",
+        "test_all_c07_liquid_bridge_should_consume_input_evidence_is_exact",
+        "test_liquid_bridge_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_liquid_bridge_should_consume"
+      ],
+      "runtime_proof": "/root/C07LiquidBridgeShouldConsumeProof",
+      "rule": "Source-backed LiquidBridge shouldConsume gate from ItemBridge.java / LiquidBridge.java / BuildingComp.java / Blocks.java / arc Point2.java."
     }
   },
   "policy": {

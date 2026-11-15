@@ -230084,6 +230084,102 @@
       },
       "runtime_proof": "/root/C07ItemBridgeLinkFrameStateProof",
       "rule": "Source-backed ItemBridge link frame state from ItemBridge.java / BuildingComp.java / arc Point2.java."
+    },
+    "source_item_bridge_should_consume_state_input": {
+      "status": "active",
+      "owner": "SourceItemBridgeBuildState.source_item_bridge_should_consume_state",
+      "source_slice": "N2188",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "return hadValidLink && enabled;",
+          "rule": "The building frame carrying the live had_valid_link (ItemBridge.java:202, `public boolean wasMoved, moved, hadValidLink;`, recomputed every tick by the N2197 driver, ItemBridge.java:332-333) and enabled (BuildingComp.java:77, `transient boolean enabled = true;`): the two inputs the override reads. A fresh frame starts unlinked (had_valid_link false, link -1, ItemBridge.java:198) and enabled.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ItemBridgeShouldConsumeProof",
+      "rule": "Source-backed ItemBridge shouldConsume gate from ItemBridge.java / BuildingComp.java."
+    },
+    "source_item_bridge_should_consume_state_result": {
+      "status": "active",
+      "owner": "SourceItemBridgeBuildState.source_item_bridge_should_consume_state",
+      "source_slice": "N2188",
+      "keys": {
+        "should_consume": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "return hadValidLink && enabled;",
+          "rule": "The shouldConsume gate (ItemBridge.java:495-496): true while the link is valid AND the bridge is enabled; when false, updateConsumption forces efficiency to zero (BuildingComp.java:1960 + 1992-1994). The gate reads the previous tick had_valid_link -- the N2197 recompute runs after the consumption fold, the Java order (BuildingComp.java:2274-2277).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_should_consume_state"
+          ]
+        },
+        "had_valid_link": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "hadValidLink = linkValid(tile, other);",
+          "rule": "The frame link validity the gate read (ItemBridge.java:333): recomputed by the N2197 driver every tick after the consumption fold, only when enabled (ItemBridge.java:54, noUpdateDisabled); a disabled bridge freezes its had_valid_link instead of clearing it.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ItemBridgeShouldConsumeProof",
+      "rule": "Source-backed ItemBridge shouldConsume gate from ItemBridge.java / BuildingComp.java."
+    },
+    "source_liquid_bridge_should_consume_state_input": {
+      "status": "active",
+      "owner": "SourceLiquidBridgeBuildState.source_liquid_bridge_should_consume_state",
+      "source_slice": "N2198",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "return hadValidLink && enabled;",
+          "rule": "The building frame carrying the live had_valid_link and enabled keys (ItemBridge.java:495-496, the shouldConsume gate): the gate reads the previous tick had_valid_link -- updateConsumption runs before updateTile (BuildingComp.java:2274-2277) -- and the live enabled flag (BuildingComp.java:77, default true).",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LiquidBridgeShouldConsumeProof",
+      "rule": "Source-backed LiquidBridge shouldConsume gate from ItemBridge.java / LiquidBridge.java / BuildingComp.java / Blocks.java / arc Point2.java."
+    },
+    "source_liquid_bridge_should_consume_state_result": {
+      "status": "active",
+      "owner": "SourceLiquidBridgeBuildState.source_liquid_bridge_should_consume_state",
+      "source_slice": "N2198",
+      "keys": {
+        "should_consume": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "return hadValidLink && enabled;",
+          "rule": "The shouldConsume gate (ItemBridge.java:495-496), inherited verbatim by LiquidBridgeBuild (LiquidBridge.java:7/:19): true while the link is valid and the bridge is enabled; when false, updateConsumption forces efficiency to zero (BuildingComp.java:1960 + 1992-1994).",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_should_consume_state"
+          ]
+        },
+        "had_valid_link": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "hadValidLink = linkValid(tile, other);",
+          "rule": "The frame link validity the gate read (ItemBridge.java:333): recomputed by the driver every tick after the consumption fold, only when enabled (ItemBridge.java:54, noUpdateDisabled, inherited through the super constructor), through N2197 pure linkValid (SourceItemBridgeBuildState.source_item_bridge_link_valid_state).",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LiquidBridgeShouldConsumeProof",
+      "rule": "Source-backed LiquidBridge shouldConsume gate from ItemBridge.java / LiquidBridge.java / BuildingComp.java / Blocks.java / arc Point2.java."
     }
   },
   "version": 1
