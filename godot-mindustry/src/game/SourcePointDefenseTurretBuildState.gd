@@ -42,9 +42,9 @@ const SOURCE_POINT_DEFENSE_TURRET_RELOAD := 8.0
 # Class values (PointDefenseTurret.java): `rotateSpeed = 20f;`
 # (:39), `public float shootCone = 5f;` (:32),
 # `coolantMultiplier = 2f;` (:42, over the BaseTurret default
-# 5f), `public float retargetTime = 5f;` (:21, the deferred
-# retarget cadence -- the driver passes retarget_tick false
-# until the timer-infra slice lands), and the rotation field
+# 5f), `public float retargetTime = 5f;` (:21, the retarget
+# cadence -- live since N2316, the timer-infra slice), and the
+# rotation field
 # default `public float rotation = 90;` (BaseTurret.java:114).
 # The coolant capacity fallback is the no-liquid branch of
 # updateCooling (ReloadTurret.java:31, `0.4f`).
@@ -75,7 +75,7 @@ static func source_point_defense_turret_update_tile_advance_state(frame: Diction
 	# `target.damage(target.damage() - realDamage);`
 	# `target.remove();`
 	# `reloadCounter = 0;`
-	# The retarget is a RECTANGLE intersect (EntityGroup.java:207, `public Seq<T> intersect(float x, float y, float width, float height){`, over the spatial bullet group, GroupDefs.java:9, `@GroupDef(value = Bulletc.class, spatial = true, collide = true) G bullet;`, hitbox overlap against the rect, QuadTree.java, `if(tmp.overlaps(x, y, width, height)){`), NOT a circle -- and the min is over dst2 RAW (no hitSize subtraction, unlike Units.closestEnemy), with Seq.min's `if(val <= min){` (Seq.java:329), so the LAST candidate wins a tie (unlike Units.closest's strict <, the N2226 precedent). The explicit `bullets` list IS the intersect result (the N2226 candidates precedent): the caller supplies the bullets in the rect, and the pure selection applies the min filter (enemy team + hittable) and the raw-dst2 min. Java overwrites the target UNCONDITIONALLY on a timer tick (PointDefenseTurret.java:66), so a retarget tick with no qualifying bullet clears the target to null; retarget_tick false means the timer did not fire and the target is untouched. The TIMER CADENCE itself defers (no timer helper in the port, the N2193 precedent; `public float retargetTime = 5f;`, PointDefenseTurret.java:21), so the driver passes retarget_tick false and an empty list and no live retarget happens. The pooled clear reads the target dict's `added` flag (default true -- a live bullet is added; EntityComp.java:16, `boolean isAdded(){`). Cooling is updateCooling (ReloadTurret.java:28-41): the gate is canReload() (`return reloadCounter < reload;`, ReloadTurret.java:51) && coolant != null && coolant.efficiency > 0 && efficiency > 0 (`if(canReload() && coolant != null && coolant.efficiency(this) > 0 && efficiency > 0){`), the amount is `float amount = coolant.amount * coolant.efficiency(this);` and the charge is `reloadCounter += amount * edelta() * capacity * coolantMultiplier * ammoReloadMultiplier();` with ammoReloadMultiplier() returning 1f (ReloadTurret.java:43-45) and capacity resolved by the caller (the filter / consumes branches, ReloadTurret.java:31, fallback 0.4f). Coolant is NULL for the segment (the def has no ConsumeCoolant consumer, so BaseTurret.init :50-51, `coolant = findConsumer(c -> c instanceof ConsumeCoolant);`, leaves it null) -- the branch never runs live, and the driver passes coolant absent; the explicit coolant params model the branch for a def that has one. The look-at guard's within is STRICT (`return Mathf.dst2(getX(), getY(), x, y) < dst*dst;`, Position.java:44-46): exactly at range is OUT. dest is angleTo, `return Angles.angle(getX(), getY(), other.getX(), other.getY());` (Position.java:12-14), through the shared angle helper; moveToward and within are the shared helpers (Angles.java:38-39 / :19-20). realDamage folds blockDamage(team) (`return blockDamageMultiplier * teams.get(team).blockDamageMultiplier;`, Rules.java:299-301, both multipliers default 1f, Rules.java:113/:367), passed as block_damage_multiplier (default 1.0). The shot does NOT apply damage to the live bullet: damage > realDamage returns target_damage_remaining, otherwise target_removed (Java keeps the target field set -- `target.remove();` only un-adds the bullet, and the pooled clear nulls it next tick). Effects + sound (beamEffect / shootEffect / hitEffect / shootSound, PointDefenseTurret.java:94-99, with the shootLength 5f muzzle offset, Blocks.java:3842) defer. edelta() is `return efficiency * delta();` (BuildingComp.java:1927-1929) with delta() `return Time.delta * timeScale;` (BuildingComp.java:1922-1924); source_delta is Time.delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26), never raw seconds. The target dict contract (the N2212 fixture precedent): x / y (position), team (int; missing = own team, never an enemy), type (null = no type, fails the look-at guard), hittable (default true, BulletType.java:143, `public boolean hittable = true;`), added (default true), damage (the bullet damage pool, BulletComp.java:31, `@Import float x, y, damage, lastX, lastY, time, lifetime;`). Class values: `public float shootCone = 5f;` (PointDefenseTurret.java:32), `public float bulletDamage = 10f;` / `public float shootLength = 3f;` (PointDefenseTurret.java:33-34), `rotateSpeed = 20f;` / `reload = 30f;` / `coolantMultiplier = 2f;` (PointDefenseTurret.java:39-42), `public float reload = 10f;` (ReloadTurret.java:9) -- the segment def wins: `range = 180f;`, `shootLength = 5f;`, `bulletDamage = 30f;`, `reload = 8f;` (Blocks.java:3838-3844).
+	# The retarget is a RECTANGLE intersect (EntityGroup.java:207, `public Seq<T> intersect(float x, float y, float width, float height){`, over the spatial bullet group, GroupDefs.java:9, `@GroupDef(value = Bulletc.class, spatial = true, collide = true) G bullet;`, hitbox overlap against the rect, QuadTree.java, `if(tmp.overlaps(x, y, width, height)){`), NOT a circle -- and the min is over dst2 RAW (no hitSize subtraction, unlike Units.closestEnemy), with Seq.min's `if(val <= min){` (Seq.java:329), so the LAST candidate wins a tie (unlike Units.closest's strict <, the N2226 precedent). The explicit `bullets` list IS the intersect result (the N2226 candidates precedent): the caller supplies the bullets in the rect, and the pure selection applies the min filter (enemy team + hittable) and the raw-dst2 min. Java overwrites the target UNCONDITIONALLY on a timer tick (PointDefenseTurret.java:66), so a retarget tick with no qualifying bullet clears the target to null; retarget_tick false means the timer did not fire and the target is untouched. The TIMER CADENCE is live since N2316 (source_point_defense_turret_retarget_timer_state, the frame-local Interval-equivalent, `public float retargetTime = 5f;`, PointDefenseTurret.java:21): the driver passes the timer's retarget_tick into this advance; the bullets stay the empty list -- the live bullet query still defers, so a fire with no bullets clears the target to null exactly like Java's unconditional assignment. The pooled clear reads the target dict's `added` flag (default true -- a live bullet is added; EntityComp.java:16, `boolean isAdded(){`). Cooling is updateCooling (ReloadTurret.java:28-41): the gate is canReload() (`return reloadCounter < reload;`, ReloadTurret.java:51) && coolant != null && coolant.efficiency > 0 && efficiency > 0 (`if(canReload() && coolant != null && coolant.efficiency(this) > 0 && efficiency > 0){`), the amount is `float amount = coolant.amount * coolant.efficiency(this);` and the charge is `reloadCounter += amount * edelta() * capacity * coolantMultiplier * ammoReloadMultiplier();` with ammoReloadMultiplier() returning 1f (ReloadTurret.java:43-45) and capacity resolved by the caller (the filter / consumes branches, ReloadTurret.java:31, fallback 0.4f). Coolant is NULL for the segment (the def has no ConsumeCoolant consumer, so BaseTurret.init :50-51, `coolant = findConsumer(c -> c instanceof ConsumeCoolant);`, leaves it null) -- the branch never runs live, and the driver passes coolant absent; the explicit coolant params model the branch for a def that has one. The look-at guard's within is STRICT (`return Mathf.dst2(getX(), getY(), x, y) < dst*dst;`, Position.java:44-46): exactly at range is OUT. dest is angleTo, `return Angles.angle(getX(), getY(), other.getX(), other.getY());` (Position.java:12-14), through the shared angle helper; moveToward and within are the shared helpers (Angles.java:38-39 / :19-20). realDamage folds blockDamage(team) (`return blockDamageMultiplier * teams.get(team).blockDamageMultiplier;`, Rules.java:299-301, both multipliers default 1f, Rules.java:113/:367), passed as block_damage_multiplier (default 1.0). The shot does NOT apply damage to the live bullet: damage > realDamage returns target_damage_remaining, otherwise target_removed (Java keeps the target field set -- `target.remove();` only un-adds the bullet, and the pooled clear nulls it next tick). Effects + sound (beamEffect / shootEffect / hitEffect / shootSound, PointDefenseTurret.java:94-99, with the shootLength 5f muzzle offset, Blocks.java:3842) defer. edelta() is `return efficiency * delta();` (BuildingComp.java:1927-1929) with delta() `return Time.delta * timeScale;` (BuildingComp.java:1922-1924); source_delta is Time.delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26), never raw seconds. The target dict contract (the N2212 fixture precedent): x / y (position), team (int; missing = own team, never an enemy), type (null = no type, fails the look-at guard), hittable (default true, BulletType.java:143, `public boolean hittable = true;`), added (default true), damage (the bullet damage pool, BulletComp.java:31, `@Import float x, y, damage, lastX, lastY, time, lifetime;`). Class values: `public float shootCone = 5f;` (PointDefenseTurret.java:32), `public float bulletDamage = 10f;` / `public float shootLength = 3f;` (PointDefenseTurret.java:33-34), `rotateSpeed = 20f;` / `reload = 30f;` / `coolantMultiplier = 2f;` (PointDefenseTurret.java:39-42), `public float reload = 10f;` (ReloadTurret.java:9) -- the segment def wins: `range = 180f;`, `shootLength = 5f;`, `bulletDamage = 30f;`, `reload = 8f;` (Blocks.java:3838-3844).
 	var team_id: int = int(frame.get("team_id", source_block_geometry.SOURCE_TEAM_DERELICT_ID))
 	var efficiency: float = float(frame.get("efficiency", 0.0))
 	var target: Variant = frame.get("target", null)
@@ -126,6 +126,77 @@ static func source_point_defense_turret_update_tile_advance_state(frame: Diction
 				reload_counter = 0.0
 	return {"target": target, "rotation": rotation, "reload_counter": reload_counter, "target_damage_remaining": target_damage_remaining, "target_removed": target_removed, "fired": fired}
 
+static func source_point_defense_turret_retarget_timer_state(elapsed: float, source_delta: float, time_scale: float, duration: float) -> Dictionary:
+	# The frame-local Interval-equivalent for the retarget
+	# cadence (TimerComp.timer, TimerComp.java:10-13, each
+	# exact expr on ONE comment line, the N2148 lesson):
+	# `if(Float.isInfinite(time)) return false;`
+	# `return timer.get(index, time);`
+	# Interval.get resets times[id] = Time.time on fire
+	# (arc Interval.java:20-26):
+	# `boolean got = check(id, time);`
+	# `if(got) times[id] = Time.time;`
+	# and check compares Time.time - times[id] >= time (arc
+	# Interval.java:28-30):
+	# `return Time.time - times[id] >= time || Time.time < times[id];`
+	# Time.time counts TICKS (arc Time.java:69-80):
+	# `timeRaw += delta;`
+	# The port has no global tick clock at the driver layer, so
+	# the elapsed clock is frame-local (frame["timer_retarget_
+	# elapsed"], accumulated by the tick delta every tick the
+	# advance runs, unconditionally -- mirroring Time.time,
+	# which grows even while the gate is closed): elapsed +=
+	# source_delta unconditionally (source_delta is the
+	# UNSCALED Time.delta in ticks -- game_source_delta is
+	# seconds * 60, never scaled by timeScale -- so the
+	# frame clock mirrors the global Time.time exactly);
+	# retarget_tick = elapsed >= duration (the LITERAL
+	# duration, no timeScale division, the N2290 lesson);
+	# timer_elapsed_after RESETS to 0.0 on fire (a reset,
+	# not a subtraction like the Fracker accumulator); a
+	# non-positive time_scale is a defensive guard
+	# (retarget_tick false -- see below). The Java call is
+	# (PointDefenseTurret.java:65-67):
+	# `if(timer(timerTarget, retargetTime)){`
+	# `target = Groups.bullet.intersect(x - range, y - range, range*2, range*2).min(b -> b.team != team && b.type().hittable, b -> b.dst2(this));`
+	# with `public final int timerTarget = timers++;`
+	# (PointDefenseTurret.java:20) and `public float
+	# retargetTime = 5f;` (PointDefenseTurret.java:21). Java
+	# passes retargetTime straight to timer() -- no
+	# timeScale division, unlike the MendProjector
+	# (`timer(timerUse, useTime / timeScale)`,
+	# MendProjector.java:102) / WallCrafter / ImpactReactor
+	# timers -- so Java retargets every 5 global ticks
+	# whatever the building timeScale is, and the port
+	# threshold is the literal duration. time_scale stays
+	# a parameter (signature stability -- the contract,
+	# call sites, and tests keep it) and is still read: a
+	# non-positive time_scale never fires, a defensive
+	# port guard for a corrupt frame input -- Java
+	# timeScale is always positive in practice (the
+	# default, BuildingComp.java:98, is
+	# `private transient float timeScale = 1f, timeScaleDuration;`;
+	# applyBoost / applySlowdown take positive intensities,
+	# BuildingComp.java:461-478; decay resets it to 1f,
+	# BuildingComp.java:2265-2266), so the guard is
+	# unreachable in Java-exact play and the threshold is
+	# Java-exact at every reachable time_scale. Note the
+	# clock still ACCUMULATES at time_scale 0 (source_delta
+	# is unscaled) -- only the fire is guarded. Documented
+	# deviation (first
+	# fire): Java fires (nearly) immediately after placement
+	# (the global Time.time is already large vs a fresh
+	# Interval times[id] = 0); the frame-local clock delays
+	# the first fire by a full interval (5 ticks). It cannot
+	# be fixed without a global clock -- it waits for a
+	# timer-infra slice if exact first-fire timing is ever
+	# needed.
+	var threshold: float = INF if time_scale <= 0.0 else duration
+	var accumulated: float = elapsed + source_delta
+	var retarget_tick: bool = accumulated >= threshold
+	var timer_elapsed_after: float = 0.0 if retarget_tick else accumulated
+	return {"retarget_tick": retarget_tick, "timer_elapsed_after": timer_elapsed_after}
+
 static func source_point_defense_turret_tick_frame_state(frame: Dictionary, block_implementation: String, team_id: int, rules_state: Variant) -> Dictionary:
 	# The point-defense tick wires the frame keys the consumption
 	# path reads (the N2148 turret pattern): block_implementation
@@ -174,7 +245,7 @@ static func source_point_defense_turret_bind_frame_state(sprite: Sprite2D, block
 	return {"applied": true, "frame": frame}
 
 static func source_point_defense_turret_should_consume_state(frame: Dictionary) -> Dictionary:
-	# PointDefenseBuild overrides shouldConsume (PointDefenseTurret.java:105, `public boolean shouldConsume(){` with `return super.shouldConsume() && target != null;`, PointDefenseTurret.java:106): the gate reads the enabled flag through super AND the live bullet target. The field is `public @Nullable Bullet target;` (PointDefenseTurret.java:59) -- the target is a BULLET, not a Unit -- on PointDefenseBuild (`public class PointDefenseBuild extends ReloadTurretBuild{`, PointDefenseTurret.java:58); `super` is the BuildingComp default (`return enabled;`, BuildingComp.java:755-756) -- the chain runs PointDefenseBuild -> ReloadTurretBuild (ReloadTurret.java:25) -> BaseTurretBuild (BaseTurret.java:113) -> Building, and neither ReloadTurret.java nor BaseTurret.java overrides shouldConsume, so the default applies. Turret.TurretBuild.shouldConsume() (Turret.java:364-366, `return isShooting || reloadCounter < reload;`) is NOT in this chain -- PointDefenseTurret extends ReloadTurret (PointDefenseTurret.java:19, `public class PointDefenseTurret extends ReloadTurret{`), not Turret. The gate is `enabled && target != null`, so the pure gate reads both frame keys (the RepairTurret N2212 precedent: the super default is read as an internal frame key): target (frame["target"], default null for a frame bound before this slice -- the Java field default) and enabled (frame["enabled"], default true -- BuildingComp.java:77, `transient boolean enabled = true;`); no live fill sets frame["target"] yet -- the live bullet-target retarget (Groups.bullet scan, PointDefenseTurret.java:66, `target = Groups.bullet.intersect(x - range, y - range, range*2, range*2).min(b -> b.team != team && b.type().hittable, b -> b.dst2(this));`, plus the clear when the bullet is pooled, PointDefenseTurret.java:70, `if(target != null && !target.isAdded()){`) is the updateTile advance (PointDefenseTurret.java:62-103): N2229 ports the retarget selection + pooled clear + rotation / reload advance as a pure function, but the timer cadence + live bullet query wait for the live-fill slice, so no live fill sets frame["target"] yet. When the gate is false updateConsumption forces efficiency to zero (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();` + 1992, `if(!update){`). The rotation advance (PointDefenseTurret.java:81, `rotation = Angles.moveToward(rotation, dest, rotateSpeed * edelta());`) follows the folded efficiency. The only def is segment (Blocks.java:3835-3847): `consumePower(8f);`, `range = 180f;`, `reload = 8f;`, size 2.
+	# PointDefenseBuild overrides shouldConsume (PointDefenseTurret.java:105, `public boolean shouldConsume(){` with `return super.shouldConsume() && target != null;`, PointDefenseTurret.java:106): the gate reads the enabled flag through super AND the live bullet target. The field is `public @Nullable Bullet target;` (PointDefenseTurret.java:59) -- the target is a BULLET, not a Unit -- on PointDefenseBuild (`public class PointDefenseBuild extends ReloadTurretBuild{`, PointDefenseTurret.java:58); `super` is the BuildingComp default (`return enabled;`, BuildingComp.java:755-756) -- the chain runs PointDefenseBuild -> ReloadTurretBuild (ReloadTurret.java:25) -> BaseTurretBuild (BaseTurret.java:113) -> Building, and neither ReloadTurret.java nor BaseTurret.java overrides shouldConsume, so the default applies. Turret.TurretBuild.shouldConsume() (Turret.java:364-366, `return isShooting || reloadCounter < reload;`) is NOT in this chain -- PointDefenseTurret extends ReloadTurret (PointDefenseTurret.java:19, `public class PointDefenseTurret extends ReloadTurret{`), not Turret. The gate is `enabled && target != null`, so the pure gate reads both frame keys (the RepairTurret N2212 precedent: the super default is read as an internal frame key): target (frame["target"], default null for a frame bound before this slice -- the Java field default) and enabled (frame["enabled"], default true -- BuildingComp.java:77, `transient boolean enabled = true;`); no live fill sets frame["target"] yet -- the live bullet-target retarget (Groups.bullet scan, PointDefenseTurret.java:66, `target = Groups.bullet.intersect(x - range, y - range, range*2, range*2).min(b -> b.team != team && b.type().hittable, b -> b.dst2(this));`, plus the clear when the bullet is pooled, PointDefenseTurret.java:70, `if(target != null && !target.isAdded()){`) is the updateTile advance (PointDefenseTurret.java:62-103): N2229 ports the retarget selection + pooled clear + rotation / reload advance as a pure function and the timer cadence is live since N2316 (the tick passes retarget_tick into the advance, and a fire with the empty bullet list clears the frame target to null), but the live bullet query waits for the live-fill slice, so no live fill ever sets frame["target"] to a bullet yet. When the gate is false updateConsumption forces efficiency to zero (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();` + 1992, `if(!update){`). The rotation advance (PointDefenseTurret.java:81, `rotation = Angles.moveToward(rotation, dest, rotateSpeed * edelta());`) follows the folded efficiency. The only def is segment (Blocks.java:3835-3847): `consumePower(8f);`, `range = 180f;`, `reload = 8f;`, size 2.
 	var target: Variant = frame.get("target", null)
 	var enabled: bool = bool(frame.get("enabled", true))
 	return {"should_consume": enabled and target != null, "has_target": target != null}
@@ -208,17 +279,18 @@ static func source_point_defense_turret_power_status_row_state(frame: Dictionary
 	# key (default null) plus enabled and feeds should_consume
 	# to the machinery; no live fill sets frame["target"] yet
 	# (N2229: the retarget selection + pooled clear are live as
-	# a pure function; the timer cadence + live bullet query
-	# wait for the live-fill slice).
+	# a pure function; the timer cadence live (N2316); the live
+	# bullet query waits for the live-fill slice).
 	# (3) updateTile advance live (N2229) -- the retarget
 	# selection / pooled clear / rotation / reloadCounter /
 	# shot outcome (PointDefenseTurret.java:62-103) run on the
-	# frame; the timer cadence (no timer helper, no live bullet
-	# query -- the driver passes retarget_tick false and no
-	# bullets), the damage application on the live bullet, the
-	# coolant live fill (the segment def has no ConsumeCoolant
-	# consumer), and the beam / hit / shoot effects + shootSound
-	# wait for the live-fill slice.
+	# frame; the timer cadence live (N2316) -- the tick passes
+	# retarget_tick into the advance and the bullets stay the
+	# empty list (no live bullet query yet, so a fire clears
+	# the target to null); the damage application on the live
+	# bullet, the coolant live fill (the segment def has no
+	# ConsumeCoolant consumer), and the beam / hit / shoot
+	# effects + shootSound wait for the live-fill slice.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -338,14 +410,32 @@ static func source_point_defense_turret_tick_buildings_state(game: Object, secon
 		# `set(tile.drawx(), tile.drawy());`), drawx is
 		# block.offset + tile.worldx() (Tile.java:175-176) with
 		# the block offset `offset = ((size + 1) % 2) * tilesize / 2f;`
-		# (Block.java:761) -- 4 for the size-2 segment. The
-		# driver passes retarget_tick false and an EMPTY bullet
-		# list: no timer helper and no live bullet query exist
-		# in the port, so no live retarget happens (the live
-		# fill stays deferred); only the pooled clear /
-		# rotation / reload / shot lines run live. Coolant is
-		# absent (the segment def has no ConsumeCoolant
-		# consumer) and blockDamageMultiplier defaults to 1.0.
+		# (Block.java:761) -- 4 for the size-2 segment. N2316:
+		# the retarget cadence (PointDefenseTurret.java:65-67,
+		# `if(timer(timerTarget, retargetTime)){` /
+		# `target = Groups.bullet.intersect(x - range, y -
+		# range, range*2, range*2).min(b -> b.team != team &&
+		# b.type().hittable, b -> b.dst2(this));`,
+		# retargetTime 5f, PointDefenseTurret.java:21) -- the
+		# frame-local clock (frame["timer_retarget_elapsed"])
+		# accumulates the tick delta every tick the advance
+		# runs, and its retarget_tick reaches the N2229 advance
+		# (replacing the false literal); the bullets stay the
+		# EMPTY list as before -- no live bullet query exists
+		# in the port, so a fire with no bullets clears the
+		# target to null exactly like Java's unconditional
+		# assignment (the live bullet scan fill stays
+		# deferred). The clock runs only while enabled (the
+		# same pragmatic gate as the advance itself -- Java
+		# runs updateTile even when disabled,
+		# BuildingComp.java:2276-2277); the driver-wide
+		# disabled-early-return slice removes this gate for
+		# all families. First-fire deviation: Java fires
+		# nearly at once after placement; the frame clock
+		# delays the first fire by a full interval (5 ticks).
+		# Coolant is absent (the segment def has no
+		# ConsumeCoolant consumer) and blockDamageMultiplier
+		# defaults to 1.0.
 		if bool(frame.get("enabled", true)):
 			var source_delta: float = source_placed_block_state.game_source_delta(game, seconds)
 			var time_scale: float = source_placed_block_state.time_scale(sprite, source_placed_block_state.game_default_time_scale(game))
@@ -354,7 +444,10 @@ static func source_point_defense_turret_tick_buildings_state(game: Object, secon
 			var advance_block_offset: float = float((advance_block_size + 1) % 2) * source_world_defaults.TILESIZE / 2.0
 			var advance_building_x: float = source_block_geometry.tile_drawx_state(advance_cell.x, source_world_defaults.TILESIZE, advance_block_offset)
 			var advance_building_y: float = source_block_geometry.tile_drawy_state(advance_cell.y, source_world_defaults.TILESIZE, advance_block_offset)
-			var advanced: Dictionary = source_point_defense_turret_update_tile_advance_state(frame, source_delta, time_scale, SOURCE_POINT_DEFENSE_TURRET_RANGE, SOURCE_POINT_DEFENSE_TURRET_BULLET_DAMAGE, SOURCE_POINT_DEFENSE_TURRET_RELOAD, advance_building_x, advance_building_y, [], false)
+			var retarget_timer: Dictionary = source_point_defense_turret_retarget_timer_state(float(frame.get("timer_retarget_elapsed", 0.0)), source_delta, time_scale, SOURCE_POINT_DEFENSE_TURRET_RETARGET_TIME)
+			frame["timer_retarget_elapsed"] = retarget_timer.get("timer_elapsed_after", 0.0)
+			var retarget_tick: bool = bool(retarget_timer.get("retarget_tick", false))
+			var advanced: Dictionary = source_point_defense_turret_update_tile_advance_state(frame, source_delta, time_scale, SOURCE_POINT_DEFENSE_TURRET_RANGE, SOURCE_POINT_DEFENSE_TURRET_BULLET_DAMAGE, SOURCE_POINT_DEFENSE_TURRET_RELOAD, advance_building_x, advance_building_y, [], retarget_tick)
 			frame["target"] = advanced["target"]
 			frame["rotation"] = advanced["rotation"]
 			frame["reload_counter"] = advanced["reload_counter"]
