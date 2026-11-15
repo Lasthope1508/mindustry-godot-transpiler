@@ -172968,6 +172968,70 @@
         "test_reference_graph_and_actual_c07_light_block_power_status"
       ],
       "runtime_proof": "/root/C07LightBlockPowerStatusProof"
+    },
+    "source_beam_drill_update_tile_advance_state_result.warmup": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_update_tile_advance_state",
+      "godot_symbol": "source_beam_drill_update_tile_advance_state_result.warmup",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrillBuild.updateTile()",
+      "java_expr": "warmup = Mathf.approachDelta(warmup, Mathf.num(efficiency > 0), 1f / 60f);",
+      "rule": "The advanced warmup (BeamDrill.java:242): approachDelta toward num(efficiency > 0) at 1f/60f per tick -- 1.0 when powered, 0.0 when not.",
+      "tests": [
+        "test_c07_beam_drill_update_tile_registration",
+        "test_all_c07_beam_drill_update_tile_input_evidence_is_exact",
+        "test_beam_drill_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_beam_drill_update_tile"
+      ],
+      "runtime_proof": "/root/C07BeamDrillUpdateTileProof"
+    },
+    "source_beam_drill_update_tile_advance_state_result.boost_warmup": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_update_tile_advance_state",
+      "godot_symbol": "source_beam_drill_update_tile_advance_state_result.boost_warmup",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrillBuild.updateTile()",
+      "java_expr": "boostWarmup = Mathf.lerpDelta(boostWarmup, optionalEfficiency, 0.1f);",
+      "rule": "The advanced boost warmup (BeamDrill.java:248): lerpDelta toward optionalEfficiency at 0.1f -- tracks the boost level.",
+      "tests": [
+        "test_c07_beam_drill_update_tile_registration",
+        "test_all_c07_beam_drill_update_tile_input_evidence_is_exact",
+        "test_beam_drill_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_beam_drill_update_tile"
+      ],
+      "runtime_proof": "/root/C07BeamDrillUpdateTileProof"
+    },
+    "source_beam_drill_update_tile_advance_state_result.multiplier": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_update_tile_advance_state",
+      "godot_symbol": "source_beam_drill_update_tile_advance_state_result.multiplier",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrillBuild.updateTile()",
+      "java_expr": "float multiplier = Mathf.lerp(1f, optionalBoostIntensity, optionalEfficiency);",
+      "rule": "The boost multiplier (BeamDrill.java:246): lerp(1, 2.5, optionalEfficiency) with the class optionalBoostIntensity 2.5f (BeamDrill.java:44), shared by both defs.",
+      "tests": [
+        "test_c07_beam_drill_update_tile_registration",
+        "test_all_c07_beam_drill_update_tile_input_evidence_is_exact",
+        "test_beam_drill_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_beam_drill_update_tile"
+      ],
+      "runtime_proof": "/root/C07BeamDrillUpdateTileProof"
+    },
+    "source_beam_drill_update_tile_advance_state_result.time": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_update_tile_advance_state",
+      "godot_symbol": "source_beam_drill_update_tile_advance_state_result.time",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrillBuild.updateTile()",
+      "java_expr": "time += edelta() * multiplier;",
+      "rule": "The advanced drill time (BeamDrill.java:251): time += efficiency * Time.delta * timeScale * multiplier; grows unbounded until the reset slice lands (the drop loop + time %= drillTime reset need lastItem).",
+      "tests": [
+        "test_c07_beam_drill_update_tile_registration",
+        "test_all_c07_beam_drill_update_tile_input_evidence_is_exact",
+        "test_beam_drill_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_beam_drill_update_tile"
+      ],
+      "runtime_proof": "/root/C07BeamDrillUpdateTileProof"
     }
   },
   "version": 1

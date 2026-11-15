@@ -2193,6 +2193,66 @@
       ],
       "runtime_proof": "/root/C07BeamDrillPowerStatusProof"
     },
+    "source_beam_drill_update_tile_advance_state_result.boost_warmup": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_update_tile_advance_state_result.boost_warmup",
+      "status": "source-backed",
+      "java_expr": "boostWarmup = Mathf.lerpDelta(boostWarmup, optionalEfficiency, 0.1f);",
+      "godot_symbol": "source_beam_drill_update_tile_advance_state_result.boost_warmup",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_update_tile_advance_state",
+      "rule": "The advanced boost warmup (BeamDrill.java:248): lerpDelta toward optionalEfficiency at 0.1f -- tracks the boost level.",
+      "tests": [
+        "test_c07_beam_drill_update_tile_registration",
+        "test_all_c07_beam_drill_update_tile_input_evidence_is_exact",
+        "test_beam_drill_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_beam_drill_update_tile"
+      ],
+      "runtime_proof": "/root/C07BeamDrillUpdateTileProof"
+    },
+    "source_beam_drill_update_tile_advance_state_result.multiplier": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_update_tile_advance_state_result.multiplier",
+      "status": "source-backed",
+      "java_expr": "float multiplier = Mathf.lerp(1f, optionalBoostIntensity, optionalEfficiency);",
+      "godot_symbol": "source_beam_drill_update_tile_advance_state_result.multiplier",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_update_tile_advance_state",
+      "rule": "The boost multiplier (BeamDrill.java:246): lerp(1, 2.5, optionalEfficiency) with the class optionalBoostIntensity 2.5f (BeamDrill.java:44), shared by both defs.",
+      "tests": [
+        "test_c07_beam_drill_update_tile_registration",
+        "test_all_c07_beam_drill_update_tile_input_evidence_is_exact",
+        "test_beam_drill_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_beam_drill_update_tile"
+      ],
+      "runtime_proof": "/root/C07BeamDrillUpdateTileProof"
+    },
+    "source_beam_drill_update_tile_advance_state_result.time": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_update_tile_advance_state_result.time",
+      "status": "source-backed",
+      "java_expr": "time += edelta() * multiplier;",
+      "godot_symbol": "source_beam_drill_update_tile_advance_state_result.time",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_update_tile_advance_state",
+      "rule": "The advanced drill time (BeamDrill.java:251): time += efficiency * Time.delta * timeScale * multiplier; grows unbounded until the reset slice lands (the drop loop + time %= drillTime reset need lastItem).",
+      "tests": [
+        "test_c07_beam_drill_update_tile_registration",
+        "test_all_c07_beam_drill_update_tile_input_evidence_is_exact",
+        "test_beam_drill_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_beam_drill_update_tile"
+      ],
+      "runtime_proof": "/root/C07BeamDrillUpdateTileProof"
+    },
+    "source_beam_drill_update_tile_advance_state_result.warmup": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_update_tile_advance_state_result.warmup",
+      "status": "source-backed",
+      "java_expr": "warmup = Mathf.approachDelta(warmup, Mathf.num(efficiency > 0), 1f / 60f);",
+      "godot_symbol": "source_beam_drill_update_tile_advance_state_result.warmup",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_update_tile_advance_state",
+      "rule": "The advanced warmup (BeamDrill.java:242): approachDelta toward num(efficiency > 0) at 1f/60f per tick -- 1.0 when powered, 0.0 when not.",
+      "tests": [
+        "test_c07_beam_drill_update_tile_registration",
+        "test_all_c07_beam_drill_update_tile_input_evidence_is_exact",
+        "test_beam_drill_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_beam_drill_update_tile"
+      ],
+      "runtime_proof": "/root/C07BeamDrillUpdateTileProof"
+    },
     "source_bind_item_consumers_state_input.block": {
       "canonical_symbol": "source_symbol_registry.source_bind_item_consumers_state_input.block",
       "status": "source-backed",

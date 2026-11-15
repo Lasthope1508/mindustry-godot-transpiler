@@ -584,6 +584,45 @@
       "rule": "Source-backed BeamDrill power.status row from ConsumePower.java / BuildingComp.java.",
       "return_type": "Dictionary"
     },
+    "SourceBeamDrillBuildState.source_beam_drill_update_tile_advance_state": {
+      "canonical_contract": "source_api_contracts.SourceBeamDrillBuildState.source_beam_drill_update_tile_advance_state",
+      "status": "active",
+      "source_slice": "N2195",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "source_method": "BeamDrillBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_beam_drill_update_tile_advance_state_input.frame"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_beam_drill_update_tile_advance_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_beam_drill_update_tile_advance_state_input.time_scale"
+        }
+      ],
+      "return_keys": [
+        "warmup",
+        "boost_warmup",
+        "multiplier",
+        "time"
+      ],
+      "tests": [
+        "test_c07_beam_drill_update_tile_registration",
+        "test_all_c07_beam_drill_update_tile_input_evidence_is_exact",
+        "test_beam_drill_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_beam_drill_update_tile"
+      ],
+      "runtime_proof": "/root/C07BeamDrillUpdateTileProof",
+      "rule": "Source-backed BeamDrill updateTile advance from BeamDrill.java / BuildingComp.java.",
+      "return_type": "Dictionary"
+    },
     "SourceBurstDrillBuildState.source_burst_drill_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_burst_drill_power_status_row_state",
       "status": "active",

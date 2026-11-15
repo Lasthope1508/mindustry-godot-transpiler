@@ -229936,6 +229936,94 @@
       },
       "runtime_proof": "/root/C07LightBlockPowerStatusProof",
       "rule": "Source-backed LightBlock power.status row from ConsumePower.java / BuildingComp.java."
+    },
+    "source_beam_drill_update_tile_advance_state_input": {
+      "status": "active",
+      "owner": "SourceBeamDrillBuildState.source_beam_drill_update_tile_advance_state",
+      "source_slice": "N2195",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "warmup = Mathf.approachDelta(warmup, Mathf.num(efficiency > 0), 1f / 60f);",
+          "rule": "The building frame carrying the folded efficiency / optional_efficiency (stamped by apply_update_consumption_state) and the current warmup / boost_warmup / time; missing keys default to 0.0, the Java field defaults (BuildingComp.java:85/87, BeamDrill.java:225-226).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_update_tile_advance_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return Time.delta * timeScale;",
+          "rule": "Time.delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26): the delta the Arc approachDelta / lerpDelta formulas scale by (Mathf.java:420-432).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_update_tile_advance_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The live timeScale read from the sprite meta (SourcePlacedBlockState.time_scale), default 1.0 (BuildingComp.java:98): delta() = Time.delta * timeScale (BuildingComp.java:1922-1924).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_update_tile_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BeamDrillUpdateTileProof",
+      "rule": "Source-backed BeamDrill updateTile advance from BeamDrill.java / BuildingComp.java."
+    },
+    "source_beam_drill_update_tile_advance_state_result": {
+      "status": "active",
+      "owner": "SourceBeamDrillBuildState.source_beam_drill_update_tile_advance_state",
+      "source_slice": "N2195",
+      "keys": {
+        "warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "warmup = Mathf.approachDelta(warmup, Mathf.num(efficiency > 0), 1f / 60f);",
+          "rule": "The advanced warmup (BeamDrill.java:242): approachDelta toward num(efficiency > 0) at 1f/60f per tick -- 1.0 when powered, 0.0 when not.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_update_tile_advance_state"
+          ]
+        },
+        "boost_warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "boostWarmup = Mathf.lerpDelta(boostWarmup, optionalEfficiency, 0.1f);",
+          "rule": "The advanced boost warmup (BeamDrill.java:248): lerpDelta toward optionalEfficiency at 0.1f -- tracks the boost level.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_update_tile_advance_state"
+          ]
+        },
+        "multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "float multiplier = Mathf.lerp(1f, optionalBoostIntensity, optionalEfficiency);",
+          "rule": "The boost multiplier (BeamDrill.java:246): lerp(1, 2.5, optionalEfficiency) with the class optionalBoostIntensity 2.5f (BeamDrill.java:44), shared by both defs.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_update_tile_advance_state"
+          ]
+        },
+        "time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "time += edelta() * multiplier;",
+          "rule": "The advanced drill time (BeamDrill.java:251): time += efficiency * Time.delta * timeScale * multiplier; grows unbounded until the reset slice lands (the drop loop + time %= drillTime reset need lastItem).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_update_tile_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BeamDrillUpdateTileProof",
+      "rule": "Source-backed BeamDrill updateTile advance from BeamDrill.java / BuildingComp.java."
     }
   },
   "version": 1
