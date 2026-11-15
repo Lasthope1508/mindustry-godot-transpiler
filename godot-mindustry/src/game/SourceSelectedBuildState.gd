@@ -41,6 +41,14 @@ static func is_mend_projector(block) -> bool:
 static func is_overdrive_projector(block) -> bool:
 	return implementation_name(block) == "OverdriveProjector"
 
+static func is_item_bridge(block) -> bool:
+	# N2199: the ItemBridge family -- ItemBridge and BufferedItemBridge (the bridge-conveyor) both inherit playerPlaced (BufferedItemBridge.java:9, `public class BufferedItemBridge extends ItemBridge{`, with BufferedItemBridgeBuild extending ItemBridgeBuild, :32, and no playerPlaced override), so both defs route to the item-bridge auto-link driver. The list matches SOURCE_ITEM_BRIDGE_BUILD_IMPLEMENTATIONS in SourceItemBridgeBuildState.gd.
+	return implementation_name(block) == "ItemBridge" or implementation_name(block) == "BufferedItemBridge"
+
+static func is_liquid_bridge(block) -> bool:
+	# N2199: LiquidBridge (phase-conduit + bridge-conduit) routes to the liquid-bridge auto-link driver; LiquidBridgeBuild inherits playerPlaced with no override (LiquidBridge.java:19, `public class LiquidBridgeBuild extends ItemBridgeBuild{`).
+	return implementation_name(block) == "LiquidBridge"
+
 static func health(block) -> float:
 	return source_block_metadata_state.block_health_value(block)
 

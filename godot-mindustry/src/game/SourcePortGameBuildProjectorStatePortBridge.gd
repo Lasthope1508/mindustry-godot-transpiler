@@ -33,6 +33,8 @@ var last_placed_block_requirements: Array = []
 var last_placed_cell := Vector2i.ZERO
 var last_placed_occupied_cell_count := 0
 var last_place_blocked := false
+# N2199: lastBuild per block def (ItemBridge.java:41-42, `//for autolink` / `public @Nullable ItemBridgeBuild lastBuild;`) -- Java stores the Building reference on the Block; the port stores the origin cell (Vector2i) keyed by block id and resolves the sprite through placed_blocks. One entry per def; never cleared on removal, overwritten by the next placement of the same def.
+var source_item_bridge_last_build_by_block: Dictionary = {}
 var last_mend_projector_healed_amount := 0.0
 var last_mend_projector_healed_block_id := ""
 var last_mend_projector_healed_cell := Vector2i.ZERO

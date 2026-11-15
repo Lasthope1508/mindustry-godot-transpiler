@@ -32,3 +32,14 @@ func record_placed_block(sprite: Sprite2D, block, cell: Vector2i, team_id: int =
 	# Resolved consumer apply overrides constructor capability without changing source properties.
 	if block != null and (block.properties.has("hasLiquids") or block.has_meta(SourceConsumeLiquidState.SOURCE_BLOCK_LIQUID_APPLY_META_KEY)):
 		source_placed_block_state.source_initialize_building_liquids_state(sprite, source_placed_block_state.source_block_has_liquids_state(block)["has_liquids"], content_catalog)
+
+
+# N2199 placement auto-link dispatch: runs ItemBridgeBuild.playerPlaced (ItemBridge.java:210-219) for a newly placed bridge. Called from place_selected_block_at_world only -- Java calls playerPlaced only when the builder is the local player unit (ConstructBlock.java:106-109, `if(!headless && builder == player.unit()){` / `tile.build.playerPlaced(config);`), so scenario/schematic placement (source_place_schematic_state / source_place_loadout_state above) never reaches this method. LiquidBridgeBuild inherits playerPlaced with no override (LiquidBridge.java:19, `public class LiquidBridgeBuild extends ItemBridgeBuild{`), so the liquid defs dispatch to the liquid twin driver, which reuses the item-bridge pures. The implementation check goes through the SourceSelectedBuildState predicates (the PortGame convention -- PortGame.gd never reads the implementation field off the block directly, test_port_game_uses_selected_build_implementation_predicates); BufferedItemBridge routes to the item driver (it extends ItemBridge, BufferedItemBridge.java:9). Any other implementation is a no-op. The method is named `..._dispatch_state`, NOT `..._player_placed_state`: the catalog validator derives each contract's result schema from the function name (`_contract_result_schema_name`), so a dispatch sharing the pure function's name would resolve both contracts to one result schema and fail the pure contract's `config_value` key (gate lesson, N2199 full gate run 1: 9 failures).
+func source_item_bridge_player_placed_dispatch_state(sprite: Sprite2D, block, cell: Vector2i) -> Dictionary:
+	if block == null:
+		return {"applied": false, "configure_other": false, "other_cell": Vector2i.ZERO, "new_last_build_cell": cell}
+	if SourceSelectedBuildState.is_item_bridge(block):
+		return SourceItemBridgeBuildState.source_item_bridge_auto_link_placement_state(self, sprite, block, cell)
+	if SourceSelectedBuildState.is_liquid_bridge(block):
+		return SourceLiquidBridgeBuildState.source_liquid_bridge_auto_link_placement_state(self, sprite, block, cell)
+	return {"applied": false, "configure_other": false, "other_cell": Vector2i.ZERO, "new_last_build_cell": cell}

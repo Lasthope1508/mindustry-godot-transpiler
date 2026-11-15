@@ -108,6 +108,57 @@ static func source_liquid_bridge_should_consume_state(frame: Dictionary) -> Dict
 	var enabled: bool = bool(frame.get("enabled", true))
 	return {"should_consume": had_valid_link and enabled, "had_valid_link": had_valid_link}
 
+static func source_liquid_bridge_auto_link_placement_state(game: Object, sprite: Sprite2D, block, cell: Vector2i) -> Dictionary:
+	# The liquid-bridge placement auto-link driver (N2199): LiquidBridgeBuild extends ItemBridgeBuild with no playerPlaced override (LiquidBridge.java:19, `public class LiquidBridgeBuild extends ItemBridgeBuild{`; LiquidBridge.java:7, `public class LiquidBridge extends ItemBridge{`), so the liquid twin reuses the item-bridge pures (source_item_bridge_find_link_state / source_item_bridge_player_placed_state / source_item_bridge_configure_state) through the preload, the N2198 precedent -- no new liquid symbols. The driver mirrors the item driver exactly: it binds this liquid frame if the tick has not bound it yet, reads the same game lastBuild store (`source_item_bridge_last_build_by_block`, keyed by block id -- the liquid defs get their own per-def entries, phase-conduit and bridge-conduit never share a lastBuild), gathers the partner with the STRICT def match (other block id == this block id, ItemBridge.java:152 -- a phase-conduit must not auto-link to a bridge-conduit), calls the pure playerPlaced, applies the Integer configure to the partner liquid frame through the N2197 pure configure (`config(Integer.class, (ItemBridgeBuild tile, Integer i) -> tile.link = i);`, ItemBridge.java:66), and records this cell as the new lastBuild for the def (`lastBuild = this;`, ItemBridge.java:218). The partner frame is bound through the liquid bind (the partner of a liquid bridge is a liquid bridge of the same def); a missing or replaced partner fails the match and configures nothing -- the lastBuild update still happens. Returns {"applied": ..., "configure_other": ..., "other_cell": ..., "new_last_build_cell": ...}.
+	if game == null or block == null or sprite == null or not is_instance_valid(sprite):
+		return {"applied": false, "configure_other": false, "other_cell": Vector2i.ZERO, "new_last_build_cell": cell}
+	if not _is_liquid_bridge_build_implementation(str(block.implementation)):
+		return {"applied": false, "configure_other": false, "other_cell": Vector2i.ZERO, "new_last_build_cell": cell}
+	var bound: Dictionary = source_liquid_bridge_bind_frame_state(sprite, block)
+	var frame: Dictionary = bound.get("frame", {})
+	var this_link: int = int(frame.get("link", -1))
+	var last_builds_value: Variant = game.get("source_item_bridge_last_build_by_block")
+	var last_builds: Dictionary = last_builds_value if last_builds_value is Dictionary else {}
+	var block_id: String = str(block.id)
+	var last_build_exists: bool = last_builds.has(block_id)
+	var last_build_cell: Vector2i = last_builds.get(block_id, Vector2i.ZERO)
+	var last_build_link: int = -1
+	var blocks_match: bool = false
+	var teams_match: bool = false
+	var is_adjacent: bool = false
+	var partner_frame: Dictionary = {}
+	var partner_cell: Vector2i = Vector2i.ZERO
+	if last_build_exists:
+		var team_id: int = int(sprite.get_meta(source_block_geometry.SOURCE_BUILD_TEAM_META_KEY, source_block_geometry.SOURCE_TEAM_DERELICT_ID))
+		var placed_blocks_value: Variant = game.get("placed_blocks")
+		var placed_blocks: Dictionary = placed_blocks_value if placed_blocks_value is Dictionary else {}
+		var partner_sprite: Variant = placed_blocks.get(game.call("cell_key", last_build_cell))
+		if partner_sprite != null and is_instance_valid(partner_sprite) and partner_sprite is Sprite2D:
+			var other_block_id: String = str(partner_sprite.get_meta(source_placed_block_state.SOURCE_BLOCK_ID_META_KEY, ""))
+			blocks_match = other_block_id == block_id
+			var other_team_id: int = int(partner_sprite.get_meta(source_block_geometry.SOURCE_BUILD_TEAM_META_KEY, source_block_geometry.SOURCE_TEAM_DERELICT_ID))
+			teams_match = other_team_id == team_id
+			is_adjacent = abs(cell.x - last_build_cell.x) + abs(cell.y - last_build_cell.y) == 1
+			if blocks_match:
+				var catalog = game.get("content_catalog")
+				if catalog != null:
+					var other_block = catalog.get_by_id(other_block_id)
+					if other_block != null:
+						var partner_bound: Dictionary = source_liquid_bridge_bind_frame_state(partner_sprite, other_block)
+						partner_frame = partner_bound.get("frame", {})
+						last_build_link = int(partner_frame.get("link", -1))
+						partner_cell = last_build_cell
+	var link_range: int = int(block.properties.get("range", 0))
+	var decision: Dictionary = source_item_bridge_build_state.source_item_bridge_player_placed_state(cell.x, cell.y, true, this_link, last_build_cell, last_build_exists, last_build_link, link_range, blocks_match, teams_match, is_adjacent)
+	var configure_other: bool = bool(decision.get("configure_other", false))
+	var other_cell: Vector2i = decision.get("other_cell", Vector2i.ZERO)
+	if configure_other and not partner_frame.is_empty():
+		var configured: Dictionary = source_item_bridge_build_state.source_item_bridge_configure_state(partner_frame, int(decision.get("config_value", -1)), partner_cell.x, partner_cell.y)
+		partner_frame["link"] = int(configured.get("link", -1))
+	last_builds[block_id] = cell
+	game.set("source_item_bridge_last_build_by_block", last_builds)
+	return {"applied": true, "configure_other": configure_other, "other_cell": other_cell, "new_last_build_cell": cell}
+
 @warning_ignore("unused_parameter")
 static func source_liquid_bridge_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the liquid-bridge tick wiring every

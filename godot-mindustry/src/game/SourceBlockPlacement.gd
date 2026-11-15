@@ -87,6 +87,9 @@ static func place_selected_block_at_world(game: Object, world_pos: Vector2, worl
 	game.call("configure_block_sprite", sprite, block, cell)
 	blocks.add_child(sprite)
 	game.call("record_placed_block", sprite, block, cell)
+	# N2199 placement auto-link (ItemBridgeBuild.playerPlaced, ItemBridge.java:210-219): Java calls playerPlaced only when the builder is the local player unit (ConstructBlock.java:106-109, `if(!headless && builder == player.unit()){` / `tile.build.playerPlaced(config);`), so the hook lives on this player path only -- scenario/schematic placement (add_source_block / source_place_schematic_state) does not call it. The has_method guard skips test games without the PortGame method (BlockPlacementModuleProof's FakePlacementGame).
+	if game.has_method("source_item_bridge_player_placed_dispatch_state"):
+		game.call("source_item_bridge_player_placed_dispatch_state", sprite, block, cell)
 	game.set("player_placed_block_count", int(game.get("player_placed_block_count")) + 1)
 	game.set("last_placed_block_id", str(block.id))
 	game.set("last_placed_block_size", source_block_metadata_state.block_size(block))
