@@ -229936,6 +229936,54 @@
       },
       "runtime_proof": "/root/C07LightBlockPowerStatusProof",
       "rule": "Source-backed LightBlock power.status row from ConsumePower.java / BuildingComp.java."
+    },
+    "source_launch_pad_should_consume_state_input": {
+      "status": "active",
+      "owner": "SourceLaunchPadBuildState.source_launch_pad_should_consume_state",
+      "source_slice": "N2186",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "return launchCounter < launchTime;",
+          "rule": "The building frame carrying launch_counter (LaunchPadBuild.launchCounter, LaunchPad.java:84, default 0f), launch_time (the def threshold stamped by the driver: launch-pad 60f * 20, advanced-launch-pad 60f * 30, Blocks.java:6794/6804; class default 1f, LaunchPad.java:32) and enabled (BuildingComp.java:77): the gate reads the counter against the threshold; enabled is NOT read here -- updateConsumption handles it separately (BuildingComp.java:1954-1957), the WallCrafter precedent.",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LaunchPadShouldConsumeProof",
+      "rule": "Source-backed LaunchPad shouldConsume gate from LaunchPad.java / BuildingComp.java."
+    },
+    "source_launch_pad_should_consume_state_result": {
+      "status": "active",
+      "owner": "SourceLaunchPadBuildState.source_launch_pad_should_consume_state",
+      "source_slice": "N2186",
+      "keys": {
+        "should_consume": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "return launchCounter < launchTime;",
+          "rule": "The LaunchPadBuild.shouldConsume() verdict (LaunchPad.java:92-95): true while launchCounter < launchTime; the driver ANDs enabled and the machinery folds efficiency to 0 when the gate is false (BuildingComp.java:1960, 1992-1994).",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_should_consume_state"
+          ]
+        },
+        "launch_counter": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "public float launchCounter;",
+          "rule": "The launchCounter value the gate read (LaunchPadBuild.launchCounter, LaunchPad.java:84): advanced by edelta each tick (the counter half of LaunchPad.java:146), frozen at launchTime while the gate is closed because edelta() is then 0.",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LaunchPadShouldConsumeProof",
+      "rule": "Source-backed LaunchPad shouldConsume gate from LaunchPad.java / BuildingComp.java."
     }
   },
   "version": 1

@@ -172968,6 +172968,38 @@
         "test_reference_graph_and_actual_c07_light_block_power_status"
       ],
       "runtime_proof": "/root/C07LightBlockPowerStatusProof"
+    },
+    "source_launch_pad_should_consume_state_result.should_consume": {
+      "status": "source-backed",
+      "godot_owner": "SourceLaunchPadBuildState.source_launch_pad_should_consume_state",
+      "godot_symbol": "source_launch_pad_should_consume_state_result.should_consume",
+      "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+      "java_method": "LaunchPadBuild.shouldConsume()",
+      "java_expr": "return launchCounter < launchTime;",
+      "rule": "The LaunchPadBuild.shouldConsume() verdict (LaunchPad.java:92-95): true while launchCounter < launchTime; the driver ANDs enabled and the machinery folds efficiency to 0 when the gate is false (BuildingComp.java:1960, 1992-1994).",
+      "tests": [
+        "test_c07_launch_pad_should_consume_registration",
+        "test_all_c07_launch_pad_should_consume_input_evidence_is_exact",
+        "test_launch_pad_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_launch_pad_should_consume"
+      ],
+      "runtime_proof": "/root/C07LaunchPadShouldConsumeProof"
+    },
+    "source_launch_pad_should_consume_state_result.launch_counter": {
+      "status": "source-backed",
+      "godot_owner": "SourceLaunchPadBuildState.source_launch_pad_should_consume_state",
+      "godot_symbol": "source_launch_pad_should_consume_state_result.launch_counter",
+      "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+      "java_method": "LaunchPadBuild.shouldConsume()",
+      "java_expr": "public float launchCounter;",
+      "rule": "The launchCounter value the gate read (LaunchPadBuild.launchCounter, LaunchPad.java:84): advanced by edelta each tick (the counter half of LaunchPad.java:146), frozen at launchTime while the gate is closed because edelta() is then 0.",
+      "tests": [
+        "test_c07_launch_pad_should_consume_registration",
+        "test_all_c07_launch_pad_should_consume_input_evidence_is_exact",
+        "test_launch_pad_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_launch_pad_should_consume"
+      ],
+      "runtime_proof": "/root/C07LaunchPadShouldConsumeProof"
     }
   },
   "version": 1
