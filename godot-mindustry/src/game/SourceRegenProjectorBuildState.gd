@@ -61,14 +61,16 @@ static func source_regen_projector_tick_frame_state(frame: Dictionary, block_imp
 	return frame
 
 static func _initial_frame() -> Dictionary:
-	return {}
+	return {"any_targets": false}
 
 static func source_regen_projector_bind_frame_state(sprite: Sprite2D, block: Object) -> Dictionary:
 	# Placement creates the Building (Block.java:1002 newBuilding);
 	# the port's frame is that Building state, bound on the sprite
 	# at placement under the regen-projector frame meta key
-	# ("source_regen_projector_building"). A RegenProjector sprite gets an
-	# empty frame bound; the live-loop tick fills its keys every
+	# ("source_regen_projector_building"). A RegenProjector sprite gets a
+	# frame bound with the any_targets key defaulting to false (the Java
+	# field `public boolean anyTargets = false;`, RegenProjector.java:112);
+	# the live-loop tick fills its other keys every
 	# tick. Any other block, or an already-bound sprite, binds
 	# nothing.
 	if block == null or not _is_regen_projector_build_implementation(str(block.implementation)):
@@ -78,6 +80,11 @@ static func source_regen_projector_bind_frame_state(sprite: Sprite2D, block: Obj
 	var frame: Dictionary = _initial_frame()
 	sprite.set_meta(SOURCE_REGEN_PROJECTOR_BUILDING_META_KEY, frame)
 	return {"applied": true, "frame": frame}
+
+static func source_regen_projector_should_consume_state(frame: Dictionary) -> Dictionary:
+	# RegenProjectorBuild overrides shouldConsume (RegenProjector.java:181, `public boolean shouldConsume(){` with `return anyTargets;`, RegenProjector.java:182): the gate reads ONLY the anyTargets flag -- the projector consumes while a damaged building is in range and stops consuming once nothing in range is damaged. The field is `public boolean anyTargets = false;` (RegenProjector.java:112) on RegenProjectorBuild (`public class RegenProjectorBuild extends Building{`, RegenProjector.java:108); RegenProjector extends Block (RegenProjector.java:20, `public class RegenProjector extends Block{`), so the default (`return enabled;`, BuildingComp.java:755) does NOT apply here. Unlike the Separator/Drill gates this one has NO `&& enabled` -- Java returns the bare flag, so the pure gate does NOT read frame["enabled"] at all (the driver already runs the machinery only when enabled). The frame carries the flag (frame["any_targets"], default false for a frame bound before this slice -- the Java field defaults to false); no live fill sets it yet -- the targets computation (indexer range query, RegenProjector.java:115-119, + contains damaged, RegenProjector.java:139) is the updateTile advance (RegenProjector.java:122-179) and waits for its own slice. The gate reads anyTargets only, never the targets list itself, so this slice adds NO `targets` frame key. When the gate is false updateConsumption forces efficiency to zero (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();` + 1992, `if(!update){`). The heal gate (RegenProjector.java:141, `if(efficiency > 0){`) and the heal amount (RegenProjector.java:147, `float healAmount = Mathf.lerp(1f, optionalMultiplier, optionalEfficiency) * healPercent;`) follow the folded efficiency; the def consumes power 1f (`consumePower(1f);`, Blocks.java:2015) plus liquid hydrogen 1f/60f (`consumeLiquid(Liquids.hydrogen, 1f / 60f);`, Blocks.java:2016) -- the liquid row waits for its own slice. N2214 cites the gate at 181-183 (verified by grep: exactly one shouldConsume in the file).
+	var any_targets: bool = bool(frame.get("any_targets", false))
+	return {"should_consume": any_targets, "any_targets": any_targets}
 
 static func source_regen_projector_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
 	# ConsumePower.efficiency (ConsumePower.java:38-40,
@@ -98,18 +105,25 @@ static func source_regen_projector_power_status_row_state(frame: Dictionary, has
 	# (RegenProjector.java:148, `float healAmount = Mathf.lerp(1f, optionalMultiplier, optionalEfficiency) * healPercent;`) and the regen-projector healPercent
 	# (Blocks.java:2018, `healPercent = 4f / 60f;`) and the shouldConsume default
 	# (BuildingComp.java:755, `public boolean shouldConsume(){`) and the anyTargets override
-	# (RegenProjector.java:207, `return anyTargets;`).
+	# (RegenProjector.java:182, `return anyTargets;`) -- the shouldConsume gate is live
+	# (N2214): the pure gate (source_regen_projector_should_consume_state) feeds
+	# should_consume to the machinery from the frame any_targets key (false with no
+	# damaged building in range, true while one is in range); no live fill sets
+	# frame["any_targets"] yet (the targets computation is the updateTile advance,
+	# RegenProjector.java:115-119, 139).
 	# Documented limits: (1) power-only first pass -- RegenProjector has
 	# a liquid consumer (hydrogen 1f/60f, Blocks.java:2016) and an
 	# optional item booster (phaseFabric, Blocks.java:2017) besides
 	# power, so the folded efficiency is the min over the *modeled*
-	# consumers (power only) with those rows deferred. (2) shouldConsume
-	# gate deferred -- RegenProjectorBuild overrides shouldConsume() to
-	# return anyTargets (RegenProjector.java:206-208); the targets
-	# computation (indexer range query over damaged buildings in range
-	# 28, RegenProjector.java:113-117) is not tracked yet, so the
-	# machinery runs with should_consume=true when enabled (the
-	# MendProjector suppression precedent). (3) Suppression gate
+	# consumers (power only) with those rows deferred.
+	# (2) shouldConsume gate live (N2214) -- RegenProjectorBuild overrides
+	# shouldConsume() to return anyTargets (RegenProjector.java:181-183); the
+	# pure gate reads the frame any_targets key (default false) and feeds
+	# should_consume to the machinery; no live fill sets frame["any_targets"]
+	# yet (the targets computation -- indexer range query over damaged
+	# buildings in range 28, RegenProjector.java:115-119, + contains damaged,
+	# RegenProjector.java:139 -- is the updateTile advance and waits for its
+	# own slice). (3) Suppression gate
 	# deferred -- checkSuppression() (RegenProjector.java:137;
 	# suppressable=true, RegenProjector.java:49) needs suppression state
 	# the tick does not track yet. (4) No updateTile advance -- warmup /
@@ -175,16 +189,20 @@ static func source_regen_projector_tick_buildings_state(game: Object, seconds: f
 		# projector does not take the early return. A regen projector with
 		# no power consumer is untouched: the tick models no other
 		# consumers yet (the liquid hydrogen row and the phaseFabric
-		# booster row wait for their own slices), and there is no
-		# shouldConsume gate yet (RegenProjectorBuild overrides
-		# shouldConsume() to return anyTargets, RegenProjector.java:206-208,
-		# but the targets computation is not tracked yet), so the
-		# machinery runs with should_consume=true when enabled.
+		# booster row wait for their own slices), and RegenProjectorBuild
+		# overrides shouldConsume() to return anyTargets
+		# (RegenProjector.java:181-183) -- N2214 feeds the live gate to the
+		# machinery (the pure gate is
+		# source_regen_projector_should_consume_state, fed the frame); the
+		# N2160 RED decision is resolved. The gate has no enabled term
+		# (Java returns the bare flag); the outer guard below already runs
+		# the machinery only when enabled.
 		# productionValid is the canonical true default
 		# (SourceBuildingAccessState.production_valid_state()).
 		var has_power_consumer: bool = bool(block.properties.has("consumePower"))
 		if has_power_consumer and bool(frame.get("enabled", true)) and not bool(frame.get("cheating", false)):
-			var should_consume: bool = bool(frame.get("enabled", true))
+			var gate: Dictionary = source_regen_projector_should_consume_state(frame)
+			var should_consume: bool = bool(gate.get("should_consume", true))
 			var valid: bool = source_building_access_state.production_valid_state()
 			var setup: Dictionary = source_building_efficiency_state.update_consumption_setup_state(should_consume, valid)
 			frame["efficiency"] = setup.get("efficiency", 1.0)
