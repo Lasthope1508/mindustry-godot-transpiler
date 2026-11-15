@@ -337,12 +337,12 @@ expression; no per-def value enters the gate.
 - Report `docs/superpowers/reports/2026-11-15-c07-repair-turret-should-consume.md`
   written; design spec counts 1638→1639 + N2188 bullet; GOAL.md §5 gains the
   N2188 Windows-debt entry.
-- **Commits (TBD — filled after push):**
-  - Slice: `TBD` — C07: N2188 RepairTurret shouldConsume gate live read
+- **Commits:**
+  - Slice: `5b716a5` — C07: N2188 RepairTurret shouldConsume gate live read
     (pure function + 1 driver line; proof 5 keys), 9 files.
-  - Docs: `TBD` — Docs: N2188 report + design spec + handoff (gate clean
+  - Docs: `1db19d6` — Docs: N2188 report + design spec + handoff (gate clean
     except Godot).
-  - GOAL: `TBD` — Docs: GOAL.md names the N2188 slice commit that carries
+  - GOAL: `cd1e342` — Docs: GOAL.md names the N2188 slice commit that carries
     its proof to Windows.
   - Pushed 2026-11-15 ~13:2x +07 to the fork (Lasthope1508), origin main.
 - **Next: N2189** — give `C06UnitFactoryShouldConsumeProof` a power producer

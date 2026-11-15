@@ -1,6 +1,6 @@
 # Report — N2188: RepairTurret shouldConsume gate live read (C07)
 
-Date: 2026-11-15. Batch: N2188 (single slice). Status: **DONE + PUSHED (2026-11-15 ~13:2x +07 — targeted 4/4 OK, Godot proof GREEN 9 keys matches:true, full gate Ran 5849, failures=139, skipped=5, 0 errors — all 139 verified Godot-absent asserts). Slice commit `TBD`.**
+Date: 2026-11-15. Batch: N2188 (single slice). Status: **DONE + PUSHED (2026-11-15 ~13:2x +07 — targeted 4/4 OK, Godot proof GREEN 9 keys matches:true, full gate Ran 5849, failures=139, skipped=5, 0 errors — all 139 verified Godot-absent asserts). Slice commit `5b716a5`.**
 
 ## What changed
 
@@ -54,9 +54,9 @@ Finished ~13:00 +07 (log mtime, verified from the log on disk, not a worker clai
 
 ## Commits
 
-- Slice: `TBD` — C07: N2188 RepairTurret shouldConsume gate live read (pure function + 1 driver line; proof 5 keys), 9 files.
-- Docs: `TBD` — Docs: N2188 report + design spec + handoff (gate clean except Godot).
-- GOAL: `TBD` — Docs: GOAL.md names the N2188 slice commit that carries its proof to Windows.
+- Slice: `5b716a5` — C07: N2188 RepairTurret shouldConsume gate live read (pure function + 1 driver line; proof 5 keys), 9 files.
+- Docs: `1db19d6` — Docs: N2188 report + design spec + handoff (gate clean except Godot).
+- GOAL: `cd1e342` — Docs: GOAL.md names the N2188 slice commit that carries its proof to Windows.
 - Pushed 2026-11-15 ~13:2x +07 to the fork (Lasthope1508). See the handoff Commits section for the hashes.
 
 ## Deferred (NOT this slice)
