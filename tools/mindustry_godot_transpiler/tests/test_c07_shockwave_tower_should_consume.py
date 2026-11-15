@@ -156,7 +156,7 @@ class C07ShockwaveTowerShouldConsumeTests(unittest.TestCase):
         self.assertIn('source_shockwave_tower_should_consume_state(frame, block)', shockwave_tower)
         self.assertIn('bool(gate.get("should_consume", true))', shockwave_tower)
         self.assertIn('float(frame.get("potential_efficiency", 0.0)) > 0.0', shockwave_tower)
-        self.assertIn('frame["reload_counter"] = float(frame.get("reload_counter", 0.0)) + float(frame.get("efficiency", 0.0)) * seconds', shockwave_tower)
+        self.assertIn('frame["reload_counter"] = float(frame.get("reload_counter", 0.0)) + float(frame.get("efficiency", 0.0)) * source_placed_block_state.game_source_delta(game, seconds)', shockwave_tower)
         # The documented limits record the gate as live and the
         # charge as modeled; the old N2177 deferral text is gone.
         self.assertIn('shouldConsume gate live (N2187)', shockwave_tower)

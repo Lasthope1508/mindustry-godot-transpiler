@@ -98,12 +98,13 @@ func _ready() -> void:
 	proof["efficiency_folds_power_when_gate_true"] = is_equal_approx(float(shockwave_tower_frame.get("efficiency", -1.0)), 0.5)
 
 	# Counter charge: at full power the counter advances by
-	# edelta() = efficiency * delta = 1.0 * (1/60) per tick.
+	# edelta() = efficiency * delta = 1.0 * 1.0 tick per tick
+	# (Time.delta is 1.0 per 1/60s tick, arc Time.java:26).
 	shockwave_tower_frame["reload_counter"] = 10.0
 	shockwave_tower_frame["power_status"] = 1.0
 	shockwave_tower_build_state.source_shockwave_tower_tick_buildings_state(game, 1.0 / 60.0)
 	shockwave_tower_frame = shockwave_tower.get_meta(shockwave_tower_build_state.SOURCE_SHOCKWAVE_TOWER_BUILDING_META_KEY, {})
-	proof["reload_counter_advances_by_edelta"] = is_equal_approx(float(shockwave_tower_frame.get("efficiency", -1.0)), 1.0) and is_equal_approx(float(shockwave_tower_frame.get("reload_counter", -1.0)), 10.0 + 1.0 / 60.0)
+	proof["reload_counter_advances_by_edelta"] = is_equal_approx(float(shockwave_tower_frame.get("efficiency", -1.0)), 1.0) and is_equal_approx(float(shockwave_tower_frame.get("reload_counter", -1.0)), 10.0 + 1.0)
 
 	var state_registry := registry.canonical_headquarter_registry_state()
 	proof["registry_valid"] = state_registry.get("errors", []).is_empty()
