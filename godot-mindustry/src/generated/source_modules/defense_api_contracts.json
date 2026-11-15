@@ -6946,6 +6946,32 @@
       "rule": "Source-backed ShockwaveTower power.status row from ConsumePower.java / BuildingComp.java.",
       "return_type": "Dictionary"
     },
+    "SourceShockwaveTowerBuildState.source_shockwave_tower_should_consume_state": {
+      "canonical_contract": "source_api_contracts.SourceShockwaveTowerBuildState.source_shockwave_tower_should_consume_state",
+      "status": "active",
+      "source_slice": "N2193",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "source_method": "ShockwaveTowerBuild.shouldConsume()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_shockwave_tower_should_consume_state_input.frame"
+        }
+      ],
+      "return_keys": [
+        "should_consume"
+      ],
+      "tests": [
+        "test_c07_shockwave_tower_should_consume_registration",
+        "test_all_c07_shockwave_tower_should_consume_input_evidence_is_exact",
+        "test_shockwave_tower_should_consume_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_should_consume"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerShouldConsumeProof",
+      "rule": "Source-backed ShockwaveTower shouldConsume gate from ShockwaveTower.java / BuildingComp.java.",
+      "return_type": "Dictionary"
+    },
     "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourceTractorBeamTurretBuildState.source_tractor_beam_turret_power_status_row_state",
       "status": "active",

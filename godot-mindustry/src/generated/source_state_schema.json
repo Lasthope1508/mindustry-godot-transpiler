@@ -230294,6 +230294,44 @@
       },
       "runtime_proof": "/root/C07ShockwaveTowerChargeProof",
       "rule": "Source-backed ShockwaveTower charge advance from ShockwaveTower.java / BuildingComp.java."
+    },
+    "source_shockwave_tower_should_consume_state_input": {
+      "status": "active",
+      "owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_should_consume_state",
+      "source_slice": "N2193",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return reloadCounter < reload;",
+          "rule": "The building frame carrying the reload_counter observation (ShockwaveTower.java:67, `public float reloadCounter = Mathf.random(reload);`, stamped by the N2192 charge every tick after apply_update_consumption_state) plus enabled; a missing reload_counter key means no observation yet (N2177 behavior preserved), not fully charged. The per-def reload is 80f (Blocks.java:2044), overriding the class default `60f * 1.5f` (ShockwaveTower.java:26).",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ShockwaveTowerShouldConsumeProof",
+      "rule": "Source-backed ShockwaveTower shouldConsume gate from ShockwaveTower.java / BuildingComp.java."
+    },
+    "source_shockwave_tower_should_consume_state_result": {
+      "status": "active",
+      "owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_should_consume_state",
+      "source_slice": "N2193",
+      "keys": {
+        "should_consume": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "return reloadCounter < reload;",
+          "rule": "The shouldConsume gate (ShockwaveTower.java:121-122): float(reload_counter) < 80.0 and enabled when a counter observation is present, enabled when the frame carries no reload_counter key (the N2177 behavior); false gates efficiency to 0 via updateConsumption (BuildingComp.java:1960 + 1992-1993).",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ShockwaveTowerShouldConsumeProof",
+      "rule": "Source-backed ShockwaveTower shouldConsume gate from ShockwaveTower.java / BuildingComp.java."
     }
   },
   "version": 1

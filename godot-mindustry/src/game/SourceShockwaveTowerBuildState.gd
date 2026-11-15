@@ -106,6 +106,39 @@ static func source_shockwave_tower_charge_state(frame: Dictionary, delta: float)
 		reload_counter += float(frame.get("efficiency", 0.0)) * delta
 	return {"reload_counter": reload_counter}
 
+static func source_shockwave_tower_should_consume_state(frame: Dictionary) -> Dictionary:
+	# ShockwaveTowerBuild overrides shouldConsume
+	# (ShockwaveTower.java:121, `public boolean shouldConsume(){`
+	# with `return reloadCounter < reload;`,
+	# ShockwaveTower.java:122) over the reload counter
+	# (ShockwaveTower.java:67, `public float reloadCounter =
+	# Mathf.random(reload);`), which the N2192 charge alone writes
+	# (ShockwaveTower.java:73, `if(potentialEfficiency > 0 &&
+	# (reloadCounter += edelta()) >= reload && timer(timerCheck,
+	# checkInterval)){`). The per-def reload is 80f
+	# (Blocks.java:2044, `reload = 80f;`, with `size = 3;` and
+	# `range = 170f;`), overriding the class default `60f * 1.5f`
+	# (ShockwaveTower.java:26, `public float reload = 60f * 1.5f;`).
+	# An absent `reload_counter` key means "no observation yet"
+	# and preserves the N2177 behavior (`should_consume =
+	# enabled`) -- the N2191 `targets_count` precedent -- never
+	# "fully charged": the N2192 charge stamps `reload_counter`
+	# only after the first consumption stamp each tick, and
+	# defaulting absent to false would zero efficiency for every
+	# live shockwave tower before its first charge tick. It also
+	# matches the Java init: `reloadCounter =
+	# Mathf.random(reload);` is always < reload, so at Java init
+	# the gate is true when enabled. updateConsumption forces
+	# efficiency to zero when the gate is false
+	# (BuildingComp.java:1960, `boolean update = shouldConsume()
+	# && productionValid();` + 1992, `if(!update){` + 1993,
+	# `efficiency = optionalEfficiency = 0f;`).
+	var enabled: bool = bool(frame.get("enabled", true))
+	var observed: Variant = frame.get("reload_counter", null)
+	if observed == null:
+		return {"should_consume": enabled}
+	return {"should_consume": float(observed) < 80.0 and enabled}
+
 @warning_ignore("unused_parameter")
 static func source_shockwave_tower_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the shockwave-tower tick wiring every
@@ -145,7 +178,8 @@ static func source_shockwave_tower_tick_buildings_state(game: Object, seconds: f
 		# hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a shockwave tower does not take the early return. The shockwave tower's power draw is STATIC: `consumePower(100f / 60f);` (Blocks.java:2042) registers a plain ConsumePower, so the catalog consumePower 1.6666666666666667 is present and the plain radar gate (block.properties.has("consumePower")) works -- no RepairTurret-style `or consumesPower` adaptation is needed. A shockwave tower with no power consumer is untouched: the tick models no other consumers yet (the updateTile advance waits for its own slice), and ShockwaveTowerBuild overrides shouldConsume (ShockwaveTower.java:121, `public boolean shouldConsume(){` with `return reloadCounter < reload;`, ShockwaveTower.java:122) -- RED decision (the PointDefenseTurret N2151 precedent and the RepairTurret N2174 / RepairTower N2176 precedents): the port tracks no live reload counter on any placed-building frame, so the machinery runs with should_consume=true when enabled (the MendProjector suppression precedent). productionValid is the canonical true default (SourceBuildingAccessState.production_valid_state()).
 		var has_power_consumer: bool = bool(block.properties.has("consumePower"))
 		if has_power_consumer and bool(frame.get("enabled", true)) and not bool(frame.get("cheating", false)):
-			var should_consume: bool = bool(frame.get("enabled", true))
+			# N2193 wires the shouldConsume gate through source_shockwave_tower_should_consume_state(frame): float(reload_counter) < 80.0 and enabled when a counter observation is present, enabled when the frame carries no reload_counter key (the N2177 behavior preserved; the N2192 charge stamps reload_counter every tick after apply_update_consumption_state).
+			var should_consume: bool = bool(source_shockwave_tower_should_consume_state(frame).get("should_consume", true))
 			var valid: bool = source_building_access_state.production_valid_state()
 			var setup: Dictionary = source_building_efficiency_state.update_consumption_setup_state(should_consume, valid)
 			frame["efficiency"] = setup.get("efficiency", 1.0)

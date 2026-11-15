@@ -173224,6 +173224,22 @@
         "test_reference_graph_and_actual_c07_shockwave_tower_charge"
       ],
       "runtime_proof": "/root/C07ShockwaveTowerChargeProof"
+    },
+    "source_shockwave_tower_should_consume_state_result.should_consume": {
+      "status": "source-backed",
+      "godot_owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_should_consume_state",
+      "godot_symbol": "source_shockwave_tower_should_consume_state_result.should_consume",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "java_method": "ShockwaveTowerBuild.shouldConsume()",
+      "java_expr": "return reloadCounter < reload;",
+      "rule": "The shouldConsume gate (ShockwaveTower.java:121-122): float(reload_counter) < 80.0 and enabled when a counter observation is present, enabled when the frame carries no reload_counter key (the N2177 behavior); false gates efficiency to 0 via updateConsumption (BuildingComp.java:1960 + 1992-1993).",
+      "tests": [
+        "test_c07_shockwave_tower_should_consume_registration",
+        "test_all_c07_shockwave_tower_should_consume_input_evidence_is_exact",
+        "test_shockwave_tower_should_consume_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_should_consume"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerShouldConsumeProof"
     }
   },
   "version": 1
