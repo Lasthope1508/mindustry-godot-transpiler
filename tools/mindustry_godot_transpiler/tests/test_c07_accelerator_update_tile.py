@@ -58,10 +58,12 @@ class C07AcceleratorUpdateTileTests(unittest.TestCase):
         # (Accelerator.java:277) set it false again -- the
         # launch sequence waits for its own slice, but the flag
         # must exist as frame state so the lerps pick the right
-        # target. Time.delta in the port is the driver's seconds
-        # (the conduit precedent: SourceConduitRuntimeState
-        # passes its live-loop delta straight into
-        # source_lerp_delta). The lerpDelta/slerpDelta formulas
+        # target. Time.delta in the port is seconds * 60
+        # via game_source_delta (arc Time.java:26, the
+        # N2093/N2189 precedent); the conduit file passing raw
+        # delta into source_lerp_delta is a pre-existing
+        # deviation, not a precedent to follow. The
+        # lerpDelta/slerpDelta formulas
         # come from Arc Mathf.java, not from guessing:
         # lerpDelta is lerp(from, to, clamp(progress *
         # Time.delta)) (Mathf.java:430-432) and slerpDelta is
@@ -165,7 +167,7 @@ class C07AcceleratorUpdateTileTests(unittest.TestCase):
         # (Mathf.java:402-404). GDScript fmod matches Java %
         # (sign of the dividend), so the slerp
         # transliteration is exact. Time.delta in the port is
-        # the driver's seconds (the conduit precedent).
+        # seconds * 60 via game_source_delta (arc Time.java:26).
         self.assertIn('public class Accelerator extends Block{', accelerator)
         self.assertIn('public float buildDuration = 120f;', accelerator)
         self.assertIn('public class AcceleratorBuild extends Building implements LaunchAnimator{', accelerator)
@@ -213,11 +215,11 @@ class C07AcceleratorUpdateTileTests(unittest.TestCase):
         # The launching flag is frame state (read by the
         # advance, default false); the launch sequence that
         # sets it true waits for its own slice.
-        self.assertIn('static func source_accelerator_update_tile_advance_state(frame: Dictionary, seconds: float) -> Dictionary:', accelerator)
+        self.assertIn('static func source_accelerator_update_tile_advance_state(frame: Dictionary, source_delta: float) -> Dictionary:', accelerator)
         self.assertIn('static func source_mathf_slerp_delta(', accelerator)
         self.assertIn('source_lerp_delta', accelerator)
         self.assertIn('const SOURCE_ACCELERATOR_BUILD_DURATION := 120.0', accelerator)
-        self.assertIn('source_accelerator_update_tile_advance_state(frame, seconds)', accelerator)
+        self.assertIn('source_accelerator_update_tile_advance_state(frame, source_placed_block_state.game_source_delta(game, seconds))', accelerator)
         self.assertIn('frame["heat"]', accelerator)
         self.assertIn('frame["status_lerp"]', accelerator)
         self.assertIn('frame["time"]', accelerator)
