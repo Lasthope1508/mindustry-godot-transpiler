@@ -252,19 +252,19 @@ class C07TractorBeamUpdateTileTests(unittest.TestCase):
         # nothing. The building position comes from the origin
         # cell: Building x/y are tile.drawx()/drawy()
         # (BuildingComp.java:124) with the block offset
-        # (Block.java:761). The driver passes an EMPTY candidate
-        # list with retarget_tick false: no live unit query
-        # exists in the port and there is no timer helper, so
-        # no live retarget happens (the live-fill entry stays
-        # deferred); the coolant inputs are all default
-        # no-op (parallax has no ConsumeCoolant consumer, so
-        # coolant is null); blockDamage is the 1.0 default
-        # (Rules.java:113/:367, no rules helper reads it in
-        # the port); status is none for parallax, so
-        # status_present is false.
+        # (Block.java:761). The driver passes the frame-input
+        # unit_candidates with the live retarget_tick from the
+        # N2317 frame-local timer (5f): no live unit query
+        # exists in the port, so the candidates are a frame
+        # input (default []) and the live scan stays deferred;
+        # the coolant inputs are all default no-op (parallax
+        # has no ConsumeCoolant consumer, so coolant is null);
+        # blockDamage is the 1.0 default (Rules.java:113/:367,
+        # no rules helper reads it in the port); status is none
+        # for parallax, so status_present is false.
         self.assertIn('game_source_delta(game, seconds)', tractor_beam)
         self.assertIn('time_scale(sprite', tractor_beam)
-        self.assertIn('source_tractor_beam_turret_update_tile_advance_state(frame, source_delta, time_scale, advance_building_x, advance_building_y, team_id, [], false, false, 0.0, 0.0, 0.0, 1.0, false)', tractor_beam)
+        self.assertIn('source_tractor_beam_turret_update_tile_advance_state(frame, source_delta, time_scale, advance_building_x, advance_building_y, team_id, retarget_candidates, retarget_tick, false, 0.0, 0.0, 0.0, 1.0, false)', tractor_beam)
         self.assertIn('tile_drawx_state(', tractor_beam)
         self.assertIn('tile_drawy_state(', tractor_beam)
         self.assertIn('source_world_defaults.TILESIZE', tractor_beam)
@@ -298,10 +298,10 @@ class C07TractorBeamUpdateTileTests(unittest.TestCase):
         self.assertIn('frame.get("last_y", 0.0)', tractor_beam)
         self.assertIn('frame.get("any", false)', tractor_beam)
         # The documented limits now record the advance as done
-        # and the remaining deferrals (timer cadence, live
-        # enemy scan, coolant live fill, damage / impulse /
-        # status application); the shouldConsume gate stays
-        # live (N2218).
+        # and the remaining deferrals (live enemy scan,
+        # coolant live fill, damage / impulse / status
+        # application -- the timer cadence is live since
+        # N2317); the shouldConsume gate stays live (N2218).
         self.assertIn('updateTile advance live (N2230)', tractor_beam)
         self.assertNotIn('No updateTile advance', tractor_beam)
         self.assertIn('shouldConsume gate live (N2218)', tractor_beam)
