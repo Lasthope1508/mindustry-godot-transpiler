@@ -66808,6 +66808,321 @@
       ],
       "runtime_proof": "/root/C07TractorBeamTurretShouldConsumeProof",
       "rule": "Source-backed TractorBeamTurret shouldConsume gate from TractorBeamTurret.java / BaseTurret.java / BuildingComp.java / Blocks.java."
+    },
+    "SourceBurstDrillBuildState.source_burst_drill_update_tile_advance_state": {
+      "status": "active",
+      "source_slice": "N2219",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "source_method": "BurstDrillBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_burst_drill_update_tile_advance_state_input.frame"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_burst_drill_update_tile_advance_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_burst_drill_update_tile_advance_state_input.time_scale"
+        },
+        {
+          "name": "drill_time",
+          "type": "float",
+          "schema": "source_burst_drill_update_tile_advance_state_input.drill_time"
+        },
+        {
+          "name": "liquid_boost_intensity",
+          "type": "float",
+          "schema": "source_burst_drill_update_tile_advance_state_input.liquid_boost_intensity"
+        },
+        {
+          "name": "drill_multiplier",
+          "type": "float",
+          "schema": "source_burst_drill_update_tile_advance_state_input.drill_multiplier"
+        },
+        {
+          "name": "dominant_item_name",
+          "type": "String",
+          "schema": "source_burst_drill_update_tile_advance_state_input.dominant_item_name"
+        },
+        {
+          "name": "item_capacity",
+          "type": "int",
+          "schema": "source_burst_drill_update_tile_advance_state_input.item_capacity"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "progress",
+        "warmup",
+        "time_drilled",
+        "last_drill_speed",
+        "smooth_progress",
+        "invert_time",
+        "items",
+        "offloaded",
+        "drill_time",
+        "speed"
+      ],
+      "tests": [
+        "test_c07_burst_drill_update_tile_registration",
+        "test_all_c07_burst_drill_update_tile_input_evidence_is_exact",
+        "test_burst_drill_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_burst_drill_update_tile"
+      ],
+      "runtime_proof": "/root/C07BurstDrillUpdateTileProof",
+      "rule": "Source-backed BurstDrill updateTile advance from BurstDrill.java / Drill.java / BuildingComp.java."
+    },
+    "SourceSolidPumpBuildState.source_solid_pump_update_tile_advance_state": {
+      "status": "active",
+      "source_slice": "N2220",
+      "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+      "source_method": "SolidPumpBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_solid_pump_update_tile_advance_state_input.frame"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_solid_pump_update_tile_advance_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_solid_pump_update_tile_advance_state_input.time_scale"
+        },
+        {
+          "name": "result_liquid_id",
+          "type": "int",
+          "schema": "source_solid_pump_update_tile_advance_state_input.result_liquid_id"
+        },
+        {
+          "name": "liquid_capacity",
+          "type": "float",
+          "schema": "source_solid_pump_update_tile_advance_state_input.liquid_capacity"
+        },
+        {
+          "name": "pump_amount",
+          "type": "float",
+          "schema": "source_solid_pump_update_tile_advance_state_input.pump_amount"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "warmup",
+        "pump_time",
+        "last_pump",
+        "max_pump",
+        "fraction"
+      ],
+      "tests": [
+        "test_c07_solid_pump_update_tile_registration",
+        "test_all_c07_solid_pump_update_tile_input_evidence_is_exact",
+        "test_solid_pump_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_solid_pump_update_tile"
+      ],
+      "runtime_proof": "/root/C07SolidPumpUpdateTileProof",
+      "rule": "Source-backed SolidPump updateTile advance from SolidPump.java / Pump.java / BuildingComp.java / Blocks.java / Block.java."
+    },
+    "SourceMechanicalPumpBuildState.source_mechanical_pump_update_tile_advance_state": {
+      "status": "active",
+      "source_slice": "N2221",
+      "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+      "source_method": "PumpBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_mechanical_pump_update_tile_advance_state_input.frame"
+        },
+        {
+          "name": "liquid_drop",
+          "type": "Variant",
+          "schema": "source_mechanical_pump_update_tile_advance_state_input.liquid_drop"
+        },
+        {
+          "name": "amount",
+          "type": "float",
+          "schema": "source_mechanical_pump_update_tile_advance_state_input.amount"
+        },
+        {
+          "name": "liquids",
+          "type": "Dictionary",
+          "schema": "source_mechanical_pump_update_tile_advance_state_input.liquids"
+        },
+        {
+          "name": "liquid_capacity",
+          "type": "float",
+          "schema": "source_mechanical_pump_update_tile_advance_state_input.liquid_capacity"
+        },
+        {
+          "name": "pump_amount",
+          "type": "float",
+          "schema": "source_mechanical_pump_update_tile_advance_state_input.pump_amount"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_mechanical_pump_update_tile_advance_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_mechanical_pump_update_tile_advance_state_input.time_scale"
+        },
+        {
+          "name": "liquid_id_by_name",
+          "type": "Dictionary",
+          "schema": "source_mechanical_pump_update_tile_advance_state_input.liquid_id_by_name"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "max_pump",
+        "liquid_amount",
+        "cons_timer",
+        "warmup",
+        "total_progress"
+      ],
+      "tests": [
+        "test_c07_mechanical_pump_update_tile_registration",
+        "test_all_c07_mechanical_pump_update_tile_input_evidence_is_exact",
+        "test_mechanical_pump_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_mechanical_pump_update_tile"
+      ],
+      "runtime_proof": "/root/C07MechanicalPumpUpdateTileProof",
+      "rule": "Source-backed Pump updateTile advance from Pump.java / BuildingComp.java / Blocks.java / Block.java."
+    },
+    "SourceSeparatorBuildState.source_separator_update_tile_advance_state": {
+      "status": "active",
+      "source_slice": "N2222",
+      "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+      "source_method": "SeparatorBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_separator_update_tile_advance_state_input.frame"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_separator_update_tile_advance_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_separator_update_tile_advance_state_input.time_scale"
+        },
+        {
+          "name": "craft_time",
+          "type": "float",
+          "schema": "source_separator_update_tile_advance_state_input.craft_time"
+        },
+        {
+          "name": "results",
+          "type": "Array",
+          "schema": "source_separator_update_tile_advance_state_input.results"
+        },
+        {
+          "name": "cons_items",
+          "type": "Array",
+          "schema": "source_separator_update_tile_advance_state_input.cons_items"
+        },
+        {
+          "name": "item_capacity",
+          "type": "int",
+          "schema": "source_separator_update_tile_advance_state_input.item_capacity"
+        },
+        {
+          "name": "routing_context",
+          "type": "Dictionary",
+          "schema": "source_separator_update_tile_advance_state_input.routing_context"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "progress",
+        "warmup",
+        "total_progress",
+        "seed",
+        "items",
+        "cdump",
+        "picked_item",
+        "crafted"
+      ],
+      "tests": [
+        "test_c07_separator_update_tile_registration",
+        "test_all_c07_separator_update_tile_input_evidence_is_exact",
+        "test_separator_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_separator_update_tile"
+      ],
+      "runtime_proof": "/root/C07SeparatorUpdateTileProof",
+      "rule": "Source-backed Separator updateTile advance from Separator.java / BuildingComp.java / Block.java / Blocks.java / ConsumeItems.java / Consume.java / ItemModule.java / arc Mathf.java / Rand.java / Point2.java."
+    },
+    "SourceWallCrafterBuildState.source_wall_crafter_update_tile_advance_state": {
+      "status": "active",
+      "source_slice": "N2223",
+      "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+      "source_method": "WallCrafterBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_wall_crafter_update_tile_advance_state_input.frame"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_wall_crafter_update_tile_advance_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_wall_crafter_update_tile_advance_state_input.time_scale"
+        },
+        {
+          "name": "drill_time",
+          "type": "float",
+          "schema": "source_wall_crafter_update_tile_advance_state_input.drill_time"
+        },
+        {
+          "name": "output_item",
+          "type": "String",
+          "schema": "source_wall_crafter_update_tile_advance_state_input.output_item"
+        },
+        {
+          "name": "item_capacity",
+          "type": "int",
+          "schema": "source_wall_crafter_update_tile_advance_state_input.item_capacity"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "warmup",
+        "eff",
+        "last_efficiency",
+        "time",
+        "total_time",
+        "offloaded",
+        "items"
+      ],
+      "tests": [
+        "test_c07_wall_crafter_update_tile_registration",
+        "test_all_c07_wall_crafter_update_tile_input_evidence_is_exact",
+        "test_wall_crafter_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_update_tile"
+      ],
+      "runtime_proof": "/root/C07WallCrafterUpdateTileProof",
+      "rule": "Source-backed WallCrafter updateTile advance from WallCrafter.java / BuildingComp.java / Blocks.java / Block.java."
     }
   },
   "policy": {

@@ -173848,6 +173848,566 @@
         "test_reference_graph_and_actual_c07_tractor_beam_turret_should_consume"
       ],
       "runtime_proof": "/root/C07TractorBeamTurretShouldConsumeProof"
+    },
+    "source_burst_drill_update_tile_advance_state_result.progress": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_update_tile_advance_state",
+      "godot_symbol": "source_burst_drill_update_tile_advance_state_result.progress",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "java_method": "BurstDrillBuild.updateTile()",
+      "java_expr": "progress += delta() * speed;",
+      "rule": "The advanced progress (BurstDrill.java:99): progress += delta() * speed in the gate branch, unchanged in the blocked branch, modulo drillTime after an offload (BurstDrill.java:112, `progress %= drillTime;`).",
+      "tests": [
+        "test_c07_burst_drill_update_tile_registration",
+        "test_all_c07_burst_drill_update_tile_input_evidence_is_exact",
+        "test_burst_drill_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_burst_drill_update_tile"
+      ],
+      "runtime_proof": "/root/C07BurstDrillUpdateTileProof"
+    },
+    "source_burst_drill_update_tile_advance_state_result.warmup": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_update_tile_advance_state",
+      "godot_symbol": "source_burst_drill_update_tile_advance_state_result.warmup",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "java_method": "BurstDrillBuild.updateTile()",
+      "java_expr": "warmup = Mathf.approachDelta(warmup, progress / drillTime, 0.01f);",
+      "rule": "The advanced warmup (BurstDrill.java:92): approachDelta toward progress/drillTime at 0.01f in the gate branch, toward 0f at 0.01f when blocked (BurstDrill.java:101).",
+      "tests": [
+        "test_c07_burst_drill_update_tile_registration",
+        "test_all_c07_burst_drill_update_tile_input_evidence_is_exact",
+        "test_burst_drill_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_burst_drill_update_tile"
+      ],
+      "runtime_proof": "/root/C07BurstDrillUpdateTileProof"
+    },
+    "source_burst_drill_update_tile_advance_state_result.time_drilled": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_update_tile_advance_state",
+      "godot_symbol": "source_burst_drill_update_tile_advance_state_result.time_drilled",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "java_method": "BurstDrillBuild.updateTile()",
+      "java_expr": "timeDrilled += speedCurve.apply(progress / drillTime) * speed;",
+      "rule": "The advanced timeDrilled (BurstDrill.java:96): timeDrilled += pow2In(progress/drillTime) * speed, with NO delta factor -- Java adds the curve value times speed per tick, not per second. pow2In(a) = a * a (Interp.java:29, PowIn.apply :119-121).",
+      "tests": [
+        "test_c07_burst_drill_update_tile_registration",
+        "test_all_c07_burst_drill_update_tile_input_evidence_is_exact",
+        "test_burst_drill_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_burst_drill_update_tile"
+      ],
+      "runtime_proof": "/root/C07BurstDrillUpdateTileProof"
+    },
+    "source_burst_drill_update_tile_advance_state_result.last_drill_speed": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_update_tile_advance_state",
+      "godot_symbol": "source_burst_drill_update_tile_advance_state_result.last_drill_speed",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "java_method": "BurstDrillBuild.updateTile()",
+      "java_expr": "lastDrillSpeed = 1f / drillTime * speed * dominantItems;",
+      "rule": "The advanced lastDrillSpeed (BurstDrill.java:98): 1/drillTime * speed * dominantItems in the gate branch, 0f when blocked (BurstDrill.java:102).",
+      "tests": [
+        "test_c07_burst_drill_update_tile_registration",
+        "test_all_c07_burst_drill_update_tile_input_evidence_is_exact",
+        "test_burst_drill_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_burst_drill_update_tile"
+      ],
+      "runtime_proof": "/root/C07BurstDrillUpdateTileProof"
+    },
+    "source_burst_drill_update_tile_advance_state_result.smooth_progress": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_update_tile_advance_state",
+      "godot_symbol": "source_burst_drill_update_tile_advance_state_result.smooth_progress",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "java_method": "BurstDrillBuild.updateTile()",
+      "java_expr": "smoothProgress = Mathf.lerpDelta(smoothProgress, progress / (drillTime - 20f), 0.1f);",
+      "rule": "The advanced smoothProgress (BurstDrill.java:89): lerpDelta toward progress/(drillTime - 20f) at 0.1f, computed BEFORE the gate branch from the pre-advance progress, so it moves even when blocked.",
+      "tests": [
+        "test_c07_burst_drill_update_tile_registration",
+        "test_all_c07_burst_drill_update_tile_input_evidence_is_exact",
+        "test_burst_drill_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_burst_drill_update_tile"
+      ],
+      "runtime_proof": "/root/C07BurstDrillUpdateTileProof"
+    },
+    "source_burst_drill_update_tile_advance_state_result.invert_time": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_update_tile_advance_state",
+      "godot_symbol": "source_burst_drill_update_tile_advance_state_result.invert_time",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "java_method": "BurstDrillBuild.updateTile()",
+      "java_expr": "invertTime = 1f;",
+      "rule": "The advanced invertTime (BurstDrill.java:111): set to 1f on offload; otherwise it decays by delta()/invertedTime while positive (BurstDrill.java:81, invertedTime 200f, BurstDrill.java:26), with no clamp at 0, exactly like Java.",
+      "tests": [
+        "test_c07_burst_drill_update_tile_registration",
+        "test_all_c07_burst_drill_update_tile_input_evidence_is_exact",
+        "test_burst_drill_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_burst_drill_update_tile"
+      ],
+      "runtime_proof": "/root/C07BurstDrillUpdateTileProof"
+    },
+    "source_burst_drill_update_tile_advance_state_result.items": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_update_tile_advance_state",
+      "godot_symbol": "source_burst_drill_update_tile_advance_state_result.items",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "java_method": "BurstDrillBuild.updateTile()",
+      "java_expr": "offload(dominantItem);",
+      "rule": "The next items map (BurstDrill.java:107-109): the offload branch adds dominantItems of the dominant item through the shared inventory helper, the no-neighbor fallback branch of offload (BuildingComp.java:1017, `handleItem(self(), item);`); unchanged when no offload fires.",
+      "tests": [
+        "test_c07_burst_drill_update_tile_registration",
+        "test_all_c07_burst_drill_update_tile_input_evidence_is_exact",
+        "test_burst_drill_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_burst_drill_update_tile"
+      ],
+      "runtime_proof": "/root/C07BurstDrillUpdateTileProof"
+    },
+    "source_burst_drill_update_tile_advance_state_result.offloaded": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_update_tile_advance_state",
+      "godot_symbol": "source_burst_drill_update_tile_advance_state_result.offloaded",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "java_method": "BurstDrillBuild.updateTile()",
+      "java_expr": "for(int i = 0; i < dominantItems; i++){",
+      "rule": "The offloaded count this tick (BurstDrill.java:107-109): dominantItems when the offload branch fires, 0 otherwise.",
+      "tests": [
+        "test_c07_burst_drill_update_tile_registration",
+        "test_all_c07_burst_drill_update_tile_input_evidence_is_exact",
+        "test_burst_drill_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_burst_drill_update_tile"
+      ],
+      "runtime_proof": "/root/C07BurstDrillUpdateTileProof"
+    },
+    "source_burst_drill_update_tile_advance_state_result.drill_time": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_update_tile_advance_state",
+      "godot_symbol": "source_burst_drill_update_tile_advance_state_result.drill_time",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "java_method": "BurstDrillBuild.updateTile()",
+      "java_expr": "return drillTime / drillMultipliers.get(item, 1f);",
+      "rule": "The effective drillTime (BurstDrill.java:87 + :54): the BurstDrill getDrillTime OVERRIDE, drillTime / drillMultipliers.get(item, 1f), with NO hardness term -- NOT the base-Drill formula (Drill.java:171). 0.0 when the dominant item is null (Java returns before computing it, BurstDrill.java:77-79).",
+      "tests": [
+        "test_c07_burst_drill_update_tile_registration",
+        "test_all_c07_burst_drill_update_tile_input_evidence_is_exact",
+        "test_burst_drill_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_burst_drill_update_tile"
+      ],
+      "runtime_proof": "/root/C07BurstDrillUpdateTileProof"
+    },
+    "source_burst_drill_update_tile_advance_state_result.speed": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_update_tile_advance_state",
+      "godot_symbol": "source_burst_drill_update_tile_advance_state_result.speed",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "java_method": "BurstDrillBuild.updateTile()",
+      "java_expr": "float speed = Mathf.lerp(1f, liquidBoostIntensity, optionalEfficiency) * efficiency;",
+      "rule": "The speed this tick (BurstDrill.java:94): lerp(1, liquidBoostIntensity, optionalEfficiency) * efficiency in the gate branch, 0.0 when blocked or the dominant item is null.",
+      "tests": [
+        "test_c07_burst_drill_update_tile_registration",
+        "test_all_c07_burst_drill_update_tile_input_evidence_is_exact",
+        "test_burst_drill_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_burst_drill_update_tile"
+      ],
+      "runtime_proof": "/root/C07BurstDrillUpdateTileProof"
+    },
+    "source_solid_pump_update_tile_advance_state_result.warmup": {
+      "status": "source-backed",
+      "godot_owner": "SourceSolidPumpBuildState.source_solid_pump_update_tile_advance_state",
+      "godot_symbol": "source_solid_pump_update_tile_advance_state_result.warmup",
+      "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+      "java_method": "SolidPumpBuild.updateTile()",
+      "java_expr": "warmup = Mathf.lerpDelta(warmup, 1f, 0.02f);",
+      "rule": "The advanced warmup (SolidPump.java:130/134): lerpDelta toward 1f while pumping, toward 0f while idle, at 0.02f -- scales by raw Time.delta, never by timeScale.",
+      "tests": [
+        "test_c07_solid_pump_update_tile_registration",
+        "test_all_c07_solid_pump_update_tile_input_evidence_is_exact",
+        "test_solid_pump_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_solid_pump_update_tile"
+      ],
+      "runtime_proof": "/root/C07SolidPumpUpdateTileProof"
+    },
+    "source_solid_pump_update_tile_advance_state_result.pump_time": {
+      "status": "source-backed",
+      "godot_owner": "SourceSolidPumpBuildState.source_solid_pump_update_tile_advance_state",
+      "godot_symbol": "source_solid_pump_update_tile_advance_state_result.pump_time",
+      "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+      "java_method": "SolidPumpBuild.updateTile()",
+      "java_expr": "pumpTime += warmup * edelta();",
+      "rule": "The advanced pump time (SolidPump.java:138): pumpTime += the NEW warmup * efficiency * Time.delta * timeScale; drives the rotator spin (SolidPump.java:112).",
+      "tests": [
+        "test_c07_solid_pump_update_tile_registration",
+        "test_all_c07_solid_pump_update_tile_input_evidence_is_exact",
+        "test_solid_pump_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_solid_pump_update_tile"
+      ],
+      "runtime_proof": "/root/C07SolidPumpUpdateTileProof"
+    },
+    "source_solid_pump_update_tile_advance_state_result.last_pump": {
+      "status": "source-backed",
+      "godot_owner": "SourceSolidPumpBuildState.source_solid_pump_update_tile_advance_state",
+      "godot_symbol": "source_solid_pump_update_tile_advance_state_result.last_pump",
+      "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+      "java_method": "SolidPumpBuild.updateTile()",
+      "java_expr": "lastPump = maxPump / Time.delta;",
+      "rule": "The last pump rate (SolidPump.java:129/135): maxPump over raw Time.delta while pumping, 0f while idle; the bar reads lastPump * 60 (SolidPump.java:52).",
+      "tests": [
+        "test_c07_solid_pump_update_tile_registration",
+        "test_all_c07_solid_pump_update_tile_input_evidence_is_exact",
+        "test_solid_pump_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_solid_pump_update_tile"
+      ],
+      "runtime_proof": "/root/C07SolidPumpUpdateTileProof"
+    },
+    "source_solid_pump_update_tile_advance_state_result.max_pump": {
+      "status": "source-backed",
+      "godot_owner": "SourceSolidPumpBuildState.source_solid_pump_update_tile_advance_state",
+      "godot_symbol": "source_solid_pump_update_tile_advance_state_result.max_pump",
+      "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+      "java_method": "SolidPumpBuild.updateTile()",
+      "java_expr": "float maxPump = Math.min(liquidCapacity - typeLiquid(), pumpAmount * delta() * fraction * efficiency);",
+      "rule": "The amount pumped this tick (SolidPump.java:127): min(capacity headroom, pumpAmount * delta() * fraction * efficiency), added to the store via the shared liquid module helper (SolidPump.java:128).",
+      "tests": [
+        "test_c07_solid_pump_update_tile_registration",
+        "test_all_c07_solid_pump_update_tile_input_evidence_is_exact",
+        "test_solid_pump_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_solid_pump_update_tile"
+      ],
+      "runtime_proof": "/root/C07SolidPumpUpdateTileProof"
+    },
+    "source_solid_pump_update_tile_advance_state_result.fraction": {
+      "status": "source-backed",
+      "godot_owner": "SourceSolidPumpBuildState.source_solid_pump_update_tile_advance_state",
+      "godot_symbol": "source_solid_pump_update_tile_advance_state_result.fraction",
+      "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+      "java_method": "SolidPumpBuild.updateTile()",
+      "java_expr": "float fraction = Math.max(validTiles + boost + (attribute == null ? 0 : attribute.env()), 0);",
+      "rule": "The pump fraction (SolidPump.java:124): max(validTiles + boost + attribute.env(), 0) from the explicit frame inputs; the live onProximityUpdate fill (SolidPump.java:150-159) waits for its own slice.",
+      "tests": [
+        "test_c07_solid_pump_update_tile_registration",
+        "test_all_c07_solid_pump_update_tile_input_evidence_is_exact",
+        "test_solid_pump_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_solid_pump_update_tile"
+      ],
+      "runtime_proof": "/root/C07SolidPumpUpdateTileProof"
+    },
+    "source_mechanical_pump_update_tile_advance_state_result.max_pump": {
+      "status": "source-backed",
+      "godot_owner": "SourceMechanicalPumpBuildState.source_mechanical_pump_update_tile_advance_state",
+      "godot_symbol": "source_mechanical_pump_update_tile_advance_state_result.max_pump",
+      "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+      "java_method": "PumpBuild.updateTile()",
+      "java_expr": "float maxPump = Math.min(liquidCapacity - liquids.get(liquidDrop), amount * pumpAmount * edelta());",
+      "rule": "The amount pumped this tick (Pump.java:162): min(remaining capacity, amount * pumpAmount * edelta()), where edelta() = efficiency * Time.delta * timeScale (BuildingComp.java:1922-1929). 0.0 when the pumping branch does not run (efficiency <= 0 or no liquid drop). The driver adds exactly this amount to the store through source_add_state.",
+      "tests": [
+        "test_c07_mechanical_pump_update_tile_registration",
+        "test_all_c07_mechanical_pump_update_tile_input_evidence_is_exact",
+        "test_mechanical_pump_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_mechanical_pump_update_tile"
+      ],
+      "runtime_proof": "/root/C07MechanicalPumpUpdateTileProof"
+    },
+    "source_mechanical_pump_update_tile_advance_state_result.liquid_amount": {
+      "status": "source-backed",
+      "godot_owner": "SourceMechanicalPumpBuildState.source_mechanical_pump_update_tile_advance_state",
+      "godot_symbol": "source_mechanical_pump_update_tile_advance_state_result.liquid_amount",
+      "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+      "java_method": "PumpBuild.updateTile()",
+      "java_expr": "liquids.add(liquidDrop, maxPump);",
+      "rule": "The stored amount of the drop after this tick (Pump.java:163, `liquids.add(liquidDrop, maxPump);`): the pre-tick amount plus max_pump, or the pre-tick amount when the pumping branch does not run. The pure advance computes it without mutating the store; the driver performs the add.",
+      "tests": [
+        "test_c07_mechanical_pump_update_tile_registration",
+        "test_all_c07_mechanical_pump_update_tile_input_evidence_is_exact",
+        "test_mechanical_pump_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_mechanical_pump_update_tile"
+      ],
+      "runtime_proof": "/root/C07MechanicalPumpUpdateTileProof"
+    },
+    "source_mechanical_pump_update_tile_advance_state_result.cons_timer": {
+      "status": "source-backed",
+      "godot_owner": "SourceMechanicalPumpBuildState.source_mechanical_pump_update_tile_advance_state",
+      "godot_symbol": "source_mechanical_pump_update_tile_advance_state_result.cons_timer",
+      "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+      "java_method": "PumpBuild.updateTile()",
+      "java_expr": "if((consTimer += delta()) >= consumeTime){",
+      "rule": "The item-consume timer after this tick (Pump.java:166-169): advanced by delta() = Time.delta * timeScale in the pumping branch, wrapping via `consTimer %= 1f;` (Pump.java:168) when it reaches consumeTime (60f * 5f = 300f, Pump.java:22). consume() is a no-op for these pumps (Pump.java:165, \"does nothing for most pumps\" -- neither def consumes items, Blocks.java:2304-2320), so the wrap has no item effect. Unchanged when the pumping branch does not run.",
+      "tests": [
+        "test_c07_mechanical_pump_update_tile_registration",
+        "test_all_c07_mechanical_pump_update_tile_input_evidence_is_exact",
+        "test_mechanical_pump_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_mechanical_pump_update_tile"
+      ],
+      "runtime_proof": "/root/C07MechanicalPumpUpdateTileProof"
+    },
+    "source_mechanical_pump_update_tile_advance_state_result.warmup": {
+      "status": "source-backed",
+      "godot_owner": "SourceMechanicalPumpBuildState.source_mechanical_pump_update_tile_advance_state",
+      "godot_symbol": "source_mechanical_pump_update_tile_advance_state_result.warmup",
+      "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+      "java_method": "PumpBuild.updateTile()",
+      "java_expr": "warmup = Mathf.approachDelta(warmup, maxPump > 0.001f ? 1f : 0f, warmupSpeed);",
+      "rule": "The warmup after this tick (Pump.java:171/173): approachDelta toward 1 when it pumped (maxPump > 0.001f) and toward 0 otherwise, at warmupSpeed 0.019f (Pump.java:23), with the step scaled by raw Time.delta (Mathf.java:420-422), not edelta.",
+      "tests": [
+        "test_c07_mechanical_pump_update_tile_registration",
+        "test_all_c07_mechanical_pump_update_tile_input_evidence_is_exact",
+        "test_mechanical_pump_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_mechanical_pump_update_tile"
+      ],
+      "runtime_proof": "/root/C07MechanicalPumpUpdateTileProof"
+    },
+    "source_mechanical_pump_update_tile_advance_state_result.total_progress": {
+      "status": "source-backed",
+      "godot_owner": "SourceMechanicalPumpBuildState.source_mechanical_pump_update_tile_advance_state",
+      "godot_symbol": "source_mechanical_pump_update_tile_advance_state_result.total_progress",
+      "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+      "java_method": "PumpBuild.updateTile()",
+      "java_expr": "totalProgress += warmup * Time.delta;",
+      "rule": "The total progress after this tick (Pump.java:176): advanced by the NEW warmup (after the approachDelta step) times raw Time.delta -- no timeScale, no efficiency. It advances even when the pumping branch does not run, as long as warmup has not decayed to 0.",
+      "tests": [
+        "test_c07_mechanical_pump_update_tile_registration",
+        "test_all_c07_mechanical_pump_update_tile_input_evidence_is_exact",
+        "test_mechanical_pump_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_mechanical_pump_update_tile"
+      ],
+      "runtime_proof": "/root/C07MechanicalPumpUpdateTileProof"
+    },
+    "source_separator_update_tile_advance_state_result.progress": {
+      "status": "source-backed",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_update_tile_advance_state",
+      "godot_symbol": "source_separator_update_tile_advance_state_result.progress",
+      "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+      "java_method": "SeparatorBuild.updateTile()",
+      "java_expr": "progress += getProgressIncrease(craftTime);",
+      "rule": "The advanced progress (Separator.java:134/141): + 1/craftTime * edelta() while efficiency > 0, wrapped with progress %= 1f at craft completion.",
+      "tests": [
+        "test_c07_separator_update_tile_registration",
+        "test_all_c07_separator_update_tile_input_evidence_is_exact",
+        "test_separator_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_separator_update_tile"
+      ],
+      "runtime_proof": "/root/C07SeparatorUpdateTileProof"
+    },
+    "source_separator_update_tile_advance_state_result.warmup": {
+      "status": "source-backed",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_update_tile_advance_state",
+      "godot_symbol": "source_separator_update_tile_advance_state_result.warmup",
+      "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+      "java_method": "SeparatorBuild.updateTile()",
+      "java_expr": "warmup = Mathf.lerpDelta(warmup, 1f, 0.02f);",
+      "rule": "The advanced warmup (Separator.java:135/137): lerpDelta toward 1f at 0.02f while efficiency > 0, toward 0f otherwise.",
+      "tests": [
+        "test_c07_separator_update_tile_registration",
+        "test_all_c07_separator_update_tile_input_evidence_is_exact",
+        "test_separator_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_separator_update_tile"
+      ],
+      "runtime_proof": "/root/C07SeparatorUpdateTileProof"
+    },
+    "source_separator_update_tile_advance_state_result.total_progress": {
+      "status": "source-backed",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_update_tile_advance_state",
+      "godot_symbol": "source_separator_update_tile_advance_state_result.total_progress",
+      "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+      "java_method": "SeparatorBuild.updateTile()",
+      "java_expr": "totalProgress += warmup * delta();",
+      "rule": "The advanced total progress (Separator.java:131): + warmup * delta() every tick, before the efficiency branch.",
+      "tests": [
+        "test_c07_separator_update_tile_registration",
+        "test_all_c07_separator_update_tile_input_evidence_is_exact",
+        "test_separator_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_separator_update_tile"
+      ],
+      "runtime_proof": "/root/C07SeparatorUpdateTileProof"
+    },
+    "source_separator_update_tile_advance_state_result.seed": {
+      "status": "source-backed",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_update_tile_advance_state",
+      "godot_symbol": "source_separator_update_tile_advance_state_result.seed",
+      "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+      "java_method": "SeparatorBuild.updateTile()",
+      "java_expr": "int i = Mathf.randomSeed(seed++, 0, sum - 1);",
+      "rule": "The advanced seed (Separator.java:145): incremented once per craft completion (the seed++ of the weighted pick); a fresh frame is seeded from Point2.pack(tile) like created() (Separator.java:82-84), a direct pure call defaults to 0.",
+      "tests": [
+        "test_c07_separator_update_tile_registration",
+        "test_all_c07_separator_update_tile_input_evidence_is_exact",
+        "test_separator_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_separator_update_tile"
+      ],
+      "runtime_proof": "/root/C07SeparatorUpdateTileProof"
+    },
+    "source_separator_update_tile_advance_state_result.items": {
+      "status": "source-backed",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_update_tile_advance_state",
+      "godot_symbol": "source_separator_update_tile_advance_state_result.items",
+      "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+      "java_method": "SeparatorBuild.updateTile()",
+      "java_expr": "if(item != null && items.get(item) < itemCapacity){",
+      "rule": "The items after the craft (Separator.java:158-162): the cons stacks removed by consume() (ConsumeItems.java:44-48) and the picked item added by the offload fallback when the held count fits itemCapacity; unchanged when no craft completes.",
+      "tests": [
+        "test_c07_separator_update_tile_registration",
+        "test_all_c07_separator_update_tile_input_evidence_is_exact",
+        "test_separator_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_separator_update_tile"
+      ],
+      "runtime_proof": "/root/C07SeparatorUpdateTileProof"
+    },
+    "source_separator_update_tile_advance_state_result.cdump": {
+      "status": "source-backed",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_update_tile_advance_state",
+      "godot_symbol": "source_separator_update_tile_advance_state_result.cdump",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "SeparatorBuild.updateTile()",
+      "java_expr": "int dump = this.cdump;",
+      "rule": "The dump cursor after the offload (BuildingComp.java:1003): advanced by offload_item_state when routing; unchanged with the empty routing context (no neighbors to rotate through).",
+      "tests": [
+        "test_c07_separator_update_tile_registration",
+        "test_all_c07_separator_update_tile_input_evidence_is_exact",
+        "test_separator_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_separator_update_tile"
+      ],
+      "runtime_proof": "/root/C07SeparatorUpdateTileProof"
+    },
+    "source_separator_update_tile_advance_state_result.picked_item": {
+      "status": "source-backed",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_update_tile_advance_state",
+      "godot_symbol": "source_separator_update_tile_advance_state_result.picked_item",
+      "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+      "java_method": "SeparatorBuild.updateTile()",
+      "java_expr": "item = stack.item;",
+      "rule": "The item the weighted pick drew (Separator.java:150-155): the stack whose [count, count + amount) window holds the randomSeed index; empty when no craft completes or the results are empty.",
+      "tests": [
+        "test_c07_separator_update_tile_registration",
+        "test_all_c07_separator_update_tile_input_evidence_is_exact",
+        "test_separator_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_separator_update_tile"
+      ],
+      "runtime_proof": "/root/C07SeparatorUpdateTileProof"
+    },
+    "source_separator_update_tile_advance_state_result.crafted": {
+      "status": "source-backed",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_update_tile_advance_state",
+      "godot_symbol": "source_separator_update_tile_advance_state_result.crafted",
+      "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+      "java_method": "SeparatorBuild.updateTile()",
+      "java_expr": "if(progress >= 1f){",
+      "rule": "Whether a craft completed this tick (Separator.java:140): progress reached 1f, so the branch ran (wrap + pick + consume + conditional offload).",
+      "tests": [
+        "test_c07_separator_update_tile_registration",
+        "test_all_c07_separator_update_tile_input_evidence_is_exact",
+        "test_separator_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_separator_update_tile"
+      ],
+      "runtime_proof": "/root/C07SeparatorUpdateTileProof"
+    },
+    "source_wall_crafter_update_tile_advance_state_result.warmup": {
+      "status": "source-backed",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_update_tile_advance_state",
+      "godot_symbol": "source_wall_crafter_update_tile_advance_state_result.warmup",
+      "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+      "java_method": "WallCrafterBuild.updateTile()",
+      "java_expr": "warmup = Mathf.approachDelta(warmup, Mathf.num(efficiency > 0), 1f / 40f);",
+      "rule": "The advanced warmup (WallCrafter.java:193): approachDelta toward num(efficiency > 0) at 1f/40f per tick -- 1.0 when powered, 0.0 when not.",
+      "tests": [
+        "test_c07_wall_crafter_update_tile_registration",
+        "test_all_c07_wall_crafter_update_tile_input_evidence_is_exact",
+        "test_wall_crafter_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_update_tile"
+      ],
+      "runtime_proof": "/root/C07WallCrafterUpdateTileProof"
+    },
+    "source_wall_crafter_update_tile_advance_state_result.eff": {
+      "status": "source-backed",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_update_tile_advance_state",
+      "godot_symbol": "source_wall_crafter_update_tile_advance_state_result.eff",
+      "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+      "java_method": "WallCrafterBuild.updateTile()",
+      "java_expr": "float eff = getEfficiency(tile.x, tile.y, rotation, dest -> {",
+      "rule": "The efficiency factor (WallCrafter.java:196-205): the frame efficiency_factor (the live getEfficiency scan stand-in) * lerp(1, 1.6, hasLiquidBooster ? optionalEfficiency : 0) * (itemValid ? 1.6 : 1), with the class boost intensities 1.6f (WallCrafter.java:35/:47).",
+      "tests": [
+        "test_c07_wall_crafter_update_tile_registration",
+        "test_all_c07_wall_crafter_update_tile_input_evidence_is_exact",
+        "test_wall_crafter_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_update_tile"
+      ],
+      "runtime_proof": "/root/C07WallCrafterUpdateTileProof"
+    },
+    "source_wall_crafter_update_tile_advance_state_result.last_efficiency": {
+      "status": "source-backed",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_update_tile_advance_state",
+      "godot_symbol": "source_wall_crafter_update_tile_advance_state_result.last_efficiency",
+      "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+      "java_method": "WallCrafterBuild.updateTile()",
+      "java_expr": "lastEfficiency = eff * timeScale * efficiency;",
+      "rule": "The last efficiency (WallCrafter.java:211): eff * timeScale * efficiency -- the drillspeed bar value (WallCrafter.java:71-72).",
+      "tests": [
+        "test_c07_wall_crafter_update_tile_registration",
+        "test_all_c07_wall_crafter_update_tile_input_evidence_is_exact",
+        "test_wall_crafter_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_update_tile"
+      ],
+      "runtime_proof": "/root/C07WallCrafterUpdateTileProof"
+    },
+    "source_wall_crafter_update_tile_advance_state_result.time": {
+      "status": "source-backed",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_update_tile_advance_state",
+      "godot_symbol": "source_wall_crafter_update_tile_advance_state_result.time",
+      "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+      "java_method": "WallCrafterBuild.updateTile()",
+      "java_expr": "if(cons && (time += edelta() * eff) >= drillTime){",
+      "rule": "The advanced drill time (WallCrafter.java:213-215): time += edelta() * eff only when cons (Java short-circuits on the gate), with the offload + time %= drillTime reset at the threshold.",
+      "tests": [
+        "test_c07_wall_crafter_update_tile_registration",
+        "test_all_c07_wall_crafter_update_tile_input_evidence_is_exact",
+        "test_wall_crafter_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_update_tile"
+      ],
+      "runtime_proof": "/root/C07WallCrafterUpdateTileProof"
+    },
+    "source_wall_crafter_update_tile_advance_state_result.total_time": {
+      "status": "source-backed",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_update_tile_advance_state",
+      "godot_symbol": "source_wall_crafter_update_tile_advance_state_result.total_time",
+      "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+      "java_method": "WallCrafterBuild.updateTile()",
+      "java_expr": "totalTime += edelta() * warmup * (eff <= 0f ? 0f : 1f);",
+      "rule": "The advanced total time (WallCrafter.java:218): totalTime += edelta() * warmup * (eff <= 0 ? 0 : 1) using the already-updated warmup; no cons guard, so it advances even with a full store.",
+      "tests": [
+        "test_c07_wall_crafter_update_tile_registration",
+        "test_all_c07_wall_crafter_update_tile_input_evidence_is_exact",
+        "test_wall_crafter_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_update_tile"
+      ],
+      "runtime_proof": "/root/C07WallCrafterUpdateTileProof"
+    },
+    "source_wall_crafter_update_tile_advance_state_result.offloaded": {
+      "status": "source-backed",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_update_tile_advance_state",
+      "godot_symbol": "source_wall_crafter_update_tile_advance_state_result.offloaded",
+      "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+      "java_method": "WallCrafterBuild.updateTile()",
+      "java_expr": "offload(output);",
+      "rule": "Whether this tick offloaded the output (WallCrafter.java:213-214): true exactly when cons held and time reached drillTime.",
+      "tests": [
+        "test_c07_wall_crafter_update_tile_registration",
+        "test_all_c07_wall_crafter_update_tile_input_evidence_is_exact",
+        "test_wall_crafter_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_update_tile"
+      ],
+      "runtime_proof": "/root/C07WallCrafterUpdateTileProof"
+    },
+    "source_wall_crafter_update_tile_advance_state_result.items": {
+      "status": "source-backed",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_update_tile_advance_state",
+      "godot_symbol": "source_wall_crafter_update_tile_advance_state_result.items",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "WallCrafterBuild.updateTile()",
+      "java_expr": "handleItem(self(), item);",
+      "rule": "The items after this tick (BuildingComp.java:1014/:860-861): the offload fallback adds 1 output to the own inventory when the tick offloaded, else unchanged; the neighbor routing (BuildingComp.java:1001-1013) defers.",
+      "tests": [
+        "test_c07_wall_crafter_update_tile_registration",
+        "test_all_c07_wall_crafter_update_tile_input_evidence_is_exact",
+        "test_wall_crafter_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_update_tile"
+      ],
+      "runtime_proof": "/root/C07WallCrafterUpdateTileProof"
     }
   },
   "version": 1
