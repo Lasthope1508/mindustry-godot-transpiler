@@ -1,6 +1,6 @@
 # Handoff — N2184 BuildTurret power.status live read
 
-Date: 2026-11-15. Batch: N2184 (single slice). Status: **DONE — push next (gate clean except Godot; slice 5dfba6e committed, docs in progress).**
+Date: 2026-11-15. Batch: N2184 (single slice). Status: **DONE + PUSHED (gate clean except Godot; slice 5dfba6e, docs 7c6edd5, GOAL aa1a191).**
 
 ## Scoping (DONE 2026-11-15 ~06:1x +07)
 
@@ -74,9 +74,9 @@ Date: 2026-11-15. Batch: N2184 (single slice). Status: **DONE — push next (gat
 ## Commits
 
 - Slice: `5dfba6e` — C07: N2184 BuildTurret power.status live read (build-tower; pure power row + driver wiring; proof 6 keys), 13 files.
-- Docs: (this commit) — Docs: N2184 report + design spec + handoff (gate clean except Godot).
-- GOAL: (next commit) — Docs: GOAL.md names the N2184 slice commit that carries its proof to Windows.
-- Status: (final commit) — Docs: N2184 handoff Commits records DONE + PUSHED (slice <hash>, docs <hash>, GOAL <hash>).
+- Docs: `7c6edd5` — Docs: N2184 report + design spec + handoff (gate clean except Godot).
+- GOAL: `aa1a191` — Docs: GOAL.md names the N2184 slice commit that carries its proof to Windows.
+- Status: (this commit) — Docs: N2184 handoff Commits records DONE + PUSHED (slice 5dfba6e, docs 7c6edd5, GOAL aa1a191).
 
 ## Neighbours (DONE 2026-11-15 ~06:5x +07, log `n2184-neighbours.log`)
 
