@@ -173720,6 +173720,70 @@
         "test_reference_graph_and_actual_c07_regen_projector_should_consume"
       ],
       "runtime_proof": "/root/C07RegenProjectorShouldConsumeProof"
+    },
+    "source_build_turret_should_consume_state_result.should_consume": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_should_consume_state",
+      "godot_symbol": "source_build_turret_should_consume_state_result.should_consume",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurretBuild.shouldConsume()",
+      "java_expr": "return unit.plans().size > 0 && !isHealSuppressed();",
+      "rule": "The shouldConsume gate (BuildTurret.java:229-231): true while the builder unit has at least one plan AND the building is not heal-suppressed, false with no plans or while suppressed; when false, updateConsumption forces efficiency to zero (BuildingComp.java:1960 + 1992-1994).",
+      "tests": [
+        "test_c07_build_turret_should_consume_registration",
+        "test_all_c07_build_turret_should_consume_input_evidence_is_exact",
+        "test_build_turret_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_build_turret_should_consume"
+      ],
+      "runtime_proof": "/root/C07BuildTurretShouldConsumeProof"
+    },
+    "source_build_turret_should_consume_state_result.plan_count": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_should_consume_state",
+      "godot_symbol": "source_build_turret_should_consume_state_result.plan_count",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurretBuild.shouldConsume()",
+      "java_expr": "public BlockUnitc unit = (BlockUnitc)unitType.create(team);",
+      "rule": "The number of plans in the builder unit's plan queue (unit.plans().size, BuildTurret.java:230; the unit field is BuildTurret.java:93): the size the gate reads -- 0 with no plans (gate false), 1 or more with plans queued (gate true unless heal-suppressed).",
+      "tests": [
+        "test_c07_build_turret_should_consume_registration",
+        "test_all_c07_build_turret_should_consume_input_evidence_is_exact",
+        "test_build_turret_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_build_turret_should_consume"
+      ],
+      "runtime_proof": "/root/C07BuildTurretShouldConsumeProof"
+    },
+    "source_constructor_should_consume_state_result.should_consume": {
+      "status": "source-backed",
+      "godot_owner": "SourceConstructorBuildState.source_constructor_should_consume_state",
+      "godot_symbol": "source_constructor_should_consume_state_result.should_consume",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_method": "BlockProducerBuild.shouldConsume()",
+      "java_expr": "return super.shouldConsume() && recipe() != null;",
+      "rule": "The shouldConsume gate (BlockProducer.java:102-104): true while a recipe is configured AND the building is enabled, false with no recipe or while disabled; when false, updateConsumption forces efficiency to zero (BuildingComp.java:1960 + 1992-1994).",
+      "tests": [
+        "test_c07_constructor_should_consume_registration",
+        "test_all_c07_constructor_should_consume_input_evidence_is_exact",
+        "test_constructor_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_constructor_should_consume"
+      ],
+      "runtime_proof": "/root/C07ConstructorShouldConsumeProof"
+    },
+    "source_constructor_should_consume_state_result.has_recipe": {
+      "status": "source-backed",
+      "godot_owner": "SourceConstructorBuildState.source_constructor_should_consume_state",
+      "godot_symbol": "source_constructor_should_consume_state_result.has_recipe",
+      "java_source": "core/src/mindustry/world/blocks/payloads/Constructor.java",
+      "java_method": "BlockProducerBuild.shouldConsume()",
+      "java_expr": "public @Nullable Block recipe;",
+      "rule": "Whether the frame holds a recipe (Constructor.java:59, the recipe field): the null-ness the gate reads -- true when a block is configured as the recipe (gate true when enabled), false with no recipe (gate false).",
+      "tests": [
+        "test_c07_constructor_should_consume_registration",
+        "test_all_c07_constructor_should_consume_input_evidence_is_exact",
+        "test_constructor_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_constructor_should_consume"
+      ],
+      "runtime_proof": "/root/C07ConstructorShouldConsumeProof"
     }
   },
   "version": 1

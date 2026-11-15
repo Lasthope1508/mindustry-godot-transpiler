@@ -3445,6 +3445,32 @@
       "runtime_proof": "/root/C07ConstructorPowerStatusProof",
       "rule": "Source-backed Constructor power.status row from ConsumePower.java / BuildingComp.java."
     },
+    "SourceConstructorBuildState.source_constructor_should_consume_state": {
+      "canonical_contract": "source_api_contracts.SourceConstructorBuildState.source_constructor_should_consume_state",
+      "status": "active",
+      "source_slice": "N2216",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "source_method": "BlockProducerBuild.shouldConsume()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_constructor_should_consume_state_input.frame"
+        }
+      ],
+      "return_keys": [
+        "should_consume",
+        "has_recipe"
+      ],
+      "tests": [
+        "test_c07_constructor_should_consume_registration",
+        "test_all_c07_constructor_should_consume_input_evidence_is_exact",
+        "test_constructor_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_constructor_should_consume"
+      ],
+      "runtime_proof": "/root/C07ConstructorShouldConsumeProof",
+      "rule": "Source-backed BlockProducer (Constructor) shouldConsume gate from BlockProducer.java / Constructor.java / BuildingComp.java / Blocks.java."
+    },
     "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourcePayloadDeconstructorBuildState.source_payload_deconstructor_power_status_row_state",
       "status": "active",

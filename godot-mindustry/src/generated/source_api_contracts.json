@@ -66704,6 +66704,58 @@
       ],
       "runtime_proof": "/root/C07RegenProjectorShouldConsumeProof",
       "rule": "Source-backed RegenProjector shouldConsume gate from RegenProjector.java / BuildingComp.java / Blocks.java."
+    },
+    "SourceBuildTurretBuildState.source_build_turret_should_consume_state": {
+      "status": "active",
+      "source_slice": "N2215",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "source_method": "BuildTurretBuild.shouldConsume()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_build_turret_should_consume_state_input.frame"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "should_consume",
+        "plan_count"
+      ],
+      "tests": [
+        "test_c07_build_turret_should_consume_registration",
+        "test_all_c07_build_turret_should_consume_input_evidence_is_exact",
+        "test_build_turret_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_build_turret_should_consume"
+      ],
+      "runtime_proof": "/root/C07BuildTurretShouldConsumeProof",
+      "rule": "Source-backed BuildTurret shouldConsume gate from BuildTurret.java / BuildingComp.java / Blocks.java."
+    },
+    "SourceConstructorBuildState.source_constructor_should_consume_state": {
+      "status": "active",
+      "source_slice": "N2216",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "source_method": "BlockProducerBuild.shouldConsume()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_constructor_should_consume_state_input.frame"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "should_consume",
+        "has_recipe"
+      ],
+      "tests": [
+        "test_c07_constructor_should_consume_registration",
+        "test_all_c07_constructor_should_consume_input_evidence_is_exact",
+        "test_constructor_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_constructor_should_consume"
+      ],
+      "runtime_proof": "/root/C07ConstructorShouldConsumeProof",
+      "rule": "Source-backed BlockProducer (Constructor) shouldConsume gate from BlockProducer.java / Constructor.java / BuildingComp.java / Blocks.java."
     }
   },
   "policy": {

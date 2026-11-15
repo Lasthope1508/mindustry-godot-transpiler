@@ -1762,6 +1762,24 @@
         "test_reference_graph_and_actual_c07_payload_deconstructor_should_consume"
       ],
       "runtime_proof": "/root/C07PayloadDeconstructorShouldConsumeProof"
+    },
+    "N2216": {
+      "canonical_ledger": "source_slice_ledger.N2216",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_method": "BlockProducerBuild.shouldConsume()",
+      "godot_owner": "SourceConstructorBuildState.source_constructor_should_consume_state",
+      "source_symbols": [
+        "source_constructor_should_consume_state_result.should_consume",
+        "source_constructor_should_consume_state_result.has_recipe"
+      ],
+      "tests": [
+        "test_c07_constructor_should_consume_registration",
+        "test_all_c07_constructor_should_consume_input_evidence_is_exact",
+        "test_constructor_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_constructor_should_consume"
+      ],
+      "runtime_proof": "/root/C07ConstructorShouldConsumeProof"
     }
   }
 }

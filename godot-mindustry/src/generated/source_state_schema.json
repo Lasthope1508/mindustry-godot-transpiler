@@ -231444,6 +231444,102 @@
       },
       "runtime_proof": "/root/C07RegenProjectorShouldConsumeProof",
       "rule": "Source-backed RegenProjector shouldConsume gate from RegenProjector.java / BuildingComp.java / Blocks.java."
+    },
+    "source_build_turret_should_consume_state_input": {
+      "status": "active",
+      "owner": "SourceBuildTurretBuildState.source_build_turret_should_consume_state",
+      "source_slice": "N2215",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "return unit.plans().size > 0 && !isHealSuppressed();",
+          "rule": "The building frame carrying the live build plans (frame[\"plans\"], default [] -- the builder unit's plan queue, `public BlockUnitc unit = (BlockUnitc)unitType.create(team);`, BuildTurret.java:93, mirrored as an Array of plan dicts; only the size is read) and the heal-suppression mirror (frame[\"heal_suppressed\"], default false -- isHealSuppressed(), BuildingComp.java:487-489, `return block.suppressable && Time.time <= healSuppressionTime;`; BuildTurret has `suppressable = true;`, BuildTurret.java:46, so the term is live); no live fill sets either key yet, so a live build tower with no fill reads the empty plan list and does not consume.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BuildTurretShouldConsumeProof",
+      "rule": "Source-backed BuildTurret shouldConsume gate from BuildTurret.java / BuildingComp.java / Blocks.java."
+    },
+    "source_build_turret_should_consume_state_result": {
+      "status": "active",
+      "owner": "SourceBuildTurretBuildState.source_build_turret_should_consume_state",
+      "source_slice": "N2215",
+      "keys": {
+        "should_consume": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "return unit.plans().size > 0 && !isHealSuppressed();",
+          "rule": "The shouldConsume gate (BuildTurret.java:229-231): true while the builder unit has at least one plan AND the building is not heal-suppressed, false with no plans or while suppressed; when false, updateConsumption forces efficiency to zero (BuildingComp.java:1960 + 1992-1994).",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_should_consume_state"
+          ]
+        },
+        "plan_count": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "public BlockUnitc unit = (BlockUnitc)unitType.create(team);",
+          "rule": "The number of plans in the builder unit's plan queue (unit.plans().size, BuildTurret.java:230; the unit field is BuildTurret.java:93): the size the gate reads -- 0 with no plans (gate false), 1 or more with plans queued (gate true unless heal-suppressed).",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BuildTurretShouldConsumeProof",
+      "rule": "Source-backed BuildTurret shouldConsume gate from BuildTurret.java / BuildingComp.java / Blocks.java."
+    },
+    "source_constructor_should_consume_state_input": {
+      "status": "active",
+      "owner": "SourceConstructorBuildState.source_constructor_should_consume_state",
+      "source_slice": "N2216",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "java_expr": "return super.shouldConsume() && recipe() != null;",
+          "rule": "The building frame carrying the live recipe (frame[\"recipe\"], default null -- the Java field `public @Nullable Block recipe;`, Constructor.java:59, defaults to null) and the enabled flag (frame[\"enabled\"], default true -- BuildingComp.java:77, `transient boolean enabled = true;`): the gate reads only the null-ness of the recipe key plus enabled; no live fill sets frame[\"recipe\"] yet, so a live constructor with no fill reads null and does not consume.",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ConstructorShouldConsumeProof",
+      "rule": "Source-backed BlockProducer (Constructor) shouldConsume gate from BlockProducer.java / Constructor.java / BuildingComp.java / Blocks.java."
+    },
+    "source_constructor_should_consume_state_result": {
+      "status": "active",
+      "owner": "SourceConstructorBuildState.source_constructor_should_consume_state",
+      "source_slice": "N2216",
+      "keys": {
+        "should_consume": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "java_expr": "return super.shouldConsume() && recipe() != null;",
+          "rule": "The shouldConsume gate (BlockProducer.java:102-104): true while a recipe is configured AND the building is enabled, false with no recipe or while disabled; when false, updateConsumption forces efficiency to zero (BuildingComp.java:1960 + 1992-1994).",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_should_consume_state"
+          ]
+        },
+        "has_recipe": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/Constructor.java",
+          "java_expr": "public @Nullable Block recipe;",
+          "rule": "Whether the frame holds a recipe (Constructor.java:59, the recipe field): the null-ness the gate reads -- true when a block is configured as the recipe (gate true when enabled), false with no recipe (gate false).",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ConstructorShouldConsumeProof",
+      "rule": "Source-backed BlockProducer (Constructor) shouldConsume gate from BlockProducer.java / Constructor.java / BuildingComp.java / Blocks.java."
     }
   },
   "version": 1

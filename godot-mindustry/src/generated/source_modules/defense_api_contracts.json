@@ -6544,6 +6544,33 @@
       "rule": "Source-backed BuildTurret power.status row from ConsumePower.java / BuildingComp.java.",
       "return_type": "Dictionary"
     },
+    "SourceBuildTurretBuildState.source_build_turret_should_consume_state": {
+      "canonical_contract": "source_api_contracts.SourceBuildTurretBuildState.source_build_turret_should_consume_state",
+      "status": "active",
+      "source_slice": "N2215",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "source_method": "BuildTurretBuild.shouldConsume()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_build_turret_should_consume_state_input.frame"
+        }
+      ],
+      "return_keys": [
+        "should_consume",
+        "plan_count"
+      ],
+      "tests": [
+        "test_c07_build_turret_should_consume_registration",
+        "test_all_c07_build_turret_should_consume_input_evidence_is_exact",
+        "test_build_turret_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_build_turret_should_consume"
+      ],
+      "runtime_proof": "/root/C07BuildTurretShouldConsumeProof",
+      "rule": "Source-backed BuildTurret shouldConsume gate from BuildTurret.java / BuildingComp.java / Blocks.java.",
+      "return_type": "Dictionary"
+    },
     "SourceConsumeState.source_cost_multiplier_for_block_state": {
       "canonical_contract": "source_api_contracts.SourceConsumeState.source_cost_multiplier_for_block_state",
       "status": "active",
