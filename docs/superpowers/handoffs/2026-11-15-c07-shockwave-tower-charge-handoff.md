@@ -1,10 +1,6 @@
 # Handoff — N2192 ShockwaveTower charge advance
 
-Date: 2026-11-15. Batch: N2192 (single slice). Status: **DONE, gate
-finished 17:45 +07 tick** — targeted 4/4 OK, neighbours 40/40 OK,
-proof 9 keys matches:true, full gate Ran 5861, failures=142, skipped=5,
-0 errors (all Godot-absent). Slice commit `b028951`, docs `8b609ad`,
-GOAL `9193eb4`. Push follows in this tick.
+Date: 2026-11-15. Batch: N2192 (single slice). Status: **DONE + PUSHED (slice `b028951`, main `0d9c73b`) — targeted 4/4 OK, neighbours 40/40 OK, proof 9 keys matches:true, full gate Ran 5861, failures=142, skipped=5, 0 errors (all Godot-absent).**
 
 ## RED (this run, 17:00 +07 tick)
 
