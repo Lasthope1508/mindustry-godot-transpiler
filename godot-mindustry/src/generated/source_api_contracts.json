@@ -66056,6 +66056,188 @@
       ],
       "runtime_proof": "/root/C07LiquidBridgeShouldConsumeProof",
       "rule": "Source-backed LiquidBridge shouldConsume gate from ItemBridge.java / LiquidBridge.java / BuildingComp.java / Blocks.java / arc Point2.java."
+    },
+    "SourceItemBridgeBuildState.source_item_bridge_find_link_state": {
+      "status": "active",
+      "source_slice": "N2199",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "source_method": "ItemBridge.findLink(int, int)",
+      "params": [
+        {
+          "name": "tile_x",
+          "type": "int",
+          "schema": "source_item_bridge_find_link_input.tile_x"
+        },
+        {
+          "name": "tile_y",
+          "type": "int",
+          "schema": "source_item_bridge_find_link_input.tile_y"
+        },
+        {
+          "name": "tile_exists",
+          "type": "bool",
+          "schema": "source_item_bridge_find_link_input.tile_exists"
+        },
+        {
+          "name": "last_build_cell",
+          "type": "Vector2i",
+          "schema": "source_item_bridge_find_link_input.last_build_cell"
+        },
+        {
+          "name": "last_build_exists",
+          "type": "bool",
+          "schema": "source_item_bridge_find_link_input.last_build_exists"
+        },
+        {
+          "name": "last_build_link",
+          "type": "int",
+          "schema": "source_item_bridge_find_link_input.last_build_link"
+        },
+        {
+          "name": "range",
+          "type": "int",
+          "schema": "source_item_bridge_find_link_input.range"
+        },
+        {
+          "name": "blocks_match",
+          "type": "bool",
+          "schema": "source_item_bridge_find_link_input.blocks_match"
+        },
+        {
+          "name": "teams_match",
+          "type": "bool",
+          "schema": "source_item_bridge_find_link_input.teams_match"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "found",
+        "link_cell"
+      ],
+      "tests": [
+        "test_c07_item_bridge_auto_link_registration",
+        "test_all_c07_item_bridge_auto_link_input_evidence_is_exact",
+        "test_item_bridge_auto_link",
+        "test_reference_graph_and_actual_c07_item_bridge_auto_link"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeAutoLinkProof",
+      "rule": "Source-backed ItemBridge placement auto-link from ItemBridge.java / BuildingComp.java / ConstructBlock.java / Edges.java / arc Point2.java."
+    },
+    "SourceItemBridgeBuildState.source_item_bridge_player_placed_state": {
+      "status": "active",
+      "source_slice": "N2199",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "source_method": "ItemBridgeBuild.playerPlaced(Object)",
+      "params": [
+        {
+          "name": "tile_x",
+          "type": "int",
+          "schema": "source_item_bridge_auto_link_input.tile_x"
+        },
+        {
+          "name": "tile_y",
+          "type": "int",
+          "schema": "source_item_bridge_auto_link_input.tile_y"
+        },
+        {
+          "name": "tile_exists",
+          "type": "bool",
+          "schema": "source_item_bridge_auto_link_input.tile_exists"
+        },
+        {
+          "name": "this_link",
+          "type": "int",
+          "schema": "source_item_bridge_auto_link_input.this_link"
+        },
+        {
+          "name": "last_build_cell",
+          "type": "Vector2i",
+          "schema": "source_item_bridge_auto_link_input.last_build_cell"
+        },
+        {
+          "name": "last_build_exists",
+          "type": "bool",
+          "schema": "source_item_bridge_auto_link_input.last_build_exists"
+        },
+        {
+          "name": "last_build_link",
+          "type": "int",
+          "schema": "source_item_bridge_auto_link_input.last_build_link"
+        },
+        {
+          "name": "range",
+          "type": "int",
+          "schema": "source_item_bridge_auto_link_input.range"
+        },
+        {
+          "name": "blocks_match",
+          "type": "bool",
+          "schema": "source_item_bridge_auto_link_input.blocks_match"
+        },
+        {
+          "name": "teams_match",
+          "type": "bool",
+          "schema": "source_item_bridge_auto_link_input.teams_match"
+        },
+        {
+          "name": "is_adjacent",
+          "type": "bool",
+          "schema": "source_item_bridge_auto_link_input.is_adjacent"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "configure_other",
+        "other_cell",
+        "config_value",
+        "new_last_build_cell"
+      ],
+      "tests": [
+        "test_c07_item_bridge_auto_link_registration",
+        "test_all_c07_item_bridge_auto_link_input_evidence_is_exact",
+        "test_item_bridge_auto_link",
+        "test_reference_graph_and_actual_c07_item_bridge_auto_link"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeAutoLinkProof",
+      "rule": "Source-backed ItemBridge placement auto-link from ItemBridge.java / BuildingComp.java / ConstructBlock.java / Edges.java / arc Point2.java."
+    },
+    "PortGame.source_item_bridge_player_placed_dispatch_state": {
+      "status": "active",
+      "source_slice": "N2199",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "source_method": "ItemBridgeBuild.playerPlaced(Object)",
+      "params": [
+        {
+          "name": "sprite",
+          "type": "Sprite2D",
+          "schema": "source_item_bridge_player_placed_dispatch_input.sprite"
+        },
+        {
+          "name": "block",
+          "type": "Object",
+          "schema": "source_item_bridge_player_placed_dispatch_input.block"
+        },
+        {
+          "name": "cell",
+          "type": "Vector2i",
+          "schema": "source_item_bridge_player_placed_dispatch_input.cell"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "applied",
+        "configure_other",
+        "other_cell",
+        "new_last_build_cell"
+      ],
+      "tests": [
+        "test_c07_item_bridge_auto_link_registration",
+        "test_all_c07_item_bridge_auto_link_input_evidence_is_exact",
+        "test_item_bridge_auto_link",
+        "test_reference_graph_and_actual_c07_item_bridge_auto_link"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeAutoLinkProof",
+      "rule": "Source-backed ItemBridge placement auto-link from ItemBridge.java / BuildingComp.java / ConstructBlock.java / Edges.java / arc Point2.java."
     }
   },
   "policy": {

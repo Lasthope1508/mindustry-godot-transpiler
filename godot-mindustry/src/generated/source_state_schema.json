@@ -230180,6 +230180,390 @@
       },
       "runtime_proof": "/root/C07LiquidBridgeShouldConsumeProof",
       "rule": "Source-backed LiquidBridge shouldConsume gate from ItemBridge.java / LiquidBridge.java / BuildingComp.java / Blocks.java / arc Point2.java."
+    },
+    "source_item_bridge_find_link_input": {
+      "status": "active",
+      "owner": "SourceItemBridgeBuildState.source_item_bridge_find_link_state",
+      "source_slice": "N2199",
+      "keys": {
+        "tile_x": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "Tile link = findLink(tile.x, tile.y);",
+          "rule": "The x of the tile being placed (ItemBridge.java:214, the playerPlaced call site; findLink itself takes (x, y), :167).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_find_link_state"
+          ]
+        },
+        "tile_y": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "Tile link = findLink(tile.x, tile.y);",
+          "rule": "The y of the tile being placed (ItemBridge.java:214, the playerPlaced call site; findLink itself takes (x, y), :167).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_find_link_state"
+          ]
+        },
+        "tile_exists": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "Tile tile = world.tile(x, y);",
+          "rule": "Whether the placed tile exists (ItemBridge.java:168; the port only calls findLink for a placed cell, so this is true on the live path -- the proof pins the false branch).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_find_link_state"
+          ]
+        },
+        "last_build_cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "return lastBuild.tile;",
+          "rule": "The lastBuild tile (ItemBridge.java:170); Vector2i.ZERO when no lastBuild exists.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_find_link_state"
+          ]
+        },
+        "last_build_exists": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "if(tile != null && lastBuild != null && linkValid(tile, lastBuild.tile) && lastBuild.tile != tile && lastBuild.link == -1){",
+          "rule": "Whether a lastBuild exists for this block def (ItemBridge.java:169, `lastBuild != null`; lastBuild is a field on the Block, :41-42, one per def).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_find_link_state"
+          ]
+        },
+        "last_build_link": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "if(tile != null && lastBuild != null && linkValid(tile, lastBuild.tile) && lastBuild.tile != tile && lastBuild.link == -1){",
+          "rule": "The lastBuild link value (ItemBridge.java:169, `lastBuild.link == -1` -- an already-linked lastBuild is not a candidate).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_find_link_state"
+          ]
+        },
+        "range": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "return Math.abs(y1 - y2) <= range;",
+          "rule": "The bridge range (ItemBridge.java:160; 12 for phase-conveyor, Blocks.java:2118; the Java field default is 0 when the def does not set it, `public int range;`, ItemBridge.java:27).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_find_link_state"
+          ]
+        },
+        "blocks_match": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "return ((other.block() == tile.block() && tile.block() == this) || (!(tile.block() instanceof ItemBridge) && other.block() == this))",
+          "rule": "Whether the partner block is the SAME block def (ItemBridge.java:152, `other.block() == tile.block()`); the N2199 driver gathers a strict def match (other block id == this block id).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_find_link_state"
+          ]
+        },
+        "teams_match": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "&& (other.team() == tile.team() || tile.block() != this)",
+          "rule": "Whether the partner team matches (ItemBridge.java:153).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_find_link_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ItemBridgeAutoLinkProof",
+      "rule": "Source-backed ItemBridge placement auto-link from ItemBridge.java / BuildingComp.java / ConstructBlock.java / Edges.java / arc Point2.java."
+    },
+    "source_item_bridge_find_link_result": {
+      "status": "active",
+      "owner": "SourceItemBridgeBuildState.source_item_bridge_find_link_state",
+      "source_slice": "N2199",
+      "keys": {
+        "found": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "if(tile != null && lastBuild != null && linkValid(tile, lastBuild.tile) && lastBuild.tile != tile && lastBuild.link == -1){",
+          "rule": "Whether findLink found a linkable lastBuild tile (ItemBridge.java:169-171).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_find_link_state"
+          ]
+        },
+        "link_cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "return lastBuild.tile;",
+          "rule": "The found lastBuild tile (ItemBridge.java:170); Vector2i.ZERO when nothing was found.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_find_link_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ItemBridgeAutoLinkProof",
+      "rule": "Source-backed ItemBridge placement auto-link from ItemBridge.java / BuildingComp.java / ConstructBlock.java / Edges.java / arc Point2.java."
+    },
+    "source_item_bridge_auto_link_input": {
+      "status": "active",
+      "owner": "SourceItemBridgeBuildState.source_item_bridge_player_placed_state",
+      "source_slice": "N2199",
+      "keys": {
+        "tile_x": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "Tile link = findLink(tile.x, tile.y);",
+          "rule": "The x of the tile being placed (ItemBridge.java:214).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_player_placed_state"
+          ]
+        },
+        "tile_y": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "Tile link = findLink(tile.x, tile.y);",
+          "rule": "The y of the tile being placed (ItemBridge.java:214).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_player_placed_state"
+          ]
+        },
+        "tile_exists": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "Tile tile = world.tile(x, y);",
+          "rule": "Whether the placed tile exists (ItemBridge.java:168; true on the live path).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_player_placed_state"
+          ]
+        },
+        "this_link": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "if(linkValid(tile, link) && this.link != link.pos() && !proximity.contains(link.build)){",
+          "rule": "This build current link (ItemBridge.java:215, `this.link != link.pos()` -- an already-linked build is not reconfigured; default -1, :198).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_player_placed_state"
+          ]
+        },
+        "last_build_cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "return lastBuild.tile;",
+          "rule": "The lastBuild tile (ItemBridge.java:170); Vector2i.ZERO when no lastBuild exists.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_player_placed_state"
+          ]
+        },
+        "last_build_exists": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "if(tile != null && lastBuild != null && linkValid(tile, lastBuild.tile) && lastBuild.tile != tile && lastBuild.link == -1){",
+          "rule": "Whether a lastBuild exists for this block def (ItemBridge.java:169).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_player_placed_state"
+          ]
+        },
+        "last_build_link": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "if(tile != null && lastBuild != null && linkValid(tile, lastBuild.tile) && lastBuild.tile != tile && lastBuild.link == -1){",
+          "rule": "The lastBuild link value (ItemBridge.java:169, `lastBuild.link == -1`).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_player_placed_state"
+          ]
+        },
+        "range": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "return Math.abs(y1 - y2) <= range;",
+          "rule": "The bridge range (ItemBridge.java:160; 12 for phase-conveyor, Blocks.java:2118).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_player_placed_state"
+          ]
+        },
+        "blocks_match": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "return ((other.block() == tile.block() && tile.block() == this) || (!(tile.block() instanceof ItemBridge) && other.block() == this))",
+          "rule": "Whether the partner block is the SAME block def (ItemBridge.java:152); strict def match gathered by the driver.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_player_placed_state"
+          ]
+        },
+        "teams_match": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "&& (other.team() == tile.team() || tile.block() != this)",
+          "rule": "Whether the partner team matches (ItemBridge.java:153).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_player_placed_state"
+          ]
+        },
+        "is_adjacent": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "if(linkValid(tile, link) && this.link != link.pos() && !proximity.contains(link.build)){",
+          "rule": "Whether the partner is in proximity (ItemBridge.java:215, `!proximity.contains(link.build)`); for a size-1 block proximity is the 4 orthogonal same-team neighbours (updateProximity, BuildingComp.java:1879-1896, over Edges.getEdges(block.size)), so the driver gathers this as a Manhattan-distance-1 test once linkValid has required the team match.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_player_placed_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ItemBridgeAutoLinkProof",
+      "rule": "Source-backed ItemBridge placement auto-link from ItemBridge.java / BuildingComp.java / ConstructBlock.java / Edges.java / arc Point2.java."
+    },
+    "source_item_bridge_auto_link_result": {
+      "status": "active",
+      "owner": "SourceItemBridgeBuildState.source_item_bridge_player_placed_state",
+      "source_slice": "N2199",
+      "keys": {
+        "configure_other": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "if(linkValid(tile, link) && this.link != link.pos() && !proximity.contains(link.build)){",
+          "rule": "Whether the partner build gets configured with this tile position (ItemBridge.java:215-216, `link.build.configure(tile.pos());`).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_player_placed_state"
+          ]
+        },
+        "other_cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "Tile link = findLink(tile.x, tile.y);",
+          "rule": "The partner tile to configure (ItemBridge.java:214); Vector2i.ZERO when nothing is configured.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_player_placed_state"
+          ]
+        },
+        "config_value": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "link.build.configure(tile.pos());",
+          "rule": "The Integer config sent to the partner: this tile packed position (ItemBridge.java:216; the Integer handler sets link directly, :66); -1 when nothing is configured.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_player_placed_state"
+          ]
+        },
+        "new_last_build_cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "lastBuild = this;",
+          "rule": "The new lastBuild after placement: always this tile (ItemBridge.java:218, unconditional).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_player_placed_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ItemBridgeAutoLinkProof",
+      "rule": "Source-backed ItemBridge placement auto-link from ItemBridge.java / BuildingComp.java / ConstructBlock.java / Edges.java / arc Point2.java."
+    },
+    "source_item_bridge_player_placed_dispatch_input": {
+      "status": "active",
+      "owner": "PortGame.source_item_bridge_player_placed_dispatch_state",
+      "source_slice": "N2199",
+      "keys": {
+        "sprite": {
+          "type": "Sprite2D",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "public void playerPlaced(Object config){",
+          "rule": "The placed build sprite -- the Building itself (`this` in playerPlaced, ItemBridge.java:210).",
+          "used_by": [
+            "PortGame.source_item_bridge_player_placed_dispatch_state"
+          ]
+        },
+        "block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "lastBuild = this;",
+          "rule": "The placed block def -- the Block whose lastBuild field is updated (ItemBridge.java:218; lastBuild is a field on the Block, :41-42, one entry per def).",
+          "used_by": [
+            "PortGame.source_item_bridge_player_placed_dispatch_state"
+          ]
+        },
+        "cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "Tile link = findLink(tile.x, tile.y);",
+          "rule": "The placed tile cell (ItemBridge.java:214, the findLink call site).",
+          "used_by": [
+            "PortGame.source_item_bridge_player_placed_dispatch_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ItemBridgeAutoLinkProof",
+      "rule": "Source-backed ItemBridge placement auto-link from ItemBridge.java / BuildingComp.java / ConstructBlock.java / Edges.java / arc Point2.java."
+    },
+    "source_item_bridge_player_placed_dispatch_result": {
+      "status": "active",
+      "owner": "PortGame.source_item_bridge_player_placed_dispatch_state",
+      "source_slice": "N2199",
+      "keys": {
+        "applied": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "public void playerPlaced(Object config){",
+          "rule": "Whether the dispatch ran a bridge driver (ItemBridge.java:210; false for a null block or a non-bridge implementation -- the dispatch is a no-op for other blocks).",
+          "used_by": [
+            "PortGame.source_item_bridge_player_placed_dispatch_state"
+          ]
+        },
+        "configure_other": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "if(linkValid(tile, link) && this.link != link.pos() && !proximity.contains(link.build)){",
+          "rule": "Whether the partner build gets configured with this tile position (ItemBridge.java:215-216, `link.build.configure(tile.pos());`) -- the pure playerPlaced decision passed through.",
+          "used_by": [
+            "PortGame.source_item_bridge_player_placed_dispatch_state"
+          ]
+        },
+        "other_cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "Tile link = findLink(tile.x, tile.y);",
+          "rule": "The partner tile to configure (ItemBridge.java:214); Vector2i.ZERO when nothing is configured.",
+          "used_by": [
+            "PortGame.source_item_bridge_player_placed_dispatch_state"
+          ]
+        },
+        "new_last_build_cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "lastBuild = this;",
+          "rule": "The new lastBuild after placement: always this tile (ItemBridge.java:218, unconditional).",
+          "used_by": [
+            "PortGame.source_item_bridge_player_placed_dispatch_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ItemBridgeAutoLinkProof",
+      "rule": "Source-backed ItemBridge placement auto-link from ItemBridge.java / BuildingComp.java / ConstructBlock.java / Edges.java / arc Point2.java."
     }
   },
   "version": 1

@@ -173064,6 +173064,166 @@
         "test_reference_graph_and_actual_c07_liquid_bridge_should_consume"
       ],
       "runtime_proof": "/root/C07LiquidBridgeShouldConsumeProof"
+    },
+    "source_item_bridge_find_link_result.found": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemBridgeBuildState.source_item_bridge_find_link_state",
+      "godot_symbol": "source_item_bridge_find_link_result.found",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "java_method": "ItemBridge.findLink(int, int)",
+      "java_expr": "if(tile != null && lastBuild != null && linkValid(tile, lastBuild.tile) && lastBuild.tile != tile && lastBuild.link == -1){",
+      "rule": "Whether findLink found a linkable lastBuild tile (ItemBridge.java:169-171).",
+      "tests": [
+        "test_c07_item_bridge_auto_link_registration",
+        "test_all_c07_item_bridge_auto_link_input_evidence_is_exact",
+        "test_item_bridge_auto_link",
+        "test_reference_graph_and_actual_c07_item_bridge_auto_link"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeAutoLinkProof"
+    },
+    "source_item_bridge_find_link_result.link_cell": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemBridgeBuildState.source_item_bridge_find_link_state",
+      "godot_symbol": "source_item_bridge_find_link_result.link_cell",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "java_method": "ItemBridge.findLink(int, int)",
+      "java_expr": "return lastBuild.tile;",
+      "rule": "The found lastBuild tile (ItemBridge.java:170); Vector2i.ZERO when nothing was found.",
+      "tests": [
+        "test_c07_item_bridge_auto_link_registration",
+        "test_all_c07_item_bridge_auto_link_input_evidence_is_exact",
+        "test_item_bridge_auto_link",
+        "test_reference_graph_and_actual_c07_item_bridge_auto_link"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeAutoLinkProof"
+    },
+    "source_item_bridge_auto_link_result.configure_other": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemBridgeBuildState.source_item_bridge_player_placed_state",
+      "godot_symbol": "source_item_bridge_auto_link_result.configure_other",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "java_method": "ItemBridgeBuild.playerPlaced(Object)",
+      "java_expr": "if(linkValid(tile, link) && this.link != link.pos() && !proximity.contains(link.build)){",
+      "rule": "Whether the partner build gets configured with this tile position (ItemBridge.java:215-216, `link.build.configure(tile.pos());`).",
+      "tests": [
+        "test_c07_item_bridge_auto_link_registration",
+        "test_all_c07_item_bridge_auto_link_input_evidence_is_exact",
+        "test_item_bridge_auto_link",
+        "test_reference_graph_and_actual_c07_item_bridge_auto_link"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeAutoLinkProof"
+    },
+    "source_item_bridge_auto_link_result.other_cell": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemBridgeBuildState.source_item_bridge_player_placed_state",
+      "godot_symbol": "source_item_bridge_auto_link_result.other_cell",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "java_method": "ItemBridgeBuild.playerPlaced(Object)",
+      "java_expr": "Tile link = findLink(tile.x, tile.y);",
+      "rule": "The partner tile to configure (ItemBridge.java:214); Vector2i.ZERO when nothing is configured.",
+      "tests": [
+        "test_c07_item_bridge_auto_link_registration",
+        "test_all_c07_item_bridge_auto_link_input_evidence_is_exact",
+        "test_item_bridge_auto_link",
+        "test_reference_graph_and_actual_c07_item_bridge_auto_link"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeAutoLinkProof"
+    },
+    "source_item_bridge_auto_link_result.config_value": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemBridgeBuildState.source_item_bridge_player_placed_state",
+      "godot_symbol": "source_item_bridge_auto_link_result.config_value",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "java_method": "ItemBridgeBuild.playerPlaced(Object)",
+      "java_expr": "link.build.configure(tile.pos());",
+      "rule": "The Integer config sent to the partner: this tile packed position (ItemBridge.java:216; the Integer handler sets link directly, :66); -1 when nothing is configured.",
+      "tests": [
+        "test_c07_item_bridge_auto_link_registration",
+        "test_all_c07_item_bridge_auto_link_input_evidence_is_exact",
+        "test_item_bridge_auto_link",
+        "test_reference_graph_and_actual_c07_item_bridge_auto_link"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeAutoLinkProof"
+    },
+    "source_item_bridge_auto_link_result.new_last_build_cell": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemBridgeBuildState.source_item_bridge_player_placed_state",
+      "godot_symbol": "source_item_bridge_auto_link_result.new_last_build_cell",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "java_method": "ItemBridgeBuild.playerPlaced(Object)",
+      "java_expr": "lastBuild = this;",
+      "rule": "The new lastBuild after placement: always this tile (ItemBridge.java:218, unconditional).",
+      "tests": [
+        "test_c07_item_bridge_auto_link_registration",
+        "test_all_c07_item_bridge_auto_link_input_evidence_is_exact",
+        "test_item_bridge_auto_link",
+        "test_reference_graph_and_actual_c07_item_bridge_auto_link"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeAutoLinkProof"
+    },
+    "source_item_bridge_player_placed_dispatch_result.applied": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_item_bridge_player_placed_dispatch_state",
+      "godot_symbol": "source_item_bridge_player_placed_dispatch_result.applied",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "java_method": "ItemBridgeBuild.playerPlaced(Object)",
+      "java_expr": "public void playerPlaced(Object config){",
+      "rule": "Whether the dispatch ran a bridge driver (ItemBridge.java:210; false for a null block or a non-bridge implementation -- the dispatch is a no-op for other blocks).",
+      "tests": [
+        "test_c07_item_bridge_auto_link_registration",
+        "test_all_c07_item_bridge_auto_link_input_evidence_is_exact",
+        "test_item_bridge_auto_link",
+        "test_reference_graph_and_actual_c07_item_bridge_auto_link"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeAutoLinkProof"
+    },
+    "source_item_bridge_player_placed_dispatch_result.configure_other": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_item_bridge_player_placed_dispatch_state",
+      "godot_symbol": "source_item_bridge_player_placed_dispatch_result.configure_other",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "java_method": "ItemBridgeBuild.playerPlaced(Object)",
+      "java_expr": "if(linkValid(tile, link) && this.link != link.pos() && !proximity.contains(link.build)){",
+      "rule": "Whether the partner build gets configured with this tile position (ItemBridge.java:215-216, `link.build.configure(tile.pos());`) -- the pure playerPlaced decision passed through.",
+      "tests": [
+        "test_c07_item_bridge_auto_link_registration",
+        "test_all_c07_item_bridge_auto_link_input_evidence_is_exact",
+        "test_item_bridge_auto_link",
+        "test_reference_graph_and_actual_c07_item_bridge_auto_link"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeAutoLinkProof"
+    },
+    "source_item_bridge_player_placed_dispatch_result.other_cell": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_item_bridge_player_placed_dispatch_state",
+      "godot_symbol": "source_item_bridge_player_placed_dispatch_result.other_cell",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "java_method": "ItemBridgeBuild.playerPlaced(Object)",
+      "java_expr": "Tile link = findLink(tile.x, tile.y);",
+      "rule": "The partner tile to configure (ItemBridge.java:214); Vector2i.ZERO when nothing is configured.",
+      "tests": [
+        "test_c07_item_bridge_auto_link_registration",
+        "test_all_c07_item_bridge_auto_link_input_evidence_is_exact",
+        "test_item_bridge_auto_link",
+        "test_reference_graph_and_actual_c07_item_bridge_auto_link"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeAutoLinkProof"
+    },
+    "source_item_bridge_player_placed_dispatch_result.new_last_build_cell": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_item_bridge_player_placed_dispatch_state",
+      "godot_symbol": "source_item_bridge_player_placed_dispatch_result.new_last_build_cell",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "java_method": "ItemBridgeBuild.playerPlaced(Object)",
+      "java_expr": "lastBuild = this;",
+      "rule": "The new lastBuild after placement: always this tile (ItemBridge.java:218, unconditional).",
+      "tests": [
+        "test_c07_item_bridge_auto_link_registration",
+        "test_all_c07_item_bridge_auto_link_input_evidence_is_exact",
+        "test_item_bridge_auto_link",
+        "test_reference_graph_and_actual_c07_item_bridge_auto_link"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeAutoLinkProof"
     }
   },
   "version": 1

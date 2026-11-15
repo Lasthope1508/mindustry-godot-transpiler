@@ -23,10 +23,10 @@
       "port_game.source_building_each_edge_state": "port_game.source_building_navigation_state"
     }
   },
-  "totalSourceFunctions": 1335,
-  "discoveredSourceOwnerCount": 1333,
-  "canonicalDiscoveredOwnerCount": 1318,
-  "registeredSourceOwnerCount": 1310,
+  "totalSourceFunctions": 1336,
+  "discoveredSourceOwnerCount": 1334,
+  "canonicalDiscoveredOwnerCount": 1319,
+  "registeredSourceOwnerCount": 1311,
   "exemptSourceOwnerCount": 8,
   "legacyUnregisteredOwnerCount": 0,
   "canonicalAliasFunctionCount": 17,
@@ -888,6 +888,7 @@
     "port_game.source_input_viewport_fit_camera_state",
     "port_game.source_input_viewport_screen_to_world_state",
     "port_game.source_input_viewport_viewport_world_cells",
+    "port_game.source_item_bridge_player_placed_dispatch_state",
     "port_game.source_item_entry_constructor_state",
     "port_game.source_item_entry_to_string_state",
     "port_game.source_item_entry_type_state",
@@ -1376,6 +1377,12 @@
       "function": "source_valid_place_state",
       "gdscript_path": "src/game/PortGame.gd",
       "canonical_owner": "port_game.source_valid_place_state"
+    },
+    {
+      "owner": "port_game.source_item_bridge_player_placed_dispatch_state",
+      "function": "source_item_bridge_player_placed_dispatch_state",
+      "gdscript_path": "src/game/PortGame.gd",
+      "canonical_owner": "port_game.source_item_bridge_player_placed_dispatch_state"
     },
     {
       "owner": "port_game.source_ability_update_state",
