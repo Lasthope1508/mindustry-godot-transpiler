@@ -7,6 +7,9 @@ const source_block_geometry := preload("res://src/game/SourceBlockGeometry.gd")
 const source_building_efficiency_state := preload("res://src/game/SourceBuildingEfficiencyState.gd")
 const source_building_access_state := preload("res://src/game/SourceBuildingAccessState.gd")
 const source_math_state := preload("res://src/game/SourceMathState.gd")
+const source_liquid_module_state := preload("res://src/game/SourceLiquidModuleState.gd")
+const source_content_registry_runtime_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
+const inventory := preload("res://src/game/SourceDrillInventoryRuntimeState.gd")
 
 # The RegenProjector implementation (RegenProjector.java:29, `public class
 # RegenProjector extends Block{`): regen-projector (consumePower 1f,
@@ -41,6 +44,18 @@ const SOURCE_REGEN_PROJECTOR_WARMUP_SPEED := 1.0 / 70.0
 const SOURCE_REGEN_PROJECTOR_HEAL_PERCENT := 4.0 / 60.0
 const SOURCE_REGEN_PROJECTOR_OPTIONAL_MULTIPLIER := 2.0
 const SOURCE_REGEN_PROJECTOR_OPTIONAL_USE_TIME := 480.0
+# N2260 def constants (single def -- regen-projector): the
+# required liquid consumer (Blocks.java:2016,
+# `consumeLiquid(Liquids.hydrogen, 1f / 60f);`) and the booster
+# item consumer (Blocks.java:2017,
+# `consumeItem(Items.phaseFabric).boost();`, one phaseFabric per
+# consume() trigger, Block.java:1167-1168). The def sets no
+# multiplier, so the Consume.java:18 default (`public
+# Floatf<Building> multiplier = b -> 1f;`) applies to both rows.
+const SOURCE_REGEN_PROJECTOR_LIQUID := "hydrogen"
+const SOURCE_REGEN_PROJECTOR_LIQUID_AMOUNT := 1.0 / 60.0
+const SOURCE_REGEN_PROJECTOR_BOOSTER_ITEM := "phase-fabric"
+const SOURCE_REGEN_PROJECTOR_BOOSTER_AMOUNT := 1
 
 static func _is_regen_projector_build_implementation(implementation: String) -> bool:
 	return SOURCE_REGEN_PROJECTOR_BUILD_IMPLEMENTATIONS.has(implementation)
@@ -84,7 +99,14 @@ static func _initial_frame() -> Dictionary:
 	# a per-building map -- see the advance). The frame inputs
 	# (heal_suppressed, tile_changes) are NOT bound here: the advance
 	# reads them with frame.get defaults (false / 1), the N2223
-	# efficiency_factor precedent.
+	# efficiency_factor precedent. The liquids + items stores ARE
+	# bound here (N2260, the Fracker / Separator precedent): the
+	# Building.liquids LiquidModule (frame["liquids"], synced from
+	# the sprite meta store each tick before the fold) and the
+	# Building.items ItemModule (frame["items"], Dictionary keyed by
+	# item name, the factory precedent
+	# SourceFactoryBuildState.gd:89-101) -- no live intake fills
+	# frame["items"] yet, so the item row reads the frame as-is.
 	return {
 		"any_targets": false,
 		"warmup": 0.0,
@@ -94,6 +116,8 @@ static func _initial_frame() -> Dictionary:
 		"targets": [],
 		"mend_map": {},
 		"last_change": -2,
+		"liquids": {},
+		"items": {},
 	}
 
 static func source_regen_projector_bind_frame_state(sprite: Sprite2D, block: Object) -> Dictionary:
@@ -118,7 +142,7 @@ static func source_regen_projector_bind_frame_state(sprite: Sprite2D, block: Obj
 	return {"applied": true, "frame": frame}
 
 static func source_regen_projector_should_consume_state(frame: Dictionary) -> Dictionary:
-	# RegenProjectorBuild overrides shouldConsume (RegenProjector.java:181, `public boolean shouldConsume(){` with `return anyTargets;`, RegenProjector.java:182): the gate reads ONLY the anyTargets flag -- the projector consumes while a damaged building is in range and stops consuming once nothing in range is damaged. The field is `public boolean anyTargets = false;` (RegenProjector.java:112) on RegenProjectorBuild (`public class RegenProjectorBuild extends Building{`, RegenProjector.java:108); RegenProjector extends Block (RegenProjector.java:20, `public class RegenProjector extends Block{`), so the default (`return enabled;`, BuildingComp.java:755) does NOT apply here. Unlike the Separator/Drill gates this one has NO `&& enabled` -- Java returns the bare flag, so the pure gate does NOT read frame["enabled"] at all (the driver already runs the machinery only when enabled). The frame carries the flag (frame["any_targets"], default false for a frame bound before this slice -- the Java field defaults to false); no live fill sets the targets list yet -- the targets computation (indexer range query, RegenProjector.java:115-119, + contains damaged, RegenProjector.java:139) is the updateTile advance (RegenProjector.java:122-179): the contains-damaged fold is live (N2228) over the frame targets input, the indexer query still waits for its own slice. The gate reads anyTargets only, never the targets list itself, so this slice adds NO `targets` frame key. When the gate is false updateConsumption forces efficiency to zero (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();` + 1992, `if(!update){`). The heal gate (RegenProjector.java:141, `if(efficiency > 0){`) and the heal amount (RegenProjector.java:147, `float healAmount = Mathf.lerp(1f, optionalMultiplier, optionalEfficiency) * healPercent;`) follow the folded efficiency; the def consumes power 1f (`consumePower(1f);`, Blocks.java:2015) plus liquid hydrogen 1f/60f (`consumeLiquid(Liquids.hydrogen, 1f / 60f);`, Blocks.java:2016) -- the liquid row waits for its own slice. N2214 cites the gate at 181-183 (verified by grep: exactly one shouldConsume in the file).
+	# RegenProjectorBuild overrides shouldConsume (RegenProjector.java:181, `public boolean shouldConsume(){` with `return anyTargets;`, RegenProjector.java:182): the gate reads ONLY the anyTargets flag -- the projector consumes while a damaged building is in range and stops consuming once nothing in range is damaged. The field is `public boolean anyTargets = false;` (RegenProjector.java:112) on RegenProjectorBuild (`public class RegenProjectorBuild extends Building{`, RegenProjector.java:108); RegenProjector extends Block (RegenProjector.java:20, `public class RegenProjector extends Block{`), so the default (`return enabled;`, BuildingComp.java:755) does NOT apply here. Unlike the Separator/Drill gates this one has NO `&& enabled` -- Java returns the bare flag, so the pure gate does NOT read frame["enabled"] at all (the driver already runs the machinery only when enabled). The frame carries the flag (frame["any_targets"], default false for a frame bound before this slice -- the Java field defaults to false); no live fill sets the targets list yet -- the targets computation (indexer range query, RegenProjector.java:115-119, + contains damaged, RegenProjector.java:139) is the updateTile advance (RegenProjector.java:122-179): the contains-damaged fold is live (N2228) over the frame targets input, the indexer query still waits for its own slice. The gate reads anyTargets only, never the targets list itself, so this slice adds NO `targets` frame key. When the gate is false updateConsumption forces efficiency to zero (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();` + 1992, `if(!update){`). The heal gate (RegenProjector.java:141, `if(efficiency > 0){`) and the heal amount (RegenProjector.java:147, `float healAmount = Mathf.lerp(1f, optionalMultiplier, optionalEfficiency) * healPercent;`) follow the folded efficiency; the def consumes power 1f (`consumePower(1f);`, Blocks.java:2015) plus liquid hydrogen 1f/60f (`consumeLiquid(Liquids.hydrogen, 1f / 60f);`, Blocks.java:2016) -- the liquid row is live (N2260), folded into the first-pass min alongside power, and the phaseFabric booster row (`consumeItem(Items.phaseFabric).boost();`, Blocks.java:2017) is live too, folded into the optional pass. N2214 cites the gate at 181-183 (verified by grep: exactly one shouldConsume in the file).
 	var any_targets: bool = bool(frame.get("any_targets", false))
 	return {"should_consume": any_targets, "any_targets": any_targets}
 
@@ -149,11 +173,20 @@ static func source_regen_projector_power_status_row_state(frame: Dictionary, has
 	# targets input (the contains-damaged fold, RegenProjector.java:139), while
 	# no live fill sets the targets list itself yet (the indexer range query,
 	# RegenProjector.java:115-119, waits for its own slice).
-	# Documented limits: (1) power-only first pass -- RegenProjector has
-	# a liquid consumer (hydrogen 1f/60f, Blocks.java:2016) and an
-	# optional item booster (phaseFabric, Blocks.java:2017) besides
-	# power, so the folded efficiency is the min over the *modeled*
-	# consumers (power only) with those rows deferred.
+	# Documented limits: (1) power + liquid first pass, item
+	# booster optional pass -- the regen-projector's power consumer
+	# (1f, Blocks.java:2015), its required liquid consumer (hydrogen
+	# 1f/60f, Blocks.java:2016) and its optional item booster
+	# (phaseFabric, Blocks.java:2017) are all live (N2260): the
+	# hydrogen row folds into the first-pass min alongside power
+	# (ConsumeLiquid.efficiency, ConsumeLiquid.java:42-47, with the
+	# second-pass removal, ConsumeLiquid.java:37-39) and the
+	# phaseFabric row folds into the optional pass
+	# (ConsumeItems.efficiency, ConsumeItems.java:51-53, binary 1/0),
+	# capped by the min efficiency (BuildingComp.java:1986). No live
+	# intake fills frame["items"] yet (the Separator precedent), so
+	# the item row reads the frame as-is and a live projector with
+	# no fill folds the booster row 0.0.
 	# (2) shouldConsume gate live (N2214) -- RegenProjectorBuild overrides
 	# shouldConsume() to return anyTargets (RegenProjector.java:181-183); the
 	# pure gate reads the frame any_targets key (default false) and feeds
@@ -170,15 +203,46 @@ static func source_regen_projector_power_status_row_state(frame: Dictionary, has
 	# (isHealSuppressed, BuildingComp.java:487-489) still waits for its own
 	# slice. (4) updateTile advance live (N2228) -- warmup / totalTime /
 	# optionalTimer / didRegen / anyTargets / mendMap accumulation
-	# (RegenProjector.java:122-179) advance on the frame; the updateTargets
-	# live query, the optionalTimer consume(), the mendMap flush, the effect
-	# chance and the disabled early return wait for their own slices (see the
-	# N2228 live-fill deferral).
+	# (RegenProjector.java:122-179) advance on the frame; the
+	# optionalTimer consume() item removal is wired by the tick
+	# (N2260, 1 phaseFabric when the advance reports consumed) while
+	# the updateTargets live query, the mendMap flush, the effect
+	# chance and the disabled early return wait for their own slices
+	# (see the N2228 live-fill deferral).
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
 	var live: float = 1.0 if stamped == null else float(stamped)
 	return {"has_power_row": true, "row": {"result": live, "is_power": true}}
+
+static func source_regen_projector_liquid_consumer_row_state(frame: Dictionary, has_liquid_consumer: bool, liquid_id: int, amount: float, source_delta: float, time_scale: float, efficiency_scale: float, multiplier: float = 1.0) -> Dictionary:
+	# ConsumeLiquid.efficiency (ConsumeLiquid.java:42-47): `float ed = build.edelta() * build.efficiencyScale();` (ConsumeLiquid.java:43), `if(ed <= 0.00000001f) return 0f;` (ConsumeLiquid.java:44), `return Math.min(build.liquids.get(liquid) / (amount * ed * multiplier.get(build)), 1f);` (ConsumeLiquid.java:46) -- the required liquid row folds into the first-pass min exactly like the power row (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`), and a starved row stops the power draw (`if(cons != block.consPower && result <= 0.0000001f){`, BuildingComp.java:1972, with `shouldConsumePower = false;`, BuildingComp.java:1973 -- the shared fold does that, SourceBuildingEfficiencyState.gd:109-117). In the first pass efficiency is assumed 1f (BuildingComp.java:1964-1965, `efficiency = optionalEfficiency = 1f;`), so edelta() = delta() = Time.delta * timeScale (BuildingComp.java:1922-1929, `return efficiency * delta();` / `return Time.delta * timeScale;`), i.e. ed = source_delta * time_scale * efficiency_scale here; efficiencyScale() defaults to 1f (BuildingComp.java:1939-1941, `public float efficiencyScale(){` with `return 1f;`). The amount comes from the shared liquid module helper (SourceLiquidModuleState.source_get_state, reused through a preload, NOT re-implemented) over the frame liquids key (the Building.liquids LiquidModule dict, default {} for a frame bound before this slice, amount 0.0 when the store has no entry for the liquid -- Java's liquids.get returns 0.0 for a liquid never added), with the Fracker guard (SourceFrackerBuildState.gd:221: `liquids.has("liquids")` + bounds check). The single def consumes hydrogen 1f/60f, `consumeLiquid(Liquids.hydrogen, 1f / 60f);` (Blocks.java:2016); the def sets no multiplier, so the default `public Floatf<Building> multiplier = b -> 1f;` (Consume.java:18) applies. The second pass removes the consumed hydrogen (ConsumeLiquid.update, ConsumeLiquid.java:37-39, `build.liquids.remove(liquid, amount * build.edelta() * multiplier.get(build));`, only when `if(update && efficiency > 0){`, BuildingComp.java:1999) -- the tick does that after the fold, with edelta from the folded efficiency. A def with no liquid consumer contributes no row (the has_power_row pattern).
+	if not has_liquid_consumer:
+		return {"has_liquid_row": false, "row": {}}
+	var liquids: Dictionary = frame.get("liquids", {})
+	var liquid_amount: float = 0.0
+	if liquids.has("liquids") and liquid_id >= 0 and liquid_id < int(liquids["liquids"].size()):
+		liquid_amount = float(source_liquid_module_state.source_get_state(liquids, liquid_id).get("amount", 0.0))
+	var ed: float = source_delta * time_scale * efficiency_scale
+	if ed <= 0.00000001:
+		return {"has_liquid_row": true, "row": {"result": 0.0, "is_power": false}}
+	var result: float = minf(liquid_amount / (amount * ed * multiplier), 1.0)
+	return {"has_liquid_row": true, "row": {"result": result, "is_power": false}}
+
+static func source_regen_projector_item_consumer_row_state(frame: Dictionary, stacks: Array, consume_trigger_valid: bool, multiplier: float = 1.0) -> Dictionary:
+	# ConsumeItems.efficiency (ConsumeItems.java:51-53): `return build.consumeTriggerValid() || build.items.has(items, multiplier.get(build)) ? 1f : 0f;` -- BINARY 1.0/0.0, not a ratio like ConsumeLiquid. `consumeTriggerValid()` returns false at the base (BuildingComp.java:764-766, `public boolean consumeTriggerValid(){` with `return false;`); no RegenProjector override exists, so the tick passes the canonical SourceBuildingAccessState.consume_trigger_valid_state() (false) and the row turns on the held stacks alone. `items.has(ItemStack[], float)` (ItemModule.java:153-156) requires EVERY stack to be held at `Math.round(stack.amount * multiplier)` (`if(stack.item.id >= items.length || !has(stack.item, Math.round(stack.amount * multiplier))) return false;`, ItemModule.java:155; `has(item, amount)` is `get(item) >= amount`, ItemModule.java:126-128, `return get(item) >= amount;`). The count comes from the shared drill inventory helper (SourceDrillInventoryRuntimeState.item_count, reused through the inventory preload, NOT re-implemented) over the frame items key (the Building.items ItemModule, Dictionary keyed by item name, the factory precedent SourceFactoryBuildState.gd:89-101; default {} for a frame bound before this slice, count 0 for an item never held). The booster is `optional(true, true)` (`return optional(true, true);`, Consume.java:33-35, the boost() method), so the row folds into the OPTIONAL pass (`for(var cons : block.optionalConsumers){`, BuildingComp.java:1980, with `optionalEfficiency = Math.min(optionalEfficiency, cons.efficiency(self()));`, BuildingComp.java:1981), capped by the min efficiency (`optionalEfficiency = Math.min(optionalEfficiency, minEfficiency);`, BuildingComp.java:1986) -- a missing booster zeroes optionalEfficiency but never touches the min efficiency or shouldConsumePower. The single def consumes one phaseFabric, `consumeItem(Items.phaseFabric).boost();` (Blocks.java:2017; `consumeItem(item)` is ItemStack(item, 1), Block.java:1167-1168); the def sets no multiplier, so the default `public Floatf<Building> multiplier = b -> 1f;` (Consume.java:18) applies. ConsumeItems has NO update override, so the second pass (`if(update && efficiency > 0){`, BuildingComp.java:1999, with `cons.update(self());`, BuildingComp.java:2001) never consumes items -- the removal happens only through consume() (`for(Consume cons : block.consumers){`, BuildingComp.java:1912, with `cons.trigger(self());`, BuildingComp.java:1913), when the N2228 advance reports consumed: ConsumeItems.trigger removes `build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));` (ConsumeItems.java:44-48), clamped to what the module holds (`amount = Math.min(amount, items[item.id]);`, ItemModule.java:258-263) -- the tick wires that removal after the advance. No live intake fills frame["items"] yet (the Separator precedent), so the row reads the frame as-is. A def with no item consumer passes empty stacks and contributes no row (the has_power_row pattern).
+	if stacks.is_empty():
+		return {"has_item_row": false, "row": {}}
+	var items: Dictionary = frame.get("items", {})
+	var has_all: bool = true
+	for stack in stacks:
+		var stack_dict: Dictionary = stack
+		var needed: int = int(roundi(float(stack_dict.get("amount", 0)) * multiplier))
+		if inventory.item_count(items, str(stack_dict.get("item", ""))) < needed:
+			has_all = false
+			break
+	var result: float = 1.0 if (consume_trigger_valid or has_all) else 0.0
+	return {"has_item_row": true, "row": {"result": result, "is_power": false}}
 
 static func source_regen_projector_update_tile_advance_state(frame: Dictionary, source_delta: float, time_scale: float) -> Dictionary:
 	# The updateTile advance (RegenProjectorBuild.updateTile(),
@@ -261,13 +325,17 @@ static func source_regen_projector_update_tile_advance_state(frame: Dictionary, 
 	# Java position AFTER the warmup/totalTime advance and the
 	# didRegen/anyTargets reset, so a suppressed tick still
 	# advances warmup/totalTime but heals nothing and reads
-	# any_targets false. (3) consume() DEFERS: it triggers
-	# EVERY consumer (BuildingComp.java:1911-1915) and
-	# ConsumeItems.trigger removes phaseFabric
-	# (ConsumeItems.java:44-48), but the frame tracks no items
-	# (the N2193 precedent); the optionalTimer advance +
-	# reset IS modeled, and the tick where consume() would fire
-	# is reported as the pure result `consumed`. (4) the
+	# any_targets false. (3) consume() is reported, not applied,
+	# by the advance: it triggers EVERY consumer
+	# (BuildingComp.java:1911-1915) and ConsumeItems.trigger removes
+	# phaseFabric (ConsumeItems.java:44-48); the optionalTimer
+	# advance + reset IS modeled, and the tick where consume()
+	# would fire is reported as the pure result `consumed`. The
+	# tick wires the removal itself (N2260): when the advance
+	# reports consumed, the tick removes 1 phaseFabric from the
+	# frame items (clamped to what the frame holds,
+	# ItemModule.remove, ItemModule.java:258-263) -- the advance
+	# stays pure and does not touch items. (4) the
 	# mendMap flush DEFERS whole (application + cadence):
 	# `private static final IntFloatMap mendMap = new IntFloatMap();`
 	# (RegenProjector.java:23) is static-shared across
@@ -350,6 +418,7 @@ static func source_regen_projector_tick_buildings_state(game: Object, seconds: f
 	var blocks_by_id: Dictionary = {}
 	for registered_block in catalog.get_many("block"):
 		blocks_by_id[registered_block.id] = registered_block
+	var liquid_id_by_name: Dictionary = source_content_registry_runtime_state.source_liquid_catalog_state(catalog).get("liquid_id_by_name", {})
 	for sprite in source_placed_block_state.source_unique_buildings_state(game).get("buildings", []):
 		if not is_instance_valid(sprite) or not sprite is Sprite2D:
 			continue
@@ -364,6 +433,17 @@ static func source_regen_projector_tick_buildings_state(game: Object, seconds: f
 		var team_id: int = int(sprite.get_meta(source_block_geometry.SOURCE_BUILD_TEAM_META_KEY, source_block_geometry.SOURCE_TEAM_DERELICT_ID))
 		var rules_state: Variant = source_rules_state.source_game_rules_state(game.get("rules_state")).get("rules", {})
 		var wired: Dictionary = source_regen_projector_tick_frame_state(frame, str(block.implementation), team_id, rules_state)
+		# The frame carries the Building.liquids LiquidModule
+		# (frame["liquids"]): the live store lives on the
+		# sprite meta (source_building_liquids, initialized
+		# at placement -- PortGame applies the liquid
+		# consumers first, so ConsumeLiquidBase.apply sets
+		# hasLiquids even though the catalog carries no
+		# hasLiquids flag for regen-projector), so the driver
+		# syncs the reference into the frame each tick BEFORE
+		# the fold, and the pure liquid row reads the hydrogen
+		# amount from it (the Fracker:361 precedent).
+		frame["liquids"] = sprite.get_meta(source_placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY, {})
 		# The power consumer reads live since N2153 (the graph
 		# update stamps frame["power_status"] each tick, N2142):
 		# a regen projector with a power consumer folds the pure power
@@ -374,9 +454,13 @@ static func source_regen_projector_tick_buildings_state(game: Object, seconds: f
 		# hasConsumers (Block.java:1449,
 		# `hasConsumers = consumers.length > 0;`), so a regen
 		# projector does not take the early return. A regen projector with
-		# no power consumer is untouched: the tick models no other
-		# consumers yet (the liquid hydrogen row and the phaseFabric
-		# booster row wait for their own slices), and RegenProjectorBuild
+		# no power consumer is untouched: the tick also folds the
+		# required hydrogen row (1f/60f, Blocks.java:2016, N2260)
+		# into the first pass and the phaseFabric booster row
+		# (Blocks.java:2017, N2260) into the optional pass when
+		# the projector has a power consumer; no live intake fills
+		# frame["items"] yet, so the item row reads the frame
+		# as-is. RegenProjectorBuild
 		# overrides shouldConsume() to return anyTargets
 		# (RegenProjector.java:181-183) -- N2214 feeds the live gate to the
 		# machinery (the pure gate is
@@ -398,8 +482,47 @@ static func source_regen_projector_tick_buildings_state(game: Object, seconds: f
 			var required_results: Array = []
 			if bool(power_row.get("has_power_row", false)):
 				required_results.append(power_row.get("row", {}))
-			var consumption: Dictionary = source_building_efficiency_state.update_consumption_state(true, bool(frame.get("cheating", false)), bool(frame.get("enabled", true)), valid, should_consume, float(frame.get("efficiency_scale", 1.0)), required_results, [], [], frame)
+			# N2260: the required hydrogen row folds alongside
+			# the power row (ConsumeLiquid.efficiency,
+			# ConsumeLiquid.java:42-47): in the first pass
+			# efficiency is assumed 1f, so edelta is
+			# source_delta * time_scale and the row reads the
+			# live hydrogen store synced into the frame above.
+			# The single def always has the row
+			# (`consumeLiquid(Liquids.hydrogen, 1f / 60f);`,
+			# Blocks.java:2016), so has_liquid_consumer is true.
+			# The phaseFabric booster row folds into the
+			# OPTIONAL pass (ConsumeItems.efficiency,
+			# ConsumeItems.java:51-53, binary 1/0): the single
+			# def always has the row
+			# (`consumeItem(Items.phaseFabric).boost();`,
+			# Blocks.java:2017), so the stacks are the def
+			# constant (1 phaseFabric); consumeTriggerValid is
+			# the canonical false base
+			# (BuildingComp.java:764-766, read through
+			# SourceBuildingAccessState).
+			var tick_source_delta: float = source_placed_block_state.game_source_delta(game, seconds)
+			var tick_time_scale: float = source_placed_block_state.time_scale(sprite, source_placed_block_state.game_default_time_scale(game))
+			var hydrogen_id: int = int(liquid_id_by_name.get(SOURCE_REGEN_PROJECTOR_LIQUID, -1))
+			var liquid_row: Dictionary = source_regen_projector_liquid_consumer_row_state(frame, true, hydrogen_id, SOURCE_REGEN_PROJECTOR_LIQUID_AMOUNT, tick_source_delta, tick_time_scale, float(frame.get("efficiency_scale", 1.0)))
+			if bool(liquid_row.get("has_liquid_row", false)):
+				required_results.append(liquid_row.get("row", {}))
+			var booster_stacks: Array = [{"item": SOURCE_REGEN_PROJECTOR_BOOSTER_ITEM, "amount": SOURCE_REGEN_PROJECTOR_BOOSTER_AMOUNT}]
+			var item_row: Dictionary = source_regen_projector_item_consumer_row_state(frame, booster_stacks, source_building_access_state.consume_trigger_valid_state())
+			var optional_results: Array = []
+			if bool(item_row.get("has_item_row", false)):
+				optional_results.append(item_row.get("row", {}))
+			var consumption: Dictionary = source_building_efficiency_state.update_consumption_state(true, bool(frame.get("cheating", false)), bool(frame.get("enabled", true)), valid, should_consume, float(frame.get("efficiency_scale", 1.0)), required_results, optional_results, [], frame)
 			source_building_efficiency_state.apply_update_consumption_state(consumption, frame)
+			# Second pass (BuildingComp.java:1999-2003, `if(update && efficiency > 0){` / `cons.update(self());`): ConsumeLiquid.update removes `build.liquids.remove(liquid, amount * build.edelta() * multiplier.get(build));` (ConsumeLiquid.java:38), with edelta from the FOLDED efficiency (not the first-pass 1f). Direct removal here, not the AdjacentFactory updates-array precedent (SourceAdjacentFactoryBuildState.gd:382): that pattern passes generated consumer actor objects with an update(self_state) method through update_consumption_state, and this driver is pure static functions with no actor -- so the removal runs after apply_update_consumption_state with the same guard (update && efficiency > 0), through the shared module source_remove_state with a cache_sums array sized to the store (the PayloadLoader precedent; flow is null in the live store, so cache_sums is unused but required by the signature). The multiplier is the 1f default (Consume.java:18); the def sets none. ConsumeItems has no update override, so the second pass never touches the phaseFabric -- its removal is the consume() wiring after the advance below.
+			if should_consume and valid and float(frame.get("efficiency", 0.0)) > 0.0 and hydrogen_id >= 0:
+				var liquids: Dictionary = frame.get("liquids", {})
+				if liquids.has("liquids"):
+					var folded_edelta: float = float(frame.get("efficiency", 0.0)) * tick_source_delta * tick_time_scale
+					var cache_sums: Array = []
+					cache_sums.resize(int((liquids.get("liquids", []) as Array).size()))
+					cache_sums.fill(0.0)
+					source_liquid_module_state.source_remove_state(liquids, hydrogen_id, SOURCE_REGEN_PROJECTOR_LIQUID_AMOUNT * folded_edelta, cache_sums)
 		# N2228: the updateTile advance runs after consumption,
 		# like Java's Building.update() (BuildingComp.java:2274
 		# updateConsumption(), then the updateTile gate
@@ -443,6 +566,28 @@ static func source_regen_projector_tick_buildings_state(game: Object, seconds: f
 			frame["mend_map"] = advanced["mend_map"]
 			frame["heal_amount"] = advanced["heal_amount"]
 			frame["consumed"] = advanced["consumed"]
+			# N2260: consume() fires on the tick the advance
+			# reports consumed (`if((optionalTimer += edelta() *
+			# optionalEfficiency) >= optionalUseTime){`,
+			# RegenProjector.java:142, with `consume();`,
+			# RegenProjector.java:143): it triggers EVERY
+			# consumer (`for(Consume cons : block.consumers){`,
+			# BuildingComp.java:1912, with `cons.trigger(self());`,
+			# BuildingComp.java:1913), but only ConsumeItems
+			# overrides trigger, so consume() removes 1
+			# phaseFabric (`build.items.remove(stack.item,
+			# Math.round(stack.amount * multiplier.get(build)));`,
+			# ConsumeItems.java:44-48), clamped to what the
+			# frame holds (`amount = Math.min(amount,
+			# items[item.id]);`, ItemModule.java:258-263) through
+			# the shared inventory remove_item_state. The
+			# removal runs even when the item row folded 0.0:
+			# Java fires consume() on the timer regardless of
+			# the held count, and the clamp removes 0 then.
+			if bool(frame.get("consumed", false)):
+				var held_items: Dictionary = frame.get("items", {})
+				var removed: Dictionary = inventory.remove_item_state(held_items, SOURCE_REGEN_PROJECTOR_BOOSTER_ITEM, SOURCE_REGEN_PROJECTOR_BOOSTER_AMOUNT)
+				frame["items"] = removed.get(inventory.SOURCE_DRILL_INVENTORY_DRILL_ITEMS_KEY, held_items)
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
