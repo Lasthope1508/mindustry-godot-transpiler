@@ -49,8 +49,8 @@ const SOURCE_FORCE_PROJECTOR_BUILDING_META_KEY := "source_force_projector_buildi
 # 39-41; cooldownBrokenBase 0.35f, radius 101.7f and
 # phaseRadiusBoost 80f equal the class values). Class values
 # (ForceProjector.java): `public float phaseUseTime = 350f;`
-# (:32, the deferred consume cadence -- the driver passes
-# consume_tick false until the timer-infra slice lands),
+# (:32, the timerUse cadence -- live since N2326, the
+# frame-local Interval-equivalent at 350f / timeScale),
 # `public float phaseShieldBoost = 400f;` (:37),
 # `public int sides = 6;` (:39),
 # `public float shieldRotation = 0f;` (:40),
@@ -190,7 +190,7 @@ static func source_force_projector_coolant_consumer_row_state(frame: Dictionary,
 	return {"has_coolant_row": true, "row": {"result": result, "is_power": false}, "consumed_liquid": consumed_liquid}
 
 static func source_force_projector_item_consumer_row_state(frame: Dictionary, has_item_consumer: bool, stacks: Array, multiplier: float = 1.0) -> Dictionary:
-	# ConsumeItems.efficiency (ConsumeItems.java:51-53, `return build.consumeTriggerValid() || build.items.has(items, multiplier.get(build)) ? 1f : 0f;`): BINARY 1/0 -- NOT a ratio like ConsumeLiquid. consumeTriggerValid() base returns false (BuildingComp.java:764-766, `public boolean consumeTriggerValid(){` / `return false;`, and no ForceProjector override -- grep), so the row is 1.0 only when the frame holds every stack: items.has(ItemStack[], float) (ItemModule.java:153-158, `if(stack.item.id >= items.length || !has(stack.item, Math.round(stack.amount * multiplier))) return false;`) requires EVERY stack to hold round(amount * multiplier), with has(item, amount) = get(item) >= amount (ItemModule.java:126-128, `return get(item) >= amount;`). The count reads through the shared drill inventory helper (SourceDrillInventoryRuntimeState.item_count) over the frame items key (the Building.items ItemModule dict, keyed by item name, default {} for a frame bound before this slice, count 0 when the store has no entry for the item -- Java's items.get returns 0 for an item never added). consumeItem(item) is ItemStack(item, 1) (Block.java:1167-1168, `public ConsumeItems consumeItem(Item item){` / `return consumeItem(item, 1);`), so the force-projector def's single stack is [{"item": "phase-fabric", "amount": 1}] (Blocks.java:1974, `itemConsumer = consumeItem(Items.phaseFabric).boost();`). The multiplier defaults to 1f (Consume.java:18, `public Floatf<Building> multiplier = b -> 1f;`); the def sets none. The row is OPTIONAL (.boost() is `return optional(true, true);`, Consume.java:33-35), so the driver folds it into the optional pass (`for(var cons : block.optionalConsumers){`, BuildingComp.java:1980-1981, `optionalEfficiency = Math.min(optionalEfficiency, cons.efficiency(self()));`), capped by minEfficiency (BuildingComp.java:1986, `optionalEfficiency = Math.min(optionalEfficiency, minEfficiency);`), NOT the min efficiency -- and it never touches shouldConsumePower (BuildingComp.java:1972-1973 runs only over nonOptionalConsumers). phaseValid reads the row DIRECTLY (ForceProjector.java:207, `boolean phaseValid = itemConsumer != null && itemConsumer.efficiency(this) > 0;`), not through optionalEfficiency, so the row also reports item_valid = result > 0 for the advance wiring. The timer-gated consume() (ForceProjector.java:211-213, `if(phaseValid && !broken && timer(timerUse, phaseUseTime / timeScale) && efficiency > 0){` / `consume();`, phaseUseTime 350f, ForceProjector.java:32) DEFERS -- ConsumeItems.trigger (ConsumeItems.java:44-48, `build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));`) removes the stack only when consume() fires, and the port has no timer helper (the N2193 precedent), so the driver keeps passing consume_tick false and this slice removes nothing. A block with no item consumer contributes no row.
+	# ConsumeItems.efficiency (ConsumeItems.java:51-53, `return build.consumeTriggerValid() || build.items.has(items, multiplier.get(build)) ? 1f : 0f;`): BINARY 1/0 -- NOT a ratio like ConsumeLiquid. consumeTriggerValid() base returns false (BuildingComp.java:764-766, `public boolean consumeTriggerValid(){` / `return false;`, and no ForceProjector override -- grep), so the row is 1.0 only when the frame holds every stack: items.has(ItemStack[], float) (ItemModule.java:153-158, `if(stack.item.id >= items.length || !has(stack.item, Math.round(stack.amount * multiplier))) return false;`) requires EVERY stack to hold round(amount * multiplier), with has(item, amount) = get(item) >= amount (ItemModule.java:126-128, `return get(item) >= amount;`). The count reads through the shared drill inventory helper (SourceDrillInventoryRuntimeState.item_count) over the frame items key (the Building.items ItemModule dict, keyed by item name, default {} for a frame bound before this slice, count 0 when the store has no entry for the item -- Java's items.get returns 0 for an item never added). consumeItem(item) is ItemStack(item, 1) (Block.java:1167-1168, `public ConsumeItems consumeItem(Item item){` / `return consumeItem(item, 1);`), so the force-projector def's single stack is [{"item": "phase-fabric", "amount": 1}] (Blocks.java:1974, `itemConsumer = consumeItem(Items.phaseFabric).boost();`). The multiplier defaults to 1f (Consume.java:18, `public Floatf<Building> multiplier = b -> 1f;`); the def sets none. The row is OPTIONAL (.boost() is `return optional(true, true);`, Consume.java:33-35), so the driver folds it into the optional pass (`for(var cons : block.optionalConsumers){`, BuildingComp.java:1980-1981, `optionalEfficiency = Math.min(optionalEfficiency, cons.efficiency(self()));`), capped by minEfficiency (BuildingComp.java:1986, `optionalEfficiency = Math.min(optionalEfficiency, minEfficiency);`), NOT the min efficiency -- and it never touches shouldConsumePower (BuildingComp.java:1972-1973 runs only over nonOptionalConsumers). phaseValid reads the row DIRECTLY (ForceProjector.java:207, `boolean phaseValid = itemConsumer != null && itemConsumer.efficiency(this) > 0;`), not through optionalEfficiency, so the row also reports item_valid = result > 0 for the advance wiring. The timer-gated consume() (ForceProjector.java:211-213, `if(phaseValid && !broken && timer(timerUse, phaseUseTime / timeScale) && efficiency > 0){` / `consume();`, phaseUseTime 350f, ForceProjector.java:32) is LIVE since N2326: the timer pure (source_force_projector_timer_use_state, the frame-local Interval-equivalent at 350f / timeScale) supplies consume_tick to the advance, and when the advance reports consumed the driver removes the stack through ConsumeItems.trigger (ConsumeItems.java:44-48, `build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));`) via the shared inventory helper -- this row itself still removes nothing (the row is the efficiency read, not the consume). A block with no item consumer contributes no row.
 	if not has_item_consumer:
 		return {"has_item_row": false, "row": {}, "item_valid": false}
 	var items: Dictionary = frame.get("items", {})
@@ -203,6 +203,88 @@ static func source_force_projector_item_consumer_row_state(frame: Dictionary, ha
 			result = 0.0
 			break
 	return {"has_item_row": true, "row": {"result": result, "is_power": false}, "item_valid": result > 0.0}
+
+static func source_force_projector_timer_use_state(elapsed: float, source_delta: float, time_scale: float, duration: float) -> Dictionary:
+	# The frame-local Interval-equivalent for the timerUse
+	# cadence (TimerComp.timer, TimerComp.java:10-13, each
+	# exact expr on ONE comment line, the N2148 lesson):
+	# `if(Float.isInfinite(time)) return false;`
+	# `return timer.get(index, time);`
+	# Interval.get resets times[id] = Time.time on fire
+	# (arc Interval.java:20-26):
+	# `boolean got = check(id, time);`
+	# `if(got) times[id] = Time.time;`
+	# and check compares Time.time - times[id] >= time (arc
+	# Interval.java:28-30):
+	# `return Time.time - times[id] >= time || Time.time < times[id];`
+	# Time.time counts TICKS (arc Time.java:75):
+	# `timeRaw += delta;`
+	# The port has no global tick clock at the driver layer, so
+	# the elapsed clock is frame-local (frame["timer_use_
+	# elapsed"], accumulated by the tick delta every tick the
+	# advance runs, unconditionally -- mirroring Time.time,
+	# which grows even while the gate is closed): elapsed +=
+	# source_delta unconditionally (source_delta is the
+	# UNSCALED Time.delta in ticks -- game_source_delta is
+	# seconds * 60, never scaled by timeScale -- so the
+	# frame clock mirrors the global Time.time exactly);
+	# consume_tick = elapsed >= threshold, where the
+	# threshold is duration / time_scale -- Java DIVIDES
+	# phaseUseTime by timeScale here (ForceProjector.java:
+	# 211), unlike the advances-12 literal timers (the
+	# N2290 lesson cuts the other way here: do not invent
+	# a literal threshold); timer_elapsed_after RESETS to
+	# 0.0 on fire (a reset, not a subtraction like the
+	# Fracker accumulator); a non-positive time_scale is a
+	# defensive guard (never fires, threshold INF --
+	# the clock still accumulates). The Java call is
+	# (ForceProjector.java:211-213):
+	# `if(phaseValid && !broken && timer(timerUse, phaseUseTime / timeScale) && efficiency > 0){`
+	# `consume();`
+	# with `public final int timerUse = timers++;`
+	# (ForceProjector.java:31) and `public float phaseUseTime = 350f;`
+	# (ForceProjector.java:32). The timer ONLY supplies
+	# consume_tick -- the gate (phaseValid / !broken /
+	# efficiency > 0) stays INSIDE the N2235 advance, so a
+	# timer fire alone never consumes. time_scale defaults
+	# 1f (BuildingComp.java:98):
+	# `private transient float timeScale = 1f, timeScaleDuration;`
+	# consume() itself (BuildingComp.java:1911-1915):
+	# `for(Consume cons : block.consumers){`
+	# `cons.trigger(self());`
+	# removes 1 phaseFabric on the single def only:
+	# `itemConsumer = consumeItem(Items.phaseFabric).boost();`
+	# (Blocks.java:1974; consumeItem(item) is a stack of 1,
+	# Block.java:1167-1168) via ConsumeItems.trigger
+	# (ConsumeItems.java:44-48):
+	# `build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));`
+	# clamped by ItemModule.remove (ItemModule.java:258-263):
+	# `amount = Math.min(amount, items[item.id]);`
+	# ConsumePower / ConsumeCoolant do not override trigger
+	# (Consume.java:50, `public void trigger(Building build){}`),
+	# so consume() removes nothing for them. Documented
+	# deviations: (1) first fire -- Java fires (nearly)
+	# immediately after placement when the gate first opens
+	# (the global Time.time is already large vs a fresh
+	# Interval times[id] = 0); the frame-local clock delays
+	# the first fire by a full interval (350f/time_scale).
+	# It cannot be fixed without a global clock -- it waits
+	# for a timer-infra slice if exact first-fire timing is
+	# ever needed. (2) gate-closed reset -- Java
+	# short-circuits before timer() when phaseValid / !broken
+	# fails, so the Interval keeps its old stamp and fires at
+	# once when the gate reopens; the port computes the timer
+	# every enabled tick and resets the clock on fire even
+	# when the advance gate is closed, so a reopened gate may
+	# wait up to a full interval. (3) The clock accumulates
+	# on enabled ticks only (the port's enabled-gate
+	# pragmatic choice, the N2195 precedent), while Java's
+	# Time.time grows even while disabled.
+	var threshold: float = INF if time_scale <= 0.0 else duration / time_scale
+	var accumulated: float = elapsed + source_delta
+	var consume_tick: bool = accumulated >= threshold
+	var timer_elapsed_after: float = 0.0 if consume_tick else accumulated
+	return {"consume_tick": consume_tick, "timer_elapsed_after": timer_elapsed_after, "threshold": threshold}
 
 static func source_force_projector_update_tile_advance_state(frame: Dictionary, source_delta: float, time_scale: float, building_x: float, building_y: float, bullets: Array, consume_tick: bool, item_consumer_present: bool = false, item_consumer_efficiency: float = 0.0, coolant_present: bool = false, coolant_efficiency: float = 0.0, coolant_heat_capacity: float = SOURCE_FORCE_PROJECTOR_COOLANT_HEAT_CAPACITY_FALLBACK) -> Dictionary:
 	# The updateTile advance (ForceBuild.updateTile(), ForceProjector.java:207-268), the pure frame advance -- the build fields are `public boolean broken = true;` (ForceProjector.java:167 -- broken defaults TRUE, a fresh shield starts broken and clears on the first tick once buildup <= 0) and `public float buildup, radscl, hit, warmup, phaseHeat;` (ForceProjector.java:168), and the advance follows the Java lines in order (each exact expr on ONE comment line, the N2148 lesson):
@@ -237,7 +319,7 @@ static func source_force_projector_update_tile_advance_state(frame: Dictionary, 
 	# `paramEntity.hit = 1f;`
 	# `paramEntity.buildup += bullet.type.shieldDamage(bullet);`
 	# `return (radius + phaseHeat * phaseRadiusBoost) * radscl;`
-	# The ORDERING traps: radscl lerps toward the OLD warmup (:216 runs before the warmup update at :222); the broken-set threshold folds the NEW phaseHeat (:210 runs before :243); deflectBullets runs LAST, so absorbed buildup cannot break the shield until the next tick; hit decays (:253-255) BEFORE deflect sets it to 1f. The Arc formulas, not guesses: lerpDelta is `return lerp(fromValue, toValue, clamp(progress * Time.delta));` (Mathf.java:430-432), num is 1 / 0 (Mathf.java:208-210), chanceDelta is rand < d * Time.delta (Mathf.java:236-238, the Fx.reactorsmoke chance defers -- no RNG in the pure advance). delta() is `return Time.delta * timeScale;` (BuildingComp.java:1922-1924) and scales the buildup decay, but the hit decay uses Time.delta DIRECTLY (ForceProjector.java:254), not delta(). source_delta is Time.delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26), never raw seconds. buildup has NO clamp: the decay can take it negative, and a negative buildup clears broken (:239-241). The TIMER CADENCE defers (no timer helper in the port, the N2193 precedent; `public float phaseUseTime = 350f;`, ForceProjector.java:32), so the pure advance takes an explicit consume_tick bool and the driver passes false; the consume() APPLICATION also defers (the timer cadence + the ConsumeItems.trigger removal wait for the timer-infra slice; the frame carries items since N2261 but no live intake fills it yet, the Separator precedent), so the advance reports it through the pure `consumed` result. The coolant branch is LIVE-CAPABLE, not dead: the constructor adds ConsumeCoolant when consumeCoolant is true -- `consume(coolantConsumer = new ConsumeCoolant(coolantConsumption)).boost().update(false);` (ForceProjector.java:85, class default `public boolean consumeCoolant = true;`, and the def does not override it) -- so coolantConsumer is non-null, unlike N2230's parallax; the coolant live fill is LIVE since N2258: the driver syncs the liquids store, recomputes the coolant row with the FOLDED efficiency and stamps the coolant inputs onto the frame (coolant_present / coolant_efficiency / coolant_heat_capacity / coolant_liquid_id / coolant_amount), and the advance prefers frame values when present, falling back to the explicit params (the N2235 pure interface, unchanged so the N2235 call keeps its shape). The item live fill is LIVE since N2261: the driver folds the phaseFabric row and stamps the item inputs onto the frame (item_consumer_present / item_consumer_efficiency), and the advance prefers frame values when present, falling back to the explicit params (the N2235 pure interface, unchanged so the N2235 call keeps its shape). coolantConsumer.update(this) (:229, the actual coolant consumption) is reported through the pure `coolant_consumed_liquid` / `coolant_consumed_amount` results (the N2226 heal_amount pattern) and the driver applies the removal to the live liquids store (ConsumeLiquidFilter.update, ConsumeLiquidFilter.java:42-47, `build.liquids.remove(liq, amount * build.edelta() * multiplier.get(build));`, amount = 0.1f * edelta from the folded efficiency * the 1f multiplier). The explicit `bullets` list IS the Groups.bullet.intersect rect result (the N2229 precedent): the caller supplies the bullets in the 2x realRadius rect (EntityGroup.java:207, `public Seq<T> intersect(float x, float y, float width, float height){`, over the spatial bullet group, GroupDefs.java:9, `@GroupDef(value = Bulletc.class, spatial = true, collide = true) G bullet;`), and the pure advance applies the shieldConsumer filter (enemy team + absorbable + !absorbed + in the regular polygon). The bullet dict contract: x / y, team (int; missing = own team, never an enemy), absorbable (default true, BulletType.java:147, `public boolean absorbable = true;`), absorbed (default false, BulletComp.java:53, `transient boolean absorbed, hit;`), shield_damage (default 0.0 -- shieldDamage(bullet) is `return b.damage() * shieldDamageMultiplier;`, BulletType.java:665-666, multiplier default 1f; the port folds no live bullet damage, so the caller supplies it), id (default: the bullet's index in the list). bullet.absorb() (BulletComp.java:100-101, `absorbed = true;`) is NOT applied to a live bullet: the absorbed list + buildup delta are pure results. Effects / sound / events (Fx.reactorsmoke, shieldBreakEffect, breakSound, Trigger.forceProjectorBreak, absorbEffect, hitSound) defer. absorbExplosion (ForceProjector.java:271-281) is NOT updateTile and is not ported here. The building position comes from the origin cell: Building x/y are tile.drawx()/drawy() (BuildingComp.java:124, `set(tile.drawx(), tile.drawy());`), drawx is `return block().offset + worldx();` (Tile.java:175-176) and drawy is `return block().offset + worldy();` (Tile.java:179-180) with the block offset `offset = ((size + 1) % 2) * tilesize / 2f;` (Block.java:761) -- 0 for the size-3 force-projector. A team with no frame team id defaults to derelict (`derelict = new Team(0, "derelict", Color.valueOf("4d4e58")),`, Team.java:33). The updateTile gate is `if(enabled || !block.noUpdateDisabled){` (BuildingComp.java:2276-2277) with `public boolean noUpdateDisabled = false;` (Block.java:170).
+	# The ORDERING traps: radscl lerps toward the OLD warmup (:216 runs before the warmup update at :222); the broken-set threshold folds the NEW phaseHeat (:210 runs before :243); deflectBullets runs LAST, so absorbed buildup cannot break the shield until the next tick; hit decays (:253-255) BEFORE deflect sets it to 1f. The Arc formulas, not guesses: lerpDelta is `return lerp(fromValue, toValue, clamp(progress * Time.delta));` (Mathf.java:430-432), num is 1 / 0 (Mathf.java:208-210), chanceDelta is rand < d * Time.delta (Mathf.java:236-238, the Fx.reactorsmoke chance defers -- no RNG in the pure advance). delta() is `return Time.delta * timeScale;` (BuildingComp.java:1922-1924) and scales the buildup decay, but the hit decay uses Time.delta DIRECTLY (ForceProjector.java:254), not delta(). source_delta is Time.delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26), never raw seconds. buildup has NO clamp: the decay can take it negative, and a negative buildup clears broken (:239-241). The TIMER CADENCE is live since N2326 (the frame-local Interval-equivalent, source_force_projector_timer_use_state; `public float phaseUseTime = 350f;`, ForceProjector.java:32): the pure advance takes an explicit consume_tick bool and the driver passes the computed tick; the consume() APPLICATION is live too (the driver removes 1 phaseFabric through ConsumeItems.trigger when the advance reports it through the pure `consumed` result; the frame carries items since N2261 but no live intake fills it yet, the Separator precedent). The coolant branch is LIVE-CAPABLE, not dead: the constructor adds ConsumeCoolant when consumeCoolant is true -- `consume(coolantConsumer = new ConsumeCoolant(coolantConsumption)).boost().update(false);` (ForceProjector.java:85, class default `public boolean consumeCoolant = true;`, and the def does not override it) -- so coolantConsumer is non-null, unlike N2230's parallax; the coolant live fill is LIVE since N2258: the driver syncs the liquids store, recomputes the coolant row with the FOLDED efficiency and stamps the coolant inputs onto the frame (coolant_present / coolant_efficiency / coolant_heat_capacity / coolant_liquid_id / coolant_amount), and the advance prefers frame values when present, falling back to the explicit params (the N2235 pure interface, unchanged so the N2235 call keeps its shape). The item live fill is LIVE since N2261: the driver folds the phaseFabric row and stamps the item inputs onto the frame (item_consumer_present / item_consumer_efficiency), and the advance prefers frame values when present, falling back to the explicit params (the N2235 pure interface, unchanged so the N2235 call keeps its shape). coolantConsumer.update(this) (:229, the actual coolant consumption) is reported through the pure `coolant_consumed_liquid` / `coolant_consumed_amount` results (the N2226 heal_amount pattern) and the driver applies the removal to the live liquids store (ConsumeLiquidFilter.update, ConsumeLiquidFilter.java:42-47, `build.liquids.remove(liq, amount * build.edelta() * multiplier.get(build));`, amount = 0.1f * edelta from the folded efficiency * the 1f multiplier). The explicit `bullets` list IS the Groups.bullet.intersect rect result (the N2229 precedent): the caller supplies the bullets in the 2x realRadius rect (EntityGroup.java:207, `public Seq<T> intersect(float x, float y, float width, float height){`, over the spatial bullet group, GroupDefs.java:9, `@GroupDef(value = Bulletc.class, spatial = true, collide = true) G bullet;`), and the pure advance applies the shieldConsumer filter (enemy team + absorbable + !absorbed + in the regular polygon). The bullet dict contract: x / y, team (int; missing = own team, never an enemy), absorbable (default true, BulletType.java:147, `public boolean absorbable = true;`), absorbed (default false, BulletComp.java:53, `transient boolean absorbed, hit;`), shield_damage (default 0.0 -- shieldDamage(bullet) is `return b.damage() * shieldDamageMultiplier;`, BulletType.java:665-666, multiplier default 1f; the port folds no live bullet damage, so the caller supplies it), id (default: the bullet's index in the list). bullet.absorb() (BulletComp.java:100-101, `absorbed = true;`) is NOT applied to a live bullet: the absorbed list + buildup delta are pure results. Effects / sound / events (Fx.reactorsmoke, shieldBreakEffect, breakSound, Trigger.forceProjectorBreak, absorbEffect, hitSound) defer. absorbExplosion (ForceProjector.java:271-281) is NOT updateTile and is not ported here. The building position comes from the origin cell: Building x/y are tile.drawx()/drawy() (BuildingComp.java:124, `set(tile.drawx(), tile.drawy());`), drawx is `return block().offset + worldx();` (Tile.java:175-176) and drawy is `return block().offset + worldy();` (Tile.java:179-180) with the block offset `offset = ((size + 1) % 2) * tilesize / 2f;` (Block.java:761) -- 0 for the size-3 force-projector. A team with no frame team id defaults to derelict (`derelict = new Team(0, "derelict", Color.valueOf("4d4e58")),`, Team.java:33). The updateTile gate is `if(enabled || !block.noUpdateDisabled){` (BuildingComp.java:2276-2277) with `public boolean noUpdateDisabled = false;` (Block.java:170).
 	var team_id: int = int(frame.get("team_id", source_block_geometry.SOURCE_TEAM_DERELICT_ID))
 	var efficiency: float = float(frame.get("efficiency", 0.0))
 	var phase_heat: float = float(frame.get("phase_heat", 0.0))
@@ -351,8 +433,13 @@ static func _initial_frame() -> Dictionary:
 	# (the Building.items ItemModule, frame["items"], the
 	# Separator precedent) starts empty too: the phaseFabric
 	# item row (N2261) reads the held fabric from it, and no
-	# live intake fills it yet.
-	return {"phase_heat": 0.0, "radscl": 0.0, "warmup": 0.0, "buildup": 0.0, "broken": true, "hit": 0.0, "liquids": {}, "items": {}}
+	# live intake fills it yet. The timerUse clock
+	# (frame["timer_use_elapsed"], N2326) starts at 0.0: the
+	# frame-local Interval-equivalent accumulates it every
+	# enabled tick (the first-fire deviation -- Java fires
+	# nearly at once after placement, the frame clock waits
+	# a full 350f/time_scale interval).
+	return {"phase_heat": 0.0, "radscl": 0.0, "warmup": 0.0, "buildup": 0.0, "broken": true, "hit": 0.0, "liquids": {}, "items": {}, "timer_use_elapsed": 0.0}
 
 static func source_force_projector_bind_frame_state(sprite: Sprite2D, block: Object) -> Dictionary:
 	# Placement creates the Building (Block.java:1002 newBuilding);
@@ -415,11 +502,13 @@ static func source_force_projector_power_status_row_state(frame: Dictionary, has
 	# consumers (power only). Still deferred: no live intake
 	# fills frame["items"] yet (the Separator precedent -- the
 	# row reads the frame as-is, so a live force projector
-	# with no intake folds the item row 0), and the
-	# timer-gated consume() (ForceProjector.java:211-213,
-	# phaseUseTime 350f, ForceProjector.java:32) waits for the
-	# timer-infra slice, so the driver still passes
-	# consume_tick false.
+	# with no intake folds the item row 0).
+	# timerUse cadence + consume() application live (N2326):
+	# the timer-gated consume() (ForceProjector.java:211-213,
+	# phaseUseTime 350f, ForceProjector.java:32) fires on the
+	# frame-local Interval-equivalent (350f / timeScale) and
+	# the driver removes 1 phaseFabric when the advance
+	# reports consumed.
 	# (2) No shouldConsume gate -- ForceBuild has no
 	# shouldConsume override, so the default
 	# (BuildingComp.java:755-757, `return enabled;`) applies;
@@ -429,9 +518,12 @@ static func source_force_projector_power_status_row_state(frame: Dictionary, has
 	# broken / deflectBullets (ForceProjector.java:207-268) now
 	# advance in source_force_projector_update_tile_advance_state,
 	# with the coolant live fill live since N2258 (the driver
-	# stamps the re-evaluated coolant inputs onto the frame);
-	# the timer cadence + consume() application + live bullet
-	# scan stay deferred (the live-fill entry). (4) Phase-radius / phase-shield folds live (N2235)
+	# stamps the re-evaluated coolant inputs onto the frame)
+	# and the timer cadence + consume() application live since
+	# N2326 (the driver passes the computed consume_tick and
+	# removes 1 phaseFabric when the advance reports consumed);
+	# the live bullet scan stays deferred (the live-fill
+	# entry). (4) Phase-radius / phase-shield folds live (N2235)
 	# -- realRadius (ForceProjector.java:280,
 	# `return (radius + phaseHeat * phaseRadiusBoost) * radscl;`)
 	# is the advance's real_radius result and the broken
@@ -614,10 +706,12 @@ static func source_force_projector_tick_buildings_state(game: Object, seconds: f
 		# block.offset + tile.worldx() (Tile.java:175-176) with
 		# the block offset `offset = ((size + 1) % 2) * tilesize / 2f;`
 		# (Block.java:761) -- 0 for the size-3 force-projector.
-		# The driver passes consume_tick false and an EMPTY
-		# bullet list: no timer helper and no live bullet query
-		# exist in the port, so no live consume or deflect
-		# happens (the live fill stays deferred). The item
+		# The driver passes the computed consume_tick (N2326)
+		# and an EMPTY bullet list: no live bullet query exists
+		# in the port, so no live deflect happens (the live
+		# fill stays deferred); the consume() application is
+		# live -- the driver removes 1 phaseFabric when the
+		# advance reports consumed. The item
 		# inputs are LIVE since N2261 (the stamp below writes
 		# the folded row onto the frame before the call, the
 		# N2258 coolant precedent -- phaseHeat follows the
@@ -671,13 +765,36 @@ static func source_force_projector_tick_buildings_state(game: Object, seconds: f
 			# present, falling back to its explicit params
 			# (the N2235 pure interface, unchanged so the
 			# N2235 call keeps its shape -- the N2258
-			# coolant precedent). consume_tick stays false:
-			# the timer-gated consume() (ForceProjector.java:
-			# 211-213, phaseUseTime 350f) waits for the
-			# timer-infra slice.
+			# coolant precedent). The timer-gated consume()
+			# (ForceProjector.java:211-213, phaseUseTime
+			# 350f) is live since N2326: the timer below
+			# computes consume_tick from
+			# frame["timer_use_elapsed"] and the driver
+			# removes 1 phaseFabric when the advance
+			# reports consumed.
 			frame["item_consumer_present"] = bool(item_row.get("has_item_row", false))
 			frame["item_consumer_efficiency"] = float(item_row.get("row", {}).get("result", 0.0))
-			var advanced: Dictionary = source_force_projector_update_tile_advance_state(frame, source_delta, time_scale, advance_building_x, advance_building_y, [], false)
+			# N2326: the timerUse cadence -- the frame-local
+			# Interval-equivalent (source_force_projector_
+			# timer_use_state) runs BEFORE the advance call:
+			# the frame clock frame["timer_use_elapsed"]
+			# accumulates the tick delta every enabled tick
+			# (unconditionally -- mirroring Time.time, arc
+			# Time.java:75) and fires at 350f / timeScale
+			# (ForceProjector.java:211-213, phaseUseTime
+			# 350f); the computed consume_tick reaches the
+			# advance, whose gate (phaseValid / !broken /
+			# efficiency > 0) still decides whether anything
+			# is consumed. The clock resets to 0.0 on fire
+			# even when the gate is closed (the documented
+			# gate-closed-reset deviation -- Java
+			# short-circuits before timer() and keeps its
+			# old stamp). Bullets stay [] (no live bullet
+			# query -- the live bullet scan still defers).
+			var timer_use: Dictionary = source_force_projector_timer_use_state(float(frame.get("timer_use_elapsed", 0.0)), source_delta, time_scale, SOURCE_FORCE_PROJECTOR_PHASE_USE_TIME)
+			frame["timer_use_elapsed"] = timer_use.get("timer_elapsed_after", 0.0)
+			var consume_tick: bool = bool(timer_use.get("consume_tick", false))
+			var advanced: Dictionary = source_force_projector_update_tile_advance_state(frame, source_delta, time_scale, advance_building_x, advance_building_y, [], consume_tick)
 			frame["phase_heat"] = advanced["phase_heat"]
 			frame["radscl"] = advanced["radscl"]
 			frame["warmup"] = advanced["warmup"]
@@ -690,6 +807,28 @@ static func source_force_projector_tick_buildings_state(game: Object, seconds: f
 			frame["real_radius"] = advanced["real_radius"]
 			frame["coolant_consumed_liquid"] = advanced["coolant_consumed_liquid"]
 			frame["coolant_consumed_amount"] = advanced["coolant_consumed_amount"]
+			# N2326: the timer-gated consume() application
+			# (ForceProjector.java:211-213, `if(phaseValid &&
+			# !broken && timer(timerUse, phaseUseTime /
+			# timeScale) && efficiency > 0){ consume(); }`):
+			# when the advance reports consumed, consume()
+			# removes 1 phaseFabric through
+			# ConsumeItems.trigger (ConsumeItems.java:44-48,
+			# `build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));`)
+			# -- the single stack is 1 phaseFabric
+			# (Blocks.java:1974, `itemConsumer =
+			# consumeItem(Items.phaseFabric).boost();`;
+			# consumeItem(item) is ItemStack(item, 1),
+			# Block.java:1167-1168), and the removal goes
+			# through the shared inventory helper, clamped
+			# to the held count like ItemModule.remove
+			# (ItemModule.java:258-263, `amount = Math.min(amount, items[item.id]);`).
+			# The removal reads frame["items"] as-is (no live
+			# intake fills it yet, the Separator precedent).
+			if bool(advanced.get("consumed", false)):
+				var timer_items: Dictionary = (frame.get("items", {}) as Dictionary).duplicate(true)
+				var timer_removed: Dictionary = source_drill_inventory_runtime_state.remove_item_state(timer_items, "phase-fabric", 1)
+				frame["items"] = timer_removed.get(source_drill_inventory_runtime_state.SOURCE_DRILL_INVENTORY_DRILL_ITEMS_KEY, timer_items)
 			# N2258: the manual updateTile consume
 			# (ForceProjector.java:229, `coolantConsumer.update(this);`
 			# -- ConsumeLiquidFilter.update, ConsumeLiquidFilter.java:42-47,
