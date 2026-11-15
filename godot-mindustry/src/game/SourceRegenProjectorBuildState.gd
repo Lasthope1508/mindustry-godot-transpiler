@@ -217,9 +217,14 @@ static func source_regen_projector_power_status_row_state(frame: Dictionary, has
 	# (N2260, 1 phaseFabric when the advance reports consumed) and
 	# updateTargets live (N2277) -- the scan rebuilds the targets
 	# list before the advance whenever tile_changes moves; the
-	# mendMap flush, the effect chance, the live tileChanges
-	# counter and the disabled early return wait for their own
-	# slices (see the N2228 live-fill deferral).
+	# mendMap flush is live (N2325) as the pure heal_applications
+	# result (last_update_frame / update_id frame inputs, defaults
+	# -1/0; the tick write-backs the flushed amounts on the frame
+	# and applies nothing to the target buildings yet); the live
+	# heal application, the effect chance, the live tileChanges
+	# counter, the live updateId counter and the disabled early
+	# return wait for their own slices (see the N2228 live-fill
+	# deferral, rewritten by N2325).
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -379,7 +384,11 @@ static func source_regen_projector_update_tile_advance_state(frame: Dictionary, 
 	# `if(value <= 0 && Mathf.chanceDelta(effectChance * build.block.size * build.block.size)){`
 	# `if(lastUpdateFrame != state.updateId){`
 	# `lastUpdateFrame = state.updateId;`
+	# `for(var entry : mendMap.entries()){`
+	# `var build = world.build(entry.key);`
+	# `if(build != null){`
 	# `build.heal(entry.value);`
+	# `build.recentlyHealed();`
 	# `mendMap.clear();`
 	# The Arc formulas, not guesses: approachDelta(from, to,
 	# speed) = approach(from, to, Time.delta * speed) with
@@ -440,21 +449,44 @@ static func source_regen_projector_update_tile_advance_state(frame: Dictionary, 
 	# frame items (clamped to what the frame holds,
 	# ItemModule.remove, ItemModule.java:258-263) -- the advance
 	# stays pure and does not touch items. (4) the
-	# mendMap flush DEFERS whole (application + cadence):
+	# mendMap flush is live since N2325 as the pure
+	# heal_applications result (RegenProjector.java:168-177):
+	# `if(lastUpdateFrame != state.updateId){` with
+	# `lastUpdateFrame = state.updateId;`,
+	# `build.heal(entry.value);` and `mendMap.clear();` --
+	# when the frame last_update_frame (default -1,
+	# `private static long lastUpdateFrame = -1;`,
+	# RegenProjector.java:24) differs from the frame update_id
+	# (default 0, `public long updateId;`, GameState.java:23,
+	# incremented once per logic update, `state.updateId ++;`,
+	# Logic.java:512), the advance reports the whole mend_map
+	# as heal_applications {pos: amount} and clears it. The
+	# flush sits AFTER the heal branch and OUTSIDE the
+	# efficiency gate, so it fires on a zero-efficiency tick
+	# too -- but a suppressed tick returns before it (the
+	# early return keeps the map and reports no applications).
+	# The LIVE application of the amounts to the target
+	# buildings (world.build(pos) + build.heal +
+	# `public void recentlyHealed(){`, the timestamp write
+	# `lastHealTime = Time.time;`, BuildingComp.java:491-493)
+	# still waits for its own slice: the tick write-backs
+	# heal_applications on the frame and applies nothing.
 	# `private static final IntFloatMap mendMap = new IntFloatMap();`
 	# (RegenProjector.java:23) is static-shared across
-	# projectors and the flush heals live buildings via
-	# world.build(pos) (RegenProjector.java:168-177), which the
-	# port has no frames for; the port tracks a per-building
-	# mend_map instead (documented deviation -- in Java the
-	# first projector ticked in a frame flushes every
-	# projector's amounts). The accumulation uses Math.max (no
+	# projectors in Java, so the first projector ticked in a
+	# frame flushes every projector's amounts; the port tracks
+	# a per-building mend_map instead (documented deviation).
+	# With no live updateId source the frame update_id stays
+	# 0, so the flush fires once (on the first tick) and then
+	# waits for a game-state slice that stamps the live
+	# counter. The accumulation uses Math.max (no
 	# stacking) capped by the missing health, so an unflushed
 	# map converges instead of diverging. (5) the effect chance
 	# defers (no RNG in the pure advance). heal_amount is 0.0
 	# when the heal branch does not run (suppressed or
 	# efficiency <= 0). The function does NOT mutate its input
-	# frame: the mend_map is copied before accumulating.
+	# frame: the mend_map is copied before accumulating, and
+	# heal_applications is a copy of the flushed map.
 	var efficiency: float = float(frame.get("efficiency", 0.0))
 	var optional_efficiency: float = float(frame.get("optional_efficiency", 0.0))
 	var targets: Array = frame.get("targets", [])
@@ -462,6 +494,8 @@ static func source_regen_projector_update_tile_advance_state(frame: Dictionary, 
 	var heal_suppressed: bool = bool(frame.get("heal_suppressed", false))
 	var tile_changes: int = int(frame.get("tile_changes", 1))
 	var last_change: int = int(frame.get("last_change", -2))
+	var last_update_frame: int = int(frame.get("last_update_frame", -1))
+	var update_id: int = int(frame.get("update_id", 0))
 	if last_change != tile_changes:
 		last_change = tile_changes
 	var did_regen_previous: bool = bool(frame.get("did_regen", false))
@@ -473,7 +507,7 @@ static func source_regen_projector_update_tile_advance_state(frame: Dictionary, 
 	var heal_amount: float = 0.0
 	var consumed: bool = false
 	if heal_suppressed:
-		return {"last_change": last_change, "warmup": warmup, "total_time": total_time, "optional_timer": optional_timer, "did_regen": false, "any_targets": false, "mend_map": mend_map, "heal_amount": 0.0, "consumed": false}
+		return {"last_change": last_change, "warmup": warmup, "total_time": total_time, "optional_timer": optional_timer, "did_regen": false, "any_targets": false, "mend_map": mend_map, "heal_amount": 0.0, "consumed": false, "last_update_frame": last_update_frame, "heal_applications": {}}
 	for target in targets:
 		if bool(target.get("damaged", false)):
 			any_targets = true
@@ -494,7 +528,20 @@ static func source_regen_projector_update_tile_advance_state(frame: Dictionary, 
 			var health: float = float(target.get("health", 0.0))
 			var value: float = float(mend_map.get(pos, 0.0))
 			mend_map[pos] = minf(maxf(value, heal_amount * edelta * block_health / 100.0), block_health - health)
-	return {"last_change": last_change, "warmup": warmup, "total_time": total_time, "optional_timer": optional_timer, "did_regen": did_regen, "any_targets": any_targets, "mend_map": mend_map, "heal_amount": heal_amount, "consumed": consumed}
+	# N2325: the mendMap flush (RegenProjector.java:168-177)
+	# sits after the heal branch and outside the efficiency
+	# gate, so it fires on a zero-efficiency tick too -- but
+	# never on a suppressed tick (the early return above).
+	# When the frame last_update_frame differs from the frame
+	# update_id, the whole mend_map is reported as
+	# heal_applications {pos: amount} and cleared, and
+	# last_update_frame stamps the new update_id.
+	var heal_applications: Dictionary = {}
+	if last_update_frame != update_id:
+		last_update_frame = update_id
+		heal_applications = Dictionary(mend_map)
+		mend_map = {}
+	return {"last_change": last_change, "warmup": warmup, "total_time": total_time, "optional_timer": optional_timer, "did_regen": did_regen, "any_targets": any_targets, "mend_map": mend_map, "heal_amount": heal_amount, "consumed": consumed, "last_update_frame": last_update_frame, "heal_applications": heal_applications}
 
 @warning_ignore("unused_parameter")
 static func source_regen_projector_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
@@ -716,6 +763,16 @@ static func source_regen_projector_tick_buildings_state(game: Object, seconds: f
 			frame["mend_map"] = advanced["mend_map"]
 			frame["heal_amount"] = advanced["heal_amount"]
 			frame["consumed"] = advanced["consumed"]
+			# N2325: the mendMap flush result rides the frame --
+			# last_update_frame stamps the flushed update_id and
+			# heal_applications carries the flushed {pos:
+			# amount} map (RegenProjector.java:168-177). The
+			# tick applies nothing to the target buildings:
+			# the live heal application (world.build(pos) +
+			# build.heal + recentlyHealed()) waits for its own
+			# slice.
+			frame["last_update_frame"] = advanced["last_update_frame"]
+			frame["heal_applications"] = advanced["heal_applications"]
 			# N2260: consume() fires on the tick the advance
 			# reports consumed (`if((optionalTimer += edelta() *
 			# optionalEfficiency) >= optionalUseTime){`,
