@@ -2,6 +2,9 @@ extends Node
 
 const main_scene := preload("res://scenes/Main.tscn")
 const unit_cargo_loader_build_state := preload("res://src/game/SourceUnitCargoLoaderBuildState.gd")
+const liquid_module_state := preload("res://src/game/SourceLiquidModuleState.gd")
+const placed_block_state := preload("res://src/game/SourcePlacedBlockState.gd")
+const content_registry_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
 const registry := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
 const proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")
 
@@ -101,8 +104,19 @@ func _ready() -> void:
 	# build_progress rises 0.5/480 = 1/960 and total_progress
 	# rises 0.5; nothing spawns (build_progress is far below
 	# 1f), so the INVERTED gate stays open and the second tick
-	# keeps consuming.
+	# keeps consuming. The loader is seeded with 1.0 nitrogen
+	# on the sprite liquids meta before the first tick (the
+	# N2322 pattern, N2323 fix): the liquid row is live since
+	# N2249, so the folded efficiency is the min over power +
+	# liquid and an unseeded loader folds 0. Two ticks at eff
+	# 0.5 consume 2 x (10/60 x 0.5) = 1/6 nitrogen, so the
+	# 1.0 seed leaves a wide margin and no re-seed is needed
+	# (source_set_state mutates the sprite meta dict in place,
+	# and the driver syncs that same reference into the frame
+	# each tick).
 	var catalog = game.get("content_catalog")
+	var liquid_catalog: Dictionary = content_registry_state.source_liquid_catalog_state(catalog)
+	var nitrogen_id: int = int(liquid_catalog["liquid_id_by_name"].get("nitrogen", -1))
 	var blocks_by_id: Dictionary = {}
 	for registered_block in catalog.get_many("block"):
 		blocks_by_id[registered_block.id] = registered_block
@@ -116,6 +130,12 @@ func _ready() -> void:
 	# frame dict before the tick to stamp power_status on it).
 	unit_cargo_loader_build_state.source_unit_cargo_loader_bind_frame_state(unit_cargo_loader, blocks_by_id["unit-cargo-loader"])
 	var unit_cargo_loader_frame: Dictionary = unit_cargo_loader.get_meta(unit_cargo_loader_build_state.SOURCE_UNIT_CARGO_LOADER_BUILDING_META_KEY, {})
+	# Seed nitrogen 1.0 on the sprite liquids meta (the
+	# N2322 pattern): the driver syncs this store into the
+	# frame each tick, so the live liquid row folds 1.0 and
+	# the min stays the stamped power 0.5.
+	var unit_cargo_loader_liquids: Dictionary = unit_cargo_loader.get_meta(placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY, {})
+	liquid_module_state.source_set_state(unit_cargo_loader_liquids, nitrogen_id, 1.0)
 
 	# A freshly bound frame carries the updateTile state keys
 	# with the Java build-field defaults (UnitCargoLoader.java:
