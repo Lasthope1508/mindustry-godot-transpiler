@@ -230256,6 +230256,44 @@
       },
       "runtime_proof": "/root/C07RepairTowerShouldConsumeProof",
       "rule": "Source-backed RepairTower shouldConsume gate from RepairTower.java / BuildingComp.java."
+    },
+    "source_shockwave_tower_charge_state_input": {
+      "status": "active",
+      "owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_charge_state",
+      "source_slice": "N2192",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return efficiency * delta();",
+          "rule": "The building frame carrying the reload_counter observation (ShockwaveTower.java:67, `public float reloadCounter = Mathf.random(reload);`, deterministic 0.0 start in the port) plus the potential_efficiency / efficiency the N2177 machinery stamps each tick via apply_update_consumption_state (BuildingComp.java:1989, `potentialEfficiency = efficiency;`); a missing reload_counter key starts at 0.0, a missing potential_efficiency means no advance before the first consumption stamp.",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_charge_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ShockwaveTowerChargeProof",
+      "rule": "Source-backed ShockwaveTower charge advance from ShockwaveTower.java / BuildingComp.java."
+    },
+    "source_shockwave_tower_charge_state_result": {
+      "status": "active",
+      "owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_charge_state",
+      "source_slice": "N2192",
+      "keys": {
+        "reload_counter": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "if(potentialEfficiency > 0 && (reloadCounter += edelta()) >= reload && timer(timerCheck, checkInterval)){",
+          "rule": "The charged reload counter (ShockwaveTower.java:73): reload_counter + efficiency * delta when potentialEfficiency > 0, unchanged otherwise; no clamp at reload (per-def 80f, Blocks.java:2044) and no reset without fire -- Java resets only on a successful fire (ShockwaveTower.java:83, `reloadCounter = 0f;`).",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_charge_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ShockwaveTowerChargeProof",
+      "rule": "Source-backed ShockwaveTower charge advance from ShockwaveTower.java / BuildingComp.java."
     }
   },
   "version": 1

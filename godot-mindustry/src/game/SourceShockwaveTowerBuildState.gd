@@ -69,6 +69,43 @@ static func source_shockwave_tower_power_status_row_state(frame: Dictionary, has
 	var live: float = 1.0 if stamped == null else float(stamped)
 	return {"has_power_row": true, "row": {"result": live, "is_power": true}}
 
+static func source_shockwave_tower_charge_state(frame: Dictionary, delta: float) -> Dictionary:
+	# ShockwaveTowerBuild.updateTile charges its reload counter by
+	# edelta() when it has potential efficiency
+	# (ShockwaveTower.java:73, `if(potentialEfficiency > 0 && (reloadCounter += edelta()) >= reload && timer(timerCheck, checkInterval)){`), and
+	# edelta() is efficiency * delta (BuildingComp.java:1927-1929,
+	# `return efficiency * delta();`). The gate reads the
+	# potentialEfficiency stamped by THIS tick's updateConsumption
+	# (BuildingComp.java:1989, `potentialEfficiency = efficiency;`)
+	# -- the pre-gate min efficiency (the power.status fold) -- and
+	# canConsume is the same gate (BuildingComp.java:1917, `public boolean canConsume(){` with
+	# `return potentialEfficiency > 0;`, BuildingComp.java:1918).
+	# updateConsumption forces efficiency to zero when the
+	# shouldConsume gate is false (BuildingComp.java:1960,
+	# `boolean update = shouldConsume() && productionValid();` +
+	# 1992, `if(!update){` + 1993, `efficiency = optionalEfficiency = 0f;`).
+	# The charge itself lives in updateTile
+	# (ShockwaveTower.java:72, `public void updateTile(){`); the
+	# per-def block (Blocks.java:2043-2044) sets `range = 170f;`
+	# and `reload = 80f;`, so the charge threshold the counter
+	# runs against is 80f.
+	# An absent `reload_counter` key starts from deterministic
+	# 0.0 -- Java inits `public float reloadCounter = Mathf.random(reload);`
+	# (ShockwaveTower.java:67), but the port takes the deterministic
+	# 0.0 start, the N2190 RepairTower refresh precedent, never
+	# `randf` in game code (the C06DefenseProof lesson: seeded RNG
+	# only in proof scenes). There is NO clamp at reload and NO
+	# reset without fire: Java keeps accumulating past reload until
+	# a successful fire resets the counter to 0
+	# (ShockwaveTower.java:83, `reloadCounter = 0f;`, with
+	# `heat = 1f;`, ShockwaveTower.java:82), so a counter past
+	# reload stays past reload.
+	var reload_counter: float = float(frame.get("reload_counter", 0.0))
+	var potential_efficiency: float = float(frame.get("potential_efficiency", 0.0))
+	if potential_efficiency > 0.0:
+		reload_counter += float(frame.get("efficiency", 0.0)) * delta
+	return {"reload_counter": reload_counter}
+
 @warning_ignore("unused_parameter")
 static func source_shockwave_tower_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the shockwave-tower tick wiring every
@@ -119,6 +156,15 @@ static func source_shockwave_tower_tick_buildings_state(game: Object, seconds: f
 				required_results.append(power_row.get("row", {}))
 			var consumption: Dictionary = source_building_efficiency_state.update_consumption_state(true, bool(frame.get("cheating", false)), bool(frame.get("enabled", true)), valid, should_consume, float(frame.get("efficiency_scale", 1.0)), required_results, [], [], frame)
 			source_building_efficiency_state.apply_update_consumption_state(consumption, frame)
+			# The charge advance (N2192): updateConsumption runs
+			# BEFORE updateTile in Java, so the charge reads THIS
+			# tick's freshly stamped potential_efficiency /
+			# efficiency (ShockwaveTower.java:73, `if(potentialEfficiency > 0 && (reloadCounter += edelta()) >= reload && timer(timerCheck, checkInterval)){`); the tick's
+			# `seconds` is the delta (the N2190 driver convention).
+			# The live charge is the only writer of the frame's
+			# `reload_counter` key.
+			var charged: Dictionary = source_shockwave_tower_charge_state(frame, seconds)
+			frame["reload_counter"] = charged.get("reload_counter", 0.0)
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1

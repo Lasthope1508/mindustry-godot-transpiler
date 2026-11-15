@@ -173208,6 +173208,22 @@
         "test_reference_graph_and_actual_c07_repair_tower_should_consume"
       ],
       "runtime_proof": "/root/C07RepairTowerShouldConsumeProof"
+    },
+    "source_shockwave_tower_charge_state_result.reload_counter": {
+      "status": "source-backed",
+      "godot_owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_charge_state",
+      "godot_symbol": "source_shockwave_tower_charge_state_result.reload_counter",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "java_method": "ShockwaveTowerBuild.updateTile()",
+      "java_expr": "if(potentialEfficiency > 0 && (reloadCounter += edelta()) >= reload && timer(timerCheck, checkInterval)){",
+      "rule": "The charged reload counter (ShockwaveTower.java:73): reload_counter + efficiency * delta when potentialEfficiency > 0, unchanged otherwise; no clamp at reload (per-def 80f, Blocks.java:2044) and no reset without fire -- Java resets only on a successful fire (ShockwaveTower.java:83, `reloadCounter = 0f;`).",
+      "tests": [
+        "test_c07_shockwave_tower_charge_registration",
+        "test_all_c07_shockwave_tower_charge_input_evidence_is_exact",
+        "test_shockwave_tower_charge_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_charge"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerChargeProof"
     }
   },
   "version": 1

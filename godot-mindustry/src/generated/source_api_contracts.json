@@ -66078,6 +66078,31 @@
       ],
       "runtime_proof": "/root/C07RepairTowerShouldConsumeProof",
       "rule": "Source-backed RepairTower shouldConsume gate from RepairTower.java / BuildingComp.java."
+    },
+    "SourceShockwaveTowerBuildState.source_shockwave_tower_charge_state": {
+      "status": "active",
+      "source_slice": "N2192",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "source_method": "ShockwaveTowerBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_shockwave_tower_charge_state_input.frame"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "reload_counter"
+      ],
+      "tests": [
+        "test_c07_shockwave_tower_charge_registration",
+        "test_all_c07_shockwave_tower_charge_input_evidence_is_exact",
+        "test_shockwave_tower_charge_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_charge"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerChargeProof",
+      "rule": "Source-backed ShockwaveTower charge advance from ShockwaveTower.java / BuildingComp.java."
     }
   },
   "policy": {
