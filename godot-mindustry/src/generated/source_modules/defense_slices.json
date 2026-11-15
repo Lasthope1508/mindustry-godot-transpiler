@@ -2909,6 +2909,24 @@
       ],
       "runtime_proof": "/root/C07BuildTurretPowerStatusProof"
     },
+    "N2187": {
+      "canonical_ledger": "source_slice_ledger.N2187",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "java_method": "ShockwaveTowerBuild.shouldConsume()",
+      "godot_owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_should_consume_state",
+      "source_symbols": [
+        "source_shockwave_tower_should_consume_state_result.should_consume",
+        "source_shockwave_tower_should_consume_state_result.reload_counter"
+      ],
+      "tests": [
+        "test_c07_shockwave_tower_should_consume_registration",
+        "test_all_c07_shockwave_tower_should_consume_input_evidence_is_exact",
+        "test_shockwave_tower_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_should_consume"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerShouldConsumeProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

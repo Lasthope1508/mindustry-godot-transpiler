@@ -229936,6 +229936,64 @@
       },
       "runtime_proof": "/root/C07LightBlockPowerStatusProof",
       "rule": "Source-backed LightBlock power.status row from ConsumePower.java / BuildingComp.java."
+    },
+    "source_shockwave_tower_should_consume_state_input": {
+      "status": "active",
+      "owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_should_consume_state",
+      "source_slice": "N2187",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "return reloadCounter < reload;",
+          "rule": "The building frame carrying the live reload_counter (ShockwaveTower.java:67, `public float reloadCounter = Mathf.random(reload);`): the counter the gate reads; a fresh frame starts at 0.0, which preserves the gate outcome at spawn because Mathf.random(reload) is always < reload.",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_should_consume_state"
+          ]
+        },
+        "block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "reload = 80f;",
+          "rule": "The catalog block (shockwave-tower def, reload 80f, Blocks.java:2043): the reload the gate compares against; the class default 60f * 1.5f (ShockwaveTower.java:26) is the fallback when the block carries no reload.",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ShockwaveTowerShouldConsumeProof",
+      "rule": "Source-backed ShockwaveTower shouldConsume gate from ShockwaveTower.java / BuildingComp.java / Blocks.java."
+    },
+    "source_shockwave_tower_should_consume_state_result": {
+      "status": "active",
+      "owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_should_consume_state",
+      "source_slice": "N2187",
+      "keys": {
+        "should_consume": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "return reloadCounter < reload;",
+          "rule": "The shouldConsume gate (ShockwaveTower.java:121-122): true while the reload counter is below reload; when false, updateConsumption forces efficiency to zero (BuildingComp.java:1960 + 1992-1994).",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_should_consume_state"
+          ]
+        },
+        "reload_counter": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "public float reloadCounter = Mathf.random(reload);",
+          "rule": "The frame reload counter the gate read (ShockwaveTower.java:67): advanced each tick by the updateTile charge (ShockwaveTower.java:73, `(reloadCounter += edelta())`).",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ShockwaveTowerShouldConsumeProof",
+      "rule": "Source-backed ShockwaveTower shouldConsume gate from ShockwaveTower.java / BuildingComp.java / Blocks.java."
     }
   },
   "version": 1
