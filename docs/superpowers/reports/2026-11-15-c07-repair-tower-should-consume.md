@@ -30,8 +30,8 @@ Tests written first per the slice process; the handoff's RED decisions section r
 ## Commits
 
 - Slice: `23f5a99` — C07: N2191 RepairTower shouldConsume gate (pure function + driver line; proof 5 keys), 9 files, +806/−1.
-- Docs: `TBD` — Docs: N2191 report + handoff + design spec (gate clean except Godot).
-- GOAL: `TBD` — Docs: GOAL.md names the N2191 slice commit that carries its proof to Windows.
+- Docs: `2a5bca1` — Docs: N2191 report + handoff + design spec (gate clean except Godot).
+- GOAL: `126a359` — Docs: GOAL.md names the N2191 slice commit that carries its proof to Windows.
 - Pushed 2026-11-15 ~16:5x +07 to the fork (Lasthope1508). See the handoff Commits section for the hashes.
 
 ## Deferred (NOT this slice)

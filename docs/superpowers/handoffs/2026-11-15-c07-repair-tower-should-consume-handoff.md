@@ -1,6 +1,6 @@
 # Handoff — N2191 RepairTower shouldConsume gate
 
-Date: 2026-11-15. Batch: N2191 (single slice). Status: **DONE (16:4x +07 tick) — targeted 4/4, proof 5/5 keys matches:true, neighbours 44/44 (family 8 + wiring 32). Full gate attempt 2 FINISHED ~16:40 +07: Ran 5857, failures=141, skipped=5, 0 errors — all 141 verified Godot-absent asserts. Report + spec written → commit/push next.**
+Date: 2026-11-15. Batch: N2191 (single slice). Status: **DONE + PUSHED (16:5x +07 tick) — targeted 4/4, proof 5/5 keys matches:true, neighbours 44/44, full gate attempt 2 Ran 5857, failures=141, skipped=5, 0 errors (all Godot-absent). Slice commit `23f5a99`, docs `2a5bca1`, GOAL `126a359`, origin/main == HEAD == `126a359`.**
 
 ## GREEN (this run, 16:2x +07 tick — BLOCKED, see below)
 
@@ -201,3 +201,35 @@ Date: 2026-11-15. Batch: N2191 (single slice). Status: **DONE (16:4x +07 tick) �
 - Gate attempt 1 (PID 11054) is DEAD — verified by main thread: no python/unittest process, log `full-suite-n2191-gate.log` stopped at 3645 bytes (3523 dots + 117 F + 0 E + 5 s, no footer) at ~3645/5857 tests, last write 16:23:09 +07. NO VM restart (uptime 1:12). The gate died when the tick's worker session ended at ~16:23 — the same worker-session death pattern as N2189 attempt 1. The worker's "launched from main thread" claim was wrong: a main-thread gate survives as its own session (cf. N2190 attempt 2, PID 2330, PPID 1).
 - Gate attempt 2 (main thread, PID 11314, SID 11314, ~16:24): `which godot` → NOT on PATH (correct baseline); javalang OK; log truncated fresh, growing with dots + F's (309 bytes at launch check). Parent subshell PID 11311 stays alive. Expected: Ran ~5857, failures ~141, skipped 5, 0 errors.
 - Neighbours verified by main thread: family N2176 + N2190 modules re-run ~16:24, both OK (8/8); wiring 32/32 OK (single-pattern run, `n2191-wiring.log`: Ran 32, OK); targeted 4/4 (green log). GREEN total 44/44.
+
+## DONE this run (16:5x +07 tick)
+
+- Full gate attempt 2 finished ~16:40 (see above) → report
+  (`docs/superpowers/reports/2026-11-15-c07-repair-tower-should-consume.md`)
+  → spec (Done/ledger 1640 → 1641 + N2191 row, in the docs commit — the
+  N2190 miss is NOT repeated) → GOAL.md §5 (Windows proof stays debt) →
+  slice commit `23f5a99` (9 files, +806/−1) → docs `2a5bca1` + GOAL
+  `126a359` commits → pushed to origin main ~16:5x (origin/main == HEAD
+  == `126a359`, verified after push; no new commits from anyone else —
+  re-checked origin/main before push: still 6cfda2e). Final handoff
+  Status commit records DONE + PUSHED with the main hash.
+- **Next after N2191:** ShockwaveTower charge advance (the prerequisite
+  for its shouldConsume gate), then BuildTurret shouldConsume,
+  ShieldWall broken(), MassDriver / LaunchPad rows, RepairTurret
+  coolant, the Units.nearby live query — each its own slice; or C08
+  inventory (classify the 5,390 null-body functions) when asked.
+
+## Gate attempt 2 FINISHED (verified 16:45 +07 tick)
+
+- Gate attempt 2 (PID 11314, SID 11314, main thread, ~16:24): **Ran 5857
+  tests in 975.562s, FAILED (failures=141, skipped=5)** — log
+  `tools/mindustry_godot_transpiler/full-suite-n2191-gate.log` (96,329
+  bytes, footer present). All 141 verified Godot-absent: **141 ×
+  `AssertionError: unexpectedly None`**, 0 other AssertionError types,
+  0 `ERROR:` lines, 141 `FAIL:` lines. The N2191 proof test is failure
+  #141 (the expected +1: it needs Godot on PATH, and it passed 4/4 in
+  the targeted run where Godot was on PATH). No VM restart during
+  attempt 2 (uptime 1:33 at the 16:45 check). Gate is clean except
+  Godot — exactly the N2190 baseline (Ran 5853, failures 140, skipped
+  5) + 4 new tests / +1 failure from the new proof test. Slice is DONE
+  per the repo process.
