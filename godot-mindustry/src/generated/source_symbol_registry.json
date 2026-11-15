@@ -182072,6 +182072,182 @@
         "test_reference_graph_and_actual_c07_unit_cargo_loader_can_create"
       ],
       "runtime_proof": "/root/C07UnitCargoLoaderCanCreateProof"
+    },
+    "source_stack_router_target_list_state_result.targets": {
+      "status": "source-backed",
+      "godot_owner": "SourceStackRouterBuildState.source_stack_router_target_list_state",
+      "godot_symbol": "source_stack_router_target_list_state_result.targets",
+      "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+      "java_method": "DuctRouterBuild.target()",
+      "java_expr": "return other;",
+      "rule": "The ordered handoff-target list: one neighbour-dict entry per simulated target() call that matched (DuctRouter.java:148-150), in call order -- the list the tick passes into the N2240 advance, which pops one entry per handoff. Empty when current is null, the neighbour list is empty, or no call matched.",
+      "tests": [
+        "test_c07_stack_router_target_registration",
+        "test_all_c07_stack_router_target_input_evidence_is_exact",
+        "test_stack_router_target_list_state",
+        "test_reference_graph_and_actual_c07_stack_router_target"
+      ],
+      "runtime_proof": "/root/C07StackRouterTargetProof"
+    },
+    "source_stack_router_target_list_state_result.cdump_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceStackRouterBuildState.source_stack_router_target_list_state",
+      "godot_symbol": "source_stack_router_target_list_state_result.cdump_after",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "DuctRouterBuild.target()",
+      "java_expr": "cdump = ((cdump + 1) % prox);",
+      "rule": "The cdump value after the simulated calls (BuildingComp.java:1116-1120): each call advances cdump by the number of neighbours scanned, including the match (incrementDump runs on every scanned iteration, DuctRouter.java:149 + 153); a full-scan null call advances it by the whole size (a no-op modulo size). The tick stamps it onto the frame only when a handoff actually happened.",
+      "tests": [
+        "test_c07_stack_router_target_registration",
+        "test_all_c07_stack_router_target_input_evidence_is_exact",
+        "test_stack_router_target_list_state",
+        "test_reference_graph_and_actual_c07_stack_router_target"
+      ],
+      "runtime_proof": "/root/C07StackRouterTargetProof"
+    },
+    "source_regen_projector_update_tile_advance_state_result.last_update_frame": {
+      "status": "source-backed",
+      "godot_owner": "SourceRegenProjectorBuildState.source_regen_projector_update_tile_advance_state",
+      "godot_symbol": "source_regen_projector_update_tile_advance_state_result.last_update_frame",
+      "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+      "java_method": "RegenProjectorBuild.updateTile()",
+      "java_expr": "lastUpdateFrame = state.updateId;",
+      "rule": "The stamped frame id after this tick (RegenProjector.java:168-170): update_id when the flush fired (last_update_frame != update_id on entry), unchanged otherwise -- including on a suppressed tick, which returns before the flush block. The frame input defaults to -1 (`private static long lastUpdateFrame = -1;`, RegenProjector.java:24) against the update_id default 0 (`public long updateId;`, GameState.java:23, incremented once per logic update, Logic.java:512), so a fresh frame flushes once and then waits for a live updateId source.",
+      "tests": [
+        "test_c07_regen_projector_mend_map_flush_registration",
+        "test_all_c07_regen_projector_mend_map_flush_input_evidence_is_exact",
+        "test_regen_projector_mend_map_flush_state",
+        "test_reference_graph_and_actual_c07_regen_projector_mend_map_flush"
+      ],
+      "runtime_proof": "/root/C07RegenProjectorMendMapFlushProof"
+    },
+    "source_regen_projector_update_tile_advance_state_result.heal_applications": {
+      "status": "source-backed",
+      "godot_owner": "SourceRegenProjectorBuildState.source_regen_projector_update_tile_advance_state",
+      "godot_symbol": "source_regen_projector_update_tile_advance_state_result.heal_applications",
+      "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+      "java_method": "RegenProjectorBuild.updateTile()",
+      "java_expr": "build.heal(entry.value);",
+      "rule": "The flushed mend amounts as a pure result {pos: amount} (RegenProjector.java:168-177): the whole mend_map when the flush fired, empty otherwise -- including on a suppressed tick and when the frame id is unchanged. Java applies each entry to the live building (world.build(pos) + build.heal + recentlyHealed(), the timestamp write `lastHealTime = Time.time;`, BuildingComp.java:491-493); the port reports the map and applies nothing -- the live application waits for its own slice.",
+      "tests": [
+        "test_c07_regen_projector_mend_map_flush_registration",
+        "test_all_c07_regen_projector_mend_map_flush_input_evidence_is_exact",
+        "test_regen_projector_mend_map_flush_state",
+        "test_reference_graph_and_actual_c07_regen_projector_mend_map_flush"
+      ],
+      "runtime_proof": "/root/C07RegenProjectorMendMapFlushProof"
+    },
+    "source_force_projector_timer_use_state_result.consume_tick": {
+      "status": "source-backed",
+      "godot_owner": "SourceForceProjectorBuildState.source_force_projector_timer_use_state",
+      "godot_symbol": "source_force_projector_timer_use_state_result.consume_tick",
+      "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+      "java_method": "ForceBuild.updateTile()",
+      "java_expr": "if(Float.isInfinite(time)) return false;",
+      "rule": "Whether the timer fires this tick (TimerComp.java:10-13): false when the threshold is infinite (time_scale <= 0, the defensive guard), else elapsed >= threshold (duration / time_scale -- the Interval.check comparison, arc Interval.java:28-30, against the frame-local clock). The timer ONLY supplies consume_tick -- the gate (phaseValid / !broken / efficiency > 0) stays INSIDE the N2235 advance, so a timer fire alone never consumes.",
+      "tests": [
+        "test_c07_force_projector_timer_use_registration",
+        "test_all_c07_force_projector_timer_use_input_evidence_is_exact",
+        "test_force_projector_timer_use_state",
+        "test_reference_graph_and_actual_c07_force_projector_timer_use"
+      ],
+      "runtime_proof": "/root/C07ForceProjectorTimerUseProof"
+    },
+    "source_force_projector_timer_use_state_result.timer_elapsed_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceForceProjectorBuildState.source_force_projector_timer_use_state",
+      "godot_symbol": "source_force_projector_timer_use_state_result.timer_elapsed_after",
+      "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+      "java_method": "ForceBuild.updateTile()",
+      "java_expr": "return timer.get(index, time);",
+      "rule": "The elapsed clock after this tick: 0.0 when consume_tick (Interval.get RESETS times[id] = Time.time on fire, arc Interval.java:23-25 -- a reset, not a subtraction like the Fracker accumulator), otherwise the accumulated elapsed (the clock still accumulates at time_scale <= 0 -- only the fire is guarded).",
+      "tests": [
+        "test_c07_force_projector_timer_use_registration",
+        "test_all_c07_force_projector_timer_use_input_evidence_is_exact",
+        "test_force_projector_timer_use_state",
+        "test_reference_graph_and_actual_c07_force_projector_timer_use"
+      ],
+      "runtime_proof": "/root/C07ForceProjectorTimerUseProof"
+    },
+    "source_force_projector_timer_use_state_result.threshold": {
+      "status": "source-backed",
+      "godot_owner": "SourceForceProjectorBuildState.source_force_projector_timer_use_state",
+      "godot_symbol": "source_force_projector_timer_use_state_result.threshold",
+      "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+      "java_method": "ForceBuild.updateTile()",
+      "java_expr": "public float phaseUseTime = 350f;",
+      "rule": "The fire threshold in ticks: duration / time_scale (phaseUseTime 350f, ForceProjector.java:32 -- Java divides by timeScale here, ForceProjector.java:211, unlike the advances-12 literal timers); infinite when time_scale <= 0, so the timer never fires on that branch.",
+      "tests": [
+        "test_c07_force_projector_timer_use_registration",
+        "test_all_c07_force_projector_timer_use_input_evidence_is_exact",
+        "test_force_projector_timer_use_state",
+        "test_reference_graph_and_actual_c07_force_projector_timer_use"
+      ],
+      "runtime_proof": "/root/C07ForceProjectorTimerUseProof"
+    },
+    "source_shockwave_tower_supplied_bullets_state_result.bullets": {
+      "status": "source-backed",
+      "godot_owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_supplied_bullets_state",
+      "godot_symbol": "source_shockwave_tower_supplied_bullets_state_result.bullets",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "java_method": "ShockwaveTowerBuild.updateTile()",
+      "java_expr": "targets.add(b);",
+      "rule": "The admitted list (ShockwaveTower.java:77): the candidate dicts themselves, in candidate order -- the enemy hittable bullets whose center falls in the range*2 rect. Passed into the N2247 advance as its bullet_candidates.",
+      "tests": [
+        "test_c07_shockwave_tower_bullet_scan_registration",
+        "test_all_c07_shockwave_tower_bullet_scan_input_evidence_is_exact",
+        "test_shockwave_tower_bullet_scan_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_bullet_scan"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerBulletScanProof"
+    },
+    "source_base_shield_supplied_bullets_state_result.bullets": {
+      "status": "source-backed",
+      "godot_owner": "SourceBaseShieldBuildState.source_base_shield_supplied_bullets_state",
+      "godot_symbol": "source_base_shield_supplied_bullets_state_result.bullets",
+      "java_source": "core/src/mindustry/world/blocks/defense/BaseShield.java",
+      "java_method": "BaseShieldBuild.updateTile()",
+      "java_expr": "Groups.bullet.intersect(x - rad, y - rad, rad * 2f, rad * 2f, bulletConsumer);",
+      "rule": "The bullets admitted by the rect broad phase (BaseShield.java:96): every frame candidate whose center falls in [x +/- rad, y +/- rad], INCLUSIVE -- a rect, not a circle, so a bullet at the rect corner (rad, rad) is IN (the N2277 precedent). The N2236 advance then applies the bulletConsumer narrow check (enemy team + absorbable + STRICT within radius()) and returns the absorbed bullets as a pure result.",
+      "tests": [
+        "test_c07_base_shield_scans_registration",
+        "test_all_c07_base_shield_scans_input_evidence_is_exact",
+        "test_base_shield_scans_state",
+        "test_reference_graph_and_actual_c07_base_shield_scans"
+      ],
+      "runtime_proof": "/root/C07BaseShieldScansProof"
+    },
+    "source_base_shield_supplied_enemy_units_state_result.enemy_units": {
+      "status": "source-backed",
+      "godot_owner": "SourceBaseShieldBuildState.source_base_shield_supplied_enemy_units_state",
+      "godot_symbol": "source_base_shield_supplied_enemy_units_state_result.enemy_units",
+      "java_source": "core/src/mindustry/entities/Units.java",
+      "java_method": "BaseShieldBuild.updateTile()",
+      "java_expr": "if(u.within(x, y, radius + u.hitSize/2f)){",
+      "rule": "The enemy units admitted by the nearbyEnemies filter (Units.java:484): enemy team + STRICT within(rad + 10 + hitSize/2) (Position.java:44-46, dst2 < range^2) -- exactly at the range is OUT. The N2236 advance then applies the unitConsumer (overlapDst kill/repel, BaseShield.java:38-56) and returns repelled_units / killed_units as pure results.",
+      "tests": [
+        "test_c07_base_shield_scans_registration",
+        "test_all_c07_base_shield_scans_input_evidence_is_exact",
+        "test_base_shield_scans_state",
+        "test_reference_graph_and_actual_c07_base_shield_scans"
+      ],
+      "runtime_proof": "/root/C07BaseShieldScansProof"
+    },
+    "source_mend_projector_supplied_heal_candidates_state_result.candidates": {
+      "status": "source-backed",
+      "godot_owner": "SourceMendProjectorBuildState.source_mend_projector_supplied_heal_candidates_state",
+      "godot_symbol": "source_mend_projector_supplied_heal_candidates_state_result.candidates",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "java_method": "MendBuild.updateTile()",
+      "java_expr": "indexer.eachBlock(this, realRange, b -> b.damaged() && !b.isHealSuppressed(), other -> {",
+      "rule": "The ranged candidate list (MendProjector.java:112): the admitted candidate dicts themselves, in candidate order -- the entries whose center falls in the eachBlock rect (|dx| <= realRange and |dy| <= realRange, INCLUSIVE, the N2277 center-in-rect precedent), passed into the N2242 heal scan. Entries keep every key (damaged / heal_suppressed / max_health untouched); the pure filters range only.",
+      "tests": [
+        "test_c07_mend_projector_heal_scan_range_registration",
+        "test_all_c07_mend_projector_heal_scan_range_input_evidence_is_exact",
+        "test_mend_projector_heal_scan_range_state",
+        "test_reference_graph_and_actual_c07_mend_projector_heal_scan_range"
+      ],
+      "runtime_proof": "/root/C07MendProjectorHealScanRangeProof"
     }
   },
   "version": 1

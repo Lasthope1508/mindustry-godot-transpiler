@@ -3470,6 +3470,95 @@
       ],
       "runtime_proof": "/root/C07ShockwaveTowerTimerCheckProof"
     },
+    "N2325": {
+      "canonical_ledger": "source_slice_ledger.N2325",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+      "java_method": "RegenProjectorBuild.updateTile()",
+      "godot_owner": "SourceRegenProjectorBuildState.source_regen_projector_update_tile_advance_state",
+      "source_symbols": [
+        "source_regen_projector_update_tile_advance_state_result.last_update_frame",
+        "source_regen_projector_update_tile_advance_state_result.heal_applications"
+      ],
+      "tests": [
+        "test_c07_regen_projector_mend_map_flush_registration",
+        "test_all_c07_regen_projector_mend_map_flush_input_evidence_is_exact",
+        "test_regen_projector_mend_map_flush_state",
+        "test_reference_graph_and_actual_c07_regen_projector_mend_map_flush"
+      ],
+      "runtime_proof": "/root/C07RegenProjectorMendMapFlushProof"
+    },
+    "N2326": {
+      "canonical_ledger": "source_slice_ledger.N2326",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+      "java_method": "ForceBuild.updateTile()",
+      "godot_owner": "SourceForceProjectorBuildState.source_force_projector_timer_use_state",
+      "source_symbols": [
+        "source_force_projector_timer_use_state_result.consume_tick",
+        "source_force_projector_timer_use_state_result.timer_elapsed_after",
+        "source_force_projector_timer_use_state_result.threshold"
+      ],
+      "tests": [
+        "test_c07_force_projector_timer_use_registration",
+        "test_all_c07_force_projector_timer_use_input_evidence_is_exact",
+        "test_force_projector_timer_use_state",
+        "test_reference_graph_and_actual_c07_force_projector_timer_use"
+      ],
+      "runtime_proof": "/root/C07ForceProjectorTimerUseProof"
+    },
+    "N2327": {
+      "canonical_ledger": "source_slice_ledger.N2327",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "java_method": "ShockwaveTowerBuild.updateTile()",
+      "godot_owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_supplied_bullets_state",
+      "source_symbols": [
+        "source_shockwave_tower_supplied_bullets_state_result.bullets"
+      ],
+      "tests": [
+        "test_c07_shockwave_tower_bullet_scan_registration",
+        "test_all_c07_shockwave_tower_bullet_scan_input_evidence_is_exact",
+        "test_shockwave_tower_bullet_scan_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_bullet_scan"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerBulletScanProof"
+    },
+    "N2328": {
+      "canonical_ledger": "source_slice_ledger.N2328",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/BaseShield.java",
+      "java_method": "BaseShieldBuild.updateTile()",
+      "godot_owner": "SourceBaseShieldBuildState.source_base_shield_supplied_bullets_state",
+      "source_symbols": [
+        "source_base_shield_supplied_bullets_state_result.bullets",
+        "source_base_shield_supplied_enemy_units_state_result.enemy_units"
+      ],
+      "tests": [
+        "test_c07_base_shield_scans_registration",
+        "test_all_c07_base_shield_scans_input_evidence_is_exact",
+        "test_base_shield_scans_state",
+        "test_reference_graph_and_actual_c07_base_shield_scans"
+      ],
+      "runtime_proof": "/root/C07BaseShieldScansProof"
+    },
+    "N2329": {
+      "canonical_ledger": "source_slice_ledger.N2329",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "java_method": "MendBuild.updateTile()",
+      "godot_owner": "SourceMendProjectorBuildState.source_mend_projector_supplied_heal_candidates_state",
+      "source_symbols": [
+        "source_mend_projector_supplied_heal_candidates_state_result.candidates"
+      ],
+      "tests": [
+        "test_c07_mend_projector_heal_scan_range_registration",
+        "test_all_c07_mend_projector_heal_scan_range_input_evidence_is_exact",
+        "test_mend_projector_heal_scan_range_state",
+        "test_reference_graph_and_actual_c07_mend_projector_heal_scan_range"
+      ],
+      "runtime_proof": "/root/C07MendProjectorHealScanRangeProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

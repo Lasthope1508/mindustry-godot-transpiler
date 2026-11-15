@@ -6512,6 +6512,47 @@
       "rule": "Source-backed BaseShield power.status row from ConsumePower.java / BuildingComp.java.",
       "return_type": "Dictionary"
     },
+    "SourceBaseShieldBuildState.source_base_shield_supplied_bullets_state": {
+      "canonical_contract": "source_api_contracts.SourceBaseShieldBuildState.source_base_shield_supplied_bullets_state",
+      "status": "active",
+      "source_slice": "N2328",
+      "java_source": "core/src/mindustry/world/blocks/defense/BaseShield.java",
+      "source_method": "BaseShieldBuild.updateTile()",
+      "params": [
+        {
+          "name": "candidates",
+          "type": "Array",
+          "schema": "source_base_shield_supplied_bullets_state_input.candidates"
+        },
+        {
+          "name": "rad",
+          "type": "float",
+          "schema": "source_base_shield_supplied_bullets_state_input.rad"
+        },
+        {
+          "name": "building_x",
+          "type": "float",
+          "schema": "source_base_shield_supplied_bullets_state_input.building_x"
+        },
+        {
+          "name": "building_y",
+          "type": "float",
+          "schema": "source_base_shield_supplied_bullets_state_input.building_y"
+        }
+      ],
+      "return_keys": [
+        "bullets"
+      ],
+      "tests": [
+        "test_c07_base_shield_scans_registration",
+        "test_all_c07_base_shield_scans_input_evidence_is_exact",
+        "test_base_shield_scans_state",
+        "test_reference_graph_and_actual_c07_base_shield_scans"
+      ],
+      "runtime_proof": "/root/C07BaseShieldScansProof",
+      "rule": "Source-backed BaseShield live bullet + enemy-unit scans from BaseShield.java / Units.java / EntityGroup.java / GroupDefs.java / Team.java / Tile.java / Mathf.java / Position.java.",
+      "return_type": "Dictionary"
+    },
     "SourceBaseShieldBuildState.source_base_shield_update_tile_advance_state": {
       "canonical_contract": "source_api_contracts.SourceBaseShieldBuildState.source_base_shield_update_tile_advance_state",
       "status": "active",
@@ -7083,6 +7124,49 @@
       "rule": "Source-backed ForceProjector power.status row from ConsumePower.java / BuildingComp.java.",
       "return_type": "Dictionary"
     },
+    "SourceForceProjectorBuildState.source_force_projector_timer_use_state": {
+      "canonical_contract": "source_api_contracts.SourceForceProjectorBuildState.source_force_projector_timer_use_state",
+      "status": "active",
+      "source_slice": "N2326",
+      "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+      "source_method": "ForceBuild.updateTile()",
+      "params": [
+        {
+          "name": "elapsed",
+          "type": "float",
+          "schema": "source_force_projector_timer_use_state_input.elapsed"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_force_projector_timer_use_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_force_projector_timer_use_state_input.time_scale"
+        },
+        {
+          "name": "duration",
+          "type": "float",
+          "schema": "source_force_projector_timer_use_state_input.duration"
+        }
+      ],
+      "return_keys": [
+        "consume_tick",
+        "timer_elapsed_after",
+        "threshold"
+      ],
+      "tests": [
+        "test_c07_force_projector_timer_use_registration",
+        "test_all_c07_force_projector_timer_use_input_evidence_is_exact",
+        "test_force_projector_timer_use_state",
+        "test_reference_graph_and_actual_c07_force_projector_timer_use"
+      ],
+      "runtime_proof": "/root/C07ForceProjectorTimerUseProof",
+      "rule": "Source-backed ForceProjector timerUse cadence + consume application from ForceProjector.java / TimerComp.java / BuildingComp.java / ConsumeItems.java / arc Interval.java / arc Time.java.",
+      "return_type": "Dictionary"
+    },
     "SourceForceProjectorBuildState.source_force_projector_update_tile_advance_state": {
       "canonical_contract": "source_api_contracts.SourceForceProjectorBuildState.source_force_projector_update_tile_advance_state",
       "status": "active",
@@ -7314,6 +7398,47 @@
       ],
       "runtime_proof": "/root/C07MendProjectorPowerStatusProof",
       "rule": "Source-backed MendProjector power.status row from ConsumePower.java / BuildingComp.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceMendProjectorBuildState.source_mend_projector_supplied_heal_candidates_state": {
+      "canonical_contract": "source_api_contracts.SourceMendProjectorBuildState.source_mend_projector_supplied_heal_candidates_state",
+      "status": "active",
+      "source_slice": "N2329",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "source_method": "MendBuild.updateTile()",
+      "params": [
+        {
+          "name": "candidates",
+          "type": "Array",
+          "schema": "source_mend_projector_supplied_heal_candidates_state_input.candidates"
+        },
+        {
+          "name": "real_range",
+          "type": "float",
+          "schema": "source_mend_projector_supplied_heal_candidates_state_input.real_range"
+        },
+        {
+          "name": "building_x",
+          "type": "float",
+          "schema": "source_mend_projector_supplied_heal_candidates_state_input.building_x"
+        },
+        {
+          "name": "building_y",
+          "type": "float",
+          "schema": "source_mend_projector_supplied_heal_candidates_state_input.building_y"
+        }
+      ],
+      "return_keys": [
+        "candidates"
+      ],
+      "tests": [
+        "test_c07_mend_projector_heal_scan_range_registration",
+        "test_all_c07_mend_projector_heal_scan_range_input_evidence_is_exact",
+        "test_mend_projector_heal_scan_range_state",
+        "test_reference_graph_and_actual_c07_mend_projector_heal_scan_range"
+      ],
+      "runtime_proof": "/root/C07MendProjectorHealScanRangeProof",
+      "rule": "Source-backed MendProjector heal scan range query from MendProjector.java / BlockIndexer.java / Blocks.java / Arc Position.java.",
       "return_type": "Dictionary"
     },
     "SourceMendProjectorBuildState.source_mend_projector_timer_use_state": {
@@ -8003,7 +8128,9 @@
         "any_targets",
         "mend_map",
         "heal_amount",
-        "consumed"
+        "consumed",
+        "last_update_frame",
+        "heal_applications"
       ],
       "tests": [
         "test_c07_regen_projector_update_tile_registration",
@@ -8109,6 +8236,52 @@
       ],
       "runtime_proof": "/root/C07ShockwaveTowerShouldConsumeProof",
       "rule": "Source-backed ShockwaveTower shouldConsume gate from ShockwaveTower.java / BuildingComp.java / Blocks.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceShockwaveTowerBuildState.source_shockwave_tower_supplied_bullets_state": {
+      "canonical_contract": "source_api_contracts.SourceShockwaveTowerBuildState.source_shockwave_tower_supplied_bullets_state",
+      "status": "active",
+      "source_slice": "N2327",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "source_method": "ShockwaveTowerBuild.updateTile()",
+      "params": [
+        {
+          "name": "candidates",
+          "type": "Array",
+          "schema": "source_shockwave_tower_supplied_bullets_state_input.candidates"
+        },
+        {
+          "name": "range_value",
+          "type": "float",
+          "schema": "source_shockwave_tower_supplied_bullets_state_input.range_value"
+        },
+        {
+          "name": "tower_x",
+          "type": "float",
+          "schema": "source_shockwave_tower_supplied_bullets_state_input.tower_x"
+        },
+        {
+          "name": "tower_y",
+          "type": "float",
+          "schema": "source_shockwave_tower_supplied_bullets_state_input.tower_y"
+        },
+        {
+          "name": "tower_team",
+          "type": "int",
+          "schema": "source_shockwave_tower_supplied_bullets_state_input.tower_team"
+        }
+      ],
+      "return_keys": [
+        "bullets"
+      ],
+      "tests": [
+        "test_c07_shockwave_tower_bullet_scan_registration",
+        "test_all_c07_shockwave_tower_bullet_scan_input_evidence_is_exact",
+        "test_shockwave_tower_bullet_scan_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_bullet_scan"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerBulletScanProof",
+      "rule": "Source-backed ShockwaveTower live bullet scan from ShockwaveTower.java / Blocks.java / BulletType.java / BulletComp.java / EntityGroup.java / Arc QuadTree.java / Rect.java.",
       "return_type": "Dictionary"
     },
     "SourceShockwaveTowerBuildState.source_shockwave_tower_timer_check_state": {

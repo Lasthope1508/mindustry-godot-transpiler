@@ -233242,6 +233242,26 @@
           "used_by": [
             "SourceRegenProjectorBuildState.source_regen_projector_update_tile_advance_state"
           ]
+        },
+        "last_update_frame": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+          "java_expr": "lastUpdateFrame = state.updateId;",
+          "rule": "The stamped frame id after this tick (RegenProjector.java:168-170): update_id when the flush fired (last_update_frame != update_id on entry), unchanged otherwise -- including on a suppressed tick, which returns before the flush block. The frame input defaults to -1 (`private static long lastUpdateFrame = -1;`, RegenProjector.java:24) against the update_id default 0 (`public long updateId;`, GameState.java:23, incremented once per logic update, Logic.java:512), so a fresh frame flushes once and then waits for a live updateId source.",
+          "used_by": [
+            "SourceRegenProjectorBuildState.source_regen_projector_update_tile_advance_state"
+          ]
+        },
+        "heal_applications": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+          "java_expr": "build.heal(entry.value);",
+          "rule": "The flushed mend amounts as a pure result {pos: amount} (RegenProjector.java:168-177): the whole mend_map when the flush fired, empty otherwise -- including on a suppressed tick and when the frame id is unchanged. Java applies each entry to the live building (world.build(pos) + build.heal + recentlyHealed(), the timestamp write `lastHealTime = Time.time;`, BuildingComp.java:491-493); the port reports the map and applies nothing -- the live application waits for its own slice.",
+          "used_by": [
+            "SourceRegenProjectorBuildState.source_regen_projector_update_tile_advance_state"
+          ]
         }
       },
       "runtime_proof": "/root/C07RegenProjectorUpdateTileProof",
@@ -245449,6 +245469,494 @@
       },
       "runtime_proof": "/root/C07UnitCargoLoaderCanCreateProof",
       "rule": "Source-backed UnitCargoLoader canCreate evaluation from Units.java / UnitCargoLoader.java / UnitType.java / Rules.java / Teams.java / Team.java."
+    },
+    "source_stack_router_target_list_state_input": {
+      "status": "active",
+      "owner": "SourceStackRouterBuildState.source_stack_router_target_list_state",
+      "source_slice": "N2324",
+      "keys": {
+        "neighbours": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+          "java_expr": "for(int i = 0; i < proximity.size; i++){",
+          "rule": "The frame proximity_neighbours input: an Array of neighbour dicts, each {id, rel, team, accepts_item}, in proximity order (the order Java scans, DuctRouter.java:144-145). rel is relativeTo(other) (BuildingComp.java:530) precomputed per neighbour; team is the neighbour team for the `other.team == team` gate; accepts_item is the neighbour acceptItem(this, current) answer. No live proximity query fills this frame input yet -- the driver passes the stamped list, default [].",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_target_list_state"
+          ]
+        },
+        "current": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+          "java_expr": "if(current == null) return null;",
+          "rule": "The current item being unloaded (`public @Nullable Item current;`, DuctRouter.java:80). Null returns an empty list at once (DuctRouter.java:140); otherwise the item name the acceptItem gate checks (as a name string, the N2225 precedent).",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_target_list_state"
+          ]
+        },
+        "sort_item": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+          "java_expr": "public @Nullable Item sortItem;",
+          "rule": "The nullable sortItem build field (DuctRouter.java:77), set via config (DuctRouter.java:43). When set, the sort item routes only forward (rel == rotation) and every other item only elsewhere (DuctRouter.java:148); null disables the sort gate.",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_target_list_state"
+          ]
+        },
+        "rotation": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "transient int rotation;",
+          "rule": "The router rotation (`transient int rotation;`, BuildingComp.java:69), read live from the sprite rotation meta (the UnitAssemblerModule precedent): the forward direction for the sort gate and the backwards exclusion `rel == (rotation + 2) % 4` (DuctRouter.java:148).",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_target_list_state"
+          ]
+        },
+        "team": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+          "java_expr": "other.team == team",
+          "rule": "The router team (frame team_id) for the `other.team == team` match gate (DuctRouter.java:148): only same-team neighbours can receive a handoff.",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_target_list_state"
+          ]
+        },
+        "cdump": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "transient int cdump;",
+          "rule": "The dump cursor (`transient int cdump;`, BuildingComp.java:68, default 0) at tick start: each simulated target() call scans from the current cdump and advances it by the number of neighbours scanned (incrementDump, BuildingComp.java:1116-1120).",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_target_list_state"
+          ]
+        },
+        "handoff_count": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/modules/ItemModule.java",
+          "java_expr": "public int get(Item item){",
+          "rule": "items.get(current) at tick start (ItemModule.java:209-211), read through the shared drill inventory helper: the StackRouter while loop (StackRouter.java:47-52) calls target() once per handoff, so the list holds at most handoff_count entries.",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_target_list_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07StackRouterTargetProof",
+      "rule": "Source-backed StackRouter target() live proximity selection from DuctRouter.java / BuildingComp.java / StackRouter.java / ItemModule.java."
+    },
+    "source_stack_router_target_list_state_result": {
+      "status": "active",
+      "owner": "SourceStackRouterBuildState.source_stack_router_target_list_state",
+      "source_slice": "N2324",
+      "keys": {
+        "targets": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+          "java_expr": "return other;",
+          "rule": "The ordered handoff-target list: one neighbour-dict entry per simulated target() call that matched (DuctRouter.java:148-150), in call order -- the list the tick passes into the N2240 advance, which pops one entry per handoff. Empty when current is null, the neighbour list is empty, or no call matched.",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_target_list_state"
+          ]
+        },
+        "cdump_after": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "cdump = ((cdump + 1) % prox);",
+          "rule": "The cdump value after the simulated calls (BuildingComp.java:1116-1120): each call advances cdump by the number of neighbours scanned, including the match (incrementDump runs on every scanned iteration, DuctRouter.java:149 + 153); a full-scan null call advances it by the whole size (a no-op modulo size). The tick stamps it onto the frame only when a handoff actually happened.",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_target_list_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07StackRouterTargetProof",
+      "rule": "Source-backed StackRouter target() live proximity selection from DuctRouter.java / BuildingComp.java / StackRouter.java / ItemModule.java."
+    },
+    "source_force_projector_timer_use_state_input": {
+      "status": "active",
+      "owner": "SourceForceProjectorBuildState.source_force_projector_timer_use_state",
+      "source_slice": "N2326",
+      "keys": {
+        "elapsed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+          "java_expr": "return timer.get(index, time);",
+          "rule": "The frame-local elapsed clock in ticks (frame[\"timer_use_elapsed\"], accumulated by the tick delta every tick the advance runs, unconditionally -- the port mirror of the global Time.time arc Interval.get compares against, Interval.java:20-26; Time.time counts TICKS, arc Time.java:75).",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_timer_use_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/util/Time.java",
+          "java_expr": "timeRaw += delta;",
+          "rule": "The tick delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26) -- the per-tick growth of the frame-local clock, mirroring the per-update growth of the global Time.time (arc Time.java:75).",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_timer_use_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The live building timeScale (BuildingComp.java:98, default 1f), read from the sprite meta by the tick; the threshold DIVIDES by it (phaseUseTime / timeScale, ForceProjector.java:211 -- Java divides here, unlike the advances-12 literal timers), and a non-positive time_scale is a defensive guard (consume_tick false, threshold INF; Java timeScale is always positive in practice, BuildingComp.java:461-478/2265-2266, so the guard is unreachable in Java-exact play).",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_timer_use_state"
+          ]
+        },
+        "duration": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+          "java_expr": "if(phaseValid && !broken && timer(timerUse, phaseUseTime / timeScale) && efficiency > 0){",
+          "rule": "The timer duration in ticks: phaseUseTime 350f (ForceProjector.java:32), the single force-projector def shares it (no per-def override); the threshold is duration / time_scale.",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_timer_use_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ForceProjectorTimerUseProof",
+      "rule": "Source-backed ForceProjector timerUse cadence + consume application from ForceProjector.java / TimerComp.java / BuildingComp.java / ConsumeItems.java / arc Interval.java / arc Time.java."
+    },
+    "source_force_projector_timer_use_state_result": {
+      "status": "active",
+      "owner": "SourceForceProjectorBuildState.source_force_projector_timer_use_state",
+      "source_slice": "N2326",
+      "keys": {
+        "consume_tick": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+          "java_expr": "if(Float.isInfinite(time)) return false;",
+          "rule": "Whether the timer fires this tick (TimerComp.java:10-13): false when the threshold is infinite (time_scale <= 0, the defensive guard), else elapsed >= threshold (duration / time_scale -- the Interval.check comparison, arc Interval.java:28-30, against the frame-local clock). The timer ONLY supplies consume_tick -- the gate (phaseValid / !broken / efficiency > 0) stays INSIDE the N2235 advance, so a timer fire alone never consumes.",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_timer_use_state"
+          ]
+        },
+        "timer_elapsed_after": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+          "java_expr": "return timer.get(index, time);",
+          "rule": "The elapsed clock after this tick: 0.0 when consume_tick (Interval.get RESETS times[id] = Time.time on fire, arc Interval.java:23-25 -- a reset, not a subtraction like the Fracker accumulator), otherwise the accumulated elapsed (the clock still accumulates at time_scale <= 0 -- only the fire is guarded).",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_timer_use_state"
+          ]
+        },
+        "threshold": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+          "java_expr": "public float phaseUseTime = 350f;",
+          "rule": "The fire threshold in ticks: duration / time_scale (phaseUseTime 350f, ForceProjector.java:32 -- Java divides by timeScale here, ForceProjector.java:211, unlike the advances-12 literal timers); infinite when time_scale <= 0, so the timer never fires on that branch.",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_timer_use_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ForceProjectorTimerUseProof",
+      "rule": "Source-backed ForceProjector timerUse cadence + consume application from ForceProjector.java / TimerComp.java / BuildingComp.java / ConsumeItems.java / arc Interval.java / arc Time.java."
+    },
+    "source_shockwave_tower_supplied_bullets_state_input": {
+      "status": "active",
+      "owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_supplied_bullets_state",
+      "source_slice": "N2327",
+      "keys": {
+        "candidates": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "Groups.bullet.intersect(x - range, y - range, range * 2, range * 2, b -> {",
+          "rule": "The frame-supplied bullet candidates (ShockwaveTower.java:75, the Groups.bullet.intersect visit -- the port has no live bullet query, so the caller supplies candidates on frame[\"bullet_candidates\"], default []): each entry is a Dict {x, y, team?, hittable?, damage?} carrying the rect position, the team and the hittable flag; a missing x or y excludes the candidate, a missing team reads as the tower's own team (never enemy), a missing hittable reads as true.",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_supplied_bullets_state"
+          ]
+        },
+        "range_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "public float range = 110f;",
+          "rule": "The scan half-side (ShockwaveTower.java:25, the class default 110f; the def overrides it to 170f, Blocks.java:2043): the intersect rect is [x-range, x+range] x [y-range, y+range], tested INCLUSIVE on the bullet center.",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_supplied_bullets_state"
+          ]
+        },
+        "tower_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "Groups.bullet.intersect(x - range, y - range, range * 2, range * 2, b -> {",
+          "rule": "The tower world x (ShockwaveTower.java:75, the intersect center -- Building x/y are tile.drawx()/drawy(), BuildingComp.java:124): the rect center.",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_supplied_bullets_state"
+          ]
+        },
+        "tower_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "Groups.bullet.intersect(x - range, y - range, range * 2, range * 2, b -> {",
+          "rule": "The tower world y (ShockwaveTower.java:75, the intersect center): the rect center.",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_supplied_bullets_state"
+          ]
+        },
+        "tower_team": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "if(b.team != team && b.type.hittable){",
+          "rule": "The tower team id (ShockwaveTower.java:76, the b.team != team filter): only bullets of another team are admitted; the tick passes the live team_id (the frame default is derelict, source_block_geometry.SOURCE_TEAM_DERELICT_ID).",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_supplied_bullets_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ShockwaveTowerBulletScanProof",
+      "rule": "Source-backed ShockwaveTower live bullet scan from ShockwaveTower.java / Blocks.java / BulletType.java / BulletComp.java / EntityGroup.java / Arc QuadTree.java / Rect.java."
+    },
+    "source_shockwave_tower_supplied_bullets_state_result": {
+      "status": "active",
+      "owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_supplied_bullets_state",
+      "source_slice": "N2327",
+      "keys": {
+        "bullets": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "targets.add(b);",
+          "rule": "The admitted list (ShockwaveTower.java:77): the candidate dicts themselves, in candidate order -- the enemy hittable bullets whose center falls in the range*2 rect. Passed into the N2247 advance as its bullet_candidates.",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_supplied_bullets_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ShockwaveTowerBulletScanProof",
+      "rule": "Source-backed ShockwaveTower live bullet scan from ShockwaveTower.java / Blocks.java / BulletType.java / BulletComp.java / EntityGroup.java / Arc QuadTree.java / Rect.java."
+    },
+    "source_base_shield_supplied_bullets_state_input": {
+      "status": "active",
+      "owner": "SourceBaseShieldBuildState.source_base_shield_supplied_bullets_state",
+      "source_slice": "N2328",
+      "keys": {
+        "candidates": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BaseShield.java",
+          "java_expr": "Groups.bullet.intersect(x - rad, y - rad, rad * 2f, rad * 2f, bulletConsumer);",
+          "rule": "The frame bullet candidates (frame[\"bullet_candidates\"], default [] -- the live Groups.bullet query still defers): each a bullet dict with x / y (the N2212 / N2229 fixture precedent). The pure admits a candidate when its CENTER falls in [x +/- rad, y +/- rad], INCLUSIVE -- the rect broad phase of the Groups.bullet.intersect (EntityGroup.java:195, the consumer overload, QuadTree hitbox overlap over the spatial bullet group, GroupDefs.java:9); the hitbox-overlap refinement waits for its own slice. A candidate without x/y has no center and is EXCLUDED. No team / absorbable filter here -- the N2236 advance does the enemy + absorbable + STRICT within narrow check.",
+          "used_by": [
+            "SourceBaseShieldBuildState.source_base_shield_supplied_bullets_state"
+          ]
+        },
+        "rad": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BaseShield.java",
+          "java_expr": "float rad = radius();",
+          "rule": "The smooth shield radius (radius() = smoothRadius AFTER the lerpDelta fold, BaseShield.java:91/:101-103): the scan rect half-side. The tick computes it with the same shared lerpDelta helper + const the advance uses (Mathf.java:430-432, progress * Time.delta clamped), so the scan and the advance agree exactly.",
+          "used_by": [
+            "SourceBaseShieldBuildState.source_base_shield_supplied_bullets_state"
+          ]
+        },
+        "building_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "return block().offset + worldx();",
+          "rule": "The building world x: Building x is tile.drawx() (BuildingComp.java:124), drawx is block.offset + tile.worldx() (Tile.java:175-176) with offset ((size + 1) % 2) * tilesize / 2f (Block.java:761) -- 0 for the size-3 shield-projector, 4 for the size-4 large-shield-projector; the scan rect center (BaseShield.java:96).",
+          "used_by": [
+            "SourceBaseShieldBuildState.source_base_shield_supplied_bullets_state"
+          ]
+        },
+        "building_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "return block().offset + worldy();",
+          "rule": "The building world y: Building y is tile.drawy() (BuildingComp.java:124), drawy is block.offset + tile.worldy() (Tile.java:179-180); the scan rect center (BaseShield.java:96).",
+          "used_by": [
+            "SourceBaseShieldBuildState.source_base_shield_supplied_bullets_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BaseShieldScansProof",
+      "rule": "Source-backed BaseShield live bullet + enemy-unit scans from BaseShield.java / Units.java / EntityGroup.java / GroupDefs.java / Team.java / Tile.java / Mathf.java / Position.java."
+    },
+    "source_base_shield_supplied_bullets_state_result": {
+      "status": "active",
+      "owner": "SourceBaseShieldBuildState.source_base_shield_supplied_bullets_state",
+      "source_slice": "N2328",
+      "keys": {
+        "bullets": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BaseShield.java",
+          "java_expr": "Groups.bullet.intersect(x - rad, y - rad, rad * 2f, rad * 2f, bulletConsumer);",
+          "rule": "The bullets admitted by the rect broad phase (BaseShield.java:96): every frame candidate whose center falls in [x +/- rad, y +/- rad], INCLUSIVE -- a rect, not a circle, so a bullet at the rect corner (rad, rad) is IN (the N2277 precedent). The N2236 advance then applies the bulletConsumer narrow check (enemy team + absorbable + STRICT within radius()) and returns the absorbed bullets as a pure result.",
+          "used_by": [
+            "SourceBaseShieldBuildState.source_base_shield_supplied_bullets_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BaseShieldScansProof",
+      "rule": "Source-backed BaseShield live bullet + enemy-unit scans from BaseShield.java / Units.java / EntityGroup.java / GroupDefs.java / Team.java / Tile.java / Mathf.java / Position.java."
+    },
+    "source_base_shield_supplied_enemy_units_state_input": {
+      "status": "active",
+      "owner": "SourceBaseShieldBuildState.source_base_shield_supplied_enemy_units_state",
+      "source_slice": "N2328",
+      "keys": {
+        "candidates": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BaseShield.java",
+          "java_expr": "Units.nearbyEnemies(team, x, y, rad + 10f, unitConsumer);",
+          "rule": "The frame enemy-unit candidates (frame[\"enemy_unit_candidates\"], default [] -- the live Units query still defers): each a unit dict with x / y / team / hit_size (the N2226 repair-turret precedent). The pure is the Units.nearbyEnemies radius overload (Units.java:482-488): the rect scan is enemy-only by construction, then the within(radius + hitSize/2f) filter. A unit without a team is its own team (never an enemy); a unit without x/y is EXCLUDED; a unit without hit_size defaults to 0.0.",
+          "used_by": [
+            "SourceBaseShieldBuildState.source_base_shield_supplied_enemy_units_state"
+          ]
+        },
+        "rad": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BaseShield.java",
+          "java_expr": "float rad = radius();",
+          "rule": "The smooth shield radius (radius() = smoothRadius AFTER the lerpDelta fold, BaseShield.java:91/:101-103): the BaseShield call passes rad + 10f to nearbyEnemies (BaseShield.java:97), so the scan range is rad + 10 + hitSize/2. The tick computes it with the same shared lerpDelta helper + const the advance uses (Mathf.java:430-432, progress * Time.delta clamped), so the scan and the advance agree exactly.",
+          "used_by": [
+            "SourceBaseShieldBuildState.source_base_shield_supplied_enemy_units_state"
+          ]
+        },
+        "building_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "return block().offset + worldx();",
+          "rule": "The building world x: Building x is tile.drawx() (BuildingComp.java:124), drawx is block.offset + tile.worldx() (Tile.java:175-176) with offset ((size + 1) % 2) * tilesize / 2f (Block.java:761) -- 0 for the size-3 shield-projector, 4 for the size-4 large-shield-projector; the scan origin (BaseShield.java:97).",
+          "used_by": [
+            "SourceBaseShieldBuildState.source_base_shield_supplied_enemy_units_state"
+          ]
+        },
+        "building_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "return block().offset + worldy();",
+          "rule": "The building world y: Building y is tile.drawy() (BuildingComp.java:124), drawy is block.offset + tile.worldy() (Tile.java:179-180); the scan origin (BaseShield.java:97).",
+          "used_by": [
+            "SourceBaseShieldBuildState.source_base_shield_supplied_enemy_units_state"
+          ]
+        },
+        "team_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/Units.java",
+          "java_expr": "public static void nearbyEnemies(Team team, float x, float y, float radius, Cons<Unit> cons){",
+          "rule": "The building team id (Units.java:482, the team the scan finds enemies OF): nearbyEnemies is enemy-only by construction, so a candidate whose team equals this id is excluded -- and the N2236 advance checks no team at all (the N2230 closestEnemy precedent), so this scan is the only team filter.",
+          "used_by": [
+            "SourceBaseShieldBuildState.source_base_shield_supplied_enemy_units_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BaseShieldScansProof",
+      "rule": "Source-backed BaseShield live bullet + enemy-unit scans from BaseShield.java / Units.java / EntityGroup.java / GroupDefs.java / Team.java / Tile.java / Mathf.java / Position.java."
+    },
+    "source_base_shield_supplied_enemy_units_state_result": {
+      "status": "active",
+      "owner": "SourceBaseShieldBuildState.source_base_shield_supplied_enemy_units_state",
+      "source_slice": "N2328",
+      "keys": {
+        "enemy_units": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/Units.java",
+          "java_expr": "if(u.within(x, y, radius + u.hitSize/2f)){",
+          "rule": "The enemy units admitted by the nearbyEnemies filter (Units.java:484): enemy team + STRICT within(rad + 10 + hitSize/2) (Position.java:44-46, dst2 < range^2) -- exactly at the range is OUT. The N2236 advance then applies the unitConsumer (overlapDst kill/repel, BaseShield.java:38-56) and returns repelled_units / killed_units as pure results.",
+          "used_by": [
+            "SourceBaseShieldBuildState.source_base_shield_supplied_enemy_units_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BaseShieldScansProof",
+      "rule": "Source-backed BaseShield live bullet + enemy-unit scans from BaseShield.java / Units.java / EntityGroup.java / GroupDefs.java / Team.java / Tile.java / Mathf.java / Position.java."
+    },
+    "source_mend_projector_supplied_heal_candidates_state_input": {
+      "status": "active",
+      "owner": "SourceMendProjectorBuildState.source_mend_projector_supplied_heal_candidates_state",
+      "source_slice": "N2329",
+      "keys": {
+        "candidates": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "java_expr": "indexer.eachBlock(this, realRange, b -> b.damaged() && !b.isHealSuppressed(), other -> {",
+          "rule": "The frame-supplied heal candidates (MendProjector.java:112, the eachBlock visit -- the port has no live building index, so the caller supplies same-team candidates on frame[\"heal_candidates\"], default []): each entry is a Dict {x, y, damaged?, heal_suppressed?, max_health?} carrying the world position plus the keys the N2242 heal scan reads downstream; a missing x or y key excludes the candidate, a non-Dictionary entry is excluded the same way.",
+          "used_by": [
+            "SourceMendProjectorBuildState.source_mend_projector_supplied_heal_candidates_state"
+          ]
+        },
+        "real_range": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "java_expr": "float realRange = range + phaseHeat * phaseRangeBoost;",
+          "rule": "The rect half-side (MendProjector.java:107, the realRange fold): range + phaseHeat * phaseRangeBoost, computed by the tick from the post-advance frame phase_heat + the block props (mender 40f / 20f, Blocks.java:1924/1927; mend-projector 85f / class 50f, Blocks.java:1937 / MendProjector.java:30; class defaults range 60f / phaseRangeBoost 50f, MendProjector.java:27/30). World units directly -- no tilesize factor (BlockIndexer.java:345).",
+          "used_by": [
+            "SourceMendProjectorBuildState.source_mend_projector_supplied_heal_candidates_state"
+          ]
+        },
+        "building_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/ai/BlockIndexer.java",
+          "java_expr": "return eachBlock(team.team(), team.getX(), team.getY(), range, pred, cons);",
+          "rule": "The projector world x (BlockIndexer.java:325, the Teamc overload delegates with the building own x/y -- Building x/y are tile.drawx()/drawy(), BuildingComp.java:124): the rect center, from the origin cell + block offset (the N2306 precedent).",
+          "used_by": [
+            "SourceMendProjectorBuildState.source_mend_projector_supplied_heal_candidates_state"
+          ]
+        },
+        "building_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/ai/BlockIndexer.java",
+          "java_expr": "return eachBlock(team.team(), team.getX(), team.getY(), range, pred, cons);",
+          "rule": "The projector world y (BlockIndexer.java:325, the Teamc overload delegates with the building own x/y): the rect center, from the origin cell + block offset (the N2306 precedent).",
+          "used_by": [
+            "SourceMendProjectorBuildState.source_mend_projector_supplied_heal_candidates_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07MendProjectorHealScanRangeProof",
+      "rule": "Source-backed MendProjector heal scan range query from MendProjector.java / BlockIndexer.java / Blocks.java / Arc Position.java."
+    },
+    "source_mend_projector_supplied_heal_candidates_state_result": {
+      "status": "active",
+      "owner": "SourceMendProjectorBuildState.source_mend_projector_supplied_heal_candidates_state",
+      "source_slice": "N2329",
+      "keys": {
+        "candidates": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "java_expr": "indexer.eachBlock(this, realRange, b -> b.damaged() && !b.isHealSuppressed(), other -> {",
+          "rule": "The ranged candidate list (MendProjector.java:112): the admitted candidate dicts themselves, in candidate order -- the entries whose center falls in the eachBlock rect (|dx| <= realRange and |dy| <= realRange, INCLUSIVE, the N2277 center-in-rect precedent), passed into the N2242 heal scan. Entries keep every key (damaged / heal_suppressed / max_health untouched); the pure filters range only.",
+          "used_by": [
+            "SourceMendProjectorBuildState.source_mend_projector_supplied_heal_candidates_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07MendProjectorHealScanRangeProof",
+      "rule": "Source-backed MendProjector heal scan range query from MendProjector.java / BlockIndexer.java / Blocks.java / Arc Position.java."
     }
   },
   "version": 1
