@@ -174,6 +174,13 @@ func _ready() -> void:
 	var live_block: Dictionary = _payload_block(true, true, false, 100.0, true)
 	var live_payload: Dictionary = _payload(live_block, {"copper": 5}, _liquid_module([0.0, 60.0], 1), 0.5)
 	live_payload["rotation"] = 0.0
+	# N2313: the live push carries the descriptor keys the
+	# intake gate reads (a 3-tile build payload -- fits
+	# maxBlockSize 3 -- and the battery branch accepts, so
+	# the gate lets it land); the pure handle calls above
+	# ignore the extra keys.
+	live_payload["is_build_payload"] = true
+	live_payload["size"] = 24.0
 	unloader_frame["incoming_payload"] = _incoming(live_payload, 0.5, 0.0)
 	unloader_frame["power_status"] = 1.0
 	unloader.set_meta(placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY, _liquid_module([0.0, 0.0], 1))

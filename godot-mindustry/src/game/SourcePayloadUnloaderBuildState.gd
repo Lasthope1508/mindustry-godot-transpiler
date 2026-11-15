@@ -87,8 +87,10 @@ static func source_payload_unloader_tick_frame_state(frame: Dictionary, block_im
 	# pusher (a front build moveOutPayload or a unit drop --
 	# neither live in the port yet) supplies {"payload": the
 	# payload dict, "source_offset": {"x", "y"}} and the tick
-	# applies it before the advance, then consumes it; a frame
-	# bound before this slice gets the null default.
+	# applies it before the advance when the N2296 verdict
+	# accepts (N2313), then consumes it (an occupied frame
+	# keeps it for retry); a frame bound before this slice
+	# gets the null default.
 	if not frame.has("incoming_payload"):
 		frame["incoming_payload"] = null
 	# The frame carries the offered payload (the acceptPayload
@@ -140,7 +142,9 @@ static func _initial_frame() -> Dictionary:
 	# at its null default. The live fill (N2279) carries the
 	# incoming push under the incoming_payload key (default
 	# null): the tick applies it before the advance when the
-	# frame payload is null, then consumes it. The updateTile
+	# frame payload is null and the N2296 verdict accepts
+	# (N2313), then consumes it (a rejected push is dropped;
+	# an occupied frame keeps it for retry). The updateTile
 	# advance (N2232)
 	# carries the rest of the build fields with their Java
 	# defaults: `public Vec2 payVector = new Vec2();`
@@ -760,10 +764,12 @@ static func source_payload_unloader_accept_payload_state(has_payload: bool, offe
 	# no acceptance -- the gate answers a question about an
 	# offered payload, and with nothing offered there is
 	# nothing to accept). The pure does NOT mutate its inputs.
-	# The gate is exposed on the frame by the tick; it is NOT
-	# yet wired as the N2279 intake guard (the intake still
-	# applies incoming_payload on the null check alone) --
-	# that wiring waits for its own slice.
+	# The gate is exposed on the frame by the tick AND
+	# wired as the N2279 intake guard since N2313 (the tick
+	# computes the verdict from the incoming dict itself and
+	# applies the push only when it accepts; an occupied
+	# frame keeps the push for retry, a rejected push is
+	# dropped).
 	var accept_item: bool = false
 	var accept_liquid: bool = false
 	var accept_payload: bool = false
@@ -786,7 +792,7 @@ static func source_payload_unloader_should_consume_state(frame: Dictionary) -> D
 
 static func source_payload_unloader_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
 	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a payload-unloader does not take the early return. The unload gate follows the folded efficiency (PayloadUnloader.java:69, `if(efficiency > 0.01f && timer(timerLoad, loadTime / efficiency)){`), with the battery unload (PayloadUnloader.java:98, `float total = payload.build.power.status * cap;`) and the shouldConsume default (BuildingComp.java:755, `public boolean shouldConsume(){`) and the shouldConsume override inherited from PayloadLoaderBuild (PayloadLoader.java:241, `return payload != null;`); the gate is live since N2209 (the pure gate source_payload_unloader_should_consume_state feeds payload != null to the machinery; when the gate is false updateConsumption forces efficiency to 0, BuildingComp.java:1960 + 1992).
-	# Documented limits: (1) power-only first pass -- PayloadUnloader has NO dynamic power consumer: `loadPowerDynamic = false` (PayloadUnloader.java:18), so `init()` never registers the ConsumePowerDynamic lambda (PayloadLoader.java:77-84, guarded by `if(loadPowerDynamic){` at :78); the static consumePower(2f) def (Blocks.java:6695) is the only power consumer, so the folded efficiency is the min over the *modeled* consumers (power only) and the power-only fold is EXACT. (An earlier docstring + DEFERRED entry claimed an inherited dynamic consumer -- WRONG, corrected at wave power-launch-build integration, 2026-11-15.) (2) shouldConsume gate live (N2209) -- PayloadUnloaderBuild inherits shouldConsume() to return payload != null (PayloadLoader.java:240-242); the pure gate (source_payload_unloader_should_consume_state) feeds should_consume to the machinery from the frame payload key (default null). The live payload fill live (N2279) -- handlePayload applies the frame incoming_payload input before the advance, so a live payload-unloader with a pushed payload consumes the same tick; takePayload is ported pure but NOT wired live (the unit-pickup path waits for live units), and the live incoming source (front moveOutPayload push / unit drop) waits for its own slice, so until then incoming_payload is a frame input. (3) shouldExport gate live (N2232) -- shouldExport() (PayloadUnloader.java:116-122) runs in the pure advance over the frame payload (items empty / liquids <= 0.011f / battery status <= 0.0000001f). (4) updateTile advance live (N2232) -- moveInPayload / moveOutPayload (reused helper) / unload items+liquids / battery unload / lastOutputPower (PayloadUnloader.java:50-110) run on the frame; the timer cadence (the driver passes load_tick false), the movePayload/dumpPayload application, and the live front query wait for their own slices. The dump rows live (N2293) -- source_payload_unloader_dump_state, dumpLiquid(current) 2f + offloadSpeed x dumpAccumulate() at the end of updateTile, PayloadUnloader.java:105-108, unconditional -- outside the payload-null check and the shouldExport/moveInPayload branches. (5) acceptPayload rows live (N2296) -- the Unloader inherits the Loader's acceptPayload override (PayloadLoader.java:90-101: base null gate + fits(maxBlockSize) + BuildPayload container branches), NOT the bare PayloadBlock base gate (PayloadBlock.java:116-118) -- PayloadUnloaderBuild extends PayloadLoaderBuild (PayloadUnloader.java:32), so the Loader override applies; the pure gate (source_payload_unloader_accept_payload_state) exposes accepts_payload / accepts_item / accepts_liquid on the frame from the offered-payload frame input (default null, no offer), and acceptItem/acceptLiquid are hard false (PayloadUnloader.java:35-44); the gate is NOT yet wired as the intake guard (the N2279 intake still applies on the null check alone) and no live source offers a payload yet. (6) Battery unload live (N2232), power-production graph wiring deferred -- getPowerProduction returns lastOutputPower (PayloadUnloader.java:46-48; lastOutputPower 0f, PayloadUnloader.java:33) and the battery unload (PayloadUnloader.java:94-102) fills frame last_output_power each tick, but the power graph builds producers from the static block property powerProduction, so the dynamic value waits for a distribution-runtime slice; the dump rows are live since N2293 (see (4)).
+	# Documented limits: (1) power-only first pass -- PayloadUnloader has NO dynamic power consumer: `loadPowerDynamic = false` (PayloadUnloader.java:18), so `init()` never registers the ConsumePowerDynamic lambda (PayloadLoader.java:77-84, guarded by `if(loadPowerDynamic){` at :78); the static consumePower(2f) def (Blocks.java:6695) is the only power consumer, so the folded efficiency is the min over the *modeled* consumers (power only) and the power-only fold is EXACT. (An earlier docstring + DEFERRED entry claimed an inherited dynamic consumer -- WRONG, corrected at wave power-launch-build integration, 2026-11-15.) (2) shouldConsume gate live (N2209) -- PayloadUnloaderBuild inherits shouldConsume() to return payload != null (PayloadLoader.java:240-242); the pure gate (source_payload_unloader_should_consume_state) feeds should_consume to the machinery from the frame payload key (default null). The live payload fill live (N2279) -- handlePayload applies the frame incoming_payload input before the advance (gated by the N2296 verdict since N2313 -- a refused push is dropped, still consumed; an occupied frame keeps the push for retry), so a live payload-unloader with a pushed payload consumes the same tick; takePayload is ported pure but NOT wired live (the unit-pickup path waits for live units), and the live incoming source (front moveOutPayload push / unit drop) waits for its own slice, so until then incoming_payload is a frame input. (3) shouldExport gate live (N2232) -- shouldExport() (PayloadUnloader.java:116-122) runs in the pure advance over the frame payload (items empty / liquids <= 0.011f / battery status <= 0.0000001f). (4) updateTile advance live (N2232) -- moveInPayload / moveOutPayload (reused helper) / unload items+liquids / battery unload / lastOutputPower (PayloadUnloader.java:50-110) run on the frame; the timer cadence (the driver passes load_tick false), the movePayload/dumpPayload application, and the live front query wait for their own slices. The dump rows live (N2293) -- source_payload_unloader_dump_state, dumpLiquid(current) 2f + offloadSpeed x dumpAccumulate() at the end of updateTile, PayloadUnloader.java:105-108, unconditional -- outside the payload-null check and the shouldExport/moveInPayload branches. (5) acceptPayload rows live (N2296) -- the Unloader inherits the Loader's acceptPayload override (PayloadLoader.java:90-101: base null gate + fits(maxBlockSize) + BuildPayload container branches), NOT the bare PayloadBlock base gate (PayloadBlock.java:116-118) -- PayloadUnloaderBuild extends PayloadLoaderBuild (PayloadUnloader.java:32), so the Loader override applies; the pure gate (source_payload_unloader_accept_payload_state) exposes accepts_payload / accepts_item / accepts_liquid on the frame from the offered-payload frame input (default null, no offer), and acceptItem/acceptLiquid are hard false (PayloadUnloader.java:35-44); the gate is wired as the intake guard since N2313 (see (7)) and no live source offers a payload yet. (6) Battery unload live (N2232), power-production graph wiring deferred -- getPowerProduction returns lastOutputPower (PayloadUnloader.java:46-48; lastOutputPower 0f, PayloadUnloader.java:33) and the battery unload (PayloadUnloader.java:94-102) fills frame last_output_power each tick, but the power graph builds producers from the static block property powerProduction, so the dynamic value waits for a distribution-runtime slice; the dump rows are live since N2293 (see (4)). (7) Intake full-gate wiring live (N2313) -- the tick builds the N2296 descriptor from the incoming dict itself (is_build_payload / size on the payload dict, the block flags on its block dict; missing keys reject) and applies the push only when the verdict accepts; occupancy KEEPS the push for next tick (the N2279 keep-for-retry, preserved -- unlike the N2308 Deconstructor drop), descriptor rejection DROPS it (consumed); the offered-payload verdict still governs frame["accepts_payload"] (when both an offer and a push are present, the offer verdict governs the frame key and the intake verdict decides the push alone -- the intake never overwrites frame["accepts_payload"]).
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -843,34 +849,59 @@ static func source_payload_unloader_tick_buildings_state(game: Object, seconds: 
 		# an external call (the pusher's moveOutPayload or a
 		# unit drop), so it lands before this tick, and the
 		# newly-arrived payload feeds shouldConsume (payload
-		# != null) the same tick. The intake applies only
-		# when the frame payload is null (the acceptPayload
-		# gate, PayloadBlock.java:116-118) and is consumed
-		# (cleared) on apply; an input that arrives while a
-		# payload is held stays for a later tick. The push
-		# source is not live yet, so incoming_payload is a
-		# frame input until a front-push / unit-drop slice
-		# lands. takePayload is NOT wired live (the
-		# unit-pickup path waits for live units; the move-out
-		# clear is already live through the N2232 advance).
+		# != null) the same tick. The intake applies only when
+		# the full acceptPayload gate accepts the push (N2313):
+		# Java only ever calls handlePayload after acceptPayload
+		# returns true -- the pusher checks first
+		# (BuildingComp.java:822-824, `if(next != null && next.build != null && next.build.team == team && next.build.acceptPayload(self(), todump)){` then `next.build.handlePayload(self(), todump);`, and the dumpPayload twin at :844-845, `if(other.acceptPayload(self(), todump)){` then `other.handlePayload(self(), todump);`), so the tick computes the N2296 verdict from the incoming dict itself (source_payload_unloader_accept_payload_state) and applies the push only when it accepts. The incoming payload dict gains the is_build_payload / size keys (the N2296 descriptor contract); a push without them rejects (the pure defaults is_build_payload to false and fits to false without a size) and a non-dict push rejects too. Occupancy and rejection differ: an input that arrives while a payload is held STAYS for a later tick (the N2279 keep-for-retry, preserved -- the verdict is only evaluated when the frame is empty), while a rejected push is DROPPED, still consumed -- a non-container / oversize / non-BuildPayload push would retry forever. The offered-payload verdict still governs frame["accepts_payload"] (from the offered descriptor, below): when both an offer and a push are present, the offer verdict governs the frame key and the intake verdict decides the push alone -- the intake never overwrites frame["accepts_payload"]. The push source is not live yet, so incoming_payload is a frame input until a front-push / unit-drop slice lands. takePayload is NOT wired live (the unit-pickup path waits for live units; the move-out clear is already live through the N2232 advance).
 		var incoming: Variant = frame.get("incoming_payload", null)
-		if incoming != null and frame.get("payload", null) == null:
-			var handled: Dictionary = source_payload_unloader_handle_payload_state(frame, incoming)
-			frame["payload"] = handled["payload"]
-			frame["pay_vector"] = handled["pay_vector"]
-			frame["pay_rotation"] = handled["pay_rotation"]
-			frame["incoming_payload"] = null
+		if incoming != null:
+			# N2313: occupancy KEEPS the push for retry --
+			# the verdict is only evaluated when the frame
+			# is empty; a rejected push is consumed
+			# (dropped) instead.
+			if frame.get("payload", null) == null:
+				# The intake verdict comes from the N2296
+				# pure, computed from the incoming dict
+				# itself. The incoming payload dict carries
+				# the N2296 descriptor keys (is_build_payload
+				# / size on the payload, the block flags on
+				# its block dict); missing keys default to
+				# the rejecting values inside the pure
+				# (is_build_payload false, no size = no fits,
+				# capacities 0), so a push without them
+				# rejects -- as does a non-dict push, which
+				# carries neither. The pure's has_payload
+				# term reads the frame (false here -- the
+				# frame is empty by the branch above).
+				var intake_accepts: bool = false
+				if incoming is Dictionary:
+					var incoming_payload_dict: Variant = (incoming as Dictionary).get("payload", null)
+					if incoming_payload_dict is Dictionary:
+						var incoming_descriptor: Dictionary = {"is_build_payload": bool((incoming_payload_dict as Dictionary).get("is_build_payload", false)), "block": (incoming_payload_dict as Dictionary).get("block", {})}
+						if (incoming_payload_dict as Dictionary).has("size"):
+							incoming_descriptor["size"] = (incoming_payload_dict as Dictionary).get("size")
+						intake_accepts = bool(source_payload_unloader_accept_payload_state(frame.get("payload", null) != null, incoming_descriptor).get("accept_payload", false))
+				if intake_accepts:
+					var handled: Dictionary = source_payload_unloader_handle_payload_state(frame, incoming)
+					frame["payload"] = handled["payload"]
+					frame["pay_vector"] = handled["pay_vector"]
+					frame["pay_rotation"] = handled["pay_rotation"]
+				frame["incoming_payload"] = null
 		# N2296: the acceptPayload gate runs every tick, after
 		# the intake -- acceptPayload is an external call (the
 		# pusher asks whether the offered payload may land),
 		# so the tick evaluates it against the filled frame
 		# payload and the offered-payload frame input
 		# (default null -- no offer) and exposes all three
-		# verdicts on the frame. The gate does NOT drive the
-		# intake yet (the N2279 intake still applies
-		# incoming_payload on the null check alone); wiring
-		# the gate as the intake guard waits for its own
-		# slice. accept_item / accept_liquid are hard false
+		# verdicts on the frame. The gate ALSO drives the
+		# intake since N2313 (the intake above computes the
+		# same pure's verdict from the incoming dict itself)
+		# -- but the intake verdict never overwrites these
+		# frame keys: the offer verdict governs
+		# frame["accepts_payload"] and the intake verdict
+		# decides the push alone. accept_item /
+		# accept_liquid are hard false
 		# (PayloadUnloader.java:35-44) -- the Unloader
 		# accepts payloads but never loose items or liquids.
 		var has_payload: bool = frame.get("payload", null) != null
