@@ -191,6 +191,9 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
   - [ ] N2189 `C06UnitFactoryShouldConsumeProof` — Linux GREEN ~13:4x (45 key).
     Scene tới Windows theo slice commit `bcde8e4` (pushed ~14:0x, main
     `0607d3e`). Chưa chạy trên Windows Godot.
+  - [ ] N2190 `C07RepairTowerTargetRefreshProof` — Linux GREEN 14:45 (7 key).
+    Scene tới Windows theo slice commit `f10c459` (pushed ~15:5x, main
+    `377984d`). Chưa chạy trên Windows Godot.
   - [ ] Mọi slice sau này: proof scene mới nào cũng ghi nợ Windows theo mẫu
     trên (ghi rõ commit đưa scene tới Windows).
   - [ ] Agent khác đang test các lỗi fail trên Windows Godot (PR #1 đã merge
