@@ -1,8 +1,6 @@
 # Handoff — N2189 Give C06UnitFactoryShouldConsumeProof a power producer
 
-Date: 2026-11-15. Batch: N2189 (single slice, proof-harness-only). Status: **GREEN
-(proof 45 keys matches:true, neighbours 8/8 OK, wiring 32/32 OK; full gate
-running, PID 5543, SID 5543). Commit + push only after the gate verifies.**
+Date: 2026-11-15. Batch: N2189 (single slice, proof-harness-only). Status: **DONE + PUSHED (gate clean except Godot; slice bcde8e4, docs 0607d3e, GOAL 32a13c8, main a9dd441).**
 
 ## Scope (verified against upstream Java + the port this run)
 
