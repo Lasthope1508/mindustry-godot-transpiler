@@ -20,23 +20,25 @@ func _ready() -> void:
 	game.set_process(false)
 	game.set_physics_process(false)
 
-	# --- Pure smoothTime advance (N2241): LightBuild.updateTile()
+	# --- Pure smoothTime advance (N2189/N2241, unification):
+	# LightBuild.updateTile()
 	# does exactly one thing (LightBlock.java:104-106, `smoothTime
 	# = Mathf.lerpDelta(smoothTime, timeScale, 0.1f);`), with
 	# lerpDelta the Arc delta-corrected lerp (Mathf.java:430-432,
 	# `return lerp(fromValue, toValue, clamp(progress *
 	# Time.delta));`); Time.delta is the frame delta in 60fps
 	# ticks (Time.java:26), so one tick at 60fps is source_delta
-	# 1.0. smoothTime starts at 1f (LightBlock.java:69). The pure
-	# advance returns only the advanced smooth_time: the drawLight
-	# radius clamp min(smoothTime, 2f) and brightness fold
-	# (LightBlock.java:127-128) are draw, not updateTile, and wait
-	# for their own slice.
+	# 1.0. smoothTime starts at 1f (LightBlock.java:69), and
+	# drawLight clamps it (LightBlock.java:127-128, `Drawf.light
+	# (x, y, lightRadius * Math.min(smoothTime, 2f), Tmp.c1.set
+	# (color), brightness * efficiency);`) -- the pure advance
+	# returns both the advanced smooth_time and the
+	# light_radius_scale min(smooth_time, 2f).
 	var one_step: Dictionary = light_block_build_state.source_light_block_smooth_time_state(1.0, 2.0, 1.0)
-	proof["smooth_time_lerps_toward_time_scale"] = is_equal_approx(float(one_step.get("smooth_time", -1.0)), 1.1)
+	proof["smooth_time_lerp_delta_step"] = is_equal_approx(float(one_step.get("smooth_time", -1.0)), 1.1) and is_equal_approx(float(one_step.get("light_radius_scale", -1.0)), 1.1)
 
 	var held: Dictionary = light_block_build_state.source_light_block_smooth_time_state(1.0, 1.0, 1.0)
-	proof["smooth_time_holds_at_time_scale"] = is_equal_approx(float(held.get("smooth_time", -1.0)), 1.0)
+	proof["smooth_time_holds_at_time_scale"] = is_equal_approx(float(held.get("smooth_time", -1.0)), 1.0) and is_equal_approx(float(held.get("light_radius_scale", -1.0)), 1.0)
 
 	var decayed: Dictionary = light_block_build_state.source_light_block_smooth_time_state(2.0, 1.0, 1.0)
 	proof["smooth_time_decays_when_time_scale_drops"] = is_equal_approx(float(decayed.get("smooth_time", -1.0)), 1.9)
@@ -45,6 +47,10 @@ func _ready() -> void:
 	for iteration in range(60):
 		converged = float(light_block_build_state.source_light_block_smooth_time_state(converged, 2.0, 1.0).get("smooth_time", -1.0))
 	proof["smooth_time_converges_after_ticks"] = converged > 1.99 and converged <= 2.0
+
+	var clamped: Dictionary = light_block_build_state.source_light_block_smooth_time_state(3.0, 3.0, 1.0)
+	var unclamped: Dictionary = light_block_build_state.source_light_block_smooth_time_state(1.5, 1.5, 1.0)
+	proof["light_radius_clamps_at_two"] = is_equal_approx(float(clamped.get("light_radius_scale", -1.0)), 2.0) and is_equal_approx(float(unclamped.get("light_radius_scale", -1.0)), 1.5)
 
 	# --- Live tick: the illuminator is a LightBlock build
 	# with a static power consumer (illuminator,
@@ -97,6 +103,17 @@ func _ready() -> void:
 	light_block_build_state.source_light_block_tick_buildings_state(game, 1.0 / 60.0)
 	light_block_frame = light_block.get_meta(light_block_build_state.SOURCE_LIGHT_BLOCK_BUILDING_META_KEY, {})
 	proof["live_tick_writes_advance_frame_keys"] = is_equal_approx(float(light_block_frame.get("smooth_time", -1.0)), 1.1) and is_equal_approx(float(light_block_frame.get("efficiency", -1.0)), 0.5)
+
+	# The N2185 power.status behavior is unchanged: the pure row
+	# still reads the stamped frame value, and the same live tick
+	# still folds the power min into the efficiency. This key
+	# carries no drawLight / color / config claim -- drawLight
+	# presentation (LightBlock.java:127-128) and the color config
+	# (LightBlock.java:35, 72-94, 109-127) wait for their own
+	# slices; the radius clamp is what the light_radius_scale
+	# key proves.
+	var half_row: Dictionary = light_block_build_state.source_light_block_power_status_row_state({"power_status": 0.5}, true)
+	proof["power_status_row_unchanged"] = bool(half_row.get("has_power_row", false)) and is_equal_approx(float(half_row.get("row", {}).get("result", -1.0)), 0.5) and bool(half_row.get("row", {}).get("is_power", false)) and is_equal_approx(float(light_block_frame.get("efficiency", -1.0)), 0.5)
 
 	var state_registry := registry.canonical_headquarter_registry_state()
 	proof["registry_valid"] = state_registry.get("errors", []).is_empty()

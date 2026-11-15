@@ -15,6 +15,7 @@ class C07LightBlockUpdateTileTests(unittest.TestCase):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
+        self.assertEqual(ledger['N2189']['godot_owner'], 'SourceLightBlockBuildState.source_light_block_smooth_time_state')
         self.assertEqual(ledger['N2241']['godot_owner'], 'SourceLightBlockBuildState.source_light_block_smooth_time_state')
         # N2185 proved the illuminator's live power.status read,
         # but the port still never advanced smoothTime:
@@ -24,10 +25,11 @@ class C07LightBlockUpdateTileTests(unittest.TestCase):
         # drawLight scales the emitted light by `lightRadius *
         # Math.min(smoothTime, 2f)` (LightBlock.java:127-128) --
         # so without this slice the light radius never follows
-        # timeScale. N2241 is the advance: a pure lerpDelta step
-        # over the frame's smooth_time toward the building's
-        # live timeScale, driven every tick by the light-block
-        # driver. timeScale is the BuildingComp field
+        # timeScale. N2189 (batch line) and N2241 (wave line)
+        # are the same advance, unified here: a pure lerpDelta
+        # step over the frame's smooth_time toward the
+        # building's live timeScale, driven every tick by the
+        # light-block driver. timeScale is the BuildingComp field
         # (BuildingComp.java:98, `private transient float
         # timeScale = 1f, timeScaleDuration;`, read through
         # timeScale(), BuildingComp.java:599-601); the port
@@ -48,23 +50,41 @@ class C07LightBlockUpdateTileTests(unittest.TestCase):
         # !block.noUpdateDisabled){`) always runs for a
         # LightBlock -- noUpdateDisabled defaults false
         # (Block.java:170) -- so the driver advances
-        # unconditionally. One new result symbol: the advanced
-        # smooth_time. The drawLight radius clamp
-        # min(smoothTime, 2f) is draw, not updateTile, and
-        # waits for its own slice (the existing LightBlock
-        # drawLight DEFERRED entry covers it).
+        # unconditionally. Two new result symbols: the advanced
+        # smooth_time and its drawLight radius clamp. The N2189
+        # ledger entry carries both; the N2241 entry (registered
+        # on the wave line before the unification) carries
+        # smooth_time only -- the shared schema/contract hold
+        # the union.
+        self.assertEqual(
+            ledger['N2189']['source_symbols'],
+            [
+                'source_light_block_smooth_time_state_result.smooth_time',
+                'source_light_block_smooth_time_state_result.light_radius_scale',
+            ],
+        )
         self.assertEqual(
             ledger['N2241']['source_symbols'],
             [
                 'source_light_block_smooth_time_state_result.smooth_time',
             ],
         )
-        for name in ledger['N2241']['source_symbols']:
+        for name in ledger['N2189']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 self.assertEqual(symbol['java_source'], 'core/src/mindustry/world/blocks/power/LightBlock.java')
                 self.assertEqual(symbol['godot_owner'], 'SourceLightBlockBuildState.source_light_block_smooth_time_state')
+        self.assertEqual(ledger['N2189']['runtime_proof'], '/root/C07LightBlockUpdateTileProof')
         self.assertEqual(ledger['N2241']['runtime_proof'], '/root/C07LightBlockUpdateTileProof')
+        self.assertEqual(
+            ledger['N2189']['tests'],
+            [
+                'test_c07_light_block_update_tile_registration',
+                'test_all_c07_light_block_update_tile_input_evidence_is_exact',
+                'test_light_block_update_tile_state',
+                'test_reference_graph_and_actual_c07_light_block_update_tile',
+            ],
+        )
         self.assertEqual(
             ledger['N2241']['tests'],
             [
@@ -74,18 +94,20 @@ class C07LightBlockUpdateTileTests(unittest.TestCase):
                 'test_reference_graph_and_actual_c07_light_block_update_tile',
             ],
         )
+        self.assertTrue(ledger['N2189']['deferred_exprs'])
         self.assertTrue(ledger['N2241']['deferred_exprs'])
 
     def test_all_c07_light_block_update_tile_input_evidence_is_exact(self):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        for name in ledger['N2241']['source_symbols']:
-            with self.subTest(symbol=name):
-                symbol = symbols[name]
-                upstream_root = ROOT / 'arc-upstream' if symbol['java_source'].startswith('arc-core/') else ROOT / 'mindustry-upstream'
-                self.assertIn(symbol['java_expr'], (upstream_root / symbol['java_source']).read_text(encoding='utf-8'))
-                self.assertEqual(symbol['godot_owner'], 'SourceLightBlockBuildState.source_light_block_smooth_time_state')
+        for slice_id in ['N2189', 'N2241']:
+            for name in ledger[slice_id]['source_symbols']:
+                with self.subTest(symbol=name):
+                    symbol = symbols[name]
+                    upstream_root = ROOT / 'arc-upstream' if symbol['java_source'].startswith('arc-core/') else ROOT / 'mindustry-upstream'
+                    self.assertIn(symbol['java_expr'], (upstream_root / symbol['java_source']).read_text(encoding='utf-8'))
+                    self.assertEqual(symbol['godot_owner'], 'SourceLightBlockBuildState.source_light_block_smooth_time_state')
         slice_sources = {
             'core/src/mindustry/world/consumers/ConsumePower.java',
             'core/src/mindustry/world/blocks/units/UnitAssembler.java',
@@ -101,9 +123,10 @@ class C07LightBlockUpdateTileTests(unittest.TestCase):
         for source in slice_sources:
             upstream_root = ROOT / 'arc-upstream' if source.startswith('arc-core/') else ROOT / 'mindustry-upstream'
             upstream[source] = (upstream_root / source).read_text(encoding='utf-8')
-        for expr in ledger['N2241']['exact_exprs']:
-            with self.subTest(expr=expr):
-                self.assertTrue(any(expr in text for text in upstream.values()), expr)
+        for slice_id in ['N2189', 'N2241']:
+            for expr in ledger[slice_id]['exact_exprs']:
+                with self.subTest(expr=expr):
+                    self.assertTrue(any(expr in text for text in upstream.values()), expr)
 
     def test_light_block_update_tile_state(self):
         light_block = LIGHT_BLOCK_STATE.read_text(encoding='utf-8')
@@ -145,9 +168,9 @@ class C07LightBlockUpdateTileTests(unittest.TestCase):
         # precedent). drawLight clamps it
         # (LightBlock.java:127-128, `Drawf.light(x, y,
         # lightRadius * Math.min(smoothTime, 2f), Tmp.c1.set
-        # (color), brightness * efficiency);`) -- draw, not
-        # updateTile, so the pure advance returns only the
-        # advanced smooth_time.
+        # (color), brightness * efficiency);`) -- the pure
+        # advance returns both the advanced smooth_time and
+        # the light_radius_scale min(smooth_time, 2f).
         self.assertIn('smoothTime = Mathf.lerpDelta(smoothTime, timeScale, 0.1f);', light_block)
         self.assertIn('return lerp(fromValue, toValue, clamp(progress * Time.delta));', light_block)
         self.assertIn('return fromValue + (toValue - fromValue) * progress;', light_block)
@@ -169,6 +192,7 @@ class C07LightBlockUpdateTileTests(unittest.TestCase):
         # seconds argument to Time.delta ticks.
         self.assertIn('static func source_light_block_smooth_time_state(smooth_time: float, time_scale: float, source_delta: float) -> Dictionary:', light_block)
         self.assertIn('source_lerp_delta(smooth_time, time_scale, 0.1, source_delta)', light_block)
+        self.assertIn('minf(', light_block)
         self.assertIn('"smooth_time": 1.0', light_block)
         self.assertIn('frame.get("smooth_time", 1.0)', light_block)
         self.assertIn('source_placed_block_state.time_scale(sprite, source_placed_block_state.game_default_time_scale(game))', light_block)
@@ -179,25 +203,35 @@ class C07LightBlockUpdateTileTests(unittest.TestCase):
         self.assertIn('return build.power.status;', light_block)
         self.assertIn('static func source_light_block_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:', light_block)
         # The proof's keys drive the pure advance (one lerpDelta
-        # step toward timeScale, hold at timeScale, decay when
-        # timeScale drops, convergence after many ticks, the
-        # frame default at the Java initial 1f) plus the live
-        # tick writing the advance frame keys. There are no
+        # step toward timeScale + the radius clamp, hold at
+        # timeScale, decay when timeScale drops, convergence
+        # after many ticks, the min(smoothTime, 2f) radius
+        # clamp, the frame default at the Java initial 1f)
+        # plus the live tick writing the advance frame keys
+        # and the unchanged power.status row. There are no
         # drawLight / color / config keys: drawLight
-        # presentation (LightBlock.java:127-128, including the
-        # min(smoothTime, 2f) radius clamp) and the color config
-        # (LightBlock.java:35, 72-94, 109-127) wait for their
-        # own slices. The scope brief's frame_defaults_zero key
-        # is corrected to frame_defaults_to_java_initial: the
-        # Java field init is 1f (LightBlock.java:69), not 0f.
+        # presentation (LightBlock.java:127-128) and the color
+        # config (LightBlock.java:35, 72-94, 109-127) wait for
+        # their own slices; the radius clamp is what the
+        # light_radius_scale key proves. The scope brief's
+        # frame_defaults_zero key is corrected to
+        # frame_defaults_to_java_initial: the Java field init
+        # is 1f (LightBlock.java:69), not 0f. Unification: the
+        # N2189 lerp_delta_step key absorbs N2241's
+        # lerps_toward_time_scale (same step, plus the radius
+        # check), and live_tick_writes_advance_frame_keys
+        # absorbs N2189's tick_advances_live (same tick, plus
+        # the efficiency check) -- 8 keys, no coverage lost.
         proof = LIGHT_BLOCK_UPDATE_TILE_PROOF.read_text(encoding='utf-8')
         for key in [
-            'smooth_time_lerps_toward_time_scale',
+            'smooth_time_lerp_delta_step',
             'smooth_time_holds_at_time_scale',
             'smooth_time_decays_when_time_scale_drops',
             'smooth_time_converges_after_ticks',
+            'light_radius_clamps_at_two',
             'frame_defaults_to_java_initial',
             'live_tick_writes_advance_frame_keys',
+            'power_status_row_unchanged',
         ]:
             with self.subTest(key=key):
                 self.assertIn(key, proof)
@@ -223,12 +257,14 @@ class C07LightBlockUpdateTileTests(unittest.TestCase):
         self.assertEqual(len(proofs), 1, output)
         self.assertTrue(proofs[0]['matches'], proofs[0])
         for key in [
-            'smooth_time_lerps_toward_time_scale',
+            'smooth_time_lerp_delta_step',
             'smooth_time_holds_at_time_scale',
             'smooth_time_decays_when_time_scale_drops',
             'smooth_time_converges_after_ticks',
+            'light_radius_clamps_at_two',
             'frame_defaults_to_java_initial',
             'live_tick_writes_advance_frame_keys',
+            'power_status_row_unchanged',
         ]:
             with self.subTest(key=key):
                 self.assertTrue(proofs[0][key], proofs[0])
