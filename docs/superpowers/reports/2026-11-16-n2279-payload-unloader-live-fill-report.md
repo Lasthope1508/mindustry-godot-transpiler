@@ -1,0 +1,27 @@
+# N2279 PayloadUnloader Live Payload Fill — Report
+
+**Status: DONE, gate clean except Godot-absent failures** (coordinator lượt 10 — wave advances-6, integration branch `integration/wave-advances-6-n2274-n2280`, base `253151ad`).
+
+## Source
+
+`handlePayload(Building source, Payload payload)` (PayloadBlock.java:121-127): `this.payload = (T)payload;` `this.payVector.set(source).sub(this).clamp(-size * tilesize / 2f, -size * tilesize / 2f, size * tilesize / 2f, size * tilesize / 2f);` `this.payRotation = payload.rotation();` `updatePayload();` The Unloader does NOT override handlePayload (no exporting flag — grep 0 matches, asserted in the test on both the Java and driver sides). `takePayload()` (PayloadBlock.java:145-149): `T t = payload; payload = null; return t;` Size 3 (Blocks.java:6696) → clamp ±12.0. **Scope corrections (grep-verified, confirming N2278):** acceptPayload is **PayloadLoader.java:90-101**, NOT :102-115 (as the brief + SCOPE §6/§7 + DEFERRED line 17 + the old driver docstring limit (5) said); the Loader handlePayload override is **:104-107**, NOT :102-105 (SCOPE §6) or :118-121 (DEFERRED entry) — both old cites were wrong. The Unloader has NO dynamic consumer (`loadPowerDynamic=false`, PayloadUnloader.java:18) — dynamic power was not touched. `moveInPayload`/`moveOutPayload` are live since N2232 — not re-ported. `acceptPayload` (PayloadLoader.java:90-101, inherited) + `acceptItem`/`acceptLiquid` returning false (PayloadUnloader.java:35-44) are NOT this slice (DEFERRED, later wave).
+
+## Implementation
+
+`SourcePayloadUnloaderBuildState.gd`: 2 pure functions — `source_payload_unloader_handle_payload_state(frame, incoming_payload)` → {payload, pay_vector, pay_rotation} + `source_payload_unloader_take_payload_state(frame_payload)` → {payload_taken, payload_after}. Handle is wired live in the tick: applies when `incoming_payload != null` and the frame payload is null, BEFORE the consumption fold + advance (handlePayload is an external call, so the new payload feeds shouldConsume in the same tick), consuming (clearing) the input on apply. `incoming_payload` = `{"payload": <N2232 dict + "rotation">, "source_offset": {"x","y"}}`; `source_offset` = source pos − self pos (the result of `set(source).sub(this)`) supplied by the pusher — the port has no live building world position, so it cannot compute it itself; the pure ports the clamp correctly (±12.0, component-wise via 4-arg `Vec2.clamp`, not a length clamp). `payRotation` reads key `"rotation"` (default 0.0; `Payload.rotation()` defaults 0f; BuildPayload does not override; UnitPayload returns `unit.rotation`). takePayload is NOT wired live (pure + test only). **When a payload is already present, the incoming input is KEPT for a retry next tick (not dropped); it is only cleared on successful apply** — this differs from N2278 (Loader), which consumes the input either way. Java: the pusher checks acceptPayload first, so a push to an occupied building never happens — the difference only shows on frame-input edges. Both behaviors are kept as-is and documented; a future alignment slice may unify them. `updatePayload()` is not ported (only sets the live payload entity position; a DEFERRED entry covers it).
+
+## Commits
+
+Slice `654039d9` (worker-N2279, branch `slice/N2279-payload-unloader-live-fill`, 5 files, +1102/−8, đã push, remote tip verified by ls-remote). Integration cherry-pick `cca5b492` on `integration/wave-advances-6-n2274-n2280` (base 253151ad). Coordinator fix 11cb9158: the wave cite fix d0ea2b64 replaced the accept/handle DEFERRED entry with the corrected acceptPayload-only text, which broke this slice's registration test prefix assertion — the test now asserts the corrected prefix.
+
+## Tests
+
+Targeted post-register: 3/4 PASS (registration, exact-evidence 31/31, row-state) + proof test FAIL exactly `AssertionError: unexpectedly None` — Godot-absent. Siblings (9/12 PASS: power N2163 + should-consume N2209 + update-tile N2232), the fails all their Godot proof tests — 0 other failures. Bonus wider payload family (loader ×4, deconstructor ×3, mass-driver ×3): 30/40 PASS, 10 proof fails Godot-absent, 0 other failures. Full wave gate run 2 (PID 4988, launch 01:07 by coordinator lượt 10, done 01:47 +07 16/11): Ran 6210 in 2126.929s, failures=229, skipped=5, 0 errors — 229/229 Godot-absent (222 inherited + 7 new proof tests N2274–N2280). Run 1 (PID 2132, launch 00:31, done 01:07) invalid: Ran 5527, failures=231, errors=15 — all javalang-import (VM restart #6 ~00:27 wiped javalang; reinstalled 0.13.0 at 01:00).
+
+## SSOT / DEFERRED
+
+SSOT single-slice +5/+1/+2/+4 → 11800/1724/1656/3104; audit stays 1336. 2 pure → 2 contracts + 4 schemas, as scoped. DEFERRED 291 (290 − 1 resolved: live payload fill + 2 new: takePayload live wiring, live incoming payload source). Merged wave DEFERRED: 298 entries (DEFERRED-after-advances-6.py) — 290 − 9 resolved/removed + 17 new, resolved by entry TEXT not number.
+
+## Godot debt
+
+`C07PayloadUnloaderLiveFillProof` — 7 keys: handle_sets_payload_and_vector, handle_clamps_pay_vector_to_half_size, handle_sets_pay_rotation, handle_ignored_when_payload_present, take_returns_and_clears_payload, no_exporting_flag_on_unloader, live_tick_fills_payload_from_incoming (+ `registry_valid` / `one_headquarter_per_ssot` / `matches`). Proof test fails `AssertionError: unexpectedly None` — run on Godot by the agent the user assigns. Do NOT mark done until it passes there.

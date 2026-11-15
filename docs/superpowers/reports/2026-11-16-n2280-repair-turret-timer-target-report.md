@@ -1,0 +1,27 @@
+# N2280 RepairTurret Timer-Target Cadence — Report
+
+**Status: DONE, gate clean except Godot-absent failures** (coordinator lượt 10 — wave advances-6, integration branch `integration/wave-advances-6-n2274-n2280`, base `253151ad`).
+
+## Source
+
+`if(timer(timerTarget, 20)){ rect.setSize(repairRadius * 2).setCenter(x, y); target = Units.closest(team, x, y, repairRadius, Unit::damaged); }` (RepairTurret.java:214-216). `timerTarget = timers++;` (:29). `repairRadius = 50f` is the CLASS default (:32); the defs are repair-point 60f / repair-turret 145f (Blocks.java:6389/6401), already handled per def by N2226 — the timer cadence does not depend on radius. `TimerComp.timer` (:10-13): false if time infinite, else `Interval.get` (resets `times[id] = Time.time` on fire, arc Interval.java:20-26, reset :24); `Time.time` is in TICKS (arc Time.java:69-80, `timeRaw += delta;` :75). **⚠️ Threshold formula — the brief/SCOPE were WRONG (pattern-copy error, grep-verified):** the brief said fire at `20f/time_scale`, but Java passes a LITERAL 20 — `if(timer(timerTarget, 20)){` (:214), with NO timeScale division, unlike all three precedents (MendProjector.java:102, WallCrafter.java:207, ImpactReactor.java:91 all divide by timeScale). So Java re-acquires every 20 global ticks regardless of building timeScale. The worker implemented the brief's formula as instructed and documented the deviation in the driver docstring, register docstring, and a new DEFERRED entry — Java-exact at `time_scale = 1f` (the default), diverging only under overdrive/slowdown. **Coordinator decision: ACCEPTED as-is** — a Java-exact literal-20 threshold is a follow-up slice (DEFERRED entry exists), not an integration rework. The N2226 advance already ports the full clear + heal + re-acquire SELECTION pure (Units.closest: strict dst2 < (radius + hitSize/2)², isValid + damaged filter `health < maxHealth - 0.001f`, min dst2 strict < first-wins-ties; Java overwrites the target UNCONDITIONALLY on a timer tick, even to null when no candidate qualifies; an EMPTY candidate list means the timer did not fire and the target is untouched). This slice adds ONLY the cadence + wiring.
+
+## Implementation
+
+`SourceRepairTurretBuildState.gd`: pure `source_repair_turret_timer_target_state(elapsed, source_delta, time_scale, duration)` → {fired, elapsed_after} (frame-local Interval-equivalent, N2266/N2269/N2273 precedent: accumulate unconditionally, fire at `duration/time_scale`, reset 0 on fire, `time_scale <= 0` never fires); const `SOURCE_REPAIR_TURRET_TIMER_TARGET_DURATION := 20.0`. Tick wiring inside the enabled advance block (clock → `frame["timer_target_elapsed"]`, gated stamp of `frame["unit_candidates"]`); the advance gains a frame fallback (`effective_candidates`, explicit list still wins, empty list + empty frame key = timer didn't fire, target untouched). Selection logic untouched; the N2226-pinned advance call text with `[]` is preserved verbatim. Candidates ride `frame["unit_candidates"]` (N2259 coolant_multiplier precedent) — no new parameter. **First-fire deviation** (documented in docstring + DEFERRED): Java fires nearly immediately after placement; the frame clock delays the first fire by one full interval (20 ticks). The timer clock accumulates only while enabled (same pragmatic gate as the advance itself; Java runs updateTile even when disabled — the driver-wide disabled-early-return slice removes this gate for all families). Live unit frames do NOT exist — candidates are a frame input; the live Units scan is its own slice (DEFERRED).
+
+## Commits
+
+Slice `a91baae0` (worker-N2280, branch `slice/N2280-repair-turret-timer-target`, 5 files, +1012/−11, đã push, remote tip verified by ls-remote). Integration cherry-pick `6fd725db` on `integration/wave-advances-6-n2274-n2280` (base 253151ad). No coordinator fix needed for this slice (the wave cite fix d0ea2b64 touched its register's DEFERRED snapshot only).
+
+## Tests
+
+Targeted post-register: 3/4 PASS (registration, exact-evidence 13/13, row-state) + proof test FAIL exactly `AssertionError: unexpectedly None` — Godot-absent. Siblings (12/16 PASS: power N2174 + should-consume N2212 + update-tile N2226 + coolant N2259), the fails all their Godot proof tests — 0 other failures. Full wave gate run 2 (PID 4988, launch 01:07 by coordinator lượt 10, done 01:47 +07 16/11): Ran 6210 in 2126.929s, failures=229, skipped=5, 0 errors — 229/229 Godot-absent (222 inherited + 7 new proof tests N2274–N2280). Run 1 (PID 2132, launch 00:31, done 01:07) invalid: Ran 5527, failures=231, errors=15 — all javalang-import (VM restart #6 ~00:27 wiped javalang; reinstalled 0.13.0 at 01:00).
+
+## SSOT / DEFERRED
+
+SSOT single-slice +2/+1/+1/+2 → 11797/1724/1655/3102; audit stays 1336. DEFERRED 292 (290 with 2 entries updated in place: live target acquire (cadence live, only the live Units scan waits) + updateTile live fill (cadence clause now live) + 2 new: first-fire deviation, time-scale threshold deviation). Merged wave DEFERRED: 298 entries (DEFERRED-after-advances-6.py) — 290 − 9 resolved/removed + 17 new, resolved by entry TEXT not number.
+
+## Godot debt
+
+`C07RepairTurretTimerTargetProof` — 6 keys: timer_fires_at_twenty_ticks, timer_no_fire_below_threshold, timer_no_fire_when_time_scale_zero, timer_passes_candidates_on_fire, timer_passes_empty_when_not_fired, timer_resets_elapsed_on_fire (+ `registry_valid` / `one_headquarter_per_ssot` / `matches`). Proof test fails `AssertionError: unexpectedly None` — run on Godot by the agent the user assigns. Do NOT mark done until it passes there.
