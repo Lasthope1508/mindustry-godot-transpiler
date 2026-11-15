@@ -66319,6 +66319,31 @@
       ],
       "runtime_proof": "/root/C07ShockwaveTowerTimerCadenceProof",
       "rule": "Source-backed ShockwaveTower timer cadence from ShockwaveTower.java / TimerComp.java / Interval.java / Time.java."
+    },
+    "SourceBuildTurretBuildState.source_build_turret_should_consume_state": {
+      "status": "active",
+      "source_slice": "N2201",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "source_method": "BuildTurretBuild.shouldConsume()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_build_turret_should_consume_state_input.frame"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "should_consume"
+      ],
+      "tests": [
+        "test_c07_build_turret_should_consume_registration",
+        "test_all_c07_build_turret_should_consume_input_evidence_is_exact",
+        "test_build_turret_should_consume_state",
+        "test_reference_graph_and_actual_c07_build_turret_should_consume"
+      ],
+      "runtime_proof": "/root/C07BuildTurretShouldConsumeProof",
+      "rule": "Source-backed BuildTurret shouldConsume gate from BuildTurret.java / BuildingComp.java."
     }
   },
   "policy": {

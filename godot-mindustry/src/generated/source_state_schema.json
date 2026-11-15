@@ -230718,6 +230718,44 @@
       },
       "runtime_proof": "/root/C07ShockwaveTowerTimerCadenceProof",
       "rule": "Source-backed ShockwaveTower timer cadence from ShockwaveTower.java / TimerComp.java / Interval.java / Time.java."
+    },
+    "source_build_turret_should_consume_state_input": {
+      "status": "active",
+      "owner": "SourceBuildTurretBuildState.source_build_turret_should_consume_state",
+      "source_slice": "N2201",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "return unit.plans().size > 0 && !isHealSuppressed();",
+          "rule": "The building frame carrying the plans_count observation (BuildTurret.java:93, `public BlockUnitc unit = (BlockUnitc)unitType.create(team);`, plans are unit.plans()) and the heal_suppressed observation (BuildingComp.java:487-489, isHealSuppressed) and enabled; a missing plans_count key means no observation yet (N2184 behavior preserved), not no plans.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BuildTurretShouldConsumeProof",
+      "rule": "Source-backed BuildTurret shouldConsume gate from BuildTurret.java / BuildingComp.java."
+    },
+    "source_build_turret_should_consume_state_result": {
+      "status": "active",
+      "owner": "SourceBuildTurretBuildState.source_build_turret_should_consume_state",
+      "source_slice": "N2201",
+      "keys": {
+        "should_consume": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "return unit.plans().size > 0 && !isHealSuppressed();",
+          "rule": "The shouldConsume gate (BuildTurret.java:229-230): plans_count > 0 && !heal_suppressed && enabled when a plans observation is present, enabled when the frame carries no plans_count key (the N2184 behavior); false gates efficiency to 0 via updateConsumption (BuildingComp.java:1960 + 1992-1993).",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BuildTurretShouldConsumeProof",
+      "rule": "Source-backed BuildTurret shouldConsume gate from BuildTurret.java / BuildingComp.java."
     }
   },
   "version": 1
