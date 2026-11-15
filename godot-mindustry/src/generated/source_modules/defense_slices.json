@@ -2943,6 +2943,25 @@
       ],
       "runtime_proof": "/root/C07ShockwaveTowerShouldConsumeProof"
     },
+    "N2194": {
+      "canonical_ledger": "source_slice_ledger.N2194",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "java_method": "ShockwaveTowerBuild.updateTile()",
+      "godot_owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_fire_state",
+      "source_symbols": [
+        "source_shockwave_tower_fire_state_result.fired",
+        "source_shockwave_tower_fire_state_result.reload_counter",
+        "source_shockwave_tower_fire_state_result.heat"
+      ],
+      "tests": [
+        "test_c07_shockwave_tower_fire_registration",
+        "test_all_c07_shockwave_tower_fire_input_evidence_is_exact",
+        "test_shockwave_tower_fire_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_fire"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerFireProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

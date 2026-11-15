@@ -139,6 +139,107 @@ static func source_shockwave_tower_should_consume_state(frame: Dictionary) -> Di
 		return {"should_consume": enabled}
 	return {"should_consume": float(observed) < 80.0 and enabled}
 
+static func source_shockwave_tower_fire_state(frame: Dictionary, delta: float) -> Dictionary:
+	# ShockwaveTowerBuild.updateTile fires its wave when the reload
+	# counter, charged by edelta(), reaches reload
+	# (ShockwaveTower.java:72, `public void updateTile(){` with
+	# :73, `if(potentialEfficiency > 0 && (reloadCounter += edelta()) >= reload && timer(timerCheck, checkInterval)){`), and
+	# edelta() is efficiency * delta (BuildingComp.java:1927-1929,
+	# `return efficiency * delta();`). The charge advance is
+	# N2192's job and the ONLY writer of `reload_counter` -- the
+	# fire function reads the counter the charge stamped this tick
+	# and never re-advances it. The fire gate reads the
+	# potentialEfficiency stamped by THIS tick's updateConsumption
+	# (BuildingComp.java:1989, `potentialEfficiency = efficiency;`)
+	# -- the pre-gate min efficiency -- and canConsume is the same
+	# gate (BuildingComp.java:1917, `public boolean canConsume(){`
+	# with `return potentialEfficiency > 0;`,
+	# BuildingComp.java:1918), so a fully charged tower whose
+	# N2193 shouldConsume gate zeroes efficiency still fires when
+	# it has power, exactly like Java: the fire condition reads
+	# potentialEfficiency, not efficiency. The timer cadence
+	# (`timer(timerCheck, checkInterval)`, checkInterval 8f,
+	# ShockwaveTower.java:31; `public int timerCheck = timers ++;`,
+	# ShockwaveTower.java:23) is DEFERRED: the port tracks no
+	# per-building Interval state (`public boolean timer(int index, float time){` /
+	# `return timer.get(index, time);`, TimerComp.java:10-13, over
+	# `transient Interval timer = new Interval(6);`,
+	# TimerComp.java:9), so the port fires on the first tick the
+	# counter is at reload with targets observed, where Java fires
+	# only on a timer tick -- up to checkInterval (8 ticks) earlier,
+	# a documented fidelity gap owned by a later
+	# per-building-timer slice. The live bullet scan has NO frame
+	# input in the port, so the fire reads an observed
+	# `targets_count` key (the N2190 RepairTower precedent: stamped
+	# only when observed) and absent means no fire, never invented
+	# targets. On fire with targets (ShockwaveTower.java:81,
+	# `if(targets.size > 0){`) Java sets heat 1f (:82, `heat = 1f;`)
+	# and resets the counter (:83, `reloadCounter = 0f;`); the
+	# scan itself (:74-79, `targets.clear();` /
+	# `Groups.bullet.intersect(x - range, y - range, range * 2, range * 2, b -> {` /
+	# `if(b.team != team && b.type.hittable){` / `targets.add(b);`),
+	# the wave damage line (:87, `float waveDamage = Math.min(bulletDamage, bulletDamage * falloffCount / targets.size);`),
+	# the per-target damage / removal (:89-95,
+	# `for(var target : targets){` / `if(target.damage > waveDamage){` /
+	# `target.damage -= waveDamage;` / `target.remove();` /
+	# `hitEffect.at(target.x, target.y, waveColor);`), the Fx /
+	# sound / shake (:84-86, :95, `waveEffect.at(x, y, range, waveColor);` /
+	# `shootSound.at(x, y, 1f + Mathf.range(0.15f), 1f);` /
+	# `Effect.shake(shake, shake, this);` over `public Effect waveEffect = Fx.pointShockwave;` /
+	# `public Sound shootSound = Sounds.shockwaveTower;` /
+	# `public Effect hitEffect = Fx.hitSquaresColor;`) and the
+	# shockwaveTowerUse event (:97-99,
+	# `if(team == state.rules.defaultTeam){` /
+	# `Events.fire(Trigger.shockwaveTowerUse);`) wait for their own
+	# slices -- the fire function returns only the flag, the reset
+	# counter, and the heat. Every tick, heat decays
+	# (ShockwaveTower.java:104, `heat = Mathf.clamp(heat - Time.delta / reload * cooldownMultiplier);`)
+	# against the per-def reload 80f (Blocks.java:2044,
+	# `reload = 80f;`, with `size = 3;` and `range = 170f;`)
+	# and cooldownMultiplier 1f (ShockwaveTower.java:34,
+	# `public float cooldownMultiplier = 1f;`) -- Time.delta is the
+	# raw delta, not edelta, so the decay uses the tick's
+	# `seconds`, the N2190 driver convention. On a fire tick Java
+	# sets heat 1f (:82) and then decays it the same tick (:104),
+	# so the pure function applies the decay AFTER the fire set,
+	# in the same order. An absent `reload_counter` key starts
+	# from deterministic 0.0 -- Java inits `public float reloadCounter = Mathf.random(reload);`
+	# (ShockwaveTower.java:67), but the port takes the deterministic
+	# 0.0 start, the N2190 RepairTower refresh precedent, never
+	# `randf` in game code (the C06DefenseProof lesson: seeded RNG
+	# only in proof scenes). Absent `potential_efficiency` is 0.0,
+	# so no fire; absent `heat` is 0.0 (Java init `heat = 0f;`,
+	# ShockwaveTower.java:68). Class fields: `public float range = 110f;`
+	# (ShockwaveTower.java:25), `public float reload = 60f * 1.5f;`
+	# (ShockwaveTower.java:26), `public float bulletDamage = 160;`
+	# (ShockwaveTower.java:27), `public float falloffCount = 20f;`
+	# (ShockwaveTower.java:28), `public float shake = 2f;`
+	# (ShockwaveTower.java:29). sense(LAccess.progress) returns
+	# `reloadCounter / reload` (ShockwaveTower.java:110,
+	# `if(sensor == LAccess.progress) return reloadCounter / reload;`)
+	# and warmup() returns heat (ShockwaveTower.java:117,
+	# `return heat;`) -- both wait for their own slices.
+	# updateConsumption forces efficiency to zero when the
+	# shouldConsume gate is false (BuildingComp.java:1960,
+	# `boolean update = shouldConsume() && productionValid();` +
+	# 1992, `if(!update){` + 1993,
+	# `efficiency = optionalEfficiency = 0f;`); the shouldConsume
+	# default is `return enabled;` (BuildingComp.java:755-756,
+	# `public boolean shouldConsume(){`), overridden by
+	# ShockwaveTowerBuild (`return reloadCounter < reload;`,
+	# ShockwaveTower.java:121-122, `public boolean shouldConsume(){`).
+	var reload_counter: float = float(frame.get("reload_counter", 0.0))
+	var potential_efficiency: float = float(frame.get("potential_efficiency", 0.0))
+	var heat: float = float(frame.get("heat", 0.0))
+	var observed_targets: Variant = frame.get("targets_count", null)
+	var fired: bool = false
+	if potential_efficiency > 0.0 and reload_counter >= 80.0 and observed_targets != null and float(observed_targets) > 0.0:
+		fired = true
+		heat = 1.0
+		reload_counter = 0.0
+	heat = clampf(heat - delta / 80.0, 0.0, 1.0)
+	return {"fired": fired, "reload_counter": reload_counter, "heat": heat}
+
 @warning_ignore("unused_parameter")
 static func source_shockwave_tower_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the shockwave-tower tick wiring every
@@ -199,6 +300,20 @@ static func source_shockwave_tower_tick_buildings_state(game: Object, seconds: f
 			# `reload_counter` key.
 			var charged: Dictionary = source_shockwave_tower_charge_state(frame, seconds)
 			frame["reload_counter"] = charged.get("reload_counter", 0.0)
+			# The fire gate (N2194): updateConsumption runs BEFORE
+			# updateTile in Java, so the fire reads THIS tick's
+			# freshly stamped potential_efficiency and the counter
+			# the charge just advanced (ShockwaveTower.java:73,
+			# `if(potentialEfficiency > 0 && (reloadCounter += edelta()) >= reload && timer(timerCheck, checkInterval)){`).
+			# The tick's `seconds` is the delta (the N2190 driver
+			# convention); the fire stamps `reload_counter` (reset
+			# to 0.0 on fire) and `heat` from the result. The live
+			# bullet scan (Groups.bullet.intersect,
+			# ShockwaveTower.java:75-79) has no frame input yet, so
+			# the fire reads the observed `targets_count` key only.
+			var fired: Dictionary = source_shockwave_tower_fire_state(frame, seconds)
+			frame["reload_counter"] = fired.get("reload_counter", 0.0)
+			frame["heat"] = fired.get("heat", 0.0)
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1

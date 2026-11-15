@@ -230332,6 +230332,64 @@
       },
       "runtime_proof": "/root/C07ShockwaveTowerShouldConsumeProof",
       "rule": "Source-backed ShockwaveTower shouldConsume gate from ShockwaveTower.java / BuildingComp.java."
+    },
+    "source_shockwave_tower_fire_state_input": {
+      "status": "active",
+      "owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_fire_state",
+      "source_slice": "N2194",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(potentialEfficiency > 0 && (reloadCounter += edelta()) >= reload && timer(timerCheck, checkInterval)){",
+          "rule": "The building frame carrying the reload_counter observation (ShockwaveTower.java:67, `public float reloadCounter = Mathf.random(reload);`, stamped by the N2192 charge every tick after apply_update_consumption_state) plus potential_efficiency (stamped by apply_update_consumption_state, BuildingComp.java:1989), heat, and the observed targets_count (stamped only when observed -- absent means no fire, never invented targets). The per-def reload is 80f (Blocks.java:2044), overriding the class default `60f * 1.5f` (ShockwaveTower.java:26).",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_fire_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ShockwaveTowerFireProof",
+      "rule": "Source-backed ShockwaveTower fire gate from ShockwaveTower.java / BuildingComp.java / TimerComp.java."
+    },
+    "source_shockwave_tower_fire_state_result": {
+      "status": "active",
+      "owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_fire_state",
+      "source_slice": "N2194",
+      "keys": {
+        "fired": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "if(potentialEfficiency > 0 && (reloadCounter += edelta()) >= reload && timer(timerCheck, checkInterval)){",
+          "rule": "The fire flag (ShockwaveTower.java:73-83): true when potential_efficiency > 0 and the charge-stamped reload_counter >= 80.0 and an observed targets_count > 0; the timer cadence (timerCheck, checkInterval 8f) is deferred -- the port tracks no per-building Interval timer state (TimerComp.java:10-13).",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_fire_state"
+          ]
+        },
+        "reload_counter": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "reloadCounter = 0f;",
+          "rule": "The reload counter after the fire evaluation (ShockwaveTower.java:83): 0.0 on fire, the charge-stamped counter unchanged otherwise -- Java resets only on a successful fire, never on a failed gate.",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_fire_state"
+          ]
+        },
+        "heat": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "heat = 1f;",
+          "rule": "The heat after the fire evaluation (ShockwaveTower.java:82, `heat = 1f;` on fire, and :104, `heat = Mathf.clamp(heat - Time.delta / reload * cooldownMultiplier);` every tick against the per-def reload 80f and cooldownMultiplier 1f); on a fire tick the decay applies after the set, in the Java order.",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_fire_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ShockwaveTowerFireProof",
+      "rule": "Source-backed ShockwaveTower fire gate from ShockwaveTower.java / BuildingComp.java / TimerComp.java."
     }
   },
   "version": 1
