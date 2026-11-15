@@ -173432,6 +173432,38 @@
         "test_reference_graph_and_actual_c07_shockwave_tower_fire_effects"
       ],
       "runtime_proof": "/root/C07ShockwaveTowerFireEffectsProof"
+    },
+    "source_shockwave_tower_hit_effect_state_result.hit_effects": {
+      "status": "source-backed",
+      "godot_owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_hit_effect_state",
+      "godot_symbol": "source_shockwave_tower_hit_effect_state_result.hit_effects",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "java_method": "ShockwaveTowerBuild.updateTile()",
+      "java_expr": "hitEffect.at(target.x, target.y, waveColor);",
+      "rule": "The hit-effect descriptors for this fire (ShockwaveTower.java:95): one per target, in Java targets order: {\"effect\": \"hitSquaresColor\" (Fx.hitSquaresColor, ShockwaveTower.java:35 -- it takes e.color from the at() color argument, color(Color.white, e.color, e.fin()), Fx.java:891), \"x\": the target world x (hit_x), \"y\": the target world y (hit_y), \"color\": \"Pal.accent\" (waveColor, ShockwaveTower.java:29)}; the effect fires for EVERY target in the loop, damaged or removed alike -- it sits after the damage / remove branch (:90-94), not inside either arm. Empty when no hit effects ran (absent or empty bullet_outcomes), so the driver stamps nothing.",
+      "tests": [
+        "test_c07_shockwave_tower_hit_effect_registration",
+        "test_all_c07_shockwave_tower_hit_effect_input_evidence_is_exact",
+        "test_shockwave_tower_hit_effect_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_hit_effect"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerHitEffectProof"
+    },
+    "source_shockwave_tower_hit_effect_state_result.has_hit_effects": {
+      "status": "source-backed",
+      "godot_owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_hit_effect_state",
+      "godot_symbol": "source_shockwave_tower_hit_effect_state_result.has_hit_effects",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "java_method": "ShockwaveTowerBuild.updateTile()",
+      "java_expr": "if(targets.size > 0){",
+      "rule": "Whether the hit effects ran (ShockwaveTower.java:81): true when the frame carries a non-empty `bullet_outcomes` list, false otherwise -- the driver stamps frame[\"hit_effects\"] only when this is true, and only on a tick where the N2194 fire fired, after the N2196 wave damage.",
+      "tests": [
+        "test_c07_shockwave_tower_hit_effect_registration",
+        "test_all_c07_shockwave_tower_hit_effect_input_evidence_is_exact",
+        "test_shockwave_tower_hit_effect_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_hit_effect"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerHitEffectProof"
     }
   },
   "version": 1

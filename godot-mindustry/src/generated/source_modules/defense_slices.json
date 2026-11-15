@@ -3019,6 +3019,24 @@
       ],
       "runtime_proof": "/root/C07ShockwaveTowerFireEffectsProof"
     },
+    "N2198": {
+      "canonical_ledger": "source_slice_ledger.N2198",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "java_method": "ShockwaveTowerBuild.updateTile()",
+      "godot_owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_hit_effect_state",
+      "source_symbols": [
+        "source_shockwave_tower_hit_effect_state_result.hit_effects",
+        "source_shockwave_tower_hit_effect_state_result.has_hit_effects"
+      ],
+      "tests": [
+        "test_c07_shockwave_tower_hit_effect_registration",
+        "test_all_c07_shockwave_tower_hit_effect_input_evidence_is_exact",
+        "test_shockwave_tower_hit_effect_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_hit_effect"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerHitEffectProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

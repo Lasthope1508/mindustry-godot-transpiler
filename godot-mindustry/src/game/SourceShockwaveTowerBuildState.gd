@@ -441,6 +441,48 @@ static func source_shockwave_tower_fire_effects_state(frame: Dictionary) -> Dict
 	var shake: Dictionary = {"intensity": 2.0, "duration": 2.0, "x": float(tower_x), "y": float(tower_y)}
 	return {"wave_effect": wave_effect, "shoot_sound": shoot_sound, "shake": shake, "has_fire_effects": true}
 
+static func source_shockwave_tower_hit_effect_state(frame: Dictionary) -> Dictionary:
+	# ShockwaveTowerBuild.updateTile spawns the per-target hit
+	# effect inside the fire gate, after the wave damage
+	# (ShockwaveTower.java:89-95, `for(var target : targets){` /
+	# `if(target.damage > waveDamage){` / `target.damage -=
+	# waveDamage;` / `target.remove();` /
+	# `hitEffect.at(target.x, target.y, waveColor);`, over
+	# `public Effect hitEffect = Fx.hitSquaresColor;`,
+	# ShockwaveTower.java:35, inside `if(targets.size > 0){`,
+	# ShockwaveTower.java:81). The effect fires for EVERY target
+	# in the loop, damaged or removed alike -- it sits after the
+	# damage / remove branch (:90-94), not inside either arm.
+	# The hit effect takes its color from the at() argument:
+	# waveColor is Pal.accent (ShockwaveTower.java:29, `public
+	# Color waveColor = Pal.accent, heatColor = Pal.turretHeat,
+	# shapeColor = Color.valueOf("f29c83");`, Pal.accent =
+	# Color.valueOf("ffd37f"), Pal.java:79) and
+	# Fx.hitSquaresColor draws `color(Color.white, e.color,
+	# e.fin());` (Fx.java:891). The port spawns no real Fx (no
+	# Godot equivalent is wired), so the pure function stamps
+	# one descriptor per Java call instead of spawning it:
+	# `{"effect": "hitSquaresColor", "x": hit_x, "y": hit_y,
+	# "color": "Pal.accent"}`. The function consumes the N2196
+	# `bullet_outcomes` stamped on the frame (one outcome per
+	# target, in the same order as Java's targets loop, each
+	# with hit_x/hit_y) -- never re-filtering the observed
+	# bullets, so the hit effects cover exactly the targets the
+	# wave damage just processed. Absent `bullet_outcomes` (or
+	# an empty list) means "no hit effects": `{"hit_effects":
+	# [], "has_hit_effects": false}` and the driver stamps
+	# nothing (the N2190 / N2195 / N2196 precedent) -- never a
+	# fabricated descriptor. The driver calls the hit effect
+	# AFTER the N2196 wave damage and ONLY when the fire fired
+	# (the Java order :87 before :89-95). No RNG.
+	var bullet_outcomes: Variant = frame.get("bullet_outcomes", null)
+	if bullet_outcomes == null or bullet_outcomes.is_empty():
+		return {"hit_effects": [], "has_hit_effects": false}
+	var hit_effects: Array = []
+	for outcome in bullet_outcomes:
+		hit_effects.append({"effect": "hitSquaresColor", "x": float(outcome.get("hit_x", 0.0)), "y": float(outcome.get("hit_y", 0.0)), "color": "Pal.accent"})
+	return {"hit_effects": hit_effects, "has_hit_effects": true}
+
 @warning_ignore("unused_parameter")
 static func source_shockwave_tower_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the shockwave-tower tick wiring every
@@ -554,10 +596,10 @@ static func source_shockwave_tower_tick_buildings_state(game: Object, seconds: f
 			# `bullet_outcomes`, and only when the wave reports
 			# one (has_wave_damage true). The stamped outcomes
 			# persist on the frame until the next fire (like
-			# heat). The hitEffect (:95) and the
-			# shockwaveTowerUse event (:97-99) wait for their own
-			# slices; the fire effects (:84-86) land in N2197
-			# just above the wave damage call.
+			# heat). The shockwaveTowerUse event (:97-99) waits
+			# for its own slice; the fire effects (:84-86) land
+			# in N2197 just above the wave damage call, and the
+			# hit effect (:95) lands in N2198 just below it.
 			if bool(fired.get("fired", false)):
 				# The fire effects (N2197): the effects run
 				# inside the fire gate in Java
@@ -573,8 +615,8 @@ static func source_shockwave_tower_tick_buildings_state(game: Object, seconds: f
 				# damage. The effects stamp `wave_effect` /
 				# `shoot_sound` / `shake` only when the effects
 				# report one (has_fire_effects true). The
-				# hitEffect (:95) and the shockwaveTowerUse event
-				# (:97-99) wait for their own slices.
+				# shockwaveTowerUse event (:97-99) waits for its
+				# own slice.
 				var effects: Dictionary = source_shockwave_tower_fire_effects_state(frame)
 				if bool(effects.get("has_fire_effects", false)):
 					frame["wave_effect"] = effects.get("wave_effect", null)
@@ -584,6 +626,20 @@ static func source_shockwave_tower_tick_buildings_state(game: Object, seconds: f
 				if bool(wave.get("has_wave_damage", false)):
 					frame["wave_damage"] = wave.get("wave_damage", null)
 					frame["bullet_outcomes"] = wave.get("bullet_outcomes", [])
+				# The hit effect (N2198): the effect runs inside
+				# the fire gate in Java (ShockwaveTower.java:89-95,
+				# `for(var target : targets){` /
+				# `hitEffect.at(target.x, target.y, waveColor);`),
+				# after the wave damage (:87), so the driver calls
+				# it after the N2196 wave damage and ONLY when the
+				# fire fired, stamping `frame["hit_effects"]` only
+				# when the hit effect reports one
+				# (has_hit_effects true). The stamped descriptors
+				# persist on the frame until the next fire (like
+				# heat / the N2196 outcomes).
+				var hit: Dictionary = source_shockwave_tower_hit_effect_state(frame)
+				if bool(hit.get("has_hit_effects", false)):
+					frame["hit_effects"] = hit.get("hit_effects", [])
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
