@@ -61,6 +61,13 @@ func _ready() -> void:
 	payload_unloader_build_state.source_payload_unloader_bind_frame_state(payload_unloader, blocks_by_id["payload-unloader"])
 	var payload_unloader_frame: Dictionary = payload_unloader.get_meta(payload_unloader_build_state.SOURCE_PAYLOAD_UNLOADER_BUILDING_META_KEY, {})
 
+	# N2209: the shouldConsume gate (PayloadLoader.java:241,
+	# `return payload != null;`, inherited) closes on an empty
+	# unloader, so the power proof holds a payload fixture (only
+	# its null-ness is read) — otherwise efficiency_folds_power_min
+	# would read 0.
+	payload_unloader_frame["payload"] = {"block": "conveyor"}
+
 	# Half power: efficiency folds the power min 0.5.
 	payload_unloader_frame["power_status"] = 0.5
 	payload_unloader_build_state.source_payload_unloader_tick_buildings_state(game, 1.0 / 60.0)

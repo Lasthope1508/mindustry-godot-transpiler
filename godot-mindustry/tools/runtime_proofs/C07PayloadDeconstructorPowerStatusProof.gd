@@ -61,6 +61,13 @@ func _ready() -> void:
 	payload_deconstructor_build_state.source_payload_deconstructor_bind_frame_state(payload_deconstructor, blocks_by_id["deconstructor"])
 	var payload_deconstructor_frame: Dictionary = payload_deconstructor.get_meta(payload_deconstructor_build_state.SOURCE_PAYLOAD_DECONSTRUCTOR_BUILDING_META_KEY, {})
 
+	# N2210: the shouldConsume gate (PayloadDeconstructor.java:220,
+	# `return deconstructing != null && enabled;`) closes with no
+	# deconstructing payload, so the power proof holds a
+	# deconstructing fixture (only its null-ness is read) —
+	# otherwise efficiency_folds_power_min would read 0.
+	payload_deconstructor_frame["deconstructing"] = {"block": "conveyor"}
+
 	# Half power: efficiency folds the power min 0.5.
 	payload_deconstructor_frame["power_status"] = 0.5
 	payload_deconstructor_build_state.source_payload_deconstructor_tick_buildings_state(game, 1.0 / 60.0)

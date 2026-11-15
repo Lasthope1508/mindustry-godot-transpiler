@@ -61,6 +61,12 @@ func _ready() -> void:
 	payload_loader_build_state.source_payload_loader_bind_frame_state(payload_loader, blocks_by_id["payload-loader"])
 	var payload_loader_frame: Dictionary = payload_loader.get_meta(payload_loader_build_state.SOURCE_PAYLOAD_LOADER_BUILDING_META_KEY, {})
 
+	# N2208: the shouldConsume gate (PayloadLoader.java:241,
+	# `return payload != null;`) closes on an empty loader, so the
+	# power proof holds a payload fixture (only its null-ness is
+	# read) — otherwise efficiency_folds_power_min would read 0.
+	payload_loader_frame["payload"] = {"block": "conveyor"}
+
 	# Half power: efficiency folds the power min 0.5.
 	payload_loader_frame["power_status"] = 0.5
 	payload_loader_build_state.source_payload_loader_tick_buildings_state(game, 1.0 / 60.0)
