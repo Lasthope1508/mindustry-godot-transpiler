@@ -1,6 +1,6 @@
 # N2187 handoff: C07 ImpactReactor consume — blast-compound timer burn + cryofluid continuous drain
 
-Date: 2026-11-15. Batch: N2187 (single slice). Status: **DONE + PUSHED (gate clean except Godot; slice b6ead74, docs 1989387, GOAL 0172685).**
+Date: 2026-11-15. Batch: N2187 (single slice). Status: **DONE + PUSHED (gate clean except Godot; slice 02e812d, docs 19d3078, GOAL 840d7eb).**
 
 ## Status
 
@@ -120,7 +120,7 @@ Date: 2026-11-15. Batch: N2187 (single slice). Status: **DONE + PUSHED (gate cle
 
 ## Commits
 
-- Slice: `b6ead74` — C07: N2187 ImpactReactor consume live read (blast-compound timer burn + cryofluid drain; pure function + driver stamping; proof 4 keys), 11 files.
-- Docs: `1989387` — Docs: N2187 report + design spec + handoff (gate clean except Godot).
-- GOAL: `0172685` — Docs: GOAL.md names the N2187 slice commit that carries its proof to Windows.
-- Status: (this commit) — Docs: N2187 handoff Commits records DONE + PUSHED (slice b6ead74, docs 1989387, GOAL 0172685).
+- Slice: `02e812d` — C07: N2187 ImpactReactor consume live read (blast-compound timer burn + cryofluid drain; pure function + driver stamping; proof 4 keys), 11 files.
+- Docs: `19d3078` — Docs: N2187 report + design spec + handoff (gate clean except Godot).
+- GOAL: `840d7eb` — Docs: GOAL.md names the N2187 slice commit that carries its proof to Windows.
+- Status: (this commit) — Docs: N2187 handoff Commits records DONE + PUSHED (slice 02e812d, docs 19d3078, GOAL 840d7eb).

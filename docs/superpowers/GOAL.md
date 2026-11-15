@@ -183,8 +183,8 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
     Scene tới Windows theo slice commit `ec17915` (pushed ~10:2x, main
     `931c49b`). Chưa chạy trên Windows Godot.
   - [ ] N2187 `C07ImpactReactorConsumeProof` — Linux GREEN 10:5x (7 key).
-    Scene tới Windows theo slice commit `b6ead74` (pushed ~11:4x, main
-    `1989387`). Chưa chạy trên Windows Godot.
+    Scene tới Windows theo slice commit `02e812d` (pushed ~11:4x, main
+    `19d3078`). Chưa chạy trên Windows Godot.
   - [ ] Mọi slice sau này: proof scene mới nào cũng ghi nợ Windows theo mẫu
     trên (ghi rõ commit đưa scene tới Windows).
   - [ ] Agent khác đang test các lỗi fail trên Windows Godot (PR #1 đã merge
