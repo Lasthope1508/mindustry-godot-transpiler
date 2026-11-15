@@ -17761,6 +17761,75 @@
       "runtime_proof": "/root/Main.source_weapons_update_dispatch_state",
       "rule": "Public runtime contract for WeaponsComp.update() dispatch state."
     },
+    "SourceBuildTurretBuildState.source_build_turret_build_counter_state": {
+      "canonical_contract": "source_api_contracts.SourceBuildTurretBuildState.source_build_turret_build_counter_state",
+      "status": "active",
+      "source_slice": "N2272",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "source_method": "BuilderComp.updateBuildLogic()",
+      "params": [
+        {
+          "name": "build_counter",
+          "type": "float",
+          "schema": "source_build_turret_build_counter_state_input.build_counter"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_build_turret_build_counter_state_input.source_delta"
+        },
+        {
+          "name": "instant",
+          "type": "bool",
+          "schema": "source_build_turret_build_counter_state_input.instant"
+        },
+        {
+          "name": "plan_count",
+          "type": "int",
+          "schema": "source_build_turret_build_counter_state_input.plan_count"
+        },
+        {
+          "name": "update_building",
+          "type": "bool",
+          "schema": "source_build_turret_build_counter_state_input.update_building"
+        },
+        {
+          "name": "can_build",
+          "type": "bool",
+          "schema": "source_build_turret_build_counter_state_input.can_build"
+        },
+        {
+          "name": "build_speed",
+          "type": "float",
+          "schema": "source_build_turret_build_counter_state_input.build_speed"
+        },
+        {
+          "name": "core_present",
+          "type": "bool",
+          "schema": "source_build_turret_build_counter_state_input.core_present"
+        },
+        {
+          "name": "infinite",
+          "type": "bool",
+          "schema": "source_build_turret_build_counter_state_input.infinite"
+        }
+      ],
+      "return_keys": [
+        "build_counter",
+        "run_build_loop",
+        "iterations_available",
+        "max_per_frame"
+      ],
+      "tests": [
+        "test_c07_build_turret_update_build_logic_registration",
+        "test_all_c07_build_turret_update_build_logic_input_evidence_is_exact",
+        "test_build_turret_update_build_logic_state",
+        "test_reference_graph_and_actual_c07_build_turret_update_build_logic"
+      ],
+      "runtime_proof": "/root/C07BuildTurretUpdateBuildLogicProof",
+      "rule": "Source-backed BuildTurret updateBuildLogic from BuilderComp.java / BuildTurret.java / BuildPlan.java / Blocks.java / Vars.java / Block.java.",
+      "return_type": "Dictionary"
+    },
     "SourceBuildingAccessState.source_on_proximity_update_wake_state": {
       "canonical_contract": "source_api_contracts.SourceBuildingAccessState.source_on_proximity_update_wake_state",
       "status": "active",

@@ -240483,6 +240483,674 @@
       },
       "runtime_proof": "/root/C07MendProjectorBoosterTimerProof",
       "rule": "Source-backed MendProjector booster timer consume from MendProjector.java / TimerComp.java / BuildingComp.java / ConsumeItems.java / ItemModule.java / Blocks.java / Block.java."
+    },
+    "source_payload_loader_dynamic_power_usage_state_input": {
+      "status": "active",
+      "owner": "SourcePayloadLoaderBuildState.source_payload_loader_dynamic_power_usage_state",
+      "source_slice": "N2270",
+      "keys": {
+        "should_consume": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+          "java_expr": "return payload != null;",
+          "rule": "Whether the loader consumes this tick (PayloadLoader.java:240-242, shouldConsume() returns payload != null): the lambda charges 0f when false, before any battery check.",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_dynamic_power_usage_state"
+          ]
+        },
+        "has_battery": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+          "java_expr": "return payload != null && payload.block().consPower != null && payload.block().consPower.buffered;",
+          "rule": "Whether the held payload has a buffered power consumer (PayloadLoader.java:235-237, hasBattery()): the driver reads it from the payload dict block_cons_power_buffered flag (the N2231 contract); false with no payload or a non-buffered payload block.",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_dynamic_power_usage_state"
+          ]
+        },
+        "exporting": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+          "java_expr": "public boolean exporting = false;",
+          "rule": "The build exporting flag (PayloadLoader.java:87): the driver reads the frame value at fold time, i.e. the previous tick's value, before the advance call updates it.",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_dynamic_power_usage_state"
+          ]
+        },
+        "base_power_use": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+          "java_expr": "basePowerUse = consPower != null ? consPower.usage : 0f;",
+          "rule": "The base power use 2f (PayloadLoader.java:79, consPower.usage from the def consumePower(2f), Blocks.java:6686): the driver reads the catalog consumePower (2.0 for payload-loader) with the driver const as fallback.",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_dynamic_power_usage_state"
+          ]
+        },
+        "max_power_consumption": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+          "java_expr": "public float maxPowerConsumption = 40f;",
+          "rule": "The class constant 40f (PayloadLoader.java:26): added to the base while charging a battery (hasBattery() && !exporting), so the charging draw is 42f.",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_dynamic_power_usage_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadLoaderDynamicPowerProof",
+      "rule": "Source-backed PayloadLoader dynamic power usage from PayloadLoader.java / ConsumePowerDynamic.java / Blocks.java."
+    },
+    "source_payload_loader_dynamic_power_usage_state_result": {
+      "status": "active",
+      "owner": "SourcePayloadLoaderBuildState.source_payload_loader_dynamic_power_usage_state",
+      "source_slice": "N2270",
+      "keys": {
+        "usage": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+          "java_expr": "consumePowerDynamic(basePowerUse, (PayloadLoaderBuild loader) -> loader.shouldConsume() ? (loader.hasBattery() && !loader.exporting ? maxPowerConsumption + basePowerUse : basePowerUse) : 0f);",
+          "rule": "The dynamic power usage this tick (PayloadLoader.java:80, the init() lambda): 0f when !shouldConsume, basePowerUse + maxPowerConsumption (42f) when hasBattery() && !exporting, basePowerUse (2f) otherwise; the value ConsumePowerDynamic.requestedPower returns (ConsumePowerDynamic.java:24-25).",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_dynamic_power_usage_state"
+          ]
+        },
+        "charging": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+          "java_expr": "loader.hasBattery() && !loader.exporting",
+          "rule": "Whether the loader is charging a battery this tick (PayloadLoader.java:80, the lambda charging branch): should_consume && has_battery && !exporting; true exactly when usage is base + max.",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_dynamic_power_usage_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadLoaderDynamicPowerProof",
+      "rule": "Source-backed PayloadLoader dynamic power usage from PayloadLoader.java / ConsumePowerDynamic.java / Blocks.java."
+    },
+    "source_accelerator_can_launch_state_input": {
+      "status": "active",
+      "owner": "SourceAcceleratorBuildState.source_accelerator_can_launch_state",
+      "source_slice": "N2271",
+      "keys": {
+        "efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "return isValid() && !net.client() && state.isCampaign() && efficiency > 0f && power.graph.getBatteryStored() >= powerBufferRequirement-0.00001f && progress >= 1f && !launching;",
+          "rule": "The folded efficiency (BuildingComp.java:1985); the gate needs efficiency > 0f (Accelerator.java:240).",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_can_launch_state"
+          ]
+        },
+        "battery_stored": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "totalAccumulator += battery.power.status * battery.block.consPower.capacity;",
+          "rule": "The stored battery total from getBatteryStored() (PowerGraph.java:118-127): the sum over enabled batteries of power.status * consPower.capacity. A frame INPUT -- the graph summary computes it (SourcePlacedPowerGraphState.gd:303) but does not stamp it on the building frame, so a live accelerator reads the input as-is (default 0.0).",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_can_launch_state"
+          ]
+        },
+        "progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "return progress >= 1f;",
+          "rule": "The core-build progress (Accelerator.java:121), advanced by the N2191 updateTile advance; the gate needs progress >= 1f, i.e. isCoreBuilt() (Accelerator.java:153-154).",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_can_launch_state"
+          ]
+        },
+        "launching": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "public boolean launching;",
+          "rule": "Whether a launch is already in progress (Accelerator.java:123); the gate needs !launching. Set true only by beginLaunch (Accelerator.java:334-337) via renderer.showLaunch, which is deferred -- nothing in the port sets it yet.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_can_launch_state"
+          ]
+        },
+        "power_buffer_requirement": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "powerBufferRequirement = 1_000_000f;",
+          "rule": "The battery requirement for the launch (Blocks.java:6826): 1,000,000f for the single def interplanetary-accelerator; the gate needs battery_stored >= requirement - 0.00001f.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_can_launch_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07AcceleratorLaunchProof",
+      "rule": "Source-backed Accelerator canLaunch gate + launch transition from Accelerator.java / PowerGraph.java / ConsumeItems.java / BuildingComp.java / ItemModule.java / ItemSeq.java / Blocks.java."
+    },
+    "source_accelerator_can_launch_state_result": {
+      "status": "active",
+      "owner": "SourceAcceleratorBuildState.source_accelerator_can_launch_state",
+      "source_slice": "N2271",
+      "keys": {
+        "can_launch": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "return isValid() && !net.client() && state.isCampaign() && efficiency > 0f && power.graph.getBatteryStored() >= powerBufferRequirement-0.00001f && progress >= 1f && !launching;",
+          "rule": "Whether the launch gate passes (Accelerator.java:240): the conjunction of the four tick-state conditions. The environment half (isValid / net.client / state.isCampaign) is NOT modeled -- the port has no net / campaign state.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_can_launch_state"
+          ]
+        },
+        "efficiency_ok": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "return isValid() && !net.client() && state.isCampaign() && efficiency > 0f && power.graph.getBatteryStored() >= powerBufferRequirement-0.00001f && progress >= 1f && !launching;",
+          "rule": "Whether efficiency > 0f (Accelerator.java:240).",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_can_launch_state"
+          ]
+        },
+        "battery_ok": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "return isValid() && !net.client() && state.isCampaign() && efficiency > 0f && power.graph.getBatteryStored() >= powerBufferRequirement-0.00001f && progress >= 1f && !launching;",
+          "rule": "Whether battery_stored >= powerBufferRequirement - 0.00001f (Accelerator.java:240); the epsilon is evaluated in GDScript float64, so stored = requirement - 0.00001 passes and requirement - 0.00002 fails.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_can_launch_state"
+          ]
+        },
+        "progress_ok": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "return isValid() && !net.client() && state.isCampaign() && efficiency > 0f && power.graph.getBatteryStored() >= powerBufferRequirement-0.00001f && progress >= 1f && !launching;",
+          "rule": "Whether progress >= 1f, i.e. isCoreBuilt() (Accelerator.java:153-154, 240).",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_can_launch_state"
+          ]
+        },
+        "not_launching": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "return isValid() && !net.client() && state.isCampaign() && efficiency > 0f && power.graph.getBatteryStored() >= powerBufferRequirement-0.00001f && progress >= 1f && !launching;",
+          "rule": "Whether !launching (Accelerator.java:240).",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_can_launch_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07AcceleratorLaunchProof",
+      "rule": "Source-backed Accelerator canLaunch gate + launch transition from Accelerator.java / PowerGraph.java / ConsumeItems.java / BuildingComp.java / ItemModule.java / ItemSeq.java / Blocks.java."
+    },
+    "source_accelerator_launch_state_input": {
+      "status": "active",
+      "owner": "SourceAcceleratorBuildState.source_accelerator_launch_state",
+      "source_slice": "N2271",
+      "keys": {
+        "items": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "resources.add(items);",
+          "rule": "The building items store (frame[\"items\"], the Building.items ItemModule, Dictionary keyed by item name); consume() removes the requirement stacks from it and the remainder is snapshotted as resources before the store is emptied (Accelerator.java:265-268). The input dict is NOT mutated.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_launch_state"
+          ]
+        },
+        "battery_stored": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "float stored = getBatteryStored();",
+          "rule": "The stored battery total before the drain (PowerGraph.java:155); useBatteries drains min(stored, needed) from it.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_launch_state"
+          ]
+        },
+        "power_buffer_requirement": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "powerBufferRequirement = 1_000_000f;",
+          "rule": "The battery requirement for the launch (Blocks.java:6826): 1,000,000f for the single def interplanetary-accelerator; the drain amount is min(stored, requirement).",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_launch_state"
+          ]
+        },
+        "requirement_stacks": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "consumeItems(launchBlock.requirements);",
+          "rule": "The ConsumeItems requirement stacks (Array of {\"item\": kebab-case id, \"amount\": int}): copper 8000, lead 8000, silicon 5000, thorium 4000 (Blocks.java:3154); consumeItems registers them as one ConsumeItems (Accelerator.java:91). The caller passes the N2267 helper result.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_launch_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07AcceleratorLaunchProof",
+      "rule": "Source-backed Accelerator canLaunch gate + launch transition from Accelerator.java / PowerGraph.java / ConsumeItems.java / BuildingComp.java / ItemModule.java / ItemSeq.java / Blocks.java."
+    },
+    "source_accelerator_launch_state_result": {
+      "status": "active",
+      "owner": "SourceAcceleratorBuildState.source_accelerator_launch_state",
+      "source_slice": "N2271",
+      "keys": {
+        "items": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "items.clear();",
+          "rule": "The emptied items store (Accelerator.java:268): {} after the launch.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_launch_state"
+          ]
+        },
+        "resources": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "resources.add(items);",
+          "rule": "The resources snapshot (Accelerator.java:267): every held item minus its requirement amount, clamped at 0 per stack, carrying only NONZERO remainders -- resources.add(items) iterates via ItemModule.each, which visits only nonzero counts (ItemModule.java:100-106). The driver DISCARDS it: Java hands it to universe.updateLaunchResources(resources) (Accelerator.java:281), which has no port equivalent.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_launch_state"
+          ]
+        },
+        "battery_stored": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "float used = Math.min(stored, needed);",
+          "rule": "The stored battery total after the drain (PowerGraph.java:158): stored - min(stored, requirement), clamped at 0. The per-battery proportional status scaling (PowerGraph.java:160-165) is NOT modeled -- the port graph summary carries only the total, no battery list.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_launch_state"
+          ]
+        },
+        "progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "progress = 0f;",
+          "rule": "The reset core-build progress (Accelerator.java:271): 0.0 after the launch.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_launch_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07AcceleratorLaunchProof",
+      "rule": "Source-backed Accelerator canLaunch gate + launch transition from Accelerator.java / PowerGraph.java / ConsumeItems.java / BuildingComp.java / ItemModule.java / ItemSeq.java / Blocks.java."
+    },
+    "source_build_turret_build_counter_state_input": {
+      "status": "active",
+      "owner": "SourceBuildTurretBuildState.source_build_turret_build_counter_state",
+      "source_slice": "N2272",
+      "keys": {
+        "build_counter": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_expr": "buildCounter += Time.delta;",
+          "rule": "The accumulated build counter (`private transient float buildCounter;`, BuilderComp.java:35) entering this tick -- the frame build_counter key (default 0.0), accumulated one tick at a time.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_build_counter_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_expr": "buildCounter += Time.delta;",
+          "rule": "Time.delta in TICKS (seconds * 60 through game_source_delta, arc Time.java:26), never raw seconds -- the amount the counter grows this tick.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_build_counter_state"
+          ]
+        },
+        "instant": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_expr": "boolean instant = state.rules.instantBuild && state.rules.infiniteResources;",
+          "rule": "Whether instant build applies (`boolean instant = state.rules.instantBuild && state.rules.infiniteResources;`, BuilderComp.java:101 -- state rules only, not team rules): true makes the loop run regardless of the counter, with maxPerFrame = plans.size.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_build_counter_state"
+          ]
+        },
+        "plan_count": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_expr": "int maxPerFrame = instant ? plans.size : 10, count = 0;",
+          "rule": "The plan queue size (`plans.size`, BuilderComp.java:104): the instant maxPerFrame and the while-loop `plans.size > 0` term (BuilderComp.java:110).",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_build_counter_state"
+          ]
+        },
+        "update_building": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_expr": "if(!updateBuilding || !canBuild()){",
+          "rule": "The updateBuilding flag (`@SyncLocal boolean updateBuilding = true;`, BuilderComp.java:33): false returns before the counter moves (BuilderComp.java:90). The driver reads the frame input (default true); no live fill sets it yet.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_build_counter_state"
+          ]
+        },
+        "can_build": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_expr": "return type.buildSpeed > 0 && buildSpeedMultiplier > 0;",
+          "rule": "canBuild() (`return type.buildSpeed > 0 && buildSpeedMultiplier > 0;`, BuilderComp.java:40-41): false returns before the counter moves (BuilderComp.java:90). The driver reads the frame input (default true); no live fill sets it yet.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_build_counter_state"
+          ]
+        },
+        "build_speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_expr": "if(type.buildSpeed <= 0f) return;",
+          "rule": "The unit type buildSpeed (1.5f for the single build-tower def, Blocks.java:2003, `buildSpeed = 1.5f;`, lifted to the unit type by `unitType.buildSpeed = buildSpeed;`, BuildTurret.java:77): <= 0 returns before anything accumulates (BuilderComp.java:77).",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_build_counter_state"
+          ]
+        },
+        "core_present": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_expr": "if((core == null && !infinite)) return;",
+          "rule": "Whether a core exists (`var core = core();`, BuilderComp.java:106): absent without infinite resources stops the loop but keeps the accumulated counter (BuilderComp.java:108). The driver derives it from frame core_items != null.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_build_counter_state"
+          ]
+        },
+        "infinite": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_expr": "boolean infinite = state.rules.infiniteResources || team().rules().infiniteResources;",
+          "rule": "Whether resources are infinite (`boolean infinite = state.rules.infiniteResources || team().rules().infiniteResources;`, BuilderComp.java:95): true skips the core check. The driver passes the state-rules half only; the team-rules half is unmodeled (the port team rules carry only cheat).",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_build_counter_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BuildTurretUpdateBuildLogicProof",
+      "rule": "Source-backed BuildTurret updateBuildLogic from BuilderComp.java / BuildTurret.java / BuildPlan.java / Blocks.java / Vars.java / Block.java."
+    },
+    "source_build_turret_build_counter_state_result": {
+      "status": "active",
+      "owner": "SourceBuildTurretBuildState.source_build_turret_build_counter_state",
+      "source_slice": "N2272",
+      "keys": {
+        "build_counter": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_expr": "buildCounter = Math.min(buildCounter, 10f);",
+          "rule": "The counter after this tick: unchanged on the buildSpeed / updateBuilding / canBuild early returns, accumulated + NaN/Inf-reset + 10f-clamped otherwise (BuilderComp.java:97-99). The driver persists it on the frame and subtracts 1.0 only when it actually runs one iteration.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_build_counter_state"
+          ]
+        },
+        "run_build_loop": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_expr": "while((buildCounter >= 1 || instant) && count++ < maxPerFrame && plans.size > 0){",
+          "rule": "Whether the build loop runs this tick: (counter >= 1.0 || instant) && plan_count > 0 && iterations_available > 0 (BuilderComp.java:110).",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_build_counter_state"
+          ]
+        },
+        "iterations_available": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_expr": "buildCounter -= 1f;",
+          "rule": "The counter / maxPerFrame iteration budget: instant ? plan_count : int(min(floor(counter), max_per_frame)), clamped at 0 -- each iteration consumes 1.0 (`buildCounter -= 1f;`, BuilderComp.java:111). Not gated on plan_count; run_build_loop carries that gate.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_build_counter_state"
+          ]
+        },
+        "max_per_frame": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_expr": "int maxPerFrame = instant ? plans.size : 10, count = 0;",
+          "rule": "The per-tick iteration cap (`int maxPerFrame = instant ? plans.size : 10, count = 0;`, BuilderComp.java:104): plan_count when instant, else 10; 0 on the early returns (no loop is computed there).",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_build_counter_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BuildTurretUpdateBuildLogicProof",
+      "rule": "Source-backed BuildTurret updateBuildLogic from BuilderComp.java / BuildTurret.java / BuildPlan.java / Blocks.java / Vars.java / Block.java."
+    },
+    "source_build_turret_build_plan_selection_state_input": {
+      "status": "active",
+      "owner": "SourceBuildTurretBuildState.source_build_turret_build_plan_selection_state",
+      "source_slice": "N2272",
+      "keys": {
+        "plans": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_expr": "validatePlans();",
+          "rule": "The builder unit plan queue (frame[\"plans\"], the N2244 plan dicts {x, y, rotation, block, config, breaking, build_is_self} plus the N2272 selection fields stuck / requirements / is_rotation / is_derelict_repair / block_offset, read through .get so N2244 plans stay compatible): validated by validatePlans() (BuilderComp.java:89) then rotated by the selection loop.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_build_plan_selection_state"
+          ]
+        },
+        "tile_states": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_expr": "Tile tile = world.tile(plan.x, plan.y);",
+          "rule": "The per-plan tile states, parallel to plans (each entry {tile_exists, tile_block, tile_build_exists, tile_build_rotation, tile_build_x, tile_build_y, tile_team_derelict, tile_overlay, tile_floor, block_rotate, block_is_overlay, block_is_floor} -- the `Tile tile = world.tile(plan.x, plan.y);` stand-in, BuilderComp.java:62). A plan with no tile state is KEPT. The driver passes the frame input (default []); no live fill sets it yet.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_build_plan_selection_state"
+          ]
+        },
+        "core_items": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_expr": "var core = core();",
+          "rule": "The core inventory dict {item: amount}, or null for no core (`var core = core();`, BuilderComp.java:106; null is the shouldSkip early-false branch, BuilderComp.java:247). The driver passes the frame input (default null); no live fill sets it yet.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_build_plan_selection_state"
+          ]
+        },
+        "tower_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_expr": "float dst = plan.dst2(this);",
+          "rule": "The tower world x in pixels (the builder unit position Java measures plan.dst2(this) from, BuilderComp.java:123): the driver passes the origin cell x * tilesize (tilesize 8, Vars.java:135; the N2244 precedent).",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_build_plan_selection_state"
+          ]
+        },
+        "tower_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_expr": "float dst = plan.dst2(this);",
+          "rule": "The tower world y in pixels (the builder unit position Java measures plan.dst2(this) from, BuilderComp.java:123): the driver passes the origin cell y * tilesize.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_build_plan_selection_state"
+          ]
+        },
+        "build_range": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_expr": "float finalPlaceDst = state.rules.infiniteResources ? Float.MAX_VALUE : type.buildRange;",
+          "rule": "The tower build range in pixels (200f for the single build-tower def, Blocks.java:2001, `range = 200f;`, lifted to the unit type by `unitType.buildRange = range;`, BuildTurret.java:76): finalPlaceDst when not infinite (BuilderComp.java:94).",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_build_plan_selection_state"
+          ]
+        },
+        "infinite": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_expr": "boolean infinite = state.rules.infiniteResources || team().rules().infiniteResources;",
+          "rule": "Whether resources are infinite (`boolean infinite = state.rules.infiniteResources || team().rules().infiniteResources;`, BuilderComp.java:95): true makes finalPlaceDst infinite and shouldSkip always false. The driver passes the state-rules half only; the team-rules half is unmodeled.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_build_plan_selection_state"
+          ]
+        },
+        "build_cost_multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_expr": "(Structs.contains(plan.block.requirements, i -> !core.items.has(i.item, Math.min(i.amount, 15)) && Mathf.round(i.amount * state.rules.buildCostMultiplier) > 0));",
+          "rule": "The rules build cost multiplier (state.rules.buildCostMultiplier, default 1.0): scales the rounded-cost term of the shouldSkip missing-stack branch (BuilderComp.java:250).",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_build_plan_selection_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BuildTurretUpdateBuildLogicProof",
+      "rule": "Source-backed BuildTurret updateBuildLogic from BuilderComp.java / BuildTurret.java / BuildPlan.java / Blocks.java / Vars.java / Block.java."
+    },
+    "source_build_turret_build_plan_selection_state_result": {
+      "status": "active",
+      "owner": "SourceBuildTurretBuildState.source_build_turret_build_plan_selection_state",
+      "source_slice": "N2272",
+      "keys": {
+        "plans": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_expr": "plans.addLast(plans.removeFirst());",
+          "rule": "The plan queue after one tick: validated (invalid plans removed, BuilderComp.java:57-74) and rotated by the selection loop (BuilderComp.java:114-146) -- the found plan at the head, or the bestIndex fallback rotation toward the nearest in-range plan. The input array is not mutated.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_build_plan_selection_state"
+          ]
+        },
+        "selected": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_expr": "BuildPlan current = buildPlan();",
+          "rule": "The plan Java would build this tick (`BuildPlan current = buildPlan();`, BuilderComp.java:148; `lastActive = current;`, BuilderComp.java:151, is what the driver stamps as last_plan): plans[0] after rotation when found_any or best_index >= 0, else null (no plan within range).",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_build_plan_selection_state"
+          ]
+        },
+        "found_any": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_expr": "if(within && !shouldSkip(plan, core)){",
+          "rule": "Whether the selection loop found an in-range plan that is not skipped (`if(within && !shouldSkip(plan, core)){`, BuilderComp.java:126) -- the loop breaks with it at the head. Also true for a single in-range, non-skipped plan (Java skips the loop but still builds it, BuilderComp.java:114 + 148-155).",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_build_plan_selection_state"
+          ]
+        },
+        "best_index": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_expr": "if(!foundAny && bestIndex > 0 && !within(buildPlan(), finalPlaceDst)){",
+          "rule": "The index (in the pre-rotation queue) of the closest in-range plan when no plan was found, or -1 when no plan is in range (`if(!foundAny && bestIndex > 0 && !within(buildPlan(), finalPlaceDst)){`, BuilderComp.java:140 -- the fallback rotates this many times, only when the head is not within). 0 for a single in-range but skipped plan.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_build_plan_selection_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BuildTurretUpdateBuildLogicProof",
+      "rule": "Source-backed BuildTurret updateBuildLogic from BuilderComp.java / BuildTurret.java / BuildPlan.java / Blocks.java / Vars.java / Block.java."
+    },
+    "source_wall_crafter_timer_use_state_input": {
+      "status": "active",
+      "owner": "SourceWallCrafterBuildState.source_wall_crafter_timer_use_state",
+      "source_slice": "N2273",
+      "keys": {
+        "elapsed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+          "java_expr": "return timer.get(index, time);",
+          "rule": "The frame-local elapsed clock in ticks (frame[\"timer_use_elapsed\"], accumulated by the tick delta every tick, unconditionally -- the port mirror of the global Time.time arc Interval.get compares against, Interval.java:20-26; Time.time counts TICKS, arc Time.java:69-80).",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_timer_use_state"
+          ]
+        },
+        "duration": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "public float boostItemUseTime = 120f;",
+          "rule": "The timer duration in ticks: boostItemUseTime, 120f class default (WallCrafter.java:45); the large-cliff-crusher overrides it to 60f / 0.75f = 80f (Blocks.java:3032), so the driver resolves the per-def duration through the family helper and passes it here.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_timer_use_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The live building timeScale (BuildingComp.java:98, default 1f), read from the sprite meta by the tick; the Java threshold is boostItemUseTime / timeScale (WallCrafter.java:207), and a non-positive time_scale is the infinite-time branch (TimerComp.java:11).",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_timer_use_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07WallCrafterTimerConsumeProof",
+      "rule": "Source-backed WallCrafter timer-gated graphite consume from WallCrafter.java / TimerComp.java / BuildingComp.java / ConsumeItems.java / ItemModule.java / Blocks.java / Block.java."
+    },
+    "source_wall_crafter_timer_use_state_result": {
+      "status": "active",
+      "owner": "SourceWallCrafterBuildState.source_wall_crafter_timer_use_state",
+      "source_slice": "N2273",
+      "keys": {
+        "fired": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+          "java_expr": "if(Float.isInfinite(time)) return false;",
+          "rule": "Whether the timer fires this tick (TimerComp.java:10-13): false when the threshold is infinite (time_scale <= 0), else elapsed >= duration / time_scale -- the Interval.check comparison (arc Interval.java:28-30) against the frame-local clock.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_timer_use_state"
+          ]
+        },
+        "elapsed_after": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+          "java_expr": "return timer.get(index, time);",
+          "rule": "The elapsed clock after this tick: 0.0 when fired (Interval.get RESETS times[id] = Time.time on fire, arc Interval.java:23-25 -- a reset, not a subtraction like the Fracker accumulator), otherwise the input elapsed unchanged.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_timer_use_state"
+          ]
+        },
+        "threshold": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "public float boostItemUseTime = 120f;",
+          "rule": "The fire threshold in ticks, duration / time_scale (WallCrafter.java:207, boostItemUseTime / timeScale); infinite when time_scale <= 0, so the timer never fires on that branch.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_timer_use_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07WallCrafterTimerConsumeProof",
+      "rule": "Source-backed WallCrafter timer-gated graphite consume from WallCrafter.java / TimerComp.java / BuildingComp.java / ConsumeItems.java / ItemModule.java / Blocks.java / Block.java."
     }
   },
   "version": 1

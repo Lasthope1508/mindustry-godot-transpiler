@@ -2646,6 +2646,41 @@
         }
       }
     },
+    "source_wall_crafter_timer_use_state_input": {
+      "canonical_schema": "source_state_schema.source_wall_crafter_timer_use_state_input",
+      "keys": {
+        "elapsed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+          "java_expr": "return timer.get(index, time);",
+          "rule": "The frame-local elapsed clock in ticks (frame[\"timer_use_elapsed\"], accumulated by the tick delta every tick, unconditionally -- the port mirror of the global Time.time arc Interval.get compares against, Interval.java:20-26; Time.time counts TICKS, arc Time.java:69-80).",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_timer_use_state"
+          ]
+        },
+        "duration": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "public float boostItemUseTime = 120f;",
+          "rule": "The timer duration in ticks: boostItemUseTime, 120f class default (WallCrafter.java:45); the large-cliff-crusher overrides it to 60f / 0.75f = 80f (Blocks.java:3032), so the driver resolves the per-def duration through the family helper and passes it here.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_timer_use_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The live building timeScale (BuildingComp.java:98, default 1f), read from the sprite meta by the tick; the Java threshold is boostItemUseTime / timeScale (WallCrafter.java:207), and a non-positive time_scale is the infinite-time branch (TimerComp.java:11).",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_timer_use_state"
+          ]
+        }
+      }
+    },
     "source_wall_crafter_update_tile_advance_state_input": {
       "canonical_schema": "source_state_schema.source_wall_crafter_update_tile_advance_state_input",
       "keys": {

@@ -179256,6 +179256,358 @@
         "test_reference_graph_and_actual_c07_mend_projector_booster_timer"
       ],
       "runtime_proof": "/root/C07MendProjectorBoosterTimerProof"
+    },
+    "source_payload_loader_dynamic_power_usage_state_result.usage": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadLoaderBuildState.source_payload_loader_dynamic_power_usage_state",
+      "godot_symbol": "source_payload_loader_dynamic_power_usage_state_result.usage",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+      "java_method": "PayloadLoader.init()",
+      "java_expr": "consumePowerDynamic(basePowerUse, (PayloadLoaderBuild loader) -> loader.shouldConsume() ? (loader.hasBattery() && !loader.exporting ? maxPowerConsumption + basePowerUse : basePowerUse) : 0f);",
+      "rule": "The dynamic power usage this tick (PayloadLoader.java:80, the init() lambda): 0f when !shouldConsume, basePowerUse + maxPowerConsumption (42f) when hasBattery() && !exporting, basePowerUse (2f) otherwise; the value ConsumePowerDynamic.requestedPower returns (ConsumePowerDynamic.java:24-25).",
+      "tests": [
+        "test_c07_payload_loader_dynamic_power_registration",
+        "test_all_c07_payload_loader_dynamic_power_input_evidence_is_exact",
+        "test_payload_loader_dynamic_power_usage_state",
+        "test_reference_graph_and_actual_c07_payload_loader_dynamic_power"
+      ],
+      "runtime_proof": "/root/C07PayloadLoaderDynamicPowerProof"
+    },
+    "source_payload_loader_dynamic_power_usage_state_result.charging": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadLoaderBuildState.source_payload_loader_dynamic_power_usage_state",
+      "godot_symbol": "source_payload_loader_dynamic_power_usage_state_result.charging",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+      "java_method": "PayloadLoader.init()",
+      "java_expr": "loader.hasBattery() && !loader.exporting",
+      "rule": "Whether the loader is charging a battery this tick (PayloadLoader.java:80, the lambda charging branch): should_consume && has_battery && !exporting; true exactly when usage is base + max.",
+      "tests": [
+        "test_c07_payload_loader_dynamic_power_registration",
+        "test_all_c07_payload_loader_dynamic_power_input_evidence_is_exact",
+        "test_payload_loader_dynamic_power_usage_state",
+        "test_reference_graph_and_actual_c07_payload_loader_dynamic_power"
+      ],
+      "runtime_proof": "/root/C07PayloadLoaderDynamicPowerProof"
+    },
+    "source_accelerator_can_launch_state_result.can_launch": {
+      "status": "source-backed",
+      "godot_owner": "SourceAcceleratorBuildState.source_accelerator_can_launch_state",
+      "godot_symbol": "source_accelerator_can_launch_state_result.can_launch",
+      "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+      "java_method": "AcceleratorBuild.canLaunch()",
+      "java_expr": "return isValid() && !net.client() && state.isCampaign() && efficiency > 0f && power.graph.getBatteryStored() >= powerBufferRequirement-0.00001f && progress >= 1f && !launching;",
+      "rule": "Whether the launch gate passes (Accelerator.java:240): the conjunction of the four tick-state conditions. The environment half (isValid / net.client / state.isCampaign) is NOT modeled -- the port has no net / campaign state.",
+      "tests": [
+        "test_c07_accelerator_launch_registration",
+        "test_all_c07_accelerator_launch_input_evidence_is_exact",
+        "test_accelerator_launch_gate_state",
+        "test_reference_graph_and_actual_c07_accelerator_launch"
+      ],
+      "runtime_proof": "/root/C07AcceleratorLaunchProof"
+    },
+    "source_accelerator_can_launch_state_result.efficiency_ok": {
+      "status": "source-backed",
+      "godot_owner": "SourceAcceleratorBuildState.source_accelerator_can_launch_state",
+      "godot_symbol": "source_accelerator_can_launch_state_result.efficiency_ok",
+      "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+      "java_method": "AcceleratorBuild.canLaunch()",
+      "java_expr": "return isValid() && !net.client() && state.isCampaign() && efficiency > 0f && power.graph.getBatteryStored() >= powerBufferRequirement-0.00001f && progress >= 1f && !launching;",
+      "rule": "Whether efficiency > 0f (Accelerator.java:240).",
+      "tests": [
+        "test_c07_accelerator_launch_registration",
+        "test_all_c07_accelerator_launch_input_evidence_is_exact",
+        "test_accelerator_launch_gate_state",
+        "test_reference_graph_and_actual_c07_accelerator_launch"
+      ],
+      "runtime_proof": "/root/C07AcceleratorLaunchProof"
+    },
+    "source_accelerator_can_launch_state_result.battery_ok": {
+      "status": "source-backed",
+      "godot_owner": "SourceAcceleratorBuildState.source_accelerator_can_launch_state",
+      "godot_symbol": "source_accelerator_can_launch_state_result.battery_ok",
+      "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+      "java_method": "AcceleratorBuild.canLaunch()",
+      "java_expr": "return isValid() && !net.client() && state.isCampaign() && efficiency > 0f && power.graph.getBatteryStored() >= powerBufferRequirement-0.00001f && progress >= 1f && !launching;",
+      "rule": "Whether battery_stored >= powerBufferRequirement - 0.00001f (Accelerator.java:240); the epsilon is evaluated in GDScript float64, so stored = requirement - 0.00001 passes and requirement - 0.00002 fails.",
+      "tests": [
+        "test_c07_accelerator_launch_registration",
+        "test_all_c07_accelerator_launch_input_evidence_is_exact",
+        "test_accelerator_launch_gate_state",
+        "test_reference_graph_and_actual_c07_accelerator_launch"
+      ],
+      "runtime_proof": "/root/C07AcceleratorLaunchProof"
+    },
+    "source_accelerator_can_launch_state_result.progress_ok": {
+      "status": "source-backed",
+      "godot_owner": "SourceAcceleratorBuildState.source_accelerator_can_launch_state",
+      "godot_symbol": "source_accelerator_can_launch_state_result.progress_ok",
+      "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+      "java_method": "AcceleratorBuild.canLaunch()",
+      "java_expr": "return isValid() && !net.client() && state.isCampaign() && efficiency > 0f && power.graph.getBatteryStored() >= powerBufferRequirement-0.00001f && progress >= 1f && !launching;",
+      "rule": "Whether progress >= 1f, i.e. isCoreBuilt() (Accelerator.java:153-154, 240).",
+      "tests": [
+        "test_c07_accelerator_launch_registration",
+        "test_all_c07_accelerator_launch_input_evidence_is_exact",
+        "test_accelerator_launch_gate_state",
+        "test_reference_graph_and_actual_c07_accelerator_launch"
+      ],
+      "runtime_proof": "/root/C07AcceleratorLaunchProof"
+    },
+    "source_accelerator_can_launch_state_result.not_launching": {
+      "status": "source-backed",
+      "godot_owner": "SourceAcceleratorBuildState.source_accelerator_can_launch_state",
+      "godot_symbol": "source_accelerator_can_launch_state_result.not_launching",
+      "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+      "java_method": "AcceleratorBuild.canLaunch()",
+      "java_expr": "return isValid() && !net.client() && state.isCampaign() && efficiency > 0f && power.graph.getBatteryStored() >= powerBufferRequirement-0.00001f && progress >= 1f && !launching;",
+      "rule": "Whether !launching (Accelerator.java:240).",
+      "tests": [
+        "test_c07_accelerator_launch_registration",
+        "test_all_c07_accelerator_launch_input_evidence_is_exact",
+        "test_accelerator_launch_gate_state",
+        "test_reference_graph_and_actual_c07_accelerator_launch"
+      ],
+      "runtime_proof": "/root/C07AcceleratorLaunchProof"
+    },
+    "source_accelerator_launch_state_result.items": {
+      "status": "source-backed",
+      "godot_owner": "SourceAcceleratorBuildState.source_accelerator_launch_state",
+      "godot_symbol": "source_accelerator_launch_state_result.items",
+      "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+      "java_method": "AcceleratorBuild.buildConfiguration(Table)",
+      "java_expr": "items.clear();",
+      "rule": "The emptied items store (Accelerator.java:268): {} after the launch.",
+      "tests": [
+        "test_c07_accelerator_launch_registration",
+        "test_all_c07_accelerator_launch_input_evidence_is_exact",
+        "test_accelerator_launch_gate_state",
+        "test_reference_graph_and_actual_c07_accelerator_launch"
+      ],
+      "runtime_proof": "/root/C07AcceleratorLaunchProof"
+    },
+    "source_accelerator_launch_state_result.resources": {
+      "status": "source-backed",
+      "godot_owner": "SourceAcceleratorBuildState.source_accelerator_launch_state",
+      "godot_symbol": "source_accelerator_launch_state_result.resources",
+      "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+      "java_method": "AcceleratorBuild.buildConfiguration(Table)",
+      "java_expr": "resources.add(items);",
+      "rule": "The resources snapshot (Accelerator.java:267): every held item minus its requirement amount, clamped at 0 per stack, carrying only NONZERO remainders -- resources.add(items) iterates via ItemModule.each, which visits only nonzero counts (ItemModule.java:100-106). The driver DISCARDS it: Java hands it to universe.updateLaunchResources(resources) (Accelerator.java:281), which has no port equivalent.",
+      "tests": [
+        "test_c07_accelerator_launch_registration",
+        "test_all_c07_accelerator_launch_input_evidence_is_exact",
+        "test_accelerator_launch_gate_state",
+        "test_reference_graph_and_actual_c07_accelerator_launch"
+      ],
+      "runtime_proof": "/root/C07AcceleratorLaunchProof"
+    },
+    "source_accelerator_launch_state_result.battery_stored": {
+      "status": "source-backed",
+      "godot_owner": "SourceAcceleratorBuildState.source_accelerator_launch_state",
+      "godot_symbol": "source_accelerator_launch_state_result.battery_stored",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "AcceleratorBuild.buildConfiguration(Table)",
+      "java_expr": "float used = Math.min(stored, needed);",
+      "rule": "The stored battery total after the drain (PowerGraph.java:158): stored - min(stored, requirement), clamped at 0. The per-battery proportional status scaling (PowerGraph.java:160-165) is NOT modeled -- the port graph summary carries only the total, no battery list.",
+      "tests": [
+        "test_c07_accelerator_launch_registration",
+        "test_all_c07_accelerator_launch_input_evidence_is_exact",
+        "test_accelerator_launch_gate_state",
+        "test_reference_graph_and_actual_c07_accelerator_launch"
+      ],
+      "runtime_proof": "/root/C07AcceleratorLaunchProof"
+    },
+    "source_accelerator_launch_state_result.progress": {
+      "status": "source-backed",
+      "godot_owner": "SourceAcceleratorBuildState.source_accelerator_launch_state",
+      "godot_symbol": "source_accelerator_launch_state_result.progress",
+      "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+      "java_method": "AcceleratorBuild.buildConfiguration(Table)",
+      "java_expr": "progress = 0f;",
+      "rule": "The reset core-build progress (Accelerator.java:271): 0.0 after the launch.",
+      "tests": [
+        "test_c07_accelerator_launch_registration",
+        "test_all_c07_accelerator_launch_input_evidence_is_exact",
+        "test_accelerator_launch_gate_state",
+        "test_reference_graph_and_actual_c07_accelerator_launch"
+      ],
+      "runtime_proof": "/root/C07AcceleratorLaunchProof"
+    },
+    "source_build_turret_build_counter_state_result.build_counter": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_build_counter_state",
+      "godot_symbol": "source_build_turret_build_counter_state_result.build_counter",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "java_method": "BuilderComp.updateBuildLogic()",
+      "java_expr": "buildCounter = Math.min(buildCounter, 10f);",
+      "rule": "The counter after this tick: unchanged on the buildSpeed / updateBuilding / canBuild early returns, accumulated + NaN/Inf-reset + 10f-clamped otherwise (BuilderComp.java:97-99). The driver persists it on the frame and subtracts 1.0 only when it actually runs one iteration.",
+      "tests": [
+        "test_c07_build_turret_update_build_logic_registration",
+        "test_all_c07_build_turret_update_build_logic_input_evidence_is_exact",
+        "test_build_turret_update_build_logic_state",
+        "test_reference_graph_and_actual_c07_build_turret_update_build_logic"
+      ],
+      "runtime_proof": "/root/C07BuildTurretUpdateBuildLogicProof"
+    },
+    "source_build_turret_build_counter_state_result.run_build_loop": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_build_counter_state",
+      "godot_symbol": "source_build_turret_build_counter_state_result.run_build_loop",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "java_method": "BuilderComp.updateBuildLogic()",
+      "java_expr": "while((buildCounter >= 1 || instant) && count++ < maxPerFrame && plans.size > 0){",
+      "rule": "Whether the build loop runs this tick: (counter >= 1.0 || instant) && plan_count > 0 && iterations_available > 0 (BuilderComp.java:110).",
+      "tests": [
+        "test_c07_build_turret_update_build_logic_registration",
+        "test_all_c07_build_turret_update_build_logic_input_evidence_is_exact",
+        "test_build_turret_update_build_logic_state",
+        "test_reference_graph_and_actual_c07_build_turret_update_build_logic"
+      ],
+      "runtime_proof": "/root/C07BuildTurretUpdateBuildLogicProof"
+    },
+    "source_build_turret_build_counter_state_result.iterations_available": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_build_counter_state",
+      "godot_symbol": "source_build_turret_build_counter_state_result.iterations_available",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "java_method": "BuilderComp.updateBuildLogic()",
+      "java_expr": "buildCounter -= 1f;",
+      "rule": "The counter / maxPerFrame iteration budget: instant ? plan_count : int(min(floor(counter), max_per_frame)), clamped at 0 -- each iteration consumes 1.0 (`buildCounter -= 1f;`, BuilderComp.java:111). Not gated on plan_count; run_build_loop carries that gate.",
+      "tests": [
+        "test_c07_build_turret_update_build_logic_registration",
+        "test_all_c07_build_turret_update_build_logic_input_evidence_is_exact",
+        "test_build_turret_update_build_logic_state",
+        "test_reference_graph_and_actual_c07_build_turret_update_build_logic"
+      ],
+      "runtime_proof": "/root/C07BuildTurretUpdateBuildLogicProof"
+    },
+    "source_build_turret_build_counter_state_result.max_per_frame": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_build_counter_state",
+      "godot_symbol": "source_build_turret_build_counter_state_result.max_per_frame",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "java_method": "BuilderComp.updateBuildLogic()",
+      "java_expr": "int maxPerFrame = instant ? plans.size : 10, count = 0;",
+      "rule": "The per-tick iteration cap (`int maxPerFrame = instant ? plans.size : 10, count = 0;`, BuilderComp.java:104): plan_count when instant, else 10; 0 on the early returns (no loop is computed there).",
+      "tests": [
+        "test_c07_build_turret_update_build_logic_registration",
+        "test_all_c07_build_turret_update_build_logic_input_evidence_is_exact",
+        "test_build_turret_update_build_logic_state",
+        "test_reference_graph_and_actual_c07_build_turret_update_build_logic"
+      ],
+      "runtime_proof": "/root/C07BuildTurretUpdateBuildLogicProof"
+    },
+    "source_build_turret_build_plan_selection_state_result.plans": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_build_plan_selection_state",
+      "godot_symbol": "source_build_turret_build_plan_selection_state_result.plans",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "java_method": "BuilderComp.updateBuildLogic()",
+      "java_expr": "plans.addLast(plans.removeFirst());",
+      "rule": "The plan queue after one tick: validated (invalid plans removed, BuilderComp.java:57-74) and rotated by the selection loop (BuilderComp.java:114-146) -- the found plan at the head, or the bestIndex fallback rotation toward the nearest in-range plan. The input array is not mutated.",
+      "tests": [
+        "test_c07_build_turret_update_build_logic_registration",
+        "test_all_c07_build_turret_update_build_logic_input_evidence_is_exact",
+        "test_build_turret_update_build_logic_state",
+        "test_reference_graph_and_actual_c07_build_turret_update_build_logic"
+      ],
+      "runtime_proof": "/root/C07BuildTurretUpdateBuildLogicProof"
+    },
+    "source_build_turret_build_plan_selection_state_result.selected": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_build_plan_selection_state",
+      "godot_symbol": "source_build_turret_build_plan_selection_state_result.selected",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "java_method": "BuilderComp.updateBuildLogic()",
+      "java_expr": "BuildPlan current = buildPlan();",
+      "rule": "The plan Java would build this tick (`BuildPlan current = buildPlan();`, BuilderComp.java:148; `lastActive = current;`, BuilderComp.java:151, is what the driver stamps as last_plan): plans[0] after rotation when found_any or best_index >= 0, else null (no plan within range).",
+      "tests": [
+        "test_c07_build_turret_update_build_logic_registration",
+        "test_all_c07_build_turret_update_build_logic_input_evidence_is_exact",
+        "test_build_turret_update_build_logic_state",
+        "test_reference_graph_and_actual_c07_build_turret_update_build_logic"
+      ],
+      "runtime_proof": "/root/C07BuildTurretUpdateBuildLogicProof"
+    },
+    "source_build_turret_build_plan_selection_state_result.found_any": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_build_plan_selection_state",
+      "godot_symbol": "source_build_turret_build_plan_selection_state_result.found_any",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "java_method": "BuilderComp.updateBuildLogic()",
+      "java_expr": "if(within && !shouldSkip(plan, core)){",
+      "rule": "Whether the selection loop found an in-range plan that is not skipped (`if(within && !shouldSkip(plan, core)){`, BuilderComp.java:126) -- the loop breaks with it at the head. Also true for a single in-range, non-skipped plan (Java skips the loop but still builds it, BuilderComp.java:114 + 148-155).",
+      "tests": [
+        "test_c07_build_turret_update_build_logic_registration",
+        "test_all_c07_build_turret_update_build_logic_input_evidence_is_exact",
+        "test_build_turret_update_build_logic_state",
+        "test_reference_graph_and_actual_c07_build_turret_update_build_logic"
+      ],
+      "runtime_proof": "/root/C07BuildTurretUpdateBuildLogicProof"
+    },
+    "source_build_turret_build_plan_selection_state_result.best_index": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_build_plan_selection_state",
+      "godot_symbol": "source_build_turret_build_plan_selection_state_result.best_index",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "java_method": "BuilderComp.updateBuildLogic()",
+      "java_expr": "if(!foundAny && bestIndex > 0 && !within(buildPlan(), finalPlaceDst)){",
+      "rule": "The index (in the pre-rotation queue) of the closest in-range plan when no plan was found, or -1 when no plan is in range (`if(!foundAny && bestIndex > 0 && !within(buildPlan(), finalPlaceDst)){`, BuilderComp.java:140 -- the fallback rotates this many times, only when the head is not within). 0 for a single in-range but skipped plan.",
+      "tests": [
+        "test_c07_build_turret_update_build_logic_registration",
+        "test_all_c07_build_turret_update_build_logic_input_evidence_is_exact",
+        "test_build_turret_update_build_logic_state",
+        "test_reference_graph_and_actual_c07_build_turret_update_build_logic"
+      ],
+      "runtime_proof": "/root/C07BuildTurretUpdateBuildLogicProof"
+    },
+    "source_wall_crafter_timer_use_state_result.fired": {
+      "status": "source-backed",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_timer_use_state",
+      "godot_symbol": "source_wall_crafter_timer_use_state_result.fired",
+      "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+      "java_method": "WallCrafterBuild.updateTile()",
+      "java_expr": "if(Float.isInfinite(time)) return false;",
+      "rule": "Whether the timer fires this tick (TimerComp.java:10-13): false when the threshold is infinite (time_scale <= 0), else elapsed >= duration / time_scale -- the Interval.check comparison (arc Interval.java:28-30) against the frame-local clock.",
+      "tests": [
+        "test_c07_wall_crafter_timer_consume_registration",
+        "test_all_c07_wall_crafter_timer_consume_input_evidence_is_exact",
+        "test_wall_crafter_timer_consume_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_timer_consume"
+      ],
+      "runtime_proof": "/root/C07WallCrafterTimerConsumeProof"
+    },
+    "source_wall_crafter_timer_use_state_result.elapsed_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_timer_use_state",
+      "godot_symbol": "source_wall_crafter_timer_use_state_result.elapsed_after",
+      "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+      "java_method": "WallCrafterBuild.updateTile()",
+      "java_expr": "return timer.get(index, time);",
+      "rule": "The elapsed clock after this tick: 0.0 when fired (Interval.get RESETS times[id] = Time.time on fire, arc Interval.java:23-25 -- a reset, not a subtraction like the Fracker accumulator), otherwise the input elapsed unchanged.",
+      "tests": [
+        "test_c07_wall_crafter_timer_consume_registration",
+        "test_all_c07_wall_crafter_timer_consume_input_evidence_is_exact",
+        "test_wall_crafter_timer_consume_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_timer_consume"
+      ],
+      "runtime_proof": "/root/C07WallCrafterTimerConsumeProof"
+    },
+    "source_wall_crafter_timer_use_state_result.threshold": {
+      "status": "source-backed",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_timer_use_state",
+      "godot_symbol": "source_wall_crafter_timer_use_state_result.threshold",
+      "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+      "java_method": "WallCrafterBuild.updateTile()",
+      "java_expr": "public float boostItemUseTime = 120f;",
+      "rule": "The fire threshold in ticks, duration / time_scale (WallCrafter.java:207, boostItemUseTime / timeScale); infinite when time_scale <= 0, so the timer never fires on that branch.",
+      "tests": [
+        "test_c07_wall_crafter_timer_consume_registration",
+        "test_all_c07_wall_crafter_timer_consume_input_evidence_is_exact",
+        "test_wall_crafter_timer_consume_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_timer_consume"
+      ],
+      "runtime_proof": "/root/C07WallCrafterTimerConsumeProof"
     }
   },
   "version": 1

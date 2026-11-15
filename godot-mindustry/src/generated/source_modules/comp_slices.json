@@ -5554,6 +5554,30 @@
       ],
       "runtime_proof": "/root/C06BuildingUpdateProof"
     },
+    "N2272": {
+      "canonical_ledger": "source_slice_ledger.N2272",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "java_method": "BuilderComp.updateBuildLogic()",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_build_counter_state",
+      "source_symbols": [
+        "source_build_turret_build_counter_state_result.build_counter",
+        "source_build_turret_build_counter_state_result.run_build_loop",
+        "source_build_turret_build_counter_state_result.iterations_available",
+        "source_build_turret_build_counter_state_result.max_per_frame",
+        "source_build_turret_build_plan_selection_state_result.plans",
+        "source_build_turret_build_plan_selection_state_result.selected",
+        "source_build_turret_build_plan_selection_state_result.found_any",
+        "source_build_turret_build_plan_selection_state_result.best_index"
+      ],
+      "tests": [
+        "test_c07_build_turret_update_build_logic_registration",
+        "test_all_c07_build_turret_update_build_logic_input_evidence_is_exact",
+        "test_build_turret_update_build_logic_state",
+        "test_reference_graph_and_actual_c07_build_turret_update_build_logic"
+      ],
+      "runtime_proof": "/root/C07BuildTurretUpdateBuildLogicProof"
+    },
     "N514": {
       "canonical_ledger": "source_slice_ledger.N514",
       "status": "done",

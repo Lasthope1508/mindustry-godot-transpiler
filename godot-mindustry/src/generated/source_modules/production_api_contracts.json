@@ -2512,6 +2512,44 @@
       "rule": "Source-backed WallCrafter shouldConsume gate from WallCrafter.java / BuildingComp.java / Blocks.java / Block.java.",
       "return_type": "Dictionary"
     },
+    "SourceWallCrafterBuildState.source_wall_crafter_timer_use_state": {
+      "canonical_contract": "source_api_contracts.SourceWallCrafterBuildState.source_wall_crafter_timer_use_state",
+      "status": "active",
+      "source_slice": "N2273",
+      "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+      "source_method": "WallCrafterBuild.updateTile()",
+      "params": [
+        {
+          "name": "elapsed",
+          "type": "float",
+          "schema": "source_wall_crafter_timer_use_state_input.elapsed"
+        },
+        {
+          "name": "duration",
+          "type": "float",
+          "schema": "source_wall_crafter_timer_use_state_input.duration"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_wall_crafter_timer_use_state_input.time_scale"
+        }
+      ],
+      "return_keys": [
+        "fired",
+        "elapsed_after",
+        "threshold"
+      ],
+      "tests": [
+        "test_c07_wall_crafter_timer_consume_registration",
+        "test_all_c07_wall_crafter_timer_consume_input_evidence_is_exact",
+        "test_wall_crafter_timer_consume_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_timer_consume"
+      ],
+      "runtime_proof": "/root/C07WallCrafterTimerConsumeProof",
+      "rule": "Source-backed WallCrafter timer-gated graphite consume from WallCrafter.java / TimerComp.java / BuildingComp.java / ConsumeItems.java / ItemModule.java / Blocks.java / Block.java.",
+      "return_type": "Dictionary"
+    },
     "SourceWallCrafterBuildState.source_wall_crafter_update_tile_advance_state": {
       "canonical_contract": "source_api_contracts.SourceWallCrafterBuildState.source_wall_crafter_update_tile_advance_state",
       "status": "active",

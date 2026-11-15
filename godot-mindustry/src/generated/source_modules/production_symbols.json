@@ -7229,6 +7229,51 @@
       ],
       "runtime_proof": "/root/C07WallCrafterShouldConsumeProof"
     },
+    "source_wall_crafter_timer_use_state_result.elapsed_after": {
+      "canonical_symbol": "source_symbol_registry.source_wall_crafter_timer_use_state_result.elapsed_after",
+      "status": "source-backed",
+      "java_expr": "return timer.get(index, time);",
+      "godot_symbol": "source_wall_crafter_timer_use_state_result.elapsed_after",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_timer_use_state",
+      "rule": "The elapsed clock after this tick: 0.0 when fired (Interval.get RESETS times[id] = Time.time on fire, arc Interval.java:23-25 -- a reset, not a subtraction like the Fracker accumulator), otherwise the input elapsed unchanged.",
+      "tests": [
+        "test_c07_wall_crafter_timer_consume_registration",
+        "test_all_c07_wall_crafter_timer_consume_input_evidence_is_exact",
+        "test_wall_crafter_timer_consume_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_timer_consume"
+      ],
+      "runtime_proof": "/root/C07WallCrafterTimerConsumeProof"
+    },
+    "source_wall_crafter_timer_use_state_result.fired": {
+      "canonical_symbol": "source_symbol_registry.source_wall_crafter_timer_use_state_result.fired",
+      "status": "source-backed",
+      "java_expr": "if(Float.isInfinite(time)) return false;",
+      "godot_symbol": "source_wall_crafter_timer_use_state_result.fired",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_timer_use_state",
+      "rule": "Whether the timer fires this tick (TimerComp.java:10-13): false when the threshold is infinite (time_scale <= 0), else elapsed >= duration / time_scale -- the Interval.check comparison (arc Interval.java:28-30) against the frame-local clock.",
+      "tests": [
+        "test_c07_wall_crafter_timer_consume_registration",
+        "test_all_c07_wall_crafter_timer_consume_input_evidence_is_exact",
+        "test_wall_crafter_timer_consume_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_timer_consume"
+      ],
+      "runtime_proof": "/root/C07WallCrafterTimerConsumeProof"
+    },
+    "source_wall_crafter_timer_use_state_result.threshold": {
+      "canonical_symbol": "source_symbol_registry.source_wall_crafter_timer_use_state_result.threshold",
+      "status": "source-backed",
+      "java_expr": "public float boostItemUseTime = 120f;",
+      "godot_symbol": "source_wall_crafter_timer_use_state_result.threshold",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_timer_use_state",
+      "rule": "The fire threshold in ticks, duration / time_scale (WallCrafter.java:207, boostItemUseTime / timeScale); infinite when time_scale <= 0, so the timer never fires on that branch.",
+      "tests": [
+        "test_c07_wall_crafter_timer_consume_registration",
+        "test_all_c07_wall_crafter_timer_consume_input_evidence_is_exact",
+        "test_wall_crafter_timer_consume_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_timer_consume"
+      ],
+      "runtime_proof": "/root/C07WallCrafterTimerConsumeProof"
+    },
     "source_wall_crafter_update_tile_advance_state_result.eff": {
       "canonical_symbol": "source_symbol_registry.source_wall_crafter_update_tile_advance_state_result.eff",
       "status": "source-backed",

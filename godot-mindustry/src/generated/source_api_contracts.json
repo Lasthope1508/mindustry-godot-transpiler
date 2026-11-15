@@ -70531,6 +70531,312 @@
       ],
       "runtime_proof": "/root/C07MendProjectorBoosterTimerProof",
       "rule": "Source-backed MendProjector booster timer consume from MendProjector.java / TimerComp.java / BuildingComp.java / ConsumeItems.java / ItemModule.java / Blocks.java / Block.java."
+    },
+    "SourcePayloadLoaderBuildState.source_payload_loader_dynamic_power_usage_state": {
+      "status": "active",
+      "source_slice": "N2270",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+      "source_method": "PayloadLoader.init()",
+      "params": [
+        {
+          "name": "should_consume",
+          "type": "bool",
+          "schema": "source_payload_loader_dynamic_power_usage_state_input.should_consume"
+        },
+        {
+          "name": "has_battery",
+          "type": "bool",
+          "schema": "source_payload_loader_dynamic_power_usage_state_input.has_battery"
+        },
+        {
+          "name": "exporting",
+          "type": "bool",
+          "schema": "source_payload_loader_dynamic_power_usage_state_input.exporting"
+        },
+        {
+          "name": "base_power_use",
+          "type": "float",
+          "schema": "source_payload_loader_dynamic_power_usage_state_input.base_power_use"
+        },
+        {
+          "name": "max_power_consumption",
+          "type": "float",
+          "schema": "source_payload_loader_dynamic_power_usage_state_input.max_power_consumption"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "usage",
+        "charging"
+      ],
+      "tests": [
+        "test_c07_payload_loader_dynamic_power_registration",
+        "test_all_c07_payload_loader_dynamic_power_input_evidence_is_exact",
+        "test_payload_loader_dynamic_power_usage_state",
+        "test_reference_graph_and_actual_c07_payload_loader_dynamic_power"
+      ],
+      "runtime_proof": "/root/C07PayloadLoaderDynamicPowerProof",
+      "rule": "Source-backed PayloadLoader dynamic power usage from PayloadLoader.java / ConsumePowerDynamic.java / Blocks.java."
+    },
+    "SourceAcceleratorBuildState.source_accelerator_can_launch_state": {
+      "status": "active",
+      "source_slice": "N2271",
+      "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+      "source_method": "AcceleratorBuild.canLaunch()",
+      "params": [
+        {
+          "name": "efficiency",
+          "type": "float",
+          "schema": "source_accelerator_can_launch_state_input.efficiency"
+        },
+        {
+          "name": "battery_stored",
+          "type": "float",
+          "schema": "source_accelerator_can_launch_state_input.battery_stored"
+        },
+        {
+          "name": "progress",
+          "type": "float",
+          "schema": "source_accelerator_can_launch_state_input.progress"
+        },
+        {
+          "name": "launching",
+          "type": "bool",
+          "schema": "source_accelerator_can_launch_state_input.launching"
+        },
+        {
+          "name": "power_buffer_requirement",
+          "type": "float",
+          "schema": "source_accelerator_can_launch_state_input.power_buffer_requirement"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "can_launch",
+        "efficiency_ok",
+        "battery_ok",
+        "progress_ok",
+        "not_launching"
+      ],
+      "tests": [
+        "test_c07_accelerator_launch_registration",
+        "test_all_c07_accelerator_launch_input_evidence_is_exact",
+        "test_accelerator_launch_gate_state",
+        "test_reference_graph_and_actual_c07_accelerator_launch"
+      ],
+      "runtime_proof": "/root/C07AcceleratorLaunchProof",
+      "rule": "Source-backed Accelerator canLaunch gate + launch transition from Accelerator.java / PowerGraph.java / ConsumeItems.java / BuildingComp.java / ItemModule.java / ItemSeq.java / Blocks.java."
+    },
+    "SourceAcceleratorBuildState.source_accelerator_launch_state": {
+      "status": "active",
+      "source_slice": "N2271",
+      "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+      "source_method": "AcceleratorBuild.buildConfiguration(Table)",
+      "params": [
+        {
+          "name": "items",
+          "type": "Dictionary",
+          "schema": "source_accelerator_launch_state_input.items"
+        },
+        {
+          "name": "battery_stored",
+          "type": "float",
+          "schema": "source_accelerator_launch_state_input.battery_stored"
+        },
+        {
+          "name": "power_buffer_requirement",
+          "type": "float",
+          "schema": "source_accelerator_launch_state_input.power_buffer_requirement"
+        },
+        {
+          "name": "requirement_stacks",
+          "type": "Array",
+          "schema": "source_accelerator_launch_state_input.requirement_stacks"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "items",
+        "resources",
+        "battery_stored",
+        "progress"
+      ],
+      "tests": [
+        "test_c07_accelerator_launch_registration",
+        "test_all_c07_accelerator_launch_input_evidence_is_exact",
+        "test_accelerator_launch_gate_state",
+        "test_reference_graph_and_actual_c07_accelerator_launch"
+      ],
+      "runtime_proof": "/root/C07AcceleratorLaunchProof",
+      "rule": "Source-backed Accelerator canLaunch gate + launch transition from Accelerator.java / PowerGraph.java / ConsumeItems.java / BuildingComp.java / ItemModule.java / ItemSeq.java / Blocks.java."
+    },
+    "SourceBuildTurretBuildState.source_build_turret_build_counter_state": {
+      "status": "active",
+      "source_slice": "N2272",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "source_method": "BuilderComp.updateBuildLogic()",
+      "params": [
+        {
+          "name": "build_counter",
+          "type": "float",
+          "schema": "source_build_turret_build_counter_state_input.build_counter"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_build_turret_build_counter_state_input.source_delta"
+        },
+        {
+          "name": "instant",
+          "type": "bool",
+          "schema": "source_build_turret_build_counter_state_input.instant"
+        },
+        {
+          "name": "plan_count",
+          "type": "int",
+          "schema": "source_build_turret_build_counter_state_input.plan_count"
+        },
+        {
+          "name": "update_building",
+          "type": "bool",
+          "schema": "source_build_turret_build_counter_state_input.update_building"
+        },
+        {
+          "name": "can_build",
+          "type": "bool",
+          "schema": "source_build_turret_build_counter_state_input.can_build"
+        },
+        {
+          "name": "build_speed",
+          "type": "float",
+          "schema": "source_build_turret_build_counter_state_input.build_speed"
+        },
+        {
+          "name": "core_present",
+          "type": "bool",
+          "schema": "source_build_turret_build_counter_state_input.core_present"
+        },
+        {
+          "name": "infinite",
+          "type": "bool",
+          "schema": "source_build_turret_build_counter_state_input.infinite"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "build_counter",
+        "run_build_loop",
+        "iterations_available",
+        "max_per_frame"
+      ],
+      "tests": [
+        "test_c07_build_turret_update_build_logic_registration",
+        "test_all_c07_build_turret_update_build_logic_input_evidence_is_exact",
+        "test_build_turret_update_build_logic_state",
+        "test_reference_graph_and_actual_c07_build_turret_update_build_logic"
+      ],
+      "runtime_proof": "/root/C07BuildTurretUpdateBuildLogicProof",
+      "rule": "Source-backed BuildTurret updateBuildLogic from BuilderComp.java / BuildTurret.java / BuildPlan.java / Blocks.java / Vars.java / Block.java."
+    },
+    "SourceBuildTurretBuildState.source_build_turret_build_plan_selection_state": {
+      "status": "active",
+      "source_slice": "N2272",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "source_method": "BuilderComp.updateBuildLogic()",
+      "params": [
+        {
+          "name": "plans",
+          "type": "Array",
+          "schema": "source_build_turret_build_plan_selection_state_input.plans"
+        },
+        {
+          "name": "tile_states",
+          "type": "Array",
+          "schema": "source_build_turret_build_plan_selection_state_input.tile_states"
+        },
+        {
+          "name": "core_items",
+          "type": "Variant",
+          "schema": "source_build_turret_build_plan_selection_state_input.core_items"
+        },
+        {
+          "name": "tower_x",
+          "type": "float",
+          "schema": "source_build_turret_build_plan_selection_state_input.tower_x"
+        },
+        {
+          "name": "tower_y",
+          "type": "float",
+          "schema": "source_build_turret_build_plan_selection_state_input.tower_y"
+        },
+        {
+          "name": "build_range",
+          "type": "float",
+          "schema": "source_build_turret_build_plan_selection_state_input.build_range"
+        },
+        {
+          "name": "infinite",
+          "type": "bool",
+          "schema": "source_build_turret_build_plan_selection_state_input.infinite"
+        },
+        {
+          "name": "build_cost_multiplier",
+          "type": "float",
+          "schema": "source_build_turret_build_plan_selection_state_input.build_cost_multiplier"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "plans",
+        "selected",
+        "found_any",
+        "best_index"
+      ],
+      "tests": [
+        "test_c07_build_turret_update_build_logic_registration",
+        "test_all_c07_build_turret_update_build_logic_input_evidence_is_exact",
+        "test_build_turret_update_build_logic_state",
+        "test_reference_graph_and_actual_c07_build_turret_update_build_logic"
+      ],
+      "runtime_proof": "/root/C07BuildTurretUpdateBuildLogicProof",
+      "rule": "Source-backed BuildTurret updateBuildLogic from BuilderComp.java / BuildTurret.java / BuildPlan.java / Blocks.java / Vars.java / Block.java."
+    },
+    "SourceWallCrafterBuildState.source_wall_crafter_timer_use_state": {
+      "status": "active",
+      "source_slice": "N2273",
+      "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+      "source_method": "WallCrafterBuild.updateTile()",
+      "params": [
+        {
+          "name": "elapsed",
+          "type": "float",
+          "schema": "source_wall_crafter_timer_use_state_input.elapsed"
+        },
+        {
+          "name": "duration",
+          "type": "float",
+          "schema": "source_wall_crafter_timer_use_state_input.duration"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_wall_crafter_timer_use_state_input.time_scale"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "fired",
+        "elapsed_after",
+        "threshold"
+      ],
+      "tests": [
+        "test_c07_wall_crafter_timer_consume_registration",
+        "test_all_c07_wall_crafter_timer_consume_input_evidence_is_exact",
+        "test_wall_crafter_timer_consume_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_timer_consume"
+      ],
+      "runtime_proof": "/root/C07WallCrafterTimerConsumeProof",
+      "rule": "Source-backed WallCrafter timer-gated graphite consume from WallCrafter.java / TimerComp.java / BuildingComp.java / ConsumeItems.java / ItemModule.java / Blocks.java / Block.java."
     }
   },
   "policy": {

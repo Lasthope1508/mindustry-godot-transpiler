@@ -3628,6 +3628,52 @@
       "runtime_proof": "/root/C07PayloadDeconstructorUpdateTileProof",
       "rule": "Source-backed PayloadDeconstructor updateTile advance from PayloadDeconstructor.java / PayloadBlock.java / BuildPayload.java / UnitPayload.java / Rules.java / BuildingComp.java / Block.java / Blocks.java / arc Mathf.java / Angles.java / Vec2.java."
     },
+    "SourcePayloadLoaderBuildState.source_payload_loader_dynamic_power_usage_state": {
+      "canonical_contract": "source_api_contracts.SourcePayloadLoaderBuildState.source_payload_loader_dynamic_power_usage_state",
+      "status": "active",
+      "source_slice": "N2270",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+      "source_method": "PayloadLoader.init()",
+      "params": [
+        {
+          "name": "should_consume",
+          "type": "bool",
+          "schema": "source_payload_loader_dynamic_power_usage_state_input.should_consume"
+        },
+        {
+          "name": "has_battery",
+          "type": "bool",
+          "schema": "source_payload_loader_dynamic_power_usage_state_input.has_battery"
+        },
+        {
+          "name": "exporting",
+          "type": "bool",
+          "schema": "source_payload_loader_dynamic_power_usage_state_input.exporting"
+        },
+        {
+          "name": "base_power_use",
+          "type": "float",
+          "schema": "source_payload_loader_dynamic_power_usage_state_input.base_power_use"
+        },
+        {
+          "name": "max_power_consumption",
+          "type": "float",
+          "schema": "source_payload_loader_dynamic_power_usage_state_input.max_power_consumption"
+        }
+      ],
+      "return_keys": [
+        "usage",
+        "charging"
+      ],
+      "tests": [
+        "test_c07_payload_loader_dynamic_power_registration",
+        "test_all_c07_payload_loader_dynamic_power_input_evidence_is_exact",
+        "test_payload_loader_dynamic_power_usage_state",
+        "test_reference_graph_and_actual_c07_payload_loader_dynamic_power"
+      ],
+      "runtime_proof": "/root/C07PayloadLoaderDynamicPowerProof",
+      "rule": "Source-backed PayloadLoader dynamic power usage from PayloadLoader.java / ConsumePowerDynamic.java / Blocks.java."
+    },
     "SourcePayloadLoaderBuildState.source_payload_loader_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourcePayloadLoaderBuildState.source_payload_loader_power_status_row_state",
       "status": "active",
