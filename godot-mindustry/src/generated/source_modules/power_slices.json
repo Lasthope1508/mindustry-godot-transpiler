@@ -1196,6 +1196,25 @@
       ],
       "runtime_proof": "/root/C07LightBlockPowerStatusProof"
     },
+    "N2192": {
+      "canonical_ledger": "source_slice_ledger.N2192",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+      "java_method": "ImpactReactorBuild.updateTile()",
+      "godot_owner": "SourceImpactReactorBuildState.source_impact_reactor_update_tile_advance_state",
+      "source_symbols": [
+        "source_impact_reactor_update_tile_advance_state_result.warmup",
+        "source_impact_reactor_update_tile_advance_state_result.total_progress",
+        "source_impact_reactor_update_tile_advance_state_result.production_efficiency"
+      ],
+      "tests": [
+        "test_c07_impact_reactor_update_tile_registration",
+        "test_all_c07_impact_reactor_update_tile_input_evidence_is_exact",
+        "test_impact_reactor_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_update_tile"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorUpdateTileProof"
+    },
     "N888": {
       "canonical_ledger": "source_slice_ledger.N888",
       "status": "done",

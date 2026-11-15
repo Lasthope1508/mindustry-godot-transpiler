@@ -229936,6 +229936,270 @@
       },
       "runtime_proof": "/root/C07LightBlockPowerStatusProof",
       "rule": "Source-backed LightBlock power.status row from ConsumePower.java / BuildingComp.java."
+    },
+    "source_radar_update_tile_input": {
+      "status": "active",
+      "owner": "SourceRadarBuildState.source_radar_update_tile_state",
+      "source_slice": "N2190",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "public float progress;",
+          "rule": "The radar building frame carrying the updateTile state (Radar.java:49-52): smooth_efficiency (default 1f, `public float smoothEfficiency = 1f;`), progress (default 0f), total_progress (default 0f) and last_radius (default 0f, `public float lastRadius = 0f;`). The advance reads the pre-tick values and returns the post-tick ones.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_update_tile_state"
+          ]
+        },
+        "efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "smoothEfficiency = Mathf.lerpDelta(smoothEfficiency, efficiency, 0.05f);",
+          "rule": "The folded efficiency (Radar.java:61): the lerp target for smoothEfficiency and the multiplier of the total-progress advance (Radar.java:71). In the driver this is the frame efficiency folded by the N2173 consumption pass, 1.0 before the first fold (BuildingComp.java:1965, \"assume efficiency is 1\").",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_update_tile_state"
+          ]
+        },
+        "edelta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return efficiency * delta();",
+          "rule": "Efficiency * delta (BuildingComp.java:1927-1929): the progress advance numerator (Radar.java:68, `progress += edelta() / discoveryTime;`) and the total-progress factor (Radar.java:71). The driver passes efficiency * source_delta with timeScale 1f (BuildingComp.java:98, the default).",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_update_tile_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_expr": "return lerp(fromValue, toValue, clamp(progress * Time.delta));",
+          "rule": "Time.delta in 60fps ticks (arc Time.java:26 scales the frame delta by 60f): the lerpDelta progress scale (arc Mathf.java:430-432). The driver passes seconds * TICK_RATE (the N2093 pump precedent).",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_update_tile_state"
+          ]
+        },
+        "fog_radius": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "fogRadius = 34;",
+          "rule": "The block fogRadius (Blocks.java:1991): the fogRadius() base (Radar.java:56, `return fogRadius * progress * smoothEfficiency;`). The catalog carries no fogRadius property, so the driver passes the single-def constant 34.0.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_update_tile_state"
+          ]
+        },
+        "discovery_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "public float discoveryTime = 60f * 10f;",
+          "rule": "The discovery time (Radar.java:18, 60f * 10f = 600f): the progress advance divisor (Radar.java:68). A full-efficiency radar discovers in 600 ticks.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_update_tile_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RadarUpdateTileProof",
+      "rule": "Source-backed Radar updateTile advance from Radar.java / BuildingComp.java / arc Mathf.java."
+    },
+    "source_radar_update_tile_result": {
+      "status": "active",
+      "owner": "SourceRadarBuildState.source_radar_update_tile_state",
+      "source_slice": "N2190",
+      "keys": {
+        "advance": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "progress += edelta() / discoveryTime;",
+          "rule": "The post-tick frame state (Radar.java:60-72): {\"smooth_efficiency\": lerped toward efficiency, \"progress\": advanced by edelta() / discoveryTime and clamped to [0, 1], \"total_progress\": accumulated by efficiency * edelta(), \"last_radius\": fogRadius() when the radius changed by >= 0.5f, else unchanged}. The driver writes it back onto the frame.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_update_tile_state"
+          ]
+        },
+        "force_update_needed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "if(Math.abs(fogRadius() - lastRadius) >= 0.5f){",
+          "rule": "Whether the fog radius changed by >= 0.5f this tick (Radar.java:63): true exactly when Java calls Vars.fogControl.forceUpdate(team, this) (Radar.java:64). The port tracks the condition + the lastRadius write; the fog-system call itself waits for its own fog slice.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_update_tile_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RadarUpdateTileProof",
+      "rule": "Source-backed Radar updateTile advance from Radar.java / BuildingComp.java / arc Mathf.java."
+    },
+    "source_accelerator_update_tile_advance_state_input": {
+      "status": "active",
+      "owner": "SourceAcceleratorBuildState.source_accelerator_update_tile_advance_state",
+      "source_slice": "N2191",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "public float heat, statusLerp;",
+          "rule": "The building frame carrying the updateTile state (Accelerator.java:120-124, heat/statusLerp/progress/time/launchHeat/launching) plus the folded efficiency and the graph-stamped power_status; Java float defaults 0.0 and launching false before the first tick.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_update_tile_advance_state"
+          ]
+        },
+        "seconds": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "time += Time.delta * efficiency;",
+          "rule": "The driver tick length in seconds -- the port Time.delta (the conduit precedent): the lerpDelta/slerpDelta scale and the time/progress advance step.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_update_tile_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07AcceleratorUpdateTileProof",
+      "rule": "Source-backed Accelerator updateTile advance from Accelerator.java / Mathf.java."
+    },
+    "source_accelerator_update_tile_advance_state_result": {
+      "status": "active",
+      "owner": "SourceAcceleratorBuildState.source_accelerator_update_tile_advance_state",
+      "source_slice": "N2191",
+      "keys": {
+        "heat": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "heat = Mathf.lerpDelta(heat, launching ? 1f : efficiency, 0.05f);",
+          "rule": "Heat after one tick (Accelerator.java:131): lerpDelta toward 1f when launching, toward the folded efficiency otherwise, at 0.05.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_update_tile_advance_state"
+          ]
+        },
+        "status_lerp": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "statusLerp = Mathf.lerpDelta(statusLerp, power.status, 0.05f);",
+          "rule": "Status lerp after one tick (Accelerator.java:132): lerpDelta toward the live power.status at 0.05.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_update_tile_advance_state"
+          ]
+        },
+        "time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "time += Time.delta * efficiency;",
+          "rule": "Time after one tick (Accelerator.java:134-138): advanced by Time.delta * efficiency when idle, slerped toward 0f at 0.4 when launching.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_update_tile_advance_state"
+          ]
+        },
+        "launch_heat": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "launchHeat = Mathf.lerpDelta(launchHeat, launching ? 1f : 0f, 0.1f);",
+          "rule": "Launch heat after one tick (Accelerator.java:140): lerpDelta toward 1f when launching, toward 0f otherwise, at 0.1.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_update_tile_advance_state"
+          ]
+        },
+        "progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "progress += Time.delta * efficiency / buildDuration;",
+          "rule": "Progress after one tick (Accelerator.java:142-145): advanced by Time.delta * efficiency / buildDuration (120f) when efficiency >= 0f, clamped at 1f.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_update_tile_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07AcceleratorUpdateTileProof",
+      "rule": "Source-backed Accelerator updateTile advance from Accelerator.java / Mathf.java."
+    },
+    "source_impact_reactor_update_tile_advance_state_input": {
+      "status": "active",
+      "owner": "SourceImpactReactorBuildState.source_impact_reactor_update_tile_advance_state",
+      "source_slice": "N2192",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+          "java_expr": "public float warmup, totalProgress;",
+          "rule": "The building frame carrying the build fields (ImpactReactor.java:75, both 0f by default) plus the folded efficiency and the stamped power.status: the live values the advance reads; efficiency defaults to 1.0 before the first consumption fold (the cheating / no-consumer early return, BuildingComp.java:1945-1947) and power.status to 1.0 when missing (the assembler fold).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_update_tile_advance_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return timeScale;",
+          "rule": "The sprite-meta timeScale (BuildingComp.java:599-600, `return timeScale;`, default 1f, BuildingComp.java:98): scales the warmup lerp toward 1 (warmupSpeed * timeScale, ImpactReactor.java:82).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_update_tile_advance_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+          "java_expr": "totalProgress += warmup * Time.delta;",
+          "rule": "Time.delta in 60fps ticks (arc Time.java:26, `Math.min(Core.graphics.getDeltaTime() * 60f, 3f)`): the driver passes seconds * 60 (the N2093 pump precedent); scales the lerpDelta clamp and the totalProgress accumulation.",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_update_tile_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ImpactReactorUpdateTileProof",
+      "rule": "Source-backed ImpactReactor updateTile advance from ImpactReactor.java / BuildingComp.java / Mathf.java."
+    },
+    "source_impact_reactor_update_tile_advance_state_result": {
+      "status": "active",
+      "owner": "SourceImpactReactorBuildState.source_impact_reactor_update_tile_advance_state",
+      "source_slice": "N2192",
+      "keys": {
+        "warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+          "java_expr": "warmup = Mathf.lerpDelta(warmup, 1f, warmupSpeed * timeScale);",
+          "rule": "The advanced warmup (ImpactReactor.java:82): lerpDelta toward 1f at warmupSpeed * timeScale while the gate holds, with the 1f snap (ImpactReactor.java:83-84), or lerpDelta toward 0f at 0.01f when the gate fails (ImpactReactor.java:95).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_update_tile_advance_state"
+          ]
+        },
+        "total_progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+          "java_expr": "totalProgress += warmup * Time.delta;",
+          "rule": "The advanced totalProgress (ImpactReactor.java:98): the previous total plus the new warmup times Time.delta.",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_update_tile_advance_state"
+          ]
+        },
+        "production_efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+          "java_expr": "productionEfficiency = Mathf.pow(warmup, 5f);",
+          "rule": "The production efficiency (ImpactReactor.java:100): pow(warmup, 5f) from the advanced warmup; tracked as a frame key here -- the producer fold (PowerGenerator.java:156-158) does not read it yet and waits for its own slice.",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_update_tile_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ImpactReactorUpdateTileProof",
+      "rule": "Source-backed ImpactReactor updateTile advance from ImpactReactor.java / BuildingComp.java / Mathf.java."
     }
   },
   "version": 1
