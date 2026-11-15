@@ -30,40 +30,53 @@ func _ready() -> void:
 	# timerTarget, 20)){` (RepairTurret.java:214-216) with
 	# `public int timerTarget = timers++;` (:29) and
 	# `public float repairRadius = 50f;` (:32): elapsed +=
-	# source_delta unconditionally; fired = elapsed >=
-	# duration / time_scale; a non-positive time_scale is
-	# the infinite-time branch (fired false); elapsed_after
-	# RESETS to 0.0 on fire (a reset, not a subtraction like
-	# the Fracker accumulator). NOTE the threshold deviation:
-	# Java passes a LITERAL 20 -- no timeScale division,
-	# unlike the MendProjector / WallCrafter / ImpactReactor
-	# timers -- so the port's 20/time_scale threshold is
-	# Java-exact at time_scale 1f and diverges only under
-	# overdrive / slowdown; the time_scale 2.0 case below
-	# pins the PORT behavior (threshold 10), not Java.
+	# source_delta unconditionally (source_delta is the
+	# UNSCALED Time.delta in ticks, so the frame clock
+	# mirrors the global Time.time); fired = elapsed >=
+	# duration (the LITERAL duration -- no timeScale
+	# division, N2290 fix of the N2280 20/time_scale
+	# deviation); a non-positive time_scale is a defensive
+	# guard (fired false -- the clock still accumulates);
+	# elapsed_after RESETS to 0.0 on fire (a reset, not a
+	# subtraction like the Fracker accumulator). Java passes
+	# a LITERAL 20 -- no timeScale division, unlike the
+	# MendProjector / WallCrafter / ImpactReactor timers --
+	# so the timer fires every 20 ticks at EVERY time_scale;
+	# the time_scale 2.0 case below pins the JAVA behavior
+	# (threshold 20, not 10), and the 9 + 1 overdrive case
+	# pins that it does NOT fire early.
 	var timer := func(elapsed: float, source_delta: float, time_scale: float, duration: float) -> Dictionary:
 		return repair_turret_build_state.source_repair_turret_timer_target_state(elapsed, source_delta, time_scale, duration)
 	var duration: float = repair_turret_build_state.SOURCE_REPAIR_TURRET_TIMER_TARGET_DURATION
 
 	# Fire at twenty ticks: 19 + 1 hits the threshold; a
 	# single 20-tick delta fires at once; at time_scale 2.0
-	# the threshold is 20/2 = 10, so 9 + 1 fires.
+	# the threshold is still the literal 20, so 19 + 1 fires
+	# (and 9 + 1 does NOT -- see the no-fire cases below).
 	var fire_at_twenty: Dictionary = timer.call(19.0, 1.0, 1.0, duration)
 	var fire_full_delta: Dictionary = timer.call(0.0, 20.0, 1.0, duration)
-	var fire_overdrive: Dictionary = timer.call(9.0, 1.0, 2.0, duration)
+	var fire_overdrive: Dictionary = timer.call(19.0, 1.0, 2.0, duration)
 	proof["timer_fires_at_twenty_ticks"] = is_equal_approx(duration, 20.0) and bool(fire_at_twenty.get("fired", false)) and is_equal_approx(float(fire_at_twenty.get("elapsed_after", -1.0)), 0.0) and bool(fire_full_delta.get("fired", false)) and is_equal_approx(float(fire_full_delta.get("elapsed_after", -1.0)), 0.0) and bool(fire_overdrive.get("fired", false))
 
 	# No fire below the threshold: 18 + 1 = 19 keeps
 	# accumulating; 0 + 1 = 1; at time_scale 0.5 the
-	# threshold is 40, so 0 + 1 does not fire either.
+	# threshold is still the literal 20, so 0 + 1 does not
+	# fire either; and at time_scale 2.0 (overdrive) 9 + 1
+	# = 10 does NOT fire -- the N2280 20/time_scale
+	# deviation fired here (threshold 10), the literal-20
+	# threshold does not.
 	var below_one: Dictionary = timer.call(18.0, 1.0, 1.0, duration)
 	var below_two: Dictionary = timer.call(0.0, 1.0, 1.0, duration)
 	var below_slowed: Dictionary = timer.call(0.0, 1.0, 0.5, duration)
-	proof["timer_no_fire_below_threshold"] = bool(below_one.get("fired", true)) == false and is_equal_approx(float(below_one.get("elapsed_after", -1.0)), 19.0) and bool(below_two.get("fired", true)) == false and is_equal_approx(float(below_two.get("elapsed_after", -1.0)), 1.0) and bool(below_slowed.get("fired", true)) == false and is_equal_approx(float(below_slowed.get("elapsed_after", -1.0)), 1.0)
+	var below_overdrive: Dictionary = timer.call(9.0, 1.0, 2.0, duration)
+	proof["timer_no_fire_below_threshold"] = bool(below_one.get("fired", true)) == false and is_equal_approx(float(below_one.get("elapsed_after", -1.0)), 19.0) and bool(below_two.get("fired", true)) == false and is_equal_approx(float(below_two.get("elapsed_after", -1.0)), 1.0) and bool(below_slowed.get("fired", true)) == false and is_equal_approx(float(below_slowed.get("elapsed_after", -1.0)), 1.0) and bool(below_overdrive.get("fired", true)) == false and is_equal_approx(float(below_overdrive.get("elapsed_after", -1.0)), 10.0)
 
-	# No fire on a non-positive time_scale (the infinite-time
-	# branch, TimerComp.java:11): the clock still accumulates
-	# -- 19 + 1 = 20 -- it just never fires and never resets.
+	# No fire on a non-positive time_scale (a defensive port
+	# guard -- Java timeScale is always positive in practice,
+	# BuildingComp.java:98/461-478/2265-2266, so the guard is
+	# unreachable in Java-exact play): the clock still
+	# accumulates -- 19 + 1 = 20 -- it just never fires and
+	# never resets.
 	var zero_scale: Dictionary = timer.call(19.0, 1.0, 0.0, duration)
 	var negative_scale: Dictionary = timer.call(19.0, 1.0, -1.0, duration)
 	proof["timer_no_fire_when_time_scale_zero"] = bool(zero_scale.get("fired", true)) == false and is_equal_approx(float(zero_scale.get("elapsed_after", -1.0)), 20.0) and bool(negative_scale.get("fired", true)) == false and is_equal_approx(float(negative_scale.get("elapsed_after", -1.0)), 20.0)

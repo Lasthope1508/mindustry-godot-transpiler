@@ -1,5 +1,9 @@
 """Register the RepairTurret timer-target cadence (N2280).
 
+N2290 fix: the threshold is the literal duration
+(Java-exact); the N2280 20/time_scale deviation is
+resolved and its DEFERRED entry is removed below.
+
 N2226 ported the updateTile advance (RepairPointBuild.
 updateTile(), RepairTurret.java:187-218) in full -- the
 target clear when dead / out of range / full health
@@ -19,11 +23,14 @@ Interval.get resets times[id] = Time.time on fire, arc
 Interval.java:20-26; check compares Time.time -
 times[id] >= time, arc Interval.java:28-30; Time.time
 counts TICKS, arc Time.java:69-80) -- elapsed +=
-source_delta unconditionally, fired = elapsed >=
-duration / time_scale, a non-positive time_scale is the
-infinite-time branch (fired false), elapsed_after resets
-to 0.0 on fire (a RESET, not a subtraction like the
-Fracker accumulator). The tick accumulates frame[
+source_delta unconditionally (source_delta is the
+UNSCALED Time.delta in ticks, so the frame clock mirrors
+the global Time.time), fired = elapsed >= duration (the
+LITERAL duration -- N2290 fix of the N2280
+20/time_scale deviation), a non-positive time_scale is a
+defensive guard (fired false -- the clock still
+accumulates), elapsed_after resets to 0.0 on fire (a
+RESET, not a subtraction like the Fracker accumulator). The tick accumulates frame[
 "timer_target_elapsed"] every tick the advance runs and,
 when the timer fires, passes the frame-input
 unit_candidates into the advance; when it does not fire
@@ -39,20 +46,20 @@ input (seeded by the proof); the live Units scan waits
 for its own slice.
 
 Known deviations (documented in the driver docstring and
-as new DEFERRED entries): (1) first fire -- Java fires
+as DEFERRED entries): (1) first fire -- Java fires
 (nearly) immediately after placement when the gate first
 opens (the global Time.time is already large vs a fresh
 Interval times[id] = 0); the frame-local clock delays
 the first fire by a full interval (20 ticks). It cannot
 be fixed without a global clock -- it waits for a
 timer-infra slice if exact first-fire timing is ever
-needed. (2) time-scale threshold -- Java passes a LITERAL
-20 to timer() (RepairTurret.java:214), with NO timeScale
-division, unlike the MendProjector / WallCrafter /
-ImpactReactor timers; the port follows the N2269
-frame-local precedent (threshold = duration /
-time_scale), which is Java-exact at time_scale 1f (the
-default) and diverges only under overdrive / slowdown.
+needed. (2) time-scale threshold -- RESOLVED by the N2290
+fix: Java passes a LITERAL 20 to timer()
+(RepairTurret.java:214), with NO timeScale division,
+unlike the MendProjector / WallCrafter / ImpactReactor
+timers; the port threshold is now the literal duration,
+Java-exact at every time_scale (the N2280 20/time_scale
+deviation entry is removed from DEFERRED below).
 
 Scope corrections (all verified by grep at this pin):
 the brief/SCOPE cites RepairTurret.java:214-216,
@@ -384,7 +391,6 @@ DEFERRED = [
     'BuildTurret updateBuildLogic live frame inputs (core_items / plan_tile_states / update_building / can_build -- the N2272 driver reads them as frame inputs with Java-faithful defaults (null / [] / true / true) and no live fill sets them yet: the core items query, the per-plan tile-state lookup (world.tile + tile.build + overlay/floor, BuilderComp.java:62-68), the updateBuilding flag (BuilderComp.java:33) and canBuild() (type.buildSpeed > 0 && buildSpeedMultiplier > 0, BuilderComp.java:40-41) wait for their own slices; a live tower with no fill keeps its plans unvalidated (no tile states) and never runs the build loop (no core), and the team.rules().infiniteResources half of the infinite flag (BuilderComp.java:95) is unmodeled -- the port team rules carry only cheat).',
     'WallCrafter booster timer first-fire deviation (the frame-local timer_use_elapsed clock starts at 0.0 on placement, so the first consume fires a full boostItemUseTime interval after placement when the gate opens; Java fires (nearly) immediately because the global Time.time is already large vs a fresh Interval times[id] = 0, Interval.java:20-26; arc Time.java:69-80) -- the deviation is documented in the N2273 driver docstring and waits for a global-clock timer-infra slice if exact first-fire timing is ever needed.',
     'RepairTurret timer-target first-fire deviation (the frame-local timer_target_elapsed clock starts at 0.0 on placement, so the first re-acquire fires a full 20-tick interval after placement; Java fires (nearly) immediately because the global Time.time is already large vs a fresh Interval times[id] = 0, Interval.java:20-26; arc Time.java:69-80) -- the deviation is documented in the N2280 driver docstring and waits for a global-clock timer-infra slice if exact first-fire timing is ever needed.',
-    'RepairTurret timer-target time-scale threshold deviation (Java passes a LITERAL 20 to timer(), RepairTurret.java:214, with no timeScale division -- unlike the MendProjector / WallCrafter / ImpactReactor timers -- so Java re-acquires every 20 global ticks whatever the building timeScale is; the port follows the N2269 frame-local precedent with threshold 20/time_scale, Java-exact at time_scale 1f and diverging only under overdrive / slowdown) -- documented in the N2280 driver docstring; a Java-exact literal-20 threshold waits for its own slice if the divergence ever matters.',
 ]
 
 EXACT_EXPRS = [
@@ -413,11 +419,11 @@ def main():
     n2280_inputs = {
         'elapsed': f('float', 'return timer.get(index, time);', 'The frame-local elapsed clock in ticks (frame["timer_target_elapsed"], accumulated by the tick delta every tick the advance runs, unconditionally -- the port mirror of the global Time.time arc Interval.get compares against, Interval.java:20-26; Time.time counts TICKS, arc Time.java:69-80).', source=TIMER_COMP),
         'source_delta': f('float', 'timeRaw += delta;', 'The tick delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26) -- the per-tick growth of the frame-local clock, mirroring the per-update growth of the global Time.time (arc Time.java:69-80).', source=ARC_TIME),
-        'time_scale': f('float', 'private transient float timeScale = 1f, timeScaleDuration;', 'The live building timeScale (BuildingComp.java:98, default 1f), read from the sprite meta by the tick; the port threshold is duration / time_scale (the N2269 frame-local precedent), and a non-positive time_scale is the infinite-time branch (TimerComp.java:11). NOTE: Java passes a literal 20 here with no timeScale division (RepairTurret.java:214), so the division is a documented port deviation, Java-exact at time_scale 1f.', source=BUILDING_COMP),
+        'time_scale': f('float', 'private transient float timeScale = 1f, timeScaleDuration;', 'The live building timeScale (BuildingComp.java:98, default 1f), read from the sprite meta by the tick; the threshold is the literal duration (Java passes a literal 20 with no timeScale division, RepairTurret.java:214 -- the N2290 fix of the N2280 20/time_scale deviation), and a non-positive time_scale is a defensive guard (fired false; Java timeScale is always positive in practice, BuildingComp.java:461-478/2265-2266, so the guard is unreachable in Java-exact play).', source=BUILDING_COMP),
         'duration': f('float', 'if(timer(timerTarget, 20)){', 'The timer duration in ticks: the literal 20f in the Java timer call (RepairTurret.java:214); both defs share it (no per-def override).'),
     }
     n2280_outputs = {
-        'fired': f('bool', 'if(Float.isInfinite(time)) return false;', 'Whether the timer fires this tick (TimerComp.java:10-13): false when the threshold is infinite (time_scale <= 0), else elapsed >= duration / time_scale -- the Interval.check comparison (arc Interval.java:28-30) against the frame-local clock.', source=TIMER_COMP),
+        'fired': f('bool', 'if(Float.isInfinite(time)) return false;', 'Whether the timer fires this tick (TimerComp.java:10-13): false when the threshold is infinite (time_scale <= 0, the defensive guard), else elapsed >= duration (the literal duration -- the Interval.check comparison, arc Interval.java:28-30, against the frame-local clock; N2290 fix of the N2280 20/time_scale deviation).', source=TIMER_COMP),
         'elapsed_after': f('float', 'return timer.get(index, time);', 'The elapsed clock after this tick: 0.0 when fired (Interval.get RESETS times[id] = Time.time on fire, arc Interval.java:23-25 -- a reset, not a subtraction like the Fracker accumulator), otherwise the accumulated elapsed.', source=TIMER_COMP),
     }
 
