@@ -171,15 +171,20 @@ class C07LaunchPadShouldConsumeTests(unittest.TestCase):
         # (the adjacent-factory precedent) instead of the old
         # `should_consume = enabled` line, stamps the per-def
         # launchTime from the block id (the catalog carries no
-        # launchTime), and advances the counter by the folded
-        # efficiency times the tick's Time.delta (seconds * 60
-        # via game_source_delta, arc Time.java:26).
+        # launchTime), and advances the counter through the
+        # N2238 pure updateTile advance (unification: the
+        # N2186 inline counter line was replaced by the advance
+        # call -- the advance adds edelta, efficiency times the
+        # tick's Time.delta (seconds * 60 via game_source_delta,
+        # arc Time.java:26), to the counter).
         self.assertIn('source_launch_pad_should_consume_state(frame)', launch_pad)
         self.assertIn('frame["launch_counter"]', launch_pad)
         self.assertIn('frame["launch_time"]', launch_pad)
         self.assertIn('block_id == "launch-pad"', launch_pad)
         self.assertIn('block_id == "advanced-launch-pad"', launch_pad)
-        self.assertIn('+ float(frame.get("efficiency", 0.0)) * source_placed_block_state.game_source_delta(game, seconds)', launch_pad)
+        self.assertIn('source_launch_pad_update_tile_advance_state(frame, source_delta, time_scale, item_capacity)', launch_pad)
+        self.assertIn('launch_counter += edelta', launch_pad)
+        self.assertIn('source_placed_block_state.game_source_delta(game, seconds)', launch_pad)
         # The old driver line (should_consume = enabled alone, the
         # whole line including its line end -- the new line starts
         # the same way but ANDs the gate) is gone.
