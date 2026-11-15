@@ -177160,6 +177160,1030 @@
         "test_reference_graph_and_actual_c07_beam_drill_update_tile"
       ],
       "runtime_proof": "/root/C07BeamDrillUpdateTileProof"
+    },
+    "source_mend_projector_heal_scan_result.real_range": {
+      "status": "source-backed",
+      "godot_owner": "SourceMendProjectorBuildState.source_mend_projector_heal_scan_state",
+      "godot_symbol": "source_mend_projector_heal_scan_result.real_range",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "java_method": "MendBuild.updateTile()",
+      "java_expr": "float realRange = range + phaseHeat * phaseRangeBoost;",
+      "rule": "The scan radius for this tick (MendProjector.java:107): the per-def range plus the post-advance phaseHeat times the per-def phaseRangeBoost; computed whether or not the branch runs.",
+      "tests": [
+        "test_c07_mend_projector_heal_scan_registration",
+        "test_all_c07_mend_projector_heal_scan_input_evidence_is_exact",
+        "test_mend_projector_heal_scan_state",
+        "test_reference_graph_and_actual_c07_mend_projector_heal_scan"
+      ],
+      "runtime_proof": "/root/C07MendProjectorHealScanProof"
+    },
+    "source_mend_projector_heal_scan_result.heal_amounts": {
+      "status": "source-backed",
+      "godot_owner": "SourceMendProjectorBuildState.source_mend_projector_heal_scan_state",
+      "godot_symbol": "source_mend_projector_heal_scan_result.heal_amounts",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "java_method": "MendBuild.updateTile()",
+      "java_expr": "other.heal(other.maxHealth() * (healPercent + phaseHeat * phaseBoost) / 100f * efficiency);",
+      "rule": "The heal amounts in candidate order (MendProjector.java:113): one entry per eligible candidate (damaged and not heal-suppressed), each maxHealth * (healPercent + phaseHeat * phaseBoost) / 100f * efficiency; empty when the branch does not run or no candidate is eligible. The caller applies the amounts; recentlyHealed() / Fx / sound stay deferred.",
+      "tests": [
+        "test_c07_mend_projector_heal_scan_registration",
+        "test_all_c07_mend_projector_heal_scan_input_evidence_is_exact",
+        "test_mend_projector_heal_scan_state",
+        "test_reference_graph_and_actual_c07_mend_projector_heal_scan"
+      ],
+      "runtime_proof": "/root/C07MendProjectorHealScanProof"
+    },
+    "source_mend_projector_heal_scan_result.any": {
+      "status": "source-backed",
+      "godot_owner": "SourceMendProjectorBuildState.source_mend_projector_heal_scan_state",
+      "godot_symbol": "source_mend_projector_heal_scan_result.any",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "java_method": "MendBuild.updateTile()",
+      "java_expr": "private boolean any = false;",
+      "rule": "Whether any candidate was healed (MendProjector.java:35, 110, 116): the Java `any` field, set true once per healed target; the tick records it on the frame inside last_heal_scan, and the deferred mendSound gates on it.",
+      "tests": [
+        "test_c07_mend_projector_heal_scan_registration",
+        "test_all_c07_mend_projector_heal_scan_input_evidence_is_exact",
+        "test_mend_projector_heal_scan_state",
+        "test_reference_graph_and_actual_c07_mend_projector_heal_scan"
+      ],
+      "runtime_proof": "/root/C07MendProjectorHealScanProof"
+    },
+    "source_mend_projector_heal_scan_result.scanned": {
+      "status": "source-backed",
+      "godot_owner": "SourceMendProjectorBuildState.source_mend_projector_heal_scan_state",
+      "godot_symbol": "source_mend_projector_heal_scan_result.scanned",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "java_method": "MendBuild.updateTile()",
+      "java_expr": "if(charge >= reload && canHeal){",
+      "rule": "Whether the heal branch ran this tick (MendProjector.java:106): the recomputed crossing (charge_before + heat_after * time_delta * time_scale >= reload) while canHeal holds; false below reload or when suppressed.",
+      "tests": [
+        "test_c07_mend_projector_heal_scan_registration",
+        "test_all_c07_mend_projector_heal_scan_input_evidence_is_exact",
+        "test_mend_projector_heal_scan_state",
+        "test_reference_graph_and_actual_c07_mend_projector_heal_scan"
+      ],
+      "runtime_proof": "/root/C07MendProjectorHealScanProof"
+    },
+    "source_build_turret_update_tile_advance_state_result.rotation": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_update_tile_advance_state",
+      "godot_symbol": "source_build_turret_update_tile_advance_state_result.rotation",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurretBuild.updateTile()",
+      "java_expr": "rotation = unit.rotation();",
+      "rule": "The synced rotation (BuildTurret.java:126): the unit rotation BEFORE the lookAt -- Java reads rotation first, then looks (:128-130).",
+      "tests": [
+        "test_c07_build_turret_update_tile_registration",
+        "test_all_c07_build_turret_update_tile_input_evidence_is_exact",
+        "test_build_turret_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_build_turret_update_tile"
+      ],
+      "runtime_proof": "/root/C07BuildTurretUpdateTileProof"
+    },
+    "source_build_turret_update_tile_advance_state_result.unit_look_angle": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_update_tile_advance_state",
+      "godot_symbol": "source_build_turret_update_tile_advance_state_result.unit_look_angle",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurretBuild.updateTile()",
+      "java_expr": "unit.lookAt(angleTo(unit.buildPlan()));",
+      "rule": "The lookAt angle (BuildTurret.java:128-130): the explicit build_plan_angle while actively building, else the unit rotation unchanged -- the unit facing next tick, since this tick rotation already read the pre-lookAt value.",
+      "tests": [
+        "test_c07_build_turret_update_tile_registration",
+        "test_all_c07_build_turret_update_tile_input_evidence_is_exact",
+        "test_build_turret_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_build_turret_update_tile"
+      ],
+      "runtime_proof": "/root/C07BuildTurretUpdateTileProof"
+    },
+    "source_build_turret_update_tile_advance_state_result.efficiency": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_update_tile_advance_state",
+      "godot_symbol": "source_build_turret_update_tile_advance_state_result.efficiency",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurretBuild.updateTile()",
+      "java_expr": "efficiency = potentialEfficiency = 0f;",
+      "rule": "The efficiency after the suppression zeroing (BuildTurret.java:132-134): 0.0 when checkSuppression() (the heal_suppressed mirror, BuildingComp.java:1336-1337) holds, else the folded efficiency.",
+      "tests": [
+        "test_c07_build_turret_update_tile_registration",
+        "test_all_c07_build_turret_update_tile_input_evidence_is_exact",
+        "test_build_turret_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_build_turret_update_tile"
+      ],
+      "runtime_proof": "/root/C07BuildTurretUpdateTileProof"
+    },
+    "source_build_turret_update_tile_advance_state_result.potential_efficiency": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_update_tile_advance_state",
+      "godot_symbol": "source_build_turret_update_tile_advance_state_result.potential_efficiency",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurretBuild.updateTile()",
+      "java_expr": "efficiency = potentialEfficiency = 0f;",
+      "rule": "The potential efficiency after the suppression zeroing (BuildTurret.java:132-134): 0.0 when suppressed, else the folded potential (defaulting to efficiency, BuildingComp.java:1989, the N2227 precedent).",
+      "tests": [
+        "test_c07_build_turret_update_tile_registration",
+        "test_all_c07_build_turret_update_tile_input_evidence_is_exact",
+        "test_build_turret_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_build_turret_update_tile"
+      ],
+      "runtime_proof": "/root/C07BuildTurretUpdateTileProof"
+    },
+    "source_build_turret_update_tile_advance_state_result.build_speed_multiplier": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_update_tile_advance_state",
+      "godot_symbol": "source_build_turret_update_tile_advance_state_result.build_speed_multiplier",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurretBuild.updateTile()",
+      "java_expr": "unit.buildSpeedMultiplier(potentialEfficiency * timeScale);",
+      "rule": "The build speed multiplier (BuildTurret.java:136): post-suppression potentialEfficiency * timeScale.",
+      "tests": [
+        "test_c07_build_turret_update_tile_registration",
+        "test_all_c07_build_turret_update_tile_input_evidence_is_exact",
+        "test_build_turret_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_build_turret_update_tile"
+      ],
+      "runtime_proof": "/root/C07BuildTurretUpdateTileProof"
+    },
+    "source_build_turret_update_tile_advance_state_result.speed_multiplier": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_update_tile_advance_state",
+      "godot_symbol": "source_build_turret_update_tile_advance_state_result.speed_multiplier",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurretBuild.updateTile()",
+      "java_expr": "unit.speedMultiplier(potentialEfficiency * timeScale);",
+      "rule": "The speed multiplier (BuildTurret.java:137): post-suppression potentialEfficiency * timeScale.",
+      "tests": [
+        "test_c07_build_turret_update_tile_registration",
+        "test_all_c07_build_turret_update_tile_input_evidence_is_exact",
+        "test_build_turret_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_build_turret_update_tile"
+      ],
+      "runtime_proof": "/root/C07BuildTurretUpdateTileProof"
+    },
+    "source_build_turret_update_tile_advance_state_result.warmup": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_update_tile_advance_state",
+      "godot_symbol": "source_build_turret_update_tile_advance_state_result.warmup",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurretBuild.updateTile()",
+      "java_expr": "warmup = Mathf.lerpDelta(warmup, unit.activelyBuilding() ? efficiency : 0f, 0.1f);",
+      "rule": "The lerped warmup (BuildTurret.java:139): lerpDelta toward the post-suppression efficiency while actively building, else toward 0, at progress 0.1 with the unscaled Time.delta.",
+      "tests": [
+        "test_c07_build_turret_update_tile_registration",
+        "test_all_c07_build_turret_update_tile_input_evidence_is_exact",
+        "test_build_turret_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_build_turret_update_tile"
+      ],
+      "runtime_proof": "/root/C07BuildTurretUpdateTileProof"
+    },
+    "source_build_turret_plan_logic_state_result.plans": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_plan_logic_state",
+      "godot_symbol": "source_build_turret_plan_logic_state_result.plans",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurretBuild.updateTile()",
+      "java_expr": "unit.addBuild(new BuildPlan(block.x, block.y, block.rotation, block.block, block.config));",
+      "rule": "The builder unit plan queue after one tick (BuildTurret.java:141-225): cleared + refilled from the follower when following, appended by the search, head-removed by the break discard or the invalid discard, and filtered of suicide plans (`unit.plans().remove(b -> b.build() == this);`, BuildTurret.java:223) -- except on the break-discard early return, which skips the suicide removal that tick.",
+      "tests": [
+        "test_c07_build_turret_plan_logic_registration",
+        "test_all_c07_build_turret_plan_logic_input_evidence_is_exact",
+        "test_build_turret_plan_logic_state",
+        "test_reference_graph_and_actual_c07_build_turret_plan_logic"
+      ],
+      "runtime_proof": "/root/C07BuildTurretPlanLogicProof"
+    },
+    "source_build_turret_plan_logic_state_result.following": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_plan_logic_state",
+      "godot_symbol": "source_build_turret_plan_logic_state_result.following",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurretBuild.updateTile()",
+      "java_expr": "following = u;",
+      "rule": "The followed unit after one tick (BuildTurret.java:144-155 + 176-187 + 217-220): null when the follower went invalid, when controlled, or when no builder matched the mimic scan; the follower dict when still valid, or the first matching nearby builder dict when mimicking.",
+      "tests": [
+        "test_c07_build_turret_plan_logic_registration",
+        "test_all_c07_build_turret_plan_logic_input_evidence_is_exact",
+        "test_build_turret_plan_logic_state",
+        "test_reference_graph_and_actual_c07_build_turret_plan_logic"
+      ],
+      "runtime_proof": "/root/C07BuildTurretPlanLogicProof"
+    },
+    "source_build_turret_plan_logic_state_result.last_plan": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_plan_logic_state",
+      "godot_symbol": "source_build_turret_plan_logic_state_result.last_plan",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurretBuild.updateTile()",
+      "java_expr": "lastPlan = block;",
+      "rule": "The last picked team plan after one tick (BuildTurret.java:153 + 167 + 214 + 219): the picked BlockPlan dict when the search found one, null when the follower was (re)validated, when a plan was discarded as invalid, or when controlled.",
+      "tests": [
+        "test_c07_build_turret_plan_logic_registration",
+        "test_all_c07_build_turret_plan_logic_input_evidence_is_exact",
+        "test_build_turret_plan_logic_state",
+        "test_reference_graph_and_actual_c07_build_turret_plan_logic"
+      ],
+      "runtime_proof": "/root/C07BuildTurretPlanLogicProof"
+    },
+    "source_build_turret_plan_logic_state_result.team_plans": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_plan_logic_state",
+      "godot_symbol": "source_build_turret_plan_logic_state_result.team_plans",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurretBuild.updateTile()",
+      "java_expr": "blocks.addLast(blocks.removeIndex(i));",
+      "rule": "The team plan queue after one tick (BuildTurret.java:157-171 + 198): the picked plan rotated to the tail on a successful search, the matching entry removed on a break-plan discard, unchanged otherwise.",
+      "tests": [
+        "test_c07_build_turret_plan_logic_registration",
+        "test_all_c07_build_turret_plan_logic_input_evidence_is_exact",
+        "test_build_turret_plan_logic_state",
+        "test_reference_graph_and_actual_c07_build_turret_plan_logic"
+      ],
+      "runtime_proof": "/root/C07BuildTurretPlanLogicProof"
+    },
+    "source_build_turret_plan_logic_state_result.branch": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_plan_logic_state",
+      "godot_symbol": "source_build_turret_plan_logic_state_result.branch",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurretBuild.updateTile()",
+      "java_expr": "if(!isControlled()){",
+      "rule": "Which plan-logic branch ran this tick: follower_invalid / follower_valid / search_found / search_mimic / search_none / validate_break_discard / validate_invalid / validate_ok / controlled / idle (empty queue with the search timer not ready).",
+      "tests": [
+        "test_c07_build_turret_plan_logic_registration",
+        "test_all_c07_build_turret_plan_logic_input_evidence_is_exact",
+        "test_build_turret_plan_logic_state",
+        "test_reference_graph_and_actual_c07_build_turret_plan_logic"
+      ],
+      "runtime_proof": "/root/C07BuildTurretPlanLogicProof"
+    },
+    "source_build_turret_plan_logic_state_result.plan_discarded": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_plan_logic_state",
+      "godot_symbol": "source_build_turret_plan_logic_state_result.plan_discarded",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurretBuild.updateTile()",
+      "java_expr": "unit.plans().removeFirst();",
+      "rule": "Whether a plan was discarded this tick (BuildTurret.java:197 + 213): true on the break-plan discard and on the invalid-plan discard, false otherwise (the suicide removal is a filter, not a discard).",
+      "tests": [
+        "test_c07_build_turret_plan_logic_registration",
+        "test_all_c07_build_turret_plan_logic_input_evidence_is_exact",
+        "test_build_turret_plan_logic_state",
+        "test_reference_graph_and_actual_c07_build_turret_plan_logic"
+      ],
+      "runtime_proof": "/root/C07BuildTurretPlanLogicProof"
+    },
+    "source_payload_mass_driver_update_tile_advance_state_result.link": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_update_tile_advance_state",
+      "godot_symbol": "source_payload_mass_driver_update_tile_advance_state_result.link",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.updateTile()",
+      "java_expr": "this.link = link.pos();",
+      "rule": "The refreshed link (PayloadMassDriver.java:187): the linked building pos when hasLink holds, unchanged otherwise.",
+      "tests": [
+        "test_c07_payload_mass_driver_update_tile_registration",
+        "test_all_c07_payload_mass_driver_update_tile_input_evidence_is_exact",
+        "test_payload_mass_driver_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverUpdateTileProof"
+    },
+    "source_payload_mass_driver_update_tile_advance_state_result.charge": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_update_tile_advance_state",
+      "godot_symbol": "source_payload_mass_driver_update_tile_advance_state_result.charge",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.updateTile()",
+      "java_expr": "charge -= Time.delta * 10f;",
+      "rule": "The advanced charge (PayloadMassDriver.java:162-163): discharged by Time.delta * 10f when not charging, clamped at 0; untouched when charging (the charging flag is read BEFORE the :184 reset).",
+      "tests": [
+        "test_c07_payload_mass_driver_update_tile_registration",
+        "test_all_c07_payload_mass_driver_update_tile_input_evidence_is_exact",
+        "test_payload_mass_driver_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverUpdateTileProof"
+    },
+    "source_payload_mass_driver_update_tile_advance_state_result.cur_size": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_update_tile_advance_state",
+      "godot_symbol": "source_payload_mass_driver_update_tile_advance_state_result.cur_size",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.updateTile()",
+      "java_expr": "curSize = Mathf.lerpDelta(curSize, targetSize, 0.05f);",
+      "rule": "The advanced curSize (PayloadMassDriver.java:166): lerped toward the PRE-reset targetSize at 0.05f -- the lerp runs before targetSize is recomputed.",
+      "tests": [
+        "test_c07_payload_mass_driver_update_tile_registration",
+        "test_all_c07_payload_mass_driver_update_tile_input_evidence_is_exact",
+        "test_payload_mass_driver_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverUpdateTileProof"
+    },
+    "source_payload_mass_driver_update_tile_advance_state_result.target_size": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_update_tile_advance_state",
+      "godot_symbol": "source_payload_mass_driver_update_tile_advance_state_result.target_size",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.updateTile()",
+      "java_expr": "targetSize = payload.size();",
+      "rule": "The advanced targetSize (PayloadMassDriver.java:167-170): grabWidth*2f with no payload, payload.size() when a payload is held (BuildPayload.size() is build.block.size * tilesize).",
+      "tests": [
+        "test_c07_payload_mass_driver_update_tile_registration",
+        "test_all_c07_payload_mass_driver_update_tile_input_evidence_is_exact",
+        "test_payload_mass_driver_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverUpdateTileProof"
+    },
+    "source_payload_mass_driver_update_tile_advance_state_result.effect_delay_timer": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_update_tile_advance_state",
+      "godot_symbol": "source_payload_mass_driver_update_tile_advance_state_result.effect_delay_timer",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.updateTile()",
+      "java_expr": "effectDelayTimer -= Time.delta;",
+      "rule": "The advanced effectDelayTimer (PayloadMassDriver.java:174): counted down by raw Time.delta every tick; the :175 crossing with a lastOther resets reloadCounter to 1f.",
+      "tests": [
+        "test_c07_payload_mass_driver_update_tile_registration",
+        "test_all_c07_payload_mass_driver_update_tile_input_evidence_is_exact",
+        "test_payload_mass_driver_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverUpdateTileProof"
+    },
+    "source_payload_mass_driver_update_tile_advance_state_result.charging": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_update_tile_advance_state",
+      "godot_symbol": "source_payload_mass_driver_update_tile_advance_state_result.charging",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.updateTile()",
+      "java_expr": "charging = false;",
+      "rule": "The charging flag after the reset (PayloadMassDriver.java:184): always false at the end of part 1 -- the N2246 shooting branch sets it true when its fire gate passes.",
+      "tests": [
+        "test_c07_payload_mass_driver_update_tile_registration",
+        "test_all_c07_payload_mass_driver_update_tile_input_evidence_is_exact",
+        "test_payload_mass_driver_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverUpdateTileProof"
+    },
+    "source_payload_mass_driver_update_tile_advance_state_result.reload_counter": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_update_tile_advance_state",
+      "godot_symbol": "source_payload_mass_driver_update_tile_advance_state_result.reload_counter",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.updateTile()",
+      "java_expr": "reloadCounter -= edelta() / reload;",
+      "rule": "The advanced reload counter (PayloadMassDriver.java:191-192): decayed by edelta() / reload regardless of state, clamped at 0 (NOT at 1 -- no upper clamp here, unlike MassDriver); set to 1f by the effect-timer crossing.",
+      "tests": [
+        "test_c07_payload_mass_driver_update_tile_registration",
+        "test_all_c07_payload_mass_driver_update_tile_input_evidence_is_exact",
+        "test_payload_mass_driver_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverUpdateTileProof"
+    },
+    "source_payload_mass_driver_update_tile_advance_state_result.waiting_shooters": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_update_tile_advance_state",
+      "godot_symbol": "source_payload_mass_driver_update_tile_advance_state_result.waiting_shooters",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.updateTile()",
+      "java_expr": "waitingShooters.removeFirst();",
+      "rule": "The advanced waiting list (PayloadMassDriver.java:204): the first entry removed when its shooter is no longer valid (the inline :199-202 check); insertion order kept, at most one removal per tick.",
+      "tests": [
+        "test_c07_payload_mass_driver_update_tile_registration",
+        "test_all_c07_payload_mass_driver_update_tile_input_evidence_is_exact",
+        "test_payload_mass_driver_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverUpdateTileProof"
+    },
+    "source_payload_mass_driver_update_tile_advance_state_result.state": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_update_tile_advance_state",
+      "godot_symbol": "source_payload_mass_driver_update_tile_advance_state_result.state",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.updateTile()",
+      "java_expr": "state = accepting;",
+      "rule": "The advanced driver state (PayloadMassDriver.java:211 / :213): idle -> accepting with a waiting shooter and no payload, else idle -> shooting with a valid link; non-idle states untouched by part 1.",
+      "tests": [
+        "test_c07_payload_mass_driver_update_tile_registration",
+        "test_all_c07_payload_mass_driver_update_tile_input_evidence_is_exact",
+        "test_payload_mass_driver_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverUpdateTileProof"
+    },
+    "source_payload_mass_driver_update_tile_advance_state_result.pay_length": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_update_tile_advance_state",
+      "godot_symbol": "source_payload_mass_driver_update_tile_advance_state_result.pay_length",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.updateTile()",
+      "java_expr": "payLength -= payloadSpeed * delta();",
+      "rule": "The advanced payLength (PayloadMassDriver.java:220): unloaded by payloadSpeed * delta() when idle/accepting with a loaded payload; NOT clamped at 0 -- it may go negative for one tick (Java only flips loaded).",
+      "tests": [
+        "test_c07_payload_mass_driver_update_tile_registration",
+        "test_all_c07_payload_mass_driver_update_tile_input_evidence_is_exact",
+        "test_payload_mass_driver_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverUpdateTileProof"
+    },
+    "source_payload_mass_driver_update_tile_advance_state_result.pay_rotation": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_update_tile_advance_state",
+      "godot_symbol": "source_payload_mass_driver_update_tile_advance_state_result.pay_rotation",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.updateTile()",
+      "java_expr": "payRotation = Angles.moveToward(payRotation, turretRotation + 180f, payloadRotateSpeed * delta());",
+      "rule": "The advanced payRotation (PayloadMassDriver.java:224 / PayloadBlock.java:206): moved toward turretRotation + 180f when the unload finishes, toward rotdeg during the moveOut approach.",
+      "tests": [
+        "test_c07_payload_mass_driver_update_tile_registration",
+        "test_all_c07_payload_mass_driver_update_tile_input_evidence_is_exact",
+        "test_payload_mass_driver_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverUpdateTileProof"
+    },
+    "source_payload_mass_driver_update_tile_advance_state_result.pay_vector": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_update_tile_advance_state",
+      "godot_symbol": "source_payload_mass_driver_update_tile_advance_state_result.pay_vector",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_method": "PayloadDriverBuild.updateTile()",
+      "java_expr": "payVector.approach(dest, payloadSpeed * delta());",
+      "rule": "The advanced payVector (PayloadBlock.java:207 / PayloadMassDriver.java:223): approached toward the moveOut dest during the dump, zeroed when the unload finishes.",
+      "tests": [
+        "test_c07_payload_mass_driver_update_tile_registration",
+        "test_all_c07_payload_mass_driver_update_tile_input_evidence_is_exact",
+        "test_payload_mass_driver_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverUpdateTileProof"
+    },
+    "source_payload_mass_driver_update_tile_advance_state_result.loaded": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_update_tile_advance_state",
+      "godot_symbol": "source_payload_mass_driver_update_tile_advance_state_result.loaded",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.updateTile()",
+      "java_expr": "loaded = false;",
+      "rule": "The loaded flag after the dump (PayloadMassDriver.java:222): false when payLength reaches 0 during the unload; unchanged otherwise.",
+      "tests": [
+        "test_c07_payload_mass_driver_update_tile_registration",
+        "test_all_c07_payload_mass_driver_update_tile_input_evidence_is_exact",
+        "test_payload_mass_driver_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverUpdateTileProof"
+    },
+    "source_payload_mass_driver_state_branches_state_result.state": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_state_branches_state",
+      "godot_symbol": "source_payload_mass_driver_state_branches_state_result.state",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.updateTile()",
+      "java_expr": "state = idle;",
+      "rule": "The advanced driver state (PayloadMassDriver.java:239 / :252 / :325): idle after either branch bail or the transfer reset; accepting / shooting otherwise.",
+      "tests": [
+        "test_c07_payload_mass_driver_branches_registration",
+        "test_all_c07_payload_mass_driver_branches_input_evidence_is_exact",
+        "test_payload_mass_driver_state_branches_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_branches"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverBranchesProof"
+    },
+    "source_payload_mass_driver_state_branches_state_result.target_size": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_state_branches_state",
+      "godot_symbol": "source_payload_mass_driver_state_branches_state_result.target_size",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.updateTile()",
+      "java_expr": "targetSize = recPayload == null ? currentShooter().getPayload().size() : recPayload.size();",
+      "rule": "The advanced targetSize (PayloadMassDriver.java:244): the shooter payload size, or the recPayload size when recPayload is present; unchanged when the shooter has no payload.",
+      "tests": [
+        "test_c07_payload_mass_driver_branches_registration",
+        "test_all_c07_payload_mass_driver_branches_input_evidence_is_exact",
+        "test_payload_mass_driver_state_branches_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_branches"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverBranchesProof"
+    },
+    "source_payload_mass_driver_state_branches_state_result.turret_rotation": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_state_branches_state",
+      "godot_symbol": "source_payload_mass_driver_state_branches_state_result.turret_rotation",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.updateTile()",
+      "java_expr": "turretRotation = Angles.moveToward(turretRotation, targetRotation, rotateSpeed * efficiency);",
+      "rule": "The advanced turretRotation (PayloadMassDriver.java:248 / :282): moveToward the shooter angle when accepting, the target rotation when shooting and reloaded.",
+      "tests": [
+        "test_c07_payload_mass_driver_branches_registration",
+        "test_all_c07_payload_mass_driver_branches_input_evidence_is_exact",
+        "test_payload_mass_driver_state_branches_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_branches"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverBranchesProof"
+    },
+    "source_payload_mass_driver_state_branches_state_result.pay_rotation": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_state_branches_state",
+      "godot_symbol": "source_payload_mass_driver_state_branches_state_result.pay_rotation",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.updateTile()",
+      "java_expr": "payRotation = Angles.moveToward(payRotation, turretRotation, payloadRotateSpeed * delta());",
+      "rule": "The advanced payRotation (PayloadMassDriver.java:259, plus the moveInPayload rotate toward rotdeg, PayloadBlock.java:192): moveToward the turret rotation every shooting tick, then toward rotdeg while the payload moves in.",
+      "tests": [
+        "test_c07_payload_mass_driver_branches_registration",
+        "test_all_c07_payload_mass_driver_branches_input_evidence_is_exact",
+        "test_payload_mass_driver_state_branches_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_branches"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverBranchesProof"
+    },
+    "source_payload_mass_driver_state_branches_state_result.pay_length": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_state_branches_state",
+      "godot_symbol": "source_payload_mass_driver_state_branches_state_result.pay_length",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.updateTile()",
+      "java_expr": "payLength += payloadSpeed * delta();",
+      "rule": "The advanced payLength (PayloadMassDriver.java:262-265): advanced by payloadSpeed * delta toward loadLength when loaded, clamped at loadLength; reset to 0f by the moveInPayload arrival (:268) and the transfer reset (:323).",
+      "tests": [
+        "test_c07_payload_mass_driver_branches_registration",
+        "test_all_c07_payload_mass_driver_branches_input_evidence_is_exact",
+        "test_payload_mass_driver_state_branches_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_branches"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverBranchesProof"
+    },
+    "source_payload_mass_driver_state_branches_state_result.loaded": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_state_branches_state",
+      "godot_symbol": "source_payload_mass_driver_state_branches_state_result.loaded",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.updateTile()",
+      "java_expr": "loaded = true;",
+      "rule": "The advanced loaded flag (PayloadMassDriver.java:269 / :324): true when moveInPayload arrives, false after the transfer reset.",
+      "tests": [
+        "test_c07_payload_mass_driver_branches_registration",
+        "test_all_c07_payload_mass_driver_branches_input_evidence_is_exact",
+        "test_payload_mass_driver_state_branches_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_branches"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverBranchesProof"
+    },
+    "source_payload_mass_driver_state_branches_state_result.pay_vector": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_state_branches_state",
+      "godot_symbol": "source_payload_mass_driver_state_branches_state_result.pay_vector",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_method": "PayloadDriverBuild.updateTile()",
+      "java_expr": "payVector.approach(Vec2.ZERO, payloadSpeed * delta());",
+      "rule": "The advanced payVector (PayloadBlock.java:194): approached toward ZERO by payloadSpeed * delta while the payload moves in; the transfer sets the PARTNER payVector, not this one.",
+      "tests": [
+        "test_c07_payload_mass_driver_branches_registration",
+        "test_all_c07_payload_mass_driver_branches_input_evidence_is_exact",
+        "test_payload_mass_driver_state_branches_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_branches"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverBranchesProof"
+    },
+    "source_payload_mass_driver_state_branches_state_result.payload": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_state_branches_state",
+      "godot_symbol": "source_payload_mass_driver_state_branches_state_result.payload",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.updateTile()",
+      "java_expr": "payload = null;",
+      "rule": "The advanced payload (PayloadMassDriver.java:322): null after the transfer reset; the held payload dict otherwise.",
+      "tests": [
+        "test_c07_payload_mass_driver_branches_registration",
+        "test_all_c07_payload_mass_driver_branches_input_evidence_is_exact",
+        "test_payload_mass_driver_state_branches_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_branches"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverBranchesProof"
+    },
+    "source_payload_mass_driver_state_branches_state_result.charge": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_state_branches_state",
+      "godot_symbol": "source_payload_mass_driver_state_branches_state_result.charge",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.updateTile()",
+      "java_expr": "charge += edelta();",
+      "rule": "The advanced charge (PayloadMassDriver.java:289): grown by edelta() while the fire gate holds; NOT reset on transfer (Java leaves it >= chargeTime; the N2245 discharge drains it once charging stops).",
+      "tests": [
+        "test_c07_payload_mass_driver_branches_registration",
+        "test_all_c07_payload_mass_driver_branches_input_evidence_is_exact",
+        "test_payload_mass_driver_state_branches_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_branches"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverBranchesProof"
+    },
+    "source_payload_mass_driver_state_branches_state_result.charging": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_state_branches_state",
+      "godot_symbol": "source_payload_mass_driver_state_branches_state_result.charging",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.updateTile()",
+      "java_expr": "charging = true;",
+      "rule": "The advanced charging flag (PayloadMassDriver.java:290): true while the fire gate holds this tick; the N2245 reset (charging = false, :185) runs before the branches.",
+      "tests": [
+        "test_c07_payload_mass_driver_branches_registration",
+        "test_all_c07_payload_mass_driver_branches_input_evidence_is_exact",
+        "test_payload_mass_driver_state_branches_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_branches"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverBranchesProof"
+    },
+    "source_payload_mass_driver_state_branches_state_result.reload_counter": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_state_branches_state",
+      "godot_symbol": "source_payload_mass_driver_state_branches_state_result.reload_counter",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.updateTile()",
+      "java_expr": "reloadCounter = 1f;",
+      "rule": "The advanced reload counter (PayloadMassDriver.java:326): reset to 1f by the transfer; the per-tick decay is N2245, not this slice.",
+      "tests": [
+        "test_c07_payload_mass_driver_branches_registration",
+        "test_all_c07_payload_mass_driver_branches_input_evidence_is_exact",
+        "test_payload_mass_driver_state_branches_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_branches"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverBranchesProof"
+    },
+    "source_payload_mass_driver_state_branches_state_result.partner_waiting_shooters": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_state_branches_state",
+      "godot_symbol": "source_payload_mass_driver_state_branches_state_result.partner_waiting_shooters",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.updateTile()",
+      "java_expr": "other.waitingShooters.addLast(this);",
+      "rule": "The linked building waiting list after the branches (PayloadMassDriver.java:277, the cross-building write-back, the N2237 precedent): this building appended once when movedOut with a payload and an empty link payload; the first entry removed on transfer (:317). The driver writes it back onto the partner frame.",
+      "tests": [
+        "test_c07_payload_mass_driver_branches_registration",
+        "test_all_c07_payload_mass_driver_branches_input_evidence_is_exact",
+        "test_payload_mass_driver_state_branches_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_branches"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverBranchesProof"
+    },
+    "source_payload_mass_driver_state_branches_state_result.partner_state": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_state_branches_state",
+      "godot_symbol": "source_payload_mass_driver_state_branches_state_result.partner_state",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.updateTile()",
+      "java_expr": "other.state = idle;",
+      "rule": "The linked building state after the branches (PayloadMassDriver.java:319): idle after the transfer; the linked state otherwise.",
+      "tests": [
+        "test_c07_payload_mass_driver_branches_registration",
+        "test_all_c07_payload_mass_driver_branches_input_evidence_is_exact",
+        "test_payload_mass_driver_state_branches_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_branches"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverBranchesProof"
+    },
+    "source_payload_mass_driver_state_branches_state_result.partner_effect_delay_timer": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_state_branches_state",
+      "godot_symbol": "source_payload_mass_driver_state_branches_state_result.partner_effect_delay_timer",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.updateTile()",
+      "java_expr": "other.effectDelayTimer = transferEffect.lifetime;",
+      "rule": "The linked building effectDelayTimer after the branches (PayloadMassDriver.java:304): transferEffect.lifetime (11f) on transfer; the linked timer otherwise.",
+      "tests": [
+        "test_c07_payload_mass_driver_branches_registration",
+        "test_all_c07_payload_mass_driver_branches_input_evidence_is_exact",
+        "test_payload_mass_driver_state_branches_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_branches"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverBranchesProof"
+    },
+    "source_payload_mass_driver_state_branches_state_result.partner_pay_vector": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_state_branches_state",
+      "godot_symbol": "source_payload_mass_driver_state_branches_state_result.partner_pay_vector",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.updateTile()",
+      "java_expr": "other.payVector.set(-cx, -cy);",
+      "rule": "The linked building payVector after the branches (PayloadMassDriver.java:307): (-cx, -cy) from the trns of turretRotation by length on transfer; the linked payVector otherwise. (The handlePayload payVector write is overwritten here in the same tick.)",
+      "tests": [
+        "test_c07_payload_mass_driver_branches_registration",
+        "test_all_c07_payload_mass_driver_branches_input_evidence_is_exact",
+        "test_payload_mass_driver_state_branches_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_branches"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverBranchesProof"
+    },
+    "source_payload_mass_driver_state_branches_state_result.partner_pay_rotation": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_state_branches_state",
+      "godot_symbol": "source_payload_mass_driver_state_branches_state_result.partner_pay_rotation",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.updateTile()",
+      "java_expr": "other.payRotation = turretRotation;",
+      "rule": "The linked building payRotation after the branches (PayloadMassDriver.java:308): the shooter turretRotation on transfer; the linked payRotation otherwise. (The handlePayload payRotation write is overwritten here in the same tick.)",
+      "tests": [
+        "test_c07_payload_mass_driver_branches_registration",
+        "test_all_c07_payload_mass_driver_branches_input_evidence_is_exact",
+        "test_payload_mass_driver_state_branches_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_branches"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverBranchesProof"
+    },
+    "source_payload_mass_driver_state_branches_state_result.partner_pay_length": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_state_branches_state",
+      "godot_symbol": "source_payload_mass_driver_state_branches_state_result.partner_pay_length",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.updateTile()",
+      "java_expr": "other.payLength = length;",
+      "rule": "The linked building payLength after the branches (PayloadMassDriver.java:309): length on transfer; the linked payLength otherwise.",
+      "tests": [
+        "test_c07_payload_mass_driver_branches_registration",
+        "test_all_c07_payload_mass_driver_branches_input_evidence_is_exact",
+        "test_payload_mass_driver_state_branches_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_branches"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverBranchesProof"
+    },
+    "source_payload_mass_driver_state_branches_state_result.partner_loaded": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_state_branches_state",
+      "godot_symbol": "source_payload_mass_driver_state_branches_state_result.partner_loaded",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.updateTile()",
+      "java_expr": "other.loaded = true;",
+      "rule": "The linked building loaded flag after the branches (PayloadMassDriver.java:310): true on transfer; the linked flag otherwise.",
+      "tests": [
+        "test_c07_payload_mass_driver_branches_registration",
+        "test_all_c07_payload_mass_driver_branches_input_evidence_is_exact",
+        "test_payload_mass_driver_state_branches_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_branches"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverBranchesProof"
+    },
+    "source_payload_mass_driver_state_branches_state_result.partner_payload": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_state_branches_state",
+      "godot_symbol": "source_payload_mass_driver_state_branches_state_result.partner_payload",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_method": "PayloadDriverBuild.updateTile()",
+      "java_expr": "this.payload = (T)payload;",
+      "rule": "The linked building payload after the branches (PayloadBlock.java:122, handlePayload, called at PayloadMassDriver.java:306): the transferred payload dict on transfer; the linked payload otherwise.",
+      "tests": [
+        "test_c07_payload_mass_driver_branches_registration",
+        "test_all_c07_payload_mass_driver_branches_input_evidence_is_exact",
+        "test_payload_mass_driver_state_branches_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_branches"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverBranchesProof"
+    },
+    "source_payload_mass_driver_state_branches_state_result.partner_last_other": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_state_branches_state",
+      "godot_symbol": "source_payload_mass_driver_state_branches_state_result.partner_last_other",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.updateTile()",
+      "java_expr": "other.lastOther = this;",
+      "rule": "The linked building lastOther after the branches (PayloadMassDriver.java:305): this building packed position on transfer; the linked lastOther otherwise.",
+      "tests": [
+        "test_c07_payload_mass_driver_branches_registration",
+        "test_all_c07_payload_mass_driver_branches_input_evidence_is_exact",
+        "test_payload_mass_driver_state_branches_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_branches"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverBranchesProof"
+    },
+    "source_payload_mass_driver_state_branches_state_result.fired": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_state_branches_state",
+      "godot_symbol": "source_payload_mass_driver_state_branches_state_result.fired",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.updateTile()",
+      "java_expr": "if(charge >= chargeTime){",
+      "rule": "Whether the transfer ran this tick (PayloadMassDriver.java:292): charge reached chargeTime while the fire gate held.",
+      "tests": [
+        "test_c07_payload_mass_driver_branches_registration",
+        "test_all_c07_payload_mass_driver_branches_input_evidence_is_exact",
+        "test_payload_mass_driver_state_branches_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_branches"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverBranchesProof"
+    },
+    "source_shockwave_tower_update_tile_advance_state_result.fired": {
+      "status": "source-backed",
+      "godot_owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_update_tile_advance_state",
+      "godot_symbol": "source_shockwave_tower_update_tile_advance_state_result.fired",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "java_method": "ShockwaveTowerBuild.updateTile()",
+      "java_expr": "if(targets.size > 0){",
+      "rule": "Whether this tick fired (ShockwaveTower.java:81): true exactly when the fire gate passed (potentialEfficiency > 0, counter >= reload, timer ready) and the scan found at least one enemy hittable target; drives the heat set and the counter reset.",
+      "tests": [
+        "test_c07_shockwave_tower_update_tile_registration",
+        "test_all_c07_shockwave_tower_update_tile_input_evidence_is_exact",
+        "test_shockwave_tower_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_update_tile"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerUpdateTileProof"
+    },
+    "source_shockwave_tower_update_tile_advance_state_result.reload_counter": {
+      "status": "source-backed",
+      "godot_owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_update_tile_advance_state",
+      "godot_symbol": "source_shockwave_tower_update_tile_advance_state_result.reload_counter",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "java_method": "ShockwaveTowerBuild.updateTile()",
+      "java_expr": "reloadCounter = 0f;",
+      "rule": "The reload counter after one tick (ShockwaveTower.java:83): reset to 0f when the wave fires, otherwise the N2187-charged value unchanged -- the advance does NOT add edelta again.",
+      "tests": [
+        "test_c07_shockwave_tower_update_tile_registration",
+        "test_all_c07_shockwave_tower_update_tile_input_evidence_is_exact",
+        "test_shockwave_tower_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_update_tile"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerUpdateTileProof"
+    },
+    "source_shockwave_tower_update_tile_advance_state_result.heat": {
+      "status": "source-backed",
+      "godot_owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_update_tile_advance_state",
+      "godot_symbol": "source_shockwave_tower_update_tile_advance_state_result.heat",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "java_method": "ShockwaveTowerBuild.updateTile()",
+      "java_expr": "heat = Mathf.clamp(heat - Time.delta / reload * cooldownMultiplier);",
+      "rule": "The heat after one tick (ShockwaveTower.java:82/:104): set to 1f when the wave fires, then the unconditional decay subtracts Time.delta / reload * cooldownMultiplier and clamps to [0, 1] (Arc single-arg clamp, Mathf.java:402-404) -- so a fired tick ends below 1f and every tick decays.",
+      "tests": [
+        "test_c07_shockwave_tower_update_tile_registration",
+        "test_all_c07_shockwave_tower_update_tile_input_evidence_is_exact",
+        "test_shockwave_tower_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_update_tile"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerUpdateTileProof"
+    },
+    "source_shockwave_tower_update_tile_advance_state_result.targets": {
+      "status": "source-backed",
+      "godot_owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_update_tile_advance_state",
+      "godot_symbol": "source_shockwave_tower_update_tile_advance_state_result.targets",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "java_method": "ShockwaveTowerBuild.updateTile()",
+      "java_expr": "targets.add(b);",
+      "rule": "The target list after one tick (ShockwaveTower.java:74-77/:89-94): the scanned enemy hittable bullets when the gate passed (each with its post-wave damage and a removed flag -- damage strictly above waveDamage loses waveDamage, the rest are removed), the previous list when the gate failed (Java only clears inside the gate). The APPLICATION (target.damage writing / target.remove() on live bullets) defers.",
+      "tests": [
+        "test_c07_shockwave_tower_update_tile_registration",
+        "test_all_c07_shockwave_tower_update_tile_input_evidence_is_exact",
+        "test_shockwave_tower_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_update_tile"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerUpdateTileProof"
+    },
+    "source_shockwave_tower_update_tile_advance_state_result.wave_damage": {
+      "status": "source-backed",
+      "godot_owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_update_tile_advance_state",
+      "godot_symbol": "source_shockwave_tower_update_tile_advance_state_result.wave_damage",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "java_method": "ShockwaveTowerBuild.updateTile()",
+      "java_expr": "float waveDamage = Math.min(bulletDamage, bulletDamage * falloffCount / targets.size);",
+      "rule": "The wave damage this tick (ShockwaveTower.java:87): min(bulletDamage, bulletDamage * falloffCount / targets.size) when the wave fires, 0.0 otherwise.",
+      "tests": [
+        "test_c07_shockwave_tower_update_tile_registration",
+        "test_all_c07_shockwave_tower_update_tile_input_evidence_is_exact",
+        "test_shockwave_tower_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_update_tile"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerUpdateTileProof"
+    },
+    "source_unit_assembler_module_update_tile_advance_state_result.last_change": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_update_tile_advance_state",
+      "godot_symbol": "source_unit_assembler_module_update_tile_advance_state_result.last_change",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+      "java_method": "UnitAssemblerModuleBuild.updateTile()",
+      "java_expr": "lastChange = world.tileChanges;",
+      "rule": "The refreshed lastChange (UnitAssemblerModule.java:133-135): tile_changes when it differed, unchanged otherwise; the findLink re-discovery runs exactly on a refresh.",
+      "tests": [
+        "test_c07_unit_assembler_module_update_tile_registration",
+        "test_all_c07_unit_assembler_module_update_tile_input_evidence_is_exact",
+        "test_unit_assembler_module_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_module_update_tile"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerModuleUpdateTileProof"
+    },
+    "source_unit_assembler_module_update_tile_advance_state_result.link": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_update_tile_advance_state",
+      "godot_symbol": "source_unit_assembler_module_update_tile_advance_state_result.link",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+      "java_method": "UnitAssemblerModuleBuild.updateTile()",
+      "java_expr": "link = getLink(team, tile.x, tile.y, rotation);",
+      "rule": "The linked assembler after the tick (UnitAssemblerModule.java:75-83): the explicit link-candidate frame input on a refresh (the getLink result -- an assembler link ref dict, or null when nothing fits), unchanged otherwise. The removeModule / updateModules side effects on the assembler defer.",
+      "tests": [
+        "test_c07_unit_assembler_module_update_tile_registration",
+        "test_all_c07_unit_assembler_module_update_tile_input_evidence_is_exact",
+        "test_unit_assembler_module_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_module_update_tile"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerModuleUpdateTileProof"
+    },
+    "source_unit_assembler_module_update_tile_advance_state_result.link_refreshed": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_update_tile_advance_state",
+      "godot_symbol": "source_unit_assembler_module_update_tile_advance_state_result.link_refreshed",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+      "java_method": "UnitAssemblerModuleBuild.updateTile()",
+      "java_expr": "if(lastChange != world.tileChanges){",
+      "rule": "Whether findLink ran this tick (UnitAssemblerModule.java:133): true exactly when lastChange differed from tile_changes, so the link was re-discovered.",
+      "tests": [
+        "test_c07_unit_assembler_module_update_tile_registration",
+        "test_all_c07_unit_assembler_module_update_tile_input_evidence_is_exact",
+        "test_unit_assembler_module_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_module_update_tile"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerModuleUpdateTileProof"
+    },
+    "source_unit_assembler_module_update_tile_advance_state_result.pay_vector": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_update_tile_advance_state",
+      "godot_symbol": "source_unit_assembler_module_update_tile_advance_state_result.pay_vector",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_method": "UnitAssemblerModuleBuild.updateTile()",
+      "java_expr": "payVector.approach(Vec2.ZERO, payloadSpeed * delta());",
+      "rule": "The payload offset after the tick (PayloadBlock.java:194): approached toward zero at payloadSpeed 0.7f * delta() by the moveInPayload intake whenever a payload is held (even when the handoff gate fails -- moveInPayload is evaluated first); unchanged with no payload.",
+      "tests": [
+        "test_c07_unit_assembler_module_update_tile_registration",
+        "test_all_c07_unit_assembler_module_update_tile_input_evidence_is_exact",
+        "test_unit_assembler_module_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_module_update_tile"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerModuleUpdateTileProof"
+    },
+    "source_unit_assembler_module_update_tile_advance_state_result.pay_rotation": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_update_tile_advance_state",
+      "godot_symbol": "source_unit_assembler_module_update_tile_advance_state_result.pay_rotation",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_method": "UnitAssemblerModuleBuild.updateTile()",
+      "java_expr": "payRotation = Angles.moveToward(payRotation, block.rotate ? rotdeg() : 90f, payloadRotateSpeed * delta());",
+      "rule": "The payload rotation after the tick (PayloadBlock.java:192): moved toward rotdeg() (rotation * 90, BuildingComp.java:582-584 -- the module rotates, UnitAssemblerModule.java:26) at payloadRotateSpeed 5f * delta() by the moveInPayload(true) rotation branch; unchanged with no payload.",
+      "tests": [
+        "test_c07_unit_assembler_module_update_tile_registration",
+        "test_all_c07_unit_assembler_module_update_tile_input_evidence_is_exact",
+        "test_unit_assembler_module_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_module_update_tile"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerModuleUpdateTileProof"
+    },
+    "source_unit_assembler_module_update_tile_advance_state_result.moved_in": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_update_tile_advance_state",
+      "godot_symbol": "source_unit_assembler_module_update_tile_advance_state_result.moved_in",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_method": "UnitAssemblerModuleBuild.updateTile()",
+      "java_expr": "return hasArrived();",
+      "rule": "Whether the payload is in position after the tick (PayloadBlock.java:196, 242-244): hasArrived() is payVector.isZero(0.01f) -- the SQUARED length under the 0.01 margin; false with no payload (`if(payload == null) return false;`, PayloadBlock.java:187).",
+      "tests": [
+        "test_c07_unit_assembler_module_update_tile_registration",
+        "test_all_c07_unit_assembler_module_update_tile_input_evidence_is_exact",
+        "test_unit_assembler_module_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_module_update_tile"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerModuleUpdateTileProof"
+    },
+    "source_unit_assembler_module_update_tile_advance_state_result.payload": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_update_tile_advance_state",
+      "godot_symbol": "source_unit_assembler_module_update_tile_advance_state_result.payload",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+      "java_method": "UnitAssemblerModuleBuild.updateTile()",
+      "java_expr": "payload = null;",
+      "rule": "The held payload after the tick (UnitAssemblerModule.java:140): null once the handoff gate fires and the payload leaves for the assembler, unchanged otherwise (no live fill sets it yet).",
+      "tests": [
+        "test_c07_unit_assembler_module_update_tile_registration",
+        "test_all_c07_unit_assembler_module_update_tile_input_evidence_is_exact",
+        "test_unit_assembler_module_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_module_update_tile"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerModuleUpdateTileProof"
+    },
+    "source_unit_assembler_module_update_tile_advance_state_result.handed_off": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_update_tile_advance_state",
+      "godot_symbol": "source_unit_assembler_module_update_tile_advance_state_result.handed_off",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+      "java_method": "UnitAssemblerModuleBuild.updateTile()",
+      "java_expr": "link.yeetPayload(payload);",
+      "rule": "Whether the handoff fired this tick (UnitAssemblerModule.java:138-140): moveInPayload() && link != null && moduleFits && !wasOccupied && acceptPayload && efficiency > 0 -- the module side clears its payload; the assembler-side yeetPayload receive (UnitAssembler.java:688-690, blocks.add(payload.content(), 1), the N2131 intake state) is applied by the later handoff-to-intake wiring slice.",
+      "tests": [
+        "test_c07_unit_assembler_module_update_tile_registration",
+        "test_all_c07_unit_assembler_module_update_tile_input_evidence_is_exact",
+        "test_unit_assembler_module_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_module_update_tile"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerModuleUpdateTileProof"
     }
   },
   "version": 1

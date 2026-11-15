@@ -3768,6 +3768,218 @@
       "runtime_proof": "/root/C07PayloadMassDriverPowerStatusProof",
       "rule": "Source-backed PayloadMassDriver power.status row from ConsumePower.java / BuildingComp.java."
     },
+    "SourcePayloadMassDriverBuildState.source_payload_mass_driver_state_branches_state": {
+      "canonical_contract": "source_api_contracts.SourcePayloadMassDriverBuildState.source_payload_mass_driver_state_branches_state",
+      "status": "active",
+      "source_slice": "N2246",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "source_method": "PayloadDriverBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_payload_mass_driver_state_branches_state_input.frame"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_payload_mass_driver_state_branches_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_payload_mass_driver_state_branches_state_input.time_scale"
+        },
+        {
+          "name": "charge_time",
+          "type": "float",
+          "schema": "source_payload_mass_driver_state_branches_state_input.charge_time"
+        },
+        {
+          "name": "length",
+          "type": "float",
+          "schema": "source_payload_mass_driver_state_branches_state_input.length"
+        },
+        {
+          "name": "knockback",
+          "type": "float",
+          "schema": "source_payload_mass_driver_state_branches_state_input.knockback"
+        },
+        {
+          "name": "rotate_speed",
+          "type": "float",
+          "schema": "source_payload_mass_driver_state_branches_state_input.rotate_speed"
+        },
+        {
+          "name": "payload_speed",
+          "type": "float",
+          "schema": "source_payload_mass_driver_state_branches_state_input.payload_speed"
+        },
+        {
+          "name": "payload_rotate_speed",
+          "type": "float",
+          "schema": "source_payload_mass_driver_state_branches_state_input.payload_rotate_speed"
+        },
+        {
+          "name": "rot_deg",
+          "type": "float",
+          "schema": "source_payload_mass_driver_state_branches_state_input.rot_deg"
+        },
+        {
+          "name": "tile_pos",
+          "type": "int",
+          "schema": "source_payload_mass_driver_state_branches_state_input.tile_pos"
+        },
+        {
+          "name": "self_x",
+          "type": "float",
+          "schema": "source_payload_mass_driver_state_branches_state_input.self_x"
+        },
+        {
+          "name": "self_y",
+          "type": "float",
+          "schema": "source_payload_mass_driver_state_branches_state_input.self_y"
+        },
+        {
+          "name": "linked",
+          "type": "Dictionary",
+          "schema": "source_payload_mass_driver_state_branches_state_input.linked"
+        },
+        {
+          "name": "shooters",
+          "type": "Dictionary",
+          "schema": "source_payload_mass_driver_state_branches_state_input.shooters"
+        }
+      ],
+      "return_keys": [
+        "state",
+        "target_size",
+        "turret_rotation",
+        "pay_rotation",
+        "pay_length",
+        "loaded",
+        "pay_vector",
+        "payload",
+        "charge",
+        "charging",
+        "reload_counter",
+        "partner_waiting_shooters",
+        "partner_state",
+        "partner_effect_delay_timer",
+        "partner_pay_vector",
+        "partner_pay_rotation",
+        "partner_pay_length",
+        "partner_loaded",
+        "partner_payload",
+        "partner_last_other",
+        "fired"
+      ],
+      "tests": [
+        "test_c07_payload_mass_driver_branches_registration",
+        "test_all_c07_payload_mass_driver_branches_input_evidence_is_exact",
+        "test_payload_mass_driver_state_branches_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_branches"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverBranchesProof",
+      "rule": "Source-backed PayloadMassDriver state branches from PayloadMassDriver.java / PayloadBlock.java / BuildPayload.java / BuildingComp.java / Blocks.java / Block.java."
+    },
+    "SourcePayloadMassDriverBuildState.source_payload_mass_driver_update_tile_advance_state": {
+      "canonical_contract": "source_api_contracts.SourcePayloadMassDriverBuildState.source_payload_mass_driver_update_tile_advance_state",
+      "status": "active",
+      "source_slice": "N2245",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "source_method": "PayloadDriverBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_payload_mass_driver_update_tile_advance_state_input.frame"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_payload_mass_driver_update_tile_advance_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_payload_mass_driver_update_tile_advance_state_input.time_scale"
+        },
+        {
+          "name": "reload",
+          "type": "float",
+          "schema": "source_payload_mass_driver_update_tile_advance_state_input.reload"
+        },
+        {
+          "name": "grab_width",
+          "type": "float",
+          "schema": "source_payload_mass_driver_update_tile_advance_state_input.grab_width"
+        },
+        {
+          "name": "payload_speed",
+          "type": "float",
+          "schema": "source_payload_mass_driver_update_tile_advance_state_input.payload_speed"
+        },
+        {
+          "name": "payload_rotate_speed",
+          "type": "float",
+          "schema": "source_payload_mass_driver_update_tile_advance_state_input.payload_rotate_speed"
+        },
+        {
+          "name": "size_value",
+          "type": "int",
+          "schema": "source_payload_mass_driver_update_tile_advance_state_input.size_value"
+        },
+        {
+          "name": "tilesize",
+          "type": "float",
+          "schema": "source_payload_mass_driver_update_tile_advance_state_input.tilesize"
+        },
+        {
+          "name": "rotdeg_value",
+          "type": "float",
+          "schema": "source_payload_mass_driver_update_tile_advance_state_input.rotdeg_value"
+        },
+        {
+          "name": "tile_pos",
+          "type": "int",
+          "schema": "source_payload_mass_driver_update_tile_advance_state_input.tile_pos"
+        },
+        {
+          "name": "linked",
+          "type": "Dictionary",
+          "schema": "source_payload_mass_driver_update_tile_advance_state_input.linked"
+        },
+        {
+          "name": "shooters",
+          "type": "Dictionary",
+          "schema": "source_payload_mass_driver_update_tile_advance_state_input.shooters"
+        }
+      ],
+      "return_keys": [
+        "link",
+        "charge",
+        "cur_size",
+        "target_size",
+        "effect_delay_timer",
+        "charging",
+        "reload_counter",
+        "waiting_shooters",
+        "state",
+        "pay_length",
+        "pay_rotation",
+        "pay_vector",
+        "loaded"
+      ],
+      "tests": [
+        "test_c07_payload_mass_driver_update_tile_registration",
+        "test_all_c07_payload_mass_driver_update_tile_input_evidence_is_exact",
+        "test_payload_mass_driver_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverUpdateTileProof",
+      "rule": "Source-backed PayloadMassDriver updateTile advance part 1 from PayloadMassDriver.java / PayloadBlock.java / BuildPayload.java / BuildingComp.java / Blocks.java / Block.java."
+    },
     "SourcePayloadUnloaderBuildState.source_payload_unloader_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourcePayloadUnloaderBuildState.source_payload_unloader_power_status_row_state",
       "status": "active",

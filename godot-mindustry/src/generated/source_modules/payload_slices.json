@@ -1865,6 +1865,72 @@
         "test_reference_graph_and_actual_c07_payload_deconstructor_update_tile"
       ],
       "runtime_proof": "/root/C07PayloadDeconstructorUpdateTileProof"
+    },
+    "N2245": {
+      "canonical_ledger": "source_slice_ledger.N2245",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.updateTile()",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_update_tile_advance_state",
+      "source_symbols": [
+        "source_payload_mass_driver_update_tile_advance_state_result.link",
+        "source_payload_mass_driver_update_tile_advance_state_result.charge",
+        "source_payload_mass_driver_update_tile_advance_state_result.cur_size",
+        "source_payload_mass_driver_update_tile_advance_state_result.target_size",
+        "source_payload_mass_driver_update_tile_advance_state_result.effect_delay_timer",
+        "source_payload_mass_driver_update_tile_advance_state_result.charging",
+        "source_payload_mass_driver_update_tile_advance_state_result.reload_counter",
+        "source_payload_mass_driver_update_tile_advance_state_result.waiting_shooters",
+        "source_payload_mass_driver_update_tile_advance_state_result.state",
+        "source_payload_mass_driver_update_tile_advance_state_result.pay_length",
+        "source_payload_mass_driver_update_tile_advance_state_result.pay_rotation",
+        "source_payload_mass_driver_update_tile_advance_state_result.pay_vector",
+        "source_payload_mass_driver_update_tile_advance_state_result.loaded"
+      ],
+      "tests": [
+        "test_c07_payload_mass_driver_update_tile_registration",
+        "test_all_c07_payload_mass_driver_update_tile_input_evidence_is_exact",
+        "test_payload_mass_driver_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverUpdateTileProof"
+    },
+    "N2246": {
+      "canonical_ledger": "source_slice_ledger.N2246",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.updateTile()",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_state_branches_state",
+      "source_symbols": [
+        "source_payload_mass_driver_state_branches_state_result.state",
+        "source_payload_mass_driver_state_branches_state_result.target_size",
+        "source_payload_mass_driver_state_branches_state_result.turret_rotation",
+        "source_payload_mass_driver_state_branches_state_result.pay_rotation",
+        "source_payload_mass_driver_state_branches_state_result.pay_length",
+        "source_payload_mass_driver_state_branches_state_result.loaded",
+        "source_payload_mass_driver_state_branches_state_result.pay_vector",
+        "source_payload_mass_driver_state_branches_state_result.payload",
+        "source_payload_mass_driver_state_branches_state_result.charge",
+        "source_payload_mass_driver_state_branches_state_result.charging",
+        "source_payload_mass_driver_state_branches_state_result.reload_counter",
+        "source_payload_mass_driver_state_branches_state_result.partner_waiting_shooters",
+        "source_payload_mass_driver_state_branches_state_result.partner_state",
+        "source_payload_mass_driver_state_branches_state_result.partner_effect_delay_timer",
+        "source_payload_mass_driver_state_branches_state_result.partner_pay_vector",
+        "source_payload_mass_driver_state_branches_state_result.partner_pay_rotation",
+        "source_payload_mass_driver_state_branches_state_result.partner_pay_length",
+        "source_payload_mass_driver_state_branches_state_result.partner_loaded",
+        "source_payload_mass_driver_state_branches_state_result.partner_payload",
+        "source_payload_mass_driver_state_branches_state_result.partner_last_other",
+        "source_payload_mass_driver_state_branches_state_result.fired"
+      ],
+      "tests": [
+        "test_c07_payload_mass_driver_branches_registration",
+        "test_all_c07_payload_mass_driver_branches_input_evidence_is_exact",
+        "test_payload_mass_driver_state_branches_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_branches"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverBranchesProof"
     }
   }
 }

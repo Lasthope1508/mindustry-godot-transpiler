@@ -3176,6 +3176,92 @@
       ],
       "runtime_proof": "/root/C07BaseShieldUpdateTileProof"
     },
+    "N2242": {
+      "canonical_ledger": "source_slice_ledger.N2242",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "java_method": "MendBuild.updateTile()",
+      "godot_owner": "SourceMendProjectorBuildState.source_mend_projector_heal_scan_state",
+      "source_symbols": [
+        "source_mend_projector_heal_scan_result.real_range",
+        "source_mend_projector_heal_scan_result.heal_amounts",
+        "source_mend_projector_heal_scan_result.any",
+        "source_mend_projector_heal_scan_result.scanned"
+      ],
+      "tests": [
+        "test_c07_mend_projector_heal_scan_registration",
+        "test_all_c07_mend_projector_heal_scan_input_evidence_is_exact",
+        "test_mend_projector_heal_scan_state",
+        "test_reference_graph_and_actual_c07_mend_projector_heal_scan"
+      ],
+      "runtime_proof": "/root/C07MendProjectorHealScanProof"
+    },
+    "N2243": {
+      "canonical_ledger": "source_slice_ledger.N2243",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurretBuild.updateTile()",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_update_tile_advance_state",
+      "source_symbols": [
+        "source_build_turret_update_tile_advance_state_result.rotation",
+        "source_build_turret_update_tile_advance_state_result.unit_look_angle",
+        "source_build_turret_update_tile_advance_state_result.efficiency",
+        "source_build_turret_update_tile_advance_state_result.potential_efficiency",
+        "source_build_turret_update_tile_advance_state_result.build_speed_multiplier",
+        "source_build_turret_update_tile_advance_state_result.speed_multiplier",
+        "source_build_turret_update_tile_advance_state_result.warmup"
+      ],
+      "tests": [
+        "test_c07_build_turret_update_tile_registration",
+        "test_all_c07_build_turret_update_tile_input_evidence_is_exact",
+        "test_build_turret_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_build_turret_update_tile"
+      ],
+      "runtime_proof": "/root/C07BuildTurretUpdateTileProof"
+    },
+    "N2244": {
+      "canonical_ledger": "source_slice_ledger.N2244",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurretBuild.updateTile()",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_plan_logic_state",
+      "source_symbols": [
+        "source_build_turret_plan_logic_state_result.plans",
+        "source_build_turret_plan_logic_state_result.following",
+        "source_build_turret_plan_logic_state_result.last_plan",
+        "source_build_turret_plan_logic_state_result.team_plans",
+        "source_build_turret_plan_logic_state_result.branch",
+        "source_build_turret_plan_logic_state_result.plan_discarded"
+      ],
+      "tests": [
+        "test_c07_build_turret_plan_logic_registration",
+        "test_all_c07_build_turret_plan_logic_input_evidence_is_exact",
+        "test_build_turret_plan_logic_state",
+        "test_reference_graph_and_actual_c07_build_turret_plan_logic"
+      ],
+      "runtime_proof": "/root/C07BuildTurretPlanLogicProof"
+    },
+    "N2247": {
+      "canonical_ledger": "source_slice_ledger.N2247",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "java_method": "ShockwaveTowerBuild.updateTile()",
+      "godot_owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_update_tile_advance_state",
+      "source_symbols": [
+        "source_shockwave_tower_update_tile_advance_state_result.fired",
+        "source_shockwave_tower_update_tile_advance_state_result.reload_counter",
+        "source_shockwave_tower_update_tile_advance_state_result.heat",
+        "source_shockwave_tower_update_tile_advance_state_result.targets",
+        "source_shockwave_tower_update_tile_advance_state_result.wave_damage"
+      ],
+      "tests": [
+        "test_c07_shockwave_tower_update_tile_registration",
+        "test_all_c07_shockwave_tower_update_tile_input_evidence_is_exact",
+        "test_shockwave_tower_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_update_tile"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerUpdateTileProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

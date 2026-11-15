@@ -68689,6 +68689,528 @@
       ],
       "runtime_proof": "/root/C07BeamDrillUpdateTileProof",
       "rule": "Source-backed BeamDrill updateTile advance from BeamDrill.java / BuildingComp.java."
+    },
+    "SourceMendProjectorBuildState.source_mend_projector_heal_scan_state": {
+      "status": "active",
+      "source_slice": "N2242",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "source_method": "MendBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_mend_projector_heal_scan_input.frame"
+        },
+        {
+          "name": "candidates",
+          "type": "Array",
+          "schema": "source_mend_projector_heal_scan_input.candidates"
+        },
+        {
+          "name": "charge_before",
+          "type": "float",
+          "schema": "source_mend_projector_heal_scan_input.charge_before"
+        },
+        {
+          "name": "reload_value",
+          "type": "float",
+          "schema": "source_mend_projector_heal_scan_input.reload_value"
+        },
+        {
+          "name": "range_value",
+          "type": "float",
+          "schema": "source_mend_projector_heal_scan_input.range_value"
+        },
+        {
+          "name": "heal_percent",
+          "type": "float",
+          "schema": "source_mend_projector_heal_scan_input.heal_percent"
+        },
+        {
+          "name": "phase_boost",
+          "type": "float",
+          "schema": "source_mend_projector_heal_scan_input.phase_boost"
+        },
+        {
+          "name": "phase_range_boost",
+          "type": "float",
+          "schema": "source_mend_projector_heal_scan_input.phase_range_boost"
+        },
+        {
+          "name": "time_delta",
+          "type": "float",
+          "schema": "source_mend_projector_heal_scan_input.time_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_mend_projector_heal_scan_input.time_scale"
+        },
+        {
+          "name": "can_heal",
+          "type": "bool",
+          "schema": "source_mend_projector_heal_scan_input.can_heal"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "real_range",
+        "heal_amounts",
+        "any",
+        "scanned"
+      ],
+      "tests": [
+        "test_c07_mend_projector_heal_scan_registration",
+        "test_all_c07_mend_projector_heal_scan_input_evidence_is_exact",
+        "test_mend_projector_heal_scan_state",
+        "test_reference_graph_and_actual_c07_mend_projector_heal_scan"
+      ],
+      "runtime_proof": "/root/C07MendProjectorHealScanProof",
+      "rule": "Source-backed MendProjector heal scan from MendProjector.java / BuildingComp.java / HealthComp.java / Blocks.java."
+    },
+    "SourceBuildTurretBuildState.source_build_turret_update_tile_advance_state": {
+      "status": "active",
+      "source_slice": "N2243",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "source_method": "BuildTurretBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_build_turret_update_tile_advance_state_input.frame"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_build_turret_update_tile_advance_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_build_turret_update_tile_advance_state_input.time_scale"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "rotation",
+        "unit_look_angle",
+        "efficiency",
+        "potential_efficiency",
+        "build_speed_multiplier",
+        "speed_multiplier",
+        "warmup"
+      ],
+      "tests": [
+        "test_c07_build_turret_update_tile_registration",
+        "test_all_c07_build_turret_update_tile_input_evidence_is_exact",
+        "test_build_turret_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_build_turret_update_tile"
+      ],
+      "runtime_proof": "/root/C07BuildTurretUpdateTileProof",
+      "rule": "Source-backed BuildTurret updateTile advance (sync + warmup) from BuildTurret.java / BaseTurret.java / BuildingComp.java / Blocks.java / Block.java."
+    },
+    "SourceBuildTurretBuildState.source_build_turret_plan_logic_state": {
+      "status": "active",
+      "source_slice": "N2244",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "source_method": "BuildTurretBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_build_turret_plan_logic_state_input.frame"
+        },
+        {
+          "name": "controlled",
+          "type": "bool",
+          "schema": "source_build_turret_plan_logic_state_input.controlled"
+        },
+        {
+          "name": "search_ready",
+          "type": "bool",
+          "schema": "source_build_turret_plan_logic_state_input.search_ready"
+        },
+        {
+          "name": "break_check_ready",
+          "type": "bool",
+          "schema": "source_build_turret_plan_logic_state_input.break_check_ready"
+        },
+        {
+          "name": "tower_x",
+          "type": "float",
+          "schema": "source_build_turret_plan_logic_state_input.tower_x"
+        },
+        {
+          "name": "tower_y",
+          "type": "float",
+          "schema": "source_build_turret_plan_logic_state_input.tower_y"
+        },
+        {
+          "name": "range_value",
+          "type": "float",
+          "schema": "source_build_turret_plan_logic_state_input.range_value"
+        },
+        {
+          "name": "team_plans",
+          "type": "Array",
+          "schema": "source_build_turret_plan_logic_state_input.team_plans"
+        },
+        {
+          "name": "nearby_builders",
+          "type": "Array",
+          "schema": "source_build_turret_plan_logic_state_input.nearby_builders"
+        },
+        {
+          "name": "players",
+          "type": "Array",
+          "schema": "source_build_turret_plan_logic_state_input.players"
+        },
+        {
+          "name": "req_construct_match",
+          "type": "bool",
+          "schema": "source_build_turret_plan_logic_state_input.req_construct_match"
+        },
+        {
+          "name": "req_valid_place_or_break",
+          "type": "bool",
+          "schema": "source_build_turret_plan_logic_state_input.req_valid_place_or_break"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "plans",
+        "following",
+        "last_plan",
+        "team_plans",
+        "branch",
+        "plan_discarded"
+      ],
+      "tests": [
+        "test_c07_build_turret_plan_logic_registration",
+        "test_all_c07_build_turret_plan_logic_input_evidence_is_exact",
+        "test_build_turret_plan_logic_state",
+        "test_reference_graph_and_actual_c07_build_turret_plan_logic"
+      ],
+      "runtime_proof": "/root/C07BuildTurretPlanLogicProof",
+      "rule": "Source-backed BuildTurret plan logic from BuildTurret.java / BuilderComp.java / Teams.java / BuildPlan.java / Vars.java / BuildingComp.java / Blocks.java."
+    },
+    "SourcePayloadMassDriverBuildState.source_payload_mass_driver_update_tile_advance_state": {
+      "status": "active",
+      "source_slice": "N2245",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "source_method": "PayloadDriverBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_payload_mass_driver_update_tile_advance_state_input.frame"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_payload_mass_driver_update_tile_advance_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_payload_mass_driver_update_tile_advance_state_input.time_scale"
+        },
+        {
+          "name": "reload",
+          "type": "float",
+          "schema": "source_payload_mass_driver_update_tile_advance_state_input.reload"
+        },
+        {
+          "name": "grab_width",
+          "type": "float",
+          "schema": "source_payload_mass_driver_update_tile_advance_state_input.grab_width"
+        },
+        {
+          "name": "payload_speed",
+          "type": "float",
+          "schema": "source_payload_mass_driver_update_tile_advance_state_input.payload_speed"
+        },
+        {
+          "name": "payload_rotate_speed",
+          "type": "float",
+          "schema": "source_payload_mass_driver_update_tile_advance_state_input.payload_rotate_speed"
+        },
+        {
+          "name": "size_value",
+          "type": "int",
+          "schema": "source_payload_mass_driver_update_tile_advance_state_input.size_value"
+        },
+        {
+          "name": "tilesize",
+          "type": "float",
+          "schema": "source_payload_mass_driver_update_tile_advance_state_input.tilesize"
+        },
+        {
+          "name": "rotdeg_value",
+          "type": "float",
+          "schema": "source_payload_mass_driver_update_tile_advance_state_input.rotdeg_value"
+        },
+        {
+          "name": "tile_pos",
+          "type": "int",
+          "schema": "source_payload_mass_driver_update_tile_advance_state_input.tile_pos"
+        },
+        {
+          "name": "linked",
+          "type": "Dictionary",
+          "schema": "source_payload_mass_driver_update_tile_advance_state_input.linked"
+        },
+        {
+          "name": "shooters",
+          "type": "Dictionary",
+          "schema": "source_payload_mass_driver_update_tile_advance_state_input.shooters"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "link",
+        "charge",
+        "cur_size",
+        "target_size",
+        "effect_delay_timer",
+        "charging",
+        "reload_counter",
+        "waiting_shooters",
+        "state",
+        "pay_length",
+        "pay_rotation",
+        "pay_vector",
+        "loaded"
+      ],
+      "tests": [
+        "test_c07_payload_mass_driver_update_tile_registration",
+        "test_all_c07_payload_mass_driver_update_tile_input_evidence_is_exact",
+        "test_payload_mass_driver_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverUpdateTileProof",
+      "rule": "Source-backed PayloadMassDriver updateTile advance part 1 from PayloadMassDriver.java / PayloadBlock.java / BuildPayload.java / BuildingComp.java / Blocks.java / Block.java."
+    },
+    "SourcePayloadMassDriverBuildState.source_payload_mass_driver_state_branches_state": {
+      "status": "active",
+      "source_slice": "N2246",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "source_method": "PayloadDriverBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_payload_mass_driver_state_branches_state_input.frame"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_payload_mass_driver_state_branches_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_payload_mass_driver_state_branches_state_input.time_scale"
+        },
+        {
+          "name": "charge_time",
+          "type": "float",
+          "schema": "source_payload_mass_driver_state_branches_state_input.charge_time"
+        },
+        {
+          "name": "length",
+          "type": "float",
+          "schema": "source_payload_mass_driver_state_branches_state_input.length"
+        },
+        {
+          "name": "knockback",
+          "type": "float",
+          "schema": "source_payload_mass_driver_state_branches_state_input.knockback"
+        },
+        {
+          "name": "rotate_speed",
+          "type": "float",
+          "schema": "source_payload_mass_driver_state_branches_state_input.rotate_speed"
+        },
+        {
+          "name": "payload_speed",
+          "type": "float",
+          "schema": "source_payload_mass_driver_state_branches_state_input.payload_speed"
+        },
+        {
+          "name": "payload_rotate_speed",
+          "type": "float",
+          "schema": "source_payload_mass_driver_state_branches_state_input.payload_rotate_speed"
+        },
+        {
+          "name": "rot_deg",
+          "type": "float",
+          "schema": "source_payload_mass_driver_state_branches_state_input.rot_deg"
+        },
+        {
+          "name": "tile_pos",
+          "type": "int",
+          "schema": "source_payload_mass_driver_state_branches_state_input.tile_pos"
+        },
+        {
+          "name": "self_x",
+          "type": "float",
+          "schema": "source_payload_mass_driver_state_branches_state_input.self_x"
+        },
+        {
+          "name": "self_y",
+          "type": "float",
+          "schema": "source_payload_mass_driver_state_branches_state_input.self_y"
+        },
+        {
+          "name": "linked",
+          "type": "Dictionary",
+          "schema": "source_payload_mass_driver_state_branches_state_input.linked"
+        },
+        {
+          "name": "shooters",
+          "type": "Dictionary",
+          "schema": "source_payload_mass_driver_state_branches_state_input.shooters"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "state",
+        "target_size",
+        "turret_rotation",
+        "pay_rotation",
+        "pay_length",
+        "loaded",
+        "pay_vector",
+        "payload",
+        "charge",
+        "charging",
+        "reload_counter",
+        "partner_waiting_shooters",
+        "partner_state",
+        "partner_effect_delay_timer",
+        "partner_pay_vector",
+        "partner_pay_rotation",
+        "partner_pay_length",
+        "partner_loaded",
+        "partner_payload",
+        "partner_last_other",
+        "fired"
+      ],
+      "tests": [
+        "test_c07_payload_mass_driver_branches_registration",
+        "test_all_c07_payload_mass_driver_branches_input_evidence_is_exact",
+        "test_payload_mass_driver_state_branches_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_branches"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverBranchesProof",
+      "rule": "Source-backed PayloadMassDriver state branches from PayloadMassDriver.java / PayloadBlock.java / BuildPayload.java / BuildingComp.java / Blocks.java / Block.java."
+    },
+    "SourceShockwaveTowerBuildState.source_shockwave_tower_update_tile_advance_state": {
+      "status": "active",
+      "source_slice": "N2247",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "source_method": "ShockwaveTowerBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_shockwave_tower_update_tile_advance_state_input.frame"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_shockwave_tower_update_tile_advance_state_input.source_delta"
+        },
+        {
+          "name": "reload",
+          "type": "float",
+          "schema": "source_shockwave_tower_update_tile_advance_state_input.reload"
+        },
+        {
+          "name": "bullet_damage",
+          "type": "float",
+          "schema": "source_shockwave_tower_update_tile_advance_state_input.bullet_damage"
+        },
+        {
+          "name": "falloff_count",
+          "type": "float",
+          "schema": "source_shockwave_tower_update_tile_advance_state_input.falloff_count"
+        },
+        {
+          "name": "cooldown_multiplier",
+          "type": "float",
+          "schema": "source_shockwave_tower_update_tile_advance_state_input.cooldown_multiplier"
+        },
+        {
+          "name": "bullet_candidates",
+          "type": "Array",
+          "schema": "source_shockwave_tower_update_tile_advance_state_input.bullet_candidates"
+        },
+        {
+          "name": "check_ready",
+          "type": "bool",
+          "schema": "source_shockwave_tower_update_tile_advance_state_input.check_ready"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "fired",
+        "reload_counter",
+        "heat",
+        "targets",
+        "wave_damage"
+      ],
+      "tests": [
+        "test_c07_shockwave_tower_update_tile_registration",
+        "test_all_c07_shockwave_tower_update_tile_input_evidence_is_exact",
+        "test_shockwave_tower_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_update_tile"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerUpdateTileProof",
+      "rule": "Source-backed ShockwaveTower updateTile advance from ShockwaveTower.java / BuildingComp.java / Blocks.java / BulletType.java / BulletComp.java."
+    },
+    "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_update_tile_advance_state": {
+      "status": "active",
+      "source_slice": "N2248",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+      "source_method": "UnitAssemblerModuleBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_unit_assembler_module_update_tile_advance_state_input.frame"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_unit_assembler_module_update_tile_advance_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_unit_assembler_module_update_tile_advance_state_input.time_scale"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "last_change",
+        "link",
+        "link_refreshed",
+        "pay_vector",
+        "pay_rotation",
+        "moved_in",
+        "payload",
+        "handed_off"
+      ],
+      "tests": [
+        "test_c07_unit_assembler_module_update_tile_registration",
+        "test_all_c07_unit_assembler_module_update_tile_input_evidence_is_exact",
+        "test_unit_assembler_module_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_module_update_tile"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerModuleUpdateTileProof",
+      "rule": "Source-backed UnitAssemblerModule updateTile advance from UnitAssemblerModule.java / PayloadBlock.java / UnitAssembler.java / BuildingComp.java / Block.java / Blocks.java / World.java / arc Angles.java / Vec2.java."
     }
   },
   "policy": {
