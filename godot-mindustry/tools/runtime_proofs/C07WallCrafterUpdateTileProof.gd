@@ -82,11 +82,15 @@ func _ready() -> void:
 	# is called directly (as the N2170/N2201 proofs do), not
 	# simulate_factory, so the graph update does not overwrite
 	# the stamped power_status -- the write-back itself is
-	# already proven by N2142. The frame input
-	# efficiency_factor is seeded to 1.0 (the live
-	# getEfficiency fill waits for its own slice, so an
-	# unseeded live crusher reads 0.0 and never accumulates
-	# time). One 1/60s tick is one source tick: efficiency
+	# already proven by N2142. The tick stamps
+	# efficiency_factor live since N2301 (from
+	# frame["wall_edge_tiles"], WallCrafter.java:141-180),
+	# so the proof seeds the edge tiles instead: two solid
+	# tiles at 0.5 each (the size-2 cliff-crusher facing
+	# edge, Blocks.java:3007) sum to 1.0, and seeding
+	# efficiency_factor directly would be overwritten by
+	# the stamp before the advance reads it. One 1/60s tick
+	# is one source tick: efficiency
 	# folds the power min 0.5, warmup rises 1/40 toward 1,
 	# eff is 1.0 (no liquid/item booster live), time rises
 	# 0.5 * 1.0 * 1.0 * 1.0 = 0.5, lastEfficiency is 0.5, and
@@ -103,13 +107,16 @@ func _ready() -> void:
 	# Bind the frame explicitly (the N2149 pattern: the driver
 	# binds it on its first tick, but the proof needs the live
 	# frame dict before the tick to stamp power_status,
-	# efficiency_factor and items on it).
+	# the edge tiles and items on it).
 	wall_crafter_build_state.source_wall_crafter_bind_frame_state(crusher, blocks_by_id["cliff-crusher"])
 	var crusher_frame: Dictionary = crusher.get_meta(wall_crafter_build_state.SOURCE_WALL_CRAFTER_BUILDING_META_KEY, {})
 
 	crusher_frame["items"] = {}
 	crusher_frame["power_status"] = 0.5
-	crusher_frame["efficiency_factor"] = 1.0
+	crusher_frame["wall_edge_tiles"] = [
+		{"solid": true, "attribute_value": 0.5},
+		{"solid": true, "attribute_value": 0.5},
+	]
 	wall_crafter_build_state.source_wall_crafter_tick_buildings_state(game, 1.0 / 60.0)
 	crusher_frame = crusher.get_meta(wall_crafter_build_state.SOURCE_WALL_CRAFTER_BUILDING_META_KEY, {})
 	proof["live_tick_advances_warmup_and_time"] = is_equal_approx(float(crusher_frame.get("efficiency", -1.0)), 0.5) and is_equal_approx(float(crusher_frame.get("warmup", -1.0)), 1.0 / 40.0) and is_equal_approx(float(crusher_frame.get("eff", -1.0)), 1.0) and is_equal_approx(float(crusher_frame.get("time", -1.0)), 0.5) and is_equal_approx(float(crusher_frame.get("last_efficiency", -1.0)), 0.5) and is_equal_approx(float(crusher_frame.get("total_time", -1.0)), 0.0125) and bool(crusher_frame.get("offloaded", true)) == false
