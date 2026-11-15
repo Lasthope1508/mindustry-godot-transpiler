@@ -4,6 +4,7 @@ class_name SourceRegenProjectorBuildState
 const source_rules_state := preload("res://src/game/SourceRulesRuntimeState.gd")
 const source_placed_block_state := preload("res://src/game/SourcePlacedBlockState.gd")
 const source_block_geometry := preload("res://src/game/SourceBlockGeometry.gd")
+const source_world_defaults := preload("res://src/game/SourceWorldDefaults.gd")
 const source_building_efficiency_state := preload("res://src/game/SourceBuildingEfficiencyState.gd")
 const source_building_access_state := preload("res://src/game/SourceBuildingAccessState.gd")
 const source_math_state := preload("res://src/game/SourceMathState.gd")
@@ -56,6 +57,12 @@ const SOURCE_REGEN_PROJECTOR_LIQUID := "hydrogen"
 const SOURCE_REGEN_PROJECTOR_LIQUID_AMOUNT := 1.0 / 60.0
 const SOURCE_REGEN_PROJECTOR_BOOSTER_ITEM := "phase-fabric"
 const SOURCE_REGEN_PROJECTOR_BOOSTER_AMOUNT := 1
+# N2277 def constant (single def -- regen-projector): the
+# updateTargets range 28 (Blocks.java:2012, `range = 28;`, the def
+# override of the class `public int range = 14;`,
+# RegenProjector.java:26). The scan rect is range * tilesize on a
+# side (RegenProjector.java:118), tilesize 8 (Vars.java:135).
+const SOURCE_REGEN_PROJECTOR_RANGE := 28
 
 static func _is_regen_projector_build_implementation(implementation: String) -> bool:
 	return SOURCE_REGEN_PROJECTOR_BUILD_IMPLEMENTATIONS.has(implementation)
@@ -142,7 +149,7 @@ static func source_regen_projector_bind_frame_state(sprite: Sprite2D, block: Obj
 	return {"applied": true, "frame": frame}
 
 static func source_regen_projector_should_consume_state(frame: Dictionary) -> Dictionary:
-	# RegenProjectorBuild overrides shouldConsume (RegenProjector.java:181, `public boolean shouldConsume(){` with `return anyTargets;`, RegenProjector.java:182): the gate reads ONLY the anyTargets flag -- the projector consumes while a damaged building is in range and stops consuming once nothing in range is damaged. The field is `public boolean anyTargets = false;` (RegenProjector.java:112) on RegenProjectorBuild (`public class RegenProjectorBuild extends Building{`, RegenProjector.java:108); RegenProjector extends Block (RegenProjector.java:20, `public class RegenProjector extends Block{`), so the default (`return enabled;`, BuildingComp.java:755) does NOT apply here. Unlike the Separator/Drill gates this one has NO `&& enabled` -- Java returns the bare flag, so the pure gate does NOT read frame["enabled"] at all (the driver already runs the machinery only when enabled). The frame carries the flag (frame["any_targets"], default false for a frame bound before this slice -- the Java field defaults to false); no live fill sets the targets list yet -- the targets computation (indexer range query, RegenProjector.java:115-119, + contains damaged, RegenProjector.java:139) is the updateTile advance (RegenProjector.java:122-179): the contains-damaged fold is live (N2228) over the frame targets input, the indexer query still waits for its own slice. The gate reads anyTargets only, never the targets list itself, so this slice adds NO `targets` frame key. When the gate is false updateConsumption forces efficiency to zero (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();` + 1992, `if(!update){`). The heal gate (RegenProjector.java:141, `if(efficiency > 0){`) and the heal amount (RegenProjector.java:147, `float healAmount = Mathf.lerp(1f, optionalMultiplier, optionalEfficiency) * healPercent;`) follow the folded efficiency; the def consumes power 1f (`consumePower(1f);`, Blocks.java:2015) plus liquid hydrogen 1f/60f (`consumeLiquid(Liquids.hydrogen, 1f / 60f);`, Blocks.java:2016) -- the liquid row is live (N2260), folded into the first-pass min alongside power, and the phaseFabric booster row (`consumeItem(Items.phaseFabric).boost();`, Blocks.java:2017) is live too, folded into the optional pass. N2214 cites the gate at 181-183 (verified by grep: exactly one shouldConsume in the file).
+	# RegenProjectorBuild overrides shouldConsume (RegenProjector.java:181, `public boolean shouldConsume(){` with `return anyTargets;`, RegenProjector.java:182): the gate reads ONLY the anyTargets flag -- the projector consumes while a damaged building is in range and stops consuming once nothing in range is damaged. The field is `public boolean anyTargets = false;` (RegenProjector.java:112) on RegenProjectorBuild (`public class RegenProjectorBuild extends Building{`, RegenProjector.java:108); RegenProjector extends Block (RegenProjector.java:20, `public class RegenProjector extends Block{`), so the default (`return enabled;`, BuildingComp.java:755) does NOT apply here. Unlike the Separator/Drill gates this one has NO `&& enabled` -- Java returns the bare flag, so the pure gate does NOT read frame["enabled"] at all (the driver already runs the machinery only when enabled). The frame carries the flag (frame["any_targets"], default false for a frame bound before this slice -- the Java field defaults to false); the targets list is filled live (N2277) -- the targets computation (indexer range query, RegenProjector.java:115-119, + contains damaged, RegenProjector.java:139) is the updateTile advance (RegenProjector.java:122-179): the contains-damaged fold is live (N2228) over the frame targets input and the indexer query is live (N2277, the scan runs before the advance every tick). The gate reads anyTargets only, never the targets list itself, so this slice adds NO `targets` frame key. When the gate is false updateConsumption forces efficiency to zero (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();` + 1992, `if(!update){`). The heal gate (RegenProjector.java:141, `if(efficiency > 0){`) and the heal amount (RegenProjector.java:147, `float healAmount = Mathf.lerp(1f, optionalMultiplier, optionalEfficiency) * healPercent;`) follow the folded efficiency; the def consumes power 1f (`consumePower(1f);`, Blocks.java:2015) plus liquid hydrogen 1f/60f (`consumeLiquid(Liquids.hydrogen, 1f / 60f);`, Blocks.java:2016) -- the liquid row is live (N2260), folded into the first-pass min alongside power, and the phaseFabric booster row (`consumeItem(Items.phaseFabric).boost();`, Blocks.java:2017) is live too, folded into the optional pass. N2214 cites the gate at 181-183 (verified by grep: exactly one shouldConsume in the file).
 	var any_targets: bool = bool(frame.get("any_targets", false))
 	return {"should_consume": any_targets, "any_targets": any_targets}
 
@@ -171,8 +178,9 @@ static func source_regen_projector_power_status_row_state(frame: Dictionary, has
 	# damaged building in range, true while one is in range); the updateTile
 	# advance (N2228) recomputes frame["any_targets"] every tick from the frame
 	# targets input (the contains-damaged fold, RegenProjector.java:139), while
-	# no live fill sets the targets list itself yet (the indexer range query,
-	# RegenProjector.java:115-119, waits for its own slice).
+	# the updateTargets live fill (N2277) rebuilds the targets list itself
+	# from the placed buildings whenever tile_changes moves (the indexer
+	# range query, RegenProjector.java:115-119).
 	# Documented limits: (1) power + liquid first pass, item
 	# booster optional pass -- the regen-projector's power consumer
 	# (1f, Blocks.java:2015), its required liquid consumer (hydrogen
@@ -192,9 +200,10 @@ static func source_regen_projector_power_status_row_state(frame: Dictionary, has
 	# pure gate reads the frame any_targets key (default false) and feeds
 	# should_consume to the machinery; the updateTile advance (N2228)
 	# recomputes frame["any_targets"] every tick from the frame targets input
-	# (the contains-damaged fold, RegenProjector.java:139), while no live fill
-	# sets the targets list itself yet (the indexer range query over buildings
-	# in range 28, RegenProjector.java:115-119, waits for its own slice).
+	# (the contains-damaged fold, RegenProjector.java:139), over the targets
+	# list the updateTargets live fill (N2277) rebuilds from the placed
+	# buildings whenever tile_changes moves (the indexer range query over
+	# buildings in range 28, RegenProjector.java:115-119).
 	# (3) Suppression gate -- checkSuppression() (RegenProjector.java:135;
 	# suppressable=true, RegenProjector.java:49) is modeled as the frame input
 	# `heal_suppressed` (default false, N2228): the advance returns early on a
@@ -205,10 +214,12 @@ static func source_regen_projector_power_status_row_state(frame: Dictionary, has
 	# optionalTimer / didRegen / anyTargets / mendMap accumulation
 	# (RegenProjector.java:122-179) advance on the frame; the
 	# optionalTimer consume() item removal is wired by the tick
-	# (N2260, 1 phaseFabric when the advance reports consumed) while
-	# the updateTargets live query, the mendMap flush, the effect
-	# chance and the disabled early return wait for their own slices
-	# (see the N2228 live-fill deferral).
+	# (N2260, 1 phaseFabric when the advance reports consumed) and
+	# updateTargets live (N2277) -- the scan rebuilds the targets
+	# list before the advance whenever tile_changes moves; the
+	# mendMap flush, the effect chance, the live tileChanges
+	# counter and the disabled early return wait for their own
+	# slices (see the N2228 live-fill deferral).
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -243,6 +254,97 @@ static func source_regen_projector_item_consumer_row_state(frame: Dictionary, st
 			break
 	var result: float = 1.0 if (consume_trigger_valid or has_all) else 0.0
 	return {"has_item_row": true, "row": {"result": result, "is_power": false}}
+
+static func source_regen_projector_update_targets_state(frame: Dictionary, building_x: float, building_y: float, candidates: Array) -> Dictionary:
+	# The updateTargets scan (RegenProjectorBuild.updateTargets(),
+	# RegenProjector.java:115-119), the pure targets rebuild -- the
+	# build fields are `public Seq<Building> targets = new Seq<>();`
+	# (RegenProjector.java:109) and `public int lastChange = -2;`
+	# (RegenProjector.java:110), and the scan follows the Java
+	# lines in order (each exact expr on ONE comment line, the
+	# N2148 lesson):
+	# `public void updateTargets(){`
+	# `targets.clear();`
+	# `taken.clear();`
+	# `indexer.eachBlock(team, Tmp.r1.setCentered(x, y, range * tilesize), b -> true, targets::add);`
+	# `public void updateTile(){`
+	# `if(lastChange != world.tileChanges){`
+	# `lastChange = world.tileChanges;`
+	# `updateTargets();`
+	# `public class RegenProjector extends Block{`
+	# `public class RegenProjectorBuild extends Building{`
+	# `public int range = 14;`
+	# `range = 28;`
+	# `public int tileChanges = 1, floorChanges = 1;`
+	# `return health < maxHealth - 0.001f;`
+	# `return Point2.pack(x, y);`
+	# `return block().offset + worldx();`
+	# `return block().offset + worldy();`
+	# `offset = ((size + 1) % 2) * tilesize / 2f;`
+	# `public static final int tilesize = 8;`
+	# `public boolean eachBlock(Team team, Rect rect, Boolf<Building> pred, Cons<Building> cons){`
+	# `buildings.intersect(rect, b -> {`
+	# `if(pred.get(b) && !b.block.privileged){`
+	# `anyTargets = targets.contains(b -> b.damaged());`
+	# The trigger lives in updateTile (RegenProjector.java:122-125):
+	# only when tile_changes differs from last_change does the scan
+	# rebuild; otherwise targets stay untouched and refreshed is
+	# false. The rect is a SQUARE: setCentered(x, y, range *
+	# tilesize) is Rect.set(x - size/2, y - size/2, size, size)
+	# (arc Rect.java:49-51), so the scan tests the building center
+	# against |dx| <= half-side and |dy| <= half-side (half-side
+	# 112.0: range 28, Blocks.java:2012, the def override of the
+	# class `public int range = 14;`, RegenProjector.java:26,
+	# times tilesize 8, Vars.java:135, halved) -- never dst2, so a
+	# corner building at (112, 112) from the projector is IN the
+	# square and out of any circle. The candidates arrive from the
+	# driver (each: pos, team_id, x, y, block_health, health,
+	# heal_suppressed); the pos is the packed origin cell
+	# (Tile.pos(), Tile.java:73-75) and x/y are the drawx/drawy
+	# center (Tile.java:176/180). damaged() is computed here,
+	# `return health < maxHealth - 0.001f;` (HealthComp.java:47-49),
+	# so the scan and the advance agree on what counts as damaged.
+	# Scoping decisions, all source-backed: (1) taken is NOT
+	# ported -- it is declared at RegenProjector.java:21 and only
+	# ever cleared at :117, never read at this pin, so clearing it
+	# loses no behavior. (2) live world.tileChanges does NOT exist
+	# in the port (only RegenProjector and UnitAssemblerModule read
+	# a tile_changes frame input; PortGame/SourceWorld* carry no
+	# live counter), so the driver reads the frame input
+	# tile_changes as-is (default 1, World.java:35) and the live
+	# counter waits for a game-state slice. (3) the Java query is
+	# a quadtree hitbox intersect (BlockIndexer.java:364-380) with
+	# a privileged exclusion (:372); the port tests building
+	# centers against the rect and models no privileged flag (the
+	# only privileged defs are the world-processor-only logic
+	# blocks, Blocks.java:6955/6965/6974) -- the hitbox-overlap
+	# refinement waits for its own slice. (4) the projector itself
+	# counts when its center falls in its own rect (Java includes
+	# every same-team building, predicate `b -> true`). (5) the
+	# function does NOT mutate its input frame: a refresh builds a
+	# fresh targets array, and a non-refresh returns the frame
+	# targets as-is. The rebuilt entries match the exact format
+	# the N2228 advance reads (pos, block_health, health,
+	# damaged, heal_suppressed), and the advance then folds
+	# anyTargets over them (RegenProjector.java:139).
+	var tile_changes: int = int(frame.get("tile_changes", 1))
+	var last_change: int = int(frame.get("last_change", -2))
+	var team_id: int = int(frame.get("team_id", source_block_geometry.SOURCE_TEAM_DERELICT_ID))
+	if tile_changes == last_change:
+		return {"targets": frame.get("targets", []), "last_change": last_change, "refreshed": false}
+	var half_side: float = float(SOURCE_REGEN_PROJECTOR_RANGE) * source_world_defaults.TILESIZE / 2.0
+	var targets: Array = []
+	for candidate in candidates:
+		if int(candidate.get("team_id", source_block_geometry.SOURCE_TEAM_DERELICT_ID)) != team_id:
+			continue
+		var dx: float = absf(float(candidate.get("x", 0.0)) - building_x)
+		var dy: float = absf(float(candidate.get("y", 0.0)) - building_y)
+		if dx > half_side or dy > half_side:
+			continue
+		var block_health: float = float(candidate.get("block_health", 0.0))
+		var health: float = float(candidate.get("health", 0.0))
+		targets.append({"pos": int(candidate.get("pos", 0)), "block_health": block_health, "health": health, "damaged": health < block_health - 0.001, "heal_suppressed": bool(candidate.get("heal_suppressed", false))})
+	return {"targets": targets, "last_change": tile_changes, "refreshed": true}
 
 static func source_regen_projector_update_tile_advance_state(frame: Dictionary, source_delta: float, time_scale: float) -> Dictionary:
 	# The updateTile advance (RegenProjectorBuild.updateTile(),
@@ -309,10 +411,12 @@ static func source_regen_projector_update_tile_advance_state(frame: Dictionary, 
 	# the live updateTargets query
 	# (RegenProjector.java:115-119, `targets.clear();` +
 	# `indexer.eachBlock(team, Tmp.r1.setCentered(x, y, range * tilesize), b -> true, targets::add);`)
-	# has no helper in the port, so targets arrive as the frame
-	# input (each entry: pos, block_health, health, damaged,
-	# heal_suppressed); the lastChange refresh IS modeled,
-	# with tile_changes as the frame input (default 1,
+	# is live since N2277: the tick scans the placed buildings
+	# before the advance whenever tile_changes moves and stamps
+	# the rebuilt list on the frame (each entry: pos,
+	# block_health, health, damaged, heal_suppressed); the
+	# lastChange refresh IS modeled, with tile_changes as the
+	# frame input (default 1,
 	# `public int tileChanges = 1, floorChanges = 1;`,
 	# World.java:35) against lastChange -2, so the first tick
 	# refreshes. (2) heal_suppressed is a frame input (default
@@ -419,7 +523,11 @@ static func source_regen_projector_tick_buildings_state(game: Object, seconds: f
 	for registered_block in catalog.get_many("block"):
 		blocks_by_id[registered_block.id] = registered_block
 	var liquid_id_by_name: Dictionary = source_content_registry_runtime_state.source_liquid_catalog_state(catalog).get("liquid_id_by_name", {})
-	for sprite in source_placed_block_state.source_unique_buildings_state(game).get("buildings", []):
+	# N2277: the placed buildings, gathered once per tick -- the
+	# updateTargets scan below reads the same list for every
+	# projector instead of re-querying placed_blocks per sprite.
+	var all_buildings: Array = source_placed_block_state.source_unique_buildings_state(game).get("buildings", [])
+	for sprite in all_buildings:
 		if not is_instance_valid(sprite) or not sprite is Sprite2D:
 			continue
 		var block_id: String = str(sprite.get_meta(source_placed_block_state.SOURCE_BLOCK_ID_META_KEY, ""))
@@ -548,12 +656,54 @@ static func source_regen_projector_tick_buildings_state(game: Object, seconds: f
 		# reads live from the sprite meta, default 1.0
 		# (BuildingComp.java:98 `private transient float
 		# timeScale = 1f, timeScaleDuration;`). The advance
-		# recomputes frame["any_targets"] from the frame targets
-		# input every tick (the contains-damaged fold,
-		# RegenProjector.java:139), so a live projector with no
-		# targets fill reads any_targets false and does not
-		# consume -- the N2228 live-fill deferral.
+		# recomputes frame["any_targets"] every tick from the
+		# targets list the N2277 scan rebuilds just above (the
+		# contains-damaged fold, RegenProjector.java:139), so a
+		# live projector with a damaged building in range reads
+		# any_targets true and consumes.
 		if bool(frame.get("enabled", true)):
+			# N2277: the updateTargets scan runs BEFORE the advance
+			# (the Java order: the tileChanges check opens
+			# updateTile, RegenProjector.java:122-125, and the
+			# advance then folds anyTargets over the fresh
+			# targets, RegenProjector.java:139). The driver
+			# pre-checks the gate before gathering candidates
+			# (Java only scans on change); the pure scan keeps
+			# its own gate, so the refresh / no-refresh branches
+			# stay provable pure. Each candidate's world center
+			# is the drawx/drawy of its origin cell (the
+			# RepairTurret precedent: Tile.java:176/180 with the
+			# block offset, Block.java:761), its pos is the
+			# packed cell (tile_pos_state, Tile.java:73-75), its
+			# health/max health come from the sprite metas and
+			# its team from the build-team meta; a sprite whose
+			# block is not in the catalog is skipped (no size to
+			# center it with). heal_suppressed is false for every
+			# candidate: the port tracks no live suppression
+			# state (the suppression live fill is still
+			# deferred). The projector itself counts when it
+			# falls in its own rect (Java predicate `b -> true`).
+			if int(frame.get("tile_changes", 1)) != int(frame.get("last_change", -2)):
+				var scan_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
+				var scan_block_size: int = int(block.properties.get("size", 1))
+				var scan_block_offset: float = float((scan_block_size + 1) % 2) * source_world_defaults.TILESIZE / 2.0
+				var scan_building_x: float = source_block_geometry.tile_drawx_state(scan_cell.x, source_world_defaults.TILESIZE, scan_block_offset)
+				var scan_building_y: float = source_block_geometry.tile_drawy_state(scan_cell.y, source_world_defaults.TILESIZE, scan_block_offset)
+				var scan_candidates: Array = []
+				for other_sprite in all_buildings:
+					if not is_instance_valid(other_sprite) or not other_sprite is Sprite2D:
+						continue
+					var other_block_id: String = str(other_sprite.get_meta(source_placed_block_state.SOURCE_BLOCK_ID_META_KEY, ""))
+					if not blocks_by_id.has(other_block_id):
+						continue
+					var other_block = blocks_by_id[other_block_id]
+					var other_cell: Vector2i = other_sprite.get_meta("origin_cell", Vector2i.ZERO)
+					var other_size: int = int(other_block.properties.get("size", 1))
+					var other_offset: float = float((other_size + 1) % 2) * source_world_defaults.TILESIZE / 2.0
+					scan_candidates.append({"pos": source_block_geometry.tile_pos_state(other_cell.x, other_cell.y), "team_id": int(other_sprite.get_meta(source_block_geometry.SOURCE_BUILD_TEAM_META_KEY, source_block_geometry.SOURCE_TEAM_DERELICT_ID)), "x": source_block_geometry.tile_drawx_state(other_cell.x, source_world_defaults.TILESIZE, other_offset), "y": source_block_geometry.tile_drawy_state(other_cell.y, source_world_defaults.TILESIZE, other_offset), "block_health": float(other_sprite.get_meta(source_placed_block_state.SOURCE_BLOCK_MAX_HEALTH_META_KEY, 0.0)), "health": source_placed_block_state.health(other_sprite), "heal_suppressed": false})
+				var scanned: Dictionary = source_regen_projector_update_targets_state(frame, scan_building_x, scan_building_y, scan_candidates)
+				frame["targets"] = scanned["targets"]
+				frame["last_change"] = scanned["last_change"]
 			var source_delta: float = source_placed_block_state.game_source_delta(game, seconds)
 			var time_scale: float = source_placed_block_state.time_scale(sprite, source_placed_block_state.game_default_time_scale(game))
 			var advanced: Dictionary = source_regen_projector_update_tile_advance_state(frame, source_delta, time_scale)
