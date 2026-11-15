@@ -26,8 +26,10 @@ const SOURCE_PAYLOAD_UNLOADER_BUILDING_META_KEY := "source_payload_unloader_buil
 # `itemCapacity = 100;` / `liquidCapacity = 100f;`
 # (PayloadLoader.java:40-41, inherited), `size = 3;`
 # (Blocks.java:6696), `public float payloadSpeed = 0.7f, payloadRotateSpeed = 5f;`
-# (PayloadBlock.java:18). loadTime and offloadSpeed are the deferred
-# cadences (the timer tick and the dump loop); the rest drive the advance.
+# (PayloadBlock.java:18). loadTime is the load timer cadence
+# (live since N2320, source_payload_unloader_load_timer_state)
+# and offloadSpeed is the dump loop (live since N2293,
+# source_payload_unloader_dump_state); the rest drive the advance.
 const SOURCE_PAYLOAD_UNLOADER_LOAD_TIME := 2.0
 const SOURCE_PAYLOAD_UNLOADER_ITEMS_LOADED := 8
 const SOURCE_PAYLOAD_UNLOADER_LIQUIDS_LOADED := 40.0
@@ -131,6 +133,14 @@ static func source_payload_unloader_tick_frame_state(frame: Dictionary, block_im
 		frame["cdump"] = 0
 	if not frame.has("dump_accum"):
 		frame["dump_accum"] = 0.0
+	# The load timer clock (N2320): the frame-local
+	# Interval-equivalent elapsed (frame["timer_load_elapsed"],
+	# default 0.0 -- the Java Interval times[] init 0
+	# (`times = new float[capacity];`, Interval.java:9)) -- a
+	# frame bound before this slice gets the default instead
+	# of crashing the timer.
+	if not frame.has("timer_load_elapsed"):
+		frame["timer_load_elapsed"] = 0.0
 	return frame
 
 static func _initial_frame() -> Dictionary:
@@ -161,9 +171,12 @@ static func _initial_frame() -> Dictionary:
 	# (`transient int cdump;`, BuildingComp.java:68, default
 	# 0) and the dump accumulator (`private transient float
 	# dumpAccum;`, BuildingComp.java:99, default 0f).
+	# The load timer clock (N2320) starts at 0.0 (the Java
+	# Interval times[] init 0, `times = new float[capacity];`,
+	# Interval.java:9).
 	# Liquids sync from the sprite meta each tick (the N2224
 	# Fracker precedent), not from _initial_frame.
-	return {"payload": null, "pay_vector": {"x": 0.0, "y": 0.0}, "pay_rotation": 0.0, "rotation": 0, "items": {}, "last_output_power": 0.0, "incoming_payload": null, "cdump": 0, "dump_accum": 0.0, "offered_payload": null}
+	return {"payload": null, "pay_vector": {"x": 0.0, "y": 0.0}, "pay_rotation": 0.0, "rotation": 0, "items": {}, "last_output_power": 0.0, "incoming_payload": null, "cdump": 0, "dump_accum": 0.0, "offered_payload": null, "timer_load_elapsed": 0.0}
 
 static func source_payload_unloader_bind_frame_state(sprite: Sprite2D, block: Object) -> Dictionary:
 	# Placement creates the Building (Block.java:1002 newBuilding);
@@ -229,6 +242,90 @@ static func _payload_unloader_liquid_remove(module_state: Dictionary, liquid_id:
 	if liquid_id >= 0 and liquid_id < amounts.size():
 		held = float(amounts[liquid_id])
 	return _payload_unloader_liquid_add(module_state, liquid_id, maxf(-amount, -held))
+
+static func source_payload_unloader_load_timer_state(elapsed: float, source_delta: float, time_scale: float, efficiency: float, load_time: float) -> Dictionary:
+	# The frame-local Interval-equivalent for the load timer
+	# cadence (TimerComp.timer, TimerComp.java:10-13, each
+	# exact expr on ONE comment line, the N2148 lesson):
+	# `if(Float.isInfinite(time)) return false;`
+	# `return timer.get(index, time);`
+	# Interval.get resets times[id] = Time.time on fire
+	# (arc Interval.java:20-26):
+	# `boolean got = check(id, time);`
+	# `if(got) times[id] = Time.time;`
+	# and check compares Time.time - times[id] >= time (arc
+	# Interval.java:28-30):
+	# `return Time.time - times[id] >= time || Time.time < times[id];`
+	# Time.time counts TICKS (arc Time.java:69-80):
+	# `timeRaw += delta;`
+	# The port has no global tick clock at the driver layer, so
+	# the elapsed clock is frame-local (frame["timer_load_
+	# elapsed"], accumulated by the tick delta every tick the
+	# advance runs, unconditionally -- mirroring Time.time,
+	# which grows even while the gate is closed): elapsed +=
+	# source_delta unconditionally (source_delta is the
+	# UNSCALED Time.delta in ticks -- game_source_delta is
+	# seconds * 60, never scaled by timeScale -- so the
+	# frame clock mirrors the global Time.time exactly);
+	# load_tick = (efficiency > 0.01) and (elapsed >=
+	# load_time / efficiency); elapsed_after RESETS to 0.0
+	# ONLY when load_tick is true (a reset, not a subtraction
+	# like the Fracker accumulator); a non-positive time_scale
+	# is a defensive guard (threshold INF, never fires -- see
+	# below). The Java call is (PayloadUnloader.java:69):
+	# `if(efficiency > 0.01f && timer(timerLoad, loadTime / efficiency)){`
+	# with `public final int timerLoad = timers++;`
+	# (PayloadLoader.java:20, inherited) and
+	# `public float loadTime = 2f;`
+	# (PayloadLoader.java:22, inherited) on
+	# `public class PayloadUnloader extends PayloadLoader{`
+	# (PayloadUnloader.java:8) and
+	# `public class PayloadUnloaderBuild extends PayloadLoaderBuild{`
+	# (PayloadUnloader.java:32). The threshold divides by
+	# EFFICIENCY, not timeScale -- Java passes loadTime /
+	# efficiency to timer() and nothing else (the N2290
+	# lesson: never invent a / time_scale). The efficiency
+	# gate is the Java short-circuit: efficiency <= 0.01
+	# means Java never calls timer() (PayloadUnloader.
+	# java:69), so no reset happens -- but Time.time keeps
+	# growing, so the frame clock accumulates unconditionally
+	# and a recovered efficiency fires at once (elapsed
+	# already past the threshold). The gate `efficiency >
+	# 0.01 and load_tick` already lives in the N2232 advance
+	# pure -- this pure only computes load_tick, it does not
+	# duplicate the gate. Efficiency <= 0 is the TimerComp
+	# infinite rule (threshold +inf, no fire) and the
+	# divide-by-zero guard. time_scale stays a parameter
+	# (signature stability -- the contract, call sites, and
+	# tests keep it) and is still read: a non-positive
+	# time_scale never fires, a defensive port guard for a
+	# corrupt frame input -- Java timeScale is always
+	# positive in practice (the default, BuildingComp.
+	# java:98, is
+	# `private transient float timeScale = 1f, timeScaleDuration;`
+	# applyBoost / applySlowdown take positive intensities,
+	# BuildingComp.java:461-478; decay resets it to 1f,
+	# BuildingComp.java:2265-2266), so the guard is
+	# unreachable in Java-exact play and the threshold is
+	# Java-exact at every reachable time_scale. Note the
+	# clock still ACCUMULATES at time_scale 0 (source_delta
+	# is unscaled) -- only the fire is guarded. The Unloader
+	# has NO dynamic power consumer
+	# (`loadPowerDynamic = false;`, PayloadUnloader.java:18),
+	# so the folded efficiency this timer reads is the
+	# power-only fold, exact. Documented deviation (first
+	# fire): Java fires (nearly) immediately after placement
+	# (the global Time.time is already large vs a fresh
+	# Interval times[id] = 0); the frame-local clock delays
+	# the first fire by a full interval (loadTime /
+	# efficiency ticks). It cannot be fixed without a global
+	# clock -- it waits for a timer-infra slice if exact
+	# first-fire timing is ever needed.
+	var threshold: float = INF if time_scale <= 0.0 or efficiency <= 0.0 else load_time / efficiency
+	var accumulated: float = elapsed + source_delta
+	var load_tick: bool = efficiency > 0.01 and accumulated >= threshold
+	var timer_elapsed_after: float = 0.0 if load_tick else accumulated
+	return {"load_tick": load_tick, "timer_elapsed_after": timer_elapsed_after}
 
 static func source_payload_unloader_update_tile_advance_state(frame: Dictionary, source_delta: float, time_scale: float, load_tick: bool, item_order: Array, front: Dictionary) -> Dictionary:
 	# The updateTile advance (PayloadUnloaderBuild.updateTile(),
@@ -348,10 +445,13 @@ static func source_payload_unloader_update_tile_advance_state(frame: Dictionary,
 	# source-backed: (1) payload.update (PayloadUnloader.
 	# java:51-53) and updatePayload (PayloadBlock.java:
 	# 174-179) are no-ops -- no live payload entity in the
-	# port. (2) The timer cadence defers (no timer helper in
-	# the port): the pure advance takes load_tick and the
-	# driver passes false; the efficiency > 0.01f guard IS
-	# modeled. (3) moveIn is ported here (PayloadBlock.java:
+	# port. (2) The timer cadence is live since N2320
+	# (source_payload_unloader_load_timer_state, the
+	# frame-local Interval-equivalent, 2f/efficiency): the
+	# pure advance takes load_tick and the driver passes the
+	# computed tick; the efficiency > 0.01f guard IS modeled
+	# here AND in the timer pure (the Java short-circuit).
+	# (3) moveIn is ported here (PayloadBlock.java:
 	# 186-197); block.rotate is true for PayloadLoader
 	# (PayloadLoader.java:45), so the rotation target is
 	# rotdeg(). (4) moveOut REUSES the ported helper
@@ -792,7 +892,7 @@ static func source_payload_unloader_should_consume_state(frame: Dictionary) -> D
 
 static func source_payload_unloader_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
 	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a payload-unloader does not take the early return. The unload gate follows the folded efficiency (PayloadUnloader.java:69, `if(efficiency > 0.01f && timer(timerLoad, loadTime / efficiency)){`), with the battery unload (PayloadUnloader.java:98, `float total = payload.build.power.status * cap;`) and the shouldConsume default (BuildingComp.java:755, `public boolean shouldConsume(){`) and the shouldConsume override inherited from PayloadLoaderBuild (PayloadLoader.java:241, `return payload != null;`); the gate is live since N2209 (the pure gate source_payload_unloader_should_consume_state feeds payload != null to the machinery; when the gate is false updateConsumption forces efficiency to 0, BuildingComp.java:1960 + 1992).
-	# Documented limits: (1) power-only first pass -- PayloadUnloader has NO dynamic power consumer: `loadPowerDynamic = false` (PayloadUnloader.java:18), so `init()` never registers the ConsumePowerDynamic lambda (PayloadLoader.java:77-84, guarded by `if(loadPowerDynamic){` at :78); the static consumePower(2f) def (Blocks.java:6695) is the only power consumer, so the folded efficiency is the min over the *modeled* consumers (power only) and the power-only fold is EXACT. (An earlier docstring + DEFERRED entry claimed an inherited dynamic consumer -- WRONG, corrected at wave power-launch-build integration, 2026-11-15.) (2) shouldConsume gate live (N2209) -- PayloadUnloaderBuild inherits shouldConsume() to return payload != null (PayloadLoader.java:240-242); the pure gate (source_payload_unloader_should_consume_state) feeds should_consume to the machinery from the frame payload key (default null). The live payload fill live (N2279) -- handlePayload applies the frame incoming_payload input before the advance (gated by the N2296 verdict since N2313 -- a refused push is dropped, still consumed; an occupied frame keeps the push for retry), so a live payload-unloader with a pushed payload consumes the same tick; takePayload is ported pure but NOT wired live (the unit-pickup path waits for live units), and the live incoming source (front moveOutPayload push / unit drop) waits for its own slice, so until then incoming_payload is a frame input. (3) shouldExport gate live (N2232) -- shouldExport() (PayloadUnloader.java:116-122) runs in the pure advance over the frame payload (items empty / liquids <= 0.011f / battery status <= 0.0000001f). (4) updateTile advance live (N2232) -- moveInPayload / moveOutPayload (reused helper) / unload items+liquids / battery unload / lastOutputPower (PayloadUnloader.java:50-110) run on the frame; the timer cadence (the driver passes load_tick false), the movePayload/dumpPayload application, and the live front query wait for their own slices. The dump rows live (N2293) -- source_payload_unloader_dump_state, dumpLiquid(current) 2f + offloadSpeed x dumpAccumulate() at the end of updateTile, PayloadUnloader.java:105-108, unconditional -- outside the payload-null check and the shouldExport/moveInPayload branches. (5) acceptPayload rows live (N2296) -- the Unloader inherits the Loader's acceptPayload override (PayloadLoader.java:90-101: base null gate + fits(maxBlockSize) + BuildPayload container branches), NOT the bare PayloadBlock base gate (PayloadBlock.java:116-118) -- PayloadUnloaderBuild extends PayloadLoaderBuild (PayloadUnloader.java:32), so the Loader override applies; the pure gate (source_payload_unloader_accept_payload_state) exposes accepts_payload / accepts_item / accepts_liquid on the frame from the offered-payload frame input (default null, no offer), and acceptItem/acceptLiquid are hard false (PayloadUnloader.java:35-44); the gate is wired as the intake guard since N2313 (see (7)) and no live source offers a payload yet. (6) Battery unload live (N2232), power-production graph wiring deferred -- getPowerProduction returns lastOutputPower (PayloadUnloader.java:46-48; lastOutputPower 0f, PayloadUnloader.java:33) and the battery unload (PayloadUnloader.java:94-102) fills frame last_output_power each tick, but the power graph builds producers from the static block property powerProduction, so the dynamic value waits for a distribution-runtime slice; the dump rows are live since N2293 (see (4)). (7) Intake full-gate wiring live (N2313) -- the tick builds the N2296 descriptor from the incoming dict itself (is_build_payload / size on the payload dict, the block flags on its block dict; missing keys reject) and applies the push only when the verdict accepts; occupancy KEEPS the push for next tick (the N2279 keep-for-retry, preserved -- unlike the N2308 Deconstructor drop), descriptor rejection DROPS it (consumed); the offered-payload verdict still governs frame["accepts_payload"] (when both an offer and a push are present, the offer verdict governs the frame key and the intake verdict decides the push alone -- the intake never overwrites frame["accepts_payload"]).
+	# Documented limits: (1) power-only first pass -- PayloadUnloader has NO dynamic power consumer: `loadPowerDynamic = false` (PayloadUnloader.java:18), so `init()` never registers the ConsumePowerDynamic lambda (PayloadLoader.java:77-84, guarded by `if(loadPowerDynamic){` at :78); the static consumePower(2f) def (Blocks.java:6695) is the only power consumer, so the folded efficiency is the min over the *modeled* consumers (power only) and the power-only fold is EXACT. (An earlier docstring + DEFERRED entry claimed an inherited dynamic consumer -- WRONG, corrected at wave power-launch-build integration, 2026-11-15.) (2) shouldConsume gate live (N2209) -- PayloadUnloaderBuild inherits shouldConsume() to return payload != null (PayloadLoader.java:240-242); the pure gate (source_payload_unloader_should_consume_state) feeds should_consume to the machinery from the frame payload key (default null). The live payload fill live (N2279) -- handlePayload applies the frame incoming_payload input before the advance (gated by the N2296 verdict since N2313 -- a refused push is dropped, still consumed; an occupied frame keeps the push for retry), so a live payload-unloader with a pushed payload consumes the same tick; takePayload is ported pure but NOT wired live (the unit-pickup path waits for live units), and the live incoming source (front moveOutPayload push / unit drop) waits for its own slice, so until then incoming_payload is a frame input. (3) shouldExport gate live (N2232) -- shouldExport() (PayloadUnloader.java:116-122) runs in the pure advance over the frame payload (items empty / liquids <= 0.011f / battery status <= 0.0000001f). (4) updateTile advance live (N2232) -- moveInPayload / moveOutPayload (reused helper) / unload items+liquids / battery unload / lastOutputPower (PayloadUnloader.java:50-110) run on the frame; the timer cadence live (N2320) -- the frame-local Interval (2f/efficiency) passes the computed load_tick into the advance (first-fire deviation: Java fires (nearly) immediately after placement; the frame clock delays the first fire by a full interval); the movePayload/dumpPayload application and the live front query wait for their own slices. The dump rows live (N2293) -- source_payload_unloader_dump_state, dumpLiquid(current) 2f + offloadSpeed x dumpAccumulate() at the end of updateTile, PayloadUnloader.java:105-108, unconditional -- outside the payload-null check and the shouldExport/moveInPayload branches. (5) acceptPayload rows live (N2296) -- the Unloader inherits the Loader's acceptPayload override (PayloadLoader.java:90-101: base null gate + fits(maxBlockSize) + BuildPayload container branches), NOT the bare PayloadBlock base gate (PayloadBlock.java:116-118) -- PayloadUnloaderBuild extends PayloadLoaderBuild (PayloadUnloader.java:32), so the Loader override applies; the pure gate (source_payload_unloader_accept_payload_state) exposes accepts_payload / accepts_item / accepts_liquid on the frame from the offered-payload frame input (default null, no offer), and acceptItem/acceptLiquid are hard false (PayloadUnloader.java:35-44); the gate is wired as the intake guard since N2313 (see (7)) and no live source offers a payload yet. (6) Battery unload live (N2232), power-production graph wiring deferred -- getPowerProduction returns lastOutputPower (PayloadUnloader.java:46-48; lastOutputPower 0f, PayloadUnloader.java:33) and the battery unload (PayloadUnloader.java:94-102) fills frame last_output_power each tick, but the power graph builds producers from the static block property powerProduction, so the dynamic value waits for a distribution-runtime slice; the dump rows are live since N2293 (see (4)). (7) Intake full-gate wiring live (N2313) -- the tick builds the N2296 descriptor from the incoming dict itself (is_build_payload / size on the payload dict, the block flags on its block dict; missing keys reject) and applies the push only when the verdict accepts; occupancy KEEPS the push for next tick (the N2279 keep-for-retry, preserved -- unlike the N2308 Deconstructor drop), descriptor rejection DROPS it (consumed); the offered-payload verdict still governs frame["accepts_payload"] (when both an offer and a push are present, the offer verdict governs the frame key and the intake verdict decides the push alone -- the intake never overwrites frame["accepts_payload"]).
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -950,12 +1050,25 @@ static func source_payload_unloader_tick_buildings_state(game: Object, seconds: 
 		# (arc Time.java:26), never raw seconds. timeScale
 		# reads live from the sprite meta, default 1.0
 		# (BuildingComp.java:98 `private transient float
-		# timeScale = 1f, timeScaleDuration;`). The timer
-		# cadence defers (no timer helper in the port), so the
-		# driver passes load_tick false and unload items never
-		# fire live until a timer-infra slice lands; the item
-		# order is the catalog item_names_by_id (the N2225
-		# content-id order). The front flags arrive as explicit
+		# timeScale = 1f, timeScaleDuration;`). N2320: the
+		# load timer cadence (PayloadUnloader.java:69,
+		# `if(efficiency > 0.01f && timer(timerLoad, loadTime
+		# / efficiency)){`) -- the frame-local clock
+		# (frame["timer_load_elapsed"]) accumulates the tick
+		# delta every tick the advance runs, and the computed
+		# load_tick reaches the advance; the threshold divides
+		# by the folded frame efficiency, never by timeScale
+		# (the N2290 lesson). The clock runs only while
+		# enabled (the same pragmatic gate as the advance
+		# itself -- Java runs updateTile even when disabled,
+		# BuildingComp.java:2276-2277); the driver-wide
+		# disabled-early-return slice removes this gate for
+		# all families. First-fire deviation: Java fires
+		# nearly at once after placement; the frame clock
+		# delays the first fire by a full interval
+		# (2f/efficiency ticks). The item order is the
+		# catalog item_names_by_id (the N2225 content-id
+		# order). The front flags arrive as explicit
 		# params (no live neighbor query), so the driver passes
 		# front-absent: a live payload-unloader never moves its
 		# payload into a front building until a live-front slice
@@ -966,7 +1079,10 @@ static func source_payload_unloader_tick_buildings_state(game: Object, seconds: 
 			var source_delta: float = source_placed_block_state.game_source_delta(game, seconds)
 			var time_scale: float = source_placed_block_state.time_scale(sprite, source_placed_block_state.game_default_time_scale(game))
 			var front: Dictionary = {"present": false, "solid": false, "outputs_payload": false, "accepts_payload": false, "move_payload_result": false}
-			var advanced: Dictionary = source_payload_unloader_update_tile_advance_state(frame, source_delta, time_scale, false, item_order, front)
+			var load_timer: Dictionary = source_payload_unloader_load_timer_state(float(frame.get("timer_load_elapsed", 0.0)), source_delta, time_scale, float(frame.get("efficiency", 0.0)), SOURCE_PAYLOAD_UNLOADER_LOAD_TIME)
+			frame["timer_load_elapsed"] = load_timer.get("timer_elapsed_after", 0.0)
+			var load_tick: bool = bool(load_timer.get("load_tick", false))
+			var advanced: Dictionary = source_payload_unloader_update_tile_advance_state(frame, source_delta, time_scale, load_tick, item_order, front)
 			frame["payload"] = advanced["payload"]
 			frame["pay_vector"] = advanced["pay_vector"]
 			frame["pay_rotation"] = advanced["pay_rotation"]
