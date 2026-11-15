@@ -225,11 +225,15 @@ class C07UnitCargoLoaderUpdateTileTests(unittest.TestCase):
         # fold when disabled and the frame efficiency goes stale).
         # super.updateTile() is an empty no-op
         # (BuildingComp.java:2010-2012), so the driver owes it
-        # nothing. The driver passes the found_unit / can_create
-        # defaults (null / true): no live fill yet.
+        # nothing. The driver passes found_unit null (no live
+        # Groups.unit fill yet) and evaluates can_create live
+        # since N2322 (source_unit_cargo_loader_can_create_state,
+        # from the frame can_create_inputs dict, permissive true
+        # when unstamped -- the live unit-count source still
+        # defers).
         self.assertIn('game_source_delta(game, seconds)', unit_cargo_loader)
         self.assertIn('time_scale(sprite', unit_cargo_loader)
-        self.assertIn('source_unit_cargo_loader_update_tile_advance_state(frame, source_delta, time_scale)', unit_cargo_loader)
+        self.assertIn('source_unit_cargo_loader_update_tile_advance_state(frame, source_delta, time_scale, null, bool(can_create_state.get("can_create", true)))', unit_cargo_loader)
         self.assertIn('frame["unit"]', unit_cargo_loader)
         self.assertIn('frame["read_unit_id"]', unit_cargo_loader)
         self.assertIn('frame["warmup"]', unit_cargo_loader)
