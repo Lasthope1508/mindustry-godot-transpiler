@@ -74,12 +74,12 @@ func _ready() -> void:
 	var launch_pad_frame: Dictionary = launch_pad.get_meta(launch_pad_build_state.SOURCE_LAUNCH_PAD_BUILDING_META_KEY, {})
 
 	# Full power: the counter advances by edelta (efficiency 1.0
-	# times the 1/60 tick), and the driver stamps launchTime
+	# times Time.delta = 1.0 tick per 1/60s tick), and the driver stamps launchTime
 	# 1200.0 for the launch-pad def.
 	launch_pad_frame["power_status"] = 1.0
 	launch_pad_build_state.source_launch_pad_tick_buildings_state(game, 1.0 / 60.0)
 	launch_pad_frame = launch_pad.get_meta(launch_pad_build_state.SOURCE_LAUNCH_PAD_BUILDING_META_KEY, {})
-	proof["counter_advances_by_edelta"] = is_equal_approx(float(launch_pad_frame.get("launch_counter", -1.0)), 1.0 / 60.0) and is_equal_approx(float(launch_pad_frame.get("launch_time", -1.0)), 1200.0)
+	proof["counter_advances_by_edelta"] = is_equal_approx(float(launch_pad_frame.get("launch_counter", -1.0)), 1.0) and is_equal_approx(float(launch_pad_frame.get("launch_time", -1.0)), 1200.0)
 
 	# Gate open, half power: the old N2172 behavior is kept --
 	# efficiency folds the power min 0.5.
