@@ -35,7 +35,7 @@ class C07RegenProjectorUpdateTileTests(unittest.TestCase):
         # updateTargets query has no helper in the port, so the
         # pure advance takes targets as the frame input (each
         # entry: pos, block_health, health, damaged,
-        # heal_suppressed; default []); suppressed (default
+        # heal_suppressed; default []); heal_suppressed (default
         # false) and tile_changes (default 1, the Java
         # World.tileChanges initial value) are frame inputs too.
         # consume() defers (it triggers every consumer --
@@ -243,7 +243,7 @@ class C07RegenProjectorUpdateTileTests(unittest.TestCase):
         # tick refreshes.
         self.assertIn('frame.get("targets", [])', regen_projector)
         self.assertIn('frame.get("mend_map", {})', regen_projector)
-        self.assertIn('frame.get("suppressed", false)', regen_projector)
+        self.assertIn('frame.get("heal_suppressed", false)', regen_projector)
         self.assertIn('frame.get("tile_changes", 1)', regen_projector)
         self.assertIn('frame.get("last_change", -2)', regen_projector)
         # The fresh frame binds the new state keys with the Java

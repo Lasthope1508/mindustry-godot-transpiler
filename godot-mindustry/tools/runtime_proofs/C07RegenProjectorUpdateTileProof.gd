@@ -37,7 +37,7 @@ func _ready() -> void:
 	# The live updateTargets query has no fill yet, so the
 	# pure advance takes targets as the frame input (each
 	# entry: pos, block_health, health, damaged,
-	# heal_suppressed); suppressed (default false) and
+	# heal_suppressed); heal_suppressed (default false) and
 	# tile_changes (default 1, World.java:35) are frame
 	# inputs too. consume() defers (no items on the frame),
 	# but the optionalTimer reset is modeled and the tick
@@ -95,7 +95,7 @@ func _ready() -> void:
 	var timer_scaled: Dictionary = regen_projector_build_state.source_regen_projector_update_tile_advance_state({"efficiency": 1.0, "optional_efficiency": 0.5, "optional_timer": 0.0}, 1.0, 2.0)
 	proof["optional_timer_advances_and_resets"] = is_equal_approx(float(timer_base.get("optional_timer", -1.0)), 100.5) and bool(timer_base.get("consumed", true)) == false and is_equal_approx(float(timer_reset.get("optional_timer", -1.0)), 0.0) and bool(timer_reset.get("consumed", false)) and is_equal_approx(float(timer_exact.get("optional_timer", -1.0)), 0.0) and bool(timer_exact.get("consumed", false)) and is_equal_approx(float(timer_no_power.get("optional_timer", -1.0)), 100.0) and bool(timer_no_power.get("consumed", true)) == false and is_equal_approx(float(timer_no_booster.get("optional_timer", -1.0)), 100.0) and is_equal_approx(float(timer_scaled.get("optional_timer", -1.0)), 1.0)
 
-	var suppressed_tick: Dictionary = regen_projector_build_state.source_regen_projector_update_tile_advance_state({"efficiency": 1.0, "optional_efficiency": 1.0, "optional_timer": 100.0, "warmup": 0.5, "total_time": 10.0, "did_regen": true, "targets": [damaged_target], "suppressed": true}, 1.0, 1.0)
+	var suppressed_tick: Dictionary = regen_projector_build_state.source_regen_projector_update_tile_advance_state({"efficiency": 1.0, "optional_efficiency": 1.0, "optional_timer": 100.0, "warmup": 0.5, "total_time": 10.0, "did_regen": true, "targets": [damaged_target], "heal_suppressed": true}, 1.0, 1.0)
 	var suppressed_map: Dictionary = suppressed_tick.get("mend_map", {})
 	proof["no_heal_when_suppressed"] = is_equal_approx(float(suppressed_tick.get("warmup", -1.0)), 0.5 + 1.0 / 70.0) and is_equal_approx(float(suppressed_tick.get("total_time", -1.0)), 10.0 + 0.5 + 1.0 / 70.0) and int(suppressed_tick.get("last_change", -99)) == 1 and bool(suppressed_tick.get("did_regen", true)) == false and bool(suppressed_tick.get("any_targets", true)) == false and suppressed_map.is_empty() and is_equal_approx(float(suppressed_tick.get("optional_timer", -1.0)), 100.0) and is_equal_approx(float(suppressed_tick.get("heal_amount", -1.0)), 0.0) and bool(suppressed_tick.get("consumed", true)) == false
 

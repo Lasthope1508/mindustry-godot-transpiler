@@ -25,8 +25,8 @@ any_targets false and does not consume. The lastChange refresh
 itself IS modeled: tile_changes arrives as the frame input
 (default 1, the Java World.tileChanges initial value,
 World.java:35) against lastChange -2 (RegenProjector.java:110),
-so the first tick refreshes. (2) suppressed is a frame input too
-(default false, the N2215 heal_suppressed precedent):
+so the first tick refreshes. (2) heal_suppressed is a frame input too
+(default false, the N2215 precedent):
 checkSuppression() is isHealSuppressed() plus a particle chance
 (BuildingComp.java:1336-1346; isHealSuppressed,
 BuildingComp.java:487-489), and the tick tracks no suppression
@@ -113,7 +113,7 @@ def main():
         return backed(typ, source, expr, rule, **extra)
 
     n2228_inputs = {
-        'frame': f('Dictionary', 'public float warmup, totalTime, optionalTimer;', 'The building frame carrying the folded efficiency / optional_efficiency (stamped by apply_update_consumption_state), the build fields (warmup / total_time / optional_timer / did_regen / any_targets / last_change / targets / mend_map) and the frame inputs (suppressed, tile_changes).'),
+        'frame': f('Dictionary', 'public float warmup, totalTime, optionalTimer;', 'The building frame carrying the folded efficiency / optional_efficiency (stamped by apply_update_consumption_state), the build fields (warmup / total_time / optional_timer / did_regen / any_targets / last_change / targets / mend_map) and the frame inputs (heal_suppressed, tile_changes).'),
         'source_delta': f('float', 'totalTime += warmup * Time.delta;', 'Time.delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26): the UNSCALED delta the warmup approachDelta and the totalTime advance scale by (RegenProjector.java:129-130 use Time.delta, not delta()).'),
         'time_scale': f('float', 'private transient float timeScale = 1f, timeScaleDuration;', 'The live timeScale read from the sprite meta (SourcePlacedBlockState.time_scale), default 1.0 (BuildingComp.java:98); scales delta() and therefore edelta() (BuildingComp.java:1922-1929).', source=BUILDING_COMP),
     }

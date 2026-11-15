@@ -82,7 +82,7 @@ static func _initial_frame() -> Dictionary:
 	# (RegenProjector.java:113); mendMap starts empty (the Java map
 	# is static-shared, RegenProjector.java:23, but the port tracks
 	# a per-building map -- see the advance). The frame inputs
-	# (suppressed, tile_changes) are NOT bound here: the advance
+	# (heal_suppressed, tile_changes) are NOT bound here: the advance
 	# reads them with frame.get defaults (false / 1), the N2223
 	# efficiency_factor precedent.
 	return {
@@ -164,7 +164,7 @@ static func source_regen_projector_power_status_row_state(frame: Dictionary, has
 	# in range 28, RegenProjector.java:115-119, waits for its own slice).
 	# (3) Suppression gate -- checkSuppression() (RegenProjector.java:135;
 	# suppressable=true, RegenProjector.java:49) is modeled as the frame input
-	# `suppressed` (default false, N2228): the advance returns early on a
+	# `heal_suppressed` (default false, N2228): the advance returns early on a
 	# suppressed tick, after the warmup/totalTime advance and the
 	# didRegen/anyTargets reset, exactly like Java; the LIVE suppression fill
 	# (isHealSuppressed, BuildingComp.java:487-489) still waits for its own
@@ -251,8 +251,8 @@ static func source_regen_projector_update_tile_advance_state(frame: Dictionary, 
 	# with tile_changes as the frame input (default 1,
 	# `public int tileChanges = 1, floorChanges = 1;`,
 	# World.java:35) against lastChange -2, so the first tick
-	# refreshes. (2) suppressed is a frame input (default
-	# false, the N2215 heal_suppressed precedent):
+	# refreshes. (2) heal_suppressed is a frame input (default
+	# false, the N2215 precedent):
 	# checkSuppression() reads isHealSuppressed(),
 	# `public boolean isHealSuppressed(){` with
 	# `return block.suppressable && Time.time <= healSuppressionTime;`
@@ -287,7 +287,7 @@ static func source_regen_projector_update_tile_advance_state(frame: Dictionary, 
 	var optional_efficiency: float = float(frame.get("optional_efficiency", 0.0))
 	var targets: Array = frame.get("targets", [])
 	var mend_map: Dictionary = Dictionary(frame.get("mend_map", {}))
-	var suppressed: bool = bool(frame.get("suppressed", false))
+	var heal_suppressed: bool = bool(frame.get("heal_suppressed", false))
 	var tile_changes: int = int(frame.get("tile_changes", 1))
 	var last_change: int = int(frame.get("last_change", -2))
 	if last_change != tile_changes:
@@ -300,7 +300,7 @@ static func source_regen_projector_update_tile_advance_state(frame: Dictionary, 
 	var any_targets: bool = false
 	var heal_amount: float = 0.0
 	var consumed: bool = false
-	if suppressed:
+	if heal_suppressed:
 		return {"last_change": last_change, "warmup": warmup, "total_time": total_time, "optional_timer": optional_timer, "did_regen": false, "any_targets": false, "mend_map": mend_map, "heal_amount": 0.0, "consumed": false}
 	for target in targets:
 		if bool(target.get("damaged", false)):
