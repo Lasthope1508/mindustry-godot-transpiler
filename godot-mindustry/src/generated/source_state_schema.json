@@ -229936,6 +229936,94 @@
       },
       "runtime_proof": "/root/C07LightBlockPowerStatusProof",
       "rule": "Source-backed LightBlock power.status row from ConsumePower.java / BuildingComp.java."
+    },
+    "source_accelerator_update_tile_advance_state_input": {
+      "status": "active",
+      "owner": "SourceAcceleratorBuildState.source_accelerator_update_tile_advance_state",
+      "source_slice": "N2191",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "public float heat, statusLerp;",
+          "rule": "The building frame carrying the updateTile state (Accelerator.java:120-124, heat/statusLerp/progress/time/launchHeat/launching) plus the folded efficiency and the graph-stamped power_status; Java float defaults 0.0 and launching false before the first tick.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_update_tile_advance_state"
+          ]
+        },
+        "seconds": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "time += Time.delta * efficiency;",
+          "rule": "The driver tick length in seconds -- the port Time.delta (the conduit precedent): the lerpDelta/slerpDelta scale and the time/progress advance step.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_update_tile_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07AcceleratorUpdateTileProof",
+      "rule": "Source-backed Accelerator updateTile advance from Accelerator.java / Mathf.java."
+    },
+    "source_accelerator_update_tile_advance_state_result": {
+      "status": "active",
+      "owner": "SourceAcceleratorBuildState.source_accelerator_update_tile_advance_state",
+      "source_slice": "N2191",
+      "keys": {
+        "heat": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "heat = Mathf.lerpDelta(heat, launching ? 1f : efficiency, 0.05f);",
+          "rule": "Heat after one tick (Accelerator.java:131): lerpDelta toward 1f when launching, toward the folded efficiency otherwise, at 0.05.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_update_tile_advance_state"
+          ]
+        },
+        "status_lerp": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "statusLerp = Mathf.lerpDelta(statusLerp, power.status, 0.05f);",
+          "rule": "Status lerp after one tick (Accelerator.java:132): lerpDelta toward the live power.status at 0.05.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_update_tile_advance_state"
+          ]
+        },
+        "time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "time += Time.delta * efficiency;",
+          "rule": "Time after one tick (Accelerator.java:134-138): advanced by Time.delta * efficiency when idle, slerped toward 0f at 0.4 when launching.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_update_tile_advance_state"
+          ]
+        },
+        "launch_heat": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "launchHeat = Mathf.lerpDelta(launchHeat, launching ? 1f : 0f, 0.1f);",
+          "rule": "Launch heat after one tick (Accelerator.java:140): lerpDelta toward 1f when launching, toward 0f otherwise, at 0.1.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_update_tile_advance_state"
+          ]
+        },
+        "progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "progress += Time.delta * efficiency / buildDuration;",
+          "rule": "Progress after one tick (Accelerator.java:142-145): advanced by Time.delta * efficiency / buildDuration (120f) when efficiency >= 0f, clamped at 1f.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_update_tile_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07AcceleratorUpdateTileProof",
+      "rule": "Source-backed Accelerator updateTile advance from Accelerator.java / Mathf.java."
     }
   },
   "version": 1

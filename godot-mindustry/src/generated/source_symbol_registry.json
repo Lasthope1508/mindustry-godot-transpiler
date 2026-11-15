@@ -172968,6 +172968,86 @@
         "test_reference_graph_and_actual_c07_light_block_power_status"
       ],
       "runtime_proof": "/root/C07LightBlockPowerStatusProof"
+    },
+    "source_accelerator_update_tile_advance_state_result.heat": {
+      "status": "source-backed",
+      "godot_owner": "SourceAcceleratorBuildState.source_accelerator_update_tile_advance_state",
+      "godot_symbol": "source_accelerator_update_tile_advance_state_result.heat",
+      "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+      "java_method": "AcceleratorBuild.updateTile()",
+      "java_expr": "heat = Mathf.lerpDelta(heat, launching ? 1f : efficiency, 0.05f);",
+      "rule": "Heat after one tick (Accelerator.java:131): lerpDelta toward 1f when launching, toward the folded efficiency otherwise, at 0.05.",
+      "tests": [
+        "test_c07_accelerator_update_tile_registration",
+        "test_all_c07_accelerator_update_tile_input_evidence_is_exact",
+        "test_accelerator_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_accelerator_update_tile"
+      ],
+      "runtime_proof": "/root/C07AcceleratorUpdateTileProof"
+    },
+    "source_accelerator_update_tile_advance_state_result.status_lerp": {
+      "status": "source-backed",
+      "godot_owner": "SourceAcceleratorBuildState.source_accelerator_update_tile_advance_state",
+      "godot_symbol": "source_accelerator_update_tile_advance_state_result.status_lerp",
+      "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+      "java_method": "AcceleratorBuild.updateTile()",
+      "java_expr": "statusLerp = Mathf.lerpDelta(statusLerp, power.status, 0.05f);",
+      "rule": "Status lerp after one tick (Accelerator.java:132): lerpDelta toward the live power.status at 0.05.",
+      "tests": [
+        "test_c07_accelerator_update_tile_registration",
+        "test_all_c07_accelerator_update_tile_input_evidence_is_exact",
+        "test_accelerator_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_accelerator_update_tile"
+      ],
+      "runtime_proof": "/root/C07AcceleratorUpdateTileProof"
+    },
+    "source_accelerator_update_tile_advance_state_result.time": {
+      "status": "source-backed",
+      "godot_owner": "SourceAcceleratorBuildState.source_accelerator_update_tile_advance_state",
+      "godot_symbol": "source_accelerator_update_tile_advance_state_result.time",
+      "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+      "java_method": "AcceleratorBuild.updateTile()",
+      "java_expr": "time += Time.delta * efficiency;",
+      "rule": "Time after one tick (Accelerator.java:134-138): advanced by Time.delta * efficiency when idle, slerped toward 0f at 0.4 when launching.",
+      "tests": [
+        "test_c07_accelerator_update_tile_registration",
+        "test_all_c07_accelerator_update_tile_input_evidence_is_exact",
+        "test_accelerator_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_accelerator_update_tile"
+      ],
+      "runtime_proof": "/root/C07AcceleratorUpdateTileProof"
+    },
+    "source_accelerator_update_tile_advance_state_result.launch_heat": {
+      "status": "source-backed",
+      "godot_owner": "SourceAcceleratorBuildState.source_accelerator_update_tile_advance_state",
+      "godot_symbol": "source_accelerator_update_tile_advance_state_result.launch_heat",
+      "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+      "java_method": "AcceleratorBuild.updateTile()",
+      "java_expr": "launchHeat = Mathf.lerpDelta(launchHeat, launching ? 1f : 0f, 0.1f);",
+      "rule": "Launch heat after one tick (Accelerator.java:140): lerpDelta toward 1f when launching, toward 0f otherwise, at 0.1.",
+      "tests": [
+        "test_c07_accelerator_update_tile_registration",
+        "test_all_c07_accelerator_update_tile_input_evidence_is_exact",
+        "test_accelerator_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_accelerator_update_tile"
+      ],
+      "runtime_proof": "/root/C07AcceleratorUpdateTileProof"
+    },
+    "source_accelerator_update_tile_advance_state_result.progress": {
+      "status": "source-backed",
+      "godot_owner": "SourceAcceleratorBuildState.source_accelerator_update_tile_advance_state",
+      "godot_symbol": "source_accelerator_update_tile_advance_state_result.progress",
+      "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+      "java_method": "AcceleratorBuild.updateTile()",
+      "java_expr": "progress += Time.delta * efficiency / buildDuration;",
+      "rule": "Progress after one tick (Accelerator.java:142-145): advanced by Time.delta * efficiency / buildDuration (120f) when efficiency >= 0f, clamped at 1f.",
+      "tests": [
+        "test_c07_accelerator_update_tile_registration",
+        "test_all_c07_accelerator_update_tile_input_evidence_is_exact",
+        "test_accelerator_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_accelerator_update_tile"
+      ],
+      "runtime_proof": "/root/C07AcceleratorUpdateTileProof"
     }
   },
   "version": 1

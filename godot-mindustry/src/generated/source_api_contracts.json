@@ -65928,6 +65928,40 @@
       ],
       "runtime_proof": "/root/C07LightBlockPowerStatusProof",
       "rule": "Source-backed LightBlock power.status row from ConsumePower.java / BuildingComp.java."
+    },
+    "SourceAcceleratorBuildState.source_accelerator_update_tile_advance_state": {
+      "status": "active",
+      "source_slice": "N2191",
+      "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+      "source_method": "AcceleratorBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_accelerator_update_tile_advance_state_input.frame"
+        },
+        {
+          "name": "seconds",
+          "type": "float",
+          "schema": "source_accelerator_update_tile_advance_state_input.seconds"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "heat",
+        "status_lerp",
+        "time",
+        "launch_heat",
+        "progress"
+      ],
+      "tests": [
+        "test_c07_accelerator_update_tile_registration",
+        "test_all_c07_accelerator_update_tile_input_evidence_is_exact",
+        "test_accelerator_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_accelerator_update_tile"
+      ],
+      "runtime_proof": "/root/C07AcceleratorUpdateTileProof",
+      "rule": "Source-backed Accelerator updateTile advance from Accelerator.java / Mathf.java."
     }
   },
   "policy": {
