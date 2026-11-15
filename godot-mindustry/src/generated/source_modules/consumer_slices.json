@@ -2629,6 +2629,28 @@
         "test_reference_graph_and_actual_c07_impact_reactor_liquid_row"
       ],
       "runtime_proof": "/root/C07ImpactReactorLiquidRowProof"
+    },
+    "N2266": {
+      "canonical_ledger": "source_slice_ledger.N2266",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "ConsumeItems.efficiency(Building)",
+      "godot_owner": "SourceImpactReactorBuildState.source_impact_reactor_item_consumer_row_state",
+      "generated_owner": "",
+      "source_symbols": [
+        "source_impact_reactor_item_consumer_row_state_result.row",
+        "source_impact_reactor_item_consumer_row_state_result.has_item_row",
+        "source_impact_reactor_timer_use_state_result.fired",
+        "source_impact_reactor_timer_use_state_result.elapsed_after",
+        "source_impact_reactor_timer_use_state_result.threshold"
+      ],
+      "tests": [
+        "test_c07_impact_reactor_item_row_registration",
+        "test_all_c07_impact_reactor_item_row_input_evidence_is_exact",
+        "test_impact_reactor_item_consumer_row_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_item_row"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorItemRowProof"
     }
   }
 }

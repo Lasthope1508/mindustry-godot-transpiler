@@ -178872,6 +178872,390 @@
         "test_reference_graph_and_actual_c07_wall_crafter_second_consumers"
       ],
       "runtime_proof": "/root/C07WallCrafterSecondConsumersProof"
+    },
+    "source_constructor_dynamic_item_stacks_state_result.stacks": {
+      "status": "source-backed",
+      "godot_owner": "SourceConstructorBuildState.source_constructor_dynamic_item_stacks_state",
+      "godot_symbol": "source_constructor_dynamic_item_stacks_state_result.stacks",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_method": "BlockProducerBuild.updateTile()",
+      "java_expr": "clone[i].amount = Mathf.ceil(block.requirements[i].amount * state.rules.buildCostMultiplier);",
+      "rule": "The dynamic stacks (BlockProducer.java:39-55): Array of {\"item\": kebab-case id, \"amount\": int} with amount = ceil(requirement amount * buildCostMultiplier); [] when the requirements are empty (null recipe).",
+      "tests": [
+        "test_c07_constructor_dynamic_item_row_registration",
+        "test_all_c07_constructor_dynamic_item_row_input_evidence_is_exact",
+        "test_constructor_dynamic_item_row_state",
+        "test_reference_graph_and_actual_c07_constructor_dynamic_item_row"
+      ],
+      "runtime_proof": "/root/C07ConstructorDynamicItemRowProof"
+    },
+    "source_constructor_dynamic_item_consumer_row_state_result.row": {
+      "status": "source-backed",
+      "godot_owner": "SourceConstructorBuildState.source_constructor_dynamic_item_consumer_row_state",
+      "godot_symbol": "source_constructor_dynamic_item_consumer_row_state_result.row",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "java_method": "BlockProducerBuild.updateTile()",
+      "java_expr": "return build.consumeTriggerValid() || build.items.has(items.get(build), multiplier.get(build)) ? 1f : 0f;",
+      "rule": "The dynamic item row for the first pass (ConsumeItemDynamic.java:61, the canonical ConsumeItemDynamic.efficiency): {\"result\": 1.0 when every stack is held (or the trigger is valid, base false), else 0.0, \"is_power\": false}, folded by the non-optional pass into the min efficiency.",
+      "tests": [
+        "test_c07_constructor_dynamic_item_row_registration",
+        "test_all_c07_constructor_dynamic_item_row_input_evidence_is_exact",
+        "test_constructor_dynamic_item_row_state",
+        "test_reference_graph_and_actual_c07_constructor_dynamic_item_row"
+      ],
+      "runtime_proof": "/root/C07ConstructorDynamicItemRowProof"
+    },
+    "source_constructor_dynamic_item_consumer_row_state_result.has_item_row": {
+      "status": "source-backed",
+      "godot_owner": "SourceConstructorBuildState.source_constructor_dynamic_item_consumer_row_state",
+      "godot_symbol": "source_constructor_dynamic_item_consumer_row_state_result.has_item_row",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BlockProducerBuild.updateTile()",
+      "java_expr": "for(var cons : block.nonOptionalConsumers){",
+      "rule": "Whether the row joins the first pass (BuildingComp.java:1969): always true -- the BlockProducer constructor always registers the ConsumeItemDynamic (BlockProducer.java:39), so the consumer is always in nonOptionalConsumers, even with a null recipe (where its efficiency is 1.0).",
+      "tests": [
+        "test_c07_constructor_dynamic_item_row_registration",
+        "test_all_c07_constructor_dynamic_item_row_input_evidence_is_exact",
+        "test_constructor_dynamic_item_row_state",
+        "test_reference_graph_and_actual_c07_constructor_dynamic_item_row"
+      ],
+      "runtime_proof": "/root/C07ConstructorDynamicItemRowProof"
+    },
+    "source_constructor_dynamic_item_trigger_state_result.items": {
+      "status": "source-backed",
+      "godot_owner": "SourceConstructorBuildState.source_constructor_dynamic_item_trigger_state",
+      "godot_symbol": "source_constructor_dynamic_item_trigger_state_result.items",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "java_method": "BlockProducerBuild.updateTile()",
+      "java_expr": "build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));",
+      "rule": "The items dict after the trigger (ConsumeItemDynamic.java:53-57): each stack removed round(amount * multiplier), clamped to the held count (ItemModule.java:258-263); tested pure, NOT wired live yet -- consume() only fires when the progress advance completes (BlockProducer.java:115-116).",
+      "tests": [
+        "test_c07_constructor_dynamic_item_row_registration",
+        "test_all_c07_constructor_dynamic_item_row_input_evidence_is_exact",
+        "test_constructor_dynamic_item_row_state",
+        "test_reference_graph_and_actual_c07_constructor_dynamic_item_row"
+      ],
+      "runtime_proof": "/root/C07ConstructorDynamicItemRowProof"
+    },
+    "source_impact_reactor_item_consumer_row_state_result.row": {
+      "status": "source-backed",
+      "godot_owner": "SourceImpactReactorBuildState.source_impact_reactor_item_consumer_row_state",
+      "godot_symbol": "source_impact_reactor_item_consumer_row_state_result.row",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "ConsumeItems.efficiency(Building)",
+      "java_expr": "return build.consumeTriggerValid() || build.items.has(items, multiplier.get(build)) ? 1f : 0f;",
+      "rule": "The folded row {\"result\": ..., \"is_power\": false}: BINARY 1.0 when the frame holds every stack (consumeTriggerValid() is false at the base, BuildingComp.java:764-766, with no ImpactReactor override, so the trigger term never fires), 0.0 otherwise (ConsumeItems.java:51-53); is_power false so the shared fold sets shouldConsumePower=false when the row is <= 1e-7 (BuildingComp.java:1972-1974).",
+      "tests": [
+        "test_c07_impact_reactor_item_row_registration",
+        "test_all_c07_impact_reactor_item_row_input_evidence_is_exact",
+        "test_impact_reactor_item_consumer_row_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_item_row"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorItemRowProof"
+    },
+    "source_impact_reactor_item_consumer_row_state_result.has_item_row": {
+      "status": "source-backed",
+      "godot_owner": "SourceImpactReactorBuildState.source_impact_reactor_item_consumer_row_state",
+      "godot_symbol": "source_impact_reactor_item_consumer_row_state_result.has_item_row",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "ConsumeItems.efficiency(Building)",
+      "java_expr": "consumeItem(Items.blastCompound);",
+      "rule": "Whether the row exists: true when the driver passes non-empty stacks (the single impact-reactor def does, Blocks.java:2643), false otherwise -- the has_power_row pattern.",
+      "tests": [
+        "test_c07_impact_reactor_item_row_registration",
+        "test_all_c07_impact_reactor_item_row_input_evidence_is_exact",
+        "test_impact_reactor_item_consumer_row_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_item_row"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorItemRowProof"
+    },
+    "source_impact_reactor_timer_use_state_result.fired": {
+      "status": "source-backed",
+      "godot_owner": "SourceImpactReactorBuildState.source_impact_reactor_timer_use_state",
+      "godot_symbol": "source_impact_reactor_timer_use_state_result.fired",
+      "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+      "java_method": "TimerComp.timer(int, float)",
+      "java_expr": "return timer.get(index, time);",
+      "rule": "Whether the timer fires this tick: TimerComp.timer (TimerComp.java:11-14) returns false for an infinite time and otherwise delegates to Interval.get, which fires when the elapsed time reaches the threshold (Interval.java:20-26).",
+      "tests": [
+        "test_c07_impact_reactor_item_row_registration",
+        "test_all_c07_impact_reactor_item_row_input_evidence_is_exact",
+        "test_impact_reactor_item_consumer_row_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_item_row"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorItemRowProof"
+    },
+    "source_impact_reactor_timer_use_state_result.elapsed_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceImpactReactorBuildState.source_impact_reactor_timer_use_state",
+      "godot_symbol": "source_impact_reactor_timer_use_state_result.elapsed_after",
+      "java_source": "arc-core/src/arc/util/Interval.java",
+      "java_method": "TimerComp.timer(int, float)",
+      "java_expr": "if(got) times[id] = Time.time;",
+      "rule": "The clock value after the check: 0.0 when the timer fires (Interval.get RESETS times[id] = Time.time on fire, arc Interval.java:24 -- reset, NOT subtract like the Fracker accumulator), the elapsed value unchanged otherwise.",
+      "tests": [
+        "test_c07_impact_reactor_item_row_registration",
+        "test_all_c07_impact_reactor_item_row_input_evidence_is_exact",
+        "test_impact_reactor_item_consumer_row_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_item_row"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorItemRowProof"
+    },
+    "source_impact_reactor_timer_use_state_result.threshold": {
+      "status": "source-backed",
+      "godot_owner": "SourceImpactReactorBuildState.source_impact_reactor_timer_use_state",
+      "godot_symbol": "source_impact_reactor_timer_use_state_result.threshold",
+      "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+      "java_method": "TimerComp.timer(int, float)",
+      "java_expr": "if(timer(timerUse, itemDuration / timeScale)){",
+      "rule": "The fire threshold in ticks: duration / time_scale (ImpactReactor.java:91), INF when time_scale <= 0 (the infinite-time branch, TimerComp.java:12).",
+      "tests": [
+        "test_c07_impact_reactor_item_row_registration",
+        "test_all_c07_impact_reactor_item_row_input_evidence_is_exact",
+        "test_impact_reactor_item_consumer_row_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_item_row"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorItemRowProof"
+    },
+    "source_accelerator_item_consumer_row_state_result.row": {
+      "status": "source-backed",
+      "godot_owner": "SourceAcceleratorBuildState.source_accelerator_item_consumer_row_state",
+      "godot_symbol": "source_accelerator_item_consumer_row_state_result.row",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "AcceleratorBuild.updateTile()",
+      "java_expr": "return build.consumeTriggerValid() || build.items.has(items, multiplier.get(build)) ? 1f : 0f;",
+      "rule": "The item row for the required first pass (ConsumeItems.java:52): {\"result\": 1.0 when every stack is held, else 0.0, \"is_power\": false}, folded by the first pass into the min efficiency; BINARY, not a ratio.",
+      "tests": [
+        "test_c07_accelerator_item_rows_registration",
+        "test_all_c07_accelerator_item_rows_input_evidence_is_exact",
+        "test_accelerator_item_rows_row_state",
+        "test_reference_graph_and_actual_c07_accelerator_item_rows"
+      ],
+      "runtime_proof": "/root/C07AcceleratorItemRowsProof"
+    },
+    "source_accelerator_item_consumer_row_state_result.has_item_row": {
+      "status": "source-backed",
+      "godot_owner": "SourceAcceleratorBuildState.source_accelerator_item_consumer_row_state",
+      "godot_symbol": "source_accelerator_item_consumer_row_state_result.has_item_row",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "AcceleratorBuild.updateTile()",
+      "java_expr": "for(var cons : block.nonOptionalConsumers){",
+      "rule": "Whether the row joins the required first pass (BuildingComp.java:1969): true when the block has an item consumer; the row is the item consumer's entry in the first pass.",
+      "tests": [
+        "test_c07_accelerator_item_rows_registration",
+        "test_all_c07_accelerator_item_rows_input_evidence_is_exact",
+        "test_accelerator_item_rows_row_state",
+        "test_reference_graph_and_actual_c07_accelerator_item_rows"
+      ],
+      "runtime_proof": "/root/C07AcceleratorItemRowsProof"
+    },
+    "source_accelerator_capacities_state_result.capacities": {
+      "status": "source-backed",
+      "godot_owner": "SourceAcceleratorBuildState.source_accelerator_capacities_state",
+      "godot_symbol": "source_accelerator_capacities_state_result.capacities",
+      "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+      "java_method": "AcceleratorBuild.updateTile()",
+      "java_expr": "capacities[stack.item.id] = stack.amount;",
+      "rule": "The per-item capacities init() fills from the launch-block requirements (Accelerator.java:88): {\"copper\": 8000, \"lead\": 8000, \"silicon\": 5000, \"thorium\": 4000}; an item with no requirement reads 0, like the fresh int array in Java.",
+      "tests": [
+        "test_c07_accelerator_item_rows_registration",
+        "test_all_c07_accelerator_item_rows_input_evidence_is_exact",
+        "test_accelerator_item_rows_row_state",
+        "test_reference_graph_and_actual_c07_accelerator_item_rows"
+      ],
+      "runtime_proof": "/root/C07AcceleratorItemRowsProof"
+    },
+    "source_accelerator_capacities_state_result.item_capacity": {
+      "status": "source-backed",
+      "godot_owner": "SourceAcceleratorBuildState.source_accelerator_capacities_state",
+      "godot_symbol": "source_accelerator_capacities_state_result.item_capacity",
+      "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+      "java_method": "AcceleratorBuild.updateTile()",
+      "java_expr": "itemCapacity += stack.amount;",
+      "rule": "The summed item capacity init() builds (Accelerator.java:89): 8000 + 8000 + 5000 + 4000 = 25000; the class default 8000 (Accelerator.java:76) is zeroed first (Accelerator.java:85).",
+      "tests": [
+        "test_c07_accelerator_item_rows_registration",
+        "test_all_c07_accelerator_item_rows_input_evidence_is_exact",
+        "test_accelerator_item_rows_row_state",
+        "test_reference_graph_and_actual_c07_accelerator_item_rows"
+      ],
+      "runtime_proof": "/root/C07AcceleratorItemRowsProof"
+    },
+    "source_accelerator_get_maximum_accepted_state_result.maximum_accepted": {
+      "status": "source-backed",
+      "godot_owner": "SourceAcceleratorBuildState.source_accelerator_get_maximum_accepted_state",
+      "godot_symbol": "source_accelerator_get_maximum_accepted_state_result.maximum_accepted",
+      "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+      "java_method": "AcceleratorBuild.updateTile()",
+      "java_expr": "return capacities[item.id] + (isCoreBuilt() ? launchBlock.itemCapacity : 0);",
+      "rule": "The maximum accepted count for the item (Accelerator.java:294): capacities[item] + (isCoreBuilt ? launchBlock.itemCapacity : 0).",
+      "tests": [
+        "test_c07_accelerator_item_rows_registration",
+        "test_all_c07_accelerator_item_rows_input_evidence_is_exact",
+        "test_accelerator_item_rows_row_state",
+        "test_reference_graph_and_actual_c07_accelerator_item_rows"
+      ],
+      "runtime_proof": "/root/C07AcceleratorItemRowsProof"
+    },
+    "source_accelerator_get_maximum_accepted_state_result.capacity": {
+      "status": "source-backed",
+      "godot_owner": "SourceAcceleratorBuildState.source_accelerator_get_maximum_accepted_state",
+      "godot_symbol": "source_accelerator_get_maximum_accepted_state_result.capacity",
+      "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+      "java_method": "AcceleratorBuild.updateTile()",
+      "java_expr": "capacities[stack.item.id] = stack.amount;",
+      "rule": "The per-item capacity from init() (Accelerator.java:88): 8000 copper / 8000 lead / 5000 silicon / 4000 thorium, 0 for any other item.",
+      "tests": [
+        "test_c07_accelerator_item_rows_registration",
+        "test_all_c07_accelerator_item_rows_input_evidence_is_exact",
+        "test_accelerator_item_rows_row_state",
+        "test_reference_graph_and_actual_c07_accelerator_item_rows"
+      ],
+      "runtime_proof": "/root/C07AcceleratorItemRowsProof"
+    },
+    "source_accelerator_get_maximum_accepted_state_result.core_bonus": {
+      "status": "source-backed",
+      "godot_owner": "SourceAcceleratorBuildState.source_accelerator_get_maximum_accepted_state",
+      "godot_symbol": "source_accelerator_get_maximum_accepted_state_result.core_bonus",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "AcceleratorBuild.updateTile()",
+      "java_expr": "itemCapacity = 13000;",
+      "rule": "The launch-block itemCapacity bonus (core-nucleus itemCapacity 13000, Blocks.java:3158): 13000 when is_core_built, else 0.",
+      "tests": [
+        "test_c07_accelerator_item_rows_registration",
+        "test_all_c07_accelerator_item_rows_input_evidence_is_exact",
+        "test_accelerator_item_rows_row_state",
+        "test_reference_graph_and_actual_c07_accelerator_item_rows"
+      ],
+      "runtime_proof": "/root/C07AcceleratorItemRowsProof"
+    },
+    "source_accelerator_accept_item_state_result.accept": {
+      "status": "source-backed",
+      "godot_owner": "SourceAcceleratorBuildState.source_accelerator_accept_item_state",
+      "godot_symbol": "source_accelerator_accept_item_state_result.accept",
+      "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+      "java_method": "AcceleratorBuild.updateTile()",
+      "java_expr": "return items.get(item) < getMaximumAccepted(item);",
+      "rule": "Whether the building accepts one more of the item (Accelerator.java:299): held < getMaximumAccepted(item); held == maximum rejects.",
+      "tests": [
+        "test_c07_accelerator_item_rows_registration",
+        "test_all_c07_accelerator_item_rows_input_evidence_is_exact",
+        "test_accelerator_item_rows_row_state",
+        "test_reference_graph_and_actual_c07_accelerator_item_rows"
+      ],
+      "runtime_proof": "/root/C07AcceleratorItemRowsProof"
+    },
+    "source_accelerator_accept_item_state_result.held": {
+      "status": "source-backed",
+      "godot_owner": "SourceAcceleratorBuildState.source_accelerator_accept_item_state",
+      "godot_symbol": "source_accelerator_accept_item_state_result.held",
+      "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+      "java_method": "AcceleratorBuild.updateTile()",
+      "java_expr": "return items.get(item) < getMaximumAccepted(item);",
+      "rule": "The held count echoed back (items.get(item), Accelerator.java:299).",
+      "tests": [
+        "test_c07_accelerator_item_rows_registration",
+        "test_all_c07_accelerator_item_rows_input_evidence_is_exact",
+        "test_accelerator_item_rows_row_state",
+        "test_reference_graph_and_actual_c07_accelerator_item_rows"
+      ],
+      "runtime_proof": "/root/C07AcceleratorItemRowsProof"
+    },
+    "source_accelerator_accept_item_state_result.maximum_accepted": {
+      "status": "source-backed",
+      "godot_owner": "SourceAcceleratorBuildState.source_accelerator_accept_item_state",
+      "godot_symbol": "source_accelerator_accept_item_state_result.maximum_accepted",
+      "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+      "java_method": "AcceleratorBuild.updateTile()",
+      "java_expr": "return capacities[item.id] + (isCoreBuilt() ? launchBlock.itemCapacity : 0);",
+      "rule": "The maximum accepted count for the item (Accelerator.java:294): capacities[item] + (isCoreBuilt ? launchBlock.itemCapacity : 0).",
+      "tests": [
+        "test_c07_accelerator_item_rows_registration",
+        "test_all_c07_accelerator_item_rows_input_evidence_is_exact",
+        "test_accelerator_item_rows_row_state",
+        "test_reference_graph_and_actual_c07_accelerator_item_rows"
+      ],
+      "runtime_proof": "/root/C07AcceleratorItemRowsProof"
+    },
+    "source_fracker_item_consumer_row_state_result.row": {
+      "status": "source-backed",
+      "godot_owner": "SourceFrackerBuildState.source_fracker_item_consumer_row_state",
+      "godot_symbol": "source_fracker_item_consumer_row_state_result.row",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "FrackerBuild.updateTile()",
+      "java_expr": "return build.consumeTriggerValid() || build.items.has(items, multiplier.get(build)) ? 1f : 0f;",
+      "rule": "The sand row for the first pass (ConsumeItems.java:52, the canonical ConsumeItems.efficiency): {\"result\": 1.0 when every stack is held (or the trigger is valid, base false), else 0.0, \"is_power\": false}, folded by the non-optional pass into the min efficiency; 0.0 when the store holds no sand. is_power false, so the shared fold sets shouldConsumePower=false when the row is <= 1e-7 (BuildingComp.java:1972-1973).",
+      "tests": [
+        "test_c07_fracker_item_row_registration",
+        "test_all_c07_fracker_item_row_input_evidence_is_exact",
+        "test_fracker_item_consumer_row_state",
+        "test_reference_graph_and_actual_c07_fracker_item_row"
+      ],
+      "runtime_proof": "/root/C07FrackerItemRowProof"
+    },
+    "source_fracker_item_consumer_row_state_result.has_item_row": {
+      "status": "source-backed",
+      "godot_owner": "SourceFrackerBuildState.source_fracker_item_consumer_row_state",
+      "godot_symbol": "source_fracker_item_consumer_row_state_result.has_item_row",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "FrackerBuild.updateTile()",
+      "java_expr": "for(var cons : block.nonOptionalConsumers){",
+      "rule": "Whether the row joins the first pass (BuildingComp.java:1969): true when the block has an item consumer; the row is the sand consumer's entry in the non-optional pass.",
+      "tests": [
+        "test_c07_fracker_item_row_registration",
+        "test_all_c07_fracker_item_row_input_evidence_is_exact",
+        "test_fracker_item_consumer_row_state",
+        "test_reference_graph_and_actual_c07_fracker_item_row"
+      ],
+      "runtime_proof": "/root/C07FrackerItemRowProof"
+    },
+    "source_mend_projector_timer_use_state_result.fired": {
+      "status": "source-backed",
+      "godot_owner": "SourceMendProjectorBuildState.source_mend_projector_timer_use_state",
+      "godot_symbol": "source_mend_projector_timer_use_state_result.fired",
+      "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+      "java_method": "MendBuild.updateTile()",
+      "java_expr": "if(Float.isInfinite(time)) return false;",
+      "rule": "Whether the timer fires this tick (TimerComp.java:10-13): false when the threshold is infinite (time_scale <= 0), else elapsed >= duration / time_scale -- the Interval.check comparison (arc Interval.java:28-30) against the frame-local clock.",
+      "tests": [
+        "test_c07_mend_projector_booster_timer_registration",
+        "test_all_c07_mend_projector_booster_timer_input_evidence_is_exact",
+        "test_mend_projector_booster_timer_state",
+        "test_reference_graph_and_actual_c07_mend_projector_booster_timer"
+      ],
+      "runtime_proof": "/root/C07MendProjectorBoosterTimerProof"
+    },
+    "source_mend_projector_timer_use_state_result.elapsed_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceMendProjectorBuildState.source_mend_projector_timer_use_state",
+      "godot_symbol": "source_mend_projector_timer_use_state_result.elapsed_after",
+      "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+      "java_method": "MendBuild.updateTile()",
+      "java_expr": "return timer.get(index, time);",
+      "rule": "The elapsed clock after this tick: 0.0 when fired (Interval.get RESETS times[id] = Time.time on fire, arc Interval.java:23-25 -- a reset, not a subtraction like the Fracker accumulator), otherwise the input elapsed unchanged.",
+      "tests": [
+        "test_c07_mend_projector_booster_timer_registration",
+        "test_all_c07_mend_projector_booster_timer_input_evidence_is_exact",
+        "test_mend_projector_booster_timer_state",
+        "test_reference_graph_and_actual_c07_mend_projector_booster_timer"
+      ],
+      "runtime_proof": "/root/C07MendProjectorBoosterTimerProof"
+    },
+    "source_mend_projector_timer_use_state_result.threshold": {
+      "status": "source-backed",
+      "godot_owner": "SourceMendProjectorBuildState.source_mend_projector_timer_use_state",
+      "godot_symbol": "source_mend_projector_timer_use_state_result.threshold",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "java_method": "MendBuild.updateTile()",
+      "java_expr": "public float useTime = 400f;",
+      "rule": "The fire threshold in ticks, duration / time_scale (MendProjector.java:102, useTime / timeScale); infinite when time_scale <= 0, so the timer never fires on that branch.",
+      "tests": [
+        "test_c07_mend_projector_booster_timer_registration",
+        "test_all_c07_mend_projector_booster_timer_input_evidence_is_exact",
+        "test_mend_projector_booster_timer_state",
+        "test_reference_graph_and_actual_c07_mend_projector_booster_timer"
+      ],
+      "runtime_proof": "/root/C07MendProjectorBoosterTimerProof"
     }
   },
   "version": 1

@@ -3377,6 +3377,25 @@
       ],
       "runtime_proof": "/root/C07MendProjectorBoosterItemsProof"
     },
+    "N2269": {
+      "canonical_ledger": "source_slice_ledger.N2269",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "java_method": "MendBuild.updateTile()",
+      "godot_owner": "SourceMendProjectorBuildState.source_mend_projector_timer_use_state",
+      "source_symbols": [
+        "source_mend_projector_timer_use_state_result.fired",
+        "source_mend_projector_timer_use_state_result.elapsed_after",
+        "source_mend_projector_timer_use_state_result.threshold"
+      ],
+      "tests": [
+        "test_c07_mend_projector_booster_timer_registration",
+        "test_all_c07_mend_projector_booster_timer_input_evidence_is_exact",
+        "test_mend_projector_booster_timer_state",
+        "test_reference_graph_and_actual_c07_mend_projector_booster_timer"
+      ],
+      "runtime_proof": "/root/C07MendProjectorBoosterTimerProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

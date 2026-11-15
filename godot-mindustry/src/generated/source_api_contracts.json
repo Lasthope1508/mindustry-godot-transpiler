@@ -70194,6 +70194,343 @@
       ],
       "runtime_proof": "/root/C07WallCrafterSecondConsumersProof",
       "rule": "Source-backed WallCrafter second consumers from ConsumeLiquid.java / ConsumeItems.java / Consume.java / BuildingComp.java."
+    },
+    "SourceConstructorBuildState.source_constructor_dynamic_item_consumer_row_state": {
+      "status": "active",
+      "source_slice": "N2265",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "source_method": "BlockProducerBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_constructor_dynamic_item_consumer_row_state_input.frame"
+        },
+        {
+          "name": "stacks",
+          "type": "Array",
+          "schema": "source_constructor_dynamic_item_consumer_row_state_input.stacks"
+        },
+        {
+          "name": "multiplier",
+          "type": "float",
+          "schema": "source_constructor_dynamic_item_consumer_row_state_input.multiplier"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "row",
+        "has_item_row"
+      ],
+      "tests": [
+        "test_c07_constructor_dynamic_item_row_registration",
+        "test_all_c07_constructor_dynamic_item_row_input_evidence_is_exact",
+        "test_constructor_dynamic_item_row_state",
+        "test_reference_graph_and_actual_c07_constructor_dynamic_item_row"
+      ],
+      "runtime_proof": "/root/C07ConstructorDynamicItemRowProof",
+      "rule": "Source-backed BlockProducer dynamic item row from ConsumeItemDynamic.java / BlockProducer.java / ItemModule.java / BuildingComp.java."
+    },
+    "SourceConstructorBuildState.source_constructor_dynamic_item_trigger_state": {
+      "status": "active",
+      "source_slice": "N2265",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "source_method": "BlockProducerBuild.updateTile()",
+      "params": [
+        {
+          "name": "items",
+          "type": "Dictionary",
+          "schema": "source_constructor_dynamic_item_trigger_state_input.items"
+        },
+        {
+          "name": "stacks",
+          "type": "Array",
+          "schema": "source_constructor_dynamic_item_trigger_state_input.stacks"
+        },
+        {
+          "name": "multiplier",
+          "type": "float",
+          "schema": "source_constructor_dynamic_item_trigger_state_input.multiplier"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "items"
+      ],
+      "tests": [
+        "test_c07_constructor_dynamic_item_row_registration",
+        "test_all_c07_constructor_dynamic_item_row_input_evidence_is_exact",
+        "test_constructor_dynamic_item_row_state",
+        "test_reference_graph_and_actual_c07_constructor_dynamic_item_row"
+      ],
+      "runtime_proof": "/root/C07ConstructorDynamicItemRowProof",
+      "rule": "Source-backed BlockProducer dynamic item row from ConsumeItemDynamic.java / BlockProducer.java / ItemModule.java / BuildingComp.java."
+    },
+    "SourceImpactReactorBuildState.source_impact_reactor_item_consumer_row_state": {
+      "status": "active",
+      "source_slice": "N2266",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "source_method": "ConsumeItems.efficiency(Building)",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_impact_reactor_item_consumer_row_state_input.frame"
+        },
+        {
+          "name": "stacks",
+          "type": "Array",
+          "schema": "source_impact_reactor_item_consumer_row_state_input.stacks"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "row",
+        "has_item_row"
+      ],
+      "tests": [
+        "test_c07_impact_reactor_item_row_registration",
+        "test_all_c07_impact_reactor_item_row_input_evidence_is_exact",
+        "test_impact_reactor_item_consumer_row_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_item_row"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorItemRowProof",
+      "rule": "Source-backed ImpactReactor item consumer row + timer-gated consume from ConsumeItems.java / Consume.java / ItemModule.java / BuildingComp.java / TimerComp.java / Interval.java / Time.java / Blocks.java."
+    },
+    "SourceImpactReactorBuildState.source_impact_reactor_timer_use_state": {
+      "status": "active",
+      "source_slice": "N2266",
+      "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+      "source_method": "TimerComp.timer(int, float)",
+      "params": [
+        {
+          "name": "elapsed",
+          "type": "float",
+          "schema": "source_impact_reactor_timer_use_state_input.elapsed"
+        },
+        {
+          "name": "duration",
+          "type": "float",
+          "schema": "source_impact_reactor_timer_use_state_input.duration"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_impact_reactor_timer_use_state_input.time_scale"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "fired",
+        "elapsed_after",
+        "threshold"
+      ],
+      "tests": [
+        "test_c07_impact_reactor_item_row_registration",
+        "test_all_c07_impact_reactor_item_row_input_evidence_is_exact",
+        "test_impact_reactor_item_consumer_row_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_item_row"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorItemRowProof",
+      "rule": "Source-backed ImpactReactor item consumer row + timer-gated consume from ConsumeItems.java / Consume.java / ItemModule.java / BuildingComp.java / TimerComp.java / Interval.java / Time.java / Blocks.java."
+    },
+    "SourceAcceleratorBuildState.source_accelerator_item_consumer_row_state": {
+      "status": "active",
+      "source_slice": "N2267",
+      "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+      "source_method": "AcceleratorBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_accelerator_item_consumer_row_state_input.frame"
+        },
+        {
+          "name": "stacks",
+          "type": "Array",
+          "schema": "source_accelerator_item_consumer_row_state_input.stacks"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "row",
+        "has_item_row"
+      ],
+      "tests": [
+        "test_c07_accelerator_item_rows_registration",
+        "test_all_c07_accelerator_item_rows_input_evidence_is_exact",
+        "test_accelerator_item_rows_row_state",
+        "test_reference_graph_and_actual_c07_accelerator_item_rows"
+      ],
+      "runtime_proof": "/root/C07AcceleratorItemRowsProof",
+      "rule": "Source-backed Accelerator item rows from ConsumeItems.java / Consume.java / BuildingComp.java / ItemModule.java / Accelerator.java / Blocks.java / Block.java."
+    },
+    "SourceAcceleratorBuildState.source_accelerator_capacities_state": {
+      "status": "active",
+      "source_slice": "N2267",
+      "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+      "source_method": "AcceleratorBuild.updateTile()",
+      "params": [],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "capacities",
+        "item_capacity"
+      ],
+      "tests": [
+        "test_c07_accelerator_item_rows_registration",
+        "test_all_c07_accelerator_item_rows_input_evidence_is_exact",
+        "test_accelerator_item_rows_row_state",
+        "test_reference_graph_and_actual_c07_accelerator_item_rows"
+      ],
+      "runtime_proof": "/root/C07AcceleratorItemRowsProof",
+      "rule": "Source-backed Accelerator item rows from ConsumeItems.java / Consume.java / BuildingComp.java / ItemModule.java / Accelerator.java / Blocks.java / Block.java."
+    },
+    "SourceAcceleratorBuildState.source_accelerator_get_maximum_accepted_state": {
+      "status": "active",
+      "source_slice": "N2267",
+      "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+      "source_method": "AcceleratorBuild.updateTile()",
+      "params": [
+        {
+          "name": "item",
+          "type": "String",
+          "schema": "source_accelerator_get_maximum_accepted_state_input.item"
+        },
+        {
+          "name": "is_core_built",
+          "type": "bool",
+          "schema": "source_accelerator_get_maximum_accepted_state_input.is_core_built"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "maximum_accepted",
+        "capacity",
+        "core_bonus"
+      ],
+      "tests": [
+        "test_c07_accelerator_item_rows_registration",
+        "test_all_c07_accelerator_item_rows_input_evidence_is_exact",
+        "test_accelerator_item_rows_row_state",
+        "test_reference_graph_and_actual_c07_accelerator_item_rows"
+      ],
+      "runtime_proof": "/root/C07AcceleratorItemRowsProof",
+      "rule": "Source-backed Accelerator item rows from ConsumeItems.java / Consume.java / BuildingComp.java / ItemModule.java / Accelerator.java / Blocks.java / Block.java."
+    },
+    "SourceAcceleratorBuildState.source_accelerator_accept_item_state": {
+      "status": "active",
+      "source_slice": "N2267",
+      "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+      "source_method": "AcceleratorBuild.updateTile()",
+      "params": [
+        {
+          "name": "item",
+          "type": "String",
+          "schema": "source_accelerator_accept_item_state_input.item"
+        },
+        {
+          "name": "held",
+          "type": "int",
+          "schema": "source_accelerator_accept_item_state_input.held"
+        },
+        {
+          "name": "is_core_built",
+          "type": "bool",
+          "schema": "source_accelerator_accept_item_state_input.is_core_built"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "accept",
+        "held",
+        "maximum_accepted"
+      ],
+      "tests": [
+        "test_c07_accelerator_item_rows_registration",
+        "test_all_c07_accelerator_item_rows_input_evidence_is_exact",
+        "test_accelerator_item_rows_row_state",
+        "test_reference_graph_and_actual_c07_accelerator_item_rows"
+      ],
+      "runtime_proof": "/root/C07AcceleratorItemRowsProof",
+      "rule": "Source-backed Accelerator item rows from ConsumeItems.java / Consume.java / BuildingComp.java / ItemModule.java / Accelerator.java / Blocks.java / Block.java."
+    },
+    "SourceFrackerBuildState.source_fracker_item_consumer_row_state": {
+      "status": "active",
+      "source_slice": "N2268",
+      "java_source": "core/src/mindustry/world/blocks/production/Fracker.java",
+      "source_method": "FrackerBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_fracker_item_consumer_row_state_input.frame"
+        },
+        {
+          "name": "has_item_consumer",
+          "type": "bool",
+          "schema": "source_fracker_item_consumer_row_state_input.has_item_consumer"
+        },
+        {
+          "name": "stacks",
+          "type": "Array",
+          "schema": "source_fracker_item_consumer_row_state_input.stacks"
+        },
+        {
+          "name": "multiplier",
+          "type": "float",
+          "schema": "source_fracker_item_consumer_row_state_input.multiplier"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "row",
+        "has_item_row"
+      ],
+      "tests": [
+        "test_c07_fracker_item_row_registration",
+        "test_all_c07_fracker_item_row_input_evidence_is_exact",
+        "test_fracker_item_consumer_row_state",
+        "test_reference_graph_and_actual_c07_fracker_item_row"
+      ],
+      "runtime_proof": "/root/C07FrackerItemRowProof",
+      "rule": "Source-backed Fracker sand item consumer row from ConsumeItems.java / Consume.java / BuildingComp.java / Block.java / Blocks.java / ItemModule.java / Fracker.java."
+    },
+    "SourceMendProjectorBuildState.source_mend_projector_timer_use_state": {
+      "status": "active",
+      "source_slice": "N2269",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "source_method": "MendBuild.updateTile()",
+      "params": [
+        {
+          "name": "elapsed",
+          "type": "float",
+          "schema": "source_mend_projector_timer_use_state_input.elapsed"
+        },
+        {
+          "name": "duration",
+          "type": "float",
+          "schema": "source_mend_projector_timer_use_state_input.duration"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_mend_projector_timer_use_state_input.time_scale"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "fired",
+        "elapsed_after",
+        "threshold"
+      ],
+      "tests": [
+        "test_c07_mend_projector_booster_timer_registration",
+        "test_all_c07_mend_projector_booster_timer_input_evidence_is_exact",
+        "test_mend_projector_booster_timer_state",
+        "test_reference_graph_and_actual_c07_mend_projector_booster_timer"
+      ],
+      "runtime_proof": "/root/C07MendProjectorBoosterTimerProof",
+      "rule": "Source-backed MendProjector booster timer consume from MendProjector.java / TimerComp.java / BuildingComp.java / ConsumeItems.java / ItemModule.java / Blocks.java / Block.java."
     }
   },
   "policy": {

@@ -1545,6 +1545,48 @@
       "rule": "Source-backed live-loop drill dump; the drill dumps through the dump composition over the stored conveyor queues, and simulate_factory calls this step instead of dumping straight to the core.",
       "return_type": "Dictionary"
     },
+    "SourceFrackerBuildState.source_fracker_item_consumer_row_state": {
+      "canonical_contract": "source_api_contracts.SourceFrackerBuildState.source_fracker_item_consumer_row_state",
+      "status": "active",
+      "source_slice": "N2268",
+      "java_source": "core/src/mindustry/world/blocks/production/Fracker.java",
+      "source_method": "FrackerBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_fracker_item_consumer_row_state_input.frame"
+        },
+        {
+          "name": "has_item_consumer",
+          "type": "bool",
+          "schema": "source_fracker_item_consumer_row_state_input.has_item_consumer"
+        },
+        {
+          "name": "stacks",
+          "type": "Array",
+          "schema": "source_fracker_item_consumer_row_state_input.stacks"
+        },
+        {
+          "name": "multiplier",
+          "type": "float",
+          "schema": "source_fracker_item_consumer_row_state_input.multiplier"
+        }
+      ],
+      "return_keys": [
+        "row",
+        "has_item_row"
+      ],
+      "tests": [
+        "test_c07_fracker_item_row_registration",
+        "test_all_c07_fracker_item_row_input_evidence_is_exact",
+        "test_fracker_item_consumer_row_state",
+        "test_reference_graph_and_actual_c07_fracker_item_row"
+      ],
+      "runtime_proof": "/root/C07FrackerItemRowProof",
+      "rule": "Source-backed Fracker sand item consumer row from ConsumeItems.java / Consume.java / BuildingComp.java / Block.java / Blocks.java / ItemModule.java / Fracker.java.",
+      "return_type": "Dictionary"
+    },
     "SourceFrackerBuildState.source_fracker_liquid_consumer_row_state": {
       "canonical_contract": "source_api_contracts.SourceFrackerBuildState.source_fracker_liquid_consumer_row_state",
       "status": "active",

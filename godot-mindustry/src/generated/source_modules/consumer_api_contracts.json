@@ -4367,6 +4367,37 @@
       "runtime_proof": "/root/Main.DrillLiveConsumptionProof",
       "rule": "Source-backed concrete adapter and live base-Drill gameplay integration. Power consumers, mixed ore, flow binding, reload and secondary output routing are explicitly outside this checkpoint."
     },
+    "SourceImpactReactorBuildState.source_impact_reactor_item_consumer_row_state": {
+      "canonical_contract": "source_api_contracts.SourceImpactReactorBuildState.source_impact_reactor_item_consumer_row_state",
+      "status": "active",
+      "source_slice": "N2266",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "source_method": "ConsumeItems.efficiency(Building)",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_impact_reactor_item_consumer_row_state_input.frame"
+        },
+        {
+          "name": "stacks",
+          "type": "Array",
+          "schema": "source_impact_reactor_item_consumer_row_state_input.stacks"
+        }
+      ],
+      "return_keys": [
+        "row",
+        "has_item_row"
+      ],
+      "tests": [
+        "test_c07_impact_reactor_item_row_registration",
+        "test_all_c07_impact_reactor_item_row_input_evidence_is_exact",
+        "test_impact_reactor_item_consumer_row_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_item_row"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorItemRowProof",
+      "rule": "Source-backed ImpactReactor item consumer row + timer-gated consume from ConsumeItems.java / Consume.java / ItemModule.java / BuildingComp.java / TimerComp.java / Interval.java / Time.java / Blocks.java."
+    },
     "SourceImpactReactorBuildState.source_impact_reactor_liquid_consumer_row_state": {
       "canonical_contract": "source_api_contracts.SourceImpactReactorBuildState.source_impact_reactor_liquid_consumer_row_state",
       "status": "active",

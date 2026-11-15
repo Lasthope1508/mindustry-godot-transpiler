@@ -3414,6 +3414,42 @@
       "runtime_proof": "/root/Main.source_unit_payload_y_state",
       "rule": "Dictionary returned by port_game.source_unit_payload_y_state mirrors UnitPayload.y()."
     },
+    "SourceConstructorBuildState.source_constructor_dynamic_item_consumer_row_state": {
+      "canonical_contract": "source_api_contracts.SourceConstructorBuildState.source_constructor_dynamic_item_consumer_row_state",
+      "status": "active",
+      "source_slice": "N2265",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "source_method": "BlockProducerBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_constructor_dynamic_item_consumer_row_state_input.frame"
+        },
+        {
+          "name": "stacks",
+          "type": "Array",
+          "schema": "source_constructor_dynamic_item_consumer_row_state_input.stacks"
+        },
+        {
+          "name": "multiplier",
+          "type": "float",
+          "schema": "source_constructor_dynamic_item_consumer_row_state_input.multiplier"
+        }
+      ],
+      "return_keys": [
+        "row",
+        "has_item_row"
+      ],
+      "tests": [
+        "test_c07_constructor_dynamic_item_row_registration",
+        "test_all_c07_constructor_dynamic_item_row_input_evidence_is_exact",
+        "test_constructor_dynamic_item_row_state",
+        "test_reference_graph_and_actual_c07_constructor_dynamic_item_row"
+      ],
+      "runtime_proof": "/root/C07ConstructorDynamicItemRowProof",
+      "rule": "Source-backed BlockProducer dynamic item row from ConsumeItemDynamic.java / BlockProducer.java / ItemModule.java / BuildingComp.java."
+    },
     "SourceConstructorBuildState.source_constructor_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourceConstructorBuildState.source_constructor_power_status_row_state",
       "status": "active",

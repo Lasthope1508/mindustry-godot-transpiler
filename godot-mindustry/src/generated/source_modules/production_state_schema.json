@@ -1621,6 +1621,51 @@
         }
       }
     },
+    "source_fracker_item_consumer_row_state_input": {
+      "canonical_schema": "source_state_schema.source_fracker_item_consumer_row_state_input",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+          "java_expr": "return build.consumeTriggerValid() || build.items.has(items, multiplier.get(build)) ? 1f : 0f;",
+          "rule": "The building frame carrying the Building.items ItemModule (frame[\"items\"], a Dictionary keyed by item name, the factory/Separator precedent): the held sand count the row reads through SourceDrillInventoryRuntimeState.item_count; a frame without the key reads 0, like Java items.get on an item never added.",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_item_consumer_row_state"
+          ]
+        },
+        "has_item_consumer": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "for(var cons : block.nonOptionalConsumers){",
+          "rule": "Whether the block has an item consumer (BuildingComp.java:1969): the driver gate -- the row joins the first pass only when the catalog consumeItem rows carry the sand row (the oil-extractor does, consumeItem sand, Blocks.java:2976); a def with no item consumer contributes no row.",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_item_consumer_row_state"
+          ]
+        },
+        "stacks": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "return consumeItem(item, 1);",
+          "rule": "The explicit item stacks (Array of {\"item\": kebab-case id, \"amount\": int}), read by the driver from the catalog consumeItem rows: the oil-extractor consumes one stack of sand 1 (consumeItem(item) returns consumeItem(item, 1), Block.java:1167-1168); every stack must be held at round(amount * multiplier) for the row to read 1.0 (ItemModule.java:153-156).",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_item_consumer_row_state"
+          ]
+        },
+        "multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "public Floatf<Building> multiplier = b -> 1f;",
+          "rule": "The cost multiplier (ConsumeItems.java:52, items.has(items, multiplier.get(build))): the oil-extractor def sets none (consumeItem builds a plain ConsumeItems, Block.java:1171-1172), so the default 1f (Consume.java:18) applies; explicit parameter, default 1.0.",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_item_consumer_row_state"
+          ]
+        }
+      }
+    },
     "source_fracker_liquid_consumer_row_state_input": {
       "canonical_schema": "source_state_schema.source_fracker_liquid_consumer_row_state_input",
       "keys": {

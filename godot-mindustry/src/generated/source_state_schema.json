@@ -239784,6 +239784,705 @@
       },
       "runtime_proof": "/root/C07WallCrafterSecondConsumersProof",
       "rule": "Source-backed WallCrafter second consumers from ConsumeLiquid.java / ConsumeItems.java / Consume.java / BuildingComp.java."
+    },
+    "source_constructor_dynamic_item_stacks_state_input": {
+      "status": "active",
+      "owner": "SourceConstructorBuildState.source_constructor_dynamic_item_stacks_state",
+      "source_slice": "N2265",
+      "keys": {
+        "recipe_requirements": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "java_expr": "clone[i].amount = Mathf.ceil(block.requirements[i].amount * state.rules.buildCostMultiplier);",
+          "rule": "The recipe block requirements from the catalog (Array of {\"item\": kebab-case id, \"amount\": int}, e.g. conveyor [{copper, 1}]): the stacks the dynamic consumer clones, with each amount ceiled against the build-cost multiplier (BlockProducer.java:49); empty when the recipe is null (ItemStack.empty, BlockProducer.java:53).",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_dynamic_item_stacks_state"
+          ]
+        },
+        "build_cost_multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Rules.java",
+          "java_expr": "public float buildCostMultiplier = 1f;",
+          "rule": "The build-cost multiplier (Rules.java:115): the 1f default -- the port rules_state carries no buildCostMultiplier key yet, so the driver reads rules_state.get(\"buildCostMultiplier\", 1.0).",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_dynamic_item_stacks_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ConstructorDynamicItemRowProof",
+      "rule": "Source-backed BlockProducer dynamic item row from ConsumeItemDynamic.java / BlockProducer.java / ItemModule.java / BuildingComp.java."
+    },
+    "source_constructor_dynamic_item_stacks_state_result": {
+      "status": "active",
+      "owner": "SourceConstructorBuildState.source_constructor_dynamic_item_stacks_state",
+      "source_slice": "N2265",
+      "keys": {
+        "stacks": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "java_expr": "clone[i].amount = Mathf.ceil(block.requirements[i].amount * state.rules.buildCostMultiplier);",
+          "rule": "The dynamic stacks (BlockProducer.java:39-55): Array of {\"item\": kebab-case id, \"amount\": int} with amount = ceil(requirement amount * buildCostMultiplier); [] when the requirements are empty (null recipe).",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_dynamic_item_stacks_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ConstructorDynamicItemRowProof",
+      "rule": "Source-backed BlockProducer dynamic item row from ConsumeItemDynamic.java / BlockProducer.java / ItemModule.java / BuildingComp.java."
+    },
+    "source_constructor_dynamic_item_consumer_row_state_input": {
+      "status": "active",
+      "owner": "SourceConstructorBuildState.source_constructor_dynamic_item_consumer_row_state",
+      "source_slice": "N2265",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+          "java_expr": "return build.consumeTriggerValid() || build.items.has(items.get(build), multiplier.get(build)) ? 1f : 0f;",
+          "rule": "The building frame carrying the Building.items ItemModule (frame[\"items\"], a Dictionary keyed by item name, the drill/factory precedent): the held counts the row reads through SourceDrillInventoryRuntimeState.item_count; a frame without the key reads 0, like Java items.get on an item never added. No live intake fills frame[\"items\"] yet -- the row reads the frame as-is.",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_dynamic_item_consumer_row_state"
+          ]
+        },
+        "stacks": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/modules/ItemModule.java",
+          "java_expr": "if(stack.item.id >= items.length || !has(stack.item, Math.round(stack.amount * multiplier))) return false;",
+          "rule": "The explicit dynamic stacks (Array of {\"item\": kebab-case id, \"amount\": int}) from the stacks function: every stack must be held at round(amount * multiplier) for the row to read 1.0 (ItemModule.java:153-156); an empty array holds trivially (the loop never runs), so a null recipe folds 1.0.",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_dynamic_item_consumer_row_state"
+          ]
+        },
+        "multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "public Floatf<Building> multiplier = b -> 1f;",
+          "rule": "The consumer multiplier (Consume.java:18): the 1f default -- the BlockProducer dynamic consumer sets none.",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_dynamic_item_consumer_row_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ConstructorDynamicItemRowProof",
+      "rule": "Source-backed BlockProducer dynamic item row from ConsumeItemDynamic.java / BlockProducer.java / ItemModule.java / BuildingComp.java."
+    },
+    "source_constructor_dynamic_item_consumer_row_state_result": {
+      "status": "active",
+      "owner": "SourceConstructorBuildState.source_constructor_dynamic_item_consumer_row_state",
+      "source_slice": "N2265",
+      "keys": {
+        "row": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+          "java_expr": "return build.consumeTriggerValid() || build.items.has(items.get(build), multiplier.get(build)) ? 1f : 0f;",
+          "rule": "The dynamic item row for the first pass (ConsumeItemDynamic.java:61, the canonical ConsumeItemDynamic.efficiency): {\"result\": 1.0 when every stack is held (or the trigger is valid, base false), else 0.0, \"is_power\": false}, folded by the non-optional pass into the min efficiency.",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_dynamic_item_consumer_row_state"
+          ]
+        },
+        "has_item_row": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "for(var cons : block.nonOptionalConsumers){",
+          "rule": "Whether the row joins the first pass (BuildingComp.java:1969): always true -- the BlockProducer constructor always registers the ConsumeItemDynamic (BlockProducer.java:39), so the consumer is always in nonOptionalConsumers, even with a null recipe (where its efficiency is 1.0).",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_dynamic_item_consumer_row_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ConstructorDynamicItemRowProof",
+      "rule": "Source-backed BlockProducer dynamic item row from ConsumeItemDynamic.java / BlockProducer.java / ItemModule.java / BuildingComp.java."
+    },
+    "source_constructor_dynamic_item_trigger_state_input": {
+      "status": "active",
+      "owner": "SourceConstructorBuildState.source_constructor_dynamic_item_trigger_state",
+      "source_slice": "N2265",
+      "keys": {
+        "items": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+          "java_expr": "build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));",
+          "rule": "The held items dict (Dictionary keyed by item name) the trigger removes from: each stack removes round(amount * multiplier), clamped to the held count (ItemModule.java:258-263) through the shared inventory helper.",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_dynamic_item_trigger_state"
+          ]
+        },
+        "stacks": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+          "java_expr": "build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));",
+          "rule": "The explicit dynamic stacks (Array of {\"item\": kebab-case id, \"amount\": int}) from the stacks function: the trigger removes round(amount * multiplier) of each (ConsumeItemDynamic.java:53-57).",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_dynamic_item_trigger_state"
+          ]
+        },
+        "multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "public Floatf<Building> multiplier = b -> 1f;",
+          "rule": "The consumer multiplier (Consume.java:18): the 1f default -- the BlockProducer dynamic consumer sets none.",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_dynamic_item_trigger_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ConstructorDynamicItemRowProof",
+      "rule": "Source-backed BlockProducer dynamic item row from ConsumeItemDynamic.java / BlockProducer.java / ItemModule.java / BuildingComp.java."
+    },
+    "source_constructor_dynamic_item_trigger_state_result": {
+      "status": "active",
+      "owner": "SourceConstructorBuildState.source_constructor_dynamic_item_trigger_state",
+      "source_slice": "N2265",
+      "keys": {
+        "items": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+          "java_expr": "build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));",
+          "rule": "The items dict after the trigger (ConsumeItemDynamic.java:53-57): each stack removed round(amount * multiplier), clamped to the held count (ItemModule.java:258-263); tested pure, NOT wired live yet -- consume() only fires when the progress advance completes (BlockProducer.java:115-116).",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_dynamic_item_trigger_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ConstructorDynamicItemRowProof",
+      "rule": "Source-backed BlockProducer dynamic item row from ConsumeItemDynamic.java / BlockProducer.java / ItemModule.java / BuildingComp.java."
+    },
+    "source_impact_reactor_item_consumer_row_state_input": {
+      "status": "active",
+      "owner": "SourceImpactReactorBuildState.source_impact_reactor_item_consumer_row_state",
+      "source_slice": "N2266",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+          "java_expr": "build.items.has(items, multiplier.get(build))",
+          "rule": "The building frame carrying the Building.items ItemModule (frame[\"items\"], a Dictionary keyed by item name, default {} for a frame bound before this slice): the live store the row reads the blast-compound count from; an item never held reads 0 through the shared inventory helper, the same outcome as the id-out-of-range branch of ItemModule.has. No live intake fills frame[\"items\"] yet (the Separator precedent), so the row reads the frame as-is.",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_item_consumer_row_state"
+          ]
+        },
+        "stacks": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "consumeItem(Items.blastCompound);",
+          "rule": "The required stacks from the def, explicit from the driver: one stack of 1 blast-compound (consumeItem(item) is ItemStack(item, 1), Block.java:1167-1168; the catalog captures it as consumeItem, [{amount: 1, item: \"blast-compound\"}]). Empty stacks contribute no row, the has_power_row pattern.",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_item_consumer_row_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ImpactReactorItemRowProof",
+      "rule": "Source-backed ImpactReactor item consumer row + timer-gated consume from ConsumeItems.java / Consume.java / ItemModule.java / BuildingComp.java / TimerComp.java / Interval.java / Time.java / Blocks.java."
+    },
+    "source_impact_reactor_item_consumer_row_state_result": {
+      "status": "active",
+      "owner": "SourceImpactReactorBuildState.source_impact_reactor_item_consumer_row_state",
+      "source_slice": "N2266",
+      "keys": {
+        "row": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+          "java_expr": "return build.consumeTriggerValid() || build.items.has(items, multiplier.get(build)) ? 1f : 0f;",
+          "rule": "The folded row {\"result\": ..., \"is_power\": false}: BINARY 1.0 when the frame holds every stack (consumeTriggerValid() is false at the base, BuildingComp.java:764-766, with no ImpactReactor override, so the trigger term never fires), 0.0 otherwise (ConsumeItems.java:51-53); is_power false so the shared fold sets shouldConsumePower=false when the row is <= 1e-7 (BuildingComp.java:1972-1974).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_item_consumer_row_state"
+          ]
+        },
+        "has_item_row": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "consumeItem(Items.blastCompound);",
+          "rule": "Whether the row exists: true when the driver passes non-empty stacks (the single impact-reactor def does, Blocks.java:2643), false otherwise -- the has_power_row pattern.",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_item_consumer_row_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ImpactReactorItemRowProof",
+      "rule": "Source-backed ImpactReactor item consumer row + timer-gated consume from ConsumeItems.java / Consume.java / ItemModule.java / BuildingComp.java / TimerComp.java / Interval.java / Time.java / Blocks.java."
+    },
+    "source_impact_reactor_timer_use_state_input": {
+      "status": "active",
+      "owner": "SourceImpactReactorBuildState.source_impact_reactor_timer_use_state",
+      "source_slice": "N2266",
+      "keys": {
+        "elapsed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/util/Interval.java",
+          "java_expr": "return Time.time - times[id] >= time || Time.time < times[id];",
+          "rule": "The frame-local clock value in ticks (frame[\"timer_use_elapsed\"], accumulated from source_delta every tick, unconditionally): the port stand-in for Time.time - times[id] (arc Interval.java:29), since the port has no global tick clock at the driver layer. Time.time counts in TICKS (timeRaw += delta, arc Time.java:75).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_timer_use_state"
+          ]
+        },
+        "duration": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "itemDuration = 140f;",
+          "rule": "The timer duration in ticks from the def: 140f for the single impact-reactor def (Blocks.java:2637), NOT the class default 60f (ImpactReactor.java:20). The threshold is duration / time_scale.",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_timer_use_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return timeScale;",
+          "rule": "The sprite-meta timeScale (BuildingComp.java:599-600, `return timeScale;`, default 1f, BuildingComp.java:98): the threshold divisor (ImpactReactor.java:91, `if(timer(timerUse, itemDuration / timeScale)){`). A non-positive timeScale makes the Java threshold infinite, so TimerComp returns false (TimerComp.java:12).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_timer_use_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ImpactReactorItemRowProof",
+      "rule": "Source-backed ImpactReactor item consumer row + timer-gated consume from ConsumeItems.java / Consume.java / ItemModule.java / BuildingComp.java / TimerComp.java / Interval.java / Time.java / Blocks.java."
+    },
+    "source_impact_reactor_timer_use_state_result": {
+      "status": "active",
+      "owner": "SourceImpactReactorBuildState.source_impact_reactor_timer_use_state",
+      "source_slice": "N2266",
+      "keys": {
+        "fired": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+          "java_expr": "return timer.get(index, time);",
+          "rule": "Whether the timer fires this tick: TimerComp.timer (TimerComp.java:11-14) returns false for an infinite time and otherwise delegates to Interval.get, which fires when the elapsed time reaches the threshold (Interval.java:20-26).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_timer_use_state"
+          ]
+        },
+        "elapsed_after": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/util/Interval.java",
+          "java_expr": "if(got) times[id] = Time.time;",
+          "rule": "The clock value after the check: 0.0 when the timer fires (Interval.get RESETS times[id] = Time.time on fire, arc Interval.java:24 -- reset, NOT subtract like the Fracker accumulator), the elapsed value unchanged otherwise.",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_timer_use_state"
+          ]
+        },
+        "threshold": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+          "java_expr": "if(timer(timerUse, itemDuration / timeScale)){",
+          "rule": "The fire threshold in ticks: duration / time_scale (ImpactReactor.java:91), INF when time_scale <= 0 (the infinite-time branch, TimerComp.java:12).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_timer_use_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ImpactReactorItemRowProof",
+      "rule": "Source-backed ImpactReactor item consumer row + timer-gated consume from ConsumeItems.java / Consume.java / ItemModule.java / BuildingComp.java / TimerComp.java / Interval.java / Time.java / Blocks.java."
+    },
+    "source_accelerator_item_consumer_row_state_input": {
+      "status": "active",
+      "owner": "SourceAcceleratorBuildState.source_accelerator_item_consumer_row_state",
+      "source_slice": "N2267",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+          "java_expr": "return build.consumeTriggerValid() || build.items.has(items, multiplier.get(build)) ? 1f : 0f;",
+          "rule": "The building frame carrying the live items store (frame[\"items\"], the Building.items ItemModule, Dictionary keyed by item name, the factory precedent SourceFactoryBuildState.gd:89-101); a frame without an items store reads count 0, like Java items.get for an item never added.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_item_consumer_row_state"
+          ]
+        },
+        "stacks": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "return consume(new ConsumeItems(items));",
+          "rule": "The launch-block requirement stacks (Array of {\"item\": kebab-case id, \"amount\": int}): copper 8000, lead 8000, silicon 5000, thorium 4000 (Blocks.java:3154); consumeItems registers them as one ConsumeItems (Block.java:1175-1176, Accelerator.java:91). An empty stacks array means no item consumer and appends no row.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_item_consumer_row_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07AcceleratorItemRowsProof",
+      "rule": "Source-backed Accelerator item rows from ConsumeItems.java / Consume.java / BuildingComp.java / ItemModule.java / Accelerator.java / Blocks.java / Block.java."
+    },
+    "source_accelerator_item_consumer_row_state_result": {
+      "status": "active",
+      "owner": "SourceAcceleratorBuildState.source_accelerator_item_consumer_row_state",
+      "source_slice": "N2267",
+      "keys": {
+        "row": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+          "java_expr": "return build.consumeTriggerValid() || build.items.has(items, multiplier.get(build)) ? 1f : 0f;",
+          "rule": "The item row for the required first pass (ConsumeItems.java:52): {\"result\": 1.0 when every stack is held, else 0.0, \"is_power\": false}, folded by the first pass into the min efficiency; BINARY, not a ratio.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_item_consumer_row_state"
+          ]
+        },
+        "has_item_row": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "for(var cons : block.nonOptionalConsumers){",
+          "rule": "Whether the row joins the required first pass (BuildingComp.java:1969): true when the block has an item consumer; the row is the item consumer's entry in the first pass.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_item_consumer_row_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07AcceleratorItemRowsProof",
+      "rule": "Source-backed Accelerator item rows from ConsumeItems.java / Consume.java / BuildingComp.java / ItemModule.java / Accelerator.java / Blocks.java / Block.java."
+    },
+    "source_accelerator_capacities_state_result": {
+      "status": "active",
+      "owner": "SourceAcceleratorBuildState.source_accelerator_capacities_state",
+      "source_slice": "N2267",
+      "keys": {
+        "capacities": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "capacities[stack.item.id] = stack.amount;",
+          "rule": "The per-item capacities init() fills from the launch-block requirements (Accelerator.java:88): {\"copper\": 8000, \"lead\": 8000, \"silicon\": 5000, \"thorium\": 4000}; an item with no requirement reads 0, like the fresh int array in Java.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_capacities_state"
+          ]
+        },
+        "item_capacity": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "itemCapacity += stack.amount;",
+          "rule": "The summed item capacity init() builds (Accelerator.java:89): 8000 + 8000 + 5000 + 4000 = 25000; the class default 8000 (Accelerator.java:76) is zeroed first (Accelerator.java:85).",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_capacities_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07AcceleratorItemRowsProof",
+      "rule": "Source-backed Accelerator item rows from ConsumeItems.java / Consume.java / BuildingComp.java / ItemModule.java / Accelerator.java / Blocks.java / Block.java."
+    },
+    "source_accelerator_get_maximum_accepted_state_input": {
+      "status": "active",
+      "owner": "SourceAcceleratorBuildState.source_accelerator_get_maximum_accepted_state",
+      "source_slice": "N2267",
+      "keys": {
+        "item": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "public int getMaximumAccepted(Item item){",
+          "rule": "The item id (kebab-case) whose maximum accepted count is requested (Accelerator.java:293).",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_get_maximum_accepted_state"
+          ]
+        },
+        "is_core_built": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "public boolean isCoreBuilt(){",
+          "rule": "Whether the core is built (progress >= 1f, Accelerator.java:153-154); the launch-block itemCapacity bonus applies only when built.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_get_maximum_accepted_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07AcceleratorItemRowsProof",
+      "rule": "Source-backed Accelerator item rows from ConsumeItems.java / Consume.java / BuildingComp.java / ItemModule.java / Accelerator.java / Blocks.java / Block.java."
+    },
+    "source_accelerator_get_maximum_accepted_state_result": {
+      "status": "active",
+      "owner": "SourceAcceleratorBuildState.source_accelerator_get_maximum_accepted_state",
+      "source_slice": "N2267",
+      "keys": {
+        "maximum_accepted": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "return capacities[item.id] + (isCoreBuilt() ? launchBlock.itemCapacity : 0);",
+          "rule": "The maximum accepted count for the item (Accelerator.java:294): capacities[item] + (isCoreBuilt ? launchBlock.itemCapacity : 0).",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_get_maximum_accepted_state"
+          ]
+        },
+        "capacity": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "capacities[stack.item.id] = stack.amount;",
+          "rule": "The per-item capacity from init() (Accelerator.java:88): 8000 copper / 8000 lead / 5000 silicon / 4000 thorium, 0 for any other item.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_get_maximum_accepted_state"
+          ]
+        },
+        "core_bonus": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "itemCapacity = 13000;",
+          "rule": "The launch-block itemCapacity bonus (core-nucleus itemCapacity 13000, Blocks.java:3158): 13000 when is_core_built, else 0.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_get_maximum_accepted_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07AcceleratorItemRowsProof",
+      "rule": "Source-backed Accelerator item rows from ConsumeItems.java / Consume.java / BuildingComp.java / ItemModule.java / Accelerator.java / Blocks.java / Block.java."
+    },
+    "source_accelerator_accept_item_state_input": {
+      "status": "active",
+      "owner": "SourceAcceleratorBuildState.source_accelerator_accept_item_state",
+      "source_slice": "N2267",
+      "keys": {
+        "item": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "public boolean acceptItem(Building source, Item item){",
+          "rule": "The item id (kebab-case) offered to the building (Accelerator.java:298).",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_accept_item_state"
+          ]
+        },
+        "held": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "return items.get(item) < getMaximumAccepted(item);",
+          "rule": "The count of the item currently held (items.get(item), Accelerator.java:299).",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_accept_item_state"
+          ]
+        },
+        "is_core_built": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "public boolean isCoreBuilt(){",
+          "rule": "Whether the core is built (progress >= 1f, Accelerator.java:153-154); the maximum accepted rides on it.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_accept_item_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07AcceleratorItemRowsProof",
+      "rule": "Source-backed Accelerator item rows from ConsumeItems.java / Consume.java / BuildingComp.java / ItemModule.java / Accelerator.java / Blocks.java / Block.java."
+    },
+    "source_accelerator_accept_item_state_result": {
+      "status": "active",
+      "owner": "SourceAcceleratorBuildState.source_accelerator_accept_item_state",
+      "source_slice": "N2267",
+      "keys": {
+        "accept": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "return items.get(item) < getMaximumAccepted(item);",
+          "rule": "Whether the building accepts one more of the item (Accelerator.java:299): held < getMaximumAccepted(item); held == maximum rejects.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_accept_item_state"
+          ]
+        },
+        "held": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "return items.get(item) < getMaximumAccepted(item);",
+          "rule": "The held count echoed back (items.get(item), Accelerator.java:299).",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_accept_item_state"
+          ]
+        },
+        "maximum_accepted": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "return capacities[item.id] + (isCoreBuilt() ? launchBlock.itemCapacity : 0);",
+          "rule": "The maximum accepted count for the item (Accelerator.java:294): capacities[item] + (isCoreBuilt ? launchBlock.itemCapacity : 0).",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_accept_item_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07AcceleratorItemRowsProof",
+      "rule": "Source-backed Accelerator item rows from ConsumeItems.java / Consume.java / BuildingComp.java / ItemModule.java / Accelerator.java / Blocks.java / Block.java."
+    },
+    "source_fracker_item_consumer_row_state_input": {
+      "status": "active",
+      "owner": "SourceFrackerBuildState.source_fracker_item_consumer_row_state",
+      "source_slice": "N2268",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+          "java_expr": "return build.consumeTriggerValid() || build.items.has(items, multiplier.get(build)) ? 1f : 0f;",
+          "rule": "The building frame carrying the Building.items ItemModule (frame[\"items\"], a Dictionary keyed by item name, the factory/Separator precedent): the held sand count the row reads through SourceDrillInventoryRuntimeState.item_count; a frame without the key reads 0, like Java items.get on an item never added.",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_item_consumer_row_state"
+          ]
+        },
+        "has_item_consumer": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "for(var cons : block.nonOptionalConsumers){",
+          "rule": "Whether the block has an item consumer (BuildingComp.java:1969): the driver gate -- the row joins the first pass only when the catalog consumeItem rows carry the sand row (the oil-extractor does, consumeItem sand, Blocks.java:2976); a def with no item consumer contributes no row.",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_item_consumer_row_state"
+          ]
+        },
+        "stacks": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "return consumeItem(item, 1);",
+          "rule": "The explicit item stacks (Array of {\"item\": kebab-case id, \"amount\": int}), read by the driver from the catalog consumeItem rows: the oil-extractor consumes one stack of sand 1 (consumeItem(item) returns consumeItem(item, 1), Block.java:1167-1168); every stack must be held at round(amount * multiplier) for the row to read 1.0 (ItemModule.java:153-156).",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_item_consumer_row_state"
+          ]
+        },
+        "multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "public Floatf<Building> multiplier = b -> 1f;",
+          "rule": "The cost multiplier (ConsumeItems.java:52, items.has(items, multiplier.get(build))): the oil-extractor def sets none (consumeItem builds a plain ConsumeItems, Block.java:1171-1172), so the default 1f (Consume.java:18) applies; explicit parameter, default 1.0.",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_item_consumer_row_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07FrackerItemRowProof",
+      "rule": "Source-backed Fracker sand item consumer row from ConsumeItems.java / Consume.java / BuildingComp.java / Block.java / Blocks.java / ItemModule.java / Fracker.java."
+    },
+    "source_fracker_item_consumer_row_state_result": {
+      "status": "active",
+      "owner": "SourceFrackerBuildState.source_fracker_item_consumer_row_state",
+      "source_slice": "N2268",
+      "keys": {
+        "row": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+          "java_expr": "return build.consumeTriggerValid() || build.items.has(items, multiplier.get(build)) ? 1f : 0f;",
+          "rule": "The sand row for the first pass (ConsumeItems.java:52, the canonical ConsumeItems.efficiency): {\"result\": 1.0 when every stack is held (or the trigger is valid, base false), else 0.0, \"is_power\": false}, folded by the non-optional pass into the min efficiency; 0.0 when the store holds no sand. is_power false, so the shared fold sets shouldConsumePower=false when the row is <= 1e-7 (BuildingComp.java:1972-1973).",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_item_consumer_row_state"
+          ]
+        },
+        "has_item_row": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "for(var cons : block.nonOptionalConsumers){",
+          "rule": "Whether the row joins the first pass (BuildingComp.java:1969): true when the block has an item consumer; the row is the sand consumer's entry in the non-optional pass.",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_item_consumer_row_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07FrackerItemRowProof",
+      "rule": "Source-backed Fracker sand item consumer row from ConsumeItems.java / Consume.java / BuildingComp.java / Block.java / Blocks.java / ItemModule.java / Fracker.java."
+    },
+    "source_mend_projector_timer_use_state_input": {
+      "status": "active",
+      "owner": "SourceMendProjectorBuildState.source_mend_projector_timer_use_state",
+      "source_slice": "N2269",
+      "keys": {
+        "elapsed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+          "java_expr": "return timer.get(index, time);",
+          "rule": "The frame-local elapsed clock in ticks (frame[\"timer_use_elapsed\"], accumulated by the tick delta every tick, unconditionally -- the port mirror of the global Time.time arc Interval.get compares against, Interval.java:20-26; Time.time counts TICKS, arc Time.java:69-80).",
+          "used_by": [
+            "SourceMendProjectorBuildState.source_mend_projector_timer_use_state"
+          ]
+        },
+        "duration": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "java_expr": "public float useTime = 400f;",
+          "rule": "The timer duration in ticks: useTime 400f (MendProjector.java:31); no def overrides it, so both defs share 400f.",
+          "used_by": [
+            "SourceMendProjectorBuildState.source_mend_projector_timer_use_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The live building timeScale (BuildingComp.java:98, default 1f), read from the sprite meta by the tick; the Java threshold is useTime / timeScale (MendProjector.java:102), and a non-positive time_scale is the infinite-time branch (TimerComp.java:11).",
+          "used_by": [
+            "SourceMendProjectorBuildState.source_mend_projector_timer_use_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07MendProjectorBoosterTimerProof",
+      "rule": "Source-backed MendProjector booster timer consume from MendProjector.java / TimerComp.java / BuildingComp.java / ConsumeItems.java / ItemModule.java / Blocks.java / Block.java."
+    },
+    "source_mend_projector_timer_use_state_result": {
+      "status": "active",
+      "owner": "SourceMendProjectorBuildState.source_mend_projector_timer_use_state",
+      "source_slice": "N2269",
+      "keys": {
+        "fired": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+          "java_expr": "if(Float.isInfinite(time)) return false;",
+          "rule": "Whether the timer fires this tick (TimerComp.java:10-13): false when the threshold is infinite (time_scale <= 0), else elapsed >= duration / time_scale -- the Interval.check comparison (arc Interval.java:28-30) against the frame-local clock.",
+          "used_by": [
+            "SourceMendProjectorBuildState.source_mend_projector_timer_use_state"
+          ]
+        },
+        "elapsed_after": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+          "java_expr": "return timer.get(index, time);",
+          "rule": "The elapsed clock after this tick: 0.0 when fired (Interval.get RESETS times[id] = Time.time on fire, arc Interval.java:23-25 -- a reset, not a subtraction like the Fracker accumulator), otherwise the input elapsed unchanged.",
+          "used_by": [
+            "SourceMendProjectorBuildState.source_mend_projector_timer_use_state"
+          ]
+        },
+        "threshold": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "java_expr": "public float useTime = 400f;",
+          "rule": "The fire threshold in ticks, duration / time_scale (MendProjector.java:102, useTime / timeScale); infinite when time_scale <= 0, so the timer never fires on that branch.",
+          "used_by": [
+            "SourceMendProjectorBuildState.source_mend_projector_timer_use_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07MendProjectorBoosterTimerProof",
+      "rule": "Source-backed MendProjector booster timer consume from MendProjector.java / TimerComp.java / BuildingComp.java / ConsumeItems.java / ItemModule.java / Blocks.java / Block.java."
     }
   },
   "version": 1

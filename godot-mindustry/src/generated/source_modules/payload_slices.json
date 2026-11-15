@@ -1931,6 +1931,26 @@
         "test_reference_graph_and_actual_c07_payload_mass_driver_branches"
       ],
       "runtime_proof": "/root/C07PayloadMassDriverBranchesProof"
+    },
+    "N2265": {
+      "canonical_ledger": "source_slice_ledger.N2265",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_method": "BlockProducerBuild.updateTile()",
+      "godot_owner": "SourceConstructorBuildState.source_constructor_dynamic_item_consumer_row_state",
+      "source_symbols": [
+        "source_constructor_dynamic_item_stacks_state_result.stacks",
+        "source_constructor_dynamic_item_consumer_row_state_result.row",
+        "source_constructor_dynamic_item_consumer_row_state_result.has_item_row",
+        "source_constructor_dynamic_item_trigger_state_result.items"
+      ],
+      "tests": [
+        "test_c07_constructor_dynamic_item_row_registration",
+        "test_all_c07_constructor_dynamic_item_row_input_evidence_is_exact",
+        "test_constructor_dynamic_item_row_state",
+        "test_reference_graph_and_actual_c07_constructor_dynamic_item_row"
+      ],
+      "runtime_proof": "/root/C07ConstructorDynamicItemRowProof"
     }
   }
 }

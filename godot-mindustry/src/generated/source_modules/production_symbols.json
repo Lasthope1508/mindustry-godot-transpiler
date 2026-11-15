@@ -6063,6 +6063,36 @@
       ],
       "runtime_proof": "/root/C06FactoryLiquidOutputProof"
     },
+    "source_fracker_item_consumer_row_state_result.has_item_row": {
+      "canonical_symbol": "source_symbol_registry.source_fracker_item_consumer_row_state_result.has_item_row",
+      "status": "source-backed",
+      "java_expr": "for(var cons : block.nonOptionalConsumers){",
+      "godot_symbol": "source_fracker_item_consumer_row_state_result.has_item_row",
+      "godot_owner": "SourceFrackerBuildState.source_fracker_item_consumer_row_state",
+      "rule": "Whether the row joins the first pass (BuildingComp.java:1969): true when the block has an item consumer; the row is the sand consumer's entry in the non-optional pass.",
+      "tests": [
+        "test_c07_fracker_item_row_registration",
+        "test_all_c07_fracker_item_row_input_evidence_is_exact",
+        "test_fracker_item_consumer_row_state",
+        "test_reference_graph_and_actual_c07_fracker_item_row"
+      ],
+      "runtime_proof": "/root/C07FrackerItemRowProof"
+    },
+    "source_fracker_item_consumer_row_state_result.row": {
+      "canonical_symbol": "source_symbol_registry.source_fracker_item_consumer_row_state_result.row",
+      "status": "source-backed",
+      "java_expr": "return build.consumeTriggerValid() || build.items.has(items, multiplier.get(build)) ? 1f : 0f;",
+      "godot_symbol": "source_fracker_item_consumer_row_state_result.row",
+      "godot_owner": "SourceFrackerBuildState.source_fracker_item_consumer_row_state",
+      "rule": "The sand row for the first pass (ConsumeItems.java:52, the canonical ConsumeItems.efficiency): {\"result\": 1.0 when every stack is held (or the trigger is valid, base false), else 0.0, \"is_power\": false}, folded by the non-optional pass into the min efficiency; 0.0 when the store holds no sand. is_power false, so the shared fold sets shouldConsumePower=false when the row is <= 1e-7 (BuildingComp.java:1972-1973).",
+      "tests": [
+        "test_c07_fracker_item_row_registration",
+        "test_all_c07_fracker_item_row_input_evidence_is_exact",
+        "test_fracker_item_consumer_row_state",
+        "test_reference_graph_and_actual_c07_fracker_item_row"
+      ],
+      "runtime_proof": "/root/C07FrackerItemRowProof"
+    },
     "source_fracker_liquid_consumer_row_state_result.has_liquid_row": {
       "canonical_symbol": "source_symbol_registry.source_fracker_liquid_consumer_row_state_result.has_liquid_row",
       "status": "source-backed",
