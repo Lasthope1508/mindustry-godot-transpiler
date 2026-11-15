@@ -230564,6 +230564,326 @@
       },
       "runtime_proof": "/root/C07ItemBridgeAutoLinkProof",
       "rule": "Source-backed ItemBridge placement auto-link from ItemBridge.java / BuildingComp.java / ConstructBlock.java / Edges.java / arc Point2.java."
+    },
+    "source_separator_should_consume_state_input": {
+      "status": "active",
+      "owner": "SourceSeparatorBuildState.source_separator_should_consume_state",
+      "source_slice": "N2200",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+          "java_expr": "return total < itemCapacity && enabled;",
+          "rule": "The building frame carrying the live items Dictionary (the Building.items ItemModule, keyed by item name, default {}) and the enabled flag (BuildingComp.java:77, default true): the gate reads the held items minus the consItems buffer from this frame.",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_should_consume_state"
+          ]
+        },
+        "cons_item_names": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+          "java_expr": "for(ItemStack stack : consItems.items){",
+          "rule": "The consItems buffer item names (Separator.java:96-97): the catalog consumeItem rows of the def -- empty for the separator def (no consumeItem, Blocks.java:1231-1246, so consItems is null) and [scrap] for the disassembler (consumeItem(Items.scrap);, Blocks.java:1263); the held count of each is subtracted from the total.",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_should_consume_state"
+          ]
+        },
+        "item_capacity": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public int itemCapacity = 10;",
+          "rule": "The capacity the buffer-adjusted total must fit (Separator.java:100): the catalog itemCapacity -- 10 for the separator (the Block.java:75 default) and 20 for the disassembler (Blocks.java:1261).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SeparatorShouldConsumeProof",
+      "rule": "Source-backed Separator shouldConsume gate from Separator.java / BuildingComp.java / Block.java / Blocks.java / ConsumeItems.java."
+    },
+    "source_separator_should_consume_state_result": {
+      "status": "active",
+      "owner": "SourceSeparatorBuildState.source_separator_should_consume_state",
+      "source_slice": "N2200",
+      "keys": {
+        "should_consume": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+          "java_expr": "return total < itemCapacity && enabled;",
+          "rule": "The shouldConsume gate (Separator.java:92-101): true while the buffer-adjusted total fits itemCapacity and the separator is enabled; when false, updateConsumption forces efficiency to zero (BuildingComp.java:1960 + 1992-1994).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_should_consume_state"
+          ]
+        },
+        "total": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+          "java_expr": "int total = items.total();",
+          "rule": "The buffer-adjusted total the gate read (Separator.java:93-98): items.total() minus the held count of each consItems buffer item (Separator.java:96-97); the separator def subtracts nothing (consItems null), the disassembler subtracts its held scrap.",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SeparatorShouldConsumeProof",
+      "rule": "Source-backed Separator shouldConsume gate from Separator.java / BuildingComp.java / Block.java / Blocks.java / ConsumeItems.java."
+    },
+    "source_wall_crafter_should_consume_state_input": {
+      "status": "active",
+      "owner": "SourceWallCrafterBuildState.source_wall_crafter_should_consume_state",
+      "source_slice": "N2201",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "return items.get(output) < itemCapacity;",
+          "rule": "The building frame carrying the live items key (WallCrafter.java:227, the shouldConsume gate): a Dictionary keyed by item name (the Building.items ItemModule, the drill/factory precedent), default {} -- the gate reads the output count from it through the shared inventory helper.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_should_consume_state"
+          ]
+        },
+        "output_item": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "public Item output = Items.sand;",
+          "rule": "The output item from the catalog (block.properties[\"output\"], \"sand\" for both defs -- the Java field default, WallCrafter.java:43, set explicitly by both defs, Blocks.java:3009/:3024).",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_should_consume_state"
+          ]
+        },
+        "item_capacity": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public int itemCapacity = 10;",
+          "rule": "The item capacity from the catalog (block.properties[\"itemCapacity\"], 10 for the cliff-crusher -- the Java field default, Block.java:75 -- and 20 for the large-cliff-crusher, Blocks.java:3031).",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07WallCrafterShouldConsumeProof",
+      "rule": "Source-backed WallCrafter shouldConsume gate from WallCrafter.java / BuildingComp.java / Blocks.java / Block.java."
+    },
+    "source_wall_crafter_should_consume_state_result": {
+      "status": "active",
+      "owner": "SourceWallCrafterBuildState.source_wall_crafter_should_consume_state",
+      "source_slice": "N2201",
+      "keys": {
+        "should_consume": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "return items.get(output) < itemCapacity;",
+          "rule": "The shouldConsume gate (WallCrafter.java:226-228): true while the output count is below the capacity; when false, updateConsumption forces efficiency to zero (BuildingComp.java:1960 + 1992). The gate has NO enabled term -- Java returns the bare capacity comparison, unlike the Separator/Drill gates.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_should_consume_state"
+          ]
+        },
+        "output_count": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "items.get(output)",
+          "rule": "The output item count the gate reads (WallCrafter.java:227): the frame items count for the output item, 0 when the frame has no entry for it.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07WallCrafterShouldConsumeProof",
+      "rule": "Source-backed WallCrafter shouldConsume gate from WallCrafter.java / BuildingComp.java / Blocks.java / Block.java."
+    },
+    "source_beam_drill_should_consume_state_input": {
+      "status": "active",
+      "owner": "SourceBeamDrillBuildState.source_beam_drill_should_consume_state",
+      "source_slice": "N2202",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "return items.total() < itemCapacity && facingAmount > 0 && enabled;",
+          "rule": "The building frame carrying the live items, facing_amount and enabled keys (BeamDrill.java:270-271, the shouldConsume gate): the gate reads the previous tick facing_amount -- updateConsumption runs before updateTile (BuildingComp.java:2274-2277), so the updateFacing recompute lands after the fold.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_should_consume_state"
+          ]
+        },
+        "item_capacity": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public int itemCapacity = 10;",
+          "rule": "The block itemCapacity from the catalog (block.properties[\"itemCapacity\"]): 10 for plasma-bore, the Block.java:75 field default, and 20 for large-plasma-bore (Blocks.java:3062).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BeamDrillShouldConsumeProof",
+      "rule": "Source-backed BeamDrill shouldConsume gate from BeamDrill.java / BuildingComp.java / Blocks.java / Block.java / ItemModule.java."
+    },
+    "source_beam_drill_should_consume_state_result": {
+      "status": "active",
+      "owner": "SourceBeamDrillBuildState.source_beam_drill_should_consume_state",
+      "source_slice": "N2202",
+      "keys": {
+        "should_consume": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "return items.total() < itemCapacity && facingAmount > 0 && enabled;",
+          "rule": "The shouldConsume gate (BeamDrill.java:270-271): true while the item store is under capacity, at least one facing tile holds mineable wall ore, and the drill is enabled; when false, updateConsumption forces efficiency to zero (BuildingComp.java:1960 + 1992).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_should_consume_state"
+          ]
+        },
+        "items_total": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "items.total()",
+          "rule": "The item-store total the gate read (BeamDrill.java:271, items.total() < itemCapacity), computed by the reused drill inventory helper over the frame items Dictionary (the Building.items ItemModule).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_should_consume_state"
+          ]
+        },
+        "facing_amount": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "facingAmount > 0",
+          "rule": "The facing wall-ore count the gate read (BeamDrill.java:271, facingAmount > 0): a plain int field (BeamDrill.java:228, Java default 0), recomputed by updateFacing() (BeamDrill.java:375-410) -- the live scan waits for its own slice, so the gate reads the current frame value.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BeamDrillShouldConsumeProof",
+      "rule": "Source-backed BeamDrill shouldConsume gate from BeamDrill.java / BuildingComp.java / Blocks.java / Block.java / ItemModule.java."
+    },
+    "source_burst_drill_should_consume_state_input": {
+      "status": "active",
+      "owner": "SourceBurstDrillBuildState.source_burst_drill_should_consume_state",
+      "source_slice": "N2203",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "return items.total() <= itemCapacity - dominantItems && enabled;",
+          "rule": "The building frame carrying the live items (Dictionary keyed by item name, the Building.items ItemModule), dominant_items (Drill.java:243, `public int dominantItems;`, set by the drill proximity path from the ore count, Drill.java:277, `dominantItems = returnCount;`) and enabled (BuildingComp.java:77, `transient boolean enabled = true;`): the three inputs the override reads. The frame is the SHARED drill frame (\"source_drill_building\"), bound by the drill proximity path at placement; the burst-drill bind returns applied=false once it exists. A missing items map reads empty; a missing dominant_items reads 0; a missing enabled reads true (the Java field defaults).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_should_consume_state"
+          ]
+        },
+        "item_capacity": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "itemCapacity = 60;",
+          "rule": "The block itemCapacity (Blocks.java: eruption-drill `itemCapacity = 60;`, impact-drill `itemCapacity = 40;`; Block.java:75 default `public int itemCapacity = 10;`): the capacity the gate reserves dominantItems against.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BurstDrillShouldConsumeProof",
+      "rule": "Source-backed BurstDrill shouldConsume gate from BurstDrill.java / Drill.java / BuildingComp.java."
+    },
+    "source_burst_drill_should_consume_state_result": {
+      "status": "active",
+      "owner": "SourceBurstDrillBuildState.source_burst_drill_should_consume_state",
+      "source_slice": "N2203",
+      "keys": {
+        "should_consume": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "return items.total() <= itemCapacity - dominantItems && enabled;",
+          "rule": "The shouldConsume gate (BurstDrill.java:128-130): true while items.total() <= itemCapacity - dominantItems AND the drill is enabled -- `<=`, not `<`, and the capacity minus the dominant-items burst, not the capacity alone; when false, updateConsumption forces efficiency to zero (BuildingComp.java:1960 + 1992-1994). The override replaces the base-Drill gate (Drill.java:247-249), which does not apply to BurstDrill.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_should_consume_state"
+          ]
+        },
+        "items_total": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "items.total()",
+          "rule": "The items total the gate read (BurstDrill.java:129, `items.total()`): the sum over the frame items map via the shared SourceDrillInventoryRuntimeState.items_total helper, compared against itemCapacity - dominantItems.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BurstDrillShouldConsumeProof",
+      "rule": "Source-backed BurstDrill shouldConsume gate from BurstDrill.java / Drill.java / BuildingComp.java."
+    },
+    "source_drill_should_consume_state_input": {
+      "status": "active",
+      "owner": "SourceDrillConsumptionRuntimeState.source_drill_should_consume_state",
+      "source_slice": "N2204",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "return items.total() < itemCapacity && enabled && dominantItem != null;",
+          "rule": "The building frame carrying the live gate inputs: items (the Building.items ItemModule, frame[\"items\"] keyed by item name, totaled by the shared inventory.items_total helper -- the same read the runtime context already uses for its active key), enabled (BuildingComp.java:77, `transient boolean enabled = true;`), and dominant_item (Drill.java:244, `public Item dominantItem;`, set by onProximityUpdate, Drill.java:275-277; null when no mineable ore sits under the footprint, Drill.java:223, or after pickup, Drill.java:267-268). A missing items dict reads empty; a missing enabled reads true (the Java field default); a missing dominant item reads null (no ore).",
+          "used_by": [
+            "SourceDrillConsumptionRuntimeState.source_drill_should_consume_state"
+          ]
+        },
+        "item_capacity": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "return items.total() < itemCapacity && enabled && dominantItem != null;",
+          "rule": "The block def capacity (block.properties[\"itemCapacity\"], 10 for mechanical/pneumatic/laser, 20 for blast-drill, Blocks.java:2911, `itemCapacity = 20;`), passed by the driver -- the frame does not carry it.",
+          "used_by": [
+            "SourceDrillConsumptionRuntimeState.source_drill_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07DrillShouldConsumeProof",
+      "rule": "Source-backed base Drill shouldConsume gate from Drill.java / BurstDrill.java / BuildingComp.java / Blocks.java / ConsumePower.java."
+    },
+    "source_drill_should_consume_state_result": {
+      "status": "active",
+      "owner": "SourceDrillConsumptionRuntimeState.source_drill_should_consume_state",
+      "source_slice": "N2204",
+      "keys": {
+        "should_consume": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "return items.total() < itemCapacity && enabled && dominantItem != null;",
+          "rule": "The shouldConsume gate (Drill.java:247-248): true while the item store is below capacity AND the drill is enabled AND it has a dominant item; when false, updateConsumption forces efficiency to zero (BuildingComp.java:1960 + 1992-1994). The gate is the BASE Drill override only: BurstDrillBuild overrides shouldConsume with its own gate (BurstDrill.java:129), and the base-Drill driver never ticks BurstDrill implementations (it gates on the base Drill generated class), so eruption-drill / impact-drill never reach this function; their gate is N2203.",
+          "used_by": [
+            "SourceDrillConsumptionRuntimeState.source_drill_should_consume_state"
+          ]
+        },
+        "dominant_item": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "dominantItem = returnItem;",
+          "rule": "The dominant item the gate read (Drill.java:276, set by onProximityUpdate from countOre, Drill.java:275-277): the ore dict, or null when no mineable ore sits under the footprint (Drill.java:223) or after pickup (Drill.java:267-268). A null dominant item closes the gate even with room in the store and the drill enabled.",
+          "used_by": [
+            "SourceDrillConsumptionRuntimeState.source_drill_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07DrillShouldConsumeProof",
+      "rule": "Source-backed base Drill shouldConsume gate from Drill.java / BurstDrill.java / BuildingComp.java / Blocks.java / ConsumePower.java."
     }
   },
   "version": 1

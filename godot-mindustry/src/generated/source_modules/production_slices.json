@@ -926,6 +926,97 @@
       ],
       "runtime_proof": "/root/C07WallCrafterPowerStatusProof"
     },
+    "N2200": {
+      "canonical_ledger": "source_slice_ledger.N2200",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+      "java_method": "SeparatorBuild.shouldConsume()",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_should_consume_state",
+      "source_symbols": [
+        "source_separator_should_consume_state_result.should_consume",
+        "source_separator_should_consume_state_result.total"
+      ],
+      "tests": [
+        "test_c07_separator_should_consume_registration",
+        "test_all_c07_separator_should_consume_input_evidence_is_exact",
+        "test_separator_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_separator_should_consume"
+      ],
+      "runtime_proof": "/root/C07SeparatorShouldConsumeProof"
+    },
+    "N2201": {
+      "canonical_ledger": "source_slice_ledger.N2201",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+      "java_method": "WallCrafterBuild.shouldConsume()",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_should_consume_state",
+      "source_symbols": [
+        "source_wall_crafter_should_consume_state_result.should_consume",
+        "source_wall_crafter_should_consume_state_result.output_count"
+      ],
+      "tests": [
+        "test_c07_wall_crafter_should_consume_registration",
+        "test_all_c07_wall_crafter_should_consume_input_evidence_is_exact",
+        "test_wall_crafter_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_should_consume"
+      ],
+      "runtime_proof": "/root/C07WallCrafterShouldConsumeProof"
+    },
+    "N2202": {
+      "canonical_ledger": "source_slice_ledger.N2202",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrillBuild.shouldConsume()",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_should_consume_state",
+      "source_symbols": [
+        "source_beam_drill_should_consume_state_result.should_consume",
+        "source_beam_drill_should_consume_state_result.items_total",
+        "source_beam_drill_should_consume_state_result.facing_amount"
+      ],
+      "tests": [
+        "test_c07_beam_drill_should_consume_registration",
+        "test_all_c07_beam_drill_should_consume_input_evidence_is_exact",
+        "test_beam_drill_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_beam_drill_should_consume"
+      ],
+      "runtime_proof": "/root/C07BeamDrillShouldConsumeProof"
+    },
+    "N2203": {
+      "canonical_ledger": "source_slice_ledger.N2203",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "java_method": "BurstDrillBuild.shouldConsume()",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_should_consume_state",
+      "source_symbols": [
+        "source_burst_drill_should_consume_state_result.should_consume",
+        "source_burst_drill_should_consume_state_result.items_total"
+      ],
+      "tests": [
+        "test_c07_burst_drill_should_consume_registration",
+        "test_all_c07_burst_drill_should_consume_input_evidence_is_exact",
+        "test_burst_drill_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_burst_drill_should_consume"
+      ],
+      "runtime_proof": "/root/C07BurstDrillShouldConsumeProof"
+    },
+    "N2204": {
+      "canonical_ledger": "source_slice_ledger.N2204",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.shouldConsume()",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_drill_should_consume_state",
+      "source_symbols": [
+        "source_drill_should_consume_state_result.should_consume",
+        "source_drill_should_consume_state_result.dominant_item"
+      ],
+      "tests": [
+        "test_c07_drill_should_consume_registration",
+        "test_all_c07_drill_should_consume_input_evidence_is_exact",
+        "test_drill_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_drill_should_consume"
+      ],
+      "runtime_proof": "/root/C07DrillShouldConsumeProof"
+    },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",
       "status": "done",

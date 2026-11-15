@@ -2193,6 +2193,51 @@
       ],
       "runtime_proof": "/root/C07BeamDrillPowerStatusProof"
     },
+    "source_beam_drill_should_consume_state_result.facing_amount": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_should_consume_state_result.facing_amount",
+      "status": "source-backed",
+      "java_expr": "facingAmount > 0",
+      "godot_symbol": "source_beam_drill_should_consume_state_result.facing_amount",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_should_consume_state",
+      "rule": "The facing wall-ore count the gate read (BeamDrill.java:271, facingAmount > 0): a plain int field (BeamDrill.java:228, Java default 0), recomputed by updateFacing() (BeamDrill.java:375-410) -- the live scan waits for its own slice, so the gate reads the current frame value.",
+      "tests": [
+        "test_c07_beam_drill_should_consume_registration",
+        "test_all_c07_beam_drill_should_consume_input_evidence_is_exact",
+        "test_beam_drill_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_beam_drill_should_consume"
+      ],
+      "runtime_proof": "/root/C07BeamDrillShouldConsumeProof"
+    },
+    "source_beam_drill_should_consume_state_result.items_total": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_should_consume_state_result.items_total",
+      "status": "source-backed",
+      "java_expr": "items.total()",
+      "godot_symbol": "source_beam_drill_should_consume_state_result.items_total",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_should_consume_state",
+      "rule": "The item-store total the gate read (BeamDrill.java:271, items.total() < itemCapacity), computed by the reused drill inventory helper over the frame items Dictionary (the Building.items ItemModule).",
+      "tests": [
+        "test_c07_beam_drill_should_consume_registration",
+        "test_all_c07_beam_drill_should_consume_input_evidence_is_exact",
+        "test_beam_drill_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_beam_drill_should_consume"
+      ],
+      "runtime_proof": "/root/C07BeamDrillShouldConsumeProof"
+    },
+    "source_beam_drill_should_consume_state_result.should_consume": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_should_consume_state_result.should_consume",
+      "status": "source-backed",
+      "java_expr": "return items.total() < itemCapacity && facingAmount > 0 && enabled;",
+      "godot_symbol": "source_beam_drill_should_consume_state_result.should_consume",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_should_consume_state",
+      "rule": "The shouldConsume gate (BeamDrill.java:270-271): true while the item store is under capacity, at least one facing tile holds mineable wall ore, and the drill is enabled; when false, updateConsumption forces efficiency to zero (BuildingComp.java:1960 + 1992).",
+      "tests": [
+        "test_c07_beam_drill_should_consume_registration",
+        "test_all_c07_beam_drill_should_consume_input_evidence_is_exact",
+        "test_beam_drill_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_beam_drill_should_consume"
+      ],
+      "runtime_proof": "/root/C07BeamDrillShouldConsumeProof"
+    },
     "source_bind_item_consumers_state_input.block": {
       "canonical_symbol": "source_symbol_registry.source_bind_item_consumers_state_input.block",
       "status": "source-backed",
@@ -2267,6 +2312,36 @@
         "test_reference_graph_and_actual_c07_burst_drill_power_status"
       ],
       "runtime_proof": "/root/C07BurstDrillPowerStatusProof"
+    },
+    "source_burst_drill_should_consume_state_result.items_total": {
+      "canonical_symbol": "source_symbol_registry.source_burst_drill_should_consume_state_result.items_total",
+      "status": "source-backed",
+      "java_expr": "items.total()",
+      "godot_symbol": "source_burst_drill_should_consume_state_result.items_total",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_should_consume_state",
+      "rule": "The items total the gate read (BurstDrill.java:129, `items.total()`): the sum over the frame items map via the shared SourceDrillInventoryRuntimeState.items_total helper, compared against itemCapacity - dominantItems.",
+      "tests": [
+        "test_c07_burst_drill_should_consume_registration",
+        "test_all_c07_burst_drill_should_consume_input_evidence_is_exact",
+        "test_burst_drill_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_burst_drill_should_consume"
+      ],
+      "runtime_proof": "/root/C07BurstDrillShouldConsumeProof"
+    },
+    "source_burst_drill_should_consume_state_result.should_consume": {
+      "canonical_symbol": "source_symbol_registry.source_burst_drill_should_consume_state_result.should_consume",
+      "status": "source-backed",
+      "java_expr": "return items.total() <= itemCapacity - dominantItems && enabled;",
+      "godot_symbol": "source_burst_drill_should_consume_state_result.should_consume",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_should_consume_state",
+      "rule": "The shouldConsume gate (BurstDrill.java:128-130): true while items.total() <= itemCapacity - dominantItems AND the drill is enabled -- `<=`, not `<`, and the capacity minus the dominant-items burst, not the capacity alone; when false, updateConsumption forces efficiency to zero (BuildingComp.java:1960 + 1992-1994). The override replaces the base-Drill gate (Drill.java:247-249), which does not apply to BurstDrill.",
+      "tests": [
+        "test_c07_burst_drill_should_consume_registration",
+        "test_all_c07_burst_drill_should_consume_input_evidence_is_exact",
+        "test_burst_drill_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_burst_drill_should_consume"
+      ],
+      "runtime_proof": "/root/C07BurstDrillShouldConsumeProof"
     },
     "source_drill_bind_ore_items_input.block": {
       "canonical_symbol": "source_symbol_registry.source_drill_bind_ore_items_input.block",
@@ -3170,6 +3245,36 @@
         "test_reference_graph_and_actual_drill_bridge_dominant"
       ],
       "runtime_proof": "/root/DrillBridgeDominantProof"
+    },
+    "source_drill_should_consume_state_result.dominant_item": {
+      "canonical_symbol": "source_symbol_registry.source_drill_should_consume_state_result.dominant_item",
+      "status": "source-backed",
+      "java_expr": "dominantItem = returnItem;",
+      "godot_symbol": "source_drill_should_consume_state_result.dominant_item",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_drill_should_consume_state",
+      "rule": "The dominant item the gate read (Drill.java:276, set by onProximityUpdate from countOre, Drill.java:275-277): the ore dict, or null when no mineable ore sits under the footprint (Drill.java:223) or after pickup (Drill.java:267-268). A null dominant item closes the gate even with room in the store and the drill enabled.",
+      "tests": [
+        "test_c07_drill_should_consume_registration",
+        "test_all_c07_drill_should_consume_input_evidence_is_exact",
+        "test_drill_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_drill_should_consume"
+      ],
+      "runtime_proof": "/root/C07DrillShouldConsumeProof"
+    },
+    "source_drill_should_consume_state_result.should_consume": {
+      "canonical_symbol": "source_symbol_registry.source_drill_should_consume_state_result.should_consume",
+      "status": "source-backed",
+      "java_expr": "return items.total() < itemCapacity && enabled && dominantItem != null;",
+      "godot_symbol": "source_drill_should_consume_state_result.should_consume",
+      "godot_owner": "SourceDrillConsumptionRuntimeState.source_drill_should_consume_state",
+      "rule": "The shouldConsume gate (Drill.java:247-248): true while the item store is below capacity AND the drill is enabled AND it has a dominant item; when false, updateConsumption forces efficiency to zero (BuildingComp.java:1960 + 1992-1994). The gate is the BASE Drill override only: BurstDrillBuild overrides shouldConsume with its own gate (BurstDrill.java:129), and the base-Drill driver never ticks BurstDrill implementations (it gates on the base Drill generated class), so eruption-drill / impact-drill never reach this function; their gate is N2203.",
+      "tests": [
+        "test_c07_drill_should_consume_registration",
+        "test_all_c07_drill_should_consume_input_evidence_is_exact",
+        "test_drill_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_drill_should_consume"
+      ],
+      "runtime_proof": "/root/C07DrillShouldConsumeProof"
     },
     "source_factory_bind_consumer_state_input.amounts": {
       "canonical_symbol": "source_symbol_registry.source_factory_bind_consumer_state_input.amounts",
@@ -6104,6 +6209,36 @@
       ],
       "runtime_proof": "/root/C07SeparatorPowerStatusProof"
     },
+    "source_separator_should_consume_state_result.should_consume": {
+      "canonical_symbol": "source_symbol_registry.source_separator_should_consume_state_result.should_consume",
+      "status": "source-backed",
+      "java_expr": "return total < itemCapacity && enabled;",
+      "godot_symbol": "source_separator_should_consume_state_result.should_consume",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_should_consume_state",
+      "rule": "The shouldConsume gate (Separator.java:92-101): true while the buffer-adjusted total fits itemCapacity and the separator is enabled; when false, updateConsumption forces efficiency to zero (BuildingComp.java:1960 + 1992-1994).",
+      "tests": [
+        "test_c07_separator_should_consume_registration",
+        "test_all_c07_separator_should_consume_input_evidence_is_exact",
+        "test_separator_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_separator_should_consume"
+      ],
+      "runtime_proof": "/root/C07SeparatorShouldConsumeProof"
+    },
+    "source_separator_should_consume_state_result.total": {
+      "canonical_symbol": "source_symbol_registry.source_separator_should_consume_state_result.total",
+      "status": "source-backed",
+      "java_expr": "int total = items.total();",
+      "godot_symbol": "source_separator_should_consume_state_result.total",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_should_consume_state",
+      "rule": "The buffer-adjusted total the gate read (Separator.java:93-98): items.total() minus the held count of each consItems buffer item (Separator.java:96-97); the separator def subtracts nothing (consItems null), the disassembler subtracts its held scrap.",
+      "tests": [
+        "test_c07_separator_should_consume_registration",
+        "test_all_c07_separator_should_consume_input_evidence_is_exact",
+        "test_separator_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_separator_should_consume"
+      ],
+      "runtime_proof": "/root/C07SeparatorShouldConsumeProof"
+    },
     "source_solid_pump_power_status_row_state_result.has_power_row": {
       "canonical_symbol": "source_symbol_registry.source_solid_pump_power_status_row_state_result.has_power_row",
       "status": "source-backed",
@@ -6163,6 +6298,36 @@
         "test_reference_graph_and_actual_c07_wall_crafter_power_status"
       ],
       "runtime_proof": "/root/C07WallCrafterPowerStatusProof"
+    },
+    "source_wall_crafter_should_consume_state_result.output_count": {
+      "canonical_symbol": "source_symbol_registry.source_wall_crafter_should_consume_state_result.output_count",
+      "status": "source-backed",
+      "java_expr": "items.get(output)",
+      "godot_symbol": "source_wall_crafter_should_consume_state_result.output_count",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_should_consume_state",
+      "rule": "The output item count the gate reads (WallCrafter.java:227): the frame items count for the output item, 0 when the frame has no entry for it.",
+      "tests": [
+        "test_c07_wall_crafter_should_consume_registration",
+        "test_all_c07_wall_crafter_should_consume_input_evidence_is_exact",
+        "test_wall_crafter_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_should_consume"
+      ],
+      "runtime_proof": "/root/C07WallCrafterShouldConsumeProof"
+    },
+    "source_wall_crafter_should_consume_state_result.should_consume": {
+      "canonical_symbol": "source_symbol_registry.source_wall_crafter_should_consume_state_result.should_consume",
+      "status": "source-backed",
+      "java_expr": "return items.get(output) < itemCapacity;",
+      "godot_symbol": "source_wall_crafter_should_consume_state_result.should_consume",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_should_consume_state",
+      "rule": "The shouldConsume gate (WallCrafter.java:226-228): true while the output count is below the capacity; when false, updateConsumption forces efficiency to zero (BuildingComp.java:1960 + 1992). The gate has NO enabled term -- Java returns the bare capacity comparison, unlike the Separator/Drill gates.",
+      "tests": [
+        "test_c07_wall_crafter_should_consume_registration",
+        "test_all_c07_wall_crafter_should_consume_input_evidence_is_exact",
+        "test_wall_crafter_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_should_consume"
+      ],
+      "runtime_proof": "/root/C07WallCrafterShouldConsumeProof"
     },
     "source_world_drill_overlay_input.block": {
       "canonical_symbol": "source_symbol_registry.source_world_drill_overlay_input.block",

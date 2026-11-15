@@ -66238,6 +66238,172 @@
       ],
       "runtime_proof": "/root/C07ItemBridgeAutoLinkProof",
       "rule": "Source-backed ItemBridge placement auto-link from ItemBridge.java / BuildingComp.java / ConstructBlock.java / Edges.java / arc Point2.java."
+    },
+    "SourceSeparatorBuildState.source_separator_should_consume_state": {
+      "status": "active",
+      "source_slice": "N2200",
+      "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+      "source_method": "SeparatorBuild.shouldConsume()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_separator_should_consume_state_input.frame"
+        },
+        {
+          "name": "cons_item_names",
+          "type": "Array",
+          "schema": "source_separator_should_consume_state_input.cons_item_names"
+        },
+        {
+          "name": "item_capacity",
+          "type": "int",
+          "schema": "source_separator_should_consume_state_input.item_capacity"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "should_consume",
+        "total"
+      ],
+      "tests": [
+        "test_c07_separator_should_consume_registration",
+        "test_all_c07_separator_should_consume_input_evidence_is_exact",
+        "test_separator_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_separator_should_consume"
+      ],
+      "runtime_proof": "/root/C07SeparatorShouldConsumeProof",
+      "rule": "Source-backed Separator shouldConsume gate from Separator.java / BuildingComp.java / Block.java / Blocks.java / ConsumeItems.java."
+    },
+    "SourceWallCrafterBuildState.source_wall_crafter_should_consume_state": {
+      "status": "active",
+      "source_slice": "N2201",
+      "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+      "source_method": "WallCrafterBuild.shouldConsume()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_wall_crafter_should_consume_state_input.frame"
+        },
+        {
+          "name": "output_item",
+          "type": "String",
+          "schema": "source_wall_crafter_should_consume_state_input.output_item"
+        },
+        {
+          "name": "item_capacity",
+          "type": "int",
+          "schema": "source_wall_crafter_should_consume_state_input.item_capacity"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "should_consume",
+        "output_count"
+      ],
+      "tests": [
+        "test_c07_wall_crafter_should_consume_registration",
+        "test_all_c07_wall_crafter_should_consume_input_evidence_is_exact",
+        "test_wall_crafter_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_should_consume"
+      ],
+      "runtime_proof": "/root/C07WallCrafterShouldConsumeProof",
+      "rule": "Source-backed WallCrafter shouldConsume gate from WallCrafter.java / BuildingComp.java / Blocks.java / Block.java."
+    },
+    "SourceBeamDrillBuildState.source_beam_drill_should_consume_state": {
+      "status": "active",
+      "source_slice": "N2202",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "source_method": "BeamDrillBuild.shouldConsume()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_beam_drill_should_consume_state_input.frame"
+        },
+        {
+          "name": "item_capacity",
+          "type": "int",
+          "schema": "source_beam_drill_should_consume_state_input.item_capacity"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "should_consume",
+        "items_total",
+        "facing_amount"
+      ],
+      "tests": [
+        "test_c07_beam_drill_should_consume_registration",
+        "test_all_c07_beam_drill_should_consume_input_evidence_is_exact",
+        "test_beam_drill_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_beam_drill_should_consume"
+      ],
+      "runtime_proof": "/root/C07BeamDrillShouldConsumeProof",
+      "rule": "Source-backed BeamDrill shouldConsume gate from BeamDrill.java / BuildingComp.java / Blocks.java / Block.java / ItemModule.java."
+    },
+    "SourceBurstDrillBuildState.source_burst_drill_should_consume_state": {
+      "status": "active",
+      "source_slice": "N2203",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "source_method": "BurstDrillBuild.shouldConsume()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_burst_drill_should_consume_state_input.frame"
+        },
+        {
+          "name": "item_capacity",
+          "type": "int",
+          "schema": "source_burst_drill_should_consume_state_input.item_capacity"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "should_consume",
+        "items_total"
+      ],
+      "tests": [
+        "test_c07_burst_drill_should_consume_registration",
+        "test_all_c07_burst_drill_should_consume_input_evidence_is_exact",
+        "test_burst_drill_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_burst_drill_should_consume"
+      ],
+      "runtime_proof": "/root/C07BurstDrillShouldConsumeProof",
+      "rule": "Source-backed BurstDrill shouldConsume gate from BurstDrill.java / Drill.java / BuildingComp.java."
+    },
+    "SourceDrillConsumptionRuntimeState.source_drill_should_consume_state": {
+      "status": "active",
+      "source_slice": "N2204",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "DrillBuild.shouldConsume()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_drill_should_consume_state_input.frame"
+        },
+        {
+          "name": "item_capacity",
+          "type": "int",
+          "schema": "source_drill_should_consume_state_input.item_capacity"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "should_consume",
+        "dominant_item"
+      ],
+      "tests": [
+        "test_c07_drill_should_consume_registration",
+        "test_all_c07_drill_should_consume_input_evidence_is_exact",
+        "test_drill_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_drill_should_consume"
+      ],
+      "runtime_proof": "/root/C07DrillShouldConsumeProof",
+      "rule": "Source-backed base Drill shouldConsume gate from Drill.java / BurstDrill.java / BuildingComp.java / Blocks.java / ConsumePower.java."
     }
   },
   "policy": {
