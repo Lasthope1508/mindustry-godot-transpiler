@@ -45,7 +45,7 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
 (`docs/superpowers/handoffs/`). Khi trống task, tự làm slice tiếp theo, không
 đợi user giao.
 
-## 4. Tiến độ hiện tại (2026-11-15 21:07 +07)
+## 4. Tiến độ hiện tại (2026-11-15 21:53 +07)
 
 - Main trên fork ở `de9ab89c` (N2185 LightBlock power.status DONE + PUSHED).
 - **Batch 1 {N2186, N2187, N2189} DONE** trên branch tích hợp
@@ -309,7 +309,8 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
   audit 1336, legacy 0. DEFERRED gộp sau wave: 294 entries (283 − 11
   resolved + 22 new, diff 3 chiều với base unification). Nợ Godot: 66 →
   73 proofs + 1 re-run (N2196).
-- **Wave second-consumers-1 {N2249 UnitCargoLoader nitrogen, N2250 RepairTower ozone, N2251 BuildTurret nitrogen, N2252 Separator slag, N2253 LaunchPad oil, N2254 ImpactReactor cryofluid, N2255 Fracker water} required ConsumeLiquid rows — HOÀN TẤT + ĐÃ PUSH** (branch `integration/wave-second-consumers-1-n2249-n2255`, base c2d27fb0; 7/7 slice xong + đã push: N2249 8d98e988, N2250 c9364955, N2251 eec92c53, N2252 b3922a5f, N2253 ecebb9c5, N2254 2abb4c60, N2255 1fed72fc; mỗi slice +2/+1/+1/+2, targeted 3/4 PASS + proof Godot-absent; SSOT gộp 11720/1705/1627/3045; DEFERRED gộp 293; fix cites 81b0dbe4 — ConsumeLiquid efficiency :42-47 / update :37-39, Fracker guard :141-142; second-pass removal trực tiếp ở cả 7 slice — machinery chỉ record actor, không gọi update; full gate Ran 6110 in 1143.879s, failures=204, skipped=5, 0 errors — 204/204 Godot-absent (197 inherited + 7 new proof tests N2249–N2255)). Nợ Godot: 73 → 80 proofs + 1 re-run (N2196).
+- **Wave second-consumers-1 {N2249 UnitCargoLoader nitrogen, N2250 RepairTower ozone, N2251 BuildTurret nitrogen, N2252 Separator slag, N2253 LaunchPad oil, N2254 ImpactReactor cryofluid, N2255 Fracker water} required ConsumeLiquid rows — HOÀN TẤT + ĐÃ PUSH** (branch `integration/wave-second-consumers-1-n2249-n2255`, base c2d27fb0; 7/7 slice xong + đã push: N2249 8d98e988, N2250 c9364955, N2251 eec92c53, N2252 b3922a5f, N2253 ecebb9c5, N2254 2abb4c60, N2255 1fed72fc; mỗi slice +2/+1/+1/+2, targeted 3/4 PASS + proof Godot-absent; SSOT gộp 11720/1705/1627/3045; DEFERRED gộp 293; fix cites 81b0dbe4 — ConsumeLiquid efficiency :42-47 / update :37-39, Fracker guard :141-142; second-pass removal trực tiếp ở cả 7 slice — machinery chỉ record actor, không gọi update; full gate Ran 6110 in 1143.879s, failures=204, skipped=5, 0 errors — 204/204 Godot-absent (197 inherited + 7 new proof tests N2249–N2255)). Nợ Godot: 73 → 80 proofs + 1 re-run (N2196). **Đối chiếu lại 21:2x 15/11 (coordinator lượt 6, đếm trực tiếp từ §5): thực tế 68 proofs + 1 re-run + 30 Windows-track — số "80" đếm thừa 12 (+8 unification đếm trùng batch 1–3, +1 N2189 gộp vào proof N2241, +3 không truy vết được từ thời N2199).**
+- **Wave second-consumers-2 {N2256 BeamDrill liquid rows, N2257 BurstDrill liquid rows, N2258 ForceProjector coolant, N2259 RepairTurret coolant} booster liquids + coolant — HOÀN TẤT + ĐÃ PUSH** (branch `integration/wave-second-consumers-2-n2256-n2259`, base 73185810; 4/4 slice xong + đã push: N2256 6e654a14, N2257 c6c564fb, N2258 4c0f4b77, N2259 ae2cd4cc; mỗi slice targeted 3/4 PASS + proof Godot-absent; SSOT gộp 11732/1709/1631/3053; DEFERRED gộp 293; fix cites 33893e22 — Fracker guard :221 (không phải :141), optional-pass for-loop BuildingComp.java:1980, N2195 advance docstring stale; booster = `optional(true, true)` (Consume.java:33-35), một pure row function phục vụ cả required + booster row (route theo catalog `optional` flag); coolant filter ConsumeCoolant.java:12, chỉ water + cryofluid qua filter; ForceProjector consume tay trong updateTile (:227-231, `update(false)`), RepairTurret multiplier qua frame key `coolant_multiplier`; N2235 contract giữ nguyên 10 return_keys — 2 key mới của advance đăng ký symbols-only, validator chỉ check contract ⊆ schema; full gate Ran 6126 in 1081.029s, failures=208, skipped=5, 0 errors — 208/208 Godot-absent (204 inherited + 4 new proof tests N2256–N2259)). **Khôi phục docs N2197** (report + handoff + spec line + entry §5 — docs commit gốc `ab84d2cf` không nằm trên line này nên đã thiếu từ unification). Nợ Godot: 68 → 72 proofs + 1 re-run (N2196) + 30 Windows-track (N2156–N2185, đã GREEN Linux).
 - **Tiếp theo:** units → updateTile advances → second consumers (xem
   `DESIGN-frame-state-infra.md` trong `~/workspace/mindustry-parallel/`).
 - **KHÔNG chạy Godot ở VM này** (chỉ đạo user 2026-11-15, ưu tiên cao): mọi
@@ -455,6 +456,21 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
     `slice/N2188-item-bridge-should-consume` (integration cherry-pick `9de01cd5`).
     Trạng thái "chờ agent Godot test". Chạy: targeted test
     `tests.test_c07_item_bridge_should_consume` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
+  - [ ] N2197 `C07ItemBridgeLinkFrameStateProof` — CHƯA CHẠY ở đâu (6 key:
+    `link_defaults_to_minus_one`, `configure_point2_sets_relative_link`,
+    `configure_integer_sets_absolute_link`,
+    `link_valid_same_row_within_range`,
+    `link_invalid_when_double_or_out_of_range`,
+    `live_tick_recomputes_had_valid_link`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo commit `6a094cda` trên
+    `integration/n2197-item-bridge-link` (slice gốc `bd07c93d` trên
+    `slice/N2197-item-bridge-link-frame-state`; report/handoff/spec line
+    khôi phục ở docs commit wave second-consumers-2 — docs commit gốc
+    `ab84d2cf` không nằm trên line này nên entry này đã thiếu từ unification).
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_item_bridge_link_frame_state` với Godot 4.6.2 trên PATH,
     port 7777 trống.
   - [ ] N2198 `C07LiquidBridgeShouldConsumeProof` — CHƯA CHẠY ở đâu (6 key:
     `gate_true_with_valid_link`, `gate_false_when_unlinked`,
@@ -1092,6 +1108,10 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
   - [ ] N2254 `C07ImpactReactorLiquidRowProof` — CHƯA CHẠY ở đâu (6 key: `row_folds_below_one_when_starved`, `row_caps_at_one_when_full`, `row_zeroes_when_edelta_zero`, `row_zeroes_without_liquid`, `live_tick_folds_liquid_row`, `live_tick_removes_liquid_when_running` + `registry_valid` / `one_headquarter_per_ssot` / `matches`). Scene mang theo slice commit `2abb4c60` trên `slice/N2254-impact-reactor-liquid-row`. Trạng thái "chờ agent Godot test". Chạy: targeted test `tests.test_c07_impact_reactor_liquid_row` với Godot 4.6.2 trên PATH, port 7777 trống.
   - [ ] N2255 `C07FrackerLiquidRowProof` — CHƯA CHẠY ở đâu (6 key: `row_folds_below_one_when_starved`, `row_caps_at_one_when_full`, `row_zeroes_when_edelta_zero`, `row_zeroes_without_liquid`, `live_tick_folds_liquid_row`, `live_tick_removes_liquid_when_running` + `registry_valid` / `one_headquarter_per_ssot` / `matches`). Scene mang theo slice commit `1fed72fc` trên `slice/N2255-fracker-liquid-row`. Trạng thái "chờ agent Godot test". Chạy: targeted test `tests.test_c07_fracker_liquid_row` với Godot 4.6.2 trên PATH, port 7777 trống.
     Trạng thái "chờ agent Godot test". Chạy: targeted test
+  - [ ] N2256 `C07BeamDrillLiquidRowsProof` — CHƯA CHẠY ở đâu (6 key: `required_row_folds_min_when_starved`, `booster_row_folds_optional_when_starved`, `optional_capped_by_min_efficiency`, `row_caps_at_one_when_full`, `live_tick_folds_both_rows`, `live_tick_removes_liquid_when_running` + `registry_valid` / `one_headquarter_per_ssot` / `matches`). Scene mang theo slice commit `6e654a14` trên `slice/N2256-beam-drill-liquid-rows`. Trạng thái "chờ agent Godot test". Chạy: targeted test `tests.test_c07_beam_drill_liquid_rows` với Godot 4.6.2 trên PATH, port 7777 trống.
+  - [ ] N2257 `C07BurstDrillLiquidRowsProof` — CHƯA CHẠY ở đâu (6 key: `required_row_folds_min_when_starved`, `booster_row_folds_optional_when_starved`, `optional_capped_by_min_efficiency`, `row_caps_at_one_when_full`, `live_tick_folds_both_rows`, `live_tick_removes_liquid_when_running` + `registry_valid` / `one_headquarter_per_ssot` / `matches`). Scene mang theo slice commit `c6c564fb` trên `slice/N2257-burst-drill-liquid-rows`. Trạng thái "chờ agent Godot test". Chạy: targeted test `tests.test_c07_burst_drill_liquid_rows` với Godot 4.6.2 trên PATH, port 7777 trống.
+  - [ ] N2258 `C07ForceProjectorCoolantProof` — CHƯA CHẠY ở đâu (6 key: `coolant_row_folds_optional_when_present`, `filter_rejects_non_coolant`, `get_consumed_prefers_current_liquid`, `buildup_scale_uses_current_heat_capacity`, `no_coolant_no_scale`, `live_tick_consumes_coolant_only_when_buildup` + `registry_valid` / `one_headquarter_per_ssot` / `matches`). Scene mang theo slice commit `4c0f4b77` trên `slice/N2258-force-projector-coolant`. Trạng thái "chờ agent Godot test". Chạy: targeted test `tests.test_c07_force_projector_coolant` với Godot 4.6.2 trên PATH, port 7777 trống.
+  - [ ] N2259 `C07RepairTurretCoolantProof` — CHƯA CHẠY ở đâu (6 key: `coolant_row_folds_optional_when_present`, `filter_rejects_non_coolant`, `multiplier_uses_current_heat_capacity`, `repair_point_has_no_coolant_row`, `live_tick_folds_coolant_row`, `live_tick_removes_coolant_when_running` + `registry_valid` / `one_headquarter_per_ssot` / `matches`). Scene mang theo slice commit `ae2cd4cc` trên `slice/N2259-repair-turret-coolant`. Trạng thái "chờ agent Godot test". Chạy: targeted test `tests.test_c07_repair_turret_coolant` với Godot 4.6.2 trên PATH, port 7777 trống.
     `tests.test_c07_unit_cargo_loader_liquid_row` với Godot 4.6.2 trên PATH,
     port 7777 trống.
   - [ ] Mọi slice sau này: proof scene mới nào cũng ghi nợ Windows theo mẫu
