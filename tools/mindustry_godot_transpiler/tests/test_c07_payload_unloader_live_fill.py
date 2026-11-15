@@ -81,16 +81,18 @@ class C07PayloadUnloaderLiveFillTests(unittest.TestCase):
         # -- and adds two narrower entries (the takePayload live
         # wiring, which waits for live units, and the live
         # incoming payload source, whose front push / unit drop
-        # are not live yet). The accept/handle entry stays
-        # verbatim (acceptPayload + acceptItem/acceptLiquid
-        # false are a later slice), as do the timer cadence, the
-        # dump rows, and the payload entity update entry (which
-        # already covers updatePayload()).
+        # are not live yet). The accept/handle entry is replaced
+        # at integration by the corrected acceptPayload-only entry
+        # (acceptPayload :90-101; handlePayload is live since
+        # N2279; the old cites :102-115/:118-121 were both wrong).
+        # The timer cadence, the dump rows, and the payload entity
+        # update entry (which already covers updatePayload()) stay
+        # verbatim.
         self.assertFalse(any(entry.startswith('PayloadUnloader live payload fill (') for entry in ledger['N2279']['deferred_exprs']))
         for prefix in [
             'PayloadUnloader takePayload live wiring (',
             'PayloadUnloader live incoming payload source (',
-            'PayloadUnloader accept/handle payload rows (',
+            'PayloadUnloader acceptPayload rows (',
             'PayloadUnloader updateTile timer cadence (',
             'PayloadUnloader dump rows (',
             'PayloadUnloader payload entity update + breakEffect presentation (',
