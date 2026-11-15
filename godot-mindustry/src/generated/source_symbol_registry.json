@@ -173128,6 +173128,70 @@
         "test_reference_graph_and_actual_c07_repair_turret_should_consume"
       ],
       "runtime_proof": "/root/C07RepairTurretShouldConsumeProof"
+    },
+    "source_repair_tower_refresh_targets_state_result.refreshed": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_refresh_targets_state",
+      "godot_symbol": "source_repair_tower_refresh_targets_state_result.refreshed",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "java_method": "RepairTowerBuild.updateTile()",
+      "java_expr": "if(potentialEfficiency > 0 && (refresh += Time.delta) >= refreshInterval){",
+      "rule": "Whether the refresh fired this tick (RepairTower.java:59): potentialEfficiency > 0 and the accumulated refresh reached refreshInterval (6f, RepairTower.java:19).",
+      "tests": [
+        "test_c07_repair_tower_target_refresh_registration",
+        "test_all_c07_repair_tower_target_refresh_input_evidence_is_exact",
+        "test_repair_tower_refresh_targets_state",
+        "test_reference_graph_and_actual_c07_repair_tower_target_refresh"
+      ],
+      "runtime_proof": "/root/C07RepairTowerTargetRefreshProof"
+    },
+    "source_repair_tower_refresh_targets_state_result.refresh": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_refresh_targets_state",
+      "godot_symbol": "source_repair_tower_refresh_targets_state_result.refresh",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "java_method": "RepairTowerBuild.updateTile()",
+      "java_expr": "refresh = 0f;",
+      "rule": "The accumulated refresh timer after this tick (RepairTower.java:61, `refresh = 0f;` on expiry): the carried-over accumulation below the interval, 0.0 on expiry.",
+      "tests": [
+        "test_c07_repair_tower_target_refresh_registration",
+        "test_all_c07_repair_tower_target_refresh_input_evidence_is_exact",
+        "test_repair_tower_refresh_targets_state",
+        "test_reference_graph_and_actual_c07_repair_tower_target_refresh"
+      ],
+      "runtime_proof": "/root/C07RepairTowerTargetRefreshProof"
+    },
+    "source_repair_tower_refresh_targets_state_result.targets_count": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_refresh_targets_state",
+      "godot_symbol": "source_repair_tower_refresh_targets_state_result.targets_count",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "java_method": "RepairTowerBuild.updateTile()",
+      "java_expr": "targets.add(u);",
+      "rule": "The stamped targets count on refresh expiry (RepairTower.java:64, `targets.add(u);` for each damaged unit in range): the observed nearby_damaged_units count when an observation exists, null when none exists yet.",
+      "tests": [
+        "test_c07_repair_tower_target_refresh_registration",
+        "test_all_c07_repair_tower_target_refresh_input_evidence_is_exact",
+        "test_repair_tower_refresh_targets_state",
+        "test_reference_graph_and_actual_c07_repair_tower_target_refresh"
+      ],
+      "runtime_proof": "/root/C07RepairTowerTargetRefreshProof"
+    },
+    "source_repair_tower_refresh_targets_state_result.has_targets_count": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_refresh_targets_state",
+      "godot_symbol": "source_repair_tower_refresh_targets_state_result.has_targets_count",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "java_method": "RepairTowerBuild.updateTile()",
+      "java_expr": "if(u.damaged()){",
+      "rule": "Whether a targets count was stamped (RepairTower.java:63, `if(u.damaged()){` gates the add): true on expiry when a nearby_damaged_units observation exists; false when the timer refreshes with no observation yet (the N2188 has_target precedent).",
+      "tests": [
+        "test_c07_repair_tower_target_refresh_registration",
+        "test_all_c07_repair_tower_target_refresh_input_evidence_is_exact",
+        "test_repair_tower_refresh_targets_state",
+        "test_reference_graph_and_actual_c07_repair_tower_target_refresh"
+      ],
+      "runtime_proof": "/root/C07RepairTowerTargetRefreshProof"
     }
   },
   "version": 1

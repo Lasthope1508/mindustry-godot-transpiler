@@ -66020,6 +66020,39 @@
       ],
       "runtime_proof": "/root/C07RepairTurretShouldConsumeProof",
       "rule": "Source-backed RepairTurret shouldConsume gate from RepairTurret.java / BuildingComp.java."
+    },
+    "SourceRepairTowerBuildState.source_repair_tower_refresh_targets_state": {
+      "status": "active",
+      "source_slice": "N2190",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "source_method": "RepairTowerBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_repair_tower_refresh_targets_state_input.frame"
+        },
+        {
+          "name": "delta",
+          "type": "float",
+          "schema": "source_repair_tower_refresh_targets_state_input.delta"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "refreshed",
+        "refresh",
+        "targets_count",
+        "has_targets_count"
+      ],
+      "tests": [
+        "test_c07_repair_tower_target_refresh_registration",
+        "test_all_c07_repair_tower_target_refresh_input_evidence_is_exact",
+        "test_repair_tower_refresh_targets_state",
+        "test_reference_graph_and_actual_c07_repair_tower_target_refresh"
+      ],
+      "runtime_proof": "/root/C07RepairTowerTargetRefreshProof",
+      "rule": "Source-backed RepairTower target refresh from RepairTower.java / BuildingComp.java / Units.java."
     }
   },
   "policy": {

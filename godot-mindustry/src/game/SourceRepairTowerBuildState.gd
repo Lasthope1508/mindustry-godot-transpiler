@@ -10,6 +10,8 @@ const source_building_access_state := preload("res://src/game/SourceBuildingAcce
 # The RepairTower implementation (RepairTower.java:18, `public class RepairTower extends Block{`): unit-repair-tower (consumePower 1f, Blocks.java:6582, `consumePower(1f);`; consumeLiquid ozone 3f/60f, Blocks.java:6583, `consumeLiquid(Liquids.ozone, 3f / 60f);`; size 2, range 100f, healAmount 1.5f, graphite 90 / silicon 90 / tungsten 80, Blocks.java:6575-6583). RepairTower extends Block, NOT a factory or crafter, so no existing driver matches it and no frame key exists for it; this driver uses its own family frame key ("source_repair_tower_building", the radar precedent), and this slice adds the repair-tower key to N2142's SOURCE_CONSUMER_FRAME_META_KEYS so the graph stamp/write-back finds it. The port has NO SourceRepairTower* files at all yet -- no display/runtime state to lean on -- so the missing piece is the live power.status -> efficiency driver, which is exactly this slice: the updateTile heal advance (RepairTower.java:78, `target.heal(healAmount * edelta());`) heals by edelta() (BuildingComp.java:1927-1929, `return efficiency * delta();`), so a repair tower with no power would never heal -- its targets' health would sit frozen as if power.status were 1.0.
 const SOURCE_REPAIR_TOWER_BUILD_IMPLEMENTATIONS := ["RepairTower"]
 const SOURCE_REPAIR_TOWER_BUILDING_META_KEY := "source_repair_tower_building"
+# The target-refresh interval (RepairTower.java:19, `static final float refreshInterval = 6f;`).
+const SOURCE_REPAIR_TOWER_REFRESH_INTERVAL := 6.0
 
 static func _is_repair_tower_build_implementation(implementation: String) -> bool:
 	return SOURCE_REPAIR_TOWER_BUILD_IMPLEMENTATIONS.has(implementation)
@@ -69,6 +71,20 @@ static func source_repair_tower_power_status_row_state(frame: Dictionary, has_po
 	var live: float = 1.0 if stamped == null else float(stamped)
 	return {"has_power_row": true, "row": {"result": live, "is_power": true}}
 
+static func source_repair_tower_refresh_targets_state(frame: Dictionary, delta: float) -> Dictionary:
+	# The target refresh (RepairTower.java:59-66, `if(potentialEfficiency > 0 && (refresh += Time.delta) >= refreshInterval){` / `targets.clear();` / `refresh = 0f;` / `Units.nearby(team, x, y, range, u -> {` / `if(u.damaged()){` / `targets.add(u);`): the refresh block is the ONLY writer of `targets`, and the tower's shouldConsume gate reads that list (`public boolean shouldConsume(){` with `return targets.size > 0;`, RepairTower.java:89-90). The interval is the class constant (`static final float refreshInterval = 6f;`, RepairTower.java:19). The gate reads the potentialEfficiency stamped by THIS tick's updateConsumption (BuildingComp.java:2263-2277, updateConsumption() runs BEFORE updateTile()), and the port mirror sets `potentialEfficiency = efficiency;` (the min) before the `if not update` zeroing (SourceBuildingEfficiencyState.gd:129-137), so potentialEfficiency is the pre-gate min efficiency (power.status fold) and stays 1.0 with full power even when shouldConsume is false (no targets) -- the tower therefore keeps refreshing with no targets; it only stops when power is gone or it is disabled (BuildingComp.java:1946, `potentialEfficiency = enabled && productionValid() ? 1f : 0f;` + 1955, the disabled branch zeroes all three). The query itself is NOT this slice: the effective radius is range + hitSize/2 per unit (`if(unit.within(x, y, radius + unit.hitSize/2f)){`, Units.java:449-451, from `public static void nearby(@Nullable Team team, float x, float y, float radius, Cons<Unit> cons){`, Units.java:445) and belongs to the future live-units query slice, which stamps the `nearby_damaged_units` observation on the frame; this pure function consumes the observed count, it does not produce it. RED decisions: absent `refresh` -> 0.0 (timer starts at 0; first refresh after exactly 6s of powered operation). Java inits the timer randomly (`public float refresh = Mathf.random(refreshInterval);`, RepairTower.java:47) -- the port takes the deterministic 0.0 start, a documented deviation pinned in the proof; no `randf` in the pure function (determinism; the C06DefenseProof lesson: seeded RNG only in proof scenes, never in game code). Absent `potential_efficiency` -> 0.0 (Java field default, BuildingComp.java:89, `transient float potentialEfficiency;`) -- no advance before the first consumption stamp. Absent `nearby_damaged_units` at expiry -> the timer refreshes but `targets_count` is NOT stamped (no observation yet -- the N2188 `has_target` precedent), so the follow-up shouldConsume gate must treat an absent `targets_count` as "no observation" and preserve the N2176 power-only behavior. The result is a 4-key dict: `refreshed` (the refresh fired this tick), `refresh` (the accumulated timer after this tick, 0.0 on expiry), `targets_count` (the stamped count on expiry when an observation exists, null otherwise) and `has_targets_count` (whether a count was stamped).
+	var refresh: float = float(frame.get("refresh", 0.0))
+	var potential_efficiency: float = float(frame.get("potential_efficiency", 0.0))
+	if potential_efficiency <= 0.0:
+		return {"refreshed": false, "refresh": refresh, "targets_count": null, "has_targets_count": false}
+	refresh += delta
+	if refresh < SOURCE_REPAIR_TOWER_REFRESH_INTERVAL:
+		return {"refreshed": false, "refresh": refresh, "targets_count": null, "has_targets_count": false}
+	var observed: Variant = frame.get("nearby_damaged_units", null)
+	if observed == null:
+		return {"refreshed": true, "refresh": 0.0, "targets_count": null, "has_targets_count": false}
+	return {"refreshed": true, "refresh": 0.0, "targets_count": int(observed), "has_targets_count": true}
+
 @warning_ignore("unused_parameter")
 static func source_repair_tower_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the repair-tower tick wiring every
@@ -119,6 +135,11 @@ static func source_repair_tower_tick_buildings_state(game: Object, seconds: floa
 				required_results.append(power_row.get("row", {}))
 			var consumption: Dictionary = source_building_efficiency_state.update_consumption_state(true, bool(frame.get("cheating", false)), bool(frame.get("enabled", true)), valid, should_consume, float(frame.get("efficiency_scale", 1.0)), required_results, [], [], frame)
 			source_building_efficiency_state.apply_update_consumption_state(consumption, frame)
+			# The target refresh is the updateTile half of this tick (BuildingComp.java:2274 updateConsumption() runs BEFORE :2277 updateTile()): the refresh block (RepairTower.java:59, `if(potentialEfficiency > 0 && (refresh += Time.delta) >= refreshInterval){`) reads the potentialEfficiency this tick's updateConsumption just stamped (BuildingComp.java:1989, `potentialEfficiency = efficiency;`), clears the targets (`targets.clear();`), resets the timer (`refresh = 0f;`) and re-queries the nearby damaged units (`Units.nearby(team, x, y, range, u -> {` / `if(u.damaged()){` / `targets.add(u);`); the query itself is NOT this slice -- the pure function consumes the observed count from the `nearby_damaged_units` frame key, it does not produce it. The driver writes `frame["refresh"]` from the result every call, and `frame["targets_count"]` only when the result carries a stamped count (`has_targets_count` true).
+			var refresh_result: Dictionary = source_repair_tower_refresh_targets_state(frame, seconds)
+			frame["refresh"] = refresh_result.get("refresh", 0.0)
+			if bool(refresh_result.get("has_targets_count", false)):
+				frame["targets_count"] = refresh_result.get("targets_count")
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
