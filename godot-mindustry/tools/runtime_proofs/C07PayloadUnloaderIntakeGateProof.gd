@@ -69,9 +69,13 @@ func _ready() -> void:
 	# center (moved_in true) and the held payload stays
 	# held for the key to read. The pushed payloads hold
 	# items, so shouldExport stays false and the advance
-	# keeps them on the frame; the timer never fires live
-	# (the driver passes load_tick false), so no items
-	# unload.
+	# keeps them on the frame. The load timer is live since
+	# N2320 and its clock is NOT cleared by the between-case
+	# resets, so it fires on tick 4 (clock 3 -> 4 past the
+	# 2f / efficiency threshold) and unloads the held
+	# payload's items -- but no key after tick 1 asserts item
+	# counts, and tick 1 itself does not fire (clock 0 -> 1),
+	# so the items_unloaded == 0 assertion still holds.
 	var catalog = game.get("content_catalog")
 	var blocks_by_id: Dictionary = {}
 	for registered_block in catalog.get_many("block"):

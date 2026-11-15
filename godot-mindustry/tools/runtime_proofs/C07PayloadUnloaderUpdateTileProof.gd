@@ -148,8 +148,11 @@ func _ready() -> void:
 	# slice, so an unseeded live unloader reads payload null
 	# and does not consume). One 1/60s tick is one source tick:
 	# efficiency folds the power min 1.0, the payload moves in
-	# from (0.5, 0) to the center, the timer never fires live
-	# (the driver passes load_tick false), the liquid flow is
+	# from (0.5, 0) to the center, the load timer fires on the
+	# second tick (live since N2320: clock 1 -> 2 reaches the
+	# 2f / efficiency threshold), but the liquid flow and the
+	# battery unload do not depend on load_tick, so the values
+	# below are unchanged. The liquid flow is
 	# min(40 * 1, 100 - 0, 60) = 40, and the battery unloads
 	# min(80 * 1, 0.5 * 100) = 50 into last_output_power. The
 	# second tick drains the remaining 20 liquid and unloads

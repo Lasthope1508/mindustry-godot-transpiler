@@ -43,9 +43,11 @@ func _ready() -> void:
 	# entry: pos, block_health, health, damaged,
 	# heal_suppressed); heal_suppressed (default false) and
 	# tile_changes (default 1, World.java:35) are frame
-	# inputs too. consume() defers (no items on the frame),
-	# but the optionalTimer reset is modeled and the tick
-	# where consume() would fire is reported as `consumed`.
+	# inputs too. consume() is live since N2260 (the tick
+	# removes 1 phaseFabric from the frame when the advance
+	# reports `consumed`); the optionalTimer reset is modeled
+	# and the tick where consume() fires is reported as
+	# `consumed`.
 	# The mendMap flush is live since N2325 as the pure
 	# heal_applications result: a fresh frame (last_update_frame
 	# -1, update_id 0) flushes, so the accumulation calls below
