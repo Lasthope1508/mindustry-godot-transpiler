@@ -1216,6 +1216,27 @@
       ],
       "runtime_proof": "/root/C07ImpactReactorPowerProductionProof"
     },
+    "N2187": {
+      "canonical_ledger": "source_slice_ledger.N2187",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+      "java_method": "ImpactReactorBuild.updateTile()",
+      "godot_owner": "SourceImpactReactorBuildState.source_impact_reactor_consume_state",
+      "source_symbols": [
+        "source_impact_reactor_consume_state_result.blast_compound_burned",
+        "source_impact_reactor_consume_state_result.cryofluid_drained",
+        "source_impact_reactor_consume_state_result.consume_timer",
+        "source_impact_reactor_consume_state_result.items",
+        "source_impact_reactor_consume_state_result.liquids"
+      ],
+      "tests": [
+        "test_c07_impact_reactor_consume_registration",
+        "test_all_c07_impact_reactor_consume_input_evidence_is_exact",
+        "test_impact_reactor_consume_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_consume"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorConsumeProof"
+    },
     "N888": {
       "canonical_ledger": "source_slice_ledger.N888",
       "status": "done",

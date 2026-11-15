@@ -230014,6 +230014,94 @@
       },
       "runtime_proof": "/root/C07ImpactReactorPowerProductionProof",
       "rule": "Source-backed ImpactReactor warmup advance + powerProduction live read from ImpactReactor.java / PowerGenerator.java."
+    },
+    "source_impact_reactor_consume_state_input": {
+      "status": "active",
+      "owner": "SourceImpactReactorBuildState.source_impact_reactor_consume_state",
+      "source_slice": "N2187",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+          "java_expr": "if(efficiency >= 0.9999f && power.status >= 0.99f){",
+          "rule": "The impact-reactor frame carrying the folded efficiency (set by update_consumption_state earlier in the same tick), the live power.status (stamped by the N2142 graph update), the items / liquids dicts, the consume_timer accumulator and the time_scale (all stamped by the driver, the N2186 precedent); null stamps fold to the assembler defaults (efficiency 1.0, power.status 1.0, time_scale 1.0, consume_timer 0.0).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_consume_state"
+          ]
+        },
+        "delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+          "java_expr": "return Time.delta * timeScale;",
+          "rule": "The tick delta (Time.delta): the timer accumulator advances by delta and the cryofluid drain is 0.25f x edelta per tick, edelta = efficiency * Time.delta * timeScale.",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ImpactReactorConsumeProof",
+      "rule": "Source-backed ImpactReactor blast-compound timer burn + cryofluid continuous drain from ImpactReactor.java / ConsumeItems.java / ConsumeLiquid.java / Interval.java."
+    },
+    "source_impact_reactor_consume_state_result": {
+      "status": "active",
+      "owner": "SourceImpactReactorBuildState.source_impact_reactor_consume_state",
+      "source_slice": "N2187",
+      "keys": {
+        "blast_compound_burned": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+          "java_expr": "build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));",
+          "rule": "The blast-compound burned this tick (ConsumeItems.java:46, consumeItem defaults to amount 1, Block.java:1167-1168, multiplier default 1f, Consume.java:18): 1 when the timer fires inside the hard gate and stock is on hand, 0 otherwise; ItemModule.remove clamps at the stock (ItemModule.java:259).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_consume_state"
+          ]
+        },
+        "cryofluid_drained": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_expr": "build.liquids.remove(liquid, amount * build.edelta() * multiplier.get(build));",
+          "rule": "The cryofluid drained this tick (ConsumeLiquid.java:38): 0.25f x efficiency x delta x time_scale while enabled and efficiency > 0 (BuildingComp.java:1997-2000, second pass), 0f when disabled or efficiency 0; LiquidModule.remove caps to prevent negative removal (LiquidModule.java:126).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_consume_state"
+          ]
+        },
+        "consume_timer": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/util/Interval.java",
+          "java_expr": "if(got) times[id] = Time.time;",
+          "rule": "The timer accumulator after this tick (Interval.java: stamp reset to absolute game time on fire, overshoot dropped): seconds since the last burn, reset to 0 when the timer fires, never carrying overshoot.",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_consume_state"
+          ]
+        },
+        "items": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+          "java_expr": "build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));",
+          "rule": "The updated items dict after the burn (ConsumeItems.java:46): blast-compound decremented by the burn, clamped at 0 by ItemModule.remove (ItemModule.java:259).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_consume_state"
+          ]
+        },
+        "liquids": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_expr": "build.liquids.remove(liquid, amount * build.edelta() * multiplier.get(build));",
+          "rule": "The updated liquids dict after the drain (ConsumeLiquid.java:38): cryofluid decremented by the drain, capped at 0 by LiquidModule.remove (LiquidModule.java:126).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ImpactReactorConsumeProof",
+      "rule": "Source-backed ImpactReactor blast-compound timer burn + cryofluid continuous drain from ImpactReactor.java / ConsumeItems.java / ConsumeLiquid.java / Interval.java."
     }
   },
   "version": 1

@@ -94,6 +94,36 @@ static func source_impact_reactor_power_production_state(frame: Dictionary, delt
 	var power_production: float = 130.0 * production_efficiency if enabled else 0.0
 	return {"warmup": warmup, "production_efficiency": production_efficiency, "total_progress": total_progress, "power_production": power_production}
 
+static func source_impact_reactor_consume_state(frame: Dictionary, delta: float) -> Dictionary:
+	# The consume side (N2187): ImpactReactorBuild.updateTile
+	# only warms up while the folded efficiency is ~1 AND
+	# power.status is ~1 (ImpactReactor.java:79, `if(efficiency >= 0.9999f && power.status >= 0.99f){`, keep on ONE comment line, the N2148 shootWarmup lesson: a split line fails this test) -- and INSIDE that gate the consume timer burns the fuel (ImpactReactor.java:91, `if(timer(timerUse, itemDuration / timeScale)){` with ImpactReactor.java:92, `consume();`). The timer slot is `public final int timerUse = timers++;` (ImpactReactor.java:18) on a per-building `Interval(6)` (`transient Interval timer = new Interval(6);`, TimerComp.java:8); `timer()` (TimerComp.java:10-12, `public boolean timer(int index, float time){` / `if(Float.isInfinite(time)) return false;` / `return timer.get(index, time);`) delegates to `Interval.get`, which stamps the absolute game time on fire (Interval.java, `boolean got = check(id, time);` / `if(got) times[id] = Time.time;`, checked by `return Time.time - times[id] >= time || Time.time < times[id];`) -- overshoot is DROPPED, not carried. The port models this with a per-frame accumulator `consume_timer += delta; if consume_timer >= 140 / time_scale: fire, consume_timer = 0` -- reset-to-0 drops overshoot exactly like `Interval.get`; do NOT subtract the interval (that would carry overshoot and drift the burn cadence vs Java). A zero time_scale makes the interval infinite, and `timer()` returns false on infinite time -- so the timer never fires at time_scale 0. The global-time wrap case (`Time.time < times[id]`, Interval.java check) is not modeled, documented as negligible. `Building.consume()` (BuildingComp.java:1911-1915, `public void consume(){` / `for(Consume cons : block.consumers){` / `cons.trigger(self());`) iterates the block's consumers and triggers each; `Consume.trigger()` default is a no-op (Consume.java:50, `public void trigger(Building build){}`), so only `ConsumeItems.trigger` fires (ConsumeItems.java:44-48, `public void trigger(Building build){` / `build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));`) -- `consumeItem(item)` defaults to amount 1 (Block.java:1167-1168, `public ConsumeItems consumeItem(Item item){` / `return consumeItem(item, 1);`), multiplier default 1f (Consume.java:18, `public Floatf<Building> multiplier = b -> 1f;`) -- so -1 blast-compound per timer fire (Blocks.java:2643, `consumeItem(Items.blastCompound);`, with `itemDuration = 140f;`, Blocks.java:2637). `consumeTriggerValid()` defaults false (BuildingComp.java:764-766, `public boolean consumeTriggerValid(){`), so `ConsumeItems.efficiency` is 1 iff the building has the blast-compound (ConsumeItems.java:51-53, `return build.consumeTriggerValid() || build.items.has(items, multiplier.get(build)) ? 1f : 0f;`) -- the burn assumes the hard gate held, which already implies the item was present. The cryofluid is NOT burned by the timer fire: `ConsumeLiquid` has NO trigger override, its drain is `update()` (ConsumeLiquid.java:37-38, `public void update(Building build){` / `build.liquids.remove(liquid, amount * build.edelta() * multiplier.get(build));`), i.e. 0.25f x edelta x 1f per tick (Blocks.java:2644, `consumeLiquid(Liquids.cryofluid, 0.25f);`, with `liquidCapacity = 80f;`, Blocks.java:2640), run by `updateConsumption()`'s second pass (BuildingComp.java:1997-2000, `if(update && efficiency > 0){` / `for(var cons : block.updateConsumers){` / `cons.update(self());`); `Consume.update = true` by default (Consume.java:16, `public boolean update = true;`), so ConsumeLiquid is in `updateConsumers`. The drain is NOT gated on the warmup hard gate -- it runs whenever `shouldConsume() && productionValid()` and the folded efficiency > 0 (`boolean update = shouldConsume() && productionValid();`, BuildingComp.java:1960; the gate is skipped entirely when `!update`: BuildingComp.java:1992, `if(!update){`). ImpactReactor has no shouldConsume override, so the BuildingComp default applies (BuildingComp.java:755-756, `public boolean shouldConsume(){` with `return enabled;`) and `productionValid()` defaults true (BuildingComp.java:759-761, `public boolean productionValid(){`). `edelta()` is `efficiency * delta()` (BuildingComp.java:1927-1928, `public float edelta(){` / `return efficiency * delta();`) and `delta()` is `Time.delta * timeScale` (BuildingComp.java:1923, `return Time.delta * timeScale;`) -- so the drain per tick is 0.25 * efficiency * delta * time_scale in the port (the port's delta is Time.delta, the N2186 precedent). Both removes clamp at the stock on hand: `ItemModule.remove` takes `amount = Math.min(amount, items[item.id]);` (ItemModule.java:259) and `LiquidModule.remove` caps to prevent negative removal (LiquidModule.java:126, `//cap to prevent negative removal`) -- so a fire with 0 blast-compound burns 0 and a drain past an empty tank drains only what is there; neither dict ever goes negative. The driver stamps all five result keys onto the frame (the N2186 precedent), so the frame carries the last tick's burn/drain amounts alongside the updated dicts.
+	var efficiency: float = float(frame.get("efficiency", 1.0))
+	var power_status: float = float(frame.get("power_status", 1.0))
+	var enabled: bool = bool(frame.get("enabled", true))
+	var time_scale: float = float(frame.get("time_scale", 1.0))
+	var consume_timer: float = float(frame.get("consume_timer", 0.0))
+	var items_raw: Variant = frame.get("items", {})
+	var items: Dictionary = items_raw.duplicate() if items_raw is Dictionary else {}
+	var liquids_raw: Variant = frame.get("liquids", {})
+	var liquids: Dictionary = liquids_raw.duplicate() if liquids_raw is Dictionary else {}
+	var blast_compound_burned: int = 0
+	var cryofluid_drained: float = 0.0
+	if efficiency >= 0.9999 and power_status >= 0.99:
+		consume_timer += delta
+		var interval: float = 140.0 / time_scale if time_scale > 0.0 else INF
+		if consume_timer >= interval:
+			var stock: int = int(items.get("blast-compound", 0))
+			blast_compound_burned = mini(1, stock)
+			items["blast-compound"] = stock - blast_compound_burned
+			consume_timer = 0.0
+	if enabled and efficiency > 0.0:
+		var drain: float = 0.25 * efficiency * delta * time_scale
+		var tank: float = float(liquids.get("cryofluid", 0.0))
+		cryofluid_drained = minf(drain, tank)
+		liquids["cryofluid"] = tank - cryofluid_drained
+	return {"blast_compound_burned": blast_compound_burned, "cryofluid_drained": cryofluid_drained, "consume_timer": consume_timer, "items": items, "liquids": liquids}
+
 @warning_ignore("unused_parameter")
 static func source_impact_reactor_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the impact-reactor tick wiring every
@@ -153,6 +183,26 @@ static func source_impact_reactor_tick_buildings_state(game: Object, seconds: fl
 			frame["production_efficiency"] = production.get("production_efficiency", 0.0)
 			frame["total_progress"] = production.get("total_progress", 0.0)
 			frame["power_production"] = production.get("power_production", 0.0)
+			# The consume side (N2187): after the consumption
+			# fold, the same tick burns blast-compound on the
+			# timer inside the warmup hard gate and drains
+			# cryofluid continuously while efficiency > 0
+			# (ImpactReactor.java:91-92, ConsumeLiquid.java:37-39);
+			# the driver stamps the consume input keys first
+			# (items / liquids / time_scale / consume_timer, the
+			# N2186 precedent) and all five result keys after.
+			if not (frame.get("items") is Dictionary):
+				frame["items"] = {}
+			if not (frame.get("liquids") is Dictionary):
+				frame["liquids"] = {}
+			frame["time_scale"] = float(frame.get("time_scale", 1.0))
+			frame["consume_timer"] = float(frame.get("consume_timer", 0.0))
+			var consume: Dictionary = source_impact_reactor_consume_state(frame, seconds)
+			frame["blast_compound_burned"] = consume.get("blast_compound_burned", 0)
+			frame["cryofluid_drained"] = consume.get("cryofluid_drained", 0.0)
+			frame["consume_timer"] = consume.get("consume_timer", 0.0)
+			frame["items"] = consume.get("items", {})
+			frame["liquids"] = consume.get("liquids", {})
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1

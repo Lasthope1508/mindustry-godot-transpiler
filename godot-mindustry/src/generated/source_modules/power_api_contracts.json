@@ -3692,6 +3692,41 @@
       "rule": "Source-backed live-loop power graph update; each frame the placed graph runs PowerGraph.update(). Each grouped consumer dict is stamped with its building's live cheating value (TeamComp.cheating() from the live rules) and with its live should_consume / shouldConsumePower values (BuildingComp.shouldConsume() from the frame enabled flag) before the update runs, so the cheat gate fires when the first consumer's team cheats and a disabled building requests no power. For a factory-family frame the stamp is the family's per-class shouldConsume() body (the output-full gate) and the frame's live updateConsumption first-pass should_consume_power flag (false when a non-power consumer fails), so a starved or output-full factory stops drawing power.",
       "return_type": "Dictionary"
     },
+    "SourceImpactReactorBuildState.source_impact_reactor_consume_state": {
+      "canonical_contract": "source_api_contracts.SourceImpactReactorBuildState.source_impact_reactor_consume_state",
+      "status": "active",
+      "source_slice": "N2187",
+      "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+      "source_method": "ImpactReactorBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_impact_reactor_consume_state_input.frame"
+        },
+        {
+          "name": "delta",
+          "type": "float",
+          "schema": "source_impact_reactor_consume_state_input.delta"
+        }
+      ],
+      "return_keys": [
+        "blast_compound_burned",
+        "cryofluid_drained",
+        "consume_timer",
+        "items",
+        "liquids"
+      ],
+      "tests": [
+        "test_c07_impact_reactor_consume_registration",
+        "test_all_c07_impact_reactor_consume_input_evidence_is_exact",
+        "test_impact_reactor_consume_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_consume"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorConsumeProof",
+      "rule": "Source-backed ImpactReactor blast-compound timer burn + cryofluid continuous drain from ImpactReactor.java / ConsumeItems.java / ConsumeLiquid.java / Interval.java.",
+      "return_type": "Dictionary"
+    },
     "SourceImpactReactorBuildState.source_impact_reactor_power_production_state": {
       "canonical_contract": "source_api_contracts.SourceImpactReactorBuildState.source_impact_reactor_power_production_state",
       "status": "active",

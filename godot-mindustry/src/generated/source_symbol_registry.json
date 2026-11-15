@@ -173032,6 +173032,86 @@
         "test_reference_graph_and_actual_c07_impact_reactor_power_production"
       ],
       "runtime_proof": "/root/C07ImpactReactorPowerProductionProof"
+    },
+    "source_impact_reactor_consume_state_result.blast_compound_burned": {
+      "status": "source-backed",
+      "godot_owner": "SourceImpactReactorBuildState.source_impact_reactor_consume_state",
+      "godot_symbol": "source_impact_reactor_consume_state_result.blast_compound_burned",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "ImpactReactorBuild.updateTile()",
+      "java_expr": "build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));",
+      "rule": "The blast-compound burned this tick (ConsumeItems.java:46, consumeItem defaults to amount 1, Block.java:1167-1168, multiplier default 1f, Consume.java:18): 1 when the timer fires inside the hard gate and stock is on hand, 0 otherwise; ItemModule.remove clamps at the stock (ItemModule.java:259).",
+      "tests": [
+        "test_c07_impact_reactor_consume_registration",
+        "test_all_c07_impact_reactor_consume_input_evidence_is_exact",
+        "test_impact_reactor_consume_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_consume"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorConsumeProof"
+    },
+    "source_impact_reactor_consume_state_result.cryofluid_drained": {
+      "status": "source-backed",
+      "godot_owner": "SourceImpactReactorBuildState.source_impact_reactor_consume_state",
+      "godot_symbol": "source_impact_reactor_consume_state_result.cryofluid_drained",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "java_method": "ImpactReactorBuild.updateTile()",
+      "java_expr": "build.liquids.remove(liquid, amount * build.edelta() * multiplier.get(build));",
+      "rule": "The cryofluid drained this tick (ConsumeLiquid.java:38): 0.25f x efficiency x delta x time_scale while enabled and efficiency > 0 (BuildingComp.java:1997-2000, second pass), 0f when disabled or efficiency 0; LiquidModule.remove caps to prevent negative removal (LiquidModule.java:126).",
+      "tests": [
+        "test_c07_impact_reactor_consume_registration",
+        "test_all_c07_impact_reactor_consume_input_evidence_is_exact",
+        "test_impact_reactor_consume_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_consume"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorConsumeProof"
+    },
+    "source_impact_reactor_consume_state_result.consume_timer": {
+      "status": "source-backed",
+      "godot_owner": "SourceImpactReactorBuildState.source_impact_reactor_consume_state",
+      "godot_symbol": "source_impact_reactor_consume_state_result.consume_timer",
+      "java_source": "arc-core/src/arc/util/Interval.java",
+      "java_method": "ImpactReactorBuild.updateTile()",
+      "java_expr": "if(got) times[id] = Time.time;",
+      "rule": "The timer accumulator after this tick (Interval.java: stamp reset to absolute game time on fire, overshoot dropped): seconds since the last burn, reset to 0 when the timer fires, never carrying overshoot.",
+      "tests": [
+        "test_c07_impact_reactor_consume_registration",
+        "test_all_c07_impact_reactor_consume_input_evidence_is_exact",
+        "test_impact_reactor_consume_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_consume"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorConsumeProof"
+    },
+    "source_impact_reactor_consume_state_result.items": {
+      "status": "source-backed",
+      "godot_owner": "SourceImpactReactorBuildState.source_impact_reactor_consume_state",
+      "godot_symbol": "source_impact_reactor_consume_state_result.items",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "ImpactReactorBuild.updateTile()",
+      "java_expr": "build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));",
+      "rule": "The updated items dict after the burn (ConsumeItems.java:46): blast-compound decremented by the burn, clamped at 0 by ItemModule.remove (ItemModule.java:259).",
+      "tests": [
+        "test_c07_impact_reactor_consume_registration",
+        "test_all_c07_impact_reactor_consume_input_evidence_is_exact",
+        "test_impact_reactor_consume_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_consume"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorConsumeProof"
+    },
+    "source_impact_reactor_consume_state_result.liquids": {
+      "status": "source-backed",
+      "godot_owner": "SourceImpactReactorBuildState.source_impact_reactor_consume_state",
+      "godot_symbol": "source_impact_reactor_consume_state_result.liquids",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "java_method": "ImpactReactorBuild.updateTile()",
+      "java_expr": "build.liquids.remove(liquid, amount * build.edelta() * multiplier.get(build));",
+      "rule": "The updated liquids dict after the drain (ConsumeLiquid.java:38): cryofluid decremented by the drain, capped at 0 by LiquidModule.remove (LiquidModule.java:126).",
+      "tests": [
+        "test_c07_impact_reactor_consume_registration",
+        "test_all_c07_impact_reactor_consume_input_evidence_is_exact",
+        "test_impact_reactor_consume_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_consume"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorConsumeProof"
     }
   },
   "version": 1
