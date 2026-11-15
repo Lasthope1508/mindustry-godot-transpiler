@@ -106,11 +106,81 @@ static func source_drill_power_status_row_state(frame: Dictionary, has_power_con
 	# speed = Mathf.lerp(1f, liquidBoostIntensity,
 	# optionalEfficiency) * efficiency;`). `!enabled` is handled
 	# by the machinery's disabled branch, not here.
+	# Documented limits: (1) shouldConsume gate LIVE (N2204) --
+	# DrillBuild.shouldConsume() (`return items.total() <
+	# itemCapacity && enabled && dominantItem != null;`,
+	# Drill.java:247-248) is the pure
+	# source_drill_should_consume_state gate over the frame's
+	# items / enabled / dominant_item; the driver reads
+	# should_consume through it and the machinery folds
+	# efficiency to 0 when the gate is false
+	# (BuildingComp.java:1960/:1992-1994). The gate is the BASE
+	# Drill override only: BurstDrillBuild overrides
+	# shouldConsume with its own gate (BurstDrill.java:129),
+	# and this driver never ticks BurstDrill implementations
+	# (it gates on the base Drill generated class); their gate
+	# is N2203's slice. (2) No draw/bars modeling -- the
+	# setBars drillspeed bar (Drill.java:114) and draw()
+	# (Drill.java:346) wait for their own slices; the proof
+	# carries no draw/bar keys, the speed fold
+	# (Drill.java:301) is what the efficiency keys prove.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
 	var live: float = 1.0 if stamped == null else float(stamped)
 	return {"has_power_row": true, "row": {"result": live, "is_power": true}}
+
+static func source_drill_should_consume_state(frame: Dictionary, item_capacity: int) -> Dictionary:
+	# DrillBuild.shouldConsume() (Drill.java:247, `public boolean shouldConsume(){`
+	# with `return items.total() < itemCapacity && enabled && dominantItem != null;`,
+	# Drill.java:248): the drill consumes only while its item store is below
+	# capacity AND it is enabled AND it has a dominant item. The override
+	# INCLUDES the enabled check -- unlike the LaunchPad (N2186) and
+	# ShockwaveTower (N2187) overrides, whose enabled handling lives in
+	# updateConsumption (BuildingComp.java:1954-1957, the disabled early
+	# return) -- so this pure function reads all three frame inputs: items
+	# (the Building.items ItemModule, frame["items"] keyed by item name,
+	# totaled by the shared inventory.items_total helper -- the same read
+	# the runtime context already uses for its active key), enabled
+	# (BuildingComp.java:77, `transient boolean enabled = true;`, the
+	# BuildingComp default shouldConsume, BuildingComp.java:755-756,
+	# `return enabled;`), and dominant_item (Drill.java:244,
+	# `public Item dominantItem;`, set by onProximityUpdate,
+	# Drill.java:275-277, `countOre(tile);` / `dominantItem = returnItem;` /
+	# `dominantItems = returnCount;`; null when no mineable ore sits under
+	# the footprint, Drill.java:223, or after pickup, Drill.java:267-268).
+	# `public int dominantItems;` (Drill.java:243) is the ore count under
+	# the footprint, read by the production advance, not by this gate. A
+	# missing items dict reads empty; a missing enabled reads true (the
+	# Java field default); a missing dominant item reads null (no ore).
+	# item_capacity is the block def capacity
+	# (block.properties["itemCapacity"], 10 for mechanical/pneumatic/laser,
+	# 20 for blast-drill, Blocks.java:2911, `itemCapacity = 20;`), passed by
+	# the driver -- the frame does not carry it. The laser-drill's static
+	# power consumer (`consumePower(1.10f);`, Blocks.java:2895) and the
+	# mechanical drill's water booster
+	# (`consumeLiquid(Liquids.water, 0.05f).boost();`, Blocks.java:2874) are
+	# the modeled consumers; the power row is the pure ConsumePower read
+	# (`return build.power.status;`, ConsumePower.java:39) over the stamped
+	# frame value (N2147). When the gate is false, updateConsumption folds
+	# efficiency to 0 (BuildingComp.java:1960,
+	# `boolean update = shouldConsume() && productionValid();`, with
+	# BuildingComp.java:1992-1994, `if(!update){` /
+	# `efficiency = optionalEfficiency = 0f;`). The gate is the BASE Drill
+	# override only: BurstDrill extends Drill (BurstDrill.java:17,
+	# `public class BurstDrill extends Drill{`) and BurstDrillBuild extends
+	# DrillBuild (BurstDrill.java:70,
+	# `public class BurstDrillBuild extends DrillBuild{`), overriding
+	# shouldConsume with its own gate (BurstDrill.java:129,
+	# `return items.total() <= itemCapacity - dominantItems && enabled;`)
+	# -- `<= itemCapacity - dominantItems`, no dominantItem null check --
+	# and the base-Drill driver never ticks BurstDrill implementations (it
+	# gates on the base Drill generated class), so eruption-drill /
+	# impact-drill never reach this function; their gate is N2203's slice.
+	var items_total: int = inventory.items_total(frame.get("items", {}))
+	var enabled: bool = bool(frame.get("enabled", true))
+	var dominant_item: Variant = frame.get("dominant_item", null)
+	return {"should_consume": items_total < item_capacity and enabled and dominant_item != null, "dominant_item": dominant_item}
 
 static func source_tick_state(game: Object, seconds: float) -> Dictionary:
 	var results: Dictionary = {}
@@ -163,7 +233,12 @@ static func source_tick_state(game: Object, seconds: float) -> Dictionary:
 			frame["warmup"] = game.call("drill_warmup_at_cell", cell.x, cell.y)
 			frame["time_drilled"] = game.call("drill_time_drilled_at_cell", cell.x, cell.y)
 			frame["last_drill_speed"] = game.call("drill_last_speed_at_cell", cell.x, cell.y)
-		var should_consume: bool = inventory.items_total(frame["items"]) < block.properties["itemCapacity"] and frame["enabled"] and frame["dominant_item"] != null
+		# The shouldConsume gate (N2204): DrillBuild.shouldConsume()
+		# (Drill.java:247-248) through the pure gate function (the
+		# N2188/N2198 gate precedent); the machinery folds efficiency
+		# to 0 when the gate is false (BuildingComp.java:1960/:1992).
+		var gate: Dictionary = source_drill_should_consume_state(frame, int(block.properties["itemCapacity"]))
+		var should_consume: bool = bool(gate.get("should_consume", false))
 		var valid := access.production_valid_state()
 		var setup := efficiency.update_consumption_setup_state(should_consume, valid)
 		frame["efficiency"] = setup["efficiency"]
