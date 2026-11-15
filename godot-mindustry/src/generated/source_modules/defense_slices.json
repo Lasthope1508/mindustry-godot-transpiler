@@ -3280,6 +3280,27 @@
       ],
       "runtime_proof": "/root/C07BuildTurretLiquidRowProof"
     },
+    "N2258": {
+      "canonical_ledger": "source_slice_ledger.N2258",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+      "java_method": "ForceBuild.updateTile()",
+      "godot_owner": "SourceForceProjectorBuildState.source_force_projector_coolant_consumer_row_state",
+      "source_symbols": [
+        "source_force_projector_coolant_consumer_row_state_result.row",
+        "source_force_projector_coolant_consumer_row_state_result.has_coolant_row",
+        "source_force_projector_coolant_consumer_row_state_result.consumed_liquid",
+        "source_force_projector_update_tile_advance_state_result.coolant_consumed_liquid",
+        "source_force_projector_update_tile_advance_state_result.coolant_consumed_amount"
+      ],
+      "tests": [
+        "test_c07_force_projector_coolant_registration",
+        "test_all_c07_force_projector_coolant_input_evidence_is_exact",
+        "test_force_projector_coolant_consumer_row_state",
+        "test_reference_graph_and_actual_c07_force_projector_coolant"
+      ],
+      "runtime_proof": "/root/C07ForceProjectorCoolantProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

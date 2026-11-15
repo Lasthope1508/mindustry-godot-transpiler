@@ -69638,6 +69638,252 @@
       ],
       "runtime_proof": "/root/C07FrackerLiquidRowProof",
       "rule": "Source-backed Fracker liquid consumer row from ConsumeLiquid.java / Consume.java / BuildingComp.java / Block.java / Blocks.java / LiquidModule.java / Fracker.java."
+    },
+    "SourceBeamDrillBuildState.source_beam_drill_liquid_consumer_row_state": {
+      "status": "active",
+      "source_slice": "N2256",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "source_method": "BeamDrillBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_beam_drill_liquid_consumer_row_state_input.frame"
+        },
+        {
+          "name": "has_liquid_consumer",
+          "type": "bool",
+          "schema": "source_beam_drill_liquid_consumer_row_state_input.has_liquid_consumer"
+        },
+        {
+          "name": "liquid_id",
+          "type": "int",
+          "schema": "source_beam_drill_liquid_consumer_row_state_input.liquid_id"
+        },
+        {
+          "name": "amount",
+          "type": "float",
+          "schema": "source_beam_drill_liquid_consumer_row_state_input.amount"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_beam_drill_liquid_consumer_row_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_beam_drill_liquid_consumer_row_state_input.time_scale"
+        },
+        {
+          "name": "efficiency_scale",
+          "type": "float",
+          "schema": "source_beam_drill_liquid_consumer_row_state_input.efficiency_scale"
+        },
+        {
+          "name": "multiplier",
+          "type": "float",
+          "schema": "source_beam_drill_liquid_consumer_row_state_input.multiplier"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "row",
+        "has_liquid_row"
+      ],
+      "tests": [
+        "test_c07_beam_drill_liquid_rows_registration",
+        "test_all_c07_beam_drill_liquid_rows_input_evidence_is_exact",
+        "test_beam_drill_liquid_consumer_row_state",
+        "test_reference_graph_and_actual_c07_beam_drill_liquid_rows"
+      ],
+      "runtime_proof": "/root/C07BeamDrillLiquidRowsProof",
+      "rule": "Source-backed BeamDrill liquid consumer rows from ConsumeLiquid.java / Consume.java / BuildingComp.java."
+    },
+    "SourceBurstDrillBuildState.source_burst_drill_liquid_consumer_row_state": {
+      "status": "active",
+      "source_slice": "N2257",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "source_method": "BurstDrillBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_burst_drill_liquid_consumer_row_state_input.frame"
+        },
+        {
+          "name": "has_liquid_consumer",
+          "type": "bool",
+          "schema": "source_burst_drill_liquid_consumer_row_state_input.has_liquid_consumer"
+        },
+        {
+          "name": "liquid_id",
+          "type": "int",
+          "schema": "source_burst_drill_liquid_consumer_row_state_input.liquid_id"
+        },
+        {
+          "name": "amount",
+          "type": "float",
+          "schema": "source_burst_drill_liquid_consumer_row_state_input.amount"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_burst_drill_liquid_consumer_row_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_burst_drill_liquid_consumer_row_state_input.time_scale"
+        },
+        {
+          "name": "efficiency_scale",
+          "type": "float",
+          "schema": "source_burst_drill_liquid_consumer_row_state_input.efficiency_scale"
+        },
+        {
+          "name": "multiplier",
+          "type": "float",
+          "schema": "source_burst_drill_liquid_consumer_row_state_input.multiplier"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "row",
+        "has_liquid_row"
+      ],
+      "tests": [
+        "test_c07_burst_drill_liquid_rows_registration",
+        "test_all_c07_burst_drill_liquid_rows_input_evidence_is_exact",
+        "test_burst_drill_liquid_consumer_row_state",
+        "test_reference_graph_and_actual_c07_burst_drill_liquid_rows"
+      ],
+      "runtime_proof": "/root/C07BurstDrillLiquidRowsProof",
+      "rule": "Source-backed BurstDrill liquid consumer rows from ConsumeLiquid.java / Consume.java / BuildingComp.java / Block.java."
+    },
+    "SourceForceProjectorBuildState.source_force_projector_coolant_consumer_row_state": {
+      "status": "active",
+      "source_slice": "N2258",
+      "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+      "source_method": "ForceBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_force_projector_coolant_consumer_row_state_input.frame"
+        },
+        {
+          "name": "has_coolant_consumer",
+          "type": "bool",
+          "schema": "source_force_projector_coolant_consumer_row_state_input.has_coolant_consumer"
+        },
+        {
+          "name": "liquid_props_by_id",
+          "type": "Dictionary",
+          "schema": "source_force_projector_coolant_consumer_row_state_input.liquid_props_by_id"
+        },
+        {
+          "name": "liquid_order",
+          "type": "Array",
+          "schema": "source_force_projector_coolant_consumer_row_state_input.liquid_order"
+        },
+        {
+          "name": "amount",
+          "type": "float",
+          "schema": "source_force_projector_coolant_consumer_row_state_input.amount"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_force_projector_coolant_consumer_row_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_force_projector_coolant_consumer_row_state_input.time_scale"
+        },
+        {
+          "name": "efficiency",
+          "type": "float",
+          "schema": "source_force_projector_coolant_consumer_row_state_input.efficiency"
+        },
+        {
+          "name": "multiplier",
+          "type": "float",
+          "schema": "source_force_projector_coolant_consumer_row_state_input.multiplier"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "row",
+        "has_coolant_row",
+        "consumed_liquid"
+      ],
+      "tests": [
+        "test_c07_force_projector_coolant_registration",
+        "test_all_c07_force_projector_coolant_input_evidence_is_exact",
+        "test_force_projector_coolant_consumer_row_state",
+        "test_reference_graph_and_actual_c07_force_projector_coolant"
+      ],
+      "runtime_proof": "/root/C07ForceProjectorCoolantProof",
+      "rule": "Source-backed ForceProjector ConsumeCoolant row from ConsumeCoolant.java / ConsumeLiquidFilter.java / Consume.java / BuildingComp.java / ForceProjector.java / Liquid.java / Liquids.java."
+    },
+    "SourceRepairTurretBuildState.source_repair_turret_coolant_row_state": {
+      "status": "active",
+      "source_slice": "N2259",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "source_method": "RepairPointBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_repair_turret_coolant_row_state_input.frame"
+        },
+        {
+          "name": "has_coolant_consumer",
+          "type": "bool",
+          "schema": "source_repair_turret_coolant_row_state_input.has_coolant_consumer"
+        },
+        {
+          "name": "liquid_props_by_id",
+          "type": "Array",
+          "schema": "source_repair_turret_coolant_row_state_input.liquid_props_by_id"
+        },
+        {
+          "name": "amount",
+          "type": "float",
+          "schema": "source_repair_turret_coolant_row_state_input.amount"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_repair_turret_coolant_row_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_repair_turret_coolant_row_state_input.time_scale"
+        },
+        {
+          "name": "multiplier",
+          "type": "float",
+          "schema": "source_repair_turret_coolant_row_state_input.multiplier"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "row",
+        "has_coolant_row",
+        "consumed_liquid"
+      ],
+      "tests": [
+        "test_c07_repair_turret_coolant_registration",
+        "test_all_c07_repair_turret_coolant_input_evidence_is_exact",
+        "test_repair_turret_coolant_row_state",
+        "test_reference_graph_and_actual_c07_repair_turret_coolant"
+      ],
+      "runtime_proof": "/root/C07RepairTurretCoolantProof",
+      "rule": "Source-backed RepairTurret coolant optional consumer row from ConsumeCoolant.java / ConsumeLiquidFilter.java / Consume.java / BuildingComp.java / Blocks.java / Liquid.java / RepairTurret.java."
     }
   },
   "policy": {

@@ -6940,6 +6940,74 @@
       "rule": "Source-backed ContinuousLiquidTurret tick frame wiring; the tick sets the frame keys the N2101 cost multiplier reads (current_liquid from the liquid module, ammo_types from the block), so the multiplier is paid live.",
       "return_type": "Dictionary"
     },
+    "SourceForceProjectorBuildState.source_force_projector_coolant_consumer_row_state": {
+      "canonical_contract": "source_api_contracts.SourceForceProjectorBuildState.source_force_projector_coolant_consumer_row_state",
+      "status": "active",
+      "source_slice": "N2258",
+      "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+      "source_method": "ForceBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_force_projector_coolant_consumer_row_state_input.frame"
+        },
+        {
+          "name": "has_coolant_consumer",
+          "type": "bool",
+          "schema": "source_force_projector_coolant_consumer_row_state_input.has_coolant_consumer"
+        },
+        {
+          "name": "liquid_props_by_id",
+          "type": "Dictionary",
+          "schema": "source_force_projector_coolant_consumer_row_state_input.liquid_props_by_id"
+        },
+        {
+          "name": "liquid_order",
+          "type": "Array",
+          "schema": "source_force_projector_coolant_consumer_row_state_input.liquid_order"
+        },
+        {
+          "name": "amount",
+          "type": "float",
+          "schema": "source_force_projector_coolant_consumer_row_state_input.amount"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_force_projector_coolant_consumer_row_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_force_projector_coolant_consumer_row_state_input.time_scale"
+        },
+        {
+          "name": "efficiency",
+          "type": "float",
+          "schema": "source_force_projector_coolant_consumer_row_state_input.efficiency"
+        },
+        {
+          "name": "multiplier",
+          "type": "float",
+          "schema": "source_force_projector_coolant_consumer_row_state_input.multiplier"
+        }
+      ],
+      "return_keys": [
+        "row",
+        "has_coolant_row",
+        "consumed_liquid"
+      ],
+      "tests": [
+        "test_c07_force_projector_coolant_registration",
+        "test_all_c07_force_projector_coolant_input_evidence_is_exact",
+        "test_force_projector_coolant_consumer_row_state",
+        "test_reference_graph_and_actual_c07_force_projector_coolant"
+      ],
+      "runtime_proof": "/root/C07ForceProjectorCoolantProof",
+      "rule": "Source-backed ForceProjector ConsumeCoolant row from ConsumeCoolant.java / ConsumeLiquidFilter.java / Consume.java / BuildingComp.java / ForceProjector.java / Liquid.java / Liquids.java.",
+      "return_type": "Dictionary"
+    },
     "SourceForceProjectorBuildState.source_force_projector_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourceForceProjectorBuildState.source_force_projector_power_status_row_state",
       "status": "active",

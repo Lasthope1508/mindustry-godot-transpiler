@@ -51,6 +51,91 @@
         }
       }
     },
+    "source_beam_drill_liquid_consumer_row_state_input": {
+      "canonical_schema": "source_state_schema.source_beam_drill_liquid_consumer_row_state_input",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_expr": "return Math.min(build.liquids.get(liquid) / (amount * ed * multiplier.get(build)), 1f);",
+          "rule": "The building frame carrying the Building.liquids LiquidModule (frame[\"liquids\"], synced from the live sprite store each tick before the fold): the held liquid amount the row reads through SourceLiquidModuleState.source_get_state; a frame without the key reads 0.0, like Java liquids.get on a liquid never added.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_liquid_consumer_row_state"
+          ]
+        },
+        "has_liquid_consumer": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "for(var cons : block.nonOptionalConsumers){",
+          "rule": "Whether the block has a liquid consumer (BuildingComp.java:1969): the driver gate -- the row joins a pass only when the catalog consumeLiquid rows carry the liquid; a def with no row for that liquid contributes no row. The required/booster split is routing, not this flag: the tick routes each catalog row by its optional flag (Consume.java:33-35, boost() is optional(true, true)).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_liquid_consumer_row_state"
+          ]
+        },
+        "liquid_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_expr": "build.liquids.get(liquid)",
+          "rule": "The catalog id of the consumed liquid (hydrogen / nitrogen, resolved through liquid_id_by_name, the Fracker precedent): the LiquidModule index the held amount reads at; -1 when the catalog has no such liquid, which the Fracker guard treats as no held liquid.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_liquid_consumer_row_state"
+          ]
+        },
+        "amount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "consumeLiquid(Liquids.hydrogen, 0.5f / 60f);",
+          "rule": "The per-frame demand from the catalog consumeLiquid row, per def (plasma-bore hydrogen 0.25f/60f booster, Blocks.java:3049; large-plasma-bore hydrogen 0.5f/60f required, Blocks.java:3064, + nitrogen 3f/60f booster, Blocks.java:3065).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_liquid_consumer_row_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return Time.delta * timeScale;",
+          "rule": "Time.delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26): in the first pass efficiency is assumed 1f (BuildingComp.java:1965), so edelta() is delta() = source_delta * time_scale (BuildingComp.java:1922-1929).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_liquid_consumer_row_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The live timeScale read from the sprite meta (SourcePlacedBlockState.time_scale), default 1.0 (BuildingComp.java:98); scales delta() and therefore the row edelta.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_liquid_consumer_row_state"
+          ]
+        },
+        "efficiency_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_expr": "float ed = build.edelta() * build.efficiencyScale();",
+          "rule": "The efficiency scale (ConsumeLiquid.java:43): ed is edelta times this scale; the canonical scale is 1.0 (SourceBuildingEfficiencyState.efficiency_scale_state).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_liquid_consumer_row_state"
+          ]
+        },
+        "multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "public Floatf<Building> multiplier = b -> 1f;",
+          "rule": "The consumer multiplier (Consume.java:18): the 1f default -- no BeamDrill def sets one (Blocks.java:3049/3064-3065 are bare consumeLiquid calls, boost() only).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_liquid_consumer_row_state"
+          ]
+        }
+      }
+    },
     "source_beam_drill_power_status_row_state_input": {
       "canonical_schema": "source_state_schema.source_beam_drill_power_status_row_state_input",
       "keys": {
@@ -159,6 +244,91 @@
           "rule": "Source-explicit flags follow constructor inheritance and initializer overrides. Consumer.apply-only flags and absent flags remain deferred.",
           "used_by": [
             "SourcePlacedBlockState.source_block_has_liquids_state"
+          ]
+        }
+      }
+    },
+    "source_burst_drill_liquid_consumer_row_state_input": {
+      "canonical_schema": "source_state_schema.source_burst_drill_liquid_consumer_row_state_input",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_expr": "return Math.min(build.liquids.get(liquid) / (amount * ed * multiplier.get(build)), 1f);",
+          "rule": "The building frame carrying the Building.liquids LiquidModule (frame[\"liquids\"], synced from the live sprite store each tick before the fold): the held liquid amount the row reads through SourceLiquidModuleState.source_get_state; a frame without the key reads 0.0, like Java liquids.get on a liquid never added.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_liquid_consumer_row_state"
+          ]
+        },
+        "has_liquid_consumer": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "for(var cons : block.nonOptionalConsumers){",
+          "rule": "Whether the block has a liquid consumer (BuildingComp.java:1969): the driver gate -- the row joins the first pass only when the catalog consumeLiquid rows carry the row, and a def with no such row contributes no row (the LaunchPad precedent).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_liquid_consumer_row_state"
+          ]
+        },
+        "liquid_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_expr": "build.liquids.get(liquid)",
+          "rule": "The catalog id of the consumed liquid (water / ozone for impact-drill, hydrogen / cyanogen for eruption-drill, resolved through liquid_id_by_name with the catalog row name, the Fracker oil precedent): the LiquidModule index the held amount reads at; -1 when the catalog has no such liquid, which the Fracker guard treats as no held liquid.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_liquid_consumer_row_state"
+          ]
+        },
+        "amount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "consumeLiquid(Liquids.water, 10f/60f);",
+          "rule": "The per-frame demand from the catalog consumeLiquid row, per def (impact water 10f/60f, Blocks.java:3089; impact ozone 3f/60f booster, Blocks.java:3090; eruption hydrogen 4f/60f, Blocks.java:3119; eruption cyanogen 0.75f/60f booster, Blocks.java:3120).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_liquid_consumer_row_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return Time.delta * timeScale;",
+          "rule": "Time.delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26): in the first pass efficiency is assumed 1f (BuildingComp.java:1965), so edelta() is delta() = source_delta * time_scale (BuildingComp.java:1922-1929).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_liquid_consumer_row_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The live timeScale read from the sprite meta (SourcePlacedBlockState.time_scale), default 1.0 (BuildingComp.java:98); scales delta() and therefore the row edelta.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_liquid_consumer_row_state"
+          ]
+        },
+        "efficiency_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_expr": "float ed = build.edelta() * build.efficiencyScale();",
+          "rule": "The efficiency scale (ConsumeLiquid.java:43): ed is edelta times this scale; the canonical scale is 1.0 (SourceBuildingEfficiencyState.efficiency_scale_state).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_liquid_consumer_row_state"
+          ]
+        },
+        "multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "public Floatf<Building> multiplier = b -> 1f;",
+          "rule": "The consumer multiplier (Consume.java:18): the 1f default -- neither def sets one (Blocks.java:3089-3090/3119-3120 are bare consumeLiquid calls, the booster rows only adding .boost()).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_liquid_consumer_row_state"
           ]
         }
       }

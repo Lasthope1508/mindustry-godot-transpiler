@@ -178408,6 +178408,198 @@
         "test_reference_graph_and_actual_c07_fracker_liquid_row"
       ],
       "runtime_proof": "/root/C07FrackerLiquidRowProof"
+    },
+    "source_beam_drill_liquid_consumer_row_state_result.row": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_liquid_consumer_row_state",
+      "godot_symbol": "source_beam_drill_liquid_consumer_row_state_result.row",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "java_method": "BeamDrillBuild.updateTile()",
+      "java_expr": "return Math.min(build.liquids.get(liquid) / (amount * ed * multiplier.get(build)), 1f);",
+      "rule": "The liquid row for a pass (ConsumeLiquid.java:46, the canonical ConsumeLiquid.efficiency): {\"result\": held / (amount * ed * multiplier) capped at 1, 0 when ed <= 1e-8, \"is_power\": false}, folded by the non-optional pass into the min efficiency when required, or by the optional pass into optionalEfficiency when a booster (BuildingComp.java:1980-1981, capped by minEfficiency at :1986).",
+      "tests": [
+        "test_c07_beam_drill_liquid_rows_registration",
+        "test_all_c07_beam_drill_liquid_rows_input_evidence_is_exact",
+        "test_beam_drill_liquid_consumer_row_state",
+        "test_reference_graph_and_actual_c07_beam_drill_liquid_rows"
+      ],
+      "runtime_proof": "/root/C07BeamDrillLiquidRowsProof"
+    },
+    "source_beam_drill_liquid_consumer_row_state_result.has_liquid_row": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_liquid_consumer_row_state",
+      "godot_symbol": "source_beam_drill_liquid_consumer_row_state_result.has_liquid_row",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BeamDrillBuild.updateTile()",
+      "java_expr": "for(var cons : block.nonOptionalConsumers){",
+      "rule": "Whether the row joins a pass (BuildingComp.java:1969/1980): true when the block has a liquid consumer for that liquid; the row is the liquid consumer's entry in the non-optional pass (required) or the optional pass (booster).",
+      "tests": [
+        "test_c07_beam_drill_liquid_rows_registration",
+        "test_all_c07_beam_drill_liquid_rows_input_evidence_is_exact",
+        "test_beam_drill_liquid_consumer_row_state",
+        "test_reference_graph_and_actual_c07_beam_drill_liquid_rows"
+      ],
+      "runtime_proof": "/root/C07BeamDrillLiquidRowsProof"
+    },
+    "source_burst_drill_liquid_consumer_row_state_result.row": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_liquid_consumer_row_state",
+      "godot_symbol": "source_burst_drill_liquid_consumer_row_state_result.row",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "java_method": "BurstDrillBuild.updateTile()",
+      "java_expr": "return Math.min(build.liquids.get(liquid) / (amount * ed * multiplier.get(build)), 1f);",
+      "rule": "The liquid row for the first pass (ConsumeLiquid.java:46, the canonical ConsumeLiquid.efficiency): {\"result\": held / (amount * ed * multiplier) capped at 1, 0 when ed <= 1e-8, \"is_power\": false}, folded by the non-optional pass into the min efficiency when required, or by the optional pass into the optional efficiency when a booster row -- the driver routes on the catalog row optional flag (Block.java:1446-1447).",
+      "tests": [
+        "test_c07_burst_drill_liquid_rows_registration",
+        "test_all_c07_burst_drill_liquid_rows_input_evidence_is_exact",
+        "test_burst_drill_liquid_consumer_row_state",
+        "test_reference_graph_and_actual_c07_burst_drill_liquid_rows"
+      ],
+      "runtime_proof": "/root/C07BurstDrillLiquidRowsProof"
+    },
+    "source_burst_drill_liquid_consumer_row_state_result.has_liquid_row": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_liquid_consumer_row_state",
+      "godot_symbol": "source_burst_drill_liquid_consumer_row_state_result.has_liquid_row",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BurstDrillBuild.updateTile()",
+      "java_expr": "for(var cons : block.nonOptionalConsumers){",
+      "rule": "Whether the row joins the first pass (BuildingComp.java:1969): true when the block has a liquid consumer; the row is the liquid consumer's entry in the non-optional pass when required, or in the optional pass when a booster (BuildingComp.java:1980).",
+      "tests": [
+        "test_c07_burst_drill_liquid_rows_registration",
+        "test_all_c07_burst_drill_liquid_rows_input_evidence_is_exact",
+        "test_burst_drill_liquid_consumer_row_state",
+        "test_reference_graph_and_actual_c07_burst_drill_liquid_rows"
+      ],
+      "runtime_proof": "/root/C07BurstDrillLiquidRowsProof"
+    },
+    "source_force_projector_coolant_consumer_row_state_result.row": {
+      "status": "source-backed",
+      "godot_owner": "SourceForceProjectorBuildState.source_force_projector_coolant_consumer_row_state",
+      "godot_symbol": "source_force_projector_coolant_consumer_row_state_result.row",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_method": "ForceBuild.updateTile()",
+      "java_expr": "return liq != null ? Math.min(build.liquids.get(liq) / (amount * ed * multiplier.get(build)), 1f) : 0f;",
+      "rule": "The coolant row for the optional pass (ConsumeLiquidFilter.java:54, the canonical filter efficiency): {\"result\": held / (amount * ed * multiplier) capped at 1, 0 when ed <= 1e-8 or getConsumed is null, \"is_power\": false}, folded by the optional pass into the optional efficiency.",
+      "tests": [
+        "test_c07_force_projector_coolant_registration",
+        "test_all_c07_force_projector_coolant_input_evidence_is_exact",
+        "test_force_projector_coolant_consumer_row_state",
+        "test_reference_graph_and_actual_c07_force_projector_coolant"
+      ],
+      "runtime_proof": "/root/C07ForceProjectorCoolantProof"
+    },
+    "source_force_projector_coolant_consumer_row_state_result.has_coolant_row": {
+      "status": "source-backed",
+      "godot_owner": "SourceForceProjectorBuildState.source_force_projector_coolant_consumer_row_state",
+      "godot_symbol": "source_force_projector_coolant_consumer_row_state_result.has_coolant_row",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "ForceBuild.updateTile()",
+      "java_expr": "for(var cons : block.optionalConsumers){",
+      "rule": "Whether the row joins the optional pass (BuildingComp.java:1980): true when the block has a coolant consumer; the row is the coolant consumer's entry in the optional pass.",
+      "tests": [
+        "test_c07_force_projector_coolant_registration",
+        "test_all_c07_force_projector_coolant_input_evidence_is_exact",
+        "test_force_projector_coolant_consumer_row_state",
+        "test_reference_graph_and_actual_c07_force_projector_coolant"
+      ],
+      "runtime_proof": "/root/C07ForceProjectorCoolantProof"
+    },
+    "source_force_projector_coolant_consumer_row_state_result.consumed_liquid": {
+      "status": "source-backed",
+      "godot_owner": "SourceForceProjectorBuildState.source_force_projector_coolant_consumer_row_state",
+      "godot_symbol": "source_force_projector_coolant_consumer_row_state_result.consumed_liquid",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_method": "ForceBuild.updateTile()",
+      "java_expr": "if(filter.get(build.liquids.current()) && build.liquids.currentAmount() > 0){",
+      "rule": "The liquid getConsumed returns (ConsumeLiquidFilter.java:63-76): the current liquid id when it passes the filter and has amount > 0, else the first liquid in content order that does, else null -- the liquid the manual updateTile consume removes.",
+      "tests": [
+        "test_c07_force_projector_coolant_registration",
+        "test_all_c07_force_projector_coolant_input_evidence_is_exact",
+        "test_force_projector_coolant_consumer_row_state",
+        "test_reference_graph_and_actual_c07_force_projector_coolant"
+      ],
+      "runtime_proof": "/root/C07ForceProjectorCoolantProof"
+    },
+    "source_force_projector_update_tile_advance_state_result.coolant_consumed_liquid": {
+      "status": "source-backed",
+      "godot_owner": "SourceForceProjectorBuildState.source_force_projector_update_tile_advance_state",
+      "godot_symbol": "source_force_projector_update_tile_advance_state_result.coolant_consumed_liquid",
+      "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+      "java_method": "ForceBuild.updateTile()",
+      "java_expr": "coolantConsumer.update(this);",
+      "rule": "The liquid the manual updateTile consume removes (ForceProjector.java:229, coolantConsumer.update(this), inside if(buildup > 0) with the re-evaluated efficiency > 0): the getConsumed liquid id from the driver re-evaluation, or -1 when the coolant branch did not run.",
+      "tests": [
+        "test_c07_force_projector_coolant_registration",
+        "test_all_c07_force_projector_coolant_input_evidence_is_exact",
+        "test_force_projector_coolant_consumer_row_state",
+        "test_reference_graph_and_actual_c07_force_projector_coolant"
+      ],
+      "runtime_proof": "/root/C07ForceProjectorCoolantProof"
+    },
+    "source_force_projector_update_tile_advance_state_result.coolant_consumed_amount": {
+      "status": "source-backed",
+      "godot_owner": "SourceForceProjectorBuildState.source_force_projector_update_tile_advance_state",
+      "godot_symbol": "source_force_projector_update_tile_advance_state_result.coolant_consumed_amount",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_method": "ForceBuild.updateTile()",
+      "java_expr": "build.liquids.remove(liq, amount * build.edelta() * multiplier.get(build));",
+      "rule": "The amount the manual updateTile consume removes (ConsumeLiquidFilter.update, ConsumeLiquidFilter.java:42-47): 0.1f * edelta from the folded efficiency * the 1f multiplier, or 0.0 when the coolant branch did not run; the driver applies it to the live liquids store.",
+      "tests": [
+        "test_c07_force_projector_coolant_registration",
+        "test_all_c07_force_projector_coolant_input_evidence_is_exact",
+        "test_force_projector_coolant_consumer_row_state",
+        "test_reference_graph_and_actual_c07_force_projector_coolant"
+      ],
+      "runtime_proof": "/root/C07ForceProjectorCoolantProof"
+    },
+    "source_repair_turret_coolant_row_state_result.row": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_coolant_row_state",
+      "godot_symbol": "source_repair_turret_coolant_row_state_result.row",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_method": "RepairPointBuild.updateTile()",
+      "java_expr": "return liq != null ? Math.min(build.liquids.get(liq) / (amount * ed * multiplier.get(build)), 1f) : 0f;",
+      "rule": "The coolant row for the optional pass (ConsumeLiquidFilter.java:54): {\"result\": min(liquid / (amount * ed * multiplier), 1f), \"is_power\": false}, folded by the optional pass into optionalEfficiency; 0.0 when ed <= 0.00000001f (ConsumeLiquidFilter.java:53) or getConsumed is null.",
+      "tests": [
+        "test_c07_repair_turret_coolant_registration",
+        "test_all_c07_repair_turret_coolant_input_evidence_is_exact",
+        "test_repair_turret_coolant_row_state",
+        "test_reference_graph_and_actual_c07_repair_turret_coolant"
+      ],
+      "runtime_proof": "/root/C07RepairTurretCoolantProof"
+    },
+    "source_repair_turret_coolant_row_state_result.has_coolant_row": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_coolant_row_state",
+      "godot_symbol": "source_repair_turret_coolant_row_state_result.has_coolant_row",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "RepairPointBuild.updateTile()",
+      "java_expr": "for(var cons : block.optionalConsumers){",
+      "rule": "Whether the row joins the optional pass (BuildingComp.java:1980): true when the block has a coolant consumer; the row is the coolant consumer's entry in the optional pass.",
+      "tests": [
+        "test_c07_repair_turret_coolant_registration",
+        "test_all_c07_repair_turret_coolant_input_evidence_is_exact",
+        "test_repair_turret_coolant_row_state",
+        "test_reference_graph_and_actual_c07_repair_turret_coolant"
+      ],
+      "runtime_proof": "/root/C07RepairTurretCoolantProof"
+    },
+    "source_repair_turret_coolant_row_state_result.consumed_liquid": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_coolant_row_state",
+      "godot_symbol": "source_repair_turret_coolant_row_state_result.consumed_liquid",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_method": "RepairPointBuild.updateTile()",
+      "java_expr": "if(filter.get(build.liquids.current()) && build.liquids.currentAmount() > 0){",
+      "rule": "The liquid getConsumed picked (ConsumeLiquidFilter.java:64-76): the current liquid when the filter matches it with amount > 0, else the first filter match in content order with amount > 0, else -1 (null); the tick's second pass removes from this liquid.",
+      "tests": [
+        "test_c07_repair_turret_coolant_registration",
+        "test_all_c07_repair_turret_coolant_input_evidence_is_exact",
+        "test_repair_turret_coolant_row_state",
+        "test_reference_graph_and_actual_c07_repair_turret_coolant"
+      ],
+      "runtime_proof": "/root/C07RepairTurretCoolantProof"
     }
   },
   "version": 1
