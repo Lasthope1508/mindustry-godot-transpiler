@@ -158,6 +158,25 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
   Godot vì gate đóng khi frame trống). N2216 sửa cite scope sai (recipe
   field :59 không phải :61, config :32–37, configClear :31/:38 — đã
   verify bằng grep).
+- **Wave turrets {N2217 PointDefenseTurret, N2218 TractorBeamTurret}
+  shouldConsume gates DONE**
+  trên branch tích hợp `integration/wave-turrets-n2217-n2218` (không merge
+  vào main; 2 slice branch push 15:45–15:46 + integration branch push ngay
+  sau docs commit theo push-as-you-go): neighbours họ turret
+  8 tests (6 PASS + 2 proof Godot-absent, 0 lỗi khác) + targeted 2 module
+  8 tests (6 PASS + 2 proof Godot-absent), full gate Ran 5929 in
+  1007.260s, failures=159, skipped=5, 0 errors — 159/159 Godot-absent
+  (157 inherited + 2 new proof tests N2217–N2218).
+  SSOT gộp 11435/1659/1582/2955, audit 1336, legacy 0. Coordinator fix
+  `4a186c78` ở tích hợp: seed target fixture vào proof
+  N2151/N2152 (nếu không key efficiency_folds_power_min sẽ fail trên
+  Godot vì gate đóng khi frame trống). Cả 2 gate đều `super.shouldConsume()
+  && target != null` (super = BuildingComp default `enabled`; chain
+  qua BaseTurret — Turret.java:364 KHÔNG nằm trong chain, đã verify bằng
+  grep); target là Bullet (N2217, def segment 8f) vs Unit (N2218, def
+  parallax 3.3f). N2218 sửa wording "bullet-target" cẩu thả của driver
+  N2152. DEFERRED gộp sau wave: 258 entries (257 − 1 entry gộp turret
+  + 2 entry live-fill rộng).
 - **Tiếp theo:** units → updateTile advances → second consumers (xem
   `DESIGN-frame-state-infra.md` trong `~/workspace/mindustry-parallel/`).
 - **KHÔNG chạy Godot ở VM này** (chỉ đạo user 2026-11-15, ưu tiên cao): mọi
@@ -501,6 +520,26 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
     `slice/N2216-block-producer-should-consume` (integration cherry-pick `2f9641e6`).
     Trạng thái "chờ agent Godot test". Chạy: targeted test
     `tests.test_c07_constructor_should_consume` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
+  - [ ] N2217 `C07PointDefenseTurretShouldConsumeProof` — CHƯA CHẠY ở đâu (6 key:
+    `gate_true_when_target_present`, `gate_false_when_target_null`,
+    `gate_false_when_disabled`, `efficiency_zero_when_gate_false`,
+    `efficiency_folds_power_when_gate_true`, `frame_target_default_null`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo slice commit `dc2efa45` trên
+    `slice/N2217-point-defense-turret-should-consume` (integration cherry-pick `d0fc7ee7`).
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_point_defense_turret_should_consume` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
+  - [ ] N2218 `C07TractorBeamTurretShouldConsumeProof` — CHƯA CHẠY ở đâu (6 key:
+    `gate_true_when_target_present`, `gate_false_when_target_null`,
+    `gate_false_when_disabled`, `efficiency_zero_when_gate_false`,
+    `efficiency_folds_power_when_gate_true`, `frame_target_default_null`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo slice commit `cecb074e` trên
+    `slice/N2218-tractor-beam-turret-should-consume` (integration cherry-pick `929e276e`).
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_tractor_beam_turret_should_consume` với Godot 4.6.2 trên PATH,
     port 7777 trống.
   - [ ] Mọi slice sau này: proof scene mới nào cũng ghi nợ Windows theo mẫu
     trên (ghi rõ commit đưa scene tới Windows).
