@@ -45,7 +45,7 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
 (`docs/superpowers/handoffs/`). Khi trống task, tự làm slice tiếp theo, không
 đợi user giao.
 
-## 4. Tiến độ hiện tại (2026-11-15 15:38 +07)
+## 4. Tiến độ hiện tại (2026-11-15 19:29 +07)
 
 - Main trên fork ở `de9ab89c` (N2185 LightBlock power.status DONE + PUSHED).
 - **Batch 1 {N2186, N2187, N2189} DONE** trên branch tích hợp
@@ -262,8 +262,32 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
   eff khác StackConveyor (disabled 0f, không phải 1f); N2241 hiệu
   chỉnh smoothTime init 1f + updateTile :104-106 + N2189 đã làm
   advance này trên batch line (line divergence — phương án gộp đã
-  soạn trong STATUS.md, chưa thực hiện). DEFERRED gộp sau wave:
+  soạn trong STATUS.md, ĐÃ THỰC HIỆN ở unification bên dưới). DEFERRED gộp sau wave:
   270 entries (265 − 8 resolved + 13 new).
+- **Unification batch 1–3 {N2186 LaunchPad gate, N2187 ShockwaveTower gate,
+  N2189 LightBlock updateTile, N2190 Radar, N2191 Accelerator, N2192
+  ImpactReactor, N2193 MendProjector, N2194 OverdriveProjector, N2195
+  BeamDrill, N2196 conduit Time.delta fix} DONE** trên branch tích hợp
+  `integration/unification-batch-1-3` (không merge vào main; branch push
+  ngay sau docs commit theo push-as-you-go): batch 1/2/3 là 3 line song
+  song base trên `de9ab89c`, KHÔNG có trong wave line (phát hiện 18:21
+  15/11 — ledger wave line thiếu 9 slice); unification cherry-pick 14
+  commit slice+fix + merge tay 3 ca (N2186/N2238 LaunchPad driver 6 hunk
+  + test fix `ff725ce0`; N2195/N2202 BeamDrill 1 hunk comment;
+  N2189/N2241 LightBlock merge tay toàn bộ, proof gộp 8 key) + chạy lại
+  9 register. Targeted 10 module Ran 40 (30 PASS + 10 proof
+  Godot-absent, 0 lỗi khác) + neighbours 11 module Ran 44 (33 PASS +
+  11 proof Godot-absent, 0 lỗi khác); full gate (PID 21602, launch
+  ~19:10, done 19:29 +07) Ran 6054 in 1114.842s, failures=190,
+  skipped=5, 0 errors — 190/190 Godot-absent (182 inherited + 8 new
+  proof tests N2186/N2187/N2190/N2191/N2192/N2193/N2194/N2195).
+  SSOT gộp 11642/1691/1613/3017, audit 1336, legacy 0 (schemas 3017,
+  không phải 3018 như phương án dự báo — overlap LightBlock là −2 vì
+  input + result là 2 entry; đã verify bằng JSON diff). DEFERRED gộp
+  sau unification: 283 entries (270 − 12 resolved + 25 new, diff 3
+  chiều AST với base `de9ab89c`). Nợ Godot: 58 → 66 proofs + 1 re-run
+  (N2196); N2189 gộp vào proof N2241 đã đếm (nay 8 key). 9 report +
+  9 handoff batch mang nguyên văn vào branch này.
 - **Tiếp theo:** units → updateTile advances → second consumers (xem
   `DESIGN-frame-state-infra.md` trong `~/workspace/mindustry-parallel/`).
 - **KHÔNG chạy Godot ở VM này** (chỉ đạo user 2026-11-15, ưu tiên cao): mọi
@@ -858,15 +882,107 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
     Trạng thái "chờ agent Godot test". Chạy: targeted test
     `tests.test_c07_stack_router_update_tile` với Godot 4.6.2 trên PATH,
     port 7777 trống.
-  - [ ] N2241 `C07LightBlockUpdateTileProof` — CHƯA CHẠY ở đâu (6 key:
-    `smooth_time_lerps_toward_time_scale`, `smooth_time_holds_at_time_scale`,
-    `smooth_time_decays_when_time_scale_drops`, `smooth_time_converges_after_ticks`,
-    `frame_defaults_to_java_initial`, `live_tick_writes_advance_frame_keys`
+  - [ ] N2241 `C07LightBlockUpdateTileProof` — CHƯA CHẠY ở đâu (8 key,
+    gộp với N2189 ở unification `00e6588b`:
+    `smooth_time_lerp_delta_step`, `smooth_time_holds_at_time_scale`,
+    `smooth_time_decays_when_time_scale_drops`,
+    `smooth_time_converges_after_ticks`, `light_radius_clamps_at_two`,
+    `frame_defaults_to_java_initial`,
+    `live_tick_writes_advance_frame_keys`, `power_status_row_unchanged`
     + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
     Scene mang theo slice commit `341b9bc5` trên
-    `slice/N2241-light-block-update-tile` (integration cherry-pick `2215a10b`).
+    `slice/N2241-light-block-update-tile` (integration cherry-pick `2215a10b`),
+    gộp với batch N2189 (`8803e1e7`) ở unification commit `00e6588b` trên
+    `integration/unification-batch-1-3` — N2189 không cộng nợ mới.
     Trạng thái "chờ agent Godot test". Chạy: targeted test
     `tests.test_c07_light_block_update_tile` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
+  - [ ] N2186 `C07LaunchPadShouldConsumeProof` — CHƯA CHẠY ở đâu (6 key:
+    `gate_open_below_launch_time`, `gate_closed_at_launch_time`,
+    `gate_closed_above_launch_time`, `counter_advances_by_edelta`,
+    `efficiency_kept_when_gate_open`, `efficiency_zero_when_gate_closed`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo unification commit `5726e0ee` trên
+    `integration/unification-batch-1-3` (batch slice `879fa13e`).
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_launch_pad_should_consume` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
+  - [ ] N2187 `C07ShockwaveTowerShouldConsumeProof` — CHƯA CHẠY ở đâu (6 key:
+    `gate_true_below_reload`, `gate_false_at_reload`,
+    `gate_false_above_reload`, `efficiency_zero_when_gate_false`,
+    `efficiency_folds_power_when_gate_true`,
+    `reload_counter_advances_by_edelta`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo unification commit `20a08fbf` trên
+    `integration/unification-batch-1-3` (batch slice `b69ba59d`).
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_shockwave_tower_should_consume` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
+  - [ ] N2190 `C07RadarUpdateTileProof` — CHƯA CHẠY ở đâu (6 key:
+    `smooth_efficiency_lerps_to_efficiency`,
+    `progress_advances_edelta_over_discovery`, `progress_clamps_at_one`,
+    `total_progress_accumulates`, `last_radius_updates_on_fog_change`,
+    `live_tick_advances_and_keeps_power_row`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo unification commit `bea4d312` trên
+    `integration/unification-batch-1-3` (batch slice `6baeb7bc`).
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_radar_update_tile` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
+  - [ ] N2191 `C07AcceleratorUpdateTileProof` — CHƯA CHẠY ở đâu (6 key:
+    `heat_lerps_toward_efficiency`, `status_lerp_tracks_power_status`,
+    `launch_heat_lerps_by_launching`, `time_advances_and_slerps`,
+    `progress_advances_and_clamps`, `live_tick_advances_and_folds_power`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo unification commit `01e599d9` trên
+    `integration/unification-batch-1-3` (batch slice `fafe334f`).
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_accelerator_update_tile` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
+  - [ ] N2192 `C07ImpactReactorUpdateTileProof` — CHƯA CHẠY ở đâu (6 key:
+    `warmup_rises_toward_one`, `warmup_snaps_to_one`,
+    `warmup_decays_toward_zero`, `total_progress_advances`,
+    `production_efficiency_pow_five`,
+    `live_tick_keeps_power_row_and_advances`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo unification commit `c1d8e762` trên
+    `integration/unification-batch-1-3` (batch slice `52e3b178`).
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_impact_reactor_update_tile` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
+  - [ ] N2193 `C07MendProjectorUpdateTileProof` — CHƯA CHẠY ở đâu (6 key:
+    `smooth_efficiency_lerps_to_efficiency`,
+    `heat_lerps_by_efficiency_and_can_heal`,
+    `charge_advances_by_heat_delta`, `charge_resets_at_reload`,
+    `phase_heat_lerps_to_optional_efficiency`, `efficiency_folds_power_min`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo unification commit `5478286e` trên
+    `integration/unification-batch-1-3` (batch slice `d8dce467`).
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_mend_projector_update_tile` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
+  - [ ] N2194 `C07OverdriveProjectorUpdateTileProof` — CHƯA CHẠY ở đâu (6 key:
+    `smooth_efficiency_heat_lerp_toward_efficiency`,
+    `charge_advances_and_resets_at_reload`,
+    `phase_heat_lerps_when_has_boost`, `phase_heat_frozen_without_boost`,
+    `use_progress_advances_and_wraps`,
+    `live_tick_advances_frame_and_preserves_power`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo unification commit `ed52a099` trên
+    `integration/unification-batch-1-3` (batch slice `2723e795`).
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_overdrive_projector_update_tile` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
+  - [ ] N2195 `C07BeamDrillUpdateTileProof` — CHƯA CHẠY ở đâu (6 key:
+    `warmup_approaches_one_when_powered`, `warmup_decays_to_zero_without_power`,
+    `boost_warmup_lerps_to_optional_efficiency`,
+    `multiplier_lerps_boost_intensity`, `time_advances_by_edelta_times_multiplier`,
+    `live_tick_advances_warmup_and_time`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo unification commit `d7512292` trên
+    `integration/unification-batch-1-3` (batch slice `c42968e1`).
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_beam_drill_update_tile` với Godot 4.6.2 trên PATH,
     port 7777 trống.
   - [ ] Mọi slice sau này: proof scene mới nào cũng ghi nợ Windows theo mẫu
     trên (ghi rõ commit đưa scene tới Windows).
