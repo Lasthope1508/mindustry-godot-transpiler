@@ -8,6 +8,7 @@ const source_building_efficiency_state := preload("res://src/game/SourceBuilding
 const source_building_access_state := preload("res://src/game/SourceBuildingAccessState.gd")
 const source_math_state := preload("res://src/game/SourceMathState.gd")
 const source_move_out_payload_state := preload("res://src/game/SourceBlockProducerMoveOutPayloadState.gd")
+const source_world_defaults := preload("res://src/game/SourceWorldDefaults.gd")
 
 # The PayloadMassDriver implementation (PayloadMassDriver.java:23, `public class PayloadMassDriver extends PayloadBlock{`): payload-mass-driver (hasPower = true;, consumePower(0.5f);, size 3, reload 130f, chargeTime 90f, range 700f, maxPayloadSize 2.5f, Blocks.java:6617-6627). PayloadMassDriver sets hasPower=true, update=true, solid=true, configurable=true, outputsPayload=true, rotate=true (PayloadMassDriver.java:54-67), range 100f / reload 30f / chargeTime 100f / maxPayloadSize 3 class defaults (PayloadMassDriver.java:24-30, `public float chargeTime = 100f;`). PayloadMassDriver extends PayloadBlock, NOT a drill or factory, so it cannot reuse an existing frame key; this driver uses its own family frame key ("source_payload_mass_driver_building", the mechanical-pump / beam-drill / mend-projector / overdrive-projector / force-projector / base-shield / regen-projector / constructor / payload-loader / payload-unloader precedent), and this slice adds the payload-mass-driver key to N2142's SOURCE_CONSUMER_FRAME_META_KEYS so the graph stamp/write-back finds it. The port has NO SourcePayloadMassDriver* files at all yet -- no display/runtime state to lean on -- so the missing piece is the live power.status -> efficiency driver, which is exactly this slice: the no-power skip (PayloadMassDriver.java:232, `if(efficiency <= 0f){`) follows the folded efficiency, with the efficiency-scaled rotation (PayloadMassDriver.java:248, `turretRotation = Angles.moveToward(turretRotation, angleTo(currentShooter()), rotateSpeed * efficiency);`) and the efficiency-scaled charge (PayloadMassDriver.java:289, `charge += edelta();`).
 const SOURCE_PAYLOAD_MASS_DRIVER_BUILD_IMPLEMENTATIONS := ["PayloadMassDriver"]
@@ -39,6 +40,7 @@ const SOURCE_PAYLOAD_MASS_DRIVER_TRANSFER_EFFECT_LIFETIME := 11.0
 const SOURCE_PAYLOAD_MASS_DRIVER_CHARGE_TIME := 90.0
 const SOURCE_PAYLOAD_MASS_DRIVER_CHARGE_TIME_LARGE := 100.0
 const SOURCE_PAYLOAD_MASS_DRIVER_RANGE_LARGE := 2100.0
+const SOURCE_PAYLOAD_MASS_DRIVER_MAX_PAYLOAD_SIZE := 3.0
 
 static func _is_payload_mass_driver_build_implementation(implementation: String) -> bool:
 	return SOURCE_PAYLOAD_MASS_DRIVER_BUILD_IMPLEMENTATIONS.has(implementation)
@@ -206,7 +208,7 @@ static func _payload_mass_driver_vec2_as_frame_pay_vector(vec: Vector2) -> Dicti
 
 static func source_payload_mass_driver_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
 	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a payload-mass-driver does not take the early return. The no-power skip follows the folded efficiency (PayloadMassDriver.java:232, `if(efficiency <= 0f){`), with the efficiency-scaled rotation (PayloadMassDriver.java:248, `turretRotation = Angles.moveToward(turretRotation, angleTo(currentShooter()), rotateSpeed * efficiency);`) and the efficiency-scaled charge (PayloadMassDriver.java:289, `charge += edelta();`) and the shouldConsume default (BuildingComp.java:755, `public boolean shouldConsume(){`) -- PayloadDriverBuild has no shouldConsume override, so the default applies.
-	# Documented limits: (1) power-only first pass -- the payload-mass-driver power consumer is static (consumePower 0.5f, Blocks.java:6626; large 3f, Blocks.java:6637), so the folded efficiency is the min over the *modeled* consumers (power only); no dynamic consumer row is involved. (2) shouldConsume gate deferred -- PayloadDriverBuild has no shouldConsume override, so the BuildingComp default applies; the machinery runs with should_consume=true when enabled (the MendProjector suppression precedent). (3) updateTile advance live (N2245) -- the frame/state part (PayloadMassDriver.java:155-234: link refresh / charge discharge / curSize-targetSize / effectDelayTimer state / charging reset / reloadCounter decay / waitingShooters cleanup / idle-accepting-shooting switch / dump) runs every tick after the consumption fold through the pure source_payload_mass_driver_update_tile_advance_state function; State branches live (N2246) -- the accepting + shooting branches (PayloadMassDriver.java:236-332, accepting bail/align, shooting load/fire gate, charge + transfer) run after the advance through the pure source_payload_mass_driver_state_branches_state function; the receive effects/sound/shake, the moveOutPayload world interaction (pushOutput/dumpPayload/movePayload) and the super.updateTile() payload update defer -- see DEFERRED. The power proof carries no link/state/charge keys; the N2245/N2246 proofs carry them. (4) No link/config rows -- link -1, config Point2/Integer, onConfigureBuildTapped, linkValid (PayloadMassDriver.java:64-65, 321-350) are config, not tick state. (5) No acceptPayload rows -- acceptPayload fits maxPayloadSize (PayloadMassDriver.java:317-319) is payload acceptance, not tick state.
+	# Documented limits: (1) power-only first pass -- the payload-mass-driver power consumer is static (consumePower 0.5f, Blocks.java:6626; large 3f, Blocks.java:6637), so the folded efficiency is the min over the *modeled* consumers (power only); no dynamic consumer row is involved. (2) shouldConsume gate deferred -- PayloadDriverBuild has no shouldConsume override, so the BuildingComp default applies; the machinery runs with should_consume=true when enabled (the MendProjector suppression precedent). (3) updateTile advance live (N2245) -- the frame/state part (PayloadMassDriver.java:155-234: link refresh / charge discharge / curSize-targetSize / effectDelayTimer state / charging reset / reloadCounter decay / waitingShooters cleanup / idle-accepting-shooting switch / dump) runs every tick after the consumption fold through the pure source_payload_mass_driver_update_tile_advance_state function; State branches live (N2246) -- the accepting + shooting branches (PayloadMassDriver.java:236-332, accepting bail/align, shooting load/fire gate, charge + transfer) run after the advance through the pure source_payload_mass_driver_state_branches_state function; the receive effects/sound/shake, the moveOutPayload world interaction (pushOutput/dumpPayload/movePayload) and the super.updateTile() payload update defer -- see DEFERRED. The power proof carries no link/state/charge keys; the N2245/N2246 proofs carry them. (4) No link/config rows -- link -1, config Point2/Integer, onConfigureBuildTapped, linkValid (PayloadMassDriver.java:64-65, 321-350) are config, not tick state. (5) acceptPayload gate live (N2298) -- PayloadDriverBuild.acceptPayload (PayloadMassDriver.java:462-463, `return super.acceptPayload(source, payload) && payload.size() <= maxPayloadSize * tilesize;`, class maxPayloadSize 3 / tilesize 8, threshold 24; the DEFERRED entry's :317-319 cite was wrong -- that range is the transfer reset) runs every tick through the pure source_payload_mass_driver_accept_payload_state function and exposes the verdict on the frame as accepts_payload from the frame-supplied offered_payload_size (no payload offered -> false); the per-def maxPayloadSize overrides (2.5f / 4f, Blocks.java:6624/6636) wait for their own slice -- see DEFERRED.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -561,6 +563,41 @@ static func source_payload_mass_driver_state_branches_state(frame: Dictionary, s
 								fired = true
 	return {"state": state, "target_size": target_size, "turret_rotation": turret_rotation, "pay_rotation": pay_rotation, "pay_length": pay_length, "loaded": loaded, "pay_vector": pay_vector, "payload": payload, "charge": charge, "charging": charging, "reload_counter": reload_counter, "partner_waiting_shooters": partner_waiting_shooters, "partner_state": partner_state, "partner_effect_delay_timer": partner_effect_delay_timer, "partner_pay_vector": partner_pay_vector, "partner_pay_rotation": partner_pay_rotation, "partner_pay_length": partner_pay_length, "partner_loaded": partner_loaded, "partner_payload": partner_payload, "partner_last_other": partner_last_other, "fired": fired}
 
+static func source_payload_mass_driver_accept_payload_state(payload_size: float, has_payload: bool) -> Dictionary:
+	# PayloadDriverBuild.acceptPayload (PayloadMassDriver.java:462-463), on
+	# `public class PayloadMassDriver extends PayloadBlock{` (PayloadMassDriver.java:23) /
+	# `public class PayloadDriverBuild extends PayloadBlockBuild<Payload> implements RotBlock{` (PayloadMassDriver.java:132):
+	# `public boolean acceptPayload(Building source, Payload payload){`
+	# `return super.acceptPayload(source, payload) && payload.size() <= maxPayloadSize * tilesize;`
+	# -- the base gate is PayloadBlock.acceptPayload (PayloadBlock.java:116-118):
+	# `public boolean acceptPayload(Building source, Payload payload){`
+	# `return this.payload == null;`
+	# -- the driver accepts only while it holds no payload
+	# (`public @Nullable T payload;`, PayloadBlock.java:92). The size gate
+	# compares the offered payload size in world units against
+	# `public float maxPayloadSize = 3;` (PayloadMassDriver.java:30) times
+	# `public static final int tilesize = 8;` (Vars.java:135) -- the
+	# class-default threshold is 3 * 8 = 24. A BuildPayload size is
+	# `return build.block.size * tilesize;` (BuildPayload.java:86-88), so a
+	# size-3 block payload measures 24 and sits exactly on the boundary
+	# (the comparison is <=, so the boundary accepts). The offered size is
+	# a frame input (there are no live Payload objects in the port);
+	# has_payload reads the frame payload. The DEFERRED entry that scoped
+	# this slice cited PayloadMassDriver.java:317-319 -- that range is the
+	# transfer reset (other.state = idle, :316-319), NOT acceptPayload; the
+	# correct cite is :462-463. The per-def maxPayloadSize overrides
+	# (`maxPayloadSize = 2.5f;`, Blocks.java:6624, payload-mass-driver;
+	# `maxPayloadSize = 4f;`, Blocks.java:6636, large-payload-mass-driver)
+	# beat the class default in Java; this pure uses the class default
+	# (threshold 24) and the per-def thresholds (20 / 32) wait for their
+	# own slice -- see DEFERRED. Note the asymmetry with the
+	# Loader/Deconstructor block-size fits checks: the PMD gate is
+	# size-based in world units, not in block size.
+	var threshold: float = SOURCE_PAYLOAD_MASS_DRIVER_MAX_PAYLOAD_SIZE * source_world_defaults.TILESIZE
+	var size_fits: bool = payload_size <= threshold
+	var accepts: bool = (not has_payload) and size_fits
+	return {"accepts": accepts, "size_fits": size_fits, "threshold": threshold}
+
 
 @warning_ignore("unused_parameter")
 static func source_payload_mass_driver_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
@@ -766,6 +803,21 @@ static func source_payload_mass_driver_tick_buildings_state(game: Object, second
 			partner_frame["loaded"] = branched["partner_loaded"]
 			partner_frame["payload"] = branched["partner_payload"]
 			partner_frame["last_other"] = branched["partner_last_other"]
+		# The acceptPayload gate (N2298, PayloadMassDriver.java:462-463):
+		# expose the verdict on the frame as accepts_payload, computed AFTER
+		# the branches so it reads the post-tick payload (a payload that just
+		# transferred out frees the gate in the same tick). The offered
+		# payload size is a frame input (frame["offered_payload_size"], world
+		# units -- there are no live Payload objects in the port); no payload
+		# offered means nothing to accept, so the verdict defaults false.
+		# has_payload is the frame payload (PayloadBlock.java:92,
+		# `public @Nullable T payload;`).
+		var offered_payload_size: Variant = frame.get("offered_payload_size", null)
+		if offered_payload_size == null:
+			frame["accepts_payload"] = false
+		else:
+			var accept_verdict: Dictionary = source_payload_mass_driver_accept_payload_state(float(offered_payload_size), frame.get("payload", null) != null)
+			frame["accepts_payload"] = bool(accept_verdict.get("accepts", false))
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
 	return {"ticked_count": ticked_count, "results_by_cell": results_by_cell}
