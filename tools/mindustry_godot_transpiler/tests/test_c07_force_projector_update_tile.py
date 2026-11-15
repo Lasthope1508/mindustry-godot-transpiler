@@ -270,15 +270,16 @@ class C07ForceProjectorUpdateTileTests(unittest.TestCase):
         # cell: Building x/y are tile.drawx()/drawy()
         # (BuildingComp.java:124) with the block offset
         # (Block.java:761). The driver passes an EMPTY bullet
-        # list with consume_tick false: no live bullet query
-        # and no timer helper exist in the port, so no live
-        # deflect or consume happens (the live-fill entry
-        # stays deferred); the item / coolant inputs are all
-        # default no-op (no items / liquids store on the
-        # frame).
+        # list with the computed consume_tick (live since
+        # N2326: the frame-local timerUse cadence, 350f /
+        # timeScale): no live bullet query exists in the port,
+        # so no live deflect happens (the live-fill entry
+        # stays deferred); the item / coolant inputs are live
+        # since N2261 / N2258 (the driver stamps them onto
+        # the frame before the call).
         self.assertIn('game_source_delta(game, seconds)', force_projector)
         self.assertIn('time_scale(sprite', force_projector)
-        self.assertIn('source_force_projector_update_tile_advance_state(frame, source_delta, time_scale, advance_building_x, advance_building_y, [], false)', force_projector)
+        self.assertIn('source_force_projector_update_tile_advance_state(frame, source_delta, time_scale, advance_building_x, advance_building_y, [], consume_tick)', force_projector)
         self.assertIn('tile_drawx_state(', force_projector)
         self.assertIn('tile_drawy_state(', force_projector)
         self.assertIn('source_world_defaults.TILESIZE', force_projector)

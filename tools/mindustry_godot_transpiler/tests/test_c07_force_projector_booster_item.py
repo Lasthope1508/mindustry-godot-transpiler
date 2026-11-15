@@ -71,8 +71,11 @@ class C07ForceProjectorBoosterItemTests(unittest.TestCase):
         # the N2258 coolant precedent; the N2235 call shape is
         # unchanged). The timer-gated consume()
         # (ForceProjector.java:211-213, phaseUseTime 350f)
-        # still defers, so the driver keeps passing
-        # consume_tick false and this slice removes nothing.
+        # is live since N2326 (the driver passes the computed
+        # consume_tick and removes 1 phaseFabric when the
+        # advance reports consumed); this slice's row still
+        # removes nothing (the row is the efficiency read,
+        # not the consume).
         # Three new result symbols: the row, its presence flag,
         # and the item_valid the advance reads.
         self.assertEqual(ledger['N2261']['source_symbols'], SYMBOLS)
@@ -179,8 +182,11 @@ class C07ForceProjectorBoosterItemTests(unittest.TestCase):
         # advance prefers frame values when present, falling
         # back to the explicit params. The timer-gated
         # consume() (ForceProjector.java:211-213, phaseUseTime
-        # 350f, ForceProjector.java:32) still defers, so the
-        # driver keeps passing consume_tick false.
+        # 350f, ForceProjector.java:32) is live since N2326:
+        # the driver passes the computed consume_tick from
+        # the frame-local timer (source_force_projector_
+        # timer_use_state) and removes 1 phaseFabric when the
+        # advance reports consumed.
         self.assertIn('boolean phaseValid = itemConsumer != null && itemConsumer.efficiency(this) > 0;', force_projector)
         self.assertIn('phaseHeat = Mathf.lerpDelta(phaseHeat, Mathf.num(phaseValid), 0.1f);', force_projector)
         self.assertIn('if(phaseValid && !broken && timer(timerUse, phaseUseTime / timeScale) && efficiency > 0){', force_projector)
@@ -190,11 +196,11 @@ class C07ForceProjectorBoosterItemTests(unittest.TestCase):
         self.assertIn('frame["item_consumer_efficiency"]', force_projector)
         self.assertIn('frame.get("item_consumer_present", item_consumer_present)', force_projector)
         self.assertIn('frame.get("item_consumer_efficiency", item_consumer_efficiency)', force_projector)
-        self.assertIn('source_force_projector_update_tile_advance_state(frame, source_delta, time_scale, advance_building_x, advance_building_y, [], false)', force_projector)
+        self.assertIn('source_force_projector_update_tile_advance_state(frame, source_delta, time_scale, advance_building_x, advance_building_y, [], consume_tick)', force_projector)
         # The documented limits now record the phaseFabric row
         # as live and optionalEfficiency as complete (min over
-        # coolant + item), with the live intake + the timer
-        # consume still deferred.
+        # coolant + item), with the live intake still deferred
+        # (the timer consume is live since N2326).
         self.assertIn('phaseFabric booster item row live (N2261)', force_projector)
         self.assertIn('optionalEfficiency is now COMPLETE', force_projector)
         # The proof's keys drive the pure row (binary 1 when
