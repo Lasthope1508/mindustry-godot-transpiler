@@ -3476,6 +3476,32 @@
       "runtime_proof": "/root/C07PayloadDeconstructorPowerStatusProof",
       "rule": "Source-backed PayloadDeconstructor power.status row from ConsumePower.java / BuildingComp.java."
     },
+    "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_should_consume_state": {
+      "canonical_contract": "source_api_contracts.SourcePayloadDeconstructorBuildState.source_payload_deconstructor_should_consume_state",
+      "status": "active",
+      "source_slice": "N2210",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "source_method": "PayloadDeconstructorBuild.shouldConsume()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_payload_deconstructor_should_consume_state_input.frame"
+        }
+      ],
+      "return_keys": [
+        "should_consume",
+        "deconstructing_present"
+      ],
+      "tests": [
+        "test_c07_payload_deconstructor_should_consume_registration",
+        "test_all_c07_payload_deconstructor_should_consume_input_evidence_is_exact",
+        "test_payload_deconstructor_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_should_consume"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorShouldConsumeProof",
+      "rule": "Source-backed PayloadDeconstructor shouldConsume gate from PayloadDeconstructor.java / BuildingComp.java / Blocks.java."
+    },
     "SourcePayloadLoaderBuildState.source_payload_loader_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourcePayloadLoaderBuildState.source_payload_loader_power_status_row_state",
       "status": "active",
@@ -3506,6 +3532,32 @@
       ],
       "runtime_proof": "/root/C07PayloadLoaderPowerStatusProof",
       "rule": "Source-backed PayloadLoader power.status row from ConsumePower.java / BuildingComp.java."
+    },
+    "SourcePayloadLoaderBuildState.source_payload_loader_should_consume_state": {
+      "canonical_contract": "source_api_contracts.SourcePayloadLoaderBuildState.source_payload_loader_should_consume_state",
+      "status": "active",
+      "source_slice": "N2208",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+      "source_method": "PayloadLoaderBuild.shouldConsume()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_payload_loader_should_consume_state_input.frame"
+        }
+      ],
+      "return_keys": [
+        "should_consume",
+        "has_payload"
+      ],
+      "tests": [
+        "test_c07_payload_loader_should_consume_registration",
+        "test_all_c07_payload_loader_should_consume_input_evidence_is_exact",
+        "test_payload_loader_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_payload_loader_should_consume"
+      ],
+      "runtime_proof": "/root/C07PayloadLoaderShouldConsumeProof",
+      "rule": "Source-backed PayloadLoader shouldConsume gate from PayloadLoader.java / PayloadBlock.java / BuildingComp.java / Blocks.java."
     },
     "SourcePayloadMassDriverBuildState.source_payload_mass_driver_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourcePayloadMassDriverBuildState.source_payload_mass_driver_power_status_row_state",
@@ -3568,6 +3620,32 @@
       ],
       "runtime_proof": "/root/C07PayloadUnloaderPowerStatusProof",
       "rule": "Source-backed PayloadUnloader power.status row from ConsumePower.java / BuildingComp.java."
+    },
+    "SourcePayloadUnloaderBuildState.source_payload_unloader_should_consume_state": {
+      "canonical_contract": "source_api_contracts.SourcePayloadUnloaderBuildState.source_payload_unloader_should_consume_state",
+      "status": "active",
+      "source_slice": "N2209",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+      "source_method": "PayloadLoaderBuild.shouldConsume()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_payload_unloader_should_consume_state_input.frame"
+        }
+      ],
+      "return_keys": [
+        "should_consume",
+        "has_payload"
+      ],
+      "tests": [
+        "test_c07_payload_unloader_should_consume_registration",
+        "test_all_c07_payload_unloader_should_consume_input_evidence_is_exact",
+        "test_payload_unloader_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_should_consume"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderShouldConsumeProof",
+      "rule": "Source-backed PayloadUnloader shouldConsume gate (inherited from PayloadLoader) from PayloadLoader.java / PayloadUnloader.java / PayloadBlock.java / BuildingComp.java / Blocks.java."
     }
   }
 }

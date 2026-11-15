@@ -231108,6 +231108,198 @@
       },
       "runtime_proof": "/root/C07FrackerShouldConsumeProof",
       "rule": "Source-backed Fracker shouldConsume gate (inherited from SolidPump) from SolidPump.java / Fracker.java / BuildingComp.java / Blocks.java / Block.java."
+    },
+    "source_payload_loader_should_consume_state_input": {
+      "status": "active",
+      "owner": "SourcePayloadLoaderBuildState.source_payload_loader_should_consume_state",
+      "source_slice": "N2208",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "public @Nullable T payload;",
+          "rule": "The building frame carrying the live payload key (PayloadBlock.java:92, the nullable field, default null): the gate reads only its null-ness. No live fill sets frame[\"payload\"] yet -- moveInPayload / handlePayload fill waits for its own slice; the gate reads the frame as-is.",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadLoaderShouldConsumeProof",
+      "rule": "Source-backed PayloadLoader shouldConsume gate from PayloadLoader.java / PayloadBlock.java / BuildingComp.java / Blocks.java."
+    },
+    "source_payload_loader_should_consume_state_result": {
+      "status": "active",
+      "owner": "SourcePayloadLoaderBuildState.source_payload_loader_should_consume_state",
+      "source_slice": "N2208",
+      "keys": {
+        "should_consume": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+          "java_expr": "return payload != null;",
+          "rule": "The shouldConsume gate (PayloadLoader.java:240-242): true while the loader holds a payload; when false, updateConsumption forces efficiency to zero (BuildingComp.java:1960 + 1992). The gate has NO enabled term -- Java returns the bare null check, unlike the Separator/Drill gates.",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_should_consume_state"
+          ]
+        },
+        "has_payload": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+          "java_expr": "payload != null",
+          "rule": "The payload presence the gate reads (PayloadLoader.java:241): true when frame[\"payload\"] is non-null. The payload is the PayloadBlock field (PayloadBlock.java:92), set by handlePayload (PayloadBlock.java:122) and cleared by takePayload (PayloadBlock.java:147).",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadLoaderShouldConsumeProof",
+      "rule": "Source-backed PayloadLoader shouldConsume gate from PayloadLoader.java / PayloadBlock.java / BuildingComp.java / Blocks.java."
+    },
+    "source_payload_unloader_should_consume_state_input": {
+      "status": "active",
+      "owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_should_consume_state",
+      "source_slice": "N2209",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+          "java_expr": "return payload != null;",
+          "rule": "The building frame carrying the live payload key (PayloadLoader.java:241, the shouldConsume gate): the PayloadBlockBuild.payload field (PayloadBlock.java:92, `public @Nullable T payload;`), default null -- the gate reads only its null-ness. No live fill sets it yet; the moveInPayload / handlePayload / takePayload advance waits for its own slice.",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadUnloaderShouldConsumeProof",
+      "rule": "Source-backed PayloadUnloader shouldConsume gate (inherited from PayloadLoader) from PayloadLoader.java / PayloadUnloader.java / PayloadBlock.java / BuildingComp.java / Blocks.java."
+    },
+    "source_payload_unloader_should_consume_state_result": {
+      "status": "active",
+      "owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_should_consume_state",
+      "source_slice": "N2209",
+      "keys": {
+        "should_consume": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+          "java_expr": "return payload != null;",
+          "rule": "The shouldConsume gate (PayloadLoader.java:240-242, inherited verbatim by PayloadUnloaderBuild, which has no override): true while the building holds a payload; when false, updateConsumption forces efficiency to zero (BuildingComp.java:1960 + 1992). The gate has NO enabled term -- Java returns the bare payload null check, unlike the Separator/Drill gates.",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_should_consume_state"
+          ]
+        },
+        "has_payload": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+          "java_expr": "payload != null",
+          "rule": "Whether the building holds a payload (PayloadLoader.java:241): the null-ness of the frame payload key (the PayloadBlockBuild.payload field, PayloadBlock.java:92), false when the frame has no payload or the key is missing.",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadUnloaderShouldConsumeProof",
+      "rule": "Source-backed PayloadUnloader shouldConsume gate (inherited from PayloadLoader) from PayloadLoader.java / PayloadUnloader.java / PayloadBlock.java / BuildingComp.java / Blocks.java."
+    },
+    "source_payload_deconstructor_should_consume_state_input": {
+      "status": "active",
+      "owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_should_consume_state",
+      "source_slice": "N2210",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "return deconstructing != null && enabled;",
+          "rule": "The building frame carrying the live deconstructing payload (frame[\"deconstructing\"], the Payload being deconstructed, default null -- the Java field is nullable, PayloadDeconstructor.java:52) and the enabled flag (BuildingComp.java:77, default true): the gate reads only the null-ness of the deconstructing payload plus enabled from this frame.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadDeconstructorShouldConsumeProof",
+      "rule": "Source-backed PayloadDeconstructor shouldConsume gate from PayloadDeconstructor.java / BuildingComp.java / Blocks.java."
+    },
+    "source_payload_deconstructor_should_consume_state_result": {
+      "status": "active",
+      "owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_should_consume_state",
+      "source_slice": "N2210",
+      "keys": {
+        "should_consume": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "return deconstructing != null && enabled;",
+          "rule": "The shouldConsume gate (PayloadDeconstructor.java:219-221): true while a payload is being deconstructed and the deconstructor is enabled; when false, updateConsumption forces efficiency to zero (BuildingComp.java:1960 + 1992-1994).",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_should_consume_state"
+          ]
+        },
+        "deconstructing_present": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "public @Nullable Payload deconstructing;",
+          "rule": "Whether a payload is being deconstructed (PayloadDeconstructor.java:52): the null-ness of frame[\"deconstructing\"] the gate reads; true while the updateTile advance holds a payload (deconstructing = payload;, PayloadDeconstructor.java:199), false when idle or finished.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadDeconstructorShouldConsumeProof",
+      "rule": "Source-backed PayloadDeconstructor shouldConsume gate from PayloadDeconstructor.java / BuildingComp.java / Blocks.java."
+    },
+    "source_unit_cargo_loader_should_consume_state_input": {
+      "status": "active",
+      "owner": "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_should_consume_state",
+      "source_slice": "N2211",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+          "java_expr": "return unit == null;",
+          "rule": "The building frame carrying the live unit (frame[\"unit\"], default null -- the Java field `public @Nullable Unit unit;`, UnitCargoLoader.java:89, is nullable): the gate reads only the null-ness of this key; no live fill sets it yet, so a live loader with no fill reads null and consumes.",
+          "used_by": [
+            "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07UnitCargoLoaderShouldConsumeProof",
+      "rule": "Source-backed UnitCargoLoader shouldConsume gate from UnitCargoLoader.java / BuildingComp.java / Blocks.java."
+    },
+    "source_unit_cargo_loader_should_consume_state_result": {
+      "status": "active",
+      "owner": "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_should_consume_state",
+      "source_slice": "N2211",
+      "keys": {
+        "should_consume": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+          "java_expr": "return unit == null;",
+          "rule": "The shouldConsume gate (UnitCargoLoader.java:141-143): true while NO unit is held (the loader is still building one) and false once a unit waits to be loaded -- the gate is INVERTED; when false, updateConsumption forces efficiency to zero (BuildingComp.java:1960 + 1992-1994).",
+          "used_by": [
+            "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_should_consume_state"
+          ]
+        },
+        "has_unit": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+          "java_expr": "public @Nullable Unit unit;",
+          "rule": "Whether the frame holds a unit (UnitCargoLoader.java:89, the nullable unit field): the null-ness the gate reads -- true when a unit waits to be loaded (gate false), false while the loader is still building one (gate true).",
+          "used_by": [
+            "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07UnitCargoLoaderShouldConsumeProof",
+      "rule": "Source-backed UnitCargoLoader shouldConsume gate from UnitCargoLoader.java / BuildingComp.java / Blocks.java."
     }
   },
   "version": 1

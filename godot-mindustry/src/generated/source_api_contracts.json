@@ -66522,6 +66522,110 @@
       ],
       "runtime_proof": "/root/C07FrackerShouldConsumeProof",
       "rule": "Source-backed Fracker shouldConsume gate (inherited from SolidPump) from SolidPump.java / Fracker.java / BuildingComp.java / Blocks.java / Block.java."
+    },
+    "SourcePayloadLoaderBuildState.source_payload_loader_should_consume_state": {
+      "status": "active",
+      "source_slice": "N2208",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+      "source_method": "PayloadLoaderBuild.shouldConsume()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_payload_loader_should_consume_state_input.frame"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "should_consume",
+        "has_payload"
+      ],
+      "tests": [
+        "test_c07_payload_loader_should_consume_registration",
+        "test_all_c07_payload_loader_should_consume_input_evidence_is_exact",
+        "test_payload_loader_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_payload_loader_should_consume"
+      ],
+      "runtime_proof": "/root/C07PayloadLoaderShouldConsumeProof",
+      "rule": "Source-backed PayloadLoader shouldConsume gate from PayloadLoader.java / PayloadBlock.java / BuildingComp.java / Blocks.java."
+    },
+    "SourcePayloadUnloaderBuildState.source_payload_unloader_should_consume_state": {
+      "status": "active",
+      "source_slice": "N2209",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+      "source_method": "PayloadLoaderBuild.shouldConsume()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_payload_unloader_should_consume_state_input.frame"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "should_consume",
+        "has_payload"
+      ],
+      "tests": [
+        "test_c07_payload_unloader_should_consume_registration",
+        "test_all_c07_payload_unloader_should_consume_input_evidence_is_exact",
+        "test_payload_unloader_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_should_consume"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderShouldConsumeProof",
+      "rule": "Source-backed PayloadUnloader shouldConsume gate (inherited from PayloadLoader) from PayloadLoader.java / PayloadUnloader.java / PayloadBlock.java / BuildingComp.java / Blocks.java."
+    },
+    "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_should_consume_state": {
+      "status": "active",
+      "source_slice": "N2210",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "source_method": "PayloadDeconstructorBuild.shouldConsume()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_payload_deconstructor_should_consume_state_input.frame"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "should_consume",
+        "deconstructing_present"
+      ],
+      "tests": [
+        "test_c07_payload_deconstructor_should_consume_registration",
+        "test_all_c07_payload_deconstructor_should_consume_input_evidence_is_exact",
+        "test_payload_deconstructor_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_should_consume"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorShouldConsumeProof",
+      "rule": "Source-backed PayloadDeconstructor shouldConsume gate from PayloadDeconstructor.java / BuildingComp.java / Blocks.java."
+    },
+    "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_should_consume_state": {
+      "status": "active",
+      "source_slice": "N2211",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+      "source_method": "UnitTransportSourceBuild.shouldConsume()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_unit_cargo_loader_should_consume_state_input.frame"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "should_consume",
+        "has_unit"
+      ],
+      "tests": [
+        "test_c07_unit_cargo_loader_should_consume_registration",
+        "test_all_c07_unit_cargo_loader_should_consume_input_evidence_is_exact",
+        "test_unit_cargo_loader_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_unit_cargo_loader_should_consume"
+      ],
+      "runtime_proof": "/root/C07UnitCargoLoaderShouldConsumeProof",
+      "rule": "Source-backed UnitCargoLoader shouldConsume gate from UnitCargoLoader.java / BuildingComp.java / Blocks.java."
     }
   },
   "policy": {
