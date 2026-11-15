@@ -11,6 +11,9 @@ const source_move_out_payload_state := preload("res://src/game/SourceBlockProduc
 const source_world_defaults := preload("res://src/game/SourceWorldDefaults.gd")
 const source_content_registry_runtime_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
 const inventory := preload("res://src/game/SourceDrillInventoryRuntimeState.gd")
+const source_liquid_module_state := preload("res://src/game/SourceLiquidModuleState.gd")
+const source_building_liquid_state := preload("res://src/game/SourceBuildingLiquidState.gd")
+const source_building_item_dump_state := preload("res://src/game/SourceBuildingItemDumpState.gd")
 
 # The PayloadUnloader implementation (PayloadUnloader.java:8, `public class PayloadUnloader extends PayloadLoader{`): payload-unloader (hasPower = true;, consumePower(2f);, size 3, offloadSpeed 4, maxPowerUnload 80f, Blocks.java:6691-6698). PayloadUnloader sets outputsPower=true, consumesPower=true, outputsLiquid=true, loadPowerDynamic=false, canOverdrive=false (PayloadUnloader.java:15-19), offloadSpeed 4 (PayloadUnloader.java:9), maxPowerUnload 80f (PayloadUnloader.java:11, `public float maxPowerUnload = 80f;`). PayloadUnloader extends PayloadLoader, NOT a drill or factory, so it cannot reuse an existing frame key; this driver uses its own family frame key ("source_payload_unloader_building", the mechanical-pump / beam-drill / mend-projector / overdrive-projector / force-projector / base-shield / regen-projector / constructor / payload-loader precedent), and this slice adds the payload-unloader key to N2142's SOURCE_CONSUMER_FRAME_META_KEYS so the graph stamp/write-back finds it. The port has NO SourcePayloadUnloader* files at all yet -- no display/runtime state to lean on -- so the missing piece is the live power.status -> efficiency driver, which is exactly this slice: the unload gate (PayloadUnloader.java:69, `if(efficiency > 0.01f && timer(timerLoad, loadTime / efficiency)){`) follows the folded efficiency, with the battery unload (PayloadUnloader.java:98, `float total = payload.build.power.status * cap;`).
 const SOURCE_PAYLOAD_UNLOADER_BUILD_IMPLEMENTATIONS := ["PayloadUnloader"]
@@ -103,6 +106,16 @@ static func source_payload_unloader_tick_frame_state(frame: Dictionary, block_im
 		frame["items"] = {}
 	if not frame.has("last_output_power"):
 		frame["last_output_power"] = 0.0
+	# The dump rows (N2293): the dump cursor
+	# (`transient int cdump;`, BuildingComp.java:68, default
+	# 0) and the dump accumulator (`private transient float
+	# dumpAccum;`, BuildingComp.java:99, default 0f) -- a
+	# frame bound before this slice gets the Java field
+	# defaults instead of crashing the dump.
+	if not frame.has("cdump"):
+		frame["cdump"] = 0
+	if not frame.has("dump_accum"):
+		frame["dump_accum"] = 0.0
 	return frame
 
 static func _initial_frame() -> Dictionary:
@@ -124,9 +137,13 @@ static func _initial_frame() -> Dictionary:
 	# Building.items ItemModule (frame["items"], Dictionary
 	# keyed by item name, default {}), and `public float
 	# lastOutputPower = 0f;` (PayloadUnloader.java:33).
+	# The dump rows (N2293) carry the dump cursor
+	# (`transient int cdump;`, BuildingComp.java:68, default
+	# 0) and the dump accumulator (`private transient float
+	# dumpAccum;`, BuildingComp.java:99, default 0f).
 	# Liquids sync from the sprite meta each tick (the N2224
 	# Fracker precedent), not from _initial_frame.
-	return {"payload": null, "pay_vector": {"x": 0.0, "y": 0.0}, "pay_rotation": 0.0, "rotation": 0, "items": {}, "last_output_power": 0.0, "incoming_payload": null}
+	return {"payload": null, "pay_vector": {"x": 0.0, "y": 0.0}, "pay_rotation": 0.0, "rotation": 0, "items": {}, "last_output_power": 0.0, "incoming_payload": null, "cdump": 0, "dump_accum": 0.0}
 
 static func source_payload_unloader_bind_frame_state(sprite: Sprite2D, block: Object) -> Dictionary:
 	# Placement creates the Building (Block.java:1002 newBuilding);
@@ -329,8 +346,13 @@ static func source_payload_unloader_update_tile_advance_state(frame: Dictionary,
 	# move succeeded. (5) The item scan runs over item_order
 	# -- the catalog item_names_by_id, the content-id order
 	# Java iterates (the N2225 precedent); an item name
-	# outside the order is never unloaded. (6) The dump
-	# defers whole (no dump infra on this path). (7)
+	# outside the order is never unloaded. (6) The dump is
+	# live since N2293 as its own pure
+	# (source_payload_unloader_dump_state), wired in the tick
+	# AFTER this advance -- Java order
+	# (PayloadUnloader.java:105-108 after the moveInPayload
+	# branch :57-103); the advance itself still does not
+	# dump. (7)
 	# lastOutputPower is POWER PRODUCTION
 	# (getPowerProduction returns it, PayloadUnloader.java:
 	# 44-47): the frame carries it, but the power graph
@@ -530,6 +552,147 @@ static func source_payload_unloader_take_payload_state(frame_payload: Variant) -
 	# the cleared (null) payload after.
 	return {"payload_taken": frame_payload, "payload_after": null}
 
+static func source_payload_unloader_dump_state(frame: Dictionary, source_delta: float, time_scale: float, item_order: Array, neighbour_liquid_amounts: Array, neighbour_liquid_capacities: Array, neighbour_accepts_liquid: Array, neighbour_can_dump_liquid: Array, neighbour_accepts_item: Array, neighbour_can_dump_item: Array) -> Dictionary:
+	# The dump rows at the END of updateTile
+	# (PayloadUnloaderBuild.updateTile(),
+	# PayloadUnloader.java:105-108), UNCONDITIONAL -- outside
+	# the payload-null check (:52-54) and outside the
+	# shouldExport / moveInPayload if-else (:57-103), so they
+	# run even when the unloader holds no payload and even
+	# when efficiency is 0 (the brief cited :104-110; the
+	# dump statements are :105-108, :104 is blank and :109
+	# closes the method -- verified by grep). ONE pure covers
+	# both rows (each exact expr on ONE comment line, the
+	# N2148 lesson):
+	# `dumpLiquid(liquids.current());`
+	# `for(int i = 0; i < offloadSpeed; i++){`
+	# `dumpAccumulate();`
+	# `public int offloadSpeed = 4;`
+	# `public class PayloadUnloader extends PayloadLoader{`
+	# `hasItems = true;` (PayloadLoader.java:37, inherited -- the dump(null) hasItems guard always passes).
+	# `itemCapacity = 100;` (PayloadLoader.java:40, inherited).
+	# `liquidCapacity = 100f;` (PayloadLoader.java:41, inherited -- the dump fraction denominator).
+	# `public Liquid current(){` (LiquidModule.java:81).
+	# `return current;` (LiquidModule.java:82).
+	# `private Liquid current = content.liquid(0);` (LiquidModule.java:24 -- current is NEVER null in Java; it defaults to liquid 0, so a real store always dumps its current and the <= 0.0001f early return covers the empty store. The pure's null-current guard is only for partial fixtures: a frame bound before this slice carries no liquids store at all).
+	# dumpLiquid(Liquid) is the 2f overload
+	# (`public void dumpLiquid(Liquid liquid){`, BuildingComp.java:877, with `dumpLiquid(liquid, 2f);`, BuildingComp.java:878), which delegates to the scaling overload (`public void dumpLiquid(Liquid liquid, float scaling){`, BuildingComp.java:881, with `dumpLiquid(liquid, scaling, -1);`, BuildingComp.java:882) and then the output-dir impl (`public void dumpLiquid(Liquid liquid, float scaling, int outputDir){`, BuildingComp.java:886-908):
+	# `int dump = this.cdump;` (BuildingComp.java:887).
+	# `if(liquids.get(liquid) <= 0.0001f) return;` (BuildingComp.java:889 -- the early return runs BEFORE the loop, so an empty store leaves cdump untouched).
+	# `if(!net.client() && state.isCampaign() && team == state.rules.defaultTeam) liquid.unlock();` (BuildingComp.java:891 -- the campaign unlock guard runs inside the shared helper with the scenario-pump defaults (not a client, campaign, default team), but the pure result carries no unlock key -- surfacing + applying it waits for its own slice).
+	# `for(int i = 0; i < proximity.size; i++){` (BuildingComp.java:893).
+	# `incrementDump(proximity.size);` (BuildingComp.java:894 -- EVERY iteration, before the output-dir filter, so the cursor advances even when no neighbour takes anything; a full scan over N neighbours advances it N times -- a full circle, the N2286 cursor invariant, Java-exact: the cursor only moves in the item phase).
+	# `Building other = proximity.get((i + dump) % proximity.size);` (BuildingComp.java:896).
+	# `if(outputDir != -1 && (outputDir + rotation) % 4 != relativeTo(other)) continue;` (BuildingComp.java:897 -- outputDir is -1 here, so the filter never skips).
+	# `other = other.getLiquidDestination(self(), liquid);` (BuildingComp.java:899 -- the default returns self, `public Building getLiquidDestination(Building from, Liquid liquid){` with `return self();`, BuildingComp.java:980-982, so every listed neighbour is its own destination).
+	# `if(other != null && other.block.hasLiquids && canDumpLiquid(other, liquid) && other.liquids != null){` (BuildingComp.java:901).
+	# `float ofract = other.liquids.get(liquid) / other.block.liquidCapacity;` (BuildingComp.java:902).
+	# `float fract = liquids.get(liquid) / block.liquidCapacity;` (BuildingComp.java:903 -- recomputed per neighbour from the RUNNING amount, after earlier transfers).
+	# `if(ofract < fract) transferLiquid(other, (fract - ofract) * block.liquidCapacity / scaling, liquid);` (BuildingComp.java:905 -- scaling 2f, so the transfer is HALF the fraction gap times the capacity; the guard is STRICT: an equal neighbour takes nothing).
+	# canDumpLiquid defaults to true
+	# (`public boolean canDumpLiquid(Building to, Liquid liquid){` with `return true;`, BuildingComp.java:910-912).
+	# transferLiquid (`public void transferLiquid(Building next, float amount, Liquid liquid){`, BuildingComp.java:914-921):
+	# `float flow = Math.min(next.block.liquidCapacity - next.liquids.get(liquid), amount);` (BuildingComp.java:915).
+	# `if(next.acceptLiquid(self(), liquid)){` (BuildingComp.java:917).
+	# `next.handleLiquid(self(), liquid, flow);` (BuildingComp.java:918 -- the neighbour write-back waits for its own slice: the neighbours here are frame-input arrays, not live frames, so the dumped liquid leaves this store without landing in any neighbour store yet).
+	# `liquids.remove(liquid, flow);` (BuildingComp.java:919).
+	# dumpAccumulate() delegates to dumpAccumulate(null)
+	# (`public boolean dumpAccumulate(){` with `return dumpAccumulate(null);`, BuildingComp.java:1048-1050):
+	# `public boolean dumpAccumulate(Item item){` (BuildingComp.java:1053-1061).
+	# `dumpAccum += delta();` (BuildingComp.java:1055 -- delta() is `return Time.delta * timeScale;`, BuildingComp.java:1922-1924).
+	# `while(dumpAccum >= 1f){` (BuildingComp.java:1056 -- the loop may fire dump() MULTIPLE times per call).
+	# `res |= dump(item);` (BuildingComp.java:1057 -- the dump is attempted even when an earlier attempt failed).
+	# `dumpAccum -=1f;` (BuildingComp.java:1058).
+	# dump(null) (`public boolean dump(Item todump){`, BuildingComp.java:1072-1114):
+	# `if(!block.hasItems || items.total() == 0 || proximity.size == 0 || (todump != null && !items.has(todump))) return false;` (BuildingComp.java:1073).
+	# `var allItems = content.items();` (BuildingComp.java:1076 -- the content-id order, passed in as item_order).
+	# `if(other.acceptItem(self(), item) && canDump(other, item)){` (BuildingComp.java:1088 -- neighbours outer, content items inner: for each neighbour from the cdump cursor, the first held item in content order an accepting neighbour takes is handed over).
+	# `other.handleItem(self(), item);` (BuildingComp.java:1089 -- the neighbour write-back waits for its own slice, as with the liquid).
+	# `items.remove(item, 1);` (BuildingComp.java:1090).
+	# incrementDump (`public void incrementDump(int prox){`, BuildingComp.java:1116-1121):
+	# `if(prox != 0){` (BuildingComp.java:1118).
+	# `cdump = ((cdump + 1) % prox);` (BuildingComp.java:1119).
+	# The dump cursor is `transient int cdump;`
+	# (BuildingComp.java:68, default 0) and the accumulator
+	# `private transient float dumpAccum;`
+	# (BuildingComp.java:99, default 0f), both carried on the
+	# frame. canDump defaults to true
+	# (`public boolean canDump(Building to, Item item){`, BuildingComp.java:1124-1126).
+	# The dump itself runs through the shared ports -- the
+	# liquid through SourceBuildingLiquidState.
+	# dump_liquid_state (which binds transfer_liquid_state,
+	# the N2286 precedent) with the shared
+	# increment_dump_cursor_state callback, and the item
+	# through the shared dump_accumulate_state (the static
+	# the bridge source_dump_accumulate_attempt_state
+	# delegates to -- the bridge method is an instance
+	# method, so the static pure calls the static it wraps)
+	# plus the shared dump_item_state routing (the N2281
+	# precedent) -- never a hand-rolled routing loop. The
+	# loop calls dumpAccumulate() offloadSpeed (4) times per
+	# tick, so dumpAccum grows by 4*delta each tick. The
+	# neighbour arrays are parallel, in proximity order (the
+	# N2286 / N2281 precedent, default [] -- no neighbours,
+	# the Java proximity.size == 0 outcome); they list only
+	# neighbours with a liquids module for the liquid arrays
+	# (the scenario-pump filter), so destination-present and
+	# liquids-present are true for every listed neighbour and
+	# hasLiquids follows from a positive capacity. The pure
+	# does NOT mutate its input frame: the liquids store and
+	# the items dict are duplicated before dumping (the N2232
+	# precedent), and the liquid removal runs only when the
+	# dumped amount is non-zero, so the helper's add never
+	# flips the store's "current" key on a no-op (the N2284
+	# precedent).
+	var delta: float = source_delta * time_scale
+	var cursor: int = int(frame.get("cdump", 0))
+	var store: Dictionary = (frame.get("liquids", {}) as Dictionary).duplicate(true)
+	var items: Dictionary = (frame.get("items", {}) as Dictionary).duplicate(true)
+	var dump_accum: float = float(frame.get("dump_accum", 0.0))
+	var dumped_liquid: float = 0.0
+	var current: Variant = _payload_unloader_liquid_current(store)
+	if current != null and store.has("liquids") and int(current) >= 0 and int(current) < int(store["liquids"].size()):
+		var current_amount: float = float(source_liquid_module_state.source_get_state(store, int(current)).get("amount", 0.0))
+		var proximity_size: int = neighbour_liquid_amounts.size()
+		var relative_to: Array = []
+		var destination_present: Array = []
+		var other_has_liquids: Array = []
+		var can_dump_liquid: Array = []
+		var other_liquids_present: Array = []
+		for i in range(proximity_size):
+			relative_to.append(i)
+			destination_present.append(true)
+			other_has_liquids.append(float(neighbour_liquid_capacities[i]) > 0.0)
+			can_dump_liquid.append(bool(neighbour_can_dump_liquid[i]))
+			other_liquids_present.append(true)
+		var dumped: Dictionary = source_building_liquid_state.dump_liquid_state(int(current), 2.0, -1, current_amount, false, true, true, proximity_size, cursor, 0, relative_to, destination_present, other_has_liquids, can_dump_liquid, other_liquids_present, neighbour_liquid_amounts, neighbour_liquid_capacities, neighbour_accepts_liquid, SOURCE_PAYLOAD_UNLOADER_LIQUID_CAPACITY, Callable(source_building_item_dump_state, "increment_dump_cursor_state"))
+		var amount_after: float = float(dumped.get("current_liquid_amount_after", current_amount))
+		dumped_liquid = current_amount - amount_after
+		cursor = int(dumped.get("final_cdump", cursor))
+		if dumped_liquid != 0.0:
+			var cache_sums: Array = []
+			if store.get("flow") != null:
+				cache_sums.resize(int(store["liquids"].size()))
+				cache_sums.fill(0.0)
+			source_liquid_module_state.source_remove_state(store, int(current), dumped_liquid, cache_sums)
+	var dumped_items: int = 0
+	for _i in range(SOURCE_PAYLOAD_UNLOADER_OFFLOAD_SPEED):
+		var attempt: Dictionary = source_building_item_dump_state.dump_accumulate_state(dump_accum, delta)
+		dump_accum = float(attempt.get("dump_accum", dump_accum))
+		for _a in range(int(attempt.get("dump_attempts", 0))):
+			var amounts: Array = []
+			for item_id in item_order:
+				amounts.append(int(items.get(str(item_id), 0)))
+			var result: Dictionary = source_building_item_dump_state.dump_item_state(true, inventory.items_total(items), neighbour_accepts_item.size(), null, false, item_order, amounts, neighbour_accepts_item, neighbour_can_dump_item, cursor)
+			cursor = int(result.get("cdump", cursor))
+			if bool(result.get("dumped", false)):
+				dumped_items += 1
+				var amounts_after: Array = result.get("item_amounts_by_index", amounts)
+				for j in range(item_order.size()):
+					if j < amounts_after.size():
+						items[str(item_order[j])] = int(amounts_after[j])
+	return {"liquids_after": store, "dumped_liquid": dumped_liquid, "items_after": items, "dumped_items": dumped_items, "cursor_after": cursor, "dump_accum_after": dump_accum}
+
 static func source_payload_unloader_should_consume_state(frame: Dictionary) -> Dictionary:
 	# PayloadUnloaderBuild does NOT override shouldConsume (PayloadUnloader.java has no shouldConsume at all; PayloadUnloader extends PayloadLoader, PayloadUnloader.java:8, `public class PayloadUnloader extends PayloadLoader{`, and PayloadUnloaderBuild extends PayloadLoaderBuild, PayloadUnloader.java:32, `public class PayloadUnloaderBuild extends PayloadLoaderBuild{`), so it inherits PayloadLoaderBuild.shouldConsume verbatim (PayloadLoader.java:240, `public boolean shouldConsume(){` with `return payload != null;`, PayloadLoader.java:241): the payload-unloader consumes only while it holds a payload. The default (BuildingComp.java:755, `public boolean shouldConsume(){` with `return enabled;`) does NOT apply here. Unlike the Separator/Drill gates this one has NO `&& enabled` -- Java returns the bare payload null check, so the pure gate does NOT read frame["enabled"] at all (the driver already runs the machinery only when enabled). The payload is the PayloadBlockBuild field (`public @Nullable T payload;`, PayloadBlock.java:92), default null, set by handlePayload (`this.payload = (T)payload;`, PayloadBlock.java:122) and cleared by takePayload (PayloadBlock.java:145-149); the frame carries it under the `payload` key (default null for a frame bound before this slice), and the gate reads only its null-ness -- a minimal Dictionary fixture suffices in the proof. The def is payload-unloader (`consumePower(2f);`, Blocks.java:6695; `size = 3;`, Blocks.java:6696); there is no large-payload-unloader. When the gate is false updateConsumption forces efficiency to zero (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();` + 1992, `if(!update){`). The live fill is live since N2279 -- handlePayload applies the frame incoming_payload input before the advance (the moveInPayload / moveOutPayload advance is live since N2232), so the gate reads the filled frame; takePayload is ported pure but not wired live.
 	var payload: Variant = frame.get("payload", null)
@@ -538,7 +701,7 @@ static func source_payload_unloader_should_consume_state(frame: Dictionary) -> D
 
 static func source_payload_unloader_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
 	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a payload-unloader does not take the early return. The unload gate follows the folded efficiency (PayloadUnloader.java:69, `if(efficiency > 0.01f && timer(timerLoad, loadTime / efficiency)){`), with the battery unload (PayloadUnloader.java:98, `float total = payload.build.power.status * cap;`) and the shouldConsume default (BuildingComp.java:755, `public boolean shouldConsume(){`) and the shouldConsume override inherited from PayloadLoaderBuild (PayloadLoader.java:241, `return payload != null;`); the gate is live since N2209 (the pure gate source_payload_unloader_should_consume_state feeds payload != null to the machinery; when the gate is false updateConsumption forces efficiency to 0, BuildingComp.java:1960 + 1992).
-	# Documented limits: (1) power-only first pass -- PayloadUnloader has NO dynamic power consumer: `loadPowerDynamic = false` (PayloadUnloader.java:18), so `init()` never registers the ConsumePowerDynamic lambda (PayloadLoader.java:77-84, guarded by `if(loadPowerDynamic){` at :78); the static consumePower(2f) def (Blocks.java:6695) is the only power consumer, so the folded efficiency is the min over the *modeled* consumers (power only) and the power-only fold is EXACT. (An earlier docstring + DEFERRED entry claimed an inherited dynamic consumer -- WRONG, corrected at wave power-launch-build integration, 2026-11-15.) (2) shouldConsume gate live (N2209) -- PayloadUnloaderBuild inherits shouldConsume() to return payload != null (PayloadLoader.java:240-242); the pure gate (source_payload_unloader_should_consume_state) feeds should_consume to the machinery from the frame payload key (default null). The live payload fill live (N2279) -- handlePayload applies the frame incoming_payload input before the advance, so a live payload-unloader with a pushed payload consumes the same tick; takePayload is ported pure but NOT wired live (the unit-pickup path waits for live units), and the live incoming source (front moveOutPayload push / unit drop) waits for its own slice, so until then incoming_payload is a frame input. (3) shouldExport gate live (N2232) -- shouldExport() (PayloadUnloader.java:116-122) runs in the pure advance over the frame payload (items empty / liquids <= 0.011f / battery status <= 0.0000001f). (4) updateTile advance live (N2232) -- moveInPayload / moveOutPayload (reused helper) / unload items+liquids / battery unload / lastOutputPower (PayloadUnloader.java:50-110) run on the frame; the timer cadence (the driver passes load_tick false), the dump, the movePayload/dumpPayload application, and the live front query wait for their own slices. (5) No accept/handle payload rows -- acceptPayload fits maxBlockSize (PayloadLoader.java:90-101, inherited) is payload acceptance, not tick state; PayloadUnloaderBuild overrides acceptItem/acceptLiquid to return false (PayloadUnloader.java:35-44). (6) Battery unload live (N2232), power-production graph wiring deferred -- getPowerProduction returns lastOutputPower (PayloadUnloader.java:46-48; lastOutputPower 0f, PayloadUnloader.java:33) and the battery unload (PayloadUnloader.java:94-102) fills frame last_output_power each tick, but the power graph builds producers from the static block property powerProduction, so the dynamic value waits for a distribution-runtime slice; dump cadence waits for its own slice.
+	# Documented limits: (1) power-only first pass -- PayloadUnloader has NO dynamic power consumer: `loadPowerDynamic = false` (PayloadUnloader.java:18), so `init()` never registers the ConsumePowerDynamic lambda (PayloadLoader.java:77-84, guarded by `if(loadPowerDynamic){` at :78); the static consumePower(2f) def (Blocks.java:6695) is the only power consumer, so the folded efficiency is the min over the *modeled* consumers (power only) and the power-only fold is EXACT. (An earlier docstring + DEFERRED entry claimed an inherited dynamic consumer -- WRONG, corrected at wave power-launch-build integration, 2026-11-15.) (2) shouldConsume gate live (N2209) -- PayloadUnloaderBuild inherits shouldConsume() to return payload != null (PayloadLoader.java:240-242); the pure gate (source_payload_unloader_should_consume_state) feeds should_consume to the machinery from the frame payload key (default null). The live payload fill live (N2279) -- handlePayload applies the frame incoming_payload input before the advance, so a live payload-unloader with a pushed payload consumes the same tick; takePayload is ported pure but NOT wired live (the unit-pickup path waits for live units), and the live incoming source (front moveOutPayload push / unit drop) waits for its own slice, so until then incoming_payload is a frame input. (3) shouldExport gate live (N2232) -- shouldExport() (PayloadUnloader.java:116-122) runs in the pure advance over the frame payload (items empty / liquids <= 0.011f / battery status <= 0.0000001f). (4) updateTile advance live (N2232) -- moveInPayload / moveOutPayload (reused helper) / unload items+liquids / battery unload / lastOutputPower (PayloadUnloader.java:50-110) run on the frame; the timer cadence (the driver passes load_tick false), the movePayload/dumpPayload application, and the live front query wait for their own slices. The dump rows live (N2293) -- source_payload_unloader_dump_state, dumpLiquid(current) 2f + offloadSpeed x dumpAccumulate() at the end of updateTile, PayloadUnloader.java:105-108, unconditional -- outside the payload-null check and the shouldExport/moveInPayload branches. (5) No accept/handle payload rows -- acceptPayload fits maxBlockSize (PayloadLoader.java:90-101, inherited) is payload acceptance, not tick state; PayloadUnloaderBuild overrides acceptItem/acceptLiquid to return false (PayloadUnloader.java:35-44). (6) Battery unload live (N2232), power-production graph wiring deferred -- getPowerProduction returns lastOutputPower (PayloadUnloader.java:46-48; lastOutputPower 0f, PayloadUnloader.java:33) and the battery unload (PayloadUnloader.java:94-102) fills frame last_output_power each tick, but the power graph builds producers from the static block property powerProduction, so the dynamic value waits for a distribution-runtime slice; the dump rows are live since N2293 (see (4)).
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -683,6 +846,38 @@ static func source_payload_unloader_tick_buildings_state(game: Object, seconds: 
 			frame["deconstructed"] = advanced["deconstructed"]
 			frame["items_unloaded"] = advanced["items_unloaded"]
 			frame["liquids_unloaded"] = advanced["liquids_unloaded"]
+			# N2293: the dump rows run at the END of updateTile,
+			# after the advance (PayloadUnloader.java:105-108,
+			# after the moveInPayload branch :57-103),
+			# UNCONDITIONAL -- outside the payload-null check
+			# (:52-54) and the shouldExport / moveInPayload
+			# if-else, so they run even when the unloader holds
+			# no payload and even when efficiency is 0 (the dump
+			# reads no efficiency). They still sit inside the
+			# driver's enabled gate like the advance (the N2195
+			# precedent -- see above). The neighbour arrays are
+			# frame inputs (default [] -- no neighbours, the Java
+			# proximity.size == 0 outcome); the live proximity
+			# scan + the neighbour write-back wait for their own
+			# slices. The dumped liquids store is written back to
+			# the sprite meta (the pure returns a duplicate, it
+			# does not mutate the synced store in place); the
+			# dumped items leave the frame store without landing
+			# in any neighbour store yet.
+			var dump_neighbour_liquid_amounts: Array = frame.get("dump_neighbour_liquid_amounts", [])
+			var dump_neighbour_liquid_capacities: Array = frame.get("dump_neighbour_liquid_capacities", [])
+			var dump_neighbour_accepts_liquid: Array = frame.get("dump_neighbour_accepts_liquid", [])
+			var dump_neighbour_can_dump_liquid: Array = frame.get("dump_neighbour_can_dump_liquid", [])
+			var dump_neighbour_accepts_item: Array = frame.get("dump_neighbour_accepts_item", [])
+			var dump_neighbour_can_dump_item: Array = frame.get("dump_neighbour_can_dump_item", [])
+			var dumped: Dictionary = source_payload_unloader_dump_state(frame, source_delta, time_scale, item_order, dump_neighbour_liquid_amounts, dump_neighbour_liquid_capacities, dump_neighbour_accepts_liquid, dump_neighbour_can_dump_liquid, dump_neighbour_accepts_item, dump_neighbour_can_dump_item)
+			frame["liquids"] = dumped["liquids_after"]
+			sprite.set_meta(source_placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY, dumped["liquids_after"])
+			frame["items"] = dumped["items_after"]
+			frame["cdump"] = dumped["cursor_after"]
+			frame["dump_accum"] = dumped["dump_accum_after"]
+			frame["dumped_liquid"] = dumped["dumped_liquid"]
+			frame["dumped_items"] = dumped["dumped_items"]
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
